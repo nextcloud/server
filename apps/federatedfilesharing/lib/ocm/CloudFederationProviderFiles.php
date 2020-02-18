@@ -2,6 +2,10 @@
 /**
  * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Maxence Lange <maxence@artificial-owl.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -23,9 +27,9 @@ namespace OCA\FederatedFileSharing\OCM;
 
 use OC\AppFramework\Http;
 use OC\Files\Filesystem;
-use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
 use OCP\Constants;
@@ -47,6 +51,7 @@ use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IManager;
 use OCP\Share\IShare;
 use OCP\Util;
 
@@ -66,6 +71,9 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 	/** @var IUserManager */
 	private $userManager;
+
+	/** @var IManager */
+	private $shareManager;
 
 	/** @var ICloudIdManager */
 	private $cloudIdManager;
@@ -99,6 +107,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @param AddressHandler $addressHandler
 	 * @param ILogger $logger
 	 * @param IUserManager $userManager
+	 * @param IManager $shareManager
 	 * @param ICloudIdManager $cloudIdManager
 	 * @param IActivityManager $activityManager
 	 * @param INotificationManager $notificationManager
@@ -113,6 +122,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 								AddressHandler $addressHandler,
 								ILogger $logger,
 								IUserManager $userManager,
+								IManager $shareManager,
 								ICloudIdManager $cloudIdManager,
 								IActivityManager $activityManager,
 								INotificationManager $notificationManager,
@@ -127,6 +137,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$this->addressHandler = $addressHandler;
 		$this->logger = $logger;
 		$this->userManager = $userManager;
+		$this->shareManager = $shareManager;
 		$this->cloudIdManager = $cloudIdManager;
 		$this->activityManager = $activityManager;
 		$this->notificationManager = $notificationManager;
@@ -245,7 +256,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 						->setAffectedUser($shareWith)
 						->setObject('remote_share', (int)$shareId, $name);
 					\OC::$server->getActivityManager()->publish($event);
-					$this->notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name);
+					$this->notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $sharedBy, $owner);
 				} else {
 					$groupMembers = $this->groupManager->get($shareWith)->getUsers();
 					foreach ($groupMembers as $user) {
@@ -256,7 +267,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 							->setAffectedUser($user->getUID())
 							->setObject('remote_share', (int)$shareId, $name);
 						\OC::$server->getActivityManager()->publish($event);
-						$this->notifyAboutNewShare($user->getUID(), $shareId, $ownerFederatedId, $sharedByFederatedId, $name);
+						$this->notifyAboutNewShare($user->getUID(), $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $sharedBy, $owner);
 					}
 				}
 				return $shareId;
@@ -333,13 +344,13 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @param $sharedByFederatedId
 	 * @param $name
 	 */
-	private function notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name) {
+	private function notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $sharedBy, $owner) {
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('files_sharing')
 			->setUser($shareWith)
 			->setDateTime(new \DateTime())
 			->setObject('remote_share', $shareId)
-			->setSubject('remote_share', [$ownerFederatedId, $sharedByFederatedId, trim($name, '/')]);
+			->setSubject('remote_share', [$ownerFederatedId, $sharedByFederatedId, trim($name, '/'), $sharedBy, $owner]);
 
 		$declineAction = $notification->createAction();
 		$declineAction->setLabel('decline')
@@ -800,6 +811,16 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 			$share->getToken() === $token
 		) {
 			return true;
+		}
+
+		if ($share->getShareType() === IShare::TYPE_CIRCLE) {
+			try {
+				$knownShare = $this->shareManager->getShareByToken($token);
+				if ($knownShare->getId() === $share->getId()) {
+					return true;
+				}
+			} catch (ShareNotFound $e) {
+			}
 		}
 
 		throw new AuthenticationFailedException();

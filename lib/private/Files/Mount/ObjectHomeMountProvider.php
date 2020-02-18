@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Vlastimil Pecinka <pecinka@email.cz>
  *
  * @license AGPL-3.0
  *
@@ -17,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -110,7 +112,6 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 		if (!isset($config['arguments'])) {
 			$config['arguments'] = [];
 		}
-		$config['arguments']['user'] = $user;
 
 		$bucket = $this->config->getUserValue($user->getUID(), 'homeobjectstore', 'bucket', null);
 
@@ -133,6 +134,8 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 
 		// instantiate object store implementation
 		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
+
+		$config['arguments']['user'] = $user;
 
 		return $config;
 	}

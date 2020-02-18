@@ -7,6 +7,25 @@
 	@return (0.2126 * $-local-red  + 0.7152 * $-local-green + 0.0722 * $-local-blue) / 255;
 }
 
+@mixin faded-background {
+	background-image: linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
+}
+
+@mixin faded-background-image {
+	@if ($color-primary == #0082C9) or ($has-custom-background == true) {
+		background-image: $image-login-background, linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
+
+		@if($has-custom-background == true) {
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
+	} @else {
+		@include faded-background;
+		background-size: contain;
+	}
+}
+
+$has-custom-background: variable_exists('theming-background-mime') and $theming-background-mime != '';
 $has-custom-logo: variable_exists('theming-logo-mime') and $theming-logo-mime != '';
 $invert: luma($color-primary) > 0.6;
 
@@ -31,6 +50,9 @@ $invert: luma($color-primary) > 0.6;
 }
 
 @if ($invert) {
+	// too bright, use dark text to mix the primary
+	$color-primary-light: mix($color-primary, $color-main-text, 10%);
+
 	#appmenu:not(.inverted) svg {
 		filter: invert(1);
 	}
@@ -60,14 +82,17 @@ $invert: luma($color-primary) > 0.6;
 			border: 1px solid nc-lighten($color-primary-text, 50%);
 		}
 		input.primary,
+		button.primary,
 		#alternative-logins li a {
 			background-color: $color-primary;
+			color: $color-primary-text;
 		}
 		a,
 		label,
-		p,
-		#alternative-logins legend {
-			color: var(--color-primary-text);
+		footer p,
+		#alternative-logins legend,
+		.lost-password-container #lost-password {
+			color: $color-primary-text;
 		}
 		input[type='checkbox'].checkbox--white + label:before {
 			border-color: nc-darken($color-primary-element, 40%) !important;
@@ -80,11 +105,6 @@ $invert: luma($color-primary) > 0.6;
 			border-color: nc-darken($color-primary-element, 30%) !important;
 			background-color: nc-darken($color-primary-element, 30%) !important;
 			@include icon-color('checkbox-mark', 'actions', $color-white, 1, true);
-		}
-	}
-	#body-user {
-		.primary {
-			border: 1px solid transparent;
 		}
 	}
 } @else {
@@ -114,6 +134,10 @@ $invert: luma($color-primary) > 0.6;
 	background-image: $image-logo;
 }
 
+#body-user #header, #body-settings #header, #body-public #header {
+	@include faded-background;
+}
+
 /* override styles for login screen in guest.css */
 @if ($has-custom-logo) {
 	// custom logo
@@ -141,18 +165,20 @@ $invert: luma($color-primary) > 0.6;
 	#theming-preview {
 		background-image: $image-login-background;
 		background-color: $color-primary;
+		@include faded-background-image;
 	}
 } @else {
-	  #theming-preview {
-		  background-image: $image-login-background;
-		  background-color: $color-primary;
-	  }
+	#theming-preview {
+		background-image: $image-login-background;
+		background-color: $color-primary;
+		@include faded-background-image;
+	}
 }
 
 @if variable_exists('theming-logoheader-mime') and $theming-logoheader-mime != '' {
 	#theming .advanced-option-logoheader .image-preview,
 	body:not(#body-login) #header .logo {
-		background-image: url(#{$image-logoheader});
+		background-image: $image-logoheader;
 	}
 } @else {
 	#theming .advanced-option-favicon .image-preview {
@@ -162,7 +188,7 @@ $invert: luma($color-primary) > 0.6;
 
 @if variable_exists('theming-favicon-mime') and $theming-favicon-mime != '' {
 	#theming .advanced-option-favicon .image-preview {
-		background-image: url(#{$image-favicon});
+		background-image: $image-favicon;
 	}
 } @else {
 	#theming .advanced-option-favicon .image-preview {
@@ -178,8 +204,26 @@ input.primary,
 }
 
 @if ($invert) {
-	#body-login #submit-wrapper .icon-confirm-white {
-		background-image: url('../../../core/img/actions/confirm.svg');
+	#body-login {
+		.body-login-container {
+			background-color: $color-main-background;
+		}
+		#submit-wrapper .icon-confirm-white {
+			background-image: url('../../../core/img/actions/confirm.svg');
+		}
+		.body-login-container {
+			h2 {
+				color: $color-main-text;
+			}
+			.icon-search.icon-white {
+				// CSS variable is not used here since it is on the public page layout,
+				// where the dark theme doesn't apply at the moment
+				background-image: url('../../../core/img/actions/search.svg');
+			}
+		}
+	}
+	#body-public #header .icon-more-white {
+		background-image: var(--icon-more-000);
 	}
 }
 
@@ -192,14 +236,37 @@ input.primary,
 	#body-login {
 
 		a, label, p {
-			color: var(--color-primary-text);
+			color: $color-primary-text;
 		}
 
 	}
 } @else {
 	#body-login {
-		background-color: $color-primary;
+		@include faded-background-image;
 	}
+}
+
+/** Handle primary buttons for bright colors */
+@if (luma($color-primary) > 0.8) {
+	select,
+	button, .button,
+	input:not([type='range']),
+	textarea,
+	div[contenteditable=true],
+	.pager li a {
+		&.primary:not(:disabled) {
+			background-color: var(--color-background-dark);
+			color: var(--color-main-text);
+			border-color: var(--color-text-lighter);
+
+			&:hover, &:focus, &:active {
+				background-color: var(--color-background-darker);
+				color: var(--color-main-text);
+				border-color: var(--color-text);
+			}
+		}
+	}
+
 }
 
 @if ($color-primary == #ffffff) {

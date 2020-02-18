@@ -31,6 +31,7 @@ use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCP\Activity\IEvent;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IConfig;
@@ -38,6 +39,7 @@ use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
+use function reset;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
@@ -85,7 +87,7 @@ class ManagerTest extends TestCase {
 	/** @var EventDispatcherInterface|MockObject */
 	private $eventDispatcher;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->user = $this->createMock(IUser::class);
@@ -295,6 +297,23 @@ class ManagerTest extends TestCase {
 		$provider = $this->manager->getProvider($this->user, 'nonexistent');
 
 		$this->assertNull($provider);
+	}
+
+	public function testGetLoginSetupProviders() {
+		$provider1 = $this->createMock(IProvider::class);
+		$provider2 = $this->createMock(IActivatableAtLogin::class);
+		$this->providerLoader->expects($this->once())
+			->method('getProviders')
+			->with($this->user)
+			->willReturn([
+				$provider1,
+				$provider2,
+			]);
+
+		$providers = $this->manager->getLoginSetupProviders($this->user);
+
+		$this->assertCount(1, $providers);
+		$this->assertSame($provider2, reset($providers));
 	}
 
 	public function testGetProviders() {

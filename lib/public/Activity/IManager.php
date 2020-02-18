@@ -1,10 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -20,17 +22,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
-/**
- * Public interface of ownCloud for apps to use.
- * Activity/IManager interface
- */
-
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Activity;
 
 /**
@@ -53,7 +48,7 @@ interface IManager {
 	 * @return IEvent
 	 * @since 8.2.0
 	 */
-	public function generateEvent();
+	public function generateEvent(): IEvent;
 
 	/**
 	 * Publish an event to the activity consumers
@@ -68,7 +63,7 @@ interface IManager {
 	 * @throws \BadMethodCallException if required values have not been set
 	 * @since 8.2.0
 	 */
-	public function publish(IEvent $event);
+	public function publish(IEvent $event): void;
 
 	/**
 	 * In order to improve lazy loading a closure can be registered which will be called in case
@@ -77,35 +72,21 @@ interface IManager {
 	 * $callable has to return an instance of \OCP\Activity\IConsumer
 	 *
 	 * @param \Closure $callable
-	 * @return void
 	 * @since 6.0.0
 	 */
-	public function registerConsumer(\Closure $callable);
-
-	/**
-	 * In order to improve lazy loading a closure can be registered which will be called in case
-	 * activity consumers are actually requested
-	 *
-	 * $callable has to return an instance of \OCP\Activity\IExtension
-	 *
-	 * @param \Closure $callable
-	 * @return void
-	 * @since 8.0.0
-	 */
-	public function registerExtension(\Closure $callable);
+	public function registerConsumer(\Closure $callable): void;
 
 	/**
 	 * @param string $filter Class must implement OCA\Activity\IFilter
-	 * @return void
 	 * @since 11.0.0
 	 */
-	public function registerFilter($filter);
+	public function registerFilter(string $filter): void;
 
 	/**
 	 * @return IFilter[]
 	 * @since 11.0.0
 	 */
-	public function getFilters();
+	public function getFilters(): array;
 
 	/**
 	 * @param string $id
@@ -113,33 +94,31 @@ interface IManager {
 	 * @throws \InvalidArgumentException when the filter was not found
 	 * @since 11.0.0
 	 */
-	public function getFilterById($id);
+	public function getFilterById(string $id): IFilter;
 
 	/**
 	 * @param string $setting Class must implement OCA\Activity\ISetting
-	 * @return void
 	 * @since 11.0.0
 	 */
-	public function registerSetting($setting);
+	public function registerSetting(string $setting): void;
 
 	/**
 	 * @return ISetting[]
 	 * @since 11.0.0
 	 */
-	public function getSettings();
+	public function getSettings(): array;
 
 	/**
 	 * @param string $provider Class must implement OCA\Activity\IProvider
-	 * @return void
 	 * @since 11.0.0
 	 */
-	public function registerProvider($provider);
+	public function registerProvider(string $provider): void;
 
 	/**
 	 * @return IProvider[]
 	 * @since 11.0.0
 	 */
-	public function getProviders();
+	public function getProviders(): array;
 
 	/**
 	 * @param string $id
@@ -147,89 +126,32 @@ interface IManager {
 	 * @throws \InvalidArgumentException when the setting was not found
 	 * @since 11.0.0
 	 */
-	public function getSettingById($id);
-
-	/**
-	 * Will return additional notification types as specified by other apps
-	 *
-	 * @param string $languageCode
-	 * @return array Array "stringID of the type" => "translated string description for the setting"
-	 * 				or Array "stringID of the type" => [
-	 * 					'desc' => "translated string description for the setting"
-	 * 					'methods' => [\OCP\Activity\IExtension::METHOD_*],
-	 * 				]
-	 * @since 8.0.0 - 8.2.0: Added support to allow limiting notifications to certain methods
-	 * @deprecated 11.0.0 - Use getSettings() instead
-	 */
-	public function getNotificationTypes($languageCode);
-
-	/**
-	 * @param string $method
-	 * @return array
-	 * @since 8.0.0
-	 * @deprecated 11.0.0 - Use getSettings()->isDefaulEnabled<method>() instead
-	 */
-	public function getDefaultTypes($method);
-
-	/**
-	 * @param string $type
-	 * @return string
-	 * @since 8.0.0
-	 */
-	public function getTypeIcon($type);
+	public function getSettingById(string $id): ISetting;
 
 	/**
 	 * @param string $type
 	 * @param int $id
 	 * @since 8.2.0
 	 */
-	public function setFormattingObject($type, $id);
+	public function setFormattingObject(string $type, int $id): void;
 
 	/**
 	 * @return bool
 	 * @since 8.2.0
 	 */
-	public function isFormattingFilteredObject();
+	public function isFormattingFilteredObject(): bool;
 
 	/**
 	 * @param bool $status Set to true, when parsing events should not use SVG icons
 	 * @since 12.0.1
 	 */
-	public function setRequirePNG($status);
+	public function setRequirePNG(bool $status): void;
 
 	/**
 	 * @return bool
 	 * @since 12.0.1
 	 */
-	public function getRequirePNG();
-
-	/**
-	 * @param string $app
-	 * @param string $text
-	 * @param array $params
-	 * @param boolean $stripPath
-	 * @param boolean $highlightParams
-	 * @param string $languageCode
-	 * @return string|false
-	 * @since 8.0.0
-	 */
-	public function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode);
-
-	/**
-	 * @param string $app
-	 * @param string $text
-	 * @return array|false
-	 * @since 8.0.0
-	 */
-	public function getSpecialParameterList($app, $text);
-
-	/**
-	 * @param array $activity
-	 * @return integer|false
-	 * @since 8.0.0
-	 */
-	public function getGroupParameter($activity);
-
+	public function getRequirePNG(): bool;
 
 	/**
 	 * Set the user we need to use
@@ -238,7 +160,7 @@ interface IManager {
 	 * @throws \UnexpectedValueException If the user is invalid
 	 * @since 9.0.1
 	 */
-	public function setCurrentUserId($currentUserId);
+	public function setCurrentUserId(string $currentUserId = null): void;
 
 	/**
 	 * Get the user we need to use
@@ -249,37 +171,5 @@ interface IManager {
 	 * @throws \UnexpectedValueException If the token is invalid, does not exist or is not unique
 	 * @since 8.1.0
 	 */
-	public function getCurrentUserId();
-
-	/**
-	 * @return array
-	 * @since 8.0.0
-	 * @deprecated 11.0.0 - Use getFilters() instead
-	 */
-	public function getNavigation();
-
-	/**
-	 * @param string $filterValue
-	 * @return boolean
-	 * @since 8.0.0
-	 * @deprecated 11.0.0 - Use getFilterById() instead
-	 */
-	public function isFilterValid($filterValue);
-
-	/**
-	 * @param array $types
-	 * @param string $filter
-	 * @return array
-	 * @since 8.0.0
-	 * @deprecated 11.0.0 - Use getFilterById()->filterTypes() instead
-	 */
-	public function filterNotificationTypes($types, $filter);
-
-	/**
-	 * @param string $filter
-	 * @return array
-	 * @since 8.0.0
-	 * @deprecated 11.0.0 - Use getFilterById() instead
-	 */
-	public function getQueryForFilter($filter);
+	public function getCurrentUserId(): string;
 }

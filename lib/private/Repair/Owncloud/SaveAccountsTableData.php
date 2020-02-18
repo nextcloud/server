@@ -17,7 +17,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -43,6 +43,8 @@ class SaveAccountsTableData implements IRepairStep {
 
 	/** @var IConfig */
 	protected $config;
+
+	protected $hasForeignKeyOnPersistentLocks = false;
 
 	/**
 	 * @param IDBConnection $db
@@ -77,6 +79,9 @@ class SaveAccountsTableData implements IRepairStep {
 		}
 
 		// Remove the table
+		if ($this->hasForeignKeyOnPersistentLocks) {
+			$this->db->dropTable('persistent_locks');
+		}
 		$this->db->dropTable('accounts');
 	}
 
@@ -85,14 +90,29 @@ class SaveAccountsTableData implements IRepairStep {
 	 */
 	protected function shouldRun() {
 		$schema = $this->db->createSchema();
+		$prefix = $this->config->getSystemValue('dbtableprefix', 'oc_');
 
-		$tableName = $this->config->getSystemValue('dbtableprefix', 'oc_') . 'accounts';
+		$tableName = $prefix . 'accounts';
 		if (!$schema->hasTable($tableName)) {
 			return false;
 		}
 
 		$table = $schema->getTable($tableName);
-		return $table->hasColumn('user_id');
+		if (!$table->hasColumn('user_id')) {
+			return false;
+		}
+
+		if ($schema->hasTable($prefix . 'persistent_locks')) {
+			$locksTable = $schema->getTable($prefix . 'persistent_locks');
+			$foreignKeys = $locksTable->getForeignKeys();
+			foreach ($foreignKeys as $foreignKey) {
+				if ($tableName === $foreignKey->getForeignTableName()) {
+					$this->hasForeignKeyOnPersistentLocks = true;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -169,4 +189,3 @@ class SaveAccountsTableData implements IRepairStep {
 
 	}
 }
-

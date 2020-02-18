@@ -20,9 +20,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\FakeLockerPlugin;
@@ -43,7 +44,7 @@ class FakeLockerPluginTest extends TestCase {
 	/** @var FakeLockerPlugin */
 	private $fakeLockerPlugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->fakeLockerPlugin = new FakeLockerPlugin();
 	}

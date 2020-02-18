@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -18,16 +20,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OC\App\CodeChecker;
 
 use OC\Hooks\BasicEmitter;
-use PhpParser\Lexer;
 use PhpParser\NodeTraverser;
 use PhpParser\Parser;
+use PhpParser\ParserFactory;
 use RecursiveCallbackFilterIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -57,7 +59,7 @@ class CodeChecker extends BasicEmitter {
 	public function __construct(ICheck $checkList, $checkMigrationSchema) {
 		$this->checkList = $checkList;
 		$this->checkMigrationSchema = $checkMigrationSchema;
-		$this->parser = new Parser(new Lexer);
+		$this->parser = (new ParserFactory)->create(ParserFactory::ONLY_PHP7);
 	}
 
 	/**
@@ -92,7 +94,7 @@ class CodeChecker extends BasicEmitter {
 		}, $excludedDirectories);
 
 		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
-		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($folder, $excludes){
+		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($excludes){
 			/** @var SplFileInfo $item */
 			foreach($excludes as $exclude) {
 				if (substr($item->getPath(), 0, strlen($exclude)) === $exclude) {

@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -18,7 +20,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -54,7 +56,7 @@ class RememberBackupCodesJobTest extends TestCase {
 	/** @var RememberBackupCodesJob */
 	private $job;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->registry = $this->createMock(IRegistry::class);
@@ -114,6 +116,34 @@ class RememberBackupCodesJobTest extends TestCase {
 		$this->invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
 	}
 
+	public function testNoActiveProvider() {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUID')
+			->willReturn('validUID');
+		$this->userManager->method('get')
+			->with('validUID')
+			->willReturn($user);
+
+		$this->registry->method('getProviderStates')
+			->with($user)
+			->willReturn([
+				'backup_codes' => false,
+				'foo' => false,
+			]);
+
+		$this->jobList->expects($this->once())
+			->method('remove')
+			->with(
+				RememberBackupCodesJob::class,
+				['uid' => 'validUID']
+			);
+
+		$this->notificationManager->expects($this->never())
+			->method($this->anything());
+
+		$this->invokePrivate($this->job, 'run', [['uid' => 'validUID']]);
+	}
+
 	public function testNotificationSend() {
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')
@@ -125,7 +155,8 @@ class RememberBackupCodesJobTest extends TestCase {
 		$this->registry->method('getProviderStates')
 			->with($user)
 			->willReturn([
-				'backup_codes' => false
+				'backup_codes' => false,
+				'foo' => true,
 			]);
 
 		$this->jobList->expects($this->never())

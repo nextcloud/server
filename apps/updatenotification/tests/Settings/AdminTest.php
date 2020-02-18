@@ -1,11 +1,15 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -19,7 +23,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -35,12 +39,11 @@ use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\L10N\ILanguageIterator;
+use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
-	protected $userSession;
 	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
 	protected $l10nFactory;
 	/** @var Admin */
@@ -53,19 +56,21 @@ class AdminTest extends TestCase {
 	private $groupManager;
 	/** @var IDateTimeFormatter|\PHPUnit_Framework_MockObject_MockObject */
 	private $dateTimeFormatter;
+	/** @var IRegistry|\PHPUnit_Framework_MockObject_MockObject */
+	private $subscriptionRegistry;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->updateChecker = $this->createMock(UpdateChecker::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
-		$this->userSession = $this->createMock(IUserSession::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
+		$this->subscriptionRegistry = $this->createMock(IRegistry::class);
 
 		$this->admin = new Admin(
-			$this->config, $this->updateChecker, $this->groupManager, $this->dateTimeFormatter, $this->userSession, $this->l10nFactory
+			$this->config, $this->updateChecker, $this->groupManager, $this->dateTimeFormatter, $this->l10nFactory, $this->subscriptionRegistry
 		);
 	}
 
@@ -123,6 +128,11 @@ class AdminTest extends TestCase {
 			->with('admin')
 			->willReturn($group);
 
+		$this->subscriptionRegistry
+			->expects($this->once())
+			->method('delegateHasValidSubscription')
+			->willReturn(true);
+
 		$params = [
 			'json' => json_encode([
 				'isNewVersionAvailable' => true,
@@ -141,6 +151,7 @@ class AdminTest extends TestCase {
 				'notifyGroups' => [
 					['value' => 'admin', 'label' => 'Administrators'],
 				],
+				'hasValidSubscription' => true,
 			]),
 		];
 

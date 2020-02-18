@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,15 +18,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Files_Sharing\Tests\Controller;
 
 use OCA\Files_Sharing\Controller\PublicPreviewController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Constants;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -37,25 +40,32 @@ use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
-use Punic\Data;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class PublicPreviewControllerTest extends TestCase {
 
 	/** @var IPreview|\PHPUnit_Framework_MockObject_MockObject */
 	private $previewManager;
-
 	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $shareManager;
+	/** @var ITimeFactory|MockObject */
+	private $timeFactory;
 
 	/** @var PublicPreviewController */
 	private $controller;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->previewManager = $this->createMock(IPreview::class);
 		$this->shareManager = $this->createMock(IManager::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+
+		$this->timeFactory->method('getTime')
+			->willReturn(1337);
+
+		$this->overwriteService(ITimeFactory::class, $this->timeFactory);
 
 		$this->controller = new PublicPreviewController(
 			'files_sharing',
@@ -136,6 +146,7 @@ class PublicPreviewControllerTest extends TestCase {
 
 		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
 		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'myMime']);
+		$expected->cacheFor(3600 * 24);
 		$this->assertEquals($expected, $res);
 	}
 
@@ -190,6 +201,7 @@ class PublicPreviewControllerTest extends TestCase {
 
 		$res = $this->controller->getPreview('token', 'file', 10, 10, true);
 		$expected = new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => 'myMime']);
+		$expected->cacheFor(3600 * 24);
 		$this->assertEquals($expected, $res);
 	}
 }

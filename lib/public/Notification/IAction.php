@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -16,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -29,19 +32,41 @@ namespace OCP\Notification;
  * @since 9.0.0
  */
 interface IAction {
+
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_GET = 'GET';
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_POST = 'POST';
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_PUT = 'PUT';
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_DELETE = 'DELETE';
+	/**
+	 * @since 17.0.0
+	 */
+	public const TYPE_WEB = 'WEB';
+
 	/**
 	 * @param string $label
 	 * @return $this
 	 * @throws \InvalidArgumentException if the label is invalid
 	 * @since 9.0.0
 	 */
-	public function setLabel($label);
+	public function setLabel(string $label): IAction;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getLabel();
+	public function getLabel(): string;
 
 	/**
 	 * @param string $label
@@ -49,27 +74,27 @@ interface IAction {
 	 * @throws \InvalidArgumentException if the label is invalid
 	 * @since 9.0.0
 	 */
-	public function setParsedLabel($label);
+	public function setParsedLabel(string $label): IAction;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getParsedLabel();
+	public function getParsedLabel(): string;
 
 	/**
-	 * @param $primary bool
+	 * @param bool $primary
 	 * @return $this
 	 * @throws \InvalidArgumentException if $primary is invalid
 	 * @since 9.0.0
 	 */
-	public function setPrimary($primary);
+	public function setPrimary(bool $primary): IAction;
 
 	/**
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function isPrimary();
+	public function isPrimary(): bool;
 
 	/**
 	 * @param string $link
@@ -78,29 +103,29 @@ interface IAction {
 	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 9.0.0
 	 */
-	public function setLink($link, $requestType);
+	public function setLink(string $link, string $requestType): IAction;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getLink();
+	public function getLink(): string;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getRequestType();
+	public function getRequestType(): string;
 
 	/**
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function isValid();
+	public function isValid(): bool;
 
 	/**
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function isValidParsed();
+	public function isValidParsed(): bool;
 }

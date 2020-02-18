@@ -3,6 +3,7 @@
  * @copyright 2017 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,9 +18,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\BackgroundJob;
 
 use OC\BackgroundJob\QueuedJob;
@@ -51,6 +53,7 @@ class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
 	 */
 	public function run($arguments) {
 		$userId = $arguments['userId'];
+		$purgeBeforeGenerating = $arguments['purgeBeforeGenerating'] ?? false;
 
 		// make sure admin didn't change his mind
 		$isGloballyEnabled = $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes');
@@ -62,6 +65,10 @@ class GenerateBirthdayCalendarBackgroundJob extends QueuedJob {
 		$isUserEnabled = $this->config->getUserValue($userId, 'dav', 'generateBirthdayCalendar', 'yes');
 		if ($isUserEnabled !== 'yes') {
 			return;
+		}
+
+		if ($purgeBeforeGenerating) {
+			$this->birthdayService->resetForUser($userId);
 		}
 
 		$this->birthdayService->syncUser($userId);

@@ -26,7 +26,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -34,19 +34,20 @@ namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\FailedCache;
 use OC\Files\Filesystem;
-use OC\Files\Storage\Wrapper\PermissionsMask;
 use OC\Files\Storage\FailedStorage;
+use OC\Files\Storage\Wrapper\PermissionsMask;
+use OC\User\NoUserException;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
-use OC\User\NoUserException;
 
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
-class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
+class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage, IDisableEncryptionStorage {
 
 	/** @var \OCP\Share\IShare */
 	private $superShare;

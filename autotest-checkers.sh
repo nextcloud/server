@@ -4,14 +4,19 @@ RESULT=0
 
 bash ./build/autoloaderchecker.sh
 RESULT=$(($RESULT+$?))
-bash ./build/mergejschecker.sh
-RESULT=$(($RESULT+$?))
 php ./build/translation-checker.php
 RESULT=$(($RESULT+$?))
 php ./build/htaccess-checker.php
 RESULT=$(($RESULT+$?))
+bash ./build/ca-bundle-checker.sh
+RESULT=$(($RESULT+$?))
 
-
+dataDirCreated=0
+if ! [ -e data/ ]; then
+    dataDirCreated=1
+    echo "Create directory 'data/'"
+    mkdir data/
+fi
 for app in $(find "apps/" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;); do
     echo "Testing $app"
     if
@@ -23,10 +28,8 @@ for app in $(find "apps/" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;);
         [ "$app" == "files_sharing" ] || \
         [ "$app" == "files_trashbin" ] || \
         [ "$app" == "files_versions" ] || \
-        [ "$app" == "lookup_server_connector" ] || \
         [ "$app" == "provisioning_api" ] || \
-        [ "$app" == "testing" ] || \
-        [ "$app" == "twofactor_backupcodes" ] || \
+        [ "$app" == "settings" ] || \
         [ "$app" == "updatenotification" ] || \
         [ "$app" == "user_ldap" ]
     then
@@ -36,11 +39,12 @@ for app in $(find "apps/" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;);
     fi
     RESULT=$(($RESULT+$?))
 done;
+if [ $dataDirCreated == 1 ]; then
+    echo "Delete created directory 'data/'"
+    rm -rf data/
+fi
 
 php ./build/files-checker.php
-RESULT=$(($RESULT+$?))
-
-php ./build/signed-off-checker.php
 RESULT=$(($RESULT+$?))
 
 exit $RESULT

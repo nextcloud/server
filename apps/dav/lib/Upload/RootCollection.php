@@ -1,8 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -17,26 +21,38 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Upload;
 
 use Sabre\DAVACL\AbstractPrincipalCollection;
+use Sabre\DAVACL\PrincipalBackend;
 
 class RootCollection extends AbstractPrincipalCollection {
 
-	/**
-	 * @inheritdoc
-	 */
-	function getChildForPrincipal(array $principalInfo) {
-		return new UploadHome($principalInfo);
+	/** @var CleanupService */
+	private $cleanupService;
+
+	public function __construct(PrincipalBackend\BackendInterface $principalBackend,
+								string $principalPrefix,
+								CleanupService $cleanupService) {
+		parent::__construct($principalBackend, $principalPrefix);
+		$this->cleanupService = $cleanupService;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	function getName() {
+	public function getChildForPrincipal(array $principalInfo): UploadHome {
+		return new UploadHome($principalInfo, $this->cleanupService);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getName(): string {
 		return 'uploads';
 	}
 

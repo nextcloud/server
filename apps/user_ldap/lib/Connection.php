@@ -4,16 +4,16 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Brent Bloxam <brent.bloxam@gmail.com>
  * @author Jarkko Lehtoranta <devel@jlranta.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Lyonel Vincent <lyonel@ezix.org>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Xuanwo <xuanwo@yunify.com>
@@ -30,7 +30,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -60,6 +60,12 @@ use OCP\ILogger;
  * @property string ldapQuotaAttribute
  * @property string ldapQuotaDefault
  * @property string ldapEmailAttribute
+ * @property string ldapExtStorageHomeAttribute
+ * @property string homeFolderNamingRule
+ * @property bool|string ldapNestedGroups
+ * @property string[] ldapBaseGroups
+ * @property string ldapGroupFilter
+ * @property string ldapGroupDisplayName
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
@@ -669,7 +675,8 @@ class Connection extends LDAPUtility {
 				ILogger::WARN);
 
 			// Set to failure mode, if LDAP error code is not LDAP_SUCCESS or LDAP_INVALID_CREDENTIALS
-			if($errno !== 0x00 && $errno !== 0x31) {
+			// or (needed for Apple Open Directory:) LDAP_INSUFFICIENT_ACCESS
+			if($errno !== 0 && $errno !== 49 && $errno !== 50) {
 				$this->ldapConnectionRes = null;
 			}
 

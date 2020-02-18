@@ -1,11 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0
@@ -20,7 +22,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -34,6 +36,7 @@ use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
+use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 
 class Admin implements ISettings {
@@ -45,25 +48,25 @@ class Admin implements ISettings {
 	private $groupManager;
 	/** @var IDateTimeFormatter */
 	private $dateTimeFormatter;
-	/** @var IUserSession */
-	private $session;
 	/** @var IFactory */
 	private $l10nFactory;
+	/** @var IRegistry */
+	private $subscriptionRegistry;
 
 	public function __construct(
 		IConfig $config,
 		UpdateChecker $updateChecker,
 		IGroupManager $groupManager,
 		IDateTimeFormatter $dateTimeFormatter,
-		IUserSession $session,
-		IFactory $l10nFactory
+		IFactory $l10nFactory,
+		IRegistry $subscriptionRegistry
 	) {
 		$this->config = $config;
 		$this->updateChecker = $updateChecker;
 		$this->groupManager = $groupManager;
 		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->session = $session;
 		$this->l10nFactory = $l10nFactory;
+		$this->subscriptionRegistry = $subscriptionRegistry;
 	}
 
 	/**
@@ -90,6 +93,12 @@ class Admin implements ISettings {
 
 		$defaultUpdateServerURL = 'https://updates.nextcloud.com/updater_server/';
 		$updateServerURL = $this->config->getSystemValue('updater.server.url', $defaultUpdateServerURL);
+		$defaultCustomerUpdateServerURLPrefix = 'https://updates.nextcloud.com/customers/';
+
+		$isDefaultUpdateServerURL = $updateServerURL === $defaultUpdateServerURL
+			|| $updateServerURL === substr($updateServerURL, 0, strlen($defaultCustomerUpdateServerURLPrefix));
+
+		$hasValidSubscription = $this->subscriptionRegistry->delegateHasValidSubscription();
 
 		$params = [
 			'isNewVersionAvailable' => !empty($updateState['updateAvailable']),
@@ -103,9 +112,10 @@ class Admin implements ISettings {
 			'changes' => $this->filterChanges($updateState['changes'] ?? []),
 			'updaterEnabled' => empty($updateState['updaterEnabled']) ? false : $updateState['updaterEnabled'],
 			'versionIsEol' => empty($updateState['versionIsEol']) ? false : $updateState['versionIsEol'],
-			'isDefaultUpdateServerURL' => $updateServerURL === $defaultUpdateServerURL,
+			'isDefaultUpdateServerURL' => $isDefaultUpdateServerURL,
 			'updateServerURL' => $updateServerURL,
 			'notifyGroups' => $this->getSelectedGroups($notifyGroups),
+			'hasValidSubscription' => $hasValidSubscription,
 		];
 
 		$params = [

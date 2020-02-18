@@ -2,10 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -20,7 +22,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -47,6 +49,8 @@ $principalBackend = new Principal(
 	\OC::$server->getGroupManager(),
 	\OC::$server->getShareManager(),
 	\OC::$server->getUserSession(),
+	\OC::$server->getAppManager(),
+	\OC::$server->query(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
 	\OC::$server->getConfig(),
 	'principals/'
 );
@@ -84,7 +88,10 @@ if ($debugging) {
 
 $server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 $server->addPlugin(new \Sabre\CardDAV\VCFExportPlugin());
-$server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(new \OCA\DAV\CardDAV\PhotoCache(\OC::$server->getAppDataDir('dav-photocache'))));
+$server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(new \OCA\DAV\CardDAV\PhotoCache(
+	\OC::$server->getAppDataDir('dav-photocache'),
+	\OC::$server->getLogger()
+)));
 $server->addPlugin(new ExceptionLoggerPlugin('carddav', \OC::$server->getLogger()));
 
 // And off we go!

@@ -1,7 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
+ *
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,7 +20,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -29,7 +33,7 @@ class Version implements IVersion {
 	/** @var int */
 	private $timestamp;
 
-	/** @var int */
+	/** @var int|string */
 	private $revisionId;
 
 	/** @var string */
@@ -55,7 +59,7 @@ class Version implements IVersion {
 
 	public function __construct(
 		int $timestamp,
-		int $revisionId,
+		$revisionId,
 		string $name,
 		int $size,
 		string $mimetype,
@@ -83,7 +87,7 @@ class Version implements IVersion {
 		return $this->sourceFileInfo;
 	}
 
-	public function getRevisionId(): int {
+	public function getRevisionId() {
 		return $this->revisionId;
 	}
 

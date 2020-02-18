@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arne Hamann <kontakt+github@arne.email>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -18,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -30,6 +32,7 @@
 
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
+
 namespace OCP\Contacts;
 
 /**
@@ -90,7 +93,8 @@ interface IManager {
 	 *
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
-	 * @param array $options - for future use. One should always have options!
+	 * @param array $options = array() to define the search behavior
+	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 * @since 6.0.0
 	 */
@@ -154,13 +158,25 @@ interface IManager {
 	public function register(\Closure $callable);
 
 	/**
+	 * Return a list of the user's addressbooks display names
+	 * 
 	 * @return array
 	 * @since 6.0.0
+	 * @deprecated 16.0.0 - Use `$this->getUserAddressBooks()` instead
 	 */
 	public function getAddressBooks();
 
 	/**
+	 * Return a list of the user's addressbooks
+	 * 
+	 * @return IAddressBook[]
+	 * @since 16.0.0
+	 */
+	public function getUserAddressBooks();
+
+	/**
 	 * removes all registered address book instances
+	 * 
 	 * @return void
 	 * @since 6.0.0
 	 */

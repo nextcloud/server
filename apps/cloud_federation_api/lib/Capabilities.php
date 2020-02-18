@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,10 +17,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 
 namespace OCA\CloudFederationAPI;
 
@@ -48,9 +49,10 @@ class Capabilities implements ICapability {
 				'enabled' => true,
 				'apiVersion' => '1.0-proposal1',
 				'endPoint' => substr($url, 0, strrpos($url, '/')),
-				'shareTypes' => [
+				'resourceTypes' => [
 					[
 						'name' => 'file',
+						'shareTypes' => ['user', 'group'],
 						'protocols' => [
 							'webdav' => '/public.php/webdav/',
 						]

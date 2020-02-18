@@ -3,7 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -23,7 +23,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -84,10 +84,19 @@ class Response {
 	/** @var ContentSecurityPolicy|null Used Content-Security-Policy */
 	private $contentSecurityPolicy = null;
 
+	/** @var FeaturePolicy */
+	private $featurePolicy;
+
 	/** @var bool */
 	private $throttled = false;
 	/** @var array */
 	private $throttleMetadata = [];
+
+	/**
+	 * @since 17.0.0
+	 */
+	public function __construct() {
+	}
 
 	/**
 	 * Caches the response
@@ -228,11 +237,8 @@ class Response {
 				$this->lastModified->format(\DateTime::RFC2822);
 		}
 
-		// Build Content-Security-Policy and use default if none has been specified
-		if(is_null($this->contentSecurityPolicy)) {
-			$this->setContentSecurityPolicy(new ContentSecurityPolicy());
-		}
-		$this->headers['Content-Security-Policy'] = $this->contentSecurityPolicy->buildPolicy();
+		$this->headers['Content-Security-Policy'] = $this->getContentSecurityPolicy()->buildPolicy();
+		$this->headers['Feature-Policy'] = $this->getFeaturePolicy()->buildPolicy();
 
 		if($this->ETag) {
 			$mergeWith['ETag'] = '"' . $this->ETag . '"';
@@ -282,8 +288,32 @@ class Response {
 	 * @since 8.1.0
 	 */
 	public function getContentSecurityPolicy() {
+		if ($this->contentSecurityPolicy === null) {
+			$this->setContentSecurityPolicy(new EmptyContentSecurityPolicy());
+		}
 		return $this->contentSecurityPolicy;
 	}
+
+
+	/**
+	 * @since 17.0.0
+	 */
+	public function getFeaturePolicy(): EmptyFeaturePolicy {
+		if ($this->featurePolicy === null) {
+			$this->setFeaturePolicy(new EmptyFeaturePolicy());
+		}
+		return $this->featurePolicy;
+	}
+
+	/**
+	 * @since 17.0.0
+	 */
+	public function setFeaturePolicy(EmptyFeaturePolicy $featurePolicy): self {
+		$this->featurePolicy = $featurePolicy;
+
+		return $this;
+	}
+
 
 
 	/**

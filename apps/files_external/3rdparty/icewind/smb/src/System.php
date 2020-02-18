@@ -9,14 +9,18 @@ namespace Icewind\SMB;
 
 use Icewind\SMB\Exception\Exception;
 
-class System {
-	private $smbclient;
+class System implements ISystem {
+	/** @var (string|bool)[] */
+	private $paths = [];
 
-	private $net;
-
-	private $stdbuf;
-
-	public static function getFD($num) {
+	/**
+	 * Get the path to a file descriptor of the current process
+	 *
+	 * @param int $num the file descriptor id
+	 * @return string
+	 * @throws Exception
+	 */
+	public function getFD($num) {
 		$folders = [
 			'/proc/self/fd',
 			'/dev/fd'
@@ -30,26 +34,32 @@ class System {
 	}
 
 	public function getSmbclientPath() {
-		if (!$this->smbclient) {
-			$this->smbclient = trim(`which smbclient`);
-		}
-		return $this->smbclient;
+		return $this->getBinaryPath('smbclient');
 	}
 
 	public function getNetPath() {
-		if (!$this->net) {
-			$this->net = trim(`which net`);
-		}
-		return $this->net;
+		return $this->getBinaryPath('net');
 	}
 
-	public function hasStdBuf() {
-		if (!$this->stdbuf) {
+	public function getStdBufPath() {
+		return $this->getBinaryPath('stdbuf');
+	}
+
+	public function getDatePath() {
+		return $this->getBinaryPath('date');
+	}
+
+	public function libSmbclientAvailable() {
+		return function_exists('smbclient_state_new');
+	}
+
+	protected function getBinaryPath($binary) {
+		if (!isset($this->paths[$binary])) {
 			$result = null;
-			$output = array();
-			exec('which stdbuf 2>&1', $output, $result);
-			$this->stdbuf = $result === 0;
+			$output = [];
+			exec("which $binary 2>&1", $output, $result);
+			$this->paths[$binary] = $result === 0 ? trim(implode('', $output)) : false;
 		}
-		return $this->stdbuf;
+		return $this->paths[$binary];
 	}
 }

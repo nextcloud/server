@@ -6,11 +6,11 @@ OC.L10N.register(
     "Allows OAuth2 compatible authentication from other web applications." : "Povoliť overenie kompatibilné s OAuth2 iných webových aplikácií.",
     "OAuth 2.0 clients" : "klienti OAuth 2.0",
     "Name" : "Názov",
-    "Client Identifier" : "Identifikátor klienta",
-    "Add client" : "Pridať klienta",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 umožňuje externým službám vyžiadať prístup k %s.",
     "Redirection URI" : "URI presmerovania",
+    "Client Identifier" : "Identifikátor klienta",
     "Secret" : "Tajný kľúč",
-    "Add" : "Pridať"
+    "Add client" : "Pridať klienta",
+    "Add" : "Pridať",
+    "Delete" : "Zmazať"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

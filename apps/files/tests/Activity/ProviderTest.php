@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -55,7 +56,7 @@ class ProviderTest extends TestCase {
 	/** @var IEventMerger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $eventMerger;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->l10nFactory = $this->createMock(IFactory::class);
@@ -136,10 +137,10 @@ class ProviderTest extends TestCase {
 		$this->assertSame('link-' . $id, $result['link']);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testGetFileThrows() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$provider = $this->getProvider();
 		self::invokePrivate($provider, 'getFile', ['/Foo/Bar.txt', null]);
 	}

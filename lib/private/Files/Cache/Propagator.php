@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -46,12 +48,14 @@ class Propagator implements IPropagator {
 	private $connection;
 
 	/**
-	 * @param \OC\Files\Storage\Storage $storage
-	 * @param IDBConnection $connection
+	 * @var array
 	 */
-	public function __construct(\OC\Files\Storage\Storage $storage, IDBConnection $connection) {
+	private $ignore = [];
+
+	public function __construct(\OC\Files\Storage\Storage $storage, IDBConnection $connection, array $ignore = []) {
 		$this->storage = $storage;
 		$this->connection = $connection;
+		$this->ignore = $ignore;
 	}
 
 
@@ -62,6 +66,13 @@ class Propagator implements IPropagator {
 	 * @suppress SqlInjectionChecker
 	 */
 	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
+		// Do not propogate changes in ignored paths
+		foreach ($this->ignore as $ignore) {
+			if (strpos($internalPath, $ignore) === 0) {
+				return;
+			}
+		}
+
 		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
 
 		$parents = $this->getParents($internalPath);
@@ -82,7 +93,7 @@ class Propagator implements IPropagator {
 		}, $parentHashes);
 
 		$builder->update('filecache')
-			->set('mtime', $builder->createFunction('GREATEST(' . $builder->getColumnName('mtime') . ', ' . $builder->createNamedParameter((int)$time, IQueryBuilder::PARAM_INT) . ')'))
+			->set('mtime', $builder->func()->greatest('mtime', $builder->createNamedParameter((int)$time, IQueryBuilder::PARAM_INT)))
 			->set('etag', $builder->createNamedParameter($etag, IQueryBuilder::PARAM_STR))
 			->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($builder->expr()->in('path_hash', $hashParams));
@@ -93,13 +104,16 @@ class Propagator implements IPropagator {
 			// we need to do size separably so we can ignore entries with uncalculated size
 			$builder = $this->connection->getQueryBuilder();
 			$builder->update('filecache')
-				->set('size', $builder->func()->add('size', $builder->createNamedParameter($sizeDifference)))
+				->set('size', $builder->func()->greatest(
+					$builder->createNamedParameter(-1, IQueryBuilder::PARAM_INT),
+					$builder->func()->add('size', $builder->createNamedParameter($sizeDifference)))
+				)
 				->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 				->andWhere($builder->expr()->in('path_hash', $hashParams))
 				->andWhere($builder->expr()->gt('size', $builder->expr()->literal(-1, IQueryBuilder::PARAM_INT)));
-		}
 
-		$builder->execute();
+			$builder->execute();
+		}
 	}
 
 	protected function getParents($path) {

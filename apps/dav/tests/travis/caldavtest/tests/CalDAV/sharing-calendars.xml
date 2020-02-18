@@ -73,7 +73,7 @@
 			<description>Shared calendar exists</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>PROPFIND</method>
-				<ruri>$calendarhome1:/shared/</ruri>
+				<ruri>$calendarhome2:/shared_shared_by_user01/</ruri>
 				<header>
 					<name>Depth</name>
 					<value>0</value>
@@ -193,7 +193,7 @@
 			<description>Sharee creates event</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>PUT</method>
-				<ruri>$calendarhome1:/shared/1.ics</ruri>
+				<ruri>$calendarhome2:/shared_shared_by_user01/1.ics</ruri>
 				<data>
 					<content-type>text/calendar; charset=utf-8</content-type>
 					<filepath>Resource/CalDAV/sharing/calendars/read-write/5.ics</filepath>
@@ -235,7 +235,7 @@
 			<description>Sharee sees changed event</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>GET</method>
-				<ruri>$calendarhome1:/shared/1.ics</ruri>
+				<ruri>$calendarhome2:/shared_shared_by_user01/1.ics</ruri>
 				<verify>
 					<callback>calendarDataMatch</callback>
 					<arg>
@@ -263,7 +263,7 @@
 			<description>Sharee sees new event</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>GET</method>
-				<ruri>$calendarhome1:/shared/2.ics</ruri>
+				<ruri>$calendarhome2:/shared_shared_by_user01/2.ics</ruri>
 				<verify>
 					<callback>calendarDataMatch</callback>
 					<arg>
@@ -277,7 +277,7 @@
 			<description>Sharee changes event</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>PUT</method>
-				<ruri>$calendarhome1:/shared/2.ics</ruri>
+				<ruri>$calendarhome2:/shared_shared_by_user01/2.ics</ruri>
 				<data>
 					<content-type>text/calendar; charset=utf-8</content-type>
 					<filepath>Resource/CalDAV/sharing/calendars/read-write/8.ics</filepath>

@@ -5,6 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -21,7 +22,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -34,8 +35,8 @@ use OCP\Comments\ICommentsEventHandler;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IDBConnection;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\IUser;
 
@@ -98,6 +99,15 @@ class Manager implements ICommentsManager {
 		return $data;
 	}
 
+
+	/**
+	 * @param array $data
+	 * @return IComment
+	 */
+	public function getCommentFromData(array $data): IComment {
+		return new Comment($this->normalizeDatabaseData($data));
+	}
+
 	/**
 	 * prepares a comment for an insert or update operation after making sure
 	 * all necessary fields have a value assigned.
@@ -109,9 +119,9 @@ class Manager implements ICommentsManager {
 	 */
 	protected function prepareCommentForDatabaseWrite(IComment $comment) {
 		if (!$comment->getActorType()
-			|| !$comment->getActorId()
+			|| $comment->getActorId() === ''
 			|| !$comment->getObjectType()
-			|| !$comment->getObjectId()
+			|| $comment->getObjectId() === ''
 			|| !$comment->getVerb()
 		) {
 			throw new \UnexpectedValueException('Actor, Object and Verb information must be provided for saving');
@@ -149,9 +159,9 @@ class Manager implements ICommentsManager {
 		$comment = $this->get($id);
 		if ($comment->getParentId() === '0') {
 			return $comment->getId();
-		} else {
-			return $this->determineTopmostParentId($comment->getId());
 		}
+
+		return $this->determineTopmostParentId($comment->getParentId());
 	}
 
 	/**
@@ -253,7 +263,8 @@ class Manager implements ICommentsManager {
 			throw new NotFoundException();
 		}
 
-		$comment = new Comment($this->normalizeDatabaseData($data));
+
+		$comment = $this->getCommentFromData($data);
 		$this->cache($comment);
 		return $comment;
 	}
@@ -308,7 +319,7 @@ class Manager implements ICommentsManager {
 
 		$resultStatement = $query->execute();
 		while ($data = $resultStatement->fetch()) {
-			$comment = new Comment($this->normalizeDatabaseData($data));
+			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$tree['replies'][] = [
 				'comment' => $comment,
@@ -367,7 +378,7 @@ class Manager implements ICommentsManager {
 
 		$resultStatement = $query->execute();
 		while ($data = $resultStatement->fetch()) {
-			$comment = new Comment($this->normalizeDatabaseData($data));
+			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$comments[] = $comment;
 		}
@@ -455,7 +466,7 @@ class Manager implements ICommentsManager {
 
 		$resultStatement = $query->execute();
 		while ($data = $resultStatement->fetch()) {
-			$comment = new Comment($this->normalizeDatabaseData($data));
+			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$comments[] = $comment;
 		}
@@ -485,7 +496,7 @@ class Manager implements ICommentsManager {
 		$result->closeCursor();
 
 		if ($row) {
-			$comment = new Comment($this->normalizeDatabaseData($row));
+			$comment = $this->getCommentFromData($row);
 			$this->cache($comment);
 			return $comment;
 		}
@@ -532,7 +543,7 @@ class Manager implements ICommentsManager {
 		$comments = [];
 		$result = $query->execute();
 		while ($data = $result->fetch()) {
-			$comment = new Comment($this->normalizeDatabaseData($data));
+			$comment = $this->getCommentFromData($data);
 			$this->cache($comment);
 			$comments[] = $comment;
 		}
@@ -581,27 +592,44 @@ class Manager implements ICommentsManager {
 	 * @param int $folderId
 	 * @param IUser $user
 	 * @return array [$fileId => $unreadCount]
+	 *
+	 * @suppress SqlInjectionChecker
 	 */
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
 		$qb = $this->dbConn->getQueryBuilder();
+
 		$query = $qb->select('f.fileid')
 			->addSelect($qb->func()->count('c.id', 'num_ids'))
-			->from('comments', 'c')
-			->innerJoin('c', 'filecache', 'f', $qb->expr()->andX(
-				$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files')),
-				$qb->expr()->eq('f.fileid', $qb->expr()->castColumn('c.object_id', IQueryBuilder::PARAM_INT))
+			->from('filecache', 'f')
+			->leftJoin('f', 'comments', 'c', $qb->expr()->andX(
+				$qb->expr()->eq('f.fileid', $qb->expr()->castColumn('c.object_id', IQueryBuilder::PARAM_INT)),
+				$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files'))
 			))
 			->leftJoin('c', 'comments_read_markers', 'm', $qb->expr()->andX(
-				$qb->expr()->eq('m.object_type', $qb->createNamedParameter('files')),
-				$qb->expr()->eq('m.object_id', 'c.object_id'),
-				$qb->expr()->eq('m.user_id', $qb->createNamedParameter($user->getUID()))
+				$qb->expr()->eq('c.object_id', 'm.object_id'),
+				$qb->expr()->eq('m.object_type', $qb->createNamedParameter('files'))
 			))
-			->andWhere($qb->expr()->eq('f.parent', $qb->createNamedParameter($folderId)))
-			->andWhere($qb->expr()->orX(
-				$qb->expr()->gt('c.creation_timestamp', 'marker_datetime'),
-				$qb->expr()->isNull('marker_datetime')
-			))
-			->groupBy('f.fileid');
+			->where(
+				$qb->expr()->andX(
+					$qb->expr()->eq('f.parent', $qb->createNamedParameter($folderId)),
+					$qb->expr()->orX(
+						$qb->expr()->eq('c.object_type', $qb->createNamedParameter('files')),
+						$qb->expr()->isNull('c.object_type')
+					),
+					$qb->expr()->orX(
+						$qb->expr()->eq('m.object_type', $qb->createNamedParameter('files')),
+						$qb->expr()->isNull('m.object_type')
+					),
+					$qb->expr()->orX(
+						$qb->expr()->eq('m.user_id', $qb->createNamedParameter($user->getUID())),
+						$qb->expr()->isNull('m.user_id')
+					),
+					$qb->expr()->orX(
+						$qb->expr()->gt('c.creation_timestamp', 'm.marker_datetime'),
+						$qb->expr()->isNull('m.marker_datetime')
+					)
+				)
+			)->groupBy('f.fileid');
 
 		$resultStatement = $query->execute();
 

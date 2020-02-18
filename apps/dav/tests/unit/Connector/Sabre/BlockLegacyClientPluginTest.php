@@ -20,16 +20,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
+use OCP\IConfig;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
-use OCP\IConfig;
 
 /**
  * Class BlockLegacyClientPluginTest
@@ -42,7 +42,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 	/** @var BlockLegacyClientPlugin */
 	private $blockLegacyClientVersionPlugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->getMockBuilder(IConfig::class)
@@ -67,10 +67,11 @@ class BlockLegacyClientPluginTest extends TestCase {
 	/**
 	 * @dataProvider oldDesktopClientProvider
 	 * @param string $userAgent
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 * @expectedExceptionMessage Unsupported client version.
 	 */
 	public function testBeforeHandlerException($userAgent) {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectExceptionMessage('Unsupported client version.');
+
 		/** @var \Sabre\HTTP\RequestInterface | PHPUnit_Framework_MockObject_MockObject $request */
 		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
 		$request

@@ -19,14 +19,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files\Tests\Service;
 
 use OC\Tags;
 use OCA\Files\Service\TagService;
 use OCP\Activity\IManager;
+use OCP\IUser;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -68,15 +70,14 @@ class TagServiceTest extends \Test\TestCase {
 	 */
 	private $tagger;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->user = static::getUniqueID('user');
 		$this->activityManager = $this->createMock(IManager::class);
 		\OC::$server->getUserManager()->createUser($this->user, 'test');
 		\OC_User::setUserId($this->user);
 		\OC_Util::setupFS($this->user);
-		/** @var \OCP\IUser */
-		$user = new \OC\User\User($this->user, null);
+		$user = $this->createMock(IUser::class);
 		/**
 		 * @var \OCP\IUserSession
 		 */
@@ -111,7 +112,7 @@ class TagServiceTest extends \Test\TestCase {
 
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		\OC_User::setUserId('');
 		$user = \OC::$server->getUserManager()->get($this->user);
 		if ($user !== null) { $user->delete(); }
@@ -180,4 +181,3 @@ class TagServiceTest extends \Test\TestCase {
 		$subdir->delete();
 	}
 }
-

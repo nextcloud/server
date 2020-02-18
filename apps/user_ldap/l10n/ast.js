@@ -146,7 +146,6 @@ OC.L10N.register(
     "Quota Default" : "Cuota por defeutu",
     "Email Field" : "E-mail",
     "User Home Folder Naming Rule" : "Regla pa la carpeta Home d'usuariu",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Baleru pal nome d'usuariu (por defeutu). N'otru casu, especifica un atributu LDAP/AD.",
     "Internal Username" : "Nome d'usuariu internu",
     "Internal Username Attribute:" : "Atributu Nome d'usuariu Internu:",
     "Override UUID detection" : "Sobrescribir la deteición UUID",
@@ -156,10 +155,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Asignación del Nome d'usuariu LDAP",
     "Clear Username-LDAP User Mapping" : "Llimpiar l'asignación de los Nomes d'usuariu de los usuarios LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Llimpiar l'asignación de los Nomes de grupu de los grupos de LDAP",
-    " entries available within the provided Base DN" : "entraes disponibles dientro la Base DN proporcionada",
-    "1. Server" : "1. Sirvidor",
-    "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Avisu:</b> Les apps user_ldap y user_webdavauth son incompatibles. Pues esperimentar un comportamientu inesperáu. Entruga al to alministrador de sistemes pa desactivar una d'elles.",
-    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Los nomes d'usuariu usense p'atroxar (meta) datos. En cuenta d'identificar y reconocer usuarios, cada usuariu de LDAP tendrá'l so nome d'usuariu internu polo que rique un mapéu dende'l so nome d'usuariu al usuariu de LDAP. El nome d'usuariu creáu mapeáse al UUID del usuariu de LDAP. Amás cacheamos tamién la DN p'amenorgar la intecractividá de LDAP, pero ensin usala pa la identificación. Si la DN camuda, atoparanse los cambios. L'usu internu del nome d'usuariu ye perdayures. "
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Baleru pal nome d'usuariu (por defeutu). N'otru casu, especifica un atributu LDAP/AD."
 },
 "nplurals=2; plural=(n != 1);");

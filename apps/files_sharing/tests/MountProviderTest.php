@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -20,7 +21,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -33,8 +34,8 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Share\IShare;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 
 /**
  * @group DB
@@ -59,7 +60,7 @@ class MountProviderTest extends \Test\TestCase {
 	/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
@@ -381,4 +382,3 @@ class MountProviderTest extends \Test\TestCase {
 		}
 	}
 }
-

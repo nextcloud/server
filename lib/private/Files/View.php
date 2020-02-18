@@ -9,19 +9,19 @@
  * @author Jesús Macias <jmacias@solidgear.es>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author karakayasemi <karakayasemi@itu.edu.tr>
  * @author Klaas Freitag <freitag@owncloud.com>
+ * @author korelstar <korelstar@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Luke Policinski <lpolicinski@gmail.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Petr Svoboda <weits666@gmail.com>
  * @author Piotr Filiciak <piotr@filiciak.pl>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sam Tuke <mail@samtuke.com>
- * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
@@ -38,10 +38,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 
 namespace OC\Files;
 
@@ -49,6 +48,7 @@ use Icewind\Streams\CallbackWrapper;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\User\User;
+use OCA\Files_Sharing\SharedMount;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\EmptyFileNameException;
@@ -59,6 +59,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
+use OCP\Files\Storage\IStorage;
 use OCP\ILogger;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
@@ -564,7 +565,12 @@ class View {
 			$hooks[] = 'create';
 			$hooks[] = 'write';
 		}
-		$result = $this->basicOperation('touch', $path, $hooks, $mtime);
+		try {
+			$result = $this->basicOperation('touch', $path, $hooks, $mtime);
+		} catch (\Exception $e) {
+			$this->logger->logException($e, ['level' => ILogger::INFO, 'message' => 'Error while setting modified time']);
+			$result = false;
+		}
 		if (!$result) {
 			// If create file fails because of permissions on external storage like SMB folders,
 			// check file exists and return false if not.
@@ -583,6 +589,7 @@ class View {
 	/**
 	 * @param string $path
 	 * @return mixed
+	 * @throws LockedException
 	 */
 	public function file_get_contents($path) {
 		return $this->basicOperation('file_get_contents', $path, array('read'));
@@ -634,7 +641,7 @@ class View {
 	 * @param string $path
 	 * @param string|resource $data
 	 * @return bool|mixed
-	 * @throws \Exception
+	 * @throws LockedException
 	 */
 	public function file_put_contents($path, $data) {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
@@ -733,6 +740,7 @@ class View {
 	 * @param string $path2 target path
 	 *
 	 * @return bool|mixed
+	 * @throws LockedException
 	 */
 	public function rename($path1, $path2) {
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
@@ -786,7 +794,8 @@ class View {
 
 						if ($internalPath1 === '') {
 							if ($mount1 instanceof MoveableMount) {
-								if ($this->isTargetAllowed($absolutePath2)) {
+								$sourceParentMount = $this->getMount(dirname($path1));
+								if ($sourceParentMount === $mount2 && $this->targetIsNotShared($storage2, $internalPath2)) {
 									/**
 									 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount1
 									 */
@@ -955,6 +964,7 @@ class View {
 	 * @param string $path
 	 * @param string $mode 'r' or 'w'
 	 * @return resource
+	 * @throws LockedException
 	 */
 	public function fopen($path, $mode) {
 		$mode = str_replace('b', '', $mode); // the binary flag is a windows only feature which we do not support
@@ -1110,7 +1120,7 @@ class View {
 	 * @param array $hooks (optional)
 	 * @param mixed $extraParam (optional)
 	 * @return mixed
-	 * @throws \Exception
+	 * @throws LockedException
 	 *
 	 * This method takes requests for basic filesystem functions (e.g. reading & writing
 	 * files), processes hooks and proxies, sanitises paths, and finally passes them on to
@@ -1137,7 +1147,13 @@ class View {
 			list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($run and $storage) {
 				if (in_array('write', $hooks) || in_array('delete', $hooks)) {
-					$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
+					try {
+						$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
+					} catch (LockedException $e) {
+						// release the shared lock we acquired before quiting
+						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
+						throw $e;
+					}
 				}
 				try {
 					if (!is_null($extraParam)) {
@@ -1157,7 +1173,7 @@ class View {
 				if ($result && in_array('delete', $hooks) and $result) {
 					$this->removeUpdate($storage, $internalPath);
 				}
-				if ($result && in_array('write', $hooks) and $operation !== 'fopen') {
+				if ($result && in_array('write', $hooks,  true) && $operation !== 'fopen' && $operation !== 'touch') {
 					$this->writeUpdate($storage, $internalPath);
 				}
 				if ($result && in_array('touch', $hooks)) {
@@ -1293,7 +1309,7 @@ class View {
 		if ($owner instanceof IUser) {
 			return $owner;
 		} else {
-			return new User($ownerId, null);
+			return new User($ownerId, null, \OC::$server->getEventDispatcher());
 		}
 	}
 
@@ -1368,15 +1384,18 @@ class View {
 			$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
 
 			if (!$data instanceof ICacheEntry) {
-				\OC::$server->getLogger()->debug('No cache entry found for ' . $path . ' (storage: ' . $storage->getId() . ', internalPath: ' . $internalPath . ')');
 				return false;
 			}
 
 			if ($mount instanceof MoveableMount && $internalPath === '') {
 				$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 			}
-
-			$owner = $this->getUserObjectForOwner($storage->getOwner($internalPath));
+			$ownerId = $storage->getOwner($internalPath);
+			$owner = null;
+			if ($ownerId !== null && $ownerId !== false) {
+				// ownerId might be null if files are accessed with an access token without file system access
+				$owner = $this->getUserObjectForOwner($ownerId);
+			}
 			$info = new FileInfo($path, $storage, $internalPath, $data, $mount, $owner);
 
 			if ($data and isset($data['fileid'])) {
@@ -1707,6 +1726,13 @@ class View {
 		// reverse the array so we start with the storage this view is in
 		// which is the most likely to contain the file we're looking for
 		$mounts = array_reverse($mounts);
+
+		// put non shared mounts in front of the shared mount
+		// this prevent unneeded recursion into shares
+		usort($mounts, function(IMountPoint $a, IMountPoint $b) {
+			return $a instanceof SharedMount && (!$b instanceof SharedMount) ? 1 : -1;
+		});
+
 		foreach ($mounts as $mount) {
 			/**
 			 * @var \OC\Files\Mount\MountPoint $mount
@@ -1744,18 +1770,11 @@ class View {
 	 * It is not allowed to move a mount point into a different mount point or
 	 * into an already shared folder
 	 *
-	 * @param string $target path
+	 * @param IStorage $targetStorage
+	 * @param string $targetInternalPath
 	 * @return boolean
 	 */
-	private function isTargetAllowed($target) {
-
-		list($targetStorage, $targetInternalPath) = \OC\Files\Filesystem::resolvePath($target);
-		if (!$targetStorage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
-			\OCP\Util::writeLog('files',
-				'It is not allowed to move one mount point into another one',
-				ILogger::DEBUG);
-			return false;
-		}
+	private function targetIsNotShared(IStorage $targetStorage, string $targetInternalPath) {
 
 		// note: cannot use the view because the target is already locked
 		$fileId = (int)$targetStorage->getCache()->getId($targetInternalPath);
@@ -1903,7 +1922,7 @@ class View {
 	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
 	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
-	 * @throws \OCP\Lock\LockedException if the path is already locked
+	 * @throws LockedException if the path is already locked
 	 */
 	private function lockPath($path, $type, $lockMountPoint = false) {
 		$absolutePath = $this->getAbsolutePath($path);
@@ -1916,16 +1935,16 @@ class View {
 		if ($mount) {
 			try {
 				$storage = $mount->getStorage();
-				if ($storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				if ($storage && $storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
 					$storage->acquireLock(
 						$mount->getInternalPath($absolutePath),
 						$type,
 						$this->lockingProvider
 					);
 				}
-			} catch (\OCP\Lock\LockedException $e) {
+			} catch (LockedException $e) {
 				// rethrow with the a human-readable path
-				throw new \OCP\Lock\LockedException(
+				throw new LockedException(
 					$this->getPathRelativeToFiles($absolutePath),
 					$e
 				);
@@ -1943,7 +1962,7 @@ class View {
 	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
 	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
-	 * @throws \OCP\Lock\LockedException if the path is already locked
+	 * @throws LockedException if the path is already locked
 	 */
 	public function changeLock($path, $type, $lockMountPoint = false) {
 		$path = Filesystem::normalizePath($path);
@@ -1957,22 +1976,22 @@ class View {
 		if ($mount) {
 			try {
 				$storage = $mount->getStorage();
-				if ($storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				if ($storage && $storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
 					$storage->changeLock(
 						$mount->getInternalPath($absolutePath),
 						$type,
 						$this->lockingProvider
 					);
 				}
-			} catch (\OCP\Lock\LockedException $e) {
+			} catch (LockedException $e) {
 				try {
 					// rethrow with the a human-readable path
-					throw new \OCP\Lock\LockedException(
+					throw new LockedException(
 						$this->getPathRelativeToFiles($absolutePath),
 						$e
 					);
 				} catch (\InvalidArgumentException $e) {
-					throw new \OCP\Lock\LockedException(
+					throw new LockedException(
 						$absolutePath,
 						$e
 					);
@@ -1991,6 +2010,7 @@ class View {
 	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
 	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
+	 * @throws LockedException
 	 */
 	private function unlockPath($path, $type, $lockMountPoint = false) {
 		$absolutePath = $this->getAbsolutePath($path);
@@ -2022,6 +2042,7 @@ class View {
 	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
 	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
+	 * @throws LockedException
 	 */
 	public function lockFile($path, $type, $lockMountPoint = false) {
 		$absolutePath = $this->getAbsolutePath($path);
@@ -2048,6 +2069,7 @@ class View {
 	 * @param bool $lockMountPoint true to lock the mount point, false to lock the attached mount/storage
 	 *
 	 * @return bool False if the path is excluded from locking, true otherwise
+	 * @throws LockedException
 	 */
 	public function unlockFile($path, $type, $lockMountPoint = false) {
 		$absolutePath = $this->getAbsolutePath($path);

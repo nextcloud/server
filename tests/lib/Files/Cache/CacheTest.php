@@ -328,81 +328,11 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(2, count($this->cache->searchByMime('foo/file')));
 	}
 
-	function testSearchByTag() {
-		$userId = $this->getUniqueId('user');
-		\OC::$server->getUserManager()->createUser($userId, $userId);
-		$this->loginAsUser($userId);
-		$user = new \OC\User\User($userId, null);
-
-		$file1 = 'folder';
-		$file2 = 'folder/foobar';
-		$file3 = 'folder/foo';
-		$file4 = 'folder/foo2';
-		$file5 = 'folder/foo3';
-		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder');
-		$fileData = array();
-		$fileData['foobar'] = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
-		$fileData['foo'] = array('size' => 20, 'mtime' => 25, 'mimetype' => 'foo/file');
-		$fileData['foo2'] = array('size' => 25, 'mtime' => 28, 'mimetype' => 'foo/file');
-		$fileData['foo3'] = array('size' => 88, 'mtime' => 34, 'mimetype' => 'foo/file');
-
-		$id1 = $this->cache->put($file1, $data1);
-		$id2 = $this->cache->put($file2, $fileData['foobar']);
-		$id3 = $this->cache->put($file3, $fileData['foo']);
-		$id4 = $this->cache->put($file4, $fileData['foo2']);
-		$id5 = $this->cache->put($file5, $fileData['foo3']);
-
-		$tagManager = \OC::$server->getTagManager()->load('files', [], false, $userId);
-		$this->assertTrue($tagManager->tagAs($id1, 'tag1'));
-		$this->assertTrue($tagManager->tagAs($id1, 'tag2'));
-		$this->assertTrue($tagManager->tagAs($id2, 'tag2'));
-		$this->assertTrue($tagManager->tagAs($id3, 'tag1'));
-		$this->assertTrue($tagManager->tagAs($id4, 'tag2'));
-
-		// use tag name
-		$results = $this->cache->searchByTag('tag1', $userId);
-
-		$this->assertEquals(2, count($results));
-
-		usort($results, function ($value1, $value2) {
-			return $value1['name'] >= $value2['name'];
-		});
-
-		$this->assertEquals('folder', $results[0]['name']);
-		$this->assertEquals('foo', $results[1]['name']);
-
-		// use tag id
-		$tags = $tagManager->getTagsForUser($userId);
-		$this->assertNotEmpty($tags);
-		$tags = array_filter($tags, function ($tag) {
-			return $tag->getName() === 'tag2';
-		});
-		$results = $this->cache->searchByTag(current($tags)->getId(), $userId);
-		$this->assertEquals(3, count($results));
-
-		usort($results, function ($value1, $value2) {
-			return $value1['name'] >= $value2['name'];
-		});
-
-		$this->assertEquals('folder', $results[0]['name']);
-		$this->assertEquals('foo2', $results[1]['name']);
-		$this->assertEquals('foobar', $results[2]['name']);
-
-		$tagManager->delete('tag1');
-		$tagManager->delete('tag2');
-
-		$this->logout();
-		$user = \OC::$server->getUserManager()->get($userId);
-		if ($user !== null) {
-			$user->delete();
-		}
-	}
-
 	function testSearchQueryByTag() {
 		$userId = static::getUniqueID('user');
 		\OC::$server->getUserManager()->createUser($userId, $userId);
 		static::loginAsUser($userId);
-		$user = new \OC\User\User($userId, null);
+		$user = new \OC\User\User($userId, null, \OC::$server->getEventDispatcher());
 
 		$file1 = 'folder';
 		$file2 = 'folder/foobar';
@@ -553,6 +483,7 @@ class CacheTest extends \Test\TestCase {
 
 	function testNonExisting() {
 		$this->assertFalse($this->cache->get('foo.txt'));
+		$this->assertFalse($this->cache->get(-1));
 		$this->assertEquals(array(), $this->cache->getFolderContents('foo'));
 	}
 
@@ -776,7 +707,77 @@ class CacheTest extends \Test\TestCase {
 		}
 	}
 
-	protected function tearDown() {
+	public function testExtended() {
+		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
+		$this->cache->put("", $folderData);
+
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'creation_time' => 20];
+		$id1 = $this->cache->put("foo1", $data);
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'upload_time' => 30];
+		$this->cache->put("foo2", $data);
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain', 'metadata_etag' => 'foo'];
+		$this->cache->put("foo3", $data);
+		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'text/plain'];
+		$id4 = $this->cache->put("foo4", $data);
+
+		$entry = $this->cache->get($id1);
+		$this->assertEquals(20, $entry->getCreationTime());
+		$this->assertEquals(0, $entry->getUploadTime());
+		$this->assertEquals(null, $entry->getMetadataEtag());
+
+		$entries = $this->cache->getFolderContents("");
+		$this->assertCount(4, $entries);
+
+		$this->assertEquals("foo1", $entries[0]->getName());
+		$this->assertEquals("foo2", $entries[1]->getName());
+		$this->assertEquals("foo3", $entries[2]->getName());
+		$this->assertEquals("foo4", $entries[3]->getName());
+
+		$this->assertEquals(20, $entries[0]->getCreationTime());
+		$this->assertEquals(0, $entries[0]->getUploadTime());
+		$this->assertEquals(null, $entries[0]->getMetadataEtag());
+
+		$this->assertEquals(0, $entries[1]->getCreationTime());
+		$this->assertEquals(30, $entries[1]->getUploadTime());
+		$this->assertEquals(null, $entries[1]->getMetadataEtag());
+
+		$this->assertEquals(0, $entries[2]->getCreationTime());
+		$this->assertEquals(0, $entries[2]->getUploadTime());
+		$this->assertEquals('foo', $entries[2]->getMetadataEtag());
+
+		$this->assertEquals(0, $entries[3]->getCreationTime());
+		$this->assertEquals(0, $entries[3]->getUploadTime());
+		$this->assertEquals(null, $entries[3]->getMetadataEtag());
+
+		$this->cache->update($id1, ['upload_time' => 25]);
+
+		$entry = $this->cache->get($id1);
+		$this->assertEquals(20, $entry->getCreationTime());
+		$this->assertEquals(25, $entry->getUploadTime());
+		$this->assertEquals(null, $entry->getMetadataEtag());
+
+		$this->cache->put("sub", $folderData);
+
+		$this->cache->move("foo1", "sub/foo1");
+
+		$entries = $this->cache->getFolderContents("sub");
+		$this->assertCount(1, $entries);
+
+		$this->assertEquals(20, $entries[0]->getCreationTime());
+		$this->assertEquals(25, $entries[0]->getUploadTime());
+		$this->assertEquals(null, $entries[0]->getMetadataEtag());
+
+		$this->cache->update($id4, ['upload_time' => 25]);
+
+		$entry = $this->cache->get($id4);
+		$this->assertEquals(0, $entry->getCreationTime());
+		$this->assertEquals(25, $entry->getUploadTime());
+		$this->assertEquals(null, $entry->getMetadataEtag());
+
+		$this->cache->remove("sub");
+	}
+
+	protected function tearDown(): void {
 		if ($this->cache) {
 			$this->cache->clear();
 		}
@@ -784,7 +785,7 @@ class CacheTest extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->storage = new \OC\Files\Storage\Temporary(array());

@@ -4,6 +4,7 @@
  *
  * @author Bernhard Reiter <ockham@raz.or.at>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,13 +18,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OC\Tagging;
 
-use \OCP\AppFramework\Db\Entity;
+use OCP\AppFramework\Db\Entity;
 
 /**
  * Class to represent a tag.

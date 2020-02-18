@@ -20,18 +20,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\ConnectionFactory;
+use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\LDAP;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\Configuration;
 
 class SetConfig extends Command {
 
@@ -83,5 +85,8 @@ class SetConfig extends Command {
 		$configHolder = new Configuration($configID);
 		$configHolder->$key = $value;
 		$configHolder->saveConfiguration();
+
+		$connectionFactory = new ConnectionFactory(new LDAP());
+		$connectionFactory->get($configID)->clearCache();
 	}
 }

@@ -24,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -32,6 +32,7 @@ namespace OCA\Files_Sharing\External;
 
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use OC\Files\Storage\DAV;
 use OC\ForbiddenException;
 use OCA\Files_Sharing\ISharedStorage;
@@ -39,10 +40,11 @@ use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Federation\ICloudId;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IDisableEncryptionStorage;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 
-class Storage extends DAV implements ISharedStorage {
+class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	/** @var ICloudId */
 	private $cloudId;
 	/** @var string */
@@ -278,6 +280,8 @@ class Storage extends DAV implements ISharedStorage {
 		} catch (ConnectException $e) {
 			$returnValue = false;
 		} catch (ClientException $e) {
+			$returnValue = false;
+		} catch (RequestException $e) {
 			$returnValue = false;
 		}
 

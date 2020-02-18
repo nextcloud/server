@@ -21,7 +21,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -32,11 +32,11 @@ use OCA\DAV\SystemTag\SystemTagNode;
 use OCA\DAV\SystemTag\SystemTagsByIdCollection;
 use OCA\DAV\SystemTag\SystemTagsObjectMappingCollection;
 use OCP\IGroupManager;
+use OCP\IUser;
 use OCP\IUserSession;
+use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\TagAlreadyExistsException;
-use OCP\IUser;
-use OCP\SystemTag\ISystemTag;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -85,7 +85,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 	 */
 	private $plugin;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->tree = $this->getMockBuilder(Tree::class)
 			->disableOriginalConstructor()
@@ -234,10 +234,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->assertEquals($expectedProperties, $result[200]);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testGetPropertiesForbidden() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$systemTag = new SystemTag(1, 'Test', true, false);
 		$requestedProperties = [
 			self::ID_PROPERTYNAME,
@@ -331,10 +331,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->assertEquals(200, $result[self::USERVISIBLE_PROPERTYNAME]);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testUpdatePropertiesForbidden() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$systemTag = new SystemTag(1, 'Test', true, false);
 		$this->user->expects($this->any())
 			->method('getUID')
@@ -385,10 +385,11 @@ class SystemTagPluginTest extends \Test\TestCase {
 	}
 	/**
 	 * @dataProvider createTagInsufficientPermissionsProvider
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 * @expectedExceptionMessage Not sufficient permissions
 	 */
 	public function testCreateNotAssignableTagAsRegularUser($userVisible, $userAssignable, $groups) {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectExceptionMessage('Not sufficient permissions');
+
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
@@ -658,10 +659,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testCreateTagToUnknownNode() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$node = $this->getMockBuilder(SystemTagsObjectMappingCollection::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -692,9 +693,10 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider nodeClassProvider
-	 * @expectedException \Sabre\DAV\Exception\Conflict
 	 */
 	public function testCreateTagConflict($nodeClass) {
+		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
+
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');

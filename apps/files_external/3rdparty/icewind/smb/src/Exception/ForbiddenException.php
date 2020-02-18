@@ -7,4 +7,5 @@
 
 namespace Icewind\SMB\Exception;
 
-class ForbiddenException extends InvalidRequestException {}
+class ForbiddenException extends InvalidRequestException {
+}

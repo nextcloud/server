@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -20,7 +22,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -39,6 +41,9 @@ class AppFetcher extends Fetcher {
 
 	/** @var CompareVersion */
 	private $compareVersion;
+
+	/** @var bool */
+	private $ignoreMaxVersion;
 
 	/**
 	 * @param Factory $appDataFactory
@@ -63,8 +68,9 @@ class AppFetcher extends Fetcher {
 		);
 
 		$this->fileName = 'apps.json';
-		$this->setEndpoint();
+		$this->endpointName = 'apps.json';
 		$this->compareVersion = $compareVersion;
+		$this->ignoreMaxVersion = true;
 	}
 
 	/**
@@ -79,14 +85,17 @@ class AppFetcher extends Fetcher {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
 
+		$allowPreReleases = $this->getChannel() === 'beta' || $this->getChannel() === 'daily';
+		$allowNightly = $this->getChannel() === 'daily';
+
 		foreach($response['data'] as $dataKey => $app) {
 			$releases = [];
 
 			// Filter all compatible releases
 			foreach($app['releases'] as $release) {
-				// Exclude all nightly and pre-releases
-				if($release['isNightly'] === false
-					&& strpos($release['version'], '-') === false) {
+				// Exclude all nightly and pre-releases if required
+				if (($allowNightly || $release['isNightly'] === false)
+					&& ($allowPreReleases || strpos($release['version'], '-') === false)) {
 					// Exclude all versions not compatible with the current version
 					try {
 						$versionParser = new VersionParser();
@@ -97,13 +106,19 @@ class AppFetcher extends Fetcher {
 						$minFulfilled = $this->compareVersion->isCompatible($ncVersion, $min, '>=');
 						$maxFulfilled = $max !== '' &&
 							$this->compareVersion->isCompatible($ncVersion, $max, '<=');
-						if ($minFulfilled && $maxFulfilled) {
+						if ($minFulfilled && ($this->ignoreMaxVersion || $maxFulfilled)) {
 							$releases[] = $release;
 						}
 					} catch (\InvalidArgumentException $e) {
 						$this->logger->logException($e, ['app' => 'appstoreFetcher', 'level' => ILogger::WARN]);
 					}
 				}
+			}
+
+			if (empty($releases)) {
+				// Remove apps that don't have a matching release
+				$response['data'][$dataKey] = [];
+				continue;
 			}
 
 			// Get the highest version
@@ -113,43 +128,29 @@ class AppFetcher extends Fetcher {
 			}
 			usort($versions, 'version_compare');
 			$versions = array_reverse($versions);
-			$compatible = false;
 			if(isset($versions[0])) {
 				$highestVersion = $versions[0];
 				foreach ($releases as $release) {
 					if ((string)$release['version'] === (string)$highestVersion) {
-						$compatible = true;
 						$response['data'][$dataKey]['releases'] = [$release];
 						break;
 					}
 				}
 			}
-			if(!$compatible) {
-				unset($response['data'][$dataKey]);
-			}
 		}
 
-		$response['data'] = array_values($response['data']);
+		$response['data'] = array_values(array_filter($response['data']));
 		return $response;
-	}
-
-	private function setEndpoint() {
-		$versionArray = explode('.', $this->getVersion());
-		$this->endpointUrl = sprintf(
-			'https://apps.nextcloud.com/api/v1/platform/%d.%d.%d/apps.json',
-			$versionArray[0],
-			$versionArray[1],
-			$versionArray[2]
-		);
 	}
 
 	/**
 	 * @param string $version
 	 * @param string $fileName
+	 * @param bool $ignoreMaxVersion
 	 */
-	public function setVersion(string $version, string $fileName = 'apps.json') {
+	public function setVersion(string $version, string $fileName = 'apps.json', bool $ignoreMaxVersion = true) {
 		parent::setVersion($version);
 		$this->fileName = $fileName;
-		$this->setEndpoint();
+		$this->ignoreMaxVersion = $ignoreMaxVersion;
 	}
 }

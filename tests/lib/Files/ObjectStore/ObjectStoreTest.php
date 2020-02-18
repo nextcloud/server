@@ -94,4 +94,19 @@ abstract class ObjectStoreTest extends TestCase {
 			$this->assertEquals(1, 1);
 		}
 	}
+
+	public function testExists() {
+		$stream = $this->stringToStream('foobar');
+
+		$instance = $this->getInstance();
+		$this->assertFalse($instance->objectExists('2'));
+
+		$instance->writeObject('2', $stream);
+
+		$this->assertTrue($instance->objectExists('2'));
+
+		$instance->deleteObject('2');
+
+		$this->assertFalse($instance->objectExists('2'));
+	}
 }

@@ -4,8 +4,8 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roger Szabo <roger.szabo@web.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -24,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -32,6 +32,7 @@ namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Exceptions\AttributeNotSet;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\LogWrapper;
 use OCP\IAvatarManager;
@@ -175,6 +176,21 @@ class User {
 	}
 
 	/**
+	 * marks a user as deleted
+	 *
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function markUser() {
+		$curValue = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'isDeleted', '0');
+		if($curValue === '1') {
+			// the user is already marked, do not write to DB again
+			return;
+		}
+		$this->config->setUserValue($this->getUsername(), 'user_ldap', 'isDeleted', '1');
+		$this->config->setUserValue($this->getUsername(), 'user_ldap', 'foundDeleted', (string)time());
+	}
+
+	/**
 	 * processes results from LDAP for attributes as returned by getAttributesToRead()
 	 * @param array $ldapEntry the user entry as retrieved from LDAP
 	 */
@@ -202,7 +218,7 @@ class User {
 			$displayName2 = (string)$ldapEntry[$attr][0];
 		}
 		if ($displayName !== '') {
-			$this->composeAndStoreDisplayName($displayName);
+			$this->composeAndStoreDisplayName($displayName, $displayName2);
 			$this->access->cacheUserDisplayName(
 				$this->getUsername(),
 				$displayName,
@@ -243,6 +259,13 @@ class User {
 			$groups = $ldapEntry['memberof'];
 		}
 		$this->connection->writeToCache($cacheKey, $groups);
+
+		//external storage var
+		$attr = strtolower($this->connection->ldapExtStorageHomeAttribute);
+		if(isset($ldapEntry[$attr])) {
+			$this->updateExtStorageHome($ldapEntry[$attr][0]);
+		}
+		unset($attr);
 
 		//Avatar
 		/** @var Connection $connection */
@@ -428,7 +451,7 @@ class User {
 			if (!empty($oldName) && $user instanceof \OC\User\User) {
 				// if it was empty, it would be a new record, not a change emitting the trigger could
 				// potentially cause a UniqueConstraintViolationException, depending on some factors.
-				$user->triggerChange('displayName', $displayName);
+				$user->triggerChange('displayName', $displayName, $oldName);
 			}
 		}
 		return $displayName;
@@ -576,10 +599,26 @@ class User {
 			//not set, nothing left to do;
 			return false;
 		}
+
 		if(!$this->image->loadFromBase64(base64_encode($avatarImage))) {
 			return false;
 		}
-		return $this->setOwnCloudAvatar();
+
+		// use the checksum before modifications
+		$checksum = md5($this->image->data());
+
+		if($checksum === $this->config->getUserValue($this->uid, 'user_ldap', 'lastAvatarChecksum', '')) {
+			return true;
+		}
+
+		$isSet = $this->setOwnCloudAvatar();
+
+		if($isSet) {
+			// save checksum only after successful setting
+			$this->config->setUserValue($this->uid, 'user_ldap', 'lastAvatarChecksum', $checksum);
+		}
+
+		return $isSet;
 	}
 
 	/**
@@ -591,8 +630,10 @@ class User {
 			$this->log->log('avatar image data from LDAP invalid for '.$this->dn, ILogger::ERROR);
 			return false;
 		}
+
+
 		//make sure it is a square and not bigger than 128x128
-		$size = min(array($this->image->width(), $this->image->height(), 128));
+		$size = min([$this->image->width(), $this->image->height(), 128]);
 		if(!$this->image->centerCrop($size)) {
 			$this->log->log('croping image for avatar failed for '.$this->dn, ILogger::ERROR);
 			return false;
@@ -614,6 +655,47 @@ class User {
 			]);
 		}
 		return false;
+	}
+
+	/**
+	 * @throws AttributeNotSet
+	 * @throws \OC\ServerNotAvailableException
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function getExtStorageHome():string {
+		$value = $this->config->getUserValue($this->getUsername(), 'user_ldap', 'extStorageHome', '');
+		if ($value !== '') {
+			return $value;
+		}
+
+		$value = $this->updateExtStorageHome();
+		if ($value !== '') {
+			return $value;
+		}
+
+		throw new AttributeNotSet(sprintf(
+			'external home storage attribute yield no value for %s', $this->getUsername()
+		));
+	}
+
+	/**
+	 * @throws \OCP\PreConditionNotMetException
+	 * @throws \OC\ServerNotAvailableException
+	 */
+	public function updateExtStorageHome(string $valueFromLDAP = null):string {
+		if($valueFromLDAP === null) {
+			$extHomeValues = $this->access->readAttribute($this->getDN(), $this->connection->ldapExtStorageHomeAttribute);
+		} else {
+			$extHomeValues = [$valueFromLDAP];
+		}
+		if ($extHomeValues && isset($extHomeValues[0])) {
+			$extHome = $extHomeValues[0];
+			$this->config->setUserValue($this->getUsername(), 'user_ldap', 'extStorageHome', $extHome);
+			return $extHome;
+		} else {
+			$this->config->deleteUserValue($this->getUsername(), 'user_ldap', 'extStorageHome');
+			return '';
+		}
 	}
 
 	/**

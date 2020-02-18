@@ -25,6 +25,12 @@
 	max-width: 100% !important;
 }
 
+#imgframe audio {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #imgframe .text-preview {
 	display: inline-block;
 	position: relative;
@@ -145,8 +151,9 @@ thead {
 }
 
 #public-upload #emptycontent li img {
-	vertical-align: text-bottom;
 	margin-right: 5px;
+	position: relative;
+	top: 2px;
 }
 
 #public-upload li span.icon-loading-small {
@@ -194,7 +201,7 @@ thead {
 
 // hide the download entry on the menu
 // on public share when NOT on mobile
-@media only screen and (min-width: 769px) {
+@media only screen and (min-width: $breakpoint-mobile + 1) {
 	#body-public {
 		.header-right {
 			#header-actions-menu {
@@ -207,7 +214,7 @@ thead {
 }
 
 // hide the primary on public share on mobile
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: $breakpoint-mobile) {
 	#body-public {
 		.header-right {
 			#header-primary-action {

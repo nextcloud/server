@@ -24,13 +24,16 @@ namespace Tests\Core\Command\Encryption;
 
 use OC\Core\Command\Encryption\SetDefaultModule;
 use OCP\Encryption\IManager;
+use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SetDefaultModuleTest extends TestCase {
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit_Framework_MockObject_MockObject|IManager */
 	protected $manager;
+	/** @var \PHPUnit_Framework_MockObject_MockObject|IConfig */
+	protected $config;
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	protected $consoleInput;
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -39,17 +42,19 @@ class SetDefaultModuleTest extends TestCase {
 	/** @var \Symfony\Component\Console\Command\Command */
 	protected $command;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
-		$manager = $this->manager = $this->getMockBuilder(IManager::class)
+		$this->manager = $this->getMockBuilder(IManager::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$this->config = $this->getMockBuilder(IConfig::class)
+			->getMock();
+
 		$this->consoleInput = $this->getMockBuilder(InputInterface::class)->getMock();
 		$this->consoleOutput = $this->getMockBuilder(OutputInterface::class)->getMock();
 
-		/** @var \OCP\Encryption\IManager $manager */
-		$this->command = new SetDefaultModule($manager);
+		$this->command = new SetDefaultModule($this->manager, $this->config);
 	}
 
 
@@ -79,6 +84,12 @@ class SetDefaultModuleTest extends TestCase {
 		$this->manager->expects($this->once())
 			->method('getDefaultEncryptionModuleId')
 			->willReturn($oldModule);
+
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('maintenance', false)
+			->willReturn(false);
+
 		if ($updateModule) {
 			$this->manager->expects($this->once())
 				->method('setDefaultEncryptionModule')
@@ -89,6 +100,41 @@ class SetDefaultModuleTest extends TestCase {
 		$this->consoleOutput->expects($this->once())
 			->method('writeln')
 			->with($this->stringContains($expectedString));
+
+		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
+	}
+
+	/**
+	 * @dataProvider dataSetDefaultModule
+	 *
+	 * @param string $oldModule
+	 * @param string $newModule
+	 * @param string $updateModule
+	 * @param bool $updateSuccess
+	 * @param string $expectedString
+	 */
+	public function testMaintenanceMode($oldModule, $newModule, $updateModule, $updateSuccess, $expectedString) {
+		$this->consoleInput->expects($this->never())
+			->method('getArgument')
+			->with('module')
+			->willReturn($newModule);
+
+		$this->manager->expects($this->never())
+			->method('getDefaultEncryptionModuleId')
+			->willReturn($oldModule);
+
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('maintenance', false)
+			->willReturn(true);
+
+		$this->consoleOutput->expects($this->at(0))
+			->method('writeln')
+			->with($this->stringContains('Maintenance mode must be disabled when setting default module,'));
+
+		$this->consoleOutput->expects($this->at(1))
+			->method('writeln')
+			->with($this->stringContains('in order to load the relevant encryption modules correctly.'));
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

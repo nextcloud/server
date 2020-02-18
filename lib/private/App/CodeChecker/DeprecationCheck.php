@@ -17,7 +17,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -38,6 +38,7 @@ class DeprecationCheck extends AbstractCheck {
 		return [
 			'OC_JSON' => '8.2.0',
 
+			'OCP\API' => '9.1.0',
 			'OCP\Contacts' => '8.1.0',
 			'OCP\DB' => '8.1.0',
 			'OCP\JSON' => '8.1.0',
@@ -55,6 +56,15 @@ class DeprecationCheck extends AbstractCheck {
 	 */
 	protected function getLocalConstants() {
 		return [
+			'OCP\API::GUEST_AUTH' => '9.1.0',
+			'OCP\API::USER_AUTH' => '9.1.0',
+			'OCP\API::SUBADMIN_AUTH' => '9.1.0',
+			'OCP\API::ADMIN_AUTH' => '9.1.0',
+			'OCP\API::RESPOND_UNAUTHORISED' => '9.1.0',
+			'OCP\API::RESPOND_SERVER_ERROR' => '9.1.0',
+			'OCP\API::RESPOND_NOT_FOUND' => '9.1.0',
+			'OCP\API::RESPOND_UNKNOWN_ERROR' => '9.1.0',
+
 			'OC_API::GUEST_AUTH' => '8.2.0',
 			'OC_API::USER_AUTH' => '8.2.0',
 			'OC_API::SUBADMIN_AUTH' => '8.2.0',
@@ -109,7 +119,6 @@ class DeprecationCheck extends AbstractCheck {
 			'OCP\App::getAppInfo' => '14.0.0',
 			'OC_App::getAppVersion' => '14.0.0',
 			'OCP\App::getAppVersion' => '14.0.0',
-			'OCP\App::registerPersonal' => '14.0.0',
 
 			'OCP\AppFramework\Controller::params' => '7.0.0',
 			'OCP\AppFramework\Controller::getParams' => '7.0.0',

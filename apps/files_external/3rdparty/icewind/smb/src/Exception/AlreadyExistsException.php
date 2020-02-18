@@ -7,4 +7,5 @@
 
 namespace Icewind\SMB\Exception;
 
-class AlreadyExistsException extends InvalidRequestException {}
+class AlreadyExistsException extends InvalidRequestException {
+}

@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -19,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -254,6 +255,37 @@ class Definitions {
 					'description' => 'The full URL to the file',
 					'example' => 'http://localhost/index.php/f/42',
 				],
+				'mimetype' => [
+					'since' => '16.0.0',
+					'required' => false,
+					'description' => 'The mimetype of the file/folder to allow clients to show a placeholder',
+					'example' => 'text/plain',
+				],
+				'preview-available' => [
+					'since' => '16.0.0',
+					'required' => false,
+					'description' => 'Whether or not a preview is available. If `no` the mimetype icon should be used',
+					'example' => 'yes',
+				],
+			],
+		],
+		'guest' => [
+			'author' => 'Nextcloud',
+			'app' => 'spreed',
+			'since' => '17.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '17.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the guest user',
+					'example' => '42',
+				],
+				'name' => [
+					'since' => '17.0.0',
+					'required' => true,
+					'description' => 'Potential displayname of the guest user',
+					'example' => 'Foobar Cats',
+				],
 			],
 		],
 		'highlight' => [
@@ -371,6 +403,43 @@ class Definitions {
 					'required' => true,
 					'description' => 'If the user can assign the systemtag',
 					'example' => '0',
+				],
+			],
+		],
+		'talk-attachment' => [
+			'author' => 'Nextcloud',
+			'app' => 'talk',
+			'since' => '18.0.0',
+			'parameters' => [
+				'id' => [
+					'since' => '18.0.0',
+					'required' => true,
+					'description' => 'The id used to identify the attachment on the instance',
+					'example' => '12345',
+				],
+				'name' => [
+					'since' => '18.0.0',
+					'required' => true,
+					'description' => 'The name of the attachment',
+					'example' => 'John Doe',
+				],
+				'conversation' => [
+					'since' => '18.0.0',
+					'required' => true,
+					'description' => 'The token of the conversation',
+					'example' => 'a1b2c3d4',
+				],
+				'mimetype' => [
+					'since' => '18.0.0',
+					'required' => false,
+					'description' => 'The mimetype of the file/folder to allow clients to show a placeholder',
+					'example' => 'text/plain',
+				],
+				'preview-available' => [
+					'since' => '18.0.0',
+					'required' => false,
+					'description' => 'Whether or not a preview is available. If `no` the mimetype icon should be used',
+					'example' => 'yes',
 				],
 			],
 		],

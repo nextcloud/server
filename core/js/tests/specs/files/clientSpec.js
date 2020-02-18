@@ -227,7 +227,7 @@ describe('OC.Files.Client tests', function() {
 			expect(requestStub.calledOnce).toEqual(true);
 			expect(requestStub.lastCall.args[0]).toEqual('PROPFIND');
 			expect(requestStub.lastCall.args[1]).toEqual(baseUrl + 'path/to%20space/%E6%96%87%E4%BB%B6%E5%A4%B9');
-			expect(requestStub.lastCall.args[2].Depth).toEqual(1);
+			expect(requestStub.lastCall.args[2].Depth).toEqual('1');
 
 			var props = getRequestedProperties(requestStub.lastCall.args[3]);
 			expect(props).toContain('{DAV:}getlastmodified');
@@ -519,7 +519,7 @@ describe('OC.Files.Client tests', function() {
 			expect(requestStub.calledOnce).toEqual(true);
 			expect(requestStub.lastCall.args[0]).toEqual('PROPFIND');
 			expect(requestStub.lastCall.args[1]).toEqual(baseUrl + 'path/to%20space/%E6%96%87%E4%BB%B6%E5%A4%B9');
-			expect(requestStub.lastCall.args[2].Depth).toEqual(0);
+			expect(requestStub.lastCall.args[2].Depth).toEqual('0');
 
 			var props = getRequestedProperties(requestStub.lastCall.args[3]);
 			expect(props).toContain('{DAV:}getlastmodified');

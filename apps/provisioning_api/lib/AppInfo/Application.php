@@ -5,6 +5,7 @@
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author zulan <git@zulan.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,15 +20,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Provisioning_API\AppInfo;
 
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
-use OC\Settings\Mailer\NewUserMailHelper;
 use OCA\Provisioning_API\Middleware\ProvisioningApiMiddleware;
+use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\Defaults;

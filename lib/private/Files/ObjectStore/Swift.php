@@ -5,7 +5,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
- * @author William Pain <pain.william@gmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -19,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -27,8 +27,10 @@ namespace OC\Files\ObjectStore;
 
 use function GuzzleHttp\Psr7\stream_for;
 use Icewind\Streams\RetryWrapper;
+use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
+use OpenStack\Common\Error\BadResponseError;
 
 class Swift implements IObjectStore {
 	/**
@@ -74,9 +76,13 @@ class Swift implements IObjectStore {
 	 * @throws \Exception from openstack lib when something goes wrong
 	 */
 	public function writeObject($urn, $stream) {
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('swiftwrite');
+		file_put_contents($tmpFile, $stream);
+		$handle = fopen($tmpFile, 'rb');
+
 		$this->getContainer()->createObject([
 			'name' => $urn,
-			'stream' => stream_for($stream)
+			'stream' => stream_for($handle)
 		]);
 	}
 
@@ -84,13 +90,22 @@ class Swift implements IObjectStore {
 	 * @param string $urn the unified resource name used to identify the object
 	 * @return resource stream with the read data
 	 * @throws \Exception from openstack lib when something goes wrong
+	 * @throws NotFoundException if file does not exist
 	 */
 	public function readObject($urn) {
-		$object = $this->getContainer()->getObject($urn);
+		try {
+			$object = $this->getContainer()->getObject($urn);
 
-		// we need to keep a reference to objectContent or
-		// the stream will be closed before we can do anything with it
-		$objectContent = $object->download();
+			// we need to keep a reference to objectContent or
+			// the stream will be closed before we can do anything with it
+			$objectContent = $object->download();
+		} catch (BadResponseError $e) {
+			if ($e->getResponse()->getStatusCode() === 404) {
+				throw new NotFoundException("object $urn not found in object store");
+			} else {
+				throw $e;
+			}
+		}
 		$objectContent->rewind();
 
 		$stream = $objectContent->detach();
@@ -117,4 +132,7 @@ class Swift implements IObjectStore {
 		$this->getContainer()->delete();
 	}
 
+	public function objectExists($urn) {
+		return $this->getContainer()->objectExists($urn);
+	}
 }

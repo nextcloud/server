@@ -50,14 +50,18 @@
 		 * Check whether the .well-known URLs works.
 		 *
 		 * @param url the URL to test
-		 * @param placeholderUrl the placeholder URL - can be found at oc_defaults.docPlaceholderUrl
+		 * @param placeholderUrl the placeholder URL - can be found at OC.theme.docPlaceholderUrl
 		 * @param {boolean} runCheck if this is set to false the check is skipped and no error is returned
-		 * @param {int} expectedStatus the expected HTTP status to be returned by the URL, 207 by default
+		 * @param {int|int[]} expectedStatus the expected HTTP status to be returned by the URL, 207 by default
 		 * @return $.Deferred object resolved with an array of error messages
 		 */
 		checkWellKnownUrl: function(url, placeholderUrl, runCheck, expectedStatus) {
 			if (expectedStatus === undefined) {
-				expectedStatus = 207;
+				expectedStatus = [207];
+			}
+
+			if (!Array.isArray(expectedStatus)) {
+				expectedStatus = [expectedStatus];
 			}
 
 			var deferred = $.Deferred();
@@ -68,7 +72,7 @@
 			}
 			var afterCall = function(xhr) {
 				var messages = [];
-				if (xhr.status !== expectedStatus) {
+				if (expectedStatus.indexOf(xhr.status) === -1) {
 					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-setup-well-known-URL');
 					messages.push({
 						msg: t('core', 'Your web server is not properly set up to resolve "{url}". Further information can be found in the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
@@ -80,6 +84,77 @@
 
 			$.ajax({
 				type: 'PROPFIND',
+				url: url,
+				complete: afterCall,
+				allowAuthErrors: true
+			});
+			return deferred.promise();
+		},
+
+
+		/**
+		 * Check whether the .well-known URLs works.
+		 *
+		 * @param url the URL to test
+		 * @param placeholderUrl the placeholder URL - can be found at OC.theme.docPlaceholderUrl
+		 * @param {boolean} runCheck if this is set to false the check is skipped and no error is returned
+		 *
+		 * @return $.Deferred object resolved with an array of error messages
+		 */
+		checkProviderUrl: function(url, placeholderUrl, runCheck) {
+			var expectedStatus = [200];
+			var deferred = $.Deferred();
+
+			if(runCheck === false) {
+				deferred.resolve([]);
+				return deferred.promise();
+			}
+			var afterCall = function(xhr) {
+				var messages = [];
+				if (expectedStatus.indexOf(xhr.status) === -1) {
+					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-nginx');
+					messages.push({
+						msg: t('core', 'Your web server is not properly set up to resolve "{url}". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in ".htaccess" for Apache or the provided one in the documentation for Nginx at it\'s <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation page</a>. On Nginx those are typically the lines starting with "location ~" that need an update.', { docLink: docUrl, url: url }),
+						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+					});
+				}
+				deferred.resolve(messages);
+			};
+
+			$.ajax({
+				type: 'GET',
+				url: url,
+				complete: afterCall,
+				allowAuthErrors: true
+			});
+			return deferred.promise();
+		},
+
+
+		/**
+		 * Check whether the WOFF2 URLs works.
+		 *
+		 * @param url the URL to test
+		 * @param placeholderUrl the placeholder URL - can be found at OC.theme.docPlaceholderUrl
+		 * @return $.Deferred object resolved with an array of error messages
+		 */
+		checkWOFF2Loading: function(url, placeholderUrl) {
+			var deferred = $.Deferred();
+
+			var afterCall = function(xhr) {
+				var messages = [];
+				if (xhr.status !== 200) {
+					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-nginx');
+					messages.push({
+						msg: t('core', 'Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
+						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+					});
+				}
+				deferred.resolve(messages);
+			};
+
+			$.ajax({
+				type: 'GET',
 				url: url,
 				complete: afterCall,
 				allowAuthErrors: true
@@ -104,7 +179,7 @@
 									'core',
 									'Please check the <a target="_blank" rel="noreferrer noopener" href="{docLink}">installation documentation ↗</a> for PHP configuration notes and the PHP configuration of your server, especially when using php-fpm.',
 									{
-										docLink: oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-fpm')
+										docLink: OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-php-fpm')
 									}
 								),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
@@ -128,21 +203,9 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
-					if (data.outdatedCaches.length > 0) {
-						data.outdatedCaches.forEach(function(element){
-							messages.push({
-								msg: t(
-									'core',
-									'{name} below version {version} is installed, for stability and performance reasons it is recommended to update to a newer {name} version.',
-									element
-								),
-								type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-							})
-						});
-					}
 					if(!data.hasWorkingFileLocking) {
 						messages.push({
-							msg: t('core', 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation ↗</a> for more information.', {docLink: oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking')}),
+							msg: t('core', 'Transactional file locking is disabled, this might lead to issues with race conditions. Enable "filelocking.enabled" in config.php to avoid these problems. See the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation ↗</a> for more information.', {docLink: OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-transactional-locking')}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
@@ -176,7 +239,7 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
-					if (!data.serverHasInternetConnection) {
+					if (data.serverHasInternetConnectionProblems) {
 						messages.push({
 							msg: t('core', 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the Internet to enjoy all features.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
@@ -257,7 +320,7 @@
 								{
 									docLink: data.phpOpcacheDocumentation,
 								}
-							) + "<pre><code>opcache.enable=1\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
+							) + "<pre><code>opcache.enable=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
@@ -293,6 +356,35 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
+					if (data.recommendedPHPModules.length > 0) {
+						var listOfRecommendedPHPModules = "";
+						data.recommendedPHPModules.forEach(function(element){
+							listOfRecommendedPHPModules += "<li>" + element + "</li>";
+						});
+						messages.push({
+							msg: t(
+								'core',
+								'This instance is missing some recommended PHP modules. For improved performance and better compatibility it is highly recommended to install them.'
+							) + "<ul><code>" + listOfRecommendedPHPModules + "</code></ul>",
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						})
+					}
+					if (data.pendingBigIntConversionColumns.length > 0) {
+						var listOfPendingBigIntConversionColumns = "";
+						data.pendingBigIntConversionColumns.forEach(function(element){
+							listOfPendingBigIntConversionColumns += "<li>" + element + "</li>";
+						});
+						messages.push({
+							msg: t(
+								'core',
+								'Some columns in the database are missing a conversion to big int. Due to the fact that changing column types on big tables could take some time they were not changed automatically. By running \'occ db:convert-filecache-bigint\' those pending changes could be applied manually. This operation needs to be made while the instance is offline. For further details read <a target="_blank" rel="noreferrer noopener" href="{docLink}">the documentation page about this</a>.',
+								{
+									docLink: OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-bigint-conversion'),
+								}
+							) + "<ul>" + listOfPendingBigIntConversionColumns + "</ul>",
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						})
+					}
 					if (data.isSqliteUsed) {
 						messages.push({
 							msg: t(
@@ -309,7 +401,7 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
-					if (data.isPhpMailerUsed) {
+					if (data.isPHPMailerUsed) {
 						messages.push({
 							msg: t(
 								'core',
@@ -345,6 +437,27 @@
 									+ '<ul>' + appDirsWithDifferentOwner + '</ul>',
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
+					}
+					if (data.isMysqlUsedWithoutUTF8MB4) {
+						messages.push({
+							msg: t(
+								'core',
+								'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read <a target="_blank" rel="noreferrer noopener" href="{docLink}">the documentation page about this</a>.',
+								{
+									docLink: OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-mysql-utf8mb4'),
+								}
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
+					}
+					if (!data.isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed) {
+						messages.push({
+							msg: t(
+								'core',
+								'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.'
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
 					}
 
 				} else {
@@ -499,7 +612,7 @@
 			var messages = [];
 
 			if (xhr.status === 200) {
-				var tipsUrl = oc_defaults.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-security');
+				var tipsUrl = OC.theme.docPlaceholderUrl.replace('PLACEHOLDER', 'admin-security');
 				if(OC.getProtocol() === 'https') {
 					// Extract the value of 'Strict-Transport-Security'
 					var transportSecurityValidity = xhr.getResponseHeader('Strict-Transport-Security');
@@ -521,7 +634,7 @@
 					}
 				} else {
 					messages.push({
-						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href="{docUrl}">security tips ↗</a>.', {docUrl:  tipsUrl}),
+						msg: t('core', 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the <a href="{docUrl}">security tips ↗</a>.', {docUrl:  tipsUrl}),
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					});
 				}

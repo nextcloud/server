@@ -1,6 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
+ *
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -27,15 +32,18 @@ use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 
 class VersionManager implements IVersionManager {
-	/** @var IVersionBackend[] */
+	/** @var (IVersionBackend[])[] */
 	private $backends = [];
 
 	public function registerBackend(string $storageType, IVersionBackend $backend) {
-		$this->backends[$storageType] = $backend;
+		if (!isset($this->backends[$storageType])) {
+			$this->backends[$storageType] = [];
+		}
+		$this->backends[$storageType][] = $backend;
 	}
 
 	/**
-	 * @return IVersionBackend[]
+	 * @return (IVersionBackend[])[]
 	 */
 	private function getBackends(): array {
 		return $this->backends;
@@ -49,20 +57,29 @@ class VersionManager implements IVersionManager {
 	public function getBackendForStorage(IStorage $storage): IVersionBackend {
 		$fullType = get_class($storage);
 		$backends = $this->getBackends();
-		$foundType = array_reduce(array_keys($backends), function ($type, $registeredType) use ($storage) {
+
+		$foundType = '';
+		$foundBackend = null;
+
+		foreach ($backends as $type => $backendsForType) {
 			if (
-				$storage->instanceOfStorage($registeredType) &&
-				($type === '' || is_subclass_of($registeredType, $type))
+				$storage->instanceOfStorage($type) &&
+				($foundType === '' || is_subclass_of($type, $foundType))
 			) {
-				return $registeredType;
-			} else {
-				return $type;
+				foreach ($backendsForType as $backend) {
+					/** @var IVersionBackend $backend */
+					if ($backend->useBackendForStorage($storage)) {
+						$foundBackend = $backend;
+						$foundType = $type;
+					}
+				}
 			}
-		}, '');
-		if ($foundType === '') {
+		}
+
+		if ($foundType === '' || $foundBackend === null) {
 			throw new BackendNotFoundException("Version backend for $fullType not found");
 		} else {
-			return $backends[$foundType];
+			return $foundBackend;
 		}
 	}
 
@@ -86,8 +103,12 @@ class VersionManager implements IVersionManager {
 		return $backend->read($version);
 	}
 
-	public function getVersionFile(IUser $user, FileInfo $sourceFile, int $revision): File {
+	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File {
 		$backend = $this->getBackendForStorage($sourceFile->getStorage());
 		return $backend->getVersionFile($user, $sourceFile, $revision);
+	}
+
+	public function useBackendForStorage(IStorage $storage): bool {
+		return false;
 	}
 }

@@ -8,7 +8,6 @@
 
 namespace Icewind\SMB\Wrapped;
 
-
 use Icewind\SMB\Change;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\RevisionMismatchException;

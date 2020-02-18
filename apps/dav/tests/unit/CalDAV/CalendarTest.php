@@ -20,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -43,7 +43,7 @@ class CalendarTest extends TestCase {
 	/** @var IConfig */
 	protected $config;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->l10n = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()->getMock();
@@ -73,10 +73,10 @@ class CalendarTest extends TestCase {
 		$c->delete();
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testDeleteFromGroup() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->never())->method('updateShares');
@@ -213,21 +213,44 @@ class CalendarTest extends TestCase {
 			'principal' => $hasOwnerSet ? 'user1' : 'user2',
 			'protected' => true
 		], [
-			'privilege' => '{DAV:}write',
-			'principal' => $hasOwnerSet ? 'user1' : 'user2',
-			'protected' => true
+			'privilege' => '{DAV:}read',
+			'principal' => ($hasOwnerSet ? 'user1' : 'user2') . '/calendar-proxy-write',
+			'protected' => true,
+		], [
+			'privilege' => '{DAV:}read',
+			'principal' => ($hasOwnerSet ? 'user1' : 'user2') . '/calendar-proxy-read',
+			'protected' => true,
 		]];
 		if ($uri === BirthdayService::BIRTHDAY_CALENDAR_URI) {
-			$expectedAcl = [[
-				'privilege' => '{DAV:}read',
-				'principal' => $hasOwnerSet ? 'user1' : 'user2',
-				'protected' => true
-			], [
+			$expectedAcl[] = [
 				'privilege' => '{DAV:}write-properties',
 				'principal' => $hasOwnerSet ? 'user1' : 'user2',
 				'protected' => true
-			]];
+			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}write-properties',
+				'principal' => ($hasOwnerSet ? 'user1' : 'user2') . '/calendar-proxy-write',
+				'protected' => true
+			];
+		} else {
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}write',
+				'principal' => $hasOwnerSet ? 'user1' : 'user2',
+				'protected' => true
+			];
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}write',
+				'principal' => ($hasOwnerSet ? 'user1' : 'user2') . '/calendar-proxy-write',
+				'protected' => true
+			];
 		}
+
+		$expectedAcl[] = [
+			'privilege' => '{DAV:}write-properties',
+			'principal' => ($hasOwnerSet ? 'user1' : 'user2') . '/calendar-proxy-read',
+			'protected' => true
+		];
+
 		if ($hasOwnerSet) {
 			$expectedAcl[] = [
 				'privilege' => '{DAV:}read',

@@ -1,15 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
-
 /**
- * FullTextSearch - Full text search framework for Nextcloud
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
+ * @copyright 2018
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,22 +21,20 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 
 namespace OCP\FullTextSearch;
 
 
 use OCP\FullTextSearch\Model\IIndex;
+use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\IIndexOptions;
-use OCP\FullTextSearch\Model\IndexDocument;
 use OCP\FullTextSearch\Model\IRunner;
 use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
-use OCP\FullTextSearch\Model\SearchTemplate;
-
+use OCP\FullTextSearch\Model\ISearchTemplate;
 
 /**
  * Interface IFullTextSearchProvider
@@ -115,16 +111,16 @@ interface IFullTextSearchProvider {
 
 
 	/**
-	 * Must returns a SearchTemplate that contains displayable items and
+	 * Must returns a ISearchTemplate that contains displayable items and
 	 * available options to users when searching.
 	 *
-	 * @see SearchTemplate
+	 * @see ISearchTemplate
 	 *
 	 * @since 15.0.0
 	 *
-	 * @return SearchTemplate
+	 * @return ISearchTemplate
 	 */
-	public function getSearchTemplate(): SearchTemplate;
+	public function getSearchTemplate(): ISearchTemplate;
 
 
 	/**
@@ -164,66 +160,86 @@ interface IFullTextSearchProvider {
 
 
 	/**
-	 * Returns all indexable document for a user as an array of IndexDocument.
+	 * Allow the provider to generate a list of chunk to split a huge list of
+	 * indexable documents
 	 *
-	 * There is no need to fill each IndexDocument with content; at this point,
+	 * During the indexing the generateIndexableDocuments method will be called
+	 * for each entry of the returned array.
+	 * If the returned array is empty, the generateIndexableDocuments() will be
+	 * called only once (per user).
+	 *
+	 * @since 16.0.0
+	 *
+	 * @param string $userId
+	 *
+	 * @return string[]
+	 */
+	public function generateChunks(string $userId): array;
+
+
+	/**
+	 * Returns all indexable document for a user as an array of IIndexDocument.
+	 *
+	 * There is no need to fill each IIndexDocument with content; at this point,
 	 * only fill the object with the minimum information to not waste memory while
 	 * still being able to identify the document it is referring to.
 	 *
 	 * FullTextSearch will call 2 other methods of this interface for each
-	 * IndexDocument of the array, prior to their indexing:
+	 * IIndexDocument of the array, prior to their indexing:
 	 *
 	 * - first, to compare the date of the last index,
-	 * - then, to fill each IndexDocument with complete data
+	 * - then, to fill each IIndexDocument with complete data
 	 *
-	 * @see IndexDocument
+	 * @see IIndexDocument
 	 *
 	 * @since 15.0.0
+	 *  -> 16.0.0: the parameter "$chunk" was added
 	 *
 	 * @param string $userId
+	 * @param string $chunk
 	 *
-	 * @return IndexDocument[]
+	 * @return IIndexDocument[]
 	 */
-	public function generateIndexableDocuments(string $userId): array;
+	public function generateIndexableDocuments(string $userId, string $chunk): array;
 
 
 	/**
 	 * Called to verify that the document is not already indexed and that the
 	 * old index is not up-to-date, using the IIndex from
-	 * IndexDocument->getIndex()
+	 * IIndexDocument->getIndex()
 	 *
-	 * Returning true will not queue the current IndexDocument to any further
+	 * Returning true will not queue the current IIndexDocument to any further
 	 * operation and will continue on the next element from the list returned by
 	 * generateIndexableDocuments().
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param IndexDocument $document
+	 * @param IIndexDocument $document
 	 *
 	 * @return bool
 	 */
-	public function isDocumentUpToDate(IndexDocument $document): bool;
+	public function isDocumentUpToDate(IIndexDocument $document): bool;
 
 
 	/**
-	 * Must fill IndexDocument with all information relative to the document,
+	 * Must fill IIndexDocument with all information relative to the document,
 	 * before its indexing by the Search Platform.
 	 *
 	 * Method is called for each element returned previously by
 	 * generateIndexableDocuments().
 	 *
-	 * @see IndexDocument
+	 * @see IIndexDocument
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param IndexDocument $document
+	 * @param IIndexDocument $document
 	 */
-	public function fillIndexDocument(IndexDocument $document);
+	public function fillIndexDocument(IIndexDocument $document);
 
 
 	/**
-	 * The Search Provider must create and return an IndexDocument
-	 * based on the IIndex and its status. The IndexDocument must contains all
+	 * The Search Provider must create and return an IIndexDocument
+	 * based on the IIndex and its status. The IIndexDocument must contains all
 	 * information as it will be send for indexing.
 	 *
 	 * Method is called during a cron or a ./occ fulltextsearch:live after a
@@ -233,9 +249,9 @@ interface IFullTextSearchProvider {
 	 *
 	 * @param IIndex $index
 	 *
-	 * @return IndexDocument
+	 * @return IIndexDocument
 	 */
-	public function updateDocument(IIndex $index): IndexDocument;
+	public function updateDocument(IIndex $index): IIndexDocument;
 
 
 	/**

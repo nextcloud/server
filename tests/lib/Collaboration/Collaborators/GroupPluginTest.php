@@ -60,7 +60,7 @@ class GroupPluginTest extends TestCase {
 	/** @var  IUser|\PHPUnit_Framework_MockObject_MockObject */
 	protected $user;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
@@ -101,9 +101,10 @@ class GroupPluginTest extends TestCase {
 	/**
 	 * @param string $gid
 	 * @param null $displayName
+	 * @param bool $hide
 	 * @return IGroup|\PHPUnit_Framework_MockObject_MockObject
 	 */
-	protected function getGroupMock($gid, $displayName = null) {
+	protected function getGroupMock($gid, $displayName = null, $hide = false) {
 		$group = $this->createMock(IGroup::class);
 
 		$group->expects($this->any())
@@ -118,6 +119,9 @@ class GroupPluginTest extends TestCase {
 		$group->expects($this->any())
 			->method('getDisplayName')
 			->willReturn($displayName);
+
+		$group->method('hideFromCollaboration')
+			->willReturn($hide);
 
 		return $group;
 	}
@@ -413,7 +417,20 @@ class GroupPluginTest extends TestCase {
 				true,
 				$this->getGroupMock('test'),
 			],
+			[
+				'test', false, false,
+				[
+					$this->getGroupMock('test', null, true),
+					$this->getGroupMock('test1'),
+				],
+				[],
+				[],
+				[],
+				true,
+				false,
+			],
 		];
+
 	}
 
 	/**

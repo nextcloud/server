@@ -6,8 +6,11 @@
     "Name cannot be empty" : "Име не може бити празно",
     "The given name is too long" : "Име је предугачко",
     "The given web address is too long" : "Адреса је предугачка",
+    "The given web address is not a valid URL" : "Дата веб адреса није исправан URL",
     "The given legal notice address is too long" : "Дата адреса правног обавештења је предугачка",
+    "The given legal notice address is not a valid URL" : "Дата адреса правног обавештења није исправан URL",
     "The given privacy policy address is too long" : "Дата адреса политике приватност је предугачка",
+    "The given privacy policy address is not a valid URL" : "Дата адреса политике приватност није исправан URL",
     "The given slogan is too long" : "Слоган је предугачак",
     "The given color is invalid" : "Задата боја није исправна",
     "The file was uploaded" : "Фајл је отпремљен",
@@ -25,6 +28,7 @@
     "Legal notice" : "Правно обавештење",
     "Privacy policy" : "Политика приватност",
     "Adjust the Nextcloud theme" : "Прилагоди Некстклауд тему",
+    "Open documentation" : "Отвори документацију",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Теме Вам омогућавају да лако измените изглед Ваше инстанце и подржаних клијената. Ово ће бити видљиво свим корисницима.",
     "Name" : "Име",
     "Reset to default" : "Ресетуј на подразумевано",
@@ -44,14 +48,6 @@
     "Upload new header logo" : "Отпремите нови лого заглавља",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Отпремите нову favicon иконицу",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте Imagemagick PHP екстензију која подржава SVG слике, да аутоматски направи иконе од отпремљеног логоа и боје.",
-    "You are already using a custom theme" : "Већ користите прилагођену тему",
-    "reset to default" : "ресетуј на подразумевано",
-    "Web address" : "Веб адреса",
-    "Web address https://…" : "Веб адреса https://…",
-    "There is no error, the file uploaded with success" : "Нема грешке, фајл је отпремљен успешно",
-    "The uploaded file was only partially uploaded" : "Отпремани фајл је само делимично отпремљен",
-    "Failed to write file to disk." : "Не могу да пишем фајл на диск",
-    "A PHP extension stopped the file upload." : "PHP екстензија је зауставила отпремање фајла."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Инсталирајте Imagemagick PHP екстензију која подржава SVG слике, да аутоматски направи иконе од отпремљеног логоа и боје."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

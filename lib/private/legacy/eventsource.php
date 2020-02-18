@@ -3,12 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christian Oliff <christianoliff@yahoo.com>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -22,12 +22,12 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 /**
- * wrapper for server side events (http://en.wikipedia.org/wiki/Server-sent_events)
+ * wrapper for server side events (https://en.wikipedia.org/wiki/Server-sent_events)
  * includes a fallback for older browsers and IE
  *
  * use server side events with caution, to many open requests can hang the server

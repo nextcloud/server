@@ -22,7 +22,6 @@ OC.L10N.register(
     "Delete" : "Hapus",
     "Admin defined" : "Terdefinisi Admin",
     "Saved" : "Disimpan",
-    "Saving..." : "Menyimpan...",
     "Save" : "Simpan",
     "Empty response from the server" : "Tidak ada respon dari server",
     "Couldn't get the information from the remote server: {code} {type}" : "Tidak dapat mengambil informasi dari server remote: {code} {type}",
@@ -30,7 +29,6 @@ OC.L10N.register(
     "There was an error with message: " : "Terjadi kesalahan dengan pesan:",
     "External mount error" : "Kesalahan mount eksternal",
     "external-storage" : "penyimpanan-eksternal",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Beberapa mount point eksternal tidak terhubung. Klik barisan merah untuk informasi selanjutnya",
     "Please enter the credentials for the {mount} mount" : "Masukkan kredensial untuk mount {mount}",
     "Username" : "Nama Pengguna",
     "Password" : "Kata sandi",
@@ -91,6 +89,7 @@ OC.L10N.register(
     "SFTP with secret key login" : "SFTP dengan kunci rahasia masuk",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Bagikan",
+    "Show hidden files" : "Lihat berkas tersembunyi",
     "SMB / CIFS using OC login" : "SMB / CIFS menggunakan OC login",
     "Username as share" : "Nama pengguna berbagi",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -101,6 +100,7 @@ OC.L10N.register(
     "Name" : "Nama",
     "Storage type" : "Tipe penyimpanan",
     "Scope" : "Skop",
+    "Open documentation" : "Buka dokumentasi",
     "Folder name" : "Nama folder",
     "External storage" : "Penyimpanan eksternal",
     "Authentication" : "Otentikasi",
@@ -109,10 +109,6 @@ OC.L10N.register(
     "Add storage" : "Tambahkan penyimpanan",
     "Advanced settings" : "Pengaturan Lanjutan",
     "Allow users to mount external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal",
-    "OpenStack" : "OpenStack",
-    "\"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "\"%s\" tidak terpasang. Mengaitkan %s tidak memungkinkan. Harap tanya administrator sistem anda untuk memasangnya.",
-    "No external storage configured" : "Penyimpanan eksternal tidak dikonfigurasi",
-    "You can add external storages in the personal settings" : "Anda dapat menambahkan penyimpanan eksternal di pengaturan pribadi",
-    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut"
+    "Saving..." : "Menyimpan..."
 },
 "nplurals=1; plural=0;");

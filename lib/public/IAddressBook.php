@@ -3,8 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -19,7 +23,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -30,6 +34,7 @@
 
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
+
 namespace OCP {
 	/**
 	 * Interface IAddressBook
@@ -46,6 +51,13 @@ namespace OCP {
 		public function getKey();
 
 		/**
+		 * @return string defining the unique uri
+		 * @since 16.0.0
+		 * @return string
+		 */
+		public function getUri(): string;
+
+		/**
 		 * In comparison to getKey() this function returns a human readable (maybe translated) name
 		 * @return mixed
 		 * @since 5.0.0
@@ -55,9 +67,10 @@ namespace OCP {
 		/**
 		 * @param string $pattern which should match within the $searchProperties
 		 * @param array $searchProperties defines the properties within the query pattern should match
-		 * @param array $options Options to define the output format
-		 * 	- types boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
+		 * @param array $options Options to define the output format and search behavior
+		 * 	- 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
 		 *    example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
+		 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
 		 * @return array an array of contacts which are arrays of key-value-pairs
 		 *  example result:
 		 *  [

@@ -86,21 +86,21 @@ window.firstDay = 0;
 // setup dummy webroots
 /* jshint camelcase: false */
 window.oc_debug = true;
-window.oc_isadmin = false;
-// FIXME: oc_webroot is supposed to be only the path!!!
-window.oc_webroot = location.href + '/';
-window.oc_appswebroots = {
-	"files": window.oc_webroot + '/apps/files/'
+// FIXME: OC.webroot is supposed to be only the path!!!
+OC.webroot = location.href + '/';
+OC.appswebroots = {
+	"files": window.webroot + '/apps/files/',
+	"files_sharing": window.webroot + '/apps/files_sharing/'
 };
-window.oc_config = {
+OC.config = {
 	session_lifetime: 600 * 1000,
 	session_keepalive: false,
 	blacklist_files_regex: '\.(part|filepart)$',
 };
-window.oc_appconfig = {
+OC.appConfig = {
 	core: {}
 };
-window.oc_defaults = {
+OC.theme = {
 	docPlaceholderUrl: 'https://docs.example.org/PLACEHOLDER'
 };
 window.oc_capabilities = {

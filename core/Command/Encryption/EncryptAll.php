@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Evgeny Golyshev <eugulixes@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Matthew Setter <matthew@matthewsetter.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -19,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -78,7 +79,7 @@ class EncryptAll extends Command {
 	 */
 	protected function forceMaintenanceAndTrashbin() {
 		$this->wasTrashbinEnabled = $this->appManager->isEnabledForUser('files_trashbin');
-		$this->wasMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
+		$this->wasMaintenanceModeEnabled = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
 		$this->appManager->disableApp('files_trashbin');
 	}

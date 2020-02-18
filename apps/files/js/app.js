@@ -67,16 +67,12 @@
 			var fileActions = new OCA.Files.FileActions();
 			// default actions
 			fileActions.registerDefaultActions();
-			// legacy actions
-			fileActions.merge(window.FileActions);
 			// regular actions
 			fileActions.merge(OCA.Files.fileActions);
 
 			this._onActionsUpdated = _.bind(this._onActionsUpdated, this);
 			OCA.Files.fileActions.on('setDefault.app-files', this._onActionsUpdated);
 			OCA.Files.fileActions.on('registerAction.app-files', this._onActionsUpdated);
-			window.FileActions.on('setDefault.app-files', this._onActionsUpdated);
-			window.FileActions.on('registerAction.app-files', this._onActionsUpdated);
 
 			this.files = OCA.Files.Files;
 
@@ -100,11 +96,12 @@
 							displayName:  t('files', 'Download'),
 							iconClass: 'icon-download',
 						},
+						OCA.Files.FileList.MultiSelectMenuActions.ToggleSelectionModeAction,
 						{
 							name: 'delete',
 							displayName: t('files', 'Delete'),
 							iconClass: 'icon-delete',
-						}
+						},
 					],
 					sorting: {
 						mode: $('#defaultFileSorting').val(),
@@ -133,7 +130,10 @@
 
 			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
 
-			OCP.WhatsNew.query(); // for Nextcloud server
+			if (sessionStorage.getItem('WhatsNewServerCheck') < (Date.now() - 3600*1000)) {
+				OCP.WhatsNew.query(); // for Nextcloud server
+				sessionStorage.setItem('WhatsNewServerCheck', Date.now());
+			}
 		},
 
 		/**
@@ -146,8 +146,6 @@
 			this.files = null;
 			OCA.Files.fileActions.off('setDefault.app-files', this._onActionsUpdated);
 			OCA.Files.fileActions.off('registerAction.app-files', this._onActionsUpdated);
-			window.FileActions.off('setDefault.app-files', this._onActionsUpdated);
-			window.FileActions.off('registerAction.app-files', this._onActionsUpdated);
 		},
 
 		_onActionsUpdated: function(ev) {

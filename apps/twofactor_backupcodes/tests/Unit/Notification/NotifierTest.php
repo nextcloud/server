@@ -1,8 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,7 +22,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -26,20 +30,24 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Notification;
 
 use OCA\TwoFactorBackupCodes\Notifications\Notifier;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class NotifierTest extends TestCase {
 	/** @var Notifier */
 	protected $notifier;
 
-	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IFactory|MockObject */
 	protected $factory;
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IURLGenerator|MockObject */
+	protected $url;
+	/** @var IL10N|MockObject */
 	protected $l;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->l = $this->createMock(IL10N::class);
@@ -49,19 +57,21 @@ class NotifierTest extends TestCase {
 				return vsprintf($string, $args);
 			});
 		$this->factory = $this->createMock(IFactory::class);
+		$this->url = $this->createMock(IURLGenerator::class);
 		$this->factory->expects($this->any())
 			->method('get')
 			->willReturn($this->l);
 
 		$this->notifier = new Notifier(
-			$this->factory
+			$this->factory,
+			$this->url
 		);
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testPrepareWrongApp() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		/** @var INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
@@ -73,10 +83,10 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($notification, 'en');
 	}
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
+	
 	public function testPrepareWrongSubject() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		/** @var INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
@@ -111,7 +121,16 @@ class NotifierTest extends TestCase {
 			->willReturnSelf();
 		$notification->expects($this->once())
 			->method('setParsedMessage')
-			->with('You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor.')
+			->with('You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor.')
+			->willReturnSelf();
+
+		$this->url->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('settings.PersonalSettings.index', ['section' => 'security'])
+			->willReturn('linkToRouteAbsolute');
+		$notification->expects($this->once())
+			->method('setLink')
+			->with('linkToRouteAbsolute')
 			->willReturnSelf();
 
 		$return = $this->notifier->prepare($notification, 'nl');

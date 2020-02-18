@@ -2,10 +2,14 @@
 /**
  *
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sergio Bertolin <sbertolin@solidgear.es>
  * @author Sergio Bertolín <sbertolin@solidgear.es>
@@ -25,10 +29,11 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
+use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\ClientException;
@@ -165,7 +170,7 @@ trait BasicStructure {
 	 * @When /^sending "([^"]*)" to "([^"]*)" with$/
 	 * @param string $verb
 	 * @param string $url
-	 * @param \Behat\Gherkin\Node\TableNode $body
+	 * @param TableNode $body
 	 */
 	public function sendingToWith($verb, $url, $body) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
@@ -179,7 +184,7 @@ trait BasicStructure {
 		$options['headers'] = [
 			'OCS_APIREQUEST' => 'true'
 		];
-		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
 			$options['form_params'] = $fd;
 		}
@@ -216,7 +221,7 @@ trait BasicStructure {
 		} else {
 			$options['auth'] = [$this->currentUser, $this->regularUser];
 		}
-		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
+		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
 			$options['form_params'] = $fd;
 		}
@@ -503,5 +508,28 @@ trait BasicStructure {
 	 */
 	public function cookiesAreReset() {
 		$this->cookieJar = new CookieJar();
+	}
+
+	/**
+	 * @Then The following headers should be set
+	 * @param TableNode $table
+	 * @throws \Exception
+	 */
+	public function theFollowingHeadersShouldBeSet(TableNode $table) {
+		foreach($table->getTable() as $header) {
+			$headerName = $header[0];
+			$expectedHeaderValue = $header[1];
+			$returnedHeader = $this->response->getHeader($headerName)[0];
+			if($returnedHeader !== $expectedHeaderValue) {
+				throw new \Exception(
+					sprintf(
+						"Expected value '%s' for header '%s', got '%s'",
+						$expectedHeaderValue,
+						$headerName,
+						$returnedHeader
+					)
+				);
+			}
+		}
 	}
 }

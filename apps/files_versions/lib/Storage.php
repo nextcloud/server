@@ -6,10 +6,12 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Carlos Damken <carlos@damken.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Felix Moeller <mail@felixmoeller.de>
+ * @author Felix Nieuwenhuizen <felix@tdlrali.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -31,7 +33,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -50,6 +52,7 @@ use OCA\Files_Versions\Command\Expire;
 use OCA\Files_Versions\Events\CreateVersionEvent;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\Files\NotFoundException;
+use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\User;
 
@@ -183,7 +186,7 @@ class Storage {
 		$eventDispatcher = \OC::$server->getEventDispatcher();
 		$fileInfo = $files_view->getFileInfo($filename);
 		$id = $fileInfo->getId();
-		$nodes = \OC::$server->getRootFolder()->getById($id);
+		$nodes = \OC::$server->getRootFolder()->getUserFolder($uid)->getById($id);
 		foreach ($nodes as $node) {
 			$event = new CreateVersionEvent($node);
 			$eventDispatcher->dispatch('OCA\Files_Versions::createVersion', $event);
@@ -325,20 +328,16 @@ class Storage {
 	 * @param int $revision revision timestamp
 	 * @return bool
 	 */
-	public static function rollback($file, $revision) {
+	public static function rollback(string $file, int $revision, IUser $user) {
 
 		// add expected leading slash
-		$file = '/' . ltrim($file, '/');
-		list($uid, $filename) = self::getUidAndFilename($file);
-		if ($uid === null || trim($filename, '/') === '') {
-			return false;
-		}
+		$filename = '/' . ltrim($file, '/');
 
 		// Fetch the userfolder to trigger view hooks
-		$userFolder = \OC::$server->getUserFolder($uid);
+		$userFolder = \OC::$server->getUserFolder($user->getUID());
 
-		$users_view = new View('/'.$uid);
-		$files_view = new View('/'. User::getUser().'/files');
+		$users_view = new View('/'.$user->getUID());
+		$files_view = new View('/'. $user->getUID().'/files');
 
 		$versionCreated = false;
 
@@ -374,7 +373,7 @@ class Storage {
 		// rollback
 		if (self::copyFileContents($users_view, $fileToRestore, 'files' . $filename)) {
 			$files_view->touch($file, $revision);
-			Storage::scheduleExpire($uid, $file);
+			Storage::scheduleExpire($user->getUID(), $file);
 
 			$node = $userFolder->get($file);
 
@@ -750,13 +749,16 @@ class Storage {
 			// subtract size of files and current versions size from quota
 			if ($quota >= 0) {
 				if ($softQuota) {
-					$files_view = new View('/' . $uid . '/files');
-					$rootInfo = $files_view->getFileInfo('/', false);
-					$free = $quota - $rootInfo['size']; // remaining free space for user
-					if ($free > 0) {
-						$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
+					$userFolder = \OC::$server->getUserFolder($uid);
+					if(is_null($userFolder)) {
+						$availableSpace = 0;
 					} else {
-						$availableSpace = $free - $versionsSize;
+						$free = $quota - $userFolder->getSize(false); // remaining free space for user
+						if ($free > 0) {
+							$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
+						} else {
+							$availableSpace = $free - $versionsSize;
+						}
 					}
 				} else {
 					$availableSpace = $quota;
@@ -847,8 +849,8 @@ class Storage {
 	 * @return Expiration
 	 */
 	protected static function getExpiration(){
-		if (is_null(self::$application)) {
-			self::$application = new Application();
+		if (self::$application === null) {
+			self::$application = \OC::$server->query(Application::class);
 		}
 		return self::$application->getContainer()->query(Expiration::class);
 	}

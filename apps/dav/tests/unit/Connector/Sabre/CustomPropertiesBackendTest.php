@@ -20,9 +20,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 /**
@@ -66,7 +67,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	 */
 	private $user;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->server = new \Sabre\DAV\Server();
 		$this->tree = $this->getMockBuilder(Tree::class)
@@ -89,7 +90,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 		);
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		$connection = \OC::$server->getDatabaseConnection();
 		$deleteStatement = $connection->prepare(
 			'DELETE FROM `*PREFIX*properties`' .
@@ -225,10 +226,6 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 		$nodeSub->expects($this->any())
 			->method('getPath')
 			->will($this->returnValue('/dummypath/test.txt'));
-
-		$rootNode->expects($this->once())
-			->method('getChildren')
-			->will($this->returnValue(array($nodeSub)));
 
 		$this->tree->expects($this->at(0))
 			->method('getNodeForPath')

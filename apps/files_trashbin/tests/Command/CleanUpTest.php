@@ -19,21 +19,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 
 namespace OCA\Files_Trashbin\Tests\Command;
 
 
+use OC\User\Manager;
 use OCA\Files_Trashbin\Command\CleanUp;
+use OCP\Files\IRootFolder;
 use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
-use OC\User\Manager;
-use OCP\Files\IRootFolder;
 
 /**
  * Class CleanUpTest
@@ -62,7 +61,7 @@ class CleanUpTest extends TestCase {
 	/** @var string  */
 	protected $user0 = 'user0';
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')
 			->disableOriginalConstructor()->getMock();

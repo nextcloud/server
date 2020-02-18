@@ -6,11 +6,13 @@
  * @author Bastien Ho <bastienho@urbancube.fr>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Florin Peter <github@florin-peter.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Lars Knickrehm <mail@lars-sh.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Qingping Hou <dave2008713@gmail.com>
@@ -35,7 +37,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -48,6 +50,7 @@ use OCA\Files_Trashbin\Command\Expire;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\User;
 
 class Trashbin {
@@ -188,7 +191,12 @@ class Trashbin {
 
 		$target = $user . '/files_trashbin/files/' . $targetFilename . '.d' . $timestamp;
 		$source = $owner . '/files_trashbin/files/' . $sourceFilename . '.d' . $timestamp;
-		self::copy_recursive($source, $target, $view);
+		$free = $view->free_space($target);
+		$isUnknownOrUnlimitedFreeSpace = $free < 0;
+		$isEnoughFreeSpaceLeft = $view->filesize($source) < $free;
+		if ($isUnknownOrUnlimitedFreeSpace || $isEnoughFreeSpaceLeft) {
+			self::copy_recursive($source, $target, $view);
+		}
 
 
 		if ($view->file_exists($target)) {
@@ -414,6 +422,9 @@ class Trashbin {
 		$mtime = $view->filemtime($source);
 
 		// restore file
+		if (!$view->isCreatable(dirname($target))) {
+			throw new NotPermittedException("Can't restore trash item because the target folder is not writable");
+		}
 		$restoreResult = $view->rename($source, $target);
 
 		// handle the restore result
@@ -684,7 +695,7 @@ class Trashbin {
 			if(is_null($userFolder)) {
 				return 0;
 			}
-			$free = $quota - $userFolder->getSize(); // remaining free space for user
+			$free = $quota - $userFolder->getSize(false); // remaining free space for user
 			if ($free > 0) {
 				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
 			} else {
@@ -738,7 +749,8 @@ class Trashbin {
 	 */
 	private static function scheduleExpire($user) {
 		// let the admin disable auto expire
-		$application = new Application();
+		/** @var Application $application */
+		$application = \OC::$server->query(Application::class);
 		$expiration = $application->getContainer()->query('Expiration');
 		if ($expiration->isEnabled()) {
 			\OC::$server->getCommandBus()->push(new Expire($user));
@@ -755,7 +767,8 @@ class Trashbin {
 	 * @return int size of deleted files
 	 */
 	protected static function deleteFiles($files, $user, $availableSpace) {
-		$application = new Application();
+		/** @var Application $application */
+		$application = \OC::$server->query(Application::class);
 		$expiration = $application->getContainer()->query('Expiration');
 		$size = 0;
 
@@ -782,8 +795,8 @@ class Trashbin {
 	 * @return integer[] size of deleted files and number of deleted files
 	 */
 	public static function deleteExpiredFiles($files, $user) {
-		$application = new Application();
-		$expiration = $application->getContainer()->query('Expiration');
+		/** @var Expiration $expiration */
+		$expiration = \OC::$server->query(Expiration::class);
 		$size = 0;
 		$count = 0;
 		foreach ($files as $file) {

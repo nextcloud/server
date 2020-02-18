@@ -3,21 +3,22 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Ko- <k.stoffelen@cs.ru.nl>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Nicolai Ehemann <en@enlightened.de>
- * @author noveens <noveen.sachdeva@research.iiit.ac.in>
  * @author Piotr Filiciak <piotr@filiciak.pl>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thibaut GRIDEL <tgridel@free.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
@@ -35,7 +36,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -177,10 +178,25 @@ class OC_Files {
 				foreach ($files as $file) {
 					$file = $dir . '/' . $file;
 					if (\OC\Files\Filesystem::is_file($file)) {
-						$fileSize = \OC\Files\Filesystem::filesize($file);
-						$fileTime = \OC\Files\Filesystem::filemtime($file);
-						$fh = \OC\Files\Filesystem::fopen($file, 'r');
-						$streamer->addFileFromStream($fh, basename($file), $fileSize, $fileTime);
+						$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+						$file = $userFolder->get($file);
+						if($file instanceof \OC\Files\Node\File) {
+							try {
+								$fh = $file->fopen('r');
+							} catch (\OCP\Files\NotPermittedException $e) {
+								continue;
+							}
+							$fileSize = $file->getSize();
+							$fileTime = $file->getMTime();
+						} else {
+							// File is not a file? …
+							\OC::$server->getLogger()->debug(
+								'File given, but no Node available. Name {file}',
+								[ 'app' => 'files', 'file' => $file ]
+							);
+							continue;
+						}
+						$streamer->addFileFromStream($fh, $file->getName(), $fileSize, $fileTime);
 						fclose($fh);
 					} elseif (\OC\Files\Filesystem::is_dir($file)) {
 						$streamer->addDirRecursive($file);
@@ -273,30 +289,44 @@ class OC_Files {
 	 */
 	private static function getSingleFile($view, $dir, $name, $params) {
 		$filename = $dir . '/' . $name;
-		OC_Util::obEnd();
-		$view->lockFile($filename, ILockingProvider::LOCK_SHARED);
-		
-		$rangeArray = array();
+		$file = null;
 
-		if (isset($params['range']) && substr($params['range'], 0, 6) === 'bytes=') {
-			$rangeArray = self::parseHttpRangeHeader(substr($params['range'], 6), 
-								 \OC\Files\Filesystem::filesize($filename));
-		}
-		
-		if (\OC\Files\Filesystem::isReadable($filename)) {
-			self::sendHeaders($filename, $name, $rangeArray);
-		} elseif (!\OC\Files\Filesystem::file_exists($filename)) {
+		try {
+			$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
+			$file = $userFolder->get($filename);
+			if(!$file instanceof \OC\Files\Node\File || !$file->isReadable()) {
+				http_response_code(403);
+				die('403 Forbidden');
+			}
+			$fileSize = $file->getSize();
+		} catch (\OCP\Files\NotPermittedException $e) {
+			http_response_code(403);
+			die('403 Forbidden');
+		} catch (\OCP\Files\InvalidPathException $e) {
+			http_response_code(403);
+			die('403 Forbidden');
+		} catch (\OCP\Files\NotFoundException $e) {
 			http_response_code(404);
 			$tmpl = new OC_Template('', '404', 'guest');
 			$tmpl->printPage();
 			exit();
-		} else {
-			http_response_code(403);
-			die('403 Forbidden');
 		}
+
+		OC_Util::obEnd();
+		$view->lockFile($filename, ILockingProvider::LOCK_SHARED);
+
+		$rangeArray = array();
+
+		if (isset($params['range']) && substr($params['range'], 0, 6) === 'bytes=') {
+			$rangeArray = self::parseHttpRangeHeader(substr($params['range'], 6), $fileSize);
+		}
+
+		self::sendHeaders($filename, $name, $rangeArray);
+
 		if (isset($params['head']) && $params['head']) {
 			return;
 		}
+
 		if (!empty($rangeArray)) {
 			try {
 			    if (count($rangeArray) == 1) {
@@ -376,88 +406,6 @@ class OC_Files {
 				self::lockFiles($view, $dir, $contents);
 			}
 		}
-	}
-
-	/**
-	 * set the maximum upload size limit for apache hosts using .htaccess
-	 *
-	 * @param int $size file size in bytes
-	 * @param array $files override '.htaccess' and '.user.ini' locations
-	 * @return bool|int false on failure, size on success
-	 */
-	public static function setUploadLimit($size, $files = []) {
-		//don't allow user to break his config
-		$size = (int)$size;
-		if ($size < self::UPLOAD_MIN_LIMIT_BYTES) {
-			return false;
-		}
-		$size = OC_Helper::phpFileSize($size);
-
-		$phpValueKeys = array(
-			'upload_max_filesize',
-			'post_max_size'
-		);
-
-		// default locations if not overridden by $files
-		$files = array_merge([
-			'.htaccess' => OC::$SERVERROOT . '/.htaccess',
-			'.user.ini' => OC::$SERVERROOT . '/.user.ini'
-		], $files);
-
-		$updateFiles = [
-			$files['.htaccess'] => [
-				'pattern' => '/php_value %1$s (\S)*/',
-				'setting' => 'php_value %1$s %2$s'
-			],
-			$files['.user.ini'] => [
-				'pattern' => '/%1$s=(\S)*/',
-				'setting' => '%1$s=%2$s'
-			]
-		];
-
-		$success = true;
-
-		foreach ($updateFiles as $filename => $patternMap) {
-			// suppress warnings from fopen()
-			$handle = @fopen($filename, 'r+');
-			if (!$handle) {
-				\OCP\Util::writeLog('files',
-					'Can\'t write upload limit to ' . $filename . '. Please check the file permissions',
-					ILogger::WARN);
-				$success = false;
-				continue; // try to update as many files as possible
-			}
-
-			$content = '';
-			while (!feof($handle)) {
-				$content .= fread($handle, 1000);
-			}
-
-			foreach ($phpValueKeys as $key) {
-				$pattern = vsprintf($patternMap['pattern'], [$key]);
-				$setting = vsprintf($patternMap['setting'], [$key, $size]);
-				$hasReplaced = 0;
-				$newContent = preg_replace($pattern, $setting, $content, 2, $hasReplaced);
-				if ($newContent !== null) {
-					$content = $newContent;
-				}
-				if ($hasReplaced === 0) {
-					$content .= "\n" . $setting;
-				}
-			}
-
-			// write file back
-			ftruncate($handle, 0);
-			rewind($handle);
-			fwrite($handle, $content);
-
-			fclose($handle);
-		}
-
-		if ($success) {
-			return OC_Helper::computerFileSize($size);
-		}
-		return false;
 	}
 
 	/**

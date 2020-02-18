@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -112,11 +114,11 @@ class CommentPropertiesPlugin extends ServerPlugin {
 				if ($parentPath === '') {
 					$parentPath = '/';
 				}
-				// if we already cached the folder this file is in we know there are no shares for this file
+				// if we already cached the folder this file is in we know there are no comments for this file
 				if (array_search($parentPath, $this->cachedFolders) === false) {
-					return $this->getUnreadCount($node);
-				} else {
 					return 0;
+				} else {
+					return $this->getUnreadCount($node);
 				}
 			}
 		});

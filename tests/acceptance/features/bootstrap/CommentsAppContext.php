@@ -63,6 +63,15 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @return Locator
+	 */
+	public static function emptyContent() {
+		return Locator::forThe()->css(".emptycontent")->
+				descendantOf(FilesAppContext::detailsView())->
+				describedAs("Empty content in details view in Files app");
+	}
+
+	/**
 	 * @When /^I create a new comment with "([^"]*)" as message$/
 	 */
 	public function iCreateANewCommentWithAsMessage($commentText) {
@@ -71,10 +80,33 @@ class CommentsAppContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Then /^I see that there are no comments$/
+	 */
+	public function iSeeThatThereAreNoComments() {
+		if (!WaitFor::elementToBeEventuallyShown(
+				$this->actor,
+				self::emptyContent(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The no comments message is not visible yet after $timeout seconds");
+		}
+	}
+
+	/**
 	 * @Then /^I see a comment with "([^"]*)" as message$/
 	 */
 	public function iSeeACommentWithAsMessage($commentText) {
 		PHPUnit_Framework_Assert::assertTrue(
 				$this->actor->find(self::commentWithText($commentText), 10)->isVisible());
+	}
+
+	/**
+	 * @Then /^I see that there is no comment with "([^"]*)" as message$/
+	 */
+	public function iSeeThatThereIsNoCommentWithAsMessage($commentText) {
+		try {
+			PHPUnit_Framework_Assert::assertFalse(
+					$this->actor->find(self::commentWithText($commentText))->isVisible());
+		} catch (NoSuchElementException $exception) {
+		}
 	}
 }

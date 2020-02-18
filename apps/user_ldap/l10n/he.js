@@ -12,7 +12,6 @@ OC.L10N.register(
     "No data specified" : "לא הוגדר מידע",
     " Could not set configuration %s" : " לא ניתן היה לקבוע הגדרות %s",
     "Action does not exist" : "פעולה לא קיימת",
-    "LDAP user and group backend" : "מנגנון משתמשים וקבוצות מול LDAP",
     "Renewing …" : "מתבצע חידוש…",
     "Very weak password" : "ססמה חלשה מאוד",
     "Weak password" : "ססמה חלשה",
@@ -62,6 +61,8 @@ OC.L10N.register(
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "לא ניתן לאתר את מאפיין שם תצוגת המשתמש. נא לציין אותו בעצמך בהגדרות ה־LDAP המתקדמות.",
     "Could not find the desired feature" : "לא אותרה התכונה הרצויה",
     "Invalid Host" : "מארח לא חוקי",
+    "LDAP user and group backend" : "מנגנון משתמשים וקבוצות מול LDAP",
+    "This application enables administrators to connect Nextcloud to an LDAP-based user directory." : "יישומון זה מאפשר למנהלים להתחבר את Nextcloud לספריית משתמשים מבוססת LDAP.",
     "Test Configuration" : "בדיקת הגדרות",
     "Help" : "עזרה",
     "Groups meeting these criteria are available in %s:" : "קבוצות העומדות בקריטריון זה זמינות ב- %s:",
@@ -162,11 +163,6 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "מאפייני UUID לקבוצות:",
     "Username-LDAP User Mapping" : "מיפוי שם משתמש LDAP:",
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
-    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:",
-    " entries available within the provided Base DN" : " קיימות רשומות מתוך בסיס ה- DN שסופק",
-    "1. Server" : "1. שרת",
-    "Wrong password. Reset it?" : "ססמה שגויה. לאפס אותה?",
-    "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>אזהרה:</b> יישומים user_ldap ו- user_webdavauth אינם תואמים. תופעות לא מוסברות עלולות להתקיים. כדאי לפנות למנהל המערכת כדי שינטרל אחד מהם."
+    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

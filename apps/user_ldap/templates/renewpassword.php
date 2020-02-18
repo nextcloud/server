@@ -1,18 +1,11 @@
 <?php /** @var $l OC_L10N */ ?>
 <?php
-script('core', [
-	'jquery-showpassword',
-]);
 script('user_ldap', [
 	'renewPassword',
 ]);
 style('user_ldap', 'renewPassword');
-\OC_Util::addVendorScript('strengthify/jquery.strengthify');
-\OC_Util::addVendorStyle('strengthify/strengthify');
-
 ?>
 
-<!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
 <form method="post" name="renewpassword" id="renewpassword" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('user_ldap.renewPassword.tryRenewPassword')); ?>">
 	<fieldset>
 		<div class="warning title">
@@ -44,7 +37,7 @@ style('user_ldap', 'renewPassword');
 		</p>
 
 		<p class="groupbottom">
-			<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
+			<input type="checkbox" id="personal-show" name="show" class="hidden-visually" /><label for="personal-show"></label>
 			<label id="newPassword-label" for="newPassword" class="infield"><?php p($l->t('New password')); ?></label>
 			<input type="password" id="newPassword" name="newPassword"
 				placeholder="<?php echo $l->t('New password');?>"

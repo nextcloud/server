@@ -5,6 +5,8 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -19,9 +21,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Encryption\AppInfo;
 
 
@@ -44,7 +47,6 @@ use OCP\AppFramework\IAppContainer;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
 use Symfony\Component\Console\Helper\QuestionHelper;
-
 
 class Application extends \OCP\AppFramework\App {
 
@@ -75,7 +77,7 @@ class Application extends \OCP\AppFramework\App {
 	 * register hooks
 	 */
 	public function registerHooks() {
-		if (!$this->config->getSystemValue('maintenance', false)) {
+		if (!$this->config->getSystemValueBool('maintenance')) {
 
 			$container = $this->getContainer();
 			$server = $container->getServer();
@@ -165,10 +167,8 @@ class Application extends \OCP\AppFramework\App {
 				return new Recovery(
 					$server->getUserSession(),
 					$c->query('Crypt'),
-					$server->getSecureRandom(),
 					$c->query('KeyManager'),
 					$server->getConfig(),
-					$server->getEncryptionKeyStorage(),
 					$server->getEncryptionFilesHelper(),
 					new View());
 			});

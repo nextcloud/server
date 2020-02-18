@@ -36,17 +36,10 @@ class RootTest extends \Test\TestCase {
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
-		$config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$urlgenerator = $this->getMockBuilder(IURLGenerator::class)
-			->disableOriginalConstructor()
-			->getMock();
-
-		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config, $urlgenerator);
+		$this->user = $this->createMock(IUser::class);
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -94,10 +87,10 @@ class RootTest extends \Test\TestCase {
 		$this->assertInstanceOf('\OC\Files\Node\File', $node);
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotFoundException
-	 */
+	
 	public function testGetNotFound() {
+		$this->expectException(\OCP\Files\NotFoundException::class);
+
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 */
@@ -128,10 +121,10 @@ class RootTest extends \Test\TestCase {
 		$root->get('/bar/foo');
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testGetInvalidPath() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		/**
 		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
 		 */
@@ -150,10 +143,10 @@ class RootTest extends \Test\TestCase {
 		$root->get('/../foo');
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotFoundException
-	 */
+	
 	public function testGetNoStorages() {
+		$this->expectException(\OCP\Files\NotFoundException::class);
+
 		/**
 		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
 		 */
@@ -208,11 +201,11 @@ class RootTest extends \Test\TestCase {
 		$this->assertEquals($folder, $root->getUserFolder('MyUserId'));
 	}
 
-	/**
-	 * @expectedException \OC\User\NoUserException
-	 * @expectedExceptionMessage Backends provided no user object
-	 */
+	
 	public function testGetUserFolderWithNoUserObj() {
+		$this->expectException(\OC\User\NoUserException::class);
+		$this->expectExceptionMessage('Backends provided no user object');
+
 		$root = new \OC\Files\Node\Root(
 			$this->createMock(Manager::class),
 			$this->createMock(View::class),

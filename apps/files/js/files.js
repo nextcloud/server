@@ -33,6 +33,9 @@
 		},
 		// update quota
 		updateStorageQuotas: function() {
+			Files._updateStorageQuotasThrottled();
+		},
+		_updateStorageQuotas: function() {
 			var state = Files.updateStorageQuotas;
 			state.call = $.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
 				Files.updateQuota(response);
@@ -72,6 +75,7 @@
 				$('#owner').val(response.data.owner);
 				$('#ownerDisplayName').val(response.data.ownerDisplayName);
 				Files.displayStorageWarnings();
+				OCA.Files.App.fileList._updateDirectoryPermissions();
 			}
 			if (response[0] === undefined) {
 				return;
@@ -136,7 +140,7 @@
 				throw t('files', 'File name cannot be empty.');
 			} else if (trimmedName.indexOf('/') !== -1) {
 				throw t('files', '"/" is not allowed inside a file name.');
-			} else if (OC.fileIsBlacklisted(trimmedName)) {
+			} else if (!!(trimmedName.match(OC.config.blacklist_files_regex))) {
 				throw t('files', '"{name}" is not an allowed filetype', {name: name});
 			}
 
@@ -151,7 +155,7 @@
 				owner = $('#owner').val(),
 				ownerDisplayName = $('#ownerDisplayName').val();
 			if (usedSpacePercent > 98) {
-				if (owner !== oc_current_user) {
+				if (owner !== OC.getCurrentUser().uid) {
 					OC.Notification.show(t('files', 'Storage of {owner} is full, files can not be updated or synced anymore!',
 						{owner: ownerDisplayName}), {type: 'error'}
 					);
@@ -164,7 +168,7 @@
 				return;
 			}
 			if (usedSpacePercent > 90) {
-				if (owner !== oc_current_user) {
+				if (owner !== OC.getCurrentUser().uid) {
 					OC.Notification.show(t('files', 'Storage of {owner} is almost full ({usedSpacePercent}%)',
 						{
 							usedSpacePercent: usedSpacePercent,
@@ -332,7 +336,7 @@
 		 * - JS periodically checks for this cookie and then knows when the download has started to call the callback
 		 *
 		 * @param {string} url download URL
-		 * @param {function} callback function to call once the download has started
+		 * @param {Function} callback function to call once the download has started
 		 */
 		handleDownload: function(url, callback) {
 			var randomToken = Math.random().toString(36).substring(2),
@@ -356,6 +360,7 @@
 	};
 
 	Files._updateStorageStatisticsDebounced = _.debounce(Files._updateStorageStatistics, 250);
+	Files._updateStorageQuotasThrottled = _.throttle(Files._updateStorageQuotas, 30000);
 	OCA.Files.Files = Files;
 })();
 
@@ -451,21 +456,20 @@ var dragOptions={
 		$('.crumbmenu').removeClass('canDropChildren');
 	},
 	drag: function(event, ui) {
-		var scrollingArea = FileList.$container;
+		var scrollingArea = window;
 		var currentScrollTop = $(scrollingArea).scrollTop();
 		var scrollArea = Math.min(Math.floor($(window).innerHeight() / 2), 100);
 
 		var bottom = $(window).innerHeight() - scrollArea;
 		var top = $(window).scrollTop() + scrollArea;
 		if (event.pageY < top) {
-			$('html, body').animate({
-
-				scrollTop: $(scrollingArea).scrollTop(currentScrollTop - 10)
+			$(scrollingArea).animate({
+				scrollTop: currentScrollTop - 10
 			}, 400);
 
 		} else if (event.pageY > bottom) {
-			$('html, body').animate({
-				scrollTop: $(scrollingArea).scrollTop(currentScrollTop + 10)
+			$(scrollingArea).animate({
+				scrollTop: currentScrollTop + 10
 			}, 400);
 		}
 

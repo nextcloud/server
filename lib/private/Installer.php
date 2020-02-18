@@ -5,14 +5,18 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Brice Maron <brice@bmaron.net>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Kamil Domanski <kdomanski@kdemail.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Markus Staab <markus.staab@redaxo.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author root "root@oc.(none)"
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
@@ -29,7 +33,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -66,6 +70,8 @@ class Installer {
 	private $apps = null;
 	/** @var bool|null - for caching the result of the ready status */
 	private $isInstanceReadyForUpdates = null;
+	/** @var bool */
+	private $isCLI;
 
 	/**
 	 * @param AppFetcher $appFetcher
@@ -74,26 +80,31 @@ class Installer {
 	 * @param ILogger $logger
 	 * @param IConfig $config
 	 */
-	public function __construct(AppFetcher $appFetcher,
-								IClientService $clientService,
-								ITempManager $tempManager,
-								ILogger $logger,
-								IConfig $config) {
+	public function __construct(
+		AppFetcher $appFetcher,
+		IClientService $clientService,
+		ITempManager $tempManager,
+		ILogger $logger,
+		IConfig $config,
+		bool $isCLI
+	) {
 		$this->appFetcher = $appFetcher;
 		$this->clientService = $clientService;
 		$this->tempManager = $tempManager;
 		$this->logger = $logger;
 		$this->config = $config;
+		$this->isCLI = $isCLI;
 	}
 
 	/**
 	 * Installs an app that is located in one of the app folders already
 	 *
 	 * @param string $appId App to install
+	 * @param bool $forceEnable
 	 * @throws \Exception
 	 * @return string app ID
 	 */
-	public function installApp($appId) {
+	public function installApp(string $appId, bool $forceEnable = false): string {
 		$app = \OC_App::findAppInDirectories($appId);
 		if($app === false) {
 			throw new \Exception('App not found in any app directory');
@@ -112,8 +123,11 @@ class Installer {
 			);
 		}
 
+		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+		$ignoreMax = $forceEnable || in_array($appId, $ignoreMaxApps, true);
+
 		$version = implode('.', \OCP\Util::getVersion());
-		if (!\OC_App::isAppCompatible($version, $info)) {
+		if (!\OC_App::isAppCompatible($version, $info, $ignoreMax)) {
 			throw new \Exception(
 				// TODO $l
 				$l->t('App "%s" cannot be installed because it is not compatible with this version of the server.',
@@ -123,8 +137,13 @@ class Installer {
 		}
 
 		// check for required dependencies
-		\OC_App::checkAppDependencies($this->config, $l, $info);
+		\OC_App::checkAppDependencies($this->config, $l, $info, $ignoreMax);
 		\OC_App::registerAutoloading($appId, $basedir);
+
+		$previousVersion = $this->config->getAppValue($info['id'], 'installed_version', false);
+		if ($previousVersion) {
+			OC_App::executeRepairSteps($appId, $info['repair-steps']['pre-migration']);
+		}
 
 		//install the database
 		if(is_file($basedir.'/appinfo/database.xml')) {
@@ -136,6 +155,9 @@ class Installer {
 		} else {
 			$ms = new \OC\DB\MigrationService($info['id'], \OC::$server->getDatabaseConnection());
 			$ms->migrate();
+		}
+		if ($previousVersion) {
+			OC_App::executeRepairSteps($appId, $info['repair-steps']['post-migration']);
 		}
 
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
@@ -254,8 +276,9 @@ class Installer {
 
 				// Download the release
 				$tempFile = $this->tempManager->getTemporaryFile('.tar.gz');
+				$timeout = $this->isCLI ? 0 : 120;
 				$client = $this->clientService->newClient();
-				$client->get($app['releases'][0]['download'], ['save_to' => $tempFile]);
+				$client->get($app['releases'][0]['download'], ['save_to' => $tempFile, 'timeout' => $timeout]);
 
 				// Check if the signature actually matches the downloaded content
 				$certificate = openssl_get_publickey($app['certificate']);
@@ -388,6 +411,10 @@ class Installer {
 		foreach($this->apps as $app) {
 			if($app['id'] === $appId) {
 				$currentVersion = OC_App::getAppVersion($appId);
+
+				if (!isset($app['releases'][0]['version'])) {
+					return false;
+				}
 				$newestVersion = $app['releases'][0]['version'];
 				if ($currentVersion !== '0' && version_compare($newestVersion, $currentVersion, '>')) {
 					return $newestVersion;

@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Включить восстановление пароля:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Включение этой опции позволит вам получить доступ к своим зашифрованным файлам в случае утери пароля",
     "Enabled" : "Включено",
-    "Disabled" : "Отключено",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Вам необходимо произвести конвертацию ключей шифрования из старого формата (ownCloud <= 8.0) в новый. Используйте команду «occ encryption:migrate» или обратитесь к администратору."
+    "Disabled" : "Отключено"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

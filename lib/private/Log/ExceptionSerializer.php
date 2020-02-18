@@ -2,6 +2,12 @@
 /**
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,13 +21,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OC\Log;
 
+use OC\Core\Controller\SetupController;
 use OC\HintException;
+use OC\Setup;
 
 class ExceptionSerializer {
 	const methodsWithSensitiveParameters = [
@@ -36,6 +44,9 @@ class ExceptionSerializer {
 		'loginWithToken',
 		'{closure}',
 		'createSessionToken',
+
+		// Provisioning
+		'addUser',
 
 		// TokenProvider
 		'getToken',
@@ -67,16 +78,44 @@ class ExceptionSerializer {
 		// Encryption
 		'storeKeyPair',
 		'setupUser',
+
+		// files_external: OC_Mount_Config
+		'getBackendStatus',
+
+		// files_external: UserStoragesController
+		'update',
 	];
+
+	const methodsWithSensitiveParametersByClass = [
+		SetupController::class => [
+			'run',
+			'display',
+			'loadAutoConfig',
+		],
+		Setup::class => [
+			'install'
+		]
+	];
+
+	private function editTrace(array &$sensitiveValues, array $traceLine): array {
+		if (isset($traceLine['args'])) {
+			$sensitiveValues = array_merge($sensitiveValues, $traceLine['args']);
+		}
+		$traceLine['args'] = ['*** sensitive parameters replaced ***'];
+		return $traceLine;
+	}
 
 	private function filterTrace(array $trace) {
 		$sensitiveValues = [];
 		$trace = array_map(function (array $traceLine) use (&$sensitiveValues) {
+			$className = $traceLine['class'] ?? '';
+			if ($className && isset(self::methodsWithSensitiveParametersByClass[$className])
+				&& in_array($traceLine['function'], self::methodsWithSensitiveParametersByClass[$className], true)) {
+				return $this->editTrace($sensitiveValues, $traceLine);
+			}
 			foreach (self::methodsWithSensitiveParameters as $sensitiveMethod) {
 				if (strpos($traceLine['function'], $sensitiveMethod) !== false) {
-					$sensitiveValues = array_merge($sensitiveValues, $traceLine['args']);
-					$traceLine['args'] = ['*** sensitive parameters replaced ***'];
-					return $traceLine;
+					return $this->editTrace($sensitiveValues, $traceLine);
 				}
 			}
 			return $traceLine;

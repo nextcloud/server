@@ -8,7 +8,6 @@
 
 namespace Test\Http\Client;
 
-use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use OC\Http\Client\Client;
 use OC\Security\CertificateManager;
@@ -30,36 +29,30 @@ class ClientTest extends \Test\TestCase {
 	/** @var array */
 	private $defaultRequestOptions;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
-		$this->guzzleClient = $this->getMockBuilder('\GuzzleHttp\Client')
+		$this->guzzleClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$this->certificateManager = $this->createMock(ICertificateManager::class);
 		$this->client = new Client(
 			$this->config,
 			$this->certificateManager,
-			$this->guzzleClient,
-			HandlerStack::create()
+			$this->guzzleClient
 		);
 	}
 
-	public function testGetProxyUri() {
+	public function testGetProxyUri(): void {
 		$this->config
 			->expects($this->at(0))
 			->method('getSystemValue')
 			->with('proxy', null)
 			->willReturn(null);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('proxyuserpwd', null)
-			->willReturn(null);
-		$this->assertSame('', self::invokePrivate($this->client, 'getProxyUri'));
+		$this->assertNull(self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
-	public function testGetProxyUriProxyHostEmptyPassword() {
+	public function testGetProxyUriProxyHostEmptyPassword(): void {
 		$this->config
 			->expects($this->at(0))
 			->method('getSystemValue')
@@ -73,21 +66,31 @@ class ClientTest extends \Test\TestCase {
 		$this->assertSame('foo', self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
-	public function testGetProxyUriProxyHostWithPassword() {
+	public function testGetProxyUriProxyHostWithPassword(): void {
 		$this->config
 			->expects($this->at(0))
 			->method('getSystemValue')
-			->with('proxy', null)
+			->with(
+				$this->equalTo('proxy'),
+				$this->callback(function ($input) {
+					return $input === '';
+				})
+			)
 			->willReturn('foo');
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('proxyuserpwd', null)
+			->with(
+				$this->equalTo('proxyuserpwd'),
+				$this->callback(function ($input) {
+					return $input === '';
+				})
+			)
 			->willReturn('username:password');
 		$this->assertSame('username:password@foo', self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
-	private function setUpDefaultRequestOptions() {
+	private function setUpDefaultRequestOptions(): void {
 		$this->config
 			->expects($this->at(0))
 			->method('getSystemValue')
@@ -106,151 +109,155 @@ class ClientTest extends \Test\TestCase {
 
 		$this->defaultRequestOptions = [
 			'verify' => '/my/path.crt',
-			'proxy' => 'foo'
+			'proxy' => 'foo',
+			'headers' => [
+				'User-Agent' => 'Nextcloud Server Crawler',
+			],
+			'timeout' => 30,
 		];
 	}
 
-	public function testGet() {
+	public function testGet(): void {
 		$this->setUpDefaultRequestOptions();
 
 		$this->guzzleClient->method('request')
 			->with('get', 'http://localhost/', $this->defaultRequestOptions)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->get('http://localhost/', [])->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->get('http://localhost/', [])->getStatusCode());
 	}
 
-	public function testGetWithOptions() {
+	public function testGetWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$options = [
+		$options = array_merge($this->defaultRequestOptions, [
 			'verify' => false,
-			'proxy' => 'bar'
-		];
+			'proxy' => 'bar',
+		]);
 
 		$this->guzzleClient->method('request')
 			->with('get', 'http://localhost/', $options)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->get('http://localhost/', $options)->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->get('http://localhost/', $options)->getStatusCode());
 	}
 
-	public function testPost() {
+	public function testPost(): void {
 		$this->setUpDefaultRequestOptions();
 
 		$this->guzzleClient->method('request')
 			->with('post', 'http://localhost/', $this->defaultRequestOptions)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->post('http://localhost/', [])->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->post('http://localhost/', [])->getStatusCode());
 	}
 
-	public function testPostWithOptions() {
+	public function testPostWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$options = [
+		$options = array_merge($this->defaultRequestOptions, [
 			'verify' => false,
-			'proxy' => 'bar'
-		];
+			'proxy' => 'bar',
+		]);
 
 		$this->guzzleClient->method('request')
 			->with('post', 'http://localhost/', $options)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->post('http://localhost/', $options)->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->post('http://localhost/', $options)->getStatusCode());
 	}
 
-	public function testPut() {
+	public function testPut(): void {
 		$this->setUpDefaultRequestOptions();
 
 		$this->guzzleClient->method('request')
 			->with('put', 'http://localhost/', $this->defaultRequestOptions)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->put('http://localhost/', [])->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->put('http://localhost/', [])->getStatusCode());
 	}
 
-	public function testPutWithOptions() {
+	public function testPutWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$options = [
+		$options = array_merge($this->defaultRequestOptions, [
 			'verify' => false,
-			'proxy' => 'bar'
-		];
+			'proxy' => 'bar',
+		]);
 
 		$this->guzzleClient->method('request')
 			->with('put', 'http://localhost/', $options)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->put('http://localhost/', $options)->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->put('http://localhost/', $options)->getStatusCode());
 	}
 
-	public function testDelete() {
+	public function testDelete(): void {
 		$this->setUpDefaultRequestOptions();
 
 		$this->guzzleClient->method('request')
 			->with('delete', 'http://localhost/', $this->defaultRequestOptions)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->delete('http://localhost/', [])->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->delete('http://localhost/', [])->getStatusCode());
 	}
 
-	public function testDeleteWithOptions() {
+	public function testDeleteWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$options = [
+		$options = array_merge($this->defaultRequestOptions, [
 			'verify' => false,
-			'proxy' => 'bar'
-		];
+			'proxy' => 'bar',
+		]);
 
 		$this->guzzleClient->method('request')
 			->with('delete', 'http://localhost/', $options)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->delete('http://localhost/', $options)->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->delete('http://localhost/', $options)->getStatusCode());
 	}
 
-	public function testOptions() {
+	public function testOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
 		$this->guzzleClient->method('request')
 			->with('options', 'http://localhost/', $this->defaultRequestOptions)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->options('http://localhost/', [])->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->options('http://localhost/', [])->getStatusCode());
 	}
 
-	public function testOptionsWithOptions() {
+	public function testOptionsWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$options = [
+		$options = array_merge($this->defaultRequestOptions, [
 			'verify' => false,
-			'proxy' => 'bar'
-		];
+			'proxy' => 'bar',
+		]);
 
 		$this->guzzleClient->method('request')
 			->with('options', 'http://localhost/', $options)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->options('http://localhost/', $options)->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->options('http://localhost/', $options)->getStatusCode());
 	}
 
-	public function testHead() {
+	public function testHead(): void {
 		$this->setUpDefaultRequestOptions();
 
 		$this->guzzleClient->method('request')
 			->with('head', 'http://localhost/', $this->defaultRequestOptions)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->head('http://localhost/', [])->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->head('http://localhost/', [])->getStatusCode());
 	}
 
-	public function testHeadWithOptions() {
+	public function testHeadWithOptions(): void {
 		$this->setUpDefaultRequestOptions();
 
-		$options = [
+		$options = array_merge($this->defaultRequestOptions, [
 			'verify' => false,
-			'proxy' => 'bar'
-		];
+			'proxy' => 'bar',
+		]);
 
 		$this->guzzleClient->method('request')
 			->with('head', 'http://localhost/', $options)
-			->willReturn(new Response(1337));
-		$this->assertEquals(1337, $this->client->head('http://localhost/', $options)->getStatusCode());
+			->willReturn(new Response(418));
+		$this->assertEquals(418, $this->client->head('http://localhost/', $options)->getStatusCode());
 	}
 
-	public function testSetDefaultOptionsWithNotInstalled() {
+	public function testSetDefaultOptionsWithNotInstalled(): void {
 		$this->config
-			->expects($this->at(0))
+			->expects($this->at(1))
 			->method('getSystemValue')
 			->with('installed', false)
 			->willReturn(false);
@@ -260,11 +267,16 @@ class ClientTest extends \Test\TestCase {
 			->willReturn([]);
 
 		$this->assertEquals([
-			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt'
-		], self::invokePrivate($this->client, 'getRequestOptions'));
+			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt',
+			'proxy' => null,
+			'headers' => [
+				'User-Agent' => 'Nextcloud Server Crawler'
+			],
+			'timeout' => 30,
+		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 
-	public function testSetDefaultOptionsWithProxy() {
+	public function testSetDefaultOptionsWithProxy(): void {
 		$this->config
 			->expects($this->at(0))
 			->method('getSystemValue')
@@ -283,7 +295,11 @@ class ClientTest extends \Test\TestCase {
 
 		$this->assertEquals([
 			'verify' => '/my/path.crt',
-			'proxy' => 'foo'
-		], self::invokePrivate($this->client, 'getRequestOptions'));
+			'proxy' => 'foo',
+			'headers' => [
+				'User-Agent' => 'Nextcloud Server Crawler'
+			],
+			'timeout' => 30,
+		], self::invokePrivate($this->client, 'buildRequestOptions', [[]]));
 	}
 }

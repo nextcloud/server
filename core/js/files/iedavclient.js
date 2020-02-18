@@ -82,6 +82,11 @@
 			var parts = name.split(':');
 			var tagName = parts[1];
 			var namespace = resolver(parts[0]);
+			// make sure we can get elements
+			if (typeof node === 'string') {
+				var parser = new DOMParser()
+				node = parser.parseFromString(node, 'text/xml')
+			}
 			if (node.getElementsByTagNameNS) {
 				return node.getElementsByTagNameNS(namespace, tagName);
 			}

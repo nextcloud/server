@@ -5,9 +5,9 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roland Tapken <roland@bitarbeiter.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
@@ -26,19 +26,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\User_LDAP\Tests;
 
-use OCA\User_LDAP\GroupPluginManager;
-use OCP\GroupInterface;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Group_LDAP as GroupLDAP;
+use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User\Manager;
+use OCP\GroupInterface;
 use Test\TestCase;
 
 /**
@@ -98,16 +98,27 @@ class Group_LDAPTest extends TestCase {
 	public function testCountEmptySearchString() {
 		$access = $this->getAccessMock();
 		$pluginManager = $this->getPluginManagerMock();
+		$groupDN = 'cn=group,dc=foo,dc=bar';
 
 		$this->enableGroups($access);
 
 		$access->expects($this->any())
 			->method('groupname2dn')
-			->will($this->returnValue('cn=group,dc=foo,dc=bar'));
+			->will($this->returnValue($groupDN));
 
 		$access->expects($this->any())
 			->method('readAttribute')
-			->will($this->returnValue(array('u11', 'u22', 'u33', 'u34')));
+			->willReturnCallback(function($dn) use ($groupDN) {
+				if($dn === $groupDN) {
+					return [
+						'uid=u11,ou=users,dc=foo,dc=bar',
+						'uid=u22,ou=users,dc=foo,dc=bar',
+						'uid=u33,ou=users,dc=foo,dc=bar',
+						'uid=u34,ou=users,dc=foo,dc=bar'
+					];
+				}
+				return [];
+			});
 
 		// for primary groups
 		$access->expects($this->once())
@@ -132,7 +143,7 @@ class Group_LDAPTest extends TestCase {
 
 		$access->expects($this->any())
 			->method('fetchListOfUsers')
-			->will($this->returnValue(array()));
+			->will($this->returnValue([]));
 
 		$access->expects($this->any())
 			->method('readAttribute')
@@ -145,7 +156,7 @@ class Group_LDAPTest extends TestCase {
 				if(strpos($name, 'u') === 0) {
 					return strpos($name, '3');
 				}
-				return array('u11', 'u22', 'u33', 'u34');
+				return ['u11', 'u22', 'u33', 'u34'];
 			}));
 
 		$access->expects($this->any())
@@ -625,7 +636,7 @@ class Group_LDAPTest extends TestCase {
 			->method('dn2groupname')
 			->will($this->returnArgument(0));
 
-		$access->expects($this->exactly(3))
+		$access->expects($this->exactly(1))
 			->method('groupsMatchFilter')
 			->will($this->returnArgument(0));
 
@@ -659,14 +670,15 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->once())
 			->method('username2dn')
 			->will($this->returnValue($dn));
-
 		$access->expects($this->never())
 			->method('readAttribute')
 			->with($dn, 'memberOf');
-
 		$access->expects($this->once())
 			->method('nextcloudGroupNames')
 			->will($this->returnValue([]));
+		$access->expects($this->any())
+			->method('groupsMatchFilter')
+			->willReturnArgument(0);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$groupBackend->getUserGroups('userX');
@@ -680,12 +692,15 @@ class Group_LDAPTest extends TestCase {
 		$access->connection->expects($this->any())
 			->method('__get')
 			->will($this->returnCallback(function($name) {
-				if($name === 'useMemberOfToDetectMembership') {
-					return 0;
-				} else if($name === 'ldapDynamicGroupMemberURL') {
-					return '';
-				} else if($name === 'ldapNestedGroups') {
-					return false;
+				switch($name) {
+					case 'useMemberOfToDetectMembership':
+						return 0;
+					case 'ldapDynamicGroupMemberURL':
+						return '';
+					case 'ldapNestedGroups':
+						return false;
+					case 'ldapGroupMemberAssocAttr':
+						return 'member';
 				}
 				return 1;
 			}));
@@ -716,10 +731,12 @@ class Group_LDAPTest extends TestCase {
 			->method('nextcloudGroupNames')
 			->with([$group1, $group2])
 			->will($this->returnValue(['group1', 'group2']));
-
 		$access->expects($this->once())
 			->method('fetchListOfGroups')
 			->will($this->returnValue([$group1, $group2]));
+		$access->expects($this->any())
+			->method('groupsMatchFilter')
+			->willReturnArgument(0);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$groups = $groupBackend->getUserGroups('userX');
@@ -753,10 +770,10 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals($ldap->createGroup('gid'),true);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	public function testCreateGroupFailing() {
+		$this->expectException(\Exception::class);
+
 		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions', 'createGroup'])
@@ -808,10 +825,10 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals($ldap->deleteGroup('gid'),'result');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	public function testDeleteGroupFailing() {
+		$this->expectException(\Exception::class);
+
 		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions', 'deleteGroup'])
@@ -854,10 +871,10 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals($ldap->addToGroup('uid', 'gid'),'result');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	public function testAddToGroupFailing() {
+		$this->expectException(\Exception::class);
+
 		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions', 'addToGroup'])
@@ -900,10 +917,10 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals($ldap->removeFromGroup('uid', 'gid'),'result');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	public function testRemoveFromGroupFailing() {
+		$this->expectException(\Exception::class);
+
 		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions', 'removeFromGroup'])
@@ -946,10 +963,10 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals($ldap->getGroupDetails('gid'),'result');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	public function testGetGroupDetailsFailing() {
+		$this->expectException(\Exception::class);
+
 		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
 		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
 			->setMethods(['implementsActions', 'getGroupDetails'])
@@ -999,14 +1016,6 @@ class Group_LDAPTest extends TestCase {
 				$groups1,
 				['cn=Birds,' . $base => $groups1]
 			],
-			[ #2 – test uids with nested groups
-				'cn=Birds,' . $base,
-				$expGroups2,
-				[
-					'cn=Birds,' . $base => $groups1,
-					'8427' => $groups2Nested, // simplified - nested groups would work with DNs
-				],
-			],
 		];
 	}
 
@@ -1045,9 +1054,46 @@ class Group_LDAPTest extends TestCase {
 		$ldap = new GroupLDAP($access, $pluginManager);
 		$resultingMembers = $this->invokePrivate($ldap, '_groupMembers', [$groupDN]);
 
-		$expected = array_keys(array_flip($expectedMembers));
+		$this->assertEqualsCanonicalizing($expectedMembers, $resultingMembers);
+	}
 
-		$this->assertEquals($expected, array_keys($resultingMembers), '', 0.0, 10, true);
+	public function displayNameProvider() {
+		return [
+			['Graphic Novelists', ['Graphic Novelists']],
+			['', false],
+		];
+	}
+
+	/**
+	 * @dataProvider displayNameProvider
+	 */
+	public function testGetDisplayName(string $expected, $ldapResult) {
+		$gid = 'graphic_novelists';
+
+		$access = $this->getAccessMock();
+		$access->expects($this->atLeastOnce())
+			->method('readAttribute')
+			->willReturn($ldapResult);
+
+		$access->connection = $this->createMock(Connection::class);
+		$access->connection->expects($this->any())
+			->method('__get')
+			->willReturnCallback(function($name) {
+				if($name === 'ldapGroupMemberAssocAttr') {
+					return 'member';
+				} else if($name === 'ldapGroupFilter') {
+					return 'objectclass=nextcloudGroup';
+				} else if($name === 'ldapGroupDisplayName') {
+					return 'cn';
+				}
+				return null;
+			});
+
+		/** @var GroupPluginManager $pluginManager */
+		$pluginManager = $this->createMock(GroupPluginManager::class);
+
+		$ldap = new GroupLDAP($access, $pluginManager);
+		$this->assertSame($expected, $ldap->getDisplayName($gid));
 	}
 
 }

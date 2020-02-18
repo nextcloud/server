@@ -67,7 +67,7 @@ class HomeTest extends Storage {
 	 */
 	private $user;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
@@ -76,7 +76,7 @@ class HomeTest extends Storage {
 		$this->instance = new \OC\Files\Storage\Home(array('user' => $this->user));
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		\OC_Helper::rmdirr($this->tmpDir);
 		parent::tearDown();
 	}

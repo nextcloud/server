@@ -14,7 +14,7 @@
 		Please read the documentation to know all implications before you decide
 		to enable server-side encryption.
 	</description>
-	<version>2.3.0</version>
+	<version>2.7.0</version>
 	<licence>agpl</licence>
 	<author>Bjoern Schiessle</author>
 	<author>Clark Tomlinson</author>
@@ -31,7 +31,7 @@
 
 	<dependencies>
 		<lib>openssl</lib>
-		<nextcloud min-version="15" max-version="15" />
+		<nextcloud min-version="19" max-version="19"/>
 	</dependencies>
 
 	<repair-steps>

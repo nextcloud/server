@@ -40,7 +40,7 @@ class InstallerTest extends TestCase {
 	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->appFetcher = $this->createMock(AppFetcher::class);
@@ -57,7 +57,8 @@ class InstallerTest extends TestCase {
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
 			\OC::$server->getLogger(),
-			$config
+			$config,
+			false
 		);
 		$installer->removeApp(self::$appid);
 	}
@@ -68,17 +69,19 @@ class InstallerTest extends TestCase {
 			$this->clientService,
 			$this->tempManager,
 			$this->logger,
-			$this->config
+			$this->config,
+			false
 		);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$installer = new Installer(
 			\OC::$server->getAppFetcher(),
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
 			\OC::$server->getLogger(),
-			\OC::$server->getConfig()
+			\OC::$server->getConfig(),
+			false
 		);
 		$installer->removeApp(self::$appid);
 		\OC::$server->getConfig()->setSystemValue('appstoreenabled', $this->appstore);
@@ -101,7 +104,8 @@ class InstallerTest extends TestCase {
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getTempManager(),
 			\OC::$server->getLogger(),
-			\OC::$server->getConfig()
+			\OC::$server->getConfig(),
+			false
 		);
 		$this->assertNull(\OC::$server->getConfig()->getAppValue('testapp', 'enabled', null), 'Check that the app is not listed before installation');
 		$this->assertSame('testapp', $installer->installApp(self::$appid));
@@ -159,11 +163,11 @@ class InstallerTest extends TestCase {
 		$this->assertSame($updateAvailable, $installer->isUpdateAvailable('files'), 'Cached result should be returned and fetcher should be only called once');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Certificate "4112" has been revoked
-	 */
+
 	public function testDownloadAppWithRevokedCertificate() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Certificate "4112" has been revoked');
+
 		$appArray = [
 			[
 				'id' => 'news',
@@ -203,11 +207,11 @@ gLgK8d8sKL60JMmKHN3boHrsThKBVA==
 		$installer->downloadApp('news');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage App with id news has a certificate not issued by a trusted Code Signing Authority
-	 */
+
 	public function testDownloadAppWithNotNextcloudCertificate() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('App with id news has a certificate not issued by a trusted Code Signing Authority');
+
 		$appArray = [
 			[
 				'id' => 'news',
@@ -246,37 +250,37 @@ YSu356M=
 		$installer->downloadApp('news');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage App with id news has a cert issued to passman
-	 */
+
 	public function testDownloadAppWithDifferentCN() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('App with id news has a cert issued to passman');
+
 		$appArray = [
 			[
 				'id' => 'news',
 				'certificate' => '-----BEGIN CERTIFICATE-----
-MIIEAjCCAuoCAhAYMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
+MIIEAjCCAuoCAhDUMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
-dXRob3JpdHkwHhcNMTYxMDE5MTkzNTEyWhcNMjcwMTI1MTkzNTEyWjASMRAwDgYD
-VQQDDAdwYXNzbWFuMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA1Jw1
-8F0DefogaLaBudGbhK2zcFIBSzxhh7dRWguZKHGE+rG00BOvFLIAo37Bfmy9WKLc
-3BFYvuFBowaVdaFOLxQJod0sOTmVMXhwoY5e3Xx+P+nsAw1/0gI10/LD1Vgl6i1u
-gMocmnbEYhKwr0NbdiQiMI9UB9Ge/51wt4WtAxwK7yJFl3+5qzvJgfX75Wt+8L1e
-Wk0LpVW23tUueJovjYZJXyAtohNaV3gwiST+QmKljCd4gwGX9abqfc76/lWtS+hI
-rKptuICc55ffH30rqVhAgCMouF/Ml5Qru8tDen5dSNtmAXz89OlDNisP+9HL4WDZ
-wvgps0mm/OYAUAQln24uXPDmAX/H2P5xIDHAa8avsqdgmHiqnLr4GYD8JYeb8GmB
-zZ38hEMjCr2F1k1h9T1+SyfRiDPDqqv1mBtcvNVc1JmZvSikMxhtQbU0C4/o2SBG
-RPCirknfPeKu8wBi6gvH4/SK0XTyuM8H58b9AKxzoo/wLbQ668+faLYyMSzCvsZD
-eeZkiO85y87Ax57WRY93arccCMaUeks/cTriNw3JrvdDyb2SeQOX9JUp0orUlC64
-AzK2xhXCpmkprVBGizT5g3brrknX6VDX1gXFAmH/daCRJAIHPX0S/ol0z9w/hCEl
-CpbiJPEphGtxqz4SfMv6IrIfneuDDKbF+w5MV/sCAwEAATANBgkqhkiG9w0BAQsF
-AAOCAQEAUKj+/GpnMn+0/u9SPHTNmX3U3Y/ldmud0CsU5ELzMf/3YPbC/qWziRik
-ewM2WyG8cwT9ayt9DxWGfu/zLv+ddyl8Wje1e/FIkRKXK0WW6OMz3e8Y45ONzpmu
-8ME75IpnMuZEqE/WayRg27dQT5QNnEe/uNLd4m9BfsQcHIx3OfHCu5Of6/BclgsJ
-VWp31zY8kcT0QN1GQxfB3eXnMyELneKCP3OH9DBhr4FUFb0vRHc8/1rdADFvSsdX
-hNm8iRq+s2n0F6OGBofYT8ZyCnDUSQAoKMTIHcz+dDGyP4BfPY5w0ZGUfuaYATvm
-cR92p/PYCFXkAKP3OO0RPlf6dXNKTw==
+dXRob3JpdHkwHhcNMTkwMTMwMTMwMjA5WhcNMjkwNTA3MTMwMjA5WjASMRAwDgYD
+VQQDDAdwYXNzbWFuMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAwT1/
+hO/RSUkj0T9a879LPjy4c5V7FBDffEh6H/n1aiOEzofr8vqP3wJ4ZLwIvpZIZNFC
+CY4HjBTIgk+QOlAv2oV2w/8XxkSQ708H3m99GFNRQg9EztjiIeKn7y1HhFOeiVaF
+Eq6R1Tnre8cjzv6/yf1f1EFpPY3ptCefUjdLfpU/YrPhFxGLS+n5hyr8b6EszqKm
+6NhGI09sd1Wb1y8o+dtQIQr24gWeo3l3QGLxjcJQqHCxE38rGdTNd04qDEm69BMD
+Kjk4/JmUBBOn0svg9IAks+4nDnpr3IABfcnKYlmAucVEMNMYfA6kXXWEALsE2yo9
+8Y7GeV8En5Ztn4w3Pt2HMNpJV2m7MWWocSbF+ocp8oJ0cIEcthBubiE2kJhdPi5a
+Yo5Bwh54hx53an+XfiDn+bfidvNz5TsJtmZykB84gLcdBQyMHrZcDcD6g74KdW3X
+du/AnNUlJujhIU0fsw3UUPB845Q8XjbsIK5WhgaQeXJum8HXnXWkEfh6mE4j9l2Z
+6FJVe8fQlF5lspn6z3qYsWlYRalD3N9Qxy3vpRgCAYTPc3D+fbVP9KJw1cWux1+O
+0X/hNWMDOTenhgyQS+mqhRvdWq71mFjP/RXjOSfED3ipFamPofCz9QC7EERtvZPE
+Pr8tBnbxnyTbAOQrN9N2mA9UJbOhk2l5kCSkDpMCAwEAATANBgkqhkiG9w0BAQsF
+AAOCAQEAdVaizjIBQLGFo3uzOVAjh5IoFt/DBiSjVYOOt4HacWDDkRKOmQp3AJaA
+Zecbd+tF7OsIqrBzbbfK7wp1+y1pLrPNFQghhk7gVxBP9LscLQ1JmDK2vHv9rLAg
+d/gv90gf3HVeRQWntAhGTqtiSZkafcXJIRCM4GygoPy2zxeWeCTt85yEbQnuGZ4Z
+qtWS/yyJR5ZQEwYG7jFWRxaZicuUdWBhlUMafRUxzjxBhsQplGKSI66eFQ5VtB7L
+u/spPSSVhaun5BA1FlphB2TkgnzlCmxJa63nFY045e/Jq+IKMcqqZl/092gbI2EQ
+5EpZaQ1l6H5DBXwrz58a8WTPC2Mu8g==
 -----END CERTIFICATE-----',
 			],
 		];
@@ -289,37 +293,37 @@ cR92p/PYCFXkAKP3OO0RPlf6dXNKTw==
 		$installer->downloadApp('news');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage App with id passman has invalid signature
-	 */
+
 	public function testDownloadAppWithInvalidSignature() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('App with id passman has invalid signature');
+
 		$appArray = [
 			[
 				'id' => 'passman',
 				'certificate' => '-----BEGIN CERTIFICATE-----
-MIIEAjCCAuoCAhAYMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
+MIIEAjCCAuoCAhDUMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
-dXRob3JpdHkwHhcNMTYxMDE5MTkzNTEyWhcNMjcwMTI1MTkzNTEyWjASMRAwDgYD
-VQQDDAdwYXNzbWFuMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA1Jw1
-8F0DefogaLaBudGbhK2zcFIBSzxhh7dRWguZKHGE+rG00BOvFLIAo37Bfmy9WKLc
-3BFYvuFBowaVdaFOLxQJod0sOTmVMXhwoY5e3Xx+P+nsAw1/0gI10/LD1Vgl6i1u
-gMocmnbEYhKwr0NbdiQiMI9UB9Ge/51wt4WtAxwK7yJFl3+5qzvJgfX75Wt+8L1e
-Wk0LpVW23tUueJovjYZJXyAtohNaV3gwiST+QmKljCd4gwGX9abqfc76/lWtS+hI
-rKptuICc55ffH30rqVhAgCMouF/Ml5Qru8tDen5dSNtmAXz89OlDNisP+9HL4WDZ
-wvgps0mm/OYAUAQln24uXPDmAX/H2P5xIDHAa8avsqdgmHiqnLr4GYD8JYeb8GmB
-zZ38hEMjCr2F1k1h9T1+SyfRiDPDqqv1mBtcvNVc1JmZvSikMxhtQbU0C4/o2SBG
-RPCirknfPeKu8wBi6gvH4/SK0XTyuM8H58b9AKxzoo/wLbQ668+faLYyMSzCvsZD
-eeZkiO85y87Ax57WRY93arccCMaUeks/cTriNw3JrvdDyb2SeQOX9JUp0orUlC64
-AzK2xhXCpmkprVBGizT5g3brrknX6VDX1gXFAmH/daCRJAIHPX0S/ol0z9w/hCEl
-CpbiJPEphGtxqz4SfMv6IrIfneuDDKbF+w5MV/sCAwEAATANBgkqhkiG9w0BAQsF
-AAOCAQEAUKj+/GpnMn+0/u9SPHTNmX3U3Y/ldmud0CsU5ELzMf/3YPbC/qWziRik
-ewM2WyG8cwT9ayt9DxWGfu/zLv+ddyl8Wje1e/FIkRKXK0WW6OMz3e8Y45ONzpmu
-8ME75IpnMuZEqE/WayRg27dQT5QNnEe/uNLd4m9BfsQcHIx3OfHCu5Of6/BclgsJ
-VWp31zY8kcT0QN1GQxfB3eXnMyELneKCP3OH9DBhr4FUFb0vRHc8/1rdADFvSsdX
-hNm8iRq+s2n0F6OGBofYT8ZyCnDUSQAoKMTIHcz+dDGyP4BfPY5w0ZGUfuaYATvm
-cR92p/PYCFXkAKP3OO0RPlf6dXNKTw==
+dXRob3JpdHkwHhcNMTkwMTMwMTMwMjA5WhcNMjkwNTA3MTMwMjA5WjASMRAwDgYD
+VQQDDAdwYXNzbWFuMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAwT1/
+hO/RSUkj0T9a879LPjy4c5V7FBDffEh6H/n1aiOEzofr8vqP3wJ4ZLwIvpZIZNFC
+CY4HjBTIgk+QOlAv2oV2w/8XxkSQ708H3m99GFNRQg9EztjiIeKn7y1HhFOeiVaF
+Eq6R1Tnre8cjzv6/yf1f1EFpPY3ptCefUjdLfpU/YrPhFxGLS+n5hyr8b6EszqKm
+6NhGI09sd1Wb1y8o+dtQIQr24gWeo3l3QGLxjcJQqHCxE38rGdTNd04qDEm69BMD
+Kjk4/JmUBBOn0svg9IAks+4nDnpr3IABfcnKYlmAucVEMNMYfA6kXXWEALsE2yo9
+8Y7GeV8En5Ztn4w3Pt2HMNpJV2m7MWWocSbF+ocp8oJ0cIEcthBubiE2kJhdPi5a
+Yo5Bwh54hx53an+XfiDn+bfidvNz5TsJtmZykB84gLcdBQyMHrZcDcD6g74KdW3X
+du/AnNUlJujhIU0fsw3UUPB845Q8XjbsIK5WhgaQeXJum8HXnXWkEfh6mE4j9l2Z
+6FJVe8fQlF5lspn6z3qYsWlYRalD3N9Qxy3vpRgCAYTPc3D+fbVP9KJw1cWux1+O
+0X/hNWMDOTenhgyQS+mqhRvdWq71mFjP/RXjOSfED3ipFamPofCz9QC7EERtvZPE
+Pr8tBnbxnyTbAOQrN9N2mA9UJbOhk2l5kCSkDpMCAwEAATANBgkqhkiG9w0BAQsF
+AAOCAQEAdVaizjIBQLGFo3uzOVAjh5IoFt/DBiSjVYOOt4HacWDDkRKOmQp3AJaA
+Zecbd+tF7OsIqrBzbbfK7wp1+y1pLrPNFQghhk7gVxBP9LscLQ1JmDK2vHv9rLAg
+d/gv90gf3HVeRQWntAhGTqtiSZkafcXJIRCM4GygoPy2zxeWeCTt85yEbQnuGZ4Z
+qtWS/yyJR5ZQEwYG7jFWRxaZicuUdWBhlUMafRUxzjxBhsQplGKSI66eFQ5VtB7L
+u/spPSSVhaun5BA1FlphB2TkgnzlCmxJa63nFY045e/Jq+IKMcqqZl/092gbI2EQ
+5EpZaQ1l6H5DBXwrz58a8WTPC2Mu8g==
 -----END CERTIFICATE-----',
 				'releases' => [
 					[
@@ -347,7 +351,7 @@ cR92p/PYCFXkAKP3OO0RPlf6dXNKTw==
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile]);
+			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->once())
 			->method('newClient')
@@ -357,11 +361,11 @@ cR92p/PYCFXkAKP3OO0RPlf6dXNKTw==
 		$installer->downloadApp('passman');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Extracted app testapp has more than 1 folder
-	 */
+
 	public function testDownloadAppWithMoreThanOneFolderDownloaded() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Extracted app testapp has more than 1 folder');
+
 		$appArray = [
 			[
 				'id' => 'testapp',
@@ -431,7 +435,7 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile]);
+			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->once())
 			->method('newClient')
@@ -441,11 +445,11 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 		$installer->downloadApp('testapp');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage App for id testapp has a wrong app ID in info.xml: testapp1
-	 */
+
 	public function testDownloadAppWithMismatchingIdentifier() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('App for id testapp has a wrong app ID in info.xml: testapp1');
+
 		$appArray = [
 			[
 				'id' => 'testapp',
@@ -514,7 +518,7 @@ YwDVP+QmNRzx72jtqAN/Kc3CvQ9nkgYhU65B95aX0xA=',
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile]);
+			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->once())
 			->method('newClient')
@@ -593,7 +597,7 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile]);
+			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->at(0))
 			->method('newClient')
@@ -606,11 +610,11 @@ MPLX6f5V9tCJtlH6ztmEcDROfvuVc0U3rEhqx2hphoyo+MZrPFpdcJL8KkIdMKbY
 		$this->assertEquals('0.9', \OC_App::getAppVersionByPath(__DIR__ . '/../../apps/testapp/'));
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage App for id testapp has version 0.9 and tried to update to lower version 0.8
-	 */
+
 	public function testDownloadAppWithDowngrade() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('App for id testapp has version 0.9 and tried to update to lower version 0.8');
+
 		$appArray = [
 			[
 				'id' => 'testapp',
@@ -679,7 +683,7 @@ JXhrdaWDZ8fzpUjugrtC3qslsqL0dzgU37anS3HwrT8=',
 		$client
 			->expects($this->once())
 			->method('get')
-			->with('https://example.com', ['save_to' => $realTmpFile]);
+			->with('https://example.com', ['save_to' => $realTmpFile, 'timeout' => 120]);
 		$this->clientService
 			->expects($this->at(1))
 			->method('newClient')

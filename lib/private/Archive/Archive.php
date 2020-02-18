@@ -24,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -120,7 +120,6 @@ abstract class Archive {
 	 * add a folder and all its content
 	 * @param string $path
 	 * @param string $source
-	 * @return boolean|null
 	 */
 	public function addRecursive($path, $source) {
 		$dh = opendir($source);

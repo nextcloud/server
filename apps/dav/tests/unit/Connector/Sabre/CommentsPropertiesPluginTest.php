@@ -19,13 +19,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
-use \OCA\DAV\Connector\Sabre\CommentPropertiesPlugin as CommentPropertiesPluginImplementation;
+use OCA\DAV\Connector\Sabre\CommentPropertiesPlugin as CommentPropertiesPluginImplementation;
 use OCA\DAV\Connector\Sabre\File;
 use OCP\Comments\ICommentsManager;
 use OCP\IUser;
@@ -40,7 +40,7 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 	protected $userSession;
 	protected $server;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)

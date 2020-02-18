@@ -10,8 +10,13 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Kyle Fazzari <kyrofa@ubuntu.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Michael Weimann <mail@michael-weimann.eu>
+ * @author rakekniven <mark.ziegler@rakekniven.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -26,7 +31,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -35,11 +40,13 @@ namespace OCA\Theming\Controller;
 use OC\Template\SCSSCacher;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
+use OCA\Theming\Util;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDownloadResponse;
-use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
@@ -49,10 +56,8 @@ use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
-use OCA\Theming\Util;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
-use OCP\App\IAppManager;
 
 /**
  * Class ThemingController
@@ -135,67 +140,55 @@ class ThemingController extends Controller {
 	 */
 	public function updateStylesheet($setting, $value) {
 		$value = trim($value);
+		$error = null;
 		switch ($setting) {
 			case 'name':
 				if (strlen($value) > 250) {
-					return new DataResponse([
-						'data' => [
-							'message' => $this->l10n->t('The given name is too long'),
-						],
-						'status' => 'error'
-					]);
+					$error = $this->l10n->t('The given name is too long');
 				}
 				break;
 			case 'url':
 				if (strlen($value) > 500) {
-					return new DataResponse([
-						'data' => [
-							'message' => $this->l10n->t('The given web address is too long'),
-						],
-						'status' => 'error'
-					]);
+					$error = $this->l10n->t('The given web address is too long');
+				}
+				if (!$this->isValidUrl($value)) {
+					$error = $this->l10n->t('The given web address is not a valid URL');
 				}
 				break;
 			case 'imprintUrl':
 				if (strlen($value) > 500) {
-					return new DataResponse([
-						'data' => [
-							'message' => $this->l10n->t('The given legal notice address is too long'),
-						],
-						'status' => 'error'
-					]);
+					$error = $this->l10n->t('The given legal notice address is too long');
+				}
+				if (!$this->isValidUrl($value)) {
+					$error = $this->l10n->t('The given legal notice address is not a valid URL');
 				}
 				break;
 			case 'privacyUrl':
 				if (strlen($value) > 500) {
-					return new DataResponse([
-						'data' => [
-							'message' => $this->l10n->t('The given privacy policy address is too long'),
-						],
-						'status' => 'error'
-					]);
+					$error = $this->l10n->t('The given privacy policy address is too long');
+				}
+				if (!$this->isValidUrl($value)) {
+					$error = $this->l10n->t('The given privacy policy address is not a valid URL');
 				}
 				break;
 			case 'slogan':
 				if (strlen($value) > 500) {
-					return new DataResponse([
-						'data' => [
-							'message' => $this->l10n->t('The given slogan is too long'),
-						],
-						'status' => 'error'
-					]);
+					$error = $this->l10n->t('The given slogan is too long');
 				}
 				break;
 			case 'color':
 				if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
-					return new DataResponse([
-						'data' => [
-							'message' => $this->l10n->t('The given color is invalid'),
-						],
-						'status' => 'error'
-					]);
+					$error = $this->l10n->t('The given color is invalid');
 				}
 				break;
+		}
+		if ($error !== null) {
+			return new DataResponse([
+				'data' => [
+					'message' => $error,
+				],
+				'status' => 'error'
+			], Http::STATUS_BAD_REQUEST);
 		}
 
 		$this->themingDefaults->set($setting, $value);
@@ -213,6 +206,14 @@ class ThemingController extends Controller {
 				'status' => 'success'
 			]
 		);
+	}
+
+	/**
+	 * Check that a string is a valid http/https url
+	 */
+	private function isValidUrl(string $url): bool {
+		return ((strpos($url, 'http://') === 0 || strpos($url, 'https://') === 0) &&
+			filter_var($url, FILTER_VALIDATE_URL) !== false);
 	}
 
 	/**
@@ -383,6 +384,9 @@ class ThemingController extends Controller {
 		}
 
 		$response = new FileDisplayResponse($file);
+		$csp = new Http\ContentSecurityPolicy();
+		$csp->allowInlineStyle();
+		$response->setContentSecurityPolicy($csp);
 		$response->cacheFor(3600);
 		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));
 		$response->addHeader('Content-Disposition', 'attachment; filename="' . $key . '"');

@@ -30,6 +30,7 @@ use OC\Contacts\ContactsMenu\Manager;
 use OCP\App\IAppManager;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\IProvider;
+use OCP\IConfig;
 use OCP\IUser;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
@@ -42,20 +43,24 @@ class ManagerTest extends TestCase {
 	/** @var IAppManager|PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
 
+	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+
 	/** @var ActionProviderStore|PHPUnit_Framework_MockObject_MockObject */
 	private $actionProviderStore;
 
 	/** @var Manager */
 	private $manager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->contactsStore = $this->createMock(ContactsStore::class);
 		$this->actionProviderStore = $this->createMock(ActionProviderStore::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->config = $this->createMock(IConfig::class);
 
-		$this->manager = new Manager($this->contactsStore, $this->actionProviderStore, $this->appManager);
+		$this->manager = new Manager($this->contactsStore, $this->actionProviderStore, $this->appManager, $this->config);
 	}
 
 	private function generateTestEntries() {
@@ -75,6 +80,15 @@ class ManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$entries = $this->generateTestEntries();
 		$provider = $this->createMock(IProvider::class);
+
+		$this->config->expects($this->at(0))
+			->method('getSystemValueInt')
+			->with('sharing.maxAutocompleteResults', 25)
+			->willReturn(25);
+		$this->config->expects($this->at(1))
+			->method('getSystemValueInt')
+			->with('sharing.minSearchStringLength', 0)
+			->willReturn(0);
 		$this->contactsStore->expects($this->once())
 			->method('getContacts')
 			->with($user, $filter)
@@ -91,6 +105,71 @@ class ManagerTest extends TestCase {
 			->willReturn(false);
 		$expected = [
 			'contacts' => array_slice($entries, 0, 25),
+			'contactsAppEnabled' => false,
+		];
+
+		$data = $this->manager->getEntries($user, $filter);
+
+		$this->assertEquals($expected, $data);
+	}
+
+	public function testGetFilteredEntriesLimit() {
+		$filter = 'con';
+		$user = $this->createMock(IUser::class);
+		$entries = $this->generateTestEntries();
+		$provider = $this->createMock(IProvider::class);
+
+		$this->config->expects($this->at(0))
+			->method('getSystemValueInt')
+			->with('sharing.maxAutocompleteResults', 25)
+			->willReturn(3);
+		$this->config->expects($this->at(1))
+			->method('getSystemValueInt')
+			->with('sharing.minSearchStringLength', 0)
+			->willReturn(0);
+		$this->contactsStore->expects($this->once())
+			->method('getContacts')
+			->with($user, $filter)
+			->willReturn($entries);
+		$this->actionProviderStore->expects($this->once())
+			->method('getProviders')
+			->with($user)
+			->willReturn([$provider]);
+		$provider->expects($this->exactly(3))
+			->method('process');
+		$this->appManager->expects($this->once())
+			->method('isEnabledForUser')
+			->with($this->equalTo('contacts'), $user)
+			->willReturn(false);
+		$expected = [
+			'contacts' => array_slice($entries, 0, 3),
+			'contactsAppEnabled' => false,
+		];
+
+		$data = $this->manager->getEntries($user, $filter);
+
+		$this->assertEquals($expected, $data);
+	}
+
+	public function testGetFilteredEntriesMinSearchStringLength() {
+		$filter = 'con';
+		$user = $this->createMock(IUser::class);
+		$provider = $this->createMock(IProvider::class);
+
+		$this->config->expects($this->at(0))
+			->method('getSystemValueInt')
+			->with('sharing.maxAutocompleteResults', 25)
+			->willReturn(3);
+		$this->config->expects($this->at(1))
+			->method('getSystemValueInt')
+			->with('sharing.minSearchStringLength', 0)
+			->willReturn(4);
+		$this->appManager->expects($this->once())
+			->method('isEnabledForUser')
+			->with($this->equalTo('contacts'), $user)
+			->willReturn(false);
+		$expected = [
+			'contacts' => [],
 			'contactsAppEnabled' => false,
 		];
 

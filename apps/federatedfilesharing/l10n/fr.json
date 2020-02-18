@@ -1,5 +1,4 @@
 { "translations": {
-    "Federated sharing" : "Partage fédéré",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Voulez-vous ajouter le partage distant {name} depuis {owner}@{remote} ?",
     "Remote share" : "Partage distant",
     "Remote share password" : "Mot de passe du partage distant",
@@ -22,9 +21,10 @@
     "File is already shared with %s" : "Le fichier est déjà partagé avec %s",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Le partage de %1$s a échoué, impossible de trouver %2$s, le serveur est peut-être momentanément injoignable ou utilise un certificat auto-signé.",
     "Could not find share" : "Impossible de trouver le partage",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vous avez reçu \"%3$s\" en tant que partage distant de %1$s (de la part de %2$s)",
+    "Federated sharing" : "Partage fédéré",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Vous avez reçu \"%3$s\" en tant que partage distant de%4$s(%1$s) (par le biais de%5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Vous avez reçu {share} comme partage distant de la part de {user} (de la part de {behalf})",
-    "You received \"%3$s\" as a remote share from %1$s" : "Vous avez reçu \"%3$s\" comme partage distant de %1$s",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Vous avez reçu \"%3$s\" en tant que partage distant de %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Vous avez reçu {share} comme partage distant de la part de {user}",
     "Accept" : "Accepter",
     "Decline" : "Refuser",
@@ -43,21 +43,13 @@
     "Search global and public address book for users" : "Rechercher dans le carnet d'adresse global et public pour les utilisateurs",
     "Allow users to publish their data to a global and public address book" : "Autoriser les utilisateurs à publier leurs données dans un carnet d'adresse global et public",
     "Federated Cloud" : "Cloud Fédéré",
-    "You can share with anyone who uses Nextcloud, ownCloud or Pydio! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Vous pouvez partager avec n'importe qui utilisant Nextcloud, ownCloud ou Pydio ! Renseignez simplement leur ID de Cloud Fédéré dans la boîte de dialogue de partage. Il ressemble à person@cloud.example.com",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Vous pouvez partager avec quiconque utilise un serveur Nextcloud ou un serveur ou service compatible Open Cloud Mesh (OCM). Renseignez simplement son identifiant sur une instance fédérée dans la boîte de dialogue de partage. Cela prend la forme de utilisateur@cloud.exemple.com.",
     "Your Federated Cloud ID:" : "Votre identifiant de Cloud Fédéré :",
     "Share it so your friends can share files with you:" : "Partagez-le afin que vos amis puissent partager des fichiers avec vous :",
     "Add to your website" : "Ajouter à votre site web",
     "Share with me via Nextcloud" : "Partagez avec moi via Nextcloud",
     "HTML Code:" : "Code HTML :",
-    "The mountpoint name contains invalid characters." : "Le nom du point de montage contient des caractères invalides.",
-    "Not allowed to create a federated share with the owner." : "Vous n'êtes pas autorisé à créer un partage fédéré avec le propriétaire.",
-    "Invalid or untrusted SSL certificate" : "Certificat SSL invalide ou non approuvé",
-    "Could not authenticate to remote share, password might be wrong" : "Impossible de se connecter au partage distant, le mot de passe peut-être incorrect",
-    "Storage not valid" : "Support de stockage non valide",
-    "Federated share added" : "Partage fédéré ajouté",
-    "Couldn't add remote share" : "Impossible d'ajouter le partage distant",
-    "Sharing %s failed, because this item is already shared with %s" : "Le partage de %s a échoué car cet élément est déjà partagé avec %s",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "Le partage de %s a échoué, impossible de trouver %s, le serveur est peut-être momentanément injoignable ou utilise un certificat auto-signé.",
-    "Search global and public address book for users and let local users publish their data" : "Rechercher dans le carnet d'adresse global et public pour les utilisateurs et laisser les utilisateurs publier leurs données"
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vous avez reçu \"%3$s\" en tant que partage distant de %1$s (de la part de %2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Vous avez reçu \"%3$s\" comme partage distant de %1$s"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

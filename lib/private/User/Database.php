@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -9,6 +11,8 @@ declare(strict_types=1);
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author fabian <fabian@web2.0-apps.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jakob Sack <mail@jakobsack.de>
@@ -16,8 +20,6 @@ declare(strict_types=1);
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Loki3000 <github@labcms.ru>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
- * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author nishiki <nishiki@yaegashi.fr>
  * @author Robin Appelman <robin@icewind.nl>
@@ -38,7 +40,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -58,18 +60,18 @@ declare(strict_types=1);
 namespace OC\User;
 
 use OC\Cache\CappedMemoryCache;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use OCP\Security\Events\ValidatePasswordPolicyEvent;
 use OCP\User\Backend\ABackend;
 use OCP\User\Backend\ICheckPasswordBackend;
 use OCP\User\Backend\ICountUsersBackend;
 use OCP\User\Backend\ICreateUserBackend;
 use OCP\User\Backend\IGetDisplayNameBackend;
 use OCP\User\Backend\IGetHomeBackend;
+use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
-use OCP\Util;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
@@ -82,11 +84,12 @@ class Database extends ABackend
 	           IGetDisplayNameBackend,
 	           ICheckPasswordBackend,
 	           IGetHomeBackend,
-	           ICountUsersBackend {
+	           ICountUsersBackend,
+	           IGetRealUIDBackend {
 	/** @var CappedMemoryCache */
 	private $cache;
 
-	/** @var EventDispatcher */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
 	/** @var IDBConnection */
@@ -98,13 +101,13 @@ class Database extends ABackend
 	/**
 	 * \OC\User\Database constructor.
 	 *
-	 * @param EventDispatcher $eventDispatcher
+	 * @param IEventDispatcher $eventDispatcher
 	 * @param string $table
 	 */
 	public function __construct($eventDispatcher = null, $table = 'users') {
 		$this->cache = new CappedMemoryCache();
 		$this->table = $table;
-		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->getEventDispatcher();
+		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->query(IEventDispatcher::class);
 	}
 
 	/**
@@ -130,8 +133,7 @@ class Database extends ABackend
 		$this->fixDI();
 
 		if (!$this->userExists($uid)) {
-			$event = new GenericEvent($password);
-			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
+			$this->eventDispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->insert($this->table)
@@ -199,8 +201,7 @@ class Database extends ABackend
 		$this->fixDI();
 
 		if ($this->userExists($uid)) {
-			$event = new GenericEvent($password);
-			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
+			$this->eventDispatcher->dispatchTyped(new ValidatePasswordPolicyEvent($password));
 
 			$hasher = \OC::$server->getHasher();
 			$hashedPassword = $hasher->hash($password);
@@ -259,6 +260,8 @@ class Database extends ABackend
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+		$limit = $this->fixLimit($limit);
+
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
@@ -380,6 +383,8 @@ class Database extends ABackend
 	 * @return string[] an array of all uids
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
+		$limit = $this->fixLimit($limit);
+
 		$users = $this->getDisplayNames($search, $limit, $offset);
 		$userIds = array_map(function ($uid) {
 			return (string)$uid;
@@ -475,6 +480,21 @@ class Database extends ABackend
 				}
 			}
 		}
+	}
 
+	public function getRealUID(string $uid): string {
+		if (!$this->userExists($uid)) {
+			throw new \RuntimeException($uid . ' does not exist');
+		}
+
+		return $this->cache[$uid]['uid'];
+	}
+
+	private function fixLimit($limit) {
+		if (is_int($limit) && $limit >= 0) {
+			return $limit;
+		}
+
+		return null;
 	}
 }

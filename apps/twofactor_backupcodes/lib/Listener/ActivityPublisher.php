@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 /**
+ *
+ *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,7 +20,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -27,10 +29,11 @@ namespace OCA\TwoFactorBackupCodes\Listener;
 use BadMethodCallException;
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCP\Activity\IManager;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\ILogger;
-use Symfony\Component\EventDispatcher\Event;
 
-class ActivityPublisher implements IListener {
+class ActivityPublisher implements IEventListener {
 
 	/** @var IManager */
 	private $activityManager;
@@ -38,7 +41,8 @@ class ActivityPublisher implements IListener {
 	/** @var ILogger */
 	private $logger;
 
-	public function __construct(IManager $activityManager, ILogger $logger) {
+	public function __construct(IManager $activityManager,
+								ILogger $logger) {
 		$this->activityManager = $activityManager;
 		$this->logger = $logger;
 	}
@@ -46,7 +50,7 @@ class ActivityPublisher implements IListener {
 	/**
 	 * Push an event to the user's activity stream
 	 */
-	public function handle(Event $event) {
+	public function handle(Event $event): void {
 		if ($event instanceof CodesGenerated) {
 			$activity = $this->activityManager->generateEvent();
 			$activity->setApp('twofactor_backupcodes')

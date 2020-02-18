@@ -1,15 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
-
 /**
- * FullTextSearch - Full text search framework for Nextcloud
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
+ * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,16 +20,14 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 
 namespace OCP\FullTextSearch\Service;
 
 
 use OCP\FullTextSearch\Model\IIndex;
-
 
 /**
  * Interface IIndexService
@@ -42,6 +37,20 @@ use OCP\FullTextSearch\Model\IIndex;
  * @package OCP\FullTextSearch\Service
  */
 interface IIndexService {
+
+
+	/**
+	 * Create an Index
+	 *
+	 * @since 15.0.1
+	 *
+	 * @param string $providerId
+	 * @param string $documentId
+	 * @param string $userId
+	 * @param int $status
+	 * @return IIndex
+	 */
+	public function createIndex(string $providerId, string $documentId, string $userId, int $status): IIndex;
 
 
 	/**
@@ -96,4 +105,3 @@ interface IIndexService {
 	public function updateIndexes(array $indexes);
 
 }
-

@@ -4,6 +4,8 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Mark Berezovsky <xpnf@yandex.ru>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -20,7 +22,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -177,8 +179,10 @@ class Throttler {
 				$part = ord($addr[(int)($i/8)]);
 				$orig = ord($ip[(int)($i/8)]);
 
-				$part = $part & (15 << (1 - ($i % 2)));
-				$orig = $orig & (15 << (1 - ($i % 2)));
+				$bitmask = 1 << (7 - ($i % 8));
+
+				$part = $part & $bitmask;
+				$orig = $orig & $bitmask;
 
 				if ($part !== $orig) {
 					$valid = false;

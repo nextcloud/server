@@ -260,8 +260,8 @@
 				var result = $searchResults.find('tr.result')[currentResult];
 				if (result) {
 					var $result = $(result);
-					var currentOffset = $('#app-content').scrollTop();
-					$('#app-content').animate(
+					var currentOffset = $(window).scrollTop();
+					$(window).animate(
 						{
 							// Scrolling to the top of the new result
 							scrollTop:
@@ -302,16 +302,15 @@
 					lastQuery !== false &&
 					lastResults.length > 0
 				) {
-					var resultsBottom = $searchResults.offset().top + $searchResults.height();
-					var containerBottom = $searchResults.offsetParent().offset().top + $searchResults.offsetParent().height();
-					if (resultsBottom < containerBottom * 1.2) {
-						self.search(lastQuery, lastInApps, lastPage + 1);
+					if ($(window).scrollTop() + $(window).height() > $searchResults.height() - 300) {
+  						self.search(lastQuery, lastInApps, lastPage + 1);
 					}
 					placeStatus();
 				}
 			}
 
-			$('#app-content').on('scroll', _.bind(onScroll, this));
+			$(window).on('scroll', _.bind(onScroll, this)); // For desktop browser
+			$("body").on('scroll', _.bind(onScroll, this)); // For mobile browser
 
 			/**
 			 * scrolls the search results to the top
@@ -319,9 +318,9 @@
 			function scrollToResults() {
 				setTimeout(function() {
 					if (isStatusOffScreen()) {
-						var newScrollTop = $('#app-content').prop('scrollHeight') - $searchResults.height();
+						var newScrollTop = $(window).prop('scrollHeight') - $searchResults.height();
 						console.log('scrolling to ' + newScrollTop);
-						$('#app-content').animate(
+						$(window).animate(
 							{
 								scrollTop: newScrollTop
 							},
@@ -416,14 +415,22 @@ $(document).ready(function() {
 	var $searchBox = $('#searchbox');
 	if ($searchResults.length > 0 && $searchBox.length > 0) {
 		$searchResults.addClass('hidden');
-		$searchResults.load(
-			OC.getRootPath() + '/core/search/templates/part.results.html',
-			function() {
-				OC.Search = new OCA.Search.Core(
-					$searchBox,
-					$searchResults
-				);
-			}
+		$searchResults.html('<table>\n' +
+			'\t<tbody>\n' +
+			'\t\t<tr class="template">\n' +
+			'\t\t\t<td class="icon"></td>\n' +
+			'\t\t\t<td class="info">\n' +
+			'\t\t\t\t<a class="link">\n' +
+			'\t\t\t\t\t<div class="name"></div>\n' +
+			'\t\t\t\t</a>\n' +
+			'\t\t\t</td>\n' +
+			'\t\t</tr>\n' +
+			'\t</tbody>\n' +
+			'</table>\n' +
+			'<div id="status"><span></span></div>');
+		OC.Search = new OCA.Search.Core(
+			$searchBox,
+			$searchResults
 		);
 	} else {
 		// check again later

@@ -56,7 +56,7 @@ abstract class FetcherBase extends TestCase {
 	/** @var string */
 	protected $endpoint;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->appDataFactory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(AppData::class);
@@ -136,6 +136,11 @@ abstract class FetcherBase extends TestCase {
 			->willReturn(true);
 		$this->config
 			->expects($this->at(3))
+			->method('getSystemValue')
+			->with('appstoreurl', 'https://apps.nextcloud.com/api/v1')
+			->willReturn('https://apps.nextcloud.com/api/v1');
+		$this->config
+			->expects($this->at(4))
 			->method('getSystemValue')
 			->with(
 				$this->equalTo('version'),
@@ -298,6 +303,11 @@ abstract class FetcherBase extends TestCase {
 		$this->config
 			->expects($this->at(3))
 			->method('getSystemValue')
+			->with('appstoreurl', 'https://apps.nextcloud.com/api/v1')
+			->willReturn('https://apps.nextcloud.com/api/v1');
+		$this->config
+			->expects($this->at(4))
+			->method('getSystemValue')
 			->with(
 				$this->equalTo('version'),
 				$this->anything()
@@ -381,6 +391,11 @@ abstract class FetcherBase extends TestCase {
 			->willReturn(true);
 		$this->config
 			->expects($this->at(3))
+			->method('getSystemValue')
+			->with('appstoreurl', 'https://apps.nextcloud.com/api/v1')
+			->willReturn('https://apps.nextcloud.com/api/v1');
+		$this->config
+			->expects($this->at(4))
 			->method('getSystemValue')
 			->with(
 				$this->equalTo('version'),

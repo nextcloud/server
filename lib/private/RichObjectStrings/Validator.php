@@ -19,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -71,10 +71,16 @@ class Validator implements IValidator {
 			foreach ($matches[1] as $parameter) {
 				if (!isset($parameters[$parameter])) {
 					throw new InvalidObjectExeption('Parameter is undefined');
-				} else {
-					$this->validateParameter($parameters[$parameter]);
 				}
 			}
+		}
+
+		foreach ($parameters as $parameter) {
+			if (!\is_array($parameter)) {
+				throw new InvalidObjectExeption('Parameter is malformed');
+			}
+
+			$this->validateParameter($parameter);
 		}
 	}
 

@@ -4,13 +4,10 @@
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author J0WI <J0WI@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Sergio Bertolín <sbertolin@solidgear.es>
- * @author Stefan Weil <sw@weilnetz.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -26,7 +23,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -84,26 +81,27 @@ class OC_Response {
 		 * @see \OCP\AppFramework\Http\Response::getHeaders
 		 */
 		$policy = 'default-src \'self\'; '
-			. 'script-src \'self\' \'unsafe-eval\' \'nonce-'.\OC::$server->getContentSecurityPolicyNonceManager()->getNonce().'\'; '
+			. 'script-src \'self\' \'nonce-'.\OC::$server->getContentSecurityPolicyNonceManager()->getNonce().'\'; '
 			. 'style-src \'self\' \'unsafe-inline\'; '
 			. 'frame-src *; '
 			. 'img-src * data: blob:; '
 			. 'font-src \'self\' data:; '
-			. 'media-src *; ' 
+			. 'media-src *; '
 			. 'connect-src *; '
 			. 'object-src \'none\'; '
 			. 'base-uri \'self\'; ';
 		header('Content-Security-Policy:' . $policy);
-		header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
 
 		// Send fallback headers for installations that don't have the possibility to send
 		// custom headers on the webserver side
 		if(getenv('modHeadersAvailable') !== 'true') {
-			header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
+			header('Referrer-Policy: no-referrer'); // https://www.w3.org/TR/referrer-policy/
 			header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
-			header('X-Robots-Tag: none'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
 			header('X-Download-Options: noopen'); // https://msdn.microsoft.com/en-us/library/jj542450(v=vs.85).aspx
+			header('X-Frame-Options: SAMEORIGIN'); // Disallow iFraming from other domains
 			header('X-Permitted-Cross-Domain-Policies: none'); // https://www.adobe.com/devnet/adobe-media-server/articles/cross-domain-xml-for-streaming.html
+			header('X-Robots-Tag: none'); // https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
+			header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
 		}
 	}
 

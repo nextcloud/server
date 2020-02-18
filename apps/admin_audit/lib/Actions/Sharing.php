@@ -1,10 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,7 +23,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -91,6 +95,58 @@ class Sharing extends Action {
 					'id',
 				]
 			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_EMAIL) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been shared to the email recipient "%s" with permissions "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'itemTarget',
+					'itemSource',
+					'shareWith',
+					'permissions',
+					'id',
+				]
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_CIRCLE) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been shared to the circle "%s" with permissions "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'itemTarget',
+					'itemSource',
+					'shareWith',
+					'permissions',
+					'id',
+				]
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_REMOTE) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been shared to the remote user "%s" with permissions "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'itemTarget',
+					'itemSource',
+					'shareWith',
+					'permissions',
+					'id',
+				]
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_REMOTE_GROUP) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been shared to the remote group "%s" with permissions "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'itemTarget',
+					'itemSource',
+					'shareWith',
+					'permissions',
+					'id',
+				]
+			);
 		}
 	}
 
@@ -138,6 +194,54 @@ class Sharing extends Action {
 		} elseif($params['shareType'] === Share::SHARE_TYPE_ROOM) {
 			$this->log(
 				'The %s "%s" with ID "%s" has been unshared from the room "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'fileTarget',
+					'itemSource',
+					'shareWith',
+					'id',
+				]
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_EMAIL) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been unshared from the email recipient "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'fileTarget',
+					'itemSource',
+					'shareWith',
+					'id',
+				]
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_CIRCLE) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been unshared from the circle "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'fileTarget',
+					'itemSource',
+					'shareWith',
+					'id',
+				]
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_REMOTE) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been unshared from the remote user "%s" (Share ID: %s)',
+				$params,
+				[
+					'itemType',
+					'fileTarget',
+					'itemSource',
+					'shareWith',
+					'id',
+				]
+			);
+		} elseif($params['shareType'] === Share::SHARE_TYPE_REMOTE_GROUP) {
+			$this->log(
+				'The %s "%s" with ID "%s" has been unshared from the remote group "%s" (Share ID: %s)',
 				$params,
 				[
 					'itemType',

@@ -6,16 +6,15 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Fabian Henze <flyser42@gmx.de>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Pellaeon Lin <nfsmwlin@gmail.com>
@@ -40,7 +39,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 use Symfony\Component\Process\ExecutableFinder;
@@ -84,32 +83,6 @@ class OC_Helper {
 
 		$bytes = round($bytes / 1024, 1);
 		return "$bytes PB";
-	}
-
-	/**
-	 * Make a php file size
-	 * @param int $bytes file size in bytes
-	 * @return string a php parseable file size
-	 *
-	 * Makes 2048 to 2k and 2^41 to 2048G
-	 */
-	public static function phpFileSize($bytes) {
-		if ($bytes < 0) {
-			return "?";
-		}
-		if ($bytes < 1024) {
-			return $bytes . "B";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return $bytes . "K";
-		}
-		$bytes = round($bytes / 1024, 1);
-		if ($bytes < 1024) {
-			return $bytes . "M";
-		}
-		$bytes = round($bytes / 1024, 1);
-		return $bytes . "G";
 	}
 
 	/**
@@ -215,6 +188,7 @@ class OC_Helper {
 	}
 
 	/**
+	 * @deprecated 18.0.0
 	 * @return \OC\Files\Type\TemplateManager
 	 */
 	static public function getFileTemplateManager() {
@@ -611,8 +585,13 @@ class OC_Helper {
 			$relative = 0;
 		}
 
-		return array('free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative);
-
+		return [
+			'free' => $free,
+			'used' => $used,
+			'total' => $total,
+			'relative' => $relative,
+			'quota' => $quota
+		];
 	}
 
 	/**

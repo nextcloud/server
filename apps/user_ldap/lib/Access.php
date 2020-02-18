@@ -10,18 +10,22 @@
  * @author Benjamin Diele <benjamin@diele.be>
  * @author bline <scottbeck@gmail.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Lorenzo M. Catucci <lorenzo@sancho.ccd.uniroma2.it>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Lyonel Vincent <lyonel@ezix.org>
  * @author Mario Kolling <mario.kolling@serpro.gov.br>
+ * @author Max Kovalenko <mxss1998@yandex.ru>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Nicolas Grekas <nicolas.grekas@gmail.com>
+ * @author Peter Kubica <peter@kubica.ch>
  * @author Ralph Krimmel <rkrimme1@gwdg.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
+ * @author Roland Tapken <roland@bitarbeiter.net>
  * @author root <root@localhost.localdomain>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
@@ -37,7 +41,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -45,11 +49,11 @@ namespace OCA\User_LDAP;
 
 use OC\HintException;
 use OC\Hooks\PublicEmitter;
+use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
+use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
-use OCA\User_LDAP\Mapping\AbstractMapping;
-use OC\ServerNotAvailableException;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserManager;
@@ -345,7 +349,7 @@ class Access extends LDAPUtility {
 		}
 		return [];
 	}
-	
+
 	/**
 	 * Set password for an LDAP user identified by a DN
 	 *
@@ -366,7 +370,9 @@ class Access extends LDAPUtility {
 			return false;
 		}
 		try {
-			return @$this->invokeLDAPMethod('modReplace', $cr, $userDN, $password);
+			// try PASSWD extended operation first
+			return @$this->invokeLDAPMethod('exopPasswd', $cr, $userDN, '', $password) ||
+						@$this->invokeLDAPMethod('modReplace', $cr, $userDN, $password);
 		} catch(ConstraintViolationException $e) {
 			throw new HintException('Password change rejected.', \OC::$server->getL10N('user_ldap')->t('Password change rejected. Hint: ').$e->getMessage(), $e->getCode());
 		}
@@ -454,9 +460,11 @@ class Access extends LDAPUtility {
 
 	/**
 	 * returns the internal Nextcloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
+	 *
 	 * @param string $fdn the dn of the group object
 	 * @param string $ldapName optional, the display name of the object
 	 * @return string|false with the name to use in Nextcloud, false on DN outside of search DN
+	 * @throws \Exception
 	 */
 	public function dn2groupname($fdn, $ldapName = null) {
 		//To avoid bypassing the base DN settings under certain circumstances
@@ -511,9 +519,11 @@ class Access extends LDAPUtility {
 
 	/**
 	 * returns the internal Nextcloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
+	 *
 	 * @param string $dn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
 	 * @return string|false with with the name to use in Nextcloud
+	 * @throws \Exception
 	 */
 	public function dn2username($fdn, $ldapName = null) {
 		//To avoid bypassing the base DN settings under certain circumstances
@@ -609,26 +619,25 @@ class Access extends LDAPUtility {
 		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
-		if(($isUser && $intName !== '' && !$this->ncUserManager->userExists($intName))
-			|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))) {
-			if($mapper->map($fdn, $intName, $uuid)) {
-				$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
-				if($this->ncUserManager instanceof PublicEmitter && $isUser) {
-					$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$intName]);
-				}
-				$newlyMapped = true;
+		if( $intName !== ''
+			&& (($isUser && !$this->ncUserManager->userExists($intName))
+				|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))
+			)
+		) {
+			$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
+			$newlyMapped = $this->mapAndAnnounceIfApplicable($mapper, $fdn, $intName, $uuid, $isUser);
+			if($newlyMapped) {
 				return $intName;
 			}
 		}
-		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 
+		$this->connection->setConfiguration(['ldapCacheTTL' => $originalTTL]);
 		$altName = $this->createAltInternalOwnCloudName($intName, $isUser);
-		if (is_string($altName) && $mapper->map($fdn, $altName, $uuid)) {
-			if ($this->ncUserManager instanceof PublicEmitter && $isUser) {
-				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$altName]);
+		if (is_string($altName)) {
+			if($this->mapAndAnnounceIfApplicable($mapper, $fdn, $altName, $uuid, $isUser)) {
+				$newlyMapped = true;
+				return $altName;
 			}
-			$newlyMapped = true;
-			return $altName;
 		}
 
 		//if everything else did not help..
@@ -636,12 +645,33 @@ class Access extends LDAPUtility {
 		return false;
 	}
 
+	public function mapAndAnnounceIfApplicable(
+		AbstractMapping $mapper,
+		string $fdn,
+		string $name,
+		string $uuid,
+		bool $isUser
+	) :bool {
+		if($mapper->map($fdn, $name, $uuid)) {
+			if ($this->ncUserManager instanceof PublicEmitter && $isUser) {
+				$this->cacheUserExists($name);
+				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$name]);
+			} elseif (!$isUser) {
+				$this->cacheGroupExists($name);
+			}
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * gives back the user names as they are used ownClod internally
+	 *
 	 * @param array $ldapUsers as returned by fetchList()
 	 * @return array an array with the user names to use in Nextcloud
 	 *
 	 * gives back the user names as they are used ownClod internally
+	 * @throws \Exception
 	 */
 	public function nextcloudUserNames($ldapUsers) {
 		return $this->ldap2NextcloudNames($ldapUsers, true);
@@ -649,10 +679,12 @@ class Access extends LDAPUtility {
 
 	/**
 	 * gives back the group names as they are used ownClod internally
+	 *
 	 * @param array $ldapGroups as returned by fetchList()
 	 * @return array an array with the group names to use in Nextcloud
 	 *
 	 * gives back the group names as they are used ownClod internally
+	 * @throws \Exception
 	 */
 	public function nextcloudGroupNames($ldapGroups) {
 		return $this->ldap2NextcloudNames($ldapGroups, false);
@@ -696,6 +728,8 @@ class Access extends LDAPUtility {
 					$sndName = isset($ldapObject[$sndAttribute][0])
 						? $ldapObject[$sndAttribute][0] : '';
 					$this->cacheUserDisplayName($ncName, $nameByLDAP, $sndName);
+				} else if($nameByLDAP !== null) {
+					$this->cacheGroupDisplayName($ncName, $nameByLDAP);
 				}
 			}
 		}
@@ -734,10 +768,19 @@ class Access extends LDAPUtility {
 	}
 
 	/**
+	 * caches a group as existing
+	 */
+	public function cacheGroupExists(string $gid): void {
+		$this->connection->writeToCache('groupExists'.$gid, true);
+	}
+
+	/**
 	 * caches the user display name
+	 *
 	 * @param string $ocName the internal Nextcloud username
 	 * @param string $displayName the display name
 	 * @param string $displayName2 the second display name
+	 * @throws \Exception
 	 */
 	public function cacheUserDisplayName($ocName, $displayName, $displayName2 = '') {
 		$user = $this->userManager->get($ocName);
@@ -747,6 +790,11 @@ class Access extends LDAPUtility {
 		$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
 		$cacheKeyTrunk = 'getDisplayName';
 		$this->connection->writeToCache($cacheKeyTrunk.$ocName, $displayName);
+	}
+
+	public function cacheGroupDisplayName(string $ncName, string $displayName): void {
+		$cacheKey = 'group_getDisplayName' . $ncName;
+		$this->connection->writeToCache($cacheKey, $displayName);
 	}
 
 	/**
@@ -862,6 +910,7 @@ class Access extends LDAPUtility {
 	 * @param int $offset
 	 * @param bool $forceApplyAttributes
 	 * @return array
+	 * @throws \Exception
 	 */
 	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null, $forceApplyAttributes = false) {
 		$ldapRecords = $this->searchUsers($filter, $attr, $limit, $offset);
@@ -879,7 +928,7 @@ class Access extends LDAPUtility {
 			});
 		}
 		$this->batchApplyUserAttributes($recordsToUpdate);
-		return $this->fetchList($ldapRecords, count($attr) > 1);
+		return $this->fetchList($ldapRecords, $this->manyAttributes($attr));
 	}
 
 	/**
@@ -922,7 +971,15 @@ class Access extends LDAPUtility {
 	 * @return array
 	 */
 	public function fetchListOfGroups($filter, $attr, $limit = null, $offset = null) {
-		return $this->fetchList($this->searchGroups($filter, $attr, $limit, $offset), count($attr) > 1);
+		$groupRecords = $this->searchGroups($filter, $attr, $limit, $offset);
+		array_walk($groupRecords, function($record) {
+			$newlyMapped = false;
+			$gid = $this->dn2ocname($record['dn'][0], null, false, $newlyMapped, $record);
+			if(!$newlyMapped && is_string($gid)) {
+				$this->cacheGroupExists($gid);
+			}
+		});
+		return $this->fetchList($groupRecords, $this->manyAttributes($attr));
 	}
 
 	/**
@@ -950,6 +1007,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * executes an LDAP search, optimized for Users
+	 *
 	 * @param string $filter the LDAP filter for the search
 	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
 	 * @param integer $limit
@@ -957,9 +1015,14 @@ class Access extends LDAPUtility {
 	 * @return array with the search result
 	 *
 	 * Executes an LDAP search
+	 * @throws ServerNotAvailableException
 	 */
 	public function searchUsers($filter, $attr = null, $limit = null, $offset = null) {
-		return $this->search($filter, $this->connection->ldapBaseUsers, $attr, $limit, $offset);
+		$result = [];
+		foreach($this->connection->ldapBaseUsers as $base) {
+			$result = array_merge($result, $this->search($filter, [$base], $attr, $limit, $offset));
+		}
+		return $result;
 	}
 
 	/**
@@ -968,13 +1031,20 @@ class Access extends LDAPUtility {
 	 * @param int $limit
 	 * @param int $offset
 	 * @return false|int
+	 * @throws ServerNotAvailableException
 	 */
 	public function countUsers($filter, $attr = array('dn'), $limit = null, $offset = null) {
-		return $this->count($filter, $this->connection->ldapBaseUsers, $attr, $limit, $offset);
+		$result = false;
+		foreach($this->connection->ldapBaseUsers as $base) {
+			$count = $this->count($filter, [$base], $attr, $limit, $offset);
+			$result = is_int($count) ? (int)$result + $count : $result;
+		}
+		return $result;
 	}
 
 	/**
 	 * executes an LDAP search, optimized for Groups
+	 *
 	 * @param string $filter the LDAP filter for the search
 	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
 	 * @param integer $limit
@@ -982,21 +1052,33 @@ class Access extends LDAPUtility {
 	 * @return array with the search result
 	 *
 	 * Executes an LDAP search
+	 * @throws ServerNotAvailableException
 	 */
 	public function searchGroups($filter, $attr = null, $limit = null, $offset = null) {
-		return $this->search($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
+		$result = [];
+		foreach($this->connection->ldapBaseGroups as $base) {
+			$result = array_merge($result, $this->search($filter, [$base], $attr, $limit, $offset));
+		}
+		return $result;
 	}
 
 	/**
 	 * returns the number of available groups
+	 *
 	 * @param string $filter the LDAP search filter
 	 * @param string[] $attr optional
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 * @return int|bool
+	 * @throws ServerNotAvailableException
 	 */
 	public function countGroups($filter, $attr = array('dn'), $limit = null, $offset = null) {
-		return $this->count($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
+		$result = false;
+		foreach($this->connection->ldapBaseGroups as $base) {
+			$count = $this->count($filter, [$base], $attr, $limit, $offset);
+			$result = is_int($count) ? (int)$result + $count : $result;
+		}
+		return $result;
 	}
 
 	/**
@@ -1005,9 +1087,15 @@ class Access extends LDAPUtility {
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 * @return int|bool
+	 * @throws ServerNotAvailableException
 	 */
 	public function countObjects($limit = null, $offset = null) {
-		return $this->count('objectclass=*', $this->connection->ldapBase, array('dn'), $limit, $offset);
+		$result = false;
+		foreach($this->connection->ldapBase as $base) {
+			$count = $this->count('objectclass=*', [$base], ['dn'], $limit, $offset);
+			$result = is_int($count) ? (int)$result + $count : $result;
+		}
+		return $result;
 	}
 
 	/**
@@ -1103,6 +1191,7 @@ class Access extends LDAPUtility {
 
 	/**
 	 * processes an LDAP paged search operation
+	 *
 	 * @param array $sr the array containing the LDAP search resources
 	 * @param string $filter the LDAP filter for the search
 	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
@@ -1113,6 +1202,7 @@ class Access extends LDAPUtility {
 	 * @param bool $skipHandling required for paged search when cookies to
 	 * prior results need to be gained
 	 * @return bool cookie validity, true if we have more pages, false otherwise.
+	 * @throws ServerNotAvailableException
 	 */
 	private function processPagedSearchStatus($sr, $filter, $base, $iFoundItems, $limit, $offset, $pagedSearchOK, $skipHandling) {
 		$cookie = null;
@@ -1205,6 +1295,7 @@ class Access extends LDAPUtility {
 	/**
 	 * @param array $searchResults
 	 * @return int
+	 * @throws ServerNotAvailableException
 	 */
 	private function countEntriesInSearchResults($searchResults) {
 		$counter = 0;
@@ -1610,6 +1701,7 @@ class Access extends LDAPUtility {
 	 * @param bool $force the detection should be run, even if it is not set to auto
 	 * @param array|null $ldapRecord
 	 * @return bool true on success, false otherwise
+	 * @throws ServerNotAvailableException
 	 */
 	private function detectUuidAttribute($dn, $isUser = true, $force = false, array $ldapRecord = null) {
 		if($isUser) {
@@ -1665,6 +1757,7 @@ class Access extends LDAPUtility {
 	 * @param bool $isUser
 	 * @param null $ldapRecord
 	 * @return bool|string
+	 * @throws ServerNotAvailableException
 	 */
 	public function getUUID($dn, $isUser = true, $ldapRecord = null) {
 		if($isUser) {
@@ -1770,8 +1863,10 @@ class Access extends LDAPUtility {
 
 	/**
 	 * gets a SID of the domain of the given dn
+	 *
 	 * @param string $dn
 	 * @return string|bool
+	 * @throws ServerNotAvailableException
 	 */
 	public function getSID($dn) {
 		$domainDN = $this->getDomainDNFromDN($dn);
@@ -1940,12 +2035,14 @@ class Access extends LDAPUtility {
 
 	/**
 	 * Prepares a paged search, if possible
+	 *
 	 * @param string $filter the LDAP filter for the search
 	 * @param string[] $bases an array containing the LDAP subtree(s) that shall be searched
 	 * @param string[] $attr optional, when a certain attribute shall be filtered outside
 	 * @param int $limit
 	 * @param int $offset
 	 * @return bool|true
+	 * @throws ServerNotAvailableException
 	 */
 	private function initPagedSearch($filter, $bases, $attr, $limit, $offset) {
 		$pagedSearchOK = false;
@@ -2009,6 +2106,19 @@ class Access extends LDAPUtility {
 		}
 
 		return $pagedSearchOK;
+	}
+
+	/**
+	 * Is more than one $attr used for search?
+	 *
+	 * @param string|string[]|null $attr
+	 * @return bool
+	 */
+	private function manyAttributes($attr): bool {
+		if (\is_array($attr)) {
+			return \count($attr) > 1;
+		}
+		return false;
 	}
 
 }

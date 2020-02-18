@@ -2,10 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
@@ -20,25 +23,24 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\Files_External\Config;
 
-use OC\Files\Storage\Wrapper\Availability;
-use OCA\Files_External\Migration\StorageMigrator;
-use OCP\Files\Storage;
-use OC\Files\Mount\MountPoint;
-use OCP\Files\Storage\IStorageFactory;
-use OCA\Files_External\Lib\PersonalMount;
-use OCP\Files\Config\IMountProvider;
-use OCP\IUser;
-use OCA\Files_External\Service\UserStoragesService;
-use OCA\Files_External\Service\UserGlobalStoragesService;
-use OCA\Files_External\Lib\StorageConfig;
 use OC\Files\Storage\FailedStorage;
+use OC\Files\Storage\Wrapper\Availability;
+use OCA\Files_External\Lib\PersonalMount;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Migration\StorageMigrator;
+use OCA\Files_External\Service\UserGlobalStoragesService;
+use OCA\Files_External\Service\UserStoragesService;
+use OCP\Files\Config\IMountProvider;
+use OCP\Files\Storage;
+use OCP\Files\Storage\IStorageFactory;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IUser;
 
 /**
  * Make the old files_external config work with the new public mount config api
@@ -73,12 +75,11 @@ class ConfigAdapter implements IMountProvider {
 	 *
 	 * @param StorageConfig $storage
 	 * @param IUser $user
+	 * @throws \OCP\AppFramework\QueryException
 	 */
 	private function prepareStorageConfig(StorageConfig &$storage, IUser $user) {
 		foreach ($storage->getBackendOptions() as $option => $value) {
-			$storage->setBackendOption($option, \OC_Mount_Config::setUserVars(
-				$user->getUID(), $value
-			));
+			$storage->setBackendOption($option, \OC_Mount_Config::substitutePlaceholdersInConfig($value, $user->getUID()));
 		}
 
 		$objectStore = $storage->getBackendOption('objectstore');

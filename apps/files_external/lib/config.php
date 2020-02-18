@@ -3,12 +3,15 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Jesús Macias <jmacias@solidgear.es>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -31,22 +34,25 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
-use phpseclib\Crypt\AES;
-use \OCA\Files_External\AppInfo\Application;
-use \OCA\Files_External\Lib\Backend\LegacyBackend;
-use \OCA\Files_External\Lib\StorageConfig;
-use \OCA\Files_External\Lib\Backend\Backend;
-use \OCP\Files\StorageNotAvailableException;
-use OCA\Files_External\Service\BackendService;
+use OCA\Files_External\AppInfo\Application;
+use OCA\Files_External\Config\IConfigHandler;
+use OCA\Files_External\Config\UserContext;
+use OCA\Files_External\Config\UserPlaceholderHandler;
 use OCA\Files_External\Lib\Auth\Builtin;
-use OCA\Files_External\Service\UserGlobalStoragesService;
-use OCP\IUserManager;
+use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Lib\Backend\LegacyBackend;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Service\UserStoragesService;
+use OCP\Files\StorageNotAvailableException;
+use OCP\IUserManager;
+use phpseclib\Crypt\AES;
 
 /**
  * Class to configure mount.json globally and for users
@@ -104,7 +110,7 @@ class OC_Mount_Config {
 			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
 			$mountEntry = self::prepareMountPointEntry($storage, false);
 			foreach ($mountEntry['options'] as &$option) {
-				$option = self::setUserVars($uid, $option);
+				$option = self::substitutePlaceholdersInConfig($option, $uid);
 			}
 			$mountPoints[$mountPoint] = $mountEntry;
 		}
@@ -113,7 +119,7 @@ class OC_Mount_Config {
 			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
 			$mountEntry = self::prepareMountPointEntry($storage, true);
 			foreach ($mountEntry['options'] as &$option) {
-				$option = self::setUserVars($uid, $option);
+				$option = self::substitutePlaceholdersInConfig($option, $uid);
 			}
 			$mountPoints[$mountPoint] = $mountEntry;
 		}
@@ -199,18 +205,30 @@ class OC_Mount_Config {
 	 * @param string $user user value
 	 * @param string|array $input
 	 * @return string
+	 * @deprecated use self::substitutePlaceholdersInConfig($input)
 	 */
 	public static function setUserVars($user, $input) {
-		if (is_array($input)) {
-			foreach ($input as &$value) {
-				if (is_string($value)) {
-					$value = str_replace('$user', $user, $value);
-				}
+		$handler = self::$app->getContainer()->query(UserPlaceholderHandler::class);
+		return $handler->handle($input);
+	}
+
+	/**
+	 * @param mixed $input
+	 * @param string|null $userId
+	 * @return mixed
+	 * @throws \OCP\AppFramework\QueryException
+	 * @since 16.0.0
+	 */
+	public static function substitutePlaceholdersInConfig($input, string $userId = null) {
+		/** @var BackendService $backendService */
+		$backendService = self::$app->getContainer()->query(BackendService::class);
+		/** @var IConfigHandler[] $handlers */
+		$handlers = $backendService->getConfigHandlers();
+		foreach ($handlers as $handler) {
+			if ($handler instanceof UserContext && $userId !== null) {
+				$handler->setUserId($userId);
 			}
-		} else {
-			if (is_string($input)) {
-				$input = str_replace('$user', $user, $input);
-			}
+			$input = $handler->handle($input);
 		}
 		return $input;
 	}
@@ -228,8 +246,26 @@ class OC_Mount_Config {
 		if (self::$skipTest) {
 			return StorageNotAvailableException::STATUS_SUCCESS;
 		}
-		foreach ($options as &$option) {
-			$option = self::setUserVars(OCP\User::getUser(), $option);
+		foreach ($options as $key => &$option) {
+			if($key === 'password') {
+				// no replacements in passwords
+				continue;
+			}
+			$option = self::substitutePlaceholdersInConfig($option);
+			if(!self::arePlaceholdersSubstituted($option)) {
+				\OC::$server->getLogger()->error(
+					'A placeholder was not substituted: {option} for mount type {class}',
+					[
+						'app' => 'files_external',
+						'option' => $option,
+						'class' => $class,
+					]
+				);
+				throw new StorageNotAvailableException(
+					'Mount configuration incomplete',
+					StorageNotAvailableException::STATUS_INCOMPLETE_CONF
+				);
+			}
 		}
 		if (class_exists($class)) {
 			try {
@@ -252,6 +288,20 @@ class OC_Mount_Config {
 			}
 		}
 		return StorageNotAvailableException::STATUS_ERROR;
+	}
+
+	public static function arePlaceholdersSubstituted($option):bool {
+		$result = true;
+		if(is_array($option)) {
+			foreach ($option as $optionItem) {
+				$result = $result && self::arePlaceholdersSubstituted($optionItem);
+			}
+		} else if (is_string($option)) {
+			if (strpos(rtrim($option, '$'), '$') !== false) {
+				$result = false;
+			}
+		}
+		return $result;
 	}
 
 	/**

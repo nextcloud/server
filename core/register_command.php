@@ -5,15 +5,21 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christian Kampka <christian@kampka.net>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Denis Mosolov <denismosolov@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Julius Härtl <jus@bitgrid.net>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Patrik Kernstock <info@pkern.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Ruben Homs <ruben@homs.codes>
  * @author sualko <klaus@jsxc.org>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
@@ -32,7 +38,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -61,7 +67,7 @@ $application->add(new \OC\Core\Command\Integrity\CheckCore(
 
 if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\Disable(\OC::$server->getAppManager()));
-	$application->add(new OC\Core\Command\App\Enable(\OC::$server->getAppManager()));
+	$application->add(new OC\Core\Command\App\Enable(\OC::$server->getAppManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\App\Install());
 	$application->add(new OC\Core\Command\App\GetPath());
 	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
@@ -77,6 +83,8 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\WebCron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\Ajax(\OC::$server->getConfig()));
+
+	$application->add(\OC::$server->query(\OC\Core\Command\Broadcast\Test::class));
 
 	$application->add(new OC\Core\Command\Config\App\DeleteConfig(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Config\App\GetConfig(\OC::$server->getConfig()));
@@ -99,8 +107,8 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 
 	$application->add(new OC\Core\Command\Encryption\Disable(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Encryption\Enable(\OC::$server->getConfig(), \OC::$server->getEncryptionManager()));
-	$application->add(new OC\Core\Command\Encryption\ListModules(\OC::$server->getEncryptionManager()));
-	$application->add(new OC\Core\Command\Encryption\SetDefaultModule(\OC::$server->getEncryptionManager()));
+	$application->add(new OC\Core\Command\Encryption\ListModules(\OC::$server->getEncryptionManager(), \OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Encryption\SetDefaultModule(\OC::$server->getEncryptionManager(), \OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Encryption\Status(\OC::$server->getEncryptionManager()));
 	$application->add(new OC\Core\Command\Encryption\EncryptAll(\OC::$server->getEncryptionManager(), \OC::$server->getAppManager(), \OC::$server->getConfig(), new \Symfony\Component\Console\Helper\QuestionHelper()));
 	$application->add(new OC\Core\Command\Encryption\DecryptAll(
@@ -140,8 +148,11 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 
 	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger(), \OC::$server->query(\OC\Installer::class)));
 	$application->add(new OC\Core\Command\Maintenance\Repair(
-		new \OC\Repair(\OC\Repair::getRepairSteps(), \OC::$server->getEventDispatcher()), \OC::$server->getConfig(),
-		\OC::$server->getEventDispatcher(), \OC::$server->getAppManager()));
+		new \OC\Repair([], \OC::$server->getEventDispatcher()),
+		\OC::$server->getConfig(),
+		\OC::$server->getEventDispatcher(),
+		\OC::$server->getAppManager()
+	));
 
 	$application->add(new OC\Core\Command\User\Add(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));
@@ -151,7 +162,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\User\Report(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\Setting(\OC::$server->getUserManager(), \OC::$server->getConfig(), \OC::$server->getDatabaseConnection()));
-	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->getUserManager()));
+	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\Info(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 
 	$application->add(new OC\Core\Command\Group\Add(\OC::$server->getGroupManager()));

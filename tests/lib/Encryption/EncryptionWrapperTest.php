@@ -19,7 +19,6 @@
  *
  */
 
-
 namespace Test\Encryption;
 
 
@@ -44,7 +43,7 @@ class EncryptionWrapperTest extends TestCase {
 	/** @var  \PHPUnit_Framework_MockObject_MockObject | \OC\Memcache\ArrayCache */
 	private $arrayCache;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->arrayCache = $this->createMock(ArrayCache::class);
@@ -92,13 +91,7 @@ class EncryptionWrapperTest extends TestCase {
 			[true, ['OCA\Files_Trashbin\Storage']],
 
 			// Do not wrap shared storages
-			[false, ['OCA\Files_Sharing\SharedStorage']],
-			[false, ['OCA\Files_Sharing\External\Storage']],
-			[false, ['OC\Files\Storage\OwnCloud']],
-			[false, ['OCA\Files_Sharing\SharedStorage', 'OCA\Files_Sharing\External\Storage']],
-			[false, ['OCA\Files_Sharing\SharedStorage', 'OC\Files\Storage\OwnCloud']],
-			[false, ['OCA\Files_Sharing\External\Storage', 'OC\Files\Storage\OwnCloud']],
-			[false, ['OCA\Files_Sharing\SharedStorage', 'OCA\Files_Sharing\External\Storage', 'OC\Files\Storage\OwnCloud']],
+			[false, [Storage\IDisableEncryptionStorage::class]],
 		];
 	}
 

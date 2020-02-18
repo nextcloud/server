@@ -3,10 +3,12 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Nmz <nemesiz@nmz.lt>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -21,47 +23,53 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Preview;
 
-class TXT extends Provider {
+use OCP\Files\File;
+use OCP\Files\FileInfo;
+use OCP\IImage;
+
+class TXT extends ProviderV2 {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
+	public function getMimeType(): string {
 		return '/text\/plain/';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function isAvailable(\OCP\Files\FileInfo $file) {
+	public function isAvailable(FileInfo $file): bool {
 		return $file->getSize() > 0;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		$content = $fileview->fopen($path, 'r');
+	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+		$content = $file->fopen('r');
 
 		if ($content === false) {
-			return false;
+			return null;
 		}
 
 		$content = stream_get_contents($content,3000);
 
 		//don't create previews of empty text files
 		if(trim($content) === '') {
-			return false;
+			return null;
 		}
 
 		$lines = preg_split("/\r\n|\n|\r/", $content);
 
-		$fontSize = $maxX ? (int) ((5 / 32) * $maxX) : 5; //5px
-		$lineSize = ceil($fontSize * 1.25);
+		// Define text size of text file preview
+		$fontSize = $maxX ? (int) ((1 / 32) * $maxX) : 5; //5px
+		$lineSize = ceil($fontSize * 1.5);
 
 		$image = imagecreate($maxX, $maxY);
 		imagecolorallocate($image, 255, 255, 255);
@@ -69,7 +77,7 @@ class TXT extends Provider {
 
 		$fontFile  = __DIR__;
 		$fontFile .= '/../../../core';
-		$fontFile .= '/fonts/Nunito-Regular.ttf';
+		$fontFile .= '/fonts/NotoSans-Regular.ttf';
 
 		$canUseTTF = function_exists('imagettftext');
 
@@ -94,6 +102,6 @@ class TXT extends Provider {
 		$imageObject = new \OC_Image();
 		$imageObject->setResource($image);
 
-		return $imageObject->valid() ? $imageObject : false;
+		return $imageObject->valid() ? $imageObject : null;
 	}
 }

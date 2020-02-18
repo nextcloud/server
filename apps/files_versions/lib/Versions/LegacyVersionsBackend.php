@@ -1,6 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
+ *
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,32 +21,50 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OCA\Files_Versions\Versions;
 
 use OC\Files\View;
+use OCA\Files_Sharing\SharedStorage;
 use OCA\Files_Versions\Storage;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
+use OCP\Files\Storage\IStorage;
 use OCP\IUser;
+use OCP\IUserManager;
 
 class LegacyVersionsBackend implements IVersionBackend {
 	/** @var IRootFolder */
 	private $rootFolder;
+	/** @var IUserManager */
+	private $userManager;
 
-	public function __construct(IRootFolder $rootFolder) {
+	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
 		$this->rootFolder = $rootFolder;
+		$this->userManager = $userManager;
+	}
+
+	public function useBackendForStorage(IStorage $storage): bool {
+		return true;
 	}
 
 	public function getVersionsForFile(IUser $user, FileInfo $file): array {
+		$storage = $file->getStorage();
+		if ($storage->instanceOfStorage(SharedStorage::class)) {
+			$owner = $storage->getOwner('');
+			$user = $this->userManager->get($owner);
+		}
+
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$versions = Storage::getVersions($user->getUID(), $userFolder->getRelativePath($file->getPath()));
+		$nodes = $userFolder->getById($file->getId());
+		$file2 = array_pop($nodes);
+		$versions = Storage::getVersions($user->getUID(), $userFolder->getRelativePath($file2->getPath()));
 
 		return array_map(function (array $data) use ($file, $user) {
 			return new Version(
@@ -73,7 +97,7 @@ class LegacyVersionsBackend implements IVersionBackend {
 	}
 
 	public function rollback(IVersion $version) {
-		return Storage::rollback($version->getVersionPath(), $version->getRevisionId());
+		return Storage::rollback($version->getVersionPath(), $version->getRevisionId(), $version->getUser());
 	}
 
 	private function getVersionFolder(IUser $user): Folder {
@@ -95,7 +119,7 @@ class LegacyVersionsBackend implements IVersionBackend {
 		return $file->fopen('r');
 	}
 
-	public function getVersionFile(IUser $user, FileInfo $sourceFile, int $revision): File {
+	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File {
 		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 		$versionFolder = $this->getVersionFolder($user);
 		/** @var File $file */

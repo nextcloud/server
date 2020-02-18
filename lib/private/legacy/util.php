@@ -2,18 +2,18 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Adam Williamson <awilliam@redhat.com>
- * @author Andreas Fischer <bantu@owncloud.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Birk Borkason <daniel.niccoli@gmail.com>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Brice Maron <brice@bmaron.net>
- * @author Christoph Wurst <christoph@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author cmeh <cmeh@users.noreply.github.com>
+ * @author Eric Masseran <rico.masseran@gmail.com>
  * @author Felix Epp <work@felixepp.de>
  * @author Florin Peter <github@florin-peter.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
@@ -23,6 +23,7 @@
  * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Kawohl <john@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -32,6 +33,7 @@
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author rakekniven <mark.ziegler@rakekniven.de>
+ * @author Robert Dailey <rcdailey@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -56,15 +58,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
+use OC\AppFramework\Http\Request;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;
-use OC\AppFramework\Http\Request;
 
 class OC_Util {
 	public static $scripts = array();
@@ -203,7 +205,7 @@ class OC_Util {
 
 		\OC\Files\Filesystem::initMountManager();
 
-		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
+		$prevLogging = \OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
 		\OC\Files\Filesystem::addStorageWrapper('mount_options', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
 			if ($storage->instanceOfStorage('\OC\Files\Storage\Common')) {
 				/** @var \OC\Files\Storage\Common $storage */
@@ -278,7 +280,8 @@ class OC_Util {
 		});
 
 		OC_Hook::emit('OC_Filesystem', 'preSetup', array('user' => $user));
-		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(true);
+
+		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper($prevLogging);
 
 		//check if we are using an object storage
 		$objectStore = \OC::$server->getSystemConfig()->getValue('objectstore', null);
@@ -390,7 +393,7 @@ class OC_Util {
 	/**
 	 * copies the skeleton to the users /files
 	 *
-	 * @param String $userId
+	 * @param string $userId
 	 * @param \OCP\Files\Folder $userDirectory
 	 * @throws \OCP\Files\NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
@@ -789,13 +792,20 @@ class OC_Util {
 					];
 				}
 			} else if (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
-				//common hint for all file permissions error messages
-				$permissionsHint = $l->t('Permissions can usually be fixed by giving the webserver write access to the root directory. See %s.',
-					[$urlGenerator->linkToDocs('admin-dir_permissions')]);
-				$errors[] = [
-					'error' => 'Your data directory is not writable',
-					'hint' => $permissionsHint
-				];
+				// is_writable doesn't work for NFS mounts, so try to write a file and check if it exists.
+				$testFile = sprintf('%s/%s.tmp', $CONFIG_DATADIRECTORY, uniqid('data_dir_writability_test_'));
+				$handle = fopen($testFile, 'w');
+				if (!$handle || fwrite($handle, 'Test write operation') === FALSE) {
+					$permissionsHint = $l->t('Permissions can usually be fixed by giving the webserver write access to the root directory. See %s.',
+						[$urlGenerator->linkToDocs('admin-dir_permissions')]);
+					$errors[] = [
+						'error' => 'Your data directory is not writable',
+						'hint' => $permissionsHint
+					];
+				} else {
+					fclose($handle);
+					unlink($testFile);
+				}
 			} else {
 				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 			}
@@ -827,7 +837,7 @@ class OC_Util {
 			),
 			'functions' => [
 				'xml_parser_create' => 'libxml',
-				'mb_strcut' => 'mb multibyte',
+				'mb_strcut' => 'mbstring',
 				'ctype_digit' => 'ctype',
 				'json_encode' => 'JSON',
 				'gd_info' => 'GD',
@@ -1240,6 +1250,18 @@ class OC_Util {
 			$content = false;
 		}
 
+		if (strpos($url, 'https:') === 0) {
+			$url = 'http:' . substr($url, 6);
+		} else {
+			$url = 'https:' . substr($url, 5);
+		}
+
+		try {
+			$fallbackContent = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
+		} catch (\Exception $e) {
+			$fallbackContent = false;
+		}
+
 		// cleanup
 		@unlink($testFile);
 
@@ -1247,7 +1269,7 @@ class OC_Util {
 		 * If the content is not equal to test content our .htaccess
 		 * is working as required
 		 */
-		return $content !== $testContent;
+		return $content !== $testContent && $fallbackContent !== $testContent;
 	}
 
 	/**
@@ -1321,56 +1343,6 @@ class OC_Util {
 		}
 
 		return $theme;
-	}
-
-	/**
-	 * Clear a single file from the opcode cache
-	 * This is useful for writing to the config file
-	 * in case the opcode cache does not re-validate files
-	 * Returns true if successful, false if unsuccessful:
-	 * caller should fall back on clearing the entire cache
-	 * with clearOpcodeCache() if unsuccessful
-	 *
-	 * @param string $path the path of the file to clear from the cache
-	 * @return bool true if underlying function returns true, otherwise false
-	 */
-	public static function deleteFromOpcodeCache($path) {
-		$ret = false;
-		if ($path) {
-			// APC >= 3.1.1
-			if (function_exists('apc_delete_file')) {
-				$ret = @apc_delete_file($path);
-			}
-			// Zend OpCache >= 7.0.0, PHP >= 5.5.0
-			if (function_exists('opcache_invalidate')) {
-				$ret = @opcache_invalidate($path);
-			}
-		}
-		return $ret;
-	}
-
-	/**
-	 * Clear the opcode cache if one exists
-	 * This is necessary for writing to the config file
-	 * in case the opcode cache does not re-validate files
-	 *
-	 * @return void
-	 * @suppress PhanDeprecatedFunction
-	 * @suppress PhanUndeclaredConstant
-	 */
-	public static function clearOpcodeCache() {
-		// APC
-		if (function_exists('apc_clear_cache')) {
-			apc_clear_cache();
-		}
-		// Zend Opcache
-		if (function_exists('accelerator_reset')) {
-			accelerator_reset();
-		}
-		// Opcache (PHP >= 5.5)
-		if (function_exists('opcache_reset')) {
-			@opcache_reset();
-		}
 	}
 
 	/**

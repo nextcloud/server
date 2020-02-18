@@ -19,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -49,7 +49,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 	 */
 	private $user;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
@@ -133,10 +133,10 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\PreconditionFailed
-	 */
+	
 	public function testAssignTagNotFound() {
+		$this->expectException(\Sabre\DAV\Exception\PreconditionFailed::class);
+
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['555'])
@@ -145,10 +145,10 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->createFile('555');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testForbiddenCreateDirectory() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->getNode()->createDirectory('789');
 	}
 
@@ -175,10 +175,10 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertEquals('555', $childNode->getName());
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testGetChildNonVisible() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$tag = new SystemTag(555, 'TheTag', false, false);
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
@@ -198,10 +198,10 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('555');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testGetChildRelationNotFound() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', '777')
@@ -210,10 +210,10 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('777');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 */
+	
 	public function testGetChildInvalidId() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', 'badid')
@@ -222,10 +222,10 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('badid');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testGetChildTagDoesNotExist() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', '777')
@@ -326,10 +326,10 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->getNode()->childExists('555'));
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 */
+	
 	public function testChildExistsInvalidId() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
 			->with([111], 'files', '555')
@@ -338,17 +338,17 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 		$this->getNode()->childExists('555');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testDelete() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->getNode()->delete();
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testSetName() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->getNode()->setName('somethingelse');
 	}
 

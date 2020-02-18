@@ -3,28 +3,32 @@
  * @copyright Copyright (c) 2018, Johannes Ernst
  *
  * @author Johannes Ernst <jernst@indiecomputing.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OC\Log;
 
 use OC\HintException;
-use OCP\ILogger;
+use OC\SystemConfig;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\Log\IWriter;
 
 // The following fields are understood by systemd/journald, see
@@ -42,7 +46,7 @@ use OCP\Log\IWriter;
 // SYSLOG_FACILITY=, SYSLOG_IDENTIFIER=, SYSLOG_PID=
 //     Syslog compatibility fields
 
-class Systemdlog implements IWriter {
+class Systemdlog extends LogDetails implements IWriter {
 	protected $levels = [
 		ILogger::DEBUG => 7,
 		ILogger::INFO => 6,
@@ -53,14 +57,15 @@ class Systemdlog implements IWriter {
 
 	protected $syslogId;
 
-	public function __construct(IConfig $config) {
+	public function __construct(SystemConfig $config) {
+		parent::__construct($config);
 		if(!function_exists('sd_journal_send')) {
 			throw new HintException(
 				'PHP extension php-systemd is not available.',
 				'Please install and enable PHP extension systemd if you wish to log to the Systemd journal.');
 
 		}
-		$this->syslogId = $config->getSystemValue('syslog_tag', 'Nextcloud');
+		$this->syslogId = $config->getValue('syslog_tag', 'Nextcloud');
 	}
 
 	/**
@@ -73,6 +78,6 @@ class Systemdlog implements IWriter {
 		$journal_level = $this->levels[$level];
 		sd_journal_send('PRIORITY='.$journal_level,
 				'SYSLOG_IDENTIFIER='.$this->syslogId,
-				'MESSAGE={'.$app.'} '.$message);
+				'MESSAGE=' . $this->logDetailsAsJSON($app, $message, $level));
 	}
 }

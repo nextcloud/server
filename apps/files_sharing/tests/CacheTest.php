@@ -24,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -33,6 +33,7 @@ namespace OCA\Files_Sharing\Tests;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
 use OCA\Files_Sharing\SharedStorage;
+use OCP\Share\IShare;
 
 /**
  * Class CacheTest
@@ -61,7 +62,7 @@ class CacheTest extends TestCase {
 	/** @var \OCP\Share\IManager */
 	protected $shareManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->shareManager = \OC::$server->getShareManager();
@@ -103,7 +104,9 @@ class CacheTest extends TestCase {
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
-		$this->shareManager->createShare($share);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 
 		$node = $rootFolder->get('container/shared single file.txt');
 		$share = $this->shareManager->newShare();
@@ -112,7 +115,9 @@ class CacheTest extends TestCase {
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL & ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE));
-		$this->shareManager->createShare($share);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 
 		// login as user2
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
@@ -123,7 +128,7 @@ class CacheTest extends TestCase {
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if($this->sharedCache) {
 			$this->sharedCache->clear();
 		}
@@ -238,96 +243,6 @@ class CacheTest extends TestCase {
 		$this->verifyFiles($check, $results);
 	}
 
-	/**
-	 * Test searching by tag
-	 */
-	function testSearchByTag() {
-		$userId = \OC::$server->getUserSession()->getUser()->getUId();
-		$id1 = $this->sharedCache->get('bar.txt')['fileid'];
-		$id2 = $this->sharedCache->get('subdir/another too.txt')['fileid'];
-		$id3 = $this->sharedCache->get('subdir/not a text file.xml')['fileid'];
-		$id4 = $this->sharedCache->get('subdir/another.txt')['fileid'];
-		$tagManager = \OC::$server->getTagManager()->load('files', [], false, $userId);
-		$tagManager->tagAs($id1, 'tag1');
-		$tagManager->tagAs($id1, 'tag2');
-		$tagManager->tagAs($id2, 'tag1');
-		$tagManager->tagAs($id3, 'tag1');
-		$tagManager->tagAs($id4, 'tag2');
-		$results = $this->sharedStorage->getCache()->searchByTag('tag1', $userId);
-		$check = array(
-				array(
-					'name' => 'bar.txt',
-					'path' => 'bar.txt'
-				),
-				array(
-					'name' => 'another too.txt',
-					'path' => 'subdir/another too.txt'
-				),
-				array(
-					'name' => 'not a text file.xml',
-					'path' => 'subdir/not a text file.xml'
-				),
-			);
-		$this->verifyFiles($check, $results);
-		$tagManager->delete(array('tag1', 'tag2'));
-	}
-
-	/**
-	 * Test searching by tag for multiple sections of the tree
-	 */
-	function testSearchByTagTree() {
-		$userId = \OC::$server->getUserSession()->getUser()->getUId();
-		$this->sharedStorage->mkdir('subdir/emptydir');
-		$this->sharedStorage->mkdir('subdir/emptydir2');
-		$this->ownerStorage->getScanner()->scan('');
-		$allIds = array(
-			$this->sharedCache->get('')['fileid'],
-			$this->sharedCache->get('bar.txt')['fileid'],
-			$this->sharedCache->get('subdir/another too.txt')['fileid'],
-			$this->sharedCache->get('subdir/not a text file.xml')['fileid'],
-			$this->sharedCache->get('subdir/another.txt')['fileid'],
-			$this->sharedCache->get('subdir/emptydir')['fileid'],
-			$this->sharedCache->get('subdir/emptydir2')['fileid'],
-		);
-		$tagManager = \OC::$server->getTagManager()->load('files', [], false, $userId);
-		foreach ($allIds as $id) {
-			$tagManager->tagAs($id, 'tag1');
-		}
-		$results = $this->sharedStorage->getCache()->searchByTag('tag1', $userId);
-		$check = array(
-				array(
-					'name' => 'shareddir',
-					'path' => ''
-				),
-				array(
-					'name' => 'bar.txt',
-					'path' => 'bar.txt'
-				),
-				array(
-					'name' => 'another.txt',
-					'path' => 'subdir/another.txt'
-				),
-				array(
-					'name' => 'another too.txt',
-					'path' => 'subdir/another too.txt'
-				),
-				array(
-					'name' => 'emptydir',
-					'path' => 'subdir/emptydir'
-				),
-				array(
-					'name' => 'emptydir2',
-					'path' => 'subdir/emptydir2'
-				),
-				array(
-					'name' => 'not a text file.xml',
-					'path' => 'subdir/not a text file.xml'
-				),
-			);
-		$this->verifyFiles($check, $results);
-		$tagManager->delete(array('tag1'));
-	}
-
 	function testGetFolderContentsInRoot() {
 		$results = $this->user2View->getDirectoryContent('/');
 
@@ -403,6 +318,8 @@ class CacheTest extends TestCase {
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
 
@@ -486,7 +403,9 @@ class CacheTest extends TestCase {
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE);
-		$this->shareManager->createShare($share);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 
 		\OC_Util::tearDownFS();
 
@@ -517,7 +436,9 @@ class CacheTest extends TestCase {
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
-		$this->shareManager->createShare($share);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 		\OC_Util::tearDownFS();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
@@ -544,7 +465,9 @@ class CacheTest extends TestCase {
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
-		$this->shareManager->createShare($share);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 		\OC_Util::tearDownFS();
 
 		list($sourceStorage) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/foo');
@@ -579,7 +502,9 @@ class CacheTest extends TestCase {
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
-		$this->shareManager->createShare($share);
+		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($share);
 		\OC_Util::tearDownFS();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);

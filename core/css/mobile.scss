@@ -1,4 +1,4 @@
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: $breakpoint-mobile) {
 
 	/* position share dropdown */
 	#dropdown {
@@ -32,6 +32,10 @@
 		margin-left: 0;
 	}
 
+	.skip-navigation.skip-content {
+		left: 3px;
+		margin-left: 0;
+	}
 
 	/* full width for message list on mobile */
 	.app-content-list {
@@ -64,7 +68,7 @@
 			left: 0;
 			width: 44px;
 			height: 44px;
-			z-index: 149;
+			z-index: 1050; // above app-content
 			background-color: rgba(255, 255, 255, .7);
 			cursor: pointer;
 			opacity: .6;
@@ -82,8 +86,7 @@
 		left: 0;
 		width: 44px;
 		height: 44px;
-		z-index: 149;
-		background-color: var(--color-main-background-darker);
+		z-index: 1050; // above app-content
 		cursor: pointer;
 		opacity: 0.6;
 	}
@@ -114,7 +117,7 @@
 		display: none;
 	}
 	#body-settings #controls {
-		min-width: 768px !important;
+		min-width: $breakpoint-mobile !important;
 	}
 
 	/* do not show dates in filepicker */

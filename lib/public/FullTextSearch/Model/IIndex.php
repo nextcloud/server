@@ -1,15 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
-
 /**
- * FullTextSearch - Full text search framework for extcloud
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
+ * @copyright 2018
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,10 +20,9 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 
 namespace OCP\FullTextSearch\Model;
 
@@ -38,10 +34,10 @@ namespace OCP\FullTextSearch\Model;
  * regarding the date of the last index and the date of the last modification
  * of the original document.
  *
- * The uniqueness of an IndexDocument is made by the Id of the Content Provider
+ * The uniqueness of an IIndexDocument is made by the Id of the Content Provider
  * and the Id of the original document within the Content Provider.
  *
- * We will call original document the source from which the IndexDocument is
+ * We will call original document the source from which the IIndexDocument is
  * generated. As an example, an original document can be a file, a mail, ...
  *
  * @since 15.0.0
@@ -56,11 +52,11 @@ interface IIndex {
 
 	const INDEX_META = 4;
 	const INDEX_CONTENT = 8;
-	const INDEX_FULL = 12;
-	const INDEX_REMOVE = 16;
-
-	const INDEX_DONE = 32;
-	const INDEX_FAILED = 64;
+	const INDEX_PARTS = 16;
+	const INDEX_FULL = 28;
+	const INDEX_REMOVE = 32;
+	const INDEX_DONE = 64;
+	const INDEX_FAILED = 128;
 
 	const ERROR_FAILED = 1;
 	const ERROR_FAILED2 = 2;
@@ -289,4 +285,3 @@ interface IIndex {
 
 
 }
-

@@ -1,11 +1,14 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Sam Bull <aa6bs0@sambull.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,7 +23,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -58,7 +61,11 @@ class ContentSecurityPolicyNonceManager {
 	 */
 	public function getNonce(): string {
 		if($this->nonce === '') {
-			$this->nonce = base64_encode($this->csrfTokenManager->getToken()->getEncryptedValue());
+			if (empty($this->request->server['CSP_NONCE'])) {
+				$this->nonce = base64_encode($this->csrfTokenManager->getToken()->getEncryptedValue());
+			} else {
+				$this->nonce = $this->request->server['CSP_NONCE'];
+			}
 		}
 
 		return $this->nonce;

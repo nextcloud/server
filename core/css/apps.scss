@@ -39,7 +39,7 @@ h4 {
 /* do not use italic typeface style, instead lighter color */
 em {
 	font-style: normal;
-	opacity: .5;
+	color: var(--color-text-lighter);
 }
 
 dl {
@@ -77,7 +77,7 @@ kbd {
 
 /* APP-NAVIGATION ------------------------------------------------------------ */
 /* Navigation: folder like structure */
-#app-navigation {
+#app-navigation:not(.vue) {
 	width: $navigation-width;
 	position: fixed;
 	top: $header-height;
@@ -171,16 +171,12 @@ kbd {
 				top: 22px;
 			}
 
-			/* hide and animate deletion/collapse of subitems */
+			/* hide deletion/collapse of subitems */
 			&.deleted,
 			&.collapsible:not(.open) {
 				> ul {
-					opacity: 0;
-					max-height: 0;
-					overflow-y: hidden;
-					/* bezier override the hide/slow effect due to the 2000 max-height */
-					transition: max-height 1000ms cubic-bezier(0, 1, 0, 1),
-								opacity 250ms ease-in-out;
+					// NO ANIMATE because if not really hidden, we can still tab through it
+					display: none;
 				}
 			}
 
@@ -205,10 +201,6 @@ kbd {
 			> ul {
 				flex: 0 1 auto;
 				width: 100%;
-				transition: max-height 2000ms ease-in-out,
-							opacity 250ms ease-in-out;
-				max-height: 9999px;
-				opacity: 1;
 				position: relative;
 				> li {
 					display: inline-flex;
@@ -366,6 +358,10 @@ kbd {
 			height: 44px;
 			margin: 0;
 			z-index: 110;
+
+			/* Needed for IE11; otherwise the button appears to the right of the
+			 * link. */
+			left: 0;
 		}
 		&:before {
 			position: absolute;
@@ -387,29 +383,21 @@ kbd {
 			-webkit-transform: rotate(-90deg);
 			-ms-transform: rotate(-90deg);
 			transform: rotate(-90deg);
-			z-index: 50;
+			z-index: 105; // above a, under button
+			background-color: var(--color-main-background);
+			transition: opacity $animation-quick ease-in-out;
 		}
 
 		/* force padding on link no matter if 'a' has an icon class */
 		> a:first-child {
 			padding-left: 44px;
 		}
-		&:before,
-		> a {
-			transition: background-position 100ms ease-in-out,
-						transform 250ms ease-in-out,
-						opacity 100ms ease-in-out;
-		}
-		&:hover > a,
-		&:focus > a {
-			background-position-x: -50px;
-		}
 		&:hover,
 		&:focus {
 			&:before {
 				opacity: 1;
 			}
-			.app-navigation-entry-bullet {
+			> .app-navigation-entry-bullet {
 				background: transparent !important;
 			}
 		}
@@ -445,7 +433,7 @@ kbd {
 		.app-navigation-entry-utils-menu-button {
 			/* Prevent bg img override if an icon class is set */
 			button:not([class^='icon-']):not([class*=' icon-']) {
-				background-image: url('../img/actions/more.svg?v=1');
+				@include icon-color('more', 'actions', $color-black, 1, true);
 			}
 			&:hover button,
 			&:focus button {
@@ -519,6 +507,8 @@ kbd {
 				margin-left: -1px;
 			}
 			&:last-child {
+				border-bottom-right-radius: var(--border-radius);
+				border-top-right-radius: var(--border-radius);
 				border-bottom-left-radius: 0;
 				border-top-left-radius: 0;
 			}
@@ -599,6 +589,14 @@ kbd {
 
 /* APP-CONTENT AND WRAPPER ------------------------------------------ */
 /* Part where the content will be loaded into */
+
+/**
+ * !Important. We are defining the minimum requirement we want for flex
+ * Just before the mobile breakpoint we have $breakpoint-mobile (1024px) - $navigation-width
+ * -> 468px. In that case we want 200px for the list and 268px for the content
+ */
+$min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
+
 #app-content {
 	z-index: 1000;
 	background-color: var(--color-main-background);
@@ -626,7 +624,7 @@ kbd {
 		/* CONTENT DETAILS AFTER LIST*/
 		.app-content-details {
 			/* grow full width */
-			flex-grow: 1;
+			flex: 1 1 $min-content-width;
 			#app-navigation-toggle-back {
 				display: none;
 			}
@@ -713,7 +711,7 @@ kbd {
 }
 
 
-.settings-button {
+#app-settings-header .settings-button {
 	display: block;
 	height: 44px;
 	width: 100%;
@@ -734,9 +732,12 @@ kbd {
 	color: var(--color-main-text);
 	opacity: .57;
 
-	&.opened,
+	&.opened {
+		border-top: solid 1px var(--color-border);
+	}
 	&:hover,
-	&:focus {
+	&:focus,
+	&.opened {
 		background-color: var(--color-main-background);
 		opacity: 1;
 		box-shadow: inset 4px 0 var(--color-primary);
@@ -797,6 +798,10 @@ kbd {
 		margin-bottom: 1px;
 		padding: 5px;
 
+		&.hidden {
+			display: none;
+		}
+
 		/* Use same amount as sidebar padding */
 		&:first-child {
 			padding-left: 15px;
@@ -843,8 +848,9 @@ kbd {
 }
 
 /* POPOVER MENU ------------------------------------------------------------ */
-$popoveritem-height: 38px;
+$popoveritem-height: 44px;
 $popovericon-size: 16px;
+$outter-margin: ($popoveritem-height - $popovericon-size) / 2;
 
 .ie,
 .edge {
@@ -863,13 +869,13 @@ $popovericon-size: 16px;
 	background-color: var(--color-main-background);
 	color: var(--color-main-text);
 	border-radius: var(--border-radius);
-	border: 1px solid transparent;
 	z-index: 110;
 	margin: 5px;
 	margin-top: -5px;
 	right: 0;
 	filter: drop-shadow(0 1px 3px var(--color-box-shadow));
 	display: none;
+	will-change: filter;
 
 	&:after {
 		bottom: 100%;
@@ -936,6 +942,7 @@ $popovericon-size: 16px;
 			cursor: pointer;
 			line-height: $popoveritem-height;
 			border: 0;
+			border-radius: 0; // otherwise Safari will cut the border-radius area
 			background-color: transparent;
 			display: flex;
 			align-items: flex-start;
@@ -1002,7 +1009,7 @@ $popovericon-size: 16px;
 			}
 			/* Add padding if contains icon+text */
 			&:not(:empty) {
-				padding-right: 10px !important;
+				padding-right: $outter-margin !important;
 			}
 			/* DEPRECATED! old img in popover fallback
 			 * TODO: to remove */
@@ -1041,28 +1048,29 @@ $popovericon-size: 16px;
 			}
 			/* Inputs inside popover supports text, submit & reset */
 			input {
-				min-width: #{$popoveritem-height - 4px}; /* twice the margin */
-				max-height: #{$popoveritem-height - 4px}; /* twice the margin */
+				min-width: $popoveritem-height;
+				max-height: #{$popoveritem-height - 4px}; /* twice the element margin-y */
 				margin: 2px 0;
 				flex: 1 1 auto;
+				// space between inline inputs
 				&:not(:first-child) {
 					margin-left: 5px;
 				}
 			}
 		}
-		/* css hack, only first not hidden*/
+		/* css hack, only first not hidden */
 		&:not(.hidden):not([style*='display:none']) {
 			&:first-of-type {
 				> button, > a, > .menuitem {
 					> form, > input {
-						margin-top: 10px;
+						margin-top: $outter-margin - 2px; // minus the input margin
 					}
 				}
 			}
 			&:last-of-type {
 				> button, > a, > .menuitem {
 					> form, > input {
-						margin-bottom: 10px;
+						margin-bottom: $outter-margin - 2px; // minus the input margin
 					}
 				}
 			}
@@ -1100,7 +1108,6 @@ $popovericon-size: 16px;
 
 /* CONTENT LIST ------------------------------------------------------------ */
 .app-content-list {
-	max-width: 300px;
 	@include position('sticky');
 	top: $header-height;
 	border-right: 1px solid var(--color-border);
@@ -1111,13 +1118,14 @@ $popovericon-size: 16px;
 	max-height: calc(100vh - #{$header-height});
 	overflow-y: auto;
 	overflow-x: hidden;
-	flex: 0 1 300px;
+	flex: 1 1 $list-min-width;
+	min-width: $list-min-width;
+	max-width: $list-max-width;
 
 	/* Default item */
 	.app-content-list-item {
 		position: relative;
 		height: 68px;
-		border-top: 1px solid var(--color-border);
 		cursor: pointer;
 		padding: 10px 7px;
 		display: flex;

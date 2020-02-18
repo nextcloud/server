@@ -1,9 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,14 +21,13 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\HandlerStack;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
@@ -55,6 +58,6 @@ class ClientService implements IClientService {
 	 * @return Client
 	 */
 	public function newClient(): IClient {
-		return new Client($this->config, $this->certificateManager, new GuzzleClient(), HandlerStack::create());
+		return new Client($this->config, $this->certificateManager, new GuzzleClient());
 	}
 }

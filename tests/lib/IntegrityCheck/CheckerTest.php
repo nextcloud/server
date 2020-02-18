@@ -22,16 +22,16 @@
 namespace Test\IntegrityCheck;
 
 use OC\IntegrityCheck\Checker;
+use OC\IntegrityCheck\Helpers\AppLocator;
+use OC\IntegrityCheck\Helpers\EnvironmentHelper;
+use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\Memcache\NullCache;
+use OCP\App\IAppManager;
+use OCP\ICacheFactory;
+use OCP\IConfig;
 use phpseclib\Crypt\RSA;
 use phpseclib\File\X509;
 use Test\TestCase;
-use OC\IntegrityCheck\Helpers\EnvironmentHelper;
-use OC\IntegrityCheck\Helpers\FileAccessHelper;
-use OC\IntegrityCheck\Helpers\AppLocator;
-use OCP\IConfig;
-use OCP\ICacheFactory;
-use OCP\App\IAppManager;
 
 class CheckerTest extends TestCase {
 	/** @var EnvironmentHelper|\PHPUnit_Framework_MockObject_MockObject */
@@ -48,8 +48,10 @@ class CheckerTest extends TestCase {
 	private $cacheFactory;
 	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
+	/** @var \OC\Files\Type\Detection|\PHPUnit_Framework_MockObject_MockObject */
+	private $mimeTypeDetector;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->environmentHelper = $this->createMock(EnvironmentHelper::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
@@ -57,6 +59,7 @@ class CheckerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->appManager = $this->createMock(IAppManager::class);
+		$this->mimeTypeDetector = $this->createMock(\OC\Files\Type\Detection::class);
 
 		$this->config->method('getAppValue')
 			->will($this->returnArgument(2));
@@ -74,15 +77,16 @@ class CheckerTest extends TestCase {
 			$this->config,
 			$this->cacheFactory,
 			$this->appManager,
-			\OC::$server->getTempManager()
+			\OC::$server->getTempManager(),
+			$this->mimeTypeDetector
 		);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Exception message
-	 */
+	
 	public function testWriteAppSignatureOfNotExistingApp() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Exception message');
+
 		$this->fileAccessHelper
 			->expects($this->at(0))
 			->method('assertDirectoryExists')
@@ -103,11 +107,11 @@ class CheckerTest extends TestCase {
 		$this->checker->writeAppSignature('NotExistingApp', $x509, $rsa);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessageRegExp /[a-zA-Z\/_-]+ is not writable/
-	 */
+	
 	public function testWriteAppSignatureWrongPermissions() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessageRegExp('/[a-zA-Z\\/_-]+ is not writable/');
+
 		$this->fileAccessHelper
 			->expects($this->once())
 			->method('file_put_contents')
@@ -476,11 +480,11 @@ class CheckerTest extends TestCase {
 		$this->assertSame([], $this->checker->verifyAppSignature('SomeApp'));
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Exception message
-	 */
+	
 	public function testWriteCoreSignatureWithException() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('Exception message');
+
 		$this->fileAccessHelper
 			->expects($this->at(0))
 			->method('assertDirectoryExists')
@@ -500,11 +504,11 @@ class CheckerTest extends TestCase {
 		$this->checker->writeCoreSignature($x509, $rsa, __DIR__);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessageRegExp /[a-zA-Z\/_-]+ is not writable/
-	 */
+	
 	public function testWriteCoreSignatureWrongPermissions() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessageRegExp('/[a-zA-Z\\/_-]+ is not writable/');
+
 		$this->fileAccessHelper
 			->expects($this->at(0))
 			->method('assertDirectoryExists')
@@ -624,14 +628,13 @@ class CheckerTest extends TestCase {
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithInvalidModifiedContent/');
 	}
 
-	public function testWriteCoreSignatureWithValidModifiedHtaccessAndUserIni() {
+	public function testWriteCoreSignatureWithValidModifiedHtaccess() {
 		$expectedSignatureFileData = '{
     "hashes": {
-        ".htaccess": "9a37a508ad4cc3a7ff668e3cd63177891e5601143fa18bb605346020d5f3cd7979748beab956554aca43ae59ff146755cfe83de0f93a3a7bb328b1395b2ccf2f",
-        ".user.ini": "467d4f028c447895716a2b7859ed6e569f8ee34b87b51d73dab2e6a9ca4fbe63172c7be3e365ae864a60408286afcce852dd38ee544b61685ed4ee5e021fecb0",
+        ".htaccess": "7e6a7a4d8ee4f3fbc45dd579407c643471575a9d127d1c75f6d0a49e80766c3c587104b2139ef76d2a4bffce3f45777900605aaa49519c9532909b71e5030227",
         "subfolder\/.htaccess": "2c57b1e25050e11dc3ae975832f378c452159f7b69f818e47eeeafadd6ba568517461dcb4d843b90b906cd7c89d161bc1b89dff8e3ae0eb6f5088508c47befd1"
     },
-    "signature": "HBUFy5NYoAX7nmHInD5N3RXTjzx6Ks5x3AJ4nPMLn5JyxEz5DGKA/kuUpcR2witPfeuLykFVAgv81e0BWXWW98iNHyNq/Gz707WC2qlAk9CME9xl0wayBI00LJ4FElEhxY505OpUz9KDpGDVz0egKNeiB7EAD7dvH4Aw5ffPwU03m2i/Qn5ixnSOW9Z+QRGr7a9qSxIdJa6tykJGwb9BPrmQamLgw3EJebD0rDpHEQID+RBgX+TPArn4zQoYaWooBoTH44JAjw0IpC/6rl29CfczIsNlQo+GJY6dkHQRQSDqSLV4t/qU70I7jUmq+ZWyGBPJXZ6u+SiNOuJl79jOeLKgoNSRrBL0/XuxSMsmszLEwD+RbLRG71/O7DcOQIdIo5jJ/fWm/ljnxIi61TZTBVZoHUM3Jc5MGHaT36yn8TUo0Zic9zFDE7INHuAs6qIOyRS6xkJAaiFMbFSgl3N3UgIGCRvh9l1Vcw5811jbaXnAxOpwJMPHv0ieviwhwO3QZbHfasxCJ4E70Y80N8VQhrruL+qy9I7NrqD19ObkC29MYmWrT+bl48/6IEbzhVXU3o/RMEPIRhgW5rc9OidnfJg4lPZVd1ZHKNWpVLAO0FgpsAl4dLblOIDwscOdQvgDDYyF+0stWxLiPC/MXBf546y7C/HlBYDxsW60EpO0cyw=",
+    "signature": "YVwQvl9Dh8UebCumfgzFxfz3NiZJLmYG8oJVTfEBhulI4KXBnTG1jZTprf4XxG2XIriEYAZXsoXpu9xWsUFe9QfdncwoEpqJtGq7l6aVDTofX5Be5b03MQFJr4cflgllqW77QZ84D9O9qWF\/vNDAofXcwrzT04CxLDhyQgTCgYUnRjG9pnuP\/gtbDKbTjRvxhTyfg3T0Phv1+XAvpTPnH2q5A+1+LmiqziUJ1sMipsKo+jQP614eCi9qjmqhHIgLRgcuOBvsi4g5WUcdcAIZ6qLt5gm2Y3r6rKNVchosU9ZydMUTfjuejDbVwE2fNH5UUnV57fQBxwg9CfX7iFHqKv1bfv5Zviu12paShgWCB12uR3iH\/3lmTJn8K5Xqit3G4eymFaJ5IChdUThBp\/jhQSI2r8sPcZDYSJ\/UZKuFnezFdKhEBd5hMXe8aKAd6ijGDjLARksFuqpi1sS8llC5K1Q+DzktSL\/o64TY4Vuvykiwe\/BAk2SkL9voOtrvU7vfDBcuCPbDJnSBBC0ESpcXeClTBIn6xZ9WaxqoS7sinE\/kUwtWsRd04I7d79\/ouotyNb+mBhTuRsZT12p\/gn4JHXXNUAIpTwchYzGxbfNJ4kxnYBFZWVmvsSqOLFZu1yi5BP3ktA9yhFyWIa5659azRFEKRdXpVHtQVa4IgdhxEqA=",
     "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEvjCCAqagAwIBAgIUc\/0FxYrsgSs9rDxp03EJmbjN0NwwDQYJKoZIhvcNAQEF\r\nBQAwIzEhMB8GA1UECgwYb3duQ2xvdWQgQ29kZSBTaWduaW5nIENBMB4XDTE1MTEw\r\nMzIxMDMzM1oXDTE2MTEwMzIxMDMzM1owDzENMAsGA1UEAwwEY29yZTCCAiIwDQYJ\r\nKoZIhvcNAQEBBQADggIPADCCAgoCggIBALb6EgHpkAqZbO5vRO8XSh7G7XGWHw5s\r\niOf4RwPXR6SE9bWZEm\/b72SfWk\/\/J6AbrD8WiOzBuT\/ODy6k5T1arEdHO+Pux0W1\r\nMxYJJI4kH74KKgMpC0SB0Rt+8WrMqV1r3hhJ46df6Xr\/xolP3oD+eLbShPcblhdS\r\nVtkZEkoev8Sh6L2wDCeHDyPxzvj1w2dTdGVO9Kztn0xIlyfEBakqvBWtcxyi3Ln0\r\nklnxlMx3tPDUE4kqvpia9qNiB1AN2PV93eNr5\/2riAzIssMFSCarWCx0AKYb54+d\r\nxLpcYFyqPJ0ydBCkF78DD45RCZet6PNYkdzgbqlUWEGGomkuDoJbBg4wzgzO0D77\r\nH87KFhYW8tKFFvF1V3AHl\/sFQ9tDHaxM9Y0pZ2jPp\/ccdiqnmdkBxBDqsiRvHvVB\r\nCn6qpb4vWGFC7vHOBfYspmEL1zLlKXZv3ezMZEZw7O9ZvUP3VO\/wAtd2vUW8UFiq\r\ns2v1QnNLN6jNh51obcwmrBvWhJy9vQIdtIjQbDxqWTHh1zUSrw9wrlklCBZ\/zrM0\r\ni8nfCFwTxWRxp3H9KoECzO\/zS5R5KIS7s3\/wq\/w9T2Ie4rcecgXwDizwnn0C\/aKc\r\nbDIjujpL1s9HO05pcD\/V3wKcPZ1izymBkmMyIbL52iRVN5FTVHeZdXPpFuq+CTQJ\r\nQ238lC+A\/KOVAgMBAAEwDQYJKoZIhvcNAQEFBQADggIBAGoKTnh8RfJV4sQItVC2\r\nAvfJagkrIqZ3iiQTUBQGTKBsTnAqE1H7QgUSV9vSd+8rgvHkyZsRjmtyR1e3A6Ji\r\noNCXUbExC\/0iCPUqdHZIVb+Lc\/vWuv4ByFMybGPydgtLoEUX2ZrKFWmcgZFDUSRd\r\n9Uj26vtUhCC4bU4jgu6hIrR9IuxOBLQUxGTRZyAcXvj7obqRAEZwFAKQgFpfpqTb\r\nH+kjcbZSaAlLVSF7vBc1syyI8RGYbqpwvtREqJtl5IEIwe6huEqJ3zPnlP2th\/55\r\ncf3Fovj6JJgbb9XFxrdnsOsDOu\/tpnaRWlvv5ib4+SzG5wWFT5UUEo4Wg2STQiiX\r\nuVSRQxK1LE1yg84bs3NZk9FSQh4B8vZVuRr5FaJsZZkwlFlhRO\/\/+TJtXRbyNgsf\r\noMRZGi8DLGU2SGEAHcRH\/QZHq\/XDUWVzdxrSBYcy7GSpT7UDVzGv1rEJUrn5veP1\r\n0KmauAqtiIaYRm4f6YBsn0INcZxzIPZ0p8qFtVZBPeHhvQtvOt0iXI\/XUxEWOa2F\r\nK2EqhErgMK\/N07U1JJJay5tYZRtvkGq46oP\/5kQG8hYST0MDK6VihJoPpvCmAm4E\r\npEYKQ96x6A4EH9Y9mZlYozH\/eqmxPbTK8n89\/p7Ydun4rI+B2iiLnY8REWWy6+UQ\r\nV204fGUkJqW5CrKy3P3XvY9X\r\n-----END CERTIFICATE-----"
 }';
 		$this->environmentHelper
@@ -721,7 +724,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame([], $this->checker->verifyCoreSignature());
 	}
 
-	public function testVerifyCoreSignatureWithValidModifiedHtaccessAndUserIniSignatureData() {
+	public function testVerifyCoreSignatureWithValidModifiedHtaccessSignatureData() {
 		$this->environmentHelper
 			->expects($this->once())
 			->method('getChannel')
@@ -738,11 +741,10 @@ class CheckerTest extends TestCase {
 			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent'));
 		$signatureDataFile = '{
     "hashes": {
-        ".htaccess": "9a37a508ad4cc3a7ff668e3cd63177891e5601143fa18bb605346020d5f3cd7979748beab956554aca43ae59ff146755cfe83de0f93a3a7bb328b1395b2ccf2f",
-        ".user.ini": "467d4f028c447895716a2b7859ed6e569f8ee34b87b51d73dab2e6a9ca4fbe63172c7be3e365ae864a60408286afcce852dd38ee544b61685ed4ee5e021fecb0",
+        ".htaccess": "7e6a7a4d8ee4f3fbc45dd579407c643471575a9d127d1c75f6d0a49e80766c3c587104b2139ef76d2a4bffce3f45777900605aaa49519c9532909b71e5030227",
         "subfolder\/.htaccess": "2c57b1e25050e11dc3ae975832f378c452159f7b69f818e47eeeafadd6ba568517461dcb4d843b90b906cd7c89d161bc1b89dff8e3ae0eb6f5088508c47befd1"
     },
-    "signature": "HBUFy5NYoAX7nmHInD5N3RXTjzx6Ks5x3AJ4nPMLn5JyxEz5DGKA/kuUpcR2witPfeuLykFVAgv81e0BWXWW98iNHyNq/Gz707WC2qlAk9CME9xl0wayBI00LJ4FElEhxY505OpUz9KDpGDVz0egKNeiB7EAD7dvH4Aw5ffPwU03m2i/Qn5ixnSOW9Z+QRGr7a9qSxIdJa6tykJGwb9BPrmQamLgw3EJebD0rDpHEQID+RBgX+TPArn4zQoYaWooBoTH44JAjw0IpC/6rl29CfczIsNlQo+GJY6dkHQRQSDqSLV4t/qU70I7jUmq+ZWyGBPJXZ6u+SiNOuJl79jOeLKgoNSRrBL0/XuxSMsmszLEwD+RbLRG71/O7DcOQIdIo5jJ/fWm/ljnxIi61TZTBVZoHUM3Jc5MGHaT36yn8TUo0Zic9zFDE7INHuAs6qIOyRS6xkJAaiFMbFSgl3N3UgIGCRvh9l1Vcw5811jbaXnAxOpwJMPHv0ieviwhwO3QZbHfasxCJ4E70Y80N8VQhrruL+qy9I7NrqD19ObkC29MYmWrT+bl48/6IEbzhVXU3o/RMEPIRhgW5rc9OidnfJg4lPZVd1ZHKNWpVLAO0FgpsAl4dLblOIDwscOdQvgDDYyF+0stWxLiPC/MXBf546y7C/HlBYDxsW60EpO0cyw=",
+    "signature": "YVwQvl9Dh8UebCumfgzFxfz3NiZJLmYG8oJVTfEBhulI4KXBnTG1jZTprf4XxG2XIriEYAZXsoXpu9xWsUFe9QfdncwoEpqJtGq7l6aVDTofX5Be5b03MQFJr4cflgllqW77QZ84D9O9qWF\/vNDAofXcwrzT04CxLDhyQgTCgYUnRjG9pnuP\/gtbDKbTjRvxhTyfg3T0Phv1+XAvpTPnH2q5A+1+LmiqziUJ1sMipsKo+jQP614eCi9qjmqhHIgLRgcuOBvsi4g5WUcdcAIZ6qLt5gm2Y3r6rKNVchosU9ZydMUTfjuejDbVwE2fNH5UUnV57fQBxwg9CfX7iFHqKv1bfv5Zviu12paShgWCB12uR3iH\/3lmTJn8K5Xqit3G4eymFaJ5IChdUThBp\/jhQSI2r8sPcZDYSJ\/UZKuFnezFdKhEBd5hMXe8aKAd6ijGDjLARksFuqpi1sS8llC5K1Q+DzktSL\/o64TY4Vuvykiwe\/BAk2SkL9voOtrvU7vfDBcuCPbDJnSBBC0ESpcXeClTBIn6xZ9WaxqoS7sinE\/kUwtWsRd04I7d79\/ouotyNb+mBhTuRsZT12p\/gn4JHXXNUAIpTwchYzGxbfNJ4kxnYBFZWVmvsSqOLFZu1yi5BP3ktA9yhFyWIa5659azRFEKRdXpVHtQVa4IgdhxEqA=",
     "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEvjCCAqagAwIBAgIUc\/0FxYrsgSs9rDxp03EJmbjN0NwwDQYJKoZIhvcNAQEF\r\nBQAwIzEhMB8GA1UECgwYb3duQ2xvdWQgQ29kZSBTaWduaW5nIENBMB4XDTE1MTEw\r\nMzIxMDMzM1oXDTE2MTEwMzIxMDMzM1owDzENMAsGA1UEAwwEY29yZTCCAiIwDQYJ\r\nKoZIhvcNAQEBBQADggIPADCCAgoCggIBALb6EgHpkAqZbO5vRO8XSh7G7XGWHw5s\r\niOf4RwPXR6SE9bWZEm\/b72SfWk\/\/J6AbrD8WiOzBuT\/ODy6k5T1arEdHO+Pux0W1\r\nMxYJJI4kH74KKgMpC0SB0Rt+8WrMqV1r3hhJ46df6Xr\/xolP3oD+eLbShPcblhdS\r\nVtkZEkoev8Sh6L2wDCeHDyPxzvj1w2dTdGVO9Kztn0xIlyfEBakqvBWtcxyi3Ln0\r\nklnxlMx3tPDUE4kqvpia9qNiB1AN2PV93eNr5\/2riAzIssMFSCarWCx0AKYb54+d\r\nxLpcYFyqPJ0ydBCkF78DD45RCZet6PNYkdzgbqlUWEGGomkuDoJbBg4wzgzO0D77\r\nH87KFhYW8tKFFvF1V3AHl\/sFQ9tDHaxM9Y0pZ2jPp\/ccdiqnmdkBxBDqsiRvHvVB\r\nCn6qpb4vWGFC7vHOBfYspmEL1zLlKXZv3ezMZEZw7O9ZvUP3VO\/wAtd2vUW8UFiq\r\ns2v1QnNLN6jNh51obcwmrBvWhJy9vQIdtIjQbDxqWTHh1zUSrw9wrlklCBZ\/zrM0\r\ni8nfCFwTxWRxp3H9KoECzO\/zS5R5KIS7s3\/wq\/w9T2Ie4rcecgXwDizwnn0C\/aKc\r\nbDIjujpL1s9HO05pcD\/V3wKcPZ1izymBkmMyIbL52iRVN5FTVHeZdXPpFuq+CTQJ\r\nQ238lC+A\/KOVAgMBAAEwDQYJKoZIhvcNAQEFBQADggIBAGoKTnh8RfJV4sQItVC2\r\nAvfJagkrIqZ3iiQTUBQGTKBsTnAqE1H7QgUSV9vSd+8rgvHkyZsRjmtyR1e3A6Ji\r\noNCXUbExC\/0iCPUqdHZIVb+Lc\/vWuv4ByFMybGPydgtLoEUX2ZrKFWmcgZFDUSRd\r\n9Uj26vtUhCC4bU4jgu6hIrR9IuxOBLQUxGTRZyAcXvj7obqRAEZwFAKQgFpfpqTb\r\nH+kjcbZSaAlLVSF7vBc1syyI8RGYbqpwvtREqJtl5IEIwe6huEqJ3zPnlP2th\/55\r\ncf3Fovj6JJgbb9XFxrdnsOsDOu\/tpnaRWlvv5ib4+SzG5wWFT5UUEo4Wg2STQiiX\r\nuVSRQxK1LE1yg84bs3NZk9FSQh4B8vZVuRr5FaJsZZkwlFlhRO\/\/+TJtXRbyNgsf\r\noMRZGi8DLGU2SGEAHcRH\/QZHq\/XDUWVzdxrSBYcy7GSpT7UDVzGv1rEJUrn5veP1\r\n0KmauAqtiIaYRm4f6YBsn0INcZxzIPZ0p8qFtVZBPeHhvQtvOt0iXI\/XUxEWOa2F\r\nK2EqhErgMK\/N07U1JJJay5tYZRtvkGq46oP\/5kQG8hYST0MDK6VihJoPpvCmAm4E\r\npEYKQ96x6A4EH9Y9mZlYozH\/eqmxPbTK8n89\/p7Ydun4rI+B2iiLnY8REWWy6+UQ\r\nV204fGUkJqW5CrKy3P3XvY9X\r\n-----END CERTIFICATE-----"
 }';
 		$this->fileAccessHelper
@@ -761,6 +763,262 @@ class CheckerTest extends TestCase {
 			->will($this->returnValue(file_get_contents(__DIR__ .'/../../data/integritycheck/root.crt')));
 
 		$this->assertSame([], $this->checker->verifyCoreSignature());
+	}
+
+	public function testVerifyCoreSignatureWithModifiedMimetypelistSignatureData() {
+		$this->environmentHelper
+			->expects($this->once())
+			->method('getChannel')
+			->will($this->returnValue('stable'));
+		$this->config
+			->expects($this->any())
+			->method('getSystemValue')
+			->with('integrity.check.disabled', false)
+			->will($this->returnValue(false));
+
+		$this->mimeTypeDetector
+			->expects($this->once())
+			->method('getOnlyDefaultAliases')
+			->willReturn(
+				array (
+					'_comment' => 'Array of mimetype aliases.',
+					'_comment2' => 'Any changes you make here will be overwritten on an update of Nextcloud.',
+					'_comment3' => 'Put any custom mappings in a new file mimetypealiases.json in the config/ folder of Nextcloud',
+					'_comment4' => 'After any change to mimetypealiases.json run:',
+					'_comment5' => './occ maintenance:mimetype:update-js',
+					'_comment6' => 'Otherwise your update won\'t propagate through the system.',
+					'application/coreldraw' => 'image',
+					'application/epub+zip' => 'text',
+					'application/font-sfnt' => 'image',
+					'application/font-woff' => 'image',
+					'application/gpx+xml' => 'location',
+					'application/illustrator' => 'image',
+					'application/javascript' => 'text/code',
+					'application/json' => 'text/code',
+					'application/msaccess' => 'file',
+					'application/msexcel' => 'x-office/spreadsheet',
+					'application/msonenote' => 'x-office/document',
+					'application/mspowerpoint' => 'x-office/presentation',
+					'application/msword' => 'x-office/document',
+					'application/octet-stream' => 'file',
+					'application/postscript' => 'image',
+					'application/rss+xml' => 'application/xml',
+					'application/vnd.android.package-archive' => 'package/x-generic',
+					'application/vnd.lotus-wordpro' => 'x-office/document',
+					'application/vnd.garmin.tcx+xml' => 'location',
+					'application/vnd.google-earth.kml+xml' => 'location',
+					'application/vnd.google-earth.kmz' => 'location',
+					'application/vnd.ms-excel' => 'x-office/spreadsheet',
+					'application/vnd.ms-excel.addin.macroEnabled.12' => 'x-office/spreadsheet',
+					'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => 'x-office/spreadsheet',
+					'application/vnd.ms-excel.sheet.macroEnabled.12' => 'x-office/spreadsheet',
+					'application/vnd.ms-excel.template.macroEnabled.12' => 'x-office/spreadsheet',
+					'application/vnd.ms-fontobject' => 'image',
+					'application/vnd.ms-powerpoint' => 'x-office/presentation',
+					'application/vnd.ms-powerpoint.addin.macroEnabled.12' => 'x-office/presentation',
+					'application/vnd.ms-powerpoint.presentation.macroEnabled.12' => 'x-office/presentation',
+					'application/vnd.ms-powerpoint.slideshow.macroEnabled.12' => 'x-office/presentation',
+					'application/vnd.ms-powerpoint.template.macroEnabled.12' => 'x-office/presentation',
+					'application/vnd.ms-visio.drawing.macroEnabled.12' => 'application/vnd.visio',
+					'application/vnd.ms-visio.drawing' => 'application/vnd.visio',
+					'application/vnd.ms-visio.stencil.macroEnabled.12' => 'application/vnd.visio',
+					'application/vnd.ms-visio.stencil' => 'application/vnd.visio',
+					'application/vnd.ms-visio.template.macroEnabled.12' => 'application/vnd.visio',
+					'application/vnd.ms-visio.template' => 'application/vnd.visio',
+					'application/vnd.ms-word.document.macroEnabled.12' => 'x-office/document',
+					'application/vnd.ms-word.template.macroEnabled.12' => 'x-office/document',
+					'application/vnd.oasis.opendocument.presentation' => 'x-office/presentation',
+					'application/vnd.oasis.opendocument.presentation-template' => 'x-office/presentation',
+					'application/vnd.oasis.opendocument.spreadsheet' => 'x-office/spreadsheet',
+					'application/vnd.oasis.opendocument.spreadsheet-template' => 'x-office/spreadsheet',
+					'application/vnd.oasis.opendocument.text' => 'x-office/document',
+					'application/vnd.oasis.opendocument.text-master' => 'x-office/document',
+					'application/vnd.oasis.opendocument.text-template' => 'x-office/document',
+					'application/vnd.oasis.opendocument.text-web' => 'x-office/document',
+					'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'x-office/presentation',
+					'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'x-office/presentation',
+					'application/vnd.openxmlformats-officedocument.presentationml.template' => 'x-office/presentation',
+					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'x-office/spreadsheet',
+					'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => 'x-office/spreadsheet',
+					'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'x-office/document',
+					'application/vnd.openxmlformats-officedocument.wordprocessingml.template' => 'x-office/document',
+					'application/vnd.visio' => 'x-office/document',
+					'application/vnd.wordperfect' => 'x-office/document',
+					'application/x-7z-compressed' => 'package/x-generic',
+					'application/x-bzip2' => 'package/x-generic',
+					'application/x-cbr' => 'text',
+					'application/x-compressed' => 'package/x-generic',
+					'application/x-dcraw' => 'image',
+					'application/x-deb' => 'package/x-generic',
+					'application/x-fictionbook+xml' => 'text',
+					'application/x-font' => 'image',
+					'application/x-gimp' => 'image',
+					'application/x-gzip' => 'package/x-generic',
+					'application/x-iwork-keynote-sffkey' => 'x-office/presentation',
+					'application/x-iwork-numbers-sffnumbers' => 'x-office/spreadsheet',
+					'application/x-iwork-pages-sffpages' => 'x-office/document',
+					'application/x-mobipocket-ebook' => 'text',
+					'application/x-perl' => 'text/code',
+					'application/x-photoshop' => 'image',
+					'application/x-php' => 'text/code',
+					'application/x-rar-compressed' => 'package/x-generic',
+					'application/x-tar' => 'package/x-generic',
+					'application/x-tex' => 'text',
+					'application/xml' => 'text/html',
+					'application/yaml' => 'text/code',
+					'application/zip' => 'package/x-generic',
+					'database' => 'file',
+					'httpd/unix-directory' => 'dir',
+					'text/css' => 'text/code',
+					'text/csv' => 'x-office/spreadsheet',
+					'text/html' => 'text/code',
+					'text/x-c' => 'text/code',
+					'text/x-c++src' => 'text/code',
+					'text/x-h' => 'text/code',
+					'text/x-java-source' => 'text/code',
+					'text/x-ldif' => 'text/code',
+					'text/x-python' => 'text/code',
+					'text/x-shellscript' => 'text/code',
+					'web' => 'text/code',
+					'application/internet-shortcut' => 'link',
+				));
+
+		$this->mimeTypeDetector
+			->expects($this->once())
+			->method('getAllAliases')
+			->willReturn(
+				array (
+					'_comment' => 'Array of mimetype aliases.',
+					'_comment2' => 'Any changes you make here will be overwritten on an update of Nextcloud.',
+					'_comment3' => 'Put any custom mappings in a new file mimetypealiases.json in the config/ folder of Nextcloud',
+					'_comment4' => 'After any change to mimetypealiases.json run:',
+					'_comment5' => './occ maintenance:mimetype:update-js',
+					'_comment6' => 'Otherwise your update won\'t propagate through the system.',
+					'application/coreldraw' => 'image',
+					'application/test' => 'image',
+					'application/epub+zip' => 'text',
+					'application/font-sfnt' => 'image',
+					'application/font-woff' => 'image',
+					'application/gpx+xml' => 'location',
+					'application/illustrator' => 'image',
+					'application/javascript' => 'text/code',
+					'application/json' => 'text/code',
+					'application/msaccess' => 'file',
+					'application/msexcel' => 'x-office/spreadsheet',
+					'application/msonenote' => 'x-office/document',
+					'application/mspowerpoint' => 'x-office/presentation',
+					'application/msword' => 'x-office/document',
+					'application/octet-stream' => 'file',
+					'application/postscript' => 'image',
+					'application/rss+xml' => 'application/xml',
+					'application/vnd.android.package-archive' => 'package/x-generic',
+					'application/vnd.lotus-wordpro' => 'x-office/document',
+					'application/vnd.garmin.tcx+xml' => 'location',
+					'application/vnd.google-earth.kml+xml' => 'location',
+					'application/vnd.google-earth.kmz' => 'location',
+					'application/vnd.ms-excel' => 'x-office/spreadsheet',
+					'application/vnd.ms-excel.addin.macroEnabled.12' => 'x-office/spreadsheet',
+					'application/vnd.ms-excel.sheet.binary.macroEnabled.12' => 'x-office/spreadsheet',
+					'application/vnd.ms-excel.sheet.macroEnabled.12' => 'x-office/spreadsheet',
+					'application/vnd.ms-excel.template.macroEnabled.12' => 'x-office/spreadsheet',
+					'application/vnd.ms-fontobject' => 'image',
+					'application/vnd.ms-powerpoint' => 'x-office/presentation',
+					'application/vnd.ms-powerpoint.addin.macroEnabled.12' => 'x-office/presentation',
+					'application/vnd.ms-powerpoint.presentation.macroEnabled.12' => 'x-office/presentation',
+					'application/vnd.ms-powerpoint.slideshow.macroEnabled.12' => 'x-office/presentation',
+					'application/vnd.ms-powerpoint.template.macroEnabled.12' => 'x-office/presentation',
+					'application/vnd.ms-visio.drawing.macroEnabled.12' => 'application/vnd.visio',
+					'application/vnd.ms-visio.drawing' => 'application/vnd.visio',
+					'application/vnd.ms-visio.stencil.macroEnabled.12' => 'application/vnd.visio',
+					'application/vnd.ms-visio.stencil' => 'application/vnd.visio',
+					'application/vnd.ms-visio.template.macroEnabled.12' => 'application/vnd.visio',
+					'application/vnd.ms-visio.template' => 'application/vnd.visio',
+					'application/vnd.ms-word.document.macroEnabled.12' => 'x-office/document',
+					'application/vnd.ms-word.template.macroEnabled.12' => 'x-office/document',
+					'application/vnd.oasis.opendocument.presentation' => 'x-office/presentation',
+					'application/vnd.oasis.opendocument.presentation-template' => 'x-office/presentation',
+					'application/vnd.oasis.opendocument.spreadsheet' => 'x-office/spreadsheet',
+					'application/vnd.oasis.opendocument.spreadsheet-template' => 'x-office/spreadsheet',
+					'application/vnd.oasis.opendocument.text' => 'x-office/document',
+					'application/vnd.oasis.opendocument.text-master' => 'x-office/document',
+					'application/vnd.oasis.opendocument.text-template' => 'x-office/document',
+					'application/vnd.oasis.opendocument.text-web' => 'x-office/document',
+					'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'x-office/presentation',
+					'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'x-office/presentation',
+					'application/vnd.openxmlformats-officedocument.presentationml.template' => 'x-office/presentation',
+					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'x-office/spreadsheet',
+					'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => 'x-office/spreadsheet',
+					'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'x-office/document',
+					'application/vnd.openxmlformats-officedocument.wordprocessingml.template' => 'x-office/document',
+					'application/vnd.visio' => 'x-office/document',
+					'application/vnd.wordperfect' => 'x-office/document',
+					'application/x-7z-compressed' => 'package/x-generic',
+					'application/x-bzip2' => 'package/x-generic',
+					'application/x-cbr' => 'text',
+					'application/x-compressed' => 'package/x-generic',
+					'application/x-dcraw' => 'image',
+					'application/x-deb' => 'package/x-generic',
+					'application/x-fictionbook+xml' => 'text',
+					'application/x-font' => 'image',
+					'application/x-gimp' => 'image',
+					'application/x-gzip' => 'package/x-generic',
+					'application/x-iwork-keynote-sffkey' => 'x-office/presentation',
+					'application/x-iwork-numbers-sffnumbers' => 'x-office/spreadsheet',
+					'application/x-iwork-pages-sffpages' => 'x-office/document',
+					'application/x-mobipocket-ebook' => 'text',
+					'application/x-perl' => 'text/code',
+					'application/x-photoshop' => 'image',
+					'application/x-php' => 'text/code',
+					'application/x-rar-compressed' => 'package/x-generic',
+					'application/x-tar' => 'package/x-generic',
+					'application/x-tex' => 'text',
+					'application/xml' => 'text/html',
+					'application/yaml' => 'text/code',
+					'application/zip' => 'package/x-generic',
+					'database' => 'file',
+					'httpd/unix-directory' => 'dir',
+					'text/css' => 'text/code',
+					'text/csv' => 'x-office/spreadsheet',
+					'text/html' => 'text/code',
+					'text/x-c' => 'text/code',
+					'text/x-c++src' => 'text/code',
+					'text/x-h' => 'text/code',
+					'text/x-java-source' => 'text/code',
+					'text/x-ldif' => 'text/code',
+					'text/x-python' => 'text/code',
+					'text/x-shellscript' => 'text/code',
+					'web' => 'text/code',
+					'application/internet-shortcut' => 'link',
+				));
+
+		$this->environmentHelper
+			->expects($this->any())
+			->method('getServerRoot')
+			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified'));
+		$signatureDataFile = '{
+    "hashes": { 
+        "mimetypelist.js": "dc48de7ad4baa030c5e563350c9a80b274bad783f6f5adbf1595ecef6c6a32e52890a24cb26cddb0aa20193ba52c001150c68d8bfb567f0aed566f4029a190a3"
+    },
+    "signature": "dtNDyufRB1jOG3e\/\/Ng6O3ZPnX5wgt3rrD9SpRQ66cpWlixwvGaI6knH85MkWm3q1c+hTYBipJ\/o+nJxHWoxydMXm+F6mC5MvXWfESB\/ag4fvKe0fg25yKstzlrpIyWwcnmOhLE\/sd7D8LZOQXk72PXsIJw4vX2YPyf3peHLevlUkVhB+mfYGDQJfrtPHjJII0Do+TV2MA0qm42q7SO\/zf7Ly24nZP3AoY5bYDMewlrczS2xz9tMN2ikZZcDgHvmC2W4RkaFP9E8ZeAZphKVjyQn6HdSu7EDlJgJ1YtoqTetFzNy\/q7+ODiJDB0KUzKocEDcXF2n2cTKXKCrklB6tEhEnjADhhQNxQouq2soc0ouIujifyH2zBL0sawNxGje5wpuchhCPnWcvQnSJbK1oXnv\/0wSGsp0iSslvx9NXAZ+nQbJnIuodLBl7XuTxxPVa8jDwFdJ7mLrs79ZfN2Op4qF10PiFRoz5VztJm4KWcaWnm\/Xqxke\/6yxY+gU2c6aH\/plwzkcxhdDJjNI\/d+G+b6NSadfcrduO+gTeHK\/go68mx0k1XxCln4Qu31nPmJZcboTvAtHvHXoeqZVAzMpT+jrq+vZ3oVAvFfNpvH4CA3eZebfkV13wV4RaSETyz5QNbnBL24C26aAhkzdShKHJc4NSNV9XdFqN74XEzSZGoc=",
+    "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEvjCCAqagAwIBAgIUc\/0FxYrsgSs9rDxp03EJmbjN0NwwDQYJKoZIhvcNAQEF\r\nBQAwIzEhMB8GA1UECgwYb3duQ2xvdWQgQ29kZSBTaWduaW5nIENBMB4XDTE1MTEw\r\nMzIxMDMzM1oXDTE2MTEwMzIxMDMzM1owDzENMAsGA1UEAwwEY29yZTCCAiIwDQYJ\r\nKoZIhvcNAQEBBQADggIPADCCAgoCggIBALb6EgHpkAqZbO5vRO8XSh7G7XGWHw5s\r\niOf4RwPXR6SE9bWZEm\/b72SfWk\/\/J6AbrD8WiOzBuT\/ODy6k5T1arEdHO+Pux0W1\r\nMxYJJI4kH74KKgMpC0SB0Rt+8WrMqV1r3hhJ46df6Xr\/xolP3oD+eLbShPcblhdS\r\nVtkZEkoev8Sh6L2wDCeHDyPxzvj1w2dTdGVO9Kztn0xIlyfEBakqvBWtcxyi3Ln0\r\nklnxlMx3tPDUE4kqvpia9qNiB1AN2PV93eNr5\/2riAzIssMFSCarWCx0AKYb54+d\r\nxLpcYFyqPJ0ydBCkF78DD45RCZet6PNYkdzgbqlUWEGGomkuDoJbBg4wzgzO0D77\r\nH87KFhYW8tKFFvF1V3AHl\/sFQ9tDHaxM9Y0pZ2jPp\/ccdiqnmdkBxBDqsiRvHvVB\r\nCn6qpb4vWGFC7vHOBfYspmEL1zLlKXZv3ezMZEZw7O9ZvUP3VO\/wAtd2vUW8UFiq\r\ns2v1QnNLN6jNh51obcwmrBvWhJy9vQIdtIjQbDxqWTHh1zUSrw9wrlklCBZ\/zrM0\r\ni8nfCFwTxWRxp3H9KoECzO\/zS5R5KIS7s3\/wq\/w9T2Ie4rcecgXwDizwnn0C\/aKc\r\nbDIjujpL1s9HO05pcD\/V3wKcPZ1izymBkmMyIbL52iRVN5FTVHeZdXPpFuq+CTQJ\r\nQ238lC+A\/KOVAgMBAAEwDQYJKoZIhvcNAQEFBQADggIBAGoKTnh8RfJV4sQItVC2\r\nAvfJagkrIqZ3iiQTUBQGTKBsTnAqE1H7QgUSV9vSd+8rgvHkyZsRjmtyR1e3A6Ji\r\noNCXUbExC\/0iCPUqdHZIVb+Lc\/vWuv4ByFMybGPydgtLoEUX2ZrKFWmcgZFDUSRd\r\n9Uj26vtUhCC4bU4jgu6hIrR9IuxOBLQUxGTRZyAcXvj7obqRAEZwFAKQgFpfpqTb\r\nH+kjcbZSaAlLVSF7vBc1syyI8RGYbqpwvtREqJtl5IEIwe6huEqJ3zPnlP2th\/55\r\ncf3Fovj6JJgbb9XFxrdnsOsDOu\/tpnaRWlvv5ib4+SzG5wWFT5UUEo4Wg2STQiiX\r\nuVSRQxK1LE1yg84bs3NZk9FSQh4B8vZVuRr5FaJsZZkwlFlhRO\/\/+TJtXRbyNgsf\r\noMRZGi8DLGU2SGEAHcRH\/QZHq\/XDUWVzdxrSBYcy7GSpT7UDVzGv1rEJUrn5veP1\r\n0KmauAqtiIaYRm4f6YBsn0INcZxzIPZ0p8qFtVZBPeHhvQtvOt0iXI\/XUxEWOa2F\r\nK2EqhErgMK\/N07U1JJJay5tYZRtvkGq46oP\/5kQG8hYST0MDK6VihJoPpvCmAm4E\r\npEYKQ96x6A4EH9Y9mZlYozH\/eqmxPbTK8n89\/p7Ydun4rI+B2iiLnY8REWWy6+UQ\r\nV204fGUkJqW5CrKy3P3XvY9X\r\n-----END CERTIFICATE-----"
+}';
+		$this->fileAccessHelper
+			->expects($this->at(0))
+			->method('file_get_contents')
+			->with(
+				\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/core/signature.json'
+			)
+			->will($this->returnValue($signatureDataFile));
+		$this->fileAccessHelper
+			->expects($this->at(1))
+			->method('file_get_contents')
+			->with(
+				\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified/resources/codesigning/root.crt'
+			)
+			->will($this->returnValue(file_get_contents(__DIR__ .'/../../data/integritycheck/root.crt')));
+
+		$this->assertSame([], $this->checker->verifyCoreSignature());
+
 	}
 
 	public function testVerifyCoreSignatureWithValidSignatureDataAndNotAlphabeticOrder() {
@@ -1016,7 +1274,8 @@ class CheckerTest extends TestCase {
 				$this->config,
 				$this->cacheFactory,
 				$this->appManager,
-				\OC::$server->getTempManager()
+				\OC::$server->getTempManager(),
+				$this->mimeTypeDetector,
 			])
 			->setMethods([
 				'verifyCoreSignature',

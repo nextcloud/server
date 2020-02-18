@@ -170,7 +170,7 @@ OCA = OCA || {};
 			} else {
 				var $element = $(this.tabID).find('.ldapGroupListSelected');
 				this.equipMultiSelect($element, groups);
-				this.updateFilterOnType('selected');
+				this.updateFilterOnType();
 			}
 		},
 
@@ -212,10 +212,8 @@ OCA = OCA || {};
 
 		/**
 		 * updates (creates, if necessary) filterOnType instances
-		 *
-		 * @param {string} [only] - if only one search index should be updated
 		 */
-		updateFilterOnType: function(only) {
+		updateFilterOnType: function() {
 			if(_.isUndefined(this.filterOnType)) {
 				this.filterOnType = [];
 
@@ -227,13 +225,6 @@ OCA = OCA || {};
 				this.filterOnType.push(this.foTFactory.get(
 					$selectedGroups, $(this.tabID).find('.ldapManyGroupsSearch')
 				));
-			} else {
-				if(_.isUndefined(only) || only.toLowerCase() === 'available')  {
-					this.filterOnType[0].updateOptions();
-				}
-				if(_.isUndefined(only) || only.toLowerCase() === 'selected')  {
-					this.filterOnType[1].updateOptions();
-				}
 			}
 		},
 
@@ -282,7 +273,7 @@ OCA = OCA || {};
 						// we reimplement it here to update the filter index
 						// for groups. Maybe we can isolate it?
 						if(methodName === 'setGroups') {
-							view.updateFilterOnType('selected');
+							view.updateFilterOnType();
 						}
 					}
 				}
@@ -312,7 +303,6 @@ OCA = OCA || {};
 					var selected = view.configModel.configuration[view.getGroupsItem().keyName];
 					var available = $(payload.data).not(selected).get();
 					view.equipMultiSelect($element, available);
-					view.updateFilterOnType('available');
 					$(view.tabID).find(".ldapManyGroupsSupport").removeClass('hidden');
 					view.getGroupsItem().$element.multiselect({classes: view.multiSelectPluginClass + ' forceHidden'});
 					view.isComplexGroupChooser = true;
@@ -356,12 +346,22 @@ OCA = OCA || {};
 		 */
 		onSelectGroup: function() {
 			var $available = $(this.tabID).find('.ldapGroupListAvailable');
+			if(!$available.val()) {
+				return; // no selection – nothing to do
+			}
+
 			var $selected = $(this.tabID).find('.ldapGroupListSelected');
 			var selected = $.map($selected.find('option'), function(e) { return e.value; });
 
-			this._saveGroups(selected.concat($available.val()));
-			$available.find('option:selected').prependTo($selected);
-			this.updateFilterOnType('available');  // selected groups are not updated yet
+			let selectedGroups = [];
+			$available.find('option:selected:visible').each(function() {
+				selectedGroups.push($(this).val());
+			});
+
+			this._saveGroups(selected.concat(selectedGroups));
+			$available.find('option:selected:visible').prependTo($selected);
+			this.updateFilterOnType();  // selected groups are not updated yet
+			$available.find('option:selected').prop("selected", false);
 		},
 
 		/**
@@ -370,11 +370,12 @@ OCA = OCA || {};
 		onDeselectGroup: function() {
 			var $available = $(this.tabID).find('.ldapGroupListAvailable');
 			var $selected = $(this.tabID).find('.ldapGroupListSelected');
-			var selected = $.map($selected.find('option:not(:selected)'), function(e) { return e.value; });
+			var selected = $.map($selected.find('option:not(:selected:visible)'), function(e) { return e.value; });
 
 			this._saveGroups(selected);
-			$selected.find('option:selected').appendTo($available);
-			this.updateFilterOnType('available');  // selected groups are not updated yet
+			$selected.find('option:selected:visible').appendTo($available);
+			this.updateFilterOnType();  // selected groups are not updated yet
+			$selected.find('option:selected').prop("selected", false);
 		}
 
 	});

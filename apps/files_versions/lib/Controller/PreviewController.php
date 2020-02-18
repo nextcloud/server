@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -95,7 +96,7 @@ class PreviewController extends Controller {
 			$user = $this->userSession->getUser();
 			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
 			$file = $userFolder->get($file);
-			$versionFile = $this->versionManager->getVersionFile($user, $file, (int)$version);
+			$versionFile = $this->versionManager->getVersionFile($user, $file, $version);
 			$preview = $this->previewManager->getPreview($versionFile, $x, $y, true, IPreview::MODE_FILL, $versionFile->getMimetype());
 			return new FileDisplayResponse($preview, Http::STATUS_OK, ['Content-Type' => $preview->getMimeType()]);
 		} catch (NotFoundException $e) {

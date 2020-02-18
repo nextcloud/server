@@ -19,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -27,10 +27,10 @@ namespace OCA\DAV\Tests\unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
 use OCP\IUser;
+use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
-use OCP\SystemTag\ISystemTag;
 
 class SystemTagMappingNodeTest extends \Test\TestCase {
 
@@ -49,7 +49,7 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 	 */
 	private $user;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
@@ -144,10 +144,10 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testDeleteTagNotFound() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		// assuming the tag existed at the time the node was created,
 		// but got deleted concurrently in the database
 		$tag = new SystemTag(1, 'Test', true, true);

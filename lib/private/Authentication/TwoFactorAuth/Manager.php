@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -21,7 +21,7 @@ declare(strict_types = 1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -31,10 +31,13 @@ use function array_diff;
 use function array_filter;
 use BadMethodCallException;
 use Exception;
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OCP\Activity\IManager;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
+use OCP\Authentication\TwoFactorAuth\ILoginSetupProvider;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IConfig;
@@ -130,6 +133,18 @@ class Manager {
 	public function getProvider(IUser $user, string $challengeProviderId) {
 		$providers = $this->getProviderSet($user)->getProviders();
 		return $providers[$challengeProviderId] ?? null;
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return IActivatableAtLogin[]
+	 * @throws Exception
+	 */
+	public function getLoginSetupProviders(IUser $user): array {
+		$providers = $this->providerLoader->getProviders($user);
+		return array_filter($providers, function(IProvider $provider) {
+			return ($provider instanceof IActivatableAtLogin);
+		});
 	}
 
 	/**
@@ -362,6 +377,14 @@ class Manager {
 		$id = $this->session->getId();
 		$token = $this->tokenProvider->getToken($id);
 		$this->config->setUserValue($user->getUID(), 'login_token_2fa', $token->getId(), $this->timeFactory->getTime());
+	}
+
+	public function clearTwoFactorPending(string $userId) {
+		$tokensNeeding2FA = $this->config->getUserKeys($userId, 'login_token_2fa');
+
+		foreach ($tokensNeeding2FA as $tokenId) {
+			$this->tokenProvider->invalidateTokenById($userId, $tokenId);
+		}
 	}
 
 }

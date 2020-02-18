@@ -20,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 
 namespace OCA\DAV\Tests\unit\CardDAV;
 
@@ -56,7 +55,7 @@ class AddressBookImplTest extends TestCase {
 	/** @var  VCard | \PHPUnit_Framework_MockObject_MockObject */
 	private $vCard;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->addressBookInfo = [

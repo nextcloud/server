@@ -2,7 +2,11 @@
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,7 +21,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -25,8 +29,8 @@ namespace OC\Core\Migrations;
 
 use Doctrine\DBAL\Types\Type;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version13000Date20170718121200 extends SimpleMigrationStep {
 
@@ -176,14 +180,14 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'length' => 8,
 				'default' => 0,
 			]);
-			$table->addColumn('mtime', 'integer', [
+			$table->addColumn('mtime', Type::BIGINT, [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 			]);
-			$table->addColumn('storage_mtime', 'integer', [
+			$table->addColumn('storage_mtime', Type::BIGINT, [
 				'notnull' => true,
-				'length' => 4,
+				'length' => 20,
 				'default' => 0,
 			]);
 			$table->addColumn('encrypted', 'integer', [
@@ -523,7 +527,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['token'], 'authtoken_token_index');
-			$table->addIndex(['last_activity'], 'authtoken_last_activity_index');
+			$table->addIndex(['last_activity'], 'authtoken_last_activity_idx');
 		}
 
 		if (!$schema->hasTable('bruteforce_attempts')) {

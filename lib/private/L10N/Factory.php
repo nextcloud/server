@@ -4,13 +4,19 @@
  * @copyright 2016 Roeland Jago Douma <roeland@famdouma.nl>
  * @copyright 2016 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license AGPL-3.0
  *
@@ -24,7 +30,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -108,37 +114,40 @@ class Factory implements IFactory {
 	 * @return \OCP\IL10N
 	 */
 	public function get($app, $lang = null, $locale = null) {
-		$app = \OC_App::cleanAppId($app);
-		if ($lang !== null) {
-			$lang = str_replace(array('\0', '/', '\\', '..'), '', (string) $lang);
-		}
+		return new LazyL10N(function() use ($app, $lang, $locale) {
 
-		$forceLang = $this->config->getSystemValue('force_language', false);
-		if (is_string($forceLang)) {
-			$lang = $forceLang;
-		}
+			$app = \OC_App::cleanAppId($app);
+			if ($lang !== null) {
+				$lang = str_replace(array('\0', '/', '\\', '..'), '', (string)$lang);
+			}
 
-		$forceLocale = $this->config->getSystemValue('force_locale', false);
-		if (is_string($forceLocale)) {
-			$locale = $forceLocale;
-		}
+			$forceLang = $this->config->getSystemValue('force_language', false);
+			if (is_string($forceLang)) {
+				$lang = $forceLang;
+			}
 
-		if ($lang === null || !$this->languageExists($app, $lang)) {
-			$lang = $this->findLanguage($app);
-		}
+			$forceLocale = $this->config->getSystemValue('force_locale', false);
+			if (is_string($forceLocale)) {
+				$locale = $forceLocale;
+			}
 
-		if ($locale === null || !$this->localeExists($locale)) {
-			$locale = $this->findLocale($lang);
-		}
+			if ($lang === null || !$this->languageExists($app, $lang)) {
+				$lang = $this->findLanguage($app);
+			}
 
-		if (!isset($this->instances[$lang][$app])) {
-			$this->instances[$lang][$app] = new L10N(
-				$this, $app, $lang, $locale,
-				$this->getL10nFilesForApp($app, $lang)
-			);
-		}
+			if ($locale === null || !$this->localeExists($locale)) {
+				$locale = $this->findLocale($lang);
+			}
 
-		return $this->instances[$lang][$app];
+			if (!isset($this->instances[$lang][$app])) {
+				$this->instances[$lang][$app] = new L10N(
+					$this, $app, $lang, $locale,
+					$this->getL10nFilesForApp($app, $lang)
+				);
+			}
+
+			return $this->instances[$lang][$app];
+		});
 	}
 
 	/**
@@ -466,7 +475,6 @@ class Factory implements IFactory {
 
 		if (($this->isSubDirectory($transFile, $this->serverRoot . '/core/l10n/')
 				|| $this->isSubDirectory($transFile, $this->serverRoot . '/lib/l10n/')
-				|| $this->isSubDirectory($transFile, $this->serverRoot . '/settings/l10n/')
 				|| $this->isSubDirectory($transFile, \OC_App::getAppPath($app) . '/l10n/')
 			)
 			&& file_exists($transFile)) {
@@ -493,7 +501,7 @@ class Factory implements IFactory {
 	 * @return string directory
 	 */
 	protected function findL10nDir($app = null) {
-		if (in_array($app, ['core', 'lib', 'settings'])) {
+		if (in_array($app, ['core', 'lib'])) {
 			if (file_exists($this->serverRoot . '/' . $app . '/l10n/')) {
 				return $this->serverRoot . '/' . $app . '/l10n/';
 			}

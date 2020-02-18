@@ -3,7 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -59,7 +62,7 @@ class NotificationsTest extends TestCase {
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	protected $urlGenerator;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->commentsManager = $this->createMock(ICommentsManager::class);
@@ -117,6 +120,9 @@ class NotificationsTest extends TestCase {
 		$comment->expects($this->any())
 			->method('getObjectType')
 			->willReturn('files');
+		$comment->expects($this->any())
+			->method('getId')
+			->willReturn('1234');
 
 		$this->commentsManager->expects($this->any())
 			->method('get')
@@ -125,6 +131,7 @@ class NotificationsTest extends TestCase {
 
 		$file = $this->createMock(Node::class);
 		$folder = $this->createMock(Folder::class);
+		$user = $this->createMock(IUser::class);
 
 		$this->rootFolder->expects($this->once())
 			->method('getUserFolder')
@@ -136,7 +143,11 @@ class NotificationsTest extends TestCase {
 
 		$this->session->expects($this->once())
 			->method('getUser')
-			->willReturn($this->createMock(IUser::class));
+			->willReturn($user);
+
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
 
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->any())
@@ -163,9 +174,15 @@ class NotificationsTest extends TestCase {
 		$this->rootFolder->expects($this->never())
 			->method('getUserFolder');
 
+		$user = $this->createMock(IUser::class);
+
 		$this->session->expects($this->once())
 			->method('getUser')
-			->willReturn($this->createMock(IUser::class));
+			->willReturn($user);
+
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
 
 		$this->notificationManager->expects($this->never())
 			->method('createNotification');
@@ -181,6 +198,9 @@ class NotificationsTest extends TestCase {
 		$comment->expects($this->any())
 			->method('getObjectType')
 			->willReturn('files');
+		$comment->expects($this->any())
+			->method('getId')
+			->willReturn('1234');
 
 		$this->commentsManager->expects($this->any())
 			->method('get')
@@ -197,9 +217,15 @@ class NotificationsTest extends TestCase {
 			->method('getById')
 			->willReturn([]);
 
+		$user = $this->createMock(IUser::class);
+
 		$this->session->expects($this->once())
 			->method('getUser')
-			->willReturn($this->createMock(IUser::class));
+			->willReturn($user);
+
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn('user');
 
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->any())

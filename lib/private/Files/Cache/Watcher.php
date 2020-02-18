@@ -5,6 +5,7 @@
  * @author Daniel Jagszent <daniel@jagszent.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
@@ -19,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -85,7 +86,7 @@ class Watcher implements IWatcher {
 		if (is_null($cachedEntry)) {
 			$cachedEntry = $this->cache->get($path);
 		}
-		if ($this->needsUpdate($path, $cachedEntry)) {
+		if ($cachedEntry === false || $this->needsUpdate($path, $cachedEntry)) {
 			$this->update($path, $cachedEntry);
 			return true;
 		} else {
@@ -105,7 +106,7 @@ class Watcher implements IWatcher {
 		} else {
 			$this->scanner->scanFile($path);
 		}
-		if ($cachedData['mimetype'] === 'httpd/unix-directory') {
+		if (is_array($cachedData) && $cachedData['mimetype'] === 'httpd/unix-directory') {
 			$this->cleanFolder($path);
 		}
 		if ($this->cache instanceof Cache) {

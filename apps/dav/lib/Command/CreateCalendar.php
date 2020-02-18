@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <tcit@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -18,12 +20,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
@@ -78,6 +82,8 @@ class CreateCalendar extends Command {
 			$this->groupManager,
 			\OC::$server->getShareManager(),
 			\OC::$server->getUserSession(),
+			\OC::$server->getAppManager(),
+			\OC::$server->query(ProxyMapper::class),
 			\OC::$server->getConfig()
 		);
 		$random = \OC::$server->getSecureRandom();

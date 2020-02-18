@@ -1,0 +1,91 @@
+.oc-dialog {
+	background: var(--color-main-background);
+	color: var(--color-text-light);
+	border-radius: var(--border-radius-large);
+	box-shadow: 0 0 30px var(--color-box-shadow);
+	padding: 15px;
+	z-index: 10000;
+	font-size: 100%;
+	box-sizing: border-box;
+	min-width: 200px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-height: calc(100% - 20px);
+	max-width: calc(100% - 20px);
+	overflow: auto;
+}
+.oc-dialog-title {
+	background: var(--color-main-background);
+}
+.oc-dialog-buttonrow {
+	position: relative;
+	display: flex;
+	background: transparent;
+	right: 0;
+	bottom: 0;
+	padding: 0;
+	padding-top: 10px;
+	box-sizing: border-box;
+	width: 100%;
+	background-image: linear-gradient(rgba(255, 255, 255, 0.0), var(--color-main-background));
+
+	&.twobuttons {
+        justify-content: space-between;
+    }
+
+	&.onebutton,
+	&.twobuttons.aside {
+		justify-content: flex-end;
+	}
+
+	button {
+	    white-space: nowrap;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	}
+}
+
+.oc-dialog-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 25px;
+	background: var(--icon-close-000) no-repeat center;
+	opacity: .5;
+
+	&:hover,
+	&:focus,
+	&:active {
+		opacity: 1;
+	}
+}
+
+.oc-dialog-dim {
+	background-color: #000;
+	opacity: .2;
+	z-index: 9999;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.oc-dialog-content {
+	width: 100%;
+	max-width: 550px;
+}
+
+.oc-dialog.password-confirmation {
+	.oc-dialog-content {
+		width: auto;
+
+		input[type=password] {
+			width: 100%;
+		}
+		label {
+			display: none;
+		}
+	}
+}

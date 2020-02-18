@@ -12,6 +12,7 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Tobias Kaminsky <tobias@kaminsky.me>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
@@ -26,7 +27,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -35,19 +36,19 @@ namespace OCA\DAV\Connector\Sabre;
 use OC\AppFramework\Http\Request;
 use OCP\Constants;
 use OCP\Files\ForbiddenException;
+use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
 use OCP\IPreview;
+use OCP\IRequest;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
-use \Sabre\DAV\PropFind;
-use \Sabre\DAV\PropPatch;
+use Sabre\DAV\PropFind;
+use Sabre\DAV\PropPatch;
 use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Tree;
-use \Sabre\HTTP\RequestInterface;
-use \Sabre\HTTP\ResponseInterface;
-use OCP\Files\StorageNotAvailableException;
-use OCP\IConfig;
-use OCP\IRequest;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 
 class FilesPlugin extends ServerPlugin {
 
@@ -70,6 +71,10 @@ class FilesPlugin extends ServerPlugin {
 	const HAS_PREVIEW_PROPERTYNAME = '{http://nextcloud.org/ns}has-preview';
 	const MOUNT_TYPE_PROPERTYNAME = '{http://nextcloud.org/ns}mount-type';
 	const IS_ENCRYPTED_PROPERTYNAME = '{http://nextcloud.org/ns}is-encrypted';
+	const METADATA_ETAG_PROPERTYNAME = '{http://nextcloud.org/ns}metadata_etag';
+	const UPLOAD_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}upload_time';
+	const CREATION_TIME_PROPERTYNAME = '{http://nextcloud.org/ns}creation_time';
+	const SHARE_NOTE = '{http://nextcloud.org/ns}note';
 
 	/**
 	 * Reference to main server object
@@ -161,6 +166,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::HAS_PREVIEW_PROPERTYNAME;
 		$server->protectedProperties[] = self::MOUNT_TYPE_PROPERTYNAME;
 		$server->protectedProperties[] = self::IS_ENCRYPTED_PROPERTYNAME;
+		$server->protectedProperties[] = self::SHARE_NOTE;
 
 		// normally these cannot be changed (RFC4918), but we want them modifiable through PROPPATCH
 		$allowedProperties = ['{DAV:}getetag'];
@@ -359,6 +365,12 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::MOUNT_TYPE_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getMountPoint()->getMountType();
 			});
+
+			$propFind->handle(self::SHARE_NOTE, function() use ($node, $httpRequest) {
+				return $node->getNoteFromShare(
+					$httpRequest->getRawServerValue('PHP_AUTH_USER')
+				);
+			});
 		}
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\Node) {
@@ -390,6 +402,14 @@ class FilesPlugin extends ServerPlugin {
 				}
 
 				return new ChecksumList($checksum);
+			});
+
+			$propFind->handle(self::CREATION_TIME_PROPERTYNAME, function() use ($node) {
+				return $node->getFileInfo()->getCreationTime();
+			});
+
+			$propFind->handle(self::UPLOAD_TIME_PROPERTYNAME, function() use ($node) {
+				return $node->getFileInfo()->getUploadTime();
 			});
 
 		}
@@ -461,6 +481,13 @@ class FilesPlugin extends ServerPlugin {
 				return true;
 			}
 			return false;
+		});
+		$propPatch->handle(self::CREATION_TIME_PROPERTYNAME, function($time) use ($node) {
+			if (empty($time)) {
+				return false;
+			}
+			$node->setCreationTime((int) $time);
+			return true;
 		});
 	}
 

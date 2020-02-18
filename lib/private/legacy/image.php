@@ -2,9 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Andreas Fischer <bantu@owncloud.com>
- * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bartek Przybylski <bart.p.pl@gmail.com>
+ * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Byron Marohn <combustible@live.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
@@ -12,16 +11,16 @@
  * @author j-ed <juergen@eisfair.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Johannes Willnecker <johannes@willnecker.com>
- * @author Julius Härtl <jus@bitgrid.net>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Samuel CHEMLA <chemla.samuel@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -35,7 +34,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -878,10 +877,8 @@ class OC_Image implements \OCP\IImage {
 		$widthOrig = imagesx($this->resource);
 		$heightOrig = imagesy($this->resource);
 		$process = imagecreatetruecolor($width, $height);
-
-		if ($process == false) {
+		if ($process === false) {
 			$this->logger->error(__METHOD__ . '(): Error creating true color image', array('app' => 'core'));
-			imagedestroy($process);
 			return false;
 		}
 
@@ -892,8 +889,8 @@ class OC_Image implements \OCP\IImage {
 			imagesavealpha($process, true);
 		}
 
-		imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $width, $height, $widthOrig, $heightOrig);
-		if ($process == false) {
+		$res = imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $width, $height, $widthOrig, $heightOrig);
+		if ($res === false) {
 			$this->logger->error(__METHOD__ . '(): Error re-sampling process image', array('app' => 'core'));
 			imagedestroy($process);
 			return false;

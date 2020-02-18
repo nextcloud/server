@@ -21,7 +21,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -103,9 +103,10 @@ class ObjectTreeTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider copyDataProvider
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testCopyFailNotCreatable($sourcePath, $targetPath, $targetParent) {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$view = $this->createMock(View::class);
 		$view->expects($this->never())
 			->method('verifyPath');
@@ -268,10 +269,10 @@ class ObjectTreeTest extends \Test\TestCase {
 		);
 	}
 
-	/**
-	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\InvalidPath
-	 */
+	
 	public function testGetNodeForPathInvalidPath() {
+		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
+
 		$path = '/foo\bar';
 
 

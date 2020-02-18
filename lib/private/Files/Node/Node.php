@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -21,17 +23,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OC\Files\Node;
 
 use OC\Files\Filesystem;
+use OC\Files\Mount\MoveableMount;
 use OCP\Files\FileInfo;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Lock\LockedException;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 // FIXME: this class really should be abstract
 class Node implements \OCP\Files\Node {
@@ -73,6 +78,7 @@ class Node implements \OCP\Files\Node {
 	 *
 	 * @param string $path path
 	 * @return string non-existing node class
+	 * @throws \Exception
 	 */
 	protected function createNonExistingNode($path) {
 		throw new \Exception('Must be implemented by subclasses');
@@ -103,15 +109,20 @@ class Node implements \OCP\Files\Node {
 	/**
 	 * @param string[] $hooks
 	 */
-	protected function sendHooks($hooks) {
+	protected function sendHooks($hooks, array $args = null) {
+		$args = !empty($args) ? $args : [$this];
+		$dispatcher = \OC::$server->getEventDispatcher();
 		foreach ($hooks as $hook) {
-			$this->root->emit('\OC\Files', $hook, array($this));
+			$this->root->emit('\OC\Files', $hook, $args);
+			$dispatcher->dispatch('\OCP\Files::' . $hook, new GenericEvent($args));
 		}
 	}
 
 	/**
 	 * @param int $permissions
 	 * @return bool
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	protected function checkPermissions($permissions) {
 		return ($this->getPermissions() & $permissions) === $permissions;
@@ -122,7 +133,9 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param int $mtime
-	 * @throws \OCP\Files\NotPermittedException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	public function touch($mtime = null) {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
@@ -190,12 +203,13 @@ class Node implements \OCP\Files\Node {
 	}
 
 	/**
+	 * @param bool $includeMounts
 	 * @return int
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function getSize() {
-		return $this->getFileInfo()->getSize();
+	public function getSize($includeMounts = true) {
+		return $this->getFileInfo()->getSize($includeMounts);
 	}
 
 	/**
@@ -360,7 +374,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws \OCP\Lock\LockedException
+	 * @throws LockedException
 	 */
 	public function lock($type) {
 		$this->view->lockFile($this->path, $type);
@@ -368,7 +382,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws \OCP\Lock\LockedException
+	 * @throws LockedException
 	 */
 	public function changeLock($type) {
 		$this->view->changeLock($this->path, $type);
@@ -376,7 +390,7 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @throws \OCP\Lock\LockedException
+	 * @throws LockedException
 	 */
 	public function unlock($type) {
 		$this->view->unlockFile($this->path, $type);
@@ -384,22 +398,24 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OCP\Files\NotPermittedException if copy not allowed or failed
 	 * @return \OC\Files\Node\Node
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException if copy not allowed or failed
 	 */
 	public function copy($targetPath) {
 		$targetPath = $this->normalizePath($targetPath);
 		$parent = $this->root->get(dirname($targetPath));
 		if ($parent instanceof Folder and $this->isValidPath($targetPath) and $parent->isCreatable()) {
 			$nonExisting = $this->createNonExistingNode($targetPath);
-			$this->root->emit('\OC\Files', 'preCopy', [$this, $nonExisting]);
-			$this->root->emit('\OC\Files', 'preWrite', [$nonExisting]);
+			$this->sendHooks(['preCopy'], [$this, $nonExisting]);
+			$this->sendHooks(['preWrite'], [$nonExisting]);
 			if (!$this->view->copy($this->path, $targetPath)) {
 				throw new NotPermittedException('Could not copy ' . $this->path . ' to ' . $targetPath);
 			}
 			$targetNode = $this->root->get($targetPath);
-			$this->root->emit('\OC\Files', 'postCopy', [$this, $targetNode]);
-			$this->root->emit('\OC\Files', 'postWrite', [$targetNode]);
+			$this->sendHooks(['postCopy'], [$this, $targetNode]);
+			$this->sendHooks(['postWrite'], [$targetNode]);
 			return $targetNode;
 		} else {
 			throw new NotPermittedException('No permission to copy to path ' . $targetPath);
@@ -408,27 +424,45 @@ class Node implements \OCP\Files\Node {
 
 	/**
 	 * @param string $targetPath
-	 * @throws \OCP\Files\NotPermittedException if move not allowed or failed
 	 * @return \OC\Files\Node\Node
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException if move not allowed or failed
+	 * @throws LockedException
 	 */
 	public function move($targetPath) {
 		$targetPath = $this->normalizePath($targetPath);
 		$parent = $this->root->get(dirname($targetPath));
-		if ($parent instanceof Folder and $this->isValidPath($targetPath) and $parent->isCreatable()) {
+		if (
+			$parent instanceof Folder and
+			$this->isValidPath($targetPath) and
+			(
+				$parent->isCreatable() ||
+				($parent->getInternalPath() === '' && $parent->getMountPoint() instanceof MoveableMount)
+			)
+		) {
 			$nonExisting = $this->createNonExistingNode($targetPath);
-			$this->root->emit('\OC\Files', 'preRename', [$this, $nonExisting]);
-			$this->root->emit('\OC\Files', 'preWrite', [$nonExisting]);
+			$this->sendHooks(['preRename'], [$this, $nonExisting]);
+			$this->sendHooks(['preWrite'], [$nonExisting]);
 			if (!$this->view->rename($this->path, $targetPath)) {
 				throw new NotPermittedException('Could not move ' . $this->path . ' to ' . $targetPath);
 			}
 			$targetNode = $this->root->get($targetPath);
-			$this->root->emit('\OC\Files', 'postRename', [$this, $targetNode]);
-			$this->root->emit('\OC\Files', 'postWrite', [$targetNode]);
+			$this->sendHooks(['postRename'], [$this, $targetNode]);
+			$this->sendHooks(['postWrite'], [$targetNode]);
 			$this->path = $targetPath;
 			return $targetNode;
 		} else {
 			throw new NotPermittedException('No permission to move to path ' . $targetPath);
 		}
+	}
+
+	public function getCreationTime(): int {
+		return $this->getFileInfo()->getCreationTime();
+	}
+
+	public function getUploadTime(): int {
+		return $this->getFileInfo()->getUploadTime();
 	}
 
 }

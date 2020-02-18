@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, Roger Szabo (roger.szabo@web.de)
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
@@ -20,7 +21,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -151,7 +152,7 @@ interface ILDAPProvider {
 	/**
 	 * Get the LDAP attribute name for the type of association betweeen users and groups
 	 * @param string $gid group id
-	 * @return string the configuration, one of: 'memberUid', 'uniqueMember', 'member', 'gidNumber'
+	 * @return string the configuration, one of: 'memberUid', 'uniqueMember', 'member', 'gidNumber', ''
 	 * @throws \Exception if group id was not found in LDAP
 	 * @since 13.0.0
 	 */

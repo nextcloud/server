@@ -107,6 +107,69 @@ describe('OC.SetupChecks tests', function() {
 		});
 	});
 
+	describe('checkProviderUrl', function() {
+		it('should fail with another response status code than the expected one', function(done) {
+			var async = OC.SetupChecks.checkProviderUrl('/ocm-provider/', 'http://example.org/PLACEHOLDER', true);
+
+			suite.server.requests[0].respond(302);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'Your web server is not properly set up to resolve "/ocm-provider/". This is most likely related to a web server configuration that was not updated to deliver this folder directly. Please compare your configuration against the shipped rewrite rules in ".htaccess" for Apache or the provided one in the documentation for Nginx at it\'s <a href="http://example.org/admin-nginx" rel="noreferrer noopener">documentation page</a>. On Nginx those are typically the lines starting with "location ~" that need an update.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+				}]);
+				done();
+			});
+		});
+
+		it('should return no error with the expected response status code', function(done) {
+			var async = OC.SetupChecks.checkProviderUrl('/ocm-provider/', 'http://example.org/PLACEHOLDER', true);
+
+			suite.server.requests[0].respond(200);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([]);
+				done();
+			});
+		});
+
+		it('should return no error when no check should be run', function(done) {
+			var async = OC.SetupChecks.checkProviderUrl('/ocm-provider/', 'http://example.org/PLACEHOLDER', false);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([]);
+				done();
+			});
+		});
+	});
+
+	describe('checkWOFF2Loading', function() {
+		it('should fail with another response status code than the expected one', function(done) {
+			var async = OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/NotoSans-Regular-latin.woff2'), 'http://example.org/PLACEHOLDER');
+
+			suite.server.requests[0].respond(302);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'Your web server is not properly set up to deliver .woff2 files. This is typically an issue with the Nginx configuration. For Nextcloud 15 it needs an adjustement to also deliver .woff2 files. Compare your Nginx configuration to the recommended configuration in our <a href="http://example.org/admin-nginx" rel="noreferrer noopener">documentation</a>.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+				}]);
+				done();
+			});
+		});
+
+		it('should return no error with the expected response status code', function(done) {
+			var async = OC.SetupChecks.checkWOFF2Loading(OC.filePath('core', '', 'fonts/NotoSans-Regular-latin.woff2'), 'http://example.org/PLACEHOLDER');
+
+			suite.server.requests[0].respond(200);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([]);
+				done();
+			});
+		});
+	});
+
 	describe('checkDataProtected', function() {
 
 		oc_dataURL = "data";
@@ -167,7 +230,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					serverHasInternetConnection: false,
+					serverHasInternetConnectionProblems: true,
 					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -177,13 +240,16 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
@@ -216,7 +282,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					serverHasInternetConnection: false,
+					serverHasInternetConnectionProblems: true,
 					memcacheDocs: 'https://docs.nextcloud.com/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -226,13 +292,16 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
@@ -266,7 +335,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					serverHasInternetConnection: false,
+					serverHasInternetConnectionProblems: true,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -276,13 +345,16 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
@@ -314,7 +386,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: false,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -324,13 +396,16 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
@@ -360,7 +435,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
@@ -370,13 +445,16 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
@@ -406,7 +484,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -416,7 +494,6 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
@@ -424,7 +501,11 @@ describe('OC.SetupChecks tests', function() {
 					isMemoryLimitSufficient: true,
 					appDirsWithDifferentOwner: [
 						'/some/path'
-					]
+					],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
@@ -453,7 +534,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: false,
 					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
@@ -464,13 +545,16 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
@@ -499,7 +583,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
@@ -510,13 +594,16 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: false,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
@@ -545,7 +632,7 @@ describe('OC.SetupChecks tests', function() {
 					hasValidTransactionIsolationLevel: true,
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
@@ -556,13 +643,16 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
 					},
+					isMemoryLimitSufficient: false,
 					appDirsWithDifferentOwner: [],
-					isMemoryLimitSufficient: false
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
@@ -583,7 +673,7 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json'
 				},
-				JSON.stringify({data: {serverHasInternetConnection: false}})
+				JSON.stringify({data: {serverHasInternetConnectionProblems: true}})
 			);
 
 			async.done(function( data, s, x ){
@@ -612,7 +702,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					phpSupported: {eol: true, version: '5.4.0'},
@@ -623,13 +713,16 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
@@ -659,7 +752,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -670,19 +763,22 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-						msg: 'The PHP OPcache is not properly configured. <a href="https://example.org/link/to/doc" rel="noreferrer noopener">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:' + "<pre><code>opcache.enable=1\nopcache.enable_cli=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
+						msg: 'The PHP OPcache is not properly configured. <a href="https://example.org/link/to/doc" rel="noreferrer noopener">For better performance it is recommended</a> to use the following settings in the <code>php.ini</code>:' + "<pre><code>opcache.enable=1\nopcache.interned_strings_buffer=8\nopcache.max_accelerated_files=10000\nopcache.memory_consumption=128\nopcache.save_comments=1\nopcache.revalidate_freq=1</code></pre>",
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -706,7 +802,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -717,13 +813,16 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
@@ -753,7 +852,7 @@ describe('OC.SetupChecks tests', function() {
 					suggestedOverwriteCliURL: '',
 					isRandomnessSecure: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
-					serverHasInternetConnection: true,
+					serverHasInternetConnectionProblems: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -764,13 +863,16 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: false,
 					missingIndexes: [],
-					outdatedCaches: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
 					},
 					isMemoryLimitSufficient: true,
-					appDirsWithDifferentOwner: []
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
 				})
 			);
 
@@ -778,6 +880,104 @@ describe('OC.SetupChecks tests', function() {
 				expect(data).toEqual([{
 					msg: 'Your PHP does not have FreeType support, resulting in breakage of profile pictures and the settings interface.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
+				}]);
+				done();
+			});
+		});
+
+		it('should return an error if the php version is no longer supported', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: true,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: true
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'MySQL is used as database but does not support 4-byte characters. To be able to handle 4-byte characters (like emojis) without issues in filenames or comments for example it is recommended to enable the 4-byte support in MySQL. For further details read <a href="https://docs.example.org/admin-mysql-utf8mb4" rel="noreferrer noopener">the documentation page about this</a>.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+				}]);
+				done();
+			});
+		});
+
+		it('should return an error if there is not enough free space in the temp directory', function(done) {
+			var async = OC.SetupChecks.checkSetup();
+
+			suite.server.requests[0].respond(
+				200,
+				{
+					'Content-Type': 'application/json',
+				},
+				JSON.stringify({
+					hasFileinfoInstalled: true,
+					isGetenvServerWorking: true,
+					isReadOnlyConfig: false,
+					hasWorkingFileLocking: true,
+					hasValidTransactionIsolationLevel: true,
+					suggestedOverwriteCliURL: '',
+					isRandomnessSecure: true,
+					securityDocs: 'https://docs.owncloud.org/myDocs.html',
+					serverHasInternetConnectionProblems: false,
+					isMemcacheConfigured: true,
+					forwardedForHeadersWorking: true,
+					isCorrectMemcachedPHPModuleInstalled: true,
+					hasPassedCodeIntegrityCheck: true,
+					isOpcacheProperlySetup: true,
+					hasOpcacheLoaded: true,
+					isSettimelimitAvailable: true,
+					hasFreeTypeSupport: true,
+					missingIndexes: [],
+					cronErrors: [],
+					cronInfo: {
+						diffInSeconds: 0
+					},
+					isMemoryLimitSufficient: true,
+					appDirsWithDifferentOwner: [],
+					recommendedPHPModules: [],
+					pendingBigIntConversionColumns: [],
+					isMysqlUsedWithoutUTF8MB4: false,
+					isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed: false
+				})
+			);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
 			});
@@ -1203,7 +1403,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href="https://docs.example.org/admin-security">security tips ↗</a>.',
+				msg: 'Accessing site insecurely via HTTP. You are strongly advised to set up your server to require HTTPS instead, as described in the <a href="https://docs.example.org/admin-security">security tips ↗</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -1218,7 +1418,7 @@ describe('OC.SetupChecks tests', function() {
 			{
 				'Content-Type': 'application/json'
 			},
-			JSON.stringify({data: {serverHasInternetConnection: false}})
+			JSON.stringify({data: {serverHasInternetConnectionProblems: true}})
 		);
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{

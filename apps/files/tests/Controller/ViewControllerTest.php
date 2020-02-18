@@ -2,10 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Christoph Wurst <christoph@owncloud.com>
- * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -23,7 +26,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -31,20 +34,21 @@ namespace OCA\Files\Tests\Controller;
 
 use OCA\Files\Activity\Helper;
 use OCA\Files\Controller\ViewController;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\IUser;
-use OCP\Template;
-use Test\TestCase;
+use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\IL10N;
-use OCP\IConfig;
+use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Template;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use OCP\App\IAppManager;
+use Test\TestCase;
 
 /**
  * Class ViewControllerTest
@@ -75,13 +79,13 @@ class ViewControllerTest extends TestCase {
 	/** @var Helper|\PHPUnit_Framework_MockObject_MockObject */
 	private $activityHelper;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
 		$this->urlGenerator = $this->getMockBuilder(IURLGenerator::class)->getMock();
 		$this->l10n = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->config = $this->getMockBuilder(IConfig::class)->getMock();
-		$this->eventDispatcher = $this->getMockBuilder('\Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock();
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->userSession = $this->getMockBuilder(IUserSession::class)->getMock();
 		$this->appManager = $this->getMockBuilder('\OCP\App\IAppManager')->getMock();
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
@@ -131,7 +135,7 @@ class ViewControllerTest extends TestCase {
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
 				[$this->user->getUID(), 'files', 'file_sorting_direction', 'asc', 'asc'],
 				[$this->user->getUID(), 'files', 'show_hidden', false, false],
-				[$this->user->getUID(), 'files', 'show_grid', true, true],
+				[$this->user->getUID(), 'files', 'show_grid', true],
 			]));
 
 			$this->config
@@ -144,7 +148,7 @@ class ViewControllerTest extends TestCase {
 		$nav->assign('usage', '123 B');
 		$nav->assign('quota', 100);
 		$nav->assign('total_space', '100 B');
-		//$nav->assign('webdavurl', '');
+		$nav->assign('webdav_url', 'http://localhost/remote.php/dav/files/testuser1/');
 		$nav->assign('navigationItems', [
 			'files' => [
 				'id' => 'files',
@@ -285,6 +289,13 @@ class ViewControllerTest extends TestCase {
 						'order' => 19,
 						'name' => \OC::$server->getL10N('files_sharing')->t('Deleted shares'),
 					],
+					[
+						'id' => 'pendingshares',
+						'appname' => 'files_sharing',
+						'script' => 'list.php',
+						'order' => 19,
+						'name' => \OC::$server->getL10N('files_sharing')->t('Pending shares'),
+					],
 				],
 				'active' => false,
 				'icon' => '',
@@ -345,6 +356,10 @@ class ViewControllerTest extends TestCase {
 						'id' => 'deletedshares',
 						'content' => null,
 					],
+					'pendingshares' => [
+						'id' => 'pendingshares',
+						'content' => null
+					],
 					'shareoverview' => [
 						'id' => 'shareoverview',
 						'content' => null,
@@ -367,7 +382,7 @@ class ViewControllerTest extends TestCase {
 					],
 				],
 				'hiddenFields' => [],
-				'showgridview' => true,
+				'showgridview' => false,
 				'isIE' => false,
 			]
 		);

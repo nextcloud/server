@@ -2,11 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Ari Selseng <ari@selseng.net>
  * @author Daniel Jagszent <daniel@jagszent.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
@@ -21,15 +23,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
-use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Search\ISearchQuery;
 
 class CacheWrapper extends Cache {
@@ -241,26 +243,14 @@ class CacheWrapper extends Cache {
 	}
 
 	/**
-	 * search for files by tag
-	 *
-	 * @param string|int $tag name or tag id
-	 * @param string $userId owner of the tags
-	 * @return ICacheEntry[] file data
-	 */
-	public function searchByTag($tag, $userId) {
-		$results = $this->getCache()->searchByTag($tag, $userId);
-		return array_map(array($this, 'formatCacheEntry'), $results);
-	}
-
-	/**
 	 * update the folder size and the size of all parent folders
 	 *
 	 * @param string|boolean $path
 	 * @param array $data (optional) meta data of the folder
 	 */
-	public function correctFolderSize($path, $data = null) {
+	public function correctFolderSize($path, $data = null, $isBackgroundScan = false) {
 		if ($this->getCache() instanceof Cache) {
-			$this->getCache()->correctFolderSize($path, $data);
+			$this->getCache()->correctFolderSize($path, $data, $isBackgroundScan);
 		}
 	}
 

@@ -20,9 +20,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Core\Controller;
 
 use OC\CapabilitiesManager;
@@ -97,6 +98,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			'micro' => $micro,
 			'string' => \OC_Util::getVersionString(),
 			'edition' => '',
+			'extendedSupport' => \OCP\Util::hasExtendedSupport()
 		);
 
 		if($this->userSession->isLoggedIn()) {

@@ -137,17 +137,18 @@ class AllConfigTest extends \Test\TestCase {
 	/**
 	 * @dataProvider dataSetUserValueUnexpectedValue
 	 * @param mixed $value
-	 * @expectedException \UnexpectedValueException
 	 */
 	public function testSetUserValueUnexpectedValue($value) {
+		$this->expectException(\UnexpectedValueException::class);
+
 		$config = $this->getConfig();
 		$config->setUserValue('userSetBool', 'appSetBool', 'keySetBool', $value);
 	}
 
-	/**
-	 * @expectedException \OCP\PreConditionNotMetException
-	 */
+	
 	public function testSetUserValueWithPreConditionFailure() {
+		$this->expectException(\OCP\PreConditionNotMetException::class);
+
 		$config = $this->getConfig();
 
 		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';

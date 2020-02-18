@@ -8,6 +8,7 @@
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author michaelletzgus <michaelletzgus@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -24,7 +25,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -43,11 +44,24 @@ class AppConfig implements IAppConfig {
 
 	/** @var array[] */
 	protected $sensitiveValues = [
+		'external' => [
+			'/^sites$/',
+		],
 		'spreed' => [
-			'turn_server_secret',
+			'/^signaling_ticket_secret$/',
+			'/^turn_server_secret$/',
+			'/^stun_servers$/',
+			'/^turn_servers$/',
+			'/^signaling_servers$/',
+		],
+		'theming' => [
+			'/^imprintUrl$/',
+			'/^privacyUrl$/',
+			'/^slogan$/',
+			'/^url$/',
 		],
 		'user_ldap' => [
-			'ldap_agent_password',
+			'/^(s..)?ldap_agent_password$/',
 		],
 	];
 
@@ -289,8 +303,9 @@ class AppConfig implements IAppConfig {
 		$values = $this->getValues($app, false);
 
 		if (isset($this->sensitiveValues[$app])) {
-			foreach ($this->sensitiveValues[$app] as $sensitiveKey) {
-				if (isset($values[$sensitiveKey])) {
+			foreach ($this->sensitiveValues[$app] as $sensitiveKeyExp) {
+				$sensitiveKeys = preg_grep($sensitiveKeyExp, array_keys($values));
+				foreach ($sensitiveKeys as $sensitiveKey) {
 					$values[$sensitiveKey] = IConfig::SENSITIVE_VALUE;
 				}
 			}

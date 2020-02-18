@@ -21,16 +21,14 @@
  *
  */
 
-
 namespace Test\AppFramework\Controller;
 
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
-
 
 class ChildController extends Controller {
 
@@ -64,7 +62,7 @@ class ControllerTest extends \Test\TestCase {
 	private $controller;
 	private $app;
 
-	protected function setUp(){
+	protected function setUp(): void {
 		parent::setUp();
 
 		$request = new Request(
@@ -96,10 +94,10 @@ class ControllerTest extends \Test\TestCase {
 		$this->controller = new ChildController($this->app, $request);
 	}
 
-	/**
-	 * @expectedException \DomainException
-	 */
+	
 	public function testFormatResonseInvalidFormat() {
+		$this->expectException(\DomainException::class);
+
 		$this->controller->buildResponse(null, 'test');
 	}
 
@@ -116,7 +114,8 @@ class ControllerTest extends \Test\TestCase {
 			'test' => 'something',
 			'Cache-Control' => 'no-cache, no-store, must-revalidate',
 			'Content-Type' => 'application/json; charset=utf-8',
-			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self';script-src 'self';style-src 'self' 'unsafe-inline';img-src 'self' data: blob:;font-src 'self';connect-src 'self';media-src 'self'",
+			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self'",
+			'Feature-Policy' => "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'",
 		];
 
 		$response = $this->controller->customDataResponse(array('hi'));

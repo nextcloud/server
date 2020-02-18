@@ -5,6 +5,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Ole Ostergaard <ole.c.ostergaard@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -22,7 +23,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -34,6 +35,7 @@
 
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
+
 namespace OCP;
 use Doctrine\DBAL\Schema\Schema;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -119,6 +121,20 @@ interface IDBConnection {
 	 * @deprecated 15.0.0 - use unique index and "try { $db->insert() } catch (UniqueConstraintViolationException $e) {}" instead, because it is more reliable and does not have the risk for deadlocks - see https://github.com/nextcloud/server/pull/12371
 	 */
 	public function insertIfNotExist($table, $input, array $compare = null);
+
+
+	/**
+	 *
+	 * Insert a row if the row does not exist. Eventual conflicts during insert will be ignored.
+	 *
+	 * Implementation is not fully finished and should not be used!
+	 *
+	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
+	 * @param array $values data that should be inserted into the table  (column name => value)
+	 * @return int number of inserted rows
+	 * @since 16.0.0
+	 */
+	public function insertIgnoreConflict(string $table,array $values) : int;
 
 	/**
 	 * Insert or update a row value

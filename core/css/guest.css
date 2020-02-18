@@ -17,16 +17,18 @@ ul { list-style:none; }
 body {
 	background-color: #ffffff;
 	font-weight: normal;
-	font-size: .8em;
+	/* bring the default font size up to 14px */
+	font-size: .875em;
 	line-height: 1.6em;
-	font-family: 'Nunito', 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 	color: #000;
 	text-align: center;
 	background-color: #0082c9;
 	background-image: url('../img/background.png?v=2');
+	background-image: url('../img/background.png?v=2'), linear-gradient(40deg, #0082c9 0%, rgba(28,175,255,1) 100%);
 	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	background-size: cover;
+	background-repeat: repeat;
+	background-size: 275px, contain;
 	background-attachment: fixed; /* fix background gradient */
 	min-height: 100%; /* fix sticky footer */
 	height: auto;
@@ -95,21 +97,22 @@ body {
 	max-width: 100%;
 	max-height: 200px;
 }
+
 .wrapper {
-	width: 300px;
+	width: 100%;
+	max-width: 700px;
 	margin-top: 10vh;
 }
 
 /* Default FORM */
 form {
 	position: relative;
-	width: 280px;
 	margin: auto;
 	padding: 0;
 }
 form fieldset {
-	margin-bottom: 20px;
-	text-align: left;
+	width: 260px;
+	margin: auto auto 20px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -143,19 +146,78 @@ form #datadirField legend {
 
 /* Buttons and input */
 #submit-wrapper,
-#reset-password-wrapper {
+#reset-password-wrapper,
+#alternative-logins {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	position: relative; /* Make the wrapper the containing block of its
 						   absolutely positioned descendant icons */
 }
 
-#submit-wrapper .submit-icon {
+#alternative-logins {
+	margin: auto;
+	display: block;
+	min-width: 260px;
+	max-width: 400px;
+	overflow: hidden;
+}
+
+#alternative-logins a {
+	margin: 10px 5px;
+	display: block;
+	font-size: 15px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#alternative-logins a.button::before {
+	content: "";
+	background-repeat: no-repeat;
+	background-size: contain;
+	width: 0;
+	margin-right: 0;
+	height: 18px;
+	display: inline-block;
+	vertical-align: bottom;
+}
+
+#alternative-logins .button {
+	color: #0082c9;
+	padding: 12px 20px;
+}
+
+@media only screen and (max-width: 1024px) {
+	.wrapper {
+		margin-top: 0;
+	}
+	#alternative-logins {
+		margin: auto;
+	}
+}
+
+
+#submit-wrapper .submit-icon,
+#reset-password-wrapper .submit-icon {
 	position: absolute;
-	top: 23px;
-	right: 23px;
+	top: 22px;
+	right: 24px;
+	transition: right 100ms ease-in-out;
 	pointer-events: none; /* The submit icon is positioned on the submit button.
 							 From the user point of view the icon is part of the
 							 button, so the clicks on the icon have to be
 							 applied to the button instead. */
+}
+
+#submit-wrapper {
+	margin: 0 auto;
+}
+
+#submit-wrapper input.login:hover ~ .submit-icon.icon-confirm-white,
+#submit-wrapper input.login:focus ~ .submit-icon.icon-confirm-white,
+#submit-wrapper input.login:active ~ .submit-icon.icon-confirm-white {
+	right: 20px;
 }
 
 #reset-password-submit {
@@ -164,18 +226,15 @@ form #datadirField legend {
 	text-overflow: ellipsis;
 }
 
-#reset-password-wrapper .submit-icon {
-	display: none;
-}
-
 #submit-wrapper .icon-loading-small {
 	position: absolute;
 	top: 22px;
-	right: 24px;
+	right: 26px;
 }
 
+
 input, textarea, select, button, div[contenteditable=true] {
-	font-family: 'Nunito', 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 input,
 input:not([type='range']),
@@ -191,6 +250,7 @@ input[type='submit'],
 input[type='submit'].icon-confirm,
 input[type='button'],
 button,
+a.button,
 .button,
 select {
 	display: inline-block;
@@ -219,8 +279,18 @@ input[type='email'] {
 	border: none;
 	font-weight: normal;
 }
+input[type='password'].password-with-toggle, input[type='text'].password-with-toggle {
+	width: 219px;
+	padding-right: 40px;
+}
+.toggle-password {
+	position: absolute;
+	top: 17px;
+	right: 20px;
+}
 input.login {
-	width: 269px;
+	width: 260px;
+	height: 50px;
 	background-position: right 16px center;
 }
 input[type='submit'],
@@ -228,6 +298,8 @@ input[type='submit'].icon-confirm,
 input.updateButton,
 input.update-continue {
 	padding: 10px 20px; /* larger log in and installation buttons */
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .updateAnyways a.updateAnywaysButton {
 	font-size: 14px;
@@ -253,6 +325,7 @@ a.primary {
 	border: 1px solid #fff;
 	background-color: #0082c9;
 	color: #fff;
+	transition: color 100ms ease-in-out;
 }
 
 input.primary:not(:disabled):hover,
@@ -260,8 +333,8 @@ input.primary:not(:disabled):focus,
 button.primary:not(:disabled):hover,
 button.primary:not(:disabled):focus,
 a.primary:not(:disabled):hover,
-a.primary:not(:disabled):focus{
-	background-color: #17adff;
+a.primary:not(:disabled):focus {
+	color: rgba(255, 255, 255, .8);
 }
 
 /* Checkboxes - white only for login */
@@ -317,12 +390,6 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 	background-image: url('../img/actions/checkbox-mark-white.svg');
 }
 
-
-/* keep the labels for screen readers but hide them since we use placeholders */
-label.infield {
-	display: none;
-}
-
 /* Password strength meter */
 .strengthify-wrapper {
 	display: inline-block;
@@ -348,9 +415,6 @@ label.infield {
 	top: .8em;
 	float: right;
 }
-#show, #dbpassword-toggle, #personal-show {
-	display: none;
-}
 #show + label, #dbpassword-toggle + label {
 	right: 21px;
 	top: 15px !important;
@@ -371,6 +435,11 @@ label.infield {
 }
 #show + label:before, #dbpassword-toggle + label:before, #personal-show + label:before {
 	display: none;
+}
+/* Feedback for keyboard focus and mouse hover */
+#show:focus + label, #dbpassword-toggle:focus + label, #personal-show:focus + label,
+#show + label:hover, #dbpassword-toggle + label:hover, #personal-show + label:hover {
+  opacity: 1;
 }
 #pass2, input[name='personal-password-clone'] {
 	padding: .6em 2.5em .4em .4em;
@@ -402,6 +471,10 @@ form .warning input[type='checkbox']+label {
 	color: #fff !important;
 }
 
+.body-login-container.two-factor {
+	max-width: 290px;
+	margin: 15px auto 0;
+}
 .two-factor-provider {
 	display: flex;
 	border-radius: 3px; /* --border-radius */
@@ -457,22 +530,24 @@ form .warning input[type='checkbox']+label {
 #remember_login {
 	margin: 18px 5px 0 16px !important;
 }
-.remember-login-container,
 .lost-password-container {
 	display: inline-block;
 	margin: 10px 0;
 	text-align: center;
 	width: 100%;
-	text-shadow: 0 0 2px rgba(0, 0, 0, .4); /* better readability on bright background */
 }
-.lost-password-container #lost-password,
-.lost-password-container #lost-password-back {
+#lost-password,
+#lost-password-back,
+#reset-password-wrapper + a {
 	display: inline-block;
-	font-weight: normal;
+	font-weight: normal !important;
 	padding: 12px;
-	margin-top: -6px;
 	color: #fff;
 	cursor: pointer;
+	text-shadow: 0 0 2px rgba(0, 0, 0, .4); /* better readability on bright background */
+}
+#lost-password {
+	margin-top: -6px;
 }
 #forgot-password {
 	padding: 11px;
@@ -524,15 +599,20 @@ form #selectDbType label {
 	color:#888;
 	cursor:pointer;
 	border: 1px solid #ddd;
-}
-form #selectDbType label span {
-	cursor: pointer;
 	padding: 10px 17px;
 }
 form #selectDbType label.ui-state-hover,
 form #selectDbType label.ui-state-active {
+	font-weight: normal;
 	color:#000;
-	background-color:#e8e8e8; }
+	background-color:#e8e8e8;
+}
+form #selectDbType .ui-visual-focus {
+	box-shadow: none;
+}
+form #selectDbType label span {
+	display: none;
+}
 
 /* Nicely grouping input field sets */
 .grouptop,
@@ -569,6 +649,11 @@ form #selectDbType label.ui-state-active {
 	box-shadow: none !important;
 }
 
+#install-recommended-apps + label span {
+	display: inline-block;
+	opacity: .7;
+}
+
 /* Errors */
 /* Warnings and errors are the same */
 .body-login-container,
@@ -594,6 +679,7 @@ form #selectDbType label.ui-state-active {
 .warning h2,
 .update h2,
 .error h2 {
+	color: #fff;
 	text-align: center;
 }
 
@@ -632,7 +718,6 @@ form #selectDbType label.ui-state-active {
 }
 .error-wide {
 	width: 700px;
-	margin-left: -200px !important;
 	margin-top: 35px;
 }
 .error-wide .button {
@@ -821,6 +906,8 @@ footer .info .entity-name {
 	display: none;
 }
 
+/* keep the labels for screen readers but hide them since we use placeholders */
+label.infield,
 .hidden-visually {
 	position: absolute;
 	left:-10000px;
@@ -832,49 +919,4 @@ footer .info .entity-name {
 
 a.legal {
 	font-size: smaller;
-}
-
-
-/* latin-ext */
-@font-face {
-	font-family: 'Nunito';
-	font-style: normal;
-	font-weight: 400; /* normal */
-	src: local('Nunito Regular'), local('Nunito-Regular'),
-		url('../fonts/Nunito-Regular-latin-ext.woff2') format('woff2'),
-		url('../fonts/Nunito-Regular.ttf') format('truetype');
-	unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-/* latin */
-@font-face {
-	font-family: 'Nunito';
-	font-style: normal;
-	font-weight: 400; /* normal */
-	src: local('Nunito Regular'), local('Nunito-Regular'),
-		url('../fonts/Nunito-Regular.woff2') format('woff2'),
-		url('../fonts/Nunito-Regular.ttf') format('truetype');
-	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-/* latin-ext */
-@font-face {
-	font-family: 'Nunito';
-	font-style: normal;
-	font-weight: 700; /* bold */
-	src: local('Nunito Bold'), local('Nunito-Bold'),
-		url('../fonts/Nunito-Bold-latin-ext.woff2') format('woff2'),
-		url('../fonts/Nunito-Bold.ttf') format('truetype');
-	unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-
-/* latin */
-@font-face {
-	font-family: 'Nunito';
-	font-style: normal;
-	font-weight: 700; /* bold */
-	src: local('Nunito Bold'), local('Nunito-Bold'),
-		url('../fonts/Nunito-Bold.woff2') format('woff2'),
-		url('../fonts/Nunito-Bold.ttf') format('truetype');
-	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }

@@ -23,10 +23,10 @@
 
 namespace Test\Calendar\Resource;
 
-use \OC\Calendar\Resource\Manager;
-use \OCP\Calendar\Resource\IBackend;
+use OC\Calendar\Resource\Manager;
+use OCP\Calendar\Resource\IBackend;
 use OCP\IServerContainer;
-use \Test\TestCase;
+use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
@@ -36,7 +36,7 @@ class ManagerTest extends TestCase {
 	/** @var IServerContainer */
 	private $server;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->server = $this->createMock(IServerContainer::class);

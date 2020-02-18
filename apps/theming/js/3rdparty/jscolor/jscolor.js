@@ -1100,7 +1100,7 @@ var jsc = {
 				if (jsc.isElementType(this.valueElement, 'input')) {
 					this.valueElement.value = value;
 				} else {
-					this.valueElement.innerHTML = value;
+					this.valueElement.innerHTML = _.escape(value);
 				}
 			}
 			if (!(flags & jsc.leaveStyle)) {

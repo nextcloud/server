@@ -4,6 +4,7 @@
  *
  * @author Aaron Wood <aaronjwood@gmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -19,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -27,12 +28,12 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OCP\IDBConnection;
 use OCP\IUser;
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;
-use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Exception\ServiceUnavailable;
 
 class CustomPropertiesBackend implements BackendInterface {
 
@@ -127,13 +128,6 @@ class CustomPropertiesBackend implements BackendInterface {
 
 		if (empty($requestedProps)) {
 			return;
-		}
-
-		if ($node instanceof Directory
-			&& $propFind->getDepth() !== 0
-		) {
-			// note: pre-fetching only supported for depth <= 1
-			$this->loadChildrenProperties($node, $requestedProps);
 		}
 
 		$props = $this->getProperties($node, $requestedProps);

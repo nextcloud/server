@@ -10,7 +10,6 @@
     "No data specified" : "데이터가 지정되지 않음",
     " Could not set configuration %s" : " 설정 %s을(를) 지정할 수 없음",
     "Action does not exist" : "동작이 존재하지 않음",
-    "LDAP user and group backend" : "LDAP 사용자 및 그룹 백엔드",
     "Renewing …" : "갱신 중 …",
     "Very weak password" : "매우 약한 암호",
     "Weak password" : "약한 암호",
@@ -31,6 +30,7 @@
     "{nthServer}. Server" : "{nthServer}. 서버",
     "No object found in the given Base DN. Please revise." : "입력한 기본 DN에서 객체를 찾을 수 없습니다. 다시 입력하십시오.",
     "More than 1,000 directory entries available." : "디렉터리 항목이 1,000개 이상 존재합니다.",
+    "_{objectsFound} entry available within the provided Base DN_::_{objectsFound} entries available within the provided Base DN_" : ["지정한 기반 DN에서 항목 {objectsFound}개 찾음"],
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "오류가 발생했습니다. 기본 DN, 연결 설정, 인증 정보를 확인하십시오.",
     "Do you really want to delete the current Server Configuration?" : "현재 서버 설정을 지우시겠습니까?",
     "Confirm Deletion" : "삭제 확인",
@@ -62,6 +62,8 @@
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "사용자 표시 이름 속성을 찾을 수 없습니다. 고급 LDAP 설정에서 직접 지정하십시오.",
     "Could not find the desired feature" : "필요한 기능을 찾을 수 없음",
     "Invalid Host" : "잘못된 호스트",
+    "LDAP user and group backend" : "LDAP 사용자 및 그룹 백엔드",
+    "This application enables administrators to connect Nextcloud to an LDAP-based user directory." : "이 앱은 Nextcloud와 LDAP 기반 사용자 디렉터리를 연결합니다.",
     "Test Configuration" : "설정 시험",
     "Help" : "도움말",
     "Groups meeting these criteria are available in %s:" : "이 조건을 만족하는 그룹은 %s에 있습니다:",
@@ -170,7 +172,7 @@
     "Email Field" : "이메일 필드",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "LDAP 속성에서 사용자의 이메일을 설정합니다. 기본 행동을 사용하려면 비워 두십시오.",
     "User Home Folder Naming Rule" : "사용자 홈 폴더 이름 규칙",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "사용자 이름을 사용하려면 비워 두십시오(기본값). 기타 경우 LDAP/AD 속성을 지정하십시오.",
+    "\"$home\" Placeholder Field" : "\"$home\" 자리 비움자 필드",
     "Internal Username" : "내부 사용자 이름",
     "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users." : "기본적으로 내부 사용자 이름은 UUID 속성에서 생성됩니다. 이를 통해서 사용자 이름이 유일하며 문자를 변환할 필요가 없도록 합니다. 내부 사용자 이름에는 다음 글자만 사용할 수 있습니다: [a-zA-Z0-9_.@-] 다른 모든 글자는 ASCII에 해당하는 글자로 대체되거나 생략됩니다. 충돌이 발생할 경우 숫자가 추가로 붙거나 증가합니다. 내부 사용자 이름은 사용자를 내부에서 식별하는 데에도 사용되며, 사용자 홈 폴더의 기본 이름입니다. 모든 *DAV 서비스 등에 사용되는 URL의 일부이기도 합니다. 이 설정을 사용하면 기본 행동을 사용자 정의할 수 있으며, 비워 두면 기본값을 사용합니다. 변경 사항은 새로 매핑 및 추가된 LDAP 사용자에게만 적용됩니다.",
     "Internal Username Attribute:" : "내부 사용자 이름 속성:",
@@ -181,11 +183,6 @@
     "Username-LDAP User Mapping" : "사용자 이름-LDAP 사용자 매핑",
     "Clear Username-LDAP User Mapping" : "사용자 이름-LDAP 사용자 매핑 비우기",
     "Clear Groupname-LDAP Group Mapping" : "그룹 이름-LDAP 그룹 매핑 비우기",
-    " entries available within the provided Base DN" : "개(지정한 DN의 기본 항목 수)",
-    "1. Server" : "1. 서버",
-    "Wrong password. Reset it?" : "암호가 잘못되었습니다. 초기화하시겠습니까?",
-    "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>경고:</b> user_ldap, user_webdavauth 앱은 서로 호환되지 않습니다. 예상하지 못한 행동을 할 수도 있습니다. 시스템 관리자에게 연락하여 둘 중 하나의 앱의 사용을 중단하십시오.",
-    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "사용자 이름은 (메타)데이터를 저장하고 할당하는 데 사용됩니다. 사용자를 정확히 식별하기 위해서 모든 LDAP 사용자는 내부 사용자 이름을 갖고 있습니다. 이 정보에 접근하려면 사용자 이름과 LDAP 사용자 사이의 연결을 알아야 합니다. 생성된 사용자 이름은 LDAP 사용자의 UUID에 연결됩니다. LDAP에 연결하는 횟수를 줄이기 위하여 DN을 캐시에 저장하지만, 식별에는 사용하지 않습니다. DN이 변경되었을 때 변경 사항이 적용됩니다. 내부 사용자 이름은 항상 사용됩니다. 매핑을 비우면 과거 매핑의 흔적이 남습니다. 매핑을 비우는 것은 설정에 관계 없이 적용되므로 모든 LDAP 설정에 영향을 줍니다! 테스트 및 실험 단계에서만 매핑을 비우고, 상용 환경에서는 매핑을 비우지 마십시오."
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "사용자 이름을 사용하려면 비워 두십시오(기본값). 기타 경우 LDAP/AD 속성을 지정하십시오."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

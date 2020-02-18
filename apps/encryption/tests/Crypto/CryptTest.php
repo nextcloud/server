@@ -2,7 +2,6 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -21,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 
 namespace OCA\Encryption\Tests\Crypto;
 
@@ -54,7 +52,7 @@ class CryptTest extends TestCase {
 	/** @var Crypt */
 	private $crypt;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->logger = $this->getMockBuilder(ILogger::class)
@@ -133,9 +131,10 @@ class CryptTest extends TestCase {
 	/**
 	 * test generateHeader with invalid key format
 	 *
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function testGenerateHeaderInvalid() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->crypt->generateHeader('unknown');
 	}
 
@@ -253,9 +252,10 @@ class CryptTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestHasSignatureFail
-	 * @expectedException \OCP\Encryption\Exceptions\GenericEncryptionException
 	 */
 	public function testHasSignatureFail($cipher) {
+		$this->expectException(\OCP\Encryption\Exceptions\GenericEncryptionException::class);
+
 		$data = 'encryptedContent00iv001234567890123456xx';
 		$this->invokePrivate($this->crypt, 'hasSignature', array($data, $cipher));
 	}
@@ -372,9 +372,10 @@ class CryptTest extends TestCase {
 	/**
 	 * test exception if cipher is unknown
 	 *
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function testGetKeySizeFailure() {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->invokePrivate($this->crypt, 'getKeySize', ['foo']);
 	}
 

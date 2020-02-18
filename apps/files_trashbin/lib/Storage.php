@@ -4,9 +4,11 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
@@ -21,7 +23,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -38,7 +40,7 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\ILogger;
 use OCP\IUserManager;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Storage extends Wrapper {
 	/** @var IMountPoint */
@@ -50,7 +52,7 @@ class Storage extends Wrapper {
 	/** @var ILogger */
 	private $logger;
 
-	/** @var EventDispatcher */
+	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 
 	/** @var IRootFolder */
@@ -66,7 +68,7 @@ class Storage extends Wrapper {
 	 * @param ITrashManager $trashManager
 	 * @param IUserManager|null $userManager
 	 * @param ILogger|null $logger
-	 * @param EventDispatcher|null $eventDispatcher
+	 * @param EventDispatcherInterface|null $eventDispatcher
 	 * @param IRootFolder|null $rootFolder
 	 */
 	public function __construct(
@@ -74,7 +76,7 @@ class Storage extends Wrapper {
 		ITrashManager $trashManager = null,
 		IUserManager $userManager = null,
 		ILogger $logger = null,
-		EventDispatcher $eventDispatcher = null,
+		EventDispatcherInterface $eventDispatcher = null,
 		IRootFolder $rootFolder = null
 	) {
 		$this->mountPoint = $parameters['mountPoint'];
@@ -125,22 +127,27 @@ class Storage extends Wrapper {
 	 * @return bool
 	 */
 	protected function shouldMoveToTrash($path) {
+		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
+		$parts = explode('/', $normalized);
+		if (count($parts) < 4) {
+			return false;
+		}
 
 		// check if there is a app which want to disable the trash bin for this file
 		$fileId = $this->storage->getCache()->getId($path);
-		$nodes = $this->rootFolder->getById($fileId);
+		$owner = $this->storage->getOwner($path);
+		if ($owner === false) {
+			$nodes = $this->rootFolder->getById($fileId);
+		} else {
+			$nodes = $this->rootFolder->getUserFolder($owner)->getById($fileId);
+		}
+
 		foreach ($nodes as $node) {
 			$event = $this->createMoveToTrashEvent($node);
 			$this->eventDispatcher->dispatch('OCA\Files_Trashbin::moveToTrash', $event);
 			if ($event->shouldMoveToTrashBin() === false) {
 				return false;
 			}
-		}
-
-		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
-		$parts = explode('/', $normalized);
-		if (count($parts) < 4) {
-			return false;
 		}
 
 		if ($parts[2] === 'files' && $this->userManager->userExists($parts[1])) {

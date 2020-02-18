@@ -7,9 +7,13 @@
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Kyle Fazzari <kyrofa@ubuntu.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Michael Weimann <mail@michael-weimann.eu>
+ * @author rakekniven <mark.ziegler@rakekniven.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -25,9 +29,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Theming\Tests\Controller;
 
 use OC\Files\AppData\Factory;
@@ -35,6 +40,7 @@ use OC\L10N\L10N;
 use OC\Template\SCSSCacher;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
+use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
@@ -52,7 +58,6 @@ use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
 use Test\TestCase;
-use OCA\Theming\ThemingDefaults;
 
 class ThemingControllerTest extends TestCase {
 	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
@@ -82,7 +87,7 @@ class ThemingControllerTest extends TestCase {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	public function setUp() {
+	protected function setUp(): void {
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->themingDefaults = $this->createMock(ThemingDefaults::class);
@@ -117,16 +122,19 @@ class ThemingControllerTest extends TestCase {
 			$this->imageManager
 		);
 
-		return parent::setUp();
+		parent::setUp();
 	}
 
 	public function dataUpdateStylesheetSuccess() {
 		return [
 			['name', str_repeat('a', 250), 'Saved'],
-			['url', str_repeat('a', 500), 'Saved'],
+			['url', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 			['slogan', str_repeat('a', 500), 'Saved'],
 			['color', '#0082c9', 'Saved'],
 			['color', '#0082C9', 'Saved'],
+			['color', '#0082C9', 'Saved'],
+			['imprintUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
+			['privacyUrl', 'https://nextcloud.com/' . str_repeat('a', 478), 'Saved'],
 		];
 	}
 
@@ -175,11 +183,17 @@ class ThemingControllerTest extends TestCase {
 	public function dataUpdateStylesheetError() {
 		return [
 			['name', str_repeat('a', 251), 'The given name is too long'],
-			['url', str_repeat('a', 501), 'The given web address is too long'],
+			['url', 'http://example.com/' . str_repeat('a', 501), 'The given web address is too long'],
+			['url', str_repeat('a', 501), 'The given web address is not a valid URL'],
+			['url', 'javascript:alert(1)', 'The given web address is not a valid URL'],
 			['slogan', str_repeat('a', 501), 'The given slogan is too long'],
 			['color', '0082C9', 'The given color is invalid'],
 			['color', '#0082Z9', 'The given color is invalid'],
 			['color', 'Nextcloud', 'The given color is invalid'],
+			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL'],
+			['imprintUrl', '0082C9', 'The given legal notice address is not a valid URL'],
+			['imprintUrl', 'javascript:foo', 'The given legal notice address is not a valid URL'],
+			['privacyUrl', '#0082Z9', 'The given privacy policy address is not a valid URL'],
 		];
 	}
 
@@ -196,7 +210,7 @@ class ThemingControllerTest extends TestCase {
 			->method('set')
 			->with($setting, $value);
 		$this->l10n
-			->expects($this->once())
+			->expects($this->any())
 			->method('t')
 			->will($this->returnCallback(function($str) {
 				return $str;
@@ -209,7 +223,8 @@ class ThemingControllerTest extends TestCase {
 						'message' => $message,
 					],
 				'status' => 'error',
-			]
+			],
+			Http::STATUS_BAD_REQUEST
 		);
 		$this->assertEquals($expected, $this->themingController->updateStylesheet($setting, $value));
 	}
@@ -754,6 +769,9 @@ class ThemingControllerTest extends TestCase {
 		$expected->cacheFor(3600);
 		$expected->addHeader('Content-Type', 'text/svg');
 		$expected->addHeader('Content-Disposition', 'attachment; filename="logo"');
+		$csp = new Http\ContentSecurityPolicy();
+		$csp->allowInlineStyle();
+		$expected->setContentSecurityPolicy($csp);
 		@$this->assertEquals($expected, $this->themingController->getImage('logo'));
 	}
 
@@ -782,6 +800,9 @@ class ThemingControllerTest extends TestCase {
 		$expected->cacheFor(3600);
 		$expected->addHeader('Content-Type', 'image/png');
 		$expected->addHeader('Content-Disposition', 'attachment; filename="background"');
+		$csp = new Http\ContentSecurityPolicy();
+		$csp->allowInlineStyle();
+		$expected->setContentSecurityPolicy($csp);
 		@$this->assertEquals($expected, $this->themingController->getImage('background'));
 	}
 

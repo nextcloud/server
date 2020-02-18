@@ -4,9 +4,11 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author davitol <dtoledo@solidgear.es>
+ * @author Evgeny Golyshev <eugulixes@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Marius Blüm <marius@lineone.io>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Ruben Homs <ruben@homs.codes>
  * @author Sergio Bertolín <sbertolin@solidgear.es>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -22,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -89,7 +91,7 @@ class DecryptAll extends Command {
 	 */
 	protected function forceMaintenanceAndTrashbin() {
 		$this->wasTrashbinEnabled = $this->appManager->isEnabledForUser('files_trashbin');
-		$this->wasMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
+		$this->wasMaintenanceModeEnabled = $this->config->getSystemValueBool('maintenance');
 		$this->config->setSystemValue('maintenance', true);
 		$this->appManager->disableApp('files_trashbin');
 	}
@@ -129,6 +131,15 @@ class DecryptAll extends Command {
 			$output->writeln("container, do not forget to execute 'docker exec' with");
 			$output->writeln("the '-i' and '-t' options.");
 			$output->writeln('');
+			return;
+		}
+
+		$isMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
+		if ($isMaintenanceModeEnabled) {
+			$output->writeln("Maintenance mode must be disabled when starting decryption,");
+			$output->writeln("in order to load the relevant encryption modules correctly.");
+			$output->writeln("Your instance will automatically be put to maintenance mode");
+			$output->writeln("during the actual decryption of the files.");
 			return;
 		}
 

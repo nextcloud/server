@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -29,7 +30,7 @@ class ConfigurationTest extends \Test\TestCase {
 	/** @var Configuration */
 	protected $configuration;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->configuration = new Configuration('t01', false);
 	}
@@ -97,6 +98,8 @@ class ConfigurationTest extends \Test\TestCase {
 			'set avatar rule, default' => ['ldapUserAvatarRule', 'default', 'default'],
 			'set avatar rule, none' => ['ldapUserAvatarRule', 'none', 'none'],
 			'set avatar rule, data attribute' => ['ldapUserAvatarRule', 'data:jpegPhoto', 'data:jpegPhoto'],
+
+			'set external storage home attribute' => ['ldapExtStorageHomeAttribute', 'homePath', 'homePath'],
 		);
 	}
 

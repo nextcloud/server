@@ -6,6 +6,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <tcit@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -21,7 +22,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -33,10 +34,10 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCP\IConfig;
 use OCP\IL10N;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAVACL\IACL;
-use Sabre\DAV\Exception\NotFound;
 
 /**
  * Class CalDavBackendTest
@@ -279,11 +280,11 @@ EOD;
 		$this->assertCount(0, $calendarObjects);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 * @expectedExceptionMessage Calendar object with uid already exists in this calendar collection.
-	 */
+	
 	public function testMultipleCalendarObjectsWithSameUID() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectExceptionMessage('Calendar object with uid already exists in this calendar collection.');
+
 		$calendarId = $this->createTestCalendar();
 
 		$calData = <<<'EOD'
@@ -982,5 +983,22 @@ EOD;
 		$this->backend->purgeAllCachedEventsForSubscription($subscriptionId);
 
 		$this->assertEquals(null, $this->backend->getCalendarObject($subscriptionId, $uri, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION));
+	}
+
+	public function testCalendarMovement()
+	{
+		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
+
+		$this->assertCount(1, $this->backend->getCalendarsForUser(self::UNIT_TEST_USER));
+
+		$calendarInfoUser = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER)[0];
+
+		$this->backend->moveCalendar('Example', self::UNIT_TEST_USER, self::UNIT_TEST_USER1);
+		$this->assertCount(0, $this->backend->getCalendarsForUser(self::UNIT_TEST_USER));
+		$this->assertCount(1, $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1));
+
+		$calendarInfoUser1 = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1)[0];
+		$this->assertEquals($calendarInfoUser['id'], $calendarInfoUser1['id']);
+		$this->assertEquals($calendarInfoUser['uri'], $calendarInfoUser1['uri']);
 	}
 }

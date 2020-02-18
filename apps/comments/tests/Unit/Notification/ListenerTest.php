@@ -5,6 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -46,7 +47,7 @@ class ListenerTest extends TestCase {
 	/** @var  Listener */
 	protected $listener;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->notificationManager = $this->createMock(\OCP\Notification\IManager::class);
@@ -91,6 +92,9 @@ class ListenerTest extends TestCase {
 				[ 'type' => 'user', 'id' => '23452-4333-54353-2342'],
 				[ 'type' => 'user', 'id' => 'yolo'],
 			]);
+		$comment->expects($this->atLeastOnce())
+			->method('getId')
+			->willReturn('1234');
 
 		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
 		$event = $this->getMockBuilder(CommentsEvent::class)
@@ -186,6 +190,9 @@ class ListenerTest extends TestCase {
 		$comment->expects($this->once())
 			->method('getMentions')
 			->willReturn([[ 'type' => 'user', 'id' => 'foobar']]);
+		$comment->expects($this->atLeastOnce())
+			->method('getId')
+			->willReturn('1234');
 
 		/** @var CommentsEvent|\PHPUnit_Framework_MockObject_MockObject $event */
 		$event = $this->getMockBuilder(CommentsEvent::class)

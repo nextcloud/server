@@ -32,6 +32,7 @@ OC.L10N.register(
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "לא ניתן לקרוא קובץ זה, ייתכן ומדובר בקובץ משותף. יש לבקש מהבעלים של הקובץ לשתף מחדש את הקובץ אתך.",
     "Default encryption module" : "מודול ההצפנה כבררת מחדל",
     "Default encryption module for server-side encryption" : "מודול הצפנה כבררת מחדל להצפנה מצד השרת",
+    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "כדי להשתמש במודול הצפנה זה עליך להפעיל הצפנה מצד השרת בהגדרות\n\t\tהניהול. לאחר ההפעלה יצפין מודול זה את כל הקבצים שלך באופן\n\t\tשקוף לחלוטין. ההצפנה מבוססת על מפתחות AES 256.\n\t\tהמודול לא ישפיע על קבצים קיימים, רק קבצים חדשים יוצפנו לאחר\n\t\tהפעלת ההצפנה מצד השרת. כמו כן, לא ניתן להשבית את ההצפנה\n\t\tבחזרה ולשוב למערכת בלתי מוצפנת.\n\t\tנא לקרוא את התיעוד כדי להבין את כל ההשלכות בטרם קבלת ההחלטה\n\t\tלהפעיל הצפנה מצד השרת.",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "שלום,\n\nהמנהל אפשר את ההצפנה בצד השרת. הקבצים שלך הוצפנו על בסיס הסיסמא '%s'.\n\nיש להתחבר לממשק האינטרנט, ולגשת אל 'מודול הצפנה בסיסי של' בהגדרות הבסיסיות ולעדכן את סיסמת ההצפנה שלך על ידי הכנסת הסיסמא אל שדה 'סיסמת ההתחברות הישנה' ואת סיסמת ההתחברות הנוכחית.\n\n",
     "The share will expire on %s." : "השיתוף יפוג תוקף ב- %s.",
     "Cheers!" : "לחיים!",
@@ -59,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "מאפשר שחזור סיסמא:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "הפעלת אפשרות זו תאפשר לך לקבל מחדש גישה לקבצים המוצפנים שלך במקרה שסיסמא נשכחת",
     "Enabled" : "מופעל",
-    "Disabled" : "מנוטרל",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "יש צורך להמיר את מפתחות ההצפנה מהצופן הישן (ownCloud <= 8.0) לצופן החדש. יש להריץ 'occ encryption:migrate' או לפנות למנהל שלך"
+    "Disabled" : "מנוטרל"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

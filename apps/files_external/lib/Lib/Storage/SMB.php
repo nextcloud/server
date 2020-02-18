@@ -4,15 +4,16 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Jesús Macias <jmacias@solidgear.es>
- * @author Joas Schilling <coding@schilljs.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Juan Pablo Villafañez <jvillafanez@solidgear.es>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roland Tapken <roland@bitarbeiter.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -28,7 +29,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -44,6 +45,7 @@ use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\Exception\TimedOutException;
 use Icewind\SMB\IFileInfo;
 use Icewind\SMB\Native\NativeServer;
+use Icewind\SMB\Options;
 use Icewind\SMB\ServerFactory;
 use Icewind\SMB\System;
 use Icewind\Streams\CallbackWrapper;
@@ -55,6 +57,7 @@ use OCA\Files_External\Lib\Notify\SMBNotifyHandler;
 use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
+use OCP\Files\StorageAuthException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
 
@@ -82,6 +85,9 @@ class SMB extends Common implements INotifyStorage {
 	/** @var ILogger */
 	protected $logger;
 
+	/** @var bool */
+	protected $showHidden;
+
 	public function __construct($params) {
 		if (!isset($params['host'])) {
 			throw new \Exception('Invalid configuration, no host provided');
@@ -102,13 +108,22 @@ class SMB extends Common implements INotifyStorage {
 			$this->logger = \OC::$server->getLogger();
 		}
 
-		$serverFactory = new ServerFactory();
+		$options = new Options();
+		if (isset($params['timeout'])) {
+			$timeout = (int)$params['timeout'];
+			if ($timeout > 0) {
+				$options->setTimeout($timeout);
+			}
+		}
+		$serverFactory = new ServerFactory($options);
 		$this->server = $serverFactory->createServer($params['host'], $auth);
 		$this->share = $this->server->getShare(trim($params['share'], '/'));
 
 		$this->root = $params['root'] ?? '/';
 		$this->root = '/' . ltrim($this->root, '/');
 		$this->root = rtrim($this->root, '/') . '/';
+
+		$this->showHidden = isset($params['show_hidden']) && $params['show_hidden'];
 
 		$this->statCache = new CappedMemoryCache();
 		parent::__construct($params);
@@ -155,7 +170,7 @@ class SMB extends Common implements INotifyStorage {
 	/**
 	 * @param string $path
 	 * @return \Icewind\SMB\IFileInfo
-	 * @throws StorageNotAvailableException
+	 * @throws StorageAuthException
 	 */
 	protected function getFileInfo($path) {
 		try {
@@ -165,9 +180,24 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return $this->statCache[$path];
 		} catch (ConnectException $e) {
-			$this->logger->logException($e, ['message' => 'Error while getting file info']);
-			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+			$this->throwUnavailable($e);
+		} catch (ForbiddenException $e) {
+			// with php-smbclient, this exceptions is thrown when the provided password is invalid.
+			// Possible is also ForbiddenException with a different error code, so we check it.
+			if($e->getCode() === 1) {
+				$this->throwUnavailable($e);
+			}
+			throw $e;
 		}
+	}
+
+	/**
+	 * @param \Exception $e
+	 * @throws StorageAuthException
+	 */
+	protected function throwUnavailable(\Exception $e) {
+		$this->logger->logException($e, ['message' => 'Error while getting file info']);
+		throw new StorageAuthException($e->getMessage(), $e);
 	}
 
 	/**
@@ -184,10 +214,13 @@ class SMB extends Common implements INotifyStorage {
 			}
 			return array_filter($files, function (IFileInfo $file) {
 				try {
-					if ($file->isHidden()) {
+					// the isHidden check is done before checking the config boolean to ensure that the metadata is always fetch
+					// so we trigger the below exceptions where applicable
+					$hide = $file->isHidden() && !$this->showHidden;
+					if ($hide) {
 						$this->logger->debug('hiding hidden file ' . $file->getName());
 					}
-					return !$file->isHidden();
+					return !$hide;
 				} catch (ForbiddenException $e) {
 					$this->logger->logException($e, ['level' => ILogger::DEBUG, 'message' => 'Hiding forbidden entry ' . $file->getName()]);
 					return false;
@@ -294,6 +327,8 @@ class SMB extends Common implements INotifyStorage {
 				}
 			} catch (NotFoundException $e) {
 				// Ignore this, can happen on unavailable DFS shares
+			} catch (ForbiddenException $e) {
+				// Ignore this too - it's a symlink
 			}
 		}
 		return $highestMTime;
@@ -526,7 +561,7 @@ class SMB extends Common implements INotifyStorage {
 	public function isReadable($path) {
 		try {
 			$info = $this->getFileInfo($path);
-			return !$info->isHidden();
+			return $this->showHidden || !$info->isHidden();
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
@@ -539,7 +574,7 @@ class SMB extends Common implements INotifyStorage {
 			$info = $this->getFileInfo($path);
 			// following windows behaviour for read-only folders: they can be written into
 			// (https://support.microsoft.com/en-us/kb/326549 - "cause" section)
-			return !$info->isHidden() && (!$info->isReadOnly() || $this->is_dir($path));
+			return ($this->showHidden || !$info->isHidden()) && (!$info->isReadOnly() || $this->is_dir($path));
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
@@ -550,7 +585,7 @@ class SMB extends Common implements INotifyStorage {
 	public function isDeletable($path) {
 		try {
 			$info = $this->getFileInfo($path);
-			return !$info->isHidden() && !$info->isReadOnly();
+			return ($this->showHidden || !$info->isHidden()) && !$info->isReadOnly();
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {

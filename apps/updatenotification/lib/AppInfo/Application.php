@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,7 +21,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -44,17 +47,17 @@ class Application extends App {
 			return;
 		}
 
+		// Always register the notifier, so background jobs (without a user) can send push notifications
+		$this->registerNotifier();
+
 		$user = $server->getUserSession()->getUser();
 		if (!$user instanceof IUser) {
 			// Nothing to do for guests
 			return;
 		}
 
-		if ($server->getAppManager()->isEnabledForUser('notifications')) {
-			// Notifications app is available, so we register.
-			// Since notifications also work for non-admins we don't check this here.
-			$this->registerNotifier();
-		} else if ($server->getGroupManager()->isAdmin($user->getUID())) {
+		if (!$server->getAppManager()->isEnabledForUser('notifications') &&
+			$server->getGroupManager()->isAdmin($user->getUID())) {
 			try {
 				$updateChecker = $this->getContainer()->query(UpdateChecker::class);
 			} catch (QueryException $e) {
@@ -71,14 +74,6 @@ class Application extends App {
 
 	public function registerNotifier() {
 		$notificationsManager = $this->getContainer()->getServer()->getNotificationManager();
-		$notificationsManager->registerNotifier(function() {
-			return  $this->getContainer()->query(Notifier::class);
-		}, function() {
-			$l = $this->getContainer()->getServer()->getL10N('updatenotification');
-			return [
-				'id' => 'updatenotification',
-				'name' => $l->t('Update notifications'),
-			];
-		});
+		$notificationsManager->registerNotifierService(Notifier::class);
 	}
 }

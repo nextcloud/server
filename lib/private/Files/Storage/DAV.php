@@ -2,18 +2,20 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Carlos Cerrillo <ccerrillo@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
- * @author vkuimov "vkuimov@nextcloud"
  *
  * @license AGPL-3.0
  *
@@ -27,26 +29,28 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OC\Files\Storage;
 
 use Exception;
-use GuzzleHttp\Exception\RequestException;
-use OCP\ILogger;
-use Psr\Http\Message\ResponseInterface;
 use Icewind\Streams\CallbackWrapper;
-use OC\Files\Filesystem;
 use Icewind\Streams\IteratorDirectory;
+use OC\Files\Filesystem;
 use OC\MemCache\ArrayCache;
 use OCP\AppFramework\Http;
 use OCP\Constants;
 use OCP\Files\FileInfo;
+use OCP\Files\ForbiddenException;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\Http\Client\IClientService;
+use OCP\ICertificateManager;
+use OCP\ILogger;
 use OCP\Util;
+use Psr\Http\Message\ResponseInterface;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Property\ResourceType;
 use Sabre\HTTP\ClientException;
@@ -78,8 +82,10 @@ class DAV extends Common {
 	protected $client;
 	/** @var ArrayCache */
 	protected $statCache;
-	/** @var \OCP\Http\Client\IClientService */
+	/** @var IClientService */
 	protected $httpClientService;
+	/** @var ICertificateManager */
+	protected $certManager;
 
 	/**
 	 * @param array $params
@@ -110,13 +116,9 @@ class DAV extends Common {
 			}
 			if ($this->secure === true) {
 				// inject mock for testing
-				$certManager = \OC::$server->getCertificateManager();
-				if (is_null($certManager)) { //no user
-					$certManager = \OC::$server->getCertificateManager(null);
-				}
-				$certPath = $certManager->getAbsoluteBundlePath();
-				if (file_exists($certPath)) {
-					$this->certPath = $certPath;
+				$this->certManager = \OC::$server->getCertificateManager();
+				if (is_null($this->certManager)) { //no user
+					$this->certManager = \OC::$server->getCertificateManager(null);
 				}
 			}
 			$this->root = $params['root'] ?? '/';
@@ -149,8 +151,15 @@ class DAV extends Common {
 
 		$this->client = new Client($settings);
 		$this->client->setThrowExceptions(true);
-		if ($this->secure === true && $this->certPath) {
-			$this->client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
+
+		if($this->secure === true) {
+			$certPath = $this->certManager->getAbsoluteBundlePath();
+			if (file_exists($certPath)) {
+				$this->certPath = $certPath;
+			}
+			if ($this->certPath) {
+				$this->client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
+			}
 		}
 	}
 
@@ -268,7 +277,7 @@ class DAV extends Common {
 				);
 				$this->statCache->set($path, $response);
 			} catch (ClientHttpException $e) {
-				if ($e->getHttpStatus() === 404) {
+				if ($e->getHttpStatus() === 404 || $e->getHttpStatus() === 405) {
 					$this->statCache->clear($path . '/');
 					$this->statCache->set($path, false);
 					return false;
@@ -726,7 +735,11 @@ class DAV extends Common {
 			return null;
 		}
 		if (isset($response['{DAV:}getetag'])) {
-			return trim($response['{DAV:}getetag'], '"');
+			$etag = trim($response['{DAV:}getetag'], '"');
+			if (strlen($etag) > 40) {
+				$etag = md5($etag);
+			}
+			return $etag;
 		}
 		return parent::getEtag($path);
 	}
@@ -825,6 +838,7 @@ class DAV extends Common {
 	 * when the authentication expired or is invalid
 	 * @throws StorageNotAvailableException if the storage is not available,
 	 * which might be temporary
+	 * @throws ForbiddenException if the action is not allowed
 	 */
 	protected function convertException(Exception $e, $path = '') {
 		\OC::$server->getLogger()->logException($e, ['app' => 'files_external', 'level' => ILogger::DEBUG]);
@@ -838,6 +852,9 @@ class DAV extends Common {
 			} else if ($e->getHttpStatus() === Http::STATUS_METHOD_NOT_ALLOWED) {
 				// ignore exception for MethodNotAllowed, false will be returned
 				return;
+			} else if ($e->getHttpStatus() === Http::STATUS_FORBIDDEN){
+				// The operation is forbidden. Fail somewhat gracefully
+				throw new ForbiddenException(get_class($e) . ':' . $e->getMessage());
 			}
 			throw new StorageNotAvailableException(get_class($e) . ': ' . $e->getMessage());
 		} else if ($e instanceof ClientException) {
@@ -855,4 +872,3 @@ class DAV extends Common {
 		// TODO: only log for now, but in the future need to wrap/rethrow exception
 	}
 }
-

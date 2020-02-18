@@ -6,12 +6,14 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author nhirokinet <nhirokinet@nhiroki.net>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Citharel <tcit@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -25,16 +27,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\DAV\CalDAV;
 
-use OCA\DAV\DAV\Sharing\IShareable;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
+use OCA\DAV\DAV\Sharing\IShareable;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\ILogger;
@@ -51,6 +53,7 @@ use Sabre\DAV;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
+use Sabre\Uri;
 use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VTimeZone;
@@ -60,7 +63,6 @@ use Sabre\VObject\ParseException;
 use Sabre\VObject\Property;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Recur\EventIterator;
-use Sabre\Uri;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -190,7 +192,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 								ISecureRandom $random,
 								ILogger $logger,
 								EventDispatcherInterface $dispatcher,
-								$legacyEndpoint = false) {
+								bool $legacyEndpoint = false) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
@@ -301,6 +303,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		// query for shared calendars
 		$principals = $this->principalBackend->getGroupMembership($principalUriOriginal, true);
+		$principals = array_merge($principals, $this->principalBackend->getCircleMembership($principalUriOriginal));
+
 		$principals = array_map(function($principal) {
 			return urldecode($principal);
 		}, $principals);
@@ -441,7 +445,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		return $this->userDisplayNames[$uid];
 	}
-	
+
 	/**
 	 * @return array
 	 */
@@ -735,7 +739,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				throw new DAV\Exception('The ' . $sccs . ' property must be of type: \Sabre\CalDAV\Property\SupportedCalendarComponentSet');
 			}
 			$values['components'] = implode(',',$properties[$sccs]->getValue());
+		} else if (isset($properties['components'])) {
+			// Allow to provide components internally without having
+			// to create a SupportedCalendarComponentSet object
+			$values['components'] = $properties['components'];
 		}
+
 		$transp = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
 		if (isset($properties[$transp])) {
 			$values['transparent'] = (int) ($properties[$transp]->getValue() === 'transparent');
@@ -1126,7 +1135,6 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	function updateCalendarObject($calendarId, $objectUri, $calendarData, $calendarType=self::CALENDAR_TYPE_CALENDAR) {
 		$extraData = $this->getDenormalizedData($calendarData);
-
 		$query = $this->db->getQueryBuilder();
 		$query->update('calendarobjects')
 				->set('calendardata', $query->createNamedParameter($calendarData, IQueryBuilder::PARAM_LOB))
@@ -1230,7 +1238,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt = $this->db->prepare('DELETE FROM `*PREFIX*calendarobjects` WHERE `calendarid` = ? AND `uri` = ? AND `calendartype` = ?');
 		$stmt->execute([$calendarId, $objectUri, $calendarType]);
 
-		$this->purgeProperties($calendarId, $data['id'], $calendarType);
+		if (is_array($data)) {
+			$this->purgeProperties($calendarId, $data['id'], $calendarType);
+		}
 
 		$this->addChange($calendarId, $objectUri, 3, $calendarType);
 	}
@@ -2519,6 +2529,23 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		foreach($uris as $uri) {
 			$this->addChange($subscriptionId, $uri, 3, self::CALENDAR_TYPE_SUBSCRIPTION);
 		}
+	}
+
+	/**
+	 * Move a calendar from one user to another
+	 *
+	 * @param string $uriName
+	 * @param string $uriOrigin
+	 * @param string $uriDestination
+	 */
+	public function moveCalendar($uriName, $uriOrigin, $uriDestination)
+	{
+		$query = $this->db->getQueryBuilder();
+		$query->update('calendars')
+			->set('principaluri', $query->createNamedParameter($uriDestination))
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter($uriOrigin)))
+			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($uriName)))
+			->execute();
 	}
 
 	/**

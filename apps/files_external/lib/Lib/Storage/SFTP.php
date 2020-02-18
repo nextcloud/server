@@ -12,6 +12,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Ross Nicoll <jrn@jrn.me.uk>
  * @author SA <stephen@mthosting.net>
  * @author Senorsen <senorsen.zhang@gmail.com>
@@ -29,9 +30,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Files_External\Lib\Storage;
 use Icewind\Streams\IteratorDirectory;
 use Icewind\Streams\RetryWrapper;

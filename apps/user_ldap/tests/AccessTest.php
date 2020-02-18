@@ -27,7 +27,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -78,7 +78,7 @@ class AccessTest extends TestCase {
 	/** @var Access */
 	private $access;
 
-	public function setUp() {
+	protected function setUp(): void {
 		$this->connection = $this->createMock(Connection::class);
 		$this->ldap = $this->createMock(LDAP::class);
 		$this->userManager = $this->createMock(Manager::class);
@@ -441,11 +441,11 @@ class AccessTest extends TestCase {
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage LDAP password changes are disabled
-	 */
+	
 	public function testSetPasswordWithDisabledChanges() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('LDAP password changes are disabled');
+
 		$this->connection
 			->method('__get')
 			->willReturn(false);
@@ -473,11 +473,11 @@ class AccessTest extends TestCase {
 		$this->assertFalse($this->access->setPassword('CN=foo', 'MyPassword'));
 	}
 
-	/**
-	 * @expectedException \OC\HintException
-	 * @expectedExceptionMessage Password change rejected.
-	 */
+	
 	public function testSetPasswordWithRejectedChange() {
+		$this->expectException(\OC\HintException::class);
+		$this->expectExceptionMessage('Password change rejected.');
+
 		$this->connection
 			->method('__get')
 			->willReturn(true);

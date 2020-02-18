@@ -2,7 +2,14 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license AGPL-3.0
  *
@@ -16,9 +23,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCP\L10N;
 
 use OCP\IUser;
@@ -32,10 +40,11 @@ interface IFactory {
 	 *
 	 * @param string $app
 	 * @param string|null $lang
+	 * @param string|null $locale
 	 * @return \OCP\IL10N
 	 * @since 8.2.0
 	 */
-	public function get($app, $lang = null);
+	public function get($app, $lang = null, $locale = null);
 
 	/**
 	 * Find the best language

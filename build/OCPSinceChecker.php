@@ -99,7 +99,7 @@ class SinceTagCheckVisitor extends \PhpParser\NodeVisitorAbstract {
 echo 'Parsing all files in lib/public for the presence of @since or @deprecated on each method...' . PHP_EOL . PHP_EOL;
 
 
-$parser = new PhpParser\Parser(new PhpParser\Lexer);
+$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::PREFER_PHP7);
 
 /* iterate over all .php files in lib/public */
 $Directory = new RecursiveDirectoryIterator(dirname(__DIR__) . '/lib/public');

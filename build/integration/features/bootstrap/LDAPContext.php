@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -26,7 +28,9 @@ use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
 
 class LDAPContext implements Context {
-	use BasicStructure;
+	use AppConfiguration,
+		CommandLine,
+		Sharing; // Pulls in BasicStructure
 
 	protected $configID;
 
@@ -37,6 +41,8 @@ class LDAPContext implements Context {
 		if($this->configID === null) {
 			return;
 		}
+		$this->disableLDAPConfiguration(); # via occ in case of big config issues
+		$this->asAn('admin');
 		$this->sendingTo('DELETE', $this->apiUrl . '/' . $this->configID);
 	}
 
@@ -195,5 +201,14 @@ class LDAPContext implements Context {
 
 		$backend = (string)simplexml_load_string($this->response->getBody())->data[0]->backend;
 		Assert::assertEquals('LDAP', $backend);
+	}
+
+	public function disableLDAPConfiguration() {
+		$configKey = $this->configID . 'ldap_configuration_active';
+		$this->invokingTheCommand('config:app:set user_ldap ' . $configKey . ' --value="0"');
+	}
+
+	protected function resetAppConfigs() {
+		// not implemented
 	}
 }

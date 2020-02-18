@@ -5,7 +5,8 @@
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -24,7 +25,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -52,7 +53,7 @@ class InfoParser {
 			return null;
 		}
 
-		if(!is_null($this->cache)) {
+		if ($this->cache !== null) {
 			$fileCacheKey = $file . filemtime($file);
 			if ($cachedValue = $this->cache->get($fileCacheKey)) {
 				return json_decode($cachedValue, true);
@@ -205,10 +206,22 @@ class InfoParser {
 			$array['settings']['personal-section'] = [$array['settings']['personal-section']];
 		}
 
-		if(!is_null($this->cache)) {
+		if (isset($array['navigations']['navigation']) && $this->isNavigationItem($array['navigations']['navigation'])) {
+			$array['navigations']['navigation'] = [$array['navigations']['navigation']];
+		}
+
+		if ($this->cache !== null) {
 			$this->cache->set($fileCacheKey, json_encode($array));
 		}
 		return $array;
+	}
+
+	/**
+	 * @param $data
+	 * @return bool
+	 */
+	private function isNavigationItem($data): bool {
+		return isset($data['name'], $data['route']);
 	}
 
 	/**

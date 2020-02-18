@@ -1,10 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,7 +21,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -60,6 +63,7 @@ interface ICrypto {
 	 * @param string $password Password to encrypt, if not specified the secret from config.php will be taken
 	 * @return string plaintext
 	 * @throws \Exception If the HMAC does not match
+	 * @throws \Exception If the decryption failed
 	 * @since 8.0.0
 	 */
 	public function decrypt(string $authenticatedCiphertext, string $password = ''): string;

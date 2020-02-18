@@ -14,12 +14,13 @@ use OC\Files\View;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
-use OCP\Files\NotFoundException;
 
 /**
  * Class NodeTest
@@ -42,17 +43,10 @@ abstract class NodeTest extends \Test\TestCase {
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
-		$config = $this->getMockBuilder(IConfig::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$urlGenerator = $this->getMockBuilder(IURLGenerator
-		::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy, null, $config, $urlGenerator);
+		$this->user = $this->createMock(IUser::class);
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -186,10 +180,10 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->assertEquals(2, $hooksRun);
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testDeleteNotPermitted() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		$this->root->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($this->user));
@@ -443,10 +437,10 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->assertEquals(2, $hooksRun);
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testTouchNotPermitted() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		$this->root->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($this->user));
@@ -460,10 +454,10 @@ abstract class NodeTest extends \Test\TestCase {
 		$node->touch(100);
 	}
 
-	/**
-	 * @expectedException \OCP\Files\InvalidPathException
-	 */
+	
 	public function testInvalidPath() {
+		$this->expectException(\OCP\Files\InvalidPathException::class);
+
 		$node = $this->createTestNode($this->root, $this->view, '/../foo');
 		$node->getFileInfo();
 	}
@@ -494,10 +488,10 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->assertEquals(3, $target->getId());
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testCopyNotPermitted() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		/**
 		 * @var \OC\Files\Storage\Storage | \PHPUnit_Framework_MockObject_MockObject $storage
 		 */
@@ -525,10 +519,10 @@ abstract class NodeTest extends \Test\TestCase {
 		$node->copy('/bar/asd');
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotFoundException
-	 */
+	
 	public function testCopyNoParent() {
+		$this->expectException(\OCP\Files\NotFoundException::class);
+
 		$this->view->expects($this->never())
 			->method('copy');
 
@@ -542,10 +536,10 @@ abstract class NodeTest extends \Test\TestCase {
 		$node->copy('/bar/asd/foo');
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testCopyParentIsFile() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		$this->view->expects($this->never())
 			->method('copy');
 
@@ -665,10 +659,10 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->assertEquals(4, $hooksRun);
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testMoveNotPermitted() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		$this->view->expects($this->any())
 			->method('getFileInfo')
 			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ])));
@@ -687,10 +681,10 @@ abstract class NodeTest extends \Test\TestCase {
 		$node->move('/bar/asd');
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotFoundException
-	 */
+	
 	public function testMoveNoParent() {
+		$this->expectException(\OCP\Files\NotFoundException::class);
+
 		/**
 		 * @var \OC\Files\Storage\Storage | \PHPUnit_Framework_MockObject_MockObject $storage
 		 */
@@ -709,10 +703,10 @@ abstract class NodeTest extends \Test\TestCase {
 		$node->move('/bar/asd');
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testMoveParentIsFile() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		$this->view->expects($this->never())
 			->method('rename');
 
@@ -727,10 +721,10 @@ abstract class NodeTest extends \Test\TestCase {
 		$node->move('/bar/asd');
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testMoveFailed() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		$this->view->expects($this->any())
 			->method('rename')
 			->with('/bar/foo', '/bar/asd')
@@ -750,10 +744,10 @@ abstract class NodeTest extends \Test\TestCase {
 		$node->move('/bar/asd');
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testCopyFailed() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		$this->view->expects($this->any())
 			->method('copy')
 			->with('/bar/foo', '/bar/asd')

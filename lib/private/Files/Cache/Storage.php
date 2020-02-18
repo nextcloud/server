@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -22,11 +23,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OC\Files\Cache;
+
+use OCP\Files\Storage\IStorage;
 
 /**
  * Handle the mapping between the string and numeric storage ids
@@ -61,7 +64,7 @@ class Storage {
 	 * @throws \RuntimeException
 	 */
 	public function __construct($storage, $isAvailable = true) {
-		if ($storage instanceof \OC\Files\Storage\Storage) {
+		if ($storage instanceof IStorage) {
 			$this->storageId = $storage->getId();
 		} else {
 			$this->storageId = $storage;
@@ -79,7 +82,7 @@ class Storage {
 				if ($row = self::getStorageById($this->storageId)) {
 					$this->numericId = (int)$row['numeric_id'];
 				} else {
-					throw new \RuntimeException('Storage could neither be inserted nor be selected from the database');
+					throw new \RuntimeException('Storage could neither be inserted nor be selected from the database: ' . $this->storageId);
 				}
 			}
 		}
@@ -164,11 +167,12 @@ class Storage {
 
 	/**
 	 * @param bool $isAvailable
+	 * @param int $delay amount of seconds to delay reconsidering that storage further
 	 */
-	public function setAvailability($isAvailable) {
+	public function setAvailability($isAvailable, int $delay = 0) {
 		$sql = 'UPDATE `*PREFIX*storages` SET `available` = ?, `last_checked` = ? WHERE `id` = ?';
 		$available = $isAvailable ? 1 : 0;
-		\OC_DB::executeAudited($sql, array($available, time(), $this->storageId));
+		\OC_DB::executeAudited($sql, [$available, time() + $delay, $this->storageId]);
 	}
 
 	/**

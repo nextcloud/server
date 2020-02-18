@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -18,16 +20,17 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OCA\TwoFactorBackupCodes\BackgroundJob;
 
 use OC\Authentication\TwoFactorAuth\Manager;
-use OC\BackgroundJob\QueuedJob;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\BackgroundJob\IJobList;
+use OCP\BackgroundJob\QueuedJob;
 use OCP\IUser;
 use OCP\IUserManager;
 
@@ -45,7 +48,8 @@ class CheckBackupCodes extends QueuedJob {
 	/** @var Manager */
 	private $twofactorManager;
 
-	public function __construct(IUserManager $userManager, IJobList $jobList, Manager $twofactorManager, IRegistry $registry) {
+	public function __construct(ITimeFactory $timeFactory, IUserManager $userManager, IJobList $jobList, Manager $twofactorManager, IRegistry $registry) {
+		parent::__construct($timeFactory);
 		$this->userManager = $userManager;
 		$this->jobList = $jobList;
 		$this->twofactorManager = $twofactorManager;

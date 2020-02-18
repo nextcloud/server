@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\Files\AppData;
 
 use OC\Files\AppData\AppData;
@@ -41,7 +42,7 @@ class AppDataTest extends \Test\TestCase {
 	/** @var IAppData */
 	private $appData;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->rootFolder = $this->createMock(IRootFolder::class);
@@ -55,30 +56,22 @@ class AppDataTest extends \Test\TestCase {
 	}
 
 	private function setupAppFolder() {
-		$dataFolder = $this->createMock(Folder::class);
 		$appFolder = $this->createMock(Folder::class);
 
-		$this->rootFolder->expects($this->once())
+		$this->rootFolder->expects($this->any())
 			->method('get')
-			->with($this->equalTo('appdata_iid'))
-			->willReturn($dataFolder);
-		$dataFolder->expects($this->once())
-			->method('get')
-			->with($this->equalTo('myApp'))
+			->with($this->equalTo('appdata_iid/myApp'))
 			->willReturn($appFolder);
 
-		return [$dataFolder, $appFolder];
+		return $appFolder;
 	}
 
 	public function testGetFolder() {
-		$folders = $this->setupAppFolder();
-		$appFolder = $folders[1];
-
 		$folder = $this->createMock(Folder::class);
 
-		$appFolder->expects($this->once())
+		$this->rootFolder->expects($this->once())
 			->method('get')
-			->with($this->equalTo('folder'))
+			->with($this->equalTo('appdata_iid/myApp/folder'))
 			->willReturn($folder);
 
 		$result = $this->appData->getFolder('folder');
@@ -86,8 +79,7 @@ class AppDataTest extends \Test\TestCase {
 	}
 
 	public function testNewFolder() {
-		$folders = $this->setupAppFolder();
-		$appFolder = $folders[1];
+		$appFolder = $this->setupAppFolder();
 
 		$folder = $this->createMock(Folder::class);
 
@@ -101,8 +93,7 @@ class AppDataTest extends \Test\TestCase {
 	}
 
 	public function testGetDirectoryListing() {
-		$folders = $this->setupAppFolder();
-		$appFolder = $folders[1];
+		$appFolder = $this->setupAppFolder();
 
 		$file = $this->createMock(File::class);
 		$folder = $this->createMock(Folder::class);

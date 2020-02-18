@@ -32,7 +32,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -794,7 +794,7 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	private function detectGroupMemberAssoc() {
-		$possibleAttrs = array('uniqueMember', 'memberUid', 'member', 'gidNumber');
+		$possibleAttrs = ['uniqueMember', 'memberUid', 'member', 'gidNumber'];
 		$filter = $this->configuration->ldapGroupFilter;
 		if(empty($filter)) {
 			return false;
@@ -803,7 +803,7 @@ class Wizard extends LDAPUtility {
 		if(!$cr) {
 			throw new \Exception('Could not connect to LDAP');
 		}
-		$base = $this->configuration->ldapBase[0];
+		$base = $this->configuration->ldapBaseGroups[0] ?: $this->configuration->ldapBase[0];
 		$rr = $this->ldap->search($cr, $base, $filter, $possibleAttrs, 0, 1000);
 		if(!$this->ldap->isResource($rr)) {
 			return false;
@@ -812,7 +812,7 @@ class Wizard extends LDAPUtility {
 		while(is_resource($er)) {
 			$this->ldap->getDN($cr, $er);
 			$attrs = $this->ldap->getAttributes($cr, $er);
-			$result = array();
+			$result = [];
 			$possibleAttrsCount = count($possibleAttrs);
 			for($i = 0; $i < $possibleAttrsCount; $i++) {
 				if(isset($attrs[$possibleAttrs[$i]])) {

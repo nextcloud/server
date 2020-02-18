@@ -25,9 +25,9 @@ declare(strict_types=1);
 namespace Test\Authentication\Token;
 
 use OC;
+use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\PublicKeyToken;
 use OC\Authentication\Token\PublicKeyTokenMapper;
-use OC\Authentication\Token\IToken;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUser;
@@ -47,7 +47,7 @@ class PublicKeyTokenMapperTest extends TestCase {
 	/** @var int */
 	private $time;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->dbConnection = OC::$server->getDatabaseConnection();
@@ -171,10 +171,10 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertEquals($token, $dbToken);
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\Db\DoesNotExistException
-	 */
+	
 	public function testGetInvalidToken() {
+		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+
 		$token = 'thisisaninvalidtokenthatisnotinthedatabase';
 
 		$this->mapper->getToken($token);
@@ -203,17 +203,17 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertEquals($token, $dbToken);
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\Db\DoesNotExistException
-	 */
+	
 	public function testGetTokenByIdNotFound() {
+		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+
 		$this->mapper->getTokenById(-1);
 	}
 
-	/**
-	 * @expectedException \OCP\AppFramework\Db\DoesNotExistException
-	 */
+	
 	public function testGetInvalidTokenById() {
+		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
+
 		$id = '42';
 
 		$this->mapper->getToken($id);

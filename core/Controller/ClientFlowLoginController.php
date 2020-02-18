@@ -3,9 +3,13 @@
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Mario Danic <mario@lovelyhq.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author RussellAult <RussellAult@users.noreply.github.com>
+ * @author Sergej Nikolaev <kinolaev@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -36,7 +40,7 @@ use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
-use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -46,6 +50,8 @@ use OCP\IUserSession;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class ClientFlowLoginController extends Controller {
 	/** @var IUserSession */
@@ -68,6 +74,8 @@ class ClientFlowLoginController extends Controller {
 	private $accessTokenMapper;
 	/** @var ICrypto */
 	private $crypto;
+	/** @var EventDispatcherInterface */
+	private $eventDispatcher;
 
 	const stateName = 'client.flow.state.token';
 
@@ -84,6 +92,7 @@ class ClientFlowLoginController extends Controller {
 	 * @param ClientMapper $clientMapper
 	 * @param AccessTokenMapper $accessTokenMapper
 	 * @param ICrypto $crypto
+	 * @param EventDispatcherInterface $eventDispatcher
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -96,7 +105,8 @@ class ClientFlowLoginController extends Controller {
 								IURLGenerator $urlGenerator,
 								ClientMapper $clientMapper,
 								AccessTokenMapper $accessTokenMapper,
-								ICrypto $crypto) {
+								ICrypto $crypto,
+								EventDispatcherInterface $eventDispatcher) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->l10n = $l10n;
@@ -108,6 +118,7 @@ class ClientFlowLoginController extends Controller {
 		$this->clientMapper = $clientMapper;
 		$this->accessTokenMapper = $accessTokenMapper;
 		$this->crypto = $crypto;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -131,14 +142,14 @@ class ClientFlowLoginController extends Controller {
 	}
 
 	/**
-	 * @return TemplateResponse
+	 * @return StandaloneTemplateResponse
 	 */
 	private function stateTokenForbiddenResponse() {
-		$response = new TemplateResponse(
+		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'403',
 			[
-				'file' => $this->l10n->t('State token does not match'),
+				'message' => $this->l10n->t('State token does not match'),
 			],
 			'guest'
 		);
@@ -153,7 +164,7 @@ class ClientFlowLoginController extends Controller {
 	 *
 	 * @param string $clientIdentifier
 	 *
-	 * @return TemplateResponse
+	 * @return StandaloneTemplateResponse
 	 */
 	public function showAuthPickerPage($clientIdentifier = '') {
 		$clientName = $this->getClientName();
@@ -166,7 +177,7 @@ class ClientFlowLoginController extends Controller {
 		// No valid clientIdentifier given and no valid API Request (APIRequest header not set)
 		$clientRequest = $this->request->getHeader('OCS-APIREQUEST');
 		if ($clientRequest !== 'true' && $client === null) {
-			return new TemplateResponse(
+			return new StandaloneTemplateResponse(
 				$this->appName,
 				'error',
 				[
@@ -188,7 +199,14 @@ class ClientFlowLoginController extends Controller {
 		);
 		$this->session->set(self::stateName, $stateToken);
 
-		return new TemplateResponse(
+		$csp = new Http\ContentSecurityPolicy();
+		if ($client) {
+			$csp->addAllowedFormActionDomain($client->getRedirectUri());
+		} else {
+			$csp->addAllowedFormActionDomain('nc://*');
+		}
+
+		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow/authpicker',
 			[
@@ -202,16 +220,20 @@ class ClientFlowLoginController extends Controller {
 			],
 			'guest'
 		);
+
+		$response->setContentSecurityPolicy($csp);
+		return $response;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 * @UseSession
 	 *
 	 * @param string $stateToken
 	 * @param string $clientIdentifier
-	 * @return TemplateResponse
+	 * @return StandaloneTemplateResponse
 	 */
 	public function grantPage($stateToken = '',
 								 $clientIdentifier = '') {
@@ -226,7 +248,14 @@ class ClientFlowLoginController extends Controller {
 			$clientName = $client->getName();
 		}
 
-		return new TemplateResponse(
+		$csp = new Http\ContentSecurityPolicy();
+		if ($client) {
+			$csp->addAllowedFormActionDomain($client->getRedirectUri());
+		} else {
+			$csp->addAllowedFormActionDomain('nc://*');
+		}
+
+		$response = new StandaloneTemplateResponse(
 			$this->appName,
 			'loginflow/grant',
 			[
@@ -240,34 +269,9 @@ class ClientFlowLoginController extends Controller {
 			],
 			'guest'
 		);
-	}
 
-	/**
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 * @UseSession
-	 *
-	 * @param string $stateToken
-	 * @param string $clientIdentifier
-	 * @return TemplateResponse
-	 */
-	public function redirectPage($stateToken = '',
-								 $clientIdentifier = '') {
-		if(!$this->isValidToken($stateToken)) {
-			return $this->stateTokenForbiddenResponse();
-		}
-
-		return new TemplateResponse(
-			$this->appName,
-			'loginflow/redirect',
-			[
-				'urlGenerator' => $this->urlGenerator,
-				'stateToken' => $stateToken,
-				'clientIdentifier' => $clientIdentifier,
-				'oauthState' => $this->session->get('oauth.state'),
-			],
-			'guest'
-		);
+		$response->setContentSecurityPolicy($csp);
+		return $response;
 	}
 
 	/**
@@ -337,9 +341,16 @@ class ClientFlowLoginController extends Controller {
 			$accessToken->setTokenId($generatedToken->getId());
 			$this->accessTokenMapper->insert($accessToken);
 
-			$redirectUri = sprintf(
-				'%s?state=%s&code=%s',
-				$client->getRedirectUri(),
+			$redirectUri = $client->getRedirectUri();
+			
+			if (parse_url($redirectUri, PHP_URL_QUERY)) {
+				$redirectUri .= '&';
+			} else {
+				$redirectUri .= '?';
+			}
+
+			$redirectUri .= sprintf(
+				'state=%s&code=%s',
 				urlencode($this->session->get('oauth.state')),
 				urlencode($code)
 			);
@@ -351,6 +362,21 @@ class ClientFlowLoginController extends Controller {
 			$this->tokenProvider->invalidateToken($sessionId);
 		}
 
+		$event = new GenericEvent($generatedToken);
+		$this->eventDispatcher->dispatch('app_password_created', $event);
+
+		return new Http\RedirectResponse($redirectUri);
+	}
+
+	/**
+	 * @PublicPage
+	 */
+	public function apptokenRedirect(string $stateToken, string $user, string $password) {
+		if (!$this->isValidToken($stateToken)) {
+			return $this->stateTokenForbiddenResponse();
+		}
+
+		$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($user) . '&password:' . urlencode($password);
 		return new Http\RedirectResponse($redirectUri);
 	}
 

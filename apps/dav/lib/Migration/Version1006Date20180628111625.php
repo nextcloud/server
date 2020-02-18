@@ -1,9 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,7 +22,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -26,8 +30,8 @@ namespace OCA\DAV\Migration;
 
 use Doctrine\DBAL\Types\Type;
 use OCP\DB\ISchemaWrapper;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
 class Version1006Date20180628111625 extends SimpleMigrationStep {
 
@@ -51,7 +55,7 @@ class Version1006Date20180628111625 extends SimpleMigrationStep {
 			if ($calendarChangesTable->hasIndex('calendarid_synctoken')) {
 				$calendarChangesTable->dropIndex('calendarid_synctoken');
 			}
-			$calendarChangesTable->addIndex(['calendarid', 'calendartype', 'synctoken'], 'calendarid_calendartype_synctoken');
+			$calendarChangesTable->addIndex(['calendarid', 'calendartype', 'synctoken'], 'calid_type_synctoken');
 		}
 
 		if ($schema->hasTable('calendarobjects')) {

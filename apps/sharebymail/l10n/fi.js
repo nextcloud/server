@@ -22,7 +22,6 @@ OC.L10N.register(
     "Send password by mail" : "Lähetä salasana sähköpostitse",
     "Enforce password protection" : "Pakota salasanasuojaus",
     "Sharing %s failed, this item is already shared with %s" : "Kohteen %s jakaminen epäonnistui, koska se on jo jaettu käyttäjälle %s",
-    "Failed to send share by E-mail" : "Jaon lähettäminen sähköpostitse epäonnistui",
     "%s shared »%s« with you" : "%s jakoi kohteen »%s« kanssasi",
     "%s shared »%s« with you." : "%s jakoi kohteen »%s« kanssasi.",
     "%s via %s" : "%s (palvelun %s kautta)",

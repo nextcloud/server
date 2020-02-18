@@ -6,6 +6,7 @@
  * later.
  * See the COPYING-README file.
  */
+
 namespace Test\Repair;
 
 use OC\Files\Storage\Temporary;
@@ -32,7 +33,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	/** @var IMimeTypeLoader */
 	private $mimetypeLoader;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->savedMimetypeLoader = \OC::$server->getMimeTypeLoader();
@@ -52,7 +53,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$this->repair = new \OC\Repair\RepairMimeTypes($config);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->storage->getCache()->clear();
 
 		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
@@ -283,4 +284,3 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
 	}
 }
-

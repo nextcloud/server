@@ -87,6 +87,7 @@ OC.L10N.register(
     "Back" : "Tagasi",
     "Continue" : "Jätka",
     "Please renew your password." : "Palun uuenda oma parool.",
+    "An internal error occurred." : "Tekkis sisemine tõrge.",
     "Please try again or contact your administrator." : "Proovi uuesti või võta ühendust administraatoriga.",
     "Current password" : "Praegune parool",
     "New password" : "Uus parool",
@@ -135,7 +136,6 @@ OC.L10N.register(
     "Quota Default" : "Vaikimisi mahupiirang",
     "Email Field" : "E-posti väli",
     "User Home Folder Naming Rule" : "Kasutaja kodukataloogi nimetamise reegel",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Kasutajanime (vaikeväärtus) kasutamiseks jäta tühjaks. Vastasel juhul määra LDAP/AD omadus.",
     "Internal Username" : "Sisemine kasutajanimi",
     "Internal Username Attribute:" : "Sisemise kasutajatunnuse atribuut:",
     "Override UUID detection" : "Tühista UUID tuvastus",
@@ -145,9 +145,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "LDAP-Kasutajatunnus Kasutaja Vastendus",
     "Clear Username-LDAP User Mapping" : "Puhasta LDAP-Kasutajatunnus Kasutaja Vastendus",
     "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus",
-    " entries available within the provided Base DN" : "kirjet saadaval ette enatud BaasDN-is.",
-    "1. Server" : "1. Server",
-    "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Hoiatus:</b> rakendused user_ldap ja user_webdavauht ei ole ühilduvad. Töös võib esineda ootamatuid tõrkeid.\nPalu oma süsteemihalduril üks neist rakendustest kasutusest eemaldada."
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Kasutajanime (vaikeväärtus) kasutamiseks jäta tühjaks. Vastasel juhul määra LDAP/AD omadus."
 },
 "nplurals=2; plural=(n != 1);");

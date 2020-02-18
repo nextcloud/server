@@ -36,11 +36,11 @@ class DefinitionsTest extends TestCase {
 		return $testsuite;
 	}
 
-	/**
-	 * @expectedException \OCP\RichObjectStrings\InvalidObjectExeption
-	 * @expectedExceptionMessage Object type is undefined
-	 */
+	
 	public function testGetDefinitionNotExisting() {
+		$this->expectException(\OCP\RichObjectStrings\InvalidObjectExeption::class);
+		$this->expectExceptionMessage('Object type is undefined');
+
 		$definitions = new Definitions();
 		$definitions->getDefinition('NotExistingType');
 	}

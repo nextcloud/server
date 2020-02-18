@@ -3,12 +3,15 @@
  * @copyright Copyright (c) 2016 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Marius Blüm <marius@lineone.io>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author sualko <klaus@jsxc.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,20 +26,24 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OC\Settings;
 
+use Closure;
+use OC\Settings\Personal\PersonalInfo;
 use OCP\AppFramework\QueryException;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
-use OCP\Settings\ISettings;
+use OCP\L10N\IFactory;
 use OCP\Settings\IManager;
 use OCP\Settings\ISection;
+use OCP\Settings\ISettings;
+use OCP\Settings\ISubAdminSettings;
 
 class Manager implements IManager {
 
@@ -46,6 +53,9 @@ class Manager implements IManager {
 	/** @var IL10N */
 	private $l;
 
+	/** @var IFactory */
+	private $l10nFactory;
+
 	/** @var IURLGenerator */
 	private $url;
 
@@ -54,12 +64,12 @@ class Manager implements IManager {
 
 	public function __construct(
 		ILogger $log,
-		IL10N $l10n,
+		IFactory $l10nFactory,
 		IURLGenerator $url,
 		IServerContainer $container
 	) {
 		$this->log = $log;
-		$this->l = $l10n;
+		$this->l10nFactory = $l10nFactory;
 		$this->url = $url;
 		$this->container = $container;
 	}
@@ -146,10 +156,11 @@ class Manager implements IManager {
 	/**
 	 * @param string $type 'admin' or 'personal'
 	 * @param string $section
+	 * @param Closure $filter optional filter to apply on all loaded ISettings
 	 *
 	 * @return ISettings[]
 	 */
-	protected function getSettings(string $type, string $section): array {
+	protected function getSettings(string $type, string $section, Closure $filter = null): array {
 		if (!isset($this->settings[$type])) {
 			$this->settings[$type] = [];
 		}
@@ -158,16 +169,27 @@ class Manager implements IManager {
 		}
 
 		foreach ($this->settingClasses as $class => $settingsType) {
+			if ($type !== $settingsType) {
+				continue;
+			}
+
 			try {
 				/** @var ISettings $setting */
-				$setting = \OC::$server->query($class);
+				$setting = $this->container->query($class);
 			} catch (QueryException $e) {
 				$this->log->logException($e, ['level' => ILogger::INFO]);
 				continue;
 			}
 
 			if (!$setting instanceof ISettings) {
-				$this->log->logException(new \InvalidArgumentException('Invalid settings setting registered'), ['level' => ILogger::INFO]);
+				$this->log->logException(new \InvalidArgumentException('Invalid settings setting registered (' . $class . ')'), ['level' => ILogger::INFO]);
+				continue;
+			}
+
+			if ($filter !== null && !$filter($setting)) {
+				continue;
+			}
+			if ($setting->getSection() === null) {
 				continue;
 			}
 
@@ -187,14 +209,7 @@ class Manager implements IManager {
 	 */
 	public function getAdminSections(): array {
 		// built-in sections
-		$sections = [
-			0 => [new Section('overview', $this->l->t('Overview'), 0, $this->url->imagePath('settings', 'admin.svg'))],
-			1 => [new Section('server', $this->l->t('Basic settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
-			5 => [new Section('sharing', $this->l->t('Sharing'), 0, $this->url->imagePath('core', 'actions/share.svg'))],
-			10 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('core', 'actions/password.svg'))],
-			50 => [new Section('groupware', $this->l->t('Groupware'), 0, $this->url->imagePath('core', 'places/contacts.svg'))],
-			98 => [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))],
-		];
+		$sections = [];
 
 		$appSections = $this->getSections('admin');
 
@@ -213,75 +228,19 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @param string $section
-	 *
-	 * @return ISection[]
-	 */
-	private function getBuiltInAdminSettings($section): array {
-		$forms = [];
-
-		if ($section === 'overview') {
-			/** @var ISettings $form */
-			$form = $this->container->query(Admin\Overview::class);
-			$forms[$form->getPriority()] = [$form];
-		}
-		if ($section === 'server') {
-			/** @var ISettings $form */
-			$form = $this->container->query(Admin\Server::class);
-			$forms[$form->getPriority()] = [$form];
-			$form = $this->container->query(Admin\Mail::class);
-			$forms[$form->getPriority()] = [$form];
-		}
-		if ($section === 'security') {
-			/** @var ISettings $form */
-			$form = $this->container->query(Admin\Security::class);
-			$forms[$form->getPriority()] = [$form];
-		}
-		if ($section === 'sharing') {
-			/** @var ISettings $form */
-			$form = $this->container->query(Admin\Sharing::class);
-			$forms[$form->getPriority()] = [$form];
-		}
-
-		return $forms;
-	}
-
-	/**
-	 * @param string $section
-	 *
-	 * @return ISection[]
-	 */
-	private function getBuiltInPersonalSettings($section): array {
-		$forms = [];
-
-		if ($section === 'personal-info') {
-			/** @var ISettings $form */
-			$form = $this->container->query(Personal\PersonalInfo::class);
-			$forms[$form->getPriority()] = [$form];
-			$form = new Personal\ServerDevNotice();
-			$forms[$form->getPriority()] = [$form];
-		}
-		if ($section === 'security') {
-			/** @var ISettings $form */
-			$form = $this->container->query(Personal\Security::class);
-			$forms[$form->getPriority()] = [$form];
-		}
-		if ($section === 'additional') {
-			/** @var ISettings $form */
-			$form = $this->container->query(Personal\Additional::class);
-			$forms[$form->getPriority()] = [$form];
-		}
-
-		return $forms;
-	}
-
-	/**
 	 * @inheritdoc
 	 */
-	public function getAdminSettings($section): array {
-		$settings = $this->getBuiltInAdminSettings($section);
-		$appSettings = $this->getSettings('admin', $section);
+	public function getAdminSettings($section, bool $subAdminOnly = false): array {
+		if ($subAdminOnly) {
+			$subAdminSettingsFilter = function(ISettings $settings) {
+				return $settings instanceof ISubAdminSettings;
+			};
+			$appSettings = $this->getSettings('admin', $section, $subAdminSettingsFilter);
+		} else {
+			$appSettings = $this->getSettings('admin', $section);
+		}
 
+		$settings = [];
 		foreach ($appSettings as $setting) {
 			if (!isset($settings[$setting->getPriority()])) {
 				$settings[$setting->getPriority()] = [];
@@ -297,11 +256,11 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function getPersonalSections(): array {
-		$sections = [
-			0 => [new Section('personal-info', $this->l->t('Personal info'), 0, $this->url->imagePath('core', 'actions/info.svg'))],
-			5 => [new Section('security', $this->l->t('Security'), 0, $this->url->imagePath('settings', 'password.svg'))],
-			15 => [new Section('sync-clients', $this->l->t('Mobile & desktop'), 0, $this->url->imagePath('core', 'clients/phone.svg'))],
-		];
+		if ($this->l === null) {
+			$this->l = $this->l10nFactory->get('lib');
+		}
+
+		$sections = [];
 
 		$legacyForms = \OC_App::getForms('personal');
 		if (!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms)) {
@@ -342,7 +301,7 @@ class Manager implements IManager {
 	 * @inheritdoc
 	 */
 	public function getPersonalSettings($section): array {
-		$settings = $this->getBuiltInPersonalSettings($section);
+		$settings = [];
 		$appSettings = $this->getSettings('personal', $section);
 
 		foreach ($appSettings as $setting) {

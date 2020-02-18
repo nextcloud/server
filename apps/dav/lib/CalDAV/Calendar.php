@@ -21,12 +21,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\DAV\Sharing\IShareable;
+use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCP\IConfig;
 use OCP\IL10N;
 use Sabre\CalDAV\Backend\BackendInterface;
@@ -45,6 +48,14 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	/** @var IConfig */
 	private $config;
 
+	/**
+	 * Calendar constructor.
+	 *
+	 * @param BackendInterface $caldavBackend
+	 * @param $calendarInfo
+	 * @param IL10N $l10n
+	 * @param IConfig $config
+	 */
 	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n, IConfig $config) {
 		parent::__construct($caldavBackend, $calendarInfo);
 
@@ -118,17 +129,37 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		return $this->calendarInfo['principaluri'];
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getACL() {
 		$acl =  [
 			[
 				'privilege' => '{DAV:}read',
 				'principal' => $this->getOwner(),
 				'protected' => true,
-			]];
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $this->getOwner() . '/calendar-proxy-write',
+				'protected' => true,
+			],
+			[
+				'privilege' => '{DAV:}read',
+				'principal' => $this->getOwner() . '/calendar-proxy-read',
+				'protected' => true,
+			],
+		];
+
 		if ($this->getName() !== BirthdayService::BIRTHDAY_CALENDAR_URI) {
 			$acl[] = [
 				'privilege' => '{DAV:}write',
 				'principal' => $this->getOwner(),
+				'protected' => true,
+			];
+			$acl[] = [
+				'privilege' => '{DAV:}write',
+				'principal' => $this->getOwner() . '/calendar-proxy-write',
 				'protected' => true,
 			];
 		} else {
@@ -137,6 +168,21 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 				'principal' => $this->getOwner(),
 				'protected' => true,
 			];
+			$acl[] = [
+				'privilege' => '{DAV:}write-properties',
+				'principal' => $this->getOwner() . '/calendar-proxy-write',
+				'protected' => true,
+			];
+		}
+
+		$acl[] = [
+			'privilege' => '{DAV:}write-properties',
+			'principal' => $this->getOwner() . '/calendar-proxy-read',
+			'protected' => true,
+		];
+
+		if (!$this->isShared()) {
+			return $acl;
 		}
 
 		if ($this->getOwner() !== parent::getOwner()) {
@@ -168,14 +214,15 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		}
 
 		$acl = $this->caldavBackend->applyShareAcl($this->getResourceId(), $acl);
-
-		if (!$this->isShared()) {
-			return $acl;
-		}
-
-		$allowedPrincipals = [$this->getOwner(), parent::getOwner(), 'principals/system/public'];
+		$allowedPrincipals = [
+			$this->getOwner(),
+			$this->getOwner(). '/calendar-proxy-read',
+			$this->getOwner(). '/calendar-proxy-write',
+			parent::getOwner(),
+			'principals/system/public'
+		];
 		return array_filter($acl, function($rule) use ($allowedPrincipals) {
-			return in_array($rule['principal'], $allowedPrincipals);
+			return \in_array($rule['principal'], $allowedPrincipals, true);
 		});
 	}
 
@@ -317,7 +364,11 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		return $this->caldavBackend->getPublishStatus($this);
 	}
 
-	private function canWrite() {
+	public function canWrite() {
+		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
+			return false;
+		}
+
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}read-only'])) {
 			return !$this->calendarInfo['{http://owncloud.org/ns}read-only'];
 		}
@@ -340,4 +391,14 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		return isset($this->calendarInfo['{http://calendarserver.org/ns/}source']);
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function getChanges($syncToken, $syncLevel, $limit = null) {
+		if (!$syncToken && $limit) {
+			throw new UnsupportedLimitOnInitialSyncException();
+		}
+
+		return parent::getChanges($syncToken, $syncLevel, $limit);
+	}
 }

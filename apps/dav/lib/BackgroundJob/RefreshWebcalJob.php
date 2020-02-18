@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,9 +21,10 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\BackgroundJob;
 
 use GuzzleHttp\HandlerStack;
@@ -63,6 +67,11 @@ class RefreshWebcalJob extends Job {
 	/** @var array */
 	private $subscription;
 
+	private const REFRESH_RATE = '{http://apple.com/ns/ical/}refreshrate';
+	private const STRIP_ALARMS = '{http://calendarserver.org/ns/}subscribed-strip-alarms';
+	private const STRIP_ATTACHMENTS = '{http://calendarserver.org/ns/}subscribed-strip-attachments';
+	private const STRIP_TODOS = '{http://calendarserver.org/ns/}subscribed-strip-todos';
+
 	/**
 	 * RefreshWebcalJob constructor.
 	 *
@@ -91,9 +100,11 @@ class RefreshWebcalJob extends Job {
 			return;
 		}
 
+		$this->fixSubscriptionRowTyping($subscription);
+
 		// if no refresh rate was configured, just refresh once a week
 		$subscriptionId = $subscription['id'];
-		$refreshrate = $subscription['refreshrate'] ?? 'P1W';
+		$refreshrate = $subscription[self::REFRESH_RATE] ?? 'P1W';
 
 		try {
 			/** @var \DateInterval $dateInterval */
@@ -127,9 +138,9 @@ class RefreshWebcalJob extends Job {
 			return;
 		}
 
-		$stripTodos = $subscription['striptodos'] ?? 1;
-		$stripAlarms = $subscription['stripalarms'] ?? 1;
-		$stripAttachments = $subscription['stripattachments'] ?? 1;
+		$stripTodos = ($subscription[self::STRIP_TODOS] ?? 1) === 1;
+		$stripAlarms = ($subscription[self::STRIP_ALARMS] ?? 1) === 1;
+		$stripAttachments = ($subscription[self::STRIP_ATTACHMENTS] ?? 1) === 1;
 
 		try {
 			$splitter = new ICalendar($webcalData, Reader::OPTION_FORGIVING);
@@ -175,7 +186,7 @@ class RefreshWebcalJob extends Job {
 
 			$newRefreshRate = $this->checkWebcalDataForRefreshRate($subscription, $webcalData);
 			if ($newRefreshRate) {
-				$mutations['{http://apple.com/ns/ical/}refreshrate'] = $newRefreshRate;
+				$mutations[self::REFRESH_RATE] = $newRefreshRate;
 			}
 
 			$this->updateSubscription($subscription, $mutations);
@@ -225,16 +236,38 @@ class RefreshWebcalJob extends Job {
 		}
 
 		if ($allowLocalAccess !== 'yes') {
-			$host = parse_url($url, PHP_URL_HOST);
+			$host = strtolower(parse_url($url, PHP_URL_HOST));
 			// remove brackets from IPv6 addresses
 			if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
 				$host = substr($host, 1, -1);
 			}
 
-			if ($host === 'localhost' || substr($host, -6) === '.local' || substr($host, -10) === '.localhost' ||
-				preg_match('/(^127\.)|(^192\.168\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^::1$)|(^[fF][cCdD])/', $host)) {
+			// Disallow localhost and local network
+			if ($host === 'localhost' || substr($host, -6) === '.local' || substr($host, -10) === '.localhost') {
 				$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
 				return null;
+			}
+
+			// Disallow hostname only
+			if (substr_count($host, '.') === 0) {
+				$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
+				return null;
+			}
+
+			if ((bool)filter_var($host, FILTER_VALIDATE_IP) && !filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+				$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
+				return null;
+			}
+
+			// Also check for IPv6 IPv4 nesting, because that's not covered by filter_var
+			if ((bool)filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && substr_count($host, '.') > 0) {
+				$delimiter = strrpos($host, ':'); // Get last colon
+				$ipv4Address = substr($host, $delimiter + 1);
+
+				if (!filter_var($ipv4Address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+					$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
+					return null;
+				}
 			}
 		}
 
@@ -352,33 +385,33 @@ class RefreshWebcalJob extends Job {
 	private function checkWebcalDataForRefreshRate($subscription, $webcalData) {
 		// if there is no refreshrate stored in the database, check the webcal feed
 		// whether it suggests any refresh rate and store that in the database
-		if (isset($subscription['refreshrate']) && $subscription['refreshrate'] !== null) {
+		if (isset($subscription[self::REFRESH_RATE]) && $subscription[self::REFRESH_RATE] !== null) {
 			return null;
 		}
 
 		/** @var Component\VCalendar $vCalendar */
 		$vCalendar = Reader::read($webcalData);
 
-		$newRefreshrate = null;
+		$newRefreshRate = null;
 		if (isset($vCalendar->{'X-PUBLISHED-TTL'})) {
-			$newRefreshrate = $vCalendar->{'X-PUBLISHED-TTL'}->getValue();
+			$newRefreshRate = $vCalendar->{'X-PUBLISHED-TTL'}->getValue();
 		}
 		if (isset($vCalendar->{'REFRESH-INTERVAL'})) {
-			$newRefreshrate = $vCalendar->{'REFRESH-INTERVAL'}->getValue();
+			$newRefreshRate = $vCalendar->{'REFRESH-INTERVAL'}->getValue();
 		}
 
-		if (!$newRefreshrate) {
+		if (!$newRefreshRate) {
 			return null;
 		}
 
 		// check if new refresh rate is even valid
 		try {
-			DateTimeParser::parseDuration($newRefreshrate);
+			DateTimeParser::parseDuration($newRefreshRate);
 		} catch(InvalidDataException $ex) {
 			return null;
 		}
 
-		return $newRefreshrate;
+		return $newRefreshRate;
 	}
 
 	/**
@@ -434,5 +467,26 @@ class RefreshWebcalJob extends Job {
 		}
 
 		return $cleanURL;
+	}
+
+	/**
+	 * Fixes types of rows
+	 *
+	 * @param array $row
+	 */
+	private function fixSubscriptionRowTyping(array &$row):void {
+		$forceInt = [
+			'id',
+			'lastmodified',
+			self::STRIP_ALARMS,
+			self::STRIP_ATTACHMENTS,
+			self::STRIP_TODOS,
+		];
+
+		foreach($forceInt as $column) {
+			if (isset($row[$column])) {
+				$row[$column] = (int) $row[$column];
+			}
+		}
 	}
 }

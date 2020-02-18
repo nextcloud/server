@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\Preview;
 
 use OC\Preview\Generator;
@@ -33,6 +34,7 @@ use OCP\IConfig;
 use OCP\IImage;
 use OCP\IPreview;
 use OCP\Preview\IProvider;
+use OCP\Preview\IProviderV2;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -56,7 +58,7 @@ class GeneratorTest extends \Test\TestCase {
 	/** @var Generator */
 	private $generator;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
@@ -149,13 +151,13 @@ class GeneratorTest extends \Test\TestCase {
 				return $defult;
 			}));
 
-		$invalidProvider = $this->createMock(IProvider::class);
+		$invalidProvider = $this->createMock(IProviderV2::class);
 		$invalidProvider->method('isAvailable')
 			->willReturn(true);
-		$unavailableProvider = $this->createMock(IProvider::class);
+		$unavailableProvider = $this->createMock(IProviderV2::class);
 		$unavailableProvider->method('isAvailable')
 			->willReturn(false);
-		$validProvider = $this->createMock(IProvider::class);
+		$validProvider = $this->createMock(IProviderV2::class);
 		$validProvider->method('isAvailable')
 			->with($file)
 			->willReturn(true);

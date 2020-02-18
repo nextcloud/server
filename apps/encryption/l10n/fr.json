@@ -21,7 +21,7 @@
     "Private key password successfully updated." : "Mot de passe de la clef privée mis à jour avec succès.",
     "Invalid private key for encryption app. Please update your private key password in your personal settings to recover access to your encrypted files." : "Clé privée invalide pour l'application de chiffrement. Veuillez mettre à jour le mot de passe de la clef privée dans vos paramètres personnels pour récupérer l'accès à vos fichiers chiffrés.",
     "Encryption App is enabled, but your keys are not initialized. Please log-out and log-in again." : "L'application de chiffrement est activée mais vos clefs ne sont pas initialisées. Veuillez vous déconnecter et ensuite vous reconnecter.",
-    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Veuillez activer le chiffrement côté serveur dans les paramètres d'administration pour utiliser le module de cryptage.",
+    "Please enable server side encryption in the admin settings in order to use the encryption module." : "Veuillez activer le chiffrement côté serveur dans les paramètres d'administration pour utiliser le module de chiffrement.",
     "Encryption app is enabled and ready" : "L'application de chiffrement est activée et prête",
     "Bad Signature" : "Mauvaise signature",
     "Missing Signature" : "Signature manquante",
@@ -58,7 +58,6 @@
     "Enable password recovery:" : "Activer la récupération du mot de passe :",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Activer cette option vous permettra d'obtenir à nouveau l'accès à vos fichiers chiffrés en cas de perte de mot de passe",
     "Enabled" : "Activé",
-    "Disabled" : "Désactivé",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Vous devez migrer vos clés de chiffrement de l'ancienne version (ownCloud <= 8.0) vers la nouvelle. Veuillez exécuter 'occ encryption:migrate' ou contacter votre administrateur"
+    "Disabled" : "Désactivé"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

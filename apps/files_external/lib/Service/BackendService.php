@@ -2,8 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,18 +20,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\Files_External\Service;
 
-use \OCP\IConfig;
+use OCA\Files_External\Config\IConfigHandler;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
 
-use \OCA\Files_External\Lib\Backend\Backend;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
-use \OCA\Files_External\Lib\Config\IBackendProvider;
-use \OCA\Files_External\Lib\Config\IAuthMechanismProvider;
+use OCA\Files_External\Lib\Backend\Backend;
+use OCA\Files_External\Lib\Config\IAuthMechanismProvider;
+use OCA\Files_External\Lib\Config\IBackendProvider;
+use OCP\EventDispatcher\GenericEvent;
+use OCP\IConfig;
 
 /**
  * Service class to manage backend definitions
@@ -67,6 +72,11 @@ class BackendService {
 	/** @var IAuthMechanismProvider[] */
 	private $authMechanismProviders = [];
 
+	/** @var callable[] */
+	private $configHandlerLoaders = [];
+
+	private $configHandlers = [];
+
 	/**
 	 * @param IConfig $config
 	 */
@@ -99,7 +109,19 @@ class BackendService {
 		$this->backendProviders[] = $provider;
 	}
 
+	private function callForRegistrations() {
+		static $eventSent = false;
+		if(!$eventSent) {
+			\OC::$server->getEventDispatcher()->dispatch(
+				'OCA\\Files_External::loadAdditionalBackends',
+				new GenericEvent()
+			);
+			$eventSent = true;
+		}
+	}
+
 	private function loadBackendProviders() {
+		$this->callForRegistrations();
 		foreach ($this->backendProviders as $provider) {
 			$this->registerBackends($provider->getBackends());
 		}
@@ -117,6 +139,7 @@ class BackendService {
 	}
 
 	private function loadAuthMechanismProviders() {
+		$this->callForRegistrations();
 		foreach ($this->authMechanismProviders as $provider) {
 			$this->registerAuthMechanisms($provider->getAuthMechanisms());
 		}
@@ -279,5 +302,68 @@ class BackendService {
 	 */
 	protected function isAllowedAuthMechanism(AuthMechanism $authMechanism) {
 		return true; // not implemented
+	}
+
+	/**
+	 * registers a configuration handler
+	 *
+	 * The function of the provided $placeholder is mostly to act a sorting
+	 * criteria, so longer placeholders are replaced first. This avoids
+	 * "$user" overwriting parts of "$userMail" and "$userLang", for example.
+	 * The provided value should not contain the $ prefix, only a-z0-9 are
+	 * allowed. Upper case letters are lower cased, the replacement is case-
+	 * insensitive.
+	 *
+	 * The configHandlerLoader should just instantiate the handler on demand.
+	 * For now all handlers are instantiated when a mount is loaded, independent
+	 * of whether the placeholder is present or not. This may change in future.
+	 *
+	 * @since 16.0.0
+	 */
+	public function registerConfigHandler(string $placeholder, callable $configHandlerLoader) {
+		$placeholder = trim(strtolower($placeholder));
+		if(!(bool)\preg_match('/^[a-z0-9]*$/', $placeholder)) {
+			throw new \RuntimeException(sprintf(
+				'Invalid placeholder %s, only [a-z0-9] are allowed', $placeholder
+			));
+		}
+		if($placeholder === '') {
+			throw new \RuntimeException('Invalid empty placeholder');
+		}
+		if(isset($this->configHandlerLoaders[$placeholder]) || isset($this->configHandlers[$placeholder])) {
+			throw new \RuntimeException(sprintf('A handler is already registered for %s', $placeholder));
+		}
+		$this->configHandlerLoaders[$placeholder] = $configHandlerLoader;
+	}
+
+	protected function loadConfigHandlers():void {
+		$this->callForRegistrations();
+		$newLoaded = false;
+		foreach ($this->configHandlerLoaders as $placeholder => $loader) {
+			$handler = $loader();
+			if(!$handler instanceof IConfigHandler) {
+				throw new \RuntimeException(sprintf(
+					'Handler for %s is not an instance of IConfigHandler', $placeholder
+				));
+			}
+			$this->configHandlers[$placeholder] = $handler;
+			$newLoaded = true;
+		}
+		$this->configHandlerLoaders = [];
+		if($newLoaded) {
+			// ensure those with longest placeholders come first,
+			// to avoid substring matches
+			uksort($this->configHandlers, function ($phA, $phB) {
+				return strlen($phB) <=> strlen($phA);
+			});
+		}
+	}
+
+	/**
+	 * @since 16.0.0
+	 */
+	public function getConfigHandlers() {
+		$this->loadConfigHandlers();
+		return $this->configHandlers;
 	}
 }

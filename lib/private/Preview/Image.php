@@ -7,6 +7,7 @@
  * @author josh4trunks <joshruehlig@gmail.com>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
@@ -22,49 +23,43 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Preview;
 
-abstract class Image extends Provider {
+use OCP\Files\File;
+use OCP\IImage;
+
+abstract class Image extends ProviderV2 {
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		//get fileinfo
-		$fileInfo = $fileview->getFileInfo($path);
-		if (!$fileInfo) {
-			return false;
-		}
-
+	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		$maxSizeForImages = \OC::$server->getConfig()->getSystemValue('preview_max_filesize_image', 50);
-		$size = $fileInfo->getSize();
+		$size = $file->getSize();
 
 		if ($maxSizeForImages !== -1 && $size > ($maxSizeForImages * 1024 * 1024)) {
-			return false;
+			return null;
 		}
 
 		$image = new \OC_Image();
 
-		$useTempFile = $fileInfo->isEncrypted() || !$fileInfo->getStorage()->isLocal();
-		if ($useTempFile) {
-			$fileName = $fileview->toTmpFile($path);
-		} else {
-			$fileName = $fileview->getLocalFile($path);
-		}
+		$fileName = $this->getLocalFile($file);
+
 		$image->loadFromFile($fileName);
 		$image->fixOrientation();
-		if ($useTempFile) {
-			unlink($fileName);
-		}
+
+		$this->cleanTmpFiles();
+
 		if ($image->valid()) {
 			$image->scaleDownToFit($maxX, $maxY);
 
 			return $image;
 		}
-		return false;
+		return null;
 	}
 
 }

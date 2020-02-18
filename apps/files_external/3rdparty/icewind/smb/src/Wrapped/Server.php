@@ -13,22 +13,22 @@ use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\ConnectionException;
 use Icewind\SMB\Exception\InvalidHostException;
 use Icewind\SMB\IShare;
-use Icewind\SMB\System;
+use Icewind\SMB\ISystem;
 
 class Server extends AbstractServer {
 	/**
 	 * Check if the smbclient php extension is available
 	 *
-	 * @param System $system
+	 * @param ISystem $system
 	 * @return bool
 	 */
-	public static function available(System $system) {
+	public static function available(ISystem $system) {
 		return $system->getSmbclientPath();
 	}
 
 	private function getAuthFileArgument() {
 		if ($this->getAuth()->getUsername()) {
-			return '--authentication-file=' . System::getFD(3);
+			return '--authentication-file=' . $this->system->getFD(3);
 		} else {
 			return '';
 		}
@@ -42,7 +42,8 @@ class Server extends AbstractServer {
 	 * @throws ConnectException
 	 */
 	public function listShares() {
-		$command = sprintf('%s %s %s -L %s',
+		$command = sprintf(
+			'%s %s %s -L %s',
 			$this->system->getSmbclientPath(),
 			$this->getAuthFileArgument(),
 			$this->getAuth()->getExtraCommandLineArguments(),
@@ -73,7 +74,7 @@ class Server extends AbstractServer {
 
 		$shareNames = $parser->parseListShares($output);
 
-		$shares = array();
+		$shares = [];
 		foreach ($shareNames as $name => $description) {
 			$shares[] = $this->getShare($name);
 		}

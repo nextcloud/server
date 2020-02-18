@@ -55,7 +55,7 @@ class LookupPluginTest extends TestCase {
 	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userSession = $this->createMock(IUserSession::class);
@@ -90,7 +90,7 @@ class LookupPluginTest extends TestCase {
 	public function testSearchNoLookupServerURI() {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('files_sharing', 'lookupServerEnabled', 'no')
+			->with('files_sharing', 'lookupServerEnabled', 'yes')
 			->willReturn('yes');
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
@@ -118,7 +118,7 @@ class LookupPluginTest extends TestCase {
 	public function testSearchNoInternet() {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('files_sharing', 'lookupServerEnabled', 'no')
+			->with('files_sharing', 'lookupServerEnabled', 'yes')
 			->willReturn('yes');
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
@@ -154,7 +154,7 @@ class LookupPluginTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('files_sharing', 'lookupServerEnabled', 'no')
+			->with('files_sharing', 'lookupServerEnabled', 'yes')
 			->willReturn('yes');
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
@@ -213,7 +213,7 @@ class LookupPluginTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('files_sharing', 'lookupServerEnabled', 'no')
+			->with('files_sharing', 'lookupServerEnabled', 'yes')
 			->willReturn($LookupEnabled ? 'yes' : 'no');
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
@@ -267,7 +267,7 @@ class LookupPluginTest extends TestCase {
 	public function testSearchLookupServerDisabled() {
 		$this->config->expects($this->once())
 			->method('getAppValue')
-			->with('files_sharing', 'lookupServerEnabled', 'no')
+			->with('files_sharing', 'lookupServerEnabled', 'yes')
 			->willReturn('no');
 
 		/** @var ISearchResult|\PHPUnit_Framework_MockObject_MockObject $searchResult */

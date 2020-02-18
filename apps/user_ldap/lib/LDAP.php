@@ -8,6 +8,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Peter Kubica <peter@kubica.ch>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roger Szabo <roger.szabo@web.de>
  *
@@ -23,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -189,9 +190,24 @@ class LDAP implements ILDAPWrapper {
 	 * @param int $attrsOnly
 	 * @param int $limit
 	 * @return mixed
+	 * @throws \Exception
 	 */
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0) {
-		return $this->invokeLDAPMethod('search', $link, $baseDN, $filter, $attr, $attrsOnly, $limit);
+		$oldHandler = set_error_handler(function($no, $message, $file, $line) use (&$oldHandler) {
+			if(strpos($message, 'Partial search results returned: Sizelimit exceeded') !== false) {
+				return true;
+			}
+			$oldHandler($no, $message, $file, $line);
+			return true;
+		});
+		try {
+			$result = $this->invokeLDAPMethod('search', $link, $baseDN, $filter, $attr, $attrsOnly, $limit);
+			restore_error_handler();
+			return $result;
+		} catch (\Exception $e) {
+			restore_error_handler();
+			throw $e;
+		}
 	}
 
 	/**
@@ -202,6 +218,17 @@ class LDAP implements ILDAPWrapper {
 	 */
 	public function modReplace($link, $userDN, $password) {
 		return $this->invokeLDAPMethod('mod_replace', $link, $userDN, array('userPassword' => $password));
+	}
+
+	/**
+	 * @param LDAP $link
+	 * @param string $userDN
+	 * @param string $oldPassword
+	 * @param string $password
+	 * @return bool
+	 */
+	public function exopPasswd($link, $userDN, $oldPassword, $password) {
+		return $this->invokeLDAPMethod('exop_passwd', $link, $userDN, $oldPassword, $password);
 	}
 
 	/**
@@ -342,6 +369,7 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * Called after an ldap method is run to act on LDAP error if necessary
+	 * @throw \Exception
 	 */
 	private function postFunctionCall() {
 		if($this->isResource($this->curArgs[0])) {

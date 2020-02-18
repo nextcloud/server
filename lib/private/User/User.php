@@ -6,10 +6,13 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Leon Klingele <leon@struktur.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -25,7 +28,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -36,36 +39,40 @@ use OC\Files\Cache\Storage;
 use OC\Hooks\Emitter;
 use OC_Helper;
 use OCP\IAvatarManager;
+use OCP\IConfig;
 use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\IConfig;
+use OCP\IUserBackend;
 use OCP\UserInterface;
-use \OCP\IUserBackend;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class User implements IUser {
-	/** @var string $uid */
+	/** @var string */
 	private $uid;
 
-	/** @var string $displayName */
+	/** @var string */
 	private $displayName;
 
-	/** @var UserInterface $backend */
+	/** @var UserInterface|null */
 	private $backend;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
 
-	/** @var bool $enabled */
+	/** @var bool */
 	private $enabled;
 
-	/** @var Emitter|Manager $emitter */
+	/** @var Emitter|Manager */
 	private $emitter;
 
-	/** @var string $home */
+	/** @var string */
 	private $home;
 
-	/** @var int $lastLogin */
+	/** @var int */
 	private $lastLogin;
 
-	/** @var \OCP\IConfig $config */
+	/** @var \OCP\IConfig */
 	private $config;
 
 	/** @var IAvatarManager */
@@ -74,16 +81,10 @@ class User implements IUser {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	/**
-	 * @param string $uid
-	 * @param UserInterface $backend
-	 * @param \OC\Hooks\Emitter $emitter
-	 * @param IConfig|null $config
-	 * @param IURLGenerator $urlGenerator
-	 */
-	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $urlGenerator = null) {
+	public function __construct(string $uid, ?UserInterface $backend, EventDispatcherInterface $dispatcher, $emitter = null, IConfig $config = null, $urlGenerator = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
+		$this->dispatcher = $dispatcher;
 		$this->emitter = $emitter;
 		if(is_null($config)) {
 			$config = \OC::$server->getConfig();
@@ -115,7 +116,7 @@ class User implements IUser {
 	public function getDisplayName() {
 		if (!isset($this->displayName)) {
 			$displayName = '';
-			if ($this->backend and $this->backend->implementsActions(Backend::GET_DISPLAYNAME)) {
+			if ($this->backend && $this->backend->implementsActions(Backend::GET_DISPLAYNAME)) {
 				// get display name and strip whitespace from the beginning and end of it
 				$backendDisplayName = $this->backend->getDisplayName($this->uid);
 				if (is_string($backendDisplayName)) {
@@ -140,16 +141,16 @@ class User implements IUser {
 	 */
 	public function setDisplayName($displayName) {
 		$displayName = trim($displayName);
-		if ($this->backend->implementsActions(Backend::SET_DISPLAYNAME) && !empty($displayName)) {
+		$oldDisplayName = $this->getDisplayName();
+		if ($this->backend->implementsActions(Backend::SET_DISPLAYNAME) && !empty($displayName) && $displayName !== $oldDisplayName) {
 			$result = $this->backend->setDisplayName($this->uid, $displayName);
 			if ($result) {
 				$this->displayName = $displayName;
-				$this->triggerChange('displayName', $displayName);
+				$this->triggerChange('displayName', $displayName, $oldDisplayName);
 			}
 			return $result !== false;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**
@@ -161,12 +162,12 @@ class User implements IUser {
 	 */
 	public function setEMailAddress($mailAddress) {
 		$oldMailAddress = $this->getEMailAddress();
-		if($mailAddress === '') {
-			$this->config->deleteUserValue($this->uid, 'settings', 'email');
-		} else {
-			$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
-		}
 		if($oldMailAddress !== $mailAddress) {
+			if($mailAddress === '') {
+				$this->config->deleteUserValue($this->uid, 'settings', 'email');
+			} else {
+				$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
+			}
 			$this->triggerChange('eMailAddress', $mailAddress, $oldMailAddress);
 		}
 	}
@@ -199,6 +200,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function delete() {
+		$this->dispatcher->dispatch(IUser::class . '::preDelete', new GenericEvent($this));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preDelete', array($this));
 		}
@@ -243,6 +245,7 @@ class User implements IUser {
 			$accountManager = \OC::$server->query(AccountManager::class);
 			$accountManager->deleteUser($this);
 
+			$this->dispatcher->dispatch(IUser::class . '::postDelete', new GenericEvent($this));
 			if ($this->emitter) {
 				$this->emitter->emit('\OC\User', 'postDelete', array($this));
 			}
@@ -258,11 +261,19 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function setPassword($password, $recoveryPassword = null) {
+		$this->dispatcher->dispatch(IUser::class . '::preSetPassword', new GenericEvent($this, [
+			'password' => $password,
+			'recoveryPassword' => $recoveryPassword,
+		]));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preSetPassword', array($this, $password, $recoveryPassword));
 		}
 		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
 			$result = $this->backend->setPassword($this->uid, $password);
+			$this->dispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($this, [
+				'password' => $password,
+				'recoveryPassword' => $recoveryPassword,
+			]));
 			if ($this->emitter) {
 				$this->emitter->emit('\OC\User', 'postSetPassword', array($this, $password, $recoveryPassword));
 			}
@@ -357,7 +368,8 @@ class User implements IUser {
 		$oldStatus = $this->isEnabled();
 		$this->enabled = $enabled;
 		if ($oldStatus !== $this->enabled) {
-			$this->triggerChange('enabled', $enabled);
+			// TODO: First change the value, then trigger the event as done for all other properties.
+			$this->triggerChange('enabled', $enabled, $oldStatus);
 			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled ? 'true' : 'false');
 		}
 	}
@@ -399,9 +411,9 @@ class User implements IUser {
 			$quota = OC_Helper::computerFileSize($quota);
 			$quota = OC_Helper::humanFileSize($quota);
 		}
-		$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 		if($quota !== $oldQuota) {
-			$this->triggerChange('quota', $quota);
+			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
+			$this->triggerChange('quota', $quota, $oldQuota);
 		}
 	}
 
@@ -455,6 +467,11 @@ class User implements IUser {
 	}
 
 	public function triggerChange($feature, $value = null, $oldValue = null) {
+		$this->dispatcher->dispatch(IUser::class . '::changeUser', new GenericEvent($this, [
+			'feature' => $feature,
+			'value' => $value,
+			'oldValue' => $oldValue,
+		]));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'changeUser', array($this, $feature, $value, $oldValue));
 		}

@@ -18,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -113,11 +113,11 @@ class Provider implements IProvider {
 		return $this->parseLongVersion($event, $previousEvent);
 	}
 
-	protected function setIcon(IEvent $event, $icon) {
+	protected function setIcon(IEvent $event, string $icon, string $app = 'files') {
 		if ($this->activityManager->getRequirePNG()) {
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', $icon . '.png')));
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath($app, $icon . '.png')));
 		} else {
-			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('files', $icon . '.svg')));
+			$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath($app, $icon . '.svg')));
 		}
 	}
 
@@ -142,6 +142,7 @@ class Provider implements IProvider {
 			$this->setIcon($event, 'delete-color');
 		} else if ($event->getSubject() === 'restored_by') {
 			$subject = $this->l->t('Restored by {user}');
+			$this->setIcon($event, 'actions/history', 'core');
 		} else if ($event->getSubject() === 'renamed_by') {
 			$subject = $this->l->t('Renamed by {user}');
 			$this->setIcon($event, 'change');
@@ -214,8 +215,10 @@ class Provider implements IProvider {
 			$this->setIcon($event, 'delete-color');
 		} else if ($event->getSubject() === 'restored_self') {
 			$subject = $this->l->t('You restored {file}');
+			$this->setIcon($event, 'actions/history', 'core');
 		} else if ($event->getSubject() === 'restored_by') {
 			$subject = $this->l->t('{user} restored {file}');
+			$this->setIcon($event, 'actions/history', 'core');
 		} else if ($event->getSubject() === 'renamed_self') {
 			$subject = $this->l->t('You renamed {oldfile} to {newfile}');
 			$this->setIcon($event, 'change');

@@ -21,6 +21,7 @@
 
 namespace Test\Files\ObjectStore;
 
+use Icewind\Streams\Wrapper;
 use OC\Files\ObjectStore\S3;
 
 class MultiPartUploadS3 extends S3 {
@@ -28,6 +29,30 @@ class MultiPartUploadS3 extends S3 {
 		$this->getConnection()->upload($this->bucket, $urn, $stream, 'private', [
 			'mup_threshold' => 1
 		]);
+	}
+}
+
+class NonSeekableStream extends Wrapper {
+	public static function wrap($source) {
+		$context = stream_context_create(array(
+			'nonseek' => array(
+				'source' => $source
+			)
+		));
+		return Wrapper::wrapSource($source, $context, 'nonseek', self::class);
+	}
+
+	public function dir_opendir($path, $options) {
+		return false;
+	}
+
+	public function stream_open($path, $mode, $options, &$opened_path) {
+		$this->loadContext('nonseek');
+		return true;
+	}
+
+	public function stream_seek($offset, $whence = SEEK_SET) {
+		return false;
 	}
 }
 
@@ -44,15 +69,15 @@ class S3Test extends ObjectStoreTest {
 		return new S3($config['arguments']);
 	}
 
-	public function testMultiPartUploader() {
+	public function testUploadNonSeekable() {
 		$config = \OC::$server->getConfig()->getSystemValue('objectstore');
 		if (!is_array($config) || $config['class'] !== 'OC\\Files\\ObjectStore\\S3') {
 			$this->markTestSkipped('objectstore not configured for s3');
 		}
 
-		$s3 = new MultiPartUploadS3($config['arguments']);
+		$s3 = $this->getInstance();
 
-		$s3->writeObject('multiparttest', fopen(__FILE__, 'r'));
+		$s3->writeObject('multiparttest', NonSeekableStream::wrap(fopen(__FILE__, 'r')));
 
 		$result = $s3->readObject('multiparttest');
 

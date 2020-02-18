@@ -3,20 +3,22 @@
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @license AGPL-3.0
+ * @license GNU AGPL version 3 or any later version
  *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
  *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -32,9 +34,9 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\ILogger;
-use Test\TestCase;
-
 use Sabre\VObject;
+
+use Test\TestCase;
 
 class RefreshWebcalJobTest extends TestCase {
 
@@ -56,7 +58,7 @@ class RefreshWebcalJobTest extends TestCase {
 	/** @var IJobList | \PHPUnit_Framework_MockObject_MockObject */
 	private $jobList;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->caldavBackend = $this->createMock(CalDavBackend::class);
@@ -95,21 +97,21 @@ class RefreshWebcalJobTest extends TestCase {
 			->with('principals/users/testuser')
 			->will($this->returnValue([
 				[
-					'id' => 99,
+					'id' => '99',
 					'uri' => 'sub456',
-					'refreshreate' => 'P1D',
-					'striptodos' => 1,
-					'stripalarms' => 1,
-					'stripattachments' => 1,
+					'{http://apple.com/ns/ical/}refreshrate' => 'P1D',
+					'{http://calendarserver.org/ns/}subscribed-strip-todos' => '1',
+					'{http://calendarserver.org/ns/}subscribed-strip-alarms' => '1',
+					'{http://calendarserver.org/ns/}subscribed-strip-attachments' => '1',
 					'source' => 'webcal://foo.bar/bla'
 				],
 				[
-					'id' => 42,
+					'id' => '42',
 					'uri' => 'sub123',
-					'refreshreate' => 'P1H',
-					'striptodos' => 1,
-					'stripalarms' => 1,
-					'stripattachments' => 1,
+					'{http://apple.com/ns/ical/}refreshrate' => 'PT1H',
+					'{http://calendarserver.org/ns/}subscribed-strip-todos' => '1',
+					'{http://calendarserver.org/ns/}subscribed-strip-alarms' => '1',
+					'{http://calendarserver.org/ns/}subscribed-strip-attachments' => '1',
 					'source' => 'webcal://foo.bar/bla2'
 				],
 			]));
@@ -231,8 +233,16 @@ class RefreshWebcalJobTest extends TestCase {
 	public function runLocalURLDataProvider():array {
 		return [
 			['localhost/foo.bar'],
+			['localHost/foo.bar'],
+			['random-host/foo.bar'],
 			['[::1]/bla.blub'],
+			['[::]/bla.blub'],
 			['192.168.0.1'],
+			['172.16.42.1'],
+			['[fdf8:f53b:82e4::53]/secret.ics'],
+			['[fe80::200:5aee:feaa:20a2]/secret.ics'],
+			['[0:0:0:0:0:0:10.0.0.1]/secret.ics'],
+			['[0:0:0:0:0:ffff:127.0.0.0]/secret.ics'],
 			['10.0.0.1'],
 			['another-host.local'],
 			['service.localhost'],

@@ -84,10 +84,7 @@
 			);
 
 			var items = _.filter(actions, function(actionSpec) {
-				return (
-					actionSpec.type === OCA.Files.FileActions.TYPE_DROPDOWN &&
-					(!defaultAction || actionSpec.name !== defaultAction.name)
-				);
+				return !defaultAction || actionSpec.name !== defaultAction.name;
 			});
 			items = _.map(items, function(item) {
 				if (_.isFunction(item.displayName)) {
@@ -99,6 +96,12 @@
 					item = _.extend({}, item);
 					item.iconClass = item.iconClass(fileName, self._context);
 				}
+				if (_.isFunction(item.icon)) {
+					var fileName = self._context.$file.attr('data-file');
+					item = _.extend({}, item);
+					item.icon = item.icon(fileName, self._context);
+				}
+				item.inline = item.type === OCA.Files.FileActions.TYPE_INLINE
 				return item;
 			});
 			items = items.sort(function(actionA, actionB) {
@@ -109,6 +112,7 @@
 				}
 				return orderA - orderB;
 			});
+
 			items = _.map(items, function(item) {
 				item.nameLowerCase = item.name.toLowerCase();
 				return item;

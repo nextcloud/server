@@ -2,11 +2,15 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Daniel Rudolf <github.com@daniel-rudolf.de>
+ * @author Greta Doci <gretadoci@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -21,12 +25,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCP\App;
 
+use OCP\IGroup;
 use OCP\IUser;
 
 /**
@@ -81,10 +86,11 @@ interface IAppManager {
 	 * Enable an app for every user
 	 *
 	 * @param string $appId
+	 * @param bool $forceEnable
 	 * @throws AppPathNotFoundException
 	 * @since 8.0.0
 	 */
-	public function enableApp($appId);
+	public function enableApp(string $appId, bool $forceEnable = false): void;
 
 	/**
 	 * Whether a list of types contains a protected app type
@@ -100,18 +106,20 @@ interface IAppManager {
 	 *
 	 * @param string $appId
 	 * @param \OCP\IGroup[] $groups
+	 * @param bool $forceEnable
 	 * @throws \Exception
 	 * @since 8.0.0
 	 */
-	public function enableAppForGroups($appId, $groups);
+	public function enableAppForGroups(string $appId, array $groups, bool $forceEnable = false): void;
 
 	/**
 	 * Disable an app for every user
 	 *
 	 * @param string $appId
+	 * @param bool $automaticDisabled
 	 * @since 8.0.0
 	 */
-	public function disableApp($appId);
+	public function disableApp($appId, $automaticDisabled = false);
 
 	/**
 	 * Get the directory for the given app.
@@ -122,6 +130,16 @@ interface IAppManager {
 	 * @throws AppPathNotFoundException
 	 */
 	public function getAppPath($appId);
+
+	/**
+	 * Get the web path for the given app.
+	 *
+	 * @param string $appId
+	 * @return string
+	 * @since 18.0.0
+	 * @throws AppPathNotFoundException
+	 */
+	public function getAppWebPath(string $appId): string;
 
 	/**
 	 * List all apps enabled for a user
@@ -158,4 +176,24 @@ interface IAppManager {
 	 * @since 9.0.0
 	 */
 	public function getAlwaysEnabledApps();
+
+	/**
+	 * @param \OCP\IGroup $group
+	 * @return String[]
+	 * @since 17.0.0
+	 */
+	public function getEnabledAppsForGroup(IGroup $group): array;
+
+	/**
+	 * @return array
+	 * @since 17.0.0
+	 */
+	public function getAutoDisabledApps(): array;
+
+	/**
+	 * @param String $appId
+	 * @return string[]
+	 * @since 17.0.0
+	 */
+	public function getAppRestriction(string $appId): array;
 }

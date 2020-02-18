@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,7 +21,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -26,10 +29,10 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\Listener;
 
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Listener\ClearNotifications;
+use OCP\EventDispatcher\Event;
 use OCP\IUser;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
-use Symfony\Component\EventDispatcher\Event;
 use Test\TestCase;
 
 class ClearNotificationsTest extends TestCase {
@@ -40,7 +43,7 @@ class ClearNotificationsTest extends TestCase {
 	/** @var ClearNotifications */
 	private $listener;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->notificationManager = $this->createMock(IManager::class);

@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
+ * @author Robin Appelman <robin@icewind.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,7 +17,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -114,5 +116,18 @@ class Azure implements IObjectStore {
 	 */
 	public function deleteObject($urn) {
 		$this->getBlobClient()->deleteBlob($this->containerName, $urn);
+	}
+
+	public function objectExists($urn) {
+		try {
+			$this->getBlobClient()->getBlobMetadata($this->containerName, $urn);
+			return true;
+		} catch (ServiceException $e) {
+			if ($e->getCode() === 404) {
+				return false;
+			} else {
+				throw $e;
+			}
+		}
 	}
 }

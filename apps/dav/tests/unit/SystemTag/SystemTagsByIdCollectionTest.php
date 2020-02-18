@@ -19,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -45,7 +45,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 	 */
 	private $user;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->tagManager = $this->getMockBuilder(ISystemTagManager::class)
@@ -80,17 +80,17 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		return [[true], [false]];
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testForbiddenCreateFile() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->getNode()->createFile('555');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testForbiddenCreateDirectory() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->getNode()->createDirectory('789');
 	}
 
@@ -113,10 +113,10 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->assertEquals($tag, $childNode->getSystemTag());
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 */
+	
 	public function testGetChildInvalidName() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['invalid'])
@@ -125,10 +125,10 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('invalid');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testGetChildNotFound() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['444'])
@@ -137,10 +137,10 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->getNode()->getChild('444');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testGetChildUserNotVisible() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$tag = new SystemTag(123, 'Test', false, false);
 
 		$this->tagManager->expects($this->once())
@@ -231,10 +231,10 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->assertFalse($this->getNode()->childExists('123'));
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 */
+	
 	public function testChildExistsBadRequest() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['invalid'])

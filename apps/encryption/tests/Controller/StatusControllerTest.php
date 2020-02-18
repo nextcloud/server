@@ -20,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 
 namespace OCA\Encryption\Tests\Controller;
 
@@ -52,7 +51,7 @@ class StatusControllerTest extends TestCase {
 	/** @var StatusController */
 	protected $controller;
 
-	protected function setUp() {
+	protected function setUp(): void {
 
 		parent::setUp();
 

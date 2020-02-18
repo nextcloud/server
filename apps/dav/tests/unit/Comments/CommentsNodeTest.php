@@ -20,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -47,7 +47,7 @@ class CommentsNodeTest extends \Test\TestCase {
 	protected $logger;
 	protected $userSession;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->commentsManager = $this->getMockBuilder(ICommentsManager::class)
@@ -107,10 +107,10 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->delete();
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testDeleteForbidden() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -149,10 +149,10 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->assertSame($this->node->getName(), $id);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\MethodNotAllowed
-	 */
+	
 	public function testSetName() {
+		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
+
 		$this->node->setName('666');
 	}
 
@@ -194,11 +194,11 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->assertTrue($this->node->updateComment($msg));
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage buh!
-	 */
+	
 	public function testUpdateCommentLogException() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('buh!');
+
 		$msg = null;
 
 		$user = $this->getMockBuilder(IUser::class)
@@ -235,11 +235,11 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->updateComment($msg);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 * @expectedExceptionMessage Message exceeds allowed character limit of
-	 */
+	
 	public function testUpdateCommentMessageTooLongException() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectExceptionMessage('Message exceeds allowed character limit of');
+
 		$user = $this->getMockBuilder(IUser::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -274,10 +274,10 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->updateComment('foo');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testUpdateForbiddenByUser() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$msg = 'HaXX0r';
 
 		$user = $this->getMockBuilder(IUser::class)
@@ -309,10 +309,10 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->updateComment($msg);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testUpdateForbiddenByType() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$msg = 'HaXX0r';
 
 		$user = $this->getMockBuilder(IUser::class)
@@ -339,10 +339,10 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->node->updateComment($msg);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testUpdateForbiddenByNotLoggedIn() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$msg = 'HaXX0r';
 
 		$this->userSession->expects($this->once())

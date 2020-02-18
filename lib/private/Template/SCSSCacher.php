@@ -5,9 +5,10 @@
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Roland Tapken <roland@bitarbeiter.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -22,16 +23,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OC\Template;
 
-use Leafo\ScssPhp\Compiler;
-use Leafo\ScssPhp\Exception\ParserException;
-use Leafo\ScssPhp\Formatter\Crunched;
-use Leafo\ScssPhp\Formatter\Expanded;
+use OC\Files\AppData\Factory;
+use OC\Memcache\NullCache;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
@@ -42,9 +41,12 @@ use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\IMemcache;
 use OCP\IURLGenerator;
-use OC\Files\AppData\Factory;
-use OC\Template\IconsCacher;
+use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Exception\ParserException;
+use ScssPhp\ScssPhp\Formatter\Crunched;
+use ScssPhp\ScssPhp\Formatter\Expanded;
 
 class SCSSCacher {
 
@@ -84,6 +86,9 @@ class SCSSCacher {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
+	/** @var IMemcache */
+	private $lockingCache;
+
 	/**
 	 * @param ILogger $logger
 	 * @param Factory $appDataFactory
@@ -111,8 +116,13 @@ class SCSSCacher {
 		$this->defaults     = $defaults;
 		$this->serverRoot   = $serverRoot;
 		$this->cacheFactory = $cacheFactory;
-		$this->depsCache    = $cacheFactory->createDistributed('SCSS-' . md5($this->urlGenerator->getBaseUrl()));
-		$this->isCachedCache = $cacheFactory->createLocal('SCSS-cached-' . md5($this->urlGenerator->getBaseUrl()));
+		$this->depsCache    = $cacheFactory->createDistributed('SCSS-deps-' . md5($this->urlGenerator->getBaseUrl()));
+		$this->isCachedCache = $cacheFactory->createDistributed('SCSS-cached-' . md5($this->urlGenerator->getBaseUrl()));
+		$lockingCache = $cacheFactory->createDistributed('SCSS-locks-' . md5($this->urlGenerator->getBaseUrl()));
+		if (!($lockingCache instanceof IMemcache)) {
+			$lockingCache = new NullCache();
+		}
+		$this->lockingCache = $lockingCache;
 		$this->iconsCacher = $iconsCacher;
 		$this->timeFactory = $timeFactory;
 	}
@@ -137,10 +147,7 @@ class SCSSCacher {
 
 		if (!$this->variablesChanged() && $this->isCached($fileNameCSS, $app)) {
 			// Inject icons vars css if any
-			if ($this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
-				$this->iconsCacher->injectCss();
-			}
-			return true;
+			return $this->injectCssVariablesIfAny();
 		}
 
 		try {
@@ -150,7 +157,35 @@ class SCSSCacher {
 			$folder = $this->appData->newFolder($app);
 		}
 
-		$cached = $this->cache($path, $fileNameCSS, $fileNameSCSS, $folder, $webDir);
+		$lockKey = $webDir . '/' . $fileNameSCSS;
+
+		if (!$this->lockingCache->add($lockKey, 'locked!', 120)) {
+			$retry = 0;
+			sleep(1);
+			while ($retry < 10) {
+				if (!$this->variablesChanged() && $this->isCached($fileNameCSS, $app)) {
+					// Inject icons vars css if any
+					$this->lockingCache->remove($lockKey);
+					$this->logger->debug('SCSSCacher: ' .$lockKey.' is now available after '.$retry.'s. Moving on...', ['app' => 'core']);
+					return $this->injectCssVariablesIfAny();
+				}
+				$this->logger->debug('SCSSCacher: scss cache file locked for '.$lockKey, ['app' => 'core']);
+				sleep($retry);
+				$retry++;
+			}
+			$this->logger->debug('SCSSCacher: Giving up scss caching for '.$lockKey, ['app' => 'core']);
+			return false;
+		}
+
+		try {
+			$cached = $this->cache($path, $fileNameCSS, $fileNameSCSS, $folder, $webDir);
+		} catch (\Exception $e) {
+			$this->lockingCache->remove($lockKey);
+			throw $e;
+		}
+
+		// Cleaning lock
+		$this->lockingCache->remove($lockKey);
 
 		// Inject icons vars css if any
 		if ($this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
@@ -180,19 +215,24 @@ class SCSSCacher {
 	 */
 	private function isCached(string $fileNameCSS, string $app) {
 		$key = $this->config->getSystemValue('version') . '/' . $app . '/' . $fileNameCSS;
-		if (!$this->config->getSystemValue('debug') && $cacheValue = $this->isCachedCache->get($key)) {
+
+		// If the file mtime is more recent than our cached one,
+		// let's consider the file is properly cached
+		if ($cacheValue = $this->isCachedCache->get($key)) {
 			if ($cacheValue > $this->timeFactory->getTime()) {
 				return true;
 			}
 		}
 
+		// Creating file cache if none for further checks
 		try {
 			$folder = $this->appData->getFolder($app);
 		} catch (NotFoundException $e) {
-			// creating css appdata folder
-			$folder = $this->appData->newFolder($app);
+			return false;
 		}
 
+		// Checking if file size is coherent
+		// and if one of the css dependency changed
 		try {
 			$cachedFile = $folder->getFile($fileNameCSS);
 			if ($cachedFile->getSize() > 0) {
@@ -201,7 +241,7 @@ class SCSSCacher {
 				if ($deps === null) {
 					$depFile = $folder->getFile($depFileName);
 					$deps    = $depFile->getContent();
-					//Set to memcache for next run
+					// Set to memcache for next run
 					$this->depsCache->set($folder->getName() . '-' . $depFileName, $deps);
 				}
 				$deps = json_decode($deps, true);
@@ -228,13 +268,11 @@ class SCSSCacher {
 	 */
 	private function variablesChanged(): bool {
 		$injectedVariables = $this->getInjectedVariables();
-		if ($this->config->getAppValue('core', 'scss.variables') !== md5($injectedVariables)) {
+		if ($this->config->getAppValue('core', 'theming.variables') !== md5($injectedVariables)) {
+			$this->config->setAppValue('core', 'theming.variables', md5($injectedVariables));
 			$this->resetCache();
-			$this->config->setAppValue('core', 'scss.variables', md5($injectedVariables));
-
 			return true;
 		}
-
 		return false;
 	}
 
@@ -289,7 +327,7 @@ class SCSSCacher {
 				'@import "functions.scss";' .
 				'@import "' . $fileNameSCSS . '";');
 		} catch (ParserException $e) {
-			$this->logger->error($e, ['app' => 'core']);
+			$this->logger->logException($e, ['app' => 'core']);
 
 			return false;
 		}
@@ -326,8 +364,15 @@ class SCSSCacher {
 	 * We need to regenerate all files when variables change
 	 */
 	public function resetCache() {
+		if (!$this->lockingCache->add('resetCache', 'locked!', 120)) {
+			return;
+		}
 		$this->injectedVariables = null;
-		$this->cacheFactory->createDistributed('SCSS-')->clear();
+
+		// do not clear locks
+		$this->cacheFactory->createDistributed('SCSS-deps-')->clear();
+		$this->cacheFactory->createDistributed('SCSS-cached-')->clear();
+
 		$appDirectory = $this->appData->getDirectoryListing();
 		foreach ($appDirectory as $folder) {
 			foreach ($folder->getDirectoryListing() as $file) {
@@ -338,6 +383,8 @@ class SCSSCacher {
 				}
 			}
 		}
+		$this->logger->debug('SCSSCacher: css cache cleared!');
+		$this->lockingCache->remove('resetCache');
 	}
 
 	/**
@@ -358,7 +405,7 @@ class SCSSCacher {
 			$scss->compile($variables);
 			$this->injectedVariables = $variables;
 		} catch (ParserException $e) {
-			$this->logger->error($e, ['app' => 'core']);
+			$this->logger->logException($e, ['app' => 'core']);
 		}
 
 		return $variables;
@@ -391,7 +438,7 @@ class SCSSCacher {
 		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', [
 			'fileName' => $fileName,
 			'appName' => $appName,
-			'v' => $this->config->getAppValue('core', 'scss.variables', '0')
+			'v' => $this->config->getAppValue('core', 'theming.variables', '0')
 		]), \strlen(\OC::$WEBROOT) + 1);
 	}
 
@@ -448,5 +495,18 @@ class SCSSCacher {
 		}
 
 		return $webRoot . substr($path, strlen($serverRoot));
+	}
+
+	/**
+	 * Add the icons css cache in the header if needed
+	 *
+	 * @return boolean true
+	 */
+	private function injectCssVariablesIfAny() {
+		// Inject icons vars css if any
+		if ($this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
+			$this->iconsCacher->injectCss();
+		}
+		return true;
 	}
 }

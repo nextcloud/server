@@ -6,6 +6,7 @@
  * @author Aldo "xoen" Giambelluca <xoen@xoen.org>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Brice Maron <brice@bmaron.net>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
@@ -29,7 +30,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -265,11 +266,8 @@ class Config {
 		flock($filePointer, LOCK_UN);
 		fclose($filePointer);
 
-		// Try invalidating the opcache just for the file we wrote...
-		if (!\OC_Util::deleteFromOpcodeCache($this->configFilePath)) {
-			// But if that doesn't work, clear the whole cache.
-			\OC_Util::clearOpcodeCache();
+		if (function_exists('opcache_invalidate')) {
+			@opcache_invalidate($this->configFilePath, true);
 		}
 	}
 }
-

@@ -15,7 +15,6 @@
     "Failed to add the public link to your Nextcloud" : "Fallu al amestar l'enllaz públicu al to Nextcloud",
     "No expiration date set" : "Nun s'afitó la data de caducidá",
     "Shared by" : "Compartíos por",
-    "Sharing" : "Compartiendo",
     "File shares" : "Comparticiones de ficheros",
     "Downloaded via public link" : "Baxóse per enllaz públicu",
     "Downloaded by {email}" : "Baxóse per {email}",
@@ -49,7 +48,6 @@
     "{actor} shared {file} with you" : "{actor} compartió {file} contigo",
     "A file or folder was shared from <strong>another server</strong>" : "Compartióse un ficheru o carpeta dende <strong>otru sirvidor</strong>",
     "A file or folder has been <strong>shared</strong>" : "<strong>Compartióse</strong> un ficheru o direutoriu",
-    "could not delete share" : "nun pudo desaniciase la compartición",
     "Could not delete share" : "Nun pudo desaniciase la compartición",
     "Could not create share" : "Nun pudo crease la compartición",
     "invalid permissions" : "permisos non válidos",
@@ -61,9 +59,9 @@
     "Not a directory" : "Nun ye un direutoriu",
     "Could not lock path" : "Nun pudo bloquiase'l camín",
     "Can't change permissions for public share links" : "Nun puen camudase los permisos pa los enllaces de comparticiones públiques",
-    "Cannot increase permissions" : "Nun puen aumentase los permisos",
     "Direct link" : "Enllaz direutu",
     "Share API is disabled" : "L'API de compartición ta desactivada",
+    "Sharing" : "Compartiendo",
     "No entries found in this folder" : "Nenguna entrada en esta carpeta",
     "Name" : "Nome",
     "Share time" : "Compartir hora",
@@ -78,9 +76,6 @@
     "Select or drop files" : "Esbilla o suelta ficheros",
     "Uploading files…" : "Xubiendo ficheros...",
     "Uploaded files:" : "Ficheros xubíos:",
-    "{actor} removed you from {file}" : "{actor} desanicióte de {file}",
-    "This share is password-protected" : "Esta compartición tien contraseña protexida",
-    "The password is wrong. Try again." : "La contraseña ye incorreuta. Inténtalo otra vegada.",
-    "Password" : "Contraseña"
+    "could not delete share" : "nun pudo desaniciase la compartición"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

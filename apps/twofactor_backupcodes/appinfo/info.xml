@@ -5,7 +5,7 @@
 	<name>Two factor backup codes</name>
 	<summary>A two-factor auth backup codes provider</summary>
 	<description>A two-factor auth backup codes provider</description>
-	<version>1.4.1</version>
+	<version>1.8.0</version>
 	<licence>agpl</licence>
 	<author>Christoph Wurst</author>
 	<namespace>TwoFactorBackupCodes</namespace>
@@ -13,7 +13,7 @@
 	<category>security</category>
 	<bugs>https://github.com/nextcloud/server/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="15" max-version="15" />
+		<nextcloud min-version="19" max-version="19"/>
 	</dependencies>
 
 	<repair-steps>
@@ -25,10 +25,6 @@
 	<two-factor-providers>
 		<provider>OCA\TwoFactorBackupCodes\Provider\BackupCodesProvider</provider>
 	</two-factor-providers>
-
-	<settings>
-		<personal>OCA\TwoFactorBackupCodes\Settings\Personal</personal>
-	</settings>
 
 	<activity>
 		<providers>

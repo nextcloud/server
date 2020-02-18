@@ -17,9 +17,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\DAV\Tests\Files\Sharing;
 
 use OC\Files\View;
@@ -47,7 +48,7 @@ class FilesDropPluginTest extends TestCase {
 	/** @var ResponseInterface|\PHPUnit_Framework_MockObject_MockObject */
 	private $response;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->view = $this->createMock(View::class);

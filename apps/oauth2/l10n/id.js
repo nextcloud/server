@@ -3,11 +3,11 @@ OC.L10N.register(
     {
     "OAuth 2.0 clients" : "Klien OAuth 2.0",
     "Name" : "Nama",
-    "Client Identifier" : "Identifier klien",
-    "Add client" : "Tambah klien",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 memungkinkan layanan eksternal untuk meminta akses ke %s.",
     "Redirection URI" : "URI Pengalihan",
+    "Client Identifier" : "Identifier klien",
     "Secret" : "Rahasia",
-    "Add" : "Tambah"
+    "Add client" : "Tambah klien",
+    "Add" : "Tambah",
+    "Delete" : "Hapus"
 },
 "nplurals=1; plural=0;");

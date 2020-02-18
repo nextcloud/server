@@ -1,7 +1,17 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2019 Janis Köhr <janiskoehr@icloud.com>
+ *
+ * @author Alexey Pyltsyn <lex61rus@gmail.com>
+ * @author Janis Köhr <janis.koehr@novatec-gmbh.de>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,28 +26,28 @@ declare (strict_types = 1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OCA\Accessibility\Controller;
 
-use Leafo\ScssPhp\Compiler;
-use Leafo\ScssPhp\Exception\ParserException;
-use Leafo\ScssPhp\Formatter\Crunched;
+use OC\Template\IconsCacher;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\App\IAppManager;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OC\Template\IconsCacher;
+use ScssPhp\ScssPhp\Compiler;
+use ScssPhp\ScssPhp\Exception\ParserException;
+use ScssPhp\ScssPhp\Formatter\Crunched;
 
 class AccessibilityController extends Controller {
 
@@ -121,6 +131,7 @@ class AccessibilityController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @return DataDisplayResponse
 	 */
@@ -131,6 +142,9 @@ class AccessibilityController extends Controller {
 
 		foreach ($userValues as $key => $scssFile) {
 			if ($scssFile !== false) {
+				if ($scssFile === 'highcontrast' && in_array('dark', $userValues)) {
+					$scssFile .= 'dark';
+				}
 				$imports .= '@import "' . $scssFile . '";';
 			}
 		}
@@ -166,7 +180,7 @@ class AccessibilityController extends Controller {
 		$appWebRoot = substr($this->appRoot, strlen($this->serverRoot) - strlen(\OC::$WEBROOT));
 		$css        = $this->rebaseUrls($css, $appWebRoot . '/css');
 
-		if (in_array('themedark', $userValues) && $this->iconsCacher->getCachedList() && $this->iconsCacher->getCachedList()->getSize() > 0) {
+		if (in_array('dark', $userValues) && $this->iconsCacher->getCachedList() && $this->iconsCacher->getCachedList()->getSize() > 0) {
 			$iconsCss = $this->invertSvgIconsColor($this->iconsCacher->getCachedList()->getContent());
 			$css = $css . $iconsCss;
 		}
@@ -191,6 +205,7 @@ class AccessibilityController extends Controller {
 	/**
 	 * @NoCSRFRequired
 	 * @PublicPage
+	 * @NoSameSiteCookieRequired
 	 *
 	 * @return DataDownloadResponse
 	 */
@@ -199,16 +214,27 @@ class AccessibilityController extends Controller {
 
 		if ($user === null) {
 			$theme = false;
+			$highcontrast = false;
 		} else {
 			$theme = $this->config->getUserValue($user->getUID(), $this->appName, 'theme', false);
+			$highcontrast = $this->config->getUserValue($user->getUID(), $this->appName, 'highcontrast', false) !== false;
 		}
-
-		$responseJS = '(function() {
+		if ($theme !== false) {
+			$responseJS = '(function() {
 	OCA.Accessibility = {
+		highcontrast: ' . json_encode($highcontrast) . ',
 		theme: ' . json_encode($theme) . ',
-		
+	};
+	document.body.classList.add(' . json_encode($theme) . ');
+})();';
+		} else {
+			$responseJS = '(function() {
+	OCA.Accessibility = {
+		highcontrast: ' . json_encode($highcontrast) . ',
+		theme: ' . json_encode($theme) . ',
 	};
 })();';
+		}
 		$response = new DataDownloadResponse($responseJS, 'javascript', 'text/javascript');
 		$response->cacheFor(3600);
 		return $response;
@@ -222,8 +248,9 @@ class AccessibilityController extends Controller {
 	private function getUserValues(): array{
 		$userTheme = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'theme', false);
 		$userFont  = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'font', false);
+		$userHighContrast = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'highcontrast', false);
 
-		return [$userTheme, $userFont];
+		return [$userTheme, $userHighContrast, $userFont];
 	}
 
 	/**
@@ -258,7 +285,15 @@ class AccessibilityController extends Controller {
 	 * @return string
 	 */
 	private function invertSvgIconsColor(string $css) {
-		return str_replace(['color=000', 'color=fff', 'color=***'], ['color=***', 'color=000', 'color=fff'], $css);
+		return str_replace(
+			['color=000&', 'color=fff&', 'color=***&'],
+			['color=***&', 'color=000&', 'color=fff&'],
+			str_replace(
+				['color=000000&', 'color=ffffff&', 'color=******&'],
+				['color=******&', 'color=000000&', 'color=ffffff&'],
+				$css
+			)
+		);
 	}
 
 	/**

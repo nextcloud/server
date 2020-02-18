@@ -120,7 +120,11 @@ OCA = OCA || {};
 				home_folder_naming_rule: {
 					$element: $('#home_folder_naming_rule'),
 					setMethod: 'setHomeFolderAttribute'
-				}
+				},
+				ldap_ext_storage_home_attribute: {
+					$element: $('#ldap_ext_storage_home_attribute'),
+					setMethod: 'setExternalStorageHomeAttribute'
+				},
 			};
 			this.setManagedItems(items);
 		},
@@ -324,6 +328,15 @@ OCA = OCA || {};
 		 */
 		setEmailAttribute: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_email_attr.$element, attribute);
+		},
+
+		/**
+		 * sets the external storage home attribute
+		 *
+		 * @param {string} attribute
+		 */
+		setExternalStorageHomeAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_ext_storage_home_attribute.$element, attribute);
 		},
 
 		/**

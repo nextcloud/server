@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud GmbH.
  *
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
@@ -16,16 +19,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\DAV\Tests\unit\AppInfo;
 
 use OC\App\AppManager;
-use Test\TestCase;
 use OC\ServerContainer;
 use OCA\DAV\AppInfo\PluginManager;
+use Test\TestCase;
 
 /**
  * Class PluginManagerTest
@@ -80,12 +83,12 @@ class PluginManagerTest extends TestCase {
 
 		$server->method('query')
 			->will($this->returnValueMap([
-				['\OCA\DAV\ADavApp\PluginOne', 'dummyplugin1'],
-				['\OCA\DAV\ADavApp\PluginTwo', 'dummyplugin2'],
-				['\OCA\DAV\ADavApp\CollectionOne', 'dummycollection1'],
-				['\OCA\DAV\ADavApp\CollectionTwo', 'dummycollection2'],
-				['\OCA\DAV\ADavApp2\PluginOne', 'dummy2plugin1'],
-				['\OCA\DAV\ADavApp2\CollectionOne', 'dummy2collection1'],
+				['\OCA\DAV\ADavApp\PluginOne', true, 'dummyplugin1'],
+				['\OCA\DAV\ADavApp\PluginTwo', true, 'dummyplugin2'],
+				['\OCA\DAV\ADavApp\CollectionOne', true, 'dummycollection1'],
+				['\OCA\DAV\ADavApp\CollectionTwo', true, 'dummycollection2'],
+				['\OCA\DAV\ADavApp2\PluginOne', true, 'dummy2plugin1'],
+				['\OCA\DAV\ADavApp2\CollectionOne', true, 'dummy2collection1'],
 			]));
 
 		$expectedPlugins = [

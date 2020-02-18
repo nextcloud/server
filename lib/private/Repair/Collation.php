@@ -5,8 +5,8 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Robin Müller <coder-hugo@users.noreply.github.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Robin Müller <robin.mueller@1und1.de>
  *
  * @license AGPL-3.0
  *
@@ -20,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -151,4 +151,3 @@ class Collation implements IRepairStep {
 		return array_keys($result);
 	}
 }
-

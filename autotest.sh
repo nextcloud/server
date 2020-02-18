@@ -204,21 +204,21 @@ function execute_tests {
 
 		else
 			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
-                if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
-                    echo "Your mysql binary is not provided by mysql"
-                    echo "To use the docker container set the USEDOCKER environment variable"
-                    exit -1
-                fi
-                mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
-            else
-                DATABASEHOST=mysql
-            fi
+				if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
+					echo "Your mysql binary is not provided by mysql"
+					echo "To use the docker container set the USEDOCKER environment variable"
+					exit -1
+				fi
+				mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+			else
+				DATABASEHOST=mysql
+			fi
 		fi
-        echo "Waiting for MySQL initialisation ..."
-        if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 600; then
-            echo "[ERROR] Waited 600 seconds, no response" >&2
-            exit 1
-        fi
+		echo "Waiting for MySQL initialisation ..."
+		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 300; then
+			echo "[ERROR] Waited 300 seconds, no response" >&2
+			exit 1
+		fi
 	fi
 	if [ "$DB" == "mysqlmb4" ] ; then
 		if [ ! -z "$USEDOCKER" ] ; then
@@ -229,9 +229,9 @@ function execute_tests {
 				-e MYSQL_USER="$DATABASEUSER" \
 				-e MYSQL_PASSWORD=owncloud \
 				-e MYSQL_DATABASE="$DATABASENAME" \
-				-d mysql:5.7
-				--innodb_large_prefix=true
-				--innodb_file_format=barracuda
+				-d mysql:5.7 \
+				--innodb_large_prefix=true \
+				--innodb_file_format=barracuda \
 				--innodb_file_per_table=true)
 
 			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
@@ -251,8 +251,8 @@ function execute_tests {
 
 		echo "Waiting for MySQL(utf8mb4) initialisation ..."
 
-		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 600; then
-			echo "[ERROR] Waited 600 seconds, no response" >&2
+		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 300; then
+			echo "[ERROR] Waited 300 seconds, no response" >&2
 			exit 1
 		fi
 		sleep 1
@@ -275,20 +275,30 @@ function execute_tests {
 			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for MariaDB initialisation ..."
-			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 600; then
-				echo "[ERROR] Waited 600 seconds, no response" >&2
+			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 300; then
+				echo "[ERROR] Waited 300 seconds, no response" >&2
 				exit 1
 			fi
 
 			echo "MariaDB is up."
 
 		else
-			if [ "MariaDB" != "$(mysql --version | grep -o MariaDB)" ] ; then
-				echo "Your mysql binary is not provided by MariaDB"
-				echo "To use the docker container set the USEDOCKER environment variable"
-				exit -1
+			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
+				if [ "MariaDB" != "$(mysql --version | grep -o MariaDB)" ] ; then
+					echo "Your mysql binary is not provided by MariaDB"
+					echo "To use the docker container set the USEDOCKER environment variable"
+					exit -1
+				fi
+				mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+			else
+				DATABASEHOST=mariadb
 			fi
-			mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+		fi
+
+		echo "Waiting for MariaDB initialisation ..."
+		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 300; then
+			echo "[ERROR] Waited 300 seconds, no response" >&2
+			exit 1
 		fi
 
 		#Reset _DB to mysql since that is what we use internally
@@ -331,13 +341,13 @@ function execute_tests {
 		echo "Waiting for Oracle initialization ... "
 
 		# Try to connect to the OCI host via sqlplus to ensure that the connection is already running
-      		for i in {1..48}
-                do
-                        if sqlplus "autotest/owncloud@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=$DATABASEHOST)(Port=1521))(CONNECT_DATA=(SID=XE)))" < /dev/null | grep 'Connected to'; then
-                                break;
-                        fi
-                        sleep 5
-                done
+		for i in {1..48}
+		do
+			if sqlplus "autotest/owncloud@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=$DATABASEHOST)(Port=1521))(CONNECT_DATA=(SID=XE)))" < /dev/null | grep 'Connected to'; then
+				break;
+			fi
+			sleep 5
+		done
 
 		DATABASEUSER=autotest
 		DATABASENAME='XE'
@@ -432,7 +442,8 @@ fi
 # NOTES on pgsql:
 #  - su - postgres
 #  - createuser -P oc_autotest (enter password and enable superuser)
-#  - to enable dropdb I decided to add following line to pg_hba.conf (this is not the safest way but I don't care for the testing machine):
+#  - to enable dropdb I decided to add following line to pg_hba.conf
+#    (this is not the safest way but I don't care for the testing machine):
 # local	all	all	trust
 #
 #  - for parallel executor support with EXECUTOR_NUMBER=0:

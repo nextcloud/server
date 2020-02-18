@@ -5,6 +5,7 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -60,13 +61,33 @@ class Notifier implements INotifier {
 	}
 
 	/**
+	 * Identifier of the notifier, only use [a-z0-9_]
+	 *
+	 * @return string
+	 * @since 17.0.0
+	 */
+	public function getID(): string {
+		return 'federatedfilesharing';
+	}
+
+	/**
+	 * Human readable name describing the notifier
+	 *
+	 * @return string
+	 * @since 17.0.0
+	 */
+	public function getName(): string {
+		return $this->factory->get('federatedfilesharing')->t('Federated sharing');
+	}
+
+	/**
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
 	 * @throws \InvalidArgumentException
 	 */
-	public function prepare(INotification $notification, $languageCode) {
-		if ($notification->getApp() !== 'files_sharing') {
+	public function prepare(INotification $notification, string $languageCode): INotification {
+		if ($notification->getApp() !== 'files_sharing' || $notification->getObjectType() !== 'remote_share') {
 			// Not my app => throw
 			throw new \InvalidArgumentException();
 		}
@@ -82,8 +103,14 @@ class Notifier implements INotifier {
 				$params = $notification->getSubjectParameters();
 				if ($params[0] !== $params[1] && $params[1] !== null) {
 					$notification->setParsedSubject(
-						$l->t('You received "%3$s" as a remote share from %1$s (on behalf of %2$s)', $params)
+						$l->t('You received "%3$s" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))', $params)
 					);
+
+					$initiator = $params[0];
+					$initiatorDisplay = isset($params[3]) ? $params[3] : null;
+					$owner = $params[1];
+					$ownerDisplay = isset($params[4]) ? $params[4] : null;
+
 					$notification->setRichSubject(
 						$l->t('You received {share} as a remote share from {user} (on behalf of {behalf})'),
 						[
@@ -92,14 +119,18 @@ class Notifier implements INotifier {
 								'id' => $notification->getObjectId(),
 								'name' => $params[2],
 							],
-							'user' => $this->createRemoteUser($params[0]),
-							'behalf' => $this->createRemoteUser($params[1]),
+							'user' => $this->createRemoteUser($initiator, $initiatorDisplay),
+							'behalf' => $this->createRemoteUser($owner, $ownerDisplay),
 						]
 					);
 				} else {
 					$notification->setParsedSubject(
-						$l->t('You received "%3$s" as a remote share from %1$s', $params)
+						$l->t('You received "%3$s" as a remote share from %4$s (%1$s)', $params)
 					);
+
+					$owner = $params[0];
+					$ownerDisplay = isset($params[3]) ? $params[3] : null;
+
 					$notification->setRichSubject(
 						$l->t('You received {share} as a remote share from {user}'),
 						[
@@ -108,7 +139,7 @@ class Notifier implements INotifier {
 								'id' => $notification->getObjectId(),
 								'name' => $params[2],
 							],
-							'user' => $this->createRemoteUser($params[0]),
+							'user' => $this->createRemoteUser($owner, $ownerDisplay),
 						]
 					);
 				}
@@ -144,15 +175,17 @@ class Notifier implements INotifier {
 	 * @param string $cloudId
 	 * @return array
 	 */
-	protected function createRemoteUser($cloudId) {
-		$displayName = $cloudId;
+	protected function createRemoteUser($cloudId, $displayName = null) {
 		try {
 			$resolvedId = $this->cloudIdManager->resolveCloudId($cloudId);
-			$displayName = $this->getDisplayName($resolvedId);
+			if ($displayName === null) {
+				$displayName = $this->getDisplayName($resolvedId);
+			}
 			$user = $resolvedId->getUser();
 			$server = $resolvedId->getRemote();
 		} catch (HintException $e) {
 			$user = $cloudId;
+			$displayName = $cloudId;
 			$server = '';
 		}
 

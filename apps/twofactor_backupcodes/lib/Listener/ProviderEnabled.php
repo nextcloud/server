@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,7 +21,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -28,9 +31,10 @@ use OCA\TwoFactorBackupCodes\BackgroundJob\RememberBackupCodesJob;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Authentication\TwoFactorAuth\RegistryEvent;
 use OCP\BackgroundJob\IJobList;
-use Symfony\Component\EventDispatcher\Event;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 
-class ProviderEnabled implements IListener {
+class ProviderEnabled implements IEventListener {
 
 	/** @var IRegistry */
 	private $registry;
@@ -44,7 +48,7 @@ class ProviderEnabled implements IListener {
 		$this->jobList = $jobList;
 	}
 
-	public function handle(Event $event) {
+	public function handle(Event $event): void {
 		if (!($event instanceof RegistryEvent)) {
 			return;
 		}

@@ -5,10 +5,10 @@
  * @author Aldo "xoen" Giambelluca <xoen@xoen.org>
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bartek Przybylski <bart.p.pl@gmail.com>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -19,7 +19,6 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author shkdee <louis.traynard@m4x.org>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tom Needham <tom@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
@@ -34,7 +33,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -181,7 +180,15 @@ class OC_User {
 				// completed before we can safely create the users folder.
 				// For example encryption needs to initialize the users keys first
 				// before we can create the user folder with the skeleton files
-				OC_Hook::emit("OC_User", "post_login", array("uid" => $uid, 'password' => ''));
+				OC_Hook::emit(
+					'OC_User',
+					'post_login',
+					[
+						'uid' => $uid,
+						'password' => '',
+						'isTokenLogin' => false,
+					]
+				);
 				//trigger creation of user home and /files folder
 				\OC::$server->getUserFolder($uid);
 			}
@@ -269,12 +276,8 @@ class OC_User {
 			return $backend->getLogoutUrl();
 		}
 
-		$logoutUrl = $urlGenerator->linkToRouteAbsolute(
-			'core.login.logout',
-			[
-				'requesttoken' => \OCP\Util::callRegister(),
-			]
-		);
+		$logoutUrl = $urlGenerator->linkToRoute('core.login.logout');
+		$logoutUrl .= '?requesttoken=' . urlencode(\OCP\Util::callRegister());
 
 		return $logoutUrl;
 	}

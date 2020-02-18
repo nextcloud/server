@@ -8,7 +8,6 @@
 
 namespace Icewind\SMB;
 
-
 interface INotifyHandler {
 	// https://msdn.microsoft.com/en-us/library/dn392331.aspx
 	const NOTIFY_ADDED = 1;

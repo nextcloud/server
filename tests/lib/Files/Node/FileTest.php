@@ -59,10 +59,10 @@ class FileTest extends NodeTest {
 		$this->assertEquals('bar', $node->getContent());
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testGetContentNotPermitted() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
@@ -105,10 +105,10 @@ class FileTest extends NodeTest {
 		$node->putContent('bar');
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testPutContentNotPermitted() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
@@ -213,10 +213,10 @@ class FileTest extends NodeTest {
 		$this->assertEquals(2, $hooksCalled);
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testFOpenReadNotPermitted() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
 			$this->view,
@@ -238,10 +238,10 @@ class FileTest extends NodeTest {
 		$node->fopen('r');
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testFOpenReadWriteNoReadPermissions() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
 			$this->view,
@@ -263,10 +263,10 @@ class FileTest extends NodeTest {
 		$node->fopen('w');
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotPermittedException
-	 */
+	
 	public function testFOpenReadWriteNoWritePermissions() {
+		$this->expectException(\OCP\Files\NotPermittedException::class);
+
 		$root = new \OC\Files\Node\Root(
 			$this->manager,
 			new $this->view,

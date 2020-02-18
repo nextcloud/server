@@ -24,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -79,7 +79,7 @@ class KeyManagerTest extends TestCase {
 	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $configMock;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->userId = 'user1';
 		$this->systemKeyId = 'systemKeyId';
@@ -220,10 +220,10 @@ class KeyManagerTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @expectedException \OCA\Encryption\Exceptions\PrivateKeyMissingException
-	 */
+	
 	public function testUserHasKeysMissingPrivateKey() {
+		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+
 		$this->keyStorageMock->expects($this->exactly(2))
 			->method('getUserKey')
 			->willReturnCallback(function ($uid, $keyID, $encryptionModuleId) {
@@ -236,10 +236,10 @@ class KeyManagerTest extends TestCase {
 		$this->instance->userHasKeys($this->userId);
 	}
 
-	/**
-	 * @expectedException \OCA\Encryption\Exceptions\PublicKeyMissingException
-	 */
+	
 	public function testUserHasKeysMissingPublicKey() {
+		$this->expectException(\OCA\Encryption\Exceptions\PublicKeyMissingException::class);
+
 		$this->keyStorageMock->expects($this->exactly(2))
 			->method('getUserKey')
 			->willReturnCallback(function ($uid, $keyID, $encryptionModuleId){
@@ -536,10 +536,10 @@ class KeyManagerTest extends TestCase {
 		);
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+	
 	public function testGetMasterKeyPasswordException() {
+		$this->expectException(\Exception::class);
+
 		$this->configMock->expects($this->once())->method('getSystemValue')->with('secret')
 			->willReturn('');
 

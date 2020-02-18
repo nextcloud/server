@@ -2,10 +2,13 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -24,38 +27,43 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OC;
 
-use OCP\AppFramework\QueryException;
-use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
-use OC\AvatarManager;
+use OC\Avatar\AvatarManager;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\CleanTags;
-use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\ClearFrontendCaches;
+use OC\Repair\ClearGeneratedAvatarCache;
 use OC\Repair\Collation;
 use OC\Repair\MoveUpdaterStepFile;
 use OC\Repair\NC11\FixMountStorages;
 use OC\Repair\NC13\AddLogRotateJob;
-use OC\Repair\NC13\RepairInvalidPaths;
 use OC\Repair\NC14\AddPreviewBackgroundCleanupJob;
-use OC\Repair\NC14\RepairPendingCronJobs;
-use OC\Repair\NC15\SetVcardDatabaseUID;
+use OC\Repair\NC16\AddClenupLoginFlowV2BackgroundJob;
+use OC\Repair\NC16\CleanupCardDAVPhotoCache;
+use OC\Repair\NC16\ClearCollectionsAccessCache;
+use OC\Repair\NC17\SetEnterpriseLogo;
+use OC\Repair\NC17\SwitchUpdateChannel;
+use OC\Repair\NC18\ResetGeneratedAvatarFlag;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
-use OC\Repair\RemoveRootShares;
+use OC\Repair\RemoveLinkShares;
 use OC\Repair\RepairInvalidShares;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\SqliteAutoincrement;
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Collaboration\Resources\IManager;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Repair implements IOutput {
@@ -63,7 +71,7 @@ class Repair implements IOutput {
 	/** @var IRepairStep[] */
 	private $repairSteps;
 
-	/** @var EventDispatcher */
+	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
 	/** @var string */
@@ -73,9 +81,9 @@ class Repair implements IOutput {
 	 * Creates a new repair step runner
 	 *
 	 * @param IRepairStep[] $repairSteps array of RepairStep instances
-	 * @param EventDispatcher $dispatcher
+	 * @param EventDispatcherInterface $dispatcher
 	 */
-	public function __construct($repairSteps = [], EventDispatcher $dispatcher = null) {
+	public function __construct(array $repairSteps, EventDispatcherInterface $dispatcher) {
 		$this->repairSteps = $repairSteps;
 		$this->dispatcher  = $dispatcher;
 	}
@@ -137,17 +145,20 @@ class Repair implements IOutput {
 			new RepairMimeTypes(\OC::$server->getConfig()),
 			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-			new RemoveRootShares(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager(), \OC::$server->getLazyRootFolder()),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
-			new RepairInvalidPaths(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
 			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(SCSSCacher::class), \OC::$server->query(JSCombiner::class)),
 			new ClearGeneratedAvatarCache(\OC::$server->getConfig(), \OC::$server->query(AvatarManager::class)),
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
-			new RepairPendingCronJobs(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig()),
-			new SetVcardDatabaseUID(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig())
+			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->getLogger()),
+			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
+			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OC::$server->query(ITimeFactory::class)),
+			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OC::$server->query(IManager::class)),
+			\OC::$server->query(SwitchUpdateChannel::class),
+			\OC::$server->query(SetEnterpriseLogo::class),
+			\OC::$server->query(ResetGeneratedAvatarFlag::class),
 		];
 	}
 

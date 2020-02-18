@@ -17,7 +17,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -204,7 +204,6 @@ class Provider implements IProvider {
 		try {
 			$comment = $this->commentsManager->get((string) $commentId);
 			$message = $comment->getMessage();
-			$message = str_replace("\n", '<br />', str_replace(['<', '>'], ['&lt;', '&gt;'], $message));
 
 			$mentionCount = 1;
 			$mentions = [];

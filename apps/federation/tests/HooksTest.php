@@ -4,6 +4,7 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,10 +18,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 
 namespace OCA\Federation\Tests;
 
@@ -37,7 +37,7 @@ class HooksTest extends TestCase {
 	/** @var  Hooks */
 	private $hooks;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->trustedServers = $this->getMockBuilder('OCA\Federation\TrustedServers')

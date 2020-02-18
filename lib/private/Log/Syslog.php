@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -19,17 +21,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OC\Log;
 
+use OC\SystemConfig;
 use OCP\ILogger;
-use OCP\IConfig;
 use OCP\Log\IWriter;
 
-class Syslog implements IWriter {
+class Syslog extends LogDetails implements IWriter {
 	protected $levels = [
 		ILogger::DEBUG => LOG_DEBUG,
 		ILogger::INFO => LOG_INFO,
@@ -38,8 +40,9 @@ class Syslog implements IWriter {
 		ILogger::FATAL => LOG_CRIT,
 	];
 
-	public function __construct(IConfig $config) {
-		openlog($config->getSystemValue('syslog_tag', 'Nextcloud'), LOG_PID | LOG_CONS, LOG_USER);
+	public function __construct(SystemConfig $config) {
+		parent::__construct($config);
+		openlog($config->getValue('syslog_tag', 'Nextcloud'), LOG_PID | LOG_CONS, LOG_USER);
 	}
 
 	public function __destruct() {
@@ -54,6 +57,6 @@ class Syslog implements IWriter {
 	 */
 	public function write(string $app, $message, int $level) {
 		$syslog_level = $this->levels[$level];
-		syslog($syslog_level, '{'.$app.'} '.$message);
+		syslog($syslog_level, $this->logDetailsAsJSON($app, $message, $level));
 	}
 }

@@ -21,6 +21,8 @@
 
 namespace Test\Preview;
 
+use OC\Files\Node\File;
+
 abstract class Provider extends \Test\TestCase {
 
 	/** @var string */
@@ -44,7 +46,7 @@ abstract class Provider extends \Test\TestCase {
 	/** @var \OC\Files\Storage\Storage */
 	protected $storage;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$userManager = \OC::$server->getUserManager();
@@ -66,7 +68,7 @@ abstract class Provider extends \Test\TestCase {
 		$this->userId = $userId;
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$this->logout();
 
 		parent::tearDown();
@@ -136,7 +138,8 @@ abstract class Provider extends \Test\TestCase {
 	 * @return bool|\OCP\IImage
 	 */
 	private function getPreview($provider) {
-		$preview = $provider->getThumbnail($this->imgPath, $this->maxWidth, $this->maxHeight, $this->scalingUp, $this->rootView);
+		$file = new File(\OC::$server->getRootFolder(), $this->rootView, $this->imgPath);
+		$preview = $provider->getThumbnail($file, $this->maxWidth, $this->maxHeight, $this->scalingUp);
 
 		$this->assertNotEquals(false, $preview);
 		$this->assertEquals(true, $preview->valid());

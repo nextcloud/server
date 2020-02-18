@@ -21,20 +21,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\Files_External\Tests\Service;
 
-use \OC\Files\Filesystem;
+use OC\Files\Filesystem;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\InvalidAuth;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\Backend\InvalidBackend;
-use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Service\StoragesService;
@@ -92,7 +92,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	 */
 	protected $mountCache;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->dbConfig = new CleaningDBConfig(\OC::$server->getDatabaseConnection(), \OC::$server->getCrypto());
 		self::$hookCalls = array();
@@ -175,7 +175,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			->willReturn($containerMock);
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		\OC_Mount_Config::$skipTest = false;
 		self::$hookCalls = array();
 		if ($this->dbConfig) {
@@ -252,10 +252,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 
-	/**
-	 * @expectedException \OCA\Files_External\NotFoundException
-	 */
-	public function testNonExistingStorage() {
+	protected function ActualNonExistingStorageTest() {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
 		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
 		$storage = new StorageConfig(255);
@@ -263,6 +260,12 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$storage->setBackend($backend);
 		$storage->setAuthMechanism($authMechanism);
 		$this->service->updateStorage($storage);
+	}
+
+	public function testNonExistingStorage() {
+		$this->expectException(\OCA\Files_External\NotFoundException::class);
+
+		$this->ActualNonExistingStorageTest();
 	}
 
 	public function deleteStorageDataProvider() {
@@ -334,11 +337,14 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->assertCount($expectedCountAfterDeletion, $storages, "expected $expectedCountAfterDeletion storages, got " . json_encode($storages));
 	}
 
-	/**
-	 * @expectedException \OCA\Files_External\NotFoundException
-	 */
-	public function testDeleteUnexistingStorage() {
+	protected function actualDeletedUnexistingStorageTest() {
 		$this->service->removeStorage(255);
+	}
+
+	public function testDeleteUnexistingStorage() {
+		$this->expectException(\OCA\Files_External\NotFoundException::class);
+
+		$this->actualDeletedUnexistingStorageTest();
 	}
 
 	public function testCreateStorage() {

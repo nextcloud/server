@@ -28,7 +28,7 @@ namespace Test\Group;
  * @group DB
  */
 class Dummy extends Backend {
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->backend=new \Test\Util\Group\Dummy();
 	}

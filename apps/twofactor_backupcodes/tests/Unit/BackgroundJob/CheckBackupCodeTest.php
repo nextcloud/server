@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -18,7 +20,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -27,6 +29,7 @@ namespace OCA\TwoFactorBackupCodes\Tests\Unit\BackgroundJob;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OCA\TwoFactorBackupCodes\BackgroundJob\CheckBackupCodes;
 use OCA\TwoFactorBackupCodes\BackgroundJob\RememberBackupCodesJob;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\BackgroundJob\IJobList;
 use OCP\IUser;
@@ -54,7 +57,7 @@ class CheckBackupCodeTest extends TestCase {
 	/** @var CheckBackupCodes */
 	private $checkBackupCodes;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -70,6 +73,7 @@ class CheckBackupCodeTest extends TestCase {
 			}));
 
 		$this->checkBackupCodes = new CheckBackupCodes(
+			$this->createMock(ITimeFactory::class),
 			$this->userManager,
 			$this->jobList,
 			$this->manager,

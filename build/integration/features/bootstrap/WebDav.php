@@ -4,8 +4,10 @@
  *
  * @author David Toledo <dtoledo@solidgear.es>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sergio Bertolin <sbertolin@solidgear.es>
  * @author Sergio Bertolín <sbertolin@solidgear.es>
@@ -25,7 +27,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -223,29 +225,6 @@ trait WebDav {
 			$this->response = $this->makeDavRequest($this->currentUser, 'GET', $fileName, []);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
-		}
-	}
-
-	/**
-	 * @Then The following headers should be set
-	 * @param \Behat\Gherkin\Node\TableNode $table
-	 * @throws \Exception
-	 */
-	public function theFollowingHeadersShouldBeSet(\Behat\Gherkin\Node\TableNode $table) {
-		foreach ($table->getTable() as $header) {
-			$headerName = $header[0];
-			$expectedHeaderValue = $header[1];
-			$returnedHeader = $this->response->getHeader($headerName)[0];
-			if ($returnedHeader !== $expectedHeaderValue) {
-				throw new \Exception(
-					sprintf(
-						"Expected value '%s' for header '%s', got '%s'",
-						$expectedHeaderValue,
-						$headerName,
-						$returnedHeader
-					)
-				);
-			}
 		}
 	}
 

@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, Roger Szabo (roger.szabo@web.de)
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
@@ -20,17 +22,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OCA\User_LDAP;
 
 
-use OCP\LDAP\ILDAPProvider;
-use OCP\LDAP\IDeletionFlagSupport;
-use OCP\IServerContainer;
 use OCA\User_LDAP\User\DeletedUsersIndex;
+use OCP\IServerContainer;
+use OCP\LDAP\IDeletionFlagSupport;
+use OCP\LDAP\ILDAPProvider;
 
 /**
  * LDAP provider for pulic access to the LDAP backend.
@@ -182,8 +184,25 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	public function getLDAPBaseUsers($uid) {
 		if(!$this->userBackend->userExists($uid)){
 			throw new \Exception('User id not found in LDAP');
-		}	
-		return $this->userBackend->getLDAPAccess($uid)->getConnection()->getConfiguration()['ldap_base_users'];
+		}
+		$access = $this->userBackend->getLDAPAccess($uid);
+		$bases = $access->getConnection()->ldapBaseUsers;
+		$dn = $this->getUserDN($uid);
+		foreach ($bases as $base) {
+			if($access->isDNPartOfBase($dn, [$base])) {
+				return $base;
+			}
+		}
+		// should not occur, because the user does not qualify to use NC in this case
+		$this->logger->info(
+			'No matching user base found for user {dn}, available: {bases}.',
+			[
+				'app' => 'user_ldap',
+				'dn' => $dn,
+				'bases' => $bases,
+			]
+		);
+		return array_shift($bases);
 	}
 	
 	/**
@@ -196,7 +215,8 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 		if(!$this->userBackend->userExists($uid)){
 			throw new \Exception('User id not found in LDAP');
 		}
-		return $this->userBackend->getLDAPAccess($uid)->getConnection()->getConfiguration()['ldap_base_groups'];
+		$bases = $this->userBackend->getLDAPAccess($uid)->getConnection()->ldapBaseGroups;
+		return array_shift($bases);
 	}
 	
 	/**
@@ -279,7 +299,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	/**
 	 * Get the LDAP type of association between users and groups
 	 * @param string $gid group id
-	 * @return string the configuration, one of: 'memberUid', 'uniqueMember', 'member', 'gidNumber'
+	 * @return string the configuration, one of: 'memberUid', 'uniqueMember', 'member', 'gidNumber', ''
 	 * @throws \Exception if group id was not found in LDAP
 	 */
 	public function getLDAPGroupMemberAssoc($gid) {

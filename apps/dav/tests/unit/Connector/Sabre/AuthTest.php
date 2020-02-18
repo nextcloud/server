@@ -3,7 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -23,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -60,7 +61,7 @@ class AuthTest extends TestCase {
 	/** @var Throttler */
 	private $throttler;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->session = $this->getMockBuilder(ISession::class)
 			->disableOriginalConstructor()->getMock();
@@ -220,10 +221,10 @@ class AuthTest extends TestCase {
 		$this->assertFalse($this->invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']));
 	}
 
-	/**
-	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden
-	 */
+	
 	public function testValidateUserPassWithPasswordLoginForbidden() {
+		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden::class);
+
 		$this->userSession
 			->expects($this->once())
 			->method('isLoggedIn')
@@ -329,11 +330,11 @@ class AuthTest extends TestCase {
 		$this->auth->check($request, $response);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
-	 * @expectedExceptionMessage 2FA challenge not passed.
-	 */
+	
 	public function testAuthenticateAlreadyLoggedInWithoutTwoFactorChallengePassed() {
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+		$this->expectExceptionMessage('2FA challenge not passed.');
+
 		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -383,11 +384,11 @@ class AuthTest extends TestCase {
 		$this->auth->check($request, $response);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
-	 * @expectedExceptionMessage CSRF check not passed.
-	 */
+	
 	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenAndIncorrectlyDavAuthenticated() {
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+		$this->expectExceptionMessage('CSRF check not passed.');
+
 		$request = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -564,11 +565,11 @@ class AuthTest extends TestCase {
 		$this->assertEquals([false, 'No \'Authorization: Basic\' header found. Either the client didn\'t send one, or the server is misconfigured'], $response);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
-	 * @expectedExceptionMessage Cannot authenticate over ajax calls
-	 */
+	
 	public function testAuthenticateNoBasicAuthenticateHeadersProvidedWithAjax() {
+		$this->expectException(\Sabre\DAV\Exception\NotAuthenticated::class);
+		$this->expectExceptionMessage('Cannot authenticate over ajax calls');
+
 		/** @var \Sabre\HTTP\RequestInterface $httpRequest */
 		$httpRequest = $this->getMockBuilder(RequestInterface::class)
 			->disableOriginalConstructor()

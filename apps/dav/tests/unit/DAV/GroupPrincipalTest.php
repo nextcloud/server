@@ -3,10 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2018, Georg Ehrke
  *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Georg Ehrke <oc.list@georgehrke.com>
  *
  * @license AGPL-3.0
  *
@@ -20,7 +21,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -33,7 +34,7 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Share\IManager;
-use \Sabre\DAV\PropPatch;
+use Sabre\DAV\PropPatch;
 
 class GroupPrincipalTest extends \Test\TestCase {
 
@@ -49,7 +50,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 	/** @var GroupPrincipalBackend */
 	private $connector;
 
-	public function setUp() {
+	protected function setUp(): void {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->shareManager = $this->createMock(IManager::class);
@@ -174,11 +175,11 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame([], $response);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception
-	 * @expectedExceptionMessage Setting members of the group is not supported yet
-	 */
+	
 	public function testSetGroupMembership() {
+		$this->expectException(\Sabre\DAV\Exception::class);
+		$this->expectExceptionMessage('Setting members of the group is not supported yet');
+
 		$this->connector->setGroupMemberSet('principals/groups/foo', ['foo']);
 	}
 

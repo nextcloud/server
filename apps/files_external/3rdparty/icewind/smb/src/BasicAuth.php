@@ -21,7 +21,6 @@
 
 namespace Icewind\SMB;
 
-
 class BasicAuth implements IAuth {
 	/** @var string */
 	private $username;
@@ -62,5 +61,4 @@ class BasicAuth implements IAuth {
 	public function setExtraSmbClientOptions($smbClientState) {
 		// noop
 	}
-
 }

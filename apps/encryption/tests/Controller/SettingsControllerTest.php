@@ -19,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -34,8 +34,10 @@ use OCP\AppFramework\Http;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
@@ -63,6 +65,8 @@ class SettingsControllerTest extends TestCase {
 
 	/** @var \OCA\Encryption\Session|\PHPUnit_Framework_MockObject_MockObject */
 	private $sessionMock;
+	/** @var MockObject|IUser */
+	private $user;
 
 	/** @var \OCP\ISession|\PHPUnit_Framework_MockObject_MockObject */
 	private $ocSessionMock;
@@ -70,7 +74,7 @@ class SettingsControllerTest extends TestCase {
 	/** @var \OCA\Encryption\Util|\PHPUnit_Framework_MockObject_MockObject */
 	private $utilMock;
 
-	protected function setUp() {
+	protected function setUp(): void {
 
 		parent::setUp();
 
@@ -94,28 +98,17 @@ class SettingsControllerTest extends TestCase {
 		$this->cryptMock = $this->getMockBuilder(Crypt::class)
 			->disableOriginalConstructor()->getMock();
 
-		$this->userSessionMock = $this->getMockBuilder(IUserSession::class)
-			->disableOriginalConstructor()
-			->setMethods([
-				'isLoggedIn',
-				'getUID',
-				'login',
-				'logout',
-				'setUser',
-				'getUser',
-				'canChangePassword',
-			])
-			->getMock();
-
 		$this->ocSessionMock = $this->getMockBuilder(ISession::class)->disableOriginalConstructor()->getMock();
 
-		$this->userSessionMock->expects($this->any())
+		$this->user = $this->createMock(IUser::class);
+		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('testUserUid');
 
+		$this->userSessionMock = $this->createMock(IUserSession::class);
 		$this->userSessionMock->expects($this->any())
-			->method($this->anything())
-			->will($this->returnSelf());
+			->method('getUser')
+			->willReturn($this->user);
 
 		$this->sessionMock = $this->getMockBuilder(Session::class)
 			->disableOriginalConstructor()->getMock();
@@ -146,7 +139,9 @@ class SettingsControllerTest extends TestCase {
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
-		$this->userSessionMock->expects($this->once())->method('getUID')->willReturn('uid');
+		$this->user->expects($this->any())
+			->method('getUID')
+			->willReturn('uid');
 
 		$this->userManagerMock
 			->expects($this->exactly(2))

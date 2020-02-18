@@ -21,12 +21,10 @@
  *
  */
 
-
 namespace Test\AppFramework\Http;
 
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http;
-
+use OCP\AppFramework\Http\TemplateResponse;
 
 class TemplateResponseTest extends \Test\TestCase {
 
@@ -35,7 +33,7 @@ class TemplateResponseTest extends \Test\TestCase {
 	 */
 	private $tpl;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->tpl = new TemplateResponse('app', 'home');

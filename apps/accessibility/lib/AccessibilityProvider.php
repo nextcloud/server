@@ -1,9 +1,12 @@
 <?php
-
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2019 Janis Köhr <janiskoehr@icloud.com>
  *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Greta Doci <gretadoci@gmail.com>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Janis Köhr <janis.koehr@novatec-gmbh.de>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -56,17 +59,23 @@ class AccessibilityProvider {
 	public function getThemes() {
 		return array(
 			[
-				'id'    => 'themehighcontrast',
-				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-highcontrast.jpg'),
-				'title' => $this->l->t('High contrast theme'),
-				'text'  => $this->l->t('A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased.')
-			], [
-				'id'    => 'themedark',
+				'id'    => 'dark',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-dark.jpg'),
-				'title' => $this->l->t('Dark theme (beta)'),
+				'title' => $this->l->t('Dark theme'),
+				'enableLabel' => $this->l->t('Enable dark theme'),
 				'text'  => $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find.')
 			]
 		);
+	}
+
+	public function getHighContrast() {
+		return [
+				'id'    => 'highcontrast',
+				'img'   => $this->urlGenerator->imagePath($this->appName, 'mode-highcontrast.jpg'),
+				'title' => $this->l->t('High contrast mode'),
+				'enableLabel' => $this->l->t('Enable high contrast mode'),
+				'text'  => $this->l->t('A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased.')
+			];
 	}
 
 	public function getFonts() {
@@ -75,7 +84,8 @@ class AccessibilityProvider {
 				'id'    => 'fontdyslexic',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'font-opendyslexic.jpg'),
 				'title' => $this->l->t('Dyslexia font'),
-				'text'  => $this->l->t('OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia. The typeface was created by Abelardo Gonzalez, who released it through an open-source license.')
+				'enableLabel' => $this->l->t('Enable dyslexia font'),
+				'text'  => $this->l->t('OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia.')
 			]
 		);
 	}

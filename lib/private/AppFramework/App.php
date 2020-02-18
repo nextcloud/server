@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -22,19 +24,19 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
-
 namespace OC\AppFramework;
 
-use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\DependencyInjection\DIContainer;
+use OC\AppFramework\Http\Dispatcher;
+use OC\HintException;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Http\ICallbackResponse;
 use OCP\AppFramework\Http\IOutput;
+use OCP\AppFramework\QueryException;
 use OCP\IRequest;
 
 /**
@@ -81,6 +83,7 @@ class App {
 	 * @param string $methodName the method that you want to call
 	 * @param DIContainer $container an instance of a pimple container.
 	 * @param array $urlParams list of URL parameters (optional)
+	 * @throws HintException
 	 */
 	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
 		if (!is_null($urlParams)) {
@@ -94,10 +97,14 @@ class App {
 		try {
 			$controller = $container->query($controllerName);
 		} catch(QueryException $e) {
+			if (strpos($controllerName, '\\Controller\\') !== false) {
+				// This is from a global registered app route that is not enabled.
+				[/*OC(A)*/, $app, /* Controller/Name*/] = explode('\\', $controllerName, 3);
+				throw new HintException('App ' . strtolower($app) . ' is not enabled');
+			}
+
 			if ($appName === 'core') {
 				$appNameSpace = 'OC\\Core';
-			} else if ($appName === 'settings') {
-				$appNameSpace = 'OC\\Settings';
 			} else {
 				$appNameSpace = self::buildAppNamespace($appName);
 			}
@@ -149,7 +156,15 @@ class App {
 		 * https://tools.ietf.org/html/rfc7230#section-3.3
 		 * https://tools.ietf.org/html/rfc7230#section-3.3.2
 		 */
-		if ($httpHeaders !== Http::STATUS_NO_CONTENT && $httpHeaders !== Http::STATUS_NOT_MODIFIED) {
+		$emptyResponse = false;
+		if (preg_match('/^HTTP\/\d\.\d (\d{3}) .*$/', $httpHeaders, $matches)) {
+			$status = (int)$matches[1];
+			if ($status === Http::STATUS_NO_CONTENT || $status === Http::STATUS_NOT_MODIFIED) {
+				$emptyResponse = true;
+			}
+		}
+
+		if (!$emptyResponse) {
 			if ($response instanceof ICallbackResponse) {
 				$response->callback($io);
 			} else if (!is_null($output)) {

@@ -7,4 +7,5 @@
 
 namespace Icewind\SMB\Exception;
 
-class InvalidHostException extends ConnectException {}
+class InvalidHostException extends ConnectException {
+}

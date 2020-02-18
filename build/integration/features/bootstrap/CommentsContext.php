@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -18,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -256,8 +258,12 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theResponseShouldContainOnlyComments($number) {
-		if (count($this->response) !== (int)$number) {
-			throw new \Exception("Found more comments than $number (" . count($this->response) . ")");
+		$count = 0;
+		if ($this->response !== null) {
+			$count = count($this->response);
+		}
+		if ($count !== (int)$number) {
+			throw new \Exception("Found more comments than $number (" . $count . ")");
 		}
 	}
 

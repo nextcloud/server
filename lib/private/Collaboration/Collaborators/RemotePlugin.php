@@ -3,6 +3,9 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -152,10 +155,13 @@ class RemotePlugin implements ISearchPlugin {
 				$localUser = $this->userManager->get($remoteUser);
 				if ($localUser === null || $search !== $localUser->getCloudId()) {
 					$result['exact'][] = [
-						'label' => $search,
+						'label' => $remoteUser . " ($serverUrl)",
+						'uuid' => $remoteUser,
+						'name' => $remoteUser,
 						'value' => [
 							'shareType' => Share::SHARE_TYPE_REMOTE,
 							'shareWith' => $search,
+							'server' => $serverUrl,
 						],
 					];
 				}

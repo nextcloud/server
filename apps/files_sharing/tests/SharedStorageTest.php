@@ -22,16 +22,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\Files_Sharing\Tests;
 
-use OCA\Files_Sharing\SharedStorage;
-use OCP\Share\IShare;
 use OC\Files\View;
+use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\NotFoundException;
+use OCP\Share\IShare;
 
 /**
  * Class SharedStorageTest
@@ -40,7 +40,7 @@ use OCP\Files\NotFoundException;
  */
 class SharedStorageTest extends TestCase {
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		\OCA\Files_Trashbin\Trashbin::registerHooks();
 		$this->folder = '/folder_share_storage_test';
@@ -55,7 +55,7 @@ class SharedStorageTest extends TestCase {
 		$this->view->file_put_contents($this->folder . $this->filename, "file in subfolder");
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->view) {
 			if ($this->view->file_exists($this->folder)) {
 				$this->view->unlink($this->folder);
@@ -283,7 +283,7 @@ class SharedStorageTest extends TestCase {
 		$this->assertFalse($user2View->rename($this->folder . '/test-create.txt', $this->folder . '/newtarget.txt'));
 		$this->assertFalse($user2View->file_exists($this->folder . '/newtarget.txt'));
 
-		// rename file not allowed if target exists 
+		// rename file not allowed if target exists
 		$this->assertFalse($user2View->rename($this->folder . '/newtarget.txt', $this->folder . '/existing.txt'));
 
 		// overwriting file not allowed
@@ -507,6 +507,7 @@ class SharedStorageTest extends TestCase {
 			self::TEST_FILES_SHARING_API_GROUP1,
 			\OCP\Constants::PERMISSION_ALL
 		);
+		$this->shareManager->acceptShare($share1, self::TEST_FILES_SHARING_API_USER2);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
@@ -519,6 +520,7 @@ class SharedStorageTest extends TestCase {
 			self::TEST_FILES_SHARING_API_GROUP1,
 			\OCP\Constants::PERMISSION_ALL
 		);
+		$this->shareManager->acceptShare($share2, self::TEST_FILES_SHARING_API_USER2);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$view2 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');

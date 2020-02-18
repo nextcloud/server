@@ -60,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Abilita il ripristino della password:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "L'abilitazione di questa opzione ti consentirà di accedere nuovamente ai file cifrati in caso di perdita della password",
     "Enabled" : "Abilitata",
-    "Disabled" : "Disabilitata",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Devi migrare le tue chiavi di cifratura dalla vecchia cifratura (ownCloud <= 8.0) alla nuova. Esegui 'occ encryption:migrate' o contatta il tuo amministratore"
+    "Disabled" : "Disabilitata"
 },
 "nplurals=2; plural=(n != 1);");

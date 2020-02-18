@@ -31,6 +31,8 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "このファイルを復号化できません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "このファイルを読み取ることができません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。",
     "Default encryption module" : "デフォルトの暗号化モジュール",
+    "Default encryption module for server-side encryption" : "サーバーサイド暗号化のデフォルト暗号化モジュール",
+    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "この暗号化モジュールを使うには管理者画面でサーバーサイド暗号化を有効にする\n\t\t必要があります。このモジュールを一旦有効にすると全てのファイルが\n\t\t意識することなく暗号化されます。AES 256bit の鍵で暗号化されます。\n\t\tこのモジュールは既存ファイルはそのままで、サーバーサイド暗号化を\n\t\t有効にした後の新しいファイルのみ暗号化します。 一旦暗号化したシステムを\n\t\t無効化して元の暗号化されていない状態に戻すことはできません。\n\t\tサーバーサイド暗号化するかどうか決める前にドキュメントをよく読んで\n\t\t全ての要件を確認してください。",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "こんにちは\n\n管理者がサーバーサイド暗号化を有効にしました。'%s'というパスワードであなたのファイルが暗号化されました。\n\nWeb画面からログインして、個人設定画面の'基本暗号化モジュール' セクションにいき、暗号化パスワードの更新をお願いします。 '旧ログインパスワード'部分に上記パスワードを入力し、現在のログインパスワードで更新します。\n",
     "The share will expire on %s." : "共有は %s で有効期限が切れます。",
     "Cheers!" : "それでは！",
@@ -58,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "パスワードリカバリを有効に:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。",
     "Enabled" : "有効",
-    "Disabled" : "無効",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "古い暗号化(ownCloud 8.0以前)から新しい方へ、暗号化キーを移行する必要があります。'occ encryption:migrate'を実行するか、管理者に問い合わせてください。"
+    "Disabled" : "無効"
 },
 "nplurals=1; plural=0;");

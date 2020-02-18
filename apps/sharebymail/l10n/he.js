@@ -24,15 +24,9 @@ OC.L10N.register(
     "You can choose a different password at any time in the share dialog." : "ניתן לבחור בססמה אחרת בכל עת בתיבת דו־שיח השיתוף.",
     "Could not find share" : "לא ניתן למצוא את השיתוף",
     "Share by mail" : "שיתוף בדוא״ל",
+    "Share provider which allows you to share files by mail" : "ספק השיתוף שמאפשר לך לשתף קבצים בדוא״ל",
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "מאפשר למשתמשים לשתף קישורים מותאמים אישית לקובץ או לתיקייה על ידי הקלדת כתובת דוא״ל.",
     "Send password by mail" : "שליחת ססמה בדוא״ל",
-    "Enforce password protection" : "אילוץ הגנה בססמה",
-    "Sharing %s failed, this item is already shared with %s" : "השיתוף של %s נכשל, פריט זה כבר משותף עם %s",
-    "Failed to send share by E-mail" : "שליחת השיתוף בדוא״ל נכשלה",
-    "%s via %s" : "%s דרך %s",
-    "Password to access »%s« shared to you by %s" : "ססמת גישה אל „%s” שותפה אתך על ידי %s",
-    "It is protected with the following password: %s" : "מוגן בססמה הבאה: %s",
-    "Password to access »%s« shared with %s" : "ססמת הגישה אל „%s” שותפה עם %s",
-    "This is the password: %s" : "זאת הססמה: %s"
+    "Enforce password protection" : "אילוץ הגנה בססמה"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

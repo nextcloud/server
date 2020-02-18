@@ -55,7 +55,6 @@
     "Enable password recovery:" : "Aktifkan kata sandi pemulihan:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Mengaktifkan opsi ini memungkinkan Anda untuk mendapatkan kembali akses ke berkas terenkripsi Anda dalam kasus kehilangan kata sandi",
     "Enabled" : "Diaktifkan",
-    "Disabled" : "Dinonaktifkan",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Anda perlu mengganti kunci enkripsi Anda dari enkripsi lama (ownCloud <= 8.0) ke yang baru. Mohon jalankan 'occ encryption:migrate' atau hubungi administrator Anda"
+    "Disabled" : "Dinonaktifkan"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

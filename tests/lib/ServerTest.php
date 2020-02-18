@@ -38,7 +38,7 @@ class ServerTest extends \Test\TestCase {
 	protected $server;
 
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$config = new \OC\Config(\OC::$configDir);
 		$this->server = new \OC\Server('', $config);
@@ -57,7 +57,7 @@ class ServerTest extends \Test\TestCase {
 			['AppManager', '\OCP\App\IAppManager'],
 			['AsyncCommandBus', '\OC\Command\AsyncBus'],
 			['AsyncCommandBus', '\OCP\Command\IBus'],
-			['AvatarManager', '\OC\AvatarManager'],
+			['AvatarManager', '\OC\Avatar\AvatarManager'],
 			['AvatarManager', '\OCP\IAvatarManager'],
 
 			['CategoryFetcher', CategoryFetcher::class],

@@ -17,7 +17,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -45,7 +45,7 @@ class GlobalAuthTest extends TestCase {
 	 */
 	private $instance;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->credentialsManager = $this->createMock(ICredentialsManager::class);
@@ -105,10 +105,10 @@ class GlobalAuthTest extends TestCase {
 		], $storage->getBackendOptions());
 	}
 
-	/**
-	 * @expectedException \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException
-	 */
+	
 	public function testNoCredentialsPersonal() {
+		$this->expectException(\OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException::class);
+
 		$this->credentialsManager->expects($this->never())
 			->method('retrieve');
 

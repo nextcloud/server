@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud GmbH.
  *
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
@@ -17,13 +18,14 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\AppInfo;
 
-use OCP\App\IAppManager;
 use OC\ServerContainer;
+use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 
 /**
@@ -103,9 +105,6 @@ class PluginManager {
 			if (!isset($info['types']) || !in_array('dav', $info['types'], true)) {
 				continue;
 			}
-			// FIXME: switch to public API once available
-			// load app to make sure its classes are available
-			\OC_App::loadApp($app);
 			$this->loadSabrePluginsFromInfoXml($this->extractPluginList($info));
 			$this->loadSabreCollectionsFromInfoXml($this->extractCollectionList($info));
 		}

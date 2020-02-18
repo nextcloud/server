@@ -18,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -70,7 +70,7 @@ class DeletedUsersIndex {
 		$deletedUsers = $this->config->getUsersForUserValue(
 			'user_ldap', 'isDeleted', '1');
 
-		$userObjects = array();
+		$userObjects = [];
 		foreach($deletedUsers as $user) {
 			$userObjects[] = new OfflineUser($user, $this->config, $this->db, $this->mapping);
 		}
@@ -95,20 +95,26 @@ class DeletedUsersIndex {
 	 * @return bool
 	 */
 	public function hasUsers() {
-		if($this->deletedUsers === false) {
+		if(!is_array($this->deletedUsers)) {
 			$this->fetchDeletedUsers();
 		}
-		if(is_array($this->deletedUsers) && count($this->deletedUsers) > 0) {
-			return true;
-		}
-		return false;
+		return is_array($this->deletedUsers) && (count($this->deletedUsers) > 0);
 	}
 
 	/**
 	 * marks a user as deleted
+	 *
 	 * @param string $ocName
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function markUser($ocName) {
+		$curValue = $this->config->getUserValue($ocName, 'user_ldap', 'isDeleted', '0');
+		if($curValue === '1') {
+			// the user is already marked, do not write to DB again
+			return;
+		}
 		$this->config->setUserValue($ocName, 'user_ldap', 'isDeleted', '1');
+		$this->config->setUserValue($ocName, 'user_ldap', 'foundDeleted', (string)time());
+		$this->deletedUsers = null;
 	}
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -16,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -34,18 +37,18 @@ interface IApp {
 	 * @throws \InvalidArgumentException When the notification is not valid
 	 * @since 9.0.0
 	 */
-	public function notify(INotification $notification);
+	public function notify(INotification $notification): void;
 
 	/**
 	 * @param INotification $notification
 	 * @since 9.0.0
 	 */
-	public function markProcessed(INotification $notification);
+	public function markProcessed(INotification $notification): void;
 
 	/**
 	 * @param INotification $notification
 	 * @return int
 	 * @since 9.0.0
 	 */
-	public function getCount(INotification $notification);
+	public function getCount(INotification $notification): int;
 }

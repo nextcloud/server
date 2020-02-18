@@ -16,7 +16,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -222,19 +222,6 @@ interface ICache {
 	 * @since 12.0.0
 	 */
 	public function searchQuery(ISearchQuery $query);
-
-	/**
-	 * Search for files by tag of a given users.
-	 *
-	 * Note that every user can tag files differently.
-	 *
-	 * @param string|int $tag name or tag id
-	 * @param string $userId owner of the tags
-	 * @return ICacheEntry[] file data
-	 * @since 9.0.0
-	 * @deprecated 9.0.0 due to lack of pagination, not all backends might implement this
-	 */
-	public function searchByTag($tag, $userId);
 
 	/**
 	 * find a folder in the cache which has not been fully scanned

@@ -1,15 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
-
 /**
- * FullTextSearch - Full text search framework for Nextcloud
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
+ * @copyright 2018
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,20 +20,18 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 
 namespace OCP\FullTextSearch;
 
 
-use OCP\FullTextSearch\Model\DocumentAccess;
+use OCP\FullTextSearch\Model\IDocumentAccess;
 use OCP\FullTextSearch\Model\IIndex;
-use OCP\FullTextSearch\Model\IndexDocument;
+use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\IRunner;
 use OCP\FullTextSearch\Model\ISearchResult;
-
 
 /**
  * Interface IFullTextSearchPlatform
@@ -190,11 +185,11 @@ interface IFullTextSearchPlatform {
 	 *
 	 * @since 15.0.0
 	 *
-	 * @param IndexDocument $document
+	 * @param IIndexDocument $document
 	 *
 	 * @return IIndex
 	 */
-	public function indexDocument(IndexDocument $document): IIndex;
+	public function indexDocument(IIndexDocument $document): IIndex;
 
 
 	/**
@@ -204,9 +199,9 @@ interface IFullTextSearchPlatform {
 	 * @since 15.0.0
 	 *
 	 * @param ISearchResult $result
-	 * @param DocumentAccess $access
+	 * @param IDocumentAccess $access
 	 */
-	public function searchRequest(ISearchResult $result, DocumentAccess $access);
+	public function searchRequest(ISearchResult $result, IDocumentAccess $access);
 
 
 	/**
@@ -218,10 +213,9 @@ interface IFullTextSearchPlatform {
 	 * @param string $providerId
 	 * @param string $documentId
 	 *
-	 * @return IndexDocument
+	 * @return IIndexDocument
 	 */
-	public function getDocument(string $providerId, string $documentId): IndexDocument;
+	public function getDocument(string $providerId, string $documentId): IIndexDocument;
 
 
 }
-

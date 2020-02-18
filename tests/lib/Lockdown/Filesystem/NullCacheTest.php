@@ -34,7 +34,7 @@ class NulLCacheTest extends \Test\TestCase {
 	/** @var NullCache */
 	private $cache;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->cache = new NullCache();
@@ -137,10 +137,6 @@ class NulLCacheTest extends \Test\TestCase {
 
 	public function testSearchByMime() {
 		$this->assertSame([], $this->cache->searchByMime('foo'));
-	}
-
-	public function testSearchByTag() {
-		$this->assertSame([], $this->cache->searchByTag('foo', 'user'));
 	}
 
 	public function testGetIncomplete() {

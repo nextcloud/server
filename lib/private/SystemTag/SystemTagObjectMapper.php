@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -19,7 +21,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -154,20 +156,26 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 				'systemtagid' => $query->createParameter('tagid'),
 			]);
 
+		$tagsAssigned = [];
 		foreach ($tagIds as $tagId) {
 			try {
 				$query->setParameter('tagid', $tagId);
 				$query->execute();
+				$tagsAssigned[] = $tagId;
 			} catch (UniqueConstraintViolationException $e) {
 				// ignore existing relations
 			}
+		}
+
+		if (empty($tagsAssigned)) {
+			return;
 		}
 
 		$this->dispatcher->dispatch(MapperEvent::EVENT_ASSIGN, new MapperEvent(
 			MapperEvent::EVENT_ASSIGN,
 			$objectType,
 			$objId,
-			$tagIds
+			$tagsAssigned
 		));
 	}
 

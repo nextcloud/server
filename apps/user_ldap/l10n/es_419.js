@@ -12,7 +12,6 @@ OC.L10N.register(
     "No data specified" : "No se han especificado datos",
     " Could not set configuration %s" : "No fue posible establecer la configuración %s",
     "Action does not exist" : "La acción no existe",
-    "LDAP user and group backend" : "Backend de LDAP para usuario y grupo",
     "Renewing …" : "Renovando ...",
     "Very weak password" : "Contraseña muy debil",
     "Weak password" : "Contraseña débil",
@@ -64,6 +63,7 @@ OC.L10N.register(
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "No fue posible detectar el atributo del nombre a desplegar del usuario. Por favor especifícalo tú mismo en las configuraciones avanzadas de LDAP. ",
     "Could not find the desired feature" : "No fue posible encontrar la función deseada.",
     "Invalid Host" : "Servidor inválido",
+    "LDAP user and group backend" : "Backend de LDAP para usuario y grupo",
     "Test Configuration" : "Probar configuración",
     "Help" : "Ayuda",
     "Groups meeting these criteria are available in %s:" : "Los grupos que cumplen con los siguientes criterios están disponibles en %s:",
@@ -172,7 +172,6 @@ OC.L10N.register(
     "Email Field" : "Campo de correo electrónico",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Establecer el correo electrónico del usuario con base en el atributo LDAP. Déjalo vacío para el comportamiento predeterminado. ",
     "User Home Folder Naming Rule" : "Regla de Nomenclatura para la Carpeta Inicio del Usuario",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Dejar vacío para el usuario (predeterminado). En caso contrario, especifica un atributo LDAP/AD.",
     "Internal Username" : "Usuario interno",
     "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users." : "Por defecto, el usuario interno se creará con base en el atributo UUID. Ésto asegura que el nombre de usuario sea único y que los caracteres no tengan que ser convertidos. El usuario intenro tiene la restricción de que sólo permite los siguientes caracteres: [ a-zA-Z0-9_.@- ]. El resto de los caracteres son reemplazados con su correspondencia ASCII o simplemente se omiten. En caso de colisiones, se agregará/ incrementará un número. El usuario interno se usa para identificar a un usuario internamente. Adicionalmente es el nombre predeterminado para la carpeta de inicio. También es parte de las URLs remotas, por ejemplo, para todos los servicios *DAV. Con este ajuste se puede anular el comportamiento predeterminado. Déjalo vacío para mantener el comportamiento predeterminado. Los cambios surtiran efecto sólo en los usuarios mapeados (agregados) nuevos a LDAP. ",
     "Internal Username Attribute:" : "Atributo de nombre de usuario Interno:",
@@ -183,11 +182,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Mapeo del Usuario al Usuario LDAP",
     "Clear Username-LDAP User Mapping" : "Borrar el mapeo de los Usuarios a los Usuarios-LDAP",
     "Clear Groupname-LDAP Group Mapping" : "Borrar el mapeo de los Nombres de grupo a los grupos-LDAP",
-    " entries available within the provided Base DN" : "elementos disponibles dentro del DN Base proporcionado",
-    "1. Server" : "1. Servidor",
-    "Wrong password. Reset it?" : "Contraseña incorrecta. ¿Deseas restablecerla?",
-    "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Advertencia:</b> Las aplicaciones user_ldap y user_webdavauth son incompatibles. Puedes expermientar comportamientos inesperados. Por favor solicita a tu administrador del sistema deshabilitar alguno de ellos.",
-    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Los usuario son usados para almacenar y asignar (meta) datos. Para poder identificar y reconocer con precisión a los usuarios, cada usuario LDAP contará con un Usuario interno. Esto requiere un mapeo del Usuario al usuario-LDAP. El Usuario creado se mapea al UUID del usuario LDAP. Adicionalmente el DN se guarda en caché para reducir las interacciones con LDAP, pero no se usa para identificación. Si el DN cambia, las modficaciones serán encontradas. El Usuario interno se usa en todos lados. Limpiar los mapeos dejará rastros en todos lados. ¡Limpiar los mapeos no es senible a la configuración, afecta a todas las configuraciones LDAP! Nunca borres las configuraciones en el ambiente de producción, sólo házlo en los ambientes de pruebas o de experimentación. "
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Dejar vacío para el usuario (predeterminado). En caso contrario, especifica un atributo LDAP/AD."
 },
 "nplurals=2; plural=(n != 1);");

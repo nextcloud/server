@@ -23,11 +23,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\Files_Sharing\Tests;
+
+use OCP\Share\IShare;
 
 /**
  * Class WatcherTest
@@ -51,7 +53,7 @@ class WatcherTest extends TestCase {
 	/** @var \OCP\Share\IShare */
 	private $_share;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -74,6 +76,9 @@ class WatcherTest extends TestCase {
 			\OCP\Constants::PERMISSION_ALL
 		);
 
+		$this->_share->setStatus(IShare::STATUS_ACCEPTED);
+		$this->shareManager->updateShare($this->_share);
+
 		// login as user2
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
@@ -83,7 +88,7 @@ class WatcherTest extends TestCase {
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->sharedCache) {
 			$this->sharedCache->clear();
 		}

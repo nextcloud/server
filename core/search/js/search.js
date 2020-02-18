@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
@@ -31,8 +31,8 @@
 	 * This is a simple method. Register a new search with your function as references.
 	 * The events will forward the search or reset directly
 	 *
-	 * @param {function} searchCallback the function to run on a query search
-	 * @param {function} resetCallback the function to run when the user reset the form
+	 * @param {Function} searchCallback the function to run on a query search
+	 * @param {Function} resetCallback the function to run when the user reset the form
 	 */
 	var Search = function(searchCallback, resetCallback) {
 		this.initialize(searchCallback, resetCallback);
@@ -45,8 +45,8 @@
 		/**
 		 * Initialize the search box
 		 *
-		 * @param {function} searchCallback the function to run on a query search
-		 * @param {function} resetCallback the function to run when the user reset the form
+		 * @param {Function} searchCallback the function to run on a query search
+		 * @param {Function} resetCallback the function to run when the user reset the form
 		 */
 		initialize: function(searchCallback, resetCallback) {
 
@@ -69,7 +69,7 @@
 			/**
 			 * Search
 			 */
-			this.search = function(event) {
+			this._search = function(event) {
 				event.preventDefault();
 				var query = document.getElementById('searchbox').value;
 				self.searchCallback(query);
@@ -78,34 +78,25 @@
 			/**
 			 * Reset form
 			 */
-			this.reset = function(event) {
+			this._reset = function(event) {
 				event.preventDefault();
 				document.getElementById('searchbox').value = '';
 				self.resetCallback();
 			};
 
-			// Show search
-			document.getElementById('searchbox').style.display = 'block';
+			/**
+			 * Submit event handler
+			 */
+			this._submitHandler = function(event) {
+				// Avoid form submit
+				event.preventDefault();
+				_.debounce(self.search, 500);
+			}
 
-			// Register input event
-			document
-				.getElementById('searchbox')
-				.addEventListener('input', _.debounce(self.search, 500), true);
-			document
-				.querySelector('form.searchbox')
-				.addEventListener('submit', function(event) {
-					// Avoid form submit
-					event.preventDefault();
-					_.debounce(self.search, 500);
-				}, true);
-
-			// Register reset
-			document
-				.querySelector('form.searchbox')
-				.addEventListener('reset', _.debounce(self.reset, 500), true);
-
-			// Register esc key shortcut reset if focused
-			document.addEventListener('keyup', function(event) {
+			/**
+			 * keyUp event handler for the escape key
+			 */
+			this._keyUpHandler = function(event) {
 				if (event.defaultPrevented) {
 					return;
 				}
@@ -116,13 +107,20 @@
 					document.getElementById('searchbox').value === ''
 				) {
 					if (key === 'Escape' || key === 'Esc' || key === 27) {
+						document.activeElement.blur(); // remove focus on searchbox
 						_.debounce(self.reset, 500);
 					}
 				}
-			});
+			}
 
-			// Register ctrl+F key shortcut to focus
-			document.addEventListener('keydown', function(event) {
+			this._searchDebounced = _.debounce(self._search, 500)
+
+			this._resetDebounced = _.debounce(self._reset, 500)
+
+			/**
+			 * keyDown event handler for the ctrl+F shortcut
+			 */
+			this._keyDownHandler  = function(event) {
 				if (event.defaultPrevented) {
 					return;
 				}
@@ -139,7 +137,59 @@
 						document.getElementById('searchbox').select();
 					}
 				}
-			});
+			}
+
+			// Show search
+			document.getElementById('searchbox').style.display = 'block';
+
+			// Register input event
+			document
+				.getElementById('searchbox')
+				.addEventListener('input', this._searchDebounced, true);
+			document
+				.querySelector('form.searchbox')
+				.addEventListener('submit', this._submitHandler, true);
+
+			// Register reset
+			document
+				.querySelector('form.searchbox')
+				.addEventListener('reset', this._resetDebounced, true);
+
+			// Register esc key shortcut reset if focused
+			document.addEventListener('keyup', this._keyUpHandler);
+
+			// Register ctrl+F key shortcut to focus
+			document.addEventListener('keydown', this._keyDownHandler);
+		},
+
+		unregister: function() {
+			// Hide search
+			document.getElementById('searchbox').style.display = 'none';
+
+			// Reset search
+			document.getElementById('searchbox').value = '';
+			this.resetCallback();
+
+			// Unregister input event
+			document
+				.getElementById('searchbox')
+				.removeEventListener('input', this._searchDebounced, true);
+			document
+				.querySelector('form.searchbox')
+				.removeEventListener('submit', this._submitHandler, true);
+
+			// Unregister reset
+			document
+				.querySelector('form.searchbox')
+				.removeEventListener('reset', this._resetDebounced, true);
+
+			// Unregister esc key shortcut reset if focused
+			document.removeEventListener('keyup', this._keyUpHandler);
+
+			// Unregister ctrl+F key shortcut to focus
+			document.removeEventListener('keydown', this._keyDownHandler);
+
+			console.debug('Search handler unregistered');
 		}
 	};
 

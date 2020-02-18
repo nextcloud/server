@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Johannes Ernst <jernst@indiecomputing.com>
+ * @author Johannes Koenig <mail@jokoenig.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
@@ -19,7 +21,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -69,6 +71,11 @@ class TrustedDomainHelper {
 	 * have been configured
 	 */
 	public function isTrustedDomain($domainWithPort) {
+		// overwritehost is always trusted
+		if ($this->config->getSystemValue('overwritehost') !== '') {
+			return true;
+		}
+
 		$domain = $this->getDomainWithoutPort($domainWithPort);
 
 		// Read trusted domains from config
@@ -90,7 +97,7 @@ class TrustedDomainHelper {
 			if (gettype($trusted) !== 'string') {
 				break;
 			}
-			$regex = '/^' . implode('[-\.a-zA-Z0-9]*', array_map(function($v) { return preg_quote($v, '/'); }, explode('*', $trusted))) . '$/';
+			$regex = '/^' . implode('[-\.a-zA-Z0-9]*', array_map(function($v) { return preg_quote($v, '/'); }, explode('*', $trusted))) . '$/i';
 			if (preg_match($regex, $domain) || preg_match($regex, $domainWithPort)) {
  				return true;
  			}

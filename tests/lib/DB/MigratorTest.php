@@ -9,10 +9,10 @@
 
 namespace Test\DB;
 
-use \Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\OraclePlatform;
-use \Doctrine\DBAL\Schema\Schema;
-use \Doctrine\DBAL\Schema\SchemaConfig;
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\SchemaConfig;
 use OCP\IConfig;
 
 /**
@@ -44,7 +44,7 @@ class MigratorTest extends \Test\TestCase {
 	/** @var string */
 	private $tableNameTmp;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = \OC::$server->getConfig();
@@ -61,7 +61,7 @@ class MigratorTest extends \Test\TestCase {
 		return strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix', 'oc_') . 'test_'));
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		// Try to delete if exists (IF EXISTS NOT SUPPORTED IN ORACLE)
 		try {
 			$this->connection->exec('DROP TABLE ' . $this->connection->quoteIdentifier($this->tableNameTmp));
@@ -102,10 +102,10 @@ class MigratorTest extends \Test\TestCase {
 		return $this->connection->getDriver() instanceof \Doctrine\DBAL\Driver\PDOSqlite\Driver;
 	}
 
-	/**
-	 * @expectedException \OC\DB\MigrationException
-	 */
+	
 	public function testDuplicateKeyUpgrade() {
+		$this->expectException(\OC\DB\MigrationException::class);
+
 		if ($this->isSQLite()) {
 			$this->markTestSkipped('sqlite does not throw errors when creating a new key on existing data');
 		}

@@ -4,11 +4,12 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -23,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -199,7 +200,7 @@ class NavigationManager implements INavigationManager {
 				'type' => 'settings',
 				'id' => 'help',
 				'order' => 5,
-				'href' => $this->urlGenerator->linkToRoute('settings_help'),
+				'href' => $this->urlGenerator->linkToRoute('settings.Help.help'),
 				'name' => $l->t('Help'),
 				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
 			]);
@@ -271,10 +272,10 @@ class NavigationManager implements INavigationManager {
 
 			// load plugins and collections from info.xml
 			$info = $this->appManager->getAppInfo($app);
-			if (empty($info['navigations'])) {
+			if (!isset($info['navigations']['navigation'])) {
 				continue;
 			}
-			foreach ($info['navigations'] as $nav) {
+			foreach ($info['navigations']['navigation'] as $key => $nav) {
 				if (!isset($nav['name'])) {
 					continue;
 				}
@@ -286,7 +287,7 @@ class NavigationManager implements INavigationManager {
 					continue;
 				}
 				$l = $this->l10nFac->get($app);
-				$id = isset($nav['id']) ? $nav['id'] : $app;
+				$id = $nav['id'] ?? $app . ($key === 0 ? '' : $key);
 				$order = isset($nav['order']) ? $nav['order'] : 100;
 				$type = isset($nav['type']) ? $nav['type'] : 'link';
 				$route = $nav['route'] !== '' ? $this->urlGenerator->linkToRoute($nav['route']) : '';

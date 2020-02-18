@@ -5,11 +5,11 @@ OC.L10N.register(
     "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth 2.0-klienter",
     "Name" : "Navn",
-    "Client Identifier" : "Klient-identifikator",
-    "Add client" : "Legg til klient",
-    "OAuth 2.0 allows external services to request access to %s." : "OAuth 2.0 lar eksterne tjenester forespørre tilgang til %s.",
     "Redirection URI" : "Videresendings-URI",
+    "Client Identifier" : "Klient-identifikator",
     "Secret" : "Hemmelighet",
-    "Add" : "Legg til"
+    "Add client" : "Legg til klient",
+    "Add" : "Legg til",
+    "Delete" : "Slett"
 },
 "nplurals=2; plural=(n != 1);");

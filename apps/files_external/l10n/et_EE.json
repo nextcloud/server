@@ -15,6 +15,7 @@
     "Check for changes" : "Otsi uuendusi",
     "Never" : "Mitte kunagi",
     "Once every direct access" : "Kord iga otsese pöördumise korral",
+    "Read only" : "kirjutuskaitstud",
     "Delete" : "Kustuta",
     "Admin defined" : "Admini poolt määratud",
     "Saved" : "Salvestatud",
@@ -63,11 +64,13 @@
     "Secure ftps://" : "Turvaline ftps://",
     "Local" : "Kohalik",
     "Location" : "Asukoht",
+    "Nextcloud" : "Nextcloud",
     "SFTP" : "SFTP",
     "Root" : "Juur",
     "SFTP with secret key login" : "SFTP koos salajase võtmega logimisega",
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Jaga",
+    "Show hidden files" : "Näita peidetud faile",
     "SMB / CIFS using OC login" : "SMB / CIFS kasutades OC logimist",
     "Username as share" : "Kasutajanimi kui jagamine",
     "OpenStack Object Storage" : "OpenStack Object Storage",
@@ -75,6 +78,7 @@
     "Name" : "Nimi",
     "Storage type" : "Andmehoidla tüüp",
     "Scope" : "Skoop",
+    "Open documentation" : "Ava dokumentatsioon",
     "Folder name" : "Kausta nimi",
     "External storage" : "Väline andmehoidla",
     "Authentication" : "Autentimine",
@@ -82,9 +86,6 @@
     "Available for" : "Saadaval",
     "Add storage" : "Lisa andmehoidla",
     "Advanced settings" : "Lisavalikud",
-    "OpenStack" : "OpenStack",
-    "No external storage configured" : "Välist salvestuskohta pole seadistatud",
-    "You can add external storages in the personal settings" : "Sa võid lisada välise salvestuskoha isiklikes seadetes",
-    "Allow users to mount the following external storage" : "Võimalda kasutajatel ühendada järgmist välist andmehoidlat"
+    "Saving..." : "Salvestamine..."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

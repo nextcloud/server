@@ -19,10 +19,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 
 namespace OCA\Federation\Tests\Controller;
 
@@ -68,7 +67,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 	/** @var int simulated timestamp */
 	private $currentTime = 1234567;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
@@ -177,7 +176,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 			$this->trustedServers->expects($this->once())
 				->method('addSharedSecret')->willReturn($url, 'secret');
 		} else {
-			$this->secureRandom->expects($this->never())->method('getMediumStrengthGenerator');
 			$this->secureRandom->expects($this->never())->method('generate');
 			$this->trustedServers->expects($this->never())->method('addSharedSecret');
 		}

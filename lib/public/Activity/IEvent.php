@@ -1,10 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,7 +21,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -29,6 +32,7 @@ declare(strict_types=1);
 
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
+
 namespace OCP\Activity;
 
 /**
@@ -100,6 +104,17 @@ interface IEvent {
 	public function setSubject(string $subject, array $parameters = []): self;
 
 	/**
+	 * Set a parsed subject
+	 *
+	 * HTML is not allowed in the parsed subject and will be escaped
+	 * automatically by the clients. You can use the RichObjectString system
+	 * provided by the Nextcloud server to highlight important parameters via
+	 * the setRichSubject method, but make sure, that a plain text message is
+	 * always set via setParsedSubject, to support clients which can not handle
+	 * rich strings.
+	 *
+	 * See https://github.com/nextcloud/server/issues/1706 for more information.
+	 *
 	 * @param string $subject
 	 * @return $this
 	 * @throws \InvalidArgumentException if the subject is invalid
@@ -114,6 +129,16 @@ interface IEvent {
 	public function getParsedSubject(): string;
 
 	/**
+	 * Set a RichObjectString subject
+	 *
+	 * HTML is not allowed in the rich subject and will be escaped automatically
+	 * by the clients, but you can use the RichObjectString system provided by
+	 * the Nextcloud server to highlight important parameters.
+	 * Also make sure, that a plain text subject is always set via
+	 * setParsedSubject, to support clients which can not handle rich strings.
+	 *
+	 * See https://github.com/nextcloud/server/issues/1706 for more information.
+	 *
 	 * @param string $subject
 	 * @param array $parameters
 	 * @return $this
@@ -146,6 +171,17 @@ interface IEvent {
 	public function setMessage(string $message, array $parameters = []): self;
 
 	/**
+	 * Set a parsed message
+	 *
+	 * HTML is not allowed in the parsed message and will be escaped
+	 * automatically by the clients. You can use the RichObjectString system
+	 * provided by the Nextcloud server to highlight important parameters via
+	 * the setRichMessage method, but make sure, that a plain text message is
+	 * always set via setParsedMessage, to support clients which can not handle
+	 * rich strings.
+	 *
+	 * See https://github.com/nextcloud/server/issues/1706 for more information.
+	 *
 	 * @param string $message
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message is invalid
@@ -160,6 +196,16 @@ interface IEvent {
 	public function getParsedMessage(): string;
 
 	/**
+	 * Set a RichObjectString message
+	 *
+	 * HTML is not allowed in the rich message and will be escaped automatically
+	 * by the clients, but you can use the RichObjectString system provided by
+	 * the Nextcloud server to highlight important parameters.
+	 * Also make sure, that a plain text message is always set via
+	 * setParsedMessage, to support clients which can not handle rich strings.
+	 *
+	 * See https://github.com/nextcloud/server/issues/1706 for more information.
+	 *
 	 * @param string $message
 	 * @param array $parameters
 	 * @return $this

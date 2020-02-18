@@ -18,6 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace Test\Command\Integrity;
 
 use OC\Core\Command\Integrity\SignCore;
@@ -35,7 +36,7 @@ class SignCoreTest extends TestCase {
 	/** @var SignCore */
 	private $signCore;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->checker = $this->createMock(Checker::class);
 		$this->fileAccessHelper = $this->createMock(FileAccessHelper::class);
@@ -149,7 +150,7 @@ class SignCoreTest extends TestCase {
 			->expects($this->at(0))
 			->method('file_get_contents')
 			->with('privateKey')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
 		$this->fileAccessHelper
 			->expects($this->at(1))
 			->method('file_get_contents')
@@ -188,12 +189,12 @@ class SignCoreTest extends TestCase {
 			->expects($this->at(0))
 			->method('file_get_contents')
 			->with('privateKey')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
 		$this->fileAccessHelper
 			->expects($this->at(1))
 			->method('file_get_contents')
 			->with('certificate')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
 
 		$this->checker
 			->expects($this->once())
@@ -232,12 +233,12 @@ class SignCoreTest extends TestCase {
 			->expects($this->at(0))
 			->method('file_get_contents')
 			->with('privateKey')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
 		$this->fileAccessHelper
 			->expects($this->at(1))
 			->method('file_get_contents')
 			->with('certificate')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
+			->willReturn(file_get_contents(\OC::$SERVERROOT . '/tests/data/integritycheck/core.crt'));
 
 		$this->checker
 			->expects($this->once())

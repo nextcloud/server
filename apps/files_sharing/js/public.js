@@ -37,8 +37,6 @@ OCA.Sharing.PublicApp = {
 		fileActions = new OCA.Files.FileActions();
 		// default actions
 		fileActions.registerDefaultActions();
-		// legacy actions
-		fileActions.merge(window.FileActions);
 		// regular actions
 		fileActions.merge(OCA.Files.fileActions);
 
@@ -50,6 +48,8 @@ OCA.Sharing.PublicApp = {
 		this.initialDir = $('#dir').val();
 
 		var token = $('#sharingToken').val();
+		var hideDownload = $('#hideDownload').val();
+
 
 		// file list mode ?
 		if ($el.find('#filestable').length) {
@@ -92,6 +92,9 @@ OCA.Sharing.PublicApp = {
 					]
 				}
 			);
+			if (hideDownload === 'true') {
+				this.fileList._allowSelection = false;
+			}
 			this.files = OCA.Files.Files;
 			this.files.initialize();
 			// TODO: move to PublicFileList.initialize() once
@@ -131,9 +134,11 @@ OCA.Sharing.PublicApp = {
 			scalingup: 0
 		};
 
-		var imgcontainer = $('<a href="' + $('#previewURL').val()
-			+ '" target="_blank"><img class="publicpreview" alt=""></a>');
-		var img = imgcontainer.find('.publicpreview');
+		var imgcontainer = $('<img class="publicpreview" alt="">');
+		if (hideDownload === 'false') {
+			imgcontainer = $('<a href="' + $('#previewURL').val() + '" target="_blank"></a>').append(imgcontainer);
+		}
+		var img = imgcontainer.hasClass('publicpreview')? imgcontainer: imgcontainer.find('.publicpreview');
 		img.css({
 			'max-width': previewWidth,
 			'max-height': previewHeight
@@ -147,7 +152,7 @@ OCA.Sharing.PublicApp = {
 			img.attr('src', $('#downloadURL').val());
 			imgcontainer.appendTo('#imgframe');
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) === 'text' && window.btoa) {
-			if (oc_appswebroots['files_texteditor'] !== undefined) {
+			if (OC.appswebroots['files_texteditor'] !== undefined) {
 				// the text editor handles the previewing
 				return;
 			}
@@ -157,7 +162,7 @@ OCA.Sharing.PublicApp = {
 				url: url,
 				headers: {
 					Authorization: 'Basic ' + btoa(token + ':'),
-					Range: 'bytes=0-1000'
+					Range: 'bytes=0-10000'
 				}
 			}).then(function (data) {
 				self._showTextPreview(data, previewHeight);
@@ -170,7 +175,10 @@ OCA.Sharing.PublicApp = {
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) !== 'video') {
 			img.attr('src', mimetypeIcon);
 			img.attr('width', 128);
-			imgcontainer.appendTo('#imgframe');
+			// "#imgframe" is either empty or it contains an audio preview that
+			// the icon should appear before, so the container should be
+			// prepended to the frame.
+			imgcontainer.prependTo('#imgframe');
 		}
 		else if (previewSupported === 'true') {
 			$('#imgframe > video').attr('poster', OC.generateUrl('/apps/files_sharing/publicpreview/' + token + '?' + OC.buildQueryString(params)));
@@ -190,6 +198,27 @@ OCA.Sharing.PublicApp = {
 					params.files = filename;
 				}
 				return OC.generateUrl('/s/' + token + '/download') + '?' + OC.buildQueryString(params);
+			};
+
+			this.fileList._createRow = function(fileData) {
+				var $tr = OCA.Files.FileList.prototype._createRow.apply(this, arguments);
+				if (hideDownload === 'true') {
+					this.fileActions.currentFile = $tr.find('td');
+					var mime = this.fileActions.getCurrentMimeType();
+					var type = this.fileActions.getCurrentType();
+					var permissions = this.fileActions.getCurrentPermissions();
+					var action = this.fileActions.getDefault(mime, type, permissions);
+
+					// Remove the link. This means that files without a default action fail hard
+					$tr.find('a.name').attr('href', '#');
+
+					this.fileActions.actions.all = {};
+				}
+				return $tr;
+			};
+
+			this.fileList.isSelectedDownloadable = function () {
+				return hideDownload !== 'true';
 			};
 
 			this.fileList.getUploadUrl = function(fileName, dir) {
@@ -270,6 +299,11 @@ OCA.Sharing.PublicApp = {
 				e.preventDefault();
 				OC.redirect(FileList.getDownloadUrl());
 			});
+
+			if (hideDownload === 'true') {
+				this.fileList.$el.find('#headerSelection').remove();
+				this.fileList.$el.find('.summary').find('td:first-child').remove();
+			}
 		}
 
 		$(document).on('click', '#directLink', function () {

@@ -35,6 +35,7 @@ fi
 php occ maintenance:install --admin-pass=admin
 
 OC_PASS=123456acb php occ user:add --password-from-env user0
+OC_PASS=123456acb php occ user:add --password-from-env user1
 OC_PASS=123456acb php occ user:add --password-from-env disabledUser
 php occ user:disable disabledUser
 

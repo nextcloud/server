@@ -24,7 +24,6 @@ return [
 		'lib/composer',
 		'ocs-provider/',
 		'ocs/',
-		'settings/',
 		'tests/lib/Util/User',
 		'themes',
 	],
@@ -49,8 +48,10 @@ return [
 	//       to `exclude_analysis_directory_list`.
 	'exclude_analysis_directory_list' => [
 		'3rdparty',
+		'apps/accessibility/composer',
 		'apps/admin_audit/composer',
 		'apps/admin_audit/tests',
+		'apps/cloud_federation_api/composer',
 		'apps/comments/composer',
 		'apps/comments/tests',
 		'apps/dav/composer',
@@ -78,6 +79,8 @@ return [
 		'apps/oauth2/tests',
 		'apps/provisioning_api/composer',
 		'apps/provisioning_api/tests',
+		'apps/settings/composer',
+		'apps/settings/tests',
 		'apps/sharebymail/composer',
 		'apps/sharebymail/tests',
 		'apps/systemtags/composer',
@@ -128,7 +131,7 @@ return [
 
 	// The number of processes to fork off during the analysis
 	// phase.
-	'processes' => 10,
+	'processes' => 5,
 
 	// Backwards Compatibility Checking. This is slow
 	// and expensive, but you should consider running

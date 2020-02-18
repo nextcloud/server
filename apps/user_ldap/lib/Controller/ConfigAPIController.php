@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -27,6 +28,7 @@ use OC\CapabilitiesManager;
 use OC\Core\Controller\OCSController;
 use OC\Security\IdentityProof\Manager;
 use OCA\User_LDAP\Configuration;
+use OCA\User_LDAP\ConnectionFactory;
 use OCA\User_LDAP\Helper;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
@@ -45,6 +47,9 @@ class ConfigAPIController extends OCSController {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var ConnectionFactory */
+	private $connectionFactory;
+
 	public function __construct(
 		$appName,
 		IRequest $request,
@@ -53,7 +58,8 @@ class ConfigAPIController extends OCSController {
 		IUserManager $userManager,
 		Manager $keyManager,
 		Helper $ldapHelper,
-		ILogger $logger
+		ILogger $logger,
+		ConnectionFactory $connectionFactory
 	) {
 		parent::__construct(
 			$appName,
@@ -67,6 +73,7 @@ class ConfigAPIController extends OCSController {
 
 		$this->ldapHelper = $ldapHelper;
 		$this->logger = $logger;
+		$this->connectionFactory = $connectionFactory;
 	}
 
 	/**
@@ -198,6 +205,7 @@ class ConfigAPIController extends OCSController {
 			}
 
 			$configuration->saveConfiguration();
+			$this->connectionFactory->get($configID)->clearCache();
 		} catch(OCSException $e) {
 			throw $e;
 		} catch (\Exception $e) {

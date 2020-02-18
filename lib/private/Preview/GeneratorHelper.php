@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,9 +19,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OC\Preview;
 
 use OC\Files\View;
@@ -30,6 +33,7 @@ use OCP\IConfig;
 use OCP\IImage;
 use OCP\Image as OCPImage;
 use OCP\Preview\IProvider;
+use OCP\Preview\IProviderV2;
 
 /**
  * Very small wrapper class to make the generator fully unit testable
@@ -54,21 +58,8 @@ class GeneratorHelper {
 	 * @param int $maxHeight
 	 * @return bool|IImage
 	 */
-	public function getThumbnail(IProvider $provider, File $file, $maxWidth, $maxHeight) {
-		list($view, $path) = $this->getViewAndPath($file);
-		return $provider->getThumbnail($path, $maxWidth, $maxHeight, false, $view);
-	}
-
-	/**
-	 * @param File $file
-	 * @return array
-	 * This is required to create the old view and path
-	 */
-	private function getViewAndPath(File $file) {
-		$view = new View($file->getParent()->getPath());
-		$path = $file->getName();
-
-		return [$view, $path];
+	public function getThumbnail(IProviderV2 $provider, File $file, $maxWidth, $maxHeight) {
+		return $provider->getThumbnail($file, $maxWidth, $maxHeight);
 	}
 
 	/**
@@ -82,10 +73,14 @@ class GeneratorHelper {
 	}
 
 	/**
-	 * @param $provider
-	 * @return IProvider
+	 * @param callable $providerClosure
+	 * @return IProviderV2
 	 */
-	public function getProvider($provider) {
-		return $provider();
+	public function getProvider($providerClosure) {
+		$provider = $providerClosure();
+		if ($provider instanceof IProvider) {
+			$provider = new ProviderV1Adapter($provider);
+		}
+		return $provider;
 	}
 }

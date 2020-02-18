@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Boris Rybalkin <ribalkin@gmail.com>
  * @author Brice Maron <brice@bmaron.net>
@@ -33,12 +34,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OC\Files\Storage;
 
+use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\ForbiddenException;
 use OCP\Files\Storage\IStorage;
@@ -201,9 +203,9 @@ class Local extends \OC\Files\Storage\Common {
 			return false;
 		}
 		if (!is_null($mtime)) {
-			$result = touch($this->getSourcePath($path), $mtime);
+			$result = @touch($this->getSourcePath($path), $mtime);
 		} else {
-			$result = touch($this->getSourcePath($path));
+			$result = @touch($this->getSourcePath($path));
 		}
 		if ($result) {
 			clearstatcache(true, $this->getSourcePath($path));
@@ -229,6 +231,18 @@ class Local extends \OC\Files\Storage\Common {
 			return false;
 		}
 
+	}
+
+	private function treeContainsBlacklistedFile(string $path): bool {
+		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+		foreach ($iterator as $file) {
+			/** @var \SplFileInfo $file */
+			if (Filesystem::isFileBlacklisted($file->getBasename())) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public function rename($path1, $path2) {
@@ -266,6 +280,10 @@ class Local extends \OC\Files\Storage\Common {
 					$result &= $this->rmdir($path1);
 				}
 				return $result;
+			}
+
+			if ($this->treeContainsBlacklistedFile($this->getSourcePath($path1))) {
+				throw new ForbiddenException('Invalid path', false);
 			}
 		}
 
@@ -362,6 +380,10 @@ class Local extends \OC\Files\Storage\Common {
 	 * @throws ForbiddenException
 	 */
 	public function getSourcePath($path) {
+		if (Filesystem::isFileBlacklisted($path)) {
+			throw new ForbiddenException('Invalid path', false);
+		}
+
 		$fullPath = $this->datadir . $path;
 		$currentPath = $path;
 		if ($this->allowSymlinks || $currentPath === '') {
@@ -403,12 +425,26 @@ class Local extends \OC\Files\Storage\Common {
 	public function getETag($path) {
 		if ($this->is_file($path)) {
 			$stat = $this->stat($path);
-			return md5(
-				$stat['mtime'] .
-				$stat['ino'] .
-				$stat['dev'] .
-				$stat['size']
-			);
+
+			if ($stat === false) {
+				return md5('');
+			}
+
+			$toHash = '';
+			if (isset($stat['mtime'])) {
+				$toHash .= $stat['mtime'];
+			}
+			if (isset($stat['ino'])) {
+				$toHash .= $stat['ino'];
+			}
+			if (isset($stat['dev'])) {
+				$toHash .= $stat['dev'];
+			}
+			if (isset($stat['size'])) {
+				$toHash .= $stat['size'];
+			}
+
+			return md5($toHash);
 		} else {
 			return parent::getETag($path);
 		}

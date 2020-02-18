@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017 EITA Cooperative (eita.org.br)
  *
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -85,11 +86,11 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->createUser('user', 'password');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements createUser in this LDAP Backend.
-	 */
+	
 	public function testCreateUserNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements createUser in this LDAP Backend.');
+
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->createUser('foo','bar');
 	}
@@ -116,11 +117,11 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->setPassword('user', 'password');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements setPassword in this LDAP Backend.
-	 */
+	
 	public function testSetPasswordNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements setPassword in this LDAP Backend.');
+
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->setPassword('foo','bar');
 	}
@@ -146,11 +147,11 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->getHome('uid');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements getHome in this LDAP Backend.
-	 */
+	
 	public function testGetHomeNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements getHome in this LDAP Backend.');
+
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->getHome('foo');
 	}	
@@ -176,11 +177,11 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->getDisplayName('uid');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements getDisplayName in this LDAP Backend.
-	 */
+	
 	public function testGetDisplayNameNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements getDisplayName in this LDAP Backend.');
+
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->getDisplayName('foo');
 	}
@@ -207,11 +208,11 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->setDisplayName('user', 'password');		
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements setDisplayName in this LDAP Backend.
-	 */
+	
 	public function testSetDisplayNameNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements setDisplayName in this LDAP Backend.');
+
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->setDisplayName('foo', 'bar');
 	}	
@@ -237,11 +238,11 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->canChangeAvatar('uid');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements canChangeAvatar in this LDAP Backend.
-	 */
+	
 	public function testCanChangeAvatarNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements canChangeAvatar in this LDAP Backend.');
+
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->canChangeAvatar('foo');
 	}
@@ -264,11 +265,11 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->countUsers();
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements countUsers in this LDAP Backend.
-	 */
+	
 	public function testCountUsersNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements countUsers in this LDAP Backend.');
+
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->countUsers();
 	}	
@@ -300,11 +301,11 @@ class UserLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->deleteUser('uid');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements deleteUser in this LDAP Backend.
-	 */
+	
 	public function testDeleteUserNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements deleteUser in this LDAP Backend.');
+
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->deleteUser('foo');
 	}

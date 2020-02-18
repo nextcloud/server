@@ -4,6 +4,7 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -18,16 +19,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\DAV\Tests\unit\CardDAV\Sharing;
 
 
+use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\DAV\Sharing\Plugin;
-use OCA\DAV\Connector\Sabre\Auth;
 use OCP\IRequest;
 use Sabre\DAV\Server;
 use Sabre\DAV\SimpleCollection;
@@ -44,7 +45,7 @@ class PluginTest extends TestCase {
 	/** @var IShareable | \PHPUnit_Framework_MockObject_MockObject */
 	private $book;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		
 		/** @var Auth | \PHPUnit_Framework_MockObject_MockObject $authBackend */

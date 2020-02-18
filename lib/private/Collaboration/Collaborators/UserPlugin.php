@@ -3,6 +3,9 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -71,7 +74,7 @@ class UserPlugin implements ISearchPlugin {
 			foreach ($userGroups as $userGroup) {
 				$usersTmp = $this->groupManager->displayNamesInGroup($userGroup, $search, $limit, $offset);
 				foreach ($usersTmp as $uid => $userDisplayName) {
-					$users[$uid] = $userDisplayName;
+					$users[(string) $uid] = $userDisplayName;
 				}
 			}
 		} else {
@@ -80,7 +83,7 @@ class UserPlugin implements ISearchPlugin {
 
 			foreach ($usersTmp as $user) {
 				if ($user->isEnabled()) { // Don't keep deactivated users
-					$users[$user->getUID()] = $user->getDisplayName();
+					$users[(string) $user->getUID()] = $user->getDisplayName();
 				}
 			}
 		}
@@ -94,6 +97,7 @@ class UserPlugin implements ISearchPlugin {
 		$foundUserById = false;
 		$lowerSearch = strtolower($search);
 		foreach ($users as $uid => $userDisplayName) {
+			$uid = (string) $uid;
 			if (strtolower($uid) === $lowerSearch || strtolower($userDisplayName) === $lowerSearch) {
 				if (strtolower($uid) === $lowerSearch) {
 					$foundUserById = true;

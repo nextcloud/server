@@ -14,8 +14,6 @@ use OCP\IURLGenerator;
 
 /**
  * Class UrlGeneratorTest
- *
- * @group DB
  */
 class UrlGeneratorTest extends \Test\TestCase {
 
@@ -30,7 +28,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	/** @var string */
 	private $originalWebRoot;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
@@ -43,7 +41,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 		$this->originalWebRoot = \OC::$WEBROOT;
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		// Reset webRoot
 		\OC::$WEBROOT = $this->originalWebRoot;
 	}
@@ -74,7 +72,7 @@ class UrlGeneratorTest extends \Test\TestCase {
 	 * @dataProvider provideSubDirAppUrlParts
 	 */
 	public function testLinkToSubDir($app, $file, $args, $expectedResult) {
-		\OC::$WEBROOT = '/owncloud';
+		\OC::$WEBROOT = '/nextcloud';
 		$result = $this->urlGenerator->linkTo($app, $file, $args);
 		$this->assertEquals($expectedResult, $result);
 	}
@@ -84,32 +82,32 @@ class UrlGeneratorTest extends \Test\TestCase {
 	 */
 	public function testLinkToRouteAbsolute($route, $expected) {
 		$this->mockBaseUrl();
-		\OC::$WEBROOT = '/owncloud';
+		\OC::$WEBROOT = '/nextcloud';
 		$result = $this->urlGenerator->linkToRouteAbsolute($route);
 		$this->assertEquals($expected, $result);
 	}
 
 	public function provideRoutes() {
-		return array(
-			array('files_ajax_list', 'http://localhost/owncloud/index.php/apps/files/ajax/list.php'),
-			array('core.Preview.getPreview', 'http://localhost/owncloud/index.php/core/preview.png'),
-		);
+		return [
+			['files_ajax_list', 'http://localhost/nextcloud/index.php/apps/files/ajax/list.php'],
+			['core.Preview.getPreview', 'http://localhost/nextcloud/index.php/core/preview.png'],
+		];
 	}
 
 	public function provideDocRootAppUrlParts() {
-		return array(
-			array('files', 'ajax/list.php', array(), '/index.php/apps/files/ajax/list.php'),
-			array('files', 'ajax/list.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'),
-			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php?trut=trat&dut=dat'),
-		);
+		return [
+			['files', 'ajax/list.php', [], '/index.php/apps/files/ajax/list.php'],
+			['files', 'ajax/list.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'],
+			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/index.php?trut=trat&dut=dat'],
+		];
 	}
 
 	public function provideSubDirAppUrlParts() {
-		return array(
-			array('files', 'ajax/list.php', array(), '/owncloud/index.php/apps/files/ajax/list.php'),
-			array('files', 'ajax/list.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'),
-			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php?trut=trat&dut=dat'),
-		);
+		return [
+			['files', 'ajax/list.php', [], '/nextcloud/index.php/apps/files/ajax/list.php'],
+			['files', 'ajax/list.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'],
+			['', 'index.php', ['trut' => 'trat', 'dut' => 'dat'], '/nextcloud/index.php?trut=trat&dut=dat'],
+		];
 	}
 
 	/**
@@ -131,34 +129,36 @@ class UrlGeneratorTest extends \Test\TestCase {
 	 */
 	function testGetAbsoluteURLSubDir($url, $expectedResult) {
 		$this->mockBaseUrl();
-		\OC::$WEBROOT = '/owncloud';
+		\OC::$WEBROOT = '/nextcloud';
 		$result = $this->urlGenerator->getAbsoluteURL($url);
 		$this->assertEquals($expectedResult, $result);
 	}
 
 	public function provideDocRootURLs() {
-		return array(
-			array("index.php", "http://localhost/index.php"),
-			array("/index.php", "http://localhost/index.php"),
-			array("/apps/index.php", "http://localhost/apps/index.php"),
-			array("apps/index.php", "http://localhost/apps/index.php"),
-			);
+		return [
+			['index.php', 'http://localhost/index.php'],
+			['/index.php', 'http://localhost/index.php'],
+			['/apps/index.php', 'http://localhost/apps/index.php'],
+			['apps/index.php', 'http://localhost/apps/index.php'],
+		];
 	}
 
 	public function provideSubDirURLs() {
-		return array(
-			array("index.php", "http://localhost/owncloud/index.php"),
-			array("/index.php", "http://localhost/owncloud/index.php"),
-			array("/apps/index.php", "http://localhost/owncloud/apps/index.php"),
-			array("apps/index.php", "http://localhost/owncloud/apps/index.php"),
-			);
+		return [
+			['', 'http://localhost/nextcloud/'],
+			['/', 'http://localhost/nextcloud/'],
+			['index.php', 'http://localhost/nextcloud/index.php'],
+			['/index.php', 'http://localhost/nextcloud/index.php'],
+			['/apps/index.php', 'http://localhost/nextcloud/apps/index.php'],
+			['apps/index.php', 'http://localhost/nextcloud/apps/index.php'],
+		];
 	}
 
 	public function testGetBaseUrl() {
 		$this->mockBaseUrl();
 		\OC::$WEBROOT = '/nextcloud';
 		$actual = $this->urlGenerator->getBaseUrl();
-		$expected = "http://localhost/nextcloud";
+		$expected = 'http://localhost/nextcloud';
 		$this->assertEquals($expected, $actual);
 	}
 

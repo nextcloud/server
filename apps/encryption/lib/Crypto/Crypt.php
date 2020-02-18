@@ -8,6 +8,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Stefan Weiberg <sweiberg@suse.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -22,7 +23,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -482,9 +483,15 @@ class Crypt {
 	 * @throws GenericEncryptionException
 	 */
 	private function checkSignature($data, $passPhrase, $expectedSignature) {
+		$enforceSignature = !$this->config->getSystemValue('encryption_skip_signature_check', false);
+
 		$signature = $this->createSignature($data, $passPhrase);
-		if (!hash_equals($expectedSignature, $signature)) {
+		$isCorrectHash = hash_equals($expectedSignature, $signature);
+
+		if (!$isCorrectHash && $enforceSignature) {
 			throw new GenericEncryptionException('Bad Signature', $this->l->t('Bad Signature'));
+		} else if (!$isCorrectHash && !$enforceSignature) {
+			$this->logger->info("Signature check skipped", ['app' => 'encryption']);
 		}
 	}
 
@@ -557,11 +564,13 @@ class Crypt {
 	 * @throws GenericEncryptionException
 	 */
 	private function hasSignature($catFile, $cipher) {
+		$skipSignatureCheck = $this->config->getSystemValue('encryption_skip_signature_check', false);
+
 		$meta = substr($catFile, -93);
 		$signaturePosition = strpos($meta, '00sig00');
 
 		// enforce signature for the new 'CTR' ciphers
-		if ($signaturePosition === false && stripos($cipher, 'ctr') !== false) {
+		if (!$skipSignatureCheck && $signaturePosition === false && stripos($cipher, 'ctr') !== false) {
 			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
 		}
 
@@ -693,4 +702,3 @@ class Crypt {
 		}
 	}
 }
-

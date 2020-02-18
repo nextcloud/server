@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Ko- <k.stoffelen@cs.ru.nl>
@@ -25,7 +26,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -87,14 +88,16 @@ class FeedBackHandler {
 				$this->eventSource->send('success', (string)$this->l10n->t('[%d / %d]: %s', [$this->progressStateStep, $this->progressStateMax, $this->currentStep]));
 				break;
 			case '\OC\Repair::step':
+				$this->eventSource->send('success', (string)$this->l10n->t('Repair step:') . ' ' . $event->getArgument(0));
 				break;
 			case '\OC\Repair::info':
+				$this->eventSource->send('success', (string)$this->l10n->t('Repair info:') . ' ' . $event->getArgument(0));
 				break;
 			case '\OC\Repair::warning':
-				$this->eventSource->send('notice', (string)$this->l10n->t('Repair warning: ') . $event->getArgument(0));
+				$this->eventSource->send('notice', (string)$this->l10n->t('Repair warning:') . ' ' . $event->getArgument(0));
 				break;
 			case '\OC\Repair::error':
-				$this->eventSource->send('notice', (string)$this->l10n->t('Repair error: ') . $event->getArgument(0));
+				$this->eventSource->send('notice', (string)$this->l10n->t('Repair error:') . ' ' . $event->getArgument(0));
 				break;
 		}
 	}
@@ -233,4 +236,3 @@ if (\OCP\Util::needUpgrade()) {
 
 $eventSource->send('done', '');
 $eventSource->close();
-

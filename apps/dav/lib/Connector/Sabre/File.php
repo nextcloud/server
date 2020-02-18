@@ -4,7 +4,9 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author Jan-Philipp Litza <jplitza@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -16,7 +18,6 @@
  * @author Stefan Schneider <stefan.schneider@squareweave.com.au>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
- * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license AGPL-3.0
  *
@@ -30,12 +31,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\DAV\Connector\Sabre;
 
+use Icewind\Streams\CallbackWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
 use OC\Files\View;
@@ -50,19 +52,21 @@ use OCP\Files\ForbiddenException;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
+use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\Storage;
 use OCP\Files\StorageNotAvailableException;
+use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use OCP\Share\IManager;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
-use Sabre\DAV\Exception\NotFound;
 
 class File extends Node implements IFile {
 
@@ -145,7 +149,12 @@ class File extends Node implements IFile {
 		if ($needsPartFile) {
 			// mark file as partial while uploading (ignored by the scanner)
 			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . rand() . '.part';
-		} else {
+
+			if (!$view->isCreatable($partFilePath) && $view->isUpdatable($this->path)) {
+				$needsPartFile = false;
+			}
+		}
+		if (!$needsPartFile) {
 			// upload file directly as the final path
 			$partFilePath = $this->path;
 
@@ -165,10 +174,29 @@ class File extends Node implements IFile {
 			}
 
 			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
-				$count = $partStorage->writeStream($internalPartPath, $data);
+
+				if (!is_resource($data)) {
+					$tmpData = fopen('php://temp', 'r+');
+					if ($data !== null) {
+						fwrite($tmpData, $data);
+						rewind($tmpData);
+					}
+					$data = $tmpData;
+				}
+
+				$isEOF = false;
+				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function ($stream) use (&$isEOF) {
+					$isEOF = feof($stream);
+				});
+
+				$count = $partStorage->writeStream($internalPartPath, $wrappedData);
 				$result = $count > 0;
+
 				if ($result === false) {
-					$result = feof($data);
+					$result = $isEOF;
+					if (is_resource($wrappedData)) {
+						$result = feof($wrappedData);
+					}
 				}
 
 			} else {
@@ -187,7 +215,9 @@ class File extends Node implements IFile {
 				if (isset($_SERVER['CONTENT_LENGTH'])) {
 					$expected = $_SERVER['CONTENT_LENGTH'];
 				}
-				throw new Exception('Error while copying file to target location (copied bytes: ' . $count . ', expected filesize: ' . $expected . ' )');
+				if ($expected !== "0") {
+					throw new Exception('Error while copying file to target location (copied bytes: ' . $count . ', expected filesize: ' . $expected . ' )');
+				}
 			}
 
 			// if content length is sent by client:
@@ -196,12 +226,18 @@ class File extends Node implements IFile {
 			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] === 'PUT') {
 				$expected = (int)$_SERVER['CONTENT_LENGTH'];
 				if ($count !== $expected) {
-					throw new BadRequest('expected filesize ' . $expected . ' got ' . $count);
+					throw new BadRequest('Expected filesize of ' . $expected . ' bytes but read (from Nextcloud client) and wrote (to Nextcloud storage) ' . $count . ' bytes. Could either be a network problem on the sending side or a problem writing to the storage on the server side.');
 				}
 			}
 
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->logException($e);
+			$context = [];
+
+			if ($e instanceof LockedException) {
+				$context['level'] = ILogger::DEBUG;
+			}
+
+			\OC::$server->getLogger()->logException($e, $context);
 			if ($needsPartFile) {
 				$partStorage->unlink($internalPartPath);
 			}
@@ -217,10 +253,22 @@ class File extends Node implements IFile {
 				try {
 					$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
 				} catch (LockedException $e) {
-					if ($needsPartFile) {
-						$partStorage->unlink($internalPartPath);
+					// during very large uploads, the shared lock we got at the start might have been expired
+					// meaning that the above lock can fail not just only because somebody else got a shared lock
+					// or because there is no existing shared lock to make exclusive
+					//
+					// Thus we try to get a new exclusive lock, if the original lock failed because of a different shared
+					// lock this will still fail, if our original shared lock expired the new lock will be successful and
+					// the entire operation will be safe
+
+					try {
+						$this->acquireLock(ILockingProvider::LOCK_EXCLUSIVE);
+					} catch (LockedException $e) {
+						if ($needsPartFile) {
+							$partStorage->unlink($internalPartPath);
+						}
+						throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 					}
-					throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 				}
 
 				// rename to correct path
@@ -256,6 +304,19 @@ class File extends Node implements IFile {
 				}
 			}
 
+			$fileInfoUpdate = [
+				'upload_time' => time()
+			];
+
+			// allow sync clients to send the creation time along in a header
+			if (isset($this->request->server['HTTP_X_OC_CTIME'])) {
+				$ctime = $this->sanitizeMtime($this->request->server['HTTP_X_OC_CTIME']);
+				$fileInfoUpdate['creation_time'] = $ctime;
+				$this->header('X-OC-CTime: accepted');
+			}
+
+			$this->fileView->putFileInfo($this->path, $fileInfoUpdate);
+
 			if ($view) {
 				$this->emitPostHooks($exists);
 			}
@@ -272,7 +333,7 @@ class File extends Node implements IFile {
 			}
 
 		} catch (StorageNotAvailableException $e) {
-			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage());
+			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage(), 0, $e);
 		}
 
 		return '"' . $this->info->getEtag() . '"';
@@ -455,8 +516,7 @@ class File extends Node implements IFile {
 				$expected = (int)$_SERVER['CONTENT_LENGTH'];
 				if ($bytesWritten !== $expected) {
 					$chunk_handler->remove($info['index']);
-					throw new BadRequest(
-						'expected filesize ' . $expected . ' got ' . $bytesWritten);
+					throw new BadRequest('Expected filesize of ' . $expected . ' bytes but read (from Nextcloud client) and wrote (to Nextcloud storage) ' . $bytesWritten . ' bytes. Could either be a network problem on the sending side or a problem writing to the storage on the server side.');
 				}
 			}
 		}
@@ -591,6 +651,9 @@ class File extends Node implements IFile {
 		}
 		if ($e instanceof StorageNotAvailableException) {
 			throw new ServiceUnavailable('Failed to write file contents: ' . $e->getMessage(), 0, $e);
+		}
+		if ($e instanceof NotFoundException) {
+			throw new NotFound('File not found: ' . $e->getMessage(), 0, $e);
 		}
 
 		throw new \Sabre\DAV\Exception($e->getMessage(), 0, $e);

@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,17 +21,18 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OCA\TwoFactorBackupCodes\Listener;
 
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
 use OCP\Notification\IManager;
-use Symfony\Component\EventDispatcher\Event;
 
-class ClearNotifications implements IListener {
+class ClearNotifications implements IEventListener {
 
 	/** @var IManager */
 	private $manager;
@@ -37,7 +41,7 @@ class ClearNotifications implements IListener {
 		$this->manager = $manager;
 	}
 
-	public function handle(Event $event) {
+	public function handle(Event $event): void {
 		if (!($event instanceof CodesGenerated)) {
 			return;
 		}

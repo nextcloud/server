@@ -1,19 +1,22 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Felix Epp <work@felixepp.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author mmccarn <mmccarn-github@mmsionline.us>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
@@ -29,7 +32,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -94,8 +97,9 @@ class URLGenerator implements IURLGenerator {
 	public function linkToOCSRouteAbsolute(string $routeName, array $arguments = []): string {
 		$route = \OC::$server->getRouter()->generate('ocs.'.$routeName, $arguments, false);
 
-		if (strpos($route, '/index.php') === 0) {
-			$route = substr($route, 10);
+		$indexPhpPos = strpos($route, '/index.php/');
+		if ($indexPhpPos !== false) {
+			$route = substr($route, $indexPhpPos + 10);
 		}
 
 		$route = substr($route, 7);
@@ -237,13 +241,13 @@ class URLGenerator implements IURLGenerator {
 	 * @return string the absolute version of the url
 	 */
 	public function getAbsoluteURL(string $url): string {
-		$separator = $url[0] === '/' ? '' : '/';
+		$separator = strpos($url, '/') === 0 ? '' : '/';
 
 		if (\OC::$CLI && !\defined('PHPUNIT_RUN')) {
 			return rtrim($this->config->getSystemValue('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
 		}
 		// The ownCloud web root can already be prepended.
-		if(substr($url, 0, \strlen(\OC::$WEBROOT)) === \OC::$WEBROOT) {
+		if(\OC::$WEBROOT !== '' && strpos($url, \OC::$WEBROOT) === 0) {
 			$url = substr($url, \strlen(\OC::$WEBROOT));
 		}
 

@@ -1,9 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
@@ -18,7 +21,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -31,6 +34,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
+use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
@@ -80,13 +84,34 @@ class Notifier implements INotifier {
 	}
 
 	/**
+	 * Identifier of the notifier, only use [a-z0-9_]
+	 *
+	 * @return string
+	 * @since 17.0.0
+	 */
+	public function getID(): string {
+		return 'updatenotification';
+	}
+
+	/**
+	 * Human readable name describing the notifier
+	 *
+	 * @return string
+	 * @since 17.0.0
+	 */
+	public function getName(): string {
+		return $this->l10NFactory->get('updatenotification')->t('Update notifications');
+	}
+
+	/**
 	 * @param INotification $notification
 	 * @param string $languageCode The code of the language that should be used to prepare the notification
 	 * @return INotification
 	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
+	 * @throws AlreadyProcessedException When the notification is not needed anymore and should be deleted
 	 * @since 9.0.0
 	 */
-	public function prepare(INotification $notification, $languageCode): INotification {
+	public function prepare(INotification $notification, string $languageCode): INotification {
 		if ($notification->getApp() !== 'updatenotification') {
 			throw new \InvalidArgumentException('Unknown app id');
 		}
@@ -142,12 +167,11 @@ class Notifier implements INotifier {
 	 *
 	 * @param INotification $notification
 	 * @param string $installedVersion
-	 * @throws \InvalidArgumentException When the update is already installed
+	 * @throws AlreadyProcessedException When the update is already installed
 	 */
 	protected function updateAlreadyInstalledCheck(INotification $notification, $installedVersion) {
 		if (version_compare($notification->getObjectId(), $installedVersion, '<=')) {
-			$this->notificationManager->markProcessed($notification);
-			throw new \InvalidArgumentException('Update already installed');
+			throw new AlreadyProcessedException();
 		}
 	}
 

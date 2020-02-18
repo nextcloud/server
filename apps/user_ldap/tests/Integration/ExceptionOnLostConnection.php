@@ -5,6 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -94,7 +95,7 @@ class ExceptionOnLostConnection {
 	 *
 	 * @throws \Exception
 	 */
-	public function setUp() {
+	public function setUp(): void {
 		require_once __DIR__  . '/../../../../lib/base.php';
 		\OC_App::loadApps(['user_ldap']);
 
@@ -195,4 +196,3 @@ class ExceptionOnLostConnection {
 
 $test = new ExceptionOnLostConnection('http://localhost:8474', 'ldap', 'dc=owncloud,dc=bzoc');
 $test->run();
-

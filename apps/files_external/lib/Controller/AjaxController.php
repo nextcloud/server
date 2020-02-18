@@ -22,18 +22,18 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
+use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IGroupManager;
 use OCP\IRequest;
-use OCP\AppFramework\Http\JSONResponse;
-use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 use OCP\IUserSession;
 
 class AjaxController extends Controller {

@@ -1,7 +1,7 @@
 <?php
 $noProviders = empty($_['providers']);
 ?>
-<div class="body-login-container update">
+<div class="body-login-container update two-factor">
 	<h2 class="two-factor-header"><?php p($l->t('Two-factor authentication')) ?></h2>
 	<?php if (!$noProviders): ?>
 	<p><?php p($l->t('Enhanced security is enabled for your account. Choose a second factor for authentication:')) ?></p>
@@ -15,9 +15,20 @@ $noProviders = empty($_['providers']);
 	<img class="two-factor-icon" src="<?php p(image_path('core', 'actions/password-white.svg')) ?>" alt="" />
 	<p>
 		<?php if (is_null($_['backupProvider'])): ?>
-		<strong><?php p($l->t('Two-factor authentication is enforced but has not been configured on your account. Contact your admin for assistance.')) ?></strong>
+			<?php if (!$_['hasSetupProviders']) { ?>
+				<strong><?php p($l->t('Two-factor authentication is enforced but has not been configured on your account. Contact your admin for assistance.')) ?></strong>
+			<?php } else { ?>
+				<strong><?php p($l->t('Two-factor authentication is enforced but has not been configured on your account. Please continue to setup two-factor authentication.')) ?></strong>
+				<a class="button primary two-factor-primary" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.setupProviders',
+					[
+						'redirect_url' => $_['redirect_url'],
+					]
+				)) ?>">
+					<?php p($l->t('Set up two-factor authentication')) ?>
+				</a>
+			<?php } ?>
 		<?php else: ?>
-		<strong><?php p($l->t('Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance.')) ?></strong>
+			<strong><?php p($l->t('Two-factor authentication is enforced but has not been configured on your account. Use one of your backup codes to log in or contact your admin for assistance.')) ?></strong>
 		<?php endif; ?>
 	</p>
 	<?php else: ?>
@@ -61,6 +72,6 @@ $noProviders = empty($_['providers']);
 	</p>
 	<?php endif; ?>
 	<p><a class="two-factor-secondary" href="<?php print_unescaped($_['logout_url']); ?>">
-		<?php p($l->t('Cancel log in')) ?>
+		<?php p($l->t('Cancel login')) ?>
 	</a></p>
 </div>

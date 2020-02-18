@@ -1,9 +1,15 @@
 <?php
-declare (strict_types = 1);
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,20 +24,20 @@ declare (strict_types = 1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OC\Template;
 
+use OC\Files\AppData\Factory;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ILogger;
 use OCP\IURLGenerator;
-use OC\Files\AppData\Factory;
 
 class IconsCacher {
 
@@ -57,6 +63,9 @@ class IconsCacher {
 	private $fileName = 'icons-vars.css';
 
 	private $iconList = 'icons-list.template';
+
+	private $cachedCss;
+	private $cachedList;
 
 	/**
 	 * @param ILogger $logger
@@ -137,6 +146,8 @@ class IconsCacher {
 			$cachedVarsCssFile->putContent($data);
 			$list = ":root {\n$list\n}";
 			$cachedFile->putContent($list);
+			$this->cachedList = null;
+			$this->cachedCss = null;
 		}
 
 		return preg_replace($this->iconVarRE, '', $css);
@@ -179,8 +190,13 @@ class IconsCacher {
 	 * @return string
 	 */
 	public function colorizeSvg($svg, $color): string {
+		if (!preg_match('/^[0-9a-f]{3,6}$/i', $color)) {
+			// Prevent not-sane colors from being written into the SVG
+			$color = '000';
+		}
+
 		// add fill (fill is not present on black elements)
-		$fillRe = '/<((circle|rect|path)((?!fill)[a-z0-9 =".\-#():;])+)\/>/mi';
+		$fillRe = '/<((circle|rect|path)((?!fill)[a-z0-9 =".\-#():;,])+)\/>/mi';
 		$svg = preg_replace($fillRe, '<$1 fill="#' . $color . '"/>', $svg);
 
 		// replace any fill or stroke colors
@@ -204,7 +220,10 @@ class IconsCacher {
 	 */
 	public function getCachedCSS() {
 		try {
-			return $this->folder->getFile($this->fileName);
+			if (!$this->cachedCss) {
+				$this->cachedCss = $this->folder->getFile($this->fileName);
+			}
+			return $this->cachedCss;
 		} catch (NotFoundException $e) {
 			return false;
 		}
@@ -216,12 +235,18 @@ class IconsCacher {
 	 */
 	public function getCachedList() {
 		try {
-			return $this->folder->getFile($this->iconList);
+			if (!$this->cachedList) {
+				$this->cachedList = $this->folder->getFile($this->iconList);
+			}
+			return $this->cachedList;
 		} catch (NotFoundException $e) {
 			return false;
 		}
 	}
 
+	/**
+	 * Add the icons cache css into the header
+	 */
 	public function injectCss() {
 		$mtime = $this->timeFactory->getTime();
 		$file = $this->getCachedList();

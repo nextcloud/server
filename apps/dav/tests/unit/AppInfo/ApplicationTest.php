@@ -17,7 +17,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -26,7 +26,6 @@ namespace OCA\DAV\Tests\unit\AppInfo;
 use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
-use OCP\Contacts\IManager;
 use Test\TestCase;
 
 /**
@@ -43,24 +42,8 @@ class ApplicationTest extends TestCase {
 
 		// assert service instances in the container are properly setup
 		$s = $c->query(ContactsManager::class);
-		$this->assertInstanceOf('OCA\DAV\CardDAV\ContactsManager', $s);
+		$this->assertInstanceOf(ContactsManager::class, $s);
 		$s = $c->query(CardDavBackend::class);
-		$this->assertInstanceOf('OCA\DAV\CardDAV\CardDavBackend', $s);
-	}
-
-	public function testContactsManagerSetup() {
-		$app = new Application();
-		$c = $app->getContainer();
-		$c->registerService(CardDavBackend::class, function() {
-			$service = $this->createMock(CardDavBackend::class);
-			$service->method('getAddressBooksForUser')->willReturn([]);
-			return $service;
-		});
-
-		// assert setupContactsProvider() is proper
-		/** @var IManager|\PHPUnit_Framework_MockObject_MockObject $cm */
-		$cm = $this->createMock(IManager::class);
-		$app->setupContactsProvider($cm, 'xxx');
-		$this->addToAssertionCount(1);
+		$this->assertInstanceOf(CardDavBackend::class, $s);
 	}
 }

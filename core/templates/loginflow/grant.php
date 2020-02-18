@@ -19,7 +19,7 @@
  *
  */
 
-script('core', 'login/authpicker');
+script('core', 'login/grant');
 style('core', 'login/authpicker');
 
 /** @var array $_ */
@@ -39,8 +39,14 @@ $urlGenerator = $_['urlGenerator'];
 	<br/>
 
 	<p id="redirect-link">
-		<a href="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.redirectPage', ['stateToken' => $_['stateToken'], 'clientIdentifier' => $_['clientIdentifier'], 'oauthState' => $_['oauthState']])) ?>">
-			<input type="submit" class="login primary icon-confirm-white" value="<?php p($l->t('Grant access')) ?>">
-		</a>
+		<form method="POST" action="<?php p($urlGenerator->linkToRouteAbsolute('core.ClientFlowLogin.generateAppPassword')) ?>">	
+			<input type="hidden" name="clientIdentifier" value="<?php p($_['clientIdentifier']) ?>" />	
+			<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />	
+			<input type="hidden" name="stateToken" value="<?php p($_['stateToken']) ?>" />	
+			<input type="hidden" name="oauthState" value="<?php p($_['oauthState']) ?>" />	
+			<div id="submit-wrapper">
+				<input type="submit" class="login primary icon-confirm-white" title="" value="<?php p($l->t('Grant access')); ?>" />
+			</div>	
+		</form>
 	</p>
 </div>

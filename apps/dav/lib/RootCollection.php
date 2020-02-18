@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -19,13 +21,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
+use OCA\DAV\CalDAV\Principal\Collection;
+use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\CalDAV\PublicCalendarRoot;
 use OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend;
 use OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend;
@@ -34,7 +39,9 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\DAV\SystemPrincipalBackend;
-use OCA\DAV\CalDAV\Principal\Collection;
+use OCA\DAV\Provisioning\Apple\AppleProvisioningNode;
+use OCA\DAV\Upload\CleanupService;
+use OCP\AppFramework\Utility\ITimeFactory;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
@@ -50,16 +57,20 @@ class RootCollection extends SimpleCollection {
 		$shareManager = \OC::$server->getShareManager();
 		$db = \OC::$server->getDatabaseConnection();
 		$dispatcher = \OC::$server->getEventDispatcher();
+		$proxyMapper = \OC::$server->query(ProxyMapper::class);
+
 		$userPrincipalBackend = new Principal(
 			$userManager,
 			$groupManager,
 			$shareManager,
 			\OC::$server->getUserSession(),
-			$config
+			\OC::$server->getAppManager(),
+			$proxyMapper,
+			\OC::$server->getConfig()
 		);
-		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $l10n);
-		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger);
-		$calendarRoomPrincipalBackend = new RoomPrincipalBackend($db, $userSession, $groupManager, $logger);
+		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager);
+		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger, $proxyMapper);
+		$calendarRoomPrincipalBackend = new RoomPrincipalBackend($db, $userSession, $groupManager, $logger, $proxyMapper);
 		// as soon as debug mode is enabled we allow listing of principals
 		$disableListing = !$config->getSystemValue('debug', false);
 
@@ -120,11 +131,17 @@ class RootCollection extends SimpleCollection {
 		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
 
-		$uploadCollection = new Upload\RootCollection($userPrincipalBackend, 'principals/users');
+		$uploadCollection = new Upload\RootCollection(
+			$userPrincipalBackend,
+			'principals/users',
+			\OC::$server->query(CleanupService::class));
 		$uploadCollection->disableListing = $disableListing;
 
 		$avatarCollection = new Avatars\RootCollection($userPrincipalBackend, 'principals/users');
 		$avatarCollection->disableListing = $disableListing;
+
+		$appleProvisioning = new AppleProvisioningNode(
+			\OC::$server->query(ITimeFactory::class));
 
 		$children = [
 				new SimpleCollection('principals', [
@@ -147,7 +164,10 @@ class RootCollection extends SimpleCollection {
 				$systemTagRelationsCollection,
 				$commentsCollection,
 				$uploadCollection,
-				$avatarCollection
+				$avatarCollection,
+				new SimpleCollection('provisioning', [
+					$appleProvisioning
+				])
 		];
 
 		parent::__construct('root', $children);

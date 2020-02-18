@@ -20,12 +20,13 @@
     "A PHP extension stopped the file upload" : "PHP plėtinys sustabdė failo įkėlimą",
     "No file uploaded" : "Neįkeltas joks failas",
     "Unsupported image type" : "Nepalaikomas paveikslo tipas",
-    "You are already using a custom theme. Theming app settings might be overwritten by that." : "Jūs jau naudojate tinkintą temą. Temų programėlės nustatymai gali būti perrašyti tos temos.",
-    "Theming" : "Tema",
+    "You are already using a custom theme. Theming app settings might be overwritten by that." : "Jūs jau naudojate tinkintą apipavidalinimą. Apipavidalinimo programėlės nustatymai gali būti perrašyti to apipavidalinimo.",
+    "Theming" : "Apipavidalinimas",
     "Legal notice" : "Teisinis pranešimas",
     "Privacy policy" : "Privatumo politika",
-    "Adjust the Nextcloud theme" : "Reguliuoti Nextcloud temą",
-    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temos leidžia lengvai tinkinti jūsų egzemplioriaus ir palaikomų klientų išvaizdą ir turinį. Tai bus matoma visiems naudotojams. ",
+    "Adjust the Nextcloud theme" : "Derinti Nextcloud apipavidalinimą",
+    "Open documentation" : "Atverti dokumentaciją",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Apipavidalinimai leidžia lengvai tinkinti jūsų egzemplioriaus ir palaikomų klientų išvaizdą bei turinį. Tai bus matoma visiems naudotojams.",
     "Name" : "Pavadinimas",
     "Reset to default" : "Atstatyti į numatytąją",
     "Web link" : "Internetinė nuoroda",
@@ -44,14 +45,6 @@
     "Upload new header logo" : "Įkelti naują antraštės logotipą",
     "Favicon" : "Svetainės piktograma",
     "Upload new favicon" : "Įkelti naują svetainės piktogramą",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Norėdami automatiškai generuoti svetainės piktogramą remiantis įkeltu logotipu ir spalva, įdiekite Imagemagick PHP plėtinį su SVG paveikslų palaikymu.",
-    "You are already using a custom theme" : "Jūs jau naudojate tinkintą temą",
-    "reset to default" : "atstatyta į numatytąją",
-    "Web address" : "Saityno adresas",
-    "Web address https://…" : "Saityno adresas https://…",
-    "There is no error, the file uploaded with success" : "Klaidų nėra, failas buvo sėkmingai įkeltas",
-    "The uploaded file was only partially uploaded" : "Įkeliamas failas buvo tik dalinai įkeltas",
-    "Failed to write file to disk." : "Nepavyko įrašyti failą į diską.",
-    "A PHP extension stopped the file upload." : "PHP plėtinys sustabdė failo įkėlimą."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Norėdami automatiškai generuoti svetainės piktogramą remiantis įkeltu logotipu ir spalva, įdiekite Imagemagick PHP plėtinį su SVG paveikslų palaikymu."
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

@@ -12,7 +12,8 @@ Feature: access-levels
   Scenario: regular users cannot see admin-level items on the Settings page
     Given I am logged in
     When I visit the settings page
-    Then I see that the "Personal" settings panel is shown
+    Then I see that the "Personal info" entry in the settings panel is shown
+    And I see that the "Personal" settings panel is not shown
     And I see that the "Administration" settings panel is not shown
 
   Scenario: admin users can see admin-level items on the Settings page

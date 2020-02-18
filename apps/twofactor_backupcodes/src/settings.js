@@ -1,9 +1,15 @@
-import Vue from 'vue';
-import PersonalSettings from './views/PersonalSettings';
+import { loadState } from '@nextcloud/initial-state'
+import Vue from 'vue'
 
-Vue.prototype.t = t;
+import PersonalSettings from './views/PersonalSettings'
+import store from './store'
 
-export default new Vue({
-	el: '#twofactor-backupcodes-settings',
-	render: h => h(PersonalSettings)
-});
+Vue.prototype.t = t
+
+const initialState = loadState('twofactor_backupcodes', 'state')
+store.replaceState(initialState)
+
+const View = Vue.extend(PersonalSettings)
+new View({
+	store,
+}).$mount('#twofactor-backupcodes-settings')

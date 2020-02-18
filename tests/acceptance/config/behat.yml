@@ -15,13 +15,17 @@ default:
         - DialogContext
         - FeatureContext
         - FileListContext
+        - FilePickerContext
         - FilesAppContext
-        - FilesSharingAppContext
+        - FilesAppSharingContext
         - LoginPageContext
-        - NotificationContext
+        - NotificationsContext
+        - PublicShareContext
+        - SearchContext
         - SettingsContext
         - SettingsMenuContext
         - ThemingAppContext
+        - ToastContext
         - UsersSettingsContext
       filters:
         tags: "~@apache"
@@ -41,13 +45,17 @@ default:
         - DialogContext
         - FeatureContext
         - FileListContext
+        - FilePickerContext
         - FilesAppContext
-        - FilesSharingAppContext
+        - FilesAppSharingContext
         - LoginPageContext
-        - NotificationContext
+        - NotificationsContext
+        - PublicShareContext
+        - SearchContext
         - SettingsContext
         - SettingsMenuContext
         - ThemingAppContext
+        - ToastContext
         - UsersSettingsContext
       filters:
         tags: "@apache"
@@ -61,6 +69,9 @@ default:
           selenium2:
             wd_host: %selenium.server%
         Jane:
+          selenium2:
+            wd_host: %selenium.server%
+        Jim:
           selenium2:
             wd_host: %selenium.server%
         Rubeus:

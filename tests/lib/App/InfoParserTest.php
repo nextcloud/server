@@ -16,7 +16,7 @@ class InfoParserTest extends TestCase {
 	/** @var OC\Cache\CappedMemoryCache */
 	private static $cache;
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		self::$cache = new OC\Cache\CappedMemoryCache();
 	}
 
@@ -47,12 +47,14 @@ class InfoParserTest extends TestCase {
 		$this->parserTest($expectedJson, $xmlFile, self::$cache);
 	}
 
-	function providesInfoXml() {
-		return array(
-			array('expected-info.json', 'valid-info.xml'),
-			array(null, 'invalid-info.xml'),
-			array('expected-info.json', 'valid-info.xml'),
-			array(null, 'invalid-info.xml'),
-		);
+	public function providesInfoXml(): array {
+		return [
+			['expected-info.json', 'valid-info.xml'],
+			[null, 'invalid-info.xml'],
+			['expected-info.json', 'valid-info.xml'],
+			[null, 'invalid-info.xml'],
+			['navigation-one-item.json', 'navigation-one-item.xml'],
+			['navigation-two-items.json', 'navigation-two-items.xml'],
+		];
 	}
 }

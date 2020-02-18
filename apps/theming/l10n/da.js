@@ -16,7 +16,9 @@ OC.L10N.register(
     "No file uploaded" : "Ingen fil uploadet",
     "Unsupported image type" : "Ikke-understøttet billede format",
     "Theming" : "Temaer",
-    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Theming gør det muligt nemt at tilpasse udseendet på din installation og understøttede klienter. Dette vil være synlig for alle brugere.",
+    "Privacy policy" : "Fortrolighedspolitik",
+    "Open documentation" : "Åbn dokumentation",
+    "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temaer gør det muligt nemt at tilpasse udseendet på din installation og understøttede klienter. Dette vil være synlig for alle brugere.",
     "Name" : "Navn",
     "Reset to default" : "Nulstil",
     "Slogan" : "Slogan",
@@ -26,14 +28,7 @@ OC.L10N.register(
     "Login image" : "Login billede",
     "Upload new login background" : "Upload nyt login billede",
     "Remove background image" : "Fjern baggrundsbillede",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer Imagemagick PHP udvidelsen med SVG support for automatisk at genererer favikoner baseret på the uploadede logo og farver.",
-    "You are already using a custom theme" : "Du bruger allerede et brugerdefineret tema",
-    "reset to default" : "nulstil til standardindstillinger ",
-    "Web address" : "Web adresse",
-    "Web address https://…" : "Web adresse http://...",
-    "There is no error, the file uploaded with success" : "Der skete ingen fejl, filen blev succesfuldt uploadet",
-    "The uploaded file was only partially uploaded" : "Filen blev kun delvist uploadet.",
-    "Failed to write file to disk." : "Fejl ved skrivning af fil til disk.",
-    "A PHP extension stopped the file upload." : "En PHP-udvidelse stoppede file uploaden."
+    "Advanced options" : "Avancerede indstillinger",
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer Imagemagick PHP udvidelsen med SVG support for automatisk at genererer favikoner baseret på the uploadede logo og farver."
 },
 "nplurals=2; plural=(n != 1);");

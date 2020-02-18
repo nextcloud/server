@@ -2,7 +2,11 @@
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
+ * @author Alecks Gates <alecks.g@gmail.com>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,12 +21,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OC\Core\Command\Db;
 
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use Doctrine\DBAL\Types\Type;
 use OC\DB\SchemaWrapper;
 use OCP\IDBConnection;
@@ -51,11 +56,17 @@ class ConvertFilecacheBigInt extends Command {
 	}
 
 	protected function getColumnsByTable() {
+		// also update in CheckSetupController::hasBigIntConversionPendingColumns()
 		return [
 			'activity' => ['activity_id', 'object_id'],
 			'activity_mq' => ['mail_id'],
+			'authtoken' => ['id'],
+			'bruteforce_attempts' => ['id'],
 			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart', 'mtime', 'storage_mtime'],
+			'file_locks' => ['id'],
+			'jobs' => ['id'],
 			'mimetypes' => ['id'],
+			'mounts' => ['id', 'storage_id', 'root_id', 'mount_id'],
 			'storages' => ['numeric_id'],
 		];
 	}
@@ -63,6 +74,7 @@ class ConvertFilecacheBigInt extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
 		$schema = new SchemaWrapper($this->connection);
+		$isSqlite = $this->connection->getDatabasePlatform() instanceof SqlitePlatform;
 		$updates = [];
 
 		$tables = $this->getColumnsByTable();
@@ -75,11 +87,13 @@ class ConvertFilecacheBigInt extends Command {
 
 			foreach ($columns as $columnName) {
 				$column = $table->getColumn($columnName);
-				if ($column->getType()->getName() !== Type::BIGINT) {
+				$isAutoIncrement = $column->getAutoincrement();
+				$isAutoIncrementOnSqlite = $isSqlite && $isAutoIncrement;
+				if ($column->getType()->getName() !== Type::BIGINT && !$isAutoIncrementOnSqlite) {
 					$column->setType(Type::getType(Type::BIGINT));
 					$column->setOptions(['length' => 20]);
 
-					$updates[] = $tableName . '.' . $columnName;
+					$updates[] = '* ' . $tableName . '.' . $columnName;
 				}
 			}
 		}
@@ -89,6 +103,10 @@ class ConvertFilecacheBigInt extends Command {
 			return 0;
 		}
 
+		$output->writeln('<comment>Following columns will be updated:</comment>');
+		$output->writeln('');
+		$output->writeln($updates);
+		$output->writeln('');
 		$output->writeln('<comment>This can take up to hours, depending on the number of files in your instance!</comment>');
 
 		if ($input->isInteractive()) {

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arne Hamann <kontakt+github@arne.email>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
@@ -9,6 +10,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Stefan Weil <sw@weilnetz.de>
@@ -27,16 +29,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\Connector\Sabre\Principal;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -167,8 +169,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 		$result->closeCursor();
 
-		// query for shared calendars
+		// query for shared addressbooks
 		$principals = $this->principalBackend->getGroupMembership($principalUriOriginal, true);
+		$principals = array_merge($principals, $this->principalBackend->getCircleMembership($principalUriOriginal));
+
 		$principals = array_map(function($principal) {
 			return urldecode($principal);
 		}, $principals);
@@ -812,7 +816,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			$query = "SELECT `uri`, `operation` FROM `*PREFIX*addressbookchanges` WHERE `synctoken` >= ? AND `synctoken` < ? AND `addressbookid` = ? ORDER BY `synctoken`";
 			if ($limit>0) {
-				$query .= " `LIMIT` " . (int)$limit;
+				$query .= " LIMIT " . (int)$limit;
 			}
 
 			// Fetching all changes
@@ -901,9 +905,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param int $addressBookId
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
+	 * @param array $options = array() to define the search behavior
+	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped, otherwise they are
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 */
-	public function search($addressBookId, $pattern, $searchProperties) {
+	public function search($addressBookId, $pattern, $searchProperties, $options = array()) {
 		$query = $this->db->getQueryBuilder();
 		$query2 = $this->db->getQueryBuilder();
 
@@ -917,7 +923,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		// No need for like when the pattern is empty
 		if ('' !== $pattern) {
-			$query2->andWhere($query2->expr()->ilike('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
+			if(\array_key_exists('escape_like_param', $options) && $options['escape_like_param'] === false) {
+				$query2->andWhere($query2->expr()->ilike('cp.value', $query->createNamedParameter($pattern)));
+			} else {
+				$query2->andWhere($query2->expr()->ilike('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
+			}
 		}
 
 		$query->select('c.carddata', 'c.uri')->from($this->dbCardsTable, 'c')

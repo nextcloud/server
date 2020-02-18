@@ -27,7 +27,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -83,6 +83,7 @@ class Helper {
 			$len = strlen($key) - strlen($referenceConfigkey);
 			$prefixes[] = substr($key, 0, $len);
 		}
+		asort($prefixes);
 
 		return $prefixes;
 	}
@@ -212,7 +213,7 @@ class Helper {
 
 		return $domain;
 	}
-	
+
 	/**
 	 *
 	 * Set the LDAPProvider in the config
@@ -224,7 +225,7 @@ class Helper {
 			\OC::$server->getConfig()->setSystemValue('ldapProviderFactory', LDAPProviderFactory::class);
 		}
 	}
-	
+
 	/**
 	 * sanitizes a DN received from the LDAP server
 	 * @param array $dn the DN in question
@@ -267,7 +268,7 @@ class Helper {
 
 		return $dn;
 	}
-	
+
 	/**
 	 * converts a stored DN so it can be used as base parameter for LDAP queries, internally we store them for usage in LDAP filters
 	 * @param string $dn the DN

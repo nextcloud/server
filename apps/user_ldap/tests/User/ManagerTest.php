@@ -22,7 +22,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -86,7 +86,7 @@ class ManagerTest extends \Test\TestCase {
 	/** @var Manager */
 	protected $manager;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->access = $this->createMock(Access::class);
@@ -233,18 +233,22 @@ class ManagerTest extends \Test\TestCase {
 	 */
 	public function testGetAttributes($minimal) {
 		$this->connection->setConfiguration([
-			'ldapEmailAttribute' => 'mail',
+			'ldapEmailAttribute' => 'MAIL',
 			'ldapUserAvatarRule' => 'default',
 			'ldapQuotaAttribute' => '',
+			'ldapUserDisplayName2' => 'Mail',
 		]);
 
 		$attributes = $this->manager->getAttributes($minimal);
 
 		$this->assertTrue(in_array('dn', $attributes));
-		$this->assertTrue(in_array($this->access->getConnection()->ldapEmailAttribute, $attributes));
+		$this->assertTrue(in_array(strtolower($this->access->getConnection()->ldapEmailAttribute), $attributes));
+		$this->assertTrue(!in_array($this->access->getConnection()->ldapEmailAttribute, $attributes)); #cases check
 		$this->assertFalse(in_array('', $attributes));
 		$this->assertSame(!$minimal, in_array('jpegphoto', $attributes));
 		$this->assertSame(!$minimal, in_array('thumbnailphoto', $attributes));
+		$valueCounts = array_count_values($attributes);
+		$this->assertSame(1, $valueCounts['mail']);
 	}
 
 }

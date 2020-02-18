@@ -5,6 +5,7 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,43 +19,42 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\User_LDAP\Command;
 
+use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\User\DeletedUsersIndex;
+use OCA\User_LDAP\User_Proxy;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use OCA\User_LDAP\User\DeletedUsersIndex;
-use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\Helper as LDAPHelper;
-use OCA\User_LDAP\User_Proxy;
-
 class CheckUser extends Command {
-	/** @var \OCA\User_LDAP\User_Proxy */
+	/** @var User_Proxy */
 	protected $backend;
 
-	/** @var \OCA\User_LDAP\Helper */
+	/** @var Helper */
 	protected $helper;
 
-	/** @var \OCA\User_LDAP\User\DeletedUsersIndex */
+	/** @var DeletedUsersIndex */
 	protected $dui;
 
-	/** @var \OCA\User_LDAP\Mapping\UserMapping */
+	/** @var UserMapping */
 	protected $mapping;
 
 	/**
 	 * @param User_Proxy $uBackend
-	 * @param LDAPHelper $helper
+	 * @param Helper $helper
 	 * @param DeletedUsersIndex $dui
 	 * @param UserMapping $mapping
 	 */
-	public function __construct(User_Proxy $uBackend, LDAPHelper $helper, DeletedUsersIndex $dui, UserMapping $mapping) {
+	public function __construct(User_Proxy $uBackend, Helper $helper, DeletedUsersIndex $dui, UserMapping $mapping) {
 		$this->backend = $uBackend;
 		$this->helper = $helper;
 		$this->dui = $dui;
@@ -77,6 +77,12 @@ class CheckUser extends Command {
 					InputOption::VALUE_NONE,
 					'ignores disabled LDAP configuration'
 				     )
+			->addOption(
+				'update',
+				null,
+				InputOption::VALUE_NONE,
+				'syncs values from LDAP'
+			)
 		;
 	}
 
@@ -88,6 +94,9 @@ class CheckUser extends Command {
 			$exists = $this->backend->userExistsOnLDAP($uid);
 			if($exists === true) {
 				$output->writeln('The user is still available on LDAP.');
+				if($input->getOption('update')) {
+					$this->updateUser($uid, $output);
+				}
 				return;
 			}
 
@@ -131,6 +140,28 @@ class CheckUser extends Command {
 		// background job.
 
 		return true;
+	}
+
+	private function updateUser(string $uid, OutputInterface $output): void {
+		try {
+			$access = $this->backend->getLDAPAccess($uid);
+			$attrs = $access->userManager->getAttributes();
+			$user = $access->userManager->get($uid);
+			$avatarAttributes = $access->getConnection()->resolveRule('avatar');
+			$result = $access->search('objectclass=*', [$user->getDN()], $attrs, 1, 0);
+			foreach ($result[0] as $attribute => $valueSet) {
+				$output->writeln('  ' . $attribute . ': ');
+				foreach ($valueSet as $value) {
+					if (in_array($attribute, $avatarAttributes)) {
+						$value = '{ImageData}';
+					}
+					$output->writeln('    ' . $value);
+				}
+			}
+			$access->batchApplyUserAttributes($result);
+		} catch (\Exception $e) {
+			$output->writeln('<error>Error while trying to lookup and update attributes from LDAP</error>');
+		}
 	}
 
 }

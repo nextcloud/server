@@ -1,13 +1,17 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Xheni Myrtaj <myrtajxheni@gmail.com>
  *
  * @license AGPL-3.0
  *
@@ -21,12 +25,13 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OC\IntegrityCheck;
 
+use OC\Core\Command\Maintenance\Mimetype\GenerateMimetypeFileBuilder;
 use OC\IntegrityCheck\Exceptions\InvalidSignatureException;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
@@ -34,6 +39,7 @@ use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;
 use OC\IntegrityCheck\Iterator\ExcludeFoldersByPathFilterIterator;
 use OCP\App\IAppManager;
+use OCP\Files\IMimeTypeDetector;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -67,6 +73,8 @@ class Checker {
 	private $appManager;
 	/** @var ITempManager */
 	private $tempManager;
+	/** @var IMimeTypeDetector */
+	private $mimeTypeDetector;
 
 	/**
 	 * @param EnvironmentHelper $environmentHelper
@@ -76,6 +84,7 @@ class Checker {
 	 * @param ICacheFactory $cacheFactory
 	 * @param IAppManager $appManager
 	 * @param ITempManager $tempManager
+	 * @param IMimeTypeDetector $mimeTypeDetector
 	 */
 	public function __construct(EnvironmentHelper $environmentHelper,
 								FileAccessHelper $fileAccessHelper,
@@ -83,7 +92,8 @@ class Checker {
 								IConfig $config = null,
 								ICacheFactory $cacheFactory,
 								IAppManager $appManager = null,
-								ITempManager $tempManager) {
+								ITempManager $tempManager,
+								IMimeTypeDetector $mimeTypeDetector) {
 		$this->environmentHelper = $environmentHelper;
 		$this->fileAccessHelper = $fileAccessHelper;
 		$this->appLocator = $appLocator;
@@ -91,6 +101,7 @@ class Checker {
 		$this->cache = $cacheFactory->createDistributed(self::CACHE_KEY);
 		$this->appManager = $appManager;
 		$this->tempManager = $tempManager;
+		$this->mimeTypeDetector = $mimeTypeDetector;
 	}
 
 	/**
@@ -158,8 +169,6 @@ class Checker {
 	private function generateHashes(\RecursiveIteratorIterator $iterator,
 									string $path): array {
 		$hashes = [];
-		$copiedWebserverSettingFiles = false;
-		$tmpFolder = '';
 
 		$baseDirectoryLength = \strlen($path);
 		foreach($iterator as $filename => $data) {
@@ -180,36 +189,6 @@ class Checker {
 				continue;
 			}
 
-			// The .user.ini and the .htaccess file of ownCloud can contain some
-			// custom modifications such as for example the maximum upload size
-			// to ensure that this will not lead to false positives this will
-			// copy the file to a temporary folder and reset it to the default
-			// values.
-			if($filename === $this->environmentHelper->getServerRoot() . '/.htaccess'
-				|| $filename === $this->environmentHelper->getServerRoot() . '/.user.ini') {
-
-				if(!$copiedWebserverSettingFiles) {
-					$tmpFolder = rtrim($this->tempManager->getTemporaryFolder(), '/');
-					copy($this->environmentHelper->getServerRoot() . '/.htaccess', $tmpFolder . '/.htaccess');
-					copy($this->environmentHelper->getServerRoot() . '/.user.ini', $tmpFolder . '/.user.ini');
-					\OC_Files::setUploadLimit(
-						\OCP\Util::computerFileSize('511MB'),
-						[
-							'.htaccess' => $tmpFolder . '/.htaccess',
-							'.user.ini' => $tmpFolder . '/.user.ini',
-						]
-					);
-				}
-			}
-
-			// The .user.ini file can contain custom modifications to the file size
-			// as well.
-			if($filename === $this->environmentHelper->getServerRoot() . '/.user.ini') {
-				$fileContent = file_get_contents($tmpFolder . '/.user.ini');
-				$hashes[$relativeFileName] = hash('sha512', $fileContent);
-				continue;
-			}
-
 			// The .htaccess file in the root folder of ownCloud can contain
 			// custom content after the installation due to the fact that dynamic
 			// content is written into it at installation time as well. This
@@ -218,10 +197,18 @@ class Checker {
 			// "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####" and have the
 			// hash generated based on this.
 			if($filename === $this->environmentHelper->getServerRoot() . '/.htaccess') {
-				$fileContent = file_get_contents($tmpFolder . '/.htaccess');
+				$fileContent = file_get_contents($filename);
 				$explodedArray = explode('#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####', $fileContent);
 				if(\count($explodedArray) === 2) {
 					$hashes[$relativeFileName] = hash('sha512', $explodedArray[0]);
+					continue;
+				}
+			}
+			if ($filename === $this->environmentHelper->getServerRoot() . '/core/js/mimetypelist.js') {
+				$oldMimetypeList = new GenerateMimetypeFileBuilder();
+				$newFile = $oldMimetypeList->generateFile($this->mimeTypeDetector->getAllAliases());
+				if($newFile === file_get_contents($filename)) {
+					$hashes[$relativeFileName] = hash('sha512', $oldMimetypeList->generateFile($this->mimeTypeDetector->getOnlyDefaultAliases()));
 					continue;
 				}
 			}

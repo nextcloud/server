@@ -27,7 +27,7 @@ class DBSchemaTest extends TestCase {
 	/** @var ITempManager */
 	protected $tempManager;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->tempManager = \OC::$server->getTempManager();
@@ -50,7 +50,7 @@ class DBSchemaTest extends TestCase {
 		$this->table2 = $r.'cntcts_cards';
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		unlink($this->schema_file);
 		unlink($this->schema_file2);
 

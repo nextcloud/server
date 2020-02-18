@@ -2,8 +2,10 @@
 /**
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author S. Cat <33800996+sparrowjack63@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -65,6 +67,9 @@ trait S3ConnectionTrait {
 		$this->params = $params;
 	}
 
+	public function getBucket() {
+		return $this->bucket;
+	}
 
 	/**
 	 * Returns the connection
@@ -72,7 +77,7 @@ trait S3ConnectionTrait {
 	 * @return S3Client connected client
 	 * @throws \Exception if connection could not be made
 	 */
-	protected function getConnection() {
+	public function getConnection() {
 		if (!is_null($this->connection)) {
 			return $this->connection;
 		}
@@ -100,16 +105,19 @@ trait S3ConnectionTrait {
 		$this->connection = new S3Client($options);
 
 		if (!$this->connection->isBucketDnsCompatible($this->bucket)) {
-			throw new \Exception("The configured bucket name is invalid: " . $this->bucket);
+			$logger = \OC::$server->getLogger();
+			$logger->debug('Bucket "' . $this->bucket . '" This bucket name is not dns compatible, it may contain invalid characters.',
+					 ['app' => 'objectstore']);
 		}
 
 		if (!$this->connection->doesBucketExist($this->bucket)) {
 			$logger = \OC::$server->getLogger();
 			try {
 				$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
-				$this->connection->createBucket(array(
-					'Bucket' => $this->bucket
-				));
+				if (!$this->connection->isBucketDnsCompatible($this->bucket)) {
+					throw new \Exception("The bucket will not be created because the name is not dns compatible, please correct it: " . $this->bucket);
+				}
+				$this->connection->createBucket(array('Bucket' => $this->bucket));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
 				$logger->logException($e, [

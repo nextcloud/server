@@ -64,7 +64,7 @@
 		 * Removes an event handler
 		 *
 		 * @param {String} eventName event name
-		 * @param Function callback
+		 * @param {Function} callback
 		 */
 		off: function(eventName, callback) {
 			this.$el.off(eventName, callback);
@@ -371,6 +371,7 @@
 			}, false, context);
 
 			$el.addClass('permanent');
+
 		},
 
 		/**
@@ -408,8 +409,6 @@
 					var fileName = $file.attr('data-file');
 
 					context.fileActions.currentFile = currentFile;
-					// also set on global object for legacy apps
-					window.FileActions.currentFile = currentFile;
 
 					var callContext = _.extend({}, context);
 
@@ -479,8 +478,6 @@
 
 			var fileName = fileInfoModel.get('name');
 			this.currentFile = fileName;
-			// also set on global object for legacy apps
-			window.FileActions.currentFile = fileName;
 
 			if (fileList) {
 				// compatibility with action handlers that expect these
@@ -647,6 +644,10 @@
 					if (permissions & OC.PERMISSION_UPDATE) {
 						actions = OC.dialogs.FILEPICKER_TYPE_COPY_MOVE;
 					}
+					var dialogDir = context.dir;
+					if (typeof context.fileList.dirInfo.dirLastCopiedTo !== 'undefined') {
+						dialogDir = context.fileList.dirInfo.dirLastCopiedTo;
+					}
 					OC.dialogs.filepicker(t('files', 'Choose target folder'), function(targetPath, type) {
 						if (type === OC.dialogs.FILEPICKER_TYPE_COPY) {
 							context.fileList.copy(filename, targetPath, false, context.dir);
@@ -654,20 +655,36 @@
 						if (type === OC.dialogs.FILEPICKER_TYPE_MOVE) {
 							context.fileList.move(filename, targetPath, false, context.dir);
 						}
-					}, false, "httpd/unix-directory", true, actions);
+						context.fileList.dirInfo.dirLastCopiedTo = targetPath;
+					}, false, "httpd/unix-directory", true, actions, dialogDir);
 				}
 			});
 
-			this.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
-				var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
-				context.fileList.changeDirectory(OC.joinPaths(dir, filename), true, false, parseInt(context.$file.attr('data-id'), 10));
+			this.registerAction({
+				name: 'Open',
+				mime: 'dir',
+				permissions: OC.PERMISSION_READ,
+				icon: '',
+				actionHandler: function (filename, context) {
+					var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
+					if (OCA.Files.App && OCA.Files.App.getActiveView() !== 'files') {
+						OCA.Files.App.setActiveView('files', {silent: true});
+						OCA.Files.App.fileList.changeDirectory(OC.joinPaths(dir, filename), true, true);
+					} else {
+						context.fileList.changeDirectory(OC.joinPaths(dir, filename), true, false, parseInt(context.$file.attr('data-id'), 10));
+					}
+				},
+				displayName: t('files', 'Open')
 			});
 
 			this.registerAction({
 				name: 'Delete',
 				displayName: function(context) {
 					var mountType = context.$file.attr('data-mounttype');
-					var deleteTitle = t('files', 'Delete');
+					var type = context.$file.attr('data-type');
+					var deleteTitle = (type && type === 'file')
+						? t('files', 'Delete file')
+						: t('files', 'Delete folder')
 					if (mountType === 'external-root') {
 						deleteTitle = t('files', 'Disconnect storage');
 					} else if (mountType === 'shared-root') {
@@ -687,6 +704,12 @@
 					}
 					context.fileList.do_delete(fileName, context.dir);
 					$('.tipsy').remove();
+
+					// close sidebar on delete
+					const path = context.dir + '/' + fileName
+					if (OCA.Files.Sidebar && OCA.Files.Sidebar.file === path) {
+						OCA.Files.Sidebar.close()
+					}
 				}
 			});
 
@@ -793,25 +816,4 @@
 
 	// global file actions to be used by all lists
 	OCA.Files.fileActions = new OCA.Files.FileActions();
-	OCA.Files.legacyFileActions = new OCA.Files.FileActions();
-
-	// for backward compatibility
-	//
-	// legacy apps are expecting a stateful global FileActions object to register
-	// their actions on. Since legacy apps are very likely to break with other
-	// FileList views than the main one ("All files"), actions registered
-	// through window.FileActions will be limited to the main file list.
-	// @deprecated use OCA.Files.FileActions instead
-	window.FileActions = OCA.Files.legacyFileActions;
-	window.FileActions.register = function (mime, name, permissions, icon, action, displayName) {
-		console.warn('FileActions.register() is deprecated, please use OCA.Files.fileActions.register() instead', arguments);
-		OCA.Files.FileActions.prototype.register.call(
-				window.FileActions, mime, name, permissions, icon, action, displayName
-		);
-	};
-	window.FileActions.display = function (parent, triggerEvent, fileList) {
-		fileList = fileList || OCA.Files.App.fileList;
-		console.warn('FileActions.display() is deprecated, please use OCA.Files.fileActions.register() which automatically redisplays actions', mime, name);
-		OCA.Files.FileActions.prototype.display.call(window.FileActions, parent, triggerEvent, fileList);
-	};
 })();

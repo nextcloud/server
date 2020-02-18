@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
+ * @author Robin Appelman <robin@icewind.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,7 +17,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -53,9 +55,13 @@ class LegacyTrashBackend implements ITrashBackend {
 		$parentTrashPath = ($parent instanceof ITrashItem) ? $parent->getTrashPath() : '';
 		$isRoot = $parent === null;
 		return array_map(function (FileInfo $file) use ($parent, $parentTrashPath, $isRoot, $user) {
+			$originalLocation = $isRoot ? $file['extraData'] : $parent->getOriginalLocation() . '/' . $file->getName();
+			if (!$originalLocation) {
+				$originalLocation = $file->getName();
+			}
 			return new TrashItem(
 				$this,
-				$isRoot ? $file['extraData'] : $parent->getOriginalLocation() . '/' . $file->getName(),
+				$originalLocation,
 				$file->getMTime(),
 				$parentTrashPath . '/' . $file->getName() . ($isRoot ? '.d' . $file->getMtime() : ''),
 				$file,

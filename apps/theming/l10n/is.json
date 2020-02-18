@@ -25,6 +25,7 @@
     "Legal notice" : "Lagaleg atriði",
     "Privacy policy" : "Stefna um meðferð persónulegra gagna",
     "Adjust the Nextcloud theme" : "Laga Nextcloud þema",
+    "Open documentation" : "Opna hjálparskjöl",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Þemu gera þér kleift að breyta útliti og hegðun þíns eintaks af viðmótinu auk studdra biðlaraforrita. Það verður sýnilegt öllum notendum.",
     "Name" : "Heiti",
     "Reset to default" : "Endurstilla á sjálfgefið",
@@ -44,14 +45,6 @@
     "Upload new header logo" : "Senda inn nýtt táknmerki fyrir síðuhaus",
     "Favicon" : "Veftákn",
     "Upload new favicon" : "Senda inn nýja táknmynd",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Settu inn Imagemagick PHP forritsviðaukann með stuðningi við SVG-myndir til að útbúa sjálfvirkt veftáknmyndir byggðar á innsendu táknmerki og lit.",
-    "You are already using a custom theme" : "Þú ert nú þegar að nota sérsniðið þema",
-    "reset to default" : "endurstilla á sjálfgefið",
-    "Web address" : "Veffang",
-    "Web address https://…" : "Veffang https://…",
-    "There is no error, the file uploaded with success" : "Engin villa, innsending heppnaðist",
-    "The uploaded file was only partially uploaded" : "Einungis hluti af innsendri skrá skilaði sér",
-    "Failed to write file to disk." : "Tókst ekki að skrifa skrá á disk.",
-    "A PHP extension stopped the file upload." : "PHP-viðbót stöðvaði innsendingu skráar."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Settu inn Imagemagick PHP forritsviðaukann með stuðningi við SVG-myndir til að útbúa sjálfvirkt veftáknmyndir byggðar á innsendu táknmerki og lit."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

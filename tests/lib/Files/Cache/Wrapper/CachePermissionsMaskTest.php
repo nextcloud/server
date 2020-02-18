@@ -24,7 +24,7 @@ class CachePermissionsMaskTest extends CacheTest {
 	 */
 	protected $sourceCache;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->storage->mkdir('foo');
 		$this->sourceCache = $this->cache;

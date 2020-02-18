@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Kenneth Newwood <kenneth@newwood.name>
@@ -20,10 +21,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 
 namespace OCA\Encryption\Tests\Crypto;
 
@@ -91,7 +91,7 @@ class EncryptAllTest extends TestCase {
 	/** @var  EncryptAll */
 	protected $encryptAll;
 
-	function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->setupUser = $this->getMockBuilder(Setup::class)
 			->disableOriginalConstructor()->getMock();
@@ -126,8 +126,6 @@ class EncryptAllTest extends TestCase {
 		$this->userInterface->expects($this->any())->method('getUsers')->willReturn(['user1', 'user2']);
 
 		$this->secureRandom = $this->getMockBuilder(ISecureRandom::class)->disableOriginalConstructor()->getMock();
-		$this->secureRandom->expects($this->any())->method('getMediumStrengthGenerator')->willReturn($this->secureRandom);
-		$this->secureRandom->expects($this->any())->method('getLowStrengthGenerator')->willReturn($this->secureRandom);
 		$this->secureRandom->expects($this->any())->method('generate')->willReturn('12345678');
 
 

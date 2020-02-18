@@ -31,7 +31,7 @@ class ComposerStaticInitTwoFactorBackupCodes
         'OCA\\TwoFactorBackupCodes\\Event\\CodesGenerated' => __DIR__ . '/..' . '/../lib/Event/CodesGenerated.php',
         'OCA\\TwoFactorBackupCodes\\Listener\\ActivityPublisher' => __DIR__ . '/..' . '/../lib/Listener/ActivityPublisher.php',
         'OCA\\TwoFactorBackupCodes\\Listener\\ClearNotifications' => __DIR__ . '/..' . '/../lib/Listener/ClearNotifications.php',
-        'OCA\\TwoFactorBackupCodes\\Listener\\IListener' => __DIR__ . '/..' . '/../lib/Listener/IListener.php',
+        'OCA\\TwoFactorBackupCodes\\Listener\\ProviderDisabled' => __DIR__ . '/..' . '/../lib/Listener/ProviderDisabled.php',
         'OCA\\TwoFactorBackupCodes\\Listener\\ProviderEnabled' => __DIR__ . '/..' . '/../lib/Listener/ProviderEnabled.php',
         'OCA\\TwoFactorBackupCodes\\Listener\\RegistryUpdater' => __DIR__ . '/..' . '/../lib/Listener/RegistryUpdater.php',
         'OCA\\TwoFactorBackupCodes\\Migration\\CheckBackupCodes' => __DIR__ . '/..' . '/../lib/Migration/CheckBackupCodes.php',

@@ -8,8 +8,8 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
+ * @author sidey79 <s.butzek@gmx.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @license AGPL-3.0
  *
@@ -23,7 +23,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -76,7 +76,7 @@ class UserTest extends \Test\TestCase {
 	/** @var User */
 	protected $user;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->connection = $this->createMock(Connection::class);
@@ -499,7 +499,7 @@ class UserTest extends \Test\TestCase {
 	}
 
 	//the testUpdateAvatar series also implicitely tests getAvatarImage
-	public function testUpdateAvatarJpegPhotoProvided() {
+	public function XtestUpdateAvatarJpegPhotoProvided() {
 		$this->access->expects($this->once())
 			->method('readAttribute')
 			->with($this->equalTo($this->dn),
@@ -521,6 +521,17 @@ class UserTest extends \Test\TestCase {
 		$this->image->expects($this->once())
 			->method('centerCrop')
 			->will($this->returnValue(true));
+		$this->image->expects($this->once())
+			->method('data')
+			->will($this->returnValue('this is a photo'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', '')
+			->willReturn('');
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', md5('this is a photo'));
 
 		$this->filesystemhelper->expects($this->once())
 			->method('isLoaded')
@@ -544,7 +555,54 @@ class UserTest extends \Test\TestCase {
 		$this->user->updateAvatar();
 	}
 
-	public function testUpdateAvatarThumbnailPhotoProvided() {
+	public function testUpdateAvatarKnownJpegPhotoProvided() {
+		$this->access->expects($this->once())
+			->method('readAttribute')
+			->with($this->equalTo($this->dn),
+				$this->equalTo('jpegphoto'))
+			->will($this->returnValue(['this is a photo']));
+
+		$this->image->expects($this->once())
+			->method('loadFromBase64')
+			->willReturn('imageResource');
+		$this->image->expects($this->never())
+			->method('valid');
+		$this->image->expects($this->never())
+			->method('width');
+		$this->image->expects($this->never())
+			->method('height');
+		$this->image->expects($this->never())
+			->method('centerCrop');
+		$this->image->expects($this->once())
+			->method('data')
+			->will($this->returnValue('this is a photo'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', '')
+			->willReturn(md5('this is a photo'));
+		$this->config->expects($this->never())
+			->method('setUserValue');
+
+		$this->filesystemhelper->expects($this->never())
+			->method('isLoaded');
+
+		$avatar = $this->createMock(IAvatar::class);
+		$avatar->expects($this->never())
+			->method('set');
+
+		$this->avatarManager->expects($this->never())
+			->method('getAvatar');
+
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
+
+		$this->assertTrue($this->user->updateAvatar());
+	}
+
+	public function XtestUpdateAvatarThumbnailPhotoProvided() {
 		$this->access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
@@ -575,6 +633,17 @@ class UserTest extends \Test\TestCase {
 		$this->image->expects($this->once())
 			->method('centerCrop')
 			->will($this->returnValue(true));
+		$this->image->expects($this->once())
+			->method('data')
+			->will($this->returnValue('this is a photo'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', '')
+			->willReturn('');
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', md5('this is a photo'));
 
 		$this->filesystemhelper->expects($this->once())
 			->method('isLoaded')
@@ -625,6 +694,13 @@ class UserTest extends \Test\TestCase {
 			->method('height');
 		$this->image->expects($this->never())
 			->method('centerCrop');
+		$this->image->expects($this->never())
+			->method('data');
+
+		$this->config->expects($this->never())
+			->method('getUserValue');
+		$this->config->expects($this->never())
+			->method('setUserValue');
 
 		$this->filesystemhelper->expects($this->never())
 			->method('isLoaded');
@@ -644,7 +720,7 @@ class UserTest extends \Test\TestCase {
 		$this->user->updateAvatar();
 	}
 
-	public function testUpdateAvatarUnsupportedThumbnailPhotoProvided() {
+	public function XtestUpdateAvatarUnsupportedThumbnailPhotoProvided() {
 		$this->access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
@@ -675,6 +751,16 @@ class UserTest extends \Test\TestCase {
 		$this->image->expects($this->once())
 			->method('centerCrop')
 			->will($this->returnValue(true));
+		$this->image->expects($this->once())
+			->method('data')
+			->will($this->returnValue('this is a photo'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', '')
+			->willReturn('');
+		$this->config->expects($this->never())
+			->method('setUserValue');
 
 		$this->filesystemhelper->expects($this->once())
 			->method('isLoaded')
@@ -723,6 +809,13 @@ class UserTest extends \Test\TestCase {
 			->method('height');
 		$this->image->expects($this->never())
 			->method('centerCrop');
+		$this->image->expects($this->never())
+			->method('data');
+
+		$this->config->expects($this->never())
+			->method('getUserValue');
+		$this->config->expects($this->never())
+			->method('setUserValue');
 
 		$this->filesystemhelper->expects($this->never())
 			->method('isLoaded');
@@ -787,6 +880,50 @@ class UserTest extends \Test\TestCase {
 			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
 		$this->user->update();
+	}
+
+	public function extStorageHomeDataProvider() {
+		return [
+			[ 'myFolder', null ],
+			[ '', null, false ],
+			[ 'myFolder', 'myFolder' ],
+		];
+	}
+
+	/**
+	 * @dataProvider extStorageHomeDataProvider
+	 */
+	public function testUpdateExtStorageHome(string $expected, string $valueFromLDAP = null, bool $isSet = true) {
+		if($valueFromLDAP === null) {
+			$this->connection->expects($this->once())
+				->method('__get')
+				->willReturnMap([
+					['ldapExtStorageHomeAttribute', 'homeDirectory'],
+				]);
+
+			$return = [];
+			if($isSet) {
+				$return[] = $expected;
+			}
+			$this->access->expects($this->once())
+				->method('readAttribute')
+				->with($this->dn, 'homeDirectory')
+				->willReturn($return);
+		}
+
+		if($expected !== '') {
+			$this->config->expects($this->once())
+				->method('setUserValue')
+				->with($this->uid, 'user_ldap', 'extStorageHome', $expected);
+		} else {
+			$this->config->expects($this->once())
+				->method('deleteUserValue')
+				->with($this->uid, 'user_ldap', 'extStorageHome');
+		}
+
+		$actual = $this->user->updateExtStorageHome($valueFromLDAP);
+		$this->assertSame($expected, $actual);
+
 	}
 
 	public function testUpdateNoRefresh() {
@@ -867,15 +1004,16 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function testProcessAttributes() {
-		$requiredMethods = array(
+		$requiredMethods = [
 			'markRefreshTime',
 			'updateQuota',
 			'updateEmail',
 			'composeAndStoreDisplayName',
 			'storeLDAPUserName',
 			'getHomePath',
-			'updateAvatar'
-		);
+			'updateAvatar',
+			'updateExtStorageHome',
+		];
 
 		/** @var User|\PHPUnit_Framework_MockObject_MockObject $userMock */
 		$userMock = $this->getMockBuilder(User::class)
@@ -914,6 +1052,7 @@ class UserTest extends \Test\TestCase {
 			strtolower($this->connection->ldapQuotaAttribute) => ['4096'],
 			strtolower($this->connection->ldapEmailAttribute) => ['alice@wonderland.org'],
 			strtolower($this->connection->ldapUserDisplayName) => ['Aaaaalice'],
+			strtolower($this->connection->ldapExtStorageHomeAttribute) => ['homeDirectory'],
 			'uid' => [$this->uid],
 			'homedirectory' => ['Alice\'s Folder'],
 			'memberof' => ['cn=groupOne', 'cn=groupTwo'],
@@ -924,7 +1063,7 @@ class UserTest extends \Test\TestCase {
 			$userMock->expects($this->once())
 				->method($method);
 		}
-		\OC_Hook::clear();//disconnect irrelevant hooks 
+		\OC_Hook::clear();//disconnect irrelevant hooks
 		$userMock->processAttributes($record);
 		/** @noinspection PhpUnhandledExceptionInspection */
 		\OC_Hook::emit('OC_User', 'post_login', ['uid' => $this->uid]);
@@ -975,10 +1114,10 @@ class UserTest extends \Test\TestCase {
 		$this->assertFalse($this->user->getHomePath());
 	}
 
-	/**
-	 * @expectedException \Exception
-	 */
+
 	public function testGetHomePathConfiguredNotAvailableNotAllowed() {
+		$this->expectException(\Exception::class);
+
 		$this->connection->expects($this->any())
 			->method('__get')
 			->with($this->equalTo('homeFolderNamingRule'))

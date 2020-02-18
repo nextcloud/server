@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace Test\Core\Command\Group;
 
 use OC\Core\Command\Group\AddUser;
@@ -48,7 +49,7 @@ class AddUserTest extends TestCase {
 	/** @var OutputInterface|\PHPUnit_Framework_MockObject_MockObject */
 	private $output;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->groupManager = $this->createMock(IGroupManager::class);

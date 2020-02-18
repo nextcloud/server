@@ -23,12 +23,13 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OC\App;
 
+use OCP\IConfig;
 use OCP\IL10N;
 
 class DependencyAnalyzer {
@@ -53,7 +54,7 @@ class DependencyAnalyzer {
 	 * @param array $app
 	 * @returns array of missing dependencies
 	 */
-	public function analyze(array $app) {
+	public function analyze(array $app, bool $ignoreMax = false) {
 		$this->appInfo = $app;
 		if (isset($app['dependencies'])) {
 			$dependencies = $app['dependencies'];
@@ -67,8 +68,22 @@ class DependencyAnalyzer {
 			$this->analyzeCommands($dependencies),
 			$this->analyzeLibraries($dependencies),
 			$this->analyzeOS($dependencies),
-			$this->analyzeOC($dependencies, $app)
+			$this->analyzeOC($dependencies, $app, $ignoreMax)
 		);
+	}
+
+	public function isMarkedCompatible(array $app): bool {
+		if (isset($app['dependencies'])) {
+			$dependencies = $app['dependencies'];
+		} else {
+			$dependencies = [];
+		}
+
+		$maxVersion = $this->getMaxVersion($dependencies, $app);
+		if ($maxVersion === null) {
+			return true;
+		}
+		return !$this->compareBigger($this->platform->getOcVersion(), $maxVersion);
 	}
 
 	/**
@@ -293,7 +308,7 @@ class DependencyAnalyzer {
 	 * @param array $appInfo
 	 * @return array
 	 */
-	private function analyzeOC(array $dependencies, array $appInfo) {
+	private function analyzeOC(array $dependencies, array $appInfo, bool $ignoreMax) {
 		$missing = [];
 		$minVersion = null;
 		if (isset($dependencies['nextcloud']['@attributes']['min-version'])) {
@@ -305,26 +320,33 @@ class DependencyAnalyzer {
 		} elseif (isset($appInfo['require'])) {
 			$minVersion = $appInfo['require'];
 		}
-		$maxVersion = null;
-		if (isset($dependencies['nextcloud']['@attributes']['max-version'])) {
-			$maxVersion = $dependencies['nextcloud']['@attributes']['max-version'];
-		} elseif (isset($dependencies['owncloud']['@attributes']['max-version'])) {
-			$maxVersion = $dependencies['owncloud']['@attributes']['max-version'];
-		} elseif (isset($appInfo['requiremax'])) {
-			$maxVersion = $appInfo['requiremax'];
-		}
+		$maxVersion = $this->getMaxVersion($dependencies, $appInfo);
 
 		if (!is_null($minVersion)) {
 			if ($this->compareSmaller($this->platform->getOcVersion(), $minVersion)) {
 				$missing[] = (string)$this->l->t('Server version %s or higher is required.', [$this->toVisibleVersion($minVersion)]);
 			}
 		}
-		if (!is_null($maxVersion)) {
+		if (!$ignoreMax && !is_null($maxVersion)) {
 			if ($this->compareBigger($this->platform->getOcVersion(), $maxVersion)) {
 				$missing[] = (string)$this->l->t('Server version %s or lower is required.', [$this->toVisibleVersion($maxVersion)]);
 			}
 		}
 		return $missing;
+	}
+
+	private function getMaxVersion(array $dependencies, array $appInfo): ?string {
+		if (isset($dependencies['nextcloud']['@attributes']['max-version'])) {
+			return $dependencies['nextcloud']['@attributes']['max-version'];
+		}
+		if (isset($dependencies['owncloud']['@attributes']['max-version'])) {
+			return $dependencies['owncloud']['@attributes']['max-version'];
+		}
+		if (isset($appInfo['requiremax'])) {
+			return $appInfo['requiremax'];
+		}
+
+		return null;
 	}
 
 	/**

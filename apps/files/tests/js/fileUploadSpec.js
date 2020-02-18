@@ -24,6 +24,7 @@ describe('OC.Upload tests', function() {
 	var testFile;
 	var uploader;
 	var failStub;
+	var progressBarStub;
 
 	beforeEach(function() {
 		testFile = {
@@ -45,7 +46,8 @@ describe('OC.Upload tests', function() {
 			'</div>'
 		);
 		$dummyUploader = $('#file_upload_start');
-		uploader = new OC.Uploader($dummyUploader);
+		progressBarStub = {on: function(){}};
+		uploader = new OC.Uploader($dummyUploader, {progressBar: progressBarStub});
 		failStub = sinon.stub();
 		uploader.on('fail', failStub);
 	});
@@ -67,7 +69,8 @@ describe('OC.Upload tests', function() {
 				files: [file],
 				jqXHR: jqXHR,
 				response: sinon.stub().returns(jqXHR),
-				submit: sinon.stub()
+				submit: sinon.stub(),
+				abort: sinon.stub()
 			};
 			if (uploader.fileUploadParam.add.call(
 					$dummyUploader[0],
@@ -81,33 +84,41 @@ describe('OC.Upload tests', function() {
 	}
 
 	describe('Adding files for upload', function() {
-		it('adds file when size is below limits', function() {
+		it('adds file when size is below limits', function(done) {
 			var result = addFiles(uploader, [testFile]);
 			expect(result[0]).not.toEqual(null);
-			expect(result[0].submit.calledOnce).toEqual(true);
+			result[0].submit.callsFake(function(){
+				expect(result[0].submit.calledOnce).toEqual(true);
+				done();
+			});
 		});
-		it('adds file when free space is unknown', function() {
+		it('adds file when free space is unknown', function(done) {
 			var result;
 			$('#free_space').val(-2);
 
 			result = addFiles(uploader, [testFile]);
-
 			expect(result[0]).not.toEqual(null);
-			expect(result[0].submit.calledOnce).toEqual(true);
-			expect(failStub.notCalled).toEqual(true);
+			result[0].submit.callsFake(function(){
+				expect(result[0].submit.calledOnce).toEqual(true);
+				expect(failStub.notCalled).toEqual(true);
+				done();
+			});
 		});
-		it('does not add file if it exceeds free space', function() {
+		it('does not add file if it exceeds free space', function(done) {
 			var result;
 			$('#free_space').val(1000);
 
+			failStub.callsFake(function(){
+				expect(failStub.calledOnce).toEqual(true);
+				expect(failStub.getCall(0).args[1].textStatus).toEqual('notenoughspace');
+				expect(failStub.getCall(0).args[1].errorThrown).toEqual(
+					'Not enough free space, you are uploading 5 KB but only 1000 B is left'
+				);
+				setTimeout(done, 0);
+			});
 			result = addFiles(uploader, [testFile]);
 
 			expect(result[0]).toEqual(null);
-			expect(failStub.calledOnce).toEqual(true);
-			expect(failStub.getCall(0).args[1].textStatus).toEqual('notenoughspace');
-			expect(failStub.getCall(0).args[1].errorThrown).toEqual(
-				'Not enough free space, you are uploading 5 KB but only 1000 B is left'
-			);
 		});
 	});
 	describe('Upload conflicts', function() {
@@ -142,6 +153,7 @@ describe('OC.Upload tests', function() {
 			conflictDialogStub = sinon.stub(OC.dialogs, 'fileexists');
 
 			uploader = new OC.Uploader($dummyUploader, {
+				progressBar: progressBarStub,
 				fileList: fileList
 			});
 
@@ -154,38 +166,60 @@ describe('OC.Upload tests', function() {
 
 			fileList.destroy();
 		});
-		it('does not show conflict dialog when no client side conflict', function() {
+		it('does not show conflict dialog when no client side conflict', function(done) {
+			$('#free_space').val(200000);
+			var counter = 0;
+			var fun = function() {
+				counter++;
+				if(counter != 2) {
+					return;
+				}
+				expect(result[0].submit.calledOnce).toEqual(true);
+				expect(result[1].submit.calledOnce).toEqual(true);
+				setTimeout(done, 0);
+			};
 			var result = addFiles(uploader, [{name: 'noconflict.txt'}, {name: 'noconflict2.txt'}]);
+			result[0].submit.callsFake(fun);
+			result[1].submit.callsFake(fun);
 
 			expect(conflictDialogStub.notCalled).toEqual(true);
-			expect(result[0].submit.calledOnce).toEqual(true);
-			expect(result[1].submit.calledOnce).toEqual(true);
+
 		});
-		it('shows conflict dialog when no client side conflict', function() {
+		it('shows conflict dialog when no client side conflict', function(done) {
+			var counter = 0;
+			conflictDialogStub.callsFake(function(){
+				counter++;
+				if(counter != 3) {
+					return $.Deferred().resolve().promise();
+				}
+				setTimeout(function() {
+					expect(conflictDialogStub.callCount).toEqual(3);
+					expect(conflictDialogStub.getCall(1).args[0].getFileName())
+						.toEqual('conflict.txt');
+					expect(conflictDialogStub.getCall(1).args[1])
+						.toEqual({ name: 'conflict.txt', mimetype: 'text/plain', directory: '/' });
+					expect(conflictDialogStub.getCall(1).args[2]).toEqual({ name: 'conflict.txt' });
+
+					// yes, the dialog must be called several times...
+					expect(conflictDialogStub.getCall(2).args[0].getFileName()).toEqual('conflict2.txt');
+					expect(conflictDialogStub.getCall(2).args[1])
+						.toEqual({ name: 'conflict2.txt', mimetype: 'text/plain', directory: '/' });
+					expect(conflictDialogStub.getCall(2).args[2]).toEqual({ name: 'conflict2.txt' });
+
+					expect(result[0].submit.calledOnce).toEqual(false);
+					expect(result[1].submit.calledOnce).toEqual(false);
+					expect(result[2].submit.calledOnce).toEqual(true);
+					done();
+				}, 0);
+			});
 			var result = addFiles(uploader, [
 				{name: 'conflict.txt'},
 				{name: 'conflict2.txt'},
 				{name: 'noconflict.txt'}
 			]);
 
-			expect(conflictDialogStub.callCount).toEqual(3);
-			expect(conflictDialogStub.getCall(1).args[0].getFileName())
-				.toEqual('conflict.txt');
-			expect(conflictDialogStub.getCall(1).args[1])
-				.toEqual({ name: 'conflict.txt', mimetype: 'text/plain', directory: '/' });
-			expect(conflictDialogStub.getCall(1).args[2]).toEqual({ name: 'conflict.txt' });
-
-			// yes, the dialog must be called several times...
-			expect(conflictDialogStub.getCall(2).args[0].getFileName()).toEqual('conflict2.txt');
-			expect(conflictDialogStub.getCall(2).args[1])
-				.toEqual({ name: 'conflict2.txt', mimetype: 'text/plain', directory: '/' });
-			expect(conflictDialogStub.getCall(2).args[2]).toEqual({ name: 'conflict2.txt' });
-
-			expect(result[0].submit.calledOnce).toEqual(false);
-			expect(result[1].submit.calledOnce).toEqual(false);
-			expect(result[2].submit.calledOnce).toEqual(true);
 		});
-		it('cancels upload when skipping file in conflict mode', function() {
+		it('cancels upload when skipping file in conflict mode', function(done) {
 			var fileData = {name: 'conflict.txt'};
 			var uploadData = addFiles(uploader, [
 				fileData
@@ -193,11 +227,14 @@ describe('OC.Upload tests', function() {
 
 			var upload = new OC.FileUpload(uploader, uploadData[0]);
 			var deleteStub = sinon.stub(upload, 'deleteUpload');
+			deleteStub.callsFake(function(){
+				expect(deleteStub.calledOnce).toEqual(true);
+				done();
+			});
 
 			uploader.onSkip(upload);
-			expect(deleteStub.calledOnce).toEqual(true);
 		});
-		it('overwrites file when choosing replace in conflict mode', function() {
+		it('overwrites file when choosing replace in conflict mode', function(done) {
 			var fileData = {name: 'conflict.txt'};
 			var uploadData = addFiles(uploader, [
 				fileData
@@ -206,12 +243,14 @@ describe('OC.Upload tests', function() {
 			expect(uploadData[0].submit.notCalled).toEqual(true);
 
 			var upload = new OC.FileUpload(uploader, uploadData[0]);
-
+			uploadData[0].submit.callsFake(function(){
+				expect(upload.getConflictMode()).toEqual(OC.FileUpload.CONFLICT_MODE_OVERWRITE);
+				expect(uploadData[0].submit.callCount).toEqual(1);
+				done();
+			});
 			uploader.onReplace(upload);
-			expect(upload.getConflictMode()).toEqual(OC.FileUpload.CONFLICT_MODE_OVERWRITE);
-			expect(uploadData[0].submit.calledOnce).toEqual(true);
 		});
-		it('autorenames file when choosing replace in conflict mode', function() {
+		it('autorenames file when choosing replace in conflict mode', function(done) {
 			// needed for _.defer call
 			var clock = sinon.useFakeTimers();
 			var fileData = {name: 'conflict.txt'};
@@ -223,20 +262,31 @@ describe('OC.Upload tests', function() {
 
 			var upload = new OC.FileUpload(uploader, uploadData[0]);
 			var getResponseStatusStub = sinon.stub(upload, 'getResponseStatus');
+			var counter = 0;
+			uploadData[0].submit.callsFake(function(){
+				counter++;
+				if(counter===1)
+				{
+					expect(upload.getConflictMode()).toEqual(OC.FileUpload.CONFLICT_MODE_AUTORENAME);
+					expect(upload.getFileName()).toEqual('conflict (2).txt');
+					expect(uploadData[0].submit.calledOnce).toEqual(true);
+					getResponseStatusStub.returns(412);
+					uploader.fileUploadParam.fail.call($dummyUploader[0], {}, uploadData[0]);
+					clock.tick(500);
+				}
+				if(counter===2)
+				{
+					expect(upload.getFileName()).toEqual('conflict (3).txt');
+					expect(uploadData[0].submit.calledTwice).toEqual(true);
+
+					clock.restore();
+					done();
+				}
+			});
 
 			uploader.onAutorename(upload);
-			expect(upload.getConflictMode()).toEqual(OC.FileUpload.CONFLICT_MODE_AUTORENAME);
-			expect(upload.getFileName()).toEqual('conflict (2).txt');
-			expect(uploadData[0].submit.calledOnce).toEqual(true);
 
 			// in case of server-side conflict, tries to rename again
-			getResponseStatusStub.returns(412);
-			uploader.fileUploadParam.fail.call($dummyUploader[0], {}, uploadData[0]);
-			clock.tick(500);
-			expect(upload.getFileName()).toEqual('conflict (3).txt');
-			expect(uploadData[0].submit.calledTwice).toEqual(true);
-
-			clock.restore();
 		});
 	});
 });

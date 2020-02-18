@@ -10,19 +10,17 @@
  * @author Individual IT Services <info@individual-it.net>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Nicolas Grekas <nicolas.grekas@gmail.com>
  * @author Pellaeon Lin <nfsmwlin@gmail.com>
  * @author Randolph Carter <RandolphCarter@fantasymail.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -38,7 +36,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -50,6 +48,7 @@
 
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
+
 namespace OCP;
 
 /**
@@ -89,7 +88,19 @@ class Util {
 	public static function getVersion() {
 		return \OC_Util::getVersion();
 	}
-	
+
+	/**
+	 * @since 17.0.0
+	 */
+	public static function hasExtendedSupport(): bool {
+		try {
+			/** @var \OCP\Support\Subscription\IRegistry */
+			$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
+			return $subscriptionRegistry->delegateHasExtendedSupport();
+		} catch (AppFramework\QueryException $e) {}
+		return \OC::$server->getConfig()->getSystemValueBool('extendedSupport', false);
+	}
+
 	/**
 	 * Set current update channel
 	 * @param string $channel
@@ -98,7 +109,7 @@ class Util {
 	public static function setChannel($channel) {
 		\OC::$server->getConfig()->setSystemValue('updater.release.channel', $channel);
 	}
-	
+
 	/**
 	 * Get current update channel
 	 * @return string
@@ -361,22 +372,6 @@ class Util {
 	}
 
 	/**
-	 * Check an ajax get/post call if the request token is valid. exit if not.
-	 * @since 4.5.0
-	 * @deprecated 9.0.0 Use annotations based on the app framework.
-	 */
-	public static function callCheck() {
-		if(!\OC::$server->getRequest()->passesStrictCookieCheck()) {
-			header('Location: '.\OC::$WEBROOT);
-			exit();
-		}
-
-		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
-			exit();
-		}
-	}
-
-	/**
 	 * Used to sanitize HTML
 	 *
 	 * This function is used to sanitize HTML and should be applied on any
@@ -517,7 +512,7 @@ class Util {
 	public static function needUpgrade() {
 		if (!isset(self::$needUpgradeCache)) {
 			self::$needUpgradeCache=\OC_Util::needUpgrade(\OC::$server->getSystemConfig());
-		}		
+		}
 		return self::$needUpgradeCache;
 	}
 

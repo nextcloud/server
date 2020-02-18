@@ -21,13 +21,16 @@
 
 describe('OCA.Sharing.PublicApp tests', function() {
 	var App = OCA.Sharing.PublicApp;
-	var hostStub, protocolStub, webrootStub;
+	var hostStub, protocolStub;
+	var originalWebroot;
 	var $preview;
 
 	beforeEach(function() {
+		originalWebroot = OC.webroot;
+		OC.webroot = '/owncloud';
 		protocolStub = sinon.stub(OC, 'getProtocol').returns('https');
 		hostStub = sinon.stub(OC, 'getHost').returns('example.com:9876');
-		webrootStub = sinon.stub(OC, 'getRootPath').returns('/owncloud');
+
 		$preview = $('<div id="preview"></div>');
 		$('#testArea').append($preview);
 		$preview.append(
@@ -38,9 +41,9 @@ describe('OCA.Sharing.PublicApp tests', function() {
 	});
 
 	afterEach(function() {
+		OC.webroot = originalWebroot;
 		protocolStub.restore();
 		hostStub.restore();
-		webrootStub.restore();
 	});
 
 	describe('File list', function() {

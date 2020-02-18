@@ -7,7 +7,6 @@
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
  *
@@ -21,10 +20,9 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-
 
 namespace OCA\Encryption\Tests;
 
@@ -42,11 +40,11 @@ class SessionTest extends TestCase {
 	/** @var \OCP\ISession|\PHPUnit_Framework_MockObject_MockObject */
 	private $sessionMock;
 
-	/**
-	 * @expectedException \OCA\Encryption\Exceptions\PrivateKeyMissingException
-	 * @expectedExceptionMessage Private Key missing for user: please try to log-out and log-in again
-	 */
+	
 	public function testThatGetPrivateKeyThrowsExceptionWhenNotSet() {
+		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+		$this->expectExceptionMessage('Private Key missing for user: please try to log-out and log-in again');
+
 		$this->instance->getPrivateKey();
 	}
 
@@ -85,42 +83,44 @@ class SessionTest extends TestCase {
 	}
 
 	/**
-	 * @expectedException \Exception
 	 * @expectExceptionMessage 'Please activate decrypt all mode first'
 	 */
 	public function testGetDecryptAllUidException() {
+		$this->expectException(\Exception::class);
+
 		$this->instance->getDecryptAllUid();
 	}
 
 	/**
-	 * @expectedException \Exception
 	 * @expectExceptionMessage 'No uid found while in decrypt all mode'
 	 */
 	public function testGetDecryptAllUidException2() {
+		$this->expectException(\Exception::class);
+
 		$this->instance->prepareDecryptAll(null, 'key');
 		$this->instance->getDecryptAllUid();
 	}
 
 	/**
-	 * @expectedException \OCA\Encryption\Exceptions\PrivateKeyMissingException
 	 * @expectExceptionMessage 'Please activate decrypt all mode first'
 	 */
 	public function testGetDecryptAllKeyException() {
+		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+
 		$this->instance->getDecryptAllKey();
 	}
 
 	/**
-	 * @expectedException \OCA\Encryption\Exceptions\PrivateKeyMissingException
 	 * @expectExceptionMessage 'No key found while in decrypt all mode'
 	 */
 	public function testGetDecryptAllKeyException2() {
+		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
+
 		$this->instance->prepareDecryptAll('user', null);
 		$this->instance->getDecryptAllKey();
 	}
 
-	/**
-	 *
-	 */
+	
 	public function testSetAndGetStatusWillSetAndReturn() {
 		// Check if get status will return 0 if it has not been set before
 		$this->assertEquals(0, $this->instance->getStatus());
@@ -187,9 +187,7 @@ class SessionTest extends TestCase {
 		return null;
 	}
 
-	/**
-	 *
-	 */
+	
 	public function testClearWillRemoveValues() {
 		$this->instance->setPrivateKey('privateKey');
 		$this->instance->setStatus('initStatus');
@@ -199,10 +197,8 @@ class SessionTest extends TestCase {
 		$this->assertEmpty(self::$tempStorage);
 	}
 
-	/**
-	 *
-	 */
-	protected function setUp() {
+	
+	protected function setUp(): void {
 		parent::setUp();
 		$this->sessionMock = $this->createMock(ISession::class);
 
@@ -222,7 +218,7 @@ class SessionTest extends TestCase {
 		$this->instance = new Session($this->sessionMock);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		self::$tempStorage = [];
 		parent::tearDown();
 	}

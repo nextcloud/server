@@ -1,6 +1,5 @@
 <?php
 script('core', [
-	'jquery-showpassword',
 	'installation'
 ]);
 ?>
@@ -50,14 +49,14 @@ script('core', [
 				value="<?php p($_['adminpass']); ?>"
 				autocomplete="off" autocapitalize="none" autocorrect="off" required>
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
-			<input type="checkbox" id="show" name="show">
-			<label for="show"></label>
+			<input type="checkbox" id="show" class="hidden-visually" name="show">
+			<label for="show" class="hidden-visually"><?php p($l->t( 'Show password')); ?></label>
 		</p>
 	</fieldset>
 
 	<?php if(!$_['directoryIsSet'] OR !$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 	<fieldset id="advancedHeader">
-		<legend><a id="showAdvanced"><?php p($l->t( 'Storage & database' )); ?> <img src="<?php print_unescaped(image_path('', 'actions/caret-white.svg')); ?>" /></a></legend>
+		<legend><a id="showAdvanced" tabindex="0" href="#"><?php p($l->t( 'Storage & database' )); ?><img src="<?php print_unescaped(image_path('', 'actions/caret-white.svg')); ?>" /></a></legend>
 	</fieldset>
 	<?php endif; ?>
 
@@ -113,7 +112,7 @@ script('core', [
 					value="<?php p($_['dbpass']); ?>"
 					autocomplete="off" autocapitalize="none" autocorrect="off">
 				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
-				<input type="checkbox" id="dbpassword-toggle" name="dbpassword-toggle">
+				<input type="checkbox" id="dbpassword-toggle" class="hidden-visually" name="dbpassword-toggle">
 				<label for="dbpassword-toggle"></label>
 			</p>
 			<p class="groupmiddle">
@@ -153,11 +152,21 @@ script('core', [
 	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 		<fieldset id="sqliteInformation" class="warning">
 			<legend><?php p($l->t('Performance warning'));?></legend>
-			<p><?php p($l->t('SQLite will be used as database.'));?></p>
-			<p><?php p($l->t('For larger installations we recommend to choose a different database backend.'));?></p>
-			<p><?php p($l->t('Especially when using the desktop client for file syncing the use of SQLite is discouraged.')); ?></p>
+			<p><?php p($l->t('You chose SQLite as database.'));?></p>
+			<p><?php p($l->t('SQLite should only be used for minimal and development instances. For production we recommend a different database backend.'));?></p>
+			<p><?php p($l->t('If you use clients for file syncing, the use of SQLite is highly discouraged.')); ?></p>
 		</fieldset>
 	<?php endif ?>
+
+	<fieldset>
+		<p class="info">
+			<input type="checkbox" id="install-recommended-apps" name="install-recommended-apps" class="checkbox checkbox--white" checked>
+			<label for="install-recommended-apps">
+				<?php p($l->t( 'Install recommended apps' )); ?>
+				<span><?php p($l->t( 'Calendar, Contacts, Talk, Mail & OnlyOffice' )); ?></span>
+			</label>
+		</p>
+	</fieldset>
 
 	<div class="icon-loading-dark float-spinner">&nbsp;</div>
 

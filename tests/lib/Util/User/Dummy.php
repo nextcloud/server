@@ -27,7 +27,7 @@
 
 namespace Test\Util\User;
 
-use \OC\User\Backend;
+use OC\User\Backend;
 
 /**
  * dummy user backend, does not keep state, only for testing use
@@ -164,6 +164,7 @@ class Dummy extends Backend implements \OCP\IUserBackend {
 
 	public function setDisplayName($uid, $displayName) {
 		$this->displayNames[$uid] = $displayName;
+		return true;
 	}
 
 	public function getDisplayName($uid) {

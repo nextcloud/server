@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Maxence Lange <maxence@artificial-owl.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -127,7 +128,11 @@ EOT
 				}
 				$default = $column->getDefault();
 				if ($default !== null) {
-					$default = is_numeric($default) ? $default : "'$default'";
+					if (is_string($default)) {
+						$default = "'$default'";
+					} else if (is_bool($default)) {
+						$default = ($default === true) ? 'true' : 'false';
+					}
 					$content .= str_replace('{{default}}', $default, <<<'EOT'
 				'default' => {{default}},
 

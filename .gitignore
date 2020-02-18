@@ -7,6 +7,7 @@
 /apps/inc.php
 /assets
 /.htaccess
+/node_modules
 /translationfiles
 /translationtool.phar
 
@@ -29,6 +30,7 @@
 !/apps/user_ldap
 !/apps/oauth2
 !/apps/provisioning_api
+!/apps/settings
 !/apps/systemtags
 !/apps/testing
 !/apps/admin_audit
@@ -133,6 +135,7 @@ Vagrantfile
 
 # Tests - auto-generated files
 /data-autotest
+/tests/.phpunit.result.cache
 /tests/coverage*
 /tests/css
 /tests/karma-coverage

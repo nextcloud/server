@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -17,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -36,13 +39,13 @@ interface INotification {
 	 * @throws \InvalidArgumentException if the app id is invalid
 	 * @since 9.0.0
 	 */
-	public function setApp($app);
+	public function setApp(string $app): INotification;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getApp();
+	public function getApp(): string;
 
 	/**
 	 * @param string $user
@@ -50,13 +53,13 @@ interface INotification {
 	 * @throws \InvalidArgumentException if the user id is invalid
 	 * @since 9.0.0
 	 */
-	public function setUser($user);
+	public function setUser(string $user): INotification;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getUser();
+	public function getUser(): string;
 
 	/**
 	 * @param \DateTime $dateTime
@@ -64,13 +67,13 @@ interface INotification {
 	 * @throws \InvalidArgumentException if the $dateTime is invalid
 	 * @since 9.0.0
 	 */
-	public function setDateTime(\DateTime $dateTime);
+	public function setDateTime(\DateTime $dateTime): INotification;
 
 	/**
 	 * @return \DateTime
 	 * @since 9.0.0
 	 */
-	public function getDateTime();
+	public function getDateTime(): \DateTime;
 
 	/**
 	 * @param string $type
@@ -79,19 +82,19 @@ interface INotification {
 	 * @throws \InvalidArgumentException if the object type or id is invalid
 	 * @since 9.0.0
 	 */
-	public function setObject($type, $id);
+	public function setObject(string $type, string $id): INotification;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getObjectType();
+	public function getObjectType(): string;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getObjectId();
+	public function getObjectId(): string;
 
 	/**
 	 * @param string $subject
@@ -100,54 +103,75 @@ interface INotification {
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
 	 * @since 9.0.0
 	 */
-	public function setSubject($subject, array $parameters = []);
+	public function setSubject(string $subject, array $parameters = []): INotification;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getSubject();
+	public function getSubject(): string;
 
 	/**
-	 * @return string[]
+	 * @return array
 	 * @since 9.0.0
 	 */
-	public function getSubjectParameters();
+	public function getSubjectParameters(): array;
 
 	/**
+	 * Set a parsed subject
+	 *
+	 * HTML is not allowed in the parsed subject and will be escaped
+	 * automatically by the clients. You can use the RichObjectString system
+	 * provided by the Nextcloud server to highlight important parameters via
+	 * the setRichSubject method, but make sure, that a plain text message is
+	 * always set via setParsedSubject, to support clients which can not handle
+	 * rich strings.
+	 *
+	 * See https://github.com/nextcloud/server/issues/1706 for more information.
+	 *
 	 * @param string $subject
 	 * @return $this
 	 * @throws \InvalidArgumentException if the subject is invalid
 	 * @since 9.0.0
 	 */
-	public function setParsedSubject($subject);
+	public function setParsedSubject(string $subject): INotification;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getParsedSubject();
+	public function getParsedSubject(): string;
 
 	/**
+	 * Set a RichObjectString subject
+	 *
+	 * HTML is not allowed in the rich subject and will be escaped automatically
+	 * by the clients, but you can use the RichObjectString system provided by
+	 * the Nextcloud server to highlight important parameters.
+	 * Also make sure, that a plain text subject is always set via
+	 * setParsedSubject, to support clients which can not handle rich strings.
+	 *
+	 * See https://github.com/nextcloud/server/issues/1706 for more information.
+	 *
 	 * @param string $subject
 	 * @param array $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
 	 * @since 11.0.0
 	 */
-	public function setRichSubject($subject, array $parameters = []);
+	public function setRichSubject(string $subject, array $parameters = []): INotification;
 
 	/**
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getRichSubject();
+	public function getRichSubject(): string;
 
 	/**
 	 * @return array[]
 	 * @since 11.0.0
 	 */
-	public function getRichSubjectParameters();
+	public function getRichSubjectParameters(): array;
 
 	/**
 	 * @param string $message
@@ -156,54 +180,75 @@ interface INotification {
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 9.0.0
 	 */
-	public function setMessage($message, array $parameters = []);
+	public function setMessage(string $message, array $parameters = []): INotification;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getMessage();
+	public function getMessage(): string;
 
 	/**
-	 * @return string[]
+	 * @return array
 	 * @since 9.0.0
 	 */
-	public function getMessageParameters();
+	public function getMessageParameters(): array;
 
 	/**
+	 * Set a parsed message
+	 *
+	 * HTML is not allowed in the parsed message and will be escaped
+	 * automatically by the clients. You can use the RichObjectString system
+	 * provided by the Nextcloud server to highlight important parameters via
+	 * the setRichMessage method, but make sure, that a plain text message is
+	 * always set via setParsedMessage, to support clients which can not handle
+	 * rich strings.
+	 *
+	 * See https://github.com/nextcloud/server/issues/1706 for more information.
+	 *
 	 * @param string $message
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message is invalid
 	 * @since 9.0.0
 	 */
-	public function setParsedMessage($message);
+	public function setParsedMessage(string $message): INotification;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getParsedMessage();
+	public function getParsedMessage(): string;
 
 	/**
+	 * Set a RichObjectString message
+	 *
+	 * HTML is not allowed in the rich message and will be escaped automatically
+	 * by the clients, but you can use the RichObjectString system provided by
+	 * the Nextcloud server to highlight important parameters.
+	 * Also make sure, that a plain text message is always set via
+	 * setParsedMessage, to support clients which can not handle rich strings.
+	 *
+	 * See https://github.com/nextcloud/server/issues/1706 for more information.
+	 *
 	 * @param string $message
 	 * @param array $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
 	 * @since 11.0.0
 	 */
-	public function setRichMessage($message, array $parameters = []);
+	public function setRichMessage(string $message, array $parameters = []): INotification;
 
 	/**
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getRichMessage();
+	public function getRichMessage(): string;
 
 	/**
 	 * @return array[]
 	 * @since 11.0.0
 	 */
-	public function getRichMessageParameters();
+	public function getRichMessageParameters(): array;
 
 	/**
 	 * @param string $link
@@ -211,13 +256,13 @@ interface INotification {
 	 * @throws \InvalidArgumentException if the link is invalid
 	 * @since 9.0.0
 	 */
-	public function setLink($link);
+	public function setLink(string $link): INotification;
 
 	/**
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getLink();
+	public function getLink(): string;
 
 	/**
 	 * @param string $icon
@@ -225,19 +270,19 @@ interface INotification {
 	 * @throws \InvalidArgumentException if the icon is invalid
 	 * @since 11.0.0
 	 */
-	public function setIcon($icon);
+	public function setIcon(string $icon): INotification;
 
 	/**
 	 * @return string
 	 * @since 11.0.0
 	 */
-	public function getIcon();
+	public function getIcon(): string;
 
 	/**
 	 * @return IAction
 	 * @since 9.0.0
 	 */
-	public function createAction();
+	public function createAction(): IAction;
 
 	/**
 	 * @param IAction $action
@@ -245,13 +290,13 @@ interface INotification {
 	 * @throws \InvalidArgumentException if the action is invalid
 	 * @since 9.0.0
 	 */
-	public function addAction(IAction $action);
+	public function addAction(IAction $action): INotification;
 
 	/**
 	 * @return IAction[]
 	 * @since 9.0.0
 	 */
-	public function getActions();
+	public function getActions(): array;
 
 	/**
 	 * @param IAction $action
@@ -259,23 +304,23 @@ interface INotification {
 	 * @throws \InvalidArgumentException if the action is invalid
 	 * @since 9.0.0
 	 */
-	public function addParsedAction(IAction $action);
+	public function addParsedAction(IAction $action): INotification;
 
 	/**
 	 * @return IAction[]
 	 * @since 9.0.0
 	 */
-	public function getParsedActions();
+	public function getParsedActions(): array;
 
 	/**
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function isValid();
+	public function isValid(): bool;
 
 	/**
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function isValidParsed();
+	public function isValidParsed(): bool;
 }

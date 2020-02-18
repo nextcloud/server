@@ -2,9 +2,12 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Citharel <tcit@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -19,7 +22,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -261,7 +264,7 @@ class SyncService {
 	/**
 	 * @param IUser $user
 	 */
-	public function updateUser($user) {
+	public function updateUser(IUser $user) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$addressBookId = $systemAddressBook['id'];
 		$converter = new Converter($this->accountManager);
@@ -319,7 +322,7 @@ class SyncService {
 
 	public function syncInstance(\Closure $progressCallback = null) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
-		$this->userManager->callForAllUsers(function($user) use ($systemAddressBook, $progressCallback) {
+		$this->userManager->callForSeenUsers(function($user) use ($systemAddressBook, $progressCallback) {
 			$this->updateUser($user);
 			if (!is_null($progressCallback)) {
 				$progressCallback();

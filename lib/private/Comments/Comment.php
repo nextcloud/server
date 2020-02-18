@@ -19,9 +19,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Comments;
 
 use OCP\Comments\IComment;
@@ -188,17 +189,18 @@ class Comment implements IComment {
 	 * sets the message of the comment and returns itself
 	 *
 	 * @param string $message
+	 * @param int $maxLength
 	 * @return IComment
 	 * @throws MessageTooLongException
 	 * @since 9.0.0
 	 */
-	public function setMessage($message) {
+	public function setMessage($message, $maxLength = self::MAX_MESSAGE_LENGTH) {
 		if(!is_string($message)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
 		$message = trim($message);
-		if(mb_strlen($message, 'UTF-8') > IComment::MAX_MESSAGE_LENGTH) {
-			throw new MessageTooLongException('Comment message must not exceed ' . IComment::MAX_MESSAGE_LENGTH . ' characters');
+		if ($maxLength && mb_strlen($message, 'UTF-8') > $maxLength) {
+			throw new MessageTooLongException('Comment message must not exceed ' . $maxLength. ' characters');
 		}
 		$this->data['message'] = $message;
 		return $this;
@@ -225,14 +227,19 @@ class Comment implements IComment {
 	 *
 	 */
 	public function getMentions() {
-		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
+		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"guest\/[a-f0-9]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
 		if(!$ok || !isset($mentions[0]) || !is_array($mentions[0])) {
 			return [];
 		}
 		$uids = array_unique($mentions[0]);
 		$result = [];
 		foreach ($uids as $uid) {
-			$result[] = ['type' => 'user', 'id' => trim(substr($uid, 1), '"')];
+			$cleanUid = trim(substr($uid, 1), '"');
+			if (strpos($cleanUid, 'guest/') === 0) {
+				$result[] = ['type' => 'guest', 'id' => $cleanUid];
+			} else {
+				$result[] = ['type' => 'user', 'id' => $cleanUid];
+			}
 		}
 		return $result;
 	}
@@ -293,12 +300,12 @@ class Comment implements IComment {
 	public function setActor($actorType, $actorId) {
 		if(
 		       !is_string($actorType) || !trim($actorType)
-		    || !is_string($actorId)   || !trim($actorId)
+		    || !is_string($actorId)   || $actorId === ''
 		) {
 			throw new \InvalidArgumentException('String expected.');
 		}
 		$this->data['actorType'] = trim($actorType);
-		$this->data['actorId']   = trim($actorId);
+		$this->data['actorId']   = $actorId;
 		return $this;
 	}
 
@@ -379,7 +386,7 @@ class Comment implements IComment {
 	public function setObject($objectType, $objectId) {
 		if(
 		       !is_string($objectType) || !trim($objectType)
-		    || !is_string($objectId)   || !trim($objectId)
+		    || !is_string($objectId)   || trim($objectId) === ''
 		) {
 			throw new \InvalidArgumentException('String expected.');
 		}

@@ -1,9 +1,11 @@
 <?php
-/** @noinspection ALL */
+
 declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
  *
+ *
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -19,7 +21,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -31,7 +33,6 @@ use OCP\AppFramework\Db\Entity;
  * @method void setId(int $id)
  * @method void setUid(string $uid);
  * @method void setLoginName(string $loginname)
- * @method void setName(string $name)
  * @method string getToken()
  * @method void setType(int $type)
  * @method int getType()
@@ -45,7 +46,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setVersion(int $version)
  * @method bool getPasswordInvalid()
  */
-class PublicKeyToken extends Entity implements IToken {
+class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
 
 	const VERSION = 2;
 
@@ -197,6 +198,10 @@ class PublicKeyToken extends Entity implements IToken {
 		return parent::getName();
 	}
 
+	public function setName(string $name): void {
+		parent::setName($name);
+	}
+
 	public function getRemember(): int {
 		return parent::getRemember();
 	}
@@ -222,5 +227,9 @@ class PublicKeyToken extends Entity implements IToken {
 
 	public function setPasswordInvalid(bool $invalid) {
 		parent::setPasswordInvalid($invalid);
+	}
+
+	public function wipe(): void {
+		parent::setType(IToken::WIPE_TOKEN);
 	}
 }

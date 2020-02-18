@@ -89,7 +89,7 @@ abstract class AsyncBusTest extends TestCase {
 	 */
 	abstract protected function createBus();
 
-	public function setUp() {
+	protected function setUp(): void {
 		self::$lastCommand = '';
 	}
 
@@ -136,7 +136,7 @@ abstract class AsyncBusTest extends TestCase {
 
 	public function testClosureSelf() {
 		$this->getBus()->push(function () {
-			self::$lastCommand = 'closure-self';
+			AsyncBusTest::$lastCommand = 'closure-self';
 		});
 		$this->runJobs();
 		$this->assertEquals('closure-self', self::$lastCommand);
@@ -154,7 +154,7 @@ abstract class AsyncBusTest extends TestCase {
 	public function testClosureBind() {
 		$state = 'bar';
 		$this->getBus()->push(function () use ($state) {
-			self::$lastCommand = 'closure-' . $state;
+			AsyncBusTest::$lastCommand = 'closure-' . $state;
 		});
 		$this->runJobs();
 		$this->assertEquals('closure-bar', self::$lastCommand);

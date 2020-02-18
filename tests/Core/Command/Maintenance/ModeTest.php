@@ -48,7 +48,7 @@ class ModeTest extends TestCase {
 	 *
 	 * @return void
 	 */
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->getMockBuilder(IConfig::class)
 			->getMock();
@@ -123,7 +123,7 @@ class ModeTest extends TestCase {
 		string $expectedOutput
 	) {
 		$this->config->expects($this->any())
-			->method('getSystemValue')
+			->method('getSystemValueBool')
 			->willReturn($currentMaintenanceState);
 
 		if ($expectedMaintenanceState !== null) {

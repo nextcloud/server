@@ -5,8 +5,11 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Frank Karlitschek <frank@karlitschek.de>
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -28,7 +31,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -104,11 +107,18 @@ class Updater extends BasicEmitter {
 		$this->emit('\OC\Updater', 'setDebugLogLevel', [ $logLevel, $this->logLevelNames[$logLevel] ]);
 		$this->config->setSystemValue('loglevel', ILogger::DEBUG);
 
-		$wasMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
+		$wasMaintenanceModeEnabled = $this->config->getSystemValueBool('maintenance');
 
 		if(!$wasMaintenanceModeEnabled) {
 			$this->config->setSystemValue('maintenance', true);
 			$this->emit('\OC\Updater', 'maintenanceEnabled');
+		}
+
+		// Clear CAN_INSTALL file if not on git
+		if (\OC_Util::getChannel() !== 'git' && is_file(\OC::$configDir.'/CAN_INSTALL')) {
+			if (!unlink(\OC::$configDir . '/CAN_INSTALL')) {
+				$this->log->error('Could not cleanup CAN_INSTALL from your config folder. Please remove this file manually.');
+			}
 		}
 
 		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
@@ -249,7 +259,8 @@ class Updater extends BasicEmitter {
 
 		// upgrade appstore apps
 		$this->upgradeAppStoreApps(\OC::$server->getAppManager()->getInstalledApps());
-		$this->upgradeAppStoreApps(\OC_App::$autoDisabledApps, true);
+		$autoDisabledApps = \OC::$server->getAppManager()->getAutoDisabledApps();
+		$this->upgradeAppStoreApps($autoDisabledApps, true);
 
 		// install new shipped apps on upgrade
 		OC_App::loadApps(['authentication']);
@@ -397,7 +408,7 @@ class Updater extends BasicEmitter {
 				if ($appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
-				\OC::$server->getAppManager()->disableApp($app);
+				\OC::$server->getAppManager()->disableApp($app, true);
 				$this->emit('\OC\Updater', 'incompatibleAppDisabled', array($app));
 			}
 			// no need to disable any app in case this is a non-core upgrade
@@ -614,4 +625,3 @@ class Updater extends BasicEmitter {
 	}
 
 }
-

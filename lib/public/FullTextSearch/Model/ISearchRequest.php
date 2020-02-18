@@ -1,15 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
-
 /**
- * FullTextSearch - Full text search framework for Nextcloud
- *
- * This file is licensed under the Affero General Public License version 3 or
- * later. See the COPYING file.
+ * @copyright 2018
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,10 +20,9 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 
 namespace OCP\FullTextSearch\Model;
 
@@ -90,6 +86,28 @@ interface ISearchRequest {
 	 * @return string
 	 */
 	public function getSearch(): string;
+
+	/**
+	 * Set the searched string.
+	 *
+	 * @param string $search
+	 *
+	 * @since 17.0.0
+	 *
+	 * @return ISearchRequest
+	 */
+	public function setSearch(string $search): ISearchRequest;
+
+	/**
+	 * Extends the searched string.
+	 *
+	 * @since 17.0.0
+	 *
+	 * @param string $search
+	 *
+	 * @return ISearchRequest
+	 */
+	public function addSearch(string $search): ISearchRequest;
 
 
 	/**
@@ -322,5 +340,24 @@ interface ISearchRequest {
 	public function getFields(): array;
 
 
-}
 
+	/**
+	 * Add a MUST search on an extra field
+	 *
+	 * @param ISearchRequestSimpleQuery $query
+	 *
+	 * @return ISearchRequest
+	 * @since 17.0.0
+	 */
+	public function addSimpleQuery(ISearchRequestSimpleQuery $query): ISearchRequest;
+
+
+	/**
+	 * Get the list of queries on extra field.
+	 *
+	 * @return ISearchRequestSimpleQuery[]
+	 * @since 17.0.0
+	 */
+	public function getSimpleQueries(): array;
+
+}

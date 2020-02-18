@@ -6,6 +6,7 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Damjan Georgievski <gdamjan@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -30,7 +31,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -44,7 +45,7 @@ try {
 		\OC::$server->getLogger()->debug('Update required, skipping cron', ['app' => 'cron']);
 		exit;
 	}
-	if (\OC::$server->getSystemConfig()->getValue('maintenance', false)) {
+	if ((bool) \OC::$server->getSystemConfig()->getValue('maintenance', false)) {
 		\OC::$server->getLogger()->debug('We are in maintenance mode, skipping cron', ['app' => 'cron']);
 		exit;
 	}
@@ -92,12 +93,13 @@ try {
 			echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
 			exit(1);
 		}
+
 		$user = posix_getpwuid(posix_getuid());
 		$configUser = posix_getpwuid(fileowner(OC::$configDir . 'config.php'));
 		if ($user['name'] !== $configUser['name']) {
-			echo "Console has to be executed with the same user as the web server is operated" . PHP_EOL;
+			echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
 			echo "Current user: " . $user['name'] . PHP_EOL;
-			echo "Web server user: " . $configUser['name'] . PHP_EOL;
+			echo "Owner of config.php: " . $configUser['name'] . PHP_EOL;
 			exit(1);
 		}
 

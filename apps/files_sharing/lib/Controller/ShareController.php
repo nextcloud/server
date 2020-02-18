@@ -5,10 +5,16 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Jonas Sulzer <jonas@violoncello.ch>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author MartB <mart.b@outlook.de>
  * @author Maxence Lange <maxence@pontapreta.net>
+ * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Piotr Filiciak <piotr@filiciak.pl>
  * @author Robin Appelman <robin@icewind.nl>
@@ -29,7 +35,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -39,31 +45,31 @@ use OC\Security\CSP\ContentSecurityPolicy;
 use OC_Files;
 use OC_Util;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files_Sharing\Activity\Providers\Downloads;
 use OCP\AppFramework\AuthPublicShareController;
-use OCP\AppFramework\Http\Template\SimpleMenuAction;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
 use OCP\AppFramework\Http\Template\LinkMenuAction;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
-use OCP\Defaults;
-use OCP\IL10N;
-use OCP\Template;
-use OCP\Share;
-use OCP\IRequest;
+use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\IURLGenerator;
-use OCP\IConfig;
-use OCP\ILogger;
-use OCP\IUserManager;
-use OCP\ISession;
-use OCP\IPreview;
-use OCA\Files_Sharing\Activity\Providers\Downloads;
-use OCP\Files\NotFoundException;
+use OCP\Defaults;
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\IPreview;
+use OCP\IRequest;
+use OCP\ISession;
+use OCP\IURLGenerator;
+use OCP\IUserManager;
+use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IManager as ShareManager;
+use OCP\Template;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use OCP\Share\IManager as ShareManager;
 
 /**
  * Class ShareController
@@ -163,7 +169,6 @@ class ShareController extends AuthPublicShareController {
 			$csp = new ContentSecurityPolicy();
 			$csp->addAllowedConnectDomain('*');
 			$csp->addAllowedMediaDomain('blob:');
-			$csp->allowEvalScript(true);
 			$response->setContentSecurityPolicy($csp);
 		}
 
@@ -184,7 +189,6 @@ class ShareController extends AuthPublicShareController {
 			$csp = new ContentSecurityPolicy();
 			$csp->addAllowedConnectDomain('*');
 			$csp->addAllowedMediaDomain('blob:');
-			$csp->allowEvalScript(true);
 			$response->setContentSecurityPolicy($csp);
 		}
 
@@ -267,6 +271,18 @@ class ShareController extends AuthPublicShareController {
 	 * @return bool
 	 */
 	private function validateShare(\OCP\Share\IShare $share) {
+		// If the owner is disabled no access to the linke is granted
+		$owner = $this->userManager->get($share->getShareOwner());
+		if ($owner === null || !$owner->isEnabled()) {
+			return false;
+		}
+
+		// If the initiator of the share is disabled no access is granted
+		$initiator = $this->userManager->get($share->getSharedBy());
+		if ($initiator === null || !$initiator->isEnabled()) {
+			return false;
+		}
+
 		return $share->getNode()->isReadable() && $share->getNode()->isShareable();
 	}
 
@@ -360,7 +376,8 @@ class ShareController extends AuthPublicShareController {
 			$folder->assign('isPublic', true);
 			$folder->assign('hideFileList', $hideFileList);
 			$folder->assign('publicUploadEnabled', 'no');
-			$folder->assign('showgridview', true);
+			// default to list view
+			$folder->assign('showgridview', false);
 			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
 			$folder->assign('uploadMaxHumanFilesize', \OCP\Util::humanFileSize($maxUploadFilesize));
 			$folder->assign('freeSpace', $freeSpace);
@@ -371,7 +388,8 @@ class ShareController extends AuthPublicShareController {
 			$shareIsFolder = false;
 		}
 
-		$shareTmpl['showgridview'] = true;
+		// default to list view
+		$shareTmpl['showgridview'] = false;
 
 		$shareTmpl['hideFileList'] = $hideFileList;
 		$shareTmpl['shareOwner'] = $this->userManager->get($share->getShareOwner())->getDisplayName();
@@ -411,6 +429,7 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		// Load files we need
+		\OCP\Util::addScript('files', 'semaphore');
 		\OCP\Util::addScript('files', 'file-upload');
 		\OCP\Util::addStyle('files_sharing', 'publicView');
 		\OCP\Util::addScript('files_sharing', 'public');
@@ -432,6 +451,7 @@ class ShareController extends AuthPublicShareController {
 			\OCP\Util::addScript('files', 'filemultiselectmenu');
 			\OCP\Util::addScript('files', 'filelist');
 			\OCP\Util::addScript('files', 'keyboardshortcuts');
+			\OCP\Util::addScript('files', 'operationprogressbar');
 		}
 
 		// OpenGraph Support: http://ogp.me/
@@ -442,7 +462,8 @@ class ShareController extends AuthPublicShareController {
 		\OCP\Util::addHeader('meta', ['property' => "og:type", 'content' => "object"]);
 		\OCP\Util::addHeader('meta', ['property' => "og:image", 'content' => $ogPreview]);
 
-		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts');
+		$event = new GenericEvent(null, ['share' => $share]);
+		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts', $event);
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
@@ -455,12 +476,29 @@ class ShareController extends AuthPublicShareController {
 
 		if ($isNoneFileDropFolder && !$share->getHideDownload()) {
 			\OCP\Util::addScript('files_sharing', 'public_note');
-			$response->setHeaderActions([
-				new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0),
-				new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']),
-				new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']),
-				new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $shareTmpl['owner'], $shareTmpl['displayName'], $shareTmpl['filename']),
-			]);
+
+			$downloadWhite = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download-white', $shareTmpl['downloadURL'], 0);
+			$downloadAllWhite = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download-white', $shareTmpl['downloadURL'], 0);
+			$download = new SimpleMenuAction('download', $this->l10n->t('Download'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
+			$downloadAll = new SimpleMenuAction('download', $this->l10n->t('Download all files'), 'icon-download', $shareTmpl['downloadURL'], 10, $shareTmpl['fileSize']);
+			$directLink = new LinkMenuAction($this->l10n->t('Direct link'), 'icon-public', $shareTmpl['previewURL']);
+			$externalShare = new ExternalShareMenuAction($this->l10n->t('Add to your Nextcloud'), 'icon-external', $shareTmpl['owner'], $shareTmpl['displayName'], $shareTmpl['filename']);
+
+			$responseComposer = [];
+
+			if ($shareIsFolder) {
+				$responseComposer[] = $downloadAllWhite;
+				$responseComposer[] = $downloadAll;
+			} else {
+				$responseComposer[] = $downloadWhite;
+				$responseComposer[] = $download;
+			}
+			$responseComposer[] = $directLink;
+			if ($this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
+				$responseComposer[] = $externalShare;
+			}
+
+			$response->setHeaderActions($responseComposer);
 		}
 
 		$response->setContentSecurityPolicy($csp);
@@ -503,9 +541,12 @@ class ShareController extends AuthPublicShareController {
 			}
 		}
 
-
 		if (!$this->validateShare($share)) {
 			throw new NotFoundException();
+		}
+
+		if ($share->getHideDownload()) {
+			return new NotFoundResponse();
 		}
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());

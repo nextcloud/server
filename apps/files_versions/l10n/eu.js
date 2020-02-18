@@ -5,8 +5,6 @@ OC.L10N.register(
     "Failed to revert {file} to revision {timestamp}." : "Errore bat izan da {fitxategia} {timestamp} bertsiora leheneratzean.",
     "_%n byte_::_%n bytes_" : ["%nbyte","%n bytes"],
     "Restore" : "Berrezarri",
-    "Could not revert: %s" : "Ezin izan da leheneratu: %s",
-    "No earlier versions available" : "Ez dago aurreko bertsiorik",
-    "More versions …" : "Bertsio gehiago..."
+    "No other versions available" : "Ez dago bertsio gehiago eskuragarri"
 },
 "nplurals=2; plural=(n != 1);");

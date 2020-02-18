@@ -1,19 +1,17 @@
 { "translations": {
     "Deleted files" : "Изтрити файлове",
+    "restored" : "възстановено",
     "Restore" : "Възстановяне",
-    "Delete" : "Изтрий",
     "Delete permanently" : "Изтрий завинаги",
     "This operation is forbidden" : "Операцията е забранена",
     "This directory is unavailable, please check the logs or contact the administrator" : "Директорията не е налична. Моля проверете журнала или се свържете с администратор",
-    "restored" : "възстановено",
     "No deleted files" : "Няма изтрити файлове",
-    "You will be able to recover deleted files from here" : "Имате възможност да възстановите изтрити файлове от тук",
+    "You will be able to recover deleted files from here" : "От тук можете да възстановите изтрити файлове",
     "No entries found in this folder" : "Няма намерени записи в тази папка",
     "Select all" : "Избери всички",
     "Name" : "Име",
+    "Actions" : "Действия",
     "Deleted" : "Изтрито",
-    "Couldn't delete %s permanently" : "Неуспешно безвъзвратно изтриване на %s.",
-    "Couldn't restore %s" : "Неуспешно възстановяване на %s",
-    "Error" : "Грешка"
+    "Delete" : "Изтрий"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

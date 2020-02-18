@@ -5,13 +5,18 @@
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Christoph Schaefer "christophł@wolkesicher.de"
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Daniel Rudolf <github.com@daniel-rudolf.de>
+ * @author Greta Doci <gretadoci@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Haertl <jus@bitgrid.net>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Tobia De Koninck <tobia@ledfan.be>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
@@ -26,7 +31,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -37,7 +42,10 @@ use OCP\App\AppPathNotFoundException;
 use OCP\App\IAppManager;
 use OCP\App\ManagerEvent;
 use OCP\ICacheFactory;
+use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -59,6 +67,9 @@ class AppManager implements IAppManager {
 	/** @var IUserSession */
 	private $userSession;
 
+	/** @var IConfig */
+	private $config;
+
 	/** @var AppConfig */
 	private $appConfig;
 
@@ -70,6 +81,9 @@ class AppManager implements IAppManager {
 
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
+
+	/** @var ILogger */
+	private $logger;
 
 	/** @var string[] $appId => $enabled */
 	private $installedAppsCache;
@@ -86,23 +100,31 @@ class AppManager implements IAppManager {
 	/** @var array */
 	private $appVersions = [];
 
+	/** @var array */
+	private $autoDisabledApps = [];
+
 	/**
 	 * @param IUserSession $userSession
+	 * @param IConfig $config
 	 * @param AppConfig $appConfig
 	 * @param IGroupManager $groupManager
 	 * @param ICacheFactory $memCacheFactory
 	 * @param EventDispatcherInterface $dispatcher
 	 */
 	public function __construct(IUserSession $userSession,
+								IConfig $config,
 								AppConfig $appConfig,
 								IGroupManager $groupManager,
 								ICacheFactory $memCacheFactory,
-								EventDispatcherInterface $dispatcher) {
+								EventDispatcherInterface $dispatcher,
+								ILogger $logger) {
 		$this->userSession = $userSession;
+		$this->config = $config;
 		$this->appConfig = $appConfig;
 		$this->groupManager = $groupManager;
 		$this->memCacheFactory = $memCacheFactory;
 		$this->dispatcher = $dispatcher;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -149,6 +171,43 @@ class AppManager implements IAppManager {
 	}
 
 	/**
+	 * @param \OCP\IGroup $group
+	 * @return array
+	 */
+	public function getEnabledAppsForGroup(IGroup $group): array {
+		$apps = $this->getInstalledAppsValues();
+		$appsForGroups = array_filter($apps, function ($enabled) use ($group) {
+			return $this->checkAppForGroups($enabled, $group);
+		});
+		return array_keys($appsForGroups);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAutoDisabledApps(): array {
+		return $this->autoDisabledApps;
+	}
+
+	/**
+	 * @param string $appId
+	 * @return array
+	 */
+	public function getAppRestriction(string $appId): array {
+		$values = $this->getInstalledAppsValues();
+
+		if (!isset($values[$appId])) {
+			return [];
+		}
+
+		if ($values[$appId] === 'yes' || $values[$appId] === 'no') {
+			return [];
+		}
+		return json_decode($values[$appId]);
+	}
+
+
+	/**
 	 * Check if an app is enabled for user
 	 *
 	 * @param string $appId
@@ -189,7 +248,7 @@ class AppManager implements IAppManager {
 
 			if (!is_array($groupIds)) {
 				$jsonError = json_last_error();
-				\OC::$server->getLogger()->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
+				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
 				return false;
 			}
 
@@ -204,11 +263,39 @@ class AppManager implements IAppManager {
 	}
 
 	/**
+	 * @param string $enabled
+	 * @param IGroup $group
+	 * @return bool
+	 */
+	private function checkAppForGroups(string $enabled, IGroup $group): bool {
+		if ($enabled === 'yes') {
+			return true;
+		} elseif ($group === null) {
+			return false;
+		} else {
+			if (empty($enabled)) {
+				return false;
+			}
+
+			$groupIds = json_decode($enabled);
+
+			if (!is_array($groupIds)) {
+				$jsonError = json_last_error();
+				$this->logger->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
+				return false;
+			}
+
+			return in_array($group->getGID(), $groupIds);
+		}
+	}
+
+	/**
 	 * Check if an app is enabled in the instance
 	 *
 	 * Notice: This actually checks if the app is enabled and not only if it is installed.
 	 *
 	 * @param string $appId
+	 * @param \OCP\IGroup[]|String[] $groups
 	 * @return bool
 	 */
 	public function isInstalled($appId) {
@@ -216,15 +303,28 @@ class AppManager implements IAppManager {
 		return isset($installedApps[$appId]);
 	}
 
+	public function ignoreNextcloudRequirementForApp(string $appId): void {
+		$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+		if (!in_array($appId, $ignoreMaxApps, true)) {
+			$ignoreMaxApps[] = $appId;
+			$this->config->setSystemValue('app_install_overwrite', $ignoreMaxApps);
+		}
+	}
+
 	/**
 	 * Enable an app for every user
 	 *
 	 * @param string $appId
+	 * @param bool $forceEnable
 	 * @throws AppPathNotFoundException
 	 */
-	public function enableApp($appId) {
+	public function enableApp(string $appId, bool $forceEnable = false): void {
 		// Check if app exists
 		$this->getAppPath($appId);
+
+		if ($forceEnable) {
+			$this->ignoreNextcloudRequirementForApp($appId);
+		}
 
 		$this->installedAppsCache[$appId] = 'yes';
 		$this->appConfig->setValue($appId, 'enabled', 'yes');
@@ -254,39 +354,55 @@ class AppManager implements IAppManager {
 	 *
 	 * @param string $appId
 	 * @param \OCP\IGroup[] $groups
-	 * @throws \Exception if app can't be enabled for groups
+	 * @param bool $forceEnable
+	 * @throws \InvalidArgumentException if app can't be enabled for groups
+	 * @throws AppPathNotFoundException
 	 */
-	public function enableAppForGroups($appId, $groups) {
+	public function enableAppForGroups(string $appId, array $groups, bool $forceEnable = false): void {
+		// Check if app exists
+		$this->getAppPath($appId);
+
 		$info = $this->getAppInfo($appId);
-		if (!empty($info['types'])) {
-			$protectedTypes = array_intersect($this->protectedAppTypes, $info['types']);
-			if (!empty($protectedTypes)) {
-				throw new \Exception("$appId can't be enabled for groups.");
-			}
+		if (!empty($info['types']) && $this->hasProtectedAppType($info['types'])) {
+			throw new \InvalidArgumentException("$appId can't be enabled for groups.");
+		}
+
+		if ($forceEnable) {
+			$this->ignoreNextcloudRequirementForApp($appId);
 		}
 
 		$groupIds = array_map(function ($group) {
 			/** @var \OCP\IGroup $group */
-			return $group->getGID();
+			return ($group instanceof IGroup)
+				? $group->getGID()
+				: $group;
 		}, $groups);
+
 		$this->installedAppsCache[$appId] = json_encode($groupIds);
 		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
 		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
 			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
 		));
 		$this->clearAppsCache();
+
 	}
 
 	/**
 	 * Disable an app for every user
 	 *
 	 * @param string $appId
+	 * @param bool $automaticDisabled
 	 * @throws \Exception if app can't be disabled
 	 */
-	public function disableApp($appId) {
+	public function disableApp($appId, $automaticDisabled = false) {
 		if ($this->isAlwaysEnabled($appId)) {
 			throw new \Exception("$appId can't be disabled.");
 		}
+
+		if ($automaticDisabled) {
+			$this->autoDisabledApps[] = $appId;
+		}
+
 		unset($this->installedAppsCache[$appId]);
 		$this->appConfig->setValue($appId, 'enabled', 'no');
 
@@ -315,6 +431,21 @@ class AppManager implements IAppManager {
 			throw new AppPathNotFoundException('Could not find path for ' . $appId);
 		}
 		return $appPath;
+	}
+
+	/**
+	 * Get the web path for the given app.
+	 *
+	 * @param string $appId
+	 * @return string
+	 * @throws AppPathNotFoundException if app path can't be found
+	 */
+	public function getAppWebPath(string $appId): string {
+		$appWebPath = \OC_App::getAppWebPath($appId);
+		if($appWebPath === false) {
+			throw new AppPathNotFoundException('Could not find web path for ' . $appId);
+		}
+		return $appWebPath;
 	}
 
 	/**
@@ -392,7 +523,7 @@ class AppManager implements IAppManager {
 
 	public function getAppVersion(string $appId, bool $useCache = true): string {
 		if(!$useCache || !isset($this->appVersions[$appId])) {
-			$appInfo = \OC::$server->getAppManager()->getAppInfo($appId);
+			$appInfo = $this->getAppInfo($appId);
 			$this->appVersions[$appId] = ($appInfo !== null && isset($appInfo['version'])) ? $appInfo['version'] : '0';
 		}
 		return $this->appVersions[$appId];

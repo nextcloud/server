@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Alejandro Varela <epma01@gmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
@@ -18,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -56,7 +58,11 @@ class RedisFactory {
 			} else {
 				$readTimeout = null;
 			}
-			$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout);
+			if (isset($config['password']) && $config['password'] !== '') {
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout, false, $config['password']);
+			} else {
+				$this->instance = new \RedisCluster(null, $config['seeds'], $timeout, $readTimeout);
+			}
 
 			if (isset($config['failover_mode'])) {
 				$this->instance->setOption(\RedisCluster::OPT_SLAVE_FAILOVER, $config['failover_mode']);
@@ -72,8 +78,10 @@ class RedisFactory {
 			}
 			if (isset($config['port'])) {
 				$port = $config['port'];
-			} else {
+			} else if ($host[0] !== '/') {
 				$port = 6379;
+			} else {
+				$port = null;
 			}
 			if (isset($config['timeout'])) {
 				$timeout = $config['timeout'];

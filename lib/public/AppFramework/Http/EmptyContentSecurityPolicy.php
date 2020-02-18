@@ -19,7 +19,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -75,6 +75,8 @@ class EmptyContentSecurityPolicy {
 	protected $allowedFrameAncestors = null;
 	/** @var array Domains from which web-workers can be loaded */
 	protected $allowedWorkerSrcDomains = null;
+	/** @var array Domains which can be used as target for forms */
+	protected $allowedFormActionDomains = null;
 
 	/** @var array Locations to report violations to */
 	protected $reportTo = null;
@@ -108,6 +110,7 @@ class EmptyContentSecurityPolicy {
 	 * @param bool $state
 	 * @return $this
 	 * @since 8.1.0
+	 * @deprecated Eval should not be used anymore. Please update your scripts. This function will stop functioning in a future version of Nextcloud.
 	 */
 	public function allowEvalScript($state = true) {
 		$this->evalScriptAllowed = $state;
@@ -387,6 +390,29 @@ class EmptyContentSecurityPolicy {
 	}
 
 	/**
+	 * Domain to where forms can submit
+	 *
+	 * @since 17.0.0
+	 *
+	 * @return $this
+	 */
+	public function addAllowedFormActionDomain(string $domain) {
+		$this->allowedFormActionDomains[] = $domain;
+		return $this;
+	}
+
+	/**
+	 * Remove domain to where forms can submit
+	 *
+	 * @return $this
+	 * @since 17.0.0
+	 */
+	public function disallowFormActionDomain(string $domain) {
+		$this->allowedFormActionDomains = array_diff($this->allowedFormActionDomains, [$domain]);
+		return $this;
+	}
+
+	/**
 	 * Add location to report CSP violations to
 	 *
 	 * @param string $location
@@ -468,7 +494,8 @@ class EmptyContentSecurityPolicy {
 		}
 
 		if(!empty($this->allowedFrameDomains)) {
-			$policy .= 'frame-src ' . implode(' ', $this->allowedFrameDomains);
+			$policy .= 'frame-src ';
+			$policy .= implode(' ', $this->allowedFrameDomains);
 			$policy .= ';';
 		}
 
@@ -484,6 +511,11 @@ class EmptyContentSecurityPolicy {
 
 		if (!empty($this->allowedWorkerSrcDomains)) {
 			$policy .= 'worker-src ' . implode(' ', $this->allowedWorkerSrcDomains);
+			$policy .= ';';
+		}
+
+		if (!empty($this->allowedFormActionDomains)) {
+			$policy .= 'form-action ' . implode(' ', $this->allowedFormActionDomains);
 			$policy .= ';';
 		}
 

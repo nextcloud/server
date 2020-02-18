@@ -57,7 +57,6 @@
     "Enable password recovery:" : "Ota salasanan palautus käyttöön:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Tämän valinnan käyttäminen mahdollistaa pääsyn salattuihin tiedostoihisi, jos salasana unohtuu",
     "Enabled" : "Käytössä",
-    "Disabled" : "Ei käytössä",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Salausavaimet tulee siirtää vanhasta salaustavasta (ownCloud <= 8.0) uuteen salaustapaan. Suorita 'occ encryption:migrate' tai ota yhteys ylläpitoon"
+    "Disabled" : "Ei käytössä"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

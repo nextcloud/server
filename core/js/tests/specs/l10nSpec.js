@@ -15,7 +15,7 @@ describe('OC.L10N tests', function() {
 		OC.appswebroots[TEST_APP] = OC.getRootPath() + '/apps3/jsunittestapp';
 	});
 	afterEach(function() {
-		delete OC.L10N._bundles[TEST_APP];
+		OC.L10N._unregister(TEST_APP);
 		delete OC.appswebroots[TEST_APP];
 	});
 
@@ -29,7 +29,7 @@ describe('OC.L10N tests', function() {
 			});
 		});
 		it('returns untranslated text when no bundle exists', function() {
-			delete OC.L10N._bundles[TEST_APP];
+			OC.L10N._unregister(TEST_APP);
 			expect(t(TEST_APP, 'unknown text')).toEqual('unknown text');
 		});
 		it('returns untranslated text when no key exists', function() {

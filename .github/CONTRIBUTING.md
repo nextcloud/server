@@ -4,7 +4,7 @@ If you have questions about how to install or use Nextcloud, please direct these
 
 ### Short version
 
- * The [**issue template can be found here**][template] but be aware of the different repositories! See list below. Please always use the issue template when reporting issues.
+ * The [**issue templates can be found here**][templates] but be aware of the different repositories! See list below. Please always use an issue template when reporting issues.
 
 ### Guidelines
 * Please search the existing issues first, it's likely that your issue was already reported or even fixed.
@@ -12,14 +12,14 @@ If you have questions about how to install or use Nextcloud, please direct these
   - You can also filter by appending e. g. "state:open" to the search string.
   - More info on [search syntax within github](https://help.github.com/articles/searching-issues)
 * This repository ([server](https://github.com/nextcloud/server/issues)) is *only* for issues within the Nextcloud Server code. This also includes the apps: files, encryption, external storage, sharing, deleted files, versions, LDAP, and WebDAV Auth
-* __SECURITY__: Report any potential security bug to us via [our HackerOne page](https://hackerone.com/nextcloud) or security@nextcloud.com following our [security policy](https://nextcloud.com/security/) instead of filing an issue in our bug tracker.
+* __SECURITY__: Report any potential security bug to us via [our HackerOne page](https://hackerone.com/nextcloud) following our [security policy](https://nextcloud.com/security/) instead of filing an issue in our bug tracker.
 * The issues in other components should be reported in their respective repositories: You will find them in our [GitHub Organization](https://github.com/nextcloud/)
 
-* Report the issue using our [template][template], it includes all the information we need to track down the issue.
+* Report the issue using one of our [templates][templates], they include all the information we need to track down the issue.
 
 Help us to maximize the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
 
-[template]: ./ISSUE_TEMPLATE.md
+[templates]: ./ISSUE_TEMPLATE
 [forum]: https://help.nextcloud.com/
 [irc]: https://webchat.freenode.net/?channels=nextcloud
 
@@ -58,7 +58,7 @@ like `git config --global alias.ci 'commit -s'`. Now you can commit with
 
 In case you are not sure how to add or update the license header correctly please have a look at [contribute/HowToApplyALicense.md][applyalicense]
 
-[devmanual]: https://docs.nextcloud.org/server/13/developer_manual/
+[devmanual]: https://docs.nextcloud.com/server/latest/developer_manual/
 [dcofile]: https://github.com/nextcloud/server/blob/master/contribute/developer-certificate-of-origin
 [applyalicense]: https://github.com/nextcloud/server/blob/master/contribute/HowToApplyALicense.md
 

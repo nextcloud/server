@@ -3,6 +3,9 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -62,11 +65,11 @@ class LookupPlugin implements ISearchPlugin {
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
 		$isGlobalScaleEnabled = $this->config->getSystemValue('gs.enabled', false);
-		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no') === 'yes';
+		$isLookupServerEnabled = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes') === 'yes';
 		$hasInternetConnection = (bool)$this->config->getSystemValue('has_internet_connection', true);
 
 		// if case of Global Scale we always search the lookup server
-		if ((!$isLookupServerEnabled && !$isGlobalScaleEnabled) || !$hasInternetConnection) {
+		if (!$isGlobalScaleEnabled && (!$isLookupServerEnabled || !$hasInternetConnection)) {
 			return false;
 		}
 

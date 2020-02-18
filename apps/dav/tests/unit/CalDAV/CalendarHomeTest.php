@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2017, Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -17,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -39,7 +40,7 @@ class CalendarHomeTest extends TestCase {
 	/** @var CalendarHome */
 	private $calendarHome;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->backend = $this->createMock(CalDavBackend::class);
@@ -68,11 +69,11 @@ class CalendarHomeTest extends TestCase {
 		$this->calendarHome->createExtendedCollection('name123', $mkCol);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\MethodNotAllowed
-	 * @expectedExceptionMessage The resource you tried to create has a reserved name
-	 */
+	
 	public function testCreateCalendarReservedName() {
+		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
+		$this->expectExceptionMessage('The resource you tried to create has a reserved name');
+
 		/** @var MkCol | \PHPUnit_Framework_MockObject_MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 

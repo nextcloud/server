@@ -1,7 +1,9 @@
 <?php
-
 /**
+ *
+ *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -16,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -26,11 +28,11 @@ use OCA\TwoFactorBackupCodes\Db\BackupCode;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Service\BackupCodeStorage;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use PHPUnit_Framework_MockObject_MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class BackupCodeStorageTest extends TestCase {
@@ -44,19 +46,19 @@ class BackupCodeStorageTest extends TestCase {
 	/** @var IHasher|PHPUnit_Framework_MockObject_MockObject */
 	private $hasher;
 
-	/** @var EventDispatcherInterface|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IEventDispatcher|PHPUnit_Framework_MockObject_MockObject */
 	private $eventDispatcher;
 
 	/** @var BackupCodeStorage */
 	private $storage;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->mapper = $this->createMock(BackupCodeMapper::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->hasher = $this->createMock(IHasher::class);
-		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->storage = new BackupCodeStorage($this->mapper, $this->random, $this->hasher, $this->eventDispatcher);
 	}
@@ -67,7 +69,7 @@ class BackupCodeStorageTest extends TestCase {
 		$user->method('getUID')->willReturn('fritz');
 		$this->random->expects($this->exactly($number))
 			->method('generate')
-			->with(16, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789')
+			->with(16, ISecureRandom::CHAR_HUMAN_READABLE)
 			->will($this->returnValue('CODEABCDEF'));
 		$this->hasher->expects($this->exactly($number))
 			->method('hash')

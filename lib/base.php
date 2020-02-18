@@ -9,20 +9,24 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Damjan Georgievski <gdamjan@gmail.com>
  * @author davidgumberg <davidnoizgumberg@gmail.com>
+ * @author Eric Masseran <rico.masseran@gmail.com>
  * @author Florin Peter <github@florin-peter.de>
- * @author Individual IT Services <info@individual-it.net>
+ * @author Greta Doci <gretadoci@gmail.com>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author jaltek <jaltek@mailbox.org>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joachim Sokolowski <github@sokolowski.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
- * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Ko- <k.stoffelen@cs.ru.nl>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author MartB <mart.b@outlook.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
@@ -35,6 +39,7 @@
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
+ * @author Tobia De Koninck <tobia@ledfan.be>
  * @author Vincent Petry <pvince81@owncloud.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
  *
@@ -50,7 +55,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -285,14 +290,14 @@ class OC {
 
 	public static function checkMaintenanceMode() {
 		// Allow ajax update script to execute without being stopped
-		if (\OC::$server->getSystemConfig()->getValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
+		if (((bool) \OC::$server->getSystemConfig()->getValue('maintenance', false)) && OC::$SUBURI != '/core/ajax/update.php') {
 			// send http status 503
 			http_response_code(503);
 			header('Retry-After: 120');
 
 			// render error page
 			$template = new OC_Template('', 'update.user', 'guest');
-			OC_Util::addScript('maintenance-check');
+			OC_Util::addScript('dist/maintenance');
 			OC_Util::addStyle('core', 'guest');
 			$template->printPage();
 			die();
@@ -388,7 +393,7 @@ class OC {
 
 		if (!empty($incompatibleShippedApps)) {
 			$l = \OC::$server->getL10N('core');
-			$hint = $l->t('The files of the app %$1s were not replaced correctly. Make sure it is a version compatible with the server.', [implode(', ', $incompatibleShippedApps)]);
+			$hint = $l->t('The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server.', [implode(', ', $incompatibleShippedApps)]);
 			throw new \OC\HintException('The files of the app ' . implode(', ', $incompatibleShippedApps) . ' were not replaced correctly. Make sure it is a version compatible with the server.', $hint);
 		}
 
@@ -454,20 +459,6 @@ class OC {
 	 */
 	private static function getSessionLifeTime() {
 		return \OC::$server->getConfig()->getSystemValue('session_lifetime', 60 * 60 * 24);
-	}
-
-	public static function loadAppClassPaths() {
-		foreach (OC_App::getEnabledApps() as $app) {
-			$appPath = OC_App::getAppPath($app);
-			if ($appPath === false) {
-				continue;
-			}
-
-			$file = $appPath . '/appinfo/classpath.php';
-			if (file_exists($file)) {
-				require_once $file;
-			}
-		}
 	}
 
 	/**
@@ -666,30 +657,35 @@ class OC {
 		if (!defined('OC_CONSOLE')) {
 			$errors = OC_Util::checkServer(\OC::$server->getSystemConfig());
 			if (count($errors) > 0) {
-				if (self::$CLI) {
-					// Convert l10n string into regular string for usage in database
-					$staticErrors = [];
-					foreach ($errors as $error) {
-						echo $error['error'] . "\n";
-						echo $error['hint'] . "\n\n";
-						$staticErrors[] = [
-							'error' => (string)$error['error'],
-							'hint' => (string)$error['hint'],
-						];
-					}
-
-					try {
-						\OC::$server->getConfig()->setAppValue('core', 'cronErrors', json_encode($staticErrors));
-					} catch (\Exception $e) {
-						echo('Writing to database failed');
-					}
-					exit(1);
-				} else {
+				if (!self::$CLI) {
 					http_response_code(503);
 					OC_Util::addStyle('guest');
-					OC_Template::printGuestPage('', 'error', array('errors' => $errors));
-					exit;
+					try {
+						OC_Template::printGuestPage('', 'error', array('errors' => $errors));
+						exit;
+					} catch (\Exception $e) {
+						// In case any error happens when showing the error page, we simply fall back to posting the text.
+						// This might be the case when e.g. the data directory is broken and we can not load/write SCSS to/from it.
+					}
 				}
+
+				// Convert l10n string into regular string for usage in database
+				$staticErrors = [];
+				foreach ($errors as $error) {
+					echo $error['error'] . "\n";
+					echo $error['hint'] . "\n\n";
+					$staticErrors[] = [
+						'error' => (string)$error['error'],
+						'hint' => (string)$error['hint'],
+					];
+				}
+
+				try {
+					\OC::$server->getConfig()->setAppValue('core', 'cronErrors', json_encode($staticErrors));
+				} catch (\Exception $e) {
+					echo('Writing to database failed');
+				}
+				exit(1);
 			} elseif (self::$CLI && \OC::$server->getConfig()->getSystemValue('installed', false)) {
 				\OC::$server->getConfig()->deleteAppValue('core', 'cronErrors');
 			}
@@ -730,10 +726,13 @@ class OC {
 		self::registerEncryptionWrapper();
 		self::registerEncryptionHooks();
 		self::registerAccountHooks();
+		self::registerResourceCollectionHooks();
+		self::registerAppRestrictionsHooks();
 
 		// Make sure that the application class is not loaded before the database is setup
 		if ($systemConfig->getValue("installed", false)) {
-			$settings = new \OC\Settings\Application();
+			OC_App::loadApp('settings');
+			$settings = \OC::$server->query(\OCA\Settings\AppInfo\Application::class);
 			$settings->register();
 		}
 
@@ -761,9 +760,6 @@ class OC {
 		 * FIXME: Should not be in here at all :see_no_evil:
 		 */
 		if (!OC::$CLI
-			// overwritehost is always trusted, workaround to not have to make
-			// \OC\AppFramework\Http\Request::getOverwriteHost public
-			&& self::$server->getConfig()->getSystemValue('overwritehost') === ''
 			&& !\OC::$server->getTrustedDomainHelper()->isTrustedDomain($host)
 			&& self::$server->getConfig()->getSystemValue('installed', false)
 		) {
@@ -861,6 +857,34 @@ class OC {
 		\OCP\Util::connectHook('OC_User', 'changeUser', $hookHandler, 'changeUserHook');
 	}
 
+	private static function registerAppRestrictionsHooks() {
+		$groupManager = self::$server->query(\OCP\IGroupManager::class);
+		$groupManager->listen ('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
+			$appManager = self::$server->getAppManager();
+			$apps = $appManager->getEnabledAppsForGroup($group);
+			foreach ($apps as $appId) {
+				$restrictions = $appManager->getAppRestriction($appId);
+				if (empty($restrictions)) {
+					continue;
+				}
+				$key = array_search($group->getGID(), $restrictions);
+				unset($restrictions[$key]);
+				$restrictions = array_values($restrictions);
+				if (empty($restrictions)) {
+					$appManager->disableApp($appId);
+				}
+				else{
+					$appManager->enableAppForGroups($appId, $restrictions);
+				}
+
+			}
+		});
+	}
+
+	private static function registerResourceCollectionHooks() {
+		\OC\Collaboration\Resources\Listener::register(\OC::$server->getEventDispatcher());
+	}
+
 	/**
 	 * register hooks for the filesystem
 	 */
@@ -905,9 +929,6 @@ class OC {
 
 		\OC::$server->getEventLogger()->start('handle_request', 'Handle request');
 		$systemConfig = \OC::$server->getSystemConfig();
-		// load all the classpaths from the enabled apps so they are available
-		// in the routing files of each app
-		OC::loadAppClassPaths();
 
 		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
@@ -938,7 +959,7 @@ class OC {
 				if (function_exists('opcache_reset')) {
 					opcache_reset();
 				}
-				if (!$systemConfig->getValue('maintenance', false)) {
+				if (!((bool) $systemConfig->getValue('maintenance', false))) {
 					self::printUpgradePage($systemConfig);
 					exit();
 				}
@@ -966,7 +987,7 @@ class OC {
 
 		// Load minimum set of apps
 		if (!\OCP\Util::needUpgrade()
-			&& !$systemConfig->getValue('maintenance', false)) {
+			&& !((bool) $systemConfig->getValue('maintenance', false))) {
 			// For logged-in users: Load everything
 			if(\OC::$server->getUserSession()->isLoggedIn()) {
 				OC_App::loadApps();
@@ -979,7 +1000,7 @@ class OC {
 
 		if (!self::$CLI) {
 			try {
-				if (!$systemConfig->getValue('maintenance', false) && !\OCP\Util::needUpgrade()) {
+				if (!((bool) $systemConfig->getValue('maintenance', false)) && !\OCP\Util::needUpgrade()) {
 					OC_App::loadApps(array('filesystem', 'logging'));
 					OC_App::loadApps();
 				}

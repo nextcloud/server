@@ -4,7 +4,6 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -23,7 +22,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -32,8 +31,8 @@ namespace OCA\FederatedFileSharing\Tests;
 use OC\AppFramework\Http;
 use OC\Federation\CloudIdManager;
 use OC\Files\Filesystem;
-use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProvider;
@@ -112,7 +111,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	/** @var ICloudFederationShare|\PHPUnit_Framework_MockObject_MockObject */
 	private $cloudFederationShare;
 
-	protected function setUp() {
+	protected function setUp(): void {
 
 		$this->share = $this->getMockBuilder(IShare::class)->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')

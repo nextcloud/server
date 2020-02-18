@@ -4,6 +4,7 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -25,7 +26,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -34,6 +35,7 @@ namespace OCA\Files_Sharing\Tests;
 use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\AppInfo\Application;
+use OCP\Share\IShare;
 use Test\Traits\MountProviderTrait;
 
 /**
@@ -67,11 +69,10 @@ abstract class TestCase extends \Test\TestCase {
 	/** @var \OCP\Files\IRootFolder */
 	protected $rootFolder;
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
-		$application = new Application();
-		$application->registerMountProviders();
+		new Application();
 		
 		// reset backend
 		\OC_User::clearBackends();
@@ -106,7 +107,7 @@ abstract class TestCase extends \Test\TestCase {
 		\OC::$server->getGroupManager()->addBackend($groupBackend);
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		//login as user1
@@ -119,7 +120,7 @@ abstract class TestCase extends \Test\TestCase {
 		$this->rootFolder = \OC::$server->getRootFolder();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$qb->delete('share');
 		$qb->execute();
@@ -127,7 +128,7 @@ abstract class TestCase extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	public static function tearDownAfterClass() {
+	public static function tearDownAfterClass(): void {
 		// cleanup users
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER1);
 		if ($user !== null) { $user->delete(); }
@@ -240,6 +241,8 @@ abstract class TestCase extends \Test\TestCase {
 			->setNode($node)
 			->setPermissions($permissions);
 		$share = $this->shareManager->createShare($share);
+		$share->setStatus(IShare::STATUS_ACCEPTED);
+		$share = $this->shareManager->updateShare($share);
 
 		return $share;
 	}

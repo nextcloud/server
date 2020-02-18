@@ -12,7 +12,6 @@ OC.L10N.register(
     "No data specified" : "მონაცემები არ იყო სპეციფირებული",
     " Could not set configuration %s" : "კონფიგურაციის %s დაყენება ვერ მოხერხდა",
     "Action does not exist" : "ქმედება არ არსებობს",
-    "LDAP user and group backend" : "LDAP მომხმარებლის და ჯგუფის ბექენდი",
     "Renewing …" : "განხილვა …",
     "Very weak password" : "ძალიან სუსტი პაროლი",
     "Weak password" : "სუსტი პაროლი",
@@ -64,6 +63,7 @@ OC.L10N.register(
     "Could not detect user display name attribute. Please specify it yourself in advanced LDAP settings." : "მომხმარებლის დისპლეის სახელის ატრიბუტის აღმოჩენა ვერ მოხერხდა. გთხოვთ LDAP-ის პარამეტრებში თქვენით დააყენოთ ის.",
     "Could not find the desired feature" : "მოთხოვნილი ფუნქციონალის პოვნა ვერ მოხერხდა",
     "Invalid Host" : "არასწორი ჰოსტი",
+    "LDAP user and group backend" : "LDAP მომხმარებლის და ჯგუფის ბექენდი",
     "Test Configuration" : "კავშირის შემოწმება",
     "Help" : "დახმარება",
     "Groups meeting these criteria are available in %s:" : "ჯგუფები ამ კრიტერიუმით ხელმისაწვდომია %s-ში:",
@@ -172,7 +172,6 @@ OC.L10N.register(
     "Email Field" : "ელ-ფოსტის ველი",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "დააყენეთ მომხმარებლის ელ-ფოსტის მისამართი მათი LDAP ატრიბუტიდან. საწყისი ქცევისთვის დატოვეთ ცარიელი.",
     "User Home Folder Naming Rule" : "მომხმარებლის Home დირექტორიის სახელების დარქმევის წესი",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "დატოვეთ ცარიელი მომხმარებლის სახელი (საწყისი). სხვა შემთხვევაში, მიუთითეთ LDAP/AD ატრიბუტი.",
     "Internal Username" : "შიდა მომხმარებლის სახელი",
     "By default the internal username will be created from the UUID attribute. It makes sure that the username is unique and characters do not need to be converted. The internal username has the restriction that only these characters are allowed: [ a-zA-Z0-9_.@- ].  Other characters are replaced with their ASCII correspondence or simply omitted. On collisions a number will be added/increased. The internal username is used to identify a user internally. It is also the default name for the user home folder. It is also a part of remote URLs, for instance for all *DAV services. With this setting, the default behavior can be overridden. Leave it empty for default behavior. Changes will have effect only on newly mapped (added) LDAP users." : "საწყისი კონფიგურაციით შიდა მომხმარებლის სახელი შეიქმნება UUID ატრიბუტისგან. ეს იძლევა გარანტიას, რომ მომხმარებლის სახელი იქნება უნიკალური და ნიშნების კონვერტაცია არ იქნება საჭირო. შიდა მომხმარებლის სახელს ააქვს შეზღუდვა, მხოლოდ ეს ნიშნებია დაშვებული: [ a-zA-Z0-9_.@- ]. სხვა ნიშნები ჩანაცვლებულია შესაბამისი ASCII ნიშნებით ან იშლებიან. უთანხმოებისას ხდება ციფრის დამატება/მომატება. შიდა მომხმარებლის სახელი გამოყენებულია მომხმარებლის შიდა იდენტიფიკაციისთვის. ის ასევე მომხმარებლის სახლის დირექტორიის საწყისი სახელია. აგრეთვე ის ნაწილია დისტანციური URL-ების, მაგალითად ყველა *DAV სერვისისთვის. ამ პარამეტრით, საწყისი ქცევის ფორმა შეიძლება შეიცვალოს. საწყისი ქცევის ფორმისთვის დატოვეთ ცარიელი. ცვილებებს გავლენა ექნებათ მხოლოდ ახლად მიბმულ (დამატებულ) LDAP მომხმარებლებზე.",
     "Internal Username Attribute:" : "შიდა მომხმარებლის ატრიბუტი:",
@@ -183,11 +182,6 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Username-LDAP მომხმარებლის ბმები",
     "Clear Username-LDAP User Mapping" : "Username-LDAP მომხმარებლის ბმების გასუფთავება",
     "Clear Groupname-LDAP Group Mapping" : "Groupname-LDAP ჯგუფის ბმების გასუფთავება",
-    " entries available within the provided Base DN" : "მითითებულ საბაზისო DN-ში შენატანები ხელმისაწვდომია",
-    "1. Server" : "1. სერვერი",
-    "Wrong password. Reset it?" : "არასწორი პაროლი. აღვადგინოთ?",
-    "LDAP" : "LDAP",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>გაფრთხილება:</b> აპლიკაციები user_ldap და user_webdavauth არაა თავსებადი. შესაძლოა შეგვხდეთ მოულოდნელი ქმედება. გთხოვთ სთხოვოთ თქვენი სისტემის ადმინისტრატორს ერთ-ერთის გათიშვა.",
-    "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "მომხმარებლების სახელები გამოიყენება (მეტა) მონაცემების შესანახად და დასანიშნად. ზუსტი იდენტიფიკაციისა და ამოზნობისთვის, ყოველ LDAP-ის მომხმარებელს ექნება შიდა მომხმარებელი. ეს საჭიროებს ბმას მომხმარებელსა და LDAP-ის სახელს შორის. შექმნილი მომხმარებელი ებმება LDAP-ის მომხმარებელის UUID-ს. LDAP-თან ინტერაქციის შესამცირებლად, დამატებითად კეშირდება DN, მაგრამ არ ხდება მისი მოხმარება იდენტიფიკაციისთვის. ბმების გასუფთავება ბევრ ადგილას დატოვებს კვალს. ბმების გასუფთავება არაა კონფიგურაციასთან მგრძნობიარე, ის მოქმედებს ყველა LDAP-ის კონფიგურაციაზე! არასდროს გაასუფთავოთ ბმები საწარმოო გარემოში, მოიხმარეთ ეს მხოლოდ შემოწმების ან ექსპერიმენტისთვის."
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "დატოვეთ ცარიელი მომხმარებლის სახელი (საწყისი). სხვა შემთხვევაში, მიუთითეთ LDAP/AD ატრიბუტი."
 },
 "nplurals=2; plural=(n!=1);");

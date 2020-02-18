@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017 EITA Cooperative (eita.org.br)
  *
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
  *
  * @license GNU AGPL version 3 or any later version
@@ -17,15 +18,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OCA\User_LDAP\Tests;
 
 
-use OCP\GroupInterface;
 use OCA\User_LDAP\GroupPluginManager;
+use OCP\GroupInterface;
 
 class GroupLDAPPluginTest extends \Test\TestCase {
 
@@ -84,11 +85,11 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->createGroup('group');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements createGroup in this LDAP Backend.
-	 */
+	
 	public function testCreateGroupNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements createGroup in this LDAP Backend.');
+
 		$pluginManager = $this->getGroupPluginManager();
 		$pluginManager->createGroup('foo');
 	}
@@ -114,11 +115,11 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->deleteGroup('group');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements deleteGroup in this LDAP Backend.
-	 */
+	
 	public function testDeleteGroupNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements deleteGroup in this LDAP Backend.');
+
 		$pluginManager = $this->getGroupPluginManager();
 		$pluginManager->deleteGroup('foo');
 	}
@@ -145,11 +146,11 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->addToGroup('uid', 'gid');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements addToGroup in this LDAP Backend.
-	 */
+	
 	public function testAddToGroupNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements addToGroup in this LDAP Backend.');
+
 		$pluginManager = $this->getGroupPluginManager();
 		$pluginManager->addToGroup('foo', 'bar');
 	}	
@@ -176,11 +177,11 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->removeFromGroup('uid', 'gid');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements removeFromGroup in this LDAP Backend.
-	 */
+	
 	public function testRemoveFromGroupNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements removeFromGroup in this LDAP Backend.');
+
 		$pluginManager = $this->getGroupPluginManager();
 		$pluginManager->removeFromGroup('foo', 'bar');
 	}
@@ -207,11 +208,11 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->countUsersInGroup('gid', 'search');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements countUsersInGroup in this LDAP Backend.
-	 */
+	
 	public function testCountUsersInGroupNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements countUsersInGroup in this LDAP Backend.');
+
 		$pluginManager = $this->getGroupPluginManager();
 		$pluginManager->countUsersInGroup('foo', 'bar');
 	}	
@@ -237,11 +238,11 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 		$pluginManager->getGroupDetails('gid');
 	}
 
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage No plugin implements getGroupDetails in this LDAP Backend.
-	 */
+	
 	public function testgetGroupDetailsNotRegistered() {
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('No plugin implements getGroupDetails in this LDAP Backend.');
+
 		$pluginManager = $this->getGroupPluginManager();
 		$pluginManager->getGroupDetails('foo');
 	}

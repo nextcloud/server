@@ -7,11 +7,13 @@
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Kristof Provost <github@sigsegv.be>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author martin.mattel@diemattels.at <martin.mattel@diemattels.at>
  * @author Masaki Kawabata Neto <masaki.kawabata@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -25,7 +27,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -42,14 +44,16 @@ try {
 	# see core/lib/private/legacy/defaults.php and core/themes/example/defaults.php
 	# for description and defaults
 	$defaults = new \OCP\Defaults();
-	$values=array(
+	$values = [
 		'installed'=>$installed,
 		'maintenance' => $maintenance,
 		'needsDbUpgrade' => \OCP\Util::needUpgrade(),
 		'version'=>implode('.', \OCP\Util::getVersion()),
 		'versionstring'=>OC_Util::getVersionString(),
 		'edition'=> '',
-		'productname'=>$defaults->getName());
+		'productname'=>$defaults->getName(),
+		'extendedSupport' => \OCP\Util::hasExtendedSupport()
+	];
 	if (OC::$CLI) {
 		print_r($values);
 	} else {

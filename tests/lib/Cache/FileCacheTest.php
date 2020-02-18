@@ -52,7 +52,7 @@ class FileCacheTest extends TestCache {
 		//$this->skipUnless(OC_User::isLoggedIn());
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		//clear all proxies and hooks so we can do clean testing
@@ -87,13 +87,22 @@ class FileCacheTest extends TestCache {
 		$this->instance->set('hack', 'hack');
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if ($this->instance) {
 			$this->instance->remove('hack', 'hack');
 		}
 
 		\OC_User::setUserId($this->user);
 		\OC::$server->getConfig()->setSystemValue('cachedirectory', $this->datadir);
+
+		if ($this->instance) {
+			$this->instance->clear();
+			$this->instance = null;
+		}
+
+		//tear down the users dir aswell
+		$user = \OC::$server->getUserManager()->get('test');
+		$user->delete();
 
 		// Restore the original mount point
 		\OC\Files\Filesystem::clearMounts();

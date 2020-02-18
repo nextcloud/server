@@ -30,22 +30,24 @@ use Test\Files\Storage\Storage;
  * @group DB
  */
 class ObjectStoreStorageTest extends Storage {
+	/** @var ObjectStoreStorageOverwrite */
+	protected $instance;
 
 	/**
 	 * @var IObjectStore
 	 */
 	private $objectStorage;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$baseStorage = new Temporary();
 		$this->objectStorage = new StorageObjectStore($baseStorage);
 		$config['objectstore'] = $this->objectStorage;
-		$this->instance = new ObjectStoreStorage($config);
+		$this->instance = new ObjectStoreStorageOverwrite($config);
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		if (is_null($this->instance)) {
 			return;
 		}
@@ -165,5 +167,43 @@ class ObjectStoreStorageTest extends Storage {
 		$this->assertEquals('foo', $this->instance->file_get_contents('target/test1.txt'));
 		$targetId = $this->instance->getCache()->getId('target');
 		$this->assertSame($sourceId, $targetId, 'fileid must be stable on move or shares will break');
+	}
+
+	public function testWriteObjectSilentFailure() {
+		$objectStore = $this->instance->getObjectStore();
+		$this->instance->setObjectStore(new FailWriteObjectStore($objectStore));
+
+		try {
+			$this->instance->file_put_contents('test.txt', 'foo');
+			$this->fail('expected exception');
+		} catch (\Exception $e) {
+			$this->assertStringStartsWith('Object not found after writing', $e->getMessage());
+		}
+		$this->assertFalse($this->instance->file_exists('test.txt'));
+	}
+
+	public function testDeleteObjectFailureKeepCache() {
+		$objectStore = $this->instance->getObjectStore();
+		$this->instance->setObjectStore(new FailDeleteObjectStore($objectStore));
+		$cache = $this->instance->getCache();
+
+		$this->instance->file_put_contents('test.txt', 'foo');
+
+		$this->assertTrue($cache->inCache('test.txt'));
+
+		$this->assertFalse($this->instance->unlink('test.txt'));
+
+		$this->assertTrue($cache->inCache('test.txt'));
+
+		$this->instance->mkdir('foo');
+		$this->instance->file_put_contents('foo/test.txt', 'foo');
+
+		$this->assertTrue($cache->inCache('foo'));
+		$this->assertTrue($cache->inCache('foo/test.txt'));
+
+		$this->instance->rmdir('foo');
+
+		$this->assertTrue($cache->inCache('foo'));
+		$this->assertTrue($cache->inCache('foo/test.txt'));
 	}
 }

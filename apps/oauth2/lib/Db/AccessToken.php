@@ -2,6 +2,9 @@
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -45,9 +48,9 @@ class AccessToken extends Entity {
 
 	public function __construct() {
 		$this->addType('id', 'int');
-		$this->addType('token_id', 'int');
-		$this->addType('client_id', 'int');
-		$this->addType('hashed_code', 'string');
-		$this->addType('encrypted_token', 'string');
+		$this->addType('tokenId', 'int');
+		$this->addType('clientId', 'int');
+		$this->addType('hashedCode', 'string');
+		$this->addType('encryptedToken', 'string');
 	}
 }

@@ -18,7 +18,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -43,7 +43,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 	/** @var IClientService */
 	private $clientService;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->getMockBuilder('\\OCP\\IRequest')
 			->disableOriginalConstructor()->getMock();

@@ -21,7 +21,6 @@
 
 namespace Icewind\SMB;
 
-
 class AnonymousAuth implements IAuth {
 	public function getUsername() {
 		return null;

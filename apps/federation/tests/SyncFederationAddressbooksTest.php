@@ -6,6 +6,7 @@
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -20,9 +21,10 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\Federation\Tests;
 
 use OC\OCS\DiscoveryService;
@@ -37,7 +39,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 	/** @var  \PHPUnit_Framework_MockObject_MockObject | DiscoveryService */
 	private $discoveryService;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->discoveryService = $this->getMockBuilder(DiscoveryService::class)

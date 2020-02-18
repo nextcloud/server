@@ -32,6 +32,7 @@ OC.L10N.register(
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Get ekki lesið þessa skrá, hugsanlega er þetta deild skrá. Biddu eiganda skrárinnar að deila henni aftur til þín.",
     "Default encryption module" : "Sjálfgefin dulritunareining",
     "Default encryption module for server-side encryption" : "Sjálfgefin dulritunareining fyrir dulritun á vefþjóni",
+    "In order to use this encryption module you need to enable server-side\n\t\tencryption in the admin settings. Once enabled this module will encrypt\n\t\tall your files transparently. The encryption is based on AES 256 keys.\n\t\tThe module won't touch existing files, only new files will be encrypted\n\t\tafter server-side encryption was enabled. It is also not possible to\n\t\tdisable the encryption again and switch back to a unencrypted system.\n\t\tPlease read the documentation to know all implications before you decide\n\t\tto enable server-side encryption." : "Til að geta notað þessa dulritunareiningu þarftu að virkja dulritun á þjóni\n\t\tí kerfisstjórnunarstillingunum. Þegar hún er orðin virk mun einingin dulrita\n\t\tallar skrárnar þínar á gagnsæan máta. Dulritunin byggir á AES 256-lyklum.\n\t\tEiningin mun ekki eiga við fyrirliggjandi skrár, einungis nýjar skrár verða\n\t\tdulritaðar eftir að dulritun er orðin virk á þjóni. Ekki er heldur hægt að\n\t\tgera dulritun aftur óvirka og skipta aftur til baka í ódulritað kerfi.\n\t\tÞú skalt endilega lesa hjálparskjölin til að sjá allar afleiðingar þessa\n\t\táður en þú virkjar dulritun á þjóninum.",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Hæ,\n\nkerfisstjórinn virkjaði dulritun á vefþjóni. Skrárnar þínar voru dulritaðar með lykilorðinu '%s'.\n\nSkráðu þig inn í vefviðmótinu, farðu í hlutann 'Grunn-dulritunareining' (basic encryption module) í persónulegu stillingunum þínum og uppfærðu dulritunarlykilorðið þitt með því að setja þetta lykilorð inn í reitinn 'Gamla innskráningarlykilorðið' ásamt núverandi innskráningarlykilorði.\n\n",
     "The share will expire on %s." : "Gildistími deilingar rennur út %s.",
     "Cheers!" : "Til hamingju!",
@@ -59,7 +60,6 @@ OC.L10N.register(
     "Enable password recovery:" : "Virkja endurheimtingu lykilorðs:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ef þessi kostur er virkur gerir það þér kleift að endurheimta aðgang að skránum þínum ef þú tapar lykilorðinu",
     "Enabled" : "Virkt",
-    "Disabled" : "Óvirkt",
-    "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please run 'occ encryption:migrate' or contact your administrator" : "Þú verður að yfirfæra dulritunarlyklana þína úr gömlu dulrituninni (ownCloud <= 8.0) yfir í þá nýju. Keyrðu 'occ encryption:migrate' eða hafðu samband við kerfisstjórann þinn"
+    "Disabled" : "Óvirkt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

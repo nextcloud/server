@@ -77,7 +77,7 @@ class FilesystemTest extends \Test\TestCase {
 		return array('datadir' => $dir);
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$userBackend = new \Test\Util\User\Dummy();
 		$userBackend->createUser(self::TEST_FILESYSTEM_USER1, self::TEST_FILESYSTEM_USER1);
@@ -86,7 +86,7 @@ class FilesystemTest extends \Test\TestCase {
 		$this->loginAsUser();
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void {
 		foreach ($this->tmpDirs as $dir) {
 			\OC_Helper::rmdirr($dir);
 		}
@@ -323,18 +323,19 @@ class FilesystemTest extends \Test\TestCase {
 	/**
 	 * Tests that an exception is thrown when passed user does not exist.
 	 *
-	 * @expectedException \OC\User\NoUserException
 	 */
 	public function testLocalMountWhenUserDoesNotExist() {
+		$this->expectException(\OC\User\NoUserException::class);
+
 		$userId = $this->getUniqueID('user_');
 
 		\OC\Files\Filesystem::initMountPoints($userId);
 	}
 
-	/**
-	 * @expectedException \OC\User\NoUserException
-	 */
+	
 	public function testNullUserThrows() {
+		$this->expectException(\OC\User\NoUserException::class);
+
 		\OC\Files\Filesystem::initMountPoints(null);
 	}
 

@@ -1,59 +1,63 @@
+// Rules we could port to the rest of Nextcloud too
+
+// Proper highlight for links and focus feedback
+#accessibility a {
+	font-weight: bold;
+
+	&:hover,
+	&:focus {
+		text-decoration: underline;
+	}
+}
+
+// Highlight checkbox label in bold for focus feedback
+// Drawback: Text width increases a bit
+#accessibility .checkbox:focus + label {
+	font-weight: bold;
+}
+
+// Limit width of settings sections for readability
+#accessibility.section p {
+	max-width: 800px;
+}
+
+// End of rules we could port to rest of Nextcloud
+
+
+
 .preview-list {
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
+	max-width: 800px;
 }
+
 .preview {
 	display: flex;
-	flex-direction: column;
-	min-width: 250px;
-	max-width: 400px;
-	flex: 1 1 300px;
-	border: 1px solid var(--color-border);
-	padding: 10px;
-	border-radius: var(--border-radius);
-	transition: all 200ms ease-in-out;
-	filter: drop-shadow(0 1px 2px var(--color-box-shadow));
-	background-color: var(--color-main-background);
-	opacity: 0.9;
-	margin: 10px;
+	justify-content: flex-start;
+	margin-top: 3em;
 	position: relative;
+
 	&,
 	* {
-		cursor: pointer;
 		user-select: none;
 	}
-	&:hover,
-	&:focus,
-	&.selected {
-		filter: drop-shadow(0 1px 4px var(--color-box-shadow));
-		opacity: 1;
-	}
+
 	.preview-image {
-		height: 200px;
+		flex-basis: 200px;
+		flex-shrink: 0;
+		margin-right: 1em;
 		background-position: top left;
 		background-size: cover;
 		background-repeat: no-repeat;
+		border-radius: var(--border-radius);
 	}
-	h3 {
+
+	.preview-description {
 		display: flex;
-		justify-content: space-between;
-		line-height: 1em;
-		align-items: center;
-	}
-	p {
-		text-align: justify;
-	}
-	.icon-checkmark-color {
-		transition: all 100ms ease-in-out;
-		border-radius: 1em;
-		padding: 4px 5px 4px 20px;
-		background-position: 4px center;
-		opacity: 0;
-		visibility: hidden;
-	}
-	&.selected .icon-checkmark-color {
-		opacity: 1;
-		visibility: visible;
-		box-shadow: 0 0 0 1px var(--color-success);
+		flex-direction: column;
+
+		label {
+			padding: 12px 0;
+		}
 	}
 }

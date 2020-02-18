@@ -4,14 +4,15 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Brice Maron <brice@bmaron.net>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
- * @author John Molakvoæ <skjnldsv@users.noreply.github.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Marin Treselj <marin@pixelipo.com>
  * @author Michael Letzgus <www@chronos.michael-letzgus.de>
@@ -33,7 +34,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -111,44 +112,16 @@ class OC_Template extends \OC\Template\Base {
 
 			OC_Util::addStyle('css-variables', null, true);
 			OC_Util::addStyle('server', null, true);
-			OC_Util::addStyle('jquery-ui-fixes',null,true);
-			OC_Util::addVendorStyle('jquery-ui/themes/base/jquery-ui',null,true);
-			OC_Util::addVendorStyle('select2/select2', null, true);
-			OC_Util::addStyle('jquery.ocdialog');
 			OC_Util::addTranslations("core", null, true);
 			OC_Util::addStyle('search', 'results');
 			OC_Util::addScript('search', 'search', true);
 			OC_Util::addScript('search', 'searchprovider');
 			OC_Util::addScript('merged-template-prepend', null, true);
-			OC_Util::addScript('jquery-ui-fixes');
 			OC_Util::addScript('files/fileinfo');
 			OC_Util::addScript('files/client');
-			OC_Util::addScript('contactsmenu');
-			OC_Util::addScript('contactsmenu_templates');
-
-			if (\OC::$server->getConfig()->getSystemValue('debug')) {
-				// Add the stuff we need always
-				// following logic will import all vendor libraries that are
-				// specified in core/js/core.json
-				$fileContent = file_get_contents(OC::$SERVERROOT . '/core/js/core.json');
-				if($fileContent !== false) {
-					$coreDependencies = json_decode($fileContent, true);
-					foreach(array_reverse($coreDependencies['vendor']) as $vendorLibrary) {
-						//remove trailing ".js" as addVendorScript will append it
-						OC_Util::addVendorScript(
-							substr($vendorLibrary, 0, -3),null,true);
-						}
- 				} else {
-					throw new \Exception('Cannot read core/js/core.json');
-				}
-			} else {
-				// Import all (combined) default vendor libraries
-				OC_Util::addVendorScript('core', null, true);
-			}
+			OC_Util::addScript('core', 'dist/main', true);
 
 			if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE])) {
-				// polyfill for btoa/atob for IE friends
-				OC_Util::addVendorScript('base64/base64');
 				// shim for the davclient.js library
 				\OCP\Util::addScript('files/iedavclient');
 			}
@@ -294,7 +267,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @return bool
 	 */
 	public static function printGuestPage( $application, $name, $parameters = array() ) {
-		$content = new OC_Template( $application, $name, "guest" );
+		$content = new OC_Template($application, $name, $name === 'error' ? $name : 'guest');
 		foreach( $parameters as $key => $value ) {
 			$content->assign( $key, $value );
 		}

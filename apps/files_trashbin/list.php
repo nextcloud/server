@@ -4,6 +4,8 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0
@@ -18,7 +20,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 // Check if we are a user
@@ -27,14 +29,12 @@ OCP\User::checkLoggedIn();
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
 
-$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', true);
+$showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
 $isIE = \OCP\Util::isIE();
 
 $tmpl = new OCP\Template('files_trashbin', 'index', '');
 
 // gridview not available for ie
 $tmpl->assign('showgridview', $showgridview && !$isIE);
-OCP\Util::addStyle('files_trashbin', 'trash');
-OCP\Util::addScript('files_trashbin', 'app');
-OCP\Util::addScript('files_trashbin', 'filelist');
+OCP\Util::addScript('files_trashbin', 'files_trashbin');
 $tmpl->printPage();

@@ -3,15 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@owncloud.com>
- * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
@@ -29,7 +25,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 use OCP\API;
@@ -41,36 +37,6 @@ class OC_API {
 	 * api actions
 	 */
 	protected static $actions = array();
-
-	/**
-	 * registers an api call
-	 * @param string $method the http method
-	 * @param string $url the url to match
-	 * @param callable $action the function to run
-	 * @param string $app the id of the app registering the call
-	 * @param int $authLevel the level of authentication required for the call
-	 * @param array $defaults
-	 * @param array $requirements
-	 */
-	public static function register($method, $url, $action, $app,
-				$authLevel = API::USER_AUTH,
-				$defaults = array(),
-				$requirements = array()) {
-		$name = strtolower($method).$url;
-		$name = str_replace(array('/', '{', '}'), '_', $name);
-		if(!isset(self::$actions[$name])) {
-			$oldCollection = OC::$server->getRouter()->getCurrentCollection();
-			OC::$server->getRouter()->useCollection('ocs');
-			OC::$server->getRouter()->create($name, $url)
-				->method($method)
-				->defaults($defaults)
-				->requirements($requirements)
-				->action('OC_API', 'call');
-			self::$actions[$name] = array();
-			OC::$server->getRouter()->useCollection($oldCollection);
-		}
-		self::$actions[$name][] = array('app' => $app, 'action' => $action, 'authlevel' => $authLevel);
-	}
 
 	/**
 	 * respond to a call

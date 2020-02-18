@@ -26,7 +26,7 @@ class LegacyEmitterTest extends BasicEmitterTest {
 	//we can't use exceptions here since OC_Hooks catches all exceptions
 	private static $emitted = false;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->emitter = new DummyLegacyEmitter();

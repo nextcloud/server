@@ -2,7 +2,9 @@
 /**
  * @copyright Copyright (c) 2017 Robin Appelman <robin@icewind.nl>
  *
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,13 +19,17 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OC\Files\ObjectStore;
 
+use Aws\S3\Exception\S3MultipartUploadException;
+use Aws\S3\MultipartUploader;
+use Aws\S3\ObjectUploader;
 use Aws\S3\S3Client;
+use Icewind\Streams\CallbackWrapper;
 
 const S3_UPLOAD_PART_SIZE = 524288000; // 500MB
 
@@ -57,6 +63,7 @@ trait S3ObjectTrait {
 		}
 		$opts = [
 			'http' => [
+				'protocol_version'  => 1.1,
 				'header' => $headers
 			]
 		];
@@ -72,10 +79,30 @@ trait S3ObjectTrait {
 	 * @since 7.0.0
 	 */
 	function writeObject($urn, $stream) {
-		$this->getConnection()->upload($this->bucket, $urn, $stream, 'private', [
-			'mup_threshold' => S3_UPLOAD_PART_SIZE,
+		$count = 0;
+		$countStream = CallbackWrapper::wrap($stream, function ($read) use (&$count) {
+			$count += $read;
+		});
+
+		$uploader = new MultipartUploader($this->getConnection(), $countStream, [
+			'bucket' => $this->bucket,
+			'key' => $urn,
 			'part_size' => S3_UPLOAD_PART_SIZE
 		]);
+
+		try {
+			$uploader->upload();
+		} catch (S3MultipartUploadException $e) {
+			// This is an empty file so just touch it then
+			if ($count === 0 && feof($countStream)) {
+				$uploader = new ObjectUploader($this->getConnection(), $this->bucket, $urn, '');
+				$uploader->upload();
+			} else {
+				throw $e;
+			}
+		}
+
+		fclose($countStream);
 	}
 
 	/**
@@ -89,5 +116,9 @@ trait S3ObjectTrait {
 			'Bucket' => $this->bucket,
 			'Key' => $urn
 		]);
+	}
+
+	public function objectExists($urn) {
+		return $this->getConnection()->doesObjectExist($this->bucket, $urn);
 	}
 }

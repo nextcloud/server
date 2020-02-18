@@ -13,7 +13,8 @@
 		"icewind/streams": ">=0.2.0"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "^5.7"
+		"phpunit/phpunit": "^5.7",
+		"friendsofphp/php-cs-fixer": "^2.13"
 	},
 	"autoload"         : {
 		"psr-4": {

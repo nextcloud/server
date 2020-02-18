@@ -1,8 +1,13 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Branko Kokanovic <branko@kokanovic.org>
+ * @author Carsten Wiedmann <carsten_sttgt@gmx.de>
+ * @author Jared Boone <jared.boone@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -20,7 +25,7 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -31,11 +36,11 @@ use Egulias\EmailValidator\Validation\RFCValidation;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\ILogger;
 use OCP\Mail\IMessage;
 
 /**
@@ -259,6 +264,10 @@ class Mailer implements IMailer {
 		if (!empty($smtpSecurity)) {
 			$transport->setEncryption($smtpSecurity);
 		}
+		$streamingOptions = $this->config->getSystemValue('mail_smtpstreamoptions', []);
+		if (is_array($streamingOptions) && !empty($streamingOptions)) {
+			$transport->setStreamOptions($streamingOptions);
+		}
 
 		return $transport;
 	}
@@ -282,6 +291,15 @@ class Mailer implements IMailer {
 				break;
 		}
 
-		return new \Swift_SendmailTransport($binaryPath . ' -bs');
+		switch ($this->config->getSystemValue('mail_sendmailmode', 'smtp')) {
+			case 'pipe':
+				$binaryParam = ' -t';
+				break;
+			default:
+				$binaryParam = ' -bs';
+				break;
+		}
+
+		return new \Swift_SendmailTransport($binaryPath . $binaryParam);
 	}
 }

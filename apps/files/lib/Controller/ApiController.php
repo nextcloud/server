@@ -3,15 +3,21 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
- * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Felix Nüsse <Felix.nuesse@t-online.de>
+ * @author fnuesse <felix.nuesse@t-online.de>
+ * @author fnuesse <fnuesse@techfak.uni-bielefeld.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Max Kovalenko <mxss1998@yandex.ru>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
  * @author Vincent Petry <pvince81@owncloud.com>
- * @author Felix Nüsse <felix.nuesse@t-online.de>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -24,28 +30,28 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\Files\Controller;
 
-use OCP\AppFramework\Http;
+use OC\Files\Node\Node;
+use OCA\Files\Service\TagService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\FileDisplayResponse;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
-use OCP\IRequest;
-use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\FileDisplayResponse;
-use OCP\AppFramework\Http\Response;
-use OCA\Files\Service\TagService;
 use OCP\IPreview;
-use OCP\Share\IManager;
-use OC\Files\Node\Node;
+use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\Share\IManager;
 use Sabre\VObject\Property\Boolean;
 
 /**
@@ -242,6 +248,7 @@ class ApiController extends Controller {
 	 * @param string $mode
 	 * @param string $direction
 	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function updateFileSorting($mode, $direction) {
 		$allowedMode = ['name', 'size', 'mtime'];
@@ -262,6 +269,8 @@ class ApiController extends Controller {
 	 * @NoAdminRequired
 	 *
 	 * @param bool $show
+	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function showHiddenFiles($show) {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', (int)$show);
@@ -274,6 +283,8 @@ class ApiController extends Controller {
 	 * @NoAdminRequired
 	 *
 	 * @param bool $show
+	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function showGridView($show) {
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', (int)$show);
@@ -286,7 +297,7 @@ class ApiController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function getGridView() {
-		$status = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', '1') === '1';
+		$status = $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_grid', '0') === '1';
 		return new JSONResponse(['gridview' => $status]);
 	}
 
@@ -295,10 +306,11 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param bool $show 
-	 * @param bool $key the key of the folder
+	 * @param int $show
+	 * @param string $key the key of the folder
 	 *
 	 * @return Response
+	 * @throws \OCP\PreConditionNotMetException
 	 */
 	public function toggleShowFolder(int $show, string $key) {
 		// ensure the edited key exists
@@ -320,8 +332,9 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param String
-	 * @return String
+	 * @param string
+	 * @return string
+	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function getNodeType($folderpath) {
 		$node = $this->userFolder->get($folderpath);

@@ -27,7 +27,9 @@ use OC\Authentication\TwoFactorAuth\ProviderSet;
 use OC\Core\Controller\TwoFactorChallengeController;
 use OC_Util;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\StandaloneTemplateResponse;
+use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
+use OCP\Authentication\TwoFactorAuth\ILoginSetupProvider;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\TwoFactorException;
 use OCP\IRequest;
@@ -59,7 +61,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	/** @var TwoFactorChallengeController|PHPUnit_Framework_MockObject_MockObject */
 	private $controller;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->request = $this->createMock(IRequest::class);
@@ -86,11 +88,15 @@ class TwoFactorChallengeControllerTest extends TestCase {
 
 	public function testSelectChallenge() {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
-		$p1 = $this->createMock(IProvider::class);
+		$p1 = $this->createMock(IActivatableAtLogin::class);
 		$p1->method('getId')->willReturn('p1');
 		$backupProvider = $this->createMock(IProvider::class);
 		$backupProvider->method('getId')->willReturn('backup_codes');
 		$providerSet = new ProviderSet([$p1, $backupProvider], true);
+		$this->twoFactorManager->expects($this->once())
+			->method('getLoginSetupProviders')
+			->with($user)
+			->willReturn([$p1]);
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
@@ -100,7 +106,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->with($user)
 			->will($this->returnValue($providerSet));
 
-		$expected = new TemplateResponse('core', 'twofactorselectchallenge', [
+		$expected = new StandaloneTemplateResponse('core', 'twofactorselectchallenge', [
 			'providers' => [
 				$p1,
 			],
@@ -108,7 +114,8 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			'backupProvider' => $backupProvider,
 			'redirect_url' => '/some/url',
 			'logout_url' => 'logoutAttribute',
-			], 'guest');
+			'hasSetupProviders' => true,
+		], 'guest');
 
 		$this->assertEquals($expected, $this->controller->selectChallenge('/some/url'));
 	}
@@ -151,7 +158,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('fetchPage')
 			->will($this->returnValue('<html/>'));
 
-		$expected = new TemplateResponse('core', 'twofactorshowchallenge', [
+		$expected = new StandaloneTemplateResponse('core', 'twofactorshowchallenge', [
 			'error' => true,
 			'provider' => $provider,
 			'backupProvider' => $backupProvider,
@@ -159,7 +166,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			'template' => '<html/>',
 			'redirect_url' => '/re/dir/ect/url',
 			'error_message' => null,
-			], 'guest');
+		], 'guest');
 
 		$this->assertEquals($expected, $this->controller->showChallenge('myprovider', '/re/dir/ect/url'));
 	}
@@ -321,6 +328,120 @@ class TwoFactorChallengeControllerTest extends TestCase {
 
 		$expected = new RedirectResponse('files/index/url');
 		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token', '/url'));
+	}
+
+	public function testSetUpProviders() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$provider = $this->createMock(IActivatableAtLogin::class);
+		$this->twoFactorManager->expects($this->once())
+			->method('getLoginSetupProviders')
+			->with($user)
+			->willReturn([
+				$provider,
+			]);
+		$expected = new StandaloneTemplateResponse(
+			'core',
+			'twofactorsetupselection',
+			[
+				'providers' => [
+					$provider,
+				],
+				'logout_url' => 'logoutAttribute',
+			],
+			'guest'
+		);
+
+		$response = $this->controller->setupProviders();
+
+		$this->assertEquals($expected, $response);
+	}
+
+	public function testSetUpInvalidProvider() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$provider = $this->createMock(IActivatableAtLogin::class);
+		$provider->expects($this->any())
+			->method('getId')
+			->willReturn('prov1');
+		$this->twoFactorManager->expects($this->once())
+			->method('getLoginSetupProviders')
+			->with($user)
+			->willReturn([
+				$provider,
+			]);
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('core.TwoFactorChallenge.selectChallenge')
+			->willReturn('2fa/select/page');
+		$expected = new RedirectResponse('2fa/select/page');
+
+		$response = $this->controller->setupProvider('prov2');
+
+		$this->assertEquals($expected, $response);
+	}
+
+	public function testSetUpProvider() {
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$provider = $this->createMock(IActivatableAtLogin::class);
+		$provider->expects($this->any())
+			->method('getId')
+			->willReturn('prov1');
+		$this->twoFactorManager->expects($this->once())
+			->method('getLoginSetupProviders')
+			->with($user)
+			->willReturn([
+				$provider,
+			]);
+		$loginSetup = $this->createMock(ILoginSetupProvider::class);
+		$provider->expects($this->any())
+			->method('getLoginSetup')
+			->with($user)
+			->willReturn($loginSetup);
+		$tmpl = $this->createMock(Template::class);
+		$loginSetup->expects($this->once())
+			->method('getBody')
+			->willReturn($tmpl);
+		$tmpl->expects($this->once())
+			->method('fetchPage')
+			->willReturn('tmpl');
+		$expected = new StandaloneTemplateResponse(
+			'core',
+			'twofactorsetupchallenge',
+			[
+				'provider' => $provider,
+				'logout_url' => 'logoutAttribute',
+				'template' => 'tmpl',
+			],
+			'guest'
+		);
+
+		$response = $this->controller->setupProvider('prov1');
+
+		$this->assertEquals($expected, $response);
+	}
+
+	public function testConfirmProviderSetup() {
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with(
+				'core.TwoFactorChallenge.showChallenge',
+				[
+					'challengeProviderId' => 'totp',
+				])
+			->willReturn('2fa/select/page');
+		$expected = new RedirectResponse('2fa/select/page');
+
+		$response = $this->controller->confirmProviderSetup('totp');
+
+		$this->assertEquals($expected, $response);
 	}
 
 }

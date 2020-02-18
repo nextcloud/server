@@ -3,7 +3,9 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
@@ -19,7 +21,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -36,6 +38,9 @@ namespace OCP\AppFramework\Http;
  * @since 6.0.0
  */
 class TemplateResponse extends Response {
+
+	const EVENT_LOAD_ADDITIONAL_SCRIPTS = self::class . '::loadAdditionalScripts';
+	const EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN = self::class . '::loadAdditionalScriptsLoggedIn';
 
 	/**
 	 * name of the template
@@ -72,10 +77,15 @@ class TemplateResponse extends Response {
 	 */
 	public function __construct($appName, $templateName, array $params=array(),
 	                            $renderAs='user') {
+		parent::__construct();
+
 		$this->templateName = $templateName;
 		$this->appName = $appName;
 		$this->params = $params;
 		$this->renderAs = $renderAs;
+
+		$this->setContentSecurityPolicy(new ContentSecurityPolicy());
+		$this->setFeaturePolicy(new FeaturePolicy());
 	}
 
 

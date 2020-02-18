@@ -1,6 +1,13 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
+ *
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -15,18 +22,19 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 namespace OCA\OAuth2\Db;
 
 use OCA\OAuth2\Exceptions\AccessTokenNotFoundException;
-use OCP\AppFramework\Db\Mapper;
+use OCP\AppFramework\Db\IMapperException;
+use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
-class AccessTokenMapper extends Mapper {
+class AccessTokenMapper extends QBMapper {
 
 	/**
 	 * @param IDBConnection $db
@@ -40,19 +48,20 @@ class AccessTokenMapper extends Mapper {
 	 * @return AccessToken
 	 * @throws AccessTokenNotFoundException
 	 */
-	public function getByCode($code) {
+	public function getByCode(string $code): AccessToken {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->select('*')
 			->from($this->tableName)
 			->where($qb->expr()->eq('hashed_code', $qb->createNamedParameter(hash('sha512', $code))));
-		$result = $qb->execute();
-		$row = $result->fetch();
-		$result->closeCursor();
-		if($row === false) {
-			throw new AccessTokenNotFoundException();
+
+		try {
+			$token = $this->findEntity($qb);
+		} catch (IMapperException $e) {
+			throw new AccessTokenNotFoundException('Could not find access token', 0, $e);
 		}
-		return AccessToken::fromRow($row);
+
+		return $token;
 	}
 
 	/**
@@ -60,7 +69,7 @@ class AccessTokenMapper extends Mapper {
 	 *
 	 * @param int $id
 	 */
-	public function deleteByClientId($id) {
+	public function deleteByClientId(int $id) {
 		$qb = $this->db->getQueryBuilder();
 		$qb
 			->delete($this->tableName)

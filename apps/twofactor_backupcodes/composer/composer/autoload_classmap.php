@@ -16,7 +16,7 @@ return array(
     'OCA\\TwoFactorBackupCodes\\Event\\CodesGenerated' => $baseDir . '/../lib/Event/CodesGenerated.php',
     'OCA\\TwoFactorBackupCodes\\Listener\\ActivityPublisher' => $baseDir . '/../lib/Listener/ActivityPublisher.php',
     'OCA\\TwoFactorBackupCodes\\Listener\\ClearNotifications' => $baseDir . '/../lib/Listener/ClearNotifications.php',
-    'OCA\\TwoFactorBackupCodes\\Listener\\IListener' => $baseDir . '/../lib/Listener/IListener.php',
+    'OCA\\TwoFactorBackupCodes\\Listener\\ProviderDisabled' => $baseDir . '/../lib/Listener/ProviderDisabled.php',
     'OCA\\TwoFactorBackupCodes\\Listener\\ProviderEnabled' => $baseDir . '/../lib/Listener/ProviderEnabled.php',
     'OCA\\TwoFactorBackupCodes\\Listener\\RegistryUpdater' => $baseDir . '/../lib/Listener/RegistryUpdater.php',
     'OCA\\TwoFactorBackupCodes\\Migration\\CheckBackupCodes' => $baseDir . '/../lib/Migration/CheckBackupCodes.php',

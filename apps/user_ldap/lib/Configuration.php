@@ -2,15 +2,17 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Alex Weirig <alex.weirig@technolink.lu>
  * @author Alexander Bergolth <leo@strike.wu.ac.at>
+ * @author Alex Weirig <alex.weirig@technolink.lu>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author blizzz <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lennart Rosam <hello@takuto.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Xuanwo <xuanwo@yunify.com>
@@ -27,7 +29,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -106,6 +108,7 @@ class Configuration {
 		'turnOnPasswordChange' => false,
 		'ldapDynamicGroupMemberURL' => null,
 		'ldapDefaultPPolicyDN' => null,
+		'ldapExtStorageHomeAttribute' => null,
 	);
 
 	/**
@@ -455,7 +458,7 @@ class Configuration {
 			'ldap_quota_def'                    => '',
 			'ldap_quota_attr'                   => '',
 			'ldap_email_attr'                   => '',
-			'ldap_group_member_assoc_attribute' => 'uniqueMember',
+			'ldap_group_member_assoc_attribute' => '',
 			'ldap_cache_ttl'                    => 600,
 			'ldap_uuid_user_attribute'          => 'auto',
 			'ldap_uuid_group_attribute'         => 'auto',
@@ -477,6 +480,7 @@ class Configuration {
 			'ldap_dynamic_group_member_url'     => '',
 			'ldap_default_ppolicy_dn'           => '',
 			'ldap_user_avatar_rule'             => 'default',
+			'ldap_ext_storage_home_attribute'   => '',
 		);
 	}
 
@@ -537,6 +541,7 @@ class Configuration {
 			'ldap_experienced_admin'            => 'ldapExperiencedAdmin',
 			'ldap_dynamic_group_member_url'     => 'ldapDynamicGroupMemberURL',
 			'ldap_default_ppolicy_dn'           => 'ldapDefaultPPolicyDN',
+			'ldap_ext_storage_home_attribute'   => 'ldapExtStorageHomeAttribute',
 			'ldapIgnoreNamingRules'             => 'ldapIgnoreNamingRules',	// sysconfig
 		);
 		return $array;

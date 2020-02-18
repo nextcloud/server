@@ -5,6 +5,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -20,16 +21,16 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
-use OC\Files\Storage\Wrapper\Quota;
-use OCP\Files\ForbiddenException;
 use OC\Files\FileInfo;
+use OC\Files\Storage\Wrapper\Quota;
 use OCA\DAV\Connector\Sabre\Directory;
+use OCP\Files\ForbiddenException;
 
 class TestViewDirectory extends \OC\Files\View {
 
@@ -75,7 +76,7 @@ class DirectoryTest extends \Test\TestCase {
 	/** @var \OC\Files\FileInfo | \PHPUnit_Framework_MockObject_MockObject */
 	private $info;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->view = $this->createMock('OC\Files\View');
@@ -97,10 +98,10 @@ class DirectoryTest extends \Test\TestCase {
 		return new Directory($this->view, $this->info);
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testDeleteRootFolderFails() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->info->expects($this->any())
 			->method('isDeletable')
 			->will($this->returnValue(true));
@@ -110,10 +111,10 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	/**
-	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\Forbidden
-	 */
+	
 	public function testDeleteForbidden() {
+		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\Forbidden::class);
+
 		// deletion allowed
 		$this->info->expects($this->once())
 			->method('isDeletable')
@@ -129,9 +130,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	/**
-	 *
-	 */
+	
 	public function testDeleteFolderWhenAllowed() {
 		// deletion allowed
 		$this->info->expects($this->once())
@@ -148,10 +147,10 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testDeleteFolderFailsWhenNotAllowed() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->info->expects($this->once())
 			->method('isDeletable')
 			->will($this->returnValue(false));
@@ -160,10 +159,10 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testDeleteFolderThrowsWhenDeletionFailed() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		// deletion allowed
 		$this->info->expects($this->once())
 			->method('isDeletable')
@@ -218,10 +217,10 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChildren();
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 */
+	
 	public function testGetChildrenNoPermission() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$info = $this->createMock(FileInfo::class);
 		$info->expects($this->any())
 			->method('isReadable')
@@ -231,10 +230,10 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChildren();
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotFound
-	 */
+	
 	public function testGetChildNoPermission() {
+		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
+
 		$this->info->expects($this->any())
 			->method('isReadable')
 			->will($this->returnValue(false));
@@ -243,10 +242,10 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChild('test');
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\ServiceUnavailable
-	 */
+	
 	public function testGetChildThrowStorageNotAvailableException() {
+		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
+
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->willThrowException(new \OCP\Files\StorageNotAvailableException());
@@ -255,10 +254,10 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChild('.');
 	}
 
-	/**
-	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\InvalidPath
-	 */
+	
 	public function testGetChildThrowInvalidPath() {
+		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
+
 		$this->view->expects($this->once())
 			->method('verifyPath')
 			->willThrowException(new \OCP\Files\InvalidPathException());
@@ -334,9 +333,10 @@ class DirectoryTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider moveFailedProvider
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testMoveFailed($source, $destination, $updatables, $deletables) {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+
 		$this->moveTest($source, $destination, $updatables, $deletables);
 	}
 
@@ -350,9 +350,10 @@ class DirectoryTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider moveFailedInvalidCharsProvider
-	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\InvalidPath
 	 */
 	public function testMoveFailedInvalidChars($source, $destination, $updatables, $deletables) {
+		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
+
 		$this->moveTest($source, $destination, $updatables, $deletables);
 	}
 
@@ -403,11 +404,11 @@ class DirectoryTest extends \Test\TestCase {
 		$this->assertTrue($targetNode->moveInto(basename($destination), $source, $sourceNode));
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
-	 * @expectedExceptionMessage Could not copy directory b, target exists
-	 */
+	
 	public function testFailingMove() {
+		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
+		$this->expectExceptionMessage('Could not copy directory b, target exists');
+
 		$source = 'a/b';
 		$destination = 'c/b';
 		$updatables = ['a' => true, 'a/b' => true, 'b' => true, 'c/b' => false];

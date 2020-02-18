@@ -225,8 +225,8 @@ $CONFIG = array(
 'allow_user_to_change_display_name' => true,
 
 /**
- * Lifetime of the remember login cookie, which is set when the user clicks
- * the ``remember`` checkbox on the login screen.
+ * Lifetime of the remember login cookie. This should be larger than the
+ * session_lifetime. If it is set to 0 remember me is disabled.
  *
  * Defaults to ``60*60*24*15`` seconds (15 days)
  */
@@ -276,18 +276,6 @@ $CONFIG = array(
  * Defaults to ``core/skeleton`` in the Nextcloud directory.
  */
 'skeletondirectory' => '/path/to/nextcloud/core/skeleton',
-
-/**
- * The ``user_backends`` app (which needs to be enabled first) allows you to
- * configure alternate authentication backends. Supported backends are:
- * IMAP (OC_User_IMAP), SMB (OC_User_SMB), and FTP (OC_User_FTP).
- */
-'user_backends' => array(
-	array(
-		'class' => 'OC_User_IMAP',
-		'arguments' => array('{imap.gmail.com:993/imap/ssl}INBOX')
-	)
-),
 
 /**
  * If your user backend does not allow password resets (e.g. when it's a
@@ -369,8 +357,8 @@ $CONFIG = array(
 'mail_smtptimeout' => 10,
 
 /**
- * This depends on ``mail_smtpmode``. Specify when you are using ``ssl`` or
- * ``tls``, or leave empty for no encryption.
+ * This depends on ``mail_smtpmode``. Specify when you are using ``ssl`` for SSL/TLS or
+ * ``tls`` for STARTTLS, or leave empty for no encryption.
  *
  * Defaults to ``''`` (empty string)
  */
@@ -420,6 +408,26 @@ $CONFIG = array(
  * allows to only send plain text emails.
  */
 'mail_send_plaintext_only' => false,
+
+/**
+ * This depends on ``mail_smtpmode``. Array of additional streams options that
+ * will be passed to underlying Swift mailer implementation.
+ * Defaults to an empty array.
+ */
+'mail_smtpstreamoptions' => array(),
+
+/**
+ * Which mode is used for sendmail/qmail: ``smtp`` or ``pipe``.
+ *
+ * For ``smtp`` the sendmail binary is started with the parameter ``-bs``:
+ *   - Use the SMTP protocol on standard input and output.
+ *
+ * For ``pipe`` the binary is started with the parameters ``-t``:
+ *   - Read message from STDIN and extract recipients.
+ *
+ * Defaults to ``smtp``
+ */
+'mail_sendmailmode' => 'smtp',
 
 /**
  * Proxy Configurations
@@ -645,7 +653,6 @@ $CONFIG = array(
  *   - ``daily``
  *   - ``beta``
  *   - ``stable``
- *   - ``production``
  */
 'updater.release.channel' => 'stable',
 
@@ -655,6 +662,26 @@ $CONFIG = array(
  * Defaults to ``true``
  */
 'has_internet_connection' => true,
+
+/**
+ * Which domains to request to determine the availability of an Internet
+ * connection. If none of these hosts are reachable, the administration panel
+ * will show a warning. Set to an empty list to not do any such checks (warning
+ * will still be shown).
+ *
+ * Defaults to the following domains:
+ *
+ *  - www.nextcloud.com
+ *  - www.startpage.com
+ *  - www.eff.org
+ *  - www.edri.org
+ */
+'connectivity_check_domains' => array(
+	'www.nextcloud.com',
+	'www.startpage.com',
+	'www.eff.org',
+	'www.edri.org'
+),
 
 /**
  * Allows Nextcloud to verify a working .well-known URL redirects. This is done
@@ -1132,15 +1159,19 @@ $CONFIG = array(
  * which then causes a FileLocked exception.
  *
  * See https://redis.io/topics/cluster-spec for details about the Redis cluster
+ *
+ * Authentication works with phpredis version 4.2.1+. See
+ * https://github.com/phpredis/phpredis/commit/c5994f2a42b8a348af92d3acb4edff1328ad8ce1
  */
 'redis.cluster' => [
 	'seeds' => [ // provide some/all of the cluster servers to bootstrap discovery, port required
 		'localhost:7000',
-		'localhost:7001'
+		'localhost:7001',
 	],
 	'timeout' => 0.0,
 	'read_timeout' => 0.0,
-	'failover_mode' => \RedisCluster::FAILOVER_ERROR
+	'failover_mode' => \RedisCluster::FAILOVER_ERROR,
+	'password' => '', // Optional, if not defined no password will be used.
 ],
 
 
@@ -1156,7 +1187,7 @@ $CONFIG = array(
 ),
 
 /**
- * Connection options for memcached, see http://apprize.info/php/scaling/15.html
+ * Connection options for memcached
  */
 'memcached_options' => array(
 	// Set timeouts to 50ms
@@ -1308,6 +1339,18 @@ $CONFIG = array(
 'sharing.minSearchStringLength' => 0,
 
 /**
+ * Set to true to enable that internal shares need to be accepted by the users by default.
+ * Users can change this for their account in their personal sharing settings
+ */
+'sharing.enable_share_accept' => false,
+
+/**
+ * Set to true to enforce that internal shares need to be accepted
+ */
+'sharing.force_share_accept' => false,
+
+
+/**
  * All other configuration options
  */
 
@@ -1391,6 +1434,47 @@ $CONFIG = array(
 'tempdirectory' => '/tmp/nextcloudtemp',
 
 /**
+ * Hashing
+ */
+
+/**
+ * By default Nextcloud will use the Argon2 password hashing if available.
+ * However if for whatever reason you want to stick with the PASSWORD_DEFAULT
+ * of your php version. Then set the setting to true.
+ */
+'hashing_default_password' => false,
+
+/**
+ *
+ * Nextcloud uses the Argon2 algorithm (with PHP >= 7.2) to create hashes by its
+ * own and exposes its configuration options as following. More information can
+ * be found at: https://www.php.net/manual/en/function.password-hash.php
+ */
+
+/**
+ * The allowed maximum memory in KiB to be used by the algorithm for computing a
+ * hash. The smallest possible value is 8. Values that undershoot the minimum
+ * will be ignored in favor of the default.
+ */
+'hashingMemoryCost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
+
+/**
+ * The allowed maximum time in seconds that can be used by the algorithm for
+ * computing a hash. The value must be an integer, and the minimum value is 1.
+ * Values that undershoot the minimum will be ignored in favor of the default.
+ */
+'hashingTimeCost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
+
+/**
+ * The allowed number of CPU threads that can be used by the algorithm for
+ * computing a hash. The value must be an integer, and the minimum value is 1.
+ * Rationally it does not help to provide a number higher than the available
+ * threads on the machine. Values that undershoot the minimum will be ignored
+ * in favor of the default.
+ */
+'hashingThreads' => PASSWORD_ARGON2_DEFAULT_THREADS,
+
+/**
  * The hashing cost used by hashes generated by Nextcloud
  * Using a higher value requires more time and CPU power to calculate the hashes
  */
@@ -1407,6 +1491,7 @@ $CONFIG = array(
 
 /**
  * Define a default folder for shared files and folders other than root.
+ * Changes to this value will only have effect on new shares.
  *
  * Defaults to ``/``
  */
@@ -1447,6 +1532,17 @@ $CONFIG = array(
  * Defaults to ``false``
  */
 'quota_include_external_storage' => false,
+
+/**
+ * When an external storage is unavailable for some reasons, it will be flagged
+ * as such for 10 minutes. When the trigger is a failed authentication attempt
+ * the delay is higher and can be controlled with this option. The motivation
+ * is to make account lock outs at Active Directories (and compatible) more
+ * unlikely.
+ *
+ * Defaults to ``1800`` (seconds)
+ */
+'external_storage.auth_availability_delay' => 1800,
 
 /**
  * Specifies how often the local filesystem (the Nextcloud data/ directory, and

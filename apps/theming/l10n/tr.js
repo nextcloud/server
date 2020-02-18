@@ -1,15 +1,18 @@
 OC.L10N.register(
     "theming",
     {
-    "Loading preview…" : "Önizleme yükleniyor...",
+    "Loading preview…" : "Ön izleme yükleniyor …",
     "Saved" : "Kaydedildi",
     "Admin" : "Yönetici",
     "a safe home for all your data" : "verileriniz için güvenli bir barınak",
     "Name cannot be empty" : "Ad boş olamaz",
     "The given name is too long" : "Belirtilen ad çok uzun",
     "The given web address is too long" : "Belirtilen web adresi çok uzun",
+    "The given web address is not a valid URL" : "Belirtilen web adresi geçersiz",
     "The given legal notice address is too long" : "Belirtilen yasal bildirim adresi çok uzun",
+    "The given legal notice address is not a valid URL" : "Belirtilen yasal bildirim adresi geçersiz",
     "The given privacy policy address is too long" : "Belirtilen kişisel gizliliğin korunması ilkesi adresi çok uzun",
+    "The given privacy policy address is not a valid URL" : "Belirtilen gizlilik ilkesi adresi geçersiz",
     "The given slogan is too long" : "Belirtilen slogan çok uzun",
     "The given color is invalid" : "Belirtilen renk geçersiz",
     "The file was uploaded" : "Dosya yüklendi",
@@ -27,6 +30,7 @@ OC.L10N.register(
     "Legal notice" : "Yasal bildirim",
     "Privacy policy" : "Kişisel gizliliğin korunması ilkesi",
     "Adjust the Nextcloud theme" : "Nextcloud temasını ayarla",
+    "Open documentation" : "Belgeleri aç",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Temalar kullandığınız kopyanın ve desteklenen istemcilerin genel görünümün kolayca değiştirilmesini sağlar. Tüm kullanıcılara görüntülenir.",
     "Name" : "Ad",
     "Reset to default" : "Varsayılana Sıfırla",
@@ -46,14 +50,6 @@ OC.L10N.register(
     "Upload new header logo" : "Yeni üst bilgi logosu yükle",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Yeni favicon yükle",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun.",
-    "You are already using a custom theme" : "Zaten özel bir tema kullanıyorsunuz",
-    "reset to default" : "varsayılana dön",
-    "Web address" : "Web adresi",
-    "Web address https://…" : "Web adresi https://...",
-    "There is no error, the file uploaded with success" : "Herhangi bir sorun yok, dosya yüklendi",
-    "The uploaded file was only partially uploaded" : "Dosyanın yalnızca bir bölümü yüklenebildi",
-    "Failed to write file to disk." : "Dosya diske yazılamadı.",
-    "A PHP extension stopped the file upload." : "Bir PHP eklentisi dosyanın yüklenmesini engelledi."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun."
 },
 "nplurals=2; plural=(n > 1);");

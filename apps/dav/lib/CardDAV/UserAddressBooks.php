@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -17,17 +18,22 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OCA\DAV\CardDAV;
 
+use OCP\IConfig;
 use OCP\IL10N;
 
 class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 
 	/** @var IL10N */
 	protected $l10n;
+
+	/** @var IConfig */
+	protected $config;
 
 	/**
 	 * Returns a list of addressbooks
@@ -38,11 +44,18 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		if ($this->l10n === null) {
 			$this->l10n = \OC::$server->getL10N('dav');
 		}
+		if ($this->config === null) {
+			$this->config = \OC::$server->getConfig();
+		}
 
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
 		$objects = [];
 		foreach($addressBooks as $addressBook) {
-			$objects[] = new AddressBook($this->carddavBackend, $addressBook, $this->l10n);
+			if ($addressBook['principaluri'] === 'principals/system/system') {
+				$objects[] = new SystemAddressbook($this->carddavBackend, $addressBook, $this->l10n, $this->config);
+			} else {
+				$objects[] = new AddressBook($this->carddavBackend, $addressBook, $this->l10n);
+			}
 		}
 		return $objects;
 

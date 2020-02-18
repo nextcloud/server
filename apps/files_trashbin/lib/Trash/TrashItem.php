@@ -2,6 +2,8 @@
 /**
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
+ * @author Robin Appelman <robin@icewind.nl>
+ *
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,7 +17,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -82,8 +84,8 @@ class TrashItem implements ITrashItem {
 		return $this->fileInfo->getEtag();
 	}
 
-	public function getSize() {
-		return $this->fileInfo->getSize();
+	public function getSize($includeMounts = true) {
+		return $this->fileInfo->getSize($includeMounts);
 	}
 
 	public function getMtime() {
@@ -133,7 +135,7 @@ class TrashItem implements ITrashItem {
 	public function isReadable() {
 		return $this->fileInfo->isReadable();
 	}
-	
+
 	public function isUpdateable() {
 		return $this->fileInfo->isUpdateable();
 	}
@@ -172,5 +174,17 @@ class TrashItem implements ITrashItem {
 
 	public function getExtension(): string {
 		return $this->fileInfo->getExtension();
+	}
+
+	public function getTitle(): string {
+		return $this->getOriginalLocation();
+	}
+
+	public function getCreationTime(): int {
+		return $this->fileInfo->getCreationTime();
+	}
+
+	public function getUploadTime(): int {
+		return $this->fileInfo->getUploadTime();
 	}
 }

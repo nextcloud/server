@@ -30,7 +30,7 @@ class ActionTest extends TestCase {
 	/** @var IAction */
 	protected $action;
 
-	public function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 		$this->action = new Action();
 	}
@@ -55,14 +55,8 @@ class ActionTest extends TestCase {
 
 	public function dataSetLabelInvalid() {
 		return [
-			[true],
-			[false],
-			[0],
-			[1],
 			[''],
 			[str_repeat('a', 33)],
-			[[]],
-			[[str_repeat('a', 33)]],
 		];
 	}
 
@@ -70,9 +64,10 @@ class ActionTest extends TestCase {
 	 * @dataProvider dataSetLabelInvalid
 	 * @param mixed $label
 	 *
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetLabelInvalid($label) {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->action->setLabel($label);
 	}
 
@@ -96,13 +91,7 @@ class ActionTest extends TestCase {
 
 	public function dataSetParsedLabelInvalid() {
 		return [
-			[true],
-			[false],
-			[0],
-			[1],
 			[''],
-			[[]],
-			[[str_repeat('a', 33)]],
 		];
 	}
 
@@ -110,9 +99,10 @@ class ActionTest extends TestCase {
 	 * @dataProvider dataSetParsedLabelInvalid
 	 * @param mixed $label
 	 *
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetParsedLabelInvalid($label) {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->action->setParsedLabel($label);
 	}
 
@@ -140,23 +130,11 @@ class ActionTest extends TestCase {
 	public function dataSetLinkInvalid() {
 		return [
 			// Invalid link
-			[true, 'GET'],
-			[false, 'GET'],
-			[0, 'GET'],
-			[1, 'GET'],
 			['', 'GET'],
 			[str_repeat('a', 257), 'GET'],
-			[[], 'GET'],
-			[[str_repeat('a', 257)], 'GET'],
 
 			// Invalid type
 			['url', 'notGET'],
-			['url', true],
-			['url', false],
-			['url', 0],
-			['url', 1],
-			['url', []],
-			['url', ['GET']],
 		];
 	}
 
@@ -165,9 +143,10 @@ class ActionTest extends TestCase {
 	 * @param mixed $link
 	 * @param mixed $type
 	 *
-	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetLinkInvalid($link, $type) {
+		$this->expectException(\InvalidArgumentException::class);
+
 		$this->action->setLink($link, $type);
 	}
 
@@ -186,27 +165,6 @@ class ActionTest extends TestCase {
 		$this->assertSame(false, $this->action->isPrimary());
 		$this->assertSame($this->action, $this->action->setPrimary($primary));
 		$this->assertSame($primary, $this->action->isPrimary());
-	}
-
-	public function dataSetPrimaryInvalid() {
-		return [
-			[0],
-			[1],
-			[''],
-			[str_repeat('a', 257)],
-			[[]],
-			[[str_repeat('a', 257)]],
-		];
-	}
-
-	/**
-	 * @dataProvider dataSetPrimaryInvalid
-	 * @param mixed $primary
-	 *
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testSetPrimaryInvalid($primary) {
-		$this->action->setPrimary($primary);
 	}
 
 	public function testIsValid() {

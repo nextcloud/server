@@ -20,29 +20,30 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\FilesReportPlugin as FilesReportPluginImplementation;
+use OCP\App\IAppManager;
 use OCP\Files\File;
+use OCP\Files\FileInfo;
+use OCP\Files\Folder;
 use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
+use OCP\ITags;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\SystemTag\ISystemTag;
-use OCP\SystemTag\ISystemTagObjectMapper;
-use OC\Files\View;
-use OCP\Files\Folder;
-use OCP\IGroupManager;
 use OCP\SystemTag\ISystemTagManager;
-use OCP\ITags;
-use OCP\Files\FileInfo;
+use OCP\SystemTag\ISystemTagObjectMapper;
 use Sabre\DAV\INode;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\ResponseInterface;
@@ -81,7 +82,10 @@ class FilesReportPluginTest extends \Test\TestCase {
 	/** @var IPreview|\PHPUnit_Framework_MockObject_MockObject * */
 	private $previewManager;
 
-	public function setUp() {
+	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject * */
+	private $appManager;
+
+	protected function setUp(): void {
 		parent::setUp();
 		$this->tree = $this->getMockBuilder(Tree::class)
 			->disableOriginalConstructor()
@@ -109,6 +113,10 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->getMock();
 
 		$this->previewManager = $this->getMockBuilder(IPreview::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->appManager = $this->getMockBuilder(IAppManager::class)
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -140,7 +148,8 @@ class FilesReportPluginTest extends \Test\TestCase {
 			$privateTagManager,
 			$this->userSession,
 			$this->groupManager,
-			$this->userFolder
+			$this->userFolder,
+			$this->appManager
 		);
 	}
 
@@ -594,10 +603,10 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->assertEquals(['222'], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
-	/**
-	 * @expectedException \OCP\SystemTag\TagNotFoundException
-	 */
+	
 	public function testProcessFilterRulesInvisibleTagAsUser() {
+		$this->expectException(\OCP\SystemTag\TagNotFoundException::class);
+
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->will($this->returnValue(false));

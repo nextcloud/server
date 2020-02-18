@@ -2,9 +2,14 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arne Hamann <kontakt+github@arne.email>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author labor4 <schreibtisch@labor4.ch>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -19,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -76,6 +81,15 @@ class AddressBookImpl implements IAddressBook {
 	}
 
 	/**
+	 * @return string defining the unique uri
+	 * @since 16.0.0
+	 * @return string
+	 */
+	public function getUri(): string {
+		return $this->addressBookInfo['uri'];
+	}
+
+	/**
 	 * In comparison to getKey() this function returns a human readable (maybe translated) name
 	 *
 	 * @return mixed
@@ -88,20 +102,20 @@ class AddressBookImpl implements IAddressBook {
 	/**
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
-	 * @param array $options Options to define the output format
-	 * 	- types boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
+	 * @param array $options Options to define the output format and search behavior
+	 * 	- 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
 	 *    example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
+	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 *  example result:
 	 *  [
 	 *		['id' => 0, 'FN' => 'Thomas Müller', 'EMAIL' => 'a@b.c', 'GEO' => '37.386013;-122.082932'],
 	 *		['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['d@e.f', 'g@h.i']]
 	 *	]
-	 * @return array an array of contacts which are arrays of key-value-pairs
 	 * @since 5.0.0
 	 */
 	public function search($pattern, $searchProperties, $options) {
-		$results = $this->backend->search($this->getKey(), $pattern, $searchProperties);
+		$results = $this->backend->search($this->getKey(), $pattern, $searchProperties, $options);
 
 		$withTypes = \array_key_exists('types', $options) && $options['types'] === true;
 
@@ -260,7 +274,7 @@ class AddressBookImpl implements IAddressBook {
 				}
 
 			// The following properties can be set multiple times
-			} else if (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL'])) {
+			} else if (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
 				if (!isset($result[$property->name])) {
 					$result[$property->name] = [];
 				}

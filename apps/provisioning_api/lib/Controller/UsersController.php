@@ -1,19 +1,26 @@
 <?php
+
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <tcit@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Thomas Citharel <tcit@tcit.fr>
  *
  * @license AGPL-3.0
  *
@@ -27,16 +34,17 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\Provisioning_API\Controller;
 
 use OC\Accounts\AccountManager;
+use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
-use OC\Settings\Mailer\NewUserMailHelper;
 use OCA\Provisioning_API\FederatedFileSharingFactory;
+use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
@@ -66,6 +74,8 @@ class UsersController extends AUserData {
 	private $federatedFileSharingFactory;
 	/** @var ISecureRandom */
 	private $secureRandom;
+	/** @var RemoteWipe */
+	private $remoteWipe;
 
 	/**
 	 * @param string $appName
@@ -94,7 +104,8 @@ class UsersController extends AUserData {
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper,
 								FederatedFileSharingFactory $federatedFileSharingFactory,
-								ISecureRandom $secureRandom) {
+								ISecureRandom $secureRandom,
+							    RemoteWipe $remoteWipe) {
 		parent::__construct($appName,
 							$request,
 							$userManager,
@@ -109,6 +120,7 @@ class UsersController extends AUserData {
 		$this->newUserMailHelper = $newUserMailHelper;
 		$this->federatedFileSharingFactory = $federatedFileSharingFactory;
 		$this->secureRandom = $secureRandom;
+		$this->remoteWipe = $remoteWipe;
 	}
 
 	/**
@@ -121,7 +133,7 @@ class UsersController extends AUserData {
 	 * @param int $offset
 	 * @return DataResponse
 	 */
-	public function getUsers(string $search = '', $limit = null, $offset = 0): DataResponse {
+	public function getUsers(string $search = '', int $limit = null, int $offset = 0): DataResponse {
 		$user = $this->userSession->getUser();
 		$users = [];
 
@@ -154,7 +166,7 @@ class UsersController extends AUserData {
 	 *
 	 * returns a list of users and their data
 	 */
-	public function getUsersDetails(string $search = '', $limit = null, $offset = 0): DataResponse {
+	public function getUsersDetails(string $search = '', int $limit = null, int $offset = 0): DataResponse {
 		$currentUser = $this->userSession->getUser();
 		$users = [];
 
@@ -197,6 +209,21 @@ class UsersController extends AUserData {
 	}
 
 	/**
+	 * @throws OCSException
+	 */
+	private function createNewUserId(): string {
+		$attempts = 0;
+		do {
+			$uidCandidate = $this->secureRandom->generate(10, ISecureRandom::CHAR_HUMAN_READABLE);
+			if (!$this->userManager->userExists($uidCandidate)) {
+				return $uidCandidate;
+			}
+			$attempts++;
+		} while ($attempts < 10);
+		throw new OCSException('Could not create non-existing user id', 111);
+	}
+
+	/**
 	 * @PasswordConfirmationRequired
 	 * @NoAdminRequired
 	 *
@@ -205,7 +232,7 @@ class UsersController extends AUserData {
 	 * @param string $displayName
 	 * @param string $email
 	 * @param array $groups
-	 * @param array $subadmins
+	 * @param array $subadmin
 	 * @param string $quota
 	 * @param string $language
 	 * @return DataResponse
@@ -222,6 +249,10 @@ class UsersController extends AUserData {
 		$user = $this->userSession->getUser();
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$subAdminManager = $this->groupManager->getSubAdmin();
+
+		if(empty($userid) && $this->config->getAppValue('core', 'newUser.generateUserID', 'no') === 'yes') {
+			$userid = $this->createNewUserId();
+		}
 
 		if ($this->userManager->userExists($userid)) {
 			$this->logger->error('Failed addUser attempt: User already exists.', ['app' => 'ocs_api']);
@@ -275,6 +306,10 @@ class UsersController extends AUserData {
 			$generatePasswordResetToken = true;
 		}
 
+		if ($email === '' && $this->config->getAppValue('core', 'newUser.requireEmail', 'no') === 'yes') {
+			throw new OCSException('Required email address was not provided', 110);
+		}
+
 		try {
 			$newUser = $this->userManager->createUser($userid, $password);
 			$this->logger->info('Successful addUser call with userid: ' . $userid, ['app' => 'ocs_api']);
@@ -306,24 +341,32 @@ class UsersController extends AUserData {
 					$emailTemplate = $this->newUserMailHelper->generateTemplate($newUser, $generatePasswordResetToken);
 					$this->newUserMailHelper->sendMail($newUser, $emailTemplate);
 				} catch (\Exception $e) {
+					// Mail could be failing hard or just be plain not configured
+					// Logging error as it is the hardest of the two
 					$this->logger->logException($e, [
-						'message' => "Can't send new user mail to $email",
+						'message' => "Unable to send the invitation mail to $email",
 						'level' => ILogger::ERROR,
 						'app' => 'ocs_api',
 					]);
-					throw new OCSException('Unable to send the invitation mail', 109);
 				}
 			}
 
-			return new DataResponse();
+			return new DataResponse(['id' => $userid]);
 
-		} catch (HintException $e ) {
+		} catch (HintException $e) {
 			$this->logger->logException($e, [
 				'message' => 'Failed addUser attempt with hint exception.',
 				'level' => ILogger::WARN,
 				'app' => 'ocs_api',
 			]);
 			throw new OCSException($e->getHint(), 107);
+		} catch (OCSException $e) {
+			$this->logger->logException($e, [
+				'message' => 'Failed addUser attempt with ocs exeption.',
+				'level' => ILogger::ERROR,
+				'app' => 'ocs_api',
+			]);
+			throw $e;
 		} catch (\Exception $e) {
 			$this->logger->logException($e, [
 				'message' => 'Failed addUser attempt with exception.',
@@ -446,7 +489,7 @@ class UsersController extends AUserData {
 			}
 
 			if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-				$federatedFileSharing = new \OCA\FederatedFileSharing\AppInfo\Application();
+				$federatedFileSharing = \OC::$server->query(\OCA\FederatedFileSharing\AppInfo\Application::class);
 				$shareProvider = $federatedFileSharing->getFederatedShareProvider();
 				if ($shareProvider->isLookupServerUploadEnabled()) {
 					$permittedFields[] = AccountManager::PROPERTY_PHONE;
@@ -512,7 +555,14 @@ class UsersController extends AUserData {
 				$targetUser->setQuota($quota);
 				break;
 			case 'password':
-				$targetUser->setPassword($value);
+				try {
+					if (!$targetUser->canChangePassword()) {
+						throw new OCSException('Setting the password is not supported by the users backend', 103);
+					}
+					$targetUser->setPassword($value);
+				} catch (HintException $e) { // password policy error
+					throw new OCSException($e->getMessage(), 103);
+				}
 				break;
 			case 'language':
 				$languagesCodes = $this->l10nFactory->findAvailableLanguages();
@@ -547,6 +597,37 @@ class UsersController extends AUserData {
 			default:
 				throw new OCSException('', 103);
 		}
+		return new DataResponse();
+	}
+
+	/**
+	 * @PasswordConfirmationRequired
+	 * @NoAdminRequired
+	 *
+	 * @param string $userId
+	 *
+	 * @return DataResponse
+	 *
+	 * @throws OCSException
+	 */
+	public function wipeUserDevices(string $userId): DataResponse {
+		/** @var IUser $currentLoggedInUser */
+		$currentLoggedInUser = $this->userSession->getUser();
+
+		$targetUser = $this->userManager->get($userId);
+
+		if ($targetUser === null || $targetUser->getUID() === $currentLoggedInUser->getUID()) {
+			throw new OCSException('', 101);
+		}
+
+		// If not permitted
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if (!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
+		$this->remoteWipe->markAllTokensForWipe($targetUser);
+
 		return new DataResponse();
 	}
 
@@ -766,7 +847,7 @@ class UsersController extends AUserData {
 
 			if (count($userSubAdminGroups) <= 1) {
 				// Subadmin must not be able to remove a user from all their subadmin groups.
-				throw new OCSException('Cannot remove user from this group as this is the only remaining group you are a SubAdmin of', 105);
+				throw new OCSException('Not viable to remove user from the last group you are SubAdmin of', 105);
 			}
 		}
 
@@ -809,11 +890,8 @@ class UsersController extends AUserData {
 			return new DataResponse();
 		}
 		// Go
-		if ($subAdminManager->createSubAdmin($user, $group)) {
-			return new DataResponse();
-		} else {
-			throw new OCSException('Unknown error occurred', 103);
-		}
+		$subAdminManager->createSubAdmin($user, $group);
+		return new DataResponse();
 	}
 
 	/**
@@ -845,11 +923,8 @@ class UsersController extends AUserData {
 		}
 
 		// Go
-		if ($subAdminManager->deleteSubAdmin($user, $group)) {
-			return new DataResponse();
-		} else {
-			throw new OCSException('Unknown error occurred', 103);
-		}
+		$subAdminManager->deleteSubAdmin($user, $group);
+		return new DataResponse();
 	}
 
 	/**

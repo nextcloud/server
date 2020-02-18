@@ -2,10 +2,14 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Alexander A. Klimov <grandmaster@al2klimov.de>
+ * @author Daniel Schneider <daniel@schneidoa.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -20,55 +24,43 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Preview;
 
-class Movie extends Provider {
+use OCP\Files\File;
+use OCP\IImage;
+
+class Movie extends ProviderV2 {
 	public static $avconvBinary;
 	public static $ffmpegBinary;
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getMimeType() {
+	public function getMimeType(): string {
 		return '/video\/.*/';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
+	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
 		// TODO: use proc_open() and stream the source file ?
 
-		$fileInfo = $fileview->getFileInfo($path);
-		$useFileDirectly = (!$fileInfo->isEncrypted() && !$fileInfo->isMounted());
-
-		if ($useFileDirectly) {
-			$absPath = $fileview->getLocalFile($path);
-		} else {
-			$absPath = \OC::$server->getTempManager()->getTemporaryFile();
-
-			$handle = $fileview->fopen($path, 'rb');
-
-			// we better use 5MB (1024 * 1024 * 5 = 5242880) instead of 1MB.
-			// in some cases 1MB was no enough to generate thumbnail
-			$firstmb = stream_get_contents($handle, 5242880);
-			file_put_contents($absPath, $firstmb);
-		}
+		$absPath = $this->getLocalFile($file, 5242880); // only use the first 5MB
 
 		$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
-		if ($result === false) {
+		if ($result === null) {
 			$result = $this->generateThumbNail($maxX, $maxY, $absPath, 1);
-			if ($result === false) {
+			if ($result === null) {
 				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 0);
 			}
 		}
 
-		if (!$useFileDirectly) {
-			unlink($absPath);
-		}
+		$this->cleanTmpFiles();
 
 		return $result;
 	}
@@ -78,9 +70,9 @@ class Movie extends Provider {
 	 * @param int $maxY
 	 * @param string $absPath
 	 * @param int $second
-	 * @return bool|\OCP\IImage
+	 * @return null|\OCP\IImage
 	 */
-	private function generateThumbNail($maxX, $maxY, $absPath, $second) {
+	private function generateThumbNail($maxX, $maxY, $absPath, $second): ?IImage {
 		$tmpPath = \OC::$server->getTempManager()->getTemporaryFile();
 
 		if (self::$avconvBinary) {
@@ -101,14 +93,14 @@ class Movie extends Provider {
 		if ($returnCode === 0) {
 			$image = new \OC_Image();
 			$image->loadFromFile($tmpPath);
-			unlink($tmpPath);
 			if ($image->valid()) {
+				unlink($tmpPath);
 				$image->scaleDownToFit($maxX, $maxY);
 
 				return $image;
 			}
 		}
 		unlink($tmpPath);
-		return false;
+		return null;
 	}
 }

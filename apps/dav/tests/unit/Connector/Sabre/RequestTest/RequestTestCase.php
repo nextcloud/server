@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -21,15 +22,15 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
+use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Server;
 use OCA\DAV\Connector\Sabre\ServerFactory;
-use OC\Files\View;
 use OCP\IRequest;
 use Sabre\HTTP\Request;
 use Test\TestCase;
@@ -52,7 +53,7 @@ abstract class RequestTestCase extends TestCase {
 		return $stream;
 	}
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		unset($_SERVER['HTTP_OC_CHUNKED']);
@@ -67,7 +68,8 @@ abstract class RequestTestCase extends TestCase {
 			$this->getMockBuilder(IRequest::class)
 				->disableOriginalConstructor()
 				->getMock(),
-			\OC::$server->getPreviewManager()
+			\OC::$server->getPreviewManager(),
+			\OC::$server->getEventDispatcher()
 		);
 	}
 

@@ -353,6 +353,7 @@
             <xs:enumeration value="tools"/>
             <xs:enumeration value="games"/>
             <xs:enumeration value="search"/>
+            <xs:enumeration value="workflow"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -659,11 +660,20 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="fulltextsearch-provider">
+        <xs:simpleContent>
+            <xs:extension base="php-class">
+                <xs:attribute name="min-version" type="version" use="optional"/>
+                <xs:attribute name="max-version" type="version" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
     <xs:complexType name="fulltextsearch">
         <xs:sequence>
             <xs:element name="platform" type="php-class" minOccurs="0"
                         maxOccurs="unbounded"/>
-            <xs:element name="provider" type="php-class" minOccurs="0"
+            <xs:element name="provider" type="fulltextsearch-provider" minOccurs="0"
                         maxOccurs="unbounded"/>
         </xs:sequence>
     </xs:complexType>

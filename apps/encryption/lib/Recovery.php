@@ -4,7 +4,9 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license AGPL-3.0
  *
@@ -18,22 +20,20 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
 namespace OCA\Encryption;
 
 
+use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
-use OCP\Encryption\Keys\IStorage;
+use OCP\Encryption\IFile;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\PreConditionNotMetException;
-use OCP\Security\ISecureRandom;
-use OC\Files\View;
-use OCP\Encryption\IFile;
 
 class Recovery {
 
@@ -47,10 +47,6 @@ class Recovery {
 	 */
 	protected $crypt;
 	/**
-	 * @var ISecureRandom
-	 */
-	private $random;
-	/**
 	 * @var KeyManager
 	 */
 	private $keyManager;
@@ -58,10 +54,6 @@ class Recovery {
 	 * @var IConfig
 	 */
 	private $config;
-	/**
-	 * @var IStorage
-	 */
-	private $keyStorage;
 	/**
 	 * @var View
 	 */
@@ -72,29 +64,23 @@ class Recovery {
 	private $file;
 
 	/**
-	 * @param IUserSession $user
+	 * @param IUserSession $userSession
 	 * @param Crypt $crypt
-	 * @param ISecureRandom $random
 	 * @param KeyManager $keyManager
 	 * @param IConfig $config
-	 * @param IStorage $keyStorage
 	 * @param IFile $file
 	 * @param View $view
 	 */
-	public function __construct(IUserSession $user,
+	public function __construct(IUserSession $userSession,
 								Crypt $crypt,
-								ISecureRandom $random,
 								KeyManager $keyManager,
 								IConfig $config,
-								IStorage $keyStorage,
 								IFile $file,
 								View $view) {
-		$this->user = ($user && $user->isLoggedIn()) ? $user->getUser() : false;
+		$this->user = ($userSession && $userSession->isLoggedIn()) ? $userSession->getUser() : false;
 		$this->crypt = $crypt;
-		$this->random = $random;
 		$this->keyManager = $keyManager;
 		$this->config = $config;
-		$this->keyStorage = $keyStorage;
 		$this->view = $view;
 		$this->file = $file;
 	}
@@ -169,7 +155,7 @@ class Recovery {
 	 * @return bool
 	 */
 	public function isRecoveryEnabledForUser($user = '') {
-		$uid = empty($user) ? $this->user->getUID() : $user;
+		$uid = $user === '' ? $this->user->getUID() : $user;
 		$recoveryMode = $this->config->getUserValue($uid,
 			'encryption',
 			'recoveryEnabled',

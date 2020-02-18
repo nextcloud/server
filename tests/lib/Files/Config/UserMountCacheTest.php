@@ -10,13 +10,15 @@ namespace Test\Files\Config;
 
 use OC\DB\QueryBuilder\Literal;
 use OC\Files\Mount\MountPoint;
+use OC\Files\Storage\Storage;
 use OC\Log;
 use OC\User\Manager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Config\ICachedMountInfo;
-use OC\Files\Storage\Storage;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 use Test\Util\User\Dummy;
 
@@ -41,10 +43,10 @@ class UserMountCacheTest extends TestCase {
 
 	private $fileIds = [];
 
-	public function setUp() {
+	protected function setUp(): void {
 		$this->fileIds = [];
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->userManager = new Manager($this->createMock(IConfig::class));
+		$this->userManager = new Manager($this->createMock(IConfig::class), $this->createMock(EventDispatcherInterface::class), $this->createMock(IEventDispatcher::class));
 		$userBackend = new Dummy();
 		$userBackend->createUser('u1', '');
 		$userBackend->createUser('u2', '');
@@ -53,7 +55,7 @@ class UserMountCacheTest extends TestCase {
 		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->createMock(Log::class));
 	}
 
-	public function tearDown() {
+	protected function tearDown(): void {
 		$builder = $this->connection->getQueryBuilder();
 
 		$builder->delete('mounts')->execute();

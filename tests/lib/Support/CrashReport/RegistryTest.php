@@ -27,6 +27,7 @@ namespace Test\Support\CrashReport;
 use Exception;
 use OC\Support\CrashReport\Registry;
 use OCP\Support\CrashReport\ICollectBreadcrumbs;
+use OCP\Support\CrashReport\IMessageReporter;
 use OCP\Support\CrashReport\IReporter;
 use Test\TestCase;
 
@@ -35,7 +36,7 @@ class RegistryTest extends TestCase {
 	/** @var Registry */
 	private $registry;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		parent::setUp();
 
 		$this->registry = new Registry();
@@ -79,6 +80,19 @@ class RegistryTest extends TestCase {
 		$this->registry->register($reporter1);
 		$this->registry->register($reporter2);
 		$this->registry->delegateReport($exception);
+	}
+
+	public function testDelegateMessage() {
+		$reporter1 = $this->createMock(IReporter::class);
+		$reporter2 = $this->createMock(IMessageReporter::class);
+		$message = 'hello';
+		$reporter2->expects($this->once())
+			->method('reportMessage')
+			->with($message, []);
+
+		$this->registry->register($reporter1);
+		$this->registry->register($reporter2);
+		$this->registry->delegateMessage($message);
 	}
 
 }

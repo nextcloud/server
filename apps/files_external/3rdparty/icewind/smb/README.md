@@ -102,6 +102,15 @@ fwrite($fh, 'bar');
 fclose($fh);
 ```
 
+**Note**: write() will truncate your file to 0bytes. You may open a writeable stream with append() which will point
+the cursor to the end of the file or create it if it does not exists yet. (append() is only compatible with libsmbclient-php)
+```php
+$fh = $share->append('test.txt');
+fwrite($fh, 'bar');
+fclose($fh);
+```
+
+
 ### Using notify
 
 ```php
@@ -109,6 +118,22 @@ $share->notify('')->listen(function (\Icewind\SMB\Change $change) {
 	echo $change->getCode() . ': ' . $change->getPath() . "\n";
 });
 ```
+
+### Changing network timeouts
+
+```php
+$options = new Options();
+$options->setTimeout(5);
+$serverFactory = new ServerFactory($options);
+```
+
+### Customizing system integration
+
+The `smbclient` backend needs to get various information about the system it's running on to function
+such as the paths of various binaries or the system timezone.
+While the default logic for getting this information should work on most systems, it possible to customize this behaviour.
+
+In order to customize the integration you provide a custom implementation of `ITimezoneProvider` and/or `ISystem` and pass them as arguments to the `ServerFactory`. 
 
 ## Testing SMB
 

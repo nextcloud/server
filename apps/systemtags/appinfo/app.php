@@ -4,7 +4,8 @@
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -20,7 +21,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -33,18 +34,14 @@ $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
 	function() {
 		// FIXME: no public API for these ?
-		\OCP\Util::addScript('oc-backbone-webdav');
-		\OCP\Util::addScript('systemtags/merged');
-		\OCP\Util::addScript('systemtags', 'merged');
-		\OCP\Util::addStyle('systemtags');
-		\OCP\Util::addStyle('systemtags', 'systemtagsfilelist');
+		\OCP\Util::addScript('dist/systemtags');
+		\OCP\Util::addScript('systemtags', 'systemtags');
 	}
 );
 
 $managerListener = function(ManagerEvent $event) {
-	$application = new \OCP\AppFramework\App('systemtags');
 	/** @var \OCA\SystemTags\Activity\Listener $listener */
-	$listener = $application->getContainer()->query(Listener::class);
+	$listener = \OC::$server->query(Listener::class);
 	$listener->event($event);
 };
 
@@ -55,7 +52,7 @@ $eventDispatcher->addListener(ManagerEvent::EVENT_UPDATE, $managerListener);
 $mapperListener = function(MapperEvent $event) {
 	$application = new \OCP\AppFramework\App('systemtags');
 	/** @var \OCA\SystemTags\Activity\Listener $listener */
-	$listener = $application->getContainer()->query(Listener::class);
+	$listener = \OC::$server->query(Listener::class);
 	$listener->mapperEvent($event);
 };
 
