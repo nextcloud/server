@@ -80,8 +80,13 @@ class SimpleFolder implements ISimpleFolder   {
 		return new SimpleFile($file);
 	}
 
-	public function newFile($name) {
-		// delay creating the file until it's written to
-		return new NewSimpleFile($this->folder, $name);
+	public function newFile($name, $content = null) {
+		if ($content === null) {
+			// delay creating the file until it's written to
+			return new NewSimpleFile($this->folder, $name);
+		} else {
+			$file = $this->folder->newFile($name, $content);
+			return new SimpleFile($file);
+		}
 	}
 }

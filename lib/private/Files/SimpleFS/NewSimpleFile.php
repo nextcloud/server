@@ -123,7 +123,7 @@ class NewSimpleFile implements ISimpleFile {
 	public function putContent($data) {
 		try {
 			if ($this->file) {
-				return $this->file->putContent($data);
+				$this->file->putContent($data);
 			} else {
 				$this->file = $this->parentFolder->newFile($this->name, $data);
 			}

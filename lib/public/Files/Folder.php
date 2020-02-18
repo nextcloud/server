@@ -109,7 +109,7 @@ interface Folder extends Node {
 	 * Create a new file
 	 *
 	 * @param string $path relative path of the new file
-	 * @param string | resource | null $content content for the new file, since 19.0.0
+	 * @param string|resource|null $content content for the new file, since 19.0.0
 	 * @return \OCP\Files\File
 	 * @throws \OCP\Files\NotPermittedException
 	 * @since 6.0.0

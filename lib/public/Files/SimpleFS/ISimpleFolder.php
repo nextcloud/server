@@ -64,11 +64,12 @@ interface ISimpleFolder {
 	 * Creates a new file with $name in the folder
 	 *
 	 * @param string $name
+	 * @param string|resource|null $content @since 19.0.0
 	 * @return ISimpleFile
 	 * @throws NotPermittedException
 	 * @since 11.0.0
 	 */
-	public function newFile($name);
+	public function newFile($name, $content = null);
 
 	/**
 	 * Remove the folder and all the files in it
