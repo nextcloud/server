@@ -61,7 +61,7 @@
 						{{ t('settings', 'Edit User') }}
 					</ActionButton>
 				</Actions>
-				<div style="position: relative;">
+				<div class="userPopoverMenuWrapper">
 					<div v-click-outside="hideMenu" class="icon-more" @click="$emit('toggleMenu')" />
 					<div class="popovermenu" :class="{ 'open': openedMenu }">
 						<PopoverMenu :menu="userActions" />
