@@ -61,9 +61,11 @@
 						{{ t('settings', 'Edit User') }}
 					</ActionButton>
 				</Actions>
-				<div v-click-outside="hideMenu" class="icon-more" @click="$emit('toggleMenu')" />
-				<div class="popovermenu" :class="{ 'open': openedMenu }">
-					<PopoverMenu :menu="userActions" />
+				<div style="position: relative;">
+					<div v-click-outside="hideMenu" class="icon-more" @click="$emit('toggleMenu')" />
+					<div class="popovermenu" :class="{ 'open': openedMenu }">
+						<PopoverMenu :menu="userActions" />
+					</div>
 				</div>
 			</div>
 			<div class="feedback" :style="{opacity: feedbackMessage !== '' ? 1 : 0}">
