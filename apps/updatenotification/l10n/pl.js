@@ -35,7 +35,7 @@ OC.L10N.register(
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nie można połączyć się z appstore lub całkowicie zgłasza brak aktualizacji. Wyszukaj aktualizacje ręcznie lub upewnij się, że masz dostęp do Internetu i możesz łączyć się z appstore.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Wszystkie</strong> aplikacje mają dostępną aktualizację dla tej wersji",
     "View changelog" : "Zobacz listę zmian",
-    "Enterprise" : "Firmowa",
+    "Enterprise" : "Komercyjna",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Do użytku firmowego. Zapewnia zawsze najnowszy poziom poprawek, które zostaną wprowadzone dopiero po przetestowaniu przez Nextcloud GmbH. Aktualizacja usunie błędy krytyczne i wprowadzi dodatkowe ulepszenia. Ten kanał jest dostępny tylko dla klientów, którzy posiadają pakiet dla firm.",
     "Stable" : "Stabilna",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Najnowsza wersja stabilna. Jest odpowiednia do regularnego używania i zawsze będzie aktualizowana do najnowszej wersji głównej.",

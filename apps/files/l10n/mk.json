@@ -57,6 +57,7 @@
     "Could not create file \"{file}\"" : "Неможе да се креира датотека \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Неможе да се креира датотека \"{file}\" бидејќи веќе постои",
     "Could not create folder \"{dir}\" because it already exists" : "Неможе да се креира папка \"{dir}\" бидејќи веќе постои",
+    "Could not fetch file details \"{file}\"" : "Неможе да се вчитаат деталите за датотеката \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Грешка при бришење на датотека \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Нема резултати од пребарувањето на други места за {tag}{filter}{endtag}",
     "Name" : "Име",
