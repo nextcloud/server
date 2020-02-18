@@ -46,7 +46,7 @@
 			<div v-if="showConfig.showUserBackend" class="userBackend">
 				{{ user.backend }}
 			</div>
-			<div v-if="showConfig.showStoragePath" class="storageLocation subtitle">
+			<div v-if="showConfig.showStoragePath" v-tooltip="user.storageLocation" class="storageLocation subtitle">
 				{{ user.storageLocation }}
 			</div>
 		</div>
