@@ -76,31 +76,34 @@
 				width="32">
 		</div>
 		<!-- dirty hack to ellipsis on two lines -->
-		<div class="displayName">
+		<div v-if="user.backendCapabilities.setDisplayName" class="displayName">
 			<form
 				:class="{'icon-loading-small': loading.displayName}"
 				class="displayName"
 				@submit.prevent="updateDisplayName">
-				<template v-if="user.backendCapabilities.setDisplayName">
-					<input v-if="user.backendCapabilities.setDisplayName"
-						:id="'displayName'+user.id+rand"
-						ref="displayName"
-						:disabled="loading.displayName||loading.all"
-						:value="user.displayname"
-						autocapitalize="off"
-						autocomplete="new-password"
-						autocorrect="off"
-						spellcheck="false"
-						type="text">
-					<input v-if="user.backendCapabilities.setDisplayName"
-						class="icon-confirm"
-						type="submit"
-						value="">
-				</template>
-				<div v-else
-					v-tooltip.auto="t('settings', 'The backend does not support changing the display name')"
-					class="name" />
+				<input
+					:id="'displayName'+user.id+rand"
+					ref="displayName"
+					:disabled="loading.displayName||loading.all"
+					:value="user.displayname"
+					autocapitalize="off"
+					autocomplete="off"
+					autocorrect="off"
+					spellcheck="false"
+					type="text">
+				<input
+					class="icon-confirm"
+					type="submit"
+					value="">
 			</form>
+		</div>
+		<div v-else class="name">
+			{{ user.id }}
+			<div class="displayName subtitle">
+				<div v-tooltip="user.displayname.length > 20 ? user.displayname : ''" class="cellText">
+					{{ user.displayname }}
+				</div>
+			</div>
 		</div>
 		<form v-if="settings.canChangePassword && user.backendCapabilities.setPassword"
 			:class="{'icon-loading-small': loading.password}"
