@@ -328,6 +328,7 @@
     "Start migration" : "Démarrer la migration",
     "Background jobs" : "Tâches de fond",
     "Last job execution ran %s. Something seems wrong." : "Quelque chose s'est mal passé lors de l'exécution de la dernière tâche %s.",
+    "Some jobs haven’t been executed since %s. Please consider increasing the execution frequency." : "Certaines tâches n'ont pas été exécutées depuis %s. Vous pourriez augmenter la fréquence d'exécution.",
     "Last job ran %s." : "Dernière tâche exécutée %s.",
     "Background job didn’t run yet!" : "La tâche de fond n'a pas encore tourné!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Afin d'optimiser au mieux la performance de votre instance, il est important de configurer correctement les travaux en arrière-plan. 'Cron' est le paramètre recommandé pour les instances de taille importante. Veuillez vous référer à la documentation Nextcloud pour plus d'informations à ce sujet.",
