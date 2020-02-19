@@ -318,7 +318,7 @@ const Dialogs = {
 				self.$filePicker.ocdialog('setEnterCallback', function() {
 					event.stopImmediatePropagation()
 					event.preventDefault()
-					self.$form.submit()
+					self.$filePicker.submit()
 				})
 				var newName = $input.val()
 				var lastPos = newName.lastIndexOf('.')
