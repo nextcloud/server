@@ -330,6 +330,8 @@ OC.L10N.register(
     "Start migration" : "Zahájit migraci",
     "Background jobs" : "Úlohy na pozadí",
     "Last job execution ran %s. Something seems wrong." : "Minulá úloha byla vykonána: %s. Zdá se, že něco není v pořádku.",
+    "Some jobs haven’t been executed since %s. Please consider increasing the execution frequency." : "Některé úlohy nebyly vykonány už od %s. Zvažte zvýšení četnosti vykonávání.",
+    "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Některé úlohy nebyly vykonány už od %s. Zvažte přepnutí na plánovač (cron) systému.",
     "Last job ran %s." : "Poslední úloha byla vykonána: %s.",
     "Background job didn’t run yet!" : "Úloha na pozadí ještě nebyla spuštěná!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Pro optimální výkon je důležité správně nastavit úlohy spouštěné na pozadí. Pro větší instance je doporučenou metodou použití systémového plánovače (cron). Více informací naleznete v dokumentaci.",

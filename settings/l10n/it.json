@@ -328,6 +328,8 @@
     "Start migration" : "Avvia migrazione",
     "Background jobs" : "Operazioni in background",
     "Last job execution ran %s. Something seems wrong." : "Ultima esecuzione di cron: %s. Potrebbe esserci un problema.",
+    "Some jobs haven’t been executed since %s. Please consider increasing the execution frequency." : "Alcune operazioni non sono state eseguite da %s. Considera di aumentare la frequenza di esecuzione.",
+    "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Alcune operazioni non sono state eseguite da %s. Considera di passare al cron di sistema.",
     "Last job ran %s." : "Ultima esecuzione di cron: %s.",
     "Background job didn’t run yet!" : "Operazione in background non ancora eseguita!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Per prestazioni ottimali è importante configurare le operazioni in background correttamente. Per le istanze più grandi 'Cron' è l'impostazione consigliata. Vedi la documentazione per ulteriori informazioni.",
