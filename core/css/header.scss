@@ -64,7 +64,7 @@
 	box-sizing: border-box;
 	opacity: 1;
 	align-items: center;
-	flex-wrap: wrap;
+	display: grid;
 	overflow: hidden;
 
 	&:focus {
