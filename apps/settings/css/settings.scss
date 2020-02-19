@@ -1512,7 +1512,6 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			grid-row-start: span 1;
 			grid-gap: 3px;
 			align-items: center;
-			z-index: 0;
 			/* let's define the column until storage path,
 			   what follows will be manually defined  */
 			grid-template-columns: 44px minmax($grid-col-min-width + 30px, 1fr) repeat(auto-fit, minmax($grid-col-min-width, 1fr));
