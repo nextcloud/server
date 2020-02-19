@@ -55,7 +55,7 @@ class File extends Node implements \OCP\Files\File {
 			 */
 			return $this->view->file_get_contents($this->path);
 		} else {
-			throw new NotPermittedException();
+			throw new NotPermittedException('Permission issue unable to get content of file ' . $this->path);
 		}
 	}
 
@@ -74,7 +74,7 @@ class File extends Node implements \OCP\Files\File {
 			$this->fileInfo = null;
 			$this->sendHooks(array('postWrite'));
 		} else {
-			throw new NotPermittedException();
+			throw new NotPermittedException('Permission issue unable to get content of file ' . $this->path);
 		}
 	}
 
@@ -115,7 +115,7 @@ class File extends Node implements \OCP\Files\File {
 			$this->sendHooks($postHooks);
 			return $result;
 		} else {
-			throw new NotPermittedException();
+			throw new NotPermittedException('Permission issue Could not open (Incorrect mode ' . $mode . ') ' . $this->path);
 		}
 	}
 
@@ -134,7 +134,7 @@ class File extends Node implements \OCP\Files\File {
 			$this->exists = false;
 			$this->fileInfo = null;
 		} else {
-			throw new NotPermittedException();
+			throw new NotPermittedException('Permission issue Could not delete file' . $this->path);
 		}
 	}
 
