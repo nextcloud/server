@@ -57,6 +57,7 @@
     "Could not create file \"{file}\"" : "Nie je možné vytvoriť súbor \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Nie je možné vytvoriť súbor \"{file}\" lebo už existuje",
     "Could not create folder \"{dir}\" because it already exists" : "Nie je možné vytvoriť priečinok \"{dir}\" lebo už existuje",
+    "Could not fetch file details \"{file}\"" : "Podrobnosti o súbore „{file}“ sa nepodarilo načítať",
     "Error deleting file \"{fileName}\"." : "Chyba pri mazaní súboru \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Žiadne výsledky vyhľadávania v ostatných priečinkoch pre {tag}{filter}{endtag}",
     "Name" : "Názov",

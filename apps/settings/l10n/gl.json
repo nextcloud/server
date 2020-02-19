@@ -328,6 +328,8 @@
     "Start migration" : "Iniciar a migración",
     "Background jobs" : "Traballos en segundo plano",
     "Last job execution ran %s. Something seems wrong." : "O último traballo executouse %s. Algo semella estar mal.",
+    "Some jobs haven’t been executed since %s. Please consider increasing the execution frequency." : "Hai %s que non se executa ningún traballo. Considere aumentar a frecuencia de execución.",
+    "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Dende %s non se executou ningún traballo. Considere cambiar ao cron do sistema.",
     "Last job ran %s." : "O último traballo executouse %s.",
     "Background job didn’t run yet!" : "O traballo en segundo plano aínda non se executou!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Para un rendemento óptimo é importante configurar correctamente os traballos en segundo plano. Para instancias máis grandes, «Cron» é o axuste recomendado. Vexa a documentación para obter máis información.",

@@ -330,6 +330,8 @@ OC.L10N.register(
     "Start migration" : "Migration beginnen",
     "Background jobs" : "Hintergrund-Aufgaben",
     "Last job execution ran %s. Something seems wrong." : "Letzte Aufgaben-Ausführung lief %s. Etwas scheint falsch zu sein.",
+    "Some jobs haven’t been executed since %s. Please consider increasing the execution frequency." : "Einige Aufträge wurden seit %s nicht mehr ausgeführt. Bitte erwägen Sie, die Ausführungsfrequenz zu erhöhen.",
+    "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Einige Aufträge wurden seit %s nicht mehr ausgeführt. Bitte erwägen Sie die Umstellung auf System-Cron.",
     "Last job ran %s." : "Letzte Aufgabe ausgeführt %s",
     "Background job didn’t run yet!" : "Hintergrund-Aufgabe wurde bislang nicht ausgeführt!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Um die optimale Geschwindigkeit zu erreichen ist es wichtig, dass die Hintergrund-Aktivitäten richtig konfiguriert sind. Für größere Installationen ist 'Cron' die empfohlene Einstellung. Weitere Informationen finden Sie in der Dokumentation.",

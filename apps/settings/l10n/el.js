@@ -330,6 +330,8 @@ OC.L10N.register(
     "Start migration" : "Έναρξη μετάβασης",
     "Background jobs" : "Εργασίες παρασκηνίου",
     "Last job execution ran %s. Something seems wrong." : "Η τελευταία εντολή έδειξε %s. Κάτι φαίνεται λάθος.",
+    "Some jobs haven’t been executed since %s. Please consider increasing the execution frequency." : "Ορισμένες εργασίες δεν εκτελέστηκαν από %s. Σκεφτείτε να αυξήσετε τη συχνότητα εκτέλεσης.",
+    "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Ορισμένες εργασίες δεν εκτελέστηκαν από %s. Σκεφτείτε να μεταβείτε στο σύστημα cron.",
     "Last job ran %s." : "Η τελευταία εργασία %s.",
     "Background job didn’t run yet!" : "Η εργασία παρασκηνίου δεν εκτελέστηκε ακόμη!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Για βέλτιστη απόδοση είναι σημαντικό να ρυθμίσετε σωστά τις εργασίες παρασκηνίου. Για μεγαλύτερα συστήματα, η συνιστώμενη ρύθμιση είναι \"Cron\". Για περισσότερες πληροφορίες, ανατρέξτε στην τεκμηρίωση.",
