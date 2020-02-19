@@ -299,7 +299,7 @@ const Dialogs = {
 			}
 
 			var newButton = self.$filePicker.find('.actions.creatable .button-add')
-			if (type === self.FILEPICKER_TYPE_CHOOSE) {
+			if (type === self.FILEPICKER_TYPE_CHOOSE && !options.allowDirectoryChooser) {
 				newButton.hide()
 			}
 			newButton.on('focus', function() {
