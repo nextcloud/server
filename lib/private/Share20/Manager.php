@@ -1764,6 +1764,15 @@ class Manager implements IManager {
 		return $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
 	}
 
+	public function allowEnumeration(): bool {
+		return $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+	}
+
+	public function limitEnumerationToGroups(): bool {
+		return $this->allowEnumeration() &&
+			$this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+	}
+
 	/**
 	 * Copied from \OC_Util::isSharingDisabledForUser
 	 *
