@@ -624,6 +624,128 @@ class PrincipalTest extends TestCase {
 			['{http://sabredav.org/ns}email-address' => 'user2@foo.bar']));
 	}
 
+	public function testSearchPrincipalWithEnumerationLimitedDisplayname() {
+		$this->shareManager->expects($this->at(0))
+			->method('shareAPIEnabled')
+			->will($this->returnValue(true));
+
+		$this->shareManager->expects($this->at(1))
+			->method('allowEnumeration')
+			->willReturn(true);
+
+		$this->shareManager->expects($this->at(2))
+			->method('limitEnumerationToGroups')
+			->willReturn(true);
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->will($this->returnValue(false));
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->will($this->returnValue('user2'));
+		$user2->method('getDisplayName')->will($this->returnValue('User 2'));
+		$user2->method('getEMailAddress')->will($this->returnValue('user2@foo.bar'));
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')->will($this->returnValue('user3'));
+		$user3->method('getDisplayName')->will($this->returnValue('User 22'));
+		$user3->method('getEMailAddress')->will($this->returnValue('user2@foo.bar123'));
+		$user4 = $this->createMock(IUser::class);
+		$user4->method('getUID')->will($this->returnValue('user4'));
+		$user4->method('getDisplayName')->will($this->returnValue('User 222'));
+		$user4->method('getEMailAddress')->will($this->returnValue('user2@foo.bar456'));
+
+
+		$this->userSession->expects($this->at(0))
+			->method('getUser')
+			->willReturn($user2);
+
+		$this->groupManager->expects($this->at(0))
+			->method('getUserGroupIds')
+			->willReturn(['group1']);
+		$this->groupManager->expects($this->at(1))
+			->method('getUserGroupIds')
+			->willReturn(['group1']);
+		$this->groupManager->expects($this->at(2))
+			->method('getUserGroupIds')
+			->willReturn(['group1']);
+		$this->groupManager->expects($this->at(3))
+			->method('getUserGroupIds')
+			->willReturn(['group2']);
+
+		$this->userManager->expects($this->at(0))
+			->method('searchDisplayName')
+			->with('User')
+			->willReturn([$user2, $user3, $user4]);
+
+
+		$this->assertEquals([
+			'principals/users/user2',
+			'principals/users/user3',
+		], $this->connector->searchPrincipals('principals/users',
+			['{DAV:}displayname' => 'User']));
+	}
+
+	public function testSearchPrincipalWithEnumerationLimitedMail() {
+		$this->shareManager->expects($this->at(0))
+			->method('shareAPIEnabled')
+			->will($this->returnValue(true));
+
+		$this->shareManager->expects($this->at(1))
+			->method('allowEnumeration')
+			->willReturn(true);
+
+		$this->shareManager->expects($this->at(2))
+			->method('limitEnumerationToGroups')
+			->willReturn(true);
+
+		$this->shareManager->expects($this->once())
+			->method('shareWithGroupMembersOnly')
+			->will($this->returnValue(false));
+
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->will($this->returnValue('user2'));
+		$user2->method('getDisplayName')->will($this->returnValue('User 2'));
+		$user2->method('getEMailAddress')->will($this->returnValue('user2@foo.bar'));
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')->will($this->returnValue('user3'));
+		$user3->method('getDisplayName')->will($this->returnValue('User 22'));
+		$user3->method('getEMailAddress')->will($this->returnValue('user2@foo.bar123'));
+		$user4 = $this->createMock(IUser::class);
+		$user4->method('getUID')->will($this->returnValue('user4'));
+		$user4->method('getDisplayName')->will($this->returnValue('User 222'));
+		$user4->method('getEMailAddress')->will($this->returnValue('user2@foo.bar456'));
+
+
+		$this->userSession->expects($this->at(0))
+			->method('getUser')
+			->willReturn($user2);
+
+		$this->groupManager->expects($this->at(0))
+			->method('getUserGroupIds')
+			->willReturn(['group1']);
+		$this->groupManager->expects($this->at(1))
+			->method('getUserGroupIds')
+			->willReturn(['group1']);
+		$this->groupManager->expects($this->at(2))
+			->method('getUserGroupIds')
+			->willReturn(['group1']);
+		$this->groupManager->expects($this->at(3))
+			->method('getUserGroupIds')
+			->willReturn(['group2']);
+
+		$this->userManager->expects($this->at(0))
+			->method('getByEmail')
+			->with('user')
+			->willReturn([$user2, $user3, $user4]);
+
+
+		$this->assertEquals([
+			'principals/users/user2',
+			'principals/users/user3'
+		], $this->connector->searchPrincipals('principals/users',
+			['{http://sabredav.org/ns}email-address' => 'user']));
+	}
+
 	public function testFindByUriSharingApiDisabled() {
 		$this->shareManager->expects($this->once())
 			->method('shareApiEnabled')

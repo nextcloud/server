@@ -245,7 +245,8 @@ class Principal implements BackendInterface {
 			return [];
 		}
 
-		$allowEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$allowEnumeration = $this->shareManager->allowEnumeration();
+		$limitEnumeration = $this->shareManager->limitEnumerationToGroups();
 
 		// If sharing is restricted to group members only,
 		// return only members that have groups in common
@@ -259,6 +260,14 @@ class Principal implements BackendInterface {
 			$restrictGroups = $this->groupManager->getUserGroupIds($user);
 		}
 
+		$currentUserGroups = [];
+		if ($limitEnumeration) {
+			$currentUser = $this->userSession->getUser();
+			if ($currentUser) {
+				$currentUserGroups = $this->groupManager->getUserGroupIds($currentUser);
+			}
+		}
+
 		foreach ($searchProperties as $prop => $value) {
 			switch ($prop) {
 				case '{http://sabredav.org/ns}email-address':
@@ -267,6 +276,15 @@ class Principal implements BackendInterface {
 					if (!$allowEnumeration) {
 						$users = \array_filter($users, static function(IUser $user) use ($value) {
 							return $user->getEMailAddress() === $value;
+						});
+					}
+
+					if ($limitEnumeration) {
+						$users = \array_filter($users, function (IUser $user) use ($currentUserGroups, $value) {
+							return !empty(array_intersect(
+									$this->groupManager->getUserGroupIds($user),
+									$currentUserGroups
+								)) || $user->getEMailAddress() === $value;
 						});
 					}
 
@@ -290,6 +308,15 @@ class Principal implements BackendInterface {
 					if (!$allowEnumeration) {
 						$users = \array_filter($users, static function(IUser $user) use ($value) {
 							return $user->getDisplayName() === $value;
+						});
+					}
+
+					if ($limitEnumeration) {
+						$users = \array_filter($users, function (IUser $user) use ($currentUserGroups, $value) {
+							return !empty(array_intersect(
+									$this->groupManager->getUserGroupIds($user),
+									$currentUserGroups
+								)) || $user->getDisplayName() === $value;
 						});
 					}
 
