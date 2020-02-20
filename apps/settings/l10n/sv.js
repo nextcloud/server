@@ -330,6 +330,8 @@ OC.L10N.register(
     "Start migration" : "Starta migrering",
     "Background jobs" : "Bakgrundsjobb",
     "Last job execution ran %s. Something seems wrong." : "Sista jobbexekveringen körde %s. Något verkar vara fel.",
+    "Some jobs haven’t been executed since %s. Please consider increasing the execution frequency." : "Vissa jobb har inte utförts sedan %s. Överväg att justera tid för exekvering.",
+    "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Vissa jobb utfördes inte sedan %s. Överväg att byta till system cron.",
     "Last job ran %s." : "Sista jobbet kördes %s.",
     "Background job didn’t run yet!" : "Bakgrundsjobb har inte kört ännu!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "För optimal prestanda är det viktigt att konfigurera bakgrundsjobb korrekt. För större instanser 'Cron' är den rekommenderade inställningen. Vänligen se dokumentationen för mer information.",
