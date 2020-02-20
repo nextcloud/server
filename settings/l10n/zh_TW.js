@@ -150,6 +150,7 @@ OC.L10N.register(
     "Language" : "語言",
     "User backend" : "使用者資料後端",
     "Storage location" : "儲存位址",
+    "Last login" : "最後登入",
     "Default quota" : "預設儲存容量限制",
     "All languages" : "全部語言",
     "Your apps" : "您的應用程式",

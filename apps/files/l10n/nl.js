@@ -59,6 +59,7 @@ OC.L10N.register(
     "Could not create file \"{file}\"" : "Kon \"{file}\" niet aanmaken",
     "Could not create file \"{file}\" because it already exists" : "Kon \"{file}\" niet aanmaken, omdat het al bestaat",
     "Could not create folder \"{dir}\" because it already exists" : "Kon map \"{dir}\" niet aanmaken, omdat die al bestaat",
+    "Could not fetch file details \"{file}\"" : "Kon details van \"{file}\" niet ophalen",
     "Error deleting file \"{fileName}\"." : "Fout bij verwijderen bestand \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Geen zoekresultaten voor {tag}{filter}{endtag} in andere mappen",
     "Name" : "Naam",
