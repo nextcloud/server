@@ -151,8 +151,6 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
-
-		$this->setTransactionIsolation(TransactionIsolationLevel::READ_COMMITTED);
 	}
 
 	/**
