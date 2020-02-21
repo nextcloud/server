@@ -79,6 +79,7 @@ return array(
     'OCA\\DAV\\CalDAV\\Search\\Xml\\Filter\\SearchTermFilter' => $baseDir . '/../lib/CalDAV/Search/Xml/Filter/SearchTermFilter.php',
     'OCA\\DAV\\CalDAV\\Search\\Xml\\Request\\CalendarSearchReport' => $baseDir . '/../lib/CalDAV/Search/Xml/Request/CalendarSearchReport.php',
     'OCA\\DAV\\CalDAV\\WebcalCaching\\Plugin' => $baseDir . '/../lib/CalDAV/WebcalCaching/Plugin.php',
+    'OCA\\DAV\\CalDAV\\WebcalCaching\\RefreshWebcalService' => $baseDir . '/../lib/CalDAV/WebcalCaching/RefreshWebcalService.php',
     'OCA\\DAV\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\DAV\\CardDAV\\AddressBook' => $baseDir . '/../lib/CardDAV/AddressBook.php',
     'OCA\\DAV\\CardDAV\\AddressBookImpl' => $baseDir . '/../lib/CardDAV/AddressBookImpl.php',
