@@ -606,90 +606,6 @@ span.usersLastLoginTooltip {
 	white-space: nowrap;
 }
 
-/* dropdowns will be relative to this element */
-#userlist {
-	position: relative;
-
-	.storageLocation, .userBackend, .lastLogin {
-		display: none;
-	}
-
-	th.name {
-		color: #000;
-	}
-
-	tr {
-		height: 50px;
-	}
-
-	.mailAddress .loading-small {
-		width: 16px;
-		height: 16px;
-		margin-left: -26px;
-		position: relative;
-		top: 3px;
-	}
-
-	.groupsListContainer.hidden {
-		display: none;
-	}
-
-	thead th,
-	thead tr {
-		z-index: 100;
-		background-color: var(--color-main-background);
-		@include position('sticky');
-		// positional attribute is required for position to take affect.
-		top: 0;
-	}
-}
-
-#newuser {
-	.groupsListContainer.hidden {
-		display: none;
-	}
-
-	.multiselect {
-		min-width: 150px !important;
-		position: relative;
-		top: -1px;
-	}
-
-	input {
-		&:not([type='submit']),
-		&:not([type='reset']) {
-			width: 100%;
-		}
-	}
-
-	.userActions {
-		position: sticky;
-		right: 60px;
-		z-index: 20;
-	}
-
-	.userActions input {
-		width: 44px;
-		height: 44px;
-
-		&.icon-close {
-			border: none;
-			background-color: initial;
-			opacity: .5;
-		}
-
-		&:hover {
-			opacity: 1;
-		}
-	}
-}
-
-/* used to highlight a user row in red */
-
-#userlist tr.row-warning {
-	background-color: #FDD;
-}
-
 /* APPS */
 #app-content > svg.app-filter {
 	float: left;
@@ -1496,12 +1412,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 /* USERS LIST -------------------------------------------------------------- */
 #body-settings {
 	$grid-row-height: 60px;
-	$grid-col-min-width: 150px;
+	$grid-col-min-width: 160px;
+	overflow-x: scroll;
 
 	#app-content.user-list-grid {
 		display: grid;
-		grid-auto-columns: 1fr;
-		grid-auto-rows: $grid-row-height;
 		grid-column-gap: 20px;
 
 		.row {
@@ -1509,13 +1424,20 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			// fallback for ie11 no grid
 			display: flex;
 			display: grid;
+			min-height: $grid-row-height;
 			grid-row-start: span 1;
 			grid-gap: 3px;
 			align-items: center;
-			z-index: 0;
 			/* let's define the column until storage path,
 			   what follows will be manually defined  */
-			grid-template-columns: 44px minmax($grid-col-min-width + 30px, 1fr) repeat(auto-fit, minmax($grid-col-min-width, 1fr));
+			grid-template-columns:
+					44px
+					minmax($grid-col-min-width + 30px, 1fr) // username, displayname
+					minmax($grid-col-min-width, 1fr) // password
+					minmax($grid-col-min-width, 1fr) // email
+					minmax(1.5*$grid-col-min-width, 1fr) // groups
+					minmax(1.5*$grid-col-min-width, 1fr) // group admins
+					repeat(auto-fit, minmax($grid-col-min-width, 1fr));
 			border-bottom: var(--color-border) 1px solid;
 
 			&.disabled {
@@ -1531,16 +1453,20 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.userBackend,
 			.lastLogin {
 				min-width: $grid-col-min-width;
-				display: flex;
+
 				color: var(--color-text-dark);
 				vertical-align: baseline;
+				text-overflow: ellipsis;
+				overflow: hidden;
 			}
 
 			.groups,
 			.subadmins,
 			.quota {
+				min-width: $grid-col-min-width;
+
 				.multiselect {
-					min-width: $grid-col-min-width;
+					width: 100%;
 					color: var(--color-text-dark);
 					vertical-align: baseline;
 				}
@@ -1552,10 +1478,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 
 			.userActions {
-				min-width: 44px;
+				display: flex;
+				justify-content: flex-end;
 				position: sticky;
-				right: 40px;
-				z-index: 109;
+				right: 0px;
+				min-width: 88px;
+				background-color: var(--color-main-background);
 			}
 
 			.subtitle {
@@ -1628,12 +1556,15 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				}
 			}
 
+			> form {
+				width: 100%;
+			}
+
 			> div,
 			> form {
 				grid-row: 1;
 				display: inline-flex;
 				color: var(--color-text-lighter);
-				position: relative;
 
 				> input:not(:focus):not(:active) {
 					border-color: transparent;
@@ -1711,9 +1642,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				}
 
 				&.userActions {
-					.action-item {
-						position: absolute;
-					}
+					display: flex;
+					justify-content: flex-end;
 
 					#newsubmit {
 						width: 100%;
@@ -1721,15 +1651,15 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 					.toggleUserActions {
 						position: relative;
-						display: block;
+						display: flex;
 						align-items: center;
+						background-color: var(--color-main-background);
 
 						.icon-more {
 							width: 44px;
 							height: 44px;
 							opacity: .5;
 							cursor: pointer;
-							margin-left: 40px;
 
 							&:hover {
 								opacity: .7;
