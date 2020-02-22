@@ -21,6 +21,7 @@ OC.L10N.register(
     "Check #%s does not exist" : "%s را چک کنید وجود ندارد ",
     "Check %s is invalid or does not exist" : "%s یا وجود ندارد یا معتبر نیست",
     "Flow" : "جریان",
+    "Folder" : "پوشه",
     "Images" : "عکسها",
     "No results" : "نتیجه ای یافت نشد",
     "Predefined URLs" : "URL از پیش تعریف شده ",

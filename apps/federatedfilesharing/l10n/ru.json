@@ -23,6 +23,7 @@
     "Could not find share" : "Не удалось найти общий ресурс",
     "Federated sharing" : "Общий доступ из федеративного хранилища",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Вы получили «{share}» в качестве удалённого ресурса от {user} (от имени {behalf})",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Вам предоставлен доступ к «%3$s» в качестве удалённого ресурса из %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Вы получили {share} в качестве удалённого ресурса от {user}",
     "Accept" : "Принять",
     "Decline" : "Отклонить",

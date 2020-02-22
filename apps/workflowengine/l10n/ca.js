@@ -37,6 +37,7 @@ OC.L10N.register(
     "Select a filter" : "Seleccioneu un filtre",
     "Select a comparator" : "Seleccioneu un comparador",
     "Select a file type" : "Seleccioneu un tipus de fitxer",
+    "Folder" : "Carpeta",
     "Images" : "Imatges",
     "Office documents" : "Documents d'oficina",
     "PDF documents" : "Documents PDF",

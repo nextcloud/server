@@ -20,6 +20,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Kontrolli %s është i pavlefshëm",
     "Check #%s does not exist" : "Kontrolli #%s nuk ekziston",
     "Check %s is invalid or does not exist" : "Kontrolli %s është i pavlefshëm ose nuk ekziston",
+    "Folder" : "Skedari",
     "Images" : "Imazhe ",
     "No results" : "Asnjë rezultat",
     "%s (invisible)" : "%s (e padukshme)",

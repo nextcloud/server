@@ -20,6 +20,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Athugunin %s er ógild",
     "Check #%s does not exist" : "Athugunin #%s er ekki til",
     "Check %s is invalid or does not exist" : "Athugunin %s er ógild eða er ekki til",
+    "Folder" : "Mappa",
     "Images" : "Myndir",
     "No results" : "Engar niðurstöður",
     "%s (invisible)" : "%s (ósýnilegt)",

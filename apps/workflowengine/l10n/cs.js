@@ -48,6 +48,7 @@ OC.L10N.register(
     "Select a comparator" : "Vyberte porovnání",
     "Select a file type" : "Vybrat typ souboru",
     "e.g. httpd/unix-directory" : "např. httpd/unix-directory",
+    "Folder" : "Složka",
     "Images" : "Obrázky",
     "Office documents" : "Kancelářské dokumenty",
     "PDF documents" : "PDF dokumenty",

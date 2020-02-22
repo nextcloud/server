@@ -153,7 +153,6 @@ OC.L10N.register(
     "Copied!" : "Скопійовано!",
     "Copy" : "Копіювати",
     "You do not have permissions to see the details of this user" : "Ви не маєте прав для перегляду деталей про цього користувача",
-    "The backend does not support changing the display name" : "Бекенд не підтримує зміну відображуваного імені",
     "Add user in group" : "Додати користувача в групу",
     "Set user as admin for" : "Встановити користувача як адміністратора для",
     "Select user quota" : "Виберіть квоту користувача",
@@ -311,6 +310,7 @@ OC.L10N.register(
     "Change password" : "Змінити пароль",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Офіційні додатки розробляються спільнотою та в межах спільноти. Вони пропонують основну функціональність і готові до використання в продакшні.",
     "Official" : "Офіційні",
+    "The backend does not support changing the display name" : "Бекенд не підтримує зміну відображуваного імені",
     "Store credentials" : "Зберігати облікові дані",
     "Set default expiration date" : "Встановити термін дії за замовчуванням",
     "Share" : "Поділитися"
