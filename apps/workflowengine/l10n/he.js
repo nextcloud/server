@@ -16,6 +16,7 @@ OC.L10N.register(
     "Operation #%s does not exist" : "פעולה מס׳ %s לא קיימת",
     "Operation %s does not exist" : "הפעולה %s לא קיימת",
     "Operation %s is invalid" : "הפעולה %s שגויה",
+    "Folder" : "תיקייה",
     "Images" : "תמונות",
     "No results" : "אין תוצאות",
     "%s (invisible)" : "%s (נסתר)",

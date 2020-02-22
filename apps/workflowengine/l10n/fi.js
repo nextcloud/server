@@ -29,6 +29,7 @@ OC.L10N.register(
     "Check %s is invalid or does not exist" : "Tarkistus %s on virheellinen tai sitä ei ole olemassa",
     "Nextcloud workflow engine" : "Nextcloudin työnkulkumoottori",
     "Select a file type" : "Valitse tiedostotyyppi",
+    "Folder" : "Kansio",
     "Images" : "Kuvat",
     "Office documents" : "Toimisto-ohjelmistojen asiakirjat",
     "PDF documents" : "PDF-asiakirjat",

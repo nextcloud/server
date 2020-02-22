@@ -20,6 +20,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Проверка %s е невалидна",
     "Check #%s does not exist" : "Проверка #%s не съществува",
     "Check %s is invalid or does not exist" : "Проверка %s не е валидна или несъществува",
+    "Folder" : "Папка",
     "Images" : "Изображения",
     "No results" : "Няма резултати",
     "Predefined URLs" : "Предефинирани URL-и",

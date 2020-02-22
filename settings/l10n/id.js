@@ -182,7 +182,6 @@ OC.L10N.register(
     "Copy" : "Salin",
     "Could not copy app password. Please copy it manually." : "Tidak dapat menyalin kata sandi aplikasi. Mohon salin secara manual.",
     "You do not have permissions to see the details of this user" : "Anda tidak memiliki ijin untuk melihat detil pengguna ini",
-    "The backend does not support changing the display name" : "Backend tidak mendukung pergantian tampilan nama",
     "Add user in group" : "Tambah pengguna kedalam grup",
     "Set user as admin for" : "Atur pengguna sebagai admin untuk",
     "Select user quota" : "Pilih kuota pengguna",
@@ -421,6 +420,7 @@ OC.L10N.register(
     "Zulu (South Africa)" : "Zulu (Afrika Selatan)",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikasi resmi dikembangkan oleh dan didalam komunitas. Mereka menawarkan fungsi sentral dan siap untuk penggunaan produksi.",
     "Official" : "Resmi",
+    "The backend does not support changing the display name" : "Backend tidak mendukung pergantian tampilan nama",
     "Store credentials" : "Simpan kredensial",
     "Set default expiration date" : "Atur tanggal kadaluarsa default",
     "Share" : "Bagikan"

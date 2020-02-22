@@ -20,6 +20,7 @@ OC.L10N.register(
     "Check %s is invalid" : "La validación %s no es inválida",
     "Check #%s does not exist" : "La validación #%s no existe",
     "Check %s is invalid or does not exist" : "La validación %s es inválida o no existe",
+    "Folder" : "Carpeta",
     "Images" : "Imágenes",
     "No results" : "Sin resultados",
     "%s (invisible)" : "%s (invisible) ",

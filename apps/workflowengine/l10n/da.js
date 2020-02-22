@@ -20,6 +20,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Tjek %s er invalid",
     "Check #%s does not exist" : "Tjek #%s eksisterer",
     "Check %s is invalid or does not exist" : "Tjek %s er invalid eller eksisterer ikke",
+    "Folder" : "Mappe",
     "Images" : "Billeder",
     "No results" : "Ingen resultater",
     "%s (invisible)" : "%s (usynlig)",

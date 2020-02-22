@@ -48,6 +48,7 @@ OC.L10N.register(
     "Select a comparator" : "Seleziona un comparatore",
     "Select a file type" : "Seleziona un tipo di file",
     "e.g. httpd/unix-directory" : "ad es. httpd/unix-directory",
+    "Folder" : "Cartella",
     "Images" : "Immagini",
     "Office documents" : "Documenti di Office",
     "PDF documents" : "Documenti PDF",

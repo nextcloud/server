@@ -39,6 +39,7 @@ OC.L10N.register(
     "Select a filter" : "Hautatu iragazki bat",
     "Select a file type" : "Hautatu fitxategi mota bat",
     "e.g. httpd/unix-directory" : "adib. httpd/unix-direktorioa",
+    "Folder" : "Karpeta",
     "Images" : "Irudiak",
     "PDF documents" : "PDF dokumentuak",
     "Select a tag" : "Hautatu etiketa bat",

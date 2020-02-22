@@ -18,6 +18,7 @@
     "Check %s is invalid" : "Cek %s tidak valid",
     "Check #%s does not exist" : "Cek #%s tidak ada",
     "Check %s is invalid or does not exist" : "Cek %s tidak valid atau tidak ada",
+    "Folder" : "Folder",
     "No results" : "Tidak ada hasil",
     "%s (invisible)" : "%s (tersembunyi)",
     "%s (restricted)" : "%s (terbatas)",

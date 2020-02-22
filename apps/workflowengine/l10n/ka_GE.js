@@ -20,6 +20,7 @@ OC.L10N.register(
     "Check %s is invalid" : "შეამოწმეთ %s არასწორია",
     "Check #%s does not exist" : "შეამოწმეთ #%s არ არსებობს",
     "Check %s is invalid or does not exist" : "შეამოწმეთ %s არასწორია ან არ არსებობს",
+    "Folder" : "დირექტორია",
     "Images" : "სურათები",
     "No results" : "შედეგები არაა",
     "%s (invisible)" : "%s (უჩინარი)",
