@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<p class="settings-hint">
-			{{ t('settings', 'Two-factor authentication can be enforced for all	users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.') }}
+			{{ t('settings', 'Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.') }}
 		</p>
 		<p v-if="loading">
 			<span class="icon-loading-small two-factor-loading" />
@@ -18,7 +18,7 @@
 			<h3>{{ t('settings', 'Limit to groups') }}</h3>
 			{{ t('settings', 'Enforcement of two-factor authentication can be set for certain groups only.') }}
 			<p>
-				{{ t('settings', 'Two-factor authentication is enforced for all	members of the following groups.') }}
+				{{ t('settings', 'Two-factor authentication is enforced for all members of the following groups.') }}
 			</p>
 			<p>
 				<Multiselect v-model="enforcedGroups"
@@ -33,7 +33,7 @@
 					@search-change="searchGroup" />
 			</p>
 			<p>
-				{{ t('settings', 'Two-factor authentication is not enforced for	members of the following groups.') }}
+				{{ t('settings', 'Two-factor authentication is not enforced for members of the following groups.') }}
 			</p>
 			<p>
 				<Multiselect v-model="excludedGroups"
