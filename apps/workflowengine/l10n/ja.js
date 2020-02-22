@@ -21,6 +21,7 @@ OC.L10N.register(
     "Check #%s does not exist" : "チェック #%s は存在しません",
     "Check %s is invalid or does not exist" : "%sのチェックは無効か存在しません",
     "Flow" : "Flow",
+    "Folder" : "フォルダー",
     "Images" : "画像",
     "No results" : "該当なし",
     "%s (invisible)" : "%s (不可視)",

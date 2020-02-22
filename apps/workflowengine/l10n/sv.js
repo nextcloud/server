@@ -47,6 +47,7 @@ OC.L10N.register(
     "Select a comparator" : "Välj en jämförelse",
     "Select a file type" : "Välj en filtyp",
     "e.g. httpd/unix-directory" : "t.ex. httpd/unix-directory",
+    "Folder" : "Mapp",
     "Images" : "Bilder",
     "Office documents" : "Officedokument",
     "PDF documents" : "PDF-dokument",

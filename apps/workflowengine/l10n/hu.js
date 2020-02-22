@@ -21,6 +21,7 @@ OC.L10N.register(
     "Check #%s does not exist" : "#%s nem létezik, ellenőrizd",
     "Check %s is invalid or does not exist" : "%s érvénytelen vagy nem létezik, ellenőrizd",
     "Flow" : "Flow",
+    "Folder" : "Mappa",
     "Images" : "Képek",
     "No results" : "Nincs találat",
     "%s (invisible)" : "%s (láthatatlan)",

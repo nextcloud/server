@@ -48,6 +48,7 @@ OC.L10N.register(
     "Select a comparator" : "Selecteer een comparator",
     "Select a file type" : "Selecteer een bestandstype",
     "e.g. httpd/unix-directory" : "bijv. httpd/unix-directory",
+    "Folder" : "Map",
     "Images" : "Afbeeldingen",
     "Office documents" : "Office documenten",
     "PDF documents" : "PDF documenten",

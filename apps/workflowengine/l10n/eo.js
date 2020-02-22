@@ -37,6 +37,7 @@ OC.L10N.register(
     "Select a comparator" : "Elekti komparilon",
     "Select a file type" : "Elekti dosierformon",
     "e.g. httpd/unix-directory" : "ekz. httpd/unix-directory",
+    "Folder" : "Dosierujo",
     "Images" : "Bildoj",
     "Office documents" : "Oficejaj dokumentoj",
     "PDF documents" : "PDF-dokumentoj",

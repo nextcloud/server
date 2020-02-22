@@ -48,6 +48,7 @@ OC.L10N.register(
     "Select a comparator" : "选择一个比较器",
     "Select a file type" : "选择一个文件类型",
     "e.g. httpd/unix-directory" : "例如： httpd/unix-directory",
+    "Folder" : "文件夹",
     "Images" : "图片",
     "Office documents" : "Office 文档",
     "PDF documents" : "PDF文档",

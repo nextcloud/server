@@ -20,6 +20,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Pārbaude %s ir nederīga",
     "Check #%s does not exist" : "Pārbaude #%s nepastāv",
     "Check %s is invalid or does not exist" : "Pārbaude %s ir nederīga vai nepastāv",
+    "Folder" : "Mape",
     "Images" : "Attēli",
     "No results" : "Nav rezultātu",
     "%s (invisible)" : "%s (neredzams)",
