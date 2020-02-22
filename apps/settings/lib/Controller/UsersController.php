@@ -214,12 +214,7 @@ class UsersController extends Controller {
 		];
 
 		/* QUOTAS PRESETS */
-		$quotaPreset = $this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
-		$quotaPreset = explode(',', $quotaPreset);
-		foreach ($quotaPreset as &$preset) {
-			$preset = trim($preset);
-		}
-		$quotaPreset = array_diff($quotaPreset, array('default', 'none'));
+		$quotaPreset = $this->parseQuotaPreset($this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB'));
 		$defaultQuota = $this->config->getAppValue('files', 'default_quota', 'none');
 
 		\OC::$server->getEventDispatcher()->dispatch('OC\Settings\Users::loadAdditionalScripts');
@@ -245,6 +240,19 @@ class UsersController extends Controller {
 		$serverData['newUserRequireEmail'] = $this->config->getAppValue('core', 'newUser.requireEmail', 'no') === 'yes';
 
 		return new TemplateResponse('settings', 'settings-vue', ['serverData' => $serverData]);
+	}
+
+	/**
+	 * Parse the app value for quota_present
+	 *
+	 * @param string $quotaPreset
+	 * @return array
+	 */
+	protected function parseQuotaPreset(string $quotaPreset): array {
+		// 1 GB, 5 GB, 10 GB => [1 GB, 5 GB, 10 GB]
+		$presets = array_filter(array_map('trim', explode(',', $quotaPreset)));
+		// Drop default and none, Make array indexes numerically
+		return array_values(array_diff($presets, ['default', 'none']));
 	}
 
 	/**
