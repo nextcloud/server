@@ -15,6 +15,7 @@ OC.L10N.register(
     "Operation #%s does not exist" : "Tegevus # %s ei leitud",
     "Operation %s does not exist" : "Tegevust %s ei leitud",
     "Operation %s is invalid" : "Tegevus %s on vigane",
+    "Folder" : "Kaust",
     "Images" : "Pildid",
     "No results" : "Vasteid ei leitud",
     "%s (invisible)" : "%s (nähtamatu)",

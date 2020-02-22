@@ -20,6 +20,7 @@ OC.L10N.register(
     "Check %s is invalid" : "檢查 %s 無效",
     "Check #%s does not exist" : "檢查 #%s 不存在",
     "Check %s is invalid or does not exist" : "檢查 %s 無效或不存在",
+    "Folder" : "資料夾",
     "Images" : "圖片",
     "No results" : "沒有符合搜尋的項目",
     "%s (invisible)" : "%s （隱藏）",

@@ -48,6 +48,7 @@ OC.L10N.register(
     "Select a comparator" : "Odaberi usporednik",
     "Select a file type" : "Odaberi vrstu datoteke",
     "e.g. httpd/unix-directory" : "npr. httpd/unix-directory",
+    "Folder" : "Mapa",
     "Images" : "Slike",
     "Office documents" : "Dokumenti paketa Office",
     "PDF documents" : "Dokumenti PDF",

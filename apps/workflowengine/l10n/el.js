@@ -48,6 +48,7 @@ OC.L10N.register(
     "Select a comparator" : "Επιλέξτε για σύγκριση",
     "Select a file type" : "Επιλέξτε τύπο αρχείου",
     "e.g. httpd/unix-directory" : "π.χ. httpd/unix-directory",
+    "Folder" : "Φάκελος",
     "Images" : "Εικόνες",
     "Office documents" : "Έγγραφα γραφείου",
     "PDF documents" : "Έγγραφα PDF",

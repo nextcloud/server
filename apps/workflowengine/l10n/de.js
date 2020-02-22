@@ -48,6 +48,7 @@ OC.L10N.register(
     "Select a comparator" : "Wähle einen Komparator",
     "Select a file type" : "Dateityp auswählen",
     "e.g. httpd/unix-directory" : "z.B. httpd/unix-directory",
+    "Folder" : "Benötigt keine Übersetzung. Für iOS wird nur die formelle Übersetzung verwendet (de_DE).",
     "Images" : "Bilder",
     "Office documents" : "Office Dokumente",
     "PDF documents" : "PDF-Dokumente",
