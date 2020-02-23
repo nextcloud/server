@@ -204,6 +204,7 @@
     "Enable server-side encryption" : "啟用伺服器端加密",
     "Please read carefully before activating server-side encryption: " : "在您啟動伺服器端加密之前，請仔細閱讀：",
     "Once encryption is enabled, all files uploaded to the server from that point forward will be encrypted at rest on the server. It will only be possible to disable encryption at a later date if the active encryption module supports that function, and all pre-conditions (e.g. setting a recover key) are met." : "一旦加密模式啟動，從各地上傳到伺服器端的檔案都會被加密，若日後要停用加密，需要加密模組的支援，而且所有的設定（例如：還原金鑰）都正確",
+    "Encryption alone does not guarantee security of the system. Please see documentation for more information about how the encryption app works, and the supported use cases." : "單獨加密不能保證系統安全性。請參考加密 App 運作原理，及支援之使用案例的文件，以取得更多資訊。",
     "Be aware that encryption always increases the file size." : "請注意，加密一定會增加檔案的大小",
     "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "定時備份您的資料沒有壞處，若您有啟用加密，請確保您也有備份加密金鑰",
     "This is the final warning: Do you really want to enable encryption?" : "這是最後的警告：請問您真的要開啟加密模式？",

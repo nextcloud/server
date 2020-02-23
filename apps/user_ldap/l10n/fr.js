@@ -176,6 +176,7 @@ OC.L10N.register(
     "Email Field" : "Champ Email",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Définissez le courrier électronique de l'utilisateur à partir de leur attribut LDAP. Laissez le champ vide pour appliquer le comportement par défaut.",
     "User Home Folder Naming Rule" : "Règle de nommage du répertoire utilisateur",
+    "Leave empty for username (default). Otherwise, specify an LDAP/AD attribute." : "Laisser vide pour le nom d’utilisateur (par défaut). Sinon, spécifiez un attribut LDAP/AD.",
     "\"$home\" Placeholder Field" : "\"$home\" Champ Placeholder",
     "$home in an external storage configuration will be replaced with the value of the specified attribute" : "$home dans la configuration du stockage externe sera remplacé avec la valeur de l'attribut spécifié",
     "Internal Username" : "Nom d'utilisateur interne",
