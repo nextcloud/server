@@ -57,6 +57,7 @@
     "Could not create file \"{file}\"" : "Impossible de créer le fichier \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Impossible de créer le fichier \"{file}\" car il existe déjà",
     "Could not create folder \"{dir}\" because it already exists" : "Impossible de créer le dossier \"{dir}\" car il existe déjà",
+    "Could not fetch file details \"{file}\"" : "Impossible de récupérer les détails du fichier \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Erreur à la suppression du fichier \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Aucun résultat dans d'autres dossiers pour {tag}{filter}{endtag}",
     "Name" : "Nom",
