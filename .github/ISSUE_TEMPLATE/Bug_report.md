@@ -18,7 +18,7 @@ Nextcloud is an open source project backed by Nextcloud GmbH. Most of our volunt
 Guidelines for submitting issues:
 
 * Please search the existing issues first, it's likely that your issue was already reported or even fixed.
-    - Go to one of the repositories, click "issues" and type any word in the top search/command bar.
+    - Go to https://github.com/nextcloud and type any word in the top search/command bar. You probably see something like "We couldn’t find any repositories matching ..." then click "Issues" in the left navigation.
     - You can also filter by appending e. g. "state:open" to the search string.
     - More info on search syntax within github: https://help.github.com/articles/searching-issues
     
