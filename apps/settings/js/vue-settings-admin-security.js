@@ -1013,4 +1013,4 @@ t.exports=function(t){return null!=t&&(n(t)||function(t){return"function"==typeo
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 o.default.use(h.a);var v={setEnforced:function(t,e){o.default.set(t,"enforced",e)},setEnforcedGroups:function(t,e){o.default.set(t,"enforcedGroups",e)},setExcludedGroups:function(t,e){o.default.set(t,"excludedGroups",e)}},m=new h.a.Store({strict:!1,state:{enforced:!1,enforcedGroups:[],excludedGroups:[]},mutations:v});r.nc=btoa(OC.requestToken),o.default.prototype.t=t,window.OC=window.OC||{},window.OC.Settings=window.OC.Settings||{},m.replaceState(Object(i.loadState)("settings","mandatory2FAState")),new(o.default.extend(d))({store:m}).$mount("#two-factor-auth-settings")}]);
-//# sourceMappingURL=vue-settings-admin-security.js.map?v=a1a06517a8148a478d7c
+//# sourceMappingURL=vue-settings-admin-security.js.map?v=780e7a263c41f49ee70a
