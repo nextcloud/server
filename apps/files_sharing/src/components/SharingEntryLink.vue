@@ -298,6 +298,7 @@
 <script>
 import { generateUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
+import Vue from 'vue'
 
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
@@ -423,8 +424,8 @@ export default {
 			},
 			set: async function(enabled) {
 				// TODO: directly save after generation to make sure the share is always protected
-				this.share.password = enabled ? await this.generatePassword() : ''
-				this.share.newPassword = this.share.password
+				Vue.set(this.share, 'password', enabled ? await this.generatePassword() : '')
+				Vue.set(this.share, 'newPassword', this.share.password)
 			},
 		},
 
