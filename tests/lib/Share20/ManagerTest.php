@@ -708,6 +708,9 @@ class ManagerTest extends \Test\TestCase {
 
 		$userFolder = $this->createMock(Folder::class);
 		$userFolder->method('getPath')->willReturn('myrootfolder');
+		$userFolder->expects($this->any())
+			->method('getRelativePath')
+			->willReturnArgument(0);
 		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
 
 
