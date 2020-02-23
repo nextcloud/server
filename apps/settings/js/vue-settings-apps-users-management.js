@@ -103,4 +103,4 @@ o.default.use(Kt.a);var de={API_FAILURE:function(e,n){try{var r=n.error.response
  *
  */
 o.default.use(i.default,{defaultHtml:!1}),Object(a.sync)(he,Yt),r.nc=btoa(OC.requestToken),r.p=OC.linkTo("settings","js/"),o.default.prototype.t=t,o.default.prototype.OC=OC,o.default.prototype.OCA=OCA,o.default.prototype.oc_userconfig=oc_userconfig;var ve=new o.default({router:Yt,store:he,render:function(t){return t(c)}}).$mount("#content")}]);
-//# sourceMappingURL=vue-settings-apps-users-management.js.map?v=6e791188479c961b44e3
+//# sourceMappingURL=vue-settings-apps-users-management.js.map?v=73b70adcea228c3a1179
