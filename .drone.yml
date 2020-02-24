@@ -41,25 +41,6 @@ trigger:
     - pull_request
     - push
 
----
-kind: pipeline
-name: handlebars
-
-steps:
-- name: handlebars
-  image: node
-  commands:
-    - npm i
-    - ./build/compile-handlebars-templates.sh
-
-trigger:
-  branch:
-    - master
-    - stable*
-  event:
-    - pull_request
-    - push
-
 #---
 #kind: pipeline
 #name: syntax-and-phan
