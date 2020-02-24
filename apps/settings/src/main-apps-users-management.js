@@ -44,6 +44,7 @@ __webpack_public_path__ = OC.linkTo('settings', 'js/')
 
 // bind to window
 Vue.prototype.t = t
+Vue.prototype.n = n
 Vue.prototype.OC = OC
 Vue.prototype.OCA = OCA
 // eslint-disable-next-line camelcase

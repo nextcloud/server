@@ -25,7 +25,7 @@
 		<div id="apps-list" class="apps-list" :class="{installed: (useBundleView || useListView), store: useAppStoreView}">
 			<template v-if="useListView">
 				<div v-if="showUpdateAll" class="counter">
-					{{ t('settings', '{counter} apps have an update available', {counter}) }}
+					{{ n('settings', '%n app has an update available', '%n apps have an update available', counter) }}
 					<button v-if="showUpdateAll"
 						id="app-list-update-all"
 						class="primary"
