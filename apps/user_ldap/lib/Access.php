@@ -1712,13 +1712,19 @@ class Access extends LDAPUtility {
 			$uuidOverride = $this->connection->ldapExpertUUIDGroupAttr;
 		}
 
-		if(($this->connection->$uuidAttr !== 'auto') && !$force) {
-			return true;
-		}
+		if(!$force) {
+			if($this->connection->$uuidAttr !== 'auto') {
+				return true;
+			} else if (is_string($uuidOverride) && trim($uuidOverride) !== '') {
+				$this->connection->$uuidAttr = $uuidOverride;
+				return true;
+			}
 
-		if (is_string($uuidOverride) && trim($uuidOverride) !== '' && !$force) {
-			$this->connection->$uuidAttr = $uuidOverride;
-			return true;
+			$attribute = $this->connection->getFromCache($uuidAttr);
+			if(!$attribute === null) {
+				$this->connection->$uuidAttr = $attribute;
+				return true;
+			}
 		}
 
 		foreach(self::UUID_ATTRIBUTES as $attribute) {
@@ -1727,27 +1733,29 @@ class Access extends LDAPUtility {
 				if(isset($ldapRecord[$attribute])) {
 					$this->connection->$uuidAttr = $attribute;
 					return true;
-				} else {
-					continue;
 				}
+				continue;
 			}
 
 			$value = $this->readAttribute($dn, $attribute);
 			if(is_array($value) && isset($value[0]) && !empty($value[0])) {
-				\OCP\Util::writeLog(
-					'user_ldap',
-					'Setting '.$attribute.' as '.$uuidAttr,
-					ILogger::DEBUG
+				\OC::$server->getLogger()->debug(
+					'Setting {attribute} as {subject}',
+					[
+						'app' => 'user_ldap',
+						'attribute' => $attribute,
+						'subject' => $uuidAttr
+					]
 				);
 				$this->connection->$uuidAttr = $attribute;
+				$this->connection->writeToCache($uuidAttr, $attribute);
 				return true;
+			} elseif ($value === false) {
+				// record not available
+				return false;
 			}
 		}
-		\OCP\Util::writeLog(
-			'user_ldap',
-			'Could not autodetect the UUID attribute',
-			ILogger::ERROR
-		);
+		\OC::$server->getLogger()->debug('Could not autodetect the UUID attribute', ['app' => 'user_ldap']);
 
 		return false;
 	}
