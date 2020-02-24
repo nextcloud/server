@@ -134,6 +134,9 @@ Eventually replace sensitive data as the name/IP-address of your LDAP server or 
 **Operating system:**
 
 ### Logs
+
+<!--- Reports without logs might be closed as unqualified reports! -->
+
 #### Web server error log
 <details>
 <summary>Web server error log</summary>
