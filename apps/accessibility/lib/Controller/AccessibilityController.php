@@ -314,7 +314,7 @@ class AccessibilityController extends Controller {
 			$scss->compile($variables);
 			$this->injectedVariables = $variables;
 		} catch (ParserException $e) {
-			$this->logger->error($e, ['app' => 'core']);
+			$this->logger->logException($e, ['app' => 'core']);
 		}
 		return $variables;
 	}
