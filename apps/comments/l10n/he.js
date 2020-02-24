@@ -27,6 +27,7 @@ OC.L10N.register(
     "Error occurred while updating comment with id {id}" : "שגיאה אירעה כאשר עודכנה תגובה עם מספר זיהוי {id}",
     "Error occurred while posting comment" : "אירעה שגיאה בזמן פרסום תגובה",
     "_%n unread comment_::_%n unread comments_" : ["תגובה אחת שלא נקראה","%n תגובות שלא נקראו","%n תגובות שלא נקראו","%n תגובות שלא נקראו"],
+    "_1 new comment_::_{unread} new comments_" : ["הערה חדשה אחת","{unread} הערות חדשות","{unread} הערות חדשות","{unread} הערות חדשות"],
     "Comment" : "תגובה"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
