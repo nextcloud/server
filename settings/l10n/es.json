@@ -147,7 +147,6 @@
     "Admin documentation" : "Documentación de administrador",
     "Developer documentation" : "Documentación de desarrollador",
     "Update to {update}" : "Actualizar a {update}",
-    "{counter} apps have an update available" : "{counter} apps tienen una actualización disponible",
     "Update all" : "Actualizar todo",
     "Results from other categories" : "Resultados de otras categorías",
     "No apps found for your version" : "No se han encontrado aplicaciones para su versión",
@@ -157,7 +156,7 @@
     "Enable" : "Activar",
     "Enable untested app" : "Activar app no testada",
     "The app will be downloaded from the app store" : "La app va a ser descargada de una tienda de aplicaciones",
-    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Esta app no está marcada como compatible con tu versión de Nextcloud. Si continúas, aún serás capaz de instalar la app. Ten en cuenta que la app podría no funcionar según lo esperado.",
+    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Esta app no está marcada como compatible con tu versión de Nextcloud. Si continúas podrás instalar la app, pero ten en cuenta que podría no funcionar según lo esperado.",
     "Marked for remote wipe" : "Marcado para borrado remoto",
     "Device settings" : "Configuración del dispositivo",
     "Allow filesystem access" : "Permitir acceso al sistema de archivos",
@@ -838,6 +837,7 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php se registra en un servicio webcron para llamar a cron.php cada 15 minutos a través de HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Usar el cron del sistema para ejecutar el archivo cron.php cada 15 minutos.",
     "Set default expiration date" : "Establecer fecha de caducidad predeterminada",
-    "Share" : "Compartir"
+    "Share" : "Compartir",
+    "{counter} apps have an update available" : "{counter} apps tienen una actualización disponible"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

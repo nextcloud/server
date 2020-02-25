@@ -87,6 +87,7 @@
     "%s enter the database username." : "%s введите имя пользователя базы данных.",
     "%s enter the database name." : "%s введите имя базы данных.",
     "%s you may not use dots in the database name" : "%s Вы не можете использовать точки в имени базы данных",
+    "MySQL username and/or password not valid" : "Неверное имя пользователя и/или пароль для подключения к MySQL",
     "You need to enter details of an existing account." : "Необходимо уточнить данные существующего акаунта.",
     "Oracle connection could not be established" : "Соединение с Oracle не может быть установлено",
     "Oracle username and/or password not valid" : "Неверное имя пользователя и/или пароль Oracle",

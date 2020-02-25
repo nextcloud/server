@@ -149,7 +149,6 @@ OC.L10N.register(
     "Admin documentation" : "Yönetici belgeleri",
     "Developer documentation" : "Geliştirici belgeleri",
     "Update to {update}" : "{update} sürümüne güncelle",
-    "{counter} apps have an update available" : "{counter} uygulama için güncelleme yayınlanmış",
     "Update all" : "Tümünü güncelle",
     "Results from other categories" : "Diğer kategorilerden sonuçlar",
     "No apps found for your version" : "Sürümünüze uygun bir uygulama bulunamadı",
@@ -838,6 +837,7 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php, HTTP üzerinden 15 dakikada bir yürütülmesi için webcron hizmetine kaydedildi.",
     "Use system cron service to call the cron.php file every 15 minutes." : "15 dakikada bir cron.php dosyasının çağrılması için sistem cron hizmeti kullanılsın.",
     "Set default expiration date" : "Varsayılan son kullanma tarihini ayarla",
-    "Share" : "Paylaş"
+    "Share" : "Paylaş",
+    "{counter} apps have an update available" : "{counter} uygulama için güncelleme yayınlanmış"
 },
 "nplurals=2; plural=(n > 1);");

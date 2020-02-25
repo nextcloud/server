@@ -147,7 +147,6 @@
     "Admin documentation" : "Administratörsdokumentation",
     "Developer documentation" : "Utvecklardokumentation",
     "Update to {update}" : "Uppdatera till {update}",
-    "{counter} apps have an update available" : "{counter} appar har en uppdatering tillgänglig",
     "Update all" : "Uppdatera alla",
     "Results from other categories" : "Resultat från andra kategorier",
     "No apps found for your version" : "Inga appar funna för din version",
@@ -838,6 +837,7 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php är registrerat hos en webcron-tjänst att köra cron.php varje kvart över HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Använd systemets cron-tjänst för att anropa cron.php varje kvart.",
     "Set default expiration date" : "Ställ in standardutgångsdatum",
-    "Share" : "Dela"
+    "Share" : "Dela",
+    "{counter} apps have an update available" : "{counter} appar har en uppdatering tillgänglig"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
