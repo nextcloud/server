@@ -147,7 +147,6 @@
     "Admin documentation" : "Документация для администратора",
     "Developer documentation" : "Документация для разработчиков",
     "Update to {update}" : "Обновить до {update}",
-    "{counter} apps have an update available" : "Возможно обновить {counter} приложение(ий).",
     "Update all" : "Обновить все",
     "Results from other categories" : "Результаты из других категорий",
     "No apps found for your version" : "Приложений, совместимых с установленной версией Nextcloud, не найдено",
@@ -327,6 +326,8 @@
     "Start migration" : "Запустить миграцию",
     "Background jobs" : "Фоновые задания",
     "Last job execution ran %s. Something seems wrong." : "Последнее задание было выполнено %s. Похоже, что-то не в порядке.",
+    "Some jobs haven’t been executed since %s. Please consider increasing the execution frequency." : "Некоторые фоновые задания не выполнялись с %s. Рассмотрите возможность увеличения частоты выполнения фоновых заданий.",
+    "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Некоторые фоновые задачи не выполнялись с %s. Рассмотрите возможность использования службы cron для выполнения фоновых заданий.",
     "Last job ran %s." : "Последнее задание выполнено %s.",
     "Background job didn’t run yet!" : "Фоновые задания ещё не выполнялись!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Для оптимальной производительности важно правильно настроить выполнение задач в фоновом режиме. Для крупных развёртываний рекомендуется использовать параметр «Cron». Обратитесь к документации для получения дополнительной информации.",
@@ -836,6 +837,7 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php зарегистрирован в службе webcron и будет вызываться каждые 15 минут по HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Использовать системный cron для вызова файла cron.php каждые 15 минут.",
     "Set default expiration date" : "Установить дату истечения по умолчанию",
-    "Share" : "Поделиться"
+    "Share" : "Поделиться",
+    "{counter} apps have an update available" : "Возможно обновить {counter} приложение(ий)."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

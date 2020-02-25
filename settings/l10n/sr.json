@@ -147,7 +147,6 @@
     "Admin documentation" : "Администраторска документација",
     "Developer documentation" : "Програмерска документација",
     "Update to {update}" : "Ажурирај на {update}",
-    "{counter} apps have an update available" : "{counter} апликација имају доступно ажурирање",
     "Update all" : "Ажурирај све",
     "Results from other categories" : "Резултати из других категорија",
     "No apps found for your version" : "Нема апликација за вашу верзију",
@@ -836,6 +835,7 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php је регистрован код вебкрон сервиса за позивање cron.php сваких 15 минута преко протокола HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Користите системски крон сервис за позивање cron.php фајла сваких 15 минута.",
     "Set default expiration date" : "Постави подразумевано време истека",
-    "Share" : "Подели"
+    "Share" : "Подели",
+    "{counter} apps have an update available" : "{counter} апликација имају доступно ажурирање"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

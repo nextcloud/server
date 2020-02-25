@@ -149,7 +149,6 @@ OC.L10N.register(
     "Admin documentation" : "Документација за администратор",
     "Developer documentation" : "Документација за програмери",
     "Update to {update}" : "Надгради на {update}",
-    "{counter} apps have an update available" : "за {counter} аликации е достапно ажурирање",
     "Update all" : "Ажурирај ги сите",
     "Results from other categories" : "Резултати од други категории",
     "No apps found for your version" : "За вашата верзија не се пронајдени апликации",
@@ -838,6 +837,7 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php е регистриран на webcron сервисот за да го повикува cron.php секој 15 минути преку HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Го користи системскиот сервис Cron и го повикува cron.php секој 15 минути.",
     "Set default expiration date" : "Постави основен датум на истекување",
-    "Share" : "Сподели"
+    "Share" : "Сподели",
+    "{counter} apps have an update available" : "за {counter} аликации е достапно ажурирање"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

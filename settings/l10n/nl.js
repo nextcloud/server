@@ -146,7 +146,6 @@ OC.L10N.register(
     "Admin documentation" : "Beheerdocumentatie",
     "Developer documentation" : "Ontwikkelaarsdocumentatie",
     "Update to {update}" : "Update naar {update}",
-    "{counter} apps have an update available" : "{counter} apps hebben een update beschikbaar",
     "Update all" : "Update alles",
     "Results from other categories" : "Resultaten van andere categorieën",
     "No apps found for your version" : "Geen apps gevonden voor jouw versie",
@@ -835,6 +834,7 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php is geregistreerd bij een webcron service om elke 15 minuten cron.php over http aan te roepen.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Gebruik de systeemcron service om cron.php elke 15 minuten aan te roepen.",
     "Set default expiration date" : "Stel standaard vervaldatum in",
-    "Share" : "Deel"
+    "Share" : "Deel",
+    "{counter} apps have an update available" : "{counter} apps hebben een update beschikbaar"
 },
 "nplurals=2; plural=(n != 1);");

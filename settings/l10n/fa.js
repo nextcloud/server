@@ -146,7 +146,6 @@ OC.L10N.register(
     "Admin documentation" : "مستندات مدیر",
     "Developer documentation" : "مستندات توسعه‌دهندگان",
     "Update to {update}" : "بروزرسانی به {update} ",
-    "{counter} apps have an update available" : "{counter} برنامه ها دارای یک به روزرسانی هستند",
     "Update all" : "بروزرسانی همه",
     "Results from other categories" : "نتایج از دسته های دیگر",
     "No apps found for your version" : "هیچ برنامه‌ای برای نسخه‌ی شما یافت نشد",
@@ -833,6 +832,7 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php در یک سرویس webcron ثبت نام کرده است تا هر 15 دقیقه از طریق HTTP با cron.php تماس بگیرد.",
     "Use system cron service to call the cron.php file every 15 minutes." : "برای تماس با پرونده cron.php هر 15 دقیقه یکبار از سرویس cron system استفاده کنید.",
     "Set default expiration date" : "اعمال تاریخ اتمام پیش فرض",
-    "Share" : "هم‌رسانی"
+    "Share" : "هم‌رسانی",
+    "{counter} apps have an update available" : "{counter} برنامه ها دارای یک به روزرسانی هستند"
 },
 "nplurals=2; plural=(n > 1);");
