@@ -1418,6 +1418,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	#app-content.user-list-grid {
 		display: grid;
 		grid-column-gap: 20px;
+		grid-auto-rows: minmax(60px, max-content);
 
 		.row {
 			// TODO replace with css4 subgrid when available
@@ -1561,10 +1562,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 
 			> div,
+			> .displayName > form,
 			> form {
 				grid-row: 1;
 				display: inline-flex;
 				color: var(--color-text-lighter);
+				flex-grow: 1;
 
 				> input:not(:focus):not(:active) {
 					border-color: transparent;
@@ -1591,6 +1594,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				&.mailAddress {
 					> input {
 						text-overflow: ellipsis;
+						flex-grow: 1;
 					}
 				}
 
