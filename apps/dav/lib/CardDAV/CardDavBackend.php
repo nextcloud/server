@@ -1063,7 +1063,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				}
 			}
 			$query->setParameter('name', $property->name);
-			$query->setParameter('value', substr($property->getValue(), 0, 254));
+			$query->setParameter('value', mb_substr($property->getValue(), 0, 254));
 			$query->setParameter('preferred', $preferred);
 			$query->execute();
 		}
