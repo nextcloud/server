@@ -130,6 +130,8 @@
 		 * @return true if the file name is valid.
 		 * Throws a string exception with an error message if
 		 * the file name is not valid
+		 *
+		 * NOTE: This function is duplicated in the filepicker inside core/src/OC/dialogs.js
 		 */
 		isFileNameValid: function (name) {
 			var trimmedName = name.trim();

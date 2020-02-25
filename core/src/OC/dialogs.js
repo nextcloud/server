@@ -299,7 +299,7 @@ const Dialogs = {
 			}
 
 			var newButton = self.$filePicker.find('.actions.creatable .button-add')
-			if (type === self.FILEPICKER_TYPE_CHOOSE) {
+			if (type === self.FILEPICKER_TYPE_CHOOSE && !options.allowDirectoryChooser) {
 				newButton.hide()
 			}
 			newButton.on('focus', function() {
@@ -318,7 +318,7 @@ const Dialogs = {
 				self.$filePicker.ocdialog('setEnterCallback', function() {
 					event.stopImmediatePropagation()
 					event.preventDefault()
-					self.$form.submit()
+					self.$filePicker.submit()
 				})
 				var newName = $input.val()
 				var lastPos = newName.lastIndexOf('.')
@@ -336,11 +336,39 @@ const Dialogs = {
 				$form.submit()
 			})
 
+
+			/**
+			 * Checks whether the given file name is valid.
+			 *
+			 * @param name file name to check
+			 * @return true if the file name is valid.
+			 * @throws a string exception with an error message if
+			 * the file name is not valid
+			 *
+			 * NOTE: This function is duplicated in the files app:
+			 * https://github.com/nextcloud/server/blob/b9bc2417e7a8dc81feb0abe20359bedaf864f790/apps/files/js/files.js#L127-L148
+			 */
+			var isFileNameValid = function (name) {
+				var trimmedName = name.trim();
+				if (trimmedName === '.' || trimmedName === '..')
+				{
+					throw t('files', '"{name}" is an invalid file name.', {name: name})
+				} else if (trimmedName.length === 0) {
+					throw t('files', 'File name cannot be empty.')
+				} else if (trimmedName.indexOf('/') !== -1) {
+					throw t('files', '"/" is not allowed inside a file name.')
+				} else if (!!(trimmedName.match(OC.config.blacklist_files_regex))) {
+					throw t('files', '"{name}" is not an allowed filetype', {name: name})
+				}
+
+				return true
+			}
+
 			var checkInput = function() {
 				var filename = $input.val()
 				try {
-					if (!Files.isFileNameValid(filename)) {
-						// Files.isFileNameValid(filename) throws an exception itself
+					if (!isFileNameValid(filename)) {
+						// isFileNameValid(filename) throws an exception itself
 					} else if (self.filelist.find(function(file) {
 						return file.name === this
 					}, filename)) {
