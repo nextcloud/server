@@ -1,5 +1,3 @@
-<?php
-declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
@@ -14,31 +12,31 @@ declare(strict_types=1);
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
-namespace OCA\Viewer\AppInfo;
+import { generateRemoteUrl } from '@nextcloud/router'
+import { getCurrentUser } from '@nextcloud/auth'
 
-use OCA\Viewer\Event\LoadViewer;
-use OCA\Viewer\Listener\LoadViewerScript;
-use OCP\AppFramework\App;
-use OCP\EventDispatcher\IEventDispatcher;
-
-class Application extends App {
-
-	const APP_ID = 'viewer';
-
-	public function __construct() {
-		parent::__construct(self::APP_ID);
-		
-		// listen to sidebar loading event
-		$server = $this->getContainer()->getServer();
-		$eventDispatcher = $server->query(IEventDispatcher::class);
-		$eventDispatcher->addServiceListener(LoadViewer::class, LoadViewerScript::class);
+const getRootPath = function() {
+	if (getCurrentUser()) {
+		return generateRemoteUrl(`dav/files/${getCurrentUser().uid}`)
+	} else {
+		return generateRemoteUrl(`webdav`).replace('/remote.php', '/public.php')
 	}
 }
+
+const isPublic = function() {
+	return !getCurrentUser()
+}
+
+const getToken = function() {
+	return document.getElementById('sharingToken') && document.getElementById('sharingToken').value
+}
+
+export { getRootPath, getToken, isPublic }

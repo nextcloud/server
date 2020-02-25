@@ -20,8 +20,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { generateUrl, generateRemoteUrl } from '@nextcloud/router'
-import { getCurrentUser } from '@nextcloud/auth'
+import { generateUrl } from '@nextcloud/router'
+import { getRootPath, getToken, isPublic } from '../utils/davUtils'
 
 export default {
 	computed: {
@@ -32,16 +32,23 @@ export default {
 		previewpath() {
 			return this.getPreviewIfAny({
 				fileid: this.fileid,
+				filename: this.filename,
 				hasPreview: this.hasPreview,
 				davPath: this.davPath,
 			})
 		},
+
 		/**
 		 * Absolute dav remote path of the file
 		 * @returns {string}
 		 */
 		davPath() {
-			return generateRemoteUrl(`dav/files/${getCurrentUser().uid}${this.filename}`)
+			// TODO: allow proper dav access without the need of basic auth
+			// https://github.com/nextcloud/server/issues/19700
+			if (isPublic()) {
+				return generateUrl(`/s/${getToken()}/download?path=${this.filename.replace(this.basename, '')}&files=${this.basename}`)
+			}
+			return getRootPath() + this.filename
 		},
 	},
 	methods: {
@@ -55,8 +62,12 @@ export default {
 		 * @param {string} data.davPath the absolute dav path
 		 * @returns {String} the absolute url
 		 */
-		getPreviewIfAny({ fileid, hasPreview, davPath }) {
+		getPreviewIfAny({ fileid, filename, hasPreview, davPath }) {
 			if (hasPreview) {
+				// TODO: find a nicer standard way of doing this?
+				if (isPublic()) {
+					return generateUrl(`/apps/files_sharing/publicpreview/${getToken()}?fileId=${fileid}&file=${filename}&x=${screen.width}&y=${screen.height}`)
+				}
 				return generateUrl(`/core/preview?fileId=${fileid}&x=${screen.width}&y=${screen.height}&a=true`)
 			}
 			return davPath
