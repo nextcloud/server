@@ -68,8 +68,19 @@ class App {
 		if (isset($appInfo['namespace'])) {
 			self::$nameSpaceCache[$appId] = trim($appInfo['namespace']);
 		} else {
-			// if the tag is not found, fall back to uppercasing the first letter
-			self::$nameSpaceCache[$appId] = ucfirst($appId);
+			if ($appId !== 'spreed') {
+				// if the tag is not found, fall back to uppercasing the first letter
+				self::$nameSpaceCache[$appId] = ucfirst($appId);
+			} else {
+				// For the Talk app (appid spreed) the above fallback doesn't work.
+				// This leads to a problem when trying to install it freshly,
+				// because the apps namespace is already registered before the
+				// app is downloaded from the appstore, because of the hackish
+				// global route index.php/call/{token} which is registered via
+				// the core/routes.php so it does not have the app namespace.
+				// @ref https://github.com/nextcloud/server/pull/19433
+				self::$nameSpaceCache[$appId] = 'Talk';
+			}
 		}
 
 		return $topNamespace . self::$nameSpaceCache[$appId];
