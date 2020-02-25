@@ -147,7 +147,6 @@
     "Admin documentation" : "Τεκμηρίωση Διαχειριστή",
     "Developer documentation" : "Τεκμηρίωση προγραμματιστή",
     "Update to {update}" : "Ενημέρωση σε {update}",
-    "{counter} apps have an update available" : "Εφαρμογές {counter} έχουν διαθέσιμη ενημέρωση",
     "Update all" : "Ενημέρωση όλων",
     "Results from other categories" : "Αποτελέσματα από άλλες κατηγορίες",
     "No apps found for your version" : "Δεν βρέθηκαν εφαρμογές για αυτή την έκδοση",
@@ -838,6 +837,7 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Το cron.php είναι καταχωρημένο σε μια υπηρεσία webcron ώστε να καλεί το cron.php κάθε 15 λεπτά μέσω HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Χρησιμοποιήστε την cron υπηρεσία του συστήματος για να καλέσετε το cron.php αρχείο κάθε 15 λεπτά.",
     "Set default expiration date" : "Ορισμός ερήμην ημερομηνίας λήξης",
-    "Share" : "Διαμοιρασμός"
+    "Share" : "Διαμοιρασμός",
+    "{counter} apps have an update available" : "Εφαρμογές {counter} έχουν διαθέσιμη ενημέρωση"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

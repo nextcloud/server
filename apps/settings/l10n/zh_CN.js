@@ -149,7 +149,6 @@ OC.L10N.register(
     "Admin documentation" : "管理员文档",
     "Developer documentation" : "开发者文档",
     "Update to {update}" : "更新至 {update}",
-    "{counter} apps have an update available" : "{counter} 个应用有可用的更新",
     "Update all" : "全部更新",
     "Results from other categories" : "来自其他类别的结果",
     "No apps found for your version" : "未找到适合当前版本的应用",
@@ -840,6 +839,7 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php 注册到 webcron 服务上，通过 http 每 15 分钟执行 cron.php。",
     "Use system cron service to call the cron.php file every 15 minutes." : "使用系统定时任务服务每 15 分钟执行一次 cron.php 文件。",
     "Set default expiration date" : "设置默认过期日期",
-    "Share" : "共享"
+    "Share" : "共享",
+    "{counter} apps have an update available" : "{counter} 个应用有可用的更新"
 },
 "nplurals=1; plural=0;");
