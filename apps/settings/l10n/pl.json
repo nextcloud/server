@@ -147,7 +147,6 @@
     "Admin documentation" : "Dokumentacja administratora",
     "Developer documentation" : "Dokumentacja dewelopera",
     "Update to {update}" : "Aktualizuj do {update}",
-    "{counter} apps have an update available" : "Aplikacje {counter} mają dostępną aktualizację",
     "Update all" : "Zaktualizuj wszystko",
     "Results from other categories" : "Wyniki z innych kategorii",
     "No apps found for your version" : "Nie znaleziono aplikacji dla Twojej wersji",
@@ -266,7 +265,7 @@
     "An error occured during the request. Unable to proceed." : "Wystąpił błąd zapytania. Nie można kontynuować.",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikacja została włączona, ponieważ wymaga aktualizacji. Za 5 sekund nastąpi przekierowanie do strony aktualizacji.",
     "App update" : "Aktualizacja aplikacji",
-    "Error: This app can not be enabled because it makes the server unstable" : "Błąd: ta aplikacja nie zostanie włączona ze względu na możliwość niestabilnej pracy serwera.",
+    "Error: This app can not be enabled because it makes the server unstable" : "Błąd: Ta aplikacja nie zostanie włączona ze względu na możliwość niestabilnej pracy serwera.",
     "SSL Root Certificates" : "Certyfikaty główne SSL",
     "Common Name" : "Nazwa CN",
     "Valid until" : "Ważny do",
@@ -838,6 +837,7 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Użyj cron.php, który jest zarejestrowany w usłudze webcron, aby wywoływać cron.php co 15 minut przez HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Użyj usługi systemowej cron, aby wywoływać plik cron.php co 15 minut.",
     "Set default expiration date" : "Ustaw domyślną datę wygaśnięcia",
-    "Share" : "Udostępnij"
+    "Share" : "Udostępnij",
+    "{counter} apps have an update available" : "Aplikacje {counter} mają dostępną aktualizację"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

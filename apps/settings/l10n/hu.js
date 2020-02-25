@@ -143,7 +143,6 @@ OC.L10N.register(
     "Admin documentation" : "Rendszergazdai dokumentáció",
     "Developer documentation" : "Fejlesztői dokumentáció",
     "Update to {update}" : "Frissítés erre: {update}",
-    "{counter} apps have an update available" : "{counter} alkalmazás frissítése érhető el",
     "Update all" : "Összes frissítése",
     "Results from other categories" : "Eredmények más kategóriákból",
     "No apps found for your version" : "Nem található alkalmazás a verziód számára",
@@ -465,6 +464,7 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "a cron.php a webcron szolgáltatásban van regisztrálva 15 percenkénti meghívásra HTTP-n keresztül.",
     "Use system cron service to call the cron.php file every 15 minutes." : "A rendszer cron szolgáltatásának használata a cron.php meghívására 15 percenként.",
     "Set default expiration date" : "Alapértelmezett lejárati idő beállítása",
-    "Share" : "Megosztás"
+    "Share" : "Megosztás",
+    "{counter} apps have an update available" : "{counter} alkalmazás frissítése érhető el"
 },
 "nplurals=2; plural=(n != 1);");

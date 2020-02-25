@@ -149,7 +149,6 @@ OC.L10N.register(
     "Admin documentation" : "Documentación do administrador",
     "Developer documentation" : "Documentación do desenvolvedor",
     "Update to {update}" : "Actualizar a {update}",
-    "{counter} apps have an update available" : "{counter} aplicacións teñen unha actualización pendente.",
     "Update all" : "Actualizar todo",
     "Results from other categories" : "Resultados doutras categorías",
     "No apps found for your version" : "Non se atoparon aplicacións para a súa versión",
@@ -840,6 +839,7 @@ OC.L10N.register(
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php está rexistrado nun servizo de WebCron para chamar a cron.php cada 15 minutos a través de HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Use o servizo «cron» do sistema para chamar ao ficheiro cron.php cada 15 minutos.",
     "Set default expiration date" : "Definir a data predeterminada de caducidade",
-    "Share" : "Compartir"
+    "Share" : "Compartir",
+    "{counter} apps have an update available" : "{counter} aplicacións teñen unha actualización pendente."
 },
 "nplurals=2; plural=(n != 1);");
