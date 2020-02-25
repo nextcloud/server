@@ -98,7 +98,7 @@
 
 .file-drag, .file-drag #filestable tbody tr, .file-drag #filestable tbody tr:hover {
 	transition: background-color 0.3s ease!important;
-	background-color: rgb(179, 230, 255) !important;
+	background-color: var(--color-primary-light) !important;
 }
 
 .app-files #app-content.dir-drop {
@@ -110,7 +110,7 @@
 }
 
 .app-files #app-content.dir-drop #filestable tbody tr.dropping-to-dir{
-	background-color: rgb(179, 230, 255) !important;
+	background-color: var(--color-primary-light) !important;
 }
 
 /* icons for sidebar */
