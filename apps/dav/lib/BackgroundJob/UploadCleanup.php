@@ -55,10 +55,9 @@ class UploadCleanup extends TimedJob {
 		$uid = $argument['uid'];
 		$folder = $argument['folder'];
 
-		$userFolder = $this->rootFolder->getUserFolder($uid);
-		$userRoot = $userFolder->getParent();
-
 		try {
+			$userFolder = $this->rootFolder->getUserFolder($uid);
+			$userRoot = $userFolder->getParent();
 			/** @var Folder $uploads */
 			$uploads = $userRoot->get('uploads');
 			/** @var Folder $uploadFolder */
