@@ -152,6 +152,7 @@
     "No apps found for your version" : "Inga appar funna för din version",
     "Disable all" : "Inaktivera alla",
     "Enable all" : "Aktivera alla",
+    "_%n app has an update available_::_%n apps have an update available_" : ["%n app har en uppdatering tillgänglig","%n appar har en uppdatering tillgänglig"],
     "Download and enable" : "Hämta och aktivera",
     "Enable" : "Aktivera",
     "Enable untested app" : "Aktivera otestad app",

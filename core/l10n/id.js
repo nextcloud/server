@@ -93,6 +93,8 @@ OC.L10N.register(
     "Name" : "Nama",
     "Size" : "Ukuran",
     "Modified" : "Dimodifikasi",
+    "\"{name}\" is an invalid file name." : "\"{name}\" adalah nama berkas yang tidak sah.",
+    "File name cannot be empty." : "Nama berkas tidak boleh kosong.",
     "{newName} already exists" : "{newName} sudah ada",
     "Choose" : "Pilih",
     "Copy" : "Salin",
