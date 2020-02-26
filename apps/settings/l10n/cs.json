@@ -152,6 +152,7 @@
     "No apps found for your version" : "Nebyly nalezeny aplikace pro vaši verzi",
     "Disable all" : "Zakázat vše",
     "Enable all" : "Zapnout vše",
+    "_%n app has an update available_::_%n apps have an update available_" : ["pro %n aplikaci je k dispozici aktualizace","pro %n aplikace jsou k dispozici aktualizace","pro %n aplikací jsou k dispozici aktualizace","pro %n aplikace jsou k dispozici aktualizace"],
     "Download and enable" : "Stáhnout a zapnout",
     "Enable" : "Zapnout",
     "Enable untested app" : "Zapnout nevyzkoušenou aplikaci",
