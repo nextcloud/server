@@ -72,6 +72,14 @@
 						class="checkbox">
 					<label for="showStoragePath">{{ t('settings', 'Show storage path') }}</label>
 				</div>
+				<div>
+					<input id="sendWelcomeMail"
+						v-model="sendWelcomeMail"
+						:disabled="loadingSendMail"
+						type="checkbox"
+						class="checkbox">
+					<label for="sendWelcomeMail">{{ t('settings', 'Send email to new user') }}</label>
+				</div>
 			</AppNavigationSettings>
 		</AppNavigation>
 		<AppContent>
@@ -85,6 +93,8 @@
 </template>
 
 <script>
+import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
 import Vue from 'vue'
 import VueLocalStorage from 'vue-localstorage'
 import {
@@ -127,6 +137,7 @@ export default {
 			externalActions: [],
 			showAddGroupEntry: false,
 			loadingAddGroup: false,
+			loadingSendMail: false,
 			showConfig: {
 				showStoragePath: false,
 				showUserBackend: false,
@@ -204,6 +215,26 @@ export default {
 				this.selectedQuota = quota
 			},
 
+		},
+
+		sendWelcomeMail: {
+			get() {
+				return this.settings.newUserSendEmail
+			},
+			async set(value) {
+				try {
+					this.loadingSendMail = true
+					this.$store.commit('setServerData', {
+						...this.settings,
+						newUserSendEmail: value,
+					})
+					await axios.post(generateUrl(`/settings/users/preferences/newUser.sendEmail`), { value: value ? 'yes' : 'no' })
+				} catch (e) {
+					console.error('could not update newUser.sendEmail preference: ' + e.message, e)
+				} finally {
+					this.loadingSendMail = false
+				}
+			},
 		},
 
 		// BUILD APP NAVIGATION MENU OBJECT
