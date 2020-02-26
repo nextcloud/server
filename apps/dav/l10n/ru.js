@@ -67,7 +67,7 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "Встреча «%1$s» с %2$s отменена.",
     "Invitation updated" : "Приглашение обновлено",
     "The meeting »%1$s« with %2$s was updated." : "Встреча «%1$s» с %2$s обновлена.",
-    "%1$s invited you to »%2$s«" : "%1$s приглашает вас в  «%2$s»",
+    "%1$s invited you to »%2$s«" : "%1$s приглашает вас в «%2$s»",
     "When:" : "Когда:",
     "Link:" : "Ссылка:",
     "Accept" : "Принять",
