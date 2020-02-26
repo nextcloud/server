@@ -88,6 +88,7 @@ OC.L10N.register(
     "Welcome aboard %s" : "%s, sveikiname prisijungus",
     "Welcome to your %s account, you can add, protect, and share your data." : "Turėdami %s paskyrą duomenis galite pridėti, apsaugoti ir jais pasidalinti.",
     "Your username is: %s" : "Jūsų naudotojo vardas yra: %s",
+    "Go to %s" : "Pereiti į %s",
     "Install Client" : "Įdiegti kliento programą",
     "Additional settings" : "Papildomi nustatymai",
     "Groupware" : "Grupinio darbo įranga",
