@@ -152,6 +152,7 @@
     "No apps found for your version" : "Pas d'application trouvée pour votre version",
     "Disable all" : "Tout désactiver",
     "Enable all" : "Tout activer",
+    "_%n app has an update available_::_%n apps have an update available_" : ["%n application ayant une mise à jour disponible","%n applications ayant une mise à jour disponible"],
     "Download and enable" : "Télécharger et activer",
     "Enable" : "Activer",
     "Enable untested app" : "Activer les app non-testées",

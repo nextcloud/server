@@ -154,6 +154,7 @@ OC.L10N.register(
     "No apps found for your version" : "Non se atoparon aplicacións para a súa versión",
     "Disable all" : "Desactivar todo",
     "Enable all" : "Activar todo",
+    "_%n app has an update available_::_%n apps have an update available_" : ["%n aplicación ten unha actualización dispòñíbel.","%n aplicacións teñen unha actualización dispoñíbel."],
     "Download and enable" : "Descargar e activar",
     "Enable" : "Activar",
     "Enable untested app" : "Activar a aplicación sen probar",
