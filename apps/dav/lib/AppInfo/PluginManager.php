@@ -192,7 +192,7 @@ class PluginManager {
 	 *
 	 * @return string[]
 	 */
-	private function extractAddressBookPluginList(array $array):array {
+	private function extractAddressBookPluginList(array $array): array {
 		if (!isset($array['sabre']) || !is_array($array['sabre'])) {
 			return [];
 		}

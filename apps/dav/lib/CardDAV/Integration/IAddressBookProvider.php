@@ -20,13 +20,13 @@ interface IAddressBookProvider {
 	public function getAppId(): string;
 
 	/**
-	 * Fetches all calendars for a given principal uri
+	 * Fetches all address books for a given principal uri
 	 *
 	 * @since 19.0.0
 	 * @param string $principalUri E.g. principals/users/user1
-	 * @return ExternalAddressBook[] Array of all calendars
+	 * @return ExternalAddressBook[] Array of all address books
 	 */
-	public function fetchAllForCalendarHome(string $principalUri): array;
+	public function fetchAllForAddressBookHome(string $principalUri): array;
 
 	/**
 	 * Checks whether plugin has a calendar for a given principalUri and calendarUri
@@ -36,7 +36,7 @@ interface IAddressBookProvider {
 	 * @param string $calendarUri E.g. personal
 	 * @return bool True if calendar for principalUri and calendarUri exists, false otherwise
 	 */
-	public function hasCalendarInCalendarHome(string $principalUri, string $calendarUri): bool;
+	public function hasAddressBookInCalendarHome(string $principalUri, string $calendarUri): bool;
 
 	/**
 	 * Fetches a calendar for a given principalUri and calendarUri
@@ -48,6 +48,6 @@ interface IAddressBookProvider {
 	 * @return ExternalAddressBook|null Calendar if it exists, null otherwise
 	 *@since 19.0.0
 	 */
-	public function getCalendarInCalendarHome(string $principalUri, string $calendarUri): ?ExternalAddressBook;
+	public function getAddressBookInCalendarHome(string $principalUri, string $calendarUri): ?ExternalAddressBook;
 
 }
