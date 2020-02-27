@@ -106,6 +106,8 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CardDAV\\Converter' => __DIR__ . '/..' . '/../lib/CardDAV/Converter.php',
         'OCA\\DAV\\CardDAV\\HasPhotoPlugin' => __DIR__ . '/..' . '/../lib/CardDAV/HasPhotoPlugin.php',
         'OCA\\DAV\\CardDAV\\ImageExportPlugin' => __DIR__ . '/..' . '/../lib/CardDAV/ImageExportPlugin.php',
+        'OCA\\DAV\\CardDAV\\Integration\\ExternalAddressBook' => __DIR__ . '/..' . '/../lib/CardDAV/Integration/ExternalAddressBook.php',
+        'OCA\\DAV\\CardDAV\\Integration\\IAddressBookProvider' => __DIR__ . '/..' . '/../lib/CardDAV/Integration/IAddressBookProvider.php',
         'OCA\\DAV\\CardDAV\\MultiGetExportPlugin' => __DIR__ . '/..' . '/../lib/CardDAV/MultiGetExportPlugin.php',
         'OCA\\DAV\\CardDAV\\PhotoCache' => __DIR__ . '/..' . '/../lib/CardDAV/PhotoCache.php',
         'OCA\\DAV\\CardDAV\\Plugin' => __DIR__ . '/..' . '/../lib/CardDAV/Plugin.php',

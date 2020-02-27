@@ -27,6 +27,7 @@
 
 namespace OCA\DAV;
 
+use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\CalDAV\Principal\Collection;
@@ -41,6 +42,7 @@ use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\DAV\SystemPrincipalBackend;
 use OCA\DAV\Provisioning\Apple\AppleProvisioningNode;
 use OCA\DAV\Upload\CleanupService;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Utility\ITimeFactory;
 use Sabre\DAV\SimpleCollection;
 
@@ -123,12 +125,13 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getLogger()
 		);
 
+		$pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager::class));
 		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher);
-		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, 'principals/users');
+		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, $pluginManager, 'principals/users');
 		$usersAddressBookRoot->disableListing = $disableListing;
 
 		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher);
-		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, 'principals/system');
+		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, $pluginManager, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
 
 		$uploadCollection = new Upload\RootCollection(
