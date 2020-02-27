@@ -152,6 +152,7 @@
     "No apps found for your version" : "未找到适合当前版本的应用",
     "Disable all" : "禁用全部",
     "Enable all" : "启用所有",
+    "_%n app has an update available_::_%n apps have an update available_" : ["%n 应用有可用的更新"],
     "Download and enable" : "下载并启用",
     "Enable" : "启用",
     "Enable untested app" : "启用未经测试的应用",
