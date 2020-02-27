@@ -89,9 +89,11 @@ abstract class QBMapper {
 	public function delete(Entity $entity): Entity {
 		$qb = $this->db->getQueryBuilder();
 
+		$idType = $this->getParameterTypeForProperty($entity, 'id');
+
 		$qb->delete($this->tableName)
 			->where(
-				$qb->expr()->eq('id', $qb->createNamedParameter($entity->getId()))
+				$qb->expr()->eq('id', $qb->createNamedParameter($entity->getId(), $idType))
 			);
 		$qb->execute();
 		return $entity;
@@ -126,6 +128,7 @@ abstract class QBMapper {
 		$qb->execute();
 
 		if($entity->id === null) {
+			// When autoincrement is used id is always an int
 			$entity->setId((int)$qb->getLastInsertId());
 		}
 
@@ -191,8 +194,10 @@ abstract class QBMapper {
 			$qb->set($column, $qb->createNamedParameter($value, $type));
 		}
 
+		$idType = $this->getParameterTypeForProperty($entity, 'id');
+
 		$qb->where(
-			$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
+			$qb->expr()->eq('id', $qb->createNamedParameter($id, $idType))
 		);
 		$qb->execute();
 
