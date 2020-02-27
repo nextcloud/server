@@ -91,6 +91,8 @@ return array(
     'OCA\\DAV\\CardDAV\\Converter' => $baseDir . '/../lib/CardDAV/Converter.php',
     'OCA\\DAV\\CardDAV\\HasPhotoPlugin' => $baseDir . '/../lib/CardDAV/HasPhotoPlugin.php',
     'OCA\\DAV\\CardDAV\\ImageExportPlugin' => $baseDir . '/../lib/CardDAV/ImageExportPlugin.php',
+    'OCA\\DAV\\CardDAV\\Integration\\ExternalAddressBook' => $baseDir . '/../lib/CardDAV/Integration/ExternalAddressBook.php',
+    'OCA\\DAV\\CardDAV\\Integration\\IAddressBookProvider' => $baseDir . '/../lib/CardDAV/Integration/IAddressBookProvider.php',
     'OCA\\DAV\\CardDAV\\MultiGetExportPlugin' => $baseDir . '/../lib/CardDAV/MultiGetExportPlugin.php',
     'OCA\\DAV\\CardDAV\\PhotoCache' => $baseDir . '/../lib/CardDAV/PhotoCache.php',
     'OCA\\DAV\\CardDAV\\Plugin' => $baseDir . '/../lib/CardDAV/Plugin.php',
