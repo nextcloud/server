@@ -154,6 +154,7 @@ OC.L10N.register(
     "No apps found for your version" : "Приложений, совместимых с установленной версией Nextcloud, не найдено",
     "Disable all" : "Отключить все",
     "Enable all" : "Включить все",
+    "_%n app has an update available_::_%n apps have an update available_" : ["Возможно обновить%n приложение.","Возможно обновить %n приложения.","Возможно обновить %n приложений.","Возможно обновить %n приложения."],
     "Download and enable" : "Скачать и включить",
     "Enable" : "Включить",
     "Enable untested app" : "Включить непроверенное приложение",
