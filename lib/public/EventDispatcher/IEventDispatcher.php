@@ -43,6 +43,14 @@ interface IEventDispatcher {
 	public function addListener(string $eventName, callable $listener, int $priority = 0): void;
 
 	/**
+	 * @param string $eventName preferably the fully-qualified class name of the Event sub class
+	 * @param callable $listener the object that is invoked when a matching event is dispatched
+	 *
+	 * @since 19.0.0
+	 */
+	public function removeListener(string $eventName, callable $listener): void;
+
+	/**
 	 * @param string $eventName preferably the fully-qualified class name of the Event sub class to listen for
 	 * @param string $className fully qualified class name (or ::class notation) of a \OCP\EventDispatcher\IEventListener that can be built by the DI container
 	 * @param int $priority
