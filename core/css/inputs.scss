@@ -178,6 +178,22 @@ input[type='reset'] {
 	cursor: pointer;
 	box-sizing: border-box;
 	background-color: var(--color-background-dark);
+
+	&:disabled {
+		cursor: default;
+	}
+}
+select,
+button, .button {
+	* {
+		cursor: pointer;
+	}
+
+	&:disabled {
+		* {
+			cursor: default;
+		}
+	}
 }
 
 /* Buttons */
