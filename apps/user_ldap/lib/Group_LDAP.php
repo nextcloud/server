@@ -810,6 +810,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 	 * @param int $limit
 	 * @param int $offset
 	 * @return array with user ids
+	 * @throws \Exception
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(!$this->enabled) {
@@ -861,7 +862,10 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 				//we got uids, need to get their DNs to 'translate' them to user names
 				$filter = $this->access->combineFilterWithAnd(array(
 					str_replace('%uid', trim($member), $this->access->connection->ldapLoginFilter),
-					$this->access->getFilterPartForUserSearch($search)
+					$this->access->combineFilterWithAnd([
+						$this->access->getFilterPartForUserSearch($search),
+						$this->access->connection->ldapUserFilter
+					])
 				));
 				$ldap_users = $this->access->fetchListOfUsers($filter, $attrs, 1);
 				if(count($ldap_users) < 1) {
@@ -870,17 +874,32 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 				$groupUsers[] = $this->access->dn2username($ldap_users[0]['dn'][0]);
 			} else {
 				//we got DNs, check if we need to filter by search or we can give back all of them
-				if ($search !== '') {
-					if(!$this->access->readAttribute($member,
+				$uid = $this->access->dn2username($member);
+				if(!$uid) {
+					continue;
+				}
+
+				$cacheKey = 'userExistsOnLDAP' . $uid;
+				$userExists = $this->access->connection->getFromCache($cacheKey);
+				if($userExists === false) {
+					continue;
+				}
+				if($userExists === null || $search !== '') {
+					if (!$this->access->readAttribute($member,
 						$this->access->connection->ldapUserDisplayName,
-						$this->access->getFilterPartForUserSearch($search))) {
+						$this->access->combineFilterWithAnd([
+							$this->access->getFilterPartForUserSearch($search),
+							$this->access->connection->ldapUserFilter
+						])))
+					{
+						if($search === '') {
+							$this->access->connection->writeToCache($cacheKey, false);
+						}
 						continue;
 					}
+					$this->access->connection->writeToCache($cacheKey, true);
 				}
-				// dn2username will also check if the users belong to the allowed base
-				if($ocname = $this->access->dn2username($member)) {
-					$groupUsers[] = $ocname;
-				}
+				$groupUsers[] = $uid;
 			}
 		}
 
