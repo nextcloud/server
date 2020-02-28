@@ -33,7 +33,9 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Storage\IStorageFactory;
+use OCP\Share\Events\VerifyMountPointEvent;
 
 /**
  * Shared mount points can be moved by the user
@@ -90,6 +92,12 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 		$mountPoint = basename($share->getTarget());
 		$parent = dirname($share->getTarget());
+
+		$event = new VerifyMountPointEvent($share, $this->recipientView, $parent);
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$dispatcher->dispatchTyped($event);
+		$parent = $event->getParent();
 
 		if ($folderExistCache->hasKey($parent)) {
 			$parentExists = $folderExistCache->get($parent);
