@@ -61,7 +61,7 @@ Otherwise, git checkouts can be handled the same as release archives, by using t
 
 ### Building front-end code 🏗
 
-We move more and more towards using Vue.js in the frontend, starting with Settings. For building the code on changes, use these terminal commands in the root folder:
+We are moving more and more towards using Vue.js in the frontend, starting with Settings. For building the code on changes, use these terminal commands in the root folder:
 
 ``` bash
 # install dependencies
