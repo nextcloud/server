@@ -545,10 +545,6 @@ class ShareController extends AuthPublicShareController {
 			throw new NotFoundException();
 		}
 
-		if ($share->getHideDownload()) {
-			return new NotFoundResponse();
-		}
-
 		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 		$originalSharePath = $userFolder->getRelativePath($share->getNode()->getPath());
 
@@ -578,11 +574,17 @@ class ShareController extends AuthPublicShareController {
 			if ($node instanceof \OCP\Files\File) {
 				// Single file download
 				$this->singleFileDownloaded($share, $share->getNode());
-			} else if (!empty($files_list)) {
-				$this->fileListDownloaded($share, $files_list, $node);
 			} else {
-				// The folder is downloaded
-				$this->singleFileDownloaded($share, $share->getNode());
+				if ($share->getHideDownload()) {
+					return new NotFoundResponse();
+				}
+
+				if (!empty($files_list)) {
+					$this->fileListDownloaded($share, $files_list, $node);
+				} else {
+					// The folder is downloaded
+					$this->singleFileDownloaded($share, $share->getNode());
+				}
 			}
 		}
 
