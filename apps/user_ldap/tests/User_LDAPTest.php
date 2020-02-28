@@ -314,22 +314,12 @@ class User_LDAPTest extends TestCase {
 		$offlineUser->expects($this->once())
 			->method('getHomePath')
 			->willReturn($home);
-		$offlineUser->expects($this->once())
-			->method('getOCName')
-			->willReturn($uid);
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
 			->willReturn($offlineUser);
 
 		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager);
 
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
-		$user = $this->createMock(IUser::class);
-		$user->expects($this->once())
-			->method('getUID')
-			->willReturn($uid);
-
-		$backend->preDeleteUser($user);
 		$result = $backend->deleteUser($uid);
 		$this->assertTrue($result);
 		/** @noinspection PhpUnhandledExceptionInspection */
@@ -509,18 +499,7 @@ class User_LDAPTest extends TestCase {
 		$this->prepareMockForUserExists();
 
 		$user = $this->createMock(User::class);
-		$user->expects($this->any())
-			->method('getDN')
-			->willReturn('dnOfRoland,dc=test');
 
-		$this->access->expects($this->any())
-			->method('readAttribute')
-			->will($this->returnCallback(function($dn) {
-				if($dn === 'dnOfRoland,dc=test') {
-					return array();
-				}
-				return false;
-			}));
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
 			->willReturn($user);
@@ -545,31 +524,17 @@ class User_LDAPTest extends TestCase {
 			->willReturn('45673458748');
 
 		$this->access->expects($this->any())
-			->method('readAttribute')
-			->will($this->returnCallback(function($dn) {
-				if($dn === 'dnOfRoland,dc=test') {
-					return array();
-				}
-				return false;
-			}));
-		$this->access->expects($this->any())
 			->method('getUserMapper')
 			->willReturn($mapper);
-		$this->access->expects($this->once())
-			->method('getUserDnByUuid')
-			->willThrowException(new \Exception());
 
 		$user = $this->createMock(User::class);
-		$user->expects($this->any())
-			->method('getDN')
-			->willReturn('dnOfFormerUser,dc=test');
 
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
 			->willReturn($user);
 
-		//test for deleted user
-		$this->assertFalse($backend->userExists('formerUser'));
+		//test for deleted user – always returns true as long as we have the user in DB
+		$this->assertTrue($backend->userExists('formerUser'));
 	}
 
 	public function testUserExistsForNeverExisting() {
@@ -619,64 +584,6 @@ class User_LDAPTest extends TestCase {
 		//test for existing user
 		$result = \OC::$server->getUserManager()->userExists('gunslinger');
 		$this->assertTrue($result);
-	}
-
-	public function testUserExistsPublicAPIForDeleted() {
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager);
-		$this->prepareMockForUserExists();
-		\OC_User::useBackend($backend);
-
-		$mapper = $this->createMock(UserMapping::class);
-		$mapper->expects($this->any())
-			->method('getUUIDByDN')
-			->with('dnOfFormerUser,dc=test')
-			->willReturn('45673458748');
-
-		$this->access->expects($this->any())
-			->method('readAttribute')
-			->will($this->returnCallback(function($dn) {
-				if($dn === 'dnOfRoland,dc=test') {
-					return array();
-				}
-				return false;
-			}));
-		$this->access->expects($this->any())
-			->method('getUserMapper')
-			->willReturn($mapper);
-		$this->access->expects($this->once())
-			->method('getUserDnByUuid')
-			->willThrowException(new \Exception());
-
-		$user = $this->createMock(User::class);
-		$user->expects($this->any())
-			->method('getDN')
-			->willReturn('dnOfFormerUser,dc=test');
-
-		$this->userManager->expects($this->atLeastOnce())
-			->method('get')
-			->willReturn($user);
-
-		//test for deleted user
-		$this->assertFalse(\OC::$server->getUserManager()->userExists('formerUser'));
-	}
-
-	public function testUserExistsPublicAPIForNeverExisting() {
-		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager);
-		$this->prepareMockForUserExists();
-		\OC_User::useBackend($backend);
-
-		$this->access->expects($this->any())
-			->method('readAttribute')
-			->will($this->returnCallback(function($dn) {
-				if($dn === 'dnOfRoland,dc=test') {
-					return array();
-				}
-				return false;
-			}));
-
-		//test for never-existing user
-		$result = \OC::$server->getUserManager()->userExists('mallory');
-		$this->assertFalse($result);
 	}
 
 	public function testDeleteUserExisting() {
@@ -836,9 +743,6 @@ class User_LDAPTest extends TestCase {
 		$this->assertFalse($result);
 	}
 
-	/**
-	 * @expectedException \OC\User\NoUserException
-	 */
 	public function testGetHomeDeletedUser() {
 		$uid = 'newyorker';
 
@@ -869,14 +773,16 @@ class User_LDAPTest extends TestCase {
 			->will($this->returnValue(true));
 
 		$offlineUser = $this->createMock(OfflineUser::class);
-		$offlineUser->expects($this->never())
-			->method('getHomePath');
+		$offlineUser->expects($this->atLeastOnce())
+			->method('getHomePath')
+			->willReturn('');
 
 		$this->userManager->expects($this->atLeastOnce())
 			->method('get')
 			->willReturn($offlineUser);
 
-		$backend->getHome($uid);
+		$result = $backend->getHome($uid);
+		$this->assertFalse($result);
 	}
 
 	public function testGetHomeWithPlugin() {
@@ -1112,7 +1018,7 @@ class User_LDAPTest extends TestCase {
 			->willReturn(42);
 
 		$this->assertEquals($this->backend->countUsers(),42);
-	}	
+	}
 
 	public function testLoginName2UserNameSuccess() {
 		$loginName = 'Alice';
@@ -1294,7 +1200,7 @@ class User_LDAPTest extends TestCase {
 
 		$this->assertTrue(\OC_User::setPassword('roland', 'dt'));
 	}
-	
+
 	public function testSetPasswordValid() {
 		$this->prepareAccessForSetPassword($this->access);
 
