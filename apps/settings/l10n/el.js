@@ -154,6 +154,7 @@ OC.L10N.register(
     "No apps found for your version" : "Δεν βρέθηκαν εφαρμογές για αυτή την έκδοση",
     "Disable all" : "Απενεργοποίηση όλων",
     "Enable all" : "Ενεργοποίηση όλων",
+    "_%n app has an update available_::_%n apps have an update available_" : ["%n εφαρμογή έχει διαθέσιμη αναβάθμιση","%n εφαρμογές έχουν διαθέσιμη αναβάθμιση"],
     "Download and enable" : "Λήψη και ενεργοποίηση",
     "Enable" : "Ενεργοποίηση",
     "Enable untested app" : "Ενεργοποίηση δοκιμαστικής εφαρμογής",

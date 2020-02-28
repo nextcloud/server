@@ -108,7 +108,7 @@
     "Username as share" : "Корисничко име као дељење",
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Назив услуге",
-    "Request timeout (seconds)" : "Време захтева истекло (секунде)",
+    "Request timeout (seconds)" : "Рок захтева (секунде)",
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "cURL подршка за PHP није омогућена или инсталирана. Монтирање %s није могуће. Затражите од вашег администратора система да је инсталира.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP подршка за PHP није омогућена или инсталирана. Монтирање %s није могуће. Затражите од вашег администратора система да је инсталира.",
     "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "„%1$s“ није инсталиран. Монтирање %2$s није могуће. Затражите од вашег администратора система да га инсталира.",
