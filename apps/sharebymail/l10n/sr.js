@@ -47,7 +47,7 @@ OC.L10N.register(
     "Could not find share" : "Не могу да пронађем дељење",
     "Share by mail" : "Подели е-поштом",
     "Share provider which allows you to share files by mail" : "Добављач дељења који Вам дозвољава дељење е-поштом",
-    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозвољава корисницима да поделе персонализовану везу до фајла или фасцикле преко е-поште.",
+    "Allows users to share a personalized link to a file or folder by putting in an email address." : "Дозволи корисницима да поделе персонализовану везу до фајла или фасцикле уносом е-адресе.",
     "Send password by mail" : "Пошаљи лозинку е-поштом",
     "Enforce password protection" : "Захтевај заштиту лозинком"
 },
