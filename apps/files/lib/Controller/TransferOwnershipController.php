@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Files\Controller;
 
 use OCA\Files\BackgroundJob\TransferOwnership;
+use OCA\Files\Db\TransferOwnership as TransferOwnershipEntity;
 use OCA\Files\Db\TransferOwnershipMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
@@ -95,7 +96,7 @@ class TransferOwnershipController extends OCSController {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
-		$transferOwnership = new \OCA\Files\Db\TransferOwnership();
+		$transferOwnership = new TransferOwnershipEntity();
 		$transferOwnership->setSourceUser($this->userId);
 		$transferOwnership->setTargetUser($recipient);
 		$transferOwnership->setFileId($node->getId());
@@ -132,14 +133,21 @@ class TransferOwnershipController extends OCSController {
 			return new DataResponse([], Http::STATUS_FORBIDDEN);
 		}
 
-		$this->jobList->add(TransferOwnership::class, [
-			'id' => $transferOwnership->getId(),
-		]);
-
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('files')
 			->setObject('transfer', (string)$id);
 		$this->notificationManager->markProcessed($notification);
+
+		$newTransferOwnership = new TransferOwnershipEntity();
+		$newTransferOwnership->setNodeName($transferOwnership->getNodeName());
+		$newTransferOwnership->setFileId($transferOwnership->getFileId());
+		$newTransferOwnership->setSourceUser($transferOwnership->getSourceUser());
+		$newTransferOwnership->setTargetUser($transferOwnership->getTargetUser());
+		$this->mapper->insert($newTransferOwnership);
+
+		$this->jobList->add(TransferOwnership::class, [
+			'id' => $newTransferOwnership->getId(),
+		]);
 
 		return new DataResponse([], Http::STATUS_OK);
 	}
