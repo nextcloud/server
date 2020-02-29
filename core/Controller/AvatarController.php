@@ -142,8 +142,8 @@ class AvatarController extends Controller {
 			$avatarFile = $avatar->getFile($size);
 			$resp = new FileDisplayResponse(
 				$avatarFile,
-				$avatar->isCustomAvatar() ? Http::STATUS_OK : Http::STATUS_CREATED,
-				['Content-Type' => $avatarFile->getMimeType()]
+				Http::STATUS_OK,
+				['Content-Type' => $avatarFile->getMimeType(), 'X-NC-IsCustomAvatar' => (int)$avatar->isCustomAvatar()]
 			);
 		} catch (\Exception $e) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
