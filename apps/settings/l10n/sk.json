@@ -227,6 +227,7 @@
     "Show last login" : "Zobraziť posledné prihlásenie",
     "Show user backend" : "Zobraziť backend používateľa",
     "Show storage path" : "Zobraziť popis umiestnenia úložiska",
+    "Send email to new user" : "Odoslať email novému používateľovi",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Chystáte sa odstrániť skupinu {group}.  Používatelia NEBUDÚ vymazaní.",
     "Please confirm the group removal " : "Prosím potvrďte vymazanie skupiny.",
     "Never" : "Nikdy",

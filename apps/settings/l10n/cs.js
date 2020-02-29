@@ -262,6 +262,7 @@ OC.L10N.register(
     "Show last login" : "Zobrazit poslední přihlášení",
     "Show user backend" : "Zobrazit podpůrnou vrstvu pro uživatelské účty",
     "Show storage path" : "Zobrazit popis umístění úložiště",
+    "Send email to new user" : "Poslat email novému uživateli",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Chystáte se smazat skupinu {group}. Uživatelé NEbudou smazáni.",
     "Please confirm the group removal " : "Potvrďte odstranění skupiny",
     "Never" : "Nikdy",

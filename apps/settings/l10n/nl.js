@@ -258,6 +258,7 @@ OC.L10N.register(
     "Show last login" : "Toon laatste inlog",
     "Show user backend" : "Toon backend gebruiker",
     "Show storage path" : "Tonen opslagpad",
+    "Send email to new user" : "Verstuur e-mail aan nieuwe gebruiker",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Je gaat groep {group} verwijderen. De gebruikers worden NIET verwijderd.",
     "Please confirm the group removal " : "Bevestig verwijderen groep",
     "Never" : "Nooit",

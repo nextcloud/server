@@ -243,6 +243,7 @@ OC.L10N.register(
     "Show last login" : "Pokaži zadnjo prijavo",
     "Show user backend" : "Pokaži ozadnji program",
     "Show storage path" : "Pokaži pot mesta shrambe",
+    "Send email to new user" : "Pošlji sporočilo novemu uporabniku",
     "Please confirm the group removal " : "Potrditi je treba odstranjevanje skupine",
     "Never" : "Nikoli",
     "An error occured during the request. Unable to proceed." : "Prišlo je do napake med zahtevo. Nadaljevanje ni mogoče.",

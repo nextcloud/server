@@ -159,6 +159,7 @@ OC.L10N.register(
     "Remove group" : "Eemalda grupp",
     "Default quota:" : "Vaikekvoot:",
     "Show last login" : "Näita viimast sisselogimist",
+    "Send email to new user" : "Saada uuele kasutajale e-kiri",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Sa oled eemaldamas gruppi {group}. Selles grupis olevaid kasutajaid EI kustutata.",
     "Please confirm the group removal " : "Palun kinnita grupi eemaldamine",
     "Never" : "Mitte kunagi",

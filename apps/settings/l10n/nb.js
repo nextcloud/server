@@ -233,6 +233,7 @@ OC.L10N.register(
     "Show last login" : "Vis siste innlogging",
     "Show user backend" : "Vis bruker-bakende",
     "Show storage path" : "Vis lagrings-sti",
+    "Send email to new user" : "Send e-post til ny bruker",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Du skal til å fjerne gruppen {group}. Brukerne vil IKKE bli slettet.",
     "Please confirm the group removal " : "Vennligst bekreft fjerning av gruppe",
     "Never" : "Aldri",

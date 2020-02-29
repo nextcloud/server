@@ -202,6 +202,7 @@
     "Show last login" : "마지막 로그인 보이기",
     "Show user backend" : "사용자 백엔드 보이기",
     "Show storage path" : "스토리지 경로 보이기",
+    "Send email to new user" : "새 사용자에게 이메일 보내기",
     "You are about to remove the group {group}. The users will NOT be deleted." : "당신은 {group} 그룹을 지우려고 합니다. 그룹의 사용자들은 삭제되지 않습니다.",
     "Please confirm the group removal " : "그룹 지우기를 확인해주세요.",
     "Never" : "하지 않음",
