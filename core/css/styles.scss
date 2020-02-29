@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2016, Christoph Wurst <christoph@winzerhof-wurst.at>
  * @copyright Copyright (c) 2016, Raghu Nayyar <hey@raghunayyar.com>
  * @copyright Copyright (c) 2011-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @copyright Copyright (c) 2019, Gary Kim <gary@garykim.dev>
+ * @copyright Copyright (c) 2019-2020, Gary Kim <gary@garykim.dev>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -124,6 +124,7 @@ body {
 	position: fixed;
 	top: 0;
 	bottom: 0;
+	left: 0;
 	height: 100%;
 	width: 100%;
 	z-index: 9000;
