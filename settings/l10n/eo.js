@@ -251,6 +251,7 @@ OC.L10N.register(
     "Show last login" : "Montri lastan ensaluton",
     "Show user backend" : "Montri uzantolokon",
     "Show storage path" : "Montri vojon al konservejo",
+    "Send email to new user" : "Sendi retmesaĝon al nova uzanto",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Vi tuj forigos grupon {group}. La uzantoj NE estos forigitaj.",
     "Please confirm the group removal " : "Bv. konfirmi forigadon de la grupo",
     "Never" : "Neniam",

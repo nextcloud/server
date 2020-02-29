@@ -164,6 +164,7 @@ OC.L10N.register(
     "Everyone" : "Toți",
     "Admins" : "Administratori",
     "Show user backend" : "Arată administrare utilizator",
+    "Send email to new user" : "Trimite email către noul utilizator",
     "Never" : "Niciodată",
     "App update" : "Actualizare aplicație",
     "SSL Root Certificates" : "Certificate SSL rădăcină",

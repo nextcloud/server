@@ -225,6 +225,7 @@
     "Show last login" : "Tampilkan yang terakhir masuk",
     "Show user backend" : "Tampilkan pengguna backend",
     "Show storage path" : "Tampilkan jalur penyimpanan",
+    "Send email to new user" : "Kirim surel kepada pengguna baru",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Anda akan menghapus grup  {group}. Pengguna di dalamnya TIDAK akan dihapus.",
     "Please confirm the group removal " : "Mohon konfirmasi penghapusan grup",
     "Never" : "Tidak pernah",

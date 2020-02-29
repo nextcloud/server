@@ -262,6 +262,7 @@ OC.L10N.register(
     "Show last login" : "显示最后登录",
     "Show user backend" : "显示用户来源",
     "Show storage path" : "显示存储路径",
+    "Send email to new user" : "发送电子邮件给新用户",
     "You are about to remove the group {group}. The users will NOT be deleted." : "您将要移除群组 {group}。组中的用户不会被删除。",
     "Please confirm the group removal " : "请确认移除群组",
     "Never" : "从不",

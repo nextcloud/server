@@ -243,6 +243,7 @@
     "Show last login" : "Utolsó bejelentkezés megjelenítése",
     "Show user backend" : "Felhasználói háttér mutatása",
     "Show storage path" : "Tároló útvonal mutatása",
+    "Send email to new user" : "E-mail küldése az új felhasználónak",
     "You are about to remove the group {group}. The users will NOT be deleted." : "A {group} csoportot fodja törölni. A felhasználó NEM fog törlődni.",
     "Please confirm the group removal " : "Kérem erősítse meg a csoport törlését",
     "Never" : "Soha",

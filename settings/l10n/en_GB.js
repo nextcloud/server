@@ -178,6 +178,7 @@ OC.L10N.register(
     "Remove group" : "Remove group",
     "Show last login" : "Show last login",
     "Show user backend" : "Show user backend",
+    "Send email to new user" : "Send email to new user",
     "You are about to remove the group {group}. The users will NOT be deleted." : "You are about to remove the group {group}. The users will NOT be deleted.",
     "Please confirm the group removal " : "Please confirm the group removal ",
     "Never" : "Never",

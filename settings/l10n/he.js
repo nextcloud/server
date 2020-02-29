@@ -197,6 +197,7 @@ OC.L10N.register(
     "Show last login" : "הצגת כניסה אחרונה",
     "Show user backend" : "הצגת צד אחורי למשתמש",
     "Show storage path" : "הצגת נתיב אחסון",
+    "Send email to new user" : "שליחת דואר אלקטרוני למשתמש חדש",
     "You are about to remove the group {group}. The users will NOT be deleted." : "פעולה זו תסיר את הקבוצה {group}. המשתמשים ﬥﬡ יימחקו.",
     "Please confirm the group removal " : "נא לאשר את הסרת הקבוצה",
     "Never" : "מעולם לא",

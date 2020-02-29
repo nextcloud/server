@@ -241,6 +241,7 @@
     "Show last login" : "最終ログインを表示",
     "Show user backend" : "ユーザーバックエンドを表示",
     "Show storage path" : "ストレージの場所を表示",
+    "Send email to new user" : "新規ユーザーにメールを送信",
     "You are about to remove the group {group}. The users will NOT be deleted." : "{group}グループを削除しようとしています。 ユーザーは削除されません。",
     "Please confirm the group removal " : "グループの削除を確認してください",
     "Never" : "なし",

@@ -154,6 +154,7 @@
     "Admins" : "Administrador",
     "Show last login" : "Mostrar último login",
     "Show user backend" : "Mostrar interface do utilizador",
+    "Send email to new user" : "Enviar email ao novo utilizador",
     "Never" : "Nunca",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "A app foi activada mas necessita ser actualizada. Irá ser redireccionado para a página de actualização em 5 segundos.",
     "App update" : "Actualização de app",

@@ -260,6 +260,7 @@
     "Show last login" : "Visa senaste inloggning",
     "Show user backend" : "Visa användar-backend",
     "Show storage path" : "Visa lagringsväg",
+    "Send email to new user" : "Skicka e-post till ny användare",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Du håller på att ta bort gruppen {group}. Användarna kommer INTE att raderas.",
     "Please confirm the group removal " : "Bekräfta borttagning av gruppen",
     "Never" : "Aldrig",
