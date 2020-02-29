@@ -86,7 +86,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
     "@nextcloud/browserslist-config": "^1.0.0",
-    "babel-eslint": "^10.0.3",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "chai": "^4.2.0",
