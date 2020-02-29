@@ -195,6 +195,7 @@
     "Show last login" : "Показати останній вхід",
     "Show user backend" : "Показати користувача",
     "Show storage path" : "Показати шлях до сховища",
+    "Send email to new user" : "Надіслати email новому користувачу",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Ви збираєтеся видалити групу {group}. Користувачі групи НЕ будуть видалені.",
     "Please confirm the group removal " : "Будь ласка, підтвердьте видалення групи",
     "Never" : "Ніколи",

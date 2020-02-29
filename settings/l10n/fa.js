@@ -256,6 +256,7 @@ OC.L10N.register(
     "Show last login" : "نمایش آخرین ورود",
     "Show user backend" : "نمایش پس زمینه کاربر",
     "Show storage path" : "نمایش مسیر ذخیره سازی",
+    "Send email to new user" : "ارسال ایمیل به کاربر جدید",
     "You are about to remove the group {group}. The users will NOT be deleted." : "شما در حال حذف گروه {group} هستید. کاربران حذف نخواهند شد.",
     "Please confirm the group removal " : "لطفاً حذف گروه را تأیید کنید",
     "Never" : "هرگز",

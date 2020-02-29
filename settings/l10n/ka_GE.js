@@ -158,6 +158,7 @@ OC.L10N.register(
     "Admins" : "ადმინისტრატორები",
     "Show last login" : "ბოლო ავტორიზაციის ჩვენება",
     "Show user backend" : "მომხმარებლის ბექენდის ჩვენება",
+    "Send email to new user" : "გაუგზავნეთ ელ-წერილი ახალ მომხმარებელს",
     "Never" : "არასდროს",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "აპლიკაცია ამოქმედდა, თუმცა საჭიროებს განახლებას. 5 წამში გადამისამართდებით განახლების გვერდზე.",
     "App update" : "აპლიკაციის განახლება",

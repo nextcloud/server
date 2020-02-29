@@ -198,6 +198,7 @@
     "Show Languages" : "Vis sprog",
     "Show last login" : "Vis seneste login",
     "Show user backend" : "Vis bruger-backend",
+    "Send email to new user" : "Send e-mail til ny bruger",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Du er ved at fjerne gruppen {group}. Brugerne bliver IKKE slettet.",
     "Please confirm the group removal " : "Bekræft at gruppen skal fjernes",
     "Never" : "Aldrig",

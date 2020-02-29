@@ -246,6 +246,7 @@ OC.L10N.register(
     "Show last login" : "Birta síðustu innskráningu",
     "Show user backend" : "Birta bakenda notanda",
     "Show storage path" : "Birta slóð á gagnageymslu",
+    "Send email to new user" : "Senda tölvupóst til nýs notanda",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Þú er í þann mund að fara að fjarlægja hópinn {group}. Notendunum verður EKKI eytt.",
     "Please confirm the group removal " : "Staðfestu fjarlægingu hópsins",
     "Never" : "Aldrei",

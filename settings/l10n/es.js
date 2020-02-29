@@ -262,6 +262,7 @@ OC.L10N.register(
     "Show last login" : "Mostrar último inicio de sesión",
     "Show user backend" : "Mostrar motor de usuario",
     "Show storage path" : "Mostrar ruta de almacenamiento",
+    "Send email to new user" : "Enviar correo al usuario nuevo",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Vas a eliminar el grupo {group}. Los usuarios NO serán eliminados.",
     "Please confirm the group removal " : "Por favor, confirma la eliminación del grupo",
     "Never" : "Nunca",
