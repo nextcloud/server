@@ -262,6 +262,7 @@ OC.L10N.register(
     "Show last login" : "Εμφάνιση τελευταιας σύνδεσης",
     "Show user backend" : "Εμφάνιση χρήστη συστήματος υποστήριξης",
     "Show storage path" : "Εμφάνιση διαδρομής αποθήκευσης",
+    "Send email to new user" : "Αποστολή μηνύματος στο νέο χρήστη",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Πρόκειται να καταργήσετε την ομάδα {group}. Οι χρήστες ΔΕΝ θα διαγραφούν.",
     "Please confirm the group removal " : "παρακαλώ επιβεβαιώστε την κατάργηση της ομάδας",
     "Never" : "Ποτέ",

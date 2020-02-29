@@ -225,6 +225,7 @@ OC.L10N.register(
     "Show last login" : "Näytä viimeisin sisäänkirjautuminen",
     "Show user backend" : "Näytä käyttäjätaustaosa",
     "Show storage path" : "Näytä tallennustilan polku",
+    "Send email to new user" : "Lähetä sähköpostia uudelle käyttäjälle",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Olet aikeissa poistaa ryhmän {group}. Käyttäjiä EI poisteta!",
     "Please confirm the group removal " : "Vahvista ryhmän poistaminen",
     "Never" : "Ei koskaan",

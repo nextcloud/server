@@ -160,6 +160,7 @@ OC.L10N.register(
     "Select default quota" : "Изберете стандартна квота",
     "Show Languages" : "Показвай ползвания език",
     "Show last login" : "Показвай последното вписване",
+    "Send email to new user" : "Изпращай писмо към нов потребител",
     "Never" : "Никога",
     "Common Name" : "Познато Име",
     "Valid until" : "Валиден до",

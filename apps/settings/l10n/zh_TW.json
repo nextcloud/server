@@ -160,6 +160,7 @@
     "Admins" : "管理者",
     "Show last login" : "顯示上次登入時間",
     "Show user backend" : "顯示使用者資料後端",
+    "Send email to new user" : "寄送郵件給新用戶",
     "Never" : "絕不",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "這個應用程式已啟用但是需要更新，您將會在 5 秒後被引導至更新頁面",
     "App update" : "應用程式更新",

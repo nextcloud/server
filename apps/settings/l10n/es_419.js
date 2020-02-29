@@ -161,6 +161,7 @@ OC.L10N.register(
     "Admins" : "Administradores",
     "Show last login" : "Mostrar último inicio de sesión",
     "Show user backend" : "Mostrar backend del usuario",
+    "Send email to new user" : "Enviar un correo electrónico al usuario nuevo",
     "Never" : "Nunca",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "La aplicación está habilitada pero necesita ser actualizada. Serás redireccionado a la página de actualización en 5 segundos. ",
     "App update" : "Actualización de la aplicación",

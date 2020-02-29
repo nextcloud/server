@@ -142,6 +142,7 @@ OC.L10N.register(
     "Admins" : "Almins",
     "Show last login" : "Amosar aniciu de sesión caberu",
     "Show user backend" : "Amosar backend d'usuarios",
+    "Send email to new user" : "Unviar corréu al usuariu nuevu",
     "Never" : "Enxamás",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Habilitóse l'aplicación pero precisa anovase. Redirixirásete a la páxina d'anovamientu en 5 segundos.",
     "App update" : "Paquetes d'aplicaciones",

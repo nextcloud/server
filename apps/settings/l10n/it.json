@@ -260,6 +260,7 @@
     "Show last login" : "Mostra ultimo accesso",
     "Show user backend" : "Mostra il motore utente",
     "Show storage path" : "Mostra percorso di archiviazione",
+    "Send email to new user" : "Invia email al nuovo utente",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Stai per rimuovere il gruppo {group}. Gli utenti NON saranno eliminati.",
     "Please confirm the group removal " : "Conferma la rimozione del gruppo",
     "Never" : "Mai",

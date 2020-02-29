@@ -161,6 +161,7 @@ OC.L10N.register(
     "Remove group" : "Hiq grupin",
     "Show last login" : "Shfaq hyrjen e fundit",
     "Show user backend" : "Shfaq programin klient të përdoruesit",
+    "Send email to new user" : "Dërgo email përdoruesi të ri",
     "Never" : "Kurrë",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikacioni është aktivizuar, por lyp të përditësohet. Do të ridrejtoheni te faqja e përditësimeve brenda 5 sekondash.",
     "App update" : "Përditësim aplikacioni",

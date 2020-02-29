@@ -261,6 +261,7 @@ OC.L10N.register(
     "Show last login" : "Прикажи последњу пријаву",
     "Show user backend" : "Прикажи позадину за кориснике",
     "Show storage path" : "Прикажи путању до складишта",
+    "Send email to new user" : "Пошаљи е-пошту новом кориснику",
     "You are about to remove the group {group}. The users will NOT be deleted." : "Управо ћете уклонити групу {group}. Корисници НЕЋЕ бити избрисани.",
     "Please confirm the group removal " : "Потврдите уклањање групе",
     "Never" : "Никад",
