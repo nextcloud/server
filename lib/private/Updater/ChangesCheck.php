@@ -56,8 +56,8 @@ class ChangesCheck {
 		$version = $this->normalizeVersion($version);
 		$changesInfo = $this->mapper->getChanges($version);
 		$changesData = json_decode($changesInfo->getData(), true);
-		if(empty($changesData)) {
-			throw new DoesNotExistException();
+		if (empty($changesData)) {
+			throw new DoesNotExistException('Unable to decode changes info');
 		}
 		return $changesData;
 	}
