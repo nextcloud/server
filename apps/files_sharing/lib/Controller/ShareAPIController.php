@@ -768,6 +768,16 @@ class ShareAPIController extends OCSController {
 		$known = $formatted = $miniFormatted = [];
 		$resharingRight = false;
 		foreach ($shares as $share) {
+			try {
+				$share->getNode();
+			} catch (NotFoundException $e) {
+				/*
+				 * Ignore shares where we can't get the node
+				 * For example delted shares
+				 */
+				continue;
+			}
+
 			if (in_array($share->getId(), $known) || $share->getSharedWith() === $this->currentUser) {
 				continue;
 			}
