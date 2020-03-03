@@ -720,7 +720,7 @@
 					$editCb.prop('indeterminate', !checked && numberChecked > 0);
 				}
 			} else {
-				if ($element.attr('name') === 'edit' && $element.is(':checked')) {
+				if ($('input[name="edit"]', $li).is(':checked')) {
 					permissions |= OC.PERMISSION_UPDATE;
 				}
 			}
