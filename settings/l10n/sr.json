@@ -30,7 +30,7 @@
     "Week starts on {fdow}" : "Недеља почиње у {fdow}",
     "Groups" : "Групе",
     "Group list is empty" : "Списак група је празан",
-    "Unable to retrieve the group list" : "Није могуће дохватити списак група",
+    "Unable to retrieve the group list" : "Не могу да добавим списак група",
     "{actor} added you to group {group}" : "{actor} Вас је додао у групу {group}",
     "You added {user} to group {group}" : "Додали сте корисника {user} у групу {group}",
     "{actor} added {user} to group {group}" : "{actor} је додао корисника {user} у групу {group}",
