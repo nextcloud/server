@@ -47,7 +47,7 @@
 				:close-after-click="true"
 				icon="icon-tag"
 				@click="toggleTags">
-				{{ t('files_sharing', 'Tags') }}
+				{{ t('files', 'Tags') }}
 			</ActionButton>
 		</template>
 
