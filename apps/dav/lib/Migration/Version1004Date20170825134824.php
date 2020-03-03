@@ -369,6 +369,7 @@ class Version1004Date20170825134824 extends SimpleMigrationStep {
 				'unsigned' => true,
 			]);
 			$table->setPrimaryKey(['id']);
+			$table->addIndex(['principaluri'], 'schedulobj_principuri_index');
 		}
 
 		if (!$schema->hasTable('cards_properties')) {
@@ -444,6 +445,7 @@ class Version1004Date20170825134824 extends SimpleMigrationStep {
 			$table->addIndex(['objectid'], 'calendarobject_index');
 			$table->addIndex(['name'], 'calendarobject_name_index');
 			$table->addIndex(['value'], 'calendarobject_value_index');
+			$table->addIndex(['calendarid', 'calendartype'], 'calendarobject_calid_index');
 		}
 
 		if (!$schema->hasTable('dav_shares')) {
