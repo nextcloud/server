@@ -118,7 +118,7 @@ OC.L10N.register(
     "Reset" : "Ресетуј",
     "Saving…" : "Чувам…",
     "Group list is empty" : "Списак група је празан",
-    "Unable to retrieve the group list" : "Није могуће дохватити списак група",
+    "Unable to retrieve the group list" : "Не могу да добавим списак група",
     "Saved" : "Снимљено",
     "Saving failed:" : "Снимање није успело:",
     "Add rule group" : "Додај групу правила",

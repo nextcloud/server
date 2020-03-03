@@ -246,7 +246,7 @@ OC.L10N.register(
     "Error" : "Erro",
     "Internal Server Error" : "Erro Interno do Servidor",
     "The server was unable to complete your request." : "O servidor não conseguiu completar sua solicitação.",
-    "If this happens again, please send the technical details below to the server administrator." : "Se isso acontecer novamente, envie os detalhes técnicos abaixo para o administrador de servidor.",
+    "If this happens again, please send the technical details below to the server administrator." : "Se isso acontecer novamente, envie os detalhes técnicos abaixo para o administrador do servidor.",
     "More details can be found in the server log." : "Mais detalhes podem ser encontrados no log do servidor.",
     "Technical details" : "Detalhes técnicos",
     "Remote Address: %s" : "Endereço remoto: %s",
