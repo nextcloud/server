@@ -3,6 +3,6 @@ module.exports = {
 		appVersion: true
 	},
 	extends: [
-		'nextcloud'
+		'@nextcloud'
 	]
 };
