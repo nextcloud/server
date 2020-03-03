@@ -193,6 +193,8 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
 		$this->assertArrayHasKey('Content-Type', $response->getHeaders());
 		$this->assertEquals('image type', $response->getHeaders()['Content-Type']);
+		$this->assertArrayHasKey('X-NC-IsCustomAvatar', $response->getHeaders());
+		$this->assertEquals('1', $response->getHeaders()['X-NC-IsCustomAvatar']);
 
 		$this->assertEquals('my etag', $response->getETag());
 	}
@@ -206,9 +208,11 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$response = $this->avatarController->getAvatar('userId', 32);
 
-		$this->assertEquals(Http::STATUS_CREATED, $response->getStatus());
+		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
 		$this->assertArrayHasKey('Content-Type', $response->getHeaders());
 		$this->assertEquals('image type', $response->getHeaders()['Content-Type']);
+		$this->assertArrayHasKey('X-NC-IsCustomAvatar', $response->getHeaders());
+		$this->assertEquals('0', $response->getHeaders()['X-NC-IsCustomAvatar']);
 
 		$this->assertEquals('my etag', $response->getETag());
 	}
