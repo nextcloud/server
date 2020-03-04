@@ -314,6 +314,8 @@
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "最適なパフォーマンスにするには、バックグラウンドジョブを正確に設定することが重要です。大規模なインスタンスでは、'Cron'がお薦めの設定です。詳細な情報は、ドキュメントを参照してください。",
     "Pick background job setting" : "バックグラウンドジョブ設定を選択",
     "Execute one task with each page loaded" : "各ページの読み込み時にタスクを実行します。",
+    "cron.php is registered at a webcron service to call cron.php every 5 minutes over HTTP." : "cron.phpは、HTTP経由で5分ごとにcron.phpを実行するようwebcronサービスに登録されます。",
+    "Use system cron service to call the cron.php file every 5 minutes." : "システムのcronサービスを利用して、5分fごとにcron.phpファイルを実行します。",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php はシステムユーザー \"%s\" で実行する必要があります。",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "これを実行するにはPHPのposix拡張が必要です。詳細については、{linkstart} PHPドキュメント{linkend}を参照してください。",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "管理者であれば共有時の挙動を微調整できます。詳細な情報はドキュメントを参照してください。",
