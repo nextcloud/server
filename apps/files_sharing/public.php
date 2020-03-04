@@ -27,7 +27,7 @@ $urlGenerator = \OC::$server->getURLGenerator();
 $token = isset($_GET['t']) ? $_GET['t'] : '';
 $route = isset($_GET['download']) ? 'files_sharing.sharecontroller.downloadShare' : 'files_sharing.sharecontroller.showShare';
 
-if($token !== '') {
+if ($token !== '') {
 	$protocol = \OC::$server->getRequest()->getHttpProtocol();
 	if ($protocol == 'HTTP/1.0') {
 		http_response_code(302);
