@@ -96,6 +96,10 @@ class TransferOwnershipController extends OCSController {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
 
+		if ($node->getOwner()->getUID() !== $this->userId) {
+			return new DataResponse([], Http::STATUS_FORBIDDEN);
+		}
+
 		$transferOwnership = new TransferOwnershipEntity();
 		$transferOwnership->setSourceUser($this->userId);
 		$transferOwnership->setTargetUser($recipient);
