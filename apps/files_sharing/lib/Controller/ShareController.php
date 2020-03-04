@@ -41,9 +41,9 @@
 
 namespace OCA\Files_Sharing\Controller;
 
-use OC\Security\CSP\ContentSecurityPolicy;
 use OC_Files;
 use OC_Util;
+use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\Downloads;
 use OCP\AppFramework\AuthPublicShareController;
@@ -370,6 +370,7 @@ class ShareController extends AuthPublicShareController {
 			$maxUploadFilesize = $freeSpace;
 
 			$folder = new Template('files', 'list', '');
+
 			$folder->assign('dir', $shareNode->getRelativePath($folderNode->getPath()));
 			$folder->assign('dirToken', $this->getToken());
 			$folder->assign('permissions', \OCP\Constants::PERMISSION_READ);
