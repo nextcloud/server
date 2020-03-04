@@ -46,6 +46,7 @@ use OC_Util;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\Downloads;
+use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\AuthPublicShareController;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
@@ -453,6 +454,11 @@ class ShareController extends AuthPublicShareController {
 			\OCP\Util::addScript('files', 'filelist');
 			\OCP\Util::addScript('files', 'keyboardshortcuts');
 			\OCP\Util::addScript('files', 'operationprogressbar');
+
+			// Load Viewer scripts
+			if (class_exists(LoadViewer::class)) {
+				$this->eventDispatcher->dispatch(LoadViewer::class, new LoadViewer());
+			}
 		}
 
 		// OpenGraph Support: http://ogp.me/
