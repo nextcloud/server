@@ -61,7 +61,7 @@
     "Where: %s" : "On: %s",
     "%1$s via %2$s" : "%1$s mitjançant %2$s",
     "Invitation canceled" : "Invitació cancel·lada",
-    "Hello %s," : "Hola %s,",
+    "Hello %s," : "Hola, %s,",
     "The meeting »%1$s« with %2$s was canceled." : "La reunió »%1$s« amb %2$s ha estat cancel·lada.",
     "Invitation updated" : "Invitació actualitzada",
     "The meeting »%1$s« with %2$s was updated." : "La reunió »%1$s« amb %2$s ha estat actualitzada.",
