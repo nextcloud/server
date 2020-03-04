@@ -251,8 +251,7 @@ class OC_Util {
 			) {
 				/** @var \OC\Files\Storage\Home $storage */
 				if (is_object($storage->getUser())) {
-					$user = $storage->getUser()->getUID();
-					$quota = OC_Util::getUserQuota($user);
+					$quota = OC_Util::getUserQuota($storage->getUser());
 					if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota, 'root' => 'files'));
 					}
@@ -375,11 +374,10 @@ class OC_Util {
 	/**
 	 * Get the quota of a user
 	 *
-	 * @param string $userId
+	 * @param IUser|null $user
 	 * @return float Quota bytes
 	 */
-	public static function getUserQuota($userId) {
-		$user = \OC::$server->getUserManager()->get($userId);
+	public static function getUserQuota(?IUser $user) {
 		if (is_null($user)) {
 			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
 		}
