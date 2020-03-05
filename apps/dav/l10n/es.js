@@ -50,7 +50,7 @@ OC.L10N.register(
     "Where:" : "Dónde:",
     "Description:" : "Descripción:",
     "Untitled event" : "Evento sin título",
-    "_%n year_::_%n years_" : ["%n año","%naños"],
+    "_%n year_::_%n years_" : ["%n año","%n años"],
     "_%n month_::_%n months_" : ["%n mes","%n meses"],
     "_%n day_::_%n days_" : ["%n día","%n días"],
     "_%n hour_::_%n hours_" : ["%n hora","%n horas"],

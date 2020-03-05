@@ -158,6 +158,7 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Převést {path} na {userid}",
     "Invalid path selected" : "Vybrán neplatný popis umístění",
     "Ownership transfer request sent" : "Žádost o převedení vlastnictví zaslána",
+    "Cannot transfter ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru nebo složky, která vám nenáleží",
     "Tags" : "Značky",
     "Error while loading the file data" : "Chyba při načítání dat souboru",
     "Unable to change the favourite state of the file" : "Nedaří se změnit stav „oblíbené“ souboru",
