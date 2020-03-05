@@ -81,17 +81,17 @@
 }
 
 /* Css replaced elements don't have ::after nor ::before */
-img, object, video, button, textarea, input, select, div[contenteditable='true'] {
-	.icon-loading {
+audio, canvas, embed, iframe, img, input, object, video {
+	&.icon-loading {
 		background-image: url('../img/loading.gif');
 	}
-	.icon-loading-dark {
+	&.icon-loading-dark {
 		background-image: url('../img/loading-dark.gif');
 	}
-	.icon-loading-small {
+	&.icon-loading-small {
 		background-image: url('../img/loading-small.gif');
 	}
-	.icon-loading-small-dark {
+	&.icon-loading-small-dark {
 		background-image: url('../img/loading-small-dark.gif');
 	}
 }
