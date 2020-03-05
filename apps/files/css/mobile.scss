@@ -8,21 +8,25 @@ $min-table-width: 688px;
 	background-color: rgba(255, 255, 255, 1)!important;
 }
 
-#body-user #filestable {
-	min-width: 250px;
-	display: initial;
-}
+table#filestable {	
+	// reduce horizontal padding
+	td.filesize,
+	td.date {
+		padding: 0 5px;
+	}
 
-table th#headerSize,
-table td.filesize,
-table th#headerDate,
-table td.date {
-	display: none;
-}
+	// Hide size and date columns on mobile
+	th#headerSize,
+	th#headerDate,
+	td.filesize,
+	td.date {
+		display: none;
+	}
 
-/* remove padding to let border bottom fill the whole width*/
-table td {
-	padding: 0;
+	// Only the name is displayed, lets' make sure it takes the full width
+	td.filename a.name {
+		width: 100vw;
+	}
 }
 
 /* remove shift for multiselect bar to account for missing navigation */
@@ -37,6 +41,7 @@ table.multiselect thead {
 #fileList .fileActionsMenu {
 	margin-right: 6px;
 }
+
 /* hide text of the share action on mobile */
 /* .hidden-visually for accessbility */
 #fileList a.action-share span:not(.icon):not(.avatar) {
