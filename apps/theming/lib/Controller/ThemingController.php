@@ -379,6 +379,9 @@ class ThemingController extends Controller {
 		}
 
 		$response = new FileDisplayResponse($file);
+		$csp = new Http\ContentSecurityPolicy();
+		$csp->allowInlineStyle();
+		$response->setContentSecurityPolicy($csp);
 		$response->cacheFor(3600);
 		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, $key . 'Mime', ''));
 		$response->addHeader('Content-Disposition', 'attachment; filename="' . $key . '"');
