@@ -82,6 +82,7 @@ class Principal implements BackendInterface {
 	 * @param IGroupManager $groupManager
 	 * @param IShareManager $shareManager
 	 * @param IUserSession $userSession
+	 * @param IAppManager $appManager
 	 * @param IConfig $config
 	 * @param string $principalPrefix
 	 */
@@ -239,6 +240,8 @@ class Principal implements BackendInterface {
 			return [];
 		}
 
+		$allowEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+
 		// If sharing is restricted to group members only,
 		// return only members that have groups in common
 		$restrictGroups = false;
@@ -256,6 +259,12 @@ class Principal implements BackendInterface {
 				case '{http://sabredav.org/ns}email-address':
 					$users = $this->userManager->getByEmail($value);
 
+					if (!$allowEnumeration) {
+						$users = \array_filter($users, static function(IUser $user) use ($value) {
+							return $user->getEMailAddress() === $value;
+						});
+					}
+
 					$results[] = array_reduce($users, function(array $carry, IUser $user) use ($restrictGroups) {
 						// is sharing restricted to groups only?
 						if ($restrictGroups !== false) {
@@ -272,6 +281,12 @@ class Principal implements BackendInterface {
 
 				case '{DAV:}displayname':
 					$users = $this->userManager->searchDisplayName($value);
+
+					if (!$allowEnumeration) {
+						$users = \array_filter($users, static function(IUser $user) use ($value) {
+							return $user->getDisplayName() === $value;
+						});
+					}
 
 					$results[] = array_reduce($users, function(array $carry, IUser $user) use ($restrictGroups) {
 						// is sharing restricted to groups only?
