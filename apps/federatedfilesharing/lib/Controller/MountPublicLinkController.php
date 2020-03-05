@@ -48,6 +48,7 @@ use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 use OCP\Util;
+use OCP\Share\IShare;
 
 /**
  * Class MountPublicLinkController
@@ -161,6 +162,7 @@ class MountPublicLinkController extends Controller {
 		}
 
 		$share->setSharedWith($shareWith);
+		$share->setShareType(IShare::TYPE_REMOTE);
 
 		try {
 			$this->federatedShareProvider->create($share);
