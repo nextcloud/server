@@ -41,7 +41,7 @@
     "Check #%s does not exist" : "Проверите да ли #%s постоји",
     "Check %s is invalid or does not exist" : "Проверите да ли је %s неисправно или не постоји",
     "Flow" : "Ток",
-    "Nextcloud workflow engine" : "Некстклауд мотор тока рада",
+    "Nextcloud workflow engine" : "Некстклаудов мотор радног тока",
     "Select a filter" : "Одаберите филтер",
     "Select a comparator" : "Одаберите компаратор",
     "Select a file type" : "Одаберите тип фајла",
@@ -77,7 +77,7 @@
     "Active" : "Активан",
     "Save" : "Сачувај",
     "Available flows" : "Доступни токови",
-    "For details on how to write your own flow, check out the development documentation." : "За детаље како писати Ваш ток, погледај програмерску документацију.",
+    "For details on how to write your own flow, check out the development documentation." : "За детаље како написати сопствени ток, погледајте програмерску документацију.",
     "More flows" : "Још токова",
     "Browse the app store" : "Прегледајте продавницу апликација",
     "Show less" : "Прикажи мање",
@@ -127,7 +127,7 @@
     "Select timezone…" : "Одаберите временску зону…",
     "Sync clients" : "Синхронизовани клијенти",
     "Tag management" : "Управљање ознакама",
-    "Files workflow engine" : "Датотеке за мотор процеса рада",
+    "Files workflow engine" : "Мотор за радни ток фајлова",
     "Open documentation" : "Отвори документацију",
     "Loading…" : "Учитавање…"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"

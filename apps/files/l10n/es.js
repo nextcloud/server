@@ -158,6 +158,7 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Transferir {path} a {userid}",
     "Invalid path selected" : "Ruta de archivo seleccionada no válida.",
     "Ownership transfer request sent" : "Enviada la solicitud de transferencia de propiedad",
+    "Cannot transfter ownership of a file or folder you don't own" : "No se puede transferir la propiedad de un archivo o carpeta que no te pertenece",
     "Tags" : "Etiquetas",
     "Error while loading the file data" : "Error al cargar los datos del archivo",
     "Unable to change the favourite state of the file" : "No se ha podido cambiar el estado de favorito del fichero",
