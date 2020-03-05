@@ -615,11 +615,6 @@ class Manager implements IManager {
 			throw new \Exception('Link sharing is not allowed');
 		}
 
-		// Link shares by definition can't have share permissions
-		if ($share->getPermissions() & \OCP\Constants::PERMISSION_SHARE) {
-			throw new \InvalidArgumentException('Link shares can’t have reshare permissions');
-		}
-
 		// Check if public upload is allowed
 		if (!$this->shareApiLinkAllowPublicUpload() &&
 			($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE))) {
