@@ -44,10 +44,12 @@ use OC\AppFramework\Http;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\ForbiddenException;
 use OC\Security\IdentityProof\Manager;
+use OCA\Settings\AppInfo\Application;
 use OCA\User_LDAP\User_Proxy;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\BackgroundJob\IJobList;
 use OCP\Encryption\IManager;
@@ -61,6 +63,7 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OC\Settings\BackgroundJobs\VerifyUserData;
+use function in_array;
 
 /**
  * @package OC\Settings\Controller
@@ -255,8 +258,26 @@ class UsersController extends Controller {
 		$serverData['canChangePassword'] = $canChangePassword;
 		$serverData['newUserGenerateUserID'] = $this->config->getAppValue('core', 'newUser.generateUserID', 'no') === 'yes';
 		$serverData['newUserRequireEmail'] = $this->config->getAppValue('core', 'newUser.requireEmail', 'no') === 'yes';
+		$serverData['newUserSendEmail'] = $this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes';
 
 		return new TemplateResponse('settings', 'settings-vue', ['serverData' => $serverData]);
+	}
+
+	/**
+	 * @param string $key
+	 * @param string $value
+	 *
+	 * @return JSONResponse
+	 */
+	public function setPreference(string $key, string $value): JSONResponse {
+		$allowed = ['newUser.sendEmail'];
+		if (!in_array($key, $allowed, true)) {
+			return new JSONResponse([], Http::STATUS_FORBIDDEN);
+		}
+
+		$this->config->setAppValue('core', $key, $value);
+
+		return new JSONResponse([]);
 	}
 
 	/**

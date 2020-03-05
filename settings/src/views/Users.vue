@@ -54,6 +54,14 @@
 					<input type="checkbox" id="showStoragePath" class="checkbox" v-model="showStoragePath">
 					<label for="showStoragePath">{{t('settings', 'Show storage path')}}</label>
 				</div>
+				<div>
+					<input id="sendWelcomeMail"
+						v-model="sendWelcomeMail"
+						:disabled="loadingSendMail"
+						type="checkbox"
+						class="checkbox">
+					<label for="sendWelcomeMail">{{ t('settings', 'Send email to new user') }}</label>
+				</div>
 			</AppNavigationSettings>
 		</AppNavigation>
 		<AppContent>
@@ -63,6 +71,7 @@
 </template>
 
 <script>
+import axios from '@nextcloud/axios'
 import Vue from 'vue';
 import VueLocalStorage from 'vue-localstorage'
 import {
@@ -96,7 +105,7 @@ export default {
 	},
 	beforeMount() {
 		this.$store.commit('initGroups', {
-			groups: this.$store.getters.getServerData.groups, 
+			groups: this.$store.getters.getServerData.groups,
 			orderBy: this.$store.getters.getServerData.sortGroups,
 			userCount: this.$store.getters.getServerData.userCount
 		});
@@ -122,6 +131,7 @@ export default {
 			externalActions: [],
 			showAddGroupEntry: false,
 			loadingAddGroup: false,
+			loadingSendMail: false,
 			showConfig: {
 				showStoragePath: false,
 				showUserBackend: false,
@@ -154,7 +164,7 @@ export default {
 		},
 		removeGroup(groupid) {
 			let self = this;
-			// TODO migrate to a vue js confirm dialog component 
+			// TODO migrate to a vue js confirm dialog component
 			OC.dialogs.confirm(
 				t('settings', 'You are about to remove the group {group}. The users will NOT be deleted.', {group: groupid}),
 				t('settings','Please confirm the group removal '),
@@ -168,7 +178,7 @@ export default {
 
 		/**
 		 * Dispatch default quota set request
-		 * 
+		 *
 		 * @param {string|Object} quota Quota in readable format '5 GB' or Object {id: '5 GB', label: '5GB'}
 		 * @returns {string}
 		 */
@@ -207,7 +217,7 @@ export default {
 
 		/**
 		 * Register a new action for the user menu
-		 * 
+		 *
 		 * @param {string} icon the icon class
 		 * @param {string} text the text to display
 		 * @param {function} action the function to run
@@ -223,7 +233,7 @@ export default {
 
 		/**
 		 * Create a new group
-		 * 
+		 *
 		 * @param {Object} event The form submit event
 		 */
 		createGroup(event) {
@@ -312,7 +322,27 @@ export default {
 			set: function(quota) {
 				this.selectedQuota =  quota;
 			}
-			
+
+		},
+
+		sendWelcomeMail: {
+			get() {
+				return this.settings.newUserSendEmail
+			},
+			async set(value) {
+				try {
+					this.loadingSendMail = true
+					this.$store.commit('setServerData', {
+						...this.settings,
+						newUserSendEmail: value,
+					})
+					await axios.post(OC.generateUrl(`/settings/users/preferences/newUser.sendEmail`), { value: value ? 'yes' : 'no' })
+				} catch (e) {
+					console.error('could not update newUser.sendEmail preference: ' + e.message, e)
+				} finally {
+					this.loadingSendMail = false
+				}
+			},
 		},
 
 		// BUILD APP NAVIGATION MENU OBJECT
@@ -388,10 +418,10 @@ export default {
 				disabledGroup.text = t('settings', 'Disabled users');	// rename disabled group
 				disabledGroup.icon = 'icon-disabled-users';				// set icon
 				if (disabledGroup.utils && (
-					   disabledGroup.utils.counter > 0					// add disabled if not empty 
-					|| disabledGroup.utils.counter === -1)				// add disabled if ldap enabled 
+					   disabledGroup.utils.counter > 0					// add disabled if not empty
+					|| disabledGroup.utils.counter === -1)				// add disabled if ldap enabled
 				) {
-					groups.unshift(disabledGroup);						
+					groups.unshift(disabledGroup);
 					if (disabledGroup.utils.counter === -1) {
 						// hides the counter instead of showing -1
 						delete disabledGroup.utils.counter
