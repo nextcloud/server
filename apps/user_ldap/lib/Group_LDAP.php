@@ -271,7 +271,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		};
 
 		$groups = $this->walkNestedGroups($DN, $fetcher, $groups);
-		return $this->access->groupsMatchFilter($groups);
+		return $this->filterValidGroups($groups);
 	}
 
 	/**
@@ -788,7 +788,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		$seen[$dn] = true;
 		$filter = $this->access->connection->ldapGroupMemberAssocAttr.'='.$dn;
 		$groups = $this->access->fetchListOfGroups($filter,
-			[$this->access->connection->ldapGroupDisplayName, 'dn']);
+			[strtolower($this->access->connection->ldapGroupMemberAssocAttr), $this->access->connection->ldapGroupDisplayName, 'dn']);
 		if (is_array($groups)) {
 			$fetcher = function ($dn, &$seen) {
 				if(is_array($dn) && isset($dn['dn'][0])) {
@@ -798,8 +798,8 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			};
 			$allGroups = $this->walkNestedGroups($dn, $fetcher, $groups);
 		}
-		$visibleGroups = $this->access->groupsMatchFilter(array_keys($allGroups));
-		return array_intersect_key($allGroups, array_flip($visibleGroups));
+		$visibleGroups = $this->filterValidGroups($allGroups);
+		return array_intersect_key($allGroups, $visibleGroups);
 	}
 
 	/**
@@ -1115,14 +1115,34 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			return false;
 		}
 
+		if(!$this->access->isDNPartOfBase($dn, $this->access->connection->ldapBaseGroups)) {
+			$this->access->connection->writeToCache('groupExists'.$gid, false);
+			return false;
+		}
+
 		//if group really still exists, we will be able to read its objectclass
-		if(!is_array($this->access->readAttribute($dn, ''))) {
+		if(!is_array($this->access->readAttribute($dn, '', $this->access->connection->ldapGroupFilter))) {
 			$this->access->connection->writeToCache('groupExists'.$gid, false);
 			return false;
 		}
 
 		$this->access->connection->writeToCache('groupExists'.$gid, true);
 		return true;
+	}
+
+	protected function filterValidGroups (array $listOfGroups): array {
+		$validGroupDNs = [];
+		foreach($listOfGroups as $key => $item) {
+			$dn = is_string($item) ? $item : $item['dn'][0];
+			$gid = $this->access->dn2groupname($dn);
+			if(!$gid) {
+				continue;
+			}
+			if($this->groupExists($gid)) {
+				$validGroupDNs[$key] = $item;
+			}
+		}
+		return $validGroupDNs;
 	}
 
 	/**
