@@ -48,12 +48,14 @@ class CapabilitiesManager {
 
 	/**
 	 * Get an array of al the capabilities that are registered at this manager
-     *
+	 *
 	 * @param bool $public get public capabilities only
+	 *
 	 * @throws \InvalidArgumentException
-	 * @return array
+	 *
+	 * @return array|null
 	 */
-	public function getCapabilities(bool $public = false) : array {
+	public function getCapabilities(bool $public = false) : ?array {
 		$capabilities = [];
 		foreach($this->capabilities as $capability) {
 			try {

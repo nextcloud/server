@@ -94,8 +94,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function mkdir($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function mkdir($path): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::mkdir($path);
@@ -104,8 +108,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function rmdir($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function rmdir($path): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::rmdir($path);
@@ -114,7 +122,11 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return null|resource
+	 */
 	public function opendir($path) {
 		$this->checkAvailability();
 		try {
@@ -124,8 +136,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function is_dir($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function is_dir($path): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::is_dir($path);
@@ -134,8 +150,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function is_file($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function is_file($path): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::is_file($path);
@@ -144,8 +164,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function stat($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return array|null
+	 */
+	public function stat($path): ?array {
 		$this->checkAvailability();
 		try {
 			return parent::stat($path);
@@ -154,8 +178,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function filetype($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function filetype($path): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::filetype($path);
@@ -164,8 +192,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function filesize($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return int|null
+	 */
+	public function filesize($path): ?int {
 		$this->checkAvailability();
 		try {
 			return parent::filesize($path);
@@ -174,8 +206,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function isCreatable($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function isCreatable($path): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::isCreatable($path);
@@ -184,8 +220,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function isReadable($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function isReadable($path): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::isReadable($path);
@@ -194,8 +234,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function isUpdatable($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function isUpdatable($path): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::isUpdatable($path);
@@ -204,8 +248,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function isDeletable($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function isDeletable($path): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::isDeletable($path);
@@ -214,8 +262,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function isSharable($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function isSharable($path): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::isSharable($path);
@@ -224,8 +276,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function getPermissions($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return int|null
+	 */
+	public function getPermissions($path): ?int {
 		$this->checkAvailability();
 		try {
 			return parent::getPermissions($path);
@@ -234,8 +290,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function file_exists($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function file_exists($path): ?bool {
 		if ($path === '') {
 			return true;
 		}
@@ -247,8 +307,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function filemtime($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return int|null
+	 */
+	public function filemtime($path): ?int {
 		$this->checkAvailability();
 		try {
 			return parent::filemtime($path);
@@ -257,8 +321,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function file_get_contents($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return null|string
+	 */
+	public function file_get_contents($path): ?string {
 		$this->checkAvailability();
 		try {
 			return parent::file_get_contents($path);
@@ -267,8 +335,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function file_put_contents($path, $data) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function file_put_contents($path, $data): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::file_put_contents($path, $data);
@@ -277,8 +349,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function unlink($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function unlink($path): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::unlink($path);
@@ -287,8 +363,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function rename($path1, $path2) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function rename($path1, $path2): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::rename($path1, $path2);
@@ -297,8 +377,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function copy($path1, $path2) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function copy($path1, $path2): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::copy($path1, $path2);
@@ -307,7 +391,11 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return null|resource
+	 */
 	public function fopen($path, $mode) {
 		$this->checkAvailability();
 		try {
@@ -317,8 +405,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function getMimeType($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return null|string
+	 */
+	public function getMimeType($path): ?string {
 		$this->checkAvailability();
 		try {
 			return parent::getMimeType($path);
@@ -327,8 +419,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function hash($type, $path, $raw = false) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return null|string
+	 */
+	public function hash($type, $path, $raw = false): ?string {
 		$this->checkAvailability();
 		try {
 			return parent::hash($type, $path, $raw);
@@ -337,8 +433,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function free_space($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return int|null
+	 */
+	public function free_space($path): ?int {
 		$this->checkAvailability();
 		try {
 			return parent::free_space($path);
@@ -347,8 +447,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function search($query) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return array|null
+	 */
+	public function search($query): ?array {
 		$this->checkAvailability();
 		try {
 			return parent::search($query);
@@ -357,8 +461,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function touch($path, $mtime = null) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function touch($path, $mtime = null): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::touch($path, $mtime);
@@ -367,8 +475,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function getLocalFile($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return null|string
+	 */
+	public function getLocalFile($path): ?string {
 		$this->checkAvailability();
 		try {
 			return parent::getLocalFile($path);
@@ -377,8 +489,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function hasUpdated($path, $time) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function hasUpdated($path, $time): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::hasUpdated($path, $time);
@@ -387,8 +503,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function getOwner($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return null|string
+	 */
+	public function getOwner($path): ?string {
 		try {
 			return parent::getOwner($path);
 		} catch (StorageNotAvailableException $e) {
@@ -396,8 +516,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function getETag($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return null|string
+	 */
+	public function getETag($path): ?string {
 		$this->checkAvailability();
 		try {
 			return parent::getETag($path);
@@ -406,8 +530,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function getDirectDownload($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return array|null
+	 */
+	public function getDirectDownload($path): ?array {
 		$this->checkAvailability();
 		try {
 			return parent::getDirectDownload($path);
@@ -416,8 +544,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
@@ -426,8 +558,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return bool|null
+	 */
+	public function moveFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath): ?bool {
 		$this->checkAvailability();
 		try {
 			return parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
@@ -436,8 +572,12 @@ class Availability extends Wrapper {
 		}
 	}
 
-	/** {@inheritdoc} */
-	public function getMetaData($path) {
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return array|null
+	 */
+	public function getMetaData($path): ?array {
 		$this->checkAvailability();
 		try {
 			return parent::getMetaData($path);

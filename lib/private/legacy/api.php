@@ -139,9 +139,10 @@ class OC_API {
 
 	/**
 	 * @param integer $sc
-	 * @return int
+	 *
+	 * @return int|null
 	 */
-	public static function mapStatusCodes($sc) {
+	public static function mapStatusCodes($sc): ?int {
 		switch ($sc) {
 			case API::RESPOND_NOT_FOUND:
 				return Http::STATUS_NOT_FOUND;

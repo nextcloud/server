@@ -504,11 +504,13 @@ class Filesystem {
 	/**
 	 * get the relative path of the root data directory for the current user
 	 *
-	 * @return string
+	 *
 	 *
 	 * Returns path like /admin/files
+	 *
+	 * @return null|string Returns path like /admin/files
 	 */
-	static public function getRoot() {
+	static public function getRoot(): ?string {
 		if (!self::$defaultInstance) {
 			return null;
 		}

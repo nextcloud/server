@@ -89,9 +89,9 @@ class Entry implements IEntry {
 	}
 
 	/**
-	 * @return string
+	 * @return null|string
 	 */
-	public function getAvatar() {
+	public function getAvatar(): ?string {
 		return $this->avatar;
 	}
 

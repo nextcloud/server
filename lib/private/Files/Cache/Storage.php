@@ -91,9 +91,10 @@ class Storage {
 
 	/**
 	 * @param string $storageId
-	 * @return array
+	 *
+	 * @return array|null
 	 */
-	public static function getStorageById($storageId) {
+	public static function getStorageById($storageId): ?array {
 		return self::getGlobalCache()->getStorageInfo($storageId);
 	}
 

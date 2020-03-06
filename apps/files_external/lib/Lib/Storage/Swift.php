@@ -359,7 +359,7 @@ class Swift extends \OC\Files\Storage\Common {
 		return $stat;
 	}
 
-	public function filetype($path) {
+	public function filetype($path): ?string {
 		$path = $this->normalizePath($path);
 
 		if ($path !== '.' && $this->doesObjectExist($path)) {

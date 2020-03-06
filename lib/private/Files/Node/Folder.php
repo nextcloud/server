@@ -65,9 +65,10 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 	/**
 	 * @param string $path
-	 * @return string
+	 *
+	 * @return null|string
 	 */
-	public function getRelativePath($path) {
+	public function getRelativePath($path): ?string {
 		if ($this->path === '' or $this->path === '/') {
 			return $this->normalizePath($path);
 		}

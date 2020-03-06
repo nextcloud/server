@@ -105,7 +105,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	}
 
 	/**
-	 * @return ICacheEntry
+	 * @return ICacheEntry|false|null
 	 */
 	private function getSourceRootInfo() {
 		if (is_null($this->sourceRootInfo)) {

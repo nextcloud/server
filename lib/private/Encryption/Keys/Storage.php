@@ -135,9 +135,11 @@ class Storage implements IStorage {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritdoc 
+	 *
+	 * @return bool|null
 	 */
-	public function deleteUserKey($uid, $keyId, $encryptionModuleId) {
+	public function deleteUserKey($uid, $keyId, $encryptionModuleId): ?bool {
 		try {
 			$path = $this->constructUserKeyPath($encryptionModuleId, $keyId, $uid);
 			return !$this->view->file_exists($path) || $this->view->unlink($path);

@@ -63,9 +63,10 @@ namespace OC {
 		 *
 		 * @param object $id the unique identifier to a contact
 		 * @param string $addressBookKey identifier of the address book in which the contact shall be deleted
-		 * @return bool successful or not
+		 *
+		 * @return bool|null successful or not
 		 */
-		public function delete($id, $addressBookKey) {
+		public function delete($id, $addressBookKey): ?bool {
 			$addressBook = $this->getAddressBook($addressBookKey);
 			if (!$addressBook) {
 				return null;
@@ -84,9 +85,10 @@ namespace OC {
 		 *
 		 * @param array $properties this array if key-value-pairs defines a contact
 		 * @param string $addressBookKey identifier of the address book in which the contact shall be created or updated
-		 * @return array representing the contact just created or updated
+		 *
+		 * @return array|null representing the contact just created or updated
 		 */
-		public function createOrUpdate($properties, $addressBookKey) {
+		public function createOrUpdate($properties, $addressBookKey): ?array {
 			$addressBook = $this->getAddressBook($addressBookKey);
 			if (!$addressBook) {
 				return null;
@@ -184,9 +186,10 @@ namespace OC {
 		 * Get (and load when needed) the address book for $key
 		 *
 		 * @param string $addressBookKey
-		 * @return \OCP\IAddressBook
+		 *
+		 * @return \OCP\IAddressBook|null
 		 */
-		protected function getAddressBook($addressBookKey)
+		protected function getAddressBook($addressBookKey): ?\OCP\IAddressBook
 		{
 			$this->loadAddressBooks();
 			if (!array_key_exists($addressBookKey, $this->addressBooks)) {

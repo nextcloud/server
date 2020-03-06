@@ -34,7 +34,7 @@ class NullCache implements ICache {
 		return -1;
 	}
 
-	public function get($file) {
+	public function get($file): ?CacheEntry {
 		return $file !== '' ? null :
 			new CacheEntry([
 				'fileid' => -1,

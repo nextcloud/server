@@ -162,7 +162,8 @@ class View {
 	 * get path relative to the root of the view
 	 *
 	 * @param string $path
-	 * @return string
+	 *
+	 * @return false|null|string
 	 */
 	public function getRelativePath($path) {
 		$this->assertPathLength($path);
@@ -209,9 +210,10 @@ class View {
 	 * and does not take the chroot into account )
 	 *
 	 * @param string $path
-	 * @return \OCP\Files\Mount\IMountPoint
+	 *
+	 * @return Mount\MountPoint|null
 	 */
-	public function getMount($path) {
+	public function getMount($path): ?Mount\MountPoint {
 		return Filesystem::getMountManager()->find($this->getAbsolutePath($path));
 	}
 
@@ -1222,7 +1224,8 @@ class View {
 	 * get the path relative to the default root for hook usage
 	 *
 	 * @param string $path
-	 * @return string
+	 *
+	 * @return false|null|string
 	 */
 	private function getHookPath($path) {
 		if (!Filesystem::getView()) {
@@ -1899,7 +1902,10 @@ class View {
 	 * @param string $absolutePath absolute path
 	 * @param bool $useParentMount true to return parent mount instead of whatever
 	 * is mounted directly on the given path, false otherwise
-	 * @return \OC\Files\Mount\MountPoint mount point for which to apply locks
+	 *
+	 * @return Mount\MountPoint|array|null mount point for which to apply locks
+	 *
+	 * @psalm-return Mount\MountPoint|array<empty, empty>|null
 	 */
 	private function getMountForLock($absolutePath, $useParentMount = false) {
 		$results = [];

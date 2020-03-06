@@ -211,9 +211,9 @@ class Router implements IRouter {
 	/**
 	 * returns the current collection name in use for adding routes
 	 *
-	 * @return string the collection name
+	 * @return null|string the collection name
 	 */
-	public function getCurrentCollection() {
+	public function getCurrentCollection(): ?string {
 		return $this->collectionName;
 	}
 

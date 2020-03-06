@@ -173,9 +173,10 @@ class Encryption extends Wrapper {
 
 	/**
 	 * @param string $path
-	 * @return array
+	 *
+	 * @return array|null
 	 */
-	public function getMetaData($path) {
+	public function getMetaData($path): ?array {
 		$data = $this->storage->getMetaData($path);
 		if (is_null($data)) {
 			return null;

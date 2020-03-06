@@ -208,6 +208,9 @@ class Local extends \OC\Files\Storage\Common {
 		return $filetype;
 	}
 
+	/**
+	 * @return false|float|int|null
+	 */
 	public function filesize($path) {
 		if ($this->is_dir($path)) {
 			return 0;

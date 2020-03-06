@@ -84,9 +84,10 @@ class Manager {
 	 * @param IUser $user
 	 * @param integer $shareType
 	 * @param string $shareWith
-	 * @return IEntry
+	 *
+	 * @return IEntry|null
 	 */
-	public function findOne(IUser $user, $shareType, $shareWith) {
+	public function findOne(IUser $user, $shareType, $shareWith): ?IEntry {
 		$entry = $this->store->findOne($user, $shareType, $shareWith);
 		if ($entry) {
 			$this->processEntries([$entry], $user);

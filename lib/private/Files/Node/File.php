@@ -142,7 +142,8 @@ class File extends Node implements \OCP\Files\File {
 	/**
 	 * @param string $type
 	 * @param bool $raw
-	 * @return string
+	 *
+	 * @return bool|null|string
 	 */
 	public function hash($type, $raw = false) {
 		return $this->view->hash($type, $this->path, $raw);

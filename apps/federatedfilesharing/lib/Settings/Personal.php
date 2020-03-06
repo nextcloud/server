@@ -77,10 +77,11 @@ class Personal implements ISettings {
 	}
 
 	/**
-	 * @return string the section ID, e.g. 'sharing'
+	 * @return null|string the section ID, e.g. 'sharing'
+	 *
 	 * @since 9.1
 	 */
-	public function getSection() {
+	public function getSection(): ?string {
 		if ($this->federatedShareProvider->isIncomingServer2serverShareEnabled() ||
 			$this->federatedShareProvider->isIncomingServer2serverGroupShareEnabled()) {
 			return 'sharing';

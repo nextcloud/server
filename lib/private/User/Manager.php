@@ -293,8 +293,10 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @param string $uid
 	 * @param string $password
+	 *
 	 * @throws \InvalidArgumentException
-	 * @return bool|IUser the created user or false
+	 *
+	 * @return IUser|false|null the created user or false
 	 */
 	public function createUser($uid, $password) {
 		$localBackends = [];

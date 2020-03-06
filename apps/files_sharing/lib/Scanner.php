@@ -45,9 +45,11 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 *
 	 * @param string $path path of the file for which to retrieve metadata
 	 *
-	 * @return array an array of metadata of the file
+	 * @return array|null an array of metadata of the file
+	 *
+	 * @psalm-return array{permissions: mixed}|null
 	 */
-	public function getData($path) {
+	public function getData($path): ?array {
 		$data = parent::getData($path);
 		if ($data === null) {
 			return null;
@@ -71,7 +73,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		}
 	}
 
-	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true) {
+	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true): ?array {
 		$sourceScanner = $this->getSourceScanner();
 		if ($sourceScanner instanceof NoopScanner) {
 			return [];

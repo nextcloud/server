@@ -100,9 +100,9 @@ class CachedMountInfo implements ICachedMountInfo {
 	}
 
 	/**
-	 * @return Node the root node of the mount
+	 * @return Node|null the root node of the mount
 	 */
-	public function getMountPointNode() {
+	public function getMountPointNode(): ?Node {
 		// TODO injection etc
 		Filesystem::initMountPoints($this->getUser()->getUID());
 		$userNode = \OC::$server->getUserFolder($this->getUser()->getUID());

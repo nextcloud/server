@@ -94,7 +94,7 @@ class ContactsManagerTest extends \Test\TestCase {
 		$result =  $this->cm->search('');
 		$this->assertEquals($expectedResult, $result);
 	}
-	
+
 
 	public function testDeleteHavePermission(){
 		/** @var \PHPUnit_Framework_MockObject_MockObject|IAddressBook $addressbook */
@@ -161,11 +161,11 @@ class ContactsManagerTest extends \Test\TestCase {
 
 		$addressbook->expects($this->once())
 			->method('createOrUpdate')
-			->willReturn('returnMe');
+			->willReturn(['returnMe']);
 
 		$this->cm->registerAddressBook($addressbook);
 		$result = $this->cm->createOrUpdate([], $addressbook->getKey());
-		$this->assertEquals($result, 'returnMe');
+		$this->assertEquals($result, ['returnMe']);
 	}
 
 	public function testCreateOrUpdateNoPermission(){

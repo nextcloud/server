@@ -77,9 +77,10 @@ class Tag extends Entity {
 	 * Transform a property to a database column name
 	 *
 	 * @param string $property the name of the property
-	 * @return string the column name
+	 *
+	 * @return null|string the column name
 	 */
-	public function propertyToColumn($property){
+	public function propertyToColumn($property): ?string{
 		if ($property === 'name') {
 		    return 'category';
 		} elseif ($property === 'owner') {

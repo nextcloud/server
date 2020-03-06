@@ -205,11 +205,14 @@ abstract class Entity {
 
 	/**
 	 * Transform a property to a database column name
+	 *
 	 * @param string $property the name of the property
-	 * @return string the column name
+	 *
+	 * @return null|string the column name
+	 *
 	 * @since 7.0.0
 	 */
-	public function propertyToColumn($property){
+	public function propertyToColumn($property): ?string{
 		$parts = preg_split('/(?=[A-Z])/', $property);
 		$column = null;
 

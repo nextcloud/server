@@ -46,7 +46,7 @@ class NonExistingFile extends File {
 		throw new NotFoundException();
 	}
 
-	public function getId() {
+	public function getId(): ?int {
 		if ($this->fileInfo) {
 			return parent::getId();
 		} else {

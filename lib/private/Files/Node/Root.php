@@ -105,9 +105,9 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * Get the user for which the filesystem is setup
 	 *
-	 * @return \OC\User\User
+	 * @return \OC\User\User|null
 	 */
-	public function getUser() {
+	public function getUser(): ?\OC\User\User {
 		return $this->user;
 	}
 
@@ -150,9 +150,10 @@ class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @param string $mountPoint
-	 * @return \OC\Files\Mount\MountPoint
+	 *
+	 * @return MountPoint|null
 	 */
-	public function getMount($mountPoint) {
+	public function getMount($mountPoint): ?MountPoint {
 		return $this->mountManager->find($mountPoint);
 	}
 
@@ -263,9 +264,9 @@ class Root extends Folder implements IRootFolder {
 	}
 
 	/**
-	 * @return int
+	 * @return int|null
 	 */
-	public function getId() {
+	public function getId(): ?int {
 		return null;
 	}
 

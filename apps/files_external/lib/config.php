@@ -304,9 +304,10 @@ class OC_Mount_Config {
 	 * TODO: move into AppFramework along with templates
 	 *
 	 * @param Backend[] $backends
-	 * @return string
+	 *
+	 * @return null|string
 	 */
-	public static function dependencyMessage($backends) {
+	public static function dependencyMessage($backends): ?string {
 		$l = \OC::$server->getL10N('files_external');
 		$message = '';
 		$dependencyGroups = [];

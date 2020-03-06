@@ -30,7 +30,10 @@ use OCP\DB\QueryBuilder\IQueryFunction;
 class QuoteHelper {
 	/**
 	 * @param array|string|ILiteral|IParameter|IQueryFunction $strings string, Literal or Parameter
-	 * @return array|string
+	 *
+	 * @return (null|string)[]|null|string
+	 *
+	 * @psalm-return list<null|string>|null|string
 	 */
 	public function quoteColumnNames($strings) {
 		if (!is_array($strings)) {
@@ -47,9 +50,10 @@ class QuoteHelper {
 
 	/**
 	 * @param string|ILiteral|IParameter|IQueryFunction $string string, Literal or Parameter
-	 * @return string
+	 *
+	 * @return null|string
 	 */
-	public function quoteColumnName($string) {
+	public function quoteColumnName($string): ?string {
 		if ($string instanceof IParameter || $string instanceof ILiteral || $string instanceof IQueryFunction) {
 			return (string) $string;
 		}

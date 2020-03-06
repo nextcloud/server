@@ -56,7 +56,7 @@ class NoopScanner extends Scanner {
 	 * @param int $reuse
 	 * @return array with the meta data of the scanned file or folder
 	 */
-	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
+	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true): ?array {
 		return [];
 	}
 

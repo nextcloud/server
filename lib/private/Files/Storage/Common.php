@@ -695,9 +695,13 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	/**
-	 * @inheritdoc
+	 * @inheritdoc 
+	 *
+	 * @return (false|int|string)[]|null
+	 *
+	 * @psalm-return array{mimetype: false|string, mtime: int, size: false|int, etag: string, storage_mtime: int, permissions: int}|null
 	 */
-	public function getMetaData($path) {
+	public function getMetaData($path): ?array {
 		$permissions = $this->getPermissions($path);
 		if (!$permissions & \OCP\Constants::PERMISSION_READ) {
 			//can't read, nothing we can do
@@ -825,9 +829,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	}
 
 	/**
-	 * @return array [ available, last_checked ]
+	 * @return array|null [ available, last_checked ]
 	 */
-	public function getAvailability() {
+	public function getAvailability(): ?array {
 		return $this->getStorageCache()->getAvailability();
 	}
 

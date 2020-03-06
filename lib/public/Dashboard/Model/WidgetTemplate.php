@@ -283,9 +283,9 @@ final class WidgetTemplate implements JsonSerializable {
 	 *
 	 * @param string $key
 	 *
-	 * @return WidgetSetting
+	 * @return WidgetSetting|null
 	 */
-	public function getSetting(string $key): WidgetSetting {
+	public function getSetting(string $key): ?WidgetSetting {
 		if (!array_key_exists($key, $this->settings)) {
 			return null;
 		}

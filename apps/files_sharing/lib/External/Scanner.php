@@ -35,8 +35,12 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	/** @var \OCA\Files_Sharing\External\Storage */
 	protected $storage;
 
-	/** {@inheritDoc} */
-	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @return array|null
+	 */
+	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true): ?array {
 		if(!$this->storage->remoteIsOwnCloud()) {
 			return parent::scan($path, $recursive, $recursive, $lock);
 		}
@@ -55,9 +59,10 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 * @param int $parentId
 	 * @param array | null $cacheData existing data in the cache for the file to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
-	 * @return array an array of metadata of the scanned file
+	 *
+	 * @return array|null an array of metadata of the scanned file
 	 */
-	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true) {
+	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true): ?array {
 		try {
 			return parent::scanFile($file, $reuseExisting);
 		} catch (ForbiddenException $e) {
