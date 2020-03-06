@@ -57,6 +57,7 @@
     "Could not create file \"{file}\"" : "Nije moguće stvoriti datoteku „{file}”",
     "Could not create file \"{file}\" because it already exists" : "Nije moguće stvoriti datoteku „{file}” jer već postoji",
     "Could not create folder \"{dir}\" because it already exists" : "Nije moguće stvoriti mapu „{dir}” jer već postoji",
+    "Could not fetch file details \"{file}\"" : "Neuspješno dohvaćanje pojedinosti o datoteci „{file}“",
     "Error deleting file \"{fileName}\"." : "Pogreška pri brisanju datoteke „{fileName}”.",
     "No search results in other folders for {tag}{filter}{endtag}" : "Nema rezultata pretraživanja u drugim mapama za {tag}{filter}{endtag}",
     "Name" : "Naziv",

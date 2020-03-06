@@ -176,6 +176,7 @@ OC.L10N.register(
     "Email Field" : "Polje adrese e-pošte",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Postavlja adresu e-pošte korisnika iz njihovog atributa u LDAP-u. Ostavite prazno ako želite koristiti zadanu vrijednost.",
     "User Home Folder Naming Rule" : "Pravilo imenovanja početne mape korisnika",
+    "Leave empty for username (default). Otherwise, specify an LDAP/AD attribute." : "Ostavite prazno ako želite koristiti korisničko ime (zadano). U suprotnom navedite taj atribut LDAP-a/AD-a.",
     "\"$home\" Placeholder Field" : "Polje rezerviranja „$home”",
     "$home in an external storage configuration will be replaced with the value of the specified attribute" : "$home će se u konfiguraciji vanjske pohrane zamijeniti s vrijednosti navedenog atributa",
     "Internal Username" : "Unutarnje korisničko ime",
