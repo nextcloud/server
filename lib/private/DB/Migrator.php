@@ -62,7 +62,7 @@ class Migrator {
 	private $noEmit = false;
 
 	/**
-	 * @param \Doctrine\DBAL\Connection|Connection $connection
+	 * @param \Doctrine\DBAL\Connection $connection
 	 * @param ISecureRandom $random
 	 * @param IConfig $config
 	 * @param EventDispatcherInterface $dispatcher

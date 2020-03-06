@@ -181,7 +181,7 @@ class Manager {
 
 	/**
 	 * @param array $states
-	 * @param IProvider $providers
+	 * @param IProvider[] $providers
 	 */
 	private function isProviderMissing(array $states, array $providers): bool {
 		$indexed = [];

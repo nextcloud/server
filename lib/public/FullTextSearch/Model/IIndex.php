@@ -181,7 +181,7 @@ interface IIndex {
 	 * @since 15.0.0
 	 *
 	 * @param string $option
-	 * @param string|int $value
+	 * @param string $value
 	 *
 	 * @return IIndex
 	 */
