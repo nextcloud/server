@@ -148,7 +148,7 @@ OC.L10N.register(
     "Transfer" : "Prenos",
     "Transfer {path} to {userid}" : "Prenesi pot {path} k uporabniku {userid}",
     "Invalid path selected" : "Izbrana je neveljavna pot",
-    "Ownership transfer request sent" : "Zahtevek prenosa lastništva poslan",
+    "Ownership transfer request sent" : "Zahteva za prenos lastništva je poslana",
     "Tags" : "Oznake",
     "Error while loading the file data" : "Prišlo je do napake med nalaganjem podatkov računa",
     "Unable to change the favourite state of the file" : "Ni mogoče spremeniti stanja priljubljenosti datoteke",
