@@ -91,7 +91,9 @@ interface IVersionBackend {
 	 * @param IUser $user
 	 * @param FileInfo $sourceFile
 	 * @param int|string $revision
-	 * @return ISimpleFile
+	 *
+	 * @return File
+	 *
 	 * @since 15.0.0
 	 */
 	public function getVersionFile(IUser $user, FileInfo $sourceFile, $revision): File;

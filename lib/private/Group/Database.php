@@ -400,7 +400,8 @@ class Database extends ABackend
 	 * get the number of disabled users in a group
 	 *
 	 * @param string $search
-	 * @return int|bool
+	 *
+	 * @return int
 	 */
 	public function countDisabledInGroup(string $gid): int {
 		$this->fixDI();
