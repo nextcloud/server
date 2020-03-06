@@ -280,10 +280,12 @@ class UserMountCache implements IUserMountCache {
 
 	/**
 	 * @param $fileId
+	 *
 	 * @return array
+	 *
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	private function getCacheInfoFromFileId($fileId) {
+	private function getCacheInfoFromFileId(int $fileId) {
 		if (!isset($this->cacheInfoCache[$fileId])) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->select('storage', 'path', 'mimetype')

@@ -561,7 +561,7 @@ class AppManager implements IAppManager {
 		return in_array($appId, $this->shippedApps, true);
 	}
 
-	private function isAlwaysEnabled($appId) {
+	private function isAlwaysEnabled(string $appId) {
 		$alwaysEnabled = $this->getAlwaysEnabledApps();
 		return in_array($appId, $alwaysEnabled, true);
 	}

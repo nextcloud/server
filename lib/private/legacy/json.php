@@ -98,10 +98,14 @@ class OC_JSON{
 
 	/**
 	 * Send json error msg
+	 *
 	 * @deprecated Use a AppFramework JSONResponse instead
+	 *
 	 * @suppress PhanDeprecatedFunction
+	 *
+	 * @param (int|string|string[])[] $data
 	 */
-	public static function error($data = array()) {
+	public static function error(array $data = array()) {
 		$data['status'] = 'error';
 		header( 'Content-Type: application/json; charset=utf-8');
 		echo self::encode($data);
@@ -109,10 +113,14 @@ class OC_JSON{
 
 	/**
 	 * Send json success msg
+	 *
 	 * @deprecated Use a AppFramework JSONResponse instead
+	 *
 	 * @suppress PhanDeprecatedFunction
+	 *
+	 * @param (array|string)[] $data
 	 */
-	public static function success($data = array()) {
+	public static function success(array $data = array()) {
 		$data['status'] = 'success';
 		header( 'Content-Type: application/json; charset=utf-8');
 		echo self::encode($data);
@@ -129,9 +137,12 @@ class OC_JSON{
 
 	/**
 	 * Encode JSON
+	 *
 	 * @deprecated Use a AppFramework JSONResponse instead
+	 *
+	 * @param array[] $data
 	 */
-	public static function encode($data) {
+	public static function encode(array $data) {
 		if (is_array($data)) {
 			array_walk_recursive($data, array('OC_JSON', 'to_string'));
 		}

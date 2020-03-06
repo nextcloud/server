@@ -237,11 +237,14 @@ abstract class Avatar implements IAvatar {
 
 	/**
 	 * Calculate steps between two Colors
+	 *
 	 * @param object Color $steps start color
 	 * @param object Color $ends end color
+	 * @param array $ends
+	 *
 	 * @return array [r,g,b] steps for each color to go from $steps to $ends
 	 */
-	private function stepCalc($steps, $ends) {
+	private function stepCalc(int $steps, array $ends) {
 		$step = array();
 		$step[0] = ($ends[1]->r - $ends[0]->r) / $steps;
 		$step[1] = ($ends[1]->g - $ends[0]->g) / $steps;
@@ -251,11 +254,13 @@ abstract class Avatar implements IAvatar {
 
 	/**
 	 * Convert a string to an integer evenly
+	 *
 	 * @param string $hash the text to parse
 	 * @param int $maximum the maximum range
+	 *
 	 * @return int[] between 0 and $maximum
 	 */
-	private function mixPalette($steps, $color1, $color2) {
+	private function mixPalette(int $steps, Color $color1, Color $color2) {
 		$palette = array($color1);
 		$step = $this->stepCalc($steps, [$color1, $color2]);
 		for ($i = 1; $i < $steps; $i++) {

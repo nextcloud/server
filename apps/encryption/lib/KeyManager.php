@@ -295,18 +295,20 @@ class KeyManager {
 	/**
 	 * @param $userId
 	 * @param $key
+	 *
 	 * @return bool
 	 */
-	public function setPublicKey($userId, $key) {
+	public function setPublicKey(string $userId, $key) {
 		return $this->keyStorage->setUserKey($userId, $this->publicKeyId, $key, Encryption::ID);
 	}
 
 	/**
 	 * @param $userId
 	 * @param string $key
+	 *
 	 * @return bool
 	 */
-	public function setPrivateKey($userId, $key) {
+	public function setPrivateKey(string $userId, $key) {
 		return $this->keyStorage->setUserKey($userId,
 			$this->privateKeyId,
 			$key,
@@ -394,10 +396,12 @@ class KeyManager {
 
 	/**
 	 * @param $userId
+	 *
 	 * @return string
+	 *
 	 * @throws PrivateKeyMissingException
 	 */
-	public function getPrivateKey($userId) {
+	public function getPrivateKey(string $userId) {
 		$privateKey = $this->keyStorage->getUserKey($userId,
 			$this->privateKeyId, Encryption::ID);
 
@@ -410,9 +414,10 @@ class KeyManager {
 	/**
 	 * @param string $path
 	 * @param $uid
+	 *
 	 * @return string
 	 */
-	public function getFileKey($path, $uid) {
+	public function getFileKey($path, string $uid) {
 		if ($uid === '') {
 			$uid = null;
 		}
@@ -515,9 +520,10 @@ class KeyManager {
 	/**
 	 * @param $path
 	 * @param $uid
+	 *
 	 * @return mixed
 	 */
-	public function getShareKey($path, $uid) {
+	public function getShareKey(string $path, string $uid) {
 		$keyId = $uid . '.' . $this->shareKeyId;
 		return $this->keyStorage->getFileKey($path, $keyId, Encryption::ID);
 	}
@@ -558,10 +564,12 @@ class KeyManager {
 
 	/**
 	 * @param $userId
+	 *
 	 * @return mixed
+	 *
 	 * @throws PublicKeyMissingException
 	 */
-	public function getPublicKey($userId) {
+	public function getPublicKey(string $userId) {
 		$publicKey = $this->keyStorage->getUserKey($userId, $this->publicKeyId, Encryption::ID);
 
 		if (strlen($publicKey) !== 0) {
@@ -603,9 +611,10 @@ class KeyManager {
 
 	/**
 	 * @param $uid
+	 *
 	 * @return bool
 	 */
-	public function deletePublicKey($uid) {
+	public function deletePublicKey(string $uid) {
 		return $this->keyStorage->deleteUserKey($uid, $this->publicKeyId, Encryption::ID);
 	}
 

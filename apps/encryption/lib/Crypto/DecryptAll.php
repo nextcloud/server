@@ -76,9 +76,10 @@ class DecryptAll {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 * @param $user
+	 *
 	 * @return bool
 	 */
-	public function prepare(InputInterface $input, OutputInterface $output, $user) {
+	public function prepare(InputInterface $input, OutputInterface $output, string $user) {
 
 		$question = new Question('Please enter the recovery key password: ');
 
@@ -154,7 +155,10 @@ class DecryptAll {
 		return $privateKey;
 	}
 
-	protected function updateSession($user, $privateKey) {
+	/**
+	 * @param string|true $privateKey
+	 */
+	protected function updateSession(string $user, $privateKey) {
 		$this->session->prepareDecryptAll($user, $privateKey);
 	}
 }

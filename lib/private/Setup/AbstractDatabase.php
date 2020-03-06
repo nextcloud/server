@@ -66,6 +66,9 @@ abstract class AbstractDatabase {
 		$this->random = $random;
 	}
 
+	/**
+	 * @param (mixed|string)[]|\ArrayAccess $config
+	 */
 	public function validate($config) {
 		$errors = array();
 		if(empty($config['dbuser']) && empty($config['dbname'])) {
@@ -81,6 +84,9 @@ abstract class AbstractDatabase {
 		return $errors;
 	}
 
+	/**
+	 * @param (mixed|string)[]|\ArrayAccess $config
+	 */
 	public function initialize($config) {
 		$dbUser = $config['dbuser'];
 		$dbPass = $config['dbpass'];

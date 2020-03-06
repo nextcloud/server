@@ -604,7 +604,7 @@ class DAV extends Common {
 		}
 	}
 
-	public function getMimeTypeFromRemote($path) {
+	public function getMimeTypeFromRemote(string $path) {
 		try {
 			$response = $this->propfind($path);
 			if ($response === false) {

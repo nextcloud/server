@@ -139,9 +139,10 @@ class Manager {
 
 	/**
 	 * removes a user entry from the cache
+	 *
 	 * @param $uid
 	 */
-	public function invalidate($uid) {
+	public function invalidate(string $uid) {
 		if(!isset($this->usersByUid[$uid])) {
 			return;
 		}

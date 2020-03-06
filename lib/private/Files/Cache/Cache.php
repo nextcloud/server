@@ -482,7 +482,7 @@ class Cache implements ICache {
 		}
 	}
 
-	private function getParentPath($path) {
+	private function getParentPath(string $path) {
 		$parent = dirname($path);
 		if ($parent === '.') {
 			$parent = '';
@@ -820,7 +820,7 @@ class Cache implements ICache {
 	 * @param string|boolean $path
 	 * @param array $data (optional) meta data of the folder
 	 */
-	public function correctFolderSize($path, $data = null, $isBackgroundScan = false) {
+	public function correctFolderSize($path, $data = null, bool $isBackgroundScan = false) {
 		$this->calculateFolderSize($path, $data);
 		if ($path !== '') {
 			$parent = dirname($path);

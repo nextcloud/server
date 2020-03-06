@@ -89,8 +89,9 @@ class AccountManager implements IAccountManager {
 	 *
 	 * @param IUser $user
 	 * @param $data
+	 * @param array $data
 	 */
-	public function updateUser(IUser $user, $data) {
+	public function updateUser(IUser $user, array $data) {
 		$userData = $this->getUser($user);
 		$updated = true;
 		if (empty($userData)) {
@@ -164,9 +165,10 @@ class AccountManager implements IAccountManager {
 	 * @param $oldData
 	 * @param $newData
 	 * @param IUser $user
+	 *
 	 * @return array
 	 */
-	protected function checkEmailVerification($oldData, $newData, IUser $user) {
+	protected function checkEmailVerification(array $oldData, array $newData, IUser $user) {
 		if ($oldData[self::PROPERTY_EMAIL]['value'] !== $newData[self::PROPERTY_EMAIL]['value']) {
 			$this->jobList->add(VerifyUserData::class,
 				[
@@ -344,7 +346,7 @@ class AccountManager implements IAccountManager {
 		];
 	}
 
-	private function parseAccountData(IUser $user, $data): Account {
+	private function parseAccountData(IUser $user, array $data): Account {
 		$account = new Account($user);
 		foreach($data as $property => $accountData) {
 			$account->setProperty($property, $accountData['value'] ?? '', $accountData['scope'] ?? self::VISIBILITY_PRIVATE, $accountData['verified'] ?? self::NOT_VERIFIED);

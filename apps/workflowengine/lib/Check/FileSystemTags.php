@@ -149,7 +149,7 @@ class FileSystemTags implements ICheck, IFileCheck {
 		return $parentIds;
 	}
 
-	protected function dirname($path) {
+	protected function dirname(string $path) {
 		$dir = dirname($path);
 		return $dir === '.' ? '' : $dir;
 	}

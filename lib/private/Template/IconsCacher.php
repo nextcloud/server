@@ -187,9 +187,11 @@ class IconsCacher {
 	/**
 	 * @param $svg
 	 * @param $color
+	 * @param false|string $svg
+	 *
 	 * @return string
 	 */
-	public function colorizeSvg($svg, $color): string {
+	public function colorizeSvg($svg, string $color): string {
 		if (!preg_match('/^[0-9a-f]{3,6}$/i', $color)) {
 			// Prevent not-sane colors from being written into the SVG
 			$color = '000';

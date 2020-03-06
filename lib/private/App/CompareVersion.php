@@ -81,7 +81,7 @@ class CompareVersion {
 			"$requiredMajor.$requiredMinor", $comparator);
 	}
 
-	private function compareMajorMinorPatch($actual, $required, $comparator) {
+	private function compareMajorMinorPatch(string $actual, string $required, string $comparator) {
 		$actualMajor = explode('.', $actual)[0];
 		$actualMinor = explode('.', $actual)[1];
 		$actualPatch = explode('.', $actual)[2];

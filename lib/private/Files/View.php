@@ -119,7 +119,7 @@ class View {
 		$this->logger = \OC::$server->getLogger();
 	}
 
-	public function getAbsolutePath($path = '/') {
+	public function getAbsolutePath(string $path = '/') {
 		if ($path === null) {
 			return null;
 		}
@@ -265,7 +265,7 @@ class View {
 	 * to those of their PHP built-in equivalents. Mostly they are merely wrappers
 	 * for \OC\Files\Storage\Storage via basicOperation().
 	 */
-	public function mkdir($path) {
+	public function mkdir(string $path) {
 		return $this->basicOperation('mkdir', $path, array('create', 'write'));
 	}
 
@@ -313,7 +313,7 @@ class View {
 		$this->updaterEnabled = true;
 	}
 
-	protected function writeUpdate(Storage $storage, $internalPath, $time = null) {
+	protected function writeUpdate(Storage $storage, string $internalPath, $time = null) {
 		if ($this->updaterEnabled) {
 			if (is_null($time)) {
 				$time = time();
@@ -328,7 +328,7 @@ class View {
 		}
 	}
 
-	protected function renameUpdate(Storage $sourceStorage, Storage $targetStorage, $sourceInternalPath, $targetInternalPath) {
+	protected function renameUpdate(Storage $sourceStorage, Storage $targetStorage, string $sourceInternalPath, string $targetInternalPath) {
 		if ($this->updaterEnabled) {
 			$targetStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 		}
@@ -1230,7 +1230,7 @@ class View {
 		return Filesystem::getView()->getRelativePath($this->getAbsolutePath($path));
 	}
 
-	private function shouldEmitHooks($path = '') {
+	private function shouldEmitHooks(string $path = '') {
 		if ($path && Cache\Scanner::isPartialFile($path)) {
 			return false;
 		}

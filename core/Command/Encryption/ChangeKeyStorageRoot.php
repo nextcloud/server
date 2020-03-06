@@ -258,10 +258,12 @@ class ChangeKeyStorageRoot extends Command {
 	 * check if target already exists
 	 *
 	 * @param $path
+	 *
 	 * @return bool
+	 *
 	 * @throws \Exception
 	 */
-	protected function targetExists($path) {
+	protected function targetExists(string $path) {
 		if ($this->rootView->file_exists($path)) {
 			throw new \Exception("new folder '$path' already exists");
 		}

@@ -53,7 +53,7 @@ class SetupController {
 	/**
 	 * @param $post
 	 */
-	public function run($post) {
+	public function run(array $post) {
 		// Check for autosetup:
 		$post = $this->loadAutoConfig($post);
 		$opts = $this->setupHelper->getSystemInfo();
@@ -92,7 +92,7 @@ class SetupController {
 		\OC_Template::printGuestPage('', 'installation_forbidden');
 	}
 
-	public function display($post) {
+	public function display(array $post) {
 		$defaults = array(
 			'adminlogin' => '',
 			'adminpass' => '',
@@ -130,7 +130,7 @@ class SetupController {
 		\OC_Util::redirectToDefaultPage();
 	}
 
-	public function loadAutoConfig($post) {
+	public function loadAutoConfig(array $post) {
 		if( file_exists($this->autoConfigFile)) {
 			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up Nextcloud…', ILogger::INFO);
 			$AUTOCONFIG = array();

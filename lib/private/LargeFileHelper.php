@@ -204,7 +204,7 @@ class LargeFileHelper {
 
 	}
 
-	protected function exec($cmd) {
+	protected function exec(string $cmd) {
 		$result = trim(exec($cmd));
 		return ctype_digit($result) ? 0 + $result : null;
 	}

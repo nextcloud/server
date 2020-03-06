@@ -114,9 +114,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * Return the number of address books for a principal
 	 *
 	 * @param $principalUri
+	 *
 	 * @return int
 	 */
-	public function getAddressBooksForUserCount($principalUri) {
+	public function getAddressBooksForUserCount(string $principalUri) {
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
 		$query->select($query->func()->count('*'))
@@ -230,7 +231,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		return array_values($addressBooks);
 	}
 
-	public function getUsersOwnAddressBooks($principalUri) {
+	public function getUsersOwnAddressBooks(string $principalUri) {
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
@@ -305,9 +306,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 	/**
 	 * @param $addressBookUri
+	 *
 	 * @return array|null
 	 */
-	public function getAddressBooksByUri($principal, $addressBookUri) {
+	public function getAddressBooksByUri(string $principal, string $addressBookUri) {
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
 			->from('addressbooks')
@@ -1022,7 +1024,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 *
 	 * @return array
 	 */
-	public function getShares($addressBookId) {
+	public function getShares(int $addressBookId) {
 		return $this->sharingBackend->getShares($addressBookId);
 	}
 

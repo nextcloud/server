@@ -239,10 +239,12 @@ class OC_Mount_Config {
 	 * @param string $class backend class name
 	 * @param array $options backend configuration options
 	 * @param boolean $isPersonal
+	 *
 	 * @return int see self::STATUS_*
+	 *
 	 * @throws Exception
 	 */
-	public static function getBackendStatus($class, $options, $isPersonal, $testOnly = true) {
+	public static function getBackendStatus($class, $options, $isPersonal, bool $testOnly = true) {
 		if (self::$skipTest) {
 			return StorageNotAvailableException::STATUS_SUCCESS;
 		}

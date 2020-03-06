@@ -93,7 +93,7 @@ class DBConfigService {
 		return $this->getMountsFromQuery($query);
 	}
 
-	public function getMountsForUser($userId, $groupIds) {
+	public function getMountsForUser(string $userId, array $groupIds) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
 			->from('external_mounts', 'm')
@@ -162,7 +162,10 @@ class DBConfigService {
 		return $this->getMountsFromQuery($query);
 	}
 
-	protected function getForQuery(IQueryBuilder $builder, $type, $value) {
+	/**
+	 * @param null|string $value
+	 */
+	protected function getForQuery(IQueryBuilder $builder, int $type, ?string $value) {
 		$query = $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
 			->from('external_mounts', 'm')
 			->innerJoin('m', 'external_applicable', 'a', $builder->expr()->eq('m.mount_id', 'a.mount_id'))
@@ -376,7 +379,7 @@ class DBConfigService {
 		}
 	}
 
-	public function addApplicable($mountId, $type, $value) {
+	public function addApplicable(int $mountId, int $type, $value) {
 		try {
 			$builder = $this->connection->getQueryBuilder();
 			$builder->insert('external_applicable')
@@ -389,7 +392,7 @@ class DBConfigService {
 		}
 	}
 
-	public function removeApplicable($mountId, $type, $value) {
+	public function removeApplicable(int $mountId, int $type, $value) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_applicable')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
@@ -522,7 +525,7 @@ class DBConfigService {
 		return array_combine($keys, $values);
 	}
 
-	private function encryptValue($value) {
+	private function encryptValue(string $value) {
 		return $this->crypto->encrypt($value);
 	}
 

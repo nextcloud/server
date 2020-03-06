@@ -299,6 +299,8 @@ class OC_Image implements \OCP\IImage {
 
 	/**
 	 * @param resource Returns the image resource in any.
+	 * @param false|resource $resource
+	 *
 	 * @throws \InvalidArgumentException in case the supplied resource does not have the type "gd"
 	 */
 	public function setResource($resource) {

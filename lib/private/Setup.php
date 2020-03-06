@@ -211,7 +211,7 @@ class Setup {
 	 * @return array of system info, including an "errors" value
 	 * in case of errors/warnings
 	 */
-	public function getSystemInfo($allowAllDatabases = false) {
+	public function getSystemInfo(bool $allowAllDatabases = false) {
 		$databases = $this->getSupportedDatabases($allowAllDatabases);
 
 		$dataDir = $this->config->getValue('datadirectory', \OC::$SERVERROOT . '/data');
@@ -277,6 +277,8 @@ class Setup {
 
 	/**
 	 * @param $options
+	 * @param \ArrayAccess|array $options
+	 *
 	 * @return array
 	 */
 	public function install($options) {

@@ -152,7 +152,7 @@ class OwnershipTransferService {
 		);
 	}
 
-	private function walkFiles(View $view, $path, Closure $callBack) {
+	private function walkFiles(View $view, string $path, Closure $callBack) {
 		foreach ($view->getDirectoryContent($path) as $fileInfo) {
 			if (!$callBack($fileInfo)) {
 				return;

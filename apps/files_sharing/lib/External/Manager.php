@@ -204,7 +204,7 @@ class Manager {
 	}
 
 	/**
-	 * write remote share to the database
+	 * Write remote share to the database
 	 *
 	 * @param $remote
 	 * @param $token
@@ -218,9 +218,10 @@ class Manager {
 	 * @param $remoteId
 	 * @param $parent
 	 * @param $shareType
+	 *
 	 * @return bool
 	 */
-	private function writeShareToDb($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId, $parent, $shareType) {
+	private function writeShareToDb(string $remote, string $token, string $password, string $name, string $owner, string $user, string $mountPoint, string $hash, int $accepted, int $remoteId, int $parent, int $shareType) {
 		$query = $this->connection->prepare('
 				INSERT INTO `*PREFIX*share_external`
 					(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`, `accepted`, `remote_id`, `parent`, `share_type`)
@@ -412,9 +413,10 @@ class Manager {
 	 * @param string $token
 	 * @param $remoteId id of the share
 	 * @param string $feedback
+	 *
 	 * @return bool
 	 */
-	protected function tryOCMEndPoint($remoteDomain, $token, $remoteId, $feedback) {
+	protected function tryOCMEndPoint($remoteDomain, $token, int $remoteId, $feedback) {
 		switch ($feedback) {
 			case 'accept':
 				$notification = $this->cloudFederationFactory->getCloudFederationNotification();
@@ -460,7 +462,7 @@ class Manager {
 		return rtrim(substr($path, strlen($prefix)), '/');
 	}
 
-	public function getMount($data) {
+	public function getMount(array $data) {
 		$data['manager'] = $this;
 		$mountPoint = '/' . $this->uid . '/files' . $data['mountpoint'];
 		$data['mountpoint'] = $mountPoint;
@@ -507,7 +509,7 @@ class Manager {
 		return $result;
 	}
 
-	public function removeShare($mountPoint) {
+	public function removeShare(string $mountPoint) {
 
 		$mountPointObj = $this->mountManager->find($mountPoint);
 		$id = $mountPointObj->getStorage()->getCache()->getId('');
@@ -636,7 +638,7 @@ class Manager {
 		}
 
 		$query = 'SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`
-		          FROM `*PREFIX*share_external` 
+		          FROM `*PREFIX*share_external`
 				  WHERE (`user` = ? OR `user` IN (?))';
 		$parameters = [$this->uid, implode(',',$userGroups)];
 		if (!is_null($accepted)) {

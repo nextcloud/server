@@ -466,7 +466,11 @@ class User implements IUser {
 		return $url;
 	}
 
-	public function triggerChange($feature, $value = null, $oldValue = null) {
+	/**
+	 * @param \OCP\Files\SimpleFS\ISimpleFile|bool|null|string $value
+	 * @param bool|null|string $oldValue
+	 */
+	public function triggerChange(string $feature, $value = null, $oldValue = null) {
 		$this->dispatcher->dispatch(IUser::class . '::changeUser', new GenericEvent($this, [
 			'feature' => $feature,
 			'value' => $value,

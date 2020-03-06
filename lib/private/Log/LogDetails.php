@@ -34,6 +34,9 @@ abstract class LogDetails {
 		$this->config = $config;
 	}
 
+	/**
+	 * @param array|string $message
+	 */
 	public function logDetails(string $app, $message, int $level): array {
 		// default to ISO8601
 		$format = $this->config->getValue('logdateformat', \DateTime::ATOM);
@@ -93,6 +96,9 @@ abstract class LogDetails {
 		return $entry;
 	}
 
+	/**
+	 * @param array|string $message
+	 */
 	public function logDetailsAsJSON(string $app, $message, int $level): string {
 		$entry = $this->logDetails($app, $message, $level);
 		// PHP's json_encode only accept proper UTF-8 strings, loop over all

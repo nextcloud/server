@@ -73,7 +73,7 @@ class RemoveOrphanEventsAndContacts implements IRepairStep {
 		$output->info(sprintf('%d changes without an addressbook have been cleaned up', $orphanItems));
 	}
 
-	protected function removeOrphanChildren($childTable, $parentTable, $parentId): int {
+	protected function removeOrphanChildren(string $childTable, string $parentTable, string $parentId): int {
 		$qb = $this->connection->getQueryBuilder();
 
 		$qb->select('c.id')

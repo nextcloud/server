@@ -153,7 +153,7 @@ class Trashbin {
 		}
 	}
 
-	private static function setUpTrash($user) {
+	private static function setUpTrash(string $user) {
 		$view = new View('/' . $user);
 		if (!$view->is_dir('files_trashbin')) {
 			$view->mkdir('files_trashbin');
@@ -179,7 +179,7 @@ class Trashbin {
 	 * @param $user
 	 * @param integer $timestamp
 	 */
-	private static function copyFilesToUser($sourcePath, $owner, $targetPath, $user, $timestamp) {
+	private static function copyFilesToUser($sourcePath, $owner, $targetPath, string $user, $timestamp) {
 		self::setUpTrash($owner);
 
 		$targetFilename = basename($targetPath);
@@ -864,9 +864,10 @@ class Trashbin {
 	 *
 	 * @param string $filename name of the file which should be restored
 	 * @param int $timestamp timestamp when the file was deleted
+	 *
 	 * @return array
 	 */
-	private static function getVersionsFromTrash($filename, $timestamp, $user) {
+	private static function getVersionsFromTrash($filename, $timestamp, string $user) {
 		$view = new View('/' . $user . '/files_trashbin/versions');
 		$versions = array();
 

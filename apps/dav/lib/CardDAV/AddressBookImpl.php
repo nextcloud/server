@@ -242,9 +242,10 @@ class AddressBookImpl implements IAddressBook {
 	 *
 	 * @param string $uri
 	 * @param VCard $vCard
+	 *
 	 * @return array
 	 */
-	protected function vCard2Array($uri, VCard $vCard, $withTypes = false) {
+	protected function vCard2Array($uri, VCard $vCard, bool $withTypes = false) {
 		$result = [
 			'URI' => $uri,
 		];

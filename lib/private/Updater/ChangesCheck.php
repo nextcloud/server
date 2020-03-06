@@ -134,6 +134,9 @@ class ChangesCheck {
 		]);
 	}
 
+	/**
+	 * @param resource|string $body
+	 */
 	protected function extractData($body):array {
 		$data = [];
 		if ($body) {

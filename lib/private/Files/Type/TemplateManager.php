@@ -31,7 +31,7 @@ namespace OC\Files\Type;
 class TemplateManager {
 	protected $templates = array();
 
-	public function registerTemplate($mimetype, $path) {
+	public function registerTemplate(string $mimetype, string $path) {
 		$this->templates[$mimetype] = $path;
 	}
 

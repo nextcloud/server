@@ -461,7 +461,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param $shareId
 	 * @param $remoteId
 	 */
-	public function storeRemoteId($shareId, $remoteId) {
+	public function storeRemoteId(int $shareId, $remoteId) {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->insert('federated_reshares')
 			->values(
@@ -848,10 +848,12 @@ class FederatedShareProvider implements IShareProvider {
 	 * get database row of a give share
 	 *
 	 * @param $id
+	 *
 	 * @return array
+	 *
 	 * @throws ShareNotFound
 	 */
-	private function getRawShare($id) {
+	private function getRawShare(int $id) {
 
 		// Now fetch the inserted share and create a complete share object
 		$qb = $this->dbConnection->getQueryBuilder();

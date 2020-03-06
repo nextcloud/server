@@ -490,6 +490,9 @@ class Database extends ABackend
 		return $this->cache[$uid]['uid'];
 	}
 
+	/**
+	 * @param int|null|string $limit
+	 */
 	private function fixLimit($limit) {
 		if (is_int($limit) && $limit >= 0) {
 			return $limit;

@@ -119,9 +119,10 @@ class DecryptAll {
 	 * prepare encryption modules to perform the decrypt all function
 	 *
 	 * @param $user
+	 *
 	 * @return bool
 	 */
-	protected function prepareEncryptionModules($user) {
+	protected function prepareEncryptionModules(string $user) {
 		// prepare all encryption modules for decrypt all
 		$encryptionModules = $this->encryptionManager->getEncryptionModules();
 		foreach ($encryptionModules as $moduleDesc) {

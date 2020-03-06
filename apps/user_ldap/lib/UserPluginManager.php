@@ -197,10 +197,12 @@ class UserPluginManager {
 
 	/**
 	 * @param $uid
+	 *
 	 * @return bool
+	 *
 	 * @throws \Exception
 	 */
-	public function deleteUser($uid) {
+	public function deleteUser(string $uid) {
 		$plugin = $this->which['deleteUser'];
 		if ($plugin) {
 			return $plugin->deleteUser($uid);

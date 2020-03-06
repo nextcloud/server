@@ -70,9 +70,10 @@ class RSA extends AuthMechanism {
 	 * Generate a keypair
 	 *
 	 * @param int $keyLenth
+	 *
 	 * @return array ['privatekey' => $privateKey, 'publickey' => $publicKey]
 	 */
-	public function createKey($keyLength) {
+	public function createKey(int $keyLength) {
 		$rsa = new RSACrypt();
 		$rsa->setPublicKeyFormat(RSACrypt::PUBLIC_FORMAT_OPENSSH);
 		$rsa->setPassword($this->config->getSystemValue('secret', ''));

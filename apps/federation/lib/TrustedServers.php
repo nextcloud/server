@@ -108,9 +108,10 @@ class TrustedServers {
 	 * add server to the list of trusted servers
 	 *
 	 * @param $url
+	 *
 	 * @return int server id
 	 */
-	public function addServer($url) {
+	public function addServer(string $url) {
 		$url = $this->updateProtocol($url);
 		$result = $this->dbHandler->addServer($url);
 		if ($result) {
@@ -167,7 +168,7 @@ class TrustedServers {
 	 * @param string $url
 	 * @param $sharedSecret
 	 */
-	public function addSharedSecret($url, $sharedSecret) {
+	public function addSharedSecret($url, string $sharedSecret) {
 		$this->dbHandler->addSharedSecret($url, $sharedSecret);
 	}
 
@@ -257,7 +258,10 @@ class TrustedServers {
 	 * check if ownCloud version is >= 9.0
 	 *
 	 * @param $status
+	 * @param resource|string $status
+	 *
 	 * @return bool
+	 *
 	 * @throws HintException
 	 */
 	protected function checkOwnCloudVersion($status) {

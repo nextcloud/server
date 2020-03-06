@@ -626,9 +626,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/**
 	 * Checks if given $remoteAddress matches any entry in the given array $trustedProxies.
 	 * For details regarding what "match" means, refer to `matchesTrustedProxy`.
+	 *
 	 * @return boolean true if $remoteAddress matches any entry in $trustedProxies, false otherwise
 	 */
-	protected function isTrustedProxy($trustedProxies, $remoteAddress) {
+	protected function isTrustedProxy(array $trustedProxies, $remoteAddress) {
 		foreach ($trustedProxies as $tp) {
 			if ($this->matchesTrustedProxy($tp, $remoteAddress)) {
 				return true;

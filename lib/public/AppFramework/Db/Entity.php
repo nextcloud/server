@@ -100,9 +100,10 @@ abstract class Entity {
 
 	/**
 	 * Generic setter for properties
+	 *
 	 * @since 7.0.0
 	 */
-	protected function setter($name, $args) {
+	protected function setter(string $name, $args) {
 		// setters should only work for existing attributes
 		if(property_exists($this, $name)){
 			if($this->$name === $args[0]) {
@@ -124,9 +125,10 @@ abstract class Entity {
 
 	/**
 	 * Generic getter for properties
+	 *
 	 * @since 7.0.0
 	 */
-	protected function getter($name) {
+	protected function getter(string $name) {
 		// getters should only work for existing attributes
 		if(property_exists($this, $name)){
 			return $this->$name;

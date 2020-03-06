@@ -54,7 +54,7 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 	 * @param $dn
 	 * @param $username
 	 */
-	private function prepareUser($dn, $username) {
+	private function prepareUser(string $dn, string $username) {
 		// assigns our self-picked oc username to the dn
 		$this->mapping->map($dn, $username, 'fakeUUID-' . $username);
 	}

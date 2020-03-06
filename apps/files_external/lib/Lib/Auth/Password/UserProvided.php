@@ -60,7 +60,7 @@ class UserProvided extends AuthMechanism implements IUserProvided {
 			]);
 	}
 
-	private function getCredentialsIdentifier($storageId) {
+	private function getCredentialsIdentifier(int $storageId) {
 		return self::CREDENTIALS_IDENTIFIER_PREFIX . $storageId;
 	}
 

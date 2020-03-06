@@ -998,9 +998,10 @@ class Encryption extends Wrapper {
 	 * check if path points to a files version
 	 *
 	 * @param $path
+	 *
 	 * @return bool
 	 */
-	protected function isVersion($path) {
+	protected function isVersion(string $path) {
 		$normalized = Filesystem::normalizePath($path);
 		return substr($normalized, 0, strlen('/files_versions/')) === '/files_versions/';
 	}
@@ -1009,9 +1010,10 @@ class Encryption extends Wrapper {
 	 * check if the given storage should be encrypted or not
 	 *
 	 * @param $path
+	 *
 	 * @return bool
 	 */
-	protected function shouldEncrypt($path) {
+	protected function shouldEncrypt(string $path) {
 		$fullPath = $this->getFullPath($path);
 		$mountPointConfig = $this->mount->getOption('encrypt', true);
 		if ($mountPointConfig === false) {

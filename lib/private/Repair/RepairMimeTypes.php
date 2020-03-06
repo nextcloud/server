@@ -88,7 +88,10 @@ class RepairMimeTypes implements IRepairStep {
 		');
 	}
 
-	private function updateMimetypes($updatedMimetypes) {
+	/**
+	 * @param string[] $updatedMimetypes
+	 */
+	private function updateMimetypes(array $updatedMimetypes) {
 		if (empty($this->folderMimeTypeId)) {
 			$result = \OC_DB::executeAudited(self::getIdStmt(), array('httpd/unix-directory'));
 			$this->folderMimeTypeId = (int)$result->fetchOne();

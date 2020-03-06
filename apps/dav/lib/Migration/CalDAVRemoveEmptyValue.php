@@ -97,7 +97,7 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 		}
 	}
 
-	protected function getInvalidObjects($pattern) {
+	protected function getInvalidObjects(string $pattern) {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['calendarid', 'uri'])
 			->from('calendarobjects')

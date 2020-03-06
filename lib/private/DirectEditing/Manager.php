@@ -185,7 +185,7 @@ class Manager implements IManager {
 		// TODO: Implementation in follow up
 	}
 
-	private function getEditor($editorId): IEditor {
+	private function getEditor(string $editorId): IEditor {
 		if (!array_key_exists($editorId, $this->editors)) {
 			throw new \RuntimeException('No editor found');
 		}
@@ -243,7 +243,7 @@ class Manager implements IManager {
 		\OC_User::setUserId($userId);
 	}
 
-	public function createToken($editorId, File $file, string $filePath, IShare $share = null): string {
+	public function createToken(string $editorId, File $file, string $filePath, IShare $share = null): string {
 		$token = $this->random->generate(64, ISecureRandom::CHAR_HUMAN_READABLE);
 		$query = $this->connection->getQueryBuilder();
 		$query->insert(self::TABLE_TOKENS)

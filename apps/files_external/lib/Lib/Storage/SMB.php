@@ -292,7 +292,7 @@ class SMB extends Common implements INotifyStorage {
 		return $result;
 	}
 
-	public function stat($path, $retry = true) {
+	public function stat($path, bool $retry = true) {
 		try {
 			$result = $this->formatInfo($this->getFileInfo($path));
 		} catch (ForbiddenException $e) {
@@ -627,7 +627,7 @@ class SMB extends Common implements INotifyStorage {
 		});
 	}
 
-	public function notify($path) {
+	public function notify(string $path) {
 		$path = '/' . ltrim($path, '/');
 		$shareNotifyHandler = $this->share->notify($this->buildPath($path));
 		return new SMBNotifyHandler($shareNotifyHandler, $this->root);

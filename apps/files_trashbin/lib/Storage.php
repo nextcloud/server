@@ -124,9 +124,10 @@ class Storage extends Wrapper {
 	 * 'files' directory should be moved to the trash
 	 *
 	 * @param $path
+	 *
 	 * @return bool
 	 */
-	protected function shouldMoveToTrash($path) {
+	protected function shouldMoveToTrash(string $path) {
 		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
 		$parts = explode('/', $normalized);
 		if (count($parts) < 4) {

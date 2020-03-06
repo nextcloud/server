@@ -126,7 +126,7 @@ class PlatformRepository {
 		return $packages;
 	}
 
-	private function buildPackageName($name) {
+	private function buildPackageName(string $name) {
 		return str_replace(' ', '-', $name);
 	}
 

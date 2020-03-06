@@ -362,7 +362,10 @@ class Filesystem {
 		}
 	}
 
-	static public function init($user, $root) {
+	/**
+	 * @param bool|string $user
+	 */
+	static public function init($user, string $root) {
 		if (self::$defaultInstance) {
 			return false;
 		}
@@ -649,7 +652,10 @@ class Filesystem {
 		return self::$defaultInstance->rmdir($path);
 	}
 
-	static public function is_dir($path) {
+	/**
+	 * @param null|string $path
+	 */
+	static public function is_dir(?string $path) {
 		return self::$defaultInstance->is_dir($path);
 	}
 
@@ -665,7 +671,7 @@ class Filesystem {
 		return self::$defaultInstance->filetype($path);
 	}
 
-	static public function filesize($path) {
+	static public function filesize(string $path) {
 		return self::$defaultInstance->filesize($path);
 	}
 
@@ -693,7 +699,7 @@ class Filesystem {
 		return self::$defaultInstance->isSharable($path);
 	}
 
-	static public function file_exists($path) {
+	static public function file_exists(string $path) {
 		return self::$defaultInstance->file_exists($path);
 	}
 
@@ -708,7 +714,7 @@ class Filesystem {
 	/**
 	 * @return string
 	 */
-	static public function file_get_contents($path) {
+	static public function file_get_contents(string $path) {
 		return self::$defaultInstance->file_get_contents($path);
 	}
 
@@ -743,7 +749,7 @@ class Filesystem {
 		return self::$defaultInstance->fromTmpFile($tmpFile, $path);
 	}
 
-	static public function getMimeType($path) {
+	static public function getMimeType(string $path) {
 		return self::$defaultInstance->getMimeType($path);
 	}
 
@@ -751,11 +757,11 @@ class Filesystem {
 		return self::$defaultInstance->hash($type, $path, $raw);
 	}
 
-	static public function free_space($path = '/') {
+	static public function free_space(string $path = '/') {
 		return self::$defaultInstance->free_space($path);
 	}
 
-	static public function search($query) {
+	static public function search(string $query) {
 		return self::$defaultInstance->search($query);
 	}
 

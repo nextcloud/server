@@ -163,7 +163,7 @@ class NavigationManager implements INavigationManager {
 	/**
 	 * removes all the entries
 	 */
-	public function clear($loadDefaultLinks = true) {
+	public function clear(bool $loadDefaultLinks = true) {
 		$this->entries = [];
 		$this->closureEntries = [];
 		$this->init = !$loadDefaultLinks;

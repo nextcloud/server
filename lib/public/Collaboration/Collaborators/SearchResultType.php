@@ -54,11 +54,14 @@ class SearchResultType {
 
 	/**
 	 * @param $type
+	 *
 	 * @return string
+	 *
 	 * @throws \InvalidArgumentException
+	 *
 	 * @since 13.0.0
 	 */
-	protected function getValidatedType($type) {
+	protected function getValidatedType(string $type) {
 		$type = trim((string)$type);
 
 		if($type === '') {

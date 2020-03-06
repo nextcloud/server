@@ -86,7 +86,7 @@ class CleanTags implements IRepairStep {
 		$output->info(sprintf('%d tags of deleted users have been removed.', $this->deletedTags));
 	}
 
-	protected function checkTags($offset) {
+	protected function checkTags(int $offset) {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('uid')
 			->from('vcategory')

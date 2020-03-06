@@ -288,9 +288,10 @@ class TemplateLayout extends \OC_Template {
 
 	/**
 	 * @param array $styles
+	 *
 	 * @return array
 	 */
-	static public function findStylesheetFiles($styles, $compileScss = true) {
+	static public function findStylesheetFiles($styles, bool $compileScss = true) {
 		// Read the selected theme from the config file
 		$theme = \OC_Util::getTheme();
 

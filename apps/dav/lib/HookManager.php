@@ -103,7 +103,10 @@ class HookManager {
 			'changeUser');
 	}
 
-	public function postCreateUser($params) {
+	/**
+	 * @param array $params
+	 */
+	public function postCreateUser(array $params) {
 		$user = $this->userManager->get($params['uid']);
 		if ($user instanceof IUser) {
 			$this->syncService->updateUser($user);
@@ -121,7 +124,10 @@ class HookManager {
 		$this->usersToDelete[$uid] = $this->userManager->get($uid);
 	}
 
-	public function postDeleteUser($params) {
+	/**
+	 * @param array $params
+	 */
+	public function postDeleteUser(array $params) {
 		$uid = $params['uid'];
 		if (isset($this->usersToDelete[$uid])){
 			$this->syncService->deleteUser($this->usersToDelete[$uid]);

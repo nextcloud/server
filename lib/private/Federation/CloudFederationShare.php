@@ -183,7 +183,7 @@ class CloudFederationShare implements ICloudFederationShare {
 	 *
 	 * @since 14.0.0
 	 */
-	public function setSharedByDisplayName($sharedByDisplayName) {
+	public function setSharedByDisplayName(string $sharedByDisplayName) {
 		$this->share['sharedByDisplayName'] = $sharedByDisplayName;
 	}
 

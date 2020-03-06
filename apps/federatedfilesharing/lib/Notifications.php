@@ -336,10 +336,12 @@ class Notifications {
 	 * @param $remoteDomain
 	 * @param $urlSuffix
 	 * @param array $fields
+	 *
 	 * @return mixed
+	 *
 	 * @throws \Exception
 	 */
-	protected function tryLegacyEndPoint($remoteDomain, $urlSuffix, array $fields) {
+	protected function tryLegacyEndPoint(string $remoteDomain, string $urlSuffix, array $fields) {
 
 		$result = [
 			'success' => false,
@@ -380,7 +382,7 @@ class Notifications {
 	 *
 	 * @return bool
 	 */
-	protected function tryOCMEndPoint($remoteDomain, $fields, $action) {
+	protected function tryOCMEndPoint(string $remoteDomain, array $fields, string $action) {
 		switch ($action) {
 			case 'share':
 				$share = $this->cloudFederationFactory->getCloudFederationShare(

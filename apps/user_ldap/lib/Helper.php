@@ -127,7 +127,7 @@ class Helper {
 		return 's' . str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
 	}
 
-	private function getServersConfig($value) {
+	private function getServersConfig(string $value) {
 		$regex = '/' . $value . '$/S';
 
 		$keys = $this->config->getAppKeys('user_ldap');

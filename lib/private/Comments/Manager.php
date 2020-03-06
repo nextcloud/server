@@ -1075,7 +1075,7 @@ class Manager implements ICommentsManager {
 	 * @param $eventType
 	 * @param IComment $comment
 	 */
-	private function sendEvent($eventType, IComment $comment) {
+	private function sendEvent(string $eventType, IComment $comment) {
 		$entities = $this->getEventHandlers();
 		$event = new CommentsEvent($eventType, $comment);
 		foreach ($entities as $entity) {

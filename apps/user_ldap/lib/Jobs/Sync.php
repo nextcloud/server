@@ -248,9 +248,10 @@ class Sync extends TimedJob {
 	 * last configuration change goes into account (at least one hour).
 	 *
 	 * @param $cycleData
+	 *
 	 * @return bool
 	 */
-	public function qualifiesToRun($cycleData) {
+	public function qualifiesToRun(array $cycleData) {
 		$lastChange = $this->config->getAppValue('user_ldap', $cycleData['prefix'] . '_lastChange', 0);
 		if((time() - $lastChange) > 60 * 30) {
 			return true;
@@ -263,7 +264,7 @@ class Sync extends TimedJob {
 	 *
 	 * @param $cycleData
 	 */
-	protected function increaseOffset($cycleData) {
+	protected function increaseOffset(array $cycleData) {
 		$ldapConfig = new Configuration($cycleData['prefix']);
 		$cycleData['offset'] += (int)$ldapConfig->ldapPagingSize;
 		$this->setCycle($cycleData);

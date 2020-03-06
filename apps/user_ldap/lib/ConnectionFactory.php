@@ -32,7 +32,7 @@ class ConnectionFactory {
 		$this->ldap = $ldap;
 	}
 
-	public function get($prefix) {
+	public function get(string $prefix) {
 		return new Connection($this->ldap, $prefix, 'user_ldap');
 	}
 }

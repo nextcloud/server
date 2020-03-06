@@ -522,10 +522,12 @@ class Access extends LDAPUtility {
 	 *
 	 * @param string $dn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
+	 *
 	 * @return string|false with with the name to use in Nextcloud
+	 *
 	 * @throws \Exception
 	 */
-	public function dn2username($fdn, $ldapName = null) {
+	public function dn2username(string $fdn, $ldapName = null) {
 		//To avoid bypassing the base DN settings under certain circumstances
 		//with the group support, check whether the provided DN matches one of
 		//the given Bases
@@ -1156,11 +1158,13 @@ class Access extends LDAPUtility {
 	 * @param string[]|string|null $attr
 	 * @param int $limit optional, maximum results to be counted
 	 * @param int $offset optional, a starting point
+	 *
 	 * @return array|false array with the search result as first value and pagedSearchOK as
 	 * second | false if not successful
+	 *
 	 * @throws ServerNotAvailableException
 	 */
-	private function executeSearch($filter, $base, &$attr = null, $limit = null, $offset = null) {
+	private function executeSearch(string $filter, array $base, &$attr = null, $limit = null, $offset = null) {
 		if(!is_null($attr) && !is_array($attr)) {
 			$attr = array(mb_strtolower($attr, 'UTF-8'));
 		}
@@ -1598,9 +1602,10 @@ class Access extends LDAPUtility {
 	 * returns the search term depending on whether we are allowed
 	 * list users found by ldap with the current input appended by
 	 * a *
+	 *
 	 * @return string
 	 */
-	private function prepareSearchTerm($term) {
+	private function prepareSearchTerm(string $term) {
 		$config = \OC::$server->getConfig();
 
 		$allowEnum = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes');

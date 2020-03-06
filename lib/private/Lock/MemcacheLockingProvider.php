@@ -136,7 +136,7 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 		$this->markChange($path, $targetType);
 	}
 
-	private function getExistingLockForException($path) {
+	private function getExistingLockForException(string $path) {
 		$existing = $this->memcache->get($path);
 		if (!$existing) {
 			return 'none';

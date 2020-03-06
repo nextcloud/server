@@ -795,7 +795,7 @@ class Tags implements ITags {
 	}
 
 	// case-insensitive array_search
-	protected function array_searchi($needle, $haystack, $mem='getName') {
+	protected function array_searchi(string $needle, array $haystack, string $mem='getName') {
 		if(!is_array($haystack)) {
 			return false;
 		}

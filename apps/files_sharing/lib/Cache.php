@@ -137,7 +137,10 @@ class Cache extends CacheJail {
 		return parent::moveFromCache($sourceCache, $sourcePath, $targetPath);
 	}
 
-	protected function formatCacheEntry($entry, $path = null) {
+	/**
+	 * @param null|string $path
+	 */
+	protected function formatCacheEntry(ICacheEntry $entry, ?string $path = null) {
 		if (is_null($path)) {
 			$path = $entry['path'] ?? '';
 			$entry['path'] = $this->getJailedPath($path);

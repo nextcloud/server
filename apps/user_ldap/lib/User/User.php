@@ -571,7 +571,10 @@ class User {
 		}
 	}
 
-	private function verifyQuotaValue($quotaValue) {
+	/**
+	 * @param null|string $quotaValue
+	 */
+	private function verifyQuotaValue(?string $quotaValue) {
 		return $quotaValue === 'none' || $quotaValue === 'default' || \OC_Helper::computerFileSize($quotaValue) !== false;
 	}
 
@@ -588,9 +591,10 @@ class User {
 
 	/**
 	 * @brief attempts to get an image from LDAP and sets it as Nextcloud avatar
+	 *
 	 * @return bool
 	 */
-	public function updateAvatar($force = false) {
+	public function updateAvatar(bool $force = false) {
 		if(!$force && $this->wasRefreshed('avatar')) {
 			return false;
 		}

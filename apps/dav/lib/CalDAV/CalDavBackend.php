@@ -210,9 +210,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *
 	 * @param $principalUri
 	 * @param bool $excludeBirthday
+	 *
 	 * @return int
 	 */
-	public function getCalendarsForUserCount($principalUri, $excludeBirthday = true) {
+	public function getCalendarsForUserCount(string $principalUri, $excludeBirthday = true) {
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
 		$query->select($query->func()->count('*'))
@@ -381,9 +382,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 	/**
 	 * @param $principalUri
+	 *
 	 * @return array
 	 */
-	public function getUsersOwnCalendars($principalUri) {
+	public function getUsersOwnCalendars(string $principalUri) {
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$fields = array_values($this->propertyMap);
 		$fields[] = 'id';

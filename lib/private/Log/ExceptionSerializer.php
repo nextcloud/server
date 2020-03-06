@@ -128,7 +128,7 @@ class ExceptionSerializer {
 		}, $trace);
 	}
 
-	private function removeValuesFromArgs($args, $values) {
+	private function removeValuesFromArgs(array $args, $values) {
 		foreach ($args as &$arg) {
 			if (in_array($arg, $values, true)) {
 				$arg = '*** sensitive parameter replaced ***';
@@ -139,7 +139,10 @@ class ExceptionSerializer {
 		return $args;
 	}
 
-	private function encodeTrace($trace) {
+	/**
+	 * @param array[] $trace
+	 */
+	private function encodeTrace(array $trace) {
 		$filteredTrace = $this->filterTrace($trace);
 		return array_map(function (array $line) {
 			if (isset($line['args'])) {

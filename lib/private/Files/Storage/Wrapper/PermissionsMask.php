@@ -55,7 +55,7 @@ class PermissionsMask extends Wrapper {
 		$this->mask = $arguments['mask'];
 	}
 
-	private function checkMask($permissions) {
+	private function checkMask(int $permissions) {
 		return ($this->mask & $permissions) === $permissions;
 	}
 

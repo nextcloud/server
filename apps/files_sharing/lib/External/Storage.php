@@ -412,9 +412,10 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	 * calculate default permissions in case no permissions are provided
 	 *
 	 * @param $path
+	 *
 	 * @return int
 	 */
-	protected function getDefaultPermissions($path) {
+	protected function getDefaultPermissions(string $path) {
 		if ($this->is_dir($path)) {
 			$permissions = Constants::PERMISSION_ALL;
 		} else {

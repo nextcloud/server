@@ -128,6 +128,9 @@ class PhotoCache {
 		return !$folder->fileExists('nophoto');
 	}
 
+	/**
+	 * @param float|int $size
+	 */
 	private function getFile(ISimpleFolder $folder, $size) {
 		$ext = $this->getExtension($folder);
 

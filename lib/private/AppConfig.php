@@ -129,7 +129,10 @@ class AppConfig implements IAppConfig {
 		return [];
 	}
 
-	public function getSortedKeys($data) {
+	/**
+	 * @param (array|mixed)[] $data
+	 */
+	public function getSortedKeys(array $data) {
 		$keys = array_keys($data);
 		sort($keys);
 		return $keys;

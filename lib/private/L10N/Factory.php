@@ -467,7 +467,7 @@ class Factory implements IFactory {
 	 */
 	// FIXME This method is only public, until OC_L10N does not need it anymore,
 	// FIXME This is also the reason, why it is not in the public interface
-	public function getL10nFilesForApp($app, $lang) {
+	public function getL10nFilesForApp(string $app, string $lang) {
 		$languageFiles = [];
 
 		$i18nDir = $this->findL10nDir($app);

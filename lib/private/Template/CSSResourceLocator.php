@@ -102,6 +102,8 @@ class CSSResourceLocator extends ResourceLocator {
 	 *
 	 * @param string $root path to check
 	 * @param string $file the filename
+	 * @param false|string $app
+	 *
 	 * @return bool True if the resource was found and cached, false otherwise
 	 */
 	protected function cacheAndAppendScssIfExist($root, $file, $app = 'core') {
@@ -122,7 +124,7 @@ class CSSResourceLocator extends ResourceLocator {
 		return false;
 	}
 
-	public function append($root, $file, $webRoot = null, $throw = true, $scss = false) {
+	public function append($root, $file, $webRoot = null, $throw = true, bool $scss = false) {
 		if (!$scss) {
 			parent::append($root, $file, $webRoot, $throw);
 		} else {

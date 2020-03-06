@@ -73,7 +73,7 @@ class ContactsManager {
 	 * @param $addressBooks
 	 * @param IURLGenerator $urlGenerator
 	 */
-	private function register(IManager $cm, $addressBooks, $urlGenerator) {
+	private function register(IManager $cm, array $addressBooks, $urlGenerator) {
 		foreach ($addressBooks as $addressBookInfo) {
 			$addressBook = new \OCA\DAV\CardDAV\AddressBook($this->backend, $addressBookInfo, $this->l10n);
 			$cm->registerAddressBook(

@@ -57,9 +57,10 @@ class IconBuilder {
 
 	/**
 	 * @param $app string app name
+	 *
 	 * @return string|false image blob
 	 */
-	public function getFavicon($app) {
+	public function getFavicon(string $app) {
 		if (!$this->imageManager->shouldReplaceIcons()) {
 			return false;
 		}
@@ -100,9 +101,10 @@ class IconBuilder {
 
 	/**
 	 * @param $app string app name
+	 *
 	 * @return string|false image blob
 	 */
-	public function getTouchIcon($app) {
+	public function getTouchIcon(string $app) {
 		try {
 			$icon = $this->renderAppIcon($app, 512);
 			if ($icon === false) {
@@ -123,9 +125,10 @@ class IconBuilder {
 	 *
 	 * @param $app string app name
 	 * @param $size int size of the icon in px
+	 *
 	 * @return Imagick|false
 	 */
-	public function renderAppIcon($app, $size) {
+	public function renderAppIcon(string $app, int $size) {
 		$appIcon = $this->util->getAppIcon($app);
 		if($appIcon === false) {
 			return false;
@@ -222,7 +225,7 @@ class IconBuilder {
 		return $finalIconFile;
 	}
 
-	public function colorSvg($app, $image) {
+	public function colorSvg(string $app, string $image) {
 		try {
 			$imageFile = $this->util->getAppImage($app, $image);
 		} catch (AppPathNotFoundException $e) {

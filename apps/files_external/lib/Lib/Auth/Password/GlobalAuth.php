@@ -52,7 +52,7 @@ class GlobalAuth extends AuthMechanism {
 			->setText($l->t('Global credentials'));
 	}
 
-	public function getAuth($uid) {
+	public function getAuth(string $uid) {
 		$auth = $this->credentialsManager->retrieve($uid, self::CREDENTIALS_IDENTIFIER);
 		if (!is_array($auth)) {
 			return [
@@ -64,7 +64,7 @@ class GlobalAuth extends AuthMechanism {
 		}
 	}
 
-	public function saveAuth($uid, $user, $password) {
+	public function saveAuth(string $uid, string $user, string $password) {
 		$this->credentialsManager->store($uid, self::CREDENTIALS_IDENTIFIER, [
 			'user' => $user,
 			'password' => $password

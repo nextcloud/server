@@ -55,7 +55,7 @@ class UserGlobalAuth extends AuthMechanism {
 			->setText($l->t('Global credentials, user entered'));
 	}
 
-	public function saveBackendOptions(IUser $user, $id, $backendOptions) {
+	public function saveBackendOptions(IUser $user, int $id, array $backendOptions) {
 		// backendOptions are set when invoked via Files app
 		// but they are not set when invoked via ext storage settings
 		if(!isset($backendOptions['user']) && !isset($backendOptions['password'])) {

@@ -32,9 +32,10 @@ class LogWrapper {
 
 	/**
 	 * @brief states whether the filesystem was loaded
+	 *
 	 * @return bool
 	 */
-	public function log($msg, $level) {
+	public function log(string $msg, int $level) {
 		\OCP\Util::writeLog($this->app, $msg, $level);
 	}
 }

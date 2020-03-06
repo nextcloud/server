@@ -68,9 +68,11 @@ class Helper {
 	 * get default share folder
 	 *
 	 * @param \OC\Files\View
+	 * @param View|null $view
+	 *
 	 * @return string
 	 */
-	public static function getShareFolder($view = null) {
+	public static function getShareFolder(?View $view = null) {
 		if ($view === null) {
 			$view = Filesystem::getView();
 		}

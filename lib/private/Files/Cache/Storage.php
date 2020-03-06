@@ -139,9 +139,10 @@ class Storage {
 	 * Get the numeric of the storage with the provided string id
 	 *
 	 * @param $storageId
+	 *
 	 * @return int|null either the numeric storage id or null if the storage id is not knwon
 	 */
-	public static function getNumericStorageId($storageId) {
+	public static function getNumericStorageId(string $storageId) {
 		$storageId = self::adjustStorageId($storageId);
 
 		if ($row = self::getStorageById($storageId)) {

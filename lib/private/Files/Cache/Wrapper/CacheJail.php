@@ -55,6 +55,9 @@ class CacheJail extends CacheWrapper {
 		return $this->root;
 	}
 
+	/**
+	 * @param bool|string $path
+	 */
 	protected function getSourcePath($path) {
 		if ($path === '') {
 			return $this->getRoot();

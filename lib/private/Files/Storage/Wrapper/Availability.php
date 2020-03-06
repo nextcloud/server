@@ -47,7 +47,7 @@ class Availability extends Wrapper {
 		parent::__construct($parameters);
 	}
 
-	public static function shouldRecheck($availability) {
+	public static function shouldRecheck(array $availability) {
 		if (!$availability['available']) {
 			// trigger a recheck if TTL reached
 			if ((time() - $availability['last_checked']) > self::RECHECK_TTL_SEC) {

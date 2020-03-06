@@ -92,7 +92,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return $path;
 	}
 
-	private function isRoot($path) {
+	private function isRoot(string $path) {
 		return $path === '.';
 	}
 
@@ -109,7 +109,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$this->filesCache = new CappedMemoryCache();
 	}
 
-	private function invalidateCache($key) {
+	private function invalidateCache(string $key) {
 		unset($this->objectCache[$key]);
 		$keys = array_keys($this->objectCache->getData());
 		$keyLength = strlen($key);
@@ -123,9 +123,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	/**
 	 * @param $key
+	 *
 	 * @return Result|boolean
 	 */
-	private function headObject($key) {
+	private function headObject(string $key) {
 		if (!isset($this->objectCache[$key])) {
 			try {
 				$this->objectCache[$key] = $this->getConnection()->headObject(array(
@@ -153,10 +154,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 * https://github.com/thephpleague/flysystem-aws-s3-v3/blob/8241e9cc5b28f981e0d24cdaf9867f14c7498ae4/src/AwsS3Adapter.php#L670-L694
 	 *
 	 * @param $path
+	 *
 	 * @return bool
+	 *
 	 * @throws \Exception
 	 */
-	private function doesDirectoryExist($path) {
+	private function doesDirectoryExist(string $path) {
 		if (!isset($this->directoryCache[$path])) {
 			// Maybe this isn't an actual key, but a prefix.
 			// Do a prefix listing of objects to determine.
@@ -283,7 +286,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 	}
 
-	private function batchDelete($path = null) {
+	/**
+	 * @param null|string $path
+	 */
+	private function batchDelete(?string $path = null) {
 		$params = array(
 			'Bucket' => $this->bucket
 		);
@@ -398,9 +404,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 * this value is return. Otherwise a headObject is emitted.
 	 *
 	 * @param $path
+	 *
 	 * @return int|mixed
 	 */
-	private function getContentLength($path) {
+	private function getContentLength(string $path) {
 		if (isset($this->filesCache[$path])) {
 			return $this->filesCache[$path]['ContentLength'];
 		}
@@ -420,9 +427,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 * this value is return. Otherwise a headObject is emitted.
 	 *
 	 * @param $path
+	 *
 	 * @return mixed|string
 	 */
-	private function getLastModified($path) {
+	private function getLastModified(string $path) {
 		if (isset($this->filesCache[$path])) {
 			return $this->filesCache[$path]['LastModified'];
 		}

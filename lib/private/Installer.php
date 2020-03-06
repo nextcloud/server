@@ -429,12 +429,16 @@ class Installer {
 
 	/**
 	 * Check if app has been installed from git
-	 * @param string $name name of the application to remove
-	 * @return boolean
+	 *
+	 *
 	 *
 	 * The function will check if the path contains a .git folder
+	 *
+	 * @param string $name name of the application to remove
+	 *
+	 * @return boolean
 	 */
-	private function isInstalledFromGit($appId) {
+	private function isInstalledFromGit(string $appId) {
 		$app = \OC_App::findAppInDirectories($appId);
 		if($app === false) {
 			return false;

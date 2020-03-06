@@ -79,7 +79,7 @@ class OC_API {
 	/**
 	 * @param XMLWriter $writer
 	 */
-	private static function toXML($array, $writer) {
+	private static function toXML(array $array, $writer) {
 		foreach($array as $k => $v) {
 			if ($k[0] === '@') {
 				$writer->writeAttribute(substr($k, 1), $v);
@@ -164,9 +164,10 @@ class OC_API {
 
 	/**
 	 * @param string $format
+	 *
 	 * @return string
 	 */
-	public static function renderResult($format, $meta, $data) {
+	public static function renderResult($format, array $meta, array $data) {
 		$response = array(
 			'ocs' => array(
 				'meta' => $meta,

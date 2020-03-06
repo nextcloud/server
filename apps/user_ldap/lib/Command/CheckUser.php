@@ -126,8 +126,12 @@ class CheckUser extends Command {
 
 	/**
 	 * checks whether the setup allows reliable checking of LDAP user existence
+	 *
 	 * @throws \Exception
+	 *
 	 * @return true
+	 *
+	 * @param bool|null|string|string[] $force
 	 */
 	protected function isAllowed($force) {
 		if($this->helper->haveDisabledConfigurations() && !$force) {

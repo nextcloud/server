@@ -173,7 +173,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		return true;
 	}
 
-	private function rmObjects($path) {
+	private function rmObjects(string $path) {
 		$children = $this->getCache()->getFolderContents($path);
 		foreach ($children as $child) {
 			if ($child['mimetype'] === 'httpd/unix-directory') {

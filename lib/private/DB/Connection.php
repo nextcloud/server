@@ -237,7 +237,10 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	}
 
 	// internal use
-	public function realLastInsertId($seqName = null) {
+	/**
+	 * @param null|string $seqName
+	 */
+	public function realLastInsertId(?string $seqName = null) {
 		return parent::lastInsertId($seqName);
 	}
 

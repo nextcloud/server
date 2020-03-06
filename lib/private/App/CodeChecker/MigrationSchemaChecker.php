@@ -176,7 +176,7 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 		}
 	}
 
-	protected function checkNameLength($tableName, $hasAutoincrement = false) {
+	protected function checkNameLength(string $tableName, bool $hasAutoincrement = false) {
 		if ($hasAutoincrement) {
 			return strlen($tableName) <= 21;
 		}

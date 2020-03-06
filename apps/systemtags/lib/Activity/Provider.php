@@ -305,7 +305,7 @@ class Provider implements IProvider {
 		return [];
 	}
 
-	protected function getFileParameter($id, $path) {
+	protected function getFileParameter(int $id, $path) {
 		return [
 			'type' => 'file',
 			'id' => $id,
@@ -335,7 +335,7 @@ class Provider implements IProvider {
 		];
 	}
 
-	protected function getUserParameter($uid) {
+	protected function getUserParameter(string $uid) {
 		if (!isset($this->displayNames[$uid])) {
 			$this->displayNames[$uid] = $this->getDisplayName($uid);
 		}

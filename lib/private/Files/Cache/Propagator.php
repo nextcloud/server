@@ -116,7 +116,7 @@ class Propagator implements IPropagator {
 		}
 	}
 
-	protected function getParents($path) {
+	protected function getParents(string $path) {
 		$parts = explode('/', $path);
 		$parent = '';
 		$parents = [];
@@ -139,7 +139,7 @@ class Propagator implements IPropagator {
 		$this->inBatch = true;
 	}
 
-	private function addToBatch($internalPath, $time, $sizeDifference) {
+	private function addToBatch($internalPath, int $time, int $sizeDifference) {
 		if (!isset($this->batch[$internalPath])) {
 			$this->batch[$internalPath] = [
 				'hash' => md5($internalPath),

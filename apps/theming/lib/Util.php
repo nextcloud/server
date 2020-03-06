@@ -76,10 +76,12 @@ class Util {
 	/**
 	 * get color for on-page elements:
 	 * theme color by default, grey if theme color is to bright
+	 *
 	 * @param $color
+	 *
 	 * @return string
 	 */
-	public function elementColor($color) {
+	public function elementColor(string $color) {
 		$l = $this->calculateLuminance($color);
 		if($l>0.8) {
 			return '#aaaaaa';
@@ -170,9 +172,10 @@ class Util {
 	/**
 	 * @param $app string app name
 	 * @param $image string relative path to image in app folder
+	 *
 	 * @return string|false absolute path to image
 	 */
-	public function getAppImage($app, $image) {
+	public function getAppImage(string $app, string $image) {
 		$app = str_replace(array('\0', '/', '\\', '..'), '', $app);
 		$image = str_replace(array('\0', '\\', '..'), '', $image);
 		if ($app === "core") {
@@ -217,9 +220,10 @@ class Util {
 	 *
 	 * @param $svg string content of a svg file
 	 * @param $color string color to match
+	 *
 	 * @return string
 	 */
-	public function colorizeSvg($svg, $color) {
+	public function colorizeSvg(string $svg, string $color) {
 		$svg = preg_replace('/#0082c9/i', $color, $svg);
 		return $svg;
 	}

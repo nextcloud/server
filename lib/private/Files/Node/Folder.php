@@ -465,7 +465,10 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return array_slice($results, 0, $limit);
 	}
 
-	private function recentSearch($limit, $offset, $storageIds, $folderMimetype) {
+	/**
+	 * @param int[] $storageIds
+	 */
+	private function recentSearch(int $limit, int $offset, array $storageIds, int $folderMimetype) {
 		$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query = $builder
 			->select('f.*')
@@ -484,7 +487,10 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return $query->execute()->fetchAll();
 	}
 
-	private function recentParse($result, $mountMap, $mimetypeLoader) {
+	/**
+	 * @param IMountPoint[] $mountMap
+	 */
+	private function recentParse($result, array $mountMap, \OCP\Files\IMimeTypeLoader $mimetypeLoader) {
 		$files = array_filter(array_map(function (array $entry) use ($mountMap, $mimetypeLoader) {
 			$mount = $mountMap[$entry['storage']];
 			$entry['internalPath'] = $entry['path'];

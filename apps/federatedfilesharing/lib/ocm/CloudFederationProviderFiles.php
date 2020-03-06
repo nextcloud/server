@@ -344,7 +344,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @param $sharedByFederatedId
 	 * @param $name
 	 */
-	private function notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $sharedBy, $owner) {
+	private function notifyAboutNewShare(string $shareWith, int $shareId, string $ownerFederatedId, string $sharedByFederatedId, string $name, string $sharedBy, string $owner) {
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('files_sharing')
 			->setUser($shareWith)

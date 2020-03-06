@@ -203,7 +203,7 @@ class Install extends Command {
 	 * @param OutputInterface $output
 	 * @param $errors
 	 */
-	protected function printErrors(OutputInterface $output, $errors) {
+	protected function printErrors(OutputInterface $output, array $errors) {
 		foreach ($errors as $error) {
 			if (is_array($error)) {
 				$output->writeln('<error>' . (string)$error['error'] . '</error>');

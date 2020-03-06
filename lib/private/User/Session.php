@@ -496,7 +496,7 @@ class Session implements IUserSession, Emitter {
 		return $this->config->getSystemValue('token_auth_enforced', false);
 	}
 
-	protected function isTwoFactorEnforced($username) {
+	protected function isTwoFactorEnforced(string $username) {
 		Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
@@ -535,7 +535,7 @@ class Session implements IUserSession, Emitter {
 		}
 	}
 
-	protected function prepareUserLogin($firstTimeLogin, $refreshCsrfToken = true) {
+	protected function prepareUserLogin($firstTimeLogin, bool $refreshCsrfToken = true) {
 		if ($refreshCsrfToken) {
 			// TODO: mock/inject/use non-static
 			// Refresh the token

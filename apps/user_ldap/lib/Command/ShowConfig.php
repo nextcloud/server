@@ -83,11 +83,12 @@ class ShowConfig extends Command {
 
 	/**
 	 * prints the LDAP configuration(s)
+	 *
 	 * @param string[] configID(s)
 	 * @param OutputInterface $output
 	 * @param bool $withPassword      Set to TRUE to show plaintext passwords in output
 	 */
-	protected function renderConfigs($configIDs, $output, $withPassword) {
+	protected function renderConfigs(array $configIDs, $output, $withPassword) {
 		foreach($configIDs as $id) {
 			$configHolder = new Configuration($id);
 			$configuration = $configHolder->getConfiguration();

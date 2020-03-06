@@ -1004,14 +1004,20 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 	/**
 	 * get a list of all groups
 	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 * Returns a list with all groups (used by getGroups)
+	 *
 	 * @param string $search
 	 * @param $limit
 	 * @param int $offset
-	 * @return array with group names
 	 *
-	 * Returns a list with all groups (used by getGroups)
+	 * @return array with group names
 	 */
-	protected function getGroupsChunk($search = '', $limit = -1, $offset = 0) {
+	protected function getGroupsChunk($search = '', int $limit = -1, $offset = 0) {
 		if(!$this->enabled) {
 			return array();
 		}

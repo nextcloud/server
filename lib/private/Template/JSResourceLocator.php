@@ -110,7 +110,11 @@ class JSResourceLocator extends ResourceLocator {
 	public function doFindTheme($script) {
 	}
 
-	protected function cacheAndAppendCombineJsonIfExist($root, $file, $app = 'core') {
+	/**
+	 * @param false|string $root
+	 * @param false|string $app
+	 */
+	protected function cacheAndAppendCombineJsonIfExist($root, string $file, $app = 'core') {
 		if (is_file($root.'/'.$file)) {
 			if ($this->jsCombiner->process($root, $file, $app)) {
 				$this->append($this->serverroot, $this->jsCombiner->getCachedJS($app, $file), false, false);

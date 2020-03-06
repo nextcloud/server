@@ -338,7 +338,7 @@ class JobList implements IJobList {
 	 * @param IJob $job
 	 * @param $timeTaken
 	 */
-	public function setExecutionTime(IJob $job, $timeTaken) {
+	public function setExecutionTime(IJob $job, int $timeTaken) {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
 			->set('execution_duration', $query->createNamedParameter($timeTaken, IQueryBuilder::PARAM_INT))

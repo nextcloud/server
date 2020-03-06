@@ -265,6 +265,9 @@ class Scanner extends BasicEmitter implements IScanner {
 		return null;
 	}
 
+	/**
+	 * @param array-key $path
+	 */
 	protected function removeFromCache($path) {
 		\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $path));
 		$this->emit('\OC\Files\Cache\Scanner', 'removeFromCache', array($path));
@@ -421,7 +424,10 @@ class Scanner extends BasicEmitter implements IScanner {
 		return $size;
 	}
 
-	private function handleChildren($path, $recursive, $reuse, $folderId, $lock, &$size) {
+	/**
+	 * @param int|null $folderId
+	 */
+	private function handleChildren(string $path, bool $recursive, int $reuse, ?int $folderId, bool $lock, &int $size) {
 		// we put this in it's own function so it cleans up the memory before we start recursing
 		$existingChildren = $this->getExistingChildren($folderId);
 		$newChildren = $this->getNewChildren($path);
@@ -528,6 +534,9 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 	}
 
+	/**
+	 * @param string|true $path
+	 */
 	private function runBackgroundScanJob(callable $callback, $path) {
 		try {
 			$callback();

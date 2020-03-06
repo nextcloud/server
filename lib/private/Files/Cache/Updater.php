@@ -221,7 +221,7 @@ class Updater implements IUpdater {
 		$this->propagator->propagateChange($target, $time);
 	}
 
-	private function updateStorageMTimeOnly($internalPath) {
+	private function updateStorageMTimeOnly(string $internalPath) {
 		$fileId = $this->cache->getId($internalPath);
 		if ($fileId !== -1) {
 			$mtime = $this->storage->filemtime($internalPath);

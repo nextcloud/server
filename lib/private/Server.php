@@ -2108,7 +2108,7 @@ class Server extends ServerContainer implements IServerContainer {
 	/**
 	 * @return \OCP\Files\IAppData
 	 */
-	public function getAppDataDir($app) {
+	public function getAppDataDir(string $app) {
 		/** @var \OC\Files\AppData\Factory $factory */
 		$factory = $this->query(\OC\Files\AppData\Factory::class);
 		return $factory->get($app);

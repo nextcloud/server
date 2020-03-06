@@ -136,6 +136,8 @@ abstract class AbstractMapping {
 	 *
 	 * @param $uuid
 	 * @param $fdn
+	 * @param string|true $uuid
+	 *
 	 * @return bool
 	 */
 	public function setUUIDbyDN($uuid, $fdn) {

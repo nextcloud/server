@@ -56,7 +56,7 @@ abstract class Flysystem extends Common {
 		$this->flysystem->addPlugin(new GetWithMetadata());
 	}
 
-	protected function buildPath($path) {
+	protected function buildPath(string $path) {
 		$fullPath = \OC\Files\Filesystem::normalizePath($this->root . '/' . $path);
 		return ltrim($fullPath, '/');
 	}
