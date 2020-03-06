@@ -158,6 +158,7 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Передать {path} пользователю {userid}",
     "Invalid path selected" : "Указан некорректный путь",
     "Ownership transfer request sent" : "Запрос на передачу прав владения отправлен",
+    "Cannot transfter ownership of a file or folder you don't own" : "Изменение владельца возможно только для своих файлов и папок",
     "Tags" : "Метки",
     "Error while loading the file data" : "Не удалось загрузить данные файла",
     "Unable to change the favourite state of the file" : "Не удалось изменить состояние «избранный» этого файла.",

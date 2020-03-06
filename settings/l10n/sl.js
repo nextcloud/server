@@ -229,6 +229,7 @@ OC.L10N.register(
     "Disabled apps" : "Onemogočeni programi",
     "Updates" : "Posodobitve",
     "App bundles" : "Paketi programov",
+    "Featured apps" : "Predlagani programi",
     "{license}-licensed" : "dovoljenje {license}",
     "New user" : "Nov uporabnik",
     "Enter group name" : "Vpis imena skupine",
