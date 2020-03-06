@@ -29,10 +29,10 @@
  */
 namespace OC\Setup;
 
+use OC\DatabaseSetupException;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
 use OCP\ILogger;
-use Doctrine\DBAL\Platforms\MySQL80Platform;
 
 class MySQL extends AbstractDatabase {
 	public $dbprettyname = 'MySQL/MariaDB';
@@ -40,6 +40,20 @@ class MySQL extends AbstractDatabase {
 	public function setupDatabase($username) {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);
+
+		$result = $connection->query('SHOW VARIABLES LIKE "version" ;');
+		$row = $result->fetch();
+		$version = strtolower($row['Value']);
+
+		if (strpos($version, 'mariadb') !== false) {
+			if (version_compare($version, '10.4', '>=')) {
+				throw new DatabaseSetupException(sprintf('Unsupported MariaDB version %s, Nextcloud 16 requires a version lower than 10.4', $row['Value']));
+			}
+		} {
+			if (version_compare($version, '8', '>=')) {
+				throw new DatabaseSetupException(sprintf('Unsupported MySQL version %s, Nextcloud 16 requires a version lower than 8.0', $row['Value']));
+			}
+		}
 
 		// detect mb4
 		$tools = new MySqlTools();
@@ -112,17 +126,10 @@ class MySQL extends AbstractDatabase {
 			// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
 			// the anonymous user would take precedence when there is one.
 
-			if ($connection->getDatabasePlatform() instanceof Mysql80Platform) {
-				$query = "CREATE USER '$name'@'localhost' IDENTIFIED WITH mysql_native_password BY '$password'";
-				$connection->executeUpdate($query);
-				$query = "CREATE USER '$name'@'%' IDENTIFIED WITH mysql_native_password BY '$password'";
-				$connection->executeUpdate($query);
-			} else {
-				$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
-				$connection->executeUpdate($query);
-				$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
-				$connection->executeUpdate($query);
-			}
+			$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
+			$connection->executeUpdate($query);
+			$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
+			$connection->executeUpdate($query);
 		}
 		catch (\Exception $ex){
 			$this->logger->logException($ex, [
