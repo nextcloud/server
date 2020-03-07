@@ -59,7 +59,7 @@
 	position: relative;
 	width: 100%;
 	min-width: 250px;
-	display: flex;
+	display: block;
 	flex-direction: column;
 	// hide table if emptycontent is not hidden
 	#emptycontent:not(.hidden) ~ & {
@@ -76,6 +76,14 @@
 		z-index: 60;
 		display: block;
 		background-color: var(--color-main-background-translucent);
+	}
+
+	/**
+	 * This is a dirty hack as the sticky header requires us to use a different display type on the table element
+	 */
+	tbody {
+		display: table;
+		width: 100%;
 	}
 }
 
@@ -383,13 +391,12 @@ table {
 			width: 0;
 			flex-grow: 1;
 			display: flex;
-			padding: 0;
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			height: 100%;
 			z-index: 10;
-			padding-right: 20px;
+			padding: 0 20px 0 0;
 		}
 	}
 
