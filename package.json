@@ -73,7 +73,7 @@
     "vue": "^2.6.11",
     "vue-click-outside": "^1.0.7",
     "vue-clipboard2": "^0.3.1",
-    "vue-infinite-loading": "^2.4.4",
+    "vue-infinite-loading": "^2.4.5",
     "vue-localstorage": "^0.6.2",
     "vue-multiselect": "^2.1.6",
     "vue-router": "^3.1.6",
