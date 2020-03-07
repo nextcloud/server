@@ -203,7 +203,7 @@ OC.L10N.register(
     "_{count} file conflict_::_{count} file conflicts_" : ["{count} conflito de ficheiro","{count} conflitos de ficheiros"],
     "One file conflict" : "Un conflito de ficheiro",
     "New Files" : "Ficheiros novos",
-    "Already existing files" : "Ficheiros xa existentes",
+    "Already existing files" : "Xa existen os ficheiros",
     "Which files do you want to keep?" : "Que ficheiros quere conservar?",
     "If you select both versions, the copied file will have a number added to its name." : "Se selecciona ambas versións, o ficheiro copiado terá un número engadido ao nome.",
     "Continue" : "Continuar",

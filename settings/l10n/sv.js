@@ -309,7 +309,7 @@ OC.L10N.register(
     "There are some errors regarding your setup." : "Det finns några fel angående din inställning.",
     "There are some warnings regarding your setup." : "Det finns några varningar angående din inställning.",
     "Checking for system and security issues." : "Kontrollerar system och säkerhetsproblem.",
-    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Vänligen dubbelkontrollera <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installationsguiderna ↗</a>, och kontrollera efter eventuella fel eller varningar i <a href=\"%2$s\">loggen</a>.",
+    "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Vänligen dubbelkolla <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installationsguiderna ↗</a>, och leta efter eventuella fel eller varningar i <a href=\"%2$s\">loggen</a>.",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Kontrollera säkerheten för ditt Nextcloud över <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">vår säkerhetsgenomsökning ↗</a>.",
     "Version" : "Version",
     "Two-Factor Authentication" : "Tvåfaktorsautentisering",
