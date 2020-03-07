@@ -51,6 +51,7 @@ use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Authentication\Events\LoginFailedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\NotPermittedException;
 use OCP\IConfig;
@@ -58,6 +59,7 @@ use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Lockdown\ILockdownManager;
 use OCP\Security\ISecureRandom;
@@ -137,7 +139,8 @@ class Session implements IUserSession, Emitter {
 								ISecureRandom $random,
 								ILockdownManager $lockdownManager,
 								ILogger $logger,
-								IEventDispatcher $dispatcher) {
+								IEventDispatcher $dispatcher
+	) {
 		$this->manager = $manager;
 		$this->session = $session;
 		$this->timeFactory = $timeFactory;
@@ -467,6 +470,9 @@ class Session implements IUserSession, Emitter {
 				$this->logger->warning('Login failed: \'' . $user . '\' (Remote IP: \'' . \OC::$server->getRequest()->getRemoteAddress() . '\')', ['app' => 'core']);
 
 				$throttler->registerAttempt('login', $request->getRemoteAddress(), ['user' => $user]);
+
+				$this->dispatcher->dispatchTyped(new OC\Authentication\Events\LoginFailed($user));
+
 				if ($currentDelay === 0) {
 					$throttler->sleepDelay($request->getRemoteAddress(), 'login');
 				}

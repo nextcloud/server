@@ -62,6 +62,8 @@ use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Authentication\Events\LoginFailed;
+use OC\Authentication\Listeners\LoginFailedListener;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
 use OC\Avatar\AvatarManager;
@@ -1416,6 +1418,10 @@ class Server extends ServerContainer implements IServerContainer {
 				// no avatar to remove
 			}
 		});
+
+		/** @var IEventDispatcher $eventDispatched */
+		$eventDispatched = $this->query(IEventDispatcher::class);
+		$eventDispatched->addServiceListener(LoginFailed::class, LoginFailedListener::class);
 	}
 
 	/**
