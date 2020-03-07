@@ -158,6 +158,7 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Överför {path} till {userid}",
     "Invalid path selected" : "Ogiltig sökväg vald",
     "Ownership transfer request sent" : "Förfrågan om ägaröverföring skickad",
+    "Cannot transfter ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap till en fil eller mapp som du inte äger",
     "Tags" : "Taggar",
     "Error while loading the file data" : "Fel vid inläsning av filens data",
     "Unable to change the favourite state of the file" : "Kan inte ändra filens favoritstatus",
