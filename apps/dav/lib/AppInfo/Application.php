@@ -49,6 +49,7 @@ use OCA\DAV\HookManager;
 use OCP\AppFramework\App;
 use OCP\Calendar\IManager as ICalendarManager;
 use OCP\Contacts\IManager as IContactsManager;
+use OCP\IConfig;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -244,6 +245,19 @@ class Application extends App {
 		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject', $listener);
 		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject', $listener);
 		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject', $listener);
+
+		/**
+		 * In case the user has set their default calendar to this one
+		 */
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar', function (GenericEvent $event) {
+			/** @var IConfig $config */
+			$config = $this->getContainer()->getServer()->getConfig();
+			$principalUri = $event->getArgument('calendarData')['principaluri'];
+			if (strpos($principalUri, 'principals/users') === 0) {
+				list(, $UID) = \Sabre\Uri\split($principalUri);
+				$config->deleteUserValue($UID, 'dav', 'defaultCalendar');
+			}
+		});
 	}
 
 	public function getSyncService() {
