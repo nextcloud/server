@@ -27,6 +27,7 @@ OC.L10N.register(
     "one-time password for server-side-encryption" : "enkratno geslo za šifriranje na strežniški strani ",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Te datoteke ni mogoče šifrirati, ker je to najverjetneje datoteka v souporabi. Prosite lastnika datoteke, da jo da ponovno v souporabo.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Te datoteke ni mogoče brati, ker je to najverjetneje datoteka v souporabi. Prosite lastnika datoteke, da jo da ponovno v souporabo.",
+    "Default encryption module" : "Privzet modul za šifriranje",
     "Hey there,\n\nthe admin enabled server-side-encryption. Your files were encrypted using the password '%s'.\n\nPlease login to the web interface, go to the section 'basic encryption module' of your personal settings and update your encryption password by entering this password into the 'old log-in password' field and your current login-password.\n\n" : "Pozdravljeni,\n\npo novem je omogočeno strežniško šifriranje. Vse datoteke so sedaj šifrirane z geslom »%s«.\n\nPrijavite se v spletni vmesnik, poiščite nastavitev »osnovnega modula za šifriranje« in posodobite trenutno šifrirno geslo z vnosom starega v polje »staro prijavno geslo« in novega v trenutno prijavno geslo.\n",
     "The share will expire on %s." : "Povezava souporabe bo potekla %s.",
     "Cheers!" : "Lep pozdrav!",

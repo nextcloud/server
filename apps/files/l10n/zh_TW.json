@@ -156,6 +156,7 @@
     "Transfer {path} to {userid}" : "轉移 \"{path}\" 給 {userid}",
     "Invalid path selected" : "所選的路徑無效",
     "Ownership transfer request sent" : "已送出所有權轉移的請求",
+    "Cannot transfter ownership of a file or folder you don't own" : "無法轉換非您擁有檔案或資料夾的所有權",
     "Tags" : "標籤",
     "Error while loading the file data" : "載入檔案資料失敗",
     "Unable to change the favourite state of the file" : "無法更改檔案的最愛狀態",

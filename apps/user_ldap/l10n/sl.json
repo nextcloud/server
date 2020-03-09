@@ -135,6 +135,7 @@
     "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "Možnost omogoča podporo skupinam, ki vključujejo skupine. Deluje je, če atribut članstva skupine vsebuje enolično ime (DN).",
     "Paging chunksize" : "Velikost odvoda za razbremenitev delovnega pomnilnik",
     "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "Velikost odvoda za razbremenitev delovnega pomnilnika, ki ga uporablja iskalnik LDAP, pri oštevilčenju uporabnika ali skupine (vrednost 0 možnost onemogoči).",
+    "Enable LDAP password changes per user" : "Omogoči uporabnikom spreminjanje gesel LDAP",
     "Special Attributes" : "Posebni atributi",
     "Quota Field" : "Polje količinske omejitve",
     "Quota Default" : "Privzeta omejitev",
