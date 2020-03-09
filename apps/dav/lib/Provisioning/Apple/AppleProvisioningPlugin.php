@@ -125,7 +125,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 			return false;
 		}
 
-		$absoluteURL = $request->getAbsoluteUrl();
+		$absoluteURL = $this->urlGenerator->getBaseUrl();
 		$parsedUrl = parse_url($absoluteURL);
 		if (isset($parsedUrl['port'])) {
 			$serverPort = (int) $parsedUrl['port'];
