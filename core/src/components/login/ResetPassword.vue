@@ -32,7 +32,7 @@
 				@change="updateUsername">
 			<!--<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
 			autocomplete="<?php p($_['login_form_autocomplete']); ?>" autocapitalize="none" autocorrect="off"-->
-			<label for="user" class="infield">{{ t('core', 'Username or	email') }}</label>
+			<label for="user" class="infield">{{ t('core', 'Username or email') }}</label>
 		</p>
 		<div id="reset-password-wrapper">
 			<input id="reset-password-submit"
