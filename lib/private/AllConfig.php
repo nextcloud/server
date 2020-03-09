@@ -129,7 +129,9 @@ class AllConfig implements \OCP\IConfig {
 	 *
 	 * @param string $key the key of the value, under which it was saved
 	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return mixed the value or $default
+	 *
+	 * @return bool
+	 *
 	 * @since 16.0.0
 	 */
 	public function getSystemValueBool(string $key, bool $default = false): bool {
@@ -141,7 +143,9 @@ class AllConfig implements \OCP\IConfig {
 	 *
 	 * @param string $key the key of the value, under which it was saved
 	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return mixed the value or $default
+	 *
+	 * @return int
+	 *
 	 * @since 16.0.0
 	 */
 	public function getSystemValueInt(string $key, int $default = 0): int {
@@ -153,7 +157,9 @@ class AllConfig implements \OCP\IConfig {
 	 *
 	 * @param string $key the key of the value, under which it was saved
 	 * @param mixed $default the default value to be returned if the value isn't set
-	 * @return mixed the value or $default
+	 *
+	 * @return string
+	 *
 	 * @since 16.0.0
 	 */
 	public function getSystemValueString(string $key, string $default = ''): string {
