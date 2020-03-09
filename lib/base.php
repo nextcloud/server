@@ -604,7 +604,7 @@ class OC {
 
 		// Override php.ini and log everything if we're troubleshooting
 		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
-			error_reporting(E_ALL | E_DEPRECATED);
+			error_reporting(E_ALL);
 		}
 
 		// Don't display errors and log them
