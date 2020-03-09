@@ -28,9 +28,12 @@ declare(strict_types=1);
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
 use OCP\IConfig;
 use OCP\IL10N;
 use Sabre\CardDAV\Backend;
+use Sabre\DAV\Exception\MethodNotAllowed;
+use Sabre\DAV\MkCol;
 
 class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 
@@ -76,6 +79,14 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		}
 		return $objects;
 
+	}
+
+	public function createExtendedCollection($name, MkCol $mkCol) {
+		if (ExternalAddressBook::doesViolateReservedName($name)) {
+			throw new MethodNotAllowed('The resource you tried to create has a reserved name');
+		}
+
+		parent::createExtendedCollection($name, $mkCol);
 	}
 
 	/**
