@@ -263,7 +263,7 @@ class File extends Node implements IFile {
 
 					try {
 						$this->acquireLock(ILockingProvider::LOCK_EXCLUSIVE);
-					} catch (LockedException $e) {
+					} catch (LockedException $ex) {
 						if ($needsPartFile) {
 							$partStorage->unlink($internalPartPath);
 						}
