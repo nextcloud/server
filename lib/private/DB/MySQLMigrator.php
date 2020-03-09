@@ -51,7 +51,7 @@ class MySQLMigrator extends Migrator {
 
 		return $schemaDiff;
 	}
-	
+
         /**
          * Speed up migration test by disabling autocommit and unique indexes check
          *

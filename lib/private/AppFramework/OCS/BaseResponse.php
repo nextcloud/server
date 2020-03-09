@@ -48,7 +48,7 @@ abstract class BaseResponse extends Response   {
 	/**
 	 * BaseResponse constructor.
 	 *
-	 * @param DataResponse|null $dataResponse
+	 * @param DataResponse $dataResponse
 	 * @param string $format
 	 * @param string|null $statusMessage
 	 * @param int|null $itemsCount
