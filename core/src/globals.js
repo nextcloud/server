@@ -42,7 +42,6 @@ import Handlebars from 'handlebars'
 import 'jcrop/js/jquery.Jcrop'
 import 'jcrop/css/jquery.Jcrop.css'
 import jstimezonedetect from 'jstimezonedetect'
-import marked from 'marked'
 import md5 from 'blueimp-md5'
 import moment from 'moment'
 import 'select2'
@@ -55,11 +54,7 @@ import OC from './OC/index'
 import OCP from './OCP/index'
 import OCA from './OCA/index'
 import escapeHTML from 'escape-html'
-import formatDate from './Util/format-date'
 import { getToken as getRequestToken } from './OC/requesttoken'
-import getURLParameter from './Util/get-url-parameter'
-import humanFileSize from './Util/human-file-size'
-import relativeModifiedDate from './Util/relative-modified-date'
 
 const warnIfNotTesting = function() {
 	if (window.TESTING === undefined) {
@@ -114,7 +109,6 @@ window['dav'] = dav
 setDeprecatedProp('DOMPurify', () => DOMPurify, 'The global DOMPurify is deprecated, this will be removed in Nextcloud 21')
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp(['jstz', 'jstimezonedetect'], () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
-window['marked'] = deprecate(marked, 'marked', 19)
 setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 
@@ -133,10 +127,6 @@ setDeprecatedProp('OCDialogs', () => OC.dialogs, 'use OC.dialogs instead, this w
 window['OCP'] = OCP
 window['OCA'] = OCA
 window['escapeHTML'] = deprecate(escapeHTML, 'escapeHTML', 19)
-window['formatDate'] = deprecate(formatDate, 'formatDate', 19)
-window['getURLParameter'] = deprecate(getURLParameter, 'getURLParameter', 19)
-window['humanFileSize'] = deprecate(humanFileSize, 'humanFileSize', 19)
-window['relative_modified_date'] = deprecate(relativeModifiedDate, 'relative_modified_date', 19)
 $.fn.select2 = deprecate($.fn.select2, 'select2', 19)
 
 /**

@@ -1606,7 +1606,7 @@
 
 			// size column
 			if (typeof(fileData.size) !== 'undefined' && fileData.size >= 0) {
-				simpleSize = humanFileSize(parseInt(fileData.size, 10), true);
+				simpleSize = OC.Util.humanFileSize(parseInt(fileData.size, 10), true);
 				// rgb(118, 118, 118) / #767676
 				// min. color contrast for normal text on white background according to WCAG AA
 				sizeColor = Math.round(118-Math.pow((fileData.size/(1024*1024)), 2));

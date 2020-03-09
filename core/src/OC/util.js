@@ -58,7 +58,6 @@ export default {
 
 	History,
 
-	// TODO: remove original functions from global namespace
 	humanFileSize,
 
 	/**
