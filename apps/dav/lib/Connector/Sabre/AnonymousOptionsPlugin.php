@@ -46,7 +46,7 @@ class AnonymousOptionsPlugin extends ServerPlugin {
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 		// before auth
-		$this->server->on('beforeMethod', [$this, 'handleAnonymousOptions'], 9);
+		$this->server->on('beforeMethod:*', [$this, 'handleAnonymousOptions'], 9);
 	}
 
 	/**

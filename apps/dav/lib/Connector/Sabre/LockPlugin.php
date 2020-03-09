@@ -45,7 +45,7 @@ class LockPlugin extends ServerPlugin {
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
-		$this->server->on('beforeMethod', [$this, 'getLock'], 50);
+		$this->server->on('beforeMethod:*', [$this, 'getLock'], 50);
 		$this->server->on('afterMethod', [$this, 'releaseLock'], 50);
 	}
 

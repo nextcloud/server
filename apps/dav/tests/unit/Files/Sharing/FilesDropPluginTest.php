@@ -66,7 +66,7 @@ class FilesDropPluginTest extends TestCase {
 		$this->server->expects($this->once())
 			->method('on')
 			->with(
-				$this->equalTo('beforeMethod'),
+				$this->equalTo('beforeMethod:*'),
 				$this->equalTo([$this->plugin, 'beforeMethod']),
 				$this->equalTo(999)
 			);
