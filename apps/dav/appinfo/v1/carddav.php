@@ -27,6 +27,7 @@
  */
 
 // Backends
+use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\LegacyDAVACL;
@@ -34,6 +35,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\App\IAppManager;
 use Sabre\CardDAV\Plugin;
 
 $authBackend = new Auth(
@@ -63,7 +65,8 @@ $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
-$addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend);
+$pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager::class));
+$addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend, $pluginManager);
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
 $nodes = array(

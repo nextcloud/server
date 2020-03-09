@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,8 +27,13 @@
 
 namespace OCA\DAV\CardDAV;
 
+use OCA\DAV\AppInfo\PluginManager;
+use OCA\DAV\CardDAV\Integration\ExternalAddressBook;
 use OCP\IConfig;
 use OCP\IL10N;
+use Sabre\CardDAV\Backend;
+use Sabre\DAV\Exception\MethodNotAllowed;
+use Sabre\DAV\MkCol;
 
 class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 
@@ -35,8 +43,18 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	/** @var IConfig */
 	protected $config;
 
+	/** @var PluginManager */
+	private $pluginManager;
+
+	public function __construct(Backend\BackendInterface $carddavBackend,
+								string $principalUri,
+								PluginManager $pluginManager) {
+		parent::__construct($carddavBackend, $principalUri);
+		$this->pluginManager = $pluginManager;
+	}
+
 	/**
-	 * Returns a list of addressbooks
+	 * Returns a list of address books
 	 *
 	 * @return array
 	 */
@@ -49,16 +67,26 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		}
 
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
-		$objects = [];
-		foreach($addressBooks as $addressBook) {
+		$objects = array_map(function(array $addressBook) {
 			if ($addressBook['principaluri'] === 'principals/system/system') {
-				$objects[] = new SystemAddressbook($this->carddavBackend, $addressBook, $this->l10n, $this->config);
-			} else {
-				$objects[] = new AddressBook($this->carddavBackend, $addressBook, $this->l10n);
+				return new SystemAddressbook($this->carddavBackend, $addressBook, $this->l10n, $this->config);
 			}
+
+			return new AddressBook($this->carddavBackend, $addressBook, $this->l10n);
+		}, $addressBooks);
+		foreach ($this->pluginManager->getAddressBookPlugins() as $plugin) {
+			$plugin->fetchAllForAddressBookHome($this->principalUri);
 		}
 		return $objects;
 
+	}
+
+	public function createExtendedCollection($name, MkCol $mkCol) {
+		if (ExternalAddressBook::doesViolateReservedName($name)) {
+			throw new MethodNotAllowed('The resource you tried to create has a reserved name');
+		}
+
+		parent::createExtendedCollection($name, $mkCol);
 	}
 
 	/**
@@ -78,9 +106,9 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 		$acl = parent::getACL();
 		if ($this->principalUri === 'principals/system/system') {
 			$acl[] = [
-					'privilege' => '{DAV:}read',
-					'principal' => '{DAV:}authenticated',
-					'protected' => true,
+				'privilege' => '{DAV:}read',
+				'principal' => '{DAV:}authenticated',
+				'protected' => true,
 			];
 		}
 
