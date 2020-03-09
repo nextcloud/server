@@ -26,6 +26,8 @@ OC.L10N.register(
     "So-so password" : "密碼強度普通",
     "Good password" : "密碼強度佳",
     "Strong password" : "密碼強度極佳",
+    "An error occurred while changing your language. Please reload the page and try again." : "變更語言時發生錯誤，請重新整理頁面後重試",
+    "An error occurred while changing your locale. Please reload the page and try again." : "變更慣用地區時發生錯誤，請重新整理頁面後重試",
     "Select a profile picture" : "選擇大頭貼照",
     "Groups" : "群組",
     "{actor} removed you from group {group}" : "{actor} 將你從 {group} 群組中移除",
