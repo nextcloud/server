@@ -256,6 +256,7 @@ class BirthdayService {
 
 		$vCal = new VCalendar();
 		$vCal->VERSION = '2.0';
+		$vCal->PRODID = '-//IDN nextcloud.com//Birthday calendar//EN';
 		$vEvent = $vCal->createComponent('VEVENT');
 		$vEvent->add('DTSTART');
 		$vEvent->DTSTART->setDateTime(
