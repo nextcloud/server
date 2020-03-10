@@ -431,10 +431,9 @@ class PrincipalTest extends TestCase {
 			->will($this->returnValue($sharingEnabled));
 
 		if ($sharingEnabled) {
-			$this->config->expects($this->once())
-				->method('getAppValue')
-				->with('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes')
-				->willReturn('yes');
+			$this->shareManager->expects($this->once())
+				->method('allowEnumeration')
+				->willReturn(true);
 
 			$this->shareManager->expects($this->once())
 				->method('shareWithGroupMembersOnly')
@@ -526,10 +525,9 @@ class PrincipalTest extends TestCase {
 			->method('shareAPIEnabled')
 			->will($this->returnValue(true));
 
-		$this->config->expects($this->exactly(2))
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes')
-			->willReturn('yes');
+		$this->shareManager->expects($this->exactly(2))
+			->method('allowEnumeration')
+			->willReturn(true);
 
 		$this->shareManager->expects($this->exactly(2))
 			->method('shareWithGroupMembersOnly')
@@ -557,10 +555,9 @@ class PrincipalTest extends TestCase {
 			->method('shareAPIEnabled')
 			->will($this->returnValue(true));
 
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes')
-			->willReturn('no');
+		$this->shareManager->expects($this->once())
+			->method('allowEnumeration')
+			->willReturn(false);
 
 		$this->shareManager->expects($this->once())
 			->method('shareWithGroupMembersOnly')
@@ -593,10 +590,9 @@ class PrincipalTest extends TestCase {
 			->method('shareAPIEnabled')
 			->will($this->returnValue(true));
 
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes')
-			->willReturn('no');
+		$this->shareManager->expects($this->once())
+			->method('allowEnumeration')
+			->willReturn(false);
 
 		$this->shareManager->expects($this->once())
 			->method('shareWithGroupMembersOnly')
