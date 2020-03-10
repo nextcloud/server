@@ -320,7 +320,8 @@ table td.fileaction {
 	width: 32px;
 	text-align: center;
 }
-table td.filename a.name {
+table td.filename a.name,
+table td.filename p.name {
 	display: flex;
 	position:relative; /* Firefox needs to explicitly have this default set … */
 	-moz-box-sizing: border-box;
@@ -355,6 +356,9 @@ table td.filename .thumbnail {
 	cursor: pointer;
 	position: absolute;
 	z-index: 4;
+}
+table td.filename p.name .thumbnail {
+	cursor: default;
 }
 
 // Show slight border around previews for images, txt, etc.
@@ -477,7 +481,8 @@ table td.selection {
 	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
 }
 
-#fileList tr td.filename a.name label {
+#fileList tr td.filename a.name label,
+#fileList tr td.filename p.name label {
 	position: absolute;
 	width: 80%;
 	height: 50px;
