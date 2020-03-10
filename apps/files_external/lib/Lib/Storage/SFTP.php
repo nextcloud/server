@@ -378,6 +378,9 @@ class SFTP extends \OC\Files\Storage\Common {
 					return RetryWrapper::wrap($handle);
 				case 'w':
 				case 'wb':
+					SFTPWriteStream::register();
+					$context = stream_context_create(['sftp' => ['session' => $this->getConnection()]]);
+					return fopen('sftpwrite://' . trim($absPath, '/'), 'w', false, $context);
 				case 'a':
 				case 'ab':
 				case 'r+':

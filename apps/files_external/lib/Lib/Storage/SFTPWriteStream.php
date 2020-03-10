@@ -24,7 +24,7 @@ namespace OCA\Files_External\Lib\Storage;
 use Icewind\Streams\File;
 use phpseclib\Net\SSH2;
 
-class SFTPReadStream implements File {
+class SFTPWriteStream implements File {
 	/** @var resource */
 	public $context;
 
@@ -38,14 +38,14 @@ class SFTPReadStream implements File {
 	private $internalPosition = 0;
 
 	/** @var int */
-	private $readPosition = 0;
+	private $writePosition = 0;
 
 	/** @var bool */
 	private $eof = false;
 
 	private $buffer = '';
 
-	static function register($protocol = 'sftpread') {
+	static function register($protocol = 'sftpwrite') {
 		if (in_array($protocol, stream_get_wrappers(), true)) {
 			return false;
 		}
@@ -87,7 +87,7 @@ class SFTPReadStream implements File {
 			return false;
 		}
 
-		$packet = pack('Na*N2', strlen($remote_file), $remote_file, NET_SFTP_OPEN_READ, 0);
+		$packet = pack('Na*N2', strlen($remote_file), $remote_file, NET_SFTP_OPEN_WRITE | NET_SFTP_OPEN_CREATE | NET_SFTP_OPEN_TRUNCATE, 0);
 		if (!$this->sftp->_send_sftp_packet(NET_SFTP_OPEN, $packet)) {
 			return false;
 		}
@@ -105,8 +105,6 @@ class SFTPReadStream implements File {
 				return false;
 		}
 
-		$this->request_chunk(256 * 1024);
-
 		return true;
 	}
 
@@ -115,55 +113,26 @@ class SFTPReadStream implements File {
 	}
 
 	public function stream_tell() {
-		return $this->readPosition;
+		return $this->writePosition;
 	}
 
 	public function stream_read($count) {
-		if (!$this->eof && strlen($this->buffer) < $count) {
-			$chunk = $this->read_chunk();
-			$this->buffer .= $chunk;
-			if (!$this->eof) {
-				$this->request_chunk(256 * 1024);
-			}
-		}
-
-		$data = substr($this->buffer, 0, $count);
-		$this->buffer = substr($this->buffer, $count);
-		if ($this->buffer === false) {
-			$this->buffer = '';
-		}
-		$this->readPosition += strlen($data);
-
-		return $data;
-	}
-
-	private function request_chunk($size) {
-		$packet = pack('Na*N3', strlen($this->handle), $this->handle, $this->internalPosition / 4294967296, $this->internalPosition, $size);
-		return $this->sftp->_send_sftp_packet(NET_SFTP_READ, $packet);
-	}
-
-	private function read_chunk() {
-		$response = $this->sftp->_get_sftp_packet();
-
-		switch ($this->sftp->packet_type) {
-			case NET_SFTP_DATA:
-				$temp = substr($response, 4);
-				$len = strlen($temp);
-				$this->internalPosition += $len;
-				return $temp;
-			case NET_SFTP_STATUS:
-				[1 => $status] = unpack('N', substr($response, 0, 4));
-				if ($status == NET_SFTP_STATUS_EOF) {
-					$this->eof = true;
-				}
-				return '';
-			default:
-				return '';
-		}
+		return false;
 	}
 
 	public function stream_write($data) {
-		return false;
+		$written = strlen($data);
+		$this->writePosition += $written;
+
+		$this->buffer .= $data;
+
+		if (strlen($this->buffer) > 64 * 1024) {
+			if (!$this->stream_flush()) {
+				return false;
+			}
+		}
+
+		return $written;
 	}
 
 	public function stream_set_option($option, $arg1, $arg2) {
@@ -183,7 +152,15 @@ class SFTPReadStream implements File {
 	}
 
 	public function stream_flush() {
-		return false;
+		$size = strlen($this->buffer);
+		$packet = pack('Na*N3a*', strlen($this->handle), $this->handle, $this->internalPosition / 4294967296, $this->internalPosition, $size, $this->buffer);
+		if (!$this->sftp->_send_sftp_packet(NET_SFTP_WRITE, $packet)) {
+			return false;
+		}
+		$this->internalPosition += $size;
+		$this->buffer = '';
+
+		return $this->sftp->_read_put_responses(1);
 	}
 
 	public function stream_eof() {
@@ -191,9 +168,11 @@ class SFTPReadStream implements File {
 	}
 
 	public function stream_close() {
+		$this->stream_flush();
 		if (!$this->sftp->_close_handle($this->handle)) {
 			return false;
 		}
 	}
 
 }
+
