@@ -54,7 +54,7 @@ class CopyEtagHeaderPluginTest extends TestCase {
 	}
 
 	public function testCopyEtag() {
-		$request = new \Sabre\Http\Request();
+		$request = new \Sabre\Http\Request('GET', 'dummy.file');
 		$response = new \Sabre\Http\Response();
 		$response->setHeader('Etag', 'abcd');
 
@@ -64,7 +64,7 @@ class CopyEtagHeaderPluginTest extends TestCase {
 	}
 
 	public function testNoopWhenEmpty() {
-		$request = new \Sabre\Http\Request();
+		$request = new \Sabre\Http\Request('GET', 'dummy.file');
 		$response = new \Sabre\Http\Response();
 
 		$this->plugin->afterMethod($request, $response);
