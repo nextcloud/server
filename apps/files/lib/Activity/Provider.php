@@ -246,7 +246,11 @@ class Provider implements IProvider {
 
 		$this->setSubjects($event, $subject, $parsedParameters);
 
-		$event = $this->eventMerger->mergeEvents('file', $event, $previousEvent);
+		if ($event->getSubject() === 'moved_self' || $event->getSubject() === 'moved_by') {
+			$event = $this->eventMerger->mergeEvents('oldfile', $event, $previousEvent);
+		} else {
+			$event = $this->eventMerger->mergeEvents('file', $event, $previousEvent);
+		}
 
 		if ($event->getChildEvent() === null) {
 			// Couldn't group by file, maybe we can group by user
