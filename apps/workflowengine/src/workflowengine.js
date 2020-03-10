@@ -20,8 +20,6 @@
  *
  */
 
-import '@babel/polyfill'
-
 import Vue from 'vue'
 import Vuex from 'vuex'
 import store from './store'
