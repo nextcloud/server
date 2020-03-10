@@ -602,8 +602,12 @@ class OC {
 		\OC::$server->getEventLogger()->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
 		\OC::$server->getEventLogger()->start('boot', 'Initialize');
 
+		// Override php.ini and log everything if we're troubleshooting
+		if (self::$config->getValue('loglevel') === ILogger::DEBUG) {
+			error_reporting(E_ALL);
+		}
+
 		// Don't display errors and log them
-		error_reporting(E_ALL | E_STRICT);
 		@ini_set('display_errors', '0');
 		@ini_set('log_errors', '1');
 
