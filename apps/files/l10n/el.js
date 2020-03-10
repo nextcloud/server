@@ -158,7 +158,6 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Μεταφορά {path} στον {userid}",
     "Invalid path selected" : "Επιλέχθηκε μη έγκυρη διαδρομή",
     "Ownership transfer request sent" : "Αποστολή αίτησης μεταβίβασης κυριότητας",
-    "Cannot transfter ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει",
     "Tags" : "Ετικέτες",
     "Error while loading the file data" : "Σφάλμα κατά την φόρτωση αρχείου δεδομένων",
     "Unable to change the favourite state of the file" : "Αδυναμία αλλαγής αγαπημένης κατάστασης αρχείου",
@@ -188,6 +187,7 @@ OC.L10N.register(
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
     "%s of %s used" : "%s από %s σε χρήση",
-    "%1$s%% of %2$s used" : "%1$s%% από %2$s σε χρήση"
+    "%1$s%% of %2$s used" : "%1$s%% από %2$s σε χρήση",
+    "Cannot transfter ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει"
 },
 "nplurals=2; plural=(n != 1);");

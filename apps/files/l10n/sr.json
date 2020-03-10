@@ -185,6 +185,7 @@
     "Text file" : "Tекстуални фајл",
     "New text file.txt" : "Нов текстуални фајл.txt",
     "%s of %s used" : "%s од %s искоришћено",
-    "%1$s%% of %2$s used" : "%1$s%% од %2$s искоришћено"
+    "%1$s%% of %2$s used" : "%1$s%% од %2$s искоришћено",
+    "Cannot transfter ownership of a file or folder you don't own" : "Не можете пренети власништво фајла или фасцикле које нису Ваше"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
