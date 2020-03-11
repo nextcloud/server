@@ -96,6 +96,7 @@ class Manager implements ICommentsManager {
 			$data['latest_child_timestamp'] = new \DateTime($data['latest_child_timestamp']);
 		}
 		$data['children_count'] = (int)$data['children_count'];
+		$data['reference_id'] = $data['reference_id'] ?? null;
 		return $data;
 	}
 
