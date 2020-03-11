@@ -80,7 +80,7 @@ class Application extends App {
 			return;
 		}
 
-		$$this->logLevel = $config->getSystemValueInt('loglevel', 2);
+		$this->logLevel = $config->getSystemValueInt('loglevel', 2);
 
 		$this->logger = $c->getLogFactory()->getCustomLogger($logFile);
 
