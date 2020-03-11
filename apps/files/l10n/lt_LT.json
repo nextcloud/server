@@ -153,8 +153,10 @@
     "Search users" : "Ieškoti naudotojų",
     "Choose a file or folder to transfer" : "Pasirinkite norimą perduoti failą ar aplanką",
     "Transfer" : "Perduoti",
+    "Transfer {path} to {userid}" : "Perduoti {path} naudotojui {userid}",
     "Invalid path selected" : "Pasirinktas neteisingas kelias",
     "Ownership transfer request sent" : "Nuosavybės perdavimo užklausa išsiųsta",
+    "Cannot transfer ownership of a file or folder you don't own" : "Negalima perduoti, failo aplanko, kuris jums nepriklauso, nuosavybės",
     "Tags" : "Žymės",
     "Error while loading the file data" : "Klaida įkeliant failo duomenis",
     "%s used" : "%s panaudota",
@@ -183,6 +185,7 @@
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
     "%s of %s used" : "naudojama %s iš %s",
-    "%1$s%% of %2$s used" : "%1$s naudojama %% iš %2$s"
+    "%1$s%% of %2$s used" : "%1$s naudojama %% iš %2$s",
+    "Cannot transfter ownership of a file or folder you don't own" : "Negalima perduoti, failo aplanko, kuris jums nepriklauso, nuosavybės"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

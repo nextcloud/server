@@ -114,7 +114,7 @@ OC.L10N.register(
     "No results" : "Rezultatų nėra",
     "This app has no minimum Nextcloud version assigned. This will be an error in the future." : "Ši programėlė neturi priskirtos žemiausios „Nextcloud“ versijos. Ateityje tai bus klaida.",
     "This app has no maximum Nextcloud version assigned. This will be an error in the future." : "Ši programėlė neturi priskirtos aukščiausios „Nextcloud“ versijos. Ateityje tai bus klaida.",
-    "This app cannot be installed because the following dependencies are not fulfilled:" : "Programėlė negali būti įdiegta, nes žemiau išvardinti priklausiniai neišpildyti:",
+    "This app cannot be installed because the following dependencies are not fulfilled:" : "Ši programėlė negali būti įdiegta, nes nėra patenkintos žemiau išvardintos priklausomybės:",
     "View in store" : "Rodyti parduotuvėje",
     "Visit website" : "Aplankyti svetainę",
     "Report a bug" : "Pranešti apie klaidą",
