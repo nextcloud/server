@@ -372,8 +372,15 @@ class SFTP extends \OC\Files\Storage\Common {
 					if ( !$this->file_exists($path)) {
 						return false;
 					}
+					SFTPReadStream::register();
+					$context = stream_context_create(['sftp' => ['session' => $this->getConnection()]]);
+					$handle = fopen('sftpread://' . trim($absPath, '/'), 'r', false, $context);
+					return RetryWrapper::wrap($handle);
 				case 'w':
 				case 'wb':
+					SFTPWriteStream::register();
+					$context = stream_context_create(['sftp' => ['session' => $this->getConnection()]]);
+					return fopen('sftpwrite://' . trim($absPath, '/'), 'w', false, $context);
 				case 'a':
 				case 'ab':
 				case 'r+':
