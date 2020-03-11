@@ -349,12 +349,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	public function getMimeType($path) {
 		$path = $this->normalizePath($path);
-		$stat = $this->stat($path);
-		if (is_array($stat)) {
-			return $stat['mimetype'];
-		} else {
-			return false;
-		}
+		return parent::getMimeType($path);
 	}
 
 	public function touch($path, $mtime = null) {
