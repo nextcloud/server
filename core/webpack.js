@@ -8,6 +8,7 @@ module.exports = [
 			main: path.join(__dirname, 'src/main.js'),
 			maintenance: path.join(__dirname, 'src/maintenance.js'),
 			recommendedapps: path.join(__dirname, 'src/recommendedapps.js'),
+			install: path.join(__dirname, 'src/install.js')
 		},
 		output: {
 			filename: '[name].js',
