@@ -43,7 +43,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * Class AddMissingIndices
  *
  * if you added any new indices to the database, this is the right place to add
- * it your update routine for existing instances
+ * your update routine for existing instances
  *
  * @package OC\Core\Command\Db
  */
