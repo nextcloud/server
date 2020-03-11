@@ -30,15 +30,16 @@ namespace OCA\AdminAudit\Actions;
 
 use OCP\ILogger;
 
-class Action {
+abstract class Action {
 	/** @var ILogger */
 	private $logger;
 
-	/**
-	 * @param ILogger $logger
-	 */
-	public function __construct(ILogger $logger) {
+	/** @var int */
+	private $loglevel;
+
+	public function __construct(ILogger $logger, int $loglevel) {
 		$this->logger = $logger;
+		$this->loglevel = $loglevel;
 	}
 
 	/**
@@ -81,7 +82,7 @@ class Action {
 			$replaceArray[] = $params[$element];
 		}
 
-		$this->logger->info(
+		$this->logger->log($this->loglevel,
 			vsprintf(
 				$text,
 				$replaceArray
