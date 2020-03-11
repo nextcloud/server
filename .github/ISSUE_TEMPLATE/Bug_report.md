@@ -9,6 +9,12 @@ Thanks for reporting issues back to Nextcloud!
 
 Note: This is the **issue tracker of Nextcloud**, please do NOT use this to get answers to your questions or get help for fixing your installation. This is a place to report bugs to developers, after your server has been debugged. You can find help debugging your system on our home user forums: https://help.nextcloud.com or, if you use Nextcloud in a large organization, ask our engineers on https://portal.nextcloud.com. See also  https://nextcloud.com/support for support options.
 
+Note: Try to be friendly and patient, we will try, too. Nextcloud is a volunteer community. While some people are paid to work on Nextcloud, they are paid by customers, so unless you are a customer, nobody gets paid to help you. People help you because they are nice, so treat them as such.
+
+We get a LOT of bug reports and we have to focus on the most important ones, that is, those with the most severe impact, no work-around and many users who encounter it. If we don't fix a problem that bothers you, it is not that we are stupid or that we hate you, it is [because we have many, many things on our plate.](https://erikbern.com/2020/03/10/never-attribute-to-stupidity-that-which-is-adequately-explained-by-opportunity-cost.html)
+
+If you consider creating a new anonymous account to get free (enterprise) support, [you are not being fair.](https://berthub.eu/articles/posts/anonymous-help/) Do not be surprised when we don't react nicely. If you get paid to create a bug report or feature request here, make sure we get paid to fix it, or assume it will have very low priority.
+
 This is the bug tracker for the Server component. Find other components at https://github.com/nextcloud/
 
 For reporting potential security issues please see https://nextcloud.com/security/
