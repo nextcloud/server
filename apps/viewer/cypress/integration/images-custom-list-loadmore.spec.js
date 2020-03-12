@@ -23,7 +23,7 @@
 import { randHash } from '../utils/'
 const randUser = randHash()
 
-describe('Open images in viewer', function() {
+describe('Open custom list of images in viewer', function() {
 	before(function() {
 		// Init user
 		cy.nextcloudCreateUser(randUser, 'password')
