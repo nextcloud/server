@@ -57,7 +57,9 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP {
 		$cacheKey = $this->getGroupCacheKey($gid);
 		foreach($this->backends as $configPrefix => $backend) {
 			if($result = call_user_func_array(array($backend, $method), $parameters)) {
-				$this->writeToCache($cacheKey, $configPrefix);
+				if(!$this->isSingleBackend()) {
+					$this->writeToCache($cacheKey, $configPrefix);
+				}
 				return $result;
 			}
 		}
@@ -94,6 +96,10 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP {
 			}
 		}
 		return false;
+	}
+
+	protected function activeBackends(): int {
+		return count($this->backends);
 	}
 
 	/**

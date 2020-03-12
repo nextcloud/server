@@ -85,7 +85,9 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 				$instance = $this->getAccess($configPrefix);
 			}
 			if($result = call_user_func_array(array($instance, $method), $parameters)) {
-				$this->writeToCache($cacheKey, $configPrefix);
+				if(!$this->isSingleBackend()) {
+					$this->writeToCache($cacheKey, $configPrefix);
+				}
 				return $result;
 			}
 		}
@@ -127,6 +129,10 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 			}
 		}
 		return false;
+	}
+
+	protected function activeBackends(): int {
+		return count($this->backends);
 	}
 
 	/**
