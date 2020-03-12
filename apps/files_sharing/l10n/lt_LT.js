@@ -138,6 +138,7 @@ OC.L10N.register(
     "Only works for users with access to this folder" : "Veikia tik naudotojams, turintiems prieigą prie šio aplanko",
     "Only works for users with access to this file" : "Veikia tik naudotojams, turintiems prieigą prie šio failo",
     "Please enter the following required information before creating the share" : "Prieš sukurdami viešinį, įveskite šią reikiamą informaciją",
+    "Password protection (enforced)" : "Apsauga slaptažodžiu (priverstinė)",
     "Password protection" : "Apsauga slaptažodžiu",
     "Enter a password" : "Enter a password",
     "Cancel" : "Atsisakyti",

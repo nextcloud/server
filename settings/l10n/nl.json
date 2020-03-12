@@ -328,6 +328,8 @@
     "Start migration" : "Start migratie",
     "Background jobs" : "Achtergrondtaken",
     "Last job execution ran %s. Something seems wrong." : "Laatst uitgevoerde job: %s. Er lijkt iets fout gegaan.",
+    "Some jobs haven’t been executed since %s. Please consider increasing the execution frequency." : "Sommige taken zijn sinds %s niet meer uitgevoerd. Overweeg om de uitvoeringsfrequentie te verhogen.",
+    "Some jobs didn’t execute since %s. Please consider switching to system cron." : "Sommige taken zijn sinds %s niet meer uitgevoerd. Overweeg om over te schakelen naar systemcron.",
     "Last job ran %s." : "Laatste taak %s uitgevoerd.",
     "Background job didn’t run yet!" : "Achtergrondtaak nog niet uitgevoerd!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Voor optimale prestaties is het belangrijk om de achtergrondtaken goed te configureren. Voor grotere installaties is \"Cron' de aanbevolen instelling. Bekijk de documentatie voor meer informatie.",
