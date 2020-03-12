@@ -26,8 +26,11 @@
 
 namespace OCA\User_LDAP\Mapping;
 
+use OC\DB\QueryBuilder\QueryBuilder;
+
 /**
  * Class AbstractMapping
+*
  * @package OCA\User_LDAP\Mapping
  */
 abstract class AbstractMapping {
@@ -40,7 +43,7 @@ abstract class AbstractMapping {
 	 * returns the DB table name which holds the mappings
 	 * @return string
 	 */
-	abstract protected function getTableName();
+	abstract protected function getTableName(bool $includePrefix = true);
 
 	/**
 	 * @param \OCP\IDBConnection $dbc
@@ -48,6 +51,9 @@ abstract class AbstractMapping {
 	public function __construct(\OCP\IDBConnection $dbc) {
 		$this->dbc = $dbc;
 	}
+
+	/** @var array caches Names (value) by DN (key) */
+	protected $cache = [];
 
 	/**
 	 * checks whether a provided string represents an existing table col
@@ -111,7 +117,12 @@ abstract class AbstractMapping {
 	 * @return string|false
 	 */
 	public function getDNByName($name) {
-		return $this->getXbyY('ldap_dn', 'owncloud_name', $name);
+		$dn = array_search($name, $this->cache);
+		if($dn === false) {
+			$dn = $this->getXbyY('ldap_dn', 'owncloud_name', $name);
+			$this->cache[$dn] = $name;
+		}
+		return $dn;
 	}
 
 	/**
@@ -121,13 +132,21 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function setDNbyUUID($fdn, $uuid) {
+		$oldDn = $this->getDnByUUID($uuid);
 		$query = $this->dbc->prepare('
 			UPDATE `' . $this->getTableName() . '`
 			SET `ldap_dn` = ?
 			WHERE `directory_uuid` = ?
 		');
 
-		return $this->modify($query, [$fdn, $uuid]);
+		$r = $this->modify($query, [$fdn, $uuid]);
+
+		if($r && is_string($oldDn) && isset($this->cache[$oldDn])) {
+			$this->cache[$fdn] = $this->cache[$oldDn];
+			unset($this->cache[$oldDn]);
+		}
+
+		return $r;
 	}
 
 	/**
@@ -146,6 +165,8 @@ abstract class AbstractMapping {
 			WHERE `ldap_dn` = ?
 		');
 
+		unset($this->cache[$fdn]);
+
 		return $this->modify($query, [$uuid, $fdn]);
 	}
 
@@ -155,7 +176,27 @@ abstract class AbstractMapping {
 	 * @return string|false
 	 */
 	public function getNameByDN($fdn) {
-		return $this->getXbyY('owncloud_name', 'ldap_dn', $fdn);
+		if(!isset($this->cache[$fdn])) {
+			$this->cache[$fdn] = $this->getXbyY('owncloud_name', 'ldap_dn', $fdn);
+		}
+		return $this->cache[$fdn];
+	}
+
+	public function getListOfIdsByDn(array $fdns): array {
+		$qb = $this->dbc->getQueryBuilder();
+		$qb->select('owncloud_name', 'ldap_dn')
+			->from($this->getTableName(false))
+			->where($qb->expr()->in('ldap_dn', $qb->createNamedParameter($fdns, QueryBuilder::PARAM_STR_ARRAY)));
+		$stmt = $qb->execute();
+
+		$results = $stmt->fetchAll(\Doctrine\DBAL\FetchMode::ASSOCIATIVE);
+		foreach ($results as $key => $entry) {
+			unset($results[$key]);
+			$results[$entry['ldap_dn']] = $entry['owncloud_name'];
+			$this->cache[$entry['ldap_dn']] = $entry['owncloud_name'];
+		}
+
+		return $results;
 	}
 
 	/**
@@ -189,6 +230,10 @@ abstract class AbstractMapping {
 	 */
 	public function getNameByUUID($uuid) {
 		return $this->getXbyY('owncloud_name', 'directory_uuid', $uuid);
+	}
+
+	public function getDnByUUID($uuid) {
+		return $this->getXbyY('ldap_dn', 'directory_uuid', $uuid);
 	}
 
 	/**
@@ -249,6 +294,9 @@ abstract class AbstractMapping {
 
 		try {
 			$result = $this->dbc->insertIfNotExist($this->getTableName(), $row);
+			if((bool)$result === true) {
+				$this->cache[$fdn] = $name;
+			}
 			// insertIfNotExist returns values as int
 			return (bool)$result;
 		} catch (\Exception $e) {
