@@ -874,10 +874,33 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 	private function readBlob($cardData) {
 		if (is_resource($cardData)) {
-			return stream_get_contents($cardData);
+			$cardData = stream_get_contents($cardData);
 		}
 
-		return $cardData;
+		$cardDataArray = explode("\r\n", $cardData);
+
+		$cardDataFiltered = [];
+		$removingPhoto = false;
+		foreach ($cardDataArray as $line) {
+			if (strpos($line, 'PHOTO:data:') === 0
+				&& strpos($line, 'PHOTO:data:image/') !== 0) {
+				// Filter out PHOTO data of non-images
+				$removingPhoto = true;
+				continue;
+			}
+
+			if ($removingPhoto) {
+				if (strpos($line, ' ') === 0) {
+					continue;
+				}
+				// No leading space means this is a new property
+				$removingPhoto = false;
+			}
+
+			$cardDataFiltered[] = $line;
+		}
+
+		return implode("\r\n", $cardDataFiltered);
 	}
 
 	/**
