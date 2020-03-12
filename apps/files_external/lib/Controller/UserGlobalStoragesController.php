@@ -85,7 +85,7 @@ class UserGlobalStoragesController extends StoragesController {
 	 * @NoAdminRequired
 	 */
 	public function index() {
-		$storages = $this->service->getUniqueStorages();
+		$storages = $this->formatStoragesForUI($this->service->getUniqueStorages());
 
 		// remove configuration data, this must be kept private
 		foreach ($storages as $storage) {
@@ -133,7 +133,7 @@ class UserGlobalStoragesController extends StoragesController {
 		$this->sanitizeStorage($storage);
 
 		return new DataResponse(
-			$storage,
+			$this->formatStorageForUI($storage),
 			Http::STATUS_OK
 		);
 	}
@@ -182,7 +182,7 @@ class UserGlobalStoragesController extends StoragesController {
 		$this->sanitizeStorage($storage);
 
 		return new DataResponse(
-			$storage,
+			$this->formatStorageForUI($storage),
 			Http::STATUS_OK
 		);
 
