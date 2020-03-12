@@ -158,10 +158,9 @@ class AppleProvisioningPluginTest extends TestCase {
 			->method('getServerProtocol')
 			->wilLReturn('https');
 
-		$this->sabreRequest->expects($this->at(1))
-			->method('getAbsoluteUrl')
-			->with()
-			->willReturn('https://nextcloud.tld/nextcloud/remote.php/dav/provisioning/apple-provisioning.mobileconfig');
+		$this->urlGenerator->expects($this->once())
+			->method('getBaseUrl')
+			->willReturn('https://nextcloud.tld/nextcloud');
 
 		$this->themingDefaults->expects($this->at(0))
 			->method('getName')
