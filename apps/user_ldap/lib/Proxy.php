@@ -40,6 +40,8 @@ use OCA\User_LDAP\User\Manager;
 abstract class Proxy {
 	private static $accesses = [];
 	private $ldap = null;
+	/** @var bool  */
+	private $isSingleBackend;
 
 	/** @var \OCP\ICache|null */
 	private $cache;
@@ -139,6 +141,15 @@ abstract class Proxy {
 	 */
 	abstract public function getLDAPAccess($id);
 
+	abstract protected function activeBackends(): int;
+
+	protected function isSingleBackend(): bool{
+		if($this->isSingleBackend === null) {
+			$this->isSingleBackend = $this->activeBackends() === 1;
+		}
+		return $this->isSingleBackend;
+	}
+
 	/**
 	 * Takes care of the request to the User backend
 	 * @param string $id
@@ -148,8 +159,10 @@ abstract class Proxy {
 	 * @return mixed, the result of the specified method
 	 */
 	protected function handleRequest($id, $method, $parameters, $passOnWhen = false) {
-		$result = $this->callOnLastSeenOn($id,  $method, $parameters, $passOnWhen);
-		if ($result === $passOnWhen) {
+		if (!$this->isSingleBackend()) {
+			$result = $this->callOnLastSeenOn($id, $method, $parameters, $passOnWhen);
+		}
+		if (!isset($result) || $result === $passOnWhen) {
 			$result = $this->walkBackends($id, $method, $parameters);
 		}
 		return $result;
