@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import { generateRemoteUrl } from '@nextcloud/router'
+import { getRootPath } from '../utils/davUtils'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
@@ -158,7 +158,7 @@ export default {
 
 		standalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
 
-		root: generateRemoteUrl(`dav/files/${OC.getCurrentUser().uid}`),
+		root: getRootPath(),
 	}),
 
 	computed: {
@@ -376,6 +376,8 @@ export default {
 					console.error(`The following file could not be displayed`, fileName, fileInfo)
 					this.close()
 				}
+
+				// if sidebar was opened before, let's update the file
 				this.changeSidebar()
 			} catch (error) {
 				console.error(error)
@@ -396,10 +398,10 @@ export default {
 		},
 
 		/**
-		 * Show sidebar if sidebar is already opened
+		 * Show sidebar if available and a file is already opened
 		 */
 		changeSidebar() {
-			if (this.sidebarFile !== '') {
+			if (OCA.Files.Sidebar && this.sidebarFile !== '') {
 				this.showSidebar()
 			}
 		},
