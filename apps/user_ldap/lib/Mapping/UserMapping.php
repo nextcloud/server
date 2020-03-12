@@ -33,8 +33,9 @@ class UserMapping extends AbstractMapping {
 	 * returns the DB table name which holds the mappings
 	 * @return string
 	 */
-	protected function getTableName() {
-		return '*PREFIX*ldap_user_mapping';
+	protected function getTableName(bool $includePrefix = true) {
+		$p = $includePrefix ? '*PREFIX*' : '';
+		return $p . 'ldap_user_mapping';
 	}
 
 }

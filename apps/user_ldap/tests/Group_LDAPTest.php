@@ -78,7 +78,7 @@ class Group_LDAPTest extends TestCase {
 	private function getPluginManagerMock() {
 		return $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')->getMock();
 	}
-	
+
 	/**
 	 * @param Access|\PHPUnit_Framework_MockObject_MockObject $access
 	 */
@@ -119,6 +119,9 @@ class Group_LDAPTest extends TestCase {
 				}
 				return [];
 			});
+		$access->expects($this->any())
+			->method('isDNPartOfBase')
+			->willReturn(true);
 
 		// for primary groups
 		$access->expects($this->once())
@@ -140,11 +143,9 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('groupname2dn')
 			->will($this->returnValue('cn=group,dc=foo,dc=bar'));
-
 		$access->expects($this->any())
 			->method('fetchListOfUsers')
 			->will($this->returnValue([]));
-
 		$access->expects($this->any())
 			->method('readAttribute')
 			->will($this->returnCallback(function($name) {
@@ -158,12 +159,14 @@ class Group_LDAPTest extends TestCase {
 				}
 				return ['u11', 'u22', 'u33', 'u34'];
 			}));
-
 		$access->expects($this->any())
 			->method('dn2username')
 			->will($this->returnCallback(function() {
 				return 'foobar' . \OC::$server->getSecureRandom()->generate(7);
 			}));
+		$access->expects($this->any())
+			->method('isDNPartOfBase')
+			->willReturn(true);
 
 		$groupBackend = new GroupLDAP($access,$pluginManager);
 		$users = $groupBackend->countUsersInGroup('group', '3');
@@ -193,7 +196,7 @@ class Group_LDAPTest extends TestCase {
 		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$this->assertEquals($ldap->countUsersInGroup('gid', 'search'),42);
-	}	
+	}
 
 	public function testGidNumber2NameSuccess() {
 		$access = $this->getAccessMock();
@@ -533,6 +536,9 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->exactly(2))
 			->method('nextcloudUserNames')
 			->willReturnOnConsecutiveCalls(['lisa', 'bart', 'kira', 'brad'], ['walle', 'dino', 'xenia']);
+		$access->expects($this->any())
+			->method('isDNPartOfBase')
+			->willReturn(true);
 		$access->userManager = $this->createMock(Manager::class);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
@@ -568,6 +574,9 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->once())
 			->method('nextcloudUserNames')
 			->will($this->returnValue(array('lisa', 'bart', 'kira', 'brad')));
+		$access->expects($this->any())
+			->method('isDNPartOfBase')
+			->willReturn(true);
 		$access->userManager = $this->createMock(Manager::class);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
@@ -598,14 +607,15 @@ class Group_LDAPTest extends TestCase {
 				}
 				return array();
 			}));
-
 		$access->expects($this->any())
 			->method('groupname2dn')
 			->will($this->returnValue('cn=foobar,dc=foo,dc=bar'));
-
 		$access->expects($this->once())
 			->method('countUsers')
 			->will($this->returnValue(4));
+		$access->expects($this->any())
+			->method('isDNPartOfBase')
+			->willReturn(true);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->countUsersInGroup('foobar');
@@ -628,17 +638,19 @@ class Group_LDAPTest extends TestCase {
 			->method('username2dn')
 			->will($this->returnValue($dn));
 
-		$access->expects($this->exactly(3))
+		$access->expects($this->exactly(5))
 			->method('readAttribute')
-			->will($this->onConsecutiveCalls(['cn=groupA,dc=foobar', 'cn=groupB,dc=foobar'], [], []));
+			->will($this->onConsecutiveCalls(['cn=groupA,dc=foobar', 'cn=groupB,dc=foobar'], [], [], [], []));
 
-		$access->expects($this->exactly(2))
+		$access->expects($this->any())
 			->method('dn2groupname')
 			->will($this->returnArgument(0));
-
-		$access->expects($this->exactly(1))
-			->method('groupsMatchFilter')
-			->will($this->returnArgument(0));
+		$access->expects($this->any())
+			->method('groupname2dn')
+			->willReturnArgument(0);
+		$access->expects($this->any())
+			->method('isDNPartOfBase')
+			->willReturn(true);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$groups = $groupBackend->getUserGroups('userX');
@@ -676,9 +688,6 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->once())
 			->method('nextcloudGroupNames')
 			->will($this->returnValue([]));
-		$access->expects($this->any())
-			->method('groupsMatchFilter')
-			->willReturnArgument(0);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$groupBackend->getUserGroups('userX');
@@ -714,9 +723,9 @@ class Group_LDAPTest extends TestCase {
 			->method('username2dn')
 			->will($this->returnValue($dn));
 
-		$access->expects($this->never())
+		$access->expects($this->any())
 			->method('readAttribute')
-			->with($dn, 'memberOf');
+			->willReturn([]);
 
 		$group1 = [
 			'cn' => 'group1',
@@ -735,8 +744,23 @@ class Group_LDAPTest extends TestCase {
 			->method('fetchListOfGroups')
 			->will($this->returnValue([$group1, $group2]));
 		$access->expects($this->any())
-			->method('groupsMatchFilter')
-			->willReturnArgument(0);
+			->method('dn2groupname')
+			->willReturnCallback(function(string $dn) {
+				return ldap_explode_dn($dn, 1)[0];
+			});
+		$access->expects($this->any())
+			->method('groupname2dn')
+			->willReturnCallback(function (string $gid) use ($group1, $group2) {
+				if($gid === $group1['cn']) {
+					return $group1['dn'][0];
+				}
+				if($gid === $group2['cn']) {
+					return $group2['dn'][0];
+				}
+			});
+		$access->expects($this->any())
+			->method('isDNPartOfBase')
+			->willReturn(true);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$groups = $groupBackend->getUserGroups('userX');

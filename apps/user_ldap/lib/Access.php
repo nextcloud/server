@@ -854,10 +854,18 @@ class Access extends LDAPUtility {
 		if(!$forceApplyAttributes) {
 			$isBackgroundJobModeAjax = $this->config
 					->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
-			$recordsToUpdate = array_filter($ldapRecords, function($record) use ($isBackgroundJobModeAjax) {
+			$listOfDNs = array_reduce($ldapRecords, function ($listOfDNs, $entry) {
+				$listOfDNs[] = $entry['dn'][0];
+				return $listOfDNs;
+			}, []);
+			$idsByDn = $this->userMapper->getListOfIdsByDn($listOfDNs);
+			$recordsToUpdate = array_filter($ldapRecords, function($record) use ($isBackgroundJobModeAjax, $idsByDn) {
 				$newlyMapped = false;
-				$uid = $this->dn2ocname($record['dn'][0], null, true, $newlyMapped, $record);
-				if(is_string($uid)) {
+				$uid = $idsByDn[$record['dn'][0]] ?? null;
+				if($uid === null) {
+					$uid = $this->dn2ocname($record['dn'][0], null, true, $newlyMapped, $record);
+				}
+				if (is_string($uid)) {
 					$this->cacheUserExists($uid);
 				}
 				return ($uid !== false) && ($newlyMapped || $isBackgroundJobModeAjax);
@@ -908,9 +916,19 @@ class Access extends LDAPUtility {
 	 */
 	public function fetchListOfGroups($filter, $attr, $limit = null, $offset = null) {
 		$groupRecords = $this->searchGroups($filter, $attr, $limit, $offset);
-		array_walk($groupRecords, function($record) {
+
+		$listOfDNs = array_reduce($groupRecords, function ($listOfDNs, $entry) {
+			$listOfDNs[] = $entry['dn'][0];
+			return$listOfDNs;
+		}, []);
+		$idsByDn = $this->groupMapper->getListOfIdsByDn($listOfDNs);
+
+		array_walk($groupRecords, function($record) use ($idsByDn) {
 			$newlyMapped = false;
-			$gid = $this->dn2ocname($record['dn'][0], null, false, $newlyMapped, $record);
+			$gid = $uidsByDn[$record['dn'][0]] ?? null;
+			if($gid === null) {
+				$gid = $this->dn2ocname($record['dn'][0], null, false, $newlyMapped, $record);
+			}
 			if(!$newlyMapped && is_string($gid)) {
 				$this->cacheGroupExists($gid);
 			}
