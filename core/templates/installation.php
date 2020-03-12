@@ -1,6 +1,6 @@
 <?php
 script('core', [
-	'installation'
+	'dist/install'
 ]);
 ?>
 <input type='hidden' id='hasMySQL' value='<?php p($_['hasMySQL']) ?>'>
