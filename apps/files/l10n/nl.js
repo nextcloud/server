@@ -158,6 +158,7 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Draag {path} over aan {userid}",
     "Invalid path selected" : "Ongeldig pad geselecteerd",
     "Ownership transfer request sent" : "Aanvraag eigenaarsoverdracht verstuurd",
+    "Cannot transfer ownership of a file or folder you don't own" : "Kan het eigenaarschap van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
     "Tags" : "Tags",
     "Error while loading the file data" : "Fout bij het lezen van de bestandsgegevens",
     "Unable to change the favourite state of the file" : "Niet mogelijk om voorkeurtoestand van het bestand te wijzigen",
@@ -187,6 +188,7 @@ OC.L10N.register(
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
     "%s of %s used" : "%s van %s gebruikt",
-    "%1$s%% of %2$s used" : "%1$s%% van %2$s gebruikt"
+    "%1$s%% of %2$s used" : "%1$s%% van %2$s gebruikt",
+    "Cannot transfter ownership of a file or folder you don't own" : "Kan het eigenaarschap van een bestand of map waarvan u niet de eigenaar bent, niet overdragen"
 },
 "nplurals=2; plural=(n != 1);");
