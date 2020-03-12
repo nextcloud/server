@@ -32,6 +32,8 @@
     "Allow users on this server to receive shares from other servers" : "Leisti naudotojams šiame serveryje gauti viešinius iš kitų serverių",
     "Allow users on this server to send shares to groups on other servers" : "Leisti naudotojams šiame serveryje siųsti viešinius į grupes kituose serveriuose",
     "Allow users on this server to receive group shares from other servers" : "Leisti naudotojams šiame serveryje gauti grupių viešinius iš kitų serverių",
+    "Search global and public address book for users" : "Ieškoti naudotojų visuotinėje ir viešoje adresų knygoje",
+    "Allow users to publish their data to a global and public address book" : "Leisti naudotojams paskelbti savo duomenis visuotinėje ir viešoje adresų knygoje",
     "Federated Cloud" : "Federacinė debesija",
     "Your Federated Cloud ID:" : "Jūsų federacinės debesijos ID:",
     "Share it so your friends can share files with you:" : "Pasidalinkite juo, kad jūsų draugai galėtų bendrinti failus kartu su jumis:",
