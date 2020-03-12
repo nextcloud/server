@@ -27,6 +27,9 @@ namespace OCA\Files_External\Lib;
  * Parameter for an external storage definition
  */
 class DefinitionParameter implements \JsonSerializable {
+	// placeholder value for password fields, when the client updates a storage configuration
+	// placeholder values are ignored and the field is left unmodified
+	const UNMODIFIED_PLACEHOLDER = '__unmodified__';
 
 	/** Value constants */
 	const VALUE_TEXT = 0;

@@ -148,7 +148,7 @@ class UserStoragesController extends StoragesController {
 		$this->updateStorageStatus($newStorage);
 
 		return new DataResponse(
-			$newStorage,
+			$this->formatStorageForUI($newStorage),
 			Http::STATUS_CREATED
 		);
 	}
@@ -208,7 +208,7 @@ class UserStoragesController extends StoragesController {
 		$this->updateStorageStatus($storage, $testOnly);
 
 		return new DataResponse(
-			$storage,
+			$this->formatStorageForUI($storage),
 			Http::STATUS_OK
 		);
 
