@@ -705,7 +705,7 @@ class ShareByMailProvider implements IShareProvider {
 			->setValue('password', $qb->createNamedParameter($password))
 			->setValue('password_by_talk', $qb->createNamedParameter($sendPasswordByTalk, IQueryBuilder::PARAM_BOOL))
 			->setValue('stime', $qb->createNamedParameter(time()))
-			->setValue('hide_download', $qb->createNamedParameter($hideDownload, IQueryBuilder::PARAM_BOOL));
+			->setValue('hide_download', $qb->createNamedParameter((int)$hideDownload, IQueryBuilder::PARAM_INT));
 
 		/*
 		 * Added to fix https://github.com/owncloud/core/issues/22215
@@ -750,7 +750,7 @@ class ShareByMailProvider implements IShareProvider {
 			->set('password_by_talk', $qb->createNamedParameter($share->getSendPasswordByTalk(), IQueryBuilder::PARAM_BOOL))
 			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 			->set('note', $qb->createNamedParameter($share->getNote()))
-			->set('hide_download', $qb->createNamedParameter($share->getHideDownload(), IQueryBuilder::PARAM_BOOL))
+			->set('hide_download', $qb->createNamedParameter((int)$share->getHideDownload(), IQueryBuilder::PARAM_INT))
 			->execute();
 
 		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {
