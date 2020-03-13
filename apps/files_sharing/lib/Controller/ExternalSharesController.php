@@ -133,6 +133,7 @@ class ExternalSharesController extends Controller {
 		if (strpos($remote, '#') !== false || strpos($remote, '?') !== false) {
 			return new DataResponse(false);
 		}
+
 		if (
 			$this->testUrl('https://' . $remote . '/ocs-provider/') ||
 			$this->testUrl('https://' . $remote . '/ocs-provider/index.php') ||
