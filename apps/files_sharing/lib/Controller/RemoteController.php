@@ -117,6 +117,10 @@ class RemoteController extends OCSController {
 		$view = new \OC\Files\View('/' . \OC_User::getUser() . '/files/');
 		$info = $view->getFileInfo($share['mountpoint']);
 
+		if ($info === false) {
+			return $share;
+		}
+
 		$share['mimetype'] = $info->getMimetype();
 		$share['mtime'] = $info->getMTime();
 		$share['permissions'] = $info->getPermissions();
