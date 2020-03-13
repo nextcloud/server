@@ -99,8 +99,8 @@ class ExternalShareControllerTest extends \Test\TestCase {
 			->expects($this->exactly(2))
 			->method('getBody')
 			->willReturnOnConsecutiveCalls(
-				['Certainly not a JSON string'],
-				['{"installed":true,"maintenance":false,"version":"8.1.0.8","versionstring":"8.1.0","edition":""}']
+				'Certainly not a JSON string',
+				'{"installed":true,"maintenance":false,"version":"8.1.0.8","versionstring":"8.1.0","edition":""}'
 			);
 		$client
 			->expects($this->any())
@@ -124,7 +124,13 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		$response
 			->expects($this->exactly(5))
 			->method('getBody')
-			->will($this->onConsecutiveCalls('Certainly not a JSON string', 'Certainly not a JSON string', 'Certainly not a JSON string', 'Certainly not a JSON string', '{"installed":true,"maintenance":false,"version":"8.1.0.8","versionstring":"8.1.0","edition":""}'));
+			->willReturnOnConsecutiveCalls(
+				'Certainly not a JSON string',
+				'Certainly not a JSON string',
+				'Certainly not a JSON string',
+				'Certainly not a JSON string',
+				'{"installed":true,"maintenance":false,"version":"8.1.0.8","versionstring":"8.1.0","edition":""}'
+			);
 		$this->clientService
 			->expects($this->exactly(5))
 			->method('newClient')
