@@ -50,7 +50,7 @@ abstract class ASettings implements ISettings {
 	private $eventDispatcher;
 
 	/** @var Manager */
-	private $manager;
+	protected $manager;
 
 	/** @var IInitialStateService */
 	private $initialStateService;
