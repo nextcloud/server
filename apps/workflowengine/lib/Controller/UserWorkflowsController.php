@@ -106,7 +106,7 @@ class UserWorkflowsController extends AWorkflowController {
 	protected function getScopeContext(): ScopeContext {
 		if($this->scopeContext === null) {
 			$user = $this->session->getUser();
-			if(!$user) {
+			if(!$user || !$this->manager->isUserScopeEnabled()) {
 				throw new OCSForbiddenException('User not logged in');
 			}
 			$this->scopeContext = new ScopeContext(IManager::SCOPE_USER, $user->getUID());
