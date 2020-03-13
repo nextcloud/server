@@ -39,6 +39,7 @@ namespace OCA\Files\Controller;
 use OCA\Files\Activity\Helper;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
+use OCA\Viewer\Event\LoadViewer;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -281,6 +282,10 @@ class ViewController extends Controller {
 		$this->eventDispatcher->dispatch(LoadAdditionalScriptsEvent::class, $event);
 
 		$this->eventDispatcher->dispatch(LoadSidebar::class, new LoadSidebar());
+		// Load Viewer scripts
+		if (class_exists(LoadViewer::class)) {
+			$this->eventDispatcher->dispatchTyped(new LoadViewer());
+		}
 
 		$params                                = [];
 		$params['usedSpacePercent']            = (int) $storageInfo['relative'];
