@@ -313,7 +313,7 @@ class ShareByMailProviderTest extends TestCase {
 		);
 	}
 
-	
+
 	public function testCreateFailed() {
 		$this->expectException(\Exception::class);
 
@@ -356,7 +356,7 @@ class ShareByMailProviderTest extends TestCase {
 
 	}
 
-	
+
 	public function testCreateMailShareFailed() {
 		$this->expectException(\OC\HintException::class);
 
@@ -406,6 +406,7 @@ class ShareByMailProviderTest extends TestCase {
 		$token = 'token';
 		$password = 'password';
 		$sendPasswordByTalk = true;
+		$hideDownload = true;
 
 
 		$instance = $this->getInstance();
@@ -421,7 +422,8 @@ class ShareByMailProviderTest extends TestCase {
 				$permissions,
 				$token,
 				$password,
-				$sendPasswordByTalk
+				$sendPasswordByTalk,
+				$hideDownload
 			]
 		);
 
@@ -442,6 +444,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($token, $result[0]['token']);
 		$this->assertSame($password, $result[0]['password']);
 		$this->assertSame($sendPasswordByTalk, (bool)$result[0]['password_by_talk']);
+		$this->assertSame($hideDownload, (bool)$result[0]['hide_download']);
 
 	}
 
@@ -580,7 +583,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertInstanceOf('OCP\Share\IShare', $result);
 	}
 
-	
+
 	public function testGetShareByIdFailed() {
 		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
 
@@ -665,7 +668,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertInstanceOf('OCP\Share\IShare', $result);
 	}
 
-	
+
 	public function testGetShareByTokenFailed() {
 		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
 
@@ -782,7 +785,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($token, $result['token']);
 	}
 
-	
+
 	public function testGetRawShareFailed() {
 		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
 
