@@ -198,6 +198,7 @@ class OauthApiController extends Controller {
 	public function discovery() {
 		$util = new Util();
 		return new JSONResponse([
+			'issuer' => $this->urlGenerator->linkToRouteAbsolute(''),
 			'authorization_endpoint' => $this->urlGenerator->linkToRouteAbsolute('oauth2.LoginRedirector.authorize'),
 			'token_endpoint' => $this->urlGenerator->linkToRouteAbsolute('oauth2.OauthApi.getToken'),
 			'userinfo_endpoint' => $this->urlGenerator->linkToRouteAbsolute('oauth2.OauthApi.getUserInfo')
