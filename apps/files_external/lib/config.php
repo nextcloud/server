@@ -252,20 +252,6 @@ class OC_Mount_Config {
 				continue;
 			}
 			$option = self::substitutePlaceholdersInConfig($option);
-			if(!self::arePlaceholdersSubstituted($option)) {
-				\OC::$server->getLogger()->error(
-					'A placeholder was not substituted: {option} for mount type {class}',
-					[
-						'app' => 'files_external',
-						'option' => $option,
-						'class' => $class,
-					]
-				);
-				throw new StorageNotAvailableException(
-					'Mount configuration incomplete',
-					StorageNotAvailableException::STATUS_INCOMPLETE_CONF
-				);
-			}
 		}
 		if (class_exists($class)) {
 			try {
@@ -288,20 +274,6 @@ class OC_Mount_Config {
 			}
 		}
 		return StorageNotAvailableException::STATUS_ERROR;
-	}
-
-	public static function arePlaceholdersSubstituted($option):bool {
-		$result = true;
-		if(is_array($option)) {
-			foreach ($option as $optionItem) {
-				$result = $result && self::arePlaceholdersSubstituted($optionItem);
-			}
-		} else if (is_string($option)) {
-			if (strpos(rtrim($option, '$'), '$') !== false) {
-				$result = false;
-			}
-		}
-		return $result;
 	}
 
 	/**
