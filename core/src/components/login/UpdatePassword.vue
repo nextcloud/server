@@ -49,14 +49,12 @@
 			<div id="submit-wrapper">
 				<input id="submit"
 					type="submit"
-					class="login primary"
+					:class="{
+						'login primary icon-loading-small': loading && invertedColors,
+						'login primary icon-loading-small-dark': loading && !invertedColors
+					}"
 					title=""
 					:value="!loading ? t('core', 'Reset password') : t('core', 'Resetting password')">
-				<div class="submit-icon"
-					:class="{
-						'icon-loading-small': loading && invertedColors,
-						'icon-loading-small-dark': loading && !invertedColors
-					}" />
 			</div>
 
 			<p v-if="error && message" :class="{warning: error}">

@@ -37,15 +37,13 @@
 		<div id="reset-password-wrapper">
 			<input id="reset-password-submit"
 				type="submit"
-				class="login primary"
+				:class="{
+					'login primary icon-confirm-white': !loading,
+					'login primary icon-loading-small': loading && invertedColors,
+					'login primary icon-loading-small-dark': loading && !invertedColors,
+				}"
 				title=""
 				:value="t('core', 'Reset password')">
-			<div class="submit-icon"
-				:class="{
-					'icon-confirm-white': !loading,
-					'icon-loading-small': loading && invertedColors,
-					'icon-loading-small-dark': loading && !invertedColors,
-				}" />
 		</div>
 		<p v-if="message === 'send-success'"
 			class="update">
