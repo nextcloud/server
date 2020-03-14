@@ -783,6 +783,7 @@
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Za določila periodičnih opravil Webcron je vpisana datoteka cron.php. Opravilo se izvede vsakih 15 minut pri povezavi prek protokola HTTP.",
     "Use system cron service to call the cron.php file every 15 minutes." : "Uporabi sistemsko storitev cron za periodična opravila datoteke cron.php vsakih 15 minut.",
     "Set default expiration date" : "Samodejno nastavi datuma poteka",
-    "Share" : "Souporaba"
+    "Share" : "Souporaba",
+    "{counter} apps have an update available" : "Na voljo so posodobitve za toliko aplikacij: {counter} "
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

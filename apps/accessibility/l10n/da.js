@@ -1,8 +1,8 @@
 OC.L10N.register(
     "accessibility",
     {
-    "Dark theme" : "Mørk tema",
-    "Enable dark theme" : "Aktiver Mørk tema",
+    "Dark theme" : "Mørkt tema",
+    "Enable dark theme" : "Aktiver Mørkt tema",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Et mørk tema, venligere for øjnene ved at dæmpe lysstyrken. Det er stadig under udvikling så indberet venligst alle problemer du måtte finde.",
     "High contrast mode" : "Højkontrasttilstand",
     "Enable high contrast mode" : "aktiver højkontrasttilstand",
