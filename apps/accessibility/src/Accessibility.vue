@@ -62,31 +62,28 @@ export default {
 			// using the `t` replace method escape html, we have to do it manually :/
 			return t(
 				'accessibility',
-				`Universal access is very important to us. We follow web standards
-				and check to make everything usable also without mouse,
-				and assistive software such as screenreaders.
-				We aim to be compliant with the {guidelines} 2.1 on AA level,
-				with the high contrast theme even on AAA level.`
+				'Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level.'
 			)
 				.replace('{guidelines}', this.guidelinesLink)
+				.replace('{linkend}', '</a>')
 		},
 		guidelinesLink() {
-			return `<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">${t('accessibility', 'Web Content Accessibility Guidelines')}</a>`
+			return `<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">`
 		},
 		descriptionDetail() {
 			return t(
 				'accessibility',
-				`If you find any issues, don’t hesitate to report them on {issuetracker}.
-				And if you want to get involved, come join {designteam}!`
+				'If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!'
 			)
 				.replace('{issuetracker}', this.issuetrackerLink)
 				.replace('{designteam}', this.designteamLink)
+				.replace(/\{linkend\}/g, '</a>')
 		},
 		issuetrackerLink() {
-			return `<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">${t('accessibility', 'our issue tracker')}</a>`
+			return `<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">`
 		},
 		designteamLink() {
-			return `<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">${t('accessibility', 'our design team')}</a>`
+			return `<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">`
 		},
 	},
 	methods: {
