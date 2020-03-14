@@ -137,8 +137,15 @@ OC.L10N.register(
     "Unlimited" : "Rajoittamaton",
     "Upload (max. %s)" : "Lähetys (enintään %s)",
     "Accept" : "Hyväksy",
+    "Reject" : "Hylkää",
+    "Ownership transfer failed" : "Omistajuuden siirto epäonnistui",
+    "Ownership transfer done" : "Omistajuuden siirto valmis",
     "File Management" : "Tiedostohallinta",
     "Change" : "Muuta",
+    "New owner" : "Uusi omistaja",
+    "Search users" : "Etsi käyttäjistä",
+    "Ownership transfer request sent" : "Pyyntö omistajuuden vaihdosta lähetetty",
+    "Cannot transfer ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
     "Tags" : "Tunnisteet",
     "%s used" : "%s käytetty",
     "%s%% of %s used" : "%s%% / %s käytetty",
@@ -165,6 +172,7 @@ OC.L10N.register(
     "Text file" : "Tekstitiedosto",
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "%s of %s used" : "%s / %s käytetty",
-    "%1$s%% of %2$s used" : "%1$s%%/%2$s käytetty"
+    "%1$s%% of %2$s used" : "%1$s%%/%2$s käytetty",
+    "Cannot transfter ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista"
 },
 "nplurals=2; plural=(n != 1);");
