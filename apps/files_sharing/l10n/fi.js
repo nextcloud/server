@@ -105,6 +105,7 @@ OC.L10N.register(
     "Share API is disabled" : "Jakamisrajapinta on poistettu käytöstä",
     "File sharing" : "Tiedostonjako",
     "Accept" : "Hyväksy",
+    "Reject" : "Hylkää",
     "Sharing" : "Jakaminen",
     "Allow editing" : "Salli muokkaus",
     "Allow resharing" : "Salli uudelleenjakaminen",
