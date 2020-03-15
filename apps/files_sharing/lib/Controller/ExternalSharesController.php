@@ -130,6 +130,10 @@ class ExternalSharesController extends Controller {
 	 * @return DataResponse
 	 */
 	public function testRemote($remote) {
+		if (strpos($remote, '#') !== false || strpos($remote, '?') !== false) {
+			return new DataResponse(false);
+		}
+
 		if (
 			$this->testUrl('https://' . $remote . '/ocs-provider/') ||
 			$this->testUrl('https://' . $remote . '/ocs-provider/index.php') ||
