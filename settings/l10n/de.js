@@ -110,7 +110,7 @@ OC.L10N.register(
     "Overview" : "Übersicht",
     "Basic settings" : "Grundeinstellungen",
     "Sharing" : "Teilen",
-    "Personal info" : "Benötigt keine Übersetzung. Für iOS wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Personal info" : "Persönliche Informationen",
     "Mobile & desktop" : "Mobil & Desktop",
     "Create" : "Erstellen",
     "Change" : "Ändern",

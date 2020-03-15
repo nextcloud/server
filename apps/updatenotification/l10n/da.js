@@ -22,6 +22,7 @@ OC.L10N.register(
     "Only notification for app updates are available." : "Kun notifikation for app opdateringer tilgængelige.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Den valgte kanal lave dedikerede notifikationer for serveren ligegyldige.",
     "The selected update channel does not support updates of the server." : "Den valgte opdateringskanal understøtter ikke opdatering af serveren.",
-    "View changelog" : "Se ændringslog"
+    "View changelog" : "Se ændringslog",
+    "Beta" : "Beta"
 },
 "nplurals=2; plural=(n != 1);");
