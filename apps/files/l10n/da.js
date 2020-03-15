@@ -143,6 +143,7 @@ OC.L10N.register(
     "Choose a file or folder to transfer" : "Vælg en fil eller mappe til overførsel",
     "Transfer" : "Overfør",
     "Transfer {path} to {userid}" : "Overfør {path} til {userid}",
+    "Invalid path selected" : "Ugyldig filsti valgt",
     "Tags" : "Mærker",
     "%s used" : "%s brugt",
     "%s%% of %s used" : "%s%% af %s brugt",

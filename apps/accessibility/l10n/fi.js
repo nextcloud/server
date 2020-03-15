@@ -2,9 +2,12 @@ OC.L10N.register(
     "accessibility",
     {
     "Dark theme" : "Tumma teema",
+    "Enable dark theme" : "Käytä tummaa teemaa",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Tumma teema helpottaa silmien rasitusta vähentämällä kokonaiskirkkautta. Teemaa kehitetään edelleen, joten ilmoitathan mahdollisesti kohtaamasi ongelmat.",
     "High contrast mode" : "Suuren kontrastin tila",
+    "Enable high contrast mode" : "Käytä suuren kontrastin tilaa",
     "Dyslexia font" : "Lukihäiriökirjasin",
+    "Enable dyslexia font" : "Käytä lukihäiriökirjasinta",
     "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic on ilmainen kirjasin, joka on suunniteltu lieventämään lukihäiriön aiheuttamia lukuvirheitä.",
     "Accessibility" : "Saavutettavuus",
     "Accessibility options for nextcloud" : "Saavutettavuusvaihtoehdot Nextcloudille",
