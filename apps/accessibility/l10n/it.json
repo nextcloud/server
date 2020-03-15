@@ -18,7 +18,7 @@
     "Dark theme (beta)" : "Tema scuro (beta)",
     "Web Content Accessibility Guidelines" : "Linee guida di accessibilità ai contenuti web",
     "our issue tracker" : "il nostro sistema di tracciamento dei problemi",
-    "our design team" : "la nostra squadra di progetto",
+    "our design team" : "la nostra squadra di progettazione",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "L'accesso universale è molto importante per noi. Seguiamo gli standard web e i controlli per rendere tutto utilizzabile anche senza mouse, e programmi di assistenza come i lettori dello schermo. Il nostro obiettivo è la compatibilità con la {guidelines} 2.1 a livello AA, con il tema ad alto contrasto anche a livello AAA. ",
     "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "Se trovi qualsiasi problema, non esitare a segnalarlo su {issuetracker}. E se vuoi partecipare, unisciti al {designteam}!",
     "Enable" : "Abilita"

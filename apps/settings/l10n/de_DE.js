@@ -110,7 +110,7 @@ OC.L10N.register(
     "Overview" : "Übersicht",
     "Basic settings" : "Grundeinstellungen",
     "Sharing" : "Teilen",
-    "Personal info" : "Persönliche Info",
+    "Personal info" : "Persönliche Informationen",
     "Mobile & desktop" : "Mobil & Desktop",
     "Create" : "Erstellen",
     "Change" : "Ändern",

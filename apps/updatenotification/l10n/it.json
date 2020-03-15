@@ -22,7 +22,7 @@
     "Update channel:" : "Canale di aggiornamento:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Puoi aggiornare sempre a una nuova versione. Ma non puoi mai tornare a una versione precedente.",
     "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Nota che, dopo una nuova versione, potrebbe essere necessario del tempo prima che sia mostrato qui. Rilasciamo nel tempo nuove versioni ai nostri utenti e, a volte, saltiamo una versione, se troviamo dei problemi.",
-    "Notify members of the following groups about available updates:" : "Notifica i membri dei seguenti gruppi sugli aggiornamenti disponibili:",
+    "Notify members of the following groups about available updates:" : "Notifica ai membri dei seguenti gruppi la disponibilità di aggiornamenti:",
     "Only notification for app updates are available." : "Sono disponibili solo le notifiche per gli aggiornamenti delle applicazioni.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Il canale di aggiornamento selezionato rende obsolete le notifiche dedicate al server.",
     "The selected update channel does not support updates of the server." : "Il canale di aggiornamento selezionato non supporta gli aggiornamenti del server.",
