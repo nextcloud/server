@@ -2,7 +2,9 @@
 	<div>
 		<button v-if="!enabled"
 			id="generate-backup-codes"
+			:disabled="generatingCodes"
 			@click="generateBackupCodes">
+			<span :class="{'icon-loading-small': generatingCodes}" />
 			{{ t('twofactor_backupcodes', 'Generate backup codes') }}
 		</button>
 		<template v-else>
@@ -28,7 +30,6 @@
 			</p>
 			<p>
 				<button id="generate-backup-codes"
-					:class="{'icon-loading-small': generatingCodes}"
 					@click="generateBackupCodes">
 					{{ t('twofactor_backupcodes', 'Regenerate backup codes') }}
 				</button>
