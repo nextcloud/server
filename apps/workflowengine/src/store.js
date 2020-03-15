@@ -33,6 +33,7 @@ const store = new Vuex.Store({
 	state: {
 		rules: [],
 		scope: loadState('workflowengine', 'scope'),
+		appstoreEnabled: loadState('workflowengine', 'appstoreenabled'),
 		operations: loadState('workflowengine', 'operators'),
 
 		plugins: Vue.observable({
