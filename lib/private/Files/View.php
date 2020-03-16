@@ -1685,6 +1685,11 @@ class View {
 		if (!$info) {
 			throw new NotFoundException($path . ' not found while trying to get owner');
 		}
+
+		if ($info->getOwner() === null) {
+			throw new NotFoundException($path . ' has no owner');
+		}
+
 		return $info->getOwner()->getUID();
 	}
 
