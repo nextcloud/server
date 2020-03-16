@@ -695,6 +695,11 @@ class Manager implements IManager {
 		//reuse the node we already have
 		$share->setNode($oldShare->getNode());
 
+		// Reset the target if it is null for the new share
+		if ($share->getTarget() === '') {
+			$share->setTarget($target);
+		}
+
 		// Post share event
 		$event = new GenericEvent($share);
 		$this->eventDispatcher->dispatch('OCP\Share::postShare', $event);
