@@ -1,7 +1,7 @@
 { "translations": {
     "Dark theme" : "Gai iluna",
     "Enable dark theme" : "Gaitu gai iluna",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Murriztu begietan kalte egitea gai ilunarekin: argitasun orokorra eta distira jaisten ditu. Garapenean dagoen aukera da, beraz jakinarazi aurkitzen dituzun arazoak.",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Arindu begietako kaltea gai ilunaz argitasuna eta distira murriztuz. Garapenean dagoen aukera da, beraz aurkitu zenezakeen edozein arazoren berri eman.",
     "High contrast mode" : "Kontraste altuko modua",
     "Enable high contrast mode" : "Gaitu kontraste handiko modua",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Kontraste altuko modua zuri nabigazioa errazteko. Kalitate bisuala murriztuko da baina argitasuna handiagotu.",

@@ -39,6 +39,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (rajoitettu)",
     "Predefined URLs" : "Ennalta määritellyt URL-osoitteet",
     "Files WebDAV" : "Tiedostot WebDAV",
+    "Others" : "Muut",
     "Android client" : "Android-sovellus",
     "iOS client" : "iOS-sovellus",
     "Desktop client" : "Työpöytäsovellus",
