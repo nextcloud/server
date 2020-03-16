@@ -289,7 +289,13 @@ class AuthSettingsController extends Controller {
 	 * @throws \OC\Authentication\Exceptions\ExpiredTokenException
 	 */
 	public function wipe(int $id): JSONResponse {
-		if (!$this->remoteWipe->markTokenForWipe($id)) {
+		try {
+			$token = $this->findTokenByIdAndUser($id);
+		} catch (InvalidTokenException $e) {
+			return new JSONResponse([], Http::STATUS_NOT_FOUND);
+		}
+
+		if (!$this->remoteWipe->markTokenForWipe($token)) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 

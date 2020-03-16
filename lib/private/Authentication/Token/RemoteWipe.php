@@ -57,18 +57,14 @@ class RemoteWipe {
 	}
 
 	/**
-	 * @param int $id
-	 *
+	 * @param IToken $token
 	 * @return bool
 	 *
 	 * @throws InvalidTokenException
 	 * @throws WipeTokenException
-	 * @throws ExpiredTokenException
 	 */
-	public function markTokenForWipe(int $id): bool {
-		$token = $this->tokenProvider->getTokenById($id);
-
-		if (!($token instanceof IWipeableToken)) {
+	public function markTokenForWipe(IToken $token): bool {
+		if (!$token instanceof IWipeableToken) {
 			return false;
 		}
 
