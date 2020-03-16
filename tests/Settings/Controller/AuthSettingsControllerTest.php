@@ -27,6 +27,7 @@ use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Authentication\Token\IWipeableToken;
 use OC\Authentication\Token\RemoteWipe;
 use OC\Settings\Controller\AuthSettingsController;
 use OCP\Activity\IEvent;
@@ -414,9 +415,15 @@ class AuthSettingsControllerTest extends TestCase {
 	}
 
 	public function testRemoteWipeNotSuccessful(): void {
+		$token = $this->createMock(IToken::class);
+		$token->expects($this->once())
+			->method('getUID')
+			->willReturn($this->uid);
+		$this->mockGetTokenById(123, $token);
+
 		$this->remoteWipe->expects($this->once())
 			->method('markTokenForWipe')
-			->with(123)
+			->with($token)
 			->willReturn(false);
 
 		$response = $this->controller->wipe(123);
@@ -425,10 +432,32 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
+	public function testRemoteWipeWrongUser(): void {
+		$token = $this->createMock(IToken::class);
+		$token->expects($this->once())
+			->method('getUID')
+			->willReturn('definetly-not-' . $this->uid);
+		$this->mockGetTokenById(123, $token);
+
+		$this->remoteWipe->expects($this->never())
+			->method('markTokenForWipe');
+
+		$response = $this->controller->wipe(123);
+
+		$expected = new JSONResponse([], Http::STATUS_NOT_FOUND);
+		$this->assertEquals($expected, $response);
+	}
+
 	public function testRemoteWipeSuccessful(): void {
+		$token = $this->createMock(IWipeableToken::class);
+		$token->expects($this->once())
+			->method('getUID')
+			->willReturn($this->uid);
+		$this->mockGetTokenById(123, $token);
+
 		$this->remoteWipe->expects($this->once())
 			->method('markTokenForWipe')
-			->with(123)
+			->with($token)
 			->willReturn(true);
 
 		$response = $this->controller->wipe(123);
