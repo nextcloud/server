@@ -69,8 +69,14 @@ class RefreshWebcalServiceTest extends TestCase {
 	 * @dataProvider runDataProvider
 	 */
 	public function testRun(string $body, string $contentType, string $result) {
-		$refreshWebcalService = new RefreshWebcalService($this->caldavBackend,
-			$this->clientService, $this->config, $this->logger);
+		$refreshWebcalService = $this->getMockBuilder(RefreshWebcalService::class)
+			->setMethods(['getRandomCalendarObjectUri'])
+			->setConstructorArgs([$this->caldavBackend, $this->clientService, $this->config, $this->logger])
+			->getMock();
+
+		$refreshWebcalService
+			->method('getRandomCalendarObjectUri')
+			->willReturn('uri-1.ics');
 
 		$this->caldavBackend->expects($this->once())
 			->method('getSubscriptionsForUser')
@@ -130,7 +136,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$this->caldavBackend->expects($this->once())
 			->method('createCalendarObject')
-			->with(42, '12345.ics', $result, 1);
+			->with(42, 'uri-1.ics', $result, 1);
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
