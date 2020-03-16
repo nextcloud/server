@@ -4,8 +4,8 @@
 			id="generate-backup-codes"
 			:disabled="generatingCodes"
 			@click="generateBackupCodes">
-			<span :class="{'icon-loading-small': generatingCodes}" />
 			{{ t('twofactor_backupcodes', 'Generate backup codes') }}
+			<span :class="{'icon-loading-small': generatingCodes}" />
 		</button>
 		<template v-else>
 			<p>
