@@ -347,6 +347,7 @@ OC.L10N.register(
     "Can change" : "Voi vaihtaa",
     "Can delete" : "Voi poistaa",
     "Access control" : "Pääsynhallinta",
+    "{shareInitiatorDisplayName} shared via link" : "{shareInitiatorDisplayName} jakoi linkillä",
     "Error while sharing" : "Virhe jaettaessa",
     "Share details could not be loaded for this item." : "Tämän kohteen jakamistietoja ei voitu ladata.",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Vähintään {count} kirjain vaaditaan automaattiseen täydentämiseen","Vähintään {count} kirjainta vaaditaan automaattiseen täydentämiseen"],
