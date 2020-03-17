@@ -163,6 +163,10 @@ class Manager implements IManager {
 		return $operations;
 	}
 
+	/**
+	 * @param string $operationClass
+	 * @return ScopeContext[]
+	 */
 	public function getAllConfiguredScopesForOperation(string $operationClass): array {
 		static $scopesByOperation = [];
 		if (isset($scopesByOperation[$operationClass])) {
