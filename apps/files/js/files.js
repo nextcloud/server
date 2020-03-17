@@ -291,7 +291,7 @@
 			setTimeout(Files.displayStorageWarnings, 100);
 
 			// only possible at the moment if user is logged in or the files app is loaded
-			if (OC.currentUser && OCA.Files.App) {
+			if (OC.currentUser && OCA.Files.App && OC.config.session_keepalive) {
 				// start on load - we ask the server every 5 minutes
 				var func = _.bind(OCA.Files.App.fileList.updateStorageStatistics, OCA.Files.App.fileList);
 				var updateStorageStatisticsInterval = 5*60*1000;
