@@ -95,6 +95,7 @@ class EmptyContentSecurityPolicy {
 
 	/**
 	 * Use the according JS nonce
+	 * This method is only for CSPMiddleware, custom values are ignored in mergePolicies of ContentSecurityPolicyManager
 	 *
 	 * @param string $nonce
 	 * @return $this
