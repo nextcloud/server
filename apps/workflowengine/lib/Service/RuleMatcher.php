@@ -143,7 +143,7 @@ class RuleMatcher implements IRuleMatcher {
 				if ($this->entity->isLegitimatedForUserId($scopeCandidate->getScopeId())) {
 					$ctx = new LogContext();
 					$ctx
-						->setScopes($scopeCandidate)
+						->setScopes([$scopeCandidate])
 						->setEntity($this->entity)
 						->setOperation($this->operation);
 					$this->logger->logScopeExpansion($ctx);
