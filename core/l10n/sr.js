@@ -16,7 +16,7 @@ OC.L10N.register(
     "Crop is not square" : "Опсецање није квадратног облика",
     "State token does not match" : "Стање жетона се не слаже",
     "Could not complete login" : "Не могу да довршим пријављивање",
-    "Your login token is invalid or has expired" : "Ваш токен за пријављивање је неисправан или је истекао",
+    "Your login token is invalid or has expired" : "Ваш жетон за пријављивање је неисправан или је истекао",
     "Password reset is disabled" : "Ресетовање лозинке није омогућено",
     "Couldn't reset password because the token is invalid" : "Није могуће ресетовање лозинке јер je жетон неважећи",
     "Couldn't reset password because the token is expired" : "Није могуће ресетовање лозинке јер је жетон истекао",

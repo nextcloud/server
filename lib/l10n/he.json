@@ -83,6 +83,7 @@
     "Sharing backend %s not found" : "צד אחורי לשיתוף %s לא נמצא",
     "Sharing backend for %s not found" : "צד אחורי לשיתוף של %s לא נמצא",
     "Open »%s«" : "פתיחת „%s”",
+    "%1$s via %2$s" : "%1$s דרך %2$s",
     "You are not allowed to share %s" : "אינך רשאי/ת לשתף %s",
     "Can’t increase permissions of %s" : "לא ניתן לחזק את ההרשאות של %s",
     "Files can’t be shared with delete permissions" : "לא ניתן לשתף קבצים עם הרשאת מחיקה",
