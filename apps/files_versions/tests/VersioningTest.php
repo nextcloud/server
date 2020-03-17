@@ -93,7 +93,7 @@ class VersioningTest extends \Test\TestCase {
 					return $config->getSystemValue($key, $default);
 				}
 			}));
-		$this->overwriteService('AllConfig', $mockConfig);
+		$this->overwriteService(\OC\AllConfig::class, $mockConfig);
 
 		// clear hooks
 		\OC_Hook::clear();
@@ -115,7 +115,7 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		$this->restoreService('AllConfig');
+		$this->restoreService(\OC\AllConfig::class);
 
 		if ($this->rootView) {
 			$this->rootView->deleteAll(self::TEST_VERSIONS_USER . '/files/');
@@ -629,7 +629,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertFalse(\OCA\Files_Versions\Storage::expire('/void/unexist.txt', self::TEST_VERSIONS_USER));
 	}
 
-	
+
 	public function testExpireNonexistingUser() {
 		$this->expectException(\OC\User\NoUserException::class);
 

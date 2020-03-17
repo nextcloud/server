@@ -9,6 +9,7 @@
 
 namespace Test\User;
 
+use OC\AllConfig;
 use OC\Hooks\PublicEmitter;
 use OC\User\User;
 use OCP\Comments\ICommentsManager;
@@ -560,11 +561,11 @@ class UserTest extends TestCase {
 
 		$this->overwriteService('NotificationManager', $notificationManager);
 		$this->overwriteService('CommentsManager', $commentsManager);
-		$this->overwriteService('AllConfig', $config);
+		$this->overwriteService(AllConfig::class, $config);
 
 		$this->assertSame($result, $user->delete());
 
-		$this->restoreService('AllConfig');
+		$this->restoreService(AllConfig::class);
 		$this->restoreService('CommentsManager');
 		$this->restoreService('NotificationManager');
 
