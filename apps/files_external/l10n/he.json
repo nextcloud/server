@@ -111,6 +111,7 @@
     "Request timeout (seconds)" : "פסק זמן מבוקש (שניות)",
     "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "התמיכה של cURL ב־PHP אינה מופעלת או מותקנת. אין אפשרות לעגן את %s. נא לבקש ממנהל המערכת שלך להתקין אותה.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "התמיכה של FTP ב־PHP אינה מופעלת או מותקנת. אין אפשרות לעגן את %s. נא לבקש ממנהל המערכת שלך להתקין אותה.",
+    "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "„%1$s” אינו מותקן. העיגון של %2$s אינו אפשרי. נא לבקש ממנהל המערכת להתקין אותו.",
     "External storage support" : "תמיכה באחסון חיצוני",
     "Adds basic external storage support" : "מוסיף תמיכה באחסון חיצוני בסיסי",
     "No external storage configured or you don't have the permission to configure them" : "לא הוגדר התקן חיצוני או שאין לך הרשאות להגדיר כאלה",
@@ -118,6 +119,7 @@
     "Storage type" : "סוג אחסון",
     "Scope" : "היקף",
     "Open documentation" : "פתיחת תיעוד",
+    "External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services." : "אחסון חיצוני מאפשר לך לעגן שירותי אחסון והתקנים כהתקני אחסון משניים ב־Nextcloud. ישנה גם אפשרות לאפשר למשתמשים לעגן שירותי אחסון חיצוניים משלהם.",
     "Folder name" : "שם התיקייה",
     "External storage" : "אחסון חיצוני",
     "Authentication" : "אימות",
@@ -127,6 +129,7 @@
     "Add storage" : "הוספת אחסון",
     "Advanced settings" : "הגדרות מתקדמות",
     "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
+    "Global credentials can be used to authenticate with multiple external storages that have the same credentials." : "ניתן להשתמש בפרטי גישה גלובליים עם מגוון אמצעי אחסון חיצוניים שיש להם את אותם פרטי הגישה.",
     "Saving..." : "מתבצעת שמירה…"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

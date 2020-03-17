@@ -139,7 +139,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Carica (massimo %s)",
     "Accept" : "Accetta",
     "Reject" : "Rifiuta",
-    "Incoming ownership transfer from {user}" : "Trasferimento di proprietà in ingressso da {user}",
+    "Incoming ownership transfer from {user}" : "Trasferimento di proprietà in ingresso da {user}",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Vuoi accettare {path}?\n\nNota: il processo di trasferimento dopo l'accettazione potrebbe richiedere fino a un'ora.",
     "Ownership transfer failed" : "Trasferimento di proprietà non riuscito",
     "Your ownership transfer of {path} to {user} failed." : "Il tuo trasferimento di proprietà di {path} a {user} non è riuscito.",

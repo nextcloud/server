@@ -504,7 +504,7 @@ OC.L10N.register(
     "English (Marshall Islands)" : "Inglese (Isole Marshall)",
     "English (Mauritius)" : "Inglese (Mauritius)",
     "English (Namibia)" : "Inglese (Namibia)",
-    "English (New Zealand)" : "Inglese (Nuova Zelandia)",
+    "English (New Zealand)" : "Inglese (Nuova Zelanda)",
     "English (Northern Mariana Islands)" : "Inglese (Isole Marianne settentrionali)",
     "English (Pakistan)" : "Inglese (Pakistan)",
     "English (Philippines)" : "Inglese (Filippine)",
