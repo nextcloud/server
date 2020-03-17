@@ -770,6 +770,7 @@ return array(
     'OC\\Core\\Command\\Security\\ImportCertificate' => $baseDir . '/core/Command/Security/ImportCertificate.php',
     'OC\\Core\\Command\\Security\\ListCertificates' => $baseDir . '/core/Command/Security/ListCertificates.php',
     'OC\\Core\\Command\\Security\\RemoveCertificate' => $baseDir . '/core/Command/Security/RemoveCertificate.php',
+    'OC\\Core\\Command\\Security\\ResetBruteforceAttempts' => $baseDir . '/core/Command/Security/ResetBruteforceAttempts.php',
     'OC\\Core\\Command\\Status' => $baseDir . '/core/Command/Status.php',
     'OC\\Core\\Command\\TwoFactorAuth\\Base' => $baseDir . '/core/Command/TwoFactorAuth/Base.php',
     'OC\\Core\\Command\\TwoFactorAuth\\Cleanup' => $baseDir . '/core/Command/TwoFactorAuth/Cleanup.php',
