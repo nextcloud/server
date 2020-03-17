@@ -24,15 +24,17 @@
 
 namespace OCA\OAuth2\Tests\Controller;
 
-use OCA\Files_Sharing\Tests\TestCase;
 use OCA\OAuth2\Controller\LoginRedirectorController;
 use OCA\OAuth2\Db\Client;
 use OCA\OAuth2\Db\ClientMapper;
+use OCA\OAuth2\Exceptions\ClientNotFoundException;
 use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use Test\TestCase;
 
 /**
  * @group DB
@@ -113,5 +115,23 @@ class LoginRedirectorControllerTest extends TestCase {
 
 		$expected = new RedirectResponse('http://foo.bar?error=unsupported_response_type&state=MyState');
 		$this->assertEquals($expected, $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'wrongcode'));
+	}
+
+	public function testClientNotFound() {
+		$clientNotFound = new ClientNotFoundException('could not find client test123', 0);
+		$this->clientMapper
+			->expects($this->once())
+			->method('getByIdentifier')
+			->willThrowException($clientNotFound);
+		$this->session
+			->expects($this->never())
+			->method('set');
+
+		$response = $this->loginRedirectorController->authorize('MyClientId', 'MyState', 'wrongcode');
+		$this->assertInstanceOf(TemplateResponse::class, $response);
+
+		/** @var TemplateResponse $response */
+		$this->assertEquals('404', $response->getTemplateName());
+		$this->assertEquals('guest', $response->getRenderAs());
 	}
 }
