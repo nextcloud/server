@@ -32,10 +32,24 @@ namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
+use OCA\User_LDAP\PagedResults\IAdapter;
+use OCA\User_LDAP\PagedResults\Php54;
+use OCA\User_LDAP\PagedResults\Php73;
 
 class LDAP implements ILDAPWrapper {
 	protected $curFunc = '';
 	protected $curArgs = array();
+
+	/** @var IAdapter */
+	protected $pagedResultsAdapter;
+
+	public function __construct() {
+		if(version_compare(PHP_VERSION, '7.3', '<') === -1) {
+			$this->pagedResultsAdapter = new Php54();
+		} else {
+			$this->pagedResultsAdapter = new Php73();
+		}
+	}
 
 	/**
 	 * @param resource $link
@@ -63,17 +77,18 @@ class LDAP implements ILDAPWrapper {
 		return $this->invokeLDAPMethod('connect', $host);
 	}
 
-	/**
-	 * @param resource $link
-	 * @param resource $result
-	 * @param string $cookie
-	 * @return bool|LDAP
-	 */
-	public function controlPagedResultResponse($link, $result, &$cookie) {
-		$this->preFunctionCall('ldap_control_paged_result_response',
-			array($link, $result, $cookie));
-		$result = ldap_control_paged_result_response($link, $result, $cookie);
-		$this->postFunctionCall();
+	public function controlPagedResultResponse($link, $result, &$cookie): bool {
+		$this->preFunctionCall(
+			$this->pagedResultsAdapter->getResponseCallFunc(),
+			$this->pagedResultsAdapter->getResponseCallArgs([$link, $result, &$cookie])
+		);
+
+		$result = $this->pagedResultsAdapter->responseCall($link);
+		$cookie = $this->pagedResultsAdapter->getCookie($link);
+
+		if ($this->isResultFalse($result)) {
+			$this->postFunctionCall();
+		}
 
 		return $result;
 	}
@@ -86,8 +101,20 @@ class LDAP implements ILDAPWrapper {
 	 * @return mixed|true
 	 */
 	public function controlPagedResult($link, $pageSize, $isCritical, $cookie) {
-		return $this->invokeLDAPMethod('control_paged_result', $link, $pageSize,
-										$isCritical, $cookie);
+		$fn = $this->pagedResultsAdapter->getRequestCallFunc();
+		$this->pagedResultsAdapter->setRequestParameters($link, $pageSize, $isCritical);
+		if($fn === null) {
+			return true;
+		}
+
+		$this->preFunctionCall($fn, $this->pagedResultsAdapter->getRequestCallArgs($link));
+		$result = $this->pagedResultsAdapter->requestCall($link);
+
+		if ($this->isResultFalse($result)) {
+			$this->postFunctionCall();
+		}
+
+		return $result;
 	}
 
 	/**
@@ -184,7 +211,7 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * @param LDAP $link
-	 * @param string $baseDN
+	 * @param string[] $baseDN
 	 * @param string $filter
 	 * @param array $attr
 	 * @param int $attrsOnly
@@ -201,7 +228,9 @@ class LDAP implements ILDAPWrapper {
 			return true;
 		});
 		try {
-			$result = $this->invokeLDAPMethod('search', $link, $baseDN, $filter, $attr, $attrsOnly, $limit);
+			$this->pagedResultsAdapter->setSearchArgs($link, $baseDN, $filter, $attr, $attrsOnly, $limit);
+			$result = $this->invokeLDAPMethod('search', ...$this->pagedResultsAdapter->getSearchArgs($link));
+
 			restore_error_handler();
 			return $result;
 		} catch (\Exception $e) {
