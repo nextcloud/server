@@ -109,6 +109,28 @@ Feature: LDAP
       | priscilla |
       | shannah   |
 
+  Scenario: Fetch from second batch of all users, invoking pagination with two bases, third page
+    Given modify LDAP configuration
+      | ldapBaseUsers  | ou=PagingTest,dc=nextcloud,dc=ci;ou=PagingTestSecondBase,dc=nextcloud,dc=ci |
+      | ldapPagingSize | 2                                |
+    And As an "admin"
+    And sending "GET" to "/cloud/users?limit=10&offset=4"
+    Then the OCS status code should be "200"
+    And the "users" result should contain "3" of
+      | ebba    |
+      | eindis  |
+      | fjolnir |
+      | gunna   |
+      | juliana |
+      | leo     |
+      | stigur  |
+    And the "users" result should contain "1" of
+      | allisha   |
+      | dogukan   |
+      | lloyd     |
+      | priscilla |
+      | shannah   |
+
   Scenario: Deleting an unavailable LDAP user
     Given As an "admin"
     And sending "GET" to "/cloud/users"

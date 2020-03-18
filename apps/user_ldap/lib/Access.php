@@ -74,17 +74,7 @@ class Access extends LDAPUtility {
 	protected $pagedSearchedSuccessful;
 
 	/**
-	 * @var string[] $cookies an array of returned Paged Result cookies
-	 */
 	protected $cookies = [];
-
-	/**
-	 * @var string $lastCookie the last cookie returned from a Paged Results
-	 * operation, defaults to an empty string
-	 */
-	protected $lastCookie = '';
-
-	/**
 	 * @var AbstractMapping $userMapper
 	 */
 	protected $userMapper;
@@ -102,6 +92,8 @@ class Access extends LDAPUtility {
 	private $config;
 	/** @var IUserManager */
 	private $ncUserManager;
+	/** @var string */
+	private $lastCookie = '';
 
 	public function __construct(
 		Connection $connection,
@@ -269,7 +261,7 @@ class Access extends LDAPUtility {
 	 * @throws ServerNotAvailableException
 	 */
 	public function executeRead($cr, $dn, $attribute, $filter, $maxResults) {
-		$this->initPagedSearch($filter, [$dn], [$attribute], $maxResults, 0);
+		$this->initPagedSearch($filter, $dn, [$attribute], $maxResults, 0);
 		$dn = $this->helper->DNasBaseParameter($dn);
 		$rr = @$this->invokeLDAPMethod('read', $cr, $dn, $filter, [$attribute]);
 		if (!$this->ldap->isResource($rr)) {
@@ -1020,7 +1012,7 @@ class Access extends LDAPUtility {
 	public function searchUsers($filter, $attr = null, $limit = null, $offset = null) {
 		$result = [];
 		foreach ($this->connection->ldapBaseUsers as $base) {
-			$result = array_merge($result, $this->search($filter, [$base], $attr, $limit, $offset));
+			$result = array_merge($result, $this->search($filter, $base, $attr, $limit, $offset));
 		}
 		return $result;
 	}
@@ -1057,7 +1049,7 @@ class Access extends LDAPUtility {
 	public function searchGroups($filter, $attr = null, $limit = null, $offset = null) {
 		$result = [];
 		foreach ($this->connection->ldapBaseGroups as $base) {
-			$result = array_merge($result, $this->search($filter, [$base], $attr, $limit, $offset));
+			$result = array_merge($result, $this->search($filter, $base, $attr, $limit, $offset));
 		}
 		return $result;
 	}
@@ -1142,7 +1134,7 @@ class Access extends LDAPUtility {
 				throw $e;
 			}
 
-			$arguments[0] = array_pad([], count($arguments[0]), $cr);
+			$arguments[0] = $cr;
 			$ret = $doMethod();
 		}
 		return $ret;
@@ -1151,20 +1143,22 @@ class Access extends LDAPUtility {
 	/**
 	 * retrieved. Results will according to the order in the array.
 	 *
-	 * @param $filter
-	 * @param $base
-	 * @param string[]|string|null $attr
-	 * @param int $limit optional, maximum results to be counted
-	 * @param int $offset optional, a starting point
+	 * @param string $filter
+	 * @param string $base
+	 * @param string[] $attr
+	 * @param int|null $limit optional, maximum results to be counted
+	 * @param int|null $offset optional, a starting point
 	 * @return array|false array with the search result as first value and pagedSearchOK as
 	 * second | false if not successful
 	 * @throws ServerNotAvailableException
 	 */
-	private function executeSearch($filter, $base, &$attr = null, $limit = null, $offset = null) {
-		if (!is_null($attr) && !is_array($attr)) {
-			$attr = [mb_strtolower($attr, 'UTF-8')];
-		}
-
+	private function executeSearch(
+		string $filter,
+		string $base,
+		?array &$attr,
+		?int $limit,
+		?int $offset
+	) {
 		// See if we have a resource, in case not cancel with message
 		$cr = $this->connection->getConnectionResource();
 		if (!$this->ldap->isResource($cr)) {
@@ -1175,13 +1169,12 @@ class Access extends LDAPUtility {
 		}
 
 		//check whether paged search should be attempted
-		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, (int)$limit, $offset);
+		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, (int)$limit, (int)$offset);
 
-		$linkResources = array_pad([], count($base), $cr);
-		$sr = $this->invokeLDAPMethod('search', $linkResources, $base, $filter, $attr);
+		$sr = $this->invokeLDAPMethod('search', $cr, $base, $filter, $attr);
 		// cannot use $cr anymore, might have changed in the previous call!
 		$error = $this->ldap->errno($this->connection->getConnectionResource());
-		if (!is_array($sr) || $error !== 0) {
+		if(!$this->ldap->isResource($sr) || $error !== 0) {
 			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), ILogger::ERROR);
 			return false;
 		}
@@ -1192,26 +1185,27 @@ class Access extends LDAPUtility {
 	/**
 	 * processes an LDAP paged search operation
 	 *
-	 * @param array $sr the array containing the LDAP search resources
-	 * @param string $filter the LDAP filter for the search
-	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
-	 * @param int $iFoundItems number of results in the single search operation
+	 * @param resource $sr the array containing the LDAP search resources
+	 * @param int $foundItems number of results in the single search operation
 	 * @param int $limit maximum results to be counted
-	 * @param int $offset a starting point
 	 * @param bool $pagedSearchOK whether a paged search has been executed
 	 * @param bool $skipHandling required for paged search when cookies to
 	 * prior results need to be gained
 	 * @return bool cookie validity, true if we have more pages, false otherwise.
 	 * @throws ServerNotAvailableException
 	 */
-	private function processPagedSearchStatus($sr, $filter, $base, $iFoundItems, $limit, $offset, $pagedSearchOK, $skipHandling) {
+	private function processPagedSearchStatus(
+		$sr,
+		int $foundItems,
+		int $limit,
+		bool $pagedSearchOK,
+		bool $skipHandling
+	): bool {
 		$cookie = null;
 		if ($pagedSearchOK) {
 			$cr = $this->connection->getConnectionResource();
-			foreach ($sr as $key => $res) {
-				if ($this->ldap->controlPagedResultResponse($cr, $res, $cookie)) {
-					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
-				}
+			if($this->ldap->controlPagedResultResponse($cr, $sr, $cookie)) {
+				$this->lastCookie = $cookie;
 			}
 
 			//browsing through prior pages to get the cookie for the new one
@@ -1221,7 +1215,7 @@ class Access extends LDAPUtility {
 			// if count is bigger, then the server does not support
 			// paged search. Instead, he did a normal search. We set a
 			// flag here, so the callee knows how to deal with it.
-			if ($iFoundItems <= $limit) {
+			if($foundItems <= $limit) {
 				$this->pagedSearchedSuccessful = true;
 			}
 		} else {
@@ -1244,7 +1238,7 @@ class Access extends LDAPUtility {
 	 * executes an LDAP search, but counts the results only
 	 *
 	 * @param string $filter the LDAP filter for the search
-	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
+	 * @param array $bases an array containing the LDAP subtree(s) that shall be searched
 	 * @param string|string[] $attr optional, array, one or more attributes that shall be
 	 * retrieved. Results will according to the order in the array.
 	 * @param int $limit optional, maximum results to be counted
@@ -1254,8 +1248,22 @@ class Access extends LDAPUtility {
 	 * @return int|false Integer or false if the search could not be initialized
 	 * @throws ServerNotAvailableException
 	 */
-	private function count($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
-		\OCP\Util::writeLog('user_ldap', 'Count filter:  '.print_r($filter, true), ILogger::DEBUG);
+	private function count(
+		string $filter,
+		array $bases,
+		$attr = null,
+		?int $limit = null,
+		?int $offset = null,
+		bool $skipHandling = false
+	) {
+		\OC::$server->getLogger()->debug('Count filter: {filter}', [
+			'app' => 'user_ldap',
+			'filter' => $filter
+		]);
+
+		if(!is_null($attr) && !is_array($attr)) {
+			$attr = array(mb_strtolower($attr, 'UTF-8'));
+		}
 
 		$limitPerPage = (int)$this->connection->ldapPagingSize;
 		if (!is_null($limit) && $limit < $limitPerPage && $limit > 0) {
@@ -1266,64 +1274,62 @@ class Access extends LDAPUtility {
 		$count = null;
 		$this->connection->getConnectionResource();
 
-		do {
-			$search = $this->executeSearch($filter, $base, $attr, $limitPerPage, $offset);
+		foreach($bases as $base) {
+			do {
+				$search = $this->executeSearch($filter, $base, $attr, $limitPerPage, $offset);
 			if ($search === false) {
-				return $counter > 0 ? $counter : false;
-			}
-			list($sr, $pagedSearchOK) = $search;
+					return $counter > 0 ? $counter : false;
+				}
+				list($sr, $pagedSearchOK) = $search;
 
-			/* ++ Fixing RHDS searches with pages with zero results ++
-			 * countEntriesInSearchResults() method signature changed
-			 * by removing $limit and &$hasHitLimit parameters
-			 */
-			$count = $this->countEntriesInSearchResults($sr);
-			$counter += $count;
+				/* ++ Fixing RHDS searches with pages with zero results ++
+				 * countEntriesInSearchResults() method signature changed
+				 * by removing $limit and &$hasHitLimit parameters
+				 */
+				$count = $this->countEntriesInSearchResults($sr);
+				$counter += $count;
 
-			$hasMorePages = $this->processPagedSearchStatus($sr, $filter, $base, $count, $limitPerPage,
-										$offset, $pagedSearchOK, $skipHandling);
-			$offset += $limitPerPage;
-			/* ++ Fixing RHDS searches with pages with zero results ++
-			 * Continue now depends on $hasMorePages value
-			 */
-			$continue = $pagedSearchOK && $hasMorePages;
+				$hasMorePages = $this->processPagedSearchStatus($sr, $count, $limitPerPage, $pagedSearchOK, $skipHandling);
+				$offset += $limitPerPage;
+				/* ++ Fixing RHDS searches with pages with zero results ++
+				 * Continue now depends on $hasMorePages value
+				 */
+				$continue = $pagedSearchOK && $hasMorePages;
 		} while ($continue && (is_null($limit) || $limit <= 0 || $limit > $counter));
-
-		return $counter;
-	}
-
-	/**
-	 * @param array $searchResults
-	 * @return int
-	 * @throws ServerNotAvailableException
-	 */
-	private function countEntriesInSearchResults($searchResults) {
-		$counter = 0;
-
-		foreach ($searchResults as $res) {
-			$count = (int)$this->invokeLDAPMethod('countEntries', $this->connection->getConnectionResource(), $res);
-			$counter += $count;
 		}
 
 		return $counter;
 	}
 
 	/**
-	 * Executes an LDAP search
-	 *
-	 * @param string $filter the LDAP filter for the search
-	 * @param array $base an array containing the LDAP subtree(s) that shall be searched
-	 * @param string|string[] $attr optional, array, one or more attributes that shall be
-	 * @param int $limit
-	 * @param int $offset
-	 * @param bool $skipHandling
-	 * @return array with the search result
+	 * @param resource $sr
+	 * @return int
 	 * @throws ServerNotAvailableException
 	 */
-	public function search($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
+	private function countEntriesInSearchResults($sr): int {
+		return (int)$this->invokeLDAPMethod('countEntries', $this->connection->getConnectionResource(), $sr);
+	}
+
+	/**
+	 * Executes an LDAP search
+	 *
+	 * @throws ServerNotAvailableException
+	 */
+	public function search(
+		string $filter,
+		string $base,
+		?array $attr = null,
+		?int $limit = null,
+		?int $offset = null,
+		bool $skipHandling = false
+	): array {
 		$limitPerPage = (int)$this->connection->ldapPagingSize;
 		if (!is_null($limit) && $limit < $limitPerPage && $limit > 0) {
 			$limitPerPage = $limit;
+		}
+
+		if(!is_null($attr) && !is_array($attr)) {
+			$attr = [mb_strtolower($attr, 'UTF-8')];
 		}
 
 		/* ++ Fixing RHDS searches with pages with zero results ++
@@ -1334,6 +1340,8 @@ class Access extends LDAPUtility {
 		 */
 		$findings = [];
 		$savedoffset = $offset;
+		$iFoundItems = 0;
+
 		do {
 			$search = $this->executeSearch($filter, $base, $attr, $limitPerPage, $offset);
 			if ($search === false) {
@@ -1346,25 +1354,19 @@ class Access extends LDAPUtility {
 				//i.e. result do not need to be fetched, we just need the cookie
 				//thus pass 1 or any other value as $iFoundItems because it is not
 				//used
-				$this->processPagedSearchStatus($sr, $filter, $base, 1, $limitPerPage,
-								$offset, $pagedSearchOK,
-								$skipHandling);
+				$this->processPagedSearchStatus($sr, 1, $limitPerPage, $pagedSearchOK, $skipHandling);
 				return [];
 			}
 
-			$iFoundItems = 0;
-			foreach ($sr as $res) {
-				$findings = array_merge($findings, $this->invokeLDAPMethod('getEntries', $cr, $res));
-				$iFoundItems = max($iFoundItems, $findings['count']);
-				unset($findings['count']);
-			}
+			$findings = array_merge($findings, $this->invokeLDAPMethod('getEntries', $cr, $sr));
+			$iFoundItems = max($iFoundItems, $findings['count']);
+			unset($findings['count']);
 
-			$continue = $this->processPagedSearchStatus($sr, $filter, $base, $iFoundItems,
-				$limitPerPage, $offset, $pagedSearchOK,
-										$skipHandling);
+			$continue = $this->processPagedSearchStatus($sr, $iFoundItems, $limitPerPage, $pagedSearchOK, $skipHandling);
 			$offset += $limitPerPage;
 		} while ($continue && $pagedSearchOK && ($limit === null || count($findings) < $limit));
-		// reseting offset
+
+		// resetting offset
 		$offset = $savedoffset;
 
 		// if we're here, probably no connection resource is returned.
@@ -1654,17 +1656,22 @@ class Access extends LDAPUtility {
 	public function getUserDnByUuid($uuid) {
 		$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
 		$filter       = $this->connection->ldapUserFilter;
-		$base         = $this->connection->ldapBaseUsers;
+		$bases        = $this->connection->ldapBaseUsers;
 
 		if ($this->connection->ldapUuidUserAttribute === 'auto' && $uuidOverride === '') {
 			// Sacrebleu! The UUID attribute is unknown :( We need first an
 			// existing DN to be able to reliably detect it.
-			$result = $this->search($filter, $base, ['dn'], 1);
-			if (!isset($result[0]) || !isset($result[0]['dn'])) {
-				throw new \Exception('Cannot determine UUID attribute');
+			foreach ($bases as $base) {
+				$result = $this->search($filter, $base, ['dn'], 1);
+				if (!isset($result[0]) || !isset($result[0]['dn'])) {
+					continue;
+				}
+				$dn = $result[0]['dn'][0];
+				if ($hasFound = $this->detectUuidAttribute($dn, true)) {
+					break;
+				}
 			}
-			$dn = $result[0]['dn'][0];
-			if (!$this->detectUuidAttribute($dn, true)) {
+			if(!isset($hasFound) || !$hasFound) {
 				throw new \Exception('Cannot determine UUID attribute');
 			}
 		} else {
@@ -1955,36 +1962,13 @@ class Access extends LDAPUtility {
 	 * @throws ServerNotAvailableException
 	 */
 	private function abandonPagedSearch() {
+		if($this->lastCookie === '') {
+			return;
+		}
 		$cr = $this->connection->getConnectionResource();
-		$this->invokeLDAPMethod('controlPagedResult', $cr, 0, false, $this->lastCookie);
+		$this->invokeLDAPMethod('controlPagedResult', $cr, 0, false);
 		$this->getPagedSearchResultState();
 		$this->lastCookie = '';
-		$this->cookies = [];
-	}
-
-	/**
-	 * get a cookie for the next LDAP paged search
-	 * @param string $base a string with the base DN for the search
-	 * @param string $filter the search filter to identify the correct search
-	 * @param int $limit the limit (or 'pageSize'), to identify the correct search well
-	 * @param int $offset the offset for the new search to identify the correct search really good
-	 * @return string containing the key or empty if none is cached
-	 */
-	private function getPagedResultCookie($base, $filter, $limit, $offset) {
-		if ($offset === 0) {
-			return '';
-		}
-		$offset -= $limit;
-		//we work with cache here
-		$cacheKey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . (int)$limit . '-' . (int)$offset;
-		$cookie = '';
-		if (isset($this->cookies[$cacheKey])) {
-			$cookie = $this->cookies[$cacheKey];
-			if (is_null($cookie)) {
-				$cookie = '';
-			}
-		}
-		return $cookie;
 	}
 
 	/**
@@ -2008,24 +1992,6 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * set a cookie for LDAP paged search run
-	 * @param string $base a string with the base DN for the search
-	 * @param string $filter the search filter to identify the correct search
-	 * @param int $limit the limit (or 'pageSize'), to identify the correct search well
-	 * @param int $offset the offset for the run search to identify the correct search really good
-	 * @param string $cookie string containing the cookie returned by ldap_control_paged_result_response
-	 * @return void
-	 */
-	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
-		// allow '0' for 389ds
-		if (!empty($cookie) || $cookie === '0') {
-			$cacheKey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . (int)$limit . '-' . (int)$offset;
-			$this->cookies[$cacheKey] = $cookie;
-			$this->lastCookie = $cookie;
-		}
-	}
-
-	/**
 	 * Check whether the most recent paged search was successful. It flushed the state var. Use it always after a possible paged search.
 	 * @return boolean|null true on success, null or false otherwise
 	 */
@@ -2046,45 +2012,43 @@ class Access extends LDAPUtility {
 	 * @return bool|true
 	 * @throws ServerNotAvailableException
 	 */
-	private function initPagedSearch($filter, $bases, $attr, $limit, $offset) {
+	private function initPagedSearch(
+		string $filter,
+		string $base,
+		?array $attr,
+		int $limit,
+		int $offset
+	): bool {
 		$pagedSearchOK = false;
 		if ($limit !== 0) {
-			$offset = (int)$offset; //can be null
-			\OCP\Util::writeLog('user_ldap',
-				'initializing paged search for  Filter '.$filter.' base '.print_r($bases, true)
-				.' attr '.print_r($attr, true). ' limit ' .$limit.' offset '.$offset,
-				ILogger::DEBUG);
+			\OC::$server->getLogger()->debug(
+				'initializing paged search for filter {filter}, base {base}, attr {attr}, limit {limit}, offset {offset}',
+				[
+					'app' => 'user_ldap',
+					'filter' => $filter,
+					'base' => $base,
+					'attr' => $attr,
+					'limit' => $limit,
+					'offset' => $offset
+				]
+			);
 			//get the cookie from the search for the previous search, required by LDAP
-			foreach ($bases as $base) {
-				$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
-				if (empty($cookie) && $cookie !== "0" && ($offset > 0)) {
-					// no cookie known from a potential previous search. We need
-					// to start from 0 to come to the desired page. cookie value
-					// of '0' is valid, because 389ds
-					$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
-					$this->search($filter, [$base], $attr, $limit, $reOffset, true);
-					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
-					//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
-					// '0' is valid, because 389ds
-					//TODO: remember this, probably does not change in the next request...
-					if (empty($cookie) && $cookie !== '0') {
-						$cookie = null;
-					}
-				}
-				if (!is_null($cookie)) {
-					//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
-					$this->abandonPagedSearch();
-					$pagedSearchOK = $this->invokeLDAPMethod('controlPagedResult',
-						$this->connection->getConnectionResource(), $limit,
-						false, $cookie);
-					if (!$pagedSearchOK) {
-						return false;
-					}
-					\OCP\Util::writeLog('user_ldap', 'Ready for a paged search', ILogger::DEBUG);
-				} else {
-					$e = new \Exception('No paged search possible, Limit '.$limit.' Offset '.$offset);
-					\OC::$server->getLogger()->logException($e, ['level' => ILogger::DEBUG]);
-				}
+			if(empty($this->lastCookie) && $this->lastCookie !== "0" && ($offset > 0)) {
+				// no cookie known from a potential previous search. We need
+				// to start from 0 to come to the desired page. cookie value
+				// of '0' is valid, because 389ds
+				$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
+				$this->search($filter, $base, $attr, $limit, $reOffset, true);
+			}
+			if($this->lastCookie !== '' && $offset === 0) {
+				//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
+				$this->abandonPagedSearch();
+			}
+			$pagedSearchOK = true === $this->invokeLDAPMethod(
+				'controlPagedResult', $this->connection->getConnectionResource(), $limit, false
+			);
+			if ($pagedSearchOK) {
+				\OC::$server->getLogger()->debug('Ready for a paged search',['app' => 'user_ldap']);
 			}
 			/* ++ Fixing RHDS searches with pages with zero results ++
 			 * We coudn't get paged searches working with our RHDS for login ($limit = 0),
@@ -2102,7 +2066,7 @@ class Access extends LDAPUtility {
 			$pageSize = (int)$this->connection->ldapPagingSize > 0 ? (int)$this->connection->ldapPagingSize : 500;
 			$pagedSearchOK = $this->invokeLDAPMethod('controlPagedResult',
 				$this->connection->getConnectionResource(),
-				$pageSize, false, '');
+				$pageSize, false);
 		}
 
 		return $pagedSearchOK;

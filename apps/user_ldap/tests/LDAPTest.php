@@ -73,7 +73,8 @@ class LDAPTest extends TestCase {
 				trigger_error($errorMessage);
 			});
 
-		$this->ldap->search('pseudo-resource', 'base', 'filter', []);
+		$fakeResource = ldap_connect();
+		$this->ldap->search($fakeResource, 'base', 'filter', []);
 		$this->assertSame($wasErrorHandlerCalled, $passThrough);
 
 		restore_error_handler();
