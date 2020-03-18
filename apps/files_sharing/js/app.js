@@ -110,6 +110,7 @@ OCA.Sharing.App = {
 			$el,
 			{
 				id: 'shares.deleted',
+				defaultFileActionsDisabled: true,
 				showDeleted: true,
 				sharedWithUser: true,
 				fileActions: this._restoreShareAction(),
