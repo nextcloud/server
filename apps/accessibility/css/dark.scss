@@ -12,7 +12,7 @@ $color-text-lighter: darken($color-main-text, 20%);
 $color-loading-light: #777;
 $color-loading-dark: #ccc;
 
-$color-box-shadow: rgba(darken($color-main-background, 70%), 0.5);
+$color-box-shadow: transparentize(darken($color-main-background, 70%), 0.5);
 
 $color-border: lighten($color-main-background, 7%);
 $color-border-dark: lighten($color-main-background, 14%);

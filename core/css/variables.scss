@@ -72,7 +72,7 @@ $image-favicon: url('../img/logo/logo.svg?v=1') !default;
 $color-loading-light: #ccc !default;
 $color-loading-dark: #444 !default;
 
-$color-box-shadow: rgba(nc-darken($color-main-background, 70%), 0.5) !default;
+$color-box-shadow: transparentize(nc-darken($color-main-background, 70%), 0.5) !default;
 
 // light border like file table or app-content list
 $color-border: nc-darken($color-main-background, 7%) !default;
