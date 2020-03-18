@@ -559,15 +559,15 @@ class UserTest extends TestCase {
 				->method('markProcessed');
 		}
 
-		$this->overwriteService('NotificationManager', $notificationManager);
-		$this->overwriteService('CommentsManager', $commentsManager);
+		$this->overwriteService(\OCP\Notification\IManager::class, $notificationManager);
+		$this->overwriteService(\OCP\Comments\ICommentsManager::class, $commentsManager);
 		$this->overwriteService(AllConfig::class, $config);
 
 		$this->assertSame($result, $user->delete());
 
 		$this->restoreService(AllConfig::class);
-		$this->restoreService('CommentsManager');
-		$this->restoreService('NotificationManager');
+		$this->restoreService(\OCP\Comments\ICommentsManager::class);
+		$this->restoreService(\OCP\Notification\IManager::class);
 
 		$this->assertEquals($expectedHooks, $hooksCalled);
 	}
