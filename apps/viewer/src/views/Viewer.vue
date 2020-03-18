@@ -180,7 +180,15 @@ export default {
 		isEndOfList() {
 			return this.currentIndex === this.fileList.length - 1
 		},
-		// Current opened file in the sidebar if available
+		/**
+		 * Returns the path to the current opened file in the sidebar.
+		 *
+		 * If the sidebar is available but closed an empty string is returned.
+		 * If the sidebar is not available null is returned.
+		 *
+		 * @returns {string|null} the path to the current opened file in the
+		 *          sidebar, if any.
+		 */
 		sidebarFile() {
 			return this.Sidebar && this.Sidebar.file
 		},
@@ -401,7 +409,7 @@ export default {
 		 * Show sidebar if available and a file is already opened
 		 */
 		changeSidebar() {
-			if (OCA.Files.Sidebar && this.sidebarFile !== '') {
+			if (this.sidebarFile) {
 				this.showSidebar()
 			}
 		},
