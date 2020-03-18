@@ -134,9 +134,9 @@ class RuleMatcher implements IRuleMatcher {
 		}
 
 		if($this->entity instanceof IEntity) {
+			/** @var ScopeContext[] $additionalScopes */
 			$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class);
 			foreach ($additionalScopes as $hash => $scopeCandidate) {
-				/** @var ScopeContext $scopeCandidate */
 				if ($scopeCandidate->getScope() !== IManager::SCOPE_USER || in_array($scopeCandidate, $scopes)) {
 					continue;
 				}
