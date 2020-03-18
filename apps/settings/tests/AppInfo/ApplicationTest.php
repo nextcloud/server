@@ -26,6 +26,7 @@
 namespace OCA\Settings\Tests\AppInfo;
 
 
+use OC\User\Session;
 use OCA\Settings\AppInfo\Application;
 use OCA\Settings\Controller\AdminSettingsController;
 use OCA\Settings\Controller\AppSettingsController;
@@ -113,8 +114,8 @@ class ApplicationTest extends TestCase {
 			->method('getUser')
 			->willReturn($user);
 
-		$this->overwriteService('UserSession', $session);
+		$this->overwriteService(Session::class, $session);
 		$this->assertTrue($this->container->query($service) instanceof $expected);
-		$this->restoreService('UserSession');
+		$this->restoreService(Session::class);
 	}
 }
