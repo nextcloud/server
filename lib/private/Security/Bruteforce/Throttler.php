@@ -94,11 +94,12 @@ class Throttler {
 	/**
 	 *  Calculate the cut off timestamp
 	 *
+	 * @param int $maxAgeHours
 	 * @return int
 	 */
-	private function getCutoffTimestamp(): int {
+	private function getCutoffTimestamp(int $maxAgeHours): int {
 		return (new \DateTime())
-			->sub($this->getCutoff(43200))
+			->sub($this->getCutoff($maxAgeHours * 3600))
 			->getTimestamp();
 	}
 
@@ -217,15 +218,16 @@ class Throttler {
 	 *
 	 * @param string $ip
 	 * @param string $action optionally filter by action
+	 * @param int $maxAgeHours
 	 * @return int
 	 */
-	public function getDelay($ip, $action = '') {
+	public function getAttempts(string $ip, string $action = '', int $maxAgeHours = 12): int {
 		$ipAddress = new IpAddress($ip);
 		if ($this->isIPWhitelisted((string)$ipAddress)) {
 			return 0;
 		}
 
-		$cutoffTime = $this->getCutoffTimestamp();
+		$cutoffTime = $this->getCutoffTimestamp($maxAgeHours);
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select($qb->func()->count('*', 'attempts'))
@@ -241,8 +243,18 @@ class Throttler {
 		$row = $result->fetch();
 		$result->closeCursor();
 
-		$attempts = (int) $row['attempts'];
+		return (int) $row['attempts'];
+	}
 
+	/**
+	 * Get the throttling delay (in milliseconds)
+	 *
+	 * @param string $ip
+	 * @param string $action optionally filter by action
+	 * @return int
+	 */
+	public function getDelay(string $ip, string $action = ''): int {
+		$attempts = $this->getAttempts($ip, $action);
 		if ($attempts === 0) {
 			return 0;
 		}
