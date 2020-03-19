@@ -228,7 +228,7 @@ class Throttler {
 		$cutoffTime = $this->getCutoffTimestamp();
 
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('*')
+		$qb->select($qb->func()->count('*', 'attempts'))
 			->from('bruteforce_attempts')
 			->where($qb->expr()->gt('occurred', $qb->createNamedParameter($cutoffTime)))
 			->andWhere($qb->expr()->eq('subnet', $qb->createNamedParameter($ipAddress->getSubnet())));
@@ -237,7 +237,11 @@ class Throttler {
 			$qb->andWhere($qb->expr()->eq('action', $qb->createNamedParameter($action)));
 		}
 
-		$attempts = count($qb->execute()->fetchAll());
+		$result = $qb->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		$attempts = (int) $row['attempts'];
 
 		if ($attempts === 0) {
 			return 0;
