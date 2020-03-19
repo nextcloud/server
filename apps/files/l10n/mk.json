@@ -156,6 +156,7 @@
     "Transfer {path} to {userid}" : "Трансфер {path} до {userid}",
     "Invalid path selected" : "Избрана невалидна патека",
     "Ownership transfer request sent" : "Испратено барање за трансфер на сопственост",
+    "Cannot transfer ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на папка која не е ваша",
     "Tags" : "Ознаки",
     "Error while loading the file data" : "Грешка при вчитување на податоците од датотеката",
     "Unable to change the favourite state of the file" : "Неможе да се промени статусот на омимени на датотеката",
@@ -185,6 +186,7 @@
     "Text file" : "Текстуална датотека",
     "New text file.txt" : "Нова текстуална датотека file.txt",
     "%s of %s used" : "искорестени %s од %s ",
-    "%1$s%% of %2$s used" : "искористено %1$s%% од %2$s"
+    "%1$s%% of %2$s used" : "искористено %1$s%% од %2$s",
+    "Cannot transfter ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на датотека која не е ваша"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }
