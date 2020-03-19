@@ -9,7 +9,7 @@
     "author": "",
     "dependencies": {
         "chai": "^4.1.2",
-        "mocha": "^5.2.0",
+        "mocha": "^7.1.1",
         "mocha-json-report": "0.0.2",
         "pixelmatch": "^5.0.2",
         "png-js": "^0.1.1",
