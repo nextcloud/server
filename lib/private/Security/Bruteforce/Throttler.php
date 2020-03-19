@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
@@ -84,7 +85,7 @@ class Throttler {
 	 * @param int $expire
 	 * @return \DateInterval
 	 */
-	private function getCutoff($expire) {
+	private function getCutoff(int $expire): \DateInterval {
 		$d1 = new \DateTime();
 		$d2 = clone $d1;
 		$d2->sub(new \DateInterval('PT' . $expire . 'S'));
@@ -111,9 +112,9 @@ class Throttler {
 	 * @param array $metadata Optional metadata logged to the database
 	 * @suppress SqlInjectionChecker
 	 */
-	public function registerAttempt($action,
-									$ip,
-									array $metadata = []) {
+	public function registerAttempt(string $action,
+									string $ip,
+									array $metadata = []): void {
 		// No need to log if the bruteforce protection is disabled
 		if ($this->config->getSystemValue('auth.bruteforce.protection.enabled', true) === false) {
 			return;
@@ -153,7 +154,7 @@ class Throttler {
 	 * @param string $ip
 	 * @return bool
 	 */
-	private function isIPWhitelisted($ip) {
+	private function isIPWhitelisted(string $ip): bool {
 		if ($this->config->getSystemValue('auth.bruteforce.protection.enabled', true) === false) {
 			return true;
 		}
@@ -280,7 +281,7 @@ class Throttler {
 	 * @param string $action
 	 * @param string $metadata
 	 */
-	public function resetDelay($ip, $action, $metadata) {
+	public function resetDelay(string $ip, string $action, string $metadata): void {
 		$ipAddress = new IpAddress($ip);
 		if ($this->isIPWhitelisted((string)$ipAddress)) {
 			return;
@@ -321,7 +322,7 @@ class Throttler {
 	 * @param string $action optionally filter by action
 	 * @return int the time spent sleeping
 	 */
-	public function sleepDelay($ip, $action = '') {
+	public function sleepDelay(string $ip, string $action = ''): int {
 		$delay = $this->getDelay($ip, $action);
 		usleep($delay * 1000);
 		return $delay;
@@ -336,10 +337,10 @@ class Throttler {
 	 * @return int the time spent sleeping
 	 * @throws MaxDelayReached when reached the maximum
 	 */
-	public function sleepDelayOrThrowOnMax($ip, $action = '') {
+	public function sleepDelayOrThrowOnMax(string $ip, string $action = ''): int {
 		$delay = $this->getDelay($ip, $action);
 		if ($delay === self::MAX_DELAY * 1000) {
-			throw new MaxDelayReached();
+			throw new MaxDelayReached('Reached maximum delay');
 		}
 		usleep($delay * 1000);
 		return $delay;
