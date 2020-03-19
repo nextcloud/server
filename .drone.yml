@@ -1501,7 +1501,7 @@ trigger:
 
 ---
 kind: pipeline
-name: integration-ldap-openldap-uid-features
+name: integration-ldap-openldap-uid-features-old-ldap-api
 
 steps:
 - name: submodules
@@ -1509,7 +1509,7 @@ steps:
   commands:
     - git submodule update --init
 - name: integration-ldap-openldap-uid-features
-  image: nextcloudci/integration-php7.3:integration-php7.3-2
+  image: nextcloudci/integration-php7.2:integration-php7.2-1
   commands:
     - bash tests/drone-run-integration-tests.sh || exit 0
     - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
@@ -1539,6 +1539,49 @@ trigger:
   event:
     - pull_request
     - push
+type: docker
+
+---
+kind: pipeline
+name: integration-ldap-openldap-uid-features
+
+steps:
+    - name: submodules
+      image: docker:git
+      commands:
+          - git submodule update --init
+    - name: integration-ldap-openldap-uid-features
+      image: nextcloudci/integration-php7.3:integration-php7.3-2
+      commands:
+          - bash tests/drone-run-integration-tests.sh || exit 0
+          - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+          - ./occ config:system:set redis host --value=cache
+          - ./occ config:system:set redis port --value=6379 --type=integer
+          - ./occ config:system:set redis timeout --value=0 --type=integer
+          - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.local
+          - ./occ config:system:set --type string --value "\\OC\\Memcache\\Redis" memcache.distributed
+          - cd build/integration
+          - ./run.sh ldap_features/openldap-uid-username.feature
+
+services:
+    - name: cache
+      image: redis
+    - name: openldap
+      image: nextcloudci/openldap:openldap-7
+      environment:
+          SLAPD_DOMAIN: nextcloud.ci
+          SLAPD_ORGANIZATION: Nextcloud
+          SLAPD_PASSWORD: admin
+          SLAPD_ADDITIONAL_MODULES: memberof
+
+trigger:
+    branch:
+        - master
+        - stable*
+    event:
+        - pull_request
+        - push
+type: docker
 
 ---
 kind: pipeline
