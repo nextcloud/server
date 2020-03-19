@@ -1375,7 +1375,7 @@ class Access extends LDAPUtility {
 				$offset += $limitPerPage;
 			} while ($continue && $pagedSearchOK && ($limit === null || count($findings) < $limit));
 		}
-		// reseting offset
+		// resetting offset
 		$offset = $savedoffset;
 
 		// if we're here, probably no connection resource is returned.
