@@ -73,6 +73,8 @@ OC.L10N.register(
     "More options …" : "אפשרויות נוספות…",
     "More options at %s" : "אפשרויות נוספים ב־%s",
     "Contacts" : "אנשי קשר",
+    "Configures a CalDAV account" : "מגדיר חשבון CalDAV",
+    "Configures a CardDAV account" : "מגדיר חשבון CardDAV",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "נקודת קצה WebDAV",
     "Technical details" : "פרטים טכניים",
