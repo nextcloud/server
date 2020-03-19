@@ -34,6 +34,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
+use OCP\Security\Bruteforce\MaxDelayReached;
 
 /**
  * Class Throttler implements the bruteforce protection for security actions in
@@ -50,6 +51,7 @@ use OCP\ILogger;
  */
 class Throttler {
 	public const LOGIN_ACTION = 'login';
+	public const MAX_DELAY = 25;
 
 	/** @var IDBConnection */
 	private $db;
@@ -241,7 +243,7 @@ class Throttler {
 			return 0;
 		}
 
-		$maxDelay = 25;
+		$maxDelay = self::MAX_DELAY;
 		$firstDelay = 0.1;
 		if ($attempts > (8 * PHP_INT_SIZE - 1)) {
 			// Don't ever overflow. Just assume the maxDelay time:s
@@ -305,6 +307,24 @@ class Throttler {
 	 */
 	public function sleepDelay($ip, $action = '') {
 		$delay = $this->getDelay($ip, $action);
+		usleep($delay * 1000);
+		return $delay;
+	}
+
+	/**
+	 * Will sleep for the defined amount of time unless maximum is reached
+	 * In case of maximum a "429 Too Many Request" response is thrown
+	 *
+	 * @param string $ip
+	 * @param string $action optionally filter by action
+	 * @return int the time spent sleeping
+	 * @throws MaxDelayReached when reached the maximum
+	 */
+	public function sleepDelayOrThrowOnMax($ip, $action = '') {
+		$delay = $this->getDelay($ip, $action);
+		if ($delay === self::MAX_DELAY * 1000) {
+			throw new MaxDelayReached();
+		}
 		usleep($delay * 1000);
 		return $delay;
 	}
