@@ -162,8 +162,7 @@ class Throttler {
 
 		$keys = $this->config->getAppKeys('bruteForce');
 		$keys = array_filter($keys, function ($key) {
-			$regex = '/^whitelist_/S';
-			return preg_match($regex, $key) === 1;
+			return 0 === strpos($key, 'whitelist_');
 		});
 
 		if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
