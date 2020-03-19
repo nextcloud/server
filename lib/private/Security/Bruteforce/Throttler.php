@@ -53,6 +53,7 @@ use OCP\Security\Bruteforce\MaxDelayReached;
 class Throttler {
 	public const LOGIN_ACTION = 'login';
 	public const MAX_DELAY = 25;
+	public const MAX_ATTEMPTS = 10;
 
 	/** @var IDBConnection */
 	private $db;
@@ -260,18 +261,17 @@ class Throttler {
 			return 0;
 		}
 
-		$maxDelay = self::MAX_DELAY;
 		$firstDelay = 0.1;
-		if ($attempts > (8 * PHP_INT_SIZE - 1)) {
+		if ($attempts > self::MAX_ATTEMPTS) {
 			// Don't ever overflow. Just assume the maxDelay time:s
-			$firstDelay = $maxDelay;
-		} else {
-			$firstDelay *= pow(2, $attempts);
-			if ($firstDelay > $maxDelay) {
-				$firstDelay = $maxDelay;
-			}
+			return self::MAX_DELAY;
 		}
-		return (int) \ceil($firstDelay * 1000);
+
+		$delay = $firstDelay * 2**$attempts;
+		if ($delay > self::MAX_DELAY) {
+			return self::MAX_DELAY;
+		}
+		return (int) \ceil($delay * 1000);
 	}
 
 	/**
