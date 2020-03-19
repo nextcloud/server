@@ -25,6 +25,7 @@ namespace OCA\DAV\Files;
 
 use OC\AppFramework\Http\Request;
 use OC_Template;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\IRequest;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Server;
@@ -82,6 +83,8 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 		$this->server->httpResponse->setStatus($httpCode);
 		$body = $this->generateBody();
 		$this->server->httpResponse->setBody($body);
+		$csp = new ContentSecurityPolicy();
+		$this->server->httpResponse->addHeader('Content-Security-Policy', $csp->buildPolicy());
 		$this->sendResponse();
 	}
 
