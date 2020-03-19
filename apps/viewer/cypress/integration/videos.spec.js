@@ -30,8 +30,8 @@ describe('Open mp4 videos in viewer', function() {
 		cy.login(randUser, 'password')
 
 		// Upload test file
-		cy.uploadFile('video1.mp4', 'image/jpeg')
-		cy.uploadFile('video2.mp4', 'image/jpeg')
+		cy.uploadFile('video1.mp4', 'video/mp4')
+		cy.uploadFile('video2.mp4', 'video/mp4')
 		cy.visit('/apps/files')
 
 		// wait a bit for things to be settled

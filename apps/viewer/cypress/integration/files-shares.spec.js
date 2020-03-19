@@ -23,27 +23,40 @@
 import { randHash } from '../utils/'
 const randUser = randHash()
 
-describe('Open images in viewer', function() {
+describe('Files default view', function() {
 	before(function() {
 		// Init user
 		cy.nextcloudCreateUser(randUser, 'password')
 		cy.login(randUser, 'password')
 
 		// Upload test files
-		cy.uploadFile('image1.jpg', 'image/jpeg')
-		cy.uploadFile('image2.jpg', 'image/jpeg')
-		cy.uploadFile('image3.jpg', 'image/jpeg')
-		cy.uploadFile('image4.jpg', 'image/jpeg')
+		cy.createFolder('Photos')
+		cy.uploadFile('image1.jpg', 'image/jpeg', '/Photos')
+		cy.uploadFile('image2.jpg', 'image/jpeg', '/Photos')
+		cy.uploadFile('image3.jpg', 'image/jpeg', '/Photos')
+		cy.uploadFile('image4.jpg', 'image/jpeg', '/Photos')
+		cy.uploadFile('video1.mp4', 'video/mp4', '/Photos')
 		cy.visit('/apps/files')
 
 		// wait a bit for things to be settled
 		cy.wait(1000)
 	})
 	after(function() {
-		cy.logout()
+		// already logged out after visiting share link
+		// cy.logout()
 	})
 
-	it('See images in the list', function() {
+	it('See the default files list', function() {
+		cy.get('#fileList tr').should('contain', 'welcome.txt')
+		cy.get('#fileList tr').should('contain', 'Photos')
+	})
+
+	it('Does not have any visual regression 1', function() {
+		cy.matchImageSnapshot()
+	})
+
+	it('See shared files in the list', function() {
+		cy.openFile('Photos')
 		cy.get('#fileList tr[data-file="image1.jpg"]', { timeout: 10000 })
 			.should('contain', 'image1.jpg')
 		cy.get('#fileList tr[data-file="image2.jpg"]', { timeout: 10000 })
@@ -52,6 +65,23 @@ describe('Open images in viewer', function() {
 			.should('contain', 'image3.jpg')
 		cy.get('#fileList tr[data-file="image4.jpg"]', { timeout: 10000 })
 			.should('contain', 'image4.jpg')
+		cy.get('#fileList tr[data-file="video1.mp4"]', { timeout: 10000 })
+			.should('contain', 'video1.mp4')
+	})
+
+	it('Does not have any visual regression 2', function() {
+		cy.matchImageSnapshot()
+	})
+
+	it('Share the Photos folder with a share link and access the share link', function() {
+		cy.createLinkShare('/Photos').then(token => {
+			cy.logout()
+			cy.visit(`/s/${token}`)
+		})
+	})
+
+	it('Does not have any visual regression 3', function() {
+		cy.matchImageSnapshot()
 	})
 
 	it('Open the viewer on file click', function() {
@@ -68,29 +98,18 @@ describe('Open images in viewer', function() {
 
 	it('See the menu icon and title on the viewer header', function() {
 		cy.get('#viewer-content .modal-title').should('contain', 'image1.jpg')
-		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
+		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('not.be.visible')
 		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
 	})
 
 	it('Does see next navigation arrows', function() {
-		// only 2 because we don't know if we're at the end of the slideshow, current img and next one
 		cy.get('#viewer-content .modal-container img').should('have.length', 2)
 		cy.get('#viewer-content .modal-container img').should('have.attr', 'src')
 		cy.get('#viewer-content a.next').should('be.visible')
 		cy.get('#viewer-content a.next').should('be.visible')
 	})
 
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2000)}px`, 'i'))
-	})
-
-	it('Does not have any visual regression 1', function() {
+	it('Does not have any visual regression 4', function() {
 		cy.matchImageSnapshot()
 	})
 
@@ -108,17 +127,7 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 1688)}px`, 'i'))
-	})
-
-	it('Does not have any visual regression 2', function() {
+	it('Does not have any visual regression 5', function() {
 		cy.matchImageSnapshot()
 	})
 
@@ -136,23 +145,12 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2002)}px`, 'i'))
-	})
-
-	it('Does not have any visual regression 3', function() {
+	it('Does not have any visual regression 6', function() {
 		cy.matchImageSnapshot()
 	})
 
 	it('Show image4 on next', function() {
 		cy.get('#viewer-content a.next').click()
-		// only 2 because we don't know if we're at the end of the slideshow, current img and previous one
 		cy.get('#viewer-content .modal-container img').should('have.length', 2)
 		cy.get('#viewer-content a.prev').should('be.visible')
 		cy.get('#viewer-content a.next').should('be.visible')
@@ -165,17 +163,28 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2000)}px`, 'i'))
+	it('Does not have any visual regression 7', function() {
+		cy.matchImageSnapshot()
 	})
 
-	it('Does not have any visual regression 4', function() {
+	it('Show video1 on next', function() {
+		cy.get('#viewer-content a.next').click()
+		// only 2 because we don't know if we're at the end of the slideshow, current vid and prev img
+		cy.get('#viewer-content .modal-container img').should('have.length', 1)
+		cy.get('#viewer-content .modal-container video').should('have.length', 1)
+		cy.get('#viewer-content a.prev').should('be.visible')
+		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('#viewer-content .modal-title').should('contain', 'video1.mp4')
+	})
+
+	it('Does not see a loading animation', function() {
+		cy.get('#viewer-content', { timeout: 4000 })
+			.should('be.visible')
+			.and('have.class', 'modal-mask')
+			.and('not.have.class', 'icon-loading')
+	})
+
+	it('Does not have any visual regression 8', function() {
 		cy.matchImageSnapshot()
 	})
 
@@ -193,17 +202,7 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2000)}px`, 'i'))
-	})
-
-	it('Does not have any visual regression 5', function() {
+	it('Does not have any visual regression 9', function() {
 		cy.matchImageSnapshot()
 	})
 })
