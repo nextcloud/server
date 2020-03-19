@@ -76,7 +76,8 @@ class SeekableHttpStream implements File {
 	/** @var int */
 	private $offset = 0;
 
-	private function reconnect($range) {
+	private function reconnect(int $start) {
+		$range = $start . '-';
 		if ($this->current != null) {
 			fclose($this->current);
 		}
@@ -88,14 +89,23 @@ class SeekableHttpStream implements File {
 		}
 
 		$responseHead = stream_get_meta_data($this->current)['wrapper_data'];
-		$contentRange = array_values(array_filter($responseHead, function ($v) {
+		$rangeHeaders = array_values(array_filter($responseHead, function ($v) {
 			return preg_match('#^content-range:#i', $v) === 1;
-		}))[0];
+		}));
+		if (!$rangeHeaders) {
+			return false;
+		}
+		$contentRange = $rangeHeaders[0];
 
 		$content = trim(explode(':', $contentRange)[1]);
 		$range = trim(explode(' ', $content)[1]);
-		$begin = explode('-', $range)[0];
-		$this->offset = intval($begin);
+		$begin = intval(explode('-', $range)[0]);
+
+		if ($begin !== $start) {
+			return false;
+		}
+
+		$this->offset = $begin;
 
 		return true;
 	}
@@ -104,7 +114,7 @@ class SeekableHttpStream implements File {
 		$options = stream_context_get_options($this->context)[self::PROTOCOL];
 		$this->openCallback = $options['callback'];
 
-		return $this->reconnect('0-');
+		return $this->reconnect(0);
 	}
 
 	function stream_read($count) {
@@ -122,12 +132,12 @@ class SeekableHttpStream implements File {
 				if ($offset === $this->offset) {
 					return true;
 				}
-				return $this->reconnect($offset . '-');
+				return $this->reconnect($offset);
 			case SEEK_CUR:
 				if ($offset === 0) {
 					return true;
 				}
-				return $this->reconnect(($this->offset + $offset) . '-');
+				return $this->reconnect($this->offset + $offset);
 			case SEEK_END:
 				return false;
 		}
