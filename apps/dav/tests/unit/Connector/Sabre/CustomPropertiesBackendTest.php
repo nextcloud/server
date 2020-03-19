@@ -58,7 +58,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	private $tree;
 
 	/**
-	 * @var \OCA\DAV\Connector\Sabre\CustomPropertiesBackend
+	 * @var \OCA\DAV\DAV\CustomPropertiesBackend
 	 */
 	private $plugin;
 
@@ -83,7 +83,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 			->method('getUID')
 			->will($this->returnValue($userId));
 
-		$this->plugin = new \OCA\DAV\Connector\Sabre\CustomPropertiesBackend(
+		$this->plugin = new \OCA\DAV\DAV\CustomPropertiesBackend(
 			$this->tree,
 			\OC::$server->getDatabaseConnection(),
 			$this->user
@@ -144,16 +144,6 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	 * Test that propFind on a missing file soft fails
 	 */
 	public function testPropFindMissingFileSoftFail() {
-		$this->tree->expects($this->at(0))
-			->method('getNodeForPath')
-			->with('/dummypath')
-			->will($this->throwException(new \Sabre\DAV\Exception\NotFound()));
-
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('/dummypath')
-			->will($this->throwException(new \Sabre\DAV\Exception\ServiceUnavailable()));
-
 		$propFind = new \Sabre\DAV\PropFind(
 			'/dummypath',
 			array(
@@ -174,20 +164,14 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 			$propFind
 		);
 
-		// no exception, soft fail
-		$this->addToAssertionCount(1);
+		// assert that the above didn't throw exceptions
+		$this->assertTrue(true);
 	}
 
 	/**
 	 * Test setting/getting properties
 	 */
 	public function testSetGetPropertiesForFile() {
-		$node = $this->createTestNode(File::class);
-		$this->tree->expects($this->any())
-			->method('getNodeForPath')
-			->with('/dummypath')
-			->will($this->returnValue($node));
-
 		$this->applyDefaultProps();
 
 		$propFind = new \Sabre\DAV\PropFind(
@@ -214,39 +198,6 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	 * Test getting properties from directory
 	 */
 	public function testGetPropertiesForDirectory() {
-		$rootNode = $this->createTestNode(Directory::class);
-
-		$nodeSub = $this->getMockBuilder(File::class)
-			->disableOriginalConstructor()
-			->getMock();
-		$nodeSub->expects($this->any())
-			->method('getId')
-			->will($this->returnValue(456));
-
-		$nodeSub->expects($this->any())
-			->method('getPath')
-			->will($this->returnValue('/dummypath/test.txt'));
-
-		$this->tree->expects($this->at(0))
-			->method('getNodeForPath')
-			->with('/dummypath')
-			->will($this->returnValue($rootNode));
-
-		$this->tree->expects($this->at(1))
-			->method('getNodeForPath')
-			->with('/dummypath/test.txt')
-			->will($this->returnValue($nodeSub));
-
-		$this->tree->expects($this->at(2))
-			->method('getNodeForPath')
-			->with('/dummypath')
-			->will($this->returnValue($rootNode));
-
-		$this->tree->expects($this->at(3))
-			->method('getNodeForPath')
-			->with('/dummypath/test.txt')
-			->will($this->returnValue($nodeSub));
-
 		$this->applyDefaultProps('/dummypath');
 		$this->applyDefaultProps('/dummypath/test.txt');
 
@@ -294,12 +245,6 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	 * Test delete property
 	 */
 	public function testDeleteProperty() {
-		$node = $this->createTestNode(File::class);
-		$this->tree->expects($this->any())
-			->method('getNodeForPath')
-			->with('/dummypath')
-			->will($this->returnValue($node));
-
 		$this->applyDefaultProps();
 
 		$propPatch = new \Sabre\DAV\PropPatch(array(
