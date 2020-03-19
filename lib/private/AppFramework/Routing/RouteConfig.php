@@ -33,7 +33,9 @@ declare(strict_types=1);
 namespace OC\AppFramework\Routing;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
+use OCP\App\AppPathNotFoundException;
 use OCP\AppFramework\App;
+use OCP\ILogger;
 use OCP\Route\IRouter;
 
 /**
@@ -170,6 +172,18 @@ class RouteConfig {
 				} else if ($controllerName === 'RequesthandlerController') {
 					$controllerName = 'RequestHandlerController';
 				}
+
+				if ($this->appName !== $appName) {
+					try {
+						\OC::$server->getAppManager()->getAppPath($appName);
+					} catch (AppPathNotFoundException $e) {
+						\OC::$server->getLogger()->logException($e, [
+							'level' => ILogger::DEBUG,
+						]);
+						continue;
+					}
+				}
+
 				$controllerName = App::buildAppNamespace($appName) . '\\Controller\\' . $controllerName;
 			}
 
