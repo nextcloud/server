@@ -96,12 +96,12 @@ class Throttler {
 	/**
 	 *  Calculate the cut off timestamp
 	 *
-	 * @param int $maxAgeHours
+	 * @param float $maxAgeHours
 	 * @return int
 	 */
-	private function getCutoffTimestamp(int $maxAgeHours): int {
+	private function getCutoffTimestamp(float $maxAgeHours): int {
 		return (new \DateTime())
-			->sub($this->getCutoff($maxAgeHours * 3600))
+			->sub($this->getCutoff((int) ($maxAgeHours * 3600)))
 			->getTimestamp();
 	}
 
@@ -220,10 +220,10 @@ class Throttler {
 	 *
 	 * @param string $ip
 	 * @param string $action optionally filter by action
-	 * @param int $maxAgeHours
+	 * @param float $maxAgeHours
 	 * @return int
 	 */
-	public function getAttempts(string $ip, string $action = '', int $maxAgeHours = 12): int {
+	public function getAttempts(string $ip, string $action = '', float $maxAgeHours = 12): int {
 		$ipAddress = new IpAddress($ip);
 		if ($this->isIPWhitelisted((string)$ipAddress)) {
 			return 0;
@@ -329,8 +329,8 @@ class Throttler {
 	}
 
 	/**
-	 * Will sleep for the defined amount of time unless maximum is reached
-	 * In case of maximum a "429 Too Many Request" response is thrown
+	 * Will sleep for the defined amount of time unless maximum was reached in the last 30 minutes
+	 * In this case a "429 Too Many Request" exception is thrown
 	 *
 	 * @param string $ip
 	 * @param string $action optionally filter by action
@@ -339,7 +339,8 @@ class Throttler {
 	 */
 	public function sleepDelayOrThrowOnMax(string $ip, string $action = ''): int {
 		$delay = $this->getDelay($ip, $action);
-		if ($delay === self::MAX_DELAY * 1000) {
+		if (($delay === self::MAX_DELAY * 1000) && $this->getAttempts($ip, $action, 0.5) > self::MAX_ATTEMPTS) {
+			// If the ip made too many attempts within the last 30 mins we don't execute anymore
 			throw new MaxDelayReached('Reached maximum delay');
 		}
 		usleep($delay * 1000);
