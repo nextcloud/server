@@ -279,9 +279,9 @@ class Throttler {
 	 *
 	 * @param string $ip
 	 * @param string $action
-	 * @param string $metadata
+	 * @param array $metadata
 	 */
-	public function resetDelay(string $ip, string $action, string $metadata): void {
+	public function resetDelay(string $ip, string $action, array $metadata): void {
 		$ipAddress = new IpAddress($ip);
 		if ($this->isIPWhitelisted((string)$ipAddress)) {
 			return;
