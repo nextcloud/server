@@ -1730,7 +1730,6 @@ class Access extends LDAPUtility {
 					$this->connection->$uuidAttr = $attribute;
 					return true;
 				}
-				continue;
 			}
 
 			$value = $this->readAttribute($dn, $attribute);
@@ -1746,9 +1745,6 @@ class Access extends LDAPUtility {
 				$this->connection->$uuidAttr = $attribute;
 				$this->connection->writeToCache($uuidAttr, $attribute);
 				return true;
-			} elseif ($value === false) {
-				// record not available
-				return false;
 			}
 		}
 		\OC::$server->getLogger()->debug('Could not autodetect the UUID attribute', ['app' => 'user_ldap']);
