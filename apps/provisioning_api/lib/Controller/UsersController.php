@@ -43,12 +43,15 @@ namespace OCA\Provisioning_API\Controller;
 use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
+use OC\NotSquareException;
 use OCA\Provisioning_API\FederatedFileSharingFactory;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSException;
 use OCP\AppFramework\OCS\OCSForbiddenException;
+use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -76,6 +79,10 @@ class UsersController extends AUserData {
 	private $secureRandom;
 	/** @var RemoteWipe */
 	private $remoteWipe;
+	/**
+	 * @var IAvatarManager
+	 */
+	private $avatarManager;
 
 	/**
 	 * @param string $appName
@@ -105,7 +112,8 @@ class UsersController extends AUserData {
 								NewUserMailHelper $newUserMailHelper,
 								FederatedFileSharingFactory $federatedFileSharingFactory,
 								ISecureRandom $secureRandom,
-							    RemoteWipe $remoteWipe) {
+							    RemoteWipe $remoteWipe,
+								IAvatarManager $avatarManager) {
 		parent::__construct($appName,
 							$request,
 							$userManager,
@@ -121,6 +129,7 @@ class UsersController extends AUserData {
 		$this->federatedFileSharingFactory = $federatedFileSharingFactory;
 		$this->secureRandom = $secureRandom;
 		$this->remoteWipe = $remoteWipe;
+		$this->avatarManager = $avatarManager;
 	}
 
 	/**
@@ -983,5 +992,69 @@ class UsersController extends AUserData {
 		}
 
 		return new DataResponse();
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function getAvatar(string $userId): DataResponse {
+		// TODO: Return link to avatar?
+	}
+
+	public function deleteAvatar(string $userId): DataResponse {
+		$currentLoggedInUser = $this->userSession->getUser();
+
+		$targetUser = $this->userManager->get($userId);
+		if ($targetUser === null) {
+			throw new OCSException('', \OCP\API::RESPOND_NOT_FOUND);
+		}
+
+		// Check if admin / subadmin
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if (!$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
+			&& !$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
+			// No rights
+			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
+		$avatar = $this->avatarManager->getAvatar($userId);
+		$avatar->remove();
+
+		return new DataResponse([]);
+	}
+
+	public function uploadAvatar(string $userId): DataResponse {
+		$currentLoggedInUser = $this->userSession->getUser();
+
+		$targetUser = $this->userManager->get($userId);
+		if ($targetUser === null) {
+			throw new OCSException('', \OCP\API::RESPOND_NOT_FOUND);
+		}
+
+		// Check if admin / subadmin
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if (!$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
+			&& !$this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
+			// No rights
+			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
+		$file = $this->request->getUploadedFile('avatar');
+
+		if ($file['size'] > 20 * 1024 * 1024) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		$data = file_get_contents($file['tmp_name']);
+
+		$avatar = $this->avatarManager->getAvatar($userId);
+
+		try {
+			$avatar->set($data);
+		} catch (NotSquareException $e) {
+			return new DataResponse([], Http::STATUS_BAD_REQUEST);
+		}
+
+		return new DataResponse([]);
 	}
 }
