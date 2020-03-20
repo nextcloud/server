@@ -65,6 +65,8 @@ class MailPlugin implements ISearchPlugin {
 
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+
 	}
 
 	/**
@@ -150,7 +152,18 @@ class MailPlugin implements ISearchPlugin {
 								continue;
 							}
 
-							if (!$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
+							$addToWide = !$this->shareeEnumerationInGroupOnly;
+							if ($this->shareeEnumerationInGroupOnly) {
+								$addToWide = false;
+								$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
+								foreach ($userGroups as $userGroup) {
+									if ($this->groupManager->isInGroup($contact['UID'], $userGroup)) {
+										$addToWide = true;
+										break;
+									}
+								}
+							}
+							if ($addToWide && !$this->isCurrentUser($cloud) && !$searchResult->hasResult($userType, $cloud->getUser())) {
 								$userResults['wide'][] = [
 									'label' => $displayName,
 									'uuid' => $contact['UID'],
@@ -160,6 +173,7 @@ class MailPlugin implements ISearchPlugin {
 										'shareWith' => $cloud->getUser(),
 									],
 								];
+								continue;
 							}
 						}
 						continue;

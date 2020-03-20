@@ -369,6 +369,22 @@ interface IManager {
 	public function allowGroupSharing();
 
 	/**
+	 * Check if user enumeration is allowed
+	 *
+	 * @return bool
+	 * @since 19.0.0
+	 */
+	public function allowEnumeration(): bool;
+
+	/**
+	 * Check if user enumeration is limited to the users groups
+	 *
+	 * @return bool
+	 * @since 19.0.0
+	 */
+	public function limitEnumerationToGroups(): bool;
+
+	/**
 	 * Check if sharing is disabled for the given user
 	 *
 	 * @param string $userId

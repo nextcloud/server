@@ -109,11 +109,19 @@
 		<br />
 		<em><?php p($l->t('These groups will still be able to receive shares, but not to initiate them.')); ?></em>
 	</p>
+
 	<p class="<?php if ($_['shareAPIEnabled'] === 'no') p('hidden');?>">
 		<input type="checkbox" name="shareapi_allow_share_dialog_user_enumeration" value="1" id="shareapi_allow_share_dialog_user_enumeration" class="checkbox"
 			<?php if ($_['allowShareDialogUserEnumeration'] === 'yes') print_unescaped('checked="checked"'); ?> />
 		<label for="shareapi_allow_share_dialog_user_enumeration"><?php p($l->t('Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered.'));?></label><br />
 	</p>
+
+	<p id="shareapi_restrict_user_enumeration_to_group_setting" class="indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['allowShareDialogUserEnumeration'] === 'no') p('hidden');?>">
+		<input type="checkbox" name="shareapi_restrict_user_enumeration_to_group" value="1" id="shareapi_restrict_user_enumeration_to_group" class="checkbox"
+			<?php if ($_['restrictUserEnumerationToGroup'] === 'yes') print_unescaped('checked="checked"'); ?> />
+		<label for="shareapi_restrict_user_enumeration_to_group"><?php p($l->t('Restrict username autocompletion to users within the same groups'));?></label><br />
+	</p>
+
 	<p>
 		<input type="checkbox" id="publicShareDisclaimer" class="checkbox noJSAutoUpdate"
 			<?php if ($_['publicShareDisclaimerText'] !== null) print_unescaped('checked="checked"'); ?> />

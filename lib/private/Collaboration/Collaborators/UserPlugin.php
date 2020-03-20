@@ -36,11 +36,13 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Share;
+use OCP\Share\IShare;
 
 class UserPlugin implements ISearchPlugin {
 	/* @var bool */
 	protected $shareWithGroupOnly;
 	protected $shareeEnumeration;
+	protected $shareeEnumerationInGroupOnly;
 
 	/** @var IConfig */
 	private $config;
@@ -60,11 +62,13 @@ class UserPlugin implements ISearchPlugin {
 
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 	}
 
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
 		$result = ['wide' => [], 'exact' => []];
 		$users = [];
+		$autoCompleteUsers = [];
 		$hasMoreResults = false;
 
 		$userGroups = [];
@@ -80,10 +84,32 @@ class UserPlugin implements ISearchPlugin {
 		} else {
 			// Search in all users
 			$usersTmp = $this->userManager->searchDisplayName($search, $limit, $offset);
-
+			$currentUserGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 			foreach ($usersTmp as $user) {
 				if ($user->isEnabled()) { // Don't keep deactivated users
 					$users[(string) $user->getUID()] = $user->getDisplayName();
+
+					$addToWideResults = false;
+					if ($this->shareeEnumeration && !$this->shareeEnumerationInGroupOnly) {
+						$addToWideResults = true;
+					}
+
+					if ($this->shareeEnumerationInGroupOnly) {
+						$commonGroups = array_intersect($currentUserGroups, $this->groupManager->getUserGroupIds($user));
+						if (!empty($commonGroups)) {
+							$addToWideResults = true;
+						}
+					}
+
+					if ($addToWideResults) {
+						$autoCompleteUsers[] = [
+							'label' => $user->getDisplayName(),
+							'value' => [
+								'shareType' => IShare::TYPE_USER,
+								'shareWith' => (string)$user->getUID(),
+							],
+						];
+					}
 				}
 			}
 		}
@@ -145,8 +171,9 @@ class UserPlugin implements ISearchPlugin {
 			}
 		}
 
-		if (!$this->shareeEnumeration) {
-			$result['wide'] = [];
+		// overwrite wide matches if they are limited
+		if (!$this->shareeEnumeration || $this->shareeEnumerationInGroupOnly) {
+			$result['wide'] = $autoCompleteUsers;
 		}
 
 		$type = new SearchResultType('users');

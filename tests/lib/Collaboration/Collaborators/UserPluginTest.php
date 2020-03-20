@@ -89,7 +89,27 @@ class UserPluginTest extends TestCase {
 		);
 	}
 
-	public function getUserMock($uid, $displayName, $enabled = true) {
+	public function mockConfig($shareWithGroupOnly, $shareeEnumeration, $shareeEnumerationLimitToGroup) {
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->willReturnCallback(
+				function($appName, $key, $default)
+				use ($shareWithGroupOnly, $shareeEnumeration, $shareeEnumerationLimitToGroup)
+				{
+					if ($appName === 'core' && $key === 'shareapi_only_share_with_group_members') {
+						return $shareWithGroupOnly ? 'yes' : 'no';
+					} else if ($appName === 'core' && $key === 'shareapi_allow_share_dialog_user_enumeration') {
+						return $shareeEnumeration ? 'yes' : 'no';
+					} else if ($appName === 'core' && $key === 'shareapi_restrict_user_enumeration_to_group') {
+						return $shareeEnumerationLimitToGroup ? 'yes' : 'no';
+					}
+					return $default;
+				}
+			);
+
+	}
+
+	public function getUserMock($uid, $displayName, $enabled = true, $groups = []) {
 		$user = $this->createMock(IUser::class);
 
 		$user->expects($this->any())
@@ -383,21 +403,7 @@ class UserPluginTest extends TestCase {
 		$reachedEnd,
 		$singleUser
 	) {
-		$this->config->expects($this->any())
-			->method('getAppValue')
-			->willReturnCallback(
-				function($appName, $key, $default)
-				use ($shareWithGroupOnly, $shareeEnumeration)
-				{
-					if ($appName === 'core' && $key === 'shareapi_only_share_with_group_members') {
-						return $shareWithGroupOnly ? 'yes' : 'no';
-					} else if ($appName === 'core' && $key === 'shareapi_allow_share_dialog_user_enumeration') {
-						return $shareeEnumeration ? 'yes' : 'no';
-					}
-					return $default;
-				}
-			);
-
+		$this->mockConfig($shareWithGroupOnly, $shareeEnumeration, false);
 		$this->instantiatePlugin();
 
 		$this->session->expects($this->any())
@@ -492,5 +498,111 @@ class UserPluginTest extends TestCase {
 
 		$this->plugin->takeOutCurrentUser($users);
 		$this->assertSame($expectedUIDs, array_keys($users));
+	}
+
+	public function dataSearchEnumeration() {
+		return [
+			[
+				'test',
+				['groupA'],
+				[
+					[ 'uid' => 'test1', 'groups' => ['groupA'] ],
+					[ 'uid' => 'test2', 'groups' => ['groupB'] ]
+				],
+				['test1']
+			],
+			[
+				'test',
+				['groupA'],
+				[
+					[ 'uid' => 'test1', 'groups' => ['groupA'] ],
+					[ 'uid' => 'test2', 'groups' => ['groupB', 'groupA'] ]
+				],
+				['test1', 'test2']
+			],
+			[
+				'test',
+				['groupA'],
+				[
+					[ 'uid' => 'test1', 'groups' => ['groupA', 'groupC'] ],
+					[ 'uid' => 'test2', 'groups' => ['groupB', 'groupA'] ]
+				],
+				['test1', 'test2']
+			],
+			[
+				'test',
+				['groupC', 'groupB'],
+				[
+					[ 'uid' => 'test1', 'groups' => ['groupA', 'groupC'] ],
+					[ 'uid' => 'test2', 'groups' => ['groupB', 'groupA'] ]
+				],
+				['test1', 'test2']
+			],
+			[
+				'test',
+				[],
+				[
+					[ 'uid' => 'test1', 'groups' => ['groupA'] ],
+					[ 'uid' => 'test2', 'groups' => ['groupB', 'groupA'] ]
+				],
+				[]
+			],
+			[
+				'test',
+				['groupC', 'groupB'],
+				[
+					[ 'uid' => 'test1', 'groups' => [] ],
+					[ 'uid' => 'test2', 'groups' => [] ]
+				],
+				[]
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataSearchEnumeration
+	 */
+	public function testSearchEnumerationLimit($search, $userGroups, $matchingUsers, $result) {
+		$this->mockConfig(false, true, true);
+
+		$userResults = array_map(function ($user) {
+			return $this->getUserMock($user['uid'], $user['uid']);
+		}, $matchingUsers);
+
+		$mappedResult = array_map(function ($user) {
+			return ['label' => $user, 'value' => [ 'shareType' => 0, 'shareWith' => $user ]];
+		}, $result);
+
+		$this->userManager->expects($this->once())
+			->method('searchDisplayName')
+			->willReturn($userResults);
+		$this->session->expects($this->any())
+			->method('getUser')
+			->willReturn($this->getUserMock('test', 'foo'));
+		// current user
+		$this->groupManager->expects($this->at(0))
+			->method('getUserGroupIds')
+			->willReturn($userGroups);
+		$this->groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->willReturnCallback(function ($user) use ($matchingUsers) {
+				$neededObject = array_filter(
+					$matchingUsers,
+					function ($e) use ($user) {
+						return $user->getUID() === $e['uid'];
+					}
+				);
+				if (count($neededObject) > 0) {
+					return array_shift($neededObject)['groups'];
+				}
+				return [];
+			});
+
+		$this->instantiatePlugin();
+		$this->plugin->search($search, $this->limit, $this->offset, $this->searchResult);
+		$result = $this->searchResult->asArray();
+
+		$this->assertEquals([], $result['exact']['users']);
+		$this->assertEquals($mappedResult, $result['users']);
 	}
 }

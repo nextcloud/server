@@ -237,12 +237,10 @@ class ShareesAPIControllerTest extends TestCase {
 
 		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
 		$config = $this->createMock(IConfig::class);
-		$config->expects($this->exactly(3))
+		$config->expects($this->exactly(1))
 			->method('getAppValue')
 			->with($this->anything(), $this->anything(), $this->anything())
 			->willReturnMap([
-				['core', 'shareapi_only_share_with_group_members', 'no', $apiSetting],
-				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', $enumSetting],
 				['files_sharing', 'lookupServerEnabled', 'yes', 'yes'],
 			]);
 
@@ -302,9 +300,6 @@ class ShareesAPIControllerTest extends TestCase {
 			}));
 
 		$this->assertInstanceOf(Http\DataResponse::class, $sharees->search($search, $itemType, $page, $perPage, $shareType));
-
-		$this->assertSame($shareWithGroupOnly, $this->invokePrivate($sharees, 'shareWithGroupOnly'));
-		$this->assertSame($shareeEnumeration, $this->invokePrivate($sharees, 'shareeEnumeration'));
 	}
 
 	public function dataSearchInvalid() {
