@@ -271,6 +271,10 @@ class AppSettingsController extends Controller {
 			}
 
 			$ignoreMaxApps = $this->config->getSystemValue('app_install_overwrite', []);
+			if (!is_array($ignoreMaxApps)) {
+				$this->logger->warning('The value given for app_install_overwrite is not an array. Ignoring...');
+				$ignoreMaxApps = [];
+			}
 			$ignoreMax = in_array($appData['id'], $ignoreMaxApps);
 
 			// analyse dependencies
