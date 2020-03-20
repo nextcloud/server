@@ -22,6 +22,7 @@
 
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command'
 import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
 
 addMatchImageSnapshotCommand()
 
@@ -69,13 +70,13 @@ Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
 	})
 })
 
-Cypress.Commands.add('uploadFile', (fileName, mimeType) => {
+Cypress.Commands.add('uploadFile', (fileName, mimeType, path = '') => {
 	cy.fixture(fileName, 'base64')
 		.then(Cypress.Blob.base64StringToBlob)
 		.then(async blob => {
 			const file = new File([blob], fileName, { type: mimeType })
 			await cy.window().then(async window => {
-				await axios.put(`${Cypress.env('baseUrl')}/remote.php/webdav/${fileName}`, file, {
+				await axios.put(`${Cypress.env('baseUrl')}/remote.php/webdav${path}/${fileName}`, file, {
 					headers: {
 						requesttoken: window.OC.requestToken,
 						'Content-Type': mimeType
@@ -110,10 +111,38 @@ Cypress.Commands.add('deleteFile', fileName => {
 	cy.get(`#fileList tr[data-file="${fileName}"] a.name + .popovermenu .action-delete`).click()
 })
 
+/**
+ * Create a share link and return the share url
+ *
+ * @param {string} path the file/folder path
+ * @returns {string} the share link url
+ */
+Cypress.Commands.add('createLinkShare', path => {
+	return cy.window().then(async window => {
+		try {
+			const request = await axios.post(`${Cypress.env('baseUrl')}/ocs/v2.php/apps/files_sharing/api/v1/shares`, {
+				path,
+				shareType: window.OC.Share.SHARE_TYPE_LINK,
+			}, {
+				headers: {
+					requesttoken: window.OC.requestToken,
+				}
+			})
+			if (!('ocs' in request.data) || !('token' in request.data.ocs.data && request.data.ocs.data.token.length > 0)) {
+				throw request
+			}
+			cy.log('Share link created', request.data.ocs.data.token)
+			return cy.wrap(request.data.ocs.data.token)
+		} catch(error) {
+			console.error(error)
+		}
+	}).should('have.length', 15)
+})
+
 Cypress.Commands.overwrite('matchImageSnapshot', (originalFn, subject, name, options) => {
 	// hide avatar because random colour break the visual regression tests
-	cy.window().then(win => {
-		const avatarDiv = win.document.querySelector('.avatardiv')
+	cy.window().then(window => {
+		const avatarDiv = window.document.querySelector('.avatardiv')
 		if (avatarDiv) {
 			avatarDiv.remove()
 		}
