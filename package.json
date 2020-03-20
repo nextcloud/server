@@ -107,7 +107,7 @@
     "handlebars-loader": "^1.7.1",
     "jsdom": "^16.2.1",
     "jsdom-global": "^3.0.2",
-    "mocha": "^7.1.0",
+    "mocha": "^7.1.1",
     "mochapack": "^1.1.13",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2",
