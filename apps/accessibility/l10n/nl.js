@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dark theme" : "Donker thema",
     "Enable dark theme" : "Donker thema inschakelen",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Een donker thema dat je ogen minder vermoeit minder door de lichtsterkte en helderheid te verminderen. Dit thema is nog in ontwikkeling, dus we horen graag van je als je fouten tegenkomt.",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Een donker thema dat je ogen minder vermoeit door de lichtsterkte en helderheid te verminderen. Dit thema is nog in ontwikkeling, dus we horen graag als je fouten tegenkomt.",
     "High contrast mode" : "Hoog contrast modus",
     "Enable high contrast mode" : "Hoog contrast modus inschakelen",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Een thema met hoog contrast dat de navigatie vergemakkelijkt. De visuele kwaliteit vermindert, maar de duidelijkheid neemt toe.",
@@ -18,7 +18,7 @@ OC.L10N.register(
     "High contrast theme" : "Hoog contrast-thema",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Een thema met hoog contrast dat de navigatie vergemakkelijkt. De visuele kwaliteit vermindert, maar de duidelijkheid neemt toe.",
     "Dark theme (beta)" : "Donker thema (bèta)",
-    "Web Content Accessibility Guidelines" : "Richtlijnen voor Toegankelijkheid van Webcontent (WCAG)",
+    "Web Content Accessibility Guidelines" : "Richtlijnen voor toegankelijkheid van webcontent (WCAG)",
     "our issue tracker" : "onze issue tracker",
     "our design team" : "ons ontwerpteam",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "Universele toegang is heel belangrijk voor ons. We volgen webstandaarden en controleren dat alles ook zonder muis en met ondersteunende software zoals schermlezers bruikbaar is. We streven om de {guidelines} 2.1 op AA-niveau te volgen, en met het hoge contrast thema zelfs op AAA-niveau.",
