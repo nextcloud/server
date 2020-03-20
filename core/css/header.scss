@@ -50,6 +50,9 @@
 	z-index: 2000;
 	height: $header-height;
 	background-color: var(--color-primary);
+	@if ($color-primary == #0082C9) {
+		background-image: linear-gradient(40deg, $color-primary 0%, lighten($color-primary, 20%) 100%);
+	}
 	box-sizing: border-box;
 	justify-content: space-between;
 }
