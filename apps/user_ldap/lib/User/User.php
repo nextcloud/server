@@ -737,8 +737,8 @@ class User {
 			$pwdExpireWarning = array_key_exists('pwdexpirewarning', $result[0]) ? $result[0]['pwdexpirewarning'] : null;
 			
 			//handle grace login
-			$pwdGraceUseTimeCount = count($pwdGraceUseTime);
-			if($pwdGraceUseTime && $pwdGraceUseTimeCount > 0) { //was this a grace login?
+			$pwdGraceUseTimeCount = $pwdGraceUseTime ? 0 : count($pwdGraceUseTime);
+			if($pwdGraceUseTimeCount > 0) { //was this a grace login?
 				if($pwdGraceAuthNLimit 
 					&& (count($pwdGraceAuthNLimit) > 0)
 					&&($pwdGraceUseTimeCount < (int)$pwdGraceAuthNLimit[0])) { //at least one more grace login available?
