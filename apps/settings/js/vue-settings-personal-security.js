@@ -1016,4 +1016,4 @@ t.exports=function(){return n={},t.m=e=[function(t,e){t.exports=function(t){var 
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 r.nc=btoa(OC.requestToken),i.default.use(s.a),i.default.use(l.default,{defaultHtml:!1}),i.default.prototype.t=t,new(i.default.extend(O))({propsData:{tokens:Object(o.loadState)("settings","app_tokens"),canCreateToken:Object(o.loadState)("settings","can_create_app_token")}}).$mount("#security-authtokens")}]);
-//# sourceMappingURL=vue-settings-personal-security.js.map?v=360e5b383724d473e6b1
+//# sourceMappingURL=vue-settings-personal-security.js.map?v=06eb63022aa44e8a935c
