@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "Εκτύπωση εφεδρικών κωδικών",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Δημιουργήθηκαν εφεδρικοί κωδικοί. Χρησιμοποιήθηκαν {used} από {total} κωδικοί.",
     "Regenerate backup codes" : "Δημιουργία εφεδρικών κωδικών",
-    "_icon-loading-small_::_generate-backup-codes_" : ["εικονίδιο-φόρτωση-μικρό","δημιουργία-εφεδρικό-κωδικών"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Εάν αναδημιουργήσετε εφεδρικούς κωδικούς, οι παλιοί κωδικοί ακυρώνονται αυτόματα.",
     "Generate backup codes" : "Δημιουργία εφεδρικών κωδικών",
     "You created two-factor backup codes for your account" : "Μπορείτε να δημιουργήσετε τον παράγοντα διπλού ελέγχου ταυτότητας για το λογαριασμό σας ΤΟΤΡ",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Παροχέας εφεδρικών κωδικών δύο-παραγόντων",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Χρησιμοποιήστε έναν από τους εφεδρικούς κωδικούς που αποθηκεύσατε όταν ρυθμίζετε τον έλεγχο ταυτότητας δύο παραγόντων.",
     "Submit" : "Υποβολή",
+    "_icon-loading-small_::_generate-backup-codes_" : ["εικονίδιο-φόρτωση-μικρό","δημιουργία-εφεδρικό-κωδικών"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Ενεργοποιήσατε τον έλεγχο ταυτότητας δύο παραγόντων, αλλά δεν δημιουργήθηκαν ακόμη εφεδρικοί κωδικοί. Απαιτούνται για να αποκαταστήσετε την πρόσβαση στο λογαριασμό σας σε περίπτωση που χάσετε τον δεύτερο παράγοντα.",
     "function" : "λειτουργία"
 },

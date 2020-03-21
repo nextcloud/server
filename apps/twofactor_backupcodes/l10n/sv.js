@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "Skriv ut återställningsnycklar",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Återställningsnycklar har skapats. {used} av {total} nycklar har använts.",
     "Regenerate backup codes" : "Skapa nya återställningsnycklar",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","Generera återställningsnycklar"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Om du skapar nya återställningsnycklar så kommer de gamla automatiskt att sluta fungera.",
     "Generate backup codes" : "Generera återställningsnycklar",
     "You created two-factor backup codes for your account" : "Du skapade återställningsnycklar till tvåfaktorsautentiseringen på ditt användarkonto.",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Återställningsnycklar för tvåfaktorautentisering",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Använd en av återställningsnycklarna du sparade när du konfigurerar tvåfaktorsautentisering.",
     "Submit" : "Skicka",
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","Generera återställningsnycklar"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Du har aktiverat tvåfaktorsautentisering men har ännu inte skapat återställningsnycklar. Detta är nödvändigt om du förlorar tillgång till din andra faktor.",
     "function" : "funktion"
 },
