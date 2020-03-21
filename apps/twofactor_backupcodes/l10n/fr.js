@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "Imprimer les codes de récupération",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Les codes de récupération ont été générés. {used} codes sur {total} ont été utilisés.",
     "Regenerate backup codes" : "Régénérer les codes de récupération",
-    "_icon-loading-small_::_generate-backup-codes_" : ["petie-icone-de-chargement","generer-code-de-secours"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si vous régénérez les codes de récupération, vous invalidez automatiquement les anciens codes.",
     "Generate backup codes" : "Générer des codes de récupération",
     "You created two-factor backup codes for your account" : "Vous avez créé des codes de secours à deux facteurs pour votre compte",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Un fournisseur de codes de récupération d'authentification à deux facteurs",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Utilisez l'un des codes de secours que vous avez crée lors du paramétrage de l'authentification à deux facteurs.",
     "Submit" : "Envoyer",
+    "_icon-loading-small_::_generate-backup-codes_" : ["petie-icone-de-chargement","generer-code-de-secours"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Vous avez activé l'authentification en deux étapes mais vous n'avez pas généré de code de secours. Soyez sûr de le faire au cas où vous perdriez l'accès à votre moyen de connexion.",
     "function" : "fonction"
 },

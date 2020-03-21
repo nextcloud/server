@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "Одштампај резервне кодове",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Резервни кодови су изгенерисани. {used} од {total} кодова је искоришћено.",
     "Regenerate backup codes" : "Поново генериши резервне кодове",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","icon-loading-small","generate-backup-codes"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Ако поново генеришете резервне кодове, стари аутоматски престају да важе.",
     "Generate backup codes" : "Генериши резервне кодове",
     "You created two-factor backup codes for your account" : "Направили сте двофакторске резервне кодове за Ваш налог",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Провајдер резервних кодова за двофакторску ауторизацију",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Искористите један од резервних кодова које сте сачували када се подешавали двофакторску проверу идентитета.",
     "Submit" : "Пошаљи",
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","icon-loading-small","generate-backup-codes"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Укључили сте двофакторску проверу идентитета, али нисте још генерисали резервне кодове. Урадите ово обавезно, за случај да изгубите приступ Вашем другом фактору.",
     "function" : "функција"
 },

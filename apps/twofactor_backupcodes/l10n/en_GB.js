@@ -7,7 +7,6 @@ OC.L10N.register(
     "Print backup codes" : "Print backup codes",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Backup codes have been generated. {used} of {total} codes have been used.",
     "Regenerate backup codes" : "Regenerate backup codes",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "If you regenerate backup codes, you automatically invalidate old codes.",
     "Generate backup codes" : "Generate backup codes",
     "You created two-factor backup codes for your account" : "You created two-factor backup codes for your account",
@@ -18,6 +17,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "A two-factor auth backup codes provider",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use one of the backup codes you saved when setting up two-factor authentication.",
     "Submit" : "Submit",
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor."
 },
 "nplurals=2; plural=(n != 1);");
