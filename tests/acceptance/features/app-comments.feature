@@ -47,7 +47,6 @@ Feature: app-comments
     And I create a new comment with "Hello world" as message
     And I see a comment with "Hello world" as message
     When I act as Jane
-    And I accept the share for "shared.txt" in the notifications
     # The Files app is open again to reload the file list and the comments
     And I open the Files app
     And I open the details view for "shared.txt"
@@ -64,7 +63,6 @@ Feature: app-comments
     And I share "shared.txt" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "shared.txt" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I open the details view for "shared.txt"
@@ -94,7 +92,6 @@ Feature: app-comments
     And I create a new comment with "Hello world" as message
     And I see a comment with "Hello world" as message
     When I act as Jane
-    And I accept the share for "shared.txt" in the notifications
     # The Files app is open again to reload the file list and the comments
     And I open the Files app
     Then I see that "shared.txt" has unread comments
@@ -112,7 +109,6 @@ Feature: app-comments
     And I share "shared.txt" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "shared.txt" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I open the details view for "shared.txt"
@@ -141,7 +137,6 @@ Feature: app-comments
     And I create a new comment with "Hello world" as message
     And I see a comment with "Hello world" as message
     When I act as Jane
-    And I accept the share for "Folder" in the notifications
     # The Files app is open again to reload the file list and the comments
     And I open the Files app
     Then I see that "Folder" has unread comments
@@ -159,7 +154,6 @@ Feature: app-comments
     And I share "Folder" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "Folder" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I open the details view for "Folder"
@@ -190,7 +184,6 @@ Feature: app-comments
     And I create a new comment with "Hello world" as message
     And I see a comment with "Hello world" as message
     When I act as Jane
-    And I accept the share for "Folder" in the notifications
     # The Files app is open again to reload the file list and the comments
     And I open the Files app
     And I enter in the folder named "Folder"
@@ -209,7 +202,6 @@ Feature: app-comments
     And I share "Folder" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "Folder" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I enter in the folder named "Folder"
@@ -264,7 +256,6 @@ Feature: app-comments
     And I share "shared.txt" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "shared.txt" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I open the details view for "shared.txt"
