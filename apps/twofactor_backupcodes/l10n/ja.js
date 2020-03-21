@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "バックアップコードを印刷",
     "Backup codes have been generated. {used} of {total} codes have been used." : "バックアップコードが生成されました。 {total} 個のうち {used} 個のコードが使用されています。",
     "Regenerate backup codes" : "バックアップコードを再生成",
-    "_icon-loading-small_::_generate-backup-codes_" : ["生成バックアップコード"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "バックアップコードを再生成すると、自動的に古いコードが無効になります。",
     "Generate backup codes" : "バックアップコードを生成",
     "You created two-factor backup codes for your account" : "アカウントの二要素認証バックアップコードを作成しました",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "二要素認証バックアップコードプロバイダ",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "二要素認証を設定するときに保存したバックアップコードのいずれかを使用します。",
     "Submit" : "了解",
+    "_icon-loading-small_::_generate-backup-codes_" : ["生成バックアップコード"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "二要素認証を有効にしましたが、まだバックアップコードを生成していません。 2番目の要素にアクセスできない場合に備えて、これを必ず実行してください。",
     "function" : "機能"
 },

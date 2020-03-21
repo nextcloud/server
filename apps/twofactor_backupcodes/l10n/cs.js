@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "Vytisknout záložní kódy",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Záložní kódy byly vytvořeny. Využito {used} z {total} kódů.",
     "Regenerate backup codes" : "Vytvořit nové záložní kódy",
-    "_icon-loading-small_::_generate-backup-codes_" : ["ikona-nacitani-mala","ikony-nacitani-male","ikon-nacitani-malych","vytvorit-zalozni-kody"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Pokud necháte vytvořit nové záložní kódy, staré budou automaticky zneplatněny.",
     "Generate backup codes" : "Vytvořit záložní kódy",
     "You created two-factor backup codes for your account" : "Vytvořili jste záložní kódy dvoufázového ověření pro váš účet",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Poskytovatel záložních kódů pro dvoustupňové ověřování",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Použijte jeden ze svých záložních kódů které jste si uložili při nastavování dvoufázového ověřování.",
     "Submit" : "Odeslat",
+    "_icon-loading-small_::_generate-backup-codes_" : ["ikona-nacitani-mala","ikony-nacitani-male","ikon-nacitani-malych","vytvorit-zalozni-kody"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Máte zapnuté dvouúrovňové ověřování ale zatím jste nenechali vytvořit záložní kódy. Určitě to udělejte pro případ ztráty přístupu k druhé fázi.",
     "function" : "funkce"
 },
