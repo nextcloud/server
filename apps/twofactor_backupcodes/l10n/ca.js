@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "Imprimeix codis de seguretat",
     "Backup codes have been generated. {used} of {total} codes have been used." : "S'han generat els codis de seguretat. S'han fet servir {used} de {total} codis.",
     "Regenerate backup codes" : "Regenera els codis de seguretat",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Si regenereu els codis de seguretat, invalidareu automàticament els codis antics.",
     "Generate backup codes" : "Genera els codis de seguretat",
     "You created two-factor backup codes for your account" : "Heu creat els codis de seguretat de dos factors per al vostre compte",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Proveïdor de codis de seguretat d'autenticació en dos factors",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Feu servir un dels codis de seguretat que heu desat quan he configurat l’autenticació de dos factors.",
     "Submit" : "Envia",
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Heu activat l'autenticació de dos factors, però encara no heu generat els codis de seguretat. Assegureu-vos de fer-ho en cas de perdre l'accés al segon factor.",
     "function" : "funció"
 },

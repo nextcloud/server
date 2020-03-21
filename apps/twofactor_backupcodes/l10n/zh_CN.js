@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "打印备用码",
     "Backup codes have been generated. {used} of {total} codes have been used." : "备用码已生成。备用码 {total} 条中的 {used} 条已被使用。",
     "Regenerate backup codes" : "重新生成备用码",
-    "_icon-loading-small_::_generate-backup-codes_" : ["生成备用码"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "如果您重新生成了备用码，旧的代码将自动失效。",
     "Generate backup codes" : "生成备用码",
     "You created two-factor backup codes for your account" : "您已经为账号创建了两步验证的备用码",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "一个两步验证备用码提供者",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "在设置两步验证时使用您保存的其中一个备用码",
     "Submit" : "提交",
+    "_icon-loading-small_::_generate-backup-codes_" : ["生成备用码"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "您已启用两步认证但还没有生成备用码。请确保您进行了这一操作以防您不能访问您的第二因素。",
     "function" : "功能"
 },
