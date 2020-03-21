@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "Imprimir os códigos de seguridade",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Os códigos de seguridade foron xerados. Usou {used} códigos de {total}.",
     "Regenerate backup codes" : "Rexenerar códigos de seguridade",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icona-de-carga-pequena","xerar-códigos-de-seguridade "],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Se rexenera os códigos de seguridade, automaticamente invalidara os antigos códigos.",
     "Generate backup codes" : "Xerar códigos de seguridade",
     "You created two-factor backup codes for your account" : "Creou códigos de seguridade de dous factores para a súa conta",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Un provedor de códigos de seguridade para a autenticación de dous factores",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use un dos códigos de seguridade que gardou cuando axustou a autenticación de dous factores.",
     "Submit" : "Enviar ",
+    "_icon-loading-small_::_generate-backup-codes_" : ["icona-de-carga-pequena","xerar-códigos-de-seguridade "],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Activou a autenticación de dous factores mais non xerou aínda os códigos de seguridade. Asegúrese de facelo para o caso de perda de acceso ao seu segundo factor.",
     "function" : "función"
 },

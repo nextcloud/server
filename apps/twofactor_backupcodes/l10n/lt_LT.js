@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "Spausdinti atsarginius kodus",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Atsarginiai kodai sugeneruoti. Panaudota {used} iš {total} kodų.",
     "Regenerate backup codes" : "Iš naujo generuoti atsarginius kodus",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes","generate-backup-codes","generate-backup-codes"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Jeigu iš naujo generuosite atsarginius kodus, automatiškai paversite senuosius kodus nebegaliojančiais.",
     "Generate backup codes" : "Generuoti atsarginius kodus",
     "You created two-factor backup codes for your account" : "Jūs sukūrėte dviejų faktorių atsarginius kodus savo paskyrai",
@@ -19,6 +18,7 @@ OC.L10N.register(
     "Use backup code" : "Naudoti atsarginį kodą",
     "Two factor backup codes" : "Dviejų faktorių atsarginiai kodai",
     "Submit" : "Pateikti",
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes","generate-backup-codes","generate-backup-codes"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Jūs įjungėte dviejų faktorių tapatybės nustatymą, tačiau kol kas nesate sugeneravę atsarginių kodų. Nepamirškite to padaryti tam atvejui, jei prarasite prieigą prie savo antrojo faktoriaus.",
     "function" : "funkcija"
 },

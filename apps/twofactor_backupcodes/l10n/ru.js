@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "Распечатать резервные коды",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Использовано {used} из {total} ранее выпущенных резервных кодов.",
     "Regenerate backup codes" : "Перевыпустить резервные коды",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","icon-loading-small","icon-loading-small","generate-backup-codes"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "При перевыпуске резервных кодов, старые автоматически становятся недействительными.",
     "Generate backup codes" : "Создать резервные коды",
     "You created two-factor backup codes for your account" : "Вы создали двухфакторные резервные коды для своего аккаунта",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Провайдер резервных копий для кодов двухфакторной аутентификации",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Использовать для двухфакторной аутентификации один из ранее выпущенных резервных кодов.",
     "Submit" : "Отправить",
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","icon-loading-small","icon-loading-small","generate-backup-codes"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Включена двухфаторная аутентификация, но резервные коды ещё не выпущены. Выпустите и сохраните резервные для входа в систему в случае утраты доступа к выбранному второму фактору проверки подлинности.",
     "function" : "функция"
 },

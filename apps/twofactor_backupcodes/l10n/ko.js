@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "백업 코드 인쇄",
     "Backup codes have been generated. {used} of {total} codes have been used." : "백업 코드가 생성되었습니다. {total}개 중 {used}개의 코드가 사용되었습니다.",
     "Regenerate backup codes" : "백업 코드 다시 생성",
-    "_icon-loading-small_::_generate-backup-codes_" : ["백업 코드 생성"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "백업 코드를 다시 생성하면 이전 코드는 자동으로 무효화됩니다.",
     "Generate backup codes" : "백업 코드 생성",
     "You created two-factor backup codes for your account" : "내 계정의 2단계 인증 백업 코드를 생성함",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "2단계 인증 백업 코드 공급자",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "2단계 인증을 설정할 때 저장한 백업 코드를 사용하십시오.",
     "Submit" : "제출",
+    "_icon-loading-small_::_generate-backup-codes_" : ["백업 코드 생성"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "2단계 인증을 활성화했으나 아직 백업 코드를 생성하지 않았습니다. 2단계 인증을 사용할 수 없을 때를 대비하기 위하여 백업 코드를 생성하십시오."
 },
 "nplurals=1; plural=0;");

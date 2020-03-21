@@ -9,7 +9,6 @@ OC.L10N.register(
     "Print backup codes" : "Drukuj kody zapasowe",
     "Backup codes have been generated. {used} of {total} codes have been used." : "Wygenerowano kody zapasowe. Użyto {used} z {total} kodów.",
     "Regenerate backup codes" : "Ponownie generuj kody zapasowe",
-    "_icon-loading-small_::_generate-backup-codes_" : ["mała ikona ładowania","małe ikony ładowania","małe ikony ładowania","generuj kody zapasowe"],
     "If you regenerate backup codes, you automatically invalidate old codes." : "Jeśli generujesz kody zapasowe ponownie, automatycznie unieważniasz stare kody.",
     "Generate backup codes" : "Generowanie kodów zapasowych",
     "You created two-factor backup codes for your account" : "Stworzyłeś zapasowe kody uwierzytelnienia dwuskładnikowego swojego konta",
@@ -21,6 +20,7 @@ OC.L10N.register(
     "A two-factor auth backup codes provider" : "Dostawca dwuskładnikowych kodów zapasowych ",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Użyj jednego z kodów zapasowych zapisanych podczas konfigurowania uwierzytelniania dwuskładnikowego.",
     "Submit" : "Prześlij",
+    "_icon-loading-small_::_generate-backup-codes_" : ["mała ikona ładowania","małe ikony ładowania","małe ikony ładowania","generuj kody zapasowe"],
     "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Włączyłeś uwierzytelnianie dwuskładnikowe, ale jeszcze nie wygenerowałeś kodów zapasowych. Pamiętaj, aby to zrobić na wypadek utraty dostępu do drugiego składnika.",
     "function" : "funkcja"
 },
