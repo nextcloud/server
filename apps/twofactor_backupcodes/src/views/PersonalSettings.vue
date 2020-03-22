@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import confirmPassword from 'nextcloud-password-confirmation'
+import confirmPassword from '@nextcloud/password-confirmation'
 import { print } from '../service/PrintService'
 
 export default {
