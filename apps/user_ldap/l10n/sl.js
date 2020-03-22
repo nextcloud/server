@@ -122,6 +122,7 @@ OC.L10N.register(
     "User Display Name Field" : "Polje za uporabnikovo prikazano ime",
     "The LDAP attribute to use to generate the user's display name." : "Atribut LDAP za uporabo pri ustvarjanju prikaznega imena uporabnika.",
     "2nd User Display Name Field" : "Polje 2. prikaznega imena uporabnika",
+    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Izbirni atribut LDAP prikaznega imena v oklepaju. Končni izpis se pokaže kot »Ime Priimek (ime.priimek@domena.si)«.",
     "Base User Tree" : "Osnovno uporabniško drevo",
     "One User Base DN per line" : "Eno osnovno uporabniško ime na vrstico",
     "User Search Attributes" : "Uporabnikovi atributi iskanja",
