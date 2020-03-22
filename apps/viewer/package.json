@@ -67,7 +67,7 @@
     "@nextcloud/eslint-config": "^1.0.0",
     "@nextcloud/eslint-plugin": "^1.1.0",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^8.1.0",
     "browserslist-config-nextcloud": "0.1.0",
     "css-loader": "^3.4.2",
     "cypress": "^3.8.3",
