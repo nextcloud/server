@@ -28,7 +28,7 @@
     "@babel/polyfill": "^7.7.0",
     "@chenfengyuan/vue-qrcode": "^1.0.2",
     "@nextcloud/auth": "^1.2.2",
-    "@nextcloud/axios": "^1.3.1",
+    "@nextcloud/axios": "^1.3.2",
     "@nextcloud/dialogs": "^1.2.2",
     "@nextcloud/event-bus": "^1.1.3",
     "@nextcloud/initial-state": "^1.1.1",
