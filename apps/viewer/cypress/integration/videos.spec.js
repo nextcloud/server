@@ -61,7 +61,7 @@ describe('Open mp4 videos in viewer', function() {
 
 	it('Does see next navigation arrows', function() {
 		cy.get('#viewer-content .modal-container video').should('have.length', 2)
-		cy.get('#viewer-content .modal-container video.active')
+		cy.get('#viewer-content .modal-container .file-view.active video')
 			.should('have.attr', 'src')
 			.and('contain', `/remote.php/dav/files/${randUser}/video1.mp4`)
 		cy.get('#viewer-content a.next').should('be.visible')
@@ -84,7 +84,7 @@ describe('Open mp4 videos in viewer', function() {
 	it('Show video 2 on next', function() {
 		cy.get('#viewer-content a.next').click()
 		cy.get('#viewer-content .modal-container video').should('have.length', 2)
-		cy.get('#viewer-content .modal-container video.active')
+		cy.get('#viewer-content .modal-container .file-view.active video')
 			.should('have.attr', 'src')
 			.and('contain', `/remote.php/dav/files/${randUser}/video2.mp4`)
 		cy.get('#viewer-content a.prev').should('be.visible')
