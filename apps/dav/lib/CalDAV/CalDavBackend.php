@@ -33,6 +33,7 @@
 
 namespace OCA\DAV\CalDAV;
 
+use DateTime;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
@@ -1551,14 +1552,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->from('calendarobjects', 'c');
 
 		if (isset($options['timerange'])) {
-			if (isset($options['timerange']['start'])) {
+			if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTime) {
 				$outerQuery->andWhere($outerQuery->expr()->gt('lastoccurence',
-					$outerQuery->createNamedParameter($options['timerange']['start']->getTimeStamp)));
+					$outerQuery->createNamedParameter($options['timerange']['start']->getTimeStamp())));
 
 			}
-			if (isset($options['timerange']['end'])) {
+			if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTime) {
 				$outerQuery->andWhere($outerQuery->expr()->lt('firstoccurence',
-					$outerQuery->createNamedParameter($options['timerange']['end']->getTimeStamp)));
+					$outerQuery->createNamedParameter($options['timerange']['end']->getTimeStamp())));
 			}
 		}
 
@@ -2258,7 +2259,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				}
 			} else {
 				$it = new EventIterator($vObject, (string)$component->UID);
-				$maxDate = new \DateTime(self::MAX_DATE);
+				$maxDate = new DateTime(self::MAX_DATE);
 				if ($it->isInfinite()) {
 					$lastOccurrence = $maxDate->getTimestamp();
 				} else {
