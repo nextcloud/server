@@ -78,7 +78,7 @@
 
 <script>
 import QR from '@chenfengyuan/vue-qrcode'
-import confirmPassword from 'nextcloud-password-confirmation'
+import confirmPassword from '@nextcloud/password-confirmation'
 
 export default {
 	name: 'AuthTokenSetupDialogue',
