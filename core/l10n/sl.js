@@ -80,6 +80,7 @@ OC.L10N.register(
     "Use of the the built in php mailer is no longer supported. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Please update your email server settings ↗<a/>." : "Uporaba vgrajenega pošiljalnika pošte ni več podprta. <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Posodobite nastavitve poštnega strežnika ↗<a/>.",
     "The PHP memory limit is below the recommended value of 512MB." : "Omejitev pomnilnika PHP je pod priporočljivo vrednostjo 512 MB.",
     "Error occurred while checking server setup" : "Prišlo je do napake med preverjanjem nastavitev strežnika",
+    "The \"{header}\" HTTP header doesn't contain \"{expected}\". This is a potential security or privacy risk, as it is recommended to adjust this setting accordingly." : "Glava \"{header}\" HTTP ne vsebuje »{expected}«. To je potencialno varnostna luknja, zato priporočamo prilagoditev nastavitev.",
     "Non-existing tag #{tag}" : "Neobstoječa oznaka #{tag}",
     "restricted" : "omejeno",
     "invisible" : "nevidno",
