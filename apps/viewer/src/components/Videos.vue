@@ -21,54 +21,52 @@
  -->
 
 <template>
-	<video
-		v-if="davPath"
-		:autoplay="active"
-		:controls="visibleControls"
-		:poster="livePhotoPath"
-		:playsinline="true"
-		:preload="true"
-		:src="davPath"
+	<VuePlyr v-if="davPath"
+		ref="plyr"
+		:options="options"
 		:style="{
 			height: height + 'px',
 			width: width + 'px'
-		}"
-		@ended="donePlaying"
-		@click.prevent="playPause"
-		@dblclick.prevent="toggleFullScreen"
-		@canplay="doneLoading"
-		@mouseenter="showControls"
-		@mouseleave="hideControls"
-		@loadedmetadata="onLoadedMetadata"
-		@volumechange="saveVolume">
+		}">
+		<video
+			ref="video"
+			:autoplay="active"
+			:playsinline="true"
+			:poster="livePhotoPath"
+			:src="davPath"
+			preload="metadata"
+			@ended="donePlaying"
+			@canplay="doneLoading"
+			@loadedmetadata="onLoadedMetadata">
 
-		<!-- Omitting `type` on purpose because most of the
-			browsers auto detect the appropriate codec.
-			Having it set force the browser to comply to
-			the provided mime instead of detecting a potential
-			compatibility. -->
+			<!-- Omitting `type` on purpose because most of the
+				browsers auto detect the appropriate codec.
+				Having it set force the browser to comply to
+				the provided mime instead of detecting a potential
+				compatibility. -->
 
-		{{ t('viewer', 'Your browser does not support the video tag.') }}
-	</video>
+			{{ t('viewer', 'Your browser does not support videos.') }}
+		</video>
+	</VuePlyr>
 </template>
 
 <script>
+import Vue from 'vue'
+import VuePlyr from 'vue-plyr'
+import { generateFilePath } from '@nextcloud/router'
+
 import Mime from '../mixins/Mime'
 import PreviewUrl from '../mixins/PreviewUrl'
 
 const liveExt = ['jpg', 'jpeg', 'png']
 const liveExtRegex = new RegExp(`\\.(${liveExt.join('|')})$`, 'i')
 
+Vue.use(VuePlyr)
+
 export default {
 	name: 'Videos',
 
 	mixins: [Mime, PreviewUrl],
-
-	data() {
-		return {
-			visibleControls: false,
-		}
-	},
 
 	computed: {
 		livePhoto() {
@@ -82,17 +80,26 @@ export default {
 		livePhotoPath() {
 			return this.livePhoto && this.getPreviewIfAny(this.livePhoto)
 		},
+		player() {
+			return this.$refs.plyr.player
+		},
+		options() {
+			return {
+				controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'fullscreen'],
+				iconUrl: generateFilePath('viewer', 'img', 'plyr.svg'),
+			}
+		},
 	},
 
 	watch: {
 		active: function(val, old) {
 			// the item was hidden before and is now the current view
 			if (val === true && old === false) {
-				this.$el.play()
+				this.player.play()
 
 			// the item was playing before and is now hidden
 			} else if (val === false && old === true) {
-				this.$el.pause()
+				this.player.pause()
 			}
 		},
 	},
@@ -100,78 +107,25 @@ export default {
 	methods: {
 		// Updates the dimensions of the modal
 		updateVideoSize() {
-			this.naturalHeight = this.$el.videoHeight
-			this.naturalWidth = this.$el.videoWidth
+			this.naturalHeight = this.$refs.video && this.$refs.video.videoHeight
+			this.naturalWidth = this.$refs.video && this.$refs.video.videoWidth
 			this.updateHeightWidth()
-		},
-
-		// Show/hide video controls
-		showControls() {
-			this.visibleControls = true
-		},
-		hideControls() {
-			this.visibleControls = false
-		},
-
-		// Toggle play/pause
-		playPause() {
-			if (this.$el.paused) {
-				this.$el.play()
-			} else {
-				this.$el.pause()
-			}
 		},
 
 		donePlaying() {
 			// reset and show poster after play
-			this.$el.autoplay = false
-			this.$el.load()
-		},
-
-		// Save video player's volume and mute status
-		saveVolume() {
-			const videoVolume = {
-				volume: this.$el.volume,
-				muted: this.$el.muted,
-			}
-			// try to store volume settings in localStorage for persistent storage
-			try {
-				localStorage.viewerVideoVolume = JSON.stringify(videoVolume)
-			} catch (e) {
-				// if localStorage is not available, use the root component as fallback
-				this.$root.$data.videoVolume = videoVolume
-			}
-		},
-
-		// Restore video player's volume and mute status
-		restoreVolume() {
-			let videoVolume
-			try {
-				// try to load volume settings from localStorage
-				if (localStorage.viewerVideoVolume) {
-					videoVolume = JSON.parse(localStorage.viewerVideoVolume)
-				}
-			} catch (e) {
-				// if localStorage is not available, try to load from the root component
-				if (this.videoVolume) {
-					videoVolume = this.$root.$data.videoVolume
-				}
-			}
-			if (videoVolume) {
-				this.$el.volume = videoVolume.volume
-				this.$el.muted = videoVolume.muted
-			}
+			this.$refs.video.autoplay = false
+			this.$refs.video.load()
 		},
 
 		onLoadedMetadata() {
 			this.updateVideoSize()
-			this.restoreVolume()
 		},
 	},
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 video {
 	background-color: black;
 	max-width: 100%;
@@ -180,5 +134,29 @@ video {
 	justify-self: center;
 	/* over arrows in tiny screens */
 	z-index: 20050;
+}
+
+::v-deep {
+	.plyr__progress__container {
+		flex: 1 1;
+	}
+	.plyr__volume {
+		min-width: 80px;
+	}
+	// plyr buttons style
+	.plyr--video .plyr__progress__buffer,
+	.plyr--video .plyr__control {
+		&.plyr__tab-focus,
+		&:hover,
+		&[aria-expanded=true] {
+			background-color: var(--color-primary-element);
+			color: var(--color-primary-text);
+			box-shadow: none !important;
+		}
+	}
+	// plyr volume control
+	.plyr--full-ui input[type=range] {
+		color: var(--color-primary-element);
+	}
 }
 </style>
