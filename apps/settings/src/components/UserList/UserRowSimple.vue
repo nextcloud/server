@@ -32,12 +32,15 @@
 		<div v-if="subAdminsGroups.length > 0 && settings.isAdmin" class="subAdminsGroups">
 			{{ userSubAdminsGroupsLabels }}
 		</div>
-		<div v-tooltip.auto="usedSpace" class="quota">
-			<progress
-				class="quota-user-progress"
-				:class="{'warn': usedQuota > 80}"
-				:value="usedQuota"
-				max="100" />
+		<div class="userQuota">
+			<div class="quota">
+				{{ userQuota }} ({{ usedSpace }})
+				<progress
+					class="quota-user-progress"
+					:class="{'warn': usedQuota > 80}"
+					:value="usedQuota"
+					max="100" />
+			</div>
 		</div>
 		<div v-if="showConfig.showLanguages" class="languages">
 			{{ userLanguage.name }}
@@ -55,7 +58,7 @@
 		</div>
 
 		<div class="userActions">
-			<div v-if="canEditUser(user) && !loading.all" class="toggleUserActions">
+			<div v-if="canEdit && !loading.all" class="toggleUserActions">
 				<Actions>
 					<ActionButton icon="icon-rename" @click="toggleEdit">
 						{{ t('settings', 'Edit User') }}
@@ -79,6 +82,7 @@
 <script>
 import { PopoverMenu, Actions, ActionButton } from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
+import { getCurrentUser } from '@nextcloud/auth'
 
 import UserRowMixin from '../../mixins/UserRowMixin'
 export default {
@@ -143,9 +147,19 @@ export default {
 			}
 			return t('settings', '{size} used', { size: OC.Util.humanFileSize(0) })
 		},
-		canEditUser() {
-			return (user) => this.settings.isAdmin || user.id !== OC.getCurrentUser().uid
+		canEdit() {
+			return getCurrentUser().uid !== this.user.id && this.user.id !== 'admin'
 		},
+		userQuota() {
+			if (this.user.quota.quota === 'none') {
+				return t('settings', 'Unlimited')
+			}
+			if (this.user.quota.quota >= 0) {
+				return OC.Util.humanFileSize(this.user.quota.quota)
+			}
+			return OC.Util.humanFileSize(0)
+		},
+
 	},
 	methods: {
 		hideMenu() {
