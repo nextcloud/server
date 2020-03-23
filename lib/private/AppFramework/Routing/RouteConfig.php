@@ -56,6 +56,14 @@ class RouteConfig {
 	/** @var string[] */
 	private $controllerNameCache = [];
 
+	public const ROOT_URL_APPS = [
+		'cloud_federation_api',
+		'core',
+		'files_sharing',
+		'files',
+		'spreed',
+	];
+
 	/**
 	 * @param \OC\AppFramework\DependencyInjection\DIContainer $container
 	 * @param \OCP\Route\IRouter $router
@@ -98,42 +106,7 @@ class RouteConfig {
 	private function processOCS(array $routes): void {
 		$ocsRoutes = $routes['ocs'] ?? [];
 		foreach ($ocsRoutes as $ocsRoute) {
-			$name = $ocsRoute['name'];
-			$postfix = $ocsRoute['postfix'] ?? '';
-			$root = $ocsRoute['root'] ?? '/apps/' . $this->appName;
-
-			$url = $root . $ocsRoute['url'];
-			$verb = strtoupper($ocsRoute['verb'] ?? 'GET');
-
-			$split = explode('#', $name, 2);
-			if (count($split) !== 2) {
-				throw new \UnexpectedValueException('Invalid route name');
-			}
-			list($controller, $action) = $split;
-
-			$controllerName = $this->buildControllerName($controller);
-			$actionName = $this->buildActionName($action);
-
-			$routeName = 'ocs.' . $this->appName . '.' . $controller . '.' . $action . $postfix;
-
-			// register the route
-			$handler = new RouteActionHandler($this->container, $controllerName, $actionName);
-
-			$router = $this->router->create($routeName, $url)
-				->method($verb)
-				->action($handler);
-
-			// optionally register requirements for route. This is used to
-			// tell the route parser how url parameters should be matched
-			if (array_key_exists('requirements', $ocsRoute)) {
-				$router->requirements($ocsRoute['requirements']);
-			}
-
-			// optionally register defaults for route. This is used to
-			// tell the route parser how url parameters should be default valued
-			if (array_key_exists('defaults', $ocsRoute)) {
-				$router->defaults($ocsRoute['defaults']);
-			}
+			$this->processRoute($ocsRoute, 'ocs.');
 		}
 	}
 
@@ -145,53 +118,51 @@ class RouteConfig {
 	private function processSimpleRoutes(array $routes): void {
 		$simpleRoutes = $routes['routes'] ?? [];
 		foreach ($simpleRoutes as $simpleRoute) {
-			$name = $simpleRoute['name'];
-			$postfix = $simpleRoute['postfix'] ?? '';
+			$this->processRoute($simpleRoute);
+		}
+	}
 
-			$url = $simpleRoute['url'];
-			$verb = strtoupper($simpleRoute['verb'] ?? 'GET');
+	protected function processRoute(array $route, string $routeNamePrefix = ''): void {
+		$name = $route['name'];
+		$postfix = $route['postfix'] ?? '';
+		$defaultRoot = $this->appName === 'core' ? '' : '/apps/' . $this->appName;
+		$root = $route['root'] ?? $defaultRoot;
+		if ($routeNamePrefix === '' && !\in_array($this->appName, self::ROOT_URL_APPS, true)) {
+			// Only allow root URLS for some apps
+			$root = $defaultRoot;
+		}
 
-			$split = explode('#', $name, 2);
-			if (count($split) !== 2) {
-				throw new \UnexpectedValueException('Invalid route name');
-			}
-			list($controller, $action) = $split;
+		$url = $root . $route['url'];
+		$verb = strtoupper($route['verb'] ?? 'GET');
 
-			$controllerName = $this->buildControllerName($controller);
-			$actionName = $this->buildActionName($action);
-			$appName = $simpleRoute['app'] ?? $this->appName;
+		$split = explode('#', $name, 2);
+		if (count($split) !== 2) {
+			throw new \UnexpectedValueException('Invalid route name');
+		}
+		list($controller, $action) = $split;
 
-			if (isset($simpleRoute['app'])) {
-				// Legacy routes that need to be globally available while they are handled by an app
-				// E.g. '/f/{id}', '/s/{token}', '/call/{token}', …
-				$controllerName = str_replace('controllerController', 'Controller', $controllerName);
-				if ($controllerName === 'PublicpreviewController') {
-					$controllerName = 'PublicPreviewController';
-				} elseif ($controllerName === 'RequesthandlerController') {
-					$controllerName = 'RequestHandlerController';
-				}
-				$controllerName = App::buildAppNamespace($appName) . '\\Controller\\' . $controllerName;
-			}
+		$controllerName = $this->buildControllerName($controller);
+		$actionName = $this->buildActionName($action);
 
-			$routeName = $appName . '.' . $controller . '.' . $action . $postfix;
+		$routeName = $routeNamePrefix . $this->appName . '.' . $controller . '.' . $action . $postfix;
 
-			// register the route
-			$handler = new RouteActionHandler($this->container, $controllerName, $actionName);
-			$router = $this->router->create($routeName, $url)
-							->method($verb)
-							->action($handler);
+		// register the route
+		$handler = new RouteActionHandler($this->container, $controllerName, $actionName);
 
-			// optionally register requirements for route. This is used to
-			// tell the route parser how url parameters should be matched
-			if (array_key_exists('requirements', $simpleRoute)) {
-				$router->requirements($simpleRoute['requirements']);
-			}
+		$router = $this->router->create($routeName, $url)
+			->method($verb)
+			->action($handler);
 
-			// optionally register defaults for route. This is used to
-			// tell the route parser how url parameters should be default valued
-			if (array_key_exists('defaults', $simpleRoute)) {
-				$router->defaults($simpleRoute['defaults']);
-			}
+		// optionally register requirements for route. This is used to
+		// tell the route parser how url parameters should be matched
+		if(array_key_exists('requirements', $route)) {
+			$router->requirements($route['requirements']);
+		}
+
+		// optionally register defaults for route. This is used to
+		// tell the route parser how url parameters should be default valued
+		if(array_key_exists('defaults', $route)) {
+			$router->defaults($route['defaults']);
 		}
 	}
 

@@ -42,6 +42,13 @@ $application->registerRoutes(
 	[
 		'routes' => [
 			[
+				'name' => 'View#showFile',
+				'url' => '/f/{fileid}',
+				'verb' => 'GET',
+				'root' => '',
+			],
+
+			[
 				'name' => 'API#getThumbnail',
 				'url' => '/api/v1/thumbnail/{x}/{y}/{file}',
 				'verb' => 'GET',

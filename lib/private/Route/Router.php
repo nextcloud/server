@@ -151,7 +151,6 @@ class Router implements IRouter {
 				$this->useCollection($app);
 				$this->requireRouteFile($file, $app);
 				$collection = $this->getCollection($app);
-				$collection->addPrefix('/apps/' . $app);
 				$this->root->addCollection($collection);
 
 				// Also add the OCS collection
