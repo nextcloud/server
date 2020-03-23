@@ -77,7 +77,7 @@
 
 		<h3 class="update-channel-selector">
 			{{ t('updatenotification', 'Update channel:') }}
-			<div class="update-menu">
+			<div v-click-outside="closeUpdateChannelMenu" class="update-menu">
 				<span class="icon-update-menu" @click="toggleUpdateChannelMenu">
 					{{ localizedChannelName }}
 					<span class="icon-triangle-s" />
@@ -418,6 +418,9 @@ export default {
 		},
 		toggleMenu: function() {
 			this.openedWhatsNew = !this.openedWhatsNew
+		},
+		closeUpdateChannelMenu: function() {
+			this.openedUpdateChannelMenu = false
 		},
 		hideMenu: function() {
 			this.openedWhatsNew = false
