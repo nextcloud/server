@@ -108,7 +108,7 @@ OC.L10N.register(
     "Restored by {user}" : "{user} obnovi predmet",
     "Renamed by {user}" : "{user} preimenuje predmet",
     "Moved by {user}" : "{user} premakne predmet",
-    "\"remote user\"" : "»oddaljeni uporabnik«",
+    "\"remote user\"" : "»Oddaljen uporabnik«",
     "You created {file}" : "Ustvarite datoteko ali mapo {file}",
     "You created an encrypted file in {file}" : "Ustvarite šifrirano datoteko v {file}",
     "{user} created {file}" : "{user} ustvari datoteko {file}",

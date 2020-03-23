@@ -80,9 +80,6 @@ OC.L10N.register(
     "Configures a CardDAV account" : "Настройка аккаунта CardDAV",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "точка подключения WebDAV",
-    "Technical details" : "Технические подробности",
-    "Remote Address: %s" : "Удаленный адрес: %s",
-    "Request ID: %s" : "ID запроса: %s",
     "There was an error updating your attendance status." : "Ошибка обновления статуса участия.",
     "Please contact the organizer directly." : "Обратитесь к организатору напрямую.",
     "Are you accepting the invitation?" : "Принять приглашение?",
@@ -99,6 +96,9 @@ OC.L10N.register(
     "Send notifications for events" : "Отправлять уведомления о событиях",
     "Notifications are sent via background jobs, so these must occur often enough." : "Уведомления будут отправляться через фоновые задания, поэтому они должны выполняться достаточно часто.",
     "Enable notifications for events via push" : "Включить уведомления о событиях с помощью push",
+    "Technical details" : "Технические подробности",
+    "Remote Address: %s" : "Удаленный адрес: %s",
+    "Request ID: %s" : "ID запроса: %s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Уведомления будут отправляться через фоновые задания, поэтому они должны выполняться достаточно часто."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

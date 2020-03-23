@@ -80,9 +80,6 @@ OC.L10N.register(
     "Configures a CardDAV account" : "Agordas CardlDAV-konton.",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-finpunkto",
-    "Technical details" : "Teĥnikaj detaloj",
-    "Remote Address: %s" : "Fora adreso: %s",
-    "Request ID: %s" : "Pet-identigilo: %s",
     "There was an error updating your attendance status." : "Estis eraro dum ĝisdatigo de via ĉeesta stato.",
     "Please contact the organizer directly." : "Bv. senpere kontakti la organizanton.",
     "Are you accepting the invitation?" : "Ĉu vi akceptas la inviton?",
@@ -98,6 +95,9 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Tial, ili disponeblos nur post kelke da tempo.",
     "Send notifications for events" : "Sendi sciigojn pri okazaĵoj",
     "Enable notifications for events via push" : "Ebligi sciigojn pri okazaĵoj per puŝteĥniko",
+    "Technical details" : "Teĥnikaj detaloj",
+    "Remote Address: %s" : "Fora adreso: %s",
+    "Request ID: %s" : "Pet-identigilo: %s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Sciigoj sendiĝos pere de fonaj taskoj, tiu do bezonas okazi sufiĉe ofte."
 },
 "nplurals=2; plural=(n != 1);");

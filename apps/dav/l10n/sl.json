@@ -69,9 +69,6 @@
     "Configures a CardDAV account" : "Nastavi račun CardDAV",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Končna točka WebDAV",
-    "Technical details" : "Tehnične podrobnosti",
-    "Remote Address: %s" : "Oddaljeni naslov: %s",
-    "Request ID: %s" : "ID Zahteve: %s",
     "There was an error updating your attendance status." : "Prišlo je do napake med posodabljanjem vaše udeležbe.",
     "Are you accepting the invitation?" : "Ali želite sprejeti povabilo?",
     "Tentative" : "Začasno",
@@ -87,6 +84,9 @@
     "Send notifications for events" : "Pošlji obvestila za dogodke",
     "Notifications are sent via background jobs, so these must occur often enough." : "Obvestila so poslana samodejno z opravili v ozadju, ker pomeni, da se morajo ta izvajati dovolj pogosto.",
     "Enable notifications for events via push" : "Omogoči potisna obvestila za dogodke",
+    "Technical details" : "Tehnične podrobnosti",
+    "Remote Address: %s" : "Oddaljeni naslov: %s",
+    "Request ID: %s" : "ID Zahteve: %s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Obvestila bodo poslana samodejno z opravili v ozadju, ker pomeni, da se morajo ta izvajati dovolj pogosto."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

@@ -51,6 +51,7 @@ OC.L10N.register(
     "invalid permissions" : "baimen baliogabeak",
     "Group sharing is disabled by the administrator" : "Administratzaileak taldeekin partekatzea galarazi du",
     "Please specify a valid group" : "Zehaztu baliozko talde bat",
+    "Invalid date, date format must be YYYY-MM-DD" : "Data baliogabea, dataren formatuak UUUU-HH-EE izan behar du",
     "You cannot share to a Circle if the app is not enabled" : "Ezin duzu zirkulu batekin partekatu baldin aplikazioa aktibatuta ez badago",
     "Please specify a valid circle" : "Zehaztu baliozko zirkulu bat",
     "Unknown share type" : "Partekatze mota ezezaguna",

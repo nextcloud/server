@@ -80,9 +80,6 @@ OC.L10N.register(
     "Configures a CardDAV account" : "Configureert een CardDAV account",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV eindpunt",
-    "Technical details" : "Technische details",
-    "Remote Address: %s" : "Extern adres: %s",
-    "Request ID: %s" : "Aanvraag-ID: %s",
     "There was an error updating your attendance status." : "Er trad een fout op bij het bijwerken van je deelnamestatus.",
     "Please contact the organizer directly." : "Neem rechtstreeks contact op met de organisator.",
     "Are you accepting the invitation?" : "Neem je de uitnodiging aan?",
@@ -99,6 +96,9 @@ OC.L10N.register(
     "Send notifications for events" : "Versturen meldingen voor afspraken",
     "Notifications are sent via background jobs, so these must occur often enough." : "Meldingen worden via achtergrondtaken verstuurd, dus die moeten vaak genoeg plaatsvinden.",
     "Enable notifications for events via push" : "Inschakelen push-melding voor afspraken",
+    "Technical details" : "Technische details",
+    "Remote Address: %s" : "Extern adres: %s",
+    "Request ID: %s" : "Aanvraag-ID: %s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Meldingen worden via achtergrondtaken verstuurd, dus die moeten vaak genoeg plaatsvinden."
 },
 "nplurals=2; plural=(n != 1);");
