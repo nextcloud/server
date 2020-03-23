@@ -335,11 +335,40 @@ class Router implements IRouter {
 			if ($absolute === false) {
 				$referenceType = UrlGenerator::ABSOLUTE_PATH;
 			}
+			$name = $this->fixLegacyRootName($name);
 			return $this->getGenerator()->generate($name, $parameters, $referenceType);
 		} catch (RouteNotFoundException $e) {
 			$this->logger->logException($e);
 			return '';
 		}
+	}
+
+	protected function fixLegacyRootName(string $routeName): string {
+		if ($routeName === 'files.viewcontroller.showFile') {
+			return 'files.View.showFile';
+		}
+		if ($routeName === 'files_sharing.sharecontroller.showShare') {
+			return 'files_sharing.Share.showShare';
+		}
+		if ($routeName === 'files_sharing.sharecontroller.showAuthenticate') {
+			return 'files_sharing.Share.showAuthenticate';
+		}
+		if ($routeName === 'files_sharing.sharecontroller.authenticate') {
+			return 'files_sharing.Share.authenticate';
+		}
+		if ($routeName === 'files_sharing.sharecontroller.downloadShare') {
+			return 'files_sharing.Share.downloadShare';
+		}
+		if ($routeName === 'files_sharing.publicpreview.directLink') {
+			return 'files_sharing.PublicPreview.directLink';
+		}
+		if ($routeName === 'cloud_federation_api.requesthandlercontroller.addShare') {
+			return 'cloud_federation_api.RequestHandler.addShare';
+		}
+		if ($routeName === 'cloud_federation_api.requesthandlercontroller.receiveNotification') {
+			return 'cloud_federation_api.RequestHandler.receiveNotification';
+		}
+		return $routeName;
 	}
 
 	/**
