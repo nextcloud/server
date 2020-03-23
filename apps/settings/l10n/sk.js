@@ -216,6 +216,7 @@ OC.L10N.register(
     "Disabled apps" : "Zakázané aplikácie",
     "Updates" : "Aktualizácie",
     "App bundles" : "Aplikačné balíky",
+    "Featured apps" : "Odporúčané aplikácie",
     "{license}-licensed" : "{license}-licencovaný",
     "New user" : "Nový používateľ",
     "Add group" : "Pridať skupinu",

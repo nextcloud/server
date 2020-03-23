@@ -78,9 +78,6 @@
     "Configures a CardDAV account" : "Configure un compte CardDAV",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Point d'accès WebDAV",
-    "Technical details" : "Détails techniques",
-    "Remote Address: %s" : "Adresse distante : %s",
-    "Request ID: %s" : "ID de la requête : %s",
     "There was an error updating your attendance status." : "Une erreur s'est produite lors de la mise à jour de votre statut de présence.",
     "Please contact the organizer directly." : "Merci de contacter l'organisateur directement.",
     "Are you accepting the invitation?" : "Acceptez-vous l'invitation ?",
@@ -97,6 +94,9 @@
     "Send notifications for events" : "Envoyer une notification pour les évènements",
     "Notifications are sent via background jobs, so these must occur often enough." : "Les notifications sont envoyées par des tâches de fond qui doivent, par conséquent, être exécutées régulièrement.",
     "Enable notifications for events via push" : "Activer les notifications push pour les évènements",
+    "Technical details" : "Détails techniques",
+    "Remote Address: %s" : "Adresse distante : %s",
+    "Request ID: %s" : "ID de la requête : %s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Les notifications seront envoyées par des tâches de fond qui doivent, par conséquent, être exécutées régulièrement."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -80,9 +80,6 @@ OC.L10N.register(
     "Configures a CardDAV account" : "Konfigurerar ett CardDAV-konto",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
-    "Technical details" : "Tekniska detaljer",
-    "Remote Address: %s" : "Extern adress: %s",
-    "Request ID: %s" : "Begär ID: %s",
     "There was an error updating your attendance status." : "Ett fel uppstod vid uppdatering av din närvarostatus.",
     "Please contact the organizer directly." : "Vänligen kontakta arrangören direkt.",
     "Are you accepting the invitation?" : "Acceptera inbjudan?",
@@ -99,6 +96,9 @@ OC.L10N.register(
     "Send notifications for events" : "Skicka aviseringar för händelser",
     "Notifications are sent via background jobs, so these must occur often enough." : "Aviseringar skickas genom bakgrundsjobb, så dessa måste ske tillräckligt ofta.",
     "Enable notifications for events via push" : "Aktivera aviseringar för händelser via push",
+    "Technical details" : "Tekniska detaljer",
+    "Remote Address: %s" : "Extern adress: %s",
+    "Request ID: %s" : "Begär ID: %s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Aviseringar skickas genom bakgrundsjobb, så dessa måste ske tillräckligt ofta."
 },
 "nplurals=2; plural=(n != 1);");

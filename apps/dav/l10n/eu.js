@@ -61,12 +61,12 @@ OC.L10N.register(
     "More options …" : "Aukera gehiago …",
     "Contacts" : "Kontaktuak",
     "WebDAV" : "WebDAV",
-    "Technical details" : "Xehetasun teknikoak",
-    "Remote Address: %s" : "Urruneko helbidea: 1%s",
-    "Request ID: %s" : "Eskatutako ID: 1%s",
     "Tentative" : "Behin behinekoa",
     "Save" : "Gorde",
     "Calendar server" : "Egutegi-zerbitzaria",
-    "Send invitations to attendees" : "Gonbidatutakoei gonbidapenak bidali"
+    "Send invitations to attendees" : "Gonbidatutakoei gonbidapenak bidali",
+    "Technical details" : "Xehetasun teknikoak",
+    "Remote Address: %s" : "Urruneko helbidea: 1%s",
+    "Request ID: %s" : "Eskatutako ID: 1%s"
 },
 "nplurals=2; plural=(n != 1);");

@@ -75,9 +75,6 @@
     "Configures a CardDAV account" : "מגדיר חשבון CardDAV",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "נקודת קצה WebDAV",
-    "Technical details" : "פרטים טכניים",
-    "Remote Address: %s" : "כתובת מרוחקת: %s",
-    "Request ID: %s" : "מזהה בקשה: %s",
     "There was an error updating your attendance status." : "אירעה שגיאה בעת עדכון מצב ההשתתפות שלך.",
     "Please contact the organizer directly." : "נא ליצור קשר עם הגוף מארגן ישירות.",
     "Are you accepting the invitation?" : "האם להיענות להזמנה?",
@@ -93,6 +90,9 @@
     "Send notifications for events" : "שליחת התראות לאירועים",
     "Notifications are sent via background jobs, so these must occur often enough." : "התראות נשלחות באמצעות משימות רקע, לכן הבדיקה תתבצע יחסית לעתים קרובות.",
     "Enable notifications for events via push" : "הפעלת התראות לאירועים בדחיפה",
+    "Technical details" : "פרטים טכניים",
+    "Remote Address: %s" : "כתובת מרוחקת: %s",
+    "Request ID: %s" : "מזהה בקשה: %s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "התראות נשלחות באמצעות משימות רקע, לכן הבדיקה תתבצע יחסית באופן סדיר מספיק."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }
