@@ -40,7 +40,6 @@
     "Error occurred while checking server setup" : "Fallu entrín se comprobaba la configruación del sirvidor",
     "Non-existing tag #{tag}" : "Etiqueta inesistente #{tag}",
     "invisible" : "invisible",
-    "({scope})" : "({scope})",
     "Delete" : "Desaniciar",
     "Rename" : "Renomar",
     "Collaborative tags" : "Etiquetes collaboratives",
@@ -235,6 +234,7 @@
     "Name, federated cloud ID or email address..." : "Nome, ID de ñube federada o direición de corréu...",
     "Name..." : "Nome...",
     "Error removing share" : "Fallu desaniciando la compartición",
+    "({scope})" : "({scope})",
     "Saving..." : "Guardando...",
     "Dismiss" : "Encaboxar",
     "New Password" : "Contraseña nueva"

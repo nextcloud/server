@@ -80,9 +80,6 @@ OC.L10N.register(
     "Configures a CardDAV account" : "配置一个 CardDAV 账号",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV端点",
-    "Technical details" : "技术细节",
-    "Remote Address: %s" : "远程地址：%s",
-    "Request ID: %s" : "请求 ID：%s",
     "There was an error updating your attendance status." : "更新您的出席状态时出错。",
     "Please contact the organizer directly." : "请直接联系组织者。",
     "Are you accepting the invitation?" : "您是否接受邀请？",
@@ -99,6 +96,9 @@ OC.L10N.register(
     "Send notifications for events" : "发送事件通知",
     "Notifications are sent via background jobs, so these must occur often enough." : "通知将通过后台任务发送，所以任务的频率要足够高。",
     "Enable notifications for events via push" : "启用推送事件通知",
+    "Technical details" : "技术细节",
+    "Remote Address: %s" : "远程地址：%s",
+    "Request ID: %s" : "请求 ID：%s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "通知将通过后台任务发送，所以任务的频率有足够高。"
 },
 "nplurals=1; plural=0;");

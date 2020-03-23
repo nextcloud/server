@@ -50,10 +50,10 @@ OC.L10N.register(
     "Decline" : "Refuză",
     "Contacts" : "Persoane de contact",
     "WebDAV" : "WebDAV",
+    "Tentative" : "Tentativă",
+    "Save" : "Salvează",
     "Technical details" : "Detalii tehnice",
     "Remote Address: %s" : "Adresă la distanță: %s",
-    "Request ID: %s" : "ID-ul cererii: %s",
-    "Tentative" : "Tentativă",
-    "Save" : "Salvează"
+    "Request ID: %s" : "ID-ul cererii: %s"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

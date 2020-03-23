@@ -70,9 +70,6 @@ OC.L10N.register(
     "Configures a CardDAV account" : "Конфигурирај CardDAV сметка",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV крајна точка",
-    "Technical details" : "Технички детали",
-    "Remote Address: %s" : "Далечинкска Адреса: %s",
-    "Request ID: %s" : "Барање број: %s",
     "There was an error updating your attendance status." : "Настана грешка при ажурирање на вашето присуство.",
     "Please contact the organizer directly." : "Контактирајте го организаторот директно.",
     "Are you accepting the invitation?" : "Дали ја прифаќате поканата?",
@@ -88,6 +85,9 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Оттука, тие нема да бидат достапни веднаш по овозможувањето, но ќе се појават по некое време.",
     "Send notifications for events" : "Испрати известувања за настани",
     "Enable notifications for events via push" : "Овозможи известувања за настани преку push",
+    "Technical details" : "Технички детали",
+    "Remote Address: %s" : "Далечинкска Адреса: %s",
+    "Request ID: %s" : "Барање број: %s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Известувањата ќе бидат испраќани преку задачите што се извршуваат во позадина, така што тие треба да се случуваат доволно често."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

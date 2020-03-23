@@ -80,9 +80,6 @@ OC.L10N.register(
     "Configures a CardDAV account" : "Bir CardDAV hesabı yapılandırır",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV Bağlantı Noktası",
-    "Technical details" : "Teknik ayrıntılar",
-    "Remote Address: %s" : "Uzak Adres: %s",
-    "Request ID: %s" : "İstek Kodu: %s",
     "There was an error updating your attendance status." : "Katılım durumunuz güncellenirken bir sorun çıktı.",
     "Please contact the organizer directly." : "Lütfen düzenleyici ile doğrudan görüşün.",
     "Are you accepting the invitation?" : "Çağrıyı kabul ediyor musunuz?",
@@ -99,6 +96,9 @@ OC.L10N.register(
     "Send notifications for events" : "Etkinlik bildirimleri gönderilsin",
     "Notifications are sent via background jobs, so these must occur often enough." : "Bildirimler arka plan işlemleri tarafından gönderilir. Bu nedenle sıklık değeri uygun şekilde ayarlanmalıdır.",
     "Enable notifications for events via push" : "Anında etkinlik bildirimleri kullanılsın",
+    "Technical details" : "Teknik ayrıntılar",
+    "Remote Address: %s" : "Uzak Adres: %s",
+    "Request ID: %s" : "İstek Kodu: %s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Bildirimler arka plan işlemleri tarafından gönderilir. Bu nedenle sıklık değeri uygun şekilde ayarlanmalıdır."
 },
 "nplurals=2; plural=(n > 1);");
