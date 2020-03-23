@@ -80,9 +80,6 @@ OC.L10N.register(
     "Configures a CardDAV account" : "Konfiguruje konto CardDAV",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Adres WebDAV",
-    "Technical details" : "Szczegóły techniczne",
-    "Remote Address: %s" : "Adres zdalny: %s",
-    "Request ID: %s" : "ID żądania: %s",
     "There was an error updating your attendance status." : "Wystąpił błąd zmiany stanu uczestnictwa",
     "Please contact the organizer directly." : "Skontaktuj się bezpośrednio z orgnizatorem.",
     "Are you accepting the invitation?" : "Czy akceptujesz zaproszenie?",
@@ -99,6 +96,9 @@ OC.L10N.register(
     "Send notifications for events" : "Wysyłaj powiadomienia o wydarzeniach",
     "Notifications are sent via background jobs, so these must occur often enough." : "Powiadomienia są wysyłane za pośrednictwem zadań w tle, więc muszą one występować wystarczająco często.",
     "Enable notifications for events via push" : "Włącz powiadomienia o zdarzeniach poprzez push",
+    "Technical details" : "Szczegóły techniczne",
+    "Remote Address: %s" : "Adres zdalny: %s",
+    "Request ID: %s" : "ID żądania: %s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Powiadomienia będą wysyłane za pośrednictwem zadań w tle, więc mogą pojawiać się one dosyć często."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
