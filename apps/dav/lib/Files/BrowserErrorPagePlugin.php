@@ -25,6 +25,7 @@ namespace OCA\DAV\Files;
 
 use OC\AppFramework\Http\Request;
 use OC_Template;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\IRequest;
 use Sabre\DAV\Exception;
 use Sabre\DAV\Server;
@@ -80,8 +81,10 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 		}
 		$this->server->httpResponse->addHeaders($headers);
 		$this->server->httpResponse->setStatus($httpCode);
-		$body = $this->generateBody();
+		$body = $this->generateBody($httpCode);
 		$this->server->httpResponse->setBody($body);
+		$csp = new ContentSecurityPolicy();
+		$this->server->httpResponse->addHeader('Content-Security-Policy', $csp->buildPolicy());
 		$this->sendResponse();
 	}
 
@@ -89,9 +92,15 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 	 * @codeCoverageIgnore
 	 * @return bool|string
 	 */
-	public function generateBody() {
+	public function generateBody(int $httpCode) {
 		$request = \OC::$server->getRequest();
-		$content = new OC_Template('dav', 'exception', 'guest');
+
+		$templateName = 'exception';
+		if($httpCode === 403 || $httpCode === 404) {
+			$templateName = (string)$httpCode;
+		}
+
+		$content = new OC_Template('core', $templateName, 'guest');
 		$content->assign('title', $this->server->httpResponse->getStatusText());
 		$content->assign('remoteAddr', $request->getRemoteAddress());
 		$content->assign('requestID', $request->getId());
