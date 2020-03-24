@@ -162,6 +162,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 		return [
 			['nextcloud.com?query'],
 			['nextcloud.com/#anchor'],
+			['nextcloud.com/;tomcat'],
 		];
 	}
 
