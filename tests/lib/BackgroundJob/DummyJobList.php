@@ -134,6 +134,6 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 		$job->setLastRun(time());
 	}
 
-	public function setExecutionTime(IJob $job, $timeTaken) {
+	public function setExecutionTime(IJob $job, int $timeTaken) {
 	}
 }

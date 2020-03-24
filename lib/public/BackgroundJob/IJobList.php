@@ -141,5 +141,5 @@ interface IJobList {
 	 * @param $timeTaken
 	 * @since 12.0.0
 	 */
-	public function setExecutionTime(IJob $job, $timeTaken);
+	public function setExecutionTime(IJob $job, int $timeTaken);
 }
