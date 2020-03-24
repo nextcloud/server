@@ -427,7 +427,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	/**
 	 * @param int|null $folderId
 	 */
-	private function handleChildren(string $path, bool $recursive, int $reuse, ?int $folderId, bool $lock, &int $size) {
+	private function handleChildren(string $path, bool $recursive, int $reuse, ?int $folderId, bool $lock, int &$size) {
 		// we put this in it's own function so it cleans up the memory before we start recursing
 		$existingChildren = $this->getExistingChildren($folderId);
 		$newChildren = $this->getNewChildren($path);
