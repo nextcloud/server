@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud GmbH.
  *
@@ -26,8 +29,12 @@ namespace OCA\DAV\AppInfo;
 
 use OC\ServerContainer;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
+use OCA\DAV\CardDAV\Integration\IAddressBookProvider;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
+use function array_map;
+use function class_exists;
+use function is_array;
 
 /**
  * Manager for DAV plugins from apps, used to register them
@@ -58,6 +65,13 @@ class PluginManager {
 	 * @var array
 	 */
 	private $collections = null;
+
+	/**
+	 * Address book plugins
+	 *
+	 * @var IAddressBookProvider[]|null
+	 */
+	private $addressBookPlugins = null;
 
 	/**
 	 * Calendar plugins
@@ -102,6 +116,16 @@ class PluginManager {
 	}
 
 	/**
+	 * @return IAddressBookProvider[]
+	 */
+	public function getAddressBookPlugins(): array {
+		if ($this->addressBookPlugins === null) {
+			$this->populate();
+		}
+		return $this->addressBookPlugins;
+	}
+
+	/**
 	 * Returns an array of app-registered calendar plugins
 	 *
 	 * @return array
@@ -118,6 +142,7 @@ class PluginManager {
 	 */
 	private function populate() {
 		$this->plugins = [];
+		$this->addressBookPlugins = [];
 		$this->calendarPlugins = [];
 		$this->collections = [];
 		foreach ($this->appManager->getInstalledApps() as $app) {
@@ -128,6 +153,7 @@ class PluginManager {
 			}
 			$this->loadSabrePluginsFromInfoXml($this->extractPluginList($info));
 			$this->loadSabreCollectionsFromInfoXml($this->extractCollectionList($info));
+			$this->loadSabreAddressBookPluginsFromInfoXml($this->extractAddressBookPluginList($info));
 			$this->loadSabreCalendarPluginsFromInfoXml($this->extractCalendarPluginList($info));
 		}
 	}
@@ -160,6 +186,29 @@ class PluginManager {
 			}
 		}
 		return [];
+	}
+
+	/**
+	 * @param array $array
+	 *
+	 * @return string[]
+	 */
+	private function extractAddressBookPluginList(array $array): array {
+		if (!isset($array['sabre']) || !is_array($array['sabre'])) {
+			return [];
+		}
+		if (!isset($array['sabre']['address-book-plugins']) || !is_array($array['sabre']['address-book-plugins'])) {
+			return [];
+		}
+		if (!isset($array['sabre']['address-book-plugins']['plugin'])) {
+			return [];
+		}
+
+		$items = $array['sabre']['address-book-plugins']['plugin'];
+		if (!is_array($items)) {
+			$items = [$items];
+		}
+		return $items;
 	}
 
 	private function extractCalendarPluginList(array $array):array {
@@ -202,6 +251,34 @@ class PluginManager {
 					throw new \Exception("Sabre collection class '$collection' is unknown and could not be loaded");
 				}
 			}
+		}
+	}
+
+	private function createPluginInstance(string $className) {
+		try {
+			return $this->container->query($className);
+		} catch (QueryException $e) {
+			if (class_exists($className)) {
+				return new $className();
+			}
+		}
+
+		throw new \Exception("Sabre plugin class '$className' is unknown and could not be loaded");
+	}
+
+	/**
+	 * @param string[] $plugin
+	 */
+	private function loadSabreAddressBookPluginsFromInfoXml(array $plugins): void {
+		$providers = array_map(function(string $className): IAddressBookProvider {
+			$instance = $this->createPluginInstance($className);
+			if (!($instance instanceof IAddressBookProvider)) {
+				throw new \Exception("Sabre address book plugin class '$className' does not implement the \OCA\DAV\CardDAV\Integration\IAddressBookProvider interface");
+			}
+			return $instance;
+		}, $plugins);
+		foreach ($providers as $provider) {
+			$this->addressBookPlugins[] = $provider;
 		}
 	}
 

@@ -109,16 +109,18 @@ class OC_Template extends \OC\Template\Base {
 					OC_Util::addScript ( 'backgroundjobs', null, true );
 				}
 			}
-
 			OC_Util::addStyle('css-variables', null, true);
 			OC_Util::addStyle('server', null, true);
-			OC_Util::addTranslations("core", null, true);
-			OC_Util::addStyle('search', 'results');
-			OC_Util::addScript('search', 'search', true);
-			OC_Util::addScript('search', 'searchprovider');
-			OC_Util::addScript('merged-template-prepend', null, true);
-			OC_Util::addScript('files/fileinfo');
-			OC_Util::addScript('files/client');
+			OC_Util::addTranslations('core', null, true);
+
+			if (\OC::$server->getSystemConfig()->getValue ('installed', false)) {
+				OC_Util::addStyle('search', 'results');
+				OC_Util::addScript('search', 'search', true);
+				OC_Util::addScript('search', 'searchprovider');
+				OC_Util::addScript('merged-template-prepend', null, true);
+				OC_Util::addScript('files/fileinfo');
+				OC_Util::addScript('files/client');
+			}
 			OC_Util::addScript('core', 'dist/main', true);
 
 			if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE])) {

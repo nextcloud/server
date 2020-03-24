@@ -264,17 +264,17 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
-					if(data.phpSupported && data.phpSupported.eol) {
+					if (data.phpSupported && data.phpSupported.eol) {
 						messages.push({
-							msg: t('core', 'You are currently running PHP {version}. Upgrade your PHP version to take advantage of <a target="_blank" rel="noreferrer noopener" href="{phpLink}">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.', {version: data.phpSupported.version, phpLink: 'https://secure.php.net/supported-versions.php'}),
+							msg: t('core', 'You are currently running PHP {version}. Upgrade your PHP version to take advantage of <a target="_blank" rel="noreferrer noopener" href="{phpLink}">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.', { version: data.phpSupported.version, phpLink: 'https://secure.php.net/supported-versions.php' }),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						});
+						})
 					}
-					if(data.phpSupported && data.phpSupported.version.substr(0, 3) === '5.6') {
+					if (data.phpSupported && data.phpSupported.version.substr(0, 3) === '7.2') {
 						messages.push({
-							msg: t('core', 'You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14.'),
+							msg: t('core', 'Nextcloud 19 is the last release supporting PHP 7.2. Nextcloud 20 requires at least PHP 7.3.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
-						});
+						})
 					}
 					if(!data.forwardedForHeadersWorking) {
 						messages.push({
@@ -456,6 +456,18 @@
 							msg: t(
 								'core',
 								'This instance uses an S3 based object store as primary storage. The uploaded files are stored temporarily on the server and thus it is recommended to have 50 GB of free space available in the temp directory of PHP. Check the logs for full details about the path and the available space. To improve this please change the temporary directory in the php.ini or make more space available in that path.'
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+						})
+					}
+					if (window.location.protocol === 'http:' && data.reverseProxyGeneratedURL.split('/')[0] !== 'https:') {
+						messages.push({
+							msg: t(
+								'core',
+								'You are accessing your instance over a secure connection, however your instance is generating insecure URLs. This most likely means that you are behind a reverse proxy and the overwrite config variables are not set correctly. Please read <a target="_blank" rel="noreferrer noopener" href="{docLink}">the documentation page about this</a>.',
+								{
+									docLink: data.reverseProxyDocs
+								}
 							),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})

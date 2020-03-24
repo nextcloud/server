@@ -24,7 +24,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '@nextcloud/axios'
 import { getApiUrl } from './helpers/api'
-import confirmPassword from 'nextcloud-password-confirmation'
+import confirmPassword from '@nextcloud/password-confirmation'
 import { loadState } from '@nextcloud/initial-state'
 
 Vue.use(Vuex)
@@ -33,6 +33,7 @@ const store = new Vuex.Store({
 	state: {
 		rules: [],
 		scope: loadState('workflowengine', 'scope'),
+		appstoreEnabled: loadState('workflowengine', 'appstoreenabled'),
 		operations: loadState('workflowengine', 'operators'),
 
 		plugins: Vue.observable({

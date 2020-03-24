@@ -80,9 +80,6 @@ OC.L10N.register(
     "Configures a CardDAV account" : "Configura un account CardDAV",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Terminatore WebDAV",
-    "Technical details" : "Dettagli tecnici",
-    "Remote Address: %s" : "Indirizzo remoto: %s",
-    "Request ID: %s" : "ID richiesta: %s",
     "There was an error updating your attendance status." : "Si è verificato un errore durante l'aggiornamento dello stato della tua partecipazione.",
     "Please contact the organizer directly." : "Contatta direttamente l'amministratore.",
     "Are you accepting the invitation?" : "Accetti l'invito?",
@@ -90,7 +87,7 @@ OC.L10N.register(
     "Save" : "Salva",
     "Your attendance was updated successfully." : "La tua partecipazione è stata aggiornata correttamente.",
     "Calendar server" : "Server di calendari",
-    "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Installa anche {calendarappstoreopen}l'applicazione Calendario{linkclose}, o {calendardocopen}connetti il tuo desktop e mobile per la sicronizzazione ↗{linkclose}.",
+    "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Installa anche {calendarappstoreopen}l'applicazione Calendario{linkclose}, o {calendardocopen}connetti il tuo desktop e mobile per la sincronizzazione ↗{linkclose}.",
     "Send invitations to attendees" : "Invia gli inviti ai partecipanti",
     "Please make sure to properly set up {emailopen}the email server{linkclose}." : "Assicurati di configurare correttamente {emailopen}il server di posta{linkclose}.",
     "Automatically generate a birthday calendar" : "Genera automaticamente un calendario dei compleanni",
@@ -99,6 +96,9 @@ OC.L10N.register(
     "Send notifications for events" : "Invia notifiche per eventi",
     "Notifications are sent via background jobs, so these must occur often enough." : "Le notifiche saranno inviate tramite operazioni in background, per cui tali operazioni devono essere eseguite abbastanza spesso.",
     "Enable notifications for events via push" : "Abilita notifiche per eventi tramite push",
+    "Technical details" : "Dettagli tecnici",
+    "Remote Address: %s" : "Indirizzo remoto: %s",
+    "Request ID: %s" : "ID richiesta: %s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Le notifiche saranno inviate tramite operazioni in background, per cui devono verificarsi abbastanza spesso."
 },
 "nplurals=2; plural=(n != 1);");

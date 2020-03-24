@@ -358,6 +358,7 @@ OC.L10N.register(
     "Exclude groups from sharing" : "Vyjmout skupiny ze sdílení",
     "These groups will still be able to receive shares, but not to initiate them." : "Těmto skupinám bude stále možné sdílet, nemohou ale samy sdílet ostatním.",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Povolit automatické dokončení uživatelského jména v dialogovém okně sdílení. Pokud je tato volba zakázána, je třeba zadat úplné uživatelské jméno nebo e-mailovou adresu.",
+    "Restrict username autocompletion to users within the same groups" : "Omezit automatické doplňování uživatelského jména k uživateli ve stejných skupinách",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Zobrazit text zřeknutí se odpovědnosti na stránce pro nahrání veřejného odkazu. (Zobrazit pouze pokud je seznam souborů skrytý.)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Tento text bude zobrazen on stránce pro nahrání veřejného odkazu, pokud bude seznam souborů skrytý.",
     "Default share permissions" : "Výchozí oprávnění sdílení",

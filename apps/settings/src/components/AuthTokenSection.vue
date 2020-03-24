@@ -36,7 +36,7 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import confirmPassword from 'nextcloud-password-confirmation'
+import confirmPassword from '@nextcloud/password-confirmation'
 
 import AuthTokenList from './AuthTokenList'
 import AuthTokenSetupDialogue from './AuthTokenSetupDialogue'

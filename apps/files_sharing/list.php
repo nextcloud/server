@@ -23,6 +23,7 @@
  */
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
+use OCA\Viewer\Event\LoadViewer;
 use OCP\EventDispatcher\GenericEvent;
 
 // Check if we are a user
@@ -43,5 +44,10 @@ $tmpl->assign('showgridview', $showgridview && !$isIE);
 $eventDispatcher->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts', new GenericEvent());
 $eventDispatcher->dispatch(LoadAdditionalScriptsEvent::class, new LoadAdditionalScriptsEvent());
 $eventDispatcher->dispatch(LoadSidebar::class, new LoadSidebar());
+
+// Load Viewer scripts
+if (class_exists(LoadViewer::class)) {
+	$eventDispatcher->dispatch(LoadViewer::class, new LoadViewer());
+}
 
 $tmpl->printPage();

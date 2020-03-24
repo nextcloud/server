@@ -784,6 +784,11 @@ class Manager implements IManager {
 		//reuse the node we already have
 		$share->setNode($oldShare->getNode());
 
+		// Reset the target if it is null for the new share
+		if ($share->getTarget() === '') {
+			$share->setTarget($target);
+		}
+
 		// Post share event
 		$event = new GenericEvent($share);
 		$this->legacyDispatcher->dispatch('OCP\Share::postShare', $event);
@@ -1757,6 +1762,15 @@ class Manager implements IManager {
 	 */
 	public function allowGroupSharing() {
 		return $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
+	}
+
+	public function allowEnumeration(): bool {
+		return $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+	}
+
+	public function limitEnumerationToGroups(): bool {
+		return $this->allowEnumeration() &&
+			$this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 	}
 
 	/**

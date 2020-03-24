@@ -2,8 +2,10 @@
 	<div>
 		<button v-if="!enabled"
 			id="generate-backup-codes"
+			:disabled="generatingCodes"
 			@click="generateBackupCodes">
 			{{ t('twofactor_backupcodes', 'Generate backup codes') }}
+			<span :class="{'icon-loading-small': generatingCodes}" />
 		</button>
 		<template v-else>
 			<p>
@@ -28,7 +30,6 @@
 			</p>
 			<p>
 				<button id="generate-backup-codes"
-					:class="{'icon-loading-small': generatingCodes}"
 					@click="generateBackupCodes">
 					{{ t('twofactor_backupcodes', 'Regenerate backup codes') }}
 				</button>
@@ -43,7 +44,7 @@
 </template>
 
 <script>
-import confirmPassword from 'nextcloud-password-confirmation'
+import confirmPassword from '@nextcloud/password-confirmation'
 import { print } from '../service/PrintService'
 
 export default {

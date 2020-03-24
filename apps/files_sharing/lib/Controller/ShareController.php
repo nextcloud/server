@@ -41,11 +41,12 @@
 
 namespace OCA\Files_Sharing\Controller;
 
-use OC\Security\CSP\ContentSecurityPolicy;
 use OC_Files;
 use OC_Util;
+use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\Downloads;
+use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\AuthPublicShareController;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\Template\ExternalShareMenuAction;
@@ -54,6 +55,7 @@ use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
+use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -370,6 +372,7 @@ class ShareController extends AuthPublicShareController {
 			$maxUploadFilesize = $freeSpace;
 
 			$folder = new Template('files', 'list', '');
+
 			$folder->assign('dir', $shareNode->getRelativePath($folderNode->getPath()));
 			$folder->assign('dirToken', $this->getToken());
 			$folder->assign('permissions', \OCP\Constants::PERMISSION_READ);
@@ -452,6 +455,11 @@ class ShareController extends AuthPublicShareController {
 			\OCP\Util::addScript('files', 'filelist');
 			\OCP\Util::addScript('files', 'keyboardshortcuts');
 			\OCP\Util::addScript('files', 'operationprogressbar');
+
+			// Load Viewer scripts
+			if (class_exists(LoadViewer::class)) {
+				$this->eventDispatcher->dispatch(LoadViewer::class, new LoadViewer());
+			}
 		}
 
 		// OpenGraph Support: http://ogp.me/
@@ -575,15 +583,15 @@ class ShareController extends AuthPublicShareController {
 				// Single file download
 				$this->singleFileDownloaded($share, $share->getNode());
 			} else {
-				if ($share->getHideDownload()) {
+				try {
+					if (!empty($files_list)) {
+						$this->fileListDownloaded($share, $files_list, $node);
+					} else {
+						// The folder is downloaded
+						$this->singleFileDownloaded($share, $share->getNode());
+					}
+				} catch (NotFoundException $e) {
 					return new NotFoundResponse();
-				}
-
-				if (!empty($files_list)) {
-					$this->fileListDownloaded($share, $files_list, $node);
-				} else {
-					// The folder is downloaded
-					$this->singleFileDownloaded($share, $share->getNode());
 				}
 			}
 		}
@@ -636,8 +644,13 @@ class ShareController extends AuthPublicShareController {
 	 * @param Share\IShare $share
 	 * @param array $files_list
 	 * @param \OCP\Files\Folder $node
+	 * @throws NotFoundException when trying to download a folder or multiple files of a "hide download" share
 	 */
 	protected function fileListDownloaded(Share\IShare $share, array $files_list, \OCP\Files\Folder $node) {
+		if ($share->getHideDownload() && count($files_list) > 1) {
+			throw new NotFoundException('Downloading more than 1 file');
+		}
+
 		foreach ($files_list as $file) {
 			$subNode = $node->get($file);
 			$this->singleFileDownloaded($share, $subNode);
@@ -649,8 +662,12 @@ class ShareController extends AuthPublicShareController {
 	 * create activity if a single file was downloaded from a link share
 	 *
 	 * @param Share\IShare $share
+	 * @throws NotFoundException when trying to download a folder of a "hide download" share
 	 */
 	protected function singleFileDownloaded(Share\IShare $share, \OCP\Files\Node $node) {
+		if ($share->getHideDownload() && $node instanceof Folder) {
+			throw new NotFoundException('Downloading a folder');
+		}
 
 		$fileId = $node->getId();
 

@@ -358,6 +358,7 @@ OC.L10N.register(
     "Exclude groups from sharing" : "Wyklucz grupy z udostępniania",
     "These groups will still be able to receive shares, but not to initiate them." : "Grupy te nadal będą mogły otrzymywać udostępnienia, ale nie będą mogły ich tworzyć.",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika w oknie dialogowym udostępniania. Jeśli opcja jest wyłączona, należy podać pełną nazwę użytkownika lub adres e-mail.",
+    "Restrict username autocompletion to users within the same groups" : "Ogranicz automatyczne uzupełnianie nazwy użytkownika dla użytkowników w tych samych grupach",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Pokaż tekst zastrzeżenia na stronie przesyłania linków publicznych. (Wyświetlane tylko, gdy lista plików jest ukryta).",
     "This text will be shown on the public link upload page when the file list is hidden." : "Ten tekst zostanie wyświetlony na stronie przesyłania linków publicznych, gdy lista plików jest ukryta.",
     "Default share permissions" : "Domyślne uprawnienia dla udostępnień",

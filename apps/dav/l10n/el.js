@@ -80,9 +80,6 @@ OC.L10N.register(
     "Configures a CardDAV account" : "Ρυθμίσεις λογαριασμού CardDAV",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Τερματικό WebDAV",
-    "Technical details" : "Τεχνικές λεπτομέρειες",
-    "Remote Address: %s" : "Απομακρυσμένη Διεύθυνση: %s",
-    "Request ID: %s" : "ID Αιτήματος: %s",
     "There was an error updating your attendance status." : "Σφάλμα ενημέρωσης κατάστασής σας.",
     "Please contact the organizer directly." : "Παρακαλώ επικοινωνήστε απ' ευθείας με τον διοργανωτή.",
     "Are you accepting the invitation?" : "Αποδέχεστε την πρόσκληση;",
@@ -99,6 +96,9 @@ OC.L10N.register(
     "Send notifications for events" : "Αποστολή ειδοποιήσεων για γεγονότα",
     "Notifications are sent via background jobs, so these must occur often enough." : "Οι ειδοποιήσεις αποστέλλονται μέσω εργασιών παρασκηνίου, οπότε πρέπει να εμφανίζονται αρκετά συχνά.",
     "Enable notifications for events via push" : "Ενεργοποίηση ειδοποιήσεων μέσω push",
+    "Technical details" : "Τεχνικές λεπτομέρειες",
+    "Remote Address: %s" : "Απομακρυσμένη Διεύθυνση: %s",
+    "Request ID: %s" : "ID Αιτήματος: %s",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Οι ειδοποιήσεις θα αποστέλλονται μέσω εργασιών στο παρασκήνιο, οπότε αυτές πρέπει να συμβαίνουν αρκετά συχνά."
 },
 "nplurals=2; plural=(n != 1);");

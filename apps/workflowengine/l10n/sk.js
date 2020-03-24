@@ -32,6 +32,7 @@ OC.L10N.register(
     "Check %s is not allowed with this entity" : "Kontrola %s nie je pre túto entitu povolená",
     "Check #%s does not exist" : "Kontrola #%s neexistuje",
     "Check %s is invalid or does not exist" : "Kontrola %s je neplatná alebo neexistuje",
+    "Flow" : "Flow (tok)",
     "Select a filter" : "Vybrať filter",
     "Select a comparator" : "Vybrať porovnávač",
     "Select a file type" : "Vyberte typ súboru",

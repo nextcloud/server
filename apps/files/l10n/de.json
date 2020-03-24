@@ -84,7 +84,7 @@
     "_matches '{filter}'_::_match '{filter}'_" : ["stimmt mit '{filter}' überein","stimmen mit '{filter}' überein"],
     "View in folder" : "In Ordner anzeigen",
     "Copied!" : "Kopiert!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Direkten Link kopieren (funktioniert nur für Nutzer, die Zugriff auf diese(n) Datei/Ordner haben)",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Direkten Link kopieren (funktioniert nur für Benutzer, die Zugriff auf diese(n) Datei/Ordner haben)",
     "Path" : "Pfad",
     "_%n byte_::_%n bytes_" : ["%n Byte","%n Bytes"],
     "Favorited" : "Favorisiert",
@@ -150,12 +150,13 @@
     "Choose file or folder to transfer" : "Datei oder Ordner zur Übertragung auswählen",
     "Change" : "Ändern",
     "New owner" : "Neuer Besitzer",
-    "Search users" : "Suche Nutzer",
+    "Search users" : "Suche Benutzer",
     "Choose a file or folder to transfer" : "Datei oder Ordner zur Übertragung auswählen",
     "Transfer" : "Übertragen",
     "Transfer {path} to {userid}" : "Übertrage {path} an {userid}",
     "Invalid path selected" : "Ungültiger Dateipfad ausgewählt",
     "Ownership transfer request sent" : "Anforderung für die Übertragung des Besitzes versandt",
+    "Cannot transfer ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Du nicht besitzt, kann nicht übertragen werden",
     "Tags" : "Tags",
     "Error while loading the file data" : "Fehler beim Laden der Datei-Daten",
     "Unable to change the favourite state of the file" : "Der favorisierte Status der Datei kann nicht geändert werden",
@@ -185,6 +186,7 @@
     "Text file" : "Textdatei",
     "New text file.txt" : "Neue Textdatei file.txt",
     "%s of %s used" : "%s von %s verwendet",
-    "%1$s%% of %2$s used" : "%1$s%% von %2$s verwendet"
+    "%1$s%% of %2$s used" : "%1$s%% von %2$s verwendet",
+    "Cannot transfter ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Du nicht besitzt, kann nicht übertragen werden"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

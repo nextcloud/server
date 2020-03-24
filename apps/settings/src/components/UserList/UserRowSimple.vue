@@ -32,12 +32,15 @@
 		<div v-if="subAdminsGroups.length > 0 && settings.isAdmin" class="subAdminsGroups">
 			{{ userSubAdminsGroupsLabels }}
 		</div>
-		<div v-tooltip.auto="usedSpace" class="quota">
-			<progress
-				class="quota-user-progress"
-				:class="{'warn': usedQuota > 80}"
-				:value="usedQuota"
-				max="100" />
+		<div class="userQuota">
+			<div class="quota">
+				{{ userQuota }} ({{ usedSpace }})
+				<progress
+					class="quota-user-progress"
+					:class="{'warn': usedQuota > 80}"
+					:value="usedQuota"
+					max="100" />
+			</div>
 		</div>
 		<div v-if="showConfig.showLanguages" class="languages">
 			{{ userLanguage.name }}
@@ -146,6 +149,15 @@ export default {
 		},
 		canEdit() {
 			return getCurrentUser().uid !== this.user.id && this.user.id !== 'admin'
+		},
+		userQuota() {
+			if (this.user.quota.quota === 'none') {
+				return t('settings', 'Unlimited')
+			}
+			if (this.user.quota.quota >= 0) {
+				return OC.Util.humanFileSize(this.user.quota.quota)
+			}
+			return OC.Util.humanFileSize(0)
 		},
 
 	},

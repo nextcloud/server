@@ -195,7 +195,7 @@ class ServerFactory {
 				// custom properties plugin must be the last one
 				$server->addPlugin(
 					new \Sabre\DAV\PropertyStorage\Plugin(
-						new \OCA\DAV\Connector\Sabre\CustomPropertiesBackend(
+						new \OCA\DAV\DAV\CustomPropertiesBackend(
 							$objectTree,
 							$this->databaseConnection,
 							$this->userSession->getUser()

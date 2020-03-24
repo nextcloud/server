@@ -139,7 +139,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Carica (massimo %s)",
     "Accept" : "Accetta",
     "Reject" : "Rifiuta",
-    "Incoming ownership transfer from {user}" : "Trasferimento di proprietà in ingressso da {user}",
+    "Incoming ownership transfer from {user}" : "Trasferimento di proprietà in ingresso da {user}",
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Vuoi accettare {path}?\n\nNota: il processo di trasferimento dopo l'accettazione potrebbe richiedere fino a un'ora.",
     "Ownership transfer failed" : "Trasferimento di proprietà non riuscito",
     "Your ownership transfer of {path} to {user} failed." : "Il tuo trasferimento di proprietà di {path} a {user} non è riuscito.",
@@ -158,7 +158,7 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Trasferisci {path} a {userid}",
     "Invalid path selected" : "Percorso selezionato non valido",
     "Ownership transfer request sent" : "Richiesta di trasferimento della proprietà inviata",
-    "Cannot transfter ownership of a file or folder you don't own" : " Impossibile trasferire la proprietà di un file o di una cartella di altri",
+    "Cannot transfer ownership of a file or folder you don't own" : "Impossibile trasferire la proprietà di un file o di una cartella di altri",
     "Tags" : "Etichette",
     "Error while loading the file data" : "Errore durante il caricamento del file di dati",
     "Unable to change the favourite state of the file" : "Impossibile cambiare lo stato di preferito del file",
@@ -188,6 +188,7 @@ OC.L10N.register(
     "Text file" : "File di testo",
     "New text file.txt" : "Nuovo file di testo.txt",
     "%s of %s used" : "%s di %s utilizzati",
-    "%1$s%% of %2$s used" : "%1$s%% di %2$s utilizzati"
+    "%1$s%% of %2$s used" : "%1$s%% di %2$s utilizzati",
+    "Cannot transfter ownership of a file or folder you don't own" : " Impossibile trasferire la proprietà di un file o di una cartella di altri"
 },
 "nplurals=2; plural=(n != 1);");

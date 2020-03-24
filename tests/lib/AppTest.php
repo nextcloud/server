@@ -9,6 +9,7 @@
 
 namespace Test;
 
+use OC\App\AppManager;
 use OC\App\InfoParser;
 use OC\AppConfig;
 use OCP\IAppConfig;
@@ -546,8 +547,8 @@ class AppTest extends \Test\TestCase {
 	 * @param IAppConfig $appConfig app config mock
 	 */
 	private function registerAppConfig(AppConfig $appConfig) {
-		$this->overwriteService('AppConfig', $appConfig);
-		$this->overwriteService('AppManager', new \OC\App\AppManager(
+		$this->overwriteService(AppConfig::class, $appConfig);
+		$this->overwriteService(AppManager::class, new \OC\App\AppManager(
 			\OC::$server->getUserSession(),
 			\OC::$server->getConfig(),
 			$appConfig,
@@ -562,8 +563,8 @@ class AppTest extends \Test\TestCase {
 	 * Restore the original app config service.
 	 */
 	private function restoreAppConfig() {
-		$this->restoreService('AppConfig');
-		$this->restoreService('AppManager');
+		$this->restoreService(AppConfig::class);
+		$this->restoreService(AppManager::class);
 
 		// Remove the cache of the mocked apps list with a forceRefresh
 		\OC_App::getEnabledApps();

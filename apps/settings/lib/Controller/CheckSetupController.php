@@ -262,12 +262,8 @@ class CheckSetupController extends Controller {
 	 *
 	 * @return bool
 	 */
-	protected function isPhpOutdated() {
-		if (version_compare(PHP_VERSION, '7.1.0', '<')) {
-			return true;
-		}
-
-		return false;
+	protected function isPhpOutdated(): bool {
+		return PHP_VERSION_ID < 70300;
 	}
 
 	/**
@@ -276,7 +272,7 @@ class CheckSetupController extends Controller {
 	 *
 	 * @return array
 	 */
-	private function isPhpSupported() {
+	private function isPhpSupported(): array {
 		return ['eol' => $this->isPhpOutdated(), 'version' => PHP_VERSION];
 	}
 
@@ -707,6 +703,7 @@ Raw output
 				'pendingBigIntConversionColumns' => $this->hasBigIntConversionPendingColumns(),
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
+				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
 			]
 		);
 	}

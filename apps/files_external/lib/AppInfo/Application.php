@@ -83,10 +83,6 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 
 		$container = $this->getContainer();
 
-		$container->registerService(IUserMountCache::class, function (IAppContainer $c) {
-			return $c->getServer()->query('UserMountCache');
-		});
-
 		/** @var BackendService $backendService */
 		$backendService = $container->query(BackendService::class);
 		$backendService->registerBackendProvider($this);

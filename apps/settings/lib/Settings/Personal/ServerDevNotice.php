@@ -27,8 +27,17 @@ namespace OCA\Settings\Settings\Personal;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
+use OCP\Support\Subscription\IRegistry;
 
 class ServerDevNotice implements ISettings {
+
+	/** @var IRegistry */
+	private $registry;
+
+	public function __construct(IRegistry $registry) {
+		$this->registry = $registry;
+	}
+
 	/**
 	 * @return TemplateResponse
 	 */
@@ -40,6 +49,10 @@ class ServerDevNotice implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection() {
+		if ($this->registry->delegateHasValidSubscription()) {
+			return null;
+		}
+
 		return 'personal-info';
 	}
 

@@ -1418,6 +1418,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	#app-content.user-list-grid {
 		display: grid;
 		grid-column-gap: 20px;
+		grid-auto-rows: minmax(60px, max-content);
 
 		.row {
 			// TODO replace with css4 subgrid when available
@@ -1454,10 +1455,21 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.lastLogin {
 				min-width: $grid-col-min-width;
 
-				color: var(--color-text-dark);
-				vertical-align: baseline;
-				text-overflow: ellipsis;
-				overflow: hidden;
+				doesnotexist:-o-prefocus, .strengthify-wrapper {
+					color: var(--color-text-dark);
+					vertical-align: baseline;
+					text-overflow: ellipsis;
+				}
+			}
+			&:not(.row--editable) {
+				&.name,
+				&.password,
+				&.displayName,
+				&.mailAddress,
+				&.userBackend,
+				&.languages {
+					overflow: hidden;
+				}
 			}
 
 			.groups,
@@ -1561,10 +1573,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			}
 
 			> div,
+			> .displayName > form,
 			> form {
 				grid-row: 1;
 				display: inline-flex;
 				color: var(--color-text-lighter);
+				flex-grow: 1;
 
 				> input:not(:focus):not(:active) {
 					border-color: transparent;
@@ -1591,6 +1605,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				&.mailAddress {
 					> input {
 						text-overflow: ellipsis;
+						flex-grow: 1;
 					}
 				}
 
@@ -1610,14 +1625,14 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 				}
 
 				&.quota {
-					height: 44px;
-					display: flex;
-					align-items: center;
-					justify-content: center;
+					display: flex;;
+					justify-content: left;
+					white-space: nowrap;
+					position: relative;
 
 					progress {
-						width: 100%;
-						margin: 0 10px;
+						width: 150px;
+						margin-top: 35px;
 						height: 3px;
 					}
 				}

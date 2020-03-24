@@ -354,7 +354,8 @@ class ShareByMailProvider implements IShareProvider {
 			$share->getPermissions(),
 			$share->getToken(),
 			$share->getPassword(),
-			$share->getSendPasswordByTalk()
+			$share->getSendPasswordByTalk(),
+			$share->getHideDownload()
 		);
 
 		try {
@@ -686,9 +687,10 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $token
 	 * @param string $password
 	 * @param bool $sendPasswordByTalk
+	 * @param bool $hideDownload
 	 * @return int
 	 */
-	protected function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $password, $sendPasswordByTalk) {
+	protected function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $password, $sendPasswordByTalk, $hideDownload) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL))
@@ -702,7 +704,8 @@ class ShareByMailProvider implements IShareProvider {
 			->setValue('token', $qb->createNamedParameter($token))
 			->setValue('password', $qb->createNamedParameter($password))
 			->setValue('password_by_talk', $qb->createNamedParameter($sendPasswordByTalk, IQueryBuilder::PARAM_BOOL))
-			->setValue('stime', $qb->createNamedParameter(time()));
+			->setValue('stime', $qb->createNamedParameter(time()))
+			->setValue('hide_download', $qb->createNamedParameter((int)$hideDownload, IQueryBuilder::PARAM_INT));
 
 		/*
 		 * Added to fix https://github.com/owncloud/core/issues/22215
@@ -747,6 +750,7 @@ class ShareByMailProvider implements IShareProvider {
 			->set('password_by_talk', $qb->createNamedParameter($share->getSendPasswordByTalk(), IQueryBuilder::PARAM_BOOL))
 			->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 			->set('note', $qb->createNamedParameter($share->getNote()))
+			->set('hide_download', $qb->createNamedParameter((int)$share->getHideDownload(), IQueryBuilder::PARAM_INT))
 			->execute();
 
 		if ($originalShare->getNote() !== $share->getNote() && $share->getNote() !== '') {
@@ -1007,6 +1011,7 @@ class ShareByMailProvider implements IShareProvider {
 		$share->setSharedWith($data['share_with']);
 		$share->setPassword($data['password']);
 		$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
+		$share->setHideDownload((bool)$data['hide_download']);
 
 		if ($data['uid_initiator'] !== null) {
 			$share->setShareOwner($data['uid_owner']);

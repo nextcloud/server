@@ -11,7 +11,33 @@ Feature: app-files-sharing
     When I share "farewell.txt" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "farewell.txt" in the notifications
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    Then I see that the file list contains a file named "farewell.txt"
+    And I open the details view for "farewell.txt"
+    And I see that the details view is open
+    And I open the "Sharing" tab in the details view
+    And I see that the "Sharing" tab in the details view is eventually loaded
+    And I see that the file is shared with me by "admin"
+
+  Scenario: share a file with another user that needs to accept shares
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I visit the settings page
+    And I open the "Sharing" section
+    And I disable accepting the shares by default
+    And I see that shares are not accepted by default
+    And I act as John
+    And I rename "welcome.txt" to "farewell.txt"
+    And I see that the file list contains a file named "farewell.txt"
+    When I share "farewell.txt" with "user0"
+    And I see that the file is shared with "user0"
+    And I act as Jane
+    And I open the Files app
+    And I see that the file list does not contain a file named "farewell.txt"
+    And I accept the share for "/farewell.txt" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     Then I see that the file list contains a file named "farewell.txt"
@@ -30,11 +56,28 @@ Feature: app-files-sharing
     When I share "welcome.txt" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "welcome.txt" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     Then I see that the file list contains a file named "welcome (2).txt"
     And I open the details view for "welcome (2).txt"
+    And I see that the details view is open
+    And I open the "Sharing" tab in the details view
+    And I see that the "Sharing" tab in the details view is eventually loaded
+    And I see that the file is shared with me by "admin"
+
+  Scenario: share a skeleton file with another user before first login
+    # If a file is shared with a user before her first login the skeleton would
+    # not have been created, so if the shared file has the same name as one from
+    # the skeleton the shared file will take its place and the skeleton file
+    # will not be added.
+    Given I act as John
+    And I am logged in as the admin
+    When I share "welcome.txt" with "user0"
+    And I see that the file is shared with "user0"
+    And I act as Jane
+    And I am logged in
+    Then I see that the file list contains a file named "welcome.txt"
+    And I open the details view for "welcome.txt"
     And I see that the details view is open
     And I open the "Sharing" tab in the details view
     And I see that the "Sharing" tab in the details view is eventually loaded
@@ -53,13 +96,11 @@ Feature: app-files-sharing
     And I share "farewell.txt" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "farewell.txt" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     When I share "farewell.txt" with "user1"
     And I see that the file is shared with "user1"
     And I act as Jim
-    And I accept the share for "farewell.txt" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     Then I see that the file list contains a file named "farewell.txt"
@@ -80,7 +121,6 @@ Feature: app-files-sharing
     And I share "farewell.txt" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "farewell.txt" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I share "farewell.txt" with "user1"
@@ -106,7 +146,6 @@ Feature: app-files-sharing
     When I share "Shared folder" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "Shared folder" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     Then I see that the file list contains a file named "Shared folder"
@@ -130,7 +169,6 @@ Feature: app-files-sharing
     And I create a new folder named "Subfolder"
     And I see that the file list contains a file named "Subfolder"
     When I act as Jane
-    And I accept the share for "Shared folder" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I enter in the folder named "Shared folder"
@@ -147,7 +185,6 @@ Feature: app-files-sharing
     And I share "Shared folder" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "Shared folder" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I enter in the folder named "Shared folder"
@@ -170,7 +207,6 @@ Feature: app-files-sharing
     And I share "Shared folder" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "Shared folder" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I share "Shared folder" with "user1"
@@ -179,7 +215,6 @@ Feature: app-files-sharing
     And I create a new folder named "Subfolder"
     And I see that the file list contains a file named "Subfolder"
     When I act as Jim
-    And I accept the share for "Shared folder" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I enter in the folder named "Shared folder"
@@ -198,12 +233,10 @@ Feature: app-files-sharing
     And I share "Shared folder" with "user0"
     And I see that the file is shared with "user0"
     And I act as Jane
-    And I accept the share for "Shared folder" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I share "Shared folder" with "user1"
     And I act as Jim
-    And I accept the share for "Shared folder" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I enter in the folder named "Shared folder"
@@ -226,7 +259,6 @@ Feature: app-files-sharing
     And I set the share with "user0" as not reshareable
     And I see that "user0" can not reshare the share
     When I act as Jane
-    And I accept the share for "Shared folder" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     Then I see that the file list contains a file named "Shared folder"
@@ -253,7 +285,6 @@ Feature: app-files-sharing
     And I create a new folder named "Subfolder"
     And I see that the file list contains a file named "Subfolder"
     When I act as Jane
-    And I accept the share for "Shared folder" in the notifications
     # The Files app is open again to reload the file list
     And I open the Files app
     And I enter in the folder named "Shared folder"

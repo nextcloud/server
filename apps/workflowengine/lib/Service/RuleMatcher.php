@@ -117,7 +117,7 @@ class RuleMatcher implements IRuleMatcher {
 	public function getMatchingOperations(string $class, bool $returnFirstMatchingOperationOnly = true): array {
 		$scopes[] = new ScopeContext(IManager::SCOPE_ADMIN);
 		$user = $this->session->getUser();
-		if($user !== null) {
+		if($user !== null && $this->manager->isUserScopeEnabled()) {
 			$scopes[] = new ScopeContext(IManager::SCOPE_USER, $user->getUID());
 		}
 
@@ -134,16 +134,16 @@ class RuleMatcher implements IRuleMatcher {
 		}
 
 		if($this->entity instanceof IEntity) {
+			/** @var ScopeContext[] $additionalScopes */
 			$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class);
 			foreach ($additionalScopes as $hash => $scopeCandidate) {
-				/** @var ScopeContext $scopeCandidate */
 				if ($scopeCandidate->getScope() !== IManager::SCOPE_USER || in_array($scopeCandidate, $scopes)) {
 					continue;
 				}
 				if ($this->entity->isLegitimatedForUserId($scopeCandidate->getScopeId())) {
 					$ctx = new LogContext();
 					$ctx
-						->setScopes($scopeCandidate)
+						->setScopes([$scopeCandidate])
 						->setEntity($this->entity)
 						->setOperation($this->operation);
 					$this->logger->logScopeExpansion($ctx);

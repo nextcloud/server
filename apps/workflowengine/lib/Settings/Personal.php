@@ -31,4 +31,8 @@ class Personal extends ASettings {
 	function getScope(): int {
 		return IManager::SCOPE_USER;
 	}
+
+	public function getSection() {
+		return $this->manager->isUserScopeEnabled() ? 'workflow' : null;
+	}
 }

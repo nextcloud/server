@@ -30,6 +30,7 @@
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Nepodarilo sa pripojiť k obchodu s aplikáciami alebo obchod nemá žiadne aktualizácie. Aktualizácie hľadajte manuálne alebo sa uistite, že Váš server má prístup na internet a že sa môže pripojiť k obchodu.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Všetky</strong> aplikácie majú dostupnú aktualizáciu",
     "View changelog" : "Zobraziť súhrn zmien",
+    "Beta" : "Beta",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikácia nemá dostupnú aktualizáciu na túto verziu","<strong>%n</strong> aplikácie nemá dostupnú aktualizáciu na túto verziu ","<strong>%n</strong> aplikácií nemá dostupnú aktualizáciu na túto verziu","<strong>%n</strong>aplikácií nemá dostupnú aktualizáciu na túto verziu"]
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

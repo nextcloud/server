@@ -65,11 +65,19 @@ class Client implements IClient {
 	}
 
 	private function buildRequestOptions(array $options): array {
+		$proxy = $this->getProxyUri();
+
 		$defaults = [
-			RequestOptions::PROXY => $this->getProxyUri(),
 			RequestOptions::VERIFY => $this->getCertBundle(),
 			RequestOptions::TIMEOUT => 30,
 		];
+
+		// Only add RequestOptions::PROXY if Nextcloud is explicitly
+		// configured to use a proxy. This is needed in order not to override
+		// Guzzle default values.
+		if($proxy !== null) {
+			$defaults[RequestOptions::PROXY] = $proxy;
+		}
 
 		$options = array_merge($defaults, $options);
 
@@ -96,11 +104,21 @@ class Client implements IClient {
 	}
 
 	/**
-	 * Get the proxy URI
+	 * Returns a null or an associative array specifiying the proxy URI for
+	 * 'http' and 'https' schemes, in addition to a 'no' key value pair
+	 * providing a list of host names that should not be proxied to.
 	 *
-	 * @return string|null
+	 * @return array|null
+	 *
+	 * The return array looks like:
+	 * [
+	 *   'http' => 'username:password@proxy.example.com',
+	 *   'https' => 'username:password@proxy.example.com',
+	 *   'no' => ['foo.com', 'bar.com']
+	 * ]
+	 *
 	 */
-	private function getProxyUri(): ?string {
+	private function getProxyUri(): ?array {
 		$proxyHost = $this->config->getSystemValue('proxy', '');
 
 		if ($proxyHost === '' || $proxyHost === null) {
@@ -108,12 +126,21 @@ class Client implements IClient {
 		}
 
 		$proxyUserPwd = $this->config->getSystemValue('proxyuserpwd', '');
-
-		if ($proxyUserPwd === '' || $proxyUserPwd === null) {
-			return $proxyHost;
+		if ($proxyUserPwd !== '' && $proxyUserPwd !== null) {
+			$proxyHost = $proxyUserPwd . '@' . $proxyHost;
 		}
 
-		return $proxyUserPwd . '@' . $proxyHost;
+		$proxy = [
+			'http' => $proxyHost,
+			'https' => $proxyHost,
+		];
+
+		$proxyExclude = $this->config->getSystemValue('proxyexclude', []);
+		if ($proxyExclude !== [] && $proxyExclude !== null) {
+			$proxy['no'] = $proxyExclude;
+		}
+
+		return $proxy;
 	}
 
 	/**

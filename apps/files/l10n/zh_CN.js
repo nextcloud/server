@@ -158,6 +158,7 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "转移 {path} 给 {userid}",
     "Invalid path selected" : "选择的路径无效",
     "Ownership transfer request sent" : "所有权转移请求已发送",
+    "Cannot transfer ownership of a file or folder you don't own" : "无法转让您未拥有的文件或文件夹的所有权",
     "Tags" : "标签",
     "Error while loading the file data" : "加载文件数据时出错",
     "Unable to change the favourite state of the file" : "无法更改文件的收藏状态",
@@ -187,6 +188,7 @@ OC.L10N.register(
     "Text file" : "文本文件",
     "New text file.txt" : "新建文本文档.txt",
     "%s of %s used" : "已使用了 %s 中的 %s",
-    "%1$s%% of %2$s used" : "%1$s 已使用了 %2$s 中的 %%"
+    "%1$s%% of %2$s used" : "%1$s 已使用了 %2$s 中的 %%",
+    "Cannot transfter ownership of a file or folder you don't own" : "无法转让您未拥有的文件或文件夹的所有权"
 },
 "nplurals=1; plural=0;");

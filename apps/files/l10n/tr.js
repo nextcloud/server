@@ -158,6 +158,7 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "{path} yolunun sahipliğini {userid} kullanıcısına aktar",
     "Invalid path selected" : "Seçilen yol geçersiz",
     "Ownership transfer request sent" : "Sahiplik aktarımı isteği gönderildi",
+    "Cannot transfer ownership of a file or folder you don't own" : "Sahip olmadığınız bir dosyanın veya klasörün sahiplik bilgisi transfer edilemez",
     "Tags" : "Etiketler",
     "Error while loading the file data" : "Dosya verileri yüklenirken sorun çıktı",
     "Unable to change the favourite state of the file" : "Dosyanın sık kullanılan durumu değiştirilemedi",
@@ -187,6 +188,7 @@ OC.L10N.register(
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
     "%s of %s used" : "%s / %s kullanılıyor",
-    "%1$s%% of %2$s used" : "%1$s%% / %2$s kullanılmış"
+    "%1$s%% of %2$s used" : "%1$s%% / %2$s kullanılmış",
+    "Cannot transfter ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız"
 },
 "nplurals=2; plural=(n > 1);");

@@ -317,7 +317,7 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
-	 * @return mixed
+	 * @return null|string
 	 */
 	public function getImpersonatingUserID(): ?string {
 

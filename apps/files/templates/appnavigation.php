@@ -1,3 +1,6 @@
+<?php
+script(\OCA\Files\AppInfo\Application::APP_ID, 'dist/files-app-settings');
+?>
 <div id="app-navigation">
 	<ul class="with-icon">
 
@@ -35,6 +38,7 @@
 			</button>
 		</div>
 		<div id="app-settings-content">
+			<div id="files-app-settings"></div>
 			<div id="files-setting-showhidden">
 				<input class="checkbox" id="showhiddenfilesToggle"
 					   checked="checked" type="checkbox">

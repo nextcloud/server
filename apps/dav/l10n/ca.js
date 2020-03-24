@@ -80,9 +80,6 @@ OC.L10N.register(
     "Configures a CardDAV account" : "Configura un compte CardDAV",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Punt final de WebDAV",
-    "Technical details" : "Detalls tècnics",
-    "Remote Address: %s" : "Adreça remota: %s",
-    "Request ID: %s" : "Sol·licitud ID: %s ",
     "There was an error updating your attendance status." : "S'ha produït un error en actualitzar l'estat de la vostra assistència.",
     "Please contact the organizer directly." : "Si us plau contacteu amb l'organitzador directament.",
     "Are you accepting the invitation?" : "Accepteu la invitació?",
@@ -98,6 +95,9 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Per tant, no estaran disponibles immediatament després d'habilitar-los, però apareixeran d'aquí una estona.",
     "Send notifications for events" : "Envia notificacions per als esdeveniments",
     "Enable notifications for events via push" : "Habiliteu les notificacions per a esdeveniments mitjançant l'empenta.",
+    "Technical details" : "Detalls tècnics",
+    "Remote Address: %s" : "Adreça remota: %s",
+    "Request ID: %s" : "Sol·licitud ID: %s ",
     "Notifications will be send through background jobs, so these need to happen often enough." : "Les notificacions s'enviaran a través de tasques en segon terme; per tant, cal que succeeixin prou sovint."
 },
 "nplurals=2; plural=(n != 1);");

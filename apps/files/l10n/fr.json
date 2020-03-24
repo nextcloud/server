@@ -156,6 +156,7 @@
     "Transfer {path} to {userid}" : "Transférer {path} à {userid}",
     "Invalid path selected" : "Chemin sélectionné non valide",
     "Ownership transfer request sent" : "Requête de transfert de propriété envoyée",
+    "Cannot transfer ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier dont vous n'êtes pas le propriétaire",
     "Tags" : "Étiquettes",
     "Error while loading the file data" : "Erreur lors du chargement du fichier de données",
     "Unable to change the favourite state of the file" : "Impossible de modifier l'état favori du fichier",
@@ -185,6 +186,7 @@
     "Text file" : "Fichier texte",
     "New text file.txt" : "Nouveau fichier texte.txt",
     "%s of %s used" : "%s de %s utilisé",
-    "%1$s%% of %2$s used" : "%1$s%% de %2$s utilisés"
+    "%1$s%% of %2$s used" : "%1$s%% de %2$s utilisés",
+    "Cannot transfter ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier que vous ne possédez pas"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

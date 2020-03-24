@@ -37,6 +37,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Settings\IManager;
+use OCP\Support\Subscription\IRegistry;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
@@ -99,6 +100,7 @@ class AdminSettingsControllerTest extends TestCase {
 
 	public function testIndex() {
 		$user = $this->createMock(IUser::class);
+		$registry = $this->createMock(IRegistry::class);
 		$this->userSession
 			->method('getUser')
 			->willReturn($user);
@@ -123,7 +125,7 @@ class AdminSettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getAdminSettings')
 			->with('test')
-			->willReturn([5 => new ServerDevNotice()]);
+			->willReturn([5 => new ServerDevNotice($registry)]);
 
 		$idx = $this->adminSettingsController->index('test');
 

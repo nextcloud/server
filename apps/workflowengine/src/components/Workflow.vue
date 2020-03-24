@@ -51,7 +51,6 @@
 import Rule from './Rule'
 import Operation from './Operation'
 import { mapGetters, mapState } from 'vuex'
-import { loadState } from '@nextcloud/initial-state'
 import { generateUrl } from '@nextcloud/router'
 
 const ACTION_LIMIT = 3
@@ -66,7 +65,6 @@ export default {
 		return {
 			showMoreOperations: false,
 			appstoreUrl: generateUrl('settings/apps/workflow'),
-			scope: loadState('workflowengine', 'scope'),
 		}
 	},
 	computed: {
@@ -74,6 +72,8 @@ export default {
 			rules: 'getRules',
 		}),
 		...mapState({
+			appstoreEnabled: 'appstoreEnabled',
+			scope: 'scope',
 			operations: 'operations',
 		}),
 		hasMoreOperations() {
@@ -86,7 +86,7 @@ export default {
 			return Object.values(this.operations).slice(0, ACTION_LIMIT)
 		},
 		showAppStoreHint() {
-			return this.scope === 0 && OC.isUserAdmin()
+			return this.scope === 0 && this.appstoreEnabled && OC.isUserAdmin()
 		},
 	},
 	mounted() {

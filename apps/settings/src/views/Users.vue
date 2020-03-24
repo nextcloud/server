@@ -49,10 +49,11 @@
 					</AppNavigationCounter>
 				</AppNavigationItem>
 				<AppNavigationItem
+					v-if="settings.isAdmin"
 					id="admin"
 					:exact="true"
 					:title="t('settings', 'Admins')"
-					:to="{ name: 'users', params: { selectedGroup: 'admin' } }"
+					:to="{ name: 'group', params: { selectedGroup: 'admin' } }"
 					icon="icon-user-admin">
 					<AppNavigationCounter v-if="adminGroupMenu.count" slot="counter">
 						{{ adminGroupMenu.count }}
@@ -65,7 +66,7 @@
 					id="disabled"
 					:exact="true"
 					:title="t('settings', 'Disabled users')"
-					:to="{ name: 'users', params: { selectedGroup: 'disabled' } }"
+					:to="{ name: 'group', params: { selectedGroup: 'disabled' } }"
 					icon="icon-disabled-users">
 					<AppNavigationCounter v-if="disabledGroupMenu.usercount > 0" slot="counter">
 						{{ disabledGroupMenu.usercount }}
@@ -78,7 +79,7 @@
 					:key="group.id"
 					:exact="true"
 					:title="group.title"
-					:to="{ name: 'users', params: { selectedGroup: group.id } }">
+					:to="{ name: 'group', params: { selectedGroup: group.id } }">
 					<AppNavigationCounter v-if="group.count" slot="counter">
 						{{ group.count }}
 					</AppNavigationCounter>
@@ -489,6 +490,10 @@ export default {
 		 */
 		formatGroupMenu(group) {
 			const item = {}
+			if (typeof group === 'undefined') {
+				return {}
+			}
+
 			item.id = group.id
 			item.title = group.name
 			item.usercount = group.usercount

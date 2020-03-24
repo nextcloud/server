@@ -253,6 +253,8 @@ OC.L10N.register(
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one. Please enable the \"Default encryption module\" and run 'occ encryption:migrate'" : "Du skal immigrere dine krypteringsnøgler fra den gamle kryptering (ownCloud <= 8.0) til den nye af slagsen. Slå venligst \"Standardmodul til kryptering\" til, og kør \"occ encryption:migrate\"",
     "You need to migrate your encryption keys from the old encryption (ownCloud <= 8.0) to the new one." : "Du skal immigrere dine krypteringsnøgler fra den gamle kryptering (ownCloud <= 8.0) til den nye af slagsen.",
     "Start migration" : "Påbegynd immigrering",
+    "Background jobs" : "Baggrundsjobs",
+    "Last job ran %s." : "Seneste job blev udført: %s.",
     "Execute one task with each page loaded" : "Udføre en opgave med hver side indlæsning",
     "Allow apps to use the Share API" : "Tillad apps til at bruge Share API",
     "Expire after " : "Udløber efter",

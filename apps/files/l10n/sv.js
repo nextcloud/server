@@ -158,6 +158,7 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Överför {path} till {userid}",
     "Invalid path selected" : "Ogiltig sökväg vald",
     "Ownership transfer request sent" : "Förfrågan om ägaröverföring skickad",
+    "Cannot transfer ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap till en fil eller mapp som du inte äger",
     "Tags" : "Taggar",
     "Error while loading the file data" : "Fel vid inläsning av filens data",
     "Unable to change the favourite state of the file" : "Kan inte ändra filens favoritstatus",
@@ -187,6 +188,7 @@ OC.L10N.register(
     "Text file" : "Textfil",
     "New text file.txt" : "Ny textfil.txt",
     "%s of %s used" : "%s av %s använt",
-    "%1$s%% of %2$s used" : "%1$s%% av %2$s använt"
+    "%1$s%% of %2$s used" : "%1$s%% av %2$s använt",
+    "Cannot transfter ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap till en fil eller mapp som du inte äger"
 },
 "nplurals=2; plural=(n != 1);");

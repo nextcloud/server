@@ -44,12 +44,7 @@
 				scope = t('core', 'invisible')
 			}
 			if (scope) {
-				var $tag = $('<em>').text(' '
-					+ t('core', '({scope})', {
-						scope: scope
-					})
-				)
-				$span.append($tag)
+				$span.append($('<em>').text(' (' + scope + ')'))
 			}
 			return $span
 		}

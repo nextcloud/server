@@ -807,7 +807,7 @@ EOD;
 	/**
 	 * @dataProvider searchDataProvider
 	 */
-	public function testSearch($isShared, $count) {
+	public function testSearch(bool $isShared, array $searchOptions, int $count) {
 		$calendarId = $this->createTestCalendar();
 
 		$uris = [];
@@ -901,15 +901,16 @@ EOD;
 		];
 
 		$result = $this->backend->search($calendarInfo, 'Test',
-			['SUMMARY', 'LOCATION', 'ATTENDEE'], [], null, null);
+			['SUMMARY', 'LOCATION', 'ATTENDEE'], $searchOptions, null, null);
 
 		$this->assertCount($count, $result);
 	}
 
 	public function searchDataProvider() {
 		return [
-			[false, 4],
-			[true, 2],
+			[false, [], 4],
+			[true, ['timerange' => ['start' => new DateTime('2013-09-12 13:00:00'), 'end' => new DateTime('2013-09-12 14:00:00')]], 2],
+			[true, ['timerange' => ['start' => new DateTime('2013-09-12 15:00:00'), 'end' => new DateTime('2013-09-12 16:00:00')]], 0],
 		];
 	}
 

@@ -158,7 +158,7 @@ OC.L10N.register(
     "Transfer {path} to {userid}" : "Transferir {path} para {userid}",
     "Invalid path selected" : "Caminho inválido selecionado",
     "Ownership transfer request sent" : "Solicitação de transferência de propriedade enviada",
-    "Cannot transfter ownership of a file or folder you don't own" : "Não é possível transferir a propriedade de um arquivo ou pasta que você não é o dono",
+    "Cannot transfer ownership of a file or folder you don't own" : "Não é possível transferir a propriedade de um arquivo ou pasta que você não possui",
     "Tags" : "Etiquetas",
     "Error while loading the file data" : "Erro ao carregar os dados do arquivo",
     "Unable to change the favourite state of the file" : "Não foi possível alterar o estado favorito do arquivo",
@@ -188,6 +188,7 @@ OC.L10N.register(
     "Text file" : "Arquivo texto",
     "New text file.txt" : "Novo texto file.txt",
     "%s of %s used" : "%s de %s usado",
-    "%1$s%% of %2$s used" : "%1$s%% de %2$s usados"
+    "%1$s%% of %2$s used" : "%1$s%% de %2$s usados",
+    "Cannot transfter ownership of a file or folder you don't own" : "Não é possível transferir a propriedade de um arquivo ou pasta que você não é o dono"
 },
 "nplurals=2; plural=(n > 1);");

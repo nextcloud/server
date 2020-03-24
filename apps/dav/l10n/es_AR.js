@@ -47,10 +47,10 @@ OC.L10N.register(
     "Decline" : "Declinar",
     "Contacts" : "Contactos",
     "WebDAV" : "WebDAV",
+    "Tentative" : "Tentativo",
+    "Save" : "Guardar",
     "Technical details" : "Detalles técnicos",
     "Remote Address: %s" : "Dirección remota: %s",
-    "Request ID: %s" : "ID de solicitud: %s",
-    "Tentative" : "Tentativo",
-    "Save" : "Guardar"
+    "Request ID: %s" : "ID de solicitud: %s"
 },
 "nplurals=2; plural=(n != 1);");

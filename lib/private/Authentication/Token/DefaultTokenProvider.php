@@ -53,19 +53,12 @@ class DefaultTokenProvider implements IProvider {
 	/** @var IConfig */
 	private $config;
 
-	/** @var ILogger $logger */
+	/** @var ILogger */
 	private $logger;
 
-	/** @var ITimeFactory $time */
+	/** @var ITimeFactory */
 	private $time;
 
-	/**
-	 * @param DefaultTokenMapper $mapper
-	 * @param ICrypto $crypto
-	 * @param IConfig $config
-	 * @param ILogger $logger
-	 * @param ITimeFactory $time
-	 */
 	public function __construct(DefaultTokenMapper $mapper,
 								ICrypto $crypto,
 								IConfig $config,
