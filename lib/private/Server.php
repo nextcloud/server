@@ -804,6 +804,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$uid = $user ? $user : null;
 			return new ClientService(
 				$c->getConfig(),
+				$c->getLogger(),
 				new \OC\Security\CertificateManager(
 					$uid,
 					new View(),

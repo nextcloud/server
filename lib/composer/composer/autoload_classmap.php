@@ -323,6 +323,7 @@ return array(
     'OCP\\Http\\Client\\IClient' => $baseDir . '/lib/public/Http/Client/IClient.php',
     'OCP\\Http\\Client\\IClientService' => $baseDir . '/lib/public/Http/Client/IClientService.php',
     'OCP\\Http\\Client\\IResponse' => $baseDir . '/lib/public/Http/Client/IResponse.php',
+    'OCP\\Http\\Client\\LocalServerException' => $baseDir . '/lib/public/Http/Client/LocalServerException.php',
     'OCP\\IAddressBook' => $baseDir . '/lib/public/IAddressBook.php',
     'OCP\\IAppConfig' => $baseDir . '/lib/public/IAppConfig.php',
     'OCP\\IAvatar' => $baseDir . '/lib/public/IAvatar.php',

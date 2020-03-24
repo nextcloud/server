@@ -32,6 +32,7 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use OCP\ILogger;
 
 /**
  * Class ClientService
@@ -41,16 +42,16 @@ use OCP\IConfig;
 class ClientService implements IClientService {
 	/** @var IConfig */
 	private $config;
+	/** @var ILogger */
+	private $logger;
 	/** @var ICertificateManager */
 	private $certificateManager;
 
-	/**
-	 * @param IConfig $config
-	 * @param ICertificateManager $certificateManager
-	 */
 	public function __construct(IConfig $config,
+								ILogger $logger,
 								ICertificateManager $certificateManager) {
 		$this->config = $config;
+		$this->logger = $logger;
 		$this->certificateManager = $certificateManager;
 	}
 
@@ -58,6 +59,6 @@ class ClientService implements IClientService {
 	 * @return Client
 	 */
 	public function newClient(): IClient {
-		return new Client($this->config, $this->certificateManager, new GuzzleClient());
+		return new Client($this->config, $this->logger, $this->certificateManager, new GuzzleClient());
 	}
 }
