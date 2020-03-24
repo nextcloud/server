@@ -108,7 +108,7 @@ class PhotoCache {
 		$data = $this->getPhoto($card);
 
 		if ($data === false || !isset($data['Content-Type'])) {
-			$folder->newFile('nophoto');
+			$folder->newFile('nophoto', '');
 			return;
 		}
 
@@ -116,7 +116,7 @@ class PhotoCache {
 		$extension = self::ALLOWED_CONTENT_TYPES[$contentType] ?? null;
 
 		if ($extension === null) {
-			$folder->newFile('nophoto');
+			$folder->newFile('nophoto', '');
 			return;
 		}
 
