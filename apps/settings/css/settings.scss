@@ -1455,10 +1455,21 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 			.lastLogin {
 				min-width: $grid-col-min-width;
 
-				color: var(--color-text-dark);
-				vertical-align: baseline;
-				text-overflow: ellipsis;
-				overflow: hidden;
+				doesnotexist:-o-prefocus, .strengthify-wrapper {
+					color: var(--color-text-dark);
+					vertical-align: baseline;
+					text-overflow: ellipsis;
+				}
+			}
+			&:not(.row--editable) {
+				&.name,
+				&.password,
+				&.displayName,
+				&.mailAddress,
+				&.userBackend,
+				&.languages {
+					overflow: hidden;
+				}
 			}
 
 			.groups,
