@@ -35,7 +35,6 @@ class EducationBundleTest extends BundleBase {
 			'circles',
 			'groupfolders',
 			'announcementcenter',
-			'admin_notifications',
 			'quota_warning',
 			'orcid',
 			'user_saml',
