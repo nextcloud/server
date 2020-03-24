@@ -5,8 +5,8 @@ OC.L10N.register(
     "Simple file viewer with slideshow for media" : "Jednostavan preglednik datoteka s mogućnošću prezentacije medijski datoteka",
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Pokažite svoje najnovije fotografije i videozapise s odmora kao u filmovima, predstavite ulomke najnovijeg romana izravno iz svog nextclouda, odaberite najbolji GIF iz kolekcije zahvaljujući izravnom pregledu omiljenih datoteka i još mnogo toga!",
     "Error loading {name}" : "Pogreška pri učitavanju {name}",
-    "Your browser does not support the video tag." : "Vaš preglednik ne podržava oznaku videozapisa.",
     "Open sidebar" : "Otvori bočnu traku",
-    "View" : "Pregledaj"
+    "View" : "Pregledaj",
+    "Your browser does not support the video tag." : "Vaš preglednik ne podržava oznaku videozapisa."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");
