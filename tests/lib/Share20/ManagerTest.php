@@ -123,9 +123,9 @@ class ManagerTest extends \Test\TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
-			->will($this->returnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function($text, $parameters = []) {
  				return vsprintf($text, $parameters);
- 			}));
+			});
 
 		$this->factory = new DummyFactory(\OC::$server);
 
@@ -334,11 +334,11 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->defaultProvider
 			->method('getChildren')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				[$share1, [$share2]],
 				[$share2, [$share3]],
 				[$share3, []],
-			]));
+			]);
 
 		$this->defaultProvider
 			->method('delete')
@@ -423,12 +423,12 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider
 			->expects($this->exactly(4))
 			->method('getChildren')
-			->will($this->returnCallback(function($_share) use ($share, $shares) {
+			->willReturnCallback(function($_share) use ($share, $shares) {
 				if ($_share === $share) {
 					return $shares;
 				}
 				return [];
-			}));
+			});
 
 		$this->defaultProvider
 			->expects($this->exactly(3))
@@ -483,26 +483,26 @@ class ManagerTest extends \Test\TestCase {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Passwords are enforced for link shares');
 
-		$this->config->method('getAppValue')->will($this->returnValueMap([
+		$this->config->method('getAppValue')->willReturnMap([
 			['core', 'shareapi_enforce_links_password', 'no', 'yes'],
-		]));
+		]);
 
 		self::invokePrivate($this->manager, 'verifyPassword', [null]);
 	}
 
 	public function testVerifyPasswordNull() {
-		$this->config->method('getAppValue')->will($this->returnValueMap([
+		$this->config->method('getAppValue')->willReturnMap([
 				['core', 'shareapi_enforce_links_password', 'no', 'no'],
-		]));
+		]);
 
 		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
 		$this->assertNull($result);
 	}
 
 	public function testVerifyPasswordHook() {
-		$this->config->method('getAppValue')->will($this->returnValueMap([
+		$this->config->method('getAppValue')->willReturnMap([
 				['core', 'shareapi_enforce_links_password', 'no', 'no'],
-		]));
+		]);
 
 		$this->eventDispatcher->expects($this->once())->method('dispatch')
 			->willReturnCallback(function(Event $event) {
@@ -521,9 +521,9 @@ class ManagerTest extends \Test\TestCase {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('password not accepted');
 
-		$this->config->method('getAppValue')->will($this->returnValueMap([
+		$this->config->method('getAppValue')->willReturnMap([
 				['core', 'shareapi_enforce_links_password', 'no', 'no'],
-		]));
+		]);
 
 		$this->eventDispatcher->expects($this->once())->method('dispatch')
 			->willReturnCallback(function(Event $event) {
@@ -701,14 +701,14 @@ class ManagerTest extends \Test\TestCase {
 	public function testGeneralChecks($share, $exceptionMessage, $exception) {
 		$thrown = null;
 
-		$this->userManager->method('userExists')->will($this->returnValueMap([
+		$this->userManager->method('userExists')->willReturnMap([
 			['user0', true],
 			['user1', true],
-		]));
+		]);
 
-		$this->groupManager->method('groupExists')->will($this->returnValueMap([
+		$this->groupManager->method('groupExists')->willReturnMap([
 			['group0', true],
-		]));
+		]);
 
 		$userFolder = $this->createMock(Folder::class);
 		$userFolder->expects($this->any())
@@ -746,10 +746,10 @@ class ManagerTest extends \Test\TestCase {
 
 		$thrown = null;
 
-		$this->userManager->method('userExists')->will($this->returnValueMap([
+		$this->userManager->method('userExists')->willReturnMap([
 			['user0', true],
 			['user1', true],
-		]));
+		]);
 
 		$userFolder = $this->createMock(Folder::class);
 		$userFolder->method('isSubNode')->with($userFolder)->willReturn(false);
@@ -790,10 +790,10 @@ class ManagerTest extends \Test\TestCase {
 		$share->setProviderId('foo')->setId('bar');
 
 		$this->config->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_default_expire_date', 'no', 'yes'],
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
@@ -803,9 +803,9 @@ class ManagerTest extends \Test\TestCase {
 		$share->setProviderId('foo')->setId('bar');
 
 		$this->config->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
@@ -816,12 +816,12 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 
 		$this->config->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
 				['core', 'shareapi_default_expire_date', 'no', 'yes'],
 				['core', 'link_defaultExpDays', 3, '3'],
-			]));
+			]);
 
 		$expected = new \DateTime();
 		$expected->setTime(0,0,0);
@@ -842,10 +842,10 @@ class ManagerTest extends \Test\TestCase {
 		$share->setExpirationDate($future);
 
 		$this->config->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
-			]));
+			]);
 
 		try {
 			self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
@@ -870,10 +870,10 @@ class ManagerTest extends \Test\TestCase {
 		$share->setExpirationDate($future);
 
 		$this->config->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
-			]));
+			]);
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
 		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
@@ -933,10 +933,10 @@ class ManagerTest extends \Test\TestCase {
 		$share->setExpirationDate($future);
 
 		$this->config->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_default_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
-			]));
+			]);
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
 		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
@@ -958,9 +958,9 @@ class ManagerTest extends \Test\TestCase {
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
 		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
-		$hookListner->expects($this->once())->method('listener')->will($this->returnCallback(function ($data) {
+		$hookListner->expects($this->once())->method('listener')->willReturnCallback(function ($data) {
 			$data['expirationDate']->sub(new \DateInterval('P2D'));
-		}));
+		});
 
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($nextWeek);
@@ -985,10 +985,10 @@ class ManagerTest extends \Test\TestCase {
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
 		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
-		$hookListner->expects($this->once())->method('listener')->will($this->returnCallback(function ($data) {
+		$hookListner->expects($this->once())->method('listener')->willReturnCallback(function ($data) {
 			$data['accepted'] = false;
 			$data['message'] = 'Invalid date!';
-		}));
+		});
 
 		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
@@ -999,10 +999,10 @@ class ManagerTest extends \Test\TestCase {
 		$share->setId('42')->setProviderId('foo');
 
 		$this->config->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_default_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '6'],
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
@@ -1022,23 +1022,23 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->groupManager
 			->method('getUserGroupIds')
-			->will(
-				$this->returnValueMap([
+			->willReturnMap(
+				[
 					[$sharedBy, ['group1']],
 					[$sharedWith, ['group2']],
-				])
+				]
 			);
 
-		$this->userManager->method('get')->will($this->returnValueMap([
+		$this->userManager->method('get')->willReturnMap([
 			['sharedBy', $sharedBy],
 			['sharedWith', $sharedWith],
-		]));
+		]);
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
 	}
@@ -1055,23 +1055,23 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->groupManager
 			->method('getUserGroupIds')
-			->will(
-				$this->returnValueMap([
+			->willReturnMap(
+				[
 					[$sharedBy, ['group1', 'group3']],
 					[$sharedWith, ['group2', 'group3']],
-				])
+				]
 			);
 
-		$this->userManager->method('get')->will($this->returnValueMap([
+		$this->userManager->method('get')->willReturnMap([
 			['sharedBy', $sharedBy],
 			['sharedWith', $sharedWith],
-		]));
+		]);
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
-			]));
+			]);
 
 		$this->defaultProvider
 			->method('getSharesByPath')
@@ -1227,9 +1227,9 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_allow_group_sharing', 'yes', 'no'],
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
 	}
@@ -1252,10 +1252,10 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
 	}
@@ -1275,10 +1275,10 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
-			]));
+			]);
 
 		$this->assertNull($this->invokePrivate($this->manager, 'groupCreateChecks', [$share]));
 	}
@@ -1304,10 +1304,10 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
 		$this->addToAssertionCount(1);
@@ -1337,9 +1337,9 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
 	}
@@ -1361,9 +1361,9 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'groupCreateChecks', [$share]);
 		$this->addToAssertionCount(1);
@@ -1378,9 +1378,9 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'no'],
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
 	}
@@ -1396,10 +1396,10 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'no']
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
 	}
@@ -1411,10 +1411,10 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'yes']
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
 		$this->addToAssertionCount(1);
@@ -1427,10 +1427,10 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_allow_links', 'yes', 'yes'],
 				['core', 'shareapi_allow_public_upload', 'yes', 'no']
-			]));
+			]);
 
 		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
 		$this->addToAssertionCount(1);
@@ -1519,10 +1519,10 @@ class ManagerTest extends \Test\TestCase {
 		$user = $this->createMock(IUser::class);
 
 		$this->config->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_exclude_groups', 'no', $excludeGroups],
 				['core', 'shareapi_exclude_groups_list', '', $groupList],
-			]));
+			]);
 
 		if ($setList !== null) {
 			$this->config->expects($this->once())
@@ -1567,9 +1567,9 @@ class ManagerTest extends \Test\TestCase {
 	 */
 	public function testCanShare($expected, $sharingEnabled, $disabledForUser) {
 		$this->config->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['core', 'shareapi_enabled', 'yes', $sharingEnabled],
-			]));
+			]);
 
 		$manager = $this->createManagerMock()
 			->setMethods(['sharingDisabledForUser'])
@@ -1633,7 +1633,7 @@ class ManagerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('create')
 			->with($share)
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$share->expects($this->once())
 			->method('setShareOwner')
@@ -1686,7 +1686,7 @@ class ManagerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('create')
 			->with($share)
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$share->expects($this->once())
 			->method('setShareOwner')
@@ -1767,9 +1767,9 @@ class ManagerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('create')
 			->with($share)
-			->will($this->returnCallback(function(Share $share) {
+			->willReturnCallback(function(Share $share) {
 				return $share->setId(42);
-			}));
+			});
 
 		// Pre share
 		$this->eventDispatcher->expects($this->at(0))
@@ -1876,9 +1876,9 @@ class ManagerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('create')
 			->with($share)
-			->will($this->returnCallback(function(Share $share) {
+			->willReturnCallback(function(Share $share) {
 				return $share->setId(42);
-			}));
+			});
 
 		// Pre share
 		$this->eventDispatcher->expects($this->at(0))
@@ -1987,10 +1987,10 @@ class ManagerTest extends \Test\TestCase {
 			->with(
 				$this->equalTo('OCP\Share::preShare'),
 				$this->isInstanceOf(GenericEvent::class)
-			)->will($this->returnCallback(function($name, GenericEvent $e) {
+			)->willReturnCallback(function($name, GenericEvent $e) {
 					$e->setArgument('error', 'I won\'t let you share!');
 					$e->stopPropagation();
-				})
+				}
 			);
 
 		$manager->createShare($share);
@@ -2056,7 +2056,7 @@ class ManagerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('create')
 			->with($share)
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$share->expects($this->once())
 			->method('setShareOwner')
@@ -2139,22 +2139,22 @@ class ManagerTest extends \Test\TestCase {
 		 */
 		$this->defaultProvider
 			->method('getSharesBy')
-			->will($this->returnCallback(function($uid, $type, $node, $reshares, $limit, $offset) use (&$shares2) {
+			->willReturnCallback(function($uid, $type, $node, $reshares, $limit, $offset) use (&$shares2) {
 				return array_slice($shares2, $offset, $limit);
-			}));
+			});
 
 		/*
 		 * Simulate the deleteShare call.
 		 */
 		$manager->method('deleteShare')
-			->will($this->returnCallback(function($share) use (&$shares2) {
+			->willReturnCallback(function($share) use (&$shares2) {
 				for($i = 0; $i < count($shares2); $i++) {
 					if ($shares2[$i]->getId() === $share->getId()) {
 						array_splice($shares2, $i, 1);
 						break;
 					}
 				}
-			}));
+			});
 
 		$res = $manager->getSharesBy('user', \OCP\Share::SHARE_TYPE_LINK, $node, true, 3, 0);
 
@@ -2249,13 +2249,13 @@ class ManagerTest extends \Test\TestCase {
 
 		$factory->expects($this->any())
 			->method('getProviderForType')
-			->will($this->returnCallback(function($shareType) use ($roomShareProvider) {
+			->willReturnCallback(function($shareType) use ($roomShareProvider) {
 				if ($shareType !== \OCP\Share::SHARE_TYPE_ROOM) {
 					throw new Exception\ProviderException();
 				}
 
 				return $roomShareProvider;
-			}));
+			});
 
 		$roomShareProvider->expects($this->once())
 			->method('getShareByToken')
@@ -2403,9 +2403,9 @@ class ManagerTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(1))
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 			['core', 'shareapi_allow_public_upload', 'yes', 'no'],
-		]));
+		]);
 
 		$this->defaultProvider->expects($this->once())
 			->method('getShareByToken')
@@ -2458,11 +2458,11 @@ class ManagerTest extends \Test\TestCase {
 			->setPassword('passwordHash');
 
 		$this->hasher->method('verify')->with('password', 'passwordHash', '')
-			->will($this->returnCallback(function($pass, $hash, &$newHash) {
+			->willReturnCallback(function($pass, $hash, &$newHash) {
 				$newHash = 'newHash';
 
 				return true;
-			}));
+			});
 
 		$this->defaultProvider->expects($this->once())
 			->method('update')
@@ -2601,7 +2601,7 @@ class ManagerTest extends \Test\TestCase {
 		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
 		$hookListner->expects($this->never())->method('post');
 
-		$this->rootFolder->method('getUserFolder')->with('newUser')->will($this->returnSelf());
+		$this->rootFolder->method('getUserFolder')->with('newUser')->willReturnSelf();
 		$this->rootFolder->method('getRelativePath')->with('/newUser/files/myPath')->willReturn('/myPath');
 
 		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
@@ -3523,7 +3523,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$share->setSharedWith('recipient');
 
-		$this->defaultProvider->method('move')->with($share, 'recipient')->will($this->returnArgument(0));
+		$this->defaultProvider->method('move')->with($share, 'recipient')->willReturnArgument(0);
 
 		$this->manager->moveShare($share, 'recipient');
 		$this->addToAssertionCount(1);
@@ -3581,7 +3581,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->groupManager->method('get')->with('group')->willReturn($group);
 		$this->userManager->method('get')->with('recipient')->willReturn($recipient);
 
-		$this->defaultProvider->method('move')->with($share, 'recipient')->will($this->returnArgument(0));
+		$this->defaultProvider->method('move')->with($share, 'recipient')->willReturnArgument(0);
 
 		$this->manager->moveShare($share, 'recipient');
 		$this->addToAssertionCount(1);
