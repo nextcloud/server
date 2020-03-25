@@ -22,7 +22,7 @@
 <template>
 	<div id="files-app-extra-settings">
 		<template v-for="setting in settings">
-			<Setting :el="setting.el" :key="setting.name" />
+			<Setting :key="setting.name" :el="setting.el" />
 		</template>
 	</div>
 </template>
@@ -33,13 +33,13 @@ import Setting from '../components/Setting'
 export default {
 	name: 'Settings',
 	components: {
-		Setting
+		Setting,
 	},
 	data() {
 		return {
-			settings: OCA.Files.Settings.settings
+			settings: OCA.Files.Settings.settings,
 		}
-	}
+	},
 }
 </script>
 

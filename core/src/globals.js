@@ -1,4 +1,4 @@
-/* eslint-disable nextcloud/no-deprecations */
+/* eslint-disable @nextcloud/no-deprecations */
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
