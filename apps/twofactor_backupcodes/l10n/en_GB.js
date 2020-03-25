@@ -4,6 +4,7 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "You created two-factor backup codes for your account",
     "Second-factor backup codes" : "Second-factor backup codes",
     "Generate backup codes" : "Generate backup codes",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor.",
     "Backup code" : "Backup code",
     "Use backup code" : "Use backup code",
     "Two factor backup codes" : "Two factor backup codes",
@@ -15,9 +16,12 @@ OC.L10N.register(
     "Regenerate backup codes" : "Regenerate backup codes",
     "If you regenerate backup codes, you automatically invalidate old codes." : "If you regenerate backup codes, you automatically invalidate old codes.",
     "An error occurred while generating your backup codes" : "An error occurred while generating your backup codes",
+    "{name} backup codes" : "{name} backup codes",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Use one of the backup codes you saved when setting up two-factor authentication.",
     "Submit" : "Submit",
+    "_" : "_",
     "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor."
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor.",
+    "function" : "function"
 },
 "nplurals=2; plural=(n != 1);");
