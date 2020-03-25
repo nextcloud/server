@@ -47,6 +47,7 @@ use Sabre\VObject\InvalidDataException;
 use Sabre\VObject\ParseException;
 use Sabre\VObject\Reader;
 use Sabre\VObject\Splitter\ICalendar;
+use Sabre\VObject\UUIDUtil;
 use function count;
 
 class RefreshWebcalService {
@@ -113,7 +114,6 @@ class RefreshWebcalService {
 
 			while ($vObject = $splitter->getNext()) {
 				/** @var Component $vObject */
-				$uid = null;
 				$compName = null;
 
 				foreach ($vObject->getComponents() as $component) {
@@ -121,7 +121,6 @@ class RefreshWebcalService {
 						continue;
 					}
 
-					$uid = $component->{'UID'}->getValue();
 					$compName = $component->name;
 
 					if ($stripAlarms) {
@@ -136,7 +135,7 @@ class RefreshWebcalService {
 					continue;
 				}
 
-				$uri = $uid . '.ics';
+				$uri = $this->getRandomCalendarObjectUri();
 				$calendarData = $vObject->serialize();
 				try {
 					$this->calDavBackend->createCalendarObject($subscription['id'], $uri, $calendarData, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
@@ -412,5 +411,14 @@ class RefreshWebcalService {
 		}
 
 		return $cleanURL;
+	}
+
+	/**
+	 * Returns a random uri for a calendar-object
+	 *
+	 * @return string
+	 */
+	public function getRandomCalendarObjectUri():string {
+		return UUIDUtil::getUUID() . '.ics';
 	}
 }
