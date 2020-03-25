@@ -39,6 +39,7 @@ use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\Listener\GlobalShareAcceptanceListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
+use OCA\Files_Sharing\Listener\UserAddedToGroupListener;
 use OCA\Files_Sharing\Listener\UserShareAcceptanceListener;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
@@ -54,6 +55,7 @@ use OCP\Defaults;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Group\Events\UserAddedEvent;
 use OCP\IContainer;
 use OCP\IGroup;
 use OCP\IServerContainer;
@@ -215,6 +217,7 @@ class Application extends App {
 			\OCP\Util::addScript('files_sharing', 'dist/collaboration');
 		});
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
+		$dispatcher->addServiceListener(UserAddedEvent::class, UserAddedToGroupListener::class);
 
 		// notifications api to accept incoming user shares
 		$dispatcher->addListener('OCP\Share::postShare', function(GenericEvent $event) {
