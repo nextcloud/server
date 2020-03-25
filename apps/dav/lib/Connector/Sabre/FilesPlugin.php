@@ -397,7 +397,7 @@ class FilesPlugin extends ServerPlugin {
 
 			$propFind->handle(self::CHECKSUMS_PROPERTYNAME, function() use ($node) {
 				$checksum = $node->getChecksum();
-				if ($checksum === NULL || $checksum === '') {
+				if ($checksum === null || $checksum === '') {
 					return null;
 				}
 

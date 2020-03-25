@@ -53,7 +53,7 @@ class AnonymousOptionsPlugin extends ServerPlugin {
 	 * @return bool
 	 */
 	public function isRequestInRoot($path) {
-		return $path === '' || (is_string($path) && strpos($path, '/') === FALSE);
+		return $path === '' || (is_string($path) && strpos($path, '/') === false);
 	}
 
 	/**

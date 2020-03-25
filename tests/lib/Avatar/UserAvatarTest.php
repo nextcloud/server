@@ -70,7 +70,7 @@ class UserAvatarTest extends \Test\TestCase {
 				return false;
 			}));
 
-		$data = NULL;
+		$data = null;
 		$file->method('putContent')
 			->with($this->callback(function ($d) use (&$data) {
 				$data = $d;

@@ -159,7 +159,7 @@ class ContactsStore implements IContactsStore {
 			if ($ownGroupsOnly && $entry->getProperty('isLocalSystemBook') === true) {
 				$uid = $this->userManager->get($entry->getProperty('UID'));
 
-				if ($uid === NULL) {
+				if ($uid === null) {
 					return false;
 				}
 

@@ -795,7 +795,7 @@ class OC_Util {
 				// is_writable doesn't work for NFS mounts, so try to write a file and check if it exists.
 				$testFile = sprintf('%s/%s.tmp', $CONFIG_DATADIRECTORY, uniqid('data_dir_writability_test_'));
 				$handle = fopen($testFile, 'w');
-				if (!$handle || fwrite($handle, 'Test write operation') === FALSE) {
+				if (!$handle || fwrite($handle, 'Test write operation') === false) {
 					$permissionsHint = $l->t('Permissions can usually be fixed by giving the webserver write access to the root directory. See %s.',
 						[$urlGenerator->linkToDocs('admin-dir_permissions')]);
 					$errors[] = [

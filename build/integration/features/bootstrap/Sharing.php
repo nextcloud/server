@@ -327,14 +327,14 @@ trait Sharing {
 					return $this->isExpectedUrl((string)$element->$field, "index.php/s/");
 				}
 				elseif ((string)$element->$field == $contentExpected){
-					return True;
+					return true;
 				}
 				else{
 					print($element->$field);
 				}
 			}
 
-			return False;
+			return false;
 		} else {
 			if ($contentExpected == "A_TOKEN"){
 					return (strlen((string)$data->$field) == 15);
@@ -346,9 +346,9 @@ trait Sharing {
 					return $this->isExpectedUrl((string)$data->$field, "index.php/s/");
 			}
 			elseif ($data->$field == $contentExpected){
-					return True;
+					return true;
 			}
-			return False;
+			return false;
 		}
 	}
 
@@ -358,7 +358,7 @@ trait Sharing {
 	 * @param string $filename
 	 */
 	public function checkSharedFileInResponse($filename){
-		Assert::assertEquals(True, $this->isFieldInResponse('file_target', "/$filename"));
+		Assert::assertEquals(true, $this->isFieldInResponse('file_target', "/$filename"));
 	}
 
 	/**
@@ -367,7 +367,7 @@ trait Sharing {
 	 * @param string $filename
 	 */
 	public function checkSharedFileNotInResponse($filename){
-		Assert::assertEquals(False, $this->isFieldInResponse('file_target', "/$filename"));
+		Assert::assertEquals(false, $this->isFieldInResponse('file_target', "/$filename"));
 	}
 
 	/**
@@ -376,7 +376,7 @@ trait Sharing {
 	 * @param string $user
 	 */
 	public function checkSharedUserInResponse($user){
-		Assert::assertEquals(True, $this->isFieldInResponse('share_with', "$user"));
+		Assert::assertEquals(true, $this->isFieldInResponse('share_with', "$user"));
 	}
 
 	/**
@@ -385,17 +385,17 @@ trait Sharing {
 	 * @param string $user
 	 */
 	public function checkSharedUserNotInResponse($user){
-		Assert::assertEquals(False, $this->isFieldInResponse('share_with', "$user"));
+		Assert::assertEquals(false, $this->isFieldInResponse('share_with', "$user"));
 	}
 
 	public function isUserOrGroupInSharedData($userOrGroup, $permissions = null){
 		$data = simplexml_load_string($this->response->getBody())->data[0];
 		foreach($data as $element) {
 			if ($element->share_with == $userOrGroup && ($permissions === null || $permissions == $element->permissions)){
-				return True;
+				return true;
 			}
 		}
-		return False;
+		return false;
 	}
 
 	/**
@@ -424,7 +424,7 @@ trait Sharing {
 			$this->createShare($user1, $filepath, 0, $user2, null, null, $permissions);
 		}
 		$this->response = $client->get($fullUrl, $options);
-		Assert::assertEquals(True, $this->isUserOrGroupInSharedData($user2, $permissions));
+		Assert::assertEquals(true, $this->isUserOrGroupInSharedData($user2, $permissions));
 	}
 
 	/**
@@ -453,7 +453,7 @@ trait Sharing {
 			$this->createShare($user, $filepath, 1, $group, null, null, $permissions);
 		}
 		$this->response = $client->get($fullUrl, $options);
-		Assert::assertEquals(True, $this->isUserOrGroupInSharedData($group, $permissions));
+		Assert::assertEquals(true, $this->isUserOrGroupInSharedData($group, $permissions));
 	}
 
 	/**
