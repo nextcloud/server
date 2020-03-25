@@ -25,7 +25,6 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre\RequestTest;
 
-use OC\Connector\Sabre\Exception\FileLocked;
 use OCP\AppFramework\Http;
 use OCP\Lock\ILockingProvider;
 

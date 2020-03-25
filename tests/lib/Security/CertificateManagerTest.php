@@ -8,7 +8,6 @@
 
 namespace Test\Security;
 
-use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\Security\CertificateManager;
 use OCP\IConfig;

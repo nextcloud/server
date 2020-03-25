@@ -33,13 +33,11 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use OCA\Circles\Exceptions\CircleDoesNotExistException;
-use OCA\DAV\CalDAV\Proxy\Proxy;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\Traits\PrincipalProxyTrait;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
-use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;

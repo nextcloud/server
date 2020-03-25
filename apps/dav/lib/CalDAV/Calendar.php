@@ -27,7 +27,6 @@
 
 namespace OCA\DAV\CalDAV;
 
-use OCA\DAV\CalDAV\Proxy\ProxyMapper;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCA\DAV\Exception\UnsupportedLimitOnInitialSyncException;
 use OCP\IConfig;

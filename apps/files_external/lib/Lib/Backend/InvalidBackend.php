@@ -24,7 +24,6 @@
 
 namespace OCA\Files_External\Lib\Backend;
 
-use OCA\Files_External\Lib\Storage\InvalidStorage;
 use OCA\Files_External\Lib\StorageConfig;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUser;

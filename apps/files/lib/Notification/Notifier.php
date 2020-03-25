@@ -30,8 +30,6 @@ namespace OCA\Files\Notification;
 
 use OCA\Files\Db\TransferOwnershipMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IURLGenerator;
 use OCP\L10N\IFactory;

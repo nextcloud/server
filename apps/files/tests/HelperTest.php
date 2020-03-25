@@ -25,7 +25,6 @@
  *
  */
 
-use OCA\Files\Tests;
 
 /**
  * Class Helper

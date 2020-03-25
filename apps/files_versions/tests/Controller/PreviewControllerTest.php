@@ -24,7 +24,6 @@
 
 namespace OCA\Files_Versions\Tests\Controller;
 
-use OC\User\User;
 use OCA\Files_Versions\Controller\PreviewController;
 use OCA\Files_Versions\Versions\IVersionManager;
 use OCP\AppFramework\Http;

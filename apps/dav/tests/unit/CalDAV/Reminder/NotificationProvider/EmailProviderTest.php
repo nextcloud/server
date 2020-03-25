@@ -36,12 +36,10 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
-use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
 use Sabre\VObject\Component\VCalendar;
-use Test\TestCase;
 
 class EmailProviderTest extends AbstractNotificationProviderTest {
 

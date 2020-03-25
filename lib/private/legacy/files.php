@@ -42,7 +42,6 @@
 
 use OC\Files\View;
 use OC\Streamer;
-use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 
 /**

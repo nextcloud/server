@@ -25,10 +25,7 @@ namespace Test\File\SimpleFS;
 
 use OC\Files\SimpleFS\SimpleFolder;
 use OC\Files\Storage\Temporary;
-use OC\Files\View;
-use OCP\Files\File;
 use OCP\Files\Folder;
-use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use Test\Traits\MountProviderTrait;

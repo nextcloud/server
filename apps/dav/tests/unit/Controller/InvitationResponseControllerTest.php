@@ -29,7 +29,6 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\Unit\DAV\Controller;
 
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
-use OCA\DAV\CalDAV\Schedule\Plugin;
 use OCA\DAV\Controller\InvitationResponseController;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;

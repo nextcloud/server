@@ -24,7 +24,6 @@
 
 namespace Tests\Contacts\ContactsMenu;
 
-use Exception;
 use OC\App\AppManager;
 use OC\Contacts\ContactsMenu\ActionProviderStore;
 use OC\Contacts\ContactsMenu\Providers\EMailProvider;

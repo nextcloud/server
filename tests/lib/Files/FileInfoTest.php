@@ -8,11 +8,9 @@
 
 namespace Test\Files;
 
-use OC\AllConfig;
 use OC\Files\FileInfo;
 use OC\Files\Storage\Home;
 use OC\Files\Storage\Temporary;
-use OC\User\User;
 use OCP\IConfig;
 use OCP\IUser;
 use Test\TestCase;

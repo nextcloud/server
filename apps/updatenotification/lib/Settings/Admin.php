@@ -33,7 +33,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IGroupManager;
-use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
 use OCP\Support\Subscription\IRegistry;

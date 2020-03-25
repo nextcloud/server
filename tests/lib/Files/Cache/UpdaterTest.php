@@ -10,7 +10,6 @@ namespace Test\Files\Cache;
 
 use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
-use OC\Files\View;
 
 /**
  * Class UpdaterTest

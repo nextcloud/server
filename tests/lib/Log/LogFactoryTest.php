@@ -29,7 +29,6 @@ use OC\Log\LogFactory;
 use OC\Log\Syslog;
 use OC\Log\Systemdlog;
 use OC\SystemConfig;
-use OCP\IConfig;
 use OCP\IServerContainer;
 use Test\TestCase;
 

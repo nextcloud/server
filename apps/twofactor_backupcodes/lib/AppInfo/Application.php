@@ -36,7 +36,6 @@ use OCA\TwoFactorBackupCodes\Notifications\Notifier;
 use OCP\AppFramework\App;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IL10N;
 use OCP\Notification\IManager;
 use OCP\Util;
 

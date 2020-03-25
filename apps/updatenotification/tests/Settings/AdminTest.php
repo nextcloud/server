@@ -36,7 +36,6 @@ use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\L10N\ILanguageIterator;
 use OCP\Support\Subscription\IRegistry;

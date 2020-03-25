@@ -27,7 +27,6 @@ use OC\Files\SimpleFS\SimpleFile;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 
 class SimpleFileTest extends \Test\TestCase  {
 	/** @var File|\PHPUnit_Framework_MockObject_MockObject */

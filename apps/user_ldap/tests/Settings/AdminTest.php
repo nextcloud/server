@@ -27,7 +27,6 @@
 namespace OCA\User_LDAP\Tests\Settings;
 
 use OCA\User_LDAP\Configuration;
-use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\Settings\Admin;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;

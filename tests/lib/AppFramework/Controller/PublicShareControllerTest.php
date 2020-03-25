@@ -23,18 +23,9 @@
 
 namespace Test\AppFramework\Controller;
 
-use OC\AppFramework\Middleware\PublicShare\Exceptions\NeedAuthenticationException;
-use OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware;
-use OCP\AppFramework\AuthPublicShareController;
-use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\PublicShareController;
-use OCP\Files\NotFoundException;
-use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
-use OCP\IURLGenerator;
 
 class PublicShareControllerTest extends \Test\TestCase {
 

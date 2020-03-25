@@ -32,7 +32,6 @@
 
 namespace OCA\Files_Sharing\Tests;
 
-use OC\Files\Cache\Scanner;
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\AppInfo\Application;
 use OCP\Share\IShare;

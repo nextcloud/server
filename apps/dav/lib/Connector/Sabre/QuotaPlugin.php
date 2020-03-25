@@ -28,7 +28,6 @@
 
 namespace OCA\DAV\Connector\Sabre;
 use OCA\DAV\Upload\FutureFile;
-use OCP\Files\FileInfo;
 use OCP\Files\StorageNotAvailableException;
 use Sabre\DAV\Exception\InsufficientStorage;
 use Sabre\DAV\Exception\ServiceUnavailable;

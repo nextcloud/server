@@ -38,7 +38,6 @@ require_once __DIR__ . '/../appinfo/app.php';
 use OC\Files\Storage\Temporary;
 use OCP\IConfig;
 use OCP\IUser;
-use OCP\Share\IShare;
 
 /**
  * Class Test_Files_versions

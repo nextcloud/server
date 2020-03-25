@@ -25,7 +25,6 @@
 
 namespace OCA\DAV\Tests\Command;
 
-use InvalidArgumentException;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Command\ListCalendars;

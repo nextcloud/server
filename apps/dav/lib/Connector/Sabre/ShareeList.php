@@ -28,8 +28,6 @@ declare(strict_types=1);
 namespace OCA\DAV\Connector\Sabre;
 
 use OCP\Share\IShare;
-use Sabre\Xml\Element;
-use Sabre\Xml\Reader;
 use Sabre\Xml\Writer;
 use Sabre\Xml\XmlSerializable;
 

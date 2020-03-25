@@ -34,7 +34,6 @@ namespace OC\Core\Controller;
 
 use OC\Setup;
 use OCP\ILogger;
-use function urlencode;
 
 class SetupController {
 	/** @var Setup */

@@ -22,7 +22,6 @@
 
 namespace Test\Authentication\TwoFactorAuth;
 
-use Exception;
 use OC;
 use OC\Authentication\Token\IProvider as TokenProvider;
 use OC\Authentication\TwoFactorAuth\Manager;

@@ -29,7 +29,6 @@
 namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
-use OCA\FederatedFileSharing\DiscoveryManager;
 
 class Hooks {
 

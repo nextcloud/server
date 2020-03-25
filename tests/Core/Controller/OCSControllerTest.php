@@ -24,7 +24,6 @@
 namespace OC\Core\Controller;
 
 use OC\CapabilitiesManager;
-use OC\Security\Bruteforce\Throttler;
 use OC\Security\IdentityProof\Key;
 use OC\Security\IdentityProof\Manager;
 use OCP\AppFramework\Http\DataResponse;

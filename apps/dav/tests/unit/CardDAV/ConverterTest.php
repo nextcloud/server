@@ -29,7 +29,6 @@ namespace OCA\DAV\Tests\unit\CardDAV;
 
 use OC\Accounts\AccountManager;
 use OCA\DAV\CardDAV\Converter;
-use OCP\IDBConnection;
 use OCP\IImage;
 use OCP\IUser;
 use PHPUnit_Framework_MockObject_MockObject;

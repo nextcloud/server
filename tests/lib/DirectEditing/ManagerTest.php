@@ -12,7 +12,6 @@ use OCP\DirectEditing\IEditor;
 use OCP\DirectEditing\IToken;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\IUserSession;

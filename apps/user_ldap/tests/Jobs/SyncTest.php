@@ -38,7 +38,6 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\Notification\IManager;
-use function Sodium\memcmp;
 use Test\TestCase;
 
 class SyncTest extends TestCase {

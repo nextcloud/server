@@ -43,10 +43,7 @@ use OCP\Share\IManager;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Query\Limit;
 use SearchDAV\Query\Query;
-use SearchDAV\XML\BasicSearch;
-use SearchDAV\XML\Literal;
 use SearchDAV\XML\Operator;
-use SearchDAV\XML\Scope;
 use Test\TestCase;
 
 class FileSearchBackendTest extends TestCase {

@@ -31,7 +31,6 @@ namespace OCA\Files_Trashbin;
 
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Wrapper;
-use OC\Files\View;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Encryption\Exceptions\GenericEncryptionException;

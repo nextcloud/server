@@ -24,12 +24,9 @@
 
 namespace OCA\DAV\Tests\DAV;
 
-use OCA\DAV\Connector\Sabre\Node;
 use OCA\DAV\DAV\CustomPropertiesBackend;
 use OCP\IDBConnection;
 use OCP\IUser;
-use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Tree;

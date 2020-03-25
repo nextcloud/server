@@ -32,7 +32,6 @@ namespace OCA\Settings\Tests\Mailer;
 
 use OC\Mail\EMailTemplate;
 use OC\Mail\Message;
-use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Defaults;
 use OCP\IConfig;

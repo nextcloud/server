@@ -33,11 +33,9 @@ use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Recovery;
 use OCP\Encryption\IFile;
-use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 

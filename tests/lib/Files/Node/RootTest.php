@@ -13,9 +13,7 @@ use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\Node\Folder;
 use OC\Files\View;
-use OCP\IConfig;
 use OCP\ILogger;
-use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 

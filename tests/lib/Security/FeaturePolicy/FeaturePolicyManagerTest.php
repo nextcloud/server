@@ -24,14 +24,10 @@ declare(strict_types=1);
 
 namespace Test\Security\CSP;
 
-use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\FeaturePolicy\FeaturePolicyManager;
 use OCP\AppFramework\Http\FeaturePolicy;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Security\CSP\AddContentSecurityPolicyEvent;
 use OCP\Security\FeaturePolicy\AddFeaturePolicyEvent;
-use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 

@@ -29,15 +29,11 @@ declare(strict_types=1);
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\CalDAV\Reminder\AbstractNotificationProvider;
 use OCA\DAV\CalDAV\Reminder\Backend;
 use OCA\DAV\CalDAV\Reminder\INotificationProvider;
-use OCA\DAV\CalDAV\Reminder\NotificationProvider\EmailProvider;
-use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProviderManager;
 use OCA\DAV\CalDAV\Reminder\ReminderService;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;

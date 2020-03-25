@@ -34,7 +34,6 @@ use OC\App\CodeChecker\InfoChecker;
 use OC\App\CodeChecker\LanguageParseChecker;
 use OC\App\CodeChecker\PrivateCheck;
 use OC\App\CodeChecker\StrongComparisonCheck;
-use OC\App\InfoParser;
 use Stecman\Component\Symfony\Console\BashCompletion\Completion\CompletionAwareInterface;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Symfony\Component\Console\Command\Command;

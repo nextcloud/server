@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\IInitialStateService;

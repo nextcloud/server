@@ -27,7 +27,6 @@
 
 namespace OCA\User_LDAP\Tests;
 
-use OCA\User_LDAP\ILDAPUserPlugin;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\UserPluginManager;

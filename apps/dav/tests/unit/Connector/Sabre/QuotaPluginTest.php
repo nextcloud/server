@@ -27,12 +27,8 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OC\Files\View;
-use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
-use OCA\DAV\Files\FilesHome;
 use OCP\Files\FileInfo;
-use Sabre\DAV\Exception\InsufficientStorage;
-use Sabre\DAV\Tree;
 use Test\TestCase;
 
 /**

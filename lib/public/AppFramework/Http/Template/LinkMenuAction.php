@@ -24,7 +24,6 @@
 
 namespace OCP\AppFramework\Http\Template;
 
-use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\Util;
 
 /**

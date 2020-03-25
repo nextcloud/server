@@ -23,12 +23,9 @@
 
 namespace Tests\Core\Command\Maintenance;
 
-use OC\Core\Command\Maintenance\Mimetype\UpdateDB;
 use OC\Core\Command\Maintenance\UpdateTheme;
 use OC\Files\Type\Detection;
-use OC\Files\Type\Loader;
 use OCP\Files\IMimeTypeDetector;
-use OCP\Files\IMimeTypeLoader;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use Symfony\Component\Console\Input\InputInterface;

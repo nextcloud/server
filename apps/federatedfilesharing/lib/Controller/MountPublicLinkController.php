@@ -29,17 +29,13 @@
 
 namespace OCA\FederatedFileSharing\Controller;
 
-use OC\Files\Filesystem;
 use OC\HintException;
-use OC\Share\Helper;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\FederatedShareProvider;
-use OCA\Files_Sharing\External\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Federation\ICloudIdManager;
-use OCP\Files\StorageInvalidException;
 use OCP\Http\Client\IClientService;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -47,7 +43,6 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Share\IManager;
-use OCP\Util;
 
 /**
  * Class MountPublicLinkController

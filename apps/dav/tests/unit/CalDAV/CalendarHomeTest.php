@@ -31,7 +31,6 @@ use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use OCA\DAV\CalDAV\Integration\ICalendarProvider;
 use OCA\DAV\CalDAV\Outbox;
 use Sabre\CalDAV\Schedule\Inbox;
-use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\MkCol;
 use Test\TestCase;
 

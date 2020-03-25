@@ -22,8 +22,6 @@
  *
  */
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Message\ResponseInterface;
 use PHPUnit\Framework\Assert;
 
 require __DIR__ . '/../../vendor/autoload.php';

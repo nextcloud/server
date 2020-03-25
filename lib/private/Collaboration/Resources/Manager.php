@@ -30,7 +30,6 @@ namespace OC\Collaboration\Resources;
 
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use OCP\AppFramework\QueryException;
 use OCP\Collaboration\Resources\CollectionException;
 use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;

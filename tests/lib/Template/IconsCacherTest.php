@@ -27,16 +27,10 @@ namespace Test\Template;
 use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OC\Template\IconsCacher;
-use OC_App;
-use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
-use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\ICache;
-use OCP\ICacheFactory;
-use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 

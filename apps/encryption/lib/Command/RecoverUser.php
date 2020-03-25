@@ -24,11 +24,6 @@
 namespace OCA\Encryption\Command;
 
 
-use OC\Files\Filesystem;
-use OC\User\NoUserException;
-use OCA\Encryption\Crypto\Crypt;
-use OCA\Encryption\KeyManager;
-use OCA\Encryption\Recovery;
 use OCA\Encryption\Util;
 use OCP\IConfig;
 use OCP\IUserManager;

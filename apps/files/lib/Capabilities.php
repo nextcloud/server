@@ -26,14 +26,8 @@
 
 namespace OCA\Files;
 
-use OC\DirectEditing\Manager;
 use OCA\Files\Service\DirectEditingService;
 use OCP\Capabilities\ICapability;
-use OCP\DirectEditing\ACreateEmpty;
-use OCP\DirectEditing\ACreateFromTemplate;
-use OCP\DirectEditing\IEditor;
-use OCP\DirectEditing\RegisterDirectEditorEvent;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IURLGenerator;
 

@@ -29,7 +29,6 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\DefaultTokenProvider;
-use OC\Authentication\Token\ExpiredTokenException;
 use OC\Authentication\Token\IToken;
 use OC\Authentication\Token\Manager;
 use OC\Authentication\Token\PublicKeyToken;

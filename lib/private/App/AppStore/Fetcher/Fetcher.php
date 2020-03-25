@@ -38,7 +38,6 @@ use OCP\Files\NotFoundException;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
-use OCP\Util;
 
 abstract class Fetcher {
 	const INVALIDATE_AFTER_SECONDS = 300;

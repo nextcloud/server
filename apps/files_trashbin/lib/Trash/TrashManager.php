@@ -23,8 +23,6 @@
 
 namespace OCA\Files_Trashbin\Trash;
 
-use OCP\Files\FileInfo;
-use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 

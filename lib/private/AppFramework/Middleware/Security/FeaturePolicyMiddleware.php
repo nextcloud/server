@@ -26,14 +26,9 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Middleware\Security;
 
-use OC\Security\CSP\ContentSecurityPolicyManager;
-use OC\Security\CSP\ContentSecurityPolicyNonceManager;
-use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\FeaturePolicy\FeaturePolicy;
 use OC\Security\FeaturePolicy\FeaturePolicyManager;
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\ContentSecurityPolicy;
-use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\EmptyFeaturePolicy;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;

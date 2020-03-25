@@ -15,7 +15,6 @@ use OC\SystemTag\SystemTagObjectMapper;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
-use OCP\IUserManager;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

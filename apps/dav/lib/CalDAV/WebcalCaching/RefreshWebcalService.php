@@ -32,7 +32,6 @@ use Exception;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use OCA\DAV\CalDAV\CalDavBackend;
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;

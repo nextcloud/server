@@ -10,7 +10,6 @@ namespace Test\Files;
 
 use OC\Files\Filesystem;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Share;
 use OCA\Files_Sharing\AppInfo\Application;
 
 /**

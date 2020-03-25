@@ -44,7 +44,6 @@ use OC\DB\SchemaWrapper;
 use OCP\AppFramework\App;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
-use OCP\IServerContainer;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Symfony\Component\EventDispatcher\GenericEvent;

@@ -26,8 +26,6 @@
  */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use GuzzleHttp\Client;
-use GuzzleHttp\Message\ResponseInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
 

@@ -25,7 +25,6 @@
 
 namespace OC\Preview;
 
-use OC\Files\View;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\SimpleFS\ISimpleFile;

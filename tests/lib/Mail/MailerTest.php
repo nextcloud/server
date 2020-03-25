@@ -22,7 +22,6 @@ use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 use OCP\Mail\Events\BeforeMessageSent;
-use OCP\Mail\IMessage;
 use Test\TestCase;
 use Swift_SwiftException;
 

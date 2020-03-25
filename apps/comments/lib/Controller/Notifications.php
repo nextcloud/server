@@ -30,7 +30,6 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
-use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\IRequest;
 use OCP\IURLGenerator;

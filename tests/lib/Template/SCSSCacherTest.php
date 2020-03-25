@@ -27,7 +27,6 @@ use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OC\Template\IconsCacher;
 use OC\Template\SCSSCacher;
-use OC_App;
 use OCA\Theming\ThemingDefaults;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;

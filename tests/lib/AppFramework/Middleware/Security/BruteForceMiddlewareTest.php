@@ -26,7 +26,6 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
-use OCP\Http\Client\IResponse;
 use OCP\IRequest;
 use Test\TestCase;
 

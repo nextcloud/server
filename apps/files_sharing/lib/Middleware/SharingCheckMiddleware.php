@@ -27,7 +27,6 @@
 namespace OCA\Files_Sharing\Middleware;
 
 use OCA\Files_Sharing\Controller\ExternalSharesController;
-use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\Exceptions\S2SException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;

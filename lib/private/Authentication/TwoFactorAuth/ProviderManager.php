@@ -28,7 +28,6 @@ namespace OC\Authentication\TwoFactorAuth;
 
 use OC\Authentication\Exceptions\InvalidProviderException;
 use OCP\Authentication\TwoFactorAuth\IActivatableByAdmin;
-use OCP\Authentication\TwoFactorAuth\IDeactivableByAdmin;
 use OCP\Authentication\TwoFactorAuth\IDeactivatableByAdmin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;

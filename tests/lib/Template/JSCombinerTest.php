@@ -23,7 +23,6 @@
 
 namespace Test\Template;
 
-use function foo\func;
 use OC\SystemConfig;
 use OC\Template\JSCombiner;
 use OCP\Files\IAppData;

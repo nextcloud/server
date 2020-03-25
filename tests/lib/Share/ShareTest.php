@@ -23,7 +23,6 @@ namespace Test\Share;
 use OC\Share\Share;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 
