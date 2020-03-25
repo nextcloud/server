@@ -147,6 +147,7 @@ return array(
     'OCP\\Contacts\\ContactsMenu\\IEntry' => $baseDir . '/lib/public/Contacts/ContactsMenu/IEntry.php',
     'OCP\\Contacts\\ContactsMenu\\ILinkAction' => $baseDir . '/lib/public/Contacts/ContactsMenu/ILinkAction.php',
     'OCP\\Contacts\\ContactsMenu\\IProvider' => $baseDir . '/lib/public/Contacts/ContactsMenu/IProvider.php',
+    'OCP\\Contacts\\Events\\ContactInteractedWithEvent' => $baseDir . '/lib/public/Contacts/Events/ContactInteractedWithEvent.php',
     'OCP\\Contacts\\IManager' => $baseDir . '/lib/public/Contacts/IManager.php',
     'OCP\\DB\\ISchemaWrapper' => $baseDir . '/lib/public/DB/ISchemaWrapper.php',
     'OCP\\DB\\QueryBuilder\\ICompositeExpression' => $baseDir . '/lib/public/DB/QueryBuilder/ICompositeExpression.php',

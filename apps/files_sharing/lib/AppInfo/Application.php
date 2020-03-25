@@ -36,9 +36,9 @@ use OCA\Files_Sharing\Capabilities;
 use OCA\Files_Sharing\Controller\ExternalSharesController;
 use OCA\Files_Sharing\Controller\ShareController;
 use OCA\Files_Sharing\External\Manager;
-use OCA\Files_Sharing\Listener\GlobalShareAcceptanceListener;
 use OCA\Files_Sharing\Listener\LoadAdditionalListener;
 use OCA\Files_Sharing\Listener\LoadSidebarListener;
+use OCA\Files_Sharing\Listener\ShareInteractionListener;
 use OCA\Files_Sharing\Listener\UserAddedToGroupListener;
 use OCA\Files_Sharing\Listener\UserShareAcceptanceListener;
 use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
@@ -213,6 +213,7 @@ class Application extends App {
 		// sidebar and files scripts
 		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
 		$dispatcher->addServiceListener(LoadSidebar::class, LoadSidebarListener::class);
+		$dispatcher->addServiceListener(ShareCreatedEvent::class, ShareInteractionListener::class);
 		$dispatcher->addListener('\OCP\Collaboration\Resources::loadAdditionalScripts', function() {
 			\OCP\Util::addScript('files_sharing', 'dist/collaboration');
 		});

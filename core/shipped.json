@@ -5,6 +5,7 @@
     "admin_audit",
     "cloud_federation_api",
     "comments",
+    "contactsinteraction",
     "dav",
     "encryption",
     "federatedfilesharing",
