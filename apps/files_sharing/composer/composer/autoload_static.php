@@ -65,6 +65,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\ISharedStorage' => __DIR__ . '/..' . '/../lib/ISharedStorage.php',
         'OCA\\Files_Sharing\\Listener\\LoadAdditionalListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalListener.php',
         'OCA\\Files_Sharing\\Listener\\LoadSidebarListener' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarListener.php',
+        'OCA\\Files_Sharing\\Listener\\UserAddedToGroupListener' => __DIR__ . '/..' . '/../lib/Listener/UserAddedToGroupListener.php',
         'OCA\\Files_Sharing\\Listener\\UserShareAcceptanceListener' => __DIR__ . '/..' . '/../lib/Listener/UserShareAcceptanceListener.php',
         'OCA\\Files_Sharing\\Middleware\\OCSShareAPIMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/OCSShareAPIMiddleware.php',
         'OCA\\Files_Sharing\\Middleware\\ShareInfoMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/ShareInfoMiddleware.php',
