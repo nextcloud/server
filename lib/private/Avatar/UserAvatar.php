@@ -252,7 +252,7 @@ class UserAvatar extends Avatar {
 			$avatar->putContent($data);
 			$ext = 'png';
 
-			$this->folder->newFile('generated');
+			$this->folder->newFile('generated', '');
 			$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'true');
 		}
 
