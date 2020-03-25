@@ -11,6 +11,7 @@ declare(strict_types=1);
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Arne Hamann <github@arne.email>
  *
  * @license AGPL-3.0
  *
@@ -112,7 +113,7 @@ class Message implements IMessage {
 	 * @return array
 	 */
 	public function getFrom(): array {
-		return $this->swiftMessage->getFrom();
+		return $this->swiftMessage->getFrom() ?? [];
 	}
 
 	/**
@@ -156,7 +157,7 @@ class Message implements IMessage {
 	 * @return array
 	 */
 	public function getTo(): array {
-		return $this->swiftMessage->getTo();
+		return $this->swiftMessage->getTo() ?? [];
 	}
 
 	/**
@@ -178,7 +179,7 @@ class Message implements IMessage {
 	 * @return array
 	 */
 	public function getCc(): array {
-		return $this->swiftMessage->getCc();
+		return $this->swiftMessage->getCc() ?? [];
 	}
 
 	/**
@@ -200,7 +201,7 @@ class Message implements IMessage {
 	 * @return array
 	 */
 	public function getBcc(): array {
-		return $this->swiftMessage->getBcc();
+		return $this->swiftMessage->getBcc() ?? [];
 	}
 
 	/**
@@ -254,6 +255,14 @@ class Message implements IMessage {
 			$this->swiftMessage->addPart($body, 'text/html');
 		}
 		return $this;
+	}
+
+	/**
+	 * Get's the underlying SwiftMessage
+	 * @param Swift_Message $swiftMessage
+	 */
+	public function setSwiftMessage(Swift_Message $swiftMessage): void {
+		$this->swiftMessage = $swiftMessage;
 	}
 
 	/**

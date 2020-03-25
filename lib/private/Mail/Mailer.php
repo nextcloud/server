@@ -12,6 +12,7 @@ declare(strict_types=1);
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Arne Hamann <github@arne.email>
  *
  * @license AGPL-3.0
  *
@@ -34,6 +35,7 @@ namespace OC\Mail;
 use Egulias\EmailValidator\EmailValidator;
 use Egulias\EmailValidator\Validation\RFCValidation;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -42,6 +44,8 @@ use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use OCP\Mail\Events\BeforeMessageSent;
+
 
 /**
  * Class Mailer provides some basic functions to create a mail message that can be used in combination with
@@ -74,6 +78,8 @@ class Mailer implements IMailer {
 	private $urlGenerator;
 	/** @var IL10N */
 	private $l10n;
+	/** @var IEventDispatcher */
+	private $dispatcher;
 
 	/**
 	 * @param IConfig $config
@@ -81,17 +87,20 @@ class Mailer implements IMailer {
 	 * @param Defaults $defaults
 	 * @param IURLGenerator $urlGenerator
 	 * @param IL10N $l10n
+	 * @param IEventDispatcher $dispatcher
 	 */
 	public function __construct(IConfig $config,
 						 ILogger $logger,
 						 Defaults $defaults,
 						 IURLGenerator $urlGenerator,
-						 IL10N $l10n) {
+						 IL10N $l10n,
+						 IEventDispatcher $dispatcher) {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->defaults = $defaults;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -181,6 +190,9 @@ class Mailer implements IMailer {
 			$mailLogger = new \Swift_Plugins_Loggers_ArrayLogger();
 			$mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($mailLogger));
 		}
+
+
+		$this->dispatcher->dispatchTyped(new BeforeMessageSent($message));
 
 		$mailer->send($message->getSwiftMessage(), $failedRecipients);
 
