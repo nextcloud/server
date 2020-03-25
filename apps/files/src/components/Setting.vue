@@ -30,11 +30,11 @@ export default {
 		el: {
 			type: Function,
 			required: true,
-		}
+		},
 	},
 	mounted() {
 		this.$el.appendChild(this.el())
-	}
+	},
 }
 </script>
 <style>

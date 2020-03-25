@@ -1,5 +1,3 @@
-/* global t */
-
 /*
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *

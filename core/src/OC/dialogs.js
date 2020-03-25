@@ -1,4 +1,3 @@
-/* global alert */
 /* eslint-disable */
 /*
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>

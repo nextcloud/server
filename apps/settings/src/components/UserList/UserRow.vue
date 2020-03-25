@@ -224,7 +224,7 @@
 						{{ t('settings', 'Done') }}
 					</ActionButton>
 				</Actions>
-				<div class="userPopoverMenuWrapper" v-click-outside="hideMenu">
+				<div v-click-outside="hideMenu" class="userPopoverMenuWrapper">
 					<div class="icon-more"
 						@click="toggleMenu" />
 					<div :class="{ 'open': openedMenu }" class="popovermenu">

@@ -2,7 +2,6 @@ import Vue from 'vue'
 import { loadState } from '@nextcloud/initial-state'
 import App from './Accessibility.vue'
 
-/* global t */
 // bind to window
 Vue.prototype.OC = OC
 Vue.prototype.t = t
