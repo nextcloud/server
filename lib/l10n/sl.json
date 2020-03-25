@@ -85,6 +85,8 @@
     "%1$s via %2$s" : "%1$s prek %2$s",
     "You are not allowed to share %s" : "Omogočanje souporabe %s brez ustreznih dovoljenj ni mogoče.",
     "Expiration date is in the past" : "Datum preteka je že mimo!",
+    "%1$s shared »%2$s« with you" : "%1$s vam omogoči souporabo »%2$s«",
+    "%1$s shared »%2$s« with you." : "%1$s vam omogoči souporabo »%2$s«.",
     "Click the button below to open it." : "Kliknite na gumb za odpiranje.",
     "Could not find category \"%s\"" : "Kategorije »%s« ni mogoče najti.",
     "Sunday" : "nedelja",
