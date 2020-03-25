@@ -56,17 +56,17 @@ class SetupTest extends \Test\TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->will($this->returnValue(
+			->willReturn(
 				['sqlite', 'mysql', 'oci']
-			));
+			);
 		$this->setupClass
 			->expects($this->once())
 			->method('is_callable')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->setupClass
 			->expects($this->any())
 			->method('getAvailableDbDriversForPdo')
-			->will($this->returnValue(['sqlite']));
+			->willReturn(['sqlite']);
 		$result = $this->setupClass->getSupportedDatabases();
 		$expectedResult = [
 			'sqlite' => 'SQLite'
@@ -79,17 +79,17 @@ class SetupTest extends \Test\TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->will($this->returnValue(
+			->willReturn(
 				['sqlite', 'mysql', 'oci', 'pgsql']
-			));
+			);
 		$this->setupClass
 			->expects($this->any())
 			->method('is_callable')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->setupClass
 			->expects($this->any())
 			->method('getAvailableDbDriversForPdo')
-			->will($this->returnValue([]));
+			->willReturn([]);
 		$result = $this->setupClass->getSupportedDatabases();
 
 		$this->assertSame([], $result);
@@ -99,17 +99,17 @@ class SetupTest extends \Test\TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->will($this->returnValue(
+			->willReturn(
 				['sqlite', 'mysql', 'pgsql', 'oci']
-			));
+			);
 		$this->setupClass
 			->expects($this->any())
 			->method('is_callable')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->setupClass
 			->expects($this->any())
 			->method('getAvailableDbDriversForPdo')
-			->will($this->returnValue(['sqlite', 'mysql', 'pgsql']));
+			->willReturn(['sqlite', 'mysql', 'pgsql']);
 		$result = $this->setupClass->getSupportedDatabases();
 		$expectedResult = [
 			'sqlite' => 'SQLite',
@@ -128,7 +128,7 @@ class SetupTest extends \Test\TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->will($this->returnValue('NotAnArray'));
+			->willReturn('NotAnArray');
 		$this->setupClass->getSupportedDatabases();
 	}
 
@@ -143,7 +143,7 @@ class SetupTest extends \Test\TestCase {
 		$this->config
 			->expects($this->once())
 			->method('getValue')
-			->will($this->returnValue($url));
+			->willReturn($url);
 		\OC::$CLI = true;
 
 		try {

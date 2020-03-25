@@ -59,7 +59,7 @@ class SecuritySettingTest extends TestCase {
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with('Security')
-			->will($this->returnValue('Sicherheit'));
+			->willReturn('Sicherheit');
 		$this->assertEquals('Sicherheit', $this->setting->getName());
 	}
 

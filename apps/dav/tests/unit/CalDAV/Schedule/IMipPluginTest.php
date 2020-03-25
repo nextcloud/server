@@ -78,9 +78,9 @@ class IMipPluginTest extends TestCase {
 
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->method('t')
-			->will($this->returnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 		$l10nFactory = $this->createMock(IFactory::class);
 		$l10nFactory->method('get')->willReturn($l10n);
 
@@ -90,16 +90,16 @@ class IMipPluginTest extends TestCase {
 		$db = $this->createMock(IDBConnection::class);
 		$db->method('getQueryBuilder')
 			->with()
-			->will($this->returnValue($this->queryBuilder));
+			->willReturn($this->queryBuilder);
 
 		$random = $this->createMock(ISecureRandom::class);
 		$random->method('generate')
 			->with(60, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
-			->will($this->returnValue('random_token'));
+			->willReturn('random_token');
 
 		$defaults = $this->createMock(Defaults::class);
 		$defaults->method('getName')
-			->will($this->returnValue('Instance Name 123'));
+			->willReturn('Instance Name 123');
 
 		$this->plugin = new IMipPlugin($this->config, $this->mailer, $logger, $this->timeFactory, $l10nFactory, $urlGenerator, $defaults, $random, $db, $this->userManager, 'user123');
 	}
@@ -269,10 +269,10 @@ class IMipPluginTest extends TestCase {
 			$this->queryBuilder->expects($this->at(0))
 				->method('insert')
 				->with('calendar_invitations')
-				->will($this->returnValue($this->queryBuilder));
+				->willReturn($this->queryBuilder);
 			$this->queryBuilder->expects($this->at(8))
 				->method('values')
-				->will($this->returnValue($this->queryBuilder));
+				->willReturn($this->queryBuilder);
 			$this->queryBuilder->expects($this->at(9))
 				->method('execute');
 		}

@@ -93,7 +93,7 @@ class AppTest extends \Test\TestCase {
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod))
-			->will($this->returnValue($return));
+			->willReturn($return);
 
 		$this->io->expects($this->never())
 			->method('setOutput');
@@ -133,7 +133,7 @@ class AppTest extends \Test\TestCase {
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod))
-			->will($this->returnValue($return));
+			->willReturn($return);
 		$this->io->expects($this->once())
 			->method('setOutput')
 			->with($this->equalTo($this->output));
@@ -156,7 +156,7 @@ class AppTest extends \Test\TestCase {
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod))
-			->will($this->returnValue($return));
+			->willReturn($return);
 		$this->io->expects($this->once())
 			->method('setHeader')
 			->with($this->equalTo($statusCode));
@@ -175,7 +175,7 @@ class AppTest extends \Test\TestCase {
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod))
-			->will($this->returnValue($return));
+			->willReturn($return);
 		$mock->expects($this->once())
 			->method('callback');
 		App::main($this->controllerName, $this->controllerMethod, $this->container, []);
@@ -190,7 +190,7 @@ class AppTest extends \Test\TestCase {
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod))
-			->will($this->returnValue($return));
+			->willReturn($return);
 
 		$this->io->expects($this->never())
 			->method('setOutput');
@@ -207,7 +207,7 @@ class AppTest extends \Test\TestCase {
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod))
-			->will($this->returnValue($return));
+			->willReturn($return);
 
 		$this->io->expects($this->never())
 			->method('setOutput');
@@ -224,7 +224,7 @@ class AppTest extends \Test\TestCase {
 			->method('dispatch')
 			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod))
-			->will($this->returnValue($return));
+			->willReturn($return);
 
 		$this->io->expects($this->never())
 			->method('setOutput');

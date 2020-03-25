@@ -245,7 +245,7 @@ class RoutingTest extends \Test\TestCase
 			->expects($this->once())
 			->method('create')
 			->with($this->equalTo('app1.' . $name), $this->equalTo($url))
-			->will($this->returnValue($route));
+			->willReturn($route);
 
 		// load route configuration
 		$config = new RouteConfig($container, $router, $routes);
@@ -293,7 +293,7 @@ class RoutingTest extends \Test\TestCase
 			->expects($this->once())
 			->method('create')
 			->with($this->equalTo('ocs.app1.' . $name), $this->equalTo($url))
-			->will($this->returnValue($route));
+			->willReturn($route);
 
 		// load route configuration
 		$config = new RouteConfig($container, $router, $routes);
@@ -391,31 +391,31 @@ class RoutingTest extends \Test\TestCase
 			->expects($this->at(0))
 			->method('create')
 			->with($this->equalTo('app1.' . $resourceName . '.index'), $this->equalTo($url))
-			->will($this->returnValue($indexRoute));
+			->willReturn($indexRoute);
 
 		$router
 			->expects($this->at(1))
 			->method('create')
 			->with($this->equalTo('app1.' . $resourceName . '.show'), $this->equalTo($urlWithParam))
-			->will($this->returnValue($showRoute));
+			->willReturn($showRoute);
 
 		$router
 			->expects($this->at(2))
 			->method('create')
 			->with($this->equalTo('app1.' . $resourceName . '.create'), $this->equalTo($url))
-			->will($this->returnValue($createRoute));
+			->willReturn($createRoute);
 
 		$router
 			->expects($this->at(3))
 			->method('create')
 			->with($this->equalTo('app1.' . $resourceName . '.update'), $this->equalTo($urlWithParam))
-			->will($this->returnValue($updateRoute));
+			->willReturn($updateRoute);
 
 		$router
 			->expects($this->at(4))
 			->method('create')
 			->with($this->equalTo('app1.' . $resourceName . '.destroy'), $this->equalTo($urlWithParam))
-			->will($this->returnValue($destroyRoute));
+			->willReturn($destroyRoute);
 
 		// load route configuration
 		$config = new RouteConfig($container, $router, $yaml);
@@ -448,20 +448,20 @@ class RoutingTest extends \Test\TestCase
 			->expects($this->exactly(1))
 			->method('method')
 			->with($this->equalTo($verb))
-			->will($this->returnValue($route));
+			->willReturn($route);
 
 		$route
 			->expects($this->exactly(1))
 			->method('action')
 			->with($this->equalTo(new RouteActionHandler($container, $controllerName, $actionName)))
-			->will($this->returnValue($route));
+			->willReturn($route);
 
 		if(count($requirements) > 0) {
 			$route
 				->expects($this->exactly(1))
 				->method('requirements')
 				->with($this->equalTo($requirements))
-				->will($this->returnValue($route));
+				->willReturn($route);
 		}
 
 		if (count($defaults) > 0) {
@@ -469,7 +469,7 @@ class RoutingTest extends \Test\TestCase
 				->expects($this->exactly(1))
 				->method('defaults')
 				->with($this->equalTo($defaults))
-				->will($this->returnValue($route));
+				->willReturn($route);
 		}
 
 		return $route;

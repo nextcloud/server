@@ -187,7 +187,7 @@ class AccessTest extends TestCase {
 		$this->ldap->expects($this->once())
 			->method('explodeDN')
 			->with($inputDN, 0)
-			->will($this->returnValue(explode(',', $inputDN)));
+			->willReturn(explode(',', $inputDN));
 
 		$this->assertSame($domainDN, $this->access->getDomainDNFromDN($inputDN));
 	}
@@ -199,7 +199,7 @@ class AccessTest extends TestCase {
 		$this->ldap->expects($this->once())
 			->method('explodeDN')
 			->with($inputDN, 0)
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->assertSame($expected, $this->access->getDomainDNFromDN($inputDN));
 	}
@@ -236,12 +236,12 @@ class AccessTest extends TestCase {
 
 		$lw->expects($this->exactly(1))
 			->method('explodeDN')
-			->will($this->returnCallback(function ($dn) use ($case) {
+			->willReturnCallback(function ($dn) use ($case) {
 				if($dn === $case['input']) {
 					return $case['interResult'];
 				}
 				return null;
-			}));
+			});
 
 		$this->assertSame($case['expectedResult'], $access->stringResemblesDN($case['input']));
 	}
@@ -294,7 +294,7 @@ class AccessTest extends TestCase {
 		// also returns for userUuidAttribute
 		$this->access->connection->expects($this->any())
 			->method('__get')
-			->will($this->returnValue('displayName'));
+			->willReturn('displayName');
 
 		$this->access->setUserMapper($mapperMock);
 
@@ -319,7 +319,7 @@ class AccessTest extends TestCase {
 
 		$this->userManager->expects($this->exactly(count($data) * 2))
 			->method('get')
-			->will($this->returnValue($userMock));
+			->willReturn($userMock);
 
 		$this->access->batchApplyUserAttributes($data);
 	}
@@ -329,13 +329,13 @@ class AccessTest extends TestCase {
 		$mapperMock = $this->createMock(UserMapping::class);
 		$mapperMock->expects($this->any())
 			->method('getNameByDN')
-			->will($this->returnValue('a_username'));
+			->willReturn('a_username');
 
 		$userMock = $this->createMock(User::class);
 
 		$this->access->connection->expects($this->any())
 			->method('__get')
-			->will($this->returnValue('displayName'));
+			->willReturn('displayName');
 
 		$this->access->setUserMapper($mapperMock);
 
@@ -370,13 +370,13 @@ class AccessTest extends TestCase {
 		$mapperMock = $this->createMock(UserMapping::class);
 		$mapperMock->expects($this->any())
 			->method('getNameByDN')
-			->will($this->returnValue('a_username'));
+			->willReturn('a_username');
 
 		$userMock = $this->createMock(User::class);
 
 		$this->access->connection->expects($this->any())
 			->method('__get')
-			->will($this->returnValue('displayName'));
+			->willReturn('displayName');
 
 		$this->access->setUserMapper($mapperMock);
 
@@ -401,7 +401,7 @@ class AccessTest extends TestCase {
 
 		$this->userManager->expects($this->exactly(count($data) * 2))
 			->method('get')
-			->will($this->returnValue($userMock));
+			->willReturn($userMock);
 
 		$this->access->batchApplyUserAttributes($data);
 	}
@@ -429,12 +429,12 @@ class AccessTest extends TestCase {
 
 		$lw->expects($this->any())
 			->method('isResource')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$lw->expects($this->any())
 			->method('getAttributes')
-			->will($this->returnValue(array(
+			->willReturn(array(
 				$attribute => array('count' => 1, $dnFromServer)
-			)));
+			));
 
 		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager);
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);

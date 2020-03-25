@@ -46,9 +46,9 @@ class CachedSubscriptionObjectTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('getCalendarObject')
 			->with(666, 'foo123', 1)
-			->will($this->returnValue([
+			->willReturn([
 				'calendardata' => 'BEGIN...',
-			]));
+			]);
 
 		$calendarObject = new CachedSubscriptionObject($backend, $calendarInfo, $objectData);
 		$this->assertEquals('BEGIN...', $calendarObject->get());

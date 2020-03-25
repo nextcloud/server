@@ -124,7 +124,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 
 		$this->query->expects($this->any())
 			->method('fetch')
-			->will($this->returnCallback(
+			->willReturnCallback(
 				function() use ($iterators, $fetchAt){
 					$iterator = $iterators[$fetchAt];
 					$result = $iterator->next();
@@ -137,7 +137,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 
 					return $result;
 				}
-			));
+			);
 
 		if ($this->isAssocArray($arguments)) {
 			foreach($arguments as $key => $argument) {
@@ -165,9 +165,9 @@ abstract class MapperTestUtility extends \Test\TestCase {
 
 		$this->query->expects($this->at($this->queryAt))
 			->method('execute')
-			->will($this->returnCallback(function($sql, $p=null, $o=null, $s=null) {
+			->willReturnCallback(function($sql, $p=null, $o=null, $s=null) {
 
-			}));
+			});
 		$this->queryAt++;
 
 

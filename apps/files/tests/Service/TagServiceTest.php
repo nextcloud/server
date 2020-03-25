@@ -85,7 +85,7 @@ class TagServiceTest extends \Test\TestCase {
 		$this->userSession->expects($this->any())
 			->method('getUser')
 			->withAnyParameters()
-			->will($this->returnValue($user));
+			->willReturn($user);
 
 		$this->root = \OC::$server->getUserFolder();
 		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);

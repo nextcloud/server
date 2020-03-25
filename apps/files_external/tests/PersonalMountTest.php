@@ -40,7 +40,7 @@ class PersonalMountTest extends TestCase {
 
 		$storage->expects($this->any())
 			->method('getId')
-			->will($this->returnValue('dummy'));
+			->willReturn('dummy');
 
 		$mount = new PersonalMount($storageService, 10, $storage, '/foo');
 

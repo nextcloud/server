@@ -100,10 +100,10 @@ class SettingsControllerTest extends TestCase {
 					$c->getRedirectUri() === 'https://example.com/' &&
 					$c->getSecret() === 'MySecret' &&
 					$c->getClientIdentifier() === 'MyClientIdentifier';
-			}))->will($this->returnCallback(function (Client $c) {
+			}))->willReturnCallback(function (Client $c) {
 				$c->setId(42);
 				return $c;
-			}));
+			});
 
 		$result = $this->settingsController->addClient('My Client Name', 'https://example.com/');
 		$this->assertInstanceOf(JSONResponse::class, $result);

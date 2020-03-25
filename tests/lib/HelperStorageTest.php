@@ -71,7 +71,7 @@ class HelperStorageTest extends \Test\TestCase {
 
 		$this->storageMock->expects($this->once())
 			->method('free_space')
-			->will($this->returnValue(12));
+			->willReturn(12);
 		return $this->storageMock;
 	}
 

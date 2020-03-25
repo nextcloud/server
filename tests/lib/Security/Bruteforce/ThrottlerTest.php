@@ -185,7 +185,7 @@ class ThrottlerTest extends TestCase {
 			->willReturn($enabled);
 
 		$this->config->method('getAppValue')
-			->will($this->returnCallback(function($app, $key, $default) use ($whitelists) {
+			->willReturnCallback(function($app, $key, $default) use ($whitelists) {
 				if ($app !== 'bruteForce') {
 					return $default;
 				}
@@ -193,7 +193,7 @@ class ThrottlerTest extends TestCase {
 					return $whitelists[$key];
 				}
 				return $default;
-			}));
+			});
 
 		$this->assertSame(
 			($enabled === false) ? true : $isWhiteListed,

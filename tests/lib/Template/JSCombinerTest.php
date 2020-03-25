@@ -121,7 +121,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$fileDeps = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->will($this->returnCallback(function($path) use ($file, $gzfile) {
+			->willReturnCallback(function($path) use ($file, $gzfile) {
 				if ($path === 'combine.js') {
 					return $file;
 				} else if ($path === 'combine.js.deps') {
@@ -130,7 +130,7 @@ class JSCombinerTest extends \Test\TestCase {
 					return $gzfile;
 				}
 				$this->fail();
-			}));
+			});
 		$folder->expects($this->once())
 			->method('newFile')
 			->with('combine.js.deps')
@@ -158,7 +158,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$gzfile = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->will($this->returnCallback(function($path) use ($file, $gzfile) {
+			->willReturnCallback(function($path) use ($file, $gzfile) {
 				if ($path === 'combine.js') {
 					return $file;
 				} else if ($path === 'combine.js.deps') {
@@ -167,7 +167,7 @@ class JSCombinerTest extends \Test\TestCase {
 					return $gzfile;
 				}
 				$this->fail();
-			}));
+			});
 		$folder->expects($this->once())
 			->method('newFile')
 			->with('combine.js.deps')
@@ -201,7 +201,7 @@ class JSCombinerTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$folder->method('getFile')
-			->will($this->returnCallback(function($path) use ($file, $fileDeps) {
+			->willReturnCallback(function($path) use ($file, $fileDeps) {
 				if ($path === 'combine.js') {
 					return $file;
 				}
@@ -211,7 +211,7 @@ class JSCombinerTest extends \Test\TestCase {
 				}
 
 				$this->fail();
-			}));
+			});
 
 		$actual = $this->jsCombiner->process(__DIR__, '/data/combine.json', 'awesomeapp');
 		$this->assertTrue($actual);
@@ -246,12 +246,12 @@ class JSCombinerTest extends \Test\TestCase {
 			->willReturn('{}');
 
 		$folder->method('getFile')
-			->will($this->returnCallback(function($path) use ($file) {
+			->willReturnCallback(function($path) use ($file) {
 				if ($path === 'combine.js') {
 					return $file;
 				}
 				$this->fail();
-			}));
+			});
 
 		$actual = $this->jsCombiner->process(__DIR__, '/data/combine.json', 'awesomeapp');
 		$this->assertTrue($actual);
@@ -263,7 +263,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->will($this->returnCallback(function($path) use ($file) {
+			->willReturnCallback(function($path) use ($file) {
 				if ($path === 'combine.js') {
 					return $file;
 				}
@@ -271,7 +271,7 @@ class JSCombinerTest extends \Test\TestCase {
 					throw new NotFoundException();
 				}
 				$this->fail();
-			}));
+			});
 
 		$actual = self::invokePrivate($this->jsCombiner, 'isCached', [$fileName, $folder]);
 		$this->assertFalse($actual);
@@ -345,7 +345,7 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$folder->method('getFile')->willThrowException(new NotFoundException());
 
-		$folder->method('newFile')->will($this->returnCallback(
+		$folder->method('newFile')->willReturnCallback(
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {
 					return $file;
@@ -356,7 +356,7 @@ class JSCombinerTest extends \Test\TestCase {
 				}
 				$this->fail();
 			}
-		));
+		);
 
 		$file->expects($this->once())->method('putContent');
 		$depsFile->expects($this->once())->method('putContent');
@@ -376,7 +376,7 @@ class JSCombinerTest extends \Test\TestCase {
 
 		$path = __DIR__ . '/data/';
 
-		$folder->method('getFile')->will($this->returnCallback(
+		$folder->method('getFile')->willReturnCallback(
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {
 					return $file;
@@ -387,7 +387,7 @@ class JSCombinerTest extends \Test\TestCase {
 				}
 				$this->fail();
 			}
-		));
+		);
 
 		$file->expects($this->once())->method('putContent');
 		$depsFile->expects($this->once())->method('putContent');
@@ -444,7 +444,7 @@ var b = \'world\';
 		$path = __DIR__ . '/data/';
 
 
-		$folder->method('getFile')->will($this->returnCallback(
+		$folder->method('getFile')->willReturnCallback(
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {
 					return $file;
@@ -455,7 +455,7 @@ var b = \'world\';
 				}
 				$this->fail();
 			}
-		));
+		);
 
 		$file->expects($this->at(0))
 			->method('putContent')

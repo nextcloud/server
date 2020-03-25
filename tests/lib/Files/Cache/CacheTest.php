@@ -544,7 +544,7 @@ class CacheTest extends \Test\TestCase {
 
 		$cacheMock->expects($this->any())
 			->method('normalize')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$data = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
 

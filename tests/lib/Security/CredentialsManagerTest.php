@@ -54,7 +54,7 @@ class CredentialsManagerTest extends \Test\TestCase {
 
 		$result->expects($this->any())
 			->method('fetch')
-			->will($this->returnValue($row));
+			->willReturn($row);
 
 		return $result;
 	}

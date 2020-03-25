@@ -81,18 +81,18 @@ class BirthdayCalendarControllerTest extends TestCase {
 
 		$this->userManager->expects($this->once())
 			->method('callForSeenUsers')
-			->will($this->returnCallback(function($closure) {
+			->willReturnCallback(function($closure) {
 				$user1 = $this->createMock(IUser::class);
-				$user1->method('getUID')->will($this->returnValue('uid1'));
+				$user1->method('getUID')->willReturn('uid1');
 				$user2 = $this->createMock(IUser::class);
-				$user2->method('getUID')->will($this->returnValue('uid2'));
+				$user2->method('getUID')->willReturn('uid2');
 				$user3 = $this->createMock(IUser::class);
-				$user3->method('getUID')->will($this->returnValue('uid3'));
+				$user3->method('getUID')->willReturn('uid3');
 
 				$closure($user1);
 				$closure($user2);
 				$closure($user3);
-			}));
+			});
 
 		$this->jobList->expects($this->at(0))
 			->method('add')

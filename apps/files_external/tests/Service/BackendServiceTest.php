@@ -51,8 +51,8 @@ class BackendServiceTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder(Backend::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$backend->method('getIdentifier')->will($this->returnValue('identifier:'.$class));
-		$backend->method('getIdentifierAliases')->will($this->returnValue(['identifier:'.$class]));
+		$backend->method('getIdentifier')->willReturn('identifier:'.$class);
+		$backend->method('getIdentifierAliases')->willReturn(['identifier:'.$class]);
 		return $backend;
 	}
 
@@ -65,8 +65,8 @@ class BackendServiceTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder(AuthMechanism::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$backend->method('getIdentifier')->will($this->returnValue('identifier:'.$class));
-		$backend->method('getIdentifierAliases')->will($this->returnValue(['identifier:'.$class]));
+		$backend->method('getIdentifier')->willReturn('identifier:'.$class);
+		$backend->method('getIdentifierAliases')->willReturn(['identifier:'.$class]);
 		return $backend;
 	}
 
@@ -167,10 +167,10 @@ class BackendServiceTest extends \Test\TestCase {
 	public function testUserMountingBackends() {
 		$this->config->expects($this->exactly(2))
 			->method('getAppValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['files_external', 'allow_user_mounting', 'yes', 'yes'],
 				['files_external', 'user_mounting_backends', '', 'identifier:\User\Mount\Allowed,identifier_alias']
-			]));
+			]);
 
 		$service = new BackendService($this->config);
 
@@ -201,15 +201,15 @@ class BackendServiceTest extends \Test\TestCase {
 		$backendAvailable = $this->getBackendMock('\Backend\Available');
 		$backendAvailable->expects($this->once())
 			->method('checkDependencies')
-			->will($this->returnValue([]));
+			->willReturn([]);
 		$backendNotAvailable = $this->getBackendMock('\Backend\NotAvailable');
 		$backendNotAvailable->expects($this->once())
 			->method('checkDependencies')
-			->will($this->returnValue([
+			->willReturn([
 				$this->getMockBuilder('\OCA\Files_External\Lib\MissingDependency')
 					->disableOriginalConstructor()
 					->getMock()
-			]));
+			]);
 
 		$service->registerBackend($backendAvailable);
 		$service->registerBackend($backendNotAvailable);

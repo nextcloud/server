@@ -153,9 +153,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->once())
 			->method('t')
-			->will($this->returnCallback(function($str) {
+			->willReturnCallback(function($str) {
 				return $str;
-			}));
+			});
 		$this->scssCacher
 			->expects($this->once())
 			->method('getCachedSCSS')
@@ -212,9 +212,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($str) {
+			->willReturnCallback(function($str) {
 				return $str;
-			}));
+			});
 
 		$expected = new DataResponse(
 			[
@@ -243,9 +243,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($str) {
+			->willReturnCallback(function($str) {
 				return $str;
-			}));
+			});
 
 		$expected = new DataResponse(
 			[
@@ -291,9 +291,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($str) {
+			->willReturnCallback(function($str) {
 				return $str;
-			}));
+			});
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
@@ -335,9 +335,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($str) {
+			->willReturnCallback(function($str) {
 				return $str;
-			}));
+			});
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
@@ -396,9 +396,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($str) {
+			->willReturnCallback(function($str) {
 				return $str;
-			}));
+			});
 
 
 		$file = $this->createMock(ISimpleFile::class);
@@ -472,9 +472,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($str) {
+			->willReturnCallback(function($str) {
 				return $str;
-			}));
+			});
 
 		$file = $this->createMock(ISimpleFile::class);
 		$folder = $this->createMock(ISimpleFolder::class);
@@ -546,9 +546,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($str) {
+			->willReturnCallback(function($str) {
 				return $str;
-			}));
+			});
 
 		$folder = $this->createMock(ISimpleFolder::class);
 		$this->appData
@@ -604,9 +604,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($str) {
+			->willReturnCallback(function($str) {
 				return $str;
-			}));
+			});
 
 		$expected = new DataResponse(
 			[
@@ -643,9 +643,9 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($str) {
+			->willReturnCallback(function($str) {
 				return $str;
-			}));
+			});
 
 		$expected = new DataResponse(
 			[

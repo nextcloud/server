@@ -114,11 +114,11 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 			->getMock();
 		$node->expects($this->any())
 			->method('getId')
-			->will($this->returnValue($fid));
+			->willReturn($fid);
 
 		$this->server->expects($this->once())
 			->method('getBaseUri')
-			->will($this->returnValue($baseUri));
+			->willReturn($baseUri);
 
 		$href = $this->plugin->getCommentsLink($node);
 		$this->assertSame($expectedHref, $href);
@@ -145,15 +145,15 @@ class CommentsPropertiesPluginTest extends \Test\TestCase {
 			->getMock();
 		$node->expects($this->any())
 			->method('getId')
-			->will($this->returnValue('4567'));
+			->willReturn('4567');
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($user));
+			->willReturn($user);
 
 		$this->commentsManager->expects($this->any())
 			->method('getNumberOfCommentsForObject')
-			->will($this->returnValue(42));
+			->willReturn(42);
 
 		$unread = $this->plugin->getUnreadCount($node);
 		if(is_null($user)) {

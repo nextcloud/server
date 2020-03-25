@@ -54,12 +54,12 @@ class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user123', 'dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->birthdayService->expects($this->never())
 			->method('resetForUser')
@@ -76,12 +76,12 @@ class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user123', 'dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->birthdayService->expects($this->once())
 			->method('resetForUser')
@@ -98,7 +98,7 @@ class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('no'));
+			->willReturn('no');
 
 		$this->config->expects($this->never())
 			->method('getUserValue');
@@ -113,12 +113,12 @@ class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user123', 'dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('no'));
+			->willReturn('no');
 
 		$this->birthdayService->expects($this->never())
 			->method('syncUser');

@@ -84,7 +84,7 @@ class BackupCodeMapperTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->once())
 			->method('getUID')
-			->will($this->returnValue($this->testUID));
+			->willReturn($this->testUID);
 
 		$dbCodes = $this->mapper->getBackupCodes($user);
 
@@ -101,7 +101,7 @@ class BackupCodeMapperTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue($this->testUID));
+			->willReturn($this->testUID);
 
 		$this->mapper->insert($code);
 

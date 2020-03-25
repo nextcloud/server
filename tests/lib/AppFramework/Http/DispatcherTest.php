@@ -156,7 +156,7 @@ class DispatcherTest extends \Test\TestCase {
 					->with($this->equalTo($this->controller),
 						$this->equalTo($this->controllerMethod),
 						$this->equalTo($exception))
-					->will($this->returnValue($this->response));
+					->willReturn($this->response);
 			} else {
 				$this->middlewareDispatcher->expects($this->once())
 					->method('afterException')
@@ -173,51 +173,51 @@ class DispatcherTest extends \Test\TestCase {
 					$this->equalTo($this->controllerMethod));
 			$this->controller->expects($this->once())
 				->method($this->controllerMethod)
-				->will($this->returnValue($this->response));
+				->willReturn($this->response);
 		}
 
 		$this->response->expects($this->once())
 			->method('render')
-			->will($this->returnValue($out));
+			->willReturn($out);
 		$this->response->expects($this->once())
 			->method('getStatus')
-			->will($this->returnValue(Http::STATUS_OK));
+			->willReturn(Http::STATUS_OK);
 		$this->response->expects($this->once())
 			->method('getLastModified')
-			->will($this->returnValue($this->lastModified));
+			->willReturn($this->lastModified);
 		$this->response->expects($this->once())
 			->method('getETag')
-			->will($this->returnValue($this->etag));
+			->willReturn($this->etag);
 		$this->response->expects($this->once())
 			->method('getHeaders')
-			->will($this->returnValue($responseHeaders));
+			->willReturn($responseHeaders);
 		$this->http->expects($this->once())
 			->method('getStatusHeader')
 			->with($this->equalTo(Http::STATUS_OK),
 				$this->equalTo($this->lastModified),
 				$this->equalTo($this->etag))
-			->will($this->returnValue($httpHeaders));
+			->willReturn($httpHeaders);
 
 		$this->middlewareDispatcher->expects($this->once())
 			->method('afterController')
 			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod),
 				$this->equalTo($this->response))
-			->will($this->returnValue($this->response));
+			->willReturn($this->response);
 
 		$this->middlewareDispatcher->expects($this->once())
 			->method('afterController')
 			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod),
 				$this->equalTo($this->response))
-			->will($this->returnValue($this->response));
+			->willReturn($this->response);
 
 		$this->middlewareDispatcher->expects($this->once())
 			->method('beforeOutput')
 			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod),
 				$this->equalTo($out))
-			->will($this->returnValue($out));
+			->willReturn($out);
 	}
 
 
@@ -281,14 +281,14 @@ class DispatcherTest extends \Test\TestCase {
 				->method('beforeController');
 		$this->middlewareDispatcher->expects($this->once())
 			->method('afterController')
-			->will($this->returnCallback(function($a, $b, $in) {
+			->willReturnCallback(function($a, $b, $in) {
 				return $in;
-			}));
+			});
 		$this->middlewareDispatcher->expects($this->once())
 			->method('beforeOutput')
-			->will($this->returnCallback(function($a, $b, $in) {
+			->willReturnCallback(function($a, $b, $in) {
 				return $in;
-			}));
+			});
 	}
 
 

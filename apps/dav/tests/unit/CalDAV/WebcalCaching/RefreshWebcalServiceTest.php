@@ -81,7 +81,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$this->caldavBackend->expects($this->once())
 			->method('getSubscriptionsForUser')
 			->with('principals/users/testuser')
-			->will($this->returnValue([
+			->willReturn([
 				[
 					'id' => '99',
 					'uri' => 'sub456',
@@ -100,35 +100,35 @@ class RefreshWebcalServiceTest extends TestCase {
 					'{http://calendarserver.org/ns/}subscribed-strip-attachments' => '1',
 					'source' => 'webcal://foo.bar/bla2'
 				],
-			]));
+			]);
 
 		$client = $this->createMock(IClient::class);
 		$response = $this->createMock(IResponse::class);
 		$this->clientService->expects($this->once())
 			->method('newClient')
 			->with()
-			->will($this->returnValue($client));
+			->willReturn($client);
 
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'webcalAllowLocalAccess', 'no')
-			->will($this->returnValue('no'));
+			->willReturn('no');
 
 		$client->expects($this->once())
 			->method('get')
 			->with('https://foo.bar/bla2', $this->callback(function($obj) {
 				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
 			}))
-			->will($this->returnValue($response));
+			->willReturn($response);
 
 		$response->expects($this->once())
 			->method('getBody')
 			->with()
-			->will($this->returnValue($body));
+			->willReturn($body);
 		$response->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
-			->will($this->returnValue($contentType));
+			->willReturn($contentType);
 
 		$this->caldavBackend->expects($this->once())
 			->method('purgeAllCachedEventsForSubscription')
@@ -176,7 +176,7 @@ class RefreshWebcalServiceTest extends TestCase {
 		$this->caldavBackend->expects($this->once())
 			->method('getSubscriptionsForUser')
 			->with('principals/users/testuser')
-			->will($this->returnValue([
+			->willReturn([
 				[
 					'id' => 42,
 					'uri' => 'sub123',
@@ -186,18 +186,18 @@ class RefreshWebcalServiceTest extends TestCase {
 					'stripattachments' => 1,
 					'source' => $source
 				],
-			]));
+			]);
 
 		$client = $this->createMock(IClient::class);
 		$this->clientService->expects($this->once())
 			->method('newClient')
 			->with()
-			->will($this->returnValue($client));
+			->willReturn($client);
 
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'webcalAllowLocalAccess', 'no')
-			->will($this->returnValue('no'));
+			->willReturn('no');
 
 		$client->expects($this->never())
 			->method('get');

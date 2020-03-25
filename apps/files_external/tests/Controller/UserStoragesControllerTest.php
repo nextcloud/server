@@ -76,7 +76,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 
 		$this->service->expects($this->exactly(2))
 			->method('createStorage')
-			->will($this->returnValue($storageConfig));
+			->willReturn($storageConfig);
 		$this->service->expects($this->never())
 			->method('addStorage');
 		$this->service->expects($this->never())

@@ -184,11 +184,11 @@ class QuotaPluginTest extends TestCase {
 			->getMock();
 		$mockChunking->expects($this->once())
 			->method('getCurrentSize')
-			->will($this->returnValue($chunkTotalSize));
+			->willReturn($chunkTotalSize);
 
 		$this->plugin->expects($this->once())
 			->method('getFileChunking')
-			->will($this->returnValue($mockChunking));
+			->willReturn($mockChunking);
 
 		$headers['OC-CHUNKED'] = 1;
 		$this->server->httpRequest = new \Sabre\HTTP\Request(null, null, $headers);
@@ -221,11 +221,11 @@ class QuotaPluginTest extends TestCase {
 			->getMock();
 		$mockChunking->expects($this->once())
 			->method('getCurrentSize')
-			->will($this->returnValue($chunkTotalSize));
+			->willReturn($chunkTotalSize);
 
 		$this->plugin->expects($this->once())
 			->method('getFileChunking')
-			->will($this->returnValue($mockChunking));
+			->willReturn($mockChunking);
 
 		$headers['OC-CHUNKED'] = 1;
 		$this->server->httpRequest = new \Sabre\HTTP\Request(null, null, $headers);
@@ -241,7 +241,7 @@ class QuotaPluginTest extends TestCase {
 		$view->expects($this->any())
 			->method('free_space')
 			->with($this->identicalTo($checkedPath))
-			->will($this->returnValue($quota));
+			->willReturn($quota);
 
 		return $view;
 	}

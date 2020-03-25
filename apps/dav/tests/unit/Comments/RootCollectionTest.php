@@ -93,11 +93,11 @@ class RootCollectionTest extends \Test\TestCase {
 	protected function prepareForInitCollections() {
 		$this->user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('alice'));
+			->willReturn('alice');
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$this->dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function(CommentsEntityEvent $event) {
 			$event->addEntityCollection('files', function() {

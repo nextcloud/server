@@ -108,7 +108,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->will($this->returnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -120,7 +120,7 @@ EOF;
 				$iTipMessage->scheduleStatus = '1.2;Message delivered locally';
 
 				$this->assertEquals($expected, $iTipMessage->message->serialize());
-			}));
+			});
 
 
 
@@ -164,7 +164,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->will($this->returnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -176,7 +176,7 @@ EOF;
 				$iTipMessage->scheduleStatus = '1.2;Message delivered locally';
 
 				$this->assertEquals($expected, $iTipMessage->message->serialize());
-			}));
+			});
 
 
 
@@ -221,7 +221,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->will($this->returnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -233,7 +233,7 @@ EOF;
 				$iTipMessage->scheduleStatus = '1.2;Message delivered locally';
 
 				$this->assertEquals($expected, $iTipMessage->message->serialize());
-			}));
+			});
 
 
 
@@ -304,7 +304,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->will($this->returnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -316,7 +316,7 @@ EOF;
 				$iTipMessage->scheduleStatus = '1.2;Message delivered locally';
 
 				$this->assertEquals($expected, $iTipMessage->message->serialize());
-			}));
+			});
 
 
 
@@ -338,15 +338,15 @@ EOF;
 		$this->request->expects($this->at(0))
 			->method('getParam')
 			->with('partStat')
-			->will($this->returnValue('TENTATIVE'));
+			->willReturn('TENTATIVE');
 		$this->request->expects($this->at(1))
 			->method('getParam')
 			->with('guests')
-			->will($this->returnValue('7'));
+			->willReturn('7');
 		$this->request->expects($this->at(2))
 			->method('getParam')
 			->with('comment')
-			->will($this->returnValue('Foo bar Bli blub'));
+			->willReturn('Foo bar Bli blub');
 
 		$this->buildQueryExpects('TOKEN123', [
 			'id' => 0,
@@ -382,7 +382,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->will($this->returnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -394,7 +394,7 @@ EOF;
 				$iTipMessage->scheduleStatus = '1.2;Message delivered locally';
 
 				$this->assertEquals($expected, $iTipMessage->message->serialize());
-			}));
+			});
 
 
 
@@ -413,47 +413,47 @@ EOF;
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
 			->with()
-			->will($this->returnValue($queryBuilder));
+			->willReturn($queryBuilder);
 		$queryBuilder->method('expr')
-			->will($this->returnValue($expr));
+			->willReturn($expr);
 		$queryBuilder->method('createNamedParameter')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				[$token, \PDO::PARAM_STR, null, 'namedParameterToken']
-			]));
+			]);
 
 		$stmt->expects($this->once())
 			->method('fetch')
 			->with(\PDO::FETCH_ASSOC)
-			->will($this->returnValue($return));
+			->willReturn($return);
 
 		$expr->expects($this->once())
 			->method('eq')
 			->with('token', 'namedParameterToken')
-			->will($this->returnValue('EQ STATEMENT'));
+			->willReturn('EQ STATEMENT');
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
 			->with()
-			->will($this->returnValue($queryBuilder));
+			->willReturn($queryBuilder);
 
 		$queryBuilder->expects($this->at(0))
 			->method('select')
 			->with('*')
-			->will($this->returnValue($queryBuilder));
+			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->at(1))
 			->method('from')
 			->with('calendar_invitations')
-			->will($this->returnValue($queryBuilder));
+			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->at(4))
 			->method('where')
 			->with('EQ STATEMENT')
-			->will($this->returnValue($queryBuilder));
+			->willReturn($queryBuilder);
 		$queryBuilder->expects($this->at(5))
 			->method('execute')
 			->with()
-			->will($this->returnValue($stmt));
+			->willReturn($stmt);
 
 		$this->timeFactory->method('getTime')
-			->will($this->returnValue($time));
+			->willReturn($time);
 	}
 }

@@ -117,20 +117,20 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			'identifier:\OCA\Files_External\Lib\Auth\NullMechanism' => $this->getAuthMechMock(),
 		];
 		$this->backendService->method('getAuthMechanism')
-			->will($this->returnCallback(function ($class) use ($authMechanisms) {
+			->willReturnCallback(function ($class) use ($authMechanisms) {
 				if (isset($authMechanisms[$class])) {
 					return $authMechanisms[$class];
 				}
 				return null;
-			}));
+			});
 		$this->backendService->method('getAuthMechanismsByScheme')
-			->will($this->returnCallback(function ($schemes) use ($authMechanisms) {
+			->willReturnCallback(function ($schemes) use ($authMechanisms) {
 				return array_filter($authMechanisms, function ($authMech) use ($schemes) {
 					return in_array($authMech->getScheme(), $schemes, true);
 				});
-			}));
+			});
 		$this->backendService->method('getAuthMechanisms')
-			->will($this->returnValue($authMechanisms));
+			->willReturn($authMechanisms);
 
 		$sftpBackend = $this->getBackendMock('\OCA\Files_External\Lib\Backend\SFTP', '\OCA\Files_External\Lib\Storage\SFTP');
 		$backends = [
@@ -142,14 +142,14 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$backends['identifier:\OCA\Files_External\Lib\Backend\SFTP']->method('getLegacyAuthMechanism')
 			->willReturn($authMechanisms['identifier:\Other\Auth\Mechanism']);
 		$this->backendService->method('getBackend')
-			->will($this->returnCallback(function ($backendClass) use ($backends) {
+			->willReturnCallback(function ($backendClass) use ($backends) {
 				if (isset($backends[$backendClass])) {
 					return $backends[$backendClass];
 				}
 				return null;
-			}));
+			});
 		$this->backendService->method('getBackends')
-			->will($this->returnValue($backends));
+			->willReturn($backends);
 
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
@@ -162,11 +162,11 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 		$containerMock = $this->createMock(IAppContainer::class);
 		$containerMock->method('query')
-			->will($this->returnCallback(function ($name) {
+			->willReturnCallback(function ($name) {
 				if ($name === 'OCA\Files_External\Service\BackendService') {
 					return $this->backendService;
 				}
-			}));
+			});
 
 		\OC_Mount_Config::$app = $this->getMockBuilder('\OCA\Files_External\Appinfo\Application')
 			->disableOriginalConstructor()

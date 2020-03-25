@@ -64,7 +64,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		$userSession
 			->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$this->service = new UserStoragesService($this->backendService, $this->dbConfig, $userSession, $this->mountCache);
 	}

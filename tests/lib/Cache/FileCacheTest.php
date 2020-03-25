@@ -127,11 +127,11 @@ class FileCacheTest extends TestCache {
 
 		$mockStorage->expects($this->atLeastOnce())
 			->method('filemtime')
-			->will($this->returnValue(100));
+			->willReturn(100);
 		$mockStorage->expects($this->once())
 			->method('unlink')
 			->with('key1')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->instance->set('key1', 'value1');
 		$this->instance->gc();
@@ -142,7 +142,7 @@ class FileCacheTest extends TestCache {
 
 		$mockStorage->expects($this->atLeastOnce())
 			->method('filemtime')
-			->will($this->returnValue(time() + 3600));
+			->willReturn(time() + 3600);
 		$mockStorage->expects($this->never())
 			->method('unlink')
 			->with('key1');
@@ -165,7 +165,7 @@ class FileCacheTest extends TestCache {
 
 		$mockStorage->expects($this->atLeastOnce())
 			->method('filemtime')
-			->will($this->returnValue(100));
+			->willReturn(100);
 		$mockStorage->expects($this->atLeastOnce())
 			->method('unlink')
 			->will($this->onConsecutiveCalls(

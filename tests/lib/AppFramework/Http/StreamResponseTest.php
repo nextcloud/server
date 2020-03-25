@@ -44,7 +44,7 @@ class StreamResponseTest extends \Test\TestCase {
 		$path = __FILE__;
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
-			->will($this->returnValue(Http::STATUS_NOT_MODIFIED));
+			->willReturn(Http::STATUS_NOT_MODIFIED);
 		$this->output->expects($this->never())
 			->method('setReadfile');
 		$response = new StreamResponse($path);
@@ -56,11 +56,11 @@ class StreamResponseTest extends \Test\TestCase {
 		$path = __FILE__;
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
-			->will($this->returnValue(Http::STATUS_OK));
+			->willReturn(Http::STATUS_OK);
 		$this->output->expects($this->once())
 			->method('setReadfile')
 			->with($this->equalTo($path))
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$response = new StreamResponse($path);
 
 		$response->callback($this->output);
@@ -70,7 +70,7 @@ class StreamResponseTest extends \Test\TestCase {
 		$path = __FILE__ . 'test';
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
-			->will($this->returnValue(Http::STATUS_OK));
+			->willReturn(Http::STATUS_OK);
 		$this->output->expects($this->never())
 			->method('setReadfile');
 		$this->output->expects($this->once())
@@ -85,10 +85,10 @@ class StreamResponseTest extends \Test\TestCase {
 		$path = __FILE__;
 		$this->output->expects($this->once())
 			->method('getHttpResponseCode')
-			->will($this->returnValue(Http::STATUS_OK));
+			->willReturn(Http::STATUS_OK);
 		$this->output->expects($this->once())
 			->method('setReadfile')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->output->expects($this->once())
 			->method('setHttpResponseCode')
 			->with($this->equalTo(Http::STATUS_BAD_REQUEST));

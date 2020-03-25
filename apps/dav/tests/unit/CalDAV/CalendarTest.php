@@ -53,9 +53,9 @@ class CalendarTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function ($text, $parameters = array()) {
+			->willReturnCallback(function ($text, $parameters = array()) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 	}
 
 	public function testDelete() {
@@ -568,7 +568,7 @@ EOD;
 
 		$backend->expects($this->any())
 			->method('getCalendarObject')
-			->will($this->returnCallback(function($cId, $uri) use($publicObject, $confidentialObject) {
+			->willReturnCallback(function($cId, $uri) use($publicObject, $confidentialObject) {
 				switch($uri) {
 					case 'event-0':
 						return $publicObject;
@@ -579,7 +579,7 @@ EOD;
 					default:
 						throw new \Exception('unexpected uri');
 				}
-			}));
+			});
 
 		$backend->expects($this->any())
 			->method('applyShareAcl')

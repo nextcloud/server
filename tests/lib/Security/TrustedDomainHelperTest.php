@@ -34,11 +34,11 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('overwritehost')
-			->will($this->returnValue(''));
+			->willReturn('');
 		$this->config->expects($this->at(1))
 			->method('getSystemValue')
 			->with('trusted_domains')
-			->will($this->returnValue($trustedDomains));
+			->willReturn($trustedDomains);
 
 		$trustedDomainHelper = new TrustedDomainHelper($this->config);
 		$this->assertEquals($result, $trustedDomainHelper->isTrustedDomain($testDomain));
@@ -122,7 +122,7 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('overwritehost')
-			->will($this->returnValue('myproxyhost'));
+			->willReturn('myproxyhost');
 
 		$trustedDomainHelper = new TrustedDomainHelper($this->config);
 		$this->assertTrue($trustedDomainHelper->isTrustedDomain('myproxyhost'));

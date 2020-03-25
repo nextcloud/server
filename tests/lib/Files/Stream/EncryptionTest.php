@@ -99,10 +99,10 @@ class EncryptionTest extends \Test\TestCase {
 			$fileMock->expects($this->never())->method('getAccessList');
 		} else {
 			$fileMock->expects($this->once())->method('getAccessList')
-				->will($this->returnCallback(function ($sharePath) use ($expectedSharePath) {
+				->willReturnCallback(function ($sharePath) use ($expectedSharePath) {
 					$this->assertSame($expectedSharePath, $sharePath);
 					return array();
-				}));
+				});
 		}
 		$utilMock = $this->getMockBuilder('\OC\Encryption\Util')
 			->disableOriginalConstructor()->getMock();

@@ -83,9 +83,9 @@ class ClientFlowLoginControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($text, $parameters = array()) {
+			->willReturnCallback(function($text, $parameters = array()) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);

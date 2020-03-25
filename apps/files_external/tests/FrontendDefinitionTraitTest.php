@@ -101,10 +101,10 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 			->willReturn('param');
 		$param->expects($this->once())
 			->method('validateValue')
-			->will($this->returnCallback(function(&$value) {
+			->willReturnCallback(function(&$value) {
 				$value = 'foobar';
 				return true;
-			}));
+			});
 
 		$storageConfig = $this->getMockBuilder(StorageConfig::class)
 			->disableOriginalConstructor()

@@ -158,13 +158,13 @@ class JsControllerTest extends TestCase {
 			->willReturn($folder);
 
 		$folder->method('getFile')
-			->will($this->returnCallback(
+			->willReturnCallback(
 				function($fileName) use ($file) {
 					if ($fileName === 'file.js') {
 						return $file;
 					}
 					throw new NotFoundException();
-				})
+				}
 			);
 
 		$this->request->method('getHeader')

@@ -58,7 +58,7 @@ class CapabilitiesTest extends \Test\TestCase {
 	 */
 	private function getResults(array $map) {
 		$config = $this->getMockBuilder(IConfig::class)->disableOriginalConstructor()->getMock();
-		$config->method('getAppValue')->will($this->returnValueMap($map));
+		$config->method('getAppValue')->willReturnMap($map);
 		$cap = new Capabilities($config);
 		$result = $this->getFilesSharingPart($cap->getCapabilities());
 		return $result;

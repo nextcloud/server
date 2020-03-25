@@ -47,12 +47,12 @@ class UserTest extends TestCase {
 		$backend->expects($this->once())
 			->method('getDisplayName')
 			->with($this->equalTo('foo'))
-			->will($this->returnValue('Foo'));
+			->willReturn('Foo');
 
 		$backend->expects($this->any())
 			->method('implementsActions')
 			->with($this->equalTo(\OC\User\Backend::GET_DISPLAYNAME))
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertEquals('Foo', $user->getDisplayName());
@@ -69,12 +69,12 @@ class UserTest extends TestCase {
 		$backend->expects($this->once())
 			->method('getDisplayName')
 			->with($this->equalTo('foo'))
-			->will($this->returnValue('  '));
+			->willReturn('  ');
 
 		$backend->expects($this->any())
 			->method('implementsActions')
 			->with($this->equalTo(\OC\User\Backend::GET_DISPLAYNAME))
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertEquals('foo', $user->getDisplayName());
@@ -91,7 +91,7 @@ class UserTest extends TestCase {
 		$backend->expects($this->any())
 			->method('implementsActions')
 			->with($this->equalTo(\OC\User\Backend::GET_DISPLAYNAME))
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertEquals('foo', $user->getDisplayName());
@@ -108,13 +108,13 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
+			->willReturnCallback(function ($actions) {
 				if ($actions === \OC\User\Backend::SET_PASSWORD) {
 					return true;
 				} else {
 					return false;
 				}
-			}));
+			});
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertTrue($user->setPassword('bar',''));
@@ -130,7 +130,7 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertFalse($user->setPassword('bar',''));
@@ -144,17 +144,17 @@ class UserTest extends TestCase {
 		$backend->expects($this->once())
 			->method('canChangeAvatar')
 			->with($this->equalTo('foo'))
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
+			->willReturnCallback(function ($actions) {
 				if ($actions === \OC\User\Backend::PROVIDE_AVATAR) {
 					return true;
 				} else {
 					return false;
 				}
-			}));
+			});
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertTrue($user->canChangeAvatar());
@@ -168,17 +168,17 @@ class UserTest extends TestCase {
 		$backend->expects($this->once())
 			->method('canChangeAvatar')
 			->with($this->equalTo('foo'))
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
+			->willReturnCallback(function ($actions) {
 				if ($actions === \OC\User\Backend::PROVIDE_AVATAR) {
 					return true;
 				} else {
 					return false;
 				}
-			}));
+			});
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertFalse($user->canChangeAvatar());
@@ -221,13 +221,13 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->at(0))
 			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
+			->willReturnCallback(function ($actions) {
 				if ($actions === \OC\User\Backend::GET_HOME) {
 					return true;
 				} else {
 					return false;
 				}
-			}));
+			});
 
 		// important: getHome MUST be called before deleteUser because
 		// once the user is deleted, getHome implementations might not
@@ -235,7 +235,7 @@ class UserTest extends TestCase {
 		$backend->expects($this->at(1))
 			->method('getHome')
 			->with($this->equalTo('foo'))
-			->will($this->returnValue('/home/foo'));
+			->willReturn('/home/foo');
 
 		$backend->expects($this->at(2))
 			->method('deleteUser')
@@ -253,17 +253,17 @@ class UserTest extends TestCase {
 		$backend->expects($this->once())
 			->method('getHome')
 			->with($this->equalTo('foo'))
-			->will($this->returnValue('/home/foo'));
+			->willReturn('/home/foo');
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
+			->willReturnCallback(function ($actions) {
 				if ($actions === \OC\User\Backend::GET_HOME) {
 					return true;
 				} else {
 					return false;
 				}
-			}));
+			});
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertEquals('/home/foo', $user->getHome());
@@ -286,18 +286,18 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$allConfig = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$allConfig->expects($this->any())
 			->method('getUserValue')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$allConfig->expects($this->any())
 			->method('getSystemValue')
 			->with($this->equalTo('datadirectory'))
-			->will($this->returnValue('arbitrary/path'));
+			->willReturn('arbitrary/path');
 
 		$user = new User('foo', $backend, $this->dispatcher, null, $allConfig);
 		$this->assertEquals('arbitrary/path/foo', $user->getHome());
@@ -311,13 +311,13 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
+			->willReturnCallback(function ($actions) {
 				if ($actions === \OC\User\Backend::SET_PASSWORD) {
 					return true;
 				} else {
 					return false;
 				}
-			}));
+			});
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertTrue($user->canChangePassword());
@@ -331,7 +331,7 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertFalse($user->canChangePassword());
@@ -345,13 +345,13 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
+			->willReturnCallback(function ($actions) {
 				if ($actions === \OC\User\Backend::SET_DISPLAYNAME) {
 					return true;
 				} else {
 					return false;
 				}
-			}));
+			});
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertTrue($user->canChangeDisplayName());
@@ -365,7 +365,7 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertFalse($user->canChangeDisplayName());
@@ -379,13 +379,13 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
+			->willReturnCallback(function ($actions) {
 				if ($actions === \OC\User\Backend::SET_DISPLAYNAME) {
 					return true;
 				} else {
 					return false;
 				}
-			}));
+			});
 
 		$backend->expects($this->once())
 			->method('setDisplayName')
@@ -408,13 +408,13 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
+			->willReturnCallback(function ($actions) {
 				if ($actions === \OC\User\Backend::SET_DISPLAYNAME) {
 					return true;
 				} else {
 					return false;
 				}
-			}));
+			});
 
 		$user = new User('foo', $backend, $this->dispatcher);
 		$this->assertFalse($user->setDisplayName(' '));
@@ -466,13 +466,13 @@ class UserTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
+			->willReturnCallback(function ($actions) {
 				if ($actions === \OC\User\Backend::SET_PASSWORD) {
 					return true;
 				} else {
 					return false;
 				}
-			}));
+			});
 
 		$user = new User('foo', $backend, $this->dispatcher, $emitter);
 
@@ -751,13 +751,13 @@ class UserTest extends TestCase {
 
 		$config = $this->createMock(IConfig::class);
 		$config->method('getUserValue')
-			->will($this->returnCallback(function ($uid, $app, $key, $default) {
+			->willReturnCallback(function ($uid, $app, $key, $default) {
 				if ($uid === 'foo' && $app === 'login' && $key === 'lastLogin') {
 					return 42;
 				} else {
 					return $default;
 				}
-			}));
+			});
 
 		$user = new User('foo', $backend, $this->dispatcher, null, $config);
 		$this->assertSame(42, $user->getLastLogin());
@@ -861,13 +861,13 @@ class UserTest extends TestCase {
 
 		$config = $this->createMock(IConfig::class);
 		$config->method('getUserValue')
-			->will($this->returnCallback(function ($uid, $app, $key, $default) {
+			->willReturnCallback(function ($uid, $app, $key, $default) {
 				if ($uid === 'foo' && $app === 'settings' && $key === 'email') {
 					return 'foo@bar.com';
 				} else {
 					return $default;
 				}
-			}));
+			});
 
 		$user = new User('foo', $backend, $this->dispatcher, null, $config);
 		$this->assertSame('foo@bar.com', $user->getEMailAddress());

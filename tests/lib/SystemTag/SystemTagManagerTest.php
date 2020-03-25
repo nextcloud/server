@@ -439,13 +439,13 @@ class SystemTagManagerTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('test'));
+			->willReturn('test');
 		$tag1 = $this->tagManager->createTag('one', $userVisible, $userAssignable);
 
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('test')
-			->will($this->returnValue($isAdmin));
+			->willReturn($isAdmin);
 
 		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, $user));
 	}
@@ -486,18 +486,18 @@ class SystemTagManagerTest extends TestCase {
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('test'));
+			->willReturn('test');
 		$tag1 = $this->tagManager->createTag('one', $userVisible, $userAssignable);
 		$this->tagManager->setTagGroups($tag1, $tagGroupIds);
 
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('test')
-			->will($this->returnValue($isAdmin));
+			->willReturn($isAdmin);
 		$this->groupManager->expects($this->any())
 			->method('getUserGroupIds')
 			->with($user)
-			->will($this->returnValue($userGroupIds));
+			->willReturn($userGroupIds);
 
 		$this->assertEquals($expectedResult, $this->tagManager->canUserAssignTag($tag1, $user));
 	}

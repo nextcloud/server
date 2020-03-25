@@ -93,7 +93,7 @@ class RepairTest extends TestCase {
 			->will($this->throwException(new \Exception()));
 		$mock->expects($this->any())
 			->method('getName')
-			->will($this->returnValue('Exception Test'));
+			->willReturn('Exception Test');
 
 		$this->repair->addStep($mock);
 		$this->repair->addStep(new TestRepairStep(false));

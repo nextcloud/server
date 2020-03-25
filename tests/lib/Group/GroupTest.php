@@ -56,11 +56,11 @@ class GroupTest extends \Test\TestCase {
 		$user3 = $this->newUser('user3', $backend);
 		$userManager->expects($this->any())
 			->method('get')
-			->will($this->returnValueMap(array(
+			->willReturnMap(array(
 				array('user1', $user1),
 				array('user2', $user2),
 				array('user3', $user3)
-			)));
+			));
 		return $userManager;
 	}
 
@@ -74,7 +74,7 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('usersInGroup')
 			->with('group1')
-			->will($this->returnValue(array('user1', 'user2')));
+			->willReturn(array('user1', 'user2'));
 
 		$users = $group->getUsers();
 
@@ -98,12 +98,12 @@ class GroupTest extends \Test\TestCase {
 		$backend1->expects($this->once())
 			->method('usersInGroup')
 			->with('group1')
-			->will($this->returnValue(array('user1', 'user2')));
+			->willReturn(array('user1', 'user2'));
 
 		$backend2->expects($this->once())
 			->method('usersInGroup')
 			->with('group1')
-			->will($this->returnValue(array('user2', 'user3')));
+			->willReturn(array('user2', 'user3'));
 
 		$users = $group->getUsers();
 
@@ -129,7 +129,7 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('inGroup')
 			->with('user1', 'group1')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->assertTrue($group->inGroup($this->newUser('user1', $userBackend)));
 	}
@@ -150,12 +150,12 @@ class GroupTest extends \Test\TestCase {
 		$backend1->expects($this->once())
 			->method('inGroup')
 			->with('user1', 'group1')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$backend2->expects($this->once())
 			->method('inGroup')
 			->with('user1', 'group1')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->assertTrue($group->inGroup($this->newUser('user1', $userBackend)));
 	}
@@ -173,10 +173,10 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('inGroup')
 			->with('user1', 'group1')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$backend->expects($this->once())
 			->method('addToGroup')
@@ -198,10 +198,10 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('inGroup')
 			->with('user1', 'group1')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$backend->expects($this->never())
 			->method('addToGroup');
@@ -222,10 +222,10 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('inGroup')
 			->with('user1', 'group1')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$backend->expects($this->once())
 			->method('removeFromGroup')
@@ -247,10 +247,10 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('inGroup')
 			->with('user1', 'group1')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$backend->expects($this->never())
 			->method('removeFromGroup');
@@ -274,10 +274,10 @@ class GroupTest extends \Test\TestCase {
 		$backend1->expects($this->once())
 			->method('inGroup')
 			->with('user1', 'group1')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$backend1->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$backend1->expects($this->once())
 			->method('removeFromGroup')
@@ -286,10 +286,10 @@ class GroupTest extends \Test\TestCase {
 		$backend2->expects($this->once())
 			->method('inGroup')
 			->with('user1', 'group1')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$backend2->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$backend2->expects($this->once())
 			->method('removeFromGroup')
@@ -308,7 +308,7 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('usersInGroup')
 			->with('group1', '2')
-			->will($this->returnValue(array('user2')));
+			->willReturn(array('user2'));
 
 		$users = $group->searchUsers('2');
 
@@ -330,11 +330,11 @@ class GroupTest extends \Test\TestCase {
 		$backend1->expects($this->once())
 			->method('usersInGroup')
 			->with('group1', '2')
-			->will($this->returnValue(array('user2')));
+			->willReturn(array('user2'));
 		$backend2->expects($this->once())
 			->method('usersInGroup')
 			->with('group1', '2')
-			->will($this->returnValue(array('user2')));
+			->willReturn(array('user2'));
 
 		$users = $group->searchUsers('2');
 
@@ -353,7 +353,7 @@ class GroupTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('usersInGroup')
 			->with('group1', 'user', 1, 1)
-			->will($this->returnValue(array('user2')));
+			->willReturn(array('user2'));
 
 		$users = $group->searchUsers('user', 1, 1);
 
@@ -375,11 +375,11 @@ class GroupTest extends \Test\TestCase {
 		$backend1->expects($this->once())
 			->method('usersInGroup')
 			->with('group1', 'user', 2, 1)
-			->will($this->returnValue(array('user2')));
+			->willReturn(array('user2'));
 		$backend2->expects($this->once())
 			->method('usersInGroup')
 			->with('group1', 'user', 2, 1)
-			->will($this->returnValue(array('user1')));
+			->willReturn(array('user1'));
 
 		$users = $group->searchUsers('user', 2, 1);
 
@@ -400,11 +400,11 @@ class GroupTest extends \Test\TestCase {
 		$backend1->expects($this->once())
 			->method('countUsersInGroup')
 			->with('group1', '2')
-			->will($this->returnValue(3));
+			->willReturn(3);
 
 		$backend1->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$users = $group->count('2');
 
@@ -424,18 +424,18 @@ class GroupTest extends \Test\TestCase {
 		$backend1->expects($this->once())
 			->method('countUsersInGroup')
 			->with('group1', '2')
-			->will($this->returnValue(3));
+			->willReturn(3);
 		$backend1->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$backend2->expects($this->once())
 			->method('countUsersInGroup')
 			->with('group1', '2')
-			->will($this->returnValue(4));
+			->willReturn(4);
 		$backend2->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$users = $group->count('2');
 
@@ -453,7 +453,7 @@ class GroupTest extends \Test\TestCase {
 			->method('countUsersInGroup');
 		$backend1->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$users = $group->count('2');
 
@@ -472,7 +472,7 @@ class GroupTest extends \Test\TestCase {
 			->with('group1');
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$group->delete();
 	}

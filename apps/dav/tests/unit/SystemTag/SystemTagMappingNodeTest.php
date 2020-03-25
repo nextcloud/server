@@ -88,11 +88,11 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
 			->with($node->getSystemTag())
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->tagManager->expects($this->once())
 			->method('canUserAssignTag')
 			->with($node->getSystemTag())
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->tagManager->expects($this->never())
 			->method('deleteTags');
 		$this->tagMapper->expects($this->once())
@@ -124,11 +124,11 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		$this->tagManager->expects($this->any())
 			->method('canUserSeeTag')
 			->with($tag)
-			->will($this->returnValue($tag->isUserVisible()));
+			->willReturn($tag->isUserVisible());
 		$this->tagManager->expects($this->any())
 			->method('canUserAssignTag')
 			->with($tag)
-			->will($this->returnValue($tag->isUserAssignable()));
+			->willReturn($tag->isUserAssignable());
 		$this->tagManager->expects($this->never())
 			->method('deleteTags');
 		$this->tagMapper->expects($this->never())
@@ -154,11 +154,11 @@ class SystemTagMappingNodeTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
 			->with($tag)
-			->will($this->returnValue($tag->isUserVisible()));
+			->willReturn($tag->isUserVisible());
 		$this->tagManager->expects($this->once())
 			->method('canUserAssignTag')
 			->with($tag)
-			->will($this->returnValue($tag->isUserAssignable()));
+			->willReturn($tag->isUserAssignable());
 		$this->tagMapper->expects($this->once())
 			->method('unassignTags')
 			->with(123, 'files', 1)

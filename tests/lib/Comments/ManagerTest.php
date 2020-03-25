@@ -339,7 +339,7 @@ class ManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('comment_test'));
+			->willReturn('comment_test');
 
 		$manager = $this->getManager();
 
@@ -679,7 +679,7 @@ class ManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('alice'));
+			->willReturn('alice');
 
 		$dateTimeSet = new \DateTime();
 
@@ -696,7 +696,7 @@ class ManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('alice'));
+			->willReturn('alice');
 
 		$dateTimeSet = new \DateTime('yesterday');
 
@@ -716,7 +716,7 @@ class ManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('alice'));
+			->willReturn('alice');
 
 		$dateTimeSet = new \DateTime();
 
@@ -734,7 +734,7 @@ class ManagerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('alice'));
+			->willReturn('alice');
 
 		$dateTimeSet = new \DateTime();
 

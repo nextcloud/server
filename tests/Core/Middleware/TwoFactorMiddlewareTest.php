@@ -100,10 +100,10 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->reflector->expects($this->once())
 			->method('hasAnnotation')
 			->with('PublicPage')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->userSession->expects($this->never())
 			->method('getUser');
@@ -115,7 +115,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->reflector->expects($this->once())
 			->method('hasAnnotation')
 			->with('PublicPage')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->userSession->expects($this->never())
 			->method('isLoggedIn');
 
@@ -147,17 +147,17 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->reflector->expects($this->once())
 			->method('hasAnnotation')
 			->with('PublicPage')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->userSession->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($user));
+			->willReturn($user);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->middleware->beforeController($this->controller, 'index');
 	}
@@ -171,21 +171,21 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->reflector->expects($this->once())
 			->method('hasAnnotation')
 			->with('PublicPage')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->userSession->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($user));
+			->willReturn($user);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->twoFactorManager->expects($this->once())
 			->method('needsSecondFactor')
 			->with($user)
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->middleware->beforeController($this->controller, 'index');
 	}
@@ -201,18 +201,18 @@ class TwoFactorMiddlewareTest extends TestCase {
 			->willReturn(false);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->userSession
 			->method('getUser')
-			->will($this->returnValue($user));
+			->willReturn($user);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->twoFactorManager->expects($this->once())
 			->method('needsSecondFactor')
 			->with($user)
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$twoFactorChallengeController = $this->getMockBuilder('\OC\Core\Controller\TwoFactorChallengeController')
 			->disableOriginalConstructor()
@@ -226,7 +226,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.selectChallenge')
-			->will($this->returnValue('test/url'));
+			->willReturn('test/url');
 		$expected = new \OCP\AppFramework\Http\RedirectResponse('test/url');
 
 		$this->assertEquals($expected, $this->middleware->afterException($this->controller, 'index', $ex));
@@ -238,7 +238,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('files.view.index')
-			->will($this->returnValue('redirect/url'));
+			->willReturn('redirect/url');
 		$expected = new \OCP\AppFramework\Http\RedirectResponse('redirect/url');
 
 		$this->assertEquals($expected, $this->middleware->afterException($this->controller, 'index', $ex));
@@ -249,9 +249,9 @@ class TwoFactorMiddlewareTest extends TestCase {
 
 		$this->reflector
 			->method('hasAnnotation')
-			->will($this->returnCallback(function (string $annotation) {
+			->willReturnCallback(function (string $annotation) {
 				return $annotation === 'TwoFactorSetUpDoneRequired';
-			}));
+			});
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->willReturn(true);

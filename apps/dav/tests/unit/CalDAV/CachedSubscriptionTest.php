@@ -158,14 +158,14 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$backend->expects($this->at(0))
 			->method('getCalendarObject')
 			->with(666, 'foo1', 1)
-			->will($this->returnValue([
+			->willReturn([
 				'id' => 99,
 				'uri' => 'foo1'
-			]));
+			]);
 		$backend->expects($this->at(1))
 			->method('getCalendarObject')
 			->with(666, 'foo2', 1)
-			->will($this->returnValue(null));
+			->willReturn(null);
 
 		$calendar = new CachedSubscription($backend, $calendarInfo);
 
@@ -187,7 +187,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$backend->expects($this->at(0))
 			->method('getCalendarObjects')
 			->with(666, 1)
-			->will($this->returnValue([
+			->willReturn([
 				[
 					'id' => 99,
 					'uri' => 'foo1'
@@ -196,7 +196,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 					'id' => 100,
 					'uri' => 'foo2'
 				],
-			]));
+			]);
 
 		$calendar = new CachedSubscription($backend, $calendarInfo);
 
@@ -218,7 +218,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$backend->expects($this->at(0))
 			->method('getMultipleCalendarObjects')
 			->with(666, ['foo1', 'foo2'], 1)
-			->will($this->returnValue([
+			->willReturn([
 				[
 					'id' => 99,
 					'uri' => 'foo1'
@@ -227,7 +227,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 					'id' => 100,
 					'uri' => 'foo2'
 				],
-			]));
+			]);
 
 		$calendar = new CachedSubscription($backend, $calendarInfo);
 
@@ -266,14 +266,14 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$backend->expects($this->at(0))
 			->method('getCalendarObject')
 			->with(666, 'foo1', 1)
-			->will($this->returnValue([
+			->willReturn([
 				'id' => 99,
 				'uri' => 'foo1'
-			]));
+			]);
 		$backend->expects($this->at(1))
 			->method('getCalendarObject')
 			->with(666, 'foo2', 1)
-			->will($this->returnValue(null));
+			->willReturn(null);
 
 		$calendar = new CachedSubscription($backend, $calendarInfo);
 
@@ -293,7 +293,7 @@ class CachedSubscriptionTest extends \Test\TestCase {
 		$backend->expects($this->once())
 			->method('calendarQuery')
 			->with(666, ['foo'], 1)
-			->will($this->returnValue([99]));
+			->willReturn([99]);
 
 		$calendar = new CachedSubscription($backend, $calendarInfo);
 

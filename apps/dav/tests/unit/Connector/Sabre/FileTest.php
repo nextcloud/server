@@ -182,11 +182,11 @@ class FileTest extends TestCase {
 			->getMock();
 		$view->expects($this->atLeastOnce())
 			->method('resolvePath')
-			->will($this->returnCallback(
+			->willReturnCallback(
 				function ($path) use ($storage) {
 					return [$storage, $path];
 				}
-			));
+			);
 
 		if ($thrownException !== null) {
 			$storage->expects($this->once())
@@ -195,12 +195,12 @@ class FileTest extends TestCase {
 		} else {
 			$storage->expects($this->once())
 				->method('writeStream')
-				->will($this->returnValue(0));
+				->willReturn(0);
 		}
 
 		$view->expects($this->any())
 			->method('getRelativePath')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
 			'permissions' => \OCP\Constants::PERMISSION_ALL
@@ -241,11 +241,11 @@ class FileTest extends TestCase {
 			->getMock();
 		$view->expects($this->atLeastOnce())
 			->method('resolvePath')
-			->will($this->returnCallback(
+			->willReturnCallback(
 				function ($path) use ($storage) {
 					return [$storage, $path];
 				}
-			));
+			);
 
 		if ($thrownException !== null) {
 			$storage->expects($this->once())
@@ -254,12 +254,12 @@ class FileTest extends TestCase {
 		} else {
 			$storage->expects($this->once())
 				->method('fopen')
-				->will($this->returnValue(false));
+				->willReturn(false);
 		}
 
 		$view->expects($this->any())
 			->method('getRelativePath')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$_SERVER['HTTP_OC_CHUNKED'] = true;
 
@@ -671,14 +671,14 @@ class FileTest extends TestCase {
 		$view->expects($this->any())
 			->method('rename')
 			->withAnyParameters()
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$view->expects($this->any())
 			->method('getRelativePath')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$view->expects($this->any())
 			->method('filesize')
-			->will($this->returnValue(123456));
+			->willReturn(123456);
 
 		$_SERVER['CONTENT_LENGTH'] = 123456;
 		$_SERVER['REQUEST_METHOD'] = 'PUT';
@@ -788,7 +788,7 @@ class FileTest extends TestCase {
 			->getMock();
 		$view->expects($this->any())
 			->method('getRelativePath')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$info = new \OC\Files\FileInfo('/*', $this->getMockStorage(), null, array(
 			'permissions' => \OCP\Constants::PERMISSION_ALL
@@ -827,7 +827,7 @@ class FileTest extends TestCase {
 
 		$view->expects($this->any())
 			->method('getRelativePath')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$info = new \OC\Files\FileInfo('/*', $this->getMockStorage(), null, array(
 			'permissions' => \OCP\Constants::PERMISSION_ALL
@@ -845,13 +845,13 @@ class FileTest extends TestCase {
 		$view->expects($this->any())
 			->method('rename')
 			->withAnyParameters()
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$view->expects($this->any())
 			->method('getRelativePath')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 		$view->expects($this->any())
 			->method('filesize')
-			->will($this->returnValue(123456));
+			->willReturn(123456);
 
 		$_SERVER['CONTENT_LENGTH'] = 12345;
 		$_SERVER['REQUEST_METHOD'] = 'PUT';
@@ -888,7 +888,7 @@ class FileTest extends TestCase {
 
 		$view->expects($this->once())
 			->method('unlink')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
 			'permissions' => \OCP\Constants::PERMISSION_ALL
@@ -929,7 +929,7 @@ class FileTest extends TestCase {
 		// but fails
 		$view->expects($this->once())
 			->method('unlink')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
 			'permissions' => \OCP\Constants::PERMISSION_ALL
@@ -1016,20 +1016,20 @@ class FileTest extends TestCase {
 		// so only shared lock is acceptable
 		$eventHandler->expects($this->once())
 			->method('writeCallback')
-			->will($this->returnCallback(
+			->willReturnCallback(
 				function () use ($view, $path, &$wasLockedPre) {
 					$wasLockedPre = $this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_SHARED);
 					$wasLockedPre = $wasLockedPre && !$this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE);
 				}
-			));
+			);
 		$eventHandler->expects($this->once())
 			->method('postWriteCallback')
-			->will($this->returnCallback(
+			->willReturnCallback(
 				function () use ($view, $path, &$wasLockedPost) {
 					$wasLockedPost = $this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_SHARED);
 					$wasLockedPost = $wasLockedPost && !$this->isFileLocked($view, $path, \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE);
 				}
-			));
+			);
 
 		\OCP\Util::connectHook(
 			Filesystem::CLASSNAME,
@@ -1120,7 +1120,7 @@ class FileTest extends TestCase {
 			->getMock();
 		$view->expects($this->atLeastOnce())
 			->method('fopen')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
 			'permissions' => \OCP\Constants::PERMISSION_ALL

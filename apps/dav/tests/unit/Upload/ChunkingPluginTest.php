@@ -80,7 +80,7 @@ class ChunkingPluginTest extends TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('source')
-			->will($this->returnValue($node));
+			->willReturn($node);
 		$this->response->expects($this->never())
 			->method('setStatus');
 
@@ -96,11 +96,11 @@ class ChunkingPluginTest extends TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('source')
-			->will($this->returnValue($sourceNode));
+			->willReturn($sourceNode);
 		$this->tree->expects($this->any())
 			->method('nodeExists')
 			->with('target')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->response->expects($this->never())
 			->method('setStatus');
 		$this->request->expects($this->once())
@@ -120,11 +120,11 @@ class ChunkingPluginTest extends TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('source')
-			->will($this->returnValue($sourceNode));
+			->willReturn($sourceNode);
 		$this->tree->expects($this->any())
 			->method('nodeExists')
 			->with('target')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->tree->expects($this->once())
 			->method('move')
 			->with('source', 'target');
@@ -156,7 +156,7 @@ class ChunkingPluginTest extends TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('source')
-			->will($this->returnValue($sourceNode));
+			->willReturn($sourceNode);
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->with('OC-Total-Length')

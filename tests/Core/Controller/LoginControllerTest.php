@@ -315,10 +315,10 @@ class LoginControllerTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 			['login_form_autocomplete', true, true],
 			['lost_password_link', '', false],
-		]));
+		]);
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -363,10 +363,10 @@ class LoginControllerTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 			['login_form_autocomplete', true, true],
 			['lost_password_link', '', false],
-		]));
+		]);
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('canChangePassword')
@@ -435,7 +435,7 @@ class LoginControllerTest extends TestCase {
 				'user' => $user,
 				'redirect_url' => '/apps/files',
 			])
-			->will($this->returnValue($loginPageUrl));
+			->willReturn($loginPageUrl);
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($loginPageUrl);
 		$expected->throttle(['user' => 'MyUserName']);
 
@@ -475,7 +475,7 @@ class LoginControllerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('jane'));
+			->willReturn('jane');
 		$password = 'secret';
 		$originalUrl = 'another%20url';
 
@@ -486,7 +486,7 @@ class LoginControllerTest extends TestCase {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->with()
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->config->expects($this->never())
 			->method('deleteUserValue');
 		$this->userSession->expects($this->never())
@@ -501,7 +501,7 @@ class LoginControllerTest extends TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('jane'));
+			->willReturn('jane');
 		$password = 'secret';
 		$originalUrl = 'another%20url';
 		$redirectUrl = 'http://localhost/another url';
@@ -513,11 +513,11 @@ class LoginControllerTest extends TestCase {
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->with()
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->urlGenerator->expects($this->once())
 			->method('getAbsoluteURL')
 			->with(urldecode($originalUrl))
-			->will($this->returnValue($redirectUrl));
+			->willReturn($redirectUrl);
 		$this->config->expects($this->never())
 			->method('deleteUserValue');
 		$this->userSession->expects($this->never())
@@ -558,7 +558,7 @@ class LoginControllerTest extends TestCase {
 		$this->urlGenerator->expects($this->once())
 			->method('getAbsoluteURL')
 			->with(urldecode('/apps/mail'))
-			->will($this->returnValue($redirectUrl));
+			->willReturn($redirectUrl);
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($redirectUrl);
 
 		$response = $this->loginController->tryLogin($user, $password, '%2Fapps%2Fmail');
@@ -592,7 +592,7 @@ class LoginControllerTest extends TestCase {
 				'user' => 'john@doe.com',
 				'redirect_url' => '/apps/files',
 			])
-			->will($this->returnValue($loginPageUrl));
+			->willReturn($loginPageUrl);
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($loginPageUrl);
 		$expected->throttle(['user' => 'john']);
 

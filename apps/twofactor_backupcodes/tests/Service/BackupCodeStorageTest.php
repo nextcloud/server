@@ -59,7 +59,7 @@ class BackupCodeStorageTest extends TestCase {
 		$user = $this->getMockBuilder(\OCP\IUser::class)->getMock();
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue($this->testUID));
+			->willReturn($this->testUID);
 
 		$this->notificationManager->expects($this->once())
 			->method('markProcessed')

@@ -110,7 +110,7 @@ class BirthdayServiceTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('no'));
+			->willReturn('no');
 
 		$this->cardDav->expects($this->never())->method('getAddressBookById');
 
@@ -121,12 +121,12 @@ class BirthdayServiceTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user01', 'dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('no'));
+			->willReturn('no');
 
 		$this->cardDav->expects($this->once())->method('getAddressBookById')
 			->with(666)
@@ -145,12 +145,12 @@ class BirthdayServiceTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user01', 'dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->cardDav->expects($this->once())->method('getAddressBookById')
 			->with(666)
@@ -175,7 +175,7 @@ class BirthdayServiceTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('no'));
+			->willReturn('no');
 
 		$this->cardDav->expects($this->never())->method('getAddressBookById');
 
@@ -191,12 +191,12 @@ class BirthdayServiceTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user01', 'dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('no'));
+			->willReturn('no');
 
 		$this->cardDav->expects($this->once())->method('getAddressBookById')
 			->with(666)
@@ -223,12 +223,12 @@ class BirthdayServiceTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->config->expects($this->once())
 			->method('getUserValue')
 			->with('user01', 'dav', 'generateBirthdayCalendar', 'yes')
-			->will($this->returnValue('yes'));
+			->willReturn('yes');
 
 		$this->cardDav->expects($this->once())->method('getAddressBookById')
 			->with(666)

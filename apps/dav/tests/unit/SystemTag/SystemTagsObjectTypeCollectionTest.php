@@ -66,18 +66,18 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			->getMock();
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('testuser'));
+			->willReturn('testuser');
 		$userSession = $this->getMockBuilder(IUserSession::class)
 			->getMock();
 		$userSession->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($user));
+			->willReturn($user);
 		$groupManager = $this->getMockBuilder(IGroupManager::class)
 			->getMock();
 		$groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('testuser')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->userFolder = $this->getMockBuilder(Folder::class)
 			->getMock();
@@ -116,7 +116,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->userFolder->expects($this->once())
 			->method('getById')
 			->with('555')
-			->will($this->returnValue([true]));
+			->willReturn([true]);
 		$childNode = $this->node->getChild('555');
 
 		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection', $childNode);
@@ -130,7 +130,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->userFolder->expects($this->once())
 			->method('getById')
 			->with('555')
-			->will($this->returnValue([]));
+			->willReturn([]);
 		$this->node->getChild('555');
 	}
 
@@ -145,7 +145,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->userFolder->expects($this->once())
 			->method('getById')
 			->with('123')
-			->will($this->returnValue([true]));
+			->willReturn([true]);
 		$this->assertTrue($this->node->childExists('123'));
 	}
 
@@ -153,7 +153,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 		$this->userFolder->expects($this->once())
 			->method('getById')
 			->with('555')
-			->will($this->returnValue([]));
+			->willReturn([]);
 		$this->assertFalse($this->node->childExists('555'));
 	}
 

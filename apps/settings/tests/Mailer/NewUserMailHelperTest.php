@@ -84,7 +84,7 @@ class NewUserMailHelperTest extends TestCase {
 			[]
 		);
 		$this->mailer->method('createEMailTemplate')
-			->will($this->returnValue($template));
+			->willReturn($template);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -102,13 +102,13 @@ class NewUserMailHelperTest extends TestCase {
 			});
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->l10n->method('t')
-			->will($this->returnCallback(function ($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 		$this->l10nFactory->method('get')
-			->will($this->returnCallback(function ($text, $lang) {
+			->willReturnCallback(function ($text, $lang) {
 				return $this->l10n;
-			}));
+			});
 
 		$this->newUserMailHelper = new \OCA\Settings\Mailer\NewUserMailHelper(
 			$this->defaults,

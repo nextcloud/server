@@ -335,7 +335,7 @@ class StorageTest extends TestCase {
 			->willReturn(true);
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
-			->will($this->returnCallback(array($this, 'getUidAndFilenameCallback')));
+			->willReturnCallback(array($this, 'getUidAndFilenameCallback'));
 		$this->util->expects($this->any())
 			->method('isSystemWideMountPoint')
 			->willReturnCallback(function($path, $owner) use ($systemWideMountSource, $systemWideMountTarget) {
@@ -366,7 +366,7 @@ class StorageTest extends TestCase {
 			->willReturn(true);
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
-			->will($this->returnCallback(array($this, 'getUidAndFilenameCallback')));
+			->willReturnCallback(array($this, 'getUidAndFilenameCallback'));
 		$this->util->expects($this->any())
 			->method('isSystemWideMountPoint')
 			->willReturnCallback(function($path, $owner) use ($systemWideMountSource, $systemWideMountTarget) {
@@ -432,7 +432,7 @@ class StorageTest extends TestCase {
 
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
-			->will($this->returnCallback(array($this, 'getUidAndFilenameCallback')));
+			->willReturnCallback(array($this, 'getUidAndFilenameCallback'));
 		$this->util->expects($this->any())
 			->method('isSystemWideMountPoint')
 			->willReturn($systemWideMountPoint);
@@ -460,7 +460,7 @@ class StorageTest extends TestCase {
 			->willReturn(false);
 		$this->view->expects($this->any())
 			->method('mkdir')
-			->will($this->returnCallback(array($this, 'mkdirCallback')));
+			->willReturnCallback(array($this, 'mkdirCallback'));
 
 		$this->mkdirStack = array(
 			'/user1/files_encryption/keys/foo',

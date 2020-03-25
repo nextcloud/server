@@ -148,7 +148,7 @@ class MapperTest extends MapperTestUtility {
 		$this->db->expects($this->once())
 			->method('lastInsertId')
 			->with($this->equalTo('*PREFIX*table'))
-			->will($this->returnValue(3));
+			->willReturn(3);
 		$this->mapper = new ExampleMapper($this->db);
 
 		$sql = 'INSERT INTO `*PREFIX*table`(`pre_name`,`email`) ' .
@@ -168,7 +168,7 @@ class MapperTest extends MapperTestUtility {
 		$this->db->expects($this->once())
 			->method('lastInsertId')
 			->with($this->equalTo('*PREFIX*table'))
-			->will($this->returnValue(3));
+			->willReturn(3);
 		$this->mapper = new ExampleMapper($this->db);
 
 		$sql = 'INSERT INTO `*PREFIX*table`(`pre_name`,`email`) ' .

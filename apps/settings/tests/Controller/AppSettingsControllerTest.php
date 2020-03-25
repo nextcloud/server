@@ -90,7 +90,7 @@ class AppSettingsControllerTest extends TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 		$this->config = $this->createMock(IConfig::class);
 		$this->navigationManager = $this->createMock(INavigationManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
@@ -193,7 +193,7 @@ class AppSettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSystemValue')
 			->with('appstoreenabled', true)
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->navigationManager
 			->expects($this->once())
 			->method('setActiveEntry')
@@ -227,7 +227,7 @@ class AppSettingsControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getSystemValue')
 			->with('appstoreenabled', true)
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->navigationManager
 			->expects($this->once())
 			->method('setActiveEntry')

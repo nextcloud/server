@@ -158,7 +158,7 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 			->getMock();
 		$m2->expects($this->once())
 				->method('afterException')
-				->will($this->returnValue($response));
+				->willReturn($response);
 
 		$this->dispatcher->registerMiddleware($m1);
 		$this->dispatcher->registerMiddleware($m2);
@@ -282,7 +282,7 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 		$m3->expects($this->never())
 				->method('afterController');
 		$m3->method('beforeOutput')
-			->will($this->returnArgument(2));
+			->willReturnArgument(2);
 
 		$this->dispatcher->registerMiddleware($m3);
 

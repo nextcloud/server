@@ -227,10 +227,10 @@ class ContactsManagerTest extends \Test\TestCase {
 		// setup return for method calls
 		$addressbook->expects($this->any())
 			->method('getKey')
-			->will($this->returnValue('SIMPLE_ADDRESS_BOOK'));
+			->willReturn('SIMPLE_ADDRESS_BOOK');
 		$addressbook->expects($this->any())
 			->method('getDisplayName')
-			->will($this->returnValue('A very simple Addressbook'));
+			->willReturn('A very simple Addressbook');
 
 		// register the address book
 		$this->cm->registerAddressBook($addressbook);

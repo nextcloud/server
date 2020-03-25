@@ -307,7 +307,7 @@ class UserHooksTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$userSessionMock->expects($this->any())->method('getUser')->will($this->returnValue(null));
+		$userSessionMock->expects($this->any())->method('getUser')->willReturn(null);
 
 		$this->recoveryMock->expects($this->once())
 			->method('isRecoveryEnabledForUser')

@@ -42,13 +42,13 @@ class PartFileInRootUploadTest extends UploadTest {
 			->getMock();
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
-			->will($this->returnCallback(function ($key, $default) use ($config) {
+			->willReturnCallback(function ($key, $default) use ($config) {
 				if ($key === 'part_file_in_storage') {
 					return false;
 				} else {
 					return $config->getSystemValue($key, $default);
 				}
-			}));
+			});
 		$this->overwriteService('AllConfig', $mockConfig);
 		parent::setUp();
 	}

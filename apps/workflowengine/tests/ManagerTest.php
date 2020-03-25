@@ -79,9 +79,9 @@ class ManagerTest extends TestCase {
 		/** @var IL10N|MockObject $l */
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
-			->will($this->returnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 
 		$this->legacyDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->logger = $this->createMock(ILogger::class);

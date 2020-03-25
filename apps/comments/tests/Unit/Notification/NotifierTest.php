@@ -84,9 +84,9 @@ class NotifierTest extends TestCase {
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function ($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 
 		$this->notification = $this->createMock(INotification::class);
 		$this->comment = $this->createMock(IComment::class);

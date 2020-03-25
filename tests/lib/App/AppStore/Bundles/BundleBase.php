@@ -41,9 +41,9 @@ abstract class BundleBase extends TestCase {
 		parent::setUp();
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->method('t')
-			->will($this->returnCallback(function ($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 	}
 
 	public function testGetIdentifier() {

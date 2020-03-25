@@ -74,7 +74,7 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->backend->expects($this->once())
 			->method('search')
 			->with($this->calendarInfo, 'abc', ['def'], ['ghi'], 42, 1337)
-			->will($this->returnValue(['SEARCHRESULTS']));
+			->willReturn(['SEARCHRESULTS']);
 
 		$result = $this->calendarImpl->search('abc', ['def'], ['ghi'], 42, 1337);
 		$this->assertEquals($result, ['SEARCHRESULTS']);
@@ -84,9 +84,9 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->calendar->expects($this->once())
 			->method('getACL')
 			->with()
-			->will($this->returnValue([
+			->willReturn([
 				['privilege' => '{DAV:}read']
-			]));
+			]);
 
 		$this->assertEquals(1, $this->calendarImpl->getPermissions());
 	}
@@ -95,9 +95,9 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->calendar->expects($this->once())
 			->method('getACL')
 			->with()
-			->will($this->returnValue([
+			->willReturn([
 				['privilege' => '{DAV:}write']
-			]));
+			]);
 
 		$this->assertEquals(6, $this->calendarImpl->getPermissions());
 	}
@@ -106,10 +106,10 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->calendar->expects($this->once())
 			->method('getACL')
 			->with()
-			->will($this->returnValue([
+			->willReturn([
 				['privilege' => '{DAV:}read'],
 				['privilege' => '{DAV:}write']
-			]));
+			]);
 
 		$this->assertEquals(7, $this->calendarImpl->getPermissions());
 	}
@@ -118,9 +118,9 @@ class CalendarImplTest extends \Test\TestCase {
 		$this->calendar->expects($this->once())
 			->method('getACL')
 			->with()
-			->will($this->returnValue([
+			->willReturn([
 				['privilege' => '{DAV:}all']
-			]));
+			]);
 
 		$this->assertEquals(31, $this->calendarImpl->getPermissions());
 	}

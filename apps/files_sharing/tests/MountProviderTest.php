@@ -76,25 +76,25 @@ class MountProviderTest extends \Test\TestCase {
 		$share = $this->createMock(IShare::class);
 		$share->expects($this->any())
 			->method('getPermissions')
-			->will($this->returnValue($permissions));
+			->willReturn($permissions);
 		$share->expects($this->any())
 			->method('getShareOwner')
-			->will($this->returnValue($owner));
+			->willReturn($owner);
 		$share->expects($this->any())
 			->method('getTarget')
-			->will($this->returnValue($target));
+			->willReturn($target);
 		$share->expects($this->any())
 			->method('getId')
-			->will($this->returnValue($id));
+			->willReturn($id);
 		$share->expects($this->any())
 			->method('getNodeId')
-			->will($this->returnValue($nodeId));
+			->willReturn($nodeId);
 		$share->expects($this->any())
 			->method('getShareTime')
-			->will($this->returnValue(
+			->willReturn(
 				// compute share time based on id, simulating share order
 				new \DateTime('@' . (1469193980 + 1000 * $id))
-			));
+			);
 		return $share;
 	}
 
@@ -125,28 +125,28 @@ class MountProviderTest extends \Test\TestCase {
 		$circleShares = [];
 		$this->user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('user1'));
+			->willReturn('user1');
 		$this->shareManager->expects($this->at(0))
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_USER)
-			->will($this->returnValue($userShares));
+			->willReturn($userShares);
 		$this->shareManager->expects($this->at(1))
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_GROUP, null, -1)
-			->will($this->returnValue($groupShares));
+			->willReturn($groupShares);
 		$this->shareManager->expects($this->at(2))
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_CIRCLE, null, -1)
-			->will($this->returnValue($circleShares));
+			->willReturn($circleShares);
 		$this->shareManager->expects($this->at(3))
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_ROOM, null, -1)
-			->will($this->returnValue($roomShares));
+			->willReturn($roomShares);
 		$this->shareManager->expects($this->any())
 			->method('newShare')
-			->will($this->returnCallback(function() use ($rootFolder, $userManager) {
+			->willReturnCallback(function() use ($rootFolder, $userManager) {
 				return new \OC\Share20\Share($rootFolder, $userManager);
-			}));
+			});
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
 		$this->assertCount(3, $mounts);
 		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[0]);
@@ -330,7 +330,7 @@ class MountProviderTest extends \Test\TestCase {
 
 		$this->user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('user1'));
+			->willReturn('user1');
 
 		// tests regarding circles are made in the app itself.
 		$circleShares = [];
@@ -338,24 +338,24 @@ class MountProviderTest extends \Test\TestCase {
 		$this->shareManager->expects($this->at(0))
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_USER)
-			->will($this->returnValue($userShares));
+			->willReturn($userShares);
 		$this->shareManager->expects($this->at(1))
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_GROUP, null, -1)
-			->will($this->returnValue($groupShares));
+			->willReturn($groupShares);
 		$this->shareManager->expects($this->at(2))
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_CIRCLE, null, -1)
-			->will($this->returnValue($circleShares));
+			->willReturn($circleShares);
 		$this->shareManager->expects($this->at(3))
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_ROOM, null, -1)
-			->will($this->returnValue($roomShares));
+			->willReturn($roomShares);
 		$this->shareManager->expects($this->any())
 			->method('newShare')
-			->will($this->returnCallback(function() use ($rootFolder, $userManager) {
+			->willReturnCallback(function() use ($rootFolder, $userManager) {
 				return new \OC\Share20\Share($rootFolder, $userManager);
-			}));
+			});
 
 		if ($moveFails) {
 			$this->shareManager->expects($this->any())

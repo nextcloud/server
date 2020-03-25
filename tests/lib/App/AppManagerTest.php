@@ -40,20 +40,20 @@ class AppManagerTest extends TestCase {
 
 		$config->expects($this->any())
 			->method('getValue')
-			->will($this->returnCallback(function ($app, $key, $default) use (&$appConfig) {
+			->willReturnCallback(function ($app, $key, $default) use (&$appConfig) {
 				return (isset($appConfig[$app]) and isset($appConfig[$app][$key])) ? $appConfig[$app][$key] : $default;
-			}));
+			});
 		$config->expects($this->any())
 			->method('setValue')
-			->will($this->returnCallback(function ($app, $key, $value) use (&$appConfig) {
+			->willReturnCallback(function ($app, $key, $value) use (&$appConfig) {
 				if (!isset($appConfig[$app])) {
 					$appConfig[$app] = array();
 				}
 				$appConfig[$app][$key] = $value;
-			}));
+			});
 		$config->expects($this->any())
 			->method('getValues')
-			->will($this->returnCallback(function ($app, $key) use (&$appConfig) {
+			->willReturnCallback(function ($app, $key) use (&$appConfig) {
 				if ($app) {
 					return $appConfig[$app];
 				} else {
@@ -65,7 +65,7 @@ class AppManagerTest extends TestCase {
 					}
 					return $values;
 				}
-			}));
+			});
 
 		return $config;
 	}
@@ -346,7 +346,7 @@ class AppManagerTest extends TestCase {
 		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
-			->will($this->returnValue(array('foo', 'bar')));
+			->willReturn(array('foo', 'bar'));
 
 		$this->appConfig->setValue('test', 'enabled', '["foo"]');
 		$this->assertTrue($this->manager->isEnabledForUser('test', $user));
@@ -357,7 +357,7 @@ class AppManagerTest extends TestCase {
 		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
-			->will($this->returnValue(array('bar')));
+			->willReturn(array('bar'));
 
 		$this->appConfig->setValue('test', 'enabled', '["foo"]');
 		$this->assertFalse($this->manager->isEnabledForUser('test', $user));
@@ -373,11 +373,11 @@ class AppManagerTest extends TestCase {
 
 		$this->userSession->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($user));
+			->willReturn($user);
 		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
-			->will($this->returnValue(array('foo', 'bar')));
+			->willReturn(array('foo', 'bar'));
 
 		$this->appConfig->setValue('test', 'enabled', '["foo"]');
 		$this->assertTrue($this->manager->isEnabledForUser('test'));
@@ -410,7 +410,7 @@ class AppManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('getUserGroupIds')
 			->with($user)
-			->will($this->returnValue(array('foo', 'bar')));
+			->willReturn(array('foo', 'bar'));
 
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'no');
@@ -462,11 +462,11 @@ class AppManagerTest extends TestCase {
 
 		$manager->expects($this->any())
 			->method('getAppInfo')
-			->will($this->returnCallback(
+			->willReturnCallback(
 				function($appId) use ($appInfos) {
 					return $appInfos[$appId];
 				}
-			));
+			);
 
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test1', 'installed_version', '1.0.0');
@@ -511,11 +511,11 @@ class AppManagerTest extends TestCase {
 
 		$manager->expects($this->any())
 			->method('getAppInfo')
-			->will($this->returnCallback(
+			->willReturnCallback(
 				function($appId) use ($appInfos) {
 					return $appInfos[$appId];
 				}
-			));
+			);
 
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'yes');
@@ -532,7 +532,7 @@ class AppManagerTest extends TestCase {
 		$group = $this->createMock(IGroup::class);
 		$group->expects($this->any())
 			->method('getGID')
-			->will($this->returnValue('foo'));
+			->willReturn('foo');
 
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'no');

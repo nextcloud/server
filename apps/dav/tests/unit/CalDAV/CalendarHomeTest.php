@@ -73,10 +73,10 @@ class CalendarHomeTest extends TestCase {
 		$mkCol = $this->createMock(MkCol::class);
 
 		$mkCol->method('getResourceType')
-			->will($this->returnValue(['{DAV:}collection',
-				'{urn:ietf:params:xml:ns:caldav}calendar']));
+			->willReturn(['{DAV:}collection',
+				'{urn:ietf:params:xml:ns:caldav}calendar']);
 		$mkCol->method('getRemainingValues')
-			->will($this->returnValue(['... properties ...']));
+			->willReturn(['... properties ...']);
 
 		$this->backend->expects($this->once())
 			->method('createCalendar')

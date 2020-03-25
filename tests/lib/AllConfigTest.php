@@ -190,7 +190,7 @@ class AllConfigTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$resultMock->expects($this->once())
 			->method('fetchColumn')
-			->will($this->returnValue('valueSetUnchanged'));
+			->willReturn('valueSetUnchanged');
 
 		$connectionMock = $this->createMock(IDBConnection::class);
 		$connectionMock->expects($this->once())
@@ -198,7 +198,7 @@ class AllConfigTest extends \Test\TestCase {
 			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences` '.
 					'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?'),
 				$this->equalTo(array('userSetUnchanged', 'appSetUnchanged', 'keySetUnchanged')))
-			->will($this->returnValue($resultMock));
+			->willReturn($resultMock);
 		$connectionMock->expects($this->never())
 			->method('executeUpdate');
 
@@ -411,7 +411,7 @@ class AllConfigTest extends \Test\TestCase {
 			->method('getValue')
 			->with($this->equalTo('dbtype'),
 				$this->equalTo('sqlite'))
-			->will($this->returnValue(\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite')));
+			->willReturn(\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite'));
 		$config = $this->getConfig($systemConfig);
 
 		// preparation - add something to the database
