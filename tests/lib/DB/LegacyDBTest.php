@@ -16,7 +16,7 @@ use OC_DB;
  * @group DB
  */
 class LegacyDBTest extends \Test\TestCase {
-	protected $backupGlobals = FALSE;
+	protected $backupGlobals = false;
 
 	protected static $schema_file;
 	protected $test_prefix;

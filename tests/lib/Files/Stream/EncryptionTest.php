@@ -205,9 +205,9 @@ class EncryptionTest extends \Test\TestCase {
 		$fileName = tempnam("/tmp", "FOO");
 		$stream = $this->getStream($fileName, 'w+', 0);
 		$this->assertEquals(6, fwrite($stream, 'foobar'));
-		$this->assertEquals(TRUE, rewind($stream));
+		$this->assertEquals(true, rewind($stream));
 		$this->assertEquals('foobar', fread($stream, 100));
-		$this->assertEquals(TRUE, rewind($stream));
+		$this->assertEquals(true, rewind($stream));
 		$this->assertEquals(3, fwrite($stream, 'bar'));
 		fclose($stream);
 

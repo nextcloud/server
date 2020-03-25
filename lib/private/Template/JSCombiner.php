@@ -133,7 +133,7 @@ class JSCombiner {
 
 			$deps = json_decode($deps, true);
 
-			if ($deps === NULL) {
+			if ($deps === null) {
 				return false;
 			}
 

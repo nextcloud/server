@@ -241,7 +241,7 @@ class CacheJail extends CacheWrapper {
 		$results = $this->getCache()->searchQuery($simpleQuery);
 		$results = $this->formatSearchResults($results);
 
-		$limit = $query->getLimit() === 0 ? NULL : $query->getLimit();
+		$limit = $query->getLimit() === 0 ? null : $query->getLimit();
 		$results = array_slice($results, $query->getOffset(), $limit);
 
 		return $results;

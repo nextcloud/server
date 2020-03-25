@@ -36,7 +36,7 @@ class MessageTest extends TestCase {
 	 */
 	public function getMailAddressProvider() {
 		return array(
-			array(NULL, array()),
+			array(null, array()),
 			array(array('lukas@owncloud.com' => 'Lukas Reschke'), array('lukas@owncloud.com' => 'Lukas Reschke')),
 		);
 	}
