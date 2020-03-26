@@ -1,8 +1,9 @@
 { "translations": {
-    "Viewer" : "Просмотрщик",
-    "Simple file viewer with slideshow for media" : "Простой файловый просмотрщик с поддержкой слайд-шоу для медиафайлов",
+    "Viewer" : "Просмотр изображений",
+    "Simple file viewer with slideshow for media" : "Простое приложение для просмотра файлов изображений и видео  с поддержкой функции слайд-шоу",
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Вы можете показать свои последние праздничные фотографии и видео, прямо как в фильмах! Вы можете показать свой последний роман прямо из вашего Nextcloud! Вы можете выбрать лучший GIF из вашей коллекции благодаря непосредственному предварительному просмотру ваших избранных файлов и многое другое!",
     "Error loading {name}" : "Ошибка при загрузке {name}",
+    "Your browser does not support videos." : "Используемый браузер не поддерживает воспроизведение видео.",
     "Open sidebar" : "Открыть боковую панель",
     "View" : "Просмотр",
     "Your browser does not support the video tag." : "Ваш браузер не поддерживает метку видео."
