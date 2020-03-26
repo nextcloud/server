@@ -130,6 +130,7 @@
     "No apps found for your version" : "Jūsų versijai programėlių nėra",
     "Disable all" : "Išjungti visas",
     "Enable all" : "Įjungti visas",
+    "_%n app has an update available_::_%n apps have an update available_" : ["%n programėlei yra prieinamas atnaujinimas","%n programėlėms yra prieinamas atnaujinimas","%n programėlių yra prieinamas atnaujinimas","%n programėlei yra prieinamas atnaujinimas"],
     "Download and enable" : "Atsisiųsti ir įjungti",
     "Enable" : "Įjungti",
     "The app will be downloaded from the app store" : "Programėlė bus atsisiųsta iš programėlių parduotuvės",

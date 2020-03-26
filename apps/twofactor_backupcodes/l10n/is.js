@@ -20,6 +20,7 @@ OC.L10N.register(
     "Submit" : "Senda inn",
     "_" : "_",
     "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Þú hefur virkjað tveggja-þátta auðkenningu en hefur ekki ennþá útbúið öryggisafritunarkóða. Vertu viss um að gera það ef ske kynni að þú týndir staðfestingarþætti."
+    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Þú hefur virkjað tveggja-þátta auðkenningu en hefur ekki ennþá útbúið öryggisafritunarkóða. Vertu viss um að gera það ef ske kynni að þú týndir staðfestingarþætti.",
+    "function" : "aðgerð"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
