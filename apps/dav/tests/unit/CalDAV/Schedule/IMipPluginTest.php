@@ -46,11 +46,39 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
 use OCP\Security\ISecureRandom;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\ITip\Message;
 use Test\TestCase;
 
 class IMipPluginTest extends TestCase {
+
+		/** @var IMessage|MockObject */
+		private $mailMessage;
+
+		/** @var IMailer|MockObject */
+		private $mailer;
+
+		/** @var IEMailTemplate|MockObject */
+		private $emailTemplate;
+
+		/** @var IAttachment|MockObject */
+		private $emailAttachment;
+
+		/** @var ITimeFactory|MockObject */
+		private $timeFactory;
+
+		/** @var IConfig|MockObject */
+		private $config;
+
+		/** @var IUserManager|MockObject */
+		private $userManager;
+
+		/** @var IQueryBuilder|MockObject */
+		private $queryBuilder;
+
+		/** @var IMipPlugin */
+		private $plugin;
 
 		protected function setUp(): void {
 		$this->mailMessage = $this->createMock(IMessage::class);
@@ -67,6 +95,7 @@ class IMipPluginTest extends TestCase {
 		$this->emailAttachment = $this->createMock(IAttachment::class);
 		$this->mailer->method('createAttachment')->willReturn($this->emailAttachment);
 
+		/** @var ILogger|MockObject $logger */
 		$logger = $this->getMockBuilder(ILogger::class)->disableOriginalConstructor()->getMock();
 
 		$this->timeFactory = $this->getMockBuilder(ITimeFactory::class)->disableOriginalConstructor()->getMock();
@@ -156,7 +185,7 @@ class IMipPluginTest extends TestCase {
 	/**
 	 * @dataProvider dataNoMessageSendForPastEvents
 	 */
-	public function testNoMessageSendForPastEvents($veventParams, $expectsMail) {
+	public function testNoMessageSendForPastEvents(array $veventParams, bool $expectsMail) {
 
 		$this->config
 			->method('getAppValue')
@@ -194,7 +223,7 @@ class IMipPluginTest extends TestCase {
 	/**
 	* @dataProvider dataIncludeResponseButtons
 	*/
-	public function testIncludeResponseButtons( $config_setting, $recipient, $has_buttons ) {
+	public function testIncludeResponseButtons(string $config_setting, string $recipient, bool $has_buttons ) {
 		$message = $this->_testMessage([],$recipient);
 
 		$this->_expectSend($recipient, true, $has_buttons);
@@ -220,7 +249,22 @@ class IMipPluginTest extends TestCase {
 		];
 	}
 
-	private function _testMessage($attrs = [], $recipient = 'frodo@hobb.it' ) {
+	public function testMessageSendWhenEventWithoutName() {
+		$this->config
+			->method('getAppValue')
+			->with('dav', 'invitation_link_recipients', 'yes')
+			->willReturn('yes');
+
+		$message = $this->_testMessage(['SUMMARY' => '']);
+		$this->_expectSend('frodo@hobb.it', true, true,'Invitation: Untitled event');
+		$this->emailTemplate->expects($this->once())
+			->method('addHeading')
+			->with('Mr. Wizard invited you to »Untitled event«');
+		$this->plugin->schedule($message);
+		$this->assertEquals('1.1', $message->getScheduleStatus());
+	}
+
+	private function _testMessage(array $attrs = [], string $recipient = 'frodo@hobb.it' ) {
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();
@@ -239,7 +283,7 @@ class IMipPluginTest extends TestCase {
 	}
 
 
-	private function _expectSend( $recipient = 'frodo@hobb.it', $expectSend = true, $expectButtons = true ) {
+	private function _expectSend(string $recipient = 'frodo@hobb.it', bool $expectSend = true, bool $expectButtons = true, string $subject = 'Invitation: Fellowship meeting') {
 
 		// if the event is in the past, we skip out
 		if (!$expectSend) {
@@ -251,7 +295,7 @@ class IMipPluginTest extends TestCase {
 
 		$this->emailTemplate->expects($this->once())
 			->method('setSubject')
-			->with('Invitation: Fellowship meeting');
+			->with($subject);
 		$this->mailMessage->expects($this->once())
 			->method('setTo')
 			->with([$recipient => null]);
