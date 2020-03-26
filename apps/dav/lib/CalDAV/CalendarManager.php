@@ -25,6 +25,7 @@
 namespace OCA\DAV\CalDAV;
 
 use OCP\Calendar\IManager;
+use OCP\Calendar\IManagerV2;
 use OCP\IConfig;
 use OCP\IL10N;
 
@@ -62,6 +63,15 @@ class CalendarManager {
 	}
 
 	/**
+	 * @param IManagerV2 $cm
+	 * @param string $userId
+	 */
+	public function setupCalendarProviderV2(IManagerV2 $cm, $userId) {
+		$calendars = $this->backend->getCalendarsForUser("principals/users/$userId");
+		$this->registerV2($cm, $calendars);
+	}
+
+	/**
 	 * @param IManager $cm
 	 * @param array $calendars
 	 */
@@ -69,6 +79,21 @@ class CalendarManager {
 		foreach ($calendars as $calendarInfo) {
 			$calendar = new Calendar($this->backend, $calendarInfo, $this->l10n, $this->config);
 			$cm->registerCalendar(new CalendarImpl(
+				$calendar,
+				$calendarInfo,
+				$this->backend
+			));
+		}
+	}
+
+	/**
+	 * @param IManagerV2 $cm
+	 * @param array $calendars
+	 */
+	private function registerV2(IManagerV2 $cm, array $calendars) {
+		foreach ($calendars as $calendarInfo) {
+			$calendar = new Calendar($this->backend, $calendarInfo, $this->l10n, $this->config);
+			$cm->registerCalendar(new CalendarImplV2(
 				$calendar,
 				$calendarInfo,
 				$this->backend

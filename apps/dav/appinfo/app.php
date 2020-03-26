@@ -123,5 +123,13 @@ $calendarManager->register(function () use ($calendarManager, $app) {
 	}
 });
 
+$calendarManagerV2 = \OC::$server->getCalendarManagerV2();
+$calendarManagerV2->register(function() use ($calendarManagerV2, $app) {
+	$user = \OC::$server->getUserSession()->getUser();
+	if ($user !== null) {
+		$app->setupCalendarProviderV2($calendarManagerV2, $user->getUID());
+	}
+});
+
 $app->registerNotifier();
 $app->registerCalendarReminders();

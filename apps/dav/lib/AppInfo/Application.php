@@ -48,6 +48,7 @@ use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\HookManager;
 use OCP\AppFramework\App;
 use OCP\Calendar\IManager as ICalendarManager;
+use OCP\Calendar\IManagerV2 as ICalendarManagerV2;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -105,6 +106,16 @@ class Application extends App {
 	public function setupCalendarProvider(ICalendarManager $calendarManager, $userId) {
 		$cm = $this->getContainer()->query(CalendarManager::class);
 		$cm->setupCalendarProvider($calendarManager, $userId);
+	}
+
+	/**
+	 * @param ICalendarManagerV2 $calendarManager
+	 * @param string $userId
+	 */
+	public function setupCalendarProviderV2(ICalendarManagerV2 $calendarManager, $userId) {
+		/** @var CalendarManager $cm */
+		$cm = $this->getContainer()->query(CalendarManager::class);
+		$cm->setupCalendarProviderV2($calendarManager, $userId);
 	}
 
 	public function registerHooks() {
