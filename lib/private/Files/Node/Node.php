@@ -139,9 +139,9 @@ class Node implements \OCP\Files\Node {
 	 */
 	public function touch($mtime = null) {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
-			$this->sendHooks(array('preTouch'));
+			$this->sendHooks(['preTouch']);
 			$this->view->touch($this->path, $mtime);
-			$this->sendHooks(array('postTouch'));
+			$this->sendHooks(['postTouch']);
 			if ($this->fileInfo) {
 				if (is_null($mtime)) {
 					$mtime = time();

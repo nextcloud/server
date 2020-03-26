@@ -64,14 +64,14 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		return new JSResourceLocator(
 			$this->logger,
 			'theme',
-			array('core'=>'map'),
-			array('3rd'=>'party'),
+			['core'=>'map'],
+			['3rd'=>'party'],
 			$jsCombiner
 		);
 	}
 
 	private function rrmdir($directory) {
-		$files = array_diff(scandir($directory), array('.','..'));
+		$files = array_diff(scandir($directory), ['.','..']);
 		foreach ($files as $file) {
 			if (is_dir($directory . '/' . $file)) {
 				$this->rrmdir($directory . '/' . $file);
@@ -91,10 +91,10 @@ class JSResourceLocatorTest extends \Test\TestCase {
 		$locator = $this->jsResourceLocator();
 		$this->assertAttributeEquals('theme', 'theme', $locator);
 		$this->assertAttributeEquals('core', 'serverroot', $locator);
-		$this->assertAttributeEquals(array('core'=>'map','3rd'=>'party'), 'mapping', $locator);
+		$this->assertAttributeEquals(['core'=>'map','3rd'=>'party'], 'mapping', $locator);
 		$this->assertAttributeEquals('3rd', 'thirdpartyroot', $locator);
 		$this->assertAttributeEquals('map', 'webroot', $locator);
-		$this->assertAttributeEquals(array(), 'resources', $locator);
+		$this->assertAttributeEquals([], 'resources', $locator);
 	}
 
 	public function testFindWithAppPathSymlink() {
@@ -116,7 +116,7 @@ class JSResourceLocatorTest extends \Test\TestCase {
                 ];
 
 		$locator = $this->jsResourceLocator();
-		$locator->find(array('test-js-app/test-file'));
+		$locator->find(['test-js-app/test-file']);
 
 		$resources = $locator->getResources();
 		$this->assertCount(1, $resources);

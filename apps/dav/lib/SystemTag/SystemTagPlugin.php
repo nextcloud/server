@@ -107,8 +107,8 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 		$server->protectedProperties[] = self::ID_PROPERTYNAME;
 
-		$server->on('propFind', array($this, 'handleGetProperties'));
-		$server->on('propPatch', array($this, 'handleUpdateProperties'));
+		$server->on('propFind', [$this, 'handleGetProperties']);
+		$server->on('propPatch', [$this, 'handleUpdateProperties']);
 		$server->on('method:POST', [$this, 'httpPost']);
 
 		$this->server = $server;

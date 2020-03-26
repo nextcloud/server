@@ -49,15 +49,15 @@ class JSONResponseTest extends \Test\TestCase {
 
 
 	public function testSetData() {
-		$params = array('hi', 'yo');
+		$params = ['hi', 'yo'];
 		$this->json->setData($params);
 
-		$this->assertEquals(array('hi', 'yo'), $this->json->getData());
+		$this->assertEquals(['hi', 'yo'], $this->json->getData());
 	}
 
 
 	public function testSetRender() {
-		$params = array('test' => 'hi');
+		$params = ['test' => 'hi'];
 		$this->json->setData($params);
 
 		$expected = '{"test":"hi"}';
@@ -100,7 +100,7 @@ class JSONResponseTest extends \Test\TestCase {
 	}
 
 	public function testConstructorAllowsToSetData() {
-		$data = array('hi');
+		$data = ['hi'];
 		$code = 300;
 		$response = new JSONResponse($data, $code);
 
@@ -110,12 +110,12 @@ class JSONResponseTest extends \Test\TestCase {
 	}
 
 	public function testChainability() {
-		$params = array('hi', 'yo');
+		$params = ['hi', 'yo'];
 		$this->json->setData($params)
 			->setStatus(Http::STATUS_NOT_FOUND);
 
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $this->json->getStatus());
-		$this->assertEquals(array('hi', 'yo'), $this->json->getData());
+		$this->assertEquals(['hi', 'yo'], $this->json->getData());
 	}
 
 }

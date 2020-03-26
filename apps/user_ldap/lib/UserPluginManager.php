@@ -32,7 +32,7 @@ class UserPluginManager {
 
 	private $respondToActions = 0;
 
-	private $which = array(
+	private $which = [
 		Backend::CREATE_USER => null,
 		Backend::SET_PASSWORD => null,
 		Backend::GET_HOME => null,
@@ -41,7 +41,7 @@ class UserPluginManager {
 		Backend::PROVIDE_AVATAR => null,
 		Backend::COUNT_USERS => null,
 		'deleteUser' => null
-	);
+	];
 
 	/**
 	 * @return int All implemented actions, except for 'deleteUser'

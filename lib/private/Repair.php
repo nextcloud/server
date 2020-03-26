@@ -93,7 +93,7 @@ class Repair implements IOutput {
 	 */
 	public function run() {
 		if (count($this->repairSteps) === 0) {
-			$this->emit('\OC\Repair', 'info', array('No repair steps available'));
+			$this->emit('\OC\Repair', 'info', ['No repair steps available']);
 
 			return;
 		}
@@ -207,7 +207,7 @@ class Repair implements IOutput {
 
 	public function info($string) {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'info', array($string));
+		$this->emit('\OC\Repair', 'info', [$string]);
 	}
 
 	/**

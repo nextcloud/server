@@ -118,7 +118,7 @@ class Factory implements IFactory {
 
 			$app = \OC_App::cleanAppId($app);
 			if ($lang !== null) {
-				$lang = str_replace(array('\0', '/', '\\', '..'), '', (string)$lang);
+				$lang = str_replace(['\0', '/', '\\', '..'], '', (string)$lang);
 			}
 
 			$forceLang = $this->config->getSystemValue('force_language', false);
@@ -532,8 +532,8 @@ class Factory implements IFactory {
 			$plural = preg_replace( '#[^n0-9:\(\)\?\|\&=!<>+*/\%-]#', '', $matches[2] );
 
 			$body = str_replace(
-				array( 'plural', 'n', '$n$plurals', ),
-				array( '$plural', '$n', '$nplurals', ),
+				[ 'plural', 'n', '$n$plurals', ],
+				[ '$plural', '$n', '$nplurals', ],
 				'nplurals='. $nplurals . '; plural=' . $plural
 			);
 
@@ -599,20 +599,20 @@ class Factory implements IFactory {
 			// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
 			$potentialName = (string) $l->t('__language_name__');
 			if ($l->getLanguageCode() === $lang && $potentialName[0] !== '_') {//first check if the language name is in the translation file
-				$ln = array(
+				$ln = [
 					'code' => $lang,
 					'name' => $potentialName
-				);
+				];
 			} else if ($lang === 'en') {
-				$ln = array(
+				$ln = [
 					'code' => $lang,
 					'name' => 'English (US)'
-				);
+				];
 			} else {//fallback to language code
-				$ln = array(
+				$ln = [
 					'code' => $lang,
 					'name' => $lang
-				);
+				];
 			}
 
 			// put appropriate languages into appropriate arrays, to print them sorted

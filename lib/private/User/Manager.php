@@ -69,12 +69,12 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @var \OCP\UserInterface[] $backends
 	 */
-	private $backends = array();
+	private $backends = [];
 
 	/**
 	 * @var \OC\User\User[] $cachedUsers
 	 */
-	private $cachedUsers = array();
+	private $cachedUsers = [];
 
 	/** @var IConfig */
 	private $config;
@@ -121,7 +121,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param \OCP\UserInterface $backend
 	 */
 	public function removeBackend($backend) {
-		$this->cachedUsers = array();
+		$this->cachedUsers = [];
 		if (($i = array_search($backend, $this->backends)) !== false) {
 			unset($this->backends[$i]);
 		}
@@ -131,8 +131,8 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * remove all user backends
 	 */
 	public function clearBackends() {
-		$this->cachedUsers = array();
-		$this->backends = array();
+		$this->cachedUsers = [];
+		$this->backends = [];
 	}
 
 	/**
@@ -241,7 +241,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return \OC\User\User[]
 	 */
 	public function search($pattern, $limit = null, $offset = null) {
-		$users = array();
+		$users = [];
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getUsers($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {
@@ -270,7 +270,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return \OC\User\User[]
 	 */
 	public function searchDisplayName($pattern, $limit = null, $offset = null) {
-		$users = array();
+		$users = [];
 		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getDisplayNames($pattern, $limit, $offset);
 			if (is_array($backendUsers)) {

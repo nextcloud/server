@@ -96,7 +96,7 @@ class OC_Mount_Config {
 	 * @deprecated 8.2.0 use UserGlobalStoragesService::getStorages() and UserStoragesService::getStorages()
 	 */
 	public static function getAbsoluteMountPoints($uid) {
-		$mountPoints = array();
+		$mountPoints = [];
 
 		$userGlobalStoragesService = self::$app->getContainer()->query(UserGlobalStoragesService::class);
 		$userStoragesService = self::$app->getContainer()->query(UserStoragesService::class);
@@ -296,7 +296,7 @@ class OC_Mount_Config {
 				return $mountPoints;
 			}
 		}
-		return array();
+		return [];
 	}
 
 	/**
@@ -430,14 +430,14 @@ class OC_Mount_Config {
 	 */
 	public static function makeConfigHash($config) {
 		$data = json_encode(
-			array(
+			[
 				'c' => $config['backend'],
 				'a' => $config['authMechanism'],
 				'm' => $config['mountpoint'],
 				'o' => $config['options'],
 				'p' => isset($config['priority']) ? $config['priority'] : -1,
 				'mo' => isset($config['mountOptions']) ? $config['mountOptions'] : [],
-			)
+			]
 		);
 		return hash('md5', $data);
 	}

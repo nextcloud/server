@@ -149,17 +149,17 @@ class User_LDAPTest extends TestCase {
 			   ->method('fetchListOfUsers')
 			   ->willReturnCallback(function($filter) {
 					if($filter === 'roland') {
-						return array(array('dn' => ['dnOfRoland,dc=test']));
+						return [['dn' => ['dnOfRoland,dc=test']]];
 					}
-					return array();
+					return [];
 			   });
 		$this->access->expects($this->any())
 			->method('fetchUsersByLoginName')
 			->willReturnCallback(function($uid) {
 				if($uid === 'roland') {
-					return array(array('dn' => ['dnOfRoland,dc=test']));
+					return [['dn' => ['dnOfRoland,dc=test']]];
 				}
-				return array();
+				return [];
 			});
 
 		$retVal = 'gunslinger';
@@ -378,11 +378,11 @@ class User_LDAPTest extends TestCase {
 		$this->access->expects($this->any())
 			   ->method('fetchListOfUsers')
 			   ->willReturnCallback(function($search, $a, $l, $o) {
-					$users = array('gunslinger', 'newyorker', 'ladyofshadows');
+					$users = ['gunslinger', 'newyorker', 'ladyofshadows'];
 					if(empty($search)) {
 						$result = $users;
 					} else {
-						$result = array();
+						$result = [];
 						foreach($users as $user) {
 							if(stripos($user,  $search) !== false) {
 								$result[] = $user;
@@ -545,7 +545,7 @@ class User_LDAPTest extends TestCase {
 			->method('readAttribute')
 			->willReturnCallback(function($dn) {
 				if($dn === 'dnOfRoland,dc=test') {
-					return array();
+					return [];
 				}
 				return false;
 			});
@@ -570,7 +570,7 @@ class User_LDAPTest extends TestCase {
 			->method('readAttribute')
 			->willReturnCallback(function($dn) {
 				if($dn === 'dnOfRoland,dc=test') {
-					return array();
+					return [];
 				}
 				return false;
 			});
@@ -613,9 +613,9 @@ class User_LDAPTest extends TestCase {
 				switch ($dn) {
 					case 'dnOfRoland,dc=test':
 						if($attr === 'testAttribute') {
-							return array('/tmp/rolandshome/');
+							return ['/tmp/rolandshome/'];
 						}
-						return array();
+						return [];
 						break;
 					default:
 						return false;
@@ -665,9 +665,9 @@ class User_LDAPTest extends TestCase {
 				switch ($dn) {
 					case 'dnOfLadyOfShadows,dc=test':
 						if($attr === 'testAttribute') {
-							return array('susannah/');
+							return ['susannah/'];
 						}
-						return array();
+						return [];
 						break;
 					default:
 						return false;
@@ -821,9 +821,9 @@ class User_LDAPTest extends TestCase {
 					switch ($dn) {
 						case 'dnOfRoland,dc=test':
 							if($attr === 'displayname') {
-								return array('Roland Deschain');
+								return ['Roland Deschain'];
 							}
-							return array();
+							return [];
 							break;
 
 						default:
@@ -1156,17 +1156,17 @@ class User_LDAPTest extends TestCase {
 			   ->method('fetchListOfUsers')
 			   ->willReturnCallback(function($filter) {
 					if($filter === 'roland') {
-						return array(array('dn' => ['dnOfRoland,dc=test']));
+						return [['dn' => ['dnOfRoland,dc=test']]];
 					}
-					return array();
+					return [];
 			   });
 		$this->access->expects($this->any())
 			->method('fetchUsersByLoginName')
 			->willReturnCallback(function($uid) {
 				if($uid === 'roland') {
-					return array(array('dn' => ['dnOfRoland,dc=test']));
+					return [['dn' => ['dnOfRoland,dc=test']]];
 				}
-				return array();
+				return [];
 			});
 		$this->access->expects($this->any())
 			   ->method('dn2username')

@@ -130,7 +130,7 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 		$l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function ($text, $parameters = array()) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 

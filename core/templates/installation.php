@@ -81,7 +81,7 @@ script('core', [
 		<?php foreach($_['databases'] as $type => $label): ?>
 		<?php if(count($_['databases']) === 1): ?>
 		<p class="info">
-			<?php p($l->t( 'Only %s is available.', array($label) )); ?>
+			<?php p($l->t( 'Only %s is available.', [$label] )); ?>
 			<?php p($l->t( 'Install and activate additional PHP modules to choose other database types.' )); ?><br>
 			<a href="<?php print_unescaped(link_to_docs('admin-source_install')); ?>" target="_blank" rel="noreferrer noopener">
 				<?php p($l->t( 'For more details check out the documentation.' )); ?> ↗</a>

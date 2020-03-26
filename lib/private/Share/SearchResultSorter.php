@@ -56,7 +56,7 @@ class SearchResultSorter {
 		if(!isset($a[$this->key]) || !isset($b[$this->key])) {
 			if(!is_null($this->log)) {
 				$this->log->error('Sharing dialogue: cannot sort due to ' .
-								  'missing array key', array('app' => 'core'));
+								  'missing array key', ['app' => 'core']);
 			}
 			return 0;
 		}

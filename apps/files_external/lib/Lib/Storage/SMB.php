@@ -472,7 +472,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 
 		try {
-			$this->statCache = array();
+			$this->statCache = [];
 			$content = $this->share->dir($this->buildPath($path));
 			foreach ($content as $file) {
 				if ($file->isDirectory()) {

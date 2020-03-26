@@ -155,7 +155,7 @@ class MDB2SchemaReader {
 	 * @throws \DomainException
 	 */
 	private function loadField($table, $xml) {
-		$options = array( 'notnull' => false );
+		$options = [ 'notnull' => false ];
 		foreach ($xml->children() as $child) {
 			/**
 			 * @var \SimpleXMLElement $child
@@ -262,7 +262,7 @@ class MDB2SchemaReader {
 
 			$table->addColumn($name, $type, $options);
 			if (!empty($options['primary']) && $options['primary']) {
-				$table->setPrimaryKey(array($name));
+				$table->setPrimaryKey([$name]);
 			}
 		}
 	}
@@ -274,7 +274,7 @@ class MDB2SchemaReader {
 	 */
 	private function loadIndex($table, $xml) {
 		$name = null;
-		$fields = array();
+		$fields = [];
 		foreach ($xml->children() as $child) {
 			/**
 			 * @var \SimpleXMLElement $child

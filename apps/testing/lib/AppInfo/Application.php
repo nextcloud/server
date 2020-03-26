@@ -27,7 +27,7 @@ use OCA\Testing\AlternativeHomeUserBackend;
 use OCP\AppFramework\App;
 
 class Application extends App {
-	public function __construct (array $urlParams = array()) {
+	public function __construct (array $urlParams = []) {
 		$appName = 'testing';
 		parent::__construct($appName, $urlParams);
 

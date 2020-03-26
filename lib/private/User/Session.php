@@ -440,7 +440,7 @@ class Session implements IUserSession, Emitter {
 		$currentDelay = $throttler->sleepDelay($request->getRemoteAddress(), 'login');
 
 		if ($this->manager instanceof PublicEmitter) {
-			$this->manager->emit('\OC\User', 'preLogin', array($user, $password));
+			$this->manager->emit('\OC\User', 'preLogin', [$user, $password]);
 		}
 
 		try {
@@ -500,7 +500,7 @@ class Session implements IUserSession, Emitter {
 		Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
-			array('uid' => &$username)
+			['uid' => &$username]
 		);
 		$user = $this->manager->get($username);
 		if (is_null($user)) {
@@ -640,7 +640,7 @@ class Session implements IUserSession, Emitter {
 			// Ignore and use empty string instead
 		}
 
-		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
+		$this->manager->emit('\OC\User', 'preLogin', [$uid, $password]);
 
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
@@ -841,7 +841,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function loginWithCookie($uid, $currentToken, $oldSessionId) {
 		$this->session->regenerateId();
-		$this->manager->emit('\OC\User', 'preRememberedLogin', array($uid));
+		$this->manager->emit('\OC\User', 'preRememberedLogin', [$uid]);
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
 			// user does not exist

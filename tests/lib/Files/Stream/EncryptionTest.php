@@ -101,7 +101,7 @@ class EncryptionTest extends \Test\TestCase {
 			$fileMock->expects($this->once())->method('getAccessList')
 				->willReturnCallback(function ($sharePath) use ($expectedSharePath) {
 					$this->assertSame($expectedSharePath, $sharePath);
-					return array();
+					return [];
 				});
 		}
 		$utilMock = $this->getMockBuilder('\OC\Encryption\Util')
@@ -138,7 +138,7 @@ class EncryptionTest extends \Test\TestCase {
 		$fullPathP->setAccessible(false);
 		$header = $stream->getProperty('header');
 		$header->setAccessible(true);
-		$header->setValue($streamWrapper, array());
+		$header->setValue($streamWrapper, []);
 		$header->setAccessible(false);
 		$this->invokePrivate($streamWrapper, 'signed', [true]);
 

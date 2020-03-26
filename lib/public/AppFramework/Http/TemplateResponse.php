@@ -75,7 +75,7 @@ class TemplateResponse extends Response {
 	 * @param string $renderAs how the page should be rendered, defaults to user
 	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0
 	 */
-	public function __construct($appName, $templateName, array $params=array(),
+	public function __construct($appName, $templateName, array $params=[],
 	                            $renderAs='user') {
 		parent::__construct();
 

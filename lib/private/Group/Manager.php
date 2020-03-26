@@ -342,7 +342,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	public function getUserGroupNames(IUser $user) {
 		return array_map(function ($group) {
-			return array('displayName' => $group->getDisplayName());
+			return ['displayName' => $group->getDisplayName()];
 		}, $this->getUserGroups($user));
 	}
 

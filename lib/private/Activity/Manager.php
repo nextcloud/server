@@ -76,10 +76,10 @@ class Manager implements IManager {
 	}
 
 	/** @var \Closure[] */
-	private $consumersClosures = array();
+	private $consumersClosures = [];
 
 	/** @var IConsumer[] */
-	private $consumers = array();
+	private $consumers = [];
 
 	/**
 	 * @return \OCP\Activity\IConsumer[]

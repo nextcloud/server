@@ -237,13 +237,13 @@ class IMipPlugin extends SabreIMipPlugin {
 				break;
 		}
 
-		$data = array(
+		$data = [
 			'attendee_name' => (string)$meetingAttendeeName ?: $defaultVal,
 			'invitee_name' => (string)$meetingInviteeName ?: $defaultVal,
 			'meeting_title' => (string)$meetingTitle ?: $defaultVal,
 			'meeting_description' => (string)$meetingDescription ?: $defaultVal,
 			'meeting_url' => (string)$meetingUrl ?: $defaultVal,
-		);
+		];
 
 		$fromEMail = \OCP\Util::getDefaultEmailAddress('invitations-noreply');
 		$fromName = $l10n->t('%1$s via %2$s', [$senderName, $this->defaults->getName()]);

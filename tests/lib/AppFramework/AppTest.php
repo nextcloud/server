@@ -30,7 +30,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
 
 function rrmdir($directory) {
-	$files = array_diff(scandir($directory), array('.','..'));
+	$files = array_diff(scandir($directory), ['.','..']);
 	foreach ($files as $file) {
 		if (is_dir($directory . '/' . $file)) {
 			rrmdir($directory . '/' . $file);
@@ -59,12 +59,12 @@ class AppTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer('test', array());
+		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer('test', []);
 		$this->controller = $this->createMock(Controller::class);
 		$this->dispatcher = $this->createMock(Dispatcher::class);
 		$this->io = $this->createMock(Http\IOutput::class);
 
-		$this->headers = array('key' => 'value');
+		$this->headers = ['key' => 'value'];
 		$this->output = 'hi';
 		$this->controllerName = 'Controller';
 		$this->controllerMethod = 'method';
@@ -72,7 +72,7 @@ class AppTest extends \Test\TestCase {
 		$this->container[$this->controllerName] = $this->controller;
 		$this->container['Dispatcher'] = $this->dispatcher;
 		$this->container['OCP\\AppFramework\\Http\\IOutput'] = $this->io;
-		$this->container['urlParams'] = array();
+		$this->container['urlParams'] = [];
 
 		$this->appPath = __DIR__ . '/../../../apps/namespacetestapp';
 		$infoXmlPath = $this->appPath . '/appinfo/info.xml';

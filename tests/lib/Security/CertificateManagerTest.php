@@ -79,11 +79,11 @@ class CertificateManagerTest extends \Test\TestCase {
 
 	function testListCertificates() {
 		// Test empty certificate bundle
-		$this->assertSame(array(), $this->certificateManager->listCertificates());
+		$this->assertSame([], $this->certificateManager->listCertificates());
 
 		// Add some certificates
 		$this->certificateManager->addCertificate(file_get_contents(__DIR__ . '/../../data/certificates/goodCertificate.crt'), 'GoodCertificate');
-		$certificateStore = array();
+		$certificateStore = [];
 		$certificateStore[] = new \OC\Security\Certificate(file_get_contents(__DIR__ . '/../../data/certificates/goodCertificate.crt'), 'GoodCertificate');
 		$this->assertEqualsArrays($certificateStore, $this->certificateManager->listCertificates());
 

@@ -117,7 +117,7 @@ trait S3ConnectionTrait {
 				if (!$this->connection->isBucketDnsCompatible($this->bucket)) {
 					throw new \Exception("The bucket will not be created because the name is not dns compatible, please correct it: " . $this->bucket);
 				}
-				$this->connection->createBucket(array('Bucket' => $this->bucket));
+				$this->connection->createBucket(['Bucket' => $this->bucket]);
 				$this->testTimeout();
 			} catch (S3Exception $e) {
 				$logger->logException($e, [

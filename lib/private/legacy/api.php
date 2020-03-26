@@ -36,7 +36,7 @@ class OC_API {
 	/**
 	 * api actions
 	 */
-	protected static $actions = array();
+	protected static $actions = [];
 
 	/**
 	 * respond to a call
@@ -101,7 +101,7 @@ class OC_API {
 	 * @return string
 	 */
 	public static function requestedFormat() {
-		$formats = array('json', 'xml');
+		$formats = ['json', 'xml'];
 
 		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
 		return $format;
@@ -167,12 +167,12 @@ class OC_API {
 	 * @return string
 	 */
 	public static function renderResult($format, $meta, $data) {
-		$response = array(
-			'ocs' => array(
+		$response = [
+			'ocs' => [
 				'meta' => $meta,
 				'data' => $data,
-			),
-		);
+			],
+		];
 		if ($format == 'json') {
 			return OC_JSON::encode($response);
 		}

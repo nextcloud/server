@@ -1032,9 +1032,9 @@ class UserTest extends \Test\TestCase {
 			->setMethods($requiredMethods)
 			->getMock();
 
-		$this->connection->setConfiguration(array(
+		$this->connection->setConfiguration([
 			'homeFolderNamingRule' => 'homeDirectory'
-		));
+		]);
 		$this->connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function($name) {
@@ -1070,10 +1070,10 @@ class UserTest extends \Test\TestCase {
 	}
 
 	public function emptyHomeFolderAttributeValueProvider() {
-		return array(
+		return [
 			'empty' => [''],
 			'prefixOnly' => ['attr:'],
-		);
+		];
 	}
 
 	/**

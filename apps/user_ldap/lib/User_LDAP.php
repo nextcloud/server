@@ -260,11 +260,11 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		if($limit <= 0) {
 			$limit = null;
 		}
-		$filter = $this->access->combineFilterWithAnd(array(
+		$filter = $this->access->combineFilterWithAnd([
 			$this->access->connection->ldapUserFilter,
 			$this->access->connection->ldapUserDisplayName . '=*',
 			$this->access->getFilterPartForUserSearch($search)
-		));
+		]);
 
 		Util::writeLog('user_ldap',
 			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
@@ -511,7 +511,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			return $displayNames;
 		}
 
-		$displayNames = array();
+		$displayNames = [];
 		$users = $this->getUsers($search, $limit, $offset);
 		foreach ($users as $user) {
 			$displayNames[$user] = $this->getDisplayName($user);

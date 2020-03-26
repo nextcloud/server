@@ -290,7 +290,7 @@ class RequestHandlerController extends Controller {
 		\OCP\Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
-			array('uid' => &$uid)
+			['uid' => &$uid]
 		);
 		$this->logger->debug('shareWith after, ' . $uid, ['app' => $this->appName]);
 

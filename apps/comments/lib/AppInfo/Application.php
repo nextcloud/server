@@ -44,7 +44,7 @@ class Application extends App {
 
 	const APP_ID = 'comments';
 
-	public function __construct (array $urlParams = array()) {
+	public function __construct (array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
 		$container = $this->getContainer();
 

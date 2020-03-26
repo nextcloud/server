@@ -109,7 +109,7 @@ class Encryption extends Wrapper {
 	protected $fileUpdated;
 
 	public function __construct() {
-		$this->expectedContextProperties = array(
+		$this->expectedContextProperties = [
 			'source',
 			'storage',
 			'internalPath',
@@ -124,7 +124,7 @@ class Encryption extends Wrapper {
 			'encryptionStorage',
 			'headerSize',
 			'signed'
-		);
+		];
 	}
 
 
@@ -165,8 +165,8 @@ class Encryption extends Wrapper {
 								$signed,
 								$wrapper = Encryption::class) {
 
-		$context = stream_context_create(array(
-			'ocencryption' => array(
+		$context = stream_context_create([
+			'ocencryption' => [
 				'source' => $source,
 				'storage' => $storage,
 				'internalPath' => $internalPath,
@@ -181,8 +181,8 @@ class Encryption extends Wrapper {
 				'encryptionStorage' => $encStorage,
 				'headerSize' => $headerSize,
 				'signed' => $signed
-			)
-		));
+			]
+		]);
 
 		return self::wrapSource($source, $context, 'ocencryption', $wrapper, $mode);
 	}

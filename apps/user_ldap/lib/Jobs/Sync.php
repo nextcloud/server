@@ -161,11 +161,11 @@ class Sync extends TimedJob {
 		$access = $this->accessFactory->get($connection);
 		$access->setUserMapper($this->mapper);
 
-		$filter = $access->combineFilterWithAnd(array(
+		$filter = $access->combineFilterWithAnd([
 			$access->connection->ldapUserFilter,
 			$access->connection->ldapUserDisplayName . '=*',
 			$access->getFilterPartForUserSearch('')
-		));
+		]);
 		$results = $access->fetchListOfUsers(
 			$filter,
 			$access->userManager->getAttributes(),

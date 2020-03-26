@@ -50,7 +50,7 @@ class Application extends App {
 
 	public const APP_ID = 'files';
 
-	public function __construct(array $urlParams=array()) {
+	public function __construct(array $urlParams=[]) {
 		parent::__construct(self::APP_ID, $urlParams);
 		$container = $this->getContainer();
 		$server = $container->getServer();

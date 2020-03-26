@@ -258,7 +258,7 @@ class AppSettingsController extends Controller {
 			}
 
 			// fix groups to be an array
-			$groups = array();
+			$groups = [];
 			if (is_string($appData['groups'])) {
 				$groups = json_decode($appData['groups']);
 			}

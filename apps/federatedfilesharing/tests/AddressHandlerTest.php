@@ -104,21 +104,21 @@ class AddressHandlerTest extends \Test\TestCase {
 	}
 
 	public function dataTestSplitUserRemoteError() {
-		return array(
+		return [
 			// Invalid path
-			array('user@'),
+			['user@'],
 
 			// Invalid user
-			array('@server'),
-			array('us/er@server'),
-			array('us:er@server'),
+			['@server'],
+			['us/er@server'],
+			['us:er@server'],
 
 			// Invalid splitting
-			array('user'),
-			array(''),
-			array('us/erserver'),
-			array('us:erserver'),
-		);
+			['user'],
+			[''],
+			['us/erserver'],
+			['us:erserver'],
+		];
 	}
 
 	/**

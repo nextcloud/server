@@ -245,7 +245,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$path = $this->normalizePath($path);
 
 		try {
-			$files = array();
+			$files = [];
 			$folderContents = $this->getCache()->getFolderContents($path);
 			foreach ($folderContents as $file) {
 				$files[] = $file['name'];
@@ -375,14 +375,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				// work with all object storage implementations
 				$this->file_put_contents($path, ' ');
 				$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
-				$stat = array(
+				$stat = [
 					'etag' => $this->getETag($path),
 					'mimetype' => $mimeType,
 					'size' => 0,
 					'mtime' => $mtime,
 					'storage_mtime' => $mtime,
 					'permissions' => \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE,
-				);
+				];
 				$this->getCache()->put($path, $stat);
 			} catch (\Exception $ex) {
 				$this->logger->logException($ex, [

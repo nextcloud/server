@@ -216,7 +216,7 @@ class JSCombiner {
 		$fileName = array_pop($tmpfileLoc);
 		$fileName = str_replace('.json', '.js', $fileName);
 
-		return substr($this->urlGenerator->linkToRoute('core.Js.getJs', array('fileName' => $fileName, 'appName' => $appName)), strlen(\OC::$WEBROOT) + 1);
+		return substr($this->urlGenerator->linkToRoute('core.Js.getJs', ['fileName' => $fileName, 'appName' => $appName]), strlen(\OC::$WEBROOT) + 1);
 	}
 
 	/**

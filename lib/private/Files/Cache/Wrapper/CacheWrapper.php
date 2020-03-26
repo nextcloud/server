@@ -96,7 +96,7 @@ class CacheWrapper extends Cache {
 	 */
 	public function getFolderContentsById($fileId) {
 		$results = $this->getCache()->getFolderContentsById($fileId);
-		return array_map(array($this, 'formatCacheEntry'), $results);
+		return array_map([$this, 'formatCacheEntry'], $results);
 	}
 
 	/**
@@ -223,7 +223,7 @@ class CacheWrapper extends Cache {
 	 */
 	public function search($pattern) {
 		$results = $this->getCache()->search($pattern);
-		return array_map(array($this, 'formatCacheEntry'), $results);
+		return array_map([$this, 'formatCacheEntry'], $results);
 	}
 
 	/**
@@ -234,12 +234,12 @@ class CacheWrapper extends Cache {
 	 */
 	public function searchByMime($mimetype) {
 		$results = $this->getCache()->searchByMime($mimetype);
-		return array_map(array($this, 'formatCacheEntry'), $results);
+		return array_map([$this, 'formatCacheEntry'], $results);
 	}
 
 	public function searchQuery(ISearchQuery $query) {
 		$results = $this->getCache()->searchQuery($query);
-		return array_map(array($this, 'formatCacheEntry'), $results);
+		return array_map([$this, 'formatCacheEntry'], $results);
 	}
 
 	/**

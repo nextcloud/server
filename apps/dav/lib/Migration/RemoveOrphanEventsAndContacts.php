@@ -88,7 +88,7 @@ class RemoveOrphanEventsAndContacts implements IRepairStep {
 
 		$result = $qb->execute();
 
-		$orphanItems = array();
+		$orphanItems = [];
 		while ($row = $result->fetch()) {
 			$orphanItems[] = (int) $row['id'];
 		}

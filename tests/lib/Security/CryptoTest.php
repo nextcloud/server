@@ -14,11 +14,11 @@ class CryptoTest extends \Test\TestCase {
 
 	public function defaultEncryptionProvider()
 	{
-		return array(
-			array('Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.'),
-			array(''),
-			array('我看这本书。 我看這本書')
-		);
+		return [
+			['Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.'],
+			[''],
+			['我看这本书。 我看這本書']
+		];
 	}
 
 	/** @var Crypto */

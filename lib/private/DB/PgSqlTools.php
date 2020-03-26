@@ -57,10 +57,10 @@ class PgSqlTools {
 			$sqlInfo = 'SELECT table_schema, table_name, column_name
 				FROM information_schema.columns
 				WHERE column_default = ? AND table_catalog = ?';
-			$sequenceInfo = $conn->fetchAssoc($sqlInfo, array(
+			$sequenceInfo = $conn->fetchAssoc($sqlInfo, [
 				"nextval('$sequenceName'::regclass)",
 				$databaseName
-			));
+			]);
 			$tableName = $sequenceInfo['table_name'];
 			$columnName = $sequenceInfo['column_name'];
 			$sqlMaxId = "SELECT MAX($columnName) FROM $tableName";

@@ -77,15 +77,15 @@ class EntityTest extends \Test\TestCase {
 		$entity->setId(3);
 		$entity->resetUpdatedFields();
 
-		$this->assertEquals(array(), $entity->getUpdatedFields());
+		$this->assertEquals([], $entity->getUpdatedFields());
 	}
 
 
 	public function testFromRow(){
-		$row = array(
+		$row = [
 			'pre_name' => 'john',
 			'email' => 'john@something.com'
-		);
+		];
 		$this->entity = TestEntity::fromRow($row);
 
 		$this->assertEquals($row['pre_name'], $this->entity->getPreName());
@@ -153,7 +153,7 @@ class EntityTest extends \Test\TestCase {
 
 
 	public function testFromRowShouldNotAssignEmptyArray(){
-		$row = array();
+		$row = [];
 		$entity2 = new TestEntity();
 
 		$this->entity = TestEntity::fromRow($row);
@@ -162,7 +162,7 @@ class EntityTest extends \Test\TestCase {
 
 
 	public function testIdGetsConvertedToInt(){
-		$row = array('id' => '4');
+		$row = ['id' => '4'];
 
 		$this->entity = TestEntity::fromRow($row);
 		$this->assertSame(4, $this->entity->getId());
@@ -170,7 +170,7 @@ class EntityTest extends \Test\TestCase {
 
 
 	public function testSetType(){
-		$row = array('testId' => '4');
+		$row = ['testId' => '4'];
 
 		$this->entity = TestEntity::fromRow($row);
 		$this->assertSame(4, $this->entity->getTestId());
@@ -178,10 +178,10 @@ class EntityTest extends \Test\TestCase {
 
 
 	public function testFromParams(){
-		$params = array(
+		$params = [
 			'testId' => 4,
 			'email' => 'john@doe'
-		);
+		];
 
 		$entity = TestEntity::fromParams($params);
 
@@ -215,12 +215,12 @@ class EntityTest extends \Test\TestCase {
 
 	public function testGetFieldTypes() {
 		$entity = new TestEntity();
-		$this->assertEquals(array(
+		$this->assertEquals([
 			'id' => 'integer',
 			'testId' => 'integer',
 			'trueOrFalse' => 'bool',
 			'anotherBool' => 'boolean',
-		), $entity->getFieldTypes());
+		], $entity->getFieldTypes());
 	}
 
 

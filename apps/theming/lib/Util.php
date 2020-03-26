@@ -142,7 +142,7 @@ class Util {
 	 * @return string|ISimpleFile path to app icon / file of logo
 	 */
 	public function getAppIcon($app) {
-		$app = str_replace(array('\0', '/', '\\', '..'), '', $app);
+		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
 		try {
 			$appPath = $this->appManager->getAppPath($app);
 			$icon = $appPath . '/img/' . $app . '.svg';
@@ -173,8 +173,8 @@ class Util {
 	 * @return string|false absolute path to image
 	 */
 	public function getAppImage($app, $image) {
-		$app = str_replace(array('\0', '/', '\\', '..'), '', $app);
-		$image = str_replace(array('\0', '\\', '..'), '', $image);
+		$app = str_replace(['\0', '/', '\\', '..'], '', $app);
+		$image = str_replace(['\0', '\\', '..'], '', $image);
 		if ($app === "core") {
 			$icon = \OC::$SERVERROOT . '/core/img/' . $image;
 			if (file_exists($icon)) {

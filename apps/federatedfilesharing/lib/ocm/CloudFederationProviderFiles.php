@@ -215,7 +215,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				Util::emitHook(
 					'\OCA\Files_Sharing\API\Server2Server',
 					'preLoginNameUsedAsUserName',
-					array('uid' => &$shareWith)
+					['uid' => &$shareWith]
 				);
 				$this->logger->debug('shareWith after, ' . $shareWith, ['app' => 'files_sharing']);
 
@@ -774,7 +774,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		} catch (NotFoundException $e) {
 			$file = null;
 		}
-		$args = Filesystem::is_dir($file) ? array('dir' => $file) : array('dir' => dirname($file), 'scrollto' => $file);
+		$args = Filesystem::is_dir($file) ? ['dir' => $file] : ['dir' => dirname($file), 'scrollto' => $file];
 		$link = Util::linkToAbsolute('files', 'index.php', $args);
 
 		return [$file, $link];

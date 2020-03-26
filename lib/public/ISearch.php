@@ -42,7 +42,7 @@ interface ISearch {
 	 * @return array An array of OCP\Search\Result's
 	 * @since 8.0.0
 	 */
-	public function searchPaged($query, array $inApps = array(), $page = 1, $size = 30);
+	public function searchPaged($query, array $inApps = [], $page = 1, $size = 30);
 
 	/**
 	 * Register a new search provider to search with
@@ -50,7 +50,7 @@ interface ISearch {
 	 * @param array $options optional
 	 * @since 7.0.0
 	 */
-	public function registerProvider($class, array $options = array());
+	public function registerProvider($class, array $options = []);
 
 	/**
 	 * Remove one existing search provider

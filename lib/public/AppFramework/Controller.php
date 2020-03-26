@@ -77,7 +77,7 @@ abstract class Controller {
 		$this->request = $request;
 
 		// default responders
-		$this->responders = array(
+		$this->responders = [
 			'json' => function ($data) {
 				if ($data instanceof DataResponse) {
 					$response = new JSONResponse(
@@ -95,7 +95,7 @@ abstract class Controller {
 				}
 				return new JSONResponse($data);
 			}
-		);
+		];
 	}
 
 

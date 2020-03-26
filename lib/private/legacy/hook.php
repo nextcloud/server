@@ -36,7 +36,7 @@
 class OC_Hook {
 	public static $thrownExceptions = [];
 
-	static private $registered = array();
+	static private $registered = [];
 
 	/**
 	 * connects a function to a hook
@@ -55,12 +55,12 @@ class OC_Hook {
 		// If we're trying to connect to an emitting class that isn't
 		// yet registered, register it
 		if( !array_key_exists($signalClass, self::$registered )) {
-			self::$registered[$signalClass] = array();
+			self::$registered[$signalClass] = [];
 		}
 		// If we're trying to connect to an emitting method that isn't
 		// yet registered, register it with the emitting class
 		if( !array_key_exists( $signalName, self::$registered[$signalClass] )) {
-			self::$registered[$signalClass][$signalName] = array();
+			self::$registered[$signalClass][$signalName] = [];
 		}
 
 		// don't connect hooks twice
@@ -70,10 +70,10 @@ class OC_Hook {
 			}
 		}
 		// Connect the hook handler to the requested emitter
-		self::$registered[$signalClass][$signalName][] = array(
+		self::$registered[$signalClass][$signalName][] = [
 				"class" => $slotClass,
 				"name" => $slotName
-		);
+		];
 
 		// No chance for failure ;-)
 		return true;
@@ -108,7 +108,7 @@ class OC_Hook {
 		// Call all slots
 		foreach( self::$registered[$signalClass][$signalName] as $i ) {
 			try {
-				call_user_func( array( $i["class"], $i["name"] ), $params );
+				call_user_func( [ $i["class"], $i["name"] ], $params );
 			} catch (Exception $e){
 				self::$thrownExceptions[] = $e;
 				\OC::$server->getLogger()->logException($e);
@@ -132,12 +132,12 @@ class OC_Hook {
 	static public function clear($signalClass='', $signalName='') {
 		if ($signalClass) {
 			if ($signalName) {
-				self::$registered[$signalClass][$signalName]=array();
+				self::$registered[$signalClass][$signalName]=[];
 			}else{
-				self::$registered[$signalClass]=array();
+				self::$registered[$signalClass]=[];
 			}
 		}else{
-			self::$registered=array();
+			self::$registered=[];
 		}
 	}
 

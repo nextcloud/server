@@ -359,20 +359,20 @@ class File extends Node implements IFile {
 		$run = true;
 
 		if (!$exists) {
-			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_create, array(
+			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_create, [
 				\OC\Files\Filesystem::signal_param_path => $hookPath,
 				\OC\Files\Filesystem::signal_param_run => &$run,
-			));
+			]);
 		} else {
-			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_update, array(
+			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_update, [
 				\OC\Files\Filesystem::signal_param_path => $hookPath,
 				\OC\Files\Filesystem::signal_param_run => &$run,
-			));
+			]);
 		}
-		\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_write, array(
+		\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_write, [
 			\OC\Files\Filesystem::signal_param_path => $hookPath,
 			\OC\Files\Filesystem::signal_param_run => &$run,
-		));
+		]);
 		return $run;
 	}
 
@@ -385,17 +385,17 @@ class File extends Node implements IFile {
 		}
 		$hookPath = Filesystem::getView()->getRelativePath($this->fileView->getAbsolutePath($path));
 		if (!$exists) {
-			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_create, array(
+			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_create, [
 				\OC\Files\Filesystem::signal_param_path => $hookPath
-			));
+			]);
 		} else {
-			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_update, array(
+			\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_update, [
 				\OC\Files\Filesystem::signal_param_path => $hookPath
-			));
+			]);
 		}
-		\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_write, array(
+		\OC_Hook::emit(\OC\Files\Filesystem::CLASSNAME, \OC\Files\Filesystem::signal_post_write, [
 			\OC\Files\Filesystem::signal_param_path => $hookPath
-		));
+		]);
 	}
 
 	/**

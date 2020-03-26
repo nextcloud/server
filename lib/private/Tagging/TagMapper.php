@@ -52,12 +52,12 @@ class TagMapper extends Mapper {
 	*/
 	public function loadTags($owners, $type) {
 		if(!is_array($owners)) {
-			$owners = array($owners);
+			$owners = [$owners];
 		}
 
 		$sql = 'SELECT `id`, `uid`, `type`, `category` FROM `' . $this->getTableName() . '` '
 			. 'WHERE `uid` IN (' . str_repeat('?,', count($owners)-1) . '?) AND `type` = ? ORDER BY `category`';
-		return $this->findEntities($sql, array_merge($owners, array($type)));
+		return $this->findEntities($sql, array_merge($owners, [$type]));
 	}
 
 	/**
@@ -70,7 +70,7 @@ class TagMapper extends Mapper {
 		$sql = 'SELECT `id`, `uid`, `type`, `category` FROM `' . $this->getTableName() . '` '
 			. 'WHERE `uid` = ? AND `type` = ? AND `category` = ?';
 		try {
-			$this->findEntity($sql, array($tag->getOwner(), $tag->getType(), $tag->getName()));
+			$this->findEntity($sql, [$tag->getOwner(), $tag->getType(), $tag->getName()]);
 		} catch (DoesNotExistException $e) {
 			return false;
 		}

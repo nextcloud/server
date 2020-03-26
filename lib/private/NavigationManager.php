@@ -115,7 +115,7 @@ class NavigationManager implements INavigationManager {
 		foreach ($this->closureEntries as $c) {
 			$this->add($c());
 		}
-		$this->closureEntries = array();
+		$this->closureEntries = [];
 
 		$result = $this->entries;
 		if ($type !== 'all') {

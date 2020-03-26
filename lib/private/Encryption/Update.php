@@ -158,7 +158,7 @@ class Update {
 			throw new \InvalidArgumentException('No file found for ' . $info->getId());
 		}
 
-		return array($owner, $path);
+		return [$owner, $path];
 	}
 
 	/**
@@ -181,7 +181,7 @@ class Update {
 		if ($this->view->is_dir($path)) {
 			$allFiles = $this->util->getAllFiles($path);
 		} else {
-			$allFiles = array($path);
+			$allFiles = [$path];
 		}
 
 

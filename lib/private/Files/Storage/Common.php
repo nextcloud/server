@@ -296,7 +296,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	 * @return array
 	 */
 	protected function searchInDir($query, $dir = '') {
-		$files = array();
+		$files = [];
 		$dh = $this->opendir($dir);
 		if (is_resource($dh)) {
 			while (($item = readdir($dh)) !== false) {
@@ -434,7 +434,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			$path = '/' . $path;
 		}
 
-		$output = array();
+		$output = [];
 		foreach (explode('/', $path) as $chunk) {
 			if ($chunk == '..') {
 				array_pop($output);

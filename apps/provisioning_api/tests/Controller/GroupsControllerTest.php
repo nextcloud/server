@@ -241,15 +241,15 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$result = $this->api->getGroupsDetails($search, $limit, $offset);
 		$this->assertEquals(['groups' => [
-			Array(
+			[
 				'id' => 'group1',
 				'displayname' => 'group1-name',
 				'usercount' => 123,
 				'disabled' => 11,
 				'canAdd' => true,
 				'canRemove' => true
-			), 
-			Array(
+			], 
+			[
 				'id' => 'group2',
 				'displayname' => 'group2-name',
 				'usercount' => 123,
@@ -257,7 +257,7 @@ class GroupsControllerTest extends \Test\TestCase {
 				'canAdd' => true,
 				'canRemove' => true
 				
-				)
+				]
 		]], $result->getData());
 
 	}

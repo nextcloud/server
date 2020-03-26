@@ -172,7 +172,7 @@ class TemplateLayout extends \OC_Template {
 
 		// Add the js files
 		$jsFiles = self::findJavascriptFiles(\OC_Util::$scripts);
-		$this->assign('jsfiles', array());
+		$this->assign('jsfiles', []);
 		if ($this->config->getSystemValue('installed', false) && $renderAs != 'error') {
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
 				$jsConfigHelper = new JSConfigHelper(
@@ -220,7 +220,7 @@ class TemplateLayout extends \OC_Template {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles, false);
 		}
 
-		$this->assign('cssfiles', array());
+		$this->assign('cssfiles', []);
 		$this->assign('printcssfiles', []);
 		$this->assign('versionHash', self::$versionHash);
 		foreach($cssFiles as $info) {
@@ -303,8 +303,8 @@ class TemplateLayout extends \OC_Template {
 		$locator = new \OC\Template\CSSResourceLocator(
 			\OC::$server->getLogger(),
 			$theme,
-			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
-			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
+			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
+			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
 			$SCSSCacher
 		);
 		$locator->find($styles);
@@ -339,8 +339,8 @@ class TemplateLayout extends \OC_Template {
 		$locator = new \OC\Template\JSResourceLocator(
 			\OC::$server->getLogger(),
 			$theme,
-			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
-			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
+			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
+			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
 			\OC::$server->query(JSCombiner::class)
 			);
 		$locator->find($scripts);

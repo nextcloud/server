@@ -37,9 +37,9 @@ class LoggerTest extends TestCase implements IWriter {
 
 	public function testInterpolation() {
 		$logger = $this->logger;
-		$logger->warning('{Message {nothing} {user} {foo.bar} a}', array('user' => 'Bob', 'foo.bar' => 'Bar'));
+		$logger->warning('{Message {nothing} {user} {foo.bar} a}', ['user' => 'Bob', 'foo.bar' => 'Bar']);
 
-		$expected = array('2 {Message {nothing} Bob Bar a}');
+		$expected = ['2 {Message {nothing} Bob Bar a}'];
 		$this->assertEquals($expected, $this->getLogs());
 	}
 

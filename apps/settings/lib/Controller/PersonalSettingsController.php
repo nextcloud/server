@@ -94,15 +94,15 @@ class PersonalSettingsController extends Controller {
 				$anchor = strtolower($sectionName);
 				$anchor = str_replace(' ', '-', $anchor);
 
-				return array(
+				return [
 					'anchor' => $anchor,
 					'section-name' => $sectionName,
 					'form' => $form
-				);
+				];
 			}
-			return array(
+			return [
 				'form' => $form
-			);
+			];
 		}, $forms);
 
 		$out = new Template('settings', 'settings/additional');

@@ -97,9 +97,9 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 			' WHERE `userid` = ?'
 		);
 		$deleteStatement->execute(
-			array(
+			[
 				$this->user->getUID(),
-			)
+			]
 		);
 		$deleteStatement->closeCursor();
 	}
@@ -121,10 +121,10 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 
 	private function applyDefaultProps($path = '/dummypath') {
 		// properties to set
-		$propPatch = new \Sabre\DAV\PropPatch(array(
+		$propPatch = new \Sabre\DAV\PropPatch([
 			'customprop' => 'value1',
 			'customprop2' => 'value2',
-		));
+		]);
 
 		$this->plugin->propPatch(
 			$path,
@@ -146,11 +146,11 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	public function testPropFindMissingFileSoftFail() {
 		$propFind = new \Sabre\DAV\PropFind(
 			'/dummypath',
-			array(
+			[
 				'customprop',
 				'customprop2',
 				'unsetprop',
-			),
+			],
 			0
 		);
 
@@ -176,11 +176,11 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 
 		$propFind = new \Sabre\DAV\PropFind(
 			'/dummypath',
-			array(
+			[
 				'customprop',
 				'customprop2',
 				'unsetprop',
-			),
+			],
 			0
 		);
 
@@ -191,7 +191,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 
 		$this->assertEquals('value1', $propFind->get('customprop'));
 		$this->assertEquals('value2', $propFind->get('customprop2'));
-		$this->assertEquals(array('unsetprop'), $propFind->get404Properties());
+		$this->assertEquals(['unsetprop'], $propFind->get404Properties());
 	}
 
 	/**
@@ -201,11 +201,11 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 		$this->applyDefaultProps('/dummypath');
 		$this->applyDefaultProps('/dummypath/test.txt');
 
-		$propNames = array(
+		$propNames = [
 			'customprop',
 			'customprop2',
 			'unsetprop',
-		);
+		];
 
 		$propFindRoot = new \Sabre\DAV\PropFind(
 			'/dummypath',
@@ -234,11 +234,11 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 
 		$this->assertEquals('value1', $propFindRoot->get('customprop'));
 		$this->assertEquals('value2', $propFindRoot->get('customprop2'));
-		$this->assertEquals(array('unsetprop'), $propFindRoot->get404Properties());
+		$this->assertEquals(['unsetprop'], $propFindRoot->get404Properties());
 
 		$this->assertEquals('value1', $propFindSub->get('customprop'));
 		$this->assertEquals('value2', $propFindSub->get('customprop2'));
-		$this->assertEquals(array('unsetprop'), $propFindSub->get404Properties());
+		$this->assertEquals(['unsetprop'], $propFindSub->get404Properties());
 	}
 
 	/**
@@ -247,9 +247,9 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 	public function testDeleteProperty() {
 		$this->applyDefaultProps();
 
-		$propPatch = new \Sabre\DAV\PropPatch(array(
+		$propPatch = new \Sabre\DAV\PropPatch([
 			'customprop' => null,
-		));
+		]);
 
 		$this->plugin->propPatch(
 			'/dummypath',

@@ -62,25 +62,25 @@ return ['routes' => [
 		'name' => 'Theming#getManifest',
 		'url' => '/manifest/{app}',
 		'verb' => 'GET',
-		'defaults' => array('app' => 'core')
+		'defaults' => ['app' => 'core']
 	],
 	[
 		'name'	=> 'Icon#getFavicon',
 		'url' => '/favicon/{app}',
 		'verb' => 'GET',
-		'defaults' => array('app' => 'core'),
+		'defaults' => ['app' => 'core'],
 	],
 	[
 		'name'	=> 'Icon#getTouchIcon',
 		'url' => '/icon/{app}',
 		'verb' => 'GET',
-		'defaults' => array('app' => 'core'),
+		'defaults' => ['app' => 'core'],
 	],
 	[
 		'name'	=> 'Icon#getThemedIcon',
 		'url' => '/img/{app}/{image}',
 		'verb' => 'GET',
-		'requirements' => array('image' => '.+')
+		'requirements' => ['image' => '.+']
 	],
 ]];
 

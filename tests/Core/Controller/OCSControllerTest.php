@@ -92,14 +92,14 @@ class OCSControllerTest extends TestCase {
 		list($major, $minor, $micro) = \OCP\Util::getVersion();
 
 		$result = [];
-		$result['version'] = array(
+		$result['version'] = [
 			'major' => $major,
 			'minor' => $minor,
 			'micro' => $micro,
 			'string' => \OC_Util::getVersionString(),
 			'edition' => '',
 			'extendedSupport' => false
-		);
+		];
 
 		$capabilities = [
 			'foo' => 'bar',
@@ -124,14 +124,14 @@ class OCSControllerTest extends TestCase {
 		list($major, $minor, $micro) = \OCP\Util::getVersion();
 
 		$result = [];
-		$result['version'] = array(
+		$result['version'] = [
 			'major' => $major,
 			'minor' => $minor,
 			'micro' => $micro,
 			'string' => \OC_Util::getVersionString(),
 			'edition' => '',
 			'extendedSupport' => false
-		);
+		];
 
 		$capabilities = [
 			'foo' => 'bar',

@@ -49,7 +49,7 @@ class Backend implements \OCP\Share_Backend {
 
 		$shares = \OC\Share\Share::getItemsSharedWithUser('test', $shareWith);
 
-		$knownTargets = array();
+		$knownTargets = [];
 		foreach ($shares as $share) {
 			$knownTargets[] = $share['item_target'];
 		}
@@ -73,7 +73,7 @@ class Backend implements \OCP\Share_Backend {
 	}
 
 	public function formatItems($items, $format, $parameters = null) {
-		$testItems = array();
+		$testItems = [];
 		foreach ($items as $item) {
 			if ($format === self::FORMAT_SOURCE) {
 				$testItems[] = $item['item_source'];

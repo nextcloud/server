@@ -69,7 +69,7 @@ class ListModules extends Base {
 		$encryptionModules = $this->encryptionManager->getEncryptionModules();
 		$defaultEncryptionModuleId = $this->encryptionManager->getDefaultEncryptionModuleId();
 
-		$encModules = array();
+		$encModules = [];
 		foreach ($encryptionModules as $module) {
 			$encModules[$module['id']]['displayName'] = $module['displayName'];
 			$encModules[$module['id']]['default'] = $module['id'] === $defaultEncryptionModuleId;

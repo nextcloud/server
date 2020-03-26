@@ -206,7 +206,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function setParameters(array $params, array $types = array());
+	public function setParameters(array $params, array $types = []);
 
 	/**
 	 * Gets all defined query parameters for the query being constructed indexed by parameter index or name.

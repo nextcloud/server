@@ -31,7 +31,7 @@ use OCP\IDBConnection;
 
 class CleanUpTest extends \Test\TestCase {
 	public function getMocks() {
-		$mocks = array();
+		$mocks = [];
 		$mocks['userBackend'] =
 			$this->getMockBuilder('\OCA\User_LDAP\User_Proxy')
 				->disableOriginalConstructor()

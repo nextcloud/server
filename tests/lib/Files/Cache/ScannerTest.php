@@ -36,7 +36,7 @@ class ScannerTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->storage = new \OC\Files\Storage\Temporary(array());
+		$this->storage = new \OC\Files\Storage\Temporary([]);
 		$this->scanner = new \OC\Files\Cache\Scanner($this->storage);
 		$this->cache = new \OC\Files\Cache\Cache($this->storage);
 	}
@@ -247,7 +247,7 @@ class ScannerTest extends \Test\TestCase {
 		$this->scanner->scan('');
 		$oldData = $this->cache->get('');
 		$this->storage->unlink('folder/bar.txt');
-		$this->cache->put('folder', array('mtime' => $this->storage->filemtime('folder'), 'storage_mtime' => $this->storage->filemtime('folder')));
+		$this->cache->put('folder', ['mtime' => $this->storage->filemtime('folder'), 'storage_mtime' => $this->storage->filemtime('folder')]);
 		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW, \OC\Files\Cache\Scanner::REUSE_SIZE);
 		$newData = $this->cache->get('');
 		$this->assertIsString($oldData['etag']);
@@ -345,7 +345,7 @@ class ScannerTest extends \Test\TestCase {
 
 		// delete the folder without removing the childs
 		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?';
-		\OC_DB::executeAudited($sql, array($oldFolderId));
+		\OC_DB::executeAudited($sql, [$oldFolderId]);
 
 		$cachedData = $this->cache->get('folder/bar.txt');
 		$this->assertEquals($oldFolderId, $cachedData['parent']);
@@ -369,7 +369,7 @@ class ScannerTest extends \Test\TestCase {
 
 		// delete the folder without removing the childs
 		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?';
-		\OC_DB::executeAudited($sql, array($oldFolderId));
+		\OC_DB::executeAudited($sql, [$oldFolderId]);
 
 		$cachedData = $this->cache->get('folder/bar.txt');
 		$this->assertEquals($oldFolderId, $cachedData['parent']);

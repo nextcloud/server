@@ -53,7 +53,7 @@ class UserController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function getDisplayNames($users) {
-		$result = array();
+		$result = [];
 
 		foreach ($users as $user) {
 			$userObject = $this->userManager->get($user);
@@ -64,10 +64,10 @@ class UserController extends Controller {
 			}
 		}
 
-		$json = array(
+		$json = [
 			'users' => $result,
 			'status' => 'success'
-		);
+		];
 
 		return new JSONResponse($json);
 

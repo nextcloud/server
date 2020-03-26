@@ -52,13 +52,13 @@ class OCI extends AbstractDatabase {
 	}
 
 	public function validate($config) {
-		$errors = array();
+		$errors = [];
 		if (empty($config['dbuser']) && empty($config['dbname'])) {
-			$errors[] = $this->trans->t("%s enter the database username and name.", array($this->dbprettyname));
+			$errors[] = $this->trans->t("%s enter the database username and name.", [$this->dbprettyname]);
 		} else if (empty($config['dbuser'])) {
-			$errors[] = $this->trans->t("%s enter the database username.", array($this->dbprettyname));
+			$errors[] = $this->trans->t("%s enter the database username.", [$this->dbprettyname]);
 		} else if (empty($config['dbname'])) {
-			$errors[] = $this->trans->t("%s enter the database name.", array($this->dbprettyname));
+			$errors[] = $this->trans->t("%s enter the database name.", [$this->dbprettyname]);
 		}
 		return $errors;
 	}
@@ -101,7 +101,7 @@ class OCI extends AbstractDatabase {
 		} else {
 			$error = oci_error();
 		}
-		foreach (array('message', 'code') as $key) {
+		foreach (['message', 'code'] as $key) {
 			if (isset($error[$key])) {
 				return $error[$key];
 			}

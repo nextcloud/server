@@ -311,8 +311,8 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 		$timeZone = $this->getTimeZone($timeZone);
 		$timestamp = $this->getDateTime($timestamp, $timeZone);
 
-		return $l->l($type, $timestamp, array(
+		return $l->l($type, $timestamp, [
 			'width' => $format,
-		));
+		]);
 	}
 }

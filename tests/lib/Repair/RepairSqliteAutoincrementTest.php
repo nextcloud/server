@@ -65,7 +65,7 @@ class RepairSqliteAutoincrementTest extends \Test\TestCase {
 	protected function checkAutoincrement() {
 		$this->connection->executeUpdate('INSERT INTO ' . $this->tableName . ' ("text") VALUES ("test")');
 		$insertId = $this->connection->lastInsertId();
-		$this->connection->executeUpdate('DELETE FROM ' . $this->tableName . ' WHERE "someid" = ?', array($insertId));
+		$this->connection->executeUpdate('DELETE FROM ' . $this->tableName . ' WHERE "someid" = ?', [$insertId]);
 
 		// insert again
 		$this->connection->executeUpdate('INSERT INTO ' . $this->tableName . ' ("text") VALUES ("test2")');

@@ -140,7 +140,7 @@ class Memcached extends Cache implements IMemcache {
 			self::$cache->flush();
 			return true;
 		}
-		$keys = array();
+		$keys = [];
 		$prefixLength = strlen($prefix);
 		foreach ($allKeys as $key) {
 			if (substr($key, 0, $prefixLength) === $prefix) {

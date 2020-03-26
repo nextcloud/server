@@ -57,7 +57,7 @@ class AccessibilityProvider {
 	}
 
 	public function getThemes() {
-		return array(
+		return [
 			[
 				'id'    => 'dark',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'theme-dark.jpg'),
@@ -65,7 +65,7 @@ class AccessibilityProvider {
 				'enableLabel' => $this->l->t('Enable dark theme'),
 				'text'  => $this->l->t('A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find.')
 			]
-		);
+		];
 	}
 
 	public function getHighContrast() {
@@ -79,7 +79,7 @@ class AccessibilityProvider {
 	}
 
 	public function getFonts() {
-		return array(
+		return [
 			[
 				'id'    => 'fontdyslexic',
 				'img'   => $this->urlGenerator->imagePath($this->appName, 'font-opendyslexic.jpg'),
@@ -87,7 +87,7 @@ class AccessibilityProvider {
 				'enableLabel' => $this->l->t('Enable dyslexia font'),
 				'text'  => $this->l->t('OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia.')
 			]
-		);
+		];
 	}
 
 }

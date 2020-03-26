@@ -74,7 +74,7 @@ class SetupController {
 		if(isset($post['install']) AND $post['install']=='true') {
 			// We have to launch the installation process :
 			$e = $this->setupHelper->install($post);
-			$errors = array('errors' => $e);
+			$errors = ['errors' => $e];
 
 			if(count($e) > 0) {
 				$options = array_merge($opts, $post, $errors);
@@ -93,7 +93,7 @@ class SetupController {
 	}
 
 	public function display($post) {
-		$defaults = array(
+		$defaults = [
 			'adminlogin' => '',
 			'adminpass' => '',
 			'dbuser' => '',
@@ -102,7 +102,7 @@ class SetupController {
 			'dbtablespace' => '',
 			'dbhost' => 'localhost',
 			'dbtype' => '',
-		);
+		];
 		$parameters = array_merge($defaults, $post);
 
 		\OC_Util::addScript('setup');
@@ -133,7 +133,7 @@ class SetupController {
 	public function loadAutoConfig($post) {
 		if( file_exists($this->autoConfigFile)) {
 			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up Nextcloud…', ILogger::INFO);
-			$AUTOCONFIG = array();
+			$AUTOCONFIG = [];
 			include $this->autoConfigFile;
 			$post = array_merge ($post, $AUTOCONFIG);
 		}

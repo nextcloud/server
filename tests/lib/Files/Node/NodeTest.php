@@ -203,13 +203,13 @@ abstract class NodeTest extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($this->user);
 
-		$stat = array(
+		$stat = [
 			'fileid' => 1,
 			'size' => 100,
 			'etag' => 'qwerty',
 			'mtime' => 50,
 			'permissions' => 0
-		);
+		];
 
 		$this->view->expects($this->once())
 			->method('stat')
@@ -225,12 +225,12 @@ abstract class NodeTest extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($this->user);
 
-		$stat = $this->getFileInfo(array(
+		$stat = $this->getFileInfo([
 			'fileid' => 1,
 			'size' => 100,
 			'etag' => 'qwerty',
 			'mtime' => 50
-		));
+		]);
 
 		$this->view->expects($this->once())
 			->method('getFileInfo')
@@ -247,12 +247,12 @@ abstract class NodeTest extends \Test\TestCase {
 			->willReturn($this->user);
 
 
-		$stat = $this->getFileInfo(array(
+		$stat = $this->getFileInfo([
 			'fileid' => 1,
 			'size' => 100,
 			'etag' => 'qwerty',
 			'mtime' => 50
-		));
+		]);
 
 		$this->view->expects($this->once())
 			->method('getFileInfo')
@@ -268,12 +268,12 @@ abstract class NodeTest extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($this->user);
 
-		$stat = $this->getFileInfo(array(
+		$stat = $this->getFileInfo([
 			'fileid' => 1,
 			'size' => 100,
 			'etag' => 'qwerty',
 			'mtime' => 50
-		));
+		]);
 
 		$this->view->expects($this->once())
 			->method('getFileInfo')
@@ -289,12 +289,12 @@ abstract class NodeTest extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($this->user);
 
-		$stat = $this->getFileInfo(array(
+		$stat = $this->getFileInfo([
 			'fileid' => 1,
 			'size' => 100,
 			'etag' => 'qwerty',
 			'mtime' => 50
-		));
+		]);
 
 		$this->view->expects($this->once())
 			->method('getFileInfo')
@@ -319,7 +319,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('resolvePath')
 			->with('/bar/foo')
-			->willReturn(array($storage, 'foo'));
+			->willReturn([$storage, 'foo']);
 
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
@@ -349,7 +349,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('resolvePath')
 			->with('/bar/foo')
-			->willReturn(array($storage, 'foo'));
+			->willReturn([$storage, 'foo']);
 
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
@@ -378,7 +378,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$node->touch(100);
@@ -425,12 +425,12 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->any())
 			->method('resolvePath')
 			->with('/bar/foo')
-			->willReturn(array(null, 'foo'));
+			->willReturn([null, 'foo']);
 
 		$this->view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
 
 		$node = $this->createTestNode($root, $this->view, '/bar/foo');
 		$node->touch(100);
@@ -448,7 +448,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->willReturn($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_READ)));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ]));
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$node->touch(100);

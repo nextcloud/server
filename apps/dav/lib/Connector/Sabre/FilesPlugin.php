@@ -173,12 +173,12 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties = array_diff($server->protectedProperties, $allowedProperties);
 
 		$this->server = $server;
-		$this->server->on('propFind', array($this, 'handleGetProperties'));
-		$this->server->on('propPatch', array($this, 'handleUpdateProperties'));
-		$this->server->on('afterBind', array($this, 'sendFileIdHeader'));
-		$this->server->on('afterWriteContent', array($this, 'sendFileIdHeader'));
+		$this->server->on('propFind', [$this, 'handleGetProperties']);
+		$this->server->on('propPatch', [$this, 'handleUpdateProperties']);
+		$this->server->on('afterBind', [$this, 'sendFileIdHeader']);
+		$this->server->on('afterWriteContent', [$this, 'sendFileIdHeader']);
 		$this->server->on('afterMethod:GET', [$this,'httpGet']);
-		$this->server->on('afterMethod:GET', array($this, 'handleDownloadToken'));
+		$this->server->on('afterMethod:GET', [$this, 'handleDownloadToken']);
 		$this->server->on('afterResponse', function($request, ResponseInterface $response) {
 			$body = $response->getBody();
 			if (is_resource($body)) {

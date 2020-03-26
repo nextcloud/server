@@ -121,7 +121,7 @@ class OC_DB {
 						 . ' pass an array with \'limit\' and \'offset\' instead';
 				throw new \OC\DatabaseException($message);
 			}
-			$stmt = array('sql' => $stmt, 'limit' => null, 'offset' => null);
+			$stmt = ['sql' => $stmt, 'limit' => null, 'offset' => null];
 		}
 		if (is_array($stmt)) {
 			// convert to prepared statement

@@ -98,7 +98,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin
 		$this->tree = $tree;
 		$this->tagManager = $tagManager;
 		$this->tagger = null;
-		$this->cachedTags = array();
+		$this->cachedTags = [];
 	}
 
 	/**
@@ -118,8 +118,8 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin
 		$server->xml->elementMap[self::TAGS_PROPERTYNAME] = TagList::class;
 
 		$this->server = $server;
-		$this->server->on('propFind', array($this, 'handleGetProperties'));
-		$this->server->on('propPatch', array($this, 'handleUpdateProperties'));
+		$this->server->on('propFind', [$this, 'handleGetProperties']);
+		$this->server->on('propPatch', [$this, 'handleUpdateProperties']);
 	}
 
 	/**
@@ -151,7 +151,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin
 				unset($tags[$favPos]);
 			}
 		}
-		return array($tags, $isFav);
+		return [$tags, $isFav];
 	}
 
 	/**
@@ -164,10 +164,10 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin
 		if (isset($this->cachedTags[$fileId])) {
 			return $this->cachedTags[$fileId];
 		} else {
-			$tags = $this->getTagger()->getTagsForObjects(array($fileId));
+			$tags = $this->getTagger()->getTagsForObjects([$fileId]);
 			if ($tags !== false) {
 				if (empty($tags)) {
-					return array();
+					return [];
 				}
 				return current($tags);
 			}
@@ -232,7 +232,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin
 			$tags = $this->getTagger()->getTagsForObjects($fileIds);
 			if ($tags === false) {
 				// the tags API returns false on error...
-				$tags = array();
+				$tags = [];
 			}
 
 			$this->cachedTags = $this->cachedTags + $tags;

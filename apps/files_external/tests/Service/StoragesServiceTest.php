@@ -95,7 +95,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 		$this->dbConfig = new CleaningDBConfig(\OC::$server->getDatabaseConnection(), \OC::$server->getCrypto());
-		self::$hookCalls = array();
+		self::$hookCalls = [];
 		$config = \OC::$server->getConfig();
 		$this->dataDir = $config->getSystemValue(
 			'datadirectory',
@@ -177,7 +177,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 	protected function tearDown(): void {
 		\OC_Mount_Config::$skipTest = false;
-		self::$hookCalls = array();
+		self::$hookCalls = [];
 		if ($this->dbConfig) {
 			$this->dbConfig->clean();
 		}
@@ -448,17 +448,17 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 	public static function createHookCallback($params) {
-		self::$hookCalls[] = array(
+		self::$hookCalls[] = [
 			'signal' => Filesystem::signal_create_mount,
 			'params' => $params
-		);
+		];
 	}
 
 	public static function deleteHookCallback($params) {
-		self::$hookCalls[] = array(
+		self::$hookCalls[] = [
 			'signal' => Filesystem::signal_delete_mount,
 			'params' => $params
-		);
+		];
 	}
 
 	/**

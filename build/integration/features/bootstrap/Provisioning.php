@@ -274,7 +274,7 @@ trait Provisioning {
 		];
 
 		$this->response = $client->get($fullUrl, $options);
-		$groups = array($group);
+		$groups = [$group];
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
 		Assert::assertNotEquals($groups, $respondedArray, "", 0.0, 10, true);
 		Assert::assertEquals(200, $this->response->getStatusCode());

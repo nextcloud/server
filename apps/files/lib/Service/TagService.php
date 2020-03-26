@@ -83,7 +83,7 @@ class TagService {
 	public function updateFileTags($path, $tags) {
 		$fileId = $this->homeFolder->get($path)->getId();
 
-		$currentTags = $this->tagger->getTagsForObjects(array($fileId));
+		$currentTags = $this->tagger->getTagsForObjects([$fileId]);
 
 		if (!empty($currentTags)) {
 			$currentTags = current($currentTags);

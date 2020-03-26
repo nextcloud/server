@@ -52,9 +52,9 @@ class TestController extends Controller {
 	 */
 	public function exec($int, $bool, $test=4, $test2=1) {
 		$this->registerResponder('text', function($in) {
-			return new JSONResponse(array('text' => $in));
+			return new JSONResponse(['text' => $in]);
 		});
-		return array($int, $bool, $test, $test2);
+		return [$int, $bool, $test, $test2];
 	}
 
 
@@ -66,9 +66,9 @@ class TestController extends Controller {
 	 * @return DataResponse
 	 */
 	public function execDataResponse($int, $bool, $test=4, $test2=1) {
-		return new DataResponse(array(
-			'text' => array($int, $bool, $test, $test2)
-		));
+		return new DataResponse([
+			'text' => [$int, $bool, $test, $test2]
+		]);
 	}
 
 }
@@ -140,7 +140,7 @@ class DispatcherTest extends \Test\TestCase {
 	 * @param string $httpHeaders
 	 */
 	private function setMiddlewareExpectations($out=null,
-		$httpHeaders=null, $responseHeaders=array(),
+		$httpHeaders=null, $responseHeaders=[],
 		$ex=false, $catchEx=true) {
 
 		if($ex) {
@@ -226,7 +226,7 @@ class DispatcherTest extends \Test\TestCase {
 
 		$response = $this->dispatcher->dispatch($this->controller, $this->controllerMethod);
 		$this->assertNull($response[0]);
-		$this->assertEquals(array(), $response[1]);
+		$this->assertEquals([], $response[1]);
 		$this->assertNull($response[2]);
 	}
 
@@ -234,7 +234,7 @@ class DispatcherTest extends \Test\TestCase {
 	public function testHeadersAndOutputAreReturned(){
 		$out = 'yo';
 		$httpHeaders = 'Http';
-		$responseHeaders = array('hell' => 'yeah');
+		$responseHeaders = ['hell' => 'yeah'];
 		$this->setMiddlewareExpectations($out, $httpHeaders, $responseHeaders);
 
 		$response = $this->dispatcher->dispatch($this->controller,
@@ -249,7 +249,7 @@ class DispatcherTest extends \Test\TestCase {
 	public function testExceptionCallsAfterException() {
 		$out = 'yo';
 		$httpHeaders = 'Http';
-		$responseHeaders = array('hell' => 'yeah');
+		$responseHeaders = ['hell' => 'yeah'];
 		$this->setMiddlewareExpectations($out, $httpHeaders, $responseHeaders, true);
 
 		$response = $this->dispatcher->dispatch($this->controller,

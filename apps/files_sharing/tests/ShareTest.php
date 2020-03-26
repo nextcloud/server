@@ -226,13 +226,13 @@ class ShareTest extends TestCase {
 		$permission5 = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_DELETE;
 		$permission6 = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
 
-		return array(
-			array($permission1, false),
-			array($permission3, true),
-			array($permission4, true),
-			array($permission5, false),
-			array($permission6, false),
-		);
+		return [
+			[$permission1, false],
+			[$permission3, true],
+			[$permission4, true],
+			[$permission5, false],
+			[$permission6, false],
+		];
 	}
 
 	public function testFileOwner() {

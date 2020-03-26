@@ -99,7 +99,7 @@ class Notifications {
 		if ($user && $remote) {
 			$local = $this->addressHandler->generateRemoteURL();
 
-			$fields = array(
+			$fields = [
 				'shareWith' => $user,
 				'token' => $token,
 				'name' => $name,
@@ -110,7 +110,7 @@ class Notifications {
 				'sharedByFederatedId' => $sharedByFederatedId,
 				'remote' => $local,
 				'shareType' => $shareType
-			);
+			];
 
 			$result = $this->tryHttpPostToShareEndpoint($remote, '', $fields);
 			$status = json_decode($result['result'], true);
@@ -144,12 +144,12 @@ class Notifications {
 	 */
 	public function requestReShare($token, $id, $shareId, $remote, $shareWith, $permission, $filename) {
 
-		$fields = array(
+		$fields = [
 			'shareWith' => $shareWith,
 			'token' => $token,
 			'permission' => $permission,
 			'remoteId' => $shareId,
-		);
+		];
 
 		$ocmFields = $fields;
 		$ocmFields['remoteId'] = $id;

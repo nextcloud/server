@@ -110,7 +110,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($text, $parameters = array()) {
+			->willReturnCallback(function($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 		$this->defaults = $this->getMockBuilder('\OCP\Defaults')
@@ -256,7 +256,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('core.lost.setPassword', array('userId' => 'ValidTokenUser', 'token' => 'TheOnlyAndOnlyOneTokenToResetThePassword'))
+			->with('core.lost.setPassword', ['userId' => 'ValidTokenUser', 'token' => 'TheOnlyAndOnlyOneTokenToResetThePassword'])
 			->willReturn('https://example.tld/index.php/lostpassword/');
 
 		$this->initialStateService->expects($this->at(0))
@@ -280,10 +280,10 @@ class LostControllerTest extends \Test\TestCase {
 		$this->userManager
 			->expects($this->any())
 			->method('userExists')
-			->willReturnMap(array(
-				array(true, $existingUser),
-				array(false, $nonExistingUser)
-			));
+			->willReturnMap([
+				[true, $existingUser],
+				[false, $nonExistingUser]
+			]);
 
 		$this->logger->expects($this->exactly(0))
 			->method('logException');
@@ -338,7 +338,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
+			->with('core.lost.resetform', ['userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'])
 			->willReturn('https://example.tld/index.php/lostpassword/');
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
@@ -416,7 +416,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
+			->with('core.lost.resetform', ['userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'])
 			->willReturn('https://example.tld/index.php/lostpassword/');
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
@@ -489,7 +489,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
+			->with('core.lost.resetform', ['userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'])
 			->willReturn('https://example.tld/index.php/lostpassword/');
 		$message = $this->createMock(Message::class);
 		$message
@@ -568,7 +568,7 @@ class LostControllerTest extends \Test\TestCase {
 			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
-		$expectedResponse = array('status' => 'error', 'msg' => '');
+		$expectedResponse = ['status' => 'error', 'msg' => ''];
 		$this->assertSame($expectedResponse, $response);
 	}
 
@@ -598,7 +598,7 @@ class LostControllerTest extends \Test\TestCase {
 			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', true);
-		$expectedResponse = array('user' => 'ValidTokenUser', 'status' => 'success');
+		$expectedResponse = ['user' => 'ValidTokenUser', 'status' => 'success'];
 		$this->assertSame($expectedResponse, $response);
 	}
 
@@ -802,7 +802,7 @@ class LostControllerTest extends \Test\TestCase {
 			)->willReturn('12345:TheOnlyAndOnlyOneTokenToResetThePassword');
 
 		$response = $this->lostController->setPassword('TheOnlyAndOnlyOneTokenToResetThePassword', 'ValidTokenUser', 'NewPassword', false);
-		$expectedResponse = array('user' => 'ValidTokenUser', 'status' => 'success');
+		$expectedResponse = ['user' => 'ValidTokenUser', 'status' => 'success'];
 		$this->assertSame($expectedResponse, $response);
 	}
 

@@ -92,14 +92,14 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	public function getCapabilities() {
 		$result = [];
 		list($major, $minor, $micro) = \OCP\Util::getVersion();
-		$result['version'] = array(
+		$result['version'] = [
 			'major' => $major,
 			'minor' => $minor,
 			'micro' => $micro,
 			'string' => \OC_Util::getVersionString(),
 			'edition' => '',
 			'extendedSupport' => \OCP\Util::hasExtendedSupport()
-		);
+		];
 
 		if($this->userSession->isLoggedIn()) {
 			$result['capabilities'] = $this->capabilitiesManager->getCapabilities();

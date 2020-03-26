@@ -108,8 +108,8 @@ class TagsPluginTest extends \Test\TestCase {
 
 		$this->tagger->expects($this->exactly($expectedCallCount))
 			->method('getTagsForObjects')
-			->with($this->equalTo(array(123)))
-			->willReturn(array(123 => $tags));
+			->with($this->equalTo([123]))
+			->willReturn([123 => $tags]);
 
 		$propFind = new \Sabre\DAV\PropFind(
 			'/dummyPath',
@@ -162,16 +162,16 @@ class TagsPluginTest extends \Test\TestCase {
 			->willReturn(123);
 		$node->expects($this->exactly($expectedCallCount))
 			->method('getChildren')
-			->willReturn(array($node1, $node2));
+			->willReturn([$node1, $node2]);
 
 		$this->tagger->expects($this->exactly($expectedCallCount))
 			->method('getTagsForObjects')
-			->with($this->equalTo(array(123, 111, 222)))
+			->with($this->equalTo([123, 111, 222]))
 			->willReturn(
-				array(
+				[
 					111 => $tags,
 					123 => $tags
-				)
+				]
 			);
 
 		// simulate sabre recursive PROPFIND traversal
@@ -212,58 +212,58 @@ class TagsPluginTest extends \Test\TestCase {
 	}
 
 	function tagsGetPropertiesDataProvider() {
-		return array(
+		return [
 			// request both, receive both
-			array(
-				array('tag1', 'tag2', self::TAG_FAVORITE),
-				array(self::TAGS_PROPERTYNAME, self::FAVORITE_PROPERTYNAME),
-				array(
-					200 => array(
-						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(array('tag1', 'tag2')),
+			[
+				['tag1', 'tag2', self::TAG_FAVORITE],
+				[self::TAGS_PROPERTYNAME, self::FAVORITE_PROPERTYNAME],
+				[
+					200 => [
+						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2']),
 						self::FAVORITE_PROPERTYNAME => true,
-					)
-				)
-			),
+					]
+				]
+			],
 			// request tags alone
-			array(
-				array('tag1', 'tag2', self::TAG_FAVORITE),
-				array(self::TAGS_PROPERTYNAME),
-				array(
-					200 => array(
-						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(array('tag1', 'tag2')),
-					)
-				)
-			),
+			[
+				['tag1', 'tag2', self::TAG_FAVORITE],
+				[self::TAGS_PROPERTYNAME],
+				[
+					200 => [
+						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2']),
+					]
+				]
+			],
 			// request fav alone
-			array(
-				array('tag1', 'tag2', self::TAG_FAVORITE),
-				array(self::FAVORITE_PROPERTYNAME),
-				array(
-					200 => array(
+			[
+				['tag1', 'tag2', self::TAG_FAVORITE],
+				[self::FAVORITE_PROPERTYNAME],
+				[
+					200 => [
 						self::FAVORITE_PROPERTYNAME => true,
-					)
-				)
-			),
+					]
+				]
+			],
 			// request none
-			array(
-				array('tag1', 'tag2', self::TAG_FAVORITE),
-				array(),
-				array(
-					200 => array()
-				),
-			),
+			[
+				['tag1', 'tag2', self::TAG_FAVORITE],
+				[],
+				[
+					200 => []
+				],
+			],
 			// request both with none set, receive both
-			array(
-				array(),
-				array(self::TAGS_PROPERTYNAME, self::FAVORITE_PROPERTYNAME),
-				array(
-					200 => array(
-						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(array()),
+			[
+				[],
+				[self::TAGS_PROPERTYNAME, self::FAVORITE_PROPERTYNAME],
+				[
+					200 => [
+						self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList([]),
 						self::FAVORITE_PROPERTYNAME => false,
-					)
-				)
-			),
-		);
+					]
+				]
+			],
+		];
 	}
 
 	public function testUpdateTags() {
@@ -283,8 +283,8 @@ class TagsPluginTest extends \Test\TestCase {
 
 		$this->tagger->expects($this->at(0))
 			->method('getTagsForObjects')
-			->with($this->equalTo(array(123)))
-			->willReturn(array(123 => array('tagkeep', 'tagremove', self::TAG_FAVORITE)));
+			->with($this->equalTo([123]))
+			->willReturn([123 => ['tagkeep', 'tagremove', self::TAG_FAVORITE]]);
 
 		// then tag as tag1 and tag2
 		$this->tagger->expects($this->at(1))
@@ -300,9 +300,9 @@ class TagsPluginTest extends \Test\TestCase {
 			->with(123, 'tagremove');
 
 		// properties to set
-		$propPatch = new \Sabre\DAV\PropPatch(array(
-			self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(array('tag1', 'tag2', 'tagkeep'))
-		));
+		$propPatch = new \Sabre\DAV\PropPatch([
+			self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2', 'tagkeep'])
+		]);
 
 		$this->plugin->handleUpdateProperties(
 			'/dummypath',
@@ -334,8 +334,8 @@ class TagsPluginTest extends \Test\TestCase {
 
 		$this->tagger->expects($this->at(0))
 			->method('getTagsForObjects')
-			->with($this->equalTo(array(123)))
-			->willReturn(array());
+			->with($this->equalTo([123]))
+			->willReturn([]);
 
 		// then tag as tag1 and tag2
 		$this->tagger->expects($this->at(1))
@@ -346,9 +346,9 @@ class TagsPluginTest extends \Test\TestCase {
 			->with(123, 'tag2');
 
 		// properties to set
-		$propPatch = new \Sabre\DAV\PropPatch(array(
-			self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(array('tag1', 'tag2', 'tagkeep'))
-		));
+		$propPatch = new \Sabre\DAV\PropPatch([
+			self::TAGS_PROPERTYNAME => new \OCA\DAV\Connector\Sabre\TagList(['tag1', 'tag2', 'tagkeep'])
+		]);
 
 		$this->plugin->handleUpdateProperties(
 			'/dummypath',
@@ -386,9 +386,9 @@ class TagsPluginTest extends \Test\TestCase {
 			->with(123, self::TAG_FAVORITE);
 
 		// properties to set
-		$propPatch = new \Sabre\DAV\PropPatch(array(
+		$propPatch = new \Sabre\DAV\PropPatch([
 			self::FAVORITE_PROPERTYNAME => true
-		));
+		]);
 
 		$this->plugin->handleUpdateProperties(
 			'/dummypath',
@@ -411,9 +411,9 @@ class TagsPluginTest extends \Test\TestCase {
 			->with(123, self::TAG_FAVORITE);
 
 		// properties to set
-		$propPatch = new \Sabre\DAV\PropPatch(array(
+		$propPatch = new \Sabre\DAV\PropPatch([
 			self::FAVORITE_PROPERTYNAME => false
-		));
+		]);
 
 		$this->plugin->handleUpdateProperties(
 			'/dummypath',

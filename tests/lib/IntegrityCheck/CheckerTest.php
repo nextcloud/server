@@ -780,7 +780,7 @@ class CheckerTest extends TestCase {
 			->expects($this->once())
 			->method('getOnlyDefaultAliases')
 			->willReturn(
-				array (
+				 [
 					'_comment' => 'Array of mimetype aliases.',
 					'_comment2' => 'Any changes you make here will be overwritten on an update of Nextcloud.',
 					'_comment3' => 'Put any custom mappings in a new file mimetypealiases.json in the config/ folder of Nextcloud',
@@ -881,13 +881,13 @@ class CheckerTest extends TestCase {
 					'text/x-shellscript' => 'text/code',
 					'web' => 'text/code',
 					'application/internet-shortcut' => 'link',
-				));
+				]);
 
 		$this->mimeTypeDetector
 			->expects($this->once())
 			->method('getAllAliases')
 			->willReturn(
-				array (
+				 [
 					'_comment' => 'Array of mimetype aliases.',
 					'_comment2' => 'Any changes you make here will be overwritten on an update of Nextcloud.',
 					'_comment3' => 'Put any custom mappings in a new file mimetypealiases.json in the config/ folder of Nextcloud',
@@ -989,7 +989,7 @@ class CheckerTest extends TestCase {
 					'text/x-shellscript' => 'text/code',
 					'web' => 'text/code',
 					'application/internet-shortcut' => 'link',
-				));
+				]);
 
 		$this->environmentHelper
 			->expects($this->any())

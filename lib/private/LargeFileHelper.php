@@ -125,7 +125,7 @@ class LargeFileHelper {
 			$data = curl_exec($ch);
 			curl_close($ch);
 			if ($data !== false) {
-				$matches = array();
+				$matches = [];
 				preg_match('/Content-Length: (\d+)/', $data, $matches);
 				if (isset($matches[1])) {
 					return 0 + $matches[1];

@@ -36,7 +36,7 @@ use OCP\ILogger;
 class CapabilitiesManager {
 
 	/** @var \Closure[] */
-	private $capabilities = array();
+	private $capabilities = [];
 
 	/** @var ILogger */
 	private $logger;

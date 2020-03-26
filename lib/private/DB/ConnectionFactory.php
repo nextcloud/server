@@ -106,9 +106,9 @@ class ConnectionFactory {
 		// \PDO::MYSQL_ATTR_FOUND_ROWS may not be defined, e.g. when the MySQL
 		// driver is missing. In this case, we won't be able to connect anyway.
 		if ($normalizedType === 'mysql' && defined('\PDO::MYSQL_ATTR_FOUND_ROWS')) {
-			$result['driverOptions'] = array(
+			$result['driverOptions'] = [
 				\PDO::MYSQL_ATTR_FOUND_ROWS => true,
-			);
+			];
 		}
 		return $result;
 	}

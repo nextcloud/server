@@ -29,14 +29,14 @@ class GroupPluginManager {
 
 	private $respondToActions = 0;
 
-	private $which = array(
+	private $which = [
 		GroupInterface::CREATE_GROUP => null,
 		GroupInterface::DELETE_GROUP => null,
 		GroupInterface::ADD_TO_GROUP => null,
 		GroupInterface::REMOVE_FROM_GROUP => null,
 		GroupInterface::COUNT_USERS => null,
 		GroupInterface::GROUP_DETAILS => null
-	);
+	];
 
 	/**
 	 * @return int All implemented actions

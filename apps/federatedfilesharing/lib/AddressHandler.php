@@ -106,12 +106,12 @@ class AddressHandler {
 			\OCP\Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
-				array('uid' => &$user1)
+				['uid' => &$user1]
 			);
 			\OCP\Util::emitHook(
 				'\OCA\Files_Sharing\API\Server2Server',
 				'preLoginNameUsedAsUserName',
-				array('uid' => &$user2)
+				['uid' => &$user2]
 			);
 
 			if ($user1 === $user2) {

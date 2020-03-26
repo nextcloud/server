@@ -35,7 +35,7 @@ use OC\Group\Backend;
  * dummy group backend, does not keep state, only for testing use
  */
 class Dummy extends Backend {
-	private $groups=array();
+	private $groups=[];
 	/**
 	 * Try to create a new group
 	 * @param string $gid The name of the group to create
@@ -46,7 +46,7 @@ class Dummy extends Backend {
 	 */
 	public function createGroup($gid) {
 		if(!isset($this->groups[$gid])) {
-			$this->groups[$gid]=array();
+			$this->groups[$gid]=[];
 			return true;
 		}else{
 			return false;
@@ -136,7 +136,7 @@ class Dummy extends Backend {
 	 * if the user exists at all.
 	 */
 	public function getUserGroups($uid) {
-		$groups=array();
+		$groups=[];
 		$allGroups=array_keys($this->groups);
 		foreach($allGroups as $group) {
 			if($this->inGroup($uid, $group)) {
@@ -157,7 +157,7 @@ class Dummy extends Backend {
 		if(empty($search)) {
 			return array_keys($this->groups);
 		}
-		$result = array();
+		$result = [];
 		foreach(array_keys($this->groups) as $group) {
 			if(stripos($group, $search) !== false) {
 				$result[] = $group;
@@ -180,7 +180,7 @@ class Dummy extends Backend {
 				$length = $limit < 0 ? null : $limit;
 				return array_slice($this->groups[$gid], $offset, $length);
 			}
-			$result = array();
+			$result = [];
 			foreach($this->groups[$gid] as $user) {
 				if(stripos($user, $search) !== false) {
 					$result[] = $user;
@@ -188,7 +188,7 @@ class Dummy extends Backend {
 			}
 			return $result;
 		}else{
-			return array();
+			return [];
 		}
 	}
 

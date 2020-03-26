@@ -109,7 +109,7 @@ class FTP extends StreamWrapper{
 			case 'a':
 			case 'ab':
 				//these are supported by the wrapper
-				$context = stream_context_create(array('ftp' => array('overwrite' => true)));
+				$context = stream_context_create(['ftp' => ['overwrite' => true]]);
 				$handle = fopen($this->constructUrl($path), $mode, false, $context);
 				return RetryWrapper::wrap($handle);
 			case 'r+':
@@ -150,7 +150,7 @@ class FTP extends StreamWrapper{
 		if (function_exists('ftp_login')) {
 			return true;
 		} else {
-			return array('ftp');
+			return ['ftp'];
 		}
 	}
 

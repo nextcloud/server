@@ -154,7 +154,7 @@ class FilesReportPlugin extends ServerPlugin {
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 
 		$this->server = $server;
-		$this->server->on('report', array($this, 'onReport'));
+		$this->server->on('report', [$this, 'onReport']);
 	}
 
 	/**

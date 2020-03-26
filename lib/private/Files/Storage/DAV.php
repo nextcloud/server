@@ -265,7 +265,7 @@ class DAV extends Common {
 			try {
 				$response = $this->client->propFind(
 					$this->encodePath($path),
-					array(
+					[
 						'{DAV:}getlastmodified',
 						'{DAV:}getcontentlength',
 						'{DAV:}getcontenttype',
@@ -273,7 +273,7 @@ class DAV extends Common {
 						'{http://open-collaboration-services.org/ns}share-permissions',
 						'{DAV:}resourcetype',
 						'{DAV:}getetag',
-					)
+					]
 				);
 				$this->statCache->set($path, $response);
 			} catch (ClientHttpException $e) {
@@ -591,7 +591,7 @@ class DAV extends Common {
 		} catch (\Exception $e) {
 			$this->convertException($e, $path);
 		}
-		return array();
+		return [];
 	}
 
 	/** {@inheritdoc} */

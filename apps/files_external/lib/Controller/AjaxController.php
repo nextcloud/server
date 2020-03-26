@@ -88,12 +88,12 @@ class AjaxController extends Controller {
 	public function getSshKeys($keyLength = 1024) {
 		$key = $this->generateSshKeys($keyLength);
 		return new JSONResponse(
-			array('data' => array(
+			['data' => [
 				'private_key' => $key['privatekey'],
 				'public_key' => $key['publickey']
-			),
+			],
 			'status' => 'success'
-		));
+		]);
 	}
 
 	/**

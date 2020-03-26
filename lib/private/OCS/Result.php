@@ -59,9 +59,9 @@ class Result {
 	 */
 	public function __construct($data = null, $code = 100, $message = null, $headers = []) {
 		if ($data === null) {
-			$this->data = array();
+			$this->data = [];
 		} elseif (!is_array($data)) {
-			$this->data = array($this->data);
+			$this->data = [$this->data];
 		} else {
 			$this->data = $data;
 		}
@@ -99,7 +99,7 @@ class Result {
 	 * @return array
 	 */
 	public function getMeta() {
-		$meta = array();
+		$meta = [];
 		$meta['status'] = $this->succeeded() ? 'ok' : 'failure';
 		$meta['statuscode'] = $this->statusCode;
 		$meta['message'] = $this->message;

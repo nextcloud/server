@@ -113,7 +113,7 @@ class ZIP extends Archive{
 	 */
 	public function getFolder($path) {
 		$files=$this->getFiles();
-		$folderContent=array();
+		$folderContent=[];
 		$pathLength=strlen($path);
 		foreach($files as $file) {
 			if(substr($file, 0, $pathLength)==$path and $file!=$path) {
@@ -130,7 +130,7 @@ class ZIP extends Archive{
 	 */
 	public function getFiles() {
 		$fileCount=$this->zip->numFiles;
-		$files=array();
+		$files=[];
 		for($i=0;$i<$fileCount;$i++) {
 			$files[]=$this->zip->getNameIndex($i);
 		}

@@ -59,9 +59,9 @@ use OCP\ILogger;
  */
 class OC_User {
 
-	private static $_usedBackends = array();
+	private static $_usedBackends = [];
 
-	private static $_setupedBackends = array();
+	private static $_setupedBackends = [];
 
 	// bool, stores if a user want to access a resource anonymously, e.g if they open a public link
 	private static $incognitoMode = false;
@@ -113,7 +113,7 @@ class OC_User {
 	 * remove all used backends
 	 */
 	public static function clearBackends() {
-		self::$_usedBackends = array();
+		self::$_usedBackends = [];
 		\OC::$server->getUserManager()->clearBackends();
 	}
 
@@ -165,7 +165,7 @@ class OC_User {
 
 		$uid = $backend->getCurrentUserId();
 		$run = true;
-		OC_Hook::emit("OC_User", "pre_login", array("run" => &$run, "uid" => $uid, 'backend' => $backend));
+		OC_Hook::emit("OC_User", "pre_login", ["run" => &$run, "uid" => $uid, 'backend' => $backend]);
 
 		if ($uid) {
 			if (self::getUser() !== $uid) {
@@ -385,7 +385,7 @@ class OC_User {
 	 * @deprecated Use \OC::$server->getUserManager->searchDisplayName($search, $limit, $offset) instead.
 	 */
 	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
-		$displayNames = array();
+		$displayNames = [];
 		$users = \OC::$server->getUserManager()->searchDisplayName($search, $limit, $offset);
 		foreach ($users as $user) {
 			$displayNames[$user->getUID()] = $user->getDisplayName();

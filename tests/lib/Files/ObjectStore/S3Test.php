@@ -34,11 +34,11 @@ class MultiPartUploadS3 extends S3 {
 
 class NonSeekableStream extends Wrapper {
 	public static function wrap($source) {
-		$context = stream_context_create(array(
-			'nonseek' => array(
+		$context = stream_context_create([
+			'nonseek' => [
 				'source' => $source
-			)
-		));
+			]
+		]);
 		return Wrapper::wrapSource($source, $context, 'nonseek', self::class);
 	}
 

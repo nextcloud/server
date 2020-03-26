@@ -76,8 +76,8 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	 */
 	private function getFileIdForPath($path) {
 		$url = $this->baseUrl . '/remote.php/webdav/' . $path;
-		$context = stream_context_create(array(
-			'http' => array(
+		$context = stream_context_create([
+			'http' => [
 				'method' => 'PROPFIND',
 				'header' => "Authorization: Basic dXNlcjA6MTIzNDU2\r\nContent-Type: application/x-www-form-urlencoded",
 				'content' => '<?xml version="1.0"?>
@@ -86,8 +86,8 @@ class CommentsContext implements \Behat\Behat\Context\Context {
     <oc:fileid />
   </d:prop>
 </d:propfind>'
-			)
-		));
+			]
+		]);
 
 		$response = file_get_contents($url, false, $context);
 		preg_match_all('/\<oc:fileid\>(.*)\<\/oc:fileid\>/', $response, $matches);

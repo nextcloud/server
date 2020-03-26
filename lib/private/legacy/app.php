@@ -81,7 +81,7 @@ class OC_App {
 	 * @return string
 	 */
 	public static function cleanAppId(string $app): string {
-		return str_replace(array('\0', '/', '\\', '..'), '', $app);
+		return str_replace(['\0', '/', '\\', '..'], '', $app);
 	}
 
 	/**
@@ -473,10 +473,10 @@ class OC_App {
 			foreach ($possibleApps as $possibleApp) {
 				$version = self::getAppVersionByPath($possibleApp['path'] . '/' . $appId);
 				if (empty($versionToLoad) || version_compare($version, $versionToLoad['version'], '>')) {
-					$versionToLoad = array(
+					$versionToLoad = [
 						'dir' => $possibleApp,
 						'version' => $version,
-					);
+					];
 				}
 			}
 			$app_dir[$appId] = $versionToLoad['dir'];

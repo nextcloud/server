@@ -648,12 +648,12 @@ class ApiTest extends TestCase {
 		$share3->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share3);
 
-		$testValues=array(
-			array('query' => $this->folder,
-				'expectedResult' => $this->folder . $this->filename),
-			array('query' => $this->folder . $this->subfolder,
-				'expectedResult' => $this->folder . $this->subfolder . $this->filename),
-		);
+		$testValues=[
+			['query' => $this->folder,
+				'expectedResult' => $this->folder . $this->filename],
+			['query' => $this->folder . $this->subfolder,
+				'expectedResult' => $this->folder . $this->subfolder . $this->filename],
+		];
 
 		foreach ($testValues as $value) {
 			$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER2);
@@ -1214,7 +1214,7 @@ class ApiTest extends TestCase {
 	 */
 	public static function initTestMountPointsHook($data) {
 		if ($data['user'] === self::TEST_FILES_SHARING_API_USER1) {
-			\OC\Files\Filesystem::mount(self::$tempStorage, array(), '/' . self::TEST_FILES_SHARING_API_USER1 . '/files' . self::TEST_FOLDER_NAME);
+			\OC\Files\Filesystem::mount(self::$tempStorage, [], '/' . self::TEST_FILES_SHARING_API_USER1 . '/files' . self::TEST_FOLDER_NAME);
 		}
 	}
 
@@ -1222,7 +1222,7 @@ class ApiTest extends TestCase {
 	 * Tests mounting a folder that is an external storage mount point.
 	 */
 	public function testShareStorageMountPoint() {
-		$tempStorage = new \OC\Files\Storage\Temporary(array());
+		$tempStorage = new \OC\Files\Storage\Temporary([]);
 		$tempStorage->file_put_contents('test.txt', 'abcdef');
 		$tempStorage->getScanner()->scan('');
 

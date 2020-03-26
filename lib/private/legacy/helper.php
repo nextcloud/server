@@ -100,7 +100,7 @@ class OC_Helper {
 			return (float)$str;
 		}
 
-		$bytes_array = array(
+		$bytes_array = [
 			'b' => 1,
 			'k' => 1024,
 			'kb' => 1024,
@@ -112,7 +112,7 @@ class OC_Helper {
 			't' => 1024 * 1024 * 1024 * 1024,
 			'pb' => 1024 * 1024 * 1024 * 1024 * 1024,
 			'p' => 1024 * 1024 * 1024 * 1024 * 1024,
-		);
+		];
 
 		$bytes = (float)$str;
 
@@ -245,7 +245,7 @@ class OC_Helper {
 	 */
 	public static function streamCopy($source, $target) {
 		if (!$source or !$target) {
-			return array(0, false);
+			return [0, false];
 		}
 		$bufSize = 8192;
 		$result = true;
@@ -266,7 +266,7 @@ class OC_Helper {
 				break;
 			}
 		}
-		return array($count, $result);
+		return [$count, $result];
 	}
 
 	/**
@@ -342,7 +342,7 @@ class OC_Helper {
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
 		$case = ($case != MB_CASE_UPPER) ? MB_CASE_LOWER : MB_CASE_UPPER;
-		$ret = array();
+		$ret = [];
 		foreach ($input as $k => $v) {
 			$ret[mb_convert_case($k, $case, $encoding)] = $v;
 		}

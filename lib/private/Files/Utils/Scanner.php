@@ -131,19 +131,19 @@ class Scanner extends PublicEmitter {
 	protected function attachListener($mount) {
 		$scanner = $mount->getStorage()->getScanner();
 		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFile', function ($path) use ($mount) {
-			$this->emit('\OC\Files\Utils\Scanner', 'scanFile', array($mount->getMountPoint() . $path));
+			$this->emit('\OC\Files\Utils\Scanner', 'scanFile', [$mount->getMountPoint() . $path]);
 			$this->dispatcher->dispatchTyped(new BeforeFileScannedEvent($mount->getMountPoint() . $path));
 		});
 		$scanner->listen('\OC\Files\Cache\Scanner', 'scanFolder', function ($path) use ($mount) {
-			$this->emit('\OC\Files\Utils\Scanner', 'scanFolder', array($mount->getMountPoint() . $path));
+			$this->emit('\OC\Files\Utils\Scanner', 'scanFolder', [$mount->getMountPoint() . $path]);
 			$this->dispatcher->dispatchTyped(new BeforeFolderScannedEvent($mount->getMountPoint() . $path));
 		});
 		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFile', function ($path) use ($mount) {
-			$this->emit('\OC\Files\Utils\Scanner', 'postScanFile', array($mount->getMountPoint() . $path));
+			$this->emit('\OC\Files\Utils\Scanner', 'postScanFile', [$mount->getMountPoint() . $path]);
 			$this->dispatcher->dispatchTyped(new FileScannedEvent($mount->getMountPoint() . $path));
 		});
 		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFolder', function ($path) use ($mount) {
-			$this->emit('\OC\Files\Utils\Scanner', 'postScanFolder', array($mount->getMountPoint() . $path));
+			$this->emit('\OC\Files\Utils\Scanner', 'postScanFolder', [$mount->getMountPoint() . $path]);
 			$this->dispatcher->dispatchTyped(new FolderScannedEvent($mount->getMountPoint() . $path));
 		});
 	}

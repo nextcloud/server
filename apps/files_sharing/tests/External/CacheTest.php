@@ -76,11 +76,11 @@ class CacheTest extends TestCase {
 		);
 		$this->cache->put(
 			'test.txt',
-			array(
+			[
 				'mimetype' => 'text/plain',
 				'size' => 5,
 				'mtime' => 123,
-			)
+			]
 		);
 	}
 
@@ -107,19 +107,19 @@ class CacheTest extends TestCase {
 	public function testGetFolderPopulatesOwner() {
 		$dirId = $this->cache->put(
 			'subdir',
-			array(
+			[
 				'mimetype' => 'httpd/unix-directory',
 				'size' => 5,
 				'mtime' => 123,
-			)
+			]
 		);
 		$this->cache->put(
 			'subdir/contents.txt',
-			array(
+			[
 				'mimetype' => 'text/plain',
 				'size' => 5,
 				'mtime' => 123,
-			)
+			]
 		);
 
 		$results = $this->cache->getFolderContentsById($dirId);

@@ -287,7 +287,7 @@ class ShareControllerTest extends \Test\TestCase {
 			});
 
 		$response = $this->shareController->showShare();
-		$sharedTmplParams = array(
+		$sharedTmplParams = [
 			'displayName' => 'ownerDisplay',
 			'owner' => 'ownerUID',
 			'filename' => 'file1.txt',
@@ -315,7 +315,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'note' => $note,
 			'hideDownload' => false,
 			'showgridview' => false
-		);
+		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
@@ -427,7 +427,7 @@ class ShareControllerTest extends \Test\TestCase {
 			});
 
 		$response = $this->shareController->showShare();
-		$sharedTmplParams = array(
+		$sharedTmplParams = [
 			'displayName' => 'ownerDisplay',
 			'owner' => 'ownerUID',
 			'filename' => 'file1.txt',
@@ -455,7 +455,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'note' => $note,
 			'hideDownload' => true,
 			'showgridview' => false
-		);
+		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
@@ -541,7 +541,7 @@ class ShareControllerTest extends \Test\TestCase {
 		unset($responseParams['folder']);
 		$response->setParams($responseParams);
 
-		$sharedTmplParams = array(
+		$sharedTmplParams = [
 			'displayName' => 'ownerDisplay',
 			'owner' => 'ownerUID',
 			'filename' => '/fileDrop',
@@ -569,7 +569,7 @@ class ShareControllerTest extends \Test\TestCase {
 			'note' => '',
 			'hideDownload' => false,
 			'showgridview' => false
-		);
+		];
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');

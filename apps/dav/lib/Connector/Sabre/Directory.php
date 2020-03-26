@@ -267,7 +267,7 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 			throw new Locked();
 		}
 
-		$nodes = array();
+		$nodes = [];
 		foreach ($folderContent as $info) {
 			$node = $this->getChild($info->getName(), $info);
 			$nodes[] = $node;
@@ -336,13 +336,13 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 			} else {
 				$free = $storageInfo['free'];
 			}
-			$this->quotaInfo = array(
+			$this->quotaInfo = [
 				$storageInfo['used'],
 				$free
-			);
+			];
 			return $this->quotaInfo;
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			return array(0, 0);
+			return [0, 0];
 		}
 	}
 

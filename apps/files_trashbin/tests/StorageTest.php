@@ -145,8 +145,8 @@ class StorageTest extends \Test\TestCase {
 	 * isn't.
 	 */
 	public function testCrossStorageDeleteFile() {
-		$storage2 = new Temporary(array());
-		\OC\Files\Filesystem::mount($storage2, array(), $this->user . '/files/substorage');
+		$storage2 = new Temporary([]);
+		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
 		$this->userView->file_put_contents('substorage/subfile.txt', 'foo');
 		$storage2->getScanner()->scan('');
@@ -171,8 +171,8 @@ class StorageTest extends \Test\TestCase {
 	 * isn't.
 	 */
 	public function testCrossStorageDeleteFolder() {
-		$storage2 = new Temporary(array());
-		\OC\Files\Filesystem::mount($storage2, array(), $this->user . '/files/substorage');
+		$storage2 = new Temporary([]);
+		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
 		$this->userView->mkdir('substorage/folder');
 		$this->userView->file_put_contents('substorage/folder/subfile.txt', 'bar');
@@ -388,8 +388,8 @@ class StorageTest extends \Test\TestCase {
 	public function testKeepFileAndVersionsWhenMovingFileBetweenStorages() {
 		\OCA\Files_Versions\Hooks::connectHooks();
 
-		$storage2 = new Temporary(array());
-		\OC\Files\Filesystem::mount($storage2, array(), $this->user . '/files/substorage');
+		$storage2 = new Temporary([]);
+		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('test.txt', 'v1');
@@ -429,8 +429,8 @@ class StorageTest extends \Test\TestCase {
 	public function testKeepFileAndVersionsWhenMovingFolderBetweenStorages() {
 		\OCA\Files_Versions\Hooks::connectHooks();
 
-		$storage2 = new Temporary(array());
-		\OC\Files\Filesystem::mount($storage2, array(), $this->user . '/files/substorage');
+		$storage2 = new Temporary([]);
+		\OC\Files\Filesystem::mount($storage2, [], $this->user . '/files/substorage');
 
 		// trigger a version (multiple would not work because of the expire logic)
 		$this->userView->file_put_contents('folder/inside.txt', 'v1');

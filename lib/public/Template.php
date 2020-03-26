@@ -124,7 +124,7 @@ class Template extends \OC_Template {
 	 * @since 8.0.0
 	 * @suppress PhanDeprecatedFunction
 	 */
-	public static function html_select_options($options, $selected, $params=array()) {
+	public static function html_select_options($options, $selected, $params=[]) {
 		return \html_select_options($options, $selected, $params);
 	}
 }

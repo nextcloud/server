@@ -23,8 +23,8 @@ class MoveFromCacheTraitTest extends CacheTest {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->storage = new \OC\Files\Storage\Temporary(array());
-		$this->storage2 = new \OC\Files\Storage\Temporary(array());
+		$this->storage = new \OC\Files\Storage\Temporary([]);
+		$this->storage2 = new \OC\Files\Storage\Temporary([]);
 		$this->cache = new FallBackCrossCacheMoveCache($this->storage);
 		$this->cache2 = new FallBackCrossCacheMoveCache($this->storage2);
 	}

@@ -814,10 +814,10 @@ class SessionTest extends \Test\TestCase {
 	}
 
 	public function testActiveUserAfterSetSession() {
-		$users = array(
+		$users = [
 			'foo' => new User('foo', null, $this->createMock(EventDispatcherInterface::class)),
 			'bar' => new User('bar', null, $this->createMock(EventDispatcherInterface::class))
-		);
+		];
 
 		$manager = $this->getMockBuilder('\OC\User\Manager')
 			->disableOriginalConstructor()

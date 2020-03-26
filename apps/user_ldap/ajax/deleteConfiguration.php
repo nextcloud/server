@@ -36,5 +36,5 @@ if($helper->deleteServerConfiguration($prefix)) {
 	\OC_JSON::success();
 } else {
 	$l = \OC::$server->getL10N('user_ldap');
-	\OC_JSON::error(array('message' => $l->t('Failed to delete the server configuration')));
+	\OC_JSON::error(['message' => $l->t('Failed to delete the server configuration')]);
 }
