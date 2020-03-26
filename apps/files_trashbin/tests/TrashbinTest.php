@@ -122,13 +122,13 @@ class TrashbinTest extends \Test\TestCase {
 		$mockConfig = $this->createMock(\OCP\IConfig::class);
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
-			->will($this->returnCallback(function ($key, $default) use ($config) {
+			->willReturnCallback(function ($key, $default) use ($config) {
 				if ($key === 'filesystem_check_changes') {
 					return \OC\Files\Cache\Watcher::CHECK_ONCE;
 				} else {
 					return $config->getSystemValue($key, $default);
 				}
-			}));
+			});
 		$this->overwriteService(\OC\AllConfig::class, $mockConfig);
 
 		$this->trashRoot1 = '/' . self::TEST_TRASHBIN_USER1 . '/files_trashbin';

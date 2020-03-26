@@ -92,7 +92,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->cache = $this->getMockBuilder('OCP\ICache')
 			->disableOriginalConstructor()->getMock();
 		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
-		$this->l->method('t')->will($this->returnArgument(0));
+		$this->l->method('t')->willReturnArgument(0);
 		$this->userManager = $this->getMockBuilder(IUserManager::class)->getMock();
 		$this->request = $this->getMockBuilder(IRequest::class)->getMock();
 		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->getMock();

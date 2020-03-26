@@ -54,7 +54,7 @@ class CleanUpTest extends \Test\TestCase {
 		$args = $this->getMocks();
 		$args['helper']->expects($this->once())
 			->method('haveDisabledConfigurations')
-			->will($this->returnValue(true)	);
+			->willReturn(true	);
 
 		$args['ocConfig']->expects($this->never())
 			->method('getSystemValue');
@@ -93,11 +93,11 @@ class CleanUpTest extends \Test\TestCase {
 		$args = $this->getMocks();
 		$args['helper']->expects($this->once())
 			->method('haveDisabledConfigurations')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$args['ocConfig']->expects($this->once())
 			->method('getSystemValue')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$bgJob = new \OCA\User_LDAP\Jobs\CleanUp();
 		$bgJob->setArguments($args);
@@ -113,11 +113,11 @@ class CleanUpTest extends \Test\TestCase {
 		$args = $this->getMocks();
 		$args['helper']->expects($this->once())
 			->method('haveDisabledConfigurations')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$args['ocConfig']->expects($this->once())
 			->method('getSystemValue')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$bgJob = new \OCA\User_LDAP\Jobs\CleanUp();
 		$bgJob->setArguments($args);

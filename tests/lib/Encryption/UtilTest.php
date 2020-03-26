@@ -120,7 +120,7 @@ class UtilTest extends TestCase {
 		$this->userManager
 			->expects($this->any())
 			->method('userExists')
-			->will($this->returnCallback(array($this, 'isExcludedCallback')));
+			->willReturnCallback(array($this, 'isExcludedCallback'));
 
 		$this->assertSame($expected,
 			$this->util->isExcluded($path)

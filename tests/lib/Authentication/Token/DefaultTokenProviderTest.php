@@ -64,7 +64,7 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->time = 1313131;
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
-			->will($this->returnValue($this->time));
+			->willReturn($this->time);
 
 		$this->tokenProvider = new DefaultTokenProvider($this->mapper, $this->crypto, $this->config, $this->logger,
 			$this->timeFactory);
@@ -96,11 +96,11 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->config->expects($this->any())
 			->method('getSystemValue')
 			->with('secret')
-			->will($this->returnValue('1f4h9s'));
+			->willReturn('1f4h9s');
 		$this->crypto->expects($this->once())
 			->method('encrypt')
 			->with($password, $token . '1f4h9s')
-			->will($this->returnValue('encryptedpassword'));
+			->willReturn('encryptedpassword');
 		$this->mapper->expects($this->once())
 			->method('insert')
 			->with($this->equalTo($toInsert));
@@ -136,7 +136,7 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->mapper->expects($this->once())
 			->method('getTokenByUser')
 			->with('uid')
-			->will($this->returnValue(['token']));
+			->willReturn(['token']);
 
 		$this->assertEquals(['token'], $this->tokenProvider->getTokenByUser('uid'));
 	}
@@ -148,11 +148,11 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('secret')
-			->will($this->returnValue('1f4h9s'));
+			->willReturn('1f4h9s');
 		$this->crypto->expects($this->once())
 			->method('decrypt')
 			->with('someencryptedvalue', $token . '1f4h9s')
-			->will($this->returnValue('passme'));
+			->willReturn('passme');
 
 		$actual = $this->tokenProvider->getPassword($tk, $token);
 
@@ -188,7 +188,7 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('secret')
-			->will($this->returnValue('1f4h9s'));
+			->willReturn('1f4h9s');
 		$this->crypto->expects($this->once())
 			->method('decrypt')
 			->with('someencryptedvalue', $token . '1f4h9s')
@@ -208,11 +208,11 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('secret')
-			->will($this->returnValue('ocsecret'));
+			->willReturn('ocsecret');
 		$this->crypto->expects($this->once())
 			->method('encrypt')
 			->with($password, $tokenId . 'ocsecret')
-			->will($this->returnValue('encryptedpassword'));
+			->willReturn('encryptedpassword');
 		$this->mapper->expects($this->once())
 			->method('update')
 			->with($token);
@@ -256,10 +256,10 @@ class DefaultTokenProviderTest extends TestCase {
 		$defaultRememberMeLifetime = 60 * 60 * 24 * 15;
 		$this->config->expects($this->exactly(2))
 			->method('getSystemValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['session_lifetime', $defaultSessionLifetime, 150],
 				['remember_login_cookie_lifetime', $defaultRememberMeLifetime, 300],
-			]));
+			]);
 		$this->mapper->expects($this->at(0))
 			->method('invalidateOld')
 			->with($this->time - 150);

@@ -53,14 +53,14 @@ abstract class CommandTest extends TestCase {
 	protected function bindMounts(\PHPUnit_Framework_MockObject_MockObject $mock, array $mounts) {
 		$mock->expects($this->any())
 			->method('getStorage')
-			->will($this->returnCallback(function ($id) use ($mounts) {
+			->willReturnCallback(function ($id) use ($mounts) {
 				foreach ($mounts as $mount) {
 					if ($mount->getId() === $id) {
 						return $mount;
 					}
 				}
 				throw new NotFoundException();
-			}));
+			});
 	}
 
 	/**

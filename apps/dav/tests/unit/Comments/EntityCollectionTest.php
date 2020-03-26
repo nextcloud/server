@@ -79,11 +79,11 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->commentsManager->expects($this->once())
 			->method('get')
 			->with('55')
-			->will($this->returnValue(
+			->willReturn(
 				$this->getMockBuilder(IComment::class)
 					->disableOriginalConstructor()
 					->getMock()
-			));
+			);
 
 		$node = $this->collection->getChild('55');
 		$this->assertTrue($node instanceof \OCA\DAV\Comments\CommentNode);
@@ -105,11 +105,11 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->commentsManager->expects($this->once())
 			->method('getForObject')
 			->with('files', '19')
-			->will($this->returnValue([
+			->willReturn([
 				$this->getMockBuilder(IComment::class)
 					->disableOriginalConstructor()
 					->getMock()
-			]));
+			]);
 
 		$result = $this->collection->getChildren();
 
@@ -122,11 +122,11 @@ class EntityCollectionTest extends \Test\TestCase {
 		$this->commentsManager->expects($this->once())
 			->method('getForObject')
 			->with('files', '19', 5, 15, $dt)
-			->will($this->returnValue([
+			->willReturn([
 				$this->getMockBuilder(IComment::class)
 					->disableOriginalConstructor()
 					->getMock()
-			]));
+			]);
 
 		$result = $this->collection->findChildren(5, 15, $dt);
 

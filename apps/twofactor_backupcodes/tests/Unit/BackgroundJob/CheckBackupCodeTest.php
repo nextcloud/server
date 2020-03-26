@@ -68,9 +68,9 @@ class CheckBackupCodeTest extends TestCase {
 		$this->user = $this->createMock(IUser::class);
 
 		$this->userManager->method('callForSeenUsers')
-			->will($this->returnCallback(function(\Closure $e) {
+			->willReturnCallback(function(\Closure $e) {
 				$e($this->user);
-			}));
+			});
 
 		$this->checkBackupCodes = new CheckBackupCodes(
 			$this->createMock(ITimeFactory::class),

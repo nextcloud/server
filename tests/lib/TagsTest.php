@@ -57,7 +57,7 @@ class TagsTest extends \Test\TestCase {
 		$this->userSession
 			->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$this->objectType = $this->getUniqueID('type_');
 		$this->tagMapper = new \OC\Tagging\TagMapper(\OC::$server->getDatabaseConnection());
@@ -78,7 +78,7 @@ class TagsTest extends \Test\TestCase {
 		$this->userSession
 			->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue(null));
+			->willReturn(null);
 		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession);
 		$this->assertNull($this->tagMgr->load($this->objectType));
 	}

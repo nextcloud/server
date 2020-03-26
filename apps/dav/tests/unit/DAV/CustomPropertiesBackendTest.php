@@ -59,7 +59,7 @@ class CustomPropertiesBackendTest extends TestCase {
 		$this->user = $this->createMock(IUser::class);
 		$this->user->method('getUID')
 			->with()
-			->will($this->returnValue('dummy_user_42'));
+			->willReturn('dummy_user_42');
 		$this->dbConnection = \OC::$server->getDatabaseConnection();
 
 		$this->backend = new CustomPropertiesBackend(
@@ -125,12 +125,12 @@ class CustomPropertiesBackendTest extends TestCase {
 		$propFind->expects($this->at(0))
 			->method('get404Properties')
 			->with()
-			->will($this->returnValue([
+			->willReturn([
 				'{http://owncloud.org/ns}permissions',
 				'{http://owncloud.org/ns}downloadURL',
 				'{http://owncloud.org/ns}dDC',
 				'{http://owncloud.org/ns}size',
-			]));
+			]);
 
 		$db->expects($this->never())
 			->method($this->anything());
@@ -142,16 +142,16 @@ class CustomPropertiesBackendTest extends TestCase {
 		$propFind = $this->createMock(PropFind::class);
 		$propFind->method('get404Properties')
 			->with()
-			->will($this->returnValue([
+			->willReturn([
 				'{DAV:}getcontentlength',
 				'{DAV:}getcontenttype',
 				'{DAV:}getetag',
 				'{abc}def',
-			]));
+			]);
 
 		$propFind->method('getRequestedProperties')
 			->with()
-			->will($this->returnValue([
+			->willReturn([
 				'{DAV:}getcontentlength',
 				'{DAV:}getcontenttype',
 				'{DAV:}getetag',
@@ -159,7 +159,7 @@ class CustomPropertiesBackendTest extends TestCase {
 				'{urn:ietf:params:xml:ns:caldav}calendar-description',
 				'{urn:ietf:params:xml:ns:caldav}calendar-timezone',
 				'{abc}def',
-			]));
+			]);
 
 		$props = [
 			'{abc}def' => 'a',

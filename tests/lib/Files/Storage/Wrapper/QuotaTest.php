@@ -82,7 +82,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			->getMock();
 		$storage->expects($this->any())
 			->method('free_space')
-			->will($this->returnValue(-2));
+			->willReturn(-2);
 		$storage->getScanner()->scan('');
 
 		$instance = new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => 9));
@@ -138,7 +138,7 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 			->getMock();
 		$failStorage->expects($this->any())
 			->method('fopen')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$instance = new \OC\Files\Storage\Wrapper\Quota(array('storage' => $failStorage, 'quota' => 1000));
 
@@ -189,14 +189,14 @@ class QuotaTest extends \Test\Files\Storage\Storage {
 		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')->disableOriginalConstructor()->getMock();
 		$storage->expects($this->once())
 			->method('getCache')
-			->will($this->returnValue($cache));
+			->willReturn($cache);
 		$storage->expects($this->once())
 			->method('free_space')
-			->will($this->returnValue(2048));
+			->willReturn(2048);
 		$cache->expects($this->once())
 			->method('get')
 			->with('files')
-			->will($this->returnValue(new CacheEntry(['size' => 50])));
+			->willReturn(new CacheEntry(['size' => 50]));
 
 		$instance = new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => 1024, 'root' => 'files'));
 

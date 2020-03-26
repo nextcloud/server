@@ -240,14 +240,14 @@ class DetectionTest extends \Test\TestCase {
 				[$this->equalTo('core'), $this->equalTo('filetypes/my-type.png')],
 				[$this->equalTo('core'), $this->equalTo('filetypes/my.png')]
 			)
-			->will($this->returnCallback(
+			->willReturnCallback(
 				function($appName, $file) {
 					if ($file === 'filetypes/my.png') {
 						return 'my.svg';
 					}
 					throw new \RuntimeException();
 				}
-			));
+			);
 
 		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('my-type');
@@ -271,14 +271,14 @@ class DetectionTest extends \Test\TestCase {
 				[$this->equalTo('core'), $this->equalTo('filetypes/foo.png')],
 				[$this->equalTo('core'), $this->equalTo('filetypes/file.png')]
 			)
-			->will($this->returnCallback(
+			->willReturnCallback(
 				function($appName, $file) {
 					if ($file === 'filetypes/file.png') {
 						return 'file.svg';
 					}
 					throw new \RuntimeException();
 				}
-			));
+			);
 
 		$detection = new Detection($urlGenerator, $logger, $confDir->url(), $confDir->url());
 		$mimeType = $detection->mimeTypeIcon('foo-bar');

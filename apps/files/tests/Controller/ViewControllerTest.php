@@ -91,10 +91,10 @@ class ViewControllerTest extends TestCase {
 		$this->user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('testuser1'));
+			->willReturn('testuser1');
 		$this->userSession->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 		$this->rootFolder = $this->getMockBuilder('\OCP\Files\IRootFolder')->getMock();
 		$this->activityHelper = $this->createMock(Helper::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
@@ -121,27 +121,27 @@ class ViewControllerTest extends TestCase {
 		$this->viewController
 			->expects($this->once())
 			->method('getStorageInfo')
-			->will($this->returnValue([
+			->willReturn([
 				'used' => 123,
 				'quota' => 100,
 				'total' => 100,
 				'relative' => 123,
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
-			]));
+			]);
 		$this->config
 			->method('getUserValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
 				[$this->user->getUID(), 'files', 'file_sorting_direction', 'asc', 'asc'],
 				[$this->user->getUID(), 'files', 'show_hidden', false, false],
 				[$this->user->getUID(), 'files', 'show_grid', true],
-			]));
+			]);
 
 			$this->config
 				->expects($this->any())
 				->method('getAppValue')
-				->will($this->returnArgument(2));
+				->willReturnArgument(2);
 
 		$nav = new Template('files', 'appnavigation');
 		$nav->assign('usage_relative', 123);
@@ -409,29 +409,29 @@ class ViewControllerTest extends TestCase {
 		$node = $this->getMockBuilder(Folder::class)->getMock();
 		$node->expects($this->once())
 			->method('getPath')
-			->will($this->returnValue('/testuser1/files/test/sub'));
+			->willReturn('/testuser1/files/test/sub');
 
 		$baseFolder = $this->getMockBuilder(Folder::class)->getMock();
 
 		$this->rootFolder->expects($this->once())
 			->method('getUserFolder')
 			->with('testuser1')
-			->will($this->returnValue($baseFolder));
+			->willReturn($baseFolder);
 
 		$baseFolder->expects($this->at(0))
 			->method('getById')
 			->with(123)
-			->will($this->returnValue([$node]));
+			->willReturn([$node]);
 		$baseFolder->expects($this->at(1))
 			->method('getRelativePath')
 			->with('/testuser1/files/test/sub')
-			->will($this->returnValue('/test/sub'));
+			->willReturn('/test/sub');
 
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRoute')
 			->with('files.view.index', ['dir' => '/test/sub'])
-			->will($this->returnValue('/apps/files/?dir=/test/sub'));
+			->willReturn('/apps/files/?dir=/test/sub');
 
 		$expected = new Http\RedirectResponse('/apps/files/?dir=/test/sub');
 		$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
@@ -441,37 +441,37 @@ class ViewControllerTest extends TestCase {
 		$parentNode = $this->getMockBuilder(Folder::class)->getMock();
 		$parentNode->expects($this->once())
 			->method('getPath')
-			->will($this->returnValue('testuser1/files/test'));
+			->willReturn('testuser1/files/test');
 
 		$baseFolder = $this->getMockBuilder(Folder::class)->getMock();
 
 		$this->rootFolder->expects($this->once())
 			->method('getUserFolder')
 			->with('testuser1')
-			->will($this->returnValue($baseFolder));
+			->willReturn($baseFolder);
 
 		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->expects($this->once())
 			->method('getParent')
-			->will($this->returnValue($parentNode));
+			->willReturn($parentNode);
 		$node->expects($this->once())
 			->method('getName')
-			->will($this->returnValue('somefile.txt'));
+			->willReturn('somefile.txt');
 
 		$baseFolder->expects($this->at(0))
 			->method('getById')
 			->with(123)
-			->will($this->returnValue([$node]));
+			->willReturn([$node]);
 		$baseFolder->expects($this->at(1))
 			->method('getRelativePath')
 			->with('testuser1/files/test')
-			->will($this->returnValue('/test'));
+			->willReturn('/test');
 
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRoute')
 			->with('files.view.index', ['dir' => '/test', 'scrollto' => 'somefile.txt'])
-			->will($this->returnValue('/apps/files/?dir=/test/sub&scrollto=somefile.txt'));
+			->willReturn('/apps/files/?dir=/test/sub&scrollto=somefile.txt');
 
 		$expected = new Http\RedirectResponse('/apps/files/?dir=/test/sub&scrollto=somefile.txt');
 		$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
@@ -482,12 +482,12 @@ class ViewControllerTest extends TestCase {
 		$this->rootFolder->expects($this->once())
 			->method('getUserFolder')
 			->with('testuser1')
-			->will($this->returnValue($baseFolder));
+			->willReturn($baseFolder);
 
 		$baseFolder->expects($this->at(0))
 			->method('getById')
 			->with(123)
-			->will($this->returnValue([]));
+			->willReturn([]);
 
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
@@ -503,12 +503,12 @@ class ViewControllerTest extends TestCase {
 		$this->appManager->expects($this->once())
 			->method('isEnabledForUser')
 			->with('files_trashbin')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$parentNode = $this->getMockBuilder(Folder::class)->getMock();
 		$parentNode->expects($this->once())
 			->method('getPath')
-			->will($this->returnValue('testuser1/files_trashbin/files/test.d1462861890/sub'));
+			->willReturn('testuser1/files_trashbin/files/test.d1462861890/sub');
 
 		$baseFolderFiles = $this->getMockBuilder(Folder::class)->getMock();
 		$baseFolderTrash = $this->getMockBuilder(Folder::class)->getMock();
@@ -516,39 +516,39 @@ class ViewControllerTest extends TestCase {
 		$this->rootFolder->expects($this->at(0))
 			->method('getUserFolder')
 			->with('testuser1')
-			->will($this->returnValue($baseFolderFiles));
+			->willReturn($baseFolderFiles);
 		$this->rootFolder->expects($this->at(1))
 			->method('get')
 			->with('testuser1/files_trashbin/files/')
-			->will($this->returnValue($baseFolderTrash));
+			->willReturn($baseFolderTrash);
 
 		$baseFolderFiles->expects($this->once())
 			->method('getById')
 			->with(123)
-			->will($this->returnValue([]));
+			->willReturn([]);
 
 		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->expects($this->once())
 			->method('getParent')
-			->will($this->returnValue($parentNode));
+			->willReturn($parentNode);
 		$node->expects($this->once())
 			->method('getName')
-			->will($this->returnValue('somefile.txt'));
+			->willReturn('somefile.txt');
 
 		$baseFolderTrash->expects($this->at(0))
 			->method('getById')
 			->with(123)
-			->will($this->returnValue([$node]));
+			->willReturn([$node]);
 		$baseFolderTrash->expects($this->at(1))
 			->method('getRelativePath')
 			->with('testuser1/files_trashbin/files/test.d1462861890/sub')
-			->will($this->returnValue('/test.d1462861890/sub'));
+			->willReturn('/test.d1462861890/sub');
 
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRoute')
 			->with('files.view.index', ['view' => 'trashbin', 'dir' => '/test.d1462861890/sub', 'scrollto' => 'somefile.txt'])
-			->will($this->returnValue('/apps/files/?view=trashbin&dir=/test.d1462861890/sub&scrollto=somefile.txt'));
+			->willReturn('/apps/files/?view=trashbin&dir=/test.d1462861890/sub&scrollto=somefile.txt');
 
 		$expected = new Http\RedirectResponse('/apps/files/?view=trashbin&dir=/test.d1462861890/sub&scrollto=somefile.txt');
 		$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));

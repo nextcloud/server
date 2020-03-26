@@ -88,15 +88,15 @@ class SearchPluginTest extends TestCase {
 		$this->server->expects($this->at(0))
 			->method('getRequestUri')
 			->with()
-			->will($this->returnValue('/re/quest/u/r/i'));
+			->willReturn('/re/quest/u/r/i');
 		$this->server->tree->expects($this->at(0))
 			->method('getNodeForPath')
 			->with('/re/quest/u/r/i')
-			->will($this->returnValue($calendarHome));
+			->willReturn($calendarHome);
 		$this->server->expects($this->at(1))
 			->method('getHTTPDepth')
 			->with(2)
-			->will($this->returnValue(2));
+			->willReturn(2);
 		$this->server
 			->method('getHTTPPrefer')
 			->willReturn([
@@ -104,7 +104,7 @@ class SearchPluginTest extends TestCase {
 			]);
 		$calendarHome->expects($this->at(0))
 			->method('calendarSearch')
-			->will($this->returnValue([]));
+			->willReturn([]);
 
 		$this->plugin->report('{http://nextcloud.com/ns}calendar-search', $report, '');
 	}
@@ -113,7 +113,7 @@ class SearchPluginTest extends TestCase {
 		$this->server->tree->expects($this->once())
 			->method('getNodeForPath')
 			->with('/foo/bar')
-			->will($this->returnValue(null));
+			->willReturn(null);
 
 		$reports = $this->plugin->getSupportedReportSet('/foo/bar');
 		$this->assertEquals([], $reports);
@@ -125,7 +125,7 @@ class SearchPluginTest extends TestCase {
 		$this->server->tree->expects($this->once())
 			->method('getNodeForPath')
 			->with('/bar/foo')
-			->will($this->returnValue($calendarHome));
+			->willReturn($calendarHome);
 
 		$reports = $this->plugin->getSupportedReportSet('/bar/foo');
 		$this->assertEquals([

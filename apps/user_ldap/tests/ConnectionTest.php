@@ -57,7 +57,7 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->ldap->expects($this->any())
 			->method('areLDAPFunctionsAvailable')
-			->will($this->returnValue(true));
+			->willReturn(true);
 	}
 
 	public function testOriginalAgentUnchangedOnClone() {
@@ -105,19 +105,19 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->ldap->expects($this->any())
 			->method('isResource')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->ldap->expects($this->any())
 			->method('setOption')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->ldap->expects($this->exactly(3))
 			->method('connect')
-			->will($this->returnValue('ldapResource'));
+			->willReturn('ldapResource');
 
 		$this->ldap->expects($this->any())
 			->method('errno')
-			->will($this->returnValue(0));
+			->willReturn(0);
 
 		// Not called often enough? Then, the fallback to the backup server is broken.
 		$this->connection->expects($this->exactly(4))
@@ -132,13 +132,13 @@ class ConnectionTest extends \Test\TestCase {
 		$isThrown = false;
 		$this->ldap->expects($this->exactly(3))
 			->method('bind')
-			->will($this->returnCallback(function () use (&$isThrown) {
+			->willReturnCallback(function () use (&$isThrown) {
 				if(!$isThrown) {
 					$isThrown = true;
 					throw new \OC\ServerNotAvailableException();
 				}
 				return true;
-			}));
+			});
 
 		$this->connection->init();
 		$this->connection->resetConnectionResource();
@@ -164,19 +164,19 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->ldap->expects($this->any())
 			->method('isResource')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->ldap->expects($this->any())
 			->method('setOption')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->ldap->expects($this->once())
 			->method('connect')
-			->will($this->returnValue('ldapResource'));
+			->willReturn('ldapResource');
 
 		$this->ldap->expects($this->any())
 			->method('errno')
-			->will($this->returnValue(49));
+			->willReturn(49);
 
 		$this->connection->expects($this->any())
 			->method('getFromCache')
@@ -212,24 +212,24 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->ldap->expects($this->any())
 			->method('isResource')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->ldap->expects($this->any())
 			->method('setOption')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->ldap->expects($this->any())
 			->method('connect')
-			->will($this->returnValue('ldapResource'));
+			->willReturn('ldapResource');
 
 		$this->ldap->expects($this->once())
 			->method('bind')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		// LDAP_INVALID_CREDENTIALS
 		$this->ldap->expects($this->any())
 			->method('errno')
-			->will($this->returnValue(0x31));
+			->willReturn(0x31);
 
 		try {
 			$this->assertFalse($this->connection->bind(), 'Connection::bind() should not return true with invalid credentials.');
@@ -259,27 +259,27 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->ldap->expects($this->any())
 			->method('isResource')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->ldap->expects($this->any())
 			->method('connect')
-			->will($this->returnValue('ldapResource'));
+			->willReturn('ldapResource');
 
 		$this->ldap->expects($this->any())
 			->method('setOption')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->ldap->expects($this->any())
 			->method('bind')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->ldap->expects($this->any())
 			->method('errno')
-			->will($this->returnValue(0));
+			->willReturn(0);
 
 		$this->ldap->expects($this->any())
 			->method('startTls')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->expectException(\OC\ServerNotAvailableException::class);
 		$this->expectExceptionMessage('Start TLS failed, when connecting to LDAP host ' . $host . '.');

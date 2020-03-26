@@ -41,12 +41,12 @@ class CategoryFetcherTest extends FetcherBase {
 	public function testAppstoreDisabled() {
 		$this->config
 			->method('getSystemValue')
-			->will($this->returnCallback(function($var, $default) {
+			->willReturnCallback(function($var, $default) {
 				if ($var === 'appstoreenabled') {
 					return false;
 				}
 				return $default;
-			}));
+			});
 		$this->appData
 			->expects($this->never())
 			->method('getFolder');
@@ -57,12 +57,12 @@ class CategoryFetcherTest extends FetcherBase {
 	public function testNoInternet() {
 		$this->config
 			->method('getSystemValue')
-			->will($this->returnCallback(function($var, $default) {
+			->willReturnCallback(function($var, $default) {
 				if ($var === 'has_internet_connection') {
 					return false;
 				}
 				return $default;
-			}));
+			});
 		$this->appData
 			->expects($this->never())
 			->method('getFolder');

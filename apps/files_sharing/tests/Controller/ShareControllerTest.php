@@ -282,9 +282,9 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->l10n->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($text, $parameters) {
+			->willReturnCallback(function($text, $parameters) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 
 		$response = $this->shareController->showShare();
 		$sharedTmplParams = array(
@@ -422,9 +422,9 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->l10n->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($text, $parameters) {
+			->willReturnCallback(function($text, $parameters) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 
 		$response = $this->shareController->showShare();
 		$sharedTmplParams = array(
@@ -531,9 +531,9 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->l10n->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($text, $parameters) {
+			->willReturnCallback(function($text, $parameters) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 
 		$response = $this->shareController->showShare();
 		// skip the "folder" param for tests

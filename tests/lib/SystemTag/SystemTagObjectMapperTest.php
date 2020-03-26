@@ -88,7 +88,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 		$this->tagManager->expects($this->any())
 			->method('getTagsByIds')
-			->will($this->returnCallback(function($tagIds) {
+			->willReturnCallback(function($tagIds) {
 				$result = [];
 				if (in_array(1, $tagIds)) {
 					$result[1] = $this->tag1;
@@ -100,7 +100,7 @@ class SystemTagObjectMapperTest extends TestCase {
 					$result[3] = $this->tag3;
 				}
 				return $result;
-			}));
+			});
 
 		$this->tagMapper->assignTags('1', 'testtype', $this->tag1->getId());
 		$this->tagMapper->assignTags('1', 'testtype', $this->tag2->getId());

@@ -38,10 +38,10 @@ class MDB2SchemaReaderTest extends TestCase {
 			->getMock();
 		$config->expects($this->any())
 			->method('getSystemValue')
-			->will($this->returnValueMap(array(
+			->willReturnMap(array(
 				array('dbname', 'owncloud', 'testDB'),
 				array('dbtableprefix', 'oc_', 'test_')
-			)));
+			));
 		return $config;
 	}
 

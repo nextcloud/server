@@ -57,7 +57,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->groupManager = $this->createMock(\OC\Group\Manager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->l = $this->createMock(IL10N::class);
-		$this->l->method('t')->will($this->returnArgument(0));
+		$this->l->method('t')->willReturnArgument(0);
 
 		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
 		$request = $this->createMock(IRequest::class);

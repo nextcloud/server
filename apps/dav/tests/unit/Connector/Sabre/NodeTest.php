@@ -67,16 +67,16 @@ class NodeTest extends \Test\TestCase {
 			->getMock();
 		$info->expects($this->any())
 			->method('getPermissions')
-			->will($this->returnValue($permissions));
+			->willReturn($permissions);
 		$info->expects($this->any())
 			->method('isShared')
-			->will($this->returnValue($shared));
+			->willReturn($shared);
 		$info->expects($this->any())
 			->method('isMounted')
-			->will($this->returnValue($mounted));
+			->willReturn($mounted);
 		$info->expects($this->any())
 			->method('getType')
-			->will($this->returnValue($type));
+			->willReturn($type);
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()
 			->getMock();

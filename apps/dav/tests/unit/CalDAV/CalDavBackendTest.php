@@ -130,9 +130,9 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 		$l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function ($text, $parameters = array()) {
+			->willReturnCallback(function ($text, $parameters = array()) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 
 		$config = $this->createMock(IConfig::class);
 

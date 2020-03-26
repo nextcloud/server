@@ -153,10 +153,10 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$user = $this->createMock(User::class);
 		$user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('Werner'));
+			->willReturn('Werner');
 		$user->expects($this->any())
 			->method('getDisplayName')
-			->will($this->returnValue('Werner Brösel'));
+			->willReturn('Werner Brösel');
 
 		$this->l->expects($this->any())
 			->method('t')
@@ -166,7 +166,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->userSession
 			->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($user));
+			->willReturn($user);
 
 		// Ensure that it fails when no mail address has been specified
 		$response = $this->mailController->sendTestMail();
@@ -177,7 +177,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->config
 			->expects($this->any())
 			->method('getUserValue')
-			->will($this->returnValue('mail@example.invalid'));
+			->willReturn('mail@example.invalid');
 		$this->mailer->expects($this->once())
 			->method('createMessage')
 			->willReturn($this->createMock(Message::class));

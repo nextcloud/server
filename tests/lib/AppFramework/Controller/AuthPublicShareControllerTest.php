@@ -136,7 +136,7 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 		$hashSet = false;
 		$this->session
 			->method('set')
-			->will($this->returnCallback(function($key, $value) use (&$tokenSet, &$hashSet) {
+			->willReturnCallback(function($key, $value) use (&$tokenSet, &$hashSet) {
 				if ($key === 'public_link_authenticated_token' && $value === 'token') {
 					$tokenSet = true;
 					return true;
@@ -146,7 +146,7 @@ class AuthPublicShareControllerTest extends \Test\TestCase {
 					return true;
 				}
 				return false;
-			}));
+			});
 
 		$this->urlGenerator->method('linkToRoute')
 			->willReturn('myLink!');

@@ -150,7 +150,7 @@ class JobListTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('backgroundjob', 'lastjob', 0)
-			->will($this->returnValue(15));
+			->willReturn(15);
 
 		$this->assertEquals(15, $this->instance->getLastJob());
 	}

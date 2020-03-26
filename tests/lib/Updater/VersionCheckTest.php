@@ -74,12 +74,12 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
-			->will($this->returnValue(time()));
+			->willReturn(time());
 		$this->config
 			->expects($this->at(2))
 			->method('getAppValue')
 			->with('core', 'lastupdateResult')
-			->will($this->returnValue(json_encode($expectedResult)));
+			->willReturn(json_encode($expectedResult));
 
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
@@ -104,7 +104,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
-			->will($this->returnValue(0));
+			->willReturn(0);
 		$this->config
 			->expects($this->at(2))
 			->method('getSystemValue')
@@ -118,12 +118,12 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'installedat')
-			->will($this->returnValue('installedat'));
+			->willReturn('installedat');
 		$this->config
 			->expects($this->at(6))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
-			->will($this->returnValue('lastupdatedat'));
+			->willReturn('lastupdatedat');
 		$this->config
 			->expects($this->at(7))
 			->method('setAppValue')
@@ -142,7 +142,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getUrlContent')
 			->with($this->buildUpdateUrl('https://updates.nextcloud.com/updater_server/'))
-			->will($this->returnValue($updateXml));
+			->willReturn($updateXml);
 
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
@@ -157,7 +157,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
-			->will($this->returnValue(0));
+			->willReturn(0);
 		$this->config
 			->expects($this->at(2))
 			->method('getSystemValue')
@@ -171,12 +171,12 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'installedat')
-			->will($this->returnValue('installedat'));
+			->willReturn('installedat');
 		$this->config
 			->expects($this->at(6))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
-			->will($this->returnValue('lastupdatedat'));
+			->willReturn('lastupdatedat');
 		$this->config
 			->expects($this->at(7))
 			->method('setAppValue')
@@ -187,7 +187,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getUrlContent')
 			->with($this->buildUpdateUrl('https://updates.nextcloud.com/updater_server/'))
-			->will($this->returnValue($updateXml));
+			->willReturn($updateXml);
 
 		$this->assertSame([], $this->updater->check());
 	}
@@ -212,7 +212,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
-			->will($this->returnValue(0));
+			->willReturn(0);
 		$this->config
 			->expects($this->at(2))
 			->method('getSystemValue')
@@ -226,12 +226,12 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'installedat')
-			->will($this->returnValue('installedat'));
+			->willReturn('installedat');
 		$this->config
 			->expects($this->at(6))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
-			->will($this->returnValue('lastupdatedat'));
+			->willReturn('lastupdatedat');
 
 		$updateXml = '<?xml version="1.0"?>
 <owncloud>
@@ -245,7 +245,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getUrlContent')
 			->with($this->buildUpdateUrl('https://updates.nextcloud.com/updater_server/'))
-			->will($this->returnValue($updateXml));
+			->willReturn($updateXml);
 
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
@@ -262,7 +262,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
-			->will($this->returnValue(0));
+			->willReturn(0);
 		$this->config
 			->expects($this->at(2))
 			->method('getSystemValue')
@@ -276,12 +276,12 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'installedat')
-			->will($this->returnValue('installedat'));
+			->willReturn('installedat');
 		$this->config
 			->expects($this->at(6))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
-			->will($this->returnValue('lastupdatedat'));
+			->willReturn('lastupdatedat');
 		$this->config
 			->expects($this->at(7))
 			->method('setAppValue')
@@ -292,7 +292,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getUrlContent')
 			->with($this->buildUpdateUrl('https://updates.nextcloud.com/updater_server/'))
-			->will($this->returnValue($updateXml));
+			->willReturn($updateXml);
 
 		$this->assertSame($expectedResult, $this->updater->check());
 	}
@@ -317,7 +317,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
-			->will($this->returnValue(0));
+			->willReturn(0);
 		$this->config
 			->expects($this->at(2))
 			->method('getSystemValue')
@@ -331,12 +331,12 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'installedat')
-			->will($this->returnValue('installedat'));
+			->willReturn('installedat');
 		$this->config
 			->expects($this->at(6))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
-			->will($this->returnValue('lastupdatedat'));
+			->willReturn('lastupdatedat');
 
 		// missing autoupdater element should still not fail
 		$updateXml = '<?xml version="1.0"?>
@@ -350,7 +350,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getUrlContent')
 			->with($this->buildUpdateUrl('https://updates.nextcloud.com/updater_server/'))
-			->will($this->returnValue($updateXml));
+			->willReturn($updateXml);
 
 		$this->assertSame($expectedResult, $this->updater->check());
 	}

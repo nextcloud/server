@@ -151,10 +151,10 @@ class EncryptionTest extends TestCase {
 
 		$this->keyManagerMock->expects($this->any())
 			->method('getPublicKey')
-			->will($this->returnCallback([$this, 'getPublicKeyCallback']));
+			->willReturnCallback([$this, 'getPublicKeyCallback']);
 		$this->keyManagerMock->expects($this->any())
 			->method('addSystemKeys')
-			->will($this->returnCallback([$this, 'addSystemKeysCallback']));
+			->willReturnCallback([$this, 'addSystemKeysCallback']);
 		$this->cryptMock->expects($this->any())
 			->method('multiKeyEncrypt')
 			->willReturn(true);

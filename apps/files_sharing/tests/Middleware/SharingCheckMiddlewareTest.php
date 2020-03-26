@@ -83,7 +83,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('isEnabledForUser')
 			->with('files_sharing')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->assertTrue(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
 	}
@@ -93,7 +93,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('isEnabledForUser')
 			->with('files_sharing')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->assertFalse(self::invokePrivate($this->sharingCheckMiddleware, 'isSharingEnabled'));
 	}
@@ -142,11 +142,11 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->reflector
 			->expects($this->atLeastOnce())
 			->method('hasAnnotation')
-			->will($this->returnValueMap($annotations));
+			->willReturnMap($annotations);
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap($config));
+			->willReturnMap($config);
 
 		$this->assertEquals($expectedResult, self::invokePrivate($this->sharingCheckMiddleware, 'externalSharesChecks'));
 	}
@@ -159,16 +159,16 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('isEnabledForUser')
 			->with('files_sharing')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->reflector
 			->expects($this->atLeastOnce())
 			->method('hasAnnotation')
-			->will($this->returnValueMap($annotations));
+			->willReturnMap($annotations);
 
 		$this->config
 			->method('getAppValue')
-			->will($this->returnValueMap($config));
+			->willReturnMap($config);
 
 		$controller = $this->createMock(ExternalSharesController::class);
 
@@ -191,7 +191,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('isEnabledForUser')
 			->with('files_sharing')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$controller = $this->createMock(ShareController::class);
 
@@ -207,7 +207,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('isEnabledForUser')
 			->with('files_sharing')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->sharingCheckMiddleware->beforeController($this->controllerMock, 'myMethod');
 	}

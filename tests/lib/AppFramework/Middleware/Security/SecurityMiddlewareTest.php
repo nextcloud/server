@@ -218,7 +218,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	public function testNoChecks(){
 		$this->request->expects($this->never())
 			->method('passesCSRFCheck')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$sec = $this->getMiddleware(false, false, false);
 
@@ -262,10 +262,10 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		$this->request->expects($this->once())
 			->method('passesCSRFCheck')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->request->expects($this->once())
 			->method('passesStrictCookieCheck')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController($this->controller, __FUNCTION__);
 	}
@@ -278,7 +278,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	public function testNoCsrfCheck(){
 		$this->request->expects($this->never())
 			->method('passesCSRFCheck')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController($this->controller, __FUNCTION__);
@@ -290,10 +290,10 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	public function testPassesCsrfCheck(){
 		$this->request->expects($this->once())
 			->method('passesCSRFCheck')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->request->expects($this->once())
 			->method('passesStrictCookieCheck')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController($this->controller, __FUNCTION__);
@@ -307,10 +307,10 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		$this->request->expects($this->once())
 			->method('passesCSRFCheck')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->request->expects($this->once())
 			->method('passesStrictCookieCheck')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController($this->controller, __FUNCTION__);
@@ -327,7 +327,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->method('passesCSRFCheck');
 		$this->request->expects($this->once())
 			->method('passesStrictCookieCheck')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController($this->controller, __FUNCTION__);
@@ -341,7 +341,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	public function testNoStrictCookieRequiredCheck() {
 		$this->request->expects($this->never())
 			->method('passesStrictCookieCheck')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController($this->controller, __FUNCTION__);
@@ -393,7 +393,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	public function testCsrfOcsController(Controller $controller, bool $hasOcsApiHeader, bool $hasBearerAuth, bool $exception) {
 		$this->request
 			->method('getHeader')
-			->will(self::returnCallback(function ($header) use ($hasOcsApiHeader, $hasBearerAuth) {
+			->willReturnCallback(function ($header) use ($hasOcsApiHeader, $hasBearerAuth) {
 				if ($header === 'OCS-APIREQUEST' && $hasOcsApiHeader) {
 					return 'true';
 				}
@@ -401,7 +401,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 					return 'Bearer TOKEN!';
 				}
 				return '';
-			}));
+			});
 		$this->request->expects($this->once())
 			->method('passesStrictCookieCheck')
 			->willReturn(true);
@@ -511,7 +511,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 					'redirect_url' => 'nextcloud/index.php/apps/specialapp',
 				]
 			)
-			->will($this->returnValue('http://localhost/nextcloud/index.php/login?redirect_url=nextcloud/index.php/apps/specialapp'));
+			->willReturn('http://localhost/nextcloud/index.php/login?redirect_url=nextcloud/index.php/apps/specialapp');
 		$this->logger
 			->expects($this->once())
 			->method('logException');

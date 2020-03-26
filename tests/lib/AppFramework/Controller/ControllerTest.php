@@ -89,7 +89,7 @@ class ControllerTest extends \Test\TestCase {
 			->getMock();
 		$this->app->expects($this->any())
 				->method('getAppName')
-				->will($this->returnValue('apptemplate_advanced'));
+				->willReturn('apptemplate_advanced');
 
 		$this->controller = new ChildController($this->app, $request);
 	}

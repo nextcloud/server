@@ -117,13 +117,13 @@ class ScannerTest extends \Test\TestCase {
 
 		$mountProvider->expects($this->any())
 			->method('getMountsForUser')
-			->will($this->returnCallback(function (IUser $user, IStorageFactory $storageFactory) use ($mount, $uid) {
+			->willReturnCallback(function (IUser $user, IStorageFactory $storageFactory) use ($mount, $uid) {
 				if ($user->getUID() === $uid) {
 					return [$mount];
 				} else {
 					return [];
 				}
-			}));
+			});
 
 		\OC::$server->getMountProviderCollection()->registerProvider($mountProvider);
 		$cache = $storage->getCache();
@@ -199,9 +199,9 @@ class ScannerTest extends \Test\TestCase {
 
 		$sharedStorage->expects($this->any())
 			->method('instanceOfStorage')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				[SharedStorage::class, true],
-			]));
+			]);
 		$sharedStorage->expects($this->never())
 			->method('getScanner');
 

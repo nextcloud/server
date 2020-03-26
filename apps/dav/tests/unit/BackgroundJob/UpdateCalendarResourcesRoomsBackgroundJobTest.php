@@ -112,7 +112,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$res9 = $this->createMock(IResource::class);
 
 		$backend2->method('getBackendIdentifier')
-			->will($this->returnValue('backend2'));
+			->willReturn('backend2');
 		$backend2->method('listAllResources')
 			->will($this->throwException(new BackendTemporarilyUnavailableException()));
 		$backend2->method('getResource')
@@ -120,32 +120,32 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$backend2->method('getAllResources')
 			->will($this->throwException(new BackendTemporarilyUnavailableException()));
 		$backend3->method('getBackendIdentifier')
-			->will($this->returnValue('backend3'));
+			->willReturn('backend3');
 		$backend3->method('listAllResources')
-			->will($this->returnValue(['res6', 'res7']));
+			->willReturn(['res6', 'res7']);
 		$backend3->method('getResource')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['res6', $res6],
 				['res7', $res7],
-			]));
+			]);
 		$backend4->method('getBackendIdentifier')
-			->will($this->returnValue('backend4'));
+			->willReturn('backend4');
 		$backend4->method('listAllResources')
-			->will($this->returnValue(['res8', 'res9']));
+			->willReturn(['res8', 'res9']);
 		$backend4->method('getResource')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['res8', $res8],
 				['res9', $res9],
-			]));
+			]);
 
-		$res6->method('getId')->will($this->returnValue('res6'));
-		$res6->method('getDisplayName')->will($this->returnValue('Pointer123'));
-		$res6->method('getGroupRestrictions')->will($this->returnValue(['foo', 'biz']));
-		$res6->method('getEMail')->will($this->returnValue('res6@foo.bar'));
-		$res6->method('getBackend')->will($this->returnValue($backend3));
+		$res6->method('getId')->willReturn('res6');
+		$res6->method('getDisplayName')->willReturn('Pointer123');
+		$res6->method('getGroupRestrictions')->willReturn(['foo', 'biz']);
+		$res6->method('getEMail')->willReturn('res6@foo.bar');
+		$res6->method('getBackend')->willReturn($backend3);
 
-		$res6->method('getAllAvailableMetadataKeys')->will($this->returnValue(['meta99', 'meta123']));
-		$res6->method('getMetadataForKey')->will($this->returnCallback(function($key) {
+		$res6->method('getAllAvailableMetadataKeys')->willReturn(['meta99', 'meta123']);
+		$res6->method('getMetadataForKey')->willReturnCallback(function($key) {
 			switch($key) {
 				case 'meta99':
 					return 'value99-new';
@@ -156,15 +156,15 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 				default:
 					return null;
 			}
-		}));
+		});
 
-		$res7->method('getId')->will($this->returnValue('res7'));
-		$res7->method('getDisplayName')->will($this->returnValue('Resource4'));
-		$res7->method('getGroupRestrictions')->will($this->returnValue(['biz']));
-		$res7->method('getEMail')->will($this->returnValue('res7@foo.bar'));
-		$res7->method('getBackend')->will($this->returnValue($backend3));
-		$res7->method('getAllAvailableMetadataKeys')->will($this->returnValue(['meta1']));
-		$res7->method('getMetadataForKey')->will($this->returnCallback(function($key) {
+		$res7->method('getId')->willReturn('res7');
+		$res7->method('getDisplayName')->willReturn('Resource4');
+		$res7->method('getGroupRestrictions')->willReturn(['biz']);
+		$res7->method('getEMail')->willReturn('res7@foo.bar');
+		$res7->method('getBackend')->willReturn($backend3);
+		$res7->method('getAllAvailableMetadataKeys')->willReturn(['meta1']);
+		$res7->method('getMetadataForKey')->willReturnCallback(function($key) {
 			switch($key) {
 				case 'meta1':
 					return 'value1';
@@ -172,15 +172,15 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 				default:
 					return null;
 			}
-		}));
+		});
 
-		$res8->method('getId')->will($this->returnValue('res8'));
-		$res8->method('getDisplayName')->will($this->returnValue('Beamer'));
-		$res8->method('getGroupRestrictions')->will($this->returnValue([]));
-		$res8->method('getEMail')->will($this->returnValue('res8@foo.bar'));
-		$res8->method('getBackend')->will($this->returnValue($backend4));
-		$res8->method('getAllAvailableMetadataKeys')->will($this->returnValue(['meta2']));
-		$res8->method('getMetadataForKey')->will($this->returnCallback(function($key) {
+		$res8->method('getId')->willReturn('res8');
+		$res8->method('getDisplayName')->willReturn('Beamer');
+		$res8->method('getGroupRestrictions')->willReturn([]);
+		$res8->method('getEMail')->willReturn('res8@foo.bar');
+		$res8->method('getBackend')->willReturn($backend4);
+		$res8->method('getAllAvailableMetadataKeys')->willReturn(['meta2']);
+		$res8->method('getMetadataForKey')->willReturnCallback(function($key) {
 			switch($key) {
 				case 'meta2':
 					return 'value2';
@@ -188,26 +188,26 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 				default:
 					return null;
 			}
-		}));
+		});
 
-		$res9->method('getId')->will($this->returnValue('res9'));
-		$res9->method('getDisplayName')->will($this->returnValue('Beamer2'));
-		$res9->method('getGroupRestrictions')->will($this->returnValue([]));
-		$res9->method('getEMail')->will($this->returnValue('res9@foo.bar'));
-		$res9->method('getBackend')->will($this->returnValue($backend4));
+		$res9->method('getId')->willReturn('res9');
+		$res9->method('getDisplayName')->willReturn('Beamer2');
+		$res9->method('getGroupRestrictions')->willReturn([]);
+		$res9->method('getEMail')->willReturn('res9@foo.bar');
+		$res9->method('getBackend')->willReturn($backend4);
 
 		$this->resourceManager
 			->method('getBackends')
-			->will($this->returnValue([
+			->willReturn([
 				$backend2, $backend3, $backend4
-			]));
+			]);
 		$this->resourceManager
 			->method('getBackend')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['backend2', $backend2],
 				['backend3', $backend3],
 				['backend4', $backend4],
-			]));
+			]);
 
 		$this->backgroundJob->run([]);
 

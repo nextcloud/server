@@ -86,13 +86,13 @@ class VersioningTest extends \Test\TestCase {
 		$mockConfig = $this->createMock(IConfig::class);
 		$mockConfig->expects($this->any())
 			->method('getSystemValue')
-			->will($this->returnCallback(function ($key, $default) use ($config) {
+			->willReturnCallback(function ($key, $default) use ($config) {
 				if ($key === 'filesystem_check_changes') {
 					return \OC\Files\Cache\Watcher::CHECK_ONCE;
 				} else {
 					return $config->getSystemValue($key, $default);
 				}
-			}));
+			});
 		$this->overwriteService(\OC\AllConfig::class, $mockConfig);
 
 		// clear hooks
@@ -745,11 +745,11 @@ class VersioningTest extends \Test\TestCase {
 
 		$eventHandler->expects($this->any())
 			->method('callback')
-			->will($this->returnCallback(
+			->willReturnCallback(
 				function($p) use (&$params) {
 					$params = $p;
 				}
-			));
+			);
 
 		\OCP\Util::connectHook(
 			'\OCP\Versions',

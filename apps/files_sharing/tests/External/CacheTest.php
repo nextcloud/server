@@ -69,7 +69,7 @@ class CacheTest extends TestCase {
 		$this->storage
 			->expects($this->any())
 			->method('getId')
-			->will($this->returnValue('dummystorage::'));
+			->willReturn('dummystorage::');
 		$this->cache = new \OCA\Files_Sharing\External\Cache(
 			$this->storage,
 			$this->cloudIdManager->getCloudId($this->remoteUser, 'http://example.com/owncloud')

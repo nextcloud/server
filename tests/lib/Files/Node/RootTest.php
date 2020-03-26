@@ -79,7 +79,7 @@ class RootTest extends \Test\TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(array('fileid' => 10, 'path' => 'bar/foo', 'name', 'mimetype' => 'text/plain'))));
+			->willReturn($this->getFileInfo(array('fileid' => 10, 'path' => 'bar/foo', 'name', 'mimetype' => 'text/plain')));
 
 		$root->mount($storage, '');
 		$node = $root->get('/bar/foo');
@@ -115,7 +115,7 @@ class RootTest extends \Test\TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$root->mount($storage, '');
 		$root->get('/bar/foo');

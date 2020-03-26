@@ -75,11 +75,11 @@ class SharesPluginTest extends \Test\TestCase {
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('getUID')
-			->will($this->returnValue('user1'));
+			->willReturn('user1');
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($user));
+			->willReturn($user);
 		$this->userFolder = $this->createMock(Folder::class);
 
 		$this->plugin = new \OCA\DAV\Connector\Sabre\SharesPlugin(
@@ -100,10 +100,10 @@ class SharesPluginTest extends \Test\TestCase {
 			->getMock();
 		$sabreNode->expects($this->any())
 			->method('getId')
-			->will($this->returnValue(123));
+			->willReturn(123);
 		$sabreNode->expects($this->any())
 			->method('getPath')
-			->will($this->returnValue('/subdir'));
+			->willReturn('/subdir');
 
 		// node API nodes
 		$node = $this->getMockBuilder(Folder::class)
@@ -113,7 +113,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->userFolder->expects($this->once())
 			->method('get')
 			->with('/subdir')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$this->shareManager->expects($this->any())
 			->method('getSharesBy')
@@ -124,7 +124,7 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->equalTo(false),
 				$this->equalTo(-1)
 			)
-			->will($this->returnCallback(function($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes){
+			->willReturnCallback(function($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes){
 				if (in_array($requestedShareType, $shareTypes)) {
 					$share = $this->createMock(IShare::class);
 					$share->method('getShareType')
@@ -132,7 +132,7 @@ class SharesPluginTest extends \Test\TestCase {
 					return [$share];
 				}
 				return [];
-			}));
+			});
 
 		$propFind = new \Sabre\DAV\PropFind(
 			'/dummyPath',
@@ -173,7 +173,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->method('getChildren');
 		$sabreNode->expects($this->any())
 			->method('getPath')
-			->will($this->returnValue('/subdir'));
+			->willReturn('/subdir');
 
 		// node API nodes
 		$node = $this->createMock(Folder::class);
@@ -194,7 +194,7 @@ class SharesPluginTest extends \Test\TestCase {
 			$share = $this->getMockBuilder(IShare::class)->getMock();
 			$share->expects($this->any())
 				->method('getShareType')
-				->will($this->returnValue($type));
+				->willReturn($type);
 			return $share;
 		}, $shareTypes);
 
@@ -207,7 +207,7 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->equalTo(false),
 				$this->equalTo(-1)
 			)
-			->will($this->returnCallback(function($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes, $dummyShares){
+			->willReturnCallback(function($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes, $dummyShares){
 				if ($node->getId() === 111 && in_array($requestedShareType, $shareTypes)) {
 					foreach ($dummyShares as $dummyShare) {
 						if ($dummyShare->getShareType() === $requestedShareType) {
@@ -217,7 +217,7 @@ class SharesPluginTest extends \Test\TestCase {
 				}
 
 				return [];
-			}));
+			});
 
 		$this->shareManager->expects($this->any())
 			->method('getSharesInFolder')
@@ -226,9 +226,9 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->anything(),
 				$this->equalTo(true)
 			)
-			->will($this->returnCallback(function ($userId, $node, $flag) use ($shareTypes, $dummyShares) {
+			->willReturnCallback(function ($userId, $node, $flag) use ($shareTypes, $dummyShares) {
 				return [111 => $dummyShares];
-			}));
+			});
 
 		// simulate sabre recursive PROPFIND traversal
 		$propFindRoot = new \Sabre\DAV\PropFind(

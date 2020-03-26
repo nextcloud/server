@@ -71,11 +71,11 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$userSession
 			->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->groupManager->method('isInGroup')
-			->will($this->returnCallback(function ($userId, $groupId) {
+			->willReturnCallback(function ($userId, $groupId) {
 				if ($userId === self::USER_ID) {
 					switch ($groupId) {
 						case self::GROUP_ID:
@@ -84,15 +84,15 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 					}
 				}
 				return false;
-			}));
+			});
 		$this->groupManager->method('getUserGroupIds')
-			->will($this->returnCallback(function (IUser $user) {
+			->willReturnCallback(function (IUser $user) {
 				if ($user->getUID() === self::USER_ID) {
 					return [self::GROUP_ID, self::GROUP_ID2];
 				} else {
 					return [];
 				}
-			}));
+			});
 
 		$this->service = new UserGlobalStoragesService(
 			$this->backendService,

@@ -108,10 +108,10 @@ class RecoveryControllerTest extends TestCase {
 		$this->recoveryMock->expects($this->any())
 			->method('changeRecoveryKeyPassword')
 			->with($password, $oldPassword)
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['test', 'oldTestFail', false],
 				['test', 'oldtest', true]
-			]));
+			]);
 
 		$response = $this->controller->changeRecoveryPassword($password,
 			$oldPassword,
@@ -140,10 +140,10 @@ class RecoveryControllerTest extends TestCase {
 		$this->recoveryMock->expects($this->any())
 			->method('setRecoveryForUser')
 			->with($enableRecovery)
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['1', true],
 				['0', false]
-			]));
+			]);
 
 
 		$response = $this->controller->userSetRecovery($enableRecovery);

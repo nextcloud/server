@@ -81,7 +81,7 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 			->getMock();
 		$this->user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue($userId));
+			->willReturn($userId);
 
 		$this->plugin = new \OCA\DAV\DAV\CustomPropertiesBackend(
 			$this->tree,
@@ -110,11 +110,11 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 			->getMock();
 		$node->expects($this->any())
 			->method('getId')
-			->will($this->returnValue(123));
+			->willReturn(123);
 
 		$node->expects($this->any())
 			->method('getPath')
-			->will($this->returnValue('/dummypath'));
+			->willReturn('/dummypath');
 
 		return $node;
 	}

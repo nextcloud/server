@@ -57,18 +57,18 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 			->getMock();
 		$this->user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('testuser'));
+			->willReturn('testuser');
 		$userSession = $this->getMockBuilder(IUserSession::class)
 			->getMock();
 		$userSession->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 		$groupManager = $this->getMockBuilder(IGroupManager::class)
 			->getMock();
 		$groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('testuser')
-			->will($this->returnValue($isAdmin));
+			->willReturn($isAdmin);
 		return new \OCA\DAV\SystemTag\SystemTagsByIdCollection(
 			$this->tagManager,
 			$userSession,
@@ -99,12 +99,12 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
 			->with($tag)
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['123'])
-			->will($this->returnValue([$tag]));
+			->willReturn([$tag]);
 
 		$childNode = $this->getNode()->getChild('123');
 
@@ -146,7 +146,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['123'])
-			->will($this->returnValue([$tag]));
+			->willReturn([$tag]);
 
 		$this->getNode(false)->getChild('123');
 	}
@@ -158,7 +158,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('getAllTags')
 			->with(null)
-			->will($this->returnValue([$tag1, $tag2]));
+			->willReturn([$tag1, $tag2]);
 
 		$children = $this->getNode(true)->getChildren();
 
@@ -177,7 +177,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('getAllTags')
 			->with(true)
-			->will($this->returnValue([$tag1, $tag2]));
+			->willReturn([$tag1, $tag2]);
 
 		$children = $this->getNode(false)->getChildren();
 
@@ -193,7 +193,7 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('getAllTags')
 			->with(null)
-			->will($this->returnValue([]));
+			->willReturn([]);
 		$this->assertCount(0, $this->getNode()->getChildren());
 	}
 
@@ -212,12 +212,12 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 		$this->tagManager->expects($this->once())
 			->method('canUserSeeTag')
 			->with($tag)
-			->will($this->returnValue($userVisible));
+			->willReturn($userVisible);
 
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['123'])
-			->will($this->returnValue([$tag]));
+			->willReturn([$tag]);
 
 		$this->assertEquals($expectedResult, $this->getNode()->childExists('123'));
 	}

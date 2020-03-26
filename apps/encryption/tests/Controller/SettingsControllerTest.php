@@ -85,9 +85,9 @@ class SettingsControllerTest extends TestCase {
 
 		$this->l10nMock->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($message) {
+			->willReturnCallback(function($message) {
 				return $message;
-			}));
+			});
 
 		$this->userManagerMock = $this->getMockBuilder(IUserManager::class)
 			->disableOriginalConstructor()->getMock();

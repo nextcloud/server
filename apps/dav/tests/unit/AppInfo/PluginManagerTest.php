@@ -84,10 +84,10 @@ class PluginManagerTest extends TestCase {
 		];
 
 		$appManager->method('getAppInfo')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['adavapp', false, null, $appInfo1],
 				['adavapp2', false, null, $appInfo2],
-			]));
+			]);
 
 		$pluginManager = new PluginManager($server, $appManager);
 
@@ -96,7 +96,7 @@ class PluginManagerTest extends TestCase {
 		$calendarPlugin3 = $this->createMock(ICalendarProvider::class);
 
 		$server->method('query')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['\OCA\DAV\ADavApp\PluginOne', true, 'dummyplugin1'],
 				['\OCA\DAV\ADavApp\PluginTwo', true, 'dummyplugin2'],
 				['\OCA\DAV\ADavApp\CalendarPluginOne', true, $calendarPlugin1],
@@ -106,7 +106,7 @@ class PluginManagerTest extends TestCase {
 				['\OCA\DAV\ADavApp2\PluginOne', true, 'dummy2plugin1'],
 				['\OCA\DAV\ADavApp2\CalendarPluginOne', true, $calendarPlugin3],
 				['\OCA\DAV\ADavApp2\CollectionOne', true, 'dummy2collection1'],
-			]));
+			]);
 
 		$expectedPlugins = [
 			'dummyplugin1',

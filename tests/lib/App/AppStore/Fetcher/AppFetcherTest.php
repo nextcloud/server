@@ -1946,14 +1946,14 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	public function testAppstoreDisabled() {
 		$this->config
 			->method('getSystemValue')
-			->will($this->returnCallback(function($var, $default) {
+			->willReturnCallback(function($var, $default) {
 				if ($var === 'appstoreenabled') {
 					return false;
 				} else if ($var === 'version') {
 					return '11.0.0.2';
 				}
 				return $default;
-			}));
+			});
 		$this->appData
 			->expects($this->never())
 			->method('getFolder');
@@ -1965,14 +1965,14 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	public function testNoInternet() {
 		$this->config
 			->method('getSystemValue')
-			->will($this->returnCallback(function($var, $default) {
+			->willReturnCallback(function($var, $default) {
 				if ($var === 'has_internet_connection') {
 					return false;
 				} else if ($var === 'version') {
 					return '11.0.0.2';
 				}
 				return $default;
-			}));
+			});
 		$this->appData
 			->expects($this->never())
 			->method('getFolder');

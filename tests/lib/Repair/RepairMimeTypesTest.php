@@ -46,7 +46,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$config->expects($this->any())
 			->method('getSystemValue')
 			->with('version')
-			->will($this->returnValue('11.0.0.0'));
+			->willReturn('11.0.0.0');
 
 		$this->storage = new \OC\Files\Storage\Temporary([]);
 

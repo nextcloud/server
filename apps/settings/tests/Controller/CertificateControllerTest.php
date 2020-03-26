@@ -85,7 +85,7 @@ class CertificateControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getUploadedFile')
 			->with('rootcert_import')
-			->will($this->returnValue(null));
+			->willReturn(null);
 
 		$expected = new DataResponse(['message' => 'No file uploaded'], Http::STATUS_UNPROCESSABLE_ENTITY);
 		$this->assertEquals($expected, $this->certificateController->addPersonalRootCertificate());
@@ -101,53 +101,53 @@ class CertificateControllerTest extends \Test\TestCase {
 		$certificate
 			->expects($this->once())
 			->method('getName')
-			->will($this->returnValue('Name'));
+			->willReturn('Name');
 		$certificate
 			->expects($this->once())
 			->method('getCommonName')
-			->will($this->returnValue('CommonName'));
+			->willReturn('CommonName');
 		$certificate
 			->expects($this->once())
 			->method('getOrganization')
-			->will($this->returnValue('Organization'));
+			->willReturn('Organization');
 		$certificate
 			->expects($this->exactly(2))
 			->method('getIssueDate')
-			->will($this->returnValue(new \DateTime('@1429099555')));
+			->willReturn(new \DateTime('@1429099555'));
 		$certificate
 			->expects($this->exactly(2))
 			->method('getExpireDate')
-			->will($this->returnValue(new \DateTime('@1529099555')));
+			->willReturn(new \DateTime('@1529099555'));
 		$certificate
 			->expects($this->once())
 			->method('getIssuerName')
-			->will($this->returnValue('Issuer'));
+			->willReturn('Issuer');
 		$certificate
 			->expects($this->once())
 			->method('getIssuerOrganization')
-			->will($this->returnValue('IssuerOrganization'));
+			->willReturn('IssuerOrganization');
 
 		$this->request
 			->expects($this->once())
 			->method('getUploadedFile')
 			->with('rootcert_import')
-			->will($this->returnValue($uploadedFile));
+			->willReturn($uploadedFile);
 		$this->certificateManager
 			->expects($this->once())
 			->method('addCertificate')
 			->with(file_get_contents($uploadedFile['tmp_name'], 'goodCertificate.crt'))
-			->will($this->returnValue($certificate));
+			->willReturn($certificate);
 
 		$this->l10n
 			->expects($this->at(0))
 			->method('l')
 			->with('date', new \DateTime('@1429099555'))
-			->will($this->returnValue('Valid From as String'));
+			->willReturn('Valid From as String');
 		$this->l10n
 			->expects($this->at(1))
 			->method('l')
 			->with('date', new \DateTime('@1529099555'))
-			->will($this->returnValue('Valid Till as String'));
+			->willReturn('Valid Till as String');
 
 
 		$expected = new DataResponse([
@@ -174,7 +174,7 @@ class CertificateControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getUploadedFile')
 			->with('rootcert_import')
-			->will($this->returnValue($uploadedFile));
+			->willReturn($uploadedFile);
 		$this->certificateManager
 			->expects($this->once())
 			->method('addCertificate')

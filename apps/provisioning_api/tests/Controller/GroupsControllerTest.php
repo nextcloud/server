@@ -167,12 +167,12 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$this->subAdminManager
 			->method('isSubAdminOfGroup')
-			->will($this->returnCallback(function($_user, $_group) use ($user, $group) {
+			->willReturnCallback(function($_user, $_group) use ($user, $group) {
 				if ($_user === $user && $_group === $group) {
 					return true;
 				}
 				return false;
-			}));
+			});
 	}
 
 	private function useAccountManager() {

@@ -187,18 +187,18 @@ class UtilTest extends \Test\TestCase {
 				->expects($this->at(0))
 				->method('getAppValue')
 				->with('core', 'shareapi_exclude_groups', 'no')
-				->will($this->returnValue('yes'));
+				->willReturn('yes');
 		$config
 				->expects($this->at(1))
 				->method('getAppValue')
 				->with('core', 'shareapi_exclude_groups_list')
-				->will($this->returnValue(json_encode($excludedGroups)));
+				->willReturn(json_encode($excludedGroups));
 
 		$groupManager
 				->expects($this->at(0))
 				->method('getUserGroupIds')
 				->with($user)
-				->will($this->returnValue($membership));
+				->willReturn($membership);
 
 		$result = \OC_Util::isSharingDisabledForUser($config, $groupManager, $user);
 
@@ -233,9 +233,9 @@ class UtilTest extends \Test\TestCase {
 		$appManager = $this->createMock(IAppManager::class);
 		$appManager->expects($this->any())
 			->method('isEnabledForUser')
-			->will($this->returnCallback(function($appId) use ($enabledApps){
+			->willReturnCallback(function($appId) use ($enabledApps){
 				return in_array($appId, $enabledApps);
-		}));
+		});
 		Dummy_OC_Util::$appManager = $appManager;
 
 		// need to set a user id to make sure enabled apps are read from cache

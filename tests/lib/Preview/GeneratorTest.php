@@ -147,9 +147,9 @@ class GeneratorTest extends \Test\TestCase {
 			->willReturn($previewFolder);
 
 		$this->config->method('getSystemValue')
-			->will($this->returnCallback(function($key, $defult) {
+			->willReturnCallback(function($key, $defult) {
 				return $defult;
-			}));
+			});
 
 		$invalidProvider = $this->createMock(IProviderV2::class);
 		$invalidProvider->method('isAvailable')
@@ -169,7 +169,7 @@ class GeneratorTest extends \Test\TestCase {
 			]);
 
 		$this->helper->method('getProvider')
-			->will($this->returnCallback(function($provider) use ($invalidProvider, $validProvider, $unavailableProvider) {
+			->willReturnCallback(function($provider) use ($invalidProvider, $validProvider, $unavailableProvider) {
 				if ($provider === 'wrongProvider') {
 					$this->fail('Wrongprovider should not be constructed!');
 				} else if ($provider === 'brokenProvider') {
@@ -182,7 +182,7 @@ class GeneratorTest extends \Test\TestCase {
 					return $unavailableProvider;
 				}
 				$this->fail('Unexpected provider requested');
-			}));
+			});
 
 		$image = $this->createMock(IImage::class);
 		$image->method('width')->willReturn(2048);
@@ -191,13 +191,13 @@ class GeneratorTest extends \Test\TestCase {
 		$image->method('dataMimeType')->willReturn('image/png');
 
 		$this->helper->method('getThumbnail')
-			->will($this->returnCallback(function ($provider, $file, $x, $y) use ($invalidProvider, $validProvider, $image) {
+			->willReturnCallback(function ($provider, $file, $x, $y) use ($invalidProvider, $validProvider, $image) {
 				if ($provider === $validProvider) {
 					return $image;
 				} else {
 					return false;
 				}
-			}));
+			});
 
 		$image->method('data')
 			->willReturn('my data');
@@ -211,14 +211,14 @@ class GeneratorTest extends \Test\TestCase {
 		$previewFolder->method('getDirectoryListing')
 			->willReturn([]);
 		$previewFolder->method('newFile')
-			->will($this->returnCallback(function($filename) use ($maxPreview, $previewFile) {
+			->willReturnCallback(function($filename) use ($maxPreview, $previewFile) {
 				if ($filename === '2048-2048-max.png') {
 					return $maxPreview;
 				} else if ($filename === '256-256.png') {
 					return $previewFile;
 				}
 				$this->fail('Unexpected file');
-			}));
+			});
 
 		$maxPreview->expects($this->once())
 			->method('putContent')

@@ -59,17 +59,17 @@ class SignAppTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('path')
-			->will($this->returnValue(null));
+			->willReturn(null);
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue('PrivateKey'));
+			->willReturn('PrivateKey');
 		$inputInterface
 			->expects($this->at(2))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue('Certificate'));
+			->willReturn('Certificate');
 
 		$outputInterface
 			->expects($this->at(0))
@@ -87,17 +87,17 @@ class SignAppTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('path')
-			->will($this->returnValue('AppId'));
+			->willReturn('AppId');
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue(null));
+			->willReturn(null);
 		$inputInterface
 			->expects($this->at(2))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue('Certificate'));
+			->willReturn('Certificate');
 
 		$outputInterface
 				->expects($this->at(0))
@@ -115,17 +115,17 @@ class SignAppTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('path')
-			->will($this->returnValue('AppId'));
+			->willReturn('AppId');
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue('privateKey'));
+			->willReturn('privateKey');
 		$inputInterface
 			->expects($this->at(2))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue(null));
+			->willReturn(null);
 
 		$outputInterface
 			->expects($this->at(0))
@@ -143,23 +143,23 @@ class SignAppTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('path')
-			->will($this->returnValue('AppId'));
+			->willReturn('AppId');
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue('privateKey'));
+			->willReturn('privateKey');
 		$inputInterface
 			->expects($this->at(2))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue('certificate'));
+			->willReturn('certificate');
 
 		$this->fileAccessHelper
 			->expects($this->at(0))
 			->method('file_get_contents')
 			->with('privateKey')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$outputInterface
 			->expects($this->at(0))
@@ -177,28 +177,28 @@ class SignAppTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('path')
-			->will($this->returnValue('AppId'));
+			->willReturn('AppId');
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue('privateKey'));
+			->willReturn('privateKey');
 		$inputInterface
 			->expects($this->at(2))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue('certificate'));
+			->willReturn('certificate');
 
 		$this->fileAccessHelper
 			->expects($this->at(0))
 			->method('file_get_contents')
 			->with('privateKey')
-			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key'));
+			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/core.key');
 		$this->fileAccessHelper
 			->expects($this->at(1))
 			->method('file_get_contents')
 			->with('certificate')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$outputInterface
 			->expects($this->at(0))
@@ -216,17 +216,17 @@ class SignAppTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('path')
-			->will($this->returnValue('AppId'));
+			->willReturn('AppId');
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue('privateKey'));
+			->willReturn('privateKey');
 		$inputInterface
 			->expects($this->at(2))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue('certificate'));
+			->willReturn('certificate');
 
 		$this->fileAccessHelper
 			->expects($this->at(0))
@@ -260,17 +260,17 @@ class SignAppTest extends TestCase {
 			->expects($this->at(0))
 			->method('getOption')
 			->with('path')
-			->will($this->returnValue('AppId'));
+			->willReturn('AppId');
 		$inputInterface
 			->expects($this->at(1))
 			->method('getOption')
 			->with('privateKey')
-			->will($this->returnValue('privateKey'));
+			->willReturn('privateKey');
 		$inputInterface
 			->expects($this->at(2))
 			->method('getOption')
 			->with('certificate')
-			->will($this->returnValue('certificate'));
+			->willReturn('certificate');
 
 		$this->fileAccessHelper
 			->expects($this->at(0))

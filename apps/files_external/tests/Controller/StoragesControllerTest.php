@@ -108,10 +108,10 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$this->service->expects($this->once())
 			->method('createStorage')
-			->will($this->returnValue($storageConfig));
+			->willReturn($storageConfig);
 		$this->service->expects($this->once())
 			->method('addStorage')
-			->will($this->returnValue($storageConfig));
+			->willReturn($storageConfig);
 
 		$response = $this->controller->create(
 			'mount',
@@ -149,10 +149,10 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$this->service->expects($this->once())
 			->method('createStorage')
-			->will($this->returnValue($storageConfig));
+			->willReturn($storageConfig);
 		$this->service->expects($this->once())
 			->method('updateStorage')
-			->will($this->returnValue($storageConfig));
+			->willReturn($storageConfig);
 
 		$response = $this->controller->update(
 			1,
@@ -191,7 +191,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$this->service->expects($this->exactly(2))
 			->method('createStorage')
-			->will($this->returnValue($storageConfig));
+			->willReturn($storageConfig);
 		$this->service->expects($this->never())
 			->method('addStorage');
 		$this->service->expects($this->never())
@@ -282,7 +282,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$this->service->expects($this->once())
 			->method('createStorage')
-			->will($this->returnValue($storageConfig));
+			->willReturn($storageConfig);
 		$this->service->expects($this->once())
 			->method('updateStorage')
 			->will($this->throwException(new NotFoundException()));
@@ -332,7 +332,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$this->service->expects($this->once())
 			->method('getStorage')
 			->with(1)
-			->will($this->returnValue($storageConfig));
+			->willReturn($storageConfig);
 		$response = $this->controller->show(1);
 
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
@@ -360,7 +360,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$authMech = $this->getAuthMechMock();
 		$authMech->method('validateStorage')
-			->will($this->returnValue($authMechValidate));
+			->willReturn($authMechValidate);
 		$authMech->method('isVisibleFor')
 			->willReturn(true);
 
@@ -372,13 +372,13 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$this->service->expects($this->once())
 			->method('createStorage')
-			->will($this->returnValue($storageConfig));
+			->willReturn($storageConfig);
 
 		if ($expectSuccess) {
 			$this->service->expects($this->once())
 				->method('addStorage')
 				->with($storageConfig)
-				->will($this->returnValue($storageConfig));
+				->willReturn($storageConfig);
 		} else {
 			$this->service->expects($this->never())
 				->method('addStorage');

@@ -57,22 +57,22 @@ class GlobalAuthTest extends TestCase {
 		$storageConfig = $this->createMock(StorageConfig::class);
 		$storageConfig->expects($this->any())
 			->method('getType')
-			->will($this->returnValue($type));
+			->willReturn($type);
 		$storageConfig->expects($this->any())
 			->method('getBackendOptions')
-			->will($this->returnCallback(function () use (&$config) {
+			->willReturnCallback(function () use (&$config) {
 				return $config;
-			}));
+			});
 		$storageConfig->expects($this->any())
 			->method('getBackendOption')
-			->will($this->returnCallback(function ($key) use (&$config) {
+			->willReturnCallback(function ($key) use (&$config) {
 				return $config[$key];
-			}));
+			});
 		$storageConfig->expects($this->any())
 			->method('setBackendOption')
-			->will($this->returnCallback(function ($key, $value) use (&$config) {
+			->willReturnCallback(function ($key, $value) use (&$config) {
 				$config[$key] = $value;
-			}));
+			});
 
 		return $storageConfig;
 	}
@@ -80,7 +80,7 @@ class GlobalAuthTest extends TestCase {
 	public function testNoCredentials() {
 		$this->credentialsManager->expects($this->once())
 			->method('retrieve')
-			->will($this->returnValue(null));
+			->willReturn(null);
 
 		$storage = $this->getStorageConfig(StorageConfig::MOUNT_TYPE_ADMIN);
 
@@ -91,10 +91,10 @@ class GlobalAuthTest extends TestCase {
 	public function testSavedCredentials() {
 		$this->credentialsManager->expects($this->once())
 			->method('retrieve')
-			->will($this->returnValue([
+			->willReturn([
 				'user' => 'a',
 				'password' => 'b'
-			]));
+			]);
 
 		$storage = $this->getStorageConfig(StorageConfig::MOUNT_TYPE_ADMIN);
 

@@ -168,7 +168,7 @@ class RecoveryTest extends TestCase {
 
 		$this->cryptMock->expects($this->once())
 			->method('decryptPrivateKey')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->assertFalse($this->instance->changeRecoveryKeyPassword('password', 'passwordOld'));
 	}
@@ -283,11 +283,11 @@ class RecoveryTest extends TestCase {
 
 		$this->configMock->expects($this->any())
 			->method('setAppValue')
-			->will($this->returnCallback([$this, 'setValueTester']));
+			->willReturnCallback([$this, 'setValueTester']);
 
 		$this->configMock->expects($this->any())
 			->method('getAppValue')
-			->will($this->returnCallback([$this, 'getValueTester']));
+			->willReturnCallback([$this, 'getValueTester']);
 
 		$this->instance = new Recovery($this->userSessionMock,
 			$this->cryptMock,

@@ -72,7 +72,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('hasAnnotation')
 			->with('NoSubadminRequired')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->subadminMiddleware->beforeController($this->controller, 'foo');
 	}
 
@@ -82,7 +82,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('hasAnnotation')
 			->with('NoSubadminRequired')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->subadminMiddleware->beforeController($this->controller, 'foo');
 	}
 
@@ -91,7 +91,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('hasAnnotation')
 			->with('NoSubadminRequired')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->subadminMiddlewareAsSubAdmin->beforeController($this->controller, 'foo');
 	}
 
@@ -100,7 +100,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('hasAnnotation')
 			->with('NoSubadminRequired')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->subadminMiddlewareAsSubAdmin->beforeController($this->controller, 'foo');
 	}
 

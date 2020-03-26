@@ -73,26 +73,26 @@ class ActivityPublisherTest extends TestCase {
 		$activityEvent = $this->createMock(IEvent::class);
 		$this->activityManager->expects($this->once())
 			->method('generateEvent')
-			->will($this->returnValue($activityEvent));
+			->willReturn($activityEvent);
 		$activityEvent->expects($this->once())
 			->method('setApp')
 			->with('twofactor_backupcodes')
-			->will($this->returnSelf());
+			->willReturnSelf();
 		$activityEvent->expects($this->once())
 			->method('setType')
 			->with('security')
-			->will($this->returnSelf());
+			->willReturnSelf();
 		$activityEvent->expects($this->once())
 			->method('setAuthor')
 			->with('fritz')
-			->will($this->returnSelf());
+			->willReturnSelf();
 		$activityEvent->expects($this->once())
 			->method('setAffectedUser')
 			->with('fritz')
-			->will($this->returnSelf());
+			->willReturnSelf();
 		$this->activityManager->expects($this->once())
 			->method('publish')
-			->will($this->returnValue($activityEvent));
+			->willReturn($activityEvent);
 
 		$this->listener->handle($event);
 	}

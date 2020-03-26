@@ -21,12 +21,12 @@ class MountPointTest extends \Test\TestCase {
 		$storage = $this->createMock(Storage::class);
 		$storage->expects($this->once())
 			->method('getId')
-			->will($this->returnValue(123));
+			->willReturn(123);
 
 		$loader = $this->createMock(StorageFactory::class);
 		$loader->expects($this->once())
 			->method('wrap')
-			->will($this->returnValue($storage));
+			->willReturn($storage);
 
 		$mountPoint = new \OC\Files\Mount\MountPoint(
 			// just use this because a real class is needed

@@ -281,10 +281,10 @@ class LegacyHooksTest extends TestCase {
 			->expects($this->exactly(1))
 			->method('preShare')
 			->with($expected)
-			->will($this->returnCallback(function ($data) {
+			->willReturnCallback(function ($data) {
 				$data['run'] = false;
 				$data['error'] = 'I error';
-			}));
+			});
 
 		$event = new GenericEvent($share);
 		$this->eventDispatcher->dispatch('OCP\Share::preShare', $event);

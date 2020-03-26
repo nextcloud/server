@@ -479,9 +479,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$l10n
 			->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($text, $parameters = array()) {
+			->willReturnCallback(function($text, $parameters = array()) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 
 		$t = new Base($template, $requestToken, $l10n, $theme);
 		$buf = $t->fetchPage($vars);

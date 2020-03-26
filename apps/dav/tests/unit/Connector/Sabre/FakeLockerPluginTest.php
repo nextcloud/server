@@ -168,7 +168,7 @@ class FakeLockerPluginTest extends TestCase {
 
 		$request->expects($this->exactly(2))
 			->method('getPath')
-			->will($this->returnValue('MyPath'));
+			->willReturn('MyPath');
 
 		$this->assertSame(false, $this->fakeLockerPlugin->fakeLockProvider($request, $response));
 

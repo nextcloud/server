@@ -30,9 +30,9 @@ class UtilCheckServerTest extends \Test\TestCase {
 
 		$config->expects($this->any())
 			->method('getValue')
-			->will($this->returnCallback(function ($key, $default) use ($systemOptions) {
+			->willReturnCallback(function ($key, $default) use ($systemOptions) {
 				return isset($systemOptions[$key]) ? $systemOptions[$key] : $default;
-			}));
+			});
 		return $config;
 	}
 

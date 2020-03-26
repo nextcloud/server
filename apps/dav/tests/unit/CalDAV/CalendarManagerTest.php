@@ -60,28 +60,28 @@ class CalendarManagerTest extends \Test\TestCase {
 		$this->backend->expects($this->once())
 			->method('getCalendarsForUser')
 			->with('principals/users/user123')
-			->will($this->returnValue([
+			->willReturn([
 				['id' => 123, 'uri' => 'blablub1'],
 				['id' => 456, 'uri' => 'blablub2'],
-			]));
+			]);
 
 		/** @var IManager | \PHPUnit_Framework_MockObject_MockObject $calendarManager */
 		$calendarManager = $this->createMock(Manager::class);
 		$calendarManager->expects($this->at(0))
 			->method('registerCalendar')
-			->will($this->returnCallback(function() {
+			->willReturnCallback(function() {
 				$parameter = func_get_arg(0);
 				$this->assertInstanceOf(CalendarImpl::class, $parameter);
 				$this->assertEquals(123, $parameter->getKey());
-			}));
+			});
 
 		$calendarManager->expects($this->at(1))
 			->method('registerCalendar')
-			->will($this->returnCallback(function() {
+			->willReturnCallback(function() {
 				$parameter = func_get_arg(0);
 				$this->assertInstanceOf(CalendarImpl::class, $parameter);
 				$this->assertEquals(456, $parameter->getKey());
-			}));
+			});
 
 		$this->manager->setupCalendarProvider($calendarManager, 'user123');
 	}

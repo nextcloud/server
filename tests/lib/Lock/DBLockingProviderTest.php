@@ -54,9 +54,9 @@ class DBLockingProviderTest extends LockingProvider {
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->timeFactory->expects($this->any())
 			->method('getTime')
-			->will($this->returnCallback(function () {
+			->willReturnCallback(function () {
 				return $this->currentTime;
-			}));
+			});
 		parent::setUp();
 	}
 

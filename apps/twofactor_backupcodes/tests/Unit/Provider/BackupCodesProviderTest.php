@@ -74,7 +74,7 @@ class BackupCodesProviderTest extends TestCase {
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with('Backup code')
-			->will($this->returnValue('l10n backup code'));
+			->willReturn('l10n backup code');
 		$this->assertSame('l10n backup code', $this->provider->getDisplayName());
 	}
 
@@ -82,7 +82,7 @@ class BackupCodesProviderTest extends TestCase {
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with('Use backup code')
-			->will($this->returnValue('l10n use backup code'));
+			->willReturn('l10n use backup code');
 		$this->assertSame('l10n use backup code', $this->provider->getDescription());
 	}
 
@@ -100,7 +100,7 @@ class BackupCodesProviderTest extends TestCase {
 		$this->storage->expects($this->once())
 			->method('validateCode')
 			->with($user, $challenge)
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->assertFalse($this->provider->verifyChallenge($user, $challenge));
 	}
@@ -111,7 +111,7 @@ class BackupCodesProviderTest extends TestCase {
 		$this->storage->expects($this->once())
 			->method('hasBackupCodes')
 			->with($user)
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->assertTrue($this->provider->isTwoFactorAuthEnabledForUser($user));
 	}

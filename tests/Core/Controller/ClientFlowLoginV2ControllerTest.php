@@ -183,9 +183,9 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 	public function testGrantPageInvalidStateToken() {
 		$this->session->method('get')
-			->will($this->returnCallback(function($name) {
+			->willReturnCallback(function($name) {
 				return null;
-			}));
+			});
 
 		$result = $this->controller->grantPage('stateToken');
 		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
@@ -193,7 +193,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 	public function testGrantPageInvalidLoginToken() {
 		$this->session->method('get')
-			->will($this->returnCallback(function($name) {
+			->willReturnCallback(function($name) {
 				if ($name === 'client.flow.v2.state.token') {
 					return 'stateToken';
 				}
@@ -201,7 +201,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 					return 'loginToken';
 				}
 				return null;
-			}));
+			});
 
 		$this->loginFlowV2Service->method('getByLoginToken')
 			->with('loginToken')
@@ -213,7 +213,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 	public function testGrantPageValid() {
 		$this->session->method('get')
-			->will($this->returnCallback(function($name) {
+			->willReturnCallback(function($name) {
 				if ($name === 'client.flow.v2.state.token') {
 					return 'stateToken';
 				}
@@ -221,7 +221,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 					return 'loginToken';
 				}
 				return null;
-			}));
+			});
 
 		$flow = new LoginFlowV2();
 		$this->loginFlowV2Service->method('getByLoginToken')
@@ -235,9 +235,9 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 	public function testGenerateAppPasswordInvalidStateToken() {
 		$this->session->method('get')
-			->will($this->returnCallback(function($name) {
+			->willReturnCallback(function($name) {
 				return null;
-			}));
+			});
 
 		$result = $this->controller->generateAppPassword('stateToken');
 		$this->assertSame(Http::STATUS_FORBIDDEN, $result->getStatus());
@@ -245,7 +245,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 	public function testGenerateAppPassworInvalidLoginToken() {
 		$this->session->method('get')
-			->will($this->returnCallback(function($name) {
+			->willReturnCallback(function($name) {
 				if ($name === 'client.flow.v2.state.token') {
 					return 'stateToken';
 				}
@@ -253,7 +253,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 					return 'loginToken';
 				}
 				return null;
-			}));
+			});
 
 		$this->loginFlowV2Service->method('getByLoginToken')
 			->with('loginToken')
@@ -265,7 +265,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 
 	public function testGenerateAppPassworValid() {
 		$this->session->method('get')
-			->will($this->returnCallback(function($name) {
+			->willReturnCallback(function($name) {
 				if ($name === 'client.flow.v2.state.token') {
 					return 'stateToken';
 				}
@@ -273,7 +273,7 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 					return 'loginToken';
 				}
 				return null;
-			}));
+			});
 
 		$flow = new LoginFlowV2();
 		$this->loginFlowV2Service->method('getByLoginToken')
@@ -283,14 +283,14 @@ class ClientFlowLoginV2ControllerTest extends TestCase {
 		$clearedState = false;
 		$clearedLogin = false;
 		$this->session->method('remove')
-			->will($this->returnCallback(function ($name) use (&$clearedLogin, &$clearedState) {
+			->willReturnCallback(function ($name) use (&$clearedLogin, &$clearedState) {
 				if ($name === 'client.flow.v2.state.token') {
 					$clearedState = true;
 				}
 				if ($name === 'client.flow.v2.login.token') {
 					$clearedLogin = true;
 				}
-			}));
+			});
 
 		$this->session->method('getId')
 			->willReturn('sessionId');

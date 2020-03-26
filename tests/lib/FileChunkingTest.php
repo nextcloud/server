@@ -61,10 +61,10 @@ class FileChunkingTest extends \Test\TestCase {
 
 		$cache->expects($this->atLeastOnce())
 			->method('hasKey')
-			->will($this->returnCallback(function ($key) use ($present) {
+			->willReturnCallback(function ($key) use ($present) {
 				$data = explode('-', $key);
 				return in_array($data[3], $present);
-			}));
+			});
 
 		$fileChunking->method('getCache')->willReturn($cache);
 

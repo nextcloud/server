@@ -140,7 +140,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->session->expects($this->never())
 			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->reflector->reflect($this, __FUNCTION__);
 
 		$middleware->beforeController($this->controller, __FUNCTION__);
@@ -163,7 +163,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->session->expects($this->once())
 			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 
@@ -215,7 +215,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->session->expects($this->once())
 			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 

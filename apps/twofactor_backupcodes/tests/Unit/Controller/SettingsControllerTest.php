@@ -65,15 +65,15 @@ class SettingsControllerTest extends TestCase {
 		$codes = ['a', 'b'];
 		$this->userSession->expects($this->once())
 			->method('getUser')
-			->will($this->returnValue($user));
+			->willReturn($user);
 		$this->storage->expects($this->once())
 			->method('createCodes')
 			->with($user)
-			->will($this->returnValue($codes));
+			->willReturn($codes);
 		$this->storage->expects($this->once())
 			->method('getBackupCodesState')
 			->with($user)
-			->will($this->returnValue('state'));
+			->willReturn('state');
 
 		$expected = [
 			'codes' => $codes,

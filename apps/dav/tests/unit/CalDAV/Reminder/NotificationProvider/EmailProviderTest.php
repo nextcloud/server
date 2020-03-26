@@ -118,15 +118,15 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 
 		$enL10N = $this->createMock(IL10N::class);
 		$enL10N->method('t')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 		$enL10N->method('l')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$deL10N = $this->createMock(IL10N::class);
 		$deL10N->method('t')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 		$deL10N->method('l')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$this->l10nFactory->expects($this->at(0))
 			->method('findLanguage')
@@ -240,15 +240,15 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 
 		$enL10N = $this->createMock(IL10N::class);
 		$enL10N->method('t')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 		$enL10N->method('l')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$deL10N = $this->createMock(IL10N::class);
 		$deL10N->method('t')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 		$deL10N->method('l')
-			->will($this->returnArgument(0));
+			->willReturnArgument(0);
 
 		$this->l10nFactory->expects($this->at(0))
 			->method('findLanguage')

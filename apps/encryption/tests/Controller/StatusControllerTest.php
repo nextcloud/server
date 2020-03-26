@@ -63,9 +63,9 @@ class StatusControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->l10nMock->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($message) {
+			->willReturnCallback(function($message) {
 				return $message;
-			}));
+			});
 		$this->encryptionManagerMock = $this->createMock(IManager::class);
 
 		$this->controller = new StatusController('encryptionTest',

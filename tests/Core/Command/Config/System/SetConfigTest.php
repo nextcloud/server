@@ -83,10 +83,10 @@ class SetConfigTest extends TestCase {
 			->with('name')
 			->willReturn($configNames);
 		$this->consoleInput->method('getOption')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['value', $newValue],
 				['type', 'string'],
-			]));
+			]);
 
 		$this->invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
@@ -119,11 +119,11 @@ class SetConfigTest extends TestCase {
 			->with('name')
 			->willReturn($configNames);
 		$this->consoleInput->method('getOption')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['value', 'foobar'],
 				['type', 'string'],
 				['update-only', true],
-			]));
+			]);
 
 		$this->invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}

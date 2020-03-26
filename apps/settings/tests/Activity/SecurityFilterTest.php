@@ -62,11 +62,11 @@ class SecurityFilterTest extends TestCase {
 		$this->urlGenerator->expects($this->once())
 			->method('imagePath')
 			->with('core', 'actions/password.svg')
-			->will($this->returnValue('path/to/icon.svg'));
+			->willReturn('path/to/icon.svg');
 		$this->urlGenerator->expects($this->once())
 			->method('getAbsoluteURL')
 			->with('path/to/icon.svg')
-			->will($this->returnValue('abs/path/to/icon.svg'));
+			->willReturn('abs/path/to/icon.svg');
 		$this->assertEquals('abs/path/to/icon.svg', $this->filter->getIcon());
 	}
 
@@ -78,7 +78,7 @@ class SecurityFilterTest extends TestCase {
 		$this->l10n->expects($this->once())
 			->method('t')
 			->with('Security')
-			->will($this->returnValue('translated'));
+			->willReturn('translated');
 		$this->assertEquals('translated', $this->filter->getName());
 	}
 

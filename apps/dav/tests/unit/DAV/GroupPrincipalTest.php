@@ -74,7 +74,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('search')
 			->with('')
-			->will($this->returnValue([$group1, $group2]));
+			->willReturn([$group1, $group2]);
 
 		$expectedResponse = [
 			0 => [
@@ -97,7 +97,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('search')
 			->with('')
-			->will($this->returnValue([]));
+			->willReturn([]);
 
 		$response = $this->connector->getPrincipalsByPrefix('principals/groups');
 		$this->assertSame([], $response);
@@ -109,7 +109,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('get')
 			->with('foo')
-			->will($this->returnValue($group1));
+			->willReturn($group1);
 
 		$expectedResponse = [
 			'uri' => 'principals/groups/foo',
@@ -126,7 +126,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('get')
 			->with('foo')
-			->will($this->returnValue($fooUser));
+			->willReturn($fooUser);
 
 		$expectedResponse = [
 			'uri' => 'principals/groups/foo',
@@ -142,7 +142,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('get')
 			->with('foo')
-			->will($this->returnValue(null));
+			->willReturn(null);
 
 		$response = $this->connector->getPrincipalByPath('principals/groups/foo');
 		$this->assertSame(null, $response);
@@ -154,7 +154,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('get')
 			->with('foo/bar')
-			->will($this->returnValue($group1));
+			->willReturn($group1);
 
 		$expectedResponse = [
 			'uri' => 'principals/groups/foo%2Fbar',
@@ -202,23 +202,23 @@ class GroupPrincipalTest extends \Test\TestCase {
 	public function testSearchPrincipals($sharingEnabled, $groupsOnly, $test, $result) {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
-			->will($this->returnValue($sharingEnabled));
+			->willReturn($sharingEnabled);
 
 		if ($sharingEnabled) {
 			$this->shareManager->expects($this->once())
 				->method('shareWithGroupMembersOnly')
-				->will($this->returnValue($groupsOnly));
+				->willReturn($groupsOnly);
 
 			if ($groupsOnly) {
 				$user = $this->createMock(IUser::class);
 				$this->userSession->expects($this->once())
 					->method('getUser')
-					->will($this->returnValue($user));
+					->willReturn($user);
 
 				$this->groupManager->expects($this->once())
 					->method('getUserGroupIds')
 					->with($user)
-					->will($this->returnValue(['group1', 'group2', 'group5']));
+					->willReturn(['group1', 'group2', 'group5']);
 			}
 		} else {
 			$this->shareManager->expects($this->never())
@@ -228,21 +228,21 @@ class GroupPrincipalTest extends \Test\TestCase {
 		}
 
 		$group1 = $this->createMock(IGroup::class);
-		$group1->method('getGID')->will($this->returnValue('group1'));
+		$group1->method('getGID')->willReturn('group1');
 		$group2 = $this->createMock(IGroup::class);
-		$group2->method('getGID')->will($this->returnValue('group2'));
+		$group2->method('getGID')->willReturn('group2');
 		$group3 = $this->createMock(IGroup::class);
-		$group3->method('getGID')->will($this->returnValue('group3'));
+		$group3->method('getGID')->willReturn('group3');
 		$group4 = $this->createMock(IGroup::class);
-		$group4->method('getGID')->will($this->returnValue('group4'));
+		$group4->method('getGID')->willReturn('group4');
 		$group5 = $this->createMock(IGroup::class);
-		$group5->method('getGID')->will($this->returnValue('group5'));
+		$group5->method('getGID')->willReturn('group5');
 
 		if ($sharingEnabled) {
 			$this->groupManager->expects($this->once())
 				->method('search')
 				->with('Foo')
-				->will($this->returnValue([$group1, $group2, $group3, $group4, $group5]));
+				->willReturn([$group1, $group2, $group3, $group4, $group5]);
 		} else {
 			$this->groupManager->expects($this->never())
 				->method('search');
@@ -269,23 +269,23 @@ class GroupPrincipalTest extends \Test\TestCase {
 	public function testFindByUri($sharingEnabled, $groupsOnly, $findUri, $result) {
 		$this->shareManager->expects($this->once())
 			->method('shareAPIEnabled')
-			->will($this->returnValue($sharingEnabled));
+			->willReturn($sharingEnabled);
 
 		if ($sharingEnabled) {
 			$this->shareManager->expects($this->once())
 				->method('shareWithGroupMembersOnly')
-				->will($this->returnValue($groupsOnly));
+				->willReturn($groupsOnly);
 
 			if ($groupsOnly) {
 				$user = $this->createMock(IUser::class);
 				$this->userSession->expects($this->once())
 					->method('getUser')
-					->will($this->returnValue($user));
+					->willReturn($user);
 
 				$this->groupManager->expects($this->at(0))
 					->method('getUserGroupIds')
 					->with($user)
-					->will($this->returnValue(['group1', 'group2', 'group5']));
+					->willReturn(['group1', 'group2', 'group5']);
 			}
 		} else {
 			$this->shareManager->expects($this->never())

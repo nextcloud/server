@@ -469,7 +469,7 @@ class AppTest extends \Test\TestCase {
 
 		$this->setupAppConfigMock()->expects($this->once())
 			->method('getValues')
-			->will($this->returnValue(
+			->willReturn(
 				array(
 					'app3' => 'yes',
 					'app2' => 'no',
@@ -478,7 +478,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2' => '["group2"]',
 					'appforgroup12' => '["group2","group1"]',
 				)
-			)
+			
 			);
 
 		$apps = \OC_App::getEnabledApps(false, $forceAll);
@@ -508,12 +508,12 @@ class AppTest extends \Test\TestCase {
 
 		$this->setupAppConfigMock()->expects($this->once())
 			->method('getValues')
-			->will($this->returnValue(
+			->willReturn(
 				array(
 					'app3' => 'yes',
 					'app2' => 'no',
 				)
-			)
+			
 			);
 
 		$apps = \OC_App::getEnabledApps();

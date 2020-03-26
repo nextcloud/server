@@ -89,11 +89,11 @@ class DirectoryTest extends \Test\TestCase {
 	private function getDir($path = '/') {
 		$this->view->expects($this->once())
 			->method('getRelativePath')
-			->will($this->returnValue($path));
+			->willReturn($path);
 
 		$this->info->expects($this->once())
 			->method('getPath')
-			->will($this->returnValue($path));
+			->willReturn($path);
 
 		return new Directory($this->view, $this->info);
 	}
@@ -104,7 +104,7 @@ class DirectoryTest extends \Test\TestCase {
 
 		$this->info->expects($this->any())
 			->method('isDeletable')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->view->expects($this->never())
 			->method('rmdir');
 		$dir = $this->getDir();
@@ -118,7 +118,7 @@ class DirectoryTest extends \Test\TestCase {
 		// deletion allowed
 		$this->info->expects($this->once())
 			->method('isDeletable')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		// but fails
 		$this->view->expects($this->once())
@@ -135,13 +135,13 @@ class DirectoryTest extends \Test\TestCase {
 		// deletion allowed
 		$this->info->expects($this->once())
 			->method('isDeletable')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		// but fails
 		$this->view->expects($this->once())
 			->method('rmdir')
 			->with('sub')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$dir = $this->getDir('sub');
 		$dir->delete();
@@ -153,7 +153,7 @@ class DirectoryTest extends \Test\TestCase {
 
 		$this->info->expects($this->once())
 			->method('isDeletable')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$dir = $this->getDir('sub');
 		$dir->delete();
@@ -166,13 +166,13 @@ class DirectoryTest extends \Test\TestCase {
 		// deletion allowed
 		$this->info->expects($this->once())
 			->method('isDeletable')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		// but fails
 		$this->view->expects($this->once())
 			->method('rmdir')
 			->with('sub')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$dir = $this->getDir('sub');
 		$dir->delete();
@@ -187,25 +187,25 @@ class DirectoryTest extends \Test\TestCase {
 			->getMock();
 		$info1->expects($this->any())
 			->method('getName')
-			->will($this->returnValue('first'));
+			->willReturn('first');
 		$info1->expects($this->any())
 			->method('getEtag')
-			->will($this->returnValue('abc'));
+			->willReturn('abc');
 		$info2->expects($this->any())
 			->method('getName')
-			->will($this->returnValue('second'));
+			->willReturn('second');
 		$info2->expects($this->any())
 			->method('getEtag')
-			->will($this->returnValue('def'));
+			->willReturn('def');
 
 		$this->view->expects($this->once())
 			->method('getDirectoryContent')
 			->with('')
-			->will($this->returnValue(array($info1, $info2)));
+			->willReturn(array($info1, $info2));
 
 		$this->view->expects($this->any())
 			->method('getRelativePath')
-			->will($this->returnValue(''));
+			->willReturn('');
 
 		$dir = new Directory($this->view, $this->info);
 		$nodes = $dir->getChildren();
@@ -224,7 +224,7 @@ class DirectoryTest extends \Test\TestCase {
 		$info = $this->createMock(FileInfo::class);
 		$info->expects($this->any())
 			->method('isReadable')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$dir = new Directory($this->view, $info);
 		$dir->getChildren();
@@ -236,7 +236,7 @@ class DirectoryTest extends \Test\TestCase {
 
 		$this->info->expects($this->any())
 			->method('isReadable')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$dir = new Directory($this->view, $this->info);
 		$dir->getChild('test');
@@ -275,25 +275,25 @@ class DirectoryTest extends \Test\TestCase {
 
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				'\OCA\Files_Sharing\SharedStorage' => false,
 				'\OC\Files\Storage\Wrapper\Quota' => false,
-			]));
+			]);
 
 		$storage->expects($this->never())
 			->method('getQuota');
 
 		$storage->expects($this->once())
 			->method('free_space')
-			->will($this->returnValue(800));
+			->willReturn(800);
 
 		$this->info->expects($this->once())
 			->method('getSize')
-			->will($this->returnValue(200));
+			->willReturn(200);
 
 		$this->info->expects($this->once())
 			->method('getStorage')
-			->will($this->returnValue($storage));
+			->willReturn($storage);
 
 		$dir = new Directory($this->view, $this->info);
 		$this->assertEquals([200, -3], $dir->getQuotaInfo()); //200 used, unlimited
@@ -306,26 +306,26 @@ class DirectoryTest extends \Test\TestCase {
 
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['\OCA\Files_Sharing\SharedStorage', false],
 				['\OC\Files\Storage\Wrapper\Quota', true],
-			]));
+			]);
 
 		$storage->expects($this->once())
 			->method('getQuota')
-			->will($this->returnValue(1000));
+			->willReturn(1000);
 
 		$storage->expects($this->once())
 			->method('free_space')
-			->will($this->returnValue(800));
+			->willReturn(800);
 
 		$this->info->expects($this->once())
 			->method('getSize')
-			->will($this->returnValue(200));
+			->willReturn(200);
 
 		$this->info->expects($this->once())
 			->method('getStorage')
-			->will($this->returnValue($storage));
+			->willReturn($storage);
 
 		$dir = new Directory($this->view, $this->info);
 		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free

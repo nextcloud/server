@@ -85,7 +85,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->tagManager->expects($this->any())
 			->method('load')
 			->with('files')
-			->will($this->returnValue($this->tagger));
+			->willReturn($this->tagger);
 		$this->plugin = new \OCA\DAV\Connector\Sabre\TagsPlugin($this->tree, $this->tagManager);
 		$this->plugin->initialize($this->server);
 	}
@@ -99,7 +99,7 @@ class TagsPluginTest extends \Test\TestCase {
 			->getMock();
 		$node->expects($this->any())
 			->method('getId')
-			->will($this->returnValue(123));
+			->willReturn(123);
 
 		$expectedCallCount = 0;
 		if (count($requestedProperties) > 0) {
@@ -109,7 +109,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->tagger->expects($this->exactly($expectedCallCount))
 			->method('getTagsForObjects')
 			->with($this->equalTo(array(123)))
-			->will($this->returnValue(array(123 => $tags)));
+			->willReturn(array(123 => $tags));
 
 		$propFind = new \Sabre\DAV\PropFind(
 			'/dummyPath',
@@ -138,13 +138,13 @@ class TagsPluginTest extends \Test\TestCase {
 			->getMock();
 		$node1->expects($this->any())
 			->method('getId')
-			->will($this->returnValue(111));
+			->willReturn(111);
 		$node2 = $this->getMockBuilder(File::class)
 			->disableOriginalConstructor()
 			->getMock();
 		$node2->expects($this->any())
 			->method('getId')
-			->will($this->returnValue(222));
+			->willReturn(222);
 
 		$expectedCallCount = 0;
 		if (count($requestedProperties) > 0) {
@@ -159,20 +159,20 @@ class TagsPluginTest extends \Test\TestCase {
 			->getMock();
 		$node->expects($this->any())
 			->method('getId')
-			->will($this->returnValue(123));
+			->willReturn(123);
 		$node->expects($this->exactly($expectedCallCount))
 			->method('getChildren')
-			->will($this->returnValue(array($node1, $node2)));
+			->willReturn(array($node1, $node2));
 
 		$this->tagger->expects($this->exactly($expectedCallCount))
 			->method('getTagsForObjects')
 			->with($this->equalTo(array(123, 111, 222)))
-			->will($this->returnValue(
+			->willReturn(
 				array(
 					111 => $tags,
 					123 => $tags
 				)
-			));
+			);
 
 		// simulate sabre recursive PROPFIND traversal
 		$propFindRoot = new \Sabre\DAV\PropFind(
@@ -274,17 +274,17 @@ class TagsPluginTest extends \Test\TestCase {
 			->getMock();
 		$node->expects($this->any())
 			->method('getId')
-			->will($this->returnValue(123));
+			->willReturn(123);
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/dummypath')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$this->tagger->expects($this->at(0))
 			->method('getTagsForObjects')
 			->with($this->equalTo(array(123)))
-			->will($this->returnValue(array(123 => array('tagkeep', 'tagremove', self::TAG_FAVORITE))));
+			->willReturn(array(123 => array('tagkeep', 'tagremove', self::TAG_FAVORITE)));
 
 		// then tag as tag1 and tag2
 		$this->tagger->expects($this->at(1))
@@ -325,17 +325,17 @@ class TagsPluginTest extends \Test\TestCase {
 			->getMock();
 		$node->expects($this->any())
 			->method('getId')
-			->will($this->returnValue(123));
+			->willReturn(123);
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/dummypath')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		$this->tagger->expects($this->at(0))
 			->method('getTagsForObjects')
 			->with($this->equalTo(array(123)))
-			->will($this->returnValue(array()));
+			->willReturn(array());
 
 		// then tag as tag1 and tag2
 		$this->tagger->expects($this->at(1))
@@ -373,12 +373,12 @@ class TagsPluginTest extends \Test\TestCase {
 			->getMock();
 		$node->expects($this->any())
 			->method('getId')
-			->will($this->returnValue(123));
+			->willReturn(123);
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/dummypath')
-			->will($this->returnValue($node));
+			->willReturn($node);
 
 		// set favorite tag
 		$this->tagger->expects($this->once())

@@ -80,7 +80,7 @@ class MessageTest extends TestCase {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('getFrom')
-			->will($this->returnValue($swiftresult));
+			->willReturn($swiftresult);
 
 		$this->assertSame($return, $this->message->getFrom());
 	}
@@ -117,7 +117,7 @@ class MessageTest extends TestCase {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('getTo')
-			->will($this->returnValue($swiftresult));
+			->willReturn($swiftresult);
 
 		$this->assertSame($return, $this->message->getTo());
 	}
@@ -137,7 +137,7 @@ class MessageTest extends TestCase {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('getCc')
-			->will($this->returnValue($swiftresult));
+			->willReturn($swiftresult);
 
 		$this->assertSame($return, $this->message->getCc());
 	}
@@ -157,7 +157,7 @@ class MessageTest extends TestCase {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('getBcc')
-			->will($this->returnValue($swiftresult));
+			->willReturn($swiftresult);
 
 		$this->assertSame($return, $this->message->getBcc());
 	}
@@ -175,7 +175,7 @@ class MessageTest extends TestCase {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('getSubject')
-			->will($this->returnValue('Fancy Subject'));
+			->willReturn('Fancy Subject');
 
 		$this->assertSame('Fancy Subject', $this->message->getSubject());
 	}
@@ -193,7 +193,7 @@ class MessageTest extends TestCase {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('getBody')
-			->will($this->returnValue('Fancy Body'));
+			->willReturn('Fancy Body');
 
 		$this->assertSame('Fancy Body', $this->message->getPlainBody());
 	}

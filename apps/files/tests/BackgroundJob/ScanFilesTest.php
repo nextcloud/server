@@ -63,22 +63,22 @@ class ScanFilesTest extends TestCase {
 				->expects($this->at(0))
 				->method('getSystemValueBool')
 				->with('files_no_background_scan', false)
-				->will($this->returnValue(false));
+				->willReturn(false);
 		$this->config
 				->expects($this->at(1))
 				->method('getAppValue')
 				->with('files', 'cronjob_scan_files', 0)
-				->will($this->returnValue(50));
+				->willReturn(50);
 		$this->userManager
 				->expects($this->at(0))
 				->method('search')
 				->with('', 500, 50)
-				->will($this->returnValue([]));
+				->willReturn([]);
 		$this->userManager
 				->expects($this->at(1))
 				->method('search')
 				->with('', 500)
-				->will($this->returnValue([]));
+				->willReturn([]);
 		$this->config
 				->expects($this->at(2))
 				->method('setAppValue')
@@ -93,19 +93,19 @@ class ScanFilesTest extends TestCase {
 				->expects($this->at(0))
 				->method('getSystemValueBool')
 				->with('files_no_background_scan', false)
-				->will($this->returnValue(false));
+				->willReturn(false);
 		$this->config
 				->expects($this->at(1))
 				->method('getAppValue')
 				->with('files', 'cronjob_scan_files', 0)
-				->will($this->returnValue(50));
+				->willReturn(50);
 		$this->userManager
 				->expects($this->at(0))
 				->method('search')
 				->with('', 500, 50)
-				->will($this->returnValue([
+				->willReturn([
 						$fakeUser
-				]));
+				]);
 		$this->config
 				->expects($this->at(2))
 				->method('setAppValue')
@@ -123,22 +123,22 @@ class ScanFilesTest extends TestCase {
 				->expects($this->at(0))
 				->method('getSystemValueBool')
 				->with('files_no_background_scan', false)
-				->will($this->returnValue(false));
+				->willReturn(false);
 		$this->config
 				->expects($this->at(1))
 				->method('getAppValue')
 				->with('files', 'cronjob_scan_files', 0)
-				->will($this->returnValue(50));
+				->willReturn(50);
 		$this->userManager
 				->expects($this->at(0))
 				->method('search')
 				->with('', 500, 50)
-				->will($this->returnValue([]));
+				->willReturn([]);
 		$this->userManager
 				->expects($this->at(1))
 				->method('search')
 				->with('', 500)
-				->will($this->returnValue([]));
+				->willReturn([]);
 		$this->config
 				->expects($this->at(2))
 				->method('setAppValue')

@@ -107,9 +107,9 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->encryptionManager = $this->createMock(IManager::class);
 
 		$this->l->method('t')
-			->will($this->returnCallback(function ($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
-			}));
+			});
 
 		$this->encryptionModule = $this->createMock(IEncryptionModule::class);
 		$this->encryptionManager->expects($this->any())->method('getEncryptionModules')

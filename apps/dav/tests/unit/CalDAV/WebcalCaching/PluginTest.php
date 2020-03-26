@@ -33,12 +33,12 @@ class PluginTest extends \Test\TestCase {
 		$request->expects($this->at(0))
 			->method('isUserAgent')
 			->with([])
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$request->expects($this->at(1))
 			->method('getHeader')
 			->with('X-NC-CalDAV-Webcal-Caching')
-			->will($this->returnValue(''));
+			->willReturn('');
 
 		$plugin = new Plugin($request);
 
@@ -50,12 +50,12 @@ class PluginTest extends \Test\TestCase {
 		$request->expects($this->at(0))
 			->method('isUserAgent')
 			->with([])
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$request->expects($this->at(1))
 			->method('getHeader')
 			->with('X-NC-CalDAV-Webcal-Caching')
-			->will($this->returnValue('On'));
+			->willReturn('On');
 
 		$plugin = new Plugin($request);
 

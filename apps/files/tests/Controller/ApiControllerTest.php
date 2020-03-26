@@ -77,11 +77,11 @@ class ApiControllerTest extends TestCase {
 		$this->user = $this->createMock(IUser::class);
 		$this->user->expects($this->any())
 			->method('getUID')
-			->will($this->returnValue('user1'));
+			->willReturn('user1');
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 		$this->tagService = $this->getMockBuilder(TagService::class)
 			->disableOriginalConstructor()
 			->getMock();

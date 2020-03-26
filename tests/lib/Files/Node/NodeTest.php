@@ -92,7 +92,7 @@ abstract class NodeTest extends \Test\TestCase {
 			->getMock();
 		$storage->expects($this->any())
 			->method('getId')
-			->will($this->returnValue('home::someuser'));
+			->willReturn('home::someuser');
 		return $storage;
 	}
 
@@ -103,20 +103,20 @@ abstract class NodeTest extends \Test\TestCase {
 	public function testDelete() {
 		$this->root->expects($this->exactly(2))
 			->method('emit')
-			->will($this->returnValue(true));
+			->willReturn(true);
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL])));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL]));
 
 		$this->view->expects($this->once())
 			->method($this->getViewDeleteMethod())
 			->with('/bar/foo')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$node->delete();
@@ -163,17 +163,17 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1, 'mimetype' => 'text/plain'])));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1, 'mimetype' => 'text/plain']));
 
 		$this->view->expects($this->once())
 			->method($this->getViewDeleteMethod())
 			->with('/bar/foo')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->view->expects($this->any())
 			->method('resolvePath')
 			->with('/bar/foo')
-			->will($this->returnValue([null, 'foo']));
+			->willReturn([null, 'foo']);
 
 		$node = $this->createTestNode($root, $this->view, '/bar/foo');
 		$node->delete();
@@ -186,12 +186,12 @@ abstract class NodeTest extends \Test\TestCase {
 
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ])));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ]));
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$node->delete();
@@ -201,7 +201,7 @@ abstract class NodeTest extends \Test\TestCase {
 	public function testStat() {
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$stat = array(
 			'fileid' => 1,
@@ -214,7 +214,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('stat')
 			->with('/bar/foo')
-			->will($this->returnValue($stat));
+			->willReturn($stat);
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$this->assertEquals($stat, $node->stat());
@@ -223,7 +223,7 @@ abstract class NodeTest extends \Test\TestCase {
 	public function testGetId() {
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$stat = $this->getFileInfo(array(
 			'fileid' => 1,
@@ -235,7 +235,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($stat));
+			->willReturn($stat);
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$this->assertEquals(1, $node->getId());
@@ -244,7 +244,7 @@ abstract class NodeTest extends \Test\TestCase {
 	public function testGetSize() {
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 
 		$stat = $this->getFileInfo(array(
@@ -257,7 +257,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($stat));
+			->willReturn($stat);
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$this->assertEquals(100, $node->getSize());
@@ -266,7 +266,7 @@ abstract class NodeTest extends \Test\TestCase {
 	public function testGetEtag() {
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$stat = $this->getFileInfo(array(
 			'fileid' => 1,
@@ -278,7 +278,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($stat));
+			->willReturn($stat);
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$this->assertEquals('qwerty', $node->getEtag());
@@ -287,7 +287,7 @@ abstract class NodeTest extends \Test\TestCase {
 	public function testGetMTime() {
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$stat = $this->getFileInfo(array(
 			'fileid' => 1,
@@ -299,7 +299,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($stat));
+			->willReturn($stat);
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$this->assertEquals(50, $node->getMTime());
@@ -308,7 +308,7 @@ abstract class NodeTest extends \Test\TestCase {
 	public function testGetStorage() {
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 		/**
 		 * @var \OC\Files\Storage\Storage | \PHPUnit_Framework_MockObject_MockObject $storage
 		 */
@@ -319,7 +319,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('resolvePath')
 			->with('/bar/foo')
-			->will($this->returnValue(array($storage, 'foo')));
+			->willReturn(array($storage, 'foo'));
 
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
@@ -329,7 +329,7 @@ abstract class NodeTest extends \Test\TestCase {
 	public function testGetPath() {
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$this->assertEquals('/bar/foo', $node->getPath());
@@ -338,7 +338,7 @@ abstract class NodeTest extends \Test\TestCase {
 	public function testGetInternalPath() {
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 		/**
 		 * @var \OC\Files\Storage\Storage | \PHPUnit_Framework_MockObject_MockObject $storage
 		 */
@@ -349,7 +349,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('resolvePath')
 			->with('/bar/foo')
-			->will($this->returnValue(array($storage, 'foo')));
+			->willReturn(array($storage, 'foo'));
 
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
@@ -359,7 +359,7 @@ abstract class NodeTest extends \Test\TestCase {
 	public function testGetName() {
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$this->assertEquals('foo', $node->getName());
@@ -368,17 +368,17 @@ abstract class NodeTest extends \Test\TestCase {
 	public function testTouchSetMTime() {
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$this->view->expects($this->once())
 			->method('touch')
 			->with('/bar/foo', 100)
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL))));
+			->willReturn($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$node->touch(100);
@@ -420,17 +420,17 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('touch')
 			->with('/bar/foo', 100)
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->view->expects($this->any())
 			->method('resolvePath')
 			->with('/bar/foo')
-			->will($this->returnValue(array(null, 'foo')));
+			->willReturn(array(null, 'foo'));
 
 		$this->view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL))));
+			->willReturn($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
 
 		$node = $this->createTestNode($root, $this->view, '/bar/foo');
 		$node->touch(100);
@@ -443,12 +443,12 @@ abstract class NodeTest extends \Test\TestCase {
 
 		$this->root->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($this->user));
+			->willReturn($this->user);
 
 		$this->view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_READ))));
+			->willReturn($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_READ)));
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$node->touch(100);
@@ -466,11 +466,11 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->any())
 			->method('copy')
 			->with('/bar/foo', '/bar/asd')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 3])));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 3]));
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$parentNode = new \OC\Files\Node\Folder($this->root, $this->view, '/bar');
@@ -478,10 +478,10 @@ abstract class NodeTest extends \Test\TestCase {
 
 		$this->root->expects($this->exactly(2))
 			->method('get')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['/bar/asd', $newNode],
 				['/bar', $parentNode]
-			]));
+			]);
 
 		$target = $node->copy('/bar/asd');
 		$this->assertInstanceOf($this->getNodeClass(), $target);
@@ -505,16 +505,16 @@ abstract class NodeTest extends \Test\TestCase {
 
 		$this->view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ, 'fileid' => 3])));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ, 'fileid' => 3]));
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$parentNode = new \OC\Files\Node\Folder($this->root, $this->view, '/bar');
 
 		$this->root->expects($this->once())
 			->method('get')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['/bar', $parentNode]
-			]));
+			]);
 
 		$node->copy('/bar/asd');
 	}
@@ -548,9 +548,9 @@ abstract class NodeTest extends \Test\TestCase {
 
 		$this->root->expects($this->once())
 			->method('get')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['/bar', $parentNode]
-			]));
+			]);
 
 		$node->copy('/bar/asd');
 	}
@@ -559,18 +559,18 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->any())
 			->method('rename')
 			->with('/bar/foo', '/bar/asd')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1])));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1]));
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$parentNode = new \OC\Files\Node\Folder($this->root, $this->view, '/bar');
 
 		$this->root->expects($this->any())
 			->method('get')
-			->will($this->returnValueMap([['/bar', $parentNode], ['/bar/asd', $node]]));
+			->willReturnMap([['/bar', $parentNode], ['/bar/asd', $node]]);
 
 		$target = $node->move('/bar/asd');
 		$this->assertInstanceOf($this->getNodeClass(), $target);
@@ -602,11 +602,11 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->any())
 			->method($viewMethod)
 			->with('/bar/foo', '/bar/asd')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1])));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1]));
 
 		/**
 		 * @var \OC\Files\Node\File|\PHPUnit_Framework_MockObject_MockObject $node
@@ -617,7 +617,7 @@ abstract class NodeTest extends \Test\TestCase {
 
 		$root->expects($this->any())
 			->method('get')
-			->will($this->returnValueMap([['/bar', $parentNode], ['/bar/asd', $targetTestNode]]));
+			->willReturnMap([['/bar', $parentNode], ['/bar/asd', $targetTestNode]]);
 
 		$hooksRun = 0;
 
@@ -665,7 +665,7 @@ abstract class NodeTest extends \Test\TestCase {
 
 		$this->view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ])));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_READ]));
 
 		$this->view->expects($this->never())
 			->method('rename');
@@ -676,7 +676,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->root->expects($this->once())
 			->method('get')
 			->with('/bar')
-			->will($this->returnValue($parentNode));
+			->willReturn($parentNode);
 
 		$node->move('/bar/asd');
 	}
@@ -716,7 +716,7 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->root->expects($this->once())
 			->method('get')
 			->with('/bar')
-			->will($this->returnValue($parentNode));
+			->willReturn($parentNode);
 
 		$node->move('/bar/asd');
 	}
@@ -728,18 +728,18 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->any())
 			->method('rename')
 			->with('/bar/foo', '/bar/asd')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1])));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1]));
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$parentNode = new \OC\Files\Node\Folder($this->root, $this->view, '/bar');
 
 		$this->root->expects($this->any())
 			->method('get')
-			->will($this->returnValueMap([['/bar', $parentNode], ['/bar/asd', $node]]));
+			->willReturnMap([['/bar', $parentNode], ['/bar/asd', $node]]);
 
 		$node->move('/bar/asd');
 	}
@@ -751,18 +751,18 @@ abstract class NodeTest extends \Test\TestCase {
 		$this->view->expects($this->any())
 			->method('copy')
 			->with('/bar/foo', '/bar/asd')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$this->view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1])));
+			->willReturn($this->getFileInfo(['permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1]));
 
 		$node = $this->createTestNode($this->root, $this->view, '/bar/foo');
 		$parentNode = new \OC\Files\Node\Folder($this->root, $this->view, '/bar');
 
 		$this->root->expects($this->any())
 			->method('get')
-			->will($this->returnValueMap([['/bar', $parentNode], ['/bar/asd', $node]]));
+			->willReturnMap([['/bar', $parentNode], ['/bar/asd', $node]]);
 
 		$node->copy('/bar/asd');
 	}

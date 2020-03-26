@@ -81,10 +81,10 @@ class MailerTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['mail_smtpmode', 'smtp', 'sendmail'],
 				['mail_sendmailmode', 'smtp', $sendmailMode],
-			]));
+			]);
 
 		$path = \OC_Helper::findBinaryPath('sendmail');
 		if ($path === null) {
@@ -104,10 +104,10 @@ class MailerTest extends TestCase {
 		$this->config
 			->expects($this->exactly(2))
 			->method('getSystemValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['mail_smtpmode', 'smtp', 'qmail'],
 				['mail_sendmailmode', 'smtp', $sendmailMode],
-			]));
+			]);
 
 		$this->assertEquals(new \Swift_SendmailTransport('/var/qmail/bin/sendmail' . $binaryParam), self::invokePrivate($this->mailer, 'getSendMailInstance'));
 	}
@@ -121,10 +121,10 @@ class MailerTest extends TestCase {
 	public function testGetInstanceSendmail() {
 		$this->config
 			->method('getSystemValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['mail_smtpmode', 'smtp', 'sendmail'],
 				['mail_sendmailmode', 'smtp', 'smtp'],
-			]));
+			]);
 
 		$mailer = self::invokePrivate($this->mailer, 'getInstance');
 		$this->assertInstanceOf(\Swift_Mailer::class, $mailer);
@@ -151,7 +151,7 @@ class MailerTest extends TestCase {
 			->expects($this->any())
 			->method('getSystemValue')
 			->with('mail_send_plaintext_only', false)
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$this->assertInstanceOf('\OC\Mail\Message', $this->mailer->createMessage());
 	}
 
@@ -163,7 +163,7 @@ class MailerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$message->expects($this->once())
 			->method('getSwiftMessage')
-			->will($this->returnValue(new \Swift_Message()));
+			->willReturn(new \Swift_Message());
 
 		$this->mailer->send($message);
 	}
@@ -199,10 +199,10 @@ class MailerTest extends TestCase {
 
 	public function testStreamingOptions() {
 		$this->config->method('getSystemValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['mail_smtpmode', 'smtp', 'smtp'],
 				['mail_smtpstreamoptions', [], ['foo' => 1]]
-			]));
+			]);
 		$mailer = self::invokePrivate($this->mailer, 'getInstance');
 		$this->assertEquals(1, count($mailer->getTransport()->getStreamOptions()));
 		$this->assertTrue(isset($mailer->getTransport()->getStreamOptions()['foo']));
@@ -211,10 +211,10 @@ class MailerTest extends TestCase {
 
 	public function testStreamingOptionsWrongType() {
 		$this->config->method('getSystemValue')
-			->will($this->returnValueMap([
+			->willReturnMap([
 				['mail_smtpmode', 'smtp', 'smtp'],
 				['mail_smtpstreamoptions', [], 'bar']
-			]));
+			]);
 		$mailer = self::invokePrivate($this->mailer, 'getInstance');
 		$this->assertEquals(0, count($mailer->getTransport()->getStreamOptions()));
 	}

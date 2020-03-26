@@ -476,13 +476,13 @@ class StorageTest extends \Test\TestCase {
 
 		$storage->expects($this->any())
 			->method('rename')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$storage->expects($this->any())
 			->method('moveFromStorage')
-			->will($this->returnValue(false));
+			->willReturn(false);
 		$storage->expects($this->any())
 			->method('unlink')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$cache = $storage->getCache();
 
@@ -513,7 +513,7 @@ class StorageTest extends \Test\TestCase {
 
 		$storage->expects($this->any())
 			->method('rmdir')
-			->will($this->returnValue(false));
+			->willReturn(false);
 
 		$cache = $storage->getCache();
 

@@ -51,7 +51,7 @@ class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->l = $this->createMock(IL10N::class);
 
-		$this->l->method('t')->will($this->returnArgument(0));
+		$this->l->method('t')->willReturnArgument(0);
 
 		$this->middleware = new OCSShareAPIMiddleware($this->shareManager, $this->l);
 	}

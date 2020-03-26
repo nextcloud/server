@@ -75,7 +75,7 @@ class UtilTest extends TestCase {
 	public function testUserHasFiles() {
 		$this->filesMock->expects($this->once())
 			->method('file_exists')
-			->will($this->returnValue(true));
+			->willReturn(true);
 
 		$this->assertTrue($this->instance->userHasFiles('admin'));
 	}
@@ -111,11 +111,11 @@ class UtilTest extends TestCase {
 
 		$this->configMock->expects($this->any())
 			->method('getUserValue')
-			->will($this->returnCallback([$this, 'getValueTester']));
+			->willReturnCallback([$this, 'getValueTester']);
 
 		$this->configMock->expects($this->any())
 			->method('setUserValue')
-			->will($this->returnCallback([$this, 'setValueTester']));
+			->willReturnCallback([$this, 'setValueTester']);
 
 		$this->instance = new Util($this->filesMock, $cryptMock, $loggerMock, $userSessionMock, $this->configMock, $this->userManagerMock);
 	}
