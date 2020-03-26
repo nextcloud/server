@@ -471,7 +471,7 @@ class SCSSCacherTest extends \Test\TestCase {
 	}
 
 	private function rrmdir($directory) {
-		$files = array_diff(scandir($directory), array('.','..'));
+		$files = array_diff(scandir($directory), ['.','..']);
 		foreach ($files as $file) {
 			if (is_dir($directory . '/' . $file)) {
 				$this->rrmdir($directory . '/' . $file);

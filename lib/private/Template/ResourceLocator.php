@@ -37,7 +37,7 @@ abstract class ResourceLocator {
 	protected $thirdpartyroot;
 	protected $webroot;
 
-	protected $resources = array();
+	protected $resources = [];
 
 	/** @var \OCP\ILogger */
 	protected $logger;
@@ -185,7 +185,7 @@ abstract class ResourceLocator {
 				]);
 			}
 		}
-		$this->resources[] = array($root, $webRoot, $file);
+		$this->resources[] = [$root, $webRoot, $file];
 
 		if ($throw && !is_file($root . '/' . $file)) {
 			throw new ResourceNotFoundException($file, $webRoot);

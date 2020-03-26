@@ -29,7 +29,7 @@ class Sqlite extends AbstractDatabase {
 	public $dbprettyname = 'Sqlite';
 
 	public function validate($config) {
-		return array();
+		return [];
 	}
 
 	public function initialize($config) {

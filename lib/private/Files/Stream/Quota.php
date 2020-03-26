@@ -44,12 +44,12 @@ class Quota extends Wrapper {
 	 * @return resource
 	 */
 	static public function wrap($stream, $limit) {
-		$context = stream_context_create(array(
-			'quota' => array(
+		$context = stream_context_create([
+			'quota' => [
 				'source' => $stream,
 				'limit' => $limit
-			)
-		));
+			]
+		]);
 		return Wrapper::wrapSource($stream, $context, 'quota', self::class);
 	}
 

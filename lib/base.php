@@ -76,7 +76,7 @@ class OC {
 	/**
 	 * Associative array for autoloading. classname => filename
 	 */
-	public static $CLASSPATH = array();
+	public static $CLASSPATH = [];
 	/**
 	 * The installation path for Nextcloud  on the server (e.g. /srv/http/nextcloud)
 	 */
@@ -93,7 +93,7 @@ class OC {
 	 * The installation path array of the apps folder on the server (e.g. /srv/http/nextcloud) 'path' and
 	 * web path in 'url'
 	 */
-	public static $APPSROOTS = array();
+	public static $APPSROOTS = [];
 
 	/**
 	 * @var string
@@ -196,7 +196,7 @@ class OC {
 		}
 
 		// search the apps folder
-		$config_paths = self::$config->getValue('apps_paths', array());
+		$config_paths = self::$config->getValue('apps_paths', []);
 		if (!empty($config_paths)) {
 			foreach ($config_paths as $paths) {
 				if (isset($paths['url']) && isset($paths['path'])) {
@@ -206,20 +206,20 @@ class OC {
 				}
 			}
 		} elseif (file_exists(OC::$SERVERROOT . '/apps')) {
-			OC::$APPSROOTS[] = array('path' => OC::$SERVERROOT . '/apps', 'url' => '/apps', 'writable' => true);
+			OC::$APPSROOTS[] = ['path' => OC::$SERVERROOT . '/apps', 'url' => '/apps', 'writable' => true];
 		} elseif (file_exists(OC::$SERVERROOT . '/../apps')) {
-			OC::$APPSROOTS[] = array(
+			OC::$APPSROOTS[] = [
 				'path' => rtrim(dirname(OC::$SERVERROOT), '/') . '/apps',
 				'url' => '/apps',
 				'writable' => true
-			);
+			];
 		}
 
 		if (empty(OC::$APPSROOTS)) {
 			throw new \RuntimeException('apps directory not found! Please put the Nextcloud apps folder in the Nextcloud folder'
 				. ' or the folder above. You can also configure the location in the config.php file.');
 		}
-		$paths = array();
+		$paths = [];
 		foreach (OC::$APPSROOTS as $path) {
 			$paths[] = $path['path'];
 			if (!is_dir($path['path'])) {
@@ -423,7 +423,7 @@ class OC {
 			// Allow session apps to create a custom session object
 			$useCustomSession = false;
 			$session = self::$server->getSession();
-			OC_Hook::emit('OC', 'initSession', array('session' => &$session, 'sessionName' => &$sessionName, 'useCustomSession' => &$useCustomSession));
+			OC_Hook::emit('OC', 'initSession', ['session' => &$session, 'sessionName' => &$sessionName, 'useCustomSession' => &$useCustomSession]);
 			if (!$useCustomSession) {
 				// set the session name to the instance id - which is unique
 				$session = new \OC\Session\Internal($sessionName);
@@ -570,7 +570,7 @@ class OC {
 		if (defined('PHPUNIT_RUN')) {
 			self::$loader->addValidRoot(OC::$SERVERROOT . '/tests');
 		}
-		spl_autoload_register(array(self::$loader, 'load'));
+		spl_autoload_register([self::$loader, 'load']);
 		$loaderEnd = microtime(true);
 
 		self::$CLI = (php_sapi_name() == 'cli');
@@ -646,7 +646,7 @@ class OC {
 		}
 
 		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
-		OC_App::loadApps(array('session'));
+		OC_App::loadApps(['session']);
 		if (!self::$CLI) {
 			self::initSession();
 		}
@@ -665,7 +665,7 @@ class OC {
 					http_response_code(503);
 					OC_Util::addStyle('guest');
 					try {
-						OC_Template::printGuestPage('', 'error', array('errors' => $errors));
+						OC_Template::printGuestPage('', 'error', ['errors' => $errors]);
 						exit;
 					} catch (\Exception $e) {
 						// In case any error happens when showing the error page, we simply fall back to posting the text.
@@ -742,9 +742,9 @@ class OC {
 
 		//make sure temporary files are cleaned up
 		$tmpManager = \OC::$server->getTempManager();
-		register_shutdown_function(array($tmpManager, 'clean'));
+		register_shutdown_function([$tmpManager, 'clean']);
 		$lockProvider = \OC::$server->getLockingProvider();
-		register_shutdown_function(array($lockProvider, 'releaseAll'));
+		register_shutdown_function([$lockProvider, 'releaseAll']);
 
 		// Check whether the sample configuration has been copied
 		if($systemConfig->getValue('copied_sample_config', false)) {
@@ -997,7 +997,7 @@ class OC {
 				OC_App::loadApps();
 			} else {
 				// For guests: Load only filesystem and logging
-				OC_App::loadApps(array('filesystem', 'logging'));
+				OC_App::loadApps(['filesystem', 'logging']);
 				self::handleLogin($request);
 			}
 		}
@@ -1005,7 +1005,7 @@ class OC {
 		if (!self::$CLI) {
 			try {
 				if (!((bool) $systemConfig->getValue('maintenance', false)) && !\OCP\Util::needUpgrade()) {
-					OC_App::loadApps(array('filesystem', 'logging'));
+					OC_App::loadApps(['filesystem', 'logging']);
 					OC_App::loadApps();
 				}
 				OC_Util::setupFS();
@@ -1075,10 +1075,10 @@ class OC {
 		}
 
 		// Extract PHP_AUTH_USER/PHP_AUTH_PW from other headers if necessary.
-		$vars = array(
+		$vars = [
 			'HTTP_AUTHORIZATION', // apache+php-cgi work around
 			'REDIRECT_HTTP_AUTHORIZATION', // apache+php-cgi alternative
-		);
+		];
 		foreach ($vars as $var) {
 			if (isset($_SERVER[$var]) && preg_match('/Basic\s+(.*)$/i', $_SERVER[$var], $matches)) {
 				$credentials = explode(':', base64_decode($matches[1]), 2);

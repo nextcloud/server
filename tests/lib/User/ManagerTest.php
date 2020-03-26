@@ -245,7 +245,7 @@ class ManagerTest extends TestCase {
 		$backend->expects($this->once())
 			->method('getUsers')
 			->with($this->equalTo('fo'))
-			->willReturn(array('foo', 'afoo', 'Afoo1', 'Bfoo'));
+			->willReturn(['foo', 'afoo', 'Afoo1', 'Bfoo']);
 		$backend->expects($this->never())
 			->method('loginName2UserName');
 
@@ -268,7 +268,7 @@ class ManagerTest extends TestCase {
 		$backend1->expects($this->once())
 			->method('getUsers')
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
-			->willReturn(array('foo1', 'foo2'));
+			->willReturn(['foo1', 'foo2']);
 		$backend1->expects($this->never())
 			->method('loginName2UserName');
 
@@ -279,7 +279,7 @@ class ManagerTest extends TestCase {
 		$backend2->expects($this->once())
 			->method('getUsers')
 			->with($this->equalTo('fo'), $this->equalTo(3), $this->equalTo(1))
-			->willReturn(array('foo3'));
+			->willReturn(['foo3']);
 		$backend2->expects($this->never())
 			->method('loginName2UserName');
 

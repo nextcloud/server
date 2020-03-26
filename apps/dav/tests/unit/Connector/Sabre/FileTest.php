@@ -202,9 +202,9 @@ class FileTest extends TestCase {
 			->method('getRelativePath')
 			->willReturnArgument(0);
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
-		), null);
+		], null);
 
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 
@@ -631,10 +631,10 @@ class FileTest extends TestCase {
 	}
 
 	public static function cancellingHook($params) {
-		self::$hookCalls[] = array(
+		self::$hookCalls[] = [
 			'signal' => Filesystem::signal_post_create,
 			'params' => $params
-		);
+		];
 	}
 
 	/**
@@ -683,9 +683,9 @@ class FileTest extends TestCase {
 		$_SERVER['CONTENT_LENGTH'] = 123456;
 		$_SERVER['REQUEST_METHOD'] = 'PUT';
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
-		), null);
+		], null);
 
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 
@@ -716,9 +716,9 @@ class FileTest extends TestCase {
 		// simulate situation where the target file is locked
 		$view->lockFile('/test.txt', ILockingProvider::LOCK_EXCLUSIVE);
 
-		$info = new \OC\Files\FileInfo('/' . $this->user . '/files/test.txt', $this->getMockStorage(), null, array(
+		$info = new \OC\Files\FileInfo('/' . $this->user . '/files/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
-		), null);
+		], null);
 
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 
@@ -790,9 +790,9 @@ class FileTest extends TestCase {
 			->method('getRelativePath')
 			->willReturnArgument(0);
 
-		$info = new \OC\Files\FileInfo('/*', $this->getMockStorage(), null, array(
+		$info = new \OC\Files\FileInfo('/*', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
-		), null);
+		], null);
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 
 		// action
@@ -829,9 +829,9 @@ class FileTest extends TestCase {
 			->method('getRelativePath')
 			->willReturnArgument(0);
 
-		$info = new \OC\Files\FileInfo('/*', $this->getMockStorage(), null, array(
+		$info = new \OC\Files\FileInfo('/*', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
-		), null);
+		], null);
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 		$file->setName('/super*star.txt');
 	}
@@ -856,9 +856,9 @@ class FileTest extends TestCase {
 		$_SERVER['CONTENT_LENGTH'] = 12345;
 		$_SERVER['REQUEST_METHOD'] = 'PUT';
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
-		), null);
+		], null);
 
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 
@@ -890,9 +890,9 @@ class FileTest extends TestCase {
 			->method('unlink')
 			->willReturn(true);
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
-		), null);
+		], null);
 
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 
@@ -908,9 +908,9 @@ class FileTest extends TestCase {
 		$view = $this->getMockBuilder(View::class)
 			->getMock();
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => 0
-		), null);
+		], null);
 
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 
@@ -931,9 +931,9 @@ class FileTest extends TestCase {
 			->method('unlink')
 			->willReturn(false);
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
-		), null);
+		], null);
 
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 
@@ -954,9 +954,9 @@ class FileTest extends TestCase {
 			->method('unlink')
 			->willThrowException(new ForbiddenException('', true));
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
-		), null);
+		], null);
 
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 
@@ -1122,9 +1122,9 @@ class FileTest extends TestCase {
 			->method('fopen')
 			->willReturn(false);
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
-		), null);
+		], null);
 
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 
@@ -1142,9 +1142,9 @@ class FileTest extends TestCase {
 			->method('fopen')
 			->willThrowException(new ForbiddenException('', true));
 
-		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
+		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, [
 			'permissions' => \OCP\Constants::PERMISSION_ALL
-		), null);
+		], null);
 
 		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
 

@@ -133,7 +133,7 @@ class Route extends SymfonyRoute implements IRoute {
 	 * to the class with $function
 	 */
 	public function action($class, $function = null) {
-		$action = array($class, $function);
+		$action = [$class, $function];
 		if (is_null($function)) {
 			$action = $class;
 		}

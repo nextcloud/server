@@ -148,63 +148,63 @@ class CacheTest extends TestCase {
 	}
 
 	function searchDataProvider() {
-		return array(
-			array('%another%',
-				array(
-					array('name' => 'another too.txt', 'path' => 'subdir/another too.txt'),
-					array('name' => 'another.txt', 'path' => 'subdir/another.txt'),
-				)
-			),
-			array('%Another%',
-				array(
-					array('name' => 'another too.txt', 'path' => 'subdir/another too.txt'),
-					array('name' => 'another.txt', 'path' => 'subdir/another.txt'),
-				)
-			),
-			array('%dir%',
-				array(
-					array('name' => 'emptydir', 'path' => 'emptydir'),
-					array('name' => 'subdir', 'path' => 'subdir'),
-					array('name' => 'shareddir', 'path' => ''),
-				)
-			),
-			array('%Dir%',
-				array(
-					array('name' => 'emptydir', 'path' => 'emptydir'),
-					array('name' => 'subdir', 'path' => 'subdir'),
-					array('name' => 'shareddir', 'path' => ''),
-				)
-			),
-			array('%txt%',
-				array(
-					array('name' => 'bar.txt', 'path' => 'bar.txt'),
-					array('name' => 'another too.txt', 'path' => 'subdir/another too.txt'),
-					array('name' => 'another.txt', 'path' => 'subdir/another.txt'),
-				)
-			),
-			array('%Txt%',
-				array(
-					array('name' => 'bar.txt', 'path' => 'bar.txt'),
-					array('name' => 'another too.txt', 'path' => 'subdir/another too.txt'),
-					array('name' => 'another.txt', 'path' => 'subdir/another.txt'),
-				)
-			),
-			array('%',
-				array(
-					array('name' => 'bar.txt', 'path' => 'bar.txt'),
-					array('name' => 'emptydir', 'path' => 'emptydir'),
-					array('name' => 'subdir', 'path' => 'subdir'),
-					array('name' => 'another too.txt', 'path' => 'subdir/another too.txt'),
-					array('name' => 'another.txt', 'path' => 'subdir/another.txt'),
-					array('name' => 'not a text file.xml', 'path' => 'subdir/not a text file.xml'),
-					array('name' => 'shareddir', 'path' => ''),
-				)
-			),
-			array('%nonexistent%',
-				array(
-				)
-			),
-		);
+		return [
+			['%another%',
+				[
+					['name' => 'another too.txt', 'path' => 'subdir/another too.txt'],
+					['name' => 'another.txt', 'path' => 'subdir/another.txt'],
+				]
+			],
+			['%Another%',
+				[
+					['name' => 'another too.txt', 'path' => 'subdir/another too.txt'],
+					['name' => 'another.txt', 'path' => 'subdir/another.txt'],
+				]
+			],
+			['%dir%',
+				[
+					['name' => 'emptydir', 'path' => 'emptydir'],
+					['name' => 'subdir', 'path' => 'subdir'],
+					['name' => 'shareddir', 'path' => ''],
+				]
+			],
+			['%Dir%',
+				[
+					['name' => 'emptydir', 'path' => 'emptydir'],
+					['name' => 'subdir', 'path' => 'subdir'],
+					['name' => 'shareddir', 'path' => ''],
+				]
+			],
+			['%txt%',
+				[
+					['name' => 'bar.txt', 'path' => 'bar.txt'],
+					['name' => 'another too.txt', 'path' => 'subdir/another too.txt'],
+					['name' => 'another.txt', 'path' => 'subdir/another.txt'],
+				]
+			],
+			['%Txt%',
+				[
+					['name' => 'bar.txt', 'path' => 'bar.txt'],
+					['name' => 'another too.txt', 'path' => 'subdir/another too.txt'],
+					['name' => 'another.txt', 'path' => 'subdir/another.txt'],
+				]
+			],
+			['%',
+				[
+					['name' => 'bar.txt', 'path' => 'bar.txt'],
+					['name' => 'emptydir', 'path' => 'emptydir'],
+					['name' => 'subdir', 'path' => 'subdir'],
+					['name' => 'another too.txt', 'path' => 'subdir/another too.txt'],
+					['name' => 'another.txt', 'path' => 'subdir/another.txt'],
+					['name' => 'not a text file.xml', 'path' => 'subdir/not a text file.xml'],
+					['name' => 'shareddir', 'path' => ''],
+				]
+			],
+			['%nonexistent%',
+				[
+				]
+			],
+		];
 	}
 
 	/**
@@ -226,20 +226,20 @@ class CacheTest extends TestCase {
 	 */
 	function testSearchByMime() {
 		$results = $this->sharedStorage->getCache()->searchByMime('text');
-		$check = array(
-				array(
+		$check = [
+				[
 					'name' => 'bar.txt',
 					'path' => 'bar.txt'
-				),
-				array(
+				],
+				[
 					'name' => 'another too.txt',
 					'path' => 'subdir/another too.txt'
-				),
-				array(
+				],
+				[
 					'name' => 'another.txt',
 					'path' => 'subdir/another.txt'
-				),
-			);
+				],
+			];
 		$this->verifyFiles($check, $results);
 	}
 
@@ -250,27 +250,27 @@ class CacheTest extends TestCase {
 		// additional root will always contain the example file "welcome.txt",
 		//  so this will be part of the result
 		$this->verifyFiles(
-			array(
-				array(
+			[
+				[
 					'name' => 'welcome.txt',
 					'path' => 'files/welcome.txt',
 					'mimetype' => 'text/plain',
-				),
-				array(
+				],
+				[
 					'name' => 'shareddir',
 					'path' => 'files/shareddir',
 					'mimetype' => 'httpd/unix-directory',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
-				),
-				array(
+				],
+				[
 					'name' => 'shared single file.txt',
 					'path' => 'files/shared single file.txt',
 					'mimetype' => 'text/plain',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
-				),
-			),
+				],
+			],
 			$results
 		);
 	}
@@ -279,29 +279,29 @@ class CacheTest extends TestCase {
 		$results = $this->user2View->getDirectoryContent('/shareddir');
 
 		$this->verifyFiles(
-			array(
-				array(
+			[
+				[
 					'name' => 'bar.txt',
 					'path' => 'bar.txt',
 					'mimetype' => 'text/plain',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
-				),
-				array(
+				],
+				[
 					'name' => 'emptydir',
 					'path' => 'emptydir',
 					'mimetype' => 'httpd/unix-directory',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
-				),
-				array(
+				],
+				[
 					'name' => 'subdir',
 					'path' => 'subdir',
 					'mimetype' => 'httpd/unix-directory',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
-				),
-			),
+				],
+			],
 			$results
 		);
 	}
@@ -327,29 +327,29 @@ class CacheTest extends TestCase {
 		$results = $thirdView->getDirectoryContent('/subdir');
 
 		$this->verifyFiles(
-			array(
-				array(
+			[
+				[
 					'name' => 'another too.txt',
 					'path' => 'another too.txt',
 					'mimetype' => 'text/plain',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
-				),
-				array(
+				],
+				[
 					'name' => 'another.txt',
 					'path' => 'another.txt',
 					'mimetype' => 'text/plain',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
-				),
-				array(
+				],
+				[
 					'name' => 'not a text file.xml',
 					'path' => 'not a text file.xml',
 					'mimetype' => 'application/xml',
 					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
 					'displayname_owner' => 'User One',
-				),
-			),
+				],
+			],
 			$results
 		);
 
@@ -376,7 +376,7 @@ class CacheTest extends TestCase {
 				}
 			}
 		}
-		$this->assertEquals(array(), $results);
+		$this->assertEquals([], $results);
 	}
 
 	/**

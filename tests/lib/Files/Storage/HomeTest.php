@@ -73,7 +73,7 @@ class HomeTest extends Storage {
 		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->userId = $this->getUniqueID('user_');
 		$this->user = new DummyUser($this->userId, $this->tmpDir);
-		$this->instance = new \OC\Files\Storage\Home(array('user' => $this->user));
+		$this->instance = new \OC\Files\Storage\Home(['user' => $this->user]);
 	}
 
 	protected function tearDown(): void {

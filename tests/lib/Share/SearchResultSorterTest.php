@@ -26,14 +26,14 @@ class SearchResultSorterTest extends \Test\TestCase {
 		$search = 'lin';
 		$sorter = new \OC\Share\SearchResultSorter($search, 'foobar');
 
-		$result = array(
-			array('foobar' => 'woot'),
-			array('foobar' => 'linux'),
-			array('foobar' => 'Linus'),
-			array('foobar' => 'Bicyclerepairwoman'),
-		);
+		$result = [
+			['foobar' => 'woot'],
+			['foobar' => 'linux'],
+			['foobar' => 'Linus'],
+			['foobar' => 'Bicyclerepairwoman'],
+		];
 
-		usort($result, array($sorter, 'sort'));
+		usort($result, [$sorter, 'sort']);
 		$this->assertTrue($result[0]['foobar'] === 'Linus');
 		$this->assertTrue($result[1]['foobar'] === 'linux');
 		$this->assertTrue($result[2]['foobar'] === 'Bicyclerepairwoman');

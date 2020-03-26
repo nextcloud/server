@@ -67,17 +67,17 @@ class ConnectionTest extends \Test\TestCase {
 		$lw  = $this->createMock(ILDAPWrapper::class);
 
 		$connection = new Connection($lw, '', null);
-		$agent = array(
+		$agent = [
 			'ldapAgentName' => 'agent',
 			'ldapAgentPassword' => '123456',
-		);
+		];
 		$connection->setConfiguration($agent);
 
 		$testConnection = clone $connection;
-		$user = array(
+		$user = [
 			'ldapAgentName' => 'user',
 			'ldapAgentPassword' => 'password',
-		);
+		];
 		$testConnection->setConfiguration($user);
 
 		$agentName = $connection->ldapAgentName;

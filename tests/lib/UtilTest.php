@@ -206,16 +206,16 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function dataProviderForTestIsSharingDisabledForUser() {
-		return array(
+		return [
 			// existing groups, groups the user belong to, groups excluded from sharing, expected result
-			array(array('g1', 'g2', 'g3'), array(), array('g1'), false),
-			array(array('g1', 'g2', 'g3'), array(), array(), false),
-			array(array('g1', 'g2', 'g3'), array('g2'), array('g1'), false),
-			array(array('g1', 'g2', 'g3'), array('g2'), array(), false),
-			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1'), false),
-			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1', 'g2'), true),
-			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1', 'g2', 'g3'), true),
-		);
+			[['g1', 'g2', 'g3'], [], ['g1'], false],
+			[['g1', 'g2', 'g3'], [], [], false],
+			[['g1', 'g2', 'g3'], ['g2'], ['g1'], false],
+			[['g1', 'g2', 'g3'], ['g2'], [], false],
+			[['g1', 'g2', 'g3'], ['g1', 'g2'], ['g1'], false],
+			[['g1', 'g2', 'g3'], ['g1', 'g2'], ['g1', 'g2'], true],
+			[['g1', 'g2', 'g3'], ['g1', 'g2'], ['g1', 'g2', 'g3'], true],
+		];
 	}
 
 	/**
@@ -250,32 +250,32 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	function defaultAppsProvider() {
-		return array(
+		return [
 			// none specified, default to files
-			array(
+			[
 				'',
 				'index.php/apps/files/',
-				array('files'),
-			),
+				['files'],
+			],
 			// unexisting or inaccessible app specified, default to files
-			array(
+			[
 				'unexist',
 				'index.php/apps/files/',
-				array('files'),
-			),
+				['files'],
+			],
 			// non-standard app
-			array(
+			[
 				'calendar',
 				'index.php/apps/calendar/',
-				array('files', 'calendar'),
-			),
+				['files', 'calendar'],
+			],
 			// non-standard app with fallback
-			array(
+			[
 				'contacts,calendar',
 				'index.php/apps/calendar/',
-				array('files', 'calendar'),
-			),
-		);
+				['files', 'calendar'],
+			],
+		];
 	}
 
 	public function testGetDefaultPageUrlWithRedirectUrlWithoutFrontController() {
@@ -319,14 +319,14 @@ class UtilTest extends \Test\TestCase {
 		$this->assertFalse(\OCP\Util::needUpgrade());
 
 		$config->setSystemValue('version', '7.0.0.0');
-		\OC::$server->getSession()->set('OC_Version', array(7, 0, 0, 1));
-		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', array(null));
+		\OC::$server->getSession()->set('OC_Version', [7, 0, 0, 1]);
+		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', [null]);
 
 		$this->assertTrue(\OCP\Util::needUpgrade());
 
 		$config->setSystemValue('version', $oldConfigVersion);
 		\OC::$server->getSession()->set('OC_Version', $oldSessionVersion);
-		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', array(null));
+		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', [null]);
 
 		$this->assertFalse(\OCP\Util::needUpgrade());
 	}

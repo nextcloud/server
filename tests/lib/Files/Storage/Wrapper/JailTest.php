@@ -17,24 +17,24 @@ class JailTest extends \Test\Files\Storage\Storage {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->sourceStorage = new \OC\Files\Storage\Temporary(array());
+		$this->sourceStorage = new \OC\Files\Storage\Temporary([]);
 		$this->sourceStorage->mkdir('foo');
-		$this->instance = new \OC\Files\Storage\Wrapper\Jail(array(
+		$this->instance = new \OC\Files\Storage\Wrapper\Jail([
 			'storage' => $this->sourceStorage,
 			'root' => 'foo'
-		));
+		]);
 	}
 
 	protected function tearDown(): void {
 		// test that nothing outside our jail is touched
-		$contents = array();
+		$contents = [];
 		$dh = $this->sourceStorage->opendir('');
 		while ($file = readdir($dh)) {
 			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 				$contents[] = $file;
 			}
 		}
-		$this->assertEquals(array('foo'), $contents);
+		$this->assertEquals(['foo'], $contents);
 		$this->sourceStorage->cleanUp();
 		parent::tearDown();
 	}

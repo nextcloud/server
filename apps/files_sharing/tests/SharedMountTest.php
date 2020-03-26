@@ -251,14 +251,14 @@ class SharedMountTest extends TestCase {
 	}
 
 	public function dataProviderTestStripUserFilesPath() {
-		return array(
-			array('/user/files/foo.txt', '/foo.txt', false),
-			array('/user/files/folder/foo.txt', '/folder/foo.txt', false),
-			array('/data/user/files/foo.txt', null, true),
-			array('/data/user/files/', null, true),
-			array('/files/foo.txt', null, true),
-			array('/foo.txt', null, true),
-		);
+		return [
+			['/user/files/foo.txt', '/foo.txt', false],
+			['/user/files/folder/foo.txt', '/folder/foo.txt', false],
+			['/data/user/files/foo.txt', null, true],
+			['/data/user/files/', null, true],
+			['/files/foo.txt', null, true],
+			['/foo.txt', null, true],
+		];
 	}
 
 	public function dataPermissionMovedGroupShare() {

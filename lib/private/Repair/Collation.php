@@ -126,7 +126,7 @@ class Collation implements IRepairStep {
 			"	WHERE TABLE_SCHEMA = ?" .
 			"	AND (COLLATION_NAME <> '" . $characterSet . "_bin' OR CHARACTER_SET_NAME <> '" . $characterSet . "')" .
 			"	AND TABLE_NAME LIKE '*PREFIX*%'",
-			array($dbName)
+			[$dbName]
 		);
 		$rows = $statement->fetchAll();
 		$result = [];

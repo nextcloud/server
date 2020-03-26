@@ -38,8 +38,8 @@ abstract class Entity {
 
 	public $id;
 
-	private $_updatedFields = array();
-	private $_fieldTypes = array('id' => 'integer');
+	private $_updatedFields = [];
+	private $_fieldTypes = ['id' => 'integer'];
 
 
 	/**
@@ -95,7 +95,7 @@ abstract class Entity {
 	 * @since 7.0.0
 	 */
 	public function resetUpdatedFields(){
-		$this->_updatedFields = array();
+		$this->_updatedFields = [];
 	}
 
 	/**

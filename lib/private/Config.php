@@ -45,7 +45,7 @@ class Config {
 	const ENV_PREFIX = 'NC_';
 
 	/** @var array Associative array ($key => $value) */
-	protected $cache = array();
+	protected $cache = [];
 	/** @var string */
 	protected $configDir;
 	/** @var string */
@@ -186,7 +186,7 @@ class Config {
 	 */
 	private function readData() {
 		// Default config should always get loaded
-		$configFiles = array($this->configFilePath);
+		$configFiles = [$this->configFilePath];
 
 		// Add all files in the config dir ending with the same file name
 		$extra = glob($this->configDir.'*.'.$this->configFileName);

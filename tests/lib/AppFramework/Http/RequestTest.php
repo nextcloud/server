@@ -51,10 +51,10 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	public function testRequestAccessors() {
-		$vars = array(
-			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+		$vars = [
+			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'method' => 'GET',
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -82,12 +82,12 @@ class RequestTest extends \Test\TestCase {
 
 	// urlParams has precedence over POST which has precedence over GET
 	public function testPrecedence() {
-		$vars = array(
-			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
-			'post' => array('name' => 'Jane Doe', 'nickname' => 'Janey'),
-			'urlParams' => array('user' => 'jw', 'name' => 'Johnny Weissmüller'),
+		$vars = [
+			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
+			'post' => ['name' => 'Jane Doe', 'nickname' => 'Janey'],
+			'urlParams' => ['user' => 'jw', 'name' => 'Johnny Weissmüller'],
 			'method' => 'GET'
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -107,10 +107,10 @@ class RequestTest extends \Test\TestCase {
 	public function testImmutableArrayAccess() {
 		$this->expectException(\RuntimeException::class);
 
-		$vars = array(
-			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+		$vars = [
+			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'method' => 'GET'
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -127,10 +127,10 @@ class RequestTest extends \Test\TestCase {
 	public function testImmutableMagicAccess() {
 		$this->expectException(\RuntimeException::class);
 
-		$vars = array(
-			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+		$vars = [
+			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'method' => 'GET'
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -147,10 +147,10 @@ class RequestTest extends \Test\TestCase {
 	public function testGetTheMethodRight() {
 		$this->expectException(\LogicException::class);
 
-		$vars = array(
-			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+		$vars = [
+			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'method' => 'GET',
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -164,10 +164,10 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	public function testTheMethodIsRight() {
-		$vars = array(
-			'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
+		$vars = [
+			'get' => ['name' => 'John Q. Public', 'nickname' => 'Joey'],
 			'method' => 'GET',
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -186,10 +186,10 @@ class RequestTest extends \Test\TestCase {
 	public function testJsonPost() {
 		global $data;
 		$data = '{"name": "John Q. Public", "nickname": "Joey"}';
-		$vars = array(
+		$vars = [
 			'method' => 'POST',
-			'server' => array('CONTENT_TYPE' => 'application/json; utf-8')
-		);
+			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
+		];
 
 		$request = new Request(
 			$vars,
@@ -210,10 +210,10 @@ class RequestTest extends \Test\TestCase {
 	public function testNotJsonPost() {
 		global $data;
 		$data = 'this is not valid json';
-		$vars = array(
+		$vars = [
 			'method' => 'POST',
-			'server' => array('CONTENT_TYPE' => 'application/json; utf-8')
-		);
+			'server' => ['CONTENT_TYPE' => 'application/json; utf-8']
+		];
 
 		$request = new Request(
 			$vars,
@@ -230,12 +230,12 @@ class RequestTest extends \Test\TestCase {
 
 	public function testPatch() {
 		global $data;
-		$data = http_build_query(array('name' => 'John Q. Public', 'nickname' => 'Joey'), '', '&');
+		$data = http_build_query(['name' => 'John Q. Public', 'nickname' => 'Joey'], '', '&');
 
-		$vars = array(
+		$vars = [
 			'method' => 'PATCH',
-			'server' => array('CONTENT_TYPE' => 'application/x-www-form-urlencoded'),
-		);
+			'server' => ['CONTENT_TYPE' => 'application/x-www-form-urlencoded'],
+		];
 
 		$request = new Request(
 			$vars,
@@ -257,10 +257,10 @@ class RequestTest extends \Test\TestCase {
 
 		// PUT content
 		$data = '{"name": "John Q. Public", "nickname": "Joey"}';
-		$vars = array(
+		$vars = [
 			'method' => 'PUT',
-			'server' => array('CONTENT_TYPE' => 'application/json; utf-8'),
-		);
+			'server' => ['CONTENT_TYPE' => 'application/json; utf-8'],
+		];
 
 		$request = new Request(
 			$vars,
@@ -278,10 +278,10 @@ class RequestTest extends \Test\TestCase {
 
 		// PATCH content
 		$data = '{"name": "John Q. Public", "nickname": null}';
-		$vars = array(
+		$vars = [
 			'method' => 'PATCH',
-			'server' => array('CONTENT_TYPE' => 'application/json; utf-8'),
-		);
+			'server' => ['CONTENT_TYPE' => 'application/json; utf-8'],
+		];
 
 		$request = new Request(
 			$vars,
@@ -302,14 +302,14 @@ class RequestTest extends \Test\TestCase {
 		global $data;
 		$data = file_get_contents(__DIR__ . '/../../../data/testimage.png');
 
-		$vars = array(
+		$vars = [
 			'put' => $data,
 			'method' => 'PUT',
 			'server' => [
 				'CONTENT_TYPE' => 'image/png',
 				'CONTENT_LENGTH' => (string)strlen($data)
 			],
-		);
+		];
 
 		$request = new Request(
 			$vars,
@@ -335,11 +335,11 @@ class RequestTest extends \Test\TestCase {
 
 
 	public function testSetUrlParameters() {
-		$vars = array(
-			'post' => array(),
+		$vars = [
+			'post' => [],
 			'method' => 'POST',
-			'urlParams' => array('id' => '2'),
-		);
+			'urlParams' => ['id' => '2'],
+		];
 
 		$request = new Request(
 			$vars,
@@ -349,7 +349,7 @@ class RequestTest extends \Test\TestCase {
 			$this->stream
 		);
 
-		$newParams = array('id' => '3', 'test' => 'test2');
+		$newParams = ['id' => '3', 'test' => 'test2'];
 		$request->setUrlParameters($newParams);
 		$this->assertSame('test2', $request->getParam('test'));
 		$this->assertEquals('3', $request->getParam('id'));

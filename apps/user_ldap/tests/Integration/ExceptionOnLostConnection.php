@@ -129,12 +129,12 @@ class ExceptionOnLostConnection {
 		//host contains port, 2nd parameter will be ignored
 		$cr = $this->ldap->connect($this->ldapHost, 0);
 		$this->ldap->bind($cr, $this->ldapBindDN, $this->ldapBindPwd);
-		$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', array('dn'), true, 5);
+		$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', ['dn'], true, 5);
 
 		// disable LDAP, will cause lost connection
 		$this->setProxyState(false);
 		try {
-			$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', array('dn'), true, 5);
+			$this->ldap->search($cr, $this->ldapBase, 'objectClass=*', ['dn'], true, 5);
 		} catch (ServerNotAvailableException $e) {
 			print("Test PASSED" . PHP_EOL);
 			exit(0);
@@ -173,9 +173,9 @@ class ExceptionOnLostConnection {
 		$ch = $this->getCurl();
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		curl_setopt($ch, CURLOPT_HTTPHEADER, [
 				'Content-Type: application/json',
-				'Content-Length: ' . strlen($postData))
+				'Content-Length: ' . strlen($postData)]
 		);
 		$recvd = curl_exec($ch);
 		$this->checkCurlResult($ch, $recvd);

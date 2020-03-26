@@ -87,7 +87,7 @@ class Encryption extends Wrapper {
 	private $mountManager;
 
 	/** @var array remember for which path we execute the repair step to avoid recursions */
-	private $fixUnencryptedSizeOf = array();
+	private $fixUnencryptedSizeOf = [];
 
 	/** @var  ArrayCache */
 	private $arrayCache;
@@ -125,7 +125,7 @@ class Encryption extends Wrapper {
 		$this->uid = $uid;
 		$this->fileHelper = $fileHelper;
 		$this->keyStorage = $keyStorage;
-		$this->unencryptedSize = array();
+		$this->unencryptedSize = [];
 		$this->update = $update;
 		$this->mountManager = $mountManager;
 		$this->arrayCache = $arrayCache;
@@ -892,7 +892,7 @@ class Encryption extends Wrapper {
 	 * @return array
 	 */
 	protected function parseRawHeader($rawHeader) {
-		$result = array();
+		$result = [];
 		if (substr($rawHeader, 0, strlen(Util::HEADER_START)) === Util::HEADER_START) {
 			$header = $rawHeader;
 			$endAt = strpos($header, Util::HEADER_END);

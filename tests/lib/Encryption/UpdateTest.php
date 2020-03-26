@@ -121,10 +121,10 @@ class UpdateTest extends TestCase {
 	 * @return array
 	 */
 	public function dataTestUpdate() {
-		return array(
-			array('/user/files/foo', true, ['/user/files/foo/file1.txt', '/user/files/foo/file1.txt'], 2),
-			array('/user/files/test.txt', false, [], 1),
-		);
+		return [
+			['/user/files/foo', true, ['/user/files/foo/file1.txt', '/user/files/foo/file1.txt'], 2],
+			['/user/files/test.txt', false, [], 1],
+		];
 	}
 
 	/**
@@ -168,14 +168,14 @@ class UpdateTest extends TestCase {
 	 * @return array
 	 */
 	public function dataTestPostRename() {
-		return array(
-			array('/test.txt', '/testNew.txt', true),
-			array('/test.txt', '/testNew.txt', false),
-			array('/folder/test.txt', '/testNew.txt', true),
-			array('/folder/test.txt', '/testNew.txt', false),
-			array('/folder/test.txt', '/testNew.txt', true),
-			array('/test.txt', '/folder/testNew.txt', false),
-		);
+		return [
+			['/test.txt', '/testNew.txt', true],
+			['/test.txt', '/testNew.txt', false],
+			['/folder/test.txt', '/testNew.txt', true],
+			['/folder/test.txt', '/testNew.txt', false],
+			['/folder/test.txt', '/testNew.txt', true],
+			['/test.txt', '/folder/testNew.txt', false],
+		];
 	}
 
 
@@ -208,10 +208,10 @@ class UpdateTest extends TestCase {
 	 * @return array
 	 */
 	public function dataTestPostRestore() {
-		return array(
-			array(true),
-			array(false),
-		);
+		return [
+			[true],
+			[false],
+		];
 	}
 
 	/**

@@ -35,7 +35,7 @@ class AppManagerTest extends TestCase {
 	 * @return AppConfig|MockObject
 	 */
 	protected function getAppConfig() {
-		$appConfig = array();
+		$appConfig = [];
 		$config = $this->createMock(AppConfig::class);
 
 		$config->expects($this->any())
@@ -47,7 +47,7 @@ class AppManagerTest extends TestCase {
 			->method('setValue')
 			->willReturnCallback(function ($app, $key, $value) use (&$appConfig) {
 				if (!isset($appConfig[$app])) {
-					$appConfig[$app] = array();
+					$appConfig[$app] = [];
 				}
 				$appConfig[$app][$key] = $value;
 			});
@@ -57,7 +57,7 @@ class AppManagerTest extends TestCase {
 				if ($app) {
 					return $appConfig[$app];
 				} else {
-					$values = array();
+					$values = [];
 					foreach ($appConfig as $appid => $appData) {
 						if (isset($appData[$key])) {
 							$values[$appid] = $appData[$key];
@@ -346,7 +346,7 @@ class AppManagerTest extends TestCase {
 		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
-			->willReturn(array('foo', 'bar'));
+			->willReturn(['foo', 'bar']);
 
 		$this->appConfig->setValue('test', 'enabled', '["foo"]');
 		$this->assertTrue($this->manager->isEnabledForUser('test', $user));
@@ -357,7 +357,7 @@ class AppManagerTest extends TestCase {
 		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
-			->willReturn(array('bar'));
+			->willReturn(['bar']);
 
 		$this->appConfig->setValue('test', 'enabled', '["foo"]');
 		$this->assertFalse($this->manager->isEnabledForUser('test', $user));
@@ -377,7 +377,7 @@ class AppManagerTest extends TestCase {
 		$this->groupManager->expects($this->once())
 			->method('getUserGroupIds')
 			->with($user)
-			->willReturn(array('foo', 'bar'));
+			->willReturn(['foo', 'bar']);
 
 		$this->appConfig->setValue('test', 'enabled', '["foo"]');
 		$this->assertTrue($this->manager->isEnabledForUser('test'));
@@ -410,7 +410,7 @@ class AppManagerTest extends TestCase {
 		$this->groupManager->expects($this->any())
 			->method('getUserGroupIds')
 			->with($user)
-			->willReturn(array('foo', 'bar'));
+			->willReturn(['foo', 'bar']);
 
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'no');

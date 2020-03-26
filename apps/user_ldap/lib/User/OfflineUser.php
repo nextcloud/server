@@ -105,7 +105,7 @@ class OfflineUser {
 	 * @return array
 	 */
 	public function export() {
-		$data = array();
+		$data = [];
 		$data['ocName'] = $this->getOCName();
 		$data['dn'] = $this->getDN();
 		$data['uid'] = $this->getUID();
@@ -223,7 +223,7 @@ class OfflineUser {
 			FROM `*PREFIX*share`
 			WHERE `uid_owner` = ?
 		', 1);
-		$query->execute(array($this->ocName));
+		$query->execute([$this->ocName]);
 		$sResult = $query->fetchColumn(0);
 		if((int)$sResult === 1) {
 			$this->hasActiveShares = true;
@@ -235,7 +235,7 @@ class OfflineUser {
 			FROM `*PREFIX*share_external`
 			WHERE `owner` = ?
 		', 1);
-		$query->execute(array($this->ocName));
+		$query->execute([$this->ocName]);
 		$sResult = $query->fetchColumn(0);
 		if((int)$sResult === 1) {
 			$this->hasActiveShares = true;

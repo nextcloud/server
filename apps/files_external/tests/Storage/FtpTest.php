@@ -63,11 +63,11 @@ class FtpTest extends \Test\Files\Storage\Storage {
 	}
 
 	public function testConstructUrl(){
-		$config = array ( 'host' => 'localhost',
+		$config =  [ 'host' => 'localhost',
 						  'user' => 'ftp',
 						  'password' => 'ftp',
 						  'root' => '/',
-						  'secure' => false );
+						  'secure' => false ];
 		$instance = new FTP($config);
 		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
 

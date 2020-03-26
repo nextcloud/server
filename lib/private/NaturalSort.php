@@ -32,7 +32,7 @@ use OCP\ILogger;
 class NaturalSort {
 	private static $instance;
 	private $collator;
-	private $cache = array();
+	private $cache = [];
 
 	/**
 	 * Instantiate a new \OC\NaturalSort instance.
@@ -58,7 +58,7 @@ class NaturalSort {
 		if (isset($this->cache[$t])) {
 			return $this->cache[$t];
 		}
-		$tz = array();
+		$tz = [];
 		$x = 0;
 		$y = -1;
 		$n = null;

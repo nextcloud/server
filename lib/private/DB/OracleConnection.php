@@ -46,7 +46,7 @@ class OracleConnection extends Connection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function insert($tableName, array $data, array $types = array()) {
+	public function insert($tableName, array $data, array $types = []) {
 		if ($tableName[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
 			$tableName = $this->quoteIdentifier($tableName);
 		}
@@ -57,7 +57,7 @@ class OracleConnection extends Connection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function update($tableName, array $data, array $identifier, array $types = array()) {
+	public function update($tableName, array $data, array $identifier, array $types = []) {
 		if ($tableName[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
 			$tableName = $this->quoteIdentifier($tableName);
 		}
@@ -69,7 +69,7 @@ class OracleConnection extends Connection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function delete($tableExpression, array $identifier, array $types = array()) {
+	public function delete($tableExpression, array $identifier, array $types = []) {
 		if ($tableExpression[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
 			$tableExpression = $this->quoteIdentifier($tableExpression);
 		}
@@ -86,7 +86,7 @@ class OracleConnection extends Connection {
 		$table = $this->tablePrefix . trim($table);
 		$table = $this->quoteIdentifier($table);
 		$schema = $this->getSchemaManager();
-		if($schema->tablesExist(array($table))) {
+		if($schema->tablesExist([$table])) {
 			$schema->dropTable($table);
 		}
 	}
@@ -101,6 +101,6 @@ class OracleConnection extends Connection {
 		$table = $this->tablePrefix . trim($table);
 		$table = $this->quoteIdentifier($table);
 		$schema = $this->getSchemaManager();
-		return $schema->tablesExist(array($table));
+		return $schema->tablesExist([$table]);
 	}
 }

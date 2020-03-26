@@ -229,7 +229,7 @@ class Group_LDAPTest extends TestCase {
 
 		$access->expects($this->once())
 			->method('searchGroups')
-			->willReturn(array());
+			->willReturn([]);
 
 		$access->expects($this->never())
 			->method('dn2groupname');
@@ -276,7 +276,7 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->once())
 			->method('readAttribute')
 			->with($dn, $attr)
-			->willReturn(array('3117'));
+			->willReturn(['3117']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 
@@ -376,7 +376,7 @@ class Group_LDAPTest extends TestCase {
 
 		$access->expects($this->once())
 			->method('searchGroups')
-			->willReturn(array());
+			->willReturn([]);
 
 		$access->expects($this->never())
 			->method('dn2groupname');
@@ -430,7 +430,7 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->once())
 			->method('readAttribute')
 			->with($dn, $attr)
-			->willReturn(array('3117'));
+			->willReturn(['3117']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 
@@ -496,7 +496,7 @@ class Group_LDAPTest extends TestCase {
 
 		$access->expects($this->once())
 			->method('nextcloudGroupNames')
-			->willReturn(array('group1', 'group2'));
+			->willReturn(['group1', 'group2']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$groups = $groupBackend->getGroups('', 2, 2);
@@ -521,11 +521,11 @@ class Group_LDAPTest extends TestCase {
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
-					return array(1337);
+					return [1337];
 				} else if($attr === 'gidNumber') {
 					return [4211];
 				}
-				return array();
+				return [];
 			});
 		$access->expects($this->any())
 			->method('groupname2dn')
@@ -558,16 +558,16 @@ class Group_LDAPTest extends TestCase {
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
-					return array(1337);
+					return [1337];
 				}
-				return array();
+				return [];
 			});
 		$access->expects($this->any())
 			->method('groupname2dn')
 			->willReturn('cn=foobar,dc=foo,dc=bar');
 		$access->expects($this->once())
 			->method('nextcloudUserNames')
-			->willReturn(array('lisa', 'bart', 'kira', 'brad'));
+			->willReturn(['lisa', 'bart', 'kira', 'brad']);
 		$access->userManager = $this->createMock(Manager::class);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
@@ -594,9 +594,9 @@ class Group_LDAPTest extends TestCase {
 			->method('readAttribute')
 			->willReturnCallback(function($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
-					return array(1337);
+					return [1337];
 				}
-				return array();
+				return [];
 			});
 
 		$access->expects($this->any())

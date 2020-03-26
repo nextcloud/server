@@ -80,9 +80,9 @@ class TestConfig extends Command {
 		//ensure validation is run before we attempt the bind
 		$connection->getConfiguration();
 
-		if(!$connection->setConfiguration(array(
+		if(!$connection->setConfiguration([
 			'ldap_configuration_active' => 1,
-		))) {
+		])) {
 			return 1;
 		}
 		if($connection->bind()) {

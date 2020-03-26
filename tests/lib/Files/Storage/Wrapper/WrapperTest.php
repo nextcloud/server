@@ -18,8 +18,8 @@ class WrapperTest extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		$storage = new \OC\Files\Storage\Local(array('datadir' => $this->tmpDir));
-		$this->instance = new \OC\Files\Storage\Wrapper\Wrapper(array('storage' => $storage));
+		$storage = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
+		$this->instance = new \OC\Files\Storage\Wrapper\Wrapper(['storage' => $storage]);
 	}
 
 	protected function tearDown(): void {

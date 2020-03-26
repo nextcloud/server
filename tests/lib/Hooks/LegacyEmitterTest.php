@@ -16,7 +16,7 @@ namespace Test\Hooks;
  * @package Test\Hooks
  */
 class DummyLegacyEmitter extends \OC\Hooks\LegacyEmitter {
-	public function emitEvent($scope, $method, $arguments = array()) {
+	public function emitEvent($scope, $method, $arguments = []) {
 		$this->emit($scope, $method, $arguments);
 	}
 }
@@ -51,7 +51,7 @@ class LegacyEmitterTest extends BasicEmitterTest {
 
 	public function testLegacyArguments() {
 		\OC_Hook::connect('Test', 'test', '\Test\Hooks\LegacyEmitterTest', 'staticLegacyArgumentsCallBack');
-		$this->emitter->emitEvent('Test', 'test', array('foo' => 'foo', 'bar' => 'bar'));
+		$this->emitter->emitEvent('Test', 'test', ['foo' => 'foo', 'bar' => 'bar']);
 		$this->assertEquals(true, self::$emitted);
 	}
 }

@@ -39,7 +39,7 @@ class LocalTest extends Storage {
 		parent::setUp();
 
 		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
-		$this->instance = new \OC\Files\Storage\Local(array('datadir' => $this->tmpDir));
+		$this->instance = new \OC\Files\Storage\Local(['datadir' => $this->tmpDir]);
 	}
 
 	protected function tearDown(): void {

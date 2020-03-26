@@ -298,7 +298,7 @@ class JSConfigHelper {
 		}
 
 		// Allow hooks to modify the output values
-		\OC_Hook::emit('\OCP\Config', 'js', array('array' => &$array));
+		\OC_Hook::emit('\OCP\Config', 'js', ['array' => &$array]);
 
 		$result = '';
 

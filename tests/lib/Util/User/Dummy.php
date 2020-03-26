@@ -33,8 +33,8 @@ use OC\User\Backend;
  * dummy user backend, does not keep state, only for testing use
  */
 class Dummy extends Backend implements \OCP\IUserBackend {
-	private $users = array();
-	private $displayNames = array();
+	private $users = [];
+	private $displayNames = [];
 
 	/**
 	 * Create a new user
@@ -127,7 +127,7 @@ class Dummy extends Backend implements \OCP\IUserBackend {
 		if (empty($search)) {
 			return array_keys($this->users);
 		}
-		$result = array();
+		$result = [];
 		foreach (array_keys($this->users) as $user) {
 			if (stripos($user, $search) !== false) {
 				$result[] = $user;

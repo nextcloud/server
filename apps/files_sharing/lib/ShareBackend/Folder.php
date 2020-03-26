@@ -39,7 +39,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 	 * @return array with shares
 	 */
 	public function getParents($itemSource, $shareWith = null, $owner = null) {
-		$result = array();
+		$result = [];
 		$parent = $this->getParentId($itemSource);
 
 		$userManager = \OC::$server->getUserManager();
@@ -89,8 +89,8 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 	}
 
 	public function getChildren($itemSource) {
-		$children = array();
-		$parents = array($itemSource);
+		$children = [];
+		$parents = [$itemSource];
 
 		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$qb->select('id')
@@ -123,9 +123,9 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 
 			$result = $qb->execute();
 
-			$parents = array();
+			$parents = [];
 			while ($file = $result->fetch()) {
-				$children[] = array('source' => $file['fileid'], 'file_path' => $file['name']);
+				$children[] = ['source' => $file['fileid'], 'file_path' => $file['name']];
 				// If a child folder is found look inside it
 				if ((int) $file['mimetype'] === $mimetype) {
 					$parents[] = $file['fileid'];

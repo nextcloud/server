@@ -42,19 +42,19 @@ use OCP\Share\IShare;
  */
 class NodeTest extends \Test\TestCase {
 	public function davPermissionsProvider() {
-		return array(
-			array(\OCP\Constants::PERMISSION_ALL, 'file', false, false, 'RGDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL, 'dir', false, false, 'RGDNVCK'),
-			array(\OCP\Constants::PERMISSION_ALL, 'file', true, false, 'SRGDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL, 'file', true, true, 'SRMGDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_SHARE, 'file', true, false, 'SGDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_UPDATE, 'file', false, false, 'RGD'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_DELETE, 'file', false, false, 'RGNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'file', false, false, 'RGDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_READ, 'file', false, false, 'RDNVW'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'dir', false, false, 'RGDNV'),
-			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_READ, 'dir', false, false, 'RDNVCK'),
-		);
+		return [
+			[\OCP\Constants::PERMISSION_ALL, 'file', false, false, 'RGDNVW'],
+			[\OCP\Constants::PERMISSION_ALL, 'dir', false, false, 'RGDNVCK'],
+			[\OCP\Constants::PERMISSION_ALL, 'file', true, false, 'SRGDNVW'],
+			[\OCP\Constants::PERMISSION_ALL, 'file', true, true, 'SRMGDNVW'],
+			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_SHARE, 'file', true, false, 'SGDNVW'],
+			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_UPDATE, 'file', false, false, 'RGD'],
+			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_DELETE, 'file', false, false, 'RGNVW'],
+			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'file', false, false, 'RGDNVW'],
+			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_READ, 'file', false, false, 'RDNVW'],
+			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'dir', false, false, 'RGDNV'],
+			[\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_READ, 'dir', false, false, 'RDNVCK'],
+		];
 	}
 
 	/**
@@ -63,7 +63,7 @@ class NodeTest extends \Test\TestCase {
 	public function testDavPermissions($permissions, $type, $shared, $mounted, $expected) {
 		$info = $this->getMockBuilder(FileInfo::class)
 			->disableOriginalConstructor()
-			->setMethods(array('getPermissions', 'isShared', 'isMounted', 'getType'))
+			->setMethods(['getPermissions', 'isShared', 'isMounted', 'getType'])
 			->getMock();
 		$info->expects($this->any())
 			->method('getPermissions')

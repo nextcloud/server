@@ -201,7 +201,7 @@ class DirectoryTest extends \Test\TestCase {
 		$this->view->expects($this->once())
 			->method('getDirectoryContent')
 			->with('')
-			->willReturn(array($info1, $info2));
+			->willReturn([$info1, $info2]);
 
 		$this->view->expects($this->any())
 			->method('getRelativePath')

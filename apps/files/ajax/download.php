@@ -38,7 +38,7 @@ $dir = isset($_GET['dir']) ? (string)$_GET['dir'] : '';
 $files_list = json_decode($files);
 // in case we get only a single file
 if (!is_array($files_list)) {
-	$files_list = array($files);
+	$files_list = [$files];
 }
 
 /**
@@ -52,7 +52,7 @@ if(isset($_GET['downloadStartSecret'])
 	setcookie('ocDownloadStarted', $_GET['downloadStartSecret'], time() + 20, '/');
 }
 
-$server_params = array( 'head' => \OC::$server->getRequest()->getMethod() === 'HEAD' );
+$server_params = [ 'head' => \OC::$server->getRequest()->getMethod() === 'HEAD' ];
 
 /**
  * Http range requests support

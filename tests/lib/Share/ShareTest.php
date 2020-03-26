@@ -115,7 +115,7 @@ class ShareTest extends \Test\TestCase {
 
 	protected function tearDown(): void {
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `item_type` = ?');
-		$query->execute(array('test'));
+		$query->execute(['test']);
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_allow_resharing', $this->resharing);
 
 		$this->user1->delete();
@@ -141,37 +141,37 @@ class ShareTest extends \Test\TestCase {
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` ('
 			.' `item_type`, `item_source`, `item_target`, `share_type`,'
 			.' `share_with`, `uid_owner`) VALUES (?,?,?,?,?,?)');
-		$args = array('test', 99, 'target1', \OCP\Share::SHARE_TYPE_USER, $this->user2->getUID(), $this->user1->getUID());
+		$args = ['test', 99, 'target1', \OCP\Share::SHARE_TYPE_USER, $this->user2->getUID(), $this->user1->getUID()];
 		$query->execute($args);
-		$args = array('test', 99, 'target2', \OCP\Share::SHARE_TYPE_USER, $this->user4->getUID(), $this->user1->getUID());
+		$args = ['test', 99, 'target2', \OCP\Share::SHARE_TYPE_USER, $this->user4->getUID(), $this->user1->getUID()];
 		$query->execute($args);
-		$args = array('test', 99, 'target3', \OCP\Share::SHARE_TYPE_USER, $this->user3->getUID(), $this->user2->getUID());
+		$args = ['test', 99, 'target3', \OCP\Share::SHARE_TYPE_USER, $this->user3->getUID(), $this->user2->getUID()];
 		$query->execute($args);
-		$args = array('test', 99, 'target4', \OCP\Share::SHARE_TYPE_USER, $this->user3->getUID(), $this->user4->getUID());
+		$args = ['test', 99, 'target4', \OCP\Share::SHARE_TYPE_USER, $this->user3->getUID(), $this->user4->getUID()];
 		$query->execute($args);
-		$args = array('test', 99, 'target4', \OCP\Share::SHARE_TYPE_USER, $this->user6->getUID(), $this->user4->getUID());
+		$args = ['test', 99, 'target4', \OCP\Share::SHARE_TYPE_USER, $this->user6->getUID(), $this->user4->getUID()];
 		$query->execute($args);
 
 
 		$result1 = \OCP\Share::getItemSharedWithUser('test', 99, $this->user2->getUID(), $this->user1->getUID());
 		$this->assertSame(1, count($result1));
-		$this->verifyResult($result1, array('target1'));
+		$this->verifyResult($result1, ['target1']);
 
 		$result2 = \OCP\Share::getItemSharedWithUser('test', 99, null, $this->user1->getUID());
 		$this->assertSame(2, count($result2));
-		$this->verifyResult($result2, array('target1', 'target2'));
+		$this->verifyResult($result2, ['target1', 'target2']);
 
 		$result3 = \OCP\Share::getItemSharedWithUser('test', 99, $this->user3->getUID());
 		$this->assertSame(2, count($result3));
-		$this->verifyResult($result3, array('target3', 'target4'));
+		$this->verifyResult($result3, ['target3', 'target4']);
 
 		$result4 = \OCP\Share::getItemSharedWithUser('test', 99, null, null);
 		$this->assertSame(5, count($result4)); // 5 because target4 appears twice
-		$this->verifyResult($result4, array('target1', 'target2', 'target3', 'target4'));
+		$this->verifyResult($result4, ['target1', 'target2', 'target3', 'target4']);
 
 		$result6 = \OCP\Share::getItemSharedWithUser('test', 99, $this->user6->getUID(), null);
 		$this->assertSame(1, count($result6));
-		$this->verifyResult($result6, array('target4'));
+		$this->verifyResult($result6, ['target4']);
 	}
 
 	public function testGetItemSharedWithUserFromGroupShare() {
@@ -181,32 +181,32 @@ class ShareTest extends \Test\TestCase {
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` ('
 			.' `item_type`, `item_source`, `item_target`, `share_type`,'
 			.' `share_with`, `uid_owner`) VALUES (?,?,?,?,?,?)');
-		$args = array('test', 99, 'target1', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), $this->user1->getUID());
+		$args = ['test', 99, 'target1', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), $this->user1->getUID()];
 		$query->execute($args);
-		$args = array('test', 99, 'target2', \OCP\Share::SHARE_TYPE_GROUP, $this->group2->getGID(), $this->user1->getUID());
+		$args = ['test', 99, 'target2', \OCP\Share::SHARE_TYPE_GROUP, $this->group2->getGID(), $this->user1->getUID()];
 		$query->execute($args);
-		$args = array('test', 99, 'target3', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), $this->user2->getUID());
+		$args = ['test', 99, 'target3', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), $this->user2->getUID()];
 		$query->execute($args);
-		$args = array('test', 99, 'target4', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), $this->user4->getUID());
+		$args = ['test', 99, 'target4', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), $this->user4->getUID()];
 		$query->execute($args);
 
 		// user2 is in group1 and group2
 		$result1 = \OCP\Share::getItemSharedWithUser('test', 99, $this->user2->getUID(), $this->user1->getUID());
 		$this->assertSame(2, count($result1));
-		$this->verifyResult($result1, array('target1', 'target2'));
+		$this->verifyResult($result1, ['target1', 'target2']);
 
 		$result2 = \OCP\Share::getItemSharedWithUser('test', 99, null, $this->user1->getUID());
 		$this->assertSame(2, count($result2));
-		$this->verifyResult($result2, array('target1', 'target2'));
+		$this->verifyResult($result2, ['target1', 'target2']);
 
 		// user3 is in group1 and group2
 		$result3 = \OCP\Share::getItemSharedWithUser('test', 99, $this->user3->getUID());
 		$this->assertSame(3, count($result3));
-		$this->verifyResult($result3, array('target1', 'target3', 'target4'));
+		$this->verifyResult($result3, ['target1', 'target3', 'target4']);
 
 		$result4 = \OCP\Share::getItemSharedWithUser('test', 99, null, null);
 		$this->assertSame(4, count($result4));
-		$this->verifyResult($result4, array('target1', 'target2', 'target3', 'target4'));
+		$this->verifyResult($result4, ['target1', 'target2', 'target3', 'target4']);
 
 		$result6 = \OCP\Share::getItemSharedWithUser('test', 99, $this->user6->getUID(), null);
 		$this->assertSame(0, count($result6));
@@ -229,16 +229,16 @@ class ShareTest extends \Test\TestCase {
 	 */
 	function testRemoveProtocolFromUrl($url, $expectedResult) {
 		$share = new \OC\Share\Share();
-		$result = self::invokePrivate($share, 'removeProtocolFromUrl', array($url));
+		$result = self::invokePrivate($share, 'removeProtocolFromUrl', [$url]);
 		$this->assertSame($expectedResult, $result);
 	}
 
 	function urls() {
-		return array(
-			array('http://owncloud.org', 'owncloud.org'),
-			array('https://owncloud.org', 'owncloud.org'),
-			array('owncloud.org', 'owncloud.org'),
-		);
+		return [
+			['http://owncloud.org', 'owncloud.org'],
+			['https://owncloud.org', 'owncloud.org'],
+			['owncloud.org', 'owncloud.org'],
+		];
 	}
 
 	/**
@@ -265,57 +265,57 @@ class ShareTest extends \Test\TestCase {
 	}
 
 	function dataProviderTestGroupItems() {
-		return array(
+		return [
 			// one array with one share
-			array(
-				array( // input
-					array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_ALL, 'item_target' => 't1')),
-				array( // expected result
-					array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_ALL, 'item_target' => 't1'))),
+			[
+				[ // input
+					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_ALL, 'item_target' => 't1']],
+				[ // expected result
+					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_ALL, 'item_target' => 't1']]],
 			// two shares both point to the same source
-			array(
-				array( // input
-					array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'),
-					array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'),
-					),
-				array( // expected result
-					array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1',
-						'grouped' => array(
-							array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'),
-							array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'),
-							)
-						),
-					)
-				),
+			[
+				[ // input
+					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
+					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
+					],
+				[ // expected result
+					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1',
+						'grouped' => [
+							['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
+							['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
+							]
+						],
+					]
+				],
 			// two shares both point to the same source but with different targets
-			array(
-				array( // input
-					array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'),
-					array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't2'),
-					),
-				array( // expected result
-					array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'),
-					array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't2'),
-					)
-				),
+			[
+				[ // input
+					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
+					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't2'],
+					],
+				[ // expected result
+					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
+					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't2'],
+					]
+				],
 			// three shares two point to the same source
-			array(
-				array( // input
-					array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'),
-					array('item_source' => 2, 'permissions' => \OCP\Constants::PERMISSION_CREATE, 'item_target' => 't2'),
-					array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'),
-					),
-				array( // expected result
-					array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1',
-						'grouped' => array(
-							array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'),
-							array('item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'),
-							)
-						),
-					array('item_source' => 2, 'permissions' => \OCP\Constants::PERMISSION_CREATE, 'item_target' => 't2'),
-					)
-				),
-		);
+			[
+				[ // input
+					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
+					['item_source' => 2, 'permissions' => \OCP\Constants::PERMISSION_CREATE, 'item_target' => 't2'],
+					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
+					],
+				[ // expected result
+					['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1',
+						'grouped' => [
+							['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_READ, 'item_target' => 't1'],
+							['item_source' => 1, 'permissions' => \OCP\Constants::PERMISSION_UPDATE, 'item_target' => 't1'],
+							]
+						],
+					['item_source' => 2, 'permissions' => \OCP\Constants::PERMISSION_CREATE, 'item_target' => 't2'],
+					]
+				],
+		];
 	}
 }
 

@@ -200,7 +200,7 @@ class ViewController extends Controller {
 			$collapseClasses = 'collapsible';
 		}
 
-		$favoritesSublistArray = Array();
+		$favoritesSublistArray = [];
 
 		$navBarPositionPosition = 6;
 		$currentCount           = 0;

@@ -34,7 +34,7 @@ if ($token !== '') {
 	} else {
 		http_response_code(307);
 	}
-	header('Location: ' . $urlGenerator->linkToRoute($route, array('token' => $token)));
+	header('Location: ' . $urlGenerator->linkToRoute($route, ['token' => $token]));
 } else {
 	http_response_code(404);
 	$tmpl = new OCP\Template('', '404', 'guest');

@@ -20,7 +20,7 @@
  *  * use RST syntax
  */
 
-$CONFIG = array(
+$CONFIG = [
 
 
 /**
@@ -69,12 +69,12 @@ $CONFIG = array(
  *   Using TLS certificates where commonName=<IP address> is deprecated
  */
 'trusted_domains' =>
-  array (
+   [
     'demo.example.org',
     'otherdomain.example.org',
     '10.111.112.113',
     '[2001:db8::1]'
-  ),
+  ],
 
 
 /**
@@ -418,7 +418,7 @@ $CONFIG = array(
  * will be passed to underlying Swift mailer implementation.
  * Defaults to an empty array.
  */
-'mail_smtpstreamoptions' => array(),
+'mail_smtpstreamoptions' => [],
 
 /**
  * Which mode is used for sendmail/qmail: ``smtp`` or ``pipe``.
@@ -696,12 +696,12 @@ $CONFIG = array(
  *  - www.eff.org
  *  - www.edri.org
  */
-'connectivity_check_domains' => array(
+'connectivity_check_domains' => [
 	'www.nextcloud.com',
 	'www.startpage.com',
 	'www.eff.org',
 	'www.edri.org'
-),
+],
 
 /**
  * Allows Nextcloud to verify a working .well-known URL redirects. This is done
@@ -900,13 +900,13 @@ $CONFIG = array(
  * to that folder, starting from the Nextcloud webroot. The key ``writable``
  * indicates if a Web server can write files to that folder.
  */
-'apps_paths' => array(
-	array(
+'apps_paths' => [
+	[
 		'path'=> '/var/www/nextcloud/apps',
 		'url' => '/apps',
 		'writable' => true,
-	),
-),
+	],
+],
 
 /**
  * @see appcodechecker
@@ -1014,7 +1014,7 @@ $CONFIG = array(
  *  - OC\Preview\TXT
  *  - OC\Preview\XBitmap
  */
-'enabledPreviewProviders' => array(
+'enabledPreviewProviders' => [
 	'OC\Preview\PNG',
 	'OC\Preview\JPEG',
 	'OC\Preview\GIF',
@@ -1024,7 +1024,7 @@ $CONFIG = array(
 	'OC\Preview\MP3',
 	'OC\Preview\TXT',
 	'OC\Preview\MarkDown'
-),
+],
 
 /**
  * LDAP
@@ -1102,9 +1102,9 @@ $CONFIG = array(
   *
  * Defaults to an empty array.
  */
-'openssl' => array(
+'openssl' => [
 	'config' => '/absolute/location/of/openssl.cnf',
-),
+],
 
 /**
  * Memory caching backend configuration
@@ -1198,18 +1198,18 @@ $CONFIG = array(
 /**
  * Server details for one or more memcached servers to use for memory caching.
  */
-'memcached_servers' => array(
+'memcached_servers' => [
 	// hostname, port and optional weight. Also see:
 	// http://www.php.net/manual/en/memcached.addservers.php
 	// http://www.php.net/manual/en/memcached.addserver.php
-	array('localhost', 11211),
+	['localhost', 11211],
 	//array('other.host.local', 11211),
-),
+],
 
 /**
  * Connection options for memcached
  */
-'memcached_options' => array(
+'memcached_options' => [
 	// Set timeouts to 50ms
 	\Memcached::OPT_CONNECT_TIMEOUT => 50,
 	\Memcached::OPT_RETRY_TIMEOUT =>   50,
@@ -1228,7 +1228,7 @@ $CONFIG = array(
 
 	// Binary serializer vill be enabled if the igbinary PECL module is available
 	//\Memcached::OPT_SERIALIZER => \Memcached::SERIALIZER_IGBINARY,
-),
+],
 
 
 /**
@@ -1378,10 +1378,10 @@ $CONFIG = array(
  * Additional driver options for the database connection, eg. to enable SSL
  * encryption in MySQL or specify a custom wait timeout on a cheap hoster.
  */
-'dbdriveroptions' => array(
+'dbdriveroptions' => [
 	PDO::MYSQL_ATTR_SSL_CA => '/file/path/to/ca_cert.pem',
 	PDO::MYSQL_ATTR_INIT_COMMAND => 'SET wait_timeout = 28800'
-),
+],
 
 /**
  * sqlite3 journal mode can be specified using this configuration parameter -
@@ -1436,12 +1436,12 @@ $CONFIG = array(
  *  - mysql (MySQL)
  *  - pgsql (PostgreSQL)
  */
-'supportedDatabases' => array(
+'supportedDatabases' => [
 	'sqlite',
 	'mysql',
 	'pgsql',
 	'oci',
-),
+],
 
 /**
  * Override where Nextcloud stores temporary files. Useful in situations where
@@ -1507,7 +1507,7 @@ $CONFIG = array(
  *
  * Defaults to ``array('.htaccess')``
  */
-'blacklisted_files' => array('.htaccess'),
+'blacklisted_files' => ['.htaccess'],
 
 /**
  * Define a default folder for shared files and folders other than root.
@@ -1634,7 +1634,7 @@ $CONFIG = array(
  *
  * Defaults to an empty array.
  */
-'trusted_proxies' => array('203.0.113.45', '198.51.100.128', '192.168.2.0/24'),
+'trusted_proxies' => ['203.0.113.45', '198.51.100.128', '192.168.2.0/24'],
 
 /**
  * Headers that should be trusted as client IP address in combination with
@@ -1646,7 +1646,7 @@ $CONFIG = array(
  *
  * Defaults to ``'HTTP_X_FORWARDED_FOR'``
  */
-'forwarded_for_headers' => array('HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'),
+'forwarded_for_headers' => ['HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'],
 
 /**
  * max file size for animating gifs on public-sharing-site.
@@ -1767,10 +1767,10 @@ $CONFIG = array(
  *
  * WARNING: only use this if you know what you are doing
  */
-'csrf.optout' => array(
+'csrf.optout' => [
 	'/^WebDAVFS/', // OS X Finder
 	'/^Microsoft-WebDAV-MiniRedir/', // Windows webdav drive
-),
+],
 
 /**
  * By default there is on public pages a link shown that allows users to
@@ -1789,4 +1789,4 @@ $CONFIG = array(
  */
 
 'login_form_autocomplete' => true,
-);
+];

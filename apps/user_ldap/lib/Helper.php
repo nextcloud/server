@@ -99,7 +99,7 @@ class Helper {
 
 		$keys = $this->getServersConfig($referenceConfigkey);
 
-		$result = array();
+		$result = [];
 		foreach($keys as $key) {
 			$len = strlen($key) - strlen($referenceConfigkey);
 			$prefix = substr($key, 0, $len);
@@ -164,7 +164,7 @@ class Helper {
 				AND `appid` = \'user_ldap\'
 				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
 		');
-		$delRows = $query->execute(array($prefix.'%'));
+		$delRows = $query->execute([$prefix.'%']);
 
 		if($delRows === null) {
 			return false;
@@ -234,7 +234,7 @@ class Helper {
 	public function sanitizeDN($dn) {
 		//treating multiple base DNs
 		if(is_array($dn)) {
-			$result = array();
+			$result = [];
 			foreach($dn as $singleDN) {
 				$result[] = $this->sanitizeDN($singleDN);
 			}
@@ -251,7 +251,7 @@ class Helper {
 		//escape DN values according to RFC 2253 – this is already done by ldap_explode_dn
 		//to use the DN in search filters, \ needs to be escaped to \5c additionally
 		//to use them in bases, we convert them back to simple backslashes in readAttribute()
-		$replacements = array(
+		$replacements = [
 			'\,' => '\5c2C',
 			'\=' => '\5c3D',
 			'\+' => '\5c2B',
@@ -263,7 +263,7 @@ class Helper {
 			'('  => '\28',
 			')'  => '\29',
 			'*'  => '\2A',
-		);
+		];
 		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
 
 		return $dn;

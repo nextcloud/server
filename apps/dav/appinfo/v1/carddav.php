@@ -69,10 +69,10 @@ $pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager
 $addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend, $pluginManager);
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 
-$nodes = array(
+$nodes = [
 	$principalCollection,
 	$addressBookRoot,
-);
+];
 
 // Fire up server
 $server = new \Sabre\DAV\Server($nodes);

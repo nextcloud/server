@@ -56,5 +56,5 @@ try {
 	}
 	\OC_JSON::success();
 } catch (\Exception $e) {
-	\OC_JSON::error(array('message' => $e->getMessage()));
+	\OC_JSON::error(['message' => $e->getMessage()]);
 }

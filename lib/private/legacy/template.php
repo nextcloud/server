@@ -54,7 +54,7 @@ class OC_Template extends \OC\Template\Base {
 	private $path; // The path to the template
 
 	/** @var array */
-	private $headers = array(); //custom headers
+	private $headers = []; //custom headers
 
 	/** @var string */
 	protected $app; // app id
@@ -154,7 +154,7 @@ class OC_Template extends \OC\Template\Base {
 		$locator = new \OC\Template\TemplateFileLocator( $dirs );
 		$template = $locator->find($name);
 		$path = $locator->getPath();
-		return array($path, $template);
+		return [$path, $template];
 	}
 
 	/**
@@ -165,11 +165,11 @@ class OC_Template extends \OC\Template\Base {
 	 * element will be written as empty element. So use "" to get a closing tag.
 	 */
 	public function addHeader($tag, $attributes, $text=null) {
-		$this->headers[]= array(
+		$this->headers[]= [
 			'tag' => $tag,
 			'attributes' => $attributes,
 			'text' => $text
-		);
+		];
 	}
 
 	/**
@@ -238,7 +238,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param array $parameters Parameters for the template
 	 * @return boolean|null
 	 */
-	public static function printUserPage( $application, $name, $parameters = array() ) {
+	public static function printUserPage( $application, $name, $parameters = [] ) {
 		$content = new OC_Template( $application, $name, "user" );
 		foreach( $parameters as $key => $value ) {
 			$content->assign( $key, $value );
@@ -253,7 +253,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param array $parameters Parameters for the template
 	 * @return bool
 	 */
-	public static function printAdminPage( $application, $name, $parameters = array() ) {
+	public static function printAdminPage( $application, $name, $parameters = [] ) {
 		$content = new OC_Template( $application, $name, "admin" );
 		foreach( $parameters as $key => $value ) {
 			$content->assign( $key, $value );
@@ -268,7 +268,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param array|string $parameters Parameters for the template
 	 * @return bool
 	 */
-	public static function printGuestPage( $application, $name, $parameters = array() ) {
+	public static function printGuestPage( $application, $name, $parameters = [] ) {
 		$content = new OC_Template($application, $name, $name === 'error' ? $name : 'guest');
 		foreach( $parameters as $key => $value ) {
 			$content->assign( $key, $value );
@@ -297,7 +297,7 @@ class OC_Template extends \OC\Template\Base {
 		http_response_code($statusCode);
 		try {
 			$content = new \OC_Template( '', 'error', 'error', false );
-			$errors = array(array('error' => $error_msg, 'hint' => $hint));
+			$errors = [['error' => $error_msg, 'hint' => $hint]];
 			$content->assign( 'errors', $errors );
 			$content->printPage();
 		} catch (\Exception $e) {

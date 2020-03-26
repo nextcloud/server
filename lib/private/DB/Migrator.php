@@ -155,7 +155,7 @@ class Migrator {
 		$tmpTable = $this->renameTableSchema($table, $tmpName);
 		$schemaConfig = new SchemaConfig();
 		$schemaConfig->setName($this->connection->getDatabase());
-		$schema = new Schema(array($tmpTable), array(), $schemaConfig);
+		$schema = new Schema([$tmpTable], [], $schemaConfig);
 
 		try {
 			$this->applySchema($schema);
@@ -180,7 +180,7 @@ class Migrator {
 		 * @var \Doctrine\DBAL\Schema\Index[] $indexes
 		 */
 		$indexes = $table->getIndexes();
-		$newIndexes = array();
+		$newIndexes = [];
 		foreach ($indexes as $index) {
 			if ($index->isPrimary()) {
 				// do not rename primary key
@@ -193,7 +193,7 @@ class Migrator {
 		}
 
 		// foreign keys are not supported so we just set it to an empty array
-		return new Table($newName, $table->getColumns(), $newIndexes, array(), 0, $table->getOptions());
+		return new Table($newName, $table->getColumns(), $newIndexes, [], 0, $table->getOptions());
 	}
 
 	public function createSchema() {

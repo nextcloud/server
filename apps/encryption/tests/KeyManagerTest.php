@@ -322,7 +322,7 @@ class KeyManagerTest extends TestCase {
 
 		$this->assertTrue(
 			$this->instance->setRecoveryKey('pass',
-				array('publicKey' => 'publicKey', 'privateKey' => 'privateKey'))
+				['publicKey' => 'publicKey', 'privateKey' => 'privateKey'])
 		);
 	}
 
@@ -505,12 +505,12 @@ class KeyManagerTest extends TestCase {
 	 * @return array
 	 */
 	public function dataTestAddSystemKeys() {
-		return array(
-			array(['public' => true],[], 'user1', ['publicShareKey', 'recoveryKey']),
-			array(['public' => false], [], 'user1', ['recoveryKey']),
-			array(['public' => true],[], 'user2', ['publicShareKey']),
-			array(['public' => false], [], 'user2', []),
-		);
+		return [
+			[['public' => true],[], 'user1', ['publicShareKey', 'recoveryKey']],
+			[['public' => false], [], 'user1', ['recoveryKey']],
+			[['public' => true],[], 'user2', ['publicShareKey']],
+			[['public' => false], [], 'user2', []],
+		];
 	}
 
 	public function testGetMasterKeyId() {

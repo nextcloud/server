@@ -15,48 +15,48 @@ class ContactsManagerTest extends \Test\TestCase {
 	}
 
 	public function searchProvider(){
-		$search1 = array(
-			0 => array(
-				'N' => array(0 => '', 1 => 'Jan', 2 => 'Jansen', 3 => '', 4 => '',),
+		$search1 = [
+			0 => [
+				'N' => [0 => '', 1 => 'Jan', 2 => 'Jansen', 3 => '', 4 => '',],
 				'UID' => '04ada7f5-01f9-4309-9c82-6b555b2170ed',
 				'FN' => 'Jan Jansen',
 				'id' => '1',
 				'addressbook-key' => 'simple:1',
-			),
-			0 => array(
-				'N' => array(0 => '', 1 => 'Tom', 2 => 'Peeters', 3 => '', 4 => '',),
+			],
+			0 => [
+				'N' => [0 => '', 1 => 'Tom', 2 => 'Peeters', 3 => '', 4 => '',],
 				'UID' => '04ada7f5-01f9-4309-9c82-2345-2345--6b555b2170ed',
 				'FN' => 'Tom Peeters',
 				'id' => '2',
 				'addressbook-key' => 'simple:1',
-			),
-		);
+			],
+		];
 
-		$search2 = array(
-			0 => array(
-				'N' => array(0 => '', 1 => 'fg', 2 => '', 3 => '', 4 => '',),
+		$search2 = [
+			0 => [
+				'N' => [0 => '', 1 => 'fg', 2 => '', 3 => '', 4 => '',],
 				'UID' => '04ada234h5jh357f5-01f9-4309-9c82-6b555b2170ed',
 				'FN' => 'Jan Rompuy',
 				'id' => '1',
 				'addressbook-key' => 'simple:2',
-			),
-			0 => array(
-				'N' => array(0 => '', 1 => 'fg', 2 => '', 3 => '', 4 => '',),
+			],
+			0 => [
+				'N' => [0 => '', 1 => 'fg', 2 => '', 3 => '', 4 => '',],
 				'UID' => '04ada7f5-01f9-4309-345kj345j9c82-2345-2345--6b555b2170ed',
 				'FN' => 'Tim Peeters',
 				'id' => '2',
 				'addressbook-key' => 'simple:2',
-			),
-		);
+			],
+		];
 
 		$expectedResult =  array_merge($search1, $search2);
-		return array(
-			array(
+		return [
+			[
 				$search1,
 				$search2,
 				$expectedResult
-			)
-		);
+			]
+		];
 	}
 
 	/**
@@ -164,7 +164,7 @@ class ContactsManagerTest extends \Test\TestCase {
 			->willReturn('returnMe');
 
 		$this->cm->registerAddressBook($addressbook);
-		$result = $this->cm->createOrUpdate(array(), $addressbook->getKey());
+		$result = $this->cm->createOrUpdate([], $addressbook->getKey());
 		$this->assertEquals($result, 'returnMe');
 	}
 
@@ -182,7 +182,7 @@ class ContactsManagerTest extends \Test\TestCase {
 			->method('createOrUpdate');
 
 		$this->cm->registerAddressBook($addressbook);
-		$result = $this->cm->createOrUpdate(array(), $addressbook->getKey());
+		$result = $this->cm->createOrUpdate([], $addressbook->getKey());
 		$this->assertEquals($result, null);
 
 	}
@@ -197,7 +197,7 @@ class ContactsManagerTest extends \Test\TestCase {
 			->method('createOrUpdate');
 
 		$this->cm->registerAddressBook($addressbook);
-		$result = $this->cm->createOrUpdate(array(), 'noaddressbook');
+		$result = $this->cm->createOrUpdate([], 'noaddressbook');
 		$this->assertEquals($result, null);
 	}
 

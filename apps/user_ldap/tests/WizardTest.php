@@ -47,8 +47,8 @@ class WizardTest extends TestCase {
 		parent::setUp();
 		//we need to make sure the consts are defined, otherwise tests will fail
 		//on systems without php5_ldap
-		$ldapConsts = array('LDAP_OPT_PROTOCOL_VERSION',
-							'LDAP_OPT_REFERRALS', 'LDAP_OPT_NETWORK_TIMEOUT');
+		$ldapConsts = ['LDAP_OPT_PROTOCOL_VERSION',
+							'LDAP_OPT_REFERRALS', 'LDAP_OPT_NETWORK_TIMEOUT'];
 		foreach($ldapConsts as $const) {
 			if(!defined($const)) {
 				define($const, 42);
@@ -78,7 +78,7 @@ class WizardTest extends TestCase {
 		/** @var Access|\PHPUnit_Framework_MockObject_MockObject $access */
 		$access = $this->createMock(Access::class);
 
-		return array(new Wizard($conf, $lw, $access), $conf, $lw, $access);
+		return [new Wizard($conf, $lw, $access), $conf, $lw, $access];
 	}
 
 	private function prepareLdapWrapperForConnections(MockObject &$ldap) {
@@ -104,7 +104,7 @@ class WizardTest extends TestCase {
 			->method('__get')
 			->willReturnCallback(function($name) {
 					if($name === 'ldapBase') {
-						return array('base');
+						return ['base'];
 					}
 					return null;
 			   });
@@ -139,7 +139,7 @@ class WizardTest extends TestCase {
 		$ldap->expects($this->exactly(10))
 			->method('getAttributes')
 			//dummy value, usually invalid
-			->willReturn(array('cn' => array('foo'), 'count' => 1));
+			->willReturn(['cn' => ['foo'], 'count' => 1]);
 
 		global $uidnumber;
 		$uidnumber = 1;
@@ -152,7 +152,7 @@ class WizardTest extends TestCase {
 			});
 
 		// The following expectations are the real test
-		$filters = array('f1', 'f2', '*');
+		$filters = ['f1', 'f2', '*'];
 		$wizard->cumulativeSearchOnAttribute($filters, 'cn', 5);
 		unset($uidnumber);
 	}
@@ -164,7 +164,7 @@ class WizardTest extends TestCase {
 			->method('__get')
 			->willReturnCallback(function($name) {
 					if($name === 'ldapBase') {
-						return array('base');
+						return ['base'];
 					}
 					return null;
 			   });
@@ -215,7 +215,7 @@ class WizardTest extends TestCase {
 		$ldap->expects($this->exactly(46))
 			->method('getAttributes')
 			//dummy value, usually invalid
-			->willReturn(array('cn' => array('foo'), 'count' => 1));
+			->willReturn(['cn' => ['foo'], 'count' => 1]);
 
 		global $uidnumber;
 		$uidnumber = 1;
@@ -228,7 +228,7 @@ class WizardTest extends TestCase {
 			});
 
 		// The following expectations are the real test
-		$filters = array('f1', 'f2', '*');
+		$filters = ['f1', 'f2', '*'];
 		$wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
 		unset($uidnumber);
 	}
@@ -380,7 +380,7 @@ class WizardTest extends TestCase {
 			->method('__get')
 			->willReturnCallback(function($name) {
 					if($name === 'ldapBase') {
-						return array('base');
+						return ['base'];
 					}
 					return null;
 			   });
@@ -432,7 +432,7 @@ class WizardTest extends TestCase {
 			->method('getAttributes')
 			//dummy value, usually invalid
 			->willReturnCallback(function($a, $entry) {
-				return array('cn' => array($entry), 'count' => 1);
+				return ['cn' => [$entry], 'count' => 1];
 			});
 
 		$ldap->expects($this->any())
@@ -443,7 +443,7 @@ class WizardTest extends TestCase {
 			});
 
 		// The following expectations are the real test
-		$filters = array('f1', 'f2', '*');
+		$filters = ['f1', 'f2', '*'];
 		$resultArray = $wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
 		$this->assertSame(6, count($resultArray));
 		unset($mark);

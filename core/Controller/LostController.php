@@ -170,7 +170,7 @@ class LostController extends Controller {
 		} catch (\Exception $e) {
 			return new TemplateResponse(
 				'core', 'error', [
-					"errors" => array(array("error" => $e->getMessage()))
+					"errors" => [["error" => $e->getMessage()]]
 				],
 				'guest'
 			);
@@ -231,8 +231,8 @@ class LostController extends Controller {
 	 * @param array $additional
 	 * @return array
 	 */
-	private function error($message, array $additional=array()) {
-		return array_merge(array('status' => 'error', 'msg' => $message), $additional);
+	private function error($message, array $additional=[]) {
+		return array_merge(['status' => 'error', 'msg' => $message], $additional);
 	}
 
 	/**
@@ -297,7 +297,7 @@ class LostController extends Controller {
 				$instance = call_user_func($module['callback']);
 				// this way we can find out whether per-user keys are used or a system wide encryption key
 				if ($instance->needDetailedAccessList()) {
-					return $this->error('', array('encryption' => true));
+					return $this->error('', ['encryption' => true]);
 				}
 			}
 		}
@@ -306,13 +306,13 @@ class LostController extends Controller {
 			$this->checkPasswordResetToken($token, $userId);
 			$user = $this->userManager->get($userId);
 
-			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'pre_passwordReset', array('uid' => $userId, 'password' => $password));
+			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'pre_passwordReset', ['uid' => $userId, 'password' => $password]);
 
 			if (!$user->setPassword($password)) {
 				throw new \Exception();
 			}
 
-			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', array('uid' => $userId, 'password' => $password));
+			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', ['uid' => $userId, 'password' => $password]);
 
 			$this->twoFactorManager->clearTwoFactorPending($userId);
 
@@ -354,7 +354,7 @@ class LostController extends Controller {
 		$encryptedValue = $this->crypto->encrypt($tokenValue, $email . $this->config->getSystemValue('secret'));
 		$this->config->setUserValue($user->getUID(), 'core', 'lostpassword', $encryptedValue);
 
-		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user->getUID(), 'token' => $token));
+		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', ['userId' => $user->getUID(), 'token' => $token]);
 
 		$emailTemplate = $this->mailer->createEMailTemplate('core.ResetPassword', [
 			'link' => $link,

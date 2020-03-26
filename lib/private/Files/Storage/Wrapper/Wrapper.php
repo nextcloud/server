@@ -503,7 +503,7 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage, IWriteStrea
 	 * @return mixed
 	 */
 	public function __call($method, $args) {
-		return call_user_func_array(array($this->getWrapperStorage(), $method), $args);
+		return call_user_func_array([$this->getWrapperStorage(), $method], $args);
 	}
 
 	/**

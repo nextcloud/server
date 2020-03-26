@@ -66,23 +66,23 @@ try {
 			 * pass (like e.g. expected syntax error).
 			 */
 			try {
-				$ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', array('dn'));
+				$ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', ['dn']);
 			} catch (\Exception $e) {
 				if($e->getCode() === 1) {
-					\OC_JSON::error(array('message' => $l->t('Invalid configuration: Anonymous binding is not allowed.')));
+					\OC_JSON::error(['message' => $l->t('Invalid configuration: Anonymous binding is not allowed.')]);
 					exit;
 				}
 			}
-			\OC_JSON::success(array('message'
-			=> $l->t('Valid configuration, connection established!')));
+			\OC_JSON::success(['message'
+			=> $l->t('Valid configuration, connection established!')]);
 		} else {
-			\OC_JSON::error(array('message'
-			=> $l->t('Valid configuration, but binding failed. Please check the server settings and credentials.')));
+			\OC_JSON::error(['message'
+			=> $l->t('Valid configuration, but binding failed. Please check the server settings and credentials.')]);
 		}
 	} else {
-		\OC_JSON::error(array('message'
-		=> $l->t('Invalid configuration. Please have a look at the logs for further details.')));
+		\OC_JSON::error(['message'
+		=> $l->t('Invalid configuration. Please have a look at the logs for further details.')]);
 	}
 } catch (\Exception $e) {
-	\OC_JSON::error(array('message' => $e->getMessage()));
+	\OC_JSON::error(['message' => $e->getMessage()]);
 }

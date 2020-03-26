@@ -36,7 +36,7 @@ interface ICompositeExpression {
 	 * @return ICompositeExpression
 	 * @since 8.2.0
 	 */
-	public function addMultiple(array $parts = array());
+	public function addMultiple(array $parts = []);
 
 	/**
 	 * Adds an expression to composite expression.

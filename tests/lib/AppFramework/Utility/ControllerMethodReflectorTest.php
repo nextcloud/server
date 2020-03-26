@@ -193,7 +193,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 			'arguments'
 		);
 
-		$this->assertEquals(array('arg' => null, 'arg2' => 'hi'), $reader->getParameters());
+		$this->assertEquals(['arg' => null, 'arg2' => 'hi'], $reader->getParameters());
 	}
 
 
@@ -205,7 +205,7 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 			'arguments2'
 		);
 
-		$this->assertEquals(array('arg' => null), $reader->getParameters());
+		$this->assertEquals(['arg' => null], $reader->getParameters());
 	}
 
 

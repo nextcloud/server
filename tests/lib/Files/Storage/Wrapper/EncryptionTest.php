@@ -148,7 +148,7 @@ class EncryptionTest extends Storage {
 
 		$this->logger = $this->createMock(Log::class);
 
-		$this->sourceStorage = new Temporary(array());
+		$this->sourceStorage = new Temporary([]);
 
 		$this->keyStore = $this->getMockBuilder('\OC\Encryption\Keys\Storage')
 			->disableOriginalConstructor()->getMock();
@@ -458,13 +458,13 @@ class EncryptionTest extends Storage {
 	 * @return array
 	 */
 	public function dataTestCopyAndRename() {
-		return array(
-			array('source', 'target', true, false, false),
-			array('source', 'target', true, true, false),
-			array('source', '/subFolder/target', true, false, false),
-			array('source', '/subFolder/target', true, true, true),
-			array('source', '/subFolder/target', false, true, false),
-		);
+		return [
+			['source', 'target', true, false, false],
+			['source', 'target', true, true, false],
+			['source', '/subFolder/target', true, false, false],
+			['source', '/subFolder/target', true, true, true],
+			['source', '/subFolder/target', false, true, false],
+		];
 	}
 
 	public function testIsLocal() {
@@ -512,16 +512,16 @@ class EncryptionTest extends Storage {
 	}
 
 	public function dataTestRmdir() {
-		return array(
-			array('/file.txt', true, true, true),
-			array('/file.txt', false, true, true),
-			array('/file.txt', true, false, true),
-			array('/file.txt', false, false, true),
-			array('/file.txt', true, true, false),
-			array('/file.txt', false, true, false),
-			array('/file.txt', true, false, false),
-			array('/file.txt', false, false, false),
-		);
+		return [
+			['/file.txt', true, true, true],
+			['/file.txt', false, true, true],
+			['/file.txt', true, false, true],
+			['/file.txt', false, false, true],
+			['/file.txt', true, true, false],
+			['/file.txt', false, true, false],
+			['/file.txt', true, false, false],
+			['/file.txt', false, false, false],
+		];
 	}
 
 	/**
@@ -547,10 +547,10 @@ class EncryptionTest extends Storage {
 	}
 
 	public function dataTestCopyKeys() {
-		return array(
-			array(true, false),
-			array(false, true),
-		);
+		return [
+			[true, false],
+			[false, true],
+		];
 	}
 
 	/**
@@ -613,13 +613,13 @@ class EncryptionTest extends Storage {
 	}
 
 	public function dataTestGetHeader() {
-		return array(
-			array('/foo/bar.txt', false, '/foo/bar.txt'),
-			array('/foo/bar.txt.part', false, '/foo/bar.txt'),
-			array('/foo/bar.txt.ocTransferId7437493.part', false, '/foo/bar.txt'),
-			array('/foo/bar.txt.part', true, '/foo/bar.txt'),
-			array('/foo/bar.txt.ocTransferId7437493.part', true, '/foo/bar.txt'),
-		);
+		return [
+			['/foo/bar.txt', false, '/foo/bar.txt'],
+			['/foo/bar.txt.part', false, '/foo/bar.txt'],
+			['/foo/bar.txt.ocTransferId7437493.part', false, '/foo/bar.txt'],
+			['/foo/bar.txt.part', true, '/foo/bar.txt'],
+			['/foo/bar.txt.ocTransferId7437493.part', true, '/foo/bar.txt'],
+		];
 	}
 
 	/**

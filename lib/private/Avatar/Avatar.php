@@ -232,7 +232,7 @@ abstract class Avatar implements IAvatar {
 		$x = intval(($xi - $xr) / 2);
 		$y = intval(($yi + $yr) / 2);
 
-		return array($x, $y);
+		return [$x, $y];
 	}
 
 	/**
@@ -242,7 +242,7 @@ abstract class Avatar implements IAvatar {
 	 * @return array [r,g,b] steps for each color to go from $steps to $ends
 	 */
 	private function stepCalc($steps, $ends) {
-		$step = array();
+		$step = [];
 		$step[0] = ($ends[1]->r - $ends[0]->r) / $steps;
 		$step[1] = ($ends[1]->g - $ends[0]->g) / $steps;
 		$step[2] = ($ends[1]->b - $ends[0]->b) / $steps;
@@ -256,7 +256,7 @@ abstract class Avatar implements IAvatar {
 	 * @return int[] between 0 and $maximum
 	 */
 	private function mixPalette($steps, $color1, $color2) {
-		$palette = array($color1);
+		$palette = [$color1];
 		$step = $this->stepCalc($steps, [$color1, $color2]);
 		for ($i = 1; $i < $steps; $i++) {
 			$r = intval($color1->r + ($step[0] * $i));
@@ -275,7 +275,7 @@ abstract class Avatar implements IAvatar {
 	 */
 	private function hashToInt($hash, $maximum) {
 		$final = 0;
-		$result = array();
+		$result = [];
 
 		// Splitting evenly the string
 		for ($i = 0; $i < strlen($hash); $i++) {

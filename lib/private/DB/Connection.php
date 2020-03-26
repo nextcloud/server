@@ -190,7 +190,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 *
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function executeQuery($query, array $params = array(), $types = array(), QueryCacheProfile $qcp = null)
+	public function executeQuery($query, array $params = [], $types = [], QueryCacheProfile $qcp = null)
 	{
 		$query = $this->replaceTablePrefix($query);
 		$query = $this->adapter->fixupStatement($query);
@@ -211,7 +211,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 *
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function executeUpdate($query, array $params = array(), array $types = array())
+	public function executeUpdate($query, array $params = [], array $types = [])
 	{
 		$query = $this->replaceTablePrefix($query);
 		$query = $this->adapter->fixupStatement($query);
@@ -373,7 +373,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	public function dropTable($table) {
 		$table = $this->tablePrefix . trim($table);
 		$schema = $this->getSchemaManager();
-		if($schema->tablesExist(array($table))) {
+		if($schema->tablesExist([$table])) {
 			$schema->dropTable($table);
 		}
 	}
@@ -387,7 +387,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	public function tableExists($table){
 		$table = $this->tablePrefix . trim($table);
 		$schema = $this->getSchemaManager();
-		return $schema->tablesExist(array($table));
+		return $schema->tablesExist([$table]);
 	}
 
 	// internal use

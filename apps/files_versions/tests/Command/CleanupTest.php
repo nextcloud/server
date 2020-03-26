@@ -90,10 +90,10 @@ class CleanupTest extends TestCase {
 	}
 
 	public function dataTestDeleteVersions() {
-		return array(
-			array(true),
-			array(false)
-		);
+		return [
+			[true],
+			[false]
+		];
 	}
 
 

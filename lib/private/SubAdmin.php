@@ -135,7 +135,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 */
 	public function getSubAdminsGroupsName(IUser $user): array {
 		return array_map(function($group) {
-			return array('displayName' => $group->getDisplayName());
+			return ['displayName' => $group->getDisplayName()];
 		}, $this->getSubAdminsGroups($user));
 	}
 

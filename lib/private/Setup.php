@@ -182,7 +182,7 @@ class Setup {
 			throw new Exception('Supported databases are not properly configured.');
 		}
 
-		$supportedDatabases = array();
+		$supportedDatabases = [];
 
 		foreach ($configuredDatabases as $database) {
 			if (array_key_exists($database, $availableDatabases)) {
@@ -263,7 +263,7 @@ class Setup {
 			];
 		}
 
-		return array(
+		return [
 			'hasSQLite' => isset($databases['sqlite']),
 			'hasMySQL' => isset($databases['mysql']),
 			'hasPostgreSQL' => isset($databases['pgsql']),
@@ -272,7 +272,7 @@ class Setup {
 			'directory' => $dataDir,
 			'htaccessWorking' => $htAccessWorking,
 			'errors' => $errors,
-		);
+		];
 	}
 
 	/**
@@ -282,7 +282,7 @@ class Setup {
 	public function install($options) {
 		$l = $this->l10n;
 
-		$error = array();
+		$error = [];
 		$dbType = $options['dbtype'];
 
 		if (empty($options['adminlogin'])) {
@@ -310,7 +310,7 @@ class Setup {
 
 		// validate the data directory
 		if ((!is_dir($dataDir) && !mkdir($dataDir)) || !is_writable($dataDir)) {
-			$error[] = $l->t("Can't create or write into the data directory %s", array($dataDir));
+			$error[] = $l->t("Can't create or write into the data directory %s", [$dataDir]);
 		}
 
 		if (!empty($error)) {

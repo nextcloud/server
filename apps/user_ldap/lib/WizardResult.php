@@ -29,8 +29,8 @@
 namespace OCA\User_LDAP;
 
 class WizardResult {
-	protected $changes = array();
-	protected $options = array();
+	protected $changes = [];
+	protected $options = [];
 	protected $markedChange = false;
 
 	/**
@@ -52,7 +52,7 @@ class WizardResult {
 	 */
 	public function addOptions($key, $values) {
 		if(!is_array($values)) {
-			$values = array($values);
+			$values = [$values];
 		}
 		$this->options[$key] = $values;
 	}
@@ -68,7 +68,7 @@ class WizardResult {
 	 * @return array
 	 */
 	public function getResultArray() {
-		$result = array();
+		$result = [];
 		$result['changes'] = $this->changes;
 		if(count($this->options) > 0) {
 			$result['options'] = $this->options;

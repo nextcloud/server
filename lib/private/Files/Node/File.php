@@ -67,12 +67,12 @@ class File extends Node implements \OCP\Files\File {
 	 */
 	public function putContent($data) {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
-			$this->sendHooks(array('preWrite'));
+			$this->sendHooks(['preWrite']);
 			if ($this->view->file_put_contents($this->path, $data) === false) {
 				throw new GenericFileException('file_put_contents failed');
 			}
 			$this->fileInfo = null;
-			$this->sendHooks(array('postWrite'));
+			$this->sendHooks(['postWrite']);
 		} else {
 			throw new NotPermittedException();
 		}
@@ -85,8 +85,8 @@ class File extends Node implements \OCP\Files\File {
 	 * @throws LockedException
 	 */
 	public function fopen($mode) {
-		$preHooks = array();
-		$postHooks = array();
+		$preHooks = [];
+		$postHooks = [];
 		$requiredPermissions = \OCP\Constants::PERMISSION_READ;
 		switch ($mode) {
 			case 'r+':
@@ -126,7 +126,7 @@ class File extends Node implements \OCP\Files\File {
 	 */
 	public function delete() {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
-			$this->sendHooks(array('preDelete'));
+			$this->sendHooks(['preDelete']);
 			$fileInfo = $this->getFileInfo();
 			$this->view->unlink($this->path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $this->path, $fileInfo);

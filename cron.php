@@ -77,7 +77,7 @@ try {
 		if (OC::$CLI) {
 			echo 'Background Jobs are disabled!' . PHP_EOL;
 		} else {
-			OC_JSON::error(array('data' => array('message' => 'Background jobs disabled!')));
+			OC_JSON::error(['data' => ['message' => 'Background jobs disabled!']]);
 		}
 		exit(1);
 	}
@@ -140,7 +140,7 @@ try {
 		// We call cron.php from some website
 		if ($appMode === 'cron') {
 			// Cron is cron :-P
-			OC_JSON::error(array('data' => array('message' => 'Backgroundjobs are using system cron!')));
+			OC_JSON::error(['data' => ['message' => 'Backgroundjobs are using system cron!']]);
 		} else {
 			// Work and success :-)
 			$jobList = \OC::$server->getJobList();

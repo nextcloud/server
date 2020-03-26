@@ -74,7 +74,7 @@ class ApiController extends OCSController {
 			$permissions |= \OCP\Constants::PERMISSION_DELETE;
 		}
 
-		$entry = array(
+		$entry = [
 			'name' => basename($mountPoint),
 			'path' => $path,
 			'type' => 'dir',
@@ -83,7 +83,7 @@ class ApiController extends OCSController {
 			'permissions' => $permissions,
 			'id' => $mountConfig['id'],
 			'class' => $mountConfig['class']
-		);
+		];
 		return $entry;
 	}
 

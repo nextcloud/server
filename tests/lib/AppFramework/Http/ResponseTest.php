@@ -49,11 +49,11 @@ class ResponseTest extends \Test\TestCase {
 
 
 	public function testSetHeaders() {
-		$expected = array(
+		$expected = [
 			'Last-Modified' => 1,
 			'ETag' => 3,
 			'Something-Else' => 'hi'
-		);
+		];
 
 		$this->childResponse->setHeaders($expected);
 		$headers = $this->childResponse->getHeaders();
@@ -105,31 +105,31 @@ class ResponseTest extends \Test\TestCase {
 		$this->childResponse->addCookie('foo', 'bar');
 		$this->childResponse->addCookie('bar', 'foo', new \DateTime('1970-01-01'));
 
-		$expectedResponse = array(
-			'foo' => array(
+		$expectedResponse = [
+			'foo' => [
 				'value' => 'bar',
 				'expireDate' => null,
-			),
-			'bar' => array(
+			],
+			'bar' => [
 				'value' => 'foo',
 				'expireDate' => new \DateTime('1970-01-01')
-			)
-		);
+			]
+		];
 		$this->assertEquals($expectedResponse, $this->childResponse->getCookies());
 	}
 
 
 	function testSetCookies() {
-		$expected = array(
-			'foo' => array(
+		$expected = [
+			'foo' => [
 				'value' => 'bar',
 				'expireDate' => null,
-			),
-			'bar' => array(
+			],
+			'bar' => [
 				'value' => 'foo',
 				'expireDate' => new \DateTime('1970-01-01')
-			)
-		);
+			]
+		];
 
 		$this->childResponse->setCookies($expected);
 		$cookies = $this->childResponse->getCookies();
@@ -141,12 +141,12 @@ class ResponseTest extends \Test\TestCase {
 	function testInvalidateCookie() {
 		$this->childResponse->addCookie('foo', 'bar');
 		$this->childResponse->invalidateCookie('foo');
-		$expected = array(
-			'foo' => array(
+		$expected = [
+			'foo' => [
 				'value' => 'expired',
 				'expireDate' => new \DateTime('1971-01-01')
-			)
-		);
+			]
+		];
 
 		$cookies = $this->childResponse->getCookies();
 
@@ -157,30 +157,30 @@ class ResponseTest extends \Test\TestCase {
 	function testInvalidateCookies() {
 		$this->childResponse->addCookie('foo', 'bar');
 		$this->childResponse->addCookie('bar', 'foo');
-		$expected = array(
-			'foo' => array(
+		$expected = [
+			'foo' => [
 				'value' => 'bar',
 				'expireDate' => null
-			),
-			'bar' => array(
+			],
+			'bar' => [
 				'value' => 'foo',
 				'expireDate' => null
-			)
-		);
+			]
+		];
 		$cookies = $this->childResponse->getCookies();
 		$this->assertEquals($expected, $cookies);
 
-		$this->childResponse->invalidateCookies(array('foo', 'bar'));
-		$expected = array(
-			'foo' => array(
+		$this->childResponse->invalidateCookies(['foo', 'bar']);
+		$expected = [
+			'foo' => [
 				'value' => 'expired',
 				'expireDate' => new \DateTime('1971-01-01')
-			),
-			'bar' => array(
+			],
+			'bar' => [
 				'value' => 'expired',
 				'expireDate' => new \DateTime('1971-01-01')
-			)
-		);
+			]
+		];
 
 		$cookies = $this->childResponse->getCookies();
 		$this->assertEquals($expected, $cookies);

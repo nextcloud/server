@@ -44,7 +44,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @return \OCP\DB\QueryBuilder\ICompositeExpression
 	 */
-	public function addMultiple(array $parts = array()) {
+	public function addMultiple(array $parts = []) {
 		$this->compositeExpression->addMultiple($parts);
 
 		return $this;

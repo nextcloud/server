@@ -28,24 +28,24 @@ namespace Test\Share;
 class HelperTest extends \Test\TestCase {
 
 	public function expireDateProvider() {
-		return array(
+		return [
 			// no default expire date, we take the users expire date
-			array(array('defaultExpireDateSet' => false), 2000000000, 2000010000, 2000010000),
+			[['defaultExpireDateSet' => false], 2000000000, 2000010000, 2000010000],
 			// no default expire date and no user defined expire date, return false
-			array(array('defaultExpireDateSet' => false), 2000000000, null, false),
+			[['defaultExpireDateSet' => false], 2000000000, null, false],
 			// unenforced expire data and no user defined expire date, return false (because the default is not enforced)
-			array(array('defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => false), 2000000000, null, false),
+			[['defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => false], 2000000000, null, false],
 			// enforced expire date and no user defined expire date, take default expire date
-			array(array('defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => true), 2000000000, null, 2000086400),
+			[['defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => true], 2000000000, null, 2000086400],
 			// unenforced expire date and user defined date > default expire date, take users expire date
-			array(array('defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => false), 2000000000, 2000100000, 2000100000),
+			[['defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => false], 2000000000, 2000100000, 2000100000],
 			// unenforced expire date and user expire date < default expire date, take users expire date
-			array(array('defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => false), 2000000000, 2000010000, 2000010000),
+			[['defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => false], 2000000000, 2000010000, 2000010000],
 			// enforced expire date and user expire date < default expire date, take users expire date
-			array(array('defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => true), 2000000000, 2000010000, 2000010000),
+			[['defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => true], 2000000000, 2000010000, 2000010000],
 			// enforced expire date and users expire date > default expire date, take default expire date
-			array(array('defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => true), 2000000000, 2000100000, 2000086400),
-		);
+			[['defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => true], 2000000000, 2000100000, 2000086400],
+		];
 	}
 
 	/**
@@ -101,21 +101,21 @@ class HelperTest extends \Test\TestCase {
 	}
 
 	public function dataTestSplitUserRemoteError() {
-		return array(
+		return [
 			// Invalid path
-			array('user@'),
+			['user@'],
 
 			// Invalid user
-			array('@server'),
-			array('us/er@server'),
-			array('us:er@server'),
+			['@server'],
+			['us/er@server'],
+			['us:er@server'],
 
 			// Invalid splitting
-			array('user'),
-			array(''),
-			array('us/erserver'),
-			array('us:erserver'),
-		);
+			['user'],
+			[''],
+			['us/erserver'],
+			['us:erserver'],
+		];
 	}
 
 	/**

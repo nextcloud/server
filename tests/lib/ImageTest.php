@@ -345,11 +345,11 @@ class ImageTest extends \Test\TestCase {
 	}
 
 	function convertDataProvider() {
-		return array(
-			array( 'image/gif'),
-			array( 'image/jpeg'),
-			array( 'image/png'),
-		);
+		return [
+			[ 'image/gif'],
+			[ 'image/jpeg'],
+			[ 'image/png'],
+		];
 	}
 
 	/**

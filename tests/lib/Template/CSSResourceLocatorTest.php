@@ -85,14 +85,14 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		return new CSSResourceLocator(
 			$this->logger,
 			'theme',
-			array('core'=>'map'),
-			array('3rd'=>'party'),
+			['core'=>'map'],
+			['3rd'=>'party'],
 			$scssCacher
 		);
 	}
 
 	private function rrmdir($directory) {
-		$files = array_diff(scandir($directory), array('.','..'));
+		$files = array_diff(scandir($directory), ['.','..']);
 		foreach ($files as $file) {
 			if (is_dir($directory . '/' . $file)) {
 				$this->rrmdir($directory . '/' . $file);
@@ -111,10 +111,10 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		$locator = $this->cssResourceLocator();
 		$this->assertAttributeEquals('theme', 'theme', $locator);
 		$this->assertAttributeEquals('core', 'serverroot', $locator);
-		$this->assertAttributeEquals(array('core'=>'map','3rd'=>'party'), 'mapping', $locator);
+		$this->assertAttributeEquals(['core'=>'map','3rd'=>'party'], 'mapping', $locator);
 		$this->assertAttributeEquals('3rd', 'thirdpartyroot', $locator);
 		$this->assertAttributeEquals('map', 'webroot', $locator);
-		$this->assertAttributeEquals(array(), 'resources', $locator);
+		$this->assertAttributeEquals([], 'resources', $locator);
 	}
 
 	public function testFindWithAppPathSymlink() {
@@ -136,7 +136,7 @@ class CSSResourceLocatorTest extends \Test\TestCase {
                 ];
 
 		$locator = $this->cssResourceLocator();
-		$locator->find(array('test-css-app/test-file'));
+		$locator->find(['test-css-app/test-file']);
 
 		$resources = $locator->getResources();
 		$this->assertCount(1, $resources);

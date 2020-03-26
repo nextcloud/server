@@ -500,8 +500,8 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	private function getFileIdForPath($path, $user) {
 		$url = $this->baseUrl . '/remote.php/webdav/' . $path;
 		$credentials = base64_encode($user . ':' . $this->getPasswordForUser($user));
-		$context = stream_context_create(array(
-			'http' => array(
+		$context = stream_context_create([
+			'http' => [
 				'method' => 'PROPFIND',
 				'header' => "Authorization: Basic $credentials\r\nContent-Type: application/x-www-form-urlencoded",
 				'content' => '<?xml version="1.0"?>
@@ -510,8 +510,8 @@ class TagsContext implements \Behat\Behat\Context\Context {
     <oc:fileid />
   </d:prop>
 </d:propfind>'
-			)
-		));
+			]
+		]);
 		$response = file_get_contents($url, false, $context);
 		preg_match_all('/\<oc:fileid\>(.*?)\<\/oc:fileid\>/', $response, $matches);
 		return (int)$matches[1][0];

@@ -29,7 +29,7 @@ namespace OC\Files\Type;
  * @deprecated 18.0.0
  */
 class TemplateManager {
-	protected $templates = array();
+	protected $templates = [];
 
 	public function registerTemplate($mimetype, $path) {
 		$this->templates[$mimetype] = $path;

@@ -351,7 +351,7 @@ class Swift extends \OC\Files\Storage\Common {
 			$mtime = floor($mtime);
 		}
 
-		$stat = array();
+		$stat = [];
 		$stat['size'] = (int)$object->contentLength;
 		$stat['mtime'] = $mtime;
 		$stat['atime'] = time();
@@ -602,7 +602,7 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 		$path = $this->normalizePath($path);
 		$dh = $this->opendir($path);
-		$content = array();
+		$content = [];
 		while (($file = readdir($dh)) !== false) {
 			$content[] = $file;
 		}

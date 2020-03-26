@@ -145,7 +145,7 @@ class CSSResourceLocator extends ResourceLocator {
 				}
 			}
 
-			$this->resources[] = array($webRoot? : \OC::$WEBROOT, $webRoot, $file);
+			$this->resources[] = [$webRoot? : \OC::$WEBROOT, $webRoot, $file];
 		}
 	}
 }

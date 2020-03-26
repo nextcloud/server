@@ -4,7 +4,7 @@
 		<h2 class="title"><?php p($l->t('App update required')); ?></h2>
 		<?php } else { ?>
 		<h2 class="title"><?php p($l->t('%1$s will be updated to version %2$s',
-			array($_['productName'], $_['version']))); ?></h2>
+			[$_['productName'], $_['version']])); ?></h2>
 		<?php } ?>
 		<?php if (!empty($_['appsToUpgrade'])) { ?>
 		<div class="infogroup">
@@ -28,7 +28,7 @@
 		<?php } ?>
 		<?php if (!empty($_['oldTheme'])) { ?>
 		<div class="infogroup">
-			<?php p($l->t('The theme %s has been disabled.', array($_['oldTheme']))) ?>
+			<?php p($l->t('The theme %s has been disabled.', [$_['oldTheme']])) ?>
 		</div>
 		<?php } ?>
 		<div class="infogroup bold">

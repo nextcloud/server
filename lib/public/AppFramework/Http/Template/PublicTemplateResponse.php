@@ -48,7 +48,7 @@ class PublicTemplateResponse extends TemplateResponse {
 	 * @param array $params
 	 * @since 14.0.0
 	 */
-	public function __construct(string $appName, string $templateName, array $params = array()) {
+	public function __construct(string $appName, string $templateName, array $params = []) {
 		parent::__construct($appName, $templateName, $params, 'public');
 		\OC_Util::addScript('core', 'public/publicpage');
 	}

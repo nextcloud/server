@@ -106,7 +106,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 	 */
 	public function getEntries(int $limit=50, int $offset=0):array {
 		$minLevel = $this->config->getValue("loglevel", ILogger::WARN);
-		$entries = array();
+		$entries = [];
 		$handle = @fopen($this->logFile, 'rb');
 		if ($handle) {
 			fseek($handle, 0, SEEK_END);

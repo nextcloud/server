@@ -28,7 +28,7 @@ use OCP\IMemcache;
 
 class ArrayCache extends Cache implements IMemcache {
 	/** @var array Array with the cached data */
-	protected $cachedData = array();
+	protected $cachedData = [];
 
 	use CADTrait;
 

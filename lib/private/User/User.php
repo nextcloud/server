@@ -202,7 +202,7 @@ class User implements IUser {
 	public function delete() {
 		$this->dispatcher->dispatch(IUser::class . '::preDelete', new GenericEvent($this));
 		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'preDelete', array($this));
+			$this->emitter->emit('\OC\User', 'preDelete', [$this]);
 		}
 		// get the home now because it won't return it after user deletion
 		$homePath = $this->getHome();
@@ -247,7 +247,7 @@ class User implements IUser {
 
 			$this->dispatcher->dispatch(IUser::class . '::postDelete', new GenericEvent($this));
 			if ($this->emitter) {
-				$this->emitter->emit('\OC\User', 'postDelete', array($this));
+				$this->emitter->emit('\OC\User', 'postDelete', [$this]);
 			}
 		}
 		return !($result === false);
@@ -266,7 +266,7 @@ class User implements IUser {
 			'recoveryPassword' => $recoveryPassword,
 		]));
 		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'preSetPassword', array($this, $password, $recoveryPassword));
+			$this->emitter->emit('\OC\User', 'preSetPassword', [$this, $password, $recoveryPassword]);
 		}
 		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
 			$result = $this->backend->setPassword($this->uid, $password);
@@ -275,7 +275,7 @@ class User implements IUser {
 				'recoveryPassword' => $recoveryPassword,
 			]));
 			if ($this->emitter) {
-				$this->emitter->emit('\OC\User', 'postSetPassword', array($this, $password, $recoveryPassword));
+				$this->emitter->emit('\OC\User', 'postSetPassword', [$this, $password, $recoveryPassword]);
 			}
 			return !($result === false);
 		} else {
@@ -473,7 +473,7 @@ class User implements IUser {
 			'oldValue' => $oldValue,
 		]));
 		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'changeUser', array($this, $feature, $value, $oldValue));
+			$this->emitter->emit('\OC\User', 'changeUser', [$this, $feature, $value, $oldValue]);
 		}
 	}
 }

@@ -51,7 +51,7 @@ class Group implements IGroup {
 	private $gid;
 
 	/** @var \OC\User\User[] */
-	private $users = array();
+	private $users = [];
 
 	/** @var bool */
 	private $usersLoaded;
@@ -127,7 +127,7 @@ class Group implements IGroup {
 			return $this->users;
 		}
 
-		$userIds = array();
+		$userIds = [];
 		foreach ($this->backends as $backend) {
 			$diff = array_diff(
 				$backend->usersInGroup($this->gid),
@@ -177,7 +177,7 @@ class Group implements IGroup {
 		]));
 
 		if ($this->emitter) {
-			$this->emitter->emit('\OC\Group', 'preAddUser', array($this, $user));
+			$this->emitter->emit('\OC\Group', 'preAddUser', [$this, $user]);
 		}
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::ADD_TO_GROUP)) {
@@ -191,7 +191,7 @@ class Group implements IGroup {
 				]));
 
 				if ($this->emitter) {
-					$this->emitter->emit('\OC\Group', 'postAddUser', array($this, $user));
+					$this->emitter->emit('\OC\Group', 'postAddUser', [$this, $user]);
 				}
 				return;
 			}
@@ -209,7 +209,7 @@ class Group implements IGroup {
 			'user' => $user,
 		]));
 		if ($this->emitter) {
-			$this->emitter->emit('\OC\Group', 'preRemoveUser', array($this, $user));
+			$this->emitter->emit('\OC\Group', 'preRemoveUser', [$this, $user]);
 		}
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::REMOVE_FROM_GOUP) and $backend->inGroup($user->getUID(), $this->gid)) {
@@ -222,7 +222,7 @@ class Group implements IGroup {
 				'user' => $user,
 			]));
 			if ($this->emitter) {
-				$this->emitter->emit('\OC\Group', 'postRemoveUser', array($this, $user));
+				$this->emitter->emit('\OC\Group', 'postRemoveUser', [$this, $user]);
 			}
 			if ($this->users) {
 				foreach ($this->users as $index => $groupUser) {
@@ -244,7 +244,7 @@ class Group implements IGroup {
 	 * @return \OC\User\User[]
 	 */
 	public function searchUsers($search, $limit = null, $offset = null) {
-		$users = array();
+		$users = [];
 		foreach ($this->backends as $backend) {
 			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
 			$users += $this->getVerifiedUsers($userIds);
@@ -305,7 +305,7 @@ class Group implements IGroup {
 	 * @return \OC\User\User[]
 	 */
 	public function searchDisplayName($search, $limit = null, $offset = null) {
-		$users = array();
+		$users = [];
 		foreach ($this->backends as $backend) {
 			$userIds = $backend->usersInGroup($this->gid, $search, $limit, $offset);
 			$users = $this->getVerifiedUsers($userIds);
@@ -330,7 +330,7 @@ class Group implements IGroup {
 		$result = false;
 		$this->dispatcher->dispatch(IGroup::class . '::preDelete', new GenericEvent($this));
 		if ($this->emitter) {
-			$this->emitter->emit('\OC\Group', 'preDelete', array($this));
+			$this->emitter->emit('\OC\Group', 'preDelete', [$this]);
 		}
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC\Group\Backend::DELETE_GROUP)) {
@@ -341,7 +341,7 @@ class Group implements IGroup {
 		if ($result) {
 			$this->dispatcher->dispatch(IGroup::class . '::postDelete', new GenericEvent($this));
 			if ($this->emitter) {
-				$this->emitter->emit('\OC\Group', 'postDelete', array($this));
+				$this->emitter->emit('\OC\Group', 'postDelete', [$this]);
 			}
 		}
 		return $result;
@@ -354,9 +354,9 @@ class Group implements IGroup {
 	 */
 	private function getVerifiedUsers($userIds) {
 		if (!is_array($userIds)) {
-			return array();
+			return [];
 		}
-		$users = array();
+		$users = [];
 		foreach ($userIds as $userId) {
 			$user = $this->userManager->get($userId);
 			if (!is_null($user)) {

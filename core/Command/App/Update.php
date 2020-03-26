@@ -83,7 +83,7 @@ class Update extends Command {
 		$singleAppId = $input->getArgument('app-id');
 
 		if ($singleAppId) {
-			$apps = array($singleAppId);
+			$apps = [$singleAppId];
 			try {
 				$this->manager->getAppPath($singleAppId);
 			} catch (\OCP\App\AppPathNotFoundException $e) {

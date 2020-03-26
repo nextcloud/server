@@ -16,7 +16,7 @@ namespace Test\Hooks;
  * @package Test\Hooks
  */
 class DummyEmitter extends \OC\Hooks\BasicEmitter {
-	public function emitEvent($scope, $method, $arguments = array()) {
+	public function emitEvent($scope, $method, $arguments = []) {
 		$this->emit($scope, $method, $arguments);
 	}
 }
@@ -64,7 +64,7 @@ class BasicEmitterTest extends \Test\TestCase {
 	public function testStaticCallback() {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
-		$this->emitter->listen('Test', 'test', array('\Test\Hooks\BasicEmitterTest', 'staticCallBack'));
+		$this->emitter->listen('Test', 'test', ['\Test\Hooks\BasicEmitterTest', 'staticCallBack']);
 		$this->emitter->emitEvent('Test', 'test');
 	}
 
@@ -72,7 +72,7 @@ class BasicEmitterTest extends \Test\TestCase {
 	public function testNonStaticCallback() {
 		$this->expectException(\Test\Hooks\EmittedException::class);
 
-		$this->emitter->listen('Test', 'test', array($this, 'nonStaticCallBack'));
+		$this->emitter->listen('Test', 'test', [$this, 'nonStaticCallBack']);
 		$this->emitter->emitEvent('Test', 'test');
 	}
 
@@ -134,7 +134,7 @@ class BasicEmitterTest extends \Test\TestCase {
 				throw new EmittedException;
 			}
 		});
-		$this->emitter->emitEvent('Test', 'test', array('foo', 'bar'));
+		$this->emitter->emitEvent('Test', 'test', ['foo', 'bar']);
 	}
 
 	
@@ -146,7 +146,7 @@ class BasicEmitterTest extends \Test\TestCase {
 				throw new EmittedException;
 			}
 		});
-		$this->emitter->emitEvent('Test', 'test', array('foo' => 'foo', 'bar' => 'bar'));
+		$this->emitter->emitEvent('Test', 'test', ['foo' => 'foo', 'bar' => 'bar']);
 	}
 
 	public function testRemoveAllSpecified() {

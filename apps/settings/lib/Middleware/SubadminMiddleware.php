@@ -82,7 +82,7 @@ class SubadminMiddleware extends Middleware {
 	 */
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if($exception instanceof NotAdminException) {
-			$response = new TemplateResponse('core', '403', array(), 'guest');
+			$response = new TemplateResponse('core', '403', [], 'guest');
 			$response->setStatus(Http::STATUS_FORBIDDEN);
 			return $response;
 		}

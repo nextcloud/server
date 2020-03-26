@@ -285,7 +285,7 @@ class Upgrade extends Command {
 	 * @param OutputInterface $output output interface
 	 */
 	protected function postUpgradeCheck(InputInterface $input, OutputInterface $output) {
-		$trustedDomains = $this->config->getSystemValue('trusted_domains', array());
+		$trustedDomains = $this->config->getSystemValue('trusted_domains', []);
 		if (empty($trustedDomains)) {
 			$output->write(
 				'<warning>The setting "trusted_domains" could not be ' .

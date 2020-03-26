@@ -23,22 +23,22 @@ class MessageTest extends TestCase {
 	 * @return array
 	 */
 	public function mailAddressProvider() {
-		return array(
-			array(array('lukas@owncloud.com' => 'Lukas Reschke'), array('lukas@owncloud.com' => 'Lukas Reschke')),
-			array(array('lukas@owncloud.com' => 'Lukas Reschke', 'lukas@öwnclöüd.com', 'lukäs@owncloud.örg' => 'Lükäs Réschke'),
-				array('lukas@owncloud.com' => 'Lukas Reschke', 'lukas@xn--wncld-iuae2c.com', 'lukäs@owncloud.xn--rg-eka' => 'Lükäs Réschke')),
-			array(array('lukas@öwnclöüd.com'), array('lukas@xn--wncld-iuae2c.com')),
-		);
+		return [
+			[['lukas@owncloud.com' => 'Lukas Reschke'], ['lukas@owncloud.com' => 'Lukas Reschke']],
+			[['lukas@owncloud.com' => 'Lukas Reschke', 'lukas@öwnclöüd.com', 'lukäs@owncloud.örg' => 'Lükäs Réschke'],
+				['lukas@owncloud.com' => 'Lukas Reschke', 'lukas@xn--wncld-iuae2c.com', 'lukäs@owncloud.xn--rg-eka' => 'Lükäs Réschke']],
+			[['lukas@öwnclöüd.com'], ['lukas@xn--wncld-iuae2c.com']],
+		];
 	}
 
 	/**
 	 * @return array
 	 */
 	public function getMailAddressProvider() {
-		return array(
-			array(null, array()),
-			array(array('lukas@owncloud.com' => 'Lukas Reschke'), array('lukas@owncloud.com' => 'Lukas Reschke')),
-		);
+		return [
+			[null, []],
+			[['lukas@owncloud.com' => 'Lukas Reschke'], ['lukas@owncloud.com' => 'Lukas Reschke']],
+		];
 	}
 
 	protected function setUp(): void {
@@ -58,15 +58,15 @@ class MessageTest extends TestCase {
 	 * @param string $expected
 	 */
 	public function testConvertAddresses($unconverted, $expected) {
-		$this->assertSame($expected, self::invokePrivate($this->message, 'convertAddresses', array($unconverted)));
+		$this->assertSame($expected, self::invokePrivate($this->message, 'convertAddresses', [$unconverted]));
 	}
 
 	public function testSetFrom() {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('setFrom')
-			->with(array('lukas@owncloud.com'));
-		$this->message->setFrom(array('lukas@owncloud.com'));
+			->with(['lukas@owncloud.com']);
+		$this->message->setFrom(['lukas@owncloud.com']);
 	}
 
 
@@ -106,8 +106,8 @@ class MessageTest extends TestCase {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('setTo')
-			->with(array('lukas@owncloud.com'));
-		$this->message->setTo(array('lukas@owncloud.com'));
+			->with(['lukas@owncloud.com']);
+		$this->message->setTo(['lukas@owncloud.com']);
 	}
 
 	/**
@@ -126,8 +126,8 @@ class MessageTest extends TestCase {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('setCc')
-			->with(array('lukas@owncloud.com'));
-		$this->message->setCc(array('lukas@owncloud.com'));
+			->with(['lukas@owncloud.com']);
+		$this->message->setCc(['lukas@owncloud.com']);
 	}
 
 	/**
@@ -146,8 +146,8 @@ class MessageTest extends TestCase {
 		$this->swiftMessage
 			->expects($this->once())
 			->method('setBcc')
-			->with(array('lukas@owncloud.com'));
-		$this->message->setBcc(array('lukas@owncloud.com'));
+			->with(['lukas@owncloud.com']);
+		$this->message->setBcc(['lukas@owncloud.com']);
 	}
 
 	/**

@@ -36,7 +36,7 @@ use OCP\Defaults;
 use OCP\Util;
 
 class Application extends App {
-	public function __construct(array $urlParams = array()) {
+	public function __construct(array $urlParams = []) {
 		parent::__construct('provisioning_api', $urlParams);
 
 		$container = $this->getContainer();

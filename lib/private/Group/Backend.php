@@ -94,7 +94,7 @@ abstract class Backend implements \OCP\GroupInterface {
 	 * if the user exists at all.
 	 */
 	public function getUserGroups($uid) {
-		return array();
+		return [];
 	}
 
 	/**
@@ -108,7 +108,7 @@ abstract class Backend implements \OCP\GroupInterface {
 	 */
 
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
-		return array();
+		return [];
 	}
 
 	/**
@@ -129,6 +129,6 @@ abstract class Backend implements \OCP\GroupInterface {
 	 * @return array an array of user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
-		return array();
+		return [];
 	}
 }

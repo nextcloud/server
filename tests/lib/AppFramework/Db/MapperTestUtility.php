@@ -89,7 +89,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 	 * of the database query. If not provided, it wont be assumed that fetch
 	 * will be called on the result
 	 */
-	protected function setMapperResult($sql, $arguments=array(), $returnRows=array(),
+	protected function setMapperResult($sql, $arguments=[], $returnRows=[],
 		$limit=null, $offset=null, $expectClose=false){
 		if($limit === null && $offset === null) {
 			$this->db->expects($this->at($this->prepareAt))

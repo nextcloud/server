@@ -220,7 +220,7 @@ class PersonalInfo implements ISettings {
 		}
 
 		return array_merge(
-			array('activelanguage' => $userLang),
+			['activelanguage' => $userLang],
 			$languages
 		);
 	}

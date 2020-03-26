@@ -75,7 +75,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 					<div class="directDownload">
 						<a href="<?php p($_['downloadURL']); ?>" id="downloadFile" class="button">
 							<span class="icon icon-download"></span>
-							<?php p($l->t('Download %s', array($_['filename'])))?> (<?php p($_['fileSize']) ?>)
+							<?php p($l->t('Download %s', [$_['filename']]))?> (<?php p($_['fileSize']) ?>)
 						</a>
 					</div>
 				<?php endif; ?>

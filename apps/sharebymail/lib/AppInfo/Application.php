@@ -33,7 +33,7 @@ use OCP\Util;
 
 class Application extends App {
 
-	public function __construct(array $urlParams = array()) {
+	public function __construct(array $urlParams = []) {
 		parent::__construct('sharebymail', $urlParams);
 
 		$settingsManager = \OC::$server->query(Settings\SettingsManager::class);

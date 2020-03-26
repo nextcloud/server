@@ -48,7 +48,7 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 	 */
 	function initialize(Server $server) {
 		$this->server = $server;
-		$server->on('exception', array($this, 'logException'), 1000);
+		$server->on('exception', [$this, 'logException'], 1000);
 	}
 
 	/**

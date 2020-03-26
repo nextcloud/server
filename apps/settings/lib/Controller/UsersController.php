@@ -226,7 +226,7 @@ class UsersController extends Controller {
 		$languages = $this->l10nFactory->getLanguages();
 
 		/* FINAL DATA */
-		$serverData = array();
+		$serverData = [];
 		// groups
 		$serverData['groups'] = array_merge_recursive($adminGroup, [$disabledUsersGroup], $groups);
 		// Various data

@@ -181,7 +181,7 @@ class FilesPluginTest extends TestCase {
 
 		$propFind = new PropFind(
 			'/dummyPath',
-			array(
+			[
 				self::GETETAG_PROPERTYNAME,
 				self::FILEID_PROPERTYNAME,
 				self::INTERNAL_FILEID_PROPERTYNAME,
@@ -191,7 +191,7 @@ class FilesPluginTest extends TestCase {
 				self::OWNER_ID_PROPERTYNAME,
 				self::OWNER_DISPLAY_NAME_PROPERTYNAME,
 				self::DATA_FINGERPRINT_PROPERTYNAME,
-			),
+			],
 			0
 		);
 
@@ -208,7 +208,7 @@ class FilesPluginTest extends TestCase {
 
 		$node->expects($this->once())
 			->method('getDirectDownload')
-			->willReturn(array('url' => 'http://example.com/'));
+			->willReturn(['url' => 'http://example.com/']);
 		$node->expects($this->exactly(2))
 			->method('getOwner')
 			->willReturn($user);
@@ -236,9 +236,9 @@ class FilesPluginTest extends TestCase {
 
 		$propFind = new PropFind(
 			'/dummyPath',
-			array(
+			[
 				self::DOWNLOADURL_PROPERTYNAME,
-			),
+			],
 			0
 		);
 
@@ -293,14 +293,14 @@ class FilesPluginTest extends TestCase {
 
 		$propFind = new PropFind(
 			'/dummyPath',
-			array(
+			[
 				self::GETETAG_PROPERTYNAME,
 				self::FILEID_PROPERTYNAME,
 				self::SIZE_PROPERTYNAME,
 				self::PERMISSIONS_PROPERTYNAME,
 				self::DOWNLOADURL_PROPERTYNAME,
 				self::DATA_FINGERPRINT_PROPERTYNAME,
-			),
+			],
 			0
 		);
 
@@ -405,10 +405,10 @@ class FilesPluginTest extends TestCase {
 			->willReturn(true);
 
 		// properties to set
-		$propPatch = new PropPatch(array(
+		$propPatch = new PropPatch([
 			self::GETETAG_PROPERTYNAME => 'newetag',
 			self::LASTMODIFIED_PROPERTYNAME => $testDate
-		));
+		]);
 
 		$this->plugin->handleUpdateProperties(
 			'/dummypath',
@@ -425,14 +425,14 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testUpdatePropsForbidden() {
-		$propPatch = new PropPatch(array(
+		$propPatch = new PropPatch([
 			self::OWNER_ID_PROPERTYNAME => 'user2',
 			self::OWNER_DISPLAY_NAME_PROPERTYNAME => 'User Two',
 			self::FILEID_PROPERTYNAME => 12345,
 			self::PERMISSIONS_PROPERTYNAME => 'C',
 			self::SIZE_PROPERTYNAME => 123,
 			self::DOWNLOADURL_PROPERTYNAME => 'http://example.com/',
-		));
+		]);
 
 		$this->plugin->handleUpdateProperties(
 			'/dummypath',
@@ -588,9 +588,9 @@ class FilesPluginTest extends TestCase {
 
 		$propFind = new PropFind(
 			'/dummyPath',
-			array(
+			[
 				self::HAS_PREVIEW_PROPERTYNAME
-			),
+			],
 			0
 		);
 

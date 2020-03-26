@@ -41,12 +41,12 @@ namespace OC {
 		 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
 		 * @return array an array of contacts which are arrays of key-value-pairs
 		 */
-		public function search($pattern, $searchProperties = array(), $options = array()) {
+		public function search($pattern, $searchProperties = [], $options = []) {
 			$this->loadAddressBooks();
-			$result = array();
+			$result = [];
 			foreach($this->addressBooks as $addressBook) {
 				$r = $addressBook->search($pattern, $searchProperties, $options);
-				$contacts = array();
+				$contacts = [];
 				foreach($r as $c){
 					$c['addressbook-key'] = $addressBook->getKey();
 					$contacts[] = $c;
@@ -131,7 +131,7 @@ namespace OC {
 		 */
 		public function getAddressBooks() {
 			$this->loadAddressBooks();
-			$result = array();
+			$result = [];
 			foreach($this->addressBooks as $addressBook) {
 				$result[$addressBook->getKey()] = $addressBook->getDisplayName();
 			}
@@ -154,19 +154,19 @@ namespace OC {
 		 * removes all registered address book instances
 		 */
 		public function clear() {
-			$this->addressBooks = array();
-			$this->addressBookLoaders = array();
+			$this->addressBooks = [];
+			$this->addressBookLoaders = [];
 		}
 
 		/**
 		 * @var \OCP\IAddressBook[] which holds all registered address books
 		 */
-		private $addressBooks = array();
+		private $addressBooks = [];
 
 		/**
 		 * @var \Closure[] to call to load/register address books
 		 */
-		private $addressBookLoaders = array();
+		private $addressBookLoaders = [];
 
 		/**
 		 * In order to improve lazy loading a closure can be registered which will be called in case
@@ -203,7 +203,7 @@ namespace OC {
 			foreach($this->addressBookLoaders as $callable) {
 				$callable($this);
 			}
-			$this->addressBookLoaders = array();
+			$this->addressBookLoaders = [];
 		}
 	}
 }

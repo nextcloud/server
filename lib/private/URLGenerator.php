@@ -77,7 +77,7 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns a url to the given route.
 	 */
-	public function linkToRoute(string $route, array $parameters = array()): string {
+	public function linkToRoute(string $route, array $parameters = []): string {
 		// TODO: mock router
 		return \OC::$server->getRouter()->generate($route, $parameters);
 	}
@@ -90,7 +90,7 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns an absolute url to the given route.
 	 */
-	public function linkToRouteAbsolute(string $routeName, array $arguments = array()): string {
+	public function linkToRouteAbsolute(string $routeName, array $arguments = []): string {
 		return $this->getAbsoluteURL($this->linkToRoute($routeName, $arguments));
 	}
 
@@ -118,7 +118,7 @@ class URLGenerator implements IURLGenerator {
 	 *
 	 * Returns a url to the given app and file.
 	 */
-	public function linkTo(string $app, string $file, array $args = array()): string {
+	public function linkTo(string $app, string $file, array $args = []): string {
 		$frontControllerActive = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
 
 		if( $app !== '' ) {

@@ -116,7 +116,7 @@ class AccessTest extends TestCase {
 			->getMock();
 		$helper = new Helper(\OC::$server->getConfig());
 
-		return array($lw, $connector, $um, $helper);
+		return [$lw, $connector, $um, $helper];
 	}
 
 	public function testEscapeFilterPartValidChars() {
@@ -147,9 +147,9 @@ class AccessTest extends TestCase {
 	}
 
 	public function convertSID2StrSuccessData() {
-		return array(
-			array(
-				array(
+		return [
+			[
+				[
 					"\x01",
 					"\x04",
 					"\x00\x00\x00\x00\x00\x05",
@@ -157,20 +157,20 @@ class AccessTest extends TestCase {
 					"\xa6\x81\xe5\x0e",
 					"\x4d\x6c\x6c\x2b",
 					"\xca\x32\x05\x5f",
-				),
+				],
 				'S-1-5-21-249921958-728525901-1594176202',
-			),
-			array(
-				array(
+			],
+			[
+				[
 					"\x01",
 					"\x02",
 					"\xFF\xFF\xFF\xFF\xFF\xFF",
 					"\xFF\xFF\xFF\xFF",
 					"\xFF\xFF\xFF\xFF",
-				),
+				],
 				'S-1-281474976710655-4294967295-4294967295',
-			),
-		);
+			],
+		];
 	}
 
 	public function testConvertSID2StrInputError() {
@@ -208,12 +208,12 @@ class AccessTest extends TestCase {
 		return  [[
 			[
 				'input' => 'foo=bar,bar=foo,dc=foobar',
-				'interResult' => array(
+				'interResult' => [
 					'count' => 3,
 					0 => 'foo=bar',
 					1 => 'bar=foo',
 					2 => 'dc=foobar'
-				),
+				],
 				'expectedResult' => true
 			],
 			[
@@ -408,12 +408,12 @@ class AccessTest extends TestCase {
 
 	public function dNAttributeProvider() {
 		// corresponds to Access::resemblesDN()
-		return array(
-			'dn' => array('dn'),
-			'uniqueMember' => array('uniquemember'),
-			'member' => array('member'),
-			'memberOf' => array('memberof')
-		);
+		return [
+			'dn' => ['dn'],
+			'uniqueMember' => ['uniquemember'],
+			'member' => ['member'],
+			'memberOf' => ['memberof']
+		];
 	}
 
 	/**
@@ -432,9 +432,9 @@ class AccessTest extends TestCase {
 			->willReturn(true);
 		$lw->expects($this->any())
 			->method('getAttributes')
-			->willReturn(array(
-				$attribute => array('count' => 1, $dnFromServer)
-			));
+			->willReturn([
+				$attribute => ['count' => 1, $dnFromServer]
+			]);
 
 		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager);
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);

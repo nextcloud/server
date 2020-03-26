@@ -124,7 +124,7 @@ class EncryptionTest extends TestCase {
 	 * test if public key from one of the recipients is missing
 	 */
 	public function testEndUser1() {
-		$this->instance->begin('/foo/bar', 'user1', 'r', array(), array('users' => array('user1', 'user2', 'user3')));
+		$this->instance->begin('/foo/bar', 'user1', 'r', [], ['users' => ['user1', 'user2', 'user3']]);
 		$this->endTest();
 	}
 
@@ -135,7 +135,7 @@ class EncryptionTest extends TestCase {
 	public function testEndUser2() {
 		$this->expectException(\OCA\Encryption\Exceptions\PublicKeyMissingException::class);
 
-		$this->instance->begin('/foo/bar', 'user2', 'r', array(), array('users' => array('user1', 'user2', 'user3')));
+		$this->instance->begin('/foo/bar', 'user2', 'r', [], ['users' => ['user1', 'user2', 'user3']]);
 		$this->endTest();
 	}
 
@@ -182,17 +182,17 @@ class EncryptionTest extends TestCase {
 	 */
 	public function testGetPathToRealFile($path, $expected) {
 		$this->assertSame($expected,
-			self::invokePrivate($this->instance, 'getPathToRealFile', array($path))
+			self::invokePrivate($this->instance, 'getPathToRealFile', [$path])
 		);
 	}
 
 	public function dataProviderForTestGetPathToRealFile() {
-		return array(
-			array('/user/files/foo/bar.txt', '/user/files/foo/bar.txt'),
-			array('/user/files/foo.txt', '/user/files/foo.txt'),
-			array('/user/files_versions/foo.txt.v543534', '/user/files/foo.txt'),
-			array('/user/files_versions/foo/bar.txt.v5454', '/user/files/foo/bar.txt'),
-		);
+		return [
+			['/user/files/foo/bar.txt', '/user/files/foo/bar.txt'],
+			['/user/files/foo.txt', '/user/files/foo.txt'],
+			['/user/files_versions/foo.txt.v543534', '/user/files/foo.txt'],
+			['/user/files_versions/foo/bar.txt.v5454', '/user/files/foo/bar.txt'],
+		];
 	}
 
 	/**
@@ -241,12 +241,12 @@ class EncryptionTest extends TestCase {
 	}
 
 	public function dataTestBegin() {
-		return array(
-			array('w', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'fileKey', 'defaultCipher'),
-			array('r', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'fileKey', 'myCipher'),
-			array('w', [], 'legacyCipher', 'defaultCipher', '', 'defaultCipher'),
-			array('r', [], 'legacyCipher', 'defaultCipher', 'file_key', 'legacyCipher'),
-		);
+		return [
+			['w', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'fileKey', 'defaultCipher'],
+			['r', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'fileKey', 'myCipher'],
+			['w', [], 'legacyCipher', 'defaultCipher', '', 'defaultCipher'],
+			['r', [], 'legacyCipher', 'defaultCipher', 'file_key', 'legacyCipher'],
+		];
 	}
 
 
@@ -335,10 +335,10 @@ class EncryptionTest extends TestCase {
 	}
 
 	public function dataTestUpdate() {
-		return array(
-			array('', false),
-			array('fileKey', true)
-		);
+		return [
+			['', false],
+			['fileKey', true]
+		];
 	}
 
 	public function testUpdateNoUsers() {
@@ -417,19 +417,19 @@ class EncryptionTest extends TestCase {
 	}
 
 	public function dataTestShouldEncrypt() {
-		return array(
-			array('/user1/files/foo.txt', true, true, true),
-			array('/user1/files_versions/foo.txt', true, true, true),
-			array('/user1/files_trashbin/foo.txt', true, true, true),
-			array('/user1/some_folder/foo.txt', true, true, false),
-			array('/user1/foo.txt', true, true, false),
-			array('/user1/files', true, true, false),
-			array('/user1/files_trashbin', true, true, false),
-			array('/user1/files_versions', true, true, false),
+		return [
+			['/user1/files/foo.txt', true, true, true],
+			['/user1/files_versions/foo.txt', true, true, true],
+			['/user1/files_trashbin/foo.txt', true, true, true],
+			['/user1/some_folder/foo.txt', true, true, false],
+			['/user1/foo.txt', true, true, false],
+			['/user1/files', true, true, false],
+			['/user1/files_trashbin', true, true, false],
+			['/user1/files_versions', true, true, false],
 			// test if shouldEncryptHomeStorage is set to false
-			array('/user1/files/foo.txt', false, true, false),
-			array('/user1/files_versions/foo.txt', false, false, true),
-		);
+			['/user1/files/foo.txt', false, true, false],
+			['/user1/files_versions/foo.txt', false, false, true],
+		];
 	}
 
 	

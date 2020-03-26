@@ -115,9 +115,9 @@ class WatcherTest extends TestCase {
 
 		$textData = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$dataLen = strlen($textData);
-		$this->sharedCache->put('bar.txt', array('mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain'));
+		$this->sharedCache->put('bar.txt', ['mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain']);
 		$this->sharedStorage->file_put_contents('bar.txt', $textData);
-		$this->sharedCache->put('', array('mtime' => 10, 'storage_mtime' => 10, 'size' => '-1', 'mimetype' => 'httpd/unix-directory'));
+		$this->sharedCache->put('', ['mtime' => 10, 'storage_mtime' => 10, 'size' => '-1', 'mimetype' => 'httpd/unix-directory']);
 
 		// run the propagation code
 		$this->sharedStorage->getWatcher()->checkUpdate('');
@@ -145,9 +145,9 @@ class WatcherTest extends TestCase {
 
 		$textData = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$dataLen = strlen($textData);
-		$this->sharedCache->put('subdir/bar.txt', array('mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain'));
+		$this->sharedCache->put('subdir/bar.txt', ['mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain']);
 		$this->sharedStorage->file_put_contents('subdir/bar.txt', $textData);
-		$this->sharedCache->put('subdir', array('mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain'));
+		$this->sharedCache->put('subdir', ['mtime' => 10, 'storage_mtime' => 10, 'size' => $dataLen, 'mimetype' => 'text/plain']);
 
 		// run the propagation code
 		$this->sharedStorage->getWatcher()->checkUpdate('subdir');
@@ -173,7 +173,7 @@ class WatcherTest extends TestCase {
 	 * @param string $path
 	 */
 	function getOwnerDirSizes($path) {
-		$result = array();
+		$result = [];
 
 		while ($path != '' && $path != '' && $path != '.') {
 			$cachedData = $this->ownerCache->get($path);

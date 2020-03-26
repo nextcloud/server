@@ -540,7 +540,7 @@ class AppManager implements IAppManager {
 	 */
 	public function getIncompatibleApps(string $version): array {
 		$apps = $this->getInstalledApps();
-		$incompatibleApps = array();
+		$incompatibleApps = [];
 		foreach ($apps as $appId) {
 			$info = $this->getAppInfo($appId);
 			if ($info === null) {

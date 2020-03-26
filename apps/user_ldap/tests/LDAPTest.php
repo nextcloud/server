@@ -86,7 +86,7 @@ class LDAPTest extends TestCase  {
 		$this->ldap
 			->expects($this->once())
 			->method('invokeLDAPMethod')
-			->with('mod_replace', $link, $userDN, array('userPassword' => $password))
+			->with('mod_replace', $link, $userDN, ['userPassword' => $password])
 			->willReturn(true);
 
 		$this->assertTrue($this->ldap->modReplace($link, $userDN, $password));

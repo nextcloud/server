@@ -48,7 +48,7 @@ class Base {
 	 * @param Defaults $theme
 	 */
 	public function __construct($template, $requestToken, $l10n, $theme ) {
-		$this->vars = array();
+		$this->vars = [];
 		$this->vars['requesttoken'] = $requestToken;
 		$this->l10n = $l10n;
 		$this->template = $template;
@@ -118,7 +118,7 @@ class Base {
 			$this->vars[$key][] = $value;
 		}
 		else{
-			$this->vars[$key] = array( $value );
+			$this->vars[$key] = [ $value ];
 		}
 	}
 

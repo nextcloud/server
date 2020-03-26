@@ -201,72 +201,72 @@ class ObjectTreeTest extends \Test\TestCase {
 	}
 
 	function nodeForPathProvider() {
-		return array(
+		return [
 			// regular file
-			array(
+			[
 				'regularfile.txt',
 				'regularfile.txt',
 				'regularfile.txt',
 				'file',
 				false
-			),
+			],
 			// regular directory
-			array(
+			[
 				'regulardir',
 				'regulardir',
 				'regulardir',
 				'dir',
 				false
-			),
+			],
 			// regular file with chunking
-			array(
+			[
 				'regularfile.txt',
 				'regularfile.txt',
 				'regularfile.txt',
 				'file',
 				true
-			),
+			],
 			// regular directory with chunking
-			array(
+			[
 				'regulardir',
 				'regulardir',
 				'regulardir',
 				'dir',
 				true
-			),
+			],
 			// file with chunky file name
-			array(
+			[
 				'regularfile.txt-chunking-123566789-10-1',
 				'regularfile.txt',
 				'regularfile.txt',
 				'file',
 				true
-			),
+			],
 			// regular file in subdir
-			array(
+			[
 				'subdir/regularfile.txt',
 				'subdir/regularfile.txt',
 				'regularfile.txt',
 				'file',
 				false
-			),
+			],
 			// regular directory in subdir
-			array(
+			[
 				'subdir/regulardir',
 				'subdir/regulardir',
 				'regulardir',
 				'dir',
 				false
-			),
+			],
 			// file with chunky file name in subdir
-			array(
+			[
 				'subdir/regularfile.txt-chunking-123566789-10-1',
 				'subdir/regularfile.txt',
 				'regularfile.txt',
 				'file',
 				true
-			),
-		);
+			],
+		];
 	}
 
 	
