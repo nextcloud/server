@@ -11,7 +11,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OC\\Core\\' => 8,
             'OC\\' => 3,
@@ -20,15 +20,15 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
     );
 
     public static $prefixDirsPsr4 = array (
-        'OC\\Core\\' => 
+        'OC\\Core\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/core',
         ),
-        'OC\\' => 
+        'OC\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/private',
         ),
-        'OCP\\' => 
+        'OCP\\' =>
         array (
             0 => __DIR__ . '/../../..' . '/lib/public',
         ),
@@ -157,7 +157,10 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OCP\\Calendar\\ICalendarQuery' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarQuery.php',
         'OCP\\Calendar\\ICreateFromString' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICreateFromString.php',
         'OCP\\Calendar\\IHandleImipMessage' => __DIR__ . '/../../..' . '/lib/public/Calendar/IHandleImipMessage.php',
+        'OCP\\Calendar\\ICalendarObjectV2' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarObjectV2.php',
+        'OCP\\Calendar\\ICalendarV2' => __DIR__ . '/../../..' . '/lib/public/Calendar/ICalendarV2.php',
         'OCP\\Calendar\\IManager' => __DIR__ . '/../../..' . '/lib/public/Calendar/IManager.php',
+        'OCP\\Calendar\\IManagerV2' => __DIR__ . '/../../..' . '/lib/public/Calendar/IManagerV2.php',
         'OCP\\Calendar\\IMetadataProvider' => __DIR__ . '/../../..' . '/lib/public/Calendar/IMetadataProvider.php',
         'OCP\\Calendar\\Resource\\IBackend' => __DIR__ . '/../../..' . '/lib/public/Calendar/Resource/IBackend.php',
         'OCP\\Calendar\\Resource\\IManager' => __DIR__ . '/../../..' . '/lib/public/Calendar/Resource/IManager.php',
@@ -853,6 +856,7 @@ class ComposerStaticInit749170dad3f5e7f9ca158f5a9f04f6a2
         'OC\\Cache\\File' => __DIR__ . '/../../..' . '/lib/private/Cache/File.php',
         'OC\\Calendar\\CalendarQuery' => __DIR__ . '/../../..' . '/lib/private/Calendar/CalendarQuery.php',
         'OC\\Calendar\\Manager' => __DIR__ . '/../../..' . '/lib/private/Calendar/Manager.php',
+        'OC\\Calendar\\ManagerV2' => __DIR__ . '/../../..' . '/lib/private/Calendar/ManagerV2.php',
         'OC\\Calendar\\Resource\\Manager' => __DIR__ . '/../../..' . '/lib/private/Calendar/Resource/Manager.php',
         'OC\\Calendar\\Room\\Manager' => __DIR__ . '/../../..' . '/lib/private/Calendar/Room/Manager.php',
         'OC\\CapabilitiesManager' => __DIR__ . '/../../..' . '/lib/private/CapabilitiesManager.php',

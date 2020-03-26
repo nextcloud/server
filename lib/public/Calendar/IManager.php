@@ -56,6 +56,7 @@ namespace OCP\Calendar;
  * ]
  *
  * @since 13.0.0
+ * @deprecated 20.0.0
  */
 interface IManager {
 	/**

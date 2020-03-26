@@ -7,14 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitDAV
 {
     public static $prefixLengthsPsr4 = array (
-        'O' => 
+        'O' =>
         array (
             'OCA\\DAV\\' => 8,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'OCA\\DAV\\' => 
+        'OCA\\DAV\\' =>
         array (
             0 => __DIR__ . '/..' . '/../lib',
         ),
@@ -62,9 +62,11 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Calendar' => __DIR__ . '/..' . '/../lib/CalDAV/Calendar.php',
         'OCA\\DAV\\CalDAV\\CalendarHome' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarHome.php',
         'OCA\\DAV\\CalDAV\\CalendarImpl' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarImpl.php',
+        'OCA\\DAV\\CalDAV\\CalendarImplV2' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarImplV2.php',
         'OCA\\DAV\\CalDAV\\CalendarManager' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarManager.php',
         'OCA\\DAV\\CalDAV\\CalendarObject' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarObject.php',
         'OCA\\DAV\\CalDAV\\CalendarProvider' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarProvider.php',
+        'OCA\\DAV\\CalDAV\\CalendarObjectImplV2' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarObjectImplV2.php',
         'OCA\\DAV\\CalDAV\\CalendarRoot' => __DIR__ . '/..' . '/../lib/CalDAV/CalendarRoot.php',
         'OCA\\DAV\\CalDAV\\ICSExportPlugin\\ICSExportPlugin' => __DIR__ . '/..' . '/../lib/CalDAV/ICSExportPlugin/ICSExportPlugin.php',
         'OCA\\DAV\\CalDAV\\IRestorable' => __DIR__ . '/..' . '/../lib/CalDAV/IRestorable.php',
