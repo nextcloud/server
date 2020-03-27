@@ -718,6 +718,8 @@ code {
 /* ---- DIALOGS ---- */
 #oc-dialog-filepicker-content {
 	position: relative;
+	display: flex;
+	flex-direction:column;
 
 	.dirtree {
 		flex-wrap: wrap;
@@ -778,7 +780,9 @@ code {
 		border: 1px solid var(--color-border-dark);
 		border-radius: var(--border-radius-pill);
 		position: relative;
-		top: -5px;
+		left: 15px;
+		top:3px;
+		order:1;
 
 		.icon.icon-add{
 			background-image: var(--icon-add-000);
@@ -811,7 +815,8 @@ code {
 		box-sizing: border-box;
 		display: inline-block;
 		overflow-y: auto;
-		height: 100%;
+		flex: 1;
+		/*height: 100%;*/
 		/* overflow under the button row */
 		width: 100%;
 		overflow-x: hidden;

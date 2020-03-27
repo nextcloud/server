@@ -1218,8 +1218,12 @@ const Dialogs = {
 	 * fills the tree list with directories
 	 */
 	_fillSlug: function() {
+		var addButton = this.$dirTree.find('.actions.creatable').detach()
 		this.$dirTree.empty()
 		var self = this
+
+		self.$dirTree.append(addButton)
+
 		var dir
 		var path = this.$filePicker.data('path')
 		var $template = $('<div data-dir="{dir}"><a>{name}</a></div>').addClass('crumb')
@@ -1236,10 +1240,12 @@ const Dialogs = {
 				}))
 			})
 		}
+
 		$template.octemplate({
 			dir: '',
 			name: '' // Ugly but works ;)
 		}, { escapeFunction: null }).prependTo(this.$dirTree)
+		
 	},
 	/**
 	 * handle selection made in the tree list
