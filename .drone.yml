@@ -4,11 +4,13 @@ name: jsunit
 steps:
 - name: jsunit
   image: nextcloudci/jsunit:jsunit-5
+  environment:
+      CODECOV_TOKEN:
+          from_secret: CODECOV_TOKEN
   commands:
     - ./autotest-js.sh
     - curl -o codecov.sh https://codecov.io/bash
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5; fi"
+    - bash codecov.sh -C $DRONE_COMMIT
 
 trigger:
   branch:
@@ -270,15 +272,15 @@ steps:
   commands:
     - git submodule update --init
 - name: nodb-php7.2
-  image: nextcloudci/php7.2:php7.2-13
+  image: nextcloudci/php7.2:latest
   commands:
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 - name: nodb-php7.3
-  image: nextcloudci/php7.3:php7.3-4
+  image: nextcloudci/php7.3:latest
   commands:
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 - name: nodb-php7.4
-  image: nextcloudci/php7.4:2
+  image: nextcloudci/php7.4:latest
   commands:
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 
@@ -2070,13 +2072,15 @@ steps:
   commands:
     - git submodule update --init
 - name: nodb-codecov
-  image: nextcloudci/php7.2:php7.2-13
+  image: nextcloudci/php7.4:latest
+  environment:
+      CODECOV_TOKEN:
+          from_secret: CODECOV_TOKEN
   commands:
     - phpenmod xdebug
     - TEST_SELECTION=NODB ./autotest.sh sqlite
     - wget https://codecov.io/bash -O codecov.sh
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+    - bash codecov.sh -Z -C $DRONE_COMMIT -f tests/autotest-clover-sqlite.xml
 
 services:
 - name: cache
@@ -2099,13 +2103,15 @@ steps:
   commands:
     - git submodule update --init
 - name: db-codecov
-  image: nextcloudci/php7.2:php7.2-13
+  image: nextcloudci/php7.4:latest
+  environment:
+      CODECOV_TOKEN:
+          from_secret: CODECOV_TOKEN
   commands:
     - phpenmod xdebug
     - TEST_SELECTION=QUICKDB ./autotest.sh sqlite
     - wget https://codecov.io/bash -O codecov.sh
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+    - bash codecov.sh -Z -C $DRONE_COMMIT -f tests/autotest-clover-sqlite.xml
 
 services:
 - name: cache
@@ -2128,14 +2134,16 @@ steps:
   commands:
     - git submodule update --init
 - name: object-store
-  image: nextcloudci/php7.2:php7.2-13
+  image: nextcloudci/php7.4:latest
+  environment:
+      CODECOV_TOKEN:
+          from_secret: CODECOV_TOKEN
   commands:
     - phpenmod xdebug
     - ./tests/drone-wait-objectstore.sh
     - TEST_SELECTION=PRIMARY-s3 ./autotest.sh sqlite
     - wget https://codecov.io/bash -O codecov.sh
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+    - bash codecov.sh -C $DRONE_COMMIT -f tests/autotest-clover-sqlite.xml
 
 services:
 - name: fake-s3
@@ -2159,14 +2167,16 @@ steps:
   commands:
     - git submodule update --init
 - name: object-store
-  image: nextcloudci/php7.2:php7.2-13
+  image: nextcloudci/php7.4:latest
+  environment:
+      CODECOV_TOKEN:
+          from_secret: CODECOV_TOKEN
   commands:
     - phpenmod xdebug
     - ./tests/drone-wait-objectstore.sh
     - TEST_SELECTION=PRIMARY-azure ./autotest.sh sqlite
     - wget https://codecov.io/bash -O codecov.sh
-    - sh -c "if [ '$DRONE_BUILD_EVENT' = 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -P $DRONE_PULL_REQUEST -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
-    - sh -c "if [ '$DRONE_BUILD_EVENT' != 'pull_request' ]; then bash codecov.sh -B $DRONE_BRANCH -C $DRONE_COMMIT -t 117641e2-a9e8-4b7b-984b-ae872d9b05f5 -f tests/autotest-clover-sqlite.xml; fi"
+    - bash codecov.sh -C $DRONE_COMMIT -f tests/autotest-clover-sqlite.xml
 
 services:
 - name: azurite
