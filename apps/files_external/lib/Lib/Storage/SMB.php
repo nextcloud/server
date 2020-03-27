@@ -207,7 +207,7 @@ class SMB extends Common implements INotifyStorage {
 	 */
 	protected function getFolderContents($path) {
 		try {
-			$path = $this->buildPath($path);
+			$path = ltrim($this->buildPath($path), '/');
 			$files = $this->share->dir($path);
 			foreach ($files as $file) {
 				$this->statCache[$path . '/' . $file->getName()] = $file;
