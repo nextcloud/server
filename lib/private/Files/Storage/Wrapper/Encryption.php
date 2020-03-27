@@ -105,17 +105,17 @@ class Encryption extends Wrapper {
 	 * @param ArrayCache $arrayCache
 	 */
 	public function __construct(
-			$parameters,
-			IManager $encryptionManager = null,
-			Util $util = null,
-			ILogger $logger = null,
-			IFile $fileHelper = null,
-			$uid = null,
-			IStorage $keyStorage = null,
-			Update $update = null,
-			Manager $mountManager = null,
-			ArrayCache $arrayCache = null
-		) {
+		$parameters,
+		IManager $encryptionManager = null,
+		Util $util = null,
+		ILogger $logger = null,
+		IFile $fileHelper = null,
+		$uid = null,
+		IStorage $keyStorage = null,
+		Update $update = null,
+		Manager $mountManager = null,
+		ArrayCache $arrayCache = null
+	) {
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->mount = $parameters['mount'];
 		$this->encryptionManager = $encryptionManager;
@@ -169,15 +169,7 @@ class Encryption extends Wrapper {
 		return $this->storage->filesize($path);
 	}
 
-	/**
-	 * @param string $path
-	 * @return array
-	 */
-	public function getMetaData($path) {
-		$data = $this->storage->getMetaData($path);
-		if (is_null($data)) {
-			return null;
-		}
+	private function modifyMetaData(string $path, array $data): array {
 		$fullPath = $this->getFullPath($path);
 		$info = $this->getCache()->get($path);
 
@@ -196,6 +188,25 @@ class Encryption extends Wrapper {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * @param string $path
+	 * @return array
+	 */
+	public function getMetaData($path) {
+		$data = $this->storage->getMetaData($path);
+		if (is_null($data)) {
+			return null;
+		}
+		return $this->modifyMetaData($path, $data);
+	}
+
+	public function getDirectoryContent($directory): \Traversable {
+		$parent = rtrim($directory, '/');
+		foreach ($this->getWrapperStorage()->getDirectoryContent($directory) as $data) {
+			yield $this->modifyMetaData($parent . '/' . $data['name'], $data);
+		}
 	}
 
 	/**
@@ -493,7 +504,7 @@ class Encryption extends Wrapper {
 				try {
 					$result = $this->fixUnencryptedSize($path, $size, $unencryptedSize);
 				} catch (\Exception $e) {
-					$this->logger->error('Couldn\'t re-calculate unencrypted size for '. $path);
+					$this->logger->error('Couldn\'t re-calculate unencrypted size for ' . $path);
 					$this->logger->logException($e);
 				}
 				unset($this->fixUnencryptedSizeOf[$this->getFullPath($path)]);
@@ -546,7 +557,7 @@ class Encryption extends Wrapper {
 		// next highest is end of chunks, one subtracted is last one
 		// we have to read the last chunk, we can't just calculate it (because of padding etc)
 
-		$lastChunkNr = ceil($size/ $blockSize)-1;
+		$lastChunkNr = ceil($size / $blockSize) - 1;
 		// calculate last chunk position
 		$lastChunkPos = ($lastChunkNr * $blockSize);
 		// try to fseek to the last chunk, if it fails we have to read the whole file
@@ -554,16 +565,16 @@ class Encryption extends Wrapper {
 			$newUnencryptedSize += $lastChunkNr * $unencryptedBlockSize;
 		}
 
-		$lastChunkContentEncrypted='';
+		$lastChunkContentEncrypted = '';
 		$count = $blockSize;
 
 		while ($count > 0) {
-			$data=fread($stream, $blockSize);
-			$count=strlen($data);
+			$data = fread($stream, $blockSize);
+			$count = strlen($data);
 			$lastChunkContentEncrypted .= $data;
 			if (strlen($lastChunkContentEncrypted) > $blockSize) {
 				$newUnencryptedSize += $unencryptedBlockSize;
-				$lastChunkContentEncrypted=substr($lastChunkContentEncrypted, $blockSize);
+				$lastChunkContentEncrypted = substr($lastChunkContentEncrypted, $blockSize);
 			}
 		}
 
@@ -743,7 +754,7 @@ class Encryption extends Wrapper {
 			try {
 				$source = $sourceStorage->fopen($sourceInternalPath, 'r');
 				$target = $this->fopen($targetInternalPath, 'w');
-				list(, $result) = \OC_Helper::streamCopy($source, $target);
+				[, $result] = \OC_Helper::streamCopy($source, $target);
 				fclose($source);
 				fclose($target);
 			} catch (\Exception $e) {
@@ -889,7 +900,7 @@ class Encryption extends Wrapper {
 				$header = substr($header, 0, $endAt + strlen(Util::HEADER_END));
 
 				// +1 to not start with an ':' which would result in empty element at the beginning
-				$exploded = explode(':', substr($header, strlen(Util::HEADER_START)+1));
+				$exploded = explode(':', substr($header, strlen(Util::HEADER_START) + 1));
 
 				$element = array_shift($exploded);
 				while ($element !== Util::HEADER_END) {
@@ -1023,7 +1034,7 @@ class Encryption extends Wrapper {
 	public function writeStream(string $path, $stream, int $size = null): int {
 		// always fall back to fopen
 		$target = $this->fopen($path, 'w');
-		list($count, $result) = \OC_Helper::streamCopy($stream, $target);
+		[$count, $result] = \OC_Helper::streamCopy($stream, $target);
 		fclose($target);
 		return $count;
 	}

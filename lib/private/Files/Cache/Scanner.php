@@ -126,11 +126,11 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param int $parentId
 	 * @param array|null|false $cacheData existing data in the cache for the file to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
+	 * @param null $data the metadata for the file, as returned by the storage
 	 * @return array an array of metadata of the scanned file
-	 * @throws \OC\ServerNotAvailableException
 	 * @throws \OCP\Lock\LockedException
 	 */
-	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true) {
+	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		if ($file !== '') {
 			try {
 				$this->storage->verifyPath(dirname($file), basename($file));
@@ -149,7 +149,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			}
 
 			try {
-				$data = $this->getData($file);
+				$data = $data ?? $this->getData($file);
 			} catch (ForbiddenException $e) {
 				if ($lock) {
 					if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
@@ -367,26 +367,6 @@ class Scanner extends BasicEmitter implements IScanner {
 	}
 
 	/**
-	 * Get the children from the storage
-	 *
-	 * @param string $folder
-	 * @return string[]
-	 */
-	protected function getNewChildren($folder) {
-		$children = [];
-		if ($dh = $this->storage->opendir($folder)) {
-			if (is_resource($dh)) {
-				while (($file = readdir($dh)) !== false) {
-					if (!Filesystem::isIgnoredDir($file)) {
-						$children[] = trim(\OC\Files\Filesystem::normalizePath($file), '/');
-					}
-				}
-			}
-		}
-		return $children;
-	}
-
-	/**
 	 * scan all the files and folders in a folder
 	 *
 	 * @param string $path
@@ -425,7 +405,7 @@ class Scanner extends BasicEmitter implements IScanner {
 	private function handleChildren($path, $recursive, $reuse, $folderId, $lock, &$size) {
 		// we put this in it's own function so it cleans up the memory before we start recursing
 		$existingChildren = $this->getExistingChildren($folderId);
-		$newChildren = $this->getNewChildren($path);
+		$newChildren = iterator_to_array($this->storage->getDirectoryContent($path));
 
 		if ($this->useTransactions) {
 			\OC::$server->getDatabaseConnection()->beginTransaction();
@@ -433,11 +413,14 @@ class Scanner extends BasicEmitter implements IScanner {
 
 		$exceptionOccurred = false;
 		$childQueue = [];
-		foreach ($newChildren as $file) {
+		$newChildNames = [];
+		foreach ($newChildren as $fileMeta) {
+			$file = $fileMeta['name'];
+			$newChildNames[] = $file;
 			$child = $path ? $path . '/' . $file : $file;
 			try {
 				$existingData = isset($existingChildren[$file]) ? $existingChildren[$file] : false;
-				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock);
+				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock, $fileMeta);
 				if ($data) {
 					if ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE) {
 						$childQueue[$child] = $data['fileid'];
@@ -471,7 +454,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				throw $e;
 			}
 		}
-		$removedChildren = \array_diff(array_keys($existingChildren), $newChildren);
+		$removedChildren = \array_diff(array_keys($existingChildren), $newChildNames);
 		foreach ($removedChildren as $childName) {
 			$child = $path ? $path . '/' . $childName : $childName;
 			$this->removeFromCache($child);
