@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = $vendorDir;
 
 return array(
+    'Icewind\\SMB\\ACL' => $vendorDir . '/icewind/smb/src/ACL.php',
     'Icewind\\SMB\\AbstractServer' => $vendorDir . '/icewind/smb/src/AbstractServer.php',
     'Icewind\\SMB\\AbstractShare' => $vendorDir . '/icewind/smb/src/AbstractShare.php',
     'Icewind\\SMB\\AnonymousAuth' => $vendorDir . '/icewind/smb/src/AnonymousAuth.php',

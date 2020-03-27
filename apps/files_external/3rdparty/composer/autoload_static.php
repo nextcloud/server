@@ -36,6 +36,7 @@ class ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3
     );
 
     public static $classMap = array (
+        'Icewind\\SMB\\ACL' => __DIR__ . '/..' . '/icewind/smb/src/ACL.php',
         'Icewind\\SMB\\AbstractServer' => __DIR__ . '/..' . '/icewind/smb/src/AbstractServer.php',
         'Icewind\\SMB\\AbstractShare' => __DIR__ . '/..' . '/icewind/smb/src/AbstractShare.php',
         'Icewind\\SMB\\AnonymousAuth' => __DIR__ . '/..' . '/icewind/smb/src/AnonymousAuth.php',
