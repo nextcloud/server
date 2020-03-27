@@ -34,7 +34,6 @@ use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trash\TrashManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
-use OCP\AppFramework\Utility\ITimeFactory;
 
 class Application extends App {
 	public function __construct (array $urlParams = []) {

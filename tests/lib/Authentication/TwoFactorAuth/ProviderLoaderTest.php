@@ -25,7 +25,6 @@ declare(strict_types=1);
 
 namespace lib\Authentication\TwoFactorAuth;
 
-use Exception;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCP\App\IAppManager;
 use OCP\Authentication\TwoFactorAuth\IProvider;

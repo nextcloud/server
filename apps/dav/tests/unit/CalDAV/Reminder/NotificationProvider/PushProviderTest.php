@@ -29,7 +29,6 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 
-use OCA\DAV\AppInfo\Application;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\PushProvider;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
@@ -40,7 +39,6 @@ use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
-use Test\TestCase;
 
 class PushProviderTest extends AbstractNotificationProviderTest {
 

@@ -25,7 +25,6 @@
 
 namespace OCA\TwoFactorBackupCodes\Db;
 
-use OCP\AppFramework\Db\Mapper;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;

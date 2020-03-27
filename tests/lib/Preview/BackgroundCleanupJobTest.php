@@ -25,7 +25,6 @@ namespace Test\Preview;
 use OC\Files\AppData\Factory;
 use OC\Preview\BackgroundCleanupJob;
 use OC\PreviewManager;
-use OC\SystemConfig;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use Test\Traits\MountProviderTrait;

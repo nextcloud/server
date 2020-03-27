@@ -34,7 +34,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Constants;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\L10N\IFactory;
 use OCP\Settings\ISettings;
 use OCP\Share\IManager;
 use OCP\Util;

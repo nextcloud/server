@@ -41,7 +41,6 @@ use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
-use OCP\IConfig;
 use OCP\IRequest;
 
 class CssController extends Controller {

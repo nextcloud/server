@@ -24,9 +24,7 @@
 
 namespace OCA\DAV\Upload;
 
-use OCA\DAV\BackgroundJob\UploadCleanup;
 use OCA\DAV\Connector\Sabre\Directory;
-use OCP\BackgroundJob\IJobList;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ICollection;
 

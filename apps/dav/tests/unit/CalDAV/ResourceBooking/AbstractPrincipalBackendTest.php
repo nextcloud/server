@@ -26,7 +26,6 @@ namespace OCA\DAV\Tests\unit\CalDAV\ResourceBooking;
 
 use OCA\DAV\CalDAV\Proxy\Proxy;
 use OCA\DAV\CalDAV\Proxy\ProxyMapper;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;

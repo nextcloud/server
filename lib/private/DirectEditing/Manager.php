@@ -34,8 +34,6 @@ use OCP\DirectEditing\ACreateFromTemplate;
 use OCP\DirectEditing\IEditor;
 use \OCP\DirectEditing\IManager;
 use OCP\DirectEditing\IToken;
-use OCP\DirectEditing\RegisterDirectEditorEvent;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;

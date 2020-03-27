@@ -27,7 +27,6 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Util;
 use OCP\WorkflowEngine\ICheck;
-use OCP\WorkflowEngine\IEntity;
 
 class FileSize implements ICheck {
 

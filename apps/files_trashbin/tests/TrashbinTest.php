@@ -28,7 +28,6 @@
  *
  */
 
-use OCA\Files_Trashbin\Tests;
 use OCA\Files_Sharing\AppInfo\Application;
 
 /**

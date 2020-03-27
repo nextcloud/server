@@ -25,15 +25,10 @@ declare(strict_types=1);
 
 namespace OCA\ContactsInteraction\AppInfo;
 
-use OCA\ContactsInteraction\AddressBook;
 use OCA\ContactsInteraction\Listeners\ContactInteractionListener;
-use OCA\ContactsInteraction\Store;
 use OCP\AppFramework\App;
-use OCP\AppFramework\IAppContainer;
 use OCP\Contacts\Events\ContactInteractedWithEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\EventDispatcher\IEventListener;
-use OCP\IL10N;
 
 class Application extends App {
 

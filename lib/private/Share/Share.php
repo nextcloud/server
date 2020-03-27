@@ -37,9 +37,7 @@
 namespace OC\Share;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\IConfig;
 use OCP\ILogger;
-use OCP\Util;
 
 /**
  * This class provides the ability for apps to share their content between users.

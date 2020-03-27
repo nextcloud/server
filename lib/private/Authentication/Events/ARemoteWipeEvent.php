@@ -28,7 +28,6 @@ namespace OC\Authentication\Events;
 
 use OC\Authentication\Token\IToken;
 use OCP\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 abstract class ARemoteWipeEvent extends Event {
 

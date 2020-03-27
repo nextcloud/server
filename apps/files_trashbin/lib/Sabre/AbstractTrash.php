@@ -29,7 +29,6 @@ namespace OCA\Files_Trashbin\Sabre;
 use OCA\Files_Trashbin\Trash\ITrashItem;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCP\Files\FileInfo;
-use OCP\IUser;
 
 abstract class AbstractTrash implements ITrash {
 	/** @var ITrashItem */

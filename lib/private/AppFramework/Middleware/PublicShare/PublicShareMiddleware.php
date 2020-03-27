@@ -26,7 +26,6 @@ namespace OC\AppFramework\Middleware\PublicShare;
 use OC\AppFramework\Middleware\PublicShare\Exceptions\NeedAuthenticationException;
 use OCP\AppFramework\AuthPublicShareController;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\PublicShareController;
 use OCP\Files\NotFoundException;

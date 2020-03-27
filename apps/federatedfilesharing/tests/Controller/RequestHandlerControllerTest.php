@@ -28,28 +28,19 @@
 
 namespace OCA\FederatedFileSharing\Tests;
 
-use OC\AppFramework\Http;
-use OC\Federation\CloudIdManager;
-use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\Controller\RequestHandlerController;
-use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProvider;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudFederationShare;
 use OCP\Federation\ICloudIdManager;
-use OCP\Http\Client\IClient;
-use OCP\Http\Client\IClientService;
-use OCP\Http\Client\IResponse;
-use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\Share;
 use OCP\Share\IShare;
-use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 
 /**
  * Class RequestHandlerTest

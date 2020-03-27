@@ -32,7 +32,6 @@ use OCP\Activity\IManager as IActivityManager;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\ILogger;
-use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 

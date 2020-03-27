@@ -23,10 +23,8 @@ namespace Test\Notification;
 
 use OC\Notification\Manager;
 use OCP\ILogger;
-use OCP\Notification\IApp;
 use OCP\Notification\IManager;
 use OCP\Notification\INotification;
-use OCP\Notification\INotifier;
 use OCP\RichObjectStrings\IValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;

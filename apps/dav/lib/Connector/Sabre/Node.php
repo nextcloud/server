@@ -45,7 +45,6 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
-use OCP\Share\IShare;
 
 abstract class Node implements \Sabre\DAV\INode {
 

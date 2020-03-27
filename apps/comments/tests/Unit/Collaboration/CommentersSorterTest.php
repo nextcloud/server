@@ -28,7 +28,6 @@ namespace OCA\Comments\Tests\Unit\Collaboration;
 use OCA\Comments\Collaboration\CommentersSorter;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
-use OCP\IConfig;
 use Test\TestCase;
 
 class CommentersSorterTest extends TestCase {

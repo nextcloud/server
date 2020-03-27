@@ -30,7 +30,6 @@ namespace OCA\Theming\Tests;
 use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\Files\IAppData;
-use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;

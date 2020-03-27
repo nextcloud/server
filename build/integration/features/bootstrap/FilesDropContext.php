@@ -24,7 +24,6 @@
  */
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Behat\Tester\Exception\PendingException;
 use GuzzleHttp\Client;
 
 require __DIR__ . '/../../vendor/autoload.php';

@@ -30,7 +30,6 @@ namespace OC\Authentication\Token;
 use function array_filter;
 use OC\Authentication\Events\RemoteWipeFinished;
 use OC\Authentication\Events\RemoteWipeStarted;
-use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\WipeTokenException;
 use OCP\EventDispatcher\IEventDispatcher;

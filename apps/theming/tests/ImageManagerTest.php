@@ -27,7 +27,6 @@
 namespace OCA\Theming\Tests;
 
 use OCA\Theming\ImageManager;
-use OCA\Theming\ThemingDefaults;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;

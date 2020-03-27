@@ -25,7 +25,6 @@ declare(strict_types=1);
 
 namespace lib\Authentication\Login;
 
-use OC\Authentication\Login\UidCheckCommand;
 use OC\Authentication\Login\UidLoginCommand;
 use OC\User\Manager;
 use PHPUnit\Framework\MockObject\MockObject;

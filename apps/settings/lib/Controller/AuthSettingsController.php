@@ -40,7 +40,6 @@ use OC\Authentication\Exceptions\WipeTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
-use OC\Authentication\Token\IWipeableToken;
 use OC\Authentication\Token\RemoteWipe;
 use OCA\Settings\Activity\Provider;
 use OCP\Activity\IManager;

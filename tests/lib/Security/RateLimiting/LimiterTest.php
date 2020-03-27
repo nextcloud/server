@@ -24,10 +24,7 @@ namespace Test\Security\RateLimiting;
 use OC\Security\RateLimiting\Backend\IBackend;
 use OC\Security\RateLimiting\Limiter;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\ICacheFactory;
-use OCP\IRequest;
 use OCP\IUser;
-use OCP\IUserSession;
 use Test\TestCase;
 
 class LimiterTest extends TestCase {

@@ -29,7 +29,6 @@
 
 namespace OC\App;
 
-use OCP\IConfig;
 use OCP\IL10N;
 
 class DependencyAnalyzer {

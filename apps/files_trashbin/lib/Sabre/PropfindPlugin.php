@@ -28,7 +28,6 @@ declare(strict_types=1);
 namespace OCA\Files_Trashbin\Sabre;
 
 use OCA\DAV\Connector\Sabre\FilesPlugin;
-use OCP\Constants;
 use OCP\IPreview;
 use Sabre\DAV\INode;
 use Sabre\DAV\PropFind;

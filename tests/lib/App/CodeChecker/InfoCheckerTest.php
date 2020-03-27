@@ -22,7 +22,6 @@
 namespace Test\App\CodeChecker;
 
 use OC\App\CodeChecker\InfoChecker;
-use OC\App\InfoParser;
 use Test\TestCase;
 
 class InfoCheckerTest extends TestCase {

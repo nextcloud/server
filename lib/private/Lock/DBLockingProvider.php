@@ -28,7 +28,6 @@
 
 namespace OC\Lock;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\DB\QueryBuilder\Literal;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;

@@ -29,7 +29,6 @@ namespace OCA\Files_Versions\Versions;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\Storage\IStorage;
 use OCP\IUser;
 

@@ -31,7 +31,6 @@ namespace OCA\DAV\Tests\unit\CalDAV\Reminder;
 
 use OCA\DAV\CalDAV\Reminder\Backend as ReminderBackend;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\DB\QueryBuilder\IQueryBuilder;
 use Test\TestCase;
 
 class BackendTest extends TestCase {

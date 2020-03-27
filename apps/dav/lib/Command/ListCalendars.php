@@ -27,13 +27,7 @@ namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\Connector\Sabre\Principal;
-use OCP\IConfig;
-use OCP\IDBConnection;
-use OCP\IGroupManager;
 use OCP\IUserManager;
-use OCP\IUserSession;
-use OCP\Share\IManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;

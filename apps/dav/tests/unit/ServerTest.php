@@ -26,7 +26,6 @@
 
 namespace OCA\DAV\Tests\unit;
 
-use OCA\DAV\AppInfo\PluginManager;
 use OCA\DAV\Server;
 use OCP\IRequest;
 

@@ -59,7 +59,6 @@ use OCP\Defaults;
 use OCP\IGroup;
 use OCP\IL10N;
 use OCP\ILogger;
-use OCP\IUser;
 use OCP\Security\ISecureRandom;
 
 class Setup {

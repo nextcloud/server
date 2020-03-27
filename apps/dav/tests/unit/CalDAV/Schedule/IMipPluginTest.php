@@ -28,7 +28,6 @@
 
 namespace OCA\DAV\Tests\unit\CalDAV\Schedule;
 
-use OC\Mail\Mailer;
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\QueryBuilder\IQueryBuilder;

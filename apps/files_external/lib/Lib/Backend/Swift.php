@@ -30,7 +30,6 @@ use OCA\Files_External\Lib\Auth\OpenStack\OpenStackV2;
 use OCA\Files_External\Lib\Auth\OpenStack\Rackspace;
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
-use OCA\Files_External\Service\BackendService;
 use OCP\IL10N;
 
 class Swift extends Backend {

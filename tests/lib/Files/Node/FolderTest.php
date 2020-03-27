@@ -19,7 +19,6 @@ use OC\Files\Node\Root;
 use OC\Files\Storage\Temporary;
 use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\View;
-use OC\User\User;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;

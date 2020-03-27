@@ -35,7 +35,6 @@
 
 namespace OCA\Theming\Tests\Controller;
 
-use OC\Files\AppData\Factory;
 use OC\L10N\L10N;
 use OC\Template\SCSSCacher;
 use OCA\Theming\Controller\ThemingController;
@@ -47,13 +46,11 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
-use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;

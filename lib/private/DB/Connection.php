@@ -41,7 +41,6 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\TransactionIsolationLevel;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;

@@ -36,8 +36,6 @@ namespace OC\Session;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
-use OC\SystemConfig;
-use OCP\IConfig;
 use OCP\Session\Exceptions\SessionNotAvailableException;
 
 /**

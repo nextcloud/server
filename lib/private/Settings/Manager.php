@@ -33,7 +33,6 @@
 namespace OC\Settings;
 
 use Closure;
-use OC\Settings\Personal\PersonalInfo;
 use OCP\AppFramework\QueryException;
 use OCP\IL10N;
 use OCP\ILogger;

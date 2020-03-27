@@ -10,8 +10,6 @@
 namespace Test\Group;
 
 use OC\User\User;
-use OCP\IConfig;
-use OCP\IURLGenerator;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

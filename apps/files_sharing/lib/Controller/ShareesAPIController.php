@@ -34,7 +34,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Controller;
 
-use function array_filter;
 use function array_slice;
 use function array_values;
 use Generator;

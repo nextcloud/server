@@ -20,7 +20,6 @@
 
 namespace Test\Files\ObjectStore;
 
-use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\ObjectStore\StorageObjectStore;
 use OC\Files\Storage\Temporary;
 use OCP\Files\ObjectStore\IObjectStore;

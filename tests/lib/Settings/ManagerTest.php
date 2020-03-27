@@ -24,7 +24,6 @@
 namespace OCA\Settings\Tests\AppInfo;
 
 use OC\Settings\Manager;
-use OCA\Settings\Admin\Sharing;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;

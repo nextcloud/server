@@ -35,7 +35,6 @@ use OC\AppFramework\Http;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\ForbiddenException;
 use OC\Security\IdentityProof\Manager;
-use OCA\Settings\AppInfo\Application;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCA\User_LDAP\User_Proxy;
 use OCP\App\IAppManager;

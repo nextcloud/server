@@ -53,7 +53,6 @@ use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
-use OCP\Share\IShareHelper;
 use OCP\Share\IShareProvider;
 
 /**

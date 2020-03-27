@@ -11,14 +11,11 @@ namespace Test\Files\Node;
 use OC\Files\FileInfo;
 use OC\Files\Mount\Manager;
 use OC\Files\View;
-use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
-use OCP\IConfig;
 use OCP\ILogger;
-use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 

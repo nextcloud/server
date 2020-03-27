@@ -30,7 +30,6 @@ declare(strict_types=1);
 namespace OCA\Accessibility\Controller;
 
 use OCA\Accessibility\AccessibilityProvider;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSBadRequestException;
 use OCP\AppFramework\OCSController;

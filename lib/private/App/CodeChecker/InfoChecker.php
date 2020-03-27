@@ -24,8 +24,6 @@
 namespace OC\App\CodeChecker;
 
 use OC\Hooks\BasicEmitter;
-use OCP\App\AppPathNotFoundException;
-use OCP\App\IAppManager;
 
 class InfoChecker extends BasicEmitter {
 

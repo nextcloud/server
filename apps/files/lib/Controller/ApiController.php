@@ -52,7 +52,6 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Share\IManager;
-use Sabre\VObject\Property\Boolean;
 
 /**
  * Class ApiController

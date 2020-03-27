@@ -33,7 +33,6 @@ use OCP\ILogger;
 use OCP\IUser;
 use OCP\Security\ICrypto;
 use PHPUnit\Framework\MockObject\MockObject;
-use SebastianBergmann\Comparator\MockObjectComparator;
 use Test\TestCase;
 
 class ManagerTest extends TestCase  {

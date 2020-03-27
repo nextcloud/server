@@ -26,7 +26,6 @@ namespace OC\AppFramework\OCS;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
-use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\AppFramework\Http\Response;
 
 abstract class BaseResponse extends Response   {
