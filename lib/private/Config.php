@@ -246,12 +246,9 @@ class Config {
 
 		// File does not exist, this can happen when doing a fresh install
 		if(!is_resource ($filePointer)) {
-			// TODO fix this via DI once it is very clear that this doesn't cause side effects due to initialization order
-			// currently this breaks app routes but also could have other side effects especially during setup and exception handling
-			$url = \OC::$server->getURLGenerator()->linkToDocs('admin-dir_permissions');
 			throw new HintException(
 				"Can't write into config directory!",
-				'This can usually be fixed by giving the webserver write access to the config directory. See ' . $url);
+				'This can usually be fixed by giving the webserver write access to the config directory.');
 		}
 
 		// Try to acquire a file lock
