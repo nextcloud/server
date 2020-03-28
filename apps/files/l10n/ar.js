@@ -103,7 +103,6 @@ OC.L10N.register(
     "Settings" : "الإعدادات",
     "Show hidden files" : "عرض الملفات المخفية",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "استخدم هذا العنوان قصد <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">الوصول إلى ملفاتك على WebDAV</a>",
     "No files in here" : "لا يوجد ملفات هنا ",
     "Upload some content or sync with your devices!" : "ارفع بعض المحتوي او زامن مع اجهزتك !",
     "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
@@ -118,6 +117,7 @@ OC.L10N.register(
     "Shared with you" : "شورك معك",
     "Shared by link" : "شاركته باستخدام رابط مشاركة",
     "Text file" : "ملف نصي",
-    "New text file.txt" : "ملف نصي جديد fille.txt"
+    "New text file.txt" : "ملف نصي جديد fille.txt",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "استخدم هذا العنوان قصد <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">الوصول إلى ملفاتك على WebDAV</a>"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

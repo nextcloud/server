@@ -168,7 +168,6 @@ OC.L10N.register(
     "Settings" : "Einstellungen",
     "Show hidden files" : "Versteckte Dateien anzeigen",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Benutzen Sie diese Adresse, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">via WebDAV auf Ihre Dateien zuzugreifen</a>",
     "Toggle grid view" : "Rasteransicht umschalten",
     "No files in here" : "Keine Dateien vorhanden",
     "Upload some content or sync with your devices!" : "Laden Sie Inhalte hoch oder synchronisieren Sie mit Ihren Geräten!",
@@ -189,6 +188,7 @@ OC.L10N.register(
     "New text file.txt" : "Neue Textdatei file.txt",
     "%s of %s used" : "%s von %s verwendet",
     "%1$s%% of %2$s used" : "%1$s%% von %2$s verwendet",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Benutzen Sie diese Adresse, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">via WebDAV auf Ihre Dateien zuzugreifen</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Sie nicht besitzen, kann nicht übertragen werden"
 },
 "nplurals=2; plural=(n != 1);");

@@ -149,7 +149,6 @@ OC.L10N.register(
     "Settings" : "Agordo",
     "Show hidden files" : "Montri kaŝitajn dosierojn",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Uzu tiun adreson por <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">atingi viajn dosierojn per WebDAV</a>",
     "Toggle grid view" : "Baskuligi kradan vidon",
     "No files in here" : "Neniu dosiero ĉi tie",
     "Upload some content or sync with your devices!" : "Alŝutu iom da enhavo aŭ sinkronigu kun viaj aparatoj!",
@@ -168,6 +167,7 @@ OC.L10N.register(
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
     "%s of %s used" : "%s uzataj el %s",
-    "%1$s%% of %2$s used" : "%1$s%% el %2$s uzataj"
+    "%1$s%% of %2$s used" : "%1$s%% el %2$s uzataj",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Uzu tiun adreson por <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">atingi viajn dosierojn per WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

@@ -153,7 +153,6 @@ OC.L10N.register(
     "Settings" : "Ezarpenak",
     "Show hidden files" : "Erakutsi ezkutuko fitxategiak",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Erabili helbide hau <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">zure fitxategiak WebDAV bidez atzitzeko</a>",
     "Toggle grid view" : "Txandakatu sareta ikuspegia",
     "No files in here" : "Ez dago fitxategirik hemen",
     "Upload some content or sync with your devices!" : "Kargatu edukiren bat edo sinkronizatu zure gailuekin!",
@@ -172,6 +171,7 @@ OC.L10N.register(
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
     "%s of %s used" : "%s / %s erabilita",
-    "%1$s%% of %2$s used" : "%1$s%% / %2$serabilita"
+    "%1$s%% of %2$s used" : "%1$s%% / %2$serabilita",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Erabili helbide hau <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">zure fitxategiak WebDAV bidez atzitzeko</a>"
 },
 "nplurals=2; plural=(n != 1);");

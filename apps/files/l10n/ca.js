@@ -148,7 +148,6 @@ OC.L10N.register(
     "Settings" : "Paràmetres",
     "Show hidden files" : "Mostra els fitxers ocults",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilitzeu aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accedir als vostres fitxers mitjançant WebDAV</a>",
     "Toggle grid view" : "Commuta vista de quadrícula",
     "No files in here" : "No hi ha fitxers aquí",
     "Upload some content or sync with your devices!" : "Carregeu continguts o sincronitzeu els vostres dispositius!",
@@ -167,6 +166,7 @@ OC.L10N.register(
     "Text file" : "Fitxer de text",
     "New text file.txt" : "Nou fitxer de text text.txt",
     "%s of %s used" : "Utilitzats %s de %s",
-    "%1$s%% of %2$s used" : "%1$s%% de %2$s utilitzat"
+    "%1$s%% of %2$s used" : "%1$s%% de %2$s utilitzat",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilitzeu aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accedir als vostres fitxers mitjançant WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

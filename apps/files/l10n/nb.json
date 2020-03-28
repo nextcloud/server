@@ -141,7 +141,6 @@
     "Settings" : "Innstillinger",
     "Show hidden files" : "Vis skjulte filer",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Bruk adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">for å få tilgang til dine filer via WebDAV</a>",
     "Toggle grid view" : "Veksle rutenett-visning",
     "No files in here" : "Ingen filer",
     "Upload some content or sync with your devices!" : "Last opp innhold eller synkroniser med enhetene dine!",
@@ -160,6 +159,7 @@
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekstfil.txt",
     "%s of %s used" : "%s av %s brukt",
-    "%1$s%% of %2$s used" : "%1$s%% av %2$s brukt"
+    "%1$s%% of %2$s used" : "%1$s%% av %2$s brukt",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Bruk adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">for å få tilgang til dine filer via WebDAV</a>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
