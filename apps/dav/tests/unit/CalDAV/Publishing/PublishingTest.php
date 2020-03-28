@@ -30,6 +30,7 @@ use OCA\DAV\CalDAV\Publishing\PublishPlugin;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Sabre\DAV\Server;
 use Sabre\DAV\SimpleCollection;
 use Sabre\HTTP\Request;
@@ -42,11 +43,11 @@ class PluginTest extends TestCase {
 	private $plugin;
 	/** @var Server */
 	private $server;
-	/** @var Calendar | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Calendar | MockObject */
 	private $book;
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | MockObject */
 	private $config;
-	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator | MockObject */
 	private $urlGenerator;
 
 	protected function setUp(): void {
@@ -79,7 +80,7 @@ class PluginTest extends TestCase {
 
 	public function testPublishing() {
 
-		$this->book->expects($this->once())->method('setPublishStatus')->with(true);
+		$this->book->expects($this->once())->method('addPublicLink')->with();
 
 		// setup request
 		$request = new Request();
@@ -92,13 +93,26 @@ class PluginTest extends TestCase {
 
 	public function testUnPublishing() {
 
-		$this->book->expects($this->once())->method('setPublishStatus')->with(false);
+		$this->book->expects($this->once())->method('removeAllPublicLinks')->with();
 
 		// setup request
 		$request = new Request();
 		$request->addHeader('Content-Type', 'application/xml');
 		$request->setUrl('cal1');
 		$request->setBody('<o:unpublish-calendar xmlns:o="http://calendarserver.org/ns/"/>');
+		$response = new Response();
+		$this->plugin->httpPost($request, $response);
+	}
+
+	public function testUnPublishingALink() {
+
+		$this->book->expects($this->once())->method('removePublicLink')->with('urltounpublish');
+
+		// setup request
+		$request = new Request();
+		$request->addHeader('Content-Type', 'application/xml');
+		$request->setUrl('cal1');
+		$request->setBody('<o:unpublish-calendar xmlns:o="http://nextcloud.com/ns/">urltounpublish</o:unpublish-calendar>');
 		$response = new Response();
 		$this->plugin->httpPost($request, $response);
 	}
