@@ -167,7 +167,6 @@ OC.L10N.register(
     "Settings" : "Поставке",
     "Show hidden files" : "Прикажи скривене фајлове",
     "WebDAV" : "ВебДАВ",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">приступате Вашим фајловима преко ВебДАВа</a>",
     "Toggle grid view" : "Укључи/искључи приказ мреже",
     "No files in here" : "Овде нема фајлова",
     "Upload some content or sync with your devices!" : "Отпремите неки садржај или синхронизујте са вашим уређајима!",
@@ -188,6 +187,7 @@ OC.L10N.register(
     "New text file.txt" : "Нов текстуални фајл.txt",
     "%s of %s used" : "%s од %s искоришћено",
     "%1$s%% of %2$s used" : "%1$s%% од %2$s искоришћено",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">приступате Вашим фајловима преко ВебДАВа</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Не можете пренети власништво фајла или фасцикле које нису Ваше"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

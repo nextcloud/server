@@ -145,7 +145,6 @@ OC.L10N.register(
     "Settings" : "Beállítások",
     "Show hidden files" : "Rejtett fájlok megjelenítése",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Használd ezt a címet a <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">fájlok WebDAV-al való eléréséhez</a>",
     "Toggle grid view" : "Rácsnézet váltás",
     "No files in here" : "Itt nincsenek fájlok",
     "Upload some content or sync with your devices!" : "Tölts fel néhány tartalmat, vagy szinkronizálj az eszközöddel!",
@@ -164,6 +163,7 @@ OC.L10N.register(
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szöveges fájl.txt",
     "%s of %s used" : "%s / %s használt",
-    "%1$s%% of %2$s used" : "%1$s%% / %2$s használt"
+    "%1$s%% of %2$s used" : "%1$s%% / %2$s használt",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Használd ezt a címet a <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">fájlok WebDAV-al való eléréséhez</a>"
 },
 "nplurals=2; plural=(n != 1);");

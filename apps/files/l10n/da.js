@@ -151,7 +151,6 @@ OC.L10N.register(
     "Settings" : "Indstillinger",
     "Show hidden files" : "Vis skjulte filer",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Brug denne adresse til at <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">få adgang til dine filer via WebDAV</a>",
     "No files in here" : "Her er ingen filer",
     "Upload some content or sync with your devices!" : "Overfør indhold eller synkronisér med dine enheder!",
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",
@@ -168,6 +167,7 @@ OC.L10N.register(
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
     "%s of %s used" : "%s af %s brugt",
-    "%1$s%% of %2$s used" : "%1$s%% af %2$s brugt"
+    "%1$s%% of %2$s used" : "%1$s%% af %2$s brugt",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Brug denne adresse til at <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">få adgang til dine filer via WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

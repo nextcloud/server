@@ -163,7 +163,6 @@ OC.L10N.register(
     "Settings" : "Asetukset",
     "Show hidden files" : "Näytä piilotetut tiedostot",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">käyttääksesi tiedostojasi WebDAV:in kautta</a>",
     "Toggle grid view" : "Ruudukkonäkymä päälle/pois",
     "No files in here" : "Täällä ei ole tiedostoja",
     "Upload some content or sync with your devices!" : "Lähetä tiedostoja tai synkronoi sisältö laitteidesi kanssa!",
@@ -184,6 +183,7 @@ OC.L10N.register(
     "New text file.txt" : "Uusi tekstitiedosto.txt",
     "%s of %s used" : "%s / %s käytetty",
     "%1$s%% of %2$s used" : "%1$s%%/%2$s käytetty",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">käyttääksesi tiedostojasi WebDAV:in kautta</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista"
 },
 "nplurals=2; plural=(n != 1);");

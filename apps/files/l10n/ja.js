@@ -147,7 +147,6 @@ OC.L10N.register(
     "Settings" : "設定",
     "Show hidden files" : "隠しファイルを表示",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">WebDAV 経由でファイルにアクセス</a>するにはこのアドレスを利用してください",
     "Toggle grid view" : "グリッド表示の切り替え",
     "No files in here" : "ファイルがありません",
     "Upload some content or sync with your devices!" : "何かコンテンツをアップロードするか、デバイスからファイルを同期してください。",
@@ -166,6 +165,7 @@ OC.L10N.register(
     "Text file" : "テキストファイル",
     "New text file.txt" : "新規のテキストファイル作成",
     "%s of %s used" : "%s / %s 使用中",
-    "%1$s%% of %2$s used" : "%2$s 中%1$s %%が使われています。"
+    "%1$s%% of %2$s used" : "%2$s 中%1$s %%が使われています。",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">WebDAV 経由でファイルにアクセス</a>するにはこのアドレスを利用してください"
 },
 "nplurals=1; plural=0;");
