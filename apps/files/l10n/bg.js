@@ -143,7 +143,6 @@ OC.L10N.register(
     "Settings" : "Настройки",
     "Show hidden files" : "Показвай и скрити файлове",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Адресът осигурява <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">достъп до файловете ви чрез WebDAV</a>",
     "Toggle grid view" : "Превключи решетъчния изглед",
     "No files in here" : "Няма файлове",
     "Upload some content or sync with your devices!" : "Качете съдържание или синхронизирайте с вашите устройства!",
@@ -162,6 +161,7 @@ OC.L10N.register(
     "Text file" : "Текстов файл",
     "New text file.txt" : "Текстов файл.txt",
     "%s of %s used" : "%s от %s използвани",
-    "%1$s%% of %2$s used" : "%1$s%% от %2$s използвани"
+    "%1$s%% of %2$s used" : "%1$s%% от %2$s използвани",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Адресът осигурява <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">достъп до файловете ви чрез WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

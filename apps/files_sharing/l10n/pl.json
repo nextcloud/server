@@ -191,7 +191,7 @@
     "Toggle list of others with access to this directory" : "Przełącz listę innych z dostępem do tego katalogu",
     "Toggle list of others with access to this file" : "Przełącz listę innych z dostępem do tego pliku",
     "Unable to fetch inherited shares" : "Nie można pobrać odziedziczonych udostępnień",
-    "Unable to load the shares list" : "Nie można załadować listy udostępnień",
+    "Unable to load the shares list" : "Nie można pobrać listy udostępnień",
     "Expires {relativetime}" : "Wygasa {relativetime}",
     "this share just expired." : "te udostępnienie właśnie wygasło.",
     "Link to a file" : "Link do pliku",
