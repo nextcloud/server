@@ -355,7 +355,7 @@ OC.L10N.register(
     "Access control" : "Prieigos valdymas",
     "{shareInitiatorDisplayName} shared via link" : "{shareInitiatorDisplayName} pradėjo bendrinti per nuorodą",
     "Error while sharing" : "Klaida bendrinant",
-    "Share details could not be loaded for this item." : "Dalinimosi detalės negali būti atskleistos šiai bylai",
+    "Share details could not be loaded for this item." : "Nepavyko įkelti bendrinimo informacijos šiam elementui.",
     "Search globally" : "Ieškoti visur",
     "_At least {count} character is needed for autocompletion_::_At least {count} characters are needed for autocompletion_" : ["Automatiniam užbaigimui reikia bent {count} simbolio","Automatiniam užbaigimui reikia bent {count} simbolių","Automatiniam užbaigimui reikia bent {count} simbolių","Automatiniam užbaigimui reikia bent {count} simbolio"],
     "This list is maybe truncated - please refine your search term to see more results." : "Sąrašas galimai sutrumpintas - prašome patikslinti paiešką, norint matyti daugiau rezultatų.",

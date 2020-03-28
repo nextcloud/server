@@ -168,7 +168,6 @@ OC.L10N.register(
     "Settings" : "Ustawienia",
     "Show hidden files" : "Pokaż ukryte pliki",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Użyj tego adresu, aby uzyskać <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">dostęp do swoich plików poprzez WebDAV</a>",
     "Toggle grid view" : "Przełącz widok siatki",
     "No files in here" : "Brak plików",
     "Upload some content or sync with your devices!" : "Wgraj coś, albo wykonaj synchronizację ze swoimi urządzeniami.",
@@ -189,6 +188,7 @@ OC.L10N.register(
     "New text file.txt" : "Nowy plik tekstowy.txt",
     "%s of %s used" : "Wykorzystano %s z %s",
     "%1$s%% of %2$s used" : "Wykorzystane: %1$s%% z %2$s",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Użyj tego adresu, aby uzyskać <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">dostęp do swoich plików poprzez WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

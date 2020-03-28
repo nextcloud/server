@@ -168,7 +168,6 @@ OC.L10N.register(
     "Settings" : "Nastavení",
     "Show hidden files" : "Zobrazit skryté soubory",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">přístup k vašim souborům přes WebDAV</a>",
     "Toggle grid view" : "Vyp/zap. zobrazení v mřížce",
     "No files in here" : "Žádné soubory",
     "Upload some content or sync with your devices!" : "Nahrajte nějaký obsah nebo synchronizujte se svými přístroji!",
@@ -189,6 +188,7 @@ OC.L10N.register(
     "New text file.txt" : "Nový textový soubor.txt",
     "%s of %s used" : "%s z %s použito",
     "%1$s%% of %2$s used" : "použito %1$s%% z %2$s",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">přístup k vašim souborům přes WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru nebo složky, která vám nenáleží"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
