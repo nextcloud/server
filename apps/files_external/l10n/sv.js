@@ -111,7 +111,7 @@ OC.L10N.register(
     "OpenStack Object Storage" : "OpenStack Object Storage",
     "Service name" : "Namn på tjänst",
     "Request timeout (seconds)" : "Sekunder för anslutningsförsök",
-    "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "cURL-stöd i PHP är inte aktiverat eller har inte installerats. Montering av %s är inte möjlig. Be din systemadministratör om installation.",
+    "The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "cURL-stödet i PHP är inte aktiverat eller installerat. Montering av %s är inte möjlig. Vänligen be din systemadministratör att installera den.",
     "The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "FTP-stöd i PHP är inte aktiverat eller har inte installerats. Montering av %s är inte möjlig. Be din systemadministratör om installation.",
     "\"%1$s\" is not installed. Mounting of %2$s is not possible. Please ask your system administrator to install it." : "\"%1$s\" är inte installerad. Montering av %2$s är inte möjlig. Be din systemadministratör att installera den.",
     "External storage support" : "Stöd för extern lagring",

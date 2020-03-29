@@ -168,6 +168,7 @@ OC.L10N.register(
     "Settings" : "Instellingen",
     "Show hidden files" : "Verborgen bestanden tonen",
     "WebDAV" : "WebDAV",
+    "Use this address to access your Files via WebDAV" : "Gebruik dit adres om je bestanden via WebDAV te benaderen",
     "Toggle grid view" : "Omschakelen roosterweergave",
     "No files in here" : "Hier geen bestanden",
     "Upload some content or sync with your devices!" : "Upload je inhoud of synchroniseer met je apparaten!",
