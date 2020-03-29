@@ -130,6 +130,6 @@ OC.L10N.register(
     "Tag management" : "Tagghantering",
     "Files workflow engine" : "Arbetsflödesmotor för Filer",
     "Open documentation" : "Öppna dokumentation",
-    "Loading…" : "Laddar..."
+    "Loading…" : "Läser in..."
 },
 "nplurals=2; plural=(n != 1);");
