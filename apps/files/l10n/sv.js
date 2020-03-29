@@ -37,7 +37,7 @@ OC.L10N.register(
     "Delete folder" : "Radera mapp",
     "Disconnect storage" : "Koppla bort lagring",
     "Unshare" : "Sluta dela",
-    "Could not load info for file \"{file}\"" : "Kunde inte ladda information för fil \"{file}\"",
+    "Could not load info for file \"{file}\"" : "Kunde inte läsa in information för filen \"{file}\"",
     "Files" : "Filer",
     "Details" : "Detaljer",
     "Select" : "Välj",
