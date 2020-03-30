@@ -9,7 +9,7 @@ OC.L10N.register(
     "Invalid configuration. Please have a look at the logs for further details." : "Ogiltig konfiguration. Vänligen undersök loggar för mer detaljer.",
     "No action specified" : "Ingen åtgärd har angetts",
     "No configuration specified" : "Ingen konfiguration har angetts",
-    "No data specified" : "Ingen data har angetts",
+    "No data specified" : "Inga data har angetts",
     " Could not set configuration %s" : "Kunde inte sätta inställning %s",
     "Action does not exist" : "Åtgärd finns inte",
     "Renewing …" : "Förnyar ...",
