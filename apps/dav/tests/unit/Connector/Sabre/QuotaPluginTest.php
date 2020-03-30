@@ -62,7 +62,7 @@ class QuotaPluginTest extends TestCase {
 		$this->init(0);
 		$this->plugin->expects($this->never())
 			->method('getFileChunking');
-		$this->server->httpRequest = new \Sabre\HTTP\Request(null, null, $headers);
+		$this->server->httpRequest = new \Sabre\HTTP\Request('POST', 'dummy.file', $headers);
 		$length = $this->plugin->getLength();
 		$this->assertEquals($expected, $length);
 	}
@@ -75,7 +75,7 @@ class QuotaPluginTest extends TestCase {
 		$this->plugin->expects($this->never())
 			->method('getFileChunking');
 
-		$this->server->httpRequest = new \Sabre\HTTP\Request(null, null, $headers);
+		$this->server->httpRequest = new \Sabre\HTTP\Request('POST', 'dummy.file', $headers);
 		$result = $this->plugin->checkQuota('');
 		$this->assertTrue($result);
 	}
@@ -90,7 +90,7 @@ class QuotaPluginTest extends TestCase {
 		$this->plugin->expects($this->never())
 			->method('getFileChunking');
 
-		$this->server->httpRequest = new \Sabre\HTTP\Request(null, null, $headers);
+		$this->server->httpRequest = new \Sabre\HTTP\Request('POST', 'dummy.file', $headers);
 		$this->plugin->checkQuota('');
 	}
 
@@ -102,7 +102,7 @@ class QuotaPluginTest extends TestCase {
 		$this->plugin->expects($this->never())
 			->method('getFileChunking');
 
-		$this->server->httpRequest = new \Sabre\HTTP\Request(null, null, $headers);
+		$this->server->httpRequest = new \Sabre\HTTP\Request('POST', 'dummy.file', $headers);
 		$result = $this->plugin->checkQuota('/sub/test.txt');
 		$this->assertTrue($result);
 	}
@@ -187,7 +187,7 @@ class QuotaPluginTest extends TestCase {
 			->willReturn($mockChunking);
 
 		$headers['OC-CHUNKED'] = 1;
-		$this->server->httpRequest = new \Sabre\HTTP\Request(null, null, $headers);
+		$this->server->httpRequest = new \Sabre\HTTP\Request('POST', 'dummy.file', $headers);
 		$result = $this->plugin->checkQuota('/sub/test.txt-chunking-12345-3-1');
 		$this->assertTrue($result);
 	}
@@ -224,7 +224,7 @@ class QuotaPluginTest extends TestCase {
 			->willReturn($mockChunking);
 
 		$headers['OC-CHUNKED'] = 1;
-		$this->server->httpRequest = new \Sabre\HTTP\Request(null, null, $headers);
+		$this->server->httpRequest = new \Sabre\HTTP\Request('POST', 'dummy.file', $headers);
 		$this->plugin->checkQuota('/sub/test.txt-chunking-12345-3-1');
 	}
 

@@ -91,6 +91,7 @@ class BirthdayServiceTest extends TestCase {
 			$this->assertNull($cal);
 		} else {
 			$this->assertInstanceOf('Sabre\VObject\Component\VCalendar', $cal);
+			$this->assertEquals('-//IDN nextcloud.com//Birthday calendar//EN', $cal->PRODID->getValue());
 			$this->assertTrue(isset($cal->VEVENT));
 			$this->assertEquals('FREQ=YEARLY', $cal->VEVENT->RRULE->getValue());
 			$this->assertEquals($expectedSummary, $cal->VEVENT->SUMMARY->getValue());
@@ -259,21 +260,27 @@ class BirthdayServiceTest extends TestCase {
 			);
 		}
 		if ($expectedOp === 'create') {
-			$service->expects($this->exactly(3))->method('buildDateFromContact')->willReturn(new VCalendar());
+			$vCal = new VCalendar();
+			$vCal->PRODID = '-//Nextcloud testing//mocked object//';
+
+			$service->expects($this->exactly(3))->method('buildDateFromContact')->willReturn($vCal);
 			$this->calDav->expects($this->exactly(3))->method('createCalendarObject')->withConsecutive(
-				[1234, 'default-gump.vcf.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"],
-				[1234, 'default-gump.vcf-death.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"],
-				[1234, 'default-gump.vcf-anniversary.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"]
+				[1234, 'default-gump.vcf.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
+				[1234, 'default-gump.vcf-death.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
+				[1234, 'default-gump.vcf-anniversary.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"]
 				);
 		}
 		if ($expectedOp === 'update') {
-			$service->expects($this->exactly(3))->method('buildDateFromContact')->willReturn(new VCalendar());
+			$vCal = new VCalendar();
+			$vCal->PRODID = '-//Nextcloud testing//mocked object//';
+
+			$service->expects($this->exactly(3))->method('buildDateFromContact')->willReturn($vCal);
 			$service->expects($this->exactly(3))->method('birthdayEvenChanged')->willReturn(true);
 			$this->calDav->expects($this->exactly(3))->method('getCalendarObject')->willReturn(['calendardata' => '']);
 			$this->calDav->expects($this->exactly(3))->method('updateCalendarObject')->withConsecutive(
-				[1234, 'default-gump.vcf.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"],
-				[1234, 'default-gump.vcf-death.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"],
-				[1234, 'default-gump.vcf-anniversary.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.6//EN\r\nCALSCALE:GREGORIAN\r\nEND:VCALENDAR\r\n"]
+				[1234, 'default-gump.vcf.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
+				[1234, 'default-gump.vcf-death.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"],
+				[1234, 'default-gump.vcf-anniversary.ics', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nCALSCALE:GREGORIAN\r\nPRODID:-//Nextcloud testing//mocked object//\r\nEND:VCALENDAR\r\n"]
 				);
 		}
 

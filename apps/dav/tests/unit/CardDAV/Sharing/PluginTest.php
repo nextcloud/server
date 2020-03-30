@@ -47,7 +47,7 @@ class PluginTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		
+
 		/** @var Auth | \PHPUnit_Framework_MockObject_MockObject $authBackend */
 		$authBackend = $this->getMockBuilder(Auth::class)->disableOriginalConstructor()->getMock();
 		$authBackend->method('isDavAuthenticated')->willReturn(true);
@@ -75,9 +75,8 @@ class PluginTest extends TestCase {
 		]], ['mailto:wilfredo@example.com']);
 
 		// setup request
-		$request = new Request();
+		$request = new Request('POST', 'addressbook1.vcf');
 		$request->addHeader('Content-Type', 'application/xml');
-		$request->setUrl('addressbook1.vcf');
 		$request->setBody('<?xml version="1.0" encoding="utf-8" ?><CS:share xmlns:D="DAV:" xmlns:CS="http://owncloud.org/ns"><CS:set><D:href>principal:principals/admin</D:href><CS:read-write/></CS:set> <CS:remove><D:href>mailto:wilfredo@example.com</D:href></CS:remove></CS:share>');
 		$response = new Response();
 		$this->plugin->httpPost($request, $response);

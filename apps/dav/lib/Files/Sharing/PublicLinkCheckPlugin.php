@@ -52,7 +52,7 @@ class PublicLinkCheckPlugin extends ServerPlugin {
 	 * @return void
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
-		$server->on('beforeMethod', [$this, 'beforeMethod']);
+		$server->on('beforeMethod:*', [$this, 'beforeMethod']);
 	}
 
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response){

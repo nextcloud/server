@@ -92,7 +92,7 @@ abstract class RequestTestCase extends TestCase {
 	 * @return \Sabre\HTTP\Response
 	 * @throws \Exception
 	 */
-	protected function request($view, $user, $password, $method, $url, $body = null, $headers = null) {
+	protected function request($view, $user, $password, $method, $url, $body = null, $headers = []) {
 		if (is_string($body)) {
 			$body = $this->getStream($body);
 		}

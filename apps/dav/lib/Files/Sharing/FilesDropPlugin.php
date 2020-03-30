@@ -61,7 +61,7 @@ class FilesDropPlugin extends ServerPlugin {
 	 * @throws MethodNotAllowed
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
-		$server->on('beforeMethod', [$this, 'beforeMethod'], 999);
+		$server->on('beforeMethod:*', [$this, 'beforeMethod'], 999);
 		$this->enabled = false;
 	}
 
