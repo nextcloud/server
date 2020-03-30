@@ -9,6 +9,7 @@ namespace Icewind\SMB\Native;
 
 use Icewind\SMB\Exception\AlreadyExistsException;
 use Icewind\SMB\Exception\ConnectionRefusedException;
+use Icewind\SMB\Exception\ConnectionResetException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\FileInUseException;
 use Icewind\SMB\Exception\ForbiddenException;
@@ -48,6 +49,7 @@ class NativeState {
 		22  => InvalidArgumentException::class,
 		28  => OutOfSpaceException::class,
 		39  => NotEmptyException::class,
+		104 => ConnectionResetException::class,
 		110 => TimedOutException::class,
 		111 => ConnectionRefusedException::class,
 		112 => HostDownException::class,
