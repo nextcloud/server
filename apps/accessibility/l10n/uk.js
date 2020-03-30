@@ -1,6 +1,8 @@
 OC.L10N.register(
     "accessibility",
     {
+    "Dark theme" : "Темна тема",
+    "Enable dark theme" : "Дозволити темну тему",
     "High contrast mode" : "Висококонтрастний режим",
     "Enable high contrast mode" : "Увімкнути висококонтрастний режим",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Контрастна тема спрощує Вашу навігацію. Знижена візуальна якість, проте підвищена ясність і зрозумілість.",

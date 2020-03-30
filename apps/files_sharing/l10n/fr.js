@@ -52,7 +52,7 @@ OC.L10N.register(
     "{actor} shared {file} with group {group}" : "{actor} a partagé {file} avec le groupe {group}",
     "{actor} removed group {group} from {file}" : "{actor} a supprimé le groupe {group} de {file}",
     "Share for file {file} with group {group} expired" : "Partage du fichier {file} avec le groupe {group} expiré",
-    "Shared as public link" : "Partagé avec un lien public",
+    "Shared as public link" : "Partagé par lien public",
     "Removed public link" : "Lien public supprimé",
     "Public link expired" : "Lien public expiré",
     "{actor} shared as public link" : "{actor} a partagé avec un lien public",
