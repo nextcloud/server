@@ -168,6 +168,7 @@ OC.L10N.register(
     "Settings" : "Nastavenia",
     "Show hidden files" : "Zobraziť skryté súbory",
     "WebDAV" : "WebDAV",
+    "Use this address to access your Files via WebDAV" : "Táto adresa sa používa na prístup k vašim súborom prostredníctvom WebDAV",
     "Toggle grid view" : "Prepnúť zobrazenie mriežky",
     "No files in here" : "Nie sú tu žiadne súbory",
     "Upload some content or sync with your devices!" : "Nahrajte nejaký obsah alebo synchronizujte zo svojimi zariadeniami!",
