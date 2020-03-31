@@ -66,7 +66,7 @@ export default {
 			if (hasPreview) {
 				// TODO: find a nicer standard way of doing this?
 				if (isPublic()) {
-					return generateUrl(`/apps/files_sharing/publicpreview/${getToken()}?fileId=${fileid}&file=${filename}&x=${screen.width}&y=${screen.height}`)
+					return generateUrl(`/apps/files_sharing/publicpreview/${getToken()}?fileId=${fileid}&file=${filename}&x=${screen.width}&y=${screen.height}&a=true`)
 				}
 				return generateUrl(`/core/preview?fileId=${fileid}&x=${screen.width}&y=${screen.height}&a=true`)
 			}
