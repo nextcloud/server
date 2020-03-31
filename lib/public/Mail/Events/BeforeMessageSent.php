@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2020 Arne Hamann <github@arne.email>
  *
- * @author Arne Hamann <github@arne.email>
+ * @author Arne Hamann <kontakt+github@arne.email>
  *
  * @license GNU AGPL version 3 or any later version
  *

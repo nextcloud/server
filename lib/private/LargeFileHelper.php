@@ -4,6 +4,7 @@
  * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author marco44 <cousinmarc@gmail.com>
  * @author Michael Roitzsch <reactorcontrol@icloud.com>

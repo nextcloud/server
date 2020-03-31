@@ -4,9 +4,9 @@
  * @copyright Copyright (c) 2017, Georg Ehrke
  * @copyright Copyright (c) 2020, Gary Kim <gary@garykim.dev>
  *
+ * @author Gary Kim <gary@garykim.dev>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Gary Kim <gary@garykim.dev>
  *
  * @license AGPL-3.0
  *

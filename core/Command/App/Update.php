@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2018, michag86 (michag86@arcor.de)
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

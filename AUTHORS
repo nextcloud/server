@@ -16,7 +16,6 @@ Nextcloud is written by:
  - Andreas Fischer <bantu@owncloud.com>
  - Andreas Pflug <dev@admin4.org>
  - Andrew Brown <andrew@casabrown.com>
- - Andrius <andrius.kulbis@ktu.lt>
  - André Gaul <gaul@web-yard.de>
  - Ardinis <Ardinis@users.noreply.github.com>
  - Ari Selseng <ari@selseng.net>
@@ -53,7 +52,6 @@ Nextcloud is written by:
  - Christian Jürges <christian@eqipe.ch>
  - Christian Kampka <christian@kampka.net>
  - Christian Oliff <christianoliff@yahoo.com>
- - Christian Weiske <cweiske@cweiske.de>
  - Christoph Schaefer "christophł@wolkesicher.de"
  - Christoph Seitz <christoph.seitz@posteo.de>
  - Christoph Wickert <cwickert@suse.de>
@@ -97,7 +95,9 @@ Nextcloud is written by:
  - François Kubler <francois@kubler.org>
  - Frederic Werner <frederic-github@werner-net.work>
  - Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
+ - Gary Kim <gary@garykim.dev>
  - Georg Ehrke <oc.list@georgehrke.com>
+ - GrayFix <grayfix@gmail.com>
  - Greta Doci <gretadoci@gmail.com>
  - Guillaume COMPAGNON <gcompagnon@outlook.com>
  - Hemanth Kumar Veeranki <hems.india1997@gmail.com>
@@ -128,6 +128,7 @@ Nextcloud is written by:
  - Jonas Sulzer <jonas@violoncello.ch>
  - Jonny007-MKD <1-23-4-5@web.de>
  - Jos Poortvliet <jos@opensuse.org>
+ - Jose Quinteiro <github@quinteiro.org>
  - Juan Pablo Villafañez <jvillafanez@solidgear.es>
  - Juan Pablo VillafÃ¡Ã±ez <jvillafanez@solidgear.es>
  - Juan Pablo Villafáñez <jvillafanez@solidgear.es>
@@ -191,6 +192,7 @@ Nextcloud is written by:
  - Michael Gapczynski <GapczynskiM@gmail.com>
  - Michael Göhler <somebody.here@gmx.de>
  - Michael Jobst <mjobst+github@tecratech.de>
+ - Michael Kuhn <michael@ikkoku.de>
  - Michael Letzgus <www@chronos.michael-letzgus.de>
  - Michael Roitzsch <reactorcontrol@icloud.com>
  - Michael Roth <michael.roth@rz.uni-augsburg.de>
@@ -199,10 +201,12 @@ Nextcloud is written by:
  - Michał Węgrzynek <michal.wegrzynek@malloc.com.pl>
  - Miguel Prokop <miguel.prokop@vtu.com>
  - Mitar <mitar.git@tnode.com>
+ - Mohammed Abdellatif <m.latief@gmail.com>
  - Morris Jobke <hey@morrisjobke.de>
  - Nicolai Ehemann <en@enlightened.de>
  - Nicolas Grekas <nicolas.grekas@gmail.com>
  - Nils <git@to.nilsschnabel.de>
+ - Nils Wittenbrink <nilswittenbrink@web.de>
  - Nmz <nemesiz@nmz.lt>
  - Noveen Sachdeva <noveen.sachdeva@research.iiit.ac.in>
  - Ole Ostergaard <ole.c.ostergaard@gmail.com>
@@ -218,11 +222,13 @@ Nextcloud is written by:
  - Patrick Paysant <ppaysant@linagora.com>
  - Patrik Kernstock <info@pkern.at>
  - Pauli Järvinen <pauli.jarvinen@gmail.com>
+ - Pavel Krasikov <klonishe@gmail.com>
  - Pellaeon Lin <nfsmwlin@gmail.com>
  - Peter Kubica <peter@kubica.ch>
  - Phil Davis <phil.davis@inf.org>
  - Philipp Kapfer <philipp.kapfer@gmx.at>
  - Philipp Schaffrath <github@philipp.schaffrath.email>
+ - Philipp Staiger <philipp@staiger.it>
  - Philippe Jung <phil.jung@free.fr>
  - Pierre Ozoux <pierre@ozoux.net>
  - Pierre Rudloff <contact@rudloff.pro>
@@ -274,9 +280,11 @@ Nextcloud is written by:
  - Senorsen <senorsen.zhang@gmail.com>
  - Serge Martin <edb@sigluy.net>
  - Sergej Nikolaev <kinolaev@gmail.com>
+ - Sergey Shliakhov <husband.sergey@gmail.com>
  - Sergio Bertolin <sbertolin@solidgear.es>
  - Sergio Bertolín <sbertolin@solidgear.es>
  - Simon Könnecke <simonkoennecke@gmail.com>
+ - Simounet <contact@simounet.net>
  - Sjors van der Pluijm <sjors@desjors.nl>
  - Stefan Rado <owncloud@sradonia.net>
  - Stefan Schneider <stefan.schneider@squareweave.com.au>
@@ -292,18 +300,20 @@ Nextcloud is written by:
  - Temtaime <temtaime@gmail.com>
  - Thibault Coupin <thibault.coupin@gmail.com>
  - Thibaut GRIDEL <tgridel@free.fr>
- - Thomas Citharel <tcit@tcit.fr>
+ - Thomas Citharel <nextcloud@tcit.fr>
  - Thomas Ebert <thomas.ebert@usability.de>
  - Thomas Müller <thomas.mueller@tmit.eu>
  - Thomas Pulzer <t.pulzer@kniel.de>
  - Thomas Tanghus <thomas@tanghus.net>
+ - Tiago Flores <tiago.flores@yahoo.com.br>
  - Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
  - Tim Dettrick <t.dettrick@uq.edu.au>
+ - Tim Obert <tobert@w-commerce.de>
  - Tim Terhorst <mynamewastaken+gitlab@gmail.com>
+ - TimObert <tobert@w-commerce.de>
  - Timo Förster <tfoerster@webfoersterei.de>
  - Tobia De Koninck <LEDfan@users.noreply.github.com>
  - Tobia De Koninck <tobia@ledfan.be>
- - Tobias Brunner <tobias@tobru.ch>
  - Tobias Kaminsky <tobias@kaminsky.me>
  - Tom Needham <tom@owncloud.com>
  - Tomasz Paluszkiewicz <tomasz.paluszkiewicz@gmail.com>
@@ -370,6 +380,7 @@ Nextcloud is written by:
  - root "root@oc.(none)"
  - root <root@localhost.localdomain>
  - rubo77 <github@r.z11.de>
+ - sammo2828 <sammo2828@gmail.com>
  - scambra <sergio@entrecables.com>
  - scolebrook <scolebrook@mac.com>
  - shkdee <louis.traynard@m4x.org>
