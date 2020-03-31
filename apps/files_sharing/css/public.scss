@@ -138,7 +138,7 @@ thead {
 }
 
 #public-upload #emptycontent ul {
-	width: 160px;
+	width: 230px;
 	margin: 5px auto;
 	text-align: left;
 }
@@ -156,13 +156,21 @@ thead {
 	top: 2px;
 }
 
-#public-upload li span.icon-loading-small {
+#drop-upload-progress-indicator span.icon-loading-small {
 	padding-left: 18px;
 	margin-right: 7px;
 }
 
-#drop-uploaded-files li #drop-upload-progress-bar {
-	margin-top: 7px;
+#drop-uploaded-files li #drop-upload-name {
+	float: left;
+	max-width: 180px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+#drop-uploaded-files li #drop-upload-status {
+	float: right;
 }
 
 .disclaimer,

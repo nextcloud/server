@@ -66,6 +66,7 @@
 
 			$('#drop-uploaded-files').append(output({isUploading: true, name: data.files[0].name}));
 			$('[data-toggle="tooltip"]').tooltip();
+			$('#drop-upload-status').text('waiting...');
 			data.submit();
 
 			return true;
@@ -89,12 +90,14 @@
 				sequentialUploads: true,
 				start: function(e) {
 					self._uploading = true;
+					$('#drop-upload-status').text('starting');
 				},
 				stop: function(e) {
 					self._uploading = false;
 				},
 				add: function(e, data) {
 					Drop.addFileToUpload(e, data);
+					$('#drop-upload-status').text('waiting...');
 					//we return true to keep trying to upload next file even
 					//if addFileToUpload did not like the privious one
 					return true;
@@ -120,13 +123,21 @@
 					if(progress === 100) {
 						$('#drop-upload-done-indicator').removeClass('hidden');
 						$('#drop-upload-progress-indicator').addClass('hidden');
-						$('#drop-upload-progress-bar').val(100);
 					} else {
 						$('#drop-upload-done-indicator').addClass('hidden');
 						$('#drop-upload-progress-indicator').removeClass('hidden');
-						$('#drop-upload-progress-bar').val(progress);
 					}
-				}
+				},
+				progress: function (e, data) {
+					var progress = parseInt(data.loaded / data.total * 100, 10);
+					if(progress === 100) {
+                                                $('#drop-upload-progress-bar').val(100);
+                                                $('#drop-upload-status').text('finished');
+                                        } else {
+                                                $('#drop-upload-progress-bar').val(progress);
+                                                $('#drop-upload-status').text(progress + '%');
+                                        }
+				},
 			});
 			$('#public-upload .button.icon-upload').click(function(e) {
 				e.preventDefault();
