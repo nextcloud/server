@@ -215,12 +215,12 @@ class OC_Defaults {
 	 * Returns slogan
 	 * @return string slogan
 	 */
-	public function getSlogan() {
+	public function getSlogan(?string $lang = null) {
 		if ($this->themeExist('getSlogan')) {
-			return $this->theme->getSlogan();
+			return $this->theme->getSlogan($lang);
 		} else {
 			if ($this->defaultSlogan === null) {
-				$l10n = \OC::$server->getL10N('lib');
+				$l10n = \OC::$server->getL10N('lib', $lang);
 				$this->defaultSlogan = $l10n->t('a safe home for all your data');
 			}
 			return $this->defaultSlogan;
