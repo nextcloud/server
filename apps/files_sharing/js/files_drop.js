@@ -130,12 +130,12 @@
 				progress: function (e, data) {
 					var progress = parseInt(data.loaded / data.total * 100, 10);
 					if(progress === 100) {
-                                                $('#drop-upload-progress-bar').val(100);
-                                                $('#drop-upload-status').text(t('files_sharing', 'finished'));
-                                        } else {
-                                                $('#drop-upload-progress-bar').val(progress);
-                                                $('#drop-upload-status').text(progress + '%');
-                                        }
+						$('#drop-upload-progress-bar').val(100);
+						$('#drop-upload-status').text(t('files_sharing', 'finished'));
+					} else {
+						$('#drop-upload-progress-bar').val(progress);
+						$('#drop-upload-status').text(progress + '%');
+					}
 				},
 			});
 			$('#public-upload .button.icon-upload').click(function(e) {
