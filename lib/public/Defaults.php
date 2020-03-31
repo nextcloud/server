@@ -137,8 +137,8 @@ class Defaults {
 	 * @return string
 	 * @since 6.0.0
 	 */
-	public function getSlogan() {
-		return $this->defaults->getSlogan();
+	public function getSlogan(?string $lang = null) {
+		return $this->defaults->getSlogan($lang);
 	}
 
 	/**

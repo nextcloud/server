@@ -995,7 +995,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->query(Defaults::class),
 				$c->getURLGenerator(),
 				$c->getL10N('lib'),
-				$c->query(IEventDispatcher::class)
+				$c->query(IEventDispatcher::class),
+				$c->getL10NFactory()
 			);
 		});
 		$this->registerDeprecatedAlias('Mailer', IMailer::class);

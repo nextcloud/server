@@ -78,7 +78,7 @@ class NewUserMailHelperTest extends TestCase {
 		$template = new EMailTemplate(
 			$this->defaults,
 			$this->urlGenerator,
-			$this->l10n,
+			$this->l10nFactory,
 			'test.TestTemplate',
 			[]
 		);
@@ -377,8 +377,8 @@ Set your password: https://example.com/resetPassword/MySuperLongSecureRandomToke
 Install Client: https://nextcloud.com/install/#install-clients
 
 
--- 
-TestCloud - 
+--
+TestCloud -
 This is an automatically sent email, please do not reply.
 EOF;
 
