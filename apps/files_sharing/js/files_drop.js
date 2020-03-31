@@ -120,9 +120,11 @@
 					if(progress === 100) {
 						$('#drop-upload-done-indicator').removeClass('hidden');
 						$('#drop-upload-progress-indicator').addClass('hidden');
+						$('#drop-upload-progress-bar').val(100);
 					} else {
 						$('#drop-upload-done-indicator').addClass('hidden');
 						$('#drop-upload-progress-indicator').removeClass('hidden');
+						$('#drop-upload-progress-bar').val(progress);
 					}
 				}
 			});
