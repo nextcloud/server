@@ -168,6 +168,7 @@ OC.L10N.register(
     "Settings" : "Axustes",
     "Show hidden files" : "Amosar os ficheiros agochados",
     "WebDAV" : "WebDAV",
+    "Use this address to access your Files via WebDAV" : "Empregue este enderezo para acceder ao seu Ficheiros mediante WebDAV",
     "Toggle grid view" : "Alternar a vista como grella",
     "No files in here" : "Aquí non hai ficheiros",
     "Upload some content or sync with your devices!" : "Envíe algún contido ou sincronice cos seus dispositivos!",
