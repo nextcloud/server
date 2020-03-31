@@ -70,7 +70,7 @@ class NewUserMailHelperTest extends TestCase {
 		$template = new EMailTemplate(
 			$this->defaults,
 			$this->urlGenerator,
-			$this->l10n,
+			$this->l10nFactory,
 			'test.TestTemplate',
 			[]
 		);

@@ -805,9 +805,9 @@ class Manager implements IManager {
 		$initiatorEmail = $initiatorUser->getEMailAddress();
 		if($initiatorEmail !== null) {
 			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
-			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
+			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan($l->getLanguageCode()) !== '' ? ' - ' . $this->defaults->getSlogan($l->getLanguageCode()) : ''));
 		} else {
-			$emailTemplate->addFooter();
+			$emailTemplate->addFooter('', $l->getLanguageCode());
 		}
 
 		$message->useTemplate($emailTemplate);
