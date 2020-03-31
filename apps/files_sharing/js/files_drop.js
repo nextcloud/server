@@ -66,7 +66,6 @@
 
 			$('#drop-uploaded-files').append(output({isUploading: true, name: data.files[0].name}));
 			$('[data-toggle="tooltip"]').tooltip();
-			$('#drop-upload-status').text('waiting...');
 			data.submit();
 
 			return true;
@@ -90,14 +89,13 @@
 				sequentialUploads: true,
 				start: function(e) {
 					self._uploading = true;
-					$('#drop-upload-status').text('starting');
 				},
 				stop: function(e) {
 					self._uploading = false;
 				},
 				add: function(e, data) {
 					Drop.addFileToUpload(e, data);
-					$('#drop-upload-status').text('waiting...');
+					$('#drop-upload-status').text(t('files_sharing', 'waiting...'));
 					//we return true to keep trying to upload next file even
 					//if addFileToUpload did not like the privious one
 					return true;
@@ -114,6 +112,7 @@
 							'Could not upload "{filename}"',
 							{filename: data.files[0].name}
 							));
+					$('#drop-upload-status').text(t('files_sharing', 'error'));
 					var errorIconSrc = OC.imagePath('core', 'actions/error.svg');
 					var fileItem = output({isUploading: false, iconSrc: errorIconSrc, name: data.files[0].name});
 					Drop.updateFileItem(data.files[0].name, fileItem);
@@ -132,7 +131,7 @@
 					var progress = parseInt(data.loaded / data.total * 100, 10);
 					if(progress === 100) {
                                                 $('#drop-upload-progress-bar').val(100);
-                                                $('#drop-upload-status').text('finished');
+                                                $('#drop-upload-status').text(t('files_sharing', 'finished'));
                                         } else {
                                                 $('#drop-upload-progress-bar').val(progress);
                                                 $('#drop-upload-status').text(progress + '%');
