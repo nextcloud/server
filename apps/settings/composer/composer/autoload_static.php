@@ -43,6 +43,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Controller\\PersonalSettingsController' => __DIR__ . '/..' . '/../lib/Controller/PersonalSettingsController.php',
         'OCA\\Settings\\Controller\\TwoFactorSettingsController' => __DIR__ . '/..' . '/../lib/Controller/TwoFactorSettingsController.php',
         'OCA\\Settings\\Controller\\UsersController' => __DIR__ . '/..' . '/../lib/Controller/UsersController.php',
+        'OCA\\Settings\\Controller\\WebAuthnController' => __DIR__ . '/..' . '/../lib/Controller/WebAuthnController.php',
         'OCA\\Settings\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
         'OCA\\Settings\\Mailer\\NewUserMailHelper' => __DIR__ . '/..' . '/../lib/Mailer/NewUserMailHelper.php',
         'OCA\\Settings\\Middleware\\SubadminMiddleware' => __DIR__ . '/..' . '/../lib/Middleware/SubadminMiddleware.php',
@@ -65,6 +66,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Settings\\Personal\\Security\\Authtokens' => __DIR__ . '/..' . '/../lib/Settings/Personal/Security/Authtokens.php',
         'OCA\\Settings\\Settings\\Personal\\Security\\Password' => __DIR__ . '/..' . '/../lib/Settings/Personal/Security/Password.php',
         'OCA\\Settings\\Settings\\Personal\\Security\\TwoFactor' => __DIR__ . '/..' . '/../lib/Settings/Personal/Security/TwoFactor.php',
+        'OCA\\Settings\\Settings\\Personal\\Security\\WebAuthn' => __DIR__ . '/..' . '/../lib/Settings/Personal/Security/WebAuthn.php',
         'OCA\\Settings\\Settings\\Personal\\ServerDevNotice' => __DIR__ . '/..' . '/../lib/Settings/Personal/ServerDevNotice.php',
     );
 

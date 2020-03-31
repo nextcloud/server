@@ -83,6 +83,9 @@ class LoginControllerTest extends TestCase {
 	/** @var IInitialStateService|MockObject */
 	private $initialStateService;
 
+	/** @var \OC\Authentication\WebAuthn\Manager|MockObject */
+	private $webAuthnManager;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
@@ -97,6 +100,8 @@ class LoginControllerTest extends TestCase {
 		$this->throttler = $this->createMock(Throttler::class);
 		$this->chain = $this->createMock(LoginChain::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
+		$this->webAuthnManager = $this->createMock(\OC\Authentication\WebAuthn\Manager::class);
+
 
 		$this->request->method('getRemoteAddress')
 			->willReturn('1.2.3.4');
@@ -118,7 +123,8 @@ class LoginControllerTest extends TestCase {
 			$this->defaults,
 			$this->throttler,
 			$this->chain,
-			$this->initialStateService
+			$this->initialStateService,
+			$this->webAuthnManager
 		);
 	}
 

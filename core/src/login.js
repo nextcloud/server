@@ -64,5 +64,8 @@ new View({
 		resetPasswordTarget: fromStateOr('resetPasswordTarget', ''),
 		resetPasswordUser: fromStateOr('resetPasswordUser', ''),
 		directLogin: query.direct === '1',
+		hasPasswordless: fromStateOr('webauthn-available', false),
+		isHttps: window.location.protocol === 'https:',
+		hasPublicKeyCredential: typeof (window.PublicKeyCredential) !== 'undefined',
 	},
 }).$mount('#login')

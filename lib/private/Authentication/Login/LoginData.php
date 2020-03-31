@@ -56,7 +56,7 @@ class LoginData {
 
 	public function __construct(IRequest $request,
 								string $username,
-								string $password,
+								?string $password,
 								string $redirectUrl = null,
 								string $timeZone = '',
 								string $timeZoneOffset = '') {
@@ -80,7 +80,7 @@ class LoginData {
 		return $this->username;
 	}
 
-	public function getPassword(): string {
+	public function getPassword(): ?string {
 		return $this->password;
 	}
 
