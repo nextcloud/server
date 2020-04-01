@@ -38,6 +38,7 @@
 		<!-- Inherited shares list -->
 		<SharingEntryInherited v-for="share in shares"
 			:key="share.id"
+			:file-info="fileInfo"
 			:share="share" />
 	</ul>
 </template>
