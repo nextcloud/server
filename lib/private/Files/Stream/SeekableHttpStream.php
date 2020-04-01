@@ -110,14 +110,14 @@ class SeekableHttpStream implements File {
 		return true;
 	}
 
-	function stream_open($path, $mode, $options, &$opened_path) {
+	public function stream_open($path, $mode, $options, &$opened_path) {
 		$options = stream_context_get_options($this->context)[self::PROTOCOL];
 		$this->openCallback = $options['callback'];
 
 		return $this->reconnect(0);
 	}
 
-	function stream_read($count) {
+	public function stream_read($count) {
 		if (!$this->current) {
 			return false;
 		}
@@ -126,7 +126,7 @@ class SeekableHttpStream implements File {
 		return $ret;
 	}
 
-	function stream_seek($offset, $whence = SEEK_SET) {
+	public function stream_seek($offset, $whence = SEEK_SET) {
 		switch ($whence) {
 			case SEEK_SET:
 				if ($offset === $this->offset) {
@@ -144,19 +144,19 @@ class SeekableHttpStream implements File {
 		return false;
 	}
 
-	function stream_tell() {
+	public function stream_tell() {
 		return $this->offset;
 	}
 
-	function stream_stat() {
+	public function stream_stat() {
 		return fstat($this->current);
 	}
 
-	function stream_eof() {
+	public function stream_eof() {
 		return feof($this->current);
 	}
 
-	function stream_close() {
+	public function stream_close() {
 		fclose($this->current);
 	}
 
@@ -179,6 +179,4 @@ class SeekableHttpStream implements File {
 	public function stream_flush() {
 		return; //noop because readonly stream
 	}
-
-
 }
