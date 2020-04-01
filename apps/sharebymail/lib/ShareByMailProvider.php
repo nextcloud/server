@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author comradekingu <epost@anotheragency.no>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author exner104 <59639860+exner104@users.noreply.github.com>

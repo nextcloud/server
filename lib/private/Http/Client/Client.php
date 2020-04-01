@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Mohammed Abdellatif <m.latief@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Scott Shambarger <devel@shambarger.net>

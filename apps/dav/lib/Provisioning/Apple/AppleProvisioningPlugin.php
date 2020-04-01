@@ -4,6 +4,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Nils Wittenbrink <nilswittenbrink@web.de>
  *
  * @license GNU AGPL version 3 or any later version
  *

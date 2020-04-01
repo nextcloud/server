@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Pavel Krasikov <klonishe@gmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sam Bull <aa6bs0@sambull.org>
  *

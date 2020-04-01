@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Marius David Wieschollek <git.public@mdns.eu>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

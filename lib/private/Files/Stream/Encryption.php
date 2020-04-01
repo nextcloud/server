@@ -4,6 +4,7 @@
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author jknockaert <jasper@knockaert.nl>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author martink-p <47943787+martink-p@users.noreply.github.com>

@@ -6,7 +6,9 @@ declare(strict_types=1);
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
+ * @author Tobia De Koninck <LEDfan@users.noreply.github.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

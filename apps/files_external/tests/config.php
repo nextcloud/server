@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Christian Berendt <berendt@b1-systems.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author hkjolhede <hkjolhede@gmail.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>

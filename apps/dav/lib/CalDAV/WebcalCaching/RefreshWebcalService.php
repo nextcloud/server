@@ -6,7 +6,6 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020, Thomas Citharel <nextcloud@tcit.fr>
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version

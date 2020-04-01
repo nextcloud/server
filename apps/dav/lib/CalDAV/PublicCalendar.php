@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017, Georg Ehrke
  *
+ * @author Gary Kim <gary@garykim.dev>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
