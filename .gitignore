@@ -70,6 +70,7 @@ CVS/*
 .svn/*
 RCS/*
 *.backup*
+.php_cs.cache
 
 # kdevelop
 .kdev

@@ -15,9 +15,12 @@
     },
     "require-dev": {
         "jakub-onderka/php-parallel-lint": "^0.9.2",
-        "jakub-onderka/php-console-highlighter": "^0.3.2"
+        "jakub-onderka/php-console-highlighter": "^0.3.2",
+        "nextcloud/coding-standard": "^0.1.0"
     },
-  "scripts": {
-    "lint": "find . -name \\*.php -not -path './lib/composer/*' -exec php -l \"{}\" \\;"
-  }
+    "scripts": {
+        "cs:fix": "php-cs-fixer fix",
+        "cs:check": "php-cs-fixer fix --dry-run",
+        "lint": "find . -name \\*.php -not -path './lib/composer/*' -exec php -l \"{}\" \\;"
+    }
 }
