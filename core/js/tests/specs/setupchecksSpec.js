@@ -989,6 +989,7 @@ describe('OC.SetupChecks tests', function() {
 					isSettimelimitAvailable: true,
 					hasFreeTypeSupport: true,
 					missingIndexes: [],
+					missingColumns: [],
 					cronErrors: [],
 					cronInfo: {
 						diffInSeconds: 0
