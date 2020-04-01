@@ -930,6 +930,7 @@ return array(
     'OC\\Files\\Storage\\Wrapper\\Wrapper' => $baseDir . '/lib/private/Files/Storage/Wrapper/Wrapper.php',
     'OC\\Files\\Stream\\Encryption' => $baseDir . '/lib/private/Files/Stream/Encryption.php',
     'OC\\Files\\Stream\\Quota' => $baseDir . '/lib/private/Files/Stream/Quota.php',
+    'OC\\Files\\Stream\\SeekableHttpStream' => $baseDir . '/lib/private/Files/Stream/SeekableHttpStream.php',
     'OC\\Files\\Type\\Detection' => $baseDir . '/lib/private/Files/Type/Detection.php',
     'OC\\Files\\Type\\Loader' => $baseDir . '/lib/private/Files/Type/Loader.php',
     'OC\\Files\\Type\\TemplateManager' => $baseDir . '/lib/private/Files/Type/TemplateManager.php',
