@@ -4,9 +4,7 @@
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
-		<div class="notCreatable notPublic hidden">
-			<?php p($l->t('You don’t have permission to upload or create files here'))?>
-		</div>
+		<div class="notCreatable notPublic hidden"></div>
 	<?php /* Note: the template attributes are here only for the public page. These are normally loaded
 			 through ajax instead (updateStorageStatistics).
 	*/ ?>
