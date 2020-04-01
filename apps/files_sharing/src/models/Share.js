@@ -467,6 +467,26 @@ export default class Share {
 		return this.#share.can_delete === true
 	}
 
+	/**
+	 * Top level accessible shared folder fileid for the current user
+	 * @returns {string}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get viaFileid() {
+		return this.#share.via_fileid
+	}
+
+	/**
+	 * Top level accessible shared folder path for the current user
+	 * @returns {string}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get viaPath() {
+		return this.#share.via_path
+	}
+
 	// TODO: SORT THOSE PROPERTIES
 	get label() {
 		return this.#share.label
