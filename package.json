@@ -39,7 +39,7 @@
     "@nextcloud/vue": "^1.4.1",
     "autosize": "^4.0.2",
     "backbone": "^1.4.0",
-    "blueimp-md5": "^2.12.0",
+    "blueimp-md5": "^2.13.0",
     "bootstrap": "^4.4.1",
     "clipboard": "^2.0.6",
     "core-js": "^3.6.4",
