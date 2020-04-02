@@ -357,6 +357,21 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
+					if (data.missingColumns.length > 0) {
+						var listOfMissingColumns = "";
+						data.missingColumns.forEach(function(element){
+							listOfMissingColumns += "<li>";
+							listOfMissingColumns += t('core', 'Missing optional column "{columnName}" in table "{tableName}".', element);
+							listOfMissingColumns += "</li>";
+						});
+						messages.push({
+							msg: t(
+								'core',
+								'The database is missing some optional columns. Due to the fact that adding columns on big tables could take some time they were not added automatically when they can be optional. By running "occ db:add-missing-columns" those missing columns could be added manually while the instance keeps running. Once the columns are added some features might improve responsiveness or usability.'
+							) + "<ul>" + listOfMissingColumns + "</ul>",
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						})
+					}
 					if (data.recommendedPHPModules.length > 0) {
 						var listOfRecommendedPHPModules = "";
 						data.recommendedPHPModules.forEach(function(element){

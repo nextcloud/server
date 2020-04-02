@@ -769,6 +769,10 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 				'length' => 64,
 				'default' => '',
 			]);
+			$table->addColumn('reference_id', 'string', [
+				'notnull' => false,
+				'length' => 64,
+			]);
 			$table->setPrimaryKey(['id']);
 			$table->addIndex(['parent_id'], 'comments_parent_id_index');
 			$table->addIndex(['topmost_parent_id'], 'comments_topmost_parent_id_idx');

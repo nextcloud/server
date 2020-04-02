@@ -51,6 +51,8 @@ interface IDBConnection {
 
 	const ADD_MISSING_INDEXES_EVENT = self::class . '::ADD_MISSING_INDEXES';
 	const CHECK_MISSING_INDEXES_EVENT = self::class . '::CHECK_MISSING_INDEXES';
+	const ADD_MISSING_COLUMNS_EVENT = self::class . '::ADD_MISSING_COLUMNS';
+	const CHECK_MISSING_COLUMNS_EVENT = self::class . '::CHECK_MISSING_COLUMNS';
 
 	/**
 	 * Gets the QueryBuilder for the connection.

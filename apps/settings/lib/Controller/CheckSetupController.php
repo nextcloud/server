@@ -46,6 +46,7 @@ use GuzzleHttp\Exception\ClientException;
 use OC;
 use OC\AppFramework\Http;
 use OC\DB\Connection;
+use OC\DB\MissingColumnInformation;
 use OC\DB\MissingIndexInformation;
 use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
@@ -445,6 +446,15 @@ Raw output
 		return $indexInfo->getListOfMissingIndexes();
 	}
 
+	protected function hasMissingColumns(): array {
+		$indexInfo = new MissingColumnInformation();
+		// Dispatch event so apps can also hint for pending index updates if needed
+		$event = new GenericEvent($indexInfo);
+		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_COLUMNS_EVENT, $event);
+
+		return $indexInfo->getListOfMissingColumns();
+	}
+
 	protected function isSqliteUsed() {
 		return strpos($this->config->getSystemValue('dbtype'), 'sqlite') !== false;
 	}
@@ -693,6 +703,7 @@ Raw output
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
 				'missingIndexes' => $this->hasMissingIndexes(),
+				'missingColumns' => $this->hasMissingColumns(),
 				'isSqliteUsed' => $this->isSqliteUsed(),
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 				'isPHPMailerUsed' => $this->isPHPMailerUsed(),

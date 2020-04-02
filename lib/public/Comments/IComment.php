@@ -263,4 +263,21 @@ interface IComment {
 	 */
 	public function setObject($objectType, $objectId);
 
+	/**
+	 * returns the reference id of the comment
+	 *
+	 * @return string|null
+	 * @since 19.0.0
+	 */
+	public function getReferenceId(): ?string;
+
+	/**
+	 * sets (overwrites) the reference id of the comment
+	 *
+	 * @param string|null $referenceId e.g. sha256 hash sum
+	 * @return IComment
+	 * @since 19.0.0
+	 */
+	public function setReferenceId(?string $referenceId): IComment;
+
 }
