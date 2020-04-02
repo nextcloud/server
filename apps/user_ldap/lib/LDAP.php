@@ -70,12 +70,24 @@ class LDAP implements ILDAPWrapper {
 	 * @return bool|LDAP
 	 */
 	public function controlPagedResultResponse($link, $result, &$cookie) {
-		$this->preFunctionCall('ldap_control_paged_result_response',
-			array($link, $result, $cookie));
-		$result = ldap_control_paged_result_response($link, $result, $cookie);
-		$this->postFunctionCall();
-
-		return $result;
+		$oldHandler = set_error_handler(function($no, $message, $file, $line) use (&$oldHandler) {
+			if(strpos($message, 'ldap_control_paged_result_response() is deprecated') !== false) {
+				return true;
+			}
+			$oldHandler($no, $message, $file, $line);
+			return true;
+		});
+		try {
+			$this->preFunctionCall('ldap_control_paged_result_response',
+				array($link, $result, $cookie));
+			$result = ldap_control_paged_result_response($link, $result, $cookie);
+			$this->postFunctionCall();
+			restore_error_handler();
+			return $result;
+		} catch (\Exception $e) {
+			restore_error_handler();
+			throw $e;
+		}
 	}
 
 	/**
@@ -86,8 +98,21 @@ class LDAP implements ILDAPWrapper {
 	 * @return mixed|true
 	 */
 	public function controlPagedResult($link, $pageSize, $isCritical, $cookie) {
-		return $this->invokeLDAPMethod('control_paged_result', $link, $pageSize,
-										$isCritical, $cookie);
+		$oldHandler = set_error_handler(function($no, $message, $file, $line) use (&$oldHandler) {
+			if(strpos($message, 'Function ldap_control_paged_result() is deprecated') !== false) {
+				return true;
+			}
+			$oldHandler($no, $message, $file, $line);
+			return true;
+		});
+		try {
+			$result = $this->invokeLDAPMethod('control_paged_result', $link, $pageSize, $isCritical, $cookie);
+			restore_error_handler();
+			return $result;
+		} catch (\Exception $e) {
+			restore_error_handler();
+			throw $e;
+		}
 	}
 
 	/**
