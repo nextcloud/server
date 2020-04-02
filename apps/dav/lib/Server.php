@@ -54,6 +54,7 @@ use OCA\DAV\Connector\Sabre\DummyGetResponsePlugin;
 use OCA\DAV\Connector\Sabre\FakeLockerPlugin;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Connector\Sabre\FilesReportPlugin;
+use OCA\DAV\Connector\Sabre\PropfindCompressionPlugin;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCA\DAV\Connector\Sabre\SharesPlugin;
 use OCA\DAV\Connector\Sabre\TagsPlugin;
@@ -314,6 +315,10 @@ class Server {
 				$root->addChild($appCollection);
 			}
 		});
+
+		$this->server->addPlugin(
+			new PropfindCompressionPlugin()
+		);
 	}
 
 	public function exec() {
