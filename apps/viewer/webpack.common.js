@@ -36,9 +36,10 @@ module.exports = {
 				exclude: /node_modules/,
 			},
 			{
-				test: /\.js$/,
+				// vue-plyr uses .mjs file
+				test: /\.m?js$/,
 				loader: 'babel-loader',
-				exclude: /node_modules/,
+				exclude: /node_modules(?!(\/|\\)(camelcase|fast-xml-parser|hot-patcher|vue-plyr|webdav)(\/|\\))/,
 			},
 			{
 				test: /\.(png|jpg|gif|svg)$/,
