@@ -43,6 +43,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\IUser;
 use Symfony\Component\Process\ExecutableFinder;
 
 /**
@@ -503,19 +505,14 @@ class OC_Helper {
 				|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
 			) {
 				/** @var \OC\Files\Storage\Home $storage */
-				$userInstance = $storage->getUser();
-				$user = ($userInstance === null) ? null : $userInstance->getUID();
+				$user = $storage->getUser();
 			} else {
-				$user = \OC::$server->getUserSession()->getUser()->getUID();
+				$user = \OC::$server->getUserSession()->getUser();
 			}
-			if ($user) {
-				$quota = OC_Util::getUserQuota($user);
-			} else {
-				$quota = \OCP\Files\FileInfo::SPACE_UNLIMITED;
-			}
+			$quota = OC_Util::getUserQuota($user);
 			if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 				// always get free space / total space from root + mount points
-				return self::getGlobalStorageInfo();
+				return self::getGlobalStorageInfo($quota);
 			}
 		}
 
@@ -561,11 +558,10 @@ class OC_Helper {
 	/**
 	 * Get storage info including all mount points and quota
 	 *
+	 * @param int $quota
 	 * @return array
 	 */
-	private static function getGlobalStorageInfo() {
-		$quota = OC_Util::getUserQuota(\OCP\User::getUser());
-
+	private static function getGlobalStorageInfo($quota) {
 		$rootInfo = \OC\Files\Filesystem::getFileInfo('', 'ext');
 		$used = $rootInfo['size'];
 		if ($used < 0) {
