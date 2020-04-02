@@ -183,6 +183,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$server =  $this->getServer();
 
 			$dispatcher = new MiddlewareDispatcher();
+
+			$dispatcher->registerMiddleware(
+				$c->query(OC\AppFramework\Middleware\CompressionMiddleware::class)
+			);
+
 			$dispatcher->registerMiddleware(
 				$c->query(OC\AppFramework\Middleware\Security\ReloadExecutionMiddleware::class)
 			);
