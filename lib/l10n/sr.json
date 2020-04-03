@@ -1,9 +1,8 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Не могу да уписујем у „config“ директоријум!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Ово се обично може средити давањем права веб серверу да пише у директоријум са подешавањима",
-    "See %s" : "Погледајте %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Или, ако пре желите да задржите config.php да је само за читање, поставите опцију \"config_is_read_only\" на true у њему самом.",
-    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Ово се обично може средити давањем права писања веб серверу за директоријум са подешавањима. Погледајте %s",
+    "See %s" : "Погледајте %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Или, ако пре желите да задржите config.php да је само за читање, поставите опцију \"config_is_read_only\" на true у њему самом. Погледајте %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Фајлови апликације „%1$s“ нису правилно замењени. Проверите да ли је верзија компатибилна са сервером.",
     "Sample configuration detected" : "Откривен је пример подешавања",
@@ -183,8 +182,8 @@
     "Token expired. Please reload page." : "Жетон је истекао. Поново учитајте страницу.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Нема драјвера базе података (скулајт, мајскул или постгрескул).",
     "Cannot write into \"config\" directory" : "Не могу уписивати у директоријуму „config“",
+    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Ово се обично може средити давањем права писања веб серверу за директоријум са подешавањима. Погледајте %s",
     "Cannot write into \"apps\" directory" : "Не могу уписивати у директоријуму „apps“",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Ово се обично може поправити тако што веб серверу дате приступ уписа за директоријум где су апликације или тако што онемогућите продавницу у config фајлу. Видети %s",
     "Cannot create \"data\" directory" : "Не могу да направим \"data\" директоријум",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Ово се обично може поправити тако што веб серверу дате право уписа за корени директоријуму. Видети %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Привилегије се обично могу поправити тако што веб серверу дате право уписа за корени директоријуму. Видети %s",
@@ -256,6 +255,7 @@
     "Sharing %1$s failed, because the permissions exceed permissions granted to %2$s" : "Дељење %1$s није успело зато што дозволе превазилазе дозволе гарантоване за %2$s",
     "Sharing %s failed, because resharing is not allowed" : "Дељење %s није успело зато што даље дељење није дозвољено",
     "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "Дељење %1$s није успело зато што позадина дељења за %2$s није могла да нађе извор",
-    "Sharing %s failed, because the file could not be found in the file cache" : "Дељење %s није успело зато што фајл није нађен у кешу фајлова"
+    "Sharing %s failed, because the file could not be found in the file cache" : "Дељење %s није успело зато што фајл није нађен у кешу фајлова",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Ово се обично може поправити тако што веб серверу дате приступ уписа за директоријум где су апликације или тако што онемогућите продавницу у config фајлу. Видети %s"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

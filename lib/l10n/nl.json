@@ -1,9 +1,8 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Kan niet schrijven naar de \"config\" directory!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Dit kan opgelost worden door de config map op de webserver schrijfrechten te geven",
-    "See %s" : "Zie %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Of, als je liever config.php alleen-lezen wilt houden, stel de optie \"config_is_read_only\" in op true.",
-    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Dit kan opgelost worden door de config map op de webserver schrijf rechten te geven. See %s",
+    "See %s" : "Zie %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Of, als je liever config.php Alleen-lezen houdt, stel de optie  \"config_is_read_only\" in op true. Zie %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "De bestanden van app %1$szijn niet correct vervangen. Zorg ervoor dat de versie compatible is met de server.",
     "Sample configuration detected" : "Voorbeeld configuratie gevonden",
@@ -183,8 +182,8 @@
     "Token expired. Please reload page." : "Token verlopen.  Herlaad de pagina.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Geen database drivers (sqlite, mysql of postgres) geïnstalleerd.",
     "Cannot write into \"config\" directory" : "Kan niet schrijven naar de \"config\" directory",
+    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Dit kan opgelost worden door de config map op de webserver schrijf rechten te geven. See %s",
     "Cannot write into \"apps\" directory" : "Kan niet schrijven naar de \"apps\" directory",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Dit kan hersteld worden door de app map schrijf rechten te geven iin de webserver of schakel de appstore uit bij het config bestand. Zie %s",
     "Cannot create \"data\" directory" : "\"data\" map kan niet worden aangemaakt",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Dit kan hersteld worden door de root map schrijf rechten te geven op de webserver. Zie %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Rechten kunnen worden hersteld door de root map op de webserver schrijf toegang te geven. Zie %s.",
@@ -256,6 +255,7 @@
     "Sharing %1$s failed, because the permissions exceed permissions granted to %2$s" : "Delen van %1$s is mislukt, omdat de rechten toegekend aan %2$s overschreden zijn.",
     "Sharing %s failed, because resharing is not allowed" : "Delen van %s is mislukt, omdat her-delen niet is toegestaan",
     "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "Delen van %1$s is mislukt, omdat de delende backend voor %2$s de bron niet kon vinden",
-    "Sharing %s failed, because the file could not be found in the file cache" : "Delen van %s is mislukt, omdat het bestand niet in de bestand cache kon worden gevonden"
+    "Sharing %s failed, because the file could not be found in the file cache" : "Delen van %s is mislukt, omdat het bestand niet in de bestand cache kon worden gevonden",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Dit kan hersteld worden door de app map schrijf rechten te geven iin de webserver of schakel de appstore uit bij het config bestand. Zie %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -19,6 +19,7 @@ OC.L10N.register(
     "Restore" : "Visszaállítás",
     "Restore share" : "Megosztás visszaállítása",
     "Something happened. Unable to restore the share." : "Hiba történt. Nem lehet visszaállítani a megosztást.",
+    "error" : "hiba",
     "This will stop your current uploads." : "Ez meg fogja állítani a jelenlegi feltöltéseket.",
     "Move or copy" : "Áthelyezés vagy másolás",
     "Download" : "Letöltés",
@@ -160,9 +161,9 @@ OC.L10N.register(
     "Upload files to %s" : "Fájlok feltöltése ide: %s",
     "Note" : "Megjegyzés",
     "Select or drop files" : "Válassz ki vagy dobj ide fájlokat",
-    "Uploading files…" : "Fájlok feltöltése...",
     "Uploaded files:" : "Feltöltött fájlok:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételek %2$s.",
-    "could not delete share" : "a megosztás nem törölhető"
+    "could not delete share" : "a megosztás nem törölhető",
+    "Uploading files…" : "Fájlok feltöltése..."
 },
 "nplurals=2; plural=(n != 1);");

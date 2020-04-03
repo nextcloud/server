@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Nešto se dogodilo. Dijeljenje nije moguće prihvatiti.",
     "Reject share" : "Odbij dijeljenje",
     "Something happened. Unable to reject the share." : "Nešto se dogodilo. Dijeljenje nije moguće odbiti.",
+    "error" : "pogreška",
     "This will stop your current uploads." : "Ovo će zaustaviti vaše trenutačne otpreme.",
     "Move or copy" : "Premjesti ili kopiraj",
     "Download" : "Preuzmi",
@@ -93,6 +94,7 @@ OC.L10N.register(
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Datoteka ili mapa dijeljena poštom ili javnom poveznicom <strong>je preuzeta</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Datoteka ili mapa dijeli se s <strong>drugog poslužitelja</strong>",
     "A file or folder has been <strong>shared</strong>" : "Datoteka ili mapa je <strong>dijeljena</strong>",
+    "Shared link" : "Dijeljena poveznica",
     "Wrong share ID, share doesn't exist" : "Pogrešan ID dijeljenja, dijeljenje ne postoji",
     "Could not delete share" : "Dijeljenje nije moguće izbrisati",
     "Please specify a file or folder path" : "Navedite put datoteke ili mape",
@@ -170,6 +172,7 @@ OC.L10N.register(
     "File drop (upload only)" : "Povlačenje datoteke (samo za otpremanje)",
     "Hide download" : "Sakrij preuzimanje",
     "Password protect" : "Zaštita zaporkom",
+    "Video verification" : "Provjera videozapisa",
     "Enter a note for the share recipient" : "Unesite bilješku za primatelja dijeljenja",
     "Add another link" : "Dodaj drugu poveznicu",
     "Create a new share link" : "Stvori novu poveznicu dijeljenja",
@@ -220,9 +223,9 @@ OC.L10N.register(
     "Upload files to %s" : "Otpremi datoteke na %s",
     "Note" : "Bilješka",
     "Select or drop files" : "Odaberi ili ispusti datoteke",
-    "Uploading files…" : "Otpremanje datoteka...",
     "Uploaded files:" : "Otpremljene datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s.",
-    "could not delete share" : "dijeljenje nije moguće izbrisati"
+    "could not delete share" : "dijeljenje nije moguće izbrisati",
+    "Uploading files…" : "Otpremanje datoteka..."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

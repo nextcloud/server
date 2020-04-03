@@ -133,6 +133,8 @@ OC.L10N.register(
     "Last login" : "Aniciu de sesión caberu",
     "Default quota" : "Cuota por defeutu",
     "All languages" : "Toles llingües",
+    "Add" : "Amestar",
+    "Unnamed device" : "Preséu ensin nomar",
     "Your apps" : "Les tos aplicaciones",
     "Disabled apps" : "Aplicaciones deshabilitaes",
     "Updates" : "Anovamientos",

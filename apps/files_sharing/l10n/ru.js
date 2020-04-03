@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Не удалось принять общий ресурс.",
     "Reject share" : "Отклонить общий ресурс",
     "Something happened. Unable to reject the share." : "Не удалось отклонить предложение общего ресурса.",
+    "error" : "ошибка",
     "This will stop your current uploads." : "Это остановит ваши текущие загрузки.",
     "Move or copy" : "Переместить или копировать",
     "Download" : "Скачать",
@@ -92,7 +93,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "Срок действия общего доступа к «{file}» истек",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "<strong>Скачаны</strong> файлы или папки, доступ к которым был предоставлен по электронной почте или общедоступной ссылке",
     "A file or folder was shared from <strong>another server</strong>" : "Общий доступ к файлу или каталогу предоставлен <strong>с другого сервера</strong>",
-    "A file or folder has been <strong>shared</strong>" : "<strong>Опубликован</strong> файл или каталог",
+    "A file or folder has been <strong>shared</strong>" : "Файл или каталог <strong>опубликован</strong>",
     "Shared link" : "Общая ссылка",
     "Wrong share ID, share doesn't exist" : "Неверный идентификатор, общий ресурс не существует",
     "Could not delete share" : "Не удалось удалить общий ресурс",
@@ -222,9 +223,9 @@ OC.L10N.register(
     "Upload files to %s" : "Отправка файлов пользователю %s",
     "Note" : "Примечание",
     "Select or drop files" : "Выберите или перетащите файлы",
-    "Uploading files…" : "Файлы передаются на сервер…",
     "Uploaded files:" : "Отправленные файлы:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Передачей файлов на сервер, вы принимаете %1$sусловия обслуживания%2$s.",
-    "could not delete share" : "не удалось удалить общий ресурс"
+    "could not delete share" : "не удалось удалить общий ресурс",
+    "Uploading files…" : "Файлы передаются на сервер…"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

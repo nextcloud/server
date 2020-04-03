@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Ocorreu um erro. Não foi possível aceitar o compartilhamento.",
     "Reject share" : "Recusar compartilhamentos",
     "Something happened. Unable to reject the share." : "Ocorreu um erro. Não foi possível recusar o compartilhamento.",
+    "error" : "erro",
     "This will stop your current uploads." : "Isso interromperá seus envios atuais.",
     "Move or copy" : "Mover ou copiar",
     "Download" : "Baixar",
@@ -222,9 +223,9 @@ OC.L10N.register(
     "Upload files to %s" : "Enviar arquivos para %s",
     "Note" : "Nota",
     "Select or drop files" : "Selecione ou solte arquivos",
-    "Uploading files…" : "Enviando arquivos...",
     "Uploaded files:" : "Arquivos enviados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar arquivos, você concorda com os %1$stermos de serviço%2$s.",
-    "could not delete share" : "não foi possível excluir o compartilhamento"
+    "could not delete share" : "não foi possível excluir o compartilhamento",
+    "Uploading files…" : "Enviando arquivos..."
 },
 "nplurals=2; plural=(n > 1);");

@@ -18,6 +18,7 @@ OC.L10N.register(
     "Restore" : "回復",
     "Restore share" : "還原分享",
     "Something happened. Unable to restore the share." : "出了些狀況，無法還原分享。",
+    "error" : "錯誤",
     "This will stop your current uploads." : "這會終止目前任何的上傳。",
     "Move or copy" : "移動或複製",
     "Download" : "下載",
@@ -153,8 +154,8 @@ OC.L10N.register(
     "Upload files to %s" : "上傳檔案到 %s",
     "Note" : "筆記",
     "Select or drop files" : "選擇或拖曳檔案至此",
-    "Uploading files…" : "上傳檔案中…",
     "Uploaded files:" : "已上傳的檔案：",
-    "could not delete share" : "無法刪除分享"
+    "could not delete share" : "無法刪除分享",
+    "Uploading files…" : "上傳檔案中…"
 },
 "nplurals=1; plural=0;");

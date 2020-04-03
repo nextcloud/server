@@ -17,6 +17,7 @@
     "Restore" : "Restore",
     "Restore share" : "공유 복원",
     "Something happened. Unable to restore the share." : "무언가 잘못되었습니다. 공유를 복원할 수 없습니다.",
+    "error" : "오류",
     "Move or copy" : "이동이나 복사",
     "Download" : "다운로드",
     "Delete" : "삭제",
@@ -161,9 +162,9 @@
     "Upload files to %s" : "%s에 파일 업로드",
     "Note" : "노트",
     "Select or drop files" : "파일을 선택하거나 끌어다 놓기",
-    "Uploading files…" : "파일 업로드 중…",
     "Uploaded files:" : "업로드한 파일:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다.",
-    "could not delete share" : "공유를 삭제할 수 없음"
+    "could not delete share" : "공유를 삭제할 수 없음",
+    "Uploading files…" : "파일 업로드 중…"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

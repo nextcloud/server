@@ -19,6 +19,7 @@ OC.L10N.register(
     "Restore" : "Restaŭri",
     "Restore share" : "Restaŭri kunhavon",
     "Something happened. Unable to restore the share." : "Io okazis. Ne eblis restaŭri la kunhavon. ",
+    "error" : "eraro",
     "This will stop your current uploads." : "Tio haltigos viajn nunajn alŝutojn.",
     "Move or copy" : "Movi aŭ kopii",
     "Download" : "Elŝuti",
@@ -197,9 +198,9 @@ OC.L10N.register(
     "Upload files to %s" : "Alŝuti dosierojn al %s",
     "Note" : "Noto",
     "Select or drop files" : "Elekti aŭ demeti dosierojn",
-    "Uploading files…" : "Alŝutado de dosierojn...",
     "Uploaded files:" : "Alŝutitaj dosieroj:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Se vi alŝutas dosierojn, vi konsentas pri %1$skondiĉoj de uzado%2$s.",
-    "could not delete share" : "ne eblis forigi kunhavon"
+    "could not delete share" : "ne eblis forigi kunhavon",
+    "Uploading files…" : "Alŝutado de dosierojn..."
 },
 "nplurals=2; plural=(n != 1);");

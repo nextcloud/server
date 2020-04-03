@@ -209,6 +209,7 @@ OC.L10N.register(
     "Common languages" : "Bahasa umum",
     "All languages" : "Semua bahasa",
     "Password change is disabled because the master key is disabled" : "Pengaturan kata sandi dinonaktifkan karena kunci master dinonaktifkan",
+    "Add" : "Masukkan",
     "Your apps" : "Aplikasi anda",
     "Active apps" : "Aplikasi aktif",
     "Disabled apps" : "Matikan Aplikasi",

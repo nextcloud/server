@@ -1,9 +1,8 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Kan inte skriva till \"config\" katalogen!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Detta kan vanligtvis åtgärdas genom att ge skrivrättigheter till config-katalogen",
-    "See %s" : "Se %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Eller, om du föredrar att behålla config.php skrivskyddad, sätt alternativet \"config_is_read_only\" till true i den.",
-    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Detta fixas vanligtvis genom att ge webbservern skrivrättigheter till konfigureringsmappen. Se %s",
+    "See %s" : "Se %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Eller, om du föredrar att behålla config.php skrivskyddad, sätt alternativet \"config_is_read_only\" till true i den. Se %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Filerna i appen %1$s ersattes inte korrekt. Kontrollera att det är en version som är kompatibel med servern.",
     "Sample configuration detected" : "Exempel-konfiguration detekterad",
@@ -182,8 +181,8 @@
     "Token expired. Please reload page." : "Token har löpt ut. Vänligen uppdatera sidan.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Inga databasdrivrutiner (sqlite, mysql, eller postgresql) installerade.",
     "Cannot write into \"config\" directory" : "Kan inte skriva till \"config\" katalogen",
+    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Detta fixas vanligtvis genom att ge webbservern skrivrättigheter till konfigureringsmappen. Se %s",
     "Cannot write into \"apps\" directory" : "Kan inte skriva till \"apps\" katalogen!",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Detta kan vanligtvis lösas genom att ge webbservern skrivåtkomst till mappen för appar eller genom att inaktivera appbutiken i konfigurationsfilen. Se %s",
     "Cannot create \"data\" directory" : "Kan inte skapa \"data\"-mapp",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Detta kan vanligtvis fixas genom att ge webbservern skrivåtkomst till rotkatalogen. Se %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Rättigheter kan vanligtvis fixas genom att ge webbservern skrivåtkomst till rotkatalogen. Se %s.",
@@ -255,6 +254,7 @@
     "Sharing %1$s failed, because the permissions exceed permissions granted to %2$s" : "Delning %1$s misslyckades därför att rättigheterna överskrider de rättigheter som tilldelats %2$s",
     "Sharing %s failed, because resharing is not allowed" : "Delning %s misslyckades därför att vidaredelning inte är tillåten",
     "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "Delning %1$s misslyckades därför att delningsgränssnittet för %2$s inte kunde hitta sin källa",
-    "Sharing %s failed, because the file could not be found in the file cache" : "Delning %s misslyckades därför att filen inte kunde hittas i filcachen"
+    "Sharing %s failed, because the file could not be found in the file cache" : "Delning %s misslyckades därför att filen inte kunde hittas i filcachen",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Detta kan vanligtvis lösas genom att ge webbservern skrivåtkomst till mappen för appar eller genom att inaktivera appbutiken i konfigurationsfilen. Se %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

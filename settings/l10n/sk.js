@@ -211,6 +211,8 @@ OC.L10N.register(
     "Common languages" : "Spoločné jazyky",
     "All languages" : "Všetky jazyky",
     "Password change is disabled because the master key is disabled" : "Zmena hesla je zablokovaná pretože hlavný kľúč je vypnutý",
+    "Add" : "Pridať",
+    "Unnamed device" : "Nepomenované zariadenie",
     "Your apps" : "Vaše aplikácie",
     "Active apps" : "Aktívne aplikácie",
     "Disabled apps" : "Zakázané aplikácie",
