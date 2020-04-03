@@ -54,7 +54,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 		<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
 			title="<?php p($l->t('Toggle grid view'))?>"></label>
 	<?php } ?>
-	
+
 	<!-- files listing -->
 	<div id="files-public-content">
 		<div id="preview">
@@ -88,9 +88,14 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 		<div
 				id="emptycontent"
 				class="<?php if (!empty($_['note'])) { ?>has-note<?php } ?>">
-			<div id="displayavatar"><div class="avatardiv"></div></div>
-			<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
-			<p><span class="icon-folder"></span> <?php p($_['filename']) ?></p>
+			<?php if ($_['shareOwner']) { ?>
+				<div id="displayavatar"><div class="avatardiv"></div></div>
+				<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
+				<p><span class="icon-folder"></span> <?php p($_['filename']) ?></p>
+			<?php } else { ?>
+				<div id="displayavatar"><span class="icon-folder"></span></div>
+				<h2><?php p($l->t('Upload files to %s', [$_['filename']])) ?></h2>
+			<?php } ?>
 
 			<?php if (empty($_['note']) === false) { ?>
 				<h3><?php p($l->t('Note')); ?></h3>
