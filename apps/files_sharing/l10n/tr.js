@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Bir sorun çıktı. Paylaşım kabul edilemedi.",
     "Reject share" : "Paylaşımı reddet",
     "Something happened. Unable to reject the share." : "Bir sorun çıktı. Paylaşım reddedilemedi.",
+    "error" : "sorun",
     "This will stop your current uploads." : "Bu işlem geçerli yüklemeleri durduracak.",
     "Move or copy" : "Taşı ya da kopyala",
     "Download" : "İndir",
@@ -222,9 +223,9 @@ OC.L10N.register(
     "Upload files to %s" : "Dosyaları %s konumuna yükle",
     "Note" : "Not",
     "Select or drop files" : "Dosyaları seçin ya da sürükleyip bırakın",
-    "Uploading files…" : "Dosyalar yükleniyor …",
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
-    "could not delete share" : "paylaşım kaldırılamadı"
+    "could not delete share" : "paylaşım kaldırılamadı",
+    "Uploading files…" : "Dosyalar yükleniyor …"
 },
 "nplurals=2; plural=(n > 1);");

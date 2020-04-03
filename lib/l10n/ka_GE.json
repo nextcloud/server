@@ -2,7 +2,6 @@
     "Cannot write into \"config\" directory!" : "\"config\" დირექტორიაში ჩაწერა ვერ ხერხდება!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "ეს ჩვეულებრივ გამოსწორებადია ვებსერვერისთვის კონფიგურაციის დირექტორიაზე წერის უფლებების მინიჭებით",
     "See %s" : "იხილეთ %s",
-    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "ეს ჩვეულებრივ გამოსწორებადია ვებსერვერისთვის კონფიგურაციის დირექტორიაზე წერის უფლებების მინიჭებით. იხილეთ %s",
     "Sample configuration detected" : "სანიმუშო კონფუგარცია აღმოჩენილია",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "დადგენილია რომ მოხდა სანიმუშო კონფიგურაციის დაკოპირება. ამან შეიძლება გააფუჭოს თქვენი ინსტალაცია და არაა მხარდაჭერილი. გთხოვთ config.php-ში ცვლილებების შეტანამდე გაეცნოთ დოკუმენტაციას.",
     "%1$s and %2$s" : "%1$s და %2$s",
@@ -154,8 +153,8 @@
     "Token expired. Please reload page." : "ტოკენს ვადა გაუვიდა. გთხოვთ განაახლოთ გვერდი.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "მონაცემთა ბაზის დრაივერები (sqlite, mysql, ან postgresql) დაყენებული არაა.",
     "Cannot write into \"config\" directory" : "კონფიგურაციის \"config\" დირექტორიაში ჩაწერა ვერ მოხერხდა",
+    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "ეს ჩვეულებრივ გამოსწორებადია ვებსერვერისთვის კონფიგურაციის დირექტორიაზე წერის უფლებების მინიჭებით. იხილეთ %s",
     "Cannot write into \"apps\" directory" : "აპლიკაციების \"apps\" დირექტორიაში ჩაწერა ვერ მოხერხდა",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "ეს ჩვეულებრივ გამოსწორებადია ვებსერვერისთვის აპლიკაციების დირექტორიაზე წერის უფლების მინიჭებით ან appstore-ის კონფიგურაციის ფაილით გათიშვით. იხილეთ %s",
     "Cannot create \"data\" directory" : "\"data\" დირექორია ვერ შეიქმნა",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "ეს ჩვეულებრივ გამოსწორებადია ვებსერვერისთვის root დირექტორიაზე წერის უფლებების მინიჭებით. იხილეთ %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "უფლებები ჩვეულებრივ გამოსწორებადია ვებსერვერისთვის root დირექტორიაზე წერის უფლებების მინიჭებით. იხილეთ %s",
@@ -209,6 +208,7 @@
     "Cannot set expiration date. Expiration date is in the past" : "ვადის ამოწურვის დროის მითითება ვერ ხერხდება. ვადის გასვლის დრო წარსულია",
     "Sharing failed, because the user %s is the original sharer" : "გაზიარება ვერ მოხერხდა, რადგან მომხმარებელი %s თავდაპირველი გამზიარებელია",
     "Sharing %s failed, because resharing is not allowed" : "%s-გაზიარება ვერ მოხერხდა, რადგან ხელახალი გაზიარება ნებადართული არაა",
-    "Sharing %s failed, because the file could not be found in the file cache" : "%s-ის გაზიარება ვერ მოხერხდა, რადგან ფაილი კეშში ვერ მოიძებნა"
+    "Sharing %s failed, because the file could not be found in the file cache" : "%s-ის გაზიარება ვერ მოხერხდა, რადგან ფაილი კეშში ვერ მოიძებნა",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "ეს ჩვეულებრივ გამოსწორებადია ვებსერვერისთვის აპლიკაციების დირექტორიაზე წერის უფლების მინიჭებით ან appstore-ის კონფიგურაციის ფაილით გათიშვით. იხილეთ %s"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files and folders you share by link will show up here" : "Files and folders you share by link will show up here",
     "Shares" : "Shares",
     "Restore" : "Restore",
+    "error" : "error",
     "Move or copy" : "Move or copy",
     "Download" : "Download",
     "Delete" : "Delete",
@@ -135,8 +136,8 @@ OC.L10N.register(
     "Upload files to %s" : "Upload files to %s",
     "Note" : "Note",
     "Select or drop files" : "Select or drop files",
-    "Uploading files…" : "Uploading files…",
     "Uploaded files:" : "Uploaded files:",
-    "could not delete share" : "could not delete share"
+    "could not delete share" : "could not delete share",
+    "Uploading files…" : "Uploading files…"
 },
 "nplurals=2; plural=(n != 1);");

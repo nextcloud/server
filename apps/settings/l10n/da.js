@@ -184,6 +184,8 @@ OC.L10N.register(
     "Default quota" : "Standard kvote",
     "Common languages" : "Hyppigt brugte sprog",
     "All languages" : "Alle sprog",
+    "Add" : "Tilføj",
+    "Unnamed device" : "Unavngiven enhed",
     "Your apps" : "Dine apps",
     "Active apps" : "Aktive apps",
     "Disabled apps" : "Deaktiverede apps",

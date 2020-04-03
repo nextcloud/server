@@ -238,6 +238,7 @@ OC.L10N.register(
     "Common languages" : "زبانهای رایج",
     "All languages" : "همه زبانها",
     "Password change is disabled because the master key is disabled" : "تغییر رمز غیرفعال شده است زیرا کلید اصلی غیرفعال شده است",
+    "Add" : "افزودن",
     "Your apps" : "برنامه های شما",
     "Active apps" : "برنامه های فعال",
     "Disabled apps" : "برنامه های غیرفعال شده است",

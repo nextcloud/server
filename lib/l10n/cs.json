@@ -1,9 +1,8 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Nedaří se zapisovat do adresáře „config“!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Toto obvykle lze vyřešit udělením oprávnění k zápisu do adresáře s nastaveními pro účet, pod kterým je provozován webový server",
-    "See %s" : "Viz %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Nebo, pokud chcete mít soubor config.php pouze pro čtení, nastavte  v něm volbu „config_is_read_only“ na hodnotu true.",
-    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Toto obvykle lze vyřešit udělením oprávnění k zápisu do kořenové složky webu pro účet, pod kterým je provozován webový server. Viz %s",
+    "See %s" : "Viz %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Nebo, pokud chcete mít soubor config.php pouze pro čtení, nastavte v něm volbu „config_is_read_only“ na hodnotu true. Viz %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Soubory aplikace %1$s nebyly nahrazeny řádně. Ověřte, že se jedná o verzi, která je kompatibilní se serverem.",
     "Sample configuration detected" : "Bylo zjištěno setrvání u předváděcího nastavení",
@@ -183,8 +182,8 @@
     "Token expired. Please reload page." : "Platnost tokenu skončila. Načtěte stránku znovu.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Nejsou instalovány ovladače databází (sqlite, mysql nebo postresql).",
     "Cannot write into \"config\" directory" : "Nelze zapisovat do adresáře „config“",
+    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Toto obvykle lze vyřešit udělením oprávnění k zápisu do kořenové složky webu pro účet, pod kterým je provozován webový server. Viz %s",
     "Cannot write into \"apps\" directory" : "Nedaří se zapisovat do adresáře „apps“",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "To lze obvykle vyřešit povolením zápisu webovému serveru do adresáře apps nebo zakázáním appstore v souboru s nastaveními. Viz %s",
     "Cannot create \"data\" directory" : "Nedaří se vytvořit adresář „data“",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Toto obvykle lze vyřešit udělením oprávnění k zápisu do kořenové složky webu pro účet, pod kterým je provozován webový server. Viz %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Oprávnění lze obvykle napravit umožněním zápisu do kořene webu pro účet, pod kterým je provozován webový server. Viz %s.",
@@ -256,6 +255,7 @@
     "Sharing %1$s failed, because the permissions exceed permissions granted to %2$s" : "Sdílení položky %1$s se nezdařilo, protože jsou k tomu nutná vyšší oprávnění, než jaká byla %2$s povolena.",
     "Sharing %s failed, because resharing is not allowed" : "%s nejde sdílet, protože vám bylo nasdíleno s tím, že není umožněno sdílet dále dalším",
     "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "Sdílení položky %1$s se nezdařilo, protože úložiště sdílení %2$s nenalezla zdroj",
-    "Sharing %s failed, because the file could not be found in the file cache" : "Sdílení položky %s selhalo, protože soubor nebyl nalezen ve vyrovnávací paměti"
+    "Sharing %s failed, because the file could not be found in the file cache" : "Sdílení položky %s selhalo, protože soubor nebyl nalezen ve vyrovnávací paměti",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "To lze obvykle vyřešit povolením zápisu webovému serveru do adresáře apps nebo zakázáním appstore v souboru s nastaveními. Viz %s"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

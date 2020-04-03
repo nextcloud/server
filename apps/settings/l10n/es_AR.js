@@ -146,6 +146,8 @@ OC.L10N.register(
     "Last login" : "Último inicio de sesión",
     "Default quota" : "Cuota predeterminada",
     "All languages" : "Todos los idiomas",
+    "Add" : "Añadir",
+    "Unnamed device" : "Dispositivo sin nombre",
     "Your apps" : "Sus aplicaciones",
     "Disabled apps" : "Aplicaciones deshabilitadas",
     "Updates" : "Actualizaciones",

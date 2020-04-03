@@ -20,6 +20,7 @@ OC.L10N.register(
     "Restore" : "Obnoviť",
     "Restore share" : "Obnoviť sprístupnené položky",
     "Something happened. Unable to restore the share." : "Niečo sa udialo. Nedarí sa obnoviť sprístupnenú položku.",
+    "error" : "chyba",
     "This will stop your current uploads." : "Toto zastaví práve prebiehajúce nahrávania.",
     "Move or copy" : "Presunúť alebo kopírovať",
     "Download" : "Stiahnuť",
@@ -179,9 +180,9 @@ OC.L10N.register(
     "Upload files to %s" : "Nahrať súbory do %s",
     "Note" : "Poznámka",
     "Select or drop files" : "Vyberte alebo položte súbory",
-    "Uploading files…" : "Nahrávanie súborov...",
     "Uploaded files:" : "Nahrané súbory...",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
-    "could not delete share" : "nie je možné zmazať sprístupnenie"
+    "could not delete share" : "nie je možné zmazať sprístupnenie",
+    "Uploading files…" : "Nahrávanie súborov..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

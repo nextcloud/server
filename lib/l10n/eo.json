@@ -1,9 +1,8 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Ne skribeblas la dosierujo „config“!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Igi la agordodosierujon alirebla de la servilo kutime solvas tiun problemon.",
-    "See %s" : "Vidi %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Aŭ, se vi preferas lasi la dosieron config.php nurlega, metu la opcion „config_is_read_only“ al vera („true“) ene de ĝi.",
-    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Igi la agordodosierujon alirebla de la servilo kutime solvas tiun problemon. Vidu %s",
+    "See %s" : "Vidi %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Aŭ, se vi preferas lasi la dosieron config.php nurlega, metu la opcion „config_is_read_only“ al vera („true“) ene de ĝi. Vidu %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "La dosieroj de la aplikaĵo %1$s ne estis bone anstataŭigitaj. Certigu, ke tiu aplikaĵa versio kongruas kun la servilo.",
     "Sample configuration detected" : "Ekzempla agordo trovita",
@@ -179,8 +178,8 @@
     "Token expired. Please reload page." : "Ĵetono eksvalidiĝis. Bonvolu reŝargi la paĝon.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Neniu datumbaza pelilo (sqlite, mysql, or postgresql) instalita.",
     "Cannot write into \"config\" directory" : "Ne skribeblas la dosierujo „config“",
+    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Igi la agordodosierujon alirebla de la servilo kutime solvas tiun problemon. Vidu %s",
     "Cannot write into \"apps\" directory" : "Ne skribeblas la dosierujo „apps“",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Igi la „apps“ dosierujon alirebla de la servilo aŭ malŝalti la aplikaĵejon en la agordodosiero kutime solvas tiun problemon. Vidu %s",
     "Cannot create \"data\" directory" : "Ne kreeblas la dosierujo „data“",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Igi la radikan dosierujon alirebla de la servilo kutime solvas tiun problemon. Vidu %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Igi la radikan dosierujon skribebla de la servilo kutime solvas tiun problemon. Vidu %s.",
@@ -252,6 +251,7 @@
     "Sharing %1$s failed, because the permissions exceed permissions granted to %2$s" : "Kunhavigo de %1$s malsukcesis, ĉar la permesoj transpasas tiujn de %2$s",
     "Sharing %s failed, because resharing is not allowed" : "Kunhavigo de %s malsukcesis, ĉar rekunhavigo ne permesatas",
     "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "Kunhavigo de %1$s malsukcesis, ĉar la kunhava interna servo por %2$s ne povis trovi ĝian fonton",
-    "Sharing %s failed, because the file could not be found in the file cache" : "Kunhavigo de %s malsukcesis, ĉar la dosiero ne troveblis en la dosiera kaŝmemoro"
+    "Sharing %s failed, because the file could not be found in the file cache" : "Kunhavigo de %s malsukcesis, ĉar la dosiero ne troveblis en la dosiera kaŝmemoro",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Igi la „apps“ dosierujon alirebla de la servilo aŭ malŝalti la aplikaĵejon en la agordodosiero kutime solvas tiun problemon. Vidu %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

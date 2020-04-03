@@ -165,6 +165,8 @@ OC.L10N.register(
     "Common languages" : "Common languages",
     "All languages" : "All languages",
     "Password change is disabled because the master key is disabled" : "Password change is disabled because the master key is disabled",
+    "Add" : "Add",
+    "Unnamed device" : "Unnamed device",
     "Your apps" : "Your apps",
     "Active apps" : "Active apps",
     "Disabled apps" : "Disabled apps",

@@ -126,8 +126,8 @@ OC.L10N.register(
     "Download %s" : "Descargar %s",
     "Upload files to %s" : "Cargar archivos a %s",
     "Select or drop files" : "Selecciona o suelta los archivos",
-    "Uploading files…" : "Cargando archivos...",
     "Uploaded files:" : "Archivos cargados:",
-    "could not delete share" : "no fue posible borrar el elemento compartido"
+    "could not delete share" : "no fue posible borrar el elemento compartido",
+    "Uploading files…" : "Cargando archivos..."
 },
 "nplurals=2; plural=(n != 1);");

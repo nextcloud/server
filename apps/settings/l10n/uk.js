@@ -179,6 +179,8 @@ OC.L10N.register(
     "Common languages" : "Основні мови",
     "All languages" : "Всі мови",
     "Password change is disabled because the master key is disabled" : "Зміну пароля вимкнено, оскільки майстер-ключ відключений",
+    "Add" : "Додати",
+    "Unnamed device" : "Неназваний пристрій",
     "Your apps" : "Ваші додатки",
     "Active apps" : "Активні додатки",
     "Disabled apps" : "Відключені додатки",

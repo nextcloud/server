@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Die Freigabe konnte nicht akzeptiert werden.",
     "Reject share" : "Freigabe ablehnen",
     "Something happened. Unable to reject the share." : "Die Freigabe konnte nicht abgelehnt werden.",
+    "error" : "Fehler",
     "This will stop your current uploads." : "Hiermit werden die aktuellen Uploads angehalten.",
     "Move or copy" : "Verschieben oder kopieren",
     "Download" : "Herunterladen",
@@ -222,9 +223,9 @@ OC.L10N.register(
     "Upload files to %s" : "Dateien für %s hochladen",
     "Note" : "Notiz",
     "Select or drop files" : "Dateien auswählen oder hierher ziehen",
-    "Uploading files…" : "Dateien werden hochgeladen…",
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmen Sie den %1$sNutzungsbedingungen%2$s zu.",
-    "could not delete share" : "Freigabe konnte nicht gelöscht werden"
+    "could not delete share" : "Freigabe konnte nicht gelöscht werden",
+    "Uploading files…" : "Dateien werden hochgeladen…"
 },
 "nplurals=2; plural=(n != 1);");

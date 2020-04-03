@@ -1,9 +1,8 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Pisanje u direktorij „config” nije moguće!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Ovo se obično može ispraviti tako da se web poslužitelju dopusti pristup za pisanje u direktoriju config",
-    "See %s" : "Pogledajte %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Ako želite da datoteku config.php ostane samo za čitanje, postavite opciju „config_is_read_only” na „true”.",
-    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Ovo se obično može popraviti tako da se web poslužitelju dopusti pristup za pisanje u konfiguracijski direktorij. Pogledajte %s",
+    "See %s" : "Pogledajte %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Ako želite da datoteku config.php ostane samo za čitanje, postavite opciju „config_is_read_only” na „true”. Pogledajte %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Datoteke aplikacije %1$s nisu ispravno zamijenjene. Provjerite je li inačica kompatibilna s poslužiteljem.",
     "Sample configuration detected" : "Pronađena ogledna konfiguracija",
@@ -15,6 +14,7 @@
     "Education Edition" : "Obrazovno izdanje",
     "Enterprise bundle" : "Enterprise paket",
     "Groupware bundle" : "Paket grupnog softvera",
+    "Hub bundle" : "Paket alata",
     "Social sharing bundle" : "Paket dijeljenja na društvenim mrežama",
     "PHP %s or higher is required." : "PHP inačica treba biti %s ili viša.",
     "PHP with a version lower than %s is required." : "Potreban je PHP inačice manje od %s.",
@@ -86,6 +86,7 @@
     "%s enter the database username." : "%s unesite korisničko ime baze podataka.",
     "%s enter the database name." : "%s unesite naziv baze podataka.",
     "%s you may not use dots in the database name" : "%s ne smijete koristiti točke u nazivu baze podataka",
+    "MySQL username and/or password not valid" : "Neispravno korisničko ime i/ili zaporka baze podataka MySQL",
     "You need to enter details of an existing account." : "Trebate unijeti informacije o postojećem računu.",
     "Oracle connection could not be established" : "Nije moguće uspostaviti vezu s bazom podataka Oracle",
     "Oracle username and/or password not valid" : "Neispravno korisničko ime i/ili zaporka baze podataka Oracle",
@@ -181,8 +182,8 @@
     "Token expired. Please reload page." : "Token je istekao. Ponovno učitajte stranicu.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Nisu instalirani upravljački programi baze podataka (sqlite, mysql ili postgresql).",
     "Cannot write into \"config\" directory" : "Pisanje u direktorij „config” nije moguće",
+    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Ovo se obično može popraviti tako da se web poslužitelju dopusti pristup za pisanje u konfiguracijski direktorij. Pogledajte %s",
     "Cannot write into \"apps\" directory" : "Nije moguće pisati u direktorij „apps”",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Ovo se obično može popraviti tako da se web poslužitelju dopusti pristup za pisanje u aplikacijski direktorij ili onemogućivanjem appstorea u konfiguracijskoj datoteci. Pogledajte %s",
     "Cannot create \"data\" directory" : "Nije moguće stvoriti direktorij „data”",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Ovo se obično može popraviti tako da se web poslužitelju dopusti pristup za pisanje u korijenski direktorij. Pogledajte %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Dopuštenja se obično mogu popraviti tako da se web poslužitelju dopusti pristup za pisanje u korijenski direktorij. Pogledajte %s.",
@@ -254,6 +255,7 @@
     "Sharing %1$s failed, because the permissions exceed permissions granted to %2$s" : "Dijeljenje %1$s nije uspjelo jer dopuštenja premašuju dopuštenja za koje %2$s ima odobrenje",
     "Sharing %s failed, because resharing is not allowed" : "Dijeljenje %s nije uspjelo jer ponovno dijeljenje nije dopušteno",
     "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "Dijeljenje %1$s nije uspjelo jer pozadina za %2$s nije mogla pronaći svoj izvor",
-    "Sharing %s failed, because the file could not be found in the file cache" : "Dijeljenje %s nije uspjelo jer u predmemoriji datoteke nije nađena datoteka"
+    "Sharing %s failed, because the file could not be found in the file cache" : "Dijeljenje %s nije uspjelo jer u predmemoriji datoteke nije nađena datoteka",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Ovo se obično može popraviti tako da se web poslužitelju dopusti pristup za pisanje u aplikacijski direktorij ili onemogućivanjem appstorea u konfiguracijskoj datoteci. Pogledajte %s"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

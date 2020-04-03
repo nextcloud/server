@@ -19,6 +19,7 @@ OC.L10N.register(
     "Restore" : "Berrezarri",
     "Restore share" : "Berrezarri partekatzea",
     "Something happened. Unable to restore the share." : "Zer edo zer gertatu da. Ezin izan da partekatzea berrezarri.",
+    "error" : "errorea",
     "This will stop your current uploads." : "Honek zure uneko igoerak geldituko ditu.",
     "Move or copy" : "Mugitu edo kopiatu",
     "Download" : "Deskargatu",
@@ -113,7 +114,7 @@ OC.L10N.register(
     "Download %s" : "Deskargatu %s",
     "Note" : "Oharra",
     "Select or drop files" : "Hautatu edo jaregin fitxategiak",
-    "Uploading files…" : "Fitxategiak igotzen…",
-    "Uploaded files:" : "Igotako fitxategiak:"
+    "Uploaded files:" : "Igotako fitxategiak:",
+    "Uploading files…" : "Fitxategiak igotzen…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Κάτι συνέβη. Δεν μπορεί να γίνει η αποδοχή.",
     "Reject share" : "Απόρριψη κοινόχρηστου",
     "Something happened. Unable to reject the share." : "Κάτι συνέβη. Δεν μπορεί να απορριφθεί το κοινόχρηστο",
+    "error" : "σφάλμα ",
     "This will stop your current uploads." : "Αυτό θα σταματήσει τις τρέχουσες μεταφορτώσεις.",
     "Move or copy" : "Μετακίνηση ή αντιγραφή",
     "Download" : "Λήψη",
@@ -222,9 +223,9 @@ OC.L10N.register(
     "Upload files to %s" : "Αποστολή αρχείων σε %s",
     "Note" : "Σημείωση",
     "Select or drop files" : "Επιλέξτε ή ρίξτε αρχεία",
-    "Uploading files…" : "Αποστολή αρχείων ...",
     "Uploaded files:" : "Αποστολή αρχείων:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Με την μεταφόρτωση αρχείων, συμφωνείτε με %1$sόρους χρήσεως %2$s.",
-    "could not delete share" : "αδυναμία διαγραφής κοινόχρηστου φακέλου"
+    "could not delete share" : "αδυναμία διαγραφής κοινόχρηστου φακέλου",
+    "Uploading files…" : "Αποστολή αρχείων ..."
 },
 "nplurals=2; plural=(n != 1);");

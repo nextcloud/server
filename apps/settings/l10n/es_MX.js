@@ -171,6 +171,8 @@ OC.L10N.register(
     "Common languages" : "Idiomas comunes",
     "All languages" : "Todos los idiomas",
     "Password change is disabled because the master key is disabled" : "El cambio de contraseña está deshabilitado porque la llave maestra está deshabilitada",
+    "Add" : "Agregar",
+    "Unnamed device" : "Dispositivo sin nombre",
     "Your apps" : "Tus aplicaciones",
     "Disabled apps" : "Aplicaciones deshabilitadas",
     "Updates" : "Actualizaciones",

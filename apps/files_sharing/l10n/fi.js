@@ -24,6 +24,7 @@ OC.L10N.register(
     "Something happened. Unable to restore the share." : "Jotain tapahtui. Jakoa ei kyetty palauttamaan.",
     "Accept share" : "Hyväksy jako",
     "Reject share" : "Hylkää jako",
+    "error" : "virhe",
     "This will stop your current uploads." : "Tämä pysäyttää meneillään olevat lähetykset.",
     "Move or copy" : "Siirrä tai kopioi",
     "Download" : "Lataa",
@@ -176,9 +177,9 @@ OC.L10N.register(
     "Upload files to %s" : "Lähetä tiedostoja käyttäjälle %s",
     "Note" : "Huomio",
     "Select or drop files" : "Valitse tai pudota tiedostoja",
-    "Uploading files…" : "Lähetetään tiedostoja…",
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
-    "could not delete share" : "jaon poistaminen epäonnistui"
+    "could not delete share" : "jaon poistaminen epäonnistui",
+    "Uploading files…" : "Lähetetään tiedostoja…"
 },
 "nplurals=2; plural=(n != 1);");
