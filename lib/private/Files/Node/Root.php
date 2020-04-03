@@ -35,6 +35,7 @@ use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\Manager;
 use OC\Files\Mount\MountPoint;
 use OC\Hooks\PublicEmitter;
+use OC\User\NoUserException;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -352,7 +353,8 @@ class Root extends Folder implements IRootFolder {
 	 *
 	 * @param string $userId user ID
 	 * @return \OCP\Files\Folder
-	 * @throws \OC\User\NoUserException
+	 * @throws NoUserException
+	 * @throws NotPermittedException
 	 */
 	public function getUserFolder($userId) {
 		$userObject = $this->userManager->get($userId);
@@ -367,7 +369,7 @@ class Root extends Folder implements IRootFolder {
 					'app' => 'files',
 				]
 			);
-			throw new \OC\User\NoUserException('Backends provided no user object');
+			throw new NoUserException('Backends provided no user object');
 		}
 
 		$userId = $userObject->getUID();
