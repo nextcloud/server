@@ -11,4 +11,5 @@ js/vue-8.js
 js/vue-settings-admin-security.js
 js/vue-settings-apps-users-management.js
 js/vue-settings-personal-security.js
+js/vue-settings-personal-webauthn.js
 js/templates.js
