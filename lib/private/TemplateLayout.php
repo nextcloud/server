@@ -49,6 +49,7 @@ use OC\Template\JSCombiner;
 use OC\Template\JSConfigHelper;
 use OC\Template\SCSSCacher;
 use OCP\Defaults;
+use OCP\IInitialStateService;
 use OCP\Support\Subscription\IRegistry;
 
 class TemplateLayout extends \OC_Template {
@@ -183,7 +184,8 @@ class TemplateLayout extends \OC_Template {
 					\OC::$server->getGroupManager(),
 					\OC::$server->getIniWrapper(),
 					\OC::$server->getURLGenerator(),
-					\OC::$server->getCapabilitiesManager()
+					\OC::$server->getCapabilitiesManager(),
+					\OC::$server->query(IInitialStateService::class)
 				);
 				$this->assign('inline_ocjs', $jsConfigHelper->getConfig());
 			} else {
