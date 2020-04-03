@@ -1676,8 +1676,11 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 							opacity: .5;
 							cursor: pointer;
 
-							&:hover {
+							&:focus,
+							&:hover,
+							&:active {
 								opacity: .7;
+								background-color: var(--color-background-dark)
 							}
 						}
 					}
