@@ -1,9 +1,8 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Impossible d’écrire dans le répertoire « config » !",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire \"config\"",
-    "See %s" : "Voir %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Ou, si vous préférez conserver le fichier config.php en lecture seule, définissez l'option \"config_is_read_only\" sur true.",
-    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire \"config\". Voir %s",
+    "See %s" : "Voir %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Ou, si vous préférez conserver le fichier config.php en lecture seule, définissez l'option \"config_is_read_only\" sur true. Voir %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Les fichiers de l'application %1$s n'ont pas été remplacés correctement. Veuillez vérifier que c'est une version compatible avec le serveur.",
     "Sample configuration detected" : "Configuration d'exemple détectée",
@@ -183,8 +182,8 @@
     "Token expired. Please reload page." : "La session a expiré. Veuillez recharger la page.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Aucun pilote de base de données n’est installé (sqlite, mysql ou postgresql).",
     "Cannot write into \"config\" directory" : "Impossible d’écrire dans le répertoire \"config\"",
+    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire \"config\". Voir %s",
     "Cannot write into \"apps\" directory" : "Impossible d’écrire dans le répertoire \"apps\"",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire \"apps\" ou en désactivant l'appstore dans le fichier de configuration. Voir %s",
     "Cannot create \"data\" directory" : "Impossible de créer le dossier \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire racine. Voir %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Le problème de permissions peut généralement être résolu en donnant au serveur web un accès en écriture au répertoire racine. Voir %s.",
@@ -256,6 +255,7 @@
     "Sharing %1$s failed, because the permissions exceed permissions granted to %2$s" : "Le partage de %1$s a échoué car les permissions dépassent celles accordées à %2$s",
     "Sharing %s failed, because resharing is not allowed" : "Le partage de %s a échoué car le repartage n'est pas autorisé",
     "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "Le partage de %1$s a échoué car le service %2$s n'a pas trouvé sa source..",
-    "Sharing %s failed, because the file could not be found in the file cache" : "Le partage de %s a échoué car le fichier n'a pas été trouvé dans les fichiers mis en cache."
+    "Sharing %s failed, because the file could not be found in the file cache" : "Le partage de %s a échoué car le fichier n'a pas été trouvé dans les fichiers mis en cache.",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Ce problème est généralement résolu en donnant au serveur web un accès en écriture au répertoire \"apps\" ou en désactivant l'appstore dans le fichier de configuration. Voir %s"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

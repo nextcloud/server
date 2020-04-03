@@ -1,9 +1,8 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Impossibile scrivere nella cartella \"config\"!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "Ciò può essere normalmente corretto fornendo al server web accesso in scrittura alla cartella \"config\"",
-    "See %s" : "Vedi %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "O, se preferisci mantenere il file config.php in sola lettura, imposta l'opzione \"config_is_read_only\" a true.",
-    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Ciò può essere normalmente corretto fornendo al server web accesso in scrittura alla cartella di configurazione. Vedi %s",
+    "See %s" : "Vedi %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "O, se preferisci mantenere il file config.php in sola lettura, imposta l'opzione \"config_is_read_only\" a true. Vedi %s",
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "I file dell'applicazione %1$s non sono stati sostituiti correttamente. Assicurati che sia una versione compatibile con il server.",
     "Sample configuration detected" : "Configurazione di esempio rilevata",
@@ -183,8 +182,8 @@
     "Token expired. Please reload page." : "Token scaduto. Ricarica la pagina.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Nessun driver di database (sqlite, mysql o postgresql) installato",
     "Cannot write into \"config\" directory" : "Impossibile scrivere nella cartella \"config\"",
+    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "Ciò può essere normalmente corretto fornendo al server web accesso in scrittura alla cartella di configurazione. Vedi %s",
     "Cannot write into \"apps\" directory" : "Impossibile scrivere nella cartella \"apps\"",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Ciò può essere normalmente corretto fornendo al server web accesso in scrittura alla cartella delle applicazioni o disabilitando il negozio di applicazioni nel file di configurazione. Vedi %s",
     "Cannot create \"data\" directory" : "Impossibile creare la cartella \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "Ciò può essere normalmente corretto fornendo al server web accesso in scrittura alla cartella radice. Vedi %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "I permessi possono essere normalmente corretti fornendo al server web accesso in scrittura alla cartella radice. Vedi %s.",
@@ -256,6 +255,7 @@
     "Sharing %1$s failed, because the permissions exceed permissions granted to %2$s" : "Condivisione di %1$s non riuscita, poiché i permessi superano quelli accordati a %2$s",
     "Sharing %s failed, because resharing is not allowed" : "Condivisione di %s non riuscita, poiché la ri-condivisione non è consentita",
     "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "Condivisione di %1$s non riuscita, poiché il motore di condivisione per %2$s non riesce a trovare la sua fonte",
-    "Sharing %s failed, because the file could not be found in the file cache" : "Condivisione di %s non riuscita, poiché il file non è stato trovato nella cache"
+    "Sharing %s failed, because the file could not be found in the file cache" : "Condivisione di %s non riuscita, poiché il file non è stato trovato nella cache",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Ciò può essere normalmente corretto fornendo al server web accesso in scrittura alla cartella delle applicazioni o disabilitando il negozio di applicazioni nel file di configurazione. Vedi %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "اتفاقی افتاد. امکان اشتراک گذاری وجود ندارد",
     "Reject share" : "رد اشتراک",
     "Something happened. Unable to reject the share." : "اتفاقی افتاد. امکان رد اشتراک وجود ندارد.",
+    "error" : "خطا",
     "This will stop your current uploads." : "با این کار آپلودهای فعلی شما متوقف خواهد شد.",
     "Move or copy" : "انتقال یا کپی",
     "Download" : "دانلود",
@@ -222,9 +223,9 @@ OC.L10N.register(
     "Upload files to %s" : "بارگیری پرونده ها به%s",
     "Note" : "یادداشت",
     "Select or drop files" : "پرونده ها را انتخاب یا رها کنید",
-    "Uploading files…" : "بارگذاری پرونده ها ...",
     "Uploaded files:" : "پرونده های بارگذاری شده:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
-    "could not delete share" : "نتوانست اشتراک را حذف کند"
+    "could not delete share" : "نتوانست اشتراک را حذف کند",
+    "Uploading files…" : "بارگذاری پرونده ها ..."
 },
 "nplurals=2; plural=(n > 1);");

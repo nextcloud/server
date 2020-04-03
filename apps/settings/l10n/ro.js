@@ -157,6 +157,7 @@ OC.L10N.register(
     "Quota" : "Cotă",
     "Language" : "Limba",
     "All languages" : "Toate limbile",
+    "Add" : "Adaugă",
     "Your apps" : "Aplicațiile tale",
     "Disabled apps" : "Aplicații inactive",
     "Updates" : "Actualizări",
