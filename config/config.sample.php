@@ -252,6 +252,15 @@ $CONFIG = [
 'session_keepalive' => true,
 
 /**
+ * Enable or disable the automatic logout after session_lifetime, even if session
+ * keepalive is enabled. This will make sure that an inactive browser will be logged out
+ * even if requests to the server might extend the session lifetime.
+ *
+ * Defaults to ``false``
+ */
+'auto_logout' => false,
+
+/**
  * Enforce token authentication for clients, which blocks requests using the user
  * password for enhanced security. Users need to generate tokens in personal settings
  * which can be used as passwords on their clients.
