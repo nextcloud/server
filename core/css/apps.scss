@@ -161,7 +161,7 @@ kbd {
 				&,
 				> a {
 					opacity: 1;
-					box-shadow: inset 4px 0 var(--color-primary);
+					box-shadow: inset 4px 0 var(--color-primary-element);
 				}
 			}
 
@@ -217,7 +217,7 @@ kbd {
 					}
 
 					&.active {
-						box-shadow: inset 4px 0 var(--color-primary);
+						box-shadow: inset 4px 0 var(--color-primary-element);
 					}
 
 					/* align loader */
@@ -740,7 +740,7 @@ $min-content-width: $breakpoint-mobile - $navigation-width - $list-min-width;
 	&.opened {
 		background-color: var(--color-main-background);
 		opacity: 1;
-		box-shadow: inset 4px 0 var(--color-primary);
+		box-shadow: inset 4px 0 var(--color-primary-element);
 	}
 }
 
