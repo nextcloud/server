@@ -812,7 +812,7 @@ class OC {
 			// NOTE: This will be replaced to use OCP
 			$userSession = self::$server->getUserSession();
 			$userSession->listen('\OC\User', 'postLogin', function () use ($userSession) {
-				if (!defined('PHPUNIT_RUN')) {
+				if (!defined('PHPUNIT_RUN') && $userSession->isLoggedIn()) {
 					// reset brute force delay for this IP address and username
 					$uid = \OC::$server->getUserSession()->getUser()->getUID();
 					$request = \OC::$server->getRequest();
