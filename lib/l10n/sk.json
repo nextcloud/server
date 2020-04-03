@@ -1,9 +1,8 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Nie je možné zapisovat do priečinka \"config\"!",
     "This can usually be fixed by giving the webserver write access to the config directory" : "To je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do priečinka s konfiguráciou.",
-    "See %s" : "Pozri %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it." : "Alebo, ak preferujete ponechať súbor config.php iba na čítanie, nastavte v ňom parameter \"config_is_read_only\" na true.",
-    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "To je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do adresára s konfiguráciou. Viď %s",
+    "See %s" : "Pozri %s",
     "Or, if you prefer to keep config.php file read only, set the option \"config_is_read_only\" to true in it. See %s" : "Alebo, ak preferujete ponechať súbor config.php iba na čítanie, nastavte v ňom parameter \"config_is_read_only\" na true.  Viď %s",
     "Sample configuration detected" : "Detekovaná bola vzorová konfigurácia",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Zistilo sa, že konfigurácia bola skopírovaná zo vzorových súborov. Takáto konfigurácia nie je podporovaná a môže poškodiť vašu inštaláciu. Prečítajte si dokumentáciu pred vykonaním zmien v config.php",
@@ -165,8 +164,8 @@
     "Token expired. Please reload page." : "Token vypršal. Obnovte, prosím, stránku.",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Ovládače databázy (sqlite, mysql, alebo postgresql) nie sú nainštalované.",
     "Cannot write into \"config\" directory" : "Nie je možné zapisovať do priečinka \"config\"",
+    "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "To je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do adresára s konfiguráciou. Viď %s",
     "Cannot write into \"apps\" directory" : "Nie je možné zapisovať do priečinka \"apps\"",
-    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Toto je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do priečinka aplikácií alebo vypnete obchod s aplikáciami v konfiguračnom súbore. Viď %s",
     "Cannot create \"data\" directory" : "Nie je možné vytvoriť priečinok \"data\"",
     "This can usually be fixed by giving the webserver write access to the root directory. See %s" : "To je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do koreňového adresára. Viď %s",
     "Permissions can usually be fixed by giving the webserver write access to the root directory. See %s." : "Oprávnenia je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do koreňového priečinka. Viď %s.",
@@ -238,6 +237,7 @@
     "Sharing %1$s failed, because the permissions exceed permissions granted to %2$s" : "Sprístupnenie %1$s zlyhalo, pretože povolenia prekračujú povolenia udelené %2$s",
     "Sharing %s failed, because resharing is not allowed" : "Nie je možné sprístupniť %s ďalším osobám",
     "Sharing %1$s failed, because the sharing backend for %2$s could not find its source" : "Sprístupnenie %1$s zlyhalo, backend nenašiel zdrojový %2$s",
-    "Sharing %s failed, because the file could not be found in the file cache" : "Sprístupnenie %s zlyhalo, pretože súbor sa nenachádza vo vyrovnávacej pamäti súborov"
+    "Sharing %s failed, because the file could not be found in the file cache" : "Sprístupnenie %s zlyhalo, pretože súbor sa nenachádza vo vyrovnávacej pamäti súborov",
+    "This can usually be fixed by giving the webserver write access to the apps directory or disabling the appstore in the config file. See %s" : "Toto je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis do priečinka aplikácií alebo vypnete obchod s aplikáciami v konfiguračnom súbore. Viď %s"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

@@ -215,6 +215,8 @@ OC.L10N.register(
     "Common languages" : "Vanlige språk",
     "All languages" : "Alle språk",
     "Password change is disabled because the master key is disabled" : "Passordendring er deaktivert fordi hoved-nøkkelen er deaktivert",
+    "Add" : "Legg til",
+    "Unnamed device" : "Ikke navngitt enhet",
     "Your apps" : "Dine apper",
     "Active apps" : "Aktive apper",
     "Disabled apps" : "Deaktiverte apper",

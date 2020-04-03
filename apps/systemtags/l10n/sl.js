@@ -27,7 +27,7 @@ OC.L10N.register(
     "No tags found" : "Ni najdenih oznak",
     "Please select tags to filter by" : "Izbor oznak za filtriranje",
     "No files found for the selected tags" : "Na izbrane oznake ni najdenih datotek",
-    "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Sodelovalne oznake so na voljo vsem uporabnikom. Omejitvene oznake so uporabnikom vidne, jih pa ni mogoče dodeliti, nevidne pa so namenjene sistemski rabi, uporabniki jih niti ne vidijo niti jih ne morejo dodeliti.",
+    "Collaborative tags are available for all users. Restricted tags are visible to users but cannot be assigned by them. Invisible tags are for internal use, since users cannot see or assign them." : "Sodelovalne oznake so na voljo vsem uporabnikom, omejitvene so uporabnikom vidne, a jih ni mogoče dodeliti, nevidne pa so namenjene sistemski rabi, uporabniki jih niti ne vidijo niti jih ne morejo dodeliti.",
     "Select tag …" : "Izbor oznake ...",
     "Create a new tag" : "Ustvari novo oznako",
     "Name" : "Ime",

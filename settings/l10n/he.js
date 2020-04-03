@@ -185,6 +185,8 @@ OC.L10N.register(
     "Common languages" : "שפות נפוצות",
     "All languages" : "כל השפות",
     "Password change is disabled because the master key is disabled" : "החלפת ססמה מושבתת כיוון שהמפתח הראשי מושבת",
+    "Add" : "הוספה",
+    "Unnamed device" : "התקן ללא שם",
     "Your apps" : "היישומונים שלך",
     "Active apps" : "יישומונים פעילים",
     "Disabled apps" : "יישומונים מושבתים",

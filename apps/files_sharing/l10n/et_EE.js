@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files and folders you share by link will show up here" : "Siin kuvatakse faile ja kaustasid, mida sa jagad lingiga",
     "Shares" : "Jagamisi",
     "Restore" : "Taasta",
+    "error" : "viga",
     "Move or copy" : "Liiguta või kopeeri",
     "Download" : "Lae alla",
     "Delete" : "Kustuta",
@@ -127,8 +128,8 @@ OC.L10N.register(
     "Download %s" : "Laadi alla %s",
     "Upload files to %s" : "Laadi failid %s",
     "Select or drop files" : "Vali või lohista failid",
-    "Uploading files…" : "Failide üleslaadimine…",
     "Uploaded files:" : "Üleslaetud failid:",
-    "could not delete share" : "ei saanud jagamist eemaldada"
+    "could not delete share" : "ei saanud jagamist eemaldada",
+    "Uploading files…" : "Failide üleslaadimine…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -147,6 +147,7 @@ OC.L10N.register(
     "Storage location" : "Localização do armazenamento",
     "Last login" : "Último início de sessão",
     "Default quota" : "Quota padrão",
+    "Add" : "Adicionar",
     "Your apps" : "As suas apps",
     "Disabled apps" : "Apps desativadas",
     "Updates" : "Actualizações",

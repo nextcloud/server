@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Er is iets gebeurd. Kan de deellink niet accepteren.",
     "Reject share" : "Weiger deellink",
     "Something happened. Unable to reject the share." : "Er is iets gebeurd. Kan de deellink niet weigeren.",
+    "error" : "fout",
     "This will stop your current uploads." : "Dit beëindigt onderhanden uploads",
     "Move or copy" : "Verplaatsen of kopiëren",
     "Download" : "Downloaden",
@@ -222,9 +223,9 @@ OC.L10N.register(
     "Upload files to %s" : "Upload bestanden naar %s",
     "Note" : "Notitie",
     "Select or drop files" : "Selecteer bestanden of sleep ze naar dit venster",
-    "Uploading files…" : "Uploaden bestanden...",
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
-    "could not delete share" : "Kan gedeelde folder niet verwijderen"
+    "could not delete share" : "Kan gedeelde folder niet verwijderen",
+    "Uploading files…" : "Uploaden bestanden..."
 },
 "nplurals=2; plural=(n != 1);");

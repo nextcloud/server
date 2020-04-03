@@ -147,6 +147,8 @@ OC.L10N.register(
     "Last login" : "Последно вписване",
     "Default quota" : "Стандартна квота",
     "All languages" : "Всички езици",
+    "Name your device" : "Име на устройството",
+    "Add" : "Добави",
     "Your apps" : "Вашите приложения",
     "Active apps" : "Включени приложения",
     "Disabled apps" : "Изключени приложения",

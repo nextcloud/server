@@ -164,6 +164,8 @@ OC.L10N.register(
     "Shared with others" : "Delt med andre",
     "Shared with you" : "Delt med dig",
     "Shared by link" : "Delt via link",
+    "Deleted shares" : "Slettede delinger",
+    "Pending shares" : "Afventende delinger",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
     "%s of %s used" : "%s af %s brugt",
