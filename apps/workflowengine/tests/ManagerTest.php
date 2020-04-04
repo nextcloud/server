@@ -28,6 +28,7 @@ use OCA\WorkflowEngine\Helper\ScopeContext;
 use OCA\WorkflowEngine\Manager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\IRootFolder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -67,6 +68,8 @@ class ManagerTest extends TestCase {
 	protected $l;
 	/** @var MockObject|IEventDispatcher */
 	protected $dispatcher;
+	/** @var MockObject|IConfig */
+	protected $config;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -84,6 +87,7 @@ class ManagerTest extends TestCase {
 		$this->logger = $this->createMock(ILogger::class);
 		$this->session = $this->createMock(IUserSession::class);
 		$this->dispatcher = $this->createMock(IEventDispatcher::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->manager = new Manager(
 			\OC::$server->getDatabaseConnection(),
@@ -92,7 +96,8 @@ class ManagerTest extends TestCase {
 			$this->legacyDispatcher,
 			$this->logger,
 			$this->session,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->config
 		);
 		$this->clearTables();
 	}

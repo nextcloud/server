@@ -117,7 +117,7 @@ class RuleMatcher implements IRuleMatcher {
 	public function getMatchingOperations(string $class, bool $returnFirstMatchingOperationOnly = true): array {
 		$scopes[] = new ScopeContext(IManager::SCOPE_ADMIN);
 		$user = $this->session->getUser();
-		if($user !== null) {
+		if($user !== null && $this->manager->isUserScopeEnabled()) {
 			$scopes[] = new ScopeContext(IManager::SCOPE_USER, $user->getUID());
 		}
 
