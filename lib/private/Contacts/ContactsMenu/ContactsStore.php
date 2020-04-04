@@ -108,7 +108,7 @@ class ContactsStore implements IContactsStore {
 									array $entries,
 									$filter) {
 		$disallowEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') !== 'yes';
-		$restrictEnumeration = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'yes') === 'yes';
+		$restrictEnumeration = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes';
 
 		// whether to filter out local users

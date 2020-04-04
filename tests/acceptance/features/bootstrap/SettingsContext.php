@@ -49,6 +49,25 @@ class SettingsContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function restrictUsernameAutocompletionToGroupsCheckbox() {
+		// forThe()->checkbox("Restrict username...") can not be used here; that
+		// would return the checkbox itself, but the element that the user
+		// interacts with is the label.
+		return Locator::forThe()->xpath("//label[normalize-space() = 'Restrict username autocompletion to users within the same groups']")->
+				describedAs("Restrict username autocompletion to groups checkbox in Sharing section in Administration Sharing Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function restrictUsernameAutocompletionToGroupsCheckboxInput() {
+		return Locator::forThe()->checkbox("Restrict username autocompletion to users within the same groups")->
+				describedAs("Restrict username autocompletion to groups checkbox input in Sharing section in Administration Sharing Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function systemTagsSelectTagButton() {
 		return Locator::forThe()->id("s2id_systemtag")->
 				describedAs("Select tag button in system tags section in Administration Settings");
@@ -113,6 +132,15 @@ class SettingsContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I enable restricting username autocompletion to groups
+	 */
+	public function iEnableRestrictingUsernameAutocompletionToGroups() {
+		$this->iSeeThatUsernameAutocompletionIsNotRestrictedToGroups();
+
+		$this->actor->find(self::restrictUsernameAutocompletionToGroupsCheckbox(), 2)->click();
+	}
+
+	/**
 	 * @When I create the tag :tag in the settings
 	 */
 	public function iCreateTheTagInTheSettings($tag) {
@@ -127,6 +155,22 @@ class SettingsContext implements Context, ActorAwareInterface {
 	public function iSeeThatSharesAreAcceptedByDefault() {
 		PHPUnit_Framework_Assert::assertTrue(
 				$this->actor->find(self::acceptSharesByDefaultCheckboxInput(), 10)->isChecked());
+	}
+
+	/**
+	 * @Then I see that username autocompletion is restricted to groups
+	 */
+	public function iSeeThatUsernameAutocompletionIsRestrictedToGroups() {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::restrictUsernameAutocompletionToGroupsCheckboxInput(), 10)->isChecked());
+	}
+
+	/**
+	 * @Then I see that username autocompletion is not restricted to groups
+	 */
+	public function iSeeThatUsernameAutocompletionIsNotRestrictedToGroups() {
+		PHPUnit_Framework_Assert::assertFalse(
+				$this->actor->find(self::restrictUsernameAutocompletionToGroupsCheckboxInput(), 10)->isChecked());
 	}
 
 	/**

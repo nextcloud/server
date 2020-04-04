@@ -178,7 +178,7 @@ class ContactsStoreTest extends TestCase {
 
 		$this->config->expects($this->at(1))
 			->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_restrict_user_enumeration_to_group'), $this->equalTo('yes'))
+			->with($this->equalTo('core'), $this->equalTo('shareapi_restrict_user_enumeration_to_group'), $this->equalTo('no'))
 			->willReturn('no');
 
 		$this->config->expects($this->at(2))
@@ -234,7 +234,7 @@ class ContactsStoreTest extends TestCase {
 			->willReturn('yes');
 
 		$this->config->expects($this->at(1)) ->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_restrict_user_enumeration_to_group'), $this->equalTo('yes'))
+			->with($this->equalTo('core'), $this->equalTo('shareapi_restrict_user_enumeration_to_group'), $this->equalTo('no'))
 			->willReturn('no');
 
 		$this->config->expects($this->at(2)) ->method('getAppValue')
@@ -320,7 +320,7 @@ class ContactsStoreTest extends TestCase {
 			->willReturn('yes');
 
 		$this->config->expects($this->at(1)) ->method('getAppValue')
-			->with($this->equalTo('core'), $this->equalTo('shareapi_restrict_user_enumeration_to_group'), $this->equalTo('yes'))
+			->with($this->equalTo('core'), $this->equalTo('shareapi_restrict_user_enumeration_to_group'), $this->equalTo('no'))
 			->willReturn('yes');
 
 		$this->config->expects($this->at(2)) ->method('getAppValue')
