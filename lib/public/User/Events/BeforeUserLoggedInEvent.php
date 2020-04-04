@@ -34,7 +34,7 @@ use OCP\IUser;
  */
 class BeforeUserLoggedInEvent extends Event {
 
-	/** @var IUser */
+	/** @var string */
 	private $username;
 
 	/** @var string */
@@ -50,9 +50,11 @@ class BeforeUserLoggedInEvent extends Event {
 	}
 
 	/**
+	 * returns the login name, which must not necessarily match to a user ID
+	 *
 	 * @since 18.0.0
 	 */
-	public function getUsername(): IUser {
+	public function getUsername(): string {
 		return $this->username;
 	}
 
