@@ -26,7 +26,7 @@
 	<div v-else>
 		<div v-if="step === RegistrationSteps.READY">
 			<button @click="start">
-				{{ t('settings', 'Add Webauthn device') }}
+				{{ t('settings', 'Add WebAuthn device') }}
 			</button>
 		</div>
 
