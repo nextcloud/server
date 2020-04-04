@@ -95,7 +95,7 @@
 				},
 				add: function(e, data) {
 					Drop.addFileToUpload(e, data);
-					$('#drop-upload-status').text(t('files_sharing', 'waiting...'));
+					$('#drop-upload-status').text(t('files_sharing', 'Waiting…'));
 					//we return true to keep trying to upload next file even
 					//if addFileToUpload did not like the privious one
 					return true;
