@@ -92,6 +92,7 @@ OC.L10N.register(
     "Test Base DN" : "Preizkus osnovnega enoznačnega imena (DN)",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Preusmeri samodejne zahteve LDAP. Nastavitev je priporočljiva za obsežnejše namestitve, vendar zahteva nekaj znanja o delu z LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "Ročno vstavi filtre za LDAP (priporočljivo za obsežnejše mape).",
+    "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Najobičajnejši razredi predmetov za uporabnike so »organizationalPerson«, »person«, »user« in »inetOrgPerson«. Če niste prepričani, kateri razred izbrati, se posvetujte s skrbnikom sistema.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Filter določa, kateri uporabniki LDAP bodo imeli dostop do %s.",
     "Verify settings and count users" : "Preveri nastavitve in preštej uporabnike",
     "Saving" : "Poteka shranjevanje ...",
