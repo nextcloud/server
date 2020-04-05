@@ -255,7 +255,10 @@ class Application extends App {
 			$principalUri = $event->getArgument('calendarData')['principaluri'];
 			if (strpos($principalUri, 'principals/users') === 0) {
 				list(, $UID) = \Sabre\Uri\split($principalUri);
-				$config->deleteUserValue($UID, 'dav', 'defaultCalendar');
+				$uri = $event->getArgument('calendarData')['uri'];
+				if ($config->getUserValue($UID, 'dav', 'defaultCalendar') === $uri) {
+					$config->deleteUserValue($UID, 'dav', 'defaultCalendar');
+				}
 			}
 		});
 	}
