@@ -703,13 +703,14 @@ export default {
 		width 100ms ease;
 }
 
+// Override vue componets scss
 #app-sidebar.app-sidebar--full {
-	position: fixed;
-	top: 0;
-	height: 100%;
-	z-index: 2025;
+	position: fixed !important;
+	top: 0 !important;
+	height: 100% !important;
+	z-index: 2025 !important;
 	.thumbnailContainer {
-		display: none;
+		display: none !important;
 	}
 }
 
