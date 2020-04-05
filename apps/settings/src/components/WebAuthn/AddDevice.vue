@@ -26,7 +26,7 @@
 	<div v-else>
 		<div v-if="step === RegistrationSteps.READY">
 			<button @click="start">
-				{{ t('settings', 'Add Webauthn device') }}
+				{{ t('settings', 'Add WebAuthn device') }}
 			</button>
 		</div>
 
@@ -146,7 +146,7 @@ export default {
 				})
 				.catch(err => {
 					console.error('Error getting webauthn registration data from server', err)
-					throw new Error(t('settings', 'Server error while trying to add webauthn device'))
+					throw new Error(t('settings', 'Server error while trying to add WebAuthn device'))
 				})
 		},
 
@@ -188,7 +188,7 @@ export default {
 				this.$emit('added', device)
 			} catch (err) {
 				logger.error('Error persisting webauthn registration', { error: err })
-				throw new Error(t('settings', 'Server error while trying to complete webauthn device registration'))
+				throw new Error(t('settings', 'Server error while trying to complete WebAuthn device registration'))
 			}
 		},
 

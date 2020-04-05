@@ -37,7 +37,7 @@
 			@delete="deleteDevice(device.id)" />
 
 		<p v-if="!hasPublicKeyCredential" class="warning">
-			{{ t('settings', 'Your browser does not support Webauthn.') }}
+			{{ t('settings', 'Your browser does not support WebAuthn.') }}
 		</p>
 
 		<AddDevice v-if="hasPublicKeyCredential" :isHttps="isHttps" @added="deviceAdded" />
