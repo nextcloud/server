@@ -168,6 +168,7 @@ OC.L10N.register(
     "Shared with you" : "Zurekin partekatuta",
     "Shared by link" : "Partekatua esteka bidez",
     "Deleted shares" : "Ezabatutako partekatzeak",
+    "Pending shares" : "Zain dauden partekatzeak",
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
     "%s of %s used" : "%s / %s erabilita",
