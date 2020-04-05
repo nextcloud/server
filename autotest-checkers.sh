@@ -6,6 +6,8 @@ bash ./build/autoloaderchecker.sh
 RESULT=$(($RESULT+$?))
 php ./build/translation-checker.php
 RESULT=$(($RESULT+$?))
+php ./build/triple-dot-checker.php
+RESULT=$(($RESULT+$?))
 php ./build/htaccess-checker.php
 RESULT=$(($RESULT+$?))
 bash ./build/ca-bundle-checker.sh
