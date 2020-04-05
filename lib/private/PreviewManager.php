@@ -293,7 +293,8 @@ class PreviewManager implements IPreview {
 			Preview\GIF::class,
 			Preview\BMP::class,
 			Preview\HEIC::class,
-			Preview\XBitmap::class
+			Preview\XBitmap::class,
+			Preview\Krita::class,
 		];
 
 		$this->defaultProviders = $this->config->getSystemValue('enabledPreviewProviders', array_merge([
@@ -340,6 +341,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\GIF::class, '/image\/gif/');
 		$this->registerCoreProvider(Preview\BMP::class, '/image\/bmp/');
 		$this->registerCoreProvider(Preview\XBitmap::class, '/image\/x-xbitmap/');
+		$this->registerCoreProvider(Preview\Krita::class, '/application\/x-krita/');
 		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg/');
 		$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
 

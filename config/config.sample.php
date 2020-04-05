@@ -989,7 +989,6 @@ $CONFIG = [
  *  - OC\Preview\MSOffice2003
  *  - OC\Preview\MSOffice2007
  *  - OC\Preview\MSOfficeDoc
- *  - OC\Preview\OpenDocument
  *  - OC\Preview\PDF
  *  - OC\Preview\Photoshop
  *  - OC\Preview\Postscript
@@ -1018,6 +1017,8 @@ $CONFIG = [
  *  - OC\Preview\PNG
  *  - OC\Preview\TXT
  *  - OC\Preview\XBitmap
+ *  - OC\Preview\OpenDocument
+ *  - OC\Preview\Krita
  */
 'enabledPreviewProviders' => [
 	'OC\Preview\PNG',
@@ -1028,7 +1029,9 @@ $CONFIG = [
 	'OC\Preview\XBitmap',
 	'OC\Preview\MP3',
 	'OC\Preview\TXT',
-	'OC\Preview\MarkDown'
+	'OC\Preview\MarkDown',
+	'OC\Preview\OpenDocument',
+	'OC\Preview\Krita',
 ],
 
 /**

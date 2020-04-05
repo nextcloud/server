@@ -23,34 +23,30 @@
 
 namespace OC\Preview;
 
-use OC\Archive\ZIP;
 use OCP\Files\File;
 use OCP\IImage;
 
-/**
- * Extracts a preview from files that embed them in an ZIP archive
- */
-abstract class Bundled extends ProviderV2 {
-
-	protected function extractThumbnail(File $file, $path): ?IImage {
-		$sourceTmp = \OC::$server->getTempManager()->getTemporaryFile();
-		$targetTmp = \OC::$server->getTempManager()->getTemporaryFile();
-
-		try {
-			$content = $file->fopen('r');
-			file_put_contents($sourceTmp, $content);
-
-			$zip = new ZIP($sourceTmp);
-			$zip->extractFile($path, $targetTmp);
-
-			$image = new \OC_Image();
-			$image->loadFromFile($targetTmp);
-			$image->fixOrientation();
-
-			return $image;
-		} catch (\Exception $e) {
-			return null;
-		}
+class Krita extends Bundled {
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getMimeType(): string {
+		return '/application\/x-krita/';
 	}
 
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+		$image = $this->extractThumbnail($file, 'mergedimage.png');
+		if ($image->valid()) {
+			return $image;
+		}
+		$image = $this->extractThumbnail($file, 'preview.png');
+		if ($image->valid()) {
+			return $image;
+		}
+		return null;
+	}
 }
