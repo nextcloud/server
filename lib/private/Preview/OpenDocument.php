@@ -25,11 +25,26 @@
 namespace OC\Preview;
 
 //.odt, .ott, .oth, .odm, .odg, .otg, .odp, .otp, .ods, .ots, .odc, .odf, .odb, .odi, .oxt
-class OpenDocument extends Office {
+use OCP\Files\File;
+use OCP\IImage;
+
+class OpenDocument extends Bundled {
 	/**
 	 * {@inheritDoc}
 	 */
 	public function getMimeType(): string {
 		return '/application\/vnd.oasis.opendocument.*/';
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
+		$image = $this->extractThumbnail($file, 'Thumbnails/thumbnail.png');
+		if ($image->valid()) {
+			return $image;
+		}
+		return null;
 	}
 }

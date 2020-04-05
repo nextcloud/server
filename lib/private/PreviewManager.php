@@ -300,6 +300,7 @@ class PreviewManager implements IPreview {
 			Preview\MarkDown::class,
 			Preview\MP3::class,
 			Preview\TXT::class,
+			Preview\OpenDocument::class,
 		], $imageProviders));
 
 		if (in_array(Preview\Image::class, $this->defaultProviders)) {
@@ -340,6 +341,7 @@ class PreviewManager implements IPreview {
 		$this->registerCoreProvider(Preview\BMP::class, '/image\/bmp/');
 		$this->registerCoreProvider(Preview\XBitmap::class, '/image\/x-xbitmap/');
 		$this->registerCoreProvider(Preview\MP3::class, '/audio\/mpeg/');
+		$this->registerCoreProvider(Preview\OpenDocument::class, '/application\/vnd.oasis.opendocument.*/');
 
 		// SVG, Office and Bitmap require imagick
 		if (extension_loaded('imagick')) {
