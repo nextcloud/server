@@ -26,7 +26,6 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Die Freigabe konnte nicht akzeptiert werden.",
     "Reject share" : "Freigabe ablehnen",
     "Something happened. Unable to reject the share." : "Die Freigabe konnte nicht abgelehnt werden.",
-    "waiting..." : "Warten …",
     "error" : "Fehler",
     "finished" : "Abgeschlossen",
     "This will stop your current uploads." : "Hiermit werden die aktuellen Uploads angehalten.",
