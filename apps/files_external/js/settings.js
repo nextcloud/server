@@ -999,6 +999,11 @@ MountConfigListView.prototype = _.extend({
 		} else {
 			newElement = $('<input type="text" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" placeholder="'+ trimmedPlaceholder+'" />');
 		}
+
+		if (placeholder.tooltip) {
+			newElement.attr('title', placeholder.tooltip);
+		}
+
 		highlightInput(newElement);
 		$td.append(newElement);
 		return newElement;

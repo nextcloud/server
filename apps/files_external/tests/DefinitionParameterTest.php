@@ -33,14 +33,16 @@ class DefinitionParameterTest extends \Test\TestCase {
 		$this->assertEquals([
 			'value' => 'bar',
 			'flags' => 0,
-			'type' => 0
+			'type' => 0,
+			'tooltip' => '',
 		], $param->jsonSerialize());
 
 		$param->setType(Param::VALUE_BOOLEAN);
 		$this->assertEquals([
 			'value' => 'bar',
 			'flags' => 0,
-			'type' => Param::VALUE_BOOLEAN
+			'type' => Param::VALUE_BOOLEAN,
+			'tooltip' => '',
 		], $param->jsonSerialize());
 
 		$param->setType(Param::VALUE_PASSWORD);
@@ -48,7 +50,8 @@ class DefinitionParameterTest extends \Test\TestCase {
 		$this->assertEquals([
 			'value' => 'bar',
 			'flags' => Param::FLAG_OPTIONAL,
-			'type' => Param::VALUE_PASSWORD
+			'type' => Param::VALUE_PASSWORD,
+			'tooltip' => '',
 		], $param->jsonSerialize());
 
 		$param->setType(Param::VALUE_HIDDEN);
@@ -56,7 +59,8 @@ class DefinitionParameterTest extends \Test\TestCase {
 		$this->assertEquals([
 			'value' => 'bar',
 			'flags' => Param::FLAG_NONE,
-			'type' => Param::VALUE_HIDDEN
+			'type' => Param::VALUE_HIDDEN,
+			'tooltip' => '',
 		], $param->jsonSerialize());
 	}
 
