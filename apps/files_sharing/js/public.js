@@ -113,9 +113,9 @@ OCA.Sharing.PublicApp = {
 			// Show file preview if previewer is available, images are already handled by the template
 			if (mimetype.substr(0, mimetype.indexOf('/')) !== 'image' && $('.publicpreview').length === 0) {
 				// Trigger default action if not download TODO
-				var action = FileActions.getDefaultFileAction(mimetype, 'file', OC.PERMISSION_READ);
-				if (action && action.action) {
-					action($('#filename').val());
+				var spec = FileActions.getDefaultFileAction(mimetype, 'file', OC.PERMISSION_READ);
+				if (spec && spec.action) {
+					spec.action($('#filename').val());
 				}
 			}
 		}
@@ -248,7 +248,7 @@ OCA.Sharing.PublicApp = {
 			};
 
 			this.fileList.linkTo = function (dir) {
-				return OC.generateUrl('/s/' + token + '', {dir: dir});
+				return OC.generateUrl('/s/' + token + '') + '?' + OC.buildQueryString({path: dir});
 			};
 
 			this.fileList.generatePreviewUrl = function (urlSpec) {

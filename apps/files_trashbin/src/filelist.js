@@ -241,6 +241,11 @@
 				return '#'
 			},
 
+			getDefaultActionUrl: function() {
+			// no default action
+				return '#'
+			},
+
 			updateStorageStatistics: function() {
 			// no op because the trashbin doesn't have
 			// storage info like free space / used space

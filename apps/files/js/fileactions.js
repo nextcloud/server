@@ -266,7 +266,7 @@
 			var mime = this.getCurrentMimeType();
 			var type = this.getCurrentType();
 			var permissions = this.getCurrentPermissions();
-			return this.getDefaultFileAction(mime,type, permissions);
+			return this.getDefaultFileAction(mime, type, permissions);
 		},
 
 		/**

@@ -432,7 +432,7 @@
 					this.setupUploadEvents(this._uploader);
 				}
 			}
-
+			this.triedActionOnce = false;
 
 			OC.Plugins.attach('OCA.Files.FileList', this);
 
@@ -874,16 +874,12 @@
 			if ($tr.hasClass('dragging')) {
 				return;
 			}
-			if (this._allowSelection && (event.ctrlKey || event.shiftKey)) {
+			if (this._allowSelection && event.shiftKey) {
 				event.preventDefault();
-				if (event.shiftKey) {
-					this._selectRange($tr);
-				} else {
-					this._selectSingle($tr);
-				}
+				this._selectRange($tr);
 				this._lastChecked = $tr;
 				this.updateSelectionSummary();
-			} else {
+			} else if (!event.ctrlKey) {
 				// clicked directly on the name
 				if (!this._detailsView || $(event.target).is('.nametext, .name, .thumbnail') || $(event.target).closest('.nametext').length) {
 					var filename = $tr.attr('data-file');
@@ -1320,6 +1316,31 @@
 				}, 0);
 			}
 
+			if(!this.triedActionOnce) {
+				var id = OC.Util.History.parseUrlQuery().openfile;
+				if (id) {
+					var $tr = this.$fileList.children().filterAttr('data-id', '' + id);
+					var filename = $tr.attr('data-file');
+					this.fileActions.currentFile = $tr.find('td');
+					var dir = $tr.attr('data-path') || this.getCurrentDirectory();
+					var spec = this.fileActions.getCurrentDefaultFileAction();
+					if (spec && spec.action) {
+						spec.action(filename, {
+							$file: $tr,
+							fileList: this,
+							fileActions: this.fileActions,
+							dir: dir
+						});
+
+					}
+					else {
+						var url = this.getDownloadUrl(filename, dir, true);
+						OCA.Files.Files.handleDownload(url);
+					}
+				}
+				this.triedActionOnce = true;
+			}
+
 			return newTrs;
 		},
 
@@ -1524,9 +1545,13 @@
 			td = $('<td class="filename"></td>');
 
 
+			var spec = this.fileActions.getDefaultFileAction(mime, type, permissions);
 			// linkUrl
 			if (mime === 'httpd/unix-directory') {
 				linkUrl = this.linkTo(path + '/' + name);
+			}
+			else if (spec && spec.action) {
+				linkUrl = this.getDefaultActionUrl(path, fileData.id);
 			}
 			else {
 				linkUrl = this.getDownloadUrl(name, path, type === 'dir');
@@ -2144,6 +2169,10 @@
 
 		getDownloadUrl: function(files, dir, isDir) {
 			return OCA.Files.Files.getDownloadUrl(files, dir || this.getCurrentDirectory(), isDir);
+		},
+
+		getDefaultActionUrl: function(path, id) {
+			return this.linkTo(path) + "&openfile="+id;
 		},
 
 		getUploadUrl: function(fileName, dir) {
