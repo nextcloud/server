@@ -892,13 +892,10 @@
 						event.preventDefault();
 					} else if (!renaming) {
 						this.fileActions.currentFile = $tr.find('td');
-						var mime = this.fileActions.getCurrentMimeType();
-						var type = this.fileActions.getCurrentType();
-						var permissions = this.fileActions.getCurrentPermissions();
-						var action = this.fileActions.getDefault(mime,type, permissions);
-						if (action) {
+						var spec = this.fileActions.getCurrentDefaultFileAction();
+						if (spec && spec.action) {
 							event.preventDefault();
-							action(filename, {
+							spec.action(filename, {
 								$file: $tr,
 								fileList: this,
 								fileActions: this.fileActions,
