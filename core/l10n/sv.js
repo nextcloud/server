@@ -151,6 +151,7 @@ OC.L10N.register(
     "Keep your colleagues and friends in one place without leaking their private info." : "Håll dina kollegor och vänner på ett ställe utan att läcka deras privata info.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Enkel e-post app integrerad med filer, kontakter och kalender.",
     "Forgot password?" : "Glömt lösenordet?",
+    "Log in with a device" : "Logga in med en enhet",
     "Back" : "Tillbaka",
     "Settings" : "Inställningar",
     "Could not load your contacts" : "Det gick inte att läsa in dina kontakter",
