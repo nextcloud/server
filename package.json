@@ -67,7 +67,6 @@
     "select2": "3.5.1",
     "snap.js": "^2.0.9",
     "strengthify": "git+https://github.com/MorrisJobke/strengthify.git#0.5.8",
-    "toastify-js": "^1.6.2",
     "underscore": "^1.9.2",
     "url-search-params-polyfill": "^8.0.0",
     "v-tooltip": "^2.0.2",

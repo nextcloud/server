@@ -677,7 +677,6 @@ describe('Core base tests', function() {
 		});
 	});
 	describe('Notifications', function() {
-		var showSpy;
 		var showHtmlSpy;
 		var clock;
 
@@ -694,68 +693,56 @@ describe('Core base tests', function() {
 
 		beforeEach(function() {
 			clock = sinon.useFakeTimers();
-			showSpy = sinon.spy(OCP.Toast, 'message');
-
-			$('#testArea').append('<div id="content"></div>');
 		});
 		afterEach(function() {
-			showSpy.restore();
 			// jump past animations
 			clock.tick(10000);
 			clock.restore();
-			$('#testArea .toastify').remove();
+			$('body .toastify').remove();
 		});
 		describe('showTemporary', function() {
 			it('shows a plain text notification with default timeout', function() {
 				OC.Notification.showTemporary('My notification test');
 
-				expect(showSpy.calledOnce).toEqual(true);
-				expect(showSpy.firstCall.args[0]).toEqual('My notification test');
-				//expect(showSpy.firstCall.args[1]).toEqual({isHTML: false, timeout: 7});
-
-				var $row = $('#testArea .toastify');
+				var $row = $('body .toastify');
 				expect($row.length).toEqual(1);
 				expect(getNotificationText($row)).toEqual('My notification test');
 			});
 			it('shows a HTML notification with default timeout', function() {
 				OC.Notification.showTemporary('<a>My notification test</a>', { isHTML: true });
 
-				expect(showSpy.calledOnce).toEqual(true);
-				expect(showSpy.firstCall.args[0]).toEqual('<a>My notification test</a>');
-				expect(showSpy.firstCall.args[1].isHTML).toEqual(true)
-
-				var $row = $('#testArea .toastify');
+				var $row = $('body .toastify');
 				expect($row.length).toEqual(1);
 				expect(getNotificationText($row)).toEqual('<a>My notification test</a>');
 			});
 			it('hides itself after 7 seconds', function() {
 				OC.Notification.showTemporary('');
 
-				var $row = $('#testArea .toastify');
+				var $row = $('body .toastify');
 				expect($row.length).toEqual(1);
 
 				// travel in time +7000 milliseconds
 				clock.tick(7500);
 
-				$row = $('#testArea .toastify');
+				$row = $('body .toastify');
 				expect($row.length).toEqual(0);
 			});
 			it('hides itself after a given time', function() {
 				OC.Notification.showTemporary('', {timeout: 10});
 
-				var $row = $('#testArea .toastify');
+				var $row = $('body .toastify');
 				expect($row.length).toEqual(1);
 
 				// travel in time +7000 milliseconds
 				clock.tick(7500);
 
-				$row = $('#testArea .toastify');
+				$row = $('body .toastify');
 				expect($row.length).toEqual(1);
 
 				// travel in time another 4000 milliseconds
 				clock.tick(4000);
 
-				$row = $('#testArea .toastify');
+				$row = $('body .toastify');
 				expect($row.length).toEqual(0);
 			});
 		});
@@ -763,24 +750,24 @@ describe('Core base tests', function() {
 			it('hides itself after a given time', function() {
 				OC.Notification.show('', {timeout: 10});
 
-				var $row = $('#testArea .toastify');
+				var $row = $('body .toastify');
 				expect($row.length).toEqual(1);
 
 				clock.tick(11500);
 
-				$row = $('#testArea .toastify');
+				$row = $('body .toastify');
 				expect($row.length).toEqual(0);
 			});
 			it('does not hide itself if no timeout given to show', function() {
 				OC.Notification.show('');
 
-				var $row = $('#testArea .toastify');
+				var $row = $('body .toastify');
 				expect($row.length).toEqual(1);
 
 				// travel in time +1000 seconds
 				clock.tick(1000000);
 
-				$row = $('#testArea .toastify');
+				$row = $('body .toastify');
 				expect($row.length).toEqual(1);
 			});
 		});
@@ -788,24 +775,24 @@ describe('Core base tests', function() {
 			it('hides itself after a given time', function() {
 				OC.Notification.showHtml('<p></p>', {timeout: 10});
 
-				var $row = $('#testArea .toastify');
+				var $row = $('body .toastify');
 				expect($row.length).toEqual(1);
 
 				clock.tick(11500);
 
-				$row = $('#testArea .toastify');
+				$row = $('body .toastify');
 				expect($row.length).toEqual(0);
 			});
 			it('does not hide itself if no timeout given to show', function() {
 				OC.Notification.showHtml('<p></p>');
 
-				var $row = $('#testArea .toastify');
+				var $row = $('body .toastify');
 				expect($row.length).toEqual(1);
 
 				// travel in time +1000 seconds
 				clock.tick(1000000);
 
-				$row = $('#testArea .toastify');
+				$row = $('body .toastify');
 				expect($row.length).toEqual(1);
 			});
 		});
@@ -815,7 +802,7 @@ describe('Core base tests', function() {
 
 				var notification = OC.Notification.showTemporary('');
 
-				var $row = $('#testArea .toastify');
+				var $row = $('body .toastify');
 				expect($row.length).toEqual(1);
 
 				OC.Notification.hide(notification, hideCallback);
@@ -823,7 +810,7 @@ describe('Core base tests', function() {
 				// Give time to the hide animation to finish
 				clock.tick(1000);
 
-				$row = $('#testArea .toastify');
+				$row = $('body .toastify');
 				expect($row.length).toEqual(0);
 
 				expect(hideCallback.calledOnce).toEqual(true);
@@ -833,7 +820,7 @@ describe('Core base tests', function() {
 
 				var notification = OC.Notification.show('', {timeout: 10});
 
-				var $row = $('#testArea .toastify');
+				var $row = $('body .toastify');
 				expect($row.length).toEqual(1);
 
 				OC.Notification.hide(notification, hideCallback);
@@ -841,7 +828,7 @@ describe('Core base tests', function() {
 				// Give time to the hide animation to finish
 				clock.tick(1000);
 
-				$row = $('#testArea .toastify');
+				$row = $('body .toastify');
 				expect($row.length).toEqual(0);
 
 				expect(hideCallback.calledOnce).toEqual(true);
@@ -851,7 +838,7 @@ describe('Core base tests', function() {
 
 				var notification = OC.Notification.show('');
 
-				var $row = $('#testArea .toastify');
+				var $row = $('body .toastify');
 				expect($row.length).toEqual(1);
 
 				OC.Notification.hide(notification, hideCallback);
@@ -859,7 +846,7 @@ describe('Core base tests', function() {
 				// Give time to the hide animation to finish
 				clock.tick(1000);
 
-				$row = $('#testArea .toastify');
+				$row = $('body .toastify');
 				expect($row.length).toEqual(0);
 
 				expect(hideCallback.calledOnce).toEqual(true);
@@ -870,7 +857,7 @@ describe('Core base tests', function() {
 			var $row2 = OC.Notification.showTemporary('Two', {timeout: 2});
 			var $row3 = OC.Notification.showTemporary('Three');
 
-			var $el = $('#testArea');
+			var $el = $('body');
 			var $rows = $el.find('.toastify');
 			expect($rows.length).toEqual(3);
 
@@ -890,7 +877,7 @@ describe('Core base tests', function() {
 			var $row1 = OC.Notification.show('One');
 			var $row2 = OC.Notification.show('Two');
 
-			var $el = $('#testArea');
+			var $el = $('body');
 			var $rows = $el.find('.toastify');
 			expect($rows.length).toEqual(2);
 
