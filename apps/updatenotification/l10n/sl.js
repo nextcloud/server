@@ -32,12 +32,12 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Nazadnje preverjeno {lastCheckedDate}",
     "Checking apps for compatible updates" : "Poteka preverjanje za skladne posodobitve ...",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Prepričajte se, da v datoteki config.php možnost <samp>appstoreenabled</samp> ni nastavljena na vrednost napak – false.",
-    "<strong>All</strong> apps have an update for this version available" : "Za <strong>vse</strong> programe je na voljo posodobitev za to različico",
+    "<strong>All</strong> apps have an update for this version available" : "Za <strong>vse</strong> programe je na voljo podprta posodobitev",
     "View changelog" : "Ogled Dnevnika sprememb",
     "Enterprise" : "Poslovno",
     "For enterprise use. Provides always the latest patch level, but will not update to the next major release immediately. That update happens once Nextcloud GmbH has done additional hardening and testing for large-scale and mission-critical deployments. This channel is only available to customers and provides the Nextcloud Enterprise package." : "Za poslovno uporabo. Na voljo so najnovejši popravki programov in manjše posodobitve, ne pa tudi takojšnja nadgradnja sistema na naslednjo večjo različico. Ta posodobitev je na voljo šele po daljšem in podrobnejšem preizkušanju sistema. Ta kanal je na voljo le naročnikom, ki uporabljajo paket Nextcloud Enterprise.",
     "Stable" : "Stabilno",
     "Beta" : "Preizkusno",
-    "Production" : "Produkcijska različica"
+    "Production" : "Produkcijsko"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

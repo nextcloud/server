@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Něco se přihodilo. Sdílení se nedaří přijmout.",
     "Reject share" : "Odmítnout sdílení",
     "Something happened. Unable to reject the share." : "Něco se přihodilo. Sdílení se nedaří odmítnout.",
+    "Waiting…" : "Čeká se…",
     "error" : "chyba",
     "finished" : "dokončeno",
     "This will stop your current uploads." : "Toto zastaví vaše stávající nahrávání.",

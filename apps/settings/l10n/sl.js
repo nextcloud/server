@@ -298,7 +298,7 @@ OC.L10N.register(
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Zaradi varnosti in optimizacije delovanja je pomembno, da je sistem pravilno nastavljen. Za pomoč pri preverjanju se samodejno izvajajo nekateri preizkusi. Več podrobnosti o tem je zabeleženih v dokumentaciji. ",
     "All checks passed." : "Vsa preverjanja so uspešno zaključena.",
     "There are some errors regarding your setup." : "Med preverjanjem je bilo zaznanih je nekaj napak namestitve.",
-    "There are some warnings regarding your setup." : "Med preverjanjem je bilo javljenih nekaj opozoril.",
+    "There are some warnings regarding your setup." : "Med preverjanjem je bilo zbranih nekaj opozoril.",
     "Checking for system and security issues." : "Preverjanje sistemskih in varnostnih nastavitev.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Preverite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">namestitveno dokumentacijo ↗</a> in morebitne napake oziroma opozorila v <a href=\"%2$s\">sistemskem dnevniku</a>.",
     "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Preverite varnost storitev Nextcloud s <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">preverjalnikom ↗</a>.",
