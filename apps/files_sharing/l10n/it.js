@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Qualcosa non ha funzionato. Impossibile accettare la condivisione.",
     "Reject share" : "Rifiuta condivisione",
     "Something happened. Unable to reject the share." : "Qualcosa non ha funzionato. Impossibile rifiutare la condivisione.",
+    "Waiting…" : "Attendere...",
     "error" : "errore",
     "finished" : "terminato",
     "This will stop your current uploads." : "Questo fermerà i tuoi caricamenti attuali.",
