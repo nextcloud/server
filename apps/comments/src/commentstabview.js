@@ -1,5 +1,5 @@
 /* eslint-disable */
-/*
+/**
  * Copyright (c) 2016
  *
  * This file is licensed under the Affero General Public License version 3
@@ -264,14 +264,14 @@
 			},
 
 			/**
-		 * takes care of post-rendering after a new comment was added to the
-		 * collection
-		 *
-		 * @param model
-		 * @param collection
-		 * @param options
-		 * @private
-		 */
+			 * takes care of post-rendering after a new comment was added to the
+			 * collection
+			 *
+			 * @param model
+			 * @param collection
+			 * @param options
+			 * @private
+			 */
 			_onAddModel: function(model, collection, options) {
 			// we need to render it immediately, to ensure that the right
 			// order of comments is kept on opening comments tab
@@ -303,11 +303,11 @@
 			},
 
 			/**
-		 * takes care of post-rendering after a new comment was edited
-		 *
-		 * @param model
-		 * @private
-		 */
+			 * takes care of post-rendering after a new comment was edited
+			 *
+			 * @param model
+			 * @private
+			 */
 			_onChangeModel: function(model) {
 				if (model.get('message').trim() === model.previous('message').trim()) {
 					return
@@ -402,9 +402,9 @@
 			},
 
 			/**
-		 * Convert a message to be displayed in HTML,
-		 * converts newlines to <br> tags.
-		 */
+			 * Convert a message to be displayed in HTML,
+			 * converts newlines to <br> tags.
+			 */
 			_formatMessage: function(message, mentions, editMode) {
 				message = escapeHTML(message).replace(/\n/g, '<br/>')
 
@@ -597,9 +597,12 @@
 			_onSubmitSuccess: function(model, $form) {
 				var $submit = $form.find('.submit')
 				var $loading = $form.find('.submitLoading')
+				var $message = $form.find('.message')
 
 				$submit.removeClass('hidden')
 				$loading.addClass('hidden')
+				$message.prop('contenteditable', true)
+				$message.text('')
 			},
 
 			_commentBodyHTML2Plain: function($el) {
@@ -651,7 +654,7 @@
 
 				message = this._commentBodyHTML2Plain($commentField)
 				if (commentId) {
-				// edit mode
+					// edit mode
 					var comment = this.collection.get(commentId)
 					comment.save({
 						message: message
@@ -659,7 +662,7 @@
 						success: function(model) {
 							self._onSubmitSuccess(model, $form)
 							if (model.get('message').trim() === model.previous('message').trim()) {
-							// model change event doesn't trigger, manually remove the row.
+								// model change event doesn't trigger, manually remove the row.
 								var $row = $form.closest('.comment')
 								$row.data('commentEl').removeClass('hidden')
 								$row.remove()
