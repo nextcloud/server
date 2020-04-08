@@ -16,6 +16,7 @@ use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\HostDownException;
 use Icewind\SMB\Exception\InvalidArgumentException;
 use Icewind\SMB\Exception\InvalidTypeException;
+use Icewind\SMB\Exception\ConnectionAbortedException;
 use Icewind\SMB\Exception\NoRouteToHostException;
 use Icewind\SMB\Exception\NotEmptyException;
 use Icewind\SMB\Exception\NotFoundException;
@@ -49,6 +50,7 @@ class NativeState {
 		22  => InvalidArgumentException::class,
 		28  => OutOfSpaceException::class,
 		39  => NotEmptyException::class,
+		103 => ConnectionAbortedException::class,
 		104 => ConnectionResetException::class,
 		110 => TimedOutException::class,
 		111 => ConnectionRefusedException::class,
@@ -238,13 +240,14 @@ class NativeState {
 	/**
 	 * @param resource $file
 	 * @param string $data
+	 * @param string $path
 	 * @param int $length
 	 * @return int
 	 */
-	public function write($file, $data, $length = null) {
+	public function write($file, $data, $path, $length = null) {
 		$result = @smbclient_write($this->state, $file, $data, $length);
 
-		$this->testResult($result, $file);
+		$this->testResult($result, $path);
 		return $result;
 	}
 
@@ -273,10 +276,10 @@ class NativeState {
 		return $result;
 	}
 
-	public function close($file) {
+	public function close($file, $path) {
 		$result = @smbclient_close($this->state, $file);
 
-		$this->testResult($result, $file);
+		$this->testResult($result, $path);
 		return $result;
 	}
 

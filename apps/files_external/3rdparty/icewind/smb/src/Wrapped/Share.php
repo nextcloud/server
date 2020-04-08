@@ -14,11 +14,14 @@ use Icewind\SMB\Exception\DependencyException;
 use Icewind\SMB\Exception\FileInUseException;
 use Icewind\SMB\Exception\InvalidTypeException;
 use Icewind\SMB\Exception\NotFoundException;
+use Icewind\SMB\Exception\InvalidRequestException;
 use Icewind\SMB\IFileInfo;
 use Icewind\SMB\INotifyHandler;
 use Icewind\SMB\IServer;
 use Icewind\SMB\ISystem;
 use Icewind\Streams\CallbackWrapper;
+use Icewind\SMB\Native\NativeShare;
+use Icewind\SMB\Native\NativeServer;
 
 class Share extends AbstractShare {
 	/**
