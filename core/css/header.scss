@@ -50,7 +50,7 @@
 	z-index: 2000;
 	height: $header-height;
 	background-color: var(--color-primary);
-	background-image: linear-gradient(40deg, var(--color-primary) 0%, rgba(28,175,255,1) 100%);
+	background-image: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-element-light) 100%);
 	box-sizing: border-box;
 	justify-content: space-between;
 }
