@@ -90,8 +90,8 @@ class Access extends LDAPUtility {
 	protected $userMapper;
 
 	/**
-	* @var AbstractMapping $userMapper
-	*/
+	 * @var AbstractMapping $userMapper
+	 */
 	protected $groupMapper;
 
 	/**
@@ -1453,11 +1453,11 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	* escapes (user provided) parts for LDAP filter
-	* @param string $input, the provided value
-	* @param bool $allowAsterisk whether in * at the beginning should be preserved
-	* @return string the escaped string
-	*/
+	 * escapes (user provided) parts for LDAP filter
+	 * @param string $input, the provided value
+	 * @param bool $allowAsterisk whether in * at the beginning should be preserved
+	 * @return string the escaped string
+	 */
 	public function escapeFilterPart($input, $allowAsterisk = false) {
 		$asterisk = '';
 		if($allowAsterisk && strlen($input) > 0 && $input[0] === '*') {

@@ -26,8 +26,8 @@ namespace OC\DB;
 use OCP\IDBConnection;
 
 /**
-* Various MySQL specific helper functions.
-*/
+ * Various MySQL specific helper functions.
+ */
 class MySqlTools {
 
 	/**

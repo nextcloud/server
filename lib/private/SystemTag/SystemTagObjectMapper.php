@@ -51,12 +51,12 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	protected $dispatcher;
 
 	/**
-	* Constructor.
-	*
-	* @param IDBConnection $connection database connection
-	* @param ISystemTagManager $tagManager system tag manager
-	* @param EventDispatcherInterface $dispatcher
-	*/
+	 * Constructor.
+	 *
+	 * @param IDBConnection $connection database connection
+	 * @param ISystemTagManager $tagManager system tag manager
+	 * @param EventDispatcherInterface $dispatcher
+	 */
 	public function __construct(IDBConnection $connection, ISystemTagManager $tagManager, EventDispatcherInterface $dispatcher) {
 		$this->connection = $connection;
 		$this->tagManager = $tagManager;

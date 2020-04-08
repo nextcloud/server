@@ -221,8 +221,8 @@ class IMipPluginTest extends TestCase {
 	}
 
 	/**
-	* @dataProvider dataIncludeResponseButtons
-	*/
+	 * @dataProvider dataIncludeResponseButtons
+	 */
 	public function testIncludeResponseButtons(string $config_setting, string $recipient, bool $has_buttons ) {
 		$message = $this->_testMessage([],$recipient);
 

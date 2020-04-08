@@ -146,9 +146,9 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
-	* Checks if the Nextcloud server can connect to a specific URL using both HTTPS and HTTP
-	* @return bool
-	*/
+	 * Checks if the Nextcloud server can connect to a specific URL using both HTTPS and HTTP
+	 * @return bool
+	 */
 	private function isSiteReachable($sitename) {
 		$httpSiteName = 'http://' . $sitename . '/';
 		$httpsSiteName = 'https://' . $sitename . '/';

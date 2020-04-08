@@ -249,7 +249,7 @@ class TemplateLayout extends \OC_Template {
 
 	/**
 	 * @param string $path
- 	 * @param string $file
+	 * @param string $file
 	 * @return string
 	 */
 	protected function getVersionHashSuffix($path = false, $file = false) {

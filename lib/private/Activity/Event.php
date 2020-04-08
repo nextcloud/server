@@ -524,10 +524,10 @@ class Event implements IEvent {
 			$this->getTimestamp() !== 0
 			/**
 			 * Disabled for BC with old activities
-			&&
-			$this->getObjectType() !== ''
-			&&
-			$this->getObjectId() !== 0
+			 * &&
+			 * $this->getObjectType() !== ''
+			 * &&
+			 * $this->getObjectId() !== 0
 			 */
 		;
 	}

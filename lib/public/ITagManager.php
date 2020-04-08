@@ -59,6 +59,6 @@ interface ITagManager {
 	 * logged in user
 	 * @return \OCP\ITags
 	 * @since 6.0.0 - parameter $includeShared and $userId were added in 8.0.0
-	*/
+	 */
 	public function load($type, $defaultTags = [], $includeShared = false, $userId = null);
 }

@@ -36,21 +36,21 @@ use OCP\IDBConnection;
 class TagMapper extends Mapper {
 
 	/**
-	* Constructor.
-	*
-	* @param IDBConnection $db Instance of the Db abstraction layer.
-	*/
+	 * Constructor.
+	 *
+	 * @param IDBConnection $db Instance of the Db abstraction layer.
+	 */
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'vcategory', Tag::class);
 	}
 
 	/**
-	* Load tags from the database.
-	*
-	* @param array|string $owners The user(s) whose tags we are going to load.
-	* @param string $type The type of item for which we are loading tags.
-	* @return array An array of Tag objects.
-	*/
+	 * Load tags from the database.
+	 *
+	 * @param array|string $owners The user(s) whose tags we are going to load.
+	 * @param string $type The type of item for which we are loading tags.
+	 * @return array An array of Tag objects.
+	 */
 	public function loadTags($owners, $type) {
 		if(!is_array($owners)) {
 			$owners = [$owners];
@@ -62,11 +62,11 @@ class TagMapper extends Mapper {
 	}
 
 	/**
-	* Check if a given Tag object already exists in the database.
-	*
-	* @param Tag $tag The tag to look for in the database.
-	* @return bool
-	*/
+	 * Check if a given Tag object already exists in the database.
+	 *
+	 * @param Tag $tag The tag to look for in the database.
+	 * @return bool
+	 */
 	public function tagExists($tag) {
 		$sql = 'SELECT `id`, `uid`, `type`, `category` FROM `' . $this->getTableName() . '` '
 			. 'WHERE `uid` = ? AND `type` = ? AND `category` = ?';

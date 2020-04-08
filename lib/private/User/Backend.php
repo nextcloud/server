@@ -60,12 +60,12 @@ abstract class Backend implements UserInterface {
 	];
 
 	/**
-	* Get all supported actions
-	* @return int bitwise-or'ed actions
-	*
-	* Returns the supported actions as int to be
-	* compared with self::CREATE_USER etc.
-	*/
+	 * Get all supported actions
+	 * @return int bitwise-or'ed actions
+	 *
+	 * Returns the supported actions as int to be
+	 * compared with self::CREATE_USER etc.
+	 */
 	public function getSupportedActions() {
 		$actions = 0;
 		foreach($this->possibleActions AS $action => $methodName) {
@@ -78,13 +78,13 @@ abstract class Backend implements UserInterface {
 	}
 
 	/**
-	* Check if backend implements actions
-	* @param int $actions bitwise-or'ed actions
-	* @return boolean
-	*
-	* Returns the supported actions as int to be
-	* compared with self::CREATE_USER etc.
-	*/
+	 * Check if backend implements actions
+	 * @param int $actions bitwise-or'ed actions
+	 * @return boolean
+	 *
+	 * Returns the supported actions as int to be
+	 * compared with self::CREATE_USER etc.
+	 */
 	public function implementsActions($actions) {
 		return (bool)($this->getSupportedActions() & $actions);
 	}
@@ -113,19 +113,19 @@ abstract class Backend implements UserInterface {
 	}
 
 	/**
-	* check if a user exists
-	* @param string $uid the username
-	* @return boolean
-	*/
+	 * check if a user exists
+	 * @param string $uid the username
+	 * @return boolean
+	 */
 	public function userExists($uid) {
 		return false;
 	}
 
 	/**
-	* get the user's home directory
-	* @param string $uid the username
-	* @return boolean
-	*/
+	 * get the user's home directory
+	 * @param string $uid the username
+	 * @return boolean
+	 */
 	public function getHome($uid) {
 		return false;
 	}

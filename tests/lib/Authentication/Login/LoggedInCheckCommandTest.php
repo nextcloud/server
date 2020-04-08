@@ -25,7 +25,6 @@ declare(strict_types=1);
 
 namespace lib\Authentication\Login;
 
-use Hoa\Iterator\Mock;
 use OC\Authentication\Login\LoggedInCheckCommand;
 use OC\Core\Controller\LoginController;
 use OCP\EventDispatcher\IEventDispatcher;

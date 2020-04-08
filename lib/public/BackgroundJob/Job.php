@@ -60,7 +60,7 @@ abstract class Job implements IJob {
 
 	/**
 	 * The function to prepare the execution of the job.
-
+	 *
 	 *
 	 * @param IJobList $jobList
 	 * @param ILogger|null $logger

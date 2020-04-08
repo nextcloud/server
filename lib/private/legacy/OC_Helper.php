@@ -44,7 +44,6 @@
  *
  */
 
-use OCP\IUser;
 use Symfony\Component\Process\ExecutableFinder;
 
 /**
