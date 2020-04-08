@@ -1129,13 +1129,13 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 	}
 
 	/**
-	* Check if backend implements actions
-	* @param int $actions bitwise-or'ed actions
-	* @return boolean
-	*
-	* Returns the supported actions as int to be
-	* compared with GroupInterface::CREATE_GROUP etc.
-	*/
+	 * Check if backend implements actions
+	 * @param int $actions bitwise-or'ed actions
+	 * @return boolean
+	 *
+	 * Returns the supported actions as int to be
+	 * compared with GroupInterface::CREATE_GROUP etc.
+	 */
 	public function implementsActions($actions) {
 		return (bool)((GroupInterface::COUNT_USERS |
 				$this->groupPluginManager->getImplementedActions()) & $actions);

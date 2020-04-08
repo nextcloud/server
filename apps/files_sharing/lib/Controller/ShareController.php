@@ -300,7 +300,7 @@ class ShareController extends AuthPublicShareController {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-
+	 *
 	 * @param string $path
 	 * @return TemplateResponse
 	 * @throws NotFoundException

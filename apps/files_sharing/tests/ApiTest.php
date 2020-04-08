@@ -305,7 +305,7 @@ class ApiTest extends TestCase {
 
 	/**
 	 * @medium
-	*/
+	 */
 	function testSharePermissions() {
 		// sharing file to a user should work if shareapi_exclude_groups is set
 		// to no

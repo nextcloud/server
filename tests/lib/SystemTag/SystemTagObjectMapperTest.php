@@ -6,7 +6,7 @@
  * later.
  * See the COPYING-README file.
  *
-*/
+ */
 
 namespace Test\SystemTag;
 

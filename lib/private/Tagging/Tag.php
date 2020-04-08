@@ -43,12 +43,12 @@ class Tag extends Entity {
 	protected $name;
 
 	/**
-	* Constructor.
-	*
-	* @param string $owner The tag's owner
-	* @param string $type The type of item this tag is used for
-	* @param string $name The tag's name
-	*/
+	 * Constructor.
+	 *
+	 * @param string $owner The tag's owner
+	 * @param string $type The type of item this tag is used for
+	 * @param string $name The tag's name
+	 */
 	public function __construct($owner = null, $type = null, $name = null) {
 		$this->setOwner($owner);
 		$this->setType($type);

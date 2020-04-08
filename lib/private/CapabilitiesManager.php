@@ -48,7 +48,7 @@ class CapabilitiesManager {
 
 	/**
 	 * Get an array of al the capabilities that are registered at this manager
-     *
+	 *
 	 * @param bool $public get public capabilities only
 	 * @throws \InvalidArgumentException
 	 * @return array

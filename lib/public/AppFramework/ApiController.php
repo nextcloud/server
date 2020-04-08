@@ -55,7 +55,7 @@ abstract class ApiController extends Controller {
      * defaults to 'Authorization, Content-Type, Accept'
      * @param int $corsMaxAge number in seconds how long a preflighted OPTIONS
      * request should be cached, defaults to 1728000 seconds
-	 * @since 7.0.0
+     * @since 7.0.0
      */
     public function __construct($appName,
                                 IRequest $request,
@@ -76,7 +76,7 @@ abstract class ApiController extends Controller {
      * @NoAdminRequired
      * @NoCSRFRequired
      * @PublicPage
-	 * @since 7.0.0
+     * @since 7.0.0
      */
     public function preflightedCors() {
         if(isset($this->request->server['HTTP_ORIGIN'])) {

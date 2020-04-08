@@ -129,9 +129,9 @@ class Expiration {
 	}
 
 	/**
-	* Read versions_retention_obligation, validate it 
-	* and set private members accordingly
-	*/
+	 * Read versions_retention_obligation, validate it 
+	 * and set private members accordingly
+	 */
 	private function parseRetentionObligation(){
 		$splitValues = explode(',', $this->retentionObligation);
 		if (!isset($splitValues[0])) {

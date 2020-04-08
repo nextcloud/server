@@ -27,9 +27,9 @@
 namespace OCA\User_LDAP\Mapping;
 
 /**
-* Class AbstractMapping
-* @package OCA\User_LDAP\Mapping
-*/
+ * Class AbstractMapping
+ * @package OCA\User_LDAP\Mapping
+ */
 abstract class AbstractMapping {
 	/**
 	 * @var \OCP\IDBConnection $dbc

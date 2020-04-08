@@ -24,9 +24,9 @@
 namespace OCA\User_LDAP\Mapping;
 
 /**
-* Class UserMapping
-* @package OCA\User_LDAP\Mapping
-*/
+ * Class UserMapping
+ * @package OCA\User_LDAP\Mapping
+ */
 class UserMapping extends AbstractMapping {
 
 	/**

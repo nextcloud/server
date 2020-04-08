@@ -365,11 +365,11 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	}
 
 	/**
-	* returns whether a user was deleted in LDAP
-	*
-	* @param string $uid The username of the user to delete
-	* @return bool
-	*/
+	 * returns whether a user was deleted in LDAP
+	 *
+	 * @param string $uid The username of the user to delete
+	 * @return bool
+	 */
 	public function deleteUser($uid) {
 		if ($this->userPluginManager->canDeleteUser()) {
 			$status = $this->userPluginManager->deleteUser($uid);
@@ -522,13 +522,13 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	}
 
 	/**
-	* Check if backend implements actions
-	* @param int $actions bitwise-or'ed actions
-	* @return boolean
-	*
-	* Returns the supported actions as int to be
-	* compared with \OC\User\Backend::CREATE_USER etc.
-	*/
+	 * Check if backend implements actions
+	 * @param int $actions bitwise-or'ed actions
+	 * @return boolean
+	 *
+	 * Returns the supported actions as int to be
+	 * compared with \OC\User\Backend::CREATE_USER etc.
+	 */
 	public function implementsActions($actions) {
 		return (bool)((Backend::CHECK_PASSWORD
 			| Backend::GET_HOME

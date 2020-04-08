@@ -259,7 +259,7 @@ class AvatarController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-     *
+	 *
 	 * @return JSONResponse
 	 */
 	public function deleteAvatar() {

@@ -34,23 +34,23 @@ namespace OC;
  */
 class LargeFileHelper {
 	/**
-	* pow(2, 53) as a base-10 string.
-	* @var string
-	*/
+	 * pow(2, 53) as a base-10 string.
+	 * @var string
+	 */
 	const POW_2_53 = '9007199254740992';
 
 	/**
-	* pow(2, 53) - 1 as a base-10 string.
-	* @var string
-	*/
+	 * pow(2, 53) - 1 as a base-10 string.
+	 * @var string
+	 */
 	const POW_2_53_MINUS_1 = '9007199254740991';
 
 	/**
-	* @brief Checks whether our assumptions hold on the PHP platform we are on.
-	*
-	* @throws \RunTimeException if our assumptions do not hold on the current
-	*                           PHP platform.
-	*/
+	 * @brief Checks whether our assumptions hold on the PHP platform we are on.
+	 *
+	 * @throws \RunTimeException if our assumptions do not hold on the current
+	 *                           PHP platform.
+	 */
 	public function __construct() {
 		$pow_2_53 = (float)self::POW_2_53_MINUS_1 + 1.0;
 		if ($this->formatUnsignedInteger($pow_2_53) !== self::POW_2_53) {
@@ -61,16 +61,16 @@ class LargeFileHelper {
 	}
 
 	/**
-	* @brief Formats a signed integer or float as an unsigned integer base-10
-	*        string. Passed strings will be checked for being base-10.
-	*
-	* @param int|float|string $number Number containing unsigned integer data
-	*
-	* @throws \UnexpectedValueException if $number is not a float, not an int
-	*                                   and not a base-10 string.
-	*
-	* @return string Unsigned integer base-10 string
-	*/
+	 * @brief Formats a signed integer or float as an unsigned integer base-10
+	 *        string. Passed strings will be checked for being base-10.
+	 *
+	 * @param int|float|string $number Number containing unsigned integer data
+	 *
+	 * @throws \UnexpectedValueException if $number is not a float, not an int
+	 *                                   and not a base-10 string.
+	 *
+	 * @return string Unsigned integer base-10 string
+	 */
 	public function formatUnsignedInteger($number) {
 		if (is_float($number)) {
 			// Undo the effect of the php.ini setting 'precision'.
@@ -88,14 +88,14 @@ class LargeFileHelper {
 	}
 
 	/**
-	* @brief Tries to get the size of a file via various workarounds that
-	*        even work for large files on 32-bit platforms.
-	*
-	* @param string $filename Path to the file.
-	*
-	* @return null|int|float Number of bytes as number (float or int) or
-	*                        null on failure.
-	*/
+	 * @brief Tries to get the size of a file via various workarounds that
+	 *        even work for large files on 32-bit platforms.
+	 *
+	 * @param string $filename Path to the file.
+	 *
+	 * @return null|int|float Number of bytes as number (float or int) or
+	 *                        null on failure.
+	 */
 	public function getFileSize($filename) {
 		$fileSize = $this->getFileSizeViaCurl($filename);
 		if (!is_null($fileSize)) {
@@ -109,13 +109,13 @@ class LargeFileHelper {
 	}
 
 	/**
-	* @brief Tries to get the size of a file via a CURL HEAD request.
-	*
-	* @param string $fileName Path to the file.
-	*
-	* @return null|int|float Number of bytes as number (float or int) or
-	*                        null on failure.
-	*/
+	 * @brief Tries to get the size of a file via a CURL HEAD request.
+	 *
+	 * @param string $fileName Path to the file.
+	 *
+	 * @return null|int|float Number of bytes as number (float or int) or
+	 *                        null on failure.
+	 */
 	public function getFileSizeViaCurl($fileName) {
 		if (\OC::$server->getIniWrapper()->getString('open_basedir') === '') {
 			$encodedFileName = rawurlencode($fileName);
@@ -137,13 +137,13 @@ class LargeFileHelper {
 	}
 
 	/**
-	* @brief Tries to get the size of a file via an exec() call.
-	*
-	* @param string $filename Path to the file.
-	*
-	* @return null|int|float Number of bytes as number (float or int) or
-	*                        null on failure.
-	*/
+	 * @brief Tries to get the size of a file via an exec() call.
+	 *
+	 * @param string $filename Path to the file.
+	 *
+	 * @return null|int|float Number of bytes as number (float or int) or
+	 *                        null on failure.
+	 */
 	public function getFileSizeViaExec($filename) {
 		if (\OC_Helper::is_function_enabled('exec')) {
 			$os = strtolower(php_uname('s'));
@@ -160,15 +160,15 @@ class LargeFileHelper {
 	}
 
 	/**
-	* @brief Gets the size of a file via a filesize() call and converts
-	*        negative signed int to positive float. As the result of filesize()
-	*        will wrap around after a file size of 2^32 bytes = 4 GiB, this
-	*        should only be used as a last resort.
-	*
-	* @param string $filename Path to the file.
-	*
-	* @return int|float Number of bytes as number (float or int).
-	*/
+	 * @brief Gets the size of a file via a filesize() call and converts
+	 *        negative signed int to positive float. As the result of filesize()
+	 *        will wrap around after a file size of 2^32 bytes = 4 GiB, this
+	 *        should only be used as a last resort.
+	 *
+	 * @param string $filename Path to the file.
+	 *
+	 * @return int|float Number of bytes as number (float or int).
+	 */
 	public function getFileSizeNative($filename) {
 		$result = filesize($filename);
 		if ($result < 0) {

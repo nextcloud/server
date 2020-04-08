@@ -128,7 +128,7 @@ class Manager implements IManager {
 		return true;
 	}
 
-		/**
+	/**
 	 * Registers an callback function which must return an encryption module instance
 	 *
 	 * @param string $id

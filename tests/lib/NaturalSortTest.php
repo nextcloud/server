@@ -25,8 +25,8 @@ class NaturalSortTest extends \Test\TestCase {
 	}
 
 	/**
-	* @dataProvider defaultCollatorDataProvider
-	*/
+	 * @dataProvider defaultCollatorDataProvider
+	 */
 	public function testDefaultCollatorCompare($array, $sorted)
 	{
 		$comparator = new \OC\NaturalSort(new \OC\NaturalSort_DefaultCollator());
@@ -190,10 +190,10 @@ class NaturalSortTest extends \Test\TestCase {
 	}
 
 	/**
-	* Data provider for natural sorting with \OC\NaturalSort_DefaultCollator.
-	* Must provide the same result as in core/js/tests/specs/coreSpec.js
-	* @return array test cases
-	*/
+	 * Data provider for natural sorting with \OC\NaturalSort_DefaultCollator.
+	 * Must provide the same result as in core/js/tests/specs/coreSpec.js
+	 * @return array test cases
+	 */
 	public function defaultCollatorDataProvider()
 	{
 		return [
