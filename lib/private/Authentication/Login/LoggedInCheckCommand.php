@@ -27,11 +27,9 @@ namespace OC\Authentication\Login;
 
 use OC\Authentication\Events\LoginFailed;
 use OC\Core\Controller\LoginController;
-use OCP\Authentication\Events\LoginFailedEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IUserManager;
-use OCP\Util;
 
 class LoggedInCheckCommand extends ALoginCommand {
 

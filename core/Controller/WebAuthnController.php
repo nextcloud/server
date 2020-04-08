@@ -75,7 +75,7 @@ class WebAuthnController extends Controller {
 		Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
-			array('uid' => &$uid)
+			['uid' => &$uid]
 		);
 		$this->logger->debug('Got UID: ' . $uid);
 

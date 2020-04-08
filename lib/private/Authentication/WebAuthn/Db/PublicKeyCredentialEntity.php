@@ -27,7 +27,6 @@ namespace OC\Authentication\WebAuthn\Db;
 use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
 use Webauthn\PublicKeyCredentialSource;
-use Webauthn\TrustPath\TrustPathLoader;
 
 /**
  * @since 19.0.0
