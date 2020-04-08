@@ -104,6 +104,7 @@ use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Lockdown\LockdownManager;
 use OC\Log\LogFactory;
+use OC\Log\PsrLoggerAdapter;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Memcache\Factory;
@@ -225,6 +226,7 @@ use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use OCA\Files_External\Service\UserStoragesService;
@@ -723,6 +725,8 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(ILogger::class, \OC\Log::class);
 		$this->registerDeprecatedAlias('Logger', \OC\Log::class);
+		// PSR-3 logger
+		$this->registerAlias(LoggerInterface::class, PsrLoggerAdapter::class);
 
 		$this->registerService(ILogFactory::class, function (Server $c) {
 			return new LogFactory($c, $this->getSystemConfig());

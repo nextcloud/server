@@ -1114,6 +1114,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Log\\File' => __DIR__ . '/../../..' . '/lib/private/Log/File.php',
         'OC\\Log\\LogDetails' => __DIR__ . '/../../..' . '/lib/private/Log/LogDetails.php',
         'OC\\Log\\LogFactory' => __DIR__ . '/../../..' . '/lib/private/Log/LogFactory.php',
+        'OC\\Log\\PsrLoggerAdapter' => __DIR__ . '/../../..' . '/lib/private/Log/PsrLoggerAdapter.php',
         'OC\\Log\\Rotate' => __DIR__ . '/../../..' . '/lib/private/Log/Rotate.php',
         'OC\\Log\\Syslog' => __DIR__ . '/../../..' . '/lib/private/Log/Syslog.php',
         'OC\\Log\\Systemdlog' => __DIR__ . '/../../..' . '/lib/private/Log/Systemdlog.php',

@@ -1085,6 +1085,7 @@ return array(
     'OC\\Log\\File' => $baseDir . '/lib/private/Log/File.php',
     'OC\\Log\\LogDetails' => $baseDir . '/lib/private/Log/LogDetails.php',
     'OC\\Log\\LogFactory' => $baseDir . '/lib/private/Log/LogFactory.php',
+    'OC\\Log\\PsrLoggerAdapter' => $baseDir . '/lib/private/Log/PsrLoggerAdapter.php',
     'OC\\Log\\Rotate' => $baseDir . '/lib/private/Log/Rotate.php',
     'OC\\Log\\Syslog' => $baseDir . '/lib/private/Log/Syslog.php',
     'OC\\Log\\Systemdlog' => $baseDir . '/lib/private/Log/Systemdlog.php',
