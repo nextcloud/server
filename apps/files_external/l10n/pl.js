@@ -39,7 +39,7 @@ OC.L10N.register(
     "Username" : "Nazwa użytkownika",
     "Password" : "Hasło",
     "Credentials saved" : "Poświadczenia zapisane",
-    "Credentials saving failed" : "Poświadczenia oszczędności nie powiodło się",
+    "Credentials saving failed" : "Zapisywanie poświadczeń nie powiodło się",
     "Credentials required" : "Wymagane poświadczenia",
     "Storage with ID \"%d\" not found" : "Nie znaleziono magazynu o ID \"%d\"",
     "Invalid backend or authentication mechanism class" : "Nieprawidłowy mechanizm uwierzytelniania powrotu lub klasy",
