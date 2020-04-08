@@ -829,7 +829,7 @@ class Filesystem {
 		$patterns = [
 			'/\\\\/s',          // no windows style slashes
 			'/\/\.(\/\.)?\//s', // remove '/./'
-			'/\/{2,}/s',        // remove squence of slashes
+			'/\/{2,}/s',        // remove sequence of slashes
 			'/\/\.$/s',         // remove trailing /.
 		];
 
