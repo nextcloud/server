@@ -63,8 +63,8 @@ class SecurityProvider implements IProvider {
 			case 'twofactor_success':
 				$params = $event->getSubjectParameters();
 				$event->setParsedSubject($l->t('You successfully logged in using two-factor authentication (%1$s)', [
-							$params['provider'],
-					]));
+					$params['provider'],
+				]));
 				if ($this->activityManager->getRequirePNG()) {
 					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.png')));
 				} else {
@@ -74,8 +74,8 @@ class SecurityProvider implements IProvider {
 			case 'twofactor_failed':
 				$params = $event->getSubjectParameters();
 				$event->setParsedSubject($l->t('A login attempt using two-factor authentication failed (%1$s)', [
-							$params['provider'],
-					]));
+					$params['provider'],
+				]));
 				if ($this->activityManager->getRequirePNG()) {
 					$event->setIcon($this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'actions/password.png')));
 				} else {

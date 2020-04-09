@@ -4085,7 +4085,7 @@ class ShareAPIControllerTest extends TestCase {
 		$recipientGroup = $this->createMock('\OCP\IGroup');
 		$recipientGroup->method('getDisplayName')->willReturn('recipientGroupDisplayName');
 		$this->groupManager->method('get')->willReturnMap([
-			 ['recipientGroup', $recipientGroup],
+			['recipientGroup', $recipientGroup],
 		]);
 
 		$this->urlGenerator->method('linkToRouteAbsolute')

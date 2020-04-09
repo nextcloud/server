@@ -24,8 +24,8 @@ class RoutingTest extends \Test\TestCase
 
 	public function testSimpleOCSRoute() {
 		$routes = ['ocs' => [
-				['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'GET']
-			]
+			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'GET']
+		]
 		];
 
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'GET', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open');
@@ -42,8 +42,8 @@ class RoutingTest extends \Test\TestCase
 
 	public function testSimpleOCSRouteWithMissingVerb() {
 		$routes = ['ocs' => [
-				['name' => 'folders#open', 'url' => '/folders/{folderId}/open']
-			]
+			['name' => 'folders#open', 'url' => '/folders/{folderId}/open']
+		]
 		];
 
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'GET', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open');
@@ -60,8 +60,8 @@ class RoutingTest extends \Test\TestCase
 
 	public function testSimpleOCSRouteWithLowercaseVerb() {
 		$routes = ['ocs' => [
-				['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete']
-			]
+			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete']
+		]
 		];
 
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open');
@@ -78,8 +78,8 @@ class RoutingTest extends \Test\TestCase
 
 	public function testSimpleOCSRouteWithRequirements() {
 		$routes = ['ocs' => [
-				['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'requirements' => ['something']]
-			]
+			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'requirements' => ['something']]
+		]
 		];
 
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open', ['something']);
@@ -97,8 +97,8 @@ class RoutingTest extends \Test\TestCase
 
 	public function testSimpleOCSRouteWithDefaults() {
 		$routes = ['ocs' => [
-				['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'defaults' => ['param' => 'foobar']]
-			]
+			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'defaults' => ['param' => 'foobar']]
+		]
 		];
 
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open', [], ['param' => 'foobar']);
@@ -115,8 +115,8 @@ class RoutingTest extends \Test\TestCase
 
 	public function testSimpleOCSRouteWithPostfix() {
 		$routes = ['ocs' => [
-				['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'postfix' => '_something']
-			]
+			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'postfix' => '_something']
+		]
 		];
 
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open', [], [], '_something');
@@ -484,11 +484,11 @@ class RoutingTest extends \Test\TestCase
 # the section simple describes one route
 
 routes:
-        - name: folders#open
-          url: /folders/{folderId}/open
-          verb: GET
-          # controller: name.split()[0]
-          # action: name.split()[1]
+		- name: folders#open
+		  url: /folders/{folderId}/open
+		  verb: GET
+		  # controller: name.split()[0]
+		  # action: name.split()[1]
 
 # for a resource following actions will be generated:
 # - index
@@ -498,15 +498,15 @@ routes:
 # - destroy
 # - new
 resources:
-    accounts:
-        url: /accounts
+	accounts:
+		url: /accounts
 
-    folders:
-        url: /accounts/{accountId}/folders
-        # actions can be used to define additional actions on the resource
-        actions:
-            - name: validate
-              verb: GET
-              on-collection: false
+	folders:
+		url: /accounts/{accountId}/folders
+		# actions can be used to define additional actions on the resource
+		actions:
+			- name: validate
+			  verb: GET
+			  on-collection: false
 
  * */

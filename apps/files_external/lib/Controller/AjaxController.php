@@ -93,8 +93,8 @@ class AjaxController extends Controller {
 				'private_key' => $key['privatekey'],
 				'public_key' => $key['publickey']
 			],
-			'status' => 'success'
-		]);
+				'status' => 'success'
+			]);
 	}
 
 	/**

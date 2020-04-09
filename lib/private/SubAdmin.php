@@ -54,7 +54,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @param IDBConnection $dbConn
 	 */
 	public function __construct(IUserManager $userManager,
-	                            IGroupManager $groupManager,
+								IGroupManager $groupManager,
 								IDBConnection $dbConn) {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;

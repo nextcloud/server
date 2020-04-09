@@ -44,7 +44,7 @@ class TestConfig extends Command {
 					'configID',
 					InputArgument::REQUIRED,
 					'the configuration ID'
-				     )
+					 )
 		;
 	}
 

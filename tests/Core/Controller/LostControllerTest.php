@@ -695,7 +695,7 @@ class LostControllerTest extends \Test\TestCase {
 		$expectedResponse = [
 			'status' => 'error',
 			'msg' => 'Couldn\'t reset password because the token is invalid'
-			];
+		];
 		$this->assertSame($expectedResponse, $response);
 	}
 
@@ -734,7 +734,7 @@ class LostControllerTest extends \Test\TestCase {
 		$expectedResponse = [
 			'status' => 'error',
 			'msg' => 'Couldn\'t reset password because the token is invalid'
-			];
+		];
 		$this->assertSame($expectedResponse, $response);
 	}
 

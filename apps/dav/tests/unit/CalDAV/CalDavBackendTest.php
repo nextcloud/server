@@ -548,8 +548,8 @@ EOD;
 		$this->assertEquals($id, $subscriptions[0]['id']);
 
 		$patch = new PropPatch([
-				'{DAV:}displayname' => 'Unit test',
-				'{http://apple.com/ns/ical/}calendar-color' => '#ac0606',
+			'{DAV:}displayname' => 'Unit test',
+			'{http://apple.com/ns/ical/}calendar-color' => '#ac0606',
 		]);
 		$this->backend->updateSubscription($id, $patch);
 		$patch->commit();

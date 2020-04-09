@@ -198,8 +198,8 @@ class Response {
 	 */
 	public function addHeader($name, $value) {
 		$name = trim($name);  // always remove leading and trailing whitespace
-		                      // to be able to reliably check for security
-		                      // headers
+							  // to be able to reliably check for security
+							  // headers
 
 		if(is_null($value)) {
 			unset($this->headers[$name]);

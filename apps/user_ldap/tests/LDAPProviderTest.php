@@ -58,8 +58,8 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->setConstructorArgs(['', new \OC\Config(\OC::$configDir)])
 			 ->getMock();
 		$server->expects($this->at(1))
-            ->method('getBackends')
-            ->willReturn([$userBackend]);
+			->method('getBackends')
+			->willReturn([$userBackend]);
 		$server->expects($this->any())
 			->method('getUserManager')
 			->willReturn($this->getUserManagerMock($userBackend));
@@ -67,8 +67,8 @@ class LDAPProviderTest extends \Test\TestCase {
 			->method('getGroupManager')
 			->willReturn($this->getGroupManagerMock($groupBackend));
 		$server->expects($this->any())
-            ->method($this->anything())
-            ->willReturnSelf();
+			->method($this->anything())
+			->willReturnSelf();
 
 		return $server;
 	}
@@ -135,14 +135,14 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$userBackend->expects($this->at(0))
-            ->method('userExists')
-            ->willReturn(true);
+			->method('userExists')
+			->willReturn(true);
 		$userBackend->expects($this->at(2))
-            ->method('username2dn')
-            ->willReturn('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org');
+			->method('username2dn')
+			->willReturn('cn=existing_user,ou=Are Sufficient To,ou=Test,dc=example,dc=org');
 		$userBackend->expects($this->any())
-            ->method($this->anything())
-            ->willReturnSelf();
+			->method($this->anything())
+			->willReturnSelf();
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
@@ -207,8 +207,8 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$userBackend->expects($this->any())
-            ->method('dn2UserName')
-            ->willReturn('existing_user');
+			->method('dn2UserName')
+			->willReturn('existing_user');
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
@@ -272,11 +272,11 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$userBackend->expects($this->any())
-            ->method('userExists')
-            ->willReturn(true);
+			->method('userExists')
+			->willReturn(true);
 		$userBackend->expects($this->any())
-            ->method('getNewLDAPConnection')
-            ->willReturn(true);
+			->method('getNewLDAPConnection')
+			->willReturn(true);
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
@@ -381,8 +381,8 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$userBackend->expects($this->atLeastOnce())
-            ->method('userExists')
-            ->willReturn(true);
+			->method('userExists')
+			->willReturn(true);
 		$userBackend->expects($this->any())
 			->method('getLDAPAccess')
 			->willReturn($access);
@@ -437,8 +437,8 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$userBackend->expects($this->any())
-            ->method('userExists')
-            ->willReturn(true);
+			->method('userExists')
+			->willReturn(true);
 		$userBackend->expects($this->any())
 			->method('getLDAPAccess')
 			->willReturn($access);
@@ -472,14 +472,14 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$userBackend->expects($this->at(0))
-            ->method('userExists')
-            ->willReturn(true);
+			->method('userExists')
+			->willReturn(true);
 		$userBackend->expects($this->at(3))
-            ->method('clearCache')
-            ->willReturn(true);
+			->method('clearCache')
+			->willReturn(true);
 		$userBackend->expects($this->any())
-            ->method($this->anything())
-            ->willReturnSelf();
+			->method($this->anything())
+			->willReturnSelf();
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 
@@ -539,8 +539,8 @@ class LDAPProviderTest extends \Test\TestCase {
 			 ->disableOriginalConstructor()
 			 ->getMock();
 		$userBackend->expects($this->any())
-            ->method('dn2UserName')
-            ->willReturn('existing_user');
+			->method('dn2UserName')
+			->willReturn('existing_user');
 
 		$server = $this->getServerMock($userBackend, $this->getDefaultGroupBackendMock());
 

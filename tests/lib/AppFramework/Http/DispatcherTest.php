@@ -296,8 +296,8 @@ class DispatcherTest extends \Test\TestCase {
 		$this->request = new Request(
 			[
 				'post' => [
-				'int' => '3',
-				'bool' => 'false'
+					'int' => '3',
+					'bool' => 'false'
 				],
 				'method' => 'POST'
 			],

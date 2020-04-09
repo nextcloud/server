@@ -56,13 +56,13 @@ class SettingsTest extends TestCase  {
 		];
 
 		$after = [
-				'oc_appconfig' =>
-					json_encode([
-						'key1' => 'value1',
-						'key2' => 'value2',
-						'shareByMailEnabled' => true
-					]),
-				'oc_foo' => 'oc_bar'
+			'oc_appconfig' =>
+				json_encode([
+					'key1' => 'value1',
+					'key2' => 'value2',
+					'shareByMailEnabled' => true
+				]),
+			'oc_foo' => 'oc_bar'
 		];
 
 		$this->instance->announceShareProvider(['array' => &$before]);

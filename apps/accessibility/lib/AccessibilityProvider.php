@@ -72,12 +72,12 @@ class AccessibilityProvider {
 
 	public function getHighContrast() {
 		return [
-				'id'    => 'highcontrast',
-				'img'   => $this->urlGenerator->imagePath($this->appName, 'mode-highcontrast.jpg'),
-				'title' => $this->l->t('High contrast mode'),
-				'enableLabel' => $this->l->t('Enable high contrast mode'),
-				'text'  => $this->l->t('A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased.')
-			];
+			'id'    => 'highcontrast',
+			'img'   => $this->urlGenerator->imagePath($this->appName, 'mode-highcontrast.jpg'),
+			'title' => $this->l->t('High contrast mode'),
+			'enableLabel' => $this->l->t('Enable high contrast mode'),
+			'text'  => $this->l->t('A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased.')
+		];
 	}
 
 	public function getFonts() {

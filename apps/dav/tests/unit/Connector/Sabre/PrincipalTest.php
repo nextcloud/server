@@ -335,7 +335,7 @@ class PrincipalTest extends TestCase {
 			'principals/groups/group1',
 			'principals/groups/foo%2Fbar',
 			'proxyId1/calendar-proxy-read',
-    		'proxyId2/calendar-proxy-write',
+			'proxyId2/calendar-proxy-write',
 		];
 		$response = $this->connector->getGroupMembership('principals/users/foo');
 		$this->assertSame($expectedResponse, $response);
@@ -545,9 +545,9 @@ class PrincipalTest extends TestCase {
 			->willReturn([$user2, $user3]);
 
 		$this->assertEquals([
-				'principals/users/user2',
-				'principals/users/user3',
-			], $this->connector->searchPrincipals('principals/users',
+			'principals/users/user2',
+			'principals/users/user3',
+		], $this->connector->searchPrincipals('principals/users',
 			['{urn:ietf:params:xml:ns:caldav}calendar-user-address-set' => 'user@example.com']));
 	}
 

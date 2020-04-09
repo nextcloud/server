@@ -124,8 +124,8 @@ class ManagerTest extends \Test\TestCase {
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
 			->willReturnCallback(function($text, $parameters = []) {
- 				return vsprintf($text, $parameters);
- 			});
+				return vsprintf($text, $parameters);
+			});
 
 		$this->factory = new DummyFactory(\OC::$server);
 
@@ -492,7 +492,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testVerifyPasswordNull() {
 		$this->config->method('getAppValue')->willReturnMap([
-				['core', 'shareapi_enforce_links_password', 'no', 'no'],
+			['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]);
 
 		$result = self::invokePrivate($this->manager, 'verifyPassword', [null]);
@@ -501,7 +501,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testVerifyPasswordHook() {
 		$this->config->method('getAppValue')->willReturnMap([
-				['core', 'shareapi_enforce_links_password', 'no', 'no'],
+			['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]);
 
 		$this->eventDispatcher->expects($this->once())->method('dispatch')
@@ -522,7 +522,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->expectExceptionMessage('password not accepted');
 
 		$this->config->method('getAppValue')->willReturnMap([
-				['core', 'shareapi_enforce_links_password', 'no', 'no'],
+			['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]);
 
 		$this->eventDispatcher->expects($this->once())->method('dispatch')
@@ -1096,7 +1096,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 
- 	public function testUserCreateChecksIdenticalPathSharedViaGroup() {
+	public function testUserCreateChecksIdenticalPathSharedViaGroup() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Path is already shared with this user');
 
@@ -1137,7 +1137,7 @@ class ManagerTest extends \Test\TestCase {
 		self::invokePrivate($this->manager, 'userCreateChecks', [$share]);
 	}
 
- 	public function testUserCreateChecksIdenticalPathSharedViaDeletedGroup() {
+	public function testUserCreateChecksIdenticalPathSharedViaDeletedGroup() {
 		$share  = $this->manager->newShare();
 
 		$sharedWith = $this->createMock(IUser::class);
@@ -2410,8 +2410,8 @@ class ManagerTest extends \Test\TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->willReturnMap([
-			['core', 'shareapi_allow_public_upload', 'yes', 'no'],
-		]);
+				['core', 'shareapi_allow_public_upload', 'yes', 'no'],
+			]);
 
 		$this->defaultProvider->expects($this->once())
 			->method('getShareByToken')

@@ -69,8 +69,8 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 
 	private function cssResourceLocator() {
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
-                $factory = $this->createMock(Factory::class);
-                $factory->method('get')->with('css')->willReturn($this->appData);
+				$factory = $this->createMock(Factory::class);
+				$factory->method('get')->with('css')->willReturn($this->appData);
 		$scssCacher = new SCSSCacher(
 			$this->logger,
 			$factory,
@@ -130,10 +130,10 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 
 		// Use the symlink as the app path
 		\OC::$APPSROOTS[] = [
-                        'path' => $new_apps_path_symlink,
-                        'url' => '/css-apps-test',
-                        'writable' => false,
-                ];
+			'path' => $new_apps_path_symlink,
+			'url' => '/css-apps-test',
+			'writable' => false,
+		];
 
 		$locator = $this->cssResourceLocator();
 		$locator->find(['test-css-app/test-file']);

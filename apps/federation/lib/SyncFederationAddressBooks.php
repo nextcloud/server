@@ -78,7 +78,7 @@ class SyncFederationAddressBooks {
 			$targetBookId = $trustedServer['url_hash'];
 			$targetPrincipal = "principals/system/system";
 			$targetBookProperties = [
-					'{DAV:}displayname' => $url
+				'{DAV:}displayname' => $url
 			];
 			try {
 				$newToken = $this->syncService->syncRemoteAddressBook($url, $cardDavUser, $addressBookUrl, $sharedSecret, $syncToken, $targetBookId, $targetPrincipal, $targetBookProperties);

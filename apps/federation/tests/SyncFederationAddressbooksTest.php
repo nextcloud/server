@@ -54,13 +54,13 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 			getMock();
 		$dbHandler->method('getAllServer')->
 			willReturn([
-			[
-				'url' => 'https://cloud.drop.box',
-				'url_hash' => 'sha1',
-				'shared_secret' => 'iloveowncloud',
-				'sync_token' => '0'
-			]
-		]);
+				[
+					'url' => 'https://cloud.drop.box',
+					'url_hash' => 'sha1',
+					'shared_secret' => 'iloveowncloud',
+					'sync_token' => '0'
+				]
+			]);
 		$dbHandler->expects($this->once())->method('setServerStatus')->
 			with('https://cloud.drop.box', 1, '1');
 		$syncService = $this->getMockBuilder('OCA\DAV\CardDAV\SyncService')

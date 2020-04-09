@@ -838,7 +838,7 @@ class DefaultShareProvider implements IShareProvider {
 		$pathSections = explode('/', $data['path'], 2);
 		// FIXME: would not detect rare md5'd home storage case properly
 		if ($pathSections[0] !== 'files'
-		    	&& in_array(explode(':', $data['storage_string_id'], 2)[0], ['home', 'object'])) {
+				&& in_array(explode(':', $data['storage_string_id'], 2)[0], ['home', 'object'])) {
 			return false;
 		}
 		return true;
@@ -961,8 +961,8 @@ class DefaultShareProvider implements IShareProvider {
 			}
 
 			/*
- 			 * Resolve all group shares to user specific shares
- 			 */
+			 * Resolve all group shares to user specific shares
+			 */
 			$shares = $this->resolveGroupShares($shares2, $userId);
 		} else {
 			throw new BackendError('Invalid backend');

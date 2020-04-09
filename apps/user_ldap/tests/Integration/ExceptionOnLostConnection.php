@@ -175,8 +175,8 @@ class ExceptionOnLostConnection {
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, [
-				'Content-Type: application/json',
-				'Content-Length: ' . strlen($postData)]
+			'Content-Type: application/json',
+			'Content-Length: ' . strlen($postData)]
 		);
 		$recvd = curl_exec($ch);
 		$this->checkCurlResult($ch, $recvd);

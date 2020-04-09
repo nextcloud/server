@@ -227,7 +227,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 	public function testDeleteUnexistingStorage() {
 		$this->expectException(\DomainException::class);
 
-	    $this->actualDeletedUnexistingStorageTest();
+		$this->actualDeletedUnexistingStorageTest();
 	}
 
 	public function getUniqueStoragesProvider() {

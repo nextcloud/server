@@ -59,27 +59,27 @@ class Search extends Command {
 					'search',
 					InputArgument::REQUIRED,
 					'the search string (can be empty)'
-				     )
+					 )
 			->addOption(
 					'group',
 					null,
 					InputOption::VALUE_NONE,
 					'searches groups instead of users'
-				     )
+					 )
 			->addOption(
 					'offset',
 					null,
 					InputOption::VALUE_REQUIRED,
 					'The offset of the result set. Needs to be a multiple of limit. defaults to 0.',
 					0
-				     )
+					 )
 			->addOption(
 					'limit',
 					null,
 					InputOption::VALUE_REQUIRED,
 					'limit the results. 0 means no limit, defaults to 15',
 					15
-				     )
+					 )
 		;
 	}
 

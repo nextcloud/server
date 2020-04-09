@@ -1359,7 +1359,7 @@ class Share extends Constants {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`,'
 							. '`*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`,'
 							. '`file_source`, `path`, `file_target`, `*PREFIX*share`.`permissions`,'
-						    . '`stime`, `expiration`, `token`, `storage`, `mail_send`,'
+							. '`stime`, `expiration`, `token`, `storage`, `mail_send`,'
 							. '`*PREFIX*storages`.`id` AS `storage_id`, `*PREFIX*filecache`.`parent` as `file_parent`';
 					}
 				}

@@ -53,7 +53,7 @@ class DataResponse extends Response {
 	 * @since 8.0.0
 	 */
 	public function __construct($data=[], $statusCode=Http::STATUS_OK,
-	                            array $headers=[]) {
+								array $headers=[]) {
 		parent::__construct();
 
 		$this->data = $data;

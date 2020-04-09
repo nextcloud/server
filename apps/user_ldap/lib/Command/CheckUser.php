@@ -70,13 +70,13 @@ class CheckUser extends Command {
 					'ocName',
 					InputArgument::REQUIRED,
 					'the user name as used in Nextcloud'
-				     )
+					 )
 			->addOption(
 					'force',
 					null,
 					InputOption::VALUE_NONE,
 					'ignores disabled LDAP configuration'
-				     )
+					 )
 			->addOption(
 				'update',
 				null,

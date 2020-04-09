@@ -80,7 +80,7 @@ class AppTest extends \Test\TestCase {
 
 		$xml = '<?xml version="1.0" encoding="UTF-8"?>' .
 		'<info>' .
-		    '<id>namespacetestapp</id>' .
+			'<id>namespacetestapp</id>' .
 			'<namespace>NameSpaceTestApp</namespace>' .
 		'</info>';
 		file_put_contents($infoXmlPath, $xml);

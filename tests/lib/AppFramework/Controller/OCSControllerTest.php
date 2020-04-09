@@ -108,7 +108,7 @@ class OCSControllerTest extends \Test\TestCase {
 		));
 		$controller->setOCSVersion(1);
 		$expected = '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK",' .
-		            '"totalitems":"","itemsperpage":""},"data":{"test":"hi"}}}';
+					'"totalitems":"","itemsperpage":""},"data":{"test":"hi"}}}';
 		$params = new DataResponse(['test' => 'hi']);
 
 		$response = $controller->buildResponse($params, 'json');

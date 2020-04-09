@@ -282,8 +282,8 @@ class AvatarController extends Controller {
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
-										'message' => $this->l->t("No temporary profile picture available, try again")
-									]],
+				'message' => $this->l->t("No temporary profile picture available, try again")
+			]],
 									Http::STATUS_NOT_FOUND);
 		}
 
@@ -320,8 +320,8 @@ class AvatarController extends Controller {
 		$tmpAvatar = $this->cache->get('tmpAvatar');
 		if (is_null($tmpAvatar)) {
 			return new JSONResponse(['data' => [
-										'message' => $this->l->t("No temporary profile picture available, try again")
-									]],
+				'message' => $this->l->t("No temporary profile picture available, try again")
+			]],
 									Http::STATUS_BAD_REQUEST);
 		}
 

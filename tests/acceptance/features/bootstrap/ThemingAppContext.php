@@ -97,7 +97,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 			$colorSelectorValue = $this->getRGBArray($actor->getSession()->evaluateScript("return $('#theming-color')[0].value;"));
 			$inputBgColor = $this->getRGBArray($actor->getSession()->evaluateScript("return $('#theming-color').css('background-color');"));
 			if ($colorSelectorValue == $inputBgColor) {
-			    return true;
+				return true;
 			}
 
 			return false;
@@ -109,19 +109,19 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 	}
 
 	private function getRGBArray ($color) {
-	    if (preg_match("/rgb\(\s*(\d+),\s*(\d+),\s*(\d+)\)/", $color, $matches)) {
+		if (preg_match("/rgb\(\s*(\d+),\s*(\d+),\s*(\d+)\)/", $color, $matches)) {
 		// Already an RGB (R, G, B) color
 		// Convert from "rgb(R, G, B)" string to RGB array
 		$tmpColor = array_splice($matches, 1);
-	    } else if ($color[0] === '#') {
+		} else if ($color[0] === '#') {
 		$color = substr($color, 1);
 		// HEX Color, convert to RGB array.
 		$tmpColor = sscanf($color, "%02X%02X%02X");
-	    } else {
+		} else {
 		PHPUnit_Framework_Assert::fail("The acceptance test does not know how to handle the color string : '$color'. "
 			. "Please provide # before HEX colors in your features.");
-	    }
-	    return $tmpColor;
+		}
+		return $tmpColor;
 	}
 
 	/**

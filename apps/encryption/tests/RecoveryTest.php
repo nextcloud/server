@@ -110,8 +110,8 @@ class RecoveryTest extends TestCase {
 		$this->cryptMock->expects($this->once())
 			->method('createKeyPair')
 			->willReturn([
-					'publicKey' => 'privateKey',
-					'privateKey' => 'publicKey',
+				'publicKey' => 'privateKey',
+				'privateKey' => 'publicKey',
 			]);
 
 		$this->keyManagerMock->expects($this->once())

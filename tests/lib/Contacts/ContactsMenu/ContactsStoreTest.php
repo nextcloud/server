@@ -73,7 +73,7 @@ class ContactsStoreTest extends TestCase {
 						'darren@roner.au'
 					],
 				],
-		]);
+			]);
 		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('user123');
@@ -83,7 +83,7 @@ class ContactsStoreTest extends TestCase {
 		$this->assertCount(2, $entries);
 		$this->assertEquals([
 			'darren@roner.au'
-			], $entries[1]->getEMailAddresses());
+		], $entries[1]->getEMailAddresses());
 	}
 
 	public function testGetContactsHidesOwnEntry() {
@@ -103,7 +103,7 @@ class ContactsStoreTest extends TestCase {
 						'darren@roner.au'
 					],
 				],
-		]);
+			]);
 		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('user123');
@@ -131,7 +131,7 @@ class ContactsStoreTest extends TestCase {
 					],
 					'PHOTO' => base64_encode('photophotophoto'),
 				],
-		]);
+			]);
 		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('user123');
@@ -160,7 +160,7 @@ class ContactsStoreTest extends TestCase {
 					],
 					'PHOTO' => 'VALUE=uri:https://photo',
 				],
-		]);
+			]);
 		$user->expects($this->once())
 			->method('getUID')
 			->willReturn('user123');

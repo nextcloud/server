@@ -53,7 +53,7 @@ class ConfigurationTest extends \Test\TestCase {
 			' ',
 			'',
 			' whats my name',
-		    '	'
+			'	'
 		];
 		$expectedNames = ['uid', 'cn', 'whats my name'];
 

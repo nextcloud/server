@@ -192,9 +192,9 @@ class ConverterTest extends  TestCase {
 
 	public function providesNames() {
 		return [
-				['Sauron;;;;', 'Sauron'],
-				['Baggins;Bilbo;;;', 'Bilbo Baggins'],
-				['Tolkien;John;Ronald Reuel;;', 'John Ronald Reuel Tolkien'],
+			['Sauron;;;;', 'Sauron'],
+			['Baggins;Bilbo;;;', 'Bilbo Baggins'],
+			['Tolkien;John;Ronald Reuel;;', 'John Ronald Reuel Tolkien'],
 		];
 	}
 

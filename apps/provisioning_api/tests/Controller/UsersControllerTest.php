@@ -157,10 +157,10 @@ class UsersControllerTest extends TestCase {
 			->willReturn(['Admin' => [], 'Foo' => [], 'Bar' => []]);
 
 		$expected = ['users' => [
-				'Admin',
-				'Foo',
-				'Bar',
-			],
+			'Admin',
+			'Foo',
+			'Bar',
+		],
 		];
 		$this->assertEquals($expected, $this->api->getUsers('MyCustomSearch')->getData());
 	}

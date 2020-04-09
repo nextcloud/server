@@ -772,7 +772,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			[
 				'calendarId' => $calendarId,
 				'calendarData' => $this->getCalendarById($calendarId),
-		]));
+			]));
 
 		return $calendarId;
 	}
@@ -833,7 +833,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					'calendarData' => $this->getCalendarById($calendarId),
 					'shares' => $this->getShares($calendarId),
 					'propertyMutations' => $mutations,
-			]));
+				]));
 
 			return true;
 		});
@@ -852,7 +852,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'calendarId' => $calendarId,
 				'calendarData' => $this->getCalendarById($calendarId),
 				'shares' => $this->getShares($calendarId),
-		]));
+			]));
 
 		$stmt = $this->db->prepare('DELETE FROM `*PREFIX*calendarobjects` WHERE `calendarid` = ? AND `calendartype` = ?');
 		$stmt->execute([$calendarId, self::CALENDAR_TYPE_CALENDAR]);
@@ -2095,11 +2095,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		}
 
 		return [
-				'uri'          => $row['uri'],
-				'calendardata' => $row['calendardata'],
-				'lastmodified' => $row['lastmodified'],
-				'etag'         => '"' . $row['etag'] . '"',
-				'size'         => (int)$row['size'],
+			'uri'          => $row['uri'],
+			'calendardata' => $row['calendardata'],
+			'lastmodified' => $row['lastmodified'],
+			'etag'         => '"' . $row['etag'] . '"',
+			'size'         => (int)$row['size'],
 		];
 	}
 
@@ -2124,11 +2124,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$result = [];
 		foreach($stmt->fetchAll(\PDO::FETCH_ASSOC) as $row) {
 			$result[] = [
-					'calendardata' => $row['calendardata'],
-					'uri'          => $row['uri'],
-					'lastmodified' => $row['lastmodified'],
-					'etag'         => '"' . $row['etag'] . '"',
-					'size'         => (int)$row['size'],
+				'calendardata' => $row['calendardata'],
+				'uri'          => $row['uri'],
+				'lastmodified' => $row['lastmodified'],
+				'etag'         => '"' . $row['etag'] . '"',
+				'size'         => (int)$row['size'],
 			];
 		}
 

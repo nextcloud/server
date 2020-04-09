@@ -118,7 +118,7 @@ class Http extends BaseHttp {
 	 * @return string
 	 */
 	public function getStatusHeader($status, \DateTime $lastModified=null, 
-	                                $ETag=null) {
+									$ETag=null) {
 
 		if(!is_null($lastModified)) {
 			$lastModified = $lastModified->format(\DateTime::RFC2822);

@@ -258,7 +258,7 @@ class GroupsControllerTest extends \Test\TestCase {
 				'canAdd' => true,
 				'canRemove' => true
 				
-				]
+			]
 		]], $result->getData());
 
 	}

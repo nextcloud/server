@@ -152,12 +152,12 @@ class SearchTest extends TestCase {
 			],
 			[
 				'test', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, [
-				['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-			], [
-				['label' => 'testgroup1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
-			], [
-				'results' => [['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false,
-			],
+					['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				], [
+					['label' => 'testgroup1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
+				], [
+					'results' => [['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false,
+				],
 				[
 					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
 					'users' => [
@@ -174,10 +174,10 @@ class SearchTest extends TestCase {
 			// No groups requested
 			[
 				'test', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_REMOTE], 1, 2, [
-				['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-			], [], [
-				'results' => [['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false
-			],
+					['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				], [], [
+					'results' => [['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false
+				],
 				[
 					'exact' => ['users' => [], 'remotes' => []],
 					'users' => [
@@ -191,8 +191,8 @@ class SearchTest extends TestCase {
 			// Share type restricted to user - Only one user
 			[
 				'test', [Share::SHARE_TYPE_USER], 1, 2, [
-				['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-			], [], [],
+					['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				], [], [],
 				[
 					'exact' => ['users' => []],
 					'users' => [
@@ -203,9 +203,9 @@ class SearchTest extends TestCase {
 			// Share type restricted to user - Multipage result
 			[
 				'test', [Share::SHARE_TYPE_USER], 1, 2, [
-				['label' => 'test 1', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-				['label' => 'test 2', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
-			], [], [],
+					['label' => 'test 1', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'test 2', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				], [], [],
 				[
 					'exact' => ['users' => []],
 					'users' => [

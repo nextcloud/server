@@ -134,8 +134,8 @@ class FakeLockerPlugin extends ServerPlugin {
 		$lockInfo->timeout = 1800;
 
 		$body = $this->server->xml->write('{DAV:}prop', [
-				'{DAV:}lockdiscovery' =>
-						new LockDiscovery([$lockInfo])
+			'{DAV:}lockdiscovery' =>
+					new LockDiscovery([$lockInfo])
 		]);
 
 		$response->setStatus(200);

@@ -73,9 +73,9 @@ class ClearGeneratedAvatarCacheTest extends \Test\TestCase {
 	 */
 	public function testShouldRun($from, $expected) {
 		$this->config->expects($this->any())
-		       ->method('getSystemValue')
-		       ->with('version', '0.0.0.0')
-		       ->willReturn($from);
+			   ->method('getSystemValue')
+			   ->with('version', '0.0.0.0')
+			   ->willReturn($from);
 
 		$this->assertEquals($expected, $this->invokePrivate($this->repair, 'shouldRun'));
 	}

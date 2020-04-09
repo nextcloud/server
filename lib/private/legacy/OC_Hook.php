@@ -71,8 +71,8 @@ class OC_Hook {
 		}
 		// Connect the hook handler to the requested emitter
 		self::$registered[$signalClass][$signalName][] = [
-				"class" => $slotClass,
-				"name" => $slotName
+			"class" => $slotClass,
+			"name" => $slotName
 		];
 
 		// No chance for failure ;-)

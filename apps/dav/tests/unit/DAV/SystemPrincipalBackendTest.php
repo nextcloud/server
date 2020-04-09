@@ -48,10 +48,10 @@ class SystemPrincipalBackendTest extends TestCase {
 				'uri' => 'principals/system/system',
 				'{DAV:}displayname' => 'system',
 			],
-			[
-				'uri' => 'principals/system/public',
-				'{DAV:}displayname' => 'public',
-			]
+				[
+					'uri' => 'principals/system/public',
+					'{DAV:}displayname' => 'public',
+				]
 			], 'principals/system'],
 		];
 	}
@@ -125,7 +125,7 @@ class SystemPrincipalBackendTest extends TestCase {
 
 	public function providesPrincipalForGetGroupMembership() {
 		return [
-				['principals/system/a'],
+			['principals/system/a'],
 		];
 	}
 

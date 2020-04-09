@@ -148,7 +148,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->dateTimeFormatter,
 				$this->memoryInfo,
 				$this->secureRandom,
-				])
+			])
 			->setMethods([
 				'isReadOnlyConfig',
 				'hasValidTransactionIsolationLevel',
@@ -203,7 +203,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('has_internet_connection', true)
-            ->willReturn(true);
+			->willReturn(true);
 
 		$this->config->expects($this->at(1))
 			->method('getSystemValue')
@@ -232,7 +232,7 @@ class CheckSetupControllerTest extends TestCase {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
 			->with('has_internet_connection', true)
-            ->willReturn(true);
+			->willReturn(true);
 
 		$this->config->expects($this->at(1))
 			->method('getSystemValue')
@@ -956,7 +956,7 @@ class CheckSetupControllerTest extends TestCase {
 				'No errors have been found.',
 				Http::STATUS_OK,
 				[
-						'Content-Type' => 'text/plain',
+					'Content-Type' => 'text/plain',
 				]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
@@ -1367,7 +1367,7 @@ Array
 ',
 				Http::STATUS_OK,
 				[
-						'Content-Type' => 'text/plain',
+					'Content-Type' => 'text/plain',
 				]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
