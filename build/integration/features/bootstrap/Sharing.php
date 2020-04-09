@@ -742,4 +742,3 @@ trait Sharing {
 		return $sharees;
 	}
 }
-

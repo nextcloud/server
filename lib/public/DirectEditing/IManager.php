@@ -87,4 +87,3 @@ interface IManager {
 	public function cleanup(): int;
 
 }
-

@@ -167,4 +167,3 @@ trait Trashbin {
 		return;
 	}
 }
-

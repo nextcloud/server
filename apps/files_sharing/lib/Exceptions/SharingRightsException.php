@@ -36,4 +36,3 @@ use Exception;
 class SharingRightsException extends Exception {
 
 }
-

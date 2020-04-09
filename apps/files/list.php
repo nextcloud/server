@@ -37,4 +37,3 @@ $tmpl = new OCP\Template('files', 'list', '');
 $tmpl->assign('showgridview', $showgridview && !$isIE);
 $tmpl->assign('publicUploadEnabled', $publicUploadEnabled);
 $tmpl->printPage();
-

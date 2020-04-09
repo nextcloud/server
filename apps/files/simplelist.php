@@ -35,4 +35,3 @@ $tmpl = new OCP\Template('files', 'simplelist', '');
 // gridview not available for ie
 $tmpl->assign('showgridview', $showgridview && !$isIE);
 $tmpl->printPage();
-
