@@ -197,12 +197,14 @@ class NativeShare extends AbstractShare {
 	 */
 	public function put($source, $target) {
 		$sourceHandle = fopen($source, 'rb');
-		$targetHandle = $this->getState()->create($this->buildUrl($target));
+		$targetUrl = $this->buildUrl($target);
+
+		$targetHandle = $this->getState()->create($targetUrl);
 
 		while ($data = fread($sourceHandle, NativeReadStream::CHUNK_SIZE)) {
-			$this->getState()->write($targetHandle, $data);
+			$this->getState()->write($targetHandle, $data, $targetUrl);
 		}
-		$this->getState()->close($targetHandle);
+		$this->getState()->close($targetHandle, $targetUrl);
 		return true;
 	}
 
@@ -236,14 +238,14 @@ class NativeShare extends AbstractShare {
 			} else {
 				$reason = 'Unknown error';
 			}
-			$this->getState()->close($sourceHandle);
+			$this->getState()->close($sourceHandle, $this->buildUrl($source));
 			throw new InvalidResourceException('Failed opening local file "' . $target . '" for writing: ' . $reason);
 		}
 
 		while ($data = $this->getState()->read($sourceHandle, NativeReadStream::CHUNK_SIZE)) {
 			fwrite($targetHandle, $data);
 		}
-		$this->getState()->close($sourceHandle);
+		$this->getState()->close($sourceHandle, $this->buildUrl($source));
 		return true;
 	}
 
