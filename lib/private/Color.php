@@ -24,7 +24,9 @@
 namespace OC;
 
 class Color {
-	public $r, $g, $b;
+	public $r;
+	public $g;
+	public $b;
 	public function __construct($r, $g, $b) {
 		$this->r = $r;
 		$this->g = $g;
