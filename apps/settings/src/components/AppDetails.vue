@@ -21,76 +21,74 @@
   -->
 
 <template>
-	<div id="app-details-view" style="padding: 20px;">
-		<div class="actions">
-			<div class="actions-buttons">
+	<div class="app-details">
+		<div class="app-details__actions">
+			<div v-if="app.active && canLimitToGroups(app)" class="app-details__actions-groups">
+				<input :id="prefix('groups_enable', app.id)"
+					v-model="groupCheckedAppsData"
+					type="checkbox"
+					:value="app.id"
+					class="groups-enable__checkbox checkbox"
+					@change="setGroupLimit">
+				<label :for="prefix('groups_enable', app.id)">{{ t('settings', 'Limit to groups') }}</label>
+				<input type="hidden"
+					class="group_select"
+					:title="t('settings', 'All')"
+					value="">
+				<Multiselect v-if="isLimitedToGroups(app)"
+					:options="groups"
+					:value="appGroups"
+					:options-limit="5"
+					:placeholder="t('settings', 'Limit app usage to groups')"
+					label="name"
+					track-by="id"
+					class="multiselect-vue"
+					:multiple="true"
+					:close-on-select="false"
+					:tag-width="60"
+					@select="addGroupLimitation"
+					@remove="removeGroupLimitation"
+					@search-change="asyncFindGroup">
+					<span slot="noResult">{{ t('settings', 'No results') }}</span>
+				</Multiselect>
+			</div>
+			<div class="app-details__actions-manage">
 				<input v-if="app.update"
 					class="update primary"
 					type="button"
-					:value="t('settings', 'Update to {version}', {version: app.update})"
-					:disabled="installing || loading(app.id)"
+					:value="t('settings', 'Update to {version}', { version: app.update })"
+					:disabled="installing || isLoading"
 					@click="update(app.id)">
 				<input v-if="app.canUnInstall"
 					class="uninstall"
 					type="button"
 					:value="t('settings', 'Remove')"
-					:disabled="installing || loading(app.id)"
+					:disabled="installing || isLoading"
 					@click="remove(app.id)">
 				<input v-if="app.active"
 					class="enable"
 					type="button"
 					:value="t('settings','Disable')"
-					:disabled="installing || loading(app.id)"
+					:disabled="installing || isLoading"
 					@click="disable(app.id)">
 				<input v-if="!app.active && (app.canInstall || app.isCompatible)"
 					v-tooltip.auto="enableButtonTooltip"
 					class="enable primary"
 					type="button"
 					:value="enableButtonText"
-					:disabled="!app.canInstall || installing || loading(app.id)"
+					:disabled="!app.canInstall || installing || isLoading"
 					@click="enable(app.id)">
-				<input v-else-if="!app.active"
+				<input v-else-if="!app.active && !app.canInstall"
 					v-tooltip.auto="forceEnableButtonTooltip"
 					class="enable force"
 					type="button"
 					:value="forceEnableButtonText"
-					:disabled="installing || loading(app.id)"
+					:disabled="installing || isLoading"
 					@click="forceEnable(app.id)">
-			</div>
-			<div class="app-groups">
-				<div v-if="app.active && canLimitToGroups(app)" class="groups-enable">
-					<input :id="prefix('groups_enable', app.id)"
-						v-model="groupCheckedAppsData"
-						type="checkbox"
-						:value="app.id"
-						class="groups-enable__checkbox checkbox"
-						@change="setGroupLimit">
-					<label :for="prefix('groups_enable', app.id)">{{ t('settings', 'Limit to groups') }}</label>
-					<input type="hidden"
-						class="group_select"
-						:title="t('settings', 'All')"
-						value="">
-					<Multiselect v-if="isLimitedToGroups(app)"
-						:options="groups"
-						:value="appGroups"
-						:options-limit="5"
-						:placeholder="t('settings', 'Limit app usage to groups')"
-						label="name"
-						track-by="id"
-						class="multiselect-vue"
-						:multiple="true"
-						:close-on-select="false"
-						:tag-width="60"
-						@select="addGroupLimitation"
-						@remove="removeGroupLimitation"
-						@search-change="asyncFindGroup">
-						<span slot="noResult">{{ t('settings', 'No results') }}</span>
-					</Multiselect>
-				</div>
 			</div>
 		</div>
 
-		<ul class="app-dependencies">
+		<ul class="app-details__dependencies">
 			<li v-if="app.missingMinOwnCloudVersion">
 				{{ t('settings', 'This app has no minimum Nextcloud version assigned. This will be an error in the future.') }}
 			</li>
@@ -107,7 +105,7 @@
 			</li>
 		</ul>
 
-		<p class="documentation">
+		<p class="app-details__documentation">
 			<a v-if="!app.internal"
 				class="appslink"
 				:href="appstoreUrl"
@@ -142,7 +140,7 @@
 				rel="noreferrer noopener">{{ t('settings', 'Developer documentation') }} ↗</a>
 		</p>
 
-		<div class="app-description" v-html="renderMarkdown" />
+		<div class="app-details__description" v-html="renderMarkdown" />
 	</div>
 </template>
 
@@ -151,7 +149,6 @@ import { Multiselect } from '@nextcloud/vue'
 import marked from 'marked'
 import dompurify from 'dompurify'
 
-import AppScore from './AppList/AppScore'
 import AppManagement from '../mixins/AppManagement'
 import PrefixMixin from './PrefixMixin'
 
@@ -160,11 +157,15 @@ export default {
 
 	components: {
 		Multiselect,
-		AppScore,
 	},
 	mixins: [AppManagement, PrefixMixin],
 
-	props: ['category', 'app'],
+	props: {
+		app: {
+			type: Object,
+			required: true,
+		},
+	},
 
 	data() {
 		return {
@@ -181,9 +182,6 @@ export default {
 				return t('settings', '{license}-licensed', { license: ('' + this.app.licence).toUpperCase() })
 			}
 			return null
-		},
-		hasRating() {
-			return this.app.appstoreData && this.app.appstoreData.ratingNumOverall > 5
 		},
 		author() {
 			if (typeof this.app.author === 'string') {
@@ -275,16 +273,45 @@ export default {
 }
 </script>
 
-<style scoped>
-	.force {
-		background: var(--color-main-background);
-		border-color: var(--color-error);
-		color: var(--color-error);
+<style scoped lang="scss">
+.app-details {
+	padding: 20px;
+
+	&__actions {
+		// app management
+		&-manage {
+			// if too many, shrink them and ellipsis
+			display: flex;
+			input {
+				flex: 0 1 auto;
+				min-width: 0;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+			}
+		}
 	}
-	.force:hover,
-	.force:active {
-		background: var(--color-error);
-		border-color: var(--color-error) !important;
-		color: var(--color-main-background);
+	&__dependencies {
+		opacity: .7;
 	}
+	&__documentation {
+		padding-top: 20px;
+	}
+	&__description {
+		padding-top: 20px;
+	}
+}
+
+.force {
+	color: var(--color-error);
+	border-color: var(--color-error);
+	background: var(--color-main-background);
+}
+.force:hover,
+.force:active {
+	color: var(--color-main-background);
+	border-color: var(--color-error) !important;
+	background: var(--color-error);
+}
+
 </style>
