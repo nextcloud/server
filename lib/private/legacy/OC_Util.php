@@ -590,7 +590,7 @@ class OC_Util {
 
 		// core js files need separate handling
 		if ($application !== 'core' && $file !== null) {
-			self::addTranslations ( $application );
+			self::addTranslations( $application );
 		}
 		self::addExternalResource($application, $prepend, $path, "script");
 	}
@@ -667,7 +667,7 @@ class OC_Util {
 		if ($type === "style") {
 			if (!in_array($path, self::$styles)) {
 				if ($prepend === true) {
-					array_unshift ( self::$styles, $path );
+					array_unshift( self::$styles, $path );
 				} else {
 					self::$styles[] = $path;
 				}
@@ -675,7 +675,7 @@ class OC_Util {
 		} elseif ($type === "script") {
 			if (!in_array($path, self::$scripts)) {
 				if ($prepend === true) {
-					array_unshift ( self::$scripts, $path );
+					array_unshift( self::$scripts, $path );
 				} else {
 					self::$scripts [] = $path;
 				}
@@ -699,7 +699,7 @@ class OC_Util {
 			'text' => $text
 		];
 		if ($prepend === true) {
-			array_unshift (self::$headers, $header);
+			array_unshift(self::$headers, $header);
 
 		} else {
 			self::$headers[] = $header;

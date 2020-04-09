@@ -121,7 +121,7 @@ class RecoveryController extends Controller {
 
 		if (empty($newPassword)) {
 			$errorMessage = (string)$this->l->t('Please provide a new recovery password');
-			return new DataResponse (['data' => ['message' => $errorMessage]], Http::STATUS_BAD_REQUEST);
+			return new DataResponse(['data' => ['message' => $errorMessage]], Http::STATUS_BAD_REQUEST);
 		}
 
 		if (empty($confirmPassword)) {

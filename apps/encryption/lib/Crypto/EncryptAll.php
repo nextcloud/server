@@ -473,11 +473,11 @@ class EncryptAll {
 	protected function createMailBody($password) {
 
 		$html = new \OC_Template("encryption", "mail", "");
-		$html->assign ('password', $password);
+		$html->assign('password', $password);
 		$htmlMail = $html->fetchPage();
 
 		$plainText = new \OC_Template("encryption", "altmail", "");
-		$plainText->assign ('password', $password);
+		$plainText->assign('password', $password);
 		$plainTextMail = $plainText->fetchPage();
 
 		return [$htmlMail, $plainTextMail];

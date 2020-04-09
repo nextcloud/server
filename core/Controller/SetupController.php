@@ -134,7 +134,7 @@ class SetupController {
 			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up Nextcloud…', ILogger::INFO);
 			$AUTOCONFIG = [];
 			include $this->autoConfigFile;
-			$post = array_merge ($post, $AUTOCONFIG);
+			$post = array_merge($post, $AUTOCONFIG);
 		}
 
 		$dbIsSet = isset($post['dbtype']);

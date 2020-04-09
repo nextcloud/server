@@ -104,16 +104,16 @@ class OC_Template extends \OC\Template\Base {
 			//apps that started before the template initialization can load their own scripts/styles
 			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
 			//meaning the last script/style in this list will be loaded first
-			if (\OC::$server->getSystemConfig()->getValue ('installed', false) && $renderAs !== 'error' && !\OCP\Util::needUpgrade()) {
-				if (\OC::$server->getConfig ()->getAppValue ( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax') {
-					OC_Util::addScript ( 'backgroundjobs', null, true );
+			if (\OC::$server->getSystemConfig()->getValue('installed', false) && $renderAs !== 'error' && !\OCP\Util::needUpgrade()) {
+				if (\OC::$server->getConfig()->getAppValue( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax') {
+					OC_Util::addScript( 'backgroundjobs', null, true );
 				}
 			}
 			OC_Util::addStyle('css-variables', null, true);
 			OC_Util::addStyle('server', null, true);
 			OC_Util::addTranslations('core', null, true);
 
-			if (\OC::$server->getSystemConfig()->getValue ('installed', false)) {
+			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
 				OC_Util::addStyle('search', 'results');
 				OC_Util::addScript('search', 'search', true);
 				OC_Util::addScript('search', 'searchprovider');
