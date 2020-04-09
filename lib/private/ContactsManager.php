@@ -146,7 +146,7 @@ namespace OC {
 		 * @return IAddressBook[]
 		 * @since 16.0.0
 		 */
-		public function getUserAddressBooks(): Array {
+		public function getUserAddressBooks(): array {
 			$this->loadAddressBooks();
 			return $this->addressBooks;
 		}

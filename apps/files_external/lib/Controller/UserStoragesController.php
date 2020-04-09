@@ -135,7 +135,7 @@ class UserStoragesController extends StoragesController {
 			$backendOptions,
 			$mountOptions
 		);
-		if ($newStorage instanceOf DataResponse) {
+		if ($newStorage instanceof DataResponse) {
 			return $newStorage;
 		}
 
@@ -184,7 +184,7 @@ class UserStoragesController extends StoragesController {
 			$backendOptions,
 			$mountOptions
 		);
-		if ($storage instanceOf DataResponse) {
+		if ($storage instanceof DataResponse) {
 			return $storage;
 		}
 		$storage->setId($id);

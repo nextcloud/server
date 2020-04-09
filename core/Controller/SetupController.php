@@ -70,7 +70,7 @@ class SetupController {
 			return;
 		}
 
-		if(isset($post['install']) AND $post['install']=='true') {
+		if(isset($post['install']) and $post['install']=='true') {
 			// We have to launch the installation process :
 			$e = $this->setupHelper->install($post);
 			$errors = ['errors' => $e];
@@ -141,7 +141,7 @@ class SetupController {
 		$directoryIsSet = isset($post['directory']);
 		$adminAccountIsSet = isset($post['adminlogin']);
 
-		if ($dbIsSet AND $directoryIsSet AND $adminAccountIsSet) {
+		if ($dbIsSet and $directoryIsSet and $adminAccountIsSet) {
 			$post['install'] = 'true';
 		}
 		$post['dbIsSet'] = $dbIsSet;

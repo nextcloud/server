@@ -53,7 +53,7 @@ abstract class Backend implements \OCP\GroupInterface {
 	 */
 	public function getSupportedActions() {
 		$actions = 0;
-		foreach($this->possibleActions AS $action => $methodName) {
+		foreach($this->possibleActions as $action => $methodName) {
 			if(method_exists($this, $methodName)) {
 				$actions |= $action;
 			}

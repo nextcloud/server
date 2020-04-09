@@ -54,13 +54,13 @@ script('core', [
 		</p>
 	</fieldset>
 
-	<?php if(!$_['directoryIsSet'] OR !$_['dbIsSet'] OR count($_['errors']) > 0): ?>
+	<?php if(!$_['directoryIsSet'] or !$_['dbIsSet'] or count($_['errors']) > 0): ?>
 	<fieldset id="advancedHeader">
 		<legend><a id="showAdvanced" tabindex="0" href="#"><?php p($l->t( 'Storage & database' )); ?><img src="<?php print_unescaped(image_path('', 'actions/caret-white.svg')); ?>" /></a></legend>
 	</fieldset>
 	<?php endif; ?>
 
-	<?php if(!$_['directoryIsSet'] OR count($_['errors']) > 0): ?>
+	<?php if(!$_['directoryIsSet'] or count($_['errors']) > 0): ?>
 	<fieldset id="datadirField">
 		<div id="datadirContent">
 			<label for="directory"><?php p($l->t( 'Data folder' )); ?></label>
@@ -72,7 +72,7 @@ script('core', [
 	</fieldset>
 	<?php endif; ?>
 
-	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
+	<?php if(!$_['dbIsSet'] or count($_['errors']) > 0): ?>
 	<fieldset id='databaseBackend'>
 		<?php if($_['hasMySQL'] or $_['hasPostgreSQL'] or $_['hasOracle'])
 			$hasOtherDB = true; else $hasOtherDB =false; //other than SQLite ?>
@@ -149,7 +149,7 @@ script('core', [
 		<?php endif; ?>
 	<?php endif; ?>
 
-	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
+	<?php if(!$_['dbIsSet'] or count($_['errors']) > 0): ?>
 		<fieldset id="sqliteInformation" class="warning">
 			<legend><?php p($l->t('Performance warning'));?></legend>
 			<p><?php p($l->t('You chose SQLite as database.'));?></p>
