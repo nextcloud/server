@@ -160,7 +160,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 * @param int $offset
 	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
 	 */
-	public function prepare( $statement, $limit=null, $offset=null ) {
+	public function prepare($statement, $limit=null, $offset=null) {
 		if ($limit === -1) {
 			$limit = null;
 		}
@@ -289,7 +289,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 			$insertQb = $this->getQueryBuilder();
 			$insertQb->insert($table)
 				->values(
-					array_map(function($value) use ($insertQb) {
+					array_map(function ($value) use ($insertQb) {
 						return $insertQb->createNamedParameter($value, $this->getType($value));
 					}, array_merge($keys, $values))
 				);
@@ -383,7 +383,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 * @param string $table table name without the prefix
 	 * @return bool
 	 */
-	public function tableExists($table){
+	public function tableExists($table) {
 		$table = $this->tablePrefix . trim($table);
 		$schema = $this->getSchemaManager();
 		return $schema->tablesExist([$table]);

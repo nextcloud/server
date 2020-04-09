@@ -126,7 +126,7 @@ class Collection implements ICollection {
 	 * @since 16.0.0
 	 */
 	public function addResource(IResource $resource): void {
-		array_map(function(IResource $r) use ($resource) {
+		array_map(function (IResource $r) use ($resource) {
 			if ($this->isSameResource($r, $resource)) {
 				throw new ResourceException('Already part of the collection');
 			}
@@ -158,7 +158,7 @@ class Collection implements ICollection {
 	 * @since 16.0.0
 	 */
 	public function removeResource(IResource $resource): void {
-		$this->resources = array_filter($this->getResources(), function(IResource $r) use ($resource) {
+		$this->resources = array_filter($this->getResources(), function (IResource $r) use ($resource) {
 			return !$this->isSameResource($r, $resource);
 		});
 

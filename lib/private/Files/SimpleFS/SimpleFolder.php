@@ -51,7 +51,7 @@ class SimpleFolder implements ISimpleFolder   {
 	public function getDirectoryListing() {
 		$listing = $this->folder->getDirectoryListing();
 
-		$fileListing = array_map(function(Node $file) {
+		$fileListing = array_map(function (Node $file) {
 			if ($file instanceof File) {
 				return new SimpleFile($file);
 			}

@@ -134,10 +134,10 @@
 							<?php p($l->t('Add storage')); ?>
 						</option>
 						<?php
-							$sortedBackends = array_filter($_['backends'], function($backend) use ($_) {
+							$sortedBackends = array_filter($_['backends'], function ($backend) use ($_) {
 								return $backend->isVisibleFor($_['visibilityType']);
 							});
-							uasort($sortedBackends, function($a, $b) {
+							uasort($sortedBackends, function ($a, $b) {
 								return strcasecmp($a->getText(), $b->getText());
 							});
 						?>
@@ -172,7 +172,7 @@
 
 		<p id="userMountingBackends"<?php if (!$_['allowUserMounting']): ?> class="hidden"<?php endif; ?>>
 			<?php
-				$userBackends = array_filter($_['backends'], function($backend) {
+				$userBackends = array_filter($_['backends'], function ($backend) {
 					return $backend->isAllowedVisibleFor(BackendService::VISIBILITY_PERSONAL);
 				});
 			?>

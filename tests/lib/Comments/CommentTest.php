@@ -112,7 +112,7 @@ class CommentTest extends TestCase {
 	/**
 	 * @dataProvider roleSetterProvider
 	 */
-	public function testSetRoleInvalidInput($role, $type, $id){
+	public function testSetRoleInvalidInput($role, $type, $id) {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$comment = new Comment();

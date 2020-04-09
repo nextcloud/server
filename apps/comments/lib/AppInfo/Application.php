@@ -45,7 +45,7 @@ class Application extends App {
 
 	const APP_ID = 'comments';
 
-	public function __construct (array $urlParams = []) {
+	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
 		$container = $this->getContainer();
 
@@ -77,8 +77,8 @@ class Application extends App {
 	}
 
 	protected function registerDavEntity(IEventDispatcher $dispatcher) {
-		$dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function(CommentsEntityEvent $event) {
-			$event->addEntityCollection('files', function($name) {
+		$dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function (CommentsEntityEvent $event) {
+			$event->addEntityCollection('files', function ($name) {
 				$nodes = \OC::$server->getUserFolder()->getById((int)$name);
 				return !empty($nodes);
 			});

@@ -51,7 +51,7 @@ class FeaturePolicyManagerTest extends TestCase {
 	}
 
 	public function testGetDefaultPolicyWithPoliciesViaEvent() {
-		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function(AddFeaturePolicyEvent $e) {
+		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedMicrophoneDomain('mydomain.com');
 			$policy->addAllowedPaymentDomain('mypaymentdomain.com');
@@ -59,7 +59,7 @@ class FeaturePolicyManagerTest extends TestCase {
 			$e->addPolicy($policy);
 		});
 
-		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function(AddFeaturePolicyEvent $e) {
+		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedPaymentDomain('mydomainother.com');
 			$policy->addAllowedGeoLocationDomain('mylocation.here');
@@ -67,7 +67,7 @@ class FeaturePolicyManagerTest extends TestCase {
 			$e->addPolicy($policy);
 		});
 
-		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function(AddFeaturePolicyEvent $e) {
+		$this->dispatcher->addListener(AddFeaturePolicyEvent::class, function (AddFeaturePolicyEvent $e) {
 			$policy = new FeaturePolicy();
 			$policy->addAllowedAutoplayDomain('youtube.com');
 

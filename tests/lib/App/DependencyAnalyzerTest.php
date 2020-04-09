@@ -44,12 +44,12 @@ class DependencyAnalyzerTest extends TestCase {
 			->willReturn( 'Linux');
 		$this->platformMock->expects($this->any())
 			->method('isCommandKnown')
-			->willReturnCallback( function($command) {
+			->willReturnCallback( function ($command) {
 				return ($command === 'grep');
 			});
 		$this->platformMock->expects($this->any())
 			->method('getLibraryVersion')
-			->willReturnCallback( function($lib) {
+			->willReturnCallback( function ($lib) {
 				if ($lib === 'curl') {
 					return "2.3.4";
 				}
@@ -64,7 +64,7 @@ class DependencyAnalyzerTest extends TestCase {
 			->getMock();
 		$this->l10nMock->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 

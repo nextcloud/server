@@ -90,7 +90,7 @@ class NewUserMailHelperTest extends TestCase {
 		$this->config
 			->expects($this->any())
 			->method('getSystemValue')
-			->willReturnCallback(function($arg) {
+			->willReturnCallback(function ($arg) {
 				switch ($arg) {
 					case 'secret':
 						return 'MyInstanceWideSecret';

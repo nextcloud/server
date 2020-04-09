@@ -81,7 +81,7 @@ class RegistryTest extends TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo(IRegistry::EVENT_PROVIDER_ENABLED),
-				$this->callback(function(RegistryEvent $e) use ($user, $provider) {
+				$this->callback(function (RegistryEvent $e) use ($user, $provider) {
 					return $e->getUser() === $user && $e->getProvider() === $provider;
 				})
 			);
@@ -102,7 +102,7 @@ class RegistryTest extends TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo(IRegistry::EVENT_PROVIDER_DISABLED),
-				$this->callback(function(RegistryEvent $e) use ($user, $provider) {
+				$this->callback(function (RegistryEvent $e) use ($user, $provider) {
 					return $e->getUser() === $user && $e->getProvider() === $provider;
 				})
 			);

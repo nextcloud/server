@@ -77,7 +77,7 @@ class UploadCleanup extends TimedJob {
 		// The folder has to be more than a day old
 		$initial = $uploadFolder->getMTime() < $time;
 
-		$expire = array_reduce($files, function(bool $carry, File $file) use ($time) {
+		$expire = array_reduce($files, function (bool $carry, File $file) use ($time) {
 			return $carry && $file->getMTime() < $time;
 		}, $initial);
 

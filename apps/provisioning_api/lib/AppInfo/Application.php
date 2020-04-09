@@ -43,7 +43,7 @@ class Application extends App {
 		$container = $this->getContainer();
 		$server = $container->getServer();
 
-		$container->registerService(NewUserMailHelper::class, function(SimpleContainer $c) use ($server) {
+		$container->registerService(NewUserMailHelper::class, function (SimpleContainer $c) use ($server) {
 			return new NewUserMailHelper(
 				$server->query(Defaults::class),
 				$server->getURLGenerator(),
@@ -56,7 +56,7 @@ class Application extends App {
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
-		$container->registerService('ProvisioningApiMiddleware', function(SimpleContainer $c) use ($server) {
+		$container->registerService('ProvisioningApiMiddleware', function (SimpleContainer $c) use ($server) {
 			$user = $server->getUserManager()->get($c['UserId']);
 			$isAdmin = $user !== null ? $server->getGroupManager()->isAdmin($user->getUID()) : false;
 			$isSubAdmin = $user !== null ? $server->getGroupManager()->getSubAdmin()->isSubAdmin($user) : false;

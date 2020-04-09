@@ -63,7 +63,7 @@ class FtpTest extends \Test\Files\Storage\Storage {
 		parent::tearDown();
 	}
 
-	public function testConstructUrl(){
+	public function testConstructUrl() {
 		$config =  [ 'host' => 'localhost',
 			'user' => 'ftp',
 			'password' => 'ftp',

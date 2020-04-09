@@ -88,7 +88,7 @@ class Group_LDAPTest extends TestCase {
 
 		$access->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
+			->willReturnCallback(function ($name) {
 				if($name === 'ldapDynamicGroupMemberURL') {
 					return '';
 				}
@@ -109,7 +109,7 @@ class Group_LDAPTest extends TestCase {
 
 		$access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($dn) use ($groupDN) {
+			->willReturnCallback(function ($dn) use ($groupDN) {
 				if($dn === $groupDN) {
 					return [
 						'uid=u11,ou=users,dc=foo,dc=bar',
@@ -148,7 +148,7 @@ class Group_LDAPTest extends TestCase {
 
 		$access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($name) {
+			->willReturnCallback(function ($name) {
 				//the search operation will call readAttribute, thus we need
 				//to anaylze the "dn". All other times we just need to return
 				//something that is neither null or false, but once an array
@@ -162,7 +162,7 @@ class Group_LDAPTest extends TestCase {
 
 		$access->expects($this->any())
 			->method('dn2username')
-			->willReturnCallback(function() {
+			->willReturnCallback(function () {
 				return 'foobar' . \OC::$server->getSecureRandom()->generate(7);
 			});
 
@@ -520,7 +520,7 @@ class Group_LDAPTest extends TestCase {
 			->willReturn(null);
 		$access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($dn, $attr) {
+			->willReturnCallback(function ($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
 					return [1337];
 				} else if($attr === 'gidNumber') {
@@ -557,7 +557,7 @@ class Group_LDAPTest extends TestCase {
 			->willReturn(null);
 		$access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($dn, $attr) {
+			->willReturnCallback(function ($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
 					return [1337];
 				}
@@ -593,7 +593,7 @@ class Group_LDAPTest extends TestCase {
 
 		$access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($dn, $attr) {
+			->willReturnCallback(function ($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
 					return [1337];
 				}
@@ -654,7 +654,7 @@ class Group_LDAPTest extends TestCase {
 		$access->connection = $this->createMock(Connection::class);
 		$access->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
+			->willReturnCallback(function ($name) {
 				if($name === 'useMemberOfToDetectMembership') {
 					return 0;
 				} else if($name === 'ldapDynamicGroupMemberURL') {
@@ -692,7 +692,7 @@ class Group_LDAPTest extends TestCase {
 		$access->connection = $this->createMock(Connection::class);
 		$access->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
+			->willReturnCallback(function ($name) {
 				switch($name) {
 					case 'useMemberOfToDetectMembership':
 						return 0;
@@ -1030,7 +1030,7 @@ class Group_LDAPTest extends TestCase {
 		$access = $this->getAccessMock();
 		$access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($group) use ($groupDN, $expectedMembers, $groupsInfo) {
+			->willReturnCallback(function ($group) use ($groupDN, $expectedMembers, $groupsInfo) {
 				if(isset($groupsInfo[$group])) {
 					return $groupsInfo[$group];
 				}
@@ -1041,7 +1041,7 @@ class Group_LDAPTest extends TestCase {
 		if(count($groupsInfo) > 1) {
 			$access->connection->expects($this->any())
 				->method('__get')
-				->willReturnCallback(function($name) {
+				->willReturnCallback(function ($name) {
 					if($name === 'ldapNestedGroups') {
 						return 1;
 					}
@@ -1079,7 +1079,7 @@ class Group_LDAPTest extends TestCase {
 		$access->connection = $this->createMock(Connection::class);
 		$access->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
+			->willReturnCallback(function ($name) {
 				if($name === 'ldapGroupMemberAssocAttr') {
 					return 'member';
 				} else if($name === 'ldapGroupFilter') {

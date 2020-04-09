@@ -75,7 +75,7 @@ class Application extends App {
 			);
 		});
 
-		$container->registerService(IVersionManager::class, function(IAppContainer $c) {
+		$container->registerService(IVersionManager::class, function (IAppContainer $c) {
 			return new VersionManager();
 		});
 

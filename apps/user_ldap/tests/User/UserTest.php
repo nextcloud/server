@@ -606,7 +606,7 @@ class UserTest extends \Test\TestCase {
 	public function XtestUpdateAvatarThumbnailPhotoProvided() {
 		$this->access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($dn, $attr) {
+			->willReturnCallback(function ($dn, $attr) {
 				if($dn === $this->dn
 					&& $attr === 'jpegphoto')
 				{
@@ -671,7 +671,7 @@ class UserTest extends \Test\TestCase {
 	public function testUpdateAvatarCorruptPhotoProvided() {
 		$this->access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($dn, $attr) {
+			->willReturnCallback(function ($dn, $attr) {
 				if($dn === $this->dn
 					&& $attr === 'jpegphoto')
 				{
@@ -724,7 +724,7 @@ class UserTest extends \Test\TestCase {
 	public function XtestUpdateAvatarUnsupportedThumbnailPhotoProvided() {
 		$this->access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($dn, $attr) {
+			->willReturnCallback(function ($dn, $attr) {
 				if($dn === $this->dn
 					&& $attr === 'jpegphoto')
 				{
@@ -789,7 +789,7 @@ class UserTest extends \Test\TestCase {
 	public function testUpdateAvatarNotProvided() {
 		$this->access->expects($this->any())
 			->method('readAttribute')
-			->willReturnCallback(function($dn, $attr) {
+			->willReturnCallback(function ($dn, $attr) {
 				if($dn === $this->dn
 					&& $attr === 'jpegPhoto')
 				{
@@ -1038,7 +1038,7 @@ class UserTest extends \Test\TestCase {
 		]);
 		$this->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
+			->willReturnCallback(function ($name) {
 				if($name === 'homeFolderNamingRule') {
 					return 'attr:homeDirectory';
 				}
@@ -1193,7 +1193,7 @@ class UserTest extends \Test\TestCase {
 	public function testHandlePasswordExpiryWarningDefaultPolicy() {
 		$this->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
+			->willReturnCallback(function ($name) {
 				if($name === 'ldapDefaultPPolicyDN') {
 					return 'cn=default,ou=policies,dc=foo,dc=bar';
 				}
@@ -1205,7 +1205,7 @@ class UserTest extends \Test\TestCase {
 
 		$this->access->expects($this->any())
 			->method('search')
-			->willReturnCallback(function($filter, $base) {
+			->willReturnCallback(function ($filter, $base) {
 				if($base === [$this->dn]) {
 					return [
 						[
@@ -1256,7 +1256,7 @@ class UserTest extends \Test\TestCase {
 	public function testHandlePasswordExpiryWarningCustomPolicy() {
 		$this->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
+			->willReturnCallback(function ($name) {
 				if($name === 'ldapDefaultPPolicyDN') {
 					return 'cn=default,ou=policies,dc=foo,dc=bar';
 				}
@@ -1268,7 +1268,7 @@ class UserTest extends \Test\TestCase {
 
 		$this->access->expects($this->any())
 			->method('search')
-			->willReturnCallback(function($filter, $base) {
+			->willReturnCallback(function ($filter, $base) {
 				if($base === [$this->dn]) {
 					return [
 						[

@@ -401,7 +401,7 @@ EOD;
 			$this->assertArrayHasKey('classification', $card);
 		}
 
-		usort($calendarObjects, function($a, $b) {
+		usort($calendarObjects, function ($a, $b) {
 			return $a['id'] - $b['id'];
 		});
 
@@ -442,7 +442,7 @@ EOD;
 			'comp-filters' => $compFilter
 		]);
 
-		$expectedEventsInResult = array_map(function($index) use($events) {
+		$expectedEventsInResult = array_map(function ($index) use ($events) {
 			return $events[$index];
 		}, $expectedEventsInResult);
 		$this->assertEquals($expectedEventsInResult, $result, '', 0.0, 10, true);

@@ -266,7 +266,7 @@ trait Sharing {
 								$shareWith = null,
 								$publicUpload = null,
 								$password = null,
-								$permissions = null){
+								$permissions = null) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
 		$options = [
@@ -311,7 +311,7 @@ trait Sharing {
 		}
 	}
 
-	public function isFieldInResponse($field, $contentExpected){
+	public function isFieldInResponse($field, $contentExpected) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
 		if ((string)$field == 'expiration'){
 			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
@@ -358,7 +358,7 @@ trait Sharing {
 	 *
 	 * @param string $filename
 	 */
-	public function checkSharedFileInResponse($filename){
+	public function checkSharedFileInResponse($filename) {
 		Assert::assertEquals(true, $this->isFieldInResponse('file_target', "/$filename"));
 	}
 
@@ -367,7 +367,7 @@ trait Sharing {
 	 *
 	 * @param string $filename
 	 */
-	public function checkSharedFileNotInResponse($filename){
+	public function checkSharedFileNotInResponse($filename) {
 		Assert::assertEquals(false, $this->isFieldInResponse('file_target', "/$filename"));
 	}
 
@@ -376,7 +376,7 @@ trait Sharing {
 	 *
 	 * @param string $user
 	 */
-	public function checkSharedUserInResponse($user){
+	public function checkSharedUserInResponse($user) {
 		Assert::assertEquals(true, $this->isFieldInResponse('share_with', "$user"));
 	}
 
@@ -385,11 +385,11 @@ trait Sharing {
 	 *
 	 * @param string $user
 	 */
-	public function checkSharedUserNotInResponse($user){
+	public function checkSharedUserNotInResponse($user) {
 		Assert::assertEquals(false, $this->isFieldInResponse('share_with', "$user"));
 	}
 
-	public function isUserOrGroupInSharedData($userOrGroup, $permissions = null){
+	public function isUserOrGroupInSharedData($userOrGroup, $permissions = null) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
 		foreach($data as $element) {
 			if ($element->share_with == $userOrGroup && ($permissions === null || $permissions == $element->permissions)){
@@ -406,7 +406,7 @@ trait Sharing {
 	 * @param string $user1
 	 * @param string $user2
 	 */
-	public function assureFileIsShared($entry, $filepath, $user1, $user2, $withPerms = null, $permissions = null){
+	public function assureFileIsShared($entry, $filepath, $user1, $user2, $withPerms = null, $permissions = null) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
 		$client = new Client();
 		$options = [];
@@ -435,7 +435,7 @@ trait Sharing {
 	 * @param string $user
 	 * @param string $group
 	 */
-	public function assureFileIsSharedWithGroup($entry, $filepath, $user, $group, $withPerms = null, $permissions = null){
+	public function assureFileIsSharedWithGroup($entry, $filepath, $user, $group, $withPerms = null, $permissions = null) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
 		$client = new Client();
 		$options = [];
@@ -460,7 +460,7 @@ trait Sharing {
 	/**
 	 * @When /^Deleting last share$/
 	 */
-	public function deletingLastShare(){
+	public function deletingLastShare() {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$this->sendingToWith("DELETE", $url, null);
@@ -469,7 +469,7 @@ trait Sharing {
 	/**
 	 * @When /^Getting info of last share$/
 	 */
-	public function gettingInfoOfLastShare(){
+	public function gettingInfoOfLastShare() {
 		$share_id = $this->lastShareData->data[0]->id;
 		$url = "/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$this->sendingToWith("GET", $url, null);
@@ -478,7 +478,7 @@ trait Sharing {
 	/**
 	 * @Then /^last share_id is included in the answer$/
 	 */
-	public function checkingLastShareIDIsIncluded(){
+	public function checkingLastShareIDIsIncluded() {
 		$share_id = $this->lastShareData->data[0]->id;
 		if (!$this->isFieldInResponse('id', $share_id)){
 			Assert::fail("Share id $share_id not found in response");
@@ -488,7 +488,7 @@ trait Sharing {
 	/**
 	 * @Then /^last share_id is not included in the answer$/
 	 */
-	public function checkingLastShareIDIsNotIncluded(){
+	public function checkingLastShareIDIsNotIncluded() {
 		$share_id = $this->lastShareData->data[0]->id;
 		if ($this->isFieldInResponse('id', $share_id)){
 			Assert::fail("Share id $share_id has been found in response");
@@ -499,7 +499,7 @@ trait Sharing {
 	 * @Then /^Share fields of last share match with$/
 	 * @param TableNode|null $body
 	 */
-	public function checkShareFields($body){
+	public function checkShareFields($body) {
 		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
 
@@ -601,7 +601,7 @@ trait Sharing {
 	 * @param string $contentExpected
 	 * @param \SimpleXMLElement $returnedShare
 	 */
-	private function assertFieldIsInReturnedShare(string $field, string $contentExpected, \SimpleXMLElement $returnedShare){
+	private function assertFieldIsInReturnedShare(string $field, string $contentExpected, \SimpleXMLElement $returnedShare) {
 		if ($contentExpected === 'IGNORE') {
 			return;
 		}

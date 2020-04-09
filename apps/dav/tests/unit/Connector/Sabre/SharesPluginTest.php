@@ -125,7 +125,7 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->equalTo(false),
 				$this->equalTo(-1)
 			)
-			->willReturnCallback(function($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes){
+			->willReturnCallback(function ($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes) {
 				if (in_array($requestedShareType, $shareTypes)) {
 					$share = $this->createMock(IShare::class);
 					$share->method('getShareType')
@@ -191,7 +191,7 @@ class SharesPluginTest extends \Test\TestCase {
 			->with('/subdir')
 			->willReturn($node);
 		
-		$dummyShares = array_map(function($type) {
+		$dummyShares = array_map(function ($type) {
 			$share = $this->getMockBuilder(IShare::class)->getMock();
 			$share->expects($this->any())
 				->method('getShareType')
@@ -208,7 +208,7 @@ class SharesPluginTest extends \Test\TestCase {
 				$this->equalTo(false),
 				$this->equalTo(-1)
 			)
-			->willReturnCallback(function($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes, $dummyShares){
+			->willReturnCallback(function ($userId, $requestedShareType, $node, $flag, $limit) use ($shareTypes, $dummyShares) {
 				if ($node->getId() === 111 && in_array($requestedShareType, $shareTypes)) {
 					foreach ($dummyShares as $dummyShare) {
 						if ($dummyShare->getShareType() === $requestedShareType) {

@@ -33,7 +33,7 @@ use OCP\IUser;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
-	public function __construct () {
+	public function __construct() {
 		parent::__construct('lookup_server_connector');
 	}
 
@@ -49,7 +49,7 @@ class Application extends App {
 	 */
 	public function registerHooksAndEvents(): void {
 		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$dispatcher->addListener('OC\AccountManager::userUpdated', static function(GenericEvent $event) {
+		$dispatcher->addListener('OC\AccountManager::userUpdated', static function (GenericEvent $event) {
 			/** @var IUser $user */
 			$user = $event->getSubject();
 

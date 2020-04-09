@@ -36,7 +36,7 @@ class GenerateMimetypeFileBuilder
 	 */
 	public function generateFile(array $aliases): string {
 		// Remove comments
-		$keys = array_filter(array_keys($aliases), function($k) {
+		$keys = array_filter(array_keys($aliases), function ($k) {
 			return $k[0] === '_';
 		});
 		foreach($keys as $key) {

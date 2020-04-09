@@ -123,7 +123,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 
@@ -233,7 +233,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				'OCP\Share::preUnshare',
-				$this->callBack(function(GenericEvent $e) use ($share) {
+				$this->callBack(function (GenericEvent $e) use ($share) {
 					return $e->getSubject() === $share;
 				})
 			);
@@ -241,7 +241,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				'OCP\Share::postUnshare',
-				$this->callBack(function(GenericEvent $e) use ($share) {
+				$this->callBack(function (GenericEvent $e) use ($share) {
 					return $e->getSubject() === $share &&
 						$e->getArgument('deletedShares') === [$share];
 				})
@@ -279,7 +279,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				'OCP\Share::preUnshare',
-				$this->callBack(function(GenericEvent $e) use ($share) {
+				$this->callBack(function (GenericEvent $e) use ($share) {
 					return $e->getSubject() === $share;
 				})
 			);
@@ -287,7 +287,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				'OCP\Share::postUnshare',
-				$this->callBack(function(GenericEvent $e) use ($share) {
+				$this->callBack(function (GenericEvent $e) use ($share) {
 					return $e->getSubject() === $share &&
 						$e->getArgument('deletedShares') === [$share];
 				})
@@ -348,7 +348,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				'OCP\Share::preUnshare',
-				$this->callBack(function(GenericEvent $e) use ($share1) {
+				$this->callBack(function (GenericEvent $e) use ($share1) {
 					return $e->getSubject() === $share1;
 				})
 			);
@@ -356,7 +356,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				'OCP\Share::postUnshare',
-				$this->callBack(function(GenericEvent $e) use ($share1, $share2, $share3) {
+				$this->callBack(function (GenericEvent $e) use ($share1, $share2, $share3) {
 					return $e->getSubject() === $share1 &&
 						$e->getArgument('deletedShares') === [$share3, $share2, $share1];
 				})
@@ -391,7 +391,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				'OCP\Share::postUnshareFromSelf',
-				$this->callBack(function(GenericEvent $e) use ($share) {
+				$this->callBack(function (GenericEvent $e) use ($share) {
 					return $e->getSubject() === $share;
 				})
 			);
@@ -423,7 +423,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider
 			->expects($this->exactly(4))
 			->method('getChildren')
-			->willReturnCallback(function($_share) use ($share, $shares) {
+			->willReturnCallback(function ($_share) use ($share, $shares) {
 				if ($_share === $share) {
 					return $shares;
 				}
@@ -505,7 +505,7 @@ class ManagerTest extends \Test\TestCase {
 		]);
 
 		$this->eventDispatcher->expects($this->once())->method('dispatch')
-			->willReturnCallback(function(Event $event) {
+			->willReturnCallback(function (Event $event) {
 				$this->assertInstanceOf(ValidatePasswordPolicyEvent::class, $event);
 				/** @var ValidatePasswordPolicyEvent $event */
 				$this->assertSame('password', $event->getPassword());
@@ -526,7 +526,7 @@ class ManagerTest extends \Test\TestCase {
 		]);
 
 		$this->eventDispatcher->expects($this->once())->method('dispatch')
-			->willReturnCallback(function(Event $event) {
+			->willReturnCallback(function (Event $event) {
 				$this->assertInstanceOf(ValidatePasswordPolicyEvent::class, $event);
 				/** @var ValidatePasswordPolicyEvent $event */
 				$this->assertSame('password', $event->getPassword());
@@ -1773,7 +1773,7 @@ class ManagerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('create')
 			->with($share)
-			->willReturnCallback(function(Share $share) {
+			->willReturnCallback(function (Share $share) {
 				return $share->setId(42);
 			});
 
@@ -1782,7 +1782,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo('OCP\Share::preShare'),
-				$this->callback(function(GenericEvent $e) use ($path, $date) {
+				$this->callback(function (GenericEvent $e) use ($path, $date) {
 					/** @var IShare $share */
 					$share = $e->getSubject();
 
@@ -1801,7 +1801,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo('OCP\Share::postShare'),
-				$this->callback(function(GenericEvent $e) use ($path, $date) {
+				$this->callback(function (GenericEvent $e) use ($path, $date) {
 					/** @var IShare $share */
 					$share = $e->getSubject();
 
@@ -1882,7 +1882,7 @@ class ManagerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('create')
 			->with($share)
-			->willReturnCallback(function(Share $share) {
+			->willReturnCallback(function (Share $share) {
 				return $share->setId(42);
 			});
 
@@ -1891,7 +1891,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo('OCP\Share::preShare'),
-				$this->callback(function(GenericEvent $e) use ($path) {
+				$this->callback(function (GenericEvent $e) use ($path) {
 					/** @var IShare $share */
 					$share = $e->getSubject();
 
@@ -1910,7 +1910,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo('OCP\Share::postShare'),
-				$this->callback(function(GenericEvent $e) use ($path) {
+				$this->callback(function (GenericEvent $e) use ($path) {
 					/** @var IShare $share */
 					$share = $e->getSubject();
 
@@ -1993,7 +1993,7 @@ class ManagerTest extends \Test\TestCase {
 			->with(
 				$this->equalTo('OCP\Share::preShare'),
 				$this->isInstanceOf(GenericEvent::class)
-			)->willReturnCallback(function($name, GenericEvent $e) {
+			)->willReturnCallback(function ($name, GenericEvent $e) {
 					$e->setArgument('error', 'I won\'t let you share!');
 					$e->stopPropagation();
 				}
@@ -2145,7 +2145,7 @@ class ManagerTest extends \Test\TestCase {
 		 */
 		$this->defaultProvider
 			->method('getSharesBy')
-			->willReturnCallback(function($uid, $type, $node, $reshares, $limit, $offset) use (&$shares2) {
+			->willReturnCallback(function ($uid, $type, $node, $reshares, $limit, $offset) use (&$shares2) {
 				return array_slice($shares2, $offset, $limit);
 			});
 
@@ -2153,7 +2153,7 @@ class ManagerTest extends \Test\TestCase {
 		 * Simulate the deleteShare call.
 		 */
 		$manager->method('deleteShare')
-			->willReturnCallback(function($share) use (&$shares2) {
+			->willReturnCallback(function ($share) use (&$shares2) {
 				for($i = 0; $i < count($shares2); $i++) {
 					if ($shares2[$i]->getId() === $share->getId()) {
 						array_splice($shares2, $i, 1);
@@ -2255,7 +2255,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$factory->expects($this->any())
 			->method('getProviderForType')
-			->willReturnCallback(function($shareType) use ($roomShareProvider) {
+			->willReturnCallback(function ($shareType) use ($roomShareProvider) {
 				if ($shareType !== \OCP\Share::SHARE_TYPE_ROOM) {
 					throw new Exception\ProviderException();
 				}
@@ -2464,7 +2464,7 @@ class ManagerTest extends \Test\TestCase {
 			->setPassword('passwordHash');
 
 		$this->hasher->method('verify')->with('password', 'passwordHash', '')
-			->willReturnCallback(function($pass, $hash, &$newHash) {
+			->willReturnCallback(function ($pass, $hash, &$newHash) {
 				$newHash = 'newHash';
 
 				return true;
@@ -3741,12 +3741,12 @@ class ManagerTest extends \Test\TestCase {
 		$share4 = $this->createMock(IShare::class);
 
 		$this->defaultProvider->method('getAllShares')
-			->willReturnCallback(function() use ($share1, $share2) {
+			->willReturnCallback(function () use ($share1, $share2) {
 				yield $share1;
 				yield $share2;
 			});
 		$extraProvider->method('getAllShares')
-			->willReturnCallback(function() use ($share3, $share4) {
+			->willReturnCallback(function () use ($share3, $share4) {
 				yield $share3;
 				yield $share4;
 			});

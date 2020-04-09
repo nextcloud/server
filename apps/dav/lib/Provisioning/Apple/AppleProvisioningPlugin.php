@@ -156,7 +156,7 @@ class AppleProvisioningPlugin extends ServerPlugin {
 		$filename = $userId . '-' . AppleProvisioningNode::FILENAME;
 
 		$xmlSkeleton = $this->getTemplate();
-		$body = vsprintf($xmlSkeleton, array_map(function($v) {
+		$body = vsprintf($xmlSkeleton, array_map(function ($v) {
 				return \htmlspecialchars($v, ENT_XML1, 'UTF-8');
 			}, [
 				$description,

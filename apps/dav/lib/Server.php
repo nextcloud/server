@@ -295,7 +295,7 @@ class Server {
 					\OC::$server->getThemingDefaults(),
 					\OC::$server->getRequest(),
 					\OC::$server->getL10N('dav'),
-					function() {
+					function () {
 						return UUIDUtil::getUUID();
 					}
 				));

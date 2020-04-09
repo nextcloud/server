@@ -113,7 +113,7 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$this->encryptionModule = $this->createMock(IEncryptionModule::class);
 		$this->encryptionManager->expects($this->any())->method('getEncryptionModules')
-			->willReturn(['encryptionModule' => ['callback' => function() { return $this->encryptionModule;}]]);
+			->willReturn(['encryptionModule' => ['callback' => function () { return $this->encryptionModule;}]]);
 
 	}
 
@@ -540,7 +540,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->willReturn($encryptionEnabled);
 		$this->encryptionManager->expects($this->any())
 			->method('getEncryptionModule')
-			->willReturnCallback(function() use ($encryptionModuleLoaded) {
+			->willReturnCallback(function () use ($encryptionModuleLoaded) {
 				if ($encryptionModuleLoaded) return $this->encryptionModule;
 				else throw new ModuleDoesNotExistsException();
 			});

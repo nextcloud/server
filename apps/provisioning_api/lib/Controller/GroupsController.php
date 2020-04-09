@@ -93,7 +93,7 @@ class GroupsController extends AUserData {
 	 */
 	public function getGroups(string $search = '', int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
-		$groups = array_map(function($group) {
+		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
 			return $group->getGID();
 		}, $groups);
@@ -113,7 +113,7 @@ class GroupsController extends AUserData {
 	 */
 	public function getGroupsDetails(string $search = '', int $limit = null, int $offset = 0): DataResponse {
 		$groups = $this->groupManager->search($search, $limit, $offset);
-		$groups = array_map(function($group) {
+		$groups = array_map(function ($group) {
 			/** @var IGroup $group */
 			return [
 				'id' => $group->getGID(),
@@ -166,7 +166,7 @@ class GroupsController extends AUserData {
 		if($this->groupManager->isAdmin($user->getUID())
 		   || $isSubadminOfGroup) {
 			$users = $this->groupManager->get($groupId)->getUsers();
-			$users =  array_map(function($user) {
+			$users =  array_map(function ($user) {
 				/** @var IUser $user */
 				return $user->getUID();
 			}, $users);

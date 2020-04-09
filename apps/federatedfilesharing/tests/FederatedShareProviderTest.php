@@ -98,7 +98,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->getMock();
 		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->l->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();

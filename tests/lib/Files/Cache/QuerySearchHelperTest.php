@@ -200,7 +200,7 @@ class QuerySearchHelperTest extends TestCase {
 			'mimetype' => 'image/png'
 		]);
 
-		$fileIds = array_map(function($i) use ($fileId) {
+		$fileIds = array_map(function ($i) use ($fileId) {
 			return $fileId[$i];
 		}, $fileIds);
 

@@ -57,7 +57,7 @@ class CheckBackupCodes extends QueuedJob {
 	}
 
 	protected function run($argument) {
-		$this->userManager->callForSeenUsers(function(IUser $user) {
+		$this->userManager->callForSeenUsers(function (IUser $user) {
 			$providers = $this->registry->getProviderStates($user);
 			$isTwoFactorAuthenticated = $this->twofactorManager->isTwoFactorAuthenticated($user);
 

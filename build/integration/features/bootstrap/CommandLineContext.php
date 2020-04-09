@@ -42,14 +42,14 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	/**
 	 * @Given Maintenance mode is enabled
 	 */
-	public function maintenanceModeIsEnabled()  {
+	public function maintenanceModeIsEnabled() {
 		$this->runOcc(['maintenance:mode', '--on']);
 	}
 
 	/**
 	 * @Then Maintenance mode is disabled
 	 */
-	public function maintenanceModeIsDisabled()  {
+	public function maintenanceModeIsDisabled() {
 		$this->runOcc(['maintenance:mode', '--off']);
 	}
 
@@ -82,7 +82,7 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 			return null;
 		}
 
-		usort($foundPaths, function($a, $b) {
+		usort($foundPaths, function ($a, $b) {
 			return $a['date'] - $b['date'];
 		});
 

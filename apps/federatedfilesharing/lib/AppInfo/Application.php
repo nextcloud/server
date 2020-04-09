@@ -52,7 +52,7 @@ class Application extends App {
 		$cloudFederationManager = $server->getCloudFederationProviderManager();
 		$cloudFederationManager->addCloudFederationProvider('file',
 			'Federated Files Sharing',
-			function() use ($container) {
+			function () use ($container) {
 				$server = $container->getServer();
 				return new CloudFederationProviderFiles(
 					$server->getAppManager(),
@@ -72,7 +72,7 @@ class Application extends App {
 				);
 			});
 
-		$container->registerService('RequestHandlerController', function(SimpleContainer $c) use ($server) {
+		$container->registerService('RequestHandlerController', function (SimpleContainer $c) use ($server) {
 			$addressHandler = new AddressHandler(
 				$server->getURLGenerator(),
 				$server->getL10N('federatedfilesharing'),
@@ -111,7 +111,7 @@ class Application extends App {
 		
 		$eventDispatcher->addListener(
 			'OCA\Files::loadAdditionalScripts',
-			function() use ($federatedShareProvider) {
+			function () use ($federatedShareProvider) {
 				if ($federatedShareProvider->isIncomingServer2serverShareEnabled()) {
 					\OCP\Util::addScript('federatedfilesharing', 'external');
 				}

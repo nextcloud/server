@@ -338,7 +338,7 @@ class StorageTest extends TestCase {
 			->willReturnCallback([$this, 'getUidAndFilenameCallback']);
 		$this->util->expects($this->any())
 			->method('isSystemWideMountPoint')
-			->willReturnCallback(function($path, $owner) use ($systemWideMountSource, $systemWideMountTarget) {
+			->willReturnCallback(function ($path, $owner) use ($systemWideMountSource, $systemWideMountTarget) {
 				if(strpos($path, 'source.txt') !== false) {
 					return $systemWideMountSource;
 				}
@@ -369,7 +369,7 @@ class StorageTest extends TestCase {
 			->willReturnCallback([$this, 'getUidAndFilenameCallback']);
 		$this->util->expects($this->any())
 			->method('isSystemWideMountPoint')
-			->willReturnCallback(function($path, $owner) use ($systemWideMountSource, $systemWideMountTarget) {
+			->willReturnCallback(function ($path, $owner) use ($systemWideMountSource, $systemWideMountTarget) {
 				if(strpos($path, 'source.txt') !== false) {
 					return $systemWideMountSource;
 				}

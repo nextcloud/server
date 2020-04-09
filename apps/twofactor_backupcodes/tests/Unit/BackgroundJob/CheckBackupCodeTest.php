@@ -69,7 +69,7 @@ class CheckBackupCodeTest extends TestCase {
 		$this->user = $this->createMock(IUser::class);
 
 		$this->userManager->method('callForSeenUsers')
-			->willReturnCallback(function(\Closure $e) {
+			->willReturnCallback(function (\Closure $e) {
 				$e($this->user);
 			});
 

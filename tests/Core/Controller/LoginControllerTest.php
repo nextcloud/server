@@ -588,7 +588,7 @@ class LoginControllerTest extends TestCase {
 		$this->chain->expects($this->once())
 			->method('process')
 			->with($this->equalTo($loginData))
-			->willReturnCallback(function(LoginData $data) use ($loginResult) {
+			->willReturnCallback(function (LoginData $data) use ($loginResult) {
 				$data->setUsername('john');
 				return $loginResult;
 			});

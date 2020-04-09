@@ -120,7 +120,7 @@ class NavigationManager implements INavigationManager {
 
 		$result = $this->entries;
 		if ($type !== 'all') {
-			$result = array_filter($this->entries, function($entry) use ($type) {
+			$result = array_filter($this->entries, function ($entry) use ($type) {
 				return $entry['type'] === $type;
 			});
 		}
@@ -135,7 +135,7 @@ class NavigationManager implements INavigationManager {
 	 * @return array
 	 */
 	private function proceedNavigation(array $list): array {
-		uasort($list, function($a, $b) {
+		uasort($list, function ($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
 				return ($a['order'] < $b['order']) ? -1 : 1;
 			} else if (isset($a['order']) || isset($b['order'])) {

@@ -72,7 +72,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 
 		$addressBooks = $this->carddavBackend->getAddressBooksForUser($this->principalUri);
 		/** @var IAddressBook[] $objects */
-		$objects = array_map(function(array $addressBook) {
+		$objects = array_map(function (array $addressBook) {
 			if ($addressBook['principaluri'] === 'principals/system/system') {
 				return new SystemAddressbook($this->carddavBackend, $addressBook, $this->l10n, $this->config);
 			}
@@ -80,7 +80,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 			return new AddressBook($this->carddavBackend, $addressBook, $this->l10n);
 		}, $addressBooks);
 		/** @var IAddressBook[][] $objectsFromPlugins */
-		$objectsFromPlugins = array_map(function(IAddressBookProvider $plugin): array {
+		$objectsFromPlugins = array_map(function (IAddressBookProvider $plugin): array {
 			return $plugin->fetchAllForAddressBookHome($this->principalUri);
 		}, $this->pluginManager->getAddressBookPlugins());
 

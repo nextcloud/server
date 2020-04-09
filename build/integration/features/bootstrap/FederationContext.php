@@ -46,7 +46,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	 * @param string $shareeUser
 	 * @param string $shareeServer "LOCAL" or "REMOTE"
 	 */
-	public function federateSharing($sharerUser, $sharerServer, $sharerPath, $shareeUser, $shareeServer){
+	public function federateSharing($sharerUser, $sharerServer, $sharerPath, $shareeUser, $shareeServer) {
 		if ($shareeServer == "REMOTE"){
 			$shareWith = "$shareeUser@" . substr($this->remoteBaseUrl, 0, -4);
 		} else {
@@ -67,7 +67,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	 * @param string $shareeUser
 	 * @param string $shareeServer "LOCAL" or "REMOTE"
 	 */
-	public function federateGroupSharing($sharerUser, $sharerServer, $sharerPath, $shareeGroup, $shareeServer){
+	public function federateGroupSharing($sharerUser, $sharerServer, $sharerPath, $shareeGroup, $shareeServer) {
 		if ($shareeServer == "REMOTE"){
 			$shareWith = "$shareeGroup@" . substr($this->remoteBaseUrl, 0, -4);
 		} else {
@@ -83,7 +83,7 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	 * @param string $user
 	 * @param string $server
 	 */
-	public function acceptLastPendingShare($user, $server){
+	public function acceptLastPendingShare($user, $server) {
 		$previous = $this->usingServer($server);
 		$this->asAn($user);
 		$this->sendingToWith('GET', "/apps/files_sharing/api/v1/remote_shares/pending", null);

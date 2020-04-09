@@ -114,7 +114,7 @@ class OC_DB_StatementWrapper {
 	 * @param integer|null $length max length when using an OUT bind
 	 * @return boolean
 	 */
-	public function bindParam($column, &$variable, $type = null, $length = null){
+	public function bindParam($column, &$variable, $type = null, $length = null) {
 		return $this->statement->bindParam($column, $variable, $type, $length);
 	}
 }

@@ -27,10 +27,10 @@
  *
  */
 
-\OC::$server->registerService('LDAPUserPluginManager', function() {
+\OC::$server->registerService('LDAPUserPluginManager', function () {
 	return new OCA\User_LDAP\UserPluginManager();
 });
-\OC::$server->registerService('LDAPGroupPluginManager', function() {
+\OC::$server->registerService('LDAPGroupPluginManager', function () {
 	return new OCA\User_LDAP\GroupPluginManager();
 });
 

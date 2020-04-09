@@ -58,7 +58,7 @@ class AddUserTest extends TestCase {
 
 		$this->input = $this->createMock(InputInterface::class);
 		$this->input->method('getArgument')
-			->willReturnCallback(function($arg) {
+			->willReturnCallback(function ($arg) {
 				if ($arg === 'group') {
 					return 'myGroup';
 				} else if ($arg === 'user') {

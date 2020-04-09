@@ -66,7 +66,7 @@ class BirthdayServiceTest extends TestCase {
 
 		$this->l10n->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($string, $args) {
+			->willReturnCallback(function ($string, $args) {
 				return vsprintf($string, $args);
 			});
 
@@ -392,7 +392,7 @@ class BirthdayServiceTest extends TestCase {
 		];
 	}
 
-	public function providesCardChanges(){
+	public function providesCardChanges() {
 		return[
 			['delete'],
 			['create'],

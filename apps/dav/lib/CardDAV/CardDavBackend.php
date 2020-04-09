@@ -174,7 +174,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$principals = $this->principalBackend->getGroupMembership($principalUriOriginal, true);
 		$principals = array_merge($principals, $this->principalBackend->getCircleMembership($principalUriOriginal));
 
-		$principals = array_map(function($principal) {
+		$principals = array_map(function ($principal) {
 			return urldecode($principal);
 		}, $principals);
 		$principals[]= $principalUri;
@@ -363,7 +363,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		/**
 		 * @suppress SqlInjectionChecker
 		 */
-		$propPatch->handle($supportedProperties, function($mutations) use ($addressBookId) {
+		$propPatch->handle($supportedProperties, function ($mutations) use ($addressBookId) {
 
 			$updates = [];
 			foreach($mutations as $property=>$newValue) {
@@ -939,7 +939,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$result->closeCursor();
 
-		return array_map(function($array) {
+		return array_map(function ($array) {
 			$array['carddata'] = $this->readBlob($array['carddata']);
 			return $array;
 		}, $cards);

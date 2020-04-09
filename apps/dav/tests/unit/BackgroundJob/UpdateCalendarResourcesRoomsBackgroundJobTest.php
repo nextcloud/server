@@ -146,7 +146,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$res6->method('getBackend')->willReturn($backend3);
 
 		$res6->method('getAllAvailableMetadataKeys')->willReturn(['meta99', 'meta123']);
-		$res6->method('getMetadataForKey')->willReturnCallback(function($key) {
+		$res6->method('getMetadataForKey')->willReturnCallback(function ($key) {
 			switch($key) {
 				case 'meta99':
 					return 'value99-new';
@@ -165,7 +165,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$res7->method('getEMail')->willReturn('res7@foo.bar');
 		$res7->method('getBackend')->willReturn($backend3);
 		$res7->method('getAllAvailableMetadataKeys')->willReturn(['meta1']);
-		$res7->method('getMetadataForKey')->willReturnCallback(function($key) {
+		$res7->method('getMetadataForKey')->willReturnCallback(function ($key) {
 			switch($key) {
 				case 'meta1':
 					return 'value1';
@@ -181,7 +181,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$res8->method('getEMail')->willReturn('res8@foo.bar');
 		$res8->method('getBackend')->willReturn($backend4);
 		$res8->method('getAllAvailableMetadataKeys')->willReturn(['meta2']);
-		$res8->method('getMetadataForKey')->willReturnCallback(function($key) {
+		$res8->method('getMetadataForKey')->willReturnCallback(function ($key) {
 			switch($key) {
 				case 'meta2':
 					return 'value2';

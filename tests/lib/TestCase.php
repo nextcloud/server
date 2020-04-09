@@ -479,7 +479,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		$l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 

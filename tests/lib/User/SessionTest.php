@@ -264,7 +264,7 @@ class SessionTest extends \Test\TestCase {
 		$this->dispatcher->expects($this->once())
 			->method('dispatchTyped')
 			->with(
-				$this->callback(function(PostLoginEvent $e) {
+				$this->callback(function (PostLoginEvent $e) {
 					return $e->getUser()->getUID() === 'foo' &&
 						$e->getPassword() === 'bar' &&
 						$e->isTokenLogin() === false;
@@ -1375,7 +1375,7 @@ class SessionTest extends \Test\TestCase {
 
 		$this->session
 			->method('set')
-			->willReturnCallback(function($k, $v) use (&$davAuthenticatedSet, &$lastPasswordConfirmSet) {
+			->willReturnCallback(function ($k, $v) use (&$davAuthenticatedSet, &$lastPasswordConfirmSet) {
 				switch ($k) {
 					case Auth::DAV_AUTHENTICATED:
 						$davAuthenticatedSet = $v;

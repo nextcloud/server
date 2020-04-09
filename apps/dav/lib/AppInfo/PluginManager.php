@@ -272,7 +272,7 @@ class PluginManager {
 	 * @param string[] $plugin
 	 */
 	private function loadSabreAddressBookPluginsFromInfoXml(array $plugins): void {
-		$providers = array_map(function(string $className): IAddressBookProvider {
+		$providers = array_map(function (string $className): IAddressBookProvider {
 			$instance = $this->createPluginInstance($className);
 			if (!($instance instanceof IAddressBookProvider)) {
 				throw new \Exception("Sabre address book plugin class '$className' does not implement the \OCA\DAV\CardDAV\Integration\IAddressBookProvider interface");

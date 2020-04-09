@@ -181,13 +181,13 @@ class CapabilitiesTest extends TestCase  {
 				->willReturn($background);
 			$this->url->expects($this->exactly(4))
 				->method('getAbsoluteURL')
-				->willReturnCallback(function($url) use($baseUrl) {
+				->willReturnCallback(function ($url) use ($baseUrl) {
 					return $baseUrl . $url;
 				});
 		} else {
 			$this->url->expects($this->exactly(3))
 				->method('getAbsoluteURL')
-				->willReturnCallback(function($url) use($baseUrl) {
+				->willReturnCallback(function ($url) use ($baseUrl) {
 					return $baseUrl . $url;
 				});
 		}

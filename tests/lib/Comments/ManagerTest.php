@@ -378,7 +378,7 @@ class ManagerTest extends TestCase {
 			$expected = array_reverse($expected);
 		}
 
-		$this->assertSame($expected, array_map(function(IComment $c) {
+		$this->assertSame($expected, array_map(function (IComment $c) {
 			return (int) $c->getId();
 		}, $comments));
 	}

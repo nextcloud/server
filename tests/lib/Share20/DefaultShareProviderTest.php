@@ -1767,7 +1767,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		}
 
 		$this->userManager->method('get')->willReturnCallback(
-			function($userId) use ($users) {
+			function ($userId) use ($users) {
 				return $users[$userId];
 			}
 		);
@@ -1824,7 +1824,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		}
 
 		$this->userManager->method('get')->willReturnCallback(
-			function($userId) use ($users) {
+			function ($userId) use ($users) {
 				return $users[$userId];
 			}
 		);
@@ -1890,7 +1890,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		}
 
 		$this->userManager->method('get')->willReturnCallback(
-			function($userId) use ($users) {
+			function ($userId) use ($users) {
 				return $users[$userId];
 			}
 		);
@@ -1947,7 +1947,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		}
 
 		$this->userManager->method('get')->willReturnCallback(
-			function($userId) use ($users) {
+			function ($userId) use ($users) {
 				return $users[$userId];
 			}
 		);
@@ -1960,7 +1960,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		}
 
 		$this->groupManager->method('get')->willReturnCallback(
-			function($groupId) use ($groups) {
+			function ($groupId) use ($groups) {
 				return $groups[$groupId];
 			}
 		);
@@ -2025,7 +2025,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		}
 
 		$this->userManager->method('get')->willReturnCallback(
-			function($userId) use ($users) {
+			function ($userId) use ($users) {
 				return $users[$userId];
 			}
 		);
@@ -2038,7 +2038,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		}
 
 		$this->groupManager->method('get')->willReturnCallback(
-			function($groupId) use ($groups) {
+			function ($groupId) use ($groups) {
 				return $groups[$groupId];
 			}
 		);

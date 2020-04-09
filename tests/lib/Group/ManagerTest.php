@@ -91,7 +91,7 @@ class ManagerTest extends TestCase {
 			->getMock();
 		$backend->expects($this->any())
 			->method('implementsActions')
-			->willReturnCallback(function($actions) use ($implementedActions) {
+			->willReturnCallback(function ($actions) use ($implementedActions) {
 				return (bool)($actions & $implementedActions);
 			});
 		return $backend;
@@ -546,7 +546,7 @@ class ManagerTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('inGroup')
-			->willReturnCallback(function($uid, $gid) {
+			->willReturnCallback(function ($uid, $gid) {
 				switch($uid) {
 					case 'user1' : return false;
 					case 'user2' : return true;
@@ -560,7 +560,7 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
 			->with('user3')
-			->willReturnCallback(function($search, $limit, $offset) {
+			->willReturnCallback(function ($search, $limit, $offset) {
 				switch($offset) {
 					case 0 : return ['user3' => $this->getTestUser('user3'),
 						'user33' => $this->getTestUser('user33')];
@@ -570,7 +570,7 @@ class ManagerTest extends TestCase {
 			});
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($uid) {
+			->willReturnCallback(function ($uid) {
 				switch($uid) {
 					case 'user1' : return $this->getTestUser('user1');
 					case 'user2' : return $this->getTestUser('user2');
@@ -604,7 +604,7 @@ class ManagerTest extends TestCase {
 
 				$backend->expects($this->any())
 			->method('inGroup')
-			->willReturnCallback(function($uid, $gid) {
+			->willReturnCallback(function ($uid, $gid) {
 					switch($uid) {
 						case 'user1' : return false;
 						case 'user2' : return true;
@@ -619,7 +619,7 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
 			->with('user3')
-			->willReturnCallback(function($search, $limit, $offset) {
+			->willReturnCallback(function ($search, $limit, $offset) {
 				switch($offset) {
 					case 0 : return ['user3' => $this->getTestUser('user3'),
 						'user33' => $this->getTestUser('user33')];
@@ -629,7 +629,7 @@ class ManagerTest extends TestCase {
 			});
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($uid) {
+			->willReturnCallback(function ($uid) {
 				switch($uid) {
 					case 'user1' : return $this->getTestUser('user1');
 					case 'user2' : return $this->getTestUser('user2');
@@ -665,7 +665,7 @@ class ManagerTest extends TestCase {
 
 		$backend->expects($this->any())
 			->method('inGroup')
-			->willReturnCallback(function($uid) {
+			->willReturnCallback(function ($uid) {
 					switch($uid) {
 						case 'user1' : return false;
 						case 'user2' : return true;
@@ -680,7 +680,7 @@ class ManagerTest extends TestCase {
 		$this->userManager->expects($this->any())
 			->method('searchDisplayName')
 			->with('user3')
-			->willReturnCallback(function($search, $limit, $offset) {
+			->willReturnCallback(function ($search, $limit, $offset) {
 				switch($offset) {
 					case 0 :
 						return [
@@ -693,7 +693,7 @@ class ManagerTest extends TestCase {
 			});
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($uid) {
+			->willReturnCallback(function ($uid) {
 				switch($uid) {
 					case 'user1' : return $this->getTestUser('user1');
 					case 'user2' : return $this->getTestUser('user2');
@@ -734,7 +734,7 @@ class ManagerTest extends TestCase {
 
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($uid) {
+			->willReturnCallback(function ($uid) {
 				switch($uid) {
 					case 'user1' : return $this->getTestUser('user1');
 					case 'user2' : return $this->getTestUser('user2');
@@ -773,7 +773,7 @@ class ManagerTest extends TestCase {
 
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($uid) {
+			->willReturnCallback(function ($uid) {
 				switch($uid) {
 					case 'user1' : return $this->getTestUser('user1');
 					case 'user2' : return $this->getTestUser('user2');
@@ -812,7 +812,7 @@ class ManagerTest extends TestCase {
 
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($uid) {
+			->willReturnCallback(function ($uid) {
 				switch($uid) {
 					case 'user1' : return $this->getTestUser('user1');
 					case 'user2' : return $this->getTestUser('user2');

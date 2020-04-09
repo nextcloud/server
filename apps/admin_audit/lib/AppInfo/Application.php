@@ -120,7 +120,7 @@ class Application extends App {
 		$userSession->listen('\OC\User', 'postUnassignedUserId', [$userActions, 'unassign']);
 	}
 
-	protected function groupHooks()  {
+	protected function groupHooks() {
 		$groupActions = new GroupManagement($this->logger);
 
 		/** @var IGroupManager|Manager $groupManager */
@@ -154,15 +154,15 @@ class Application extends App {
 	protected function appHooks() {
 
 		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, function(ManagerEvent $event) {
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, function (ManagerEvent $event) {
 			$appActions = new AppManagement($this->logger);
 			$appActions->enableApp($event->getAppID());
 		});
-		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, function(ManagerEvent $event) {
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, function (ManagerEvent $event) {
 			$appActions = new AppManagement($this->logger);
 			$appActions->enableAppForGroups($event->getAppID(), $event->getGroups());
 		});
-		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_DISABLE, function(ManagerEvent $event) {
+		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_DISABLE, function (ManagerEvent $event) {
 			$appActions = new AppManagement($this->logger);
 			$appActions->disableApp($event->getAppID());
 		});
@@ -171,7 +171,7 @@ class Application extends App {
 
 	protected function consoleHooks() {
 		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$eventDispatcher->addListener(ConsoleEvent::EVENT_RUN, function(ConsoleEvent $event) {
+		$eventDispatcher->addListener(ConsoleEvent::EVENT_RUN, function (ConsoleEvent $event) {
 			$appActions = new Console($this->logger);
 			$appActions->runCommand($event->getArguments());
 		});
@@ -182,7 +182,7 @@ class Application extends App {
 		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
 		$eventDispatcher->addListener(
 			IPreview::EVENT,
-			function(GenericEvent $event) use ($fileActions) {
+			function (GenericEvent $event) use ($fileActions) {
 				/** @var File $file */
 				$file = $event->getSubject();
 				$fileActions->preview([
@@ -253,11 +253,11 @@ class Application extends App {
 
 	protected function securityHooks() {
 		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$eventDispatcher->addListener(IProvider::EVENT_SUCCESS, function(GenericEvent $event) {
+		$eventDispatcher->addListener(IProvider::EVENT_SUCCESS, function (GenericEvent $event) {
 			$security = new Security($this->logger);
 			$security->twofactorSuccess($event->getSubject(), $event->getArguments());
 		});
-		$eventDispatcher->addListener(IProvider::EVENT_FAILED, function(GenericEvent $event) {
+		$eventDispatcher->addListener(IProvider::EVENT_FAILED, function (GenericEvent $event) {
 			$security = new Security($this->logger);
 			$security->twofactorFailed($event->getSubject(), $event->getArguments());
 		});

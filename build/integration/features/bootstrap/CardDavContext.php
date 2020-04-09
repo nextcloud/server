@@ -206,7 +206,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	/**
 	 * @Given :user uploads the contact :fileName to the addressbook :addressbook
 	 */
-	public function uploadsTheContactToTheAddressbook($user, $fileName, $addressBook)  {
+	public function uploadsTheContactToTheAddressbook($user, $fileName, $addressBook) {
 		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$user.'/'.$addressBook . '/' . $fileName;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
@@ -239,7 +239,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	/**
 	 * @When Exporting the picture of contact :fileName from addressbook :addressBook as user :user
 	 */
-	public function whenExportingThePictureOfContactFromAddressbookAsUser($fileName, $addressBook, $user)  {
+	public function whenExportingThePictureOfContactFromAddressbookAsUser($fileName, $addressBook, $user) {
 		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$user.'/'.$addressBook . '/' . $fileName . '?photo=true';
 		$password = ($user === 'admin') ? 'admin' : '123456';
 
@@ -265,7 +265,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	/**
 	 * @When Downloading the contact :fileName from addressbook :addressBook as user :user
 	 */
-	public function whenDownloadingTheContactFromAddressbookAsUser($fileName, $addressBook, $user)  {
+	public function whenDownloadingTheContactFromAddressbookAsUser($fileName, $addressBook, $user) {
 		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$user.'/'.$addressBook . '/' . $fileName;
 		$password = ($user === 'admin') ? 'admin' : '123456';
 

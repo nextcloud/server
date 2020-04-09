@@ -62,7 +62,7 @@ class SessionMiddleware extends Middleware {
 	 * @param Response $response
 	 * @return Response
 	 */
-	public function afterController($controller, $methodName, Response $response){
+	public function afterController($controller, $methodName, Response $response) {
 		$useSession = $this->reflector->hasAnnotation('UseSession');
 		if ($useSession) {
 			$this->session->close();

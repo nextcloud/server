@@ -184,7 +184,7 @@ class UsersController extends Controller {
 		if(!$isLDAPUsed) {
 			if ($this->isAdmin) {
 				$disabledUsers = $this->userManager->countDisabledUsers();
-				$userCount = array_reduce($this->userManager->countUsers(), function($v, $w) {
+				$userCount = array_reduce($this->userManager->countUsers(), function ($v, $w) {
 					return $v + (int)$w;
 				}, 0);
 			} else {

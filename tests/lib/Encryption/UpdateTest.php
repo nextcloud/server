@@ -147,7 +147,7 @@ class UpdateTest extends TestCase {
 		} else {
 			$updateMock->expects($this->once())
 				->method('getOwnerPath')
-				->willReturnCallback(function($path) use ($target) {
+				->willReturnCallback(function ($path) use ($target) {
 					$this->assertSame(
 						$target,
 						$path,

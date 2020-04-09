@@ -169,7 +169,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getId(){
+	public function getId() {
 		$id = 'sftp::' . $this->user . '@' . $this->host;
 		if ($this->port !== 22) {
 			$id .= ':' . $this->port;

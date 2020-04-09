@@ -75,7 +75,7 @@ class AddServerMiddlewareTest extends TestCase {
 
 		$this->l10n->expects($this->any())->method('t')
 			->willReturnCallback(
-				function($message) {
+				function ($message) {
 					return $message;
 				}
 			);

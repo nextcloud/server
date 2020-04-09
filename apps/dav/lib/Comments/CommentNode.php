@@ -85,7 +85,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 		$this->logger = $logger;
 
 		$methods = get_class_methods($this->comment);
-		$methods = array_filter($methods, function($name){
+		$methods = array_filter($methods, function ($name) {
 			return strpos($name, 'get') === 0;
 		});
 		foreach($methods as $getter) {
@@ -283,7 +283,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @return array
 	 */
 	protected function composeMentionsPropertyValue() {
-		return array_map(function($mention) {
+		return array_map(function ($mention) {
 			try {
 				$displayName = $this->commentsManager->resolveDisplayName($mention['type'], $mention['id']);
 			} catch (\OutOfBoundsException $e) {

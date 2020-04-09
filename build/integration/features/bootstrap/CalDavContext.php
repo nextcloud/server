@@ -80,7 +80,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	 * @param string $calendar
 	 * @param string $endpoint
 	 */
-	public function requestsCalendar($user, $calendar, $endpoint)  {
+	public function requestsCalendar($user, $calendar, $endpoint) {
 		$davUrl = $this->baseUrl . $endpoint . $calendar;
 
 		$password = ($user === 'admin') ? 'admin' : '123456';

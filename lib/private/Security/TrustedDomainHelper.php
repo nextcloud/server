@@ -98,7 +98,7 @@ class TrustedDomainHelper {
 			if (gettype($trusted) !== 'string') {
 				break;
 			}
-			$regex = '/^' . implode('[-\.a-zA-Z0-9]*', array_map(function($v) { return preg_quote($v, '/'); }, explode('*', $trusted))) . '$/i';
+			$regex = '/^' . implode('[-\.a-zA-Z0-9]*', array_map(function ($v) { return preg_quote($v, '/'); }, explode('*', $trusted))) . '$/i';
 			if (preg_match($regex, $domain) || preg_match($regex, $domainWithPort)) {
 				return true;
 			}

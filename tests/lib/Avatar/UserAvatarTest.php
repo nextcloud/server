@@ -57,13 +57,13 @@ class UserAvatarTest extends \Test\TestCase {
 			->willReturn($file);
 
 		$this->folder->method('getFile')
-			->willReturnCallback(function($path) {
+			->willReturnCallback(function ($path) {
 				if ($path === 'avatar.64.png') {
 					throw new NotFoundException();
 				}
 			});
 		$this->folder->method('fileExists')
-			->willReturnCallback(function($path) {
+			->willReturnCallback(function ($path) {
 				if ($path === 'generated') {
 					return true;
 				}
@@ -134,7 +134,7 @@ class UserAvatarTest extends \Test\TestCase {
 
 		$this->folder->method('getFile')
 			->willReturnCallback(
-				function($path) use ($file) {
+				function ($path) use ($file) {
 					if ($path === 'avatar.png') {
 						return $file;
 					} else {

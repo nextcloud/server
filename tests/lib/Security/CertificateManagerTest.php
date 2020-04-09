@@ -181,7 +181,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		}
 
 		$view->expects($this->any())->method('filemtime')
-			->willReturnCallback(function($path) use ($systemWideMtime, $targetBundleMtime)  {
+			->willReturnCallback(function ($path) use ($systemWideMtime, $targetBundleMtime) {
 				if ($path === 'SystemBundlePath') {
 					return $systemWideMtime;
 				} elseif ($path === 'targetBundlePath') {

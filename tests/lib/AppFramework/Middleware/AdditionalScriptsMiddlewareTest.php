@@ -82,7 +82,7 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 	public function testStandaloneTemplateResponse() {
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
-			->willReturnCallback(function($eventName) {
+			->willReturnCallback(function ($eventName) {
 				if ($eventName === TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS) {
 					return;
 				}
@@ -98,7 +98,7 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 	public function testTemplateResponseNotLoggedIn() {
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
-			->willReturnCallback(function($eventName) {
+			->willReturnCallback(function ($eventName) {
 				if ($eventName === TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS) {
 					return;
 				}
@@ -116,7 +116,7 @@ class AdditionalScriptsMiddlewareTest extends \Test\TestCase {
 
 		$this->dispatcher->expects($this->exactly(2))
 			->method('dispatch')
-			->willReturnCallback(function($eventName) use (&$events) {
+			->willReturnCallback(function ($eventName) use (&$events) {
 				if ($eventName === TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS ||
 					$eventName === TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN) {
 					$events[] = $eventName;

@@ -122,7 +122,7 @@ class SystemTagsByIdCollection implements ICollection {
 		}
 
 		$tags = $this->tagManager->getAllTags($visibilityFilter);
-		return array_map(function($tag) {
+		return array_map(function ($tag) {
 			return $this->makeNode($tag);
 		}, $tags);
 	}

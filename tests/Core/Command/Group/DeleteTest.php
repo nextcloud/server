@@ -57,7 +57,7 @@ class DeleteTest extends TestCase {
 	public function testDoesNotExists() {
 		$gid = 'myGroup';
 		$this->input->method('getArgument')
-			->willReturnCallback(function($arg) use ($gid) {
+			->willReturnCallback(function ($arg) use ($gid) {
 				if ($arg === 'groupid') {
 					return $gid;
 				}
@@ -79,7 +79,7 @@ class DeleteTest extends TestCase {
 	public function testDeleteAdmin() {
 		$gid = 'admin';
 		$this->input->method('getArgument')
-			->willReturnCallback(function($arg) use ($gid) {
+			->willReturnCallback(function ($arg) use ($gid) {
 				if ($arg === 'groupid') {
 					return $gid;
 				}
@@ -98,7 +98,7 @@ class DeleteTest extends TestCase {
 	public function testDeleteFailed() {
 		$gid = 'myGroup';
 		$this->input->method('getArgument')
-			->willReturnCallback(function($arg) use ($gid) {
+			->willReturnCallback(function ($arg) use ($gid) {
 				if ($arg === 'groupid') {
 					return $gid;
 				}
@@ -124,7 +124,7 @@ class DeleteTest extends TestCase {
 	public function testDelete() {
 		$gid = 'myGroup';
 		$this->input->method('getArgument')
-			->willReturnCallback(function($arg) use ($gid) {
+			->willReturnCallback(function ($arg) use ($gid) {
 				if ($arg === 'groupid') {
 					return $gid;
 				}

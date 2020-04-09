@@ -176,7 +176,7 @@ class LoggerTest extends TestCase implements IWriter {
 	 * @dataProvider userAndPasswordData
 	 */
 	public function testDetectclosure(string $user, string $password): void {
-		$a = function($user, $password) {
+		$a = function ($user, $password) {
 			throw new \Exception('test');
 		};
 		$this->registry->expects($this->once())

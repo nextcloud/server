@@ -96,7 +96,7 @@ trait AppConfiguration {
 	 * reset the configs before each scenario
 	 * @param BeforeScenarioScope $event
 	 */
-	public function prepareParameters(BeforeScenarioScope $event){
+	public function prepareParameters(BeforeScenarioScope $event) {
 		$user = $this->currentUser;
 		$this->currentUser = 'admin';
 

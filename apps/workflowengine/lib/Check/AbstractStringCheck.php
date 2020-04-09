@@ -50,7 +50,7 @@ abstract class AbstractStringCheck implements ICheck {
 	 * @param string $value
 	 * @return bool
 	 */
-	public function executeCheck($operator, $value)  {
+	public function executeCheck($operator, $value) {
 		$actualValue = $this->getActualValue();
 		return $this->executeStringCheck($operator, $value, $actualValue);
 	}

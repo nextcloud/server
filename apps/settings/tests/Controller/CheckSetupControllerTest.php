@@ -116,7 +116,7 @@ class CheckSetupControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->l10n->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($message, array $replace) {
+			->willReturnCallback(function ($message, array $replace) {
 				return vsprintf($message, $replace);
 			});
 		$this->dispatcher = $this->getMockBuilder(EventDispatcherInterface::class)
@@ -513,7 +513,7 @@ class CheckSetupControllerTest extends TestCase {
 			->willReturn(true);
 
 		$this->urlGenerator->method('linkToDocs')
-			->willReturnCallback(function(string $key): string {
+			->willReturnCallback(function (string $key): string {
 				if ($key === 'admin-performance') {
 					return 'http://docs.example.org/server/go.php?to=admin-performance';
 				}
@@ -536,7 +536,7 @@ class CheckSetupControllerTest extends TestCase {
 			});
 
 		$this->urlGenerator->method('getAbsoluteURL')
-			->willReturnCallback(function(string $url): string {
+			->willReturnCallback(function (string $url): string {
 				if ($url === 'index.php/settings/admin') {
 					return 'https://server/index.php/settings/admin';
 				}
@@ -1391,7 +1391,7 @@ Array
 	 */
 	public function testIsMysqlUsedWithoutUTF8MB4(string $db, bool $useUTF8MB4, bool $expected) {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) use ($db, $useUTF8MB4) {
+			->willReturnCallback(function ($key, $default) use ($db, $useUTF8MB4) {
 				if ($key === 'dbtype') {
 					return $db;
 				}
@@ -1439,7 +1439,7 @@ Array
 	 */
 	public function testIsEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(string $mode, string $className, bool $expected) {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) use ($mode, $className) {
+			->willReturnCallback(function ($key, $default) use ($mode, $className) {
 				if ($key === 'objectstore' && $mode === 'singlebucket') {
 					return ['class' => $className];
 				}

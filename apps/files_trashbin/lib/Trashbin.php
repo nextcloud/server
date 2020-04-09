@@ -549,7 +549,7 @@ class Trashbin {
 	 * wrapper function to emit the 'preDelete' hook of \OCP\Trashbin before a file is deleted
 	 * @param string $path
 	 */
-	protected static function emitTrashbinPreDelete($path){
+	protected static function emitTrashbinPreDelete($path) {
 		\OC_Hook::emit('\OCP\Trashbin', 'preDelete', ['path' => $path]);
 	}
 
@@ -557,7 +557,7 @@ class Trashbin {
 	 * wrapper function to emit the 'delete' hook of \OCP\Trashbin after a file has been deleted
 	 * @param string $path
 	 */
-	protected static function emitTrashbinPostDelete($path){
+	protected static function emitTrashbinPostDelete($path) {
 		\OC_Hook::emit('\OCP\Trashbin', 'delete', ['path' => $path]);
 	}
 

@@ -147,7 +147,7 @@ abstract class ASettings implements ISettings {
 
 	private function entitiesToArray(array $entities) {
 		return array_map(function (IEntity $entity) {
-			$events = array_map(function(IEntityEvent $entityEvent) {
+			$events = array_map(function (IEntityEvent $entityEvent) {
 				return [
 					'eventName' => $entityEvent->getEventName(),
 					'displayName' => $entityEvent->getDisplayName()
@@ -164,7 +164,7 @@ abstract class ASettings implements ISettings {
 	}
 
 	private function operatorsToArray(array $operators) {
-		$operators = array_filter($operators, function(IOperation $operator) {
+		$operators = array_filter($operators, function (IOperation $operator) {
 			return $operator->isAvailableForScope($this->getScope());
 		});
 
@@ -182,7 +182,7 @@ abstract class ASettings implements ISettings {
 	}
 
 	private function checksToArray(array $checks) {
-		$checks = array_filter($checks, function(ICheck $check) {
+		$checks = array_filter($checks, function (ICheck $check) {
 			return $check->isAvailableForScope($this->getScope());
 		});
 

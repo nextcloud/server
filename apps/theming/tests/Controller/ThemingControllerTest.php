@@ -151,7 +151,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->once())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 		$this->scssCacher
@@ -210,7 +210,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
@@ -241,7 +241,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
@@ -289,7 +289,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
@@ -333,7 +333,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
@@ -394,7 +394,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
@@ -470,7 +470,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
@@ -544,7 +544,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
@@ -602,7 +602,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 
@@ -641,7 +641,7 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($str) {
+			->willReturnCallback(function ($str) {
 				return $str;
 			});
 

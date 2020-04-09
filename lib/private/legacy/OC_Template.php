@@ -72,7 +72,7 @@ class OC_Template extends \OC\Template\Base {
 	 *                         "admin".
 	 * @param bool $registerCall = true
 	 */
-	public function __construct( $app, $name, $renderAs = "", $registerCall = true ) {
+	public function __construct($app, $name, $renderAs = "", $registerCall = true) {
 		// Read the selected theme from the config file
 		self::initTemplateEngine($renderAs);
 
@@ -227,7 +227,7 @@ class OC_Template extends \OC\Template\Base {
 	 * Includes another template. use <?php echo $this->inc('template'); ?> to
 	 * do this.
 	 */
-	public function inc( $file, $additionalParams = null ) {
+	public function inc($file, $additionalParams = null) {
 		return $this->load($this->path.$file.'.php', $additionalParams);
 	}
 
@@ -238,7 +238,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param array $parameters Parameters for the template
 	 * @return boolean|null
 	 */
-	public static function printUserPage( $application, $name, $parameters = [] ) {
+	public static function printUserPage($application, $name, $parameters = []) {
 		$content = new OC_Template( $application, $name, "user" );
 		foreach( $parameters as $key => $value ) {
 			$content->assign( $key, $value );
@@ -253,7 +253,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param array $parameters Parameters for the template
 	 * @return bool
 	 */
-	public static function printAdminPage( $application, $name, $parameters = [] ) {
+	public static function printAdminPage($application, $name, $parameters = []) {
 		$content = new OC_Template( $application, $name, "admin" );
 		foreach( $parameters as $key => $value ) {
 			$content->assign( $key, $value );
@@ -268,7 +268,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param array|string $parameters Parameters for the template
 	 * @return bool
 	 */
-	public static function printGuestPage( $application, $name, $parameters = [] ) {
+	public static function printGuestPage($application, $name, $parameters = []) {
 		$content = new OC_Template($application, $name, $name === 'error' ? $name : 'guest');
 		foreach( $parameters as $key => $value ) {
 			$content->assign( $key, $value );
@@ -283,7 +283,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param int $statusCode
 	 * @suppress PhanAccessMethodInternal
 	 */
-	public static function printErrorPage( $error_msg, $hint = '', $statusCode = 500) {
+	public static function printErrorPage($error_msg, $hint = '', $statusCode = 500) {
 		if (\OC::$server->getAppManager()->isEnabledForUser('theming') && !\OC_App::isAppLoaded('theming')) {
 			\OC_App::loadApp('theming');
 		}

@@ -44,7 +44,7 @@ class RequestUserAgentTest extends TestCase {
 			->getMock();
 		$l->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($string, $args) {
+			->willReturnCallback(function ($string, $args) {
 				return sprintf($string, $args);
 			});
 

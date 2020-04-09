@@ -246,12 +246,12 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin
 
 		$isFav = null;
 
-		$propFind->handle(self::TAGS_PROPERTYNAME, function() use (&$isFav, $node) {
+		$propFind->handle(self::TAGS_PROPERTYNAME, function () use (&$isFav, $node) {
 			list($tags, $isFav) = $this->getTagsAndFav($node->getId());
 			return new TagList($tags);
 		});
 
-		$propFind->handle(self::FAVORITE_PROPERTYNAME, function() use ($isFav, $node) {
+		$propFind->handle(self::FAVORITE_PROPERTYNAME, function () use ($isFav, $node) {
 			if (is_null($isFav)) {
 				list(, $isFav) = $this->getTagsAndFav($node->getId());
 			}
@@ -277,12 +277,12 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin
 			return;
 		}
 
-		$propPatch->handle(self::TAGS_PROPERTYNAME, function($tagList) use ($node) {
+		$propPatch->handle(self::TAGS_PROPERTYNAME, function ($tagList) use ($node) {
 			$this->updateTags($node->getId(), $tagList->getTags());
 			return true;
 		});
 
-		$propPatch->handle(self::FAVORITE_PROPERTYNAME, function($favState) use ($node) {
+		$propPatch->handle(self::FAVORITE_PROPERTYNAME, function ($favState) use ($node) {
 			if ((int)$favState === 1 || $favState === 'true') {
 				$this->getTagger()->tagAs($node->getId(), self::TAG_FAVORITE);
 			} else {

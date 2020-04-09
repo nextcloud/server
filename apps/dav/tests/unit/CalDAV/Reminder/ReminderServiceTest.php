@@ -501,7 +501,7 @@ EOD;
 
 		$provider1->expects($this->once())
 			->method('send')
-			->with($this->callback(function($vevent) {
+			->with($this->callback(function ($vevent) {
 				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-06-09T00:00:00+00:00') {
 					return false;
 				}
@@ -509,7 +509,7 @@ EOD;
 			}, 'Displayname 123', $user));
 		$provider2->expects($this->once())
 			->method('send')
-			->with($this->callback(function($vevent) {
+			->with($this->callback(function ($vevent) {
 				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-06-09T00:00:00+00:00') {
 					return false;
 				}
@@ -517,7 +517,7 @@ EOD;
 			}, 'Displayname 123', $user));
 		$provider3->expects($this->once())
 			->method('send')
-			->with($this->callback(function($vevent) {
+			->with($this->callback(function ($vevent) {
 				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-06-09T00:00:00+00:00') {
 					return false;
 				}
@@ -525,7 +525,7 @@ EOD;
 			}, 'Displayname 123', $user));
 		$provider4->expects($this->once())
 			->method('send')
-			->with($this->callback(function($vevent) {
+			->with($this->callback(function ($vevent) {
 				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-06-30T00:00:00+00:00') {
 					return false;
 				}
@@ -533,7 +533,7 @@ EOD;
 			}, 'Displayname 123', $user));
 		$provider5->expects($this->once())
 			->method('send')
-			->with($this->callback(function($vevent) {
+			->with($this->callback(function ($vevent) {
 				if ($vevent->DTSTART->getDateTime()->format(\DateTime::ATOM) !== '2016-07-07T00:00:00+00:00') {
 					return false;
 				}

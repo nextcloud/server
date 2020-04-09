@@ -195,7 +195,7 @@ class Manager {
 		}
 
 		$attributes = array_reduce($attributes,
-			function($list, $attribute) {
+			function ($list, $attribute) {
 				$attribute = strtolower(trim((string)$attribute));
 				if(!empty($attribute) && !in_array($attribute, $list)) {
 					$list[] = $attribute;

@@ -78,7 +78,7 @@ class ManagerTest extends TestCase {
 		/** @var IL10N|MockObject $l */
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 
@@ -414,7 +414,7 @@ class ManagerTest extends TestCase {
 		$this->legacyDispatcher->expects($this->once())
 			->method('dispatch')
 			->with('OCP\WorkflowEngine::registerEntities', $this->anything())
-			->willReturnCallback(function() use ($extraEntity) {
+			->willReturnCallback(function () use ($extraEntity) {
 				$this->manager->registerEntity($extraEntity);
 			});
 

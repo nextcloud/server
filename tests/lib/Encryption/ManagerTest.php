@@ -60,7 +60,7 @@ class ManagerTest extends TestCase {
 		$em = $this->createMock(IEncryptionModule::class);
 		$em->expects($this->any())->method('getId')->willReturn('id');
 		$em->expects($this->any())->method('getDisplayName')->willReturn('TestDummyModule0');
-		$this->manager->registerEncryptionModule('id', 'TestDummyModule0', function() use ($em) {return $em;});
+		$this->manager->registerEncryptionModule('id', 'TestDummyModule0', function () use ($em) {return $em;});
 		$this->assertFalse($this->manager->isEnabled());
 	}
 
@@ -117,7 +117,7 @@ class ManagerTest extends TestCase {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->with('core', 'default_encryption_module')
-			->willReturnCallback(function() { global $defaultId; return $defaultId; });
+			->willReturnCallback(function () { global $defaultId; return $defaultId; });
 
 		$this->addNewEncryptionModule($this->manager, 0);
 		$this->assertCount(1, $this->manager->getEncryptionModules());
@@ -138,7 +138,7 @@ class ManagerTest extends TestCase {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->with('core', 'default_encryption_module')
-			->willReturnCallback(function() { global $defaultId; return $defaultId; });
+			->willReturnCallback(function () { global $defaultId; return $defaultId; });
 
 		$this->addNewEncryptionModule($this->manager, 0);
 		$defaultId = 'ID0';
@@ -160,7 +160,7 @@ class ManagerTest extends TestCase {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->with('core', 'default_encryption_module')
-			->willReturnCallback(function() { global $defaultId; return $defaultId; });
+			->willReturnCallback(function () { global $defaultId; return $defaultId; });
 
 		$this->addNewEncryptionModule($this->manager, 0);
 		$this->assertCount(1, $this->manager->getEncryptionModules());
@@ -251,7 +251,7 @@ class ManagerTest extends TestCase {
 			->method('getDisplayName')
 			->willReturn('TestDummyModule' . $id);
 		/** @var \OCP\Encryption\IEncryptionModule $encryptionModule */
-		$manager->registerEncryptionModule('ID' . $id, 'TestDummyModule' . $id, function() use ($encryptionModule) {
+		$manager->registerEncryptionModule('ID' . $id, 'TestDummyModule' . $id, function () use ($encryptionModule) {
 			return $encryptionModule;
 		});
 	}

@@ -175,7 +175,7 @@ class PersonalInfo implements ISettings {
 	 */
 	private function getGroups(IUser $user) {
 		$groups = array_map(
-			function(IGroup $group) {
+			function (IGroup $group) {
 				return $group->getDisplayName();
 			},
 			$this->groupManager->getUserGroups($user)
@@ -239,7 +239,7 @@ class PersonalInfo implements ISettings {
 
 		$localeCodes = $this->l10nFactory->findAvailableLocales();
 
-		$userLocale = array_filter($localeCodes, function($value) use ($userLocaleString) {
+		$userLocale = array_filter($localeCodes, function ($value) use ($userLocaleString) {
 			return $userLocaleString === $value['code'];
 		});
 
@@ -248,7 +248,7 @@ class PersonalInfo implements ISettings {
 			$userLocale = reset($userLocale);
 		}
 
-		$localesForLanguage = array_filter($localeCodes, function($localeCode) use ($userLang) {
+		$localesForLanguage = array_filter($localeCodes, function ($localeCode) use ($userLang) {
 			return 0 === strpos($localeCode['code'], $userLang);
 		});
 

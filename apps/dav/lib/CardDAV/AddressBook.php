@@ -145,7 +145,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 
 		$acl = $this->carddavBackend->applyShareAcl($this->getResourceId(), $acl);
 		$allowedPrincipals = [$this->getOwner(), parent::getOwner(), 'principals/system/system'];
-		return array_filter($acl, function($rule) use ($allowedPrincipals) {
+		return array_filter($acl, function ($rule) use ($allowedPrincipals) {
 			return \in_array($rule['principal'], $allowedPrincipals, true);
 		});
 	}
@@ -183,7 +183,7 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
 			$principal = 'principal:' . parent::getOwner();
 			$shares = $this->carddavBackend->getShares($this->getResourceId());
-			$shares = array_filter($shares, function($share) use ($principal){
+			$shares = array_filter($shares, function ($share) use ($principal) {
 				return $share['href'] === $principal;
 			});
 			if (empty($shares)) {

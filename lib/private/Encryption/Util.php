@@ -275,7 +275,7 @@ class Util {
 		$result = [];
 		if (in_array('all', $users)) {
 			$users = $this->userManager->search('', null, null);
-			$result = array_map(function(IUser $user) {
+			$result = array_map(function (IUser $user) {
 				return $user->getUID();
 			}, $users);
 		} else {

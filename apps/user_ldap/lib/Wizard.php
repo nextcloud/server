@@ -79,7 +79,7 @@ class Wizard extends LDAPUtility {
 		$this->result = new WizardResult();
 	}
 
-	public function  __destruct() {
+	public function __destruct() {
 		if($this->result->hasChanges()) {
 			$this->configuration->saveConfiguration();
 		}

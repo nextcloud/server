@@ -181,7 +181,7 @@ class Application extends App {
 			$server = $c->query('ServerContainer');
 			return new \OCA\Files_Sharing\External\MountProvider(
 				$server->getDatabaseConnection(),
-				function() use ($c) {
+				function () use ($c) {
 					return $c->query('ExternalManager');
 				},
 				$server->getCloudIdManager()
@@ -215,19 +215,19 @@ class Application extends App {
 		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
 		$dispatcher->addServiceListener(LoadSidebar::class, LoadSidebarListener::class);
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, ShareInteractionListener::class);
-		$dispatcher->addListener('\OCP\Collaboration\Resources::loadAdditionalScripts', function() {
+		$dispatcher->addListener('\OCP\Collaboration\Resources::loadAdditionalScripts', function () {
 			\OCP\Util::addScript('files_sharing', 'dist/collaboration');
 		});
 		$dispatcher->addServiceListener(ShareCreatedEvent::class, UserShareAcceptanceListener::class);
 		$dispatcher->addServiceListener(UserAddedEvent::class, UserAddedToGroupListener::class);
 
 		// notifications api to accept incoming user shares
-		$dispatcher->addListener('OCP\Share::postShare', function(GenericEvent $event) {
+		$dispatcher->addListener('OCP\Share::postShare', function (GenericEvent $event) {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->shareNotification($event);
 		});
-		$dispatcher->addListener(IGroup::class . '::postAddUser', function(GenericEvent $event) {
+		$dispatcher->addListener(IGroup::class . '::postAddUser', function (GenericEvent $event) {
 			/** @var Listener $listener */
 			$listener = $this->getContainer()->query(Listener::class);
 			$listener->userAddedToGroup($event);

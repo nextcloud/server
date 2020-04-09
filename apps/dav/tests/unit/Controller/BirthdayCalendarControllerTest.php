@@ -82,7 +82,7 @@ class BirthdayCalendarControllerTest extends TestCase {
 
 		$this->userManager->expects($this->once())
 			->method('callForSeenUsers')
-			->willReturnCallback(function($closure) {
+			->willReturnCallback(function ($closure) {
 				$user1 = $this->createMock(IUser::class);
 				$user1->method('getUID')->willReturn('uid1');
 				$user2 = $this->createMock(IUser::class);

@@ -83,7 +83,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param array $urlParams
 	 * @param ServerContainer|null $server
 	 */
-	public function __construct($appName, $urlParams = [], ServerContainer $server = null){
+	public function __construct($appName, $urlParams = [], ServerContainer $server = null) {
 		parent::__construct();
 		$this['AppName'] = $appName;
 		$this['urlParams'] = $urlParams;
@@ -105,11 +105,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		/**
 		 * Core services
 		 */
-		$this->registerService(IOutput::class, function(){
+		$this->registerService(IOutput::class, function () {
 			return new Output($this->getServer()->getWebRoot());
 		});
 
-		$this->registerService(Folder::class, function() {
+		$this->registerService(Folder::class, function () {
 			return $this->getServer()->getUserFolder();
 		});
 
@@ -117,7 +117,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getAppDataDir($c->query('AppName'));
 		});
 
-		$this->registerService(IL10N::class, function($c) {
+		$this->registerService(IL10N::class, function ($c) {
 			return $this->getServer()->getL10N($c->query('AppName'));
 		});
 
@@ -156,14 +156,14 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $c->query(OC\GlobalScale\Config::class);
 		});
 
-		$this->registerService('Protocol', function($c){
+		$this->registerService('Protocol', function ($c) {
 			/** @var \OC\Server $server */
 			$server = $c->query('ServerContainer');
 			$protocol = $server->getRequest()->getHttpProtocol();
 			return new Http($_SERVER, $protocol);
 		});
 
-		$this->registerService('Dispatcher', function($c) {
+		$this->registerService('Dispatcher', function ($c) {
 			return new Dispatcher(
 				$c['Protocol'],
 				$c['MiddlewareDispatcher'],
@@ -182,7 +182,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		/**
 		 * Middleware
 		 */
-		$this->registerService('MiddlewareDispatcher', function(SimpleContainer $c) {
+		$this->registerService('MiddlewareDispatcher', function (SimpleContainer $c) {
 			$server =  $this->getServer();
 
 			$dispatcher = new MiddlewareDispatcher();
@@ -376,7 +376,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
 	 */
 	public function registerCapability($serviceName) {
-		$this->query('OC\CapabilitiesManager')->registerCapability(function() use ($serviceName) {
+		$this->query('OC\CapabilitiesManager')->registerCapability(function () use ($serviceName) {
 			return $this->query($serviceName);
 		});
 	}

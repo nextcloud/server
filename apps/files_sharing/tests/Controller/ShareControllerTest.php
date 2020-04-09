@@ -284,7 +284,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('core', 'shareapi_public_link_disclaimertext', null)
 			->willReturn('My disclaimer text');
 
-		$this->userManager->method('get')->willReturnCallback(function(string $uid) use ($owner, $initiator) {
+		$this->userManager->method('get')->willReturnCallback(function (string $uid) use ($owner, $initiator) {
 			if ($uid === 'ownerUID') {
 				return $owner;
 			}
@@ -298,14 +298,14 @@ class ShareControllerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				'OCA\Files_Sharing::loadAdditionalScripts',
-				$this->callback(function($event) use ($share) {
+				$this->callback(function ($event) use ($share) {
 					return $event->getArgument('share') === $share;
 				})
 			);
 
 		$this->l10n->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($text, $parameters) {
+			->willReturnCallback(function ($text, $parameters) {
 				return vsprintf($text, $parameters);
 			});
 
@@ -432,7 +432,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('core', 'shareapi_public_link_disclaimertext', null)
 			->willReturn('My disclaimer text');
 
-		$this->userManager->method('get')->willReturnCallback(function(string $uid) use ($owner, $initiator) {
+		$this->userManager->method('get')->willReturnCallback(function (string $uid) use ($owner, $initiator) {
 			if ($uid === 'ownerUID') {
 				return $owner;
 			}
@@ -446,14 +446,14 @@ class ShareControllerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				'OCA\Files_Sharing::loadAdditionalScripts',
-				$this->callback(function($event) use ($share) {
+				$this->callback(function ($event) use ($share) {
 					return $event->getArgument('share') === $share;
 				})
 			);
 
 		$this->l10n->expects($this->any())
 			->method('t')
-			->will($this->returnCallback(function($text, $parameters) {
+			->will($this->returnCallback(function ($text, $parameters) {
 				return vsprintf($text, $parameters);
 			}));
 
@@ -583,7 +583,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('core', 'shareapi_public_link_disclaimertext', null)
 			->willReturn('My disclaimer text');
 
-		$this->userManager->method('get')->willReturnCallback(function(string $uid) use ($owner, $initiator) {
+		$this->userManager->method('get')->willReturnCallback(function (string $uid) use ($owner, $initiator) {
 			if ($uid === 'ownerUID') {
 				return $owner;
 			}
@@ -597,14 +597,14 @@ class ShareControllerTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				'OCA\Files_Sharing::loadAdditionalScripts',
-				$this->callback(function($event) use ($share) {
+				$this->callback(function ($event) use ($share) {
 					return $event->getArgument('share') === $share;
 				})
 			);
 
 		$this->l10n->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($text, $parameters) {
+			->willReturnCallback(function ($text, $parameters) {
 				return vsprintf($text, $parameters);
 			});
 
@@ -712,7 +712,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('token')
 			->willReturn($share);
 
-		$this->userManager->method('get')->willReturnCallback(function(string $uid) use ($owner, $initiator) {
+		$this->userManager->method('get')->willReturnCallback(function (string $uid) use ($owner, $initiator) {
 			if ($uid === 'ownerUID') {
 				return $owner;
 			}
@@ -724,7 +724,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$this->l10n->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($text, $parameters) {
+			->willReturnCallback(function ($text, $parameters) {
 				return vsprintf($text, $parameters);
 			});
 
@@ -869,7 +869,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('token')
 			->willReturn($share);
 
-		$this->userManager->method('get')->willReturnCallback(function(string $uid) use ($owner, $initiator) {
+		$this->userManager->method('get')->willReturnCallback(function (string $uid) use ($owner, $initiator) {
 			if ($uid === 'ownerUID') {
 				return $owner;
 			}
@@ -910,7 +910,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->with('token')
 			->willReturn($share);
 
-		$this->userManager->method('get')->willReturnCallback(function(string $uid) use ($owner, $initiator) {
+		$this->userManager->method('get')->willReturnCallback(function (string $uid) use ($owner, $initiator) {
 			if ($uid === 'ownerUID') {
 				return $owner;
 			}

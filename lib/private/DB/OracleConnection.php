@@ -98,7 +98,7 @@ class OracleConnection extends Connection {
 	 * @param string $table table name without the prefix
 	 * @return bool
 	 */
-	public function tableExists($table){
+	public function tableExists($table) {
 		$table = $this->tablePrefix . trim($table);
 		$table = $this->quoteIdentifier($table);
 		$schema = $this->getSchemaManager();

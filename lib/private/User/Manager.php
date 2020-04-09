@@ -422,7 +422,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function countUsersOfGroups(array $groups) {
 		$users = [];
 		foreach($groups as $group) {
-			$usersIds = array_map(function($user) {
+			$usersIds = array_map(function ($user) {
 				return $user->getUID();
 			}, $group->getUsers());
 			$users = array_merge($users, $usersIds);
@@ -618,11 +618,11 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function getByEmail($email) {
 		$userIds = $this->config->getUsersForUserValueCaseInsensitive('settings', 'email', $email);
 
-		$users = array_map(function($uid) {
+		$users = array_map(function ($uid) {
 			return $this->get($uid);
 		}, $userIds);
 
-		return array_values(array_filter($users, function($u) {
+		return array_values(array_filter($users, function ($u) {
 			return ($u instanceof IUser);
 		}));
 	}

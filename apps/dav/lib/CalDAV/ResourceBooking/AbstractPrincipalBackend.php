@@ -305,11 +305,11 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 
 				default:
 					$rowsByMetadata = $this->searchPrincipalsByMetadataKey($prop, $value);
-					$filteredRows = array_filter($rowsByMetadata, function($row) use ($usersGroups) {
+					$filteredRows = array_filter($rowsByMetadata, function ($row) use ($usersGroups) {
 						return $this->isAllowedToAccessResource($row, $usersGroups);
 					});
 
-					$results[] = array_map(function($row) {
+					$results[] = array_map(function ($row) {
 						return $row['uri'];
 					}, $filteredRows);
 

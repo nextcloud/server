@@ -108,7 +108,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -164,7 +164,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -221,7 +221,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -304,7 +304,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);
@@ -382,7 +382,7 @@ EOF;
 		$called = false;
 		$this->responseServer->expects($this->once())
 			->method('handleITipMessage')
-			->willReturnCallback(function(Message $iTipMessage) use (&$called, $expected) {
+			->willReturnCallback(function (Message $iTipMessage) use (&$called, $expected) {
 				$called = true;
 				$this->assertEquals('this-is-the-events-uid', $iTipMessage->uid);
 				$this->assertEquals('VEVENT', $iTipMessage->component);

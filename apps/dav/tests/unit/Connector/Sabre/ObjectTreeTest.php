@@ -283,7 +283,7 @@ class ObjectTreeTest extends \Test\TestCase {
 			->getMock();
 		$view->expects($this->once())
 			->method('resolvePath')
-			->willReturnCallback(function($path) use ($storage){
+			->willReturnCallback(function ($path) use ($storage) {
 			return [$storage, ltrim($path, '/')];
 		});
 

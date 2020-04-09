@@ -51,7 +51,7 @@ class MountPointTest extends \Test\TestCase {
 			->will($this->throwException(new \Exception('Test storage init exception')));
 
 		$called = false;
-		$wrapper = function($mountPoint, $storage) use ($called) {
+		$wrapper = function ($mountPoint, $storage) use ($called) {
 			$called = true;
 		};
 

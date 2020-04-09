@@ -332,7 +332,7 @@ class ChangeKeyStorageRootTest extends TestCase {
 	public function testPrepareParentFolder($path, $pathExists) {
 		$this->view->expects($this->any())->method('file_exists')
 			->willReturnCallback(
-				function($fileExistsPath) use ($path, $pathExists) {
+				function ($fileExistsPath) use ($path, $pathExists) {
 					if ($path === $fileExistsPath) {
 						return $pathExists;
 					}

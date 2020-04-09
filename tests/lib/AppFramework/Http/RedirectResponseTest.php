@@ -47,7 +47,7 @@ class RedirectResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testGetRedirectUrl(){
+	public function testGetRedirectUrl() {
 		$this->assertEquals('/url', $this->response->getRedirectUrl());
 	}
 

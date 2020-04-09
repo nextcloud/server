@@ -236,7 +236,7 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 
 		$this->proxyMapper->expects($this->at(1))
 			->method('insert')
-			->with($this->callback(function($proxy) {
+			->with($this->callback(function ($proxy) {
 				/** @var Proxy $proxy */
 				if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
 					return false;
@@ -252,7 +252,7 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 			}));
 		$this->proxyMapper->expects($this->at(2))
 			->method('insert')
-			->with($this->callback(function($proxy) {
+			->with($this->callback(function ($proxy) {
 				/** @var Proxy $proxy */
 				if ($proxy->getOwnerId() !== $this->principalPrefix . '/backend1-res1') {
 					return false;

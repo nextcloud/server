@@ -68,7 +68,7 @@ class FTP extends StreamWrapper{
 		
 	}
 
-	public function getId(){
+	public function getId() {
 		return 'ftp::' . $this->user . '@' . $this->host . '/' . $this->root;
 	}
 

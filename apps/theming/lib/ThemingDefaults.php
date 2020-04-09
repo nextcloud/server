@@ -180,7 +180,7 @@ class ThemingDefaults extends \OC_Defaults {
 		];
 
 		$navigation = $this->navigationManager->getAll(INavigationManager::TYPE_GUEST);
-		$guestNavigation = array_map(function($nav) {
+		$guestNavigation = array_map(function ($nav) {
 			return [
 				'text' => $nav['name'],
 				'url' => $nav['href']

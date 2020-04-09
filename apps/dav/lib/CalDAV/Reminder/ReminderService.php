@@ -727,7 +727,7 @@ class ReminderService {
 	 * @return VObject\Component\VEvent[]
 	 */
 	private function getRecurrenceExceptionFromListOfVEvents(array $vevents):array {
-		return array_values(array_filter($vevents, function(VEvent $vevent) {
+		return array_values(array_filter($vevents, function (VEvent $vevent) {
 			return $vevent->{'RECURRENCE-ID'} !== null;
 		}));
 	}
@@ -737,7 +737,7 @@ class ReminderService {
 	 * @return VEvent|null
 	 */
 	private function getMasterItemFromListOfVEvents(array $vevents):?VEvent {
-		$elements = array_values(array_filter($vevents, function(VEvent $vevent) {
+		$elements = array_values(array_filter($vevents, function (VEvent $vevent) {
 			return $vevent->{'RECURRENCE-ID'} === null;
 		}));
 

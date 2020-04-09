@@ -74,7 +74,7 @@ class Application extends App {
 		/**
 		 * Services
 		 */
-		$container->registerService('TagService', function(IContainer $c) use ($server) {
+		$container->registerService('TagService', function (IContainer $c) use ($server) {
 			$homeFolder = $c->query('ServerContainer')->getUserFolder();
 			return new TagService(
 				$c->query('ServerContainer')->getUserSession(),

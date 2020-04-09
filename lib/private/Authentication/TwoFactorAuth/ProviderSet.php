@@ -72,7 +72,7 @@ class ProviderSet {
 	 * @return IProvider[]
 	 */
 	public function getPrimaryProviders(): array {
-		return array_filter($this->providers, function(IProvider $provider) {
+		return array_filter($this->providers, function (IProvider $provider) {
 			return !($provider instanceof BackupCodesProvider);
 		});
 	}

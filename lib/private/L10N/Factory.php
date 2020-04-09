@@ -114,7 +114,7 @@ class Factory implements IFactory {
 	 * @return \OCP\IL10N
 	 */
 	public function get($app, $lang = null, $locale = null) {
-		return new LazyL10N(function() use ($app, $lang, $locale) {
+		return new LazyL10N(function () use ($app, $lang, $locale) {
 
 			$app = \OC_App::cleanAppId($app);
 			if ($lang !== null) {
@@ -369,7 +369,7 @@ class Factory implements IFactory {
 		}
 
 		$locales = $this->findAvailableLocales();
-		$userLocale = array_filter($locales, function($value) use ($locale) {
+		$userLocale = array_filter($locales, function ($value) use ($locale) {
 			return $locale === $value['code'];
 		});
 

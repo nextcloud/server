@@ -1863,7 +1863,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 
 	public function testGetWithFilter() {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
 				} else if ($key === 'version') {
@@ -1946,7 +1946,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	public function testAppstoreDisabled() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($var, $default) {
+			->willReturnCallback(function ($var, $default) {
 				if ($var === 'appstoreenabled') {
 					return false;
 				} else if ($var === 'version') {
@@ -1965,7 +1965,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	public function testNoInternet() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($var, $default) {
+			->willReturnCallback(function ($var, $default) {
 				if ($var === 'has_internet_connection') {
 					return false;
 				} else if ($var === 'version') {
@@ -1982,7 +1982,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 
 	public function testSetVersion() {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
 				} else if ($key === 'version') {

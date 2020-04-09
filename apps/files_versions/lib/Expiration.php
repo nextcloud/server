@@ -47,7 +47,7 @@ class Expiration {
 	/** @var bool */
 	private $canPurgeToSaveSpace;
 
-	public function __construct(IConfig $config,ITimeFactory $timeFactory){
+	public function __construct(IConfig $config,ITimeFactory $timeFactory) {
 		$this->timeFactory = $timeFactory;
 		$this->retentionObligation = $config->getSystemValue('versions_retention_obligation', 'auto');
 
@@ -60,14 +60,14 @@ class Expiration {
 	 * Is versions expiration enabled
 	 * @return bool
 	 */
-	public function isEnabled(){
+	public function isEnabled() {
 		return $this->retentionObligation !== 'disabled';
 	}
 
 	/**
 	 * Is default expiration active
 	 */
-	public function shouldAutoExpire(){
+	public function shouldAutoExpire() {
 		return $this->minAge === self::NO_OBLIGATION
 				|| $this->maxAge === self::NO_OBLIGATION;
 	}
@@ -78,7 +78,7 @@ class Expiration {
 	 * @param bool $quotaExceeded
 	 * @return bool
 	 */
-	public function isExpired($timestamp, $quotaExceeded = false){
+	public function isExpired($timestamp, $quotaExceeded = false) {
 		// No expiration if disabled
 		if (!$this->isEnabled()) {
 			return false;
@@ -119,7 +119,7 @@ class Expiration {
 	 * Get maximal retention obligation as a timestamp
 	 * @return int
 	 */
-	public function getMaxAgeAsTimestamp(){
+	public function getMaxAgeAsTimestamp() {
 		$maxAge = false;
 		if ($this->isEnabled() && $this->maxAge !== self::NO_OBLIGATION) {
 			$time = $this->timeFactory->getTime();
@@ -132,7 +132,7 @@ class Expiration {
 	 * Read versions_retention_obligation, validate it 
 	 * and set private members accordingly
 	 */
-	private function parseRetentionObligation(){
+	private function parseRetentionObligation() {
 		$splitValues = explode(',', $this->retentionObligation);
 		if (!isset($splitValues[0])) {
 			$minValue = 'auto';

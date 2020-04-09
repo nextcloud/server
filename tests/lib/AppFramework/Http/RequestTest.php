@@ -716,7 +716,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolWithProtoValid() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
 				}
@@ -757,7 +757,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolWithHttpsServerValueOn() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
 
@@ -778,7 +778,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolWithHttpsServerValueOff() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
 
@@ -799,7 +799,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolWithHttpsServerValueEmpty() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
 
@@ -820,7 +820,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolDefault() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				return $default;
 			});
 
@@ -837,7 +837,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerProtocolBehindLoadBalancers() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
 				}
@@ -1059,7 +1059,7 @@ class RequestTest extends \Test\TestCase {
 	public function testInsecureServerHostHttpFromForwardedHeaderSingle() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
 				}
@@ -1088,7 +1088,7 @@ class RequestTest extends \Test\TestCase {
 	public function testInsecureServerHostHttpFromForwardedHeaderStacked() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
 				}
@@ -1117,7 +1117,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerHostWithOverwriteHost() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'overwritecondaddr') {
 					return '';
 				} else if ($key === 'overwritehost') {
@@ -1141,7 +1141,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerHostWithTrustedDomain() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
 				} else if ($key === 'trusted_domains') {
@@ -1170,7 +1170,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerHostWithUntrustedDomain() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
 				} else if ($key === 'trusted_domains') {
@@ -1199,7 +1199,7 @@ class RequestTest extends \Test\TestCase {
 	public function testGetServerHostWithNoTrustedDomain() {
 		$this->config
 			->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
 				}

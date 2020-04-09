@@ -86,7 +86,7 @@ class FutureFile implements \Sabre\DAV\IFile {
 	 */
 	function getSize() {
 		$children = $this->root->getChildren();
-		$sizes = array_map(function($node) {
+		$sizes = array_map(function ($node) {
 			/** @var IFile $node */
 			return $node->getSize();
 		}, $children);

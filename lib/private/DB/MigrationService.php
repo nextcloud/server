@@ -468,12 +468,12 @@ class MigrationService {
 		$instance = $this->createInstance($version);
 
 		if (!$schemaOnly) {
-			$instance->preSchemaChange($this->output, function() {
+			$instance->preSchemaChange($this->output, function () {
 				return new SchemaWrapper($this->connection);
 			}, ['tablePrefix' => $this->connection->getPrefix()]);
 		}
 
-		$toSchema = $instance->changeSchema($this->output, function() {
+		$toSchema = $instance->changeSchema($this->output, function () {
 			return new SchemaWrapper($this->connection);
 		}, ['tablePrefix' => $this->connection->getPrefix()]);
 
@@ -488,7 +488,7 @@ class MigrationService {
 		}
 
 		if (!$schemaOnly) {
-			$instance->postSchemaChange($this->output, function() {
+			$instance->postSchemaChange($this->output, function () {
 				return new SchemaWrapper($this->connection);
 			}, ['tablePrefix' => $this->connection->getPrefix()]);
 		}
@@ -538,7 +538,7 @@ class MigrationService {
 
 					if ($isUsingDefaultName) {
 						$sequenceName = $table->getName() . '_' . implode('_', $primaryKey->getColumns()) . '_seq';
-						$sequences = array_filter($sequences, function(Sequence $sequence) use ($sequenceName) {
+						$sequences = array_filter($sequences, function (Sequence $sequence) use ($sequenceName) {
 							return $sequence->getName() !== $sequenceName;
 						});
 					}

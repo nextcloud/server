@@ -60,10 +60,10 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 		$this->groupManager = $groupManager;
 		$this->dbConn = $dbConn;
 
-		$this->userManager->listen('\OC\User', 'postDelete', function($user) {
+		$this->userManager->listen('\OC\User', 'postDelete', function ($user) {
 			$this->post_deleteUser($user);
 		});
-		$this->groupManager->listen('\OC\Group', 'postDelete', function($group) {
+		$this->groupManager->listen('\OC\Group', 'postDelete', function ($group) {
 			$this->post_deleteGroup($group);
 		});
 	}
@@ -135,7 +135,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @return array ['displayName' => displayname]
 	 */
 	public function getSubAdminsGroupsName(IUser $user): array {
-		return array_map(function($group) {
+		return array_map(function ($group) {
 			return ['displayName' => $group->getDisplayName()];
 		}, $this->getSubAdminsGroups($user));
 	}

@@ -569,7 +569,7 @@ EOD;
 
 		$backend->expects($this->any())
 			->method('getCalendarObject')
-			->willReturnCallback(function($cId, $uri) use($publicObject, $confidentialObject) {
+			->willReturnCallback(function ($cId, $uri) use ($publicObject, $confidentialObject) {
 				switch($uri) {
 					case 'event-0':
 						return $publicObject;

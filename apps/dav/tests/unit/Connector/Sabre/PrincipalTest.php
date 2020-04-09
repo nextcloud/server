@@ -392,7 +392,7 @@ class PrincipalTest extends TestCase {
 
 		$this->proxyMapper->expects($this->at(1))
 			->method('insert')
-			->with($this->callback(function($proxy) {
+			->with($this->callback(function ($proxy) {
 				/** @var Proxy $proxy */
 				if ($proxy->getOwnerId() !== 'principals/users/foo') {
 					return false;

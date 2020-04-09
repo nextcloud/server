@@ -60,7 +60,7 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 				$tagMapper,
 				$userSession,
 				$groupManager,
-				function($name) {
+				function ($name) {
 					$nodes = \OC::$server->getUserFolder()->getById((int)$name);
 					return !empty($nodes);
 				}

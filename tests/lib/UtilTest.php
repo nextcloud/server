@@ -233,7 +233,7 @@ class UtilTest extends \Test\TestCase {
 		$appManager = $this->createMock(IAppManager::class);
 		$appManager->expects($this->any())
 			->method('isEnabledForUser')
-			->willReturnCallback(function($appId) use ($enabledApps){
+			->willReturnCallback(function ($appId) use ($enabledApps) {
 				return in_array($appId, $enabledApps);
 		});
 		Dummy_OC_Util::$appManager = $appManager;

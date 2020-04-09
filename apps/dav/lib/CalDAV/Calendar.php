@@ -225,7 +225,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			parent::getOwner(),
 			'principals/system/public'
 		];
-		return array_filter($acl, function($rule) use ($allowedPrincipals) {
+		return array_filter($acl, function ($rule) use ($allowedPrincipals) {
 			return \in_array($rule['principal'], $allowedPrincipals, true);
 		});
 	}
@@ -246,7 +246,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			$this->calendarInfo['{http://owncloud.org/ns}owner-principal'] !== $this->calendarInfo['principaluri']) {
 			$principal = 'principal:' . parent::getOwner();
 			$shares = $this->caldavBackend->getShares($this->getResourceId());
-			$shares = array_filter($shares, function($share) use ($principal){
+			$shares = array_filter($shares, function ($share) use ($principal) {
 				return $share['href'] === $principal;
 			});
 			if (empty($shares)) {

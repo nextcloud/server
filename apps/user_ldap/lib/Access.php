@@ -919,7 +919,7 @@ class Access extends LDAPUtility {
 		if(!$forceApplyAttributes) {
 			$isBackgroundJobModeAjax = $this->config
 					->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'ajax';
-			$recordsToUpdate = array_filter($ldapRecords, function($record) use ($isBackgroundJobModeAjax) {
+			$recordsToUpdate = array_filter($ldapRecords, function ($record) use ($isBackgroundJobModeAjax) {
 				$newlyMapped = false;
 				$uid = $this->dn2ocname($record['dn'][0], null, true, $newlyMapped, $record);
 				if(is_string($uid)) {
@@ -940,7 +940,7 @@ class Access extends LDAPUtility {
 	 * @param array $ldapRecords
 	 * @throws \Exception
 	 */
-	public function batchApplyUserAttributes(array $ldapRecords){
+	public function batchApplyUserAttributes(array $ldapRecords) {
 		$displayNameAttribute = strtolower($this->connection->ldapUserDisplayName);
 		foreach($ldapRecords as $userRecord) {
 			if(!isset($userRecord[$displayNameAttribute])) {
@@ -973,7 +973,7 @@ class Access extends LDAPUtility {
 	 */
 	public function fetchListOfGroups($filter, $attr, $limit = null, $offset = null) {
 		$groupRecords = $this->searchGroups($filter, $attr, $limit, $offset);
-		array_walk($groupRecords, function($record) {
+		array_walk($groupRecords, function ($record) {
 			$newlyMapped = false;
 			$gid = $this->dn2ocname($record['dn'][0], null, false, $newlyMapped, $record);
 			if(!$newlyMapped && is_string($gid)) {
@@ -993,7 +993,7 @@ class Access extends LDAPUtility {
 			if($manyAttributes) {
 				return $list;
 			} else {
-				$list = array_reduce($list, function($carry, $item) {
+				$list = array_reduce($list, function ($carry, $item) {
 					$attribute = array_keys($item)[0];
 					$carry[] = $item[$attribute][0];
 					return $carry;

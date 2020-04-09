@@ -102,7 +102,7 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 			->willReturn('param');
 		$param->expects($this->once())
 			->method('validateValue')
-			->willReturnCallback(function(&$value) {
+			->willReturnCallback(function (&$value) {
 				$value = 'foobar';
 				return true;
 			});

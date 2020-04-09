@@ -168,7 +168,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$this->subAdminManager
 			->method('isSubAdminOfGroup')
-			->willReturnCallback(function($_user, $_group) use ($user, $group) {
+			->willReturnCallback(function ($_user, $_group) use ($user, $group) {
 				if ($_user === $user && $_group === $group) {
 					return true;
 				}
@@ -179,7 +179,7 @@ class GroupsControllerTest extends \Test\TestCase {
 	private function useAccountManager() {
 		$this->accountManager->expects($this->any())
 			->method('getUser')
-			->willReturnCallback(function(IUser $user) {
+			->willReturnCallback(function (IUser $user) {
 				return [
 					AccountManager::PROPERTY_PHONE => ['value' => '0800-call-' . $user->getUID()],
 					AccountManager::PROPERTY_ADDRESS => ['value' => 'Holzweg 99, 0601 Herrera, Panama'],
@@ -496,7 +496,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function(string $uid) use ($users) {
+			->willReturnCallback(function (string $uid) use ($users) {
 				return isset($users[$uid]) ? $users[$uid] : null;
 			});
 

@@ -62,7 +62,7 @@ class ExceptionLoggerPluginTest extends TestCase {
 		$config = $this->createMock(SystemConfig::class);
 		$config->expects($this->any())
 			->method('getValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				switch ($key) {
 					case 'loglevel':
 						return 0;

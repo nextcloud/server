@@ -538,7 +538,7 @@ class AccessTest extends TestCase {
 			->willReturn($fakeConnection);
 		$this->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($key) use ($base) {
+			->willReturnCallback(function ($key) use ($base) {
 				if(stripos($key, 'base') !== false) {
 					return $base;
 				}
@@ -616,7 +616,7 @@ class AccessTest extends TestCase {
 		];
 		$expected = $fakeLdapEntries;
 		unset($expected['count']);
-		array_walk($expected, function(&$v) {
+		array_walk($expected, function (&$v) {
 			$v['dn'] = [$v['dn']];	// dn is translated into an array internally for consistency
 		});
 
@@ -628,7 +628,7 @@ class AccessTest extends TestCase {
 
 		$this->userMapper->expects($this->exactly($fakeLdapEntries['count']))
 			->method('getNameByDN')
-			->willReturnCallback(function($fdn) {
+			->willReturnCallback(function ($fdn) {
 				$parts = ldap_explode_dn($fdn, false);
 				return $parts[0];
 			});

@@ -162,7 +162,7 @@ class UserPlugin implements ISearchPlugin {
 
 				if ($this->shareWithGroupOnly) {
 					// Only add, if we have a common group
-					$userGroupIds = array_map(function(IGroup $group) {
+					$userGroupIds = array_map(function (IGroup $group) {
 						return $group->getGID();
 					}, $userGroups);
 					$commonGroups = array_intersect($userGroupIds, $this->groupManager->getUserGroupIds($user));

@@ -370,7 +370,7 @@ trait BasicStructure {
 	private function getDataDirectory() {
 		// Based on "runOcc" from CommandLine trait
 		$args = ['config:system:get', 'datadirectory'];
-		$args = array_map(function($arg) {
+		$args = array_map(function ($arg) {
 			return escapeshellarg($arg);
 		}, $args);
 		$args[] = '--no-ansi --no-warnings';

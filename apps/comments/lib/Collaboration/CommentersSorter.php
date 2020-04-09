@@ -60,7 +60,7 @@ class CommentersSorter implements ISorter {
 			// at least on PHP 5.6 usort turned out to be not stable. So we add
 			// the current index to the value and compare it on a draw
 			$i = 0;
-			$workArray = array_map(function($element) use (&$i) {
+			$workArray = array_map(function ($element) use (&$i) {
 				return [$i++, $element];
 			}, $byType);
 
