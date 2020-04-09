@@ -134,7 +134,7 @@ class GroupPrincipalBackend implements BackendInterface {
 			return [];
 		}
 
-		return array_map(function($user) {
+		return array_map(function ($user) {
 			return $this->userToPrincipal($user);
 		}, $group->getUsers());
 	}
@@ -210,7 +210,7 @@ class GroupPrincipalBackend implements BackendInterface {
 				case '{DAV:}displayname':
 					$groups = $this->groupManager->search($value);
 
-					$results[] = array_reduce($groups, function(array $carry, IGroup $group) use ($restrictGroups) {
+					$results[] = array_reduce($groups, function (array $carry, IGroup $group) use ($restrictGroups) {
 						$gid = $group->getGID();
 						// is sharing restricted to groups only?
 						if ($restrictGroups !== false) {

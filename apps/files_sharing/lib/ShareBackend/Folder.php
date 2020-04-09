@@ -112,7 +112,7 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 
 			$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
-			$parents = array_map(function($parent) use ($qb) {
+			$parents = array_map(function ($parent) use ($qb) {
 				return $qb->createNamedParameter($parent);
 			}, $parents);
 

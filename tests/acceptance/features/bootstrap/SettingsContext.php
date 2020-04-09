@@ -204,7 +204,7 @@ class SettingsContext implements Context, ActorAwareInterface {
 
 		$actor = $this->actor;
 
-		$tagFoundInDropdownCallback = function() use($actor, $tag) {
+		$tagFoundInDropdownCallback = function () use ($actor, $tag) {
 			// Open the dropdown to look for the tag.
 			$actor->find(self::systemTagsSelectTagButton())->click();
 

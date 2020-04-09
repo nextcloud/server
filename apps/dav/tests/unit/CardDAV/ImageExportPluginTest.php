@@ -140,7 +140,7 @@ class ImageExportPluginTest extends TestCase {
 			->willReturn(1);
 
 		$this->tree->method('getNodeForPath')
-			->willReturnCallback(function($path) use ($card, $book) {
+			->willReturnCallback(function ($path) use ($card, $book) {
 				if ($path === 'user/book/card') {
 					return $card;
 				} else if ($path === 'user/book') {

@@ -40,7 +40,7 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testAddHeader(){
+	public function testAddHeader() {
 		$this->childResponse->addHeader(' hello ', 'world');
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('world', $headers['hello']);
@@ -87,14 +87,14 @@ class ResponseTest extends \Test\TestCase {
 		$this->assertEquals(new Http\EmptyContentSecurityPolicy(), $this->childResponse->getContentSecurityPolicy());
 	}
 
-	public function testAddHeaderValueNullDeletesIt(){
+	public function testAddHeaderValueNullDeletesIt() {
 		$this->childResponse->addHeader('hello', 'world');
 		$this->childResponse->addHeader('hello', null);
 		$this->assertEquals(3, count($this->childResponse->getHeaders()));
 	}
 
 
-	public function testCacheHeadersAreDisabledByDefault(){
+	public function testCacheHeadersAreDisabledByDefault() {
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('no-cache, no-store, must-revalidate', $headers['Cache-Control']);
 	}
@@ -186,7 +186,7 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 
-	public function testRenderReturnNullByDefault(){
+	public function testRenderReturnNullByDefault() {
 		$this->assertEquals(null, $this->childResponse->render());
 	}
 

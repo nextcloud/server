@@ -110,7 +110,7 @@ class LostControllerTest extends \Test\TestCase {
 		$this->l10n
 			->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 		$this->defaults = $this->getMockBuilder('\OCP\Defaults')
@@ -766,7 +766,7 @@ class LostControllerTest extends \Test\TestCase {
 		$encryptionModule = $this->createMock(IEncryptionModule::class);
 		$encryptionModule->expects($this->once())->method('needDetailedAccessList')->willReturn(true);
 		$this->encryptionManager->expects($this->once())->method('getEncryptionModules')
-			->willReturn([0 => ['callback' => function() use ($encryptionModule) { return $encryptionModule; }]]);
+			->willReturn([0 => ['callback' => function () use ($encryptionModule) { return $encryptionModule; }]]);
 		$response = $this->lostController->setPassword('myToken', 'user', 'newpass', false);
 		$expectedResponse = ['status' => 'error', 'msg' => '', 'encryption' => true];
 		$this->assertSame($expectedResponse, $response);
@@ -776,7 +776,7 @@ class LostControllerTest extends \Test\TestCase {
 		$encryptionModule = $this->createMock(IEncryptionModule::class);
 		$encryptionModule->expects($this->once())->method('needDetailedAccessList')->willReturn(false);
 		$this->encryptionManager->expects($this->once())->method('getEncryptionModules')
-			->willReturn([0 => ['callback' => function() use ($encryptionModule) { return $encryptionModule; }]]);
+			->willReturn([0 => ['callback' => function () use ($encryptionModule) { return $encryptionModule; }]]);
 		$this->config->method('getUserValue')
 			->with('ValidTokenUser', 'core', 'lostpassword', null)
 			->willReturn('encryptedData');

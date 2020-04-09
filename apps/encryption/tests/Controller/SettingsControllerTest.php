@@ -86,7 +86,7 @@ class SettingsControllerTest extends TestCase {
 
 		$this->l10nMock->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($message) {
+			->willReturnCallback(function ($message) {
 				return $message;
 			});
 

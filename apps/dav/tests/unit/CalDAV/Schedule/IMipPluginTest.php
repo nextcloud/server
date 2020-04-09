@@ -107,7 +107,7 @@ class IMipPluginTest extends TestCase {
 
 		$l10n = $this->createMock(IL10N::class);
 		$l10n->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 		$l10nFactory = $this->createMock(IFactory::class);
@@ -223,7 +223,7 @@ class IMipPluginTest extends TestCase {
 	/**
 	 * @dataProvider dataIncludeResponseButtons
 	 */
-	public function testIncludeResponseButtons(string $config_setting, string $recipient, bool $has_buttons ) {
+	public function testIncludeResponseButtons(string $config_setting, string $recipient, bool $has_buttons) {
 		$message = $this->_testMessage([],$recipient);
 
 		$this->_expectSend($recipient, true, $has_buttons);
@@ -264,7 +264,7 @@ class IMipPluginTest extends TestCase {
 		$this->assertEquals('1.1', $message->getScheduleStatus());
 	}
 
-	private function _testMessage(array $attrs = [], string $recipient = 'frodo@hobb.it' ) {
+	private function _testMessage(array $attrs = [], string $recipient = 'frodo@hobb.it') {
 		$message = new Message();
 		$message->method = 'REQUEST';
 		$message->message = new VCalendar();

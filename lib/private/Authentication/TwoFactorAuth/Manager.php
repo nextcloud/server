@@ -140,7 +140,7 @@ class Manager {
 	 */
 	public function getLoginSetupProviders(IUser $user): array {
 		$providers = $this->providerLoader->getProviders($user);
-		return array_filter($providers, function(IProvider $provider) {
+		return array_filter($providers, function (IProvider $provider) {
 			return ($provider instanceof IActivatableAtLogin);
 		});
 	}

@@ -140,7 +140,7 @@ class CheckerTest extends TestCase {
 			->method('file_put_contents')
 			->with(
 					$this->equalTo(\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/signature.json'),
-					$this->callback(function($signature) use ($expectedSignatureFileData) {
+					$this->callback(function ($signature) use ($expectedSignatureFileData) {
 						$expectedArray = json_decode($expectedSignatureFileData, true);
 						$actualArray = json_decode($signature, true);
 						$this->assertEquals($expectedArray, $actualArray);
@@ -546,7 +546,7 @@ class CheckerTest extends TestCase {
 				->method('file_put_contents')
 				->with(
 						\OC::$SERVERROOT . '/tests/data/integritycheck/app//core/signature.json',
-						$this->callback(function($signature) use ($expectedSignatureFileData) {
+						$this->callback(function ($signature) use ($expectedSignatureFileData) {
 						$expectedArray = json_decode($expectedSignatureFileData, true);
 						$actualArray = json_decode($signature, true);
 						$this->assertEquals($expectedArray, $actualArray);
@@ -581,7 +581,7 @@ class CheckerTest extends TestCase {
 				->method('file_put_contents')
 				->with(
 						\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessUnmodified//core/signature.json',
-					$this->callback(function($signature) use ($expectedSignatureFileData) {
+					$this->callback(function ($signature) use ($expectedSignatureFileData) {
 						$expectedArray = json_decode($expectedSignatureFileData, true);
 						$actualArray = json_decode($signature, true);
 						$this->assertEquals($expectedArray, $actualArray);
@@ -611,7 +611,7 @@ class CheckerTest extends TestCase {
 				->method('file_put_contents')
 				->with(
 						\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithInvalidModifiedContent//core/signature.json',
-					$this->callback(function($signature) use ($expectedSignatureFileData) {
+					$this->callback(function ($signature) use ($expectedSignatureFileData) {
 						$expectedArray = json_decode($expectedSignatureFileData, true);
 						$actualArray = json_decode($signature, true);
 						$this->assertEquals($expectedArray, $actualArray);
@@ -646,7 +646,7 @@ class CheckerTest extends TestCase {
 				->method('file_put_contents')
 				->with(
 						\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent/core/signature.json',
-					$this->callback(function($signature) use ($expectedSignatureFileData) {
+					$this->callback(function ($signature) use ($expectedSignatureFileData) {
 						$expectedArray = json_decode($expectedSignatureFileData, true);
 						$actualArray = json_decode($signature, true);
 						$this->assertEquals($expectedArray, $actualArray);

@@ -138,11 +138,11 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		$tags = $this->tagManager->getTagsByIds($tagIds);
 
 		// filter out non-visible tags
-		$tags = array_filter($tags, function($tag) {
+		$tags = array_filter($tags, function ($tag) {
 			return $this->tagManager->canUserSeeTag($tag, $this->user);
 		});
 
-		return array_values(array_map(function($tag) {
+		return array_values(array_map(function ($tag) {
 			return $this->makeNode($tag);
 		}, $tags));
 	}

@@ -700,7 +700,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerAlias(IValidator::class, Validator::class);
 
-		$this->registerService(AvatarManager::class, function(Server $c) {
+		$this->registerService(AvatarManager::class, function (Server $c) {
 			return new AvatarManager(
 				$c->query(\OC\User\Manager::class),
 				$c->getAppDataDir('avatar'),
@@ -1085,7 +1085,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$factory = new $factoryClass($this);
 			$manager = $factory->getManager();
 
-			$manager->registerDisplayNameResolver('user', function($id) use ($c) {
+			$manager->registerDisplayNameResolver('user', function ($id) use ($c) {
 				$manager = $c->getUserManager();
 				$user = $manager->get($id);
 				if(is_null($user)) {
@@ -1231,7 +1231,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerDeprecatedAlias('ShareManager', \OCP\Share\IManager::class);
 
-		$this->registerService(\OCP\Collaboration\Collaborators\ISearch::class, function(Server $c) {
+		$this->registerService(\OCP\Collaboration\Collaborators\ISearch::class, function (Server $c) {
 			$instance = new Collaboration\Collaborators\Search($c);
 
 			// register default plugins
@@ -1316,7 +1316,7 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 
-		$this->registerService(Installer::class, function(Server $c) {
+		$this->registerService(Installer::class, function (Server $c) {
 			return new Installer(
 				$c->getAppFetcher(),
 				$c->getHTTPClientService(),
@@ -1327,16 +1327,16 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 
-		$this->registerService(IApiFactory::class, function(Server $c) {
+		$this->registerService(IApiFactory::class, function (Server $c) {
 			return new ApiFactory($c->getHTTPClientService());
 		});
 
-		$this->registerService(IInstanceFactory::class, function(Server $c) {
+		$this->registerService(IInstanceFactory::class, function (Server $c) {
 			$memcacheFactory = $c->getMemCacheFactory();
 			return new InstanceFactory($memcacheFactory->createLocal('remoteinstance.'), $c->getHTTPClientService());
 		});
 
-		$this->registerService(IContactsStore::class, function(Server $c) {
+		$this->registerService(IContactsStore::class, function (Server $c) {
 			return new ContactsStore(
 				$c->getContactsManager(),
 				$c->getConfig(),
@@ -1347,7 +1347,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IContactsStore::class, ContactsStore::class);
 		$this->registerAlias(IAccountManager::class, AccountManager::class);
 
-		$this->registerService(IStorageFactory::class, function() {
+		$this->registerService(IStorageFactory::class, function () {
 			return new StorageFactory();
 		});
 
@@ -1386,7 +1386,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$dispatcher = $this->getEventDispatcher();
 
 		// Delete avatar on user deletion
-		$dispatcher->addListener('OCP\IUser::preDelete', function(GenericEvent $e) {
+		$dispatcher->addListener('OCP\IUser::preDelete', function (GenericEvent $e) {
 			$logger = $this->getLogger();
 			$manager = $this->getAvatarManager();
 			/** @var IUser $user */
@@ -2141,7 +2141,7 @@ class Server extends ServerContainer implements IServerContainer {
 	/**
 	 * @return \OCP\Collaboration\AutoComplete\IManager
 	 */
-	public function getAutoCompleteManager(){
+	public function getAutoCompleteManager() {
 		return $this->query(IManager::class);
 	}
 

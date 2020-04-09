@@ -75,7 +75,7 @@ class SearchTest extends TestCase {
 		$userPlugin = $this->createMock(ISearchPlugin::class);
 		$userPlugin->expects($this->any())
 			->method('search')
-			->willReturnCallback(function() use ($searchResult, $mockedUserResult, $expectedMoreResults) {
+			->willReturnCallback(function () use ($searchResult, $mockedUserResult, $expectedMoreResults) {
 				$type = new SearchResultType('users');
 				$searchResult->addResultSet($type, $mockedUserResult);
 				return $expectedMoreResults;
@@ -84,7 +84,7 @@ class SearchTest extends TestCase {
 		$groupPlugin = $this->createMock(ISearchPlugin::class);
 		$groupPlugin->expects($this->any())
 			->method('search')
-			->willReturnCallback(function() use ($searchResult, $mockedGroupsResult, $expectedMoreResults) {
+			->willReturnCallback(function () use ($searchResult, $mockedGroupsResult, $expectedMoreResults) {
 				$type = new SearchResultType('groups');
 				$searchResult->addResultSet($type, $mockedGroupsResult);
 				return $expectedMoreResults;
@@ -93,7 +93,7 @@ class SearchTest extends TestCase {
 		$remotePlugin = $this->createMock(ISearchPlugin::class);
 		$remotePlugin->expects($this->any())
 			->method('search')
-			->willReturnCallback(function() use ($searchResult, $mockedRemotesResult, $expectedMoreResults) {
+			->willReturnCallback(function () use ($searchResult, $mockedRemotesResult, $expectedMoreResults) {
 				if($mockedRemotesResult !== null) {
 					$type = new SearchResultType('remotes');
 					$searchResult->addResultSet($type, $mockedRemotesResult['results'], $mockedRemotesResult['exact']);
@@ -106,7 +106,7 @@ class SearchTest extends TestCase {
 
 		$this->container->expects($this->any())
 			->method('resolve')
-			->willReturnCallback(function($class) use ($searchResult, $userPlugin, $groupPlugin, $remotePlugin) {
+			->willReturnCallback(function ($class) use ($searchResult, $userPlugin, $groupPlugin, $remotePlugin) {
 				if($class === SearchResult::class) {
 					return $searchResult;
 				} elseif ($class === $userPlugin) {

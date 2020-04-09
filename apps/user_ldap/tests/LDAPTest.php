@@ -60,7 +60,7 @@ class LDAPTest extends TestCase  {
 	public function testSearchWithErrorHandler(string $errorMessage, bool $passThrough) {
 
 		$wasErrorHandlerCalled = false;
-		$errorHandler = function($number, $message, $file, $line) use (&$wasErrorHandlerCalled) {
+		$errorHandler = function ($number, $message, $file, $line) use (&$wasErrorHandlerCalled) {
 			$wasErrorHandlerCalled = true;
 		};
 
@@ -70,7 +70,7 @@ class LDAPTest extends TestCase  {
 			->expects($this->once())
 			->method('invokeLDAPMethod')
 			->with('search', $this->anything(), $this->anything(), $this->anything(), $this->anything(), $this->anything())
-			->willReturnCallback(function() use($errorMessage) {
+			->willReturnCallback(function () use ($errorMessage) {
 				trigger_error($errorMessage);
 			});
 

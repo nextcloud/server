@@ -242,7 +242,7 @@ class KeyManagerTest extends TestCase {
 
 		$this->keyStorageMock->expects($this->exactly(2))
 			->method('getUserKey')
-			->willReturnCallback(function ($uid, $keyID, $encryptionModuleId){
+			->willReturnCallback(function ($uid, $keyID, $encryptionModuleId) {
 				if ($keyID === 'publicKey') {
 					return '';
 				}
@@ -473,13 +473,13 @@ class KeyManagerTest extends TestCase {
 
 		$this->keyStorageMock->expects($this->any())
 			->method('getSystemUserKey')
-			->willReturnCallback(function($keyId, $encryptionModuleId) {
+			->willReturnCallback(function ($keyId, $encryptionModuleId) {
 				return $keyId;
 			});
 
 		$this->utilMock->expects($this->any())
 			->method('isRecoveryEnabledForUser')
-			->willReturnCallback(function($uid) {
+			->willReturnCallback(function ($uid) {
 				if ($uid === 'user1') {
 					return true;
 				}

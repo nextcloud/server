@@ -44,7 +44,7 @@ class TodoTest extends TestCase {
 		$l = $this->createMock(IL10N::class);
 		$l->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($string, $args) {
+			->willReturnCallback(function ($string, $args) {
 				return vsprintf($string, $args);
 			});
 

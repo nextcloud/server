@@ -94,8 +94,7 @@ class UserPluginTest extends TestCase {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
-				function ($appName, $key, $default)
-				use ($shareWithGroupOnly, $shareeEnumeration, $shareeEnumerationLimitToGroup) {
+				function ($appName, $key, $default) use ($shareWithGroupOnly, $shareeEnumeration, $shareeEnumerationLimitToGroup) {
 					if ($appName === 'core' && $key === 'shareapi_only_share_with_group_members') {
 						return $shareWithGroupOnly ? 'yes' : 'no';
 					} else if ($appName === 'core' && $key === 'shareapi_allow_share_dialog_user_enumeration') {

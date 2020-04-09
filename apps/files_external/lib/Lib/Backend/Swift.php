@@ -52,7 +52,7 @@ class Swift extends Backend {
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_OPENSTACK)
-			->setLegacyAuthMechanismCallback(function(array $params) use ($openstackAuth, $rackspaceAuth) {
+			->setLegacyAuthMechanismCallback(function (array $params) use ($openstackAuth, $rackspaceAuth) {
 				if (isset($params['options']['key']) && $params['options']['key']) {
 					return $rackspaceAuth;
 				}

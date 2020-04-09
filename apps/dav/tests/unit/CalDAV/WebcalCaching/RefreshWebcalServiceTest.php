@@ -116,7 +116,7 @@ class RefreshWebcalServiceTest extends TestCase {
 
 		$client->expects($this->once())
 			->method('get')
-			->with('https://foo.bar/bla2', $this->callback(function($obj) {
+			->with('https://foo.bar/bla2', $this->callback(function ($obj) {
 				return $obj['allow_redirects']['redirects'] === 10 && $obj['handler'] instanceof HandlerStack;
 			}))
 			->willReturn($response);

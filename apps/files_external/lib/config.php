@@ -322,7 +322,7 @@ class OC_Mount_Config {
 		}
 
 		foreach ($dependencyGroups as $module => $dependants) {
-			$backends = implode(', ', array_map(function($backend) {
+			$backends = implode(', ', array_map(function ($backend) {
 				return '"' . $backend->getText() . '"';
 			}, $dependants));
 			$message .= '<p>' . OC_Mount_Config::getSingleDependencyMessage($l, $module, $backends) . '</p>';

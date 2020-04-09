@@ -112,7 +112,7 @@ class GeneratorTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo(IPreview::EVENT),
-				$this->callback(function(GenericEvent $event) use ($file) {
+				$this->callback(function (GenericEvent $event) use ($file) {
 					return $event->getSubject() === $file &&
 						$event->getArgument('width') === 100 &&
 						$event->getArgument('height') === 100;
@@ -146,7 +146,7 @@ class GeneratorTest extends \Test\TestCase {
 			->willReturn($previewFolder);
 
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $defult) {
+			->willReturnCallback(function ($key, $defult) {
 				return $defult;
 			});
 
@@ -168,7 +168,7 @@ class GeneratorTest extends \Test\TestCase {
 			]);
 
 		$this->helper->method('getProvider')
-			->willReturnCallback(function($provider) use ($invalidProvider, $validProvider, $unavailableProvider) {
+			->willReturnCallback(function ($provider) use ($invalidProvider, $validProvider, $unavailableProvider) {
 				if ($provider === 'wrongProvider') {
 					$this->fail('Wrongprovider should not be constructed!');
 				} else if ($provider === 'brokenProvider') {
@@ -210,7 +210,7 @@ class GeneratorTest extends \Test\TestCase {
 		$previewFolder->method('getDirectoryListing')
 			->willReturn([]);
 		$previewFolder->method('newFile')
-			->willReturnCallback(function($filename) use ($maxPreview, $previewFile) {
+			->willReturnCallback(function ($filename) use ($maxPreview, $previewFile) {
 				if ($filename === '2048-2048-max.png') {
 					return $maxPreview;
 				} else if ($filename === '256-256.png') {
@@ -248,7 +248,7 @@ class GeneratorTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo(IPreview::EVENT),
-				$this->callback(function(GenericEvent $event) use ($file) {
+				$this->callback(function (GenericEvent $event) use ($file) {
 					return $event->getSubject() === $file &&
 					$event->getArgument('width') === 100 &&
 					$event->getArgument('height') === 100;
@@ -274,7 +274,7 @@ class GeneratorTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo(IPreview::EVENT),
-				$this->callback(function(GenericEvent $event) use ($file) {
+				$this->callback(function (GenericEvent $event) use ($file) {
 					return $event->getSubject() === $file &&
 					$event->getArgument('width') === 0 &&
 					$event->getArgument('height') === 0 &&
@@ -314,7 +314,7 @@ class GeneratorTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo(IPreview::EVENT),
-				$this->callback(function(GenericEvent $event) use ($file) {
+				$this->callback(function (GenericEvent $event) use ($file) {
 					return $event->getSubject() === $file &&
 					$event->getArgument('width') === 100 &&
 					$event->getArgument('height') === 100;
@@ -427,7 +427,7 @@ class GeneratorTest extends \Test\TestCase {
 			->method('dispatch')
 			->with(
 				$this->equalTo(IPreview::EVENT),
-				$this->callback(function(GenericEvent $event) use ($file, $reqX, $reqY, $crop, $mode) {
+				$this->callback(function (GenericEvent $event) use ($file, $reqX, $reqY, $crop, $mode) {
 					return $event->getSubject() === $file &&
 					$event->getArgument('width') === $reqX &&
 					$event->getArgument('height') === $reqY &&

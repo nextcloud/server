@@ -103,7 +103,7 @@ class WizardTest extends TestCase {
 
 		$configuration->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
+			->willReturnCallback(function ($name) {
 					if($name === 'ldapBase') {
 						return ['base'];
 					}
@@ -147,7 +147,7 @@ class WizardTest extends TestCase {
 		$ldap->expects($this->exactly(10))
 			->method('getDN')
 			//dummy value, usually invalid
-			->willReturnCallback(function($a, $b) {
+			->willReturnCallback(function ($a, $b) {
 				global $uidnumber;
 				return $uidnumber++;
 			});
@@ -163,7 +163,7 @@ class WizardTest extends TestCase {
 
 		$configuration->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
+			->willReturnCallback(function ($name) {
 					if($name === 'ldapBase') {
 						return ['base'];
 					}
@@ -174,7 +174,7 @@ class WizardTest extends TestCase {
 
 		$ldap->expects($this->any())
 			->method('isResource')
-			->willReturnCallback(function($r) {
+			->willReturnCallback(function ($r) {
 				if($r === true) {
 					return true;
 				}
@@ -200,7 +200,7 @@ class WizardTest extends TestCase {
 		$ldap->expects($this->exactly(2))
 			->method('firstEntry')
 			//dummy value, usually invalid
-			->willReturnCallback(function($r) {
+			->willReturnCallback(function ($r) {
 				global $uidnumber;
 				return $uidnumber;
 			});
@@ -208,7 +208,7 @@ class WizardTest extends TestCase {
 		$ldap->expects($this->exactly(46))
 			->method('nextEntry')
 			//dummy value, usually invalid
-			->willReturnCallback(function($r) {
+			->willReturnCallback(function ($r) {
 				global $uidnumber;
 				return $uidnumber;
 			});
@@ -223,7 +223,7 @@ class WizardTest extends TestCase {
 		$ldap->expects($this->exactly(46))
 			->method('getDN')
 			//dummy value, usually invalid
-			->willReturnCallback(function($a, $b) {
+			->willReturnCallback(function ($a, $b) {
 				global $uidnumber;
 				return $uidnumber++;
 			});
@@ -379,7 +379,7 @@ class WizardTest extends TestCase {
 
 		$configuration->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function($name) {
+			->willReturnCallback(function ($name) {
 					if($name === 'ldapBase') {
 						return ['base'];
 					}
@@ -390,7 +390,7 @@ class WizardTest extends TestCase {
 
 		$ldap->expects($this->any())
 			->method('isResource')
-			->willReturnCallback(function($res) {
+			->willReturnCallback(function ($res) {
 				return (bool)$res;
 			});
 
@@ -416,7 +416,7 @@ class WizardTest extends TestCase {
 		$ldap->expects($this->any())
 			->method('nextEntry')
 			//dummy value, usually invalid
-			->willReturnCallback(function($a, $prev){
+			->willReturnCallback(function ($a, $prev) {
 				$current = $prev + 1;
 				if($current === 7) {
 					return false;
@@ -432,14 +432,14 @@ class WizardTest extends TestCase {
 		$ldap->expects($this->any())
 			->method('getAttributes')
 			//dummy value, usually invalid
-			->willReturnCallback(function($a, $entry) {
+			->willReturnCallback(function ($a, $entry) {
 				return ['cn' => [$entry], 'count' => 1];
 			});
 
 		$ldap->expects($this->any())
 			->method('getDN')
 			//dummy value, usually invalid
-			->willReturnCallback(function($a, $b) {
+			->willReturnCallback(function ($a, $b) {
 				return $b;
 			});
 

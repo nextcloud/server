@@ -129,7 +129,7 @@ class EnablePluginTest extends TestCase {
 
 		$this->server->xml->expects($this->once())
 			->method('parse')
-			->willReturnCallback(function($requestBody, $url, &$documentType) {
+			->willReturnCallback(function ($requestBody, $url, &$documentType) {
 				$documentType =  '{http://nextcloud.com/ns}disable-birthday-calendar';
 			});
 
@@ -167,7 +167,7 @@ class EnablePluginTest extends TestCase {
 
 		$this->server->xml->expects($this->once())
 			->method('parse')
-			->willReturnCallback(function($requestBody, $url, &$documentType) {
+			->willReturnCallback(function ($requestBody, $url, &$documentType) {
 				$documentType = '{http://nextcloud.com/ns}enable-birthday-calendar';
 			});
 

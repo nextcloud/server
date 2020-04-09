@@ -258,7 +258,7 @@ class CardDavBackendTest extends TestCase {
 		// Expect event
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
-			->with('\OCA\DAV\CardDAV\CardDavBackend::createCard', $this->callback(function(GenericEvent $e) use ($bookId, $uri) {
+			->with('\OCA\DAV\CardDAV\CardDavBackend::createCard', $this->callback(function (GenericEvent $e) use ($bookId, $uri) {
 				return $e->getArgument('addressBookId') === $bookId &&
 					$e->getArgument('cardUri') === $uri &&
 					$e->getArgument('cardData') === $this->vcardTest0;
@@ -285,7 +285,7 @@ class CardDavBackendTest extends TestCase {
 		// Expect event
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
-			->with('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $this->callback(function(GenericEvent $e) use ($bookId, $uri) {
+			->with('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $this->callback(function (GenericEvent $e) use ($bookId, $uri) {
 				return $e->getArgument('addressBookId') === $bookId &&
 					$e->getArgument('cardUri') === $uri &&
 					$e->getArgument('cardData') === $this->vcardTest0;
@@ -299,7 +299,7 @@ class CardDavBackendTest extends TestCase {
 		// Expect event
 		$this->dispatcher->expects($this->at(0))
 			->method('dispatch')
-			->with('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', $this->callback(function(GenericEvent $e) use ($bookId, $uri) {
+			->with('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', $this->callback(function (GenericEvent $e) use ($bookId, $uri) {
 				return $e->getArgument('addressBookId') === $bookId &&
 					$e->getArgument('cardUri') === $uri;
 			}));

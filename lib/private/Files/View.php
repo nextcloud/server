@@ -1454,7 +1454,7 @@ class View {
 
 			$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
 
-			$fileNames = array_map(function(ICacheEntry $content) {
+			$fileNames = array_map(function (ICacheEntry $content) {
 				return $content->getName();
 			}, $contents);
 			/**
@@ -1735,7 +1735,7 @@ class View {
 
 		// put non shared mounts in front of the shared mount
 		// this prevent unneeded recursion into shares
-		usort($mounts, function(IMountPoint $a, IMountPoint $b) {
+		usort($mounts, function (IMountPoint $a, IMountPoint $b) {
 			return $a instanceof SharedMount && (!$b instanceof SharedMount) ? 1 : -1;
 		});
 

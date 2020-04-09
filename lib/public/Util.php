@@ -128,7 +128,7 @@ class Util {
 	 * @since 4.0.0
 	 * @deprecated 13.0.0 use log of \OCP\ILogger
 	 */
-	public static function writeLog( $app, $message, $level ) {
+	public static function writeLog($app, $message, $level) {
 		$context = ['app' => $app];
 		\OC::$server->getLogger()->log($level, $message, $context);
 	}
@@ -170,7 +170,7 @@ class Util {
 	 * @param string $file
 	 * @since 4.0.0
 	 */
-	public static function addStyle( $application, $file = null ) {
+	public static function addStyle($application, $file = null) {
 		\OC_Util::addStyle( $application, $file );
 	}
 
@@ -180,7 +180,7 @@ class Util {
 	 * @param string $file
 	 * @since 4.0.0
 	 */
-	public static function addScript( $application, $file = null ) {
+	public static function addScript($application, $file = null) {
 		\OC_Util::addScript( $application, $file );
 	}
 
@@ -216,7 +216,7 @@ class Util {
 	 * @return string the url
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
-	public static function linkToAbsolute( $app, $file, $args = [] ) {
+	public static function linkToAbsolute($app, $file, $args = []) {
 		$urlGenerator = \OC::$server->getURLGenerator();
 		return $urlGenerator->getAbsoluteURL(
 			$urlGenerator->linkTo($app, $file, $args)
@@ -229,7 +229,7 @@ class Util {
 	 * @return string the url
 	 * @since 4.0.0
 	 */
-	public static function linkToRemote( $service ) {
+	public static function linkToRemote($service) {
 		$urlGenerator = \OC::$server->getURLGenerator();
 		$remoteBase = $urlGenerator->linkTo('', 'remote.php') . '/' . $service;
 		return $urlGenerator->getAbsoluteURL(

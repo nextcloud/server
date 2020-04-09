@@ -144,7 +144,7 @@ class Throttler {
 		}
 
 		$keys = $this->config->getAppKeys('bruteForce');
-		$keys = array_filter($keys, function($key) {
+		$keys = array_filter($keys, function ($key) {
 			$regex = '/^whitelist_/S';
 			return preg_match($regex, $key) === 1;
 		});

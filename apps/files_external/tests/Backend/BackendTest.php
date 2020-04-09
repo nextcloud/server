@@ -78,7 +78,7 @@ class BackendTest extends \Test\TestCase {
 
 	public function testLegacyAuthMechanismCallback() {
 		$backend = new Backend();
-		$backend->setLegacyAuthMechanismCallback(function(array $params) {
+		$backend->setLegacyAuthMechanismCallback(function (array $params) {
 			if (isset($params['ping'])) {
 				return 'pong';
 			}

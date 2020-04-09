@@ -261,7 +261,7 @@ EOF;
 	 */
 	function propFindDefaultCalendarUrl(PropFind $propFind, INode $node) {
 		if ($node instanceof IPrincipal) {
-			$propFind->handle('{' . self::NS_CALDAV . '}schedule-default-calendar-URL', function() use ($node) {
+			$propFind->handle('{' . self::NS_CALDAV . '}schedule-default-calendar-URL', function () use ($node) {
 				/** @var \OCA\DAV\CalDAV\Plugin $caldavPlugin */
 				$caldavPlugin = $this->server->getPlugin('caldav');
 				$principalUrl = $node->getPrincipalUrl();

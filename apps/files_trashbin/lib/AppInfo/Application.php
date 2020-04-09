@@ -36,7 +36,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 
 class Application extends App {
-	public function __construct (array $urlParams = []) {
+	public function __construct(array $urlParams = []) {
 		parent::__construct('files_trashbin', $urlParams);
 
 		$container = $this->getContainer();
@@ -65,7 +65,7 @@ class Application extends App {
 			);
 		});
 
-		$container->registerService(ITrashManager::class, function(IAppContainer $c) {
+		$container->registerService(ITrashManager::class, function (IAppContainer $c) {
 			return new TrashManager();
 		});
 

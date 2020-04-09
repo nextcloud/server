@@ -294,7 +294,7 @@ class CryptTest extends TestCase {
 	 *
 	 * @return array
 	 */
-	public function dataProviderRemovePadding()  {
+	public function dataProviderRemovePadding() {
 		return [
 			['dataxx', 'data'],
 			['data', false]

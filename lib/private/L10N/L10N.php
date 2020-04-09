@@ -221,7 +221,7 @@ class L10N implements IL10N {
 	public function getPluralFormFunction(): \Closure {
 		if (\is_null($this->pluralFormFunction)) {
 			$lang = $this->getLanguageCode();
-			$this->pluralFormFunction = function($n) use ($lang) {
+			$this->pluralFormFunction = function ($n) use ($lang) {
 				return PluralizationRules::get($n, $lang);
 			};
 		}

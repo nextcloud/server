@@ -285,7 +285,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper
 			->expects($this->at(2))
 			->method('delete')
-			->with($this->callback(function($token) use ($oldToken) {
+			->with($this->callback(function ($token) use ($oldToken) {
 				return $token === $oldToken;
 			}));
 
@@ -325,7 +325,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->mapper
 			->expects($this->at(2))
 			->method('delete')
-			->with($this->callback(function($token) use ($oldToken) {
+			->with($this->callback(function ($token) use ($oldToken) {
 				return $token === $oldToken;
 			}));
 

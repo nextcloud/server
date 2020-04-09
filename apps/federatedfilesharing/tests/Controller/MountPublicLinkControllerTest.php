@@ -143,7 +143,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 		$this->addressHandler->expects($this->any())->method('splitUserRemote')
 			->with($shareWith)
 			->willReturnCallback(
-				function($shareWith) use ($validShareWith, $expectedReturnData) {
+				function ($shareWith) use ($validShareWith, $expectedReturnData) {
 					if ($validShareWith) {
 						return ['user', 'server'];
 					}

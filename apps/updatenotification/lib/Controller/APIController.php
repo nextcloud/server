@@ -78,7 +78,7 @@ class APIController extends OCSController {
 
 		// Get list of installed custom apps
 		$installedApps = $this->appManager->getInstalledApps();
-		$installedApps = array_filter($installedApps, function($app) {
+		$installedApps = array_filter($installedApps, function ($app) {
 			try {
 				$this->appManager->getAppPath($app);
 			} catch (AppPathNotFoundException $e) {
@@ -97,7 +97,7 @@ class APIController extends OCSController {
 		$this->appFetcher->setVersion($newVersion, 'future-apps.json', false);
 
 		// Apps available on the app store for that version
-		$availableApps = array_map(function(array $app) {
+		$availableApps = array_map(function (array $app) {
 			return $app['id'];
 		}, $this->appFetcher->get());
 

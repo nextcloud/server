@@ -89,12 +89,12 @@ class CodeChecker extends BasicEmitter {
 			$excludedDirectories[] = 'lists';
 		}
 
-		$excludes = array_map(function($item) use ($folder) {
+		$excludes = array_map(function ($item) use ($folder) {
 			return $folder . '/' . $item;
 		}, $excludedDirectories);
 
 		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
-		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($excludes){
+		$iterator = new RecursiveCallbackFilterIterator($iterator, function ($item) use ($excludes) {
 			/** @var SplFileInfo $item */
 			foreach($excludes as $exclude) {
 				if (substr($item->getPath(), 0, strlen($exclude)) === $exclude) {

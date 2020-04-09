@@ -210,7 +210,7 @@ abstract class FetcherBase extends TestCase {
 
 	public function testGetWithAlreadyExistingFileAndOutdatedTimestamp() {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
 				} else if ($key === 'version') {
@@ -463,7 +463,7 @@ abstract class FetcherBase extends TestCase {
 
 	public function testGetWithExceptionInClient() {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
 				} else {
@@ -503,7 +503,7 @@ abstract class FetcherBase extends TestCase {
 
 	public function testGetMatchingETag() {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
 				} else if ($key === 'version') {
@@ -584,7 +584,7 @@ abstract class FetcherBase extends TestCase {
 
 	public function testGetNoMatchingETag() {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
 				} else if ($key === 'version') {
@@ -671,7 +671,7 @@ abstract class FetcherBase extends TestCase {
 
 	public function testFetchAfterUpgradeNoETag() {
 		$this->config->method('getSystemValue')
-			->willReturnCallback(function($key, $default) {
+			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
 				} else if ($key === 'version') {

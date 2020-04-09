@@ -273,7 +273,7 @@ class Principal implements BackendInterface {
 					$users = $this->userManager->getByEmail($value);
 
 					if (!$allowEnumeration) {
-						$users = \array_filter($users, static function(IUser $user) use ($value) {
+						$users = \array_filter($users, static function (IUser $user) use ($value) {
 							return $user->getEMailAddress() === $value;
 						});
 					}
@@ -287,7 +287,7 @@ class Principal implements BackendInterface {
 						});
 					}
 
-					$results[] = array_reduce($users, function(array $carry, IUser $user) use ($restrictGroups) {
+					$results[] = array_reduce($users, function (array $carry, IUser $user) use ($restrictGroups) {
 						// is sharing restricted to groups only?
 						if ($restrictGroups !== false) {
 							$userGroups = $this->groupManager->getUserGroupIds($user);
@@ -305,7 +305,7 @@ class Principal implements BackendInterface {
 					$users = $this->userManager->searchDisplayName($value);
 
 					if (!$allowEnumeration) {
-						$users = \array_filter($users, static function(IUser $user) use ($value) {
+						$users = \array_filter($users, static function (IUser $user) use ($value) {
 							return $user->getDisplayName() === $value;
 						});
 					}
@@ -319,7 +319,7 @@ class Principal implements BackendInterface {
 						});
 					}
 
-					$results[] = array_reduce($users, function(array $carry, IUser $user) use ($restrictGroups) {
+					$results[] = array_reduce($users, function (array $carry, IUser $user) use ($restrictGroups) {
 						// is sharing restricted to groups only?
 						if ($restrictGroups !== false) {
 							$userGroups = $this->groupManager->getUserGroupIds($user);
@@ -518,7 +518,7 @@ class Principal implements BackendInterface {
 
 			$circles = \OCA\Circles\Api\v1\Circles::joinedCircles($name, true);
 
-			$circles = array_map(function($circle) {
+			$circles = array_map(function ($circle) {
 				/** @var \OCA\Circles\Model\Circle $circle */
 				return 'principals/circles/' . urlencode($circle->getUniqueId());
 			}, $circles);

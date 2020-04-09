@@ -92,7 +92,7 @@ class ExpireTrash extends Command {
 		} else {
 			$p = new ProgressBar($output);
 			$p->start();
-			$this->userManager->callForSeenUsers(function(IUser $user) use ($p) {
+			$this->userManager->callForSeenUsers(function (IUser $user) use ($p) {
 				$p->advance();
 				$this->expireTrashForUser($user);
 			});

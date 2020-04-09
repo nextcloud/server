@@ -59,7 +59,7 @@ class UploadHome implements ICollection {
 	}
 
 	public function getChildren(): array {
-		return array_map(function($node) {
+		return array_map(function ($node) {
 			return new UploadFolder($node, $this->cleanupService);
 		}, $this->impl()->getChildren());
 	}

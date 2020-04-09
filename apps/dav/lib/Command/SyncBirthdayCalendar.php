@@ -96,7 +96,7 @@ class SyncBirthdayCalendar extends Command {
 		$output->writeln("Start birthday calendar sync for all users ...");
 		$p = new ProgressBar($output);
 		$p->start();
-		$this->userManager->callForSeenUsers(function($user) use ($p)  {
+		$this->userManager->callForSeenUsers(function ($user) use ($p) {
 			$p->advance();
 
 			$userId = $user->getUID();
@@ -113,7 +113,7 @@ class SyncBirthdayCalendar extends Command {
 		$output->writeln('');
 	}
 
-	protected function verifyEnabled () {
+	protected function verifyEnabled() {
 		$isEnabled = $this->config->getAppValue('dav', 'generateBirthdayCalendar', 'yes');
 
 		if ($isEnabled !== 'yes') {

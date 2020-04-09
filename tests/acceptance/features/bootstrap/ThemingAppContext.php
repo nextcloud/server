@@ -93,7 +93,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 
 		$actor = $this->actor;
 
-		$colorSelectorLoadedCallback = function() use($actor) {
+		$colorSelectorLoadedCallback = function () use ($actor) {
 			$colorSelectorValue = $this->getRGBArray($actor->getSession()->evaluateScript("return $('#theming-color')[0].value;"));
 			$inputBgColor = $this->getRGBArray($actor->getSession()->evaluateScript("return $('#theming-color').css('background-color');"));
 			if ($colorSelectorValue == $inputBgColor) {
@@ -108,7 +108,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 		}
 	}
 
-	private function getRGBArray ($color) {
+	private function getRGBArray($color) {
 		if (preg_match("/rgb\(\s*(\d+),\s*(\d+),\s*(\d+)\)/", $color, $matches)) {
 		// Already an RGB (R, G, B) color
 		// Convert from "rgb(R, G, B)" string to RGB array
@@ -128,7 +128,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 	 * @Then I see that the header color is eventually :color
 	 */
 	public function iSeeThatTheHeaderColorIsEventually($color) {
-		$headerColorMatchesCallback = function() use($color) {
+		$headerColorMatchesCallback = function () use ($color) {
 			$headerColor = $this->actor->getSession()->evaluateScript("return $('#header').css('background-color');");
 			$headerColor = $this->getRGBArray($headerColor);
 			$color = $this->getRGBArray($color);
@@ -149,7 +149,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 
 		$actor = $this->actor;
 
-		$savedStatusMessageShownCallback = function() use($actor) {
+		$savedStatusMessageShownCallback = function () use ($actor) {
 			if ($actor->find(self::statusMessage())->getText() !== "Saved") {
 				return false;
 			}

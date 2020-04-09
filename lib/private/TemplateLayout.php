@@ -64,7 +64,7 @@ class TemplateLayout extends \OC_Template {
 	 * @param string $renderAs
 	 * @param string $appId application id
 	 */
-	public function __construct( $renderAs, $appId = '' ) {
+	public function __construct($renderAs, $appId = '') {
 
 		// yes - should be injected ....
 		$this->config = \OC::$server->getConfig();

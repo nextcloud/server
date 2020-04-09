@@ -1200,7 +1200,7 @@ class Manager implements IManager {
 	public function getSharesInFolder($userId, Folder $node, $reshares = false) {
 		$providers = $this->factory->getAllProviders();
 
-		return array_reduce($providers, function($shares, IShareProvider $provider) use ($userId, $node, $reshares) {
+		return array_reduce($providers, function ($shares, IShareProvider $provider) use ($userId, $node, $reshares) {
 			$newShares = $provider->getSharesInFolder($userId, $node, $reshares);
 			foreach ($newShares as $fid => $data) {
 				if (!isset($shares[$fid])) {
@@ -1318,7 +1318,7 @@ class Manager implements IManager {
 		$shares = $this->getSharedWith($userId, $shareType, $node, $limit, $offset);
 
 		// Only get deleted shares
-		$shares = array_filter($shares, function(IShare $share) {
+		$shares = array_filter($shares, function (IShare $share) {
 			return $share->getPermissions() === 0;
 		});
 

@@ -70,7 +70,7 @@ class CalendarManagerTest extends \Test\TestCase {
 		$calendarManager = $this->createMock(Manager::class);
 		$calendarManager->expects($this->at(0))
 			->method('registerCalendar')
-			->willReturnCallback(function() {
+			->willReturnCallback(function () {
 				$parameter = func_get_arg(0);
 				$this->assertInstanceOf(CalendarImpl::class, $parameter);
 				$this->assertEquals(123, $parameter->getKey());
@@ -78,7 +78,7 @@ class CalendarManagerTest extends \Test\TestCase {
 
 		$calendarManager->expects($this->at(1))
 			->method('registerCalendar')
-			->willReturnCallback(function() {
+			->willReturnCallback(function () {
 				$parameter = func_get_arg(0);
 				$this->assertInstanceOf(CalendarImpl::class, $parameter);
 				$this->assertEquals(456, $parameter->getKey());

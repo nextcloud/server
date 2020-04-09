@@ -55,7 +55,7 @@ class MiddlewareDispatcher {
 	/**
 	 * Constructor
 	 */
-	public function __construct(){
+	public function __construct() {
 		$this->middlewares = [];
 		$this->middlewareCounter = 0;
 	}
@@ -65,7 +65,7 @@ class MiddlewareDispatcher {
 	 * Adds a new middleware
 	 * @param Middleware $middleWare the middleware which will be added
 	 */
-	public function registerMiddleware(Middleware $middleWare){
+	public function registerMiddleware(Middleware $middleWare) {
 		$this->middlewares[] = $middleWare;
 	}
 
@@ -87,7 +87,7 @@ class MiddlewareDispatcher {
 	 * @param string $methodName the name of the method that will be called on
 	 *                           the controller
 	 */
-	public function beforeController(Controller $controller, string $methodName){
+	public function beforeController(Controller $controller, string $methodName) {
 		// we need to count so that we know which middlewares we have to ask in
 		// case there is an exception
 		$middlewareCount = \count($this->middlewares);

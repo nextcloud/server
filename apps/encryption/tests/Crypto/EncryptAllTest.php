@@ -322,7 +322,7 @@ class EncryptAllTest extends TestCase {
 
 		$this->view->expects($this->any())->method('is_dir')
 			->willReturnCallback(
-				function($path) {
+				function ($path) {
 					if ($path === '/user1/files/foo') {
 						return true;
 					}

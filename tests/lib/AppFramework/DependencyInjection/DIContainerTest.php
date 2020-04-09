@@ -49,24 +49,24 @@ class DIContainerTest extends \Test\TestCase {
 	}
 
 
-	public function testProvidesRequest(){
+	public function testProvidesRequest() {
 		$this->assertTrue(isset($this->container['Request']));
 	}
 
-	public function testProvidesMiddlewareDispatcher(){
+	public function testProvidesMiddlewareDispatcher() {
 		$this->assertTrue(isset($this->container['MiddlewareDispatcher']));
 	}
 
-	public function testProvidesAppName(){
+	public function testProvidesAppName() {
 		$this->assertTrue(isset($this->container['AppName']));
 	}
 
 
-	public function testAppNameIsSetCorrectly(){
+	public function testAppNameIsSetCorrectly() {
 		$this->assertEquals('name', $this->container['AppName']);
 	}
 
-	public function testMiddlewareDispatcherIncludesSecurityMiddleware(){
+	public function testMiddlewareDispatcherIncludesSecurityMiddleware() {
 		$this->container['Request'] = new Request(
 			['method' => 'GET'],
 			$this->createMock(ISecureRandom::class),

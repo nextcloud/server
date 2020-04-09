@@ -150,7 +150,7 @@ trait PrincipalProxyTrait {
 					$proxy->setPermissions($proxy->getPermissions() | $permission);
 					$this->proxyMapper->update($proxy);
 
-					$proxies = array_filter($proxies, function(Proxy $p) use ($proxy) {
+					$proxies = array_filter($proxies, function (Proxy $p) use ($proxy) {
 						return $p->getId() !== $proxy->getId();
 					});
 					break;

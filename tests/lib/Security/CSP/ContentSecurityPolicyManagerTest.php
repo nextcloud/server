@@ -79,7 +79,7 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 	}
 
 	public function testGetDefaultPolicyWithPoliciesViaEvent() {
-		$this->dispatcher->addListener(AddContentSecurityPolicyEvent::class, function(AddContentSecurityPolicyEvent $e) {
+		$this->dispatcher->addListener(AddContentSecurityPolicyEvent::class, function (AddContentSecurityPolicyEvent $e) {
 			$policy = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 			$policy->addAllowedFontDomain('mydomain.com');
 			$policy->addAllowedImageDomain('anotherdomain.de');
@@ -87,7 +87,7 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 			$e->addPolicy($policy);
 		});
 
-		$this->dispatcher->addListener(AddContentSecurityPolicyEvent::class, function(AddContentSecurityPolicyEvent $e) {
+		$this->dispatcher->addListener(AddContentSecurityPolicyEvent::class, function (AddContentSecurityPolicyEvent $e) {
 			$policy = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 			$policy->addAllowedFontDomain('example.com');
 			$policy->addAllowedImageDomain('example.org');
@@ -96,7 +96,7 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 			$e->addPolicy($policy);
 		});
 
-		$this->dispatcher->addListener(AddContentSecurityPolicyEvent::class, function(AddContentSecurityPolicyEvent $e) {
+		$this->dispatcher->addListener(AddContentSecurityPolicyEvent::class, function (AddContentSecurityPolicyEvent $e) {
 			$policy = new \OCP\AppFramework\Http\EmptyContentSecurityPolicy();
 			$policy->addAllowedChildSrcDomain('childdomain');
 			$policy->addAllowedFontDomain('anotherFontDomain');

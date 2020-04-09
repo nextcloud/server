@@ -95,7 +95,7 @@ class PublishPlugin extends ServerPlugin {
 	 *
 	 * @return string
 	 */
-	public function getPluginName()	{
+	public function getPluginName() {
 		return 'oc-calendar-publishing';
 	}
 
@@ -128,7 +128,7 @@ class PublishPlugin extends ServerPlugin {
 				}
 			});
 
-			$propFind->handle('{'.self::NS_CALENDARSERVER.'}allowed-sharing-modes', function() use ($node) {
+			$propFind->handle('{'.self::NS_CALENDARSERVER.'}allowed-sharing-modes', function () use ($node) {
 				$canShare = (!$node->isSubscription() && $node->canWrite());
 				$canPublish = (!$node->isSubscription() && $node->canWrite());
 

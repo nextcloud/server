@@ -145,7 +145,7 @@ class MountProviderTest extends \Test\TestCase {
 			->willReturn($roomShares);
 		$this->shareManager->expects($this->any())
 			->method('newShare')
-			->willReturnCallback(function() use ($rootFolder, $userManager) {
+			->willReturnCallback(function () use ($rootFolder, $userManager) {
 				return new \OC\Share20\Share($rootFolder, $userManager);
 			});
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
@@ -322,10 +322,10 @@ class MountProviderTest extends \Test\TestCase {
 		$rootFolder = $this->createMock(IRootFolder::class);
 		$userManager = $this->createMock(IUserManager::class);
 
-		$userShares = array_map(function($shareSpec) {
+		$userShares = array_map(function ($shareSpec) {
 			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4]);
 		}, $userShares);
-		$groupShares = array_map(function($shareSpec) {
+		$groupShares = array_map(function ($shareSpec) {
 			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4]);
 		}, $groupShares);
 
@@ -354,7 +354,7 @@ class MountProviderTest extends \Test\TestCase {
 			->willReturn($roomShares);
 		$this->shareManager->expects($this->any())
 			->method('newShare')
-			->willReturnCallback(function() use ($rootFolder, $userManager) {
+			->willReturnCallback(function () use ($rootFolder, $userManager) {
 				return new \OC\Share20\Share($rootFolder, $userManager);
 			});
 

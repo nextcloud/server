@@ -65,7 +65,7 @@ class Application extends App {
 		$container = $this->getContainer();
 		$server = $container->getServer();
 
-		$container->registerService(PhotoCache::class, function(SimpleContainer $s) use ($server) {
+		$container->registerService(PhotoCache::class, function (SimpleContainer $s) use ($server) {
 			return new PhotoCache(
 				$server->getAppDataDir('dav-photocache'),
 				$server->getLogger()
@@ -147,7 +147,7 @@ class Application extends App {
 			}
 		});
 
-		$clearPhotoCache = function($event) {
+		$clearPhotoCache = function ($event) {
 			if ($event instanceof GenericEvent) {
 				/** @var PhotoCache $p */
 				$p = $this->getContainer()->query(PhotoCache::class);
@@ -160,20 +160,20 @@ class Application extends App {
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $clearPhotoCache);
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', $clearPhotoCache);
 
-		$dispatcher->addListener('OC\AccountManager::userUpdated', function(GenericEvent $event) {
+		$dispatcher->addListener('OC\AccountManager::userUpdated', function (GenericEvent $event) {
 			$user = $event->getSubject();
 			$syncService = $this->getContainer()->query(SyncService::class);
 			$syncService->updateUser($user);
 		});
 
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendar', function(GenericEvent $event) {
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::createCalendar', function (GenericEvent $event) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
 			$backend->onCalendarAdd(
 				$event->getArgument('calendarData')
 			);
 		});
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateCalendar', function(GenericEvent $event) {
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateCalendar', function (GenericEvent $event) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
 			$backend->onCalendarUpdate(
@@ -182,7 +182,7 @@ class Application extends App {
 				$event->getArgument('propertyMutations')
 			);
 		});
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar', function(GenericEvent $event) {
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar', function (GenericEvent $event) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
 			$backend->onCalendarDelete(
@@ -195,7 +195,7 @@ class Application extends App {
 				$event->getArgument('calendarId')
 			);
 		});
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateShares', function(GenericEvent $event) {
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::updateShares', function (GenericEvent $event) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
 			$backend->onCalendarUpdateShares(
@@ -208,7 +208,7 @@ class Application extends App {
 			// Here we should recalculate if reminders should be sent to new or old sharees
 		});
 
-		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::publishCalendar', function(GenericEvent $event) {
+		$dispatcher->addListener('\OCA\DAV\CalDAV\CalDavBackend::publishCalendar', function (GenericEvent $event) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
 			$backend->onCalendarPublication(
@@ -217,7 +217,7 @@ class Application extends App {
 			);
 		});
 
-		$listener = function(GenericEvent $event, $eventName) {
+		$listener = function (GenericEvent $event, $eventName) {
 			/** @var Backend $backend */
 			$backend = $this->getContainer()->query(Backend::class);
 

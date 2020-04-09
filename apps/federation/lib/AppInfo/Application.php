@@ -69,7 +69,7 @@ class Application extends App {
 		);
 
 		$dispatcher = $container->getServer()->getEventDispatcher();
-		$dispatcher->addListener('OCA\DAV\Connector\Sabre::authInit', function($event) use($container) {
+		$dispatcher->addListener('OCA\DAV\Connector\Sabre::authInit', function ($event) use ($container) {
 			if ($event instanceof SabrePluginEvent) {
 				$server = $event->getServer();
 				if ($server instanceof Server) {

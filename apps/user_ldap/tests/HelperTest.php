@@ -67,7 +67,7 @@ class HelperTest extends \Test\TestCase {
 			]);
 
 		$this->config->method('getAppValue')
-			->willReturnCallback(function($app, $key, $default) {
+			->willReturnCallback(function ($app, $key, $default) {
 				if ($app !== 'user_ldap') {
 					$this->fail('wrong app');
 				}
@@ -93,7 +93,7 @@ class HelperTest extends \Test\TestCase {
 			]);
 
 		$this->config->method('getAppValue')
-			->willReturnCallback(function($app, $key, $default) {
+			->willReturnCallback(function ($app, $key, $default) {
 				if ($app !== 'user_ldap') {
 					$this->fail('wrong app');
 				}

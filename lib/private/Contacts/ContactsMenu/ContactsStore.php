@@ -78,7 +78,7 @@ class ContactsStore implements IContactsStore {
 			'EMAIL'
 		]);
 
-		$entries = array_map(function(array $contact) {
+		$entries = array_map(function (array $contact) {
 			return $this->contactArrayToEntry($contact);
 		}, $allContacts);
 		return $this->filterContacts(
@@ -131,7 +131,7 @@ class ContactsStore implements IContactsStore {
 
 		$selfUID = $self->getUID();
 
-		return array_values(array_filter($entries, function(IEntry $entry) use ($self, $skipLocal, $ownGroupsOnly, $selfGroups, $selfUID, $disallowEnumeration, $filter) {
+		return array_values(array_filter($entries, function (IEntry $entry) use ($self, $skipLocal, $ownGroupsOnly, $selfGroups, $selfUID, $disallowEnumeration, $filter) {
 			if ($skipLocal && $entry->getProperty('isLocalSystemBook') === true) {
 				return false;
 			}
@@ -196,7 +196,7 @@ class ContactsStore implements IContactsStore {
 
 		$userId = $user->getUID();
 		$allContacts = $this->contactsManager->search($shareWith, $filter);
-		$contacts = array_filter($allContacts, function($contact) use ($userId) {
+		$contacts = array_filter($allContacts, function ($contact) use ($userId) {
 			return $contact['UID'] !== $userId;
 		});
 		$match = null;

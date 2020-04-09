@@ -143,7 +143,7 @@ class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
 	 * @return boolean
 	 */
 	public function isActive(IUser $user): bool {
-		$appIds = array_filter($this->appManager->getEnabledAppsForUser($user), function($appId) {
+		$appIds = array_filter($this->appManager->getEnabledAppsForUser($user), function ($appId) {
 			return $appId !== $this->appName;
 		});
 		foreach ($appIds as $appId) {

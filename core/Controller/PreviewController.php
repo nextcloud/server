@@ -85,7 +85,7 @@ class PreviewController extends Controller {
 	 * @param string $mode
 	 * @return DataResponse|FileDisplayResponse
 	 */
-	public function getPreview (
+	public function getPreview(
 		string $file = '',
 		int $x = 32,
 		int $y = 32,

@@ -174,7 +174,7 @@ class EncryptionTest extends Storage {
 			->disableOriginalConstructor()->getMock();
 		$this->cache->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($path) {return ['encrypted' => false, 'path' => $path];});
+			->willReturnCallback(function ($path) {return ['encrypted' => false, 'path' => $path];});
 
 		$this->mountManager = $this->createMock(\OC\Files\Mount\Manager::class);
 		$this->mountManager->method('findByStorageId')
@@ -253,7 +253,7 @@ class EncryptionTest extends Storage {
 		$cache->expects($this->any())
 			->method('get')
 			->willReturnCallback(
-				function($path) use ($encrypted) {
+				function ($path) use ($encrypted) {
 					return ['encrypted' => $encrypted, 'path' => $path, 'size' => 0, 'fileid' => 1];
 				}
 			);
@@ -387,7 +387,7 @@ class EncryptionTest extends Storage {
 		$this->instance->expects($this->any())->method('fixUnencryptedSize')
 			->with('/test.txt', $encryptedSize, $unencryptedSize)
 			->willReturnCallback(
-				function() use ($failure, $expected) {
+				function () use ($failure, $expected) {
 					if ($failure) {
 						throw new \Exception();
 					} else {
@@ -645,7 +645,7 @@ class EncryptionTest extends Storage {
 			->disableOriginalConstructor()->getMock();
 		$cache->expects($this->any())
 			->method('get')
-			->willReturnCallback(function($path) use ($isEncrypted) {return ['encrypted' => $isEncrypted, 'path' => $path];});
+			->willReturnCallback(function ($path) use ($isEncrypted) {return ['encrypted' => $isEncrypted, 'path' => $path];});
 
 		$instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
 			->setConstructorArgs(
@@ -737,7 +737,7 @@ class EncryptionTest extends Storage {
 
 		$storage2->expects($this->any())
 			->method('fopen')
-			->willReturnCallback(function($path, $mode) {
+			->willReturnCallback(function ($path, $mode) {
 				$temp = \OC::$server->getTempManager();
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
@@ -786,7 +786,7 @@ class EncryptionTest extends Storage {
 
 		$storage2->expects($this->any())
 			->method('fopen')
-			->willReturnCallback(function($path, $mode) {
+			->willReturnCallback(function ($path, $mode) {
 				$temp = \OC::$server->getTempManager();
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
@@ -839,7 +839,7 @@ class EncryptionTest extends Storage {
 	 * @param bool $copyResult
 	 * @param bool $encrypted
 	 */
-	public function  testCopyBetweenStorageVersions($sourceInternalPath, $targetInternalPath, $copyResult, $encrypted) {
+	public function testCopyBetweenStorageVersions($sourceInternalPath, $targetInternalPath, $copyResult, $encrypted) {
 
 		$sourceStorage = $this->createMock(\OC\Files\Storage\Storage::class);
 
@@ -1005,7 +1005,7 @@ class EncryptionTest extends Storage {
 			->method('getEncryptionModule')
 			->with($fullPath)
 			->willReturnCallback(
-				function() use ($encryptionModule) {
+				function () use ($encryptionModule) {
 					if ($encryptionModule === false) {
 						throw new ModuleDoesNotExistsException();
 					}

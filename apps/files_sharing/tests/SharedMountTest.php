@@ -186,7 +186,7 @@ class SharedMountTest extends TestCase {
 	 * share file with a group if a user renames the file the filename should not change
 	 * for the other users
 	 */
-	public function testMoveGroupShare () {
+	public function testMoveGroupShare() {
 		$testGroup = $this->groupManager->createGroup('testGroup');
 		$user1 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER1);
 		$user2 = $this->userManager->get(self::TEST_FILES_SHARING_API_USER2);
@@ -266,7 +266,7 @@ class SharedMountTest extends TestCase {
 	public function dataPermissionMovedGroupShare() {
 		$data = [];
 
-		$powerset = function($permissions) {
+		$powerset = function ($permissions) {
 			$results = [\OCP\Constants::PERMISSION_READ];
 
 			foreach ($permissions as $permission) {
@@ -460,7 +460,7 @@ class SharedMountTest extends TestCase {
 }
 
 class DummyTestClassSharedMount extends \OCA\Files_Sharing\SharedMount {
-	public function __construct($storage, $mountpoint, $arguments = null, $loader = null){
+	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
 		// noop
 	}
 

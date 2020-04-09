@@ -259,7 +259,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		if (\count($tags) !== \count($tagIds)) {
 			// at least one tag missing, bail out
 			$foundTagIds = array_map(
-				function(ISystemTag $tag) {
+				function (ISystemTag $tag) {
 					return $tag->getId();
 				},
 				$tags

@@ -342,7 +342,7 @@ class EncryptionTest extends \Test\TestCase {
 		$encryptionModule->expects($this->any())->method('end')->willReturn('');
 		$encryptionModule->expects($this->any())->method('isReadable')->willReturn(true);
 		$encryptionModule->expects($this->any())->method('needDetailedAccessList')->willReturn(false);
-		$encryptionModule->expects($this->any())->method('encrypt')->willReturnCallback(function($data) {
+		$encryptionModule->expects($this->any())->method('encrypt')->willReturnCallback(function ($data) {
 			// simulate different block size by adding some padding to the data
 			if (isset($data[6125])) {
 				return str_pad($data, 8192, 'X');
@@ -350,7 +350,7 @@ class EncryptionTest extends \Test\TestCase {
 			// last block
 			return $data;
 		});
-		$encryptionModule->expects($this->any())->method('decrypt')->willReturnCallback(function($data) {
+		$encryptionModule->expects($this->any())->method('decrypt')->willReturnCallback(function ($data) {
 			if (isset($data[8191])) {
 				return substr($data, 0, 6126);
 			}

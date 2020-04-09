@@ -199,7 +199,7 @@ class App {
 	 * @param DIContainer $container an instance of a pimple container.
 	 */
 	public static function part(string $controllerName, string $methodName, array $urlParams,
-								DIContainer $container){
+								DIContainer $container) {
 
 		$container['urlParams'] = $urlParams;
 		$controller = $container[$controllerName];

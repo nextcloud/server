@@ -99,15 +99,15 @@ class CommentPropertiesPlugin extends ServerPlugin {
 			}
 		}
 
-		$propFind->handle(self::PROPERTY_NAME_COUNT, function() use ($node) {
+		$propFind->handle(self::PROPERTY_NAME_COUNT, function () use ($node) {
 			return $this->commentsManager->getNumberOfCommentsForObject('files', (string)$node->getId());
 		});
 
-		$propFind->handle(self::PROPERTY_NAME_HREF, function() use ($node) {
+		$propFind->handle(self::PROPERTY_NAME_HREF, function () use ($node) {
 			return $this->getCommentsLink($node);
 		});
 
-		$propFind->handle(self::PROPERTY_NAME_UNREAD, function() use ($node) {
+		$propFind->handle(self::PROPERTY_NAME_UNREAD, function () use ($node) {
 			if (isset($this->cachedUnreadCount[$node->getId()])) {
 				return $this->cachedUnreadCount[$node->getId()];
 			} else {

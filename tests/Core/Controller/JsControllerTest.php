@@ -159,7 +159,7 @@ class JsControllerTest extends TestCase {
 
 		$folder->method('getFile')
 			->willReturnCallback(
-				function($fileName) use ($file) {
+				function ($fileName) use ($file) {
 					if ($fileName === 'file.js') {
 						return $file;
 					}

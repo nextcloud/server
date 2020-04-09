@@ -87,7 +87,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 
-	public function testControllerNameAndMethodAreBeingPassed(){
+	public function testControllerNameAndMethodAreBeingPassed() {
 		$return = ['HTTP/2.0 200 OK', [], [], null, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
@@ -127,7 +127,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 
-	public function testOutputIsPrinted(){
+	public function testOutputIsPrinted() {
 		$return = ['HTTP/2.0 200 OK', [], [], $this->output, new Response()];
 		$this->dispatcher->expects($this->once())
 			->method('dispatch')
@@ -166,7 +166,7 @@ class AppTest extends \Test\TestCase {
 	}
 
 
-	public function testCallbackIsCalled(){
+	public function testCallbackIsCalled() {
 		$mock = $this->getMockBuilder('OCP\AppFramework\Http\ICallbackResponse')
 			->getMock();
 

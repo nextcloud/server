@@ -247,7 +247,7 @@ class AccessibilityController extends Controller {
 	 *
 	 * @return array
 	 */
-	private function getUserValues(): array{
+	private function getUserValues(): array {
 		$userTheme = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'theme', false);
 		$userFont  = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'font', false);
 		$userHighContrast = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'highcontrast', false);

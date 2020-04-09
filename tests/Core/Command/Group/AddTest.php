@@ -52,7 +52,7 @@ class AddTest extends TestCase {
 
 		$this->input = $this->createMock(InputInterface::class);
 		$this->input->method('getArgument')
-			->willReturnCallback(function($arg) {
+			->willReturnCallback(function ($arg) {
 				if ($arg === 'groupid') {
 					return 'myGroup';
 				}

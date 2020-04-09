@@ -91,7 +91,7 @@ class CommentsPlugin extends ServerPlugin {
 
 		$this->server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 
-		$this->server->xml->classMap['DateTime'] = function(Writer $writer, \DateTime $value) {
+		$this->server->xml->classMap['DateTime'] = function (Writer $writer, \DateTime $value) {
 			$writer->write(\Sabre\HTTP\toDate($value));
 		};
 

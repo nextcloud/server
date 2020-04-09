@@ -89,7 +89,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 	 * will be called on the result
 	 */
 	protected function setMapperResult($sql, $arguments=[], $returnRows=[],
-		$limit=null, $offset=null, $expectClose=false){
+		$limit=null, $offset=null, $expectClose=false) {
 		if($limit === null && $offset === null) {
 			$this->db->expects($this->at($this->prepareAt))
 				->method('prepare')
@@ -124,7 +124,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 		$this->query->expects($this->any())
 			->method('fetch')
 			->willReturnCallback(
-				function() use ($iterators, $fetchAt){
+				function () use ($iterators, $fetchAt) {
 					$iterator = $iterators[$fetchAt];
 					$result = $iterator->next();
 
@@ -164,7 +164,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 
 		$this->query->expects($this->at($this->queryAt))
 			->method('execute')
-			->willReturnCallback(function($sql, $p=null, $o=null, $s=null) {
+			->willReturnCallback(function ($sql, $p=null, $o=null, $s=null) {
 
 			});
 		$this->queryAt++;
@@ -191,11 +191,11 @@ class ArgumentIterator {
 
 	private $arguments;
 
-	public function __construct($arguments){
+	public function __construct($arguments) {
 		$this->arguments = $arguments;
 	}
 
-	public function next(){
+	public function next() {
 		$result = array_shift($this->arguments);
 		if($result === null){
 			return false;

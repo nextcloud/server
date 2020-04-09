@@ -39,7 +39,7 @@ class DoesNotExistException extends \Exception implements IMapperException {
 	 * @param string $msg the error message
 	 * @since 7.0.0
 	 */
-	public function __construct($msg){
+	public function __construct($msg) {
 		parent::__construct($msg);
 	}
 

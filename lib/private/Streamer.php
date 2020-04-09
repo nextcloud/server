@@ -52,7 +52,7 @@ class Streamer {
 	 * @param int $numberOfFiles The number of files (and directories) that will
 	 *        be included in the streamed file
 	 */
-	public function __construct(IRequest $request, int $size, int $numberOfFiles){
+	public function __construct(IRequest $request, int $size, int $numberOfFiles) {
 
 		/**
 		 * zip32 constraints for a basic (without compression, volumes nor
@@ -89,7 +89,7 @@ class Streamer {
 	 * Send HTTP headers
 	 * @param string $name
 	 */
-	public function sendHeaders($name){
+	public function sendHeaders($name) {
 		$extension = $this->streamerInstance instanceof ZipStreamer ? '.zip' : '.tar';
 		$fullName = $name . $extension;
 		$this->streamerInstance->sendHeaders($fullName);
@@ -169,7 +169,7 @@ class Streamer {
 	 * @param string $dirName Directory Path and name to be added to the archive.
 	 * @return bool $success
 	 */
-	public function addEmptyDir($dirName){
+	public function addEmptyDir($dirName) {
 		return $this->streamerInstance->addEmptyDir($dirName);
 	}
 
@@ -179,7 +179,7 @@ class Streamer {
 	 * closing, the file is completely written to the output stream.
 	 * @return bool $success
 	 */
-	public function finalize(){
+	public function finalize() {
 		return $this->streamerInstance->finalize();
 	}
 }

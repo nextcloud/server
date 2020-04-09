@@ -41,7 +41,7 @@ class HomeObjectStoreStorage extends ObjectStoreStorage implements \OCP\Files\IH
 		parent::__construct($params);
 	}
 
-	public function getId () {
+	public function getId() {
 		return 'object::user:' . $this->user->getUID();
 	}
 

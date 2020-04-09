@@ -251,7 +251,7 @@ class SystemTagsObjectMappingCollectionTest extends \Test\TestCase {
 
 		$this->tagManager->expects($this->exactly(3))
 			->method('canUserSeeTag')
-			->willReturnCallback(function($tag) {
+			->willReturnCallback(function ($tag) {
 				return $tag->isUserVisible();
 			});
 

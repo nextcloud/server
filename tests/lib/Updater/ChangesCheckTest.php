@@ -348,8 +348,8 @@ class ChangesCheckTest extends TestCase {
 
 	public function changeDataProvider():array {
 		$testDataFound = $testDataNotFound = $this->versionProvider();
-		array_walk($testDataFound, function(&$params) { $params[] = true; });
-		array_walk($testDataNotFound, function(&$params) { $params[] = false; });
+		array_walk($testDataFound, function (&$params) { $params[] = true; });
+		array_walk($testDataNotFound, function (&$params) { $params[] = false; });
 		return array_merge($testDataFound, $testDataNotFound);
 	}
 

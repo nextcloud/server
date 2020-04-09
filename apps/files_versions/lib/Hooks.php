@@ -56,7 +56,7 @@ class Hooks {
 	/**
 	 * listen to write event.
 	 */
-	public static function write_hook( $params ) {
+	public static function write_hook($params) {
 		$path = $params[Filesystem::signal_param_path];
 		if($path !== '') {
 			Storage::store($path);

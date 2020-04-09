@@ -65,7 +65,7 @@ abstract class Entity {
 	 * @param array $row the row to map onto the entity
 	 * @since 7.0.0
 	 */
-	public static function fromRow(array $row){
+	public static function fromRow(array $row) {
 		$instance = new static();
 
 		foreach($row as $key => $value){
@@ -93,7 +93,7 @@ abstract class Entity {
 	 * Marks the entity as clean needed for setting the id after the insertion
 	 * @since 7.0.0
 	 */
-	public function resetUpdatedFields(){
+	public function resetUpdatedFields() {
 		$this->_updatedFields = [];
 	}
 
@@ -175,7 +175,7 @@ abstract class Entity {
 	 * @param string $attribute the name of the attribute
 	 * @since 7.0.0
 	 */
-	protected function markFieldUpdated($attribute){
+	protected function markFieldUpdated($attribute) {
 		$this->_updatedFields[$attribute] = true;
 	}
 
@@ -186,7 +186,7 @@ abstract class Entity {
 	 * @return string the property name
 	 * @since 7.0.0
 	 */
-	public function columnToProperty($columnName){
+	public function columnToProperty($columnName) {
 		$parts = explode('_', $columnName);
 		$property = null;
 
@@ -208,7 +208,7 @@ abstract class Entity {
 	 * @return string the column name
 	 * @since 7.0.0
 	 */
-	public function propertyToColumn($property){
+	public function propertyToColumn($property) {
 		$parts = preg_split('/(?=[A-Z])/', $property);
 		$column = null;
 
@@ -228,7 +228,7 @@ abstract class Entity {
 	 * @return array array of updated fields for update query
 	 * @since 7.0.0
 	 */
-	public function getUpdatedFields(){
+	public function getUpdatedFields() {
 		return $this->_updatedFields;
 	}
 
@@ -240,7 +240,7 @@ abstract class Entity {
 	 * @param string $type the type which will be used to call settype()
 	 * @since 7.0.0
 	 */
-	protected function addType($fieldName, $type){
+	protected function addType($fieldName, $type) {
 		$this->_fieldTypes[$fieldName] = $type;
 	}
 
@@ -252,7 +252,7 @@ abstract class Entity {
 	 * @return string slugified value
 	 * @since 7.0.0
 	 */
-	public function slugify($attributeName){
+	public function slugify($attributeName) {
 		// toSlug should only work for existing attributes
 		if(property_exists($this, $attributeName)){
 			$value = $this->$attributeName;

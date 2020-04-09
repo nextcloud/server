@@ -236,7 +236,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		$seen[$dnGroup] = 1;
 		$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr);
 		if (is_array($members)) {
-			$fetcher = function($memberDN, &$seen) {
+			$fetcher = function ($memberDN, &$seen) {
 				return $this->_groupMembers($memberDN, $seen);
 			};
 			$allMembers = $this->walkNestedGroups($dnGroup, $fetcher, $members);
@@ -260,7 +260,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			return [];
 		}
 
-		$fetcher = function($groupDN) {
+		$fetcher = function ($groupDN) {
 			if (isset($this->cachedNestedGroups[$groupDN])) {
 				$nestedGroups = $this->cachedNestedGroups[$groupDN];
 			} else {

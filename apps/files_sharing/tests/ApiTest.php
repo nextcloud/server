@@ -108,7 +108,7 @@ class ApiTest extends TestCase {
 	private function createOCS($userId) {
 		$l = $this->getMockBuilder(IL10N::class)->getMock();
 		$l->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 		$config = $this->createMock(IConfig::class);

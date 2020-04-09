@@ -78,7 +78,7 @@ class BirthdayCalendarController extends Controller {
 								IDBConnection $db, IConfig $config,
 								IJobList $jobList,
 								IUserManager $userManager,
-								CalDavBackend $calDavBackend){
+								CalDavBackend $calDavBackend) {
 		parent::__construct($appName, $request);
 		$this->db = $db;
 		$this->config = $config;
@@ -94,7 +94,7 @@ class BirthdayCalendarController extends Controller {
 		$this->config->setAppValue($this->appName, 'generateBirthdayCalendar', 'yes');
 
 		// add background job for each user
-		$this->userManager->callForSeenUsers(function(IUser $user) {
+		$this->userManager->callForSeenUsers(function (IUser $user) {
 			$this->jobList->add(GenerateBirthdayCalendarBackgroundJob::class, [
 				'userId' => $user->getUID(),
 			]);

@@ -54,7 +54,7 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0
 	 */
-	static public function rmdirr( $dir ) {
+	static public function rmdirr($dir) {
 		return \OC_Helper::rmdirr( $dir );
 	}
 
@@ -66,7 +66,7 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0
 	 */
-	static public function getMimeType( $path ) {
+	static public function getMimeType($path) {
 		return \OC::$server->getMimeTypeDetector()->detect($path);
 	}
 
@@ -89,7 +89,7 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0
 	 */
-	public static function streamCopy( $source, $target ) {
+	public static function streamCopy($source, $target) {
 		list($count, ) = \OC_Helper::streamCopy( $source, $target );
 		return $count;
 	}

@@ -78,7 +78,7 @@ class AppleProvisioningPluginTest extends TestCase {
 			$this->themingDefaults,
 			$this->request,
 			$this->l10n,
-			function() {
+			function () {
 				return 'generated-uuid';
 			}
 		);
@@ -92,7 +92,7 @@ class AppleProvisioningPluginTest extends TestCase {
 
 		$plugin = new AppleProvisioningPlugin($this->userSession,
 			$this->urlGenerator, $this->themingDefaults, $this->request, $this->l10n,
-			function() {});
+			function () {});
 
 		$server->expects($this->at(0))
 			->method('on')

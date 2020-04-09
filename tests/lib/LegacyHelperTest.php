@@ -54,7 +54,7 @@ class LegacyHelperTest extends \Test\TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	function providesComputerFileSize(){
+	function providesComputerFileSize() {
 		return [
 			[0.0, "0 B"],
 			[1024.0, "1 KB"],

@@ -292,7 +292,7 @@ class ShareesAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->any())
 			->method('shareProviderExists')
-			->willReturnCallback(function($shareType) use ($emailSharingEnabled) {
+			->willReturnCallback(function ($shareType) use ($emailSharingEnabled) {
 				if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
 					return $emailSharingEnabled;
 				} else {

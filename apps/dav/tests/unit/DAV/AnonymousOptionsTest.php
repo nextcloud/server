@@ -37,7 +37,7 @@ class AnonymousOptionsTest extends TestCase {
 	private function sendRequest($method, $path, $userAgent = '') {
 		$server = new Server();
 		$server->addPlugin(new AnonymousOptionsPlugin());
-		$server->addPlugin(new Plugin(new BasicCallBack(function() {
+		$server->addPlugin(new Plugin(new BasicCallBack(function () {
 			return false;
 		})));
 

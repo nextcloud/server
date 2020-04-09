@@ -128,12 +128,12 @@ if (\OCP\Util::needUpgrade()) {
 	$incompatibleApps = [];
 
 	$dispatcher = \OC::$server->getEventDispatcher();
-	$dispatcher->addListener('\OC\DB\Migrator::executeSql', function($event) use ($eventSource, $l) {
+	$dispatcher->addListener('\OC\DB\Migrator::executeSql', function ($event) use ($eventSource, $l) {
 		if ($event instanceof GenericEvent) {
 			$eventSource->send('success', (string)$l->t('[%d / %d]: %s', [$event[0], $event[1], $event->getSubject()]));
 		}
 	});
-	$dispatcher->addListener('\OC\DB\Migrator::checkTable', function($event) use ($eventSource, $l) {
+	$dispatcher->addListener('\OC\DB\Migrator::checkTable', function ($event) use ($eventSource, $l) {
 		if ($event instanceof GenericEvent) {
 			$eventSource->send('success', (string)$l->t('[%d / %d]: Checking table %s', [$event[0], $event[1], $event->getSubject()]));
 		}
@@ -156,13 +156,13 @@ if (\OCP\Util::needUpgrade()) {
 	$updater->listen('\OC\Updater', 'maintenanceActive', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Maintenance mode is kept active'));
 	});
-	$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'dbUpgradeBefore', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Updating database schema'));
 	});
 	$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Updated database'));
 	});
-	$updater->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Checking whether the database schema can be updated (this can take a long time depending on the database size)'));
 	});
 	$updater->listen('\OC\Updater', 'dbSimulateUpgrade', function () use ($eventSource, $l) {
@@ -197,16 +197,16 @@ if (\OCP\Util::needUpgrade()) {
 		$eventSource->close();
 		$config->setSystemValue('maintenance', false);
 	});
-	$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Set log level to debug'));
 	});
-	$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Reset log level'));
 	});
-	$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Starting code integrity check'));
 	});
-	$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use($eventSource, $l) {
+	$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Finished code integrity check'));
 	});
 

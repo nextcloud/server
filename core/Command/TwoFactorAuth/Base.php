@@ -54,7 +54,7 @@ class Base extends \OC\Core\Command\Base {
 	 */
 	public function completeArgumentValues($argumentName, CompletionContext $context) {
 		if ($argumentName === 'uid') {
-			return array_map(function(IUser $user) {
+			return array_map(function (IUser $user) {
 				return $user->getUID();
 			}, $this->userManager->search($context->getCurrentWord(), 100));
 		}

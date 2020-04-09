@@ -42,7 +42,7 @@ trait CommandLine {
 	 * @return int exit code
 	 */
 	public function runOcc($args = []) {
-		$args = array_map(function($arg) {
+		$args = array_map(function ($arg) {
 			return escapeshellarg($arg);
 		}, $args);
 		$args[] = '--no-ansi';

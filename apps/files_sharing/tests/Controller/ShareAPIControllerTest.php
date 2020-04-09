@@ -123,7 +123,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 		$this->config = $this->createMock(IConfig::class);
@@ -180,7 +180,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager
 			->expects($this->exactly(5))
 			->method('getShareById')
-			->willReturnCallback(function($id) {
+			->willReturnCallback(function ($id) {
 				if ($id === 'ocinternal:42' || $id === 'ocRoomShare:42' || $id === 'ocFederatedSharing:42' || $id === 'ocCircleShare:42' || $id === 'ocMailShare:42') {
 					throw new \OCP\Share\Exceptions\ShareNotFound();
 				} else {
@@ -1341,7 +1341,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$ocs->method('formatShare')
 			->willReturnCallback(
-				function($share) {
+				function ($share) {
 					return [
 						'id' => $share->getId(),
 						'share_type' => $share->getShareType()
@@ -1361,7 +1361,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager
 			->method('getSharesBy')
 			->willReturnCallback(
-				function($user, $shareType, $node) use ($shares) {
+				function ($user, $shareType, $node) use ($shares) {
 					if (!isset($shares[$node->getName()]) || !isset($shares[$node->getName()][$shareType])) {
 						return [];
 					}
@@ -1380,7 +1380,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->groupManager
 			->method('isInGroup')
 			->willReturnCallback(
-				function($user, $group) {
+				function ($user, $group) {
 					return $group === 'currentUserGroup';
 				}
 			);

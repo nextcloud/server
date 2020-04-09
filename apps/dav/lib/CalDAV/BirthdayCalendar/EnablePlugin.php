@@ -87,7 +87,7 @@ class EnablePlugin extends ServerPlugin {
 	 *
 	 * @return string
 	 */
-	public function getPluginName()	{
+	public function getPluginName() {
 		return 'nc-enable-birthday-calendar';
 	}
 

@@ -106,7 +106,7 @@ class File extends \OCP\Search\Result {
 	 * @param string $path
 	 * @return string relative path
 	 */
-	protected function getRelativePath ($path) {
+	protected function getRelativePath($path) {
 		if (!isset(self::$userFolderCache)) {
 			$user = \OC::$server->getUserSession()->getUser()->getUID();
 			self::$userFolderCache = \OC::$server->getUserFolder($user);

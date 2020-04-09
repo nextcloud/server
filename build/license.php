@@ -98,12 +98,12 @@ EOD;
 			return;
 		}
 
-		$excludes = array_map(function($item) use ($folder) {
+		$excludes = array_map(function ($item) use ($folder) {
 			return $folder . '/' . $item;
 		}, ['vendor', '3rdparty', '.git', 'l10n', 'templates', 'composer']);
 
 		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
-		$iterator = new RecursiveCallbackFilterIterator($iterator, function($item) use ($folder, $excludes){
+		$iterator = new RecursiveCallbackFilterIterator($iterator, function ($item) use ($folder, $excludes) {
 			/** @var SplFileInfo $item */
 			foreach($excludes as $exclude) {
 				if (substr($item->getPath(), 0, strlen($exclude)) === $exclude) {
@@ -134,7 +134,7 @@ With help from many libraries and frameworks including:
 	jQuery
 	…
 ";
-		$authors = implode(PHP_EOL, array_map(function($author){
+		$authors = implode(PHP_EOL, array_map(function ($author) {
 			return " - ".$author;
 		}, $this->authors));
 		$template = str_replace('@AUTHORS@', $authors, $template);
@@ -328,7 +328,7 @@ With help from many libraries and frameworks including:
 		}
 		$authors = explode(PHP_EOL, $out);
 
-		$authors = array_filter($authors, function($author) {
+		$authors = array_filter($authors, function ($author) {
 			return !in_array($author, [
 				'',
 				'Not Committed Yet <not.committed.yet>',
@@ -342,7 +342,7 @@ With help from many libraries and frameworks including:
 			$authors = array_unique($authors);
 		}
 
-		$authors = array_map(function($author){
+		$authors = array_map(function ($author) {
 			$author = $this->fixInvalidEmail($author);
 			$this->authors[$author] = $author;
 			return " * @author $author";

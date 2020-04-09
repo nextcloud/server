@@ -94,12 +94,12 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 
 		$codeChecker = new CodeChecker($checkList, !$input->getOption('skip-validate-info'));
 
-		$codeChecker->listen('CodeChecker', 'analyseFileBegin', function($params) use ($output) {
+		$codeChecker->listen('CodeChecker', 'analyseFileBegin', function ($params) use ($output) {
 			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
 				$output->writeln("<info>Analysing {$params}</info>");
 			}
 		});
-		$codeChecker->listen('CodeChecker', 'analyseFileFinished', function($filename, $errors) use ($output) {
+		$codeChecker->listen('CodeChecker', 'analyseFileFinished', function ($filename, $errors) use ($output) {
 			$count = count($errors);
 
 			// show filename if the verbosity is low, but there are errors in a file
@@ -111,7 +111,7 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 			if($count > 0 || OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
 				$output->writeln(" {$count} errors");
 			}
-			usort($errors, function($a, $b) {
+			usort($errors, function ($a, $b) {
 				return $a['line'] >$b['line'];
 			});
 
@@ -127,7 +127,7 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 
 		if(!$input->getOption('skip-validate-info')) {
 			$infoChecker = new InfoChecker();
-			$infoChecker->listen('InfoChecker', 'parseError', function($error) use ($output) {
+			$infoChecker->listen('InfoChecker', 'parseError', function ($error) use ($output) {
 				$output->writeln("<error>Invalid appinfo.xml file found: $error</error>");
 			});
 

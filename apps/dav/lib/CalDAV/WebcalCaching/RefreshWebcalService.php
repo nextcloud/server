@@ -166,7 +166,7 @@ class RefreshWebcalService {
 	public function getSubscription(string $principalUri, string $uri) {
 		$subscriptions = array_values(array_filter(
 			$this->calDavBackend->getSubscriptionsForUser($principalUri),
-			function($sub) use ($uri) {
+			function ($sub) use ($uri) {
 				return $sub['uri'] === $uri;
 			}
 		));
@@ -197,7 +197,7 @@ class RefreshWebcalService {
 				->withHeader('Accept', 'text/calendar, application/calendar+json, application/calendar+xml')
 				->withHeader('User-Agent', 'Nextcloud Webcal Crawler');
 		}));
-		$handlerStack->push(Middleware::mapResponse(function(ResponseInterface $response) use (&$didBreak301Chain, &$latestLocation) {
+		$handlerStack->push(Middleware::mapResponse(function (ResponseInterface $response) use (&$didBreak301Chain, &$latestLocation) {
 			if (!$didBreak301Chain) {
 				if ($response->getStatusCode() !== 301) {
 					$didBreak301Chain = true;

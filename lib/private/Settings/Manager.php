@@ -230,7 +230,7 @@ class Manager implements IManager {
 	 */
 	public function getAdminSettings($section, bool $subAdminOnly = false): array {
 		if ($subAdminOnly) {
-			$subAdminSettingsFilter = function(ISettings $settings) {
+			$subAdminSettingsFilter = function (ISettings $settings) {
 				return $settings instanceof ISubAdminSettings;
 			};
 			$appSettings = $this->getSettings('admin', $section, $subAdminSettingsFilter);

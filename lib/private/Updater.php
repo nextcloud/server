@@ -495,20 +495,20 @@ class Updater extends BasicEmitter {
 		$log = $this->log;
 
 		$dispatcher = \OC::$server->getEventDispatcher();
-		$dispatcher->addListener('\OC\DB\Migrator::executeSql', function($event) use ($log) {
+		$dispatcher->addListener('\OC\DB\Migrator::executeSql', function ($event) use ($log) {
 			if (!$event instanceof GenericEvent) {
 				return;
 			}
 			$log->info('\OC\DB\Migrator::executeSql: ' . $event->getSubject() . ' (' . $event->getArgument(0) . ' of ' . $event->getArgument(1) . ')', ['app' => 'updater']);
 		});
-		$dispatcher->addListener('\OC\DB\Migrator::checkTable', function($event) use ($log) {
+		$dispatcher->addListener('\OC\DB\Migrator::checkTable', function ($event) use ($log) {
 			if (!$event instanceof GenericEvent) {
 				return;
 			}
 			$log->info('\OC\DB\Migrator::checkTable: ' . $event->getSubject() . ' (' . $event->getArgument(0) . ' of ' . $event->getArgument(1) . ')', ['app' => 'updater']);
 		});
 
-		$repairListener = function($event) use ($log) {
+		$repairListener = function ($event) use ($log) {
 			if (!$event instanceof GenericEvent) {
 				return;
 			}
@@ -551,44 +551,44 @@ class Updater extends BasicEmitter {
 		$dispatcher->addListener('\OC\Repair::error', $repairListener);
 
 
-		$this->listen('\OC\Updater', 'maintenanceEnabled', function () use($log) {
+		$this->listen('\OC\Updater', 'maintenanceEnabled', function () use ($log) {
 			$log->info('\OC\Updater::maintenanceEnabled: Turned on maintenance mode', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'maintenanceDisabled', function () use($log) {
+		$this->listen('\OC\Updater', 'maintenanceDisabled', function () use ($log) {
 			$log->info('\OC\Updater::maintenanceDisabled: Turned off maintenance mode', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'maintenanceActive', function () use($log) {
+		$this->listen('\OC\Updater', 'maintenanceActive', function () use ($log) {
 			$log->info('\OC\Updater::maintenanceActive: Maintenance mode is kept active', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'updateEnd', function ($success) use($log) {
+		$this->listen('\OC\Updater', 'updateEnd', function ($success) use ($log) {
 			if ($success) {
 				$log->info('\OC\Updater::updateEnd: Update successful', ['app' => 'updater']);
 			} else {
 				$log->error('\OC\Updater::updateEnd: Update failed', ['app' => 'updater']);
 			}
 		});
-		$this->listen('\OC\Updater', 'dbUpgradeBefore', function () use($log) {
+		$this->listen('\OC\Updater', 'dbUpgradeBefore', function () use ($log) {
 			$log->info('\OC\Updater::dbUpgradeBefore: Updating database schema', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'dbUpgrade', function () use($log) {
+		$this->listen('\OC\Updater', 'dbUpgrade', function () use ($log) {
 			$log->info('\OC\Updater::dbUpgrade: Updated database', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use($log) {
+		$this->listen('\OC\Updater', 'dbSimulateUpgradeBefore', function () use ($log) {
 			$log->info('\OC\Updater::dbSimulateUpgradeBefore: Checking whether the database schema can be updated (this can take a long time depending on the database size)', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'dbSimulateUpgrade', function () use($log) {
+		$this->listen('\OC\Updater', 'dbSimulateUpgrade', function () use ($log) {
 			$log->info('\OC\Updater::dbSimulateUpgrade: Checked database schema update', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use($log) {
+		$this->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use ($log) {
 			$log->info('\OC\Updater::incompatibleAppDisabled: Disabled incompatible app: ' . $app, ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use($log) {
+		$this->listen('\OC\Updater', 'checkAppStoreAppBefore', function ($app) use ($log) {
 			$log->info('\OC\Updater::checkAppStoreAppBefore: Checking for update of app "' . $app . '" in appstore', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use($log) {
+		$this->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use ($log) {
 			$log->info('\OC\Updater::upgradeAppStoreApp: Update app "' . $app . '" from appstore', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use($log) {
+		$this->listen('\OC\Updater', 'checkAppStoreApp', function ($app) use ($log) {
 			$log->info('\OC\Updater::checkAppStoreApp: Checked for update of app "' . $app . '" in appstore', ['app' => 'updater']);
 		});
 		$this->listen('\OC\Updater', 'appUpgradeCheckBefore', function () use ($log) {
@@ -606,19 +606,19 @@ class Updater extends BasicEmitter {
 		$this->listen('\OC\Updater', 'appUpgrade', function ($app, $version) use ($log) {
 			$log->info('\OC\Updater::appUpgrade: Updated <' . $app . '> to ' . $version, ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'failure', function ($message) use($log) {
+		$this->listen('\OC\Updater', 'failure', function ($message) use ($log) {
 			$log->error('\OC\Updater::failure: ' . $message, ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'setDebugLogLevel', function () use($log) {
+		$this->listen('\OC\Updater', 'setDebugLogLevel', function () use ($log) {
 			$log->info('\OC\Updater::setDebugLogLevel: Set log level to debug', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use($log) {
+		$this->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use ($log) {
 			$log->info('\OC\Updater::resetLogLevel: Reset log level to ' . $logLevelName . '(' . $logLevel . ')', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use($log) {
+		$this->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use ($log) {
 			$log->info('\OC\Updater::startCheckCodeIntegrity: Starting code integrity check...', ['app' => 'updater']);
 		});
-		$this->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use($log) {
+		$this->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use ($log) {
 			$log->info('\OC\Updater::finishedCheckCodeIntegrity: Finished code integrity check', ['app' => 'updater']);
 		});
 

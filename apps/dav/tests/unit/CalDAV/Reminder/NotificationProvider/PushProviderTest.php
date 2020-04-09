@@ -80,7 +80,7 @@ class PushProviderTest extends AbstractNotificationProviderTest {
 		);
 	}
 
-	public function testNotificationType():void  {
+	public function testNotificationType():void {
 		$this->assertEquals(PushProvider::NOTIFICATION_TYPE, 'DISPLAY');
 	}
 

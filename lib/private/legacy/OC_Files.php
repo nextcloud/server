@@ -399,7 +399,7 @@ class OC_Files {
 			$view->lockFile($file, ILockingProvider::LOCK_SHARED);
 			if ($view->is_dir($file)) {
 				$contents = $view->getDirectoryContent($file);
-				$contents = array_map(function($fileInfo) use ($file) {
+				$contents = array_map(function ($fileInfo) use ($file) {
 					/** @var \OCP\Files\FileInfo $fileInfo */
 					return $file . '/' . $fileInfo->getName();
 				}, $contents);

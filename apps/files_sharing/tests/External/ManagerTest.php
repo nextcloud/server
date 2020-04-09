@@ -110,7 +110,7 @@ class ManagerTest extends TestCase {
 				]
 			)->setMethods(['tryOCMEndPoint'])->getMock();
 
-		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function() {
+		$this->testMountProvider = new MountProvider(\OC::$server->getDatabaseConnection(), function () {
 			return $this->manager;
 		}, new CloudIdManager());
 	}

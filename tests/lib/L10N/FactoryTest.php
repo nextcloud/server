@@ -419,7 +419,7 @@ class FactoryTest extends TestCase {
 			->willReturn($availableLanguages);
 
 		$factory->expects($this->any())
-			->method('respectDefaultLanguage')->willReturnCallback(function($app, $lang) {
+			->method('respectDefaultLanguage')->willReturnCallback(function ($app, $lang) {
 				return $lang;
 			});
 
@@ -510,7 +510,7 @@ class FactoryTest extends TestCase {
 
 		$this->config->expects($this->any())
 			->method('getSystemValue')
-			->willReturnCallback(function($var, $default) use ($defaultLang) {
+			->willReturnCallback(function ($var, $default) use ($defaultLang) {
 				if ($var === 'installed') {
 					return true;
 				} else if ($var === 'default_language') {
@@ -558,7 +558,7 @@ class FactoryTest extends TestCase {
 				return $availableLang;
 			});
 		$factory->expects($this->any())
-			->method('respectDefaultLanguage')->willReturnCallback(function($app, $lang) {
+			->method('respectDefaultLanguage')->willReturnCallback(function ($app, $lang) {
 			return $lang;
 			});
 

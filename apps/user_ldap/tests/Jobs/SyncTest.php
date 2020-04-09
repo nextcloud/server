@@ -128,7 +128,7 @@ class SyncTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setAppValue')
 			->with('user_ldap', 'background_sync_interval', $this->anything())
-			->willReturnCallback(function($a, $k, $interval) {
+			->willReturnCallback(function ($a, $k, $interval) {
 				$this->assertTrue($interval >= SYNC::MIN_INTERVAL);
 				$this->assertTrue($interval <= SYNC::MAX_INTERVAL);
 				return true;
@@ -294,7 +294,7 @@ class SyncTest extends TestCase {
 	public function testRun($runData) {
 		$this->config->expects($this->any())
 			->method('getAppValue')
-			->willReturnCallback(function($app, $key, $default) use ($runData) {
+			->willReturnCallback(function ($app, $key, $default) use ($runData) {
 				if($app === 'core' && $key === 'backgroundjobs_mode') {
 					return 'cron';
 				}

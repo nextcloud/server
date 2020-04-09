@@ -73,7 +73,7 @@ class RepairUserConfig implements IRepairStep {
 	 */
 	public function run(IOutput $output) {
 		$output->startProgress();
-		$this->userManager->callForSeenUsers(function(IUser $user) use ($output) {
+		$this->userManager->callForSeenUsers(function (IUser $user) use ($output) {
 			$theme = $this->config->getUserValue($user->getUID(), Application::APP_NAME, 'theme', false);
 			if ($theme === 'themedark') {
 				$this->config->setUserValue($user->getUID(), Application::APP_NAME, 'theme', 'dark');

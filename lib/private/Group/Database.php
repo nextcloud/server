@@ -165,7 +165,7 @@ class Database extends ABackend
 	 *
 	 * Checks whether the user is member of a group or not.
 	 */
-	public function inGroup( $uid, $gid ) {
+	public function inGroup($uid, $gid) {
 		$this->fixDI();
 
 		// check
@@ -234,7 +234,7 @@ class Database extends ABackend
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
 	 */
-	public function getUserGroups( $uid ) {
+	public function getUserGroups($uid) {
 		//guests has empty or null $uid
 		if ($uid === null || $uid === '') {
 			return [];

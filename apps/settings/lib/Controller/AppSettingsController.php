@@ -247,7 +247,7 @@ class AppSettingsController extends Controller {
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
 
 		// Extend existing app details
-		$apps = array_map(function($appData) use ($dependencyAnalyzer) {
+		$apps = array_map(function ($appData) use ($dependencyAnalyzer) {
 			if (isset($appData['appstoreData'])) {
 				$appstoreData = $appData['appstoreData'];
 				$appData['screenshot'] = isset($appstoreData['screenshots'][0]['url']) ? 'https://usercontent.apps.nextcloud.com/' . base64_encode($appstoreData['screenshots'][0]['url']) : '';

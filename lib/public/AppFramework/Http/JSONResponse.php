@@ -86,7 +86,7 @@ class JSONResponse extends Response {
 	 * @return JSONResponse Reference to this object
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function setData($data){
+	public function setData($data) {
 		$this->data = $data;
 
 		return $this;
@@ -98,7 +98,7 @@ class JSONResponse extends Response {
 	 * @return array the data
 	 * @since 6.0.0
 	 */
-	public function getData(){
+	public function getData() {
 		return $this->data;
 	}
 

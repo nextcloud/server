@@ -571,7 +571,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * Backend name to be shown in user management
 	 * @return string the name of the backend to be shown
 	 */
-	public function getBackendName(){
+	public function getBackendName() {
 		return 'LDAP';
 	}
 	

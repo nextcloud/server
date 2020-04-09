@@ -51,7 +51,7 @@ class OC_Hook {
 	 *
 	 * TODO: write example
 	 */
-	static public function connect($signalClass, $signalName, $slotClass, $slotName ) {
+	static public function connect($signalClass, $signalName, $slotClass, $slotName) {
 		// If we're trying to connect to an emitting class that isn't
 		// yet registered, register it
 		if( !array_key_exists($signalClass, self::$registered )) {

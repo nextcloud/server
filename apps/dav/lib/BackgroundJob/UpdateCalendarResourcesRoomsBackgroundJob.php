@@ -398,7 +398,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 			->where($query->expr()->eq('backend_id', $query->createNamedParameter($backendId)));
 		$stmt = $query->execute();
 
-		return array_map(function($row) {
+		return array_map(function ($row) {
 			return $row['resource_id'];
 		}, $stmt->fetchAll(\PDO::FETCH_NAMED));
 	}

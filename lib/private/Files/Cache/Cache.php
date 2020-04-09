@@ -554,7 +554,7 @@ class Cache implements ICache {
 	 */
 	private function removeChildren(ICacheEntry $entry) {
 		$children = $this->getFolderContentsById($entry->getId());
-		$childIds = array_map(function(ICacheEntry $cacheEntry) {
+		$childIds = array_map(function (ICacheEntry $cacheEntry) {
 			return $cacheEntry->getId();
 		}, $children);
 		$childFolders = array_filter($children, function ($child) {

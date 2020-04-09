@@ -158,7 +158,7 @@ class SimpleContainerTest extends \Test\TestCase {
 	}
 
 	public function testRegisterAliasService() {
-		$this->container->registerService('test', function() {
+		$this->container->registerService('test', function () {
 			return new \StdClass;
 		}, true);
 		$this->container->registerAlias('test1', 'test');
@@ -183,7 +183,7 @@ class SimpleContainerTest extends \Test\TestCase {
 	 * @dataProvider sanitizeNameProvider
 	 */
 	public function testSanitizeName($register, $query) {
-		$this->container->registerService($register, function() {
+		$this->container->registerService($register, function () {
 			return 'abc';
 		});
 		$this->assertEquals('abc', $this->container->query($query));
@@ -199,7 +199,7 @@ class SimpleContainerTest extends \Test\TestCase {
 	}
 
 	public function testRegisterFactory() {
-		$this->container->registerService('test', function() {
+		$this->container->registerService('test', function () {
 			return new \StdClass();
 		}, false);
 		$this->assertNotSame(
@@ -207,7 +207,7 @@ class SimpleContainerTest extends \Test\TestCase {
 	}
 
 	public function testRegisterAliasFactory() {
-		$this->container->registerService('test', function() {
+		$this->container->registerService('test', function () {
 			return new \StdClass();
 		}, false);
 		$this->container->registerAlias('test1', 'test');

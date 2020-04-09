@@ -33,7 +33,7 @@ class OC_Response {
 	 * @param string $filename file name
 	 * @param string $type disposition type, either 'attachment' or 'inline'
 	 */
-	static public function setContentDispositionHeader( $filename, $type = 'attachment' ) {
+	static public function setContentDispositionHeader($filename, $type = 'attachment') {
 		if (\OC::$server->getRequest()->isUserAgent(
 			[
 				\OC\AppFramework\Http\Request::USER_AGENT_IE,

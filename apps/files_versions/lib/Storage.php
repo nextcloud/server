@@ -497,7 +497,7 @@ class Storage {
 	 * Expire versions that older than max version retention time
 	 * @param string $uid
 	 */
-	public static function expireOlderThanMaxForUser($uid){
+	public static function expireOlderThanMaxForUser($uid) {
 		$expiration = self::getExpiration();
 		$threshold = $expiration->getMaxAgeAsTimestamp();
 		$versions = self::getAllVersions($uid);
@@ -848,7 +848,7 @@ class Storage {
 	 * Static workaround
 	 * @return Expiration
 	 */
-	protected static function getExpiration(){
+	protected static function getExpiration() {
 		if (self::$application === null) {
 			self::$application = \OC::$server->query(Application::class);
 		}

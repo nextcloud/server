@@ -1163,7 +1163,7 @@ class OC_Util {
 	 */
 	public static function sanitizeHTML($value) {
 		if (is_array($value)) {
-			$value = array_map(function($value) {
+			$value = array_map(function ($value) {
 				return self::sanitizeHTML($value);
 			}, $value);
 		} else {

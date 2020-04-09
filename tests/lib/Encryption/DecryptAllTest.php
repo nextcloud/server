@@ -177,7 +177,7 @@ class DecryptAllTest extends TestCase {
 			->with($this->inputInterface, $this->outputInterface, $user)
 			->willReturn($success);
 
-		$callback = function() use ($dummyEncryptionModule) {return $dummyEncryptionModule;};
+		$callback = function () use ($dummyEncryptionModule) {return $dummyEncryptionModule;};
 		$moduleDescription = [
 			'id' => 'id',
 			'displayName' => 'displayName',
@@ -283,7 +283,7 @@ class DecryptAllTest extends TestCase {
 
 		$this->view->expects($this->any())->method('is_dir')
 			->willReturnCallback(
-				function($path) {
+				function ($path) {
 					if ($path === '/user1/files/foo') {
 						return true;
 					}
@@ -379,7 +379,7 @@ class DecryptAllTest extends TestCase {
 		$this->view->expects($this->once())
 			->method('copy')
 			->with($path, $path . '.decrypted.42')
-			->willReturnCallback(function() { throw new DecryptionFailedException();});
+			->willReturnCallback(function () { throw new DecryptionFailedException();});
 
 		$this->view->expects($this->never())->method('rename');
 		$this->view->expects($this->once())

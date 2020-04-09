@@ -251,7 +251,7 @@ class LostController extends Controller {
 	 * @param string $user
 	 * @return JSONResponse
 	 */
-	public function email($user){
+	public function email($user) {
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
 			return new JSONResponse($this->error($this->l10n->t('Password reset is disabled')));
 		}

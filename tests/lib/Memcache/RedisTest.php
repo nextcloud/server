@@ -23,7 +23,7 @@ class RedisTest extends Cache {
 
 		$errorOccurred = false;
 		set_error_handler(
-			function($errno, $errstr) {
+			function ($errno, $errstr) {
 				throw new \RuntimeException($errstr, 123456789);
 			},
 			E_WARNING

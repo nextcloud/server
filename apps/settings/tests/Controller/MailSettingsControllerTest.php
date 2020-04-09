@@ -160,7 +160,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 
 		$this->l->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 		$this->userSession

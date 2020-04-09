@@ -113,7 +113,7 @@ class ShareByMailProviderTest extends TestCase {
 
 		$this->l = $this->getMockBuilder(IL10N::class)->getMock();
 		$this->l->method('t')
-			->willReturnCallback(function($text, $parameters = []) {
+			->willReturnCallback(function ($text, $parameters = []) {
 				return vsprintf($text, $parameters);
 			});
 		$this->logger = $this->getMockBuilder(ILogger::class)->getMock();
@@ -375,7 +375,7 @@ class ShareByMailProviderTest extends TestCase {
 			->with('files_sharing.sharecontroller.showShare', ['token' => 'token']);
 		$instance->expects($this->once())->method('sendMailNotification')
 			->willReturnCallback(
-				function() {
+				function () {
 					throw new \Exception('should be converted to a hint exception');
 				}
 			);

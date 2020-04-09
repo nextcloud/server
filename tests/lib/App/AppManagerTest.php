@@ -465,7 +465,7 @@ class AppManagerTest extends TestCase {
 		$manager->expects($this->any())
 			->method('getAppInfo')
 			->willReturnCallback(
-				function($appId) use ($appInfos) {
+				function ($appId) use ($appInfos) {
 					return $appInfos[$appId];
 				}
 			);
@@ -514,7 +514,7 @@ class AppManagerTest extends TestCase {
 		$manager->expects($this->any())
 			->method('getAppInfo')
 			->willReturnCallback(
-				function($appId) use ($appInfos) {
+				function ($appId) use ($appInfos) {
 					return $appInfos[$appId];
 				}
 			);

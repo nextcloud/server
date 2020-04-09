@@ -120,7 +120,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$fileDeps = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->willReturnCallback(function($path) use ($file, $gzfile) {
+			->willReturnCallback(function ($path) use ($file, $gzfile) {
 				if ($path === 'combine.js') {
 					return $file;
 				} else if ($path === 'combine.js.deps') {
@@ -157,7 +157,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$gzfile = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->willReturnCallback(function($path) use ($file, $gzfile) {
+			->willReturnCallback(function ($path) use ($file, $gzfile) {
 				if ($path === 'combine.js') {
 					return $file;
 				} else if ($path === 'combine.js.deps') {
@@ -200,7 +200,7 @@ class JSCombinerTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$folder->method('getFile')
-			->willReturnCallback(function($path) use ($file, $fileDeps) {
+			->willReturnCallback(function ($path) use ($file, $fileDeps) {
 				if ($path === 'combine.js') {
 					return $file;
 				}
@@ -245,7 +245,7 @@ class JSCombinerTest extends \Test\TestCase {
 			->willReturn('{}');
 
 		$folder->method('getFile')
-			->willReturnCallback(function($path) use ($file) {
+			->willReturnCallback(function ($path) use ($file) {
 				if ($path === 'combine.js') {
 					return $file;
 				}
@@ -262,7 +262,7 @@ class JSCombinerTest extends \Test\TestCase {
 		$file = $this->createMock(ISimpleFile::class);
 
 		$folder->method('getFile')
-			->willReturnCallback(function($path) use ($file) {
+			->willReturnCallback(function ($path) use ($file) {
 				if ($path === 'combine.js') {
 					return $file;
 				}

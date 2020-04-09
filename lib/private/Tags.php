@@ -181,7 +181,7 @@ class Tags implements ITags {
 			return [];
 		}
 
-		usort($this->tags, function($a, $b) {
+		usort($this->tags, function ($a, $b) {
 			return strnatcasecmp($a->getName(), $b->getName());
 		});
 		$tagMap = [];
@@ -204,7 +204,7 @@ class Tags implements ITags {
 	 */
 	public function getTagsForUser($user) {
 		return array_filter($this->tags,
-			function($tag) use($user) {
+			function ($tag) use ($user) {
 				return $tag->getOwner() === $user;
 			}
 		);
@@ -802,7 +802,7 @@ class Tags implements ITags {
 			return false;
 		}
 		return array_search(strtolower($needle), array_map(
-			function($tag) use($mem) {
+			function ($tag) use ($mem) {
 				return strtolower(call_user_func([$tag, $mem]));
 			}, $haystack)
 		);

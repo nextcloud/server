@@ -96,7 +96,7 @@ abstract class Backend implements UserInterface {
 	 *
 	 * Deletes a user
 	 */
-	public function deleteUser( $uid ) {
+	public function deleteUser($uid) {
 		return false;
 	}
 

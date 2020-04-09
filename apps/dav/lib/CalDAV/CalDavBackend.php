@@ -308,7 +308,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$principals = $this->principalBackend->getGroupMembership($principalUriOriginal, true);
 		$principals = array_merge($principals, $this->principalBackend->getCircleMembership($principalUriOriginal));
 
-		$principals = array_map(function($principal) {
+		$principals = array_map(function ($principal) {
 			return urldecode($principal);
 		}, $principals);
 		$principals[]= $principalUri;
@@ -800,7 +800,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		/**
 		 * @suppress SqlInjectionChecker
 		 */
-		$propPatch->handle($supportedProperties, function($mutations) use ($calendarId) {
+		$propPatch->handle($supportedProperties, function ($mutations) use ($calendarId) {
 			$newValues = [];
 			foreach ($mutations as $propertyName => $propertyValue) {
 
@@ -1587,7 +1587,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$result = $outerQuery->execute();
 		$calendarObjects = $result->fetchAll();
 
-		return array_map(function($o) {
+		return array_map(function ($o) {
 			$calendarData = Reader::read($o['calendardata']);
 			$comps = $calendarData->getComponents();
 			$objects = [];
@@ -1605,10 +1605,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'type' => $o['componenttype'],
 				'uid' => $o['uid'],
 				'uri' => $o['uri'],
-				'objects' => array_map(function($c) {
+				'objects' => array_map(function ($c) {
 					return $this->transformSearchData($c);
 				}, $objects),
-				'timezones' => array_map(function($c) {
+				'timezones' => array_map(function ($c) {
 					return $this->transformSearchData($c);
 				}, $timezones),
 			];
@@ -1624,7 +1624,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		/** @var Component[] $subComponents */
 		$subComponents = $comp->getComponents();
 		/** @var Property[] $properties */
-		$properties = array_filter($comp->children(), function($c) {
+		$properties = array_filter($comp->children(), function ($c) {
 			return $c instanceof Property;
 		});
 		$validationRules = $comp->getValidationRules();
@@ -1993,7 +1993,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		/**
 		 * @suppress SqlInjectionChecker
 		 */
-		$propPatch->handle($supportedProperties, function($mutations) use ($subscriptionId) {
+		$propPatch->handle($supportedProperties, function ($mutations) use ($subscriptionId) {
 
 			$newValues = [];
 

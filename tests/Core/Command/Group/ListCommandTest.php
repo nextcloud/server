@@ -56,7 +56,7 @@ class ListCommandTest extends TestCase {
 
 		$this->input = $this->createMock(InputInterface::class);
 		$this->input->method('getOption')
-			->willReturnCallback(function($arg) {
+			->willReturnCallback(function ($arg) {
 				if ($arg === 'limit') {
 					return '100';
 				} else if ($arg === 'offset') {

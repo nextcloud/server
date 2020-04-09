@@ -48,7 +48,7 @@ class SyncJob extends TimedJob {
 	}
 
 	protected function run($argument) {
-		$this->syncService->syncThemAll(function($url, $ex) {
+		$this->syncService->syncThemAll(function ($url, $ex) {
 			if ($ex instanceof \Exception) {
 				$this->logger->logException($ex, [
 					'message' => "Error while syncing $url.",

@@ -85,7 +85,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$backendService = $container->query(BackendService::class);
 		$backendService->registerBackendProvider($this);
 		$backendService->registerAuthMechanismProvider($this);
-		$backendService->registerConfigHandler('user', function() use ($container) {
+		$backendService->registerConfigHandler('user', function () use ($container) {
 			return $container->query(UserPlaceholderHandler::class);
 		});
 

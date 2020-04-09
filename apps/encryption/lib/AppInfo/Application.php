@@ -111,7 +111,7 @@ class Application extends \OCP\AppFramework\App {
 		$this->encryptionManager->registerEncryptionModule(
 			Encryption::ID,
 			Encryption::DISPLAY_NAME,
-			function() use ($container) {
+			function () use ($container) {
 
 			return new Encryption(
 				$container->query('Crypt'),

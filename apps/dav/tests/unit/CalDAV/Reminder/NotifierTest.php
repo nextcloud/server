@@ -61,18 +61,18 @@ class NotifierTest extends TestCase {
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->l10n->expects($this->any())
 			->method('t')
-			->willReturnCallback(function($string, $args) {
+			->willReturnCallback(function ($string, $args) {
 				return vsprintf($string, $args);
 			});
 		$this->l10n->expects($this->any())
 			->method('l')
-			->willReturnCallback(function($string, $args) {
+			->willReturnCallback(function ($string, $args) {
 				/** \DateTime $args */
 				return $args->format(\DateTime::ATOM);
 			});
 		$this->l10n->expects($this->any())
 			->method('n')
-			->willReturnCallback(function($textSingular, $textPlural, $count, $args) {
+			->willReturnCallback(function ($textSingular, $textPlural, $count, $args) {
 				$text = $count === 1 ? $textSingular : $textPlural;
 				$text = str_replace('%n', (string)$count, $text);
 				return vsprintf($text, $args);

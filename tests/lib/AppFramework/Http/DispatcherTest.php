@@ -51,7 +51,7 @@ class TestController extends Controller {
 	 * @return array
 	 */
 	public function exec($int, $bool, $test=4, $test2=1) {
-		$this->registerResponder('text', function($in) {
+		$this->registerResponder('text', function ($in) {
 			return new JSONResponse(['text' => $in]);
 		});
 		return [$int, $bool, $test, $test2];
@@ -231,7 +231,7 @@ class DispatcherTest extends \Test\TestCase {
 	}
 
 
-	public function testHeadersAndOutputAreReturned(){
+	public function testHeadersAndOutputAreReturned() {
 		$out = 'yo';
 		$httpHeaders = 'Http';
 		$responseHeaders = ['hell' => 'yeah'];
@@ -281,12 +281,12 @@ class DispatcherTest extends \Test\TestCase {
 				->method('beforeController');
 		$this->middlewareDispatcher->expects($this->once())
 			->method('afterController')
-			->willReturnCallback(function($a, $b, $in) {
+			->willReturnCallback(function ($a, $b, $in) {
 				return $in;
 			});
 		$this->middlewareDispatcher->expects($this->once())
 			->method('beforeOutput')
-			->willReturnCallback(function($a, $b, $in) {
+			->willReturnCallback(function ($a, $b, $in) {
 				return $in;
 			});
 	}

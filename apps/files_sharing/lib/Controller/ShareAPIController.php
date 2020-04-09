@@ -602,7 +602,7 @@ class ShareAPIController extends OCSController {
 
 		$shares = array_merge($userShares, $groupShares, $circleShares, $roomShares);
 
-		$shares = array_filter($shares, function(IShare $share) {
+		$shares = array_filter($shares, function (IShare $share) {
 			return $share->getShareOwner() !== $this->currentUser;
 		});
 
@@ -639,7 +639,7 @@ class ShareAPIController extends OCSController {
 		$nodes = $folder->getDirectoryListing();
 
 		/** @var \OCP\Share\IShare[] $shares */
-		$shares = array_reduce($nodes, function($carry, $node) {
+		$shares = array_reduce($nodes, function ($carry, $node) {
 			$carry = array_merge($carry, $this->getAllShares($node, true));
 			return $carry;
 		}, []);

@@ -56,7 +56,7 @@ class App {
 	 * @since 4.0.0
 	 * @deprecated 14.0.0 Use settings section in appinfo.xml to register personal admin sections
 	 */
-	public static function registerPersonal( $app, $page ) {
+	public static function registerPersonal($app, $page) {
 		\OC_App::registerPersonal( $app, $page );
 	}
 
@@ -68,7 +68,7 @@ class App {
 	 * @since 4.0.0
 	 * @deprecated 14.0.0 Use settings section in appinfo.xml to register admin sections
 	 */
-	public static function registerAdmin( $app, $page ) {
+	public static function registerAdmin($app, $page) {
 		\OC_App::registerAdmin( $app, $page );
 	}
 
@@ -80,7 +80,7 @@ class App {
 	 * @deprecated 14.0.0 ise \OC::$server->getAppManager()->getAppInfo($appId)
 	 * @since 4.0.0
 	 */
-	public static function getAppInfo( $app, $path=false ) {
+	public static function getAppInfo($app, $path=false) {
 		return \OC_App::getAppInfo( $app, $path);
 	}
 
@@ -93,7 +93,7 @@ class App {
 	 * @since 4.0.0
 	 * @deprecated 13.0.0 use \OC::$server->getAppManager()->isEnabledForUser($appId)
 	 */
-	public static function isEnabled( $app ) {
+	public static function isEnabled($app) {
 		return \OC::$server->getAppManager()->isEnabledForUser( $app );
 	}
 
@@ -104,7 +104,7 @@ class App {
 	 * @since 4.0.0
 	 * @deprecated 14.0.0 use \OC::$server->getAppManager()->getAppVersion($appId)
 	 */
-	public static function getAppVersion( $app ) {
+	public static function getAppVersion($app) {
 		return \OC::$server->getAppManager()->getAppVersion($app);
 	}
 }

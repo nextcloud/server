@@ -100,8 +100,8 @@ class RootCollectionTest extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($this->user);
 
-		$this->dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function(CommentsEntityEvent $event) {
-			$event->addEntityCollection('files', function() {
+		$this->dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function (CommentsEntityEvent $event) {
+			$event->addEntityCollection('files', function () {
 				return true;
 			});
 		});

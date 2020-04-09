@@ -975,7 +975,7 @@ class Share extends Constants {
 
 			// filter out invalid items, these can appear when subshare entries exist
 			// for a group in which the requested user isn't a member any more
-			$items = array_filter($items, function($item) {
+			$items = array_filter($items, function ($item) {
 				return $item['share_type'] !== self::$shareTypeGroupUserUnique;
 			});
 
