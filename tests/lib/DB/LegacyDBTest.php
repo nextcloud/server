@@ -62,9 +62,9 @@ class LegacyDBTest extends \Test\TestCase {
 		$dbFile = \OC::$SERVERROOT.'/tests/data/db_structure.xml';
 
 		$r = $this->getUniqueID('_', 4).'_';
-		$content = file_get_contents( $dbFile );
-		$content = str_replace( '*dbprefix*', '*dbprefix*'.$r, $content );
-		file_put_contents( self::$schema_file, $content );
+		$content = file_get_contents($dbFile);
+		$content = str_replace('*dbprefix*', '*dbprefix*'.$r, $content);
+		file_put_contents(self::$schema_file, $content);
 		OC_DB::createDbFromStructure(self::$schema_file);
 
 		$this->test_prefix = $r;

@@ -65,7 +65,7 @@ class Listener {
 		$notification = $this->instantiateNotification($comment);
 
 		foreach($mentions as $uid) {
-			if( ($comment->getActorType() === 'users' && $uid === $comment->getActorId())
+			if(($comment->getActorType() === 'users' && $uid === $comment->getActorId())
 				|| !$this->userManager->userExists($uid)
 			) {
 				// do not notify unknown users or yourself
@@ -73,7 +73,7 @@ class Listener {
 			}
 
 			$notification->setUser($uid);
-			if(    $event->getEvent() === CommentsEvent::EVENT_DELETE
+			if($event->getEvent() === CommentsEvent::EVENT_DELETE
 				|| $event->getEvent() === CommentsEvent::EVENT_PRE_UPDATE)
 			{
 				$this->notificationManager->markProcessed($notification);

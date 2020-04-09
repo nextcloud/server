@@ -76,7 +76,7 @@ function handleException($e) {
 		$server->exec();
 	} else {
 		$statusCode = 500;
-		if ($e instanceof \OC\ServiceUnavailableException ) {
+		if ($e instanceof \OC\ServiceUnavailableException) {
 			$statusCode = 503;
 		}
 		if ($e instanceof RemoteException) {

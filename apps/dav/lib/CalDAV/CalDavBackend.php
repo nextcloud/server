@@ -805,11 +805,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			foreach ($mutations as $propertyName => $propertyValue) {
 
 				switch ($propertyName) {
-					case '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp' :
+					case '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp':
 						$fieldName = 'transparent';
 						$newValues[$fieldName] = (int) ($propertyValue->getValue() === 'transparent');
 						break;
-					default :
+					default:
 						$fieldName = $this->propertyMap[$propertyName];
 						$newValues[$fieldName] = $propertyValue;
 						break;
@@ -1812,13 +1812,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			foreach($changes as $uri => $operation) {
 
 				switch($operation) {
-					case 1 :
+					case 1:
 						$result['added'][] = $uri;
 						break;
-					case 2 :
+					case 2:
 						$result['modified'][] = $uri;
 						break;
-					case 3 :
+					case 3:
 						$result['deleted'][] = $uri;
 						break;
 				}

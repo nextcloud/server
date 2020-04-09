@@ -59,7 +59,7 @@ class ShareRequest implements XmlDeserializable {
 		foreach ($elements as $elem) {
 			switch ($elem['name']) {
 
-				case '{' . Plugin::NS_OWNCLOUD . '}set' :
+				case '{' . Plugin::NS_OWNCLOUD . '}set':
 					$sharee = $elem['value'];
 
 					$sumElem = '{' . Plugin::NS_OWNCLOUD . '}summary';
@@ -73,7 +73,7 @@ class ShareRequest implements XmlDeserializable {
 					];
 					break;
 
-				case '{' . Plugin::NS_OWNCLOUD . '}remove' :
+				case '{' . Plugin::NS_OWNCLOUD . '}remove':
 					$remove[] = $elem['value']['{DAV:}href'];
 					break;
 

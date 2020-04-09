@@ -479,7 +479,7 @@ class Installer {
 	 * this has to be done by the function oc_app_uninstall().
 	 */
 	public function removeApp($appId) {
-		if($this->isDownloaded( $appId )) {
+		if($this->isDownloaded($appId)) {
 			if (\OC::$server->getAppManager()->isShipped($appId)) {
 				return false;
 			}
@@ -528,10 +528,10 @@ class Installer {
 		$config = \OC::$server->getConfig();
 		$errors = [];
 		foreach(\OC::$APPSROOTS as $app_dir) {
-			if($dir = opendir( $app_dir['path'] )) {
-				while( false !== ( $filename = readdir( $dir ))) {
-					if( $filename[0] !== '.' and is_dir($app_dir['path']."/$filename") ) {
-						if( file_exists( $app_dir['path']."/$filename/appinfo/info.xml" )) {
+			if($dir = opendir($app_dir['path'])) {
+				while(false !== ($filename = readdir($dir))) {
+					if($filename[0] !== '.' and is_dir($app_dir['path']."/$filename")) {
+						if(file_exists($app_dir['path']."/$filename/appinfo/info.xml")) {
 							if($config->getAppValue($filename, "installed_version", null) === null) {
 								$info=OC_App::getAppInfo($filename);
 								$enabled = isset($info['default_enable']);
@@ -556,7 +556,7 @@ class Installer {
 						}
 					}
 				}
-				closedir( $dir );
+				closedir($dir);
 			}
 		}
 
@@ -623,7 +623,7 @@ class Installer {
 	 * @param string $script
 	 */
 	private static function includeAppScript($script) {
-		if ( file_exists($script) ){
+		if (file_exists($script)){
 			include $script;
 		}
 	}

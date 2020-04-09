@@ -31,7 +31,7 @@ use OCP\IUser;
 
 /**
  * Nextcloud 2FA provider registry for stateful 2FA providers
- * 
+ *
  * This service keeps track of which providers are currently active for a specific
  * user. Stateful 2FA providers (IStatefulProvider) must use this service to save
  * their enabled/disabled state.

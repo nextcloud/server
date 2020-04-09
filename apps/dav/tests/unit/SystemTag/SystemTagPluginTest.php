@@ -573,7 +573,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
-			->willReturn('application/json');	
+			->willReturn('application/json');
 
 		$request->expects($this->once())
 			->method('getUrl')
@@ -647,7 +647,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
-			->willReturn('application/json');	
+			->willReturn('application/json');
 
 		$request->expects($this->once())
 			->method('getBaseUrl')
@@ -744,7 +744,7 @@ class SystemTagPluginTest extends \Test\TestCase {
 		$request->expects($this->once())
 			->method('getHeader')
 			->with('Content-Type')
-			->willReturn('application/json');	
+			->willReturn('application/json');
 
 		$this->plugin->httpPost($request, $response);
 	}

@@ -22,7 +22,7 @@
  */
 
 style('settings', 'settings');
-script('settings', [ 'settings', 'admin', 'log', 'certificates'] );
+script('settings', [ 'settings', 'admin', 'log', 'certificates']);
 script('core', 'setupchecks');
 script('files', 'jquery.fileupload');
 

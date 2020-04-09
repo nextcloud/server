@@ -76,7 +76,7 @@ interface ILDAPProvider {
 	public function sanitizeDN($dn);
 	
 	/**
-	 * Return a new LDAP connection resource for the specified user. 
+	 * Return a new LDAP connection resource for the specified user.
 	 * @param string $uid user id
 	 * @return resource of the LDAP connection
 	 * @since 11.0.0

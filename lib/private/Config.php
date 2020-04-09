@@ -239,14 +239,14 @@ class Config {
 		$content .= var_export($this->cache, true);
 		$content .= ";\n";
 
-		touch ($this->configFilePath);
+		touch($this->configFilePath);
 		$filePointer = fopen($this->configFilePath, 'r+');
 
 		// Prevent others not to read the config
 		chmod($this->configFilePath, 0640);
 
 		// File does not exist, this can happen when doing a fresh install
-		if(!is_resource ($filePointer)) {
+		if(!is_resource($filePointer)) {
 			throw new HintException(
 				"Can't write into config directory!",
 				'This can usually be fixed by giving the webserver write access to the config directory.');
@@ -258,7 +258,7 @@ class Config {
 		}
 
 		// Write the config and release the lock
-		ftruncate ($filePointer, 0);
+		ftruncate($filePointer, 0);
 		fwrite($filePointer, $content);
 		fflush($filePointer);
 		flock($filePointer, LOCK_UN);

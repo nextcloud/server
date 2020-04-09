@@ -149,7 +149,7 @@ class Plugin extends ServerPlugin {
 
 			// Dealing with the 'share' document, which modified invitees on a
 			// calendar.
-			case '{' . self::NS_OWNCLOUD . '}share' :
+			case '{' . self::NS_OWNCLOUD . '}share':
 
 				// We can only deal with IShareableCalendar objects
 				if (!$node instanceof IShareable) {

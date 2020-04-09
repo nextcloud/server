@@ -395,7 +395,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 * @return string
 	 */
 	protected function replaceTablePrefix($statement) {
-		return str_replace( '*PREFIX*', $this->tablePrefix, $statement );
+		return str_replace('*PREFIX*', $this->tablePrefix, $statement);
 	}
 
 	/**

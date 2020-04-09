@@ -42,7 +42,7 @@ class OC_JSON{
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkAppEnabled($app) {
-		if( !\OC::$server->getAppManager()->isEnabledForUser($app)) {
+		if(!\OC::$server->getAppManager()->isEnabledForUser($app)) {
 			$l = \OC::$server->getL10N('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Application is not enabled'), 'error' => 'application_not_enabled' ]]);
 			exit();
@@ -56,7 +56,7 @@ class OC_JSON{
 	 */
 	public static function checkLoggedIn() {
 		$twoFactorAuthManger = \OC::$server->getTwoFactorAuthManager();
-		if( !\OC::$server->getUserSession()->isLoggedIn()
+		if(!\OC::$server->getUserSession()->isLoggedIn()
 			|| $twoFactorAuthManger->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
 			$l = \OC::$server->getL10N('lib');
 			http_response_code(\OCP\AppFramework\Http::STATUS_UNAUTHORIZED);
@@ -76,7 +76,7 @@ class OC_JSON{
 			exit();
 		}
 
-		if( !\OC::$server->getRequest()->passesCSRFCheck()) {
+		if(!\OC::$server->getRequest()->passesCSRFCheck()) {
 			$l = \OC::$server->getL10N('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Token expired. Please reload page.'), 'error' => 'token_expired' ]]);
 			exit();
@@ -89,7 +89,7 @@ class OC_JSON{
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkAdminUser() {
-		if( !OC_User::isAdminUser(OC_User::getUser())) {
+		if(!OC_User::isAdminUser(OC_User::getUser())) {
 			$l = \OC::$server->getL10N('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Authentication error'), 'error' => 'authentication_error' ]]);
 			exit();
@@ -103,7 +103,7 @@ class OC_JSON{
 	 */
 	public static function error($data = []) {
 		$data['status'] = 'error';
-		header( 'Content-Type: application/json; charset=utf-8');
+		header('Content-Type: application/json; charset=utf-8');
 		echo self::encode($data);
 	}
 
@@ -114,7 +114,7 @@ class OC_JSON{
 	 */
 	public static function success($data = []) {
 		$data['status'] = 'success';
-		header( 'Content-Type: application/json; charset=utf-8');
+		header('Content-Type: application/json; charset=utf-8');
 		echo self::encode($data);
 	}
 

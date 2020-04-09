@@ -135,7 +135,7 @@ class CachedSubscription extends \Sabre\CalDAV\Calendar {
 		}
 
 		$obj['acl'] = $this->getChildACL();
-		return new CachedSubscriptionObject	($this->caldavBackend, $this->calendarInfo, $obj);
+		return new CachedSubscriptionObject($this->caldavBackend, $this->calendarInfo, $obj);
 
 	}
 

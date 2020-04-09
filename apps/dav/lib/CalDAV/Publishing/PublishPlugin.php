@@ -176,7 +176,7 @@ class PublishPlugin extends ServerPlugin {
 
 		switch ($documentType) {
 
-			case '{'.self::NS_CALENDARSERVER.'}publish-calendar' :
+			case '{'.self::NS_CALENDARSERVER.'}publish-calendar':
 
 			// We can only deal with IShareableCalendar objects
 			if (!$node instanceof Calendar) {
@@ -204,7 +204,7 @@ class PublishPlugin extends ServerPlugin {
 			// Breaking the event chain
 			return false;
 
-			case '{'.self::NS_CALENDARSERVER.'}unpublish-calendar' :
+			case '{'.self::NS_CALENDARSERVER.'}unpublish-calendar':
 
 			// We can only deal with IShareableCalendar objects
 			if (!$node instanceof Calendar) {

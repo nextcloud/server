@@ -56,7 +56,7 @@ class Result {
 
 	/**
 	 * The type of search result returned; for consistency, name this the same
-	 * as the class name (e.g. \OC\Search\File -> 'file') in lowercase. 
+	 * as the class name (e.g. \OC\Search\File -> 'file') in lowercase.
 	 * @var string
 	 * @since 7.0.0
 	 */

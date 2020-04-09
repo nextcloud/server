@@ -305,7 +305,7 @@ class Helper {
 		$userBackend  = new User_Proxy(
 			$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession, $userPluginManager
 		);
-		$uid = $userBackend->loginName2UserName($param['uid'] );
+		$uid = $userBackend->loginName2UserName($param['uid']);
 		if($uid !== false) {
 			$param['uid'] = $uid;
 		}

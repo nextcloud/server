@@ -35,7 +35,7 @@ class File extends \OCP\Search\Result {
 
 	/**
 	 * Type name; translated in templates
-	 * @var string 
+	 * @var string
 	 */
 	public $type = 'file';
 
@@ -47,7 +47,7 @@ class File extends \OCP\Search\Result {
 
 	/**
 	 * Size, in bytes
-	 * @var int 
+	 * @var int
 	 */
 	public $size;
 
@@ -65,7 +65,7 @@ class File extends \OCP\Search\Result {
 
 	/**
 	 * File permissions:
-	 * 
+	 *
 	 * @var string
 	 */
 	public $permissions;

@@ -548,9 +548,9 @@ class ManagerTest extends TestCase {
 			->method('inGroup')
 			->willReturnCallback(function ($uid, $gid) {
 				switch($uid) {
-					case 'user1' : return false;
-					case 'user2' : return true;
-					case 'user3' : return false;
+					case 'user1': return false;
+					case 'user2': return true;
+					case 'user3': return false;
 					case 'user33': return true;
 					default:
 						return null;
@@ -562,9 +562,9 @@ class ManagerTest extends TestCase {
 			->with('user3')
 			->willReturnCallback(function ($search, $limit, $offset) {
 				switch($offset) {
-					case 0 : return ['user3' => $this->getTestUser('user3'),
+					case 0: return ['user3' => $this->getTestUser('user3'),
 						'user33' => $this->getTestUser('user33')];
-					case 2 : return [];
+					case 2: return [];
 				}
 				return null;
 			});
@@ -572,9 +572,9 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->willReturnCallback(function ($uid) {
 				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					default:
 						return null;
@@ -606,9 +606,9 @@ class ManagerTest extends TestCase {
 			->method('inGroup')
 			->willReturnCallback(function ($uid, $gid) {
 					switch($uid) {
-						case 'user1' : return false;
-						case 'user2' : return true;
-						case 'user3' : return false;
+						case 'user1': return false;
+						case 'user2': return true;
+						case 'user3': return false;
 						case 'user33': return true;
 						case 'user333': return true;
 						default:
@@ -621,9 +621,9 @@ class ManagerTest extends TestCase {
 			->with('user3')
 			->willReturnCallback(function ($search, $limit, $offset) {
 				switch($offset) {
-					case 0 : return ['user3' => $this->getTestUser('user3'),
+					case 0: return ['user3' => $this->getTestUser('user3'),
 						'user33' => $this->getTestUser('user33')];
-					case 2 : return ['user333' => $this->getTestUser('user333')];
+					case 2: return ['user333' => $this->getTestUser('user333')];
 				}
 				return null;
 			});
@@ -631,9 +631,9 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->willReturnCallback(function ($uid) {
 				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					case 'user333': return $this->getTestUser('user333');
 					default:
@@ -667,9 +667,9 @@ class ManagerTest extends TestCase {
 			->method('inGroup')
 			->willReturnCallback(function ($uid) {
 					switch($uid) {
-						case 'user1' : return false;
-						case 'user2' : return true;
-						case 'user3' : return false;
+						case 'user1': return false;
+						case 'user2': return true;
+						case 'user3': return false;
 						case 'user33': return true;
 						case 'user333': return true;
 						default:
@@ -682,7 +682,7 @@ class ManagerTest extends TestCase {
 			->with('user3')
 			->willReturnCallback(function ($search, $limit, $offset) {
 				switch($offset) {
-					case 0 :
+					case 0:
 						return [
 							'user3' => $this->getTestUser('user3'),
 							'user33' => $this->getTestUser('user33'),
@@ -695,9 +695,9 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->willReturnCallback(function ($uid) {
 				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					case 'user333': return $this->getTestUser('user333');
 					default:
@@ -736,9 +736,9 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->willReturnCallback(function ($uid) {
 				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					default:
 						return null;
@@ -775,9 +775,9 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->willReturnCallback(function ($uid) {
 				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					default:
 						return null;
@@ -814,9 +814,9 @@ class ManagerTest extends TestCase {
 			->method('get')
 			->willReturnCallback(function ($uid) {
 				switch($uid) {
-					case 'user1' : return $this->getTestUser('user1');
-					case 'user2' : return $this->getTestUser('user2');
-					case 'user3' : return $this->getTestUser('user3');
+					case 'user1': return $this->getTestUser('user1');
+					case 'user2': return $this->getTestUser('user2');
+					case 'user3': return $this->getTestUser('user3');
 					case 'user33': return $this->getTestUser('user33');
 					default:
 						return null;

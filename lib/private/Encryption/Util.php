@@ -253,7 +253,7 @@ class Util {
 	public function stripPartialFileExtension($path) {
 		$extension = pathinfo($path, PATHINFO_EXTENSION);
 
-		if ( $extension === 'part') {
+		if ($extension === 'part') {
 
 			$newLength = strlen($path) - 5; // 5 = strlen(".part")
 			$fPath = substr($path, 0, $newLength);

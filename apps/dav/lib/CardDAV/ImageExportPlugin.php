@@ -97,7 +97,7 @@ class ImageExportPlugin extends ServerPlugin {
 		$addressbook = $this->server->tree->getNodeForPath($addressbookpath);
 
 		$response->setHeader('Cache-Control', 'private, max-age=3600, must-revalidate');
-		$response->setHeader('Etag', $node->getETag() );
+		$response->setHeader('Etag', $node->getETag());
 		$response->setHeader('Pragma', 'public');
 
 		try {

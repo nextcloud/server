@@ -133,7 +133,7 @@ class RequestHandlerController extends Controller {
 			$shareType === null ||
 			!is_array($protocol) ||
 			!isset($protocol['name']) ||
-			!isset ($protocol['options']) ||
+			!isset($protocol['options']) ||
 			!is_array($protocol['options']) ||
 			!isset($protocol['options']['sharedSecret'])
 		) {

@@ -104,16 +104,16 @@ class OC_Template extends \OC\Template\Base {
 			//apps that started before the template initialization can load their own scripts/styles
 			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
 			//meaning the last script/style in this list will be loaded first
-			if (\OC::$server->getSystemConfig()->getValue ('installed', false) && $renderAs !== 'error' && !\OCP\Util::needUpgrade()) {
-				if (\OC::$server->getConfig ()->getAppValue ( 'core', 'backgroundjobs_mode', 'ajax' ) == 'ajax') {
-					OC_Util::addScript ( 'backgroundjobs', null, true );
+			if (\OC::$server->getSystemConfig()->getValue('installed', false) && $renderAs !== 'error' && !\OCP\Util::needUpgrade()) {
+				if (\OC::$server->getConfig()->getAppValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
+					OC_Util::addScript('backgroundjobs', null, true);
 				}
 			}
 			OC_Util::addStyle('css-variables', null, true);
 			OC_Util::addStyle('server', null, true);
 			OC_Util::addTranslations('core', null, true);
 
-			if (\OC::$server->getSystemConfig()->getValue ('installed', false)) {
+			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
 				OC_Util::addStyle('search', 'results');
 				OC_Util::addScript('search', 'search', true);
 				OC_Util::addScript('search', 'searchprovider');
@@ -146,12 +146,12 @@ class OC_Template extends \OC\Template\Base {
 	 */
 	protected function findTemplate($theme, $app, $name) {
 		// Check if it is a app template or not.
-		if( $app !== '' ) {
+		if($app !== '') {
 			$dirs = $this->getAppTemplateDirs($theme, $app, OC::$SERVERROOT, OC_App::getAppPath($app));
 		} else {
 			$dirs = $this->getCoreTemplateDirs($theme, OC::$SERVERROOT);
 		}
-		$locator = new \OC\Template\TemplateFileLocator( $dirs );
+		$locator = new \OC\Template\TemplateFileLocator($dirs);
 		$template = $locator->find($name);
 		$path = $locator->getPath();
 		return [$path, $template];
@@ -182,7 +182,7 @@ class OC_Template extends \OC\Template\Base {
 	public function fetchPage($additionalParams = null) {
 		$data = parent::fetchPage($additionalParams);
 
-		if( $this->renderAs ) {
+		if($this->renderAs) {
 			$page = new TemplateLayout($this->renderAs, $this->app);
 
 			if(is_array($additionalParams)) {
@@ -195,7 +195,7 @@ class OC_Template extends \OC\Template\Base {
 			$headers = '';
 			foreach(OC_Util::$headers as $header) {
 				$headers .= '<'.\OCP\Util::sanitizeHTML($header['tag']);
-				if ( strcasecmp($header['tag'], 'script') === 0 && in_array('src', array_map('strtolower', array_keys($header['attributes']))) ) {
+				if (strcasecmp($header['tag'], 'script') === 0 && in_array('src', array_map('strtolower', array_keys($header['attributes'])))) {
 					$headers .= ' defer';
 				}
 				foreach($header['attributes'] as $name=>$value) {
@@ -239,9 +239,9 @@ class OC_Template extends \OC\Template\Base {
 	 * @return boolean|null
 	 */
 	public static function printUserPage($application, $name, $parameters = []) {
-		$content = new OC_Template( $application, $name, "user" );
-		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value );
+		$content = new OC_Template($application, $name, "user");
+		foreach($parameters as $key => $value) {
+			$content->assign($key, $value);
 		}
 		print $content->printPage();
 	}
@@ -254,9 +254,9 @@ class OC_Template extends \OC\Template\Base {
 	 * @return bool
 	 */
 	public static function printAdminPage($application, $name, $parameters = []) {
-		$content = new OC_Template( $application, $name, "admin" );
-		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value );
+		$content = new OC_Template($application, $name, "admin");
+		foreach($parameters as $key => $value) {
+			$content->assign($key, $value);
 		}
 		return $content->printPage();
 	}
@@ -270,8 +270,8 @@ class OC_Template extends \OC\Template\Base {
 	 */
 	public static function printGuestPage($application, $name, $parameters = []) {
 		$content = new OC_Template($application, $name, $name === 'error' ? $name : 'guest');
-		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value );
+		foreach($parameters as $key => $value) {
+			$content->assign($key, $value);
 		}
 		return $content->printPage();
 	}
@@ -296,9 +296,9 @@ class OC_Template extends \OC\Template\Base {
 
 		http_response_code($statusCode);
 		try {
-			$content = new \OC_Template( '', 'error', 'error', false );
+			$content = new \OC_Template('', 'error', 'error', false);
 			$errors = [['error' => $error_msg, 'hint' => $hint]];
-			$content->assign( 'errors', $errors );
+			$content->assign('errors', $errors);
 			$content->printPage();
 		} catch (\Exception $e) {
 			$logger = \OC::$server->getLogger();

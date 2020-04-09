@@ -449,7 +449,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 		$annotations = $this->getAnnotations();
 		if (isset($annotations['class']['group'])) {
-			if(in_array('DB', $annotations['class']['group']) || in_array('SLOWDB', $annotations['class']['group']) ) {
+			if(in_array('DB', $annotations['class']['group']) || in_array('SLOWDB', $annotations['class']['group'])) {
 				return true;
 			}
 		}
@@ -516,7 +516,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 			if($node->hasChildNodes()) {
 				$this->removeWhitespaces($node);
 			} else {
-				if ($node instanceof \DOMText && $node->isWhitespaceInElementContent() ) {
+				if ($node instanceof \DOMText && $node->isWhitespaceInElementContent()) {
 					$domNode->removeChild($node);
 				}
 			}

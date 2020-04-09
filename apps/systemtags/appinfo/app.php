@@ -69,4 +69,3 @@ $eventDispatcher->addListener(MapperEvent::EVENT_UNASSIGN, $mapperListener);
 		'name' => $l->t('Tags'),
 	];
 });
-

@@ -36,7 +36,7 @@ use OCA\User_LDAP\LDAP;
  *
  * LDAP must be available via toxiproxy.
  *
- * This test must be run manually. 
+ * This test must be run manually.
  *
  */
 class ExceptionOnLostConnection {

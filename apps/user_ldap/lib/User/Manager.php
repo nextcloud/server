@@ -130,7 +130,7 @@ class Manager {
 		$this->checkAccess();
 		$user = new User($uid, $dn, $this->access, $this->ocConfig,
 			$this->ocFilesystem, clone $this->image, $this->ocLog,
-			$this->avatarManager, $this->userManager, 
+			$this->avatarManager, $this->userManager,
 			$this->notificationManager);
 		$this->usersByDN[$dn]   = $user;
 		$this->usersByUid[$uid] = $user;
@@ -264,7 +264,7 @@ class Manager {
 			return $this->usersByUid[$id];
 		}
 
-		if($this->access->stringResemblesDN($id) ) {
+		if($this->access->stringResemblesDN($id)) {
 			$uid = $this->access->dn2username($id);
 			if($uid !== false) {
 				return $this->createAndCache($id, $uid);

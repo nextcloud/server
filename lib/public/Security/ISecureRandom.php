@@ -51,7 +51,7 @@ interface ISecureRandom {
 
 	/**
 	 * Characters that can be used for <code>generate($length, $characters)</code>, to
-	 * generate human readable random strings. Lower- and upper-case characters and digits 
+	 * generate human readable random strings. Lower- and upper-case characters and digits
 	 * are included. Characters which are ambiguous are excluded, such as I, l, and 1 and so on.
 	 */
 	const CHAR_HUMAN_READABLE = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789';

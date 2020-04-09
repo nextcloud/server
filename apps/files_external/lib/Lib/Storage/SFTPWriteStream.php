@@ -180,4 +180,3 @@ class SFTPWriteStream implements File {
 	}
 
 }
-

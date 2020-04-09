@@ -425,7 +425,7 @@ class ShareController extends AuthPublicShareController {
 		$shareTmpl['previewURL'] = $shareTmpl['downloadURL'];
 
 		if ($shareTmpl['previewSupported']) {
-			$shareTmpl['previewImage'] = $this->urlGenerator->linkToRouteAbsolute( 'files_sharing.PublicPreview.getPreview',
+			$shareTmpl['previewImage'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.PublicPreview.getPreview',
 				['x' => 200, 'y' => 200, 'file' => $shareTmpl['directory_path'], 'token' => $shareTmpl['dirToken']]);
 			$ogPreview = $shareTmpl['previewImage'];
 

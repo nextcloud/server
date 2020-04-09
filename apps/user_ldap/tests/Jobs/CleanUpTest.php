@@ -55,7 +55,7 @@ class CleanUpTest extends \Test\TestCase {
 		$args = $this->getMocks();
 		$args['helper']->expects($this->once())
 			->method('haveDisabledConfigurations')
-			->willReturn(true	);
+			->willReturn(true);
 
 		$args['ocConfig']->expects($this->never())
 			->method('getSystemValue');

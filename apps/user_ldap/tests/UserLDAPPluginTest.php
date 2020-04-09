@@ -153,7 +153,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->getHome('foo');
-	}	
+	}
 
 	public function testGetDisplayName() {
 		$pluginManager = $this->getUserPluginManager();
@@ -204,7 +204,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 			);
 
 		$pluginManager->register($plugin);
-		$pluginManager->setDisplayName('user', 'password');		
+		$pluginManager->setDisplayName('user', 'password');
 	}
 
 	
@@ -214,7 +214,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->setDisplayName('foo', 'bar');
-	}	
+	}
 
 	public function testCanChangeAvatar() {
 		$pluginManager = $this->getUserPluginManager();
@@ -271,7 +271,7 @@ class UserLDAPPluginTest extends \Test\TestCase {
 
 		$pluginManager = $this->getUserPluginManager();
 		$pluginManager->countUsers();
-	}	
+	}
 
 	public function testDeleteUser() {
 		$pluginManager = $this->getUserPluginManager();

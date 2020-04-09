@@ -39,9 +39,9 @@ class CapabilitiesTest extends TestCase {
 
 	public function testGetCapabilities() {
 		$capabilities = [
-			'files_sharing' => 
+			'files_sharing' =>
 				[
-					'sharebymail' => 
+					'sharebymail' =>
 						[
 							'enabled' => true,
 							'upload_files_drop' => ['enabled' => true],

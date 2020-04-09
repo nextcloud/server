@@ -590,7 +590,7 @@ class OC_Util {
 
 		// core js files need separate handling
 		if ($application !== 'core' && $file !== null) {
-			self::addTranslations ( $application );
+			self::addTranslations($application);
 		}
 		self::addExternalResource($application, $prepend, $path, "script");
 	}
@@ -667,7 +667,7 @@ class OC_Util {
 		if ($type === "style") {
 			if (!in_array($path, self::$styles)) {
 				if ($prepend === true) {
-					array_unshift ( self::$styles, $path );
+					array_unshift(self::$styles, $path);
 				} else {
 					self::$styles[] = $path;
 				}
@@ -675,7 +675,7 @@ class OC_Util {
 		} elseif ($type === "script") {
 			if (!in_array($path, self::$scripts)) {
 				if ($prepend === true) {
-					array_unshift ( self::$scripts, $path );
+					array_unshift(self::$scripts, $path);
 				} else {
 					self::$scripts [] = $path;
 				}
@@ -699,7 +699,7 @@ class OC_Util {
 			'text' => $text
 		];
 		if ($prepend === true) {
-			array_unshift (self::$headers, $header);
+			array_unshift(self::$headers, $header);
 
 		} else {
 			self::$headers[] = $header;
@@ -757,7 +757,7 @@ class OC_Util {
 					'hint' => $l->t('This can usually be fixed by giving the webserver write access to the config directory. See %s',
 						[ $urlGenerator->linkToDocs('admin-dir_permissions') ]) . '. '
 						. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
-						[ $urlGenerator->linkToDocs('admin-config') ] )
+						[ $urlGenerator->linkToDocs('admin-config') ])
 				];
 			}
 		}
@@ -925,7 +925,7 @@ class OC_Util {
 		}
 
 		if(function_exists('xml_parser_create') &&
-			LIBXML_LOADED_VERSION < 20700 ) {
+			LIBXML_LOADED_VERSION < 20700) {
 			$version = LIBXML_LOADED_VERSION;
 			$major = floor($version/10000);
 			$version -= ($major * 10000);

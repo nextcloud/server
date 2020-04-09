@@ -119,7 +119,7 @@ class DateTimeZone implements IDateTimeZone {
 	 * Get the default timezone of the server
 	 *
 	 * Falls back to UTC if it is not yet set.
-	 * 
+	 *
 	 * @return string
 	 */
 	protected function getDefaultTimeZone() {

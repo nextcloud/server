@@ -99,7 +99,7 @@ class OauthApiController extends Controller {
 		}
 
 		// We handle the initial and refresh tokens the same way
-		if ($grant_type === 'refresh_token' ) {
+		if ($grant_type === 'refresh_token') {
 			$code = $refresh_token;
 		}
 

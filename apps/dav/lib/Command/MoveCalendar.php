@@ -180,7 +180,7 @@ class MoveCalendar extends Command {
 		 */
 		if (count($shares) > 0) {
 			$this->io->note([
-				"Please note that moving calendar " . $calendar['uri'] . " from user <$userOrigin> to <$userDestination> has caused share links to change.", 
+				"Please note that moving calendar " . $calendar['uri'] . " from user <$userOrigin> to <$userDestination> has caused share links to change.",
 				"Sharees will need to change \"example.com/remote.php/dav/calendars/uid/" . $calendar['uri'] . "_shared_by_$userOrigin\" to \"example.com/remote.php/dav/calendars/uid/" . $calendar['uri'] . "_shared_by_$userDestination\""
 			]);
 		}

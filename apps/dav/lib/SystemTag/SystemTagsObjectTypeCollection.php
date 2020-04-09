@@ -80,7 +80,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param \Closure $childExistsFunction
 	 */
 	public function __construct(
-		$objectType, 
+		$objectType,
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper,
 		IUserSession $userSession,

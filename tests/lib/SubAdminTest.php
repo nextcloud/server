@@ -113,7 +113,7 @@ class SubAdminTest extends \Test\TestCase {
 			->fetch();
 		$this->assertEquals(
 			[
-				'gid' => $this->groups[0]->getGID(), 
+				'gid' => $this->groups[0]->getGID(),
 				'uid' => $this->users[0]->getUID()
 			], $result);
 

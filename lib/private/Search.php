@@ -53,7 +53,7 @@ class Search implements ISearch {
 		$results = [];
 		foreach($this->providers as $provider) {
 			/** @var $provider Provider */
-			if ( ! $provider->providesResultsFor($inApps) ) {
+			if (! $provider->providesResultsFor($inApps)) {
 				continue;
 			}
 			if ($provider instanceof PagedProvider) {
@@ -109,7 +109,7 @@ class Search implements ISearch {
 	 * Create instances of all the registered search providers
 	 */
 	private function initProviders() {
-		if( ! empty($this->providers) ) {
+		if(! empty($this->providers)) {
 			return;
 		}
 		foreach($this->registeredProviders as $provider) {

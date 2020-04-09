@@ -327,8 +327,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		// There's a few headers that seem to end up in the top-level
 		// server array.
 		switch ($name) {
-			case 'CONTENT_TYPE' :
-			case 'CONTENT_LENGTH' :
+			case 'CONTENT_TYPE':
+			case 'CONTENT_LENGTH':
 			case 'REMOTE_ADDR':
 				if (isset($this->server[$name])) {
 					return $this->server[$name];
@@ -811,7 +811,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$encoding = mb_detect_encoding($pathInfo, ['UTF-8', 'ISO-8859-1']);
 
 		switch($encoding) {
-			case 'ISO-8859-1' :
+			case 'ISO-8859-1':
 				$pathInfo = utf8_encode($pathInfo);
 		}
 		// end copy

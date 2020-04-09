@@ -152,7 +152,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 
 		$pluginManager = $this->getGroupPluginManager();
 		$pluginManager->addToGroup('foo', 'bar');
-	}	
+	}
 
 	public function testRemoveFromGroup() {
 		$pluginManager = $this->getGroupPluginManager();
@@ -214,7 +214,7 @@ class GroupLDAPPluginTest extends \Test\TestCase {
 
 		$pluginManager = $this->getGroupPluginManager();
 		$pluginManager->countUsersInGroup('foo', 'bar');
-	}	
+	}
 
 	public function testgetGroupDetails() {
 		$pluginManager = $this->getGroupPluginManager();

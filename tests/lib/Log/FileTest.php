@@ -47,7 +47,7 @@ class FileTest extends TestCase
 			$config->getValue("logfile", $this->restore_logfile);
 		} else {
 			$config->deleteValue("logfile");
-		}		
+		}
 		if (isset($this->restore_logdateformat)) {
 			$config->getValue("logdateformat", $this->restore_logdateformat);
 		} else {

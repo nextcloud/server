@@ -369,10 +369,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			foreach($mutations as $property=>$newValue) {
 
 				switch($property) {
-					case '{DAV:}displayname' :
+					case '{DAV:}displayname':
 						$updates['displayname'] = $newValue;
 						break;
-					case '{' . Plugin::NS_CARDDAV . '}addressbook-description' :
+					case '{' . Plugin::NS_CARDDAV . '}addressbook-description':
 						$updates['description'] = $newValue;
 						break;
 				}
@@ -414,13 +414,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		foreach($properties as $property=>$newValue) {
 
 			switch($property) {
-				case '{DAV:}displayname' :
+				case '{DAV:}displayname':
 					$values['displayname'] = $newValue;
 					break;
-				case '{' . Plugin::NS_CARDDAV . '}addressbook-description' :
+				case '{' . Plugin::NS_CARDDAV . '}addressbook-description':
 					$values['description'] = $newValue;
 					break;
-				default :
+				default:
 					throw new BadRequest('Unknown property: ' . $property);
 			}
 

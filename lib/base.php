@@ -265,7 +265,7 @@ class OC {
 					$l->t('Cannot write into "config" directory!'),
 					$l->t('This can usually be fixed by giving the webserver write access to the config directory.') . '. '
 					. $l->t('Or, if you prefer to keep config.php file read only, set the option "config_is_read_only" to true in it. See %s',
-					[ $urlGenerator->linkToDocs('admin-config') ] ),
+					[ $urlGenerator->linkToDocs('admin-config') ]),
 					503
 				);
 			}
@@ -863,7 +863,7 @@ class OC {
 
 	private static function registerAppRestrictionsHooks() {
 		$groupManager = self::$server->query(\OCP\IGroupManager::class);
-		$groupManager->listen ('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
+		$groupManager->listen('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
 			$appManager = self::$server->getAppManager();
 			$apps = $appManager->getEnabledAppsForGroup($group);
 			foreach ($apps as $appId) {

@@ -22,4 +22,3 @@
  */
 
 $app = new \OCA\Testing\AppInfo\Application();
-

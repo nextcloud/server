@@ -96,7 +96,7 @@ class RemotePlugin implements ISearchPlugin {
 					/**
 					 * Add local share if remote cloud id matches a local user ones
 					 */
-					if ($localUser !== null && $remoteUser !== $this->userId && $cloudId === $localUser->getCloudId() ) {
+					if ($localUser !== null && $remoteUser !== $this->userId && $cloudId === $localUser->getCloudId()) {
 						$result['wide'][] = [
 							'label' => $contact['FN'],
 							'uuid' => $contact['UID'],

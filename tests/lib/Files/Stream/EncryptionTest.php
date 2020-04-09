@@ -59,7 +59,7 @@ class EncryptionTest extends \Test\TestCase {
 			'fileid' => 5,
 			'encryptedVersion' => 2,
 		]);
-		$cache->expects($this->any())->method('get')->willReturn($entry	);
+		$cache->expects($this->any())->method('get')->willReturn($entry);
 		$cache->expects($this->any())->method('update')->with(5, ['encrypted' => 3, 'encryptedVersion' => 3]);
 
 

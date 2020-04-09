@@ -670,7 +670,7 @@ class View {
 				list($storage, $internalPath) = $this->resolvePath($path);
 				$target = $storage->fopen($internalPath, 'w');
 				if ($target) {
-					list (, $result) = \OC_Helper::streamCopy($data, $target);
+					list(, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
 

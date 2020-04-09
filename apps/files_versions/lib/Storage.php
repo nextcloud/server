@@ -107,7 +107,7 @@ class Storage {
 			$uid = User::getUser();
 		}
 		Filesystem::initMountPoints($uid);
-		if ( $uid !== User::getUser() ) {
+		if ($uid !== User::getUser()) {
 			$info = Filesystem::getFileInfo($filename);
 			$ownerView = new View('/'.$uid.'/files');
 			try {
@@ -735,7 +735,7 @@ class Storage {
 
 			$softQuota = true;
 			$quota = $user->getQuota();
-			if ( $quota === null || $quota === 'none' ) {
+			if ($quota === null || $quota === 'none') {
 				$quota = Filesystem::free_space('/');
 				$softQuota = false;
 			} else {

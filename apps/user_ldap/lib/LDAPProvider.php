@@ -110,11 +110,11 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 		if(!$result){
 			throw new \Exception('Translation to LDAP DN unsuccessful');
 		}
-		return $result;	
+		return $result;
 	}
 
 	/**
-	 * Translate a LDAP DN to an internal user name. If there is no mapping between 
+	 * Translate a LDAP DN to an internal user name. If there is no mapping between
 	 * the DN and the user name, a new one will be created.
 	 * @param string $dn LDAP DN
 	 * @return string with the internal user name
@@ -147,7 +147,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	}
 	
 	/**
-	 * Return a new LDAP connection resource for the specified user. 
+	 * Return a new LDAP connection resource for the specified user.
 	 * The connection must be closed manually.
 	 * @param string $uid user id
 	 * @return resource of the LDAP connection

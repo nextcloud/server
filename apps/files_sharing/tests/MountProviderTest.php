@@ -112,9 +112,9 @@ class MountProviderTest extends \Test\TestCase {
 			$this->makeMockShare(2, 100, 'user2', '/share2', 31),
 		];
 		$groupShares = [
-			$this->makeMockShare(3, 100, 'user2', '/share2', 0), 
-			$this->makeMockShare(4, 101, 'user2', '/share4', 31), 
-			$this->makeMockShare(5, 100, 'user1', '/share4', 31), 
+			$this->makeMockShare(3, 100, 'user2', '/share2', 0),
+			$this->makeMockShare(4, 101, 'user2', '/share4', 31),
+			$this->makeMockShare(5, 100, 'user1', '/share4', 31),
 		];
 		$roomShares = [
 			$this->makeMockShare(6, 102, 'user2', '/share6', 0),
@@ -180,10 +180,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #0: share as outsider with "group1" and "user1" with same permissions
 			[
 				[
-					[1, 100, 'user2', '/share2', 31], 
+					[1, 100, 'user2', '/share2', 31],
 				],
 				[
-					[2, 100, 'user2', '/share2', 31], 
+					[2, 100, 'user2', '/share2', 31],
 				],
 				[
 					// combined, user share has higher priority
@@ -193,10 +193,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #1: share as outsider with "group1" and "user1" with different permissions
 			[
 				[
-					[1, 100, 'user2', '/share', 31], 
+					[1, 100, 'user2', '/share', 31],
 				],
 				[
-					[2, 100, 'user2', '/share', 15], 
+					[2, 100, 'user2', '/share', 15],
 				],
 				[
 					// use highest permissions
@@ -208,8 +208,8 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user2', '/share', 31], 
-					[2, 100, 'user2', '/share', 31], 
+					[1, 100, 'user2', '/share', 31],
+					[2, 100, 'user2', '/share', 31],
 				],
 				[
 					// combined, first group share has higher priority
@@ -221,8 +221,8 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user2', '/share', 31], 
-					[2, 100, 'user2', '/share', 15], 
+					[1, 100, 'user2', '/share', 31],
+					[2, 100, 'user2', '/share', 15],
 				],
 				[
 					// use higher permissions
@@ -234,7 +234,7 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user1', '/share', 31], 
+					[1, 100, 'user1', '/share', 31],
 				],
 				[
 					// no received share since "user1" is the sharer/owner
@@ -245,8 +245,8 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user1', '/share', 31], 
-					[2, 100, 'user1', '/share', 15], 
+					[1, 100, 'user1', '/share', 31],
+					[2, 100, 'user1', '/share', 15],
 				],
 				[
 					// no received share since "user1" is the sharer/owner
@@ -257,7 +257,7 @@ class MountProviderTest extends \Test\TestCase {
 				[
 				],
 				[
-					[1, 100, 'user2', '/share', 0], 
+					[1, 100, 'user2', '/share', 0],
 				],
 				[
 					// no received share since "user1" opted out
@@ -266,10 +266,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #7: share as outsider with "group1" and "user1" where recipient renamed in between
 			[
 				[
-					[1, 100, 'user2', '/share2-renamed', 31], 
+					[1, 100, 'user2', '/share2-renamed', 31],
 				],
 				[
-					[2, 100, 'user2', '/share2', 31], 
+					[2, 100, 'user2', '/share2', 31],
 				],
 				[
 					// use target of least recent share
@@ -279,10 +279,10 @@ class MountProviderTest extends \Test\TestCase {
 			// #8: share as outsider with "group1" and "user1" where recipient renamed in between
 			[
 				[
-					[2, 100, 'user2', '/share2', 31], 
+					[2, 100, 'user2', '/share2', 31],
 				],
 				[
-					[1, 100, 'user2', '/share2-renamed', 31], 
+					[1, 100, 'user2', '/share2-renamed', 31],
 				],
 				[
 					// use target of least recent share

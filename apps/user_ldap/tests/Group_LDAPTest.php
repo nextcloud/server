@@ -194,7 +194,7 @@ class Group_LDAPTest extends TestCase {
 		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$this->assertEquals($ldap->countUsersInGroup('gid', 'search'),42);
-	}	
+	}
 
 	public function testGidNumber2NameSuccess() {
 		$access = $this->getAccessMock();

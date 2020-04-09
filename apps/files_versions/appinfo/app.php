@@ -22,4 +22,3 @@
  */
 
 \OC::$server->query(\OCA\Files_Versions\AppInfo\Application::class);
-

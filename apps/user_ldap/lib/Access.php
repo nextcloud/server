@@ -620,7 +620,7 @@ class Access extends LDAPUtility {
 		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(['ldapCacheTTL' => 0]);
-		if( $intName !== ''
+		if($intName !== ''
 			&& (($isUser && !$this->ncUserManager->userExists($intName))
 				|| (!$isUser && !\OC::$server->getGroupManager()->groupExists($intName))
 			)
@@ -708,7 +708,7 @@ class Access extends LDAPUtility {
 
 		foreach($ldapObjects as $ldapObject) {
 			$nameByLDAP = null;
-			if(    isset($ldapObject[$nameAttribute])
+			if(isset($ldapObject[$nameAttribute])
 				&& is_array($ldapObject[$nameAttribute])
 				&& isset($ldapObject[$nameAttribute][0])
 			) {
@@ -1777,7 +1777,7 @@ class Access extends LDAPUtility {
 		if($this->detectUuidAttribute($dn, $isUser, false, $ldapRecord)) {
 			$attr = $this->connection->$uuidAttr;
 			$uuid = isset($ldapRecord[$attr]) ? $ldapRecord[$attr] : $this->readAttribute($dn, $attr);
-			if( !is_array($uuid)
+			if(!is_array($uuid)
 				&& $uuidOverride !== ''
 				&& $this->detectUuidAttribute($dn, $isUser, true, $ldapRecord))
 			{

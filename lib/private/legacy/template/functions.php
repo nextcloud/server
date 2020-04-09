@@ -235,7 +235,7 @@ function link_to_docs($key) {
  * For further information have a look at \OCP\IURLGenerator::imagePath
  */
 function image_path($app, $image) {
-	return \OC::$server->getURLGenerator()->imagePath( $app, $image );
+	return \OC::$server->getURLGenerator()->imagePath($app, $image);
 }
 
 /**
@@ -244,7 +244,7 @@ function image_path($app, $image) {
  * @return string link to the image
  */
 function mimetype_icon($mimetype) {
-	return \OC::$server->getMimeTypeDetector()->mimeTypeIcon( $mimetype );
+	return \OC::$server->getMimeTypeDetector()->mimeTypeIcon($mimetype);
 }
 
 /**
@@ -274,7 +274,7 @@ function publicPreview_icon($path, $token) {
  * For further information have a look at OC_Helper::humanFileSize
  */
 function human_file_size($bytes) {
-	return OC_Helper::humanFileSize( $bytes );
+	return OC_Helper::humanFileSize($bytes);
 }
 
 /**

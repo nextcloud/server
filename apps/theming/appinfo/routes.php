@@ -84,4 +84,3 @@ return ['routes' => [
 		'requirements' => ['image' => '.+']
 	],
 ]];
-
