@@ -182,7 +182,7 @@ class Generator {
 					$preview = $this->generatePreview($previewFolder, $maxPreviewImage, $width, $height, $crop, $maxWidth, $maxHeight, $previewVersion);
 				}
 			} catch (\InvalidArgumentException $e) {
-				throw new NotFoundException();
+				throw new NotFoundException("", 0, $e);
 			}
 
 			if ($preview->getSize() === 0) {
@@ -478,7 +478,7 @@ class Generator {
 			case 'image/gif':
 				return 'gif';
 			default:
-				throw new \InvalidArgumentException('Not a valid mimetype');
+				throw new \InvalidArgumentException('Not a valid mimetype: "' . $mimeType . '"');
 		}
 	}
 }
