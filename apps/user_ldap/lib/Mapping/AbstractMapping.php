@@ -289,7 +289,7 @@ abstract class AbstractMapping {
 	 * @return bool true on success, false when at least one row was not
 	 * deleted
 	 */
-	public function clearCb(Callable $preCallback, Callable $postCallback): bool {
+	public function clearCb(callable $preCallback, callable $postCallback): bool {
 		$picker = $this->dbc->getQueryBuilder();
 		$picker->select('owncloud_name')
 			->from($this->getTableName());

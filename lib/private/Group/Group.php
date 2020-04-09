@@ -285,7 +285,7 @@ class Group implements IGroup {
 	public function countDisabled() {
 		$users = false;
 		foreach ($this->backends as $backend) {
-			if($backend instanceOf ICountDisabledInGroup) {
+			if($backend instanceof ICountDisabledInGroup) {
 				if($users === false) {
 					//we could directly add to a bool variable, but this would
 					//be ugly

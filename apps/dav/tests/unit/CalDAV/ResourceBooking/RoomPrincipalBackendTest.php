@@ -26,7 +26,7 @@ namespace OCA\DAV\Tests\unit\CalDAV\ResourceBooking;
 
 use OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend;
 
-Class RoomPrincipalBackendTest extends AbstractPrincipalBackendTest {
+class RoomPrincipalBackendTest extends AbstractPrincipalBackendTest {
 	protected function setUp(): void {
 		parent::setUp();
 
