@@ -27,13 +27,13 @@ return [
 	'routes' => [
 		['name' => 'accessibility#getCss', 'url' => '/css/user-{md5}', 'verb' => 'GET'],
 		['name' => 'accessibility#getJavascript', 'url' => '/js/accessibility', 'verb' => 'GET'],
-    ],
-    'ocs' => [
+	],
+	'ocs' => [
 		[
 			'name' => 'Config#getConfig',
 			'url'  => '/api/v1/config',
 			'verb' => 'GET',
-        ],
+		],
 		[
 			'name' => 'Config#setConfig',
 			'url'  => '/api/v1/config/{key}',
@@ -44,5 +44,5 @@ return [
 			'url'  => '/api/v1/config/{key}',
 			'verb' => 'DELETE',
 		],
-    ]
+	]
 ];

@@ -129,9 +129,9 @@ class ServerFactory {
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
 		if($this->request->isUserAgent([
-				'/WebDAVFS/',
-				'/OneNote/',
-				'/Microsoft-WebDAV-MiniRedir/',
+			'/WebDAVFS/',
+			'/OneNote/',
+			'/Microsoft-WebDAV-MiniRedir/',
 		])) {
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());
 		}

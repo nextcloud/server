@@ -182,11 +182,11 @@ class CommentsPluginTest extends \Test\TestCase {
 		];
 
 		$comment = new Comment([
-				'objectType' => 'files',
-				'objectId' => '666',
-				'actorType' => 'users',
-				'actorId' => 'alice'
-			] + $commentData);
+			'objectType' => 'files',
+			'objectId' => '666',
+			'actorType' => 'users',
+			'actorId' => 'alice'
+		] + $commentData);
 		$comment->setId('23');
 
 		$path = 'comments/files/666';
@@ -264,11 +264,11 @@ class CommentsPluginTest extends \Test\TestCase {
 		];
 
 		$comment = new Comment([
-				'objectType' => 'files',
-				'objectId' => '42',
-				'actorType' => 'users',
-				'actorId' => 'alice'
-			] + $commentData);
+			'objectType' => 'files',
+			'objectId' => '42',
+			'actorType' => 'users',
+			'actorId' => 'alice'
+		] + $commentData);
 		$comment->setId('23');
 
 		$path = 'comments/files/42';
@@ -352,11 +352,11 @@ class CommentsPluginTest extends \Test\TestCase {
 		];
 
 		$comment = new Comment([
-				'objectType' => 'files',
-				'objectId' => '42',
-				'actorType' => 'users',
-				'actorId' => 'alice'
-			] + $commentData);
+			'objectType' => 'files',
+			'objectId' => '42',
+			'actorType' => 'users',
+			'actorId' => 'alice'
+		] + $commentData);
 		$comment->setId('23');
 
 		$path = 'comments/files/42';
@@ -440,13 +440,13 @@ class CommentsPluginTest extends \Test\TestCase {
 		];
 
 		$comment = new Comment([
-				'objectType' => 'files',
-				'objectId' => '42',
-				'actorType' => 'users',
-				'actorId' => 'alice',
-				'message' => 'dummy',
-				'verb' => 'dummy'
-			]);
+			'objectType' => 'files',
+			'objectId' => '42',
+			'actorType' => 'users',
+			'actorId' => 'alice',
+			'message' => 'dummy',
+			'verb' => 'dummy'
+		]);
 		$comment->setId('23');
 
 		$path = 'comments/files/42';
@@ -535,12 +535,12 @@ class CommentsPluginTest extends \Test\TestCase {
 		];
 
 		$comment = new Comment([
-				'objectType' => 'files',
-				'objectId' => '42',
-				'actorType' => 'users',
-				'actorId' => 'alice',
-				'verb' => 'comment',
-			]);
+			'objectType' => 'files',
+			'objectId' => '42',
+			'actorType' => 'users',
+			'actorId' => 'alice',
+			'verb' => 'comment',
+		]);
 		$comment->setId('23');
 
 		$path = 'comments/files/42';

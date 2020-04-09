@@ -504,7 +504,7 @@ class Tags implements ITags {
 								'objid' => $relation['objid'],
 								'categoryid' => $tagId,
 								'type' => $this->type,
-								]);
+							]);
 					} catch(\Exception $e) {
 						\OC::$server->getLogger()->logException($e, [
 							'message' => __METHOD__,

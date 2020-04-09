@@ -52,7 +52,7 @@ class DeleteConfig extends Command {
 					'configID',
 					InputArgument::REQUIRED,
 					'the configuration ID'
-				     )
+					 )
 		;
 	}
 

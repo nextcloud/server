@@ -48,7 +48,7 @@ class DataDisplayResponse extends Response {
 	 * @since 8.1.0
 	 */
 	public function __construct($data='', $statusCode=Http::STATUS_OK,
-	                            $headers=[]) {
+								$headers=[]) {
 		parent::__construct();
 
 		$this->data = $data;

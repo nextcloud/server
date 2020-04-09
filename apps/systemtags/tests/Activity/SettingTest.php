@@ -61,17 +61,17 @@ class SettingTest extends TestCase {
 
 	public function testCanChangeStream() {
 		$this->assertSame(true, $this->setting->canChangeStream());
-    }
-    
-    public function testIsDefaultEnabledStream() {
+	}
+	
+	public function testIsDefaultEnabledStream() {
 		$this->assertSame(true, $this->setting->isDefaultEnabledStream());
-    }
-    
-    public function testCanChangeMail() {
+	}
+	
+	public function testCanChangeMail() {
 		$this->assertSame(true, $this->setting->canChangeMail());
-    }
-    
-    public function testIsDefaultEnabledMail() {
+	}
+	
+	public function testIsDefaultEnabledMail() {
 		$this->assertSame(false, $this->setting->isDefaultEnabledMail());
 	}
 }

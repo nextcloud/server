@@ -191,10 +191,10 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 
 		if ($this->getOwner() !== parent::getOwner()) {
 			$acl[] =  [
-					'privilege' => '{DAV:}read',
-					'principal' => parent::getOwner(),
-					'protected' => true,
-				];
+				'privilege' => '{DAV:}read',
+				'principal' => parent::getOwner(),
+				'protected' => true,
+			];
 			if ($this->canWrite()) {
 				$acl[] = [
 					'privilege' => '{DAV:}write',

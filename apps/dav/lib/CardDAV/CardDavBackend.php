@@ -76,8 +76,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 	/** @var array properties to index */
 	public static $indexProperties = [
-			'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
-			'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO', 'CLOUD'];
+		'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
+		'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO', 'CLOUD'];
 
 	/**
 	 * @var string[] Map of uid => display name

@@ -607,7 +607,7 @@ class MailPluginTest extends TestCase {
 			],
 			// The user `User` cannot share with the current user
 			[
-			'test',
+				'test',
 				[
 					[
 						'FN' => 'User',
@@ -627,7 +627,7 @@ class MailPluginTest extends TestCase {
 			],
 			// The user `User` cannot share with the current user, but there is an exact match on the e-mail address -> share by e-mail
 			[
-			'test@example.com',
+				'test@example.com',
 				[
 					[
 						'FN' => 'User',

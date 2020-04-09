@@ -135,7 +135,7 @@ class CardDavBackendTest extends TestCase {
 				$this->createMock(IAppManager::class),
 				$this->createMock(ProxyMapper::class),
 				$this->createMock(IConfig::class),
-				])
+			])
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
 		$this->principal->method('getPrincipalByPath')
@@ -668,12 +668,12 @@ class CardDavBackendTest extends TestCase {
 			$query->insert($this->dbCardsTable)
 					->values(
 							[
-									'addressbookid' => $query->createNamedParameter(0),
-									'carddata' => $query->createNamedParameter($vCards[$i]->serialize(), IQueryBuilder::PARAM_LOB),
-									'uri' => $query->createNamedParameter('uri' . $i),
-									'lastmodified' => $query->createNamedParameter(time()),
-									'etag' => $query->createNamedParameter('etag' . $i),
-									'size' => $query->createNamedParameter(120),
+								'addressbookid' => $query->createNamedParameter(0),
+								'carddata' => $query->createNamedParameter($vCards[$i]->serialize(), IQueryBuilder::PARAM_LOB),
+								'uri' => $query->createNamedParameter('uri' . $i),
+								'lastmodified' => $query->createNamedParameter(time()),
+								'etag' => $query->createNamedParameter('etag' . $i),
+								'size' => $query->createNamedParameter(120),
 							]
 					);
 			$query->execute();
@@ -694,11 +694,11 @@ class CardDavBackendTest extends TestCase {
 		$query->insert($this->dbCardsPropertiesTable)
 				->values(
 						[
-								'addressbookid' => $query->createNamedParameter(0),
-								'cardid' => $query->createNamedParameter($vCardIds[0]),
-								'name' => $query->createNamedParameter('CLOUD'),
-								'value' => $query->createNamedParameter('John@nextcloud.com'),
-								'preferred' => $query->createNamedParameter(0)
+							'addressbookid' => $query->createNamedParameter(0),
+							'cardid' => $query->createNamedParameter($vCardIds[0]),
+							'name' => $query->createNamedParameter('CLOUD'),
+							'value' => $query->createNamedParameter('John@nextcloud.com'),
+							'preferred' => $query->createNamedParameter(0)
 						]
 				);
 		$query->execute();
@@ -755,13 +755,13 @@ class CardDavBackendTest extends TestCase {
 
 	public function dataTestSearch() {
 		return [
-				['John', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-				['M. Doe', ['FN'], [], [['uri1', 'John M. Doe']]],
-				['Do', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-				'check if duplicates are handled correctly' => ['John', ['FN', 'CLOUD'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-				'case insensitive' => ['john', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
-				'find "_" escaped' => ['_', ['CLOUD'], [], [['uri2', 'find without options']]],
-				'find not empty ClOUD' => ['%_%', ['CLOUD'], ['escape_like_param'=>false], [['uri0', 'John Doe'], ['uri2', 'find without options']]],
+			['John', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
+			['M. Doe', ['FN'], [], [['uri1', 'John M. Doe']]],
+			['Do', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
+			'check if duplicates are handled correctly' => ['John', ['FN', 'CLOUD'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
+			'case insensitive' => ['john', ['FN'], [], [['uri0', 'John Doe'], ['uri1', 'John M. Doe']]],
+			'find "_" escaped' => ['_', ['CLOUD'], [], [['uri2', 'find without options']]],
+			'find not empty ClOUD' => ['%_%', ['CLOUD'], ['escape_like_param'=>false], [['uri0', 'John Doe'], ['uri2', 'find without options']]],
 		];
 	}
 
@@ -770,12 +770,12 @@ class CardDavBackendTest extends TestCase {
 		$query->insert($this->dbCardsTable)
 				->values(
 						[
-								'addressbookid' => $query->createNamedParameter(1),
-								'carddata' => $query->createNamedParameter('carddata', IQueryBuilder::PARAM_LOB),
-								'uri' => $query->createNamedParameter('uri'),
-								'lastmodified' => $query->createNamedParameter(5489543),
-								'etag' => $query->createNamedParameter('etag'),
-								'size' => $query->createNamedParameter(120),
+							'addressbookid' => $query->createNamedParameter(1),
+							'carddata' => $query->createNamedParameter('carddata', IQueryBuilder::PARAM_LOB),
+							'uri' => $query->createNamedParameter('uri'),
+							'lastmodified' => $query->createNamedParameter(5489543),
+							'etag' => $query->createNamedParameter('etag'),
+							'size' => $query->createNamedParameter(120),
 						]
 				);
 		$query->execute();
@@ -798,12 +798,12 @@ class CardDavBackendTest extends TestCase {
 			$query->insert($this->dbCardsTable)
 					->values(
 							[
-									'addressbookid' => $query->createNamedParameter($i),
-									'carddata' => $query->createNamedParameter('carddata' . $i, IQueryBuilder::PARAM_LOB),
-									'uri' => $query->createNamedParameter('uri' . $i),
-									'lastmodified' => $query->createNamedParameter(5489543),
-									'etag' => $query->createNamedParameter('etag' . $i),
-									'size' => $query->createNamedParameter(120),
+								'addressbookid' => $query->createNamedParameter($i),
+								'carddata' => $query->createNamedParameter('carddata' . $i, IQueryBuilder::PARAM_LOB),
+								'uri' => $query->createNamedParameter('uri' . $i),
+								'lastmodified' => $query->createNamedParameter(5489543),
+								'etag' => $query->createNamedParameter('etag' . $i),
+								'size' => $query->createNamedParameter(120),
 							]
 					);
 			$query->execute();

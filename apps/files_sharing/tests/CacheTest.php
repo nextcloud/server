@@ -227,19 +227,19 @@ class CacheTest extends TestCase {
 	function testSearchByMime() {
 		$results = $this->sharedStorage->getCache()->searchByMime('text');
 		$check = [
-				[
-					'name' => 'bar.txt',
-					'path' => 'bar.txt'
-				],
-				[
-					'name' => 'another too.txt',
-					'path' => 'subdir/another too.txt'
-				],
-				[
-					'name' => 'another.txt',
-					'path' => 'subdir/another.txt'
-				],
-			];
+			[
+				'name' => 'bar.txt',
+				'path' => 'bar.txt'
+			],
+			[
+				'name' => 'another too.txt',
+				'path' => 'subdir/another too.txt'
+			],
+			[
+				'name' => 'another.txt',
+				'path' => 'subdir/another.txt'
+			],
+		];
 		$this->verifyFiles($check, $results);
 	}
 

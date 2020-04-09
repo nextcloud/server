@@ -262,7 +262,7 @@ class MoveCalendarTest extends TestCase {
 			->with(1234)
 			->willReturn([
 				['href' => 'principal:principals/groups/nextclouders']
-		]);
+			]);
 		if ($shareWithGroupMembersOnly === true) {
 			$this->expectException(InvalidArgumentException::class);
 			$this->expectExceptionMessage("User <user2> is not part of the group <nextclouders> with whom the calendar <personal> was shared. You may use -f to move the calendar while deleting this share.");
@@ -412,7 +412,7 @@ class MoveCalendarTest extends TestCase {
 						'href' => 'principal:principals/users/user2',
 						'{DAV:}displayname' => 'Personal'
 					]
-			]);
+				]);
 
 		if ($force === false) {
 			$this->expectException(InvalidArgumentException::class);

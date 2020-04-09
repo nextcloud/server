@@ -932,7 +932,7 @@ class Manager implements IManager {
 
 		// We can only change the recipient on user shares
 		if ($share->getSharedWith() !== $originalShare->getSharedWith() &&
-		    $share->getShareType() !== \OCP\Share::SHARE_TYPE_USER) {
+			$share->getShareType() !== \OCP\Share::SHARE_TYPE_USER) {
 			throw new \InvalidArgumentException('Can only update recipient on user shares');
 		}
 

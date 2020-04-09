@@ -125,13 +125,13 @@ class BackupCodesProviderTest extends TestCase {
 			->willReturn([
 				'twofactor_backupcodes',
 				'mail',
-		]);
+			]);
 		$this->appManager->expects($this->once())
 			->method('getAppInfo')
 			->with('mail')
 			->willReturn([
 				'two-factor-providers' => [],
-		]);
+			]);
 
 		$this->assertFalse($this->provider->isActive($user));
 	}
@@ -145,7 +145,7 @@ class BackupCodesProviderTest extends TestCase {
 			->willReturn([
 				'twofactor_backupcodes',
 				'twofactor_u2f',
-		]);
+			]);
 		$this->appManager->expects($this->once())
 			->method('getAppInfo')
 			->with('twofactor_u2f')
@@ -153,7 +153,7 @@ class BackupCodesProviderTest extends TestCase {
 				'two-factor-providers' => [
 					'OCA\TwoFactorU2F\Provider\U2FProvider',
 				],
-		]);
+			]);
 
 		$this->assertTrue($this->provider->isActive($user));
 	}

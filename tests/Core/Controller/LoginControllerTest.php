@@ -322,9 +322,9 @@ class LoginControllerTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('getSystemValue')
 			->willReturnMap([
-			['login_form_autocomplete', true, true],
-			['lost_password_link', '', false],
-		]);
+				['login_form_autocomplete', true, true],
+				['lost_password_link', '', false],
+			]);
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -370,9 +370,9 @@ class LoginControllerTest extends TestCase {
 			->expects($this->exactly(2))
 			->method('getSystemValue')
 			->willReturnMap([
-			['login_form_autocomplete', true, true],
-			['lost_password_link', '', false],
-		]);
+				['login_form_autocomplete', true, true],
+				['lost_password_link', '', false],
+			]);
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->once())
 			->method('canChangePassword')

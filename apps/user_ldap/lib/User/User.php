@@ -329,7 +329,7 @@ class User {
 			//check for / at the beginning or pattern c:\ resp. c:/
 			if(   '/' !== $path[0]
 			   && !(3 < strlen($path) && ctype_alpha($path[0])
-			       && $path[1] === ':' && ('\\' === $path[2] || '/' === $path[2]))
+				   && $path[1] === ':' && ('\\' === $path[2] || '/' === $path[2]))
 			) {
 				$path = $this->config->getSystemValue('datadirectory',
 						\OC::$SERVERROOT.'/data' ) . '/' . $path;

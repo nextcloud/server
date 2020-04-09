@@ -69,11 +69,11 @@ class LegacyHelperTest extends \Test\TestCase {
 		$arrayStart = [
 			"Foo" => "bar",
 			"Bar" => "foo",
-			];
+		];
 		$arrayResult = [
 			"foo" => "bar",
 			"bar" => "foo",
-			];
+		];
 		$result = OC_Helper::mb_array_change_key_case($arrayStart);
 		$expected = $arrayResult;
 		$this->assertEquals($result, $expected);
@@ -81,11 +81,11 @@ class LegacyHelperTest extends \Test\TestCase {
 		$arrayStart = [
 			"foo" => "bar",
 			"bar" => "foo",
-			];
+		];
 		$arrayResult = [
 			"FOO" => "bar",
 			"BAR" => "foo",
-			];
+		];
 		$result = OC_Helper::mb_array_change_key_case($arrayStart, MB_CASE_UPPER);
 		$expected = $arrayResult;
 		$this->assertEquals($result, $expected);
@@ -95,7 +95,7 @@ class LegacyHelperTest extends \Test\TestCase {
 		$haystack = [
 			"Foo" => "own",
 			"Bar" => "Cloud",
-			];
+		];
 
 		$result = OC_Helper::recursiveArraySearch($haystack, "own");
 		$expected = "Foo";

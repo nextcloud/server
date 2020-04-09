@@ -322,7 +322,7 @@ class OC_Defaults {
 		} else {
 			$logo = \OC::$server->getURLGenerator()->imagePath('core', 'logo/logo.png');
 		}
-	    return $logo . '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
+		return $logo . '?v=' . hash('sha1', implode('.', \OCP\Util::getVersion()));
 	}
 
 	public function getTextColorPrimary() {

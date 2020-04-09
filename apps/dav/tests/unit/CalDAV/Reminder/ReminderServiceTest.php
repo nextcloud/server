@@ -42,11 +42,11 @@ use Test\TestCase;
 
 class ReminderServiceTest extends TestCase {
 
-    /** @var Backend|\PHPUnit\Framework\MockObject\MockObject */
-    private $backend;
+	/** @var Backend|\PHPUnit\Framework\MockObject\MockObject */
+	private $backend;
 
-    /** @var NotificationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $notificationProviderManager;
+	/** @var NotificationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $notificationProviderManager;
 
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
@@ -185,12 +185,12 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
-    protected function setUp(): void {
+	protected function setUp(): void {
 		parent::setUp();
 
-        $this->backend = $this->createMock(Backend::class);
-        $this->notificationProviderManager = $this->createMock(NotificationProviderManager::class);
-        $this->userManager = $this->createMock(IUserManager::class);
+		$this->backend = $this->createMock(Backend::class);
+		$this->notificationProviderManager = $this->createMock(NotificationProviderManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->caldavBackend = $this->createMock(CalDavBackend::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
@@ -203,14 +203,14 @@ EOD;
 			$this->groupManager,
 			$this->caldavBackend,
 			$this->timeFactory);
-    }
+	}
 
 	public function testOnCalendarObjectDelete():void {
-    	$this->backend->expects($this->once())
+		$this->backend->expects($this->once())
 			->method('cleanRemindersForEvent')
 			->with(44);
 
-    	$action = '\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject';
+		$action = '\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject';
 		$objectData = [
 			'id' => '44',
 			'component' => 'vevent',
@@ -221,14 +221,14 @@ EOD;
 
 	public function testOnCalendarObjectCreateSingleEntry():void {
 		$action = '\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject';
-    	$objectData = [
-    		'calendardata' => self::CALENDAR_DATA,
+		$objectData = [
+			'calendardata' => self::CALENDAR_DATA,
 			'id' => '42',
 			'calendarid' => '1337',
 			'component' => 'vevent',
 		];
 
-    	$this->backend->expects($this->exactly(2))
+		$this->backend->expects($this->exactly(2))
 			->method('insertReminder')
 			->withConsecutive(
 				[1337, 42, 'wej2z68l9h', false, 1465430400, false, '5c70531aab15c92b52518ae10a2f78a4', 'de919af7429d3b5c11e8b9d289b411a6', 'EMAIL', true, 1465429500, false],
@@ -236,12 +236,12 @@ EOD;
 			)
 			->willReturn(1);
 
-    	$this->timeFactory->expects($this->once())
+		$this->timeFactory->expects($this->once())
 			->method('getDateTime')
 			->with()
 			->willReturn(\DateTime::createFromFormat(\DateTime::ATOM, '2016-06-08T00:00:00+00:00'));
 
-    	$this->reminderService->onTouchCalendarObject($action, $objectData);
+		$this->reminderService->onTouchCalendarObject($action, $objectData);
 	}
 
 	public function testOnCalendarObjectCreateSingleEntryWithRepeat(): void {

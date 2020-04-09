@@ -308,11 +308,11 @@ class AllConfigTest extends \Test\TestCase {
 		$value = $config->getUserValueForUsers('appFetch2', 'keyFetch1',
 			['userFetch1', 'userFetch2', 'userFetch3', 'userFetch5']);
 		$this->assertEquals([
-				'userFetch1' => 'value1',
-				'userFetch2' => 'value2',
-				'userFetch3' => 3,
-				'userFetch5' => 'value5'
-			], $value);
+			'userFetch1' => 'value1',
+			'userFetch2' => 'value2',
+			'userFetch3' => 3,
+			'userFetch5' => 'value5'
+		], $value);
 
 		$value = $config->getUserValueForUsers('appFetch2', 'keyFetch1',
 			['userFetch1', 'userFetch4', 'userFetch9']);

@@ -148,30 +148,30 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->query(ITimeFactory::class));
 
 		$children = [
-				new SimpleCollection('principals', [
-						$userPrincipals,
-						$groupPrincipals,
-						$systemPrincipals,
-						$calendarResourcePrincipals,
-						$calendarRoomPrincipals]),
-				$filesCollection,
-				$userCalendarRoot,
-				new SimpleCollection('system-calendars', [
-					$resourceCalendarRoot,
-					$roomCalendarRoot,
-				]),
-				$publicCalendarRoot,
-				new SimpleCollection('addressbooks', [
-						$usersAddressBookRoot,
-						$systemAddressBookRoot]),
-				$systemTagCollection,
-				$systemTagRelationsCollection,
-				$commentsCollection,
-				$uploadCollection,
-				$avatarCollection,
-				new SimpleCollection('provisioning', [
-					$appleProvisioning
-				])
+			new SimpleCollection('principals', [
+				$userPrincipals,
+				$groupPrincipals,
+				$systemPrincipals,
+				$calendarResourcePrincipals,
+				$calendarRoomPrincipals]),
+			$filesCollection,
+			$userCalendarRoot,
+			new SimpleCollection('system-calendars', [
+				$resourceCalendarRoot,
+				$roomCalendarRoot,
+			]),
+			$publicCalendarRoot,
+			new SimpleCollection('addressbooks', [
+				$usersAddressBookRoot,
+				$systemAddressBookRoot]),
+			$systemTagCollection,
+			$systemTagRelationsCollection,
+			$commentsCollection,
+			$uploadCollection,
+			$avatarCollection,
+			new SimpleCollection('provisioning', [
+				$appleProvisioning
+			])
 		];
 
 		parent::__construct('root', $children);

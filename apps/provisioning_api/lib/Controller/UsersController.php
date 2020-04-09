@@ -105,7 +105,7 @@ class UsersController extends AUserData {
 								NewUserMailHelper $newUserMailHelper,
 								FederatedFileSharingFactory $federatedFileSharingFactory,
 								ISecureRandom $secureRandom,
-							    RemoteWipe $remoteWipe) {
+								RemoteWipe $remoteWipe) {
 		parent::__construct($appName,
 							$request,
 							$userManager,

@@ -198,8 +198,8 @@ class Manager {
 				$missing[] = $providerId;
 				$this->logger->alert("two-factor auth provider '$providerId' failed to load",
 					[
-					'app' => 'core',
-				]);
+						'app' => 'core',
+					]);
 			}
 		}
 

@@ -302,7 +302,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder
 				->method('getUserFolder')
 				->willReturnMap([
-						['shareOwner', $shareOwnerFolder],
+					['shareOwner', $shareOwnerFolder],
 				]);
 
 		$share = $this->provider->getShareById($id);
@@ -385,7 +385,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder
 				->method('getUserFolder')
 				->willReturnMap([
-						['shareOwner', $shareOwnerFolder],
+					['shareOwner', $shareOwnerFolder],
 				]);
 
 		$share = $this->provider->getShareById($id);
@@ -761,8 +761,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder
 				->method('getUserFolder')
 				->willReturnMap([
-						['sharedBy', $userFolder],
-						['shareOwner', $ownerFolder],
+					['sharedBy', $userFolder],
+					['shareOwner', $ownerFolder],
 				]);
 
 		$userFolder->method('getById')

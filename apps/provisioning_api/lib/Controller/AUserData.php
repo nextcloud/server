@@ -155,7 +155,7 @@ abstract class AUserData extends OCSController {
 		];
 
 		return $data;
-    }
+	}
 
 	/**
 	 * Get the groups a user is a subadmin of

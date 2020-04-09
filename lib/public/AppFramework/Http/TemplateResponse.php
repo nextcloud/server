@@ -77,7 +77,7 @@ class TemplateResponse extends Response {
 	 * @since 6.0.0 - parameters $params and $renderAs were added in 7.0.0
 	 */
 	public function __construct($appName, $templateName, array $params=[],
-	                            $renderAs='user') {
+								$renderAs='user') {
 		parent::__construct();
 
 		$this->templateName = $templateName;

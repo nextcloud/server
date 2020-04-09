@@ -157,14 +157,14 @@ class BirthdayServiceTest extends TestCase {
 		$this->cardDav->expects($this->once())->method('getAddressBookById')
 			->with(666)
 			->willReturn([
-			'principaluri' => 'principals/users/user01',
-			'uri' => 'default'
-		]);
+				'principaluri' => 'principals/users/user01',
+				'uri' => 'default'
+			]);
 		$this->calDav->expects($this->once())->method('getCalendarByUri')
 			->with('principals/users/user01', 'contact_birthdays')
 			->willReturn([
-			'id' => 1234
-		]);
+				'id' => 1234
+			]);
 		$this->calDav->expects($this->at(1))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf.ics');
 		$this->calDav->expects($this->at(2))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf-death.ics');
 		$this->calDav->expects($this->at(3))->method('deleteCalendarObject')->with(1234, 'default-gump.vcf-anniversary.ics');

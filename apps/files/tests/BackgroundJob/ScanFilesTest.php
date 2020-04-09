@@ -52,8 +52,8 @@ class ScanFilesTest extends TestCase {
 
 		$this->scanFiles = $this->getMockBuilder('\OCA\Files\BackgroundJob\ScanFiles')
 				->setConstructorArgs([
-						$this->config,
-						$this->userManager,
+					$this->config,
+					$this->userManager,
 				])
 				->setMethods(['runScanner'])
 				->getMock();
@@ -105,7 +105,7 @@ class ScanFilesTest extends TestCase {
 				->method('search')
 				->with('', 500, 50)
 				->willReturn([
-						$fakeUser
+					$fakeUser
 				]);
 		$this->config
 				->expects($this->at(2))

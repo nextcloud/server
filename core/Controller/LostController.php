@@ -159,8 +159,8 @@ class LostController extends Controller {
 	public function resetform($token, $userId) {
 		if ($this->config->getSystemValue('lost_password_link', '') !== '') {
 			return new TemplateResponse('core', 'error', [
-					'errors' => [['error' => $this->l10n->t('Password reset is disabled')]]
-				],
+				'errors' => [['error' => $this->l10n->t('Password reset is disabled')]]
+			],
 				'guest'
 			);
 		}

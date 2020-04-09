@@ -99,17 +99,17 @@ class ViewControllerTest extends TestCase {
 		$this->activityHelper = $this->createMock(Helper::class);
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
-			'files',
-			$this->request,
-			$this->urlGenerator,
-			$this->l10n,
-			$this->config,
-			$this->eventDispatcher,
-			$this->userSession,
-			$this->appManager,
-			$this->rootFolder,
-			$this->activityHelper,
-		])
+				'files',
+				$this->request,
+				$this->urlGenerator,
+				$this->l10n,
+				$this->config,
+				$this->eventDispatcher,
+				$this->userSession,
+				$this->appManager,
+				$this->rootFolder,
+				$this->activityHelper,
+			])
 		->setMethods([
 			'getStorageInfo',
 			'renderScript'
@@ -262,14 +262,14 @@ class ViewControllerTest extends TestCase {
 				'classes' => 'collapsible',
 				'sublist' => [
 					[
-					'id' => 'sharingout',
+						'id' => 'sharingout',
 						'appname' => 'files_sharing',
 						'script' => 'list.php',
 						'order' => 16,
 						'name' => \OC::$server->getL10N('files_sharing')->t('Shared with others'),
 					],
 					[
-					'id' => 'sharingin',
+						'id' => 'sharingin',
 						'appname' => 'files_sharing',
 						'script' => 'list.php',
 						'order' => 15,

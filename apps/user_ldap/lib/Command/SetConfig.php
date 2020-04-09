@@ -45,17 +45,17 @@ class SetConfig extends Command {
 					'configID',
 					InputArgument::REQUIRED,
 					'the configuration ID'
-				     )
+					 )
 			->addArgument(
 					'configKey',
 					InputArgument::REQUIRED,
 					'the configuration key'
-				     )
+					 )
 			->addArgument(
 					'configValue',
 					InputArgument::REQUIRED,
 					'the new configuration value'
-				     )
+					 )
 		;
 	}
 

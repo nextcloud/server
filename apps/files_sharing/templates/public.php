@@ -112,7 +112,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 				<div>
 					<?php
 						echo $l->t('By uploading files, you agree to the %1$sterms of service%2$s.', [
-								'<span id="show-terms-dialog">', '</span>'
+							'<span id="show-terms-dialog">', '</span>'
 						]);
 					?>
 				</div>

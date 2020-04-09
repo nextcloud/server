@@ -92,9 +92,9 @@ class DbHandlerTest extends TestCase {
 
 	public function dataTestAddServer() {
 		return [
-				['http://owncloud.org', 'http://owncloud.org', sha1('owncloud.org')],
-				['https://owncloud.org', 'https://owncloud.org', sha1('owncloud.org')],
-				['http://owncloud.org/', 'http://owncloud.org', sha1('owncloud.org')],
+			['http://owncloud.org', 'http://owncloud.org', sha1('owncloud.org')],
+			['https://owncloud.org', 'https://owncloud.org', sha1('owncloud.org')],
+			['http://owncloud.org/', 'http://owncloud.org', sha1('owncloud.org')],
 		];
 	}
 

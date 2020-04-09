@@ -110,10 +110,10 @@ class JSResourceLocatorTest extends \Test\TestCase {
 
 		// Use the symlink as the app path
 		\OC::$APPSROOTS[] = [
-                        'path' => $new_apps_path_symlink,
-                        'url' => '/js-apps-test',
-                        'writable' => false,
-                ];
+			'path' => $new_apps_path_symlink,
+			'url' => '/js-apps-test',
+			'writable' => false,
+		];
 
 		$locator = $this->jsResourceLocator();
 		$locator->find(['test-js-app/test-file']);

@@ -49,7 +49,7 @@ class WizardTest extends TestCase {
 		//we need to make sure the consts are defined, otherwise tests will fail
 		//on systems without php5_ldap
 		$ldapConsts = ['LDAP_OPT_PROTOCOL_VERSION',
-							'LDAP_OPT_REFERRALS', 'LDAP_OPT_NETWORK_TIMEOUT'];
+			'LDAP_OPT_REFERRALS', 'LDAP_OPT_NETWORK_TIMEOUT'];
 		foreach($ldapConsts as $const) {
 			if(!defined($const)) {
 				define($const, 42);

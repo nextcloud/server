@@ -563,7 +563,7 @@ class ManagerTest extends TestCase {
 			->willReturnCallback(function($search, $limit, $offset) {
 				switch($offset) {
 					case 0 : return ['user3' => $this->getTestUser('user3'),
-									'user33' => $this->getTestUser('user33')];
+						'user33' => $this->getTestUser('user33')];
 					case 2 : return [];
 				}
 				return null;
@@ -622,7 +622,7 @@ class ManagerTest extends TestCase {
 			->willReturnCallback(function($search, $limit, $offset) {
 				switch($offset) {
 					case 0 : return ['user3' => $this->getTestUser('user3'),
-									'user33' => $this->getTestUser('user33')];
+						'user33' => $this->getTestUser('user33')];
 					case 2 : return ['user333' => $this->getTestUser('user333')];
 				}
 				return null;

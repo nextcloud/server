@@ -35,7 +35,7 @@ class ErrorHandlerTest extends \Test\TestCase {
 			['user', 'pass@word'],
 			['us:er', 'password'],
 			['user', 'pass:word'],
-			];
+		];
 
 	}
 

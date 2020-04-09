@@ -166,7 +166,7 @@ class AccountsManagerTest extends TestCase {
 		if(empty($expectedData)) {
 			$accountManager->expects($this->never())->method('addMissingDefaultValues');
 
- 		} else {
+		} else {
 			$accountManager->expects($this->once())->method('addMissingDefaultValues')->with($expectedData)
 				->willReturn($expectedData);
 		}

@@ -69,10 +69,10 @@ class PluginTest extends TestCase {
 	public function testSharing() {
 
 		$this->book->expects($this->once())->method('updateShares')->with([[
-				'href' => 'principal:principals/admin',
-				'commonName' => null,
-				'summary' => null,
-				'readOnly' => false
+			'href' => 'principal:principals/admin',
+			'commonName' => null,
+			'summary' => null,
+			'readOnly' => false
 		]], ['mailto:wilfredo@example.com']);
 
 		// setup request

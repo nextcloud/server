@@ -255,7 +255,7 @@ class Notifications {
 		$fields = [
 			'token' => $token,
 			'remoteId' => $remoteId
-			];
+		];
 		foreach ($data as $key => $value) {
 			$fields[$key] = $value;
 		}

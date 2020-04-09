@@ -56,13 +56,13 @@ class ShowConfig extends Command {
 					'configID',
 					InputArgument::OPTIONAL,
 					'will show the configuration of the specified id'
-				     )
+					 )
 			->addOption(
 					'show-password',
 					null,
 					InputOption::VALUE_NONE,
 					'show ldap bind password'
-				     )
+					 )
 		;
 	}
 

@@ -239,10 +239,10 @@ class Checker {
 		$signature = $privateKey->sign(json_encode($hashes));
 
 		return [
-				'hashes' => $hashes,
-				'signature' => base64_encode($signature),
-				'certificate' => $certificate->saveX509($certificate->currentCert),
-			];
+			'hashes' => $hashes,
+			'signature' => base64_encode($signature),
+			'certificate' => $certificate->saveX509($certificate->currentCert),
+		];
 	}
 
 	/**
@@ -509,10 +509,10 @@ class Checker {
 			);
 		} catch (\Exception $e) {
 			$result = [
-					'EXCEPTION' => [
-							'class' => \get_class($e),
-							'message' => $e->getMessage(),
-					],
+				'EXCEPTION' => [
+					'class' => \get_class($e),
+					'message' => $e->getMessage(),
+				],
 			];
 		}
 		$this->storeResults($appId, $result);
@@ -559,10 +559,10 @@ class Checker {
 			);
 		} catch (\Exception $e) {
 			$result = [
-					'EXCEPTION' => [
-							'class' => \get_class($e),
-							'message' => $e->getMessage(),
-					],
+				'EXCEPTION' => [
+					'class' => \get_class($e),
+					'message' => $e->getMessage(),
+				],
 			];
 		}
 		$this->storeResults('core', $result);

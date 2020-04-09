@@ -23,7 +23,7 @@ use Test\TestCase;
 class CreateEmpty extends ACreateEmpty {
 
 	 public function getId(): string {
-	 	return 'createEmpty';
+		return 'createEmpty';
 	}
 
 	public function getName(): string {
@@ -42,7 +42,7 @@ class CreateEmpty extends ACreateEmpty {
 class Editor implements IEditor {
 
 	 public function getId(): string {
-	 	return 'testeditor';
+		return 'testeditor';
 	 }
 
 	public function getName(): string {

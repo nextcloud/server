@@ -228,9 +228,9 @@ class NavigationManagerTest extends TestCase {
 		$this->userSession->expects($this->any())->method('getUser')->willReturn($user);
 		$this->userSession->expects($this->any())->method('isLoggedIn')->willReturn(true);
 		$this->appManager->expects($this->once())
-		     ->method('getEnabledAppsForUser')
-		     ->with($user)
-		     ->willReturn(['test']);
+			 ->method('getEnabledAppsForUser')
+			 ->with($user)
+			 ->willReturn(['test']);
 		$this->groupManager->expects($this->any())->method('isAdmin')->willReturn($isAdmin);
 		$subadmin = $this->createMock(SubAdmin::class);
 		$subadmin->expects($this->any())->method('isSubAdmin')->with($user)->willReturn(false);

@@ -330,9 +330,9 @@ class Generator {
 		}
 
 		/*
- 		 * Make sure the requested height and width fall within the max
- 		 * of the preview.
- 		 */
+		 * Make sure the requested height and width fall within the max
+		 * of the preview.
+		 */
 		if ($height > $maxHeight) {
 			$ratio = $height / $maxHeight;
 			$height = $maxHeight;

@@ -101,7 +101,7 @@ class OCSMiddleware extends Middleware {
 		 */
 		if ($controller instanceof OCSController && !($response instanceof BaseResponse)) {
 			if ($response->getStatus() === Http::STATUS_UNAUTHORIZED ||
-			    $response->getStatus() === Http::STATUS_FORBIDDEN) {
+				$response->getStatus() === Http::STATUS_FORBIDDEN) {
 
 				$message = '';
 				if ($response instanceof JSONResponse) {

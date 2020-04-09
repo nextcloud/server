@@ -707,8 +707,8 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 		// memberof doesn't support memberuid, so skip it here.
 		if((int)$this->access->connection->hasMemberOfFilterSupport === 1
 			&& (int)$this->access->connection->useMemberOfToDetectMembership === 1
-		    && strtolower($this->access->connection->ldapGroupMemberAssocAttr) !== 'memberuid'
-		    ) {
+			&& strtolower($this->access->connection->ldapGroupMemberAssocAttr) !== 'memberuid'
+			) {
 			$groupDNs = $this->_getGroupDNsFromMemberOf($userDN);
 			if (is_array($groupDNs)) {
 				foreach ($groupDNs as $dn) {

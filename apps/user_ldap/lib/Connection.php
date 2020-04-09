@@ -365,7 +365,7 @@ class Connection extends LDAPUtility {
 		}
 
 		foreach(['ldapExpertUUIDUserAttr'  => 'ldapUuidUserAttribute',
-					  'ldapExpertUUIDGroupAttr' => 'ldapUuidGroupAttribute']
+			'ldapExpertUUIDGroupAttr' => 'ldapUuidGroupAttribute']
 				as $expertSetting => $effectiveSetting) {
 			$uuidOverride = $this->configuration->$expertSetting;
 			if(!empty($uuidOverride)) {
@@ -394,7 +394,7 @@ class Connection extends LDAPUtility {
 
 		//make sure empty search attributes are saved as simple, empty array
 		$saKeys = ['ldapAttributesForUserSearch',
-						'ldapAttributesForGroupSearch'];
+			'ldapAttributesForGroupSearch'];
 		foreach($saKeys as $key) {
 			$val = $this->configuration->$key;
 			if(is_array($val) && count($val) === 1 && empty($val[0])) {
@@ -423,7 +423,7 @@ class Connection extends LDAPUtility {
 
 		//options that shall not be empty
 		$options = ['ldapHost', 'ldapPort', 'ldapUserDisplayName',
-						 'ldapGroupDisplayName', 'ldapLoginFilter'];
+			'ldapGroupDisplayName', 'ldapLoginFilter'];
 		foreach($options as $key) {
 			$val = $this->configuration->$key;
 			if(empty($val)) {

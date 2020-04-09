@@ -76,13 +76,13 @@ class ActionProviderStoreTest extends TestCase {
 				'contactsmenu' => [
 					'OCA\Contacts\Provider1',
 				],
-		]);
+			]);
 		$this->serverContainer->expects($this->exactly(2))
 			->method('query')
 			->willReturnMap([
-					[EMailProvider::class, true, $provider1],
-					['OCA\Contacts\Provider1', true, $provider2]
-		]);
+				[EMailProvider::class, true, $provider1],
+				['OCA\Contacts\Provider1', true, $provider2]
+			]);
 
 		$providers = $this->actionProviderStore->getProviders($user);
 
@@ -105,8 +105,8 @@ class ActionProviderStoreTest extends TestCase {
 		$this->serverContainer->expects($this->once())
 			->method('query')
 			->willReturnMap([
-					[EMailProvider::class, true, $provider1],
-		]);
+				[EMailProvider::class, true, $provider1],
+			]);
 
 		$providers = $this->actionProviderStore->getProviders($user);
 
