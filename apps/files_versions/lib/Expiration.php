@@ -129,7 +129,7 @@ class Expiration {
 	}
 
 	/**
-	 * Read versions_retention_obligation, validate it 
+	 * Read versions_retention_obligation, validate it
 	 * and set private members accordingly
 	 */
 	private function parseRetentionObligation() {

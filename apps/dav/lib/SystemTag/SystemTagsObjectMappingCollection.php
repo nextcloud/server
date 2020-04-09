@@ -189,7 +189,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	}
 
 	/**
-	 * Create a sabre node for the mapping of the 
+	 * Create a sabre node for the mapping of the
 	 * given system tag to the collection's object
 	 *
 	 * @param ISystemTag $tag

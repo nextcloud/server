@@ -75,7 +75,7 @@ script('core', [
 	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 	<fieldset id='databaseBackend'>
 		<?php if($_['hasMySQL'] or $_['hasPostgreSQL'] or $_['hasOracle'])
-			$hasOtherDB = true; else $hasOtherDB =false; //other than SQLite ?>
+			$hasOtherDB = true; else $hasOtherDB =false; //other than SQLite?>
 		<legend><?php p($l->t('Configure the database')); ?></legend>
 		<div id="selectDbType">
 		<?php foreach($_['databases'] as $type => $label): ?>

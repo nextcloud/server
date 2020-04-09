@@ -142,7 +142,7 @@
 							});
 						?>
 						<?php foreach ($sortedBackends as $backend): ?>
-							<?php if ($backend->getDeprecateTo()) continue; // ignore deprecated backends ?>
+							<?php if ($backend->getDeprecateTo()) continue; // ignore deprecated backends?>
 							<option value="<?php p($backend->getIdentifier()); ?>"><?php p($backend->getText()); ?></option>
 						<?php endforeach; ?>
 					</select>
