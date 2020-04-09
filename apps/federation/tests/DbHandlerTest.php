@@ -25,7 +25,6 @@
 
 namespace OCA\Federation\Tests;
 
-
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\IDBConnection;

@@ -11,7 +11,6 @@
 
 namespace Test\Mail;
 
-
 use OC\Mail\EMailTemplate;
 use OC\Mail\Mailer;
 use OC\Mail\Message;

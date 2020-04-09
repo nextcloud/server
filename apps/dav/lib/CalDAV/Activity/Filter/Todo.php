@@ -23,7 +23,6 @@
 
 namespace OCA\DAV\CalDAV\Activity\Filter;
 
-
 use OCP\Activity\IFilter;
 use OCP\IL10N;
 use OCP\IURLGenerator;

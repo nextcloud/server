@@ -26,7 +26,6 @@
 
 namespace OCA\Encryption;
 
-
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\IConfig;

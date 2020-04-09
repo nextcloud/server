@@ -26,7 +26,6 @@
 
 namespace OCA\User_LDAP\Tests\Integration;
 
-
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\LDAP;
 

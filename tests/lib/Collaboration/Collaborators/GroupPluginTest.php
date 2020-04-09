@@ -23,7 +23,6 @@
 
 namespace Test\Collaboration\Collaborators;
 
-
 use OC\Collaboration\Collaborators\GroupPlugin;
 use OC\Collaboration\Collaborators\SearchResult;
 use OCP\Collaboration\Collaborators\ISearchResult;

@@ -27,7 +27,6 @@
 
 namespace OCA\Encryption\Tests\Crypto;
 
-
 use OCA\Encryption\Crypto\Crypt;
 use OCP\IConfig;
 use OCP\IL10N;

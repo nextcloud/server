@@ -24,7 +24,6 @@
 
 namespace OCA\DAV\Avatars;
 
-
 use OCP\IAvatarManager;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;

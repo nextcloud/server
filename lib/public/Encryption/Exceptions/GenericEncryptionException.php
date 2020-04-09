@@ -25,6 +25,7 @@
  */
 
 namespace OCP\Encryption\Exceptions;
+
 use OC\HintException;
 
 /**

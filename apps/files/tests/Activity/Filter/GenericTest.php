@@ -24,7 +24,6 @@
 
 namespace OCA\Files\Tests\Activity\Filter;
 
-
 use OCA\Files\Activity\Filter\Favorites;
 use OCA\Files\Activity\Filter\FileChanges;
 use OCP\Activity\IFilter;

@@ -23,7 +23,6 @@
 
 namespace OCA\User_LDAP\Migration;
 
-
 use OC\BackgroundJob\QueuedJob;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 use OCA\User_LDAP\Proxy;

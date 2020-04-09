@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\User;
 
-
 use OC\Core\Command\User\Setting;
 use OCP\IConfig;
 use OCP\IDBConnection;

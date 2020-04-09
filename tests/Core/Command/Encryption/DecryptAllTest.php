@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Encryption;
 
-
 use OC\Core\Command\Encryption\DecryptAll;
 use OCP\App\IAppManager;
 use OCP\Encryption\IManager;

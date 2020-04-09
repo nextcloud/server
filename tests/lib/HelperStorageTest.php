@@ -7,6 +7,7 @@
  */
 
 namespace Test;
+
 use OC\Files\Storage\Temporary;
 
 /**

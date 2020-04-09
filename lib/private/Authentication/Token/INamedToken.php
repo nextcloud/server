@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OC\Authentication\Token;
 
-
 interface INamedToken extends IToken {
 	/**
 	 * Set token name

@@ -8,7 +8,6 @@
 
 namespace Test\L10N;
 
-
 use DateTime;
 use OC\L10N\Factory;
 use OC\L10N\L10N;

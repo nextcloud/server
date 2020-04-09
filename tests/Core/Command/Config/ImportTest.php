@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Config;
 
-
 use OC\Core\Command\Config\Import;
 use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;

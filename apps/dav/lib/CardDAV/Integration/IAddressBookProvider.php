@@ -25,7 +25,6 @@ declare(strict_types=1);
  */
 namespace OCA\DAV\CardDAV\Integration;
 
-
 /**
  * @since 19.0.0
  */

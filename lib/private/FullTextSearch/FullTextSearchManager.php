@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OC\FullTextSearch;
 
-
 use OCP\FullTextSearch\Exceptions\FullTextSearchAppNotAvailableException;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\FullTextSearch\Model\IIndex;

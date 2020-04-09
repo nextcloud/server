@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Maintenance\Mimetype;
 
-
 class GenerateMimetypeFileBuilder
 {
 	/**

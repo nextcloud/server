@@ -23,7 +23,6 @@
 
 namespace OCA\Files\Controller;
 
-
 use Exception;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\NotFoundResponse;

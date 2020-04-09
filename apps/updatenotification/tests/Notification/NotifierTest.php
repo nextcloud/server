@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\UpdateNotification\Tests\Notification;
 
-
 use OCA\UpdateNotification\Notification\Notifier;
 use OCP\IConfig;
 use OCP\IGroupManager;

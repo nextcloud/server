@@ -22,7 +22,6 @@
 
 namespace OCA\Files_Versions\Command;
 
-
 use OCP\Files\IRootFolder;
 use OCP\IUserBackend;
 use OCP\IUserManager;

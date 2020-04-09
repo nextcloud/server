@@ -1,4 +1,5 @@
 <?php
+
 declare (strict_types = 1);
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
@@ -21,7 +22,6 @@ declare (strict_types = 1);
  */
 
 namespace Test\Notification;
-
 
 use OC\Notification\Notification;
 use OCP\Notification\IAction;

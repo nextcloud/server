@@ -22,6 +22,7 @@
  */
 
 namespace OCP\Calendar\Room;
+
 use OCP\Calendar\BackendTemporarilyUnavailableException;
 
 /**

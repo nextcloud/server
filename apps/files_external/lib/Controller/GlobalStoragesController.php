@@ -28,7 +28,6 @@
 
 namespace OCA\Files_External\Controller;
 
-
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\AppFramework\Http;

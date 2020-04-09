@@ -23,7 +23,6 @@
 
 namespace OCA\Files\Controller;
 
-
 use Exception;
 use OCA\Files\Service\DirectEditingService;
 use OCP\AppFramework\Http;

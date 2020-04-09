@@ -21,7 +21,6 @@
 
 namespace Test\Accounts;
 
-
 use OC\Accounts\Account;
 use OC\Accounts\AccountManager;
 use OCP\Accounts\IAccountManager;

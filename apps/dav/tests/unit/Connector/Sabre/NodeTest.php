@@ -27,6 +27,7 @@
  */
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
+
 use OC\Files\FileInfo;
 use OC\Files\View;
 use OCP\Files\Mount\IMountPoint;

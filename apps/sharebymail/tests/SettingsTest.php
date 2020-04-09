@@ -24,7 +24,6 @@
 
 namespace OCA\ShareByMail\Tests;
 
-
 use OCA\ShareByMail\Settings;
 use OCA\ShareByMail\Settings\SettingsManager;
 use Test\TestCase;

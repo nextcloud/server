@@ -24,7 +24,6 @@
 
 namespace OCA\Files_External\Settings;
 
-
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\IL10N;

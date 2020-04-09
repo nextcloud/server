@@ -202,7 +202,7 @@ class SyncService {
 		 $body = $this->buildSyncCollectionRequestBody($syncToken);
 
 		 $response = $client->request('REPORT', $addressBookUrl, $body, [
-			'Content-Type' => 'application/xml'
+		 	'Content-Type' => 'application/xml'
 		 ]);
 
 		 return $this->parseMultiStatus($response['body']);

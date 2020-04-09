@@ -21,7 +21,6 @@
 
 namespace Test\GlobalScale;
 
-
 use OC\GlobalScale\Config;
 use OCP\IConfig;
 use Test\TestCase;

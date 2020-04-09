@@ -27,6 +27,7 @@
  */
 
 namespace OC\Search\Provider;
+
 use OC\Files\Filesystem;
 
 /**

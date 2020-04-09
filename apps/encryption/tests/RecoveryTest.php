@@ -28,7 +28,6 @@
 
 namespace OCA\Encryption\Tests;
 
-
 use OC\Files\View;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;

@@ -23,7 +23,6 @@
 
 namespace OCP\DirectEditing;
 
-
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
 

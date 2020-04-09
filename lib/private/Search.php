@@ -27,6 +27,7 @@
  */
 
 namespace OC;
+
 use OCP\ISearch;
 use OCP\Search\PagedProvider;
 use OCP\Search\Provider;

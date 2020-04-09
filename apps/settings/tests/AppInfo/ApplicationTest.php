@@ -25,7 +25,6 @@
 
 namespace OCA\Settings\Tests\AppInfo;
 
-
 use OC\User\Session;
 use OCA\Settings\AppInfo\Application;
 use OCA\Settings\Controller\AdminSettingsController;

@@ -23,6 +23,7 @@
  */
 
 namespace OC\BackgroundJob;
+
 use OCP\ILogger;
 
 /**

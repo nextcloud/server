@@ -24,6 +24,7 @@
  */
 
 namespace OC\Search\Result;
+
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 

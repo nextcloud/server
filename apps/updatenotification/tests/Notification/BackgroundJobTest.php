@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OCA\UpdateNotification\Tests\Notification;
 
-
 use OC\Installer;
 use OC\Updater\VersionCheck;
 use OCA\UpdateNotification\Notification\BackgroundJob;

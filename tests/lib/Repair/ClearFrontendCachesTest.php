@@ -22,6 +22,7 @@
  */
 
 namespace Test\Repair;
+
 use OC\Template\JSCombiner;
 use OC\Template\SCSSCacher;
 use OCP\ICache;

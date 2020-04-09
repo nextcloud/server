@@ -26,7 +26,6 @@
 
 namespace OCA\Encryption\Tests\Controller;
 
-
 use OCA\Encryption\Controller\RecoveryController;
 use OCA\Encryption\Recovery;
 use OCP\AppFramework\Http;

@@ -23,6 +23,7 @@
  */
 
 namespace OCP\Share\Exceptions;
+
 use OC\HintException;
 
 /**

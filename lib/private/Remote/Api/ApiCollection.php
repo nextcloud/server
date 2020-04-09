@@ -23,7 +23,6 @@
 
 namespace OC\Remote\Api;
 
-
 use OCP\Http\Client\IClientService;
 use OCP\Remote\Api\IApiCollection;
 use OCP\Remote\ICredentials;

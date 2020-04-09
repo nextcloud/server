@@ -26,7 +26,6 @@
 
 namespace OC\DB;
 
-
 class AdapterPgSql extends Adapter {
 	protected $compatModePre9_5 = null;
 

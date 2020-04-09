@@ -28,7 +28,6 @@
 
 namespace OCA\Encryption\Tests\Hooks;
 
-
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Hooks\UserHooks;
 use OCA\Encryption\KeyManager;

@@ -26,7 +26,6 @@
 
 namespace OCA\Federation;
 
-
 use OC\Files\Filesystem;
 use OC\HintException;
 use OCP\IDBConnection;

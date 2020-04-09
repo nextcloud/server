@@ -23,7 +23,6 @@
 
 namespace Test\AppFramework\Http;
 
-
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Utility\ITimeFactory;

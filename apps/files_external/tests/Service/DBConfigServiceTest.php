@@ -24,7 +24,6 @@
 
 namespace OCA\Files_External\Tests\Service;
 
-
 use OCA\Files_External\Service\DBConfigService;
 use OCP\IDBConnection;
 use Test\TestCase;

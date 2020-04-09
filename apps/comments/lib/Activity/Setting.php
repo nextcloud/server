@@ -23,7 +23,6 @@
 
 namespace OCA\Comments\Activity;
 
-
 use OCP\Activity\ISetting;
 use OCP\IL10N;
 

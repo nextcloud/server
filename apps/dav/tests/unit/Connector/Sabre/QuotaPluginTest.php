@@ -28,6 +28,7 @@
  */
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
+
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\QuotaPlugin;
 use OCP\Files\FileInfo;

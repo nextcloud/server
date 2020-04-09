@@ -20,6 +20,7 @@
  */
 
 namespace Test\Share;
+
 use OC\Share\Share;
 use OCP\IGroup;
 use OCP\IGroupManager;

@@ -21,7 +21,6 @@
 
 namespace Test\Remote;
 
-
 use OC\Memcache\ArrayCache;
 use OC\Remote\Instance;
 use OCP\ICache;

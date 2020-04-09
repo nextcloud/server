@@ -27,6 +27,7 @@
  */
 
 namespace OCA\Files_External\Lib\Storage;
+
 use OCP\Files\Storage\IDisableEncryptionStorage;
 use Sabre\DAV\Client;
 

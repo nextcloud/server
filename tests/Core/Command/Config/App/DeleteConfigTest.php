@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Config\App;
 
-
 use OC\Core\Command\Config\App\DeleteConfig;
 use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;

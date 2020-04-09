@@ -7,6 +7,7 @@
  */
 
 namespace Test\BackgroundJob;
+
 use OCP\BackgroundJob\IJob;
 
 /**

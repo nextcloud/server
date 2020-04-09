@@ -23,7 +23,6 @@
 
 namespace OCA\Files\Activity\Filter;
 
-
 use OCA\Files\Activity\Helper;
 use OCP\Activity\IFilter;
 use OCP\Activity\IManager;

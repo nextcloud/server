@@ -22,7 +22,6 @@
 
 namespace OC\Core\Command\Db\Migrations;
 
-
 use OC\DB\MigrationService;
 use OC\Migration\ConsoleOutput;
 use OCP\IDBConnection;

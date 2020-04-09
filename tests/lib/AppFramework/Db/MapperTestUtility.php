@@ -23,7 +23,6 @@
 
 namespace Test\AppFramework\Db;
 
-
 /**
  * Simple utility class for testing mappers
  */

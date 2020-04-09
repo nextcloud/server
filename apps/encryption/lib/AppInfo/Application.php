@@ -28,7 +28,6 @@
 
 namespace OCA\Encryption\AppInfo;
 
-
 use OC\Files\View;
 use OCA\Encryption\Controller\RecoveryController;
 use OCA\Encryption\Controller\SettingsController;

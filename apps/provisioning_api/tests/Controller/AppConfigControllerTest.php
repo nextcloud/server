@@ -24,7 +24,6 @@
 
 namespace OCA\Provisioning_API\Tests\Controller;
 
-
 use OCA\Provisioning_API\Controller\AppConfigController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;

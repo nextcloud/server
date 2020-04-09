@@ -23,7 +23,6 @@
 
 namespace OC\Remote\Api;
 
-
 use GuzzleHttp\Exception\ClientException;
 use OC\ForbiddenException;
 use OC\Remote\User;

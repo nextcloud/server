@@ -21,7 +21,6 @@
 
 namespace Test\Accounts;
 
-
 use OC\Accounts\AccountManager;
 use OC\Accounts\Hooks;
 use OCP\ILogger;

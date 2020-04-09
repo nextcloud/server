@@ -25,7 +25,6 @@
 
 namespace OCA\Encryption\Tests;
 
-
 use OCA\Encryption\HookManager;
 use OCA\Encryption\Hooks\Contracts\IHook;
 use OCP\IConfig;

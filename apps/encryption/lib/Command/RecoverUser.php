@@ -23,7 +23,6 @@
 
 namespace OCA\Encryption\Command;
 
-
 use OCA\Encryption\Util;
 use OCP\IConfig;
 use OCP\IUserManager;

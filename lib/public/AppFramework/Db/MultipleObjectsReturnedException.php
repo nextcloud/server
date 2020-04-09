@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OCP\AppFramework\Db;
 
-
 /**
  * This is returned or should be returned when a find request finds more than one
  * row

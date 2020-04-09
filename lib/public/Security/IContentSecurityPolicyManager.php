@@ -22,6 +22,7 @@
  */
 
 namespace OCP\Security;
+
 use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 
 /**

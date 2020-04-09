@@ -24,7 +24,6 @@
 
 namespace OCA\TwoFactorBackupCodes\Db;
 
-
 use OCP\AppFramework\Db\Entity;
 
 /**

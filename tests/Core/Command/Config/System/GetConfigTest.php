@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Config\System;
 
-
 use OC\Core\Command\Config\System\GetConfig;
 use OC\SystemConfig;
 use Symfony\Component\Console\Input\InputInterface;

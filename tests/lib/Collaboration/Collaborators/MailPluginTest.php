@@ -23,7 +23,6 @@
 
 namespace Test\Collaboration\Collaborators;
 
-
 use OC\Collaboration\Collaborators\MailPlugin;
 use OC\Collaboration\Collaborators\SearchResult;
 use OC\Federation\CloudIdManager;

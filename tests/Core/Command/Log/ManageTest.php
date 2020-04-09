@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Log;
 
-
 use OC\Core\Command\Log\Manage;
 use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;

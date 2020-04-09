@@ -31,6 +31,7 @@
  */
 
 namespace OC;
+
 use OC\Cache\CappedMemoryCache;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;

@@ -29,6 +29,7 @@
  */
 
 namespace OCA\Files_Sharing\Tests;
+
 use OCP\IGroupManager;
 use OCP\IUserManager;
 

@@ -27,7 +27,6 @@
 
 namespace OCA\Encryption\Tests;
 
-
 use OCA\Encryption\Session;
 use OCP\ISession;
 use Test\TestCase;

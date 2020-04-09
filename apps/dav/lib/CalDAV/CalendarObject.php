@@ -26,7 +26,6 @@
 
 namespace OCA\DAV\CalDAV;
 
-
 use OCP\IL10N;
 use Sabre\VObject\Component;
 use Sabre\VObject\Property;

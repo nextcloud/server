@@ -21,7 +21,6 @@
 
 namespace Test\Encryption;
 
-
 use OC\Encryption\EncryptionWrapper;
 use OC\Encryption\Manager;
 use OC\Memcache\ArrayCache;

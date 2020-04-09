@@ -24,6 +24,7 @@
  */
 
 namespace OC\Log;
+
 use OCP\Log\RotationTrait;
 
 /**

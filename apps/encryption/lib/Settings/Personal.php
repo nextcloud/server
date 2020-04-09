@@ -23,7 +23,6 @@
 
 namespace OCA\Encryption\Settings;
 
-
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
 use OCP\AppFramework\Http\TemplateResponse;

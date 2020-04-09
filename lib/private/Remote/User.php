@@ -23,7 +23,6 @@
 
 namespace OC\Remote;
 
-
 use OCP\Remote\IUser;
 
 class User implements IUser {

@@ -8,7 +8,6 @@
 
 namespace Test\Files\Cache;
 
-
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use OC\Files\Cache\Cache;
 use OC\Files\Search\SearchComparison;

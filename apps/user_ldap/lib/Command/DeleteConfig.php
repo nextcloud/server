@@ -25,7 +25,6 @@
 
 namespace OCA\User_LDAP\Command;
 
-
 use OCA\User_LDAP\Helper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

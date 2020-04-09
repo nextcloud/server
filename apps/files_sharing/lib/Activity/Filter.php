@@ -23,7 +23,6 @@
 
 namespace OCA\Files_Sharing\Activity;
 
-
 use OCP\Activity\IFilter;
 use OCP\IL10N;
 use OCP\IURLGenerator;

@@ -24,6 +24,7 @@
  */
 
 namespace OCP\BackgroundJob;
+
 use OCP\ILogger;
 
 /**

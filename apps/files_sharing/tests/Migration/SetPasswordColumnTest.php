@@ -23,7 +23,6 @@
 
 namespace OCA\Files_Sharing\Tests\Migration;
 
-
 use OCA\Files_Sharing\Migration\SetPasswordColumn;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\IConfig;

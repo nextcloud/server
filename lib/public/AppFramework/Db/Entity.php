@@ -25,7 +25,6 @@
 
 namespace OCP\AppFramework\Db;
 
-
 use function lcfirst;
 use function substr;
 

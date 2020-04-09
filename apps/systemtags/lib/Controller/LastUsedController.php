@@ -23,7 +23,6 @@
 
 namespace OCA\SystemTags\Controller;
 
-
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IConfig;

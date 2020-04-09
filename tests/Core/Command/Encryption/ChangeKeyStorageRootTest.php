@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Encryption;
 
-
 use OC\Core\Command\Encryption\ChangeKeyStorageRoot;
 use OC\Encryption\Util;
 use OC\Files\View;

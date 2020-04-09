@@ -25,7 +25,6 @@
 
 namespace OCP\AppFramework\Http;
 
-
 /**
  * Prompts the user to download the a file
  * @since 7.0.0

@@ -30,7 +30,6 @@
 
 namespace OCA\ShareByMail\Tests;
 
-
 use OC\CapabilitiesManager;
 use OC\Mail\Message;
 use OCA\ShareByMail\Settings\SettingsManager;

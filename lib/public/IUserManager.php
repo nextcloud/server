@@ -30,7 +30,6 @@
 
 namespace OCP;
 
-
 /**
  * Class Manager
  *

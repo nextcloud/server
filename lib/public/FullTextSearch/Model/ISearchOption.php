@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OCP\FullTextSearch\Model;
 
-
 /**
  * @since 16.0.0
  *

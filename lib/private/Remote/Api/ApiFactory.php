@@ -23,7 +23,6 @@
 
 namespace OC\Remote\Api;
 
-
 use OCP\Http\Client\IClientService;
 use OCP\Remote\Api\IApiFactory;
 use OCP\Remote\ICredentials;

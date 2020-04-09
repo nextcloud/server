@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OC\Files\ObjectStore;
 
-
 use OpenStack\Identity\v2\Service;
 
 class SwiftV2CachingAuthService extends Service {

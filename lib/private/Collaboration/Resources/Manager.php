@@ -28,7 +28,6 @@ declare(strict_types=1);
 
 namespace OC\Collaboration\Resources;
 
-
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\Collaboration\Resources\CollectionException;
 use OCP\Collaboration\Resources\ICollection;

@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Encryption;
 
-
 use OC\Core\Command\Encryption\Disable;
 use OCP\IConfig;
 use Symfony\Component\Console\Input\InputInterface;
