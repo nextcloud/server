@@ -21,7 +21,6 @@
 
 namespace Test\Files\ObjectStore;
 
-
 use OC\Files\ObjectStore\Mapper;
 use OCP\IUser;
 

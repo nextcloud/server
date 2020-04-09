@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_Trashbin\Sabre;
 
-
 class TrashFolder extends AbstractTrashFolder {
 	public function getName(): string {
 		return $this->data->getName() . '.d' . $this->getLastModified();

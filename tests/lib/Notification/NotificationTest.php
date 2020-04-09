@@ -22,7 +22,6 @@ declare (strict_types = 1);
 
 namespace Test\Notification;
 
-
 use OC\Notification\Notification;
 use OCP\Notification\IAction;
 use OCP\Notification\INotification;

@@ -24,7 +24,6 @@
 
 namespace OCA\DAV\Tests\unit\Upload;
 
-
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\FutureFile;

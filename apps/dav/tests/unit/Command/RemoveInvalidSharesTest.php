@@ -22,7 +22,6 @@
 
 namespace OCA\DAV\Tests\Unit\Command;
 
-
 use OCA\DAV\Command\RemoveInvalidShares;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\Migration\IOutput;

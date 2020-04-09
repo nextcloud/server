@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_Trashbin\Sabre;
 
-
 class TrashFolderFile extends AbstractTrashFile {
 	public function get() {
 		return $this->data->getStorage()->fopen($this->data->getInternalPath(), 'rb');

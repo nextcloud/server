@@ -22,7 +22,6 @@
 
 namespace OCA\Encryption\Hooks\Contracts;
 
-
 interface IHook {
 	/**
 	 * Connects Hooks

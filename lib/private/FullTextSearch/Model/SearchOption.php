@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OC\FullTextSearch\Model;
 
-
 use JsonSerializable;
 use OCP\FullTextSearch\Model\ISearchOption;
 

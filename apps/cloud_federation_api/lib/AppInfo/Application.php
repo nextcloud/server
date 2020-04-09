@@ -23,7 +23,6 @@
 
 namespace OCA\CloudFederationAPI\AppInfo;
 
-
 use OCA\CloudFederationAPI\Capabilities;
 use OCP\AppFramework\App;
 

@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OCP\DirectEditing;
 
-
 use OCP\AppFramework\Http\Response;
 
 /**

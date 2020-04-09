@@ -27,7 +27,6 @@
 
 namespace OCA\Encryption\Tests\Controller;
 
-
 use OCA\Encryption\Controller\StatusController;
 use OCA\Encryption\Session;
 use OCP\Encryption\IManager;

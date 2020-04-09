@@ -25,6 +25,7 @@
  */
 
 namespace OC\DB;
+
 use OCP\IConfig;
 
 /**

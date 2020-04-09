@@ -24,7 +24,6 @@
 
 namespace OC\Core\Command\Db\Migrations;
 
-
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\MDB2SchemaReader;
 use OC\DB\MigrationService;

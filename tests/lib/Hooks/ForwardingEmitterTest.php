@@ -7,6 +7,7 @@
  */
 
 namespace Test\Hooks;
+
 use OC\Hooks\PublicEmitter;
 
 class DummyForwardingEmitter extends \OC\Hooks\ForwardingEmitter {

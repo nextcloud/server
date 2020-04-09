@@ -25,7 +25,6 @@
 
 namespace OCA\User_LDAP\Notification;
 
-
 use OCP\L10N\IFactory;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;

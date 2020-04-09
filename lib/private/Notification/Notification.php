@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OC\Notification;
 
-
 use OCP\Notification\IAction;
 use OCP\Notification\INotification;
 use OCP\RichObjectStrings\InvalidObjectExeption;

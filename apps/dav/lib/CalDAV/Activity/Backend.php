@@ -25,7 +25,6 @@
 
 namespace OCA\DAV\CalDAV\Activity;
 
-
 use OCA\DAV\CalDAV\Activity\Provider\Calendar;
 use OCA\DAV\CalDAV\Activity\Provider\Event;
 use OCA\DAV\CalDAV\CalDavBackend;

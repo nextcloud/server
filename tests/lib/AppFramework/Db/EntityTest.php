@@ -23,7 +23,6 @@
 
 namespace Test\AppFramework\Db;
 
-
 use OCP\AppFramework\Db\Entity;
 use PHPUnit\Framework\Constraint\IsType;
 

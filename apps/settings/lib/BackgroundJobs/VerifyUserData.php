@@ -29,7 +29,6 @@
 
 namespace OCA\Settings\BackgroundJobs;
 
-
 use OC\Accounts\AccountManager;
 use OC\BackgroundJob\Job;
 use OC\BackgroundJob\JobList;

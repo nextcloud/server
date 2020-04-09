@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OCA\Provisioning_API\Controller;
 
-
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCSController;

@@ -8,7 +8,6 @@
 
 namespace Test\Archive;
 
-
 abstract class TestBase extends \Test\TestCase {
 	/**
 	 * @var \OC\Archive\Archive

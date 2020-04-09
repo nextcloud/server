@@ -21,6 +21,7 @@
  */
 
 namespace Test;
+
 use OCP\IUser;
 use OCP\IUserSession;
 

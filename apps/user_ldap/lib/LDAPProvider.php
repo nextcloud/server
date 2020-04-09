@@ -28,7 +28,6 @@
 
 namespace OCA\User_LDAP;
 
-
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IServerContainer;
 use OCP\LDAP\IDeletionFlagSupport;

@@ -26,7 +26,6 @@
 
 namespace OCA\FederatedFileSharing\Settings;
 
-
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;

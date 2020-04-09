@@ -27,7 +27,6 @@
 
 namespace OCA\Theming\Tests\Controller;
 
-
 use OC\Files\SimpleFS\SimpleFile;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
 use OCA\Theming\Controller\IconController;

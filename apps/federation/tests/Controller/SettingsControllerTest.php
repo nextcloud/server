@@ -23,7 +23,6 @@
 
 namespace OCA\Federation\Tests\Controller;
 
-
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http\DataResponse;

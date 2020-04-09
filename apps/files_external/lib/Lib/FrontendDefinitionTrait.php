@@ -24,7 +24,6 @@
 
 namespace OCA\Files_External\Lib;
 
-
 /**
  * Trait for objects that have a frontend representation
  */

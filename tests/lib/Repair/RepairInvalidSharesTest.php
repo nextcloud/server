@@ -8,7 +8,6 @@
 
 namespace Test\Repair;
 
-
 use OC\Repair\RepairInvalidShares;
 use OC\Share\Constants;
 use OCP\IConfig;

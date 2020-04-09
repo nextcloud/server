@@ -23,7 +23,6 @@
 
 namespace OCA\Files_Sharing\Collaboration;
 
-
 use OCP\Collaboration\AutoComplete\ISorter;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;

@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OCP\AppFramework\Http;
 
-
 /**
  * Redirects to the default app
  * @since 16.0.0

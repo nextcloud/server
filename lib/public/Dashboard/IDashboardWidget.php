@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OCP\Dashboard;
 
-
 use OCP\Dashboard\Model\IWidgetConfig;
 use OCP\Dashboard\Model\IWidgetRequest;
 use OCP\Dashboard\Model\WidgetSetup;

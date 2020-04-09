@@ -24,7 +24,6 @@
 
 namespace OCA\User_LDAP;
 
-
 interface ILDAPUserPlugin {
 
 	/**

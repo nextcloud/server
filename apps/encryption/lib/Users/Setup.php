@@ -25,7 +25,6 @@
 
 namespace OCA\Encryption\Users;
 
-
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
 use OCP\ILogger;

@@ -24,7 +24,6 @@
 
 namespace OCA\FederatedFileSharing\Tests;
 
-
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Notifications;
 use OCP\BackgroundJob\IJobList;

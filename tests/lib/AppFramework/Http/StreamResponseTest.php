@@ -23,7 +23,6 @@
 
 namespace Test\AppFramework\Http;
 
-
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\Http\StreamResponse;

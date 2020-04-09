@@ -27,7 +27,6 @@
 
 namespace OC\Collaboration\Collaborators;
 
-
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;

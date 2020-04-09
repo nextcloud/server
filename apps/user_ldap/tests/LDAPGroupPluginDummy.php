@@ -23,7 +23,6 @@
 
 namespace OCA\User_LDAP\Tests;
 
-
 use OCA\User_LDAP\ILDAPGroupPlugin;
 
 class LDAPGroupPluginDummy implements ILDAPGroupPlugin {

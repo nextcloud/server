@@ -23,7 +23,6 @@
 
 namespace OCA\Files_Sharing\Activity\Settings;
 
-
 use OCP\Activity\ISetting;
 use OCP\IL10N;
 

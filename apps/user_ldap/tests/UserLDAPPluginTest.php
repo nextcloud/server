@@ -24,7 +24,6 @@
 
 namespace OCA\User_LDAP\Tests;
 
-
 use OC\User\Backend;
 use OCA\User_LDAP\UserPluginManager;
 

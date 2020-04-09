@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OC;
 
-
 use OC\AppFramework\App;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Utility\SimpleContainer;

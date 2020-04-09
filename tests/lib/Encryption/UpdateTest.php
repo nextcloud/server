@@ -21,7 +21,6 @@
 
 namespace Test\Encryption;
 
-
 use OC\Encryption\Update;
 use OC\Files\Mount\Manager;
 use OC\Files\View;

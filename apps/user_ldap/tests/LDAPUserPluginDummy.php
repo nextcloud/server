@@ -23,7 +23,6 @@
 
 namespace OCA\User_LDAP\Tests;
 
-
 use OCA\User_LDAP\ILDAPUserPlugin;
 
 class LDAPUserPluginDummy implements ILDAPUserPlugin {

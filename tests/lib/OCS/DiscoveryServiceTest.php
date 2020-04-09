@@ -21,7 +21,6 @@
 
 namespace Test\OCS;
 
-
 use OC\OCS\DiscoveryService;
 use OCP\Http\Client\IClientService;
 use OCP\ICacheFactory;

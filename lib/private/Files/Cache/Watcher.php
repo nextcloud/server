@@ -26,6 +26,7 @@
  */
 
 namespace OC\Files\Cache;
+
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IWatcher;
 

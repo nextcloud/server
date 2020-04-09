@@ -23,7 +23,6 @@
 
 namespace OCA\DAV\CalDAV\Activity\Setting;
 
-
 use OCP\Activity\ISetting;
 use OCP\IL10N;
 

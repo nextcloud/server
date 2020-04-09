@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace Test\Notification;
 
-
 use OCP\Notification\AlreadyProcessedException;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;

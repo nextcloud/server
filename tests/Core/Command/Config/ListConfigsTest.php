@@ -21,7 +21,6 @@
 
 namespace Tests\Core\Command\Config;
 
-
 use OC\Core\Command\Config\ListConfigs;
 use OC\SystemConfig;
 use OCP\IAppConfig;

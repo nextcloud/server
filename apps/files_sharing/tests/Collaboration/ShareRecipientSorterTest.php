@@ -24,7 +24,6 @@
 
 namespace OCA\Files_Sharing\Tests\Collaboration;
 
-
 use OCA\Files_Sharing\Collaboration\ShareRecipientSorter;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;

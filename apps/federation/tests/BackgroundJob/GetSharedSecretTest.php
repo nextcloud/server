@@ -26,7 +26,6 @@
 
 namespace OCA\Federation\Tests\BackgroundJob;
 
-
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Ring\Exception\RingException;
 use OCA\Federation\BackgroundJob\GetSharedSecret;

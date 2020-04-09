@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine\Check;
 
-
 use OCA\WorkflowEngine\Entity\File;
 use OCP\IL10N;
 use OCP\IRequest;

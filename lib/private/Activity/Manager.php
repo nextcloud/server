@@ -28,7 +28,6 @@
 
 namespace OC\Activity;
 
-
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IFilter;

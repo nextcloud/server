@@ -7,6 +7,7 @@
  */
 
 namespace Test;
+
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IRequest;

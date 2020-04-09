@@ -23,7 +23,6 @@
 
 namespace OC\DirectEditing;
 
-
 use OCP\DirectEditing\IToken;
 use OCP\Files\File;
 

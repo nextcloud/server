@@ -22,6 +22,7 @@
  */
 
 namespace OCA\CloudFederationAPI;
+
 use OCP\Federation\ICloudFederationProviderManager;
 
 /**

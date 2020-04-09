@@ -23,7 +23,6 @@
 
 namespace OCA\Comments\Collaboration;
 
-
 use OCP\Collaboration\AutoComplete\ISorter;
 use OCP\Comments\ICommentsManager;
 

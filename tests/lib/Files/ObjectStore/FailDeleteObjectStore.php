@@ -21,7 +21,6 @@
 
 namespace Test\Files\ObjectStore;
 
-
 use OCP\Files\ObjectStore\IObjectStore;
 
 class FailDeleteObjectStore implements IObjectStore {

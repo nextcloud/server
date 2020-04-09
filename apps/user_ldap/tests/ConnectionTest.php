@@ -29,6 +29,7 @@
  */
 
 namespace OCA\User_LDAP\Tests;
+
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\ILDAPWrapper;
 

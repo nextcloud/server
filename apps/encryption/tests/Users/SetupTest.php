@@ -26,7 +26,6 @@
 
 namespace OCA\Encryption\Tests\Users;
 
-
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;

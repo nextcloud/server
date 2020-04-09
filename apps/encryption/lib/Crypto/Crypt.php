@@ -29,7 +29,6 @@
 
 namespace OCA\Encryption\Crypto;
 
-
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\EncryptionFailedException;
 use OCA\Encryption\Exceptions\MultiKeyDecryptException;

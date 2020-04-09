@@ -47,6 +47,7 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 
 namespace OCP;
+
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Log\ILogFactory;

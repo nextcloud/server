@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine\Tests;
 
-
 use OC\L10N\L10N;
 use OCA\WorkflowEngine\Entity\File;
 use OCA\WorkflowEngine\Helper\ScopeContext;

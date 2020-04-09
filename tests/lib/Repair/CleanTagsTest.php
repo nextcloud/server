@@ -7,6 +7,7 @@
  */
 
 namespace Test\Repair;
+
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;

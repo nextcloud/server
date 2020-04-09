@@ -21,7 +21,6 @@
 
 namespace Test\PublicNamespace;
 
-
 class UtilTest extends \Test\TestCase {
 	 /**
 	  * @dataProvider channelProvider

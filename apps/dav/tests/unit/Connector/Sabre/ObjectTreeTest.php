@@ -28,7 +28,6 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
-
 use OC\Files\FileInfo;
 use OC\Files\Filesystem;
 use OC\Files\Mount\Manager;

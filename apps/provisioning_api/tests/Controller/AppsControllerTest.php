@@ -28,7 +28,6 @@
 
 namespace OCA\Provisioning_API\Tests\Controller;
 
-
 use OCA\Provisioning_API\Controller\AppsController;
 use OCP\App\IAppManager;
 use OCP\IRequest;

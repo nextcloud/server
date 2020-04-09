@@ -28,7 +28,6 @@
 
 namespace OCP;
 
-
 /**
  * Interface IUser
  *

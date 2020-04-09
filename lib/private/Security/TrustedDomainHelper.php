@@ -26,6 +26,7 @@
  */
 
 namespace OC\Security;
+
 use OC\AppFramework\Http\Request;
 use OCP\IConfig;
 

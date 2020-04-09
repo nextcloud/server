@@ -8,6 +8,7 @@
  */
 
 namespace Test\User;
+
 use OC\AllConfig;
 use OC\User\Database;
 use OC\User\Manager;

@@ -21,7 +21,6 @@
 
 namespace Test\RichObjectStrings;
 
-
 use OCP\RichObjectStrings\Definitions;
 use Test\TestCase;
 

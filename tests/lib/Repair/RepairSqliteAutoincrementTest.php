@@ -7,6 +7,7 @@
  */
 
 namespace Test\Repair;
+
 use OCP\Migration\IOutput;
 
 /**

@@ -27,7 +27,6 @@ declare(strict_types=1);
 
 namespace OC\Collaboration\Resources;
 
-
 use OCP\Collaboration\Resources\ICollection;
 use OCP\Collaboration\Resources\IManager;
 use OCP\Collaboration\Resources\IResource;

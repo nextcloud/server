@@ -23,6 +23,7 @@
  */
 
 namespace Test\Log;
+
 use OC\Log\Errorlog;
 use OC\Log\File;
 use OC\Log\LogFactory;

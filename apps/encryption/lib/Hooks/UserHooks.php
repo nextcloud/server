@@ -28,7 +28,6 @@
 
 namespace OCA\Encryption\Hooks;
 
-
 use OC\Files\Filesystem;
 use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Hooks\Contracts\IHook;

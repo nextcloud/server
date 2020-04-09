@@ -26,6 +26,7 @@
  */
 
 namespace OC\Files\ObjectStore;
+
 use OC\Files\Cache\Scanner;
 use OC\Files\Storage\Storage;
 

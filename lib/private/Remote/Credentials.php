@@ -23,7 +23,6 @@
 
 namespace OC\Remote;
 
-
 use OCP\Remote\ICredentials;
 
 class Credentials implements ICredentials {

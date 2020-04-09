@@ -26,7 +26,6 @@
 
 namespace OCA\Federation\Tests\Middleware;
 
-
 use OC\HintException;
 use OCA\Federation\Controller\SettingsController;
 use OCA\Federation\Middleware\AddServerMiddleware;

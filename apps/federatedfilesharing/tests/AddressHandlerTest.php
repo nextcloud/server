@@ -27,7 +27,6 @@
 
 namespace OCA\FederatedFileSharing\Tests;
 
-
 use OC\Federation\CloudIdManager;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCP\IL10N;

@@ -23,7 +23,6 @@
 
 namespace Test\AppFramework\Utility;
 
-
 use OC\AppFramework\Utility\ControllerMethodReflector;
 
 class BaseController {

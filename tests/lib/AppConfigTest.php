@@ -8,6 +8,7 @@
  */
 
 namespace Test;
+
 use OCP\IConfig;
 
 /**

@@ -33,7 +33,6 @@
 
 namespace OCP\AppFramework\Http;
 
-
 /**
  * Response for a normal template
  * @since 6.0.0

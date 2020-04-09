@@ -21,7 +21,6 @@
 
 namespace Test;
 
-
 /**
  * Class InfoXmlTest
  *

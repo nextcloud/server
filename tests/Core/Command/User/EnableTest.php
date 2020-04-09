@@ -23,7 +23,6 @@
 
 namespace Tests\Core\Command\User;
 
-
 use OC\Core\Command\User\Enable;
 use OCP\IUser;
 use OCP\IUserManager;

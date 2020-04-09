@@ -26,7 +26,6 @@
 
 namespace OCA\DAV\Tests\unit\SystemTag;
 
-
 use OC\SystemTag\SystemTag;
 use OCP\IUser;
 use OCP\SystemTag\ISystemTagManager;

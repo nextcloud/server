@@ -21,7 +21,6 @@
 
 namespace OCA\WorkflowEngine\Check;
 
-
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IL10N;
 use OCP\WorkflowEngine\ICheck;
