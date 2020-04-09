@@ -306,7 +306,7 @@ class Tags implements ITags {
 		}
 
 		if(!is_null($result)) {
-			while( $row = $result->fetchRow()) {
+			while($row = $result->fetchRow()) {
 				$id = (int)$row['objid'];
 
 				if ($this->includeShared) {
@@ -452,7 +452,7 @@ class Tags implements ITags {
 			if(!$this->hasTag($name) && $name !== '') {
 				$newones[] = new Tag($this->user, $this->type, $name);
 			}
-			if(!is_null($id) ) {
+			if(!is_null($id)) {
 				// Insert $objectid, $categoryid  pairs if not exist.
 				self::$relations[] = ['objid' => $id, 'tag' => $name];
 			}
@@ -550,7 +550,7 @@ class Tags implements ITags {
 			try {
 				$stmt = \OC_DB::prepare('DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `categoryid` = ?');
-				while( $row = $result->fetchRow()) {
+				while($row = $result->fetchRow()) {
 					try {
 						$stmt->execute([$row['id']]);
 					} catch(\Exception $e) {

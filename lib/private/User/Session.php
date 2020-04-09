@@ -459,7 +459,7 @@ class Session implements IUserSession, Emitter {
 		}
 
 		// Try to login with this username and password
-		if (!$this->login($user, $password) ) {
+		if (!$this->login($user, $password)) {
 
 			// Failed, maybe the user used their email address
 			$users = $this->manager->getByEmail($user);

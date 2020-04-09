@@ -504,11 +504,11 @@ trait Sharing {
 			$fd = $body->getRowsHash();
 
 			foreach($fd as $field => $value) {
-				if (substr($field, 0, 10 ) === "share_with"){
+				if (substr($field, 0, 10) === "share_with"){
 					$value = str_replace("REMOTE", substr($this->remoteBaseUrl, 0, -5), $value);
 					$value = str_replace("LOCAL", substr($this->localBaseUrl, 0, -5), $value);
 				}
-				if (substr($field, 0, 6 ) === "remote"){
+				if (substr($field, 0, 6) === "remote"){
 					$value = str_replace("REMOTE", substr($this->remoteBaseUrl, 0, -4), $value);
 					$value = str_replace("LOCAL", substr($this->localBaseUrl, 0, -4), $value);
 				}

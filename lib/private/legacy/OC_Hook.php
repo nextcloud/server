@@ -54,12 +54,12 @@ class OC_Hook {
 	static public function connect($signalClass, $signalName, $slotClass, $slotName) {
 		// If we're trying to connect to an emitting class that isn't
 		// yet registered, register it
-		if( !array_key_exists($signalClass, self::$registered )) {
+		if(!array_key_exists($signalClass, self::$registered)) {
 			self::$registered[$signalClass] = [];
 		}
 		// If we're trying to connect to an emitting method that isn't
 		// yet registered, register it with the emitting class
-		if( !array_key_exists( $signalName, self::$registered[$signalClass] )) {
+		if(!array_key_exists($signalName, self::$registered[$signalClass])) {
 			self::$registered[$signalClass][$signalName] = [];
 		}
 
@@ -95,20 +95,20 @@ class OC_Hook {
 
 		// Return false if no hook handlers are listening to this
 		// emitting class
-		if( !array_key_exists($signalClass, self::$registered )) {
+		if(!array_key_exists($signalClass, self::$registered)) {
 			return false;
 		}
 
 		// Return false if no hook handlers are listening to this
 		// emitting method
-		if( !array_key_exists( $signalName, self::$registered[$signalClass] )) {
+		if(!array_key_exists($signalName, self::$registered[$signalClass])) {
 			return false;
 		}
 
 		// Call all slots
-		foreach( self::$registered[$signalClass][$signalName] as $i ) {
+		foreach(self::$registered[$signalClass][$signalName] as $i) {
 			try {
-				call_user_func( [ $i["class"], $i["name"] ], $params );
+				call_user_func([ $i["class"], $i["name"] ], $params);
 			} catch (Exception $e){
 				self::$thrownExceptions[] = $e;
 				\OC::$server->getLogger()->logException($e);

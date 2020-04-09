@@ -126,14 +126,14 @@ class OC_DB {
 		}
 		if (is_array($stmt)) {
 			// convert to prepared statement
-			if ( ! array_key_exists('sql', $stmt) ) {
+			if (! array_key_exists('sql', $stmt)) {
 				$message = 'statement array must at least contain key \'sql\'';
 				throw new \OC\DatabaseException($message);
 			}
-			if ( ! array_key_exists('limit', $stmt) ) {
+			if (! array_key_exists('limit', $stmt)) {
 				$stmt['limit'] = null;
 			}
-			if ( ! array_key_exists('limit', $stmt) ) {
+			if (! array_key_exists('limit', $stmt)) {
 				$stmt['offset'] = null;
 			}
 			$stmt = self::prepare($stmt['sql'], $stmt['limit'], $stmt['offset']);

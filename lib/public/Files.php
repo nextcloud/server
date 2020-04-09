@@ -55,7 +55,7 @@ class Files {
 	 * @deprecated 14.0.0
 	 */
 	static public function rmdirr($dir) {
-		return \OC_Helper::rmdirr( $dir );
+		return \OC_Helper::rmdirr($dir);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class Files {
 	 * @deprecated 14.0.0
 	 */
 	public static function streamCopy($source, $target) {
-		list($count, ) = \OC_Helper::streamCopy( $source, $target );
+		list($count, ) = \OC_Helper::streamCopy($source, $target);
 		return $count;
 	}
 
@@ -115,6 +115,6 @@ class Files {
 	 * @deprecated 14.0.0 use IAppData instead
 	 */
 	public static function getStorage($app) {
-		return \OC_App::getStorage( $app );
+		return \OC_App::getStorage($app);
 	}
 }

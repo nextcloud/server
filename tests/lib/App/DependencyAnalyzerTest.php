@@ -32,24 +32,24 @@ class DependencyAnalyzerTest extends TestCase {
 			->getMock();
 		$this->platformMock->expects($this->any())
 			->method('getPhpVersion')
-			->willReturn( '5.4.3');
+			->willReturn('5.4.3');
 		$this->platformMock->expects($this->any())
 			->method('getIntSize')
-			->willReturn( '4');
+			->willReturn('4');
 		$this->platformMock->expects($this->any())
 			->method('getDatabase')
-			->willReturn( 'mysql');
+			->willReturn('mysql');
 		$this->platformMock->expects($this->any())
 			->method('getOS')
-			->willReturn( 'Linux');
+			->willReturn('Linux');
 		$this->platformMock->expects($this->any())
 			->method('isCommandKnown')
-			->willReturnCallback( function ($command) {
+			->willReturnCallback(function ($command) {
 				return ($command === 'grep');
 			});
 		$this->platformMock->expects($this->any())
 			->method('getLibraryVersion')
-			->willReturnCallback( function ($lib) {
+			->willReturnCallback(function ($lib) {
 				if ($lib === 'curl') {
 					return "2.3.4";
 				}
@@ -57,7 +57,7 @@ class DependencyAnalyzerTest extends TestCase {
 			});
 		$this->platformMock->expects($this->any())
 			->method('getOcVersion')
-			->willReturn( '8.0.2');
+			->willReturn('8.0.2');
 
 		$this->l10nMock = $this->getMockBuilder(IL10N::class)
 			->disableOriginalConstructor()

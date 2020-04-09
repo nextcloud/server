@@ -854,7 +854,7 @@ class Share extends Constants {
 			}
 			// Add display names to result
 			$row['share_with_displayname'] = $row['share_with'];
-			if ( isset($row['share_with']) && $row['share_with'] != '' &&
+			if (isset($row['share_with']) && $row['share_with'] != '' &&
 				$row['share_type'] === self::SHARE_TYPE_USER) {
 				$shareWithUser = \OC::$server->getUserManager()->get($row['share_with']);
 				$row['share_with_displayname'] = $shareWithUser === null ? $row['share_with'] : $shareWithUser->getDisplayName();
@@ -869,7 +869,7 @@ class Share extends Constants {
 					}
 				}
 			}
-			if ( isset($row['uid_owner']) && $row['uid_owner'] != '') {
+			if (isset($row['uid_owner']) && $row['uid_owner'] != '') {
 				$ownerUser = \OC::$server->getUserManager()->get($row['uid_owner']);
 				$row['displayname_owner'] = $ownerUser === null ? $row['uid_owner'] : $ownerUser->getDisplayName();
 			}
@@ -1018,7 +1018,7 @@ class Share extends Constants {
 				// for file/folder shares we need to compare file_source, otherwise we compare item_source
 				// only group shares if they already point to the same target, otherwise the file where shared
 				// before grouping of shares was added. In this case we don't group them toi avoid confusions
-				if (( $fileSharing && $item['file_source'] === $r['file_source'] && $item['file_target'] === $r['file_target']) ||
+				if (($fileSharing && $item['file_source'] === $r['file_source'] && $item['file_target'] === $r['file_target']) ||
 					(!$fileSharing && $item['item_source'] === $r['item_source'] && $item['item_target'] === $r['item_target'])) {
 					// add the first item to the list of grouped shares
 					if (!isset($result[$key]['grouped'])) {

@@ -194,7 +194,7 @@ class Database extends ABackend
 		$this->fixDI();
 
 		// No duplicate entries!
-		if( !$this->inGroup( $uid, $gid )) {
+		if(!$this->inGroup($uid, $gid)) {
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->insert('group_user')
 				->setValue('uid', $qb->createNamedParameter($uid))
@@ -250,7 +250,7 @@ class Database extends ABackend
 			->execute();
 
 		$groups = [];
-		while( $row = $cursor->fetch()) {
+		while($row = $cursor->fetch()) {
 			$groups[] = $row['gid'];
 			$this->groupCache[$row['gid']] = $row['gid'];
 		}

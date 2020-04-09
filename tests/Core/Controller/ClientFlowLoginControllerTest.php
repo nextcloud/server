@@ -407,7 +407,7 @@ class ClientFlowLoginControllerTest extends TestCase {
 	 * ["https://example.com/redirect.php?hello=world", "https://example.com/redirect.php?hello=world&state=MyOauthState&code=MyAccessCode"]
 	 *
 	 */
-	public function testGeneratePasswordWithPasswordForOauthClient($redirectUri, $redirectUrl) {		
+	public function testGeneratePasswordWithPasswordForOauthClient($redirectUri, $redirectUrl) {
 		$this->session
 			->expects($this->at(0))
 			->method('get')

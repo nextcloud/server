@@ -90,7 +90,7 @@ class AppSettingsContext implements Context, ActorAwareInterface {
 		}
 
 		$this->actor->find($locator)->click();
-	}	
+	}
 
 	/**
 	 * @Then I see that the settings are opened

@@ -526,10 +526,10 @@ class Factory implements IFactory {
 			return $this->pluralFunctions[$string];
 		}
 
-		if (preg_match( '/^\s*nplurals\s*=\s*(\d+)\s*;\s*plural=(.*)$/u', $string, $matches)) {
+		if (preg_match('/^\s*nplurals\s*=\s*(\d+)\s*;\s*plural=(.*)$/u', $string, $matches)) {
 			// sanitize
-			$nplurals = preg_replace( '/[^0-9]/', '', $matches[1] );
-			$plural = preg_replace( '#[^n0-9:\(\)\?\|\&=!<>+*/\%-]#', '', $matches[2] );
+			$nplurals = preg_replace('/[^0-9]/', '', $matches[1]);
+			$plural = preg_replace('#[^n0-9:\(\)\?\|\&=!<>+*/\%-]#', '', $matches[2]);
 
 			$body = str_replace(
 				[ 'plural', 'n', '$n$plurals', ],
@@ -545,7 +545,7 @@ class Factory implements IFactory {
 			$length = strlen($body);
 			for($i = 0; $i < $length; $i++) {
 				$ch = $body[$i];
-				switch ( $ch ) {
+				switch ($ch) {
 					case '?':
 						$res .= ' ? (';
 						$p++;
@@ -554,7 +554,7 @@ class Factory implements IFactory {
 						$res .= ') : (';
 						break;
 					case ';':
-						$res .= str_repeat( ')', $p ) . ';';
+						$res .= str_repeat(')', $p) . ';';
 						$p = 0;
 						break;
 					default:
@@ -627,7 +627,7 @@ class Factory implements IFactory {
 		ksort($commonLanguages);
 
 		// sort now by displayed language not the iso-code
-		usort( $languages, function ($a, $b) {
+		usort($languages, function ($a, $b) {
 			if ($a['code'] === $a['name'] && $b['code'] !== $b['name']) {
 				// If a doesn't have a name, but b does, list b before a
 				return 1;

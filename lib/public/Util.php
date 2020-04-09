@@ -171,7 +171,7 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function addStyle($application, $file = null) {
-		\OC_Util::addStyle( $application, $file );
+		\OC_Util::addStyle($application, $file);
 	}
 
 	/**
@@ -181,7 +181,7 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function addScript($application, $file = null) {
-		\OC_Util::addScript( $application, $file );
+		\OC_Util::addScript($application, $file);
 	}
 
 	/**

@@ -234,7 +234,7 @@ With help from many libraries and frameworks including:
 				array_shift($lines);
 				continue;
 			}
-			if (strpos($line, '*/') !== false ) {
+			if (strpos($line, '*/') !== false) {
 				array_shift($lines);
 				break;
 			}

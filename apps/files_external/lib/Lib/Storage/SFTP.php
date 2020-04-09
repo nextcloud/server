@@ -371,7 +371,7 @@ class SFTP extends \OC\Files\Storage\Common {
 			switch($mode) {
 				case 'r':
 				case 'rb':
-					if ( !$this->file_exists($path)) {
+					if (!$this->file_exists($path)) {
 						return false;
 					}
 					SFTPReadStream::register();

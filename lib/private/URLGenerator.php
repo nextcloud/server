@@ -122,7 +122,7 @@ class URLGenerator implements IURLGenerator {
 	public function linkTo(string $app, string $file, array $args = []): string {
 		$frontControllerActive = ($this->config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true');
 
-		if( $app !== '' ) {
+		if($app !== '') {
 			$app_path = \OC_App::getAppPath($app);
 			// Check if the app is in the app folder
 			if ($app_path && file_exists($app_path . '/' . $file)) {

@@ -267,7 +267,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 					],
 				],
 			],
-			// mixed groups and users 
+			// mixed groups and users
 			[
 				['user1', 'user2'],
 				['group1', 'group2'],

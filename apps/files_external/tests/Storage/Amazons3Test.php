@@ -45,7 +45,7 @@ class Amazons3Test extends \Test\Files\Storage\Storage {
 		parent::setUp();
 
 		$this->config = include('files_external/tests/config.amazons3.php');
-		if ( ! is_array($this->config) or ! $this->config['run']) {
+		if (! is_array($this->config) or ! $this->config['run']) {
 			$this->markTestSkipped('AmazonS3 backend not configured');
 		}
 		$this->instance = new AmazonS3($this->config);

@@ -327,12 +327,12 @@ class User {
 		if ($path !== '') {
 			//if attribute's value is an absolute path take this, otherwise append it to data dir
 			//check for / at the beginning or pattern c:\ resp. c:/
-			if(   '/' !== $path[0]
+			if('/' !== $path[0]
 			   && !(3 < strlen($path) && ctype_alpha($path[0])
 				   && $path[1] === ':' && ('\\' === $path[2] || '/' === $path[2]))
 			) {
 				$path = $this->config->getSystemValue('datadirectory',
-						\OC::$SERVERROOT.'/data' ) . '/' . $path;
+						\OC::$SERVERROOT.'/data') . '/' . $path;
 			}
 			//we need it to store it in the DB as well in case a user gets
 			//deleted so we can clean up afterwards
@@ -342,7 +342,7 @@ class User {
 			return $path;
 		}
 
-		if(    !is_null($attr)
+		if(!is_null($attr)
 			&& $this->config->getAppValue('user_ldap', 'enforce_home_folder_naming_rule', true)
 		) {
 			// a naming rule attribute is defined, but it doesn't exist for that LDAP user

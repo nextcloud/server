@@ -285,7 +285,7 @@ abstract class Mapper {
 		$row2 = $stmt->fetch();
 		$stmt->closeCursor();
 		//MDB2 returns null, PDO and doctrine false when no row is available
-		if( ! ($row2 === false || $row2 === null )) {
+		if(! ($row2 === false || $row2 === null)) {
 			$msg = $this->buildDebugMessage(
 				'Did not expect more than one result when executing', $sql, $params, $limit, $offset
 			);

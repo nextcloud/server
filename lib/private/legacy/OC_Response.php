@@ -40,10 +40,10 @@ class OC_Response {
 				\OC\AppFramework\Http\Request::USER_AGENT_ANDROID_MOBILE_CHROME,
 				\OC\AppFramework\Http\Request::USER_AGENT_FREEBOX,
 			])) {
-			header( 'Content-Disposition: ' . rawurlencode($type) . '; filename="' . rawurlencode( $filename ) . '"' );
+			header('Content-Disposition: ' . rawurlencode($type) . '; filename="' . rawurlencode($filename) . '"');
 		} else {
-			header( 'Content-Disposition: ' . rawurlencode($type) . '; filename*=UTF-8\'\'' . rawurlencode( $filename )
-												 . '; filename="' . rawurlencode( $filename ) . '"' );
+			header('Content-Disposition: ' . rawurlencode($type) . '; filename*=UTF-8\'\'' . rawurlencode($filename)
+												 . '; filename="' . rawurlencode($filename) . '"');
 		}
 	}
 

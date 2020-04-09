@@ -65,7 +65,7 @@ class Base {
 	 */
 	protected function getAppTemplateDirs($theme, $app, $serverRoot, $app_dir) {
 		// Check if the app is in the app folder or in the root
-		if( file_exists($app_dir.'/templates/' )) {
+		if(file_exists($app_dir.'/templates/')) {
 			return [
 				$serverRoot.'/themes/'.$theme.'/apps/'.$app.'/templates/',
 				$app_dir.'/templates/',
@@ -115,7 +115,7 @@ class Base {
 	 * $_[$key][$position] in the template.
 	 */
 	public function append($key, $value) {
-		if( array_key_exists( $key, $this->vars )) {
+		if(array_key_exists($key, $this->vars)) {
 			$this->vars[$key][] = $value;
 		}
 		else{
@@ -131,7 +131,7 @@ class Base {
 	 */
 	public function printPage() {
 		$data = $this->fetchPage();
-		if( $data === false ) {
+		if($data === false) {
 			return false;
 		}
 		else{
@@ -168,7 +168,7 @@ class Base {
 		$theme = $this->theme;
 
 		if(!is_null($additionalParams)) {
-			$_ = array_merge( $additionalParams, $this->vars );
+			$_ = array_merge($additionalParams, $this->vars);
 			foreach ($_ as $var => $value) {
 				${$var} = $value;
 			}

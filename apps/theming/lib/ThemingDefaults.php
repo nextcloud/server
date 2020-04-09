@@ -198,7 +198,7 @@ class ThemingDefaults extends \OC_Defaults {
 				$divider = ' · ';
 			}
 		}
-		if($legalLinks !== '' ) {
+		if($legalLinks !== '') {
 			$footer .= '<br/>' . $legalLinks;
 		}
 
@@ -353,7 +353,7 @@ class ThemingDefaults extends \OC_Defaults {
 			} catch (AppPathNotFoundException $e) {}
 			$route = $this->urlGenerator->linkToRoute('theming.Theming.getManifest');
 		}
-		if (strpos($image, 'filetypes/') === 0 && file_exists(\OC::$SERVERROOT . '/core/img/' . $image )) {
+		if (strpos($image, 'filetypes/') === 0 && file_exists(\OC::$SERVERROOT . '/core/img/' . $image)) {
 			$route = $this->urlGenerator->linkToRoute('theming.Icon.getThemedIcon', ['app' => $app, 'image' => $image]);
 		}
 

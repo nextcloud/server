@@ -131,7 +131,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 
 	protected function checkWriteAccessOnComment() {
 		$user = $this->userSession->getUser();
-		if(    $this->comment->getActorType() !== 'users'
+		if($this->comment->getActorType() !== 'users'
 			|| is_null($user)
 			|| $this->comment->getActorId() !== $user->getUID()
 		) {

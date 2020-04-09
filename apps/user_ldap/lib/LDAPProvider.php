@@ -110,7 +110,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 		if(!$result){
 			throw new \Exception('Translation to LDAP DN unsuccessful');
 		}
-		return $result;	
+		return $result;
 	}
 
 	/**

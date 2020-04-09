@@ -249,7 +249,7 @@ class GroupsControllerTest extends \Test\TestCase {
 				'disabled' => 11,
 				'canAdd' => true,
 				'canRemove' => true
-			], 
+			],
 			[
 				'id' => 'group2',
 				'displayname' => 'group2-name',

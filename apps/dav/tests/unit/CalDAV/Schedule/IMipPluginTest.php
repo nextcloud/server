@@ -192,7 +192,7 @@ class IMipPluginTest extends TestCase {
 			->with('dav', 'invitation_link_recipients', 'yes')
 			->willReturn('yes');
 
-		$message = $this->_testMessage( $veventParams );
+		$message = $this->_testMessage($veventParams);
 
 		$this->_expectSend('frodo@hobb.it', $expectsMail, $expectsMail);
 
@@ -274,8 +274,8 @@ class IMipPluginTest extends TestCase {
 			'SUMMARY' => 'Fellowship meeting',
 			'DTSTART' => new \DateTime('2018-01-01 00:00:00')
 		], $attrs));
-		$message->message->VEVENT->add( 'ORGANIZER', 'mailto:gandalf@wiz.ard' );
-		$message->message->VEVENT->add( 'ATTENDEE', 'mailto:'.$recipient, [ 'RSVP' => 'TRUE' ] );
+		$message->message->VEVENT->add('ORGANIZER', 'mailto:gandalf@wiz.ard');
+		$message->message->VEVENT->add('ATTENDEE', 'mailto:'.$recipient, [ 'RSVP' => 'TRUE' ]);
 		$message->sender = 'mailto:gandalf@wiz.ard';
 		$message->senderName = 'Mr. Wizard';
 		$message->recipient = 'mailto:'.$recipient;

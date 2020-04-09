@@ -54,7 +54,7 @@ class RenewPasswordController extends Controller {
 	 * @param IConfig $config
 	 * @param IURLGenerator $urlGenerator
 	 */
-	function __construct($appName, IRequest $request, IUserManager $userManager, 
+	function __construct($appName, IRequest $request, IUserManager $userManager,
 		IConfig $config, IL10N $l10n, ISession $session, IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;

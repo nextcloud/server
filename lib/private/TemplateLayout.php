@@ -75,7 +75,7 @@ class TemplateLayout extends \OC_Template {
 
 		// Decide which page we show
 		if($renderAs === 'user') {
-			parent::__construct( 'core', 'layout.user' );
+			parent::__construct('core', 'layout.user');
 			if(in_array(\OC_App::getCurrentApp(), ['settings','admin', 'help']) !== false) {
 				$this->assign('bodyid', 'body-settings');
 			}else{
@@ -83,22 +83,22 @@ class TemplateLayout extends \OC_Template {
 			}
 
 			// Add navigation entry
-			$this->assign( 'application', '');
-			$this->assign( 'appid', $appId );
+			$this->assign('application', '');
+			$this->assign('appid', $appId);
 			$navigation = \OC::$server->getNavigationManager()->getAll();
-			$this->assign( 'navigation', $navigation);
+			$this->assign('navigation', $navigation);
 			$settingsNavigation = \OC::$server->getNavigationManager()->getAll('settings');
-			$this->assign( 'settingsnavigation', $settingsNavigation);
+			$this->assign('settingsnavigation', $settingsNavigation);
 			foreach($navigation as $entry) {
 				if ($entry['active']) {
-					$this->assign( 'application', $entry['name'] );
+					$this->assign('application', $entry['name']);
 					break;
 				}
 			}
 
 			foreach($settingsNavigation as $entry) {
 				if ($entry['active']) {
-					$this->assign( 'application', $entry['name'] );
+					$this->assign('application', $entry['name']);
 					break;
 				}
 			}
@@ -139,7 +139,7 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('user_uid', \OC_User::getUser());
 		} else if ($renderAs === 'public') {
 			parent::__construct('core', 'layout.public');
-			$this->assign( 'appid', $appId );
+			$this->assign('appid', $appId);
 			$this->assign('bodyid', 'body-public');
 
 			/** @var IRegistry $subscription */
@@ -196,7 +196,7 @@ class TemplateLayout extends \OC_Template {
 		foreach($jsFiles as $info) {
 			$web = $info[1];
 			$file = $info[2];
-			$this->append( 'jsfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
+			$this->append('jsfiles', $web.'/'.$file . $this->getVersionHashSuffix());
 		}
 
 		try {
@@ -229,14 +229,14 @@ class TemplateLayout extends \OC_Template {
 			$file = $info[2];
 
 			if (substr($file, -strlen('print.css')) === 'print.css') {
-				$this->append( 'printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix() );
+				$this->append('printcssfiles', $web.'/'.$file . $this->getVersionHashSuffix());
 			} else {
 				$suffix = $this->getVersionHashSuffix($web, $file);
 
 				if (strpos($file, '?v=') == false) {
-					$this->append( 'cssfiles', $web.'/'.$file . $suffix);
+					$this->append('cssfiles', $web.'/'.$file . $suffix);
 				} else {
-					$this->append( 'cssfiles', $web.'/'.$file . '-' . substr($suffix, 3));
+					$this->append('cssfiles', $web.'/'.$file . '-' . substr($suffix, 3));
 				}
 
 			}
