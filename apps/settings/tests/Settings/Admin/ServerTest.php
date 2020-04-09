@@ -40,7 +40,6 @@ use OCP\IDBConnection;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
-
 /**
  * @group DB
  */

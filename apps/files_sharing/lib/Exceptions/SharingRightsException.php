@@ -25,7 +25,6 @@ namespace OCA\Files_Sharing\Exceptions;
 
 use Exception;
 
-
 /**
  * Sharing and Resharing rights.
  *

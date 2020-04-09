@@ -47,7 +47,6 @@ use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
 use OCP\Mail\Events\BeforeMessageSent;
 
-
 /**
  * Class Mailer provides some basic functions to create a mail message that can be used in combination with
  * \OC\Mail\Message.

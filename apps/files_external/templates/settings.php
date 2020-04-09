@@ -1,10 +1,10 @@
 <?php
 	use \OCA\Files_External\Lib\Backend\Backend;
-	use \OCA\Files_External\Lib\Auth\AuthMechanism;
-	use \OCA\Files_External\Lib\DefinitionParameter;
-	use \OCA\Files_External\Service\BackendService;
+use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use \OCA\Files_External\Lib\DefinitionParameter;
+use \OCA\Files_External\Service\BackendService;
 
-	$canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || $_['allowUserMounting'];
+$canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || $_['allowUserMounting'];
 
 	$l->t("Enable encryption");
 	$l->t("Enable previews");
