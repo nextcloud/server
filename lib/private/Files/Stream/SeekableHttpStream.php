@@ -149,15 +149,25 @@ class SeekableHttpStream implements File {
 	}
 
 	public function stream_stat() {
-		return fstat($this->current);
+		if (is_resource($this->current)) {
+			return fstat($this->current);
+		} else {
+			return false;
+		}
 	}
 
 	public function stream_eof() {
-		return feof($this->current);
+		if (is_resource($this->current)) {
+			return feof($this->current);
+		} else {
+			return true;
+		}
 	}
 
 	public function stream_close() {
-		fclose($this->current);
+		if (is_resource($this->current)) {
+			fclose($this->current);
+		}
 	}
 
 	public function stream_write($data) {
