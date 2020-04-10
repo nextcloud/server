@@ -428,6 +428,7 @@ class FileSearchBackend implements ISearchBackend {
 				} else {
 					return null;
 				}
+				// no break
 			default:
 				return null;
 		}

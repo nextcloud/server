@@ -282,7 +282,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			case 'parameters':
 			case 'params':
 				return $this->getContent();
-			default;
+			default:
 				return isset($this[$name])
 					? $this[$name]
 					: null;

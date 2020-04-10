@@ -72,8 +72,10 @@ class MemoryInfo {
 		switch ($last) {
 			case 'g':
 				$memoryLimit *= 1024;
+				// no break
 			case 'm':
 				$memoryLimit *= 1024;
+				// no break
 			case 'k':
 				$memoryLimit *= 1024;
 		}

@@ -76,8 +76,8 @@ use OCP\User\Backend\ISetPasswordBackend;
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
-class Database extends ABackend
-	implements ICreateUserBackend,
+class Database extends ABackend implements
+	ICreateUserBackend,
 			   ISetPasswordBackend,
 			   ISetDisplayNameBackend,
 			   IGetDisplayNameBackend,

@@ -110,6 +110,7 @@ class QuerySearchHelper {
 					} else {
 						throw new \InvalidArgumentException('Binary operators inside "not" is not supported');
 					}
+					// no break
 				case ISearchBinaryOperator::OPERATOR_AND:
 					return call_user_func_array([$expr, 'andX'], $this->searchOperatorArrayToDBExprArray($builder, $operator->getArguments()));
 				case ISearchBinaryOperator::OPERATOR_OR:

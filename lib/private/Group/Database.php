@@ -60,8 +60,8 @@ use OCP\IDBConnection;
 /**
  * Class for group management in a SQL Database (e.g. MySQL, SQLite)
  */
-class Database extends ABackend
-	implements IAddToGroupBackend,
+class Database extends ABackend implements
+	IAddToGroupBackend,
 			   ICountDisabledInGroup,
 			   ICountUsersBackend,
 			   ICreateGroupBackend,

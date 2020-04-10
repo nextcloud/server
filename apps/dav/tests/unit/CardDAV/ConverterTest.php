@@ -34,7 +34,7 @@ use OCP\IUser;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
-class ConverterTest extends  TestCase {
+class ConverterTest extends TestCase {
 
 	/** @var  AccountManager | PHPUnit_Framework_MockObject_MockObject */
 	private $accountManager;
