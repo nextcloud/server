@@ -542,7 +542,7 @@ class LoginControllerTest extends TestCase {
 			->method('getUID')
 			->will($this->returnValue('jane'));
 		$password = 'secret';
-		$originalUrl = 'another%20url';
+		$originalUrl = 'another url';
 		$redirectUrl = 'http://localhost/another url';
 
 		$this->request
