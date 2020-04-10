@@ -43,7 +43,7 @@ use OCP\ILogger;
 
 class Wizard extends LDAPUtility {
 	/** @var \OCP\IL10N */
-	static protected $l;
+	protected static $l;
 	protected $access;
 	protected $cr;
 	protected $configuration;

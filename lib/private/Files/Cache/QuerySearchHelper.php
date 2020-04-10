@@ -36,7 +36,7 @@ use OCP\Files\Search\ISearchOrder;
  * Tools for transforming search queries into database queries
  */
 class QuerySearchHelper {
-	static protected $searchOperatorMap = [
+	protected static $searchOperatorMap = [
 		ISearchComparison::COMPARE_LIKE => 'iLike',
 		ISearchComparison::COMPARE_EQUAL => 'eq',
 		ISearchComparison::COMPARE_GREATER_THAN => 'gt',
@@ -45,7 +45,7 @@ class QuerySearchHelper {
 		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lte'
 	];
 
-	static protected $searchOperatorNegativeMap = [
+	protected static $searchOperatorNegativeMap = [
 		ISearchComparison::COMPARE_LIKE => 'notLike',
 		ISearchComparison::COMPARE_EQUAL => 'neq',
 		ISearchComparison::COMPARE_GREATER_THAN => 'lte',

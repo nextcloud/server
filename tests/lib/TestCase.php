@@ -38,10 +38,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	private $commandBus;
 
 	/** @var IDBConnection */
-	static protected $realDatabase = null;
+	protected static $realDatabase = null;
 
 	/** @var bool */
-	static private $wasDatabaseAllowed = false;
+	private static $wasDatabaseAllowed = false;
 
 	/** @var array */
 	protected $services = [];

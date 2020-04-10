@@ -80,13 +80,13 @@ class Filesystem {
 	/**
 	 * @var \OC\Files\View $defaultInstance
 	 */
-	static private $defaultInstance;
+	private static $defaultInstance;
 
-	static private $usersSetup = [];
+	private static $usersSetup = [];
 
-	static private $normalizedPathCache = null;
+	private static $normalizedPathCache = null;
 
-	static private $listeningForProviders = false;
+	private static $listeningForProviders = false;
 
 	/**
 	 * classname which used for hooks handling

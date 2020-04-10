@@ -62,7 +62,7 @@ class AuthSettingsController extends Controller {
 	private $session;
 
 	/** IUserSession */
-	private  $userSession;
+	private $userSession;
 
 	/** @var string */
 	private $uid;

@@ -46,9 +46,9 @@ use OCA\User_LDAP\User\Manager;
 use OCP\ILogger;
 
 class UpdateGroups extends \OC\BackgroundJob\TimedJob {
-	static private $groupsFromDB;
+	private static $groupsFromDB;
 
-	static private $groupBE;
+	private static $groupBE;
 
 	public function __construct() {
 		$this->interval = self::getRefreshInterval();

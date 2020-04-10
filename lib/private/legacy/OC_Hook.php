@@ -36,7 +36,7 @@
 class OC_Hook {
 	public static $thrownExceptions = [];
 
-	static private $registered = [];
+	private static $registered = [];
 
 	/**
 	 * connects a function to a hook

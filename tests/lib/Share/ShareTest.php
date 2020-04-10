@@ -323,7 +323,7 @@ class DummyShareClass extends \OC\Share\Share {
 }
 
 class DummyHookListener {
-	static $shareType = null;
+	public static $shareType = null;
 
 	public static function listen($params) {
 		self::$shareType = $params['shareType'];
