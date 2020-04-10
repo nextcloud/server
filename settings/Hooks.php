@@ -104,6 +104,7 @@ class Hooks {
 		$actor = $this->userSession->getUser();
 		if ($actor instanceof IUser) {
 			if ($actor->getUID() !== $user->getUID()) {
+				// Admin changed the password through the user panel
 				$this->l = $this->languageFactory->get(
 					'settings',
 					$this->config->getUserValue(
@@ -116,13 +117,21 @@ class Hooks {
 				$event->setAuthor($actor->getUID())
 					->setSubject(Provider::PASSWORD_CHANGED_BY, [$actor->getUID()]);
 			} else {
+				// User changed their password themselves through settings
 				$text = $this->l->t('Your password on %s was changed.', [$instanceUrl]);
 				$event->setAuthor($actor->getUID())
 					->setSubject(Provider::PASSWORD_CHANGED_SELF);
 			}
 		} else {
-			$text = $this->l->t('Your password on %s was reset by an administrator.', [$instanceUrl]);
-			$event->setSubject(Provider::PASSWORD_RESET);
+			if (PHP_SAPI === 'cli') {
+				// Admin used occ to reset the password
+				$text = $this->l->t('Your password on %s was reset by an administrator.', [$instanceUrl]);
+				$event->setSubject(Provider::PASSWORD_RESET);
+			} else {
+				// User reset their password from Lost page
+				$text = $this->l->t('Your password on %s was reset.', [$instanceUrl]);
+				$event->setSubject(Provider::PASSWORD_RESET_SELF);
+			}
 		}
 
 		$this->activityManager->publish($event);
