@@ -65,7 +65,7 @@
 			$('#uploadprogressbar>em').addClass('outer');
 			$('#uploadprogressbar').tooltip({placement: 'bottom'});
 			if(title) {
-				$('#uploadprogressbar').attr('original-title', title);
+				$('#uploadprogressbar').attr('data-original-title', title);
 			}
 			if(textDesktop || textMobile) {
 				$('#uploadprogresswrapper .stop').show();

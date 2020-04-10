@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import escapeHTML from '../Util/escapeHTML'
+import escapeHTML from 'escape-html'
 
 /**
  * jQuery plugin for micro templates

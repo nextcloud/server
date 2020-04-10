@@ -11,6 +11,7 @@
 import _ from 'underscore'
 import $ from 'jquery'
 import Handlebars from 'handlebars'
+import escapeHTML from 'escape-html'
 
 import OC from './index'
 import {
