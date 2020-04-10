@@ -385,7 +385,7 @@ class ClientFlowLoginController extends Controller {
 
 		if (strpos($this->request->getRequestUri(), '/index.php') !== false) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/index.php'));
-		} else if (strpos($this->request->getRequestUri(), '/login/flow') !== false) {
+		} elseif (strpos($this->request->getRequestUri(), '/login/flow') !== false) {
 			$serverPostfix = substr($this->request->getRequestUri(), 0, strpos($this->request->getRequestUri(), '/login/flow'));
 		}
 

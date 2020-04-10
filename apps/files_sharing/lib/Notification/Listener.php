@@ -66,7 +66,7 @@ class Listener {
 			$notification->setSubject(Notifier::INCOMING_USER_SHARE)
 				->setUser($share->getSharedWith());
 			$this->notificationManager->notify($notification);
-		} else if ($share->getShareType() === IShare::TYPE_GROUP) {
+		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$notification->setSubject(Notifier::INCOMING_GROUP_SHARE);
 			$group = $this->groupManager->get($share->getSharedWith());
 

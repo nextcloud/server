@@ -66,12 +66,12 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 						$this->tableVariableNames[$node->var->name] = $node->expr->args[0]->value->value;
 					}
 				}
-			} else if ($node->expr->name === 'getTable') {
+			} elseif ($node->expr->name === 'getTable') {
 				if (isset($node->expr->args[0]) && $node->expr->args[0]->value instanceof Node\Scalar\String_) {
 					$this->tableVariableNames[$node->var->name] = $node->expr->args[0]->value->value;
 				}
 			}
-		} else if ($this->schemaVariableName !== null &&
+		} elseif ($this->schemaVariableName !== null &&
 			 $node instanceof Node\Expr\MethodCall &&
 			 $node->var instanceof Node\Expr\Variable &&
 			 $node->var->name === $this->schemaVariableName) {
@@ -90,7 +90,7 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 		/**
 		 * Check columns and Indexes
 		 */
-		} else if (!empty($this->tableVariableNames) &&
+		} elseif (!empty($this->tableVariableNames) &&
 			 $node instanceof Node\Expr\MethodCall &&
 			 $node->var instanceof Node\Expr\Variable &&
 			 isset($this->tableVariableNames[$node->var->name])) {
@@ -123,7 +123,7 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 						}
 					}
 				}
-			} else if ($node->name === 'addIndex' ||
+			} elseif ($node->name === 'addIndex' ||
 				 $node->name === 'addUniqueIndex' ||
 				 $node->name === 'renameIndex' ||
 				 $node->name === 'setPrimaryKey') {
@@ -139,7 +139,7 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 						];
 					}
 				}
-			} else if ($node->name === 'addForeignKeyConstraint') {
+			} elseif ($node->name === 'addForeignKeyConstraint') {
 				if (isset($node->args[4]) && $node->args[4]->value instanceof Node\Scalar\String_) {
 					if (!$this->checkNameLength($node->args[4]->value->value)) {
 						$this->errors[] = [
@@ -152,7 +152,7 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 						];
 					}
 				}
-			} else if ($node->name === 'renameColumn') {
+			} elseif ($node->name === 'renameColumn') {
 				$this->errors[] = [
 					'line' => $node->getLine(),
 					'disallowedToken' => 'Deprecated method',
@@ -166,7 +166,7 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 		/**
 		 * Find the schema
 		 */
-		} else if ($node instanceof Node\Expr\Assign &&
+		} elseif ($node instanceof Node\Expr\Assign &&
 			 $node->expr instanceof Node\Expr\FuncCall &&
 			 $node->var instanceof Node\Expr\Variable &&
 			 $node->expr->name instanceof Node\Expr\Variable &&

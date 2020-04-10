@@ -112,7 +112,7 @@ class Application extends \OCP\AppFramework\App {
 								if ($event instanceof Event) {
 									$entity->prepareRuleMatcher($ruleMatcher, $eventName, $event);
 									$operation->onEvent($eventName, $event, $ruleMatcher);
-								} else if ($entity instanceof IEntityCompat && $operation instanceof IOperationCompat) {
+								} elseif ($entity instanceof IEntityCompat && $operation instanceof IOperationCompat) {
 									// TODO: Remove this block (and the compat classes) in the first major release in 2023
 									$entity->prepareRuleMatcherCompat($ruleMatcher, $eventName, $event);
 									$operation->onEventCompat($eventName, $event, $ruleMatcher);

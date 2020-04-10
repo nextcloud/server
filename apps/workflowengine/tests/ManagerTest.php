@@ -287,7 +287,7 @@ class ManagerTest extends TestCase {
 			->willReturnCallback(function ($class) {
 				if(substr($class, -2) === 'Op') {
 					return $this->createMock(IOperation::class);
-				} else if($class === File::class) {
+				} elseif($class === File::class) {
 					return $this->getMockBuilder(File::class)
 						->setConstructorArgs([
 							$this->l,
@@ -424,7 +424,7 @@ class ManagerTest extends TestCase {
 
 		$entityTypeCounts = array_reduce($entities, function (array $carry, IEntity $entity) {
 			if($entity instanceof File) $carry[0]++;
-			else if($entity instanceof IEntity) $carry[1]++;
+			elseif($entity instanceof IEntity) $carry[1]++;
 			return $carry;
 		}, [0, 0]);
 

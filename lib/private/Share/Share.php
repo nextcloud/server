@@ -356,7 +356,7 @@ class Share extends Constants {
 				// if there is more then one result we don't have to delete the children
 				// but update their parent. For group shares the new parent should always be
 				// the original group share and not the db entry with the unique name
-			} else if ((int)$item['share_type'] === self::$shareTypeGroupUserUnique) {
+			} elseif ((int)$item['share_type'] === self::$shareTypeGroupUserUnique) {
 				$newParent = $item['parent'];
 			} else {
 				$newParent = $item['id'];
@@ -457,7 +457,7 @@ class Share extends Constants {
 		$l = \OC::$server->getL10N('lib');
 		if (isset(self::$backends[$itemType])) {
 			return self::$backends[$itemType];
-		} else if (isset(self::$backendTypes[$itemType]['class'])) {
+		} elseif (isset(self::$backendTypes[$itemType]['class'])) {
 			$class = self::$backendTypes[$itemType]['class'];
 			if (class_exists($class)) {
 				self::$backends[$itemType] = new $class;
@@ -778,7 +778,7 @@ class Share extends Constants {
 				if ($row['permissions'] == 0) {
 					continue;
 				}
-			} else if (!isset($uidOwner)) {
+			} elseif (!isset($uidOwner)) {
 				// Check if the same target already exists
 				if (isset($targets[$row['id']])) {
 					// Check if the same owner shared with the user twice
@@ -858,7 +858,7 @@ class Share extends Constants {
 				$row['share_type'] === self::SHARE_TYPE_USER) {
 				$shareWithUser = \OC::$server->getUserManager()->get($row['share_with']);
 				$row['share_with_displayname'] = $shareWithUser === null ? $row['share_with'] : $shareWithUser->getDisplayName();
-			} else if(isset($row['share_with']) && $row['share_with'] != '' &&
+			} elseif(isset($row['share_with']) && $row['share_with'] != '' &&
 				$row['share_type'] === self::SHARE_TYPE_REMOTE) {
 				$addressBookEntries = \OC::$server->getContactsManager()->search($row['share_with'], ['CLOUD']);
 				foreach ($addressBookEntries as $entry) {
@@ -1417,7 +1417,7 @@ class Share extends Constants {
 	private static function formatResult($items, $column, $backend, $format = self::FORMAT_NONE , $parameters = null) {
 		if ($format === self::FORMAT_NONE) {
 			return $items;
-		} else if ($format === self::FORMAT_STATUSES) {
+		} elseif ($format === self::FORMAT_STATUSES) {
 			$statuses = [];
 			foreach ($items as $item) {
 				if ($item['share_type'] === self::SHARE_TYPE_LINK) {
@@ -1425,7 +1425,7 @@ class Share extends Constants {
 						continue;
 					}
 					$statuses[$item[$column]]['link'] = true;
-				} else if (!isset($statuses[$item[$column]])) {
+				} elseif (!isset($statuses[$item[$column]])) {
 					$statuses[$item[$column]]['link'] = false;
 				}
 				if (!empty($item['file_target'])) {
@@ -1447,7 +1447,7 @@ class Share extends Constants {
 	public static function removeProtocolFromUrl($url) {
 		if (strpos($url, 'https://') === 0) {
 			return substr($url, strlen('https://'));
-		} else if (strpos($url, 'http://') === 0) {
+		} elseif (strpos($url, 'http://') === 0) {
 			return substr($url, strlen('http://'));
 		}
 

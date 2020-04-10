@@ -871,7 +871,7 @@ class User_LDAPTest extends TestCase {
 			->willReturnCallback(function ($uid) use ($user1, $user2) {
 				if($uid === 'gunslinger') {
 					return $user1;
-				} else if($uid === 'newyorker') {
+				} elseif($uid === 'newyorker') {
 					return $user2;
 				}
 				return null;
@@ -950,7 +950,7 @@ class User_LDAPTest extends TestCase {
 			->willReturnCallback(function ($uid) use ($user1, $user2) {
 				if($uid === 'gunslinger') {
 					return $user1;
-				} else if($uid === 'newyorker') {
+				} elseif($uid === 'newyorker') {
 					return $user2;
 				}
 				return null;

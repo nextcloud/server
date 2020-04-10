@@ -75,7 +75,7 @@ class CacheJail extends CacheWrapper {
 		$rootLength = strlen($this->getRoot()) + 1;
 		if ($path === $this->getRoot()) {
 			return '';
-		} else if (substr($path, 0, $rootLength) === $this->getRoot() . '/') {
+		} elseif (substr($path, 0, $rootLength) === $this->getRoot() . '/') {
 			return substr($path, $rootLength);
 		} else {
 			return null;

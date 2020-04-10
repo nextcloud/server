@@ -175,7 +175,7 @@ class DecryptAll extends Command {
 					$output->writeln(' aborted.');
 					$output->writeln('Server side encryption remains enabled');
 					$this->config->setAppValue('core', 'encryption_enabled', 'yes');
-				} else if ($uid !== '') {
+				} elseif ($uid !== '') {
 					$output->writeln('Server side encryption remains enabled');
 					$this->config->setAppValue('core', 'encryption_enabled', 'yes');
 				}

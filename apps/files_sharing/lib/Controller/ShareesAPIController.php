@@ -193,7 +193,7 @@ class ShareesAPIController extends OCSController {
 
 		if ($shareType !== null && is_array($shareType)) {
 			$shareTypes = array_intersect($shareTypes, $shareType);
-		} else if (is_numeric($shareType)) {
+		} elseif (is_numeric($shareType)) {
 			$shareTypes = array_intersect($shareTypes, [(int) $shareType]);
 		}
 		sort($shareTypes);
@@ -362,7 +362,7 @@ class ShareesAPIController extends OCSController {
 		if (isset($_GET['shareType']) && is_array($_GET['shareType'])) {
 			$shareTypes = array_intersect($shareTypes, $_GET['shareType']);
 			sort($shareTypes);
-		} else if (is_numeric($shareType)) {
+		} elseif (is_numeric($shareType)) {
 			$shareTypes = array_intersect($shareTypes, [(int) $shareType]);
 			sort($shareTypes);
 		}

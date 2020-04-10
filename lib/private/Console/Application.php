@@ -146,7 +146,7 @@ class Application {
 						}
 					}
 				}
-			} else if ($input->getArgument('command') !== '_completion' && $input->getArgument('command') !== 'maintenance:install') {
+			} elseif ($input->getArgument('command') !== '_completion' && $input->getArgument('command') !== 'maintenance:install') {
 				$output->writeln("Nextcloud is not installed - only a limited number of commands are available");
 			}
 		} catch(NeedsUpdateException $e) {

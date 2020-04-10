@@ -412,7 +412,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			$childSize = $this->scanChildren($child, $recursive, $reuse, $childId, $lock);
 			if ($childSize === -1) {
 				$size = -1;
-			} else if ($size !== -1) {
+			} elseif ($size !== -1) {
 				$size += $childSize;
 			}
 		}
@@ -442,12 +442,12 @@ class Scanner extends BasicEmitter implements IScanner {
 				if ($data) {
 					if ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE) {
 						$childQueue[$child] = $data['fileid'];
-					} else if ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE_INCOMPLETE and $data['size'] === -1) {
+					} elseif ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE_INCOMPLETE and $data['size'] === -1) {
 						// only recurse into folders which aren't fully scanned
 						$childQueue[$child] = $data['fileid'];
-					} else if ($data['size'] === -1) {
+					} elseif ($data['size'] === -1) {
 						$size = -1;
-					} else if ($size !== -1) {
+					} elseif ($size !== -1) {
 						$size += $data['size'];
 					}
 				}

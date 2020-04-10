@@ -129,7 +129,7 @@ EOT
 				if ($default !== null) {
 					if (is_string($default)) {
 						$default = "'$default'";
-					} else if (is_bool($default)) {
+					} elseif (is_bool($default)) {
 						$default = ($default === true) ? 'true' : 'false';
 					}
 					$content .= str_replace('{{default}}', $default, <<<'EOT'

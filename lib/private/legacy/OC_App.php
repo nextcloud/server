@@ -216,7 +216,7 @@ class OC_App {
 						'class' => $plugin['@value'],
 					];
 					\OC::$server->getCollaboratorSearch()->registerPlugin($pluginInfo);
-				} else if ($plugin['@attributes']['type'] === 'autocomplete-sort') {
+				} elseif ($plugin['@attributes']['type'] === 'autocomplete-sort') {
 					\OC::$server->getAutoCompleteManager()->registerSorter($plugin['@value']);
 				}
 			}
@@ -733,7 +733,7 @@ class OC_App {
 				$info['groups'] = null;
 				if ($enabled === 'yes') {
 					$active = true;
-				} else if ($enabled === 'no') {
+				} elseif ($enabled === 'no') {
 					$active = false;
 				} else {
 					$active = true;
@@ -847,9 +847,9 @@ class OC_App {
 			$requireMin = $appInfo['dependencies']['nextcloud']['@attributes']['min-version'];
 		} elseif (isset($appInfo['dependencies']['owncloud']['@attributes']['min-version'])) {
 			$requireMin = $appInfo['dependencies']['owncloud']['@attributes']['min-version'];
-		} else if (isset($appInfo['requiremin'])) {
+		} elseif (isset($appInfo['requiremin'])) {
 			$requireMin = $appInfo['requiremin'];
-		} else if (isset($appInfo['require'])) {
+		} elseif (isset($appInfo['require'])) {
 			$requireMin = $appInfo['require'];
 		}
 
@@ -857,7 +857,7 @@ class OC_App {
 			$requireMax = $appInfo['dependencies']['nextcloud']['@attributes']['max-version'];
 		} elseif (isset($appInfo['dependencies']['owncloud']['@attributes']['max-version'])) {
 			$requireMax = $appInfo['dependencies']['owncloud']['@attributes']['max-version'];
-		} else if (isset($appInfo['requiremax'])) {
+		} elseif (isset($appInfo['requiremax'])) {
 			$requireMax = $appInfo['requiremax'];
 		}
 
@@ -1055,7 +1055,7 @@ class OC_App {
 
 				if ($attributeLang === $similarLang) {
 					$similarLangFallback = $option['@value'];
-				} else if (strpos($attributeLang, $similarLang . '_') === 0) {
+				} elseif (strpos($attributeLang, $similarLang . '_') === 0) {
 					if ($similarLangFallback === false) {
 						$similarLangFallback =  $option['@value'];
 					}
@@ -1067,7 +1067,7 @@ class OC_App {
 
 		if ($similarLangFallback !== false) {
 			return $similarLangFallback;
-		} else if ($englishFallback !== false) {
+		} elseif ($englishFallback !== false) {
 			return $englishFallback;
 		}
 		return (string) $fallback;
@@ -1090,7 +1090,7 @@ class OC_App {
 		}
 		if ($lang && isset($data['description']) && is_array($data['description'])) {
 			$data['description'] = trim(self::findBestL10NOption($data['description'], $lang));
-		} else if (isset($data['description']) && is_string($data['description'])) {
+		} elseif (isset($data['description']) && is_string($data['description'])) {
 			$data['description'] = trim($data['description']);
 		} else  {
 			$data['description'] = '';

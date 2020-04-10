@@ -175,7 +175,7 @@ class Scan extends Base {
 			$inputPath = '/' . trim($inputPath, '/');
 			list(, $user,) = explode('/', $inputPath, 3);
 			$users = [$user];
-		} else if ($input->getOption('all')) {
+		} elseif ($input->getOption('all')) {
 			$users = $this->userManager->search('');
 		} else {
 			$users = $input->getArgument('user_id');

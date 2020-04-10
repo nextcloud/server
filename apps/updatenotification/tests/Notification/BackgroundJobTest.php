@@ -178,7 +178,7 @@ class BackgroundJobTest extends TestCase {
 				->method('createNotifications');
 			$job->expects($versionCheck === null ? $this->never() : $this->once())
 				->method('clearErrorNotifications');
-		} else if ($version === false) {
+		} elseif ($version === false) {
 			$job->expects($this->never())
 				->method('createNotifications');
 			$job->expects($this->never())

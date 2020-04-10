@@ -433,7 +433,7 @@ class KeyManager {
 				// when logged in, the master key is already decrypted in the session
 				$privateKey = $this->session->getPrivateKey();
 			}
-		} else if ($publicAccess) {
+		} elseif ($publicAccess) {
 			// use public share key for public links
 			$uid = $this->getPublicShareKeyId();
 			$shareKey = $this->getShareKey($path, $uid);

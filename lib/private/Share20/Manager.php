@@ -221,33 +221,33 @@ class Manager implements IManager {
 			if (!$this->userManager->userExists($share->getSharedWith())) {
 				throw new \InvalidArgumentException('SharedWith is not a valid user');
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			// We expect a valid group as sharedWith for group shares
 			if (!$this->groupManager->groupExists($share->getSharedWith())) {
 				throw new \InvalidArgumentException('SharedWith is not a valid group');
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			if ($share->getSharedWith() !== null) {
 				throw new \InvalidArgumentException('SharedWith should be empty');
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
-		}  else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
+		}  elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE) {
 			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($share->getSharedWith());
 			if ($circle === null) {
 				throw new \InvalidArgumentException('SharedWith is not a valid circle');
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_ROOM) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_ROOM) {
 		} else {
 			// We can't handle other types yet
 			throw new \InvalidArgumentException('unknown share type');
@@ -721,13 +721,13 @@ class Manager implements IManager {
 			//Verify the expiration date
 			$share = $this->validateExpirationDateInternal($share);
 
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$this->groupCreateChecks($share);
 
 			//Verify the expiration date
 			$share = $this->validateExpirationDateInternal($share);
 
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$this->linkCreateChecks($share);
 			$this->setLinkParent($share);
 
@@ -751,7 +751,7 @@ class Manager implements IManager {
 			if ($share->getPassword() !== null) {
 				$share->setPassword($this->hasher->hash($share->getPassword()));
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			$share->setToken(
 				$this->secureRandom->generate(
 					\OC\Share\Constants::TOKEN_LENGTH,
@@ -952,7 +952,7 @@ class Manager implements IManager {
 				$this->validateExpirationDate($share);
 				$expirationDateUpdated = true;
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$this->groupCreateChecks($share);
 
 			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
@@ -960,7 +960,7 @@ class Manager implements IManager {
 				$this->validateExpirationDate($share);
 				$expirationDateUpdated = true;
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$this->linkCreateChecks($share);
 
 			$this->updateSharePasswordIfNeeded($share, $originalShare);
@@ -970,7 +970,7 @@ class Manager implements IManager {
 				$this->validateExpirationDate($share);
 				$expirationDateUpdated = true;
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			// The new password is not set again if it is the same as the old
 			// one, unless when switching from sending by Talk to sending by
 			// mail.

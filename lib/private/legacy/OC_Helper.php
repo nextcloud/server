@@ -168,7 +168,7 @@ class OC_Helper {
 				/** @var SplFileInfo $fileInfo */
 				if ($fileInfo->isLink()) {
 					unlink($fileInfo->getPathname());
-				} else if ($fileInfo->isDir()) {
+				} elseif ($fileInfo->isDir()) {
 					rmdir($fileInfo->getRealPath());
 				} else {
 					unlink($fileInfo->getRealPath());

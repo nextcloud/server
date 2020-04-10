@@ -72,13 +72,13 @@ class Groups extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_GROUP_SELF) {
 			$subject = $this->l->t('Shared with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_SELF) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_SELF) {
 			$subject = $this->l->t('Removed share for group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} shared with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} removed share for group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_EXPIRED_GROUP) {
+		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED_GROUP) {
 			$subject = $this->l->t('Share for group {group} expired');
 		} else {
 			throw new \InvalidArgumentException();
@@ -105,13 +105,13 @@ class Groups extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_GROUP_SELF) {
 			$subject = $this->l->t('You shared {file} with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_SELF) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_SELF) {
 			$subject = $this->l->t('You removed group {group} from {file}');
-		} else if ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_RESHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} shared {file} with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_GROUP_BY) {
 			$subject = $this->l->t('{actor} removed group {group} from {file}');
-		} else if ($event->getSubject() === self::SUBJECT_EXPIRED_GROUP) {
+		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED_GROUP) {
 			$subject = $this->l->t('Share for file {file} with group {group} expired');
 		} else {
 			throw new \InvalidArgumentException();

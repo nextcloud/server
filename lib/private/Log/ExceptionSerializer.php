@@ -132,7 +132,7 @@ class ExceptionSerializer {
 		foreach ($args as &$arg) {
 			if (in_array($arg, $values, true)) {
 				$arg = '*** sensitive parameter replaced ***';
-			} else if (is_array($arg)) {
+			} elseif (is_array($arg)) {
 				$arg = $this->removeValuesFromArgs($arg, $values);
 			}
 		}
@@ -154,7 +154,7 @@ class ExceptionSerializer {
 			$data = get_object_vars($arg);
 			$data['__class__'] = get_class($arg);
 			return array_map([$this, 'encodeArg'], $data);
-		} else if (is_array($arg)) {
+		} elseif (is_array($arg)) {
 			return array_map([$this, 'encodeArg'], $arg);
 		} else {
 			return $arg;

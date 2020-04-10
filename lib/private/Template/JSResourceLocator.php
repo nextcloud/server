@@ -62,7 +62,7 @@ class JSResourceLocator extends ResourceLocator {
 			if ($found) {
 				return;
 			}
-		} else if ($this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js')
+		} elseif ($this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, $script.'.js')
 			|| $this->cacheAndAppendCombineJsonIfExist($this->serverroot, $script.'.json')

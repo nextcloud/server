@@ -824,7 +824,7 @@ class View {
 						if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 							// if it was a rename from a part file to a regular file it was a write and not a rename operation
 							$this->writeUpdate($storage2, $internalPath2);
-						} else if ($result) {
+						} elseif ($result) {
 							if ($internalPath1 !== '') { // don't do a cache update for moved mounts
 								$this->renameUpdate($storage1, $storage2, $internalPath1, $internalPath2);
 							}
@@ -1165,7 +1165,7 @@ class View {
 				} catch (\Exception $e) {
 					if (in_array('write', $hooks) || in_array('delete', $hooks)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-					} else if (in_array('read', $hooks)) {
+					} elseif (in_array('read', $hooks)) {
 						$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 					}
 					throw $e;
@@ -1193,7 +1193,7 @@ class View {
 					$result = CallbackWrapper::wrap($result, null, null, function () use ($hooks, $path) {
 						if (in_array('write', $hooks)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_EXCLUSIVE);
-						} else if (in_array('read', $hooks)) {
+						} elseif (in_array('read', $hooks)) {
 							$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
 						}
 					});
@@ -1340,7 +1340,7 @@ class View {
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 				$data = $cache->get($internalPath);
-			} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
+			} elseif (!Cache\Scanner::isPartialFile($internalPath) && $watcher->needsUpdate($internalPath, $data)) {
 				$this->lockFile($relativePath, ILockingProvider::LOCK_SHARED);
 				$watcher->update($internalPath, $data);
 				$storage->getPropagator()->propagateChange($internalPath, time());

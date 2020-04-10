@@ -85,7 +85,7 @@ class OC_API {
 			if ($k[0] === '@') {
 				$writer->writeAttribute(substr($k, 1), $v);
 				continue;
-			} else if (is_numeric($k)) {
+			} elseif (is_numeric($k)) {
 				$k = 'element';
 			}
 			if(is_array($v)) {

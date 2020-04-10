@@ -97,7 +97,7 @@ class MigrationService {
 				foreach ($info['dependencies']['database'] as $database) {
 					if (\is_string($database) && $database === 'oci') {
 						$this->checkOracle = true;
-					} else if (\is_array($database) && isset($database['@value']) && $database['@value'] === 'oci') {
+					} elseif (\is_array($database) && isset($database['@value']) && $database['@value'] === 'oci') {
 						$this->checkOracle = true;
 					}
 				}
@@ -542,7 +542,7 @@ class MigrationService {
 							return $sequence->getName() !== $sequenceName;
 						});
 					}
-				} else if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+				} elseif ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
 					$defaultName = $table->getName() . '_seq';
 					$isUsingDefaultName = strtolower($defaultName) === $indexName;
 				}

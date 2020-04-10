@@ -729,7 +729,7 @@ class Access extends LDAPUtility {
 					$sndName = isset($ldapObject[$sndAttribute][0])
 						? $ldapObject[$sndAttribute][0] : '';
 					$this->cacheUserDisplayName($ncName, $nameByLDAP, $sndName);
-				} else if($nameByLDAP !== null) {
+				} elseif($nameByLDAP !== null) {
 					$this->cacheGroupDisplayName($ncName, $nameByLDAP);
 				}
 			}
@@ -1390,7 +1390,7 @@ class Access extends LDAPUtility {
 						if($key !== 'dn') {
 							if($this->resemblesDN($key)) {
 								$selection[$i][$key] = $this->helper->sanitizeDN($item[$key]);
-							} else if($key === 'objectguid' || $key === 'guid') {
+							} elseif($key === 'objectguid' || $key === 'guid') {
 								$selection[$i][$key] = [$this->convertObjectGUID2Str($item[$key][0])];
 							} else {
 								$selection[$i][$key] = $item[$key];
@@ -1609,7 +1609,7 @@ class Access extends LDAPUtility {
 		$result = $term;
 		if ($term === '') {
 			$result = '*';
-		} else if ($allowEnum !== 'no') {
+		} elseif ($allowEnum !== 'no') {
 			$result = $term . '*';
 		}
 		return $result;
@@ -1716,7 +1716,7 @@ class Access extends LDAPUtility {
 		if(!$force) {
 			if($this->connection->$uuidAttr !== 'auto') {
 				return true;
-			} else if (is_string($uuidOverride) && trim($uuidOverride) !== '') {
+			} elseif (is_string($uuidOverride) && trim($uuidOverride) !== '') {
 				$this->connection->$uuidAttr = $uuidOverride;
 				return true;
 			}
@@ -2097,7 +2097,7 @@ class Access extends LDAPUtility {
 		 * So we added "&& !empty($this->lastCookie)" to this test to ignore pagination
 		 * if we don't have a previous paged search.
 		 */
-		} else if ($limit === 0 && !empty($this->lastCookie)) {
+		} elseif ($limit === 0 && !empty($this->lastCookie)) {
 			// a search without limit was requested. However, if we do use
 			// Paged Search once, we always must do it. This requires us to
 			// initialize it with the configured page size.

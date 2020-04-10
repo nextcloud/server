@@ -121,7 +121,7 @@ class Provider implements IProvider {
 					->setRichSubject($this->l->t('Added system tag {systemtag}'), [
 						'systemtag' => $parsedParameters['systemtag'],
 					]);
-			} else if ($parsedParameters['actor']['id'] === $this->activityManager->getCurrentUserId()) {
+			} elseif ($parsedParameters['actor']['id'] === $this->activityManager->getCurrentUserId()) {
 				$event->setParsedSubject($this->l->t('Added system tag %1$s', [
 					$this->generatePlainSystemTag($parsedParameters['systemtag']),
 				]))
@@ -138,7 +138,7 @@ class Provider implements IProvider {
 						'systemtag' => $parsedParameters['systemtag'],
 					]);
 			}
-		} else if ($event->getSubject() === self::UNASSIGN_TAG) {
+		} elseif ($event->getSubject() === self::UNASSIGN_TAG) {
 			if ($parsedParameters['actor']['id'] === '') {
 				$event->setParsedSubject($this->l->t('System tag %1$s removed by the system', [
 					$this->generatePlainSystemTag($parsedParameters['systemtag']),
@@ -146,7 +146,7 @@ class Provider implements IProvider {
 					->setRichSubject($this->l->t('Removed system tag {systemtag}'), [
 						'systemtag' => $parsedParameters['systemtag'],
 					]);
-			} else if ($parsedParameters['actor']['id'] === $this->activityManager->getCurrentUserId()) {
+			} elseif ($parsedParameters['actor']['id'] === $this->activityManager->getCurrentUserId()) {
 				$event->setParsedSubject($this->l->t('Removed system tag %1$s', [
 					$this->generatePlainSystemTag($parsedParameters['systemtag']),
 				]))
@@ -198,7 +198,7 @@ class Provider implements IProvider {
 				]))
 					->setRichSubject($this->l->t('{actor} created system tag {systemtag}'), $parsedParameters);
 			}
-		} else if ($event->getSubject() === self::DELETE_TAG) {
+		} elseif ($event->getSubject() === self::DELETE_TAG) {
 			if ($parsedParameters['actor']['id'] === $this->activityManager->getCurrentUserId()) {
 				$event->setParsedSubject($this->l->t('You deleted system tag %1$s', [
 					$this->generatePlainSystemTag($parsedParameters['systemtag']),
@@ -211,7 +211,7 @@ class Provider implements IProvider {
 				]))
 					->setRichSubject($this->l->t('{actor} deleted system tag {systemtag}'), $parsedParameters);
 			}
-		} else if ($event->getSubject() === self::UPDATE_TAG) {
+		} elseif ($event->getSubject() === self::UPDATE_TAG) {
 			if ($parsedParameters['actor']['id'] === $this->activityManager->getCurrentUserId()) {
 				$event->setParsedSubject($this->l->t('You updated system tag %2$s to %1$s', [
 					$this->generatePlainSystemTag($parsedParameters['newsystemtag']),
@@ -226,7 +226,7 @@ class Provider implements IProvider {
 				]))
 					->setRichSubject($this->l->t('{actor} updated system tag {oldsystemtag} to {newsystemtag}'), $parsedParameters);
 			}
-		} else if ($event->getSubject() === self::ASSIGN_TAG) {
+		} elseif ($event->getSubject() === self::ASSIGN_TAG) {
 			if ($parsedParameters['actor']['id'] === '') {
 				unset($parsedParameters['actor']);
 				$event->setParsedSubject($this->l->t('System tag %2$s was added to %1$s by the system', [
@@ -234,7 +234,7 @@ class Provider implements IProvider {
 					$this->generatePlainSystemTag($parsedParameters['systemtag']),
 				]))
 					->setRichSubject($this->l->t('System tag {systemtag} was added to {file} by the system'), $parsedParameters);
-			} else if ($parsedParameters['actor']['id'] === $this->activityManager->getCurrentUserId()) {
+			} elseif ($parsedParameters['actor']['id'] === $this->activityManager->getCurrentUserId()) {
 				$event->setParsedSubject($this->l->t('You added system tag %2$s to %1$s', [
 					$parsedParameters['file']['path'],
 					$this->generatePlainSystemTag($parsedParameters['systemtag']),
@@ -248,7 +248,7 @@ class Provider implements IProvider {
 				]))
 					->setRichSubject($this->l->t('{actor} added system tag {systemtag} to {file}'), $parsedParameters);
 			}
-		} else if ($event->getSubject() === self::UNASSIGN_TAG) {
+		} elseif ($event->getSubject() === self::UNASSIGN_TAG) {
 			if ($parsedParameters['actor']['id'] === '') {
 				unset($parsedParameters['actor']);
 				$event->setParsedSubject($this->l->t('System tag %2$s was removed from %1$s by the system', [
@@ -256,7 +256,7 @@ class Provider implements IProvider {
 					$this->generatePlainSystemTag($parsedParameters['systemtag']),
 				]))
 					->setRichSubject($this->l->t('System tag {systemtag} was removed from {file} by the system'), $parsedParameters);
-			} else if ($parsedParameters['actor']['id'] === $this->activityManager->getCurrentUserId()) {
+			} elseif ($parsedParameters['actor']['id'] === $this->activityManager->getCurrentUserId()) {
 				$event->setParsedSubject($this->l->t('You removed system tag %2$s from %1$s', [
 					$parsedParameters['file']['path'],
 					$this->generatePlainSystemTag($parsedParameters['systemtag']),
@@ -350,7 +350,7 @@ class Provider implements IProvider {
 	protected function generatePlainSystemTag(array $parameter) {
 		if ($parameter['assignable'] === '1') {
 			return $parameter['name'];
-		} else if ($parameter['visibility'] === '1') {
+		} elseif ($parameter['visibility'] === '1') {
 			return $this->l->t('%s (restricted)', $parameter['name']);
 		} else {
 			return $this->l->t('%s (invisible)', $parameter['name']);

@@ -98,7 +98,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 		if ($this->cacheSharedLocks) {
 			if ($targetType === self::LOCK_SHARED) {
 				$this->sharedLocks[$path] = true;
-			} else if ($targetType === self::LOCK_EXCLUSIVE) {
+			} elseif ($targetType === self::LOCK_EXCLUSIVE) {
 				$this->sharedLocks[$path] = false;
 			}
 		}
@@ -167,7 +167,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 			} else {
 				return $lockValue > 0;
 			}
-		} else if ($type === self::LOCK_EXCLUSIVE) {
+		} elseif ($type === self::LOCK_EXCLUSIVE) {
 			return $lockValue === -1;
 		} else {
 			return false;
@@ -227,7 +227,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 				'UPDATE `*PREFIX*file_locks` SET `lock` = 0 WHERE `key` = ? AND `lock` = -1',
 				[$path]
 			);
-		} else if (!$this->cacheSharedLocks) {
+		} elseif (!$this->cacheSharedLocks) {
 			$query = $this->connection->getQueryBuilder();
 			$query->update('file_locks')
 				->set('lock', $query->func()->subtract('lock', $query->createNamedParameter(1)))

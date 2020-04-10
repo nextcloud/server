@@ -1078,7 +1078,7 @@ if (!function_exists('imagebmp')) {
 	function imagebmp($im, $fileName = '', $bit = 24, $compression = 0) {
 		if (!in_array($bit, [1, 4, 8, 16, 24, 32])) {
 			$bit = 24;
-		} else if ($bit == 32) {
+		} elseif ($bit == 32) {
 			$bit = 24;
 		}
 		$bits = pow(2, $bit);
@@ -1115,7 +1115,7 @@ if (!function_exists('imagebmp')) {
 					$bmpData .= $extra;
 				}
 			} // RLE8
-			else if ($compression == 1 && $bit == 8) {
+			elseif ($compression == 1 && $bit == 8) {
 				for ($j = $height - 1; $j >= 0; $j--) {
 					$lastIndex = "\0";
 					$sameNum = 0;

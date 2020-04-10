@@ -60,7 +60,7 @@ class UserShareAcceptanceListener implements IEventListener {
 
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$this->handleAutoAccept($share, $share->getSharedWith());
-		} else if ($share->getShareType() === IShare::TYPE_GROUP) {
+		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$group = $this->groupManager->get($share->getSharedWith());
 
 			if ($group === null) {

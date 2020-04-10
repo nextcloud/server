@@ -192,7 +192,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 					}
 					$backends[] = $backend;
 				}
-			} else if ($backend->groupExists($gid)) {
+			} elseif ($backend->groupExists($gid)) {
 				$backends[] = $backend;
 			}
 		}
@@ -218,7 +218,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	public function createGroup($gid) {
 		if ($gid === '' || $gid === null) {
 			return null;
-		} else if ($group = $this->get($gid)) {
+		} elseif ($group = $this->get($gid)) {
 			return $group;
 		} else {
 			$this->emit('\OC\Group', 'preCreate', [$gid]);

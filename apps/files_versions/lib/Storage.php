@@ -301,7 +301,7 @@ class Storage {
 					'/' . $targetOwner . '/files_versions/' . $targetPath
 				);
 			}
-		} else if ($versions = Storage::getVersions($sourceOwner, '/' . $sourcePath)) {
+		} elseif ($versions = Storage::getVersions($sourceOwner, '/' . $sourcePath)) {
 			// create missing dirs if necessary
 			self::createMissingDirectories($targetPath, new View('/'. $targetOwner));
 
@@ -384,7 +384,7 @@ class Storage {
 				'node' => $node,
 			]);
 			return true;
-		} else if ($versionCreated) {
+		} elseif ($versionCreated) {
 			self::deleteVersion($users_view, $version);
 		}
 

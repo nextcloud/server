@@ -324,7 +324,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 		if ($path === '.') {
 			$path = '';
-		} else if ($this->is_dir($path)) {
+		} elseif ($this->is_dir($path)) {
 			$path .= '/';
 		}
 
@@ -506,7 +506,7 @@ class Swift extends \OC\Files\Storage\Common {
 				return false;
 			}
 
-		} else if ($fileType === 'dir') {
+		} elseif ($fileType === 'dir') {
 			try {
 				$source = $this->fetchObject($path1 . '/');
 				$source->copy([

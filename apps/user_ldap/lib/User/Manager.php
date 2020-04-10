@@ -260,7 +260,7 @@ class Manager {
 		$this->checkAccess();
 		if(isset($this->usersByDN[$id])) {
 			return $this->usersByDN[$id];
-		} else if(isset($this->usersByUid[$id])) {
+		} elseif(isset($this->usersByUid[$id])) {
 			return $this->usersByUid[$id];
 		}
 

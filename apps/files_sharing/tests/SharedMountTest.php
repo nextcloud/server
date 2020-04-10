@@ -334,7 +334,7 @@ class SharedMountTest extends TestCase {
 
 		if ($type === 'file') {
 			$path = $this->filename;
-		} else if ($type === 'folder') {
+		} elseif ($type === 'folder') {
 			$path = $this->folder;
 		}
 

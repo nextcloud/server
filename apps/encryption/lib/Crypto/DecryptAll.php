@@ -98,7 +98,7 @@ class DecryptAll {
 				$useLoginPassword = $this->questionHelper->ask($input, $output, $questionUseLoginPassword);
 				if ($useLoginPassword) {
 					$question = new Question('Please enter the user\'s login password: ');
-				} else if ($this->util->isRecoveryEnabledForUser($user) === false) {
+				} elseif ($this->util->isRecoveryEnabledForUser($user) === false) {
 					$output->writeln('No recovery key available for user ' . $user);
 					return false;
 				} else {

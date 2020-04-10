@@ -2469,7 +2469,7 @@ class ViewTest extends \Test\TestCase {
 	private function getFileLockType(View $view, $path, $onMountPoint = false) {
 		if ($this->isFileLocked($view, $path, ILockingProvider::LOCK_EXCLUSIVE, $onMountPoint)) {
 			return ILockingProvider::LOCK_EXCLUSIVE;
-		} else if ($this->isFileLocked($view, $path, ILockingProvider::LOCK_SHARED, $onMountPoint)) {
+		} elseif ($this->isFileLocked($view, $path, ILockingProvider::LOCK_SHARED, $onMountPoint)) {
 			return ILockingProvider::LOCK_SHARED;
 		}
 		return null;

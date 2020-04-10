@@ -343,19 +343,19 @@ class LDAP implements ILDAPWrapper {
 
 		if($this->curFunc === 'ldap_get_entries'
 			&& $errorCode === -4) {
-		} else if ($errorCode === 32) {
+		} elseif ($errorCode === 32) {
 			//for now
-		} else if ($errorCode === 10) {
+		} elseif ($errorCode === 10) {
 			//referrals, we switch them off, but then there is AD :)
-		} else if ($errorCode === -1) {
+		} elseif ($errorCode === -1) {
 			throw new ServerNotAvailableException('Lost connection to LDAP server.');
-		} else if ($errorCode === 52) {
+		} elseif ($errorCode === 52) {
 			throw new ServerNotAvailableException('LDAP server is shutting down.');
-		} else if ($errorCode === 48) {
+		} elseif ($errorCode === 48) {
 			throw new \Exception('LDAP authentication method rejected', $errorCode);
-		} else if ($errorCode === 1) {
+		} elseif ($errorCode === 1) {
 			throw new \Exception('LDAP Operations error', $errorCode);
-		} else if ($errorCode === 19) {
+		} elseif ($errorCode === 19) {
 			ldap_get_option($this->curArgs[0], LDAP_OPT_ERROR_STRING, $extended_error);
 			throw new ConstraintViolationException(!empty($extended_error)?$extended_error:$errorMsg, $errorCode);
 		} else {
@@ -375,7 +375,7 @@ class LDAP implements ILDAPWrapper {
 	private function postFunctionCall() {
 		if($this->isResource($this->curArgs[0])) {
 			$resource = $this->curArgs[0];
-		} else if(
+		} elseif(
 			   $this->curFunc === 'ldap_search'
 			&& is_array($this->curArgs[0])
 			&& $this->isResource($this->curArgs[0][0])

@@ -84,7 +84,7 @@ class GetConfig extends Base {
 				foreach ($configNames as $configName) {
 					if (isset($configValue[$configName])) {
 						$configValue = $configValue[$configName];
-					} else if (!$input->hasParameterOption('--default-value')) {
+					} elseif (!$input->hasParameterOption('--default-value')) {
 						return 1;
 					} else {
 						$configValue = $defaultValue;

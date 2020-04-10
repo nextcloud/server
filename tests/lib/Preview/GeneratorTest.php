@@ -171,13 +171,13 @@ class GeneratorTest extends \Test\TestCase {
 			->willReturnCallback(function ($provider) use ($invalidProvider, $validProvider, $unavailableProvider) {
 				if ($provider === 'wrongProvider') {
 					$this->fail('Wrongprovider should not be constructed!');
-				} else if ($provider === 'brokenProvider') {
+				} elseif ($provider === 'brokenProvider') {
 					return false;
-				} else if ($provider === 'invalidProvider') {
+				} elseif ($provider === 'invalidProvider') {
 					return $invalidProvider;
-				} else if ($provider === 'validProvider') {
+				} elseif ($provider === 'validProvider') {
 					return $validProvider;
-				} else if ($provider === 'unavailableProvider') {
+				} elseif ($provider === 'unavailableProvider') {
 					return $unavailableProvider;
 				}
 				$this->fail('Unexpected provider requested');
@@ -213,7 +213,7 @@ class GeneratorTest extends \Test\TestCase {
 			->willReturnCallback(function ($filename) use ($maxPreview, $previewFile) {
 				if ($filename === '2048-2048-max.png') {
 					return $maxPreview;
-				} else if ($filename === '256-256.png') {
+				} elseif ($filename === '256-256.png') {
 					return $previewFile;
 				}
 				$this->fail('Unexpected file');

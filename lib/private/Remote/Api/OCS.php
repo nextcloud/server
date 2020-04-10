@@ -48,7 +48,7 @@ class OCS extends ApiBase implements ICapabilitiesApi, IUserApi {
 		} catch (ClientException $e) {
 			if ($e->getResponse()->getStatusCode() === 404) {
 				throw new NotFoundException();
-			} else if ($e->getResponse()->getStatusCode() === 403 || $e->getResponse()->getStatusCode() === 401) {
+			} elseif ($e->getResponse()->getStatusCode() === 403 || $e->getResponse()->getStatusCode() === 401) {
 				throw new ForbiddenException();
 			} else {
 				throw $e;

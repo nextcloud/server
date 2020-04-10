@@ -189,7 +189,7 @@ class OC_Util {
 		// If we are not forced to load a specific user we load the one that is logged in
 		if ($user === null) {
 			$user = '';
-		} else if ($user == "" && \OC::$server->getUserSession()->isLoggedIn()) {
+		} elseif ($user == "" && \OC::$server->getUserSession()->isLoggedIn()) {
 			$user = OC_User::getUser();
 		}
 
@@ -788,7 +788,7 @@ class OC_Util {
 							[$urlGenerator->linkToDocs('admin-dir_permissions')])
 					];
 				}
-			} else if (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
+			} elseif (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 				// is_writable doesn't work for NFS mounts, so try to write a file and check if it exists.
 				$testFile = sprintf('%s/%s.tmp', $CONFIG_DATADIRECTORY, uniqid('data_dir_writability_test_'));
 				$handle = fopen($testFile, 'w');
@@ -1421,7 +1421,7 @@ class OC_Util {
 			$versionDiff = version_compare($currentVersion, $installedVersion);
 			if ($versionDiff > 0) {
 				return true;
-			} else if ($config->getValue('debug', false) && $versionDiff < 0) {
+			} elseif ($config->getValue('debug', false) && $versionDiff < 0) {
 				// downgrade with debug
 				$installedMajor = explode('.', $installedVersion);
 				$installedMajor = $installedMajor[0] . '.' . $installedMajor[1];
@@ -1434,7 +1434,7 @@ class OC_Util {
 					// downgrade attempt, throw exception
 					throw new \OC\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
 				}
-			} else if ($versionDiff < 0) {
+			} elseif ($versionDiff < 0) {
 				// downgrade attempt, throw exception
 				throw new \OC\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
 			}

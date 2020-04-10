@@ -77,7 +77,7 @@ class Quota extends Wrapper {
 			$offset = $this->stream_tell() + $offset;
 			$this->limit += $oldOffset - $offset;
 		}
-		else if ($whence === SEEK_SET) {
+		elseif ($whence === SEEK_SET) {
 			$this->limit += $this->stream_tell() - $offset;
 		} else {
 			$this->limit -= $offset;

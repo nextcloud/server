@@ -262,7 +262,7 @@ class AddressBookImpl implements IAddressBook {
 
 				$result['PHOTO'] = 'VALUE=uri:' . $url;
 
-			} else if ($property->name === 'X-SOCIALPROFILE') {
+			} elseif ($property->name === 'X-SOCIALPROFILE') {
 				$type = $this->getTypeFromProperty($property);
 
 				// Type is the social network, when it's empty we don't need this.
@@ -274,7 +274,7 @@ class AddressBookImpl implements IAddressBook {
 				}
 
 			// The following properties can be set multiple times
-			} else if (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
+			} elseif (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
 				if (!isset($result[$property->name])) {
 					$result[$property->name] = [];
 				}

@@ -260,7 +260,7 @@ class Helper {
 		$sortFunc = 'compareFileNames';
 		if ($sortAttribute === 'mtime') {
 			$sortFunc = 'compareTimestamp';
-		} else if ($sortAttribute === 'size') {
+		} elseif ($sortAttribute === 'size') {
 			$sortFunc = 'compareSize';
 		}
 		usort($files, [Helper::class, $sortFunc]);

@@ -388,7 +388,7 @@ class KeyManagerTest extends TestCase {
 			$expectedUid = 'masterKeyId';
 			$this->configMock->expects($this->any())->method('getSystemValue')->with('secret')
 				->willReturn('password');
-		} else if (!$uid) {
+		} elseif (!$uid) {
 			$expectedUid = 'systemKeyId';
 		} else {
 			$expectedUid = $uid;

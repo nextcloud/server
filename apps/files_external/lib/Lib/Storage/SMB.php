@@ -96,7 +96,7 @@ class SMB extends Common implements INotifyStorage {
 
 		if (isset($params['auth'])) {
 			$auth = $params['auth'];
-		} else if (isset($params['user']) && isset($params['password']) && isset($params['share'])) {
+		} elseif (isset($params['user']) && isset($params['password']) && isset($params['share'])) {
 			list($workgroup, $user) = $this->splitUser($params['user']);
 			$auth = new BasicAuth($user, $workgroup, $params['password']);
 		} else {
@@ -161,7 +161,7 @@ class SMB extends Common implements INotifyStorage {
 	protected function relativePath($fullPath) {
 		if ($fullPath === $this->root) {
 			return '';
-		} else if (substr($fullPath, 0, strlen($this->root)) === $this->root) {
+		} elseif (substr($fullPath, 0, strlen($this->root)) === $this->root) {
 			return substr($fullPath, strlen($this->root));
 		} else {
 			return null;

@@ -131,7 +131,7 @@ class User {
 		if ($username === null) {
 			$log->log("uid for '$dn' must not be null!", ILogger::ERROR);
 			throw new \InvalidArgumentException('uid must not be null!');
-		} else if ($username === '') {
+		} elseif ($username === '') {
 			$log->log("uid for '$dn' must not be an empty string", ILogger::ERROR);
 			throw new \InvalidArgumentException('uid must not be an empty string!');
 		}
@@ -241,7 +241,7 @@ class User {
 		// LDAP Username, needed for s2s sharing
 		if(isset($ldapEntry['uid'])) {
 			$this->storeLDAPUserName($ldapEntry['uid'][0]);
-		} else if(isset($ldapEntry['samaccountname'])) {
+		} elseif(isset($ldapEntry['samaccountname'])) {
 			$this->storeLDAPUserName($ldapEntry['samaccountname'][0]);
 		}
 
@@ -548,10 +548,10 @@ class User {
 			$aQuota = $this->access->readAttribute($this->dn, $quotaAttribute);
 			if($aQuota && (count($aQuota) > 0) && $this->verifyQuotaValue($aQuota[0])) {
 				$quota = $aQuota[0];
-			} else if(is_array($aQuota) && isset($aQuota[0])) {
+			} elseif(is_array($aQuota) && isset($aQuota[0])) {
 				$this->log->log('no suitable LDAP quota found for user ' . $this->uid . ': [' . $aQuota[0] . ']', ILogger::DEBUG);
 			}
-		} else if ($this->verifyQuotaValue($valueFromLDAP)) {
+		} elseif ($this->verifyQuotaValue($valueFromLDAP)) {
 			$quota = $valueFromLDAP;
 		} else {
 			$this->log->log('no suitable LDAP quota found for user ' . $this->uid . ': [' . $valueFromLDAP . ']', ILogger::DEBUG);
@@ -560,7 +560,7 @@ class User {
 		if ($quota === false && $this->verifyQuotaValue($defaultQuota)) {
 			// quota not found using the LDAP attribute (or not parseable). Try the default quota
 			$quota = $defaultQuota;
-		} else if($quota === false) {
+		} elseif($quota === false) {
 			$this->log->log('no suitable default quota found for user ' . $this->uid . ': [' . $defaultQuota . ']', ILogger::DEBUG);
 			return;
 		}

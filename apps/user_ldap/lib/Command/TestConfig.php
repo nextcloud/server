@@ -60,9 +60,9 @@ class TestConfig extends Command {
 		$result = $this->testConfig($configID);
 		if($result === 0) {
 			$output->writeln('The configuration is valid and the connection could be established!');
-		} else if($result === 1) {
+		} elseif($result === 1) {
 			$output->writeln('The configuration is invalid. Please have a look at the logs for further details.');
-		} else if($result === 2) {
+		} elseif($result === 2) {
 			$output->writeln('The configuration is valid, but the Bind failed. Please check the server settings and credentials.');
 		} else {
 			$output->writeln('Your LDAP server was kidnapped by aliens.');

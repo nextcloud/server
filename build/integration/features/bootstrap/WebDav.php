@@ -88,7 +88,7 @@ trait WebDav {
 	public function makeDavRequest($user, $method, $path, $headers, $body = null, $type = "files") {
 		if ($type === "files") {
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->getDavFilesPath($user) . "$path";
-		} else if ($type === "uploads") {
+		} elseif ($type === "uploads") {
 			$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . "$path";
 		}
 		$client = new GClient();

@@ -125,7 +125,7 @@ class ListCommand extends Base {
 			} else {
 				if ($userId === self::ALL) {
 					$output->writeln("<info>No mounts configured</info>");
-				} else if ($userId) {
+				} elseif ($userId) {
 					$output->writeln("<info>No mounts configured by $userId</info>");
 				} else {
 					$output->writeln("<info>No admin mounts configured</info>");

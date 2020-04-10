@@ -134,7 +134,7 @@ class FileSystemTags implements ICheck, IFileCheck {
 		$parentIds = [];
 		if ($path !== $this->dirname($path)) {
 			$parentIds = $this->getFileIds($cache, $this->dirname($path), $isExternalStorage);
-		} else if (!$isExternalStorage) {
+		} elseif (!$isExternalStorage) {
 			return [];
 		}
 

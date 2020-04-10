@@ -52,7 +52,7 @@ class MemoryInfo {
 		$iniValue = trim(ini_get('memory_limit'));
 		if ($iniValue === '-1') {
 			return -1;
-		} else if (is_numeric($iniValue) === true) {
+		} elseif (is_numeric($iniValue) === true) {
 			return (int)$iniValue;
 		} else {
 			return $this->memoryLimitToBytes($iniValue);

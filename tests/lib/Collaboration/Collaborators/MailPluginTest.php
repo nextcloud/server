@@ -536,7 +536,7 @@ class MailPluginTest extends TestCase {
 				function ($appName, $key, $default) {
 					if ($appName === 'core' && $key === 'shareapi_allow_share_dialog_user_enumeration') {
 						return 'yes';
-					} else if ($appName === 'core' && $key === 'shareapi_only_share_with_group_members') {
+					} elseif ($appName === 'core' && $key === 'shareapi_only_share_with_group_members') {
 						return 'yes';
 					}
 					return $default;

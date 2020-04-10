@@ -98,9 +98,9 @@ class ChangesCheck {
 	protected function evaluateResponse(IResponse $response): int {
 		if($response->getStatusCode() === 304) {
 			return self::RESPONSE_USE_CACHE;
-		} else if($response->getStatusCode() === 404) {
+		} elseif($response->getStatusCode() === 404) {
 			return self::RESPONSE_NO_CONTENT;
-		} else if($response->getStatusCode() === 200) {
+		} elseif($response->getStatusCode() === 200) {
 			return self::RESPONSE_HAS_CONTENT;
 		}
 		$this->logger->debug('Unexpected return code {code} from changelog server', [

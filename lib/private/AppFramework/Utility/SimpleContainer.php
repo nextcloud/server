@@ -72,7 +72,7 @@ class SimpleContainer extends Container implements IContainer {
 					// Service not found, use the default value when available
 					if ($parameter->isDefaultValueAvailable()) {
 						$parameters[] = $parameter->getDefaultValue();
-					} else if ($parameterClass !== null) {
+					} elseif ($parameterClass !== null) {
 						$resolveName = $parameter->getName();
 						$parameters[] = $this->query($resolveName);
 					} else {
@@ -111,7 +111,7 @@ class SimpleContainer extends Container implements IContainer {
 		$name = $this->sanitizeName($name);
 		if ($this->offsetExists($name)) {
 			return $this->offsetGet($name);
-		} else if ($autoload) {
+		} elseif ($autoload) {
 			$object = $this->resolve($name);
 			$this->registerService($name, function () use ($object) {
 				return $object;

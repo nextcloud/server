@@ -158,7 +158,7 @@ class SwiftFactory {
 				$token = $authService->generateTokenFromCache($cachedToken);
 				if (\is_null($token->catalog)) {
 					$this->logger->warning('Invalid cached token for swift, no catalog set: ' . json_encode($cachedToken));
-				} else if ($token->hasExpired()) {
+				} elseif ($token->hasExpired()) {
 					$this->logger->debug('Cached token for swift expired');
 				} else {
 					$hasValidCachedToken = true;
@@ -192,9 +192,9 @@ class SwiftFactory {
 				$statusCode = $e->getResponse()->getStatusCode();
 				if ($statusCode === 404) {
 					throw new StorageAuthException('Keystone not found, verify the keystone url', $e);
-				} else if ($statusCode === 412) {
+				} elseif ($statusCode === 412) {
 					throw new StorageAuthException('Precondition failed, verify the keystone url', $e);
-				} else if ($statusCode === 401) {
+				} elseif ($statusCode === 401) {
 					throw new StorageAuthException('Authentication failed, verify the username, password and possibly tenant', $e);
 				} else {
 					throw new StorageAuthException('Unknown error', $e);

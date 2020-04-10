@@ -54,23 +54,23 @@ class Users extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_USER_SELF) {
 			$subject = $this->l->t('Shared with {user}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_USER_SELF) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_USER_SELF) {
 			$subject = $this->l->t('Removed share for {user}');
-		} else if ($event->getSubject() === self::SUBJECT_SELF_UNSHARED) {
+		} elseif ($event->getSubject() === self::SUBJECT_SELF_UNSHARED) {
 			$subject = $this->l->t('You removed yourself');
-		} else if ($event->getSubject() === self::SUBJECT_SELF_UNSHARED_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_SELF_UNSHARED_BY) {
 			$subject = $this->l->t('{actor} removed themselves');
-		} else if ($event->getSubject() === self::SUBJECT_RESHARED_USER_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_RESHARED_USER_BY) {
 			$subject = $this->l->t('{actor} shared with {user}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_USER_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_USER_BY) {
 			$subject = $this->l->t('{actor} removed share for {user}');
-		} else if ($event->getSubject() === self::SUBJECT_SHARED_WITH_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARED_WITH_BY) {
 			$subject = $this->l->t('Shared by {actor}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_BY) {
 			$subject = $this->l->t('{actor} removed share');
-		} else if ($event->getSubject() === self::SUBJECT_EXPIRED_USER) {
+		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED_USER) {
 			$subject = $this->l->t('Share for {user} expired');
-		} else if ($event->getSubject() === self::SUBJECT_EXPIRED) {
+		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED) {
 			$subject = $this->l->t('Share expired');
 		} else {
 			throw new \InvalidArgumentException();
@@ -97,23 +97,23 @@ class Users extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_SHARED_USER_SELF) {
 			$subject = $this->l->t('You shared {file} with {user}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_USER_SELF) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_USER_SELF) {
 			$subject = $this->l->t('You removed {user} from {file}');
-		} else if ($event->getSubject() === self::SUBJECT_SELF_UNSHARED) {
+		} elseif ($event->getSubject() === self::SUBJECT_SELF_UNSHARED) {
 			$subject = $this->l->t('You removed yourself from {file}');
-		} else if ($event->getSubject() === self::SUBJECT_SELF_UNSHARED_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_SELF_UNSHARED_BY) {
 			$subject = $this->l->t('{actor} removed themselves from {file}');
-		} else if ($event->getSubject() === self::SUBJECT_RESHARED_USER_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_RESHARED_USER_BY) {
 			$subject = $this->l->t('{actor} shared {file} with {user}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_USER_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_USER_BY) {
 			$subject = $this->l->t('{actor} removed {user} from {file}');
-		} else if ($event->getSubject() === self::SUBJECT_SHARED_WITH_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARED_WITH_BY) {
 			$subject = $this->l->t('{actor} shared {file} with you');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARED_BY) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARED_BY) {
 			$subject = $this->l->t('{actor} removed you from the share named {file}');
-		} else if ($event->getSubject() === self::SUBJECT_EXPIRED_USER) {
+		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED_USER) {
 			$subject = $this->l->t('Share for file {file} with {user} expired');
-		} else if ($event->getSubject() === self::SUBJECT_EXPIRED) {
+		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED) {
 			$subject = $this->l->t('Share for file {file} expired');
 
 		} else {

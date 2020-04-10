@@ -134,7 +134,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 				'permissions' => $item['permissions'],
 				'uid_owner' => $item['uid_owner'],
 			];
-		} else if ($format === self::FORMAT_GET_FOLDER_CONTENTS) {
+		} elseif ($format === self::FORMAT_GET_FOLDER_CONTENTS) {
 			$files = [];
 			foreach ($items as $item) {
 				$file = [];
@@ -157,25 +157,25 @@ class File implements \OCP\Share_Backend_File_Dependent {
 				$files[] = $file;
 			}
 			return $files;
-		} else if ($format === self::FORMAT_OPENDIR) {
+		} elseif ($format === self::FORMAT_OPENDIR) {
 			$files = [];
 			foreach ($items as $item) {
 				$files[] = basename($item['file_target']);
 			}
 			return $files;
-		} else if ($format === self::FORMAT_GET_ALL) {
+		} elseif ($format === self::FORMAT_GET_ALL) {
 			$ids = [];
 			foreach ($items as $item) {
 				$ids[] = $item['file_source'];
 			}
 			return $ids;
-		} else if ($format === self::FORMAT_PERMISSIONS) {
+		} elseif ($format === self::FORMAT_PERMISSIONS) {
 			$filePermissions = [];
 			foreach ($items as $item) {
 				$filePermissions[$item['file_source']] = $item['permissions'];
 			}
 			return $filePermissions;
-		} else if ($format === self::FORMAT_TARGET_NAMES) {
+		} elseif ($format === self::FORMAT_TARGET_NAMES) {
 			$targets = [];
 			foreach ($items as $item) {
 				$targets[] = $item['file_target'];

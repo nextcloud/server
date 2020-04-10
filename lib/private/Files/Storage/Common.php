@@ -104,7 +104,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	protected function remove($path) {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
-		} else if ($this->is_file($path)) {
+		} elseif ($this->is_file($path)) {
 			return $this->unlink($path);
 		} else {
 			return false;
@@ -439,7 +439,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		foreach (explode('/', $path) as $chunk) {
 			if ($chunk == '..') {
 				array_pop($output);
-			} else if ($chunk == '.') {
+			} elseif ($chunk == '.') {
 			} else {
 				$output[] = $chunk;
 			}

@@ -177,7 +177,7 @@ class SaveAccountsTableData implements IRepairStep {
 		}
 		if ($state === 1) {
 			$this->config->setUserValue($userdata['user_id'], 'core', 'enabled', 'true');
-		} else if ($state === 2) {
+		} elseif ($state === 2) {
 			$this->config->setUserValue($userdata['user_id'], 'core', 'enabled', 'false');
 		}
 

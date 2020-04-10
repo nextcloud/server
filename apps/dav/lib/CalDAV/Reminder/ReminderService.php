@@ -511,7 +511,7 @@ class ReminderService {
 					$users[] = $user;
 					$userIds[] = $principal[2];
 				}
-			} else if ($principal[1] === 'groups') {
+			} elseif ($principal[1] === 'groups') {
 				$groups[] = $principal[2];
 			}
 		}

@@ -546,7 +546,7 @@ class AppManager implements IAppManager {
 			$info = $this->getAppInfo($appId);
 			if ($info === null) {
 				$incompatibleApps[] = ['id' => $appId];
-			} else if (!\OC_App::isAppCompatible($version, $info)) {
+			} elseif (!\OC_App::isAppCompatible($version, $info)) {
 				$incompatibleApps[] = $info;
 			}
 		}

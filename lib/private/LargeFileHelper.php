@@ -75,9 +75,9 @@ class LargeFileHelper {
 		if (is_float($number)) {
 			// Undo the effect of the php.ini setting 'precision'.
 			return number_format($number, 0, '', '');
-		} else if (is_string($number) && ctype_digit($number)) {
+		} elseif (is_string($number) && ctype_digit($number)) {
 			return $number;
-		} else if (is_int($number)) {
+		} elseif (is_int($number)) {
 			// Interpret signed integer as unsigned integer.
 			return sprintf('%u', $number);
 		} else {
@@ -151,7 +151,7 @@ class LargeFileHelper {
 			$result = null;
 			if (strpos($os, 'linux') !== false) {
 				$result = $this->exec("stat -c %s $arg");
-			} else if (strpos($os, 'bsd') !== false || strpos($os, 'darwin') !== false) {
+			} elseif (strpos($os, 'bsd') !== false || strpos($os, 'darwin') !== false) {
 				$result = $this->exec("stat -f %z $arg");
 			}
 			return $result;

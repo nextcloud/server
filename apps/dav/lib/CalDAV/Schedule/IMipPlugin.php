@@ -516,7 +516,7 @@ class IMipPlugin extends SabreIMipPlugin {
 			$template->setSubject('Cancelled: ' . $summary);
 			$template->addHeading($l10n->t('Invitation canceled'), $l10n->t('Hello %s,', [$attendeeName]));
 			$template->addBodyText($l10n->t('The meeting »%1$s« with %2$s was canceled.', [$summary, $inviteeName]));
-		} else if ($method === self::METHOD_REPLY) {
+		} elseif ($method === self::METHOD_REPLY) {
 			$template->setSubject('Re: ' . $summary);
 			$template->addHeading($l10n->t('Invitation updated'), $l10n->t('Hello %s,', [$attendeeName]));
 			$template->addBodyText($l10n->t('The meeting »%1$s« with %2$s was updated.', [$summary, $inviteeName]));

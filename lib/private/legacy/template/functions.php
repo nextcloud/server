@@ -81,7 +81,7 @@ function emit_script_tag($src, $script_content='') {
 	if (!empty($src)) {
 		 // emit script tag for deferred loading from $src
 		$s.=$defer_str.' src="' . $src .'">';
-	} else if (!empty($script_content)) {
+	} elseif (!empty($script_content)) {
 		// emit script tag for inline script from $script_content without defer (see MDN)
 		$s.=">\n".$script_content."\n";
 	} else {

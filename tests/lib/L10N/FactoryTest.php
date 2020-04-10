@@ -513,7 +513,7 @@ class FactoryTest extends TestCase {
 			->willReturnCallback(function ($var, $default) use ($defaultLang) {
 				if ($var === 'installed') {
 					return true;
-				} else if ($var === 'default_language') {
+				} elseif ($var === 'default_language') {
 					return $defaultLang;
 				} else {
 					return $default;

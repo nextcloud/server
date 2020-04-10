@@ -523,7 +523,7 @@ class Group_LDAPTest extends TestCase {
 			->willReturnCallback(function ($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
 					return [1337];
-				} else if($attr === 'gidNumber') {
+				} elseif($attr === 'gidNumber') {
 					return [4211];
 				}
 				return [];
@@ -657,7 +657,7 @@ class Group_LDAPTest extends TestCase {
 			->willReturnCallback(function ($name) {
 				if($name === 'useMemberOfToDetectMembership') {
 					return 0;
-				} else if($name === 'ldapDynamicGroupMemberURL') {
+				} elseif($name === 'ldapDynamicGroupMemberURL') {
 					return '';
 				}
 				return 1;
@@ -1082,9 +1082,9 @@ class Group_LDAPTest extends TestCase {
 			->willReturnCallback(function ($name) {
 				if($name === 'ldapGroupMemberAssocAttr') {
 					return 'member';
-				} else if($name === 'ldapGroupFilter') {
+				} elseif($name === 'ldapGroupFilter') {
 					return 'objectclass=nextcloudGroup';
-				} else if($name === 'ldapGroupDisplayName') {
+				} elseif($name === 'ldapGroupDisplayName') {
 					return 'cn';
 				}
 				return null;

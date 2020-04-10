@@ -874,7 +874,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		} else {
 			if (isset($this->server['HTTP_HOST'])) {
 				$host = $this->server['HTTP_HOST'];
-			} else if (isset($this->server['SERVER_NAME'])) {
+			} elseif (isset($this->server['SERVER_NAME'])) {
 				$host = $this->server['SERVER_NAME'];
 			}
 		}

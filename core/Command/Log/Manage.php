@@ -188,9 +188,9 @@ class Manage extends Command implements CompletionAwareInterface {
 	public function completeOptionValues($optionName, CompletionContext $context) {
 		if ($optionName === 'backend') {
 			return ['file', 'syslog', 'errorlog', 'systemd'];
-		} else if ($optionName === 'level') {
+		} elseif ($optionName === 'level') {
 			return ['debug', 'info', 'warning', 'error', 'fatal'];
-		} else if ($optionName === 'timezone') {
+		} elseif ($optionName === 'timezone') {
 			return \DateTimeZone::listIdentifiers();
 		}
 		return [];

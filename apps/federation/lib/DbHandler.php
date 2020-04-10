@@ -302,7 +302,7 @@ class DbHandler {
 
 		if (strpos($url, 'https://') === 0) {
 			$normalized = substr($url, strlen('https://'));
-		} else if (strpos($url, 'http://') === 0) {
+		} elseif (strpos($url, 'http://') === 0) {
 			$normalized = substr($url, strlen('http://'));
 		}
 

@@ -60,7 +60,7 @@ class RemoteShares extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_ACCEPTED) {
 			$subject = $this->l->t('{user} accepted the remote share');
-		} else if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_DECLINED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_DECLINED) {
 			$subject = $this->l->t('{user} declined the remote share');
 		} else {
 			throw new \InvalidArgumentException();
@@ -87,11 +87,11 @@ class RemoteShares extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_RECEIVED) {
 			$subject = $this->l->t('You received a new remote share {file} from {user}');
-		} else if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_ACCEPTED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_ACCEPTED) {
 			$subject = $this->l->t('{user} accepted the remote share of {file}');
-		} else if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_DECLINED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_DECLINED) {
 			$subject = $this->l->t('{user} declined the remote share of {file}');
-		} else if ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_UNSHARED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOTE_SHARE_UNSHARED) {
 			$subject = $this->l->t('{user} unshared {file} from you');
 		} else {
 			throw new \InvalidArgumentException();

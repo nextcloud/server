@@ -101,44 +101,44 @@ class Calendar extends Base {
 
 		if ($event->getSubject() === self::SUBJECT_ADD) {
 			$subject = $this->l->t('{actor} created calendar {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_ADD . '_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_ADD . '_self') {
 			$subject = $this->l->t('You created calendar {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_DELETE) {
+		} elseif ($event->getSubject() === self::SUBJECT_DELETE) {
 			$subject = $this->l->t('{actor} deleted calendar {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_DELETE . '_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_DELETE . '_self') {
 			$subject = $this->l->t('You deleted calendar {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_UPDATE) {
+		} elseif ($event->getSubject() === self::SUBJECT_UPDATE) {
 			$subject = $this->l->t('{actor} updated calendar {calendar}');
-		} else if ($event->getSubject() === self::SUBJECT_UPDATE . '_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_UPDATE . '_self') {
 			$subject = $this->l->t('You updated calendar {calendar}');
 
-		} else if ($event->getSubject() === self::SUBJECT_PUBLISH . '_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_PUBLISH . '_self') {
 			$subject = $this->l->t('You shared calendar {calendar} as public link');
-		} else if ($event->getSubject() === self::SUBJECT_UNPUBLISH . '_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_UNPUBLISH . '_self') {
 			$subject = $this->l->t('You removed public link for calendar {calendar}');
 
-		} else if ($event->getSubject() === self::SUBJECT_SHARE_USER) {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARE_USER) {
 			$subject = $this->l->t('{actor} shared calendar {calendar} with you');
-		} else if ($event->getSubject() === self::SUBJECT_SHARE_USER . '_you') {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARE_USER . '_you') {
 			$subject = $this->l->t('You shared calendar {calendar} with {user}');
-		} else if ($event->getSubject() === self::SUBJECT_SHARE_USER . '_by') {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARE_USER . '_by') {
 			$subject = $this->l->t('{actor} shared calendar {calendar} with {user}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARE_USER) {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER) {
 			$subject = $this->l->t('{actor} unshared calendar {calendar} from you');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_you') {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_you') {
 			$subject = $this->l->t('You unshared calendar {calendar} from {user}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_by') {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_by') {
 			$subject = $this->l->t('{actor} unshared calendar {calendar} from {user}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_self') {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_self') {
 			$subject = $this->l->t('{actor} unshared calendar {calendar} from themselves');
 
-		} else if ($event->getSubject() === self::SUBJECT_SHARE_GROUP . '_you') {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARE_GROUP . '_you') {
 			$subject = $this->l->t('You shared calendar {calendar} with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_SHARE_GROUP . '_by') {
+		} elseif ($event->getSubject() === self::SUBJECT_SHARE_GROUP . '_by') {
 			$subject = $this->l->t('{actor} shared calendar {calendar} with group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_you') {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_you') {
 			$subject = $this->l->t('You unshared calendar {calendar} from group {group}');
-		} else if ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_by') {
+		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_GROUP . '_by') {
 			$subject = $this->l->t('{actor} unshared calendar {calendar} from group {group}');
 		} else {
 			throw new \InvalidArgumentException();
@@ -153,7 +153,7 @@ class Calendar extends Base {
 			if (isset($parsedParameters['user'])) {
 				// Couldn't group by calendar, maybe we can group by users
 				$event = $this->eventMerger->mergeEvents('user', $event, $previousEvent);
-			} else if (isset($parsedParameters['group'])) {
+			} elseif (isset($parsedParameters['group'])) {
 				// Couldn't group by calendar, maybe we can group by groups
 				$event = $this->eventMerger->mergeEvents('group', $event, $previousEvent);
 			}

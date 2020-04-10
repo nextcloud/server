@@ -151,7 +151,7 @@ class MetaData {
 		if ($this->sorting === self::SORT_USERCOUNT) {
 			$sortKeys[$sortIndex] = $data['usercount'];
 			$sortIndex++;
-		} else if ($this->sorting === self::SORT_GROUPNAME) {
+		} elseif ($this->sorting === self::SORT_GROUPNAME) {
 			$sortKeys[$sortIndex] = $data['name'];
 			$sortIndex++;
 		}
@@ -183,7 +183,7 @@ class MetaData {
 	private function sort(&$entries, $sortKeys) {
 		if ($this->sorting === self::SORT_USERCOUNT) {
 			array_multisort($sortKeys, SORT_DESC, $entries);
-		} else if ($this->sorting === self::SORT_GROUPNAME) {
+		} elseif ($this->sorting === self::SORT_GROUPNAME) {
 			array_multisort($sortKeys, SORT_ASC, $entries);
 		}
 	}

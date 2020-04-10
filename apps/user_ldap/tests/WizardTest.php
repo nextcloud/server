@@ -282,9 +282,9 @@ class WizardTest extends TestCase {
 			->willReturnCallback(function ($filter) {
 				if($filter === 'myEmailAttribute') {
 					return 0;
-				} else if($filter === 'mail') {
+				} elseif($filter === 'mail') {
 					return 3;
-				} else if($filter === 'mailPrimaryAddress') {
+				} elseif($filter === 'mailPrimaryAddress') {
 					return 17;
 				}
 				throw new \Exception('Untested filter: ' . $filter);
@@ -321,9 +321,9 @@ class WizardTest extends TestCase {
 			->willReturnCallback(function ($filter) {
 				if($filter === 'myEmailAttribute') {
 					return 0;
-				} else if($filter === 'mail') {
+				} elseif($filter === 'mail') {
 					return 3;
-				} else if($filter === 'mailPrimaryAddress') {
+				} elseif($filter === 'mailPrimaryAddress') {
 					return 17;
 				}
 				throw new \Exception('Untested filter: ' . $filter);
@@ -360,9 +360,9 @@ class WizardTest extends TestCase {
 			->willReturnCallback(function ($filter) {
 				if($filter === 'myEmailAttribute') {
 					return 0;
-				} else if($filter === 'mail') {
+				} elseif($filter === 'mail') {
 					return 0;
-				} else if($filter === 'mailPrimaryAddress') {
+				} elseif($filter === 'mailPrimaryAddress') {
 					return 0;
 				}
 				throw new \Exception('Untested filter: ' . $filter);

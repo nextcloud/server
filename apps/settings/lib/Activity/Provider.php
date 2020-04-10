@@ -102,27 +102,27 @@ class Provider implements IProvider {
 
 		if ($event->getSubject() === self::PASSWORD_CHANGED_BY) {
 			$subject = $this->l->t('{actor} changed your password');
-		} else if ($event->getSubject() === self::PASSWORD_CHANGED_SELF) {
+		} elseif ($event->getSubject() === self::PASSWORD_CHANGED_SELF) {
 			$subject = $this->l->t('You changed your password');
-		} else if ($event->getSubject() === self::PASSWORD_RESET) {
+		} elseif ($event->getSubject() === self::PASSWORD_RESET) {
 			$subject = $this->l->t('Your password was reset by an administrator');
 
-		} else if ($event->getSubject() === self::EMAIL_CHANGED_BY) {
+		} elseif ($event->getSubject() === self::EMAIL_CHANGED_BY) {
 			$subject = $this->l->t('{actor} changed your email address');
-		} else if ($event->getSubject() === self::EMAIL_CHANGED_SELF) {
+		} elseif ($event->getSubject() === self::EMAIL_CHANGED_SELF) {
 			$subject = $this->l->t('You changed your email address');
-		} else if ($event->getSubject() === self::EMAIL_CHANGED) {
+		} elseif ($event->getSubject() === self::EMAIL_CHANGED) {
 			$subject = $this->l->t('Your email address was changed by an administrator');
 
-		} else if ($event->getSubject() === self::APP_TOKEN_CREATED) {
+		} elseif ($event->getSubject() === self::APP_TOKEN_CREATED) {
 			$subject = $this->l->t('You created app password "{token}"');
-		} else if ($event->getSubject() === self::APP_TOKEN_DELETED) {
+		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED) {
 			$subject = $this->l->t('You deleted app password "{token}"');
-		} else if ($event->getSubject() === self::APP_TOKEN_RENAMED) {
+		} elseif ($event->getSubject() === self::APP_TOKEN_RENAMED) {
 			$subject = $this->l->t('You renamed app password "{token}" to "{newToken}"');
-		} else if ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_GRANTED) {
+		} elseif ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_GRANTED) {
 			$subject = $this->l->t('You granted filesystem access to app password "{token}"');
-		} else if ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_REVOKED) {
+		} elseif ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_REVOKED) {
 			$subject = $this->l->t('You revoked filesystem access from app password "{token}"');
 
 		} else {
