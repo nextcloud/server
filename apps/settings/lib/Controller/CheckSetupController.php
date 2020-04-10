@@ -584,6 +584,14 @@ Raw output
 			$recommendedPHPModules[] = 'intl';
 		}
 
+		if (!extension_loaded('bcmath')) {
+			$recommendedPHPModules[] = 'bcmath';
+		}
+
+		if (!extension_loaded('gmp')) {
+			$recommendedPHPModules[] = 'gmp';
+		}
+
 		if ($this->config->getAppValue('theming', 'enabled', 'no') === 'yes') {
 			if (!extension_loaded('imagick')) {
 				$recommendedPHPModules[] = 'imagick';
