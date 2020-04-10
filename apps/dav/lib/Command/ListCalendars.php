@@ -46,7 +46,7 @@ class ListCalendars extends Command {
 	 * @param IUserManager $userManager
 	 * @param CalDavBackend $caldav
 	 */
-	function __construct(IUserManager $userManager, CalDavBackend $caldav) {
+	public function __construct(IUserManager $userManager, CalDavBackend $caldav) {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->caldav = $caldav;

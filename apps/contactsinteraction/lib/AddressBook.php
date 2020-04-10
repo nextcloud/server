@@ -73,7 +73,7 @@ class AddressBook extends ExternalAddressBook implements IACL {
 	/**
 	 * @inheritDoc
 	 */
-	function createFile($name, $data = null) {
+	public function createFile($name, $data = null) {
 		throw new Exception("This addressbook is immutable");
 	}
 

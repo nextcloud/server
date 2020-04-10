@@ -72,7 +72,7 @@ class MoveCalendar extends Command {
 	 * @param IL10N $l10n
 	 * @param CalDavBackend $calDav
 	 */
-	function __construct(
+	public function __construct(
 		IUserManager $userManager,
 		IGroupManager $groupManager,
 		IShareManager $shareManager,

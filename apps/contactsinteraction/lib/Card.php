@@ -52,84 +52,84 @@ class Card implements ICard, IACL {
 	/**
 	 * @inheritDoc
 	 */
-	function getOwner(): ?string {
+	public function getOwner(): ?string {
 		$this->principal;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	function getACL(): array {
+	public function getACL(): array {
 		return $this->acls;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	function setAcls(array $acls): void {
+	public function setAcls(array $acls): void {
 		throw new NotImplemented();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	function put($data): ?string {
+	public function put($data): ?string {
 		throw new NotImplemented();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	function get() {
+	public function get() {
 		return $this->contact->getCard();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	function getContentType(): ?string {
+	public function getContentType(): ?string {
 		return 'text/vcard; charset=utf-8';
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	function getETag(): ?string {
+	public function getETag(): ?string {
 		return null;
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	function getSize(): int {
+	public function getSize(): int {
 		throw new NotImplemented();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	function delete(): void {
+	public function delete(): void {
 		throw new NotImplemented();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	function getName(): string {
+	public function getName(): string {
 		return (string) $this->contact->getId();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	function setName($name): void {
+	public function setName($name): void {
 		throw new NotImplemented();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	function getLastModified(): ?int {
+	public function getLastModified(): ?int {
 		return $this->contact->getLastContact();
 	}
 }

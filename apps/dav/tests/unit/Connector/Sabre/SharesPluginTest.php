@@ -267,7 +267,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->assertEquals($shareTypes, $result[200][self::SHARETYPES_PROPERTYNAME]->getShareTypes());
 	}
 
-	function sharesGetPropertiesDataProvider() {
+	public function sharesGetPropertiesDataProvider() {
 		return [
 			[[]],
 			[[\OCP\Share::SHARE_TYPE_USER]],

@@ -52,7 +52,7 @@ class SyncBirthdayCalendar extends Command {
 	 * @param IConfig $config
 	 * @param BirthdayService $birthdayService
 	 */
-	function __construct(IUserManager $userManager, IConfig $config,
+	public function __construct(IUserManager $userManager, IConfig $config,
 						 BirthdayService $birthdayService) {
 		parent::__construct();
 		$this->birthdayService = $birthdayService;

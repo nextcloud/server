@@ -54,7 +54,7 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0
 	 */
-	static public function rmdirr($dir) {
+	public static function rmdirr($dir) {
 		return \OC_Helper::rmdirr($dir);
 	}
 
@@ -66,7 +66,7 @@ class Files {
 	 * @since 5.0.0
 	 * @deprecated 14.0.0
 	 */
-	static public function getMimeType($path) {
+	public static function getMimeType($path) {
 		return \OC::$server->getMimeTypeDetector()->detect($path);
 	}
 
@@ -77,7 +77,7 @@ class Files {
 	 * @since 6.0.0
 	 * @deprecated 14.0.0
 	 */
-	static public function searchByMime($mimetype) {
+	public static function searchByMime($mimetype) {
 		return \OC\Files\Filesystem::searchByMime($mimetype);
 	}
 

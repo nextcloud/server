@@ -135,7 +135,7 @@ class OC_Helper {
 	 * @param string $dest target folder
 	 *
 	 */
-	static function copyr($src, $dest) {
+	public static function copyr($src, $dest) {
 		if (is_dir($src)) {
 			if (!is_dir($dest)) {
 				mkdir($dest);
@@ -157,7 +157,7 @@ class OC_Helper {
 	 * @param bool $deleteSelf if set to false only the content of the folder will be deleted
 	 * @return bool
 	 */
-	static function rmdirr($dir, $deleteSelf = true) {
+	public static function rmdirr($dir, $deleteSelf = true) {
 		if (is_dir($dir)) {
 			$files = new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
@@ -193,7 +193,7 @@ class OC_Helper {
 	 * @deprecated 18.0.0
 	 * @return \OC\Files\Type\TemplateManager
 	 */
-	static public function getFileTemplateManager() {
+	public static function getFileTemplateManager() {
 		if (!self::$templateManager) {
 			self::$templateManager = new \OC\Files\Type\TemplateManager();
 		}

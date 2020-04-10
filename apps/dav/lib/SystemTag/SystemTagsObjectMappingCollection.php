@@ -92,7 +92,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		$this->user = $user;
 	}
 
-	function createFile($tagId, $data = null) {
+	public function createFile($tagId, $data = null) {
 		try {
 			$tags = $this->tagManager->getTagsByIds([$tagId]);
 			$tag = current($tags);
@@ -109,11 +109,11 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		}
 	}
 
-	function createDirectory($name) {
+	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
 	}
 
-	function getChild($tagId) {
+	public function getChild($tagId) {
 		try {
 			if ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true)) {
 				$tag = $this->tagManager->getTagsByIds([$tagId]);
@@ -130,7 +130,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		}
 	}
 
-	function getChildren() {
+	public function getChildren() {
 		$tagIds = current($this->tagMapper->getTagIdsForObjects([$this->objectId], $this->objectType));
 		if (empty($tagIds)) {
 			return [];
@@ -147,7 +147,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		}, $tags));
 	}
 
-	function childExists($tagId) {
+	public function childExists($tagId) {
 		try {
 			$result = $this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true);
 
@@ -167,15 +167,15 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		}
 	}
 
-	function delete() {
+	public function delete() {
 		throw new Forbidden('Permission denied to delete this collection');
 	}
 
-	function getName() {
+	public function getName() {
 		return $this->objectId;
 	}
 
-	function setName($name) {
+	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
 
@@ -184,7 +184,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	 *
 	 * @return int
 	 */
-	function getLastModified() {
+	public function getLastModified() {
 		return null;
 	}
 

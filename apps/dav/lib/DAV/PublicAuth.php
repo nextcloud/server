@@ -67,7 +67,7 @@ class PublicAuth implements BackendInterface {
 	 * @param ResponseInterface $response
 	 * @return array
 	 */
-	function check(RequestInterface $request, ResponseInterface $response) {
+	public function check(RequestInterface $request, ResponseInterface $response) {
 		if ($this->isRequestPublic($request)) {
 			return [true, "principals/system/public"];
 		}
@@ -77,7 +77,7 @@ class PublicAuth implements BackendInterface {
 	/**
 	 * @inheritdoc
 	 */
-	function challenge(RequestInterface $request, ResponseInterface $response) {
+	public function challenge(RequestInterface $request, ResponseInterface $response) {
 	}
 
 	/**

@@ -118,7 +118,7 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 
-	function testSetCookies() {
+	public function testSetCookies() {
 		$expected = [
 			'foo' => [
 				'value' => 'bar',
@@ -137,7 +137,7 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 
-	function testInvalidateCookie() {
+	public function testInvalidateCookie() {
 		$this->childResponse->addCookie('foo', 'bar');
 		$this->childResponse->invalidateCookie('foo');
 		$expected = [
@@ -153,7 +153,7 @@ class ResponseTest extends \Test\TestCase {
 	}
 
 
-	function testInvalidateCookies() {
+	public function testInvalidateCookies() {
 		$this->childResponse->addCookie('foo', 'bar');
 		$this->childResponse->addCookie('bar', 'foo');
 		$expected = [

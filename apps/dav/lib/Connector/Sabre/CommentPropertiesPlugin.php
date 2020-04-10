@@ -65,7 +65,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	 * @param \Sabre\DAV\Server $server
 	 * @return void
 	 */
-	function initialize(\Sabre\DAV\Server $server) {
+	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 		$this->server->on('propFind', [$this, 'handleGetProperties']);
 	}

@@ -78,7 +78,7 @@ EOD;
 	 * @param string|string[] $folder
 	 * @param string|bool $gitRoot
 	 */
-	function exec($folder, $gitRoot = false) {
+	public function exec($folder, $gitRoot = false) {
 		if (is_array($folder)) {
 			foreach ($folder as $f) {
 				$this->exec($f, $gitRoot);
@@ -121,7 +121,7 @@ EOD;
 		$this->printFilesToCheck();
 	}
 
-	function writeAuthorsFile() {
+	public function writeAuthorsFile() {
 		ksort($this->authors);
 		$template = "Nextcloud is written by:
 @AUTHORS@
@@ -139,7 +139,7 @@ With help from many libraries and frameworks including:
 		file_put_contents(__DIR__.'/../AUTHORS', $template);
 	}
 
-	function handleFile($path, $gitRoot) {
+	public function handleFile($path, $gitRoot) {
 		$source = file_get_contents($path);
 		if ($this->isMITLicensed($source)) {
 			echo "MIT licensed file: $path" . PHP_EOL;

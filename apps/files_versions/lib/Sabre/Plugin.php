@@ -41,11 +41,11 @@ class Plugin extends ServerPlugin {
 	/** @var IRequest */
 	private $request;
 
-	function __construct(IRequest $request) {
+	public function __construct(IRequest $request) {
 		$this->request = $request;
 	}
 
-	function initialize(Server $server) {
+	public function initialize(Server $server) {
 		$this->server = $server;
 
 		$server->on('afterMethod:GET', [$this, 'afterGet']);

@@ -59,7 +59,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	/**
 	 * @inheritdoc
 	 */
-	function get() {
+	public function get() {
 		$data = parent::get();
 
 		if (!$this->isShared()) {

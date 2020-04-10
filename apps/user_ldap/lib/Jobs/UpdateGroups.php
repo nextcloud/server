@@ -61,7 +61,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 		self::updateGroups();
 	}
 
-	static public function updateGroups() {
+	public static function updateGroups() {
 		\OCP\Util::writeLog('user_ldap', 'Run background job "updateGroups"', ILogger::DEBUG);
 
 		$knownGroups = array_keys(self::getKnownGroups());
@@ -84,7 +84,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	/**
 	 * @return int
 	 */
-	static private function getRefreshInterval() {
+	private static function getRefreshInterval() {
 		//defaults to every hour
 		return \OC::$server->getConfig()->getAppValue('user_ldap', 'bgjRefreshInterval', 3600);
 	}
@@ -92,7 +92,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	/**
 	 * @param string[] $groups
 	 */
-	static private function handleKnownGroups($groups) {
+	private static function handleKnownGroups($groups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – Dealing with known Groups.', ILogger::DEBUG);
 		$query = \OC_DB::prepare('
 			UPDATE `*PREFIX*ldap_group_members`
@@ -130,7 +130,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	/**
 	 * @param string[] $createdGroups
 	 */
-	static private function handleCreatedGroups($createdGroups) {
+	private static function handleCreatedGroups($createdGroups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with created Groups.', ILogger::DEBUG);
 		$query = \OC_DB::prepare('
 			INSERT
@@ -152,7 +152,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	/**
 	 * @param string[] $removedGroups
 	 */
-	static private function handleRemovedGroups($removedGroups) {
+	private static function handleRemovedGroups($removedGroups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with removed groups.', ILogger::DEBUG);
 		$query = \OC_DB::prepare('
 			DELETE
@@ -173,7 +173,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	/**
 	 * @return \OCA\User_LDAP\Group_LDAP|\OCA\User_LDAP\Group_Proxy
 	 */
-	static private function getGroupBE() {
+	private static function getGroupBE() {
 		if (!is_null(self::$groupBE)) {
 			return self::$groupBE;
 		}
@@ -209,7 +209,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	/**
 	 * @return array
 	 */
-	static private function getKnownGroups() {
+	private static function getKnownGroups() {
 		if (is_array(self::$groupsFromDB)) {
 			return self::$groupsFromDB;
 		}

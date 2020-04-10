@@ -229,7 +229,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param PropPatch $propPatch
 	 * @return int
 	 */
-	function updatePrincipal($path, PropPatch $propPatch) {
+	public function updatePrincipal($path, PropPatch $propPatch) {
 		return 0;
 	}
 
@@ -239,7 +239,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param string $test
 	 * @return array
 	 */
-	function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
+	public function searchPrincipals($prefixPath, array $searchProperties, $test = 'allof') {
 		$results = [];
 		if (\count($searchProperties) === 0) {
 			return [];
@@ -370,7 +370,7 @@ abstract class AbstractPrincipalBackend implements BackendInterface {
 	 * @param string $principalPrefix
 	 * @return null|string
 	 */
-	function findByUri($uri, $principalPrefix) {
+	public function findByUri($uri, $principalPrefix) {
 		$user = $this->userSession->getUser();
 		if (!$user) {
 			return null;

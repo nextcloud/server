@@ -211,7 +211,7 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertEquals($expectedProperties, $result);
 	}
 
-	function tagsGetPropertiesDataProvider() {
+	public function tagsGetPropertiesDataProvider() {
 		return [
 			// request both, receive both
 			[

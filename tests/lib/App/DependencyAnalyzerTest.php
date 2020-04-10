@@ -144,7 +144,7 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $libs
 	 */
-	function testLibs($expectedMissing, $libs) {
+	public function testLibs($expectedMissing, $libs) {
 		$app = [
 			'dependencies' => [
 			]
@@ -164,7 +164,7 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $oss
 	 */
-	function testOS($expectedMissing, $oss) {
+	public function testOS($expectedMissing, $oss) {
 		$app = [
 			'dependencies' => []
 		];
@@ -183,7 +183,7 @@ class DependencyAnalyzerTest extends TestCase {
 	 * @param $expectedMissing
 	 * @param $oc
 	 */
-	function testOC($expectedMissing, $oc) {
+	public function testOC($expectedMissing, $oc) {
 		$app = [
 			'dependencies' => []
 		];
@@ -200,7 +200,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesOC() {
+	public function providesOC() {
 		return [
 			// no version -> no missing dependency
 			[
@@ -428,7 +428,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesOS() {
+	public function providesOS() {
 		return [
 			[[], null],
 			[[], []],
@@ -440,7 +440,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesLibs() {
+	public function providesLibs() {
 		return [
 			// we expect curl to exist
 			[[], 'curl'],
@@ -470,7 +470,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesCommands() {
+	public function providesCommands() {
 		return [
 			[[], null],
 			// grep is known on linux
@@ -488,7 +488,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesDatabases() {
+	public function providesDatabases() {
 		return [
 			// non BC - in case on databases are defined -> all are supported
 			[[], null],
@@ -501,7 +501,7 @@ class DependencyAnalyzerTest extends TestCase {
 	/**
 	 * @return array
 	 */
-	function providesPhpVersion() {
+	public function providesPhpVersion() {
 		return [
 			[[], null, null, null],
 			[[], '5.4', null, null],

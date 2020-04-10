@@ -61,7 +61,7 @@ class HelperTest extends \Test\TestCase {
 		];
 	}
 
-	function sortDataProvider() {
+	public function sortDataProvider() {
 		return [
 			[
 				'name',

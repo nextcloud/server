@@ -265,7 +265,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertFalse($this->cache->inCache($dir2));
 	}
 
-	function testStatus() {
+	public function testStatus() {
 		$this->assertEquals(\OC\Files\Cache\Cache::NOT_FOUND, $this->cache->getStatus('foo'));
 		$this->cache->put('foo', ['size' => -1]);
 		$this->assertEquals(\OC\Files\Cache\Cache::PARTIAL, $this->cache->getStatus('foo'));
@@ -296,7 +296,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($fileName, $cacheEntry['path']);
 	}
 
-	function testSearch() {
+	public function testSearch() {
 		$file1 = 'folder';
 		$file2 = 'folder/foobar';
 		$file3 = 'folder/foo';
@@ -325,7 +325,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(2, count($this->cache->searchByMime('foo/file')));
 	}
 
-	function testSearchQueryByTag() {
+	public function testSearchQueryByTag() {
 		$userId = static::getUniqueID('user');
 		\OC::$server->getUserManager()->createUser($userId, $userId);
 		static::loginAsUser($userId);
@@ -380,7 +380,7 @@ class CacheTest extends \Test\TestCase {
 		}
 	}
 
-	function testSearchByQuery() {
+	public function testSearchByQuery() {
 		$file1 = 'folder';
 		$file2 = 'folder/foobar';
 		$file3 = 'folder/foo';
@@ -415,7 +415,7 @@ class CacheTest extends \Test\TestCase {
 			, 10, 0, [], $user)));
 	}
 
-	function movePathProvider() {
+	public function movePathProvider() {
 		return [
 			['folder/foo', 'folder/foobar', ['1', '2']],
 			['folder/foo', 'foo', ['1', '2']],
@@ -426,7 +426,7 @@ class CacheTest extends \Test\TestCase {
 	/**
 	 * @dataProvider movePathProvider
 	 */
-	function testMove($sourceFolder, $targetFolder, $children) {
+	public function testMove($sourceFolder, $targetFolder, $children) {
 		$data = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar'];
 		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
 
@@ -461,7 +461,7 @@ class CacheTest extends \Test\TestCase {
 		}
 	}
 
-	function testGetIncomplete() {
+	public function testGetIncomplete() {
 		$file1 = 'folder1';
 		$file2 = 'folder2';
 		$file3 = 'folder3';
@@ -478,13 +478,13 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals($file3, $this->cache->getIncomplete());
 	}
 
-	function testNonExisting() {
+	public function testNonExisting() {
 		$this->assertFalse($this->cache->get('foo.txt'));
 		$this->assertFalse($this->cache->get(-1));
 		$this->assertEquals([], $this->cache->getFolderContents('foo'));
 	}
 
-	function testGetById() {
+	public function testGetById() {
 		$storageId = $this->storage->getId();
 		$data = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file'];
 		$id = $this->cache->put('foo', $data);
@@ -495,7 +495,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals([$storageId, 'foo'], \OC\Files\Cache\Cache::getById($id));
 	}
 
-	function testStorageMTime() {
+	public function testStorageMTime() {
 		$data = ['size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file'];
 		$this->cache->put('foo', $data);
 		$cachedData = $this->cache->get('foo');
@@ -512,7 +512,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(25, $cachedData['mtime']);
 	}
 
-	function testLongId() {
+	public function testLongId() {
 		$storage = new LongId([]);
 		$cache = $storage->getCache();
 		$storageId = $storage->getId();
@@ -606,7 +606,7 @@ class CacheTest extends \Test\TestCase {
 		$this->assertEquals(1, count($this->cache->getFolderContents('folder')));
 	}
 
-	function bogusPathNamesProvider() {
+	public function bogusPathNamesProvider() {
 		return [
 			['/bogus.txt', 'bogus.txt'],
 			['//bogus.txt', 'bogus.txt'],

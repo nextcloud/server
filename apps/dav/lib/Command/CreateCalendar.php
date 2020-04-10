@@ -53,7 +53,7 @@ class CreateCalendar extends Command {
 	 * @param IGroupManager $groupManager
 	 * @param IDBConnection $dbConnection
 	 */
-	function __construct(IUserManager $userManager, IGroupManager $groupManager, IDBConnection $dbConnection) {
+	public function __construct(IUserManager $userManager, IGroupManager $groupManager, IDBConnection $dbConnection) {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;

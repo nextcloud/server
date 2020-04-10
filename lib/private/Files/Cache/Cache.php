@@ -963,7 +963,7 @@ class Cache implements ICache {
 	 * @return array first element holding the storage id, second the path
 	 * @deprecated use getPathById() instead
 	 */
-	static public function getById($id) {
+	public static function getById($id) {
 		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$query->select('path', 'storage')
 			->from('filecache')

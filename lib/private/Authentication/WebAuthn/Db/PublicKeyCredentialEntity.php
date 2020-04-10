@@ -62,7 +62,7 @@ class PublicKeyCredentialEntity extends Entity implements JsonSerializable {
 		$this->addType('data', 'string');
 	}
 
-	static function fromPublicKeyCrendentialSource(string $name, PublicKeyCredentialSource $publicKeyCredentialSource): PublicKeyCredentialEntity {
+	public static function fromPublicKeyCrendentialSource(string $name, PublicKeyCredentialSource $publicKeyCredentialSource): PublicKeyCredentialEntity {
 		$publicKeyCredentialEntity = new self();
 
 		$publicKeyCredentialEntity->setName($name);
@@ -73,7 +73,7 @@ class PublicKeyCredentialEntity extends Entity implements JsonSerializable {
 		return $publicKeyCredentialEntity;
 	}
 
-	function toPublicKeyCredentialSource(): PublicKeyCredentialSource {
+	public function toPublicKeyCredentialSource(): PublicKeyCredentialSource {
 		return PublicKeyCredentialSource::createFromArray(
 			json_decode($this->getData(), true)
 		);

@@ -104,7 +104,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return array
 	 */
-	static public function getPropertyNames() {
+	public static function getPropertyNames() {
 		return [
 			'{http://owncloud.org/ns}id',
 			'{http://owncloud.org/ns}parentId',
@@ -144,7 +144,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return void
 	 */
-	function delete() {
+	public function delete() {
 		$this->checkWriteAccessOnComment();
 		$this->commentsManager->delete($this->comment->getId());
 	}
@@ -156,7 +156,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return string
 	 */
-	function getName() {
+	public function getName() {
 		return $this->comment->getId();
 	}
 
@@ -166,7 +166,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @param string $name The new name
 	 * @throws MethodNotAllowed
 	 */
-	function setName($name) {
+	public function setName($name) {
 		throw new MethodNotAllowed();
 	}
 
@@ -175,7 +175,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return int
 	 */
-	function getLastModified() {
+	public function getLastModified() {
 		return null;
 	}
 
@@ -215,7 +215,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @param PropPatch $propPatch
 	 * @return void
 	 */
-	function propPatch(PropPatch $propPatch) {
+	public function propPatch(PropPatch $propPatch) {
 		// other properties than 'message' are read only
 		$propPatch->handle(self::PROPERTY_NAME_MESSAGE, [$this, 'updateComment']);
 	}
@@ -235,7 +235,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @param array $properties
 	 * @return array
 	 */
-	function getProperties($properties) {
+	public function getProperties($properties) {
 		$properties = array_keys($this->properties);
 
 		$result = [];

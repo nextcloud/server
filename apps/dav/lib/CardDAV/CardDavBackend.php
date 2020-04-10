@@ -143,7 +143,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $principalUri
 	 * @return array
 	 */
-	function getAddressBooksForUser($principalUri) {
+	public function getAddressBooksForUser($principalUri) {
 		$principalUriOriginal = $principalUri;
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
@@ -353,7 +353,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param \Sabre\DAV\PropPatch $propPatch
 	 * @return void
 	 */
-	function updateAddressBook($addressBookId, \Sabre\DAV\PropPatch $propPatch) {
+	public function updateAddressBook($addressBookId, \Sabre\DAV\PropPatch $propPatch) {
 		$supportedProperties = [
 			'{DAV:}displayname',
 			'{' . Plugin::NS_CARDDAV . '}addressbook-description',
@@ -398,7 +398,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return int
 	 * @throws BadRequest
 	 */
-	function createAddressBook($principalUri, $url, array $properties) {
+	public function createAddressBook($principalUri, $url, array $properties) {
 		$values = [
 			'displayname' => null,
 			'description' => null,
@@ -447,7 +447,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param mixed $addressBookId
 	 * @return void
 	 */
-	function deleteAddressBook($addressBookId) {
+	public function deleteAddressBook($addressBookId) {
 		$query = $this->db->getQueryBuilder();
 		$query->delete('cards')
 			->where($query->expr()->eq('addressbookid', $query->createParameter('addressbookid')))
@@ -490,7 +490,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param mixed $addressBookId
 	 * @return array
 	 */
-	function getCards($addressBookId) {
+	public function getCards($addressBookId) {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
 			->from('cards')
@@ -521,7 +521,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $cardUri
 	 * @return array
 	 */
-	function getCard($addressBookId, $cardUri) {
+	public function getCard($addressBookId, $cardUri) {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
 			->from('cards')
@@ -552,7 +552,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string[] $uris
 	 * @return array
 	 */
-	function getMultipleCards($addressBookId, array $uris) {
+	public function getMultipleCards($addressBookId, array $uris) {
 		if (empty($uris)) {
 			return [];
 		}
@@ -605,7 +605,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $cardData
 	 * @return string
 	 */
-	function createCard($addressBookId, $cardUri, $cardData) {
+	public function createCard($addressBookId, $cardUri, $cardData) {
 		$etag = md5($cardData);
 		$uid = $this->getUID($cardData);
 
@@ -672,7 +672,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $cardData
 	 * @return string
 	 */
-	function updateCard($addressBookId, $cardUri, $cardData) {
+	public function updateCard($addressBookId, $cardUri, $cardData) {
 		$uid = $this->getUID($cardData);
 		$etag = md5($cardData);
 		$query = $this->db->getQueryBuilder();
@@ -705,7 +705,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $cardUri
 	 * @return bool
 	 */
-	function deleteCard($addressBookId, $cardUri) {
+	public function deleteCard($addressBookId, $cardUri) {
 		try {
 			$cardId = $this->getCardId($addressBookId, $cardUri);
 		} catch (\InvalidArgumentException $e) {
@@ -790,7 +790,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param int $limit
 	 * @return array
 	 */
-	function getChangesForAddressBook($addressBookId, $syncToken, $syncLevel, $limit = null) {
+	public function getChangesForAddressBook($addressBookId, $syncToken, $syncLevel, $limit = null) {
 		// Current synctoken
 		$stmt = $this->db->prepare('SELECT `synctoken` FROM `*PREFIX*addressbooks` WHERE `id` = ?');
 		$stmt->execute([ $addressBookId ]);

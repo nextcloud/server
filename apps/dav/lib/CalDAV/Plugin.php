@@ -37,7 +37,7 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 	 * @param string $principalUrl
 	 * @return string|null
 	 */
-	function getCalendarHomeForPrincipal($principalUrl) {
+	public function getCalendarHomeForPrincipal($principalUrl) {
 		if (strrpos($principalUrl, 'principals/users', -strlen($principalUrl)) !== false) {
 			list(, $principalId) = \Sabre\Uri\split($principalUrl);
 			return self::CALENDAR_ROOT . '/' . $principalId;

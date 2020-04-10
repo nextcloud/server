@@ -83,7 +83,7 @@ class CommentsPlugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
-	function initialize(Server $server) {
+	public function initialize(Server $server) {
 		$this->server = $server;
 		if (strpos($this->server->getRequestUri(), 'comments/') !== 0) {
 			return;

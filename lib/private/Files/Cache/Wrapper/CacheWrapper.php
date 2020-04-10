@@ -319,7 +319,7 @@ class CacheWrapper extends Cache {
 	 * @param int $id
 	 * @return array first element holding the storage id, second the path
 	 */
-	static public function getById($id) {
+	public static function getById($id) {
 		return parent::getById($id);
 	}
 }

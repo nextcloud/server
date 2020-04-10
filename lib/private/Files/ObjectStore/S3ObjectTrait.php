@@ -49,7 +49,7 @@ trait S3ObjectTrait {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	function readObject($urn) {
+	public function readObject($urn) {
 		return SeekableHttpStream::open(function ($range) use ($urn) {
 			$command = $this->getConnection()->getCommand('GetObject', [
 				'Bucket' => $this->bucket,
@@ -81,7 +81,7 @@ trait S3ObjectTrait {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	function writeObject($urn, $stream) {
+	public function writeObject($urn, $stream) {
 		$count = 0;
 		$countStream = CallbackWrapper::wrap($stream, function ($read) use (&$count) {
 			$count += $read;
@@ -114,7 +114,7 @@ trait S3ObjectTrait {
 	 * @throws \Exception when something goes wrong, message will be logged
 	 * @since 7.0.0
 	 */
-	function deleteObject($urn) {
+	public function deleteObject($urn) {
 		$this->getConnection()->deleteObject([
 			'Bucket' => $this->bucket,
 			'Key' => $urn,

@@ -336,7 +336,7 @@ class Util {
 	 * TODO: write example
 	 * @since 4.0.0
 	 */
-	static public function connectHook($signalClass, $signalName, $slotClass, $slotName) {
+	public static function connectHook($signalClass, $signalName, $slotClass, $slotName) {
 		return \OC_Hook::connect($signalClass, $signalName, $slotClass, $slotName);
 	}
 
@@ -350,7 +350,7 @@ class Util {
 	 * TODO: write example
 	 * @since 4.0.0
 	 */
-	static public function emitHook($signalclass, $signalname, $params = []) {
+	public static function emitHook($signalclass, $signalname, $params = []) {
 		return \OC_Hook::emit($signalclass, $signalname, $params);
 	}
 

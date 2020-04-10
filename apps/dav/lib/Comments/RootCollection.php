@@ -118,7 +118,7 @@ class RootCollection implements ICollection {
 	 * @return null|string
 	 * @throws Forbidden
 	 */
-	function createFile($name, $data = null) {
+	public function createFile($name, $data = null) {
 		throw new Forbidden('Cannot create comments by id');
 	}
 
@@ -128,7 +128,7 @@ class RootCollection implements ICollection {
 	 * @param string $name
 	 * @throws Forbidden
 	 */
-	function createDirectory($name) {
+	public function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
 	}
 
@@ -142,7 +142,7 @@ class RootCollection implements ICollection {
 	 * @return \Sabre\DAV\INode
 	 * @throws NotFound
 	 */
-	function getChild($name) {
+	public function getChild($name) {
 		$this->initCollections();
 		if (isset($this->entityTypeCollections[$name])) {
 			return $this->entityTypeCollections[$name];
@@ -155,7 +155,7 @@ class RootCollection implements ICollection {
 	 *
 	 * @return \Sabre\DAV\INode[]
 	 */
-	function getChildren() {
+	public function getChildren() {
 		$this->initCollections();
 		return $this->entityTypeCollections;
 	}
@@ -166,7 +166,7 @@ class RootCollection implements ICollection {
 	 * @param string $name
 	 * @return bool
 	 */
-	function childExists($name) {
+	public function childExists($name) {
 		$this->initCollections();
 		return isset($this->entityTypeCollections[$name]);
 	}
@@ -176,7 +176,7 @@ class RootCollection implements ICollection {
 	 *
 	 * @throws Forbidden
 	 */
-	function delete() {
+	public function delete() {
 		throw new Forbidden('Permission denied to delete this collection');
 	}
 
@@ -187,7 +187,7 @@ class RootCollection implements ICollection {
 	 *
 	 * @return string
 	 */
-	function getName() {
+	public function getName() {
 		return $this->name;
 	}
 
@@ -197,7 +197,7 @@ class RootCollection implements ICollection {
 	 * @param string $name The new name
 	 * @throws Forbidden
 	 */
-	function setName($name) {
+	public function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
 
@@ -206,7 +206,7 @@ class RootCollection implements ICollection {
 	 *
 	 * @return int
 	 */
-	function getLastModified() {
+	public function getLastModified() {
 		return null;
 	}
 }

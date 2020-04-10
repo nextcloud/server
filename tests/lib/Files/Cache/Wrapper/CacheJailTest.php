@@ -31,7 +31,7 @@ class CacheJailTest extends CacheTest {
 		$this->cache = new \OC\Files\Cache\Wrapper\CacheJail($this->sourceCache, 'foo');
 	}
 
-	function testSearchOutsideJail() {
+	public function testSearchOutsideJail() {
 		$file1 = 'foo/foobar';
 		$file2 = 'folder/foobar';
 		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder'];
@@ -46,7 +46,7 @@ class CacheJailTest extends CacheTest {
 		$this->assertEquals('foobar', $result[0]['path']);
 	}
 
-	function testClearKeepEntriesOutsideJail() {
+	public function testClearKeepEntriesOutsideJail() {
 		$file1 = 'foo/foobar';
 		$file2 = 'foo/foobar/asd';
 		$file3 = 'folder/foobar';
@@ -63,7 +63,7 @@ class CacheJailTest extends CacheTest {
 		$this->assertTrue($this->sourceCache->inCache('folder/foobar'));
 	}
 
-	function testGetById() {
+	public function testGetById() {
 		$data1 = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
 		$id = $this->sourceCache->put('foo/bar', $data1);
 
@@ -77,12 +77,12 @@ class CacheJailTest extends CacheTest {
 		$this->assertEquals('foo/bar', $path);
 	}
 
-	function testGetIncomplete() {
+	public function testGetIncomplete() {
 		//not supported
 		$this->addToAssertionCount(1);
 	}
 
-	function testMoveFromJail() {
+	public function testMoveFromJail() {
 		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
 
 		$this->sourceCache->put('source', $folderData);
@@ -98,7 +98,7 @@ class CacheJailTest extends CacheTest {
 		$this->assertTrue($this->sourceCache->inCache('target/foo/bar'));
 	}
 
-	function testMoveToJail() {
+	public function testMoveToJail() {
 		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
 
 		$this->sourceCache->put('source', $folderData);
@@ -114,7 +114,7 @@ class CacheJailTest extends CacheTest {
 		$this->assertTrue($this->sourceCache->inCache('target/foo/bar'));
 	}
 
-	function testMoveBetweenJail() {
+	public function testMoveBetweenJail() {
 		$folderData = ['size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory'];
 
 		$this->sourceCache->put('source', $folderData);

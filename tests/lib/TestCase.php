@@ -266,7 +266,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 *
 	 * @param IQueryBuilder $queryBuilder
 	 */
-	static protected function tearDownAfterClassCleanShares(IQueryBuilder $queryBuilder) {
+	protected static function tearDownAfterClassCleanShares(IQueryBuilder $queryBuilder) {
 		$queryBuilder->delete('share')
 			->execute();
 	}
@@ -276,7 +276,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 *
 	 * @param IQueryBuilder $queryBuilder
 	 */
-	static protected function tearDownAfterClassCleanStorages(IQueryBuilder $queryBuilder) {
+	protected static function tearDownAfterClassCleanStorages(IQueryBuilder $queryBuilder) {
 		$queryBuilder->delete('storages')
 			->execute();
 	}
@@ -286,7 +286,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 *
 	 * @param IQueryBuilder $queryBuilder
 	 */
-	static protected function tearDownAfterClassCleanFileCache(IQueryBuilder $queryBuilder) {
+	protected static function tearDownAfterClassCleanFileCache(IQueryBuilder $queryBuilder) {
 		$queryBuilder->delete('filecache')
 			->execute();
 	}
@@ -296,7 +296,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 *
 	 * @param string $dataDir
 	 */
-	static protected function tearDownAfterClassCleanStrayDataFiles($dataDir) {
+	protected static function tearDownAfterClassCleanStrayDataFiles($dataDir) {
 		$knownEntries = [
 			'nextcloud.log' => true,
 			'audit.log' => true,
@@ -321,7 +321,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 *
 	 * @param string $dir
 	 */
-	static protected function tearDownAfterClassCleanStrayDataUnlinkDir($dir) {
+	protected static function tearDownAfterClassCleanStrayDataUnlinkDir($dir) {
 		if ($dh = @opendir($dir)) {
 			while (($file = readdir($dh)) !== false) {
 				if (\OC\Files\Filesystem::isIgnoredDir($file)) {
@@ -342,14 +342,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/**
 	 * Clean up the list of hooks
 	 */
-	static protected function tearDownAfterClassCleanStrayHooks() {
+	protected static function tearDownAfterClassCleanStrayHooks() {
 		\OC_Hook::clear();
 	}
 
 	/**
 	 * Clean up the list of locks
 	 */
-	static protected function tearDownAfterClassCleanStrayLocks() {
+	protected static function tearDownAfterClassCleanStrayLocks() {
 		\OC::$server->getLockingProvider()->releaseAll();
 	}
 
@@ -359,7 +359,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 *
 	 * @param string $user user id or empty for a generic FS
 	 */
-	static protected function loginAsUser($user = '') {
+	protected static function loginAsUser($user = '') {
 		self::logout();
 		\OC\Files\Filesystem::tearDown();
 		\OC_User::setUserId($user);
@@ -376,7 +376,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	/**
 	 * Logout the current user and tear down the filesystem.
 	 */
-	static protected function logout() {
+	protected static function logout() {
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
 		// needed for fully logout

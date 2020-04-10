@@ -43,7 +43,7 @@ class InvalidBackend extends Backend {
 	 *
 	 * @param string $invalidId id of the backend that did not exist
 	 */
-	function __construct($invalidId) {
+	public function __construct($invalidId) {
 		$this->invalidId = $invalidId;
 		$this
 			->setIdentifier($invalidId)

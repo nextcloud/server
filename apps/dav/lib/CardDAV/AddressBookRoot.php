@@ -56,11 +56,11 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 	 *
 	 * @return \Sabre\DAV\INode
 	 */
-	function getChildForPrincipal(array $principal) {
+	public function getChildForPrincipal(array $principal) {
 		return new UserAddressBooks($this->carddavBackend, $principal['uri'], $this->pluginManager);
 	}
 
-	function getName() {
+	public function getName() {
 		if ($this->principalPrefix === 'principals') {
 			return parent::getName();
 		}

@@ -98,7 +98,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	 * @return \Sabre\DAV\INode
 	 * @throws NotFound
 	 */
-	function getChild($name) {
+	public function getChild($name) {
 		try {
 			$comment = $this->commentsManager->get($name);
 			return new CommentNode(
@@ -118,7 +118,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	 *
 	 * @return \Sabre\DAV\INode[]
 	 */
-	function getChildren() {
+	public function getChildren() {
 		return $this->findChildren();
 	}
 
@@ -131,7 +131,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	 * @param \DateTime|null $datetime
 	 * @return CommentNode[]
 	 */
-	function findChildren($limit = 0, $offset = 0, \DateTime $datetime = null) {
+	public function findChildren($limit = 0, $offset = 0, \DateTime $datetime = null) {
 		$comments = $this->commentsManager->getForObject($this->name, $this->id, $limit, $offset, $datetime);
 		$result = [];
 		foreach ($comments as $comment) {
@@ -152,7 +152,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	 * @param string $name
 	 * @return bool
 	 */
-	function childExists($name) {
+	public function childExists($name) {
 		try {
 			$this->commentsManager->get($name);
 			return true;
@@ -177,14 +177,14 @@ class EntityCollection extends RootCollection implements IProperties {
 	/**
 	 * @inheritdoc
 	 */
-	function propPatch(PropPatch $propPatch) {
+	public function propPatch(PropPatch $propPatch) {
 		$propPatch->handle(self::PROPERTY_NAME_READ_MARKER, [$this, 'setReadMarker']);
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	function getProperties($properties) {
+	public function getProperties($properties) {
 		$marker = null;
 		$user = $this->userSession->getUser();
 		if (!is_null($user)) {

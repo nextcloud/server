@@ -99,7 +99,7 @@ class ExpireVersions extends Command {
 		}
 	}
 
-	function expireVersionsForUser(IUser $user) {
+	public function expireVersionsForUser(IUser $user) {
 		$uid = $user->getUID();
 		if (!$this->setupFS($uid)) {
 			return;

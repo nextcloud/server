@@ -62,7 +62,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 *
 	 * @return IAddressBook[]
 	 */
-	function getChildren() {
+	public function getChildren() {
 		if ($this->l10n === null) {
 			$this->l10n = \OC::$server->getL10N('dav');
 		}
@@ -107,7 +107,7 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 *
 	 * @return array
 	 */
-	function getACL() {
+	public function getACL() {
 		$acl = parent::getACL();
 		if ($this->principalUri === 'principals/system/system') {
 			$acl[] = [

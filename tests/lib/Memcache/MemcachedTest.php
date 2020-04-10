@@ -10,7 +10,7 @@
 namespace Test\Memcache;
 
 class MemcachedTest extends Cache {
-	static public function setUpBeforeClass(): void {
+	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
 
 		if (!\OC\Memcache\Memcached::isAvailable()) {

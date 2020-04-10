@@ -66,22 +66,22 @@ abstract class NodeTest extends \Test\TestCase {
 	 * @param string $path
 	 * @return Node
 	 */
-	protected abstract function createTestNode($root, $view, $path);
+	abstract protected function createTestNode($root, $view, $path);
 
 	/**
 	 * @return string
 	 */
-	protected abstract function getNodeClass();
+	abstract protected function getNodeClass();
 
 	/**
 	 * @return string
 	 */
-	protected abstract function getNonExistingNodeClass();
+	abstract protected function getNonExistingNodeClass();
 
 	/**
 	 * @return string
 	 */
-	protected abstract function getViewDeleteMethod();
+	abstract protected function getViewDeleteMethod();
 
 	protected function getMockStorage() {
 		$storage = $this->getMockBuilder(Storage::class)

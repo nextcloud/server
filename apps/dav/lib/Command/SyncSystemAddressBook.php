@@ -37,7 +37,7 @@ class SyncSystemAddressBook extends Command {
 	/**
 	 * @param SyncService $syncService
 	 */
-	function __construct(SyncService $syncService) {
+	public function __construct(SyncService $syncService) {
 		parent::__construct();
 		$this->syncService = $syncService;
 	}
