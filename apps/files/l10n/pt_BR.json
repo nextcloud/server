@@ -162,7 +162,7 @@
     "Unable to change the favourite state of the file" : "Não foi possível alterar o estado favorito do arquivo",
     "%s used" : "%s usado",
     "%s%% of %s used" : "%s%% usados de %s",
-    "%1$s of %2$s used" : "%1$s usado de %2$s",
+    "%1$s of %2$s used" : "%1$s usados de %2$s",
     "Settings" : "Configurações",
     "Show hidden files" : "Exibir arquivos ocultos",
     "WebDAV" : "WebDAV",

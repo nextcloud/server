@@ -84,7 +84,7 @@ OC.L10N.register(
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Cesta",
     "Hostname" : "Nome do Host",
-    "Port" : "Porto",
+    "Port" : "Porta",
     "Region" : "Região",
     "Enable SSL" : "Ativar SSL",
     "Enable Path Style" : "Ativar Estilo do Caminho",
