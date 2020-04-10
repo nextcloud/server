@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c51c5065a1667b7cf0dba349ff698eb4",
+    "content-hash": "8b37c8b04970af89937957aad3c18a12",
     "packages": [],
     "packages-dev": [
         {
@@ -377,6 +377,7 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2018-09-29T17:23:10+00:00"
         },
         {
@@ -421,6 +422,7 @@
                     "homepage": "http://www.acci.cz/"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2015-04-20T18:58:01+00:00"
         },
         {
@@ -473,16 +475,16 @@
         },
         {
             "name": "nextcloud/coding-standard",
-            "version": "v0.1.0",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud/coding-standard.git",
-                "reference": "62db1739c26115ea565936520db5577e5482a6fe"
+                "reference": "4f5cd012760f8293e19e602651a0ecaa265e4db9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud/coding-standard/zipball/62db1739c26115ea565936520db5577e5482a6fe",
-                "reference": "62db1739c26115ea565936520db5577e5482a6fe",
+                "url": "https://api.github.com/repos/nextcloud/coding-standard/zipball/4f5cd012760f8293e19e602651a0ecaa265e4db9",
+                "reference": "4f5cd012760f8293e19e602651a0ecaa265e4db9",
                 "shasum": ""
             },
             "require": {
@@ -506,7 +508,7 @@
                 }
             ],
             "description": "Nextcloud coding standards for the php cs fixer",
-            "time": "2020-03-31T11:39:28+00:00"
+            "time": "2020-04-10T14:57:18+00:00"
         },
         {
             "name": "paragonie/random_compat",
