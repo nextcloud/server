@@ -40,7 +40,6 @@
 require_once __DIR__ . '/lib/versioncheck.php';
 
 try {
-
 	require_once __DIR__ . '/lib/base.php';
 
 	if (\OCP\Util::needUpgrade()) {
@@ -137,7 +136,6 @@ try {
 				break;
 			}
 		}
-
 	} else {
 		// We call cron.php from some website
 		if ($appMode === 'cron') {
@@ -158,7 +156,6 @@ try {
 	// Log the successful cron execution
 	$config->setAppValue('core', 'lastcron', time());
 	exit();
-
 } catch (Exception $ex) {
 	\OC::$server->getLogger()->logException($ex, ['app' => 'cron']);
 } catch (Error $ex) {

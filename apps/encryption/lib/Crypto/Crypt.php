@@ -54,7 +54,6 @@ use OCP\IUserSession;
  * @package OCA\Encryption\Crypto
  */
 class Crypt {
-
 	const DEFAULT_CIPHER = 'AES-256-CTR';
 	// default cipher from old Nextcloud versions
 	const LEGACY_CIPHER = 'AES-128-CFB';
@@ -109,7 +108,6 @@ class Crypt {
 	 * @return array|bool
 	 */
 	public function createKeyPair() {
-
 		$log = $this->logger;
 		$res = $this->getOpenSSLPKey();
 
@@ -176,7 +174,6 @@ class Crypt {
 	 * @throws EncryptionFailedException
 	 */
 	public function symmetricEncryptFileContent($plainContent, $passPhrase, $version, $position) {
-
 		if (!$plainContent) {
 			$this->logger->error('Encryption Library, symmetrical encryption failed no content given',
 				['app' => 'encryption']);
@@ -207,7 +204,6 @@ class Crypt {
 	 * @throws \InvalidArgumentException
 	 */
 	public function generateHeader($keyFormat = 'hash') {
-
 		if (in_array($keyFormat, $this->supportedKeyFormats, true) === false) {
 			throw new \InvalidArgumentException('key format "' . $keyFormat . '" is not supported');
 		}
@@ -267,8 +263,8 @@ class Crypt {
 		}
 
 		// Workaround for OpenSSL 0.9.8. Fallback to an old cipher that should work.
-		if(OPENSSL_VERSION_NUMBER < 0x1000101f) {
-			if($cipher === 'AES-256-CTR' || $cipher === 'AES-128-CTR') {
+		if (OPENSSL_VERSION_NUMBER < 0x1000101f) {
+			if ($cipher === 'AES-256-CTR' || $cipher === 'AES-128-CTR') {
 				$cipher = self::LEGACY_CIPHER;
 			}
 		}
@@ -284,7 +280,7 @@ class Crypt {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function getKeySize($cipher) {
-		if(isset($this->supportedCiphersAndKeySize[$cipher])) {
+		if (isset($this->supportedCiphersAndKeySize[$cipher])) {
 			return $this->supportedCiphersAndKeySize[$cipher];
 		}
 
@@ -389,7 +385,6 @@ class Crypt {
 	 * @return false|string
 	 */
 	public function decryptPrivateKey($privateKey, $password = '', $uid = '') {
-
 		$header = $this->parseHeader($privateKey);
 
 		if (isset($header['cipher'])) {

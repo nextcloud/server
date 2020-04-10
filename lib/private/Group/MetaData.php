@@ -83,7 +83,7 @@ class MetaData {
 	 */
 	public function get($groupSearch = '', $userSearch = '') {
 		$key = $groupSearch . '::' . $userSearch;
-		if(isset($this->metaData[$key])) {
+		if (isset($this->metaData[$key])) {
 			return $this->metaData[$key];
 		}
 
@@ -94,7 +94,7 @@ class MetaData {
 		$sortAdminGroupsIndex = 0;
 		$sortAdminGroupsKeys = [];
 
-		foreach($this->getGroups($groupSearch) as $group) {
+		foreach ($this->getGroups($groupSearch) as $group) {
 			$groupMetaData = $this->generateGroupMetaData($group, $userSearch);
 			if (strtolower($group->getGID()) !== 'admin') {
 				$this->addEntry(
@@ -194,11 +194,11 @@ class MetaData {
 	 * @return \OCP\IGroup[]
 	 */
 	public function getGroups($search = '') {
-		if($this->isAdmin) {
+		if ($this->isAdmin) {
 			return $this->groupManager->search($search);
 		} else {
 			$userObject = $this->userSession->getUser();
-			if($userObject !== null) {
+			if ($userObject !== null) {
 				$groups = $this->groupManager->getSubAdmin()->getSubAdminsGroups($userObject);
 			} else {
 				$groups = [];

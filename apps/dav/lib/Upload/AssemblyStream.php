@@ -115,7 +115,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 
 		$stream = $this->getStream($this->nodes[$nodeIndex]);
 		$nodeOffset = $offset - $nodeStart;
-		if(fseek($stream, $nodeOffset) === -1) {
+		if (fseek($stream, $nodeOffset) === -1) {
 			return false;
 		}
 		$this->currentNode = $nodeIndex;

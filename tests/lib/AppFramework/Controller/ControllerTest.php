@@ -30,7 +30,6 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 
 class ChildController extends Controller {
-
 	public function __construct($appName, $request) {
 		parent::__construct($appName, $request);
 		$this->registerResponder('tom', function ($respone) {
@@ -157,6 +156,4 @@ class ControllerTest extends \Test\TestCase {
 
 		$this->assertEquals('tom', $responder);
 	}
-
-
 }

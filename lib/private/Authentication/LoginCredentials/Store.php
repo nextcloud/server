@@ -118,5 +118,4 @@ class Store implements IStore {
 		// If we reach this line, an exception was thrown.
 		throw new CredentialsUnavailableException();
 	}
-
 }

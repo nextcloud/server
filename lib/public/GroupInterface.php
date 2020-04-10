@@ -123,5 +123,4 @@ interface GroupInterface {
 	 * @since 4.5.0
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0);
-
 }

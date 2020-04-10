@@ -63,8 +63,7 @@ class ListCalendarsTest extends TestCase {
 	}
 
 	
-	public function testWithBadUser()
-	{
+	public function testWithBadUser() {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->userManager->expects($this->once())
@@ -79,8 +78,7 @@ class ListCalendarsTest extends TestCase {
 		$this->assertContains("User <" . self::USERNAME . "> in unknown", $commandTester->getDisplay());
 	}
 
-	public function testWithCorrectUserWithNoCalendars()
-	{
+	public function testWithCorrectUserWithNoCalendars() {
 		$this->userManager->expects($this->once())
 			->method('userExists')
 			->with(self::USERNAME)
@@ -98,8 +96,7 @@ class ListCalendarsTest extends TestCase {
 		$this->assertContains("User <" . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
 	}
 
-	public function dataExecute()
-	{
+	public function dataExecute() {
 		return [
 			[false, '✓'],
 			[true, 'x']
@@ -109,8 +106,7 @@ class ListCalendarsTest extends TestCase {
 	/**
 	 * @dataProvider dataExecute
 	 */
-	public function testWithCorrectUser(bool $readOnly, string $output)
-	{
+	public function testWithCorrectUser(bool $readOnly, string $output) {
 		$this->userManager->expects($this->once())
 			->method('userExists')
 			->with(self::USERNAME)

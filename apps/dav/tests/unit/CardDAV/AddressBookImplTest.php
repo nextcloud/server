@@ -134,7 +134,6 @@ class AddressBookImplTest extends TestCase {
 	 * @param array $properties
 	 */
 	public function testCreate($properties) {
-
 		$uid = 'uid';
 
 		/** @var \PHPUnit_Framework_MockObject_MockObject | AddressBookImpl $addressBookImpl */
@@ -173,7 +172,6 @@ class AddressBookImplTest extends TestCase {
 	}
 
 	public function testUpdate() {
-
 		$uid = 'uid';
 		$uri = 'bla.vcf';
 		$properties = ['URI' => $uri, 'UID' => $uid, 'FN' => 'John Doe'];
@@ -288,7 +286,6 @@ class AddressBookImplTest extends TestCase {
 		$this->assertSame('uid1',
 			$this->invokePrivate($addressBookImpl, 'createUid', [])
 		);
-
 	}
 
 	public function testCreateEmptyVCard() {

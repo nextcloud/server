@@ -133,5 +133,4 @@ class ContactInteractedWithEvent extends Event {
 		$this->federatedCloudId = $federatedCloudId;
 		return $this;
 	}
-
 }

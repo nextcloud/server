@@ -45,5 +45,4 @@ class SqliteMigrationTest extends \Test\TestCase {
 
 		$this->addToAssertionCount(1);
 	}
-
 }

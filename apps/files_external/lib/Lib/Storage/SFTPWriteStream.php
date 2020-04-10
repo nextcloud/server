@@ -178,5 +178,4 @@ class SFTPWriteStream implements File {
 			return false;
 		}
 	}
-
 }

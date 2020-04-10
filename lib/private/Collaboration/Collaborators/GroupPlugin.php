@@ -61,7 +61,9 @@ class GroupPlugin implements ISearchPlugin {
 		$result = ['wide' => [], 'exact' => []];
 
 		$groups = $this->groupManager->search($search, $limit, $offset);
-		$groupIds = array_map(function (IGroup $group) { return $group->getGID(); }, $groups);
+		$groupIds = array_map(function (IGroup $group) {
+			return $group->getGID();
+		}, $groups);
 
 		if (!$this->shareeEnumeration || count($groups) < $limit) {
 			$hasMoreResults = true;
@@ -71,7 +73,9 @@ class GroupPlugin implements ISearchPlugin {
 		if (!empty($groups) && ($this->shareWithGroupOnly || $this->shareeEnumerationInGroupOnly)) {
 			// Intersect all the groups that match with the groups this user is a member of
 			$userGroups = $this->groupManager->getUserGroups($this->userSession->getUser());
-			$userGroups = array_map(function (IGroup $group) { return $group->getGID(); }, $userGroups);
+			$userGroups = array_map(function (IGroup $group) {
+				return $group->getGID();
+			}, $userGroups);
 			$groupIds = array_intersect($groupIds, $userGroups);
 		}
 

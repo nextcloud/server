@@ -40,7 +40,6 @@ use OCP\Security\ICredentialsManager;
  * User provided Global Username and Password
  */
 class UserGlobalAuth extends AuthMechanism {
-
 	private const CREDENTIALS_IDENTIFIER = 'password::global';
 
 	/** @var ICredentialsManager */
@@ -59,7 +58,7 @@ class UserGlobalAuth extends AuthMechanism {
 	public function saveBackendOptions(IUser $user, $id, $backendOptions) {
 		// backendOptions are set when invoked via Files app
 		// but they are not set when invoked via ext storage settings
-		if(!isset($backendOptions['user']) && !isset($backendOptions['password'])) {
+		if (!isset($backendOptions['user']) && !isset($backendOptions['password'])) {
 			return;
 		}
 		// make sure we're not setting any unexpected keys
@@ -83,5 +82,4 @@ class UserGlobalAuth extends AuthMechanism {
 			$storage->setBackendOption('password', $credentials['password']);
 		}
 	}
-
 }

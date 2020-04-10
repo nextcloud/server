@@ -107,7 +107,7 @@ class App {
 		// first try $controllerName then go for \OCA\AppName\Controller\$controllerName
 		try {
 			$controller = $container->query($controllerName);
-		} catch(QueryException $e) {
+		} catch (QueryException $e) {
 			if (strpos($controllerName, '\\Controller\\') !== false) {
 				// This is from a global registered app route that is not enabled.
 				[/*OC(A)*/, $app, /* Controller/Name*/] = explode('\\', $controllerName, 3);
@@ -137,17 +137,17 @@ class App {
 
 		$io = $container[IOutput::class];
 
-		if(!is_null($httpHeaders)) {
+		if (!is_null($httpHeaders)) {
 			$io->setHeader($httpHeaders);
 		}
 
-		foreach($responseHeaders as $name => $value) {
+		foreach ($responseHeaders as $name => $value) {
 			$io->setHeader($name . ': ' . $value);
 		}
 
-		foreach($responseCookies as $name => $value) {
+		foreach ($responseCookies as $name => $value) {
 			$expireDate = null;
-			if($value['expireDate'] instanceof \DateTime) {
+			if ($value['expireDate'] instanceof \DateTime) {
 				$expireDate = $value['expireDate']->getTimestamp();
 			}
 			$io->setCookie(
@@ -183,7 +183,6 @@ class App {
 				$io->setOutput($output);
 			}
 		}
-
 	}
 
 	/**
@@ -200,7 +199,6 @@ class App {
 	 */
 	public static function part(string $controllerName, string $methodName, array $urlParams,
 								DIContainer $container) {
-
 		$container['urlParams'] = $urlParams;
 		$controller = $container[$controllerName];
 
@@ -209,5 +207,4 @@ class App {
 		list(, , $output) =  $dispatcher->dispatch($controller, $methodName);
 		return $output;
 	}
-
 }

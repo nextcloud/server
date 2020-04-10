@@ -167,7 +167,6 @@ class Updater implements IUpdater {
 				$this->cache->correctFolderSize($parent);
 			}
 		}
-
 	}
 
 	/**

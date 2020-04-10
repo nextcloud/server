@@ -46,5 +46,4 @@ class AuthenticationFailedException extends HintException {
 		$hint = $l->t('Authentication failed, wrong token or provider ID given');
 		parent::__construct($message, $hint);
 	}
-
 }

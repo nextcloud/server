@@ -174,7 +174,6 @@ class Collection implements ICollection {
 		} else {
 			$this->manager->invalidateAccessCacheForCollection($this);
 		}
-
 	}
 
 	/**

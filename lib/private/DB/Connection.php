@@ -139,8 +139,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 * @throws \Exception
 	 */
 	public function __construct(array $params, Driver $driver, Configuration $config = null,
-		EventManager $eventManager = null)
-	{
+		EventManager $eventManager = null) {
 		if (!isset($params['adapter'])) {
 			throw new \Exception('adapter not set');
 		}
@@ -189,8 +188,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 *
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function executeQuery($query, array $params = [], $types = [], QueryCacheProfile $qcp = null)
-	{
+	public function executeQuery($query, array $params = [], $types = [], QueryCacheProfile $qcp = null) {
 		$query = $this->replaceTablePrefix($query);
 		$query = $this->adapter->fixupStatement($query);
 		return parent::executeQuery($query, $params, $types, $qcp);
@@ -210,8 +208,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 *
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function executeUpdate($query, array $params = [], array $types = [])
-	{
+	public function executeUpdate($query, array $params = [], array $types = []) {
 		$query = $this->replaceTablePrefix($query);
 		$query = $this->adapter->fixupStatement($query);
 		return parent::executeUpdate($query, $params, $types);
@@ -372,7 +369,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	public function dropTable($table) {
 		$table = $this->tablePrefix . trim($table);
 		$schema = $this->getSchemaManager();
-		if($schema->tablesExist([$table])) {
+		if ($schema->tablesExist([$table])) {
 			$schema->dropTable($table);
 		}
 	}

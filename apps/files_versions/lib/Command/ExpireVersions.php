@@ -70,7 +70,6 @@ class ExpireVersions extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
 			$output->writeln("No expiry configured.");

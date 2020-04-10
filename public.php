@@ -34,7 +34,6 @@
 require_once __DIR__ . '/lib/versioncheck.php';
 
 try {
-
 	require_once __DIR__ . '/lib/base.php';
 	if (\OCP\Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
@@ -80,7 +79,6 @@ try {
 	$baseuri = OC::$WEBROOT . '/public.php/' . $service . '/';
 
 	require_once OC_App::getAppPath($app) . '/' . $parts[1];
-
 } catch (Exception $ex) {
 	$status = 500;
 	if ($ex instanceof \OC\ServiceUnavailableException) {

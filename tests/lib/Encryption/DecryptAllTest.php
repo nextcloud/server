@@ -107,7 +107,6 @@ class DecryptAllTest extends TestCase {
 	 * @param bool $userExistsChecked
 	 */
 	public function testDecryptAll($prepareResult, $user, $userExistsChecked) {
-
 		if ($userExistsChecked) {
 			$this->userManager->expects($this->once())->method('userExists')->willReturn(true);
 		} else {
@@ -166,7 +165,6 @@ class DecryptAllTest extends TestCase {
 	 * @param bool $success
 	 */
 	public function testPrepareEncryptionModules($success) {
-
 		$user = 'user1';
 
 		$dummyEncryptionModule = $this->getMockBuilder('OCP\Encryption\IEncryptionModule')
@@ -177,7 +175,9 @@ class DecryptAllTest extends TestCase {
 			->with($this->inputInterface, $this->outputInterface, $user)
 			->willReturn($success);
 
-		$callback = function () use ($dummyEncryptionModule) {return $dummyEncryptionModule;};
+		$callback = function () use ($dummyEncryptionModule) {
+			return $dummyEncryptionModule;
+		};
 		$moduleDescription = [
 			'id' => 'id',
 			'displayName' => 'displayName',
@@ -305,14 +305,12 @@ class DecryptAllTest extends TestCase {
 		$progressBar = new ProgressBar($output);
 
 		$this->invokePrivate($instance, 'decryptUsersFiles', ['user1', $progressBar, '']);
-
 	}
 
 	/**
 	 * @dataProvider dataTrueFalse
 	 */
 	public function testDecryptFile($isEncrypted) {
-
 		$path = 'test.txt';
 
 		/** @var DecryptAll | \PHPUnit_Framework_MockObject_MockObject  $instance */
@@ -379,7 +377,9 @@ class DecryptAllTest extends TestCase {
 		$this->view->expects($this->once())
 			->method('copy')
 			->with($path, $path . '.decrypted.42')
-			->willReturnCallback(function () { throw new DecryptionFailedException();});
+			->willReturnCallback(function () {
+				throw new DecryptionFailedException();
+			});
 
 		$this->view->expects($this->never())->method('rename');
 		$this->view->expects($this->once())
@@ -394,5 +394,4 @@ class DecryptAllTest extends TestCase {
 			$this->invokePrivate($instance, 'decryptFile', [$path])
 		);
 	}
-
 }

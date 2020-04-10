@@ -68,7 +68,7 @@ try {
 			try {
 				$ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', ['dn']);
 			} catch (\Exception $e) {
-				if($e->getCode() === 1) {
+				if ($e->getCode() === 1) {
 					\OC_JSON::error(['message' => $l->t('Invalid configuration: Anonymous binding is not allowed.')]);
 					exit;
 				}

@@ -90,16 +90,16 @@ class Search extends Command {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function validateOffsetAndLimit($offset, $limit) {
-		if($limit < 0) {
+		if ($limit < 0) {
 			throw new \InvalidArgumentException('limit must be  0 or greater');
 		}
-		if($offset  < 0) {
+		if ($offset  < 0) {
 			throw new \InvalidArgumentException('offset must be 0 or greater');
 		}
-		if($limit === 0 && $offset !== 0) {
+		if ($limit === 0 && $offset !== 0) {
 			throw new \InvalidArgumentException('offset must be 0 if limit is also set to 0');
 		}
-		if($offset > 0 && ($offset % $limit !== 0)) {
+		if ($offset > 0 && ($offset % $limit !== 0)) {
 			throw new \InvalidArgumentException('offset must be a multiple of limit');
 		}
 	}
@@ -113,7 +113,7 @@ class Search extends Command {
 		$limit = (int)$input->getOption('limit');
 		$this->validateOffsetAndLimit($offset, $limit);
 
-		if($input->getOption('group')) {
+		if ($input->getOption('group')) {
 			$proxy = new Group_Proxy($configPrefixes, $ldapWrapper, \OC::$server->query('LDAPGroupPluginManager'));
 			$getMethod = 'getGroups';
 			$printID = false;
@@ -136,7 +136,7 @@ class Search extends Command {
 		}
 
 		$result = $proxy->$getMethod($input->getArgument('search'), $limit, $offset);
-		foreach($result as $id => $name) {
+		foreach ($result as $id => $name) {
 			$line = $name . ($printID ? ' ('.$id.')' : '');
 			$output->writeln($line);
 		}

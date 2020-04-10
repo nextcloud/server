@@ -37,7 +37,7 @@ class Notifier implements INotifier {
 	/**
 	 * @param IFactory $l10nFactory
 	 */
-	 public function __construct(\OCP\L10N\IFactory $l10nFactory) {
+	public function __construct(\OCP\L10N\IFactory $l10nFactory) {
 		$this->l10nFactory = $l10nFactory;
 	}
 

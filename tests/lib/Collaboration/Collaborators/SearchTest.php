@@ -94,10 +94,10 @@ class SearchTest extends TestCase {
 		$remotePlugin->expects($this->any())
 			->method('search')
 			->willReturnCallback(function () use ($searchResult, $mockedRemotesResult, $expectedMoreResults) {
-				if($mockedRemotesResult !== null) {
+				if ($mockedRemotesResult !== null) {
 					$type = new SearchResultType('remotes');
 					$searchResult->addResultSet($type, $mockedRemotesResult['results'], $mockedRemotesResult['exact']);
-					if($mockedRemotesResult['exactIdMatch'] === true) {
+					if ($mockedRemotesResult['exactIdMatch'] === true) {
 						$searchResult->markExactIdMatch($type);
 					}
 				}
@@ -107,7 +107,7 @@ class SearchTest extends TestCase {
 		$this->container->expects($this->any())
 			->method('resolve')
 			->willReturnCallback(function ($class) use ($searchResult, $userPlugin, $groupPlugin, $remotePlugin) {
-				if($class === SearchResult::class) {
+				if ($class === SearchResult::class) {
 					return $searchResult;
 				} elseif ($class === $userPlugin) {
 					return $userPlugin;

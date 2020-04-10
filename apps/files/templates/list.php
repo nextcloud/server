@@ -12,7 +12,7 @@
 	*/ ?>
 	<input type="hidden" name="permissions" value="" id="permissions">
 	<input type="hidden" id="free_space" value="<?php isset($_['freeSpace']) ? p($_['freeSpace']) : '' ?>">
-	<?php if(isset($_['dirToken'])):?>
+	<?php if (isset($_['dirToken'])):?>
 	<input type="hidden" id="publicUploadRequestToken" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 	<input type="hidden" id="dirToken" name="dirToken" value="<?php p($_['dirToken']) ?>" />
 	<?php endif;?>

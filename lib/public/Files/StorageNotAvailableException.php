@@ -44,7 +44,6 @@ use OC\HintException;
  * @since 6.0.0 - since 8.2.1 based on HintException
  */
 class StorageNotAvailableException extends HintException {
-
 	const STATUS_SUCCESS = 0;
 	const STATUS_ERROR = 1;
 	const STATUS_INDETERMINATE = 2;

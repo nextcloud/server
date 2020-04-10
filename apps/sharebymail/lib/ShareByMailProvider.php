@@ -173,7 +173,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @throws \Exception
 	 */
 	public function create(IShare $share) {
-
 		$shareWith = $share->getSharedWith();
 		/*
 		 * Check if file is not already shared with the remote user
@@ -204,7 +203,6 @@ class ShareByMailProvider implements IShareProvider {
 		$data = $this->getRawShare($shareId);
 
 		return $this->createShareObject($data);
-
 	}
 
 	/**
@@ -261,7 +259,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param string $type
 	 */
 	protected function createShareActivity(IShare $share, string $type = 'share') {
-
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 
 		$this->publishActivity(
@@ -285,7 +282,6 @@ class ShareByMailProvider implements IShareProvider {
 				(string) $ownerFolder->getRelativePath($ownerPath)
 			);
 		}
-
 	}
 
 	/**
@@ -296,7 +292,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @param bool $sendToSelf
 	 */
 	protected function createPasswordSendActivity(IShare $share, $sharedWith, $sendToSelf) {
-
 		$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
 
 		if ($sendToSelf) {
@@ -336,7 +331,6 @@ class ShareByMailProvider implements IShareProvider {
 			->setAffectedUser($affectedUser)
 			->setObject('files', $fileId, $filePath);
 		$this->activityManager->publish($event);
-
 	}
 
 	/**
@@ -389,7 +383,6 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 		return $shareId;
-
 	}
 
 	/**
@@ -447,7 +440,7 @@ class ShareByMailProvider implements IShareProvider {
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
 		$initiatorEmail = $initiatorUser->getEMailAddress();
-		if($initiatorEmail !== null) {
+		if ($initiatorEmail !== null) {
 			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
 			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
 		} else {
@@ -466,7 +459,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @return bool
 	 */
 	protected function sendPassword(IShare $share, $password) {
-
 		$filename = $share->getNode()->getName();
 		$initiator = $share->getSharedBy();
 		$shareWith = $share->getSharedWith();
@@ -526,7 +518,6 @@ class ShareByMailProvider implements IShareProvider {
 	}
 
 	protected function sendNote(IShare $share) {
-
 		$recipient = $share->getSharedWith();
 
 
@@ -577,7 +568,6 @@ class ShareByMailProvider implements IShareProvider {
 		$message->setTo([$recipient]);
 		$message->useTemplate($emailTemplate);
 		$this->mailer->send($message);
-
 	}
 
 	/**
@@ -590,7 +580,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @throws \Exception
 	 */
 	protected function sendPasswordToOwner(IShare $share, $password) {
-
 		$filename = $share->getNode()->getName();
 		$initiator = $this->userManager->get($share->getSharedBy());
 		$initiatorEMailAddress = ($initiator instanceof IUser) ? $initiator->getEMailAddress() : null;
@@ -668,7 +657,7 @@ class ShareByMailProvider implements IShareProvider {
 			->orderBy('id');
 
 		$cursor = $qb->execute();
-		while($data = $cursor->fetch()) {
+		while ($data = $cursor->fetch()) {
 			$children[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -728,13 +717,12 @@ class ShareByMailProvider implements IShareProvider {
 	 * @return IShare The share object
 	 */
 	public function update(IShare $share, $plainTextPassword = null) {
-
 		$originalShare = $this->getShareById($share->getId());
 
 		// a real password was given
 		$validPassword = $plainTextPassword !== null && $plainTextPassword !== '';
 
-		if($validPassword && ($originalShare->getPassword() !== $share->getPassword() ||
+		if ($validPassword && ($originalShare->getPassword() !== $share->getPassword() ||
 								($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk()))) {
 			$this->sendPassword($share, $plainTextPassword);
 		}
@@ -844,7 +832,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$cursor = $qb->execute();
 		$shares = [];
-		while($data = $cursor->fetch()) {
+		while ($data = $cursor->fetch()) {
 			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -896,7 +884,7 @@ class ShareByMailProvider implements IShareProvider {
 			->execute();
 
 		$shares = [];
-		while($data = $cursor->fetch()) {
+		while ($data = $cursor->fetch()) {
 			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -935,7 +923,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$cursor = $qb->execute();
 
-		while($data = $cursor->fetch()) {
+		while ($data = $cursor->fetch()) {
 			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
@@ -996,7 +984,6 @@ class ShareByMailProvider implements IShareProvider {
 	 * @throws ShareNotFound
 	 */
 	protected function createShareObject($data) {
-
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId((int)$data['id'])
 			->setShareType((int)$data['share_type'])
@@ -1204,7 +1191,7 @@ class ShareByMailProvider implements IShareProvider {
 			);
 
 		$cursor = $qb->execute();
-		while($data = $cursor->fetch()) {
+		while ($data = $cursor->fetch()) {
 			try {
 				$share = $this->createShareObject($data);
 			} catch (InvalidShare $e) {

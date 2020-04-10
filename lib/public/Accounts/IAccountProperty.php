@@ -99,5 +99,4 @@ interface IAccountProperty extends \JsonSerializable {
 	 * @return string
 	 */
 	public function getVerified(): string;
-
 }

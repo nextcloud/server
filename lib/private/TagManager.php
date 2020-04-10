@@ -64,7 +64,6 @@ class TagManager implements \OCP\ITagManager {
 	public function __construct(TagMapper $mapper, \OCP\IUserSession $userSession) {
 		$this->mapper = $mapper;
 		$this->userSession = $userSession;
-
 	}
 
 	/**
@@ -89,5 +88,4 @@ class TagManager implements \OCP\ITagManager {
 		}
 		return new Tags($this->mapper, $userId, $type, $defaultTags, $includeShared);
 	}
-
 }

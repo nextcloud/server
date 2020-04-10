@@ -48,6 +48,4 @@ class ProviderCouldNotAddShareException extends HintException {
 	public function __construct($message, $hint = '', $code = Http::STATUS_BAD_REQUEST, \Exception $previous = null) {
 		parent::__construct($message, $hint, $code, $previous);
 	}
-
-
 }

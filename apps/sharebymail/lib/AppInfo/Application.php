@@ -32,7 +32,6 @@ use OCP\AppFramework\App;
 use OCP\Util;
 
 class Application extends App {
-
 	public function __construct(array $urlParams = []) {
 		parent::__construct('sharebymail', $urlParams);
 
@@ -47,5 +46,4 @@ class Application extends App {
 		Util::connectHook('\OCP\Config', 'js', $settings, 'announceShareProvider');
 		Util::connectHook('\OCP\Config', 'js', $settings, 'announceShareByMailSettings');
 	}
-
 }

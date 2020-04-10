@@ -51,7 +51,9 @@ class HelperStorageTest extends \Test\TestCase {
 
 		\OC_User::setUserId('');
 		$user = \OC::$server->getUserManager()->get($this->user);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		\OC::$server->getConfig()->deleteAllUserValues($this->user);
 
 		parent::tearDown();

@@ -25,7 +25,6 @@
 namespace OCA\DAV\CalDAV;
 
 class Plugin extends \Sabre\CalDAV\Plugin {
-
 	const SYSTEM_CALENDAR_ROOT = 'system-calendars';
 
 	/**
@@ -52,5 +51,4 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 			return self::SYSTEM_CALENDAR_ROOT . '/calendar-rooms/' . $principalId;
 		}
 	}
-
 }

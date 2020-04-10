@@ -78,5 +78,4 @@ interface ISearchService {
 	 * @return ISearchResult[]
 	 */
 	public function search(string $userId, ISearchRequest $searchRequest): array;
-
 }

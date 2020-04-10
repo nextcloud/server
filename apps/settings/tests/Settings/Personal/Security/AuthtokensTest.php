@@ -130,5 +130,4 @@ class AuthtokensTest extends TestCase {
 		$expected = new TemplateResponse('settings', 'settings/personal/security/authtokens');
 		$this->assertEquals($expected, $form);
 	}
-
 }

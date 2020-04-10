@@ -140,7 +140,7 @@ class DBConfigService {
 		$stmt->closeCursor();
 
 		foreach ($result as $row) {
-			if((int)$row['count'] > 1) {
+			if ((int)$row['count'] > 1) {
 				$this->removeApplicable($row['mount_id'], $applicableType, $applicableId);
 			} else {
 				$this->removeMount($row['mount_id']);
@@ -343,7 +343,7 @@ class DBConfigService {
 				->setValue('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR))
 				->setValue('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR))
 				->execute();
-		} catch(UniqueConstraintViolationException $e) {
+		} catch (UniqueConstraintViolationException $e) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->update('external_config')
 				->set('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR))
@@ -366,7 +366,7 @@ class DBConfigService {
 				->setValue('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR))
 				->setValue('value', $builder->createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR))
 				->execute();
-		} catch(UniqueConstraintViolationException $e) {
+		} catch (UniqueConstraintViolationException $e) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->update('external_options')
 				->set('value', $builder->createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR))
@@ -384,7 +384,7 @@ class DBConfigService {
 				->setValue('type', $builder->createNamedParameter($type))
 				->setValue('value', $builder->createNamedParameter($value))
 				->execute();
-		} catch(UniqueConstraintViolationException $e) {
+		} catch (UniqueConstraintViolationException $e) {
 			// applicable exists already
 		}
 	}

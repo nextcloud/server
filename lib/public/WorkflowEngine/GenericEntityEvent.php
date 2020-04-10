@@ -47,10 +47,10 @@ class GenericEntityEvent implements IEntityEvent {
 	 * @since 18.0.0
 	 */
 	public function __construct(string $displayName, string $eventName) {
-		if(trim($displayName) === '') {
+		if (trim($displayName) === '') {
 			throw new \InvalidArgumentException('DisplayName must not be empty');
 		}
-		if(trim($eventName) === '') {
+		if (trim($eventName) === '') {
 			throw new \InvalidArgumentException('EventName must not be empty');
 		}
 

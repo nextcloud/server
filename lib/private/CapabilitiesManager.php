@@ -55,7 +55,7 @@ class CapabilitiesManager {
 	 */
 	public function getCapabilities(bool $public = false) : array {
 		$capabilities = [];
-		foreach($this->capabilities as $capability) {
+		foreach ($this->capabilities as $capability) {
 			try {
 				$c = $capability();
 			} catch (QueryException $e) {
@@ -68,7 +68,7 @@ class CapabilitiesManager {
 			}
 
 			if ($c instanceof ICapability) {
-				if(!$public || $c instanceof IPublicCapability) {
+				if (!$public || $c instanceof IPublicCapability) {
 					$capabilities = array_replace_recursive($capabilities, $c->getCapabilities());
 				}
 			} else {

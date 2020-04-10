@@ -38,7 +38,6 @@ use Test\Traits\UserTrait;
  * @package Test\Preview
  */
 class BackgroundCleanupJobTest extends \Test\TestCase {
-
 	use MountProviderTrait;
 	use UserTrait;
 

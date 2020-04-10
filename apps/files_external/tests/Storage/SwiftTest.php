@@ -39,7 +39,6 @@ use OCA\Files_External\Lib\Storage\Swift;
  * @package OCA\Files_External\Tests\Storage
  */
 class SwiftTest extends \Test\Files\Storage\Storage {
-
 	private $config;
 
 	/**

@@ -111,13 +111,14 @@ class TagServiceTest extends \Test\TestCase {
 			])
 			->setMethods($methods)
 			->getMock();
-
 	}
 
 	protected function tearDown(): void {
 		\OC_User::setUserId('');
 		$user = \OC::$server->getUserManager()->get($this->user);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 	}
 
 	public function testUpdateFileTags() {
@@ -162,7 +163,6 @@ class TagServiceTest extends \Test\TestCase {
 	}
 
 	public function testFavoriteActivity() {
-
 		$subdir = $this->root->newFolder('subdir');
 		$file = $subdir->newFile('test.txt');
 

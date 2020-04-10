@@ -30,5 +30,4 @@ namespace OCP\Files\Storage;
  * @since 16.0.0
  */
 interface IDisableEncryptionStorage {
-
 }

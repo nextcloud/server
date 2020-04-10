@@ -130,11 +130,17 @@ abstract class TestCase extends \Test\TestCase {
 	public static function tearDownAfterClass(): void {
 		// cleanup users
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER1);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER2);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER3);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 
 		// delete group
 		$group = \OC::$server->getGroupManager()->get(self::TEST_FILES_SHARING_API_GROUP1);
@@ -161,7 +167,6 @@ abstract class TestCase extends \Test\TestCase {
 	 * @param bool $password
 	 */
 	protected static function loginHelper($user, $create = false, $password = false) {
-
 		if ($password === false) {
 			$password = $user;
 		}
@@ -218,7 +223,6 @@ abstract class TestCase extends \Test\TestCase {
 		$result->closeCursor();
 
 		return $share;
-
 	}
 
 	/**

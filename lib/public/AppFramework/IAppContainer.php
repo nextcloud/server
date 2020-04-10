@@ -62,5 +62,5 @@ interface IAppContainer extends IContainer {
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
 	 * @since 8.2.0
 	 */
-	 public function registerCapability($serviceName);
+	public function registerCapability($serviceName);
 }

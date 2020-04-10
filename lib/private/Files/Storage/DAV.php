@@ -98,8 +98,11 @@ class DAV extends Common {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$host = $params['host'];
 			//remove leading http[s], will be generated in createBaseUri()
-			if (substr($host, 0, 8) == "https://") $host = substr($host, 8);
-			elseif (substr($host, 0, 7) == "http://") $host = substr($host, 7);
+			if (substr($host, 0, 8) == "https://") {
+				$host = substr($host, 8);
+			} elseif (substr($host, 0, 7) == "http://") {
+				$host = substr($host, 7);
+			}
 			$this->host = $host;
 			$this->user = $params['user'];
 			$this->password = $params['password'];
@@ -153,7 +156,7 @@ class DAV extends Common {
 		$this->client = new Client($settings);
 		$this->client->setThrowExceptions(true);
 
-		if($this->secure === true) {
+		if ($this->secure === true) {
 			$certPath = $this->certManager->getAbsoluteBundlePath();
 			if (file_exists($certPath)) {
 				$this->certPath = $certPath;
@@ -853,7 +856,7 @@ class DAV extends Common {
 			} elseif ($e->getHttpStatus() === Http::STATUS_METHOD_NOT_ALLOWED) {
 				// ignore exception for MethodNotAllowed, false will be returned
 				return;
-			} elseif ($e->getHttpStatus() === Http::STATUS_FORBIDDEN){
+			} elseif ($e->getHttpStatus() === Http::STATUS_FORBIDDEN) {
 				// The operation is forbidden. Fail somewhat gracefully
 				throw new ForbiddenException(get_class($e) . ':' . $e->getMessage());
 			}

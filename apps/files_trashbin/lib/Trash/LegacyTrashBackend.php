@@ -93,7 +93,6 @@ class LegacyTrashBackend implements ITrashBackend {
 		} else {
 			Trashbin::delete($item->getTrashPath(), $user->getUID(), null);
 		}
-
 	}
 
 	public function moveToTrash(IStorage $storage, string $internalPath): bool {

@@ -54,33 +54,33 @@ use Test\TestCase;
 class IMipPluginTest extends TestCase {
 
 		/** @var IMessage|MockObject */
-		private $mailMessage;
+	private $mailMessage;
 
-		/** @var IMailer|MockObject */
-		private $mailer;
+	/** @var IMailer|MockObject */
+	private $mailer;
 
-		/** @var IEMailTemplate|MockObject */
-		private $emailTemplate;
+	/** @var IEMailTemplate|MockObject */
+	private $emailTemplate;
 
-		/** @var IAttachment|MockObject */
-		private $emailAttachment;
+	/** @var IAttachment|MockObject */
+	private $emailAttachment;
 
-		/** @var ITimeFactory|MockObject */
-		private $timeFactory;
+	/** @var ITimeFactory|MockObject */
+	private $timeFactory;
 
-		/** @var IConfig|MockObject */
-		private $config;
+	/** @var IConfig|MockObject */
+	private $config;
 
-		/** @var IUserManager|MockObject */
-		private $userManager;
+	/** @var IUserManager|MockObject */
+	private $userManager;
 
-		/** @var IQueryBuilder|MockObject */
-		private $queryBuilder;
+	/** @var IQueryBuilder|MockObject */
+	private $queryBuilder;
 
-		/** @var IMipPlugin */
-		private $plugin;
+	/** @var IMipPlugin */
+	private $plugin;
 
-		protected function setUp(): void {
+	protected function setUp(): void {
 		$this->mailMessage = $this->createMock(IMessage::class);
 		$this->mailMessage->method('setFrom')->willReturn($this->mailMessage);
 		$this->mailMessage->method('setReplyTo')->willReturn($this->mailMessage);
@@ -186,7 +186,6 @@ class IMipPluginTest extends TestCase {
 	 * @dataProvider dataNoMessageSendForPastEvents
 	 */
 	public function testNoMessageSendForPastEvents(array $veventParams, bool $expectsMail) {
-
 		$this->config
 			->method('getAppValue')
 			->with('dav', 'invitation_link_recipients', 'yes')
@@ -319,8 +318,7 @@ class IMipPluginTest extends TestCase {
 				->willReturn($this->queryBuilder);
 			$this->queryBuilder->expects($this->at(9))
 				->method('execute');
-		}
-		else {
+		} else {
 			$this->queryBuilder->expects($this->never())
 				->method('insert')
 				->with('calendar_invitations');

@@ -86,5 +86,4 @@ class UploadCleanup extends TimedJob {
 			$this->jobList->remove(self::class, $argument);
 		}
 	}
-
 }

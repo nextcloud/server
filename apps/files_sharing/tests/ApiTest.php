@@ -53,7 +53,6 @@ use OCP\Share\IShare;
  * TODO: convert to real intergration tests
  */
 class ApiTest extends TestCase {
-
 	const TEST_FOLDER_NAME = '/folder_share_api_test';
 	const APP_NAME = 'files_sharing';
 
@@ -91,7 +90,7 @@ class ApiTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		if($this->view instanceof \OC\Files\View) {
+		if ($this->view instanceof \OC\Files\View) {
 			$this->view->unlink($this->filename);
 			$this->view->deleteAll($this->folder);
 		}
@@ -163,7 +162,6 @@ class ApiTest extends TestCase {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($data['id']);
 		$ocs->cleanup();
-
 	}
 
 
@@ -197,7 +195,6 @@ class ApiTest extends TestCase {
 		$ocs = $this->createOCS(self::TEST_FILES_SHARING_API_USER1);
 		$ocs->deleteShare($data['id']);
 		$ocs->cleanup();
-
 	}
 
 	public function testCreateShareLink() {
@@ -249,7 +246,6 @@ class ApiTest extends TestCase {
 	}
 
 	function testEnforceLinkPassword() {
-
 		$password = md5(time());
 		$config = \OC::$server->getConfig();
 		$config->setAppValue('core', 'shareapi_enforce_links_password', 'yes');
@@ -259,7 +255,6 @@ class ApiTest extends TestCase {
 			$ocs->createShare($this->folder, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK);
 			$this->fail();
 		} catch (OCSForbiddenException $e) {
-
 		}
 		$ocs->cleanup();
 
@@ -268,7 +263,6 @@ class ApiTest extends TestCase {
 			$ocs->createShare($this->folder, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '');
 			$this->fail();
 		} catch (OCSForbiddenException $e) {
-
 		}
 		$ocs->cleanup();
 
@@ -290,7 +284,6 @@ class ApiTest extends TestCase {
 			$ocs->updateShare($data['id']);
 			$this->fail();
 		} catch (OCSBadRequestException $e) {
-
 		}
 		$ocs->cleanup();
 
@@ -933,7 +926,6 @@ class ApiTest extends TestCase {
 	 * @depends testCreateShareLink
 	 */
 	function testUpdateShare() {
-
 		$password = md5(time());
 
 		$node1 = $this->userFolder->get($this->filename);
@@ -1054,7 +1046,6 @@ class ApiTest extends TestCase {
 			$ocs->updateShare($share1->getId());
 			$this->fail();
 		} catch (OCSBadRequestException $e) {
-
 		}
 		$ocs->cleanup();
 
@@ -1069,7 +1060,6 @@ class ApiTest extends TestCase {
 			$ocs->updateShare($share1->getId());
 			$this->fail();
 		} catch (OCSBadRequestException $e) {
-
 		}
 		$ocs->cleanup();
 
@@ -1372,7 +1362,7 @@ class ApiTest extends TestCase {
 		try {
 			$ocs->createShare($this->filename, \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '', null, $date->format('Y-m-d'));
 			$this->fail();
-		} catch(OCSException $e) {
+		} catch (OCSException $e) {
 			$this->assertEquals(404, $e->getCode());
 			$this->assertEquals('Expiration date is in the past', $e->getMessage());
 		}

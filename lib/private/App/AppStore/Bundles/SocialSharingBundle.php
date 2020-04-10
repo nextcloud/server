@@ -43,5 +43,4 @@ class SocialSharingBundle extends Bundle {
 			'socialsharing_diaspora',
 		];
 	}
-
 }

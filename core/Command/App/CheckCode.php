@@ -42,8 +42,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CheckCode extends Command implements CompletionAwareInterface  {
-
+class CheckCode extends Command implements CompletionAwareInterface {
 	protected $checkers = [
 		'private' => PrivateCheck::class,
 		'deprecation' => DeprecationCheck::class,
@@ -95,7 +94,7 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 		$codeChecker = new CodeChecker($checkList, !$input->getOption('skip-validate-info'));
 
 		$codeChecker->listen('CodeChecker', 'analyseFileBegin', function ($params) use ($output) {
-			if(OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+			if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
 				$output->writeln("<info>Analysing {$params}</info>");
 			}
 		});
@@ -103,29 +102,29 @@ class CheckCode extends Command implements CompletionAwareInterface  {
 			$count = count($errors);
 
 			// show filename if the verbosity is low, but there are errors in a file
-			if($count > 0 && OutputInterface::VERBOSITY_VERBOSE > $output->getVerbosity()) {
+			if ($count > 0 && OutputInterface::VERBOSITY_VERBOSE > $output->getVerbosity()) {
 				$output->writeln("<info>Analysing {$filename}</info>");
 			}
 
 			// show error count if there are errors present or the verbosity is high
-			if($count > 0 || OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+			if ($count > 0 || OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
 				$output->writeln(" {$count} errors");
 			}
 			usort($errors, function ($a, $b) {
 				return $a['line'] >$b['line'];
 			});
 
-			foreach($errors as $p) {
+			foreach ($errors as $p) {
 				$line = sprintf("%' 4d", $p['line']);
 				$output->writeln("    <error>line $line: {$p['disallowedToken']} - {$p['reason']}</error>");
 			}
 		});
 		$errors = [];
-		if(!$input->getOption('skip-checkers')) {
+		if (!$input->getOption('skip-checkers')) {
 			$errors = $codeChecker->analyse($appId);
 		}
 
-		if(!$input->getOption('skip-validate-info')) {
+		if (!$input->getOption('skip-validate-info')) {
 			$infoChecker = new InfoChecker();
 			$infoChecker->listen('InfoChecker', 'parseError', function ($error) use ($output) {
 				$output->writeln("<error>Invalid appinfo.xml file found: $error</error>");

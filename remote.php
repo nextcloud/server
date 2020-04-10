@@ -137,7 +137,7 @@ try {
 
 	$file = resolveService($service);
 
-	if(is_null($file)) {
+	if (is_null($file)) {
 		throw new RemoteException('Path not found', 404);
 	}
 
@@ -165,7 +165,6 @@ try {
 	}
 	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
 	require_once $file;
-
 } catch (Exception $ex) {
 	handleException($ex);
 } catch (Error $e) {

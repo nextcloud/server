@@ -216,7 +216,7 @@ class EncryptionTest extends \Test\TestCase {
 		fclose($stream);
 
 		unlink($fileName);
-}
+	}
 
 	public function testSeek() {
 		$fileName = tempnam("/tmp", "FOO");
@@ -252,7 +252,6 @@ class EncryptionTest extends \Test\TestCase {
 	 * @dataProvider dataFilesProvider
 	 */
 	public function testWriteReadBigFile($testFile) {
-
 		$expectedData = file_get_contents(\OC::$SERVERROOT . '/tests/data/' . $testFile);
 		// write it
 		$fileName = tempnam("/tmp", "FOO");
@@ -290,7 +289,6 @@ class EncryptionTest extends \Test\TestCase {
 	 * @dataProvider dataFilesProvider
 	 */
 	public function testWriteToNonSeekableStorage($testFile) {
-
 		$wrapper = $this->getMockBuilder('\OC\Files\Stream\Encryption')
 			->setMethods(['parentSeekStream'])->getMock();
 		$wrapper->expects($this->any())->method('parentSeekStream')->willReturn(false);
@@ -324,7 +322,6 @@ class EncryptionTest extends \Test\TestCase {
 		$this->assertEquals($expectedData, $data);
 
 		unlink($fileName);
-
 	}
 
 	/**

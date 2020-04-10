@@ -53,7 +53,6 @@ use OCP\IUser;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
-
 	const APP_ID = 'dav';
 
 	/**
@@ -265,9 +264,8 @@ class Application extends App {
 			$notificationProviderManager->registerProvider(AudioProvider::class);
 			$notificationProviderManager->registerProvider(EmailProvider::class);
 			$notificationProviderManager->registerProvider(PushProvider::class);
-		} catch(\Exception $ex) {
+		} catch (\Exception $ex) {
 			$this->getContainer()->getServer()->getLogger()->logException($ex);
 		}
 	}
-
 }

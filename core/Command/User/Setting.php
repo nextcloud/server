@@ -187,7 +187,6 @@ class Setting extends Base {
 
 				$this->config->setUserValue($uid, $app, $key, $input->getArgument('value'));
 				return 0;
-
 			} elseif ($input->hasParameterOption('--delete')) {
 				if ($input->hasParameterOption('--error-if-not-exists') && $value === null) {
 					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
@@ -204,7 +203,6 @@ class Setting extends Base {
 
 				$this->config->deleteUserValue($uid, $app, $key);
 				return 0;
-
 			} elseif ($value !== null) {
 				$output->writeln($value);
 				return 0;

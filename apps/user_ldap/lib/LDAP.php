@@ -54,10 +54,10 @@ class LDAP implements ILDAPWrapper {
 	 * @return mixed
 	 */
 	public function connect($host, $port) {
-		if(strpos($host, '://') === false) {
+		if (strpos($host, '://') === false) {
 			$host = 'ldap://' . $host;
 		}
-		if(strpos($host, ':', strpos($host, '://') + 1) === false) {
+		if (strpos($host, ':', strpos($host, '://') + 1) === false) {
 			//ldap_connect ignores port parameter when URLs are passed
 			$host .= ':' . $port;
 		}
@@ -195,7 +195,7 @@ class LDAP implements ILDAPWrapper {
 	 */
 	public function search($link, $baseDN, $filter, $attr, $attrsOnly = 0, $limit = 0) {
 		$oldHandler = set_error_handler(function ($no, $message, $file, $line) use (&$oldHandler) {
-			if(strpos($message, 'Partial search results returned: Sizelimit exceeded') !== false) {
+			if (strpos($message, 'Partial search results returned: Sizelimit exceeded') !== false) {
 				return true;
 			}
 			$oldHandler($no, $message, $file, $line);
@@ -285,13 +285,13 @@ class LDAP implements ILDAPWrapper {
 	 * @return bool
 	 */
 	protected function isResultFalse($result) {
-		if($result === false) {
+		if ($result === false) {
 			return true;
 		}
 
-		if($this->curFunc === 'ldap_search' && is_array($result)) {
+		if ($this->curFunc === 'ldap_search' && is_array($result)) {
 			foreach ($result as $singleResult) {
-				if($singleResult === false) {
+				if ($singleResult === false) {
 					return true;
 				}
 			}
@@ -306,7 +306,7 @@ class LDAP implements ILDAPWrapper {
 	protected function invokeLDAPMethod() {
 		$arguments = func_get_args();
 		$func = 'ldap_' . array_shift($arguments);
-		if(function_exists($func)) {
+		if (function_exists($func)) {
 			$this->preFunctionCall($func, $arguments);
 			$result = call_user_func_array($func, $arguments);
 			if ($this->isResultFalse($result)) {
@@ -336,12 +336,12 @@ class LDAP implements ILDAPWrapper {
 	 */
 	private function processLDAPError($resource) {
 		$errorCode = ldap_errno($resource);
-		if($errorCode === 0) {
+		if ($errorCode === 0) {
 			return;
 		}
 		$errorMsg  = ldap_error($resource);
 
-		if($this->curFunc === 'ldap_get_entries'
+		if ($this->curFunc === 'ldap_get_entries'
 			&& $errorCode === -4) {
 		} elseif ($errorCode === 32) {
 			//for now
@@ -373,9 +373,9 @@ class LDAP implements ILDAPWrapper {
 	 * @throw \Exception
 	 */
 	private function postFunctionCall() {
-		if($this->isResource($this->curArgs[0])) {
+		if ($this->isResource($this->curArgs[0])) {
 			$resource = $this->curArgs[0];
-		} elseif(
+		} elseif (
 			   $this->curFunc === 'ldap_search'
 			&& is_array($this->curArgs[0])
 			&& $this->isResource($this->curArgs[0][0])

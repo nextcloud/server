@@ -70,7 +70,6 @@ class TestController extends Controller {
 			'text' => [$int, $bool, $test, $test2]
 		]);
 	}
-
 }
 
 
@@ -142,15 +141,14 @@ class DispatcherTest extends \Test\TestCase {
 	private function setMiddlewareExpectations($out=null,
 		$httpHeaders=null, $responseHeaders=[],
 		$ex=false, $catchEx=true) {
-
-		if($ex) {
+		if ($ex) {
 			$exception = new \Exception();
 			$this->middlewareDispatcher->expects($this->once())
 				->method('beforeController')
 				->with($this->equalTo($this->controller),
 					$this->equalTo($this->controllerMethod))
 				->will($this->throwException($exception));
-			if($catchEx) {
+			if ($catchEx) {
 				$this->middlewareDispatcher->expects($this->once())
 					->method('afterException')
 					->with($this->equalTo($this->controller),
@@ -272,7 +270,6 @@ class DispatcherTest extends \Test\TestCase {
 			$this->controller,
 			$this->controllerMethod
 		);
-
 	}
 
 
@@ -488,8 +485,4 @@ class DispatcherTest extends \Test\TestCase {
 
 		$this->assertEquals('{"text":[3,true,4,1]}', $response[3]);
 	}
-
-
-
-
 }

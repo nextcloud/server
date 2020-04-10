@@ -59,5 +59,4 @@ class Version13000Date20170926101637 extends BigIntMigration {
 			'vcategory_to_object' => ['objid', 'categoryid'],
 		];
 	}
-
 }

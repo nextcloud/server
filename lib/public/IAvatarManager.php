@@ -56,5 +56,4 @@ interface IAvatarManager {
 	 * @since 16.0.0
 	 */
 	public function getGuestAvatar(string $name): IAvatar;
-
 }

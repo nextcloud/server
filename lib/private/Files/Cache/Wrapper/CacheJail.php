@@ -273,7 +273,6 @@ class CacheJail extends CacheWrapper {
 		} else {
 			return 0;
 		}
-
 	}
 
 	/**

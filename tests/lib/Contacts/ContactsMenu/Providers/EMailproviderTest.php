@@ -102,5 +102,4 @@ class EMailproviderTest extends TestCase {
 
 		$this->provider->process($entry);
 	}
-
 }

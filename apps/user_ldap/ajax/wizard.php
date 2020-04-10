@@ -36,13 +36,13 @@
 
 $l = \OC::$server->getL10N('user_ldap');
 
-if(!isset($_POST['action'])) {
+if (!isset($_POST['action'])) {
 	\OC_JSON::error(['message' => $l->t('No action specified')]);
 }
 $action = (string)$_POST['action'];
 
 
-if(!isset($_POST['ldap_serverconfig_chooser'])) {
+if (!isset($_POST['ldap_serverconfig_chooser'])) {
 	\OC_JSON::error(['message' => $l->t('No configuration specified')]);
 }
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
@@ -76,7 +76,7 @@ $access = new \OCA\User_LDAP\Access(
 
 $wizard = new \OCA\User_LDAP\Wizard($configuration, $ldapWrapper, $access);
 
-switch($action) {
+switch ($action) {
 	case 'guessPortAndTLS':
 	case 'guessBaseDN':
 	case 'detectEmailAttribute':
@@ -95,7 +95,7 @@ switch($action) {
 	case 'countInBaseDN':
 		try {
 			$result = $wizard->$action();
-			if($result !== false) {
+			if ($result !== false) {
 				\OC_JSON::success($result->getResultArray());
 				exit;
 			}
@@ -111,7 +111,7 @@ switch($action) {
 		try {
 			$loginName = $_POST['ldap_test_loginname'];
 			$result = $wizard->$action($loginName);
-			if($result !== false) {
+			if ($result !== false) {
 				\OC_JSON::success($result->getResultArray());
 				exit;
 			}
@@ -127,14 +127,14 @@ switch($action) {
 	case 'save':
 		$key = isset($_POST['cfgkey']) ? $_POST['cfgkey'] : false;
 		$val = isset($_POST['cfgval']) ? $_POST['cfgval'] : null;
-		if($key === false || is_null($val)) {
+		if ($key === false || is_null($val)) {
 			\OC_JSON::error(['message' => $l->t('No data specified')]);
 			exit;
 		}
 		$cfg = [$key => $val];
 		$setParameters = [];
 		$configuration->setConfiguration($cfg, $setParameters);
-		if(!in_array($key, $setParameters)) {
+		if (!in_array($key, $setParameters)) {
 			\OC_JSON::error(['message' => $l->t($key.
 				' Could not set configuration %s', $setParameters[0])]);
 			exit;

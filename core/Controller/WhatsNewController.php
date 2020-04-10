@@ -74,13 +74,13 @@ class WhatsNewController extends OCSController {
 	 */
 	public function get():DataResponse {
 		$user = $this->userSession->getUser();
-		if($user === null) {
+		if ($user === null) {
 			throw new \RuntimeException("Acting user cannot be resolved");
 		}
 		$lastRead = $this->config->getUserValue($user->getUID(), 'core', 'whatsNewLastRead', 0);
 		$currentVersion = $this->whatsNewService->normalizeVersion($this->config->getSystemValue('version'));
 
-		if(version_compare($lastRead, $currentVersion, '>=')) {
+		if (version_compare($lastRead, $currentVersion, '>=')) {
 			return new DataResponse([], Http::STATUS_NO_CONTENT);
 		}
 
@@ -94,7 +94,7 @@ class WhatsNewController extends OCSController {
 			];
 			do {
 				$lang = $iterator->current();
-				if(isset($whatsNew['whatsNew'][$lang])) {
+				if (isset($whatsNew['whatsNew'][$lang])) {
 					$resultData['whatsNew'] = $whatsNew['whatsNew'][$lang];
 					break;
 				}
@@ -114,7 +114,7 @@ class WhatsNewController extends OCSController {
 	 */
 	public function dismiss(string $version):DataResponse {
 		$user = $this->userSession->getUser();
-		if($user === null) {
+		if ($user === null) {
 			throw new \RuntimeException("Acting user cannot be resolved");
 		}
 		$version = $this->whatsNewService->normalizeVersion($version);

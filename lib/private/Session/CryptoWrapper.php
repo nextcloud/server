@@ -83,7 +83,7 @@ class CryptoWrapper {
 			// FIXME: Required for CI
 			if (!defined('PHPUNIT_RUN')) {
 				$webRoot = \OC::$WEBROOT;
-				if($webRoot === '') {
+				if ($webRoot === '') {
 					$webRoot = '/';
 				}
 

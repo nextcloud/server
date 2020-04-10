@@ -317,5 +317,4 @@ class OwnershipTransferService {
 		$progress->finish();
 		$output->writeln('');
 	}
-
 }

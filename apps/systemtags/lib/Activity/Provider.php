@@ -33,7 +33,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-
 	const CREATE_TAG = 'create_tag';
 	const UPDATE_TAG = 'update_tag';
 	const DELETE_TAG = 'delete_tag';

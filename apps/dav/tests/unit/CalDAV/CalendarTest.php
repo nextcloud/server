@@ -296,7 +296,6 @@ class CalendarTest extends TestCase {
 	 * @param bool $isShared
 	 */
 	public function testPrivateClassification($expectedChildren, $isShared) {
-
 		$calObject0 = ['uri' => 'event-0', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC];
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL];
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
@@ -323,7 +322,6 @@ class CalendarTest extends TestCase {
 
 		if ($isShared) {
 			$calendarInfo['{http://owncloud.org/ns}owner-principal'] = 'user1';
-
 		}
 		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config);
 		$children = $c->getChildren();
@@ -570,7 +568,7 @@ EOD;
 		$backend->expects($this->any())
 			->method('getCalendarObject')
 			->willReturnCallback(function ($cId, $uri) use ($publicObject, $confidentialObject) {
-				switch($uri) {
+				switch ($uri) {
 					case 'event-0':
 						return $publicObject;
 
@@ -633,7 +631,6 @@ EOD;
 		$this->assertEquals(
 			$this->fixLinebreak($roCalendar->getChild('event-1')->get()),
 			$this->fixLinebreak($confidentialObjectCleaned));
-
 	}
 
 	private function fixLinebreak($str) {

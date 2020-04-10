@@ -152,5 +152,4 @@ class CleanUpTest extends \Test\TestCase {
 		$result = $bgJob->isOffsetResetNecessary($bgJob->getChunkSize());
 		$this->assertSame(false, $result);
 	}
-
 }

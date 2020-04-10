@@ -35,5 +35,4 @@ abstract class ACreateFromTemplate extends ACreateEmpty {
 	 * @return ATemplate[]
 	 */
 	abstract public function getTemplates(): array;
-
 }

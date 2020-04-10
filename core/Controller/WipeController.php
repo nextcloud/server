@@ -94,5 +94,4 @@ class WipeController extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 	}
-
 }

@@ -38,7 +38,6 @@ use OCP\SystemTag\TagNotFoundException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SystemTagObjectMapper implements ISystemTagObjectMapper {
-
 	const RELATION_TABLE = 'systemtag_object_mapping';
 
 	/** @var ISystemTagManager */

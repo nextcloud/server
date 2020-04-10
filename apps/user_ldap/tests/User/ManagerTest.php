@@ -251,5 +251,4 @@ class ManagerTest extends \Test\TestCase {
 		$valueCounts = array_count_values($attributes);
 		$this->assertSame(1, $valueCounts['mail']);
 	}
-
 }

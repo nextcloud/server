@@ -68,5 +68,4 @@ class Disable extends Base {
 			return 2;
 		}
 	}
-
 }

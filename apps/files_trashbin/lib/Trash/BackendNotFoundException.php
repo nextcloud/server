@@ -24,5 +24,4 @@
 namespace OCA\Files_Trashbin\Trash;
 
 class BackendNotFoundException extends \Exception {
-
 }

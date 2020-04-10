@@ -52,5 +52,4 @@ class Version1004Date20170926103422 extends BigIntMigration {
 			'schedulingobjects' => ['id'],
 		];
 	}
-
 }

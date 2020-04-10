@@ -27,7 +27,7 @@
  */
 
 $htaccess = file_get_contents(__DIR__ . '/../.htaccess');
-if(strpos($htaccess, 'DO NOT CHANGE ANYTHING') !== false) {
+if (strpos($htaccess, 'DO NOT CHANGE ANYTHING') !== false) {
 	echo(".htaccess file has invalid changes!\n");
 	exit(1);
 } else {

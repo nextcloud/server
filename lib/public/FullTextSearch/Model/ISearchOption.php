@@ -162,5 +162,4 @@ interface ISearchOption {
 	 * @return string
 	 */
 	public function getPlaceholder(): string;
-
 }

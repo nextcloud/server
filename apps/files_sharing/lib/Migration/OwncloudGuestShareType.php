@@ -79,5 +79,4 @@ class OwncloudGuestShareType implements IRepairStep {
 		return $appVersion === '0.10.0' ||
 			$this->config->getAppValue('core', 'vendor', '') === 'owncloud';
 	}
-
 }

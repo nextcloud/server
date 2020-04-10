@@ -91,7 +91,7 @@ class AutoCompleteController extends Controller {
 		unset($results['exact']);
 		$results = array_merge_recursive($exactMatches, $results);
 
-		if($sorter !== null) {
+		if ($sorter !== null) {
 			$sorters = array_reverse(explode('|', $sorter));
 			$this->autoCompleteManager->runSorters($sorters, $results, [
 				'itemType' => $itemType,

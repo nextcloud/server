@@ -48,7 +48,6 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use Sabre\DAV\SimpleCollection;
 
 class RootCollection extends SimpleCollection {
-
 	public function __construct() {
 		$config = \OC::$server->getConfig();
 		$l10n = \OC::$server->getL10N('dav');
@@ -176,5 +175,4 @@ class RootCollection extends SimpleCollection {
 
 		parent::__construct('root', $children);
 	}
-
 }

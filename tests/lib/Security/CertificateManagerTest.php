@@ -152,7 +152,6 @@ class CertificateManagerTest extends \Test\TestCase {
 								$targetBundleExists,
 								$expected
 	) {
-
 		$view = $this->getMockBuilder(View::class)
 			->disableOriginalConstructor()->getMock();
 		$config = $this->createMock(IConfig::class);
@@ -177,7 +176,6 @@ class CertificateManagerTest extends \Test\TestCase {
 		if ($uid !== null && $targetBundleExists) {
 			$certificateManager->expects($this->at(2))->method('getCertificateBundle')
 				->with(null)->willReturn('SystemBundlePath');
-
 		}
 
 		$view->expects($this->any())->method('filemtime')
@@ -194,7 +192,6 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->assertSame($expected,
 			$this->invokePrivate($certificateManager, 'needsRebundling', [$uid])
 		);
-
 	}
 
 	function dataTestNeedRebundling() {

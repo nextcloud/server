@@ -79,5 +79,4 @@ class LoginResult {
 	public function getErrorMessage(): ?string {
 		return $this->errorMessage;
 	}
-
 }

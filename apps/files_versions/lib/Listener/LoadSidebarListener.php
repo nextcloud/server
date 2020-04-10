@@ -43,5 +43,4 @@ class LoadSidebarListener implements IEventListener {
 		// we properly split it between files list and sidebar
 		Util::addScript(Application::APP_ID, 'files_versions');
 	}
-
 }

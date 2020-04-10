@@ -159,7 +159,6 @@ class MigrationService {
 
 			// Recreate the schema after the table was dropped.
 			$schema = new SchemaWrapper($this->connection);
-
 		} catch (SchemaException $e) {
 			// Table not found, no need to panic, we will create it.
 		}
@@ -329,7 +328,7 @@ class MigrationService {
 	 * @return mixed|null|string
 	 */
 	public function getMigration($alias) {
-		switch($alias) {
+		switch ($alias) {
 			case 'current':
 				return $this->getCurrentVersion();
 			case 'next':

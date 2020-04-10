@@ -47,7 +47,6 @@ use OCP\AppFramework\Db\Entity;
  * @method bool getPasswordInvalid()
  */
 class PublicKeyToken extends Entity implements INamedToken, IWipeableToken {
-
 	const VERSION = 2;
 
 	/** @var string user UID */

@@ -98,6 +98,4 @@ class RegenerateBirthdayCalendarsTest extends TestCase {
 
 		$this->migration->run($output);
 	}
-
-
 }

@@ -48,8 +48,6 @@ use JsonSerializable;
  * @package OCP\Dashboard\Model
  */
 final class WidgetSetting implements JsonSerializable {
-
-
 	const TYPE_INPUT = 'input';
 	const TYPE_CHECKBOX = 'checkbox';
 
@@ -231,6 +229,4 @@ final class WidgetSetting implements JsonSerializable {
 			'placeholder' => $this->getPlaceholder()
 		];
 	}
-
-
 }

@@ -100,11 +100,11 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 
 		$userManager = \OC::$server->getUserManager();
 		$user1 = $userManager->get($this->user1);
-		if($user1) {
+		if ($user1) {
 			$user1->delete();
 		}
 		$user2 = $userManager->get($this->user2);
-		if($user2) {
+		if ($user2) {
 			$user2->delete();
 		}
 

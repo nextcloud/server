@@ -102,10 +102,10 @@ class Dispatcher {
 			// exception and creates a response. If no response is created, it is
 			// assumed that theres no middleware who can handle it and the error is
 			// thrown again
-		} catch(\Exception $exception){
+		} catch (\Exception $exception) {
 			$response = $this->middlewareDispatcher->afterException(
 				$controller, $methodName, $exception);
-		} catch(\Throwable $throwable) {
+		} catch (\Throwable $throwable) {
 			$exception = new \Exception($throwable->getMessage(), $throwable->getCode(), $throwable);
 			$response = $this->middlewareDispatcher->afterException(
 			$controller, $methodName, $exception);
@@ -141,7 +141,7 @@ class Dispatcher {
 		// valid types that will be casted
 		$types = ['int', 'integer', 'bool', 'boolean', 'float'];
 
-		foreach($this->reflector->getParameters() as $param => $default) {
+		foreach ($this->reflector->getParameters() as $param => $default) {
 
 			// try to get the parameter from the request object and cast
 			// it to the type annotated in the @param annotation
@@ -150,7 +150,7 @@ class Dispatcher {
 
 			// if this is submitted using GET or a POST form, 'false' should be
 			// converted to false
-			if(($type === 'bool' || $type === 'boolean') &&
+			if (($type === 'bool' || $type === 'boolean') &&
 				$value === 'false' &&
 				(
 					$this->request->method === 'GET' ||
@@ -159,8 +159,7 @@ class Dispatcher {
 				)
 			) {
 				$value = false;
-
-			} elseif($value !== null && \in_array($type, $types, true)) {
+			} elseif ($value !== null && \in_array($type, $types, true)) {
 				settype($value, $type);
 			}
 
@@ -170,13 +169,13 @@ class Dispatcher {
 		$response = \call_user_func_array([$controller, $methodName], $arguments);
 
 		// format response
-		if($response instanceof DataResponse || !($response instanceof Response)) {
+		if ($response instanceof DataResponse || !($response instanceof Response)) {
 
 			// get format from the url format or request format parameter
 			$format = $this->request->getParam('format');
 
 			// if none is given try the first Accept header
-			if($format === null) {
+			if ($format === null) {
 				$headers = $this->request->getHeader('Accept');
 				$format = $controller->getResponderByHTTPHeader($headers, null);
 			}
@@ -190,5 +189,4 @@ class Dispatcher {
 
 		return $response;
 	}
-
 }

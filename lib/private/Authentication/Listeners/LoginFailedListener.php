@@ -57,9 +57,8 @@ class LoginFailedListener implements IEventListener {
 			'preLoginNameUsedAsUserName',
 			['uid' => &$uid]
 		);
-		if($this->userManager->userExists($uid)) {
+		if ($this->userManager->userExists($uid)) {
 			$this->dispatcher->dispatchTyped(new LoginFailedEvent($uid));
 		}
 	}
-
 }

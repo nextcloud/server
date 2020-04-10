@@ -67,7 +67,7 @@ script('settings', [
 					</div>
 				</div>
 				<span class="icon-checkmark hidden"></span>
-				<?php if($_['lookupServerUploadEnabled']) { ?>
+				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
 				<?php } ?>
 			</form>
@@ -92,7 +92,7 @@ script('settings', [
 						<?php endif ?>
 					</p>
 				</div>
-				<progress value="<?php p($_['usage_relative']); ?>" max="100"<?php if($_['usage_relative'] > 80): ?> class="warn" <?php endif; ?>></progress>
+				<progress value="<?php p($_['usage_relative']); ?>" max="100"<?php if ($_['usage_relative'] > 80): ?> class="warn" <?php endif; ?>></progress>
 			</div>
 		</div>
 	</div>
@@ -109,15 +109,21 @@ script('settings', [
 					</div>
 				</h3>
 				<input type="text" id="displayname" name="displayname"
-					<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
+					<?php if (!$_['displayNameChangeSupported']) {
+									print_unescaped('class="hidden"');
+								} ?>
 					   value="<?php p($_['displayName']) ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off" />
-				<?php if(!$_['displayNameChangeSupported']) { ?>
-					<span><?php if(isset($_['displayName']) && !empty($_['displayName'])) { p($_['displayName']); } else { p($l->t('No display name set')); } ?></span>
+				<?php if (!$_['displayNameChangeSupported']) { ?>
+					<span><?php if (isset($_['displayName']) && !empty($_['displayName'])) {
+									p($_['displayName']);
+								} else {
+									p($l->t('No display name set'));
+								} ?></span>
 				<?php } ?>
 				<span class="icon-checkmark hidden"></span>
 				<span class="icon-error hidden" ></span>
-				<?php if($_['lookupServerUploadEnabled']) { ?>
+				<?php if ($_['lookupServerUploadEnabled']) { ?>
 					<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>">
 				<?php } ?>
 			</form>
@@ -132,10 +138,12 @@ script('settings', [
 						</span>
 					</div>
 				</h3>
-				<div class="verify <?php if ($_['email'] === ''  || $_['emailScope'] !== 'public') p('hidden'); ?>">
+				<div class="verify <?php if ($_['email'] === ''  || $_['emailScope'] !== 'public') {
+									p('hidden');
+								} ?>">
 					<img id="verify-email" title="<?php p($_['emailMessage']); ?>" data-status="<?php p($_['emailVerification']) ?>" src="
 				<?php
-					switch($_['emailVerification']) {
+					switch ($_['emailVerification']) {
 						case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
 							p(image_path('core', 'actions/verifying.svg'));
 							break;
@@ -148,18 +156,24 @@ script('settings', [
 					?>">
 				</div>
 				<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
-					<?php if(!$_['displayNameChangeSupported']) { print_unescaped('class="hidden"'); } ?>
+					<?php if (!$_['displayNameChangeSupported']) {
+						print_unescaped('class="hidden"');
+					} ?>
 					   placeholder="<?php p($l->t('Your email address')); ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off" />
 			   	<span class="icon-checkmark hidden"></span>
 				<span class="icon-error hidden" ></span>
-				<?php if(!$_['displayNameChangeSupported']) { ?>
-					<span><?php if(isset($_['email']) && !empty($_['email'])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
+				<?php if (!$_['displayNameChangeSupported']) { ?>
+					<span><?php if (isset($_['email']) && !empty($_['email'])) {
+						p($_['email']);
+					} else {
+						p($l->t('No email address set'));
+					}?></span>
 				<?php } ?>
-				<?php if($_['displayNameChangeSupported']) { ?>
+				<?php if ($_['displayNameChangeSupported']) { ?>
 					<em><?php p($l->t('For password reset and notifications')); ?></em>
 				<?php } ?>
-				<?php if($_['lookupServerUploadEnabled']) { ?>
+				<?php if ($_['lookupServerUploadEnabled']) { ?>
 					<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
 				<?php } ?>
 			</form>
@@ -175,12 +189,14 @@ script('settings', [
 						</span>
 					</div>
 				</h3>
-				<input type="tel" id="phone" name="phone" <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"'); ?>
+				<input type="tel" id="phone" name="phone" <?php if (!$_['lookupServerUploadEnabled']) {
+						print_unescaped('disabled="1"');
+					} ?>
 					   value="<?php p($_['phone']) ?>"
 					   placeholder="<?php p($l->t('Your phone number')); ?>"
 				       autocomplete="on" autocapitalize="none" autocorrect="off" />
 				<span class="icon-checkmark hidden"></span>
-				<?php if($_['lookupServerUploadEnabled']) { ?>
+				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>">
 				<?php } ?>
 			</form>
@@ -197,12 +213,14 @@ script('settings', [
 						</span>
 					</div>
 				</h3>
-				<input type="text" id="address" name="address" <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"');  ?>
+				<input type="text" id="address" name="address" <?php if (!$_['lookupServerUploadEnabled']) {
+						print_unescaped('disabled="1"');
+					}  ?>
 					   placeholder="<?php p($l->t('Your postal address')); ?>"
 					   value="<?php p($_['address']) ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off" />
 				<span class="icon-checkmark hidden"></span>
-				<?php if($_['lookupServerUploadEnabled']) { ?>
+				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>">
 				<?php } ?>
 			</form>
@@ -219,11 +237,13 @@ script('settings', [
 						</span>
 					</div>
 				</h3>
-				<?php if($_['lookupServerUploadEnabled']) { ?>
-				<div class="verify <?php if ($_['website'] === ''  || $_['websiteScope'] !== 'public') p('hidden'); ?>">
+				<?php if ($_['lookupServerUploadEnabled']) { ?>
+				<div class="verify <?php if ($_['website'] === ''  || $_['websiteScope'] !== 'public') {
+						p('hidden');
+					} ?>">
 					<img id="verify-website" title="<?php p($_['websiteMessage']); ?>" data-status="<?php p($_['websiteVerification']) ?>" src="
 					<?php
-					switch($_['websiteVerification']) {
+					switch ($_['websiteVerification']) {
 						case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
 							p(image_path('core', 'actions/verifying.svg'));
 							break;
@@ -234,7 +254,9 @@ script('settings', [
 							p(image_path('core', 'actions/verify.svg'));
 					}
 					?>"
-					<?php if($_['websiteVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['websiteVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) print_unescaped(' class="verify-action"') ?>
+					<?php if ($_['websiteVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['websiteVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) {
+						print_unescaped(' class="verify-action"');
+					} ?>
 					>
 					<div class="verification-dialog popovermenu bubble menu">
 						<div class="verification-dialog-content">
@@ -248,10 +270,12 @@ script('settings', [
 				<input type="url" name="website" id="website" value="<?php p($_['website']); ?>"
 				       placeholder="<?php p($l->t('Link https://…')); ?>"
 				       autocomplete="on" autocapitalize="none" autocorrect="off"
-					   <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"');  ?>
+					   <?php if (!$_['lookupServerUploadEnabled']) {
+						print_unescaped('disabled="1"');
+					}  ?>
 				/>
 				<span class="icon-checkmark hidden"></span>
-				<?php if($_['lookupServerUploadEnabled']) { ?>
+				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>">
 				<?php } ?>
 			</form>
@@ -268,11 +292,13 @@ script('settings', [
 						</span>
 					</div>
 				</h3>
-				<?php if($_['lookupServerUploadEnabled']) { ?>
-				<div class="verify <?php if ($_['twitter'] === ''  || $_['twitterScope'] !== 'public') p('hidden'); ?>">
+				<?php if ($_['lookupServerUploadEnabled']) { ?>
+				<div class="verify <?php if ($_['twitter'] === ''  || $_['twitterScope'] !== 'public') {
+						p('hidden');
+					} ?>">
 					<img id="verify-twitter" title="<?php p($_['twitterMessage']); ?>" data-status="<?php p($_['twitterVerification']) ?>" src="
 					<?php
-					switch($_['twitterVerification']) {
+					switch ($_['twitterVerification']) {
 						case \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS:
 							p(image_path('core', 'actions/verifying.svg'));
 							break;
@@ -283,7 +309,9 @@ script('settings', [
 							p(image_path('core', 'actions/verify.svg'));
 					}
 					?>"
-					<?php if($_['twitterVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['twitterVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) print_unescaped(' class="verify-action"') ?>
+					<?php if ($_['twitterVerification'] === \OC\Accounts\AccountManager::VERIFICATION_IN_PROGRESS || $_['twitterVerification'] === \OC\Accounts\AccountManager::NOT_VERIFIED) {
+						print_unescaped(' class="verify-action"');
+					} ?>
 					>
 					<div class="verification-dialog popovermenu bubble menu">
 						<div class="verification-dialog-content">
@@ -297,10 +325,12 @@ script('settings', [
 				<input type="text" name="twitter" id="twitter" value="<?php p($_['twitter']); ?>"
 					   placeholder="<?php p($l->t('Twitter handle @…')); ?>"
 					   autocomplete="on" autocapitalize="none" autocorrect="off"
-					   <?php if(!$_['lookupServerUploadEnabled']) print_unescaped('disabled="1"');  ?>
+					   <?php if (!$_['lookupServerUploadEnabled']) {
+						print_unescaped('disabled="1"');
+					}  ?>
 				/>
 				<span class="icon-checkmark hidden"></span>
-				<?php if($_['lookupServerUploadEnabled']) { ?>
+				<?php if ($_['lookupServerUploadEnabled']) { ?>
 				<input type="hidden" id="twitterscope" value="<?php p($_['twitterScope']) ?>">
 				<?php } ?>
 			</form>
@@ -319,13 +349,13 @@ script('settings', [
 						<option value="<?php p($_['activelanguage']['code']);?>">
 							<?php p($_['activelanguage']['name']);?>
 						</option>
-						<?php foreach($_['commonlanguages'] as $language):?>
+						<?php foreach ($_['commonlanguages'] as $language):?>
 							<option value="<?php p($language['code']);?>">
 								<?php p($language['name']);?>
 							</option>
 						<?php endforeach;?>
 						<optgroup label="––––––––––"></optgroup>
-						<?php foreach($_['languages'] as $language):?>
+						<?php foreach ($_['languages'] as $language):?>
 							<option value="<?php p($language['code']);?>">
 								<?php p($language['name']);?>
 							</option>
@@ -349,7 +379,7 @@ script('settings', [
 							<?php p($l->t($_['activelocale']['name']));?>
 						</option>
 						<optgroup label="––––––––––"></optgroup>
-						<?php foreach($_['localesForLanguage'] as $locale):?>
+						<?php foreach ($_['localesForLanguage'] as $locale):?>
 							<option value="<?php p($locale['code']);?>">
 								<?php p($l->t($locale['name']));?>
 							</option>
@@ -358,7 +388,7 @@ script('settings', [
 						<option value="<?php p($_['activelocale']['code']);?>">
 							<?php p($l->t($_['activelocale']['name']));?>
 						</option>
-						<?php foreach($_['locales'] as $locale):?>
+						<?php foreach ($_['locales'] as $locale):?>
 							<option value="<?php p($locale['code']);?>">
 								<?php p($l->t($locale['name']));?>
 							</option>

@@ -308,6 +308,4 @@ final class WidgetTemplate implements JsonSerializable {
 			'settings' => $this->getSettings()
 		];
 	}
-
-
 }

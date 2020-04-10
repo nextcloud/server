@@ -24,7 +24,7 @@ namespace OC\DB\QueryBuilder;
 
 use OCP\DB\QueryBuilder\ILiteral;
 
-class Literal implements ILiteral{
+class Literal implements ILiteral {
 	/** @var mixed */
 	protected $literal;
 

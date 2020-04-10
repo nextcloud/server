@@ -61,7 +61,6 @@ class CleanUp extends Command {
 
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-
 		$users = $input->getArgument('user_id');
 		if (!empty($users)) {
 			foreach ($users as $user) {
@@ -110,5 +109,4 @@ class CleanUp extends Command {
 			$this->rootFolder->get('/' . $user . '/files_versions')->delete();
 		}
 	}
-
 }

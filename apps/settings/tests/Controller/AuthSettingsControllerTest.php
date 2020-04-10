@@ -479,5 +479,4 @@ class AuthSettingsControllerTest extends TestCase {
 		$expected = new JSONResponse([]);
 		$this->assertEquals($expected, $response);
 	}
-
 }

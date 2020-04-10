@@ -36,7 +36,6 @@ use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
 
 class GroupPrincipalBackend implements BackendInterface {
-
 	const PRINCIPAL_PREFIX = 'principals/groups';
 
 	/** @var IGroupManager */
@@ -78,7 +77,7 @@ class GroupPrincipalBackend implements BackendInterface {
 		$principals = [];
 
 		if ($prefixPath === self::PRINCIPAL_PREFIX) {
-			foreach($this->groupManager->search('') as $user) {
+			foreach ($this->groupManager->search('') as $user) {
 				$principals[] = $this->groupToPrincipal($user);
 			}
 		}

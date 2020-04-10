@@ -100,7 +100,6 @@ class TrustedServersTest extends TestCase {
 			$this->dispatcher,
 			$this->timeFactory
 		);
-
 	}
 
 	/**
@@ -267,7 +266,6 @@ class TrustedServersTest extends TestCase {
 	 * @param bool $expected
 	 */
 	public function testIsOwnCloudServer($statusCode, $isValidOwnCloudVersion, $expected) {
-
 		$server = 'server1';
 
 		/** @var \PHPUnit_Framework_MockObject_MockObject | TrustedServers $trustedServers */
@@ -306,7 +304,6 @@ class TrustedServersTest extends TestCase {
 		$this->assertSame($expected,
 			$trustedServers->isOwnCloudServer($server)
 		);
-
 	}
 
 	public function dataTestIsOwnCloudServer() {

@@ -61,5 +61,4 @@ interface IMenuAction {
 	 * @return string
 	 */
 	public function render(): string;
-
 }

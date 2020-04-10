@@ -105,7 +105,6 @@ class UserPluginTest extends TestCase {
 					return $default;
 				}
 			);
-
 	}
 
 	public function getUserMock($uid, $displayName, $enabled = true, $groups = []) {

@@ -59,7 +59,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 		parent::__construct($config);
 		$this->logFile = $path;
 		if (!file_exists($this->logFile)) {
-			if(
+			if (
 				(
 					!is_writable(dirname($this->logFile))
 					|| !touch($this->logFile)

@@ -322,5 +322,4 @@ interface ICommentsManager {
 	 * provided ID is unknown. It must be ensured that a string is returned.
 	 */
 	public function resolveDisplayName($type, $id);
-
 }

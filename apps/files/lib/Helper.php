@@ -73,7 +73,7 @@ class Helper {
 	 * @return string icon URL
 	 */
 	public static function determineIcon($file) {
-		if($file['type'] === 'dir') {
+		if ($file['type'] === 'dir') {
 			$icon = \OC::$server->getMimeTypeDetector()->mimeTypeIcon('dir');
 			// TODO: move this part to the client side, using mountType
 			if ($file->isShared()) {
@@ -81,7 +81,7 @@ class Helper {
 			} elseif ($file->isMounted()) {
 				$icon = \OC::$server->getMimeTypeDetector()->mimeTypeIcon('dir-external');
 			}
-		}else{
+		} else {
 			$icon = \OC::$server->getMimeTypeDetector()->mimeTypeIcon($file->getMimetype());
 		}
 
@@ -234,7 +234,6 @@ class Helper {
 
 		if (!empty($tags)) {
 			foreach ($tags as $fileId => $fileTags) {
-
 				foreach ($fileList as $key => $fileData) {
 					if ($fileId !== $fileData[$fileIdentifier]) {
 						continue;

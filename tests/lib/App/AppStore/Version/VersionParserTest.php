@@ -25,7 +25,7 @@ use OC\App\AppStore\Version\Version;
 use OC\App\AppStore\Version\VersionParser;
 use Test\TestCase;
 
-class VersionParserTest extends TestCase  {
+class VersionParserTest extends TestCase {
 	/** @var VersionParser */
 	private $versionParser;
 

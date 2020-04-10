@@ -39,7 +39,7 @@ $nk = 's'.str_pad($ln+1, 2, '0', STR_PAD_LEFT);
 $resultData = ['configPrefix' => $nk];
 
 $newConfig = new \OCA\User_LDAP\Configuration($nk, false);
-if(isset($_POST['copyConfig'])) {
+if (isset($_POST['copyConfig'])) {
 	$originalConfig = new \OCA\User_LDAP\Configuration($_POST['copyConfig']);
 	$newConfig->setConfiguration($originalConfig->getConfiguration());
 } else {

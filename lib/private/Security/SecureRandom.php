@@ -51,7 +51,7 @@ class SecureRandom implements ISecureRandom {
 		$maxCharIndex = \strlen($characters) - 1;
 		$randomString = '';
 
-		while($length > 0) {
+		while ($length > 0) {
 			$randomNumber = \random_int(0, $maxCharIndex);
 			$randomString .= $characters[$randomNumber];
 			$length--;

@@ -55,7 +55,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class CardDavBackend implements BackendInterface, SyncSupport {
-
 	const PERSONAL_ADDRESSBOOK_URI = 'contacts';
 	const PERSONAL_ADDRESSBOOK_NAME = 'Contacts';
 
@@ -155,7 +154,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$addressBooks = [];
 
 		$result = $query->execute();
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			$addressBooks[$row['id']] = [
 				'id'  => $row['id'],
 				'uri' => $row['uri'],
@@ -190,7 +189,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->execute();
 
 		$readOnlyPropertyName = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only';
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			if ($row['principaluri'] === $principalUri) {
 				continue;
 			}
@@ -241,7 +240,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$addressBooks = [];
 
 		$result = $query->execute();
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			$addressBooks[$row['id']] = [
 				'id'  => $row['id'],
 				'uri' => $row['uri'],
@@ -364,11 +363,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		 * @suppress SqlInjectionChecker
 		 */
 		$propPatch->handle($supportedProperties, function ($mutations) use ($addressBookId) {
-
 			$updates = [];
-			foreach($mutations as $property=>$newValue) {
-
-				switch($property) {
+			foreach ($mutations as $property=>$newValue) {
+				switch ($property) {
 					case '{DAV:}displayname':
 						$updates['displayname'] = $newValue;
 						break;
@@ -380,7 +377,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$query = $this->db->getQueryBuilder();
 			$query->update('addressbooks');
 
-			foreach($updates as $key=>$value) {
+			foreach ($updates as $key=>$value) {
 				$query->set($key, $query->createNamedParameter($value));
 			}
 			$query->where($query->expr()->eq('id', $query->createNamedParameter($addressBookId)))
@@ -389,7 +386,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$this->addChange($addressBookId, "", 2);
 
 			return true;
-
 		});
 	}
 
@@ -411,9 +407,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			'synctoken' => 1
 		];
 
-		foreach($properties as $property=>$newValue) {
-
-			switch($property) {
+		foreach ($properties as $property=>$newValue) {
+			switch ($property) {
 				case '{DAV:}displayname':
 					$values['displayname'] = $newValue;
 					break;
@@ -423,12 +418,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				default:
 					throw new BadRequest('Unknown property: ' . $property);
 			}
-
 		}
 
 		// Fallback to make sure the displayname is set. Some clients may refuse
 		// to work with addressbooks not having a displayname.
-		if(is_null($values['displayname'])) {
+		if (is_null($values['displayname'])) {
 			$values['displayname'] = $url;
 		}
 
@@ -475,7 +469,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$query->delete($this->dbCardsPropertiesTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->execute();
-
 	}
 
 	/**
@@ -506,7 +499,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$cards = [];
 
 		$result = $query->execute();
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			$row['etag'] = '"' . $row['etag'] . '"';
 			$row['carddata'] = $this->readBlob($row['carddata']);
 			$cards[] = $row;
@@ -680,7 +673,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return string
 	 */
 	function updateCard($addressBookId, $cardUri, $cardData) {
-
 		$uid = $this->getUID($cardData);
 		$etag = md5($cardData);
 		$query = $this->db->getQueryBuilder();
@@ -804,7 +796,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$stmt->execute([ $addressBookId ]);
 		$currentToken = $stmt->fetchColumn(0);
 
-		if (is_null($currentToken)) return null;
+		if (is_null($currentToken)) {
+			return null;
+		}
 
 		$result = [
 			'syncToken' => $currentToken,
@@ -814,7 +808,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		];
 
 		if ($syncToken) {
-
 			$query = "SELECT `uri`, `operation` FROM `*PREFIX*addressbookchanges` WHERE `synctoken` >= ? AND `synctoken` < ? AND `addressbookid` = ? ORDER BY `synctoken`";
 			if ($limit>0) {
 				$query .= " LIMIT " . (int)$limit;
@@ -828,15 +821,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			// This loop ensures that any duplicates are overwritten, only the
 			// last change on a node is relevant.
-			while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-
+			while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 				$changes[$row['uri']] = $row['operation'];
-
 			}
 
-			foreach($changes as $uri => $operation) {
-
-				switch($operation) {
+			foreach ($changes as $uri => $operation) {
+				switch ($operation) {
 					case 1:
 						$result['added'][] = $uri;
 						break;
@@ -847,7 +837,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 						$result['deleted'][] = $uri;
 						break;
 				}
-
 			}
 		} else {
 			// No synctoken supplied, this is the initial sync.
@@ -924,7 +913,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		// No need for like when the pattern is empty
 		if ('' !== $pattern) {
-			if(\array_key_exists('escape_like_param', $options) && $options['escape_like_param'] === false) {
+			if (\array_key_exists('escape_like_param', $options) && $options['escape_like_param'] === false) {
 				$query2->andWhere($query2->expr()->ilike('cp.value', $query->createNamedParameter($pattern)));
 			} else {
 				$query2->andWhere($query2->expr()->ilike('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
@@ -1053,11 +1042,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			);
 
 		foreach ($vCard->children() as $property) {
-			if(!in_array($property->name, self::$indexProperties)) {
+			if (!in_array($property->name, self::$indexProperties)) {
 				continue;
 			}
 			$preferred = 0;
-			foreach($property->parameters as $parameter) {
+			foreach ($property->parameters as $parameter) {
 				if ($parameter->name === 'TYPE' && strtoupper($parameter->getValue()) === 'PREF') {
 					$preferred = 1;
 					break;

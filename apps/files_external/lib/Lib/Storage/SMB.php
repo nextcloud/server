@@ -185,7 +185,7 @@ class SMB extends Common implements INotifyStorage {
 		} catch (ForbiddenException $e) {
 			// with php-smbclient, this exceptions is thrown when the provided password is invalid.
 			// Possible is also ForbiddenException with a different error code, so we check it.
-			if($e->getCode() === 1) {
+			if ($e->getCode() === 1) {
 				$this->throwUnavailable($e);
 			}
 			throw $e;

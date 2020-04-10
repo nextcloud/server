@@ -78,11 +78,11 @@ class Application extends App {
 		$appManager = $server->getAppManager();
 		/** @var ITrashManager $trashManager */
 		$trashManager = $this->getContainer()->getServer()->query(ITrashManager::class);
-		foreach($appManager->getInstalledApps() as $app) {
+		foreach ($appManager->getInstalledApps() as $app) {
 			$appInfo = $appManager->getAppInfo($app);
 			if (isset($appInfo['trash'])) {
 				$backends = $appInfo['trash'];
-				foreach($backends as $backend) {
+				foreach ($backends as $backend) {
 					$class = $backend['@value'];
 					$for = $backend['@attributes']['for'];
 

@@ -76,7 +76,6 @@ class CryptTest extends TestCase {
 	 * test getOpenSSLConfig without any additional parameters
 	 */
 	public function testGetOpenSSLConfigBasic() {
-
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with($this->equalTo('openssl'), $this->equalTo([]))
@@ -92,7 +91,6 @@ class CryptTest extends TestCase {
 	 * test getOpenSSLConfig with additional parameters defined in config.php
 	 */
 	public function testGetOpenSSLConfig() {
-
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with($this->equalTo('openssl'), $this->equalTo([]))
@@ -113,7 +111,6 @@ class CryptTest extends TestCase {
 	 * @dataProvider dataTestGenerateHeader
 	 */
 	public function testGenerateHeader($keyFormat, $expected) {
-
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with($this->equalTo('cipher'), $this->equalTo('AES-256-CTR'))
@@ -176,7 +173,6 @@ class CryptTest extends TestCase {
 		$this->assertSame($expected,
 			$this->crypt->getCipher()
 		);
-
 	}
 
 	/**
@@ -199,7 +195,6 @@ class CryptTest extends TestCase {
 	 * test concatIV()
 	 */
 	public function testConcatIV() {
-
 		$result = self::invokePrivate(
 			$this->crypt,
 			'concatIV',
@@ -305,7 +300,6 @@ class CryptTest extends TestCase {
 	 * test parseHeader()
 	 */
 	public function testParseHeader() {
-
 		$header= 'HBEGIN:foo:bar:cipher:AES-256-CFB:HEND';
 		$result = self::invokePrivate($this->crypt, 'parseHeader', [$header]);
 
@@ -323,7 +317,6 @@ class CryptTest extends TestCase {
 	 * @return string
 	 */
 	public function testEncrypt() {
-
 		$decrypted = 'content';
 		$password = 'password';
 		$iv = self::invokePrivate($this->crypt, 'generateIv');
@@ -340,7 +333,6 @@ class CryptTest extends TestCase {
 			'iv' => $iv,
 			'encrypted' => $result,
 			'decrypted' => $decrypted];
-
 	}
 
 	/**
@@ -349,14 +341,12 @@ class CryptTest extends TestCase {
 	 * @depends testEncrypt
 	 */
 	public function testDecrypt($data) {
-
 		$result = self::invokePrivate(
 			$this->crypt,
 			'decrypt',
 			[$data['encrypted'], $data['iv'], $data['password']]);
 
 		$this->assertSame($data['decrypted'], $result);
-
 	}
 
 	/**
@@ -461,5 +451,4 @@ class CryptTest extends TestCase {
 			$this->invokePrivate($this->crypt, 'isValidPrivateKey', ['foo'])
 		);
 	}
-
 }

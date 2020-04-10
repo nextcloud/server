@@ -19,7 +19,6 @@ use Doctrine\DBAL\Platforms\OraclePlatform;
  * @package Test\DB
  */
 class MDB2SchemaManagerTest extends \Test\TestCase {
-
 	protected function tearDown(): void {
 		// do not drop the table for Oracle as it will create a bogus transaction
 		// that will break the following test suites requiring transactions
@@ -31,7 +30,6 @@ class MDB2SchemaManagerTest extends \Test\TestCase {
 	}
 
 	public function testAutoIncrement() {
-
 		$connection = \OC::$server->getDatabaseConnection();
 		if ($connection->getDatabasePlatform() instanceof OraclePlatform) {
 			$this->markTestSkipped('Adding auto increment columns in Oracle is not supported.');
@@ -48,5 +46,4 @@ class MDB2SchemaManagerTest extends \Test\TestCase {
 
 		$this->addToAssertionCount(1);
 	}
-
 }

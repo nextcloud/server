@@ -62,7 +62,6 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 		$this->_setFileInfo($storage, $path, $isDir);
 		if (!isset($this->mimeType[$this->storage->getId()][$this->path])
 			|| $this->mimeType[$this->storage->getId()][$this->path] === '') {
-
 			if ($isDir) {
 				$this->mimeType[$this->storage->getId()][$this->path] = 'httpd/unix-directory';
 			} else {

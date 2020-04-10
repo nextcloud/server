@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OC\App\AppStore\Bundles;
 
 class HubBundle extends Bundle {
-
 	public function getName() {
 		return $this->l10n->t('Hub bundle');
 	}

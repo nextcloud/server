@@ -772,7 +772,4 @@ class CommentsPluginTest extends \Test\TestCase {
 
 		$this->plugin->onReport(CommentsPluginImplementation::REPORT_NAME, $parameters, '/' . $path);
 	}
-
-
-
 }

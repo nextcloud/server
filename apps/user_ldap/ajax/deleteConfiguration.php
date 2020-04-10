@@ -33,7 +33,7 @@
 
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
 $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
-if($helper->deleteServerConfiguration($prefix)) {
+if ($helper->deleteServerConfiguration($prefix)) {
 	\OC_JSON::success();
 } else {
 	$l = \OC::$server->getL10N('user_ldap');

@@ -58,7 +58,7 @@ abstract class LogDetails {
 		$time = $time->format($format);
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
-		if($this->config->getValue('installed', false)) {
+		if ($this->config->getValue('installed', false)) {
 			$user = \OC_User::getUser() ? \OC_User::getUser() : '--';
 		} else {
 			$user = '--';
@@ -82,7 +82,7 @@ abstract class LogDetails {
 			'version'
 		);
 
-		if(is_array($message) && !array_key_exists('Exception', $message)) {
+		if (is_array($message) && !array_key_exists('Exception', $message)) {
 			// Exception messages should stay as they are,
 			// anything else modern is split to 'message' (string) and
 			// data (array) fields
@@ -99,10 +99,10 @@ abstract class LogDetails {
 		// PHP's json_encode only accept proper UTF-8 strings, loop over all
 		// elements to ensure that they are properly UTF-8 compliant or convert
 		// them manually.
-		foreach($entry as $key => $value) {
-			if(is_string($value)) {
+		foreach ($entry as $key => $value) {
+			if (is_string($value)) {
 				$testEncode = json_encode($value, JSON_UNESCAPED_SLASHES);
-				if($testEncode === false) {
+				if ($testEncode === false) {
 					$entry[$key] = utf8_encode($value);
 				}
 			}

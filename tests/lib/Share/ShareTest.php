@@ -33,7 +33,6 @@ use OCP\IUserManager;
  * @group DB
  */
 class ShareTest extends \Test\TestCase {
-
 	protected $itemType;
 
 	/** @var IUser */
@@ -247,11 +246,9 @@ class ShareTest extends \Test\TestCase {
 	 * @param array $grouped
 	 */
 	function testGroupItems($ungrouped, $grouped) {
-
 		$result = DummyShareClass::groupItemsTest($ungrouped);
 
 		$this->compareArrays($grouped, $result);
-
 	}
 
 	function compareArrays($result, $expectedResult) {

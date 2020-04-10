@@ -25,7 +25,6 @@
 use Behat\Behat\Context\Context;
 
 class AppNavigationContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -141,5 +140,4 @@ class AppNavigationContext implements Context, ActorAwareInterface {
 			PHPUnit_Framework_Assert::fail("The counter for section $section is still shown after $timeout seconds");
 		}
 	}
-
 }

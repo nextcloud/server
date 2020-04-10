@@ -155,14 +155,12 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 	}
 
 	public function getChild($name) {
-
 		$obj = $this->carddavBackend->getCard($this->addressBookInfo['id'], $name);
 		if (!$obj) {
 			throw new NotFound('Card not found');
 		}
 		$obj['acl'] = $this->getChildACL();
 		return new Card($this->carddavBackend, $this->addressBookInfo, $obj);
-
 	}
 
 	/**

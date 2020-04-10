@@ -93,5 +93,4 @@ class DiscoveryServiceTest extends TestCase {
 			[['services' => ['myService' => ['endpoints' => ['foo' => '/bar</foo']]]], 'myService', []],
 		];
 	}
-
 }

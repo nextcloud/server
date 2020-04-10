@@ -137,5 +137,4 @@ class DashboardManager implements IDashboardManager {
 
 		return $this->eventsService;
 	}
-
 }

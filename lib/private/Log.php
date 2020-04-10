@@ -373,7 +373,7 @@ class Log implements ILogger, IDataLogger {
 	}
 
 	public function getLogPath():string {
-		if($this->logger instanceof IFileBased) {
+		if ($this->logger instanceof IFileBased) {
 			return $this->logger->getLogFilePath();
 		}
 		throw new \RuntimeException('Log implementation has no path');

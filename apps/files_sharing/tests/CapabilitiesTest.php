@@ -285,5 +285,4 @@ class CapabilitiesTest extends \Test\TestCase {
 		$this->assertArrayHasKey('federation', $result);
 		$this->assertFalse($result['federation']['outgoing']);
 	}
-
 }

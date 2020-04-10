@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class FilesAppSharingContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**

@@ -75,5 +75,4 @@ class UidLoginCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 		$this->assertEquals($this->user, $data->getUser());
 	}
-
 }

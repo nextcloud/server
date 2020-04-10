@@ -28,7 +28,6 @@ use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\StorageConfig;
 
 class BackendTest extends \Test\TestCase {
-
 	public function testJsonSerialization() {
 		$backend = $this->getMockBuilder(Backend::class)
 			->setMethods(['jsonSerializeDefinition'])
@@ -89,5 +88,4 @@ class BackendTest extends \Test\TestCase {
 		$this->assertEquals('foobar', $backend->getLegacyAuthMechanism(['other' => true]));
 		$this->assertEquals('foobar', $backend->getLegacyAuthMechanism());
 	}
-
 }

@@ -126,7 +126,6 @@ class CertificateController extends Controller {
 	 * @return DataResponse
 	 */
 	public function removePersonalRootCertificate($certificateIdentifier) {
-
 		if ($this->isCertificateImportAllowed() === false) {
 			return new DataResponse(['Individual certificate management disabled'], Http::STATUS_FORBIDDEN);
 		}
@@ -168,7 +167,6 @@ class CertificateController extends Controller {
 	 * @return DataResponse
 	 */
 	public function removeSystemRootCertificate($certificateIdentifier) {
-
 		if ($this->isCertificateImportAllowed() === false) {
 			return new DataResponse(['Individual certificate management disabled'], Http::STATUS_FORBIDDEN);
 		}

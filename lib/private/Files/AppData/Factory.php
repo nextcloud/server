@@ -42,7 +42,6 @@ class Factory {
 
 	public function __construct(IRootFolder $rootFolder,
 								SystemConfig $systemConfig) {
-
 		$this->rootFolder = $rootFolder;
 		$this->config = $systemConfig;
 	}

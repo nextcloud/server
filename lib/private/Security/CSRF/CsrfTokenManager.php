@@ -57,11 +57,11 @@ class CsrfTokenManager {
 	 * @return CsrfToken
 	 */
 	public function getToken(): CsrfToken {
-		if(!\is_null($this->csrfToken)) {
+		if (!\is_null($this->csrfToken)) {
 			return $this->csrfToken;
 		}
 
-		if($this->sessionStorage->hasToken()) {
+		if ($this->sessionStorage->hasToken()) {
 			$value = $this->sessionStorage->getToken();
 		} else {
 			$value = $this->tokenGenerator->generateToken();
@@ -99,7 +99,7 @@ class CsrfTokenManager {
 	 * @return bool
 	 */
 	public function isTokenValid(CsrfToken $token): bool {
-		if(!$this->sessionStorage->hasToken()) {
+		if (!$this->sessionStorage->hasToken()) {
 			return false;
 		}
 

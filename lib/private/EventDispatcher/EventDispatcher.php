@@ -104,5 +104,4 @@ class EventDispatcher implements IEventDispatcher {
 	public function getSymfonyDispatcher(): SymfonyDispatcher {
 		return $this->dispatcher;
 	}
-
 }

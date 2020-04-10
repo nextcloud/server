@@ -252,5 +252,4 @@ class MessageTest extends TestCase {
 
 		$message->useTemplate($template);
 	}
-
 }

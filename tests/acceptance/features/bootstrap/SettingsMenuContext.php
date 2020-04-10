@@ -25,7 +25,6 @@
 use Behat\Behat\Context\Context;
 
 class SettingsMenuContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -217,5 +216,4 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 		} catch (NoSuchElementException $exception) {
 		}
 	}
-
 }

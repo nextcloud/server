@@ -55,7 +55,7 @@ class Provider extends \OCP\AppFramework\Controller {
 			],
 		];
 
-		if($this->appManager->isEnabledForUser('files_sharing')) {
+		if ($this->appManager->isEnabledForUser('files_sharing')) {
 			$services['SHARING'] = [
 				'version' => 1,
 				'endpoints' => [
@@ -88,7 +88,7 @@ class Provider extends \OCP\AppFramework\Controller {
 			}
 		}
 
-		if($this->appManager->isEnabledForUser('activity')) {
+		if ($this->appManager->isEnabledForUser('activity')) {
 			$services['ACTIVITY'] = [
 				'version' => 1,
 				'endpoints' => [
@@ -97,7 +97,7 @@ class Provider extends \OCP\AppFramework\Controller {
 			];
 		}
 
-		if($this->appManager->isEnabledForUser('provisioning_api')) {
+		if ($this->appManager->isEnabledForUser('provisioning_api')) {
 			$services['PROVISIONING'] = [
 				'version' => 1,
 				'endpoints' => [

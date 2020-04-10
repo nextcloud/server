@@ -208,7 +208,7 @@ class UserAvatar extends Avatar {
 			$avatar->delete();
 		}
 		$this->config->setUserValue($this->user->getUID(), 'avatar', 'generated', 'true');
-		if(!$silent) {
+		if (!$silent) {
 			$this->user->triggerChange('avatar', '');
 		}
 	}
@@ -273,7 +273,6 @@ class UserAvatar extends Avatar {
 				if (!$data = $this->generateAvatarFromSvg($size)) {
 					$data = $this->generateAvatar($this->getDisplayName(), $size);
 				}
-
 			} else {
 				$avatar = new OC_Image();
 				$file = $this->folder->getFile('avatar.' . $ext);
@@ -289,7 +288,6 @@ class UserAvatar extends Avatar {
 				$this->logger->error('Failed to save avatar for ' . $this->user->getUID());
 				throw new NotFoundException();
 			}
-
 		}
 
 		if ($this->config->getUserValue($this->user->getUID(), 'avatar', 'generated', null) === null) {

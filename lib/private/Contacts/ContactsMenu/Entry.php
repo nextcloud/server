@@ -164,5 +164,4 @@ class Entry implements IEntry {
 			'lastMessage' => '',
 		];
 	}
-
 }

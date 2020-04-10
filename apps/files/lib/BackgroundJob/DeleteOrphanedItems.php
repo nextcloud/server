@@ -31,7 +31,6 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  * Delete all share entries that have no matching entries in the file cache table.
  */
 class DeleteOrphanedItems extends TimedJob {
-
 	const CHUNK_SIZE = 200;
 
 	/** @var \OCP\IDBConnection */
@@ -150,5 +149,4 @@ class DeleteOrphanedItems extends TimedJob {
 		$this->logger->debug("$deletedEntries orphaned comment read marks deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}
-
 }

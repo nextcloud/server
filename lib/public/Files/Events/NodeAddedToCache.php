@@ -67,5 +67,4 @@ class NodeAddedToCache extends Event {
 	public function getPath(): string {
 		return $this->path;
 	}
-
 }

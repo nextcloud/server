@@ -42,7 +42,6 @@ use OCP\ILogger;
 use OCP\IUser;
 
 class Manager implements IManager {
-
 	public const TABLE_COLLECTIONS = 'collres_collections';
 	public const TABLE_RESOURCES = 'collres_resources';
 	public const TABLE_ACCESS_CACHE = 'collres_accesscache';

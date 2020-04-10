@@ -98,5 +98,4 @@ class Test extends Command {
 
 		return 0;
 	}
-
 }

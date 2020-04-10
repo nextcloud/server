@@ -152,5 +152,4 @@ class RemoteWipe {
 
 		return true;
 	}
-
 }

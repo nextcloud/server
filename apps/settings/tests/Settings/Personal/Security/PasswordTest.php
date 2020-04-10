@@ -74,5 +74,4 @@ class PasswordTest extends TestCase {
 		]);
 		$this->assertEquals($expected, $form);
 	}
-
 }

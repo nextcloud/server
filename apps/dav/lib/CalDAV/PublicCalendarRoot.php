@@ -53,7 +53,6 @@ class PublicCalendarRoot extends Collection {
 		$this->caldavBackend = $caldavBackend;
 		$this->l10n = $l10n;
 		$this->config = $config;
-
 	}
 
 	/**

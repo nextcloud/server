@@ -191,7 +191,7 @@ EOF;
 </table>
 EOF;
 
-  // note: listBegin (like bodyBegin) is not processed through sprintf, so "%" is not escaped as "%%". (bug #12151)
+	// note: listBegin (like bodyBegin) is not processed through sprintf, so "%" is not escaped as "%%". (bug #12151)
 	protected $listBegin = <<<EOF
 <table class="row description" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
 	<tbody>
@@ -550,7 +550,6 @@ EOF;
 		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textColor, $textColor, $textLeft, $urlRight, $textRight]);
 		$this->plainBody .= $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
 		$this->plainBody .= $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
-
 	}
 
 	/**
@@ -585,7 +584,6 @@ EOF;
 		}
 
 		$this->plainBody .=  $url . PHP_EOL;
-
 	}
 
 	/**
@@ -608,7 +606,7 @@ EOF;
 	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically sent email" will be used
 	 */
 	public function addFooter(string $text = '') {
-		if($text === '') {
+		if ($text === '') {
 			$text = $this->themingDefaults->getName() . ' - ' . $this->themingDefaults->getSlogan() . '<br>' . $this->l10n->t('This is an automatically sent email, please do not reply.');
 		}
 

@@ -324,7 +324,6 @@ class Database extends ABackend
 				}
 				return (string)$row['uid'];
 			}
-
 		}
 
 		return false;

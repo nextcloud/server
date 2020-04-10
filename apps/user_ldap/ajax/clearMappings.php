@@ -36,7 +36,7 @@ use OCA\User_LDAP\Mapping\GroupMapping;
 $subject = (string)$_POST['ldap_clear_mapping'];
 $mapping = null;
 try {
-	if($subject === 'user') {
+	if ($subject === 'user') {
 		$mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$result = $mapping->clearCb(
 			function ($uid) {
@@ -46,12 +46,12 @@ try {
 				\OC::$server->getUserManager()->emit('\OC\User', 'postUnassignedUserId', [$uid]);
 			}
 		);
-	} elseif($subject === 'group') {
+	} elseif ($subject === 'group') {
 		$mapping = new GroupMapping(\OC::$server->getDatabaseConnection());
 		$result = $mapping->clear();
 	}
 
-	if($mapping === null || !$result) {
+	if ($mapping === null || !$result) {
 		$l = \OC::$server->getL10N('user_ldap');
 		throw new \Exception($l->t('Failed to clear the mappings.'));
 	}

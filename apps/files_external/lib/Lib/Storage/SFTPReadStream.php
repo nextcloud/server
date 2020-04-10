@@ -200,5 +200,4 @@ class SFTPReadStream implements File {
 			return false;
 		}
 	}
-
 }

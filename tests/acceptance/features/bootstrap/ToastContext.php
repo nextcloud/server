@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class ToastContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -51,5 +50,4 @@ class ToastContext implements Context, ActorAwareInterface {
 		PHPUnit_Framework_Assert::assertTrue($this->actor->find(
 				self::toastMessage($message), 10)->isVisible());
 	}
-
 }

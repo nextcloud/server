@@ -141,5 +141,4 @@ class HEIC extends ProviderV2 {
 
 		return $bp;
 	}
-
 }

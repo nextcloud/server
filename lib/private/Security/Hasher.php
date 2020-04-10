@@ -79,7 +79,7 @@ class Hasher implements IHasher {
 		}
 
 		$hashingCost = $this->config->getSystemValue('hashingCost', null);
-		if(!\is_null($hashingCost)) {
+		if (!\is_null($hashingCost)) {
 			$this->options['cost'] = $hashingCost;
 		}
 	}
@@ -113,8 +113,8 @@ class Hasher implements IHasher {
 	 */
 	protected function splitHash(string $prefixedHash) {
 		$explodedString = explode('|', $prefixedHash, 2);
-		if(\count($explodedString) === 2) {
-			if((int)$explodedString[0] > 0) {
+		if (\count($explodedString) === 2) {
+			if ((int)$explodedString[0] > 0) {
 				return ['version' => (int)$explodedString[0], 'hash' => $explodedString[1]];
 			}
 		}
@@ -130,13 +130,13 @@ class Hasher implements IHasher {
 	 * @return bool Whether $hash is a valid hash of $message
 	 */
 	protected function legacyHashVerify($message, $hash, &$newHash = null): bool {
-		if(empty($this->legacySalt)) {
+		if (empty($this->legacySalt)) {
 			$this->legacySalt = $this->config->getSystemValue('passwordsalt', '');
 		}
 
 		// Verify whether it matches a legacy PHPass or SHA1 string
 		$hashLength = \strlen($hash);
-		if(($hashLength === 60 && password_verify($message.$this->legacySalt, $hash)) ||
+		if (($hashLength === 60 && password_verify($message.$this->legacySalt, $hash)) ||
 			($hashLength === 40 && hash_equals($hash, sha1($message)))) {
 			$newHash = $this->hash($message);
 			return true;
@@ -155,7 +155,7 @@ class Hasher implements IHasher {
 	 * @return bool Whether $hash is a valid hash of $message
 	 */
 	protected function verifyHash(string $message, string $hash, &$newHash = null): bool {
-		if(password_verify($message, $hash)) {
+		if (password_verify($message, $hash)) {
 			if ($this->needsRehash($hash)) {
 				$newHash = $this->hash($message);
 			}
@@ -174,7 +174,7 @@ class Hasher implements IHasher {
 	public function verify(string $message, string $hash, &$newHash = null): bool {
 		$splittedHash = $this->splitHash($hash);
 
-		if(isset($splittedHash['version'])) {
+		if (isset($splittedHash['version'])) {
 			switch ($splittedHash['version']) {
 				case 3:
 				case 2:
@@ -211,5 +211,4 @@ class Hasher implements IHasher {
 
 		return $default;
 	}
-
 }

@@ -68,5 +68,4 @@ interface IAddressBookProvider {
 	 *@since 19.0.0
 	 */
 	public function getAddressBookInAddressBookHome(string $principalUri, string $uri): ?ExternalAddressBook;
-
 }

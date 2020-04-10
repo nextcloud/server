@@ -53,7 +53,6 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 			 $node->expr instanceof Node\Expr\MethodCall &&
 			 $node->expr->var instanceof Node\Expr\Variable &&
 			 $node->expr->var->name === $this->schemaVariableName) {
-
 			if ($node->expr->name === 'createTable') {
 				if (isset($node->expr->args[0]) && $node->expr->args[0]->value instanceof Node\Scalar\String_) {
 					if (!$this->checkNameLength($node->expr->args[0]->value->value)) {
@@ -75,7 +74,6 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 			 $node instanceof Node\Expr\MethodCall &&
 			 $node->var instanceof Node\Expr\Variable &&
 			 $node->var->name === $this->schemaVariableName) {
-
 			if ($node->name === 'renameTable') {
 				$this->errors[] = [
 					'line' => $node->getLine(),
@@ -87,14 +85,13 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 				];
 			}
 
-		/**
-		 * Check columns and Indexes
-		 */
+			/**
+			 * Check columns and Indexes
+			 */
 		} elseif (!empty($this->tableVariableNames) &&
 			 $node instanceof Node\Expr\MethodCall &&
 			 $node->var instanceof Node\Expr\Variable &&
 			 isset($this->tableVariableNames[$node->var->name])) {
-
 			if ($node->name === 'addColumn' || $node->name === 'changeColumn') {
 				if (isset($node->args[0]) && $node->args[0]->value instanceof Node\Scalar\String_) {
 					if (!$this->checkNameLength($node->args[0]->value->value)) {
@@ -163,9 +160,9 @@ class MigrationSchemaChecker extends NodeVisitorAbstract {
 				];
 			}
 
-		/**
-		 * Find the schema
-		 */
+			/**
+			 * Find the schema
+			 */
 		} elseif ($node instanceof Node\Expr\Assign &&
 			 $node->expr instanceof Node\Expr\FuncCall &&
 			 $node->var instanceof Node\Expr\Variable &&

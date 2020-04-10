@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class SearchContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -111,5 +110,4 @@ class SearchContext implements Context, ActorAwareInterface {
 		PHPUnit_Framework_Assert::assertEquals(
 				$path, $this->actor->find(self::searchResultPath($number), 10)->getText());
 	}
-
 }

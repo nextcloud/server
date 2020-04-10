@@ -95,6 +95,4 @@ class ExiprationNotification extends Command {
 			$this->notificationManager->notify($notification);
 		}
 	}
-
-
 }

@@ -25,7 +25,6 @@
 use Behat\Behat\Context\Context;
 
 class AppSettingsContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -98,5 +97,4 @@ class AppSettingsContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheSettingsAreOpened() {
 		WaitFor::elementToBeEventuallyShown($this->actor, self::appSettingsContent());
 	}
-
 }

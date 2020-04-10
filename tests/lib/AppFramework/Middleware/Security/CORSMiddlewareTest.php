@@ -270,5 +270,4 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session, $this->throttler);
 		$middleware->afterException($this->controller, __FUNCTION__, new \Exception('A regular exception'));
 	}
-
 }

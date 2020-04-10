@@ -63,5 +63,4 @@ class BeforeUserLoggedInEvent extends Event {
 	public function getPassword(): string {
 		return $this->password;
 	}
-
 }

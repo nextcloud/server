@@ -200,6 +200,4 @@ gQIDAQAB
 
 		$this->assertFalse($this->signer->verify($data));
 	}
-
-
 }

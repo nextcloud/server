@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class ContactsMenuContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -143,5 +142,4 @@ class ContactsMenuContext implements Context, ActorAwareInterface {
 			PHPUnit_Framework_Assert::fail("The $contactName contact in Contacts menu is still shown after $timeout seconds");
 		}
 	}
-
 }

@@ -49,7 +49,6 @@ use Sabre\VObject\Reader;
  * @package OCA\DAV\CalDAV
  */
 class BirthdayService {
-
 	const BIRTHDAY_CALENDAR_URI = 'contact_birthdays';
 
 	/** @var GroupPrincipalBackend */
@@ -298,7 +297,7 @@ class BirthdayService {
 		$calendar = $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
 		$calendarObjects = $this->calDavBackEnd->getCalendarObjects($calendar['id'], CalDavBackend::CALENDAR_TYPE_CALENDAR);
 
-		foreach($calendarObjects as $calendarObject) {
+		foreach ($calendarObjects as $calendarObject) {
 			$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $calendarObject['uri'], CalDavBackend::CALENDAR_TYPE_CALENDAR);
 		}
 	}
@@ -311,9 +310,9 @@ class BirthdayService {
 		$principal = 'principals/users/'.$user;
 		$this->ensureCalendarExists($principal);
 		$books = $this->cardDavBackEnd->getAddressBooksForUser($principal);
-		foreach($books as $book) {
+		foreach ($books as $book) {
 			$cards = $this->cardDavBackEnd->getCards($book['id']);
-			foreach($cards as $card) {
+			foreach ($cards as $card) {
 				$this->onCardChanged((int) $book['id'], $card['uri'], $card['carddata']);
 			}
 		}
@@ -455,7 +454,7 @@ class BirthdayService {
 					return '';
 			}
 		} else {
-			switch($field) {
+			switch ($field) {
 				case 'BDAY':
 					return implode('', [
 						$name,

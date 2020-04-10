@@ -80,5 +80,4 @@ interface IToken {
 	 * @return string
 	 */
 	public function getUser(): string;
-
 }

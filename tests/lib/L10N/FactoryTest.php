@@ -559,12 +559,11 @@ class FactoryTest extends TestCase {
 			});
 		$factory->expects($this->any())
 			->method('respectDefaultLanguage')->willReturnCallback(function ($app, $lang) {
-			return $lang;
+				return $lang;
 			});
 
 		$lang = $factory->findLanguage(null);
 		$this->assertSame($expected, $lang);
-
 	}
 
 	public function dataTestRespectDefaultLanguage() {
@@ -611,11 +610,11 @@ class FactoryTest extends TestCase {
 	public function testGetLanguageIterator(bool $hasSession, IUser $iUserMock = null) {
 		$factory = $this->getFactory();
 
-		if($iUserMock === null) {
+		if ($iUserMock === null) {
 			$matcher  = $this->userSession->expects($this->once())
 				->method('getUser');
 
-			if($hasSession) {
+			if ($hasSession) {
 				$matcher->willReturn($this->createMock(IUser::class));
 			} else {
 				$this->expectException(\RuntimeException::class);
@@ -625,5 +624,4 @@ class FactoryTest extends TestCase {
 		$iterator = $factory->getLanguageIterator($iUserMock);
 		$this->assertInstanceOf(ILanguageIterator::class, $iterator);
 	}
-
 }

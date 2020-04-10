@@ -110,7 +110,6 @@ class DecryptAllTest extends TestCase {
 			$this->keyManager->expects($this->never())->method('getPrivateKey');
 			$this->crypt->expects($this->once())->method('decryptPrivateKey')
 				->with($masterKey, $password, $masterKeyId)->willReturn($unencryptedKey);
-
 		} else {
 			$this->keyManager->expects($this->never())->method('getSystemPrivateKey');
 			$this->keyManager->expects($this->once())->method('getPrivateKey')
@@ -131,5 +130,4 @@ class DecryptAllTest extends TestCase {
 			['masterKeyId', 'masterKeyId', 'masterKeyId']
 		];
 	}
-
 }

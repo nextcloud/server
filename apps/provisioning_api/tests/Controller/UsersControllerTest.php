@@ -440,7 +440,7 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(function ($appid, $key, $default) {
-				if($key === 'newUser.generateUserID') {
+				if ($key === 'newUser.generateUserID') {
 					return 'yes';
 				}
 				return null;
@@ -477,7 +477,9 @@ class UsersControllerTest extends TestCase {
 		$this->secureRandom->expects($this->any())
 			->method('generate')
 			->with(10)
-			->willReturnCallback(function () { return (string)rand(1000000000, 9999999999); });
+			->willReturnCallback(function () {
+				return (string)rand(1000000000, 9999999999);
+			});
 
 		$this->assertTrue(key_exists(
 			'id',
@@ -495,7 +497,7 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(function ($appid, $key, $default) {
-				if($key === 'newUser.generateUserID') {
+				if ($key === 'newUser.generateUserID') {
 					return 'yes';
 				}
 				return null;
@@ -538,7 +540,7 @@ class UsersControllerTest extends TestCase {
 			->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(function ($appid, $key, $default) {
-				if($key === 'newUser.requireEmail') {
+				if ($key === 'newUser.requireEmail') {
 					return 'yes';
 				}
 				return null;
@@ -1590,7 +1592,6 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserSelfEditChangeLanguage() {
-
 		$this->l10nFactory->expects($this->once())
 			->method('findAvailableLanguages')
 			->willReturn(['en', 'de', 'sv']);
@@ -1683,7 +1684,6 @@ class UsersControllerTest extends TestCase {
 	}
 
 	public function testEditUserAdminEditChangeLanguage() {
-
 		$this->l10nFactory->expects($this->once())
 			->method('findAvailableLanguages')
 			->willReturn(['en', 'de', 'sv']);

@@ -164,7 +164,6 @@ class PhotoCache {
 				$file = $folder->newFile($path);
 				$file->putContent($photo->data());
 			} catch (NotPermittedException $e) {
-
 			}
 		}
 
@@ -180,7 +179,7 @@ class PhotoCache {
 		try {
 			return $this->appData->getFolder($hash);
 		} catch (NotFoundException $e) {
-			if($createIfNotExists) {
+			if ($createIfNotExists) {
 				return $this->appData->newFolder($hash);
 			} else {
 				throw $e;

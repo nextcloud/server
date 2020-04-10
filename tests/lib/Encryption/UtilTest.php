@@ -56,7 +56,6 @@ class UtilTest extends TestCase {
 			$this->groupManager,
 			$this->config
 		);
-
 	}
 
 	/**
@@ -79,7 +78,6 @@ class UtilTest extends TestCase {
 	 * @dataProvider providesHeaders
 	 */
 	public function testCreateHeader($expected, $header, $moduleId) {
-
 		$em = $this->createMock(IEncryptionModule::class);
 		$em->expects($this->any())->method('getId')->willReturn($moduleId);
 
@@ -190,5 +188,4 @@ class UtilTest extends TestCase {
 			['/foo/test.txt.ocTransferId7567.part', '/foo/test.txt'],
 		];
 	}
-
 }

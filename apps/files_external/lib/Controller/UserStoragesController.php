@@ -211,7 +211,6 @@ class UserStoragesController extends StoragesController {
 			$this->formatStorageForUI($storage),
 			Http::STATUS_OK
 		);
-
 	}
 
 	/**
@@ -224,5 +223,4 @@ class UserStoragesController extends StoragesController {
 	public function destroy($id) {
 		return parent::destroy($id);
 	}
-
 }

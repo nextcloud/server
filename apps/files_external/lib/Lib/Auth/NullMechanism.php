@@ -29,7 +29,6 @@ use OCP\IL10N;
  * Null authentication mechanism
  */
 class NullMechanism extends AuthMechanism {
-
 	public function __construct(IL10N $l) {
 		$this
 			->setIdentifier('null::null')
@@ -37,5 +36,4 @@ class NullMechanism extends AuthMechanism {
 			->setText($l->t('None'))
 		;
 	}
-
 }

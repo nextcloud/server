@@ -4,14 +4,18 @@
 <div id="app-navigation">
 	<ul>
 		<li>
-			<a class="icon-user <?php if ($_['mode'] === 'user') { p('active'); } ?>"
+			<a class="icon-user <?php if ($_['mode'] === 'user') {
+	p('active');
+} ?>"
 				href="<?php print_unescaped($_['urlUserDocs']); ?>">
 				<?php p($l->t('User documentation')); ?>
 			</a>
 		</li>
-	<?php if($_['admin']) { ?>
+	<?php if ($_['admin']) { ?>
 		<li>
-			<a class="icon-user-admin <?php if ($_['mode'] === 'admin') { p('active'); } ?>"
+			<a class="icon-user-admin <?php if ($_['mode'] === 'admin') {
+	p('active');
+} ?>"
 				href="<?php print_unescaped($_['urlAdminDocs']); ?>">
 				<?php p($l->t('Administrator documentation')); ?>
 			</a>

@@ -29,5 +29,4 @@ namespace OCA\Files\Exception;
 use Exception;
 
 class TransferOwnershipException extends Exception {
-
 }

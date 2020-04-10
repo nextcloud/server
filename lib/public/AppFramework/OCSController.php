@@ -110,5 +110,4 @@ abstract class OCSController extends ApiController {
 		}
 		return new \OC\AppFramework\OCS\V2Response($data, $format);
 	}
-
 }

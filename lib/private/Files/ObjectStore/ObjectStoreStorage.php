@@ -182,7 +182,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 					return false;
 				}
 			} else {
-				if(!$this->unlink($child['path'])) {
+				if (!$this->unlink($child['path'])) {
 					return false;
 				}
 			}

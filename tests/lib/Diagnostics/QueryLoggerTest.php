@@ -49,6 +49,5 @@ class QueryLoggerTest extends TestCase {
 
 		$queries = $this->logger->getQueries();
 		$this->assertSame(1, sizeof($queries));
-
 	}
 }

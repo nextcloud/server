@@ -52,7 +52,7 @@ class TagMapper extends Mapper {
 	 * @return array An array of Tag objects.
 	 */
 	public function loadTags($owners, $type) {
-		if(!is_array($owners)) {
+		if (!is_array($owners)) {
 			$owners = [$owners];
 		}
 

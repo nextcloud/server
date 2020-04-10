@@ -41,7 +41,6 @@ use Sabre\DAV\Tree;
  * See the COPYING-README file.
  */
 class TagsPluginTest extends \Test\TestCase {
-
 	const TAGS_PROPERTYNAME = \OCA\DAV\Connector\Sabre\TagsPlugin::TAGS_PROPERTYNAME;
 	const FAVORITE_PROPERTYNAME = \OCA\DAV\Connector\Sabre\TagsPlugin::FAVORITE_PROPERTYNAME;
 	const TAG_FAVORITE = \OCA\DAV\Connector\Sabre\TagsPlugin::TAG_FAVORITE;
@@ -430,5 +429,4 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->assertFalse(false, isset($result[self::TAGS_PROPERTYNAME]));
 		$this->assertEquals(200, isset($result[self::FAVORITE_PROPERTYNAME]));
 	}
-
 }

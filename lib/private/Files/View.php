@@ -829,7 +829,7 @@ class View {
 								$this->renameUpdate($storage1, $storage2, $internalPath1, $internalPath2);
 							}
 						}
-					} catch(\Exception $e) {
+					} catch (\Exception $e) {
 						throw $e;
 					} finally {
 						$this->changeLock($path1, ILockingProvider::LOCK_SHARED, true);
@@ -853,7 +853,7 @@ class View {
 						}
 					}
 				}
-			} catch(\Exception $e) {
+			} catch (\Exception $e) {
 				throw $e;
 			} finally {
 				$this->unlockFile($path1, ILockingProvider::LOCK_SHARED, true);
@@ -895,7 +895,6 @@ class View {
 			$lockTypePath2 = ILockingProvider::LOCK_SHARED;
 
 			try {
-
 				$exists = $this->file_exists($path2);
 				if ($this->shouldEmitHooks()) {
 					\OC_Hook::emit(
@@ -946,7 +945,6 @@ class View {
 						);
 						$this->emit_file_hooks_post($exists, $path2);
 					}
-
 				}
 			} catch (\Exception $e) {
 				$this->unlockFile($path2, $lockTypePath2);
@@ -956,7 +954,6 @@ class View {
 
 			$this->unlockFile($path2, $lockTypePath2);
 			$this->unlockFile($path1, $lockTypePath1);
-
 		}
 		return $result;
 	}

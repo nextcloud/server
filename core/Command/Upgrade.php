@@ -47,7 +47,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Upgrade extends Command {
-
 	const ERROR_SUCCESS = 0;
 	const ERROR_NOT_INSTALLED = 1;
 	const ERROR_MAINTENANCE_MODE = 2;
@@ -86,8 +85,7 @@ class Upgrade extends Command {
 	 * @param OutputInterface $output output interface
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-
-		if(Util::needUpgrade()) {
+		if (Util::needUpgrade()) {
 			if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
 				// Prepend each line with a little timestamp
 				$timestampFormatter = new TimestampFormatter($this->config, $output->getFormatter());
@@ -153,12 +151,12 @@ class Upgrade extends Command {
 						$output->writeln('');
 						break;
 					case '\OC\Repair::step':
-						if(OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+						if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
 							$output->writeln('<info>Repair step: ' . $event->getArgument(0) . '</info>');
 						}
 						break;
 					case '\OC\Repair::info':
-						if(OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+						if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
 							$output->writeln('<info>Repair info: ' . $event->getArgument(0) . '</info>');
 						}
 						break;
@@ -259,12 +257,12 @@ class Upgrade extends Command {
 
 			$this->postUpgradeCheck($input, $output);
 
-			if(!$success) {
+			if (!$success) {
 				return self::ERROR_FAILURE;
 			}
 
 			return self::ERROR_SUCCESS;
-		} elseif($this->config->getSystemValueBool('maintenance')) {
+		} elseif ($this->config->getSystemValueBool('maintenance')) {
 			//Possible scenario: Nextcloud core is updated but an app failed
 			$output->writeln('<warning>Nextcloud is in maintenance mode</warning>');
 			$output->write('<comment>Maybe an upgrade is already in process. Please check the '

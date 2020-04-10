@@ -60,7 +60,7 @@ class RemoveLinkSharesNotifier implements INotifier {
 	}
 
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if($notification->getApp() !== 'core') {
+		if ($notification->getApp() !== 'core') {
 			throw new \InvalidArgumentException();
 		}
 		$l = $this->l10nFactory->get('core', $languageCode);

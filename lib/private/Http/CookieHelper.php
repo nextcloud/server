@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OC\Http;
 
 class CookieHelper {
-
 	const SAMESITE_NONE = 0;
 	const SAMESITE_LAX = 1;
 	const SAMESITE_STRICT = 2;

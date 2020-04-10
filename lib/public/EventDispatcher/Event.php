@@ -51,5 +51,4 @@ class Event extends SymfonyEvent {
 	 */
 	public function __construct() {
 	}
-
 }

@@ -269,7 +269,6 @@ class ResponseTest extends \Test\TestCase {
 		$this->assertEquals('Thu, 01 Jan 1970 00:00:01 +0000', $headers['Last-Modified']);
 		$this->assertEquals('max-age=33, must-revalidate',
 			$headers['Cache-Control']);
-
 	}
 
 	public function testThrottle() {

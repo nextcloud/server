@@ -36,5 +36,4 @@ interface IAuthMechanismProvider {
 	 * @return AuthMechanism[]
 	 */
 	public function getAuthMechanisms();
-
 }

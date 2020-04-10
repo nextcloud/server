@@ -552,5 +552,4 @@ class FileListContext implements Context, ActorAwareInterface {
 	public function iSeeThatHasUnreadComments($fileName) {
 		PHPUnit_Framework_Assert::assertTrue($this->actor->find(self::commentActionForFile($this->fileListAncestor, $fileName), 10)->isVisible());
 	}
-
 }

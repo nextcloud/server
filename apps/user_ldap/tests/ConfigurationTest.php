@@ -139,5 +139,4 @@ class ConfigurationTest extends \Test\TestCase {
 		// so far the only thing that can get resolved :)
 		$this->assertSame($expected, $this->configuration->resolveRule('avatar'));
 	}
-
 }

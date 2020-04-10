@@ -43,5 +43,4 @@ interface IFileCheck extends IEntityCheck {
 	 * @since 18.0.0
 	 */
 	public function setFileInfo(IStorage $storage, string $path, bool $isDir = false): void;
-
 }

@@ -47,5 +47,4 @@ class EnterpriseBundle extends Bundle {
 			'terms_of_service',
 		];
 	}
-
 }

@@ -52,5 +52,4 @@ class GroupCreatedEvent extends Event {
 	public function getGroup(): IGroup {
 		return $this->group;
 	}
-
 }

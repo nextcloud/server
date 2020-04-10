@@ -95,7 +95,7 @@ class PersonalInfo implements ISettings {
 	public function getForm() {
 		$federatedFileSharingEnabled = $this->appManager->isEnabledForUser('federatedfilesharing');
 		$lookupServerUploadEnabled = false;
-		if($federatedFileSharingEnabled) {
+		if ($federatedFileSharingEnabled) {
 			$federatedFileSharing = \OC::$server->query(Application::class);
 			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
 			$lookupServerUploadEnabled = $shareProvider->isLookupServerUploadEnabled();
@@ -194,7 +194,7 @@ class PersonalInfo implements ISettings {
 	 */
 	private function getLanguages(IUser $user) {
 		$forceLanguage = $this->config->getSystemValue('force_language', false);
-		if($forceLanguage !== false) {
+		if ($forceLanguage !== false) {
 			return [];
 		}
 
@@ -227,7 +227,7 @@ class PersonalInfo implements ISettings {
 
 	private function getLocales(IUser $user) {
 		$forceLanguage = $this->config->getSystemValue('force_locale', false);
-		if($forceLanguage !== false) {
+		if ($forceLanguage !== false) {
 			return [];
 		}
 
@@ -243,8 +243,7 @@ class PersonalInfo implements ISettings {
 			return $userLocaleString === $value['code'];
 		});
 
-		if (!empty($userLocale))
-		{
+		if (!empty($userLocale)) {
 			$userLocale = reset($userLocale);
 		}
 
@@ -289,5 +288,4 @@ class PersonalInfo implements ISettings {
 		}
 		return $messageParameters;
 	}
-
 }

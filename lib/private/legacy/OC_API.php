@@ -48,9 +48,9 @@ class OC_API {
 		$request = \OC::$server->getRequest();
 
 		// Send 401 headers if unauthorised
-		if($result->getStatusCode() === API::RESPOND_UNAUTHORISED) {
+		if ($result->getStatusCode() === API::RESPOND_UNAUTHORISED) {
 			// If request comes from JS return dummy auth request
-			if($request->getHeader('X-Requested-With') === 'XMLHttpRequest') {
+			if ($request->getHeader('X-Requested-With') === 'XMLHttpRequest') {
 				header('WWW-Authenticate: DummyBasic realm="Authorisation Required"');
 			} else {
 				header('WWW-Authenticate: Basic realm="Authorisation Required"');
@@ -58,7 +58,7 @@ class OC_API {
 			http_response_code(401);
 		}
 
-		foreach($result->getHeaders() as $name => $value) {
+		foreach ($result->getHeaders() as $name => $value) {
 			header($name . ': ' . $value);
 		}
 
@@ -81,14 +81,14 @@ class OC_API {
 	 * @param XMLWriter $writer
 	 */
 	private static function toXML($array, $writer) {
-		foreach($array as $k => $v) {
+		foreach ($array as $k => $v) {
 			if ($k[0] === '@') {
 				$writer->writeAttribute(substr($k, 1), $v);
 				continue;
 			} elseif (is_numeric($k)) {
 				$k = 'element';
 			}
-			if(is_array($v)) {
+			if (is_array($v)) {
 				$writer->startElement($k);
 				self::toXML($v, $writer);
 				$writer->endElement();

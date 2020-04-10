@@ -32,7 +32,6 @@ use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class AddressBookTest extends TestCase {
-
 	public function testDelete() {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CardDavBackend $backend */
 		$backend = $this->getMockBuilder(CardDavBackend::class)->disableOriginalConstructor()->getMock();
@@ -152,4 +151,5 @@ class AddressBookTest extends TestCase {
 			'read-only property is false and no owner' => [true, false, false],
 			'read-only property is true and no owner' => [false, true, false],
 		];
-	}}
+	}
+}

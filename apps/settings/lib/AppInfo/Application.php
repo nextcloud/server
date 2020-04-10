@@ -54,7 +54,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
-
 	const APP_ID = 'settings';
 
 	/**
@@ -80,7 +79,7 @@ class Application extends App {
 		$container->registerService('isSubAdmin', function (IContainer $c) {
 			$userObject = \OC::$server->getUserSession()->getUser();
 			$isSubAdmin = false;
-			if($userObject !== null) {
+			if ($userObject !== null) {
 				$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
 			}
 			return $isSubAdmin;
@@ -158,7 +157,6 @@ class Application extends App {
 		/** @var Hooks $hooks */
 		$hooks = $this->getContainer()->query(Hooks::class);
 		$hooks->addUserToGroup($group, $user);
-
 	}
 
 	public function removeUserFromGroup(IGroup $group, IUser $user): void {

@@ -122,5 +122,4 @@ class NullCache implements ICache {
 	public function normalize($path) {
 		return $path;
 	}
-
 }

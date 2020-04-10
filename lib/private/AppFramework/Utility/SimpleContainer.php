@@ -102,7 +102,7 @@ class SimpleContainer extends Container implements IContainer {
 				throw new QueryException($baseMsg .
 					' Class can not be instantiated');
 			}
-		} catch(ReflectionException $e) {
+		} catch (ReflectionException $e) {
 			throw new QueryException($baseMsg . ' ' . $e->getMessage());
 		}
 	}
@@ -140,7 +140,7 @@ class SimpleContainer extends Container implements IContainer {
 	 */
 	public function registerService($name, Closure $closure, $shared = true) {
 		$name = $this->sanitizeName($name);
-		if (isset($this[$name]))  {
+		if (isset($this[$name])) {
 			unset($this[$name]);
 		}
 		if ($shared) {

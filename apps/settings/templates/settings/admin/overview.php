@@ -45,7 +45,11 @@
 		<span class="icon loading"></span><span class="message"><?php p($l->t('Checking for system and security issues.'));?></span>
 	</div>
 
-	<div id="postsetupchecks" data-check-wellknown="<?php if($_['checkForWorkingWellKnownSetup']) { p('true'); } else { p('false'); } ?>">
+	<div id="postsetupchecks" data-check-wellknown="<?php if ($_['checkForWorkingWellKnownSetup']) {
+	p('true');
+} else {
+	p('false');
+} ?>">
 		<ul class="errors hidden"></ul>
 		<ul class="warnings hidden"></ul>
 		<ul class="info hidden"></ul>

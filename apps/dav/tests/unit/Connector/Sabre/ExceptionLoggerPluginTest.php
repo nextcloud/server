@@ -97,5 +97,4 @@ class ExceptionLoggerPluginTest extends TestCase {
 			[4, 'This path leads to nowhere', new InvalidPath('This path leads to nowhere')]
 		];
 	}
-
 }

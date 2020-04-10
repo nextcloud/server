@@ -344,5 +344,4 @@ class MDB2SchemaReader {
 		}
 		return (bool)$result;
 	}
-
 }

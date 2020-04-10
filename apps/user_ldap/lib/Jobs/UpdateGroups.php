@@ -67,7 +67,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 		$knownGroups = array_keys(self::getKnownGroups());
 		$actualGroups = self::getGroupBE()->getGroups();
 
-		if(empty($actualGroups) && empty($knownGroups)) {
+		if (empty($actualGroups) && empty($knownGroups)) {
 			\OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – groups do not seem to be configured properly, aborting.',
 				ILogger::INFO);
@@ -99,26 +99,26 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 			SET `owncloudusers` = ?
 			WHERE `owncloudname` = ?
 		');
-		foreach($groups as $group) {
+		foreach ($groups as $group) {
 			//we assume, that self::$groupsFromDB has been retrieved already
 			$knownUsers = unserialize(self::$groupsFromDB[$group]['owncloudusers']);
 			$actualUsers = self::getGroupBE()->usersInGroup($group);
 			$hasChanged = false;
-			foreach(array_diff($knownUsers, $actualUsers) as $removedUser) {
+			foreach (array_diff($knownUsers, $actualUsers) as $removedUser) {
 				\OCP\Util::emitHook('OC_User', 'post_removeFromGroup', ['uid' => $removedUser, 'gid' => $group]);
 				\OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – "'.$removedUser.'" removed from "'.$group.'".',
 					ILogger::INFO);
 				$hasChanged = true;
 			}
-			foreach(array_diff($actualUsers, $knownUsers) as $addedUser) {
+			foreach (array_diff($actualUsers, $knownUsers) as $addedUser) {
 				\OCP\Util::emitHook('OC_User', 'post_addToGroup', ['uid' => $addedUser, 'gid' => $group]);
 				\OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – "'.$addedUser.'" added to "'.$group.'".',
 					ILogger::INFO);
 				$hasChanged = true;
 			}
-			if($hasChanged) {
+			if ($hasChanged) {
 				$query->execute([serialize($actualUsers), $group]);
 			}
 		}
@@ -137,7 +137,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 			INTO `*PREFIX*ldap_group_members` (`owncloudname`, `owncloudusers`)
 			VALUES (?, ?)
 		');
-		foreach($createdGroups as $createdGroup) {
+		foreach ($createdGroups as $createdGroup) {
 			\OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – new group "'.$createdGroup.'" found.',
 				ILogger::INFO);
@@ -159,7 +159,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 			FROM `*PREFIX*ldap_group_members`
 			WHERE `owncloudname` = ?
 		');
-		foreach($removedGroups as $removedGroup) {
+		foreach ($removedGroups as $removedGroup) {
 			\OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – group "'.$removedGroup.'" was removed.',
 				ILogger::INFO);
@@ -174,13 +174,13 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	 * @return \OCA\User_LDAP\Group_LDAP|\OCA\User_LDAP\Group_Proxy
 	 */
 	static private function getGroupBE() {
-		if(!is_null(self::$groupBE)) {
+		if (!is_null(self::$groupBE)) {
 			return self::$groupBE;
 		}
 		$helper = new Helper(\OC::$server->getConfig());
 		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
-		if(count($configPrefixes) === 1) {
+		if (count($configPrefixes) === 1) {
 			//avoid the proxy when there is only one LDAP server configured
 			$dbc = \OC::$server->getDatabaseConnection();
 			$userManager = new Manager(
@@ -210,7 +210,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	 * @return array
 	 */
 	static private function getKnownGroups() {
-		if(is_array(self::$groupsFromDB)) {
+		if (is_array(self::$groupsFromDB)) {
 			return self::$groupsFromDB;
 		}
 		$query = \OC_DB::prepare('
@@ -219,7 +219,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 		');
 		$result = $query->execute()->fetchAll();
 		self::$groupsFromDB = [];
-		foreach($result as $dataset) {
+		foreach ($result as $dataset) {
 			self::$groupsFromDB[$dataset['owncloudname']] = $dataset;
 		}
 

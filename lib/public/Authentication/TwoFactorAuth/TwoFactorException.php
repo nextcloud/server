@@ -38,5 +38,4 @@ use Exception;
  * @since 12
  */
 class TwoFactorException extends Exception {
-
 }

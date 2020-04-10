@@ -32,7 +32,6 @@ use Sabre\Xml\Service;
 use Test\TestCase;
 
 class SearchPluginTest extends TestCase {
-
 	protected $server;
 
 	/** @var \OCA\DAV\CalDAV\Search\SearchPlugin $plugin */

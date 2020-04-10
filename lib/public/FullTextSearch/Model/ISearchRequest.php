@@ -358,5 +358,4 @@ interface ISearchRequest {
 	 * @since 17.0.0
 	 */
 	public function getSimpleQueries(): array;
-
 }

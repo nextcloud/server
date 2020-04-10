@@ -414,7 +414,7 @@ class ThemingController extends Controller {
 		 * since we need to add the cacheBuster value to the url
 		 */
 		$cssCached = $this->scssCacher->process($appPath, 'css/theming.scss', 'theming');
-		if(!$cssCached) {
+		if (!$cssCached) {
 			return new NotFoundResponse();
 		}
 

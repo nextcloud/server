@@ -57,7 +57,6 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 	 * @return \OCP\Files\Mount\IMountPoint
 	 */
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
-
 		$config = $this->getMultiBucketObjectStoreConfig($user);
 		if ($config === null) {
 			$config = $this->getSingleBucketObjectStoreConfig($user);

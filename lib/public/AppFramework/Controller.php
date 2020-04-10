@@ -148,12 +148,10 @@ abstract class Controller {
 	 * @since 7.0.0
 	 */
 	public function buildResponse($response, $format='json') {
-		if(array_key_exists($format, $this->responders)) {
-
+		if (array_key_exists($format, $this->responders)) {
 			$responder = $this->responders[$format];
 
 			return $responder($response);
-
 		}
 		throw new \DomainException('No responder registered for format '.
 			$format . '!');

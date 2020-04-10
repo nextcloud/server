@@ -31,7 +31,6 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 
 class Helper {
-
 	public static function registerHooks() {
 		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', '\OCA\Files_Sharing\Updater', 'renameHook');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
@@ -86,7 +85,6 @@ class Helper {
 		}
 
 		return $shareFolder;
-
 	}
 
 	/**
@@ -97,5 +95,4 @@ class Helper {
 	public static function setShareFolder($shareFolder) {
 		\OC::$server->getConfig()->setSystemValue('share_folder', $shareFolder);
 	}
-
 }

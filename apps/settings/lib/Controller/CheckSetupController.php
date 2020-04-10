@@ -137,7 +137,7 @@ class CheckSetupController extends Controller {
 			'www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org'
 		]);
 
-		foreach($siteArray as $site) {
+		foreach ($siteArray as $site) {
 			if ($this->isSiteReachable($site)) {
 				return false;
 			}
@@ -208,40 +208,40 @@ class CheckSetupController extends Controller {
 		// Don't run check when:
 		// 1. Server has `has_internet_connection` set to false
 		// 2. AppStore AND S2S is disabled
-		if(!$this->config->getSystemValue('has_internet_connection', true)) {
+		if (!$this->config->getSystemValue('has_internet_connection', true)) {
 			return '';
 		}
-		if(!$this->config->getSystemValue('appstoreenabled', true)
+		if (!$this->config->getSystemValue('appstoreenabled', true)
 			&& $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'no'
 			&& $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'no') {
 			return '';
 		}
 
 		$versionString = $this->getCurlVersion();
-		if(isset($versionString['ssl_version'])) {
+		if (isset($versionString['ssl_version'])) {
 			$versionString = $versionString['ssl_version'];
 		} else {
 			return '';
 		}
 
 		$features = (string)$this->l10n->t('installing and updating apps via the app store or Federated Cloud Sharing');
-		if(!$this->config->getSystemValue('appstoreenabled', true)) {
+		if (!$this->config->getSystemValue('appstoreenabled', true)) {
 			$features = (string)$this->l10n->t('Federated Cloud Sharing');
 		}
 
 		// Check if at least OpenSSL after 1.01d or 1.0.2b
-		if(strpos($versionString, 'OpenSSL/') === 0) {
+		if (strpos($versionString, 'OpenSSL/') === 0) {
 			$majorVersion = substr($versionString, 8, 5);
 			$patchRelease = substr($versionString, 13, 6);
 
-			if(($majorVersion === '1.0.1' && ord($patchRelease) < ord('d')) ||
+			if (($majorVersion === '1.0.1' && ord($patchRelease) < ord('d')) ||
 				($majorVersion === '1.0.2' && ord($patchRelease) < ord('b'))) {
 				return $this->l10n->t('cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably.', ['OpenSSL', $versionString, $features]);
 			}
 		}
 
 		// Check if NSS and perform heuristic check
-		if(strpos($versionString, 'NSS/') === 0) {
+		if (strpos($versionString, 'NSS/') === 0) {
 			try {
 				$firstClient = $this->clientService->newClient();
 				$firstClient->get('https://nextcloud.com/');
@@ -249,7 +249,7 @@ class CheckSetupController extends Controller {
 				$secondClient = $this->clientService->newClient();
 				$secondClient->get('https://nextcloud.com/');
 			} catch (ClientException $e) {
-				if($e->getResponse()->getStatusCode() === 400) {
+				if ($e->getResponse()->getStatusCode() === 400) {
 					return $this->l10n->t('cURL is using an outdated %1$s version (%2$s). Please update your operating system or features such as %3$s will not work reliably.', ['NSS', $versionString, $features]);
 				}
 			}
@@ -344,13 +344,13 @@ class CheckSetupController extends Controller {
 	 * @return DataResponse
 	 */
 	public function getFailedIntegrityCheckFiles() {
-		if(!$this->checker->isCodeCheckEnforced()) {
+		if (!$this->checker->isCodeCheckEnforced()) {
 			return new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
 		}
 
 		$completeResults = $this->checker->getResults();
 
-		if(!empty($completeResults)) {
+		if (!empty($completeResults)) {
 			$formattedTextResponse = 'Technical information
 =====================
 The following list covers which files have failed the integrity check. Please read
@@ -360,12 +360,12 @@ them.
 Results
 =======
 ';
-			foreach($completeResults as $context => $contextResult) {
+			foreach ($completeResults as $context => $contextResult) {
 				$formattedTextResponse .= "- $context\n";
 
-				foreach($contextResult as $category => $result) {
+				foreach ($contextResult as $category => $result) {
 					$formattedTextResponse .= "\t- $category\n";
-					if($category !== 'EXCEPTION') {
+					if ($category !== 'EXCEPTION') {
 						foreach ($result as $key => $results) {
 							$formattedTextResponse .= "\t\t- $key\n";
 						}
@@ -374,7 +374,6 @@ Results
 							$formattedTextResponse .= "\t\t- $results\n";
 						}
 					}
-
 				}
 			}
 
@@ -406,23 +405,23 @@ Raw output
 	protected function isOpcacheProperlySetup() {
 		$iniWrapper = new IniGetWrapper();
 
-		if(!$iniWrapper->getBool('opcache.enable')) {
+		if (!$iniWrapper->getBool('opcache.enable')) {
 			return false;
 		}
 
-		if(!$iniWrapper->getBool('opcache.save_comments')) {
+		if (!$iniWrapper->getBool('opcache.save_comments')) {
 			return false;
 		}
 
-		if($iniWrapper->getNumeric('opcache.max_accelerated_files') < 10000) {
+		if ($iniWrapper->getNumeric('opcache.max_accelerated_files') < 10000) {
 			return false;
 		}
 
-		if($iniWrapper->getNumeric('opcache.memory_consumption') < 128) {
+		if ($iniWrapper->getNumeric('opcache.memory_consumption') < 128) {
 			return false;
 		}
 
-		if($iniWrapper->getNumeric('opcache.interned_strings_buffer') < 8) {
+		if ($iniWrapper->getNumeric('opcache.interned_strings_buffer') < 8) {
 			return false;
 		}
 

@@ -172,7 +172,6 @@ class RecoveryTest extends TestCase {
 	}
 
 	public function testDisableAdminRecovery() {
-
 		$this->keyManagerMock->expects($this->exactly(2))
 			->method('checkRecoveryPassword')
 			->willReturnOnConsecutiveCalls(true, false);
@@ -185,7 +184,6 @@ class RecoveryTest extends TestCase {
 	}
 
 	public function testIsRecoveryEnabledForUser() {
-
 		$this->configMock->expects($this->exactly(2))
 			->method('getUserValue')
 			->willReturnOnConsecutiveCalls('1', '0');
@@ -323,6 +321,4 @@ class RecoveryTest extends TestCase {
 		}
 		return null;
 	}
-
-
 }

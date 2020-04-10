@@ -83,5 +83,4 @@ interface IEntity {
 	 * @since 18.0.0
 	 */
 	public function isLegitimatedForUserId(string $userId): bool;
-
 }

@@ -27,5 +27,4 @@ declare(strict_types=1);
 namespace OC\Authentication\Exceptions;
 
 class TokenPasswordExpiredException extends ExpiredTokenException {
-
 }

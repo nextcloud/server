@@ -32,12 +32,10 @@
 require_once __DIR__ . '/lib/versioncheck.php';
 
 try {
-
 	require_once __DIR__ . '/lib/base.php';
 
 	OC::handleRequest();
-
-} catch(\OC\ServiceUnavailableException $ex) {
+} catch (\OC\ServiceUnavailableException $ex) {
 	\OC::$server->getLogger()->logException($ex, ['app' => 'index']);
 
 	//show the user a detailed error page

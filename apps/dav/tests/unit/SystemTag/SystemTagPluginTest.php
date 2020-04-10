@@ -43,7 +43,6 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class SystemTagPluginTest extends \Test\TestCase {
-
 	const ID_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::ID_PROPERTYNAME;
 	const DISPLAYNAME_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::DISPLAYNAME_PROPERTYNAME;
 	const USERVISIBLE_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::USERVISIBLE_PROPERTYNAME;
@@ -748,5 +747,4 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$this->plugin->httpPost($request, $response);
 	}
-
 }

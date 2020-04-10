@@ -80,5 +80,4 @@ class Attachment implements IAttachment {
 	public function getSwiftAttachment(): \Swift_Mime_Attachment {
 		return $this->swiftAttachment;
 	}
-
 }

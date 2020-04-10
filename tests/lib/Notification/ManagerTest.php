@@ -46,7 +46,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testRegisterApp() {
-
 		$this->assertEquals([], self::invokePrivate($this->manager, 'getApps'));
 
 		$this->manager->registerApp(DummyApp::class);

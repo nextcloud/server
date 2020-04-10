@@ -34,7 +34,6 @@ namespace OCA\Files_Sharing\Tests;
  * @group DB
  */
 class ShareTest extends TestCase {
-
 	const TEST_FOLDER_NAME = '/folder_share_api_test';
 
 	private static $tempStorage;
@@ -128,7 +127,6 @@ class ShareTest extends TestCase {
 	}
 
 	public function testShareWithDifferentShareFolder() {
-
 		$fileinfo = $this->view->getFileInfo($this->filename);
 		$folderinfo = $this->view->getFileInfo($this->folder);
 
@@ -203,7 +201,6 @@ class ShareTest extends TestCase {
 	 * @dataProvider dataProviderTestFileSharePermissions
 	 */
 	public function testFileSharePermissions($permission, $expectedvalid) {
-
 		$pass = true;
 		try {
 			$this->share(
@@ -237,7 +234,6 @@ class ShareTest extends TestCase {
 	}
 
 	public function testFileOwner() {
-
 		$this->share(
 			\OCP\Share::SHARE_TYPE_USER,
 			$this->filename,

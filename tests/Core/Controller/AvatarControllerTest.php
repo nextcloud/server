@@ -564,5 +564,4 @@ class AvatarControllerTest extends \Test\TestCase {
 
 		$this->assertEquals('File is too big', $response->getData()['data']['message']);
 	}
-
 }

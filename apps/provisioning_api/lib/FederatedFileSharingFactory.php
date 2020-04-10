@@ -40,5 +40,4 @@ class FederatedFileSharingFactory {
 	public function get(): Application {
 		return $this->serverContainer->query(Application::class);
 	}
-
 }

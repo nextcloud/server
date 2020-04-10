@@ -87,7 +87,6 @@ class RepairMimeTypesTest extends \Test\TestCase {
 				]
 			);
 		}
-
 	}
 
 	private function checkEntries($entries) {

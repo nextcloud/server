@@ -78,7 +78,6 @@ class Application extends \OCP\AppFramework\App {
 	 */
 	public function registerHooks() {
 		if (!$this->config->getSystemValueBool('maintenance')) {
-
 			$container = $this->getContainer();
 			$server = $container->getServer();
 			// Register our hooks and fire them.
@@ -97,7 +96,6 @@ class Application extends \OCP\AppFramework\App {
 			]);
 
 			$hookManager->fireHooks();
-
 		} else {
 			// Logout user if we are in maintenance to force re-login
 			$this->getContainer()->getServer()->getUserSession()->logout();
@@ -112,8 +110,7 @@ class Application extends \OCP\AppFramework\App {
 			Encryption::ID,
 			Encryption::DISPLAY_NAME,
 			function () use ($container) {
-
-			return new Encryption(
+				return new Encryption(
 				$container->query('Crypt'),
 				$container->query('KeyManager'),
 				$container->query('Util'),
@@ -123,8 +120,7 @@ class Application extends \OCP\AppFramework\App {
 				$container->getServer()->getLogger(),
 				$container->getServer()->getL10N($container->getAppName())
 			);
-		});
-
+			});
 	}
 
 	public function registerServices() {
@@ -261,6 +257,5 @@ class Application extends \OCP\AppFramework\App {
 				);
 			}
 		);
-
 	}
 }

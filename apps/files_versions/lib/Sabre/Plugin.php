@@ -81,5 +81,4 @@ class Plugin extends ServerPlugin {
 				. '; filename="' . rawurlencode($filename) . '"');
 		}
 	}
-
 }

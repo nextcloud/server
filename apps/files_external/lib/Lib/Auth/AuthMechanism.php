@@ -118,5 +118,4 @@ class AuthMechanism implements \JsonSerializable {
 
 		return $this->validateStorageDefinition($storage);
 	}
-
 }

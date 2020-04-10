@@ -108,7 +108,6 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 	 * @return array
 	 */
 	function getACL() {
-
 		$acl = parent::getACL();
 		if ($this->principalUri === 'principals/system/system') {
 			$acl[] = [
@@ -120,5 +119,4 @@ class UserAddressBooks extends \Sabre\CardDAV\AddressBookHome {
 
 		return $acl;
 	}
-
 }

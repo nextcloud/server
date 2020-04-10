@@ -46,5 +46,4 @@ class TransferOwnershipMapper extends QBMapper {
 
 		return $this->findEntity($qb);
 	}
-
 }

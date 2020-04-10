@@ -254,5 +254,4 @@ interface IDocumentAccess {
 	 * @return array
 	 */
 	public function getLinks(): array;
-
 }

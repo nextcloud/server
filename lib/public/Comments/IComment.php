@@ -279,5 +279,4 @@ interface IComment {
 	 * @since 19.0.0
 	 */
 	public function setReferenceId(?string $referenceId): IComment;
-
 }

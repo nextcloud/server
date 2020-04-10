@@ -117,7 +117,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 			->orderBy('id', 'ASC');
 
 		$stmt = $query->execute();
-		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$offset = $row['id'];
 			if (is_resource($row['calendardata'])) {
 				$row['calendardata'] = stream_get_contents($row['calendardata']);
@@ -126,7 +126,7 @@ class BuildReminderIndexBackgroundJob extends QueuedJob {
 
 			try {
 				$this->reminderService->onTouchCalendarObject('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject', $row);
-			} catch(\Exception $ex) {
+			} catch (\Exception $ex) {
 				$this->logger->logException($ex);
 			}
 

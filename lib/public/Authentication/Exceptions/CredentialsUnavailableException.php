@@ -29,5 +29,4 @@ use Exception;
  * @since 12
  */
 class CredentialsUnavailableException extends Exception {
-
 }

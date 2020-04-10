@@ -143,5 +143,4 @@ class EnforceTest extends TestCase {
 		$display = $this->command->getDisplay();
 		$this->assertContains("Two-factor authentication is not enforced", $display);
 	}
-
 }

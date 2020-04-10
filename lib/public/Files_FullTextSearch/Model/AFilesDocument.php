@@ -100,5 +100,4 @@ abstract class AFilesDocument extends IndexDocument {
 	 * @return string
 	 */
 	abstract public function getPath(): string;
-
 }

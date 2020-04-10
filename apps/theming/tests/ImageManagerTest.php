@@ -69,7 +69,7 @@ class ImageManagerTest extends TestCase {
 	}
 
 	private function checkImagick() {
-		if(!extension_loaded('imagick')) {
+		if (!extension_loaded('imagick')) {
 			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
 		}
 		$checkImagick = new \Imagick();
@@ -172,7 +172,6 @@ class ImageManagerTest extends TestCase {
 			->method('getAbsoluteUrl')
 			->willReturn('url-to-image-absolute?v=0');
 		$this->assertEquals('url-to-image-absolute?v=0', $this->imageManager->getImageUrlAbsolute('logo', false));
-
 	}
 
 	public function testGetImage() {
@@ -326,5 +325,4 @@ class ImageManagerTest extends TestCase {
 			->willReturn($folders[2]);
 		$this->imageManager->cleanup();
 	}
-
 }

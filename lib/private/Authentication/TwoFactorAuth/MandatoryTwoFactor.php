@@ -110,6 +110,4 @@ class MandatoryTwoFactor {
 		 */
 		return true;
 	}
-
-
 }

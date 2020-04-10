@@ -35,7 +35,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Groups extends Base {
-
 	const SUBJECT_SHARED_GROUP_SELF = 'shared_group_self';
 	const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
 

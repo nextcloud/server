@@ -24,8 +24,7 @@ use Test\TestCase;
 /**
  * Class FileTest
  */
-class FileTest extends TestCase
-{
+class FileTest extends TestCase {
 	private $restore_logfile;
 	private $restore_logdateformat;
 
@@ -75,8 +74,5 @@ class FileTest extends TestCase
 		$values = (array) json_decode($line);
 		$microseconds = $values['time'];
 		$this->assertNotEquals(0, $microseconds);
-		
 	}
-
-
 }

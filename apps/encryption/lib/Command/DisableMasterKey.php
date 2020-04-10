@@ -50,7 +50,6 @@ class DisableMasterKey extends Command {
 	public function __construct(Util $util,
 								IConfig $config,
 								QuestionHelper $questionHelper) {
-
 		$this->util = $util;
 		$this->config = $config;
 		$this->questionHelper = $questionHelper;
@@ -64,10 +63,9 @@ class DisableMasterKey extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-
 		$isMasterKeyEnabled = $this->util->isMasterKeyEnabled();
 
-		if(!$isMasterKeyEnabled) {
+		if (!$isMasterKeyEnabled) {
 			$output->writeln('Master key already disabled');
 		} else {
 			$question = new ConfirmationQuestion(
@@ -83,7 +81,5 @@ class DisableMasterKey extends Command {
 				$output->writeln('aborted.');
 			}
 		}
-
 	}
-
 }

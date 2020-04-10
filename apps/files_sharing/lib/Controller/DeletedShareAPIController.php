@@ -93,7 +93,6 @@ class DeletedShareAPIController extends OCSController {
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	private function formatShare(IShare $share): array {
-
 		$result = [
 			'id' => $share->getFullId(),
 			'share_type' => $share->getShareType(),
@@ -154,7 +153,6 @@ class DeletedShareAPIController extends OCSController {
 		}
 
 		return $result;
-
 	}
 
 	/**

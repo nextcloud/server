@@ -62,5 +62,4 @@ class DeleteOrphanedSharesJob extends TimedJob {
 		$deletedEntries = $connection->executeUpdate($sql);
 		$logger->debug("$deletedEntries orphaned share(s) deleted", ['app' => 'DeleteOrphanedSharesJob']);
 	}
-
 }

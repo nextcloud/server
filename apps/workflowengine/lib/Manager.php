@@ -154,7 +154,7 @@ class Manager implements IManager {
 
 		$result = $query->execute();
 		$operations = [];
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			$eventNames = \json_decode($row['events']);
 
 			$operation = $row['class'];
@@ -201,7 +201,7 @@ class Manager implements IManager {
 	}
 
 	public function getAllOperations(ScopeContext $scopeContext): array {
-		if(isset($this->operations[$scopeContext->getHash()])) {
+		if (isset($this->operations[$scopeContext->getHash()])) {
 			return $this->operations[$scopeContext->getHash()];
 		}
 
@@ -214,7 +214,7 @@ class Manager implements IManager {
 			->leftJoin('o', 'flow_operations_scope', 's', $query->expr()->eq('o.id', 's.operation_id'))
 			->where($query->expr()->eq('s.type', $query->createParameter('scope')));
 
-		if($scopeContext->getScope() === IManager::SCOPE_USER) {
+		if ($scopeContext->getScope() === IManager::SCOPE_USER) {
 			$query->andWhere($query->expr()->eq('s.value', $query->createParameter('scopeId')));
 		}
 
@@ -223,7 +223,7 @@ class Manager implements IManager {
 
 		$this->operations[$scopeContext->getHash()] = [];
 		while ($row = $result->fetch()) {
-			if(!isset($this->operations[$scopeContext->getHash()][$row['class']])) {
+			if (!isset($this->operations[$scopeContext->getHash()][$row['class']])) {
 				$this->operations[$scopeContext->getHash()][$row['class']] = [];
 			}
 			$this->operations[$scopeContext->getHash()][$row['class']][] = $row;
@@ -324,7 +324,7 @@ class Manager implements IManager {
 	}
 
 	protected function canModify(int $id, ScopeContext $scopeContext):bool {
-		if(isset($this->operationsByScope[$scopeContext->getHash()])) {
+		if (isset($this->operationsByScope[$scopeContext->getHash()])) {
 			return in_array($id, $this->operationsByScope[$scopeContext->getHash()], true);
 		}
 
@@ -334,7 +334,7 @@ class Manager implements IManager {
 			->leftJoin('o', 'flow_operations_scope', 's', $qb->expr()->eq('o.id', 's.operation_id'))
 			->where($qb->expr()->eq('s.type', $qb->createParameter('scope')));
 
-		if($scopeContext->getScope() !== IManager::SCOPE_ADMIN) {
+		if ($scopeContext->getScope() !== IManager::SCOPE_ADMIN) {
 			$qb->where($qb->expr()->eq('s.value', $qb->createParameter('scopeId')));
 		}
 
@@ -342,7 +342,7 @@ class Manager implements IManager {
 		$result = $qb->execute();
 
 		$this->operationsByScope[$scopeContext->getHash()] = [];
-		while($opId = $result->fetchColumn(0)) {
+		while ($opId = $result->fetchColumn(0)) {
 			$this->operationsByScope[$scopeContext->getHash()][] = (int)$opId;
 		}
 		$result->closeCursor();
@@ -369,7 +369,7 @@ class Manager implements IManager {
 		string $entity,
 		array $events
 	): array {
-		if(!$this->canModify($id, $scopeContext)) {
+		if (!$this->canModify($id, $scopeContext)) {
 			throw new \DomainException('Target operation not within scope');
 		};
 		$row = $this->getOperation($id);
@@ -409,7 +409,7 @@ class Manager implements IManager {
 	 * @throws \DomainException
 	 */
 	public function deleteOperation($id, ScopeContext $scopeContext) {
-		if(!$this->canModify($id, $scopeContext)) {
+		if (!$this->canModify($id, $scopeContext)) {
 			throw new \DomainException('Target operation not within scope');
 		};
 		$query = $this->connection->getQueryBuilder();
@@ -418,7 +418,7 @@ class Manager implements IManager {
 			$result = (bool)$query->delete('flow_operations')
 				->where($query->expr()->eq('id', $query->createNamedParameter($id)))
 				->execute();
-			if($result) {
+			if ($result) {
 				$qb = $this->connection->getQueryBuilder();
 				$result &= (bool)$qb->delete('flow_operations_scope')
 					->where($qb->expr()->eq('operation_id', $qb->createNamedParameter($id)))
@@ -430,7 +430,7 @@ class Manager implements IManager {
 			throw $e;
 		}
 
-		if(isset($this->operations[$scopeContext->getHash()])) {
+		if (isset($this->operations[$scopeContext->getHash()])) {
 			unset($this->operations[$scopeContext->getHash()]);
 		}
 
@@ -445,12 +445,12 @@ class Manager implements IManager {
 			throw new \UnexpectedValueException($this->l->t('Entity %s does not exist', [$entity]));
 		}
 
-		if(!$instance instanceof IEntity) {
+		if (!$instance instanceof IEntity) {
 			throw new \UnexpectedValueException($this->l->t('Entity %s is invalid', [$entity]));
 		}
 
-		if(empty($events)) {
-			if(!$operation instanceof IComplexOperation) {
+		if (empty($events)) {
+			if (!$operation instanceof IComplexOperation) {
 				throw new \UnexpectedValueException($this->l->t('No events are chosen.'));
 			}
 			return;
@@ -463,7 +463,7 @@ class Manager implements IManager {
 		}
 
 		$diff = array_diff($events, $availableEvents);
-		if(!empty($diff)) {
+		if (!empty($diff)) {
 			throw new \UnexpectedValueException($this->l->t('Entity %s has no event %s', [$entity, array_shift($diff)]));
 		}
 	}

@@ -51,5 +51,4 @@ class User extends \Sabre\CalDAV\Principal\User {
 		];
 		return $acl;
 	}
-
 }

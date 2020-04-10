@@ -316,7 +316,6 @@ class Swift extends \OC\Files\Storage\Common {
 			]);
 			return false;
 		}
-
 	}
 
 	public function stat($path) {
@@ -505,7 +504,6 @@ class Swift extends \OC\Files\Storage\Common {
 				]);
 				return false;
 			}
-
 		} elseif ($fileType === 'dir') {
 			try {
 				$source = $this->fetchObject($path1 . '/');
@@ -533,7 +531,6 @@ class Swift extends \OC\Files\Storage\Common {
 				$target = $path2 . '/' . $file;
 				$this->copy($source, $target);
 			}
-
 		} else {
 			//file does not exist
 			return false;
@@ -625,5 +622,4 @@ class Swift extends \OC\Files\Storage\Common {
 	public static function checkDependencies() {
 		return true;
 	}
-
 }

@@ -32,7 +32,6 @@ use OCP\IL10N;
  * OAuth1 authentication
  */
 class OAuth1 extends AuthMechanism {
-
 	public function __construct(IL10N $l) {
 		$this
 			->setIdentifier('oauth1::oauth1')
@@ -52,5 +51,4 @@ class OAuth1 extends AuthMechanism {
 			->addCustomJs('oauth1')
 		;
 	}
-
 }

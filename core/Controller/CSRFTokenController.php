@@ -66,5 +66,4 @@ class CSRFTokenController extends Controller {
 			'token' => $requestToken->getEncryptedValue(),
 		]);
 	}
-
 }

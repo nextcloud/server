@@ -127,7 +127,6 @@ class SettingsControllerTest extends TestCase {
 		$this->assertTrue(
 			$this->invokePrivate($this->controller, 'checkServer', ['url'])
 		);
-
 	}
 
 	/**
@@ -153,7 +152,6 @@ class SettingsControllerTest extends TestCase {
 		$this->assertTrue(
 			$this->invokePrivate($this->controller, 'checkServer', ['url'])
 		);
-
 	}
 
 	/**
@@ -167,5 +165,4 @@ class SettingsControllerTest extends TestCase {
 			[false, false]
 		];
 	}
-
 }

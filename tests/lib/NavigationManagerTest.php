@@ -206,7 +206,6 @@ class NavigationManagerTest extends TestCase {
 	 * @dataProvider providesNavigationConfig
 	 */
 	public function testWithAppManager($expected, $navigation, $isAdmin = false) {
-
 		$l = $this->createMock(IL10N::class);
 		$l->expects($this->any())->method('t')->willReturnCallback(function ($text, $parameters = []) {
 			return vsprintf($text, $parameters);

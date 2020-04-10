@@ -52,5 +52,4 @@ interface IWidgetsService {
 	 * @return IWidgetConfig
 	 */
 	public function getWidgetConfig(string $widgetId, string $userId): IWidgetConfig;
-
 }

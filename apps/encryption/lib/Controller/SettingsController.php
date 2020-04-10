@@ -150,7 +150,6 @@ class SettingsController extends Controller {
 				Http::STATUS_BAD_REQUEST
 			);
 		}
-
 	}
 
 	/**

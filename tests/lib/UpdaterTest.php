@@ -114,5 +114,4 @@ class UpdaterTest extends TestCase {
 
 		$this->assertSame($result, $this->updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersions));
 	}
-
 }

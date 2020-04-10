@@ -34,7 +34,7 @@ class GlobalWorkflowsController extends AWorkflowController {
 	private $scopeContext;
 
 	protected function getScopeContext(): ScopeContext {
-		if($this->scopeContext === null) {
+		if ($this->scopeContext === null) {
 			$this->scopeContext = new ScopeContext(IManager::SCOPE_ADMIN);
 		}
 		return $this->scopeContext;

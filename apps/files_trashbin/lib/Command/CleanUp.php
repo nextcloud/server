@@ -130,5 +130,4 @@ class CleanUp extends Command {
 			$query->execute();
 		}
 	}
-
 }

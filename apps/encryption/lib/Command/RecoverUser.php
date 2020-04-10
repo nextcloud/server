@@ -54,7 +54,6 @@ class RecoverUser extends Command {
 								IConfig $config,
 								IUserManager $userManager,
 								QuestionHelper $questionHelper) {
-
 		$this->util = $util;
 		$this->questionHelper = $questionHelper;
 		$this->userManager = $userManager;
@@ -74,10 +73,9 @@ class RecoverUser extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-
 		$isMasterKeyEnabled = $this->util->isMasterKeyEnabled();
 
-		if($isMasterKeyEnabled) {
+		if ($isMasterKeyEnabled) {
 			$output->writeln('You use the master key, no individual user recovery needed.');
 			return;
 		}
@@ -90,7 +88,7 @@ class RecoverUser extends Command {
 		}
 
 		$recoveryKeyEnabled = $this->util->isRecoveryEnabledForUser($uid);
-		if($recoveryKeyEnabled === false) {
+		if ($recoveryKeyEnabled === false) {
 			$output->writeln('Recovery key is not enabled for: ' . $uid);
 			return;
 		}
@@ -108,7 +106,5 @@ class RecoverUser extends Command {
 		$output->write('Start to recover users files... This can take some time...');
 		$this->userManager->get($uid)->setPassword($newLoginPassword, $recoveryPassword);
 		$output->writeln('Done.');
-
 	}
-
 }

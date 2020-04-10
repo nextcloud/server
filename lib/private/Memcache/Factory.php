@@ -71,8 +71,7 @@ class Factory implements ICacheFactory {
 	 * @param string|null $lockingCacheClass
 	 */
 	public function __construct(string $globalPrefix, ILogger $logger,
-		$localCacheClass = null, $distributedCacheClass = null, $lockingCacheClass = null)
-	{
+		$localCacheClass = null, $distributedCacheClass = null, $lockingCacheClass = null) {
 		$this->logger = $logger;
 		$this->globalPrefix = $globalPrefix;
 

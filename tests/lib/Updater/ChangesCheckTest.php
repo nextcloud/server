@@ -77,7 +77,7 @@ class ChangesCheckTest extends TestCase {
 			->method('getStatusCode')
 			->willReturn($statusCode);
 
-		if(!in_array($statusCode, [200, 304, 404])) {
+		if (!in_array($statusCode, [200, 304, 404])) {
 			$this->logger->expects($this->once())
 				->method('debug');
 		}
@@ -348,8 +348,12 @@ class ChangesCheckTest extends TestCase {
 
 	public function changeDataProvider():array {
 		$testDataFound = $testDataNotFound = $this->versionProvider();
-		array_walk($testDataFound, function (&$params) { $params[] = true; });
-		array_walk($testDataNotFound, function (&$params) { $params[] = false; });
+		array_walk($testDataFound, function (&$params) {
+			$params[] = true;
+		});
+		array_walk($testDataNotFound, function (&$params) {
+			$params[] = false;
+		});
 		return array_merge($testDataFound, $testDataNotFound);
 	}
 
@@ -362,7 +366,7 @@ class ChangesCheckTest extends TestCase {
 			->method('getChanges')
 			->with($normalizedVersion);
 
-		if(!$isFound) {
+		if (!$isFound) {
 			$this->expectException(DoesNotExistException::class);
 			$mocker->willThrowException(new DoesNotExistException('Changes info is not present'));
 		} else {

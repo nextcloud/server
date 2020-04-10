@@ -91,5 +91,4 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 	function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}
-
 }

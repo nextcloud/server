@@ -86,5 +86,4 @@ class RepairUserConfig implements IRepairStep {
 		});
 		$output->finishProgress();
 	}
-
 }

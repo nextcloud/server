@@ -170,7 +170,7 @@ class Manager {
 	}
 
 	public function startAuthentication(string $uid, string $serverHost): PublicKeyCredentialRequestOptions {
-				// List of registered PublicKeyCredentialDescriptor classes associated to the user
+		// List of registered PublicKeyCredentialDescriptor classes associated to the user
 		$registeredPublicKeyCredentialDescriptors = array_map(function (PublicKeyCredentialEntity $entity) {
 			$credential = $entity->toPublicKeyCredentialSource();
 			return new PublicKeyCredentialDescriptor(
@@ -230,7 +230,6 @@ class Manager {
 				$request,
 				$uid
 			);
-
 		} catch (\Throwable $e) {
 			throw $e;
 		}

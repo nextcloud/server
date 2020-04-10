@@ -489,7 +489,7 @@ class OC_Image implements \OCP\IImage {
 				$rotate = 90;
 				break;
 		}
-		if($flip && function_exists('imageflip')) {
+		if ($flip && function_exists('imageflip')) {
 			imageflip($this->resource, IMG_FLIP_HORIZONTAL);
 		}
 		if ($rotate) {

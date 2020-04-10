@@ -33,7 +33,7 @@
  * Class OC_JSON
  * @deprecated Use a AppFramework JSONResponse instead
  */
-class OC_JSON{
+class OC_JSON {
 
 	/**
 	 * Check if the app is enabled, send json error msg if not
@@ -42,7 +42,7 @@ class OC_JSON{
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkAppEnabled($app) {
-		if(!\OC::$server->getAppManager()->isEnabledForUser($app)) {
+		if (!\OC::$server->getAppManager()->isEnabledForUser($app)) {
 			$l = \OC::$server->getL10N('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Application is not enabled'), 'error' => 'application_not_enabled' ]]);
 			exit();
@@ -56,7 +56,7 @@ class OC_JSON{
 	 */
 	public static function checkLoggedIn() {
 		$twoFactorAuthManger = \OC::$server->getTwoFactorAuthManager();
-		if(!\OC::$server->getUserSession()->isLoggedIn()
+		if (!\OC::$server->getUserSession()->isLoggedIn()
 			|| $twoFactorAuthManger->needsSecondFactor(\OC::$server->getUserSession()->getUser())) {
 			$l = \OC::$server->getL10N('lib');
 			http_response_code(\OCP\AppFramework\Http::STATUS_UNAUTHORIZED);
@@ -71,12 +71,12 @@ class OC_JSON{
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function callCheck() {
-		if(!\OC::$server->getRequest()->passesStrictCookieCheck()) {
+		if (!\OC::$server->getRequest()->passesStrictCookieCheck()) {
 			header('Location: '.\OC::$WEBROOT);
 			exit();
 		}
 
-		if(!\OC::$server->getRequest()->passesCSRFCheck()) {
+		if (!\OC::$server->getRequest()->passesCSRFCheck()) {
 			$l = \OC::$server->getL10N('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Token expired. Please reload page.'), 'error' => 'token_expired' ]]);
 			exit();
@@ -89,7 +89,7 @@ class OC_JSON{
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function checkAdminUser() {
-		if(!OC_User::isAdminUser(OC_User::getUser())) {
+		if (!OC_User::isAdminUser(OC_User::getUser())) {
 			$l = \OC::$server->getL10N('lib');
 			self::error([ 'data' => [ 'message' => $l->t('Authentication error'), 'error' => 'authentication_error' ]]);
 			exit();

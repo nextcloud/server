@@ -26,7 +26,6 @@ namespace OCA\DAV\Connector\Sabre\Exception;
 use Sabre\DAV\Exception;
 
 class InvalidPath extends Exception {
-
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/**
@@ -50,9 +49,7 @@ class InvalidPath extends Exception {
 	 * @return int
 	 */
 	public function getHTTPCode() {
-
 		return 400;
-
 	}
 
 	/**
@@ -76,5 +73,4 @@ class InvalidPath extends Exception {
 		$error = $errorNode->ownerDocument->createElementNS('o:','o:reason', $this->getMessage());
 		$errorNode->appendChild($error);
 	}
-
 }

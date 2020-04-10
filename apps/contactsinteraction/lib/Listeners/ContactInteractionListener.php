@@ -167,5 +167,4 @@ class ContactInteractionListener implements IEventListener {
 
 		return (new VCard($props))->serialize();
 	}
-
 }

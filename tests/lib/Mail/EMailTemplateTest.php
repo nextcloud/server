@@ -227,6 +227,4 @@ class EMailTemplateTest extends TestCase {
 		$expectedTXT = file_get_contents(\OC::$SERVERROOT . '/tests/data/emails/new-account-email-custom-text-alternative.txt');
 		$this->assertSame($expectedTXT, $this->emailTemplate->renderText());
 	}
-
-
 }

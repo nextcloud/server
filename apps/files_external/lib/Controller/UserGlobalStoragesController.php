@@ -186,7 +186,6 @@ class UserGlobalStoragesController extends StoragesController {
 			$this->formatStorageForUI($storage),
 			Http::STATUS_OK
 		);
-
 	}
 
 	/**
@@ -206,5 +205,4 @@ class UserGlobalStoragesController extends StoragesController {
 			}
 		}
 	}
-
 }

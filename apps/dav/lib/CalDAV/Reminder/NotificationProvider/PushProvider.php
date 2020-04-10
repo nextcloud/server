@@ -97,7 +97,7 @@ class PushProvider extends AbstractProvider {
 		// Empty Notification ObjectId will be catched by OC\Notification\Notification
 		$eventUUIDHash = $eventUUID ? hash('sha256', $eventUUID, false) : '';
 
-		foreach($users as $user) {
+		foreach ($users as $user) {
 			/** @var INotification $notification */
 			$notification = $this->manager->createNotification();
 			$notification->setApp(Application::APP_ID)

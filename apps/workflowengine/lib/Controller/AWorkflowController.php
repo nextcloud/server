@@ -112,7 +112,7 @@ abstract class AWorkflowController extends OCSController {
 			throw new OCSBadRequestException($e->getMessage(), $e);
 		} catch (\DomainException $e) {
 			throw new OCSForbiddenException($e->getMessage(), $e);
-		} catch(DBALException $e) {
+		} catch (DBALException $e) {
 			throw new OCSException('An internal error occurred', $e->getCode(), $e);
 		}
 	}
@@ -139,7 +139,7 @@ abstract class AWorkflowController extends OCSController {
 			throw new OCSBadRequestException($e->getMessage(), $e);
 		} catch (\DomainException $e) {
 			throw new OCSForbiddenException($e->getMessage(), $e);
-		} catch(DBALException $e) {
+		} catch (DBALException $e) {
 			throw new OCSException('An internal error occurred', $e->getCode(), $e);
 		}
 	}
@@ -157,7 +157,7 @@ abstract class AWorkflowController extends OCSController {
 			throw new OCSBadRequestException($e->getMessage(), $e);
 		} catch (\DomainException $e) {
 			throw new OCSForbiddenException($e->getMessage(), $e);
-		} catch(DBALException $e) {
+		} catch (DBALException $e) {
 			throw new OCSException('An internal error occurred', $e->getCode(), $e);
 		}
 	}

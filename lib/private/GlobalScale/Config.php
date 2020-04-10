@@ -67,5 +67,4 @@ class Config implements \OCP\GlobalScale\IConfig {
 
 		return $enabled === 'internal';
 	}
-
 }

@@ -31,7 +31,6 @@ use OCA\Files_External\Service\BackendService;
 use OCP\IL10N;
 
 class Local extends Backend {
-
 	public function __construct(IL10N $l, NullMechanism $legacyAuth) {
 		$this
 			->setIdentifier('local')
@@ -47,5 +46,4 @@ class Local extends Backend {
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
-
 }

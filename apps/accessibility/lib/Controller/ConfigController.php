@@ -107,7 +107,6 @@ class ConfigController extends OCSController {
 	 */
 	public function setConfig(string $key, $value): DataResponse {
 		if ($key === 'theme' || $key === 'font' || $key === 'highcontrast') {
-
 			if ($value === false || $value === '') {
 				throw new OCSBadRequestException('Invalid value: ' . $value);
 			}
@@ -142,7 +141,6 @@ class ConfigController extends OCSController {
 	 */
 	public function deleteConfig(string $key): DataResponse {
 		if ($key === 'theme' || $key === 'font' || $key === 'highcontrast') {
-
 			$this->config->deleteUserValue($this->userId, $this->appName, $key);
 			$userValues = $this->config->getUserKeys($this->userId, $this->appName);
 
@@ -156,5 +154,4 @@ class ConfigController extends OCSController {
 
 		throw new OCSBadRequestException('Invalid key: ' . $key);
 	}
-
 }

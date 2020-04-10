@@ -167,7 +167,7 @@ class SCSSCacherTest extends \Test\TestCase {
 					throw new NotFoundException();
 				} elseif ($path === $filePrefix.'styles.css.gzip') {
 					return $gzfile;
-				}else {
+				} else {
 					$this->fail();
 				}
 			});
@@ -539,6 +539,4 @@ class SCSSCacherTest extends \Test\TestCase {
 
 		$this->scssCacher->resetCache();
 	}
-
-
 }

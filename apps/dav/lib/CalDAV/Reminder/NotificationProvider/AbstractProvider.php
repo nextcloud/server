@@ -44,7 +44,7 @@ use Sabre\VObject\Property;
  *
  * @package OCA\DAV\CalDAV\Reminder\NotificationProvider
  */
-abstract class AbstractProvider implements INotificationProvider  {
+abstract class AbstractProvider implements INotificationProvider {
 
 	/** @var string */
 	public const NOTIFICATION_TYPE = '';

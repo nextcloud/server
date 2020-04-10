@@ -21,8 +21,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CreateEmpty extends ACreateEmpty {
-
-	 public function getId(): string {
+	public function getId(): string {
 		return 'createEmpty';
 	}
 
@@ -34,16 +33,15 @@ class CreateEmpty extends ACreateEmpty {
 		return '.txt';
 	}
 
-	 public function getMimetype(): string {
+	public function getMimetype(): string {
 		return 'text/plain';
 	}
 }
 
 class Editor implements IEditor {
-
-	 public function getId(): string {
+	public function getId(): string {
 		return 'testeditor';
-	 }
+	}
 
 	public function getName(): string {
 		return 'Test editor';
@@ -81,7 +79,6 @@ class Editor implements IEditor {
  * @group DB
  */
 class ManagerTest extends TestCase {
-
 	private $manager;
 	/**
 	 * @var Editor
@@ -194,5 +191,4 @@ class ManagerTest extends TestCase {
 
 		$this->manager->create('/File.txt', 'testeditor', 'createEmpty');
 	}
-
 }

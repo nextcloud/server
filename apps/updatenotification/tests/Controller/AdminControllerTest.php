@@ -101,5 +101,4 @@ class AdminControllerTest extends TestCase {
 		$expected = new DataResponse('MyGeneratedToken');
 		$this->assertEquals($expected, $this->adminController->createCredentials());
 	}
-
 }

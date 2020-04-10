@@ -131,5 +131,4 @@ interface ISystemTagObjectMapper {
 	 * @since 9.0.0
 	 */
 	public function haveTag($objIds, string $objectType, string $tagId, bool $all = true): bool;
-
 }

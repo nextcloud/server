@@ -37,7 +37,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	public function droppingFileWith($path, $content) {
 		$client = new Client();
 		$options = [];
-		if (count($this->lastShareData->data->element) > 0){
+		if (count($this->lastShareData->data->element) > 0) {
 			$token = $this->lastShareData->data[0]->token;
 		} else {
 			$token = $this->lastShareData->data[0]->token;
@@ -65,7 +65,7 @@ class FilesDropContext implements Context, SnippetAcceptingContext {
 	public function creatingFolderInDrop($folder) {
 		$client = new Client();
 		$options = [];
-		if (count($this->lastShareData->data->element) > 0){
+		if (count($this->lastShareData->data->element) > 0) {
 			$token = $this->lastShareData->data[0]->token;
 		} else {
 			$token = $this->lastShareData->data[0]->token;

@@ -106,7 +106,7 @@ class Adapter {
 			. 'FROM `' . $table . '` WHERE ';
 
 		$inserts = array_values($input);
-		foreach($compare as $key) {
+		foreach ($compare as $key) {
 			$query .= '`' . $key . '`';
 			if (is_null($input[$key])) {
 				$query .= ' IS NULL AND ';
@@ -136,11 +136,11 @@ class Adapter {
 		try {
 			$builder = $this->conn->getQueryBuilder();
 			$builder->insert($table);
-			foreach($values as $key => $value) {
+			foreach ($values as $key => $value) {
 				$builder->setValue($key, $builder->createNamedParameter($value));
 			}
 			return $builder->execute();
-		} catch(UniqueConstraintViolationException $e) {
+		} catch (UniqueConstraintViolationException $e) {
 			return 0;
 		}
 	}

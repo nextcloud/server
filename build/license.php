@@ -19,8 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
-class Licenses
-{
+class Licenses {
 	protected $paths = [];
 	protected $mailMap = [];
 	protected $checkFiles = [];
@@ -80,9 +79,8 @@ EOD;
 	 * @param string|bool $gitRoot
 	 */
 	function exec($folder, $gitRoot = false) {
-
 		if (is_array($folder)) {
-			foreach($folder as $f) {
+			foreach ($folder as $f) {
 				$this->exec($f, $gitRoot);
 			}
 			return;
@@ -105,7 +103,7 @@ EOD;
 		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
 		$iterator = new RecursiveCallbackFilterIterator($iterator, function ($item) use ($folder, $excludes) {
 			/** @var SplFileInfo $item */
-			foreach($excludes as $exclude) {
+			foreach ($excludes as $exclude) {
 				if (substr($item->getPath(), 0, strlen($exclude)) === $exclude) {
 					return false;
 				}
@@ -178,7 +176,7 @@ With help from many libraries and frameworks including:
 	 */
 	private function isMITLicensed($source) {
 		$lines = explode(PHP_EOL, $source);
-		while(!empty($lines)) {
+		while (!empty($lines)) {
 			$line = $lines[0];
 			array_shift($lines);
 			if (strpos($line, 'The MIT License') !== false) {
@@ -191,7 +189,7 @@ With help from many libraries and frameworks including:
 
 	private function isOwnCloudLicensed($source) {
 		$lines = explode(PHP_EOL, $source);
-		while(!empty($lines)) {
+		while (!empty($lines)) {
 			$line = $lines[0];
 			array_shift($lines);
 			if (strpos($line, 'ownCloud, Inc') !== false || strpos($line, 'ownCloud GmbH') !== false) {
@@ -209,7 +207,7 @@ With help from many libraries and frameworks including:
 	private function eatOldLicense($source) {
 		$lines = explode(PHP_EOL, $source);
 		$isStrict = false;
-		while(!empty($lines)) {
+		while (!empty($lines)) {
 			$line = $lines[0];
 			if (trim($line) === '<?php') {
 				array_shift($lines);
@@ -298,7 +296,6 @@ With help from many libraries and frameworks including:
 
 		//all changes after the deadline
 		$this->checkFiles[] = $path;
-
 	}
 
 	private function printFilesToCheck() {

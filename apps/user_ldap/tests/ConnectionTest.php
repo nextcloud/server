@@ -135,7 +135,7 @@ class ConnectionTest extends \Test\TestCase {
 		$this->ldap->expects($this->exactly(3))
 			->method('bind')
 			->willReturnCallback(function () use (&$isThrown) {
-				if(!$isThrown) {
+				if (!$isThrown) {
 					$isThrown = true;
 					throw new \OC\ServerNotAvailableException();
 				}
@@ -288,5 +288,4 @@ class ConnectionTest extends \Test\TestCase {
 
 		$this->connection->init();
 	}
-
 }

@@ -80,5 +80,4 @@ class UserAddedToGroupListener implements IEventListener {
 		$acceptDefault = $this->config->getUserValue($userId, Application::APP_ID, 'default_accept', $defaultAcceptSystemConfig) === 'yes';
 		return (!$this->config->getSystemValueBool('sharing.force_share_accept', false) && $acceptDefault);
 	}
-
 }

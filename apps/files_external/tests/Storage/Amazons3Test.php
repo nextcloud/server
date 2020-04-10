@@ -38,7 +38,6 @@ use OCA\Files_External\Lib\Storage\AmazonS3;
  * @package OCA\Files_External\Tests\Storage
  */
 class Amazons3Test extends \Test\Files\Storage\Storage {
-
 	private $config;
 
 	protected function setUp(): void {

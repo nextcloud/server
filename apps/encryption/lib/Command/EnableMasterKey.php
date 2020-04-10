@@ -49,7 +49,6 @@ class EnableMasterKey extends Command {
 	public function __construct(Util $util,
 								IConfig $config,
 								QuestionHelper $questionHelper) {
-
 		$this->util = $util;
 		$this->config = $config;
 		$this->questionHelper = $questionHelper;
@@ -63,10 +62,9 @@ class EnableMasterKey extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-
 		$isAlreadyEnabled = $this->util->isMasterKeyEnabled();
 
-		if($isAlreadyEnabled) {
+		if ($isAlreadyEnabled) {
 			$output->writeln('Master key already enabled');
 		} else {
 			$question = new ConfirmationQuestion(
@@ -79,7 +77,5 @@ class EnableMasterKey extends Command {
 				$output->writeln('aborted.');
 			}
 		}
-
 	}
-
 }

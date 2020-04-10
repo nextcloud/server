@@ -159,7 +159,6 @@ class Helper extends \OC\Share\Constants {
 	 * @return array contains 'defaultExpireDateSet', 'enforceExpireDate', 'expireAfterDays'
 	 */
 	public static function getDefaultExpireSetting() {
-
 		$config = \OC::$server->getConfig();
 
 		$defaultExpireSettings = ['defaultExpireDateSet' => false];
@@ -185,7 +184,6 @@ class Helper extends \OC\Share\Constants {
 		//$dateString = $date->format('Y-m-d') . ' 00:00:00';
 
 		return $date;
-
 	}
 
 	/**
@@ -196,7 +194,6 @@ class Helper extends \OC\Share\Constants {
 	 * @return mixed integer timestamp or False
 	 */
 	public static function calculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate = null) {
-
 		$expires = false;
 		$defaultExpires = null;
 

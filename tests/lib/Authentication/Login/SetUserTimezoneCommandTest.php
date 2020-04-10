@@ -86,5 +86,4 @@ class SetUserTimezoneCommandTest extends ALoginCommandTest {
 
 		$this->assertTrue($result->isSuccess());
 	}
-
 }

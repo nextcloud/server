@@ -111,7 +111,7 @@ class BackendService {
 
 	private function callForRegistrations() {
 		static $eventSent = false;
-		if(!$eventSent) {
+		if (!$eventSent) {
 			\OC::$server->getEventDispatcher()->dispatch(
 				'OCA\\Files_External::loadAdditionalBackends',
 				new GenericEvent()
@@ -322,15 +322,15 @@ class BackendService {
 	 */
 	public function registerConfigHandler(string $placeholder, callable $configHandlerLoader) {
 		$placeholder = trim(strtolower($placeholder));
-		if(!(bool)\preg_match('/^[a-z0-9]*$/', $placeholder)) {
+		if (!(bool)\preg_match('/^[a-z0-9]*$/', $placeholder)) {
 			throw new \RuntimeException(sprintf(
 				'Invalid placeholder %s, only [a-z0-9] are allowed', $placeholder
 			));
 		}
-		if($placeholder === '') {
+		if ($placeholder === '') {
 			throw new \RuntimeException('Invalid empty placeholder');
 		}
-		if(isset($this->configHandlerLoaders[$placeholder]) || isset($this->configHandlers[$placeholder])) {
+		if (isset($this->configHandlerLoaders[$placeholder]) || isset($this->configHandlers[$placeholder])) {
 			throw new \RuntimeException(sprintf('A handler is already registered for %s', $placeholder));
 		}
 		$this->configHandlerLoaders[$placeholder] = $configHandlerLoader;
@@ -341,7 +341,7 @@ class BackendService {
 		$newLoaded = false;
 		foreach ($this->configHandlerLoaders as $placeholder => $loader) {
 			$handler = $loader();
-			if(!$handler instanceof IConfigHandler) {
+			if (!$handler instanceof IConfigHandler) {
 				throw new \RuntimeException(sprintf(
 					'Handler for %s is not an instance of IConfigHandler', $placeholder
 				));
@@ -350,7 +350,7 @@ class BackendService {
 			$newLoaded = true;
 		}
 		$this->configHandlerLoaders = [];
-		if($newLoaded) {
+		if ($newLoaded) {
 			// ensure those with longest placeholders come first,
 			// to avoid substring matches
 			uksort($this->configHandlers, function ($phA, $phB) {

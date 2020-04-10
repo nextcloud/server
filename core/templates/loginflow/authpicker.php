@@ -59,6 +59,6 @@ $urlGenerator = $_['urlGenerator'];
 	</form>
 </div>
 
-<?php if(empty($_['oauthState'])): ?>
+<?php if (empty($_['oauthState'])): ?>
 <a id="app-token-login" class="warning" href="#"><?php p($l->t('Alternative log in using app token')) ?></a>
 <?php endif; ?>

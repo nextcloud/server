@@ -138,5 +138,4 @@ interface IDashboardWidget {
 	 * @param IWidgetRequest $request
 	 */
 	public function requestWidget(IWidgetRequest $request);
-
 }

@@ -266,7 +266,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	 */
 	private function testRemoteUrl($url) {
 		$cache = $this->memcacheFactory->createDistributed('files_sharing_remote_url');
-		if($cache->hasKey($url)) {
+		if ($cache->hasKey($url)) {
 			return (bool)$cache->get($url);
 		}
 
@@ -297,7 +297,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 	 * @return bool
 	 */
 	public function remoteIsOwnCloud() {
-		if(defined('PHPUNIT_RUN') || !$this->testRemoteUrl($this->getRemote() . '/status.php')) {
+		if (defined('PHPUNIT_RUN') || !$this->testRemoteUrl($this->getRemote() . '/status.php')) {
 			return false;
 		}
 		return true;
@@ -315,7 +315,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		$password = $this->getPassword();
 
 		// If remote is not an ownCloud do not try to get any share info
-		if(!$this->remoteIsOwnCloud()) {
+		if (!$this->remoteIsOwnCloud()) {
 			return ['status' => 'unsupported'];
 		}
 
@@ -387,7 +387,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 		try {
 			$ocmPermissions = json_decode($ocmPermissions);
 			$ncPermissions = 0;
-			foreach($ocmPermissions as $permission) {
+			foreach ($ocmPermissions as $permission) {
 				switch (strtolower($permission)) {
 					case 'read':
 						$ncPermissions += Constants::PERMISSION_READ;

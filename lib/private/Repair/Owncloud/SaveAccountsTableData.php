@@ -35,7 +35,6 @@ use OCP\PreConditionNotMetException;
  * before the data structure is changed and the information is gone
  */
 class SaveAccountsTableData implements IRepairStep {
-
 	const BATCH_SIZE = 75;
 
 	/** @var IDBConnection */
@@ -186,6 +185,5 @@ class SaveAccountsTableData implements IRepairStep {
 				->setParameter('userid', $userdata['user_id']);
 			$update->execute();
 		}
-
 	}
 }

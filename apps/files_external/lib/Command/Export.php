@@ -29,7 +29,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Export extends ListCommand {
-
 	protected function configure() {
 		$this
 			->setName('files_external:export')

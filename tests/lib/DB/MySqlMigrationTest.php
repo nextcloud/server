@@ -45,5 +45,4 @@ class MySqlMigrationTest extends \Test\TestCase {
 
 		$this->addToAssertionCount(1);
 	}
-
 }

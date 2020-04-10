@@ -110,7 +110,7 @@ class Notifier implements INotifier {
 		$this->l10n = $this->l10nFactory->get('dav', $languageCode);
 
 		// Handle notifier subjects
-		switch($notification->getSubject()) {
+		switch ($notification->getSubject()) {
 			case 'calendar_reminder':
 				return $this->prepareReminderNotification($notification);
 

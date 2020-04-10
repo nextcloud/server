@@ -65,7 +65,7 @@ class TestMiddleware extends Middleware {
 		$this->beforeControllerOrder = self::$beforeControllerCalled;
 		$this->controller = $controller;
 		$this->methodName = $methodName;
-		if($this->beforeControllerThrowsEx){
+		if ($this->beforeControllerThrowsEx) {
 			throw new \Exception();
 		}
 	}
@@ -100,7 +100,6 @@ class TestMiddleware extends Middleware {
 
 
 class MiddlewareDispatcherTest extends \Test\TestCase {
-
 	public $exception;
 	public $response;
 	private $out;

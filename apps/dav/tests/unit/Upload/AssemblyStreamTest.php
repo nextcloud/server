@@ -64,7 +64,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$stream = \OCA\DAV\Upload\AssemblyStream::wrap($nodes);
 
 		$offset = floor(strlen($expected) * 0.6);
-		if(fseek($stream, $offset) === -1) {
+		if (fseek($stream, $offset) === -1) {
 			$this->fail('fseek failed');
 		}
 

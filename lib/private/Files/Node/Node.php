@@ -465,5 +465,4 @@ class Node implements \OCP\Files\Node {
 	public function getUploadTime(): int {
 		return $this->getFileInfo()->getUploadTime();
 	}
-
 }

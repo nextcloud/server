@@ -59,7 +59,7 @@ class ContentSecurityPolicyManager implements IContentSecurityPolicyManager {
 		$this->dispatcher->dispatch(AddContentSecurityPolicyEvent::class, $event);
 
 		$defaultPolicy = new \OC\Security\CSP\ContentSecurityPolicy();
-		foreach($this->policies as $policy) {
+		foreach ($this->policies as $policy) {
 			$defaultPolicy = $this->mergePolicies($defaultPolicy, $policy);
 		}
 		return $defaultPolicy;
@@ -74,9 +74,9 @@ class ContentSecurityPolicyManager implements IContentSecurityPolicyManager {
 	 */
 	public function mergePolicies(ContentSecurityPolicy $defaultPolicy,
 								  EmptyContentSecurityPolicy $originalPolicy): ContentSecurityPolicy {
-		foreach((object)(array)$originalPolicy as $name => $value) {
+		foreach ((object)(array)$originalPolicy as $name => $value) {
 			$setter = 'set'.ucfirst($name);
-			if(\is_array($value)) {
+			if (\is_array($value)) {
 				$getter = 'get'.ucfirst($name);
 				$currentValues = \is_array($defaultPolicy->$getter()) ? $defaultPolicy->$getter() : [];
 				$defaultPolicy->$setter(array_values(array_unique(array_merge($currentValues, $value))));

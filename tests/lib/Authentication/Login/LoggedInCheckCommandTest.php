@@ -69,5 +69,4 @@ class LoggedInCheckCommandTest extends ALoginCommandTest {
 		$this->assertFalse($result->isSuccess());
 		$this->assertSame(LoginController::LOGIN_MSG_INVALIDPASSWORD, $result->getErrorMessage());
 	}
-
 }

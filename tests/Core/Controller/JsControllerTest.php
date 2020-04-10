@@ -182,5 +182,4 @@ class JsControllerTest extends TestCase {
 		$result = $this->controller->getJs('file.js', 'myapp');
 		$this->assertEquals($expected, $result);
 	}
-
 }

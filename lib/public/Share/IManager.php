@@ -428,5 +428,4 @@ interface IManager {
 	 * @since 18.0.0
 	 */
 	public function getAllShares(): iterable;
-
 }

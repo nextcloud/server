@@ -53,8 +53,7 @@ class EventReminderJobTest extends TestCase {
 		$this->backgroundJob = new EventReminderJob($this->reminderService, $this->config);
 	}
 
-	public function data(): array
-	{
+	public function data(): array {
 		return [
 			[true, true, true],
 			[true, false, false],
@@ -81,7 +80,6 @@ class EventReminderJobTest extends TestCase {
 				->method('getAppValue')
 				->with('dav', 'sendEventRemindersMode', 'backgroundjob')
 				->willReturn($sendEventRemindersMode ? 'backgroundjob' : 'cron');
-
 		}
 
 		if ($expectCall) {

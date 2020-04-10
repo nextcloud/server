@@ -103,7 +103,6 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @return void
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
-
 		$server->on('exception', [$this, 'logException'], 10);
 	}
 

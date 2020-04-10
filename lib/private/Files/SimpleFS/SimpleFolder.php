@@ -30,7 +30,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 
-class SimpleFolder implements ISimpleFolder   {
+class SimpleFolder implements ISimpleFolder {
 
 	/** @var Folder */
 	private $folder;

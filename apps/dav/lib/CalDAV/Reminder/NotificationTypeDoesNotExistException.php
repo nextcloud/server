@@ -38,5 +38,4 @@ class NotificationTypeDoesNotExistException extends \Exception {
 	public function __construct(string $type) {
 		parent::__construct("Type $type is not an accepted type of notification");
 	}
-
 }

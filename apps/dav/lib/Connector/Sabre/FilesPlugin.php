@@ -252,7 +252,9 @@ class FilesPlugin extends ServerPlugin {
 	function httpGet(RequestInterface $request, ResponseInterface $response) {
 		// Only handle valid files
 		$node = $this->tree->getNodeForPath($request->getPath());
-		if (!($node instanceof IFile)) return;
+		if (!($node instanceof IFile)) {
+			return;
+		}
 
 		// adds a 'Content-Disposition: attachment' header in case no disposition
 		// header has been set before
@@ -290,7 +292,6 @@ class FilesPlugin extends ServerPlugin {
 	 * @return void
 	 */
 	public function handleGetProperties(PropFind $propFind, \Sabre\DAV\INode $node) {
-
 		$httpRequest = $this->server->httpRequest;
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\Node) {
@@ -412,7 +413,6 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::UPLOAD_TIME_PROPERTYNAME, function () use ($node) {
 				return $node->getFileInfo()->getUploadTime();
 			});
-
 		}
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\Directory) {
@@ -433,7 +433,6 @@ class FilesPlugin extends ServerPlugin {
 	 * @return array
 	 */
 	protected function ncPermissions2ocmPermissions($ncPermissions) {
-
 		$ocmPermissions = [];
 
 		if ($ncPermissions & Constants::PERMISSION_SHARE) {
@@ -450,7 +449,6 @@ class FilesPlugin extends ServerPlugin {
 		}
 
 		return $ocmPermissions;
-
 	}
 
 	/**

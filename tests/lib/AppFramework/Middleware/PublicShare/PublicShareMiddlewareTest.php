@@ -282,6 +282,4 @@ class PublicShareMiddlewareTest extends \Test\TestCase {
 		$result = $this->middleware->afterException($controller, 'method', $exception);
 		$this->assertInstanceOf(RedirectResponse::class, $result);
 	}
-
-
 }

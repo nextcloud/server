@@ -43,7 +43,6 @@ function rrmdir($directory) {
 
 
 class AppTest extends \Test\TestCase {
-
 	private $container;
 	private $io;
 	private $api;
@@ -231,5 +230,4 @@ class AppTest extends \Test\TestCase {
 
 		App::main('Foo', $this->controllerMethod, $this->container);
 	}
-
 }

@@ -194,5 +194,4 @@ class MandatoryTwoFactorTest extends TestCase {
 
 		$this->mandatoryTwoFactor->setState(new EnforcementState(false));
 	}
-
 }

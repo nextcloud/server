@@ -55,5 +55,4 @@ interface IAttachment {
 	 * @since 13.0.0
 	 */
 	public function setBody(string $body): IAttachment;
-
 }

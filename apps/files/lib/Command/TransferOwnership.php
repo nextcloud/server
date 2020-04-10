@@ -115,5 +115,4 @@ class TransferOwnership extends Command {
 
 		return 0;
 	}
-
 }

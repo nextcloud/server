@@ -403,5 +403,4 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 			$this->assertEquals(Http::STATUS_UNPROCESSABLE_ENTITY, $response->getStatus());
 		}
 	}
-
 }

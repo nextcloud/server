@@ -43,7 +43,6 @@ abstract class Bitmap extends ProviderV2 {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail(File $file, int $maxX, int $maxY): ?IImage {
-
 		$tmpPath = $this->getLocalFile($file);
 
 		// Creates \Imagick object from bitmap or vector file
@@ -117,5 +116,4 @@ abstract class Bitmap extends ProviderV2 {
 
 		return $bp;
 	}
-
 }

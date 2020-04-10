@@ -195,7 +195,7 @@ class LostController extends Controller {
 	 */
 	protected function checkPasswordResetToken($token, $userId) {
 		$user = $this->userManager->get($userId);
-		if($user === null || !$user->isEnabled()) {
+		if ($user === null || !$user->isEnabled()) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 
@@ -212,7 +212,7 @@ class LostController extends Controller {
 		}
 
 		$splittedToken = explode(':', $decryptedToken);
-		if(count($splittedToken) !== 2) {
+		if (count($splittedToken) !== 2) {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 
@@ -318,9 +318,9 @@ class LostController extends Controller {
 
 			$this->config->deleteUserValue($userId, 'core', 'lostpassword');
 			@\OC::$server->getUserSession()->unsetMagicInCookie();
-		} catch (HintException $e){
+		} catch (HintException $e) {
 			return $this->error($e->getHint());
-		} catch (\Exception $e){
+		} catch (\Exception $e) {
 			return $this->error($e->getMessage());
 		}
 

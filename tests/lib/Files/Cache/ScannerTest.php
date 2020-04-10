@@ -406,5 +406,4 @@ class ScannerTest extends \Test\TestCase {
 			['/sub/folder/foo.txt', false],
 		];
 	}
-
 }

@@ -147,5 +147,4 @@ class SymfonyAdapter implements EventDispatcherInterface {
 	public function hasListeners($eventName = null) {
 		return $this->eventDispatcher->getSymfonyDispatcher()->hasListeners($eventName);
 	}
-
 }

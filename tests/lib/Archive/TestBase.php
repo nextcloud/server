@@ -30,7 +30,7 @@ abstract class TestBase extends \Test\TestCase {
 		$allFiles=$this->instance->getFiles();
 		$expected=['lorem.txt','logo-wide.png','dir/', 'dir/lorem.txt'];
 		$this->assertEquals(4, count($allFiles), 'only found '.count($allFiles).' out of 4 expected files');
-		foreach($expected as $file) {
+		foreach ($expected as $file) {
 			$this->assertContains($file, $allFiles, 'cant find '.  $file . ' in archive');
 			$this->assertTrue($this->instance->fileExists($file), 'file '.$file.' does not exist in archive');
 		}
@@ -39,14 +39,14 @@ abstract class TestBase extends \Test\TestCase {
 		$rootContent=$this->instance->getFolder('');
 		$expected=['lorem.txt','logo-wide.png', 'dir/'];
 		$this->assertEquals(3, count($rootContent));
-		foreach($expected as $file) {
+		foreach ($expected as $file) {
 			$this->assertContains($file, $rootContent, 'cant find '.  $file . ' in archive');
 		}
 
 		$dirContent=$this->instance->getFolder('dir/');
 		$expected=['lorem.txt'];
 		$this->assertEquals(1, count($dirContent));
-		foreach($expected as $file) {
+		foreach ($expected as $file) {
 			$this->assertContains($file, $dirContent, 'cant find '.  $file . ' in archive');
 		}
 	}

@@ -146,7 +146,6 @@ class ContactsManagerTest extends \Test\TestCase {
 		$this->cm->registerAddressBook($addressbook);
 		$result = $this->cm->delete(1, 'noaddressbook');
 		$this->assertEquals($result, null);
-
 	}
 
 	public function testCreateOrUpdateHavePermission() {
@@ -184,7 +183,6 @@ class ContactsManagerTest extends \Test\TestCase {
 		$this->cm->registerAddressBook($addressbook);
 		$result = $this->cm->createOrUpdate([], $addressbook->getKey());
 		$this->assertEquals($result, null);
-
 	}
 
 	public function testCreateOrUpdateNOAdressbook() {

@@ -216,5 +216,4 @@ class SyncServiceTest extends TestCase {
 		$ss->method('getCertPath')->willReturn('');
 		return $ss;
 	}
-
 }

@@ -120,7 +120,6 @@ class KeyManager {
 		ILogger $log,
 		Util $util
 	) {
-
 		$this->util = $util;
 		$this->session = $session;
 		$this->keyStorage = $keyStorage;
@@ -179,7 +178,6 @@ class KeyManager {
 	 * check if a key pair for the master key exists, if not we create one
 	 */
 	public function validateMasterKey() {
-
 		if ($this->util->isMasterKeyEnabled() === false) {
 			return;
 		}
@@ -358,11 +356,10 @@ class KeyManager {
 	 * @return boolean
 	 */
 	public function init($uid, $passPhrase) {
-
 		$this->session->setStatus(Session::INIT_EXECUTED);
 
 		try {
-			if($this->util->isMasterKeyEnabled()) {
+			if ($this->util->isMasterKeyEnabled()) {
 				$uid = $this->getMasterKeyId();
 				$passPhrase = $this->getMasterKeyPassword();
 				$privateKey = $this->getSystemPrivateKey($uid);
@@ -462,7 +459,7 @@ class KeyManager {
 	 */
 	public function getVersion($path, View $view) {
 		$fileInfo = $view->getFileInfo($path);
-		if($fileInfo === false) {
+		if ($fileInfo === false) {
 			return 0;
 		}
 		return $fileInfo->getEncryptedVersion();
@@ -478,7 +475,7 @@ class KeyManager {
 	public function setVersion($path, $version, View $view) {
 		$fileInfo= $view->getFileInfo($path);
 
-		if($fileInfo !== false) {
+		if ($fileInfo !== false) {
 			$cache = $fileInfo->getStorage()->getCache();
 			$cache->update($fileInfo->getId(), ['encrypted' => $version, 'encryptedVersion' => $version]);
 		}
@@ -642,7 +639,6 @@ class KeyManager {
 		}
 
 		return $keys;
-
 	}
 
 	/**
@@ -685,7 +681,6 @@ class KeyManager {
 
 		if ($this->recoveryKeyExists() &&
 			$this->util->isRecoveryEnabledForUser($uid)) {
-
 			$publicKeys[$this->getRecoveryKeyId()] = $this->getRecoveryKey();
 		}
 
@@ -700,7 +695,7 @@ class KeyManager {
 	 */
 	public function getMasterKeyPassword() {
 		$password = $this->config->getSystemValue('secret');
-		if (empty($password)){
+		if (empty($password)) {
 			throw new \Exception('Can not get secret from Nextcloud instance');
 		}
 

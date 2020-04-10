@@ -32,7 +32,6 @@ use OCP\IL10N;
  * Rackspace authentication
  */
 class Rackspace extends AuthMechanism {
-
 	public function __construct(IL10N $l) {
 		$this
 			->setIdentifier('openstack::rackspace')
@@ -45,5 +44,4 @@ class Rackspace extends AuthMechanism {
 			])
 		;
 	}
-
 }

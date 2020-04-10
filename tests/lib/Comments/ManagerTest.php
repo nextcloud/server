@@ -863,5 +863,4 @@ class ManagerTest extends TestCase {
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
 		$this->assertTrue(is_string($manager->resolveDisplayName(1337, 'neptune')));
 	}
-
 }

@@ -34,5 +34,4 @@ class Folder extends File {
 	 * @var string
 	 */
 	public $type = 'folder';
-	
 }

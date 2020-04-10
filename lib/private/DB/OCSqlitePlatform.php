@@ -23,5 +23,4 @@
 namespace OC\DB;
 
 class OCSqlitePlatform extends \Doctrine\DBAL\Platforms\SqlitePlatform {
-
 }

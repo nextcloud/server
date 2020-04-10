@@ -97,8 +97,7 @@ class MoveCalendarTest extends TestCase {
 	 * @param $userOriginExists
 	 * @param $userDestinationExists
 	 */
-	public function testWithBadUserOrigin($userOriginExists, $userDestinationExists)
-	{
+	public function testWithBadUserOrigin($userOriginExists, $userDestinationExists) {
 		$this->expectException(\InvalidArgumentException::class);
 
 		$this->userManager->expects($this->at(0))
@@ -122,8 +121,7 @@ class MoveCalendarTest extends TestCase {
 	}
 
 	
-	public function testMoveWithInexistantCalendar()
-	{
+	public function testMoveWithInexistantCalendar() {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('User <user> has no calendar named <personal>. You can run occ dav:list-calendars to list calendars URIs for this user.');
 
@@ -150,8 +148,7 @@ class MoveCalendarTest extends TestCase {
 	}
 
 	
-	public function testMoveWithExistingDestinationCalendar()
-	{
+	public function testMoveWithExistingDestinationCalendar() {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('User <user2> already has a calendar named <personal>.');
 
@@ -171,7 +168,7 @@ class MoveCalendarTest extends TestCase {
 				'id' => 1234,
 			]);
 
-			$this->calDav->expects($this->at(1))->method('getCalendarByUri')
+		$this->calDav->expects($this->at(1))->method('getCalendarByUri')
 			->with('principals/users/user2', 'personal')
 			->willReturn([
 				'id' => 1234,
@@ -185,8 +182,7 @@ class MoveCalendarTest extends TestCase {
 		]);
 	}
 
-	public function testMove()
-	{
+	public function testMove() {
 		$this->userManager->expects($this->at(0))
 			->method('userExists')
 			->with('user')
@@ -221,8 +217,7 @@ class MoveCalendarTest extends TestCase {
 		$this->assertContains("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
 	}
 
-	public function dataTestMoveWithDestinationNotPartOfGroup(): array
-	{
+	public function dataTestMoveWithDestinationNotPartOfGroup(): array {
 		return [
 			[true],
 			[false]
@@ -232,8 +227,7 @@ class MoveCalendarTest extends TestCase {
 	/**
 	 * @dataProvider dataTestMoveWithDestinationNotPartOfGroup
 	 */
-	public function testMoveWithDestinationNotPartOfGroup(bool $shareWithGroupMembersOnly)
-	{
+	public function testMoveWithDestinationNotPartOfGroup(bool $shareWithGroupMembersOnly) {
 		$this->userManager->expects($this->at(0))
 			->method('userExists')
 			->with('user')
@@ -276,8 +270,7 @@ class MoveCalendarTest extends TestCase {
 		]);
 	}
 
-	public function testMoveWithDestinationPartOfGroup()
-	{
+	public function testMoveWithDestinationPartOfGroup() {
 		$this->userManager->expects($this->at(0))
 			->method('userExists')
 			->with('user')
@@ -322,8 +315,7 @@ class MoveCalendarTest extends TestCase {
 		$this->assertContains("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
 	}
 
-	public function testMoveWithDestinationNotPartOfGroupAndForce()
-	{
+	public function testMoveWithDestinationNotPartOfGroupAndForce() {
 		$this->userManager->expects($this->at(0))
 			->method('userExists')
 			->with('user')
@@ -370,8 +362,7 @@ class MoveCalendarTest extends TestCase {
 		$this->assertContains("[OK] Calendar <personal> was moved from user <user> to <user2>", $commandTester->getDisplay());
 	}
 
-	public function dataTestMoveWithCalendarAlreadySharedToDestination(): array
-	{
+	public function dataTestMoveWithCalendarAlreadySharedToDestination(): array {
 		return [
 			[true],
 			[false]
@@ -381,8 +372,7 @@ class MoveCalendarTest extends TestCase {
 	/**
 	 * @dataProvider dataTestMoveWithCalendarAlreadySharedToDestination
 	 */
-	public function testMoveWithCalendarAlreadySharedToDestination(bool $force)
-	{
+	public function testMoveWithCalendarAlreadySharedToDestination(bool $force) {
 		$this->userManager->expects($this->at(0))
 			->method('userExists')
 			->with('user')

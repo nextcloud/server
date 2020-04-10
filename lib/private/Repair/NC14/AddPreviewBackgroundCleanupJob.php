@@ -47,5 +47,4 @@ class AddPreviewBackgroundCleanupJob implements IRepairStep {
 	public function run(IOutput $output) {
 		$this->jobList->add(BackgroundCleanupJob::class);
 	}
-
 }

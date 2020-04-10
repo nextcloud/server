@@ -86,7 +86,7 @@ class RateLimitingMiddleware extends Middleware {
 		$userLimit = $this->reflector->getAnnotationParameter('UserRateThrottle', 'limit');
 		$userPeriod = $this->reflector->getAnnotationParameter('UserRateThrottle', 'period');
 		$rateLimitIdentifier = get_class($controller) . '::' . $methodName;
-		if($userLimit !== '' && $userPeriod !== '' && $this->userSession->isLoggedIn()) {
+		if ($userLimit !== '' && $userPeriod !== '' && $this->userSession->isLoggedIn()) {
 			$this->limiter->registerUserRequest(
 				$rateLimitIdentifier,
 				$userLimit,
@@ -107,7 +107,7 @@ class RateLimitingMiddleware extends Middleware {
 	 * {@inheritDoc}
 	 */
 	public function afterException($controller, $methodName, \Exception $exception) {
-		if($exception instanceof RateLimitExceededException) {
+		if ($exception instanceof RateLimitExceededException) {
 			if (stripos($this->request->getHeader('Accept'),'html') === false) {
 				$response = new JSONResponse(
 					[
@@ -116,7 +116,7 @@ class RateLimitingMiddleware extends Middleware {
 					$exception->getCode()
 				);
 			} else {
-					$response = new TemplateResponse(
+				$response = new TemplateResponse(
 						'core',
 						'403',
 							[
@@ -124,7 +124,7 @@ class RateLimitingMiddleware extends Middleware {
 							],
 						'guest'
 					);
-					$response->setStatus($exception->getCode());
+				$response->setStatus($exception->getCode());
 			}
 
 			return $response;

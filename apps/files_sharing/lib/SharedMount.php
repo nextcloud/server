@@ -89,7 +89,6 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 * @return string
 	 */
 	private function verifyMountPoint(\OCP\Share\IShare $share, array $mountpoints, CappedMemoryCache $folderExistCache) {
-
 		$mountPoint = basename($share->getTarget());
 		$parent = dirname($share->getTarget());
 
@@ -193,7 +192,6 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 * @return bool
 	 */
 	public function moveMount($target) {
-
 		$relTargetPath = $this->stripUserFilesPath($target);
 		$share = $this->storage->getShare();
 

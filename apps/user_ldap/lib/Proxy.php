@@ -50,7 +50,7 @@ abstract class Proxy {
 	public function __construct(ILDAPWrapper $ldap) {
 		$this->ldap = $ldap;
 		$memcache = \OC::$server->getMemCacheFactory();
-		if($memcache->isAvailable()) {
+		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();
 		}
 	}
@@ -68,7 +68,7 @@ abstract class Proxy {
 		static $db;
 		static $coreUserManager;
 		static $coreNotificationManager;
-		if($fs === null) {
+		if ($fs === null) {
 			$ocConfig = \OC::$server->getConfig();
 			$fs       = new FilesystemHelper();
 			$log      = new LogWrapper();
@@ -94,7 +94,7 @@ abstract class Proxy {
 	 * @return mixed
 	 */
 	protected function getAccess($configPrefix) {
-		if(!isset(self::$accesses[$configPrefix])) {
+		if (!isset(self::$accesses[$configPrefix])) {
 			$this->addAccess($configPrefix);
 		}
 		return self::$accesses[$configPrefix];
@@ -149,7 +149,7 @@ abstract class Proxy {
 	 */
 	protected function handleRequest($id, $method, $parameters, $passOnWhen = false) {
 		$result = $this->callOnLastSeenOn($id,  $method, $parameters, $passOnWhen);
-		if($result === $passOnWhen) {
+		if ($result === $passOnWhen) {
 			$result = $this->walkBackends($id, $method, $parameters);
 		}
 		return $result;
@@ -161,7 +161,7 @@ abstract class Proxy {
 	 */
 	private function getCacheKey($key) {
 		$prefix = 'LDAP-Proxy-';
-		if($key === null) {
+		if ($key === null) {
 			return $prefix;
 		}
 		return $prefix.hash('sha256', $key);
@@ -172,7 +172,7 @@ abstract class Proxy {
 	 * @return mixed|null
 	 */
 	public function getFromCache($key) {
-		if($this->cache === null) {
+		if ($this->cache === null) {
 			return null;
 		}
 
@@ -190,7 +190,7 @@ abstract class Proxy {
 	 * @param mixed $value
 	 */
 	public function writeToCache($key, $value) {
-		if($this->cache === null) {
+		if ($this->cache === null) {
 			return;
 		}
 		$key   = $this->getCacheKey($key);
@@ -199,7 +199,7 @@ abstract class Proxy {
 	}
 
 	public function clearCache() {
-		if($this->cache === null) {
+		if ($this->cache === null) {
 			return;
 		}
 		$this->cache->clear($this->getCacheKey(null));

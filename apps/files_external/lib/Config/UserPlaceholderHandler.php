@@ -35,7 +35,7 @@ class UserPlaceholderHandler extends UserContext implements IConfigHandler {
 	public function handle($optionValue) {
 		$this->placeholder = 'user';
 		$uid = $this->getUserId();
-		if($uid === null) {
+		if ($uid === null) {
 			return $optionValue;
 		}
 		return $this->processInput($optionValue, $uid);

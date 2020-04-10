@@ -77,7 +77,8 @@ class NotifierTest extends TestCase {
 				$this->userSession,
 				$this->groupManager
 			);
-		} {
+		}
+		{
 			return $this->getMockBuilder(Notifier::class)
 				->setConstructorArgs([
 					$this->urlGenerator,

@@ -88,28 +88,28 @@ class RuleMatcher implements IRuleMatcher {
 	}
 
 	public function setOperation(IOperation $operation): void {
-		if($this->operation !== null) {
+		if ($this->operation !== null) {
 			throw new RuntimeException('This method must not be called more than once');
 		}
 		$this->operation = $operation;
 	}
 
 	public function setEntity(IEntity $entity): void {
-		if($this->entity !== null) {
+		if ($this->entity !== null) {
 			throw new RuntimeException('This method must not be called more than once');
 		}
 		$this->entity = $entity;
 	}
 
 	public function getEntity(): IEntity {
-		if($this->entity === null) {
+		if ($this->entity === null) {
 			throw new \LogicException('Entity was not set yet');
 		}
 		return $this->entity;
 	}
 
 	public function getFlows(bool $returnFirstMatchingOperationOnly = true): array {
-		if(!$this->operation) {
+		if (!$this->operation) {
 			throw new RuntimeException('Operation is not set');
 		}
 		return $this->getMatchingOperations(get_class($this->operation), $returnFirstMatchingOperationOnly);
@@ -118,7 +118,7 @@ class RuleMatcher implements IRuleMatcher {
 	public function getMatchingOperations(string $class, bool $returnFirstMatchingOperationOnly = true): array {
 		$scopes[] = new ScopeContext(IManager::SCOPE_ADMIN);
 		$user = $this->session->getUser();
-		if($user !== null && $this->manager->isUserScopeEnabled()) {
+		if ($user !== null && $this->manager->isUserScopeEnabled()) {
 			$scopes[] = new ScopeContext(IManager::SCOPE_USER, $user->getUID());
 		}
 
@@ -134,7 +134,7 @@ class RuleMatcher implements IRuleMatcher {
 			$operations = array_merge($operations, $this->manager->getOperations($class, $scope));
 		}
 
-		if($this->entity instanceof IEntity) {
+		if ($this->entity instanceof IEntity) {
 			/** @var ScopeContext[] $additionalScopes */
 			$additionalScopes = $this->manager->getAllConfiguredScopesForOperation($class);
 			foreach ($additionalScopes as $hash => $scopeCandidate) {
@@ -188,7 +188,7 @@ class RuleMatcher implements IRuleMatcher {
 		$ctx
 			->setEntity($this->entity)
 			->setOperation($this->operation);
-		if(!empty($matches)) {
+		if (!empty($matches)) {
 			$ctx->setConfiguration($matches);
 			$this->logger->logRunAll($ctx);
 		} else {
@@ -216,11 +216,11 @@ class RuleMatcher implements IRuleMatcher {
 			}
 			$checkInstance->setFileInfo($this->fileInfo['storage'], $this->fileInfo['path'], $this->fileInfo['isDir']);
 		} elseif ($checkInstance instanceof IEntityCheck) {
-			foreach($this->contexts as $entityInfo) {
+			foreach ($this->contexts as $entityInfo) {
 				list($entity, $subject) = $entityInfo;
 				$checkInstance->setEntitySubject($entity, $subject);
 			}
-		} elseif(!$checkInstance instanceof ICheck) {
+		} elseif (!$checkInstance instanceof ICheck) {
 			// Check is invalid
 			throw new \UnexpectedValueException($this->l->t('Check %s is invalid or does not exist', $check['class']));
 		}

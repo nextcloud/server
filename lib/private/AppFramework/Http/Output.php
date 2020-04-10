@@ -96,5 +96,4 @@ class Output implements IOutput {
 		$path = $this->webRoot ? : '/';
 		setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
 	}
-
 }

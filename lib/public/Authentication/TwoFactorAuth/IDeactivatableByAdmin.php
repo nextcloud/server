@@ -47,5 +47,4 @@ interface IDeactivatableByAdmin extends IProvider {
 	 * @since 15.0.0
 	 */
 	public function disableFor(IUser $user);
-
 }

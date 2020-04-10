@@ -108,5 +108,4 @@ class DirectFile implements IFile {
 
 		return $this->file;
 	}
-
 }

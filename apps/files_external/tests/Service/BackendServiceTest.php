@@ -242,7 +242,9 @@ class BackendServiceTest extends \Test\TestCase {
 
 		$service = new BackendService($this->config);
 		$mock = $this->createMock(IConfigHandler::class);
-		$cb = function () use ($mock) { return $mock; };
+		$cb = function () use ($mock) {
+			return $mock;
+		};
 		foreach ($placeholders as $placeholder) {
 			$service->registerConfigHandler($placeholder, $cb);
 		}
@@ -253,7 +255,9 @@ class BackendServiceTest extends \Test\TestCase {
 		$mock = $this->createMock(IConfigHandler::class);
 		$mock->expects($this->exactly(3))
 			->method('handle');
-		$cb = function () use ($mock) { return $mock; };
+		$cb = function () use ($mock) {
+			return $mock;
+		};
 		$service->registerConfigHandler('one', $cb);
 		$service->registerConfigHandler('2', $cb);
 		$service->registerConfigHandler('Three', $cb);
@@ -265,5 +269,4 @@ class BackendServiceTest extends \Test\TestCase {
 			$handler->handle('Something');
 		}
 	}
-
 }

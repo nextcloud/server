@@ -149,7 +149,6 @@ class AddressHandler {
 	public function urlContainProtocol($url) {
 		if (strpos($url, 'https://') === 0 ||
 			strpos($url, 'http://') === 0) {
-
 			return true;
 		}
 

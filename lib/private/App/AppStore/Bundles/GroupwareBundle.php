@@ -44,5 +44,4 @@ class GroupwareBundle extends Bundle {
 			'mail'
 		];
 	}
-
 }

@@ -49,9 +49,7 @@ use Sabre\DAVACL\IACL;
  * @package OCA\DAV\Tests\unit\CalDAV
  */
 class CalDavBackendTest extends AbstractCalDavBackend {
-
 	public function testCalendarOperations() {
-
 		$calendarId = $this->createTestCalendar();
 
 		// update it's display name
@@ -206,7 +204,6 @@ EOD;
 	}
 
 	public function testCalendarObjectsOperations() {
-
 		$calendarId = $this->createTestCalendar();
 
 		// create a card
@@ -313,7 +310,6 @@ EOD;
 	}
 
 	public function testMultiCalendarObjects() {
-
 		$calendarId = $this->createTestCalendar();
 
 		// create an event
@@ -392,7 +388,7 @@ EOD;
 		// get the cards
 		$calendarObjects = $this->backend->getMultipleCalendarObjects($calendarId, [$uri1, $uri2]);
 		$this->assertCount(2, $calendarObjects);
-		foreach($calendarObjects as $card) {
+		foreach ($calendarObjects as $card) {
 			$this->assertArrayHasKey('id', $card);
 			$this->assertArrayHasKey('uri', $card);
 			$this->assertArrayHasKey('lastmodified', $card);
@@ -988,8 +984,7 @@ EOD;
 		$this->assertEquals(null, $this->backend->getCalendarObject($subscriptionId, $uri, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION));
 	}
 
-	public function testCalendarMovement()
-	{
+	public function testCalendarMovement() {
 		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
 
 		$this->assertCount(1, $this->backend->getCalendarsForUser(self::UNIT_TEST_USER));

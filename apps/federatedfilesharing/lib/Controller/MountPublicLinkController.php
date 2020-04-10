@@ -127,7 +127,6 @@ class MountPublicLinkController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function createFederatedShare($shareWith, $token, $password = '') {
-
 		if (!$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
 			return new JSONResponse(
 				['message' => 'This server doesn\'t support outgoing federated shares'],

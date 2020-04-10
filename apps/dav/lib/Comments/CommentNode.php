@@ -88,8 +88,8 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 		$methods = array_filter($methods, function ($name) {
 			return strpos($name, 'get') === 0;
 		});
-		foreach($methods as $getter) {
-			if($getter === 'getMentions') {
+		foreach ($methods as $getter) {
+			if ($getter === 'getMentions') {
 				continue;	// special treatment
 			}
 			$name = '{'.self::NS_OWNCLOUD.'}' . lcfirst(substr($getter, 3));
@@ -131,7 +131,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 
 	protected function checkWriteAccessOnComment() {
 		$user = $this->userSession->getUser();
-		if($this->comment->getActorType() !== 'users'
+		if ($this->comment->getActorType() !== 'users'
 			|| is_null($user)
 			|| $this->comment->getActorId() !== $user->getUID()
 		) {
@@ -195,7 +195,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 			return true;
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'dav/comments']);
-			if($e instanceof MessageTooLongException) {
+			if ($e instanceof MessageTooLongException) {
 				$msg = 'Message exceeds allowed character limit of ';
 				throw new BadRequest($msg . IComment::MAX_MESSAGE_LENGTH, 0, $e);
 			}
@@ -239,14 +239,14 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 		$properties = array_keys($this->properties);
 
 		$result = [];
-		foreach($properties as $property) {
+		foreach ($properties as $property) {
 			$getter = $this->properties[$property];
-			if(method_exists($this->comment, $getter)) {
+			if (method_exists($this->comment, $getter)) {
 				$result[$property] = $this->comment->$getter();
 			}
 		}
 
-		if($this->comment->getActorType() === 'users') {
+		if ($this->comment->getActorType() === 'users') {
 			$user = $this->userManager->get($this->comment->getActorId());
 			$displayName = is_null($user) ? null : $user->getDisplayName();
 			$result[self::PROPERTY_NAME_ACTOR_DISPLAYNAME] = $displayName;
@@ -256,13 +256,13 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 
 		$unread = null;
 		$user =  $this->userSession->getUser();
-		if(!is_null($user)) {
+		if (!is_null($user)) {
 			$readUntil = $this->commentsManager->getReadMark(
 				$this->comment->getObjectType(),
 				$this->comment->getObjectId(),
 				$user
 			);
-			if(is_null($readUntil)) {
+			if (is_null($readUntil)) {
 				$unread = 'true';
 			} else {
 				$unread = $this->comment->getCreationDateTime() > $readUntil;

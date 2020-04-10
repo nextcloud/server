@@ -27,5 +27,4 @@ declare(strict_types=1);
 namespace OC\Authentication\Events;
 
 class RemoteWipeStarted extends ARemoteWipeEvent {
-
 }

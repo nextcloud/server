@@ -90,7 +90,7 @@ class AllConfig implements \OCP\IConfig {
 	 * because the database connection was created with an uninitialized config
 	 */
 	private function fixDIInit() {
-		if($this->connection === null) {
+		if ($this->connection === null) {
 			$this->connection = \OC::$server->getDatabaseConnection();
 		}
 	}
@@ -485,7 +485,7 @@ class AllConfig implements \OCP\IConfig {
 		$sql  = 'SELECT `userid` FROM `*PREFIX*preferences` ' .
 				'WHERE `appid` = ? AND `configkey` = ? ';
 
-		if($this->getSystemValue('dbtype', 'sqlite') === 'oci') {
+		if ($this->getSystemValue('dbtype', 'sqlite') === 'oci') {
 			//oracle hack: need to explicitly cast CLOB to CHAR for comparison
 			$sql .= 'AND to_char(`configvalue`) = ?';
 		} else {
@@ -517,7 +517,7 @@ class AllConfig implements \OCP\IConfig {
 		$sql  = 'SELECT `userid` FROM `*PREFIX*preferences` ' .
 			'WHERE `appid` = ? AND `configkey` = ? ';
 
-		if($this->getSystemValue('dbtype', 'sqlite') === 'oci') {
+		if ($this->getSystemValue('dbtype', 'sqlite') === 'oci') {
 			//oracle hack: need to explicitly cast CLOB to CHAR for comparison
 			$sql .= 'AND LOWER(to_char(`configvalue`)) = LOWER(?)';
 		} else {

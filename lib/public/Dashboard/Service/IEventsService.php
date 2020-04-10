@@ -83,6 +83,4 @@ interface IEventsService {
 	 * @param string $uniqueId
 	 */
 	public function createGlobalEvent(string $widgetId, array $payload, string $uniqueId);
-
-
 }

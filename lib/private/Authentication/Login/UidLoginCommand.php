@@ -53,5 +53,4 @@ class UidLoginCommand extends ALoginCommand {
 
 		return $this->processNextOrFinishSuccessfully($loginData);
 	}
-
 }

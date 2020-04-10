@@ -157,28 +157,28 @@ class AppleProvisioningPlugin extends ServerPlugin {
 
 		$xmlSkeleton = $this->getTemplate();
 		$body = vsprintf($xmlSkeleton, array_map(function ($v) {
-				return \htmlspecialchars($v, ENT_XML1, 'UTF-8');
-			}, [
-				$description,
-				$server_url,
-				$userId,
-				$serverPort,
-				$caldavDescription,
-				$caldavDisplayname,
-				$caldavIdentifier,
-				$caldavUUID,
-				$description,
-				$server_url,
-				$userId,
-				$serverPort,
-				$carddavDescription,
-				$carddavDisplayname,
-				$carddavIdentifier,
-				$carddavUUID,
-				$description,
-				$profileIdentifier,
-				$profileUUID
-			]
+			return \htmlspecialchars($v, ENT_XML1, 'UTF-8');
+		}, [
+			$description,
+			$server_url,
+			$userId,
+			$serverPort,
+			$caldavDescription,
+			$caldavDisplayname,
+			$caldavIdentifier,
+			$caldavUUID,
+			$description,
+			$server_url,
+			$userId,
+			$serverPort,
+			$carddavDescription,
+			$carddavDisplayname,
+			$carddavIdentifier,
+			$carddavUUID,
+			$description,
+			$profileIdentifier,
+			$profileUUID
+		]
 		));
 
 		$response->setStatus(200);

@@ -56,7 +56,7 @@ class Search implements ISearch {
 		$searchResult = $this->c->resolve(SearchResult::class);
 
 		foreach ($shareTypes as $type) {
-			if(!isset($this->pluginList[$type])) {
+			if (!isset($this->pluginList[$type])) {
 				continue;
 			}
 			foreach ($this->pluginList[$type] as $plugin) {
@@ -79,7 +79,7 @@ class Search implements ISearch {
 		// that the exact same email address and federated cloud id exists
 		$emailType = new SearchResultType('emails');
 		$remoteType = new SearchResultType('remotes');
-		if($searchResult->hasExactIdMatch($emailType) && !$searchResult->hasExactIdMatch($remoteType)) {
+		if ($searchResult->hasExactIdMatch($emailType) && !$searchResult->hasExactIdMatch($remoteType)) {
 			$searchResult->unsetResult($remoteType);
 		} elseif (!$searchResult->hasExactIdMatch($emailType) && $searchResult->hasExactIdMatch($remoteType)) {
 			$searchResult->unsetResult($emailType);
@@ -87,7 +87,7 @@ class Search implements ISearch {
 
 		// if we have an exact local user match, there is no need to show the remote and email matches
 		$userType = new SearchResultType('users');
-		if($searchResult->hasExactIdMatch($userType)) {
+		if ($searchResult->hasExactIdMatch($userType)) {
 			$searchResult->unsetResult($remoteType);
 			$searchResult->unsetResult($emailType);
 		}
@@ -97,7 +97,7 @@ class Search implements ISearch {
 
 	public function registerPlugin(array $pluginInfo) {
 		$shareType = constant(Share::class . '::' . $pluginInfo['shareType']);
-		if($shareType === null) {
+		if ($shareType === null) {
 			throw new \InvalidArgumentException('Provided ShareType is invalid');
 		}
 		$this->pluginList[$shareType][] = $pluginInfo['class'];

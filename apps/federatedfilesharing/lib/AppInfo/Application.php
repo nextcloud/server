@@ -117,7 +117,6 @@ class Application extends App {
 				}
 			}
 		);
-
 	}
 
 	/**
@@ -170,5 +169,4 @@ class Application extends App {
 
 		);
 	}
-
 }

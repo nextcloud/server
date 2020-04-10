@@ -107,7 +107,6 @@ class IconsCacher {
 	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function setIconsCss(string $css): string {
-
 		$cachedFile = $this->getCachedList();
 		if (!$cachedFile) {
 			$currentData = '';
@@ -169,14 +168,13 @@ class IconsCacher {
 				$location = \OC::$SERVERROOT . '/core/img/' . $cleanUrl . '.svg';
 			}
 		} elseif (\strpos($url, $base) === 0) {
-			if(\preg_match('/([A-z0-9\_\-]+)\/([a-zA-Z0-9-_\~\/\.\=\:\;\+\,]+)\?color=([0-9a-fA-F]{3,6})/', $cleanUrl, $matches)) {
+			if (\preg_match('/([A-z0-9\_\-]+)\/([a-zA-Z0-9-_\~\/\.\=\:\;\+\,]+)\?color=([0-9a-fA-F]{3,6})/', $cleanUrl, $matches)) {
 				list(,$app,$cleanUrl, $color) = $matches;
 				$location = \OC_App::getAppPath($app) . '/img/' . $cleanUrl . '.svg';
 				if ($app === 'settings') {
 					$location = \OC::$SERVERROOT . '/settings/img/' . $cleanUrl . '.svg';
 				}
 			}
-
 		}
 		return [
 			$location,
@@ -265,5 +263,4 @@ class IconsCacher {
 		$linkToCSS = $this->urlGenerator->linkToRoute('core.Css.getCss', ['appName' => 'icons', 'fileName' => $this->fileName, 'v' => $mtime]);
 		\OC_Util::addHeader('link', ['rel' => 'stylesheet', 'href' => $linkToCSS], null, true);
 	}
-
 }

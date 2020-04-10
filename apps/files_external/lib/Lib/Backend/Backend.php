@@ -57,7 +57,6 @@ use OCA\Files_External\Lib\VisibilityTrait;
  *      Object can affect storage mounting
  */
 class Backend implements \JsonSerializable {
-
 	use VisibilityTrait;
 	use FrontendDefinitionTrait;
 	use PriorityTrait;
@@ -162,5 +161,4 @@ class Backend implements \JsonSerializable {
 	public function validateStorage(StorageConfig $storage) {
 		return $this->validateStorageDefinition($storage);
 	}
-
 }

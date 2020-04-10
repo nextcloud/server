@@ -42,5 +42,4 @@ abstract class ARemoteWipeEvent extends Event {
 	public function getToken(): IToken {
 		return $this->token;
 	}
-
 }

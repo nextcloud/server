@@ -119,6 +119,4 @@ interface IWidgetConfig {
 	 * @return bool
 	 */
 	public function isEnabled(): bool;
-
-
 }

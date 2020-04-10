@@ -64,7 +64,6 @@ class ChecksumList implements XmlSerializable {
 	 * @return void
 	 */
 	function xmlSerialize(Writer $writer) {
-
 		foreach ($this->checksums as $checksum) {
 			$writer->writeElement('{' . self::NS_OWNCLOUD . '}checksum', $checksum);
 		}

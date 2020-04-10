@@ -38,7 +38,6 @@ class PublicCalendarTest extends CalendarTest {
 	 * @param bool $isShared
 	 */
 	public function testPrivateClassification($expectedChildren, $isShared) {
-
 		$calObject0 = ['uri' => 'event-0', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC];
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL];
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];

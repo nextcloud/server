@@ -118,7 +118,6 @@ class EncryptionTest extends TestCase {
 			$this->loggerMock,
 			$this->l10nMock
 		);
-
 	}
 
 	/**
@@ -200,7 +199,6 @@ class EncryptionTest extends TestCase {
 	 * @dataProvider dataTestBegin
 	 */
 	public function testBegin($mode, $header, $legacyCipher, $defaultCipher, $fileKey, $expected) {
-
 		$this->sessionMock->expects($this->once())
 			->method('decryptAllModeActivated')
 			->willReturn(false);
@@ -255,7 +253,6 @@ class EncryptionTest extends TestCase {
 	 * test begin() if decryptAll mode was activated
 	 */
 	public function testBeginDecryptAll() {
-
 		$path = '/user/files/foo.txt';
 		$recoveryKeyId = 'recoveryKeyId';
 		$recoveryShareKey = 'recoveryShareKey';
@@ -299,7 +296,6 @@ class EncryptionTest extends TestCase {
 	 * and continue
 	 */
 	public function testBeginInitMasterKey() {
-
 		$this->sessionMock->expects($this->once())->method('isReady')->willReturn(false);
 		$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn(true);
@@ -343,7 +339,6 @@ class EncryptionTest extends TestCase {
 	}
 
 	public function testUpdateNoUsers() {
-
 		$this->invokePrivate($this->instance, 'rememberVersion', [['path' => 2]]);
 
 		$this->keyManagerMock->expects($this->never())->method('getFileKey');
@@ -452,5 +447,4 @@ class EncryptionTest extends TestCase {
 
 		$this->instance->prepareDecryptAll($input, $output, 'user');
 	}
-
 }

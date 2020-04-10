@@ -44,5 +44,4 @@ class AddLogRotateJob implements IRepairStep {
 	public function run(IOutput $output) {
 		$this->jobList->add(Rotate::class);
 	}
-
 }

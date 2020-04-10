@@ -297,6 +297,4 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 			throw new \Exception("Response status code was not $statusCode (" . $res->getStatusCode() . ")");
 		}
 	}
-
-
 }

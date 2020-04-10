@@ -87,8 +87,7 @@ class CompositeExpression implements ICompositeExpression, \Countable {
 	 *
 	 * @return string
 	 */
-	public function __toString()
-	{
+	public function __toString() {
 		return (string) $this->compositeExpression;
 	}
 }

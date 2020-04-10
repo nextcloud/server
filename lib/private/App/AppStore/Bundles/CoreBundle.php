@@ -40,5 +40,4 @@ class CoreBundle extends Bundle {
 			'bruteforcesettings',
 		];
 	}
-
 }

@@ -34,7 +34,6 @@ require __DIR__ . '/../../vendor/autoload.php';
  * Capabilities context.
  */
 class CapabilitiesContext implements Context, SnippetAcceptingContext {
-
 	use BasicStructure;
 	use AppConfiguration;
 
@@ -48,7 +47,7 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 		foreach ($formData->getHash() as $row) {
 			$path_to_element = explode('@@@', $row['path_to_element']);
 			$answeredValue = $capabilitiesXML->{$row['capability']};
-			for ($i = 0; $i < count($path_to_element); $i++){
+			for ($i = 0; $i < count($path_to_element); $i++) {
 				$answeredValue = $answeredValue->{$path_to_element[$i]};
 			}
 			$answeredValue = (string)$answeredValue;
@@ -57,7 +56,6 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 				$answeredValue,
 				"Failed field " . $row['capability'] . " " . $row['path_to_element']
 			);
-
 		}
 	}
 

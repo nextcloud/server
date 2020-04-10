@@ -98,5 +98,4 @@ class AutoCompleteEvent extends GenericEvent {
 	public function getLimit(): int {
 		return $this->getArgument('limit');
 	}
-
 }

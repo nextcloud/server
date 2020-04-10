@@ -47,7 +47,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IContainer;
 
 class Application extends App {
-
 	public const APP_ID = 'files';
 
 	public function __construct(array $urlParams=[]) {

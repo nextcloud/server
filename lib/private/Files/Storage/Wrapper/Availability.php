@@ -451,7 +451,7 @@ class Availability extends Wrapper {
 	 */
 	protected function setUnavailable(StorageNotAvailableException $e) {
 		$delay = self::RECHECK_TTL_SEC;
-		if($e instanceof StorageAuthException) {
+		if ($e instanceof StorageAuthException) {
 			$delay = max(
 				// 30min
 				$this->config->getSystemValueInt('external_storage.auth_availability_delay', 1800),

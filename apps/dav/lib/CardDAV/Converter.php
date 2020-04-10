@@ -50,7 +50,6 @@ class Converter {
 	 * @return VCard|null
 	 */
 	public function createCardFromUser(IUser $user) {
-
 		$userData = $this->accountManager->getUser($user);
 
 		$uid = $user->getUID();
@@ -68,7 +67,6 @@ class Converter {
 		}
 
 		foreach ($userData as $property => $value) {
-
 			$shareWithTrustedServers =
 				$value['scope'] === AccountManager::VISIBILITY_CONTACTS_ONLY ||
 				$value['scope'] === AccountManager::VISIBILITY_PUBLIC;
@@ -150,5 +148,4 @@ class Converter {
 			return null;
 		}
 	}
-
 }

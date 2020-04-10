@@ -65,6 +65,4 @@ class HomeObjectStoreStorage extends ObjectStoreStorage implements \OCP\Files\IH
 	public function getUser($path = null) {
 		return $this->user;
 	}
-
-
 }

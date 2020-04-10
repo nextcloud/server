@@ -133,6 +133,4 @@ class CheckBackupCodeTest extends TestCase {
 
 		$this->invokePrivate($this->checkBackupCodes, 'run', [[]]);
 	}
-
-
 }

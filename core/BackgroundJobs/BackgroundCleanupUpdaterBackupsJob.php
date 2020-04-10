@@ -48,18 +48,18 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data');
 		$instanceId = $this->config->getSystemValue('instanceid', null);
 
-		if(!is_string($instanceId) || empty($instanceId)) {
+		if (!is_string($instanceId) || empty($instanceId)) {
 			return;
 		}
 
 		$updaterFolderPath = $dataDir . '/updater-' . $instanceId;
 		$backupFolderPath = $updaterFolderPath . '/backups';
-		if(file_exists($backupFolderPath)) {
+		if (file_exists($backupFolderPath)) {
 			$this->log->info("$backupFolderPath exists - start to clean it up");
 
 			$dirList = [];
 			$dirs = new \DirectoryIterator($backupFolderPath);
-			foreach($dirs as $dir) {
+			foreach ($dirs as $dir) {
 				// skip files and dot dirs
 				if ($dir->isFile() || $dir->isDot()) {
 					continue;
@@ -80,7 +80,7 @@ class BackgroundCleanupUpdaterBackupsJob extends QueuedJob {
 			$dirList = array_slice($dirList, 0, -3);
 			$this->log->info("List of all directories that will be deleted: " . json_encode($dirList));
 
-			foreach($dirList as $dir) {
+			foreach ($dirList as $dir) {
 				$this->log->info("Removing $dir ...");
 				\OC_Helper::rmdirr($dir);
 			}

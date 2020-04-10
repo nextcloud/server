@@ -66,7 +66,6 @@ class ClearGeneratedAvatarCache implements IRepairStep {
 			} catch (\Exception $e) {
 				$output->warning('Unable to clear the avatar cache');
 			}
-
 		}
 	}
 }

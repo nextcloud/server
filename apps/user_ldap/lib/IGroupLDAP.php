@@ -40,5 +40,4 @@ interface IGroupLDAP {
 	 * @return resource of the LDAP connection
 	 */
 	public function getNewLDAPConnection($gid);
-
 }

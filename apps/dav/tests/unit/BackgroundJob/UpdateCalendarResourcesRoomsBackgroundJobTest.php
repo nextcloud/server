@@ -147,7 +147,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 
 		$res6->method('getAllAvailableMetadataKeys')->willReturn(['meta99', 'meta123']);
 		$res6->method('getMetadataForKey')->willReturnCallback(function ($key) {
-			switch($key) {
+			switch ($key) {
 				case 'meta99':
 					return 'value99-new';
 
@@ -166,7 +166,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$res7->method('getBackend')->willReturn($backend3);
 		$res7->method('getAllAvailableMetadataKeys')->willReturn(['meta1']);
 		$res7->method('getMetadataForKey')->willReturnCallback(function ($key) {
-			switch($key) {
+			switch ($key) {
 				case 'meta1':
 					return 'value1';
 
@@ -182,7 +182,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$res8->method('getBackend')->willReturn($backend4);
 		$res8->method('getAllAvailableMetadataKeys')->willReturn(['meta2']);
 		$res8->method('getMetadataForKey')->willReturnCallback(function ($key) {
-			switch($key) {
+			switch ($key) {
 				case 'meta2':
 					return 'value2';
 
@@ -218,7 +218,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 		$rows = [];
 		$ids = [];
 		$stmt = $query->execute();
-		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$ids[$row['backend_id'] . '::' . $row['resource_id']] = $row['id'];
 			unset($row['id']);
 			$rows[] = $row;
@@ -288,7 +288,7 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 
 		$rows2 = [];
 		$stmt = $query2->execute();
-		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			unset($row['id']);
 			$rows2[] = $row;
 		}

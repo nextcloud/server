@@ -127,5 +127,4 @@ interface IWidgetRequest {
 	 * @return $this
 	 */
 	public function addResultArray(string $key, array $result): IWidgetRequest;
-
 }

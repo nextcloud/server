@@ -68,7 +68,6 @@ class PublicAuth implements BackendInterface {
 	 * @return array
 	 */
 	function check(RequestInterface $request, ResponseInterface $response) {
-
 		if ($this->isRequestPublic($request)) {
 			return [true, "principals/system/public"];
 		}

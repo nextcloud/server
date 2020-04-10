@@ -187,5 +187,4 @@ class RemoteWipeTest extends TestCase {
 
 		$this->assertTrue($result);
 	}
-
 }

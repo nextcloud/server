@@ -246,5 +246,4 @@ class ApiControllerTest extends TestCase {
 
 		$this->assertEquals($expected, $actual);
 	}
-
 }

@@ -109,5 +109,4 @@ class SimpleFolderTest extends \Test\TestCase {
 		$this->assertInstanceOf(ISimpleFile::class, $result[0]);
 		$this->assertInstanceOf(ISimpleFile::class, $result[1]);
 	}
-
 }

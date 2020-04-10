@@ -106,7 +106,7 @@ class Response {
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
 	public function cacheFor(int $cacheSeconds) {
-		if($cacheSeconds > 0) {
+		if ($cacheSeconds > 0) {
 			$this->addHeader('Cache-Control', 'max-age=' . $cacheSeconds . ', must-revalidate');
 
 			// Old scool prama caching
@@ -173,7 +173,7 @@ class Response {
 	 * @since 8.0.0
 	 */
 	public function invalidateCookies(array $cookieNames) {
-		foreach($cookieNames as $cookieName) {
+		foreach ($cookieNames as $cookieName) {
 			$this->invalidateCookie($cookieName);
 		}
 		return $this;
@@ -198,10 +198,10 @@ class Response {
 	 */
 	public function addHeader($name, $value) {
 		$name = trim($name);  // always remove leading and trailing whitespace
-							  // to be able to reliably check for security
-							  // headers
+		// to be able to reliably check for security
+		// headers
 
-		if(is_null($value)) {
+		if (is_null($value)) {
 			unset($this->headers[$name]);
 		} else {
 			$this->headers[$name] = $value;
@@ -232,7 +232,7 @@ class Response {
 	public function getHeaders() {
 		$mergeWith = [];
 
-		if($this->lastModified) {
+		if ($this->lastModified) {
 			$mergeWith['Last-Modified'] =
 				$this->lastModified->format(\DateTime::RFC2822);
 		}
@@ -240,7 +240,7 @@ class Response {
 		$this->headers['Content-Security-Policy'] = $this->getContentSecurityPolicy()->buildPolicy();
 		$this->headers['Feature-Policy'] = $this->getFeaturePolicy()->buildPolicy();
 
-		if($this->ETag) {
+		if ($this->ETag) {
 			$mergeWith['ETag'] = '"' . $this->ETag . '"';
 		}
 

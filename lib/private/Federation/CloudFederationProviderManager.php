@@ -96,7 +96,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 			'displayName' => $displayName,
 			'callback' => $callback,
 		];
-
 	}
 
 	/**
@@ -152,7 +151,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 				$result = json_decode($response->getBody(), true);
 				return (is_array($result)) ? $result : [];
 			}
-
 		} catch (\Exception $e) {
 			// if flat re-sharing is not supported by the remote server
 			// we re-throw the exception and fall back to the old behaviour.
@@ -164,7 +162,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -214,7 +211,6 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 	 * @return string
 	 */
 	protected function getOCMEndPoint($url) {
-
 		if (isset($this->ocmEndPoints[$url])) {
 			return $this->ocmEndPoints[$url];
 		}
@@ -240,6 +236,4 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 		$this->ocmEndPoints[$url] = '';
 		return '';
 	}
-
-
 }

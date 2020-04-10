@@ -157,7 +157,6 @@ class Hooks {
 	 * @throws \BadMethodCallException
 	 */
 	public function onChangeEmail(IUser $user, $oldMailAddress) {
-
 		if ($oldMailAddress === $user->getEMailAddress() ||
 			$user->getLastLogin() === 0) {
 			// Email didn't really change or user didn't login,

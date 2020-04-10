@@ -469,7 +469,7 @@ class Backend {
 	protected function getObjectNameAndType(array $objectData) {
 		$vObject = Reader::read($objectData['calendardata']);
 		$component = $componentType = null;
-		foreach($vObject->getComponents() as $component) {
+		foreach ($vObject->getComponents() as $component) {
 			if (in_array($component->name, ['VEVENT', 'VTODO'])) {
 				$componentType = $component->name;
 				break;

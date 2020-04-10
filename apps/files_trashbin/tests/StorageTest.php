@@ -94,7 +94,9 @@ class StorageTest extends \Test\TestCase {
 		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 		$this->logout();
 		$user = \OC::$server->getUserManager()->get($this->user);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		\OC_Hook::clear();
 		parent::tearDown();
 	}
@@ -577,7 +579,6 @@ class StorageTest extends \Test\TestCase {
 		$this->assertSame($expected,
 			$this->invokePrivate($storage, 'shouldMoveToTrash', [$path])
 		);
-
 	}
 
 	public function dataTestShouldMoveToTrash() {

@@ -151,5 +151,4 @@ class RemoteWipeActivityListenerTests extends TestCase {
 
 		$this->listener->handle($event);
 	}
-
 }

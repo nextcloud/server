@@ -46,5 +46,4 @@ class CheckBackupCodes implements IRepairStep {
 	public function run(IOutput $output) {
 		$this->jobList->add(\OCA\TwoFactorBackupCodes\BackgroundJob\CheckBackupCodes::class);
 	}
-
 }

@@ -234,7 +234,7 @@ class Manager implements IManager {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
-		}  elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
 			if ($share->getSharedWith() === null) {
 				throw new \InvalidArgumentException('SharedWith should not be empty');
 			}
@@ -442,7 +442,6 @@ class Manager implements IManager {
 	 * @throws \Exception
 	 */
 	protected function validateExpirationDate(\OCP\Share\IShare $share) {
-
 		$expirationDate = $share->getExpirationDate();
 
 		if ($expirationDate !== null) {
@@ -532,7 +531,7 @@ class Manager implements IManager {
 		 */
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_USER);
 		$existingShares = $provider->getSharesByPath($share->getNode());
-		foreach($existingShares as $existingShare) {
+		foreach ($existingShares as $existingShare) {
 			// Ignore if it is the same share
 			try {
 				if ($existingShare->getFullId() === $share->getFullId()) {
@@ -589,7 +588,7 @@ class Manager implements IManager {
 		 */
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
 		$existingShares = $provider->getSharesByPath($share->getNode());
-		foreach($existingShares as $existingShare) {
+		foreach ($existingShares as $existingShare) {
 			try {
 				if ($existingShare->getFullId() === $share->getFullId()) {
 					continue;
@@ -658,7 +657,7 @@ class Manager implements IManager {
 		// Make sure that we do not share a path that contains a shared mountpoint
 		if ($path instanceof \OCP\Files\Folder) {
 			$mounts = $this->mountManager->findIn($path->getPath());
-			foreach($mounts as $mount) {
+			foreach ($mounts as $mount) {
 				if ($mount->getStorage()->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
 					throw new \InvalidArgumentException('Path contains files shared with you');
 				}
@@ -706,7 +705,7 @@ class Manager implements IManager {
 		$storage = $share->getNode()->getStorage();
 		if ($storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
 			$parent = $share->getNode()->getParent();
-			while($parent->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+			while ($parent->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
 				$parent = $parent->getParent();
 			}
 			$share->setShareOwner($parent->getOwner()->getUID());
@@ -720,13 +719,11 @@ class Manager implements IManager {
 
 			//Verify the expiration date
 			$share = $this->validateExpirationDateInternal($share);
-
 		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$this->groupCreateChecks($share);
 
 			//Verify the expiration date
 			$share = $this->validateExpirationDateInternal($share);
-
 		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$this->linkCreateChecks($share);
 			$this->setLinkParent($share);
@@ -797,7 +794,7 @@ class Manager implements IManager {
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$mailSend = $share->getMailSend();
-			if($mailSend === true) {
+			if ($mailSend === true) {
 				$user = $this->userManager->get($share->getSharedWith());
 				if ($user !== null) {
 					$emailAddress = $user->getEMailAddress();
@@ -888,7 +885,7 @@ class Manager implements IManager {
 		// The "Reply-To" is set to the sharer if an mail address is configured
 		// also the default footer contains a "Do not reply" which needs to be adjusted.
 		$initiatorEmail = $initiatorUser->getEMailAddress();
-		if($initiatorEmail !== null) {
+		if ($initiatorEmail !== null) {
 			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
 			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
 		} else {
@@ -898,7 +895,7 @@ class Manager implements IManager {
 		$message->useTemplate($emailTemplate);
 		try {
 			$failedRecipients = $this->mailer->send($message);
-			if(!empty($failedRecipients)) {
+			if (!empty($failedRecipients)) {
 				$this->logger->error('Share notification mail could not be sent to: ' . implode(', ', $failedRecipients));
 				return;
 			}
@@ -1117,7 +1114,6 @@ class Manager implements IManager {
 	 * @throws \InvalidArgumentException
 	 */
 	public function deleteShare(\OCP\Share\IShare $share) {
-
 		try {
 			$share->getFullId();
 		} catch (\UnexpectedValueException $e) {
@@ -1238,10 +1234,9 @@ class Manager implements IManager {
 
 		$shares2 = [];
 
-		while(true) {
+		while (true) {
 			$added = 0;
 			foreach ($shares as $share) {
-
 				try {
 					$this->checkExpireDate($share);
 				} catch (ShareNotFound $e) {
@@ -1381,7 +1376,7 @@ class Manager implements IManager {
 		}
 		$share = null;
 		try {
-			if($this->shareApiAllowLinks()) {
+			if ($this->shareApiAllowLinks()) {
 				$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
 				$share = $provider->getShareByToken($token);
 			}
@@ -1450,7 +1445,6 @@ class Manager implements IManager {
 			$this->deleteShare($share);
 			throw new ShareNotFound($this->l->t('The requested share does not exist anymore'));
 		}
-
 	}
 
 	/**

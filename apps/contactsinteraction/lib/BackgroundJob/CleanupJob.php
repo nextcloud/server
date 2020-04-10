@@ -48,5 +48,4 @@ class CleanupJob extends TimedJob {
 		$time->modify('-7days');
 		$this->mapper->cleanUp($time->getTimestamp());
 	}
-
 }

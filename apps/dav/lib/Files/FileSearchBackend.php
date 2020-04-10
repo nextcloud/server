@@ -419,7 +419,7 @@ class FileSearchBackend implements ISearchBackend {
 							} else {
 								throw new \InvalidArgumentException("searching by '$propertyName' is only allowed with a literal value");
 							}
-						} else{
+						} else {
 							throw new \InvalidArgumentException("searching by '$propertyName' is not allowed inside a '{DAV:}or' or '{DAV:}not'");
 						}
 					} else {

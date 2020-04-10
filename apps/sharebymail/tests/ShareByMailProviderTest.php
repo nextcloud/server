@@ -139,7 +139,6 @@ class ShareByMailProviderTest extends TestCase {
 	 * @return \PHPUnit_Framework_MockObject_MockObject | ShareByMailProvider
 	 */
 	private function getInstance(array $mockedMethods = []) {
-
 		$instance = $this->getMockBuilder('OCA\ShareByMail\ShareByMailProvider')
 			->setConstructorArgs(
 				[
@@ -179,7 +178,6 @@ class ShareByMailProviderTest extends TestCase {
 			$this->hasher,
 			$this->capabilitiesManager
 		);
-
 	}
 
 	protected function tearDown(): void {
@@ -353,7 +351,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame(42,
 			$this->invokePrivate($instance, 'createMailShare', [$this->share])
 		);
-
 	}
 
 
@@ -383,7 +380,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame(42,
 			$this->invokePrivate($instance, 'createMailShare', [$this->share])
 		);
-
 	}
 
 	public function testGenerateToken() {
@@ -445,11 +441,9 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($password, $result[0]['password']);
 		$this->assertSame($sendPasswordByTalk, (bool)$result[0]['password_by_talk']);
 		$this->assertSame($hideDownload, (bool)$result[0]['hide_download']);
-
 	}
 
 	public function testUpdate() {
-
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -603,7 +597,6 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testGetShareByPath() {
-
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -639,7 +632,6 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testGetShareByToken() {
-
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -726,7 +718,6 @@ class ShareByMailProviderTest extends TestCase {
 	}
 
 	public function testUserDeleted() {
-
 		$itemSource = 11;
 		$itemType = 'file';
 		$shareWith = 'user@server.com';
@@ -757,7 +748,6 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertTrue(is_array($after));
 		$this->assertSame(1, count($after));
 		$this->assertSame($id, (int)$after[0]['id']);
-
 	}
 
 	public function testGetRawShare() {

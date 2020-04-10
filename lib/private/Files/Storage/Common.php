@@ -76,7 +76,6 @@ use OCP\Lock\LockedException;
  * in classes which extend it, e.g. $this->stat() .
  */
 abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
-
 	use LocalTempFileTrait;
 
 	protected $cache;
@@ -301,7 +300,9 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		$dh = $this->opendir($dir);
 		if (is_resource($dh)) {
 			while (($item = readdir($dh)) !== false) {
-				if (\OC\Files\Filesystem::isIgnoredDir($item)) continue;
+				if (\OC\Files\Filesystem::isIgnoredDir($item)) {
+					continue;
+				}
 				if (strstr(strtolower($item), strtolower($query)) !== false) {
 					$files[] = $dir . '/' . $item;
 				}

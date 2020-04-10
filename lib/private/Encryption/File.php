@@ -124,5 +124,4 @@ class File implements \OCP\Encryption\IFile {
 
 		return ['users' => $uniqueUserIds, 'public' => $public];
 	}
-
 }

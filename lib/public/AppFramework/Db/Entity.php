@@ -34,7 +34,6 @@ use function substr;
  * @since 7.0.0
  */
 abstract class Entity {
-
 	public $id;
 
 	private $_updatedFields = [];
@@ -51,7 +50,7 @@ abstract class Entity {
 	public static function fromParams(array $params) {
 		$instance = new static();
 
-		foreach($params as $key => $value) {
+		foreach ($params as $key => $value) {
 			$method = 'set' . ucfirst($key);
 			$instance->$method($value);
 		}
@@ -68,7 +67,7 @@ abstract class Entity {
 	public static function fromRow(array $row) {
 		$instance = new static();
 
-		foreach($row as $key => $value){
+		foreach ($row as $key => $value) {
 			$prop = ucfirst($instance->columnToProperty($key));
 			$setter = 'set' . $prop;
 			$instance->$setter($value);
@@ -103,18 +102,17 @@ abstract class Entity {
 	 */
 	protected function setter($name, $args) {
 		// setters should only work for existing attributes
-		if(property_exists($this, $name)){
-			if($this->$name === $args[0]) {
+		if (property_exists($this, $name)) {
+			if ($this->$name === $args[0]) {
 				return;
 			}
 			$this->markFieldUpdated($name);
 
 			// if type definition exists, cast to correct type
-			if($args[0] !== null && array_key_exists($name, $this->_fieldTypes)) {
+			if ($args[0] !== null && array_key_exists($name, $this->_fieldTypes)) {
 				settype($args[0], $this->_fieldTypes[$name]);
 			}
 			$this->$name = $args[0];
-
 		} else {
 			throw new \BadFunctionCallException($name .
 				' is not a valid attribute');
@@ -127,7 +125,7 @@ abstract class Entity {
 	 */
 	protected function getter($name) {
 		// getters should only work for existing attributes
-		if(property_exists($this, $name)){
+		if (property_exists($this, $name)) {
 			return $this->$name;
 		} else {
 			throw new \BadFunctionCallException($name .
@@ -154,7 +152,6 @@ abstract class Entity {
 			throw new \BadFunctionCallException($methodName .
 				' does not exist');
 		}
-
 	}
 
 	/**
@@ -190,8 +187,8 @@ abstract class Entity {
 		$parts = explode('_', $columnName);
 		$property = null;
 
-		foreach($parts as $part){
-			if($property === null){
+		foreach ($parts as $part) {
+			if ($property === null) {
 				$property = $part;
 			} else {
 				$property .= ucfirst($part);
@@ -212,8 +209,8 @@ abstract class Entity {
 		$parts = preg_split('/(?=[A-Z])/', $property);
 		$column = null;
 
-		foreach($parts as $part){
-			if($column === null){
+		foreach ($parts as $part) {
+			if ($column === null) {
 				$column = $part;
 			} else {
 				$column .= '_' . lcfirst($part);
@@ -254,7 +251,7 @@ abstract class Entity {
 	 */
 	public function slugify($attributeName) {
 		// toSlug should only work for existing attributes
-		if(property_exists($this, $attributeName)){
+		if (property_exists($this, $attributeName)) {
 			$value = $this->$attributeName;
 			// replace everything except alphanumeric with a single '-'
 			$value = preg_replace('/[^A-Za-z0-9]+/', '-', $value);
@@ -266,5 +263,4 @@ abstract class Entity {
 				' is not a valid attribute');
 		}
 	}
-
 }

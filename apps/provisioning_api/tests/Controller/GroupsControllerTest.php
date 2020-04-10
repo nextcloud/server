@@ -219,7 +219,6 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$result = $this->api->getGroups($search, $limit, $offset);
 		$this->assertEquals(['groups' => ['group1', 'group2']], $result->getData());
-
 	}
 
 	/**
@@ -260,7 +259,6 @@ class GroupsControllerTest extends \Test\TestCase {
 				
 			]
 		]], $result->getData());
-
 	}
 
 	public function testGetGroupAsSubadmin() {

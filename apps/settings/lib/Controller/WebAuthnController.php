@@ -37,7 +37,6 @@ use OCP\IUserSession;
 use Webauthn\PublicKeyCredentialCreationOptions;
 
 class WebAuthnController extends Controller {
-
 	private const WEBAUTHN_REGISTRATION = 'webauthn_registration';
 
 	/** @var Manager */

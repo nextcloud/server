@@ -287,7 +287,9 @@ class SharedMountTest extends TestCase {
 
 		foreach ($allPermissions as $before) {
 			foreach ($allPermissions as $after) {
-				if ($before === $after) { continue; }
+				if ($before === $after) {
+					continue;
+				}
 
 				$data[] = [
 					'file',
@@ -309,7 +311,9 @@ class SharedMountTest extends TestCase {
 
 		foreach ($allPermissions as $before) {
 			foreach ($allPermissions as $after) {
-				if ($before === $after) { continue; }
+				if ($before === $after) {
+					continue;
+				}
 
 				$data[] = [
 					'folder',
@@ -331,7 +335,6 @@ class SharedMountTest extends TestCase {
 	 * @dataProvider dataPermissionMovedGroupShare
 	 */
 	public function testPermissionMovedGroupShare($type, $beforePerm, $afterPerm) {
-
 		if ($type === 'file') {
 			$path = $this->filename;
 		} elseif ($type === 'folder') {
@@ -456,7 +459,6 @@ class SharedMountTest extends TestCase {
 		$testGroup->removeUser($user2);
 		$testGroup->removeUser($user3);
 	}
-
 }
 
 class DummyTestClassSharedMount extends \OCA\Files_Sharing\SharedMount {

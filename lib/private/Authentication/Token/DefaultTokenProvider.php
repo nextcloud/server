@@ -286,7 +286,6 @@ class DefaultTokenProvider implements IProvider {
 			$password = $this->getPassword($token, $oldTokenId);
 			$token->setPassword($this->encryptPassword($password, $newTokenId));
 		} catch (PasswordlessTokenException $e) {
-
 		}
 
 		$token->setToken($this->hashToken($newTokenId));

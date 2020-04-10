@@ -135,11 +135,11 @@ class OC {
 	 * the app path list is empty or contains an invalid path
 	 */
 	public static function initPaths() {
-		if(defined('PHPUNIT_CONFIG_DIR')) {
+		if (defined('PHPUNIT_CONFIG_DIR')) {
 			self::$configDir = OC::$SERVERROOT . '/' . PHPUNIT_CONFIG_DIR . '/';
-		} elseif(defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
+		} elseif (defined('PHPUNIT_RUN') and PHPUNIT_RUN and is_dir(OC::$SERVERROOT . '/tests/config/')) {
 			self::$configDir = OC::$SERVERROOT . '/tests/config/';
-		} elseif($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
+		} elseif ($dir = getenv('NEXTCLOUD_CONFIG_DIR')) {
 			self::$configDir = rtrim($dir, '/') . '/';
 		} else {
 			self::$configDir = OC::$SERVERROOT . '/config/';
@@ -242,7 +242,7 @@ class OC {
 
 		// Create config if it does not already exist
 		$configFilePath = self::$configDir .'/config.php';
-		if(!file_exists($configFilePath)) {
+		if (!file_exists($configFilePath)) {
 			@touch($configFilePath);
 		}
 
@@ -250,7 +250,6 @@ class OC {
 		$configFileWritable = is_writable($configFilePath);
 		if (!$configFileWritable && !OC_Helper::isReadOnlyConfigEnabled()
 			|| !$configFileWritable && \OCP\Util::needUpgrade()) {
-
 			$urlGenerator = \OC::$server->getURLGenerator();
 
 			if (self::$CLI) {
@@ -405,7 +404,7 @@ class OC {
 	}
 
 	public static function initSession() {
-		if(self::$server->getRequest()->getServerProtocol() === 'https') {
+		if (self::$server->getRequest()->getServerProtocol() === 'https') {
 			ini_set('session.cookie_secure', true);
 		}
 
@@ -482,11 +481,11 @@ class OC {
 
 		// Append __Host to the cookie if it meets the requirements
 		$cookiePrefix = '';
-		if($cookieParams['secure'] === true && $cookieParams['path'] === '/') {
+		if ($cookieParams['secure'] === true && $cookieParams['path'] === '/') {
 			$cookiePrefix = '__Host-';
 		}
 
-		foreach($policies as $policy) {
+		foreach ($policies as $policy) {
 			header(
 				sprintf(
 					'Set-Cookie: %snc_sameSiteCookie%s=true; path=%s; httponly;' . $secureCookie . 'expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=%s',
@@ -528,31 +527,31 @@ class OC {
 			];
 		}
 
-		if($request->isUserAgent($incompatibleUserAgents)) {
+		if ($request->isUserAgent($incompatibleUserAgents)) {
 			return;
 		}
 
-		if(count($_COOKIE) > 0) {
+		if (count($_COOKIE) > 0) {
 			$requestUri = $request->getScriptName();
 			$processingScript = explode('/', $requestUri);
 			$processingScript = $processingScript[count($processingScript)-1];
 
 			// index.php routes are handled in the middleware
-			if($processingScript === 'index.php') {
+			if ($processingScript === 'index.php') {
 				return;
 			}
 
 			// All other endpoints require the lax and the strict cookie
-			if(!$request->passesStrictCookieCheck()) {
+			if (!$request->passesStrictCookieCheck()) {
 				self::sendSameSiteCookies();
 				// Debug mode gets access to the resources without strict cookie
 				// due to the fact that the SabreDAV browser also lives there.
-				if(!\OC::$server->getConfig()->getSystemValue('debug', false)) {
+				if (!\OC::$server->getConfig()->getSystemValue('debug', false)) {
 					http_response_code(\OCP\AppFramework\Http::STATUS_SERVICE_UNAVAILABLE);
 					exit();
 				}
 			}
-		} elseif(!isset($_COOKIE['nc_sameSiteCookielax']) || !isset($_COOKIE['nc_sameSiteCookiestrict'])) {
+		} elseif (!isset($_COOKIE['nc_sameSiteCookielax']) || !isset($_COOKIE['nc_sameSiteCookiestrict'])) {
 			self::sendSameSiteCookies();
 		}
 	}
@@ -586,7 +585,6 @@ class OC {
 				throw new \RuntimeException('Composer autoloader not found, unable to continue. Check the folder "3rdparty". Running "git submodule update --init" will initialize the git submodule that handles the subfolder "3rdparty".');
 			}
 			require_once $vendorAutoLoad;
-
 		} catch (\RuntimeException $e) {
 			if (!self::$CLI) {
 				http_response_code(503);
@@ -611,7 +609,7 @@ class OC {
 		@ini_set('display_errors', '0');
 		@ini_set('log_errors', '1');
 
-		if(!date_default_timezone_set('UTC')) {
+		if (!date_default_timezone_set('UTC')) {
 			throw new \RuntimeException('Could not set timezone to UTC');
 		}
 
@@ -747,7 +745,7 @@ class OC {
 		register_shutdown_function([$lockProvider, 'releaseAll']);
 
 		// Check whether the sample configuration has been copied
-		if($systemConfig->getValue('copied_sample_config', false)) {
+		if ($systemConfig->getValue('copied_sample_config', false)) {
 			$l = \OC::$server->getL10N('lib');
 			OC_Template::printErrorPage(
 				$l->t('Sample configuration detected'),
@@ -769,11 +767,11 @@ class OC {
 		) {
 			// Allow access to CSS resources
 			$isScssRequest = false;
-			if(strpos($request->getPathInfo(), '/css/') === 0) {
+			if (strpos($request->getPathInfo(), '/css/') === 0) {
 				$isScssRequest = true;
 			}
 
-			if(substr($request->getRequestUri(), -11) === '/status.php') {
+			if (substr($request->getRequestUri(), -11) === '/status.php') {
 				http_response_code(400);
 				header('Content-Type: application/json');
 				echo '{"error": "Trusted domain error.", "code": 15}';
@@ -876,11 +874,9 @@ class OC {
 				$restrictions = array_values($restrictions);
 				if (empty($restrictions)) {
 					$appManager->disableApp($appId);
-				}
-				else{
+				} else {
 					$appManager->enableAppForGroups($appId, $restrictions);
 				}
-
 			}
 		});
 	}
@@ -930,7 +926,6 @@ class OC {
 	 * Handle the request
 	 */
 	public static function handleRequest() {
-
 		\OC::$server->getEventLogger()->start('handle_request', 'Handle request');
 		$systemConfig = \OC::$server->getSystemConfig();
 
@@ -978,7 +973,7 @@ class OC {
 			\OC_JSON::callCheck();
 			\OC_JSON::checkAdminUser();
 			$appIds = (array)$request->getParam('appid');
-			foreach($appIds as $appId) {
+			foreach ($appIds as $appId) {
 				$appId = \OC_App::cleanAppId($appId);
 				\OC::$server->getAppManager()->disableApp($appId);
 			}
@@ -993,7 +988,7 @@ class OC {
 		if (!\OCP\Util::needUpgrade()
 			&& !((bool) $systemConfig->getValue('maintenance', false))) {
 			// For logged-in users: Load everything
-			if(\OC::$server->getUserSession()->isLoggedIn()) {
+			if (\OC::$server->getUserSession()->isLoggedIn()) {
 				OC_App::loadApps();
 			} else {
 				// For guests: Load only filesystem and logging

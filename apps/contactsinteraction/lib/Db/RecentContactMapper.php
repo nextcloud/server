@@ -31,7 +31,6 @@ use OCP\IDBConnection;
 use OCP\IUser;
 
 class RecentContactMapper extends QBMapper {
-
 	public const TABLE_NAME = 'recent_contact';
 
 	public function __construct(IDBConnection $db) {
@@ -114,5 +113,4 @@ class RecentContactMapper extends QBMapper {
 
 		$delete->execute();
 	}
-
 }

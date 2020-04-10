@@ -161,5 +161,4 @@ class EmailLoginCommandTest extends ALoginCommandTest {
 		$this->assertEquals($emailUser, $data->getUser());
 		$this->assertEquals('user2', $data->getUsername());
 	}
-
 }

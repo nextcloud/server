@@ -35,7 +35,6 @@ use Test\TestCase;
  * @package Test\Accounts
  */
 class AccountTest extends TestCase {
-
 	public function testConstructor() {
 		$user = $this->createMock(IUser::class);
 		$account = new Account($user);
@@ -108,5 +107,4 @@ class AccountTest extends TestCase {
 
 		$this->assertEquals($properties, $account->jsonSerialize());
 	}
-
 }

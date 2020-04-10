@@ -45,8 +45,6 @@ namespace OCP\FullTextSearch\Model;
  * @package OCP\FullTextSearch\Model
  */
 interface IIndex {
-
-
 	const INDEX_OK = 1;
 	const INDEX_IGNORE = 2;
 
@@ -282,6 +280,4 @@ interface IIndex {
 	 * @return int
 	 */
 	public function getLastIndex(): int;
-
-
 }

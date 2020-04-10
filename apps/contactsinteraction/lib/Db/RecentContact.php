@@ -69,5 +69,4 @@ class RecentContact extends Entity {
 		$this->addType('card', 'string');
 		$this->addType('lastContact', 'int');
 	}
-
 }

@@ -47,5 +47,4 @@ class AddClenupLoginFlowV2BackgroundJob implements IRepairStep {
 	public function run(IOutput $output) {
 		$this->jobList->add(CleanupLoginFlowV2::class);
 	}
-
 }

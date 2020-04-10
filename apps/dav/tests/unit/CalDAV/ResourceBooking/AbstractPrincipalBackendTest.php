@@ -130,7 +130,6 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 				'{http://nextcloud.com/ns}meta99' => 'value99'
 			]
 		], $actual);
-
 	}
 
 	public function testGetNoPrincipalsByPrefixForWrongPrincipalPrefix() {
@@ -586,5 +585,4 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 			])
 			->execute();
 	}
-
 }

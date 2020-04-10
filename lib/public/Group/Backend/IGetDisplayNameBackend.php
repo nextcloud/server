@@ -38,5 +38,4 @@ interface IGetDisplayNameBackend {
 	 * @since 17.0.0
 	 */
 	public function getDisplayName(string $gid): string;
-
 }

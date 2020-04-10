@@ -57,6 +57,4 @@ class TransferOwnership extends Entity {
 		$this->addType('fileId', 'integer');
 		$this->addType('nodeName', 'string');
 	}
-
-
 }

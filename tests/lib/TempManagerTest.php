@@ -23,7 +23,6 @@ class NullLogger extends Log {
 }
 
 class TempManagerTest extends \Test\TestCase {
-
 	protected $baseDir = null;
 
 	protected function setUp(): void {

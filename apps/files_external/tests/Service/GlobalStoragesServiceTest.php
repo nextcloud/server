@@ -445,7 +445,6 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		$updatedApplicableUsers,
 		$updatedApplicableGroups,
 		$expectedCalls) {
-
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($sourceApplicableUsers);
 		$storage->setApplicableGroups($sourceApplicableGroups);
@@ -603,7 +602,6 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		$sourceApplicableUsers,
 		$sourceApplicableGroups,
 		$expectedCalls) {
-
 		$storage = $this->makeTestStorageData();
 		$storage->setApplicableUsers($sourceApplicableUsers);
 		$storage->setApplicableGroups($sourceApplicableGroups);
@@ -626,5 +624,4 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 			);
 		}
 	}
-
 }

@@ -36,7 +36,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class SetConfig extends Command {
-
 	protected function configure() {
 		$this
 			->setName('ldap:set-config')
@@ -63,7 +62,7 @@ class SetConfig extends Command {
 		$helper = new Helper(\OC::$server->getConfig());
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
-		if(!in_array($configID, $availableConfigs)) {
+		if (!in_array($configID, $availableConfigs)) {
 			$output->writeln("Invalid configID");
 			return;
 		}

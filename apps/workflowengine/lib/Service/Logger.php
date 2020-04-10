@@ -53,7 +53,7 @@ class Logger {
 	protected function initLogger() {
 		$default = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
 		$logFile = trim((string)$this->config->getAppValue(Application::APP_ID, 'logfile', $default));
-		if($logFile !== '') {
+		if ($logFile !== '') {
 			$this->flowLogger = $this->logFactory->getCustomLogger($logFile);
 		}
 	}
@@ -152,17 +152,16 @@ class Logger {
 		string $message,
 		array $context,
 		LogContext $logContext
-	): void
-	{
-		if(!isset($context['app'])) {
+	): void {
+		if (!isset($context['app'])) {
 			$context['app'] = Application::APP_ID;
 		}
-		if(!isset($context['level'])) {
+		if (!isset($context['level'])) {
 			$context['level'] = ILogger::INFO;
 		}
 		$this->generalLogger->log($context['level'], $message, $context);
 
-		if(!$this->flowLogger instanceof IDataLogger) {
+		if (!$this->flowLogger instanceof IDataLogger) {
 			return;
 		}
 

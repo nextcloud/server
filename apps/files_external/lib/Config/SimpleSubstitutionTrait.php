@@ -63,12 +63,12 @@ trait SimpleSubstitutionTrait {
 	 */
 	protected function checkPlaceholder(): void {
 		$this->sanitizedPlaceholder = trim(strtolower($this->placeholder));
-		if(!(bool)\preg_match('/^[a-z0-9]*$/', $this->sanitizedPlaceholder)) {
+		if (!(bool)\preg_match('/^[a-z0-9]*$/', $this->sanitizedPlaceholder)) {
 			throw new \RuntimeException(sprintf(
 				'Invalid placeholder %s, only [a-z0-9] are allowed', $this->sanitizedPlaceholder
 			));
 		}
-		if($this->sanitizedPlaceholder === '') {
+		if ($this->sanitizedPlaceholder === '') {
 			throw new \RuntimeException('Invalid empty placeholder');
 		}
 	}
@@ -79,7 +79,7 @@ trait SimpleSubstitutionTrait {
 	 * @return mixed
 	 */
 	protected function substituteIfString($value, string $replacement) {
-		if(is_string($value)) {
+		if (is_string($value)) {
 			return str_ireplace('$' . $this->sanitizedPlaceholder, $replacement, $value);
 		}
 		return $value;

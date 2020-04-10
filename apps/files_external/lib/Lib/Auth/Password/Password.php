@@ -32,7 +32,6 @@ use OCP\IL10N;
  * Basic password authentication mechanism
  */
 class Password extends AuthMechanism {
-
 	public function __construct(IL10N $l) {
 		$this
 			->setIdentifier('password::password')
@@ -44,5 +43,4 @@ class Password extends AuthMechanism {
 					->setType(DefinitionParameter::VALUE_PASSWORD),
 			]);
 	}
-
 }

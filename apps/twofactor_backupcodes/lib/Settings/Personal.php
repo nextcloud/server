@@ -35,5 +35,4 @@ class Personal implements IPersonalProviderSettings {
 	public function getBody(): Template {
 		return new Template('twofactor_backupcodes', 'personal');
 	}
-
 }

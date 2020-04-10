@@ -54,8 +54,8 @@ class SearchResultSorter {
 	 * Callback function for usort. http://php.net/usort
 	 */
 	public function sort($a, $b) {
-		if(!isset($a[$this->key]) || !isset($b[$this->key])) {
-			if(!is_null($this->log)) {
+		if (!isset($a[$this->key]) || !isset($b[$this->key])) {
+			if (!is_null($this->log)) {
 				$this->log->error('Sharing dialogue: cannot sort due to ' .
 								  'missing array key', ['app' => 'core']);
 			}
@@ -66,7 +66,7 @@ class SearchResultSorter {
 		$i = mb_strpos($nameA, $this->search, 0, $this->encoding);
 		$j = mb_strpos($nameB, $this->search, 0, $this->encoding);
 
-		if($i === $j || $i > 0 && $j > 0) {
+		if ($i === $j || $i > 0 && $j > 0) {
 			return strcmp(mb_strtolower($nameA, $this->encoding),
 						  mb_strtolower($nameB, $this->encoding));
 		} elseif ($i === 0) {

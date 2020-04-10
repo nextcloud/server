@@ -55,7 +55,7 @@ class CsrfToken {
 	 * @return string
 	 */
 	public function getEncryptedValue(): string {
-		if($this->encryptedValue === '') {
+		if ($this->encryptedValue === '') {
 			$sharedSecret = random_bytes(\strlen($this->value));
 			$this->encryptedValue = base64_encode($this->value ^ $sharedSecret) . ':' . base64_encode($sharedSecret);
 		}

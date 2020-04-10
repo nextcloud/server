@@ -233,5 +233,4 @@ interface ITags {
 	 * @since 6.0.0
 	 */
 	public function delete($names);
-
 }

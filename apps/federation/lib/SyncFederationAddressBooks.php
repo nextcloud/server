@@ -60,7 +60,6 @@ class SyncFederationAddressBooks {
 	 * @param \Closure $callback
 	 */
 	public function syncThemAll(\Closure $callback) {
-
 		$trustedServers = $this->dbHandler->getAllServer();
 		foreach ($trustedServers as $trustedServer) {
 			$url = $trustedServer['url'];

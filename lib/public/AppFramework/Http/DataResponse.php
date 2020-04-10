@@ -83,6 +83,4 @@ class DataResponse extends Response {
 	public function getData() {
 		return $this->data;
 	}
-
-
 }

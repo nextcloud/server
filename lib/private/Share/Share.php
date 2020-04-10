@@ -195,7 +195,7 @@ class Share extends Constants {
 		}
 
 		//if didn't found a result than let's look for a group share.
-		if(empty($shares) && $user !== null) {
+		if (empty($shares) && $user !== null) {
 			$userObject = \OC::$server->getUserManager()->get($user);
 			$groups = [];
 			if ($userObject) {
@@ -229,7 +229,6 @@ class Share extends Constants {
 		}
 
 		return $shares;
-
 	}
 
 	/**
@@ -353,7 +352,7 @@ class Share extends Constants {
 			// delete the item with the expected share_type and owner
 			if ((int)$item['share_type'] === (int)$shareType && $item['uid_owner'] === $currentUser) {
 				$toDelete = $item;
-				// if there is more then one result we don't have to delete the children
+			// if there is more then one result we don't have to delete the children
 				// but update their parent. For group shares the new parent should always be
 				// the original group share and not the db entry with the unique name
 			} elseif ((int)$item['share_type'] === self::$shareTypeGroupUserUnique) {
@@ -376,7 +375,6 @@ class Share extends Constants {
 	 * @return boolean True if item was expired, false otherwise.
 	 */
 	protected static function expireItem(array $item) {
-
 		$result = false;
 
 		// only use default expiration date for link shares
@@ -414,7 +412,6 @@ class Share extends Constants {
 	 * @return null
 	 */
 	protected static function unshareItem(array $item, $newParent = null) {
-
 		$shareType = (int)$item['share_type'];
 		$shareWith = null;
 		if ($shareType !== \OCP\Share::SHARE_TYPE_LINK) {
@@ -431,7 +428,7 @@ class Share extends Constants {
 			'itemParent'    => $item['parent'],
 			'uidOwner'      => $item['uid_owner'],
 		];
-		if($item['item_type'] === 'file' || $item['item_type'] === 'folder') {
+		if ($item['item_type'] === 'file' || $item['item_type'] === 'folder') {
 			$hookParams['fileSource'] = $item['file_source'];
 			$hookParams['fileTarget'] = $item['file_target'];
 		}
@@ -605,7 +602,7 @@ class Share extends Constants {
 		// Get filesystem root to add it to the file target and remove from the
 		// file source, match file_source with the file cache
 		if ($itemType == 'file' || $itemType == 'folder') {
-			if(!is_null($uidOwner)) {
+			if (!is_null($uidOwner)) {
 				$root = \OC\Files\Filesystem::getRoot();
 			} else {
 				$root = '';
@@ -800,7 +797,6 @@ class Share extends Constants {
 							$id = $row['id'];
 						}
 						$items[$id]['permissions'] |= (int)$row['permissions'];
-
 					}
 					continue;
 				} elseif (!empty($row['parent'])) {
@@ -843,7 +839,7 @@ class Share extends Constants {
 				}
 			}
 
-			if($checkExpireDate) {
+			if ($checkExpireDate) {
 				if (self::expireItem($row)) {
 					continue;
 				}
@@ -858,7 +854,7 @@ class Share extends Constants {
 				$row['share_type'] === self::SHARE_TYPE_USER) {
 				$shareWithUser = \OC::$server->getUserManager()->get($row['share_with']);
 				$row['share_with_displayname'] = $shareWithUser === null ? $row['share_with'] : $shareWithUser->getDisplayName();
-			} elseif(isset($row['share_with']) && $row['share_with'] != '' &&
+			} elseif (isset($row['share_with']) && $row['share_with'] != '' &&
 				$row['share_type'] === self::SHARE_TYPE_REMOTE) {
 				$addressBookEntries = \OC::$server->getContactsManager()->search($row['share_with'], ['CLOUD']);
 				foreach ($addressBookEntries as $entry) {
@@ -877,7 +873,6 @@ class Share extends Constants {
 			if ($row['permissions'] > 0) {
 				$items[$row['id']] = $row;
 			}
-
 		}
 
 		// group items if we are looking for items shared with the current user
@@ -1007,7 +1002,6 @@ class Share extends Constants {
 	 * @return array of grouped items
 	 */
 	protected static function groupItems($items, $itemType) {
-
 		$fileSharing = $itemType === 'file' || $itemType === 'folder';
 
 		$result = [];
@@ -1034,7 +1028,6 @@ class Share extends Constants {
 			if (!$grouped) {
 				$result[] = $item;
 			}
-
 		}
 
 		return $result;
@@ -1056,14 +1049,13 @@ class Share extends Constants {
 	 */
 	private static function put($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
 								$permissions) {
-
 		$queriesToExecute = [];
 		$suggestedItemTarget = null;
 		$groupFileTarget = $fileTarget = $suggestedFileTarget = $filePath = '';
 		$groupItemTarget = $itemTarget = $fileSource = $parent = 0;
 
 		$result = self::checkReshare('test', $itemSource, self::SHARE_TYPE_USER, $shareWith, $uidOwner, $permissions, null, null);
-		if(!empty($result)) {
+		if (!empty($result)) {
 			$parent = $result['parent'];
 			$itemSource = $result['itemSource'];
 			$fileSource = $result['fileSource'];
@@ -1073,8 +1065,8 @@ class Share extends Constants {
 		}
 
 		$isGroupShare = false;
-			$users = [$shareWith];
-			$itemTarget = Helper::generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
+		$users = [$shareWith];
+		$itemTarget = Helper::generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
 				$suggestedItemTarget);
 
 		$run = true;
@@ -1110,18 +1102,15 @@ class Share extends Constants {
 			if ($sourceExists && $sourceExists['item_source'] === $itemSource) {
 				$fileTarget = $sourceExists['file_target'];
 				$itemTarget = $sourceExists['item_target'];
-
-			} elseif(!$sourceExists)  {
-
+			} elseif (!$sourceExists) {
 				$itemTarget = Helper::generateTarget($itemType, $itemSource, $userShareType, $user,
 					$uidOwner, $suggestedItemTarget, $parent);
 				if (isset($fileSource)) {
-						$fileTarget = Helper::generateTarget('file', $filePath, $userShareType,
+					$fileTarget = Helper::generateTarget('file', $filePath, $userShareType,
 							$user, $uidOwner, $suggestedFileTarget, $parent);
 				} else {
 					$fileTarget = null;
 				}
-
 			} else {
 
 				// group share which doesn't exists until now, check if we need a unique target for this user
@@ -1158,7 +1147,6 @@ class Share extends Constants {
 				'parent'			=> $parent,
 				'expiration'		=> null,
 			];
-
 		}
 
 		$id = false;
@@ -1232,7 +1220,7 @@ class Share extends Constants {
 
 					$result['expirationDate'] = $expirationDate;
 					// $checkReshare['expiration'] could be null and then is always less than any value
-					if(isset($checkReshare['expiration']) && $checkReshare['expiration'] < $expirationDate) {
+					if (isset($checkReshare['expiration']) && $checkReshare['expiration'] < $expirationDate) {
 						$result['expirationDate'] = $checkReshare['expiration'];
 					}
 
@@ -1269,8 +1257,8 @@ class Share extends Constants {
 			}
 			if ($backend instanceof \OCP\Share_Backend_File_Dependent) {
 				$result['filePath'] = $backend->getFilePath($itemSource, $uidOwner);
-					$meta = \OC\Files\Filesystem::getFileInfo($result['filePath']);
-					$result['fileSource'] = $meta['fileid'];
+				$meta = \OC\Files\Filesystem::getFileInfo($result['filePath']);
+				$result['fileSource'] = $meta['fileid'];
 				if ($result['fileSource'] == -1) {
 					$message = 'Sharing %s failed, because the file could not be found in the file cache';
 					throw new \Exception(sprintf($message, $itemSource));
@@ -1290,7 +1278,6 @@ class Share extends Constants {
 	 * @return mixed false in case of a failure or the id of the new share
 	 */
 	private static function insertShare(array $shareData) {
-
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` ('
 			.' `item_type`, `item_source`, `item_target`, `share_type`,'
 			.' `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
@@ -1316,7 +1303,6 @@ class Share extends Constants {
 		}
 
 		return $id;
-
 	}
 
 	/**

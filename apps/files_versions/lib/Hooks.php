@@ -40,7 +40,6 @@ use OC\Files\View;
 use OCP\Util;
 
 class Hooks {
-
 	public static function connectHooks() {
 		// Listen to write signals
 		Util::connectHook('OC_Filesystem', 'write', Hooks::class, 'write_hook');
@@ -58,7 +57,7 @@ class Hooks {
 	 */
 	public static function write_hook($params) {
 		$path = $params[Filesystem::signal_param_path];
-		if($path !== '') {
+		if ($path !== '') {
 			Storage::store($path);
 		}
 	}
@@ -73,7 +72,7 @@ class Hooks {
 	 */
 	public static function remove_hook($params) {
 		$path = $params[Filesystem::signal_param_path];
-		if($path !== '') {
+		if ($path !== '') {
 			Storage::delete($path);
 		}
 	}
@@ -84,9 +83,9 @@ class Hooks {
 	 */
 	public static function pre_remove_hook($params) {
 		$path = $params[Filesystem::signal_param_path];
-			if($path !== '') {
-				Storage::markDeletedFile($path);
-			}
+		if ($path !== '') {
+			Storage::markDeletedFile($path);
+		}
 	}
 
 	/**
@@ -99,7 +98,7 @@ class Hooks {
 	public static function rename_hook($params) {
 		$oldpath = $params['oldpath'];
 		$newpath = $params['newpath'];
-		if($oldpath !== '' && $newpath !== '') {
+		if ($oldpath !== '' && $newpath !== '') {
 			Storage::renameOrCopy($oldpath, $newpath, 'rename');
 		}
 	}
@@ -114,7 +113,7 @@ class Hooks {
 	public static function copy_hook($params) {
 		$oldpath = $params['oldpath'];
 		$newpath = $params['newpath'];
-		if($oldpath !== '' && $newpath !== '') {
+		if ($oldpath !== '' && $newpath !== '') {
 			Storage::renameOrCopy($oldpath, $newpath, 'copy');
 		}
 	}

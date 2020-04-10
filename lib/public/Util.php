@@ -98,7 +98,8 @@ class Util {
 			/** @var \OCP\Support\Subscription\IRegistry */
 			$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
 			return $subscriptionRegistry->delegateHasExtendedSupport();
-		} catch (AppFramework\QueryException $e) {}
+		} catch (AppFramework\QueryException $e) {
+		}
 		return \OC::$server->getConfig()->getSystemValueBool('extendedSupport', false);
 	}
 
@@ -366,7 +367,7 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function callRegister() {
-		if(self::$token === '') {
+		if (self::$token === '') {
 			self::$token = \OC::$server->getCsrfTokenManager()->getToken()->getEncryptedValue();
 		}
 		return self::$token;

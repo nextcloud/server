@@ -78,5 +78,4 @@ class BundleFetcherTest extends TestCase {
 
 		$this->bundleFetcher->getBundleByIdentifier('NotExistingBundle');
 	}
-
 }

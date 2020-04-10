@@ -265,8 +265,8 @@ class Group implements IGroup {
 	public function count($search = '') {
 		$users = false;
 		foreach ($this->backends as $backend) {
-			if($backend->implementsActions(\OC\Group\Backend::COUNT_USERS)) {
-				if($users === false) {
+			if ($backend->implementsActions(\OC\Group\Backend::COUNT_USERS)) {
+				if ($users === false) {
 					//we could directly add to a bool variable, but this would
 					//be ugly
 					$users = 0;
@@ -285,8 +285,8 @@ class Group implements IGroup {
 	public function countDisabled() {
 		$users = false;
 		foreach ($this->backends as $backend) {
-			if($backend instanceof ICountDisabledInGroup) {
-				if($users === false) {
+			if ($backend instanceof ICountDisabledInGroup) {
+				if ($users === false) {
 					//we could directly add to a bool variable, but this would
 					//be ugly
 					$users = 0;

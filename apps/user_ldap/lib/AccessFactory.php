@@ -44,8 +44,7 @@ class AccessFactory {
 		Manager $userManager,
 		Helper $helper,
 		IConfig $config,
-		IUserManager $ncUserManager)
-	{
+		IUserManager $ncUserManager) {
 		$this->ldap = $ldap;
 		$this->userManager = $userManager;
 		$this->helper = $helper;

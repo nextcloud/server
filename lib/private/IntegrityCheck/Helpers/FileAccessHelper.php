@@ -64,7 +64,7 @@ class FileAccessHelper {
 	 */
 	public function file_put_contents(string $filename, string $data): int {
 		$bytesWritten = @file_put_contents($filename, $data);
-		if ($bytesWritten === false || $bytesWritten !== \strlen($data)){
+		if ($bytesWritten === false || $bytesWritten !== \strlen($data)) {
 			throw new \Exception('Failed to write into ' . $filename);
 		}
 		return $bytesWritten;

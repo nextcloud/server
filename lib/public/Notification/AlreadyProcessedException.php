@@ -37,5 +37,4 @@ class AlreadyProcessedException extends \RuntimeException {
 	public function __construct() {
 		parent::__construct('Notification is processed already');
 	}
-
 }

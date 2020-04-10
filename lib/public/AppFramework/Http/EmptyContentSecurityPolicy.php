@@ -436,77 +436,77 @@ class EmptyContentSecurityPolicy {
 		$policy .= "base-uri 'none';";
 		$policy .= "manifest-src 'self';";
 
-		if(!empty($this->allowedScriptDomains) || $this->inlineScriptAllowed || $this->evalScriptAllowed) {
+		if (!empty($this->allowedScriptDomains) || $this->inlineScriptAllowed || $this->evalScriptAllowed) {
 			$policy .= 'script-src ';
-			if(is_string($this->useJsNonce)) {
+			if (is_string($this->useJsNonce)) {
 				$policy .= '\'nonce-'.base64_encode($this->useJsNonce).'\'';
 				$allowedScriptDomains = array_flip($this->allowedScriptDomains);
 				unset($allowedScriptDomains['\'self\'']);
 				$this->allowedScriptDomains = array_flip($allowedScriptDomains);
-				if(count($allowedScriptDomains) !== 0) {
+				if (count($allowedScriptDomains) !== 0) {
 					$policy .= ' ';
 				}
 			}
-			if(is_array($this->allowedScriptDomains)) {
+			if (is_array($this->allowedScriptDomains)) {
 				$policy .= implode(' ', $this->allowedScriptDomains);
 			}
-			if($this->inlineScriptAllowed) {
+			if ($this->inlineScriptAllowed) {
 				$policy .= ' \'unsafe-inline\'';
 			}
-			if($this->evalScriptAllowed) {
+			if ($this->evalScriptAllowed) {
 				$policy .= ' \'unsafe-eval\'';
 			}
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedStyleDomains) || $this->inlineStyleAllowed) {
+		if (!empty($this->allowedStyleDomains) || $this->inlineStyleAllowed) {
 			$policy .= 'style-src ';
-			if(is_array($this->allowedStyleDomains)) {
+			if (is_array($this->allowedStyleDomains)) {
 				$policy .= implode(' ', $this->allowedStyleDomains);
 			}
-			if($this->inlineStyleAllowed) {
+			if ($this->inlineStyleAllowed) {
 				$policy .= ' \'unsafe-inline\'';
 			}
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedImageDomains)) {
+		if (!empty($this->allowedImageDomains)) {
 			$policy .= 'img-src ' . implode(' ', $this->allowedImageDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedFontDomains)) {
+		if (!empty($this->allowedFontDomains)) {
 			$policy .= 'font-src ' . implode(' ', $this->allowedFontDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedConnectDomains)) {
+		if (!empty($this->allowedConnectDomains)) {
 			$policy .= 'connect-src ' . implode(' ', $this->allowedConnectDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedMediaDomains)) {
+		if (!empty($this->allowedMediaDomains)) {
 			$policy .= 'media-src ' . implode(' ', $this->allowedMediaDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedObjectDomains)) {
+		if (!empty($this->allowedObjectDomains)) {
 			$policy .= 'object-src ' . implode(' ', $this->allowedObjectDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedFrameDomains)) {
+		if (!empty($this->allowedFrameDomains)) {
 			$policy .= 'frame-src ';
 			$policy .= implode(' ', $this->allowedFrameDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedChildSrcDomains)) {
+		if (!empty($this->allowedChildSrcDomains)) {
 			$policy .= 'child-src ' . implode(' ', $this->allowedChildSrcDomains);
 			$policy .= ';';
 		}
 
-		if(!empty($this->allowedFrameAncestors)) {
+		if (!empty($this->allowedFrameAncestors)) {
 			$policy .= 'frame-ancestors ' . implode(' ', $this->allowedFrameAncestors);
 			$policy .= ';';
 		}

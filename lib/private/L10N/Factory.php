@@ -115,7 +115,6 @@ class Factory implements IFactory {
 	 */
 	public function get($app, $lang = null, $locale = null) {
 		return new LazyL10N(function () use ($app, $lang, $locale) {
-
 			$app = \OC_App::cleanAppId($app);
 			if ($lang !== null) {
 				$lang = str_replace(['\0', '/', '\\', '..'], '', (string)$lang);
@@ -353,7 +352,7 @@ class Factory implements IFactory {
 
 	public function getLanguageIterator(IUser $user = null): ILanguageIterator {
 		$user = $user ?? $this->userSession->getUser();
-		if($user === null) {
+		if ($user === null) {
 			throw new \RuntimeException('Failed to get an IUser instance');
 		}
 		return new LanguageIterator($user, $this->config);
@@ -543,7 +542,7 @@ class Factory implements IFactory {
 			$res = '';
 			$p = 0;
 			$length = strlen($body);
-			for($i = 0; $i < $length; $i++) {
+			for ($i = 0; $i < $length; $i++) {
 				$ch = $body[$i];
 				switch ($ch) {
 					case '?':
@@ -594,7 +593,7 @@ class Factory implements IFactory {
 		$commonLanguages = [];
 		$languages = [];
 
-		foreach($languageCodes as $lang) {
+		foreach ($languageCodes as $lang) {
 			$l = $this->get('lib', $lang);
 			// TRANSLATORS this is the language name for the language switcher in the personal settings and should be the localized version
 			$potentialName = (string) $l->t('__language_name__');

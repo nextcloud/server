@@ -46,7 +46,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Manager {
-
 	const SESSION_UID_KEY = 'two_factor_auth_uid';
 	const SESSION_UID_DONE = 'two_factor_auth_passed';
 	const REMEMBER_LOGIN = 'two_factor_remember_login';
@@ -158,7 +157,6 @@ class Manager {
 	 */
 	private function fixMissingProviderStates(array $providerStates,
 		array $providers, IUser $user): array {
-
 		foreach ($providers as $provider) {
 			if (isset($providerStates[$provider->getId()])) {
 				// All good
@@ -384,5 +382,4 @@ class Manager {
 			$this->tokenProvider->invalidateTokenById($userId, $tokenId);
 		}
 	}
-
 }

@@ -36,5 +36,4 @@ interface IBackendProvider {
 	 * @return Backend[]
 	 */
 	public function getBackends();
-
 }

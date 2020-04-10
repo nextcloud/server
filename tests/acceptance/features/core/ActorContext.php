@@ -184,5 +184,4 @@ class ActorContext extends RawMinkContext {
 			$actor->getSession()->stop();
 		}
 	}
-
 }

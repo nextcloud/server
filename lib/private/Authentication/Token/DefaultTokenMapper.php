@@ -36,7 +36,6 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class DefaultTokenMapper extends QBMapper {
-
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'authtoken');
 	}
@@ -168,5 +167,4 @@ class DefaultTokenMapper extends QBMapper {
 			->andWhere($qb->expr()->eq('version', $qb->createNamedParameter(DefaultToken::VERSION, IQueryBuilder::PARAM_INT)));
 		$qb->execute();
 	}
-
 }

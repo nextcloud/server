@@ -43,7 +43,6 @@ use Psr\Http\Message\ResponseInterface;
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait BasicStructure {
-
 	use Auth;
 	use Download;
 	use Trashbin;
@@ -516,11 +515,11 @@ trait BasicStructure {
 	 * @throws \Exception
 	 */
 	public function theFollowingHeadersShouldBeSet(TableNode $table) {
-		foreach($table->getTable() as $header) {
+		foreach ($table->getTable() as $header) {
 			$headerName = $header[0];
 			$expectedHeaderValue = $header[1];
 			$returnedHeader = $this->response->getHeader($headerName)[0];
-			if($returnedHeader !== $expectedHeaderValue) {
+			if ($returnedHeader !== $expectedHeaderValue) {
 				throw new \Exception(
 					sprintf(
 						"Expected value '%s' for header '%s', got '%s'",

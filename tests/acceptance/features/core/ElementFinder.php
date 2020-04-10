@@ -201,5 +201,4 @@ class ElementFinder {
 	public function find() {
 		return self::findInternal($this->session, $this->elementLocator, $this->timeout, $this->timeoutStep);
 	}
-
 }

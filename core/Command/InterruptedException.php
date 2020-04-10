@@ -26,4 +26,5 @@ namespace OC\Core\Command;
 /**
  * Exception for when the user hit ctrl-c
  */
-class InterruptedException extends \Exception {}
+class InterruptedException extends \Exception {
+}

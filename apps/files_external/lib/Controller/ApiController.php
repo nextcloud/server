@@ -100,7 +100,7 @@ class ApiController extends OCSController {
 		$user = $this->userSession->getUser()->getUID();
 
 		$mounts = \OC_Mount_Config::getAbsoluteMountPoints($user);
-		foreach($mounts as $mountPoint => $mount) {
+		foreach ($mounts as $mountPoint => $mount) {
 			$entries[] = $this->formatMount($mountPoint, $mount);
 		}
 

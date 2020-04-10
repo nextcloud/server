@@ -61,5 +61,4 @@ class ProviderEnabled implements IEventListener {
 
 		$this->jobList->add(RememberBackupCodesJob::class, ['uid' => $event->getUser()->getUID()]);
 	}
-
 }

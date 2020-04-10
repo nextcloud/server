@@ -250,7 +250,6 @@ class KeyManagerTest extends TestCase {
 			});
 
 		$this->instance->userHasKeys($this->userId);
-
 	}
 
 	/**
@@ -286,7 +285,7 @@ class KeyManagerTest extends TestCase {
 		$instance->expects($this->any())->method('getSystemPrivateKey')->with('masterKeyId')->willReturn('privateMasterKey');
 		$instance->expects($this->any())->method('getPrivateKey')->with($this->userId)->willReturn('privateUserKey');
 
-		if($useMasterKey) {
+		if ($useMasterKey) {
 			$this->cryptMock->expects($this->once())->method('decryptPrivateKey')
 				->with('privateMasterKey', 'masterKeyPassword', 'masterKeyId')
 				->willReturn('key');
@@ -381,7 +380,6 @@ class KeyManagerTest extends TestCase {
 	 * @param $expected
 	 */
 	public function testGetFileKey($uid, $isMasterKeyEnabled, $privateKey, $expected) {
-
 		$path = '/foo.txt';
 
 		if ($isMasterKeyEnabled) {
@@ -422,7 +420,7 @@ class KeyManagerTest extends TestCase {
 			$this->sessionMock->expects($this->once())->method('getPrivateKey')->willReturn($privateKey);
 		}
 
-		if($privateKey) {
+		if ($privateKey) {
 			$this->cryptMock->expects($this->once())
 				->method('multiKeyDecrypt')
 				->willReturn(true);
@@ -434,7 +432,6 @@ class KeyManagerTest extends TestCase {
 		$this->assertSame($expected,
 			$this->instance->getFileKey($path, $uid)
 		);
-
 	}
 
 	public function testDeletePrivateKey() {
@@ -467,7 +464,6 @@ class KeyManagerTest extends TestCase {
 	 * @param array $expectedKeys
 	 */
 	public function testAddSystemKeys($accessList, $publicKeys, $uid, $expectedKeys) {
-
 		$publicShareKeyId = 'publicShareKey';
 		$recoveryKeyId = 'recoveryKey';
 
@@ -574,7 +570,7 @@ class KeyManagerTest extends TestCase {
 		$instance->expects($this->any())->method('getMasterKeyPassword')->willReturn('masterKeyPassword');
 		$this->cryptMock->expects($this->any())->method('generateHeader')->willReturn('header');
 
-		if(empty($masterKey)) {
+		if (empty($masterKey)) {
 			$this->cryptMock->expects($this->once())->method('createKeyPair')
 				->willReturn(['publicKey' => 'public', 'privateKey' => 'private']);
 			$this->keyStorageMock->expects($this->once())->method('setSystemUserKey')
@@ -677,5 +673,4 @@ class KeyManagerTest extends TestCase {
 			->with('OC_DEFAULT_MODULE', 'test', 'user1');
 		$this->instance->backupUserKeys('test', 'user1');
 	}
-
 }

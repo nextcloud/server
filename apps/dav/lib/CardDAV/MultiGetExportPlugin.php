@@ -55,7 +55,6 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 	 * @return bool
 	 */
 	public function httpReport(RequestInterface $request, ResponseInterface $response) {
-
 		$queryParams = $request->getQueryParameters();
 		if (!array_key_exists('export', $queryParams)) {
 			return;
@@ -118,7 +117,5 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 			'name'        => $this->getPluginName(),
 			'description' => 'Intercept a multi-get request and return a single vcf file instead.'
 		];
-
 	}
-
 }

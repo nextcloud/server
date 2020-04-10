@@ -170,5 +170,4 @@ class RemoteWipeEmailListener implements IEventListener {
 
 		return $message;
 	}
-
 }

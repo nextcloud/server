@@ -280,7 +280,6 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	public function getChild($name) {
-
 		$obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name);
 
 		if (!$obj) {
@@ -294,11 +293,9 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		$obj['acl'] = $this->getChildACL();
 
 		return new CalendarObject($this->caldavBackend, $this->l10n, $this->calendarInfo, $obj);
-
 	}
 
 	public function getChildren() {
-
 		$objs = $this->caldavBackend->getCalendarObjects($this->calendarInfo['id']);
 		$children = [];
 		foreach ($objs as $obj) {
@@ -309,11 +306,9 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			$children[] = new CalendarObject($this->caldavBackend, $this->l10n, $this->calendarInfo, $obj);
 		}
 		return $children;
-
 	}
 
 	public function getMultipleChildren(array $paths) {
-
 		$objs = $this->caldavBackend->getMultipleCalendarObjects($this->calendarInfo['id'], $paths);
 		$children = [];
 		foreach ($objs as $obj) {
@@ -324,7 +319,6 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			$children[] = new CalendarObject($this->caldavBackend, $this->l10n, $this->calendarInfo, $obj);
 		}
 		return $children;
-
 	}
 
 	public function childExists($name) {
@@ -340,7 +334,6 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	public function calendarQuery(array $filters) {
-
 		$uris = $this->caldavBackend->calendarQuery($this->calendarInfo['id'], $filters);
 		if ($this->isShared()) {
 			return array_filter($uris, function ($uri) {

@@ -91,7 +91,6 @@ class Update extends Command {
 				$output->writeln($singleAppId . ' not installed');
 				return 1;
 			}
-
 		} elseif ($input->getOption('all') || $input->getOption('showonly')) {
 			$apps = \OC_App::getAllApps();
 		} else {
@@ -108,7 +107,7 @@ class Update extends Command {
 				if (!$input->getOption('showonly')) {
 					try {
 						$result = $this->installer->updateAppstoreApp($appId);
-					} catch(\Exception $e) {
+					} catch (\Exception $e) {
 						$this->logger->logException($e, ['message' => 'Failure during update of app "' . $appId . '"','app' => 'app:update']);
 						$output->writeln('Error: ' . $e->getMessage());
 						$return = 1;
@@ -117,7 +116,7 @@ class Update extends Command {
 					if ($result === false) {
 						$output->writeln($appId . ' couldn\'t be updated');
 						$return = 1;
-					} elseif($result === true) {
+					} elseif ($result === true) {
 						$output->writeln($appId . ' updated');
 					}
 				}

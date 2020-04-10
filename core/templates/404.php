@@ -3,7 +3,7 @@
 /** @var $l \OCP\IL10N */
 /** @var $theme OCP\Defaults */
 // @codeCoverageIgnoreStart
-if(!isset($_)) {//standalone  page is not supported anymore - redirect to /
+if (!isset($_)) {//standalone  page is not supported anymore - redirect to /
 	require_once '../../lib/base.php';
 
 	$urlGenerator = \OC::$server->getURLGenerator();

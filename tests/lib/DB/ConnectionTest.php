@@ -213,7 +213,7 @@ class ConnectionTest extends \Test\TestCase {
 			['user' => 'test2', 'category' => 'Coworkers', 'expectedResult' => 1],
 		];
 
-		foreach($categoryEntries as $entry) {
+		foreach ($categoryEntries as $entry) {
 			$result = $this->connection->insertIfNotExist('*PREFIX*table',
 				[
 					'textfield' => $entry['user'],
@@ -236,7 +236,7 @@ class ConnectionTest extends \Test\TestCase {
 			['addressbookid' => 123, 'fullname' => 'test', 'expectedResult' => 1],
 		];
 
-		foreach($categoryEntries as $entry) {
+		foreach ($categoryEntries as $entry) {
 			$result = $this->connection->insertIfNotExist('*PREFIX*table',
 				[
 					'integerfield_default' => $entry['addressbookid'],
@@ -347,5 +347,4 @@ class ConnectionTest extends \Test\TestCase {
 		$this->connection->executeUpdate($testQuery, $testParams);
 		$this->connection->executeUpdate($testQuery, $testParams);
 	}
-
 }

@@ -46,5 +46,4 @@ interface ITimeFactory {
 	 * @since 15.0.0
 	 */
 	public function getDateTime(string $time = 'now', \DateTimeZone $timezone = null): \DateTime;
-
 }

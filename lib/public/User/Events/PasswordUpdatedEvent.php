@@ -81,5 +81,4 @@ class PasswordUpdatedEvent extends Event {
 	public function getRecoveryPassword(): ?string {
 		return $this->recoveryPassword;
 	}
-
 }

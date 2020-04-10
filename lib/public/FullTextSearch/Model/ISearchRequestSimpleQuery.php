@@ -39,8 +39,6 @@ namespace OCP\FullTextSearch\Model;
  * @package OCP\FullTextSearch\Model
  */
 interface ISearchRequestSimpleQuery {
-
-
 	const COMPARE_TYPE_TEXT = 1;
 	const COMPARE_TYPE_KEYWORD = 2;
 	const COMPARE_TYPE_INT_EQ = 3;
@@ -129,5 +127,4 @@ interface ISearchRequestSimpleQuery {
 	 * @since 17.0.0
 	 */
 	public function addValueBool(bool $value): ISearchRequestSimpleQuery;
-
 }

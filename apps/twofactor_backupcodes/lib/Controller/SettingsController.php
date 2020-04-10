@@ -64,5 +64,4 @@ class SettingsController extends Controller {
 			'state' => $this->storage->getBackupCodesState($user),
 		]);
 	}
-
 }

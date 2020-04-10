@@ -83,19 +83,19 @@ class CleanUp extends TimedJob {
 		//pass in app.php we do add here, except something else is passed e.g.
 		//in tests.
 
-		if(isset($arguments['helper'])) {
+		if (isset($arguments['helper'])) {
 			$this->ldapHelper = $arguments['helper'];
 		} else {
 			$this->ldapHelper = new Helper(\OC::$server->getConfig());
 		}
 
-		if(isset($arguments['ocConfig'])) {
+		if (isset($arguments['ocConfig'])) {
 			$this->ocConfig = $arguments['ocConfig'];
 		} else {
 			$this->ocConfig = \OC::$server->getConfig();
 		}
 
-		if(isset($arguments['userBackend'])) {
+		if (isset($arguments['userBackend'])) {
 			$this->userBackend = $arguments['userBackend'];
 		} else {
 			$this->userBackend =  new User_Proxy(
@@ -108,19 +108,19 @@ class CleanUp extends TimedJob {
 			);
 		}
 
-		if(isset($arguments['db'])) {
+		if (isset($arguments['db'])) {
 			$this->db = $arguments['db'];
 		} else {
 			$this->db = \OC::$server->getDatabaseConnection();
 		}
 
-		if(isset($arguments['mapping'])) {
+		if (isset($arguments['mapping'])) {
 			$this->mapping = $arguments['mapping'];
 		} else {
 			$this->mapping = new UserMapping($this->db);
 		}
 
-		if(isset($arguments['deletedUsersIndex'])) {
+		if (isset($arguments['deletedUsersIndex'])) {
 			$this->dui = $arguments['deletedUsersIndex'];
 		} else {
 			$this->dui = new DeletedUsersIndex(
@@ -135,11 +135,11 @@ class CleanUp extends TimedJob {
 	public function run($argument) {
 		$this->setArguments($argument);
 
-		if(!$this->isCleanUpAllowed()) {
+		if (!$this->isCleanUpAllowed()) {
 			return;
 		}
 		$users = $this->mapping->getList($this->getOffset(), $this->getChunkSize());
-		if(!is_array($users)) {
+		if (!is_array($users)) {
 			//something wrong? Let's start from the beginning next time and
 			//abort
 			$this->setOffset(true);
@@ -165,7 +165,7 @@ class CleanUp extends TimedJob {
 	 */
 	public function isCleanUpAllowed() {
 		try {
-			if($this->ldapHelper->haveDisabledConfigurations()) {
+			if ($this->ldapHelper->haveDisabledConfigurations()) {
 				return false;
 			}
 		} catch (\Exception $e) {
@@ -189,7 +189,7 @@ class CleanUp extends TimedJob {
 	 * @param array $users result from getMappedUsers()
 	 */
 	private function checkUsers(array $users) {
-		foreach($users as $user) {
+		foreach ($users as $user) {
 			$this->checkUser($user);
 		}
 	}
@@ -199,7 +199,7 @@ class CleanUp extends TimedJob {
 	 * @param string[] $user
 	 */
 	private function checkUser(array $user) {
-		if($this->userBackend->userExistsOnLDAP($user['name'])) {
+		if ($this->userBackend->userExistsOnLDAP($user['name'])) {
 			//still available, all good
 
 			return;
@@ -231,10 +231,9 @@ class CleanUp extends TimedJob {
 	 * @return int
 	 */
 	public function getChunkSize() {
-		if($this->limit === null) {
+		if ($this->limit === null) {
 			$this->limit = (int)$this->ocConfig->getAppValue('user_ldap', 'cleanUpJobChunkSize', 50);
 		}
 		return $this->limit;
 	}
-
 }

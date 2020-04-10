@@ -149,7 +149,6 @@ class Notifier implements INotifier {
 	}
 
 	protected function parseShareInvitation(IShare $share, INotification $notification, IL10N $l): INotification {
-
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			if ($share->getStatus() !== IShare::STATUS_PENDING) {
 				throw new AlreadyProcessedException();

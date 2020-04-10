@@ -182,5 +182,4 @@ class CssControllerTest extends TestCase {
 		$result = $this->controller->getCss('file.css', 'myapp');
 		$this->assertEquals($expected, $result);
 	}
-
 }

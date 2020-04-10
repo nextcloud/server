@@ -187,5 +187,4 @@ interface ISearchResult {
 	 * @return ISearchResult
 	 */
 	public function setTimedOut(bool $timedOut): ISearchResult;
-
 }

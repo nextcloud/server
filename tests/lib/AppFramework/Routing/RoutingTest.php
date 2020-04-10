@@ -10,11 +10,8 @@ use OCP\ILogger;
 use OCP\Route\IRouter;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class RoutingTest extends \Test\TestCase
-{
-
-	public function testSimpleRoute()
-	{
+class RoutingTest extends \Test\TestCase {
+	public function testSimpleRoute() {
 		$routes = ['routes' => [
 			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'GET']
 		]];
@@ -31,8 +28,7 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'GET', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open');
 	}
 
-	public function testSimpleRouteWithMissingVerb()
-	{
+	public function testSimpleRouteWithMissingVerb() {
 		$routes = ['routes' => [
 			['name' => 'folders#open', 'url' => '/folders/{folderId}/open']
 		]];
@@ -49,8 +45,7 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'GET', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open');
 	}
 
-	public function testSimpleRouteWithLowercaseVerb()
-	{
+	public function testSimpleRouteWithLowercaseVerb() {
 		$routes = ['routes' => [
 			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete']
 		]];
@@ -67,8 +62,7 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open');
 	}
 
-	public function testSimpleRouteWithRequirements()
-	{
+	public function testSimpleRouteWithRequirements() {
 		$routes = ['routes' => [
 			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'requirements' => ['something']]
 		]];
@@ -85,8 +79,7 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open', ['something']);
 	}
 
-	public function testSimpleRouteWithDefaults()
-	{
+	public function testSimpleRouteWithDefaults() {
 		$routes = ['routes' => [
 			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', [], 'defaults' => ['param' => 'foobar']]
 		]];
@@ -104,8 +97,7 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/apps/app1/folders/{folderId}/open', 'FoldersController', 'open', [], ['param' => 'foobar']);
 	}
 
-	public function testSimpleRouteWithPostfix()
-	{
+	public function testSimpleRouteWithPostfix() {
 		$routes = ['routes' => [
 			['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'postfix' => '_something']
 		]];
@@ -123,8 +115,7 @@ class RoutingTest extends \Test\TestCase
 	}
 
 	
-	public function testSimpleRouteWithBrokenName()
-	{
+	public function testSimpleRouteWithBrokenName() {
 		$this->expectException(\UnexpectedValueException::class);
 
 		$routes = ['routes' => [
@@ -165,8 +156,7 @@ class RoutingTest extends \Test\TestCase
 		$config->register();
 	}
 
-	public function testSimpleRouteWithUnderScoreNames()
-	{
+	public function testSimpleRouteWithUnderScoreNames() {
 		$routes = ['routes' => [
 			['name' => 'admin_folders#open_current', 'url' => '/folders/{folderId}/open', 'verb' => 'delete']
 		]];
@@ -182,36 +172,31 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleOCSRoute($routes, 'admin_folders.open_current', 'DELETE', '/apps/app1/folders/{folderId}/open', 'AdminFoldersController', 'openCurrent');
 	}
 
-	public function testOCSResource()
-	{
+	public function testOCSResource() {
 		$routes = ['ocs-resources' => ['account' => ['url' => '/accounts']]];
 
 		$this->assertOCSResource($routes, 'account', '/apps/app1/accounts', 'AccountController', 'id');
 	}
 
-	public function testOCSResourceWithUnderScoreName()
-	{
+	public function testOCSResourceWithUnderScoreName() {
 		$routes = ['ocs-resources' => ['admin_accounts' => ['url' => '/admin/accounts']]];
 
 		$this->assertOCSResource($routes, 'admin_accounts', '/apps/app1/admin/accounts', 'AdminAccountsController', 'id');
 	}
 
-	public function testOCSResourceWithRoot()
-	{
+	public function testOCSResourceWithRoot() {
 		$routes = ['ocs-resources' => ['admin_accounts' => ['url' => '/admin/accounts', 'root' => '/core/endpoint']]];
 
 		$this->assertOCSResource($routes, 'admin_accounts', '/core/endpoint/admin/accounts', 'AdminAccountsController', 'id');
 	}
 
-	public function testResource()
-	{
+	public function testResource() {
 		$routes = ['resources' => ['account' => ['url' => '/accounts']]];
 
 		$this->assertResource($routes, 'account', '/accounts', 'AccountController', 'id');
 	}
 
-	public function testResourceWithUnderScoreName()
-	{
+	public function testResourceWithUnderScoreName() {
 		$routes = ['resources' => ['admin_accounts' => ['url' => '/admin/accounts']]];
 
 		$this->assertResource($routes, 'admin_accounts', '/admin/accounts', 'AdminAccountsController', 'id');
@@ -224,8 +209,7 @@ class RoutingTest extends \Test\TestCase
 	 * @param string $controllerName
 	 * @param string $actionName
 	 */
-	private function assertSimpleRoute($routes, $name, $verb, $url, $controllerName, $actionName, array $requirements=[], array $defaults=[], $postfix='')
-	{
+	private function assertSimpleRoute($routes, $name, $verb, $url, $controllerName, $actionName, array $requirements=[], array $defaults=[], $postfix='') {
 		if ($postfix) {
 			$name .= $postfix;
 		}
@@ -272,8 +256,7 @@ class RoutingTest extends \Test\TestCase
 										  $actionName,
 										  array $requirements=[],
 										  array $defaults=[],
-										  $postfix='')
-	{
+										  $postfix='') {
 		if ($postfix) {
 			$name .= $postfix;
 		}
@@ -368,8 +351,7 @@ class RoutingTest extends \Test\TestCase
 	 * @param string $controllerName
 	 * @param string $paramName
 	 */
-	private function assertResource($yaml, $resourceName, $url, $controllerName, $paramName)
-	{
+	private function assertResource($yaml, $resourceName, $url, $controllerName, $paramName) {
 		// router mock
 		$router = $this->getMockBuilder('\OC\Route\Router')
 			->setMethods(['create'])
@@ -456,7 +438,7 @@ class RoutingTest extends \Test\TestCase
 			->with($this->equalTo(new RouteActionHandler($container, $controllerName, $actionName)))
 			->willReturn($route);
 
-		if(count($requirements) > 0) {
+		if (count($requirements) > 0) {
 			$route
 				->expects($this->exactly(1))
 				->method('requirements')
@@ -474,7 +456,6 @@ class RoutingTest extends \Test\TestCase
 
 		return $route;
 	}
-
 }
 
 /*

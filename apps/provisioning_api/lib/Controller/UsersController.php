@@ -140,7 +140,7 @@ class UsersController extends AUserData {
 		// Admin? Or SubAdmin?
 		$uid = $user->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if ($this->groupManager->isAdmin($uid)){
+		if ($this->groupManager->isAdmin($uid)) {
 			$users = $this->userManager->search($search, $limit, $offset);
 		} elseif ($subAdminManager->isSubAdmin($user)) {
 			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($user);
@@ -173,7 +173,7 @@ class UsersController extends AUserData {
 		// Admin? Or SubAdmin?
 		$uid = $currentUser->getUID();
 		$subAdminManager = $this->groupManager->getSubAdmin();
-		if ($this->groupManager->isAdmin($uid)){
+		if ($this->groupManager->isAdmin($uid)) {
 			$users = $this->userManager->search($search, $limit, $offset);
 			$users = array_keys($users);
 		} elseif ($subAdminManager->isSubAdmin($currentUser)) {
@@ -250,7 +250,7 @@ class UsersController extends AUserData {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 		$subAdminManager = $this->groupManager->getSubAdmin();
 
-		if(empty($userid) && $this->config->getAppValue('core', 'newUser.generateUserID', 'no') === 'yes') {
+		if (empty($userid) && $this->config->getAppValue('core', 'newUser.generateUserID', 'no') === 'yes') {
 			$userid = $this->createNewUserId();
 		}
 
@@ -352,7 +352,6 @@ class UsersController extends AUserData {
 			}
 
 			return new DataResponse(['id' => $userid]);
-
 		} catch (HintException $e) {
 			$this->logger->logException($e, [
 				'message' => 'Failed addUser attempt with hint exception.',
@@ -414,7 +413,6 @@ class UsersController extends AUserData {
 			$data['display-name'] = $data['displayname'];
 			unset($data['displayname']);
 			return new DataResponse($data);
-
 		}
 
 		throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
@@ -530,7 +528,7 @@ class UsersController extends AUserData {
 			throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
 		}
 		// Process the edit
-		switch($key) {
+		switch ($key) {
 			case 'display':
 			case AccountManager::PROPERTY_DISPLAYNAME:
 				$targetUser->setDisplayName($value);
@@ -755,7 +753,6 @@ class UsersController extends AUserData {
 				throw new OCSException('', \OCP\API::RESPOND_UNAUTHORISED);
 			}
 		}
-
 	}
 
 	/**
@@ -835,7 +832,6 @@ class UsersController extends AUserData {
 				// Not an admin, so the user must be a subadmin of this group, but that is not allowed.
 				throw new OCSException('Cannot remove yourself from this group as you are a SubAdmin', 105);
 			}
-
 		} elseif (!$this->groupManager->isAdmin($loggedInUser->getUID())) {
 			/** @var IGroup[] $subAdminGroups */
 			$subAdminGroups = $subAdminManager->getSubAdminsGroups($loggedInUser);
@@ -973,7 +969,7 @@ class UsersController extends AUserData {
 		try {
 			$emailTemplate = $this->newUserMailHelper->generateTemplate($targetUser, false);
 			$this->newUserMailHelper->sendMail($targetUser, $emailTemplate);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->logException($e, [
 				'message' => "Can't send new user mail to $email",
 				'level' => ILogger::ERROR,

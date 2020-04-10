@@ -66,7 +66,7 @@ class TempManager implements ITempManager {
 	 * @return string
 	 */
 	private function buildFileNameWithSuffix($absolutePath, $postFix = '') {
-		if($postFix !== '') {
+		if ($postFix !== '') {
 			$postFix = '.' . ltrim($postFix, '.');
 			$postFix = str_replace(['\\', '/'], '', $postFix);
 			$absolutePath .= '-';
@@ -92,7 +92,7 @@ class TempManager implements ITempManager {
 
 			// If a postfix got specified sanitize it and create a postfixed
 			// temporary file
-			if($postFix !== '') {
+			if ($postFix !== '') {
 				$fileNameWithPostfix = $this->buildFileNameWithSuffix($file, $postFix);
 				touch($fileNameWithPostfix);
 				chmod($fileNameWithPostfix, 0600);
@@ -276,5 +276,4 @@ class TempManager implements ITempManager {
 	public function overrideTempBaseDir($directory) {
 		$this->tmpBaseDir = $directory;
 	}
-
 }

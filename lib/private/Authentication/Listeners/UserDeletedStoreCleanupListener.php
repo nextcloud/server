@@ -47,5 +47,4 @@ class UserDeletedStoreCleanupListener implements IEventListener {
 
 		$this->registry->deleteUserData($event->getUser());
 	}
-
 }

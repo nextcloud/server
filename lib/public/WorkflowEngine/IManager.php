@@ -32,7 +32,6 @@ namespace OCP\WorkflowEngine;
  * @since 9.1
  */
 interface IManager {
-
 	const SCOPE_ADMIN = 0;
 	const SCOPE_USER = 1;
 

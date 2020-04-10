@@ -142,5 +142,4 @@ class EncryptAll extends Command {
 			$output->writeln('aborted');
 		}
 	}
-
 }

@@ -302,7 +302,6 @@ class OC_Util {
 
 		//if we aren't logged in, there is no use to set up the filesystem
 		if ($user != "") {
-
 			$userDir = '/' . $user . '/files';
 
 			//jail the user into his "home" directory
@@ -382,7 +381,7 @@ class OC_Util {
 			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
 		}
 		$userQuota = $user->getQuota();
-		if($userQuota === 'none') {
+		if ($userQuota === 'none') {
 			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
 		}
 		return OC_Helper::computerFileSize($userQuota);
@@ -398,7 +397,6 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function copySkeleton($userId, \OCP\Files\Folder $userDirectory) {
-
 		$plainSkeletonDirectory = \OC::$server->getConfig()->getSystemValue('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
 		$userLang = \OC::$server->getL10NFactory()->findLanguage();
 		$skeletonDirectory = str_replace('{lang}', $userLang, $plainSkeletonDirectory);
@@ -450,7 +448,7 @@ class OC_Util {
 
 		// Verify if folder exists
 		$dir = opendir($source);
-		if($dir === false) {
+		if ($dir === false) {
 			$logger->error(sprintf('Could not opendir "%s"', $source), ['app' => 'core']);
 			return;
 		}
@@ -464,7 +462,7 @@ class OC_Util {
 				} else {
 					$child = $target->newFile($file);
 					$sourceStream = fopen($source . '/' . $file, 'r');
-					if($sourceStream === false) {
+					if ($sourceStream === false) {
 						$logger->error(sprintf('Could not fopen "%s"', $source . '/' . $file), ['app' => 'core']);
 						closedir($dir);
 						return;
@@ -663,7 +661,6 @@ class OC_Util {
 	 * @return void
 	 */
 	private static function addExternalResource($application, $prepend, $path, $type = "script") {
-
 		if ($type === "style") {
 			if (!in_array($path, self::$styles)) {
 				if ($prepend === true) {
@@ -700,7 +697,6 @@ class OC_Util {
 		];
 		if ($prepend === true) {
 			array_unshift(self::$headers, $header);
-
 		} else {
 			self::$headers[] = $header;
 		}
@@ -750,7 +746,7 @@ class OC_Util {
 		}
 
 		// Check if config folder is writable.
-		if(!OC_Helper::isReadOnlyConfigEnabled()) {
+		if (!OC_Helper::isReadOnlyConfigEnabled()) {
 			if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
 				$errors[] = [
 					'error' => $l->t('Cannot write into "config" directory'),
@@ -890,15 +886,15 @@ class OC_Util {
 			}
 		}
 
-		foreach($missingDependencies as $missingDependency) {
+		foreach ($missingDependencies as $missingDependency) {
 			$errors[] = [
 				'error' => $l->t('PHP module %s not installed.', [$missingDependency]),
 				'hint' => $moduleHint
 			];
 			$webServerRestart = true;
 		}
-		foreach($invalidIniSettings as $setting) {
-			if(is_bool($setting[1])) {
+		foreach ($invalidIniSettings as $setting) {
+			if (is_bool($setting[1])) {
 				$setting[1] = $setting[1] ? 'on' : 'off';
 			}
 			$errors[] = [
@@ -916,7 +912,7 @@ class OC_Util {
 		 * TODO: Should probably be implemented in the above generic dependency
 		 *       check somehow in the long-term.
 		 */
-		if($iniWrapper->getBool('mbstring.func_overload') !== null &&
+		if ($iniWrapper->getBool('mbstring.func_overload') !== null &&
 			$iniWrapper->getBool('mbstring.func_overload') === true) {
 			$errors[] = [
 				'error' => $l->t('mbstring.func_overload is set to "%s" instead of the expected value "0"', [$iniWrapper->getString('mbstring.func_overload')]),
@@ -924,7 +920,7 @@ class OC_Util {
 			];
 		}
 
-		if(function_exists('xml_parser_create') &&
+		if (function_exists('xml_parser_create') &&
 			LIBXML_LOADED_VERSION < 20700) {
 			$version = LIBXML_LOADED_VERSION;
 			$major = floor($version/10000);
@@ -999,7 +995,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
-		if(\OC::$server->getConfig()->getSystemValue('check_data_directory_permissions', true) === false) {
+		if (\OC::$server->getConfig()->getSystemValue('check_data_directory_permissions', true) === false) {
 			return  [];
 		}
 		$l = \OC::$server->getL10N('lib');
@@ -1116,7 +1112,7 @@ class OC_Util {
 					}
 				}
 
-				if($config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true') {
+				if ($config->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true') {
 					$location = $urlGenerator->getAbsoluteURL('/apps/' . $appId . '/');
 				} else {
 					$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $appId . '/');
@@ -1226,7 +1222,6 @@ class OC_Util {
 	 * @throws \OC\HintException If the test file can't get written.
 	 */
 	public function isHtaccessWorking(\OCP\IConfig $config) {
-
 		if (\OC::$CLI || !$config->getSystemValue('check_for_working_htaccess', true)) {
 			return true;
 		}
@@ -1349,7 +1344,7 @@ class OC_Util {
 	 * @return bool|string
 	 */
 	public static function normalizeUnicode($value) {
-		if(Normalizer::isNormalized($value)) {
+		if (Normalizer::isNormalized($value)) {
 			return $value;
 		}
 
@@ -1466,5 +1461,4 @@ class OC_Util {
 
 		return preg_match(Request::USER_AGENT_IE, $_SERVER['HTTP_USER_AGENT']) === 1;
 	}
-
 }

@@ -23,4 +23,5 @@
 
 namespace OCA\User_LDAP\Exceptions;
 
-class ConstraintViolationException extends \Exception {}
+class ConstraintViolationException extends \Exception {
+}

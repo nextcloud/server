@@ -39,5 +39,4 @@ class ProviderNotAvailableException extends \Exception {
 	public function __construct(string $type) {
 		parent::__construct("No notification provider for type $type available");
 	}
-
 }

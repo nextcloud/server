@@ -93,5 +93,4 @@ class UserDisabledCheckCommandTest extends ALoginCommandTest {
 
 		$this->assertTrue($result->isSuccess());
 	}
-
 }

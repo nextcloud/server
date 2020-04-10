@@ -31,7 +31,6 @@ use OCP\Contacts\Events\ContactInteractedWithEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 
 class Application extends App {
-
 	public const APP_ID = 'contactsinteraction';
 
 	public function __construct() {
@@ -43,5 +42,4 @@ class Application extends App {
 	private function registerListeners(IEventDispatcher $dispatcher): void {
 		$dispatcher->addServiceListener(ContactInteractedWithEvent::class, ContactInteractionListener::class);
 	}
-
 }

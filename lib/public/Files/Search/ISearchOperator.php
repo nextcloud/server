@@ -27,5 +27,4 @@ namespace OCP\Files\Search;
  * @since 12.0.0
  */
 interface ISearchOperator {
-
 }

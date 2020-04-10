@@ -41,7 +41,7 @@ class Update {
 	/** @var \OC\Encryption\Util */
 	protected $util;
 
-	 /** @var \OC\Files\Mount\Manager */
+	/** @var \OC\Files\Mount\Manager */
 	protected $mountManager;
 
 	/** @var \OC\Encryption\Manager */
@@ -70,7 +70,6 @@ class Update {
 			File $file,
 			$uid
 		) {
-
 		$this->view = $view;
 		$this->util = $util;
 		$this->mountManager = $mountManager;
@@ -133,13 +132,13 @@ class Update {
 	public function postRename($params) {
 		$source = $params['oldpath'];
 		$target = $params['newpath'];
-		if(
+		if (
 			$this->encryptionManager->isEnabled() &&
 			dirname($source) !== dirname($target)
 		) {
-				list($owner, $ownerPath) = $this->getOwnerPath($target);
-				$absPath = '/' . $owner . '/files/' . $ownerPath;
-				$this->update($absPath);
+			list($owner, $ownerPath) = $this->getOwnerPath($target);
+			$absPath = '/' . $owner . '/files/' . $ownerPath;
+			$this->update($absPath);
 		}
 	}
 
@@ -169,7 +168,6 @@ class Update {
 	 * @throws Exceptions\ModuleDoesNotExistsException
 	 */
 	public function update($path) {
-
 		$encryptionModule = $this->encryptionManager->getEncryptionModule();
 
 		// if the encryption module doesn't encrypt the files on a per-user basis
@@ -192,5 +190,4 @@ class Update {
 			$encryptionModule->update($file, $this->uid, $usersSharing);
 		}
 	}
-
 }

@@ -47,5 +47,4 @@ class RootCollection extends AbstractPrincipalCollection {
 	public function getName() {
 		return 'avatars';
 	}
-
 }

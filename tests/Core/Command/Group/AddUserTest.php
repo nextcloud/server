@@ -115,6 +115,4 @@ class AddUserTest extends TestCase {
 
 		$this->invokePrivate($this->command, 'execute', [$this->input, $this->output]);
 	}
-
-
 }

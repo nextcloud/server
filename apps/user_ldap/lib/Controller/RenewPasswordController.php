@@ -84,7 +84,7 @@ class RenewPasswordController extends Controller {
 	 * @return TemplateResponse|RedirectResponse
 	 */
 	public function showRenewPasswordForm($user) {
-		if($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
+		if ($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
 		}
 		$parameters = [];
@@ -128,7 +128,7 @@ class RenewPasswordController extends Controller {
 	 * @return RedirectResponse
 	 */
 	public function tryRenewPassword($user, $oldPassword, $newPassword) {
-		if($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
+		if ($this->config->getUserValue($user, 'user_ldap', 'needsPasswordReset') !== 'true') {
 			return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
 		}
 		$args = !is_null($user) ? ['user' => $user] : [];
@@ -175,5 +175,4 @@ class RenewPasswordController extends Controller {
 		]);
 		return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
 	}
-
 }

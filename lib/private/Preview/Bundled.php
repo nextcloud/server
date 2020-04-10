@@ -31,7 +31,6 @@ use OCP\IImage;
  * Extracts a preview from files that embed them in an ZIP archive
  */
 abstract class Bundled extends ProviderV2 {
-
 	protected function extractThumbnail(File $file, $path): ?IImage {
 		$sourceTmp = \OC::$server->getTempManager()->getTemporaryFile();
 		$targetTmp = \OC::$server->getTempManager()->getTemporaryFile();
@@ -52,5 +51,4 @@ abstract class Bundled extends ProviderV2 {
 			return null;
 		}
 	}
-
 }

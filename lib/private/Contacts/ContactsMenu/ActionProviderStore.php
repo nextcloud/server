@@ -109,5 +109,4 @@ class ActionProviderStore {
 			return array_merge($all, $providers);
 		}, []);
 	}
-
 }

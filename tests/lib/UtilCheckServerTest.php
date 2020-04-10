@@ -14,7 +14,6 @@ namespace Test;
  * @group DB
  */
 class UtilCheckServerTest extends \Test\TestCase {
-
 	private $datadir;
 
 	/**

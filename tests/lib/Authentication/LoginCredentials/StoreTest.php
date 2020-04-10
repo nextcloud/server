@@ -179,5 +179,4 @@ class StoreTest extends TestCase {
 
 		$this->store->getLoginCredentials();
 	}
-
 }

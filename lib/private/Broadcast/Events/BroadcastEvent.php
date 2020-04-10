@@ -57,5 +57,4 @@ class BroadcastEvent extends Event implements IBroadcastEvent {
 	public function setBroadcasted(): void {
 		$this->event->setBroadcasted();
 	}
-
 }

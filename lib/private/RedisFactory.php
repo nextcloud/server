@@ -68,7 +68,6 @@ class RedisFactory {
 				$this->instance->setOption(\RedisCluster::OPT_SLAVE_FAILOVER, $config['failover_mode']);
 			}
 		} else {
-
 			$this->instance = new \Redis();
 			$config = $this->config->getValue('redis', []);
 			if (isset($config['host'])) {

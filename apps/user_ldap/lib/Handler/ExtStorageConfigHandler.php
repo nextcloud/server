@@ -42,22 +42,22 @@ class ExtStorageConfigHandler extends UserContext implements IConfigHandler {
 		$this->placeholder = 'home';
 		$user = $this->getUser();
 
-		if($user === null) {
+		if ($user === null) {
 			return $optionValue;
 		}
 
 		$backend = $user->getBackend();
-		if(!$backend instanceof User_Proxy) {
+		if (!$backend instanceof User_Proxy) {
 			return $optionValue;
 		}
 
 		$access = $backend->getLDAPAccess($user->getUID());
-		if(!$access) {
+		if (!$access) {
 			return $optionValue;
 		}
 
 		$attribute = $access->connection->ldapExtStorageHomeAttribute;
-		if(empty($attribute)) {
+		if (empty($attribute)) {
 			return $optionValue;
 		}
 

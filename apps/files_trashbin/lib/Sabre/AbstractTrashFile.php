@@ -29,7 +29,7 @@ namespace OCA\Files_Trashbin\Sabre;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\IFile;
 
-abstract class AbstractTrashFile extends AbstractTrash implements IFile , ITrash{
+abstract class AbstractTrashFile extends AbstractTrash implements IFile , ITrash {
 	public function put($data) {
 		throw new Forbidden();
 	}

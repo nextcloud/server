@@ -32,5 +32,4 @@ use OCP\AppFramework\Controller;
  * @since 17.0.0
  */
 abstract class ALoginSetupController extends Controller {
-
 }

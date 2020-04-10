@@ -82,5 +82,4 @@ class TwoFactorSettingsControllerTest extends TestCase {
 
 		$this->assertEquals($expected, $resp);
 	}
-
 }

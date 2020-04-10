@@ -15,7 +15,6 @@ use PHPUnit\Framework\TestListenerDefaultImplementation;
  * Starts a new session before each test execution
  */
 class StartSessionListener implements TestListener {
-
 	use TestListenerDefaultImplementation;
 
 	public function endTest(Test $test, float $time): void {
@@ -26,5 +25,4 @@ class StartSessionListener implements TestListener {
 			$session->reopen();
 		}
 	}
-
 }

@@ -96,19 +96,19 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	private function createConfidentialObject(Component\VCalendar $vObject) {
 		/** @var Component $vElement */
 		$vElement = null;
-		if(isset($vObject->VEVENT)) {
+		if (isset($vObject->VEVENT)) {
 			$vElement = $vObject->VEVENT;
 		}
-		if(isset($vObject->VJOURNAL)) {
+		if (isset($vObject->VJOURNAL)) {
 			$vElement = $vObject->VJOURNAL;
 		}
-		if(isset($vObject->VTODO)) {
+		if (isset($vObject->VTODO)) {
 			$vElement = $vObject->VTODO;
 		}
-		if(!is_null($vElement)) {
+		if (!is_null($vElement)) {
 			foreach ($vElement->children() as &$property) {
 				/** @var Property $property */
-				switch($property->name) {
+				switch ($property->name) {
 					case 'CREATED':
 					case 'DTSTART':
 					case 'RRULE':
@@ -136,7 +136,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	private function removeVAlarms(Component\VCalendar $vObject) {
 		$subcomponents = $vObject->getComponents();
 
-		foreach($subcomponents as $subcomponent) {
+		foreach ($subcomponents as $subcomponent) {
 			unset($subcomponent->VALARM);
 		}
 	}

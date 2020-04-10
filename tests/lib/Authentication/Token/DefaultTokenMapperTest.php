@@ -230,5 +230,4 @@ class DefaultTokenMapperTest extends TestCase {
 		$this->mapper->deleteByName($name);
 		$this->assertEquals(2, $this->getNumberOfTokens());
 	}
-
 }

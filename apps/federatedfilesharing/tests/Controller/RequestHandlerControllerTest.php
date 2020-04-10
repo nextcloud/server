@@ -48,7 +48,6 @@ use OCP\Share\IShare;
  * @group DB
  */
 class RequestHandlerControllerTest extends \Test\TestCase {
-
 	private $owner = 'owner';
 	private $user1 = 'user1';
 	private $user2 = 'user2';
@@ -102,7 +101,6 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	private $cloudFederationShare;
 
 	protected function setUp(): void {
-
 		$this->share = $this->getMockBuilder(IShare::class)->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->disableOriginalConstructor()->getMock();
@@ -144,7 +142,6 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 			$this->cloudFederationFactory,
 			$this->cloudFederationProviderManager
 		);
-
 	}
 
 	function testCreateShare() {
@@ -186,11 +183,9 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$result = $this->requestHandler->createShare();
 
 		$this->assertInstanceOf(DataResponse::class, $result);
-
 	}
 
 	function testDeclineShare() {
-
 		$id = 42;
 		$_POST['token'] = 'token';
 
@@ -211,12 +206,10 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$result = $this->requestHandler->declineShare($id);
 
 		$this->assertInstanceOf(DataResponse::class, $result);
-
 	}
 
 
 	function testAcceptShare() {
-
 		$id = 42;
 		$_POST['token'] = 'token';
 
@@ -237,8 +230,5 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$result = $this->requestHandler->acceptShare($id);
 
 		$this->assertInstanceOf(DataResponse::class, $result);
-
 	}
-
-
 }

@@ -96,12 +96,12 @@ class Notifier implements INotifier {
 	 * @since 9.0.0
 	 */
 	public function prepare(INotification $notification, string $languageCode): INotification {
-		if($notification->getApp() !== 'comments') {
+		if ($notification->getApp() !== 'comments') {
 			throw new \InvalidArgumentException();
 		}
 		try {
 			$comment = $this->commentsManager->get($notification->getObjectId());
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			// needs to be converted to InvalidArgumentException, otherwise none Notifications will be shown at all
 			throw new \InvalidArgumentException('Comment not found', 0, $e);
 		}
@@ -118,12 +118,12 @@ class Notifier implements INotifier {
 		switch ($notification->getSubject()) {
 			case 'mention':
 				$parameters = $notification->getSubjectParameters();
-				if($parameters[0] !== 'files') {
+				if ($parameters[0] !== 'files') {
 					throw new \InvalidArgumentException('Unsupported comment object');
 				}
 				$userFolder = $this->rootFolder->getUserFolder($notification->getUser());
 				$nodes = $userFolder->getById((int)$parameters[1]);
-				if(empty($nodes)) {
+				if (empty($nodes)) {
 					throw new AlreadyProcessedException();
 				}
 				$node = $nodes[0];

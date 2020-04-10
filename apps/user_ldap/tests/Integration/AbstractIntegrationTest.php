@@ -83,7 +83,6 @@ abstract class AbstractIntegrationTest {
 		$this->initUserManager();
 		$this->initHelper();
 		$this->initAccess();
-
 	}
 
 	/**
@@ -151,23 +150,23 @@ abstract class AbstractIntegrationTest {
 	public function run() {
 		$methods = get_class_methods($this);
 		$atLeastOneCaseRan = false;
-		foreach($methods as $method) {
-			if(strpos($method, 'case') === 0) {
+		foreach ($methods as $method) {
+			if (strpos($method, 'case') === 0) {
 				print("running $method " . PHP_EOL);
 				try {
-					if(!$this->$method()) {
+					if (!$this->$method()) {
 						print(PHP_EOL . '>>> !!! Test ' . $method . ' FAILED !!! <<<' . PHP_EOL . PHP_EOL);
 						exit(1);
 					}
 					$atLeastOneCaseRan = true;
-				} catch(\Exception $e) {
+				} catch (\Exception $e) {
 					print(PHP_EOL . '>>> !!! Test ' . $method . ' RAISED AN EXCEPTION !!! <<<' . PHP_EOL);
 					print($e->getMessage() . PHP_EOL . PHP_EOL);
 					exit(1);
 				}
 			}
 		}
-		if($atLeastOneCaseRan) {
+		if ($atLeastOneCaseRan) {
 			print('Tests succeeded' . PHP_EOL);
 		} else {
 			print('No Test was available.' . PHP_EOL);

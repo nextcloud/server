@@ -413,7 +413,6 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function selectAlias($select, $alias) {
-
 		$this->queryBuilder->addSelect(
 			$this->helper->quoteColumnName($select) . ' AS ' . $this->helper->quoteColumnName($alias)
 		);
@@ -435,7 +434,6 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function selectDistinct($select) {
-
 		$this->queryBuilder->addSelect(
 			'DISTINCT ' . $this->helper->quoteColumnName($select)
 		);

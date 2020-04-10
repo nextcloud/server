@@ -27,7 +27,6 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre\Exception;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 
 class InvalidPathTest extends \Test\TestCase {
-
 	public function testSerialization() {
 
 		// create xml doc

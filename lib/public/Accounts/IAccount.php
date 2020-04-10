@@ -88,5 +88,4 @@ interface IAccount extends \JsonSerializable {
 	 * @return IUser
 	 */
 	public function getUser(): IUser;
-
 }

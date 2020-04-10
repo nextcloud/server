@@ -247,7 +247,7 @@ class OC_Mount_Config {
 			return StorageNotAvailableException::STATUS_SUCCESS;
 		}
 		foreach ($options as $key => &$option) {
-			if($key === 'password') {
+			if ($key === 'password') {
 				// no replacements in passwords
 				continue;
 			}

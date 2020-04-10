@@ -94,5 +94,4 @@ class RegistryTest extends TestCase {
 		$this->registry->register($reporter2);
 		$this->registry->delegateMessage($message);
 	}
-
 }

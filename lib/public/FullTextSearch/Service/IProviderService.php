@@ -54,6 +54,4 @@ interface IProviderService {
 	 * @since 15.0.0
 	 */
 	public function addJavascriptAPI();
-
-
 }

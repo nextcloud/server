@@ -59,7 +59,6 @@ class DummyMountProvider implements IMountProvider {
  * @package Test\Files
  */
 class FilesystemTest extends \Test\TestCase {
-
 	const TEST_FILESYSTEM_USER1 = "test-filesystem-user1";
 	const TEST_FILESYSTEM_USER2 = "test-filesystem-user1";
 
@@ -299,7 +298,6 @@ class FilesystemTest extends \Test\TestCase {
 			$userObj = \OC::$server->getUserManager()->get($user);
 			\OC::$server->getUserSession()->setUser($userObj);
 			\OC\Files\Filesystem::init($user, '/' . $user . '/files');
-
 		}
 		\OC_Hook::clear('OC_Filesystem');
 		\OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');
@@ -396,7 +394,9 @@ class FilesystemTest extends \Test\TestCase {
 		}
 
 		$user = \OC::$server->getUserManager()->get($userId);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 	}
 
 	public function dummyHook($arguments) {
@@ -425,7 +425,9 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertTrue($storage->instanceOfStorage('\OCP\Files\IHomeStorage'));
 		$this->assertEquals('cache', $internalPath);
 		$user = \OC::$server->getUserManager()->get($userId);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 
 		$config->setSystemValue('cache_path', $oldCachePath);
 	}
@@ -454,7 +456,9 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertTrue($storage->instanceOfStorage('\OC\Files\Storage\Local'));
 		$this->assertEquals('', $internalPath);
 		$user = \OC::$server->getUserManager()->get($userId);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 
 		$config->setSystemValue('cache_path', $oldCachePath);
 	}

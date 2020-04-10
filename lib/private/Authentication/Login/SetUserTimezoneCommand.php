@@ -58,5 +58,4 @@ class SetUserTimezoneCommand extends ALoginCommand {
 
 		return $this->processNextOrFinishSuccessfully($loginData);
 	}
-
 }

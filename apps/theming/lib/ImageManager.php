@@ -234,11 +234,11 @@ class ImageManager {
 	 */
 	public function shouldReplaceIcons() {
 		$cache = $this->cacheFactory->createDistributed('theming-' . $this->urlGenerator->getBaseUrl());
-		if($value = $cache->get('shouldReplaceIcons')) {
+		if ($value = $cache->get('shouldReplaceIcons')) {
 			return (bool)$value;
 		}
 		$value = false;
-		if(extension_loaded('imagick')) {
+		if (extension_loaded('imagick')) {
 			if (count(\Imagick::queryFormats('SVG')) >= 1) {
 				$value = true;
 			}

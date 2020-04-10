@@ -33,8 +33,7 @@ use Psr\Http\Message\RequestInterface;
 /**
  * Legacy Amazon S3 signature implementation
  */
-class S3Signature implements SignatureInterface
-{
+class S3Signature implements SignatureInterface {
 	/** @var array Query string values that must be signed */
 	private $signableQueryString = [
 		'acl', 'cors', 'delete', 'lifecycle', 'location', 'logging',
@@ -52,8 +51,7 @@ class S3Signature implements SignatureInterface
 	/** @var \Aws\S3\S3UriParser S3 URI parser */
 	private $parser;
 
-	public function __construct()
-	{
+	public function __construct() {
 		$this->parser = new S3UriParser();
 		// Ensure that the signable query string parameters are sorted
 		sort($this->signableQueryString);
@@ -140,8 +138,7 @@ class S3Signature implements SignatureInterface
 		return Psr7\modify_request($request, $modify);
 	}
 
-	private function signString($string, CredentialsInterface $credentials)
-	{
+	private function signString($string, CredentialsInterface $credentials) {
 		return base64_encode(
 			hash_hmac('sha1', $string, $credentials->getSecretKey(), true)
 		);
@@ -166,8 +163,7 @@ class S3Signature implements SignatureInterface
 		return $buffer;
 	}
 
-	private function createCanonicalizedAmzHeaders(RequestInterface $request)
-	{
+	private function createCanonicalizedAmzHeaders(RequestInterface $request) {
 		$headers = [];
 		foreach ($request->getHeaders() as $name => $header) {
 			$name = strtolower($name);
@@ -188,8 +184,7 @@ class S3Signature implements SignatureInterface
 		return implode("\n", $headers) . "\n";
 	}
 
-	private function createCanonicalizedResource(RequestInterface $request)
-	{
+	private function createCanonicalizedResource(RequestInterface $request) {
 		$data = $this->parser->parse($request->getUri());
 		$buffer = '/';
 

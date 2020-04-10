@@ -50,7 +50,6 @@ class Hooks {
 	 * @param array $params
 	 */
 	public function changeUserHook($params) {
-
 		$accountManager = $this->getAccountManager();
 
 		/** @var IUser $user */
@@ -79,7 +78,6 @@ class Hooks {
 				}
 				break;
 		}
-
 	}
 
 	/**
@@ -93,5 +91,4 @@ class Hooks {
 		}
 		return $this->accountManager;
 	}
-
 }

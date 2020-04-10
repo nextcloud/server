@@ -108,7 +108,7 @@ class Notifications extends Controller {
 
 		try {
 			$comment = $this->commentsManager->get($id);
-			if($comment->getObjectType() !== 'files') {
+			if ($comment->getObjectType() !== 'files') {
 				return new NotFoundResponse();
 			}
 			$userFolder = $this->rootFolder->getUserFolder($currentUser->getUID());

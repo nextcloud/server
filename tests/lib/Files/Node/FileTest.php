@@ -287,6 +287,4 @@ class FileTest extends NodeTest {
 		$node = new \OC\Files\Node\File($root, $this->view, '/bar/foo');
 		$node->fopen('w');
 	}
-
-
 }

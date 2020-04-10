@@ -35,5 +35,4 @@ namespace OCP\AppFramework\Http;
  * @since 16.0.0
  */
 class StandaloneTemplateResponse extends TemplateResponse {
-
 }

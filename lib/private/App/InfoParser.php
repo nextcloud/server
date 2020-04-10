@@ -246,7 +246,7 @@ class InfoParser {
 				$data = [
 					'@attributes' => [],
 				];
-				if (!count($node->children())){
+				if (!count($node->children())) {
 					$value = (string)$node;
 					if (!empty($value)) {
 						$data['@value'] = (string)$node;

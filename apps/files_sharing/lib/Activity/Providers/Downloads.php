@@ -26,8 +26,6 @@ namespace OCA\Files_Sharing\Activity\Providers;
 use OCP\Activity\IEvent;
 
 class Downloads extends Base {
-
-
 	const SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED = 'public_shared_file_downloaded';
 	const SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED = 'public_shared_folder_downloaded';
 

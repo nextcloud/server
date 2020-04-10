@@ -31,7 +31,6 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class ExpireVersions extends \OC\BackgroundJob\TimedJob {
-
 	const ITEMS_PER_SESSION = 1000;
 
 	/**

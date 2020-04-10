@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class FilesAppContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 	use FileListAncestorSetter;
 

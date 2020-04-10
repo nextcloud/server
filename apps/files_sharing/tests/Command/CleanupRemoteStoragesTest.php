@@ -191,6 +191,5 @@ class CleanupRemoteStoragesTest extends TestCase {
 		$this->assertFalse($this->doesStorageExist($this->storages[3]['numeric_id']));
 		$this->assertTrue($this->doesStorageExist($this->storages[4]['numeric_id']));
 		$this->assertFalse($this->doesStorageExist($this->storages[5]['numeric_id']));
-
 	}
 }

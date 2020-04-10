@@ -188,7 +188,6 @@ class Storage implements IStorage {
 	 * @return string
 	 */
 	protected function constructUserKeyPath($encryptionModuleId, $keyId, $uid) {
-
 		if ($uid === null) {
 			$path = $this->root_dir . '/' . $this->encryption_base_dir . '/' . $encryptionModuleId . '/' . $keyId;
 		} else {
@@ -206,7 +205,6 @@ class Storage implements IStorage {
 	 * @return string
 	 */
 	private function getKey($path) {
-
 		$key = '';
 
 		if ($this->view->file_exists($path)) {
@@ -250,7 +248,6 @@ class Storage implements IStorage {
 	 * @return string
 	 */
 	private function getFileKeyDir($encryptionModuleId, $path) {
-
 		list($owner, $filename) = $this->util->getUidAndFilename($path);
 
 		// in case of system wide mount points the keys are stored directly in the data directory
@@ -271,7 +268,6 @@ class Storage implements IStorage {
 	 * @return boolean
 	 */
 	public function renameKeys($source, $target) {
-
 		$sourcePath = $this->getPathToKeys($source);
 		$targetPath = $this->getPathToKeys($target);
 
@@ -294,7 +290,6 @@ class Storage implements IStorage {
 	 * @return boolean
 	 */
 	public function copyKeys($source, $target) {
-
 		$sourcePath = $this->getPathToKeys($source);
 		$targetPath = $this->getPathToKeys($target);
 
@@ -375,5 +370,4 @@ class Storage implements IStorage {
 			}
 		}
 	}
-
 }

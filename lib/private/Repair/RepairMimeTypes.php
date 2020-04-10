@@ -195,7 +195,6 @@ class RepairMimeTypes implements IRepairStep {
 	 * Fix mime types
 	 */
 	public function run(IOutput $out) {
-
 		$ocVersionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
 
 		// NOTE TO DEVELOPERS: when adding new mime types, please make sure to

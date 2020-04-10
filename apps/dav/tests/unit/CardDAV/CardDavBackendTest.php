@@ -206,7 +206,6 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testAddressBookSharing() {
-
 		$this->userManager->expects($this->any())
 			->method('userExists')
 			->willReturn(true);
@@ -333,7 +332,9 @@ class CardDavBackendTest extends TestCase {
 		// get all the cards
 		$cards = $this->backend->getCards($bookId);
 		$this->assertEquals(3, count($cards));
-		usort($cards, function ($a, $b) { return $a['id'] < $b['id'] ? -1 : 1; });
+		usort($cards, function ($a, $b) {
+			return $a['id'] < $b['id'] ? -1 : 1;
+		});
 
 		$this->assertEquals($this->vcardTest0, $cards[0]['carddata']);
 		$this->assertEquals($this->vcardTest1, $cards[1]['carddata']);
@@ -342,8 +343,10 @@ class CardDavBackendTest extends TestCase {
 		// get the cards 1 & 2 (not 0)
 		$cards = $this->backend->getMultipleCards($bookId, [$uri1, $uri2]);
 		$this->assertEquals(2, count($cards));
-		usort($cards, function ($a, $b) { return $a['id'] < $b['id'] ? -1 : 1; });
-		foreach($cards as $index => $card) {
+		usort($cards, function ($a, $b) {
+			return $a['id'] < $b['id'] ? -1 : 1;
+		});
+		foreach ($cards as $index => $card) {
 			$this->assertArrayHasKey('id', $card);
 			$this->assertArrayHasKey('uri', $card);
 			$this->assertArrayHasKey('lastmodified', $card);
@@ -361,7 +364,6 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testMultipleUIDOnDifferentAddressbooks() {
-
 		$this->backend = $this->getMockBuilder(CardDavBackend::class)
 			->setConstructorArgs([$this->db, $this->principal, $this->userManager, $this->groupManager, $this->dispatcher])
 			->setMethods(['updateProperties'])->getMock();
@@ -486,7 +488,6 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testSharing() {
-
 		$this->userManager->expects($this->any())
 			->method('userExists')
 			->willReturn(true);
@@ -525,7 +526,6 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testUpdateProperties() {
-
 		$bookId = 42;
 		$cardUri = 'card-uri';
 		$cardId = 2;
@@ -574,7 +574,6 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testPurgeProperties() {
-
 		$query = $this->db->getQueryBuilder();
 		$query->insert('cards_properties')
 			->values(
@@ -608,7 +607,6 @@ class CardDavBackendTest extends TestCase {
 		$this->assertSame(1, count($result));
 		$this->assertSame(1 ,(int)$result[0]['addressbookid']);
 		$this->assertSame(2 ,(int)$result[0]['cardid']);
-
 	}
 
 	public function testGetCardId() {
@@ -664,7 +662,7 @@ class CardDavBackendTest extends TestCase {
 
 		$vCardIds = [];
 		$query = $this->db->getQueryBuilder();
-		for($i=0; $i < 3; $i++) {
+		for ($i=0; $i < 3; $i++) {
 			$query->insert($this->dbCardsTable)
 					->values(
 							[
@@ -794,7 +792,7 @@ class CardDavBackendTest extends TestCase {
 
 	public function testGetContact() {
 		$query = $this->db->getQueryBuilder();
-		for($i=0; $i<2; $i++) {
+		for ($i=0; $i<2; $i++) {
 			$query->insert($this->dbCardsTable)
 					->values(
 							[

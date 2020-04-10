@@ -86,5 +86,4 @@ trait Search {
 			Assert::assertEquals($expectedValue, $searchResult[$expectedField], "Field '$expectedField' does not match ({$searchResult[$expectedField]})");
 		}
 	}
-
 }

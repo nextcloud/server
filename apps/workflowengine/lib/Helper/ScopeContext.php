@@ -41,16 +41,15 @@ class ScopeContext {
 	}
 
 	private function evaluateScope(int $scope): int {
-		if(in_array($scope, [IManager::SCOPE_ADMIN, IManager::SCOPE_USER], true)) {
+		if (in_array($scope, [IManager::SCOPE_ADMIN, IManager::SCOPE_USER], true)) {
 			return $scope;
 		}
 		throw new \InvalidArgumentException('Invalid scope');
 	}
 
 	private function evaluateScopeId(string $scopeId = null): string {
-		if($this->scope === IManager::SCOPE_USER
-			&& trim((string)$scopeId) === '')
-		{
+		if ($this->scope === IManager::SCOPE_USER
+			&& trim((string)$scopeId) === '') {
 			throw new \InvalidArgumentException('user scope requires a user id');
 		}
 		return trim((string)$scopeId);
@@ -71,7 +70,7 @@ class ScopeContext {
 	}
 
 	public function getHash(): string {
-		if($this->hash === null) {
+		if ($this->hash === null) {
 			$this->hash = \hash('sha256', $this->getScope() . '::' . $this->getScopeId());
 		}
 		return $this->hash;

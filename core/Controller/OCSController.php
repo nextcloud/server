@@ -102,7 +102,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			'extendedSupport' => \OCP\Util::hasExtendedSupport()
 		];
 
-		if($this->userSession->isLoggedIn()) {
+		if ($this->userSession->isLoggedIn()) {
 			$result['capabilities'] = $this->capabilitiesManager->getCapabilities();
 		} else {
 			$result['capabilities'] = $this->capabilitiesManager->getCapabilities(true);
@@ -145,7 +145,7 @@ class OCSController extends \OCP\AppFramework\OCSController {
 	public function getIdentityProof($cloudId) {
 		$userObject = $this->userManager->get($cloudId);
 
-		if($userObject !== null) {
+		if ($userObject !== null) {
 			$key = $this->keyManager->getKey($userObject);
 			$data = [
 				'public' => $key->getPublic(),

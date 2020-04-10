@@ -33,5 +33,6 @@ class SharingContext implements Context, SnippetAcceptingContext {
 	use Sharing;
 	use AppConfiguration;
 
-	protected function resetAppConfigs() {}
+	protected function resetAppConfigs() {
+	}
 }

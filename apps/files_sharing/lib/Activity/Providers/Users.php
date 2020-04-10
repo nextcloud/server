@@ -28,8 +28,6 @@ namespace OCA\Files_Sharing\Activity\Providers;
 use OCP\Activity\IEvent;
 
 class Users extends Base {
-
-
 	const SUBJECT_SHARED_USER_SELF = 'shared_user_self';
 	const SUBJECT_RESHARED_USER_BY = 'reshared_user_by';
 	const SUBJECT_UNSHARED_USER_SELF = 'unshared_user_self';
@@ -115,7 +113,6 @@ class Users extends Base {
 			$subject = $this->l->t('Share for file {file} with {user} expired');
 		} elseif ($event->getSubject() === self::SUBJECT_EXPIRED) {
 			$subject = $this->l->t('Share for file {file} expired');
-
 		} else {
 			throw new \InvalidArgumentException();
 		}

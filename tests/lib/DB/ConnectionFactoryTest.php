@@ -26,7 +26,6 @@ use OC\SystemConfig;
 use Test\TestCase;
 
 class ConnectionFactoryTest extends TestCase {
-
 	public function splitHostFromPortAndSocketData() {
 		return [
 			['127.0.0.1', ['host' => '127.0.0.1']],

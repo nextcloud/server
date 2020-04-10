@@ -51,7 +51,7 @@ class LogSettingsController extends Controller {
 	 * @return StreamResponse
 	 */
 	public function download() {
-		if(!$this->log instanceof Log) {
+		if (!$this->log instanceof Log) {
 			throw new \UnexpectedValueException('Log file not available');
 		}
 		$resp = new StreamResponse($this->log->getLogPath());

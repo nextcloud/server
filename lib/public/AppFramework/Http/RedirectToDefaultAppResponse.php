@@ -41,5 +41,4 @@ class RedirectToDefaultAppResponse extends RedirectResponse {
 	public function __construct() {
 		parent::__construct(\OC_Util::getDefaultPageUrl());
 	}
-
 }

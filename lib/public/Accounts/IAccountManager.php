@@ -65,5 +65,4 @@ interface IAccountManager {
 	 * @return IAccount
 	 */
 	public function getAccount(IUser $user): IAccount;
-
 }

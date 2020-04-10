@@ -51,7 +51,6 @@ use OCP\Files\Storage;
 use OCP\ILogger;
 
 class Encryption extends Wrapper {
-
 	use LocalTempFileTrait;
 
 	/** @var string */
@@ -117,7 +116,6 @@ class Encryption extends Wrapper {
 			Manager $mountManager = null,
 			ArrayCache $arrayCache = null
 		) {
-
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->mount = $parameters['mount'];
 		$this->encryptionManager = $encryptionManager;
@@ -207,7 +205,6 @@ class Encryption extends Wrapper {
 	 * @return string
 	 */
 	public function file_get_contents($path) {
-
 		$encryptionModule = $this->getEncryptionModule($path);
 
 		if ($encryptionModule) {
@@ -269,7 +266,6 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function rename($path1, $path2) {
-
 		$result = $this->storage->rename($path1, $path2);
 
 		if ($result &&
@@ -320,7 +316,6 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function isReadable($path) {
-
 		$isReadable = true;
 
 		$metaData = $this->getMetaData($path);
@@ -345,7 +340,6 @@ class Encryption extends Wrapper {
 	 * @return bool
 	 */
 	public function copy($path1, $path2) {
-
 		$source = $this->getFullPath($path1);
 
 		if ($this->util->isExcluded($source)) {
@@ -386,7 +380,6 @@ class Encryption extends Wrapper {
 		$encryptionModuleId = $this->util->getEncryptionModuleId($header);
 
 		if ($this->util->isExcluded($fullPath) === false) {
-
 			$size = $unencryptedSize = 0;
 			$realFile = $this->util->stripPartialFileExtension($path);
 			$targetExists = $this->file_exists($realFile) || $this->file_exists($path);
@@ -409,7 +402,6 @@ class Encryption extends Wrapper {
 			}
 
 			try {
-
 				if (
 					$mode === 'w'
 					|| $mode === 'w+'
@@ -472,7 +464,6 @@ class Encryption extends Wrapper {
 					$size, $unencryptedSize, $headerSize, $signed);
 				return $handle;
 			}
-
 		}
 
 		return $this->storage->fopen($path, $mode);
@@ -489,7 +480,6 @@ class Encryption extends Wrapper {
 	 * @return int unencrypted size
 	 */
 	protected function verifyUnencryptedSize($path, $unencryptedSize) {
-
 		$size = $this->storage->filesize($path);
 		$result = $unencryptedSize;
 
@@ -523,7 +513,6 @@ class Encryption extends Wrapper {
 	 * @return int calculated unencrypted size
 	 */
 	protected function fixUnencryptedSize($path, $size, $unencryptedSize) {
-
 		$headerSize = $this->getHeaderSize($path);
 		$header = $this->getHeader($path);
 		$encryptionModule = $this->getEncryptionModule($path);
@@ -572,7 +561,7 @@ class Encryption extends Wrapper {
 			$data=fread($stream, $blockSize);
 			$count=strlen($data);
 			$lastChunkContentEncrypted .= $data;
-			if(strlen($lastChunkContentEncrypted) > $blockSize) {
+			if (strlen($lastChunkContentEncrypted) > $blockSize) {
 				$newUnencryptedSize += $unencryptedBlockSize;
 				$lastChunkContentEncrypted=substr($lastChunkContentEncrypted, $blockSize);
 			}
@@ -667,7 +656,7 @@ class Encryption extends Wrapper {
 		$cacheInformation = [
 			'encrypted' => $isEncrypted,
 		];
-		if($isEncrypted) {
+		if ($isEncrypted) {
 			$encryptedVersion = $sourceStorage->getCache()->get($sourceInternalPath)['encryptedVersion'];
 
 			// In case of a move operation from an unencrypted to an encrypted
@@ -675,7 +664,7 @@ class Encryption extends Wrapper {
 			// correct value would be "1". Thus we manually set the value to "1"
 			// for those cases.
 			// See also https://github.com/owncloud/core/issues/23078
-			if($encryptedVersion === 0 || !$keepEncryptionVersion) {
+			if ($encryptedVersion === 0 || !$keepEncryptionVersion) {
 				$encryptedVersion = 1;
 			}
 
@@ -762,7 +751,7 @@ class Encryption extends Wrapper {
 				fclose($target);
 				throw $e;
 			}
-			if($result) {
+			if ($result) {
 				if ($preserveMtime) {
 					$this->touch($targetInternalPath, $sourceStorage->filemtime($sourceInternalPath));
 				}
@@ -775,7 +764,6 @@ class Encryption extends Wrapper {
 			}
 		}
 		return (bool)$result;
-
 	}
 
 	/**
@@ -1030,7 +1018,6 @@ class Encryption extends Wrapper {
 		}
 
 		return $encryptionModule->shouldEncrypt($fullPath);
-
 	}
 
 	public function writeStream(string $path, $stream, int $size = null): int {
@@ -1040,5 +1027,4 @@ class Encryption extends Wrapper {
 		fclose($target);
 		return $count;
 	}
-
 }

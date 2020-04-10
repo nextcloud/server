@@ -38,7 +38,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class GenerateCommand extends Command implements CompletionAwareInterface {
-
 	protected static $_templateSimple =
 		'<?php
 

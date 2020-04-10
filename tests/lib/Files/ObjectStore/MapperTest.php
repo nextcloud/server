@@ -25,7 +25,6 @@ use OC\Files\ObjectStore\Mapper;
 use OCP\IUser;
 
 class MapperTest extends \Test\TestCase {
-
 	public function dataGetBucket() {
 		return [
 			['user', 64, '17'],

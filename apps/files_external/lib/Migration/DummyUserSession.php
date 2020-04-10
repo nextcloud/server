@@ -70,5 +70,4 @@ class DummyUserSession implements IUserSession {
 	public function setImpersonatingUserID(bool $useCurrentUser = true): void {
 		//no OP
 	}
-
 }

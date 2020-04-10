@@ -52,8 +52,7 @@ namespace OCA\DAV\Connector\Sabre;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 
-class TagsPlugin extends \Sabre\DAV\ServerPlugin
-{
+class TagsPlugin extends \Sabre\DAV\ServerPlugin {
 
 	// namespace
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
@@ -114,7 +113,6 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin
 	 * @return void
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
-
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 		$server->xml->elementMap[self::TAGS_PROPERTYNAME] = TagList::class;
 

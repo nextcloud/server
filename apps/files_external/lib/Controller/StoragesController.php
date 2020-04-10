@@ -363,5 +363,4 @@ abstract class StoragesController extends Controller {
 
 		return new DataResponse([], Http::STATUS_NO_CONTENT);
 	}
-
 }

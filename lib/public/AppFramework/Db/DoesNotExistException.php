@@ -42,5 +42,4 @@ class DoesNotExistException extends \Exception implements IMapperException {
 	public function __construct($msg) {
 		parent::__construct($msg);
 	}
-
 }

@@ -31,7 +31,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Settings\ISettings;
 
 class PersonalSettings implements ISettings {
-
 	public function getForm(): TemplateResponse {
 		return new TemplateResponse(Application::APP_ID, 'settings-personal');
 	}
@@ -43,5 +42,4 @@ class PersonalSettings implements ISettings {
 	public function getPriority(): int {
 		return 90;
 	}
-
 }

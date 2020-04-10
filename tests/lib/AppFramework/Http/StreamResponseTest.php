@@ -95,5 +95,4 @@ class StreamResponseTest extends \Test\TestCase {
 
 		$response->callback($this->output);
 	}
-
 }

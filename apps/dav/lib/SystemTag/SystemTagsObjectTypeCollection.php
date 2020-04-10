@@ -120,7 +120,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 */
 	function getChild($objectId) {
 		// make sure the object exists and is reachable
-		if(!$this->childExists($objectId)) {
+		if (!$this->childExists($objectId)) {
 			throw new NotFound('Entity does not exist or is not available');
 		}
 		return new SystemTagsObjectMappingCollection(

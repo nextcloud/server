@@ -70,7 +70,6 @@ class AddServerMiddlewareTest extends TestCase {
 	 * @param string $hint
 	 */
 	public function testAfterException($exception, $hint) {
-
 		$this->logger->expects($this->once())->method('logException');
 
 		$this->l10n->expects($this->any())->method('t')
@@ -99,5 +98,4 @@ class AddServerMiddlewareTest extends TestCase {
 			[new \Exception('message'), 'message'],
 		];
 	}
-
 }

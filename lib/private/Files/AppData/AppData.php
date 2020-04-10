@@ -65,7 +65,6 @@ class AppData implements IAppData {
 	public function __construct(IRootFolder $rootFolder,
 								SystemConfig $systemConfig,
 								string $appId) {
-
 		$this->rootFolder = $rootFolder;
 		$this->config = $systemConfig;
 		$this->appId = $appId;

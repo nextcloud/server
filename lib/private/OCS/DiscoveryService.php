@@ -85,7 +85,7 @@ class DiscoveryService implements IDiscoveryService {
 				'timeout' => 10,
 				'connect_timeout' => 10,
 			]);
-			if($response->getStatusCode() === Http::STATUS_OK) {
+			if ($response->getStatusCode() === Http::STATUS_OK) {
 				$decodedServices = json_decode($response->getBody(), true);
 				if (\is_array($decodedServices)) {
 					$discoveredServices = $this->getEndpoints($decodedServices, $service);
@@ -108,12 +108,11 @@ class DiscoveryService implements IDiscoveryService {
 	 * @return array
 	 */
 	protected function getEndpoints(array $decodedServices, string $service): array {
-
 		$discoveredServices = [];
 
-		if(isset($decodedServices['services'][$service]['endpoints'])) {
+		if (isset($decodedServices['services'][$service]['endpoints'])) {
 			foreach ($decodedServices['services'][$service]['endpoints'] as $endpoint => $url) {
-				if($this->isSafeUrl($url)) {
+				if ($this->isSafeUrl($url)) {
 					$discoveredServices[$endpoint] = $url;
 				}
 			}
@@ -132,5 +131,4 @@ class DiscoveryService implements IDiscoveryService {
 	protected function isSafeUrl(string $url): bool {
 		return (bool)preg_match('/^[\/\.\-A-Za-z0-9]+$/', $url);
 	}
-
 }

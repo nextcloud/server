@@ -79,7 +79,7 @@ trait Sharing {
 
 		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
-			if (array_key_exists('expireDate', $fd)){
+			if (array_key_exists('expireDate', $fd)) {
 				$dateModification = $fd['expireDate'];
 				$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
 			}
@@ -106,7 +106,7 @@ trait Sharing {
 	 * @When /^restore the last share data from "([^"]*)"$/
 	 */
 	public function restoreLastShareData($name) {
-		 $this->lastShareData = $this->storedShareData[$name];
+		$this->lastShareData = $this->storedShareData[$name];
 	}
 
 	/**
@@ -156,10 +156,9 @@ trait Sharing {
 	public function checkPublicSharedFile($filename) {
 		$client = new Client();
 		$options = [];
-		if (count($this->lastShareData->data->element) > 0){
+		if (count($this->lastShareData->data->element) > 0) {
 			$url = $this->lastShareData->data[0]->url;
-		}
-		else{
+		} else {
 			$url = $this->lastShareData->data->url;
 		}
 		$fullUrl = $url . "/download";
@@ -171,10 +170,9 @@ trait Sharing {
 	 */
 	public function checkPublicSharedFileWithPassword($filename, $password) {
 		$options = [];
-		if (count($this->lastShareData->data->element) > 0){
+		if (count($this->lastShareData->data->element) > 0) {
 			$token = $this->lastShareData->data[0]->token;
-		}
-		else{
+		} else {
 			$token = $this->lastShareData->data->token;
 		}
 
@@ -246,7 +244,7 @@ trait Sharing {
 
 		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
-			if (array_key_exists('expireDate', $fd)){
+			if (array_key_exists('expireDate', $fd)) {
 				$dateModification = $fd['expireDate'];
 				$fd['expireDate'] = date('Y-m-d', strtotime($dateModification));
 			}
@@ -281,22 +279,22 @@ trait Sharing {
 			$options['auth'] = [$user, $this->regularUser];
 		}
 		$body = [];
-		if (!is_null($path)){
+		if (!is_null($path)) {
 			$body['path'] = $path;
 		}
-		if (!is_null($shareType)){
+		if (!is_null($shareType)) {
 			$body['shareType'] = $shareType;
 		}
-		if (!is_null($shareWith)){
+		if (!is_null($shareWith)) {
 			$body['shareWith'] = $shareWith;
 		}
-		if (!is_null($publicUpload)){
+		if (!is_null($publicUpload)) {
 			$body['publicUpload'] = $publicUpload;
 		}
-		if (!is_null($password)){
+		if (!is_null($password)) {
 			$body['password'] = $password;
 		}
-		if (!is_null($permissions)){
+		if (!is_null($permissions)) {
 			$body['permissions'] = $permissions;
 		}
 
@@ -313,41 +311,34 @@ trait Sharing {
 
 	public function isFieldInResponse($field, $contentExpected) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
-		if ((string)$field == 'expiration'){
+		if ((string)$field == 'expiration') {
 			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
 		}
-		if (count($data->element) > 0){
-			foreach($data as $element) {
-				if ($contentExpected == "A_TOKEN"){
+		if (count($data->element) > 0) {
+			foreach ($data as $element) {
+				if ($contentExpected == "A_TOKEN") {
 					return (strlen((string)$element->$field) == 15);
-				}
-				elseif ($contentExpected == "A_NUMBER"){
+				} elseif ($contentExpected == "A_NUMBER") {
 					return is_numeric((string)$element->$field);
-				}
-				elseif($contentExpected == "AN_URL"){
+				} elseif ($contentExpected == "AN_URL") {
 					return $this->isExpectedUrl((string)$element->$field, "index.php/s/");
-				}
-				elseif ((string)$element->$field == $contentExpected){
+				} elseif ((string)$element->$field == $contentExpected) {
 					return true;
-				}
-				else{
+				} else {
 					print($element->$field);
 				}
 			}
 
 			return false;
 		} else {
-			if ($contentExpected == "A_TOKEN"){
-					return (strlen((string)$data->$field) == 15);
-			}
-			elseif ($contentExpected == "A_NUMBER"){
-					return is_numeric((string)$data->$field);
-			}
-			elseif($contentExpected == "AN_URL"){
-					return $this->isExpectedUrl((string)$data->$field, "index.php/s/");
-			}
-			elseif ($data->$field == $contentExpected){
-					return true;
+			if ($contentExpected == "A_TOKEN") {
+				return (strlen((string)$data->$field) == 15);
+			} elseif ($contentExpected == "A_NUMBER") {
+				return is_numeric((string)$data->$field);
+			} elseif ($contentExpected == "AN_URL") {
+				return $this->isExpectedUrl((string)$data->$field, "index.php/s/");
+			} elseif ($data->$field == $contentExpected) {
+				return true;
 			}
 			return false;
 		}
@@ -391,8 +382,8 @@ trait Sharing {
 
 	public function isUserOrGroupInSharedData($userOrGroup, $permissions = null) {
 		$data = simplexml_load_string($this->response->getBody())->data[0];
-		foreach($data as $element) {
-			if ($element->share_with == $userOrGroup && ($permissions === null || $permissions == $element->permissions)){
+		foreach ($data as $element) {
+			if ($element->share_with == $userOrGroup && ($permissions === null || $permissions == $element->permissions)) {
 				return true;
 			}
 		}
@@ -419,7 +410,7 @@ trait Sharing {
 			'OCS-APIREQUEST' => 'true',
 		];
 		$this->response = $client->get($fullUrl, $options);
-		if ($this->isUserOrGroupInSharedData($user2, $permissions)){
+		if ($this->isUserOrGroupInSharedData($user2, $permissions)) {
 			return;
 		} else {
 			$this->createShare($user1, $filepath, 0, $user2, null, null, $permissions);
@@ -448,7 +439,7 @@ trait Sharing {
 			'OCS-APIREQUEST' => 'true',
 		];
 		$this->response = $client->get($fullUrl, $options);
-		if ($this->isUserOrGroupInSharedData($group, $permissions)){
+		if ($this->isUserOrGroupInSharedData($group, $permissions)) {
 			return;
 		} else {
 			$this->createShare($user, $filepath, 1, $group, null, null, $permissions);
@@ -480,7 +471,7 @@ trait Sharing {
 	 */
 	public function checkingLastShareIDIsIncluded() {
 		$share_id = $this->lastShareData->data[0]->id;
-		if (!$this->isFieldInResponse('id', $share_id)){
+		if (!$this->isFieldInResponse('id', $share_id)) {
 			Assert::fail("Share id $share_id not found in response");
 		}
 	}
@@ -490,7 +481,7 @@ trait Sharing {
 	 */
 	public function checkingLastShareIDIsNotIncluded() {
 		$share_id = $this->lastShareData->data[0]->id;
-		if ($this->isFieldInResponse('id', $share_id)){
+		if ($this->isFieldInResponse('id', $share_id)) {
 			Assert::fail("Share id $share_id has been found in response");
 		}
 	}
@@ -503,16 +494,16 @@ trait Sharing {
 		if ($body instanceof TableNode) {
 			$fd = $body->getRowsHash();
 
-			foreach($fd as $field => $value) {
-				if (substr($field, 0, 10) === "share_with"){
+			foreach ($fd as $field => $value) {
+				if (substr($field, 0, 10) === "share_with") {
 					$value = str_replace("REMOTE", substr($this->remoteBaseUrl, 0, -5), $value);
 					$value = str_replace("LOCAL", substr($this->localBaseUrl, 0, -5), $value);
 				}
-				if (substr($field, 0, 6) === "remote"){
+				if (substr($field, 0, 6) === "remote") {
 					$value = str_replace("REMOTE", substr($this->remoteBaseUrl, 0, -4), $value);
 					$value = str_replace("LOCAL", substr($this->localBaseUrl, 0, -4), $value);
 				}
-				if (!$this->isFieldInResponse($field, $value)){
+				if (!$this->isFieldInResponse($field, $value)) {
 					Assert::fail("$field" . " doesn't have value " . "$value");
 				}
 			}
@@ -610,7 +601,7 @@ trait Sharing {
 			Assert::fail("$field was not found in response");
 		}
 
-		if ($field === 'expiration' && !empty($contentExpected)){
+		if ($field === 'expiration' && !empty($contentExpected)) {
 			$contentExpected = date('Y-m-d', strtotime($contentExpected)) . " 00:00:00";
 		}
 
@@ -648,7 +639,7 @@ trait Sharing {
 		);
 		$json = json_decode($res->getBody()->getContents(), true);
 		$deleted = false;
-		foreach($json['ocs']['data'] as $data) {
+		foreach ($json['ocs']['data'] as $data) {
 			if (stripslashes($data['path']) === $fileName) {
 				$id = $data['id'];
 				$client->delete(
@@ -668,7 +659,7 @@ trait Sharing {
 			}
 		}
 
-		if($deleted === false) {
+		if ($deleted === false) {
 			throw new \Exception("Could not delete file $fileName");
 		}
 	}
@@ -676,16 +667,14 @@ trait Sharing {
 	/**
 	 * @When save last share id
 	 */
-	public function saveLastShareId()
-	{
+	public function saveLastShareId() {
 		$this->savedShareId = $this->lastShareData['data']['id'];
 	}
 
 	/**
 	 * @Then share ids should match
 	 */
-	public function shareIdsShouldMatch()
-	{
+	public function shareIdsShouldMatch() {
 		if ($this->savedShareId !== $this->lastShareData['data']['id']) {
 			throw new \Exception('Expected the same link share to be returned');
 		}

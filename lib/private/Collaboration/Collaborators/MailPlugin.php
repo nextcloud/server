@@ -65,7 +65,6 @@ class MailPlugin implements ISearchPlugin {
 		$this->shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$this->shareWithGroupOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$this->shareeEnumerationInGroupOnly = $this->shareeEnumeration && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
-
 	}
 
 	/**
@@ -99,7 +98,7 @@ class MailPlugin implements ISearchPlugin {
 						$emailAddress = $emailAddressData['value'];
 						$emailAddressType = $emailAddressData['type'];
 					}
-					if (isset($contact['FN'])) 	{
+					if (isset($contact['FN'])) {
 						$displayName = $contact['FN'] . ' (' . $emailAddress . ')';
 					}
 					$exactEmailMatch = strtolower($emailAddress) === $lowerSearch;
@@ -179,8 +178,7 @@ class MailPlugin implements ISearchPlugin {
 					}
 
 					if ($exactEmailMatch
-						|| isset($contact['FN']) && strtolower($contact['FN']) === $lowerSearch)
-					{
+						|| isset($contact['FN']) && strtolower($contact['FN']) === $lowerSearch) {
 						if ($exactEmailMatch) {
 							$searchResult->markExactIdMatch($emailType);
 						}

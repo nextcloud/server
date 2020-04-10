@@ -75,7 +75,7 @@ class Manager implements \OCP\Calendar\Resource\IManager {
 	 * @since 14.0.0
 	 */
 	public function getBackends():array {
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			if (isset($this->initializedBackends[$backend])) {
 				continue;
 			}
@@ -93,7 +93,7 @@ class Manager implements \OCP\Calendar\Resource\IManager {
 	 */
 	public function getBackend($backendId) {
 		$backends = $this->getBackends();
-		foreach($backends as $backend) {
+		foreach ($backends as $backend) {
 			if ($backend->getBackendIdentifier() === $backendId) {
 				return $backend;
 			}

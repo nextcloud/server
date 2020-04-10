@@ -197,7 +197,6 @@ class ProviderFactory implements IProviderFactory {
 	 * @suppress PhanUndeclaredClassMethod
 	 */
 	protected function getShareByCircleProvider() {
-
 		if ($this->circlesAreNotAvailable) {
 			return null;
 		}
@@ -210,7 +209,6 @@ class ProviderFactory implements IProviderFactory {
 		}
 
 		if ($this->shareByCircleProvider === null) {
-
 			$this->shareByCircleProvider = new \OCA\Circles\ShareByCircleProvider(
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getSecureRandom(),

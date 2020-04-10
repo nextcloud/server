@@ -270,5 +270,4 @@ trait Auth {
 	public function whenTheSessionCookieExpires() {
 		$this->cookieJar->clearSessionCookies();
 	}
-
 }

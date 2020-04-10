@@ -46,7 +46,9 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 
 		switch ($parameter->getType()) {
 		case DefinitionParameter::VALUE_PASSWORD: ?>
-			<?php if ($is_optional) { $classes[] = 'optional'; } ?>
+			<?php if ($is_optional) {
+			$classes[] = 'optional';
+		} ?>
 			<input type="password"
 				<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
 				data-parameter="<?php p($parameter->getName()); ?>"
@@ -79,7 +81,9 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 			<?php
 			break;
 		default: ?>
-			<?php if ($is_optional) { $classes[] = 'optional'; } ?>
+			<?php if ($is_optional) {
+			$classes[] = 'optional';
+		} ?>
 			<input type="text"
 				<?php if (!empty($classes)): ?> class="<?php p(implode(' ', $classes)); ?>"<?php endif; ?>
 				data-parameter="<?php p($parameter->getName()); ?>"
@@ -100,7 +104,9 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 	<h2 class="inlineblock" data-anchor-name="external-storage"><?php p($l->t('External storages')); ?></h2>
 	<a target="_blank" rel="noreferrer" class="icon-info" title="<?php p($l->t('Open documentation'));?>" href="<?php p(link_to_docs('admin-external-storage')); ?>"></a>
 	<p class="settings-hint"><?php p($l->t('External storage enables you to mount external storage services and devices as secondary Nextcloud storage devices. You may also allow users to mount their own external storage services.')); ?></p>
-	<?php if (isset($_['dependencies']) and ($_['dependencies'] !== '') and $canCreateMounts) print_unescaped(''.$_['dependencies'].''); ?>
+	<?php if (isset($_['dependencies']) and ($_['dependencies'] !== '') and $canCreateMounts) {
+	print_unescaped(''.$_['dependencies'].'');
+} ?>
 	<table id="externalStorage" class="grid" data-admin='<?php print_unescaped(json_encode($_['visibilityType'] === BackendService::VISIBILITY_ADMIN)); ?>'>
 		<thead>
 			<tr>
@@ -109,7 +115,9 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 				<th><?php p($l->t('External storage')); ?></th>
 				<th><?php p($l->t('Authentication')); ?></th>
 				<th><?php p($l->t('Configuration')); ?></th>
-				<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN) print_unescaped('<th>'.$l->t('Available for').'</th>'); ?>
+				<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN) {
+	print_unescaped('<th>'.$l->t('Available for').'</th>');
+} ?>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>
 				<th>&nbsp;</th>
@@ -142,7 +150,9 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 							});
 						?>
 						<?php foreach ($sortedBackends as $backend): ?>
-							<?php if ($backend->getDeprecateTo()) continue; // ignore deprecated backends?>
+							<?php if ($backend->getDeprecateTo()) {
+							continue;
+						} // ignore deprecated backends?>
 							<option value="<?php p($backend->getIdentifier()); ?>"><?php p($backend->getText()); ?></option>
 						<?php endforeach; ?>
 					</select>
@@ -167,7 +177,9 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 
 	<?php if ($_['visibilityType'] === BackendService::VISIBILITY_ADMIN): ?>
 		<input type="checkbox" name="allowUserMounting" id="allowUserMounting" class="checkbox"
-			value="1" <?php if ($_['allowUserMounting']) print_unescaped(' checked="checked"'); ?> />
+			value="1" <?php if ($_['allowUserMounting']) {
+							print_unescaped(' checked="checked"');
+						} ?> />
 		<label for="allowUserMounting"><?php p($l->t('Allow users to mount external storage')); ?></label> <span id="userMountingMsg" class="msg"></span>
 
 		<p id="userMountingBackends"<?php if (!$_['allowUserMounting']): ?> class="hidden"<?php endif; ?>>
@@ -180,7 +192,9 @@ $canCreateMounts = $_['visibilityType'] === BackendService::VISIBILITY_ADMIN || 
 				<?php if ($deprecateTo = $backend->getDeprecateTo()): ?>
 					<input type="hidden" id="allowUserMountingBackends<?php p($i); ?>" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" data-deprecate-to="<?php p($deprecateTo->getIdentifier()); ?>" />
 				<?php else: ?>
-					<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" class="checkbox" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" <?php if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) print_unescaped(' checked="checked"'); ?> />
+					<input type="checkbox" id="allowUserMountingBackends<?php p($i); ?>" class="checkbox" name="allowUserMountingBackends[]" value="<?php p($backend->getIdentifier()); ?>" <?php if ($backend->isVisibleFor(BackendService::VISIBILITY_PERSONAL)) {
+				print_unescaped(' checked="checked"');
+			} ?> />
 					<label for="allowUserMountingBackends<?php p($i); ?>"><?php p($backend->getText()); ?></label> <br />
 				<?php endif; ?>
 				<?php $i++; ?>

@@ -70,7 +70,7 @@ class ListCalendars extends Command {
 		$calendars = $this->caldav->getCalendarsForUser("principals/users/$user");
 
 		$calendarTableData = [];
-		foreach($calendars as $calendar) {
+		foreach ($calendars as $calendar) {
 			// skip birthday calendar
 			if ($calendar['uri'] === BirthdayService::BIRTHDAY_CALENDAR_URI) {
 				continue;
@@ -101,5 +101,4 @@ class ListCalendars extends Command {
 			$output->writeln("<info>User <$user> has no calendars</info>");
 		}
 	}
-
 }

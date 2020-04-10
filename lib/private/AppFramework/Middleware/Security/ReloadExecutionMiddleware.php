@@ -65,6 +65,4 @@ class ReloadExecutionMiddleware extends Middleware {
 
 		return parent::afterException($controller, $methodName, $exception);
 	}
-
-
 }

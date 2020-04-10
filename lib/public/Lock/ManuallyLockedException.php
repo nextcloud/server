@@ -85,5 +85,4 @@ class ManuallyLockedException extends LockedException {
 	public function getOwner(): ?string {
 		return $this->owner;
 	}
-
 }

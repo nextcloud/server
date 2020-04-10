@@ -321,5 +321,4 @@ class Scan extends Base {
 		}
 		return $connection;
 	}
-
 }

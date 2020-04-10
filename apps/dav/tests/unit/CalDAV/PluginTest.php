@@ -28,7 +28,7 @@ namespace OCA\DAV\Tests\unit\CalDAV;
 use OCA\DAV\CalDAV\Plugin;
 use Test\TestCase;
 
-class PluginTest extends TestCase  {
+class PluginTest extends TestCase {
 	/** @var Plugin */
 	private $plugin;
 

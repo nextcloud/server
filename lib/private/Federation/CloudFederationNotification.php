@@ -33,7 +33,6 @@ use OCP\Federation\ICloudFederationNotification;
  * @since 14.0.0
  */
 class CloudFederationNotification implements ICloudFederationNotification {
-
 	private $message = [];
 
 	/**
@@ -53,7 +52,6 @@ class CloudFederationNotification implements ICloudFederationNotification {
 			'providerId' => $providerId,
 			'notification' => $notification,
 		];
-
 	}
 
 	/**

@@ -57,7 +57,6 @@ use OCP\ILogger;
  *   logout()
  */
 class OC_User {
-
 	private static $_usedBackends = [];
 
 	private static $_setupedBackends = [];
@@ -161,7 +160,6 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function loginWithApache(\OCP\Authentication\IApacheBackend $backend) {
-
 		$uid = $backend->getCurrentUserId();
 		$run = true;
 		OC_Hook::emit("OC_User", "pre_login", ["run" => &$run, "uid" => $uid, 'backend' => $backend]);

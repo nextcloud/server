@@ -67,6 +67,4 @@ class LazySearchBackend implements ISearchBackend {
 			return [];
 		}
 	}
-
-
 }

@@ -93,7 +93,6 @@ class PreviewController extends Controller {
 		int $x = 128,
 		int $y = 128
 	) {
-
 		if ($fileId === -1 || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}

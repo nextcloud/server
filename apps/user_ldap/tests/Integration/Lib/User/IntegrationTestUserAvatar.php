@@ -77,7 +77,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		\OC_Util::setupFS($username);
 		\OC::$server->getUserFolder($username);
 		\OC::$server->getConfig()->deleteUserValue($username, 'user_ldap', User::USER_PREFKEY_LASTREFRESH);
-		if(\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
+		if (\OC::$server->getAvatarManager()->getAvatar($username)->exists()) {
 			\OC::$server->getAvatarManager()->getAvatar($username)->remove();
 		}
 

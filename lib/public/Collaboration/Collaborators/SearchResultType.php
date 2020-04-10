@@ -61,11 +61,11 @@ class SearchResultType {
 	protected function getValidatedType($type) {
 		$type = trim((string)$type);
 
-		if($type === '') {
+		if ($type === '') {
 			throw new \InvalidArgumentException('Type must not be empty');
 		}
 
-		if($type === 'exact') {
+		if ($type === 'exact') {
 			throw new \InvalidArgumentException('Provided type is a reserved word');
 		}
 

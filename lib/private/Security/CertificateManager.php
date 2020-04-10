@@ -87,7 +87,6 @@ class CertificateManager implements ICertificateManager {
 	 * @return \OCP\ICertificate[]
 	 */
 	public function listCertificates() {
-
 		if (!$this->config->getSystemValue('installed', false)) {
 			return [];
 		}
@@ -187,7 +186,6 @@ class CertificateManager implements ICertificateManager {
 		} catch (\Exception $e) {
 			throw $e;
 		}
-
 	}
 
 	/**
@@ -287,5 +285,4 @@ class CertificateManager implements ICertificateManager {
 	protected function getFilemtimeOfCaBundle() {
 		return filemtime(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
 	}
-
 }

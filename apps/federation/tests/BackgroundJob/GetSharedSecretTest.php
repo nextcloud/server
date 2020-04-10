@@ -158,7 +158,6 @@ class GetSharedSecretTest extends TestCase {
 		}
 
 		$getSharedSecret->execute($this->jobList);
-
 	}
 
 	public function dataTestExecute() {

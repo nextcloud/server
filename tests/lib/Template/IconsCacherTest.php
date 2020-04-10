@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 /**
  * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
  *
@@ -148,5 +148,4 @@ class IconsCacherTest extends \Test\TestCase {
 		$actual = $this->iconsCacher->setIconsCss($actual);
 		$this->assertEquals($expected, $actual);
 	}
-
 }

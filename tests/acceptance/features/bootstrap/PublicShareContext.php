@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class PublicShareContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 	use FileListAncestorSetter;
 
@@ -250,5 +249,4 @@ class PublicShareContext implements Context, ActorAwareInterface {
 		} catch (NoSuchElementException $exception) {
 		}
 	}
-
 }

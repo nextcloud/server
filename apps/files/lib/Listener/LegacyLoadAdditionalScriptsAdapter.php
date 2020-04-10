@@ -55,5 +55,4 @@ class LegacyLoadAdditionalScriptsAdapter implements IEventListener {
 			$event->addHiddenField($name, $value);
 		}
 	}
-
 }

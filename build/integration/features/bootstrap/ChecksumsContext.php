@@ -64,7 +64,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @return string
 	 */
 	private function getPasswordForUser($userName) {
-		if($userName === 'admin') {
+		if ($userName === 'admin') {
 			return 'admin';
 		}
 		return '123456';
@@ -77,8 +77,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $destination
 	 * @param string $checksum
 	 */
-	public function userUploadsFileToWithChecksum($user, $source, $destination, $checksum)
-	{
+	public function userUploadsFileToWithChecksum($user, $source, $destination, $checksum) {
 		$file = \GuzzleHttp\Psr7\stream_for(fopen($source, 'r'));
 		try {
 			$this->response = $this->client->put(
@@ -106,7 +105,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theWebdavResponseShouldHaveAStatusCode($statusCode) {
-		if((int)$statusCode !== $this->response->getStatusCode()) {
+		if ((int)$statusCode !== $this->response->getStatusCode()) {
 			throw new \Exception("Expected $statusCode, got ".$this->response->getStatusCode());
 		}
 	}
@@ -116,8 +115,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $user
 	 * @param string $path
 	 */
-	public function userRequestTheChecksumOfViaPropfind($user, $path)
-	{
+	public function userRequestTheChecksumOfViaPropfind($user, $path) {
 		$this->response = $this->client->request(
 			'PROPFIND',
 			$this->baseUrl . '/remote.php/webdav' . $path,
@@ -141,8 +139,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $checksum
 	 * @throws \Exception
 	 */
-	public function theWebdavChecksumShouldMatch($checksum)
-	{
+	public function theWebdavChecksumShouldMatch($checksum) {
 		$service = new Sabre\Xml\Service();
 		$parsed = $service->parse($this->response->getBody()->getContents());
 
@@ -162,8 +159,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $user
 	 * @param string $path
 	 */
-	public function userDownloadsTheFile($user, $path)
-	{
+	public function userDownloadsTheFile($user, $path) {
 		$this->response = $this->client->get(
 			$this->baseUrl . '/remote.php/webdav' . $path,
 			[
@@ -180,8 +176,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $checksum
 	 * @throws \Exception
 	 */
-	public function theHeaderChecksumShouldMatch($checksum)
-	{
+	public function theHeaderChecksumShouldMatch($checksum) {
 		if ($this->response->getHeader('OC-Checksum')[0] !== $checksum) {
 			throw new \Exception("Expected $checksum, got ".$this->response->getHeader('OC-Checksum')[0]);
 		}
@@ -193,8 +188,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $source
 	 * @param string $destination
 	 */
-	public function userCopiedFileTo($user, $source, $destination)
-	{
+	public function userCopiedFileTo($user, $source, $destination) {
 		$this->response = $this->client->request(
 			'MOVE',
 			$this->baseUrl . '/remote.php/webdav' . $source,
@@ -213,8 +207,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	/**
 	 * @Then The webdav checksum should be empty
 	 */
-	public function theWebdavChecksumShouldBeEmpty()
-	{
+	public function theWebdavChecksumShouldBeEmpty() {
 		$service = new Sabre\Xml\Service();
 		$parsed = $service->parse($this->response->getBody()->getContents());
 
@@ -232,8 +225,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	/**
 	 * @Then The OC-Checksum header should not be there
 	 */
-	public function theOcChecksumHeaderShouldNotBeThere()
-	{
+	public function theOcChecksumHeaderShouldNotBeThere() {
 		if ($this->response->hasHeader('OC-Checksum')) {
 			throw new \Exception("Expected no checksum header but got ".$this->response->getHeader('OC-Checksum')[0]);
 		}
@@ -248,8 +240,7 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 	 * @param string $destination
 	 * @param string $checksum
 	 */
-	public function userUploadsChunkFileOfWithToWithChecksum($user, $num, $total, $data, $destination, $checksum)
-	{
+	public function userUploadsChunkFileOfWithToWithChecksum($user, $num, $total, $data, $destination, $checksum) {
 		$num -= 1;
 		$this->response = $this->client->put(
 			$this->baseUrl . '/remote.php/webdav' . $destination . '-chunking-42-'.$total.'-'.$num,
@@ -265,6 +256,5 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 				]
 			]
 		);
-
 	}
 }

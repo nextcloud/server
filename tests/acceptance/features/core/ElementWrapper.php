@@ -333,5 +333,4 @@ class ElementWrapper {
 
 		return Utils::waitFor($isVisibleCallback, $timeout, $timeoutStep);
 	}
-
 }

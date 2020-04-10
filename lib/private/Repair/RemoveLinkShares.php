@@ -210,7 +210,7 @@ class RemoveLinkShares implements IRepairStep {
 		$output->startProgress($total);
 
 		$shareCursor = $this->getShares();
-		while($data = $shareCursor->fetch()) {
+		while ($data = $shareCursor->fetch()) {
 			$this->processShare($data);
 			$output->advance();
 		}

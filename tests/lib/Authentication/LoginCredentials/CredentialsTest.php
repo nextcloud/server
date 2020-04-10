@@ -62,5 +62,4 @@ class CredentialsTest extends TestCase {
 	public function testGetPassword() {
 		$this->assertEquals($this->password, $this->credentials->getPassword());
 	}
-
 }

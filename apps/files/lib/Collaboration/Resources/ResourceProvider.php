@@ -37,7 +37,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 
 class ResourceProvider implements IProvider {
-
 	public const RESOURCE_TYPE = 'file';
 
 	/** @var IRootFolder */

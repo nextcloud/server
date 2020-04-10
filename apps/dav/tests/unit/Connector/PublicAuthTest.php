@@ -267,5 +267,4 @@ class PublicAuthTest extends \Test\TestCase {
 
 		$this->assertFalse($result);
 	}
-
 }

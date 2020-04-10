@@ -64,5 +64,4 @@ trait StorageModifierTrait {
 	public function wrapStorage(Storage $storage) {
 		return $storage;
 	}
-
 }

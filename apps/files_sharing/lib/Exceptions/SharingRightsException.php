@@ -33,5 +33,4 @@ use Exception;
  * @package OCA\Files_Sharing\Exceptions
  */
 class SharingRightsException extends Exception {
-
 }

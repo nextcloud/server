@@ -60,7 +60,6 @@ class CleanupRemoteStorages extends Command {
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output) {
-
 		$remoteStorages = $this->getRemoteStorages();
 
 		$output->writeln(count($remoteStorages) . ' remote storage(s) need(s) to be checked');
@@ -138,7 +137,6 @@ class CleanupRemoteStorages extends Command {
 	}
 
 	public function getRemoteStorages() {
-
 		$queryBuilder = $this->connection->getQueryBuilder();
 		$queryBuilder->select(['id', 'numeric_id'])
 			->from('storages')
@@ -166,7 +164,6 @@ class CleanupRemoteStorages extends Command {
 	}
 
 	public function getRemoteShareIds() {
-
 		$queryBuilder = $this->connection->getQueryBuilder();
 		$queryBuilder->select(['id', 'share_token', 'remote'])
 			->from('share_external');

@@ -215,6 +215,4 @@ interface IFullTextSearchPlatform {
 	 * @return IIndexDocument
 	 */
 	public function getDocument(string $providerId, string $documentId): IIndexDocument;
-
-
 }

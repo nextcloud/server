@@ -137,22 +137,22 @@ class ContactsStore implements IContactsStore {
 			}
 
 			// Prevent enumerating local users
-			if($disallowEnumeration && $entry->getProperty('isLocalSystemBook')) {
+			if ($disallowEnumeration && $entry->getProperty('isLocalSystemBook')) {
 				$filterUser = true;
 
 				$mailAddresses = $entry->getEMailAddresses();
-				foreach($mailAddresses as $mailAddress) {
-					if($mailAddress === $filter) {
+				foreach ($mailAddresses as $mailAddress) {
+					if ($mailAddress === $filter) {
 						$filterUser = false;
 						break;
 					}
 				}
 
-				if($entry->getProperty('UID') && $entry->getProperty('UID') === $filter) {
+				if ($entry->getProperty('UID') && $entry->getProperty('UID') === $filter) {
 					$filterUser = false;
 				}
 
-				if($filterUser) {
+				if ($filterUser) {
 					return false;
 				}
 			}
@@ -182,7 +182,7 @@ class ContactsStore implements IContactsStore {
 	 * @return IEntry|null
 	 */
 	public function findOne(IUser $user, $shareType, $shareWith) {
-		switch($shareType) {
+		switch ($shareType) {
 			case 0:
 			case 6:
 				$filter = ['UID'];
@@ -224,7 +224,6 @@ class ContactsStore implements IContactsStore {
 			} else {
 				$match = null;
 			}
-
 		}
 
 		return $match;
@@ -262,5 +261,4 @@ class ContactsStore implements IContactsStore {
 
 		return $entry;
 	}
-
 }

@@ -138,7 +138,7 @@ class ViewControllerTest extends TestCase {
 				[$this->user->getUID(), 'files', 'show_grid', true],
 			]);
 
-			$this->config
+		$this->config
 				->expects($this->any())
 				->method('getAppValue')
 				->willReturnArgument(2);

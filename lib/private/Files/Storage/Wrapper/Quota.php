@@ -229,5 +229,4 @@ class Quota extends Wrapper {
 
 		return parent::touch($path, $mtime);
 	}
-
 }

@@ -101,7 +101,7 @@ class CalendarImpl implements ICalendar {
 		$permissions = $this->calendar->getACL();
 		$result = 0;
 		foreach ($permissions as $permission) {
-			switch($permission['privilege']) {
+			switch ($permission['privilege']) {
 				case '{DAV:}read':
 					$result |= Constants::PERMISSION_READ;
 					break;

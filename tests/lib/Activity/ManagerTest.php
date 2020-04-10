@@ -294,8 +294,6 @@ class ManagerTest extends TestCase {
 }
 
 class NoOpConsumer implements \OCP\Activity\IConsumer {
-
 	public function receive(\OCP\Activity\IEvent $event) {
-
 	}
 }

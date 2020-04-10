@@ -89,7 +89,6 @@ class PublicShareMiddleware extends Middleware {
 		}
 
 		throw new NotFoundException();
-
 	}
 
 	public function afterException($controller, $methodName, \Exception $exception) {
@@ -123,7 +122,7 @@ class PublicShareMiddleware extends Middleware {
 		}
 
 		// Check whether public sharing is enabled
-		if($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			return false;
 		}
 

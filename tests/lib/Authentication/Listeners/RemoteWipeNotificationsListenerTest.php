@@ -148,5 +148,4 @@ class RemoteWipeNotificationListenerTests extends TestCase {
 
 		$this->listener->handle($event);
 	}
-
 }

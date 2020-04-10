@@ -65,11 +65,13 @@ class MigratorTest extends \Test\TestCase {
 		// Try to delete if exists (IF EXISTS NOT SUPPORTED IN ORACLE)
 		try {
 			$this->connection->exec('DROP TABLE ' . $this->connection->quoteIdentifier($this->tableNameTmp));
-		} catch (\Doctrine\DBAL\DBALException $e) {}
+		} catch (\Doctrine\DBAL\DBALException $e) {
+		}
 
 		try {
 			$this->connection->exec('DROP TABLE ' . $this->connection->quoteIdentifier($this->tableName));
-		} catch (\Doctrine\DBAL\DBALException $e) {}
+		} catch (\Doctrine\DBAL\DBALException $e) {
+		}
 		parent::tearDown();
 	}
 

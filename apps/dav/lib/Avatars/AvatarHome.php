@@ -79,7 +79,7 @@ class AvatarHome implements ICollection {
 			return [
 				$this->getChild('96.jpeg')
 			];
-		} catch(NotFound $exception) {
+		} catch (NotFound $exception) {
 			return [];
 		}
 	}
@@ -116,6 +116,4 @@ class AvatarHome implements ICollection {
 	public function getLastModified() {
 		return null;
 	}
-
-
 }

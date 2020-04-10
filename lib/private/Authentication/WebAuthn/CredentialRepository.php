@@ -68,7 +68,6 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 		try {
 			$oldEntity = $this->credentialMapper->findOneByCredentialId($publicKeyCredentialSource->getPublicKeyCredentialId());
 		} catch (IMapperException $e) {
-
 		}
 
 		if ($name === null) {
@@ -90,5 +89,4 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 	public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource, string $name = null): void {
 		$this->saveAndReturnCredentialSource($publicKeyCredentialSource, $name);
 	}
-
 }

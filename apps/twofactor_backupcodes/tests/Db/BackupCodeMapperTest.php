@@ -120,5 +120,4 @@ class BackupCodeMapperTest extends TestCase {
 
 		$this->mapper->insert($code);
 	}
-
 }

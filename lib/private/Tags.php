@@ -136,7 +136,7 @@ class Tags implements ITags {
 		}
 		$this->tags = $this->mapper->loadTags($this->owners, $this->type);
 
-		if(count($defaultTags) > 0 && count($this->tags) === 0) {
+		if (count($defaultTags) > 0 && count($this->tags) === 0) {
 			$this->addMultiple($defaultTags, true);
 		}
 	}
@@ -177,7 +177,7 @@ class Tags implements ITags {
 	 * @return array
 	 */
 	public function getTags() {
-		if(!count($this->tags)) {
+		if (!count($this->tags)) {
 			return [];
 		}
 
@@ -186,13 +186,12 @@ class Tags implements ITags {
 		});
 		$tagMap = [];
 
-		foreach($this->tags as $tag) {
-			if($tag->getName() !== ITags::TAG_FAVORITE) {
+		foreach ($this->tags as $tag) {
+			if ($tag->getName() !== ITags::TAG_FAVORITE) {
 				$tagMap[] = $this->tagMap($tag);
 			}
 		}
 		return $tagMap;
-
 	}
 
 	/**
@@ -243,7 +242,7 @@ class Tags implements ITags {
 					return false;
 				}
 			}
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
 				'level' => ILogger::ERROR,
@@ -267,18 +266,18 @@ class Tags implements ITags {
 	public function getIdsForTag($tag) {
 		$result = null;
 		$tagId = false;
-		if(is_numeric($tag)) {
+		if (is_numeric($tag)) {
 			$tagId = $tag;
-		} elseif(is_string($tag)) {
+		} elseif (is_string($tag)) {
 			$tag = trim($tag);
-			if($tag === '') {
+			if ($tag === '') {
 				\OCP\Util::writeLog('core', __METHOD__.', Cannot use empty tag names', ILogger::DEBUG);
 				return false;
 			}
 			$tagId = $this->getTagId($tag);
 		}
 
-		if($tagId === false) {
+		if ($tagId === false) {
 			$l10n = \OC::$server->getL10N('core');
 			throw new \Exception(
 				$l10n->t('Could not find category "%s"', [$tag])
@@ -296,7 +295,7 @@ class Tags implements ITags {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
 				return false;
 			}
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
 				'level' => ILogger::ERROR,
@@ -305,8 +304,8 @@ class Tags implements ITags {
 			return false;
 		}
 
-		if(!is_null($result)) {
-			while($row = $result->fetchRow()) {
+		if (!is_null($result)) {
+			while ($row = $result->fetchRow()) {
 				$id = (int)$row['objid'];
 
 				if ($this->includeShared) {
@@ -361,11 +360,11 @@ class Tags implements ITags {
 	public function add($name) {
 		$name = trim($name);
 
-		if($name === '') {
+		if ($name === '') {
 			\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', ILogger::DEBUG);
 			return false;
 		}
-		if($this->userHasTag($name, $this->user)) {
+		if ($this->userHasTag($name, $this->user)) {
 			\OCP\Util::writeLog('core', __METHOD__.', name: ' . $name. ' exists already', ILogger::DEBUG);
 			return false;
 		}
@@ -373,7 +372,7 @@ class Tags implements ITags {
 			$tag = new Tag($this->user, $this->type, $name);
 			$tag = $this->mapper->insert($tag);
 			$this->tags[] = $tag;
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
 				'level' => ILogger::ERROR,
@@ -396,7 +395,7 @@ class Tags implements ITags {
 		$from = trim($from);
 		$to = trim($to);
 
-		if($to === '' || $from === '') {
+		if ($to === '' || $from === '') {
 			\OCP\Util::writeLog('core', __METHOD__.', Cannot use empty tag names', ILogger::DEBUG);
 			return false;
 		}
@@ -406,13 +405,13 @@ class Tags implements ITags {
 		} else {
 			$key = $this->getTagByName($from);
 		}
-		if($key === false) {
+		if ($key === false) {
 			\OCP\Util::writeLog('core', __METHOD__.', tag: ' . $from. ' does not exist', ILogger::DEBUG);
 			return false;
 		}
 		$tag = $this->tags[$key];
 
-		if($this->userHasTag($to, $tag->getOwner())) {
+		if ($this->userHasTag($to, $tag->getOwner())) {
 			\OCP\Util::writeLog('core', __METHOD__.', A tag named ' . $to. ' already exists for user ' . $tag->getOwner() . '.', ILogger::DEBUG);
 			return false;
 		}
@@ -420,7 +419,7 @@ class Tags implements ITags {
 		try {
 			$tag->setName($to);
 			$this->tags[$key] = $this->mapper->update($tag);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
 				'level' => ILogger::ERROR,
@@ -441,24 +440,24 @@ class Tags implements ITags {
 	 * @return bool Returns false on error.
 	 */
 	public function addMultiple($names, $sync=false, $id = null) {
-		if(!is_array($names)) {
+		if (!is_array($names)) {
 			$names = [$names];
 		}
 		$names = array_map('trim', $names);
 		array_filter($names);
 
 		$newones = [];
-		foreach($names as $name) {
-			if(!$this->hasTag($name) && $name !== '') {
+		foreach ($names as $name) {
+			if (!$this->hasTag($name) && $name !== '') {
 				$newones[] = new Tag($this->user, $this->type, $name);
 			}
-			if(!is_null($id)) {
+			if (!is_null($id)) {
 				// Insert $objectid, $categoryid  pairs if not exist.
 				self::$relations[] = ['objid' => $id, 'tag' => $name];
 			}
 		}
 		$this->tags = array_merge($this->tags, $newones);
-		if($sync === true) {
+		if ($sync === true) {
 			$this->save();
 		}
 
@@ -469,13 +468,13 @@ class Tags implements ITags {
 	 * Save the list of tags and their object relations
 	 */
 	protected function save() {
-		if(is_array($this->tags)) {
-			foreach($this->tags as $tag) {
+		if (is_array($this->tags)) {
+			foreach ($this->tags as $tag) {
 				try {
 					if (!$this->mapper->tagExists($tag)) {
 						$this->mapper->insert($tag);
 					}
-				} catch(\Exception $e) {
+				} catch (\Exception $e) {
 					\OC::$server->getLogger()->logException($e, [
 						'message' => __METHOD__,
 						'level' => ILogger::ERROR,
@@ -494,10 +493,10 @@ class Tags implements ITags {
 			// For some reason this is needed or array_search(i) will return 0..?
 			ksort($tags);
 			$dbConnection = \OC::$server->getDatabaseConnection();
-			foreach(self::$relations as $relation) {
+			foreach (self::$relations as $relation) {
 				$tagId = $this->getTagId($relation['tag']);
 				\OCP\Util::writeLog('core', __METHOD__ . 'catid, ' . $relation['tag'] . ' ' . $tagId, ILogger::DEBUG);
-				if($tagId) {
+				if ($tagId) {
 					try {
 						$dbConnection->insertIfNotExist(self::RELATION_TABLE,
 							[
@@ -505,7 +504,7 @@ class Tags implements ITags {
 								'categoryid' => $tagId,
 								'type' => $this->type,
 							]);
-					} catch(\Exception $e) {
+					} catch (\Exception $e) {
 						\OC::$server->getLogger()->logException($e, [
 							'message' => __METHOD__,
 							'level' => ILogger::ERROR,
@@ -538,7 +537,7 @@ class Tags implements ITags {
 			if ($result === null) {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
 			}
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
 				'level' => ILogger::ERROR,
@@ -546,14 +545,14 @@ class Tags implements ITags {
 			]);
 		}
 
-		if(!is_null($result)) {
+		if (!is_null($result)) {
 			try {
 				$stmt = \OC_DB::prepare('DELETE FROM `' . self::RELATION_TABLE . '` '
 					. 'WHERE `categoryid` = ?');
-				while($row = $result->fetchRow()) {
+				while ($row = $result->fetchRow()) {
 					try {
 						$stmt->execute([$row['id']]);
-					} catch(\Exception $e) {
+					} catch (\Exception $e) {
 						\OC::$server->getLogger()->logException($e, [
 							'message' => __METHOD__,
 							'level' => ILogger::ERROR,
@@ -561,7 +560,7 @@ class Tags implements ITags {
 						]);
 					}
 				}
-			} catch(\Exception $e) {
+			} catch (\Exception $e) {
 				\OC::$server->getLogger()->logException($e, [
 					'message' => __METHOD__,
 					'level' => ILogger::ERROR,
@@ -576,7 +575,7 @@ class Tags implements ITags {
 			if ($result === null) {
 				\OCP\Util::writeLog('core', __METHOD__. ', DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
 			}
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
 				'level' => ILogger::ERROR,
@@ -592,7 +591,7 @@ class Tags implements ITags {
 	 * @return boolean Returns false on error.
 	 */
 	public function purgeObjects(array $ids) {
-		if(count($ids) === 0) {
+		if (count($ids) === 0) {
 			// job done ;)
 			return true;
 		}
@@ -608,7 +607,7 @@ class Tags implements ITags {
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
 				return false;
 			}
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
 				'level' => ILogger::ERROR,
@@ -625,13 +624,13 @@ class Tags implements ITags {
 	 * @return array|false An array of object ids.
 	 */
 	public function getFavorites() {
-		if(!$this->userHasTag(ITags::TAG_FAVORITE, $this->user)) {
+		if (!$this->userHasTag(ITags::TAG_FAVORITE, $this->user)) {
 			return [];
 		}
 
 		try {
 			return $this->getIdsForTag(ITags::TAG_FAVORITE);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
 				'level' => ILogger::ERROR,
@@ -648,7 +647,7 @@ class Tags implements ITags {
 	 * @return boolean
 	 */
 	public function addToFavorites($objid) {
-		if(!$this->userHasTag(ITags::TAG_FAVORITE, $this->user)) {
+		if (!$this->userHasTag(ITags::TAG_FAVORITE, $this->user)) {
 			$this->add(ITags::TAG_FAVORITE);
 		}
 		return $this->tagAs($objid, ITags::TAG_FAVORITE);
@@ -672,13 +671,13 @@ class Tags implements ITags {
 	 * @return boolean Returns false on error.
 	 */
 	public function tagAs($objid, $tag) {
-		if(is_string($tag) && !is_numeric($tag)) {
+		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
-			if($tag === '') {
+			if ($tag === '') {
 				\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', ILogger::DEBUG);
 				return false;
 			}
-			if(!$this->hasTag($tag)) {
+			if (!$this->hasTag($tag)) {
 				$this->add($tag);
 			}
 			$tagId =  $this->getTagId($tag);
@@ -692,7 +691,7 @@ class Tags implements ITags {
 					'categoryid' => $tagId,
 					'type' => $this->type,
 				]);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
 				'level' => ILogger::ERROR,
@@ -711,9 +710,9 @@ class Tags implements ITags {
 	 * @return boolean
 	 */
 	public function unTag($objid, $tag) {
-		if(is_string($tag) && !is_numeric($tag)) {
+		if (is_string($tag) && !is_numeric($tag)) {
 			$tag = trim($tag);
-			if($tag === '') {
+			if ($tag === '') {
 				\OCP\Util::writeLog('core', __METHOD__.', Tag name is empty', ILogger::DEBUG);
 				return false;
 			}
@@ -727,7 +726,7 @@ class Tags implements ITags {
 					. 'WHERE `objid` = ? AND `categoryid` = ? AND `type` = ?';
 			$stmt = \OC_DB::prepare($sql);
 			$stmt->execute([$objid, $tagId, $this->type]);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
 				'message' => __METHOD__,
 				'level' => ILogger::ERROR,
@@ -745,7 +744,7 @@ class Tags implements ITags {
 	 * @return bool Returns false on error
 	 */
 	public function delete($names) {
-		if(!is_array($names)) {
+		if (!is_array($names)) {
 			$names = [$names];
 		}
 
@@ -754,7 +753,7 @@ class Tags implements ITags {
 
 		\OCP\Util::writeLog('core', __METHOD__ . ', before: '
 			. print_r($this->tags, true), ILogger::DEBUG);
-		foreach($names as $name) {
+		foreach ($names as $name) {
 			$id = null;
 
 			if (is_numeric($name)) {
@@ -771,7 +770,7 @@ class Tags implements ITags {
 				\OCP\Util::writeLog('core', __METHOD__ . 'Cannot delete tag ' . $name
 					. ': not found.', ILogger::ERROR);
 			}
-			if(!is_null($id) && $id !== false) {
+			if (!is_null($id) && $id !== false) {
 				try {
 					$sql = 'DELETE FROM `' . self::RELATION_TABLE . '` '
 							. 'WHERE `categoryid` = ?';
@@ -783,7 +782,7 @@ class Tags implements ITags {
 							ILogger::ERROR);
 						return false;
 					}
-				} catch(\Exception $e) {
+				} catch (\Exception $e) {
 					\OC::$server->getLogger()->logException($e, [
 						'message' => __METHOD__,
 						'level' => ILogger::ERROR,
@@ -798,7 +797,7 @@ class Tags implements ITags {
 
 	// case-insensitive array_search
 	protected function array_searchi($needle, $haystack, $mem='getName') {
-		if(!is_array($haystack)) {
+		if (!is_array($haystack)) {
 			return false;
 		}
 		return array_search(strtolower($needle), array_map(

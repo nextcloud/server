@@ -165,7 +165,6 @@ class Encryption extends Wrapper {
 								$headerSize,
 								$signed,
 								$wrapper = Encryption::class) {
-
 		$context = stream_context_create([
 			'ocencryption' => [
 				'source' => $source,
@@ -233,7 +232,6 @@ class Encryption extends Wrapper {
 			}
 		}
 		return $context;
-
 	}
 
 	public function stream_open($path, $mode, $options, &$opened_path) {
@@ -285,7 +283,6 @@ class Encryption extends Wrapper {
 		}
 
 		return true;
-
 	}
 
 	public function stream_eof() {
@@ -293,7 +290,6 @@ class Encryption extends Wrapper {
 	}
 
 	public function stream_read($count) {
-
 		$result = '';
 
 		$count = min($count, $this->unencryptedSize - $this->position);
@@ -308,7 +304,7 @@ class Encryption extends Wrapper {
 				$result .= substr($this->cache, $blockPosition, $remainingLength);
 				$this->position += $remainingLength;
 				$count = 0;
-				// otherwise remainder of current block is fetched, the block is flushed and the position updated
+			// otherwise remainder of current block is fetched, the block is flushed and the position updated
 			} else {
 				$result .= substr($this->cache, $blockPosition);
 				$this->flush();
@@ -317,7 +313,6 @@ class Encryption extends Wrapper {
 			}
 		}
 		return $result;
-
 	}
 	
 	/**
@@ -378,7 +373,7 @@ class Encryption extends Wrapper {
 					$this->position += $remainingLength;
 					$length += $remainingLength;
 					$data = '';
-					// if $data doesn't fit the current block, the fill the current block and reiterate
+				// if $data doesn't fit the current block, the fill the current block and reiterate
 					// after the block is filled, it is flushed and $data is updatedxxx
 				} else {
 					$this->cache = substr($this->cache, 0, $blockPosition) .
@@ -401,7 +396,6 @@ class Encryption extends Wrapper {
 	}
 
 	public function stream_seek($offset, $whence = SEEK_SET) {
-
 		$return = false;
 
 		switch ($whence) {
@@ -434,7 +428,6 @@ class Encryption extends Wrapper {
 			$return = true;
 		}
 		return $return;
-
 	}
 
 	public function stream_close() {
@@ -442,7 +435,7 @@ class Encryption extends Wrapper {
 		$position = (int)floor($this->position/$this->unencryptedBlockSize);
 		$remainingData = $this->encryptionModule->end($this->fullPath, $position . 'end');
 		if ($this->readOnly === false) {
-			if(!empty($remainingData)) {
+			if (!empty($remainingData)) {
 				parent::stream_write($remainingData);
 			}
 			$this->encryptionStorage->updateUnencryptedSize($this->fullPath, $this->unencryptedSize);
@@ -502,7 +495,7 @@ class Encryption extends Wrapper {
 			$data = $this->stream_read_block($this->util->getBlockSize());
 			$position = (int)floor($this->position/$this->unencryptedBlockSize);
 			$numberOfChunks = (int)($this->unencryptedSize / $this->unencryptedBlockSize);
-			if($numberOfChunks === $position) {
+			if ($numberOfChunks === $position) {
 				$position .= 'end';
 			}
 			$this->cache = $this->encryptionModule->decrypt($data, $position);
@@ -545,5 +538,4 @@ class Encryption extends Wrapper {
 	public function dir_opendir($path, $options) {
 		return false;
 	}
-
 }

@@ -76,7 +76,7 @@ class Client implements IClient {
 		// Only add RequestOptions::PROXY if Nextcloud is explicitly
 		// configured to use a proxy. This is needed in order not to override
 		// Guzzle default values.
-		if($proxy !== null) {
+		if ($proxy !== null) {
 			$defaults[RequestOptions::PROXY] = $proxy;
 		}
 

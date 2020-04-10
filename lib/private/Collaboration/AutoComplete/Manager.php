@@ -42,8 +42,8 @@ class Manager implements IManager {
 
 	public function runSorters(array $sorters, array &$sortArray, array $context) {
 		$sorterInstances = $this->getSorters();
-		while($sorter = array_shift($sorters)) {
-			if(isset($sorterInstances[$sorter])) {
+		while ($sorter = array_shift($sorters)) {
+			if (isset($sorterInstances[$sorter])) {
 				$sorterInstances[$sorter]->sort($sortArray, $context);
 			} else {
 				$this->c->getLogger()->warning('No sorter for ID "{id}", skipping', [
@@ -58,17 +58,17 @@ class Manager implements IManager {
 	}
 
 	protected function getSorters() {
-		if(count($this->sorterInstances) === 0) {
+		if (count($this->sorterInstances) === 0) {
 			foreach ($this->sorters as $sorter) {
 				/** @var ISorter $instance */
 				$instance = $this->c->resolve($sorter);
-				if(!$instance instanceof ISorter) {
+				if (!$instance instanceof ISorter) {
 					$this->c->getLogger()->notice('Skipping sorter which is not an instance of ISorter. Class name: {class}',
 						['app' => 'core', 'class' => $sorter]);
 					continue;
 				}
 				$sorterId = trim($instance->getId());
-				if(trim($sorterId) === '') {
+				if (trim($sorterId) === '') {
 					$this->c->getLogger()->notice('Skipping sorter with empty ID. Class name: {class}',
 						['app' => 'core', 'class' => $sorter]);
 					continue;

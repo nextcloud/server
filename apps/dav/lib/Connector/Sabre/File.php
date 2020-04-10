@@ -70,7 +70,6 @@ use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\IFile;
 
 class File extends Node implements IFile {
-
 	protected $request;
 
 	/**
@@ -175,7 +174,6 @@ class File extends Node implements IFile {
 			}
 
 			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
-
 				if (!is_resource($data)) {
 					$tmpData = fopen('php://temp', 'r+');
 					if ($data !== null) {
@@ -199,7 +197,6 @@ class File extends Node implements IFile {
 						$result = feof($wrappedData);
 					}
 				}
-
 			} else {
 				$target = $partStorage->fopen($internalPartPath, 'wb');
 				if ($target === false) {
@@ -230,7 +227,6 @@ class File extends Node implements IFile {
 					throw new BadRequest('Expected filesize of ' . $expected . ' bytes but read (from Nextcloud client) and wrote (to Nextcloud storage) ' . $count . ' bytes. Could either be a network problem on the sending side or a problem writing to the storage on the server side.');
 				}
 			}
-
 		} catch (\Exception $e) {
 			$context = [];
 
@@ -332,7 +328,6 @@ class File extends Node implements IFile {
 				$this->fileView->putFileInfo($this->path, ['checksum' => '']);
 				$this->refreshInfo();
 			}
-
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage(), 0, $e);
 		}

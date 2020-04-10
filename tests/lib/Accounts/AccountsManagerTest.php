@@ -80,7 +80,6 @@ class AccountsManagerTest extends TestCase {
 			->setConstructorArgs([$this->connection, $this->eventDispatcher, $this->jobList, $this->logger])
 			->setMethods($mockedMethods)
 			->getMock();
-
 	}
 
 	/**
@@ -162,9 +161,8 @@ class AccountsManagerTest extends TestCase {
 				->with($askUser, $expectedData);
 		}
 
-		if(empty($expectedData)) {
+		if (empty($expectedData)) {
 			$accountManager->expects($this->never())->method('addMissingDefaultValues');
-
 		} else {
 			$accountManager->expects($this->once())->method('addMissingDefaultValues')->with($expectedData)
 				->willReturn($expectedData);
@@ -215,7 +213,6 @@ class AccountsManagerTest extends TestCase {
 	}
 
 	public function testAddMissingDefaultValues() {
-
 		$accountManager = $this->getInstance();
 
 		$input = [
@@ -234,7 +231,6 @@ class AccountsManagerTest extends TestCase {
 	}
 
 	private function addDummyValuesToTable($uid, $data) {
-
 		$query = $this->connection->getQueryBuilder();
 		$query->insert($this->table)
 			->values(
@@ -294,5 +290,4 @@ class AccountsManagerTest extends TestCase {
 			->willReturn($data);
 		$this->assertEquals($expected, $accountManager->getAccount($user));
 	}
-
 }

@@ -164,5 +164,4 @@ class ChunkingPluginTest extends TestCase {
 
 		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
 	}
-
 }

@@ -33,7 +33,6 @@ use OCP\Files\NotFoundException;
 use OCP\IRequest;
 
 class AjaxController extends Controller {
-
 	public function __construct(string $appName, IRequest $request) {
 		parent::__construct($appName, $request);
 	}

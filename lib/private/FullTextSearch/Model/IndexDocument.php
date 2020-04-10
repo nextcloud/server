@@ -922,7 +922,6 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 	 * @return array
 	 */
 	final public function getInfoAll(): array {
-
 		$info = [];
 		foreach ($this->info as $k => $v) {
 			if (substr($k, 0, 1) === '_') {
@@ -989,5 +988,4 @@ class IndexDocument implements IIndexDocument, JsonSerializable {
 			'score' => $this->getScore()
 		];
 	}
-
 }

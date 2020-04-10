@@ -46,5 +46,4 @@ class ActionNotSupportedException extends HintException {
 		$hint = $l->t('Action "%s" not supported or implemented.', [$action]);
 		parent::__construct($message, $hint);
 	}
-
 }

@@ -107,5 +107,4 @@ class Chain {
 
 		return $chain->process($loginData);
 	}
-
 }

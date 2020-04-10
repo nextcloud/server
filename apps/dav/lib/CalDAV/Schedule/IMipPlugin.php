@@ -316,7 +316,7 @@ class IMipPlugin extends SabreIMipPlugin {
 				$this->logger->error('Unable to deliver message to {failed}', ['app' => 'dav', 'failed' =>  implode(', ', $failed)]);
 				$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 			}
-		} catch(\Exception $ex) {
+		} catch (\Exception $ex) {
 			$this->logger->logException($ex, ['app' => 'dav']);
 			$iTipMessage->scheduleStatus = '5.0; EMail delivery failed';
 		}
@@ -358,10 +358,9 @@ class IMipPlugin extends SabreIMipPlugin {
 				$lastOccurrence = $maxDate->getTimestamp();
 			} else {
 				$end = $it->getDtEnd();
-				while($it->valid() && $end < $maxDate) {
+				while ($it->valid() && $end < $maxDate) {
 					$end = $it->getDtEnd();
 					$it->next();
-
 				}
 				$lastOccurrence = $end->getTimestamp();
 			}

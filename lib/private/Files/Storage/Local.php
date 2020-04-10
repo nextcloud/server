@@ -280,7 +280,6 @@ class Local extends \OC\Files\Storage\Common {
 		} else {
 			return false;
 		}
-
 	}
 
 	private function treeContainsBlacklistedFile(string $path): bool {
@@ -393,8 +392,9 @@ class Local extends \OC\Files\Storage\Common {
 		$files = [];
 		$physicalDir = $this->getSourcePath($dir);
 		foreach (scandir($physicalDir) as $item) {
-			if (\OC\Files\Filesystem::isIgnoredDir($item))
+			if (\OC\Files\Filesystem::isIgnoredDir($item)) {
 				continue;
+			}
 			$physicalItem = $physicalDir . '/' . $item;
 
 			if (strstr(strtolower($item), strtolower($query)) !== false) {

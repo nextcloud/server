@@ -33,5 +33,4 @@ interface IWipeableToken extends IToken {
 	 * Mark the token for remote wipe
 	 */
 	public function wipe(): void;
-
 }
