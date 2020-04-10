@@ -36,7 +36,7 @@
     "@nextcloud/password-confirmation": "^1.0.1",
     "@nextcloud/paths": "^1.1.1",
     "@nextcloud/router": "^1.0.2",
-    "@nextcloud/vue": "^1.4.1",
+    "@nextcloud/vue": "^1.5.0",
     "autosize": "^4.0.2",
     "backbone": "^1.4.0",
     "blueimp-md5": "^2.13.0",
