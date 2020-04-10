@@ -719,7 +719,7 @@ class CheckSetupControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getCurlVersion')
 			->willReturn(['ssl_version' => 'OpenSSL/1.0.1d']);
-			$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
+		$this->assertSame('', $this->invokePrivate($this->checkSetupController, 'isUsedTlsLibOutdated'));
 	}
 
 	public function testIsUsedTlsLibOutdatedWithMatchingOpenSslVersion1() {

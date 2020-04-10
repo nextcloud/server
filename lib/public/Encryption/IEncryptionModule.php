@@ -193,5 +193,4 @@ interface IEncryptionModule {
 	 * @return bool
 	 */
 	public function needDetailedAccessList();
-
 }

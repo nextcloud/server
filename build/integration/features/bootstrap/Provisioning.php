@@ -380,7 +380,6 @@ trait Provisioning {
 		$this->userExists($user);
 		$this->groupExists($group);
 		$this->addingUserToGroup($user, $group);
-
 	}
 
 	/**
@@ -539,7 +538,6 @@ trait Provisioning {
 			$respondedArray = $this->getArrayOfUsersResponded($this->response);
 			Assert::assertEquals($usersSimplified, $respondedArray, "", 0.0, 10, true);
 		}
-
 	}
 
 	/**
@@ -553,7 +551,6 @@ trait Provisioning {
 			$respondedArray = $this->getArrayOfGroupsResponded($this->response);
 			Assert::assertEquals($groupsSimplified, $respondedArray, "", 0.0, 10, true);
 		}
-
 	}
 
 	/**
@@ -567,7 +564,6 @@ trait Provisioning {
 			$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
 			Assert::assertEquals($groupsSimplified, $respondedArray, "", 0.0, 10, true);
 		}
-
 	}
 
 	/**
@@ -581,7 +577,6 @@ trait Provisioning {
 			$respondedArray = $this->getArrayOfAppsResponded($this->response);
 			Assert::assertEquals($appsSimplified, $respondedArray, "", 0.0, 10, true);
 		}
-
 	}
 
 	/**
@@ -817,5 +812,4 @@ trait Provisioning {
 		}
 		$this->usingServer($previousServer);
 	}
-
 }

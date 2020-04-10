@@ -186,7 +186,7 @@ class Mailer implements IMailer {
 		$mailer = $this->getInstance();
 
 		// Enable logger if debug mode is enabled
-		if($debugMode) {
+		if ($debugMode) {
 			$mailLogger = new \Swift_Plugins_Loggers_ArrayLogger();
 			$mailer->registerPlugin(new \Swift_Plugins_LoggerPlugin($mailLogger));
 		}
@@ -199,7 +199,7 @@ class Mailer implements IMailer {
 		// Debugging logging
 		$logMessage = sprintf('Sent mail to "%s" with subject "%s"', print_r($message->getTo(), true), $message->getSubject());
 		$this->logger->debug($logMessage, ['app' => 'core']);
-		if($debugMode && isset($mailLogger)) {
+		if ($debugMode && isset($mailLogger)) {
 			$this->logger->debug($mailLogger->dump(), ['app' => 'core']);
 		}
 

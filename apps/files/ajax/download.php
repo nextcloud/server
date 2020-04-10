@@ -46,7 +46,7 @@ if (!is_array($files_list)) {
  * the content must not be longer than 32 characters and must only contain
  * alphanumeric characters
  */
-if(isset($_GET['downloadStartSecret'])
+if (isset($_GET['downloadStartSecret'])
 	&& !isset($_GET['downloadStartSecret'][32])
 	&& preg_match('!^[a-zA-Z0-9]+$!', $_GET['downloadStartSecret']) === 1) {
 	setcookie('ocDownloadStarted', $_GET['downloadStartSecret'], time() + 20, '/');

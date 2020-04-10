@@ -102,5 +102,4 @@ interface IIndexService {
 	 * @param array $indexes
 	 */
 	public function updateIndexes(array $indexes);
-
 }

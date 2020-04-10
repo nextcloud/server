@@ -278,7 +278,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->query(\OC\AppFramework\Middleware\AdditionalScriptsMiddleware::class)
 			);
 
-			foreach($this->middleWares as $middleWare) {
+			foreach ($this->middleWares as $middleWare) {
 				$dispatcher->registerMiddleware($c->query($middleWare));
 			}
 
@@ -298,8 +298,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	/**
 	 * @return \OCP\IServerContainer
 	 */
-	public function getServer()
-	{
+	public function getServer() {
 		return $this->server;
 	}
 
@@ -350,7 +349,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return mixed
 	 */
 	public function log($message, $level) {
-		switch($level){
+		switch ($level) {
 			case 'debug':
 				$level = ILogger::DEBUG;
 				break;

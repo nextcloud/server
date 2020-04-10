@@ -35,7 +35,6 @@ use OCP\AppFramework\Http\TemplateResponse;
  * @since 14.0.0
  */
 class PublicTemplateResponse extends TemplateResponse {
-
 	private $headerTitle = '';
 	private $headerDetails = '';
 	private $headerActions = [];
@@ -156,5 +155,4 @@ class PublicTemplateResponse extends TemplateResponse {
 		$this->setParams($params);
 		return  parent::render();
 	}
-
 }

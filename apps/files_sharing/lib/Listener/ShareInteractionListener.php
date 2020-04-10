@@ -37,7 +37,6 @@ use OCP\Share\IShare;
 use function in_array;
 
 class ShareInteractionListener implements IEventListener {
-
 	private const SUPPORTED_SHARE_TYPES = [
 		IShare::TYPE_USER,
 		IShare::TYPE_EMAIL,
@@ -92,5 +91,4 @@ class ShareInteractionListener implements IEventListener {
 
 		$this->dispatcher->dispatchTyped($interactionEvent);
 	}
-
 }

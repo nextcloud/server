@@ -103,7 +103,6 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @return void
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
-
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 
 		$server->protectedProperties[] = self::ID_PROPERTYNAME;
@@ -194,8 +193,8 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 		}
 
-		if($userVisible === false || $userAssignable === false || !empty($groups)) {
-			if(!$this->userSession->isLoggedIn() || !$this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
+		if ($userVisible === false || $userAssignable === false || !empty($groups)) {
+			if (!$this->userSession->isLoggedIn() || !$this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
 				throw new BadRequest('Not sufficient permissions');
 			}
 		}
@@ -323,6 +322,5 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 			return true;
 		});
-
 	}
 }

@@ -74,12 +74,11 @@ class Application extends App {
 
 		$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/audit.log';
 		$logFile = $config->getAppValue('admin_audit', 'logfile', $default);
-		if($logFile === null) {
+		if ($logFile === null) {
 			$this->logger = $c->getLogger();
 			return;
 		}
 		$this->logger = $c->getLogFactory()->getCustomLogger($logFile);
-
 	}
 
 	public function register() {
@@ -152,7 +151,6 @@ class Application extends App {
 	}
 
 	protected function appHooks() {
-
 		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
 		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, function (ManagerEvent $event) {
 			$appActions = new AppManagement($this->logger);
@@ -166,7 +164,6 @@ class Application extends App {
 			$appActions = new AppManagement($this->logger);
 			$appActions->disableApp($event->getAppID());
 		});
-
 	}
 
 	protected function consoleHooks() {

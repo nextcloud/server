@@ -146,8 +146,7 @@ class MoveCalendar extends Command {
 	 * @param string $userDestination
 	 * @param bool $force
 	 */
-	private function checkShares(array $calendar, string $userOrigin, string $userDestination, bool $force = false)
-	{
+	private function checkShares(array $calendar, string $userOrigin, string $userDestination, bool $force = false) {
 		$shares = $this->calDav->getShares($calendar['id']);
 		foreach ($shares as $share) {
 			list(, $prefix, $userOrGroup) = explode('/', $share['href'], 3);

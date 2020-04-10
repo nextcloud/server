@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class NotificationsContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -94,5 +93,4 @@ class NotificationsContext implements Context, ActorAwareInterface {
 		// Hide the notifications again
 		$this->actor->find(self::notificationsButton(), 10)->click();
 	}
-
 }

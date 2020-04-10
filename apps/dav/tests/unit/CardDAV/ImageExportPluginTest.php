@@ -185,7 +185,6 @@ class ImageExportPluginTest extends TestCase {
 			$this->response->expects($this->once())
 				->method('setBody')
 				->with('imgdata');
-
 		} else {
 			$this->cache->method('get')
 				->with(1, 'card', $size, $card)

@@ -20,7 +20,6 @@ use OCP\IAppConfig;
  * @group DB
  */
 class AppTest extends \Test\TestCase {
-
 	const TEST_USER1 = 'user1';
 	const TEST_USER2 = 'user2';
 	const TEST_USER3 = 'user3';

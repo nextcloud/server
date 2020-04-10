@@ -67,5 +67,4 @@ class NodeRemovedFromCache extends Event {
 	public function getPath(): string {
 		return $this->path;
 	}
-
 }

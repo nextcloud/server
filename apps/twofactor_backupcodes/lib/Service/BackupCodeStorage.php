@@ -34,7 +34,6 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 
 class BackupCodeStorage {
-
 	private static $CODE_LENGTH = 16;
 
 	/** @var BackupCodeMapper */
@@ -133,5 +132,4 @@ class BackupCodeStorage {
 		}
 		return false;
 	}
-
 }

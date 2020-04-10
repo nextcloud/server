@@ -126,5 +126,4 @@ class NextcloudTestServerLocalApacheHelper implements NextcloudTestServerHelper 
 	private function stopApacheServer() {
 		$this->execOrException("service apache2 stop");
 	}
-
 }

@@ -1080,7 +1080,7 @@ class FileTest extends TestCase {
 		}
 		$files = [];
 		list($storage, $internalPath) = $userView->resolvePath($path);
-		if($storage instanceof Local) {
+		if ($storage instanceof Local) {
 			$realPath = $storage->getSourcePath($internalPath);
 			$dh = opendir($realPath);
 			while (($file = readdir($dh)) !== false) {

@@ -42,7 +42,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Util;
 
 class Application extends App {
-
 	const APP_ID = 'comments';
 
 	public function __construct(array $urlParams = []) {

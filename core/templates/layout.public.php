@@ -39,34 +39,41 @@
 			<span id="nextcloud">
 				<div class="logo logo-icon svg"></div>
 				<h1 class="header-appname">
-					<?php if (isset($template)) { p($template->getHeaderTitle()); } else { p($theme->getName());} ?>
+					<?php if (isset($template)) {
+			p($template->getHeaderTitle());
+		} else {
+			p($theme->getName());
+		} ?>
 				</h1>
 				<div class="header-shared-by">
-					<?php if (isset($template)) { p($template->getHeaderDetails()); } ?>
+					<?php if (isset($template)) {
+			p($template->getHeaderDetails());
+		} ?>
 				</div>
 			</span>
 		</div>
 
 		<?php
 		/** @var \OCP\AppFramework\Http\Template\PublicTemplateResponse $template */
-		if(isset($template) && $template->getActionCount() !== 0) {
+		if (isset($template) && $template->getActionCount() !== 0) {
 			$primary = $template->getPrimaryAction();
-			$others = $template->getOtherActions();
-			?>
+			$others = $template->getOtherActions(); ?>
 		<div class="header-right">
-			<span id="header-primary-action" class="<?php if($template->getActionCount() === 1) {  p($primary->getIcon()); } ?>">
+			<span id="header-primary-action" class="<?php if ($template->getActionCount() === 1) {
+				p($primary->getIcon());
+			} ?>">
 				<a href="<?php p($primary->getLink()); ?>" class="primary button">
 					<span><?php p($primary->getLabel()) ?></span>
 				</a>
 			</span>
-			<?php if($template->getActionCount() > 1) { ?>
+			<?php if ($template->getActionCount() > 1) { ?>
 			<div id="header-secondary-action">
 				<button id="header-actions-toggle" class="menutoggle icon-more-white"></button>
 				<div id="header-actions-menu" class="popovermenu menu">
 					<ul>
 						<?php
 							/** @var \OCP\AppFramework\Http\Template\IMenuAction $action */
-							foreach($others as $action) {
+							foreach ($others as $action) {
 								print_unescaped($action->render());
 							}
 						?>
@@ -75,12 +82,13 @@
 			</div>
 			<?php } ?>
 		</div>
-		<?php } ?>
+		<?php
+		} ?>
 	</header>
 	<div id="content" class="app-<?php p($_['appid']) ?>" role="main">
 		<?php print_unescaped($_['content']); ?>
 	</div>
-	<?php if(isset($template) && $template->getFooterVisible()) { ?>
+	<?php if (isset($template) && $template->getFooterVisible()) { ?>
 	<footer>
 		<p><?php print_unescaped($theme->getLongFooter()); ?></p>
 		<?php

@@ -75,5 +75,4 @@ class Provider implements IProvider {
 		}
 		return $event;
 	}
-
 }

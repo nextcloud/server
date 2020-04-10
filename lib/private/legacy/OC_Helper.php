@@ -231,8 +231,9 @@ class OC_Helper {
 		}
 		foreach ($dirs as $dir) {
 			foreach ($exts as $ext) {
-				if ($check_fn("$dir/$name" . $ext))
+				if ($check_fn("$dir/$name" . $ext)) {
 					return true;
+				}
 			}
 		}
 		return false;
@@ -385,7 +386,7 @@ class OC_Helper {
 	 * @return int number of bytes representing
 	 */
 	public static function maxUploadFilesize($dir, $freeSpace = null) {
-		if (is_null($freeSpace) || $freeSpace < 0){
+		if (is_null($freeSpace) || $freeSpace < 0) {
 			$freeSpace = self::freeSpace($dir);
 		}
 		return min($freeSpace, self::uploadLimit());
@@ -540,7 +541,7 @@ class OC_Helper {
 		$ownerId = $storage->getOwner($path);
 		$ownerDisplayName = '';
 		$owner = \OC::$server->getUserManager()->get($ownerId);
-		if($owner) {
+		if ($owner) {
 			$ownerDisplayName = $owner->getDisplayName();
 		}
 

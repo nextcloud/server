@@ -59,5 +59,4 @@ class LoggedInCheckCommand extends ALoginCommand {
 
 		return $this->processNextOrFinishSuccessfully($loginData);
 	}
-
 }

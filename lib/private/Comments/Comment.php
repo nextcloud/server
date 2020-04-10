@@ -30,7 +30,6 @@ use OCP\Comments\IllegalIDChangeException;
 use OCP\Comments\MessageTooLongException;
 
 class Comment implements IComment {
-
 	protected $data = [
 		'id'              => '',
 		'parentId'        => '0',
@@ -54,7 +53,7 @@ class Comment implements IComment {
 	 * 						the comments database scheme
 	 */
 	public function __construct(array $data = null) {
-		if(is_array($data)) {
+		if (is_array($data)) {
 			$this->fromArray($data);
 		}
 	}
@@ -87,12 +86,12 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 */
 	public function setId($id) {
-		if(!is_string($id)) {
+		if (!is_string($id)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
 
 		$id = trim($id);
-		if($this->data['id'] === '' || ($this->data['id'] !== '' && $id === '')) {
+		if ($this->data['id'] === '' || ($this->data['id'] !== '' && $id === '')) {
 			$this->data['id'] = $id;
 			return $this;
 		}
@@ -118,7 +117,7 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 */
 	public function setParentId($parentId) {
-		if(!is_string($parentId)) {
+		if (!is_string($parentId)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
 		$this->data['parentId'] = trim($parentId);
@@ -144,7 +143,7 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 */
 	public function setTopmostParentId($id) {
-		if(!is_string($id)) {
+		if (!is_string($id)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
 		$this->data['topmostParentId'] = trim($id);
@@ -169,7 +168,7 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 */
 	public function setChildrenCount($count) {
-		if(!is_int($count)) {
+		if (!is_int($count)) {
 			throw new \InvalidArgumentException('Integer expected.');
 		}
 		$this->data['childrenCount'] = $count;
@@ -196,7 +195,7 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 */
 	public function setMessage($message, $maxLength = self::MAX_MESSAGE_LENGTH) {
-		if(!is_string($message)) {
+		if (!is_string($message)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
 		$message = trim($message);
@@ -229,7 +228,7 @@ class Comment implements IComment {
 	 */
 	public function getMentions() {
 		$ok = preg_match_all("/\B(?<![^a-z0-9_\-@\.\'\s])@(\"guest\/[a-f0-9]+\"|\"[a-z0-9_\-@\.\' ]+\"|[a-z0-9_\-@\.\']+)/i", $this->getMessage(), $mentions);
-		if(!$ok || !isset($mentions[0]) || !is_array($mentions[0])) {
+		if (!$ok || !isset($mentions[0]) || !is_array($mentions[0])) {
 			return [];
 		}
 		$uids = array_unique($mentions[0]);
@@ -263,7 +262,7 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 */
 	public function setVerb($verb) {
-		if(!is_string($verb) || !trim($verb)) {
+		if (!is_string($verb) || !trim($verb)) {
 			throw new \InvalidArgumentException('Non-empty String expected.');
 		}
 		$this->data['verb'] = trim($verb);
@@ -299,7 +298,7 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 */
 	public function setActor($actorType, $actorId) {
-		if(
+		if (
 			   !is_string($actorType) || !trim($actorType)
 			|| !is_string($actorId)   || $actorId === ''
 		) {
@@ -385,7 +384,7 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 */
 	public function setObject($objectType, $objectId) {
-		if(
+		if (
 			   !is_string($objectType) || !trim($objectType)
 			|| !is_string($objectId)   || trim($objectId) === ''
 		) {
@@ -434,18 +433,18 @@ class Comment implements IComment {
 	 * @return IComment
 	 */
 	protected function fromArray($data) {
-		foreach(array_keys($data) as $key) {
+		foreach (array_keys($data) as $key) {
 			// translate DB keys to internal setter names
 			$setter = 'set' . implode('', array_map('ucfirst', explode('_', $key)));
 			$setter = str_replace('Timestamp', 'DateTime', $setter);
 
-			if(method_exists($this, $setter)) {
+			if (method_exists($this, $setter)) {
 				$this->$setter($data[$key]);
 			}
 		}
 
-		foreach(['actor', 'object'] as $role) {
-			if(isset($data[$role . '_type']) && isset($data[$role . '_id'])) {
+		foreach (['actor', 'object'] as $role) {
+			if (isset($data[$role . '_type']) && isset($data[$role . '_id'])) {
 				$setter = 'set' . ucfirst($role);
 				$this->$setter($data[$role . '_type'], $data[$role . '_id']);
 			}

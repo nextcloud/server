@@ -34,7 +34,6 @@ use OCA\DAV\Connector\Sabre\Directory;
 use OCP\Files\ForbiddenException;
 
 class TestViewDirectory extends \OC\Files\View {
-
 	private $updatables;
 	private $deletables;
 	private $canRename;

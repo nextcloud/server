@@ -164,7 +164,6 @@ abstract class ResourceLocator {
 	 * @throws ResourceNotFoundException Only thrown when $throw is true and the resource is missing
 	 */
 	protected function append($root, $file, $webRoot = null, $throw = true) {
-
 		if (!is_string($root)) {
 			if ($throw) {
 				throw new ResourceNotFoundException($file, $webRoot);

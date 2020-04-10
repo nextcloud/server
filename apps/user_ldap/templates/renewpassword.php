@@ -11,7 +11,7 @@ style('user_ldap', 'renewPassword');
 		<div class="warning title">
 			<?php p($l->t('Please renew your password.')); ?><br>
 		</div>
-		<?php foreach($_['messages'] as $message): ?>
+		<?php foreach ($_['messages'] as $message): ?>
 			<div class="warning">
 				<?php p($message); ?><br>
 			</div>

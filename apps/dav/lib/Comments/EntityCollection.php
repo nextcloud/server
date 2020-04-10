@@ -65,9 +65,9 @@ class EntityCollection extends RootCollection implements IProperties {
 		IUserSession $userSession,
 		ILogger $logger
 	) {
-		foreach(['id', 'name'] as $property) {
+		foreach (['id', 'name'] as $property) {
 			$$property = trim($$property);
-			if(empty($$property) || !is_string($$property)) {
+			if (empty($$property) || !is_string($$property)) {
 				throw new \InvalidArgumentException('"' . $property . '" parameter must be non-empty string');
 			}
 		}
@@ -134,7 +134,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	function findChildren($limit = 0, $offset = 0, \DateTime $datetime = null) {
 		$comments = $this->commentsManager->getForObject($this->name, $this->id, $limit, $offset, $datetime);
 		$result = [];
-		foreach($comments as $comment) {
+		foreach ($comments as $comment) {
 			$result[] = new CommentNode(
 				$this->commentsManager,
 				$comment,
@@ -187,7 +187,7 @@ class EntityCollection extends RootCollection implements IProperties {
 	function getProperties($properties) {
 		$marker = null;
 		$user = $this->userSession->getUser();
-		if(!is_null($user)) {
+		if (!is_null($user)) {
 			$marker = $this->commentsManager->getReadMark($this->name, $this->id, $user);
 		}
 		return [self::PROPERTY_NAME_READ_MARKER => $marker];

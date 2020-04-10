@@ -238,5 +238,4 @@ class OCSMiddlewareTest extends \Test\TestCase {
 			$this->assertSame(Http::STATUS_UNAUTHORIZED, $newResponse->getStatus());
 		}
 	}
-
 }

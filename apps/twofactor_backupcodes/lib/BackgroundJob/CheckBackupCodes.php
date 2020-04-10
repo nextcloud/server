@@ -66,5 +66,4 @@ class CheckBackupCodes extends QueuedJob {
 			}
 		});
 	}
-
 }

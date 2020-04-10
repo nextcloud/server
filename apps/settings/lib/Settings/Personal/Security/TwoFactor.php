@@ -66,7 +66,6 @@ class TwoFactor implements ISettings {
 			'twoFactorProviderData' => $this->getTwoFactorProviderData(),
 			'themedark' => $this->config->getUserValue($this->uid, 'accessibility', 'theme', false)
 		]);
-
 	}
 
 	public function getSection(): string {

@@ -91,8 +91,7 @@ class NaturalSort {
 			// German umlauts, so using en_US instead
 			if (class_exists('Collator')) {
 				$this->collator = new \Collator('en_US');
-			}
-			else {
+			} else {
 				$this->collator = new \OC\NaturalSort_DefaultCollator();
 			}
 		}

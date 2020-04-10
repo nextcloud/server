@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class DialogContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -64,5 +63,4 @@ class DialogContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheConfirmationDialogIsNotShown() {
 		WaitFor::elementToBeEventuallyNotShown($this->actor, self::theDialog());
 	}
-
 }

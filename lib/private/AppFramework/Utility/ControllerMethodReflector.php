@@ -82,7 +82,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 			}
 
 			$default = null;
-			if($param->isOptional()) {
+			if ($param->isOptional()) {
 				$default = $param->getDefaultValue();
 			}
 			$this->parameters[$param->name] = $default;
@@ -97,7 +97,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * would return int or null if not existing
 	 */
 	public function getType(string $parameter) {
-		if(array_key_exists($parameter, $this->types)) {
+		if (array_key_exists($parameter, $this->types)) {
 			return $this->types[$parameter];
 		}
 
@@ -128,7 +128,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @return string
 	 */
 	public function getAnnotationParameter(string $name, string $key): string {
-		if(isset($this->annotations[$name][$key])) {
+		if (isset($this->annotations[$name][$key])) {
 			return $this->annotations[$name][$key];
 		}
 

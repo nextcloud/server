@@ -85,5 +85,4 @@ interface IManager {
 	 * @return int number of deleted tokens
 	 */
 	public function cleanup(): int;
-
 }

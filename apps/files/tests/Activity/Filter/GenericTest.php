@@ -36,7 +36,6 @@ use Test\TestCase;
  * @group DB
  */
 class GenericTest extends TestCase {
-
 	public function dataFilters() {
 		return [
 			[Favorites::class],

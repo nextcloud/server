@@ -62,10 +62,10 @@ function emit_css_tag($href, $opts = '') {
  * @param array $obj all the script information from template
  */
 function emit_css_loading_tags($obj) {
-	foreach($obj['cssfiles'] as $css) {
+	foreach ($obj['cssfiles'] as $css) {
 		emit_css_tag($css);
 	}
-	foreach($obj['printcssfiles'] as $css) {
+	foreach ($obj['printcssfiles'] as $css) {
 		emit_css_tag($css, 'media="print"');
 	}
 }
@@ -79,7 +79,7 @@ function emit_script_tag($src, $script_content='') {
 	$defer_str=' defer';
 	$s='<script nonce="' . \OC::$server->getContentSecurityPolicyNonceManager()->getNonce() . '"';
 	if (!empty($src)) {
-		 // emit script tag for deferred loading from $src
+		// emit script tag for deferred loading from $src
 		$s.=$defer_str.' src="' . $src .'">';
 	} elseif (!empty($script_content)) {
 		// emit script tag for inline script from $script_content without defer (see MDN)
@@ -97,7 +97,7 @@ function emit_script_tag($src, $script_content='') {
  * @param array $obj all the script information from template
  */
 function emit_script_loading_tags($obj) {
-	foreach($obj['jsfiles'] as $jsfile) {
+	foreach ($obj['jsfiles'] as $jsfile) {
 		emit_script_tag($jsfile, '');
 	}
 	if (!empty($obj['inline_ocjs'])) {
@@ -121,8 +121,8 @@ function print_unescaped($string) {
  * if an array is given it will add all scripts
  */
 function script($app, $file = null) {
-	if(is_array($file)) {
-		foreach($file as $f) {
+	if (is_array($file)) {
+		foreach ($file as $f) {
 			OC_Util::addScript($app, $f);
 		}
 	} else {
@@ -137,8 +137,8 @@ function script($app, $file = null) {
  * if an array is given it will add all scripts
  */
 function vendor_script($app, $file = null) {
-	if(is_array($file)) {
-		foreach($file as $f) {
+	if (is_array($file)) {
+		foreach ($file as $f) {
 			OC_Util::addVendorScript($app, $f);
 		}
 	} else {
@@ -153,8 +153,8 @@ function vendor_script($app, $file = null) {
  * if an array is given it will add all styles
  */
 function style($app, $file = null) {
-	if(is_array($file)) {
-		foreach($file as $f) {
+	if (is_array($file)) {
+		foreach ($file as $f) {
 			OC_Util::addStyle($app, $f);
 		}
 	} else {
@@ -169,8 +169,8 @@ function style($app, $file = null) {
  * if an array is given it will add all styles
  */
 function vendor_style($app, $file = null) {
-	if(is_array($file)) {
-		foreach($file as $f) {
+	if (is_array($file)) {
+		foreach ($file as $f) {
 			OC_Util::addVendorStyle($app, $f);
 		}
 	} else {
@@ -194,8 +194,8 @@ function translation($app) {
  * if an array is given it will add all components
  */
 function component($app, $file) {
-	if(is_array($file)) {
-		foreach($file as $f) {
+	if (is_array($file)) {
+		foreach ($file as $f) {
 			$url = link_to($app, 'component/' . $f . '.html');
 			OC_Util::addHeader('link', ['rel' => 'import', 'href' => $url]);
 		}
@@ -300,7 +300,7 @@ function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false)
 	/** @var \OC\DateTimeFormatter $formatter */
 	$formatter = \OC::$server->query('DateTimeFormatter');
 
-	if ($dateOnly){
+	if ($dateOnly) {
 		return $formatter->formatDateSpan($timestamp, $fromTime);
 	}
 	return $formatter->formatTimeSpan($timestamp, $fromTime);
@@ -321,7 +321,7 @@ function html_select_options($options, $selected, $params=[]) {
 		$label_name = $params['label'];
 	}
 	$html = '';
-	foreach($options as $value => $label) {
+	foreach ($options as $value => $label) {
 		if ($value_name && is_array($label)) {
 			$value = $label[$value_name];
 		}

@@ -193,5 +193,4 @@ class TransferOwnershipController extends OCSController {
 
 		return new DataResponse([], Http::STATUS_OK);
 	}
-
 }

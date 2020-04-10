@@ -48,12 +48,12 @@ class CommentersSorter implements ISorter {
 	 */
 	public function sort(array &$sortArray, array $context) {
 		$commenters = $this->retrieveCommentsInformation($context['itemType'], $context['itemId']);
-		if(count($commenters) === 0) {
+		if (count($commenters) === 0) {
 			return;
 		}
 
 		foreach ($sortArray as $type => &$byType) {
-			if(!isset($commenters[$type])) {
+			if (!isset($commenters[$type])) {
 				continue;
 			}
 
@@ -66,7 +66,7 @@ class CommentersSorter implements ISorter {
 
 			usort($workArray, function ($a, $b) use ($commenters, $type) {
 				$r = $this->compare($a[1], $b[1], $commenters[$type]);
-				if($r === 0) {
+				if ($r === 0) {
 					$r = $a[0] - $b[0];
 				}
 				return $r;
@@ -84,16 +84,16 @@ class CommentersSorter implements ISorter {
 	 */
 	protected function retrieveCommentsInformation($type, $id) {
 		$comments = $this->commentsManager->getForObject($type, $id);
-		if(count($comments) === 0) {
+		if (count($comments) === 0) {
 			return [];
 		}
 
 		$actors = [];
 		foreach ($comments as $comment) {
-			if(!isset($actors[$comment->getActorType()])) {
+			if (!isset($actors[$comment->getActorType()])) {
 				$actors[$comment->getActorType()] = [];
 			}
-			if(!isset($actors[$comment->getActorType()][$comment->getActorId()])) {
+			if (!isset($actors[$comment->getActorType()][$comment->getActorId()])) {
 				$actors[$comment->getActorType()][$comment->getActorId()] = 1;
 			} else {
 				$actors[$comment->getActorType()][$comment->getActorId()]++;

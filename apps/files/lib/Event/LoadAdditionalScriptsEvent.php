@@ -29,7 +29,6 @@ namespace OCA\Files\Event;
 use OCP\EventDispatcher\Event;
 
 class LoadAdditionalScriptsEvent extends Event {
-
 	private $hiddenFields = [];
 
 	public function addHiddenField(string $name, string $value): void {

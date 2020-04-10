@@ -82,5 +82,4 @@ class TemplateResponseTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $this->tpl->getStatus());
 		$this->assertEquals(['hi' => 'yo'], $this->tpl->getParams());
 	}
-
 }

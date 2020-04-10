@@ -65,5 +65,4 @@ class StreamResponse extends Response implements ICallbackResponse {
 			}
 		}
 	}
-
 }

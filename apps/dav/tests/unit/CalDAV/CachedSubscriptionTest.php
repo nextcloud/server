@@ -31,7 +31,6 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use Sabre\DAV\PropPatch;
 
 class CachedSubscriptionTest extends \Test\TestCase {
-
 	public function testGetACL() {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [

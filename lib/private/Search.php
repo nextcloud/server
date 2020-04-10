@@ -36,7 +36,6 @@ use OCP\Search\Provider;
  * Provide an interface to all search providers
  */
 class Search implements ISearch {
-
 	private $providers = [];
 	private $registeredProviders = [];
 
@@ -51,7 +50,7 @@ class Search implements ISearch {
 	public function searchPaged($query, array $inApps = [], $page = 1, $size = 30) {
 		$this->initProviders();
 		$results = [];
-		foreach($this->providers as $provider) {
+		foreach ($this->providers as $provider) {
 			/** @var $provider Provider */
 			if (! $provider->providesResultsFor($inApps)) {
 				continue;
@@ -109,14 +108,13 @@ class Search implements ISearch {
 	 * Create instances of all the registered search providers
 	 */
 	private function initProviders() {
-		if(! empty($this->providers)) {
+		if (! empty($this->providers)) {
 			return;
 		}
-		foreach($this->registeredProviders as $provider) {
+		foreach ($this->registeredProviders as $provider) {
 			$class = $provider['class'];
 			$options = $provider['options'];
 			$this->providers[] = new $class($options);
 		}
 	}
-
 }

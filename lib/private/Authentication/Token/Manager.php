@@ -139,7 +139,7 @@ class Manager implements IProvider {
 			throw $e;
 		} catch (ExpiredTokenException $e) {
 			throw $e;
-		} catch(InvalidTokenException $e) {
+		} catch (InvalidTokenException $e) {
 			// No worries we try to convert it to a PublicKey Token
 		}
 
@@ -272,6 +272,4 @@ class Manager implements IProvider {
 		$this->defaultTokenProvider->updatePasswords($uid, $password);
 		$this->publicKeyTokenProvider->updatePasswords($uid, $password);
 	}
-
-
 }

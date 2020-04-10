@@ -97,7 +97,6 @@ class Manager {
 								IAvatarManager $avatarManager, Image $image,
 								IDBConnection $db, IUserManager $userManager,
 								INotificationManager $notificationManager) {
-
 		$this->ocConfig            = $ocConfig;
 		$this->ocFilesystem        = $ocFilesystem;
 		$this->ocLog               = $ocLog;
@@ -142,7 +141,7 @@ class Manager {
 	 * @param $uid
 	 */
 	public function invalidate($uid) {
-		if(!isset($this->usersByUid[$uid])) {
+		if (!isset($this->usersByUid[$uid])) {
 			return;
 		}
 		$dn = $this->usersByUid[$uid]->getDN();
@@ -156,7 +155,7 @@ class Manager {
 	 * @return null
 	 */
 	private function checkAccess() {
-		if(is_null($this->access)) {
+		if (is_null($this->access)) {
 			throw new \Exception('LDAP Access instance must be set first');
 		}
 	}
@@ -181,11 +180,11 @@ class Manager {
 		];
 
 		$homeRule = $this->access->getConnection()->homeFolderNamingRule;
-		if(strpos($homeRule, 'attr:') === 0) {
+		if (strpos($homeRule, 'attr:') === 0) {
 			$attributes[] = substr($homeRule, strlen('attr:'));
 		}
 
-		if(!$minimal) {
+		if (!$minimal) {
 			// attributes that are not really important but may come with big
 			// payload.
 			$attributes = array_merge(
@@ -197,7 +196,7 @@ class Manager {
 		$attributes = array_reduce($attributes,
 			function ($list, $attribute) {
 				$attribute = strtolower(trim((string)$attribute));
-				if(!empty($attribute) && !in_array($attribute, $list)) {
+				if (!empty($attribute) && !in_array($attribute, $list)) {
 					$list[] = $attribute;
 				}
 
@@ -240,11 +239,11 @@ class Manager {
 	 */
 	protected function createInstancyByUserName($id) {
 		//most likely a uid. Check whether it is a deleted user
-		if($this->isDeletedUser($id)) {
+		if ($this->isDeletedUser($id)) {
 			return $this->getDeletedUser($id);
 		}
 		$dn = $this->access->username2dn($id);
-		if($dn !== false) {
+		if ($dn !== false) {
 			return $this->createAndCache($dn, $id);
 		}
 		return null;
@@ -258,20 +257,19 @@ class Manager {
 	 */
 	public function get($id) {
 		$this->checkAccess();
-		if(isset($this->usersByDN[$id])) {
+		if (isset($this->usersByDN[$id])) {
 			return $this->usersByDN[$id];
-		} elseif(isset($this->usersByUid[$id])) {
+		} elseif (isset($this->usersByUid[$id])) {
 			return $this->usersByUid[$id];
 		}
 
-		if($this->access->stringResemblesDN($id)) {
+		if ($this->access->stringResemblesDN($id)) {
 			$uid = $this->access->dn2username($id);
-			if($uid !== false) {
+			if ($uid !== false) {
 				return $this->createAndCache($id, $uid);
 			}
 		}
 
 		return $this->createInstancyByUserName($id);
 	}
-
 }

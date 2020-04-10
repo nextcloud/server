@@ -193,7 +193,6 @@ trait PrincipalProxyTrait {
 
 		return $proxy === 'calendar-proxy-read'
 			|| $proxy === 'calendar-proxy-write';
-
 	}
 
 	/**

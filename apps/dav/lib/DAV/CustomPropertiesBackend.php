@@ -236,7 +236,6 @@ class CustomPropertiesBackend implements BackendInterface {
 	 * @return bool
 	 */
 	private function updateProperties(string $path, array $properties) {
-
 		$deleteStatement = 'DELETE FROM `*PREFIX*properties`' .
 			' WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?';
 

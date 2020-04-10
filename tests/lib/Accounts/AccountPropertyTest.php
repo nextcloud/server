@@ -33,7 +33,6 @@ use Test\TestCase;
  * @package Test\Accounts
  */
 class AccountPropertyTest extends TestCase {
-
 	public function testConstructor() {
 		$accountProperty = new AccountProperty(
 			IAccountManager::PROPERTY_WEBSITE,
@@ -97,6 +96,4 @@ class AccountPropertyTest extends TestCase {
 			'verified' => IAccountManager::VERIFIED
 		], $accountProperty->jsonSerialize());
 	}
-
-
 }

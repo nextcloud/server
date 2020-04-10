@@ -43,5 +43,4 @@ class FinishRememberedLoginCommand extends ALoginCommand {
 
 		return $this->processNextOrFinishSuccessfully($loginData);
 	}
-
 }

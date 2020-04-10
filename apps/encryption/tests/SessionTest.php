@@ -54,7 +54,6 @@ class SessionTest extends TestCase {
 	public function testSetAndGetPrivateKey() {
 		$this->instance->setPrivateKey('dummyPrivateKey');
 		$this->assertEquals('dummyPrivateKey', $this->instance->getPrivateKey());
-
 	}
 
 	/**

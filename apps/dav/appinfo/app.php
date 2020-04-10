@@ -97,7 +97,7 @@ $eventHandler = function () use ($app) {
 		$job = $app->getContainer()->query(\OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob::class);
 		$job->run([]);
 		$app->getContainer()->getServer()->getJobList()->setLastRun($job);
-	} catch(\Exception $ex) {
+	} catch (\Exception $ex) {
 		$app->getContainer()->getServer()->getLogger()->logException($ex);
 	}
 };

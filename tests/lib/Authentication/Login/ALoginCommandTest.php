@@ -118,5 +118,4 @@ abstract class ALoginCommandTest extends TestCase {
 		$data->setUser($this->user);
 		return $data;
 	}
-
 }

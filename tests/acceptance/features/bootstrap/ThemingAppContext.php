@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class ThemingAppContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -110,15 +109,15 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 
 	private function getRGBArray($color) {
 		if (preg_match("/rgb\(\s*(\d+),\s*(\d+),\s*(\d+)\)/", $color, $matches)) {
-		// Already an RGB (R, G, B) color
-		// Convert from "rgb(R, G, B)" string to RGB array
-		$tmpColor = array_splice($matches, 1);
+			// Already an RGB (R, G, B) color
+			// Convert from "rgb(R, G, B)" string to RGB array
+			$tmpColor = array_splice($matches, 1);
 		} elseif ($color[0] === '#') {
-		$color = substr($color, 1);
-		// HEX Color, convert to RGB array.
-		$tmpColor = sscanf($color, "%02X%02X%02X");
+			$color = substr($color, 1);
+			// HEX Color, convert to RGB array.
+			$tmpColor = sscanf($color, "%02X%02X%02X");
 		} else {
-		PHPUnit_Framework_Assert::fail("The acceptance test does not know how to handle the color string : '$color'. "
+			PHPUnit_Framework_Assert::fail("The acceptance test does not know how to handle the color string : '$color'. "
 			. "Please provide # before HEX colors in your features.");
 		}
 		return $tmpColor;
@@ -161,5 +160,4 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 			PHPUnit_Framework_Assert::fail("The 'Saved' status messages in Theming app has not been shown after $timeout seconds");
 		}
 	}
-
 }

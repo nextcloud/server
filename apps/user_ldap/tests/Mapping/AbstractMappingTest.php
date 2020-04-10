@@ -77,7 +77,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	 * @param array $data
 	 */
 	protected function mapEntries($mapper, $data) {
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$done = $mapper->map($entry['dn'], $entry['name'], $entry['uuid']);
 			$this->assertTrue($done);
 		}
@@ -111,9 +111,9 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		// test that mapping will not happen when it shall not
 		$tooLongDN = 'uid=joann,ou=Secret Small Specialized Department,ou=Some Tremendously Important Department,ou=Another Very Important Department,ou=Pretty Meaningful Derpartment,ou=Quite Broad And General Department,ou=The Topmost Department,dc=hugelysuccessfulcompany,dc=com';
 		$paramKeys = ['', 'dn', 'name', 'uuid', $tooLongDN];
-		foreach($paramKeys as $key) {
+		foreach ($paramKeys as $key) {
 			$failEntry = $data[0];
-			if(!empty($key)) {
+			if (!empty($key)) {
 				$failEntry[$key] = 'do-not-get-mapped';
 			}
 			$isMapped = $mapper->map($failEntry['dn'], $failEntry['name'], $failEntry['uuid']);
@@ -128,7 +128,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	public function testUnmap() {
 		list($mapper, $data) = $this->initTest();
 
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$result = $mapper->unmap($entry['name']);
 			$this->assertTrue($result);
 		}
@@ -144,21 +144,21 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	public function testGetMethods() {
 		list($mapper, $data) = $this->initTest();
 
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$fdn = $mapper->getDNByName($entry['name']);
 			$this->assertSame($fdn, $entry['dn']);
 		}
 		$fdn = $mapper->getDNByName('nosuchname');
 		$this->assertFalse($fdn);
 
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$name = $mapper->getNameByDN($entry['dn']);
 			$this->assertSame($name, $entry['name']);
 		}
 		$name = $mapper->getNameByDN('nosuchdn');
 		$this->assertFalse($name);
 
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$name = $mapper->getNameByUUID($entry['uuid']);
 			$this->assertSame($name, $entry['name']);
 		}
@@ -229,7 +229,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 
 		$done = $mapper->clear();
 		$this->assertTrue($done);
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$name = $mapper->getNameByUUID($entry['uuid']);
 			$this->assertFalse($name);
 		}
@@ -252,7 +252,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 		$done = $mapper->clearCb($callback, $callback);
 		$this->assertTrue($done);
 		$this->assertSame(count($data) * 2, $callbackCalls);
-		foreach($data as $entry) {
+		foreach ($data as $entry) {
 			$name = $mapper->getNameByUUID($entry['uuid']);
 			$this->assertFalse($name);
 		}

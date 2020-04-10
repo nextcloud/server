@@ -68,8 +68,8 @@ abstract class Backend implements UserInterface {
 	 */
 	public function getSupportedActions() {
 		$actions = 0;
-		foreach($this->possibleActions as $action => $methodName) {
-			if(method_exists($this, $methodName)) {
+		foreach ($this->possibleActions as $action => $methodName) {
+			if (method_exists($this, $methodName)) {
 				$actions |= $action;
 			}
 		}

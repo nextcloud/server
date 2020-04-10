@@ -28,11 +28,14 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\ServerContainer;
 use Test\TestCase;
 
-interface Interface1 {}
+interface Interface1 {
+}
 
-class ClassA1 implements Interface1 {}
+class ClassA1 implements Interface1 {
+}
 
-class ClassA2 implements Interface1 {}
+class ClassA2 implements Interface1 {
+}
 
 class ClassB {
 	/** @var Interface1 */

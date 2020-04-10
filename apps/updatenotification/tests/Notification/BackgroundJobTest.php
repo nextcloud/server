@@ -80,7 +80,8 @@ class BackgroundJobTest extends TestCase {
 				$this->client,
 				$this->installer
 			);
-		} {
+		}
+		{
 			return $this->getMockBuilder(BackgroundJob::class)
 				->setConstructorArgs([
 					$this->config,

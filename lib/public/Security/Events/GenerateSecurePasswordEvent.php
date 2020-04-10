@@ -49,5 +49,4 @@ class GenerateSecurePasswordEvent extends Event {
 	public function setPassword(string $password): void {
 		$this->password = $password;
 	}
-
 }

@@ -547,10 +547,10 @@ class CheckerTest extends TestCase {
 				->with(
 						\OC::$SERVERROOT . '/tests/data/integritycheck/app//core/signature.json',
 						$this->callback(function ($signature) use ($expectedSignatureFileData) {
-						$expectedArray = json_decode($expectedSignatureFileData, true);
-						$actualArray = json_decode($signature, true);
-						$this->assertEquals($expectedArray, $actualArray);
-						return true;
+							$expectedArray = json_decode($expectedSignatureFileData, true);
+							$actualArray = json_decode($signature, true);
+							$this->assertEquals($expectedArray, $actualArray);
+							return true;
 						})
 				);
 
@@ -1018,7 +1018,6 @@ class CheckerTest extends TestCase {
 			->willReturn(file_get_contents(__DIR__ .'/../../data/integritycheck/root.crt'));
 
 		$this->assertSame([], $this->checker->verifyCoreSignature());
-
 	}
 
 	public function testVerifyCoreSignatureWithValidSignatureDataAndNotAlphabeticOrder() {

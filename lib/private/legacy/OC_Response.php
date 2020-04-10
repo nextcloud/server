@@ -94,7 +94,7 @@ class OC_Response {
 
 		// Send fallback headers for installations that don't have the possibility to send
 		// custom headers on the webserver side
-		if(getenv('modHeadersAvailable') !== 'true') {
+		if (getenv('modHeadersAvailable') !== 'true') {
 			header('Referrer-Policy: no-referrer'); // https://www.w3.org/TR/referrer-policy/
 			header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
 			header('X-Download-Options: noopen'); // https://msdn.microsoft.com/en-us/library/jj542450(v=vs.85).aspx
@@ -104,5 +104,4 @@ class OC_Response {
 			header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
 		}
 	}
-
 }

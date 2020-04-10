@@ -27,12 +27,12 @@ script('settings', [
 	'vue-settings-personal-security',
 ]);
 
-if($_['passwordChangeSupported']) {
+if ($_['passwordChangeSupported']) {
 	script('settings', 'security_password');
 }
 
 ?>
-<?php if($_['passwordChangeSupported']) { ?>
+<?php if ($_['passwordChangeSupported']) { ?>
 <div id="security-password" class="section">
 	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
 	<span id="password-error-msg" class="msg success hidden">Saved</span>

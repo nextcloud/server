@@ -330,5 +330,4 @@ class DbHandler {
 		$statement->closeCursor();
 		return !empty($result);
 	}
-
 }

@@ -13,9 +13,8 @@ class NaturalSortTest extends \Test\TestCase {
 	/**
 	 * @dataProvider naturalSortDataProvider
 	 */
-	public function testNaturalSortCompare($array, $sorted)
-	{
-		if(!class_exists('Collator')) {
+	public function testNaturalSortCompare($array, $sorted) {
+		if (!class_exists('Collator')) {
 			$this->markTestSkipped('The intl module is not available, natural sorting might not work as expected.');
 			return;
 		}
@@ -27,8 +26,7 @@ class NaturalSortTest extends \Test\TestCase {
 	/**
 	 * @dataProvider defaultCollatorDataProvider
 	 */
-	public function testDefaultCollatorCompare($array, $sorted)
-	{
+	public function testDefaultCollatorCompare($array, $sorted) {
 		$comparator = new \OC\NaturalSort(new \OC\NaturalSort_DefaultCollator());
 		usort($array, [$comparator, 'compare']);
 		$this->assertEquals($sorted, $array);
@@ -39,8 +37,7 @@ class NaturalSortTest extends \Test\TestCase {
 	 * Must provide the same result as in core/js/tests/specs/coreSpec.js
 	 * @return array test cases
 	 */
-	public function naturalSortDataProvider()
-	{
+	public function naturalSortDataProvider() {
 		return [
 			// different casing
 			[
@@ -194,8 +191,7 @@ class NaturalSortTest extends \Test\TestCase {
 	 * Must provide the same result as in core/js/tests/specs/coreSpec.js
 	 * @return array test cases
 	 */
-	public function defaultCollatorDataProvider()
-	{
+	public function defaultCollatorDataProvider() {
 		return [
 			// different casing
 			[

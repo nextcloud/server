@@ -60,5 +60,4 @@ class UpdateLastPasswordConfirmCommandTest extends ALoginCommandTest {
 
 		$this->assertTrue($result->isSuccess());
 	}
-
 }

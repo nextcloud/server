@@ -155,5 +155,4 @@ class TwoFactorMiddleware extends Middleware {
 
 		throw $exception;
 	}
-
 }

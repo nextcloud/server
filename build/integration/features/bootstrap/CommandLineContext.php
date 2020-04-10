@@ -110,7 +110,7 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	 */
 	public function transferingOwnershipPath($path, $user1, $user2) {
 		$path = '--path=' . $path;
-		if($this->runOcc(['files:transfer-ownership', $path, $user1, $user2]) === 0) {
+		if ($this->runOcc(['files:transfer-ownership', $path, $user1, $user2]) === 0) {
 			$this->lastTransferPath = $this->findLastTransferFolderForUser($user1, $user2);
 		} else {
 			// failure

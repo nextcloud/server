@@ -62,5 +62,4 @@ class ClearLostPasswordTokensCommandTest extends ALoginCommandTest {
 
 		$this->assertTrue($result->isSuccess());
 	}
-
 }

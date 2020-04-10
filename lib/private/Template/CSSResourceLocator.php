@@ -83,7 +83,7 @@ class CSSResourceLocator extends ResourceLocator {
 		// turned into cwd.
 		$app_path = realpath($app_path);
 
-		if(!$this->cacheAndAppendScssIfExist($app_path, $style.'.scss', $app)) {
+		if (!$this->cacheAndAppendScssIfExist($app_path, $style.'.scss', $app)) {
 			$this->append($app_path, $style.'.css', $app_url);
 		}
 	}
@@ -107,9 +107,8 @@ class CSSResourceLocator extends ResourceLocator {
 	 */
 	protected function cacheAndAppendScssIfExist($root, $file, $app = 'core') {
 		if (is_file($root.'/'.$file)) {
-			if($this->scssCacher !== null) {
-				if($this->scssCacher->process($root, $file, $app)) {
-
+			if ($this->scssCacher !== null) {
+				if ($this->scssCacher->process($root, $file, $app)) {
 					$this->append($root, $this->scssCacher->getCachedSCSS($app, $file), \OC::$WEBROOT, true, true);
 					return true;
 				} else {

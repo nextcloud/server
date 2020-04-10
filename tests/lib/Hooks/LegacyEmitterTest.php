@@ -39,8 +39,9 @@ class LegacyEmitterTest extends BasicEmitterTest {
 	}
 
 	public static function staticLegacyArgumentsCallBack($arguments) {
-		if ($arguments['foo'] == 'foo' and $arguments['bar'] == 'bar')
+		if ($arguments['foo'] == 'foo' and $arguments['bar'] == 'bar') {
 			self::$emitted = true;
+		}
 	}
 
 	public function testLegacyHook() {

@@ -114,9 +114,9 @@ class OC_App {
 		$apps = self::getEnabledApps();
 
 		// Add each apps' folder as allowed class path
-		foreach($apps as $app) {
+		foreach ($apps as $app) {
 			$path = self::getAppPath($app);
-			if($path !== false) {
+			if ($path !== false) {
 				self::registerAutoloading($app, $path);
 			}
 		}
@@ -142,7 +142,7 @@ class OC_App {
 	public static function loadApp(string $app) {
 		self::$loadedApps[] = $app;
 		$appPath = self::getAppPath($app);
-		if($appPath === false) {
+		if ($appPath === false) {
 			return;
 		}
 
@@ -154,7 +154,7 @@ class OC_App {
 			try {
 				self::requireAppFile($app);
 			} catch (Throwable $ex) {
-				if($ex instanceof ServerNotAvailableException) {
+				if ($ex instanceof ServerNotAvailableException) {
 					throw $ex;
 				}
 				\OC::$server->getLogger()->logException($ex);
@@ -210,7 +210,7 @@ class OC_App {
 			$plugins = isset($info['collaboration']['plugins']['plugin']['@value']) ?
 				[$info['collaboration']['plugins']['plugin']] : $info['collaboration']['plugins']['plugin'];
 			foreach ($plugins as $plugin) {
-				if($plugin['@attributes']['type'] === 'collaborator-search') {
+				if ($plugin['@attributes']['type'] === 'collaborator-search') {
 					$pluginInfo = [
 						'shareType' => $plugin['@attributes']['share-type'],
 						'class' => $plugin['@value'],
@@ -308,7 +308,7 @@ class OC_App {
 	public static function setAppTypes(string $app) {
 		$appManager = \OC::$server->getAppManager();
 		$appData = $appManager->getAppInfo($app);
-		if(!is_array($appData)) {
+		if (!is_array($appData)) {
 			return;
 		}
 
@@ -395,7 +395,7 @@ class OC_App {
 		$installer = \OC::$server->query(Installer::class);
 		$isDownloaded = $installer->isDownloaded($appId);
 
-		if(!$isDownloaded) {
+		if (!$isDownloaded) {
 			$installer->downloadApp($appId);
 		}
 
@@ -446,7 +446,7 @@ class OC_App {
 	 */
 	public static function findAppInDirectories(string $appId) {
 		$sanitizedAppId = self::cleanAppId($appId);
-		if($sanitizedAppId !== $appId) {
+		if ($sanitizedAppId !== $appId) {
 			return false;
 		}
 		static $app_dir = [];
@@ -671,7 +671,6 @@ class OC_App {
 	 * @todo: change the name of this method to getInstalledApps, which is more accurate
 	 */
 	public static function getAllApps(): array {
-
 		$apps = [];
 
 		foreach (OC::$APPSROOTS as $apps_dir) {
@@ -683,9 +682,7 @@ class OC_App {
 
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
-
 					if ($file[0] != '.' and is_dir($apps_dir['path'] . '/' . $file) and is_file($apps_dir['path'] . '/' . $file . '/appinfo/info.xml')) {
-
 						$apps[] = $file;
 					}
 				}
@@ -717,7 +714,6 @@ class OC_App {
 
 		foreach ($installedApps as $app) {
 			if (array_search($app, $blacklist) === false) {
-
 				$info = OC_App::getAppInfo($app, false, $langCode);
 				if (!is_array($info)) {
 					\OCP\Util::writeLog('core', 'Could not read app info file for app "' . $app . '"', ILogger::ERROR);
@@ -756,7 +752,7 @@ class OC_App {
 				}
 
 				$appPath = self::getAppPath($app);
-				if($appPath !== false) {
+				if ($appPath !== false) {
 					$appIcon = $appPath . '/img/' . $app . '.svg';
 					if (file_exists($appIcon)) {
 						$info['preview'] = $urlGenerator->imagePath($app, $app . '.svg');
@@ -864,7 +860,6 @@ class OC_App {
 		if (!empty($requireMin)
 			&& version_compare(self::adjustVersionParts($ocVersion, $requireMin), $requireMin, '<')
 		) {
-
 			return false;
 		}
 
@@ -883,7 +878,7 @@ class OC_App {
 	public static function getAppVersions() {
 		static $versions;
 
-		if(!$versions) {
+		if (!$versions) {
 			$appConfig = \OC::$server->getAppConfig();
 			$versions = $appConfig->getValues(false, 'installed_version');
 		}
@@ -898,7 +893,7 @@ class OC_App {
 	 */
 	public static function updateApp(string $appId): bool {
 		$appPath = self::getAppPath($appId);
-		if($appPath === false) {
+		if ($appPath === false) {
 			return false;
 		}
 
@@ -931,7 +926,7 @@ class OC_App {
 		//set remote/public handlers
 		if (array_key_exists('ocsid', $appData)) {
 			\OC::$server->getConfig()->setAppValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif(\OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
+		} elseif (\OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
 			\OC::$server->getConfig()->deleteAppValue($appId, 'ocsid');
 		}
 		foreach ($appData['remote'] as $name => $path) {
@@ -1081,7 +1076,6 @@ class OC_App {
 	 * @return array improved app data
 	 */
 	public static function parseAppInfo(array $data, $lang = null): array {
-
 		if ($lang && isset($data['name']) && is_array($data['name'])) {
 			$data['name'] = self::findBestL10NOption($data['name'], $lang);
 		}
@@ -1092,7 +1086,7 @@ class OC_App {
 			$data['description'] = trim(self::findBestL10NOption($data['description'], $lang));
 		} elseif (isset($data['description']) && is_string($data['description'])) {
 			$data['description'] = trim($data['description']);
-		} else  {
+		} else {
 			$data['description'] = '';
 		}
 

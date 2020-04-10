@@ -272,7 +272,6 @@ class Activity implements IProvider {
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/share.svg')));
 			}
-
 		} else {
 			throw new \InvalidArgumentException();
 		}

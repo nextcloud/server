@@ -70,5 +70,4 @@ class RootCollection extends AbstractPrincipalCollection {
 	public function getName(): string {
 		return 'trashbin';
 	}
-
 }

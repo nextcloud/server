@@ -67,24 +67,24 @@ class UserContext {
 		if ($this->userId !== null) {
 			return $this->userId;
 		}
-		if($this->session && $this->session->getUser() !== null) {
+		if ($this->session && $this->session->getUser() !== null) {
 			return $this->session->getUser()->getUID();
 		}
 		try {
 			$shareToken = $this->request->getParam('token');
 			$share = $this->shareManager->getShareByToken($shareToken);
 			return $share->getShareOwner();
-		} catch (ShareNotFound $e) {}
+		} catch (ShareNotFound $e) {
+		}
 
 		return null;
 	}
 
 	protected function getUser(): ?IUser {
 		$userId = $this->getUserId();
-		if($userId !== null) {
+		if ($userId !== null) {
 			return $this->userManager->get($userId);
 		}
 		return null;
 	}
-
 }

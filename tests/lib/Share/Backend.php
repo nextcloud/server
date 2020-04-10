@@ -22,7 +22,6 @@
 namespace Test\Share;
 
 class Backend implements \OCP\Share_Backend {
-
 	const FORMAT_SOURCE = 0;
 	const FORMAT_TARGET = 1;
 	const FORMAT_PERMISSIONS = 2;
@@ -66,7 +65,6 @@ class Backend implements \OCP\Share_Backend {
 				$i++;
 			}
 			$target = $name.$append.$ext;
-
 		}
 
 		return $target;
@@ -89,5 +87,4 @@ class Backend implements \OCP\Share_Backend {
 	public function isShareTypeAllowed($shareType) {
 		return true;
 	}
-
 }

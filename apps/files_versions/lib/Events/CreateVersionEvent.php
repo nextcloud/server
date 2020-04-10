@@ -78,5 +78,4 @@ class CreateVersionEvent extends Event {
 	public function shouldCreateVersion() {
 		return $this->createVersion;
 	}
-
 }

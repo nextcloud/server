@@ -56,5 +56,4 @@ class TwoFactorSettingsController extends Controller {
 
 		return new JSONResponse($this->mandatoryTwoFactor->getState());
 	}
-
 }

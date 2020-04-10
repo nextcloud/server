@@ -44,7 +44,6 @@ use OCA\DAV\Connector\Sabre\ObjectTree;
  * @package OCA\DAV\Tests\Unit\Connector\Sabre
  */
 class ObjectTreeTest extends \Test\TestCase {
-
 	public function copyDataProvider() {
 		return [
 			// copy into same dir
@@ -152,7 +151,6 @@ class ObjectTreeTest extends \Test\TestCase {
 		$type,
 		$enableChunkingHeader
 	) {
-
 		if ($enableChunkingHeader) {
 			$_SERVER['HTTP_OC_CHUNKED'] = true;
 		}
@@ -284,8 +282,8 @@ class ObjectTreeTest extends \Test\TestCase {
 		$view->expects($this->once())
 			->method('resolvePath')
 			->willReturnCallback(function ($path) use ($storage) {
-			return [$storage, ltrim($path, '/')];
-		});
+				return [$storage, ltrim($path, '/')];
+			});
 
 		$rootNode = $this->getMockBuilder(Directory::class)
 			->disableOriginalConstructor()

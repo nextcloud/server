@@ -37,7 +37,6 @@ use RegexIterator;
 use SplFileInfo;
 
 class CodeChecker extends BasicEmitter {
-
 	const CLASS_EXTENDS_NOT_ALLOWED = 1000;
 	const CLASS_IMPLEMENTS_NOT_ALLOWED = 1001;
 	const STATIC_CALL_NOT_ALLOWED = 1002;
@@ -96,7 +95,7 @@ class CodeChecker extends BasicEmitter {
 		$iterator = new RecursiveDirectoryIterator($folder, RecursiveDirectoryIterator::SKIP_DOTS);
 		$iterator = new RecursiveCallbackFilterIterator($iterator, function ($item) use ($excludes) {
 			/** @var SplFileInfo $item */
-			foreach($excludes as $exclude) {
+			foreach ($excludes as $exclude) {
 				if (substr($item->getPath(), 0, strlen($exclude)) === $exclude) {
 					return false;
 				}

@@ -104,7 +104,8 @@ class Manager {
 		// Write the private and public key to the disk
 		try {
 			$this->appData->newFolder($id);
-		} catch (\Exception $e) {}
+		} catch (\Exception $e) {
+		}
 		$folder = $this->appData->getFolder($id);
 		$folder->newFile('private')
 			->putContent($this->crypto->encrypt($privateKey));
@@ -167,6 +168,4 @@ class Manager {
 		}
 		$this->logger->critical('Something is wrong with your openssl setup: ' . implode(', ', $errors));
 	}
-
-
 }

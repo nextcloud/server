@@ -29,7 +29,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\SimpleFS\ISimpleFile;
 
-class SimpleFile implements ISimpleFile  {
+class SimpleFile implements ISimpleFile {
 
 	/** @var File $file */
 	private $file;
@@ -179,5 +179,4 @@ class SimpleFile implements ISimpleFile  {
 	public function write() {
 		return $this->file->fopen('w');
 	}
-
 }

@@ -70,7 +70,6 @@ class JSCombinerTest extends \Test\TestCase {
 			$this->config,
 			$this->logger
 		);
-
 	}
 
 	public function testProcessDebugMode() {
@@ -560,5 +559,4 @@ var b = \'world\';
 
 		$this->jsCombiner->resetCache();
 	}
-
 }

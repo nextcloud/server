@@ -39,8 +39,6 @@ use OCP\IUser;
  * @since 14.0.0
  */
 interface IRegistry {
-
-
 	const EVENT_PROVIDER_ENABLED = self::class . '::enable';
 	const EVENT_PROVIDER_DISABLED = self::class . '::disable';
 
@@ -81,5 +79,4 @@ interface IRegistry {
 	 * @return void
 	 */
 	public function cleanUp(string $providerId);
-
 }

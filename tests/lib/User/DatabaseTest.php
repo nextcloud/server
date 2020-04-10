@@ -56,10 +56,10 @@ class DatabaseTest extends Backend {
 	}
 
 	protected function tearDown(): void {
-		if(!isset($this->users)) {
+		if (!isset($this->users)) {
 			return;
 		}
-		foreach($this->users as $user) {
+		foreach ($this->users as $user) {
 			$this->backend->deleteUser($user);
 		}
 		parent::tearDown();

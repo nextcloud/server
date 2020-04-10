@@ -27,5 +27,4 @@ interface ActorAwareInterface {
 	 * @param Actor $actor
 	 */
 	public function setCurrentActor(Actor $actor);
-
 }

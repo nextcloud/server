@@ -36,5 +36,4 @@ class GroupMapping extends AbstractMapping {
 	protected function getTableName() {
 		return '*PREFIX*ldap_group_mapping';
 	}
-
 }

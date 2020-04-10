@@ -76,5 +76,4 @@ interface IIndexOptions {
 	 * @return bool
 	 */
 	public function getOptionBool(string $option, bool $default): bool;
-
 }

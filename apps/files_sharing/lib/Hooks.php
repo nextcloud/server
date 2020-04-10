@@ -30,7 +30,6 @@ namespace OCA\Files_Sharing;
 use OC\Files\Filesystem;
 
 class Hooks {
-
 	public static function deleteUser($params) {
 		$manager = new External\Manager(
 			\OC::$server->getDatabaseConnection(),

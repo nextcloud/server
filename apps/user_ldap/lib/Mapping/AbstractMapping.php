@@ -55,7 +55,7 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function isColNameValid($col) {
-		switch($col) {
+		switch ($col) {
 			case 'ldap_dn':
 			case 'owncloud_name':
 			case 'directory_uuid':
@@ -74,7 +74,7 @@ abstract class AbstractMapping {
 	 * @return string|false
 	 */
 	protected function getXbyY($fetchCol, $compareCol, $search) {
-		if(!$this->isColNameValid($fetchCol)) {
+		if (!$this->isColNameValid($fetchCol)) {
 			//this is used internally only, but we don't want to risk
 			//having SQL injection at all.
 			throw new \Exception('Invalid Column Name');
@@ -86,7 +86,7 @@ abstract class AbstractMapping {
 		');
 
 		$res = $query->execute([$search]);
-		if($res !== false) {
+		if ($res !== false) {
 			return $query->fetchColumn();
 		}
 
@@ -174,8 +174,8 @@ abstract class AbstractMapping {
 
 		$res = $query->execute([$prefixMatch.$this->dbc->escapeLikeParameter($search).$postfixMatch]);
 		$names = [];
-		if($res !== false) {
-			while($row = $query->fetch()) {
+		if ($res !== false) {
+			while ($row = $query->fetch()) {
 				$names[] = $row['owncloud_name'];
 			}
 		}
@@ -230,7 +230,7 @@ abstract class AbstractMapping {
 	 * @return bool
 	 */
 	public function map($fdn, $name, $uuid) {
-		if(mb_strlen($fdn) > 255) {
+		if (mb_strlen($fdn) > 255) {
 			\OC::$server->getLogger()->error(
 				'Cannot map, because the DN exceeds 255 characters: {dn}',
 				[
@@ -295,9 +295,9 @@ abstract class AbstractMapping {
 			->from($this->getTableName());
 		$cursor = $picker->execute();
 		$result = true;
-		while($id = $cursor->fetchColumn(0)) {
+		while ($id = $cursor->fetchColumn(0)) {
 			$preCallback($id);
-			if($isUnmapped = $this->unmap($id)) {
+			if ($isUnmapped = $this->unmap($id)) {
 				$postCallback($id);
 			}
 			$result &= $isUnmapped;

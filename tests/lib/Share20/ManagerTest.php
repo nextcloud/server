@@ -105,7 +105,6 @@ class ManagerTest extends \Test\TestCase {
 	protected $defaults;
 
 	protected function setUp(): void {
-
 		$this->logger = $this->createMock(ILogger::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
@@ -720,7 +719,7 @@ class ManagerTest extends \Test\TestCase {
 		} catch (\OCP\Share\Exceptions\GenericShareException $e) {
 			$this->assertEquals($exceptionMessage, $e->getHint());
 			$thrown = true;
-		} catch(\InvalidArgumentException $e) {
+		} catch (\InvalidArgumentException $e) {
 			$this->assertEquals($exceptionMessage, $e->getMessage());
 			$thrown = true;
 		}
@@ -1627,10 +1626,12 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn(true);
 		$manager->expects($this->once())
 			->method('generalCreateChecks')
-			->with($share);;
+			->with($share);
+		;
 		$manager->expects($this->once())
 			->method('userCreateChecks')
-			->with($share);;
+			->with($share);
+		;
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
@@ -1680,10 +1681,12 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn(true);
 		$manager->expects($this->once())
 			->method('generalCreateChecks')
-			->with($share);;
+			->with($share);
+		;
 		$manager->expects($this->once())
 			->method('groupCreateChecks')
-			->with($share);;
+			->with($share);
+		;
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
@@ -1743,10 +1746,12 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn(true);
 		$manager->expects($this->once())
 			->method('generalCreateChecks')
-			->with($share);;
+			->with($share);
+		;
 		$manager->expects($this->once())
 			->method('linkCreateChecks')
-			->with($share);;
+			->with($share);
+		;
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
@@ -1862,7 +1867,8 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn(true);
 		$manager->expects($this->once())
 			->method('generalCreateChecks')
-			->with($share);;
+			->with($share);
+		;
 		$manager->expects($this->never())
 			->method('linkCreateChecks');
 		$manager->expects($this->once())
@@ -1972,10 +1978,12 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn(true);
 		$manager->expects($this->once())
 			->method('generalCreateChecks')
-			->with($share);;
+			->with($share);
+		;
 		$manager->expects($this->once())
 			->method('userCreateChecks')
-			->with($share);;
+			->with($share);
+		;
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
@@ -1994,9 +2002,9 @@ class ManagerTest extends \Test\TestCase {
 				$this->equalTo('OCP\Share::preShare'),
 				$this->isInstanceOf(GenericEvent::class)
 			)->willReturnCallback(function ($name, GenericEvent $e) {
-					$e->setArgument('error', 'I won\'t let you share!');
-					$e->stopPropagation();
-				}
+				$e->setArgument('error', 'I won\'t let you share!');
+				$e->stopPropagation();
+			}
 			);
 
 		$manager->createShare($share);
@@ -2050,10 +2058,12 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn(true);
 		$manager->expects($this->once())
 			->method('generalCreateChecks')
-			->with($share);;
+			->with($share);
+		;
 		$manager->expects($this->once())
 			->method('userCreateChecks')
-			->with($share);;
+			->with($share);
+		;
 		$manager->expects($this->once())
 			->method('pathCreateChecks')
 			->with($path);
@@ -2154,7 +2164,7 @@ class ManagerTest extends \Test\TestCase {
 		 */
 		$manager->method('deleteShare')
 			->willReturnCallback(function ($share) use (&$shares2) {
-				for($i = 0; $i < count($shares2); $i++) {
+				for ($i = 0; $i < count($shares2); $i++) {
 					if ($shares2[$i]->getId() === $share->getId()) {
 						array_splice($shares2, $i, 1);
 						break;
@@ -2563,7 +2573,6 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testUpdateShareUser() {
-
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 
 		$manager = $this->createManagerMock()
@@ -3362,7 +3371,6 @@ class ManagerTest extends \Test\TestCase {
 	 * @dataProvider dataTestShareProviderExists
 	 */
 	public function testShareProviderExists($shareType, $expected) {
-
 		$factory = $this->getMockBuilder('OCP\Share\IProviderFactory')->getMock();
 		$factory->expects($this->any())->method('getProviderForType')
 			->willReturnCallback(function ($id) {
@@ -3580,7 +3588,6 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($expected['public'], $result['public']);
 		$this->assertSame($expected['remote'], $result['remote']);
 		$this->assertSame($expected['users'], $result['users']);
-
 	}
 
 	public function testGetAccessListWithCurrentAccess() {
@@ -3706,7 +3713,6 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($expected['public'], $result['public']);
 		$this->assertSame($expected['remote'], $result['remote']);
 		$this->assertSame($expected['users'], $result['users']);
-
 	}
 
 	public function testGetAllShares() {
@@ -3768,7 +3774,6 @@ class DummyFactory implements IProviderFactory {
 	protected $provider;
 
 	public function __construct(\OCP\IServerContainer $serverContainer) {
-
 	}
 
 	/**

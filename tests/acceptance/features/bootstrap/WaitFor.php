@@ -74,5 +74,4 @@ class WaitFor {
 
 		return Utils::waitFor($elementNotShownCallback, $timeout, $timeoutStep);
 	}
-
 }

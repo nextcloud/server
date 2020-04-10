@@ -26,7 +26,6 @@ namespace OC\Federation;
 use OCP\Federation\ICloudFederationShare;
 
 class CloudFederationShare implements ICloudFederationShare {
-
 	private $share = [
 		'shareWith' => '',
 		'shareType' => '',
@@ -85,7 +84,6 @@ class CloudFederationShare implements ICloudFederationShare {
 		]);
 		$this->setShareType($shareType);
 		$this->setResourceType($resourceType);
-
 	}
 
 	/**

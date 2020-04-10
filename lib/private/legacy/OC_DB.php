@@ -212,7 +212,7 @@ class OC_DB {
 	 * @throws \OC\DatabaseException
 	 */
 	public static function raiseExceptionOnError($result, $message = null) {
-		if($result === false) {
+		if ($result === false) {
 			if ($message === null) {
 				$message = self::getErrorMessage();
 			} else {

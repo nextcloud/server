@@ -166,7 +166,7 @@ class RequestHandlerController extends Controller {
 		}
 
 		if ($shareType === 'group') {
-			if(!$this->groupManager->groupExists($shareWith)) {
+			if (!$this->groupManager->groupExists($shareWith)) {
 				return new JSONResponse(
 					['message' => 'Group "' . $shareWith . '" does not exists at ' . $this->urlGenerator->getBaseUrl()],
 					Http::STATUS_BAD_REQUEST
@@ -208,14 +208,13 @@ class RequestHandlerController extends Controller {
 
 		$user = $this->userManager->get($shareWith);
 		$recipientDisplayName = '';
-		if($user) {
+		if ($user) {
 			$recipientDisplayName = $user->getDisplayName();
 		}
 
 		return new JSONResponse(
 			['recipientDisplayName' => $recipientDisplayName],
 			Http::STATUS_CREATED);
-
 	}
 
 	/**
@@ -267,8 +266,7 @@ class RequestHandlerController extends Controller {
 			return new JSONResponse($e->getReturnMessage(), Http::STATUS_BAD_REQUEST);
 		} catch (AuthenticationFailedException $e) {
 			return new JSONResponse(["message" => "RESOURCE_NOT_FOUND"], Http::STATUS_FORBIDDEN);
-		}
-		catch (\Exception $e) {
+		} catch (\Exception $e) {
 			return new JSONResponse(
 				['message' => 'Internal error at ' . $this->urlGenerator->getBaseUrl()],
 				Http::STATUS_BAD_REQUEST
@@ -276,7 +274,6 @@ class RequestHandlerController extends Controller {
 		}
 
 		return new JSONResponse($result,Http::STATUS_CREATED);
-
 	}
 
 	/**
@@ -297,5 +294,4 @@ class RequestHandlerController extends Controller {
 
 		return $uid;
 	}
-
 }

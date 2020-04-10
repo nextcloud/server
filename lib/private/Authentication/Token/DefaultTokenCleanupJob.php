@@ -27,11 +27,9 @@ use OC;
 use OC\BackgroundJob\Job;
 
 class DefaultTokenCleanupJob extends Job {
-
 	protected function run($argument) {
 		/* @var $provider IProvider */
 		$provider = OC::$server->query(IProvider::class);
 		$provider->invalidateOldTokens();
 	}
-
 }

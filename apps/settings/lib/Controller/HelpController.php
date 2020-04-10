@@ -71,7 +71,7 @@ class HelpController extends Controller {
 	public function help(string $mode = 'user'): TemplateResponse {
 		$this->navigationManager->setActiveEntry('help');
 
-		if(!isset($mode) || $mode !== 'admin') {
+		if (!isset($mode) || $mode !== 'admin') {
 			$mode = 'user';
 		}
 
@@ -93,7 +93,5 @@ class HelpController extends Controller {
 		$policy->addAllowedFrameDomain('\'self\'');
 		$response->setContentSecurityPolicy($policy);
 		return $response;
-
 	}
-
 }

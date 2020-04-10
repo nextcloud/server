@@ -93,13 +93,13 @@ class NavigationManager implements INavigationManager {
 		}
 
 		$entry['active'] = false;
-		if(!isset($entry['icon'])) {
+		if (!isset($entry['icon'])) {
 			$entry['icon'] = '';
 		}
-		if(!isset($entry['classes'])) {
+		if (!isset($entry['classes'])) {
 			$entry['classes'] = '';
 		}
-		if(!isset($entry['type'])) {
+		if (!isset($entry['type'])) {
 			$entry['type'] = 'link';
 		}
 		$this->entries[$entry['id']] = $entry;
@@ -231,7 +231,7 @@ class NavigationManager implements INavigationManager {
 			]);
 
 			$logoutUrl = \OC_User::getLogoutUrl($this->urlGenerator);
-			if($logoutUrl !== '') {
+			if ($logoutUrl !== '') {
 				// Logout
 				$this->add([
 					'type' => 'settings',

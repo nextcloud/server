@@ -37,7 +37,6 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class Plugin extends ServerPlugin {
-
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
 	const NS_NEXTCLOUD = 'http://nextcloud.com/ns';
 
@@ -117,13 +116,13 @@ class Plugin extends ServerPlugin {
 	 * @return null|false
 	 */
 	function httpPost(RequestInterface $request, ResponseInterface $response) {
-
 		$path = $request->getPath();
 
 		// Only handling xml
 		$contentType = $request->getHeader('Content-Type');
-		if (strpos($contentType, 'application/xml') === false && strpos($contentType, 'text/xml') === false)
+		if (strpos($contentType, 'application/xml') === false && strpos($contentType, 'text/xml') === false) {
 			return;
+		}
 
 		// Making sure the node exists
 		try {
@@ -191,14 +190,11 @@ class Plugin extends ServerPlugin {
 	 */
 	function propFind(PropFind $propFind, INode $node) {
 		if ($node instanceof IShareable) {
-
 			$propFind->handle('{' . Plugin::NS_OWNCLOUD . '}invite', function () use ($node) {
 				return new Invite(
 					$node->getShares()
 				);
 			});
-
 		}
 	}
-
 }

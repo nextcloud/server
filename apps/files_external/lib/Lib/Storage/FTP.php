@@ -38,7 +38,7 @@ namespace OCA\Files_External\Lib\Storage;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\RetryWrapper;
 
-class FTP extends StreamWrapper{
+class FTP extends StreamWrapper {
 	private $password;
 	private $user;
 	private $host;
@@ -65,7 +65,6 @@ class FTP extends StreamWrapper{
 		} else {
 			throw new \Exception('Creating FTP storage failed');
 		}
-		
 	}
 
 	public function getId() {
@@ -93,8 +92,7 @@ class FTP extends StreamWrapper{
 	public function unlink($path) {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
-		}
-		else {
+		} else {
 			$url = $this->constructUrl($path);
 			$result = unlink($url);
 			clearstatcache(true, $url);
@@ -102,7 +100,7 @@ class FTP extends StreamWrapper{
 		}
 	}
 	public function fopen($path,$mode) {
-		switch($mode) {
+		switch ($mode) {
 			case 'r':
 			case 'rb':
 			case 'w':
@@ -154,5 +152,4 @@ class FTP extends StreamWrapper{
 			return ['ftp'];
 		}
 	}
-
 }

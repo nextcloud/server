@@ -127,5 +127,4 @@ class ExecuteCommand extends Command implements CompletionAwareInterface {
 
 		return [];
 	}
-
 }

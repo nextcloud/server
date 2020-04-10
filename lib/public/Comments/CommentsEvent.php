@@ -32,7 +32,6 @@ use OCP\EventDispatcher\Event;
  * @since 9.0.0
  */
 class CommentsEvent extends Event {
-
 	const EVENT_ADD        = 'OCP\Comments\ICommentsManager::addComment';
 	const EVENT_PRE_UPDATE = 'OCP\Comments\ICommentsManager::preUpdateComment';
 	const EVENT_UPDATE     = 'OCP\Comments\ICommentsManager::updateComment';

@@ -66,7 +66,6 @@ class CustomPropertiesBackendTest extends TestCase {
 			$this->dbConnection,
 			$this->user
 		);
-
 	}
 
 	protected function tearDown(): void {

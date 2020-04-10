@@ -51,5 +51,4 @@ interface IDiscoveryService {
 	 * @return array
 	 */
 	public function discover(string $remote, string $service, bool $skipCache = false): array;
-
 }

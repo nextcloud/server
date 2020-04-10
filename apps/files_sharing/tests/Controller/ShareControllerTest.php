@@ -162,7 +162,9 @@ class ShareControllerTest extends \Test\TestCase {
 		\OC_User::setUserId('');
 		Filesystem::tearDown();
 		$user = \OC::$server->getUserManager()->get($this->user);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		\OC_User::setIncognitoMode(false);
 
 		\OC::$server->getSession()->set('public_link_authenticated', '');
@@ -208,7 +210,6 @@ class ShareControllerTest extends \Test\TestCase {
 
 
 	public function testShowShare() {
-
 		$note = 'personal note';
 
 		$this->shareController->setToken('token');
@@ -356,7 +357,6 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testShowShareWithPrivateName() {
-
 		$note = 'personal note';
 
 		$this->shareController->setToken('token');

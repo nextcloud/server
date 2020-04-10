@@ -339,5 +339,4 @@ class ApiController extends Controller {
 		$node = $this->userFolder->get($folderpath);
 		return $node->getType();
 	}
-
 }

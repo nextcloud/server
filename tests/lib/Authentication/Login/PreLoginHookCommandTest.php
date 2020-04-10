@@ -62,5 +62,4 @@ class PreLoginHookCommandTest extends ALoginCommandTest {
 
 		$this->assertTrue($result->isSuccess());
 	}
-
 }

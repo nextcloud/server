@@ -101,7 +101,7 @@ class Helper {
 		$keys = $this->getServersConfig($referenceConfigkey);
 
 		$result = [];
-		foreach($keys as $key) {
+		foreach ($keys as $key) {
 			$len = strlen($key) - strlen($referenceConfigkey);
 			$prefix = substr($key, 0, $len);
 			$result[$prefix] = $this->config->getAppValue('user_ldap', $key);
@@ -118,7 +118,7 @@ class Helper {
 	public function getNextServerConfigurationPrefix() {
 		$serverConnections = $this->getServerConfigurationPrefixes();
 
-		if(count($serverConnections) === 0) {
+		if (count($serverConnections) === 0) {
 			return 's01';
 		}
 
@@ -148,12 +148,12 @@ class Helper {
 	 * @return bool true on success, false otherwise
 	 */
 	public function deleteServerConfiguration($prefix) {
-		if(!in_array($prefix, self::getServerConfigurationPrefixes())) {
+		if (!in_array($prefix, self::getServerConfigurationPrefixes())) {
 			return false;
 		}
 
 		$saveOtherConfigurations = '';
-		if(empty($prefix)) {
+		if (empty($prefix)) {
 			$saveOtherConfigurations = 'AND `configkey` NOT LIKE \'s%\'';
 		}
 
@@ -167,11 +167,11 @@ class Helper {
 		');
 		$delRows = $query->execute([$prefix.'%']);
 
-		if($delRows === null) {
+		if ($delRows === null) {
 			return false;
 		}
 
-		if($delRows === 0) {
+		if ($delRows === 0) {
 			return false;
 		}
 
@@ -187,7 +187,7 @@ class Helper {
 		$all = $this->getServerConfigurationPrefixes(false);
 		$active = $this->getServerConfigurationPrefixes(true);
 
-		if(!is_array($all) || !is_array($active)) {
+		if (!is_array($all) || !is_array($active)) {
 			throw new \Exception('Unexpected Return Value');
 		}
 
@@ -201,14 +201,14 @@ class Helper {
 	 */
 	public function getDomainFromURL($url) {
 		$uinfo = parse_url($url);
-		if(!is_array($uinfo)) {
+		if (!is_array($uinfo)) {
 			return false;
 		}
 
 		$domain = false;
-		if(isset($uinfo['host'])) {
+		if (isset($uinfo['host'])) {
 			$domain = $uinfo['host'];
-		} elseif(isset($uinfo['path'])) {
+		} elseif (isset($uinfo['path'])) {
 			$domain = $uinfo['path'];
 		}
 
@@ -222,7 +222,7 @@ class Helper {
 	 */
 	public function setLDAPProvider() {
 		$current = \OC::$server->getConfig()->getSystemValue('ldapProviderFactory', null);
-		if(is_null($current)) {
+		if (is_null($current)) {
 			\OC::$server->getConfig()->setSystemValue('ldapProviderFactory', LDAPProviderFactory::class);
 		}
 	}
@@ -234,9 +234,9 @@ class Helper {
 	 */
 	public function sanitizeDN($dn) {
 		//treating multiple base DNs
-		if(is_array($dn)) {
+		if (is_array($dn)) {
 			$result = [];
-			foreach($dn as $singleDN) {
+			foreach ($dn as $singleDN) {
 				$result[] = $this->sanitizeDN($singleDN);
 			}
 			return $result;
@@ -287,7 +287,7 @@ class Helper {
 	 * @throws \Exception
 	 */
 	public static function loginName2UserName($param) {
-		if(!isset($param['uid'])) {
+		if (!isset($param['uid'])) {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
@@ -306,7 +306,7 @@ class Helper {
 			$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession, $userPluginManager
 		);
 		$uid = $userBackend->loginName2UserName($param['uid']);
-		if($uid !== false) {
+		if ($uid !== false) {
 			$param['uid'] = $uid;
 		}
 	}

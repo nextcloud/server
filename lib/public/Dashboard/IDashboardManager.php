@@ -127,5 +127,4 @@ interface IDashboardManager {
 	 * @throws DashboardAppNotAvailableException
 	 */
 	public function createGlobalEvent(string $widgetId, array $payload, string $uniqueId = '');
-
 }

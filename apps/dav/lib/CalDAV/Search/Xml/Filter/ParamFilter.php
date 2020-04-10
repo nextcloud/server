@@ -45,7 +45,6 @@ class ParamFilter implements XmlDeserializable {
 
 		if (!is_string($property)) {
 			throw new BadRequest('The {' . SearchPlugin::NS_Nextcloud . '}param-filter requires a valid property attribute');
-
 		}
 		if (!is_string($parameter)) {
 			throw new BadRequest('The {' . SearchPlugin::NS_Nextcloud . '}param-filter requires a valid parameter attribute');

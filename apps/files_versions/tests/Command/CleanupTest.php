@@ -65,14 +65,13 @@ class CleanupTest extends TestCase {
 	 * @param boolean $nodeExists
 	 */
 	public function testDeleteVersions($nodeExists) {
-
 		$this->rootFolder->expects($this->once())
 			->method('nodeExists')
 			->with('/testUser/files_versions')
 			->willReturn($nodeExists);
 
 
-		if($nodeExists) {
+		if ($nodeExists) {
 			$this->rootFolder->expects($this->once())
 				->method('get')
 				->with('/testUser/files_versions')
@@ -167,5 +166,4 @@ class CleanupTest extends TestCase {
 
 		$this->invokePrivate($instance, 'execute', [$inputInterface, $outputInterface]);
 	}
-
 }

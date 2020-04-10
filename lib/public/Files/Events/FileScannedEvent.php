@@ -53,5 +53,4 @@ class FileScannedEvent extends Event {
 	public function getAbsolutePath(): string {
 		return $this->absolutePath;
 	}
-
 }

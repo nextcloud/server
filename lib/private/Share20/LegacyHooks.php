@@ -173,6 +173,5 @@ class LegacyHooks {
 		];
 
 		\OC_Hook::emit(Share::class, 'post_shared', $postHookData);
-
 	}
 }

@@ -30,9 +30,7 @@ namespace OCA\DAV\Tests\unit\CalDAV\Reminder\NotificationProvider;
 use OCA\DAV\CalDAV\Reminder\NotificationProvider\AudioProvider;
 
 class AudioProviderTest extends PushProviderTest {
-
 	public function testNotificationType():void {
 		$this->assertEquals(AudioProvider::NOTIFICATION_TYPE, 'AUDIO');
 	}
-
 }

@@ -45,5 +45,4 @@ class WebAuthnLoginCommand extends ALoginCommand {
 
 		return $this->processNextOrFinishSuccessfully($loginData);
 	}
-
 }

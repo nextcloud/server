@@ -47,5 +47,4 @@ class GenericShareException extends HintException {
 		}
 		parent::__construct($message, $hint, $code, $previous);
 	}
-
 }

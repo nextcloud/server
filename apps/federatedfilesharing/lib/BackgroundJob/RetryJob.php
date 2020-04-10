@@ -79,7 +79,6 @@ class RetryJob extends Job {
 				\OC::$server->getCloudFederationFactory()
 			);
 		}
-
 	}
 
 	/**
@@ -89,7 +88,6 @@ class RetryJob extends Job {
 	 * @param ILogger|null $logger
 	 */
 	public function execute($jobList, ILogger $logger = null) {
-
 		if ($this->shouldRun($this->argument)) {
 			parent::execute($jobList, $logger);
 			$jobList->remove($this, $this->argument);
@@ -144,5 +142,4 @@ class RetryJob extends Job {
 		$lastRun = (int)$argument['lastRun'];
 		return ((time() - $lastRun) > $this->interval);
 	}
-
 }

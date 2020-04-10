@@ -126,8 +126,7 @@ class AuthSettingsController extends Controller {
 		} catch (SessionNotAvailableException $ex) {
 			return $this->getServiceNotAvailableResponse();
 		}
-		if ($this->userSession->getImpersonatingUserID() !== null)
-		{
+		if ($this->userSession->getImpersonatingUserID() !== null) {
 			return $this->getServiceNotAvailableResponse();
 		}
 

@@ -179,6 +179,4 @@ class UrlGeneratorTest extends \Test\TestCase {
 			['core.WhatsNew.dismiss', 'http://localhost/nextcloud/ocs/v2.php/core/whatsnew'],
 		];
 	}
-
-
 }

@@ -64,11 +64,11 @@ class AppsController extends OCSController {
 	public function getApps(string $filter = null): DataResponse {
 		$apps = (new OC_App())->listAllApps();
 		$list = [];
-		foreach($apps as $app) {
+		foreach ($apps as $app) {
 			$list[] = $app['id'];
 		}
-		if($filter){
-			switch($filter){
+		if ($filter) {
+			switch ($filter) {
 				case 'enabled':
 					return new DataResponse(['apps' => \OC_App::getEnabledApps()]);
 					break;
@@ -80,7 +80,6 @@ class AppsController extends OCSController {
 					// Invalid filter variable
 					throw new OCSException('', 101);
 			}
-
 		} else {
 			return new DataResponse(['apps' => $list]);
 		}
@@ -93,7 +92,7 @@ class AppsController extends OCSController {
 	 */
 	public function getAppInfo(string $app): DataResponse {
 		$info = \OCP\App::getAppInfo($app);
-		if(!is_null($info)) {
+		if (!is_null($info)) {
 			return new DataResponse(OC_App::getAppInfo($app));
 		}
 
@@ -124,5 +123,4 @@ class AppsController extends OCSController {
 		$this->appManager->disableApp($app);
 		return new DataResponse();
 	}
-
 }

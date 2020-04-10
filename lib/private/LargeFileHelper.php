@@ -201,8 +201,6 @@ class LargeFileHelper {
 			}
 		}
 		return $result;
-
-
 	}
 
 	protected function exec($cmd) {

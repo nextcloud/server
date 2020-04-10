@@ -33,7 +33,6 @@ use OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 use OCP\IL10N;
 
 class Swift extends Backend {
-
 	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, OpenStackV2 $openstackAuth, Rackspace $rackspaceAuth) {
@@ -60,5 +59,4 @@ class Swift extends Backend {
 			})
 		;
 	}
-
 }

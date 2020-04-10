@@ -55,7 +55,6 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @package OC\Core
  */
 class Application extends App {
-
 	public function __construct() {
 		parent::__construct('core');
 
@@ -193,5 +192,4 @@ class Application extends App {
 		$eventDispatcher->addServiceListener(RemoteWipeFinished::class, RemoteWipeEmailListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedStoreCleanupListener::class);
 	}
-
 }

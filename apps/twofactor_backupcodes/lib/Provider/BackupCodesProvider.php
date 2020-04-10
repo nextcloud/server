@@ -165,5 +165,4 @@ class BackupCodesProvider implements IProvider, IProvidesPersonalSettings {
 		$this->initialStateService->provideInitialState($this->appName, 'state', $state);
 		return new Personal();
 	}
-
 }

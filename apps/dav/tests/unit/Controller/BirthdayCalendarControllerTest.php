@@ -122,5 +122,4 @@ class BirthdayCalendarControllerTest extends TestCase {
 		$response = $this->controller->disable();
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $response);
 	}
-
 }

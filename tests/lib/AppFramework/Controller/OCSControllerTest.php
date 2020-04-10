@@ -30,7 +30,8 @@ use OCP\AppFramework\OCSController;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
 
-class ChildOCSController extends OCSController {}
+class ChildOCSController extends OCSController {
+}
 
 
 class OCSControllerTest extends \Test\TestCase {

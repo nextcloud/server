@@ -87,7 +87,7 @@ class User implements IUser {
 		$this->backend = $backend;
 		$this->dispatcher = $dispatcher;
 		$this->emitter = $emitter;
-		if(is_null($config)) {
+		if (is_null($config)) {
 			$config = \OC::$server->getConfig();
 		}
 		$this->config = $config;
@@ -163,8 +163,8 @@ class User implements IUser {
 	 */
 	public function setEMailAddress($mailAddress) {
 		$oldMailAddress = $this->getEMailAddress();
-		if($oldMailAddress !== $mailAddress) {
-			if($mailAddress === '') {
+		if ($oldMailAddress !== $mailAddress) {
+			if ($mailAddress === '') {
 				$this->config->deleteUserValue($this->uid, 'settings', 'email');
 			} else {
 				$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
@@ -308,7 +308,7 @@ class User implements IUser {
 	 * @return string
 	 */
 	public function getBackendClassName() {
-		if($this->backend instanceof IUserBackend) {
+		if ($this->backend instanceof IUserBackend) {
 			return $this->backend->getBackendName();
 		}
 		return get_class($this->backend);
@@ -393,7 +393,7 @@ class User implements IUser {
 	 */
 	public function getQuota() {
 		$quota = $this->config->getUserValue($this->uid, 'files', 'quota', 'default');
-		if($quota === 'default') {
+		if ($quota === 'default') {
 			$quota = $this->config->getAppValue('files', 'default_quota', 'none');
 		}
 		return $quota;
@@ -408,11 +408,11 @@ class User implements IUser {
 	 */
 	public function setQuota($quota) {
 		$oldQuota = $this->config->getUserValue($this->uid, 'files', 'quota', '');
-		if($quota !== 'none' and $quota !== 'default') {
+		if ($quota !== 'none' and $quota !== 'default') {
 			$quota = OC_Helper::computerFileSize($quota);
 			$quota = OC_Helper::humanFileSize($quota);
 		}
-		if($quota !== $oldQuota) {
+		if ($quota !== $oldQuota) {
 			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 			$this->triggerChange('quota', $quota, $oldQuota);
 		}

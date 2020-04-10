@@ -50,5 +50,4 @@ class BeforeUserLoggedInWithCookieEvent extends Event {
 	public function getUsername(): string {
 		return $this->username;
 	}
-
 }

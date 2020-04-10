@@ -48,5 +48,4 @@ class CleanupDirectLinksJob extends TimedJob {
 		// Delete all shares expired 24 hours ago
 		$this->mapper->deleteExpired($this->timeFactory->getTime() - 60*60*24);
 	}
-
 }

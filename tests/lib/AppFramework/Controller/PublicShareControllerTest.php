@@ -89,5 +89,4 @@ class PublicShareControllerTest extends \Test\TestCase {
 
 		$this->assertEquals($expected, $this->controller->isAuthenticated());
 	}
-
 }

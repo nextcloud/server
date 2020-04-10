@@ -73,7 +73,7 @@ class LookupPlugin implements ISearchPlugin {
 		}
 
 		$lookupServerUrl = $this->config->getSystemValue('lookup_server', 'https://lookup.nextcloud.com');
-		if(empty($lookupServerUrl)) {
+		if (empty($lookupServerUrl)) {
 			return false;
 		}
 		$lookupServerUrl = rtrim($lookupServerUrl, '/');

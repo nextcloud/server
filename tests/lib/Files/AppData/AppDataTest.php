@@ -108,5 +108,4 @@ class AppDataTest extends \Test\TestCase {
 		$this->assertCount(1, $result);
 		$this->assertInstanceOf(ISimpleFolder::class, $result[0]);
 	}
-
 }

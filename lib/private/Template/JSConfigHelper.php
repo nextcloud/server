@@ -113,7 +113,6 @@ class JSConfigHelper {
 	}
 
 	public function getConfig() {
-
 		$userBackendAllowsPasswordConfirmation = true;
 		if ($this->currentUser !== null) {
 			$uid = $this->currentUser->getUID();
@@ -137,7 +136,7 @@ class JSConfigHelper {
 			$apps = $this->appManager->getEnabledAppsForUser($this->currentUser);
 		}
 
-		foreach($apps as $app) {
+		foreach ($apps as $app) {
 			$apps_paths[$app] = \OC_App::getAppWebPath($app);
 		}
 
@@ -161,7 +160,7 @@ class JSConfigHelper {
 
 		$countOfDataLocation = 0;
 		$dataLocation = str_replace(\OC::$SERVERROOT .'/', '', $this->config->getSystemValue('datadirectory', ''), $countOfDataLocation);
-		if($countOfDataLocation !== 1 || !$this->groupManager->isAdmin($uid)) {
+		if ($countOfDataLocation !== 1 || !$this->groupManager->isAdmin($uid)) {
 			$dataLocation = false;
 		}
 

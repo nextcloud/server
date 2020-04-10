@@ -368,7 +368,7 @@ class Manager extends PublicEmitter implements IUserManager {
 		$this->emit('\OC\User', 'preCreateUser', [$uid, $password]);
 		$this->eventDispatcher->dispatchTyped(new CreateUserEvent($uid, $password));
 		$state = $backend->createUser($uid, $password);
-		if($state === false) {
+		if ($state === false) {
 			throw new \InvalidArgumentException($l->t('Could not create user'));
 		}
 		$user = $this->getUserObject($uid, $backend);
@@ -395,13 +395,13 @@ class Manager extends PublicEmitter implements IUserManager {
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(Backend::COUNT_USERS)) {
 				$backendUsers = $backend->countUsers();
-				if($backendUsers !== false) {
-					if($backend instanceof IUserBackend) {
+				if ($backendUsers !== false) {
+					if ($backend instanceof IUserBackend) {
 						$name = $backend->getBackendName();
 					} else {
 						$name = get_class($backend);
 					}
-					if(isset($userCountStatistics[$name])) {
+					if (isset($userCountStatistics[$name])) {
 						$userCountStatistics[$name] += $backendUsers;
 					} else {
 						$userCountStatistics[$name] = $backendUsers;
@@ -421,7 +421,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function countUsersOfGroups(array $groups) {
 		$users = [];
-		foreach($groups as $group) {
+		foreach ($groups as $group) {
 			$usersIds = array_map(function ($user) {
 				return $user->getUID();
 			}, $group->getUsers());

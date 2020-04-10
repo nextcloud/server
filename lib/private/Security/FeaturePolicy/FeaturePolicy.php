@@ -27,7 +27,6 @@ declare(strict_types=1);
 namespace OC\Security\FeaturePolicy;
 
 class FeaturePolicy extends \OCP\AppFramework\Http\FeaturePolicy {
-
 	public function getAutoplayDomains(): array {
 		return $this->autoplayDomains;
 	}

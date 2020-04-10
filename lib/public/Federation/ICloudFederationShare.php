@@ -248,5 +248,4 @@ interface ICloudFederationShare {
 	 * @since 14.0.0
 	 */
 	public function getProtocol();
-
 }

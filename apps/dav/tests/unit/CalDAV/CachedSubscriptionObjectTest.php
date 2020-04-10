@@ -29,7 +29,6 @@ use OCA\DAV\CalDAV\CachedSubscriptionObject;
 use OCA\DAV\CalDAV\CalDavBackend;
 
 class CachedSubscriptionObjectTest extends \Test\TestCase {
-
 	public function testGet() {
 		$backend = $this->createMock(CalDavBackend::class);
 		$calendarInfo = [
@@ -92,5 +91,4 @@ class CachedSubscriptionObjectTest extends \Test\TestCase {
 		$calendarObject = new CachedSubscriptionObject($backend, $calendarInfo, $objectData);
 		$calendarObject->delete();
 	}
-
 }

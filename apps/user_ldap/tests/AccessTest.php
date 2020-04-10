@@ -238,7 +238,7 @@ class AccessTest extends TestCase {
 		$lw->expects($this->exactly(1))
 			->method('explodeDN')
 			->willReturnCallback(function ($dn) use ($case) {
-				if($dn === $case['input']) {
+				if ($dn === $case['input']) {
 					return $case['interResult'];
 				}
 				return null;
@@ -258,7 +258,7 @@ class AccessTest extends TestCase {
 		$lw = new LDAP();
 		$access = new Access($con, $lw, $um, $helper, $config, $this->ncUserManager);
 
-		if(!function_exists('ldap_explode_dn')) {
+		if (!function_exists('ldap_explode_dn')) {
 			$this->markTestSkipped('LDAP Module not available');
 		}
 
@@ -539,7 +539,7 @@ class AccessTest extends TestCase {
 		$this->connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($key) use ($base) {
-				if(stripos($key, 'base') !== false) {
+				if (stripos($key, 'base') !== false) {
 					return $base;
 				}
 				return null;
@@ -661,7 +661,7 @@ class AccessTest extends TestCase {
 	 * @param $expected
 	 */
 	public function testSanitizeUsername($name, $expected) {
-		if($expected === null) {
+		if ($expected === null) {
 			$this->expectException(\InvalidArgumentException::class);
 		}
 		$sanitizedName = $this->access->sanitizeUsername($name);
@@ -703,5 +703,4 @@ class AccessTest extends TestCase {
 		];
 		$this->access->nextcloudUserNames($records);
 	}
-
 }

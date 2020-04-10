@@ -24,5 +24,4 @@
 namespace OCA\Files_Versions\Versions;
 
 class BackendNotFoundException extends \Exception {
-
 }

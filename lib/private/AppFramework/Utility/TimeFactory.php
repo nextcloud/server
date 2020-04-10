@@ -52,5 +52,4 @@ class TimeFactory implements ITimeFactory {
 	public function getDateTime(string $time = 'now', \DateTimeZone $timezone = null): \DateTime {
 		return new \DateTime($time, $timezone);
 	}
-
 }

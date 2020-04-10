@@ -65,7 +65,6 @@ class PersonalSettingsController extends Controller {
 	 */
 	public function index($section) {
 		return $this->getIndexResponse('personal', $section);
-
 	}
 
 	/**
@@ -75,7 +74,7 @@ class PersonalSettingsController extends Controller {
 	protected function getSettings($section) {
 		$settings = $this->settingsManager->getPersonalSettings($section);
 		$formatted = $this->formatSettings($settings);
-		if($section === 'additional') {
+		if ($section === 'additional') {
 			$formatted['content'] .= $this->getLegacyForms();
 		}
 		return $formatted;

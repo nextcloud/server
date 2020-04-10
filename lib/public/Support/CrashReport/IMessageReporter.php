@@ -40,5 +40,4 @@ interface IMessageReporter extends IReporter {
 	 * @since 17.0.0
 	 */
 	public function reportMessage(string $message, array $context = []): void;
-
 }

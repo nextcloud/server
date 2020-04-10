@@ -84,11 +84,11 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		foreach($this->users as $user) {
+		foreach ($this->users as $user) {
 			$user->delete();
 		}
 
-		foreach($this->groups as $group) {
+		foreach ($this->groups as $group) {
 			$group->delete();
 		}
 
@@ -242,14 +242,13 @@ class SubAdminTest extends \Test\TestCase {
 		$this->groupManager->get('admin')->addUser($this->users[1]);
 
 		$this->assertFalse($subAdmin->isUserAccessible($this->users[0], $this->users[1]));
-
 	}
 
 	public function testPostDeleteUser() {
 		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
 
 		$user = array_shift($this->users);
-		foreach($this->groups as $group) {
+		foreach ($this->groups as $group) {
 			$subAdmin->createSubAdmin($user, $group);
 		}
 
@@ -261,7 +260,7 @@ class SubAdminTest extends \Test\TestCase {
 		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
 
 		$group = array_shift($this->groups);
-		foreach($this->users as $user) {
+		foreach ($this->users as $user) {
 			$subAdmin->createSubAdmin($user, $group);
 		}
 
@@ -295,5 +294,4 @@ class SubAdminTest extends \Test\TestCase {
 		$subAdmin->deleteSubAdmin($u, $g);
 		$this->assertEquals(2, $count);
 	}
-
 }

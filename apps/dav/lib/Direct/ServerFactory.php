@@ -57,7 +57,5 @@ class ServerFactory {
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin($this->config));
 
 		return $server;
-
-
 	}
 }

@@ -323,7 +323,7 @@ abstract class Node implements \Sabre\DAV\INode {
 			$shares = $this->shareManager->getSharedWith($user, $shareType, $this, -1);
 			foreach ($shares as $share) {
 				$note = $share->getNote();
-				if($share->getShareOwner() !== $user && !empty($note)) {
+				if ($share->getShareOwner() !== $user && !empty($note)) {
 					return $note;
 				}
 			}
@@ -416,5 +416,4 @@ abstract class Node implements \Sabre\DAV\INode {
 
 		return (int)$mtimeFromRequest;
 	}
-
 }

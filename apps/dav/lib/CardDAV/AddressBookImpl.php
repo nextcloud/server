@@ -65,7 +65,6 @@ class AddressBookImpl implements IAddressBook {
 			array $addressBookInfo,
 			CardDavBackend $backend,
 			IURLGenerator $urlGenerator) {
-
 		$this->addressBook = $addressBook;
 		$this->addressBookInfo = $addressBookInfo;
 		$this->backend = $backend;
@@ -156,7 +155,6 @@ class AddressBookImpl implements IAddressBook {
 		}
 
 		return $this->vCard2Array($uri, $vCard);
-
 	}
 
 	/**
@@ -167,7 +165,7 @@ class AddressBookImpl implements IAddressBook {
 		$permissions = $this->addressBook->getACL();
 		$result = 0;
 		foreach ($permissions as $permission) {
-			switch($permission['privilege']) {
+			switch ($permission['privilege']) {
 				case '{DAV:}read':
 					$result |= Constants::PERMISSION_READ;
 					break;
@@ -261,7 +259,6 @@ class AddressBookImpl implements IAddressBook {
 				]) . '?photo';
 
 				$result['PHOTO'] = 'VALUE=uri:' . $url;
-
 			} elseif ($property->name === 'X-SOCIALPROFILE') {
 				$type = $this->getTypeFromProperty($property);
 
@@ -273,7 +270,7 @@ class AddressBookImpl implements IAddressBook {
 					$result[$property->name][$type] = $property->getValue();
 				}
 
-			// The following properties can be set multiple times
+				// The following properties can be set multiple times
 			} elseif (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
 				if (!isset($result[$property->name])) {
 					$result[$property->name] = [];
@@ -288,8 +285,6 @@ class AddressBookImpl implements IAddressBook {
 				} else {
 					$result[$property->name][] = $property->getValue();
 				}
-
-
 			} else {
 				$result[$property->name] = $property->getValue();
 			}

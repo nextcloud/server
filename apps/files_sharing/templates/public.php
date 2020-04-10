@@ -50,7 +50,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 	<!-- ONLY if this is a folder, we show the grid toggle button -->
 	<?php if (empty($_['dir']) === false) { ?>
 		<input type="checkbox" class="hidden-visually" id="showgridview"
-			<?php if($_['showgridview']) { ?>checked="checked" <?php } ?>/>
+			<?php if ($_['showgridview']) { ?>checked="checked" <?php } ?>/>
 		<label id="view-toggle" for="showgridview" class="button <?php p($_['showgridview'] ? 'icon-toggle-filelist' : 'icon-toggle-pictures') ?>"
 			title="<?php p($l->t('Toggle grid view'))?>"></label>
 	<?php } ?>

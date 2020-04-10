@@ -67,10 +67,9 @@ class StatusController extends Controller {
 	 * @return DataResponse
 	 */
 	public function getStatus() {
-
 		$status = 'error';
 		$message = 'no valid init status';
-		switch($this->session->getStatus()) {
+		switch ($this->session->getStatus()) {
 			case Session::INIT_EXECUTED:
 				$status = 'interactionNeeded';
 				$message = (string)$this->l->t(
@@ -102,5 +101,4 @@ class StatusController extends Controller {
 			]
 		);
 	}
-
 }

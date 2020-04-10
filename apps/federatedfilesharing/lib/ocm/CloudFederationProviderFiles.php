@@ -170,7 +170,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @since 14.0.0
 	 */
 	public function shareReceived(ICloudFederationShare $share) {
-
 		if (!$this->isS2SEnabled(true)) {
 			throw new ProviderCouldNotAddShareException('Server does not support federated cloud sharing', '', Http::STATUS_SERVICE_UNAVAILABLE);
 		}
@@ -205,7 +204,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 
 		if ($remote && $token && $name && $owner && $remoteId && $shareWith) {
-
 			if (!Util::isValidFileName($name)) {
 				throw new ProviderCouldNotAddShareException('The mountpoint name contains invalid characters.', '', Http::STATUS_BAD_REQUEST);
 			}
@@ -283,7 +281,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		}
 
 		throw new ProviderCouldNotAddShareException('server can not add remote share, missing parameter', '', HTTP::STATUS_BAD_REQUEST);
-
 	}
 
 	/**
@@ -301,7 +298,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @since 14.0.0
 	 */
 	public function notificationReceived($notificationType, $providerId, array $notification) {
-
 		switch ($notificationType) {
 			case 'SHARE_ACCEPTED':
 				return $this->shareAccepted($providerId, $notification);
@@ -378,7 +374,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws \OC\HintException
 	 */
 	private function shareAccepted($id, array $notification) {
-
 		if (!$this->isS2SEnabled()) {
 			throw new ActionNotSupportedException('Server does not support federated cloud sharing');
 		}
@@ -408,7 +403,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 
 			);
 			$this->cloudFederationProviderManager->sendNotification($remote, $notification);
-
 		}
 
 		return [];
@@ -450,7 +444,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 *
 	 */
 	protected function shareDeclined($id, array $notification) {
-
 		if (!$this->isS2SEnabled()) {
 			throw new ActionNotSupportedException('Server does not support federated cloud sharing');
 		}
@@ -485,7 +478,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$this->executeDeclineShare($share);
 
 		return [];
-
 	}
 
 	/**
@@ -512,7 +504,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 			->setObject('files', $fileId, $file)
 			->setLink($link);
 		$this->activityManager->publish($event);
-
 	}
 
 	/**
@@ -547,7 +538,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws BadRequestException
 	 */
 	private function unshare($id, array $notification) {
-
 		if (!$this->isS2SEnabled(true)) {
 			throw new ActionNotSupportedException("incoming shares disabled!");
 		}
@@ -572,7 +562,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$result->closeCursor();
 
 		if ($token && $id && !empty($share)) {
-
 			$remote = $this->cleanupRemote($share['remote']);
 
 			$owner = $this->cloudIdManager->getCloudId($share['owner'], $remote);
@@ -639,7 +628,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws ShareNotFound
 	 */
 	protected function reshareRequested($id, array $notification) {
-
 		if (!isset($notification['sharedSecret'])) {
 			throw new BadRequestException(['sharedSecret']);
 		}
@@ -681,7 +669,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		} else {
 			throw new ProviderCouldNotAddShareException('resharing not allowed for share: ' . $id);
 		}
-
 	}
 
 	/**
@@ -695,7 +682,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @throws BadRequestException
 	 */
 	protected function updateResharePermissions($id, array $notification) {
-
 		if (!isset($notification['sharedSecret'])) {
 			throw new BadRequestException(['sharedSecret']);
 		}
@@ -725,7 +711,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 */
 	protected function ocmPermissions2ncPermissions(array $ocmPermissions) {
 		$ncPermissions = 0;
-		foreach($ocmPermissions as $permission) {
+		foreach ($ocmPermissions as $permission) {
 			switch (strtolower($permission)) {
 				case 'read':
 					$ncPermissions += Constants::PERMISSION_READ;
@@ -739,7 +725,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				default:
 					throw new BadRequestException(['permission']);
 			}
-
 		}
 
 		return $ncPermissions;
@@ -779,7 +764,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		$link = Util::linkToAbsolute('files', 'index.php', $args);
 
 		return [$file, $link];
-
 	}
 
 	/**
@@ -836,7 +820,6 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @return bool
 	 */
 	private function isS2SEnabled($incoming = false) {
-
 		$result = $this->appManager->isEnabledForUser('files_sharing');
 
 		if ($incoming) {

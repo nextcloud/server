@@ -55,10 +55,10 @@ class Report extends Command {
 		$table = new Table($output);
 		$table->setHeaders(['User Report', '']);
 		$userCountArray = $this->countUsers();
-		if(!empty($userCountArray)) {
+		if (!empty($userCountArray)) {
 			$total = 0;
 			$rows = [];
-			foreach($userCountArray as $classname => $users) {
+			foreach ($userCountArray as $classname => $users) {
 				$total += $users;
 				$rows[] = [$classname, $users];
 			}

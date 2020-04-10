@@ -65,7 +65,7 @@ $size = filesize($file);
 $stream = fopen($file, 'r');
 
 $index = 0;
-while(!feof($stream)) {
+while (!feof($stream)) {
 	request($client, 'PUT', "$uploadUrl/$index", fread($stream, $chunkSize));
 	$index++;
 }

@@ -168,5 +168,4 @@ interface ISearchTemplate {
 	 * @return array
 	 */
 	public function getNavigationOptions(): array;
-
 }

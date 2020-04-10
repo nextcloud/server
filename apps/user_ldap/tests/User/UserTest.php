@@ -607,13 +607,11 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function ($dn, $attr) {
-				if($dn === $this->dn
-					&& $attr === 'jpegphoto')
-				{
+				if ($dn === $this->dn
+					&& $attr === 'jpegphoto') {
 					return false;
-				} elseif($dn === $this->dn
-					&& $attr === 'thumbnailphoto')
-				{
+				} elseif ($dn === $this->dn
+					&& $attr === 'thumbnailphoto') {
 					return ['this is a photo'];
 				}
 				return null;
@@ -672,13 +670,11 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function ($dn, $attr) {
-				if($dn === $this->dn
-					&& $attr === 'jpegphoto')
-				{
+				if ($dn === $this->dn
+					&& $attr === 'jpegphoto') {
 					return false;
-				} elseif($dn === $this->dn
-					&& $attr === 'thumbnailphoto')
-				{
+				} elseif ($dn === $this->dn
+					&& $attr === 'thumbnailphoto') {
 					return ['this is a photo'];
 				}
 				return null;
@@ -725,13 +721,11 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function ($dn, $attr) {
-				if($dn === $this->dn
-					&& $attr === 'jpegphoto')
-				{
+				if ($dn === $this->dn
+					&& $attr === 'jpegphoto') {
 					return false;
-				} elseif($dn === $this->dn
-					&& $attr === 'thumbnailphoto')
-				{
+				} elseif ($dn === $this->dn
+					&& $attr === 'thumbnailphoto') {
 					return ['this is a photo'];
 				}
 				return null;
@@ -790,13 +784,11 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function ($dn, $attr) {
-				if($dn === $this->dn
-					&& $attr === 'jpegPhoto')
-				{
+				if ($dn === $this->dn
+					&& $attr === 'jpegPhoto') {
 					return false;
-				} elseif($dn === $this->dn
-					&& $attr === 'thumbnailPhoto')
-				{
+				} elseif ($dn === $this->dn
+					&& $attr === 'thumbnailPhoto') {
 					return false;
 				}
 				return null;
@@ -895,7 +887,7 @@ class UserTest extends \Test\TestCase {
 	 * @dataProvider extStorageHomeDataProvider
 	 */
 	public function testUpdateExtStorageHome(string $expected, string $valueFromLDAP = null, bool $isSet = true) {
-		if($valueFromLDAP === null) {
+		if ($valueFromLDAP === null) {
 			$this->connection->expects($this->once())
 				->method('__get')
 				->willReturnMap([
@@ -903,7 +895,7 @@ class UserTest extends \Test\TestCase {
 				]);
 
 			$return = [];
-			if($isSet) {
+			if ($isSet) {
 				$return[] = $expected;
 			}
 			$this->access->expects($this->once())
@@ -912,7 +904,7 @@ class UserTest extends \Test\TestCase {
 				->willReturn($return);
 		}
 
-		if($expected !== '') {
+		if ($expected !== '') {
 			$this->config->expects($this->once())
 				->method('setUserValue')
 				->with($this->uid, 'user_ldap', 'extStorageHome', $expected);
@@ -924,7 +916,6 @@ class UserTest extends \Test\TestCase {
 
 		$actual = $this->user->updateExtStorageHome($valueFromLDAP);
 		$this->assertSame($expected, $actual);
-
 	}
 
 	public function testUpdateNoRefresh() {
@@ -1039,7 +1030,7 @@ class UserTest extends \Test\TestCase {
 		$this->connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($name) {
-				if($name === 'homeFolderNamingRule') {
+				if ($name === 'homeFolderNamingRule') {
 					return 'attr:homeDirectory';
 				}
 				return $name;
@@ -1060,7 +1051,7 @@ class UserTest extends \Test\TestCase {
 			'jpegphoto' => ['here be an image']
 		];
 
-		foreach($requiredMethods as $method) {
+		foreach ($requiredMethods as $method) {
 			$userMock->expects($this->once())
 				->method($method);
 		}
@@ -1194,10 +1185,10 @@ class UserTest extends \Test\TestCase {
 		$this->connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($name) {
-				if($name === 'ldapDefaultPPolicyDN') {
+				if ($name === 'ldapDefaultPPolicyDN') {
 					return 'cn=default,ou=policies,dc=foo,dc=bar';
 				}
-				if($name === 'turnOnPasswordChange') {
+				if ($name === 'turnOnPasswordChange') {
 					return '1';
 				}
 				return $name;
@@ -1206,7 +1197,7 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->any())
 			->method('search')
 			->willReturnCallback(function ($filter, $base) {
-				if($base === [$this->dn]) {
+				if ($base === [$this->dn]) {
 					return [
 						[
 							'pwdchangedtime' => [(new \DateTime())->sub(new \DateInterval('P28D'))->format('Ymdhis').'Z'],
@@ -1214,7 +1205,7 @@ class UserTest extends \Test\TestCase {
 						],
 					];
 				}
-				if($base === ['cn=default,ou=policies,dc=foo,dc=bar']) {
+				if ($base === ['cn=default,ou=policies,dc=foo,dc=bar']) {
 					return [
 						[
 							'pwdmaxage' => ['2592000'],
@@ -1257,10 +1248,10 @@ class UserTest extends \Test\TestCase {
 		$this->connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($name) {
-				if($name === 'ldapDefaultPPolicyDN') {
+				if ($name === 'ldapDefaultPPolicyDN') {
 					return 'cn=default,ou=policies,dc=foo,dc=bar';
 				}
-				if($name === 'turnOnPasswordChange') {
+				if ($name === 'turnOnPasswordChange') {
 					return '1';
 				}
 				return $name;
@@ -1269,7 +1260,7 @@ class UserTest extends \Test\TestCase {
 		$this->access->expects($this->any())
 			->method('search')
 			->willReturnCallback(function ($filter, $base) {
-				if($base === [$this->dn]) {
+				if ($base === [$this->dn]) {
 					return [
 						[
 							'pwdpolicysubentry' => ['cn=custom,ou=policies,dc=foo,dc=bar'],
@@ -1278,7 +1269,7 @@ class UserTest extends \Test\TestCase {
 						]
 					];
 				}
-				if($base === ['cn=custom,ou=policies,dc=foo,dc=bar']) {
+				if ($base === ['cn=custom,ou=policies,dc=foo,dc=bar']) {
 					return [
 						[
 							'pwdmaxage' => ['2592000'],

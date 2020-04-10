@@ -32,7 +32,6 @@ use Sabre\DAVACL\ACLTrait;
 use Sabre\DAVACL\IACL;
 
 class Card implements ICard, IACL {
-
 	use ACLTrait;
 
 	/** @var RecentContact */
@@ -133,5 +132,4 @@ class Card implements ICard, IACL {
 	function getLastModified(): ?int {
 		return $this->contact->getLastContact();
 	}
-
 }

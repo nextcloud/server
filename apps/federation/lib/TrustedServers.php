@@ -239,7 +239,6 @@ class TrustedServers {
 			);
 			if ($result->getStatusCode() === Http::STATUS_OK) {
 				$isValidOwnCloud = $this->checkOwnCloudVersion($result->getBody());
-
 			}
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->logException($e, [
@@ -282,9 +281,7 @@ class TrustedServers {
 			strpos($url, 'https://') === 0
 			|| strpos($url, 'http://') === 0
 		) {
-
 			return $url;
-
 		}
 
 		return 'https://' . $url;

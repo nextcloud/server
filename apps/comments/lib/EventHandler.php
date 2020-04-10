@@ -49,13 +49,13 @@ class EventHandler implements ICommentsEventHandler {
 	 * @param CommentsEvent $event
 	 */
 	public function handle(CommentsEvent $event) {
-		if($event->getComment()->getObjectType() !== 'files') {
+		if ($event->getComment()->getObjectType() !== 'files') {
 			// this is a 'files'-specific Handler
 			return;
 		}
 
 		$eventType = $event->getEvent();
-		if($eventType === CommentsEvent::EVENT_ADD
+		if ($eventType === CommentsEvent::EVENT_ADD
 		) {
 			$this->notificationHandler($event);
 			$this->activityHandler($event);
@@ -67,7 +67,7 @@ class EventHandler implements ICommentsEventHandler {
 			CommentsEvent::EVENT_UPDATE,
 			CommentsEvent::EVENT_DELETE,
 		];
-		if(in_array($eventType, $applicableEvents)) {
+		if (in_array($eventType, $applicableEvents)) {
 			$this->notificationHandler($event);
 			return;
 		}

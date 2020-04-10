@@ -34,7 +34,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Listener {
-
 	public static function register(EventDispatcherInterface $dispatcher): void {
 		$listener = function (GenericEvent $event) {
 			/** @var IUser $user */

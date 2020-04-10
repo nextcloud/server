@@ -123,15 +123,15 @@ abstract class Archive {
 	 */
 	public function addRecursive($path, $source) {
 		$dh = opendir($source);
-		if(is_resource($dh)) {
+		if (is_resource($dh)) {
 			$this->addFolder($path);
 			while (($file = readdir($dh)) !== false) {
-				if($file === '.' || $file === '..') {
+				if ($file === '.' || $file === '..') {
 					continue;
 				}
-				if(is_dir($source.'/'.$file)) {
+				if (is_dir($source.'/'.$file)) {
 					$this->addRecursive($path.'/'.$file, $source.'/'.$file);
-				}else{
+				} else {
 					$this->addFile($path.'/'.$file, $source.'/'.$file);
 				}
 			}

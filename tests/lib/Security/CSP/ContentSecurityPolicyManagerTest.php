@@ -119,5 +119,4 @@ class ContentSecurityPolicyManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->contentSecurityPolicyManager->getDefaultPolicy());
 		$this->assertSame($expectedStringPolicy, $this->contentSecurityPolicyManager->getDefaultPolicy()->buildPolicy());
 	}
-
 }

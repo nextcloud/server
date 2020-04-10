@@ -77,7 +77,6 @@ class TestEnableMasterKey extends TestCase {
 	 * @param string $answer
 	 */
 	public function testExecute($isAlreadyEnabled, $answer) {
-
 		$this->util->expects($this->once())->method('isMasterKeyEnabled')
 			->willReturn($isAlreadyEnabled);
 
@@ -92,7 +91,6 @@ class TestEnableMasterKey extends TestCase {
 			} else {
 				$this->questionHelper->expects($this->once())->method('ask')->willReturn(false);
 				$this->config->expects($this->never())->method('setAppValue');
-
 			}
 		}
 

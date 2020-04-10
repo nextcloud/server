@@ -47,5 +47,4 @@ interface IRepairStep {
 	 * @since 9.1.0
 	 */
 	public function run(IOutput $output);
-
 }

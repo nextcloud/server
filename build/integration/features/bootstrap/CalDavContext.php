@@ -71,7 +71,8 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 					],
 				]
 			);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {}
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		}
 	}
 
 	/**
@@ -106,7 +107,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theCaldavHttpStatusCodeShouldBe($code) {
-		if((int)$code !== $this->response->getStatusCode()) {
+		if ((int)$code !== $this->response->getStatusCode()) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -117,7 +118,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		}
 
 		$body = $this->response->getBody()->getContents();
-		if($body && substr($body, 0, 1) === '<') {
+		if ($body && substr($body, 0, 1) === '<') {
 			$reader = new Sabre\Xml\Reader();
 			$reader->xml($body);
 			$this->responseXml = $reader->parse();
@@ -132,7 +133,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	public function theExceptionIs($message) {
 		$result = $this->responseXml['value'][0]['value'];
 
-		if($message !== $result) {
+		if ($message !== $result) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -151,7 +152,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 	public function theErrorMessageIs($message) {
 		$result = $this->responseXml['value'][1]['value'];
 
-		if($message !== $result) {
+		if ($message !== $result) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -219,7 +220,7 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 		$jsonEncoded = json_encode($this->responseXml);
 		$arrayElement = json_decode($jsonEncoded, true);
 		$actual = count($arrayElement['value']) - 1;
-		if($actual !== (int)$amount) {
+		if ($actual !== (int)$amount) {
 			throw new InvalidArgumentException(
 				sprintf(
 					'Expected %s got %s',

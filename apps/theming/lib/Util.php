@@ -66,7 +66,7 @@ class Util {
 	 */
 	public function invertTextColor($color) {
 		$l = $this->calculateLuma($color);
-		if($l>0.6) {
+		if ($l>0.6) {
 			return true;
 		} else {
 			return false;
@@ -81,7 +81,7 @@ class Util {
 	 */
 	public function elementColor($color) {
 		$l = $this->calculateLuminance($color);
-		if($l>0.8) {
+		if ($l>0.8) {
 			return '#aaaaaa';
 		}
 		return $color;
@@ -153,7 +153,8 @@ class Util {
 			if (file_exists($icon)) {
 				return $icon;
 			}
-		} catch (AppPathNotFoundException $e) {}
+		} catch (AppPathNotFoundException $e) {
+		}
 
 		if ($this->config->getAppValue('theming', 'logoMime', '') !== '') {
 			$logoFile = null;
@@ -162,7 +163,8 @@ class Util {
 				if ($folder !== null) {
 					return $folder->getFile('logo');
 				}
-			} catch (NotFoundException $e) {}
+			} catch (NotFoundException $e) {
+			}
 		}
 		return \OC::$SERVERROOT . '/core/img/logo/logo.svg';
 	}
@@ -248,5 +250,4 @@ class Util {
 		}
 		return $backgroundLogo && $backgroundLogo !== 'backgroundColor' && $backgroundExists;
 	}
-
 }

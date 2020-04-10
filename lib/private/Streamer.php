@@ -117,8 +117,8 @@ class Streamer {
 		$dirNode = $userFolder->get($dir);
 		$files = $dirNode->getDirectoryListing();
 
-		foreach($files as $file) {
-			if($file instanceof File) {
+		foreach ($files as $file) {
+			if ($file instanceof File) {
 				try {
 					$fh = $file->fopen('r');
 				} catch (NotPermittedException $e) {
@@ -132,7 +132,7 @@ class Streamer {
 				);
 				fclose($fh);
 			} elseif ($file instanceof Folder) {
-				if($file->isReadable()) {
+				if ($file->isReadable()) {
 					$this->addDirRecursive($dir . '/' . $file->getName(), $internalDir);
 				}
 			}

@@ -88,5 +88,4 @@ class CardSearchDao {
 
 		return $card;
 	}
-
 }

@@ -59,5 +59,4 @@ class EMailProvider implements IProvider {
 			$entry->addAction($action);
 		}
 	}
-
 }

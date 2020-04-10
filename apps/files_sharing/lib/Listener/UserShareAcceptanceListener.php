@@ -72,7 +72,6 @@ class UserShareAcceptanceListener implements IEventListener {
 				$this->handleAutoAccept($share, $user->getUID());
 			}
 		}
-
 	}
 
 	private function handleAutoAccept(IShare $share, string $userId) {
@@ -82,5 +81,4 @@ class UserShareAcceptanceListener implements IEventListener {
 			$this->shareManager->acceptShare($share, $userId);
 		}
 	}
-
 }

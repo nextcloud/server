@@ -57,6 +57,5 @@ class Application extends App {
 			$updateLookupServer = \OC::$server->query(UpdateLookupServer::class);
 			$updateLookupServer->userUpdated($user);
 		});
-
 	}
 }

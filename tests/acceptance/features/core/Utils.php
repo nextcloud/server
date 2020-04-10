@@ -86,5 +86,4 @@ class Utils {
 		};
 		return self::waitFor($isServerUpCallback, $timeout, $timeoutStep);
 	}
-
 }

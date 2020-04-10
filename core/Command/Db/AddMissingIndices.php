@@ -83,7 +83,6 @@ class AddMissingIndices extends Command {
 	 * @throws \Doctrine\DBAL\Schema\SchemaException
 	 */
 	private function addCoreIndexes(OutputInterface $output) {
-
 		$output->writeln('<info>Check indices of the share table.</info>');
 
 		$schema = new SchemaWrapper($this->connection);

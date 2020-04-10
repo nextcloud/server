@@ -42,7 +42,6 @@ use OCP\IDBConnection;
  * @method void setIntegerProp(integer $integerProp)
  */
 class QBTestEntity extends Entity {
-
 	protected $intProp;
 	protected $boolProp;
 	protected $stringProp;
@@ -106,7 +105,6 @@ class QBMapperTest extends \Test\TestCase {
 	 * @throws \ReflectionException
 	 */
 	protected function setUp(): void {
-
 		$this->db = $this->getMockBuilder(IDBConnection::class)
 			->disableOriginalConstructor()
 			->getMock();

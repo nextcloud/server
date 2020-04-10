@@ -92,9 +92,9 @@ class CheckUser extends Command {
 			$this->isAllowed($input->getOption('force'));
 			$this->confirmUserIsMapped($uid);
 			$exists = $this->backend->userExistsOnLDAP($uid);
-			if($exists === true) {
+			if ($exists === true) {
 				$output->writeln('The user is still available on LDAP.');
-				if($input->getOption('update')) {
+				if ($input->getOption('update')) {
 					$this->updateUser($uid, $output);
 				}
 				return;
@@ -130,7 +130,7 @@ class CheckUser extends Command {
 	 * @return true
 	 */
 	protected function isAllowed($force) {
-		if($this->helper->haveDisabledConfigurations() && !$force) {
+		if ($this->helper->haveDisabledConfigurations() && !$force) {
 			throw new \Exception('Cannot check user existence, because '
 				. 'disabled LDAP configurations are present.');
 		}
@@ -163,5 +163,4 @@ class CheckUser extends Command {
 			$output->writeln('<error>Error while trying to lookup and update attributes from LDAP</error>');
 		}
 	}
-
 }

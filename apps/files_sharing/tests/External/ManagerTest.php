@@ -123,7 +123,6 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testAddShare() {
-
 		$shareData1 = [
 			'remote' => 'http://localhost',
 			'token' => 'token1',

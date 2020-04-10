@@ -26,7 +26,6 @@ namespace OC\App;
 use InvalidArgumentException;
 
 class CompareVersion {
-
 	const REGEX_MAJOR = '/^\d+$/';
 	const REGEX_MAJOR_MINOR = '/^\d+.\d+$/';
 	const REGEX_MAJOR_MINOR_PATCH = '/^\d+.\d+.\d+$/';
@@ -46,7 +45,6 @@ class CompareVersion {
 	 */
 	public function isCompatible(string $actual, string $required,
 		string $comparator = '>='): bool {
-
 		if (!preg_match(self::REGEX_SERVER, $actual)) {
 			throw new InvalidArgumentException('server version is invalid');
 		}
@@ -92,5 +90,4 @@ class CompareVersion {
 		return version_compare("$actualMajor.$actualMinor.$actualPatch",
 			"$requiredMajor.$requiredMinor.$requiredPatch", $comparator);
 	}
-
 }

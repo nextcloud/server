@@ -29,7 +29,6 @@ namespace Test\AppFramework\Middleware;
 use OC\AppFramework\OCS\BaseResponse;
 
 class BaseResponseTest extends \Test\TestCase {
-
 	public function testToXml(): void {
 
 		/** @var BaseResponse $response */
@@ -57,5 +56,4 @@ class BaseResponseTest extends \Test\TestCase {
 			$writer->outputMemory(true)
 		);
 	}
-
 }

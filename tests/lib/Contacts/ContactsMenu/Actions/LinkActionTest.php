@@ -28,7 +28,6 @@ use OC\Contacts\ContactsMenu\Actions\LinkAction;
 use Test\TestCase;
 
 class LinkActionTest extends TestCase {
-
 	private $action;
 
 	protected function setUp(): void {
@@ -86,5 +85,4 @@ class LinkActionTest extends TestCase {
 
 		$this->assertEquals($expected, $json);
 	}
-
 }

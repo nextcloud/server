@@ -36,5 +36,4 @@ class Exception extends \Exception {
 	public function getResult() {
 		return $this->result;
 	}
-
 }

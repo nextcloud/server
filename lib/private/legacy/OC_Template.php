@@ -99,7 +99,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param string $renderAs
 	 */
 	public static function initTemplateEngine($renderAs) {
-		if (self::$initTemplateEngineFirstRun){
+		if (self::$initTemplateEngineFirstRun) {
 
 			//apps that started before the template initialization can load their own scripts/styles
 			//so to make sure this scripts/styles here are loaded first we use OC_Util::addScript() with $prepend=true
@@ -130,7 +130,6 @@ class OC_Template extends \OC\Template\Base {
 
 			self::$initTemplateEngineFirstRun = false;
 		}
-
 	}
 
 
@@ -146,7 +145,7 @@ class OC_Template extends \OC\Template\Base {
 	 */
 	protected function findTemplate($theme, $app, $name) {
 		// Check if it is a app template or not.
-		if($app !== '') {
+		if ($app !== '') {
 			$dirs = $this->getAppTemplateDirs($theme, $app, OC::$SERVERROOT, OC_App::getAppPath($app));
 		} else {
 			$dirs = $this->getCoreTemplateDirs($theme, OC::$SERVERROOT);
@@ -182,10 +181,10 @@ class OC_Template extends \OC\Template\Base {
 	public function fetchPage($additionalParams = null) {
 		$data = parent::fetchPage($additionalParams);
 
-		if($this->renderAs) {
+		if ($this->renderAs) {
 			$page = new TemplateLayout($this->renderAs, $this->app);
 
-			if(is_array($additionalParams)) {
+			if (is_array($additionalParams)) {
 				foreach ($additionalParams as $key => $value) {
 					$page->assign($key, $value);
 				}
@@ -193,12 +192,12 @@ class OC_Template extends \OC\Template\Base {
 
 			// Add custom headers
 			$headers = '';
-			foreach(OC_Util::$headers as $header) {
+			foreach (OC_Util::$headers as $header) {
 				$headers .= '<'.\OCP\Util::sanitizeHTML($header['tag']);
 				if (strcasecmp($header['tag'], 'script') === 0 && in_array('src', array_map('strtolower', array_keys($header['attributes'])))) {
 					$headers .= ' defer';
 				}
-				foreach($header['attributes'] as $name=>$value) {
+				foreach ($header['attributes'] as $name=>$value) {
 					$headers .= ' '.\OCP\Util::sanitizeHTML($name).'="'.\OCP\Util::sanitizeHTML($value).'"';
 				}
 				if ($header['text'] !== null) {
@@ -240,7 +239,7 @@ class OC_Template extends \OC\Template\Base {
 	 */
 	public static function printUserPage($application, $name, $parameters = []) {
 		$content = new OC_Template($application, $name, "user");
-		foreach($parameters as $key => $value) {
+		foreach ($parameters as $key => $value) {
 			$content->assign($key, $value);
 		}
 		print $content->printPage();
@@ -255,7 +254,7 @@ class OC_Template extends \OC\Template\Base {
 	 */
 	public static function printAdminPage($application, $name, $parameters = []) {
 		$content = new OC_Template($application, $name, "admin");
-		foreach($parameters as $key => $value) {
+		foreach ($parameters as $key => $value) {
 			$content->assign($key, $value);
 		}
 		return $content->printPage();
@@ -270,7 +269,7 @@ class OC_Template extends \OC\Template\Base {
 	 */
 	public static function printGuestPage($application, $name, $parameters = []) {
 		$content = new OC_Template($application, $name, $name === 'error' ? $name : 'guest');
-		foreach($parameters as $key => $value) {
+		foreach ($parameters as $key => $value) {
 			$content->assign($key, $value);
 		}
 		return $content->printPage();

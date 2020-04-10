@@ -78,10 +78,9 @@ class DecryptAll {
 	 * @return bool
 	 */
 	public function prepare(InputInterface $input, OutputInterface $output, $user) {
-
 		$question = new Question('Please enter the recovery key password: ');
 
-		if($this->util->isMasterKeyEnabled()) {
+		if ($this->util->isMasterKeyEnabled()) {
 			$output->writeln('Use master key to decrypt all files');
 			$user = $this->keyManager->getMasterKeyId();
 			$password =$this->keyManager->getMasterKeyPassword();

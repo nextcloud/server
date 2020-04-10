@@ -104,5 +104,4 @@ class State extends Base {
 			$output->writeln("- " . $provider);
 		}
 	}
-
 }

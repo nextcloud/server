@@ -60,7 +60,6 @@ class Todo extends Event {
 			$subject = $this->l->t('{actor} updated todo {todo} in list {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_self') {
 			$subject = $this->l->t('You updated todo {todo} in list {calendar}');
-
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_completed') {
 			$subject = $this->l->t('{actor} solved todo {todo} in list {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_OBJECT_UPDATE . '_todo_completed_self') {

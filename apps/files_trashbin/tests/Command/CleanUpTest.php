@@ -106,7 +106,7 @@ class CleanUpTest extends TestCase {
 			->method('nodeExists')
 			->with('/' . $this->user0 . '/files_trashbin')
 			->willReturn($nodeExists);
-		if($nodeExists) {
+		if ($nodeExists) {
 			$this->rootFolder->expects($this->once())
 				->method('get')
 				->with('/' . $this->user0 . '/files_trashbin')
@@ -140,7 +140,6 @@ class CleanUpTest extends TestCase {
 				->fetchAll();
 			$this->assertSame(10, count($result));
 		}
-
 	}
 	public function dataTestRemoveDeletedFiles() {
 		return [
@@ -239,5 +238,4 @@ class CleanUpTest extends TestCase {
 
 		$this->invokePrivate($this->cleanup, 'execute', [$inputInterface, $outputInterface]);
 	}
-
 }

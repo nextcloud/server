@@ -57,5 +57,4 @@ class EmailLoginCommand extends ALoginCommand {
 
 		return $this->processNextOrFinishSuccessfully($loginData);
 	}
-
 }

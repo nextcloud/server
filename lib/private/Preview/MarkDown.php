@@ -31,5 +31,4 @@ class MarkDown extends TXT {
 	public function getMimeType(): string {
 		return '/text\/(x-)?markdown/';
 	}
-
 }

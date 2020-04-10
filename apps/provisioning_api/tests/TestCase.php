@@ -65,7 +65,7 @@ abstract class TestCase extends \Test\TestCase {
 	}
 
 	protected function tearDown(): void {
-		foreach($this->users as $user) {
+		foreach ($this->users as $user) {
 			$user->delete();
 		}
 

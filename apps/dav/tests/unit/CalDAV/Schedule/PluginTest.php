@@ -32,7 +32,7 @@ use Sabre\VObject\Parameter;
 use Sabre\VObject\Property\ICalendar\CalAddress;
 use Test\TestCase;
 
-class PluginTest extends TestCase  {
+class PluginTest extends TestCase {
 	/** @var Plugin */
 	private $plugin;
 	/** @var Server|\PHPUnit_Framework_MockObject_MockObject */

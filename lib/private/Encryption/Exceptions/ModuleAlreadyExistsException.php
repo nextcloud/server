@@ -34,5 +34,4 @@ class ModuleAlreadyExistsException extends GenericEncryptionException {
 	public function __construct($id, $name) {
 		parent::__construct('Id "' . $id . '" already used by encryption module "' . $name . '"');
 	}
-
 }

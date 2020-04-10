@@ -50,5 +50,4 @@ class LegacyDependencyCheckPolyfillTest extends \Test\TestCase {
 		$this->assertEquals('program', $dependencies[1]->getDependency());
 		$this->assertEquals('cannot find program', $dependencies[1]->getMessage());
 	}
-
 }

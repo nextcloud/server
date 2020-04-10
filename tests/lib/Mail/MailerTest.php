@@ -204,7 +204,6 @@ class MailerTest extends TestCase {
 		$mailer = self::invokePrivate($this->mailer, 'getInstance');
 		$this->assertEquals(1, count($mailer->getTransport()->getStreamOptions()));
 		$this->assertTrue(isset($mailer->getTransport()->getStreamOptions()['foo']));
-
 	}
 
 	public function testStreamingOptionsWrongType() {

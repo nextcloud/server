@@ -108,8 +108,8 @@ class ChangePasswordController extends Controller {
 					'status' => 'error'
 				]);
 			}
-		// password policy app throws exception
-		} catch(HintException $e) {
+			// password policy app throws exception
+		} catch (HintException $e) {
 			return new JSONResponse([
 				'status' => 'error',
 				'data' => [
@@ -221,8 +221,8 @@ class ChangePasswordController extends Controller {
 			} else { // now we know that everything is fine regarding the recovery password, let's try to change the password
 				try {
 					$result = $targetUser->setPassword($password, $recoveryPassword);
-				// password policy app throws exception
-				} catch(HintException $e) {
+					// password policy app throws exception
+				} catch (HintException $e) {
 					return new JSONResponse([
 						'status' => 'error',
 						'data' => [
@@ -256,8 +256,8 @@ class ChangePasswordController extends Controller {
 						],
 					]);
 				}
-			// password policy app throws exception
-			} catch(HintException $e) {
+				// password policy app throws exception
+			} catch (HintException $e) {
 				return new JSONResponse([
 					'status' => 'error',
 					'data' => [

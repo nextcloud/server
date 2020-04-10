@@ -112,5 +112,4 @@ class Enforce extends Command {
 	protected function writeNotEnforced(OutputInterface $output) {
 		$output->writeln('Two-factor authentication is not enforced');
 	}
-
 }

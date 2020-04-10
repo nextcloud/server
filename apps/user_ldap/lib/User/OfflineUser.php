@@ -203,7 +203,7 @@ class OfflineUser {
 			'email'        => 'settings',
 			'lastLogin'    => 'login',
 		];
-		foreach($properties as $property => $app) {
+		foreach ($properties as $property => $app) {
 			$this->$property = $this->config->getUserValue($this->ocName, $app, $property, '');
 		}
 
@@ -226,7 +226,7 @@ class OfflineUser {
 		', 1);
 		$query->execute([$this->ocName]);
 		$sResult = $query->fetchColumn(0);
-		if((int)$sResult === 1) {
+		if ((int)$sResult === 1) {
 			$this->hasActiveShares = true;
 			return;
 		}
@@ -238,7 +238,7 @@ class OfflineUser {
 		', 1);
 		$query->execute([$this->ocName]);
 		$sResult = $query->fetchColumn(0);
-		if((int)$sResult === 1) {
+		if ((int)$sResult === 1) {
 			$this->hasActiveShares = true;
 			return;
 		}

@@ -40,7 +40,6 @@ use OCP\Share\IShare;
  * @group DB
  */
 class SharedStorageTest extends TestCase {
-
 	protected function setUp(): void {
 		parent::setUp();
 		\OCA\Files_Trashbin\Trashbin::registerHooks();
@@ -565,7 +564,6 @@ class SharedStorageTest extends TestCase {
 
 		$this->view->unlink($this->folder);
 		$this->shareManager->deleteShare($share);
-
 	}
 
 	public function testInitWithNonExistingUser() {

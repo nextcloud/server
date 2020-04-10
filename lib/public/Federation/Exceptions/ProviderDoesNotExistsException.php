@@ -47,5 +47,4 @@ class ProviderDoesNotExistsException extends HintException {
 		$hint = $l->t('Cloud Federation Provider with ID: "%s" does not exist.', [$providerId]);
 		parent::__construct($message, $hint);
 	}
-
 }

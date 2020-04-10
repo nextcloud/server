@@ -36,7 +36,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use UnexpectedValueException;
 
 class CreateJs extends Command implements CompletionAwareInterface {
-
 	protected function configure() {
 		$this
 			->setName('l10n:createjs')
@@ -67,7 +66,7 @@ class CreateJs extends Command implements CompletionAwareInterface {
 			$languages= $this->getAllLanguages($path);
 		}
 
-		foreach($languages as $lang) {
+		foreach ($languages as $lang) {
 			$this->writeFiles($app, $path, $lang, $output);
 		}
 	}
@@ -75,13 +74,13 @@ class CreateJs extends Command implements CompletionAwareInterface {
 	private function getAllLanguages($path) {
 		$result = [];
 		foreach (new DirectoryIterator("$path/l10n") as $fileInfo) {
-			if($fileInfo->isDot()) {
+			if ($fileInfo->isDot()) {
 				continue;
 			}
-			if($fileInfo->isDir()) {
+			if ($fileInfo->isDir()) {
 				continue;
 			}
-			if($fileInfo->getExtension() !== 'php') {
+			if ($fileInfo->getExtension() !== 'php') {
 				continue;
 			}
 			$result[]= substr($fileInfo->getBasename(), 0, -4);

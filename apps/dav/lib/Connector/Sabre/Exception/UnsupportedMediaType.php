@@ -39,9 +39,6 @@ class UnsupportedMediaType extends \Sabre\DAV\Exception {
 	 * @return int
 	 */
 	public function getHTTPCode() {
-
 		return 415;
-
 	}
-
 }

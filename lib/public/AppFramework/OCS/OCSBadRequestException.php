@@ -43,5 +43,4 @@ class OCSBadRequestException extends OCSException {
 	public function __construct($message = '', Exception $previous = null) {
 		parent::__construct($message, Http::STATUS_BAD_REQUEST, $previous);
 	}
-
 }

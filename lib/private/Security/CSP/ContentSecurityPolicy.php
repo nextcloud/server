@@ -245,5 +245,4 @@ class ContentSecurityPolicy extends \OCP\AppFramework\Http\ContentSecurityPolicy
 	public function setReportTo(array $reportTo) {
 		$this->reportTo = $reportTo;
 	}
-
 }

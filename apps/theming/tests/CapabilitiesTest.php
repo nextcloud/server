@@ -42,7 +42,7 @@ use Test\TestCase;
  *
  * @package OCA\Theming\Tests
  */
-class CapabilitiesTest extends TestCase  {
+class CapabilitiesTest extends TestCase {
 	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
 	protected $theming;
 
@@ -175,7 +175,7 @@ class CapabilitiesTest extends TestCase  {
 			->method('isBackgroundThemed')
 			->willReturn($backgroundThemed);
 
-		if($background !== 'backgroundColor') {
+		if ($background !== 'backgroundColor') {
 			$this->theming->expects($this->once())
 				->method('getBackground')
 				->willReturn($background);

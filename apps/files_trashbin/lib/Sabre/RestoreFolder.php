@@ -75,5 +75,4 @@ class RestoreFolder implements ICollection, IMoveTarget {
 
 		return $sourceNode->restore();
 	}
-
 }

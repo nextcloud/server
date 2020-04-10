@@ -63,5 +63,4 @@ interface IApacheBackend {
 	 * @since 6.0.0
 	 */
 	public function getCurrentUserId();
-
 }

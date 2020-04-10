@@ -29,7 +29,6 @@ use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Lib\StorageConfig;
 
 class FrontendDefinitionTraitTest extends \Test\TestCase {
-
 	public function testJsonSerialization() {
 		$param = $this->getMockBuilder(DefinitionParameter::class)
 			->disableOriginalConstructor()

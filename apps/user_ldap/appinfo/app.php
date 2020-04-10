@@ -38,7 +38,7 @@ $app = \OC::$server->query(\OCA\User_LDAP\AppInfo\Application::class);
 
 $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
-if(count($configPrefixes) > 0) {
+if (count($configPrefixes) > 0) {
 	$ldapWrapper = new OCA\User_LDAP\LDAP();
 	$ocConfig = \OC::$server->getConfig();
 	$notificationManager = \OC::$server->getNotificationManager();

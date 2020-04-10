@@ -71,7 +71,8 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 					],
 				]
 			);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {}
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+		}
 	}
 
 	/**
@@ -101,7 +102,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 			$this->response = $e->getResponse();
 		}
 
-		if((int)$statusCode !== $this->response->getStatusCode()) {
+		if ((int)$statusCode !== $this->response->getStatusCode()) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -112,7 +113,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 		}
 
 		$body = $this->response->getBody()->getContents();
-		if(substr($body, 0, 1) === '<') {
+		if (substr($body, 0, 1) === '<') {
 			$reader = new Sabre\Xml\Reader();
 			$reader->xml($body);
 			$this->responseXml = $reader->parse();
@@ -154,7 +155,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 			]
 		);
 
-		if($this->response->getStatusCode() !== (int)$statusCode) {
+		if ($this->response->getStatusCode() !== (int)$statusCode) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -173,7 +174,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	public function theCarddavExceptionIs($message) {
 		$result = $this->responseXml['value'][0]['value'];
 
-		if($message !== $result) {
+		if ($message !== $result) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -192,7 +193,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	public function theCarddavErrorMessageIs($message) {
 		$result = $this->responseXml['value'][1]['value'];
 
-		if($message !== $result) {
+		if ($message !== $result) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -225,7 +226,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 			]
 		);
 
-		if($this->response->getStatusCode() !== 201) {
+		if ($this->response->getStatusCode() !== 201) {
 			throw new \Exception(
 				sprintf(
 					'Expected %s got %s',
@@ -284,7 +285,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 				]
 			);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
-				$this->response = $e->getResponse();
+			$this->response = $e->getResponse();
 		}
 	}
 
@@ -294,11 +295,11 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 	 * @throws \Exception
 	 */
 	public function theFollowingHttpHeadersShouldBeSet(\Behat\Gherkin\Node\TableNode $table) {
-		foreach($table->getTable() as $header) {
+		foreach ($table->getTable() as $header) {
 			$headerName = $header[0];
 			$expectedHeaderValue = $header[1];
 			$returnedHeader = $this->response->getHeader($headerName)[0];
-			if($returnedHeader !== $expectedHeaderValue) {
+			if ($returnedHeader !== $expectedHeaderValue) {
 				throw new \Exception(
 					sprintf(
 						"Expected value '%s' for header '%s', got '%s'",

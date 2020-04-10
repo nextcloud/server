@@ -135,7 +135,6 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 											 $createSuccessful,
 											 $expectedReturnData
 	) {
-
 		$this->federatedShareProvider->expects($this->any())
 			->method('isOutgoingServer2serverShareEnabled')
 			->willReturn($outgoingSharesAllowed);
@@ -188,9 +187,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 			$this->assertSame(Http::STATUS_OK, $result->getStatus());
 			$this->assertTrue(isset($result->getData()['remoteUrl']));
 			$this->assertSame($expectedReturnData, $result->getData()['remoteUrl']);
-
 		}
-
 	}
 
 	public function dataTestCreateFederatedShare() {
@@ -207,5 +204,4 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 			['user@server', false, true, 'token', true, true, 'This server doesn\'t support outgoing federated shares'],
 		];
 	}
-
 }

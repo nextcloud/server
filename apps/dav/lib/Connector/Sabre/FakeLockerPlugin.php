@@ -104,11 +104,11 @@ class FakeLockerPlugin extends ServerPlugin {
 	 * @param array $conditions
 	 */
 	public function validateTokens(RequestInterface $request, &$conditions) {
-		foreach($conditions as &$fileCondition) {
-			if(isset($fileCondition['tokens'])) {
-				foreach($fileCondition['tokens'] as &$token) {
-					if(isset($token['token'])) {
-						if(substr($token['token'], 0, 16) === 'opaquelocktoken:') {
+		foreach ($conditions as &$fileCondition) {
+			if (isset($fileCondition['tokens'])) {
+				foreach ($fileCondition['tokens'] as &$token) {
+					if (isset($token['token'])) {
+						if (substr($token['token'], 0, 16) === 'opaquelocktoken:') {
 							$token['validToken'] = true;
 						}
 					}
@@ -126,7 +126,6 @@ class FakeLockerPlugin extends ServerPlugin {
 	 */
 	public function fakeLockProvider(RequestInterface $request,
 									 ResponseInterface $response) {
-
 		$lockInfo = new LockInfo();
 		$lockInfo->token = md5($request->getPath());
 		$lockInfo->uri = $request->getPath();

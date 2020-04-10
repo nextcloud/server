@@ -35,7 +35,6 @@ use OCP\WorkflowEngine\IOperationCompat;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends \OCP\AppFramework\App {
-
 	const APP_ID = 'workflowengine';
 
 	/** @var EventDispatcherInterface */
@@ -130,7 +129,6 @@ class Application extends \OCP\AppFramework\App {
 									);
 								}
 								$flowLogger->logEventDone($ctx);
-
 							} catch (QueryException $e) {
 								// Ignore query exceptions since they might occur when an entity/operation were setup before by an app that is disabled now
 							}
@@ -139,7 +137,5 @@ class Application extends \OCP\AppFramework\App {
 				}, $eventNames ?? []);
 			}
 		}
-
-
 	}
 }

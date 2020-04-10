@@ -38,7 +38,7 @@ use OCP\ILogger;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
-class AppFetcherTest extends TestCase  {
+class AppFetcherTest extends TestCase {
 	/** @var IAppData|PHPUnit_Framework_MockObject_MockObject */
 	protected $appData;
 	/** @var IClientService|PHPUnit_Framework_MockObject_MockObject */
@@ -1918,16 +1918,16 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$dataToPut['data'] = array_values($dataToPut['data']);
 		$originalArray = json_decode(self::$responseJson, true);
 		$mappedOriginalArray = [];
-		foreach($originalArray as $key => $value) {
-			foreach($value as $releaseKey => $releaseValue) {
-				if($releaseKey === 'id') {
+		foreach ($originalArray as $key => $value) {
+			foreach ($value as $releaseKey => $releaseValue) {
+				if ($releaseKey === 'id') {
 					$mappedOriginalArray[$releaseValue] = $originalArray[$key];
 				}
 			}
 		}
-		foreach($dataToPut['data'] as $key => $appValue) {
-			foreach($appValue as $appKey => $value) {
-				if($appKey === 'certificate' || $appKey === 'description') {
+		foreach ($dataToPut['data'] as $key => $appValue) {
+			foreach ($appValue as $appKey => $value) {
+				if ($appKey === 'certificate' || $appKey === 'description') {
 					$dataToPut['data'][$key][$appKey] = $mappedOriginalArray[$appValue['id']][$appKey];
 				}
 			}
@@ -2037,16 +2037,16 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 		$dataToPut['data'] = array_values($dataToPut['data']);
 		$originalArray = json_decode(self::$responseJson, true);
 		$mappedOriginalArray = [];
-		foreach($originalArray as $key => $value) {
-			foreach($value as $releaseKey => $releaseValue) {
-				if($releaseKey === 'id') {
+		foreach ($originalArray as $key => $value) {
+			foreach ($value as $releaseKey => $releaseValue) {
+				if ($releaseKey === 'id') {
 					$mappedOriginalArray[$releaseValue] = $originalArray[$key];
 				}
 			}
 		}
-		foreach($dataToPut['data'] as $key => $appValue) {
-			foreach($appValue as $appKey => $value) {
-				if($appKey === 'certificate' || $appKey === 'description') {
+		foreach ($dataToPut['data'] as $key => $appValue) {
+			foreach ($appValue as $appKey => $value) {
+				if ($appKey === 'certificate' || $appKey === 'description') {
 					$dataToPut['data'][$key][$appKey] = $mappedOriginalArray[$appValue['id']][$appKey];
 				}
 			}

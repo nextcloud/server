@@ -98,7 +98,7 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 		$request = \OC::$server->getRequest();
 
 		$templateName = 'exception';
-		if($httpCode === 403 || $httpCode === 404) {
+		if ($httpCode === 403 || $httpCode === 404) {
 			$templateName = (string)$httpCode;
 		}
 

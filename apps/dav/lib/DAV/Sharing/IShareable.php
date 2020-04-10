@@ -74,5 +74,4 @@ interface IShareable extends INode {
 	 * @return string
 	 */
 	public function getOwner();
-
 }

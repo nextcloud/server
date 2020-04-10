@@ -122,7 +122,6 @@ class Share extends \OC\Share\Constants {
 	 */
 	public static function getItemShared($itemType, $itemSource, $format = self::FORMAT_NONE,
 										 $parameters = null, $includeCollections = false) {
-
 		return \OC\Share\Share::getItemShared($itemType, $itemSource, $format, $parameters, $includeCollections);
 	}
 

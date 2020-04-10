@@ -69,8 +69,8 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 
 	private function cssResourceLocator() {
 		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
-				$factory = $this->createMock(Factory::class);
-				$factory->method('get')->with('css')->willReturn($this->appData);
+		$factory = $this->createMock(Factory::class);
+		$factory->method('get')->with('css')->willReturn($this->appData);
 		$scssCacher = new SCSSCacher(
 			$this->logger,
 			$factory,

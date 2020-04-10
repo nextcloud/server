@@ -51,5 +51,4 @@ interface IProvidesIcons extends IProvider {
 	 * @since 15.0.0
 	 */
 	public function getDarkIcon(): String;
-
 }

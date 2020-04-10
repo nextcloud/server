@@ -76,5 +76,4 @@ class RemoteWipeActivityListener implements IEventListener {
 			]);
 		}
 	}
-
 }

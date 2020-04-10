@@ -49,9 +49,9 @@ class CommentersSorterTest extends TestCase {
 	 */
 	public function testSort($data) {
 		$commentMocks = [];
-		foreach($data['actors'] as $actorType => $actors) {
+		foreach ($data['actors'] as $actorType => $actors) {
 			foreach ($actors as $actorId => $noOfComments) {
-				for($i=0;$i<$noOfComments;$i++) {
+				for ($i=0;$i<$noOfComments;$i++) {
 					$mock = $this->createMock(IComment::class);
 					$mock->expects($this->atLeastOnce())
 						->method('getActorType')

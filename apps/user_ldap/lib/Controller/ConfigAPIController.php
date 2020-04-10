@@ -151,12 +151,12 @@ class ConfigAPIController extends OCSController {
 	public function delete($configID) {
 		try {
 			$this->ensureConfigIDExists($configID);
-			if(!$this->ldapHelper->deleteServerConfiguration($configID)) {
+			if (!$this->ldapHelper->deleteServerConfiguration($configID)) {
 				throw new OCSException('Could not delete configuration');
 			}
-		} catch(OCSException $e) {
+		} catch (OCSException $e) {
 			throw $e;
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->logException($e);
 			throw new OCSException('An issue occurred when deleting the config.');
 		}
@@ -191,7 +191,7 @@ class ConfigAPIController extends OCSController {
 		try {
 			$this->ensureConfigIDExists($configID);
 
-			if(!is_array($configData)) {
+			if (!is_array($configData)) {
 				throw new OCSBadRequestException('configData is not properly set');
 			}
 
@@ -199,14 +199,14 @@ class ConfigAPIController extends OCSController {
 			$configKeys = $configuration->getConfigTranslationArray();
 
 			foreach ($configKeys as $i => $key) {
-				if(isset($configData[$key])) {
+				if (isset($configData[$key])) {
 					$configuration->$key = $configData[$key];
 				}
 			}
 
 			$configuration->saveConfiguration();
 			$this->connectionFactory->get($configID)->clearCache();
-		} catch(OCSException $e) {
+		} catch (OCSException $e) {
 			throw $e;
 		} catch (\Exception $e) {
 			$this->logger->logException($e);
@@ -292,16 +292,16 @@ class ConfigAPIController extends OCSController {
 
 			$config = new Configuration($configID);
 			$data = $config->getConfiguration();
-			if(!(int)$showPassword) {
+			if (!(int)$showPassword) {
 				$data['ldapAgentPassword'] = '***';
 			}
 			foreach ($data as $key => $value) {
-				if(is_array($value)) {
+				if (is_array($value)) {
 					$value = implode(';', $value);
 					$data[$key] = $value;
 				}
 			}
-		} catch(OCSException $e) {
+		} catch (OCSException $e) {
 			throw $e;
 		} catch (\Exception $e) {
 			$this->logger->logException($e);
@@ -319,7 +319,7 @@ class ConfigAPIController extends OCSController {
 	 */
 	private function ensureConfigIDExists($configID) {
 		$prefixes = $this->ldapHelper->getServerConfigurationPrefixes();
-		if(!in_array($configID, $prefixes, true)) {
+		if (!in_array($configID, $prefixes, true)) {
 			throw new OCSNotFoundException('Config ID not found');
 		}
 	}

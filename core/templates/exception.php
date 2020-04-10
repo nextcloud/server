@@ -14,7 +14,7 @@ style('core', ['styles', 'header']);
 	<ul>
 		<li><?php p($l->t('Remote Address: %s', [$_['remoteAddr']])) ?></li>
 		<li><?php p($l->t('Request ID: %s', [$_['requestID']])) ?></li>
-		<?php if($_['debugMode']): ?>
+		<?php if ($_['debugMode']): ?>
 			<li><?php p($l->t('Type: %s', [$_['errorClass']])) ?></li>
 			<li><?php p($l->t('Code: %s', [$_['errorCode']])) ?></li>
 			<li><?php p($l->t('Message: %s', [$_['errorMsg']])) ?></li>
@@ -23,7 +23,7 @@ style('core', ['styles', 'header']);
 		<?php endif; ?>
 	</ul>
 
-	<?php if($_['debugMode']): ?>
+	<?php if ($_['debugMode']): ?>
 		<br />
 		<h3><?php p($l->t('Trace')) ?></h3>
 		<pre><?php p($_['trace']) ?></pre>

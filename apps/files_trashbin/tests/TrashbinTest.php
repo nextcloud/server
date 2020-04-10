@@ -37,7 +37,6 @@ use OCA\Files_Sharing\AppInfo\Application;
  * @group DB
  */
 class TrashbinTest extends \Test\TestCase {
-
 	const TEST_TRASHBIN_USER1 = "test-trashbin-user1";
 	const TEST_TRASHBIN_USER2 = "test-trashbin-user2";
 
@@ -210,7 +209,6 @@ class TrashbinTest extends \Test\TestCase {
 	 * correctly
 	 */
 	public function testExpireOldFilesShared() {
-
 		$currentTime = time();
 		$folder = "trashTest-" . $currentTime . '/';
 		$expiredDate = $currentTime - 3 * 24 * 60 * 60;
@@ -673,7 +671,6 @@ class TrashbinTest extends \Test\TestCase {
 			try {
 				\OC::$server->getUserManager()->createUser($user, $user);
 			} catch (\Exception $e) { // catch username is already being used from previous aborted runs
-
 			}
 		}
 

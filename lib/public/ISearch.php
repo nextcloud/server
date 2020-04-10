@@ -64,5 +64,4 @@ interface ISearch {
 	 * @since 7.0.0
 	 */
 	public function clearProviders();
-
 }

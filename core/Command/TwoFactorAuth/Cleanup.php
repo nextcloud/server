@@ -57,5 +57,4 @@ class Cleanup extends Base {
 
 		$output->writeln("<info>All user-provider associations for provider <options=bold>$providerId</> have been removed.</info>");
 	}
-
 }

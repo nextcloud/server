@@ -53,5 +53,4 @@ class BeforeMessageSent extends Event {
 	public function getMessage(): IMessage {
 		return $this->message;
 	}
-
 }

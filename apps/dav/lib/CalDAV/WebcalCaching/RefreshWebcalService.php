@@ -137,7 +137,7 @@ class RefreshWebcalService {
 				$calendarData = $vObject->serialize();
 				try {
 					$this->calDavBackend->createCalendarObject($subscription['id'], $uri, $calendarData, CalDavBackend::CALENDAR_TYPE_SUBSCRIPTION);
-				} catch(BadRequest $ex) {
+				} catch (BadRequest $ex) {
 					$this->logger->logException($ex);
 				}
 			}
@@ -148,7 +148,7 @@ class RefreshWebcalService {
 			}
 
 			$this->updateSubscription($subscription, $mutations);
-		} catch(ParseException $ex) {
+		} catch (ParseException $ex) {
 			$subscriptionId = $subscription['id'];
 
 			$this->logger->logException($ex);
@@ -274,11 +274,11 @@ class RefreshWebcalService {
 
 			$contentType = $response->getHeader('Content-Type');
 			$contentType = explode(';', $contentType, 2)[0];
-			switch($contentType) {
+			switch ($contentType) {
 				case 'application/calendar+json':
 					try {
 						$jCalendar = Reader::readJson($body, Reader::OPTION_FORGIVING);
-					} catch(Exception $ex) {
+					} catch (Exception $ex) {
 						// In case of a parsing error return null
 						$this->logger->debug("Subscription $subscriptionId could not be parsed");
 						return null;
@@ -288,7 +288,7 @@ class RefreshWebcalService {
 				case 'application/calendar+xml':
 					try {
 						$xCalendar = Reader::readXML($body);
-					} catch(Exception $ex) {
+					} catch (Exception $ex) {
 						// In case of a parsing error return null
 						$this->logger->debug("Subscription $subscriptionId could not be parsed");
 						return null;
@@ -299,14 +299,14 @@ class RefreshWebcalService {
 				default:
 					try {
 						$vCalendar = Reader::read($body);
-					} catch(Exception $ex) {
+					} catch (Exception $ex) {
 						// In case of a parsing error return null
 						$this->logger->debug("Subscription $subscriptionId could not be parsed");
 						return null;
 					}
 					return $vCalendar->serialize();
 			}
-		} catch(Exception $ex) {
+		} catch (Exception $ex) {
 			$this->logger->logException($ex);
 			$this->logger->warning("Subscription $subscriptionId could not be refreshed due to a network error");
 
@@ -349,7 +349,7 @@ class RefreshWebcalService {
 		// check if new refresh rate is even valid
 		try {
 			DateTimeParser::parseDuration($newRefreshRate);
-		} catch(InvalidDataException $ex) {
+		} catch (InvalidDataException $ex) {
 			return null;
 		}
 

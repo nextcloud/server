@@ -40,5 +40,4 @@ interface IDataLogger {
 	 * @since 18.0.1
 	 */
 	public function logData(string $message, array $data, array $context = []): void;
-
 }

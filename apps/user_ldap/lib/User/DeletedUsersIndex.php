@@ -71,7 +71,7 @@ class DeletedUsersIndex {
 			'user_ldap', 'isDeleted', '1');
 
 		$userObjects = [];
-		foreach($deletedUsers as $user) {
+		foreach ($deletedUsers as $user) {
 			$userObjects[] = new OfflineUser($user, $this->config, $this->db, $this->mapping);
 		}
 		$this->deletedUsers = $userObjects;
@@ -84,7 +84,7 @@ class DeletedUsersIndex {
 	 * @return \OCA\User_LDAP\User\OfflineUser[]
 	 */
 	public function getUsers() {
-		if(is_array($this->deletedUsers)) {
+		if (is_array($this->deletedUsers)) {
 			return $this->deletedUsers;
 		}
 		return $this->fetchDeletedUsers();
@@ -95,7 +95,7 @@ class DeletedUsersIndex {
 	 * @return bool
 	 */
 	public function hasUsers() {
-		if(!is_array($this->deletedUsers)) {
+		if (!is_array($this->deletedUsers)) {
 			$this->fetchDeletedUsers();
 		}
 		return is_array($this->deletedUsers) && (count($this->deletedUsers) > 0);
@@ -109,7 +109,7 @@ class DeletedUsersIndex {
 	 */
 	public function markUser($ocName) {
 		$curValue = $this->config->getUserValue($ocName, 'user_ldap', 'isDeleted', '0');
-		if($curValue === '1') {
+		if ($curValue === '1') {
 			// the user is already marked, do not write to DB again
 			return;
 		}

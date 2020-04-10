@@ -31,7 +31,6 @@ use OCP\IUserSession;
  * @group DB
  */
 class TagsTest extends \Test\TestCase {
-
 	protected $objectType;
 	/** @var \OCP\IUser */
 	protected $user;
@@ -63,7 +62,6 @@ class TagsTest extends \Test\TestCase {
 		$this->objectType = $this->getUniqueID('type_');
 		$this->tagMapper = new \OC\Tagging\TagMapper(\OC::$server->getDatabaseConnection());
 		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession);
-
 	}
 
 	protected function tearDown(): void {
@@ -97,7 +95,7 @@ class TagsTest extends \Test\TestCase {
 
 		$tagger = $this->tagMgr->load($this->objectType);
 
-		foreach($tags as $tag) {
+		foreach ($tags as $tag) {
 			$result = $tagger->add($tag);
 			$this->assertGreaterThan(0, $result, 'add() returned an ID <= 0');
 			$this->assertTrue((bool)$result);
@@ -114,20 +112,20 @@ class TagsTest extends \Test\TestCase {
 
 		$tagger = $this->tagMgr->load($this->objectType);
 
-		foreach($tags as $tag) {
+		foreach ($tags as $tag) {
 			$this->assertFalse($tagger->hasTag($tag));
 		}
 
 		$result = $tagger->addMultiple($tags);
 		$this->assertTrue((bool)$result);
 
-		foreach($tags as $tag) {
+		foreach ($tags as $tag) {
 			$this->assertTrue($tagger->hasTag($tag));
 		}
 
 		$tagMaps = $tagger->getTags();
 		$this->assertCount(4, $tagMaps, 'Not all tags added');
-		foreach($tagMaps as $tagMap) {
+		foreach ($tagMaps as $tagMap) {
 			$this->assertEquals(null, $tagMap['id']);
 		}
 
@@ -143,14 +141,14 @@ class TagsTest extends \Test\TestCase {
 		$this->assertTrue((bool)$result);
 
 		$tagMaps = $tagger->getTags();
-		foreach($tagMaps as $tagMap) {
+		foreach ($tagMaps as $tagMap) {
 			$this->assertNotEquals(null, $tagMap['id']);
 		}
 
 		// Reload the tagger.
 		$tagger = $this->tagMgr->load($this->objectType);
 
-		foreach($tags as $tag) {
+		foreach ($tags as $tag) {
 			$this->assertTrue($tagger->hasTag($tag));
 		}
 
@@ -215,7 +213,7 @@ class TagsTest extends \Test\TestCase {
 
 		// insert lots of entries
 		$idsArray = [];
-		for($i = 1; $i <= 1500; $i++) {
+		for ($i = 1; $i <= 1500; $i++) {
 			$statement->execute([$i, $tagId, $tagType]);
 			$idsArray[] = $i;
 		}
@@ -253,7 +251,7 @@ class TagsTest extends \Test\TestCase {
 
 		$tagger = $this->tagMgr->load($this->objectType);
 
-		foreach($objids as $id) {
+		foreach ($objids as $id) {
 			$this->assertTrue($tagger->tagAs($id, 'Family'));
 		}
 
@@ -271,7 +269,7 @@ class TagsTest extends \Test\TestCase {
 		$this->testTagAs();
 		$tagger = $this->tagMgr->load($this->objectType);
 
-		foreach($objIds as $id) {
+		foreach ($objIds as $id) {
 			$this->assertTrue(in_array($id, $tagger->getIdsForTag('Family')));
 			$tagger->unTag($id, 'Family');
 			$this->assertFalse(in_array($id, $tagger->getIdsForTag('Family')));
@@ -323,5 +321,4 @@ class TagsTest extends \Test\TestCase {
 		$this->assertTrue($otherTagger->hasTag($testTag));
 		$this->assertContains(1, $otherTagger->getIdsForTag($testTag));
 	}
-
 }

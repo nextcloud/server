@@ -75,5 +75,4 @@ final class ServiceEventListener {
 
 		$this->service->handle($event);
 	}
-
 }

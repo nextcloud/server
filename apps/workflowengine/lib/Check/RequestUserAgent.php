@@ -82,5 +82,4 @@ class RequestUserAgent extends AbstractStringCheck {
 	public function isAvailableForScope(int $scope): bool {
 		return true;
 	}
-
 }

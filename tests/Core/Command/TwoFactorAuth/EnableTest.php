@@ -109,5 +109,4 @@ class EnableTest extends TestCase {
 		$this->assertEquals(0, $rc);
 		$this->assertContains("Two-factor provider totp enabled for user belle", $this->command->getDisplay());
 	}
-
 }

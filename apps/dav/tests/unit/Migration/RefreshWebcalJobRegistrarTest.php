@@ -145,5 +145,4 @@ class RefreshWebcalJobRegistrarTest extends TestCase {
 
 		$this->migration->run($output);
 	}
-
 }

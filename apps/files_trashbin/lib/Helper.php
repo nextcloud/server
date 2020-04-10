@@ -70,7 +70,6 @@ class Helper {
 				$pathparts = pathinfo($entryName);
 				$timestamp = substr($pathparts['extension'], 1);
 				$name = $pathparts['filename'];
-
 			} elseif ($timestamp === null) {
 				// for subfolders we need to calculate the timestamp only once
 				$parts = explode('/', ltrim($dir, '/'));

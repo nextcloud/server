@@ -278,5 +278,4 @@ class TwoFactorChallengeController extends Controller {
 			]
 		));
 	}
-
 }

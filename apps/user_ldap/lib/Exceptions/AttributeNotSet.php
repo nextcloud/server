@@ -23,4 +23,5 @@
 
 namespace OCA\User_LDAP\Exceptions;
 
-class AttributeNotSet extends \RuntimeException {}
+class AttributeNotSet extends \RuntimeException {
+}

@@ -70,7 +70,7 @@ class Crypto implements ICrypto {
 	 * @return string Calculated HMAC
 	 */
 	public function calculateHMAC(string $message, string $password = ''): string {
-		if($password === '') {
+		if ($password === '') {
 			$password = $this->config->getSystemValue('secret');
 		}
 
@@ -89,7 +89,7 @@ class Crypto implements ICrypto {
 	 * @return string Authenticated ciphertext
 	 */
 	public function encrypt(string $plaintext, string $password = ''): string {
-		if($password === '') {
+		if ($password === '') {
 			$password = $this->config->getSystemValue('secret');
 		}
 		$this->cipher->setPassword($password);
@@ -139,5 +139,4 @@ class Crypto implements ICrypto {
 
 		return $result;
 	}
-
 }

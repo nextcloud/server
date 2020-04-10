@@ -331,7 +331,6 @@ class Cache implements ICache {
 	 * @param array $data [$key => $value] the metadata to update, only the fields provided in the array will be updated, non-provided values will remain unchanged
 	 */
 	public function update($id, array $data) {
-
 		if (isset($data['path'])) {
 			// normalize path
 			$data['path'] = $this->normalize($data['path']);
@@ -990,7 +989,6 @@ class Cache implements ICache {
 	 * @return string
 	 */
 	public function normalize($path) {
-
 		return trim(\OC_Util::normalizeUnicode($path), '/');
 	}
 }

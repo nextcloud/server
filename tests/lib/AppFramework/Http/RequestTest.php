@@ -77,7 +77,6 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('Joey', $request->get['nickname']);
 		// Always returns null if variable not set.
 		$this->assertSame(null, $request->{'flickname'});
-
 	}
 
 	// urlParams has precedence over POST which has precedence over GET
@@ -326,11 +325,10 @@ class RequestTest extends \Test\TestCase {
 
 		try {
 			$resource = $request->put;
-		} catch(\LogicException $e) {
+		} catch (\LogicException $e) {
 			return;
 		}
 		$this->fail('Expected LogicException.');
-
 	}
 
 

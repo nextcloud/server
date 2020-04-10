@@ -90,7 +90,7 @@ class Manager implements IManager {
 		}
 
 		$this->consumers = [];
-		foreach($this->consumersClosures as $consumer) {
+		foreach ($this->consumersClosures as $consumer) {
 			$c = $consumer();
 			if ($c instanceof IConsumer) {
 				$this->consumers[] = $c;
@@ -385,5 +385,4 @@ class Manager implements IManager {
 		// Token found login as that user
 		return array_shift($users);
 	}
-
 }

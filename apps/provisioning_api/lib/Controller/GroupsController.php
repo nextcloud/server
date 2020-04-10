@@ -163,7 +163,7 @@ class GroupsController extends AUserData {
 		}
 
 		// Check subadmin has access to this group
-		if($this->groupManager->isAdmin($user->getUID())
+		if ($this->groupManager->isAdmin($user->getUID())
 		   || $isSubadminOfGroup) {
 			$users = $this->groupManager->get($groupId)->getUsers();
 			$users =  array_map(function ($user) {
@@ -201,7 +201,7 @@ class GroupsController extends AUserData {
 		}
 
 		// Check subadmin has access to this group
-		if($this->groupManager->isAdmin($currentUser->getUID()) || $isSubadminOfGroup) {
+		if ($this->groupManager->isAdmin($currentUser->getUID()) || $isSubadminOfGroup) {
 			$users = $group->searchUsers($search, $limit, $offset);
 
 			// Extract required number
@@ -219,7 +219,7 @@ class GroupsController extends AUserData {
 						// only showing its id
 						$usersDetails[$userId] = ['id' => $userId];
 					}
-				} catch(OCSNotFoundException $e) {
+				} catch (OCSNotFoundException $e) {
 					// continue if a users ceased to exist.
 				}
 			}
@@ -240,12 +240,12 @@ class GroupsController extends AUserData {
 	 */
 	public function addGroup(string $groupid): DataResponse {
 		// Validate name
-		if(empty($groupid)) {
+		if (empty($groupid)) {
 			$this->logger->error('Group name not supplied', ['app' => 'provisioning_api']);
 			throw new OCSException('Invalid group name', 101);
 		}
 		// Check if it exists
-		if($this->groupManager->groupExists($groupid)){
+		if ($this->groupManager->groupExists($groupid)) {
 			throw new OCSException('group exists', 102);
 		}
 		$this->groupManager->createGroup($groupid);
@@ -283,9 +283,9 @@ class GroupsController extends AUserData {
 	 */
 	public function deleteGroup(string $groupId): DataResponse {
 		// Check it exists
-		if(!$this->groupManager->groupExists($groupId)){
+		if (!$this->groupManager->groupExists($groupId)) {
 			throw new OCSException('', 101);
-		} elseif($groupId === 'admin' || !$this->groupManager->get($groupId)->delete()){
+		} elseif ($groupId === 'admin' || !$this->groupManager->get($groupId)->delete()) {
 			// Cannot delete admin group
 			throw new OCSException('', 102);
 		}
@@ -301,7 +301,7 @@ class GroupsController extends AUserData {
 	public function getSubAdminsOfGroup(string $groupId): DataResponse {
 		// Check group exists
 		$targetGroup = $this->groupManager->get($groupId);
-		if($targetGroup === null) {
+		if ($targetGroup === null) {
 			throw new OCSException('Group does not exist', 101);
 		}
 
@@ -315,5 +315,4 @@ class GroupsController extends AUserData {
 
 		return new DataResponse($uids);
 	}
-
 }

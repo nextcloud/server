@@ -92,7 +92,8 @@ class AppleProvisioningPluginTest extends TestCase {
 
 		$plugin = new AppleProvisioningPlugin($this->userSession,
 			$this->urlGenerator, $this->themingDefaults, $this->request, $this->l10n,
-			function () {});
+			function () {
+			});
 
 		$server->expects($this->at(0))
 			->method('on')
@@ -266,5 +267,4 @@ EOF
 
 		$this->assertFalse($returnValue);
 	}
-
 }

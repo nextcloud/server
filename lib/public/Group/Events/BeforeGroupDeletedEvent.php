@@ -52,5 +52,4 @@ class BeforeGroupDeletedEvent extends Event {
 	public function getGroup(): IGroup {
 		return $this->group;
 	}
-
 }

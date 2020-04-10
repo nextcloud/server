@@ -91,7 +91,6 @@ class Updater {
 	 * @param string $newPath new path relative to data/user/files
 	 */
 	static private function renameChildren($oldPath, $newPath) {
-
 		$absNewPath =  \OC\Files\Filesystem::normalizePath('/' . \OCP\User::getUser() . '/files/' . $newPath);
 		$absOldPath =  \OC\Files\Filesystem::normalizePath('/' . \OCP\User::getUser() . '/files/' . $oldPath);
 
@@ -105,5 +104,4 @@ class Updater {
 			}
 		}
 	}
-
 }

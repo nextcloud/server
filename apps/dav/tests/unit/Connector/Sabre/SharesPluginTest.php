@@ -40,7 +40,6 @@ use OCP\Share\IShare;
 use Sabre\DAV\Tree;
 
 class SharesPluginTest extends \Test\TestCase {
-
 	const SHARETYPES_PROPERTYNAME = \OCA\DAV\Connector\Sabre\SharesPlugin::SHARETYPES_PROPERTYNAME;
 
 	/**

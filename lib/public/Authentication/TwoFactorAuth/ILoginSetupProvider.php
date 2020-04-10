@@ -39,5 +39,4 @@ interface ILoginSetupProvider {
 	 * @since 17.0.0
 	 */
 	public function getBody(): Template;
-
 }

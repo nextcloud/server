@@ -649,7 +649,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$path2 = $this->normalizePath($path2);
 
 		if ($this->is_file($path1)) {
-
 			if ($this->copy($path1, $path2) === false) {
 				return false;
 			}
@@ -659,7 +658,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				return false;
 			}
 		} else {
-
 			if ($this->copy($path1, $path2) === false) {
 				return false;
 			}
@@ -704,5 +702,4 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public static function checkDependencies() {
 		return true;
 	}
-
 }

@@ -96,7 +96,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
@@ -118,7 +118,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
@@ -140,7 +140,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
@@ -162,7 +162,7 @@ class LoggerTest extends TestCase implements IWriter {
 		$this->logger->logException($e);
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}
@@ -189,7 +189,7 @@ class LoggerTest extends TestCase implements IWriter {
 		}
 
 		$logLines = $this->getLogs();
-		foreach($logLines as $logLine) {
+		foreach ($logLines as $logLine) {
 			if (is_array($logLine)) {
 				$logLine = json_encode($logLine);
 			}

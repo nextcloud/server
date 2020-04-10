@@ -91,5 +91,4 @@ class TwoFactorCommand extends ALoginCommand {
 			$this->urlGenerator->linkToRoute($url, $urlParams)
 		);
 	}
-
 }

@@ -197,7 +197,7 @@ class UserPlugin implements ISearchPlugin {
 
 	public function takeOutCurrentUser(array &$users) {
 		$currentUser = $this->userSession->getUser();
-		if(!is_null($currentUser)) {
+		if (!is_null($currentUser)) {
 			if (isset($users[$currentUser->getUID()])) {
 				unset($users[$currentUser->getUID()]);
 			}

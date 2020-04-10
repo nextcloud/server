@@ -60,5 +60,4 @@ interface IProvider {
 	 * @since 16.0.0
 	 */
 	public function canAccessResource(IResource $resource, ?IUser $user): bool;
-
 }

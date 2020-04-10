@@ -38,5 +38,4 @@ class SqliteFunctionBuilder extends FunctionBuilder {
 	public function least($x, $y) {
 		return new QueryFunction('MIN(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
-
 }

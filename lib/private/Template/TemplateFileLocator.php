@@ -46,7 +46,7 @@ class TemplateFileLocator {
 			throw new \InvalidArgumentException('Empty template name');
 		}
 
-		foreach($this->dirs as $dir) {
+		foreach ($this->dirs as $dir) {
 			$file = $dir.$template.'.php';
 			if (is_file($file)) {
 				$this->path = $dir;

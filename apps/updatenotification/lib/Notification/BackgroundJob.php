@@ -37,7 +37,6 @@ use OCP\IGroupManager;
 use OCP\Notification\IManager;
 
 class BackgroundJob extends TimedJob {
-
 	protected $connectionNotifications = [3, 7, 14, 30];
 
 	/** @var IConfig */

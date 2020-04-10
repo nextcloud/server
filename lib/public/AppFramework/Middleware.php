@@ -53,7 +53,6 @@ abstract class Middleware {
 	 * @since 6.0.0
 	 */
 	public function beforeController($controller, $methodName) {
-
 	}
 
 
@@ -107,5 +106,4 @@ abstract class Middleware {
 	public function beforeOutput($controller, $methodName, $output) {
 		return $output;
 	}
-
 }

@@ -40,7 +40,6 @@ class LoginFlowV2Tokens {
 
 	public function getPollToken(): string {
 		return $this->pollToken;
-
 	}
 
 	public function getLoginToken(): string {

@@ -126,7 +126,7 @@ class Server {
 		$authPlugin->addBackend($authBackend);
 
 		// debugging
-		if(\OC::$server->getConfig()->getSystemValue('debug', false)) {
+		if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
 			$this->server->addPlugin(new \Sabre\DAV\Browser\Plugin());
 		} else {
 			$this->server->addPlugin(new DummyGetResponsePlugin());
@@ -201,7 +201,7 @@ class Server {
 
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
-		if($request->isUserAgent([
+		if ($request->isUserAgent([
 			'/WebDAVFS/',
 			'/OneNote/',
 			'/^Microsoft-WebDAV/',// Microsoft-WebDAV-MiniRedir/6.1.7601

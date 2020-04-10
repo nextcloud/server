@@ -200,6 +200,4 @@ class Propagator implements IPropagator {
 
 		$this->connection->commit();
 	}
-
-
 }

@@ -66,5 +66,4 @@ class AdditionalScriptsMiddleware extends Middleware {
 
 		return $response;
 	}
-
 }

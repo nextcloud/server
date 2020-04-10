@@ -26,7 +26,6 @@
 use Behat\Behat\Context\Context;
 
 class UsersSettingsContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**

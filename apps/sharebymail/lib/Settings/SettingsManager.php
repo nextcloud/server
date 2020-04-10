@@ -57,5 +57,4 @@ class SettingsManager {
 		$enforcePassword = $this->config->getAppValue('sharebymail', 'enforcePasswordProtection', $this->enforcePasswordProtectionDefault);
 		return $enforcePassword === 'yes';
 	}
-
 }

@@ -43,5 +43,4 @@ class LoadSidebarListener implements IEventListener {
 		// TODO: remove when all tabs migrated to the new api
 		Util::addScript('files', 'fileinfomodel');
 	}
-
 }

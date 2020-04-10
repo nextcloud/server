@@ -37,7 +37,6 @@ use Doctrine\DBAL\Types\Type;
  * @package Test\DB
  */
 class OCPostgreSqlPlatformTest extends \Test\TestCase {
-
 	public function testAlterBigint() {
 		$platform = new PostgreSqlPlatform();
 		$sourceSchema = new Schema();
@@ -71,5 +70,4 @@ class OCPostgreSqlPlatformTest extends \Test\TestCase {
 			'length' => 11,
 		]);
 	}
-
 }

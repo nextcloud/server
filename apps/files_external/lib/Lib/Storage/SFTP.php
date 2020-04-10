@@ -70,7 +70,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 
 		$parsed = parse_url($host);
-		if(is_array($parsed) && isset($parsed['port'])) {
+		if (is_array($parsed) && isset($parsed['port'])) {
 			return [$parsed['host'], $parsed['port']];
 		} elseif (is_array($parsed)) {
 			return [$parsed['host'], 22];
@@ -310,13 +310,13 @@ class SFTP extends \OC\Files\Storage\Common {
 
 			$id = md5('sftp:' . $path);
 			$dirStream = [];
-			foreach($list as $file) {
+			foreach ($list as $file) {
 				if ($file !== '.' && $file !== '..') {
 					$dirStream[] = $file;
 				}
 			}
 			return IteratorDirectory::wrap($dirStream);
-		} catch(\Exception $e) {
+		} catch (\Exception $e) {
 			return false;
 		}
 	}
@@ -335,7 +335,6 @@ class SFTP extends \OC\Files\Storage\Common {
 				return 'dir';
 			}
 		} catch (\Exception $e) {
-
 		}
 		return false;
 	}
@@ -368,7 +367,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	public function fopen($path, $mode) {
 		try {
 			$absPath = $this->absPath($path);
-			switch($mode) {
+			switch ($mode) {
 				case 'r':
 				case 'rb':
 					if (!$this->file_exists($path)) {

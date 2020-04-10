@@ -70,8 +70,7 @@ class RootCollection implements ICollection {
 		IUserManager $userManager,
 		IUserSession $userSession,
 		EventDispatcherInterface $dispatcher,
-		ILogger $logger)
-	{
+		ILogger $logger) {
 		$this->commentsManager = $commentsManager;
 		$this->logger = $logger;
 		$this->userManager = $userManager;
@@ -87,11 +86,11 @@ class RootCollection implements ICollection {
 	 * @throws NotAuthenticated
 	 */
 	protected function initCollections() {
-		if($this->entityTypeCollections !== null) {
+		if ($this->entityTypeCollections !== null) {
 			return;
 		}
 		$user = $this->userSession->getUser();
-		if(is_null($user)) {
+		if (is_null($user)) {
 			throw new NotAuthenticated();
 		}
 
@@ -145,7 +144,7 @@ class RootCollection implements ICollection {
 	 */
 	function getChild($name) {
 		$this->initCollections();
-		if(isset($this->entityTypeCollections[$name])) {
+		if (isset($this->entityTypeCollections[$name])) {
 			return $this->entityTypeCollections[$name];
 		}
 		throw new NotFound('Entity type "' . $name . '" not found."');

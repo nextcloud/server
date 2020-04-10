@@ -65,5 +65,4 @@ class FinishRememberedLoginCommandTest extends ALoginCommandTest {
 
 		$this->assertTrue($result->isSuccess());
 	}
-
 }

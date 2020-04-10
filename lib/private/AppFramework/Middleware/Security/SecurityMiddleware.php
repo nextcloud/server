@@ -137,17 +137,17 @@ class SecurityMiddleware extends Middleware {
 
 		// security checks
 		$isPublicPage = $this->reflector->hasAnnotation('PublicPage');
-		if(!$isPublicPage) {
-			if(!$this->isLoggedIn) {
+		if (!$isPublicPage) {
+			if (!$this->isLoggedIn) {
 				throw new NotLoggedInException();
 			}
 
-			if($this->reflector->hasAnnotation('SubAdminRequired')
+			if ($this->reflector->hasAnnotation('SubAdminRequired')
 				&& !$this->isSubAdmin
 				&& !$this->isAdminUser) {
 				throw new NotAdminException($this->l10n->t('Logged in user must be an admin or sub admin'));
 			}
-			if(!$this->reflector->hasAnnotation('SubAdminRequired')
+			if (!$this->reflector->hasAnnotation('SubAdminRequired')
 				&& !$this->reflector->hasAnnotation('NoAdminRequired')
 				&& !$this->isAdminUser) {
 				throw new NotAdminException($this->l10n->t('Logged in user must be an admin'));
@@ -155,14 +155,14 @@ class SecurityMiddleware extends Middleware {
 		}
 
 		// Check for strict cookie requirement
-		if($this->reflector->hasAnnotation('StrictCookieRequired') || !$this->reflector->hasAnnotation('NoCSRFRequired')) {
-			if(!$this->request->passesStrictCookieCheck()) {
+		if ($this->reflector->hasAnnotation('StrictCookieRequired') || !$this->reflector->hasAnnotation('NoCSRFRequired')) {
+			if (!$this->request->passesStrictCookieCheck()) {
 				throw new StrictCookieMissingException();
 			}
 		}
 		// CSRF check - also registers the CSRF token since the session may be closed later
 		Util::callRegister();
-		if(!$this->reflector->hasAnnotation('NoCSRFRequired')) {
+		if (!$this->reflector->hasAnnotation('NoCSRFRequired')) {
 			/*
 			 * Only allow the CSRF check to fail on OCS Requests. This kind of
 			 * hacks around that we have no full token auth in place yet and we
@@ -171,7 +171,7 @@ class SecurityMiddleware extends Middleware {
 			 * Additionally we allow Bearer authenticated requests to pass on OCS routes.
 			 * This allows oauth apps (e.g. moodle) to use the OCS endpoints
 			 */
-			if(!$this->request->passesCSRFCheck() && !(
+			if (!$this->request->passesCSRFCheck() && !(
 					$controller instanceof OCSController && (
 						$this->request->getHeader('OCS-APIREQUEST') === 'true' ||
 						strpos($this->request->getHeader('Authorization'), 'Bearer ') === 0
@@ -209,8 +209,8 @@ class SecurityMiddleware extends Middleware {
 	 * @return Response a Response object or null in case that the exception could not be handled
 	 */
 	public function afterException($controller, $methodName, \Exception $exception): Response {
-		if($exception instanceof SecurityException) {
-			if($exception instanceof StrictCookieMissingException) {
+		if ($exception instanceof SecurityException) {
+			if ($exception instanceof StrictCookieMissingException) {
 				return new RedirectResponse(\OC::$WEBROOT);
 			}
 			if (stripos($this->request->getHeader('Accept'),'html') === false) {
@@ -219,7 +219,7 @@ class SecurityMiddleware extends Middleware {
 					$exception->getCode()
 				);
 			} else {
-				if($exception instanceof NotLoggedInException) {
+				if ($exception instanceof NotLoggedInException) {
 					$params = [];
 					if (isset($this->request->server['REQUEST_URI'])) {
 						$params['redirect_url'] = $this->request->server['REQUEST_URI'];
@@ -241,5 +241,4 @@ class SecurityMiddleware extends Middleware {
 
 		throw $exception;
 	}
-
 }

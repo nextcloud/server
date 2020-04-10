@@ -100,7 +100,7 @@ class UserManagement extends Action {
 	 * @param array $params
 	 */
 	public function change(array $params) {
-		switch($params['feature']) {
+		switch ($params['feature']) {
 			case 'enabled':
 				$this->log(
 					$params['value'] === true
@@ -130,7 +130,7 @@ class UserManagement extends Action {
 	 * @param IUser $user
 	 */
 	public function setPassword(IUser $user) {
-		if($user->getBackendClassName() === 'Database') {
+		if ($user->getBackendClassName() === 'Database') {
 			$this->log(
 				'Password of user "%s" has been changed',
 				[

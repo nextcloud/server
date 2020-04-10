@@ -164,7 +164,7 @@ class Expiration {
 			);
 		}
 
-		if (!$isValid){
+		if (!$isValid) {
 			$minValue = 'auto';
 			$maxValue = 'auto';
 		}

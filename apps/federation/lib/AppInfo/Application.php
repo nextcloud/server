@@ -57,7 +57,6 @@ class Application extends App {
 	 * list of trusted servers.
 	 */
 	public function registerHooks() {
-
 		$container = $this->getContainer();
 		$hooksManager = $container->query(Hooks::class);
 
@@ -81,5 +80,4 @@ class Application extends App {
 			}
 		});
 	}
-
 }

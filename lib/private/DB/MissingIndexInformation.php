@@ -28,7 +28,6 @@ declare(strict_types=1);
 namespace OC\DB;
 
 class MissingIndexInformation {
-
 	private $listOfMissingIndexes = [];
 
 	public function addHintForMissingSubject(string $tableName, string $indexName) {

@@ -49,7 +49,6 @@ class AppConfigControllerTest extends TestCase {
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
-
 	}
 
 	/**
@@ -105,7 +104,6 @@ class AppConfigControllerTest extends TestCase {
 	 * @param int $status
 	 */
 	public function testGetKeys($app, $keys, $throws, $status) {
-
 		$api = $this->getInstance(['verifyAppId']);
 		if ($throws instanceof \Exception) {
 			$api->expects($this->once())
@@ -153,7 +151,6 @@ class AppConfigControllerTest extends TestCase {
 	 * @param int $status
 	 */
 	public function testGetValue($app, $key, $default, $return, $throws, $status) {
-
 		$api = $this->getInstance(['verifyAppId']);
 		if ($throws instanceof \Exception) {
 			$api->expects($this->once())
@@ -202,7 +199,6 @@ class AppConfigControllerTest extends TestCase {
 	 * @param int $status
 	 */
 	public function testSetValue($app, $key, $value, $appThrows, $keyThrows, $status) {
-
 		$api = $this->getInstance(['verifyAppId', 'verifyConfigKey']);
 		if ($appThrows instanceof \Exception) {
 			$api->expects($this->once())
@@ -267,7 +263,6 @@ class AppConfigControllerTest extends TestCase {
 	 * @param int $status
 	 */
 	public function testDeleteValue($app, $key, $appThrows, $keyThrows, $status) {
-
 		$api = $this->getInstance(['verifyAppId', 'verifyConfigKey']);
 		if ($appThrows instanceof \Exception) {
 			$api->expects($this->once())

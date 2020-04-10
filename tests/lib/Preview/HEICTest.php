@@ -29,7 +29,6 @@ namespace Test\Preview;
  * @package Test\Preview
  */
 class HEICTest extends Provider {
-
 	protected function setUp(): void {
 		if (!in_array("HEIC", \Imagick::queryFormats("HEI*"))) {
 			$this->markTestSkipped('ImageMagick is not HEIC aware. Skipping tests');
@@ -42,7 +41,5 @@ class HEICTest extends Provider {
 			$this->height = 1050;
 			$this->provider = new \OC\Preview\HEIC;
 		}
-
 	}
-
 }

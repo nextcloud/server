@@ -136,7 +136,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function createShare() {
-
 		$remote = isset($_POST['remote']) ? $_POST['remote'] : null;
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
 		$name = isset($_POST['name']) ? $_POST['name'] : null;
@@ -197,7 +196,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSForbiddenException
 	 */
 	public function reShare($id) {
-
 		$token = $this->request->getParam('token', null);
 		$shareWith = $this->request->getParam('shareWith', null);
 		$permission = (int)$this->request->getParam('permission', null);
@@ -251,7 +249,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws \OC\HintException
 	 */
 	public function acceptShare($id) {
-
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
 
 		$notification = [
@@ -284,7 +281,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function declineShare($id) {
-
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
 
 		$notification = [
@@ -317,7 +313,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function unshare($id) {
-
 		if (!$this->isS2SEnabled()) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		}
@@ -353,7 +348,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSBadRequestException
 	 */
 	public function revoke($id) {
-
 		$token = $this->request->getParam('token');
 
 		try {
@@ -364,7 +358,6 @@ class RequestHandlerController extends OCSController {
 		} catch (\Exception $e) {
 			throw new OCSBadRequestException();
 		}
-
 	}
 
 	/**
@@ -374,7 +367,6 @@ class RequestHandlerController extends OCSController {
 	 * @return bool
 	 */
 	private function isS2SEnabled($incoming = false) {
-
 		$result = \OCP\App::isEnabled('files_sharing');
 
 		if ($incoming) {
@@ -420,7 +412,6 @@ class RequestHandlerController extends OCSController {
 	 * @return array
 	 */
 	protected function ncPermissions2ocmPermissions($ncPermissions) {
-
 		$ocmPermissions = [];
 
 		if ($ncPermissions & Constants::PERMISSION_SHARE) {
@@ -437,7 +428,6 @@ class RequestHandlerController extends OCSController {
 		}
 
 		return $ocmPermissions;
-
 	}
 
 	/**
@@ -452,7 +442,6 @@ class RequestHandlerController extends OCSController {
 	 * @throws OCSException
 	 */
 	public function move($id) {
-
 		if (!$this->isS2SEnabled()) {
 			throw new OCSException('Server does not support federated cloud sharing', 503);
 		}

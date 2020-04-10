@@ -91,7 +91,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 
 		$this->timeFactory->method('getTime')
 			->willReturn($this->currentTime);
-
 	}
 
 	/**
@@ -103,7 +102,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 	 * @param bool $ok
 	 */
 	public function testRequestSharedSecret($token, $localToken, $isTrustedServer, $ok) {
-
 		$url = 'url';
 
 		$this->trustedServers
@@ -144,7 +142,6 @@ class OCSAuthAPIControllerTest extends TestCase {
 	 * @param bool $ok
 	 */
 	public function testGetSharedSecret($isTrustedServer, $isValidToken, $ok) {
-
 		$url = 'url';
 		$token = 'token';
 
@@ -169,7 +166,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 		$ocsAuthApi->expects($this->any())
 			->method('isValidToken')->with($url, $token)->willReturn($isValidToken);
 
-		if($ok) {
+		if ($ok) {
 			$this->secureRandom->expects($this->once())->method('generate')->with(32)
 				->willReturn('secret');
 			$this->trustedServers->expects($this->once())
@@ -197,5 +194,4 @@ class OCSAuthAPIControllerTest extends TestCase {
 			[false, false, false],
 		];
 	}
-
 }

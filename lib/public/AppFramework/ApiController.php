@@ -38,7 +38,6 @@ use OCP\IRequest;
  * @since 7.0.0
  */
 abstract class ApiController extends Controller {
-
 	private $corsMethods;
 	private $corsAllowedHeaders;
 	private $corsMaxAge;
@@ -79,7 +78,7 @@ abstract class ApiController extends Controller {
 	 * @since 7.0.0
 	 */
 	public function preflightedCors() {
-		if(isset($this->request->server['HTTP_ORIGIN'])) {
+		if (isset($this->request->server['HTTP_ORIGIN'])) {
 			$origin = $this->request->server['HTTP_ORIGIN'];
 		} else {
 			$origin = '*';
@@ -93,6 +92,4 @@ abstract class ApiController extends Controller {
 		$response->addHeader('Access-Control-Allow-Credentials', 'false');
 		return $response;
 	}
-
-
 }

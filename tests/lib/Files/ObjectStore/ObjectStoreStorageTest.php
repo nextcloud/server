@@ -56,7 +56,6 @@ class ObjectStoreStorageTest extends Storage {
 	}
 
 	public function testStat() {
-
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$ctimeStart = time();
 		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile));

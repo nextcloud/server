@@ -69,5 +69,4 @@ abstract class ABroadcastedEvent extends Event implements JsonSerializable {
 	public function isBroadcasted(): bool {
 		return $this->broadcasted;
 	}
-
 }

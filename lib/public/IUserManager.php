@@ -48,12 +48,12 @@ namespace OCP;
  * @since 8.0.0
  */
 interface IUserManager {
-		/**
-		 * register a user backend
-		 *
-		 * @param \OCP\UserInterface $backend
-		 * @since 8.0.0
-		 */
+	/**
+	 * register a user backend
+	 *
+	 * @param \OCP\UserInterface $backend
+	 * @since 8.0.0
+	 */
 	public function registerBackend($backend);
 
 	/**

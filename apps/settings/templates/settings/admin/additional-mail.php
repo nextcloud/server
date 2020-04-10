@@ -76,11 +76,15 @@ $mail_sendmailmode = [
 			</select>
 
 			<label id="mail_smtpsecure_label" for="mail_smtpsecure"
-				<?php if ($_['mail_smtpmode'] !== 'smtp') print_unescaped(' class="hidden"'); ?>>
+				<?php if ($_['mail_smtpmode'] !== 'smtp') {
+						print_unescaped(' class="hidden"');
+					} ?>>
 				<?php p($l->t('Encryption')); ?>
 			</label>
 			<select name="mail_smtpsecure" id="mail_smtpsecure"
-				<?php if ($_['mail_smtpmode'] !== 'smtp') print_unescaped(' class="hidden"'); ?>>
+				<?php if ($_['mail_smtpmode'] !== 'smtp') {
+						print_unescaped(' class="hidden"');
+					} ?>>
 				<?php foreach ($mail_smtpsecure as $secure => $name):
 					$selected = '';
 					if ($secure == $_['mail_smtpsecure']):
@@ -108,7 +112,9 @@ $mail_sendmailmode = [
 				   value="<?php p($_['mail_domain']) ?>" />
 		</p>
 
-		<p id="setting_smtpauth" <?php if ($_['mail_smtpmode'] !== 'smtp') print_unescaped(' class="hidden"'); ?>>
+		<p id="setting_smtpauth" <?php if ($_['mail_smtpmode'] !== 'smtp') {
+						print_unescaped(' class="hidden"');
+					} ?>>
 			<label for="mail_smtpauthtype"><?php p($l->t('Authentication method')); ?></label>
 			<select name="mail_smtpauthtype" id="mail_smtpauthtype">
 				<?php foreach ($mail_smtpauthtype as $authtype => $name):
@@ -121,11 +127,15 @@ $mail_sendmailmode = [
 			</select>
 
 			<input type="checkbox" name="mail_smtpauth" id="mail_smtpauth" class="checkbox" value="1"
-				<?php if ($_['mail_smtpauth']) print_unescaped('checked="checked"'); ?> />
+				<?php if ($_['mail_smtpauth']) {
+						print_unescaped('checked="checked"');
+					} ?> />
 			<label for="mail_smtpauth"><?php p($l->t('Authentication required')); ?></label>
 		</p>
 
-		<p id="setting_smtphost" <?php if ($_['mail_smtpmode'] !== 'smtp') print_unescaped(' class="hidden"'); ?>>
+		<p id="setting_smtphost" <?php if ($_['mail_smtpmode'] !== 'smtp') {
+						print_unescaped(' class="hidden"');
+					} ?>>
 			<label for="mail_smtphost"><?php p($l->t('Server address')); ?></label>
 			<input type="text" name="mail_smtphost" id="mail_smtphost" placeholder="smtp.example.com"
 				   value="<?php p($_['mail_smtphost']) ?>" />
@@ -135,7 +145,9 @@ $mail_sendmailmode = [
 		</p>
 	</form>
 	<form class="mail_settings" id="mail_credentials_settings">
-		<p id="mail_credentials" <?php if (!$_['mail_smtpauth'] || $_['mail_smtpmode'] !== 'smtp') print_unescaped(' class="hidden"'); ?>>
+		<p id="mail_credentials" <?php if (!$_['mail_smtpauth'] || $_['mail_smtpmode'] !== 'smtp') {
+						print_unescaped(' class="hidden"');
+					} ?>>
 			<label for="mail_smtpname"><?php p($l->t('Credentials')); ?></label>
 			<input type="text" name="mail_smtpname" id="mail_smtpname" placeholder="<?php p($l->t('SMTP Username'))?>"
 				   value="<?php p($_['mail_smtpname']) ?>" />

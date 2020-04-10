@@ -118,5 +118,4 @@ class GlobalAuthTest extends TestCase {
 		$this->instance->manipulateStorageConfig($storage);
 		$this->assertEquals([], $storage->getBackendOptions());
 	}
-
 }

@@ -123,5 +123,4 @@ class SimpleMenuAction implements IMenuAction {
 			Util::sanitizeHTML($this->id), Util::sanitizeHTML($this->link), Util::sanitizeHTML($this->icon), Util::sanitizeHTML($this->label), $detailContent
 		);
 	}
-
 }

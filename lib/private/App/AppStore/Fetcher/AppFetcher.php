@@ -88,11 +88,11 @@ class AppFetcher extends Fetcher {
 		$allowPreReleases = $this->getChannel() === 'beta' || $this->getChannel() === 'daily';
 		$allowNightly = $this->getChannel() === 'daily';
 
-		foreach($response['data'] as $dataKey => $app) {
+		foreach ($response['data'] as $dataKey => $app) {
 			$releases = [];
 
 			// Filter all compatible releases
-			foreach($app['releases'] as $release) {
+			foreach ($app['releases'] as $release) {
 				// Exclude all nightly and pre-releases if required
 				if (($allowNightly || $release['isNightly'] === false)
 					&& ($allowPreReleases || strpos($release['version'], '-') === false)) {
@@ -123,12 +123,12 @@ class AppFetcher extends Fetcher {
 
 			// Get the highest version
 			$versions = [];
-			foreach($releases as $release) {
+			foreach ($releases as $release) {
 				$versions[] = $release['version'];
 			}
 			usort($versions, 'version_compare');
 			$versions = array_reverse($versions);
-			if(isset($versions[0])) {
+			if (isset($versions[0])) {
 				$highestVersion = $versions[0];
 				foreach ($releases as $release) {
 					if ((string)$release['version'] === (string)$highestVersion) {

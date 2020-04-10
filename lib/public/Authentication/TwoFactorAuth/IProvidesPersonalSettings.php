@@ -45,5 +45,4 @@ interface IProvidesPersonalSettings extends IProvider {
 	 * @since 15.0.0
 	 */
 	public function getPersonalSettings(IUser $user): IPersonalProviderSettings;
-
 }

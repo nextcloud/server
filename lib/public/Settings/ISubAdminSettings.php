@@ -32,5 +32,4 @@ namespace OCP\Settings;
  * @since 17.0.0
  */
 interface ISubAdminSettings extends ISettings {
-
 }

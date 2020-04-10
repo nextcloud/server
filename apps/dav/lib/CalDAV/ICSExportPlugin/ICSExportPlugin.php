@@ -93,5 +93,4 @@ class ICSExportPlugin extends \Sabre\CalDAV\ICSExportPlugin {
 
 		return $vcalendar;
 	}
-
 }

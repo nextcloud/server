@@ -82,5 +82,4 @@ class DirectEditingService {
 		}
 		return $capabilities;
 	}
-
 }

@@ -36,7 +36,6 @@ class ErrorHandlerTest extends \Test\TestCase {
 			['us:er', 'password'],
 			['user', 'pass:word'],
 		];
-
 	}
 
 	/**
@@ -51,7 +50,6 @@ class ErrorHandlerTest extends \Test\TestCase {
 
 		$this->assertEquals($expectedResult, $result);
 	}
-
 }
 
 /**

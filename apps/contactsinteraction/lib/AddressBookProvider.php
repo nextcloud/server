@@ -77,5 +77,4 @@ class AddressBookProvider implements IAddressBookProvider {
 
 		return null;
 	}
-
 }

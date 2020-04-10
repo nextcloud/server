@@ -29,7 +29,7 @@ namespace OCA\User_LDAP\Tests;
 use OCA\User_LDAP\LDAP;
 use Test\TestCase;
 
-class LDAPTest extends TestCase  {
+class LDAPTest extends TestCase {
 	/** @var LDAP|\PHPUnit_Framework_MockObject_MockObject */
 	private $ldap;
 
@@ -58,7 +58,6 @@ class LDAPTest extends TestCase  {
 	 * @dataProvider errorProvider
 	 */
 	public function testSearchWithErrorHandler(string $errorMessage, bool $passThrough) {
-
 		$wasErrorHandlerCalled = false;
 		$errorHandler = function ($number, $message, $file, $line) use (&$wasErrorHandlerCalled) {
 			$wasErrorHandlerCalled = true;

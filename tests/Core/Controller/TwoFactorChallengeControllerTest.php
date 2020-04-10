@@ -443,5 +443,4 @@ class TwoFactorChallengeControllerTest extends TestCase {
 
 		$this->assertEquals($expected, $response);
 	}
-
 }

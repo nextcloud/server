@@ -116,5 +116,4 @@ class DirectHome implements ICollection {
 	public function getLastModified(): int {
 		return 0;
 	}
-
 }

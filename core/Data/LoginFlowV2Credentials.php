@@ -68,6 +68,4 @@ class LoginFlowV2Credentials implements \JsonSerializable {
 			'appPassword' => $this->appPassword,
 		];
 	}
-
-
 }

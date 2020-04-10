@@ -270,7 +270,8 @@ class ShareAPIController extends OCSController {
 
 			try {
 				$result = array_merge($result, $this->getRoomShareHelper()->formatShare($share));
-			} catch (QueryException $e) {}
+			} catch (QueryException $e) {
+			}
 		}
 
 
@@ -594,7 +595,6 @@ class ShareAPIController extends OCSController {
 	 * @return array
 	 */
 	private function getSharedWithMe($node, bool $includeTags): array {
-
 		$userShares = $this->shareManager->getSharedWith($this->currentUser, Share::SHARE_TYPE_USER, $node, -1, 0);
 		$groupShares = $this->shareManager->getSharedWith($this->currentUser, Share::SHARE_TYPE_GROUP, $node, -1, 0);
 		$circleShares = $this->shareManager->getSharedWith($this->currentUser, Share::SHARE_TYPE_CIRCLE, $node, -1, 0);
@@ -709,7 +709,6 @@ class ShareAPIController extends OCSController {
 		string $path = '',
 		string $include_tags = 'false'
 	): DataResponse {
-
 		$node = null;
 		if ($path !== '') {
 			$userFolder = $this->rootFolder->getUserFolder($this->currentUser);
@@ -754,7 +753,6 @@ class ShareAPIController extends OCSController {
 		string $viewer, $node = null, bool $sharedWithMe = false, bool $reShares = false,
 		bool $subFiles = false, bool $includeTags = false
 	): array {
-
 		if ($sharedWithMe) {
 			return $this->getSharedWithMe($node, $includeTags);
 		}
@@ -1463,7 +1461,6 @@ class ShareAPIController extends OCSController {
 	 * @return IShare[]
 	 */
 	private function getSharesFromNode(string $viewer, $node, bool $reShares): array {
-
 		$providers = [
 			Share::SHARE_TYPE_USER,
 			Share::SHARE_TYPE_GROUP,
@@ -1580,7 +1577,6 @@ class ShareAPIController extends OCSController {
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_CIRCLE && \OC::$server->getAppManager()->isEnabledForUser('circles')
 			&& class_exists('\OCA\Circles\Api\v1\Circles')) {
-
 			$hasCircleId = (substr($share->getSharedWith(), -1) === ']');
 			$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
 			$shareWithLength = ($hasCircleId ? -1 : strpos($share->getSharedWith(), ' '));
@@ -1655,5 +1651,4 @@ class ShareAPIController extends OCSController {
 			}
 		}
 	}
-
 }

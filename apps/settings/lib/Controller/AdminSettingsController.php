@@ -82,7 +82,7 @@ class AdminSettingsController extends Controller {
 		);
 		$formatted = $this->formatSettings($settings);
 		// Do not show legacy forms for sub admins
-		if($section === 'additional' && !$isSubAdmin) {
+		if ($section === 'additional' && !$isSubAdmin) {
 			$formatted['content'] .= $this->getLegacyForms();
 		}
 		return $formatted;
@@ -117,6 +117,4 @@ class AdminSettingsController extends Controller {
 
 		return $out->fetchPage();
 	}
-
-
 }

@@ -89,5 +89,4 @@ class InitialStateService implements IInitialStateService {
 		}
 		return $appStates;
 	}
-
 }

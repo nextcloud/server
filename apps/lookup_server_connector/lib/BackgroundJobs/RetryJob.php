@@ -176,7 +176,6 @@ class RetryJob extends Job {
 				'lookup_server_connector',
 				'update_retries'
 			);
-
 		} catch (\Exception $e) {
 			// An error occurred, retry later
 			$this->retainJob = true;

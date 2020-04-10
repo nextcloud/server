@@ -30,7 +30,6 @@ namespace OC;
  * Helper class that covers memory info.
  */
 class MemoryInfo {
-
 	const RECOMMENDED_MEMORY_LIMIT = 512 * 1024 * 1024;
 
 	/**
@@ -70,7 +69,7 @@ class MemoryInfo {
 		$memoryLimit = (int)substr($memoryLimit, 0, -1);
 
 		// intended fall trough
-		switch($last) {
+		switch ($last) {
 			case 'g':
 				$memoryLimit *= 1024;
 			case 'm':

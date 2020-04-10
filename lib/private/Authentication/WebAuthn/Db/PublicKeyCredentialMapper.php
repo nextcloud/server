@@ -31,7 +31,6 @@ use OCP\AppFramework\Db\QBMapper;
 use OCP\IDBConnection;
 
 class PublicKeyCredentialMapper extends QBMapper {
-
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'webauthn', PublicKeyCredentialEntity::class);
 	}
@@ -82,5 +81,4 @@ class PublicKeyCredentialMapper extends QBMapper {
 
 		return $this->findEntity($qb);
 	}
-
 }

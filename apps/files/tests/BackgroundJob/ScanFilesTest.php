@@ -150,5 +150,4 @@ class ScanFilesTest extends TestCase {
 
 		$this->invokePrivate($this->scanFiles, 'run', [[]]);
 	}
-
 }

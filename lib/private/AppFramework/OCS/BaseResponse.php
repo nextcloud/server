@@ -30,7 +30,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
 
-abstract class BaseResponse extends Response   {
+abstract class BaseResponse extends Response {
 	/** @var array */
 	protected $data;
 
@@ -118,7 +118,6 @@ abstract class BaseResponse extends Response   {
 		$this->toXML($response, $writer);
 		$writer->endDocument();
 		return $writer->outputMemory(true);
-
 	}
 
 	/**

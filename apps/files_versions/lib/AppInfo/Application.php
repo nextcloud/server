@@ -42,7 +42,6 @@ use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
 
 class Application extends App {
-
 	const APP_ID = 'files_versions';
 
 	public function __construct(array $urlParams = []) {
@@ -95,11 +94,11 @@ class Application extends App {
 	public function registerVersionBackends() {
 		$server = $this->getContainer()->getServer();
 		$appManager = $server->getAppManager();
-		foreach($appManager->getInstalledApps() as $app) {
+		foreach ($appManager->getInstalledApps() as $app) {
 			$appInfo = $appManager->getAppInfo($app);
 			if (isset($appInfo['versions'])) {
 				$backends = $appInfo['versions'];
-				foreach($backends as $backend) {
+				foreach ($backends as $backend) {
 					if (isset($backend['@value'])) {
 						$this->loadBackend($backend);
 					} else {
@@ -131,5 +130,4 @@ class Application extends App {
 		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalListener::class);
 		$dispatcher->addServiceListener(LoadSidebar::class, LoadSidebarListener::class);
 	}
-
 }

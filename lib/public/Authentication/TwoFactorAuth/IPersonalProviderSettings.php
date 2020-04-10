@@ -41,5 +41,4 @@ interface IPersonalProviderSettings {
 	 * @since 15.0.0
 	 */
 	public function getBody(): Template;
-
 }

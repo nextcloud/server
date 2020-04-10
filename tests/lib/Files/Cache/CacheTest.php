@@ -182,7 +182,6 @@ class CacheTest extends \Test\TestCase {
 	}
 
 	public function folderDataProvider() {
-
 		return [
 			['folder'],
 			// that was too easy, try something harder
@@ -289,7 +288,6 @@ class CacheTest extends \Test\TestCase {
 	 * @param $fileName
 	 */
 	public function testPutWithAllKindOfQuotes($fileName) {
-
 		$this->assertEquals(\OC\Files\Cache\Cache::NOT_FOUND, $this->cache->get($fileName));
 		$this->cache->put($fileName, ['size' => 20, 'mtime' => 25, 'mimetype' => 'foo/file', 'etag' => $fileName]);
 
@@ -573,7 +571,6 @@ class CacheTest extends \Test\TestCase {
 	 * this test shows that there is no bug if we use the normalizer
 	 */
 	public function testWithNormalizer() {
-
 		if (!class_exists('Patchwork\PHP\Shim\Normalizer')) {
 			$this->markTestSkipped('The 3rdparty Normalizer extension is not available.');
 			return;

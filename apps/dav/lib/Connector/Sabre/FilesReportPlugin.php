@@ -151,7 +151,6 @@ class FilesReportPlugin extends ServerPlugin {
 	 * @return void
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
-
 		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 
 		$this->server = $server;
@@ -282,7 +281,6 @@ class FilesReportPlugin extends ServerPlugin {
 			if ($filterRule['name'] === $ns . 'favorite') {
 				$favoriteFilter = true;
 			}
-
 		}
 
 		if ($favoriteFilter !== null) {

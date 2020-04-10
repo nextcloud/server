@@ -449,7 +449,6 @@ class DefaultTokenProviderTest extends TestCase {
 		} catch (ExpiredTokenException $e) {
 			$this->assertSame($token, $e->getToken());
 		}
-
 	}
 
 	public function testGetTokenById() {

@@ -47,7 +47,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * @package OCA\User_LDAP\Tests
  */
 class LDAPProviderTest extends \Test\TestCase {
-
 	protected function setUp(): void {
 		parent::setUp();
 	}
@@ -358,7 +357,7 @@ class LDAPProviderTest extends \Test\TestCase {
 		$connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($key) use ($bases) {
-				switch($key) {
+				switch ($key) {
 					case 'ldapBaseUsers':
 						return $bases;
 				}
@@ -420,7 +419,7 @@ class LDAPProviderTest extends \Test\TestCase {
 		$connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($key) use ($bases) {
-				switch($key) {
+				switch ($key) {
 					case 'ldapBaseGroups':
 						return $bases;
 				}
@@ -697,5 +696,4 @@ class LDAPProviderTest extends \Test\TestCase {
 		$ldapProvider = $this->getLDAPProvider($server);
 		$this->assertEquals('assoc_type', $ldapProvider->getLDAPGroupMemberAssoc('existing_group'));
 	}
-
 }

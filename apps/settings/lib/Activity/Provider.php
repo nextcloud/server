@@ -38,7 +38,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-
 	public const PASSWORD_CHANGED_BY = 'password_changed_by';
 	public const PASSWORD_CHANGED_SELF = 'password_changed_self';
 	public const PASSWORD_RESET = 'password_changed';
@@ -106,14 +105,12 @@ class Provider implements IProvider {
 			$subject = $this->l->t('You changed your password');
 		} elseif ($event->getSubject() === self::PASSWORD_RESET) {
 			$subject = $this->l->t('Your password was reset by an administrator');
-
 		} elseif ($event->getSubject() === self::EMAIL_CHANGED_BY) {
 			$subject = $this->l->t('{actor} changed your email address');
 		} elseif ($event->getSubject() === self::EMAIL_CHANGED_SELF) {
 			$subject = $this->l->t('You changed your email address');
 		} elseif ($event->getSubject() === self::EMAIL_CHANGED) {
 			$subject = $this->l->t('Your email address was changed by an administrator');
-
 		} elseif ($event->getSubject() === self::APP_TOKEN_CREATED) {
 			$subject = $this->l->t('You created app password "{token}"');
 		} elseif ($event->getSubject() === self::APP_TOKEN_DELETED) {
@@ -124,7 +121,6 @@ class Provider implements IProvider {
 			$subject = $this->l->t('You granted filesystem access to app password "{token}"');
 		} elseif ($event->getSubject() === self::APP_TOKEN_FILESYSTEM_REVOKED) {
 			$subject = $this->l->t('You revoked filesystem access from app password "{token}"');
-
 		} else {
 			throw new \InvalidArgumentException('Unknown subject');
 		}

@@ -28,7 +28,7 @@ use OCA\ShareByMail\Settings;
 use OCA\ShareByMail\Settings\SettingsManager;
 use Test\TestCase;
 
-class SettingsTest extends TestCase  {
+class SettingsTest extends TestCase {
 
 	/** @var  Settings */
 	private $instance;
@@ -93,5 +93,4 @@ class SettingsTest extends TestCase  {
 		$this->instance->announceShareByMailSettings(['array' => &$before]);
 		$this->assertSame($after, $before);
 	}
-
 }

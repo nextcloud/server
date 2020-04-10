@@ -64,5 +64,4 @@ class Personal implements ISettings {
 	public function getPriority(): int {
 		return 90;
 	}
-
 }

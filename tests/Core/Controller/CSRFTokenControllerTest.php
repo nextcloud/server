@@ -78,5 +78,4 @@ class CSRFTokenControllerTest extends TestCase {
 		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertSame(Http::STATUS_FORBIDDEN, $response->getStatus());
 	}
-
 }

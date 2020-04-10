@@ -12,11 +12,9 @@ use OC\Files\Storage\StorageFactory;
 use OCP\Files\Storage;
 
 class DummyStorage {
-
 }
 
 class MountPointTest extends \Test\TestCase {
-
 	public function testGetStorage() {
 		$storage = $this->createMock(Storage::class);
 		$storage->expects($this->once())

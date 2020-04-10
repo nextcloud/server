@@ -105,7 +105,6 @@ class FeedBackHandler {
 }
 
 if (\OCP\Util::needUpgrade()) {
-
 	$config = \OC::$server->getSystemConfig();
 	if ($config->getValue('upgrade.disable-web', false)) {
 		$eventSource->send('failure', (string)$l->t('Please use the command line updater because automatic updating is disabled in the config.php.'));

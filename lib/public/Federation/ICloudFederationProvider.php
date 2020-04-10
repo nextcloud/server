@@ -88,5 +88,4 @@ interface ICloudFederationProvider {
 	 * @since 14.0.0
 	 */
 	public function getSupportedShareTypes();
-
 }

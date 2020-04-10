@@ -78,7 +78,6 @@ class AddMissingColumns extends Command {
 	 * @throws \Doctrine\DBAL\Schema\SchemaException
 	 */
 	private function addCoreColumns(OutputInterface $output) {
-
 		$output->writeln('<info>Check columns of the comments table.</info>');
 
 		$schema = new SchemaWrapper($this->connection);

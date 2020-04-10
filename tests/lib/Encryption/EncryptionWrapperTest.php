@@ -93,5 +93,4 @@ class EncryptionWrapperTest extends TestCase {
 			[false, [Storage\IDisableEncryptionStorage::class]],
 		];
 	}
-
 }

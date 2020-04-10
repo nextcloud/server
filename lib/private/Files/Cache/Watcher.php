@@ -34,7 +34,6 @@ use OCP\Files\Cache\IWatcher;
  * check the storage backends for updates and change the cache accordingly
  */
 class Watcher implements IWatcher {
-
 	protected $watchPolicy = self::CHECK_ONCE;
 
 	protected $checkedPaths = [];

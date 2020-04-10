@@ -37,5 +37,4 @@ interface IEventListener {
 	 * @since 17.0.0
 	 */
 	public function handle(Event $event): void;
-
 }

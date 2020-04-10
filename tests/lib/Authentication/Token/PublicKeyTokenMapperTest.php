@@ -266,5 +266,4 @@ class PublicKeyTokenMapperTest extends TestCase {
 		$this->assertFalse($this->mapper->hasExpiredTokens('user1'));
 		$this->assertTrue($this->mapper->hasExpiredTokens('user3'));
 	}
-
 }

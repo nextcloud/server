@@ -39,7 +39,6 @@ use OCP\Http\Client\IResponse;
  * @group DB
  */
 class ExternalStorageTest extends \Test\TestCase {
-
 	function optionsProvider() {
 		return [
 			[
@@ -125,7 +124,6 @@ class ExternalStorageTest extends \Test\TestCase {
  * Dummy subclass to make it possible to access private members
  */
 class TestSharingExternalStorage extends \OCA\Files_Sharing\External\Storage {
-
 	public function getBaseUri() {
 		return $this->createBaseUri();
 	}

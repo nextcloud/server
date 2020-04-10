@@ -38,7 +38,6 @@ use OCP\Util;
 use Webauthn\PublicKeyCredentialRequestOptions;
 
 class WebAuthnController extends Controller {
-
 	private const WEBAUTHN_LOGIN = 'webauthn_login';
 	private const WEBAUTHN_LOGIN_UID = 'webauthn_login_uid';
 

@@ -32,7 +32,6 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
 class FavoriteProvider implements IProvider {
-
 	const SUBJECT_ADDED = 'added_favorite';
 	const SUBJECT_REMOVED = 'removed_favorite';
 
@@ -97,7 +96,6 @@ class FavoriteProvider implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parseShortVersion(IEvent $event) {
-
 		if ($event->getSubject() === self::SUBJECT_ADDED) {
 			$event->setParsedSubject($this->l->t('Added to favorites'));
 			if ($this->activityManager->getRequirePNG()) {
@@ -128,7 +126,6 @@ class FavoriteProvider implements IProvider {
 	 * @since 11.0.0
 	 */
 	public function parseLongVersion(IEvent $event, IEvent $previousEvent = null) {
-
 		if ($event->getSubject() === self::SUBJECT_ADDED) {
 			$subject = $this->l->t('You added {file} to your favorites');
 			if ($this->activityManager->getRequirePNG()) {

@@ -128,7 +128,7 @@ class ServerFactory {
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
-		if($this->request->isUserAgent([
+		if ($this->request->isUserAgent([
 			'/WebDAVFS/',
 			'/OneNote/',
 			'/Microsoft-WebDAV-MiniRedir/',
@@ -173,7 +173,7 @@ class ServerFactory {
 			);
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\QuotaPlugin($view, true));
 
-			if($this->userSession->isLoggedIn()) {
+			if ($this->userSession->isLoggedIn()) {
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\TagsPlugin($objectTree, $this->tagManager));
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\SharesPlugin(
 					$objectTree,
@@ -216,7 +216,6 @@ class ServerFactory {
 			foreach ($pluginManager->getAppPlugins() as $appPlugin) {
 				$server->addPlugin($appPlugin);
 			}
-
 		}, 30); // priority 30: after auth (10) and acl(20), before lock(50) and handling the request
 		return $server;
 	}

@@ -122,7 +122,6 @@ class TransferOwnership extends QueuedJob {
 		}
 
 		$this->mapper->delete($transfer);
-
 	}
 
 	private function failedNotication(Transfer $transfer): void {

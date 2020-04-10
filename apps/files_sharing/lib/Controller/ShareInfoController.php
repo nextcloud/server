@@ -88,7 +88,6 @@ class ShareInfoController extends ApiController {
 			try {
 				$node = $node->get($dir);
 			} catch (NotFoundException $e) {
-
 			}
 		}
 

@@ -30,18 +30,20 @@ class BaseController {
 	/**
 	 * @Annotation
 	 */
-	public function test() {}
+	public function test() {
+	}
 
 	/**
 	 * @Annotation
 	 */
-	public function test2() {}
+	public function test2() {
+	}
 
 	/**
 	 * @Annotation
 	 */
-	public function test3() {}
-
+	public function test3() {
+	}
 }
 
 class MiddleController extends BaseController {
@@ -49,13 +51,15 @@ class MiddleController extends BaseController {
 	/**
 	 * @NoAnnotation
 	 */
-	public function test2() {}
+	public function test2() {
+	}
 
-	public function test3() {}
-
+	public function test3() {
+	}
 }
 
-class EndController extends MiddleController {}
+class EndController extends MiddleController {
+}
 
 class ControllerMethodReflectorTest extends \Test\TestCase {
 
@@ -136,7 +140,8 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	 * @param int $a
 	 * @param int $b
 	 */
-	public function arguments3($a, float $b, int $c, $d) {}
+	public function arguments3($a, float $b, int $c, $d) {
+	}
 
 	/**
 	 * @requires PHP 7
@@ -184,7 +189,8 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	}
 
 
-	public function arguments($arg, $arg2='hi') {}
+	public function arguments($arg, $arg2='hi') {
+	}
 	public function testReflectParameters() {
 		$reader = new ControllerMethodReflector();
 		$reader->reflect(
@@ -196,7 +202,8 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 	}
 
 
-	public function arguments2($arg) {}
+	public function arguments2($arg) {
+	}
 	public function testReflectParameters2() {
 		$reader = new ControllerMethodReflector();
 		$reader->reflect(
@@ -231,5 +238,4 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 
 		$this->assertFalse($reader->hasAnnotation('Annotation'));
 	}
-
 }

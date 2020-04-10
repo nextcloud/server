@@ -87,7 +87,6 @@ abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 	 */
 	final public function createDirectory($name) {
 		throw new DAV\Exception\MethodNotAllowed('Creating collections in address book objects is not allowed');
-
 	}
 
 	/**
@@ -130,5 +129,4 @@ abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 	public static function doesViolateReservedName(string $uri): bool {
 		return strpos($uri, self::PREFIX) === 0;
 	}
-
 }

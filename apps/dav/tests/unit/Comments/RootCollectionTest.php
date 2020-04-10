@@ -146,7 +146,7 @@ class RootCollectionTest extends \Test\TestCase {
 		$this->prepareForInitCollections();
 		$children = $this->collection->getChildren();
 		$this->assertFalse(empty($children));
-		foreach($children as $child) {
+		foreach ($children as $child) {
 			$this->assertTrue($child instanceof EntityTypeCollectionImplementation);
 		}
 	}

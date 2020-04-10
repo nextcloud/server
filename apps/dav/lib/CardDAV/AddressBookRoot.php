@@ -61,7 +61,6 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 	}
 
 	function getName() {
-
 		if ($this->principalPrefix === 'principals') {
 			return parent::getName();
 		}
@@ -70,7 +69,5 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 
 		// We are only interested in the second part.
 		return $parts[1];
-
 	}
-
 }

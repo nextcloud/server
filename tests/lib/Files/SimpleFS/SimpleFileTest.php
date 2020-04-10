@@ -28,7 +28,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 
-class SimpleFileTest extends \Test\TestCase  {
+class SimpleFileTest extends \Test\TestCase {
 	/** @var File|\PHPUnit_Framework_MockObject_MockObject */
 	private $file;
 

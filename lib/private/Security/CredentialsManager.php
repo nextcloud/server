@@ -33,7 +33,6 @@ use OCP\Security\ICrypto;
  * @package OC\Security
  */
 class CredentialsManager implements ICredentialsManager {
-
 	const DB_TABLE = 'credentials';
 
 	/** @var ICrypto */
@@ -122,5 +121,4 @@ class CredentialsManager implements ICredentialsManager {
 		;
 		return $qb->execute();
 	}
-
 }

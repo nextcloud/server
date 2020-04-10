@@ -53,9 +53,9 @@ class Manager implements \OCP\Calendar\IManager {
 	public function search($pattern, array $searchProperties=[], array $options=[], $limit=null, $offset=null) {
 		$this->loadCalendars();
 		$result = [];
-		foreach($this->calendars as $calendar) {
+		foreach ($this->calendars as $calendar) {
 			$r = $calendar->search($pattern, $searchProperties, $options, $limit, $offset);
-			foreach($r as $o) {
+			foreach ($r as $o) {
 				$o['calendar-key'] = $calendar->getKey();
 				$result[] = $o;
 			}
@@ -132,7 +132,7 @@ class Manager implements \OCP\Calendar\IManager {
 	 * loads all calendars
 	 */
 	private function loadCalendars() {
-		foreach($this->calendarLoaders as $callable) {
+		foreach ($this->calendarLoaders as $callable) {
 			$callable($this);
 		}
 		$this->calendarLoaders = [];

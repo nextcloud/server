@@ -98,7 +98,6 @@ class PublicAuth extends AbstractBasic {
 
 		// check if the share is password protected
 		if ($share->getPassword() !== null) {
-
 			if ($share->getShareType() === IShare::TYPE_LINK
 				|| $share->getShareType() === IShare::TYPE_EMAIL
 				|| $share->getShareType() === IShare::TYPE_CIRCLE) {

@@ -90,24 +90,24 @@ abstract class MapperTestUtility extends \Test\TestCase {
 	 */
 	protected function setMapperResult($sql, $arguments=[], $returnRows=[],
 		$limit=null, $offset=null, $expectClose=false) {
-		if($limit === null && $offset === null) {
+		if ($limit === null && $offset === null) {
 			$this->db->expects($this->at($this->prepareAt))
 				->method('prepare')
 				->with($this->equalTo($sql))
 				->will(($this->returnValue($this->query)));
-		} elseif($limit !== null && $offset === null) {
+		} elseif ($limit !== null && $offset === null) {
 			$this->db->expects($this->at($this->prepareAt))
 				->method('prepare')
 				->with($this->equalTo($sql), $this->equalTo($limit))
 				->will(($this->returnValue($this->query)));
-		} elseif($limit === null && $offset !== null) {
+		} elseif ($limit === null && $offset !== null) {
 			$this->db->expects($this->at($this->prepareAt))
 				->method('prepare')
 				->with($this->equalTo($sql),
 					$this->equalTo(null),
 					$this->equalTo($offset))
 				->will(($this->returnValue($this->query)));
-		} else  {
+		} else {
 			$this->db->expects($this->at($this->prepareAt))
 				->method('prepare')
 				->with($this->equalTo($sql),
@@ -128,7 +128,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 					$iterator = $iterators[$fetchAt];
 					$result = $iterator->next();
 
-					if($result === false) {
+					if ($result === false) {
 						$fetchAt++;
 					}
 
@@ -139,7 +139,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 			);
 
 		if ($this->isAssocArray($arguments)) {
-			foreach($arguments as $key => $argument) {
+			foreach ($arguments as $key => $argument) {
 				$pdoConstant = $this->getPDOType($argument);
 				$this->query->expects($this->at($this->queryAt))
 					->method('bindValue')
@@ -150,7 +150,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 			}
 		} else {
 			$index = 1;
-			foreach($arguments as $argument) {
+			foreach ($arguments as $argument) {
 				$pdoConstant = $this->getPDOType($argument);
 				$this->query->expects($this->at($this->queryAt))
 					->method('bindValue')
@@ -165,7 +165,6 @@ abstract class MapperTestUtility extends \Test\TestCase {
 		$this->query->expects($this->at($this->queryAt))
 			->method('execute')
 			->willReturnCallback(function ($sql, $p=null, $o=null, $s=null) {
-
 			});
 		$this->queryAt++;
 
@@ -182,13 +181,10 @@ abstract class MapperTestUtility extends \Test\TestCase {
 		$this->prepareAt++;
 		$this->fetchAt++;
 	}
-
-
 }
 
 
 class ArgumentIterator {
-
 	private $arguments;
 
 	public function __construct($arguments) {
@@ -197,7 +193,7 @@ class ArgumentIterator {
 
 	public function next() {
 		$result = array_shift($this->arguments);
-		if($result === null){
+		if ($result === null) {
 			return false;
 		} else {
 			return $result;

@@ -25,7 +25,6 @@ use OC\Security\Normalizer\IpAddress;
 use Test\TestCase;
 
 class IpAddressTest extends TestCase {
-
 	public function subnetDataProvider() {
 		return [
 			[

@@ -85,5 +85,4 @@ class SecurityFilterTest extends TestCase {
 	public function testGetPriority() {
 		$this->assertEquals(30, $this->filter->getPriority());
 	}
-
 }

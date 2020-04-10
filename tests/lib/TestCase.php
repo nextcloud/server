@@ -449,7 +449,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		}
 		$annotations = $this->getAnnotations();
 		if (isset($annotations['class']['group'])) {
-			if(in_array('DB', $annotations['class']['group']) || in_array('SLOWDB', $annotations['class']['group'])) {
+			if (in_array('DB', $annotations['class']['group']) || in_array('SLOWDB', $annotations['class']['group'])) {
 				return true;
 			}
 		}
@@ -463,7 +463,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 * @param array $vars
 	 */
 	protected function assertTemplate($expectedHtml, $template, $vars = []) {
-
 		require_once __DIR__.'/../../lib/private/legacy/template/functions.php';
 
 		$requestToken = 12345;
@@ -513,7 +512,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 
 	private function removeWhitespaces(DOMNode $domNode) {
 		foreach ($domNode->childNodes as $node) {
-			if($node->hasChildNodes()) {
+			if ($node->hasChildNodes()) {
 				$this->removeWhitespaces($node);
 			} else {
 				if ($node instanceof \DOMText && $node->isWhitespaceInElementContent()) {

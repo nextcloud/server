@@ -93,10 +93,9 @@ class MailSettingsController extends Controller {
 									$mail_smtpauth,
 									$mail_smtpport,
 									$mail_sendmailmode) {
-
 		$params = get_defined_vars();
 		$configs = [];
-		foreach($params as $key => $value) {
+		foreach ($params as $key => $value) {
 			$configs[$key] = empty($value) ? null : $value;
 		}
 
@@ -168,5 +167,4 @@ class MailSettingsController extends Controller {
 
 		return new DataResponse($this->l10n->t('You need to set your user email before being able to send test emails.'), Http::STATUS_BAD_REQUEST);
 	}
-
 }

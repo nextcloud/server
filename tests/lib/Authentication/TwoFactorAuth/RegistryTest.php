@@ -127,5 +127,4 @@ class RegistryTest extends TestCase {
 
 		$this->registry->cleanUp('twofactor_u2f');
 	}
-
 }

@@ -804,7 +804,6 @@ class ViewTest extends \Test\TestCase {
 	}
 
 	public function xtestLongPath() {
-
 		$storage = new Temporary([]);
 		Filesystem::mount($storage, [], '/');
 
@@ -1210,7 +1209,6 @@ class ViewTest extends \Test\TestCase {
 		// second file not moved/copied
 		$this->assertFalse($storage2->file_exists('dirtomove/indir2.txt'));
 		$this->assertFalse($storage2->getCache()->get('dirtomove/indir2.txt'));
-
 	}
 
 	public function testDeleteFailKeepCache() {
@@ -1541,7 +1539,6 @@ class ViewTest extends \Test\TestCase {
 
 		$this->assertFalse($this->isFileLocked($view, '/test//sub', ILockingProvider::LOCK_SHARED));
 		$this->assertFalse($this->isFileLocked($view, '/test//sub', ILockingProvider::LOCK_EXCLUSIVE));
-
 	}
 
 	public function hookPathProvider() {

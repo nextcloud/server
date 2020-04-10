@@ -37,7 +37,6 @@ namespace OCP\AppFramework\Http;
  * @deprecated 9.2.0 To implement an OCS endpoint extend the OCSController
  */
 class OCSResponse extends Response {
-
 	private $data;
 	private $format;
 	private $statuscode;
@@ -93,6 +92,4 @@ class OCSResponse extends Response {
 
 		return \OC_API::renderResult($this->format, $r->getMeta(), $r->getData());
 	}
-
-
 }

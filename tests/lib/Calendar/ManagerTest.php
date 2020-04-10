@@ -210,5 +210,4 @@ class ManagerTest extends TestCase {
 		$isEnabled = $this->manager->isEnabled();
 		$this->assertTrue($isEnabled);
 	}
-
 }

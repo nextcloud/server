@@ -75,7 +75,6 @@ class SettingTest extends TestCase {
 				->getMock();
 			return $mock;
 		}
-
 	}
 
 	public function dataCheckInput() {
@@ -292,7 +291,6 @@ class SettingTest extends TestCase {
 			$this->config->expects($this->once())
 				->method('deleteUserValue')
 				->with('username', 'appname', 'configkey');
-
 		} else {
 			$this->consoleOutput->expects($this->once())
 				->method('writeln')

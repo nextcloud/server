@@ -238,7 +238,6 @@ class Scanner extends BasicEmitter implements IScanner {
 						$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', [$file, $this->storageId]);
 						\OC_Hook::emit('\OC\Files\Cache\Scanner', 'post_scan_file', ['path' => $file, 'storage' => $this->storageId]);
 					}
-
 				} else {
 					$this->removeFromCache($file);
 				}

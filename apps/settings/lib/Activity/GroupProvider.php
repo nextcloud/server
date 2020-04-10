@@ -36,7 +36,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory as L10nFactory;
 
 class GroupProvider implements IProvider {
-
 	public const ADDED_TO_GROUP = 'group_added';
 	public const REMOVED_FROM_GROUP = 'group_removed';
 

@@ -97,7 +97,6 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 	 * @return array associative array of human readable info name as key and the actual information as value
 	 */
 	public function getMigrationsInfos(MigrationService $ms) {
-
 		$executedMigrations = $ms->getMigratedVersions();
 		$availableMigrations = $ms->getAvailableVersions();
 		$executedUnavailableMigrations = array_diff($executedMigrations, array_keys($availableMigrations));
@@ -145,6 +144,4 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 
 		return $migration;
 	}
-
-
 }

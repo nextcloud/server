@@ -235,7 +235,7 @@ class UtilTest extends \Test\TestCase {
 			->method('isEnabledForUser')
 			->willReturnCallback(function ($appId) use ($enabledApps) {
 				return in_array($appId, $enabledApps);
-		});
+			});
 		Dummy_OC_Util::$appManager = $appManager;
 
 		// need to set a user id to make sure enabled apps are read from cache

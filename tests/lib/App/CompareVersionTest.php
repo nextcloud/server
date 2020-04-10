@@ -87,5 +87,4 @@ class CompareVersionTest extends TestCase {
 
 		$this->compare->isCompatible($actualVersion, '13.0.0.9');
 	}
-
 }

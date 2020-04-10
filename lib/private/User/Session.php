@@ -321,9 +321,7 @@ class Session implements IUserSession, Emitter {
 	 * @return null|string
 	 */
 	public function getImpersonatingUserID(): ?string {
-
 		return $this->session->get('oldUserId');
-
 	}
 
 	public function setImpersonatingUserID(bool $useCurrentUser = true): void {
@@ -338,7 +336,6 @@ class Session implements IUserSession, Emitter {
 			throw new \OC\User\NoUserException();
 		}
 		$this->session->set('oldUserId', $currentUser->getUID());
-
 	}
 	/**
 	 * set the token id
@@ -384,7 +381,7 @@ class Session implements IUserSession, Emitter {
 			throw new LoginException($message);
 		}
 
-		if($regenerateSessionId) {
+		if ($regenerateSessionId) {
 			$this->session->regenerateId();
 		}
 
@@ -411,7 +408,7 @@ class Session implements IUserSession, Emitter {
 			$loginDetails['password'],
 			$isToken,
 		]);
-		if($this->isLoggedIn()) {
+		if ($this->isLoggedIn()) {
 			$this->prepareUserLogin($firstTimeLogin, $regenerateSessionId);
 			return true;
 		}
@@ -464,7 +461,6 @@ class Session implements IUserSession, Emitter {
 			// Failed, maybe the user used their email address
 			$users = $this->manager->getByEmail($user);
 			if (!(\count($users) === 1 && $this->login($users[0]->getUID(), $password))) {
-
 				$this->logger->warning('Login failed: \'' . $user . '\' (Remote IP: \'' . \OC::$server->getRequest()->getRemoteAddress() . '\')', ['app' => 'core']);
 
 				$throttler->registerAttempt('login', $request->getRemoteAddress(), ['user' => $user]);
@@ -480,7 +476,7 @@ class Session implements IUserSession, Emitter {
 
 		if ($isTokenPassword) {
 			$this->session->set('app_password', $password);
-		} elseif($this->supportsCookies($request)) {
+		} elseif ($this->supportsCookies($request)) {
 			// Password login, but cookies supported -> create (browser) session token
 			$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
 		}
@@ -592,7 +588,7 @@ class Session implements IUserSession, Emitter {
 					);
 
 					// Set the last-password-confirm session to make the sudo mode work
-					 $this->session->set('last-password-confirm', $this->timeFactory->getTime());
+					$this->session->set('last-password-confirm', $this->timeFactory->getTime());
 
 					return true;
 				}
@@ -825,7 +821,7 @@ class Session implements IUserSession, Emitter {
 		if (!$this->loginWithToken($token)) {
 			return false;
 		}
-		if(!$this->validateToken($token)) {
+		if (!$this->validateToken($token)) {
 			return false;
 		}
 
@@ -910,7 +906,6 @@ class Session implements IUserSession, Emitter {
 			try {
 				$this->tokenProvider->invalidateToken($this->session->getId());
 			} catch (SessionNotAvailableException $ex) {
-
 			}
 		}
 		$this->setUser(null);
@@ -1011,6 +1006,4 @@ class Session implements IUserSession, Emitter {
 	public function updateTokens(string $uid, string $password) {
 		$this->tokenProvider->updatePasswords($uid, $password);
 	}
-
-
 }

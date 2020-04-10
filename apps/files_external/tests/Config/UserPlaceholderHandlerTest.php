@@ -98,5 +98,4 @@ class UserPlaceholderHandlerTest extends \Test\TestCase {
 			->willThrowException(new ShareNotFound());
 		$this->assertSame($option, $this->handler->handle($option));
 	}
-
 }

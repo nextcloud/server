@@ -28,7 +28,6 @@ use OCA\DAV\CalDAV\WebcalCaching\Plugin;
 use OCP\IRequest;
 
 class PluginTest extends \Test\TestCase {
-
 	public function testDisabled() {
 		$request = $this->createMock(IRequest::class);
 		$request->expects($this->at(0))

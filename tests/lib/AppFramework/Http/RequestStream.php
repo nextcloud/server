@@ -44,28 +44,28 @@ class RequestStream {
 		switch ($whence) {
 			case SEEK_SET:
 				if ($offset < strlen($GLOBALS[$this->varname]) && $offset >= 0) {
-						$this->position = $offset;
-						return true;
+					$this->position = $offset;
+					return true;
 				} else {
-						return false;
+					return false;
 				}
 				break;
 
 			case SEEK_CUR:
 				if ($offset >= 0) {
-						$this->position += $offset;
-						return true;
+					$this->position += $offset;
+					return true;
 				} else {
-						return false;
+					return false;
 				}
 				break;
 
 			case SEEK_END:
 				if (strlen($GLOBALS[$this->varname]) + $offset >= 0) {
-						$this->position = strlen($GLOBALS[$this->varname]) + $offset;
-						return true;
+					$this->position = strlen($GLOBALS[$this->varname]) + $offset;
+					return true;
 				} else {
-						return false;
+					return false;
 				}
 				break;
 
@@ -97,10 +97,10 @@ class RequestStream {
 	}
 
 	function stream_metadata($path, $option, $var) {
-		if($option == STREAM_META_TOUCH) {
+		if ($option == STREAM_META_TOUCH) {
 			$url = parse_url($path);
 			$varname = $url["host"];
-			if(!isset($GLOBALS[$varname])) {
+			if (!isset($GLOBALS[$varname])) {
 				$GLOBALS[$varname] = '';
 			}
 			return true;

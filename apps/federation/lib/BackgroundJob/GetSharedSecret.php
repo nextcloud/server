@@ -181,7 +181,6 @@ class GetSharedSecret extends Job {
 			);
 
 			$status = $result->getStatusCode();
-
 		} catch (ClientException $e) {
 			$status = $e->getCode();
 			if ($status === Http::STATUS_FORBIDDEN) {
@@ -232,7 +231,6 @@ class GetSharedSecret extends Job {
 				$this->trustedServers->setServerStatus($target, TrustedServers::STATUS_FAILURE);
 			}
 		}
-
 	}
 
 	/**

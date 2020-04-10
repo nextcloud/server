@@ -41,5 +41,4 @@ interface IActivatableAtLogin extends IProvider {
 	 * @since 17.0.0
 	 */
 	public function getLoginSetup(IUser $user): ILoginSetupProvider;
-
 }

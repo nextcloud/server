@@ -68,5 +68,4 @@ class RemoteWipeNotificationsListener implements IEventListener {
 			]);
 		$this->notificationManager->notify($notification);
 	}
-
 }

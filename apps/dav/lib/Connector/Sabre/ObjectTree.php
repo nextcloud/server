@@ -181,7 +181,6 @@ class ObjectTree extends CachingTree {
 
 		$this->cache[$path] = $node;
 		return $node;
-
 	}
 
 	/**

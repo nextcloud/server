@@ -40,7 +40,6 @@ use Sabre\DAVACL\ACLTrait;
 use Sabre\DAVACL\IACL;
 
 class AddressBook extends ExternalAddressBook implements IACL {
-
 	public const URI = 'recent';
 
 	use ACLTrait;
@@ -174,5 +173,4 @@ class AddressBook extends ExternalAddressBook implements IACL {
 		list(, $uid) = \Sabre\Uri\split($this->principalUri);
 		return $uid;
 	}
-
 }

@@ -39,14 +39,14 @@ class Rotate extends TimedJob {
 		$default = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/flow.log';
 		$this->filePath = trim((string)$config->getAppValue(Application::APP_ID, 'logfile', $default));
 
-		if($this->filePath === '') {
+		if ($this->filePath === '') {
 			// disabled, nothing to do
 			return;
 		}
 
 		$this->maxSize = $config->getSystemValue('log_rotate_size', 100 * 1024 * 1024);
 
-		if($this->shouldRotateBySize()) {
+		if ($this->shouldRotateBySize()) {
 			$this->rotate();
 		}
 	}

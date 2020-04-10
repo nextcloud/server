@@ -80,5 +80,4 @@ class ProviderSet {
 	public function isProviderMissing(): bool {
 		return $this->providerMissing;
 	}
-
 }

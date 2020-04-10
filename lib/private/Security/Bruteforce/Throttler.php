@@ -100,7 +100,7 @@ class Throttler {
 									$ip,
 									array $metadata = []) {
 		// No need to log if the bruteforce protection is disabled
-		if($this->config->getSystemValue('auth.bruteforce.protection.enabled', true) === false) {
+		if ($this->config->getSystemValue('auth.bruteforce.protection.enabled', true) === false) {
 			return;
 		}
 
@@ -126,7 +126,7 @@ class Throttler {
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->insert('bruteforce_attempts');
-		foreach($values as $column => $value) {
+		foreach ($values as $column => $value) {
 			$qb->setValue($column, $qb->createNamedParameter($value));
 		}
 		$qb->execute();
@@ -139,7 +139,7 @@ class Throttler {
 	 * @return bool
 	 */
 	private function isIPWhitelisted($ip) {
-		if($this->config->getSystemValue('auth.bruteforce.protection.enabled', true) === false) {
+		if ($this->config->getSystemValue('auth.bruteforce.protection.enabled', true) === false) {
 			return true;
 		}
 
@@ -175,7 +175,7 @@ class Throttler {
 			$addr = inet_pton($addr);
 
 			$valid = true;
-			for($i = 0; $i < $mask; $i++) {
+			for ($i = 0; $i < $mask; $i++) {
 				$part = ord($addr[(int)($i/8)]);
 				$orig = ord($ip[(int)($i/8)]);
 
@@ -196,7 +196,6 @@ class Throttler {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -234,7 +233,7 @@ class Throttler {
 
 		$maxDelay = 25;
 		$firstDelay = 0.1;
-		if ($attempts > (8 * PHP_INT_SIZE - 1))  {
+		if ($attempts > (8 * PHP_INT_SIZE - 1)) {
 			// Don't ever overflow. Just assume the maxDelay time:s
 			$firstDelay = $maxDelay;
 		} else {

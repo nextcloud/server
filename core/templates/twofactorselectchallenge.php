@@ -61,7 +61,7 @@ $noProviders = empty($_['providers']);
 	<?php endif ?>
 	<?php if (!is_null($_['backupProvider'])): ?>
 	<p>
-		<a class="<?php if($noProviders): ?>button primary two-factor-primary<?php else: ?>two-factor-secondary<?php endif ?>" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
+		<a class="<?php if ($noProviders): ?>button primary two-factor-primary<?php else: ?>two-factor-secondary<?php endif ?>" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
 			[
 				'challengeProviderId' => $_['backupProvider']->getId(),
 				'redirect_url' => $_['redirect_url'],

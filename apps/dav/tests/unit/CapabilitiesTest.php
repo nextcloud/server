@@ -29,7 +29,7 @@ use Test\TestCase;
 /**
  * @package OCA\DAV\Tests\unit
  */
-class CapabilitiesTest extends TestCase  {
+class CapabilitiesTest extends TestCase {
 	public function testGetCapabilities() {
 		$capabilities = new Capabilities();
 		$expected = [

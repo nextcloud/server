@@ -27,14 +27,12 @@ class LegacyHelperTest extends \Test\TestCase {
 	/**
 	 * @dataProvider humanFileSizeProvider
 	 */
-	public function testHumanFileSize($expected, $input)
-	{
+	public function testHumanFileSize($expected, $input) {
 		$result = OC_Helper::humanFileSize($input);
 		$this->assertEquals($expected, $result);
 	}
 
-	public function humanFileSizeProvider()
-	{
+	public function humanFileSizeProvider() {
 		return [
 			['0 B', 0],
 			['1 KB', 1024],
@@ -169,7 +167,6 @@ class LegacyHelperTest extends \Test\TestCase {
 	 * @dataProvider streamCopyDataProvider
 	 */
 	public function testStreamCopy($expectedCount, $expectedResult, $source, $target) {
-
 		if (is_string($source)) {
 			$source = fopen($source, 'r');
 		}

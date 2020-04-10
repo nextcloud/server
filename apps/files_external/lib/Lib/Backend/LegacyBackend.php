@@ -32,7 +32,6 @@ use OCA\Files_External\Lib\MissingDependency;
  * Legacy compatibility for OC_Mount_Config::registerBackend()
  */
 class LegacyBackend extends Backend {
-
 	use LegacyDependencyCheckPolyfill {
 		LegacyDependencyCheckPolyfill::checkDependencies as doCheckDependencies;
 	}
@@ -101,5 +100,4 @@ class LegacyBackend extends Backend {
 		}
 		return [];
 	}
-
 }

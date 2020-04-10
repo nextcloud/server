@@ -316,7 +316,6 @@ class Trashbin {
 	 */
 	private static function retainVersions($filename, $owner, $ownerPath, $timestamp) {
 		if (\OCP\App::isEnabled('files_versions') && !empty($ownerPath)) {
-
 			$user = User::getUser();
 			$rootView = new View('/');
 
@@ -326,7 +325,6 @@ class Trashbin {
 				}
 				self::move($rootView, $owner . '/files_versions/' . $ownerPath, $user . '/files_trashbin/versions/' . $filename . '.d' . $timestamp);
 			} elseif ($versions = \OCA\Files_Versions\Storage::getVersions($owner, $ownerPath)) {
-
 				foreach ($versions as $v) {
 					if ($owner !== $user) {
 						self::copy($rootView, $owner . '/files_versions' . $v['path'] . '.v' . $v['version'], $owner . '/files_trashbin/versions/' . $v['name'] . '.v' . $v['version'] . '.d' . $timestamp);
@@ -461,9 +459,7 @@ class Trashbin {
 	 * @return false|null
 	 */
 	private static function restoreVersions(View $view, $file, $filename, $uniqueFilename, $location, $timestamp) {
-
 		if (\OCP\App::isEnabled('files_versions')) {
-
 			$user = User::getUser();
 			$rootView = new View('/');
 
@@ -513,7 +509,7 @@ class Trashbin {
 
 		// Array to store the relative path in (after the file is deleted, the view won't be able to relativise the path anymore)
 		$filePaths = [];
-		foreach($fileInfos as $fileInfo){
+		foreach ($fileInfos as $fileInfo) {
 			$filePaths[] = $view->getRelativePath($fileInfo->getPath());
 		}
 		unset($fileInfos); // save memory
@@ -522,7 +518,7 @@ class Trashbin {
 		\OC_Hook::emit('\OCP\Trashbin', 'preDeleteAll', ['paths' => $filePaths]);
 
 		// Single-File Hooks
-		foreach($filePaths as $path){
+		foreach ($filePaths as $path) {
 			self::emitTrashbinPreDelete($path);
 		}
 
@@ -535,7 +531,7 @@ class Trashbin {
 		\OC_Hook::emit('\OCP\Trashbin', 'deleteAll', ['paths' => $filePaths]);
 
 		// Single-File Hooks
-		foreach($filePaths as $path){
+		foreach ($filePaths as $path) {
 			self::emitTrashbinPostDelete($path);
 		}
 
@@ -673,7 +669,7 @@ class Trashbin {
 	private static function calculateFreeSpace($trashbinSize, $user) {
 		$softQuota = true;
 		$userObject = \OC::$server->getUserManager()->get($user);
-		if(is_null($userObject)) {
+		if (is_null($userObject)) {
 			return 0;
 		}
 		$quota = $userObject->getQuota();
@@ -692,7 +688,7 @@ class Trashbin {
 		// subtract size of files and current trash bin size from quota
 		if ($softQuota) {
 			$userFolder = \OC::$server->getUserFolder($user);
-			if(is_null($userFolder)) {
+			if (is_null($userFolder)) {
 				return 0;
 			}
 			$free = $quota - $userFolder->getSize(false); // remaining free space for user
@@ -714,7 +710,6 @@ class Trashbin {
 	 * @param string $user user id
 	 */
 	public static function resizeTrash($user) {
-
 		$size = self::getTrashbinSize($user);
 
 		$freeSpace = self::calculateFreeSpace($size, $user);
@@ -998,7 +993,6 @@ class Trashbin {
 	 * @return bool
 	 */
 	public static function isEmpty($user) {
-
 		$view = new View('/' . $user . '/files_trashbin');
 		if ($view->is_dir('/files') && $dh = $view->opendir('/files')) {
 			while ($file = readdir($dh)) {

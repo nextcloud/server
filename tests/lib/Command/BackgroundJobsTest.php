@@ -34,7 +34,6 @@ use Symfony\Component\Console\Output\NullOutput;
 use Test\TestCase;
 
 class BackgroundJobsTest extends TestCase {
-
 	public function testCronCommand() {
 		$config = \OC::$server->getConfig();
 		$job = new Cron($config);

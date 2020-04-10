@@ -142,7 +142,6 @@ class SearchPlugin extends ServerPlugin {
 		// If we're dealing with the calendar home, the calendar home itself is
 		// responsible for the calendar-query
 		if ($node instanceof CalendarHome && $depth === 2) {
-
 			$nodePaths = $node->calendarSearch($report->filters, $report->limit, $report->offset);
 
 			foreach ($nodePaths as $path) {

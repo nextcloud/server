@@ -69,7 +69,7 @@ class EntityTypeCollection extends RootCollection {
 		\Closure $childExistsFunction
 	) {
 		$name = trim($name);
-		if(empty($name) || !is_string($name)) {
+		if (empty($name) || !is_string($name)) {
 			throw new \InvalidArgumentException('"name" parameter must be non-empty string');
 		}
 		$this->name = $name;
@@ -91,7 +91,7 @@ class EntityTypeCollection extends RootCollection {
 	 * @throws NotFound
 	 */
 	function getChild($name) {
-		if(!$this->childExists($name)) {
+		if (!$this->childExists($name)) {
 			throw new NotFound('Entity does not exist or is not available');
 		}
 		return new EntityCollection(
@@ -123,5 +123,4 @@ class EntityTypeCollection extends RootCollection {
 	function childExists($name) {
 		return call_user_func($this->childExistsFunction, $name);
 	}
-
 }

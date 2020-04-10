@@ -25,7 +25,6 @@ use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 
 class LoginPageContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -158,5 +157,4 @@ class LoginPageContext implements Context, ActorAwareInterface {
 		$this->iSeeThatTheCurrentPageIsTheLoginPage();
 		$this->iSeeThatAWrongPasswordMessageIsShown();
 	}
-
 }

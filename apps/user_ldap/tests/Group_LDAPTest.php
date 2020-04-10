@@ -57,7 +57,7 @@ class Group_LDAPTest extends TestCase {
 		static $conMethods;
 		static $accMethods;
 
-		if(is_null($conMethods) || is_null($accMethods)) {
+		if (is_null($conMethods) || is_null($accMethods)) {
 			$conMethods = get_class_methods('\OCA\User_LDAP\Connection');
 			$accMethods = get_class_methods('\OCA\User_LDAP\Access');
 		}
@@ -89,7 +89,7 @@ class Group_LDAPTest extends TestCase {
 		$access->connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($name) {
-				if($name === 'ldapDynamicGroupMemberURL') {
+				if ($name === 'ldapDynamicGroupMemberURL') {
 					return '';
 				}
 				return 1;
@@ -110,7 +110,7 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function ($dn) use ($groupDN) {
-				if($dn === $groupDN) {
+				if ($dn === $groupDN) {
 					return [
 						'uid=u11,ou=users,dc=foo,dc=bar',
 						'uid=u22,ou=users,dc=foo,dc=bar',
@@ -154,7 +154,7 @@ class Group_LDAPTest extends TestCase {
 				//something that is neither null or false, but once an array
 				//with the users in the group – so we do so all other times for
 				//simplicicity.
-				if(strpos($name, 'u') === 0) {
+				if (strpos($name, 'u') === 0) {
 					return strpos($name, '3');
 				}
 				return ['u11', 'u22', 'u33', 'u34'];
@@ -521,9 +521,9 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function ($dn, $attr) {
-				if($attr === 'primaryGroupToken') {
+				if ($attr === 'primaryGroupToken') {
 					return [1337];
-				} elseif($attr === 'gidNumber') {
+				} elseif ($attr === 'gidNumber') {
 					return [4211];
 				}
 				return [];
@@ -558,7 +558,7 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function ($dn, $attr) {
-				if($attr === 'primaryGroupToken') {
+				if ($attr === 'primaryGroupToken') {
 					return [1337];
 				}
 				return [];
@@ -594,7 +594,7 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function ($dn, $attr) {
-				if($attr === 'primaryGroupToken') {
+				if ($attr === 'primaryGroupToken') {
 					return [1337];
 				}
 				return [];
@@ -655,9 +655,9 @@ class Group_LDAPTest extends TestCase {
 		$access->connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($name) {
-				if($name === 'useMemberOfToDetectMembership') {
+				if ($name === 'useMemberOfToDetectMembership') {
 					return 0;
-				} elseif($name === 'ldapDynamicGroupMemberURL') {
+				} elseif ($name === 'ldapDynamicGroupMemberURL') {
 					return '';
 				}
 				return 1;
@@ -693,7 +693,7 @@ class Group_LDAPTest extends TestCase {
 		$access->connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($name) {
-				switch($name) {
+				switch ($name) {
 					case 'useMemberOfToDetectMembership':
 						return 0;
 					case 'ldapDynamicGroupMemberURL':
@@ -1031,18 +1031,18 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function ($group) use ($groupDN, $expectedMembers, $groupsInfo) {
-				if(isset($groupsInfo[$group])) {
+				if (isset($groupsInfo[$group])) {
 					return $groupsInfo[$group];
 				}
 				return [];
 			});
 
 		$access->connection = $this->createMock(Connection::class);
-		if(count($groupsInfo) > 1) {
+		if (count($groupsInfo) > 1) {
 			$access->connection->expects($this->any())
 				->method('__get')
 				->willReturnCallback(function ($name) {
-					if($name === 'ldapNestedGroups') {
+					if ($name === 'ldapNestedGroups') {
 						return 1;
 					}
 					return null;
@@ -1080,11 +1080,11 @@ class Group_LDAPTest extends TestCase {
 		$access->connection->expects($this->any())
 			->method('__get')
 			->willReturnCallback(function ($name) {
-				if($name === 'ldapGroupMemberAssocAttr') {
+				if ($name === 'ldapGroupMemberAssocAttr') {
 					return 'member';
-				} elseif($name === 'ldapGroupFilter') {
+				} elseif ($name === 'ldapGroupFilter') {
 					return 'objectclass=nextcloudGroup';
-				} elseif($name === 'ldapGroupDisplayName') {
+				} elseif ($name === 'ldapGroupDisplayName') {
 					return 'cn';
 				}
 				return null;
@@ -1096,5 +1096,4 @@ class Group_LDAPTest extends TestCase {
 		$ldap = new GroupLDAP($access, $pluginManager);
 		$this->assertSame($expected, $ldap->getDisplayName($gid));
 	}
-
 }

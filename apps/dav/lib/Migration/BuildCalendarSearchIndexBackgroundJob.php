@@ -102,7 +102,7 @@ class BuildCalendarSearchIndexBackgroundJob extends QueuedJob {
 			->orderBy('id', 'ASC');
 
 		$stmt = $query->execute();
-		while($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
 			$offset = $row['id'];
 
 			$calendarData = $row['calendardata'];

@@ -42,5 +42,4 @@ class EncryptedSizePropagationTest extends SizePropagationTest {
 		$this->loginWithEncryption($name);
 		return new View('/' . $name . '/files');
 	}
-
 }

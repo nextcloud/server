@@ -90,5 +90,4 @@ class Registry implements IRegistry {
 			}
 		}
 	}
-
 }

@@ -259,7 +259,7 @@ class UserAvatarTest extends \Test\TestCase {
 		$colorTo = new \OC\Color(6,12,18);
 		$steps = 6;
 		$palette = $this->invokePrivate($this->avatar, 'mixPalette', [$steps, $colorFrom, $colorTo]);
-		foreach($palette as $j => $color) {
+		foreach ($palette as $j => $color) {
 			// calc increment
 			$incR = $colorTo->r / $steps * $j;
 			$incG = $colorTo->g / $steps * $j;
@@ -271,15 +271,13 @@ class UserAvatarTest extends \Test\TestCase {
 		$this->assertTrue(gettype($hashToInt) === 'integer');
 	}
 
-	private function getUserWithDisplayName($name)
-	{
+	private function getUserWithDisplayName($name) {
 		$user = $this->createMock(User::class);
 		$user->method('getDisplayName')->willReturn($name);
 		return $user;
 	}
 
-	private function getUserAvatar($user)
-	{
+	private function getUserAvatar($user) {
 		/** @var \OCP\IL10N | \PHPUnit_Framework_MockObject_MockObject $l */
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')->willReturnArgument(0);
@@ -292,5 +290,4 @@ class UserAvatarTest extends \Test\TestCase {
 			$this->config
 		);
 	}
-
 }

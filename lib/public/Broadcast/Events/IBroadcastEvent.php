@@ -55,5 +55,4 @@ interface IBroadcastEvent {
 	 * @since 18.0.0
 	 */
 	public function setBroadcasted(): void;
-
 }

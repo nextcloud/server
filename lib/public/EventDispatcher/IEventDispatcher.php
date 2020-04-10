@@ -79,5 +79,4 @@ interface IEventDispatcher {
 	 * @since 18.0.0
 	 */
 	public function dispatchTyped(Event $event): void;
-
 }

@@ -82,5 +82,4 @@ class EnforcementState implements JsonSerializable {
 			'excludedGroups' => $this->excludedGroups,
 		];
 	}
-
 }

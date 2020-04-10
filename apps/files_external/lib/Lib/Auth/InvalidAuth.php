@@ -41,5 +41,4 @@ class InvalidAuth extends AuthMechanism {
 			->setText('Unknown auth mechanism backend ' . $invalidId)
 		;
 	}
-
 }

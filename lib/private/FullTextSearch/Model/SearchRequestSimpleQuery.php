@@ -178,5 +178,4 @@ final class SearchRequestSimpleQuery implements ISearchRequestSimpleQuery, JsonS
 			'values' => $this->getValues()
 		];
 	}
-
 }

@@ -73,7 +73,6 @@ class IntegrationTestFetchUsersByLoginName extends AbstractIntegrationTest {
 		$result = $this->access->fetchUsersByLoginName('alice');
 		return count($result) === 1;
 	}
-
 }
 
 /** @var string $host */

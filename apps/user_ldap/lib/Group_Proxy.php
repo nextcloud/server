@@ -40,10 +40,10 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	 */
 	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap, GroupPluginManager $groupPluginManager) {
 		parent::__construct($ldap);
-		foreach($serverConfigPrefixes as $configPrefix) {
+		foreach ($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
 				new \OCA\User_LDAP\Group_LDAP($this->getAccess($configPrefix), $groupPluginManager);
-			if(is_null($this->refBackend)) {
+			if (is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
 		}
@@ -58,8 +58,8 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	 */
 	protected function walkBackends($gid, $method, $parameters) {
 		$cacheKey = $this->getGroupCacheKey($gid);
-		foreach($this->backends as $configPrefix => $backend) {
-			if($result = call_user_func_array([$backend, $method], $parameters)) {
+		foreach ($this->backends as $configPrefix => $backend) {
+			if ($result = call_user_func_array([$backend, $method], $parameters)) {
 				$this->writeToCache($cacheKey, $configPrefix);
 				return $result;
 			}
@@ -79,17 +79,17 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 		$cacheKey = $this->getGroupCacheKey($gid);
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
-		if(!is_null($prefix)) {
-			if(isset($this->backends[$prefix])) {
+		if (!is_null($prefix)) {
+			if (isset($this->backends[$prefix])) {
 				$result = call_user_func_array([$this->backends[$prefix], $method], $parameters);
-				if($result === $passOnWhen) {
+				if ($result === $passOnWhen) {
 					//not found here, reset cache to null if group vanished
 					//because sometimes methods return false with a reason
 					$groupExists = call_user_func_array(
 						[$this->backends[$prefix], 'groupExists'],
 						[$gid]
 					);
-					if(!$groupExists) {
+					if (!$groupExists) {
 						$this->writeToCache($cacheKey, null);
 					}
 				}
@@ -122,7 +122,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	public function getUserGroups($uid) {
 		$groups = [];
 
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			$backendGroups = $backend->getUserGroups($uid);
 			if (is_array($backendGroups)) {
 				$groups = array_merge($groups, $backendGroups);
@@ -139,7 +139,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$users = [];
 
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->usersInGroup($gid, $search, $limit, $offset);
 			if (is_array($backendUsers)) {
 				$users = array_merge($users, $backendUsers);
@@ -224,7 +224,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
 		$groups = [];
 
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			$backendGroups = $backend->getGroups($search, $limit, $offset);
 			if (is_array($backendGroups)) {
 				$groups = array_merge($groups, $backendGroups);

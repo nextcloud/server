@@ -69,5 +69,4 @@ class SessionMiddleware extends Middleware {
 		}
 		return $response;
 	}
-
 }

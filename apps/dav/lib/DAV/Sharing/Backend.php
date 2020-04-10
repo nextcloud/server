@@ -70,13 +70,13 @@ class Backend {
 	 * @param string[] $remove
 	 */
 	public function updateShares(IShareable $shareable, array $add, array $remove) {
-		foreach($add as $element) {
+		foreach ($add as $element) {
 			$principal = $this->principalBackend->findByUri($element['href'], '');
 			if ($principal !== '') {
 				$this->shareWith($shareable, $element);
 			}
 		}
-		foreach($remove as $element) {
+		foreach ($remove as $element) {
 			$principal = $this->principalBackend->findByUri($element, '');
 			if ($principal !== '') {
 				$this->unshare($shareable, $element);
@@ -195,7 +195,7 @@ class Backend {
 			->execute();
 
 		$shares = [];
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
 			$shares[]= [
 				'href' => "principal:${row['principaluri']}",
@@ -218,7 +218,6 @@ class Backend {
 	 * @return array
 	 */
 	public function applyShareAcl($resourceId, $acl) {
-
 		$shares = $this->getShares($resourceId);
 		foreach ($shares as $share) {
 			$acl[] = [

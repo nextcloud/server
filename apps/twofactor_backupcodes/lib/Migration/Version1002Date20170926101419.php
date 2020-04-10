@@ -40,5 +40,4 @@ class Version1002Date20170926101419 extends BigIntMigration {
 			'twofactor_backupcodes' => ['id'],
 		];
 	}
-
 }

@@ -50,5 +50,4 @@ class RegistryUpdater implements IEventListener {
 			$this->registry->enableProviderFor($this->provider, $event->getUser());
 		}
 	}
-
 }

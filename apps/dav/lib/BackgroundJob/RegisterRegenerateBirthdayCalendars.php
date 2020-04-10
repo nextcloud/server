@@ -64,5 +64,4 @@ class RegisterRegenerateBirthdayCalendars extends QueuedJob {
 			]);
 		});
 	}
-
 }

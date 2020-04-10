@@ -35,7 +35,6 @@ use OCP\IDBConnection;
  * 2FA providers
  */
 class ProviderUserAssignmentDao {
-
 	const TABLE_NAME = 'twofactor_providers';
 
 	/** @var IDBConnection */
@@ -90,7 +89,6 @@ class ProviderUserAssignmentDao {
 				->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)));
 			$updateQuery->execute();
 		}
-
 	}
 
 	public function deleteByUser(string $uid) {
@@ -110,5 +108,4 @@ class ProviderUserAssignmentDao {
 
 		$deleteQuery->execute();
 	}
-
 }

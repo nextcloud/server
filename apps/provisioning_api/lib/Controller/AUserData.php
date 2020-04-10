@@ -100,14 +100,14 @@ abstract class AUserData extends OCSController {
 
 		// Check if the target user exists
 		$targetUserObject = $this->userManager->get($userId);
-		if($targetUserObject === null) {
+		if ($targetUserObject === null) {
 			throw new OCSNotFoundException('User does not exist');
 		}
 
 		// Should be at least Admin Or SubAdmin!
 		if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())
 			|| $this->groupManager->getSubAdmin()->isUserAccessible($currentLoggedInUser, $targetUserObject)) {
-				$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true') === 'true';
+			$data['enabled'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'enabled', 'true') === 'true';
 		} else {
 			// Check they are looking up themselves
 			if ($currentLoggedInUser->getUID() !== $targetUserObject->getUID()) {
@@ -167,7 +167,7 @@ abstract class AUserData extends OCSController {
 	protected function getUserSubAdminGroupsData(string $userId): array {
 		$user = $this->userManager->get($userId);
 		// Check if the user exists
-		if($user === null) {
+		if ($user === null) {
 			throw new OCSNotFoundException('User does not exist');
 		}
 
@@ -215,5 +215,4 @@ abstract class AUserData extends OCSController {
 		}
 		return $data;
 	}
-
 }

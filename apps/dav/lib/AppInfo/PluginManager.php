@@ -303,5 +303,4 @@ class PluginManager {
 			$this->calendarPlugins[] = $instantiatedCalendarPlugin;
 		}
 	}
-
 }

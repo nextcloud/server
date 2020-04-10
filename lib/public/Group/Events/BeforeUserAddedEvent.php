@@ -65,5 +65,4 @@ class BeforeUserAddedEvent extends Event {
 	public function getUser(): IUser {
 		return $this->user;
 	}
-
 }

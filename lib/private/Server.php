@@ -651,7 +651,6 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('UserCache', ICache::class);
 
 		$this->registerService(Factory::class, function (Server $c) {
-
 			$arrayCacheFactory = new \OC\Memcache\Factory('', $c->getLogger(),
 				ArrayCache::class,
 				ArrayCache::class,
@@ -673,7 +672,6 @@ class Server extends ServerContainer implements IServerContainer {
 				);
 			}
 			return $arrayCacheFactory;
-
 		});
 		$this->registerDeprecatedAlias('MemCacheFactory', Factory::class);
 		$this->registerAlias(ICacheFactory::class, Factory::class);
@@ -1088,7 +1086,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$manager->registerDisplayNameResolver('user', function ($id) use ($c) {
 				$manager = $c->getUserManager();
 				$user = $manager->get($id);
-				if(is_null($user)) {
+				if (is_null($user)) {
 					$l = $c->getL10N('core');
 					$displayName = $l->t('Unknown user');
 				} else {

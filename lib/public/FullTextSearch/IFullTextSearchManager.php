@@ -184,6 +184,4 @@ interface IFullTextSearchManager {
 	 * @return ISearchResult[]
 	 */
 	public function search(array $request, string $userId = ''): array;
-
-
 }

@@ -40,5 +40,4 @@ class PropertyDoesNotExistException extends \Exception {
 	public function __construct($property) {
 		parent::__construct('Property ' . $property . ' does not exist.');
 	}
-
 }

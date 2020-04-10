@@ -132,7 +132,7 @@ class Principal implements BackendInterface {
 		$principals = [];
 
 		if ($prefixPath === $this->principalPrefix) {
-			foreach($this->userManager->search('') as $user) {
+			foreach ($this->userManager->search('') as $user) {
 				$principals[] = $this->userToPrincipal($user);
 			}
 		}
@@ -206,7 +206,7 @@ class Principal implements BackendInterface {
 
 		if ($this->hasGroups || $needGroups) {
 			$userGroups = $this->groupManager->getUserGroups($user);
-			foreach($userGroups as $userGroup) {
+			foreach ($userGroups as $userGroup) {
 				$groups[] = 'principals/groups/' . urlencode($userGroup->getGID());
 			}
 		}
@@ -477,9 +477,9 @@ class Principal implements BackendInterface {
 
 		try {
 			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleUniqueId, true);
-		} catch(QueryException $ex) {
+		} catch (QueryException $ex) {
 			return null;
-		} catch(CircleDoesNotExistException $ex) {
+		} catch (CircleDoesNotExistException $ex) {
 			return null;
 		}
 

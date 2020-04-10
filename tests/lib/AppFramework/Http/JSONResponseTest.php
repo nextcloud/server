@@ -116,5 +116,4 @@ class JSONResponseTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $this->json->getStatus());
 		$this->assertEquals(['hi', 'yo'], $this->json->getData());
 	}
-
 }

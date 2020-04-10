@@ -67,5 +67,4 @@ trait RotationTrait {
 		}
 		return false;
 	}
-
 }

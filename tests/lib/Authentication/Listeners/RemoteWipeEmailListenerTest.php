@@ -239,5 +239,4 @@ class RemoteWipeEmailListenerTest extends TestCase {
 
 		$this->listener->handle($event);
 	}
-
 }

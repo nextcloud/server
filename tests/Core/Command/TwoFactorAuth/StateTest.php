@@ -109,5 +109,4 @@ class StateTest extends TestCase {
 		$output = $this->cmd->getDisplay();
 		$this->assertContains("Two-factor authentication is enabled for user mohamed", $output);
 	}
-
 }

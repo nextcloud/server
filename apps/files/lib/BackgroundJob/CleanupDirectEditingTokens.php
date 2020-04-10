@@ -27,7 +27,6 @@ use OC\BackgroundJob\TimedJob;
 use OCP\DirectEditing\IManager;
 
 class CleanupDirectEditingTokens extends TimedJob {
-
 	private const INTERVAL_MINUTES = 15 * 60;
 
 	/**

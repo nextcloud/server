@@ -339,7 +339,7 @@ class StorageTest extends TestCase {
 		$this->util->expects($this->any())
 			->method('isSystemWideMountPoint')
 			->willReturnCallback(function ($path, $owner) use ($systemWideMountSource, $systemWideMountTarget) {
-				if(strpos($path, 'source.txt') !== false) {
+				if (strpos($path, 'source.txt') !== false) {
 					return $systemWideMountSource;
 				}
 				return $systemWideMountTarget;
@@ -370,7 +370,7 @@ class StorageTest extends TestCase {
 		$this->util->expects($this->any())
 			->method('isSystemWideMountPoint')
 			->willReturnCallback(function ($path, $owner) use ($systemWideMountSource, $systemWideMountTarget) {
-				if(strpos($path, 'source.txt') !== false) {
+				if (strpos($path, 'source.txt') !== false) {
 					return $systemWideMountSource;
 				}
 				return $systemWideMountTarget;
@@ -427,7 +427,6 @@ class StorageTest extends TestCase {
 	 * @param string $expected
 	 */
 	public function testGetPathToKeys($path, $systemWideMountPoint, $storageRoot, $expected) {
-
 		$this->invokePrivate($this->storage, 'root_dir', [$storageRoot]);
 
 		$this->util->expects($this->any())
@@ -485,7 +484,6 @@ class StorageTest extends TestCase {
 	 * @param string $expected
 	 */
 	public function testGetFileKeyDir($isSystemWideMountPoint, $storageRoot, $expected) {
-
 		$path = '/user1/files/foo/bar.txt';
 		$owner = 'user1';
 		$relativePath = '/foo/bar.txt';
@@ -500,7 +498,6 @@ class StorageTest extends TestCase {
 		$this->assertSame($expected,
 			$this->invokePrivate($this->storage, 'getFileKeyDir', ['OC_DEFAULT_MODULE', $path])
 		);
-
 	}
 
 	public function dataTestGetFileKeyDir() {
@@ -518,7 +515,6 @@ class StorageTest extends TestCase {
 	 * @param bool $createBackupDir
 	 */
 	public function testBackupUserKeys($createBackupDir) {
-
 		$storage = $this->getMockBuilder('OC\Encryption\Keys\Storage')
 			->setConstructorArgs([$this->view, $this->util])
 			->setMethods(['getTimestamp'])
@@ -546,7 +542,6 @@ class StorageTest extends TestCase {
 			)->willReturn(true);
 
 		$this->assertTrue($storage->backupUserKeys('encryptionModule', 'test', 'user1'));
-
 	}
 
 	public function dataTestBackupUserKeys() {
@@ -554,5 +549,4 @@ class StorageTest extends TestCase {
 			[true], [false]
 		];
 	}
-
 }

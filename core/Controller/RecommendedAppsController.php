@@ -51,5 +51,4 @@ class RecommendedAppsController extends Controller {
 		$this->initialStateService->provideInitialState('core', 'defaultPageUrl', \OC_Util::getDefaultPageUrl());
 		return new StandaloneTemplateResponse($this->appName, 'recommendedapps', [], 'guest');
 	}
-
 }

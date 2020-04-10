@@ -94,5 +94,4 @@ class InitialStateServiceTest extends TestCase {
 			$data
 		);
 	}
-
 }

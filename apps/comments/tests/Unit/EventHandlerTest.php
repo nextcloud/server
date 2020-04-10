@@ -116,5 +116,4 @@ class EventHandlerTest extends TestCase {
 
 		$this->eventHandler->handle($event);
 	}
-
 }

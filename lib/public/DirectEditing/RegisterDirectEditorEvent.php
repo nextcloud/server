@@ -53,5 +53,4 @@ class RegisterDirectEditorEvent extends Event {
 	public function register(IEditor $editor): void {
 		$this->manager->registerDirectEditor($editor);
 	}
-
 }

@@ -34,7 +34,7 @@ class OracleConnection extends Connection {
 	private function quoteKeys(array $data) {
 		$return = [];
 		$c = $this->getDatabasePlatform()->getIdentifierQuoteCharacter();
-		foreach($data as $key => $value) {
+		foreach ($data as $key => $value) {
 			if ($key[0] !== $c) {
 				$return[$this->quoteIdentifier($key)] = $value;
 			} else {
@@ -87,7 +87,7 @@ class OracleConnection extends Connection {
 		$table = $this->tablePrefix . trim($table);
 		$table = $this->quoteIdentifier($table);
 		$schema = $this->getSchemaManager();
-		if($schema->tablesExist([$table])) {
+		if ($schema->tablesExist([$table])) {
 			$schema->dropTable($table);
 		}
 	}

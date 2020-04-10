@@ -56,9 +56,7 @@ class TagList implements Element {
 	 * @return array
 	 */
 	public function getTags() {
-
 		return $this->tags;
-
 	}
 
 	/**
@@ -117,7 +115,6 @@ class TagList implements Element {
 	 * @return void
 	 */
 	function xmlSerialize(Writer $writer) {
-
 		foreach ($this->tags as $tag) {
 			$writer->writeElement('{' . self::NS_OWNCLOUD . '}tag', $tag);
 		}

@@ -89,7 +89,6 @@ abstract class ExternalCalendar implements CalDAV\ICalendar, DAV\IProperties {
 	 */
 	final public function createDirectory($name) {
 		throw new DAV\Exception\MethodNotAllowed('Creating collections in calendar objects is not allowed');
-
 	}
 
 	/**

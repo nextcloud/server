@@ -62,7 +62,6 @@ class NotificationsTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
-
 	}
 
 	/**
@@ -142,7 +141,6 @@ class NotificationsTest extends \Test\TestCase {
 		$this->assertSame($expected,
 			$instance->sendUpdateToRemote($remote, $id, $token, $action, ['data1Key' => 'data1Value'], $try)
 		);
-
 	}
 
 
@@ -162,5 +160,4 @@ class NotificationsTest extends \Test\TestCase {
 			[0, ['success' => false, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 400]]])], false],
 		];
 	}
-
 }

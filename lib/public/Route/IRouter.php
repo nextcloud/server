@@ -124,5 +124,4 @@ interface IRouter {
 	 * @deprecated 9.0.0
 	 */
 	public function generate($name, $parameters = [], $absolute = false);
-
 }

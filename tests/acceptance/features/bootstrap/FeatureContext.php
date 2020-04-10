@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class FeatureContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -33,5 +32,4 @@ class FeatureContext implements Context, ActorAwareInterface {
 	public function iVisitTheHomePage() {
 		$this->actor->getSession()->visit($this->actor->locatePath("/"));
 	}
-
 }

@@ -67,7 +67,6 @@ class FilesDropPlugin extends ServerPlugin {
 	}
 
 	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
-
 		if (!$this->enabled) {
 			return;
 		}

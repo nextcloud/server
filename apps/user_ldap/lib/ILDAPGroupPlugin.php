@@ -81,5 +81,4 @@ interface ILDAPGroupPlugin {
 	 * @return array|false
 	 */
 	public function getGroupDetails($gid);
-
 }

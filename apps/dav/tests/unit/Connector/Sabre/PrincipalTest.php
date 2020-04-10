@@ -759,41 +759,41 @@ class PrincipalTest extends TestCase {
 			->method('shareApiEnabled')
 			->willReturn(true);
 
-			$this->shareManager->expects($this->once())
+		$this->shareManager->expects($this->once())
 				->method('shareWithGroupMembersOnly')
 				->willReturn(true);
 
-			$user = $this->createMock(IUser::class);
-			$this->userSession->expects($this->once())
+		$user = $this->createMock(IUser::class);
+		$this->userSession->expects($this->once())
 				->method('getUser')
 				->willReturn($user);
 
-			$this->groupManager->expects($this->at(0))
+		$this->groupManager->expects($this->at(0))
 				->method('getUserGroupIds')
 				->with($user)
 				->willReturn(['group1', 'group2']);
 
-			$user2 = $this->createMock(IUser::class);
-			$user2->method('getUID')->willReturn('user2');
-			$user3 = $this->createMock(IUser::class);
-			$user3->method('getUID')->willReturn('user3');
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->willReturn('user2');
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')->willReturn('user3');
 
-			$this->userManager->expects($this->once())
+		$this->userManager->expects($this->once())
 				->method('getByEmail')
 				->with($email)
 				->willReturn([$email === 'user2@foo.bar' ? $user2 : $user3]);
 
-			if ($email === 'user2@foo.bar') {
-				$this->groupManager->expects($this->at(1))
+		if ($email === 'user2@foo.bar') {
+			$this->groupManager->expects($this->at(1))
 					->method('getUserGroupIds')
 					->with($user2)
 					->willReturn(['group1', 'group3']);
-			} else {
-				$this->groupManager->expects($this->at(1))
+		} else {
+			$this->groupManager->expects($this->at(1))
 					->method('getUserGroupIds')
 					->with($user3)
 					->willReturn(['group3', 'group3']);
-			}
+		}
 
 		$this->assertEquals($expects, $this->connector->findByUri($uri, 'principals/users'));
 	}
@@ -813,16 +813,16 @@ class PrincipalTest extends TestCase {
 			->method('shareApiEnabled')
 			->willReturn(true);
 
-			$this->shareManager->expects($this->once())
+		$this->shareManager->expects($this->once())
 				->method('shareWithGroupMembersOnly')
 				->willReturn(false);
 
-			$user2 = $this->createMock(IUser::class);
-			$user2->method('getUID')->willReturn('user2');
-			$user3 = $this->createMock(IUser::class);
-			$user3->method('getUID')->willReturn('user3');
+		$user2 = $this->createMock(IUser::class);
+		$user2->method('getUID')->willReturn('user2');
+		$user3 = $this->createMock(IUser::class);
+		$user3->method('getUID')->willReturn('user3');
 
-			$this->userManager->expects($this->once())
+		$this->userManager->expects($this->once())
 				->method('getByEmail')
 				->with($email)
 				->willReturn([$email === 'user2@foo.bar' ? $user2 : $user3]);

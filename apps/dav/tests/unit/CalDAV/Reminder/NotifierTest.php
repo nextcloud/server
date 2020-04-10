@@ -103,8 +103,7 @@ class NotifierTest extends TestCase {
 	}
 
 	
-	public function testPrepareWrongApp(): void
-	{
+	public function testPrepareWrongApp(): void {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Notification not from this app');
 
@@ -138,8 +137,7 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($notification, 'en');
 	}
 
-	public function dataPrepare(): array
-	{
+	public function dataPrepare(): array {
 		return [
 			[
 				'calendar_reminder',
@@ -176,8 +174,7 @@ class NotifierTest extends TestCase {
 	 * @param string $message
 	 * @throws \Exception
 	 */
-	public function testPrepare(string $subjectType, array $subjectParams, string $subject, array $messageParams, string $message): void
-	{
+	public function testPrepare(string $subjectType, array $subjectParams, string $subject, array $messageParams, string $message): void {
 		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 

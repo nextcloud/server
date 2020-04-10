@@ -76,7 +76,7 @@ class SignApp extends Command {
 		$path = $input->getOption('path');
 		$privateKeyPath = $input->getOption('privateKey');
 		$keyBundlePath = $input->getOption('certificate');
-		if(is_null($path) || is_null($privateKeyPath) || is_null($keyBundlePath)) {
+		if (is_null($path) || is_null($privateKeyPath) || is_null($keyBundlePath)) {
 			$documentationUrl = $this->urlGenerator->linkToDocs('developer-code-integrity');
 			$output->writeln('This command requires the --path, --privateKey and --certificate.');
 			$output->writeln('Example: ./occ integrity:sign-app --path="/Users/lukasreschke/Programming/myapp/" --privateKey="/Users/lukasreschke/private/myapp.key" --certificate="/Users/lukasreschke/public/mycert.crt"');
@@ -87,12 +87,12 @@ class SignApp extends Command {
 		$privateKey = $this->fileAccessHelper->file_get_contents($privateKeyPath);
 		$keyBundle = $this->fileAccessHelper->file_get_contents($keyBundlePath);
 
-		if($privateKey === false) {
+		if ($privateKey === false) {
 			$output->writeln(sprintf('Private key "%s" does not exists.', $privateKeyPath));
 			return null;
 		}
 
-		if($keyBundle === false) {
+		if ($keyBundle === false) {
 			$output->writeln(sprintf('Certificate "%s" does not exists.', $keyBundlePath));
 			return null;
 		}
@@ -105,7 +105,7 @@ class SignApp extends Command {
 		try {
 			$this->checker->writeAppSignature($path, $x509, $rsa);
 			$output->writeln('Successfully signed "'.$path.'"');
-		} catch (\Exception $e){
+		} catch (\Exception $e) {
 			$output->writeln('Error: ' . $e->getMessage());
 			return 1;
 		}

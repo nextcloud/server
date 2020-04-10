@@ -38,5 +38,4 @@ interface ISetDisplayNameBackend {
 	 * @since 18.0.0
 	 */
 	public function setDisplayName(string $gid, string $displayName): bool;
-
 }

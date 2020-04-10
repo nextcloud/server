@@ -123,7 +123,7 @@ class HookManager {
 
 	public function postDeleteUser($params) {
 		$uid = $params['uid'];
-		if (isset($this->usersToDelete[$uid])){
+		if (isset($this->usersToDelete[$uid])) {
 			$this->syncService->deleteUser($this->usersToDelete[$uid]);
 		}
 
@@ -138,7 +138,7 @@ class HookManager {
 	}
 
 	public function postUnassignedUserId($uid) {
-		if (isset($this->usersToDelete[$uid])){
+		if (isset($this->usersToDelete[$uid])) {
 			$this->syncService->deleteUser($this->usersToDelete[$uid]);
 		}
 	}

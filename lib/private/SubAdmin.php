@@ -118,9 +118,9 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->execute();
 
 		$groups = [];
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			$group = $this->groupManager->get($row['gid']);
-			if(!is_null($group)) {
+			if (!is_null($group)) {
 				$groups[$group->getGID()] = $group;
 			}
 		}
@@ -154,9 +154,9 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->execute();
 
 		$users = [];
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			$user = $this->userManager->get($row['uid']);
-			if(!is_null($user)) {
+			if (!is_null($user)) {
 				$users[] = $user;
 			}
 		}
@@ -177,10 +177,10 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->execute();
 
 		$subadmins = [];
-		while($row = $result->fetch()) {
+		while ($row = $result->fetch()) {
 			$user = $this->userManager->get($row['uid']);
 			$group = $this->groupManager->get($row['gid']);
-			if(!is_null($user) && !is_null($group)) {
+			if (!is_null($user) && !is_null($group)) {
 				$subadmins[] = [
 					'user'  => $user,
 					'group' => $group
@@ -249,15 +249,15 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 * @return bool
 	 */
 	public function isUserAccessible(IUser $subadmin, IUser $user): bool {
-		if(!$this->isSubAdmin($subadmin)) {
+		if (!$this->isSubAdmin($subadmin)) {
 			return false;
 		}
-		if($this->groupManager->isAdmin($user->getUID())) {
+		if ($this->groupManager->isAdmin($user->getUID())) {
 			return false;
 		}
 		$accessibleGroups = $this->getSubAdminsGroups($subadmin);
-		foreach($accessibleGroups as $accessibleGroup) {
-			if($accessibleGroup->inGroup($user)) {
+		foreach ($accessibleGroups as $accessibleGroup) {
+			if ($accessibleGroup->inGroup($user)) {
 				return true;
 			}
 		}

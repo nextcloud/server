@@ -61,5 +61,4 @@ class ProviderV1Adapter implements IProviderV2 {
 
 		return [$view, $path];
 	}
-
 }

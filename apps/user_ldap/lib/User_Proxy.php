@@ -60,11 +60,11 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 		UserPluginManager $userPluginManager
 	) {
 		parent::__construct($ldap);
-		foreach($serverConfigPrefixes as $configPrefix) {
+		foreach ($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
 				new User_LDAP($this->getAccess($configPrefix), $ocConfig, $notificationManager, $userSession, $userPluginManager);
 
-			if(is_null($this->refBackend)) {
+			if (is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
 		}
@@ -79,13 +79,13 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 */
 	protected function walkBackends($uid, $method, $parameters) {
 		$cacheKey = $this->getUserCacheKey($uid);
-		foreach($this->backends as $configPrefix => $backend) {
+		foreach ($this->backends as $configPrefix => $backend) {
 			$instance = $backend;
-			if(!method_exists($instance, $method)
+			if (!method_exists($instance, $method)
 				&& method_exists($this->getAccess($configPrefix), $method)) {
 				$instance = $this->getAccess($configPrefix);
 			}
-			if($result = call_user_func_array([$instance, $method], $parameters)) {
+			if ($result = call_user_func_array([$instance, $method], $parameters)) {
 				$this->writeToCache($cacheKey, $configPrefix);
 				return $result;
 			}
@@ -105,22 +105,22 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 		$cacheKey = $this->getUserCacheKey($uid);
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first
-		if(!is_null($prefix)) {
-			if(isset($this->backends[$prefix])) {
+		if (!is_null($prefix)) {
+			if (isset($this->backends[$prefix])) {
 				$instance = $this->backends[$prefix];
-				if(!method_exists($instance, $method)
+				if (!method_exists($instance, $method)
 					&& method_exists($this->getAccess($prefix), $method)) {
 					$instance = $this->getAccess($prefix);
 				}
 				$result = call_user_func_array([$instance, $method], $parameters);
-				if($result === $passOnWhen) {
+				if ($result === $passOnWhen) {
 					//not found here, reset cache to null if user vanished
 					//because sometimes methods return false with a reason
 					$userExists = call_user_func_array(
 						[$this->backends[$prefix], 'userExistsOnLDAP'],
 						[$uid]
 					);
-					if(!$userExists) {
+					if (!$userExists) {
 						$this->writeToCache($cacheKey, null);
 					}
 				}
@@ -162,7 +162,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
 		$users = [];
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getUsers($search, $limit, $offset);
 			if (is_array($backendUsers)) {
 				$users = array_merge($users, $backendUsers);
@@ -179,13 +179,13 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	public function userExists($uid) {
 		$existsOnLDAP = false;
 		$existsLocally = $this->handleRequest($uid, 'userExists', [$uid]);
-		if($existsLocally) {
+		if ($existsLocally) {
 			$existsOnLDAP = $this->userExistsOnLDAP($uid);
 		}
-		if($existsLocally && !$existsOnLDAP) {
+		if ($existsLocally && !$existsOnLDAP) {
 			try {
 				$user = $this->getLDAPAccess($uid)->userManager->get($uid);
-				if($user instanceof User) {
+				if ($user instanceof User) {
 					$user->markUser();
 				}
 			} catch (\Exception $e) {
@@ -288,7 +288,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
 		$users = [];
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->getDisplayNames($search, $limit, $offset);
 			if (is_array($backendUsers)) {
 				$users = $users + $backendUsers;
@@ -332,7 +332,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 */
 	public function countUsers() {
 		$users = false;
-		foreach($this->backends as $backend) {
+		foreach ($this->backends as $backend) {
 			$backendUsers = $backend->countUsers();
 			if ($backendUsers !== false) {
 				$users += $backendUsers;

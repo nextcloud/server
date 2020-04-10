@@ -30,7 +30,6 @@ use OCA\Files_External\Lib\DefinitionParameter;
 use OCP\IL10N;
 
 class SFTP_Key extends Backend {
-
 	public function __construct(IL10N $l, RSA $legacyAuth, SFTP $sftpBackend) {
 		$this
 			->setIdentifier('\OC\Files\Storage\SFTP_Key')
@@ -46,5 +45,4 @@ class SFTP_Key extends Backend {
 			->deprecateTo($sftpBackend)
 		;
 	}
-
 }

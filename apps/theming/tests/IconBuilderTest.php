@@ -68,7 +68,7 @@ class IconBuilderTest extends TestCase {
 	}
 
 	private function checkImagick() {
-		if(!extension_loaded('imagick')) {
+		if (!extension_loaded('imagick')) {
 			$this->markTestSkipped('Imagemagick is required for dynamic icon generation.');
 		}
 		$checkImagick = new \Imagick();

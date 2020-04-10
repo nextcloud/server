@@ -47,7 +47,6 @@ use OCP\IUser;
  * @group DB
  */
 class VersioningTest extends \Test\TestCase {
-
 	const TEST_VERSIONS_USER = 'test-versions-user';
 	const TEST_VERSIONS_USER2 = 'test-versions-user2';
 	const USERS_VERSIONS_ROOT = '/test-versions-user/files_versions';
@@ -72,9 +71,13 @@ class VersioningTest extends \Test\TestCase {
 	public static function tearDownAfterClass(): void {
 		// cleanup test user
 		$user = \OC::$server->getUserManager()->get(self::TEST_VERSIONS_USER);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		$user = \OC::$server->getUserManager()->get(self::TEST_VERSIONS_USER2);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 
 		parent::tearDownAfterClass();
 	}
@@ -146,7 +149,7 @@ class VersioningTest extends \Test\TestCase {
 		$this->assertEquals($sizeOfAllDeletedFiles, $size);
 
 		// the deleted array should only contain versions which should be deleted
-		foreach($deleted as $key => $path) {
+		foreach ($deleted as $key => $path) {
 			unset($versions[$key]);
 			$this->assertEquals("delete", substr($path, 0, strlen("delete")));
 		}
@@ -155,7 +158,6 @@ class VersioningTest extends \Test\TestCase {
 		foreach ($versions as $version) {
 			$this->assertEquals("keep", $version['path']);
 		}
-
 	}
 
 	public function versionsProvider() {
@@ -277,7 +279,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testRename() {
-
 		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
 
 		$t1 = time();
@@ -307,7 +308,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testRenameInSharedFolder() {
-
 		\OC\Files\Filesystem::mkdir('folder1');
 		\OC\Files\Filesystem::mkdir('folder1/folder2');
 		\OC\Files\Filesystem::file_put_contents("folder1/test.txt", "test file");
@@ -358,7 +358,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testMoveFolder() {
-
 		\OC\Files\Filesystem::mkdir('folder1');
 		\OC\Files\Filesystem::mkdir('folder2');
 		\OC\Files\Filesystem::file_put_contents('folder1/test.txt', 'test file');
@@ -392,7 +391,6 @@ class VersioningTest extends \Test\TestCase {
 
 
 	public function testMoveFileIntoSharedFolderAsRecipient() {
-
 		\OC\Files\Filesystem::mkdir('folder1');
 		$fileInfo = \OC\Files\Filesystem::getFileInfo('folder1');
 
@@ -443,7 +441,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testMoveFolderIntoSharedFolderAsRecipient() {
-
 		\OC\Files\Filesystem::mkdir('folder1');
 
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
@@ -495,7 +492,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testRenameSharedFile() {
-
 		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
 
 		$t1 = time();
@@ -545,7 +541,6 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testCopy() {
-
 		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
 
 		$t1 = time();
@@ -579,7 +574,6 @@ class VersioningTest extends \Test\TestCase {
 	 * the correct 'path' and 'name'
 	 */
 	public function testGetVersions() {
-
 		$t1 = time();
 		// second version is two weeks older, this way we make sure that no
 		// version will be expired
@@ -944,7 +938,6 @@ class VersioningTest extends \Test\TestCase {
 	 * @param bool $create
 	 */
 	public static function loginHelper($user, $create = false) {
-
 		if ($create) {
 			$backend  = new \Test\Util\User\Dummy();
 			$backend->createUser($user, $user);
@@ -964,7 +957,6 @@ class VersioningTest extends \Test\TestCase {
 		\OC_Util::setupFS($user);
 		\OC::$server->getUserFolder($user);
 	}
-
 }
 
 // extend the original class to make it possible to test protected methods
@@ -975,6 +967,5 @@ class VersionStorageToTest extends \OCA\Files_Versions\Storage {
 	 */
 	public function callProtectedGetExpireList($time, $versions) {
 		return self::getExpireList($time, $versions);
-
 	}
 }

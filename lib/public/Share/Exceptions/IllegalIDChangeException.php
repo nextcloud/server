@@ -26,4 +26,5 @@ namespace OCP\Share\Exceptions;
  * Exception for illegal attempts to modify an id of a share
  * @since 9.1.0
  */
-class IllegalIDChangeException extends GenericShareException {}
+class IllegalIDChangeException extends GenericShareException {
+}

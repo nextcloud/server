@@ -57,7 +57,6 @@ class HasPhotoPlugin extends ServerPlugin {
 	 * @return void
 	 */
 	function propFind(PropFind $propFind, INode $node) {
-
 		$ns = '{http://nextcloud.com/ns}';
 
 		if ($node instanceof Card) {
@@ -96,7 +95,5 @@ class HasPhotoPlugin extends ServerPlugin {
 			'name'        => $this->getPluginName(),
 			'description' => 'Return a boolean stating if the vcard have a photo property set or not.'
 		];
-
 	}
-
 }

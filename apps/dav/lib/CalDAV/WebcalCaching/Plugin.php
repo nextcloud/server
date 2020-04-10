@@ -111,7 +111,7 @@ class Plugin extends ServerPlugin {
 			}
 
 			$calendarHome->enableCachedSubscriptionsForThisRequest();
-		} catch(NotFound $ex) {
+		} catch (NotFound $ex) {
 			return;
 		}
 	}

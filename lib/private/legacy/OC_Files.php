@@ -87,15 +87,13 @@ class OC_Files {
 				http_response_code(206);
 				header('Accept-Ranges: bytes', true);
 				if (count($rangeArray) > 1) {
-				$type = 'multipart/byteranges; boundary='.self::getBoundary();
+					$type = 'multipart/byteranges; boundary='.self::getBoundary();
 				// no Content-Length header here
+				} else {
+					header(sprintf('Content-Range: bytes %d-%d/%d', $rangeArray[0]['from'], $rangeArray[0]['to'], $fileSize), true);
+					OC_Response::setContentLengthHeader($rangeArray[0]['to'] - $rangeArray[0]['from'] + 1);
 				}
-				else {
-				header(sprintf('Content-Range: bytes %d-%d/%d', $rangeArray[0]['from'], $rangeArray[0]['to'], $fileSize), true);
-				OC_Response::setContentLengthHeader($rangeArray[0]['to'] - $rangeArray[0]['from'] + 1);
-				}
-			}
-			else {
+			} else {
 				OC_Response::setContentLengthHeader($fileSize);
 			}
 		}
@@ -110,12 +108,10 @@ class OC_Files {
 	 * @param array $params ; 'head' boolean to only send header of the request ; 'range' http range header
 	 */
 	public static function get($dir, $files, $params = null) {
-
 		$view = \OC\Files\Filesystem::getView();
 		$getType = self::FILE;
 		$filename = $dir;
 		try {
-
 			if (is_array($files) && count($files) === 1) {
 				$files = $files[0];
 			}
@@ -180,7 +176,7 @@ class OC_Files {
 					if (\OC\Files\Filesystem::is_file($file)) {
 						$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
 						$file = $userFolder->get($file);
-						if($file instanceof \OC\Files\Node\File) {
+						if ($file instanceof \OC\Files\Node\File) {
 							try {
 								$fh = $file->fopen('r');
 							} catch (\OCP\Files\NotPermittedException $e) {
@@ -263,13 +259,11 @@ class OC_Files {
 				if ($minOffset >= $fileSize) {
 					break;
 				}
-			}
-			elseif (is_numeric($ranges[0]) && $ranges[0] < $fileSize) {
+			} elseif (is_numeric($ranges[0]) && $ranges[0] < $fileSize) {
 				// case: x-
 				$rangeArray[$ind++] = [ 'from' => $ranges[0], 'to' => $fileSize-1, 'size' => $fileSize ];
 				break;
-			}
-			elseif (is_numeric($ranges[1])) {
+			} elseif (is_numeric($ranges[1])) {
 				// case: -x
 				if ($ranges[1] > $fileSize) {
 					$ranges[1] = $fileSize;
@@ -294,7 +288,7 @@ class OC_Files {
 		try {
 			$userFolder = \OC::$server->getRootFolder()->get(\OC\Files\Filesystem::getRoot());
 			$file = $userFolder->get($filename);
-			if(!$file instanceof \OC\Files\Node\File || !$file->isReadable()) {
+			if (!$file instanceof \OC\Files\Node\File || !$file->isReadable()) {
 				http_response_code(403);
 				die('403 Forbidden');
 			}
@@ -330,22 +324,21 @@ class OC_Files {
 		if (!empty($rangeArray)) {
 			try {
 				if (count($rangeArray) == 1) {
-				$view->readfilePart($filename, $rangeArray[0]['from'], $rangeArray[0]['to']);
-				}
-				else {
-				// check if file is seekable (if not throw UnseekableException)
-				// we have to check it before body contents
-				$view->readfilePart($filename, $rangeArray[0]['size'], $rangeArray[0]['size']);
+					$view->readfilePart($filename, $rangeArray[0]['from'], $rangeArray[0]['to']);
+				} else {
+					// check if file is seekable (if not throw UnseekableException)
+					// we have to check it before body contents
+					$view->readfilePart($filename, $rangeArray[0]['size'], $rangeArray[0]['size']);
 
-				$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
+					$type = \OC::$server->getMimeTypeDetector()->getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename));
 
-				foreach ($rangeArray as $range) {
-					echo "\r\n--".self::getBoundary()."\r\n".
+					foreach ($rangeArray as $range) {
+						echo "\r\n--".self::getBoundary()."\r\n".
 						 "Content-type: ".$type."\r\n".
 						 "Content-range: bytes ".$range['from']."-".$range['to']."/".$range['size']."\r\n\r\n";
-					$view->readfilePart($filename, $range['from'], $range['to']);
-				}
-				echo "\r\n--".self::getBoundary()."--\r\n";
+						$view->readfilePart($filename, $range['from'], $range['to']);
+					}
+					echo "\r\n--".self::getBoundary()."--\r\n";
 				}
 			} catch (\OCP\Files\UnseekableException $ex) {
 				// file is unseekable
@@ -355,8 +348,7 @@ class OC_Files {
 				self::sendHeaders($filename, $name, []);
 				$view->readfile($filename);
 			}
-		}
-		else {
+		} else {
 			$view->readfile($filename);
 		}
 	}
@@ -430,5 +422,4 @@ class OC_Files {
 			$view->unlockFile($file, ILockingProvider::LOCK_SHARED);
 		}
 	}
-
 }

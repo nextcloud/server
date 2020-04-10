@@ -26,7 +26,6 @@
 use Behat\Behat\Context\Context;
 
 class AppsManagementContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -227,6 +226,4 @@ class AppsManagementContext implements Context, ActorAwareInterface {
 			PHPUnit_Framework_Assert::fail("The sidebar was not shown yet after $timeout seconds");
 		}
 	}
-
-
 }

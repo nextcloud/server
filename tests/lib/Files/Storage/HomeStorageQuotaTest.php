@@ -45,7 +45,9 @@ class HomeStorageQuotaTest extends \Test\TestCase {
 		// clean up
 		\OC_User::setUserId('');
 		$user = \OC::$server->getUserManager()->get($user1);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		\OC::$server->getConfig()->deleteAllUserValues($user1);
 		\OC_Util::tearDownFS();
 	}
@@ -73,9 +75,10 @@ class HomeStorageQuotaTest extends \Test\TestCase {
 		// clean up
 		\OC_User::setUserId('');
 		$user = \OC::$server->getUserManager()->get($user1);
-		if ($user !== null) { $user->delete(); }
+		if ($user !== null) {
+			$user->delete();
+		}
 		\OC::$server->getConfig()->deleteAllUserValues($user1);
 		\OC_Util::tearDownFS();
 	}
-
 }

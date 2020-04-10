@@ -34,7 +34,6 @@
 require_once __DIR__ . '/lib/versioncheck.php';
 
 try {
-
 	require_once __DIR__ . '/lib/base.php';
 
 	$systemConfig = \OC::$server->getSystemConfig();
@@ -61,7 +60,6 @@ try {
 		header('Content-Type: application/json');
 		echo json_encode($values);
 	}
-
 } catch (Exception $ex) {
 	http_response_code(500);
 	\OC::$server->getLogger()->logException($ex, ['app' => 'remote']);

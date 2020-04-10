@@ -53,5 +53,4 @@ class UserDeletedEvent extends Event {
 	public function getUser(): IUser {
 		return $this->user;
 	}
-
 }

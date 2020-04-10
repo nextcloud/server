@@ -192,6 +192,5 @@ class DecryptAll extends Command {
 			$this->resetMaintenanceAndTrashbin();
 			throw $e;
 		}
-
 	}
 }

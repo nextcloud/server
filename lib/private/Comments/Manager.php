@@ -747,7 +747,6 @@ class Manager implements ICommentsManager {
 	 * @return bool
 	 */
 	protected function insert(IComment $comment): bool {
-
 		try {
 			$result = $this->insertQuery($comment, true);
 		} catch (InvalidFieldNameException $e) {

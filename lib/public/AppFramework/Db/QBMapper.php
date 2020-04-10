@@ -64,7 +64,7 @@ abstract class QBMapper {
 
 		// if not given set the entity name to the class without the mapper part
 		// cache it here for later use since reflection is slow
-		if($entityClass === null) {
+		if ($entityClass === null) {
 			$this->entityClass = str_replace('Mapper', '', \get_class($this));
 		} else {
 			$this->entityClass = $entityClass;
@@ -117,7 +117,7 @@ abstract class QBMapper {
 		$qb->insert($this->tableName);
 
 		// build the fields
-		foreach($properties as $property => $updated) {
+		foreach ($properties as $property => $updated) {
 			$column = $entity->propertyToColumn($property);
 			$getter = 'get' . ucfirst($property);
 			$value = $entity->$getter();
@@ -128,7 +128,7 @@ abstract class QBMapper {
 
 		$qb->execute();
 
-		if($entity->id === null) {
+		if ($entity->id === null) {
 			// When autoincrement is used id is always an int
 			$entity->setId((int)$qb->getLastInsertId());
 		}
@@ -166,13 +166,13 @@ abstract class QBMapper {
 	public function update(Entity $entity): Entity {
 		// if entity wasn't changed it makes no sense to run a db query
 		$properties = $entity->getUpdatedFields();
-		if(\count($properties) === 0) {
+		if (\count($properties) === 0) {
 			return $entity;
 		}
 
 		// entity needs an id
 		$id = $entity->getId();
-		if($id === null){
+		if ($id === null) {
 			throw new \InvalidArgumentException(
 				'Entity which should be updated has no id');
 		}
@@ -186,7 +186,7 @@ abstract class QBMapper {
 		$qb->update($this->tableName);
 
 		// build the fields
-		foreach($properties as $property => $updated) {
+		foreach ($properties as $property => $updated) {
 			$column = $entity->propertyToColumn($property);
 			$getter = 'get' . ucfirst($property);
 			$value = $entity->$getter();
@@ -217,11 +217,11 @@ abstract class QBMapper {
 	protected function getParameterTypeForProperty(Entity $entity, string $property): int {
 		$types = $entity->getFieldTypes();
 
-		if(!isset($types[ $property ])) {
+		if (!isset($types[ $property ])) {
 			return IQueryBuilder::PARAM_STR;
 		}
 
-		switch($types[ $property ]) {
+		switch ($types[ $property ]) {
 			case 'int':
 			case 'integer':
 				return IQueryBuilder::PARAM_INT;
@@ -251,7 +251,7 @@ abstract class QBMapper {
 		$cursor = $query->execute();
 
 		$row = $cursor->fetch();
-		if($row === false) {
+		if ($row === false) {
 			$cursor->closeCursor();
 			$msg = $this->buildDebugMessage(
 				'Did expect one result but found none when executing', $query
@@ -261,7 +261,7 @@ abstract class QBMapper {
 
 		$row2 = $cursor->fetch();
 		$cursor->closeCursor();
-		if($row2 !== false) {
+		if ($row2 !== false) {
 			$msg = $this->buildDebugMessage(
 				'Did not expect more than one result when executing', $query
 			);
@@ -308,7 +308,7 @@ abstract class QBMapper {
 
 		$entities = [];
 
-		while($row = $cursor->fetch()){
+		while ($row = $cursor->fetch()) {
 			$entities[] = $this->mapRowToEntity($row);
 		}
 
@@ -331,5 +331,4 @@ abstract class QBMapper {
 	protected function findEntity(IQueryBuilder $query): Entity {
 		return $this->mapRowToEntity($this->findOneQuery($query));
 	}
-
 }

@@ -168,7 +168,6 @@ class EncryptAllTest extends TestCase {
 		$encryptAll->expects($this->at(2))->method('encryptAllUsersFiles')->with();
 
 		$encryptAll->encryptAll($this->inputInterface, $this->outputInterface);
-
 	}
 
 	public function testEncryptAllWithMasterKey() {
@@ -198,7 +197,6 @@ class EncryptAllTest extends TestCase {
 		$encryptAll->expects($this->never())->method('outputPasswords');
 
 		$encryptAll->encryptAll($this->inputInterface, $this->outputInterface);
-
 	}
 
 	public function testCreateKeyPairs() {
@@ -280,7 +278,6 @@ class EncryptAllTest extends TestCase {
 		$encryptAll->expects($this->at(1))->method('encryptUsersFiles')->with('user2');
 
 		$this->invokePrivate($encryptAll, 'encryptAllUsersFiles');
-
 	}
 
 	public function testEncryptUsersFiles() {
@@ -339,7 +336,6 @@ class EncryptAllTest extends TestCase {
 		$progressBar = new ProgressBar($this->outputInterface);
 
 		$this->invokePrivate($encryptAll, 'encryptUsersFiles', ['user1', $progressBar, '']);
-
 	}
 
 	public function testGenerateOneTimePassword() {
@@ -364,7 +360,7 @@ class EncryptAllTest extends TestCase {
 			->willReturn($fileInfo);
 
 
-		if($isEncrypted) {
+		if ($isEncrypted) {
 			$this->view->expects($this->never())->method('copy');
 			$this->view->expects($this->never())->method('rename');
 		} else {
@@ -383,5 +379,4 @@ class EncryptAllTest extends TestCase {
 			[false],
 		];
 	}
-
 }

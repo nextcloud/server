@@ -181,5 +181,4 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			$container->query(KerberosAuth::class),
 		];
 	}
-
 }

@@ -36,7 +36,6 @@ use OCP\IDBConnection;
  * @deprecated 14.0.0 Move over to QBMapper
  */
 abstract class Mapper {
-
 	protected $tableName;
 	protected $entityClass;
 	protected $db;
@@ -55,7 +54,7 @@ abstract class Mapper {
 
 		// if not given set the entity name to the class without the mapper part
 		// cache it here for later use since reflection is slow
-		if($entityClass === null) {
+		if ($entityClass === null) {
 			$this->entityClass = str_replace('Mapper', '', get_class($this));
 		} else {
 			$this->entityClass = $entityClass;
@@ -105,7 +104,7 @@ abstract class Mapper {
 
 		// build the fields
 		$i = 0;
-		foreach($properties as $property => $updated) {
+		foreach ($properties as $property => $updated) {
 			$column = $entity->propertyToColumn($property);
 			$getter = 'get' . ucfirst($property);
 
@@ -113,14 +112,13 @@ abstract class Mapper {
 			$values .= '?';
 
 			// only append colon if there are more entries
-			if($i < count($properties)-1){
+			if ($i < count($properties)-1) {
 				$columns .= ',';
 				$values .= ',';
 			}
 
 			$params[] = $entity->$getter();
 			$i++;
-
 		}
 
 		$sql = 'INSERT INTO `' . $this->tableName . '`(' .
@@ -148,13 +146,13 @@ abstract class Mapper {
 	public function update(Entity $entity) {
 		// if entity wasn't changed it makes no sense to run a db query
 		$properties = $entity->getUpdatedFields();
-		if(count($properties) === 0) {
+		if (count($properties) === 0) {
 			return $entity;
 		}
 
 		// entity needs an id
 		$id = $entity->getId();
-		if($id === null){
+		if ($id === null) {
 			throw new \InvalidArgumentException(
 				'Entity which should be updated has no id');
 		}
@@ -169,15 +167,14 @@ abstract class Mapper {
 
 		// build the fields
 		$i = 0;
-		foreach($properties as $property => $updated) {
-
+		foreach ($properties as $property => $updated) {
 			$column = $entity->propertyToColumn($property);
 			$getter = 'get' . ucfirst($property);
 
 			$columns .= '`' . $column . '` = ?';
 
 			// only append colon if there are more entries
-			if($i < count($properties)-1){
+			if ($i < count($properties)-1) {
 				$columns .= ',';
 			}
 
@@ -275,7 +272,7 @@ abstract class Mapper {
 		$stmt = $this->execute($sql, $params, $limit, $offset);
 		$row = $stmt->fetch();
 
-		if($row === false || $row === null){
+		if ($row === false || $row === null) {
 			$stmt->closeCursor();
 			$msg = $this->buildDebugMessage(
 				'Did expect one result but found none when executing', $sql, $params, $limit, $offset
@@ -285,7 +282,7 @@ abstract class Mapper {
 		$row2 = $stmt->fetch();
 		$stmt->closeCursor();
 		//MDB2 returns null, PDO and doctrine false when no row is available
-		if(! ($row2 === false || $row2 === null)) {
+		if (! ($row2 === false || $row2 === null)) {
 			$msg = $this->buildDebugMessage(
 				'Did not expect more than one result when executing', $sql, $params, $limit, $offset
 			);
@@ -344,7 +341,7 @@ abstract class Mapper {
 
 		$entities = [];
 
-		while($row = $stmt->fetch()){
+		while ($row = $stmt->fetch()) {
 			$entities[] = $this->mapRowToEntity($row);
 		}
 
@@ -370,6 +367,4 @@ abstract class Mapper {
 	protected function findEntity($sql, array $params=[], $limit=null, $offset=null) {
 		return $this->mapRowToEntity($this->findOneQuery($sql, $params, $limit, $offset));
 	}
-
-
 }

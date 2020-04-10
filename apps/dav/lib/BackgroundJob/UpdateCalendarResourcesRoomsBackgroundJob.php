@@ -106,7 +106,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 								   string $principalPrefix):void {
 		$backends = $backendManager->getBackends();
 
-		foreach($backends as $backend) {
+		foreach ($backends as $backend) {
 			$backendId = $backend->getBackendIdentifier();
 
 			try {
@@ -115,7 +115,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 				} else {
 					$list = $backend->listAllRooms();
 				}
-			} catch(BackendTemporarilyUnavailableException $ex) {
+			} catch (BackendTemporarilyUnavailableException $ex) {
 				continue;
 			}
 
@@ -124,7 +124,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 			$deletedIds = array_diff($cachedList, $list);
 			$editedIds = array_intersect($list, $cachedList);
 
-			foreach($newIds as $newId) {
+			foreach ($newIds as $newId) {
 				try {
 					if ($backend instanceof IResourceBackend) {
 						$resource = $backend->getResource($newId);
@@ -136,7 +136,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 					if ($resource instanceof IMetadataProvider) {
 						$metadata = $this->getAllMetadataOfBackend($resource);
 					}
-				} catch(BackendTemporarilyUnavailableException $ex) {
+				} catch (BackendTemporarilyUnavailableException $ex) {
 					continue;
 				}
 
@@ -146,7 +146,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 				// when an event is actually scheduled with this resource / room
 			}
 
-			foreach($deletedIds as $deletedId) {
+			foreach ($deletedIds as $deletedId) {
 				$id = $this->getIdForBackendAndResource($dbTable, $backendId, $deletedId);
 				$this->deleteFromCache($dbTable, $id);
 				$this->deleteMetadataFromCache($dbTableMetadata, $foreignKey, $id);
@@ -155,7 +155,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 				$this->deleteCalendarDataForResource($principalPrefix, $principalName);
 			}
 
-			foreach($editedIds as $editedId) {
+			foreach ($editedIds as $editedId) {
 				$id = $this->getIdForBackendAndResource($dbTable, $backendId, $editedId);
 
 				try {
@@ -169,7 +169,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 					if ($resource instanceof IMetadataProvider) {
 						$metadata = $this->getAllMetadataOfBackend($resource);
 					}
-				} catch(BackendTemporarilyUnavailableException $ex) {
+				} catch (BackendTemporarilyUnavailableException $ex) {
 					continue;
 				}
 
@@ -220,7 +220,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 										string $foreignKey,
 										int $foreignId,
 										array $metadata):void {
-		foreach($metadata as $key => $value) {
+		foreach ($metadata as $key => $value) {
 			$query = $this->dbConnection->getQueryBuilder();
 			$query->insert($table)
 				->values([
@@ -308,7 +308,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 				->execute();
 		}
 
-		foreach($deletedMetadata as $key => $value) {
+		foreach ($deletedMetadata as $key => $value) {
 			$query = $this->dbConnection->getQueryBuilder();
 			$query->delete($dbTable)
 				->where($query->expr()->eq($foreignKey, $query->createNamedParameter($id)))
@@ -317,7 +317,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 		}
 
 		$existingKeys = array_keys(array_intersect_key($metadata, $cachedMetadata));
-		foreach($existingKeys as $existingKey) {
+		foreach ($existingKeys as $existingKey) {
 			if ($metadata[$existingKey] !== $cachedMetadata[$existingKey]) {
 				$query = $this->dbConnection->getQueryBuilder();
 				$query->update($dbTable)
@@ -352,7 +352,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 
 		$keys = $resource->getAllAvailableMetadataKeys();
 		$metadata = [];
-		foreach($keys as $key) {
+		foreach ($keys as $key) {
 			$metadata[$key] = $resource->getMetadataForKey($key);
 		}
 
@@ -376,7 +376,7 @@ class UpdateCalendarResourcesRoomsBackgroundJob extends TimedJob {
 		$rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
 		$metadata = [];
-		foreach($rows as $row) {
+		foreach ($rows as $row) {
 			$metadata[$row['key']] = $row['value'];
 		}
 

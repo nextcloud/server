@@ -95,5 +95,4 @@ class MigrateCommand extends Command implements CompletionAwareInterface {
 
 		return [];
 	}
-
 }

@@ -25,9 +25,11 @@ namespace Test\AppFramework\Utility;
 
 use OC\AppFramework\Utility\SimpleContainer;
 
-interface TestInterface {}
+interface TestInterface {
+}
 
-class ClassEmptyConstructor implements IInterfaceConstructor {}
+class ClassEmptyConstructor implements IInterfaceConstructor {
+}
 
 class ClassSimpleConstructor implements IInterfaceConstructor {
 	public $test;
@@ -45,7 +47,8 @@ class ClassComplexConstructor {
 	}
 }
 
-interface IInterfaceConstructor {}
+interface IInterfaceConstructor {
+}
 class ClassInterfaceConstructor {
 	public $class;
 	public $test;
@@ -57,8 +60,6 @@ class ClassInterfaceConstructor {
 
 
 class SimpleContainerTest extends \Test\TestCase {
-
-
 	private $container;
 
 	protected function setUp(): void {
@@ -218,5 +219,4 @@ class SimpleContainerTest extends \Test\TestCase {
 		$this->assertNotSame(
 			$this->container->query('test'), $this->container->query('test1'));
 	}
-
 }

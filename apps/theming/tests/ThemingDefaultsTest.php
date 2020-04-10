@@ -777,5 +777,4 @@ class ThemingDefaultsTest extends TestCase {
 			->willReturn('themingRoute');
 		$this->assertEquals($result, $this->template->replaceImagePath($app, $image));
 	}
-
 }

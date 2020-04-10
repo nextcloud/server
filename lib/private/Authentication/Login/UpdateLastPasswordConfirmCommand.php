@@ -44,5 +44,4 @@ class UpdateLastPasswordConfirmCommand extends ALoginCommand {
 
 		return $this->processNextOrFinishSuccessfully($loginData);
 	}
-
 }

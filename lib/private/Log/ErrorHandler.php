@@ -63,7 +63,7 @@ class ErrorHandler {
 	//Fatal errors handler
 	public static function onShutdown() {
 		$error = error_get_last();
-		if($error && self::$logger) {
+		if ($error && self::$logger) {
 			//ob_end_clean();
 			$msg = $error['message'] . ' at ' . $error['file'] . '#' . $error['line'];
 			self::$logger->critical(self::removePassword($msg), ['app' => 'PHP']);
@@ -89,14 +89,11 @@ class ErrorHandler {
 		}
 		$msg = $message . ' at ' . $file . '#' . $line;
 		self::$logger->error(self::removePassword($msg), ['app' => 'PHP']);
-
 	}
 
 	//Recoverable handler which catch all errors, warnings and notices
 	public static function onAll($number, $message, $file, $line) {
 		$msg = $message . ' at ' . $file . '#' . $line;
 		self::$logger->debug(self::removePassword($msg), ['app' => 'PHP']);
-
 	}
-
 }

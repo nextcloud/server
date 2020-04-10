@@ -93,5 +93,4 @@ class ProviderManager {
 			return false;
 		}
 	}
-
 }

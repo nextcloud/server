@@ -173,5 +173,4 @@ class Loader implements IMimeTypeLoader {
 			));
 		return $update->execute();
 	}
-
 }

@@ -36,7 +36,6 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Calendar extends Base {
-
 	const SUBJECT_ADD = 'calendar_add';
 	const SUBJECT_UPDATE = 'calendar_update';
 	const SUBJECT_DELETE = 'calendar_delete';
@@ -111,12 +110,10 @@ class Calendar extends Base {
 			$subject = $this->l->t('{actor} updated calendar {calendar}');
 		} elseif ($event->getSubject() === self::SUBJECT_UPDATE . '_self') {
 			$subject = $this->l->t('You updated calendar {calendar}');
-
 		} elseif ($event->getSubject() === self::SUBJECT_PUBLISH . '_self') {
 			$subject = $this->l->t('You shared calendar {calendar} as public link');
 		} elseif ($event->getSubject() === self::SUBJECT_UNPUBLISH . '_self') {
 			$subject = $this->l->t('You removed public link for calendar {calendar}');
-
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_USER) {
 			$subject = $this->l->t('{actor} shared calendar {calendar} with you');
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_USER . '_you') {
@@ -131,7 +128,6 @@ class Calendar extends Base {
 			$subject = $this->l->t('{actor} unshared calendar {calendar} from {user}');
 		} elseif ($event->getSubject() === self::SUBJECT_UNSHARE_USER . '_self') {
 			$subject = $this->l->t('{actor} unshared calendar {calendar} from themselves');
-
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_GROUP . '_you') {
 			$subject = $this->l->t('You shared calendar {calendar} with group {group}');
 		} elseif ($event->getSubject() === self::SUBJECT_SHARE_GROUP . '_by') {

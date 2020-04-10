@@ -55,19 +55,18 @@ class OwnCloud extends \OC\Files\Storage\DAV implements IDisableEncryptionStorag
 		}
 		$contextPath = '';
 		$hostSlashPos = strpos($host, '/');
-		if ($hostSlashPos !== false){
+		if ($hostSlashPos !== false) {
 			$contextPath = substr($host, $hostSlashPos);
 			$host = substr($host, 0, $hostSlashPos);
 		}
 
-		if (substr($contextPath, -1) !== '/'){
+		if (substr($contextPath, -1) !== '/') {
 			$contextPath .= '/';
 		}
 
-		if (isset($params['root'])){
+		if (isset($params['root'])) {
 			$root = '/' . ltrim($params['root'], '/');
-		}
-		else{
+		} else {
 			$root = '/';
 		}
 

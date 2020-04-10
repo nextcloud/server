@@ -57,7 +57,6 @@ use OCP\Lock\ILockingProvider;
 use OCP\User;
 
 class Storage {
-
 	const DEFAULTENABLED=true;
 	const DEFAULTMAXSIZE=50; // unit: percentage; 50% of available disk space/quota
 	const VERSIONS_ROOT = 'files_versions/';
@@ -139,7 +138,6 @@ class Storage {
 	 * @return array with user id and path
 	 */
 	public static function getSourcePathAndUser($source) {
-
 		if (isset(self::$sourcePathAndUser[$source])) {
 			$uid = self::$sourcePathAndUser[$source]['uid'];
 			$path = self::$sourcePathAndUser[$source]['path'];
@@ -241,13 +239,11 @@ class Storage {
 	 * Delete versions of a file
 	 */
 	public static function delete($path) {
-
 		$deletedFile = self::$deletedFiles[$path];
 		$uid = $deletedFile['uid'];
 		$filename = $deletedFile['filename'];
 
 		if (!Filesystem::file_exists($path)) {
-
 			$view = new View('/' . $uid . '/files_versions');
 
 			$versions = self::getVersions($uid, $filename);
@@ -318,7 +314,6 @@ class Storage {
 		if (!$rootView->is_dir('/' . $targetOwner . '/files/' . $targetPath)) {
 			self::scheduleExpire($targetOwner, $targetPath);
 		}
-
 	}
 
 	/**
@@ -389,7 +384,6 @@ class Storage {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -531,7 +525,6 @@ class Storage {
 	 * @return string for example "5 days ago"
 	 */
 	private static function getHumanReadableTimestamp($timestamp) {
-
 		$diff = time() - $timestamp;
 
 		if ($diff < 60) { // first minute
@@ -549,7 +542,6 @@ class Storage {
 		} else {
 			return round($diff / 29030400) . " years ago";
 		}
-
 	}
 
 	/**
@@ -750,7 +742,7 @@ class Storage {
 			if ($quota >= 0) {
 				if ($softQuota) {
 					$userFolder = \OC::$server->getUserFolder($uid);
-					if(is_null($userFolder)) {
+					if (is_null($userFolder)) {
 						$availableSpace = 0;
 					} else {
 						$free = $quota - $userFolder->getSize(false); // remaining free space for user
@@ -790,7 +782,7 @@ class Storage {
 			}
 
 			$logger = \OC::$server->getLogger();
-			foreach($toDelete as $key => $path) {
+			foreach ($toDelete as $key => $path) {
 				\OC_Hook::emit('\OCP\Versions', 'preDelete', ['path' => $path, 'trigger' => self::DELETE_TRIGGER_QUOTA_EXCEEDED]);
 				self::deleteVersion($versionsFileview, $path);
 				\OC_Hook::emit('\OCP\Versions', 'delete', ['path' => $path, 'trigger' => self::DELETE_TRIGGER_QUOTA_EXCEEDED]);
@@ -854,5 +846,4 @@ class Storage {
 		}
 		return self::$application->getContainer()->query(Expiration::class);
 	}
-
 }

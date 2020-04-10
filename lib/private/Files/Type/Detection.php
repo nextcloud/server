@@ -51,7 +51,6 @@ use OCP\IURLGenerator;
  * @package OC\Files\Type
  */
 class Detection implements IMimeTypeDetector {
-
 	private const CUSTOM_MIMETYPEMAPPING = 'mimetypemapping.json';
 	private const CUSTOM_MIMETYPEALIASES = 'mimetypealiases.json';
 
@@ -279,7 +278,6 @@ class Detection implements IMimeTypeDetector {
 					return $mimeType;
 				}
 			}
-
 		}
 		return 'application/octet-stream';
 	}

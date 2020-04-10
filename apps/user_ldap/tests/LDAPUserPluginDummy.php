@@ -26,7 +26,6 @@ namespace OCA\User_LDAP\Tests;
 use OCA\User_LDAP\ILDAPUserPlugin;
 
 class LDAPUserPluginDummy implements ILDAPUserPlugin {
-
 	public function respondToActions() {
 		return null;
 	}
@@ -58,5 +57,4 @@ class LDAPUserPluginDummy implements ILDAPUserPlugin {
 	public function countUsers() {
 		return null;
 	}
-
 }

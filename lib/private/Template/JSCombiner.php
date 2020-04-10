@@ -95,12 +95,12 @@ class JSCombiner {
 
 		try {
 			$folder = $this->appData->getFolder($app);
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			// creating css appdata folder
 			$folder = $this->appData->newFolder($app);
 		}
 
-		if($this->isCached($fileName, $folder)) {
+		if ($this->isCached($fileName, $folder)) {
 			return true;
 		}
 		return $this->cache($path, $fileName, $folder);
@@ -145,7 +145,7 @@ class JSCombiner {
 			}
 
 			return true;
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			return false;
 		}
 	}
@@ -176,7 +176,7 @@ class JSCombiner {
 		$fileName = str_replace('.json', '.js', $fileName);
 		try {
 			$cachedfile = $folder->getFile($fileName);
-		} catch(NotFoundException $e) {
+		} catch (NotFoundException $e) {
 			$cachedfile = $folder->newFile($fileName);
 		}
 
@@ -228,7 +228,7 @@ class JSCombiner {
 	public function getContent($root, $file) {
 		/** @var array $data */
 		$data = json_decode(file_get_contents($root . '/' . $file));
-		if(!is_array($data)) {
+		if (!is_array($data)) {
 			return [];
 		}
 

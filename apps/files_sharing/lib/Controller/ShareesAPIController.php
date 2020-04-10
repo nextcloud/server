@@ -212,7 +212,7 @@ class ShareesAPIController extends OCSController {
 		list($result, $hasMoreResults) = $this->collaboratorSearch->search($search, $shareTypes, $lookup, $this->limit, $this->offset);
 
 		// extra treatment for 'exact' subarray, with a single merge expected keys might be lost
-		if(isset($result['exact'])) {
+		if (isset($result['exact'])) {
 			$result['exact'] = array_merge($this->result['exact'], $result['exact']);
 		}
 		$this->result = array_merge($this->result, $result);

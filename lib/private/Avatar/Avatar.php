@@ -300,7 +300,7 @@ abstract class Avatar implements IAvatar {
 		$hash = strtolower($hash);
 
 		// Already a md5 hash?
-		if(preg_match('/^([0-9a-f]{4}-?){8}$/', $hash, $matches) !== 1) {
+		if (preg_match('/^([0-9a-f]{4}-?){8}$/', $hash, $matches) !== 1) {
 			$hash = md5($hash);
 		}
 

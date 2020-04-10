@@ -101,14 +101,12 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function externalSharesChecksDataProvider() {
-
 		$data = [];
 
 		foreach ([false, true] as $annIn) {
 			foreach ([false, true] as $annOut) {
 				foreach ([false, true] as $confIn) {
 					foreach ([false, true] as $confOut) {
-
 						$res = true;
 						if (!$annIn && !$confIn) {
 							$res = false;
@@ -186,7 +184,6 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	}
 
 	public function testBeforeControllerWithShareControllerWithSharingEnabled() {
-
 		$share = $this->createMock(IShare::class);
 
 		$this->appManager
@@ -229,6 +226,4 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 	public function testAfterExceptionWithS2SException() {
 		$this->assertEquals(new JSONResponse('My Exception message', 405), $this->sharingCheckMiddleware->afterException($this->controllerMock, 'myMethod', new S2SException('My Exception message')));
 	}
-
-
 }

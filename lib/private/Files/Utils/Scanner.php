@@ -223,7 +223,6 @@ class Scanner extends PublicEmitter {
 				} else {// if the root exists in neither the cache nor the storage the user isn't setup yet
 					break;
 				}
-
 			}
 
 			// don't scan received local shares, these can be scanned when scanning the owner's storage

@@ -84,7 +84,7 @@ class IntegrationTestUserCleanUp extends AbstractIntegrationTest {
 		// it is deleted from the LDAP server. The instance will be returned
 		// from cache and may false-positively confirm the correctness.
 		$user = \OC::$server->getUserManager()->get($username);
-		if($user === null) {
+		if ($user === null) {
 			return false;
 		}
 		$user->delete();

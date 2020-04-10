@@ -76,7 +76,6 @@ class SettingsControllerTest extends TestCase {
 	private $utilMock;
 
 	protected function setUp(): void {
-
 		parent::setUp();
 
 		$this->requestMock = $this->createMock(IRequest::class);
@@ -136,7 +135,6 @@ class SettingsControllerTest extends TestCase {
 	 * test updatePrivateKeyPassword() if wrong new password was entered
 	 */
 	public function testUpdatePrivateKeyPasswordWrongNewPassword() {
-
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
@@ -162,7 +160,6 @@ class SettingsControllerTest extends TestCase {
 	 * test updatePrivateKeyPassword() if wrong old password was entered
 	 */
 	public function testUpdatePrivateKeyPasswordWrongOldPassword() {
-
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
@@ -189,7 +186,6 @@ class SettingsControllerTest extends TestCase {
 	 * test updatePrivateKeyPassword() with the correct old and new password
 	 */
 	public function testUpdatePrivateKeyPassword() {
-
 		$oldPassword = 'old';
 		$newPassword = 'new';
 
@@ -254,5 +250,4 @@ class SettingsControllerTest extends TestCase {
 		$this->utilMock->expects($this->once())->method('setEncryptHomeStorage')->with($value);
 		$this->controller->setEncryptHomeStorage($value);
 	}
-
 }

@@ -125,13 +125,13 @@ class RouteConfig {
 
 			// optionally register requirements for route. This is used to
 			// tell the route parser how url parameters should be matched
-			if(array_key_exists('requirements', $ocsRoute)) {
+			if (array_key_exists('requirements', $ocsRoute)) {
 				$router->requirements($ocsRoute['requirements']);
 			}
 
 			// optionally register defaults for route. This is used to
 			// tell the route parser how url parameters should be default valued
-			if(array_key_exists('defaults', $ocsRoute)) {
+			if (array_key_exists('defaults', $ocsRoute)) {
 				$router->defaults($ocsRoute['defaults']);
 			}
 		}
@@ -183,13 +183,13 @@ class RouteConfig {
 
 			// optionally register requirements for route. This is used to
 			// tell the route parser how url parameters should be matched
-			if(array_key_exists('requirements', $simpleRoute)) {
+			if (array_key_exists('requirements', $simpleRoute)) {
 				$router->requirements($simpleRoute['requirements']);
 			}
 
 			// optionally register defaults for route. This is used to
 			// tell the route parser how url parameters should be default valued
-			if(array_key_exists('defaults', $simpleRoute)) {
+			if (array_key_exists('defaults', $simpleRoute)) {
 				$router->defaults($simpleRoute['defaults']);
 			}
 		}
@@ -220,7 +220,7 @@ class RouteConfig {
 			$root = $config['root'] ?? '/apps/' . $this->appName;
 
 			// the url parameter used as id to the resource
-			foreach($actions as $action) {
+			foreach ($actions as $action) {
 				$url = $root . $config['url'];
 				$method = $action['name'];
 				$verb = strtoupper($action['verb'] ?? 'GET');
@@ -270,7 +270,7 @@ class RouteConfig {
 		foreach ($resources as $resource => $config) {
 
 			// the url parameter used as id to the resource
-			foreach($actions as $action) {
+			foreach ($actions as $action) {
 				$url = $config['url'];
 				$method = $action['name'];
 				$verb = strtoupper($action['verb'] ?? 'GET');

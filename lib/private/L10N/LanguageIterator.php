@@ -55,18 +55,18 @@ class LanguageIterator implements ILanguageIterator {
 	 * @since 14.0.0
 	 */
 	public function current(): string {
-		switch($this->i) {
+		switch ($this->i) {
 			/** @noinspection PhpMissingBreakStatementInspection */
 			case 0:
 				$forcedLang = $this->config->getSystemValue('force_language', false);
-				if(is_string($forcedLang)) {
+				if (is_string($forcedLang)) {
 					return $forcedLang;
 				}
 				$this->next();
 			/** @noinspection PhpMissingBreakStatementInspection */
 			case 1:
 				$forcedLang = $this->config->getSystemValue('force_language', false);
-				if(is_string($forcedLang)
+				if (is_string($forcedLang)
 					&& ($truncated = $this->getTruncatedLanguage($forcedLang)) !== $forcedLang
 				) {
 					return $truncated;
@@ -75,14 +75,14 @@ class LanguageIterator implements ILanguageIterator {
 			/** @noinspection PhpMissingBreakStatementInspection */
 			case 2:
 				$userLang = $this->config->getUserValue($this->user->getUID(), 'core', 'lang', null);
-				if(is_string($userLang)) {
+				if (is_string($userLang)) {
 					return $userLang;
 				}
 				$this->next();
 			/** @noinspection PhpMissingBreakStatementInspection */
 			case 3:
 				$userLang = $this->config->getUserValue($this->user->getUID(), 'core', 'lang', null);
-				if(is_string($userLang)
+				if (is_string($userLang)
 					&& ($truncated = $this->getTruncatedLanguage($userLang)) !== $userLang
 				) {
 					return $truncated;
@@ -93,7 +93,7 @@ class LanguageIterator implements ILanguageIterator {
 			/** @noinspection PhpMissingBreakStatementInspection */
 			case 5:
 				$defaultLang = $this->config->getSystemValue('default_language', 'en');
-				if(($truncated = $this->getTruncatedLanguage($defaultLang)) !== $defaultLang) {
+				if (($truncated = $this->getTruncatedLanguage($defaultLang)) !== $defaultLang) {
 					return $truncated;
 				}
 				$this->next();
@@ -131,7 +131,7 @@ class LanguageIterator implements ILanguageIterator {
 
 	protected function getTruncatedLanguage(string $lang):string {
 		$pos = strpos($lang, '_');
-		if($pos !== false) {
+		if ($pos !== false) {
 			$lang = substr($lang, 0, $pos);
 		}
 		return $lang;

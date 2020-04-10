@@ -119,5 +119,4 @@ class SettingsController extends Controller {
 
 		return true;
 	}
-
 }

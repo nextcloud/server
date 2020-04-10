@@ -30,7 +30,6 @@ use OCA\Files_External\Lib\DefinitionParameter;
 use OCP\IL10N;
 
 class SFTP extends Backend {
-
 	public function __construct(IL10N $l, Password $legacyAuth) {
 		$this
 			->setIdentifier('sftp')
@@ -47,5 +46,4 @@ class SFTP extends Backend {
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
-
 }

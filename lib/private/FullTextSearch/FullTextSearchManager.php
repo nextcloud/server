@@ -230,6 +230,4 @@ class FullTextSearchManager implements IFullTextSearchManager {
 
 		return $this->getSearchService()->search($userId, $searchRequest);
 	}
-
-
 }

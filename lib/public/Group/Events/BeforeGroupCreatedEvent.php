@@ -51,5 +51,4 @@ class BeforeGroupCreatedEvent extends Event {
 	public function getName(): string {
 		return $this->name;
 	}
-
 }

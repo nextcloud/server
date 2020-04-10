@@ -216,5 +216,4 @@ class UtilTest extends TestCase {
 
 		$this->assertEquals($return, $this->instance->getStorage($path));
 	}
-
 }

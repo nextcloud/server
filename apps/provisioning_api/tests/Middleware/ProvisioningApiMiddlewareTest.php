@@ -118,6 +118,5 @@ class ProvisioningApiMiddlewareTest extends TestCase {
 			$this->assertTrue($forwared);
 			$this->assertSame($exception, $e);
 		}
-
 	}
 }

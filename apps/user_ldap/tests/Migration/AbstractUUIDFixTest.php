@@ -194,5 +194,4 @@ abstract class AbstractUUIDFixTest extends TestCase {
 
 		$this->job->run($args);
 	}
-
 }

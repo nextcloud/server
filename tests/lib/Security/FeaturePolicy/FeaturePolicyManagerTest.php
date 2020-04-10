@@ -86,5 +86,4 @@ class FeaturePolicyManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->manager->getDefaultPolicy());
 		$this->assertSame($expectedStringPolicy, $this->manager->getDefaultPolicy()->buildPolicy());
 	}
-
 }

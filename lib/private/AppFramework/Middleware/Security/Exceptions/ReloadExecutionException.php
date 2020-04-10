@@ -27,5 +27,4 @@ declare(strict_types=1);
 namespace OC\AppFramework\Middleware\Security\Exceptions;
 
 class ReloadExecutionException extends SecurityException {
-
 }

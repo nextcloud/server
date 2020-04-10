@@ -44,12 +44,24 @@ class Example extends Entity {
 
 
 class ExampleMapper extends Mapper {
-	public function __construct(IDBConnection $db) { parent::__construct($db, 'table'); }
-	public function find($table, $id) { return $this->findOneQuery($table, $id); }
-	public function findOneEntity($table, $id) { return $this->findEntity($table, $id); }
-	public function findAllEntities($table) { return $this->findEntities($table); }
-	public function mapRow($row) { return $this->mapRowToEntity($row); }
-	public function execSql($sql, $params) { return $this->execute($sql, $params); }
+	public function __construct(IDBConnection $db) {
+		parent::__construct($db, 'table');
+	}
+	public function find($table, $id) {
+		return $this->findOneQuery($table, $id);
+	}
+	public function findOneEntity($table, $id) {
+		return $this->findEntity($table, $id);
+	}
+	public function findAllEntities($table) {
+		return $this->findEntities($table);
+	}
+	public function mapRow($row) {
+		return $this->mapRowToEntity($row);
+	}
+	public function execSql($sql, $params) {
+		return $this->execute($sql, $params);
+	}
 }
 
 

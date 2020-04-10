@@ -117,5 +117,4 @@ class CreateSessionTokenCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 		$this->assertFalse($data->isRememberLogin());
 	}
-
 }

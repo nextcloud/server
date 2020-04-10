@@ -205,5 +205,4 @@ class IconControllerTest extends TestCase {
 		$expected->cacheFor(86400);
 		$this->assertEquals($expected, $this->iconController->getTouchIcon());
 	}
-
 }

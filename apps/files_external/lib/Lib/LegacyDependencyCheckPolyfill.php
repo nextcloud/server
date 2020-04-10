@@ -64,5 +64,4 @@ trait LegacyDependencyCheckPolyfill {
 
 		return $ret;
 	}
-
 }

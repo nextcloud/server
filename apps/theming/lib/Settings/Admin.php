@@ -107,5 +107,4 @@ class Admin implements ISettings {
 	public function getPriority(): int {
 		return 5;
 	}
-
 }

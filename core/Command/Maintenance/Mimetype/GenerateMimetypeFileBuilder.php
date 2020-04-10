@@ -27,8 +27,7 @@ declare(strict_types=1);
 
 namespace OC\Core\Command\Maintenance\Mimetype;
 
-class GenerateMimetypeFileBuilder
-{
+class GenerateMimetypeFileBuilder {
 	/**
 	 * Generate mime type list file
 	 * @param $aliases
@@ -39,7 +38,7 @@ class GenerateMimetypeFileBuilder
 		$keys = array_filter(array_keys($aliases), function ($k) {
 			return $k[0] === '_';
 		});
-		foreach($keys as $key) {
+		foreach ($keys as $key) {
 			unset($aliases[$key]);
 		}
 
@@ -47,7 +46,7 @@ class GenerateMimetypeFileBuilder
 		$dir = new \DirectoryIterator(\OC::$SERVERROOT.'/core/img/filetypes');
 
 		$files = [];
-		foreach($dir as $fileInfo) {
+		foreach ($dir as $fileInfo) {
 			if ($fileInfo->isFile()) {
 				$file = preg_replace('/.[^.]*$/', '', $fileInfo->getFilename());
 				$files[] = $file;
@@ -61,7 +60,7 @@ class GenerateMimetypeFileBuilder
 		// Fetch all themes!
 		$themes = [];
 		$dirs = new \DirectoryIterator(\OC::$SERVERROOT.'/themes/');
-		foreach($dirs as $dir) {
+		foreach ($dirs as $dir) {
 			//Valid theme dir
 			if ($dir->isFile() || $dir->isDot()) {
 				continue;
@@ -105,5 +104,4 @@ OC.MimeTypeList={
 };
 ';
 	}
-
 }

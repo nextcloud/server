@@ -241,5 +241,4 @@ class ScannerTest extends \Test\TestCase {
 		$this->assertTrue($cache->inCache('folder/bar.txt'));
 		$this->assertFalse($cache->inCache('folder/subfolder/foobar.txt'));
 	}
-
 }

@@ -155,7 +155,6 @@ class UserHooksTest extends TestCase {
 		$this->instance->postPasswordReset($params);
 		$passwordResetUsers = $this->invokePrivate($this->instance, 'passwordResetUsers');
 		$this->assertEmpty($passwordResetUsers);
-
 	}
 
 	/**
@@ -302,7 +301,6 @@ class UserHooksTest extends TestCase {
 	}
 
 	public function XtestSetPasswordNoUser() {
-
 		$userSessionMock = $this->getMockBuilder(IUserSession::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -390,7 +388,5 @@ class UserHooksTest extends TestCase {
 					$this->recoveryMock
 				]
 			)->setMethods(['setupFS'])->getMock();
-
 	}
-
 }

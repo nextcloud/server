@@ -71,5 +71,4 @@ class Token implements IToken {
 	public function getUser(): string {
 		return $this->data['user_id'];
 	}
-
 }

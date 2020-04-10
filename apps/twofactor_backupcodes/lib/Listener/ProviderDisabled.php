@@ -64,5 +64,4 @@ class ProviderDisabled implements IEventListener {
 			$this->jobList->remove(RememberBackupCodesJob::class, ['uid' => $event->getUser()->getUID()]);
 		}
 	}
-
 }

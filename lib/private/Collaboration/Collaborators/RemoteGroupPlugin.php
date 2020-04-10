@@ -90,5 +90,4 @@ class RemoteGroupPlugin implements ISearchPlugin {
 			throw new \InvalidArgumentException('Invalid Federated Cloud ID', 0, $e);
 		}
 	}
-
 }

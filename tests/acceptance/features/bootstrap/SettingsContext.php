@@ -24,7 +24,6 @@
 use Behat\Behat\Context\Context;
 
 class SettingsContext implements Context, ActorAwareInterface {
-
 	use ActorAware;
 
 	/**
@@ -236,5 +235,4 @@ class SettingsContext implements Context, ActorAwareInterface {
 
 		PHPUnit_Framework_Assert::fail("The dropdown in system tags section in Administration Settings does not contain the tag $tag after $numberOfTries tries");
 	}
-
 }

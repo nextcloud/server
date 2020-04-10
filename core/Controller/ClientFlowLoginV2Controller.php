@@ -43,7 +43,6 @@ use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
 
 class ClientFlowLoginV2Controller extends Controller {
-
 	private const tokenName = 'client.flow.v2.login.token';
 	private const stateName = 'client.flow.v2.state.token';
 
@@ -150,7 +149,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @NoSameSiteCookieRequired
 	 */
 	public function grantPage(string $stateToken): StandaloneTemplateResponse {
-		if(!$this->isValidStateToken($stateToken)) {
+		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
 
@@ -178,7 +177,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @UseSession
 	 */
 	public function generateAppPassword(string $stateToken): Response {
-		if(!$this->isValidStateToken($stateToken)) {
+		if (!$this->isValidStateToken($stateToken)) {
 			return $this->stateTokenForbiddenResponse();
 		}
 
@@ -241,7 +240,7 @@ class ClientFlowLoginV2Controller extends Controller {
 
 	private function isValidStateToken(string $stateToken): bool {
 		$currentToken = $this->session->get(self::stateName);
-		if(!is_string($stateToken) || !is_string($currentToken)) {
+		if (!is_string($stateToken) || !is_string($currentToken)) {
 			return false;
 		}
 		return hash_equals($currentToken, $stateToken);
@@ -266,7 +265,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 */
 	private function getFlowByLoginToken(): LoginFlowV2 {
 		$currentToken = $this->session->get(self::tokenName);
-		if(!is_string($currentToken)) {
+		if (!is_string($currentToken)) {
 			throw new LoginFlowV2NotFoundException('Login token not set in session');
 		}
 

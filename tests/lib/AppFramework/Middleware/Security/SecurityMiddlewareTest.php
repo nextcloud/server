@@ -86,7 +86,6 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	}
 
 	private function getMiddleware(bool $isLoggedIn, bool $isAdminUser, bool $isSubAdmin, bool $isAppEnabledForUser = true): SecurityMiddleware {
-
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->appManager->expects($this->any())
 			->method('isEnabledForUser')
@@ -140,7 +139,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		try {
 			$this->reader->reflect(__CLASS__, $method);
 			$sec->beforeController($this->controller, $method);
-		} catch (SecurityException $ex){
+		} catch (SecurityException $ex) {
 			$this->assertEquals($status, $ex->getCode());
 		}
 
@@ -236,7 +235,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		$sec = $this->getMiddleware($isLoggedIn, $isAdminUser, false);
 
-		if($shouldFail) {
+		if ($shouldFail) {
 			$this->expectException(SecurityException::class);
 		} else {
 			$this->addToAssertionCount(1);

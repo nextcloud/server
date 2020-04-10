@@ -172,7 +172,6 @@ abstract class AbstractCalDavBackend extends TestCase {
 	}
 
 	protected function createEvent($calendarId, $start = '20130912T130000Z', $end = '20130912T140000Z') {
-
 		$randomPart = self::getUniqueID();
 
 		$calData = <<<EOD
@@ -203,7 +202,7 @@ EOD;
 	}
 
 	protected function assertAcl($principal, $privilege, $acl) {
-		foreach($acl as $a) {
+		foreach ($acl as $a) {
 			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
 				$this->addToAssertionCount(1);
 				return;
@@ -213,7 +212,7 @@ EOD;
 	}
 
 	protected function assertNotAcl($principal, $privilege, $acl) {
-		foreach($acl as $a) {
+		foreach ($acl as $a) {
 			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
 				$this->fail("ACL contains $principal / $privilege");
 				return;

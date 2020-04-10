@@ -93,6 +93,5 @@ class AvatarNode extends File {
 			return (int)$timestamp;
 		}
 		return $timestamp;
-
 	}
 }

@@ -109,7 +109,7 @@ class Dummy extends Backend implements \OCP\IUserBackend {
 	}
 
 	public function loginName2UserName($loginName) {
-		if(isset($this->users[strtolower($loginName)])) {
+		if (isset($this->users[strtolower($loginName)])) {
 			return strtolower($loginName);
 		}
 		return false;

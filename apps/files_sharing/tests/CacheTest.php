@@ -129,7 +129,7 @@ class CacheTest extends TestCase {
 	}
 
 	protected function tearDown(): void {
-		if($this->sharedCache) {
+		if ($this->sharedCache) {
 			$this->sharedCache->clear();
 		}
 
@@ -219,7 +219,6 @@ class CacheTest extends TestCase {
 
 			$this->verifyFiles($expectedFiles, $results);
 		}
-
 	}
 	/**
 	 * Test searching by mime type

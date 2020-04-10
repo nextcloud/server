@@ -66,5 +66,4 @@ class ActivityPublisher implements IEventListener {
 			}
 		}
 	}
-
 }

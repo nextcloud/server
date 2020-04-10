@@ -38,7 +38,6 @@ namespace OCP\AppFramework\Http;
  * @since 6.0.0
  */
 class TemplateResponse extends Response {
-
 	const EVENT_LOAD_ADDITIONAL_SCRIPTS = self::class . '::loadAdditionalScripts';
 	const EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN = self::class . '::loadAdditionalScriptsLoggedIn';
 
@@ -160,11 +159,10 @@ class TemplateResponse extends Response {
 
 		$template = new \OCP\Template($this->appName, $this->templateName, $renderAs);
 
-		foreach($this->params as $key => $value){
+		foreach ($this->params as $key => $value) {
 			$template->assign($key, $value);
 		}
 
 		return $template->fetchPage($this->params);
 	}
-
 }

@@ -250,7 +250,7 @@ class ShareController extends AuthPublicShareController {
 		$itemType = $itemSource = $uidOwner = '';
 		$token = $share;
 		$exception = null;
-		if($share instanceof \OCP\Share\IShare) {
+		if ($share instanceof \OCP\Share\IShare) {
 			try {
 				$token = $share->getToken();
 				$uidOwner = $share->getSharedBy();
@@ -269,7 +269,7 @@ class ShareController extends AuthPublicShareController {
 			'errorCode' => $errorCode,
 			'errorMessage' => $errorMessage,
 		]);
-		if(!is_null($exception)) {
+		if (!is_null($exception)) {
 			throw $exception;
 		}
 	}
@@ -366,7 +366,6 @@ class ShareController extends AuthPublicShareController {
 		$hideFileList = false;
 
 		if ($shareNode instanceof \OCP\Files\Folder) {
-
 			$shareIsFolder = true;
 
 			try {
@@ -553,7 +552,7 @@ class ShareController extends AuthPublicShareController {
 
 		$share = $this->shareManager->getShareByToken($token);
 
-		if(!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
+		if (!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
 			return new \OCP\AppFramework\Http\DataResponse('Share is read-only');
 		}
 
@@ -676,7 +675,6 @@ class ShareController extends AuthPublicShareController {
 			$subNode = $node->get($file);
 			$this->singleFileDownloaded($share, $subNode);
 		}
-
 	}
 
 	/**
@@ -738,7 +736,6 @@ class ShareController extends AuthPublicShareController {
 										$affectedUser,
 										$fileId,
 										$filePath) {
-
 		$event = $this->activityManager->generateEvent();
 		$event->setApp('files_sharing')
 			->setType('public_links')
@@ -747,6 +744,4 @@ class ShareController extends AuthPublicShareController {
 			->setObject('files', $fileId, $filePath);
 		$this->activityManager->publish($event);
 	}
-
-
 }

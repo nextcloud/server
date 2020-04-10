@@ -54,5 +54,4 @@ interface IComplexOperation extends IOperation {
 	 * @since 18.0.0
 	 */
 	public function getTriggerHint(): string;
-
 }

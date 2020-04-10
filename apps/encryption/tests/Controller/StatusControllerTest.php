@@ -52,7 +52,6 @@ class StatusControllerTest extends TestCase {
 	protected $controller;
 
 	protected function setUp(): void {
-
 		parent::setUp();
 
 		$this->sessionMock = $this->getMockBuilder(Session::class)
@@ -73,7 +72,6 @@ class StatusControllerTest extends TestCase {
 			$this->l10nMock,
 			$this->sessionMock,
 			$this->encryptionManagerMock);
-
 	}
 
 	/**

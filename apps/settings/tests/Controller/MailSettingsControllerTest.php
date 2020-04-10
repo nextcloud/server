@@ -133,7 +133,6 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			null
 		);
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
-
 	}
 
 	public function testStoreCredentials() {
@@ -189,5 +188,4 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$response = $this->mailController->sendTestMail();
 		$this->assertSame(Http::STATUS_OK, $response->getStatus());
 	}
-
 }

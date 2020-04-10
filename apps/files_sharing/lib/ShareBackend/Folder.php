@@ -109,7 +109,6 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 			$mimetype = -1;
 		}
 		while (!empty($parents)) {
-
 			$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
 			$parents = array_map(function ($parent) use ($qb) {
@@ -136,5 +135,4 @@ class Folder extends File implements \OCP\Share_Backend_Collection {
 		}
 		return $children;
 	}
-
 }

@@ -86,7 +86,6 @@ abstract class Office extends ProviderV2 {
 			return $image;
 		}
 		return null;
-
 	}
 
 	private function initCmd() {

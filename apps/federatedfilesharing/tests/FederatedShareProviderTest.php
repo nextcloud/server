@@ -415,7 +415,6 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	 *
 	 */
 	public function testUpdate($owner, $sharedBy) {
-
 		$this->provider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->setConstructorArgs(
 				[
@@ -468,7 +467,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				$sharedBy . '@http://localhost/'
 			)->willReturn(true);
 
-		if($owner === $sharedBy) {
+		if ($owner === $sharedBy) {
 			$this->provider->expects($this->never())->method('sendPermissionUpdate');
 		} else {
 			$this->provider->expects($this->once())->method('sendPermissionUpdate');
@@ -631,7 +630,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 					return ['user', 'server.com'];
 				}
 				return ['user2', 'server.com'];
-		});
+			});
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 		$this->notifications

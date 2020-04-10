@@ -28,7 +28,6 @@ namespace OCA\User_LDAP;
 use OC\User\Backend;
 
 class UserPluginManager {
-
 	public $test = false;
 
 	private $respondToActions = 0;
@@ -60,7 +59,7 @@ class UserPluginManager {
 		$respondToActions = $plugin->respondToActions();
 		$this->respondToActions |= $respondToActions;
 
-		foreach($this->which as $action => $v) {
+		foreach ($this->which as $action => $v) {
 			if (is_int($action) && (bool)($respondToActions & $action)) {
 				$this->which[$action] = $plugin;
 				\OC::$server->getLogger()->debug("Registered action ".$action." to plugin ".get_class($plugin), ['app' => 'user_ldap']);

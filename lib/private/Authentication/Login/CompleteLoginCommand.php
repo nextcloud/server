@@ -47,5 +47,4 @@ class CompleteLoginCommand extends ALoginCommand {
 
 		return $this->processNextOrFinishSuccessfully($loginData);
 	}
-
 }

@@ -73,6 +73,5 @@ abstract class ACreateEmpty {
 	 * @param File $file
 	 */
 	public function create(File $file, string $creatorId = null, string $templateId = null): void {
-
 	}
 }

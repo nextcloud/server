@@ -133,6 +133,5 @@ abstract class PublicShareController extends Controller {
 	 * @since 14.0.0
 	 */
 	public function shareNotFound() {
-
 	}
 }

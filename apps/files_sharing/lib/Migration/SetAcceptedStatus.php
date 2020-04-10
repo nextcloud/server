@@ -77,5 +77,4 @@ class SetAcceptedStatus implements IRepairStep {
 		$appVersion = $this->config->getAppValue('files_sharing', 'installed_version', '0.0.0');
 		return version_compare($appVersion, '1.10.1', '<');
 	}
-
 }

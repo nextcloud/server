@@ -110,5 +110,4 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 
 		$this->assertEquals(Http::STATUS_UNPROCESSABLE_ENTITY, $response->getStatus());
 	}
-
 }

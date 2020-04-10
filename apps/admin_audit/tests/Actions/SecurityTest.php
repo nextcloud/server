@@ -73,5 +73,4 @@ class SecurityTest extends TestCase {
 
 		$this->security->twofactorSuccess($this->user, ['provider' => 'myprovider']);
 	}
-
 }

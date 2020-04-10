@@ -91,6 +91,4 @@ class UserChangedEvent extends Event {
 	public function getOldValue() {
 		return $this->oldValue;
 	}
-
-
 }

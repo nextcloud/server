@@ -355,5 +355,4 @@ class TwoFactorCommandTest extends ALoginCommandTest {
 		$this->assertTrue($result->isSuccess());
 		$this->assertEquals('two/factor/url', $result->getRedirectUrl());
 	}
-
 }

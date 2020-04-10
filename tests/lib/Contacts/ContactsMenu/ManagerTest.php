@@ -222,5 +222,4 @@ class ManagerTest extends TestCase {
 
 		$this->assertEquals(null, $data);
 	}
-
 }

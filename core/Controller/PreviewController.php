@@ -92,7 +92,6 @@ class PreviewController extends Controller {
 		bool $a = false,
 		bool $forceIcon = true,
 		string $mode = 'fill'): Http\Response {
-
 		if ($file === '' || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -127,7 +126,6 @@ class PreviewController extends Controller {
 		bool $a = false,
 		bool $forceIcon = true,
 		string $mode = 'fill') {
-
 		if ($fileId === -1 || $x === 0 || $y === 0) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -160,7 +158,6 @@ class PreviewController extends Controller {
 		bool $a = false,
 		bool $forceIcon = true,
 		string $mode) : Http\Response {
-
 		if (!($node instanceof File) || (!$forceIcon && !$this->preview->isAvailable($node))) {
 			return new DataResponse([], Http::STATUS_NOT_FOUND);
 		}
@@ -178,6 +175,5 @@ class PreviewController extends Controller {
 		} catch (\InvalidArgumentException $e) {
 			return new DataResponse([], Http::STATUS_BAD_REQUEST);
 		}
-
 	}
 }

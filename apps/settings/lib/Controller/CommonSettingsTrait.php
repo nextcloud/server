@@ -38,7 +38,7 @@ use OCP\Settings\IIconSection;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Settings\ISettings;
 
-trait CommonSettingsTrait  {
+trait CommonSettingsTrait {
 
 	/** @var ISettingsManager */
 	private $settingsManager;
@@ -85,11 +85,11 @@ trait CommonSettingsTrait  {
 	protected function formatSections($sections, $currentSection, $type, $currentType, bool $subAdminOnly = false) {
 		$templateParameters = [];
 		/** @var \OCP\Settings\ISection[] $prioritizedSections */
-		foreach($sections as $prioritizedSections) {
+		foreach ($sections as $prioritizedSections) {
 			foreach ($prioritizedSections as $section) {
-				if($type === 'admin') {
+				if ($type === 'admin') {
 					$settings = $this->settingsManager->getAdminSettings($section->getID(), $subAdminOnly);
-				} elseif($type === 'personal') {
+				} elseif ($type === 'personal') {
 					$settings = $this->settingsManager->getPersonalSettings($section->getID());
 				}
 				if (empty($settings) && !($section->getID() === 'additional' && count(\OC_App::getForms('admin')) > 0)) {

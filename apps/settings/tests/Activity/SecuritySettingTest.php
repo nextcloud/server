@@ -29,7 +29,6 @@ use OCP\IL10N;
 use Test\TestCase;
 
 class SecuritySettingTest extends TestCase {
-
 	private $l10n;
 
 	/** @var SecuritySetting */
@@ -71,5 +70,4 @@ class SecuritySettingTest extends TestCase {
 		$this->assertTrue($this->setting->isDefaultEnabledMail());
 		$this->assertTrue($this->setting->isDefaultEnabledStream());
 	}
-
 }

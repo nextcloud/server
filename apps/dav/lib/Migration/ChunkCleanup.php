@@ -93,5 +93,4 @@ class ChunkCleanup implements IRepairStep {
 
 		$this->config->setAppValue('dav', 'chunks_migrated', '1');
 	}
-
 }

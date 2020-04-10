@@ -117,5 +117,4 @@ class Authtokens implements ISettings {
 			return $data;
 		}, $tokens);
 	}
-
 }

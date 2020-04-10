@@ -38,7 +38,6 @@ use OCP\IL10N;
 use OCP\IUser;
 
 class SMB extends Backend {
-
 	use LegacyDependencyCheckPolyfill;
 
 	public function __construct(IL10N $l, Password $legacyAuth) {
@@ -90,5 +89,4 @@ class SMB extends Backend {
 
 		$storage->setBackendOption('auth', $smbAuth);
 	}
-
 }

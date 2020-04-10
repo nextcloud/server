@@ -44,5 +44,4 @@ class BackupCode extends Entity {
 
 	/** @var int */
 	protected $used;
-
 }

@@ -86,8 +86,7 @@ class MailPluginTest extends TestCase {
 		$this->config->expects($this->any())
 			->method('getAppValue')
 			->willReturnCallback(
-				function ($appName, $key, $default) use ($shareeEnumeration)
-				{
+				function ($appName, $key, $default) use ($shareeEnumeration) {
 					if ($appName === 'core' && $key === 'shareapi_allow_share_dialog_user_enumeration') {
 						return $shareeEnumeration ? 'yes' : 'no';
 					}

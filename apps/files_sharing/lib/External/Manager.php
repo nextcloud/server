@@ -151,12 +151,11 @@ class Manager {
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
 	public function addShare($remote, $token, $password, $name, $owner, $shareType, $accepted=false, $user = null, $remoteId = -1, $parent = -1) {
-
 		$user = $user ? $user : $this->uid;
 		$accepted = $accepted ? IShare::STATUS_ACCEPTED : IShare::STATUS_PENDING;
 		$name = Filesystem::normalizePath('/' . $name);
 
-		if ($accepted !== IShare::STATUS_ACCEPTED)  {
+		if ($accepted !== IShare::STATUS_ACCEPTED) {
 			// To avoid conflicts with the mount point generation later,
 			// we only use a temporary mount point name here. The real
 			// mount point name will be generated when accepting the share,
@@ -258,7 +257,6 @@ class Manager {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -268,7 +266,6 @@ class Manager {
 	 * @return bool True if the share could be accepted, false otherwise
 	 */
 	public function acceptShare($id) {
-
 		$share = $this->getShare($id);
 		$result = false;
 
@@ -280,7 +277,7 @@ class Manager {
 			$hash = md5($mountPoint);
 			$userShareAccepted = false;
 
-			if((int)$share['share_type'] === Share::SHARE_TYPE_USER) {
+			if ((int)$share['share_type'] === Share::SHARE_TYPE_USER) {
 				$acceptShare = $this->connection->prepare('
 				UPDATE `*PREFIX*share_external`
 				SET `accepted` = ?,
@@ -321,7 +318,6 @@ class Manager {
 	 * @return bool True if the share could be declined, false otherwise
 	 */
 	public function declineShare($id) {
-
 		$share = $this->getShare($id);
 		$result = false;
 
@@ -374,10 +370,9 @@ class Manager {
 	 * @return boolean
 	 */
 	private function sendFeedbackToRemote($remote, $token, $remoteId, $feedback) {
-
 		$result = $this->tryOCMEndPoint($remote, $token, $remoteId, $feedback);
 
-		if($result === true) {
+		if ($result === true) {
 			return true;
 		}
 
@@ -446,7 +441,6 @@ class Manager {
 		}
 
 		return false;
-
 	}
 
 
@@ -509,7 +503,6 @@ class Manager {
 	}
 
 	public function removeShare($mountPoint) {
-
 		$mountPointObj = $this->mountManager->find($mountPoint);
 		$id = $mountPointObj->getStorage()->getCache()->getId('');
 
@@ -545,7 +538,7 @@ class Manager {
 			$result = (bool)$query->execute([0, (int)$share['id']]);
 		}
 
-		if($result) {
+		if ($result) {
 			$this->removeReShares($id);
 		}
 
@@ -590,7 +583,7 @@ class Manager {
 
 		if ($result) {
 			$shares = $getShare->fetchAll();
-			foreach($shares as $share) {
+			foreach ($shares as $share) {
 				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 			}
 		}

@@ -27,7 +27,6 @@ use OCA\DAV\CalDAV\Integration\ExternalCalendar;
 use Test\TestCase;
 
 class ExternalCalendarTest extends TestCase {
-
 	private $abstractExternalCalendar;
 
 	protected function setUp(): void {

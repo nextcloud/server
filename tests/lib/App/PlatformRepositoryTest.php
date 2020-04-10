@@ -62,4 +62,5 @@ class PlatformRepositoryTest extends \Test\TestCase {
 			//			'semver metadata/3' => array('1.0.0+foo', '1.0.0.0'),
 			//			'metadata w/ alias' => array('1.0.0+foo as 2.0', '1.0.0.0'),
 		];
-	}}
+	}
+}

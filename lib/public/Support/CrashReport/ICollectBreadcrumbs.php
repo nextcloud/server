@@ -41,5 +41,4 @@ interface ICollectBreadcrumbs extends IReporter {
 	 * @since 15.0.0
 	 */
 	public function collect(string $message, string $category, array $context = []);
-
 }

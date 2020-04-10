@@ -96,5 +96,4 @@ class ActivityPublisherTest extends TestCase {
 
 		$this->listener->handle($event);
 	}
-
 }

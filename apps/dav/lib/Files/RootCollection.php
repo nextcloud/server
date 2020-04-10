@@ -61,5 +61,4 @@ class RootCollection extends AbstractPrincipalCollection {
 	function getName() {
 		return 'files';
 	}
-
 }

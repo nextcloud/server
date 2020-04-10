@@ -117,5 +117,4 @@ class LoginData {
 	public function isRememberLogin(): bool {
 		return $this->rememberLogin;
 	}
-
 }

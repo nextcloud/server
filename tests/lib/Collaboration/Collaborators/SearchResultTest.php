@@ -98,5 +98,4 @@ class SearchResultTest extends TestCase {
 
 		$this->assertSame($expected, $result->hasResult(new SearchResultType($type), $id));
 	}
-
 }

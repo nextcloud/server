@@ -98,5 +98,4 @@ class ProviderLoaderTest extends TestCase {
 		$this->assertArrayHasKey('test', $providers);
 		$this->assertSame($provider, $providers['test']);
 	}
-
 }

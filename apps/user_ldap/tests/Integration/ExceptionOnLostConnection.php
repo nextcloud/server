@@ -113,7 +113,7 @@ class ExceptionOnLostConnection {
 	 * restores original state of the LDAP proxy, if necessary
 	 */
 	public function cleanUp() {
-		if($this->originalProxyState === true) {
+		if ($this->originalProxyState === true) {
 			$this->setProxyState(true);
 		}
 	}
@@ -123,7 +123,7 @@ class ExceptionOnLostConnection {
 	 * fail
 	 */
 	public function run() {
-		if($this->originalProxyState === false) {
+		if ($this->originalProxyState === false) {
 			$this->setProxyState(true);
 		}
 		//host contains port, 2nd parameter will be ignored
@@ -152,7 +152,7 @@ class ExceptionOnLostConnection {
 	 * @throws \Exception
 	 */
 	private function checkCurlResult($ch, $result) {
-		if($result === false) {
+		if ($result === false) {
 			$error = curl_error($ch);
 			curl_close($ch);
 			throw new \Exception($error);
@@ -166,7 +166,7 @@ class ExceptionOnLostConnection {
 	 * @throws \Exception
 	 */
 	private function setProxyState($isEnabled) {
-		if(!is_bool($isEnabled)) {
+		if (!is_bool($isEnabled)) {
 			throw new \InvalidArgumentException('Bool expected');
 		}
 		$postData = json_encode(['enabled' => $isEnabled]);

@@ -92,7 +92,6 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 	public function testExecuteStepWithSchemaChange() {
-
 		$schema = $this->createMock(Schema::class);
 		$this->db->expects($this->any())
 			->method('createSchema')
@@ -136,7 +135,6 @@ class MigrationsTest extends \Test\TestCase {
 	}
 
 	public function testExecuteStepWithoutSchemaChange() {
-
 		$schema = $this->createMock(Schema::class);
 		$this->db->expects($this->any())
 			->method('createSchema')

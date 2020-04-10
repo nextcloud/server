@@ -68,5 +68,4 @@ class Enable extends Base {
 			return 2;
 		}
 	}
-
 }

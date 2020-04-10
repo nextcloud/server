@@ -616,5 +616,4 @@ class NotifierTest extends TestCase {
 
 		$this->notifier->prepare($this->notification, $this->lc);
 	}
-
 }

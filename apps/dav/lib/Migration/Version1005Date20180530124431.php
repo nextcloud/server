@@ -44,7 +44,7 @@ class Version1005Date20180530124431 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		$types = ['resources', 'rooms'];
-		foreach($types as $type) {
+		foreach ($types as $type) {
 			if (!$schema->hasTable('calendar_' . $type)) {
 				$table = $schema->createTable('calendar_' . $type);
 

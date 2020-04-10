@@ -26,7 +26,6 @@ namespace OCA\Files_Sharing\Activity\Providers;
 use OCP\Activity\IEvent;
 
 class PublicLinks extends Base {
-
 	const SUBJECT_SHARED_LINK_SELF = 'shared_link_self';
 	const SUBJECT_RESHARED_LINK_BY = 'reshared_link_by';
 	const SUBJECT_UNSHARED_LINK_SELF = 'unshared_link_self';
@@ -55,7 +54,6 @@ class PublicLinks extends Base {
 			$subject = $this->l->t('{actor} removed public link');
 		} elseif ($event->getSubject() === self::SUBJECT_LINK_BY_EXPIRED) {
 			$subject = $this->l->t('Public link of {actor} expired');
-
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -91,7 +89,6 @@ class PublicLinks extends Base {
 			$subject = $this->l->t('{actor} removed public link for {file}');
 		} elseif ($event->getSubject() === self::SUBJECT_LINK_BY_EXPIRED) {
 			$subject = $this->l->t('Public link of {actor} for {file} expired');
-
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -127,5 +124,4 @@ class PublicLinks extends Base {
 		}
 		return [];
 	}
-
 }

@@ -90,5 +90,4 @@ class ProviderSetTest extends TestCase {
 
 		$this->assertTrue($set->isProviderMissing());
 	}
-
 }

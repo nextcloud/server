@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 /**
  * @copyright Copyright (c) 2018 Michael Weimann <mail@michael-weimann.eu>
  *
@@ -37,7 +37,6 @@ use Test\TestCase;
  * This class provides test cases for the svg controller
  */
 class SvgControllerTest extends TestCase {
-
 	const TEST_IMAGES_SOURCE_PATH = __DIR__ . '/../../data/svg';
 	const TEST_IMAGES_PATH = __DIR__ . '/../../../core/img/testImages';
 	const TEST_IMAGE_MIXED = 'mixed-source.svg';

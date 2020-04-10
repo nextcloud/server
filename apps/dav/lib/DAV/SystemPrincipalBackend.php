@@ -69,7 +69,6 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 * @return array
 	 */
 	function getPrincipalByPath($path) {
-
 		if ($path === 'principals/system/system') {
 			$principal = [
 				'uri' => 'principals/system/system',

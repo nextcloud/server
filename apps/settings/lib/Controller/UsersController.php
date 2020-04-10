@@ -172,7 +172,7 @@ class UsersController extends Controller {
 		$groupsInfo->setSorting($sortGroupsBy);
 		list($adminGroup, $groups) = $groupsInfo->get();
 
-		if(!$isLDAPUsed && $this->appManager->isEnabledForUser('user_ldap')) {
+		if (!$isLDAPUsed && $this->appManager->isEnabledForUser('user_ldap')) {
 			$isLDAPUsed = (bool)array_reduce($this->userManager->getBackends(), function ($ldapFound, $backend) {
 				return $ldapFound || $backend instanceof User_Proxy;
 			});
@@ -181,7 +181,7 @@ class UsersController extends Controller {
 		$disabledUsers = -1;
 		$userCount = 0;
 
-		if(!$isLDAPUsed) {
+		if (!$isLDAPUsed) {
 			if ($this->isAdmin) {
 				$disabledUsers = $this->userManager->countDisabledUsers();
 				$userCount = array_reduce($this->userManager->countUsers(), function ($v, $w) {
@@ -193,7 +193,7 @@ class UsersController extends Controller {
 				$userGroups = $this->groupManager->getUserGroups($user);
 				$groupsNames = [];
 
-				foreach($groups as $key => $group) {
+				foreach ($groups as $key => $group) {
 					// $userCount += (int)$group['usercount'];
 					array_push($groupsNames, $group['name']);
 					// we prevent subadmins from looking up themselves
@@ -447,7 +447,6 @@ class UsersController extends Controller {
 	 * @return DataResponse
 	 */
 	public function getVerificationCode(string $account, bool $onlyVerificationCode): DataResponse {
-
 		$user = $this->userSession->getUser();
 
 		if ($user === null) {

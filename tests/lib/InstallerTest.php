@@ -24,7 +24,6 @@ use OCP\ITempManager;
  * @group DB
  */
 class InstallerTest extends TestCase {
-
 	private static $appid = 'testapp';
 	private $appstore;
 	/** @var AppFetcher|\PHPUnit_Framework_MockObject_MockObject */

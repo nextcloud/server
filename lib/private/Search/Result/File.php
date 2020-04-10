@@ -75,7 +75,6 @@ class File extends \OCP\Search\Result {
 	 * @param FileInfo $data file data given by provider
 	 */
 	public function __construct(FileInfo $data) {
-
 		$path = $this->getRelativePath($data->getPath());
 
 		$info = pathinfo($path);
@@ -113,5 +112,4 @@ class File extends \OCP\Search\Result {
 		}
 		return self::$userFolderCache->getRelativePath($path);
 	}
-
 }

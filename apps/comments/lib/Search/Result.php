@@ -29,7 +29,6 @@ use OCP\Files\NotFoundException;
 use OCP\Search\Result as BaseResult;
 
 class Result extends BaseResult {
-
 	public $type = 'comment';
 	public $comment;
 	public $authorId;
@@ -108,5 +107,4 @@ class Result extends BaseResult {
 
 		return $prefix . mb_substr($message, $start, $end - $start) . $suffix;
 	}
-
 }
