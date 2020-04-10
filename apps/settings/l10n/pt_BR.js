@@ -310,7 +310,7 @@ OC.L10N.register(
     "Authentication method" : "Método de autenticação",
     "Authentication required" : "Autenticação é requerida",
     "Server address" : "Endereço do servidor",
-    "Port" : "Porto",
+    "Port" : "Porta",
     "Credentials" : "Credenciais",
     "SMTP Username" : "Nome do Usuário SMTP",
     "SMTP Password" : "Senha SMTP",
