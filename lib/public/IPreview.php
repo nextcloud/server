@@ -115,4 +115,17 @@ interface IPreview {
 	 * @since 8.0.0
 	 */
 	public function isAvailable(\OCP\Files\FileInfo $file);
+
+	/**
+	 * Generates previews of a file
+	 *
+	 * @param File $file
+	 * @param array $specifications
+	 * @param string $mimeType
+	 * @return ISimpleFile the last preview that was generated
+	 * @throws NotFoundException
+	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
+	 * @since 19.0.0
+	 */
+	public function generatePreviews(File $file, array $specifications, $mimeType = null);
 }

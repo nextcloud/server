@@ -227,18 +227,10 @@ class GeneratorTest extends \Test\TestCase {
 			->with($this->equalTo('256-256.png'))
 			->willThrowException(new NotFoundException());
 
-		$image = $this->createMock(IImage::class);
+		$image = $this->getMockImage(2048, 2048, 'my resized data');
 		$this->helper->method('getImage')
 			->with($this->equalTo($maxPreview))
 			->willReturn($image);
-
-		$image->expects($this->once())
-			->method('resize')
-			->with(256);
-		$image->method('data')
-			->willReturn('my resized data');
-		$image->method('valid')->willReturn(true);
-		$image->method('dataMimeType')->willReturn('image/png');
 
 		$previewFile->expects($this->once())
 			->method('putContent')
@@ -325,6 +317,27 @@ class GeneratorTest extends \Test\TestCase {
 		$this->generator->getPreview($file, 100, 100);
 	}
 
+	private function getMockImage($width, $height, $data = null) {
+		$image = $this->createMock(IImage::class);
+		$image->method('height')->willReturn($width);
+		$image->method('width')->willReturn($height);
+		$image->method('valid')->willReturn(true);
+		$image->method('dataMimeType')->willReturn('image/png');
+		$image->method('data')->willReturn($data);
+
+		$image->method('resizeCopy')->willReturnCallback(function($size) use ($data) {
+			return $this->getMockImage($size, $size, $data);
+		});
+		$image->method('preciseResizeCopy')->willReturnCallback(function($width, $height) use ($data) {
+			return $this->getMockImage($width, $height, $data);
+		});
+		$image->method('cropCopy')->willReturnCallback(function($x, $y, $width, $height) use ($data) {
+			return $this->getMockImage($width, $height, $data);
+		});
+
+		return $image;
+	}
+
 	public function dataSize() {
 		return [
 			[1024, 2048, 512, 512, false, IPreview::MODE_FILL, 256, 512],
@@ -409,14 +422,10 @@ class GeneratorTest extends \Test\TestCase {
 			->with($this->equalTo($filename))
 			->willThrowException(new NotFoundException());
 
-		$image = $this->createMock(IImage::class);
+		$image = $this->getMockImage($maxX, $maxY);
 		$this->helper->method('getImage')
 			->with($this->equalTo($maxPreview))
 			->willReturn($image);
-		$image->method('height')->willReturn($maxY);
-		$image->method('width')->willReturn($maxX);
-		$image->method('valid')->willReturn(true);
-		$image->method('dataMimeType')->willReturn('image/png');
 
 		$preview = $this->createMock(ISimpleFile::class);
 		$previewFolder->method('newFile')

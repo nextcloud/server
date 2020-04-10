@@ -39,6 +39,8 @@
  *
  */
 
+use OCP\IImage;
+
 /**
  * Class for basic image manipulation
  */
@@ -845,6 +847,17 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool
 	 */
 	public function resize($maxSize) {
+		$result = $this->resizeNew($maxSize);
+		imagedestroy($this->resource);
+		$this->resource = $result;
+		return is_resource($result);
+	}
+
+	/**
+	 * @param $maxSize
+	 * @return resource | bool
+	 */
+	private function resizeNew($maxSize) {
 		if (!$this->valid()) {
 			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
@@ -861,8 +874,7 @@ class OC_Image implements \OCP\IImage {
 			$newHeight = $maxSize;
 		}
 
-		$this->preciseResize((int)round($newWidth), (int)round($newHeight));
-		return true;
+		return $this->preciseResizeNew((int)round($newWidth), (int)round($newHeight));
 	}
 
 	/**
@@ -871,6 +883,19 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool
 	 */
 	public function preciseResize(int $width, int $height): bool {
+		$result = $this->preciseResizeNew($width, $height);
+		imagedestroy($this->resource);
+		$this->resource = $result;
+		return is_resource($result);
+	}
+
+
+	/**
+	 * @param int $width
+	 * @param int $height
+	 * @return resource | bool
+	 */
+	public function preciseResizeNew(int $width, int $height) {
 		if (!$this->valid()) {
 			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
@@ -896,9 +921,7 @@ class OC_Image implements \OCP\IImage {
 			imagedestroy($process);
 			return false;
 		}
-		imagedestroy($this->resource);
-		$this->resource = $process;
-		return true;
+		return $process;
 	}
 
 	/**
@@ -969,6 +992,22 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool for success or failure
 	 */
 	public function crop(int $x, int $y, int $w, int $h): bool {
+		$result = $this->cropNew($x, $y, $w, $h);
+		imagedestroy($this->resource);
+		$this->resource = $result;
+		return is_resource($result);
+	}
+
+	/**
+	 * Crops the image from point $x$y with dimension $wx$h.
+	 *
+	 * @param int $x Horizontal position
+	 * @param int $y Vertical position
+	 * @param int $w Width
+	 * @param int $h Height
+	 * @return resource | bool
+	 */
+	public function cropNew(int $x, int $y, int $w, int $h) {
 		if (!$this->valid()) {
 			$this->logger->error(__METHOD__ . '(): No image loaded', ['app' => 'core']);
 			return false;
@@ -993,9 +1032,7 @@ class OC_Image implements \OCP\IImage {
 			imagedestroy($process);
 			return false;
 		}
-		imagedestroy($this->resource);
-		$this->resource = $process;
-		return true;
+		return $process;
 	}
 
 	/**
@@ -1043,6 +1080,55 @@ class OC_Image implements \OCP\IImage {
 		}
 
 		return false;
+	}
+
+	public function copy(): IImage {
+		$image = new OC_Image(null, $this->logger, $this->config);
+		$image->resource = imagecreatetruecolor($this->width(), $this->height());
+		imagecopy(
+			$image->resource(),
+			$this->resource(),
+			0,
+			0,
+			0,
+			0,
+			$this->width(),
+			$this->height()
+		);
+
+		return $image;
+	}
+
+	public function cropCopy(int $x, int $y, int $w, int $h): IImage {
+		$image = new OC_Image(null, $this->logger, $this->config);
+		$image->resource = $this->cropNew($x, $y, $w, $h);
+
+		return $image;
+	}
+
+	public function preciseResizeCopy(int $width, int $height): IImage {
+		$image = new OC_Image(null, $this->logger, $this->config);
+		$image->resource = $this->preciseResizeNew($width, $height);
+
+		return $image;
+	}
+
+	public function resizeCopy(int $maxSize): IImage {
+		$image = new OC_Image(null, $this->logger, $this->config);
+		$image->resource = $this->resizeNew($maxSize);
+
+		return $image;
+	}
+
+
+	/**
+	 * Resizes the image preserving ratio, returning a new copy
+	 *
+	 * @param integer $maxSize The maximum size of either the width or height.
+	 * @return bool
+	 */
+	public function copyResize($maxSize): IImage {
+
 	}
 
 	/**
