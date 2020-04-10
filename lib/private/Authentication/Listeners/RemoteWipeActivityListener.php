@@ -52,7 +52,7 @@ class RemoteWipeActivityListener implements IEventListener {
 	public function handle(Event $event): void {
 		if ($event instanceof RemoteWipeStarted) {
 			$this->publishActivity('remote_wipe_start', $event->getToken());
-		} else if ($event instanceof RemoteWipeFinished) {
+		} elseif ($event instanceof RemoteWipeFinished) {
 			$this->publishActivity('remote_wipe_finish', $event->getToken());
 		}
 	}

@@ -90,7 +90,7 @@ class App {
 					$step['args'][0] === $applicationClassName) {
 					$setUpViaQuery = true;
 					break;
-				} else if (isset($step['class'], $step['function'], $step['args'][0]) &&
+				} elseif (isset($step['class'], $step['function'], $step['args'][0]) &&
 					$step['class'] === ServerContainer::class &&
 					$step['function'] === 'getAppContainer' &&
 					$step['args'][1] === $classNameParts[1]) {

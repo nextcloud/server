@@ -208,7 +208,7 @@ class Helper {
 		$domain = false;
 		if(isset($uinfo['host'])) {
 			$domain = $uinfo['host'];
-		} else if(isset($uinfo['path'])) {
+		} elseif(isset($uinfo['path'])) {
 			$domain = $uinfo['path'];
 		}
 

@@ -155,7 +155,7 @@ class Cache implements ICache {
 		//merge partial data
 		if (!$data and is_string($file) and isset($this->partial[$file])) {
 			return $this->partial[$file];
-		} else if (!$data) {
+		} elseif (!$data) {
 			return $data;
 		} else {
 			return self::cacheEntryFromData($data, $this->mimetypeLoader);
@@ -425,14 +425,14 @@ class Cache implements ICache {
 			if (array_search($name, $fields) !== false) {
 				if ($name === 'path') {
 					$params['path_hash'] = md5($value);
-				} else if ($name === 'mimetype') {
+				} elseif ($name === 'mimetype') {
 					$params['mimepart'] = $this->mimetypeLoader->getId(substr($value, 0, strpos($value, '/')));
 					$value = $this->mimetypeLoader->getId($value);
-				} else if ($name === 'storage_mtime') {
+				} elseif ($name === 'storage_mtime') {
 					if (!$doNotCopyStorageMTime && !isset($data['mtime'])) {
 						$params['mtime'] = $value;
 					}
-				} else if ($name === 'encrypted') {
+				} elseif ($name === 'encrypted') {
 					if (isset($data['encryptedVersion'])) {
 						$value = $data['encryptedVersion'];
 					} else {

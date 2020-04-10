@@ -202,7 +202,7 @@ class Connection extends LDAPUtility {
 	public function getConnectionResource() {
 		if(!$this->ldapConnectionRes) {
 			$this->init();
-		} else if(!$this->ldap->isResource($this->ldapConnectionRes)) {
+		} elseif(!$this->ldap->isResource($this->ldapConnectionRes)) {
 			$this->ldapConnectionRes = null;
 			$this->establishConnection();
 		}

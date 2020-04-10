@@ -124,7 +124,7 @@ trait CommandLine {
 				$msg .= ' Exceptions: ' . implode(', ', $exceptions);
 			}
 			throw new \Exception($msg);
-		} else if (!empty($exceptions)) {
+		} elseif (!empty($exceptions)) {
 			$msg = 'The command was successful but triggered exceptions: ' . implode(', ', $exceptions);
 			throw new \Exception($msg);
 		}

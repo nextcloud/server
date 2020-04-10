@@ -78,7 +78,7 @@ try {
 	if ($oldWorkingDir === false) {
 		echo "This script can be run from the Nextcloud root directory only." . PHP_EOL;
 		echo "Can't determine current working dir - the script will continue to work but be aware of the above fact." . PHP_EOL;
-	} else if ($oldWorkingDir !== __DIR__ && !chdir(__DIR__)) {
+	} elseif ($oldWorkingDir !== __DIR__ && !chdir(__DIR__)) {
 		echo "This script can be run from the Nextcloud root directory only." . PHP_EOL;
 		echo "Can't change to Nextcloud root directory." . PHP_EOL;
 		exit(1);

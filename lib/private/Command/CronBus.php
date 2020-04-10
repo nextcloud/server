@@ -52,9 +52,9 @@ class CronBus extends AsyncBus {
 	private function getJobClass($command) {
 		if ($command instanceof \Closure) {
 			return ClosureJob::class;
-		} else if (is_callable($command)) {
+		} elseif (is_callable($command)) {
 			return CallableJob::class;
-		} else if ($command instanceof ICommand) {
+		} elseif ($command instanceof ICommand) {
 			return CommandJob::class;
 		} else {
 			throw new \InvalidArgumentException('Invalid command');
@@ -69,7 +69,7 @@ class CronBus extends AsyncBus {
 		if ($command instanceof \Closure) {
 			$serializer = new Serializer();
 			return $serializer->serialize($command);
-		} else if (is_callable($command) or $command instanceof ICommand) {
+		} elseif (is_callable($command) or $command instanceof ICommand) {
 			return serialize($command);
 		} else {
 			throw new \InvalidArgumentException('Invalid command');

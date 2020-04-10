@@ -105,7 +105,7 @@ class FavoriteProvider implements IProvider {
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/starred.svg')));
 			}
-		} else if ($event->getSubject() === self::SUBJECT_REMOVED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOVED) {
 			$event->setType('unfavorite');
 			$event->setParsedSubject($this->l->t('Removed from favorites'));
 			if ($this->activityManager->getRequirePNG()) {
@@ -136,7 +136,7 @@ class FavoriteProvider implements IProvider {
 			} else {
 				$event->setIcon($this->url->getAbsoluteURL($this->url->imagePath('core', 'actions/starred.svg')));
 			}
-		} else if ($event->getSubject() === self::SUBJECT_REMOVED) {
+		} elseif ($event->getSubject() === self::SUBJECT_REMOVED) {
 			$event->setType('unfavorite');
 			$subject = $this->l->t('You removed {file} from your favorites');
 			if ($this->activityManager->getRequirePNG()) {

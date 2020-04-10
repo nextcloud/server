@@ -265,7 +265,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	private function getType($value) {
 		if (is_bool($value)) {
 			return IQueryBuilder::PARAM_BOOL;
-		} else if (is_int($value)) {
+		} elseif (is_int($value)) {
 			return IQueryBuilder::PARAM_INT;
 		} else {
 			return IQueryBuilder::PARAM_STR;

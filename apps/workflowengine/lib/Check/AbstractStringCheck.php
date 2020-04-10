@@ -64,7 +64,7 @@ abstract class AbstractStringCheck implements ICheck {
 	protected function executeStringCheck($operator, $checkValue, $actualValue) {
 		if ($operator === 'is') {
 			return $checkValue === $actualValue;
-		} else if ($operator === '!is') {
+		} elseif ($operator === '!is') {
 			return $checkValue !== $actualValue;
 		} else {
 			$match = $this->match($checkValue, $actualValue);

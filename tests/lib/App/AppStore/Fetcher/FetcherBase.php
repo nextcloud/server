@@ -213,7 +213,7 @@ abstract class FetcherBase extends TestCase {
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
-				} else if ($key === 'version') {
+				} elseif ($key === 'version') {
 					return '11.0.0.2';
 				} else {
 					return $default;
@@ -506,7 +506,7 @@ abstract class FetcherBase extends TestCase {
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
-				} else if ($key === 'version') {
+				} elseif ($key === 'version') {
 					return '11.0.0.2';
 				} else {
 					return $default;
@@ -587,7 +587,7 @@ abstract class FetcherBase extends TestCase {
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
-				} else if ($key === 'version') {
+				} elseif ($key === 'version') {
 					return '11.0.0.2';
 				} else {
 					return $default;
@@ -674,7 +674,7 @@ abstract class FetcherBase extends TestCase {
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
-				} else if ($key === 'version') {
+				} elseif ($key === 'version') {
 					return '11.0.0.3';
 				} else {
 					return $default;

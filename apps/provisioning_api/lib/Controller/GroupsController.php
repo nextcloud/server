@@ -285,7 +285,7 @@ class GroupsController extends AUserData {
 		// Check it exists
 		if(!$this->groupManager->groupExists($groupId)){
 			throw new OCSException('', 101);
-		} else if($groupId === 'admin' || !$this->groupManager->get($groupId)->delete()){
+		} elseif($groupId === 'admin' || !$this->groupManager->get($groupId)->delete()){
 			// Cannot delete admin group
 			throw new OCSException('', 102);
 		}

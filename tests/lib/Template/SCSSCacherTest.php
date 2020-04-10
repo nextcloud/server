@@ -123,9 +123,9 @@ class SCSSCacherTest extends \Test\TestCase {
 			->willReturnCallback(function ($path) use ($file, $gzfile, $filePrefix) {
 				if ($path === $filePrefix.'styles.css') {
 					return $file;
-				} else if ($path === $filePrefix.'styles.css.deps') {
+				} elseif ($path === $filePrefix.'styles.css.deps') {
 					throw new NotFoundException();
-				} else if ($path === $filePrefix.'styles.css.gzip') {
+				} elseif ($path === $filePrefix.'styles.css.gzip') {
 					return $gzfile;
 				} else {
 					$this->fail();
@@ -163,9 +163,9 @@ class SCSSCacherTest extends \Test\TestCase {
 			->willReturnCallback(function ($path) use ($file, $gzfile, $filePrefix) {
 				if ($path === $filePrefix.'styles.css') {
 					return $file;
-				} else if ($path === $filePrefix.'styles.css.deps') {
+				} elseif ($path === $filePrefix.'styles.css.deps') {
 					throw new NotFoundException();
-				} else if ($path === $filePrefix.'styles.css.gzip') {
+				} elseif ($path === $filePrefix.'styles.css.gzip') {
 					return $gzfile;
 				}else {
 					$this->fail();
@@ -199,9 +199,9 @@ class SCSSCacherTest extends \Test\TestCase {
 			->willReturnCallback(function ($name) use ($file, $fileDeps, $gzFile, $filePrefix) {
 				if ($name === $filePrefix.'styles.css') {
 					return $file;
-				} else if ($name === $filePrefix.'styles.css.deps') {
+				} elseif ($name === $filePrefix.'styles.css.deps') {
 					return $fileDeps;
-				} else if ($name === $filePrefix.'styles.css.gzip') {
+				} elseif ($name === $filePrefix.'styles.css.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -237,9 +237,9 @@ class SCSSCacherTest extends \Test\TestCase {
 			->willReturnCallback(function ($name) use ($file, $fileDeps, $gzFile, $filePrefix) {
 				if ($name === $filePrefix.'styles.css') {
 					return $file;
-				} else if ($name === $filePrefix.'styles.css.deps') {
+				} elseif ($name === $filePrefix.'styles.css.deps') {
 					return $fileDeps;
-				} else if ($name === $filePrefix.'styles.css.gzip') {
+				} elseif ($name === $filePrefix.'styles.css.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -275,7 +275,7 @@ class SCSSCacherTest extends \Test\TestCase {
 			->willReturnCallback(function ($path) use ($file) {
 				if ($path === 'styles.css') {
 					return $file;
-				} else if ($path === 'styles.css.deps') {
+				} elseif ($path === 'styles.css.deps') {
 					throw new NotFoundException();
 				} else {
 					$this->fail();
@@ -303,9 +303,9 @@ class SCSSCacherTest extends \Test\TestCase {
 		$folder->method('newFile')->willReturnCallback(function ($fileName) use ($file, $depsFile, $gzipFile) {
 			if ($fileName === 'styles.css') {
 				return $file;
-			} else if ($fileName === 'styles.css.deps') {
+			} elseif ($fileName === 'styles.css.deps') {
 				return $depsFile;
-			} else if ($fileName === 'styles.css.gzip') {
+			} elseif ($fileName === 'styles.css.gzip') {
 				return $gzipFile;
 			}
 			throw new \Exception();
@@ -337,9 +337,9 @@ class SCSSCacherTest extends \Test\TestCase {
 		$folder->method('getFile')->willReturnCallback(function ($fileName) use ($file, $depsFile, $gzipFile) {
 			if ($fileName === 'styles.css') {
 				return $file;
-			} else if ($fileName === 'styles.css.deps') {
+			} elseif ($fileName === 'styles.css.deps') {
 				return $depsFile;
-			} else if ($fileName === 'styles.css.gzip') {
+			} elseif ($fileName === 'styles.css.gzip') {
 				return $gzipFile;
 			}
 			throw new \Exception();
@@ -371,9 +371,9 @@ class SCSSCacherTest extends \Test\TestCase {
 		$folder->method('getFile')->willReturnCallback(function ($fileName) use ($file, $depsFile, $gzipFile) {
 			if ($fileName === 'styles-success.css') {
 				return $file;
-			} else if ($fileName === 'styles-success.css.deps') {
+			} elseif ($fileName === 'styles-success.css.deps') {
 				return $depsFile;
-			} else if ($fileName === 'styles-success.css.gzip') {
+			} elseif ($fileName === 'styles-success.css.gzip') {
 				return $gzipFile;
 			}
 			throw new \Exception();

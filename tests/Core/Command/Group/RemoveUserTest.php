@@ -61,7 +61,7 @@ class RemoveUserTest extends TestCase {
 			->willReturnCallback(function ($arg) {
 				if ($arg === 'group') {
 					return 'myGroup';
-				} else if ($arg === 'user') {
+				} elseif ($arg === 'user') {
 					return 'myUser';
 				}
 				throw new \Exception();

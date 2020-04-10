@@ -196,7 +196,7 @@ class FilesReportPlugin extends ServerPlugin {
 			$name = $reportProps['name'];
 			if ($name === $ns . 'filter-rules') {
 				$filterRules = $reportProps['value'];
-			} else if ($name === '{DAV:}prop') {
+			} elseif ($name === '{DAV:}prop') {
 				// propfind properties
 				foreach ($reportProps['value'] as $propVal) {
 					$requestedProps[] = $propVal['name'];
@@ -422,7 +422,7 @@ class FilesReportPlugin extends ServerPlugin {
 				$entry = current($entry);
 				if ($entry instanceof \OCP\Files\File) {
 					$results[] = new File($this->fileView, $entry);
-				} else if ($entry instanceof \OCP\Files\Folder) {
+				} elseif ($entry instanceof \OCP\Files\Folder) {
 					$results[] = new Directory($this->fileView, $entry);
 				}
 			}

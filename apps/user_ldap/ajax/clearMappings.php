@@ -46,7 +46,7 @@ try {
 				\OC::$server->getUserManager()->emit('\OC\User', 'postUnassignedUserId', [$uid]);
 			}
 		);
-	} else if($subject === 'group') {
+	} elseif($subject === 'group') {
 		$mapping = new GroupMapping(\OC::$server->getDatabaseConnection());
 		$result = $mapping->clear();
 	}

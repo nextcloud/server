@@ -326,7 +326,7 @@ class MigrationsTest extends \Test\TestCase {
 		$defaultName = 'PRIMARY';
 		if ($this->db->getDatabasePlatform() instanceof PostgreSqlPlatform) {
 			$defaultName = \str_repeat('a', 26) . '_' . \str_repeat('b', 30) . '_seq';
-		} else if ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
+		} elseif ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
 			$defaultName = \str_repeat('a', 26) . '_seq';
 		}
 
@@ -407,7 +407,7 @@ class MigrationsTest extends \Test\TestCase {
 		$defaultName = 'PRIMARY';
 		if ($this->db->getDatabasePlatform() instanceof PostgreSqlPlatform) {
 			$defaultName = \str_repeat('a', 27) . '_' . \str_repeat('b', 30) . '_seq';
-		} else if ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
+		} elseif ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
 			$defaultName = \str_repeat('a', 27) . '_seq';
 		}
 

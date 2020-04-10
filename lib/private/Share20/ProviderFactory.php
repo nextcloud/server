@@ -257,13 +257,13 @@ class ProviderFactory implements IProviderFactory {
 		$provider = null;
 		if ($id === 'ocinternal') {
 			$provider = $this->defaultShareProvider();
-		} else if ($id === 'ocFederatedSharing') {
+		} elseif ($id === 'ocFederatedSharing') {
 			$provider = $this->federatedShareProvider();
-		} else if ($id === 'ocMailShare') {
+		} elseif ($id === 'ocMailShare') {
 			$provider = $this->getShareByMailProvider();
-		} else if ($id === 'ocCircleShare') {
+		} elseif ($id === 'ocCircleShare') {
 			$provider = $this->getShareByCircleProvider();
-		} else if ($id === 'ocRoomShare') {
+		} elseif ($id === 'ocRoomShare') {
 			$provider = $this->getRoomShareProvider();
 		}
 
@@ -285,13 +285,13 @@ class ProviderFactory implements IProviderFactory {
 			$shareType === \OCP\Share::SHARE_TYPE_LINK
 		) {
 			$provider = $this->defaultShareProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE || $shareType === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
+		} elseif ($shareType === \OCP\Share::SHARE_TYPE_REMOTE || $shareType === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
 			$provider = $this->federatedShareProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
+		} elseif ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
 			$provider = $this->getShareByMailProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_CIRCLE) {
+		} elseif ($shareType === \OCP\Share::SHARE_TYPE_CIRCLE) {
 			$provider = $this->getShareByCircleProvider();
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_ROOM) {
+		} elseif ($shareType === \OCP\Share::SHARE_TYPE_ROOM) {
 			$provider = $this->getRoomShareProvider();
 		}
 

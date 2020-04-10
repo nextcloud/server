@@ -58,7 +58,7 @@ class Search implements ISearch {
 			}
 			if ($provider instanceof PagedProvider) {
 				$results = array_merge($results, $provider->searchPaged($query, $page, $size));
-			} else if ($provider instanceof Provider) {
+			} elseif ($provider instanceof Provider) {
 				$providerResults = $provider->search($query);
 				if ($size > 0) {
 					$slicedResults = array_slice($providerResults, ($page - 1) * $size, $size);

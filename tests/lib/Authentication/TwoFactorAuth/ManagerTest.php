@@ -632,7 +632,7 @@ class ManagerTest extends TestCase {
 			->willReturnCallback(function ($var) {
 				if ($var === Manager::SESSION_UID_KEY) {
 					return false;
-				} else if ($var === 'app_password') {
+				} elseif ($var === 'app_password') {
 					return false;
 				}
 				return true;

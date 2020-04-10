@@ -247,7 +247,7 @@ class MDB2SchemaReader {
 				$length = $options['length'];
 				if ($length < 4) {
 					$type = 'smallint';
-				} else if ($length > 4) {
+				} elseif ($length > 4) {
 					$type = 'bigint';
 				}
 			}

@@ -59,7 +59,7 @@ class ListCommandTest extends TestCase {
 			->willReturnCallback(function ($arg) {
 				if ($arg === 'limit') {
 					return '100';
-				} else if ($arg === 'offset') {
+				} elseif ($arg === 'offset') {
 					return '42';
 				}
 				throw new \Exception();

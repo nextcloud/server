@@ -167,7 +167,7 @@ abstract class AuthPublicShareController extends PublicShareController {
 		$class = (new \ReflectionClass($this))->getShortName();
 		if ($this->appName === 'files_sharing') {
 			$class = strtolower($class);
-		} else if (substr($class, -10) === 'Controller') {
+		} elseif (substr($class, -10) === 'Controller') {
 			$class = substr($class, 0, -10);
 		}
 		return $app .'.'. $class .'.'. $function;

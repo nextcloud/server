@@ -105,7 +105,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 					// something went wrong
 					return false;
 				}
-			} else if ($parentType === 'file') {
+			} elseif ($parentType === 'file') {
 				// parent is a file
 				return false;
 			}

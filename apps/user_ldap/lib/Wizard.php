@@ -106,9 +106,9 @@ class Wizard extends LDAPUtility {
 		$limit = 1001;
 		if($type === 'groups') {
 			$result =  $this->access->countGroups($filter, $attr, $limit);
-		} else if($type === 'users') {
+		} elseif($type === 'users') {
 			$result = $this->access->countUsers($filter, $attr, $limit);
-		} else if ($type === 'objects') {
+		} elseif ($type === 'objects') {
 			$result = $this->access->countObjects($limit);
 		} else {
 			throw new \Exception('Internal error: Invalid object type', 500);
@@ -981,9 +981,9 @@ class Wizard extends LDAPUtility {
 					$attr = '';
 					if(isset($userAttributes['uid'])) {
 						$attr = 'uid';
-					} else if(isset($userAttributes['samaccountname'])) {
+					} elseif(isset($userAttributes['samaccountname'])) {
 						$attr = 'samaccountname';
-					} else if(isset($userAttributes['cn'])) {
+					} elseif(isset($userAttributes['cn'])) {
 						//fallback
 						$attr = 'cn';
 					}
@@ -1239,7 +1239,7 @@ class Wizard extends LDAPUtility {
 		if(is_array($setFeatures) && !empty($setFeatures)) {
 			//something is already configured? pre-select it.
 			$this->result->addChange($dbkey, $setFeatures);
-		} else if ($po && $maxEntryObjC !== '') {
+		} elseif ($po && $maxEntryObjC !== '') {
 			//pre-select objectclass with most result entries
 			$maxEntryObjC = str_replace($p, '', $maxEntryObjC);
 			$this->applyFind($dbkey, $maxEntryObjC);

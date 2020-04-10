@@ -68,7 +68,7 @@ class CookieHelper {
 
 		if ($samesite === self::SAMESITE_LAX) {
 			$header .= '; SameSite=Lax';
-		} else if ($samesite === self::SAMESITE_STRICT) {
+		} elseif ($samesite === self::SAMESITE_STRICT) {
 			$header .= '; SameSite=Strict';
 		}
 

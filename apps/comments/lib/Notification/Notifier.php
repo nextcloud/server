@@ -217,7 +217,7 @@ class Notifier implements INotifier {
 			$placeholders[] = '{' . $placeholder . '}';
 			if ($parameter['type'] === 'user') {
 				$replacements[] = '@' . $parameter['name'];
-			} else if ($parameter['type'] === 'file') {
+			} elseif ($parameter['type'] === 'file') {
 				$replacements[] = $parameter['path'];
 			} else {
 				$replacements[] = $parameter['name'];

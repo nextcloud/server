@@ -89,7 +89,7 @@ trait CommonSettingsTrait  {
 			foreach ($prioritizedSections as $section) {
 				if($type === 'admin') {
 					$settings = $this->settingsManager->getAdminSettings($section->getID(), $subAdminOnly);
-				} else if($type === 'personal') {
+				} elseif($type === 'personal') {
 					$settings = $this->settingsManager->getPersonalSettings($section->getID());
 				}
 				if (empty($settings) && !($section->getID() === 'additional' && count(\OC_App::getForms('admin')) > 0)) {

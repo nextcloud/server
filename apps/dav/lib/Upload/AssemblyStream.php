@@ -91,7 +91,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 	public function stream_seek($offset, $whence = SEEK_SET) {
 		if ($whence === SEEK_CUR) {
 			$offset = $this->stream_tell() + $offset;
-		} else if ($whence === SEEK_END) {
+		} elseif ($whence === SEEK_END) {
 			$offset = $this->size + $offset;
 		}
 

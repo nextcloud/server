@@ -224,7 +224,7 @@ class Application extends App {
 			$subject = Event::SUBJECT_OBJECT_ADD;
 			if ($eventName === '\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject') {
 				$subject = Event::SUBJECT_OBJECT_UPDATE;
-			} else if ($eventName === '\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject') {
+			} elseif ($eventName === '\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject') {
 				$subject = Event::SUBJECT_OBJECT_DELETE;
 			}
 			$backend->onTouchCalendarObject(

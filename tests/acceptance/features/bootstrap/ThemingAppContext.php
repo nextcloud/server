@@ -113,7 +113,7 @@ class ThemingAppContext implements Context, ActorAwareInterface {
 		// Already an RGB (R, G, B) color
 		// Convert from "rgb(R, G, B)" string to RGB array
 		$tmpColor = array_splice($matches, 1);
-		} else if ($color[0] === '#') {
+		} elseif ($color[0] === '#') {
 		$color = substr($color, 1);
 		// HEX Color, convert to RGB array.
 		$tmpColor = sscanf($color, "%02X%02X%02X");

@@ -71,9 +71,9 @@ abstract class AbstractDatabase {
 		$errors = [];
 		if(empty($config['dbuser']) && empty($config['dbname'])) {
 			$errors[] = $this->trans->t("%s enter the database username and name.", [$this->dbprettyname]);
-		} else if(empty($config['dbuser'])) {
+		} elseif(empty($config['dbuser'])) {
 			$errors[] = $this->trans->t("%s enter the database username.", [$this->dbprettyname]);
-		} else if(empty($config['dbname'])) {
+		} elseif(empty($config['dbname'])) {
 			$errors[] = $this->trans->t("%s enter the database name.", [$this->dbprettyname]);
 		}
 		if(substr_count($config['dbname'], '.') >= 1) {
@@ -125,7 +125,7 @@ abstract class AbstractDatabase {
 			} else {
 				$connectionParams['unix_socket'] = $this->dbPort;
 			}
-		} else if (strpos($this->dbHost, ':')) {
+		} elseif (strpos($this->dbHost, ':')) {
 			// Host variable may carry a port or socket.
 			list($host, $portOrSocket) = explode(':', $this->dbHost, 2);
 			if (ctype_digit($portOrSocket)) {

@@ -250,7 +250,7 @@ class Manager {
 		// check if the user is allowed to access it
 		if ($validShare && (int)$share['share_type'] === Share::SHARE_TYPE_USER && $share['user'] === $this->uid) {
 			return $share;
-		} else if ($validShare && (int)$share['share_type'] === Share::SHARE_TYPE_GROUP) {
+		} elseif ($validShare && (int)$share['share_type'] === Share::SHARE_TYPE_GROUP) {
 			$user = $this->userManager->get($this->uid);
 			if ($this->groupManager->get($share['user'])->inGroup($user)) {
 				return $share;
@@ -333,7 +333,7 @@ class Manager {
 
 			$this->processNotification($id);
 			$result = true;
-		} else if ($share && (int)$share['share_type'] === Share::SHARE_TYPE_GROUP) {
+		} elseif ($share && (int)$share['share_type'] === Share::SHARE_TYPE_GROUP) {
 			$result = $this->writeShareToDb(
 				$share['remote'],
 				$share['share_token'],
@@ -537,7 +537,7 @@ class Manager {
 			WHERE `id` = ?
 			');
 			$result = (bool)$query->execute([(int)$share['id']]);
-		} else if ($result && (int)$share['share_type'] === Share::SHARE_TYPE_GROUP) {
+		} elseif ($result && (int)$share['share_type'] === Share::SHARE_TYPE_GROUP) {
 			$query = $this->connection->prepare('
 				UPDATE `*PREFIX*share_external`
 				SET `accepted` = ?

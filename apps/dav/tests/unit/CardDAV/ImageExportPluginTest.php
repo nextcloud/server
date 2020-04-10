@@ -143,7 +143,7 @@ class ImageExportPluginTest extends TestCase {
 			->willReturnCallback(function ($path) use ($card, $book) {
 				if ($path === 'user/book/card') {
 					return $card;
-				} else if ($path === 'user/book') {
+				} elseif ($path === 'user/book') {
 					return $book;
 				}
 				$this->fail();

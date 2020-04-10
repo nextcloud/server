@@ -124,12 +124,12 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('themingInvertMenu', false);
 			}
 
-		} else if ($renderAs === 'error') {
+		} elseif ($renderAs === 'error') {
 			parent::__construct('core', 'layout.guest', '', false);
 			$this->assign('bodyid', 'body-login');
 			$this->assign('user_displayname', '');
 			$this->assign('user_uid', '');
-		} else if ($renderAs === 'guest') {
+		} elseif ($renderAs === 'guest') {
 			parent::__construct('core', 'layout.guest');
 			\OC_Util::addStyle('guest');
 			$this->assign('bodyid', 'body-login');
@@ -137,7 +137,7 @@ class TemplateLayout extends \OC_Template {
 			$userDisplayName = \OC_User::getDisplayName();
 			$this->assign('user_displayname', $userDisplayName);
 			$this->assign('user_uid', \OC_User::getUser());
-		} else if ($renderAs === 'public') {
+		} elseif ($renderAs === 'public') {
 			parent::__construct('core', 'layout.public');
 			$this->assign('appid', $appId);
 			$this->assign('bodyid', 'body-public');

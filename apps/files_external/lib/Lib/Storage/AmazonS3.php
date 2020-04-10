@@ -200,7 +200,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		if (isset($storages[$this->id]) && isset($storages[$oldId])) {
 			// if both ids exist, delete the old storage and corresponding filecache entries
 			\OC\Files\Cache\Storage::remove($oldId);
-		} else if (isset($storages[$oldId])) {
+		} elseif (isset($storages[$oldId])) {
 			// if only the old id exists do an update
 			$stmt = \OC::$server->getDatabaseConnection()->prepare(
 				'UPDATE `*PREFIX*storages` SET `id` = ? WHERE `id` = ?'
@@ -221,7 +221,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$fileType = $this->filetype($path);
 		if ($fileType === 'dir') {
 			return $this->rmdir($path);
-		} else if ($fileType === 'file') {
+		} elseif ($fileType === 'file') {
 			return $this->unlink($path);
 		} else {
 			return false;

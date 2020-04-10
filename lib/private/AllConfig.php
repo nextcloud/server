@@ -265,7 +265,7 @@ class AllConfig implements \OCP\IConfig {
 		if ($prevValue !== null) {
 			if ($prevValue === (string)$value) {
 				return;
-			} else if ($preCondition !== null && $prevValue !== (string)$preCondition) {
+			} elseif ($preCondition !== null && $prevValue !== (string)$preCondition) {
 				throw new PreConditionNotMetException();
 			} else {
 				$qb = $this->connection->getQueryBuilder();

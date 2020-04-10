@@ -106,10 +106,10 @@ class DeleteConfig extends Base {
 				} else {
 					$currentValue[$nextKey] = $this->removeSubValue($keys, $currentValue[$nextKey], $throwError);
 				}
-			} else if ($throwError) {
+			} elseif ($throwError) {
 				throw new \UnexpectedValueException('Config parameter does not exist');
 			}
-		} else if ($throwError) {
+		} elseif ($throwError) {
 			throw new \UnexpectedValueException('Config parameter does not exist');
 		}
 

@@ -78,7 +78,7 @@ class Streamer {
 		 */
 		if ($size < 4 * 1000 * 1000 * 1000 && $numberOfFiles < 65536) {
 			$this->streamerInstance = new ZipStreamer(['zip64' => false]);
-		} else if ($request->isUserAgent($this->preferTarFor)) {
+		} elseif ($request->isUserAgent($this->preferTarFor)) {
 			$this->streamerInstance = new TarStreamer();
 		} else {
 			$this->streamerInstance = new ZipStreamer(['zip64' => PHP_INT_SIZE !== 4]);

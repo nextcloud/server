@@ -214,7 +214,7 @@ class AppConfigControllerTest extends TestCase {
 				->method('verifyConfigKey');
 			$this->config->expects($this->never())
 				->method('setAppValue');
-		} else if ($keyThrows instanceof  \Exception) {
+		} elseif ($keyThrows instanceof  \Exception) {
 			$api->expects($this->once())
 				->method('verifyAppId')
 				->with($app);
@@ -243,7 +243,7 @@ class AppConfigControllerTest extends TestCase {
 		$this->assertSame($status, $result->getStatus());
 		if ($appThrows instanceof \Exception) {
 			$this->assertEquals(['data' => ['message' => $appThrows->getMessage()]], $result->getData());
-		} else if ($keyThrows instanceof \Exception) {
+		} elseif ($keyThrows instanceof \Exception) {
 			$this->assertEquals(['data' => ['message' => $keyThrows->getMessage()]], $result->getData());
 		} else {
 			$this->assertEquals([], $result->getData());
@@ -279,7 +279,7 @@ class AppConfigControllerTest extends TestCase {
 				->method('verifyConfigKey');
 			$this->config->expects($this->never())
 				->method('deleteAppValue');
-		} else if ($keyThrows instanceof  \Exception) {
+		} elseif ($keyThrows instanceof  \Exception) {
 			$api->expects($this->once())
 				->method('verifyAppId')
 				->with($app);
@@ -308,7 +308,7 @@ class AppConfigControllerTest extends TestCase {
 		$this->assertSame($status, $result->getStatus());
 		if ($appThrows instanceof \Exception) {
 			$this->assertEquals(['data' => ['message' => $appThrows->getMessage()]], $result->getData());
-		} else if ($keyThrows instanceof \Exception) {
+		} elseif ($keyThrows instanceof \Exception) {
 			$this->assertEquals(['data' => ['message' => $keyThrows->getMessage()]], $result->getData());
 		} else {
 			$this->assertEquals([], $result->getData());

@@ -69,7 +69,7 @@ class TwoFactorCommand extends ALoginCommand {
 			// No providers set up, but 2FA is enforced and setup providers are available
 			$url = 'core.TwoFactorChallenge.setupProviders';
 			$urlParams = [];
-		} else if (!$providerSet->isProviderMissing() && count($providers) === 1) {
+		} elseif (!$providerSet->isProviderMissing() && count($providers) === 1) {
 			// Single provider (and no missing ones), hence we can redirect to that provider's challenge page directly
 			/* @var $provider IProvider */
 			$provider = array_pop($providers);

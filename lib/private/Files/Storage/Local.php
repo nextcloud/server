@@ -112,9 +112,9 @@ class Local extends \OC\Files\Storage\Common {
 				if (in_array($file->getBasename(), ['.', '..'])) {
 					$it->next();
 					continue;
-				} else if ($file->isDir()) {
+				} elseif ($file->isDir()) {
 					rmdir($file->getPathname());
-				} else if ($file->isFile() || $file->isLink()) {
+				} elseif ($file->isFile() || $file->isLink()) {
 					unlink($file->getPathname());
 				}
 				$it->next();
@@ -275,7 +275,7 @@ class Local extends \OC\Files\Storage\Common {
 	public function unlink($path) {
 		if ($this->is_dir($path)) {
 			return $this->rmdir($path);
-		} else if ($this->is_file($path)) {
+		} elseif ($this->is_file($path)) {
 			return unlink($this->getSourcePath($path));
 		} else {
 			return false;
@@ -316,7 +316,7 @@ class Local extends \OC\Files\Storage\Common {
 
 		if ($this->is_dir($path2)) {
 			$this->rmdir($path2);
-		} else if ($this->is_file($path2)) {
+		} elseif ($this->is_file($path2)) {
 			$this->unlink($path2);
 		}
 

@@ -72,7 +72,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		$parsed = parse_url($host);
 		if(is_array($parsed) && isset($parsed['port'])) {
 			return [$parsed['host'], $parsed['port']];
-		} else if (is_array($parsed)) {
+		} elseif (is_array($parsed)) {
 			return [$parsed['host'], 22];
 		} else {
 			return [$input, 22];

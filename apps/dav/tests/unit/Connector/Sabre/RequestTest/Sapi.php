@@ -60,7 +60,7 @@ class Sapi {
 		$copyStream = fopen('php://temp', 'r+');
 		if (is_string($response->getBody())) {
 			fwrite($copyStream, $response->getBody());
-		} else if (is_resource($response->getBody())) {
+		} elseif (is_resource($response->getBody())) {
 			stream_copy_to_stream($response->getBody(), $copyStream);
 		}
 		rewind($copyStream);

@@ -297,7 +297,7 @@ class Generator {
 				} else {
 					$width = $height / $ratio;
 				}
-			} else if ($mode === IPreview::MODE_COVER) {
+			} elseif ($mode === IPreview::MODE_COVER) {
 				if ($ratioH > $ratioW) {
 					$width = $height / $ratio;
 				} else {

@@ -264,7 +264,7 @@ class Upgrade extends Command {
 			}
 
 			return self::ERROR_SUCCESS;
-		} else if($this->config->getSystemValueBool('maintenance')) {
+		} elseif($this->config->getSystemValueBool('maintenance')) {
 			//Possible scenario: Nextcloud core is updated but an app failed
 			$output->writeln('<warning>Nextcloud is in maintenance mode</warning>');
 			$output->write('<comment>Maybe an upgrade is already in process. Please check the '

@@ -73,7 +73,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		}
 		if ($path === $this->path) {
 			return '/';
-		} else if (strpos($path, $this->path . '/') !== 0) {
+		} elseif (strpos($path, $this->path . '/') !== 0) {
 			return null;
 		} else {
 			$path = substr($path, strlen($this->path));
@@ -521,7 +521,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$rootLength = strlen($jailRoot) + 1;
 			if ($path === $jailRoot) {
 				return $mount->getMountPoint();
-			} else if (substr($path, 0, $rootLength) === $jailRoot . '/') {
+			} elseif (substr($path, 0, $rootLength) === $jailRoot . '/') {
 				return $mount->getMountPoint() . substr($path, $rootLength);
 			} else {
 				return null;

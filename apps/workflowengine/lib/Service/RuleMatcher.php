@@ -220,7 +220,7 @@ class RuleMatcher implements IRuleMatcher {
 				list($entity, $subject) = $entityInfo;
 				$checkInstance->setEntitySubject($entity, $subject);
 			}
-		} else if(!$checkInstance instanceof ICheck) {
+		} elseif(!$checkInstance instanceof ICheck) {
 			// Check is invalid
 			throw new \UnexpectedValueException($this->l->t('Check %s is invalid or does not exist', $check['class']));
 		}

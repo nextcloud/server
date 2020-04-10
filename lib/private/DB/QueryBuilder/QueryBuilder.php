@@ -115,11 +115,11 @@ class QueryBuilder implements IQueryBuilder {
 	public function expr() {
 		if ($this->connection instanceof OracleConnection) {
 			return new OCIExpressionBuilder($this->connection, $this);
-		} else if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+		} elseif ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
 			return new PgSqlExpressionBuilder($this->connection, $this);
-		} else if ($this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
+		} elseif ($this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
 			return new MySqlExpressionBuilder($this->connection, $this);
-		} else if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
+		} elseif ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
 			return new SqliteExpressionBuilder($this->connection, $this);
 		} else {
 			return new ExpressionBuilder($this->connection, $this);
@@ -145,9 +145,9 @@ class QueryBuilder implements IQueryBuilder {
 	public function func() {
 		if ($this->connection instanceof OracleConnection) {
 			return new OCIFunctionBuilder($this->helper);
-		} else if ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
+		} elseif ($this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
 			return new SqliteFunctionBuilder($this->helper);
-		} else if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+		} elseif ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
 			return new PgSqlFunctionBuilder($this->helper);
 		} else {
 			return new FunctionBuilder($this->helper);

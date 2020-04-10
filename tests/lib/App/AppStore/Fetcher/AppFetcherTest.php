@@ -1866,9 +1866,9 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
-				} else if ($key === 'version') {
+				} elseif ($key === 'version') {
 					return '11.0.0.2';
-				} else if ($key === 'appstoreurl' && $default === 'https://apps.nextcloud.com/api/v1') {
+				} elseif ($key === 'appstoreurl' && $default === 'https://apps.nextcloud.com/api/v1') {
 					return 'https://custom.appsstore.endpoint/api/v1';
 				} else {
 					return $default;
@@ -1949,7 +1949,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->willReturnCallback(function ($var, $default) {
 				if ($var === 'appstoreenabled') {
 					return false;
-				} else if ($var === 'version') {
+				} elseif ($var === 'version') {
 					return '11.0.0.2';
 				}
 				return $default;
@@ -1968,7 +1968,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->willReturnCallback(function ($var, $default) {
 				if ($var === 'has_internet_connection') {
 					return false;
-				} else if ($var === 'version') {
+				} elseif ($var === 'version') {
 					return '11.0.0.2';
 				}
 				return $default;
@@ -1985,9 +1985,9 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'appstoreenabled') {
 					return true;
-				} else if ($key === 'version') {
+				} elseif ($key === 'version') {
 					return '10.0.7.2';
-				} else if ($key === 'appstoreurl' && $default === 'https://apps.nextcloud.com/api/v1') {
+				} elseif ($key === 'appstoreurl' && $default === 'https://apps.nextcloud.com/api/v1') {
 					return 'https://custom.appsstore.endpoint/api/v1';
 				} else {
 					return $default;

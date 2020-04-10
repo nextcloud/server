@@ -81,7 +81,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 	protected function getDateTime($timestamp, \DateTimeZone $timeZone = null) {
 		if ($timestamp === null) {
 			return new \DateTime('now', $timeZone);
-		} else if (!$timestamp instanceof \DateTime) {
+		} elseif (!$timestamp instanceof \DateTime) {
 			$dateTime = new \DateTime('now', $timeZone);
 			$dateTime->setTimestamp($timestamp);
 			return $dateTime;
@@ -160,31 +160,31 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 
 		if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 0) {
 			return $l->t('today');
-		} else if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 1) {
+		} elseif ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 1) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->t('tomorrow');
 			} else {
 				return $l->t('yesterday');
 			}
-		} else if ($dateInterval->y == 0 && $dateInterval->m == 0) {
+		} elseif ($dateInterval->y == 0 && $dateInterval->m == 0) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->n('in %n day', 'in %n days', $dateInterval->d);
 			} else {
 				return $l->n('%n day ago', '%n days ago', $dateInterval->d);
 			}
-		} else if ($dateInterval->y == 0 && $dateInterval->m == 1) {
+		} elseif ($dateInterval->y == 0 && $dateInterval->m == 1) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->t('next month');
 			} else {
 				return $l->t('last month');
 			}
-		} else if ($dateInterval->y == 0) {
+		} elseif ($dateInterval->y == 0) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->n('in %n month', 'in %n months', $dateInterval->m);
 			} else {
 				return $l->n('%n month ago', '%n months ago', $dateInterval->m);
 			}
-		} else if ($dateInterval->y == 1) {
+		} elseif ($dateInterval->y == 1) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->t('next year');
 			} else {
@@ -250,7 +250,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 			} else {
 				return $l->n('%n hour ago', '%n hours ago', $diff->h);
 			}
-		} else if ($diff->i > 0) {
+		} elseif ($diff->i > 0) {
 			if ($timestamp > $baseTimestamp) {
 				return $l->n('in %n minute', 'in %n minutes', $diff->i);
 			} else {

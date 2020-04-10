@@ -123,9 +123,9 @@ class JSCombinerTest extends \Test\TestCase {
 			->willReturnCallback(function ($path) use ($file, $gzfile) {
 				if ($path === 'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
+				} elseif ($path === 'combine.js.deps') {
 					throw new NotFoundException();
-				} else if ($path === 'combine.js.gzip') {
+				} elseif ($path === 'combine.js.gzip') {
 					return $gzfile;
 				}
 				$this->fail();
@@ -160,9 +160,9 @@ class JSCombinerTest extends \Test\TestCase {
 			->willReturnCallback(function ($path) use ($file, $gzfile) {
 				if ($path === 'combine.js') {
 					return $file;
-				} else if ($path === 'combine.js.deps') {
+				} elseif ($path === 'combine.js.deps') {
 					throw new NotFoundException();
-				} else if ($path === 'combine.js.gzip') {
+				} elseif ($path === 'combine.js.gzip') {
 					return $gzfile;
 				}
 				$this->fail();
@@ -348,9 +348,9 @@ class JSCombinerTest extends \Test\TestCase {
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {
 					return $file;
-				} else if ($filename === 'combine.js.deps') {
+				} elseif ($filename === 'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gzip') {
+				} elseif ($filename === 'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -379,9 +379,9 @@ class JSCombinerTest extends \Test\TestCase {
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {
 					return $file;
-				} else if ($filename === 'combine.js.deps') {
+				} elseif ($filename === 'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gzip') {
+				} elseif ($filename === 'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();
@@ -447,9 +447,9 @@ var b = \'world\';
 			function ($filename) use ($file, $depsFile, $gzFile) {
 				if ($filename === 'combine.js') {
 					return $file;
-				} else if ($filename === 'combine.js.deps') {
+				} elseif ($filename === 'combine.js.deps') {
 					return $depsFile;
-				} else if ($filename === 'combine.js.gzip') {
+				} elseif ($filename === 'combine.js.gzip') {
 					return $gzFile;
 				}
 				$this->fail();

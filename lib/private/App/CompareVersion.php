@@ -53,9 +53,9 @@ class CompareVersion {
 
 		if (preg_match(self::REGEX_MAJOR, $required) === 1) {
 			return $this->compareMajor($actual, $required, $comparator);
-		} else if (preg_match(self::REGEX_MAJOR_MINOR, $required) === 1) {
+		} elseif (preg_match(self::REGEX_MAJOR_MINOR, $required) === 1) {
 			return $this->compareMajorMinor($actual, $required, $comparator);
-		} else if (preg_match(self::REGEX_MAJOR_MINOR_PATCH, $required) === 1) {
+		} elseif (preg_match(self::REGEX_MAJOR_MINOR_PATCH, $required) === 1) {
 			return $this->compareMajorMinorPatch($actual, $required, $comparator);
 		} else {
 			throw new InvalidArgumentException('required version is invalid');

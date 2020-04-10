@@ -601,7 +601,7 @@ class Filesystem {
 	static public function isBlacklisted($data) {
 		if (isset($data['path'])) {
 			$path = $data['path'];
-		} else if (isset($data['newpath'])) {
+		} elseif (isset($data['newpath'])) {
 			$path = $data['newpath'];
 		}
 		if (isset($path)) {

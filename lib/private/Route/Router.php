@@ -251,16 +251,16 @@ class Router implements IRouter {
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
-		} else if (substr($url, 0, 13) === '/ocsapp/apps/') {
+		} elseif (substr($url, 0, 13) === '/ocsapp/apps/') {
 			// empty string / 'ocsapp' / 'apps' / $app / rest of the route
 			list(, , , $app,) = explode('/', $url, 5);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
 			$this->loadRoutes($app);
-		} else if (substr($url, 0, 10) === '/settings/') {
+		} elseif (substr($url, 0, 10) === '/settings/') {
 			$this->loadRoutes('settings');
-		} else if (substr($url, 0, 6) === '/core/') {
+		} elseif (substr($url, 0, 6) === '/core/') {
 			\OC::$REQUESTEDAPP = $url;
 			if (!\OC::$server->getConfig()->getSystemValueBool('maintenance') && !Util::needUpgrade()) {
 				\OC_App::loadApps();

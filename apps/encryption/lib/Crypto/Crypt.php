@@ -489,7 +489,7 @@ class Crypt {
 
 		if (!$isCorrectHash && $enforceSignature) {
 			throw new GenericEncryptionException('Bad Signature', $this->l->t('Bad Signature'));
-		} else if (!$isCorrectHash && !$enforceSignature) {
+		} elseif (!$isCorrectHash && !$enforceSignature) {
 			$this->logger->info("Signature check skipped", ['app' => 'encryption']);
 		}
 	}

@@ -96,7 +96,7 @@ class GroupProvider implements IProvider {
 					} else {
 						$subject = $l->t('{actor} added {user} to group {group}');
 					}
-				} else if ($this->activityManager->getCurrentUserId() === $params['user']) {
+				} elseif ($this->activityManager->getCurrentUserId() === $params['user']) {
 					$subject = $l->t('An administrator added you to group {group}');
 				} else {
 					$subject = $l->t('An administrator added {user} to group {group}');
@@ -111,7 +111,7 @@ class GroupProvider implements IProvider {
 					} else {
 						$subject = $l->t('{actor} removed {user} from group {group}');
 					}
-				} else if ($this->activityManager->getCurrentUserId() === $params['user']) {
+				} elseif ($this->activityManager->getCurrentUserId() === $params['user']) {
 					$subject = $l->t('An administrator removed you from group {group}');
 				} else {
 					$subject = $l->t('An administrator removed {user} from group {group}');

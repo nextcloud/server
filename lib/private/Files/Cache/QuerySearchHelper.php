@@ -79,7 +79,7 @@ class QuerySearchHelper {
 			return array_reduce($operator->getArguments(), function ($shouldJoin, ISearchOperator $operator) {
 				return $shouldJoin || $this->shouldJoinTags($operator);
 			}, false);
-		} else if ($operator instanceof ISearchComparison) {
+		} elseif ($operator instanceof ISearchComparison) {
 			return $operator->getField() === 'tagname' || $operator->getField() === 'favorite';
 		}
 		return false;
@@ -117,7 +117,7 @@ class QuerySearchHelper {
 				default:
 					throw new \InvalidArgumentException('Invalid operator type: ' . $operator->getType());
 			}
-		} else if ($operator instanceof ISearchComparison) {
+		} elseif ($operator instanceof ISearchComparison) {
 			return $this->searchComparisonToDBExpr($builder, $operator, self::$searchOperatorMap);
 		} else {
 			throw new \InvalidArgumentException('Invalid operator type: ' . get_class($operator));
@@ -143,13 +143,13 @@ class QuerySearchHelper {
 		if ($field === 'mimetype') {
 			if ($operator->getType() === ISearchComparison::COMPARE_EQUAL) {
 				$value = (int)$this->mimetypeLoader->getId($value);
-			} else if ($operator->getType() === ISearchComparison::COMPARE_LIKE) {
+			} elseif ($operator->getType() === ISearchComparison::COMPARE_LIKE) {
 				// transform "mimetype='foo/%'" to "mimepart='foo'"
 				if (preg_match('|(.+)/%|', $value, $matches)) {
 					$field = 'mimepart';
 					$value = (int)$this->mimetypeLoader->getId($matches[1]);
 					$type = ISearchComparison::COMPARE_EQUAL;
-				} else if (strpos($value, '%') !== false) {
+				} elseif (strpos($value, '%') !== false) {
 					throw new \InvalidArgumentException('Unsupported query value for mimetype: ' . $value . ', only values in the format "mime/type" or "mime/%" are supported');
 				} else {
 					$field = 'mimetype';
@@ -157,12 +157,12 @@ class QuerySearchHelper {
 					$type = ISearchComparison::COMPARE_EQUAL;
 				}
 			}
-		} else if ($field === 'favorite') {
+		} elseif ($field === 'favorite') {
 			$field = 'tag.category';
 			$value = self::TAG_FAVORITE;
-		} else if ($field === 'tagname') {
+		} elseif ($field === 'tagname') {
 			$field = 'tag.category';
-		} else if ($field === 'fileid') {
+		} elseif ($field === 'fileid') {
 			$field = 'file.fileid';
 		}
 		return [$field, $value, $type];

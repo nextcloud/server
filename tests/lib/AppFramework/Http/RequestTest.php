@@ -1120,7 +1120,7 @@ class RequestTest extends \Test\TestCase {
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'overwritecondaddr') {
 					return '';
-				} else if ($key === 'overwritehost') {
+				} elseif ($key === 'overwritehost') {
 					return 'my.overwritten.host';
 				}
 
@@ -1144,7 +1144,7 @@ class RequestTest extends \Test\TestCase {
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
-				} else if ($key === 'trusted_domains') {
+				} elseif ($key === 'trusted_domains') {
 					return ['my.trusted.host'];
 				}
 
@@ -1173,7 +1173,7 @@ class RequestTest extends \Test\TestCase {
 			->willReturnCallback(function ($key, $default) {
 				if ($key === 'trusted_proxies') {
 					return ['1.2.3.4'];
-				} else if ($key === 'trusted_domains') {
+				} elseif ($key === 'trusted_domains') {
 					return ['my.trusted.host'];
 				}
 

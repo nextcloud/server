@@ -616,11 +616,11 @@ trait Sharing {
 
 		if ($contentExpected === 'A_NUMBER') {
 			Assert::assertTrue(is_numeric((string)$returnedShare->$field), "Field '$field' is not a number: " . $returnedShare->$field);
-		} else if ($contentExpected === 'A_TOKEN') {
+		} elseif ($contentExpected === 'A_TOKEN') {
 			// A token is composed by 15 characters from
 			// ISecureRandom::CHAR_HUMAN_READABLE.
 			Assert::assertRegExp('/^[abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789]{15}$/', (string)$returnedShare->$field, "Field '$field' is not a token");
-		} else if (strpos($contentExpected, 'REGEXP ') === 0) {
+		} elseif (strpos($contentExpected, 'REGEXP ') === 0) {
 			Assert::assertRegExp(substr($contentExpected, strlen('REGEXP ')), (string)$returnedShare->$field, "Field '$field' does not match");
 		} else {
 			Assert::assertEquals($contentExpected, (string)$returnedShare->$field, "Field '$field' does not match");

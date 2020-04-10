@@ -178,10 +178,10 @@ class L10N implements IL10N {
 		$value = new \DateTime();
 		if ($data instanceof \DateTime) {
 			$value = $data;
-		} else if (\is_string($data) && !is_numeric($data)) {
+		} elseif (\is_string($data) && !is_numeric($data)) {
 			$data = strtotime($data);
 			$value->setTimestamp($data);
-		} else if ($data !== null) {
+		} elseif ($data !== null) {
 			$data = (int)$data;
 			$value->setTimestamp($data);
 		}

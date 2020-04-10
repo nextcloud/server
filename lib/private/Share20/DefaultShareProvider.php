@@ -152,7 +152,7 @@ class DefaultShareProvider implements IShareProvider {
 			if ($share->getExpirationDate() !== null) {
 				$qb->setValue('expiration', $qb->createNamedParameter($share->getExpirationDate(), 'datetime'));
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			//Set the GID of the group we share with
 			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()));
 
@@ -160,7 +160,7 @@ class DefaultShareProvider implements IShareProvider {
 			if ($share->getExpirationDate() !== null) {
 				$qb->setValue('expiration', $qb->createNamedParameter($share->getExpirationDate(), 'datetime'));
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			//set label for public link
 			$qb->setValue('label', $qb->createNamedParameter($share->getLabel()));
 			//Set the token of the share
@@ -269,7 +269,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('note', $qb->createNamedParameter($share->getNote()))
 				->set('accepted', $qb->createNamedParameter($share->getStatus()))
 				->execute();
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->update('share')
 				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
@@ -307,7 +307,7 @@ class DefaultShareProvider implements IShareProvider {
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
 				->execute();
 
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->update('share')
 				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
@@ -381,7 +381,7 @@ class DefaultShareProvider implements IShareProvider {
 				$id = $data['id'];
 			}
 
-		} else if ($share->getShareType() === IShare::TYPE_USER) {
+		} elseif ($share->getShareType() === IShare::TYPE_USER) {
 			if ($share->getSharedWith() !== $recipient) {
 				throw new ProviderException('Recipient does not match');
 			}
@@ -519,7 +519,7 @@ class DefaultShareProvider implements IShareProvider {
 					->execute();
 			}
 
-		} else if ($share->getShareType() === IShare::TYPE_USER) {
+		} elseif ($share->getShareType() === IShare::TYPE_USER) {
 
 			if ($share->getSharedWith() !== $recipient) {
 				throw new ProviderException('Recipient does not match');
@@ -601,7 +601,7 @@ class DefaultShareProvider implements IShareProvider {
 				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
 				->execute();
 
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 
 			// Check if there is a usergroup share
 			$qb = $this->dbConn->getQueryBuilder();
@@ -894,7 +894,7 @@ class DefaultShareProvider implements IShareProvider {
 			}
 			$cursor->closeCursor();
 
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
 			$user = $this->userManager->get($userId);
 			$allGroups = $this->groupManager->getUserGroups($user);
 
@@ -1035,9 +1035,9 @@ class DefaultShareProvider implements IShareProvider {
 			if ($user !== null) {
 				$share->setSharedWithDisplayName($user->getDisplayName());
 			}
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$share->setSharedWith($data['share_with']);
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$share->setPassword($data['password']);
 			$share->setSendPasswordByTalk((bool)$data['password_by_talk']);
 			$share->setToken($data['token']);
@@ -1152,7 +1152,7 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->expr()->eq('share_with', $qb->createNamedParameter($uid))
 				)
 			);
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
 			/*
 			 * Delete all group shares that are owned by this user
 			 * Or special user group shares that are received by this user
@@ -1173,7 +1173,7 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->expr()->eq('share_with', $qb->createNamedParameter($uid))
 				)
 			);
-		} else if ($shareType === \OCP\Share::SHARE_TYPE_LINK) {
+		} elseif ($shareType === \OCP\Share::SHARE_TYPE_LINK) {
 			/*
 			 * Delete all link shares owned by this user.
 			 * And all link shares initiated by this user (until #22327 is in)
@@ -1316,7 +1316,7 @@ class DefaultShareProvider implements IShareProvider {
 				$uid = $row['share_with'];
 				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
 				$users[$uid][$row['id']] = $row;
-			} else if ($type === \OCP\Share::SHARE_TYPE_GROUP) {
+			} elseif ($type === \OCP\Share::SHARE_TYPE_GROUP) {
 				$gid = $row['share_with'];
 				$group = $this->groupManager->get($gid);
 
@@ -1330,9 +1330,9 @@ class DefaultShareProvider implements IShareProvider {
 					$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
 					$users[$uid][$row['id']] = $row;
 				}
-			} else if ($type === \OCP\Share::SHARE_TYPE_LINK) {
+			} elseif ($type === \OCP\Share::SHARE_TYPE_LINK) {
 				$link = true;
-			} else if ($type === self::SHARE_TYPE_USERGROUP && $currentAccess === true) {
+			} elseif ($type === self::SHARE_TYPE_USERGROUP && $currentAccess === true) {
 				$uid = $row['share_with'];
 				$users[$uid] = isset($users[$uid]) ? $users[$uid] : [];
 				$users[$uid][$row['id']] = $row;
@@ -1396,7 +1396,7 @@ class DefaultShareProvider implements IShareProvider {
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$user = $this->userManager->get($share->getSharedWith());
 			$this->sendNote([$user], $share);
-		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$group = $this->groupManager->get($share->getSharedWith());
 			$groupMembers = $group->getUsers();
 			$this->sendNote($groupMembers, $share);

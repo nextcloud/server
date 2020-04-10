@@ -505,7 +505,7 @@ class Factory implements IFactory {
 			if (file_exists($this->serverRoot . '/' . $app . '/l10n/')) {
 				return $this->serverRoot . '/' . $app . '/l10n/';
 			}
-		} else if ($app && \OC_App::getAppPath($app) !== false) {
+		} elseif ($app && \OC_App::getAppPath($app) !== false) {
 			// Check if the app is in the app folder
 			return \OC_App::getAppPath($app) . '/l10n/';
 		}
@@ -603,7 +603,7 @@ class Factory implements IFactory {
 					'code' => $lang,
 					'name' => $potentialName
 				];
-			} else if ($lang === 'en') {
+			} elseif ($lang === 'en') {
 				$ln = [
 					'code' => $lang,
 					'name' => 'English (US)'

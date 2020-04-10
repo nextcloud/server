@@ -99,7 +99,7 @@ class App {
 	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
 		if (!is_null($urlParams)) {
 			$container->query(IRequest::class)->setUrlParameters($urlParams);
-		} else if (isset($container['urlParams']) && !is_null($container['urlParams'])) {
+		} elseif (isset($container['urlParams']) && !is_null($container['urlParams'])) {
 			$container->query(IRequest::class)->setUrlParameters($container['urlParams']);
 		}
 		$appName = $container['AppName'];
@@ -178,7 +178,7 @@ class App {
 		if (!$emptyResponse) {
 			if ($response instanceof ICallbackResponse) {
 				$response->callback($io);
-			} else if (!is_null($output)) {
+			} elseif (!is_null($output)) {
 				$io->setHeader('Content-Length: ' . strlen($output));
 				$io->setOutput($output);
 			}

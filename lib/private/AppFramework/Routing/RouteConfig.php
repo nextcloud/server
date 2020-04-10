@@ -167,7 +167,7 @@ class RouteConfig {
 				$controllerName = str_replace('controllerController', 'Controller', $controllerName);
 				if ($controllerName === 'PublicpreviewController') {
 					$controllerName = 'PublicPreviewController';
-				} else if ($controllerName === 'RequesthandlerController') {
+				} elseif ($controllerName === 'RequesthandlerController') {
 					$controllerName = 'RequestHandlerController';
 				}
 				$controllerName = App::buildAppNamespace($appName) . '\\Controller\\' . $controllerName;

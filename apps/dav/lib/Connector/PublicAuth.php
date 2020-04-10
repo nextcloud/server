@@ -104,7 +104,7 @@ class PublicAuth extends AbstractBasic {
 				|| $share->getShareType() === IShare::TYPE_CIRCLE) {
 				if ($this->shareManager->checkPassword($share, $password)) {
 					return true;
-				} else if ($this->session->exists('public_link_authenticated')
+				} elseif ($this->session->exists('public_link_authenticated')
 					&& $this->session->get('public_link_authenticated') === (string)$share->getId()) {
 					return true;
 				} else {
@@ -116,7 +116,7 @@ class PublicAuth extends AbstractBasic {
 					}
 					return false;
 				}
-			} else if ($share->getShareType() === IShare::TYPE_REMOTE) {
+			} elseif ($share->getShareType() === IShare::TYPE_REMOTE) {
 				return true;
 			} else {
 				return false;

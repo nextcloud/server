@@ -138,7 +138,7 @@ class NavigationManager implements INavigationManager {
 		uasort($list, function ($a, $b) {
 			if (isset($a['order']) && isset($b['order'])) {
 				return ($a['order'] < $b['order']) ? -1 : 1;
-			} else if (isset($a['order']) || isset($b['order'])) {
+			} elseif (isset($a['order']) || isset($b['order'])) {
 				return isset($a['order']) ? -1 : 1;
 			} else {
 				return ($a['name'] < $b['name']) ? -1 : 1;

@@ -302,7 +302,7 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 		if ($can === 'can') {
 			$expected = 'true';
-		} else if ($can === 'cannot') {
+		} elseif ($can === 'cannot') {
 			$expected = 'false';
 		} else {
 			throw new \Exception('Invalid condition, must be "can" or "cannot"');

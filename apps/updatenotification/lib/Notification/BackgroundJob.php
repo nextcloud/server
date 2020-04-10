@@ -107,7 +107,7 @@ class BackgroundJob extends TimedJob {
 			if (\in_array($errors, $this->connectionNotifications, true)) {
 				$this->sendErrorNotifications($errors);
 			}
-		} else if (\is_array($status)) {
+		} elseif (\is_array($status)) {
 			$this->config->setAppValue('updatenotification', 'update_check_errors', 0);
 			$this->clearErrorNotifications();
 

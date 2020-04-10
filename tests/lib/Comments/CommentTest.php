@@ -181,7 +181,7 @@ class CommentTest extends TestCase {
 		while($mention = array_shift($mentions)) {
 			if ($mention['type'] === 'user') {
 				$id = array_shift($expectedUids);
-			} else if ($mention['type'] === 'guest') {
+			} elseif ($mention['type'] === 'guest') {
 				$id = array_shift($expectedGuests);
 			} else {
 				$this->fail('Unexpected mention type');

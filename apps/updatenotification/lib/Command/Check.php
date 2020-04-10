@@ -86,7 +86,7 @@ class Check extends Command {
 		// Report summary
 		if ($updatesAvailableCount === 0) {
 			$output->writeln('<info>Everything up to date</info>');
-		} else if ($updatesAvailableCount === 1) {
+		} elseif ($updatesAvailableCount === 1) {
 			$output->writeln('<comment>1 update available</comment>');
 		} else {
 			$output->writeln('<comment>' . $updatesAvailableCount . ' updates available</comment>');

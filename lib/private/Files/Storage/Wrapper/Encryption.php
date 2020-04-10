@@ -437,7 +437,7 @@ class Encryption extends Wrapper {
 					if (!empty($encryptionModuleId)) {
 						$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
 						$shouldEncrypt = true;
-					} else if (empty($encryptionModuleId) && $info['encrypted'] === true) {
+					} elseif (empty($encryptionModuleId) && $info['encrypted'] === true) {
 						// we come from a old installation. No header and/or no module defined
 						// but the file is encrypted. In this case we need to use the
 						// OC_DEFAULT_MODULE to read the file
@@ -935,7 +935,7 @@ class Encryption extends Wrapper {
 		if (!isset($result[Util::HEADER_ENCRYPTION_MODULE_KEY])) {
 			if (!empty($result)) {
 				$result[Util::HEADER_ENCRYPTION_MODULE_KEY] = 'OC_DEFAULT_MODULE';
-			} else if ($exists) {
+			} elseif ($exists) {
 				// if the header was empty we have to check first if it is a encrypted file at all
 				// We would do query to filecache only if we know that entry in filecache exists
 				$info = $this->getCache()->get($path);
