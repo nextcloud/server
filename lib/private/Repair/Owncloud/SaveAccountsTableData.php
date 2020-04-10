@@ -35,7 +35,7 @@ use OCP\PreConditionNotMetException;
  * before the data structure is changed and the information is gone
  */
 class SaveAccountsTableData implements IRepairStep {
-	const BATCH_SIZE = 75;
+	public const BATCH_SIZE = 75;
 
 	/** @var IDBConnection */
 	protected $db;

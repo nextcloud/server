@@ -34,9 +34,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Base extends Command implements CompletionAwareInterface {
-	const OUTPUT_FORMAT_PLAIN = 'plain';
-	const OUTPUT_FORMAT_JSON = 'json';
-	const OUTPUT_FORMAT_JSON_PRETTY = 'json_pretty';
+	public const OUTPUT_FORMAT_PLAIN = 'plain';
+	public const OUTPUT_FORMAT_JSON = 'json';
+	public const OUTPUT_FORMAT_JSON_PRETTY = 'json_pretty';
 
 	protected $defaultOutputFormat = self::OUTPUT_FORMAT_PLAIN;
 

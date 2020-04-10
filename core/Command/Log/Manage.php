@@ -36,9 +36,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Manage extends Command implements CompletionAwareInterface {
-	const DEFAULT_BACKEND = 'file';
-	const DEFAULT_LOG_LEVEL = 2;
-	const DEFAULT_TIMEZONE = 'UTC';
+	public const DEFAULT_BACKEND = 'file';
+	public const DEFAULT_LOG_LEVEL = 2;
+	public const DEFAULT_TIMEZONE = 'UTC';
 
 	/** @var IConfig */
 	protected $config;

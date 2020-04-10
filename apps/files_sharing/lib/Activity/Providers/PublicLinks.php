@@ -26,12 +26,12 @@ namespace OCA\Files_Sharing\Activity\Providers;
 use OCP\Activity\IEvent;
 
 class PublicLinks extends Base {
-	const SUBJECT_SHARED_LINK_SELF = 'shared_link_self';
-	const SUBJECT_RESHARED_LINK_BY = 'reshared_link_by';
-	const SUBJECT_UNSHARED_LINK_SELF = 'unshared_link_self';
-	const SUBJECT_UNSHARED_LINK_BY = 'unshared_link_by';
-	const SUBJECT_LINK_EXPIRED = 'link_expired';
-	const SUBJECT_LINK_BY_EXPIRED = 'link_by_expired';
+	public const SUBJECT_SHARED_LINK_SELF = 'shared_link_self';
+	public const SUBJECT_RESHARED_LINK_BY = 'reshared_link_by';
+	public const SUBJECT_UNSHARED_LINK_SELF = 'unshared_link_self';
+	public const SUBJECT_UNSHARED_LINK_BY = 'unshared_link_by';
+	public const SUBJECT_LINK_EXPIRED = 'link_expired';
+	public const SUBJECT_LINK_BY_EXPIRED = 'link_by_expired';
 
 	/**
 	 * @param IEvent $event

@@ -50,7 +50,7 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class Auth extends AbstractBasic {
-	const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
+	public const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
 
 	/** @var ISession */
 	private $session;

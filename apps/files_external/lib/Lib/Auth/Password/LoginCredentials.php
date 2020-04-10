@@ -35,7 +35,7 @@ use OCP\Security\ICredentialsManager;
  * Username and password from login credentials, saved in DB
  */
 class LoginCredentials extends AuthMechanism {
-	const CREDENTIALS_IDENTIFIER = 'password::logincredentials/credentials';
+	public const CREDENTIALS_IDENTIFIER = 'password::logincredentials/credentials';
 
 	/** @var ISession */
 	protected $session;

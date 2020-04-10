@@ -37,36 +37,36 @@ interface IQueryBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	const PARAM_NULL = \PDO::PARAM_NULL;
+	public const PARAM_NULL = \PDO::PARAM_NULL;
 	/**
 	 * @since 9.0.0
 	 */
-	const PARAM_BOOL = \PDO::PARAM_BOOL;
+	public const PARAM_BOOL = \PDO::PARAM_BOOL;
 	/**
 	 * @since 9.0.0
 	 */
-	const PARAM_INT = \PDO::PARAM_INT;
+	public const PARAM_INT = \PDO::PARAM_INT;
 	/**
 	 * @since 9.0.0
 	 */
-	const PARAM_STR = \PDO::PARAM_STR;
+	public const PARAM_STR = \PDO::PARAM_STR;
 	/**
 	 * @since 9.0.0
 	 */
-	const PARAM_LOB = \PDO::PARAM_LOB;
+	public const PARAM_LOB = \PDO::PARAM_LOB;
 	/**
 	 * @since 9.0.0
 	 */
-	const PARAM_DATE = 'datetime';
+	public const PARAM_DATE = 'datetime';
 
 	/**
 	 * @since 9.0.0
 	 */
-	const PARAM_INT_ARRAY = Connection::PARAM_INT_ARRAY;
+	public const PARAM_INT_ARRAY = Connection::PARAM_INT_ARRAY;
 	/**
 	 * @since 9.0.0
 	 */
-	const PARAM_STR_ARRAY = Connection::PARAM_STR_ARRAY;
+	public const PARAM_STR_ARRAY = Connection::PARAM_STR_ARRAY;
 
 
 	/**

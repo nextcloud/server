@@ -32,7 +32,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateDB extends Command {
-	const DEFAULT_MIMETYPE = 'application/octet-stream';
+	public const DEFAULT_MIMETYPE = 'application/octet-stream';
 
 	/** @var IMimeTypeDetector */
 	protected $mimetypeDetector;

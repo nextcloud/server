@@ -26,10 +26,10 @@ namespace OC\App;
 use InvalidArgumentException;
 
 class CompareVersion {
-	const REGEX_MAJOR = '/^\d+$/';
-	const REGEX_MAJOR_MINOR = '/^\d+.\d+$/';
-	const REGEX_MAJOR_MINOR_PATCH = '/^\d+.\d+.\d+$/';
-	const REGEX_SERVER = '/^\d+.\d+.\d+(.\d+)?$/';
+	public const REGEX_MAJOR = '/^\d+$/';
+	public const REGEX_MAJOR_MINOR = '/^\d+.\d+$/';
+	public const REGEX_MAJOR_MINOR_PATCH = '/^\d+.\d+.\d+$/';
+	public const REGEX_SERVER = '/^\d+.\d+.\d+(.\d+)?$/';
 
 	/**
 	 * Checks if the given server version fulfills the given (app) version requirements.

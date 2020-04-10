@@ -33,7 +33,7 @@ use OCP\Http\Client\IClientService;
 use OCP\OCS\IDiscoveryService;
 
 class Notifications {
-	const RESPONSE_FORMAT = 'json'; // default response format for ocs calls
+	public const RESPONSE_FORMAT = 'json'; // default response format for ocs calls
 
 	/** @var AddressHandler */
 	private $addressHandler;

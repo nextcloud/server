@@ -36,7 +36,7 @@ abstract class Provider {
 	/**
 	 * @since 8.0.0
 	 */
-	const OPTION_APPS = 'apps';
+	public const OPTION_APPS = 'apps';
 
 	/**
 	 * List of options

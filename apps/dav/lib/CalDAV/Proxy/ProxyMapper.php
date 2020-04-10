@@ -36,8 +36,8 @@ use OCP\IDBConnection;
  * @package OCA\DAV\CalDAV\Proxy
  */
 class ProxyMapper extends QBMapper {
-	const PERMISSION_READ  = 1;
-	const PERMISSION_WRITE = 2;
+	public const PERMISSION_READ  = 1;
+	public const PERMISSION_WRITE = 2;
 
 	/**
 	 * ProxyMapper constructor.

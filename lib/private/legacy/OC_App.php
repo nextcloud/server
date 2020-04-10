@@ -71,8 +71,8 @@ class OC_App {
 	private static $loadedApps = [];
 	private static $altLogin = [];
 	private static $alreadyRegistered = [];
-	const supportedApp = 300;
-	const officialApp = 200;
+	public const supportedApp = 300;
+	public const officialApp = 200;
 
 	/**
 	 * clean the appId

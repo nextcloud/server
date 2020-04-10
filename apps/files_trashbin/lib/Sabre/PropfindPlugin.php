@@ -35,10 +35,10 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
 class PropfindPlugin extends ServerPlugin {
-	const TRASHBIN_FILENAME = '{http://nextcloud.org/ns}trashbin-filename';
-	const TRASHBIN_ORIGINAL_LOCATION = '{http://nextcloud.org/ns}trashbin-original-location';
-	const TRASHBIN_DELETION_TIME = '{http://nextcloud.org/ns}trashbin-deletion-time';
-	const TRASHBIN_TITLE = '{http://nextcloud.org/ns}trashbin-title';
+	public const TRASHBIN_FILENAME = '{http://nextcloud.org/ns}trashbin-filename';
+	public const TRASHBIN_ORIGINAL_LOCATION = '{http://nextcloud.org/ns}trashbin-original-location';
+	public const TRASHBIN_DELETION_TIME = '{http://nextcloud.org/ns}trashbin-deletion-time';
+	public const TRASHBIN_TITLE = '{http://nextcloud.org/ns}trashbin-title';
 
 	/** @var Server */
 	private $server;

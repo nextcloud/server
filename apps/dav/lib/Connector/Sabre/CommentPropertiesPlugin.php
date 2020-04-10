@@ -32,9 +32,9 @@ use Sabre\DAV\PropFind;
 use Sabre\DAV\ServerPlugin;
 
 class CommentPropertiesPlugin extends ServerPlugin {
-	const PROPERTY_NAME_HREF   = '{http://owncloud.org/ns}comments-href';
-	const PROPERTY_NAME_COUNT  = '{http://owncloud.org/ns}comments-count';
-	const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}comments-unread';
+	public const PROPERTY_NAME_HREF   = '{http://owncloud.org/ns}comments-href';
+	public const PROPERTY_NAME_COUNT  = '{http://owncloud.org/ns}comments-count';
+	public const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}comments-unread';
 
 	/** @var  \Sabre\DAV\Server */
 	protected $server;

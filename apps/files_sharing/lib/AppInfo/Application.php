@@ -65,7 +65,7 @@ use OCP\Util;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
-	const APP_ID = 'files_sharing';
+	public const APP_ID = 'files_sharing';
 
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);

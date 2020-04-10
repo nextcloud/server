@@ -20,11 +20,11 @@ use OCP\IAppConfig;
  * @group DB
  */
 class AppTest extends \Test\TestCase {
-	const TEST_USER1 = 'user1';
-	const TEST_USER2 = 'user2';
-	const TEST_USER3 = 'user3';
-	const TEST_GROUP1 = 'group1';
-	const TEST_GROUP2 = 'group2';
+	public const TEST_USER1 = 'user1';
+	public const TEST_USER2 = 'user2';
+	public const TEST_USER3 = 'user3';
+	public const TEST_GROUP1 = 'group1';
+	public const TEST_GROUP2 = 'group2';
 
 	public function appVersionsProvider() {
 		return [

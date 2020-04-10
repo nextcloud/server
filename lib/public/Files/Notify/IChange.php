@@ -29,10 +29,10 @@ namespace OCP\Files\Notify;
  * @since 12.0.0
  */
 interface IChange {
-	const ADDED = 1;
-	const REMOVED = 2;
-	const MODIFIED = 3;
-	const RENAMED = 4;
+	public const ADDED = 1;
+	public const REMOVED = 2;
+	public const MODIFIED = 3;
+	public const RENAMED = 4;
 
 	/**
 	 * Get the type of the change

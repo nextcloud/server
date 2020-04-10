@@ -52,14 +52,14 @@ use OCA\Files_External\Lib\VisibilityTrait;
  */
 class AuthMechanism implements \JsonSerializable {
 	/** Standard authentication schemes */
-	const SCHEME_NULL = 'null';
-	const SCHEME_BUILTIN = 'builtin';
-	const SCHEME_PASSWORD = 'password';
-	const SCHEME_OAUTH1 = 'oauth1';
-	const SCHEME_OAUTH2 = 'oauth2';
-	const SCHEME_PUBLICKEY = 'publickey';
-	const SCHEME_OPENSTACK = 'openstack';
-	const SCHEME_SMB = 'smb';
+	public const SCHEME_NULL = 'null';
+	public const SCHEME_BUILTIN = 'builtin';
+	public const SCHEME_PASSWORD = 'password';
+	public const SCHEME_OAUTH1 = 'oauth1';
+	public const SCHEME_OAUTH2 = 'oauth2';
+	public const SCHEME_PUBLICKEY = 'publickey';
+	public const SCHEME_OPENSTACK = 'openstack';
+	public const SCHEME_SMB = 'smb';
 
 	use VisibilityTrait;
 	use FrontendDefinitionTrait;

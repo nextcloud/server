@@ -35,7 +35,7 @@ class WalledGardenController extends Controller {
 	 *
 	 * @return Response
 	 */
-	function get() {
+	public function get() {
 		$resp = new Response();
 		$resp->setStatus(Http::STATUS_NO_CONTENT);
 		return $resp;

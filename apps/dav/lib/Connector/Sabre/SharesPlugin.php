@@ -35,10 +35,10 @@ use Sabre\DAV\PropFind;
  * Sabre Plugin to provide share-related properties
  */
 class SharesPlugin extends \Sabre\DAV\ServerPlugin {
-	const NS_OWNCLOUD = 'http://owncloud.org/ns';
-	const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
-	const SHARETYPES_PROPERTYNAME = '{http://owncloud.org/ns}share-types';
-	const SHAREES_PROPERTYNAME = '{http://nextcloud.org/ns}sharees';
+	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
+	public const SHARETYPES_PROPERTYNAME = '{http://owncloud.org/ns}share-types';
+	public const SHAREES_PROPERTYNAME = '{http://nextcloud.org/ns}sharees';
 
 	/**
 	 * Reference to main server object

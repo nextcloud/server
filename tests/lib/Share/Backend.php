@@ -22,9 +22,9 @@
 namespace Test\Share;
 
 class Backend implements \OCP\Share_Backend {
-	const FORMAT_SOURCE = 0;
-	const FORMAT_TARGET = 1;
-	const FORMAT_PERMISSIONS = 2;
+	public const FORMAT_SOURCE = 0;
+	public const FORMAT_TARGET = 1;
+	public const FORMAT_PERMISSIONS = 2;
 
 	private $testItem1 = 'test.txt';
 	private $testItem2 = 'share.txt';

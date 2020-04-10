@@ -41,9 +41,9 @@ use JsonSerializable;
  * @package OCP\Dashboard\Model
  */
 final class WidgetSetup implements JsonSerializable {
-	const SIZE_TYPE_MIN = 'min';
-	const SIZE_TYPE_MAX = 'max';
-	const SIZE_TYPE_DEFAULT = 'default';
+	public const SIZE_TYPE_MIN = 'min';
+	public const SIZE_TYPE_MAX = 'max';
+	public const SIZE_TYPE_DEFAULT = 'default';
 
 
 	/** @var array */

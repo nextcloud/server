@@ -36,7 +36,7 @@ use OCP\Security\ICredentialsManager;
  * Global Username and Password
  */
 class GlobalAuth extends AuthMechanism {
-	const CREDENTIALS_IDENTIFIER = 'password::global';
+	public const CREDENTIALS_IDENTIFIER = 'password::global';
 
 	/** @var ICredentialsManager */
 	protected $credentialsManager;

@@ -32,7 +32,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Delete all file entries that have no matching entries in the storage table.
  */
 class DeleteOrphanedFiles extends Command {
-	const CHUNK_SIZE = 200;
+	public const CHUNK_SIZE = 200;
 
 	/**
 	 * @var IDBConnection

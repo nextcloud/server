@@ -30,7 +30,7 @@ namespace OC;
  * Helper class that covers memory info.
  */
 class MemoryInfo {
-	const RECOMMENDED_MEMORY_LIMIT = 512 * 1024 * 1024;
+	public const RECOMMENDED_MEMORY_LIMIT = 512 * 1024 * 1024;
 
 	/**
 	 * Tests if the memory limit is greater or equal the recommended value.

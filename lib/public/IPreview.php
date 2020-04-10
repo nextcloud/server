@@ -48,10 +48,10 @@ interface IPreview {
 	/**
 	 * @since 9.2.0
 	 */
-	const EVENT = self::class . ':' . 'PreviewRequested';
+	public const EVENT = self::class . ':' . 'PreviewRequested';
 
-	const MODE_FILL = 'fill';
-	const MODE_COVER = 'cover';
+	public const MODE_FILL = 'fill';
+	public const MODE_COVER = 'cover';
 
 	/**
 	 * In order to improve lazy loading a closure can be registered which will be

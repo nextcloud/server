@@ -68,10 +68,10 @@ abstract class AbstractCalDavBackend extends TestCase {
 	/** @var ILogger */
 	private $logger;
 
-	const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
-	const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
-	const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
-	const UNIT_TEST_GROUP2 = 'principals/groups/caldav-unit-test-group2';
+	public const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
+	public const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
+	public const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
+	public const UNIT_TEST_GROUP2 = 'principals/groups/caldav-unit-test-group2';
 
 	protected function setUp(): void {
 		parent::setUp();

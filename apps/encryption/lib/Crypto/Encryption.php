@@ -45,8 +45,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Encryption implements IEncryptionModule {
-	const ID = 'OC_DEFAULT_MODULE';
-	const DISPLAY_NAME = 'Default encryption module';
+	public const ID = 'OC_DEFAULT_MODULE';
+	public const DISPLAY_NAME = 'Default encryption module';
 
 	/**
 	 * @var Crypt

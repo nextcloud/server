@@ -49,7 +49,7 @@ use Sabre\VObject\Reader;
  * @package OCA\DAV\CalDAV
  */
 class BirthdayService {
-	const BIRTHDAY_CALENDAR_URI = 'contact_birthdays';
+	public const BIRTHDAY_CALENDAR_URI = 'contact_birthdays';
 
 	/** @var GroupPrincipalBackend */
 	private $principalBackend;

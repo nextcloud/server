@@ -44,8 +44,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * Manager class for system tags
  */
 class SystemTagManager implements ISystemTagManager {
-	const TAG_TABLE = 'systemtag';
-	const TAG_GROUP_TABLE = 'systemtag_group';
+	public const TAG_TABLE = 'systemtag';
+	public const TAG_GROUP_TABLE = 'systemtag_group';
 
 	/** @var IDBConnection */
 	protected $connection;

@@ -36,7 +36,7 @@ namespace OCA\Files_Sharing\Tests;
  * @group DB
  */
 class UpdaterTest extends TestCase {
-	const TEST_FOLDER_NAME = '/folder_share_updater_test';
+	public const TEST_FOLDER_NAME = '/folder_share_updater_test';
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();

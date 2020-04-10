@@ -35,7 +35,7 @@ use OCP\WorkflowEngine\IOperationCompat;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends \OCP\AppFramework\App {
-	const APP_ID = 'workflowengine';
+	public const APP_ID = 'workflowengine';
 
 	/** @var EventDispatcherInterface */
 	protected $dispatcher;

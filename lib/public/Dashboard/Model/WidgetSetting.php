@@ -48,8 +48,8 @@ use JsonSerializable;
  * @package OCP\Dashboard\Model
  */
 final class WidgetSetting implements JsonSerializable {
-	const TYPE_INPUT = 'input';
-	const TYPE_CHECKBOX = 'checkbox';
+	public const TYPE_INPUT = 'input';
+	public const TYPE_CHECKBOX = 'checkbox';
 
 
 	/** @var string */

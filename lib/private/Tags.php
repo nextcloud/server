@@ -112,8 +112,8 @@ class Tags implements ITags {
 	 */
 	private $backend;
 
-	const TAG_TABLE = '*PREFIX*vcategory';
-	const RELATION_TABLE = '*PREFIX*vcategory_to_object';
+	public const TAG_TABLE = '*PREFIX*vcategory';
+	public const RELATION_TABLE = '*PREFIX*vcategory_to_object';
 
 	/**
 	 * Constructor.

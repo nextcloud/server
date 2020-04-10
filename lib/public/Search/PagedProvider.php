@@ -36,7 +36,7 @@ abstract class PagedProvider extends Provider {
 	 * show all results
 	 * @since 8.0.0
 	 */
-	const SIZE_ALL = 0;
+	public const SIZE_ALL = 0;
 
 	/**
 	 * Constructor

@@ -30,7 +30,7 @@ use Sabre\DAV\IProperties;
 use Sabre\DAV\PropPatch;
 
 class AppleProvisioningNode implements INode, IProperties {
-	const FILENAME = 'apple-provisioning.mobileconfig';
+	public const FILENAME = 'apple-provisioning.mobileconfig';
 
 	protected $timeFactory;
 

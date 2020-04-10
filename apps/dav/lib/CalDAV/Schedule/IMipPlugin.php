@@ -102,11 +102,11 @@ class IMipPlugin extends SabreIMipPlugin {
 	/** @var IUserManager */
 	private $userManager;
 
-	const MAX_DATE = '2038-01-01';
+	public const MAX_DATE = '2038-01-01';
 
-	const METHOD_REQUEST = 'request';
-	const METHOD_REPLY = 'reply';
-	const METHOD_CANCEL = 'cancel';
+	public const METHOD_REQUEST = 'request';
+	public const METHOD_REPLY = 'reply';
+	public const METHOD_CANCEL = 'cancel';
 
 	/**
 	 * @param IConfig $config

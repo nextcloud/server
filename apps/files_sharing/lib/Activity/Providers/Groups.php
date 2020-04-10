@@ -35,13 +35,13 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Groups extends Base {
-	const SUBJECT_SHARED_GROUP_SELF = 'shared_group_self';
-	const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
+	public const SUBJECT_SHARED_GROUP_SELF = 'shared_group_self';
+	public const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
 
-	const SUBJECT_UNSHARED_GROUP_SELF = 'unshared_group_self';
-	const SUBJECT_UNSHARED_GROUP_BY = 'unshared_group_by';
+	public const SUBJECT_UNSHARED_GROUP_SELF = 'unshared_group_self';
+	public const SUBJECT_UNSHARED_GROUP_BY = 'unshared_group_by';
 
-	const SUBJECT_EXPIRED_GROUP = 'expired_group';
+	public const SUBJECT_EXPIRED_GROUP = 'expired_group';
 
 	/** @var IGroupManager */
 	protected $groupManager;

@@ -77,14 +77,14 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * @package OCA\DAV\CalDAV
  */
 class CalDavBackend extends AbstractBackend implements SyncSupport, SubscriptionSupport, SchedulingSupport {
-	const CALENDAR_TYPE_CALENDAR = 0;
-	const CALENDAR_TYPE_SUBSCRIPTION = 1;
+	public const CALENDAR_TYPE_CALENDAR = 0;
+	public const CALENDAR_TYPE_SUBSCRIPTION = 1;
 
-	const PERSONAL_CALENDAR_URI = 'personal';
-	const PERSONAL_CALENDAR_NAME = 'Personal';
+	public const PERSONAL_CALENDAR_URI = 'personal';
+	public const PERSONAL_CALENDAR_NAME = 'Personal';
 
-	const RESOURCE_BOOKING_CALENDAR_URI = 'calendar';
-	const RESOURCE_BOOKING_CALENDAR_NAME = 'Calendar';
+	public const RESOURCE_BOOKING_CALENDAR_URI = 'calendar';
+	public const RESOURCE_BOOKING_CALENDAR_NAME = 'Calendar';
 
 	/**
 	 * We need to specify a max date, because we need to stop *somewhere*
@@ -94,12 +94,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * in 2038-01-19 to avoid problems when the date is converted
 	 * to a unix timestamp.
 	 */
-	const MAX_DATE = '2038-01-01';
+	public const MAX_DATE = '2038-01-01';
 
-	const ACCESS_PUBLIC = 4;
-	const CLASSIFICATION_PUBLIC = 0;
-	const CLASSIFICATION_PRIVATE = 1;
-	const CLASSIFICATION_CONFIDENTIAL = 2;
+	public const ACCESS_PUBLIC = 4;
+	public const CLASSIFICATION_PUBLIC = 0;
+	public const CLASSIFICATION_PRIVATE = 1;
+	public const CLASSIFICATION_CONFIDENTIAL = 2;
 
 	/**
 	 * List of CalDAV properties, and how they map to database field names

@@ -53,8 +53,8 @@ use OCP\Share\IShare;
  * TODO: convert to real intergration tests
  */
 class ApiTest extends TestCase {
-	const TEST_FOLDER_NAME = '/folder_share_api_test';
-	const APP_NAME = 'files_sharing';
+	public const TEST_FOLDER_NAME = '/folder_share_api_test';
+	public const APP_NAME = 'files_sharing';
 
 	private static $tempStorage;
 

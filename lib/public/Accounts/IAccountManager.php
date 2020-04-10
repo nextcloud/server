@@ -38,23 +38,23 @@ use OCP\IUser;
 interface IAccountManager {
 
 	/** nobody can see my account details */
-	const VISIBILITY_PRIVATE = 'private';
+	public const VISIBILITY_PRIVATE = 'private';
 	/** only contacts, especially trusted servers can see my contact details */
-	const VISIBILITY_CONTACTS_ONLY = 'contacts';
+	public const VISIBILITY_CONTACTS_ONLY = 'contacts';
 	/** every body ca see my contact detail, will be published to the lookup server */
-	const VISIBILITY_PUBLIC = 'public';
+	public const VISIBILITY_PUBLIC = 'public';
 
-	const PROPERTY_AVATAR = 'avatar';
-	const PROPERTY_DISPLAYNAME = 'displayname';
-	const PROPERTY_PHONE = 'phone';
-	const PROPERTY_EMAIL = 'email';
-	const PROPERTY_WEBSITE = 'website';
-	const PROPERTY_ADDRESS = 'address';
-	const PROPERTY_TWITTER = 'twitter';
+	public const PROPERTY_AVATAR = 'avatar';
+	public const PROPERTY_DISPLAYNAME = 'displayname';
+	public const PROPERTY_PHONE = 'phone';
+	public const PROPERTY_EMAIL = 'email';
+	public const PROPERTY_WEBSITE = 'website';
+	public const PROPERTY_ADDRESS = 'address';
+	public const PROPERTY_TWITTER = 'twitter';
 
-	const NOT_VERIFIED = '0';
-	const VERIFICATION_IN_PROGRESS = '1';
-	const VERIFIED = '2';
+	public const NOT_VERIFIED = '0';
+	public const VERIFICATION_IN_PROGRESS = '1';
+	public const VERIFIED = '2';
 
 	/**
 	 * Get the account data for a given user

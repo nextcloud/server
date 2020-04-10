@@ -27,8 +27,8 @@ namespace OCP\Files\Search;
  * @since 12.0.0
  */
 interface ISearchOrder {
-	const DIRECTION_ASCENDING = 'asc';
-	const DIRECTION_DESCENDING = 'desc';
+	public const DIRECTION_ASCENDING = 'asc';
+	public const DIRECTION_DESCENDING = 'desc';
 
 	/**
 	 * The direction to sort in, either ISearchOrder::DIRECTION_ASCENDING or ISearchOrder::DIRECTION_DESCENDING

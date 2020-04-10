@@ -35,27 +35,27 @@ interface IExpressionBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	const EQ  = ExpressionBuilder::EQ;
+	public const EQ  = ExpressionBuilder::EQ;
 	/**
 	 * @since 9.0.0
 	 */
-	const NEQ = ExpressionBuilder::NEQ;
+	public const NEQ = ExpressionBuilder::NEQ;
 	/**
 	 * @since 9.0.0
 	 */
-	const LT  = ExpressionBuilder::LT;
+	public const LT  = ExpressionBuilder::LT;
 	/**
 	 * @since 9.0.0
 	 */
-	const LTE = ExpressionBuilder::LTE;
+	public const LTE = ExpressionBuilder::LTE;
 	/**
 	 * @since 9.0.0
 	 */
-	const GT  = ExpressionBuilder::GT;
+	public const GT  = ExpressionBuilder::GT;
 	/**
 	 * @since 9.0.0
 	 */
-	const GTE = ExpressionBuilder::GTE;
+	public const GTE = ExpressionBuilder::GTE;
 
 	/**
 	 * Creates a conjunction of the given boolean expressions.

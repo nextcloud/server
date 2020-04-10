@@ -48,7 +48,7 @@ class ListCalendarsTest extends TestCase {
 	/** @var ListCalendars */
 	private $command;
 
-	const USERNAME = 'username';
+	public const USERNAME = 'username';
 
 	protected function setUp(): void {
 		parent::setUp();

@@ -57,8 +57,8 @@ use OCP\IUserSession;
 use OCP\Util;
 
 class LoginController extends Controller {
-	const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
-	const LOGIN_MSG_USERDISABLED = 'userdisabled';
+	public const LOGIN_MSG_INVALIDPASSWORD = 'invalidpassword';
+	public const LOGIN_MSG_USERDISABLED = 'userdisabled';
 
 	/** @var IUserManager */
 	private $userManager;

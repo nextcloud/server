@@ -42,7 +42,7 @@ namespace OC;
  * configuration file of Nextcloud.
  */
 class Config {
-	const ENV_PREFIX = 'NC_';
+	public const ENV_PREFIX = 'NC_';
 
 	/** @var array Associative array ($key => $value) */
 	protected $cache = [];

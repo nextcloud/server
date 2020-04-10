@@ -26,7 +26,7 @@ namespace OC\Remote;
 use OCP\Remote\IUser;
 
 class User implements IUser {
-	const EXPECTED_KEYS = [
+	public const EXPECTED_KEYS = [
 		'id',
 		'email',
 		'displayname',

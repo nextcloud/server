@@ -47,19 +47,19 @@ interface INavigationManager {
 	 * Navigation entries of the app navigation
 	 * @since 16.0.0
 	 */
-	const TYPE_APPS = 'link';
+	public const TYPE_APPS = 'link';
 
 	/**
 	 * Navigation entries of the settings navigation
 	 * @since 16.0.0
 	 */
-	const TYPE_SETTINGS = 'settings';
+	public const TYPE_SETTINGS = 'settings';
 
 	/**
 	 * Navigation entries for public page footer navigation
 	 * @since 16.0.0
 	 */
-	const TYPE_GUEST = 'guest';
+	public const TYPE_GUEST = 'guest';
 
 	/**
 	 * Creates a new navigation entry

@@ -34,7 +34,7 @@ use Sabre\Xml\Writer;
  * This property contains multiple "tag" elements, each containing a tag name.
  */
 class TagList implements Element {
-	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/**
 	 * tags

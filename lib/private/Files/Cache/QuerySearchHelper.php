@@ -54,7 +54,7 @@ class QuerySearchHelper {
 		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lt'
 	];
 
-	const TAG_FAVORITE = '_$!<Favorite>!$_';
+	public const TAG_FAVORITE = '_$!<Favorite>!$_';
 
 	/** @var IMimeTypeLoader */
 	private $mimetypeLoader;

@@ -35,16 +35,16 @@ use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\PropPatch;
 
 class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
-	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
-	const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}isUnread';
-	const PROPERTY_NAME_MESSAGE = '{http://owncloud.org/ns}message';
-	const PROPERTY_NAME_ACTOR_DISPLAYNAME = '{http://owncloud.org/ns}actorDisplayName';
-	const PROPERTY_NAME_MENTIONS = '{http://owncloud.org/ns}mentions';
-	const PROPERTY_NAME_MENTION = '{http://owncloud.org/ns}mention';
-	const PROPERTY_NAME_MENTION_TYPE = '{http://owncloud.org/ns}mentionType';
-	const PROPERTY_NAME_MENTION_ID = '{http://owncloud.org/ns}mentionId';
-	const PROPERTY_NAME_MENTION_DISPLAYNAME = '{http://owncloud.org/ns}mentionDisplayName';
+	public const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}isUnread';
+	public const PROPERTY_NAME_MESSAGE = '{http://owncloud.org/ns}message';
+	public const PROPERTY_NAME_ACTOR_DISPLAYNAME = '{http://owncloud.org/ns}actorDisplayName';
+	public const PROPERTY_NAME_MENTIONS = '{http://owncloud.org/ns}mentions';
+	public const PROPERTY_NAME_MENTION = '{http://owncloud.org/ns}mention';
+	public const PROPERTY_NAME_MENTION_TYPE = '{http://owncloud.org/ns}mentionType';
+	public const PROPERTY_NAME_MENTION_ID = '{http://owncloud.org/ns}mentionId';
+	public const PROPERTY_NAME_MENTION_DISPLAYNAME = '{http://owncloud.org/ns}mentionDisplayName';
 
 	/** @var  IComment */
 	public $comment;

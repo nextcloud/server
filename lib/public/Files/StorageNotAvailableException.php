@@ -44,13 +44,13 @@ use OC\HintException;
  * @since 6.0.0 - since 8.2.1 based on HintException
  */
 class StorageNotAvailableException extends HintException {
-	const STATUS_SUCCESS = 0;
-	const STATUS_ERROR = 1;
-	const STATUS_INDETERMINATE = 2;
-	const STATUS_INCOMPLETE_CONF = 3;
-	const STATUS_UNAUTHORIZED = 4;
-	const STATUS_TIMEOUT = 5;
-	const STATUS_NETWORK_ERROR = 6;
+	public const STATUS_SUCCESS = 0;
+	public const STATUS_ERROR = 1;
+	public const STATUS_INDETERMINATE = 2;
+	public const STATUS_INCOMPLETE_CONF = 3;
+	public const STATUS_UNAUTHORIZED = 4;
+	public const STATUS_TIMEOUT = 5;
+	public const STATUS_NETWORK_ERROR = 6;
 
 	/**
 	 * StorageNotAvailableException constructor.

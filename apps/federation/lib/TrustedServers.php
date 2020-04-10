@@ -42,13 +42,13 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class TrustedServers {
 
 	/** after a user list was exchanged at least once successfully */
-	const STATUS_OK = 1;
+	public const STATUS_OK = 1;
 	/** waiting for shared secret or initial user list exchange */
-	const STATUS_PENDING = 2;
+	public const STATUS_PENDING = 2;
 	/** something went wrong, misconfigured server, software bug,... user interaction needed */
-	const STATUS_FAILURE = 3;
+	public const STATUS_FAILURE = 3;
 	/** remote server revoked access */
-	const STATUS_ACCESS_REVOKED = 4;
+	public const STATUS_ACCESS_REVOKED = 4;
 
 	/** @var  dbHandler */
 	private $dbHandler;

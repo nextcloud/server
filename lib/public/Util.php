@@ -60,23 +60,23 @@ class Util {
 	/**
 	 * @deprecated 14.0.0 use \OCP\ILogger::DEBUG
 	 */
-	const DEBUG=0;
+	public const DEBUG=0;
 	/**
 	 * @deprecated 14.0.0 use \OCP\ILogger::INFO
 	 */
-	const INFO=1;
+	public const INFO=1;
 	/**
 	 * @deprecated 14.0.0 use \OCP\ILogger::WARN
 	 */
-	const WARN=2;
+	public const WARN=2;
 	/**
 	 * @deprecated 14.0.0 use \OCP\ILogger::ERROR
 	 */
-	const ERROR=3;
+	public const ERROR=3;
 	/**
 	 * @deprecated 14.0.0 use \OCP\ILogger::FATAL
 	 */
-	const FATAL=4;
+	public const FATAL=4;
 
 	/** \OCP\Share\IManager */
 	private static $shareManager;

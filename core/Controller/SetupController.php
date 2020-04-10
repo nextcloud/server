@@ -44,7 +44,7 @@ class SetupController {
 	/**
 	 * @param Setup $setupHelper
 	 */
-	function __construct(Setup $setupHelper) {
+	public function __construct(Setup $setupHelper) {
 		$this->autoConfigFile = \OC::$configDir.'autoconfig.php';
 		$this->setupHelper = $setupHelper;
 	}

@@ -41,10 +41,10 @@ use OC\SystemConfig;
  */
 class ConnectionFactory {
 	/** @var string default database name */
-	const DEFAULT_DBNAME = 'owncloud';
+	public const DEFAULT_DBNAME = 'owncloud';
 
 	/** @var string default database table prefix */
-	const DEFAULT_DBTABLEPREFIX = 'oc_';
+	public const DEFAULT_DBTABLEPREFIX = 'oc_';
 
 	/**
 	 * @var array

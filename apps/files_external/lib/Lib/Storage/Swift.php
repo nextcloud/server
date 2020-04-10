@@ -101,7 +101,7 @@ class Swift extends \OC\Files\Storage\Common {
 		return $path;
 	}
 
-	const SUBCONTAINER_FILE = '.subcontainers';
+	public const SUBCONTAINER_FILE = '.subcontainers';
 
 	/**
 	 * translate directory path to container name

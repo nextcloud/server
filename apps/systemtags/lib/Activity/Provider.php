@@ -33,12 +33,12 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Provider implements IProvider {
-	const CREATE_TAG = 'create_tag';
-	const UPDATE_TAG = 'update_tag';
-	const DELETE_TAG = 'delete_tag';
+	public const CREATE_TAG = 'create_tag';
+	public const UPDATE_TAG = 'update_tag';
+	public const DELETE_TAG = 'delete_tag';
 
-	const ASSIGN_TAG = 'assign_tag';
-	const UNASSIGN_TAG = 'unassign_tag';
+	public const ASSIGN_TAG = 'assign_tag';
+	public const UNASSIGN_TAG = 'unassign_tag';
 
 	/** @var IFactory */
 	protected $languageFactory;

@@ -37,9 +37,9 @@ use OCP\EventDispatcher\Event;
  * @since 9.0.0
  */
 class ManagerEvent extends Event {
-	const EVENT_CREATE = 'OCP\SystemTag\ISystemTagManager::createTag';
-	const EVENT_UPDATE = 'OCP\SystemTag\ISystemTagManager::updateTag';
-	const EVENT_DELETE = 'OCP\SystemTag\ISystemTagManager::deleteTag';
+	public const EVENT_CREATE = 'OCP\SystemTag\ISystemTagManager::createTag';
+	public const EVENT_UPDATE = 'OCP\SystemTag\ISystemTagManager::updateTag';
+	public const EVENT_DELETE = 'OCP\SystemTag\ISystemTagManager::deleteTag';
 
 	/** @var string */
 	protected $event;

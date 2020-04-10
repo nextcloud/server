@@ -107,8 +107,8 @@ class User {
 	/**
 	 * DB config keys for user preferences
 	 */
-	const USER_PREFKEY_FIRSTLOGIN  = 'firstLoginAccomplished';
-	const USER_PREFKEY_LASTREFRESH = 'lastFeatureRefresh';
+	public const USER_PREFKEY_FIRSTLOGIN  = 'firstLoginAccomplished';
+	public const USER_PREFKEY_LASTREFRESH = 'lastFeatureRefresh';
 
 	/**
 	 * @brief constructor, make sure the subclasses call this one!

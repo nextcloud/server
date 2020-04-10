@@ -64,7 +64,7 @@ use OCP\IUserManager;
  * @package OCA\User_LDAP
  */
 class Access extends LDAPUtility {
-	const UUID_ATTRIBUTES = ['entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid'];
+	public const UUID_ATTRIBUTES = ['entryuuid', 'nsuniqueid', 'objectguid', 'guid', 'ipauniqueid'];
 
 	/** @var \OCA\User_LDAP\Connection */
 	public $connection;

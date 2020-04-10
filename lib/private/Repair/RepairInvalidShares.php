@@ -32,7 +32,7 @@ use OCP\Migration\IRepairStep;
  * Repairs shares with invalid data
  */
 class RepairInvalidShares implements IRepairStep {
-	const CHUNK_SIZE = 200;
+	public const CHUNK_SIZE = 200;
 
 	/** @var \OCP\IConfig */
 	protected $config;

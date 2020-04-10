@@ -36,7 +36,7 @@ use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
 
 class GroupPrincipalBackend implements BackendInterface {
-	const PRINCIPAL_PREFIX = 'principals/groups';
+	public const PRINCIPAL_PREFIX = 'principals/groups';
 
 	/** @var IGroupManager */
 	private $groupManager;

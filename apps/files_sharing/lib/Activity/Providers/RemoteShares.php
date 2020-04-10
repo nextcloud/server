@@ -33,10 +33,10 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class RemoteShares extends Base {
-	const SUBJECT_REMOTE_SHARE_ACCEPTED = 'remote_share_accepted';
-	const SUBJECT_REMOTE_SHARE_DECLINED = 'remote_share_declined';
-	const SUBJECT_REMOTE_SHARE_RECEIVED = 'remote_share_received';
-	const SUBJECT_REMOTE_SHARE_UNSHARED = 'remote_share_unshared';
+	public const SUBJECT_REMOTE_SHARE_ACCEPTED = 'remote_share_accepted';
+	public const SUBJECT_REMOTE_SHARE_DECLINED = 'remote_share_declined';
+	public const SUBJECT_REMOTE_SHARE_RECEIVED = 'remote_share_received';
+	public const SUBJECT_REMOTE_SHARE_UNSHARED = 'remote_share_unshared';
 
 	public function __construct(IFactory $languageFactory,
 								IURLGenerator $url,

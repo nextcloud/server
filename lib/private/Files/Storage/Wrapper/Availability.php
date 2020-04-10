@@ -37,7 +37,7 @@ use OCP\IConfig;
  * Throws a StorageNotAvailableException for storages with known failures
  */
 class Availability extends Wrapper {
-	const RECHECK_TTL_SEC = 600; // 10 minutes
+	public const RECHECK_TTL_SEC = 600; // 10 minutes
 
 	/** @var IConfig */
 	protected $config;

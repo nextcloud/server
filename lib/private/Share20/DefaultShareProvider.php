@@ -63,7 +63,7 @@ use OCP\Share\IShareProvider;
 class DefaultShareProvider implements IShareProvider {
 
 	// Special share type for user modified group shares
-	const SHARE_TYPE_USERGROUP = 2;
+	public const SHARE_TYPE_USERGROUP = 2;
 
 	/** @var IDBConnection */
 	private $dbConn;

@@ -54,16 +54,16 @@ use OCP\IUserSession;
  * @package OCA\Encryption\Crypto
  */
 class Crypt {
-	const DEFAULT_CIPHER = 'AES-256-CTR';
+	public const DEFAULT_CIPHER = 'AES-256-CTR';
 	// default cipher from old Nextcloud versions
-	const LEGACY_CIPHER = 'AES-128-CFB';
+	public const LEGACY_CIPHER = 'AES-128-CFB';
 
 	// default key format, old Nextcloud version encrypted the private key directly
 	// with the user password
-	const LEGACY_KEY_FORMAT = 'password';
+	public const LEGACY_KEY_FORMAT = 'password';
 
-	const HEADER_START = 'HBEGIN';
-	const HEADER_END = 'HEND';
+	public const HEADER_START = 'HBEGIN';
+	public const HEADER_END = 'HEND';
 
 	/** @var ILogger */
 	private $logger;

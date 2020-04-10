@@ -36,7 +36,7 @@ use OCP\EventDispatcher\Event;
  * @since 9.1.0
  */
 class SystemTagsEntityEvent extends Event {
-	const EVENT_ENTITY = 'OCP\SystemTag\ISystemTagManager::registerEntity';
+	public const EVENT_ENTITY = 'OCP\SystemTag\ISystemTagManager::registerEntity';
 
 	/** @var string */
 	protected $event;

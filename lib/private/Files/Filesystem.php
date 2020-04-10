@@ -92,7 +92,7 @@ class Filesystem {
 	 * classname which used for hooks handling
 	 * used as signalclass in OC_Hooks::emit()
 	 */
-	const CLASSNAME = 'OC_Filesystem';
+	public const CLASSNAME = 'OC_Filesystem';
 
 	/**
 	 * signalname emitted before file renaming
@@ -100,7 +100,7 @@ class Filesystem {
 	 * @param string $oldpath
 	 * @param string $newpath
 	 */
-	const signal_rename = 'rename';
+	public const signal_rename = 'rename';
 
 	/**
 	 * signal emitted after file renaming
@@ -108,7 +108,7 @@ class Filesystem {
 	 * @param string $oldpath
 	 * @param string $newpath
 	 */
-	const signal_post_rename = 'post_rename';
+	public const signal_post_rename = 'post_rename';
 
 	/**
 	 * signal emitted before file/dir creation
@@ -116,7 +116,7 @@ class Filesystem {
 	 * @param string $path
 	 * @param bool $run changing this flag to false in hook handler will cancel event
 	 */
-	const signal_create = 'create';
+	public const signal_create = 'create';
 
 	/**
 	 * signal emitted after file/dir creation
@@ -124,7 +124,7 @@ class Filesystem {
 	 * @param string $path
 	 * @param bool $run changing this flag to false in hook handler will cancel event
 	 */
-	const signal_post_create = 'post_create';
+	public const signal_post_create = 'post_create';
 
 	/**
 	 * signal emits before file/dir copy
@@ -133,7 +133,7 @@ class Filesystem {
 	 * @param string $newpath
 	 * @param bool $run changing this flag to false in hook handler will cancel event
 	 */
-	const signal_copy = 'copy';
+	public const signal_copy = 'copy';
 
 	/**
 	 * signal emits after file/dir copy
@@ -141,7 +141,7 @@ class Filesystem {
 	 * @param string $oldpath
 	 * @param string $newpath
 	 */
-	const signal_post_copy = 'post_copy';
+	public const signal_post_copy = 'post_copy';
 
 	/**
 	 * signal emits before file/dir save
@@ -149,14 +149,14 @@ class Filesystem {
 	 * @param string $path
 	 * @param bool $run changing this flag to false in hook handler will cancel event
 	 */
-	const signal_write = 'write';
+	public const signal_write = 'write';
 
 	/**
 	 * signal emits after file/dir save
 	 *
 	 * @param string $path
 	 */
-	const signal_post_write = 'post_write';
+	public const signal_post_write = 'post_write';
 
 	/**
 	 * signal emitted before file/dir update
@@ -164,7 +164,7 @@ class Filesystem {
 	 * @param string $path
 	 * @param bool $run changing this flag to false in hook handler will cancel event
 	 */
-	const signal_update = 'update';
+	public const signal_update = 'update';
 
 	/**
 	 * signal emitted after file/dir update
@@ -172,38 +172,38 @@ class Filesystem {
 	 * @param string $path
 	 * @param bool $run changing this flag to false in hook handler will cancel event
 	 */
-	const signal_post_update = 'post_update';
+	public const signal_post_update = 'post_update';
 
 	/**
 	 * signal emits when reading file/dir
 	 *
 	 * @param string $path
 	 */
-	const signal_read = 'read';
+	public const signal_read = 'read';
 
 	/**
 	 * signal emits when removing file/dir
 	 *
 	 * @param string $path
 	 */
-	const signal_delete = 'delete';
+	public const signal_delete = 'delete';
 
 	/**
 	 * parameters definitions for signals
 	 */
-	const signal_param_path = 'path';
-	const signal_param_oldpath = 'oldpath';
-	const signal_param_newpath = 'newpath';
+	public const signal_param_path = 'path';
+	public const signal_param_oldpath = 'oldpath';
+	public const signal_param_newpath = 'newpath';
 
 	/**
 	 * run - changing this flag to false in hook handler will cancel event
 	 */
-	const signal_param_run = 'run';
+	public const signal_param_run = 'run';
 
-	const signal_create_mount = 'create_mount';
-	const signal_delete_mount = 'delete_mount';
-	const signal_param_mount_type = 'mounttype';
-	const signal_param_users = 'users';
+	public const signal_create_mount = 'create_mount';
+	public const signal_delete_mount = 'delete_mount';
+	public const signal_param_mount_type = 'mounttype';
+	public const signal_param_users = 'users';
 
 	/**
 	 * @var \OC\Files\Storage\StorageFactory $loader
