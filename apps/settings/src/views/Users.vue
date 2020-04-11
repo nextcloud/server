@@ -79,7 +79,7 @@
 					:key="group.id"
 					:exact="true"
 					:title="group.title"
-					:to="{ name: 'group', params: { selectedGroup: group.id } }">
+					:to="{ name: 'group', params: { selectedGroup: encodeURIComponent(group.id) } }">
 					<AppNavigationCounter v-if="group.count" slot="counter">
 						{{ group.count }}
 					</AppNavigationCounter>
@@ -149,7 +149,7 @@
 			<UserList #content
 				:users="users"
 				:show-config="showConfig"
-				:selected-group="selectedGroup"
+				:selected-group="selectedGroupDecoded"
 				:external-actions="externalActions" />
 		</AppContent>
 	</Content>
@@ -215,6 +215,9 @@ export default {
 		}
 	},
 	computed: {
+		selectedGroupDecoded() {
+			return this.selectedGroup ? decodeURIComponent(this.selectedGroup) : null
+		},
 		users() {
 			return this.$store.getters.getUsers
 		},
@@ -452,7 +455,7 @@ export default {
 				this.$router.push({
 					name: 'group',
 					params: {
-						selectedGroup: gid.trim(),
+						selectedGroup: encodeURIComponent(gid.trim()),
 					},
 				})
 			} catch {

@@ -312,6 +312,9 @@ export default {
 		settings() {
 			return this.$store.getters.getServerData
 		},
+		selectedGroupDecoded() {
+			return decodeURIComponent(this.selectedGroup)
+		},
 		filteredUsers() {
 			if (this.selectedGroup === 'disabled') {
 				return this.users.filter(user => user.enabled === false)
