@@ -86,7 +86,7 @@ OC.L10N.register(
     "Verifying" : "Kontrollin",
     "Limit to groups" : "Luba gruppidele",
     "Save changes" : "Salvesta muudatused",
-    "Featured" : "Karakteristikud",
+    "Featured" : "Esile tõstetud",
     "by" : "lisas",
     "Update to {version}" : "Uuenda versioonile {version}",
     "Remove" : "Eemalda",
