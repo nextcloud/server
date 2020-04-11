@@ -139,6 +139,7 @@ OC.L10N.register(
     "Accept" : "Прийняти",
     "Reject" : "Скасувати",
     "File Management" : "Управління файлами",
+    "Change" : "Змінити",
     "Tags" : "Теги",
     "%s used" : "%s використано",
     "%1$s of %2$s used" : "використано %1$s з %2$s",

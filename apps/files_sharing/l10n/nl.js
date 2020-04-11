@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Er is iets gebeurd. Kan de deellink niet accepteren.",
     "Reject share" : "Weiger deellink",
     "Something happened. Unable to reject the share." : "Er is iets gebeurd. Kan de deellink niet weigeren.",
+    "Waiting…" : "Wachten ...",
     "error" : "fout",
     "finished" : "klaar",
     "This will stop your current uploads." : "Dit beëindigt onderhanden uploads",
