@@ -25,6 +25,7 @@ OC.L10N.register(
     "No results" : "Няма резултати",
     "Predefined URLs" : "Предефинирани URL-и",
     "Files WebDAV" : "Файлове WebDAV",
+    "Others" : "Други",
     "Android client" : "Android клиент",
     "iOS client" : "iOS клиент",
     "Desktop client" : "Клиент за настолен компютър",
