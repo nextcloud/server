@@ -26,7 +26,7 @@ OC.L10N.register(
     "Password to access {file} was sent to you" : "Wachtwoord voor toegang tot {file} is naar je verstuurd",
     "Sharing %1$s failed, this item is already shared with %2$s" : "Delen van %1$s is mislukt, omdat dit al gedeeld wordt met %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "We kunnen je geen automatisch gegenereerd wachtwoord toesturen. Vermeld een geldig e-mailadres in je persoonlijke instellingen en probeer het nogmaals.",
-    "Failed to send share by email" : "Delen per email is mislukt",
+    "Failed to send share by email" : "Versturen share per e-mail is mislukt",
     "%1$s shared »%2$s« with you" : "%1$s deelde »%2$s« met jou",
     "%1$s shared »%2$s« with you." : "%1$s deelde »%2$s« met jou.",
     "Click the button below to open it." : "Klik op onderstaande link om te openen.",

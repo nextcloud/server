@@ -217,7 +217,7 @@
     "ID \"%1$s\" already used by cloud federation provider \"%2$s\"" : "ID \"%1$s\" wird bereits von Cloud-Federation-Provider \"%2$s\" verwendet.",
     "Cloud Federation Provider with ID: \"%s\" does not exist." : "Cloud-Federation-Provider mit ID: \"%s\" ist nicht vorhanden.",
     "Could not obtain lock type %d on \"%s\"." : "Sperrtyp %d auf „%s“ konnte nicht ermittelt werden.",
-    "Storage unauthorized. %s" : "Speicher nicht authorisiert. %s",
+    "Storage unauthorized. %s" : "Speicher nicht autorisiert. %s",
     "Storage incomplete configuration. %s" : "Speicher-Konfiguration unvollständig. %s",
     "Storage connection error. %s" : "Verbindungsfehler zum Speicherplatz. %s",
     "Storage is temporarily not available" : "Speicher ist vorübergehend nicht verfügbar",
