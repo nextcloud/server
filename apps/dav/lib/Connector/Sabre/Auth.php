@@ -50,7 +50,7 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class Auth extends AbstractBasic {
-	const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
+	public const DAV_AUTHENTICATED = 'AUTHENTICATED_TO_DAV_BACKEND';
 
 	/** @var ISession */
 	private $session;
@@ -151,7 +151,7 @@ class Auth extends AbstractBasic {
 	 * @throws NotAuthenticated
 	 * @throws ServiceUnavailable
 	 */
-	function check(RequestInterface $request, ResponseInterface $response) {
+	public function check(RequestInterface $request, ResponseInterface $response) {
 		try {
 			return $this->auth($request, $response);
 		} catch (NotAuthenticated $e) {

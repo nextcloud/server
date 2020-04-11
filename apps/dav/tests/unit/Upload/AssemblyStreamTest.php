@@ -72,7 +72,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$this->assertEquals(substr($expected, $offset), $content);
 	}
 
-	function providesNodes() {
+	public function providesNodes() {
 		$data8k = $this->makeData(8192);
 		$dataLess8k = $this->makeData(8191);
 

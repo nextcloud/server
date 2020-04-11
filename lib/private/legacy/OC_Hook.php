@@ -36,7 +36,7 @@
 class OC_Hook {
 	public static $thrownExceptions = [];
 
-	static private $registered = [];
+	private static $registered = [];
 
 	/**
 	 * connects a function to a hook
@@ -51,7 +51,7 @@ class OC_Hook {
 	 *
 	 * TODO: write example
 	 */
-	static public function connect($signalClass, $signalName, $slotClass, $slotName) {
+	public static function connect($signalClass, $signalName, $slotClass, $slotName) {
 		// If we're trying to connect to an emitting class that isn't
 		// yet registered, register it
 		if (!array_key_exists($signalClass, self::$registered)) {
@@ -91,7 +91,7 @@ class OC_Hook {
 	 *
 	 * TODO: write example
 	 */
-	static public function emit($signalClass, $signalName, $params = []) {
+	public static function emit($signalClass, $signalName, $params = []) {
 
 		// Return false if no hook handlers are listening to this
 		// emitting class
@@ -129,7 +129,7 @@ class OC_Hook {
 	 * @param string $signalClass
 	 * @param string $signalName
 	 */
-	static public function clear($signalClass='', $signalName='') {
+	public static function clear($signalClass='', $signalName='') {
 		if ($signalClass) {
 			if ($signalName) {
 				self::$registered[$signalClass][$signalName]=[];
@@ -145,7 +145,7 @@ class OC_Hook {
 	 * DO NOT USE!
 	 * For unit tests ONLY!
 	 */
-	static public function getHooks() {
+	public static function getHooks() {
 		return self::$registered;
 	}
 }

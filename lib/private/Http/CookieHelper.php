@@ -27,9 +27,9 @@ declare(strict_types=1);
 namespace OC\Http;
 
 class CookieHelper {
-	const SAMESITE_NONE = 0;
-	const SAMESITE_LAX = 1;
-	const SAMESITE_STRICT = 2;
+	public const SAMESITE_NONE = 0;
+	public const SAMESITE_LAX = 1;
+	public const SAMESITE_STRICT = 2;
 
 	public static function setCookie(string $name,
 									 string $value = '',

@@ -40,7 +40,7 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class PublishPlugin extends ServerPlugin {
-	const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
+	public const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
 	/**
 	 * Reference to SabreDAV server object.

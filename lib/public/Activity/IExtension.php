@@ -32,12 +32,12 @@ namespace OCP\Activity;
  * @since 8.0.0
  */
 interface IExtension {
-	const METHOD_STREAM = 'stream';
-	const METHOD_MAIL = 'email';
+	public const METHOD_STREAM = 'stream';
+	public const METHOD_MAIL = 'email';
 
-	const PRIORITY_VERYLOW 	= 10;
-	const PRIORITY_LOW	= 20;
-	const PRIORITY_MEDIUM	= 30;
-	const PRIORITY_HIGH	= 40;
-	const PRIORITY_VERYHIGH	= 50;
+	public const PRIORITY_VERYLOW 	= 10;
+	public const PRIORITY_LOW	= 20;
+	public const PRIORITY_MEDIUM	= 30;
+	public const PRIORITY_HIGH	= 40;
+	public const PRIORITY_VERYHIGH	= 50;
 }

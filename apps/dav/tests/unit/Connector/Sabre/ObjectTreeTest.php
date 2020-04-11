@@ -198,7 +198,7 @@ class ObjectTreeTest extends \Test\TestCase {
 		unset($_SERVER['HTTP_OC_CHUNKED']);
 	}
 
-	function nodeForPathProvider() {
+	public function nodeForPathProvider() {
 		return [
 			// regular file
 			[

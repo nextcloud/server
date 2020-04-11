@@ -83,7 +83,7 @@ abstract class ASettings implements ISettings {
 		$this->config = $config;
 	}
 
-	abstract function getScope(): int;
+	abstract public function getScope(): int;
 
 	/**
 	 * @return TemplateResponse

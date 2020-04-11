@@ -37,13 +37,13 @@ class LargeFileHelper {
 	 * pow(2, 53) as a base-10 string.
 	 * @var string
 	 */
-	const POW_2_53 = '9007199254740992';
+	public const POW_2_53 = '9007199254740992';
 
 	/**
 	 * pow(2, 53) - 1 as a base-10 string.
 	 * @var string
 	 */
-	const POW_2_53_MINUS_1 = '9007199254740991';
+	public const POW_2_53_MINUS_1 = '9007199254740991';
 
 	/**
 	 * @brief Checks whether our assumptions hold on the PHP platform we are on.

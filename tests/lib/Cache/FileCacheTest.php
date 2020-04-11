@@ -49,7 +49,7 @@ class FileCacheTest extends TestCache {
 	 * */
 	private $rootView;
 
-	function skip() {
+	public function skip() {
 		//$this->skipUnless(OC_User::isLoggedIn());
 	}
 

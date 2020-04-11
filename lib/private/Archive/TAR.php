@@ -35,9 +35,9 @@ namespace OC\Archive;
 use Icewind\Streams\CallbackWrapper;
 
 class TAR extends Archive {
-	const PLAIN = 0;
-	const GZIP = 1;
-	const BZIP = 2;
+	public const PLAIN = 0;
+	public const GZIP = 1;
+	public const BZIP = 2;
 
 	private $fileList;
 	private $cachedHeaders;
@@ -63,7 +63,7 @@ class TAR extends Archive {
 	 * @param string $file
 	 * @return integer
 	 */
-	static public function getTarType($file) {
+	public static function getTarType($file) {
 		if (strpos($file, '.')) {
 			$extension = substr($file, strrpos($file, '.'));
 			switch ($extension) {

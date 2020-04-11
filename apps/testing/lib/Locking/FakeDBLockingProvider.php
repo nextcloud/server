@@ -29,7 +29,7 @@ use OCP\ILogger;
 
 class FakeDBLockingProvider extends \OC\Lock\DBLockingProvider {
 	// Lock for 10 hours just to be sure
-	const TTL = 36000;
+	public const TTL = 36000;
 
 	/**
 	 * Need a new child, because parent::connection is private instead of protected...

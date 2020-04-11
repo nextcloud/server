@@ -43,7 +43,7 @@ class Plugin extends ServerPlugin {
 	 *
 	 * @var string[]
 	 */
-	const ENABLE_FOR_CLIENTS = [];
+	public const ENABLE_FOR_CLIENTS = [];
 
 	/**
 	 * @var bool

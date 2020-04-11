@@ -36,8 +36,8 @@ use OCP\EventDispatcher\Event;
  * @since 9.0.0
  */
 class MapperEvent extends Event {
-	const EVENT_ASSIGN = 'OCP\SystemTag\ISystemTagObjectMapper::assignTags';
-	const EVENT_UNASSIGN = 'OCP\SystemTag\ISystemTagObjectMapper::unassignTags';
+	public const EVENT_ASSIGN = 'OCP\SystemTag\ISystemTagObjectMapper::assignTags';
+	public const EVENT_UNASSIGN = 'OCP\SystemTag\ISystemTagObjectMapper::unassignTags';
 
 	/** @var string */
 	protected $event;

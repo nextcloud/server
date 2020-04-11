@@ -35,7 +35,7 @@ use Sabre\Xml\XmlSerializable;
  * This property contains multiple "sharee" elements, each containing a share sharee
  */
 class ShareeList implements XmlSerializable {
-	const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
+	public const NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 
 	/** @var IShare[] */
 	private $shares;
@@ -50,7 +50,7 @@ class ShareeList implements XmlSerializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
-	function xmlSerialize(Writer $writer) {
+	public function xmlSerialize(Writer $writer) {
 		foreach ($this->shares as $share) {
 			$writer->startElement('{' . self::NS_NEXTCLOUD . '}sharee');
 			$writer->writeElement('{' . self::NS_NEXTCLOUD . '}id', $share->getSharedWith());

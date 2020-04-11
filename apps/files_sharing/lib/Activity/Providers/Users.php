@@ -28,18 +28,18 @@ namespace OCA\Files_Sharing\Activity\Providers;
 use OCP\Activity\IEvent;
 
 class Users extends Base {
-	const SUBJECT_SHARED_USER_SELF = 'shared_user_self';
-	const SUBJECT_RESHARED_USER_BY = 'reshared_user_by';
-	const SUBJECT_UNSHARED_USER_SELF = 'unshared_user_self';
-	const SUBJECT_UNSHARED_USER_BY = 'unshared_user_by';
+	public const SUBJECT_SHARED_USER_SELF = 'shared_user_self';
+	public const SUBJECT_RESHARED_USER_BY = 'reshared_user_by';
+	public const SUBJECT_UNSHARED_USER_SELF = 'unshared_user_self';
+	public const SUBJECT_UNSHARED_USER_BY = 'unshared_user_by';
 
-	const SUBJECT_SHARED_WITH_BY = 'shared_with_by';
-	const SUBJECT_UNSHARED_BY = 'unshared_by';
-	const SUBJECT_SELF_UNSHARED = 'self_unshared';
-	const SUBJECT_SELF_UNSHARED_BY = 'self_unshared_by';
+	public const SUBJECT_SHARED_WITH_BY = 'shared_with_by';
+	public const SUBJECT_UNSHARED_BY = 'unshared_by';
+	public const SUBJECT_SELF_UNSHARED = 'self_unshared';
+	public const SUBJECT_SELF_UNSHARED_BY = 'self_unshared_by';
 
-	const SUBJECT_EXPIRED_USER = 'expired_user';
-	const SUBJECT_EXPIRED = 'expired';
+	public const SUBJECT_EXPIRED_USER = 'expired_user';
+	public const SUBJECT_EXPIRED = 'expired';
 
 	/**
 	 * @param IEvent $event

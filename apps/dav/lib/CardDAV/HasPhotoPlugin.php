@@ -45,7 +45,7 @@ class HasPhotoPlugin extends ServerPlugin {
 	 * @param Server $server
 	 * @return void
 	 */
-	function initialize(Server $server) {
+	public function initialize(Server $server) {
 		$server->on('propFind', [$this, 'propFind']);
 	}
 
@@ -56,7 +56,7 @@ class HasPhotoPlugin extends ServerPlugin {
 	 * @param INode $node
 	 * @return void
 	 */
-	function propFind(PropFind $propFind, INode $node) {
+	public function propFind(PropFind $propFind, INode $node) {
 		$ns = '{http://nextcloud.com/ns}';
 
 		if ($node instanceof Card) {

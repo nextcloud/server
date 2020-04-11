@@ -36,7 +36,7 @@ class MDB2SchemaWriter {
 	 * @param \OC\DB\Connection $conn
 	 * @return bool
 	 */
-	static public function saveSchemaToFile($file, \OC\DB\Connection $conn) {
+	public static function saveSchemaToFile($file, \OC\DB\Connection $conn) {
 		$config = \OC::$server->getConfig();
 
 		$xml = new \SimpleXMLElement('<database/>');

@@ -38,11 +38,11 @@ use OCP\IConfig;
 use OCP\IUser;
 
 class Util {
-	const HEADER_START = 'HBEGIN';
-	const HEADER_END = 'HEND';
-	const HEADER_PADDING_CHAR = '-';
+	public const HEADER_START = 'HBEGIN';
+	public const HEADER_END = 'HEND';
+	public const HEADER_PADDING_CHAR = '-';
 
-	const HEADER_ENCRYPTION_MODULE_KEY = 'oc_encryption_module';
+	public const HEADER_ENCRYPTION_MODULE_KEY = 'oc_encryption_module';
 
 	/**
 	 * block size will always be 8192 for a PHP stream

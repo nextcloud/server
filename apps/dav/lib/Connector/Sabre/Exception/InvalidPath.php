@@ -26,7 +26,7 @@ namespace OCA\DAV\Connector\Sabre\Exception;
 use Sabre\DAV\Exception;
 
 class InvalidPath extends Exception {
-	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/**
 	 * @var bool

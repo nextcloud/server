@@ -77,7 +77,7 @@ class ClientFlowLoginController extends Controller {
 	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 
-	const stateName = 'client.flow.state.token';
+	public const stateName = 'client.flow.state.token';
 
 	/**
 	 * @param string $appName

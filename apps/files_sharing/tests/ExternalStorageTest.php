@@ -39,7 +39,7 @@ use OCP\Http\Client\IResponse;
  * @group DB
  */
 class ExternalStorageTest extends \Test\TestCase {
-	function optionsProvider() {
+	public function optionsProvider() {
 		return [
 			[
 				'http://remoteserver:8080/owncloud',

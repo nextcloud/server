@@ -32,7 +32,7 @@ use Sabre\Xml\Writer;
  * This property contains multiple "share-type" elements, each containing a share type.
  */
 class ShareTypeList implements Element {
-	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/**
 	 * Share types
@@ -63,7 +63,7 @@ class ShareTypeList implements Element {
 	 * @param Reader $reader
 	 * @return mixed
 	 */
-	static function xmlDeserialize(Reader $reader) {
+	public static function xmlDeserialize(Reader $reader) {
 		$shareTypes = [];
 
 		$tree = $reader->parseInnerTree();
@@ -84,7 +84,7 @@ class ShareTypeList implements Element {
 	 * @param Writer $writer
 	 * @return void
 	 */
-	function xmlSerialize(Writer $writer) {
+	public function xmlSerialize(Writer $writer) {
 		foreach ($this->shareTypes as $shareType) {
 			$writer->writeElement('{' . self::NS_OWNCLOUD . '}share-type', $shareType);
 		}

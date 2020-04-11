@@ -105,7 +105,7 @@ class Setup {
 		$this->installer = $installer;
 	}
 
-	static protected $dbSetupClasses = [
+	protected static $dbSetupClasses = [
 		'mysql' => \OC\Setup\MySQL::class,
 		'pgsql' => \OC\Setup\PostgreSQL::class,
 		'oci' => \OC\Setup\OCI::class,

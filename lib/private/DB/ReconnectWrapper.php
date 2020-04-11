@@ -28,7 +28,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Driver;
 
 class ReconnectWrapper extends \Doctrine\DBAL\Connection {
-	const CHECK_CONNECTION_INTERVAL = 60;
+	public const CHECK_CONNECTION_INTERVAL = 60;
 
 	private $lastConnectionCheck = null;
 

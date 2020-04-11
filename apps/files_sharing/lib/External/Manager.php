@@ -48,7 +48,7 @@ use OCP\Share;
 use OCP\Share\IShare;
 
 class Manager {
-	const STORAGE = '\OCA\Files_Sharing\External\Storage';
+	public const STORAGE = '\OCA\Files_Sharing\External\Storage';
 
 	/**
 	 * @var string

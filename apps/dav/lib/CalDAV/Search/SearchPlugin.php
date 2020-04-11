@@ -32,7 +32,7 @@ use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 
 class SearchPlugin extends ServerPlugin {
-	const NS_Nextcloud = 'http://nextcloud.com/ns';
+	public const NS_Nextcloud = 'http://nextcloud.com/ns';
 
 	/**
 	 * Reference to SabreDAV server object.

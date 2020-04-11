@@ -150,6 +150,7 @@ class SetConfig extends Base {
 						throw new \InvalidArgumentException('Unable to parse value as boolean');
 				}
 
+				// no break
 			case 'null':
 				return [
 					'value' => null,

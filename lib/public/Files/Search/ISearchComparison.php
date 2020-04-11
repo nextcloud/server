@@ -27,12 +27,12 @@ namespace OCP\Files\Search;
  * @since 12.0.0
  */
 interface ISearchComparison extends ISearchOperator {
-	const COMPARE_EQUAL = 'eq';
-	const COMPARE_GREATER_THAN = 'gt';
-	const COMPARE_GREATER_THAN_EQUAL = 'gte';
-	const COMPARE_LESS_THAN = 'lt';
-	const COMPARE_LESS_THAN_EQUAL = 'lte';
-	const COMPARE_LIKE = 'like';
+	public const COMPARE_EQUAL = 'eq';
+	public const COMPARE_GREATER_THAN = 'gt';
+	public const COMPARE_GREATER_THAN_EQUAL = 'gte';
+	public const COMPARE_LESS_THAN = 'lt';
+	public const COMPARE_LESS_THAN_EQUAL = 'lte';
+	public const COMPARE_LIKE = 'like';
 
 	/**
 	 * Get the type of comparison, one of the ISearchComparison::COMPARE_* constants

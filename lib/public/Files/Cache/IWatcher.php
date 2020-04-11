@@ -28,9 +28,9 @@ namespace OCP\Files\Cache;
  * @since 9.0.0
  */
 interface IWatcher {
-	const CHECK_NEVER = 0; // never check the underlying filesystem for updates
-	const CHECK_ONCE = 1; // check the underlying filesystem for updates once every request for each file
-	const CHECK_ALWAYS = 2; // always check the underlying filesystem for updates
+	public const CHECK_NEVER = 0; // never check the underlying filesystem for updates
+	public const CHECK_ONCE = 1; // check the underlying filesystem for updates once every request for each file
+	public const CHECK_ALWAYS = 2; // always check the underlying filesystem for updates
 
 	/**
 	 * @param int $policy either IWatcher::CHECK_NEVER, IWatcher::CHECK_ONCE, IWatcher::CHECK_ALWAYS

@@ -41,9 +41,9 @@ namespace OCA\User_LDAP;
  * @property string ldapUserAvatarRule
  */
 class Configuration {
-	const AVATAR_PREFIX_DEFAULT = 'default';
-	const AVATAR_PREFIX_NONE = 'none';
-	const AVATAR_PREFIX_DATA_ATTRIBUTE = 'data:';
+	public const AVATAR_PREFIX_DEFAULT = 'default';
+	public const AVATAR_PREFIX_NONE = 'none';
+	public const AVATAR_PREFIX_DATA_ATTRIBUTE = 'data:';
 
 	protected $configPrefix = null;
 	protected $configRead = false;

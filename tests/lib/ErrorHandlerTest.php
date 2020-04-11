@@ -28,7 +28,7 @@ class ErrorHandlerTest extends \Test\TestCase {
 	 * provide username, password combinations for testRemovePassword
 	 * @return array
 	 */
-	function passwordProvider() {
+	public function passwordProvider() {
 		return [
 			['user', 'password'],
 			['user@owncloud.org', 'password'],
@@ -43,7 +43,7 @@ class ErrorHandlerTest extends \Test\TestCase {
 	 * @param string $username
 	 * @param string $password
 	 */
-	function testRemovePassword($username, $password) {
+	public function testRemovePassword($username, $password) {
 		$url = 'http://'.$username.':'.$password.'@owncloud.org';
 		$expectedResult = 'http://xxx:xxx@owncloud.org';
 		$result = TestableErrorHandler::testRemovePassword($url);

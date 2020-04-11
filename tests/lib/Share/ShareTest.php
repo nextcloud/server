@@ -226,13 +226,13 @@ class ShareTest extends \Test\TestCase {
 	 * @param string $url
 	 * @param string $expectedResult
 	 */
-	function testRemoveProtocolFromUrl($url, $expectedResult) {
+	public function testRemoveProtocolFromUrl($url, $expectedResult) {
 		$share = new \OC\Share\Share();
 		$result = self::invokePrivate($share, 'removeProtocolFromUrl', [$url]);
 		$this->assertSame($expectedResult, $result);
 	}
 
-	function urls() {
+	public function urls() {
 		return [
 			['http://owncloud.org', 'owncloud.org'],
 			['https://owncloud.org', 'owncloud.org'],
@@ -245,13 +245,13 @@ class ShareTest extends \Test\TestCase {
 	 * @param array $ungrouped
 	 * @param array $grouped
 	 */
-	function testGroupItems($ungrouped, $grouped) {
+	public function testGroupItems($ungrouped, $grouped) {
 		$result = DummyShareClass::groupItemsTest($ungrouped);
 
 		$this->compareArrays($grouped, $result);
 	}
 
-	function compareArrays($result, $expectedResult) {
+	public function compareArrays($result, $expectedResult) {
 		foreach ($expectedResult as $key => $value) {
 			if (is_array($value)) {
 				$this->compareArrays($result[$key], $value);
@@ -261,7 +261,7 @@ class ShareTest extends \Test\TestCase {
 		}
 	}
 
-	function dataProviderTestGroupItems() {
+	public function dataProviderTestGroupItems() {
 		return [
 			// one array with one share
 			[
@@ -323,7 +323,7 @@ class DummyShareClass extends \OC\Share\Share {
 }
 
 class DummyHookListener {
-	static $shareType = null;
+	public static $shareType = null;
 
 	public static function listen($params) {
 		self::$shareType = $params['shareType'];

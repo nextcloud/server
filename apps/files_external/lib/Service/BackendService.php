@@ -41,15 +41,15 @@ use OCP\IConfig;
 class BackendService {
 
 	/** Visibility constants for VisibilityTrait */
-	const VISIBILITY_NONE = 0;
-	const VISIBILITY_PERSONAL = 1;
-	const VISIBILITY_ADMIN = 2;
+	public const VISIBILITY_NONE = 0;
+	public const VISIBILITY_PERSONAL = 1;
+	public const VISIBILITY_ADMIN = 2;
 	//const VISIBILITY_ALIENS = 4;
 
-	const VISIBILITY_DEFAULT = 3; // PERSONAL | ADMIN
+	public const VISIBILITY_DEFAULT = 3; // PERSONAL | ADMIN
 
 	/** Priority constants for PriorityTrait */
-	const PRIORITY_DEFAULT = 100;
+	public const PRIORITY_DEFAULT = 100;
 
 	/** @var IConfig */
 	protected $config;

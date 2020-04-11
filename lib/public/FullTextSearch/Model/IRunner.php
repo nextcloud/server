@@ -41,9 +41,9 @@ namespace OCP\FullTextSearch\Model;
  * @package OCP\FullTextSearch\Model
  */
 interface IRunner {
-	const RESULT_TYPE_SUCCESS = 1;
-	const RESULT_TYPE_WARNING = 4;
-	const RESULT_TYPE_FAIL = 9;
+	public const RESULT_TYPE_SUCCESS = 1;
+	public const RESULT_TYPE_WARNING = 4;
+	public const RESULT_TYPE_FAIL = 9;
 
 
 	/**

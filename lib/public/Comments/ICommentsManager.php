@@ -48,7 +48,7 @@ interface ICommentsManager {
 	 *
 	 * User interfaces shall show "Deleted user" as display name, if needed.
 	 */
-	const DELETED_USER = 'deleted_users';
+	public const DELETED_USER = 'deleted_users';
 
 	/**
 	 * returns a comment instance

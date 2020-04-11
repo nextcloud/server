@@ -46,7 +46,7 @@ interface IConfig {
 	/**
 	 * @since 8.2.0
 	 */
-	const SENSITIVE_VALUE = '***REMOVED SENSITIVE VALUE***';
+	public const SENSITIVE_VALUE = '***REMOVED SENSITIVE VALUE***';
 
 	/**
 	 * Sets and deletes system wide values

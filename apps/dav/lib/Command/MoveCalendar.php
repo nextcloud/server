@@ -62,7 +62,7 @@ class MoveCalendar extends Command {
 	/** @var CalDavBackend */
 	private $calDav;
 
-	const URI_USERS = 'principals/users/';
+	public const URI_USERS = 'principals/users/';
 
 	/**
 	 * @param IUserManager $userManager
@@ -72,7 +72,7 @@ class MoveCalendar extends Command {
 	 * @param IL10N $l10n
 	 * @param CalDavBackend $calDav
 	 */
-	function __construct(
+	public function __construct(
 		IUserManager $userManager,
 		IGroupManager $groupManager,
 		IShareManager $shareManager,

@@ -53,7 +53,7 @@ class CertificateTest extends \Test\TestCase {
 	}
 
 	
-	function testCertificateStartingWithFileReference() {
+	public function testCertificateStartingWithFileReference() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Certificate could not get parsed.');
 

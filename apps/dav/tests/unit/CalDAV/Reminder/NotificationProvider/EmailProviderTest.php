@@ -43,7 +43,7 @@ use OCP\Mail\IMessage;
 use Sabre\VObject\Component\VCalendar;
 
 class EmailProviderTest extends AbstractNotificationProviderTest {
-	const USER_EMAIL = 'frodo@hobb.it';
+	public const USER_EMAIL = 'frodo@hobb.it';
 
 	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;

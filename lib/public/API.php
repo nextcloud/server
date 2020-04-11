@@ -44,8 +44,8 @@ class API {
 	 * API Response Codes
 	 * @since 8.1.0
 	 */
-	const RESPOND_UNAUTHORISED = 997;
-	const RESPOND_SERVER_ERROR = 996;
-	const RESPOND_NOT_FOUND = 998;
-	const RESPOND_UNKNOWN_ERROR = 999;
+	public const RESPOND_UNAUTHORISED = 997;
+	public const RESPOND_SERVER_ERROR = 996;
+	public const RESPOND_NOT_FOUND = 998;
+	public const RESPOND_UNKNOWN_ERROR = 999;
 }

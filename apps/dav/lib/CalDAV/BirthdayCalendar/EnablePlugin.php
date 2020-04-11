@@ -39,7 +39,7 @@ use Sabre\HTTP\ResponseInterface;
  * @package OCA\DAV\CalDAV\BirthdayCalendar
  */
 class EnablePlugin extends ServerPlugin {
-	const NS_Nextcloud = 'http://nextcloud.com/ns';
+	public const NS_Nextcloud = 'http://nextcloud.com/ns';
 
 	/**
 	 * @var IConfig

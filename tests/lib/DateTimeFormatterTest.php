@@ -11,12 +11,12 @@ namespace Test;
 class DateTimeFormatterTest extends TestCase {
 	/** @var \OC\DateTimeFormatter */
 	protected $formatter;
-	static protected $oneMinute = 60;
-	static protected $oneHour = 3600;
-	static protected $oneDay;
-	static protected $oneYear;
+	protected static $oneMinute = 60;
+	protected static $oneHour = 3600;
+	protected static $oneDay;
+	protected static $oneYear;
 
-	static protected $defaultTimeZone;
+	protected static $defaultTimeZone;
 
 	public static function setUpBeforeClass(): void {
 		parent::setUpBeforeClass();
@@ -176,7 +176,7 @@ class DateTimeFormatterTest extends TestCase {
 	}
 
 	
-	function testFormatDateWithInvalidTZ() {
+	public function testFormatDateWithInvalidTZ() {
 		$this->expectException(\Exception::class);
 
 		$this->formatter->formatDate(1350129205, 'long', new \DateTimeZone('Mordor/Barad-dûr'));

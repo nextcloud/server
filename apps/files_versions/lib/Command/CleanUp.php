@@ -42,7 +42,7 @@ class CleanUp extends Command {
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
 	 */
-	function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
+	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;

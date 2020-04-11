@@ -48,7 +48,7 @@ class ScanFiles extends \OC\BackgroundJob\TimedJob {
 	private $logger;
 
 	/** Amount of users that should get scanned per execution */
-	const USERS_PER_SESSION = 500;
+	public const USERS_PER_SESSION = 500;
 
 	/**
 	 * @param IConfig|null $config

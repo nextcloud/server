@@ -40,16 +40,16 @@ class Constants {
 	 * CRUDS permissions.
 	 * @since 8.0.0
 	 */
-	const PERMISSION_CREATE = 4;
-	const PERMISSION_READ = 1;
-	const PERMISSION_UPDATE = 2;
-	const PERMISSION_DELETE = 8;
-	const PERMISSION_SHARE = 16;
-	const PERMISSION_ALL = 31;
+	public const PERMISSION_CREATE = 4;
+	public const PERMISSION_READ = 1;
+	public const PERMISSION_UPDATE = 2;
+	public const PERMISSION_DELETE = 8;
+	public const PERMISSION_SHARE = 16;
+	public const PERMISSION_ALL = 31;
 
 	/**
 	 * @since 8.0.0 - Updated in 9.0.0 to allow all POSIX chars since we no
 	 * longer support windows as server platform.
 	 */
-	const FILENAME_INVALID_CHARS = "\\/";
+	public const FILENAME_INVALID_CHARS = "\\/";
 }

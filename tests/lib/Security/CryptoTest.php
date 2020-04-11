@@ -30,13 +30,13 @@ class CryptoTest extends \Test\TestCase {
 	/**
 	 * @dataProvider defaultEncryptionProvider
 	 */
-	function testDefaultEncrypt($stringToEncrypt) {
+	public function testDefaultEncrypt($stringToEncrypt) {
 		$ciphertext = $this->crypto->encrypt($stringToEncrypt);
 		$this->assertEquals($stringToEncrypt, $this->crypto->decrypt($ciphertext));
 	}
 
 	
-	function testWrongPassword() {
+	public function testWrongPassword() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('HMAC does not match.');
 
@@ -45,14 +45,14 @@ class CryptoTest extends \Test\TestCase {
 		$this->crypto->decrypt($ciphertext, 'A wrong password!');
 	}
 
-	function testLaterDecryption() {
+	public function testLaterDecryption() {
 		$stringToEncrypt = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.';
 		$encryptedString = '44a35023cca2e7a6125e06c29fc4b2ad9d8a33d0873a8b45b0de4ef9284f260c6c46bf25dc62120644c59b8bafe4281ddc47a70c35ae6c29ef7a63d79eefacc297e60b13042ac582733598d0a6b4de37311556bb5c480fd2633de4e6ebafa868c2d1e2d80a5d24f9660360dba4d6e0c8|lhrFgK0zd9U160Wo|a75e57ab701f9124e1113543fd1dc596f21e20d456a0d1e813d5a8aaec9adcb11213788e96598b67fe9486a9f0b99642c18296d0175db44b1ae426e4e91080ee';
 		$this->assertEquals($stringToEncrypt, $this->crypto->decrypt($encryptedString, 'ThisIsAVeryS3cur3P4ssw0rd'));
 	}
 
 	
-	function testWrongIV() {
+	public function testWrongIV() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('HMAC does not match.');
 
@@ -61,7 +61,7 @@ class CryptoTest extends \Test\TestCase {
 	}
 
 	
-	function testWrongParameters() {
+	public function testWrongParameters() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Authenticated ciphertext could not be decoded.');
 

@@ -35,9 +35,9 @@ use OCP\IGroupManager;
 use OCP\IUserSession;
 
 class MetaData {
-	const SORT_NONE = 0;
-	const SORT_USERCOUNT = 1; // May have performance issues on LDAP backends
-	const SORT_GROUPNAME = 2;
+	public const SORT_NONE = 0;
+	public const SORT_USERCOUNT = 1; // May have performance issues on LDAP backends
+	public const SORT_GROUPNAME = 2;
 
 	/** @var string */
 	protected $user;

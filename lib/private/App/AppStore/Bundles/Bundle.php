@@ -41,7 +41,7 @@ abstract class Bundle {
 	 *
 	 * @return string
 	 */
-	public final function getIdentifier() {
+	final public function getIdentifier() {
 		return substr(strrchr(get_class($this), '\\'), 1);
 	}
 
@@ -50,12 +50,12 @@ abstract class Bundle {
 	 *
 	 * @return string
 	 */
-	public abstract function getName();
+	abstract public function getName();
 
 	/**
 	 * Get the list of app identifiers in the bundle
 	 *
 	 * @return array
 	 */
-	public abstract function getAppIdentifiers();
+	abstract public function getAppIdentifiers();
 }

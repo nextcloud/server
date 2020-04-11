@@ -30,7 +30,7 @@ use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 
 class Plugin extends \Sabre\CardDAV\Plugin {
-	function initialize(Server $server) {
+	public function initialize(Server $server) {
 		$server->on('propFind', [$this, 'propFind']);
 		parent::initialize($server);
 	}
@@ -63,7 +63,7 @@ class Plugin extends \Sabre\CardDAV\Plugin {
 	 * @param INode $node
 	 * @return void
 	 */
-	function propFind(PropFind $propFind, INode $node) {
+	public function propFind(PropFind $propFind, INode $node) {
 		$ns = '{http://owncloud.org/ns}';
 
 		if ($node instanceof AddressBook) {

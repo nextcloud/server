@@ -150,7 +150,7 @@ class APCu extends Cache implements IMemcache {
 	/**
 	 * @return bool
 	 */
-	static public function isAvailable() {
+	public static function isAvailable() {
 		if (!extension_loaded('apcu')) {
 			return false;
 		} elseif (!\OC::$server->getIniWrapper()->getBool('apc.enabled')) {

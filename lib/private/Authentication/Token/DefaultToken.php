@@ -43,7 +43,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setVersion(int $version)
  */
 class DefaultToken extends Entity implements INamedToken {
-	const VERSION = 1;
+	public const VERSION = 1;
 
 	/** @var string user UID */
 	protected $uid;

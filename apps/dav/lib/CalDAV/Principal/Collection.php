@@ -36,7 +36,7 @@ class Collection extends \Sabre\CalDAV\Principal\Collection {
 	 * @param array $principalInfo
 	 * @return User
 	 */
-	function getChildForPrincipal(array $principalInfo) {
+	public function getChildForPrincipal(array $principalInfo) {
 		return new User($this->principalBackend, $principalInfo);
 	}
 }

@@ -35,16 +35,16 @@ use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\PropPatch;
 
 class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
-	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
-	const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}isUnread';
-	const PROPERTY_NAME_MESSAGE = '{http://owncloud.org/ns}message';
-	const PROPERTY_NAME_ACTOR_DISPLAYNAME = '{http://owncloud.org/ns}actorDisplayName';
-	const PROPERTY_NAME_MENTIONS = '{http://owncloud.org/ns}mentions';
-	const PROPERTY_NAME_MENTION = '{http://owncloud.org/ns}mention';
-	const PROPERTY_NAME_MENTION_TYPE = '{http://owncloud.org/ns}mentionType';
-	const PROPERTY_NAME_MENTION_ID = '{http://owncloud.org/ns}mentionId';
-	const PROPERTY_NAME_MENTION_DISPLAYNAME = '{http://owncloud.org/ns}mentionDisplayName';
+	public const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}isUnread';
+	public const PROPERTY_NAME_MESSAGE = '{http://owncloud.org/ns}message';
+	public const PROPERTY_NAME_ACTOR_DISPLAYNAME = '{http://owncloud.org/ns}actorDisplayName';
+	public const PROPERTY_NAME_MENTIONS = '{http://owncloud.org/ns}mentions';
+	public const PROPERTY_NAME_MENTION = '{http://owncloud.org/ns}mention';
+	public const PROPERTY_NAME_MENTION_TYPE = '{http://owncloud.org/ns}mentionType';
+	public const PROPERTY_NAME_MENTION_ID = '{http://owncloud.org/ns}mentionId';
+	public const PROPERTY_NAME_MENTION_DISPLAYNAME = '{http://owncloud.org/ns}mentionDisplayName';
 
 	/** @var  IComment */
 	public $comment;
@@ -104,7 +104,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return array
 	 */
-	static public function getPropertyNames() {
+	public static function getPropertyNames() {
 		return [
 			'{http://owncloud.org/ns}id',
 			'{http://owncloud.org/ns}parentId',
@@ -144,7 +144,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return void
 	 */
-	function delete() {
+	public function delete() {
 		$this->checkWriteAccessOnComment();
 		$this->commentsManager->delete($this->comment->getId());
 	}
@@ -156,7 +156,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return string
 	 */
-	function getName() {
+	public function getName() {
 		return $this->comment->getId();
 	}
 
@@ -166,7 +166,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @param string $name The new name
 	 * @throws MethodNotAllowed
 	 */
-	function setName($name) {
+	public function setName($name) {
 		throw new MethodNotAllowed();
 	}
 
@@ -175,7 +175,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @return int
 	 */
-	function getLastModified() {
+	public function getLastModified() {
 		return null;
 	}
 
@@ -215,7 +215,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @param PropPatch $propPatch
 	 * @return void
 	 */
-	function propPatch(PropPatch $propPatch) {
+	public function propPatch(PropPatch $propPatch) {
 		// other properties than 'message' are read only
 		$propPatch->handle(self::PROPERTY_NAME_MESSAGE, [$this, 'updateComment']);
 	}
@@ -235,7 +235,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @param array $properties
 	 * @return array
 	 */
-	function getProperties($properties) {
+	public function getProperties($properties) {
 		$properties = array_keys($this->properties);
 
 		$result = [];

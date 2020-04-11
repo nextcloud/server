@@ -33,7 +33,7 @@ class OC_Response {
 	 * @param string $filename file name
 	 * @param string $type disposition type, either 'attachment' or 'inline'
 	 */
-	static public function setContentDispositionHeader($filename, $type = 'attachment') {
+	public static function setContentDispositionHeader($filename, $type = 'attachment') {
 		if (\OC::$server->getRequest()->isUserAgent(
 			[
 				\OC\AppFramework\Http\Request::USER_AGENT_IE,
@@ -51,7 +51,7 @@ class OC_Response {
 	 * Sets the content length header (with possible workarounds)
 	 * @param string|int|float $length Length to be sent
 	 */
-	static public function setContentLengthHeader($length) {
+	public static function setContentLengthHeader($length) {
 		if (PHP_INT_SIZE === 4) {
 			if ($length > PHP_INT_MAX && stripos(PHP_SAPI, 'apache') === 0) {
 				// Apache PHP SAPI casts Content-Length headers to PHP integers.

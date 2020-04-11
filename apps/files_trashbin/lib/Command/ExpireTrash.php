@@ -100,7 +100,7 @@ class ExpireTrash extends Command {
 		}
 	}
 
-	function expireTrashForUser(IUser $user) {
+	public function expireTrashForUser(IUser $user) {
 		$uid = $user->getUID();
 		if (!$this->setupFS($uid)) {
 			return;

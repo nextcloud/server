@@ -56,7 +56,7 @@ class SwiftFactory {
 	private $container = null;
 	private $logger;
 
-	const DEFAULT_OPTIONS = [
+	public const DEFAULT_OPTIONS = [
 		'autocreate' => false,
 		'urlType' => 'publicURL',
 		'catalogName' => 'swift',

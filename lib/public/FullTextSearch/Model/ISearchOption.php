@@ -39,17 +39,17 @@ interface ISearchOption {
 	/**
 	 * @since 16.0.0
 	 */
-	const CHECKBOX = 'checkbox';
+	public const CHECKBOX = 'checkbox';
 
 	/**
 	 * @since 16.0.0
 	 */
-	const INPUT = 'input';
+	public const INPUT = 'input';
 
 	/**
 	 * @since 16.0.0
 	 */
-	const INPUT_SMALL = 'small';
+	public const INPUT_SMALL = 'small';
 
 
 	/**

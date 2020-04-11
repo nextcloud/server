@@ -87,6 +87,6 @@ class SapiMock extends Sapi {
 	 *
 	 * @return void
 	 */
-	static function sendResponse(ResponseInterface $response) {
+	public static function sendResponse(ResponseInterface $response) {
 	}
 }

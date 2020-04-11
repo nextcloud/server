@@ -325,13 +325,13 @@ class GeneratorTest extends \Test\TestCase {
 		$image->method('dataMimeType')->willReturn('image/png');
 		$image->method('data')->willReturn($data);
 
-		$image->method('resizeCopy')->willReturnCallback(function($size) use ($data) {
+		$image->method('resizeCopy')->willReturnCallback(function ($size) use ($data) {
 			return $this->getMockImage($size, $size, $data);
 		});
-		$image->method('preciseResizeCopy')->willReturnCallback(function($width, $height) use ($data) {
+		$image->method('preciseResizeCopy')->willReturnCallback(function ($width, $height) use ($data) {
 			return $this->getMockImage($width, $height, $data);
 		});
-		$image->method('cropCopy')->willReturnCallback(function($x, $y, $width, $height) use ($data) {
+		$image->method('cropCopy')->willReturnCallback(function ($x, $y, $width, $height) use ($data) {
 			return $this->getMockImage($width, $height, $data);
 		});
 

@@ -14,7 +14,7 @@
     "require-dev": {
         "jakub-onderka/php-parallel-lint": "^0.9.2",
         "jakub-onderka/php-console-highlighter": "^0.3.2",
-        "nextcloud/coding-standard": "^0.1.0"
+        "nextcloud/coding-standard": "^0.3.0"
     },
     "scripts": {
         "cs:fix": "php-cs-fixer fix",

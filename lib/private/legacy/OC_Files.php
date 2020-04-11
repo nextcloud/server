@@ -50,11 +50,11 @@ use OCP\Lock\ILockingProvider;
  *
  */
 class OC_Files {
-	const FILE = 1;
-	const ZIP_FILES = 2;
-	const ZIP_DIR = 3;
+	public const FILE = 1;
+	public const ZIP_FILES = 2;
+	public const ZIP_DIR = 3;
 
-	const UPLOAD_MIN_LIMIT_BYTES = 1048576; // 1 MiB
+	public const UPLOAD_MIN_LIMIT_BYTES = 1048576; // 1 MiB
 
 
 	private static $multipartBoundary = '';

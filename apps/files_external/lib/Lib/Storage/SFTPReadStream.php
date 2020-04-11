@@ -50,7 +50,7 @@ class SFTPReadStream implements File {
 
 	private $buffer = '';
 
-	static function register($protocol = 'sftpread') {
+	public static function register($protocol = 'sftpread') {
 		if (in_array($protocol, stream_get_wrappers(), true)) {
 			return false;
 		}

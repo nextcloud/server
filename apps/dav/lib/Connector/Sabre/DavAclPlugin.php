@@ -48,7 +48,7 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		$this->allowUnauthenticatedAccess = false;
 	}
 
-	function checkPrivileges($uri, $privileges, $recursion = self::R_PARENT, $throwExceptions = true) {
+	public function checkPrivileges($uri, $privileges, $recursion = self::R_PARENT, $throwExceptions = true) {
 		$access = parent::checkPrivileges($uri, $privileges, $recursion, false);
 		if ($access === false && $throwExceptions) {
 			/** @var INode $node */
@@ -90,7 +90,7 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 		return parent::propFind($propFind, $node);
 	}
 
-	function beforeMethod(RequestInterface $request, ResponseInterface $response) {
+	public function beforeMethod(RequestInterface $request, ResponseInterface $response) {
 		$path = $request->getPath();
 
 		// prevent the plugin from causing an unneeded overhead for file requests

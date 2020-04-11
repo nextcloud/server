@@ -47,9 +47,9 @@ use OCP\IUser;
  * @group DB
  */
 class VersioningTest extends \Test\TestCase {
-	const TEST_VERSIONS_USER = 'test-versions-user';
-	const TEST_VERSIONS_USER2 = 'test-versions-user2';
-	const USERS_VERSIONS_ROOT = '/test-versions-user/files_versions';
+	public const TEST_VERSIONS_USER = 'test-versions-user';
+	public const TEST_VERSIONS_USER2 = 'test-versions-user2';
+	public const USERS_VERSIONS_ROOT = '/test-versions-user/files_versions';
 
 	/**
 	 * @var \OC\Files\View

@@ -37,13 +37,13 @@ namespace OCA\Files_Sharing\ShareBackend;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 
 class File implements \OCP\Share_Backend_File_Dependent {
-	const FORMAT_SHARED_STORAGE = 0;
-	const FORMAT_GET_FOLDER_CONTENTS = 1;
-	const FORMAT_FILE_APP_ROOT = 2;
-	const FORMAT_OPENDIR = 3;
-	const FORMAT_GET_ALL = 4;
-	const FORMAT_PERMISSIONS = 5;
-	const FORMAT_TARGET_NAMES = 6;
+	public const FORMAT_SHARED_STORAGE = 0;
+	public const FORMAT_GET_FOLDER_CONTENTS = 1;
+	public const FORMAT_FILE_APP_ROOT = 2;
+	public const FORMAT_OPENDIR = 3;
+	public const FORMAT_GET_ALL = 4;
+	public const FORMAT_PERMISSIONS = 5;
+	public const FORMAT_TARGET_NAMES = 6;
 
 	private $path;
 

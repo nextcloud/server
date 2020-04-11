@@ -43,7 +43,7 @@ class CreateAddressBook extends Command {
 	 * @param IUserManager $userManager
 	 * @param CardDavBackend $cardDavBackend
 	 */
-	function __construct(IUserManager $userManager,
+	public function __construct(IUserManager $userManager,
 						 CardDavBackend $cardDavBackend
 	) {
 		parent::__construct();

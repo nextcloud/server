@@ -173,7 +173,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$this->assertEquals($storageConfig, $data);
 	}
 
-	function mountPointNamesProvider() {
+	public function mountPointNamesProvider() {
 		return [
 			[''],
 			['/'],

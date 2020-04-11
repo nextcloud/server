@@ -54,7 +54,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
-	const APP_ID = 'settings';
+	public const APP_ID = 'settings';
 
 	/**
 	 * @param array $urlParams

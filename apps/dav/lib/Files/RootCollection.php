@@ -42,7 +42,7 @@ class RootCollection extends AbstractPrincipalCollection {
 	 * @param array $principalInfo
 	 * @return INode
 	 */
-	function getChildForPrincipal(array $principalInfo) {
+	public function getChildForPrincipal(array $principalInfo) {
 		list(,$name) = \Sabre\Uri\split($principalInfo['uri']);
 		$user = \OC::$server->getUserSession()->getUser();
 		if (is_null($user) || $name !== $user->getUID()) {
@@ -58,7 +58,7 @@ class RootCollection extends AbstractPrincipalCollection {
 		return new FilesHome($principalInfo, $userFolder);
 	}
 
-	function getName() {
+	public function getName() {
 		return 'files';
 	}
 }

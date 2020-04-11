@@ -27,9 +27,9 @@ namespace OCP\Files\Search;
  * @since 12.0.0
  */
 interface ISearchBinaryOperator extends ISearchOperator {
-	const OPERATOR_AND = 'and';
-	const OPERATOR_OR = 'or';
-	const OPERATOR_NOT = 'not';
+	public const OPERATOR_AND = 'and';
+	public const OPERATOR_OR = 'or';
+	public const OPERATOR_NOT = 'not';
 
 	/**
 	 * The type of binary operator

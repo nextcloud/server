@@ -37,7 +37,7 @@ use OCP\Security\ICredentialsManager;
  * User provided Username and Password
  */
 class UserProvided extends AuthMechanism implements IUserProvided {
-	const CREDENTIALS_IDENTIFIER_PREFIX = 'password::userprovided/';
+	public const CREDENTIALS_IDENTIFIER_PREFIX = 'password::userprovided/';
 
 	/** @var ICredentialsManager */
 	protected $credentialsManager;

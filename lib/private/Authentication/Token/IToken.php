@@ -30,11 +30,11 @@ namespace OC\Authentication\Token;
 use JsonSerializable;
 
 interface IToken extends JsonSerializable {
-	const TEMPORARY_TOKEN = 0;
-	const PERMANENT_TOKEN = 1;
-	const WIPE_TOKEN = 2;
-	const DO_NOT_REMEMBER = 0;
-	const REMEMBER = 1;
+	public const TEMPORARY_TOKEN = 0;
+	public const PERMANENT_TOKEN = 1;
+	public const WIPE_TOKEN = 2;
+	public const DO_NOT_REMEMBER = 0;
+	public const REMEMBER = 1;
 
 	/**
 	 * Get the token ID

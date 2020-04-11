@@ -64,6 +64,7 @@ class LanguageIterator implements ILanguageIterator {
 				}
 				$this->next();
 			/** @noinspection PhpMissingBreakStatementInspection */
+			// no break
 			case 1:
 				$forcedLang = $this->config->getSystemValue('force_language', false);
 				if (is_string($forcedLang)
@@ -73,6 +74,7 @@ class LanguageIterator implements ILanguageIterator {
 				}
 				$this->next();
 			/** @noinspection PhpMissingBreakStatementInspection */
+			// no break
 			case 2:
 				$userLang = $this->config->getUserValue($this->user->getUID(), 'core', 'lang', null);
 				if (is_string($userLang)) {
@@ -80,6 +82,7 @@ class LanguageIterator implements ILanguageIterator {
 				}
 				$this->next();
 			/** @noinspection PhpMissingBreakStatementInspection */
+			// no break
 			case 3:
 				$userLang = $this->config->getUserValue($this->user->getUID(), 'core', 'lang', null);
 				if (is_string($userLang)
@@ -88,6 +91,7 @@ class LanguageIterator implements ILanguageIterator {
 					return $truncated;
 				}
 				$this->next();
+				// no break
 			case 4:
 				return $this->config->getSystemValue('default_language', 'en');
 			/** @noinspection PhpMissingBreakStatementInspection */
@@ -97,6 +101,7 @@ class LanguageIterator implements ILanguageIterator {
 					return $truncated;
 				}
 				$this->next();
+				// no break
 			default:
 				return 'en';
 		}

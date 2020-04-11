@@ -30,7 +30,7 @@ use OCP\IConfig;
 class Expiration {
 
 	// how long do we keep files a version if no other value is defined in the config file (unit: days)
-	const NO_OBLIGATION = -1;
+	public const NO_OBLIGATION = -1;
 
 	/** @var ITimeFactory */
 	private $timeFactory;

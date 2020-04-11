@@ -32,8 +32,8 @@ use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
 class FavoriteProvider implements IProvider {
-	const SUBJECT_ADDED = 'added_favorite';
-	const SUBJECT_REMOVED = 'removed_favorite';
+	public const SUBJECT_ADDED = 'added_favorite';
+	public const SUBJECT_REMOVED = 'removed_favorite';
 
 	/** @var IFactory */
 	protected $languageFactory;

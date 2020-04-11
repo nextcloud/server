@@ -144,7 +144,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		);
 	}
 
-	function testCreateShare() {
+	public function testCreateShare() {
 		// simulate a post request
 		$_POST['remote'] = 'localhost';
 		$_POST['token'] = 'token';
@@ -185,7 +185,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 		$this->assertInstanceOf(DataResponse::class, $result);
 	}
 
-	function testDeclineShare() {
+	public function testDeclineShare() {
 		$id = 42;
 		$_POST['token'] = 'token';
 
@@ -209,7 +209,7 @@ class RequestHandlerControllerTest extends \Test\TestCase {
 	}
 
 
-	function testAcceptShare() {
+	public function testAcceptShare() {
 		$id = 42;
 		$_POST['token'] = 'token';
 

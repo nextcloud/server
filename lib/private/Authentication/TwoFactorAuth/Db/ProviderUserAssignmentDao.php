@@ -35,7 +35,7 @@ use OCP\IDBConnection;
  * 2FA providers
  */
 class ProviderUserAssignmentDao {
-	const TABLE_NAME = 'twofactor_providers';
+	public const TABLE_NAME = 'twofactor_providers';
 
 	/** @var IDBConnection */
 	private $conn;

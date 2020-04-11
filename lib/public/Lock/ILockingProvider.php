@@ -37,11 +37,11 @@ interface ILockingProvider {
 	/**
 	 * @since 8.1.0
 	 */
-	const LOCK_SHARED = 1;
+	public const LOCK_SHARED = 1;
 	/**
 	 * @since 8.1.0
 	 */
-	const LOCK_EXCLUSIVE = 2;
+	public const LOCK_EXCLUSIVE = 2;
 
 	/**
 	 * @param string $path

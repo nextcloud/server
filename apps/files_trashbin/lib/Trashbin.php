@@ -56,7 +56,7 @@ use OCP\User;
 class Trashbin {
 
 	// unit: percentage; 50% of available disk space/quota
-	const DEFAULTMAXSIZE = 50;
+	public const DEFAULTMAXSIZE = 50;
 
 	/**
 	 * Whether versions have already be rescanned during this PHP request

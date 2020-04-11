@@ -63,7 +63,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		]);
 	}
 
-	function storageDataProvider() {
+	public function storageDataProvider() {
 		return [
 			// all users
 			[
@@ -191,7 +191,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		$this->assertEquals(0, $newStorage->getStatus());
 	}
 
-	function hooksAddStorageDataProvider() {
+	public function hooksAddStorageDataProvider() {
 		return [
 			// applicable all
 			[
@@ -320,7 +320,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		}
 	}
 
-	function hooksUpdateStorageDataProvider() {
+	public function hooksUpdateStorageDataProvider() {
 		return [
 			[
 				// nothing to multiple users and groups
@@ -551,7 +551,7 @@ class GlobalStoragesServiceTest extends StoragesServiceTest {
 		}
 	}
 
-	function hooksDeleteStorageDataProvider() {
+	public function hooksDeleteStorageDataProvider() {
 		return [
 			[
 				['user1', 'user2'],

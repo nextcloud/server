@@ -28,13 +28,13 @@ namespace OCP\Files\Cache;
  * @since 9.0.0
  */
 interface IScanner {
-	const SCAN_RECURSIVE_INCOMPLETE = 2; // only recursive into not fully scanned folders
-	const SCAN_RECURSIVE = true;
-	const SCAN_SHALLOW = false;
+	public const SCAN_RECURSIVE_INCOMPLETE = 2; // only recursive into not fully scanned folders
+	public const SCAN_RECURSIVE = true;
+	public const SCAN_SHALLOW = false;
 
-	const REUSE_NONE = 0;
-	const REUSE_ETAG = 1;
-	const REUSE_SIZE = 2;
+	public const REUSE_NONE = 0;
+	public const REUSE_ETAG = 1;
+	public const REUSE_SIZE = 2;
 
 	/**
 	 * scan a single file and store it in the cache

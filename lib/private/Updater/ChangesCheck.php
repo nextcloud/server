@@ -40,9 +40,9 @@ class ChangesCheck {
 	/** @var ILogger */
 	private $logger;
 
-	const RESPONSE_NO_CONTENT = 0;
-	const RESPONSE_USE_CACHE = 1;
-	const RESPONSE_HAS_CONTENT = 2;
+	public const RESPONSE_NO_CONTENT = 0;
+	public const RESPONSE_USE_CACHE = 1;
+	public const RESPONSE_HAS_CONTENT = 2;
 
 	public function __construct(IClientService $clientService, ChangesMapper $mapper, ILogger $logger) {
 		$this->clientService = $clientService;

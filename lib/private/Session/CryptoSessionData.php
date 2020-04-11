@@ -50,7 +50,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	protected $sessionValues;
 	/** @var bool */
 	protected $isModified = false;
-	const encryptedSessionName = 'encrypted_session_data';
+	public const encryptedSessionName = 'encrypted_session_data';
 
 	/**
 	 * @param ISession $session

@@ -32,7 +32,7 @@ use Sabre\Xml\XmlSerializable;
  * checksum name.
  */
 class ChecksumList implements XmlSerializable {
-	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/** @var string[] of TYPE:CHECKSUM */
 	private $checksums;
@@ -63,7 +63,7 @@ class ChecksumList implements XmlSerializable {
 	 * @param Writer $writer
 	 * @return void
 	 */
-	function xmlSerialize(Writer $writer) {
+	public function xmlSerialize(Writer $writer) {
 		foreach ($this->checksums as $checksum) {
 			$writer->writeElement('{' . self::NS_OWNCLOUD . '}checksum', $checksum);
 		}

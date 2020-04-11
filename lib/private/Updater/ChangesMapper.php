@@ -32,7 +32,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class ChangesMapper extends QBMapper {
-	const TABLE_NAME = 'whats_new';
+	public const TABLE_NAME = 'whats_new';
 
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, self::TABLE_NAME);

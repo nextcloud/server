@@ -36,7 +36,7 @@ use OCP\Files\Search\ISearchOrder;
  * Tools for transforming search queries into database queries
  */
 class QuerySearchHelper {
-	static protected $searchOperatorMap = [
+	protected static $searchOperatorMap = [
 		ISearchComparison::COMPARE_LIKE => 'iLike',
 		ISearchComparison::COMPARE_EQUAL => 'eq',
 		ISearchComparison::COMPARE_GREATER_THAN => 'gt',
@@ -45,7 +45,7 @@ class QuerySearchHelper {
 		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lte'
 	];
 
-	static protected $searchOperatorNegativeMap = [
+	protected static $searchOperatorNegativeMap = [
 		ISearchComparison::COMPARE_LIKE => 'notLike',
 		ISearchComparison::COMPARE_EQUAL => 'neq',
 		ISearchComparison::COMPARE_GREATER_THAN => 'lte',
@@ -54,7 +54,7 @@ class QuerySearchHelper {
 		ISearchComparison::COMPARE_LESS_THAN_EQUAL => 'lt'
 	];
 
-	const TAG_FAVORITE = '_$!<Favorite>!$_';
+	public const TAG_FAVORITE = '_$!<Favorite>!$_';
 
 	/** @var IMimeTypeLoader */
 	private $mimetypeLoader;
@@ -110,6 +110,7 @@ class QuerySearchHelper {
 					} else {
 						throw new \InvalidArgumentException('Binary operators inside "not" is not supported');
 					}
+					// no break
 				case ISearchBinaryOperator::OPERATOR_AND:
 					return call_user_func_array([$expr, 'andX'], $this->searchOperatorArrayToDBExprArray($builder, $operator->getArguments()));
 				case ISearchBinaryOperator::OPERATOR_OR:

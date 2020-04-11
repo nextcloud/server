@@ -42,7 +42,7 @@ use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
 
 class Application extends App {
-	const APP_ID = 'files_versions';
+	public const APP_ID = 'files_versions';
 
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);

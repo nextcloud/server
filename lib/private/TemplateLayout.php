@@ -287,7 +287,7 @@ class TemplateLayout extends \OC_Template {
 	 * @param array $styles
 	 * @return array
 	 */
-	static public function findStylesheetFiles($styles, $compileScss = true) {
+	public static function findStylesheetFiles($styles, $compileScss = true) {
 		// Read the selected theme from the config file
 		$theme = \OC_Util::getTheme();
 
@@ -328,7 +328,7 @@ class TemplateLayout extends \OC_Template {
 	 * @param array $scripts
 	 * @return array
 	 */
-	static public function findJavascriptFiles($scripts) {
+	public static function findJavascriptFiles($scripts) {
 		// Read the selected theme from the config file
 		$theme = \OC_Util::getTheme();
 

@@ -1971,14 +1971,14 @@ class Server extends ServerContainer implements IServerContainer {
 	/**
 	 * @return IMountManager
 	 **/
-	function getMountManager() {
+	public function getMountManager() {
 		return $this->query(IMountManager::class);
 	}
 
 	/**
 	 * @return IUserMountCache
 	 */
-	function getUserMountCache() {
+	public function getUserMountCache() {
 		return $this->query(IUserMountCache::class);
 	}
 

@@ -90,7 +90,7 @@ class EntityTypeCollection extends RootCollection {
 	 * @return \Sabre\DAV\INode
 	 * @throws NotFound
 	 */
-	function getChild($name) {
+	public function getChild($name) {
 		if (!$this->childExists($name)) {
 			throw new NotFound('Entity does not exist or is not available');
 		}
@@ -110,7 +110,7 @@ class EntityTypeCollection extends RootCollection {
 	 * @return \Sabre\DAV\INode[]
 	 * @throws MethodNotAllowed
 	 */
-	function getChildren() {
+	public function getChildren() {
 		throw new MethodNotAllowed('No permission to list folder contents');
 	}
 
@@ -120,7 +120,7 @@ class EntityTypeCollection extends RootCollection {
 	 * @param string $name
 	 * @return bool
 	 */
-	function childExists($name) {
+	public function childExists($name) {
 		return call_user_func($this->childExistsFunction, $name);
 	}
 }

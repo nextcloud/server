@@ -36,15 +36,15 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Calendar extends Base {
-	const SUBJECT_ADD = 'calendar_add';
-	const SUBJECT_UPDATE = 'calendar_update';
-	const SUBJECT_DELETE = 'calendar_delete';
-	const SUBJECT_PUBLISH = 'calendar_publish';
-	const SUBJECT_UNPUBLISH = 'calendar_unpublish';
-	const SUBJECT_SHARE_USER = 'calendar_user_share';
-	const SUBJECT_SHARE_GROUP = 'calendar_group_share';
-	const SUBJECT_UNSHARE_USER = 'calendar_user_unshare';
-	const SUBJECT_UNSHARE_GROUP = 'calendar_group_unshare';
+	public const SUBJECT_ADD = 'calendar_add';
+	public const SUBJECT_UPDATE = 'calendar_update';
+	public const SUBJECT_DELETE = 'calendar_delete';
+	public const SUBJECT_PUBLISH = 'calendar_publish';
+	public const SUBJECT_UNPUBLISH = 'calendar_unpublish';
+	public const SUBJECT_SHARE_USER = 'calendar_user_share';
+	public const SUBJECT_SHARE_GROUP = 'calendar_group_share';
+	public const SUBJECT_UNSHARE_USER = 'calendar_user_unshare';
+	public const SUBJECT_UNSHARE_GROUP = 'calendar_group_unshare';
 
 	/** @var IFactory */
 	protected $languageFactory;

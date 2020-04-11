@@ -50,7 +50,7 @@ class SFTPWriteStream implements File {
 
 	private $buffer = '';
 
-	static function register($protocol = 'sftpwrite') {
+	public static function register($protocol = 'sftpwrite') {
 		if (in_array($protocol, stream_get_wrappers(), true)) {
 			return false;
 		}

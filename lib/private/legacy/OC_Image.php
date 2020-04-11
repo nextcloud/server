@@ -1128,7 +1128,6 @@ class OC_Image implements \OCP\IImage {
 	 * @return bool
 	 */
 	public function copyResize($maxSize): IImage {
-
 	}
 
 	/**

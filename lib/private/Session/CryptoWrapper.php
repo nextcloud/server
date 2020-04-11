@@ -48,7 +48,7 @@ use OCP\Security\ISecureRandom;
  * @package OC\Session
  */
 class CryptoWrapper {
-	const COOKIE_NAME = 'oc_sessionPassphrase';
+	public const COOKIE_NAME = 'oc_sessionPassphrase';
 
 	/** @var IConfig */
 	protected $config;

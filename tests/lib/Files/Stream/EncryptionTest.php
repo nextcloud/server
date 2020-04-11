@@ -240,7 +240,7 @@ class EncryptionTest extends \Test\TestCase {
 		unlink($fileName);
 	}
 
-	function dataFilesProvider() {
+	public function dataFilesProvider() {
 		return [
 			['lorem-big.txt'],
 			['block-aligned.txt'],

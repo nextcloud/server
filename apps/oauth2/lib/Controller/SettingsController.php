@@ -53,7 +53,7 @@ class SettingsController extends Controller {
 	/** @var IL10N */
 	private $l;
 
-	const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	public const validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 	/**
 	 * @param string $appName

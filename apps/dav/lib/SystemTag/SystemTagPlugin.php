@@ -50,13 +50,13 @@ use Sabre\HTTP\ResponseInterface;
 class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 	// namespace
-	const NS_OWNCLOUD = 'http://owncloud.org/ns';
-	const ID_PROPERTYNAME = '{http://owncloud.org/ns}id';
-	const DISPLAYNAME_PROPERTYNAME = '{http://owncloud.org/ns}display-name';
-	const USERVISIBLE_PROPERTYNAME = '{http://owncloud.org/ns}user-visible';
-	const USERASSIGNABLE_PROPERTYNAME = '{http://owncloud.org/ns}user-assignable';
-	const GROUPS_PROPERTYNAME = '{http://owncloud.org/ns}groups';
-	const CANASSIGN_PROPERTYNAME = '{http://owncloud.org/ns}can-assign';
+	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
+	public const ID_PROPERTYNAME = '{http://owncloud.org/ns}id';
+	public const DISPLAYNAME_PROPERTYNAME = '{http://owncloud.org/ns}display-name';
+	public const USERVISIBLE_PROPERTYNAME = '{http://owncloud.org/ns}user-visible';
+	public const USERASSIGNABLE_PROPERTYNAME = '{http://owncloud.org/ns}user-assignable';
+	public const GROUPS_PROPERTYNAME = '{http://owncloud.org/ns}groups';
+	public const CANASSIGN_PROPERTYNAME = '{http://owncloud.org/ns}can-assign';
 
 	/**
 	 * @var \Sabre\DAV\Server $server

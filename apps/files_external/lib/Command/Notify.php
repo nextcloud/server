@@ -52,7 +52,7 @@ class Notify extends Base {
 	/** @var ILogger */
 	private $logger;
 
-	function __construct(GlobalStoragesService $globalService, IDBConnection $connection, ILogger $logger) {
+	public function __construct(GlobalStoragesService $globalService, IDBConnection $connection, ILogger $logger) {
 		parent::__construct();
 		$this->globalService = $globalService;
 		$this->connection = $connection;

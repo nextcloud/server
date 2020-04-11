@@ -348,6 +348,7 @@ class Connection extends LDAPUtility {
 						$result[$dbkey] = implode("\n", $config[$configkey]);
 						break;
 					} //else follows default
+					// no break
 				default:
 					$result[$dbkey] = $config[$configkey];
 			}

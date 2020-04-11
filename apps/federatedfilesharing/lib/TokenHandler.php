@@ -30,7 +30,7 @@ use OCP\Security\ISecureRandom;
  * @package OCA\FederatedFileSharing
  */
 class TokenHandler {
-	const TOKEN_LENGTH = 15;
+	public const TOKEN_LENGTH = 15;
 
 	/** @var ISecureRandom */
 	private $secureRandom;

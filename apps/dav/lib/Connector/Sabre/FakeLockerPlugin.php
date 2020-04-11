@@ -77,7 +77,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 *
 	 * @return integer[]
 	 */
-	function getFeatures() {
+	public function getFeatures() {
 		return [2];
 	}
 
@@ -88,7 +88,7 @@ class FakeLockerPlugin extends ServerPlugin {
 	 * @param INode $node
 	 * @return void
 	 */
-	function propFind(PropFind $propFind, INode $node) {
+	public function propFind(PropFind $propFind, INode $node) {
 		$propFind->handle('{DAV:}supportedlock', function () {
 			return new SupportedLock(true);
 		});

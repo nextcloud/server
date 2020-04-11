@@ -28,9 +28,9 @@ use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ExpirationTest extends \Test\TestCase {
-	const SECONDS_PER_DAY = 86400; //60*60*24
+	public const SECONDS_PER_DAY = 86400; //60*60*24
 
-	const FAKE_TIME_NOW = 1000000;
+	public const FAKE_TIME_NOW = 1000000;
 
 	public function expirationData() {
 		$today = 100*self::SECONDS_PER_DAY;

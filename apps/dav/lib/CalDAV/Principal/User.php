@@ -42,7 +42,7 @@ class User extends \Sabre\CalDAV\Principal\User {
 	 *
 	 * @return array
 	 */
-	function getACL() {
+	public function getACL() {
 		$acl = parent::getACL();
 		$acl[] = [
 			'privilege' => '{DAV:}read',

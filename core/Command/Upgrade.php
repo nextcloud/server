@@ -47,12 +47,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Upgrade extends Command {
-	const ERROR_SUCCESS = 0;
-	const ERROR_NOT_INSTALLED = 1;
-	const ERROR_MAINTENANCE_MODE = 2;
-	const ERROR_UP_TO_DATE = 0;
-	const ERROR_INVALID_ARGUMENTS = 4;
-	const ERROR_FAILURE = 5;
+	public const ERROR_SUCCESS = 0;
+	public const ERROR_NOT_INSTALLED = 1;
+	public const ERROR_MAINTENANCE_MODE = 2;
+	public const ERROR_UP_TO_DATE = 0;
+	public const ERROR_INVALID_ARGUMENTS = 4;
+	public const ERROR_FAILURE = 5;
 
 	/** @var IConfig */
 	private $config;

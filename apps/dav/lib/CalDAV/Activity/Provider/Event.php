@@ -34,9 +34,9 @@ use OCP\IUserManager;
 use OCP\L10N\IFactory;
 
 class Event extends Base {
-	const SUBJECT_OBJECT_ADD = 'object_add';
-	const SUBJECT_OBJECT_UPDATE = 'object_update';
-	const SUBJECT_OBJECT_DELETE = 'object_delete';
+	public const SUBJECT_OBJECT_ADD = 'object_add';
+	public const SUBJECT_OBJECT_UPDATE = 'object_update';
+	public const SUBJECT_OBJECT_DELETE = 'object_delete';
 
 	/** @var IFactory */
 	protected $languageFactory;

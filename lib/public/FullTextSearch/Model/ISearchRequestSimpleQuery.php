@@ -39,17 +39,17 @@ namespace OCP\FullTextSearch\Model;
  * @package OCP\FullTextSearch\Model
  */
 interface ISearchRequestSimpleQuery {
-	const COMPARE_TYPE_TEXT = 1;
-	const COMPARE_TYPE_KEYWORD = 2;
-	const COMPARE_TYPE_INT_EQ = 3;
-	const COMPARE_TYPE_INT_GTE = 4;
-	const COMPARE_TYPE_INT_GT = 5;
-	const COMPARE_TYPE_INT_LTE = 6;
-	const COMPARE_TYPE_INT_LT = 7;
-	const COMPARE_TYPE_BOOL = 8;
-	const COMPARE_TYPE_ARRAY = 9;
-	const COMPARE_TYPE_REGEX = 10;
-	const COMPARE_TYPE_WILDCARD = 11;
+	public const COMPARE_TYPE_TEXT = 1;
+	public const COMPARE_TYPE_KEYWORD = 2;
+	public const COMPARE_TYPE_INT_EQ = 3;
+	public const COMPARE_TYPE_INT_GTE = 4;
+	public const COMPARE_TYPE_INT_GT = 5;
+	public const COMPARE_TYPE_INT_LTE = 6;
+	public const COMPARE_TYPE_INT_LT = 7;
+	public const COMPARE_TYPE_BOOL = 8;
+	public const COMPARE_TYPE_ARRAY = 9;
+	public const COMPARE_TYPE_REGEX = 10;
+	public const COMPARE_TYPE_WILDCARD = 11;
 
 
 	/**

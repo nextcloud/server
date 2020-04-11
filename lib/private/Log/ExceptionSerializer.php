@@ -32,7 +32,7 @@ use OC\HintException;
 use OC\Setup;
 
 class ExceptionSerializer {
-	const methodsWithSensitiveParameters = [
+	public const methodsWithSensitiveParameters = [
 		// Session/User
 		'completeLogin',
 		'login',
@@ -86,7 +86,7 @@ class ExceptionSerializer {
 		'update',
 	];
 
-	const methodsWithSensitiveParametersByClass = [
+	public const methodsWithSensitiveParametersByClass = [
 		SetupController::class => [
 			'run',
 			'display',

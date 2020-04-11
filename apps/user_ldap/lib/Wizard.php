@@ -43,25 +43,25 @@ use OCP\ILogger;
 
 class Wizard extends LDAPUtility {
 	/** @var \OCP\IL10N */
-	static protected $l;
+	protected static $l;
 	protected $access;
 	protected $cr;
 	protected $configuration;
 	protected $result;
 	protected $resultCache = [];
 
-	const LRESULT_PROCESSED_OK = 2;
-	const LRESULT_PROCESSED_INVALID = 3;
-	const LRESULT_PROCESSED_SKIP = 4;
+	public const LRESULT_PROCESSED_OK = 2;
+	public const LRESULT_PROCESSED_INVALID = 3;
+	public const LRESULT_PROCESSED_SKIP = 4;
 
-	const LFILTER_LOGIN      = 2;
-	const LFILTER_USER_LIST  = 3;
-	const LFILTER_GROUP_LIST = 4;
+	public const LFILTER_LOGIN      = 2;
+	public const LFILTER_USER_LIST  = 3;
+	public const LFILTER_GROUP_LIST = 4;
 
-	const LFILTER_MODE_ASSISTED = 2;
-	const LFILTER_MODE_RAW = 1;
+	public const LFILTER_MODE_ASSISTED = 2;
+	public const LFILTER_MODE_RAW = 1;
 
-	const LDAP_NW_TIMEOUT = 4;
+	public const LDAP_NW_TIMEOUT = 4;
 
 	/**
 	 * Constructor

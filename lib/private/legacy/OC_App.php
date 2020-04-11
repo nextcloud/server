@@ -65,14 +65,14 @@ use OCP\ILogger;
  * upgrading and removing apps.
  */
 class OC_App {
-	static private $adminForms = [];
-	static private $personalForms = [];
-	static private $appTypes = [];
-	static private $loadedApps = [];
-	static private $altLogin = [];
-	static private $alreadyRegistered = [];
-	const supportedApp = 300;
-	const officialApp = 200;
+	private static $adminForms = [];
+	private static $personalForms = [];
+	private static $appTypes = [];
+	private static $loadedApps = [];
+	private static $altLogin = [];
+	private static $alreadyRegistered = [];
+	public const supportedApp = 300;
+	public const officialApp = 200;
 
 	/**
 	 * clean the appId

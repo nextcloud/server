@@ -97,7 +97,7 @@ class File extends \OCP\Search\Result {
 	/**
 	 * @var Folder $userFolderCache
 	 */
-	static protected $userFolderCache = null;
+	protected static $userFolderCache = null;
 
 	/**
 	 * converts a path relative to the users files folder

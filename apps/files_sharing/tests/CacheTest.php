@@ -147,7 +147,7 @@ class CacheTest extends TestCase {
 		parent::tearDown();
 	}
 
-	function searchDataProvider() {
+	public function searchDataProvider() {
 		return [
 			['%another%',
 				[
@@ -211,7 +211,7 @@ class CacheTest extends TestCase {
 	 * we cannot use a dataProvider because that would cause the stray hook detection to remove the hooks
 	 * that were added in setUpBeforeClass.
 	 */
-	function testSearch() {
+	public function testSearch() {
 		foreach ($this->searchDataProvider() as $data) {
 			list($pattern, $expectedFiles) = $data;
 
@@ -223,7 +223,7 @@ class CacheTest extends TestCase {
 	/**
 	 * Test searching by mime type
 	 */
-	function testSearchByMime() {
+	public function testSearchByMime() {
 		$results = $this->sharedStorage->getCache()->searchByMime('text');
 		$check = [
 			[
@@ -242,7 +242,7 @@ class CacheTest extends TestCase {
 		$this->verifyFiles($check, $results);
 	}
 
-	function testGetFolderContentsInRoot() {
+	public function testGetFolderContentsInRoot() {
 		$results = $this->user2View->getDirectoryContent('/');
 
 		// we should get the shared items "shareddir" and "shared single file.txt"
@@ -274,7 +274,7 @@ class CacheTest extends TestCase {
 		);
 	}
 
-	function testGetFolderContentsInSubdir() {
+	public function testGetFolderContentsInSubdir() {
 		$results = $this->user2View->getDirectoryContent('/shareddir');
 
 		$this->verifyFiles(
@@ -305,7 +305,7 @@ class CacheTest extends TestCase {
 		);
 	}
 
-	function testGetFolderContentsWhenSubSubdirShared() {
+	public function testGetFolderContentsWhenSubSubdirShared() {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$rootFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);

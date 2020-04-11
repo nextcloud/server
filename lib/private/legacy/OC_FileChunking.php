@@ -40,7 +40,7 @@ class OC_FileChunking {
 	 */
 	protected $ttl;
 
-	static public function decodeName($name) {
+	public static function decodeName($name) {
 		preg_match('/(?P<name>.*)-chunking-(?P<transferid>\d+)-(?P<chunkcount>\d+)-(?P<index>\d+)/', $name, $matches);
 		return $matches;
 	}

@@ -48,7 +48,7 @@ use OCP\ILogger;
  * @package OC\Security\Bruteforce
  */
 class Throttler {
-	const LOGIN_ACTION = 'login';
+	public const LOGIN_ACTION = 'login';
 
 	/** @var IDBConnection */
 	private $db;

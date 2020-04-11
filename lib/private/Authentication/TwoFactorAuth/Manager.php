@@ -46,10 +46,10 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Manager {
-	const SESSION_UID_KEY = 'two_factor_auth_uid';
-	const SESSION_UID_DONE = 'two_factor_auth_passed';
-	const REMEMBER_LOGIN = 'two_factor_remember_login';
-	const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
+	public const SESSION_UID_KEY = 'two_factor_auth_uid';
+	public const SESSION_UID_DONE = 'two_factor_auth_passed';
+	public const REMEMBER_LOGIN = 'two_factor_remember_login';
+	public const BACKUP_CODES_PROVIDER_ID = 'backup_codes';
 
 	/** @var ProviderLoader */
 	private $providerLoader;

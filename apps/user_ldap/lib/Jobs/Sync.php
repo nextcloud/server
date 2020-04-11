@@ -43,8 +43,8 @@ use OCP\IUserManager;
 use OCP\Notification\IManager;
 
 class Sync extends TimedJob {
-	const MAX_INTERVAL = 12 * 60 * 60; // 12h
-	const MIN_INTERVAL = 30 * 60; // 30min
+	public const MAX_INTERVAL = 12 * 60 * 60; // 12h
+	public const MIN_INTERVAL = 30 * 60; // 30min
 	/** @var  Helper */
 	protected $ldapHelper;
 	/** @var  LDAP */

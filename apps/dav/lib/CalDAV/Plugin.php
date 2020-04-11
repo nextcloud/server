@@ -25,7 +25,7 @@
 namespace OCA\DAV\CalDAV;
 
 class Plugin extends \Sabre\CalDAV\Plugin {
-	const SYSTEM_CALENDAR_ROOT = 'system-calendars';
+	public const SYSTEM_CALENDAR_ROOT = 'system-calendars';
 
 	/**
 	 * Returns the path to a principal's calendar home.
@@ -37,7 +37,7 @@ class Plugin extends \Sabre\CalDAV\Plugin {
 	 * @param string $principalUrl
 	 * @return string|null
 	 */
-	function getCalendarHomeForPrincipal($principalUrl) {
+	public function getCalendarHomeForPrincipal($principalUrl) {
 		if (strrpos($principalUrl, 'principals/users', -strlen($principalUrl)) !== false) {
 			list(, $principalId) = \Sabre\Uri\split($principalUrl);
 			return self::CALENDAR_ROOT . '/' . $principalId;

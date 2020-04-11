@@ -40,7 +40,7 @@ use OCP\Share\IShare;
 use Sabre\DAV\Tree;
 
 class SharesPluginTest extends \Test\TestCase {
-	const SHARETYPES_PROPERTYNAME = \OCA\DAV\Connector\Sabre\SharesPlugin::SHARETYPES_PROPERTYNAME;
+	public const SHARETYPES_PROPERTYNAME = \OCA\DAV\Connector\Sabre\SharesPlugin::SHARETYPES_PROPERTYNAME;
 
 	/**
 	 * @var \Sabre\DAV\Server
@@ -267,7 +267,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->assertEquals($shareTypes, $result[200][self::SHARETYPES_PROPERTYNAME]->getShareTypes());
 	}
 
-	function sharesGetPropertiesDataProvider() {
+	public function sharesGetPropertiesDataProvider() {
 		return [
 			[[]],
 			[[\OCP\Share::SHARE_TYPE_USER]],

@@ -36,8 +36,8 @@ use OCA\Files_External\Lib\Backend\Backend;
  * External storage configuration
  */
 class StorageConfig implements \JsonSerializable {
-	const MOUNT_TYPE_ADMIN = 1;
-	const MOUNT_TYPE_PERSONAl = 2;
+	public const MOUNT_TYPE_ADMIN = 1;
+	public const MOUNT_TYPE_PERSONAl = 2;
 
 	/**
 	 * Storage config id

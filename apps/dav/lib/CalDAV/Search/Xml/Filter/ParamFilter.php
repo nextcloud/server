@@ -36,7 +36,7 @@ class ParamFilter implements XmlDeserializable {
 	 * @throws BadRequest
 	 * @return string
 	 */
-	static function xmlDeserialize(Reader $reader) {
+	public static function xmlDeserialize(Reader $reader) {
 		$att = $reader->parseAttributes();
 		$property = $att['property'];
 		$parameter = $att['name'];

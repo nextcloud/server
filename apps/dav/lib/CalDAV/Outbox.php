@@ -63,7 +63,7 @@ class Outbox extends \Sabre\CalDAV\Schedule\Outbox {
 	 *
 	 * @return array
 	 */
-	function getACL() {
+	public function getACL() {
 		// getACL is called so frequently that we cache the config result
 		if ($this->disableFreeBusy === null) {
 			$this->disableFreeBusy = ($this->config->getAppValue('dav', 'disableFreeBusy', 'no') === 'yes');

@@ -46,7 +46,7 @@ class Expire implements ICommand {
 	 * @param string $user
 	 * @param string $fileName
 	 */
-	function __construct($user, $fileName) {
+	public function __construct($user, $fileName) {
 		$this->user = $user;
 		$this->fileName = $fileName;
 	}

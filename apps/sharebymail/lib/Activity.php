@@ -60,12 +60,12 @@ class Activity implements IProvider {
 	/** @var array */
 	protected $contactNames = [];
 
-	const SUBJECT_SHARED_EMAIL_SELF = 'shared_with_email_self';
-	const SUBJECT_SHARED_EMAIL_BY = 'shared_with_email_by';
-	const SUBJECT_SHARED_EMAIL_PASSWORD_SEND = 'shared_with_email_password_send';
-	const SUBJECT_SHARED_EMAIL_PASSWORD_SEND_SELF = 'shared_with_email_password_send_self';
-	const SUBJECT_UNSHARED_EMAIL_SELF = 'unshared_with_email_self';
-	const SUBJECT_UNSHARED_EMAIL_BY = 'unshared_with_email_by';
+	public const SUBJECT_SHARED_EMAIL_SELF = 'shared_with_email_self';
+	public const SUBJECT_SHARED_EMAIL_BY = 'shared_with_email_by';
+	public const SUBJECT_SHARED_EMAIL_PASSWORD_SEND = 'shared_with_email_password_send';
+	public const SUBJECT_SHARED_EMAIL_PASSWORD_SEND_SELF = 'shared_with_email_password_send_self';
+	public const SUBJECT_UNSHARED_EMAIL_SELF = 'unshared_with_email_self';
+	public const SUBJECT_UNSHARED_EMAIL_BY = 'unshared_with_email_by';
 
 	/**
 	 * @param IFactory $languageFactory

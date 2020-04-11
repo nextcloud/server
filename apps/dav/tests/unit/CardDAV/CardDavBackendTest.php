@@ -86,9 +86,9 @@ class CardDavBackendTest extends TestCase {
 	/** @var string */
 	private $dbCardsPropertiesTable = 'cards_properties';
 
-	const UNIT_TEST_USER = 'principals/users/carddav-unit-test';
-	const UNIT_TEST_USER1 = 'principals/users/carddav-unit-test1';
-	const UNIT_TEST_GROUP = 'principals/groups/carddav-unit-test-group';
+	public const UNIT_TEST_USER = 'principals/users/carddav-unit-test';
+	public const UNIT_TEST_USER1 = 'principals/users/carddav-unit-test1';
+	public const UNIT_TEST_GROUP = 'principals/groups/carddav-unit-test-group';
 
 	private $vcardTest0 = 'BEGIN:VCARD'.PHP_EOL.
 						 'VERSION:3.0'.PHP_EOL.

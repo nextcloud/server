@@ -45,25 +45,25 @@ namespace OCP\FullTextSearch\Model;
  * @package OCP\FullTextSearch\Model
  */
 interface IIndex {
-	const INDEX_OK = 1;
-	const INDEX_IGNORE = 2;
+	public const INDEX_OK = 1;
+	public const INDEX_IGNORE = 2;
 
-	const INDEX_META = 4;
-	const INDEX_CONTENT = 8;
-	const INDEX_PARTS = 16;
-	const INDEX_FULL = 28;
-	const INDEX_REMOVE = 32;
-	const INDEX_DONE = 64;
-	const INDEX_FAILED = 128;
+	public const INDEX_META = 4;
+	public const INDEX_CONTENT = 8;
+	public const INDEX_PARTS = 16;
+	public const INDEX_FULL = 28;
+	public const INDEX_REMOVE = 32;
+	public const INDEX_DONE = 64;
+	public const INDEX_FAILED = 128;
 
-	const ERROR_FAILED = 1;
-	const ERROR_FAILED2 = 2;
-	const ERROR_FAILED3 = 4;
+	public const ERROR_FAILED = 1;
+	public const ERROR_FAILED2 = 2;
+	public const ERROR_FAILED3 = 4;
 
-	const ERROR_SEV_1 = 1;
-	const ERROR_SEV_2 = 2;
-	const ERROR_SEV_3 = 3;
-	const ERROR_SEV_4 = 4;
+	public const ERROR_SEV_1 = 1;
+	public const ERROR_SEV_2 = 2;
+	public const ERROR_SEV_3 = 3;
+	public const ERROR_SEV_4 = 4;
 
 
 	/**
