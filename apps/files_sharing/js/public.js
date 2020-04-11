@@ -113,9 +113,9 @@ OCA.Sharing.PublicApp = {
 			// Show file preview if previewer is available, images are already handled by the template
 			if (mimetype.substr(0, mimetype.indexOf('/')) !== 'image' && $('.publicpreview').length === 0) {
 				// Trigger default action if not download TODO
-				var action = FileActions.getDefault(mimetype, 'file', OC.PERMISSION_READ);
-				if (typeof action !== 'undefined') {
-					action($('#filename').val());
+				var spec = FileActions.getDefaultFileAction(mimetype, 'file', OC.PERMISSION_READ);
+				if (spec && spec.action) {
+					spec.action($('#filename').val());
 				}
 			}
 		}
@@ -204,10 +204,6 @@ OCA.Sharing.PublicApp = {
 				var $tr = OCA.Files.FileList.prototype._createRow.apply(this, arguments);
 				if (hideDownload === 'true') {
 					this.fileActions.currentFile = $tr.find('td');
-					var mime = this.fileActions.getCurrentMimeType();
-					var type = this.fileActions.getCurrentType();
-					var permissions = this.fileActions.getCurrentPermissions();
-					var action = this.fileActions.getDefault(mime, type, permissions);
 
 					// Remove the link. This means that files without a default action fail hard
 					$tr.find('a.name').attr('href', '#');
@@ -252,7 +248,7 @@ OCA.Sharing.PublicApp = {
 			};
 
 			this.fileList.linkTo = function (dir) {
-				return OC.generateUrl('/s/' + token + '', {dir: dir});
+				return OC.generateUrl('/s/' + token + '') + '?' + OC.buildQueryString({path: dir});
 			};
 
 			this.fileList.generatePreviewUrl = function (urlSpec) {

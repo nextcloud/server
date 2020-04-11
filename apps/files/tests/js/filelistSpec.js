@@ -239,6 +239,33 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.find('.date').text()).not.toEqual('?');
 			expect(fileList.findFileEl('testName.txt')[0]).toEqual($tr[0]);
 		});
+		it('generates file element with url for default action when one is defined', function() {
+			var actionStub = sinon.stub();
+			fileList.setFiles(testFiles);
+			fileList.fileActions.registerAction({
+				mime: 'text/plain',
+				name: 'Test',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				permissions: OC.PERMISSION_ALL,
+				icon: function() {
+					// Specify icon for hitory button
+					return OC.imagePath('core','actions/history');
+				},
+				actionHandler: actionStub
+			});
+			fileList.fileActions.setDefault('text/plain', 'Test');
+			var fileData = new FileInfo({
+				id: 18,
+				name: 'testName.txt',
+				mimetype: 'text/plain',
+				size: 1234,
+				etag: 'a01234c',
+				mtime: 123456
+			});
+			var $tr = fileList.add(fileData);
+			expect($tr.find('a.name').attr('href'))
+				.toEqual(OC.getRootPath() + '/index.php/apps/files?dir=&openfile=18');
+		});
 		it('generates dir element with correct attributes when calling add() with dir data', function() {
 			var fileData = new FileInfo({
 				id: 19,
@@ -1905,36 +1932,6 @@ describe('OCA.Files.FileList tests', function() {
 			$tr.find('td.selection input:checkbox').click();
 
 			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
-		});
-		it('Selects/deselect a file when clicking on the name while holding Ctrl', function() {
-			var $tr = fileList.findFileEl('One.txt');
-			var $tr2 = fileList.findFileEl('Three.pdf');
-			var e;
-			expect($tr.find('input:checkbox').prop('checked')).toEqual(false);
-			expect($tr2.find('input:checkbox').prop('checked')).toEqual(false);
-			e = new $.Event('click');
-			e.ctrlKey = true;
-			$tr.find('td.filename .name').trigger(e);
-
-			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
-			expect($tr2.find('input:checkbox').prop('checked')).toEqual(false);
-
-			// click on second entry, does not clear the selection
-			e = new $.Event('click');
-			e.ctrlKey = true;
-			$tr2.find('td.filename .name').trigger(e);
-			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
-			expect($tr2.find('input:checkbox').prop('checked')).toEqual(true);
-
-			expect(_.pluck(fileList.getSelectedFiles(), 'name')).toEqual(['One.txt', 'Three.pdf']);
-
-			// deselect now
-			e = new $.Event('click');
-			e.ctrlKey = true;
-			$tr2.find('td.filename .name').trigger(e);
-			expect($tr.find('input:checkbox').prop('checked')).toEqual(true);
-			expect($tr2.find('input:checkbox').prop('checked')).toEqual(false);
-			expect(_.pluck(fileList.getSelectedFiles(), 'name')).toEqual(['One.txt']);
 		});
 		it('Selects a range when clicking on one file then Shift clicking on another one', function() {
 			var $tr = fileList.findFileEl('One.txt');
