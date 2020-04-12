@@ -126,9 +126,6 @@ class Generator {
 		if ($mimeType === null) {
 			$mimeType = $file->getMimeType();
 		}
-		if (!$this->previewManager->isMimeSupported($mimeType)) {
-			throw new NotFoundException();
-		}
 
 		$previewFolder = $this->getPreviewFolder($file);
 
@@ -155,7 +152,7 @@ class Generator {
 			$crop = $specification['crop'] ?? false;
 			$mode = $specification['mode'] ?? IPreview::MODE_FILL;
 
-			// If both width and heigth are -1 we just want the max preview
+			// If both width and height are -1 we just want the max preview
 			if ($width === -1 && $height === -1) {
 				$width = $maxWidth;
 				$height = $maxHeight;
@@ -176,6 +173,10 @@ class Generator {
 				try {
 					$preview = $this->getCachedPreview($previewFolder, $width, $height, $crop, $maxPreview->getMimeType(), $previewVersion);
 				} catch (NotFoundException $e) {
+					if (!$this->previewManager->isMimeSupported($mimeType)) {
+						throw new NotFoundException();
+					}
+
 					if ($maxPreviewImage === null) {
 						$maxPreviewImage = $this->helper->getImage($maxPreview);
 					}
