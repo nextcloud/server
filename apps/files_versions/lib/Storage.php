@@ -641,6 +641,11 @@ class Storage {
 		}
 
 		$firstVersion = reset($versions);
+
+		if ($firstVersion === false) {
+			return [$toDelete, $size];
+		}
+
 		$firstKey = key($versions);
 		$prevTimestamp = $firstVersion['version'];
 		$nextVersion = $firstVersion['version'] - $step;
