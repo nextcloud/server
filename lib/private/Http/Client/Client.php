@@ -34,6 +34,7 @@ declare(strict_types=1);
 namespace OC\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Cookie\CookieJarInterface;
 use GuzzleHttp\RequestOptions;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IResponse;
@@ -56,17 +57,21 @@ class Client implements IClient {
 	/** @var ICertificateManager */
 	private $certificateManager;
 	private IRemoteHostValidator $remoteHostValidator;
+	/** @var CookieJarInterface */
+	private $cookieJar;
 
 	public function __construct(
 		IConfig $config,
 		ICertificateManager $certificateManager,
 		GuzzleClient $client,
-		IRemoteHostValidator $remoteHostValidator
+		IRemoteHostValidator $remoteHostValidator,
+		?CookieJarInterface $cookieJar
 	) {
 		$this->config = $config;
 		$this->client = $client;
 		$this->certificateManager = $certificateManager;
 		$this->remoteHostValidator = $remoteHostValidator;
+		$this->cookieJar = $cookieJar;
 	}
 
 	private function buildRequestOptions(array $options): array {
@@ -113,6 +118,10 @@ class Client implements IClient {
 		if (isset($options['save_to'])) {
 			$options['sink'] = $options['save_to'];
 			unset($options['save_to']);
+		}
+
+		if (!isset($options[RequestOptions::COOKIES]) && !is_null($this->getCookieJar())) {
+			$options[RequestOptions::COOKIES] = $this->getCookieJar();
 		}
 
 		return $options;
@@ -402,5 +411,14 @@ class Client implements IClient {
 		$this->preventLocalAddress($uri, $options);
 		$response = $this->client->request('options', $uri, $this->buildRequestOptions($options));
 		return new Response($response);
+	}
+
+	/**
+	 * Returns
+	 *
+	 * @return CookieJarInterface
+	 */
+	public function getCookieJar(): ?CookieJarInterface {
+		return $this->cookieJar;
 	}
 }
