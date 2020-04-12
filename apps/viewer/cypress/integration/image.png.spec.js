@@ -45,44 +45,44 @@ describe('Open image.png in viewer', function() {
 			.should('contain', 'image.png')
 	})
 
-	// it('Open the viewer on file click', function() {
-	// 	cy.openFile('image.png')
-	// 	cy.get('#viewer-content').should('be.visible')
-	// })
+	it('Open the viewer on file click', function() {
+		cy.openFile('image.png')
+		cy.get('#viewer-content').should('be.visible')
+	})
 
-	// it('Does not see a loading animation', function() {
-	// 	cy.get('#viewer-content', { timeout: 4000 })
-	// 		.should('be.visible')
-	// 		.and('have.class', 'modal-mask')
-	// 		.and('not.have.class', 'icon-loading')
-	// })
+	it('Does not see a loading animation', function() {
+		cy.get('#viewer-content', { timeout: 4000 })
+			.should('be.visible')
+			.and('have.class', 'modal-mask')
+			.and('not.have.class', 'icon-loading')
+	})
 
-	// it('Is not in mobile fullscreen mode', function() {
-	// 	cy.get('#viewer-content .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
-	// })
+	it('Is not in mobile fullscreen mode', function() {
+		cy.get('#viewer-content .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
+	})
 
-	// it('See the menu icon and title on the viewer header', function() {
-	// 	cy.get('#viewer-content .modal-title').should('contain', 'image.png')
-	// 	cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
-	// 	cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
-	// })
+	it('See the menu icon and title on the viewer header', function() {
+		cy.get('#viewer-content .modal-title').should('contain', 'image.png')
+		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
+		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
+	})
 
-	// it('Does not see navigation arrows', function() {
-	// 	cy.get('#viewer-content a.prev').should('not.be.visible')
-	// 	cy.get('#viewer-content a.next').should('not.be.visible')
-	// })
+	it('Does not see navigation arrows', function() {
+		cy.get('#viewer-content a.prev').should('not.be.visible')
+		cy.get('#viewer-content a.next').should('not.be.visible')
+	})
 
-	// it('Have the proper height and width values', function() {
-	// 	// not using should('have.css'), we want the inline styling
-	// 	cy.get('#viewer-content .modal-container img.active')
-	// 		.should('have.attr', 'style')
-	// 		// 70% max width (see cypress config)
-	// 		.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-	// 		// capped by the width, keeping ratio
-	// 		.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2000)}px`, 'i'))
-	// })
+	it('Have the proper height and width values', function() {
+		// not using should('have.css'), we want the inline styling
+		cy.get('#viewer-content .modal-container img.active')
+			.should('have.attr', 'style')
+			// 70% max width (see cypress config)
+			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
+			// capped by the width, keeping ratio
+			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2000)}px`, 'i'))
+	})
 
-	// it('Does not have any visual regression', function() {
-	// 	cy.matchImageSnapshot()
-	// })
+	it('Does not have any visual regression', function() {
+		cy.matchImageSnapshot()
+	})
 })

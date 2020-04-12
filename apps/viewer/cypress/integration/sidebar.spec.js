@@ -24,7 +24,7 @@
 import { randHash } from '../utils/'
 const randUser = randHash()
 
-describe('Open the sidebar', function() {
+describe('Open the sidebar from the viewer and open viewer with sidebar already opened', function() {
 	before(function() {
 		// Init user
 		cy.nextcloudCreateUser(randUser, 'password')

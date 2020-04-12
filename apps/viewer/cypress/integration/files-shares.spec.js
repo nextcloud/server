@@ -23,7 +23,7 @@
 import { randHash } from '../utils/'
 const randUser = randHash()
 
-describe('Files default view', function() {
+describe('See shared folder with link share', function() {
 	before(function() {
 		// Init user
 		cy.nextcloudCreateUser(randUser, 'password')
