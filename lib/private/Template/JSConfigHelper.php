@@ -268,6 +268,7 @@ class JSConfigHelper {
 					'defaultInternalExpireDateEnabled' => $defaultInternalExpireDateEnabled,
 					'defaultInternalExpireDate' => $defaultInternalExpireDate,
 					'defaultInternalExpireDateEnforced' => $defaultInternalExpireDateEnforced,
+					'disableStorageWarning' => $this->config->getSystemValueBool('files.disable.storage.warning', false),
 				]
 			]),
 			"_theme" => json_encode([
