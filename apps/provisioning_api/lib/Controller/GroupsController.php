@@ -151,6 +151,8 @@ class GroupsController extends AUserData {
 	 * @throws OCSException
 	 */
 	public function getGroupUsers(string $groupId): DataResponse {
+		$groupId = urldecode($groupId);
+
 		$user = $this->userSession->getUser();
 		$isSubadminOfGroup = false;
 
@@ -190,6 +192,7 @@ class GroupsController extends AUserData {
 	 * @throws OCSException
 	 */
 	public function getGroupUsersDetails(string $groupId, string $search = '', int $limit = null, int $offset = 0): DataResponse {
+		$groupId = urldecode($groupId);
 		$currentUser = $this->userSession->getUser();
 
 		// Check the group exists
@@ -262,6 +265,8 @@ class GroupsController extends AUserData {
 	 * @throws OCSException
 	 */
 	public function updateGroup(string $groupId, string $key, string $value): DataResponse {
+		$groupId = urldecode($groupId);
+
 		if ($key === 'displayname') {
 			$group = $this->groupManager->get($groupId);
 			if ($group->setDisplayName($value)) {
@@ -282,6 +287,8 @@ class GroupsController extends AUserData {
 	 * @throws OCSException
 	 */
 	public function deleteGroup(string $groupId): DataResponse {
+		$groupId = urldecode($groupId);
+
 		// Check it exists
 		if(!$this->groupManager->groupExists($groupId)){
 			throw new OCSException('', 101);

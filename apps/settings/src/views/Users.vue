@@ -86,7 +86,7 @@
 			<UserList #content
 				:users="users"
 				:show-config="showConfig"
-				:selected-group="selectedGroup"
+				:selected-group="selectedGroupDecoded"
 				:external-actions="externalActions" />
 		</AppContent>
 	</Content>
@@ -148,6 +148,9 @@ export default {
 		}
 	},
 	computed: {
+		selectedGroupDecoded() {
+			return this.selectedGroup ? decodeURIComponent(this.selectedGroup) : null
+		},
 		users() {
 			return this.$store.getters.getUsers
 		},

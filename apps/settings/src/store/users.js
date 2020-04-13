@@ -205,7 +205,7 @@ const actions = {
 		search = typeof search === 'string' ? search : ''
 		group = typeof group === 'string' ? group : ''
 		if (group !== '') {
-			return api.get(OC.linkToOCS(`cloud/groups/${encodeURIComponent(group)}/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2))
+			return api.get(OC.linkToOCS(`cloud/groups/${encodeURIComponent(encodeURIComponent(group))}/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2))
 				.then((response) => {
 					if (Object.keys(response.data.ocs.data.users).length > 0) {
 						context.commit('appendUsers', response.data.ocs.data.users)
@@ -275,7 +275,7 @@ const actions = {
 	 * @returns {Promise}
 	 */
 	getUsersFromGroup(context, { groupid, offset, limit }) {
-		return api.get(OC.linkToOCS(`cloud/users/${encodeURIComponent(groupid)}/details?offset=${offset}&limit=${limit}`, 2))
+		return api.get(OC.linkToOCS(`cloud/users/${encodeURIComponent(encodeURIComponent(groupid))}/details?offset=${offset}&limit=${limit}`, 2))
 			.then((response) => context.commit('getUsersFromList', response.data.ocs.data.users))
 			.catch((error) => context.commit('API_FAILURE', error))
 	},
@@ -320,7 +320,7 @@ const actions = {
 	 */
 	removeGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
-			return api.delete(OC.linkToOCS(`cloud/groups/${encodeURIComponent(gid)}`, 2))
+			return api.delete(OC.linkToOCS(`cloud/groups/${encodeURIComponent(encodeURIComponent(gid))}`, 2))
 				.then((response) => context.commit('removeGroup', gid))
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { gid, error }))
