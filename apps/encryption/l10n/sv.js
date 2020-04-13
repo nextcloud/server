@@ -58,7 +58,7 @@ OC.L10N.register(
     "Current log-in password" : "Nuvarande inloggningslösenord",
     "Update Private Key Password" : "Uppdatera lösenordet för din privata nyckel",
     "Enable password recovery:" : "Aktivera lösenordsåterställning:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Genom att aktivera detta alternativ kommer du kunna återfå tillgång till dina krypterade filer om du skulle förlora/glömma ditt lösenord",
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Om du aktiverar det här alternativet kan du återställa åtkomst till dina krypterade filer vid lösenordsförlust",
     "Enabled" : "Aktiverad",
     "Disabled" : "Inaktiverad"
 },
