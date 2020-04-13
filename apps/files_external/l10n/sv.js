@@ -18,7 +18,7 @@ OC.L10N.register(
     "Enable sharing" : "Aktivera delning",
     "Check for changes" : "Sök efter ändringar",
     "Never" : "Aldrig",
-    "Once every direct access" : "En gång vid varje direktanslutning",
+    "Once every direct access" : "En gång vid varje direktåtkomst",
     "Read only" : "Skrivskyddad",
     "Delete" : "Radera",
     "Admin defined" : "Admin definerad",

@@ -366,7 +366,7 @@ OC.L10N.register(
     "Always ask for a password" : "Vraag altijd naar een wachtwoord",
     "Enforce password protection" : "Dwing wachtwoordbeveiliging af",
     "Set default expiration date for link shares" : "Instellen standaard vervaldatum voor deellinks",
-    "Allow resharing" : "Laat gebruikers de met hen gedeelde bestanden opnieuw delen",
+    "Allow resharing" : "Toestaan doordelen",
     "Allow sharing with groups" : "Sta delen met groepen toe",
     "Restrict users to only share with users in their groups" : "Laat gebruikers alleen delen met andere gebruikers in hun groepen",
     "Exclude groups from sharing" : "Sta bepaalde groepen niet toe om te delen",
