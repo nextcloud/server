@@ -328,6 +328,7 @@ Feature: provisioning
 			| accessibility |
 			| cloud_federation_api |
 			| comments |
+			| contactsinteraction |
 			| dav |
 			| federatedfilesharing |
 			| federation |
