@@ -198,6 +198,10 @@ if [ ! -e "apps/notifications" ]; then
 	(cd apps && git clone --depth 1 https://github.com/nextcloud/notifications)
 fi
 
+if [ ! -e "apps/activity" ]; then
+	(cd apps && git clone --depth 1 https://github.com/nextcloud/activity)
+fi
+
 INSTALL_AND_CONFIGURE_SERVER_PARAMETERS=""
 if [ "$NEXTCLOUD_SERVER_DOMAIN" != "$DEFAULT_NEXTCLOUD_SERVER_DOMAIN" ]; then
 	INSTALL_AND_CONFIGURE_SERVER_PARAMETERS+="--nextcloud-server-domain $NEXTCLOUD_SERVER_DOMAIN"
