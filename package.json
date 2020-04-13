@@ -34,7 +34,7 @@
     "@nextcloud/l10n": "^1.2.3",
     "@nextcloud/logger": "^1.1.2",
     "@nextcloud/password-confirmation": "^1.0.1",
-    "@nextcloud/paths": "^1.1.1",
+    "@nextcloud/paths": "^1.1.2",
     "@nextcloud/router": "^1.0.2",
     "@nextcloud/vue": "^1.5.0",
     "autosize": "^4.0.2",
