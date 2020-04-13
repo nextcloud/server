@@ -289,7 +289,7 @@
     "STARTTLS" : "STARTTLS",
     "Email server" : "E-postserver",
     "Open documentation" : "Öppna dokumentation",
-    "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Det är viktigt att sätta upp denna server för att kunna sända e-post, exempelvis lösenordsåterställningar och aviseringar.",
+    "It is important to set up this server to be able to send emails, like for password reset and notifications." : "Det är viktigt att konfigurera den här servern för att kunna skicka e-post, till exempel för återställning av lösenord och aviseringar.",
     "Send mode" : "Sändningsläge",
     "Encryption" : "Kryptering",
     "Sendmail mode" : "Sendmail-läge",
