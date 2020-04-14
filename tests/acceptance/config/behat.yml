@@ -74,10 +74,3 @@ default:
         Jim:
           selenium2:
             wd_host: %selenium.server%
-        Rubeus:
-          # Rubeus uses a browser that has CSS grid support.
-          selenium2:
-            wd_host: %selenium.server%
-            capabilities:
-              firefox:
-                profile: %paths.base%/firefox-profiles/css-grid-enabled.zip
