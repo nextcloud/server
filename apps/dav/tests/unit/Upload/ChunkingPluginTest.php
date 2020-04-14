@@ -27,6 +27,7 @@ namespace OCA\DAV\Tests\unit\Upload;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Upload\ChunkingPlugin;
 use OCA\DAV\Upload\FutureFile;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use Test\TestCase;
@@ -87,16 +88,41 @@ class ChunkingPluginTest extends TestCase {
 		$this->assertNull($this->plugin->beforeMove('source', 'target'));
 	}
 
+	public function testBeforeMoveDestinationIsDirectory() {
+		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
+		$this->expectExceptionMessage('The given destination target is a directory.');
+
+		$sourceNode = $this->createMock(FutureFile::class);
+		$targetNode = $this->createMock(Directory::class);
+
+		$this->tree->expects($this->at(0))
+			->method('getNodeForPath')
+			->with('source')
+			->willReturn($sourceNode);
+		$this->tree->expects($this->at(1))
+			->method('getNodeForPath')
+			->with('target')
+			->willReturn($targetNode);
+		$this->response->expects($this->never())
+			->method('setStatus');
+
+		$this->assertNull($this->plugin->beforeMove('source', 'target'));
+	}
+
 	public function testBeforeMoveFutureFileSkipNonExisting() {
 		$sourceNode = $this->createMock(FutureFile::class);
 		$sourceNode->expects($this->once())
 			->method('getSize')
 			->willReturn(4);
 
-		$this->tree->expects($this->any())
+		$this->tree->expects($this->at(0))
 			->method('getNodeForPath')
 			->with('source')
 			->willReturn($sourceNode);
+		$this->tree->expects($this->at(1))
+			->method('getNodeForPath')
+			->with('target')
+			->willThrowException(new NotFound());
 		$this->tree->expects($this->any())
 			->method('nodeExists')
 			->with('target')
@@ -117,10 +143,14 @@ class ChunkingPluginTest extends TestCase {
 			->method('getSize')
 			->willReturn(4);
 
-		$this->tree->expects($this->any())
+		$this->tree->expects($this->at(0))
 			->method('getNodeForPath')
 			->with('source')
 			->willReturn($sourceNode);
+		$this->tree->expects($this->at(1))
+			->method('getNodeForPath')
+			->with('target')
+			->willThrowException(new NotFound());
 		$this->tree->expects($this->any())
 			->method('nodeExists')
 			->with('target')
@@ -143,7 +173,7 @@ class ChunkingPluginTest extends TestCase {
 		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
 	}
 
-	
+
 	public function testBeforeMoveSizeIsWrong() {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Chunks on server do not sum up to 4 but to 3 bytes');
@@ -153,10 +183,14 @@ class ChunkingPluginTest extends TestCase {
 			->method('getSize')
 			->willReturn(3);
 
-		$this->tree->expects($this->any())
+		$this->tree->expects($this->at(0))
 			->method('getNodeForPath')
 			->with('source')
 			->willReturn($sourceNode);
+		$this->tree->expects($this->at(1))
+			->method('getNodeForPath')
+			->with('target')
+			->willThrowException(new NotFound());
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->with('OC-Total-Length')
