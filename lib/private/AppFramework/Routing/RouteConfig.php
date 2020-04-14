@@ -33,7 +33,6 @@ declare(strict_types=1);
 namespace OC\AppFramework\Routing;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
-use OCP\AppFramework\App;
 use OCP\Route\IRouter;
 
 /**
@@ -155,13 +154,13 @@ class RouteConfig {
 
 		// optionally register requirements for route. This is used to
 		// tell the route parser how url parameters should be matched
-		if(array_key_exists('requirements', $route)) {
+		if (array_key_exists('requirements', $route)) {
 			$router->requirements($route['requirements']);
 		}
 
 		// optionally register defaults for route. This is used to
 		// tell the route parser how url parameters should be default valued
-		if(array_key_exists('defaults', $route)) {
+		if (array_key_exists('defaults', $route)) {
 			$router->defaults($route['defaults']);
 		}
 	}
