@@ -153,7 +153,7 @@ $application->registerRoutes(
 
 /** @var $this \OC\Route\Router */
 
-$this->create('files_ajax_download', 'ajax/download.php')
+$this->create('files_ajax_download', 'apps/files/ajax/download.php')
 	->actionInclude('files/ajax/download.php');
-$this->create('files_ajax_list', 'ajax/list.php')
+$this->create('files_ajax_list', 'apps/files/ajax/list.php')
 	->actionInclude('files/ajax/list.php');
