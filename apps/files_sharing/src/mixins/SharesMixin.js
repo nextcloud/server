@@ -246,8 +246,10 @@ export default {
 
 						// reset password state after sync
 						this.$delete(this.share, 'newPassword')
-					} catch ({ property, message }) {
-						this.onSyncError(property, message)
+					} catch ({ message }) {
+						if (message && message !== '') {
+							this.onSyncError(property, message)
+						}
 					} finally {
 						this.saving = false
 					}
