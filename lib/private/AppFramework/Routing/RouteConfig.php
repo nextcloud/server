@@ -55,7 +55,7 @@ class RouteConfig {
 	/** @var string[] */
 	private $controllerNameCache = [];
 
-	public const ROOT_URL_APPS = [
+	protected $rootUrlApps = [
 		'cloud_federation_api',
 		'core',
 		'files_sharing',
@@ -126,7 +126,7 @@ class RouteConfig {
 		$postfix = $route['postfix'] ?? '';
 		$defaultRoot = $this->appName === 'core' ? '' : '/apps/' . $this->appName;
 		$root = $route['root'] ?? $defaultRoot;
-		if ($routeNamePrefix === '' && !\in_array($this->appName, self::ROOT_URL_APPS, true)) {
+		if ($routeNamePrefix === '' && !\in_array($this->appName, $this->rootUrlApps, true)) {
 			// Only allow root URLS for some apps
 			$root = $defaultRoot;
 		}
