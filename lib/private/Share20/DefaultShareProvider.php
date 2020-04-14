@@ -823,7 +823,7 @@ class DefaultShareProvider implements IShareProvider {
 	 */
 	private function isAccessibleResult($data) {
 		// exclude shares leading to deleted file entries
-		if ($data['fileid'] === null) {
+		if ($data['fileid'] === null || $data['path'] === null) {
 			return false;
 		}
 
