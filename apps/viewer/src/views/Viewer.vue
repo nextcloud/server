@@ -637,21 +637,19 @@ export default {
 		 * Show the sharing sidebar
 		 */
 
-		showSidebar() {
+		async showSidebar() {
 			// Open the sidebar sharing tab
-			OCA.Files.Sidebar.open(this.currentFile.filename)
+			await OCA.Files.Sidebar.open(this.currentFile.filename)
 			this.showAppsSidebar()
 		},
 
 		showAppsSidebar() {
 			this.isSidebarShown = true
-			setTimeout(() => {
-				const sidebar = document.getElementById('app-sidebar')
-				if (sidebar) {
-					sidebar.classList.add('app-sidebar--full')
-					this.sidebarWidth = sidebar.offsetWidth
-				}
-			}, 150)
+			const sidebar = document.getElementById('app-sidebar')
+			if (sidebar) {
+				sidebar.classList.add('app-sidebar--full')
+				this.sidebarWidth = sidebar.offsetWidth
+			}
 		},
 
 		hideAppsSidebar() {
