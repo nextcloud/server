@@ -29,6 +29,7 @@
  */
 namespace OC\Setup;
 
+use OC\DatabaseSetupException;
 use OC\DB\MySqlTools;
 use OCP\IDBConnection;
 use OCP\ILogger;
@@ -39,6 +40,20 @@ class MySQL extends AbstractDatabase {
 	public function setupDatabase($username) {
 		//check if the database user has admin right
 		$connection = $this->connect(['dbname' => null]);
+
+		$result = $connection->query('SHOW VARIABLES LIKE "version" ;');
+		$row = $result->fetch();
+		$version = strtolower($row['Value']);
+
+		if (strpos($version, 'mariadb') !== false) {
+			if (version_compare($version, '10.4', '>=')) {
+				throw new DatabaseSetupException(sprintf('Unsupported MariaDB version %s, Nextcloud 16 requires a version lower than 10.4', $row['Value']));
+			}
+		} {
+			if (version_compare($version, '8', '>=')) {
+				throw new DatabaseSetupException(sprintf('Unsupported MySQL version %s, Nextcloud 16 requires a version lower than 8.0', $row['Value']));
+			}
+		}
 
 		// detect mb4
 		$tools = new MySqlTools();
@@ -55,6 +70,16 @@ class MySQL extends AbstractDatabase {
 		//fill the database if needed
 		$query='select count(*) from information_schema.tables where table_schema=? AND table_name = ?';
 		$connection->executeQuery($query, [$this->dbName, $this->tablePrefix.'users']);
+
+		$connection->close();
+		$connection = $this->connect();
+		try {
+			$connection->connect();
+		} catch (\Exception $e) {
+			$this->logger->logException($e);
+			throw new \OC\DatabaseSetupException($this->trans->t('MySQL username and/or password not valid'),
+				$this->trans->t('You need to enter details of an existing account.'));
+		}
 	}
 
 	/**
@@ -100,9 +125,10 @@ class MySQL extends AbstractDatabase {
 			$password = $this->dbPassword;
 			// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
 			// the anonymous user would take precedence when there is one.
-			$query = "CREATE USER '$name'@'localhost' IDENTIFIED WITH mysql_native_password BY '$password'";
+
+			$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
 			$connection->executeUpdate($query);
-			$query = "CREATE USER '$name'@'%' IDENTIFIED WITH mysql_native_password BY '$password'";
+			$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 			$connection->executeUpdate($query);
 		}
 		catch (\Exception $ex){
