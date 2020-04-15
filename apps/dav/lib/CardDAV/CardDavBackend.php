@@ -501,7 +501,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
 			$row['etag'] = '"' . $row['etag'] . '"';
-			$row['carddata'] = $this->readBlob($row['carddata']);
+
+			$modified = false;
+			$row['carddata'] = $this->readBlob($row['carddata'], $modified);
+			if ($modified) {
+				$row['size'] = strlen($row['carddata']);
+			}
+
 			$cards[] = $row;
 		}
 		$result->closeCursor();
@@ -535,7 +541,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			return false;
 		}
 		$row['etag'] = '"' . $row['etag'] . '"';
-		$row['carddata'] = $this->readBlob($row['carddata']);
+
+		$modified = false;
+		$row['carddata'] = $this->readBlob($row['carddata'], $modified);
+		if ($modified) {
+			$row['size'] = strlen($row['carddata']);
+		}
 
 		return $row;
 	}
@@ -572,7 +583,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			while ($row = $result->fetch()) {
 				$row['etag'] = '"' . $row['etag'] . '"';
-				$row['carddata'] = $this->readBlob($row['carddata']);
+
+				$modified = false;
+				$row['carddata'] = $this->readBlob($row['carddata'], $modified);
+				if ($modified) {
+					$row['size'] = strlen($row['carddata']);
+				}
+
 				$cards[] = $row;
 			}
 			$result->closeCursor();
@@ -872,7 +889,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		]);
 	}
 
-	private function readBlob($cardData) {
+	/**
+	 * @param resource|string $cardData
+	 * @param bool $modified
+	 * @return string
+	 */
+	private function readBlob($cardData, &$modified=false) {
 		if (is_resource($cardData)) {
 			$cardData = stream_get_contents($cardData);
 		}
@@ -886,6 +908,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				&& strpos($line, 'PHOTO:data:image/') !== 0) {
 				// Filter out PHOTO data of non-images
 				$removingPhoto = true;
+				$modified = true;
 				continue;
 			}
 
@@ -952,7 +975,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result->closeCursor();
 
 		return array_map(function ($array) {
-			$array['carddata'] = $this->readBlob($array['carddata']);
+			$modified = false;
+			$array['carddata'] = $this->readBlob($array['carddata'], $modified);
+			if ($modified) {
+				$array['size'] = strlen($array['carddata']);
+			}
 			return $array;
 		}, $cards);
 	}
@@ -1017,8 +1044,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$queryResult->closeCursor();
 
 		if (is_array($contact)) {
+			$modified = false;
 			$contact['etag'] = '"' . $contact['etag'] . '"';
-			$contact['carddata'] = $this->readBlob($contact['carddata']);
+			$contact['carddata'] = $this->readBlob($contact['carddata'], $modified);
+			if ($modified) {
+				$contact['size'] = strlen($contact['carddata']);
+			}
+
 			$result = $contact;
 		}
 
