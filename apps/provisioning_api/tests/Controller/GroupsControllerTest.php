@@ -558,7 +558,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$this->userManager->expects($this->any())
 			->method('get')
-			->willReturnCallback(function(string $uid) use ($users) {
+			->willReturnCallback(function (string $uid) use ($users) {
 				return isset($users[$uid]) ? $users[$uid] : null;
 			});
 
