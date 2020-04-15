@@ -60,7 +60,7 @@ interface ILDAPWrapper {
 	 * @param string $cookie structure sent by LDAP server
 	 * @return bool true on success, false otherwise
 	 */
-	public function controlPagedResult($link, $pageSize, $isCritical, $cookie);
+	public function controlPagedResult($link, $pageSize, $isCritical);
 
 	/**
 	 * Retrieve the LDAP pagination cookie

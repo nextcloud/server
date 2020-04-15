@@ -148,7 +148,7 @@ class CheckUser extends Command {
 			$attrs = $access->userManager->getAttributes();
 			$user = $access->userManager->get($uid);
 			$avatarAttributes = $access->getConnection()->resolveRule('avatar');
-			$result = $access->search('objectclass=*', [$user->getDN()], $attrs, 1, 0);
+			$result = $access->search('objectclass=*', $user->getDN(), $attrs, 1, 0);
 			foreach ($result[0] as $attribute => $valueSet) {
 				$output->writeln('  ' . $attribute . ': ');
 				foreach ($valueSet as $value) {
