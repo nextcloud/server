@@ -98,7 +98,7 @@ describe('See shared folder with link share', function() {
 
 	it('See the menu icon and title on the viewer header', function() {
 		cy.get('#viewer-content .modal-title').should('contain', 'image1.jpg')
-		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('not.be.visible')
+		cy.get('#viewer-content .modal-header button.icon-info-white-forced').should('not.be.visible')
 		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
 	})
 
