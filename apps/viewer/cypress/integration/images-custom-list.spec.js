@@ -98,7 +98,7 @@ describe('Open custom images list in viewer', function() {
 
 	it('See the menu icon and title on the viewer header', function() {
 		cy.get('#viewer-content .modal-title').should('contain', 'image1.jpg')
-		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
+		cy.get('#viewer-content .modal-header button.icon-info-white-forced').should('be.visible')
 		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
 	})
 
@@ -139,7 +139,7 @@ describe('Open custom images list in viewer', function() {
 
 	it('See the menu icon and title on the viewer header', function() {
 		cy.get('#viewer-content .modal-title').should('contain', 'image3.jpg')
-		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
+		cy.get('#viewer-content .modal-header button.icon-info-white-forced').should('be.visible')
 		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
 	})
 
@@ -173,7 +173,7 @@ describe('Open custom images list in viewer', function() {
 
 	it('See the menu icon and title on the viewer header', function() {
 		cy.get('#viewer-content .modal-title').should('contain', 'image1.jpg')
-		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
+		cy.get('#viewer-content .modal-header button.icon-info-white-forced').should('be.visible')
 		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
 	})
 
