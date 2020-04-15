@@ -134,9 +134,9 @@ class CredentialsManagerTest extends \Test\TestCase {
 				'privateCredentials'
 			],
 			[
-				null,
-				'systemCredentials'
-			]
+				'',
+				'systemCredentials',
+			],
 		];
 	}
 }
