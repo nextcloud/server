@@ -27,6 +27,9 @@ use \OCP\Security\ICrypto;
 use \OCP\IDBConnection;
 use \OC\Security\CredentialsManager;
 
+/**
+ * @group DB
+ */
 class CredentialsManagerTest extends \Test\TestCase {
 
 	/** @var ICrypto */
