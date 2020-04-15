@@ -859,9 +859,12 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if (!$target) {
 			return 0;
 		}
-		list($count, $result) = \OC_Helper::streamCopy($stream, $target);
-		fclose($stream);
-		fclose($target);
+		try {
+			[$count, $result] = \OC_Helper::streamCopy($stream, $target);
+		} finally {
+			fclose($target);
+			fclose($stream);
+		}
 		return $count;
 	}
 }
