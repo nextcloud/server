@@ -294,7 +294,7 @@ class Manager implements IManager {
 		$isFederatedShare = $share->getNode()->getStorage()->instanceOfStorage('\OCA\Files_Sharing\External\Storage');
 		$permissions = 0;
 		$mount = $share->getNode()->getMountPoint();
-		if (!$isFederatedShare && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
+		if (!$isFederatedShare && $share->getNode()->getOwner() && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
 			// When it's a reshare use the parent share permissions as maximum
 			$userMountPointId = $mount->getStorageRootId();
 			$userMountPoints = $userFolder->getById($userMountPointId);
@@ -632,7 +632,11 @@ class Manager implements IManager {
 			}
 			$share->setShareOwner($parent->getOwner()->getUID());
 		} else {
-			$share->setShareOwner($share->getNode()->getOwner()->getUID());
+			if ($share->getNode()->getOwner()) {
+				$share->setShareOwner($share->getNode()->getOwner()->getUID());
+			} else {
+				$share->setShareOwner($share->getSharedBy());
+			}
 		}
 
 		//Verify share type
