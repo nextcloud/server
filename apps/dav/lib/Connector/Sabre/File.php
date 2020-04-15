@@ -41,6 +41,7 @@ namespace OCA\DAV\Connector\Sabre;
 use Icewind\Streams\CallbackWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Files\Filesystem;
+use OC\Files\Stream\HashWrapper;
 use OC\Files\View;
 use OCA\DAV\Connector\Sabre\Exception\EntityTooLarge;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
@@ -173,16 +174,26 @@ class File extends Node implements IFile {
 				$this->changeLock(ILockingProvider::LOCK_EXCLUSIVE);
 			}
 
-			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
-				if (!is_resource($data)) {
-					$tmpData = fopen('php://temp', 'r+');
-					if ($data !== null) {
-						fwrite($tmpData, $data);
-						rewind($tmpData);
-					}
-					$data = $tmpData;
+			if (!is_resource($data)) {
+				$tmpData = fopen('php://temp', 'r+');
+				if ($data !== null) {
+					fwrite($tmpData, $data);
+					rewind($tmpData);
 				}
+				$data = $tmpData;
+			}
 
+			$data = HashWrapper::wrap($data, 'md5', function ($hash) {
+				$this->header('X-Hash-MD5: ' . $hash);
+			});
+			$data = HashWrapper::wrap($data, 'sha1', function ($hash) {
+				$this->header('X-Hash-SHA1: ' . $hash);
+			});
+			$data = HashWrapper::wrap($data, 'sha256', function ($hash) {
+				$this->header('X-Hash-SHA256: ' . $hash);
+			});
+
+			if ($partStorage->instanceOfStorage(Storage\IWriteStreamStorage::class)) {
 				$isEOF = false;
 				$wrappedData = CallbackWrapper::wrap($data, null, null, null, null, function ($stream) use (&$isEOF) {
 					$isEOF = feof($stream);
@@ -665,6 +676,8 @@ class File extends Node implements IFile {
 	}
 
 	protected function header($string) {
-		\header($string);
+		if (!\OC::$CLI) {
+			\header($string);
+		}
 	}
 }
