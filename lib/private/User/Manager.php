@@ -188,7 +188,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function userExists($uid) {
 		$user = $this->get($uid);
-		return $user !== null && $user->getUID() === $uid;
+		return ($user !== null);
 	}
 
 	/**
