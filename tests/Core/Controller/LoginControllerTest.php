@@ -475,7 +475,7 @@ class LoginControllerTest extends TestCase {
 			->method('getUID')
 			->will($this->returnValue('jane'));
 		$password = 'secret';
-		$originalUrl = 'another%20url';
+		$originalUrl = 'another url';
 		$redirectUrl = 'http://localhost/another url';
 
 		$this->request
@@ -517,7 +517,7 @@ class LoginControllerTest extends TestCase {
 			$this->request,
 			$user,
 			$password,
-			'%2Fapps%2Fmail'
+			'/apps/mail'
 		);
 		$loginResult = LoginResult::success($loginData);
 		$this->chain->expects($this->once())
@@ -533,7 +533,7 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue($redirectUrl));
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($redirectUrl);
 
-		$response = $this->loginController->tryLogin($user, $password, '%2Fapps%2Fmail');
+		$response = $this->loginController->tryLogin($user, $password, '/apps/mail');
 
 		$this->assertEquals($expected, $response);
 	}
