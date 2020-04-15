@@ -32,6 +32,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\Http\Client\IClientService;
+use OCP\Http\Client\LocalServerException;
 use OCP\IConfig;
 use OCP\ILogger;
 use Psr\Http\Message\RequestInterface;
@@ -215,48 +216,15 @@ class RefreshWebcalService {
 			return null;
 		}
 
-		if ($allowLocalAccess !== 'yes') {
-			$host = strtolower(parse_url($url, PHP_URL_HOST));
-			// remove brackets from IPv6 addresses
-			if (strpos($host, '[') === 0 && substr($host, -1) === ']') {
-				$host = substr($host, 1, -1);
-			}
-
-			// Disallow localhost and local network
-			if ($host === 'localhost' || substr($host, -6) === '.local' || substr($host, -10) === '.localhost') {
-				$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
-				return null;
-			}
-
-			// Disallow hostname only
-			if (substr_count($host, '.') === 0) {
-				$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
-				return null;
-			}
-
-			if ((bool)filter_var($host, FILTER_VALIDATE_IP) && !filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-				$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
-				return null;
-			}
-
-			// Also check for IPv6 IPv4 nesting, because that's not covered by filter_var
-			if ((bool)filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && substr_count($host, '.') > 0) {
-				$delimiter = strrpos($host, ':'); // Get last colon
-				$ipv4Address = substr($host, $delimiter + 1);
-
-				if (!filter_var($ipv4Address, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-					$this->logger->warning("Subscription $subscriptionId was not refreshed because it violates local access rules");
-					return null;
-				}
-			}
-		}
-
 		try {
 			$params = [
 				'allow_redirects' => [
 					'redirects' => 10
 				],
 				'handler' => $handlerStack,
+				'nextcloud' => [
+					'allow_local_address' => $allowLocalAccess === 'yes',
+				]
 			];
 
 			$user = parse_url($subscription['source'], PHP_URL_USER);
@@ -306,9 +274,18 @@ class RefreshWebcalService {
 					}
 					return $vCalendar->serialize();
 			}
+		} catch (LocalServerException $ex) {
+			$this->logger->logException($ex, [
+				'message' => "Subscription $subscriptionId was not refreshed because it violates local access rules",
+				'level' => ILogger::WARN,
+			]);
+
+			return null;
 		} catch (Exception $ex) {
-			$this->logger->logException($ex);
-			$this->logger->warning("Subscription $subscriptionId could not be refreshed due to a network error");
+			$this->logger->logException($ex, [
+				'message' => "Subscription $subscriptionId could not be refreshed due to a network error",
+				'level' => ILogger::WARN,
+			]);
 
 			return null;
 		}

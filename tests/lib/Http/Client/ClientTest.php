@@ -11,33 +11,38 @@ namespace Test\Http\Client;
 use GuzzleHttp\Psr7\Response;
 use OC\Http\Client\Client;
 use OC\Security\CertificateManager;
+use OCP\Http\Client\LocalServerException;
 use OCP\ICertificateManager;
 use OCP\IConfig;
+use OCP\ILogger;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ClientTest
  */
 class ClientTest extends \Test\TestCase {
-	/** @var \GuzzleHttp\Client|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \GuzzleHttp\Client|MockObject */
 	private $guzzleClient;
-	/** @var CertificateManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var CertificateManager|MockObject */
 	private $certificateManager;
 	/** @var Client */
 	private $client;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
+	/** @var ILogger|MockObject */
+	private $logger;
 	/** @var array */
 	private $defaultRequestOptions;
 
 	protected function setUp(): void {
 		parent::setUp();
 		$this->config = $this->createMock(IConfig::class);
-		$this->guzzleClient = $this->getMockBuilder(\GuzzleHttp\Client::class)
-			->disableOriginalConstructor()
-			->getMock();
+		$this->logger = $this->createMock(ILogger::class);
+		$this->guzzleClient = $this->createMock(\GuzzleHttp\Client::class);
 		$this->certificateManager = $this->createMock(ICertificateManager::class);
 		$this->client = new Client(
 			$this->config,
+			$this->logger,
 			$this->certificateManager,
 			$this->guzzleClient
 		);
@@ -149,19 +154,127 @@ class ClientTest extends \Test\TestCase {
 		], self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
+	public function dataPreventLocalAddress():array {
+		return [
+			['localhost/foo.bar'],
+			['localHost/foo.bar'],
+			['random-host/foo.bar'],
+			['[::1]/bla.blub'],
+			['[::]/bla.blub'],
+			['192.168.0.1'],
+			['172.16.42.1'],
+			['[fdf8:f53b:82e4::53]/secret.ics'],
+			['[fe80::200:5aee:feaa:20a2]/secret.ics'],
+			['[0:0:0:0:0:0:10.0.0.1]/secret.ics'],
+			['[0:0:0:0:0:ffff:127.0.0.0]/secret.ics'],
+			['10.0.0.1'],
+			['another-host.local'],
+			['service.localhost'],
+			['!@#$'], // test invalid url
+		];
+	}
+
+	/**
+	 * @dataProvider dataPreventLocalAddress
+	 * @param string $uri
+	 */
+	public function testPreventLocalAddress(string $uri): void {
+		$this->expectException(LocalServerException::class);
+		self::invokePrivate($this->client, 'preventLocalAddress', ['http://' . $uri, []]);
+	}
+
+	/**
+	 * @dataProvider dataPreventLocalAddress
+	 * @param string $uri
+	 */
+	public function testPreventLocalAddressDisabledByGlobalConfig(string $uri): void {
+		$this->config->expects($this->once())
+			->method('getSystemValueBool')
+			->with('allow_local_remote_servers', false)
+			->willReturn(true);
+
+//		$this->expectException(LocalServerException::class);
+
+		self::invokePrivate($this->client, 'preventLocalAddress', ['http://' . $uri, []]);
+	}
+
+	/**
+	 * @dataProvider dataPreventLocalAddress
+	 * @param string $uri
+	 */
+	public function testPreventLocalAddressDisabledByOption(string $uri): void {
+		$this->config->expects($this->never())
+			->method('getSystemValueBool');
+
+//		$this->expectException(LocalServerException::class);
+
+		self::invokePrivate($this->client, 'preventLocalAddress', ['http://' . $uri, [
+			'nextcloud' => ['allow_local_address' => true],
+		]]);
+	}
+
+	/**
+	 * @dataProvider dataPreventLocalAddress
+	 * @param string $uri
+	 */
+	public function testPreventLocalAddressOnGet(string $uri): void {
+		$this->expectException(LocalServerException::class);
+		$this->client->get('http://' . $uri);
+	}
+
+	/**
+	 * @dataProvider dataPreventLocalAddress
+	 * @param string $uri
+	 */
+	public function testPreventLocalAddressOnHead(string $uri): void {
+		$this->expectException(LocalServerException::class);
+		$this->client->head('http://' . $uri);
+	}
+
+	/**
+	 * @dataProvider dataPreventLocalAddress
+	 * @param string $uri
+	 */
+	public function testPreventLocalAddressOnPost(string $uri): void {
+		$this->expectException(LocalServerException::class);
+		$this->client->post('http://' . $uri);
+	}
+
+	/**
+	 * @dataProvider dataPreventLocalAddress
+	 * @param string $uri
+	 */
+	public function testPreventLocalAddressOnPut(string $uri): void {
+		$this->expectException(LocalServerException::class);
+		$this->client->put('http://' . $uri);
+	}
+
+	/**
+	 * @dataProvider dataPreventLocalAddress
+	 * @param string $uri
+	 */
+	public function testPreventLocalAddressOnDelete(string $uri): void {
+		$this->expectException(LocalServerException::class);
+		$this->client->delete('http://' . $uri);
+	}
+
 	private function setUpDefaultRequestOptions(): void {
+		$this->config->expects($this->once())
+			->method('getSystemValueBool')
+			->with('allow_local_remote_servers', false)
+			->willReturn(true);
 		$this->config
-			->expects($this->at(0))
+			->expects($this->at(1))
 			->method('getSystemValue')
 			->with('proxy', null)
 			->willReturn('foo');
 		$this->config
-			->expects($this->at(1))
+			->expects($this->at(2))
 			->method('getSystemValue')
 			->with('proxyuserpwd', null)
 			->willReturn(null);
 		$this->config
-			->expects($this->at(2))
+			->expects($this->at(3))
 			->method('getSystemValue')
 			->with('proxyexclude', [])
 			->willReturn([]);

@@ -31,6 +31,7 @@ use OCA\DAV\CalDAV\WebcalCaching\RefreshWebcalService;
 use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
+use OCP\Http\Client\LocalServerException;
 use OCP\IConfig;
 use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -170,8 +171,12 @@ class RefreshWebcalServiceTest extends TestCase {
 	 * @param string $source
 	 */
 	public function testRunLocalURL($source) {
-		$refreshWebcalService = new RefreshWebcalService($this->caldavBackend,
-			$this->clientService, $this->config, $this->logger);
+		$refreshWebcalService = new RefreshWebcalService(
+			$this->caldavBackend,
+			$this->clientService,
+			$this->config,
+			$this->logger
+		);
 
 		$this->caldavBackend->expects($this->once())
 			->method('getSubscriptionsForUser')
@@ -199,8 +204,13 @@ class RefreshWebcalServiceTest extends TestCase {
 			->with('dav', 'webcalAllowLocalAccess', 'no')
 			->willReturn('no');
 
-		$client->expects($this->never())
-			->method('get');
+		$client->expects($this->once())
+			->method('get')
+			->willThrowException(new LocalServerException());
+
+		$this->logger->expects($this->once())
+			->method('logException')
+			->with($this->isInstanceOf(LocalServerException::class), $this->anything());
 
 		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
@@ -221,7 +231,42 @@ class RefreshWebcalServiceTest extends TestCase {
 			['10.0.0.1'],
 			['another-host.local'],
 			['service.localhost'],
-			['!@#$'], // test invalid url
 		];
+	}
+
+	public function testInvalidUrl() {
+		$refreshWebcalService = new RefreshWebcalService($this->caldavBackend,
+			$this->clientService, $this->config, $this->logger);
+
+		$this->caldavBackend->expects($this->once())
+			->method('getSubscriptionsForUser')
+			->with('principals/users/testuser')
+			->willReturn([
+				[
+					'id' => 42,
+					'uri' => 'sub123',
+					'refreshreate' => 'P1H',
+					'striptodos' => 1,
+					'stripalarms' => 1,
+					'stripattachments' => 1,
+					'source' => '!@#$'
+				],
+			]);
+
+		$client = $this->createMock(IClient::class);
+		$this->clientService->expects($this->once())
+			->method('newClient')
+			->with()
+			->willReturn($client);
+
+		$this->config->expects($this->once())
+			->method('getAppValue')
+			->with('dav', 'webcalAllowLocalAccess', 'no')
+			->willReturn('no');
+
+		$client->expects($this->never())
+			->method('get');
+
+		$refreshWebcalService->refreshSubscription('principals/users/testuser', 'sub123');
 	}
 }

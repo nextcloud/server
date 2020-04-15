@@ -352,6 +352,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Http\\Client\\IClient' => __DIR__ . '/../../..' . '/lib/public/Http/Client/IClient.php',
         'OCP\\Http\\Client\\IClientService' => __DIR__ . '/../../..' . '/lib/public/Http/Client/IClientService.php',
         'OCP\\Http\\Client\\IResponse' => __DIR__ . '/../../..' . '/lib/public/Http/Client/IResponse.php',
+        'OCP\\Http\\Client\\LocalServerException' => __DIR__ . '/../../..' . '/lib/public/Http/Client/LocalServerException.php',
         'OCP\\IAddressBook' => __DIR__ . '/../../..' . '/lib/public/IAddressBook.php',
         'OCP\\IAppConfig' => __DIR__ . '/../../..' . '/lib/public/IAppConfig.php',
         'OCP\\IAvatar' => __DIR__ . '/../../..' . '/lib/public/IAvatar.php',
