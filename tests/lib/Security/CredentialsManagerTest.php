@@ -27,6 +27,9 @@ use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Security\ICrypto;
 
+/**
+ * @group DB
+ */
 class CredentialsManagerTest extends \Test\TestCase {
 
 	/** @var ICrypto */
@@ -105,5 +108,35 @@ class CredentialsManagerTest extends \Test\TestCase {
 			->willReturn($qb);
 
 		$this->manager->retrieve($userId, $identifier);
+	}
+
+	/**
+	 * @dataProvider credentialsProvider
+	 */
+	public function testWithDB($userId, $identifier) {
+		$credentialsManager = \OC::$server->getCredentialsManager();
+
+		$secrets = 'Open Sesame';
+
+		$credentialsManager->store($userId, $identifier, $secrets);
+		$received = $credentialsManager->retrieve($userId, $identifier);
+
+		$this->assertSame($secrets, $received);
+
+		$removedRows = $credentialsManager->delete($userId, $identifier);
+		$this->assertSame(1, $removedRows);
+	}
+
+	public function credentialsProvider() {
+		return [
+			[
+				'alice',
+				'privateCredentials'
+			],
+			[
+				'',
+				'systemCredentials',
+			],
+		];
 	}
 }
