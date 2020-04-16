@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Ett fel uppstod. Kan inte acceptera delningen.",
     "Reject share" : "Avvisa delning",
     "Something happened. Unable to reject the share." : "Ett fel uppstod. Kan inte avvisa delningen.",
+    "Waiting…" : "Väntar...",
     "error" : "fel",
     "finished" : "klar",
     "This will stop your current uploads." : "Detta kommer att stoppa nuvarande uppladdningar.",

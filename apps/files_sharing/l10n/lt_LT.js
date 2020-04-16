@@ -98,6 +98,7 @@ OC.L10N.register(
     "Please specify a valid user" : "Nurodykite naudotoją",
     "Group sharing is disabled by the administrator" : "Administratorius išjungė bendrinimą su grupėmis",
     "Please specify a valid group" : "Nurodykite teisingą grupę",
+    "Public link sharing is disabled by the administrator" : "Administratorius išjungė bendrinimą per viešąsias nuorodas",
     "Public upload disabled by the administrator" : "Įkėlimas viešam naudojimui yra išjungtas",
     "Public upload is only possible for publicly shared folders" : "Duomenų įkėlimas viešam naudojimui galimas tik į viešai dalinamus aplankus",
     "Invalid date, date format must be YYYY-MM-DD" : "Netinkamas datos formavimas. Privaloma: YYYY-MM-DD",
