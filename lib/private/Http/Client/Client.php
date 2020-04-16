@@ -57,7 +57,7 @@ class Client implements IClient {
 	/** @var ICertificateManager */
 	private $certificateManager;
 	private IRemoteHostValidator $remoteHostValidator;
-	/** @var CookieJarInterface */
+	/** @var CookieJarInterface|null */
 	private $cookieJar;
 
 	public function __construct(
@@ -65,7 +65,7 @@ class Client implements IClient {
 		ICertificateManager $certificateManager,
 		GuzzleClient $client,
 		IRemoteHostValidator $remoteHostValidator,
-		?CookieJarInterface $cookieJar
+		?CookieJarInterface $cookieJar = null
 	) {
 		$this->config = $config;
 		$this->client = $client;
@@ -413,11 +413,6 @@ class Client implements IClient {
 		return new Response($response);
 	}
 
-	/**
-	 * Returns
-	 *
-	 * @return CookieJarInterface
-	 */
 	public function getCookieJar(): ?CookieJarInterface {
 		return $this->cookieJar;
 	}
