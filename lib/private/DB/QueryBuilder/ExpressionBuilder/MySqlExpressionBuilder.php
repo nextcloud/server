@@ -52,12 +52,4 @@ class MySqlExpressionBuilder extends ExpressionBuilder {
 		$y = $this->helper->quoteColumnName($y);
 		return $this->expressionBuilder->comparison($x, ' COLLATE ' . $this->charset . '_general_ci LIKE', $y);
 	}
-
-	public function eq($x, $y, $type = null) {
-		return 'BINARY ' . parent::eq($x, $y, $type);
-	}
-
-	public function neq($x, $y, $type = null) {
-		return 'BINARY ' . parent::neq($x, $y, $type);
-	}
 }
