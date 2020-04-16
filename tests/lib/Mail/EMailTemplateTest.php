@@ -27,6 +27,7 @@ use OC\Mail\EMailTemplate;
 use OCP\Defaults;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use Test\TestCase;
 
 class EMailTemplateTest extends TestCase {
@@ -34,7 +35,7 @@ class EMailTemplateTest extends TestCase {
 	private $defaults;
 	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10n;
 	/** @var EMailTemplate */
 	private $emailTemplate;
@@ -44,7 +45,11 @@ class EMailTemplateTest extends TestCase {
 
 		$this->defaults = $this->createMock(Defaults::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
-		$this->l10n = $this->createMock(IL10N::class);
+		$this->l10n = $this->createMock(IFactory::class);
+
+		$this->l10n->method('get')
+			->with('lib', '')
+			->willReturn($this->createMock(IL10N::class));
 
 		$this->emailTemplate = new EMailTemplate(
 			$this->defaults,

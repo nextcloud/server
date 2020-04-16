@@ -20,6 +20,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use OCP\Mail\Events\BeforeMessageSent;
 use Test\TestCase;
 use Swift_SwiftException;
@@ -56,7 +57,8 @@ class MailerTest extends TestCase {
 			$this->defaults,
 			$this->urlGenerator,
 			$this->l10n,
-			$this->dispatcher
+			$this->dispatcher,
+			$this->createMock(IFactory::class)
 		);
 	}
 
@@ -153,7 +155,7 @@ class MailerTest extends TestCase {
 		$this->assertInstanceOf('\OC\Mail\Message', $this->mailer->createMessage());
 	}
 
-	
+
 	public function testSendInvalidMailException() {
 		$this->expectException(\Exception::class);
 
