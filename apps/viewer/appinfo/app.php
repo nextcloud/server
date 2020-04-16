@@ -23,4 +23,5 @@
 
 namespace OCA\Viewer\AppInfo;
 
-\OC::$server->query(\OCA\Viewer\AppInfo\Application::class);
+$app = \OC::$server->query(\OCA\Viewer\AppInfo\Application::class);
+$app->register();

@@ -35,10 +35,15 @@ class Application extends App {
 
 	public function __construct() {
 		parent::__construct(self::APP_ID);
-		
-		// listen to sidebar loading event
+	}
+
+	public function register() {
 		$server = $this->getContainer()->getServer();
+
+		/** @var IEventDispatcher $eventDispatcher */
 		$eventDispatcher = $server->query(IEventDispatcher::class);
+
+		// Watch Viewer load event
 		$eventDispatcher->addServiceListener(LoadViewer::class, LoadViewerScript::class);
 	}
 }
