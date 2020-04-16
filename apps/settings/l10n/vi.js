@@ -211,6 +211,7 @@ OC.L10N.register(
     "Disabled apps" : "Ứng dụng vô hiệu hóa",
     "Updates" : "Cập nhật",
     "App bundles" : "Gói ứng dụng",
+    "Featured apps" : "Các ứng dụng đề xuất",
     "New user" : "Người dùng mới",
     "Add group" : "Thêm nhóm",
     "Everyone" : "Tất cả mọi người",
