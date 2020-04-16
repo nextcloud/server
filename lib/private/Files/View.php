@@ -423,7 +423,7 @@ class View {
 		@ob_end_clean();
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
-			$chunkSize = 8192; // 8 kB chunks
+			$chunkSize = 524288; // 512 kB chunks
 			while (!feof($handle)) {
 				echo fread($handle, $chunkSize);
 				flush();
@@ -447,7 +447,7 @@ class View {
 		@ob_end_clean();
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
-			$chunkSize = 8192; // 8 kB chunks
+			$chunkSize = 524288; // 512 kB chunks
 			$startReading = true;
 
 			if ($from !== 0 && $from !== '0' && fseek($handle, $from) !== 0) {
