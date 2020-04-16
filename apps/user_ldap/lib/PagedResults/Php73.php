@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
@@ -50,7 +51,7 @@ class Php73 implements IAdapter {
 		$link = array_shift($originalArgs);
 		$linkId = $this->getLinkId($link);
 
-		if(!isset($this->linkData[$linkId])) {
+		if (!isset($this->linkData[$linkId])) {
 			$this->linkData[$linkId] = [];
 		}
 
@@ -85,7 +86,7 @@ class Php73 implements IAdapter {
 
 	public function setRequestParameters($link, int $pageSize, bool $isCritical): void {
 		$linkId = $this->getLinkId($link);
-		if(!isset($this->linkData[$linkId])) {
+		if (!isset($this->linkData[$linkId])) {
 			$this->linkData[$linkId] = [];
 		}
 		$this->linkData[$linkId]['requestArgs'] = [];
@@ -112,7 +113,7 @@ class Php73 implements IAdapter {
 		int $limit
 	): void {
 		$linkId = $this->getLinkId($link);
-		if(!isset($this->linkData[$linkId])) {
+		if (!isset($this->linkData[$linkId])) {
 			$this->linkData[$linkId] = [];
 		}
 
@@ -127,7 +128,7 @@ class Php73 implements IAdapter {
 
 	public function setReadArgs($link, string $baseDN, string $filter, array $attr): void {
 		$linkId = $this->getLinkId($link);
-		if(!isset($this->linkData[$linkId])) {
+		if (!isset($this->linkData[$linkId])) {
 			$this->linkData[$linkId] = [];
 		}
 
@@ -143,7 +144,7 @@ class Php73 implements IAdapter {
 	}
 
 	protected function preparePagesResultsArgs(int $linkId, string $methodKey): void {
-		if(!isset($this->linkData[$linkId]['requestArgs'])) {
+		if (!isset($this->linkData[$linkId]['requestArgs'])) {
 			return;
 		}
 

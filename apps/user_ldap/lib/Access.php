@@ -74,7 +74,7 @@ class Access extends LDAPUtility {
 	protected $pagedSearchedSuccessful;
 
 	/**
-	protected $cookies = [];
+	 * protected $cookies = [];
 	 * @var AbstractMapping $userMapper
 	 */
 	protected $userMapper;
@@ -1174,7 +1174,7 @@ class Access extends LDAPUtility {
 		$sr = $this->invokeLDAPMethod('search', $cr, $base, $filter, $attr);
 		// cannot use $cr anymore, might have changed in the previous call!
 		$error = $this->ldap->errno($this->connection->getConnectionResource());
-		if(!$this->ldap->isResource($sr) || $error !== 0) {
+		if (!$this->ldap->isResource($sr) || $error !== 0) {
 			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), ILogger::ERROR);
 			return false;
 		}
@@ -1204,7 +1204,7 @@ class Access extends LDAPUtility {
 		$cookie = null;
 		if ($pagedSearchOK) {
 			$cr = $this->connection->getConnectionResource();
-			if($this->ldap->controlPagedResultResponse($cr, $sr, $cookie)) {
+			if ($this->ldap->controlPagedResultResponse($cr, $sr, $cookie)) {
 				$this->lastCookie = $cookie;
 			}
 
@@ -1215,7 +1215,7 @@ class Access extends LDAPUtility {
 			// if count is bigger, then the server does not support
 			// paged search. Instead, he did a normal search. We set a
 			// flag here, so the callee knows how to deal with it.
-			if($foundItems <= $limit) {
+			if ($foundItems <= $limit) {
 				$this->pagedSearchedSuccessful = true;
 			}
 		} else {
@@ -1261,8 +1261,8 @@ class Access extends LDAPUtility {
 			'filter' => $filter
 		]);
 
-		if(!is_null($attr) && !is_array($attr)) {
-			$attr = array(mb_strtolower($attr, 'UTF-8'));
+		if (!is_null($attr) && !is_array($attr)) {
+			$attr = [mb_strtolower($attr, 'UTF-8')];
 		}
 
 		$limitPerPage = (int)$this->connection->ldapPagingSize;
@@ -1274,10 +1274,10 @@ class Access extends LDAPUtility {
 		$count = null;
 		$this->connection->getConnectionResource();
 
-		foreach($bases as $base) {
+		foreach ($bases as $base) {
 			do {
 				$search = $this->executeSearch($filter, $base, $attr, $limitPerPage, $offset);
-			if ($search === false) {
+				if ($search === false) {
 					return $counter > 0 ? $counter : false;
 				}
 				list($sr, $pagedSearchOK) = $search;
@@ -1295,7 +1295,7 @@ class Access extends LDAPUtility {
 				 * Continue now depends on $hasMorePages value
 				 */
 				$continue = $pagedSearchOK && $hasMorePages;
-		} while ($continue && (is_null($limit) || $limit <= 0 || $limit > $counter));
+			} while ($continue && (is_null($limit) || $limit <= 0 || $limit > $counter));
 		}
 
 		return $counter;
@@ -1328,7 +1328,7 @@ class Access extends LDAPUtility {
 			$limitPerPage = $limit;
 		}
 
-		if(!is_null($attr) && !is_array($attr)) {
+		if (!is_null($attr) && !is_array($attr)) {
 			$attr = [mb_strtolower($attr, 'UTF-8')];
 		}
 
@@ -1671,7 +1671,7 @@ class Access extends LDAPUtility {
 					break;
 				}
 			}
-			if(!isset($hasFound) || !$hasFound) {
+			if (!isset($hasFound) || !$hasFound) {
 				throw new \Exception('Cannot determine UUID attribute');
 			}
 		} else {
@@ -1962,7 +1962,7 @@ class Access extends LDAPUtility {
 	 * @throws ServerNotAvailableException
 	 */
 	private function abandonPagedSearch() {
-		if($this->lastCookie === '') {
+		if ($this->lastCookie === '') {
 			return;
 		}
 		$cr = $this->connection->getConnectionResource();
@@ -2033,14 +2033,14 @@ class Access extends LDAPUtility {
 				]
 			);
 			//get the cookie from the search for the previous search, required by LDAP
-			if(empty($this->lastCookie) && $this->lastCookie !== "0" && ($offset > 0)) {
+			if (empty($this->lastCookie) && $this->lastCookie !== "0" && ($offset > 0)) {
 				// no cookie known from a potential previous search. We need
 				// to start from 0 to come to the desired page. cookie value
 				// of '0' is valid, because 389ds
 				$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
 				$this->search($filter, $base, $attr, $limit, $reOffset, true);
 			}
-			if($this->lastCookie !== '' && $offset === 0) {
+			if ($this->lastCookie !== '' && $offset === 0) {
 				//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
 				$this->abandonPagedSearch();
 			}

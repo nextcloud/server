@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
@@ -24,12 +25,11 @@ declare(strict_types=1);
 
 namespace OCA\User_LDAP\PagedResults;
 
-
 trait TLinkId {
 	public function getLinkId($link) {
-		if(is_resource($link)) {
+		if (is_resource($link)) {
 			return (int)$link;
-		} else if(is_array($link) && isset($link[0]) && is_resource($link[0])) {
+		} elseif (is_array($link) && isset($link[0]) && is_resource($link[0])) {
 			return (int)$link[0];
 		}
 		throw new \RuntimeException('No resource provided');

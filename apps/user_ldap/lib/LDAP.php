@@ -45,7 +45,7 @@ class LDAP implements ILDAPWrapper {
 	protected $pagedResultsAdapter;
 
 	public function __construct() {
-		if(version_compare(PHP_VERSION, '7.3', '<') === true) {
+		if (version_compare(PHP_VERSION, '7.3', '<') === true) {
 			$this->pagedResultsAdapter = new Php54();
 		} else {
 			$this->pagedResultsAdapter = new Php73();
@@ -103,7 +103,7 @@ class LDAP implements ILDAPWrapper {
 	public function controlPagedResult($link, $pageSize, $isCritical) {
 		$fn = $this->pagedResultsAdapter->getRequestCallFunc();
 		$this->pagedResultsAdapter->setRequestParameters($link, $pageSize, $isCritical);
-		if($fn === null) {
+		if ($fn === null) {
 			return true;
 		}
 

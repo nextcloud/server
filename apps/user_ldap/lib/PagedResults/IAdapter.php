@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
@@ -126,5 +127,4 @@ interface IAdapter {
 	 * @return string
 	 */
 	public function getCookie($link): string;
-
 }
