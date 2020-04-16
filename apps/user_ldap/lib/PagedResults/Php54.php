@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2020 Arthur Schiwon <blizzz@arthur-schiwon.de>
@@ -48,7 +49,7 @@ class Php54 implements IAdapter {
 
 	public function getResponseCallArgs(array $originalArgs): array {
 		$linkId = $this->getLinkId($originalArgs[0]);
-		if(!isset($this->linkData[$linkId])) {
+		if (!isset($this->linkData[$linkId])) {
 			throw new \LogicException('There should be a request before the response');
 		}
 		$this->linkData[$linkId]['responseArgs'] = &$originalArgs;
@@ -68,7 +69,7 @@ class Php54 implements IAdapter {
 	public function setRequestParameters($link, int $pageSize, bool $isCritical): void {
 		$linkId = $this->getLinkId($link);
 
-		if($pageSize === 0 || !isset($this->linkData[$linkId]['cookie'])) {
+		if ($pageSize === 0 || !isset($this->linkData[$linkId]['cookie'])) {
 			// abandons a previous paged search
 			$this->linkData[$linkId]['cookie'] = '';
 		}
@@ -100,7 +101,7 @@ class Php54 implements IAdapter {
 		int $limit
 	): void {
 		$linkId = $this->getLinkId($link);
-		if(!isset($this->linkData[$linkId])) {
+		if (!isset($this->linkData[$linkId])) {
 			$this->linkData[$linkId] = [];
 		}
 		$this->linkData[$linkId]['searchArgs'] = func_get_args();
@@ -113,7 +114,7 @@ class Php54 implements IAdapter {
 
 	public function setReadArgs($link, string $baseDN, string $filter, array $attr): void {
 		$linkId = $this->getLinkId($link);
-		if(!isset($this->linkData[$linkId])) {
+		if (!isset($this->linkData[$linkId])) {
 			$this->linkData[$linkId] = [];
 		}
 		$this->linkData[$linkId]['readArgs'] = func_get_args();
