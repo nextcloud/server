@@ -14,7 +14,7 @@ const oauth2 = require('./apps/oauth2/webpack')
 const settings = require('./apps/settings/webpack')
 const systemtags = require('./apps/systemtags/webpack')
 const twofactor_backupscodes = require('./apps/twofactor_backupcodes/webpack')
-const updatenotifications = require('./apps/updatenotification/webpack')
+const updatenotification = require('./apps/updatenotification/webpack')
 const workflowengine = require('./apps/workflowengine/webpack')
 
 const modules = {
@@ -29,7 +29,7 @@ const modules = {
 	settings,
 	systemtags,
 	twofactor_backupscodes,
-	updatenotifications,
+	updatenotification,
 	workflowengine
 }
 
