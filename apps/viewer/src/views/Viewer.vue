@@ -111,6 +111,7 @@ import Vue from 'vue'
 import { extractFilePaths, sortCompare } from '../utils/fileUtils'
 import Error from '../components/Error'
 import File from '../models/file'
+import Mime from '../mixins/Mime'
 import getFileList from '../services/FileList'
 import getFileInfo from '../services/FileInfo'
 
@@ -481,6 +482,9 @@ export default {
 				console.error(`The following handler doesn't have a valid component`, handler)
 				return
 			}
+
+			// force apply mixin
+			handler.component.mixins = [...handler.component.mixins || [], Mime]
 
 			// parsing mimes registration
 			if (handler.mimes) {
