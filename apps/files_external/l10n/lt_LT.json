@@ -100,6 +100,7 @@
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Dalintis",
     "Show hidden files" : "Rodyti paslėptus failus",
+    "Timeout" : "Pasibaigė laikas",
     "SMB / CIFS using OC login" : "SMB / CIFS, naudojant OC prisijungimą",
     "Username as share" : "Dalinimosi vardas kaip ir vartotojo vardas",
     "OpenStack Object Storage" : "Objektų saugykla \"OpenStack\"",
