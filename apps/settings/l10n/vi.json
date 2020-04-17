@@ -149,7 +149,7 @@
     "Rename" : "Đổi tên",
     "Revoke" : "Thu hồi",
     "Wipe device" : "Xóa thiết bị",
-    "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Việc thu hồi mã thông báo này có thể ngăn việc xóa thiết bị của bạn nếu thiết bị chưa bắt đầu xóa.",
+    "Revoking this token might prevent the wiping of your device if it hasn't started the wipe yet." : "Việc thu hồi tín chỉ này có thể ngăn việc xóa thiết bị của bạn nếu thiết bị chưa bắt đầu xóa.",
     "This session" : "Phiên này",
     "Device" : "Thiết bị",
     "Last activity" : "Hoạt động cuối",
