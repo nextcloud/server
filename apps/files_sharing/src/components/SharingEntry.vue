@@ -92,6 +92,7 @@
 					:first-day-of-week="firstDay"
 					:lang="lang"
 					:value="share.expireDate"
+					value-type="format"
 					icon="icon-calendar-dark"
 					type="date"
 					:not-before="dateTomorrow"

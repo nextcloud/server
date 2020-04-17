@@ -104,6 +104,7 @@
 				:lang="lang"
 				icon=""
 				type="date"
+				value-type="format"
 				:not-before="dateTomorrow"
 				:not-after="dateMaxEnforced">
 				<!-- let's not submit when picked, the user
@@ -227,6 +228,7 @@
 						:first-day-of-week="firstDay"
 						:lang="lang"
 						:value="share.expireDate"
+						value-type="format"
 						icon="icon-calendar-dark"
 						type="date"
 						:not-before="dateTomorrow"
