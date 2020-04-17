@@ -29,6 +29,8 @@ $server = \OC::$server;
 $isEnabled = $server->getAppManager()->isEnabledForUser('cloud_federation_api');
 
 if ($isEnabled) {
+	// Make sure the routes are loaded
+	\OC_App::loadApp('cloud_federation_api');
 	$capabilities = new OCA\CloudFederationAPI\Capabilities($server->getURLGenerator());
 	header('Content-Type: application/json');
 	echo json_encode($capabilities->getCapabilities()['ocm']);
