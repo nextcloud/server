@@ -22,16 +22,18 @@ declare(strict_types=1);
  */
 
 return [
-	[
-		'name' => 'RequestHandler#addShare',
-		'url' => '/ocm/shares',
-		'verb' => 'POST',
-		'root' => '',
-	],
-	[
-		'name' => 'RequestHandler#receiveNotification',
-		'url' => '/ocm/notifications',
-		'verb' => 'POST',
-		'root' => '',
+	'routes' => [
+		[
+			'name' => 'RequestHandler#addShare',
+			'url' => '/ocm/shares',
+			'verb' => 'POST',
+			'root' => '',
+		],
+		[
+			'name' => 'RequestHandler#receiveNotification',
+			'url' => '/ocm/notifications',
+			'verb' => 'POST',
+			'root' => '',
+		],
 	],
 ];
