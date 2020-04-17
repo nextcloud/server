@@ -240,6 +240,7 @@ class AddressBookImpl implements IAddressBook {
 	 *
 	 * @param string $uri
 	 * @param VCard $vCard
+	 * @param boolean $withTypes (optional) return the values as arrays of value/type pairs
 	 * @return array
 	 */
 	protected function vCard2Array($uri, VCard $vCard, $withTypes = false) {
@@ -259,19 +260,7 @@ class AddressBookImpl implements IAddressBook {
 				]) . '?photo';
 
 				$result['PHOTO'] = 'VALUE=uri:' . $url;
-			} elseif ($property->name === 'X-SOCIALPROFILE') {
-				$type = $this->getTypeFromProperty($property);
-
-				// Type is the social network, when it's empty we don't need this.
-				if ($type !== null) {
-					if (!isset($result[$property->name])) {
-						$result[$property->name] = [];
-					}
-					$result[$property->name][$type] = $property->getValue();
-				}
-
-				// The following properties can be set multiple times
-			} elseif (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
+			} elseif (in_array($property->name, ['URL', 'GEO', 'CLOUD', 'ADR', 'EMAIL', 'IMPP', 'TEL', 'X-SOCIALPROFILE', 'RELATED', 'LANG', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
 				if (!isset($result[$property->name])) {
 					$result[$property->name] = [];
 				}
