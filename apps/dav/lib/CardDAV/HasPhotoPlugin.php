@@ -62,7 +62,12 @@ class HasPhotoPlugin extends ServerPlugin {
 		if ($node instanceof Card) {
 			$propFind->handle($ns . 'has-photo', function () use ($node) {
 				$vcard = Reader::read($node->get());
-				return ($vcard instanceof VCard && $vcard->PHOTO);
+				return $vcard instanceof VCard
+					&& $vcard->PHOTO
+					// Either the PHOTO is a url (doesn't start with data:) or the mimetype has to start with image/
+					&& (strpos($vcard->PHOTO->getValue(), 'data:') !== 0
+						|| strpos($vcard->PHOTO->getValue(), 'data:image/') === 0)
+				;
 			});
 		}
 	}

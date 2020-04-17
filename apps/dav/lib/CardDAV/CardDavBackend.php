@@ -449,7 +449,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	public function deleteAddressBook($addressBookId) {
 		$query = $this->db->getQueryBuilder();
-		$query->delete('cards')
+		$query->delete($this->dbCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createParameter('addressbookid')))
 			->setParameter('addressbookid', $addressBookId)
 			->execute();
@@ -493,7 +493,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	public function getCards($addressBookId) {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
-			->from('cards')
+			->from($this->dbCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
 
 		$cards = [];
@@ -501,7 +501,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
 			$row['etag'] = '"' . $row['etag'] . '"';
-			$row['carddata'] = $this->readBlob($row['carddata']);
+
+			$modified = false;
+			$row['carddata'] = $this->readBlob($row['carddata'], $modified);
+			if ($modified) {
+				$row['size'] = strlen($row['carddata']);
+			}
+
 			$cards[] = $row;
 		}
 		$result->closeCursor();
@@ -524,7 +530,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	public function getCard($addressBookId, $cardUri) {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
-			->from('cards')
+			->from($this->dbCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($cardUri)))
 			->setMaxResults(1);
@@ -535,7 +541,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			return false;
 		}
 		$row['etag'] = '"' . $row['etag'] . '"';
-		$row['carddata'] = $this->readBlob($row['carddata']);
+
+		$modified = false;
+		$row['carddata'] = $this->readBlob($row['carddata'], $modified);
+		if ($modified) {
+			$row['size'] = strlen($row['carddata']);
+		}
 
 		return $row;
 	}
@@ -562,7 +573,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'size', 'carddata', 'uid'])
-			->from('cards')
+			->from($this->dbCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->andWhere($query->expr()->in('uri', $query->createParameter('uri')));
 
@@ -572,7 +583,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			while ($row = $result->fetch()) {
 				$row['etag'] = '"' . $row['etag'] . '"';
-				$row['carddata'] = $this->readBlob($row['carddata']);
+
+				$modified = false;
+				$row['carddata'] = $this->readBlob($row['carddata'], $modified);
+				if ($modified) {
+					$row['size'] = strlen($row['carddata']);
+				}
+
 				$cards[] = $row;
 			}
 			$result->closeCursor();
@@ -611,7 +628,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$q = $this->db->getQueryBuilder();
 		$q->select('uid')
-			->from('cards')
+			->from($this->dbCardsTable)
 			->where($q->expr()->eq('addressbookid', $q->createNamedParameter($addressBookId)))
 			->andWhere($q->expr()->eq('uid', $q->createNamedParameter($uid)))
 			->setMaxResults(1);
@@ -676,7 +693,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$uid = $this->getUID($cardData);
 		$etag = md5($cardData);
 		$query = $this->db->getQueryBuilder();
-		$query->update('cards')
+		$query->update($this->dbCardsTable)
 			->set('carddata', $query->createNamedParameter($cardData, IQueryBuilder::PARAM_LOB))
 			->set('lastmodified', $query->createNamedParameter(time()))
 			->set('size', $query->createNamedParameter(strlen($cardData)))
@@ -712,7 +729,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$cardId = null;
 		}
 		$query = $this->db->getQueryBuilder();
-		$ret = $query->delete('cards')
+		$ret = $query->delete($this->dbCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($cardUri)))
 			->execute();
@@ -872,12 +889,41 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		]);
 	}
 
-	private function readBlob($cardData) {
+	/**
+	 * @param resource|string $cardData
+	 * @param bool $modified
+	 * @return string
+	 */
+	private function readBlob($cardData, &$modified=false) {
 		if (is_resource($cardData)) {
-			return stream_get_contents($cardData);
+			$cardData = stream_get_contents($cardData);
 		}
 
-		return $cardData;
+		$cardDataArray = explode("\r\n", $cardData);
+
+		$cardDataFiltered = [];
+		$removingPhoto = false;
+		foreach ($cardDataArray as $line) {
+			if (strpos($line, 'PHOTO:data:') === 0
+				&& strpos($line, 'PHOTO:data:image/') !== 0) {
+				// Filter out PHOTO data of non-images
+				$removingPhoto = true;
+				$modified = true;
+				continue;
+			}
+
+			if ($removingPhoto) {
+				if (strpos($line, ' ') === 0) {
+					continue;
+				}
+				// No leading space means this is a new property
+				$removingPhoto = false;
+			}
+
+			$cardDataFiltered[] = $line;
+		}
+
+		return implode("\r\n", $cardDataFiltered);
 	}
 
 	/**
@@ -929,7 +975,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result->closeCursor();
 
 		return array_map(function ($array) {
-			$array['carddata'] = $this->readBlob($array['carddata']);
+			$modified = false;
+			$array['carddata'] = $this->readBlob($array['carddata'], $modified);
+			if ($modified) {
+				$array['size'] = strlen($array['carddata']);
+			}
 			return $array;
 		}, $cards);
 	}
@@ -994,6 +1044,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$queryResult->closeCursor();
 
 		if (is_array($contact)) {
+			$modified = false;
+			$contact['etag'] = '"' . $contact['etag'] . '"';
+			$contact['carddata'] = $this->readBlob($contact['carddata'], $modified);
+			if ($modified) {
+				$contact['size'] = strlen($contact['carddata']);
+			}
+
 			$result = $contact;
 		}
 

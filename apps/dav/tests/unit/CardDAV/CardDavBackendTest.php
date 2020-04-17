@@ -630,7 +630,7 @@ class CardDavBackendTest extends TestCase {
 			$this->invokePrivate($this->backend, 'getCardId', [1, 'uri']));
 	}
 
-	
+
 	public function testGetCardIdFailed() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -690,15 +690,15 @@ class CardDavBackendTest extends TestCase {
 			);
 		$query->execute();
 		$query->insert($this->dbCardsPropertiesTable)
-				->values(
-						[
-							'addressbookid' => $query->createNamedParameter(0),
-							'cardid' => $query->createNamedParameter($vCardIds[0]),
-							'name' => $query->createNamedParameter('CLOUD'),
-							'value' => $query->createNamedParameter('John@nextcloud.com'),
-							'preferred' => $query->createNamedParameter(0)
-						]
-				);
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(0),
+					'cardid' => $query->createNamedParameter($vCardIds[0]),
+					'name' => $query->createNamedParameter('CLOUD'),
+					'value' => $query->createNamedParameter('John@nextcloud.com'),
+					'preferred' => $query->createNamedParameter(0)
+				]
+			);
 		$query->execute();
 		$query->insert($this->dbCardsPropertiesTable)
 			->values(
@@ -783,7 +783,7 @@ class CardDavBackendTest extends TestCase {
 		$this->assertSame('uri', $this->backend->getCardUri($id));
 	}
 
-	
+
 	public function testGetCardUriFailed() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -812,7 +812,7 @@ class CardDavBackendTest extends TestCase {
 		$this->assertSame(0, (int)$result['addressbookid']);
 		$this->assertSame('uri0', $result['uri']);
 		$this->assertSame(5489543, (int)$result['lastmodified']);
-		$this->assertSame('etag0', $result['etag']);
+		$this->assertSame('"etag0"', $result['etag']);
 		$this->assertSame(120, (int)$result['size']);
 
 		// this shouldn't return any result because 'uri1' is in address book 1
