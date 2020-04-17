@@ -57,6 +57,7 @@ class Helper {
 
 	/**
 	 * returns prefixes for each saved LDAP/AD server configuration.
+	 *
 	 * @param bool $activeConfigurations optional, whether only active configuration shall be
 	 * retrieved, defaults to false
 	 * @return array with a list of the available prefixes
@@ -97,6 +98,7 @@ class Helper {
 	/**
 	 *
 	 * determines the host for every configured connection
+	 *
 	 * @return array an array with configprefix as keys
 	 *
 	 */
@@ -149,6 +151,7 @@ class Helper {
 
 	/**
 	 * deletes a given saved LDAP/AD server configuration.
+	 *
 	 * @param string $prefix the configuration prefix of the config to delete
 	 * @return bool true on success, false otherwise
 	 */
@@ -166,11 +169,11 @@ class Helper {
 			DELETE
 			FROM `*PREFIX*appconfig`
 			WHERE `configkey` LIKE ?
-				'.$saveOtherConfigurations.'
+				' . $saveOtherConfigurations . '
 				AND `appid` = \'user_ldap\'
 				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
 		');
-		$delRows = $query->execute([$prefix.'%']);
+		$delRows = $query->execute([$prefix . '%']);
 
 		if ($delRows === null) {
 			return false;
@@ -185,8 +188,9 @@ class Helper {
 
 	/**
 	 * checks whether there is one or more disabled LDAP configurations
-	 * @throws \Exception
+	 *
 	 * @return bool
+	 * @throws \Exception
 	 */
 	public function haveDisabledConfigurations() {
 		$all = $this->getServerConfigurationPrefixes(false);
@@ -201,6 +205,7 @@ class Helper {
 
 	/**
 	 * extracts the domain from a given URL
+	 *
 	 * @param string $url the URL
 	 * @return string|false domain as string on success, false otherwise
 	 */
@@ -234,6 +239,7 @@ class Helper {
 
 	/**
 	 * sanitizes a DN received from the LDAP server
+	 *
 	 * @param array $dn the DN in question
 	 * @return array|string the sanitized DN
 	 */
@@ -247,12 +253,12 @@ class Helper {
 			return $result;
 		}
 
-		if(!is_string($dn)) {
+		if (!is_string($dn)) {
 			throw new \LogicException('String expected ' . \gettype($dn) . ' given');
 		}
 
 		if (($sanitizedDn = $this->sanitizeDnCache->get($dn)) !== null) {
-			return  $sanitizedDn;
+			return $sanitizedDn;
 		}
 
 		//OID sometimes gives back DNs with whitespace after the comma
@@ -274,9 +280,9 @@ class Helper {
 			'\;' => '\5c3B',
 			'\"' => '\5c22',
 			'\#' => '\5c23',
-			'('  => '\28',
-			')'  => '\29',
-			'*'  => '\2A',
+			'(' => '\28',
+			')' => '\29',
+			'*' => '\2A',
 		];
 		$sanitizedDn = str_replace(array_keys($replacements), array_values($replacements), $sanitizedDn);
 		$this->sanitizeDnCache->set($dn, $sanitizedDn);
@@ -286,6 +292,7 @@ class Helper {
 
 	/**
 	 * converts a stored DN so it can be used as base parameter for LDAP queries, internally we store them for usage in LDAP filters
+	 *
 	 * @param string $dn the DN
 	 * @return string
 	 */
@@ -316,7 +323,7 @@ class Helper {
 		$userSession = \OC::$server->getUserSession();
 		$userPluginManager = \OC::$server->query('LDAPUserPluginManager');
 
-		$userBackend  = new User_Proxy(
+		$userBackend = new User_Proxy(
 			$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession, $userPluginManager
 		);
 		$uid = $userBackend->loginName2UserName($param['uid']);

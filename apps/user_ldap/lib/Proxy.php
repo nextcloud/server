@@ -40,7 +40,7 @@ use OCA\User_LDAP\User\Manager;
 abstract class Proxy {
 	private static $accesses = [];
 	private $ldap = null;
-	/** @var bool  */
+	/** @var bool */
 	private $isSingleBackend;
 
 	/** @var \OCP\ICache|null */
@@ -72,11 +72,11 @@ abstract class Proxy {
 		static $coreNotificationManager;
 		if ($fs === null) {
 			$ocConfig = \OC::$server->getConfig();
-			$fs       = new FilesystemHelper();
-			$log      = new LogWrapper();
-			$avatarM  = \OC::$server->getAvatarManager();
-			$db       = \OC::$server->getDatabaseConnection();
-			$userMap  = new UserMapping($db);
+			$fs = new FilesystemHelper();
+			$log = new LogWrapper();
+			$avatarM = \OC::$server->getAvatarManager();
+			$db = \OC::$server->getDatabaseConnection();
+			$userMap = new UserMapping($db);
 			$groupMap = new GroupMapping($db);
 			$coreUserManager = \OC::$server->getUserManager();
 			$coreNotificationManager = \OC::$server->getNotificationManager();
@@ -107,7 +107,7 @@ abstract class Proxy {
 	 * @return string
 	 */
 	protected function getUserCacheKey($uid) {
-		return 'user-'.$uid.'-lastSeenOn';
+		return 'user-' . $uid . '-lastSeenOn';
 	}
 
 	/**
@@ -115,7 +115,7 @@ abstract class Proxy {
 	 * @return string
 	 */
 	protected function getGroupCacheKey($gid) {
-		return 'group-'.$gid.'-lastSeenOn';
+		return 'group-' . $gid . '-lastSeenOn';
 	}
 
 	/**
@@ -143,8 +143,8 @@ abstract class Proxy {
 
 	abstract protected function activeBackends(): int;
 
-	protected function isSingleBackend(): bool{
-		if($this->isSingleBackend === null) {
+	protected function isSingleBackend(): bool {
+		if ($this->isSingleBackend === null) {
 			$this->isSingleBackend = $this->activeBackends() === 1;
 		}
 		return $this->isSingleBackend;
@@ -152,6 +152,7 @@ abstract class Proxy {
 
 	/**
 	 * Takes care of the request to the User backend
+	 *
 	 * @param string $id
 	 * @param string $method string, the method of the user backend that shall be called
 	 * @param array $parameters an array of parameters to be passed
@@ -177,7 +178,7 @@ abstract class Proxy {
 		if ($key === null) {
 			return $prefix;
 		}
-		return $prefix.hash('sha256', $key);
+		return $prefix . hash('sha256', $key);
 	}
 
 	/**
@@ -206,7 +207,7 @@ abstract class Proxy {
 		if ($this->cache === null) {
 			return;
 		}
-		$key   = $this->getCacheKey($key);
+		$key = $this->getCacheKey($key);
 		$value = base64_encode(json_encode($value));
 		$this->cache->set($key, $value, 2592000);
 	}

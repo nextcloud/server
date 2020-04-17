@@ -36,6 +36,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * Constructor
+	 *
 	 * @param string[] $serverConfigPrefixes array containing the config Prefixes
 	 */
 	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap, GroupPluginManager $groupPluginManager) {
@@ -51,6 +52,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * Tries the backends one after the other until a positive result is returned from the specified method
+	 *
 	 * @param string $gid the gid connected to the request
 	 * @param string $method the method of the group backend that shall be called
 	 * @param array $parameters an array of parameters to be passed
@@ -60,7 +62,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 		$cacheKey = $this->getGroupCacheKey($gid);
 		foreach ($this->backends as $configPrefix => $backend) {
 			if ($result = call_user_func_array([$backend, $method], $parameters)) {
-				if(!$this->isSingleBackend()) {
+				if (!$this->isSingleBackend()) {
 					$this->writeToCache($cacheKey, $configPrefix);
 				}
 				return $result;
@@ -71,6 +73,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * Asks the backend connected to the server that supposely takes care of the gid from the request.
+	 *
 	 * @param string $gid the gid connected to the request
 	 * @param string $method the method of the group backend that shall be called
 	 * @param array $parameters an array of parameters to be passed
@@ -107,6 +110,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * is user in group?
+	 *
 	 * @param string $uid uid of the user
 	 * @param string $gid gid of the group
 	 * @return bool
@@ -119,6 +123,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * Get all groups a user belongs to
+	 *
 	 * @param string $uid Name of the user
 	 * @return string[] with group names
 	 *
@@ -140,6 +145,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * get a list of all users in a group
+	 *
 	 * @return string[] with user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
@@ -166,6 +172,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * delete a group
+	 *
 	 * @param string $gid gid of the group to delete
 	 * @return bool
 	 */
@@ -176,6 +183,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * Add a user to a group
+	 *
 	 * @param string $uid Name of the user to add to group
 	 * @param string $gid Name of the group in which add the user
 	 * @return bool
@@ -189,6 +197,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * Removes a user from a group
+	 *
 	 * @param string $uid Name of the user to remove from group
 	 * @param string $gid Name of the group from which remove the user
 	 * @return bool
@@ -202,6 +211,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * returns the number of users in a group, who match the search term
+	 *
 	 * @param string $gid the internal group name
 	 * @param string $search optional, a search string
 	 * @return int|bool
@@ -213,6 +223,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * get an array with group details
+	 *
 	 * @param string $gid
 	 * @return array|false
 	 */
@@ -223,6 +234,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * get a list of all groups
+	 *
 	 * @return string[] with group names
 	 *
 	 * Returns a list with all groups
@@ -242,6 +254,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * check if a group exists
+	 *
 	 * @param string $gid
 	 * @return bool
 	 */
@@ -251,6 +264,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * Check if backend implements actions
+	 *
 	 * @param int $actions bitwise-or'ed actions
 	 * @return boolean
 	 *
@@ -264,6 +278,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 
 	/**
 	 * Return access for LDAP interaction.
+	 *
 	 * @param string $gid
 	 * @return Access instance of Access for LDAP interaction
 	 */
@@ -274,6 +289,7 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	/**
 	 * Return a new LDAP connection for the specified group.
 	 * The connection needs to be closed manually.
+	 *
 	 * @param string $gid
 	 * @return resource of the LDAP connection
 	 */
