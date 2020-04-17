@@ -114,7 +114,7 @@ class Application extends App {
 			return new \OCA\Files_Sharing\External\MountProvider(
 				$server->getDatabaseConnection(),
 				function () use ($c) {
-					return $c->query('ExternalManager');
+					return $c->query(Manager::class);
 				},
 				$server->getCloudIdManager()
 			);
