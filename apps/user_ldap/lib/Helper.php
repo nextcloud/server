@@ -34,12 +34,16 @@
 
 namespace OCA\User_LDAP;
 
+use OC\Cache\CappedMemoryCache;
 use OCP\IConfig;
 
 class Helper {
 
 	/** @var IConfig */
 	private $config;
+
+	/** @var CappedMemoryCache */
+	protected $sanitizeDnCache;
 
 	/**
 	 * Helper constructor.
@@ -48,6 +52,7 @@ class Helper {
 	 */
 	public function __construct(IConfig $config) {
 		$this->config = $config;
+		$this->sanitizeDnCache = new CappedMemoryCache(10000);
 	}
 
 	/**
@@ -242,12 +247,20 @@ class Helper {
 			return $result;
 		}
 
+		if(!is_string($dn)) {
+			throw new \LogicException('String expected ' . \gettype($dn) . ' given');
+		}
+
+		if (($sanitizedDn = $this->sanitizeDnCache->get($dn)) !== null) {
+			return  $sanitizedDn;
+		}
+
 		//OID sometimes gives back DNs with whitespace after the comma
 		// a la "uid=foo, cn=bar, dn=..." We need to tackle this!
-		$dn = preg_replace('/([^\\\]),(\s+)/u', '\1,', $dn);
+		$sanitizedDn = preg_replace('/([^\\\]),(\s+)/u', '\1,', $dn);
 
 		//make comparisons and everything work
-		$dn = mb_strtolower($dn, 'UTF-8');
+		$sanitizedDn = mb_strtolower($sanitizedDn, 'UTF-8');
 
 		//escape DN values according to RFC 2253 – this is already done by ldap_explode_dn
 		//to use the DN in search filters, \ needs to be escaped to \5c additionally
@@ -265,9 +278,10 @@ class Helper {
 			')'  => '\29',
 			'*'  => '\2A',
 		];
-		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
+		$sanitizedDn = str_replace(array_keys($replacements), array_values($replacements), $sanitizedDn);
+		$this->sanitizeDnCache->set($dn, $sanitizedDn);
 
-		return $dn;
+		return $sanitizedDn;
 	}
 
 	/**
