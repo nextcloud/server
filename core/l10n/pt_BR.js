@@ -317,7 +317,7 @@ OC.L10N.register(
     "Account connected" : "Conta conectada",
     "Your client should now be connected!" : "Seu cliente deve estar conectado agora!",
     "You can close this window." : "Você pode fechar esta janela.",
-    "This share is password-protected" : "Este compartilhamento é protegido por senha",
+    "This share is password-protected" : "Compartilhamento protegido por senha",
     "The password is wrong. Try again." : "Senha incorreta. Tente novamente.",
     "Two-factor authentication" : "Autenticação de dois fatores",
     "Enhanced security is enabled for your account. Choose a second factor for authentication:" : "A segurança aprimorada está ativada para sua conta. Escolha um segundo fator para autenticação:",
