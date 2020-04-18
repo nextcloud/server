@@ -136,6 +136,7 @@ OC.L10N.register(
     "Add another link" : "További hivatkozás hozzáadása",
     "Share link" : "Hivatkozás megosztása",
     "Resharing is not allowed" : "Az újra megosztás nem engedélyezett",
+    "Searching …" : "Keresés ...",
     "Search globally" : "Keresés globálisan",
     "Shared" : "Megosztva",
     "Share" : "Megosztás",
