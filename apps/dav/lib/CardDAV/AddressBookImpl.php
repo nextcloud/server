@@ -65,7 +65,6 @@ class AddressBookImpl implements IAddressBook {
 			array $addressBookInfo,
 			CardDavBackend $backend,
 			IURLGenerator $urlGenerator) {
-
 		$this->addressBook = $addressBook;
 		$this->addressBookInfo = $addressBookInfo;
 		$this->backend = $backend;
@@ -156,7 +155,6 @@ class AddressBookImpl implements IAddressBook {
 		}
 
 		return $this->vCard2Array($uri, $vCard);
-
 	}
 
 	/**
@@ -167,7 +165,7 @@ class AddressBookImpl implements IAddressBook {
 		$permissions = $this->addressBook->getACL();
 		$result = 0;
 		foreach ($permissions as $permission) {
-			switch($permission['privilege']) {
+			switch ($permission['privilege']) {
 				case '{DAV:}read':
 					$result |= Constants::PERMISSION_READ;
 					break;
@@ -242,6 +240,7 @@ class AddressBookImpl implements IAddressBook {
 	 *
 	 * @param string $uri
 	 * @param VCard $vCard
+	 * @param boolean $withTypes (optional) return the values as arrays of value/type pairs
 	 * @return array
 	 */
 	protected function vCard2Array($uri, VCard $vCard, $withTypes = false) {
@@ -261,20 +260,7 @@ class AddressBookImpl implements IAddressBook {
 				]) . '?photo';
 
 				$result['PHOTO'] = 'VALUE=uri:' . $url;
-
-			} else if ($property->name === 'X-SOCIALPROFILE') {
-				$type = $this->getTypeFromProperty($property);
-
-				// Type is the social network, when it's empty we don't need this.
-				if ($type !== null) {
-					if (!isset($result[$property->name])) {
-						$result[$property->name] = [];
-					}
-					$result[$property->name][$type] = $property->getValue();
-				}
-
-			// The following properties can be set multiple times
-			} else if (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
+			} elseif (in_array($property->name, ['URL', 'GEO', 'CLOUD', 'ADR', 'EMAIL', 'IMPP', 'TEL', 'X-SOCIALPROFILE', 'RELATED', 'LANG', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
 				if (!isset($result[$property->name])) {
 					$result[$property->name] = [];
 				}
@@ -284,12 +270,10 @@ class AddressBookImpl implements IAddressBook {
 					$result[$property->name][] = [
 						'type' => $type,
 						'value' => $property->getValue()
-						];
+					];
 				} else {
 					$result[$property->name][] = $property->getValue();
 				}
-
-
 			} else {
 				$result[$property->name] = $property->getValue();
 			}

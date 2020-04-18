@@ -325,6 +325,9 @@ class AddressBookImplTest extends TestCase {
 		$property = $vCard->createProperty('X-SOCIALPROFILE', 'tw-example');
 		$property->add('TYPE', 'twitter');
 		$vCard->add($property);
+		$property = $vCard->createProperty('X-SOCIALPROFILE', 'tw-example-2');
+		$property->add('TYPE', 'twitter');
+		$vCard->add($property);
 		$property = $vCard->createProperty('X-SOCIALPROFILE', 'fb-example');
 		$property->add('TYPE', 'facebook');
 		$vCard->add($property);
@@ -359,8 +362,88 @@ class AddressBookImplTest extends TestCase {
 			],
 
 			'X-SOCIALPROFILE' => [
-				'twitter'=> 'tw-example',
-				'facebook'=> 'fb-example',
+				'tw-example',
+				'tw-example-2',
+				'fb-example',
+			],
+
+			'isLocalSystemBook' => true,
+		], $array);
+	}
+
+	public function testVCard2ArrayWithTypes() {
+		$vCard = new VCard();
+
+		$vCard->add($vCard->createProperty('FN', 'Full Name'));
+
+		// Multi-value properties
+		$vCard->add($vCard->createProperty('CLOUD', 'cloud-user1@localhost'));
+		$vCard->add($vCard->createProperty('CLOUD', 'cloud-user2@example.tld'));
+
+		$property = $vCard->createProperty('EMAIL', 'email-user1@localhost');
+		$property->add('TYPE', 'HOME');
+		$vCard->add($property);
+		$property = $vCard->createProperty('EMAIL', 'email-user2@example.tld');
+		$property->add('TYPE', 'WORK');
+		$vCard->add($property);
+
+		$vCard->add($vCard->createProperty('IMPP', 'impp-user1@localhost'));
+		$vCard->add($vCard->createProperty('IMPP', 'impp-user2@example.tld'));
+
+		$property = $vCard->createProperty('TEL', '+49 123456789');
+		$property->add('TYPE', 'HOME,VOICE');
+		$vCard->add($property);
+		$property = $vCard->createProperty('TEL', '+1 555 123456789');
+		$property->add('TYPE', 'WORK');
+		$vCard->add($property);
+
+		$vCard->add($vCard->createProperty('URL', 'https://localhost'));
+		$vCard->add($vCard->createProperty('URL', 'https://example.tld'));
+
+		// Type depending properties
+		$property = $vCard->createProperty('X-SOCIALPROFILE', 'tw-example');
+		$property->add('TYPE', 'twitter');
+		$vCard->add($property);
+		$property = $vCard->createProperty('X-SOCIALPROFILE', 'tw-example-2');
+		$property->add('TYPE', 'twitter');
+		$vCard->add($property);
+		$property = $vCard->createProperty('X-SOCIALPROFILE', 'fb-example');
+		$property->add('TYPE', 'facebook');
+		$vCard->add($property);
+
+		$array = $this->invokePrivate($this->addressBookImpl, 'vCard2Array', ['uri', $vCard, true]);
+		unset($array['PRODID']);
+		unset($array['UID']);
+
+		$this->assertEquals([
+			'URI' => 'uri',
+			'VERSION' => '4.0',
+			'FN' => 'Full Name',
+			'CLOUD' => [
+				['type' => '', 'value' => 'cloud-user1@localhost'],
+				['type' => '', 'value' => 'cloud-user2@example.tld'],
+			],
+			'EMAIL' => [
+				['type' => 'HOME', 'value' => 'email-user1@localhost'],
+				['type' => 'WORK', 'value' => 'email-user2@example.tld'],
+			],
+			'IMPP' => [
+				['type' => '', 'value' => 'impp-user1@localhost'],
+				['type' => '', 'value' => 'impp-user2@example.tld'],
+			],
+			'TEL' => [
+				['type' => 'HOME,VOICE', 'value' => '+49 123456789'],
+				['type' => 'WORK', 'value' => '+1 555 123456789'],
+			],
+			'URL' => [
+				['type' => '', 'value' => 'https://localhost'],
+				['type' => '', 'value' => 'https://example.tld'],
+			],
+
+			'X-SOCIALPROFILE' => [
+				['type' => 'twitter', 'value' => 'tw-example'],
+				['type' => 'twitter', 'value' => 'tw-example-2'],
+				['type' => 'facebook', 'value' => 'fb-example'],
 			],
 
 			'isLocalSystemBook' => true,
