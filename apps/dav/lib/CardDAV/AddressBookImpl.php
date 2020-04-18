@@ -2,9 +2,14 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arne Hamann <kontakt+github@arne.email>
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author labor4 <schreibtisch@labor4.ch>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @license AGPL-3.0
@@ -19,7 +24,7 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
 
@@ -162,7 +167,7 @@ class AddressBookImpl implements IAddressBook {
 		$permissions = $this->addressBook->getACL();
 		$result = 0;
 		foreach ($permissions as $permission) {
-			switch($permission['privilege']) {
+			switch ($permission['privilege']) {
 				case '{DAV:}read':
 					$result |= Constants::PERMISSION_READ;
 					break;
@@ -237,6 +242,7 @@ class AddressBookImpl implements IAddressBook {
 	 *
 	 * @param string $uri
 	 * @param VCard $vCard
+	 * @param boolean $withTypes (optional) return the values as arrays of value/type pairs
 	 * @return array
 	 */
 	protected function vCard2Array($uri, VCard $vCard, $withTypes = false) {
@@ -256,20 +262,7 @@ class AddressBookImpl implements IAddressBook {
 				]) . '?photo';
 
 				$result['PHOTO'] = 'VALUE=uri:' . $url;
-
-			} else if ($property->name === 'X-SOCIALPROFILE') {
-				$type = $this->getTypeFromProperty($property);
-
-				// Type is the social network, when it's empty we don't need this.
-				if ($type !== null) {
-					if (!isset($result[$property->name])) {
-						$result[$property->name] = [];
-					}
-					$result[$property->name][$type] = $property->getValue();
-				}
-
-			// The following properties can be set multiple times
-			} else if (in_array($property->name, ['CLOUD', 'EMAIL', 'IMPP', 'TEL', 'URL', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
+			} elseif (in_array($property->name, ['URL', 'GEO', 'CLOUD', 'ADR', 'EMAIL', 'IMPP', 'TEL', 'X-SOCIALPROFILE', 'RELATED', 'LANG', 'X-ADDRESSBOOKSERVER-MEMBER'])) {
 				if (!isset($result[$property->name])) {
 					$result[$property->name] = [];
 				}
@@ -279,12 +272,10 @@ class AddressBookImpl implements IAddressBook {
 					$result[$property->name][] = [
 						'type' => $type,
 						'value' => $property->getValue()
-						];
+					];
 				} else {
 					$result[$property->name][] = $property->getValue();
 				}
-
-
 			} else {
 				$result[$property->name] = $property->getValue();
 			}
