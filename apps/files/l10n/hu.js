@@ -139,6 +139,7 @@ OC.L10N.register(
     "Accept" : "Elfogad",
     "File Management" : "Fájlkezelés",
     "Change" : "Módosít",
+    "Invalid path selected" : "Érvénytelen útvonal kiválasztva",
     "Tags" : "Címkék",
     "%s used" : "%s használt",
     "%1$s of %2$s used" : "%1$s a %2$s-ból használva",
