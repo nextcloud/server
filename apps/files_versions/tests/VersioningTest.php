@@ -274,6 +274,11 @@ class VersioningTest extends \Test\TestCase {
 				],
 				9 // size of all deleted files (every file has the size 1)
 			],
+			// fourth set of versions: empty (see issue #19066)
+			[
+				[],
+				0
+			]
 
 		];
 	}
