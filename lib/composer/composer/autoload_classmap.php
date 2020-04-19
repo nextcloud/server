@@ -1153,6 +1153,7 @@ return array(
     'OC\\Preview\\ProviderV2' => $baseDir . '/lib/private/Preview/ProviderV2.php',
     'OC\\Preview\\SVG' => $baseDir . '/lib/private/Preview/SVG.php',
     'OC\\Preview\\StarOffice' => $baseDir . '/lib/private/Preview/StarOffice.php',
+    'OC\\Preview\\Storage\\Root' => $baseDir . '/lib/private/Preview/Storage/Root.php',
     'OC\\Preview\\TIFF' => $baseDir . '/lib/private/Preview/TIFF.php',
     'OC\\Preview\\TXT' => $baseDir . '/lib/private/Preview/TXT.php',
     'OC\\Preview\\Watcher' => $baseDir . '/lib/private/Preview/Watcher.php',

@@ -281,7 +281,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new PreviewManager(
 				$c->getConfig(),
 				$c->getRootFolder(),
-				$c->getAppDataDir('preview'),
+				new \OC\Preview\Storage\Root($c->getRootFolder(), $c->getSystemConfig(), 'preview'),
 				$c->getEventDispatcher(),
 				$c->getGeneratorHelper(),
 				$c->getSession()->get('user_id')
@@ -291,7 +291,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		$this->registerService(\OC\Preview\Watcher::class, function (Server $c) {
 			return new \OC\Preview\Watcher(
-				$c->getAppDataDir('preview')
+				new \OC\Preview\Storage\Root($c->getRootFolder(), $c->getSystemConfig(), 'preview')
 			);
 		});
 
