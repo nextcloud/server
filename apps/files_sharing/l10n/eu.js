@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Zerbait gertatu da. Ezin izan da partekatzea onartu.",
     "Reject share" : "Ukatu partekatzea",
     "Something happened. Unable to reject the share." : "Zerbait gertatu da. Ezin izan da partekatzea ukatu.",
+    "Waiting…" : "Itxaroten...",
     "error" : "errorea",
     "finished" : "amaitua",
     "This will stop your current uploads." : "Honek zure uneko igoerak geldituko ditu.",
