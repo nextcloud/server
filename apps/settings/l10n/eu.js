@@ -47,6 +47,7 @@ OC.L10N.register(
     "{actor} changed your password" : "{actor}-(e)k zure pasahitza aldatu du",
     "You changed your password" : "Zuk zure pasahitza aldatu duzu",
     "Your password was reset by an administrator" : "Administratzaile batek zure pasahitza berrezarri du",
+    "Your password was reset" : "Zure pasahitza berezarri da",
     "{actor} changed your email address" : "{actor}-(e)k zure e-posta helbidea aldatu du",
     "You changed your email address" : "Zuk zure e-posta helbidea aldatu duzu",
     "Your email address was changed by an administrator" : "Administratzaile batek zure e-posta helbidea berrezarri du",
