@@ -68,9 +68,9 @@ export default {
 		},
 	},
 	watch: {
-		activeTab(activeTab) {
-			if (activeTab === this.id && this.fileInfo) {
-				this.setFileInfo(this.fileInfo)
+		fileInfo(fileInfo) {
+			if (fileInfo) {
+				this.setFileInfo(fileInfo)
 			}
 		},
 	},
