@@ -68,7 +68,7 @@
     "@babel/preset-env": "^7.9.5",
     "@nextcloud/browserslist-config": "^1.0.0",
     "@nextcloud/eslint-config": "^1.0.0",
-    "@nextcloud/eslint-plugin": "^1.1.0",
+    "@nextcloud/eslint-plugin": "^1.4.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "browserslist-config-nextcloud": "0.1.0",
