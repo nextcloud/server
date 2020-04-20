@@ -29,8 +29,8 @@ declare(strict_types=1);
 namespace OC\Mail;
 
 use OCP\Defaults;
-use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
 
 /**
@@ -46,8 +46,8 @@ class EMailTemplate implements IEMailTemplate {
 	protected $themingDefaults;
 	/** @var IURLGenerator */
 	protected $urlGenerator;
-	/** @var IL10N */
-	protected $l10n;
+	/** @var IFactory */
+	protected $l10nFactory;
 	/** @var string */
 	protected $emailId;
 	/** @var array */
@@ -344,21 +344,14 @@ EOF;
 </table>
 EOF;
 
-	/**
-	 * @param Defaults $themingDefaults
-	 * @param IURLGenerator $urlGenerator
-	 * @param IL10N $l10n
-	 * @param string $emailId
-	 * @param array $data
-	 */
 	public function __construct(Defaults $themingDefaults,
 								IURLGenerator $urlGenerator,
-								IL10N $l10n,
+								IFactory $l10nFactory,
 								$emailId,
 								array $data) {
 		$this->themingDefaults = $themingDefaults;
 		$this->urlGenerator = $urlGenerator;
-		$this->l10n = $l10n;
+		$this->l10nFactory = $l10nFactory;
 		$this->htmlBody .= $this->head;
 		$this->emailId = $emailId;
 		$this->data = $data;
@@ -601,9 +594,10 @@ EOF;
 	 *
 	 * @param string $text If the text is empty the default "Name - Slogan<br>This is an automatically sent email" will be used
 	 */
-	public function addFooter(string $text = '') {
+	public function addFooter(string $text = '', ?string $lang = null) {
 		if($text === '') {
-			$text = $this->themingDefaults->getName() . ' - ' . $this->themingDefaults->getSlogan() . '<br>' . $this->l10n->t('This is an automatically sent email, please do not reply.');
+			$l10n = $this->l10nFactory->get('lib', $lang);
+			$text = $this->themingDefaults->getName() . ' - ' . $this->themingDefaults->getSlogan($lang) . '<br>' . $l10n->t('This is an automatically sent email, please do not reply.');
 		}
 
 		if ($this->footerAdded) {
