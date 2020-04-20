@@ -26,16 +26,17 @@
 		v-if="initiated || currentFile.modal"
 		id="viewer-content"
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed}"
+		:clear-view-delay="isTesting ? -1 : 5000 /* prevent cypress timeouts */"
 		:dark="true"
-		:view="currentFile.modal"
 		:enable-slideshow="hasPrevious || hasNext"
-		:spread-navigation="true"
-		:has-previous="hasPrevious"
-		:has-next="hasNext"
-		:title="currentFile.basename"
 		:enable-swipe="canSwipe"
+		:has-next="hasNext"
+		:has-previous="hasPrevious"
 		:size="isMobile ? 'full' : 'large'"
+		:spread-navigation="true"
 		:style="{width: isSidebarShown ? `calc(100% - ${sidebarWidth}px)` : null}"
+		:title="currentFile.basename"
+		:view="currentFile.modal"
 		@close="close"
 		@previous="previous"
 		@next="next">
@@ -129,22 +130,24 @@ export default {
 	mixins: [isMobile, isFullscreen],
 
 	data: () => ({
-		// reactivity bindings
+		// Reactivity bindings
 		Viewer: OCA.Viewer.state,
 		Sidebar: null,
 		handlers: OCA.Viewer.availableHandlers,
 
+		// Viewer variables
 		components: {},
 		mimeGroups: {},
 		registeredHandlers: [],
 
+		// Files variables
 		currentIndex: 0,
 		previousFile: {},
 		currentFile: {},
 		nextFile: {},
-
 		fileList: [],
 
+		// States
 		isLoaded: false,
 		initiated: false,
 
@@ -152,12 +155,12 @@ export default {
 		cancelRequestFile: () => {},
 		cancelRequestFolder: () => {},
 
-		isSidebarShown: false,
+		// Flags
 		sidebarWidth: 0,
-
+		isSidebarShown: false,
 		canSwipe: true,
-
-		standalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
+		isStandalone: !(OCA && OCA.Files && 'fileActions' in OCA.Files),
+		isTesting,
 
 		root: getRootPath(),
 	}),
@@ -284,7 +287,7 @@ export default {
 
 		window.addEventListener('resize', this.onResize)
 
-		if (this.standalone) {
+		if (this.isStandalone) {
 			console.debug('No OCA.Files app found, viewer is now in standalone mode')
 		}
 	},
@@ -545,7 +548,7 @@ export default {
 		},
 
 		registerAction({ mime, group }) {
-			if (!this.standalone) {
+			if (!this.isStandalone) {
 				// unregistered handler, let's go!
 				OCA.Files.fileActions.registerAction({
 					name: 'view',

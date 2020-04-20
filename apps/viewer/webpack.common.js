@@ -5,6 +5,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin')
 
 const appName = process.env.npm_package_name
 const appVersion = JSON.stringify(process.env.npm_package_version)
+const isTesting = !!process.env.TESTING
 
 module.exports = {
 	entry: path.join(__dirname, 'src', 'main.js'),
@@ -50,7 +51,7 @@ module.exports = {
 	plugins: [
 		new VueLoaderPlugin(),
 		new StyleLintPlugin(),
-		new webpack.DefinePlugin({ appVersion }),
+		new webpack.DefinePlugin({ appVersion, isTesting }),
 	],
 	resolve: {
 		alias: {
@@ -61,6 +62,6 @@ module.exports = {
 			Services: path.resolve(__dirname, 'src/services/'),
 			Views: path.resolve(__dirname, 'src/views/'),
 		},
-		extensions: ['*', '.js', '.vue', '.json'],
+		extensions: ['*', '.js', '.vue'],
 	},
 }

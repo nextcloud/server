@@ -1,8 +1,9 @@
 module.exports = {
 	globals: {
-		appVersion: true
+		appVersion: true,
+		isTesting: true,
 	},
 	extends: [
-		'@nextcloud'
-	]
+		'@nextcloud',
+	],
 };
