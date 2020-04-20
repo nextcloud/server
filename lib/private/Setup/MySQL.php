@@ -45,7 +45,7 @@ class MySQL extends AbstractDatabase {
 		$row = $result->fetch();
 		$version = strtolower($row['Value']);
 
-		if (strpos($version, 'mariadb') !== false) {
+		if (stripos($version, 'mariadb') !== false) {
 			if (version_compare($version, '10.4', '>=')) {
 				throw new DatabaseSetupException(sprintf('Unsupported MariaDB version %s, Nextcloud 16 requires a version lower than 10.4', $row['Value']));
 			}
