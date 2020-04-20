@@ -83,7 +83,6 @@
 import { PopoverMenu, Actions, ActionButton } from 'nextcloud-vue'
 import ClickOutside from 'vue-click-outside'
 import { getCurrentUser } from '@nextcloud/auth'
-
 import UserRowMixin from '../../mixins/UserRowMixin'
 export default {
 	name: 'UserRowSimple',
@@ -148,7 +147,7 @@ export default {
 			return t('settings', '{size} used', { size: OC.Util.humanFileSize(0) })
 		},
 		canEdit() {
-			return getCurrentUser().uid !== this.user.id && this.user.id !== 'admin'
+			return getCurrentUser().uid !== this.user.id || this.settings.isAdmin
 		},
 		userQuota() {
 			if (this.user.quota.quota === 'none') {
@@ -159,7 +158,6 @@ export default {
 			}
 			return OC.Util.humanFileSize(0)
 		},
-
 	},
 	methods: {
 		hideMenu() {
