@@ -44,7 +44,7 @@ class NoopScanner extends Scanner {
 	 * @param array|null $cacheData existing data in the cache for the file to be scanned
 	 * @return array an array of metadata of the scanned file
 	 */
-	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true) {
+	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true, $data = null) {
 		return [];
 	}
 

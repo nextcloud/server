@@ -534,4 +534,8 @@ class Encoding extends Wrapper {
 	public function getMetaData($path) {
 		return $this->storage->getMetaData($this->findPathToUse($path));
 	}
+
+	public function getDirectoryContent($directory): \Traversable {
+		return $this->storage->getDirectoryContent($this->findPathToUse($directory));
+	}
 }

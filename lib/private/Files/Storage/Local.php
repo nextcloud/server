@@ -196,6 +196,7 @@ class Local extends \OC\Files\Storage\Common {
 		$data['etag'] = $this->calculateEtag($path, $stat);
 		$data['storage_mtime'] = $data['mtime'];
 		$data['permissions'] = $permissions;
+		$data['name'] = basename($path);
 
 		return $data;
 	}
