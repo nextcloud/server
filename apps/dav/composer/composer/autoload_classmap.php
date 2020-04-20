@@ -223,6 +223,7 @@ return array(
     'OCA\\DAV\\Upload\\CleanupService' => $baseDir . '/../lib/Upload/CleanupService.php',
     'OCA\\DAV\\Upload\\FutureFile' => $baseDir . '/../lib/Upload/FutureFile.php',
     'OCA\\DAV\\Upload\\RootCollection' => $baseDir . '/../lib/Upload/RootCollection.php',
+    'OCA\\DAV\\Upload\\UploadFile' => $baseDir . '/../lib/Upload/UploadFile.php',
     'OCA\\DAV\\Upload\\UploadFolder' => $baseDir . '/../lib/Upload/UploadFolder.php',
     'OCA\\DAV\\Upload\\UploadHome' => $baseDir . '/../lib/Upload/UploadHome.php',
 );

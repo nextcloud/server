@@ -53,12 +53,19 @@ class UploadFolder implements ICollection {
 		if ($name === '.file') {
 			return new FutureFile($this->node, '.file');
 		}
-		return $this->node->getChild($name);
+		return new UploadFile($this->node->getChild($name));
 	}
 
 	public function getChildren() {
-		$children = $this->node->getChildren();
+		$tmpChildren = $this->node->getChildren();
+
+		$children = [];
 		$children[] = new FutureFile($this->node, '.file');
+
+		foreach ($tmpChildren as $child) {
+			$children[] = new UploadFile($child);
+		}
+
 		return $children;
 	}
 
