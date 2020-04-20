@@ -208,6 +208,7 @@ OC.L10N.register(
     "Enable encryption" : "Включване на криптиране",
     "Select default encryption module:" : "Избор на модул за криптиране по подразбиране:",
     "Start migration" : "Начало на миграцията",
+    "Background jobs" : "Фонови процеси",
     "Last job execution ran %s. Something seems wrong." : "За последно cron задача е стартирала %s. Изглежда, че има проблем.",
     "Last job ran %s." : "За последно cron задача е стартирала %s.",
     "Execute one task with each page loaded" : "Изпълнява една задача с всяка заредена страница.",
