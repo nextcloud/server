@@ -114,7 +114,7 @@ export default {
 				}
 			}
 		},
-		// update image size on SIDEBARsidebar
+		// update image size on sidebar toggle
 		isSidebarShown: function() {
 			// wait for transition to complete (100ms)
 			setTimeout(this.updateHeightWidth, 200)

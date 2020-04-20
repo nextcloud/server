@@ -45,15 +45,11 @@ import axios from '@nextcloud/axios'
 import Vue from 'vue'
 import AsyncComputed from 'vue-async-computed'
 
-import Mime from '../mixins/Mime'
-
 Vue.use(AsyncComputed)
 
 export default {
 	name: 'Images',
-	mixins: [
-		Mime,
-	],
+
 	props: {
 		// file etag, used for cache reset
 		etag: {
