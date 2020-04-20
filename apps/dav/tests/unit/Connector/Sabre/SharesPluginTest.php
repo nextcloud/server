@@ -32,6 +32,8 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\Node;
+use OCA\DAV\Connector\Sabre\SharesPlugin;
+use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -95,9 +97,16 @@ class SharesPluginTest extends \Test\TestCase {
 	 * @dataProvider sharesGetPropertiesDataProvider
 	 */
 	public function testGetProperties($shareTypes) {
+		$nodeInfo = $this->getMockBuilder(FileInfo::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$nodeInfo->method('getInternalPath')
+			->willReturn('files/subdir');
 		$sabreNode = $this->getMockBuilder(Node::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$sabreNode->method('getFileInfo')
+			->willReturn($nodeInfo);
 		$sabreNode->expects($this->any())
 			->method('getId')
 			->willReturn(123);
@@ -156,16 +165,38 @@ class SharesPluginTest extends \Test\TestCase {
 	 * @dataProvider sharesGetPropertiesDataProvider
 	 */
 	public function testPreloadThenGetProperties($shareTypes) {
+		$nodeInfo1 = $this->getMockBuilder(FileInfo::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$nodeInfo1->method('getInternalPath')
+			->willReturn('files/subdir/foo');
 		$sabreNode1 = $this->createMock(File::class);
+		$sabreNode1->method('getFileInfo')
+			->willReturn($nodeInfo1);
 		$sabreNode1->method('getId')
 			->willReturn(111);
+
+		$nodeInfo2= $this->getMockBuilder(FileInfo::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$nodeInfo2->method('getInternalPath')
+			->willReturn('files/subdir/foo');
 		$sabreNode2 = $this->createMock(File::class);
+		$sabreNode2->method('getFileInfo')
+			->willReturn($nodeInfo2);
 		$sabreNode2->method('getId')
 			->willReturn(222);
 		$sabreNode2->method('getPath')
 			->willReturn('/subdir/foo');
 
+		$nodeInfo= $this->getMockBuilder(FileInfo::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$nodeInfo->method('getInternalPath')
+			->willReturn('files/subdir');
 		$sabreNode = $this->createMock(Directory::class);
+		$sabreNode->method('getFileInfo')
+			->willReturn($nodeInfo);
 		$sabreNode->method('getId')
 			->willReturn(123);
 		// never, because we use getDirectoryListing from the Node API instead
@@ -189,7 +220,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->userFolder->method('get')
 			->with('/subdir')
 			->willReturn($node);
-		
+
 		$dummyShares = array_map(function ($type) {
 			$share = $this->getMockBuilder(IShare::class)->getMock();
 			$share->expects($this->any())
@@ -281,5 +312,33 @@ class SharesPluginTest extends \Test\TestCase {
 			[[\OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_LINK]],
 			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_REMOTE]],
 		];
+	}
+
+	public function testGetPropertiesSkipChunks(): void {
+		$nodeInfo = $this->getMockBuilder(FileInfo::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$nodeInfo->method('getInternalPath')
+			->willReturn('uploads/a-chunk-file');
+
+		$sabreNode = $this->getMockBuilder(Node::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$sabreNode->method('getFileInfo')
+			->willReturn($nodeInfo);
+
+		$propFind = new \Sabre\DAV\PropFind(
+			'/dummyPath',
+			[SharesPlugin::SHARETYPES_PROPERTYNAME],
+			0
+		);
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$sabreNode
+		);
+
+		$result = $propFind->getResultForMultiStatus();
+		$this->assertCount(1, $result[404]);
 	}
 }

@@ -179,6 +179,10 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 			return;
 		}
 
+		if (strpos($sabreNode->getFileInfo()->getInternalPath(), 'uploads/') === 0) {
+			return;
+		}
+
 		// need prefetch ?
 		if ($sabreNode instanceof \OCA\DAV\Connector\Sabre\Directory
 			&& $propFind->getDepth() !== 0
