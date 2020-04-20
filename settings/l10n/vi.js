@@ -240,6 +240,7 @@ OC.L10N.register(
     "Forum" : "Diễn đàn",
     "None" : "Không gì cả",
     "Login" : "Đăng nhập",
+    "Open documentation" : "Mở tài liệu",
     "Encryption" : "Mã hóa",
     "Authentication required" : "Cần phải được xác thực",
     "Server address" : "Địa chỉ máy chủ",
