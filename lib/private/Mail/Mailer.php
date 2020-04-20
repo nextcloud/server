@@ -38,6 +38,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use OCP\Mail\IAttachment;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
@@ -74,6 +75,10 @@ class Mailer implements IMailer {
 	private $urlGenerator;
 	/** @var IL10N */
 	private $l10n;
+	/**
+	 * @var IFactory
+	 */
+	private $l10nFactory;
 
 	/**
 	 * @param IConfig $config
@@ -86,12 +91,14 @@ class Mailer implements IMailer {
 						 ILogger $logger,
 						 Defaults $defaults,
 						 IURLGenerator $urlGenerator,
-						 IL10N $l10n) {
+						 IL10N $l10n,
+						 IFactory $l10nFactory) {
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->defaults = $defaults;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
+		$this->l10nFactory = $l10nFactory;
 	}
 
 	/**
@@ -149,7 +156,7 @@ class Mailer implements IMailer {
 		return new EMailTemplate(
 			$this->defaults,
 			$this->urlGenerator,
-			$this->l10n,
+			$this->l10nFactory,
 			$emailId,
 			$data
 		);

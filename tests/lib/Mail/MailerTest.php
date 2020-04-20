@@ -15,6 +15,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
+use OCP\L10N\IFactory;
 use Test\TestCase;
 
 class MailerTest extends TestCase {
@@ -44,7 +45,8 @@ class MailerTest extends TestCase {
 			$this->logger,
 			$this->defaults,
 			$this->urlGenerator,
-			$this->l10n
+			$this->l10n,
+			$this->createMock(IFactory::class)
 		);
 	}
 
@@ -126,7 +128,7 @@ class MailerTest extends TestCase {
 		$this->assertInstanceOf('\OC\Mail\Message', $this->mailer->createMessage());
 	}
 
-	
+
 	public function testSendInvalidMailException() {
 		$this->expectException(\Exception::class);
 
