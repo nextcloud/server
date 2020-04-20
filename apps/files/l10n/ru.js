@@ -31,7 +31,7 @@ OC.L10N.register(
     "Actions" : "Действия",
     "Rename" : "Переименовать",
     "Copy" : "Копировать",
-    "Choose target folder" : "Выберите каталога назначения",
+    "Choose target folder" : "Выбор папки назначения",
     "Open" : "Открыть",
     "Delete file" : "Удалить файл",
     "Delete folder" : "Удалить каталог",
