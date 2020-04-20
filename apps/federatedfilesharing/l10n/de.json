@@ -8,7 +8,7 @@
     "Copied!" : "Kopiert!",
     "Not supported!" : "Nicht unterstützt!",
     "Press ⌘-C to copy." : "⌘-C zum Kopieren drücken.",
-    "Press Ctrl-C to copy." : "Ctrl-C zum Kopieren drücken.",
+    "Press Ctrl-C to copy." : "Strg-C zum Kopieren drücken.",
     "Invalid Federated Cloud ID" : "Ungültige Federated-Cloud-ID",
     "Server to server sharing is not enabled on this server" : "Das Server-zu-Server-Teilen ist auf diesem Server nicht aktiviert",
     "Couldn't establish a federated share." : "Federated-Share konnte nicht aufgebaut werden",
