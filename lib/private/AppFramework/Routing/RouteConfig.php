@@ -60,6 +60,7 @@ class RouteConfig {
 		'core',
 		'files_sharing',
 		'files',
+		'settings',
 		'spreed',
 	];
 
@@ -82,10 +83,10 @@ class RouteConfig {
 	public function register() {
 
 		// parse simple
-		$this->processSimpleRoutes($this->routes);
+		$this->processIndexRoutes($this->routes);
 
 		// parse resources
-		$this->processResources($this->routes);
+		$this->processIndexResources($this->routes);
 
 		/*
 		 * OCS routes go into a different collection
@@ -114,7 +115,7 @@ class RouteConfig {
 	 * @param array $routes
 	 * @throws \UnexpectedValueException
 	 */
-	private function processSimpleRoutes(array $routes): void {
+	private function processIndexRoutes(array $routes): void {
 		$simpleRoutes = $routes['routes'] ?? [];
 		foreach ($simpleRoutes as $simpleRoute) {
 			$this->processRoute($simpleRoute);
@@ -124,14 +125,9 @@ class RouteConfig {
 	protected function processRoute(array $route, string $routeNamePrefix = ''): void {
 		$name = $route['name'];
 		$postfix = $route['postfix'] ?? '';
-		$defaultRoot = $this->appName === 'core' ? '' : '/apps/' . $this->appName;
-		$root = $route['root'] ?? $defaultRoot;
-		if ($routeNamePrefix === '' && !\in_array($this->appName, $this->rootUrlApps, true)) {
-			// Only allow root URLS for some apps
-			$root = $defaultRoot;
-		}
+		$root = $this->buildRootPrefix($route, $routeNamePrefix);
 
-		$url = $root . $route['url'];
+		$url = $root . '/' . ltrim($route['url'], '/');
 		$verb = strtoupper($route['verb'] ?? 'GET');
 
 		$split = explode('#', $name, 2);
@@ -176,44 +172,7 @@ class RouteConfig {
 	 * @param array $routes
 	 */
 	private function processOCSResources(array $routes): void {
-		// declaration of all restful actions
-		$actions = [
-			['name' => 'index', 'verb' => 'GET', 'on-collection' => true],
-			['name' => 'show', 'verb' => 'GET'],
-			['name' => 'create', 'verb' => 'POST', 'on-collection' => true],
-			['name' => 'update', 'verb' => 'PUT'],
-			['name' => 'destroy', 'verb' => 'DELETE'],
-		];
-
-		$resources = $routes['ocs-resources'] ?? [];
-		foreach ($resources as $resource => $config) {
-			$root = $config['root'] ?? '/apps/' . $this->appName;
-
-			// the url parameter used as id to the resource
-			foreach ($actions as $action) {
-				$url = $root . $config['url'];
-				$method = $action['name'];
-				$verb = strtoupper($action['verb'] ?? 'GET');
-				$collectionAction = $action['on-collection'] ?? false;
-				if (!$collectionAction) {
-					$url .= '/{id}';
-				}
-				if (isset($action['url-postfix'])) {
-					$url .= '/' . $action['url-postfix'];
-				}
-
-				$controller = $resource;
-
-				$controllerName = $this->buildControllerName($controller);
-				$actionName = $this->buildActionName($method);
-
-				$routeName = 'ocs.' . $this->appName . '.' . strtolower($resource) . '.' . strtolower($method);
-
-				$this->router->create($routeName, $url)->method($verb)->action(
-					new RouteActionHandler($this->container, $controllerName, $actionName)
-				);
-			}
-		}
+		$this->processResources($routes['ocs-resources'] ?? [], 'ocs.');
 	}
 
 	/**
@@ -226,7 +185,22 @@ class RouteConfig {
 	 *
 	 * @param array $routes
 	 */
-	private function processResources(array $routes): void {
+	private function processIndexResources(array $routes): void {
+		$this->processResources($routes['resources'] ?? []);
+	}
+
+	/**
+	 * For a given name and url restful routes are created:
+	 *  - index
+	 *  - show
+	 *  - create
+	 *  - update
+	 *  - destroy
+	 *
+	 * @param array $resources
+	 * @param string $routeNamePrefix
+	 */
+	protected function processResources(array $resources, string $routeNamePrefix = ''): void {
 		// declaration of all restful actions
 		$actions = [
 			['name' => 'index', 'verb' => 'GET', 'on-collection' => true],
@@ -236,13 +210,14 @@ class RouteConfig {
 			['name' => 'destroy', 'verb' => 'DELETE'],
 		];
 
-		$resources = $routes['resources'] ?? [];
 		foreach ($resources as $resource => $config) {
+			$root = $this->buildRootPrefix($config, $routeNamePrefix);
 
 			// the url parameter used as id to the resource
 			foreach ($actions as $action) {
-				$url = $config['url'];
+				$url = $root . '/' . ltrim($config['url'], '/');
 				$method = $action['name'];
+
 				$verb = strtoupper($action['verb'] ?? 'GET');
 				$collectionAction = $action['on-collection'] ?? false;
 				if (!$collectionAction) {
@@ -257,13 +232,30 @@ class RouteConfig {
 				$controllerName = $this->buildControllerName($controller);
 				$actionName = $this->buildActionName($method);
 
-				$routeName = $this->appName . '.' . strtolower($resource) . '.' . strtolower($method);
+				$routeName = $routeNamePrefix . $this->appName . '.' . strtolower($resource) . '.' . strtolower($method);
 
 				$this->router->create($routeName, $url)->method($verb)->action(
 					new RouteActionHandler($this->container, $controllerName, $actionName)
 				);
 			}
 		}
+	}
+
+	private function buildRootPrefix(array $route, string $routeNamePrefix): string {
+		$defaultRoot = $this->appName === 'core' ? '' : '/apps/' . $this->appName;
+		$root = $route['root'] ?? $defaultRoot;
+
+		if ($routeNamePrefix !== '') {
+			// In OCS all apps are whitelisted
+			return $root;
+		}
+
+		if (!\in_array($this->appName, $this->rootUrlApps, true)) {
+			// Only allow root URLS for some apps
+			return  $defaultRoot;
+		}
+
+		return $root;
 	}
 
 	/**
