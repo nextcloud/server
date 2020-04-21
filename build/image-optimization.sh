@@ -1,16 +1,42 @@
 #!/usr/bin/env bash
 
+CHECK_DIR='../'
+if ! [ "$SERVER_VERSION" ]; then
+	CHECK_DIR=$1
+fi
+
 function recursive_optimize_images() {
 	cd "$1" || return
+	DIR_NAME=${PWD##*/}
 
-	# Optimize all JPGs and PNGs
-	optipng -o6 -strip all *.png
-	jpegoptim --strip-all *.jpg
+	if [[ "$DIR_NAME" == "node_modules" ]]; then
+		return
+	elif [[ "$DIR_NAME" == "tests" ]]; then
+		return
+	fi
+
+	# Optimize all PNGs
+	for png in *.png
+	do
+		[[ -e "$png" ]] || break
+
+		optipng -o6 -strip all "$png"
+	done
+
+	# Optimize all JPGs
+	for jpg in *.jpg
+	do
+		[[ -e "$jpg" ]] || break
+
+		jpegoptim --strip-all "$jpg"
+	done
 
 	# Optimize all SVGs
 	for svg in *.svg
 	do
-		mv $svg $svg.opttmp;
+		[[ -e "$svg" ]] || break
+
+		mv $svg $svg.opttmp
 		scour --create-groups \
 			--enable-id-stripping \
 			--enable-comment-stripping \
@@ -20,19 +46,19 @@ function recursive_optimize_images() {
 			--no-line-breaks  \
 			-i $svg.opttmp \
 			-o $svg
+		rm $svg.opttmp
 	done
-
-	# Remove temporary SVGs
-	rm *.opttmp
 
 	# Check all subfolders
 	for dir in */
 	do
-		if [[ -d "$DIR" ]]; then
+		[[ -e "$dir" ]] || break
+
+		if [[ -d "$dir" ]]; then
 			recursive_optimize_images "$dir"
 			cd ..
 		fi
 	done
 }
 
-recursive_optimize_images ../
+recursive_optimize_images "$CHECK_DIR"
