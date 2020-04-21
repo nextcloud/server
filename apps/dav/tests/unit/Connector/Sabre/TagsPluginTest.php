@@ -30,6 +30,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\Node;
+use OCA\DAV\Upload\UploadFile;
 use OCP\ITagManager;
 use OCP\ITags;
 use Sabre\DAV\Tree;
@@ -264,6 +265,26 @@ class TagsPluginTest extends \Test\TestCase {
 				]
 			],
 		];
+	}
+
+	public function testGetPropertiesSkipChunks(): void {
+		$sabreNode = $this->getMockBuilder(UploadFile::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$propFind = new \Sabre\DAV\PropFind(
+			'/dummyPath',
+			[self::TAGS_PROPERTYNAME, self::TAG_FAVORITE],
+			0
+		);
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$sabreNode
+		);
+
+		$result = $propFind->getResultForMultiStatus();
+		$this->assertCount(2, $result[404]);
 	}
 
 	public function testUpdateTags() {
