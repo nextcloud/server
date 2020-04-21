@@ -1,6 +1,8 @@
 <?php
+
+declare(strict_types=1);
 /**
- * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,22 +21,19 @@
  *
  */
 
-
-require_once __DIR__ . '/../lib/base.php';
-
-header('Content-Type: application/json');
-
-$server = \OC::$server;
-
-$isEnabled = $server->getAppManager()->isEnabledForUser('cloud_federation_api');
-
-if ($isEnabled) {
-	// Make sure the routes are loaded
-	\OC_App::loadApp('cloud_federation_api');
-	$capabilities = new OCA\CloudFederationAPI\Capabilities($server->getURLGenerator());
-	header('Content-Type: application/json');
-	echo json_encode($capabilities->getCapabilities()['ocm']);
-} else {
-	header($_SERVER["SERVER_PROTOCOL"]." 501 Not Implemented", true, 501);
-	exit("501 Not Implemented");
-}
+return [
+	'routes' => [
+		[
+			'name' => 'RequestHandler#addShare',
+			'url' => '/ocm/shares',
+			'verb' => 'POST',
+			'root' => '',
+		],
+		[
+			'name' => 'RequestHandler#receiveNotification',
+			'url' => '/ocm/notifications',
+			'verb' => 'POST',
+			'root' => '',
+		],
+	],
+];

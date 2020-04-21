@@ -31,6 +31,37 @@ return [
 	],
 	'routes' => [
 		[
+			'name' => 'Share#showShare',
+			'url' => '/s/{token}',
+			'verb' => 'GET',
+			'root' => '',
+		],
+		[
+			'name' => 'Share#showAuthenticate',
+			'url' => '/s/{token}/authenticate/{redirect}',
+			'verb' => 'GET',
+			'root' => '',
+		],
+		[
+			'name' => 'Share#authenticate',
+			'url' => '/s/{token}/authenticate/{redirect}',
+			'verb' => 'POST',
+			'root' => '',
+		],
+		[
+			'name' => 'Share#downloadShare',
+			'url' => '/s/{token}/download',
+			'verb' => 'GET',
+			'root' => '',
+		],
+		[
+			'name' => 'PublicPreview#directLink',
+			'url' => '/s/{token}/preview',
+			'verb' => 'GET',
+			'root' => '',
+		],
+
+		[
 			'name' => 'externalShares#testRemote',
 			'url' => '/testremote',
 			'verb' => 'GET'

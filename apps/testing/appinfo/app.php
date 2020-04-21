@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud GmbH.
  *
@@ -21,4 +23,4 @@
  *
  */
 
-$app = new \OCA\Testing\AppInfo\Application();
+$app = \OC::$server->query(\OCA\Testing\AppInfo\Application::class);
