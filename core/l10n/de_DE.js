@@ -295,7 +295,7 @@ OC.L10N.register(
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Es sieht so aus, als ob Sie Nextcloud erneut installieren möchten. Es fehlt jedoch die Datei CAN_INSTALL in ihrem Konfigurationsordner. Bitte erstellen sie die Datei CAN_INSTALL im Konfigurationsordner um fortzufahren.",
     "Could not remove CAN_INSTALL from the config folder. Please remove this file manually." : "CAN_INSTALL kann nicht aus dem Konfigurationsordner gelöscht werden. Bitte entfernen Sie die Datei manuell.",
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Diese Anwendung benötigt JavaScript zum ordnungsgemäßen Betrieb. Bitte {linkstart}aktivieren Sie JavaScript{linkend} und laden Sie die Seite neu.",
-    "Get your own free account" : "Holen Sie sich ihr eigenes kostenloses Konto",
+    "Get your own free account" : "Holen Sie sich Ihr eigenes kostenloses Konto",
     "Skip to main content" : "Zum Hauptinhalt springen",
     "Skip to navigation of app" : "Zum Navigationsbereich der App springen",
     "More apps" : "Weitere Apps",
