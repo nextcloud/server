@@ -59,6 +59,7 @@
 					v-model="user"
 					type="text"
 					name="user"
+					autocapitalize="off"
 					:autocomplete="autoCompleteAllowed ? 'on' : 'off'"
 					:placeholder="t('core', 'Username or email')"
 					:aria-label="t('core', 'Username or email')"
