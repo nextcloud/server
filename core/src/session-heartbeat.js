@@ -25,9 +25,16 @@ import { loadState } from '@nextcloud/initial-state'
 import { getCurrentUser } from '@nextcloud/auth'
 
 import { generateUrl } from './OC/routing'
+import OC from './OC'
 import { setToken as setRequestToken, getToken as getRequestToken } from './OC/requesttoken'
 
-const config = loadState('core', 'config')
+let config
+try {
+	 config = loadState('core', 'config')
+} catch (e) {
+	// This fallback is just for our legacy jsunit tests since we have no way to mock loadState calls
+	config = OC.config
+}
 
 /**
  * session heartbeat (defaults to enabled)
