@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 function recursive_optimize_images() {
-	cd "$1":
+	cd "$1" || return
 
 	# Optimize all JPGs and PNGs
-	optipng -o6 -strip all *.png;
-	jpegoptim --strip-all *.jpg;
+	optipng -o6 -strip all *.png
+	jpegoptim --strip-all *.jpg
 
 	# Optimize all SVGs
-	for svg in *.svg;
+	for svg in *.svg
 	do
 		mv $svg $svg.opttmp;
 		scour --create-groups \
@@ -19,8 +19,8 @@ function recursive_optimize_images() {
 			--strip-xml-prolog \
 			--no-line-breaks  \
 			-i $svg.opttmp \
-			-o $svg;
-	done;
+			-o $svg
+	done
 
 	# Remove temporary SVGs
 	rm *.opttmp
@@ -32,7 +32,7 @@ function recursive_optimize_images() {
 			recursive_optimize_images "$dir"
 			cd ..
 		fi
-	done;
+	done
 }
 
 recursive_optimize_images ../
