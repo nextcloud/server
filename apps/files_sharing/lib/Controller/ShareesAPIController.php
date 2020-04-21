@@ -48,6 +48,7 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\Share\IShare;
 use OCP\Share;
 use OCP\Share\IManager;
 use function usort;
@@ -163,39 +164,39 @@ class ShareesAPIController extends OCSController {
 		}
 
 		$shareTypes = [
-			Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 		];
 
 		if ($itemType === null) {
 			throw new OCSBadRequestException('Missing itemType');
 		} elseif ($itemType === 'file' || $itemType === 'folder') {
 			if ($this->shareManager->allowGroupSharing()) {
-				$shareTypes[] = Share::SHARE_TYPE_GROUP;
+				$shareTypes[] = IShare::TYPE_GROUP;
 			}
 
 			if ($this->isRemoteSharingAllowed($itemType)) {
-				$shareTypes[] = Share::SHARE_TYPE_REMOTE;
+				$shareTypes[] = IShare::TYPE_REMOTE;
 			}
 
 			if ($this->isRemoteGroupSharingAllowed($itemType)) {
-				$shareTypes[] = Share::SHARE_TYPE_REMOTE_GROUP;
+				$shareTypes[] = IShare::TYPE_REMOTE_GROUP;
 			}
 
-			if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
-				$shareTypes[] = Share::SHARE_TYPE_EMAIL;
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_EMAIL)) {
+				$shareTypes[] = IShare::TYPE_EMAIL;
 			}
 
-			if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_ROOM)) {
-				$shareTypes[] = Share::SHARE_TYPE_ROOM;
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_ROOM)) {
+				$shareTypes[] = IShare::TYPE_ROOM;
 			}
 		} else {
-			$shareTypes[] = Share::SHARE_TYPE_GROUP;
-			$shareTypes[] = Share::SHARE_TYPE_EMAIL;
+			$shareTypes[] = IShare::TYPE_GROUP;
+			$shareTypes[] = IShare::TYPE_EMAIL;
 		}
 
 		// FIXME: DI
 		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
-			$shareTypes[] = Share::SHARE_TYPE_CIRCLE;
+			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 
 		if ($shareType !== null && is_array($shareType)) {
@@ -273,11 +274,11 @@ class ShareesAPIController extends OCSController {
 	}
 
 	private $searchResultTypeMap = [
-		Share::SHARE_TYPE_USER => 'users',
-		Share::SHARE_TYPE_GROUP => 'groups',
-		Share::SHARE_TYPE_REMOTE => 'remotes',
-		Share::SHARE_TYPE_REMOTE_GROUP => 'remote_groups',
-		Share::SHARE_TYPE_EMAIL => 'emails',
+		IShare::TYPE_USER => 'users',
+		IShare::TYPE_GROUP => 'groups',
+		IShare::TYPE_REMOTE => 'remotes',
+		IShare::TYPE_REMOTE_GROUP => 'remote_groups',
+		IShare::TYPE_EMAIL => 'emails',
 	];
 
 	private function getAllSharees(string $user, array $shareTypes): ISearchResult {
@@ -333,39 +334,39 @@ class ShareesAPIController extends OCSController {
 	 */
 	public function findRecommended(string $itemType = null, $shareType = null): DataResponse {
 		$shareTypes = [
-			Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 		];
 
 		if ($itemType === null) {
 			throw new OCSBadRequestException('Missing itemType');
 		} elseif ($itemType === 'file' || $itemType === 'folder') {
 			if ($this->shareManager->allowGroupSharing()) {
-				$shareTypes[] = Share::SHARE_TYPE_GROUP;
+				$shareTypes[] = IShare::TYPE_GROUP;
 			}
 
 			if ($this->isRemoteSharingAllowed($itemType)) {
-				$shareTypes[] = Share::SHARE_TYPE_REMOTE;
+				$shareTypes[] = IShare::TYPE_REMOTE;
 			}
 
 			if ($this->isRemoteGroupSharingAllowed($itemType)) {
-				$shareTypes[] = Share::SHARE_TYPE_REMOTE_GROUP;
+				$shareTypes[] = IShare::TYPE_REMOTE_GROUP;
 			}
 
-			if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_EMAIL)) {
-				$shareTypes[] = Share::SHARE_TYPE_EMAIL;
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_EMAIL)) {
+				$shareTypes[] = IShare::TYPE_EMAIL;
 			}
 
-			if ($this->shareManager->shareProviderExists(Share::SHARE_TYPE_ROOM)) {
-				$shareTypes[] = Share::SHARE_TYPE_ROOM;
+			if ($this->shareManager->shareProviderExists(IShare::TYPE_ROOM)) {
+				$shareTypes[] = IShare::TYPE_ROOM;
 			}
 		} else {
-			$shareTypes[] = Share::SHARE_TYPE_GROUP;
-			$shareTypes[] = Share::SHARE_TYPE_EMAIL;
+			$shareTypes[] = IShare::TYPE_GROUP;
+			$shareTypes[] = IShare::TYPE_EMAIL;
 		}
 
 		// FIXME: DI
 		if (\OC::$server->getAppManager()->isEnabledForUser('circles') && class_exists('\OCA\Circles\ShareByCircleProvider')) {
-			$shareTypes[] = Share::SHARE_TYPE_CIRCLE;
+			$shareTypes[] = IShare::TYPE_CIRCLE;
 		}
 
 		if (isset($_GET['shareType']) && is_array($_GET['shareType'])) {
@@ -391,7 +392,7 @@ class ShareesAPIController extends OCSController {
 		try {
 			// FIXME: static foo makes unit testing unnecessarily difficult
 			$backend = \OC\Share\Share::getBackend($itemType);
-			return $backend->isShareTypeAllowed(Share::SHARE_TYPE_REMOTE);
+			return $backend->isShareTypeAllowed(IShare::TYPE_REMOTE);
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -401,7 +402,7 @@ class ShareesAPIController extends OCSController {
 		try {
 			// FIXME: static foo makes unit testing unnecessarily difficult
 			$backend = \OC\Share\Share::getBackend($itemType);
-			return $backend->isShareTypeAllowed(Share::SHARE_TYPE_REMOTE_GROUP);
+			return $backend->isShareTypeAllowed(IShare::TYPE_REMOTE_GROUP);
 		} catch (\Exception $e) {
 			return false;
 		}
