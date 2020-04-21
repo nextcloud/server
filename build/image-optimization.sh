@@ -8,7 +8,7 @@ function recursive_optimize_images() {
 	jpegoptim --strip-all *.jpg;
 
 	# Optimize all SVGs
-	for svg in `ls *.svg`;
+	for svg in *.svg;
 	do
 		mv $svg $svg.opttmp;
 		scour --create-groups \
@@ -26,10 +26,12 @@ function recursive_optimize_images() {
 	rm *.opttmp
 
 	# Check all subfolders
-	for dir in `ls -d */`;
+	for dir in */
 	do
-			recursive_optimize_images $dir;
-			cd ..;
+		if [[ -d "$DIR" ]]; then
+			recursive_optimize_images "$dir"
+			cd ..
+		fi
 	done;
 }
 
