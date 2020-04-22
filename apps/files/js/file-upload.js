@@ -44,6 +44,28 @@ OC.FileUpload = function(uploader, data) {
 OC.FileUpload.CONFLICT_MODE_DETECT = 0;
 OC.FileUpload.CONFLICT_MODE_OVERWRITE = 1;
 OC.FileUpload.CONFLICT_MODE_AUTORENAME = 2;
+
+// IE11 polyfill
+// TODO: nuke out of orbit as well as this legacy code
+if (!FileReader.prototype.readAsBinaryString) {
+	FileReader.prototype.readAsBinaryString = function(fileData) {
+		var binary = ''
+		var pt = this
+		var reader = new FileReader()
+		reader.onload = function (e) {
+			var bytes = new Uint8Array(reader.result)
+			var length = bytes.byteLength
+			for (var i = 0; i < length; i++) {
+				binary += String.fromCharCode(bytes[i])
+			}
+			// pt.result  - readonly so assign binary
+			pt.content = binary
+			$(pt).trigger('onload')
+		}
+		reader.readAsArrayBuffer(fileData)
+	}
+}
+
 OC.FileUpload.prototype = {
 
 	/**
@@ -938,12 +960,13 @@ OC.Uploader.prototype = _.extend({
 
 					// in case folder drag and drop is not supported file will point to a directory
 					// http://stackoverflow.com/a/20448357
-					if ( ! file.type && file.size % 4096 === 0 && file.size <= 102400) {
+					if ( !file.type && file.size % 4096 === 0 && file.size <= 102400) {
 						var dirUploadFailure = false;
 						try {
 							var reader = new FileReader();
 							reader.readAsBinaryString(file);
-						} catch (NS_ERROR_FILE_ACCESS_DENIED) {
+						} catch (error) {
+							console.log(reader, error)
 							//file is a directory
 							dirUploadFailure = true;
 						}
@@ -1059,6 +1082,7 @@ OC.Uploader.prototype = _.extend({
 								message = response.message;
 							}
 						}
+						console.error(e, data, response)
 						OC.Notification.show(message || data.errorThrown, {type: 'error'});
 					}
 
