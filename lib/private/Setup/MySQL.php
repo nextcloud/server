@@ -49,7 +49,7 @@ class MySQL extends AbstractDatabase {
 			if (version_compare($version, '10.4', '>=')) {
 				throw new DatabaseSetupException(sprintf('Unsupported MariaDB version %s, Nextcloud 16 requires a version lower than 10.4', $row['Value']));
 			}
-		} {
+		} else {
 			if (version_compare($version, '8', '>=')) {
 				throw new DatabaseSetupException(sprintf('Unsupported MySQL version %s, Nextcloud 16 requires a version lower than 8.0', $row['Value']));
 			}
