@@ -874,7 +874,7 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 		if (is_resource($dh)) {
 			$basePath = rtrim($directory, '/');
 			while (($file = readdir($dh)) !== false) {
-				if (!Filesystem::isIgnoredDir($file)) {
+				if (!Filesystem::isIgnoredDir($file) && !Filesystem::isFileBlacklisted($file)) {
 					$childPath = $basePath . '/' . trim($file, '/');
 					yield $this->getMetaData($childPath);
 				}
