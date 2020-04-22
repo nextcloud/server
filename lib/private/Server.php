@@ -373,14 +373,21 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->getLogger(),
 				$this->getUserManager()
 			);
-			$connector = new HookConnector($root, $view, $c->getEventDispatcher());
-			$connector->viewToNode();
 
 			$previewConnector = new \OC\Preview\WatcherConnector($root, $c->getSystemConfig());
 			$previewConnector->connectWatcher();
 
 			return $root;
 		});
+		$this->registerService(HookConnector::class, function (Server $c) {
+			return new HookConnector(
+				$c->query(IRootFolder::class),
+				new View(),
+				$c->query(\OC\EventDispatcher\SymfonyAdapter::class),
+				$c->query(IEventDispatcher::class)
+			);
+		});
+
 		$this->registerDeprecatedAlias('SystemTagObjectMapper', ISystemTagObjectMapper::class);
 
 		$this->registerService(IRootFolder::class, function (Server $c) {
@@ -1357,6 +1364,12 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(IInitialStateService::class, InitialStateService::class);
 
 		$this->connectDispatcher();
+	}
+
+	public function boot() {
+		/** @var HookConnector $hookConnector */
+		$hookConnector = $this->query(HookConnector::class);
+		$hookConnector->viewToNode();
 	}
 
 	/**
