@@ -135,7 +135,6 @@ class Php73 implements IAdapter {
 		$this->linkData[$linkId]['readArgs'] = func_get_args();
 		$this->linkData[$linkId]['readArgs'][] = 0; // $attrsonly default
 		$this->linkData[$linkId]['readArgs'][] = -1; // $sizelimit default
-		$this->preparePagesResultsArgs($linkId, 'readArgs');
 	}
 
 	public function getReadArgs($link): array {
