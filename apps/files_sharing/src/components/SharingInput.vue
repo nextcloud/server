@@ -394,7 +394,7 @@ export default {
 				shareWith: result.value.shareWith,
 				shareType: result.value.shareType,
 				user: result.uuid || result.value.shareWith,
-				isNoUser: !result.uuid,
+				isNoUser: result.value.shareType !== this.SHARE_TYPES.SHARE_TYPE_USER,
 				displayName: result.name || result.label,
 				desc,
 				icon: this.shareTypeToIcon(result.value.shareType),
