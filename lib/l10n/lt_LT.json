@@ -218,7 +218,7 @@
     "Sharing %1$s failed, because this item is already shared with user %2$s" : "Nepavyko bendrinti %1$s, nes šis elementas jau yra bendrinamas su naudotoju %2$s",
     "Sharing %1$s failed, because the group %2$s does not exist" : "Nepavyko bendrinti %1$s, nes grupės %2$s nėra",
     "Sharing %1$s failed, because %2$s is not a member of the group %3$s" : "Nepavyko bendrinti %1$s, nes %2$s nėra grupės %3$s narys",
-    "You need to provide a password to create a public link, only protected links are allowed" : "Viešoms nuorodoms būtinas slaptažodis, leidžiamos tik apsaugotos nuorodos.",
+    "You need to provide a password to create a public link, only protected links are allowed" : "Norėdami sukurti viešąją nuorodą, turite pateikti slaptažodį, leidžiamos tik apsaugotos nuorodos",
     "Sharing %s failed, because sharing with links is not allowed" : "Bendrinimas %s nepavyko, kadangi bendrinimas su nuorodomis yra neleidžiamas.",
     "Not allowed to create a federated share with the same user" : "Negalima sukurti federacinį viešinį su tuo pačiu naudotoju",
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable." : "Nepavyko bendrinti %1$s, nepavyko rasti %2$s, galbūt, šiuo metu serveris yra nepasiekiamas.",
