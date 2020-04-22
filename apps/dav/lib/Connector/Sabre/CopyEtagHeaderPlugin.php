@@ -46,7 +46,7 @@ class CopyEtagHeaderPlugin extends \Sabre\DAV\ServerPlugin {
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 
-		$server->on('afterMethod', [$this, 'afterMethod']);
+		$server->on('afterMethod:*', [$this, 'afterMethod']);
 		$server->on('afterMove', [$this, 'afterMove']);
 	}
 
