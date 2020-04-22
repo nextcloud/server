@@ -87,6 +87,7 @@
     "%1$s changed your password on %2$s." : "%1$s a modifié votre mot de passe sur %2$s.",
     "Your password on %s was changed." : "Votre mot de passe sur %s a été modifié.",
     "Your password on %s was reset by an administrator." : "Votre mot de passe sur %s a été réinitialisé par un administrateur.",
+    "Your password on %s was reset." : "Votre mot de passe sur %s a été réinitialisé.",
     "Password for %1$s changed on %2$s" : "Mot de passe pour %1$s a été modifié sur %2$s",
     "Password changed for %s" : "Mot de passe modifié pour %s",
     "If you did not request this, please contact an administrator." : "Si vous n'aviez pas effectué cette demande, veuillez contacter un administrateur.",
