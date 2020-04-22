@@ -194,13 +194,13 @@ class RoutingTest extends \Test\TestCase {
 	public function testResource() {
 		$routes = ['resources' => ['account' => ['url' => '/accounts']]];
 
-		$this->assertResource($routes, 'account', '/accounts', 'AccountController', 'id');
+		$this->assertResource($routes, 'account', '/apps/app1/accounts', 'AccountController', 'id');
 	}
 
 	public function testResourceWithUnderScoreName() {
 		$routes = ['resources' => ['admin_accounts' => ['url' => '/admin/accounts']]];
 
-		$this->assertResource($routes, 'admin_accounts', '/admin/accounts', 'AdminAccountsController', 'id');
+		$this->assertResource($routes, 'admin_accounts', '/apps/app1/admin/accounts', 'AdminAccountsController', 'id');
 	}
 
 	private function assertSimpleRoute($routes, $name, $verb, $url, $controllerName, $actionName, array $requirements = [], array $defaults = [], $postfix = '', $allowRootUrl = false): void {
