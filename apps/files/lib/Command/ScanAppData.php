@@ -38,6 +38,7 @@ use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -67,6 +68,8 @@ class ScanAppData extends Base {
 		$this
 			->setName('files:scan-app-data')
 			->setDescription('rescan the AppData folder');
+
+		$this->addArgument('folder', InputArgument::OPTIONAL, 'The appdata subfolder to scan', '');
 	}
 
 	public function checkScanWarning($fullPath, OutputInterface $output) {
@@ -78,12 +81,21 @@ class ScanAppData extends Base {
 		}
 	}
 
-	protected function scanFiles(OutputInterface $output) {
+	protected function scanFiles(OutputInterface $output, string $folder) {
 		try {
 			$appData = $this->getAppDataFolder();
 		} catch (NotFoundException $e) {
 			$output->writeln('NoAppData folder found');
 			return;
+		}
+
+		if ($folder !== '') {
+			try {
+				$appData = $appData->get($folder);
+			} catch (NotFoundException $e) {
+				$output->writeln('Could not find folder: ' . $folder);
+				return;
+			}
 		}
 
 		$connection = $this->reconnectToDatabase($output);
@@ -139,9 +151,11 @@ class ScanAppData extends Base {
 
 		$output->writeln("\nScanning AppData for files");
 
+		$folder = $input->getArgument('folder');
+
 		$this->initTools();
 
-		$this->scanFiles($output);
+		$this->scanFiles($output, $folder);
 
 		$this->presentStats($output);
 	}
