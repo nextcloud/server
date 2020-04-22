@@ -36,6 +36,7 @@
 
 namespace OCA\Files_External\Lib\Storage;
 
+use Icewind\SMB\ACL;
 use Icewind\SMB\BasicAuth;
 use Icewind\SMB\Exception\AlreadyExistsException;
 use Icewind\SMB\Exception\ConnectException;
@@ -90,6 +91,9 @@ class SMB extends Common implements INotifyStorage {
 	/** @var bool */
 	protected $showHidden;
 
+	/** @var bool */
+	protected $checkAcl;
+
 	public function __construct($params) {
 		if (!isset($params['host'])) {
 			throw new \Exception('Invalid configuration, no host provided');
@@ -126,6 +130,7 @@ class SMB extends Common implements INotifyStorage {
 		$this->root = rtrim($this->root, '/') . '/';
 
 		$this->showHidden = isset($params['show_hidden']) && $params['show_hidden'];
+		$this->checkAcl = isset($params['check_acl']) && $params['check_acl'];
 
 		$this->statCache = new CappedMemoryCache();
 		parent::__construct($params);
@@ -203,6 +208,24 @@ class SMB extends Common implements INotifyStorage {
 	}
 
 	/**
+	 * get the acl from fileinfo that is relevant for the configured user
+	 *
+	 * @param IFileInfo $file
+	 * @return ACL|null
+	 */
+	private function getACL(IFileInfo $file): ?ACL {
+		$acls = $file->getAcls();
+		foreach ($acls as $user => $acl) {
+			[, $user] = explode('\\', $user); // strip domain
+			if ($user === $this->server->getAuth()->getUsername()) {
+				return $acl;
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * @param string $path
 	 * @return \Icewind\SMB\IFileInfo[]
 	 * @throws StorageNotAvailableException
@@ -220,6 +243,17 @@ class SMB extends Common implements INotifyStorage {
 					// the isHidden check is done before checking the config boolean to ensure that the metadata is always fetch
 					// so we trigger the below exceptions where applicable
 					$hide = $file->isHidden() && !$this->showHidden;
+
+					if ($this->checkAcl && $acl = $this->getACL($file)) {
+						// if there is no explicit deny, we assume it's allowed
+						// this doesn't take inheritance fully into account but if read permissions is denied for a parent we wouldn't be in this folder
+						// additionally, it's better to have false negatives here then false positives
+						if ($acl->denies(ACL::MASK_READ) || $acl->denies(ACL::MASK_EXECUTE)) {
+							$this->logger->debug('Hiding non readable entry ' . $file->getName());
+							return false;
+						}
+					}
+
 					if ($hide) {
 						$this->logger->debug('hiding hidden file ' . $file->getName());
 					}
