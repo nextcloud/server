@@ -48,7 +48,6 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Share\IShare;
-use OCP\Share;
 use OCP\Share\IManager;
 use function usort;
 
