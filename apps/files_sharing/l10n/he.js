@@ -149,6 +149,8 @@ OC.L10N.register(
     "Shared with" : "משותף עם",
     "Shared with you and the group {group} by {owner}" : "שותף אתך ועם הקבוצה {group} על ידי {owner}",
     "Shared with you and {circle} by {owner}" : "משותף אתך ועם {circle} על ידי {owner}",
+    "Shared with you and the conversation {conversation} by {owner}" : "שותף אתך והדיון {conversation} על ידי {owner}",
+    "Shared with you in a conversation by {owner}" : "שותף אתך בדיון על ידי {owner}",
     "Shared with you by {owner}" : "שותף אתך על ידי {owner}",
     "No entries found in this folder" : "לא נמצאו כניסות לתיקייה זו",
     "Name" : "שם",
