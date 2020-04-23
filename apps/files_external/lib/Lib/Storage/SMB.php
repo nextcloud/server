@@ -158,7 +158,7 @@ class SMB extends Common implements INotifyStorage {
 		// failure to do so will lead to creation of a new storage id and
 		// loss of shares from the storage
 
-		// For shared storage, use the same IF dor all users
+		// For shared storage, use the same ID for all users
 		if( $this->isSharedStorage ) {
 			return 'smb::' . $this->server->getHost() . '//' . $this->share->getName() . '/' . $this->root;
 		}
