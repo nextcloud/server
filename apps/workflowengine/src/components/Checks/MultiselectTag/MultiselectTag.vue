@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { Multiselect } from '@nextcloud/vue/dist/Components/Multiselect'
+import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import { searchTags } from './api'
 
 let uuid = 0
