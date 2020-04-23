@@ -28,12 +28,18 @@ import { generateUrl } from './OC/routing'
 import OC from './OC'
 import { setToken as setRequestToken, getToken as getRequestToken } from './OC/requesttoken'
 
-let config
-try {
-	 config = loadState('core', 'config')
-} catch (e) {
-	// This fallback is just for our legacy jsunit tests since we have no way to mock loadState calls
-	config = OC.config
+let config = null
+/**
+ * The legacy jsunit tests overwrite OC.config before calling initCore
+ * therefore we need to wait with assigning the config fallback until initCore calls initSessionHeartBeat
+ */
+const loadConfig = () => {
+	try {
+		config = loadState('core', 'config')
+	} catch (e) {
+		// This fallback is just for our legacy jsunit tests since we have no way to mock loadState calls
+		config = OC.config
+	}
 }
 
 /**
@@ -131,6 +137,8 @@ const registerAutoLogout = () => {
  * token doesn't expire
  */
 export const initSessionHeartBeat = () => {
+	loadConfig()
+
 	registerAutoLogout()
 
 	if (!keepSessionAlive()) {
