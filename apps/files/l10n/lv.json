@@ -63,6 +63,8 @@
     "New" : "Jauna",
     "\"{name}\" is an invalid file name." : "\"{name}\" ir nepareizs datnes nosaukums.",
     "File name cannot be empty." : "Datnes nosaukums nevar būt tukšs.",
+    "\"/\" is not allowed inside a file name." : "\"/\" nav atļauts faila nosaukumā.",
+    "\"{name}\" is not an allowed filetype" : "\"{name}\" nav atļauts faila tips",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} glabātuve ir pilna, datnes vairs nevar augšupielādēt vai sinhronizēt!",
     "Your storage is full, files can not be updated or synced anymore!" : "Jūsu glabātuve ir pilna, datnes vairs nevar augšupielādēt vai sinhronizēt!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "{owner} glabātuve ir gandrīz pilna ({usedSpacePercent}%)",
