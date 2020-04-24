@@ -32,6 +32,7 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCA\DAV\Connector\Sabre\File;
 use OCA\DAV\Connector\Sabre\Node;
+use OCA\DAV\Upload\UploadFile;
 use OCP\Files\Folder;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -189,7 +190,7 @@ class SharesPluginTest extends \Test\TestCase {
 		$this->userFolder->method('get')
 			->with('/subdir')
 			->willReturn($node);
-		
+
 		$dummyShares = array_map(function ($type) {
 			$share = $this->getMockBuilder(IShare::class)->getMock();
 			$share->expects($this->any())
@@ -281,5 +282,25 @@ class SharesPluginTest extends \Test\TestCase {
 			[[\OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_LINK]],
 			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_REMOTE]],
 		];
+	}
+
+	public function testGetPropertiesSkipChunks(): void {
+		$sabreNode = $this->getMockBuilder(UploadFile::class)
+			->disableOriginalConstructor()
+			->getMock();
+
+		$propFind = new \Sabre\DAV\PropFind(
+			'/dummyPath',
+			[self::SHARETYPES_PROPERTYNAME],
+			0
+		);
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$sabreNode
+		);
+
+		$result = $propFind->getResultForMultiStatus();
+		$this->assertCount(1, $result[404]);
 	}
 }

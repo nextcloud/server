@@ -238,6 +238,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Upload\\CleanupService' => __DIR__ . '/..' . '/../lib/Upload/CleanupService.php',
         'OCA\\DAV\\Upload\\FutureFile' => __DIR__ . '/..' . '/../lib/Upload/FutureFile.php',
         'OCA\\DAV\\Upload\\RootCollection' => __DIR__ . '/..' . '/../lib/Upload/RootCollection.php',
+        'OCA\\DAV\\Upload\\UploadFile' => __DIR__ . '/..' . '/../lib/Upload/UploadFile.php',
         'OCA\\DAV\\Upload\\UploadFolder' => __DIR__ . '/..' . '/../lib/Upload/UploadFolder.php',
         'OCA\\DAV\\Upload\\UploadHome' => __DIR__ . '/..' . '/../lib/Upload/UploadHome.php',
     );
