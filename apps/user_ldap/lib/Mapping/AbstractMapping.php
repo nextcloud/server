@@ -26,8 +26,11 @@
 
 namespace OCA\User_LDAP\Mapping;
 
+use OC\DB\QueryBuilder\QueryBuilder;
+
 /**
  * Class AbstractMapping
+ *
  * @package OCA\User_LDAP\Mapping
  */
 abstract class AbstractMapping {
@@ -38,9 +41,10 @@ abstract class AbstractMapping {
 
 	/**
 	 * returns the DB table name which holds the mappings
+	 *
 	 * @return string
 	 */
-	abstract protected function getTableName();
+	abstract protected function getTableName(bool $includePrefix = true);
 
 	/**
 	 * @param \OCP\IDBConnection $dbc
@@ -49,8 +53,12 @@ abstract class AbstractMapping {
 		$this->dbc = $dbc;
 	}
 
+	/** @var array caches Names (value) by DN (key) */
+	protected $cache = [];
+
 	/**
 	 * checks whether a provided string represents an existing table col
+	 *
 	 * @param string $col
 	 * @return bool
 	 */
@@ -67,11 +75,12 @@ abstract class AbstractMapping {
 
 	/**
 	 * Gets the value of one column based on a provided value of another column
+	 *
 	 * @param string $fetchCol
 	 * @param string $compareCol
 	 * @param string $search
-	 * @throws \Exception
 	 * @return string|false
+	 * @throws \Exception
 	 */
 	protected function getXbyY($fetchCol, $compareCol, $search) {
 		if (!$this->isColNameValid($fetchCol)) {
@@ -81,7 +90,7 @@ abstract class AbstractMapping {
 		}
 		$query = $this->dbc->prepare('
 			SELECT `' . $fetchCol . '`
-			FROM `'. $this->getTableName() .'`
+			FROM `' . $this->getTableName() . '`
 			WHERE `' . $compareCol . '` = ?
 		');
 
@@ -95,6 +104,7 @@ abstract class AbstractMapping {
 
 	/**
 	 * Performs a DELETE or UPDATE query to the database.
+	 *
 	 * @param \Doctrine\DBAL\Driver\Statement $query
 	 * @param array $parameters
 	 * @return bool true if at least one row was modified, false otherwise
@@ -107,27 +117,42 @@ abstract class AbstractMapping {
 	/**
 	 * Gets the LDAP DN based on the provided name.
 	 * Replaces Access::ocname2dn
+	 *
 	 * @param string $name
 	 * @return string|false
 	 */
 	public function getDNByName($name) {
-		return $this->getXbyY('ldap_dn', 'owncloud_name', $name);
+		$dn = array_search($name, $this->cache);
+		if ($dn === false) {
+			$dn = $this->getXbyY('ldap_dn', 'owncloud_name', $name);
+			$this->cache[$dn] = $name;
+		}
+		return $dn;
 	}
 
 	/**
 	 * Updates the DN based on the given UUID
+	 *
 	 * @param string $fdn
 	 * @param string $uuid
 	 * @return bool
 	 */
 	public function setDNbyUUID($fdn, $uuid) {
+		$oldDn = $this->getDnByUUID($uuid);
 		$query = $this->dbc->prepare('
 			UPDATE `' . $this->getTableName() . '`
 			SET `ldap_dn` = ?
 			WHERE `directory_uuid` = ?
 		');
 
-		return $this->modify($query, [$fdn, $uuid]);
+		$r = $this->modify($query, [$fdn, $uuid]);
+
+		if ($r && is_string($oldDn) && isset($this->cache[$oldDn])) {
+			$this->cache[$fdn] = $this->cache[$oldDn];
+			unset($this->cache[$oldDn]);
+		}
+
+		return $r;
 	}
 
 	/**
@@ -146,20 +171,44 @@ abstract class AbstractMapping {
 			WHERE `ldap_dn` = ?
 		');
 
+		unset($this->cache[$fdn]);
+
 		return $this->modify($query, [$uuid, $fdn]);
 	}
 
 	/**
 	 * Gets the name based on the provided LDAP DN.
+	 *
 	 * @param string $fdn
 	 * @return string|false
 	 */
 	public function getNameByDN($fdn) {
-		return $this->getXbyY('owncloud_name', 'ldap_dn', $fdn);
+		if (!isset($this->cache[$fdn])) {
+			$this->cache[$fdn] = $this->getXbyY('owncloud_name', 'ldap_dn', $fdn);
+		}
+		return $this->cache[$fdn];
+	}
+
+	public function getListOfIdsByDn(array $fdns): array {
+		$qb = $this->dbc->getQueryBuilder();
+		$qb->select('owncloud_name', 'ldap_dn')
+			->from($this->getTableName(false))
+			->where($qb->expr()->in('ldap_dn', $qb->createNamedParameter($fdns, QueryBuilder::PARAM_STR_ARRAY)));
+		$stmt = $qb->execute();
+
+		$results = $stmt->fetchAll(\Doctrine\DBAL\FetchMode::ASSOCIATIVE);
+		foreach ($results as $key => $entry) {
+			unset($results[$key]);
+			$results[$entry['ldap_dn']] = $entry['owncloud_name'];
+			$this->cache[$entry['ldap_dn']] = $entry['owncloud_name'];
+		}
+
+		return $results;
 	}
 
 	/**
 	 * Searches mapped names by the giving string in the name column
+	 *
 	 * @param string $search
 	 * @param string $prefixMatch
 	 * @param string $postfixMatch
@@ -168,11 +217,11 @@ abstract class AbstractMapping {
 	public function getNamesBySearch($search, $prefixMatch = "", $postfixMatch = "") {
 		$query = $this->dbc->prepare('
 			SELECT `owncloud_name`
-			FROM `'. $this->getTableName() .'`
+			FROM `' . $this->getTableName() . '`
 			WHERE `owncloud_name` LIKE ?
 		');
 
-		$res = $query->execute([$prefixMatch.$this->dbc->escapeLikeParameter($search).$postfixMatch]);
+		$res = $query->execute([$prefixMatch . $this->dbc->escapeLikeParameter($search) . $postfixMatch]);
 		$names = [];
 		if ($res !== false) {
 			while ($row = $query->fetch()) {
@@ -184,6 +233,7 @@ abstract class AbstractMapping {
 
 	/**
 	 * Gets the name based on the provided LDAP UUID.
+	 *
 	 * @param string $uuid
 	 * @return string|false
 	 */
@@ -191,8 +241,13 @@ abstract class AbstractMapping {
 		return $this->getXbyY('owncloud_name', 'directory_uuid', $uuid);
 	}
 
+	public function getDnByUUID($uuid) {
+		return $this->getXbyY('ldap_dn', 'directory_uuid', $uuid);
+	}
+
 	/**
 	 * Gets the UUID based on the provided LDAP DN
+	 *
 	 * @param string $dn
 	 * @return false|string
 	 * @throws \Exception
@@ -203,6 +258,7 @@ abstract class AbstractMapping {
 
 	/**
 	 * gets a piece of the mapping list
+	 *
 	 * @param int $offset
 	 * @param int $limit
 	 * @return array
@@ -224,6 +280,7 @@ abstract class AbstractMapping {
 
 	/**
 	 * attempts to map the given entry
+	 *
 	 * @param string $fdn fully distinguished name (from LDAP)
 	 * @param string $name
 	 * @param string $uuid a unique identifier as used in LDAP
@@ -242,13 +299,16 @@ abstract class AbstractMapping {
 		}
 
 		$row = [
-			'ldap_dn'        => $fdn,
-			'owncloud_name'  => $name,
+			'ldap_dn' => $fdn,
+			'owncloud_name' => $name,
 			'directory_uuid' => $uuid
 		];
 
 		try {
 			$result = $this->dbc->insertIfNotExist($this->getTableName(), $row);
+			if ((bool)$result === true) {
+				$this->cache[$fdn] = $name;
+			}
 			// insertIfNotExist returns values as int
 			return (bool)$result;
 		} catch (\Exception $e) {
@@ -258,12 +318,13 @@ abstract class AbstractMapping {
 
 	/**
 	 * removes a mapping based on the owncloud_name of the entry
+	 *
 	 * @param string $name
 	 * @return bool
 	 */
 	public function unmap($name) {
 		$query = $this->dbc->prepare('
-			DELETE FROM `'. $this->getTableName() .'`
+			DELETE FROM `' . $this->getTableName() . '`
 			WHERE `owncloud_name` = ?');
 
 		return $this->modify($query, [$name]);
@@ -271,6 +332,7 @@ abstract class AbstractMapping {
 
 	/**
 	 * Truncate's the mapping table
+	 *
 	 * @return bool
 	 */
 	public function clear() {

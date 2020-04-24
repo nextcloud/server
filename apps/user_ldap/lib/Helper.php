@@ -34,12 +34,16 @@
 
 namespace OCA\User_LDAP;
 
+use OC\Cache\CappedMemoryCache;
 use OCP\IConfig;
 
 class Helper {
 
 	/** @var IConfig */
 	private $config;
+
+	/** @var CappedMemoryCache */
+	protected $sanitizeDnCache;
 
 	/**
 	 * Helper constructor.
@@ -48,10 +52,12 @@ class Helper {
 	 */
 	public function __construct(IConfig $config) {
 		$this->config = $config;
+		$this->sanitizeDnCache = new CappedMemoryCache(10000);
 	}
 
 	/**
 	 * returns prefixes for each saved LDAP/AD server configuration.
+	 *
 	 * @param bool $activeConfigurations optional, whether only active configuration shall be
 	 * retrieved, defaults to false
 	 * @return array with a list of the available prefixes
@@ -92,6 +98,7 @@ class Helper {
 	/**
 	 *
 	 * determines the host for every configured connection
+	 *
 	 * @return array an array with configprefix as keys
 	 *
 	 */
@@ -144,6 +151,7 @@ class Helper {
 
 	/**
 	 * deletes a given saved LDAP/AD server configuration.
+	 *
 	 * @param string $prefix the configuration prefix of the config to delete
 	 * @return bool true on success, false otherwise
 	 */
@@ -161,11 +169,11 @@ class Helper {
 			DELETE
 			FROM `*PREFIX*appconfig`
 			WHERE `configkey` LIKE ?
-				'.$saveOtherConfigurations.'
+				' . $saveOtherConfigurations . '
 				AND `appid` = \'user_ldap\'
 				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
 		');
-		$delRows = $query->execute([$prefix.'%']);
+		$delRows = $query->execute([$prefix . '%']);
 
 		if ($delRows === null) {
 			return false;
@@ -180,8 +188,9 @@ class Helper {
 
 	/**
 	 * checks whether there is one or more disabled LDAP configurations
-	 * @throws \Exception
+	 *
 	 * @return bool
+	 * @throws \Exception
 	 */
 	public function haveDisabledConfigurations() {
 		$all = $this->getServerConfigurationPrefixes(false);
@@ -196,6 +205,7 @@ class Helper {
 
 	/**
 	 * extracts the domain from a given URL
+	 *
 	 * @param string $url the URL
 	 * @return string|false domain as string on success, false otherwise
 	 */
@@ -229,6 +239,7 @@ class Helper {
 
 	/**
 	 * sanitizes a DN received from the LDAP server
+	 *
 	 * @param array $dn the DN in question
 	 * @return array|string the sanitized DN
 	 */
@@ -242,12 +253,20 @@ class Helper {
 			return $result;
 		}
 
+		if (!is_string($dn)) {
+			throw new \LogicException('String expected ' . \gettype($dn) . ' given');
+		}
+
+		if (($sanitizedDn = $this->sanitizeDnCache->get($dn)) !== null) {
+			return $sanitizedDn;
+		}
+
 		//OID sometimes gives back DNs with whitespace after the comma
 		// a la "uid=foo, cn=bar, dn=..." We need to tackle this!
-		$dn = preg_replace('/([^\\\]),(\s+)/u', '\1,', $dn);
+		$sanitizedDn = preg_replace('/([^\\\]),(\s+)/u', '\1,', $dn);
 
 		//make comparisons and everything work
-		$dn = mb_strtolower($dn, 'UTF-8');
+		$sanitizedDn = mb_strtolower($sanitizedDn, 'UTF-8');
 
 		//escape DN values according to RFC 2253 – this is already done by ldap_explode_dn
 		//to use the DN in search filters, \ needs to be escaped to \5c additionally
@@ -261,17 +280,19 @@ class Helper {
 			'\;' => '\5c3B',
 			'\"' => '\5c22',
 			'\#' => '\5c23',
-			'('  => '\28',
-			')'  => '\29',
-			'*'  => '\2A',
+			'(' => '\28',
+			')' => '\29',
+			'*' => '\2A',
 		];
-		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
+		$sanitizedDn = str_replace(array_keys($replacements), array_values($replacements), $sanitizedDn);
+		$this->sanitizeDnCache->set($dn, $sanitizedDn);
 
-		return $dn;
+		return $sanitizedDn;
 	}
 
 	/**
 	 * converts a stored DN so it can be used as base parameter for LDAP queries, internally we store them for usage in LDAP filters
+	 *
 	 * @param string $dn the DN
 	 * @return string
 	 */
@@ -302,7 +323,7 @@ class Helper {
 		$userSession = \OC::$server->getUserSession();
 		$userPluginManager = \OC::$server->query('LDAPUserPluginManager');
 
-		$userBackend  = new User_Proxy(
+		$userBackend = new User_Proxy(
 			$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession, $userPluginManager
 		);
 		$uid = $userBackend->loginName2UserName($param['uid']);
