@@ -21,18 +21,34 @@
 
 import $ from 'jquery'
 import { emit } from '@nextcloud/event-bus'
+import { loadState } from '@nextcloud/initial-state'
+import { getCurrentUser } from '@nextcloud/auth'
 
 import { generateUrl } from './OC/routing'
 import OC from './OC'
-import { setToken as setRequestToken } from './OC/requesttoken'
+import { setToken as setRequestToken, getToken as getRequestToken } from './OC/requesttoken'
+
+let config = null
+/**
+ * The legacy jsunit tests overwrite OC.config before calling initCore
+ * therefore we need to wait with assigning the config fallback until initCore calls initSessionHeartBeat
+ */
+const loadConfig = () => {
+	try {
+		config = loadState('core', 'config')
+	} catch (e) {
+		// This fallback is just for our legacy jsunit tests since we have no way to mock loadState calls
+		config = OC.config
+	}
+}
 
 /**
  * session heartbeat (defaults to enabled)
  * @returns {boolean}
  */
 const keepSessionAlive = () => {
-	return OC.config.session_keepalive === undefined
-		|| !!OC.config.session_keepalive
+	return config.session_keepalive === undefined
+		|| !!config.session_keepalive
 }
 
 /**
@@ -41,8 +57,8 @@ const keepSessionAlive = () => {
  */
 const getInterval = () => {
 	let interval = NaN
-	if (OC.config.session_lifetime) {
-		interval = Math.floor(OC.config.session_lifetime / 2)
+	if (config.session_lifetime) {
+		interval = Math.floor(config.session_lifetime / 2)
 	}
 
 	// minimum one minute, max 24 hours, default 15 minutes
@@ -83,11 +99,48 @@ const startPolling = () => {
 	return interval
 }
 
+const registerAutoLogout = () => {
+	if (!config.auto_logout || !getCurrentUser()) {
+		return
+	}
+
+	let lastActive = Date.now()
+	window.addEventListener('mousemove', e => {
+		lastActive = Date.now()
+		localStorage.setItem('lastActive', lastActive)
+	})
+
+	window.addEventListener('touchstart', e => {
+		lastActive = Date.now()
+		localStorage.setItem('lastActive', lastActive)
+	})
+
+	window.addEventListener('storage', e => {
+		if (e.key !== 'lastActive') {
+			return
+		}
+		lastActive = e.newValue
+	})
+
+	setInterval(function() {
+		const timeout = Date.now() - config.session_lifetime * 1000
+		if (lastActive < timeout) {
+			console.info('Inactivity timout reached, logging out')
+			const logoutUrl = generateUrl('/logout') + '?requesttoken=' + getRequestToken()
+			window.location = logoutUrl
+		}
+	}, 1000)
+}
+
 /**
  * Calls the server periodically to ensure that session and CSRF
  * token doesn't expire
  */
 export const initSessionHeartBeat = () => {
+	loadConfig()
+
+	registerAutoLogout()
+
 	if (!keepSessionAlive()) {
 		console.info('session heartbeat disabled')
 		return
