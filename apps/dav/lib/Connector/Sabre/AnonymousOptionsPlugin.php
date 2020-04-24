@@ -67,9 +67,9 @@ class AnonymousOptionsPlugin extends ServerPlugin {
 		$emptyAuth = $request->getHeader('Authorization') === null
 			|| $request->getHeader('Authorization') === ''
 			|| trim($request->getHeader('Authorization')) === 'Bearer';
-		$isAnonymousOption = $request->getMethod() === 'OPTIONS' && $emptyAuth;
+		$isAnonymousOfficeOption = $request->getMethod() === 'OPTIONS' && $isOffice && $emptyAuth;
 		$isOfficeHead = $request->getMethod() === 'HEAD' && $isOffice && $emptyAuth;
-		if ($isAnonymousOption || $isOfficeHead) {
+		if ($isAnonymousOfficeOption || $isOfficeHead) {
 			/** @var CorePlugin $corePlugin */
 			$corePlugin = $this->server->getPlugin('core');
 			// setup a fake tree for anonymous access
