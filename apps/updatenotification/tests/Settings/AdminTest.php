@@ -158,6 +158,176 @@ class AdminTest extends TestCase {
 		$this->assertEquals($expected, $this->admin->getForm());
 	}
 
+	public function testGetFormWithUpdateAndChangedUpdateServer() {
+		$channels = [
+			'daily',
+			'beta',
+			'stable',
+			'production',
+		];
+		$currentChannel = Util::getChannel();
+		if ($currentChannel === 'git') {
+			$channels[] = 'git';
+		}
+
+		$this->config
+			->expects($this->exactly(2))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'lastupdatedat', '', '12345'],
+				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
+			]);
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
+			->willReturn('https://updates.nextcloud.com/updater_server_changed/');
+		$this->dateTimeFormatter
+			->expects($this->once())
+			->method('formatDateTime')
+			->with('12345')
+			->willReturn('LastCheckedReturnValue');
+		$this->updateChecker
+			->expects($this->once())
+			->method('getUpdateState')
+			->willReturn([
+				'updateAvailable' => true,
+				'updateVersion' => '8.1.2',
+				'updateVersionString' => 'Nextcloud 8.1.2',
+				'downloadLink' => 'https://downloads.nextcloud.org/server',
+				'changes' => [],
+				'updaterEnabled' => true,
+				'versionIsEol' => false,
+			]);
+
+		$group = $this->createMock(IGroup::class);
+		$group->expects($this->any())
+			->method('getDisplayName')
+			->willReturn('Administrators');
+		$group->expects($this->any())
+			->method('getGID')
+			->willReturn('admin');
+		$this->groupManager->expects($this->once())
+			->method('get')
+			->with('admin')
+			->willReturn($group);
+
+		$this->subscriptionRegistry
+			->expects($this->once())
+			->method('delegateHasValidSubscription')
+			->willReturn(true);
+
+		$params = [
+			'json' => json_encode([
+				'isNewVersionAvailable' => true,
+				'isUpdateChecked' => true,
+				'lastChecked' => 'LastCheckedReturnValue',
+				'currentChannel' => Util::getChannel(),
+				'channels' => $channels,
+				'newVersion' => '8.1.2',
+				'newVersionString' => 'Nextcloud 8.1.2',
+				'downloadLink' => 'https://downloads.nextcloud.org/server',
+				'changes' => [],
+				'updaterEnabled' => true,
+				'versionIsEol' => false,
+				'isDefaultUpdateServerURL' => false,
+				'updateServerURL' => 'https://updates.nextcloud.com/updater_server_changed/',
+				'notifyGroups' => [
+					['value' => 'admin', 'label' => 'Administrators'],
+				],
+				'hasValidSubscription' => true,
+			]),
+		];
+
+		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
+		$this->assertEquals($expected, $this->admin->getForm());
+	}
+
+	public function testGetFormWithUpdateAndCustomersUpdateServer() {
+		$channels = [
+			'daily',
+			'beta',
+			'stable',
+			'production',
+		];
+		$currentChannel = Util::getChannel();
+		if ($currentChannel === 'git') {
+			$channels[] = 'git';
+		}
+
+		$this->config
+			->expects($this->exactly(2))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'lastupdatedat', '', '12345'],
+				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
+			]);
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('updater.server.url', 'https://updates.nextcloud.com/updater_server/')
+			->willReturn('https://updates.nextcloud.com/customers/ABC-DEF/');
+		$this->dateTimeFormatter
+			->expects($this->once())
+			->method('formatDateTime')
+			->with('12345')
+			->willReturn('LastCheckedReturnValue');
+		$this->updateChecker
+			->expects($this->once())
+			->method('getUpdateState')
+			->willReturn([
+				'updateAvailable' => true,
+				'updateVersion' => '8.1.2',
+				'updateVersionString' => 'Nextcloud 8.1.2',
+				'downloadLink' => 'https://downloads.nextcloud.org/server',
+				'changes' => [],
+				'updaterEnabled' => true,
+				'versionIsEol' => false,
+			]);
+
+		$group = $this->createMock(IGroup::class);
+		$group->expects($this->any())
+			->method('getDisplayName')
+			->willReturn('Administrators');
+		$group->expects($this->any())
+			->method('getGID')
+			->willReturn('admin');
+		$this->groupManager->expects($this->once())
+			->method('get')
+			->with('admin')
+			->willReturn($group);
+
+		$this->subscriptionRegistry
+			->expects($this->once())
+			->method('delegateHasValidSubscription')
+			->willReturn(true);
+
+		$params = [
+			'json' => json_encode([
+				'isNewVersionAvailable' => true,
+				'isUpdateChecked' => true,
+				'lastChecked' => 'LastCheckedReturnValue',
+				'currentChannel' => Util::getChannel(),
+				'channels' => $channels,
+				'newVersion' => '8.1.2',
+				'newVersionString' => 'Nextcloud 8.1.2',
+				'downloadLink' => 'https://downloads.nextcloud.org/server',
+				'changes' => [],
+				'updaterEnabled' => true,
+				'versionIsEol' => false,
+				'isDefaultUpdateServerURL' => true,
+				'updateServerURL' => 'https://updates.nextcloud.com/customers/ABC-DEF/',
+				'notifyGroups' => [
+					['value' => 'admin', 'label' => 'Administrators'],
+				],
+				'hasValidSubscription' => true,
+			]),
+		];
+
+		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
+		$this->assertEquals($expected, $this->admin->getForm());
+	}
+
 
 	public function testGetSection() {
 		$this->assertSame('overview', $this->admin->getSection());
