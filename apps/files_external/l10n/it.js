@@ -105,6 +105,7 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Condividi",
     "Show hidden files" : "Mostra i file nascosti",
+    "Verify ACL access when listing files" : "Verifica le ACL di accesso quando elenchi i file",
     "Timeout" : "Tempo scaduto",
     "SMB / CIFS using OC login" : "SMB / CIFS utilizzando le credenziali di OC",
     "Username as share" : "Nome utente come condivisione",
