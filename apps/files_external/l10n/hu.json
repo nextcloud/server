@@ -50,7 +50,7 @@
     "Unsatisfied authentication mechanism parameters" : "Elégtelen hitelesítési mechanizmus paraméterek",
     "Insufficient data: %s" : "Nem elegendő adat: %s",
     "%s" : "%s",
-    "Storage with ID \"%d\" is not user editable" : "A(z) \"%d\" azonosítójú tároló nem szerkeszthető a felhasználók által",
+    "Storage with ID \"%d\" is not user editable" : "A(z) „%d” azonosítójú tárolót a felhasználók nem szerkeszthetik",
     "Access key" : "Hozzáférési kulcs",
     "Secret key" : "Titkos kulcs",
     "Builtin" : "Beépített",
