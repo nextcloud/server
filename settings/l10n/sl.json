@@ -45,6 +45,7 @@
     "{actor} changed your password" : "{actor} spremeni moje geslo",
     "You changed your password" : "Spremenite geslo",
     "Your password was reset by an administrator" : "Skrbnik sistema ponastavi moje geslo",
+    "Your password was reset" : "Geslo je bilo ponastavljeno",
     "{actor} changed your email address" : "{actor} spremeni moj elektronski naslov",
     "You changed your email address" : "Spremenite elektronski naslov",
     "Your email address was changed by an administrator" : "Skrbnik spremeni moj elektronski naslov",

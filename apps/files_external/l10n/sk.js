@@ -105,6 +105,8 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Sprístupniť",
     "Show hidden files" : "Zobraziť skryté súbory",
+    "Verify ACL access when listing files" : "Overovať ACL prístup pri vypisovaní súborov",
+    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Kontrola ACL každého súboru alebo priečinka vnútri adresára pre vyfiltrovanie položiek, ku ktorým používateľ nemá oprávnenie pre čítanie poznamená výkon",
     "Timeout" : "Vypršanie času",
     "SMB / CIFS using OC login" : "SMB / CIFS s použitím OC prihlásenia",
     "Username as share" : "Používateľské meno ako sprístupnený priečinok",
