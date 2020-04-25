@@ -299,7 +299,7 @@ OC.L10N.register(
     "Default share permissions" : "Дозволи на публікування по замовчуванню",
     "Personal" : "Особисте",
     "Administration" : "Адміністрування",
-    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Розроблено {communityopen}спільнотою Nextcloud{linkclose}, {githubopen}сирцевий код{linkclose} ліцензований під ліцензією {licenseopen}AGPL{linkclose}.",
+    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Розроблено {communityopen}спільнотою Nextcloud{linkclose}, {githubopen}початковий код{linkclose} ліцензований під ліцензією {licenseopen}AGPL{linkclose}.",
     "Profile picture" : "Зображення облікового запису",
     "Upload new" : "Завантажити нове",
     "Select from Files" : "Вибрати з файлів",
