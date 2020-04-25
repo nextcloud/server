@@ -103,6 +103,8 @@
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Comparteix",
     "Show hidden files" : "Mostra els fitxers ocults",
+    "Verify ACL access when listing files" : "Verificar accés ACL quan es llistin fitxers",
+    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Comprovar els ACLs de cada fitxer o carpeta a dins d'un directori per filtrar els elements pels que l'usuari no tingui permís, provoca una disminució del rendiment",
     "Timeout" : "Sense temps",
     "SMB / CIFS using OC login" : "SMB / CIFS fent servir acreditació OC",
     "Username as share" : "Nom d'usuari amb que es comparteix",
