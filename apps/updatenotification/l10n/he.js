@@ -25,6 +25,7 @@ OC.L10N.register(
     "Checking apps for compatible updates" : "היישומונים נבדקים לאיתור עדכונים תואמים",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "נא לוודא שב־config.php שלך ה־<samp>appstoreenabled</samp> לא מוגדר ל‏־false.",
     "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "לא ניתן להתחבר לחנות היישומונים או שחנות היישומונים לא החזירה שיש עדכונים. ניתן לחפש ידנית עדכונים או לוודא שלשרת שלך יש גישה לאינטרנט ושיש לו איך להתחבר לחנות היישומונים.",
-    "View changelog" : "הצגת יומן שינויים"
+    "View changelog" : "הצגת יומן שינויים",
+    "Beta" : "בטא"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
