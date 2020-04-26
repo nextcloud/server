@@ -112,7 +112,7 @@
     "sass-loader": "^8.0.2",
     "sinon": "^9.0.2",
     "sinon-chai": "^3.5.0",
-    "style-loader": "^1.1.4",
+    "style-loader": "^1.2.0",
     "url-loader": "^4.1.0",
     "vue-loader": "^15.9.1",
     "vue-template-compiler": "^2.6.11",
