@@ -11,6 +11,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license AGPL-3.0
  *
@@ -34,6 +35,7 @@ use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\IUser;
@@ -67,21 +69,29 @@ class AccountManager implements IAccountManager {
 	/** @var ILogger */
 	private $logger;
 
-	/**
-	 * AccountManager constructor.
-	 *
-	 * @param IDBConnection $connection
-	 * @param EventDispatcherInterface $eventDispatcher
-	 * @param IJobList $jobList
-	 */
+	/** @var IConfig */
+	private $config;
+
+	public const DEFAULT_SCOPE_VALUES = [
+		self::PROPERTY_DISPLAYNAME => self::VISIBILITY_CONTACTS_ONLY,
+		self::PROPERTY_ADDRESS => self::VISIBILITY_PRIVATE,
+		self::PROPERTY_WEBSITE => self::VISIBILITY_PRIVATE,
+		self::PROPERTY_EMAIL => self::VISIBILITY_CONTACTS_ONLY,
+		self::PROPERTY_AVATAR => self::VISIBILITY_CONTACTS_ONLY,
+		self::PROPERTY_PHONE => self::VISIBILITY_PRIVATE,
+		self::PROPERTY_TWITTER => self::VISIBILITY_PRIVATE
+	];
+
 	public function __construct(IDBConnection $connection,
 								EventDispatcherInterface $eventDispatcher,
 								IJobList $jobList,
-								ILogger $logger) {
+								ILogger $logger,
+								IConfig $config) {
 		$this->connection = $connection;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->jobList = $jobList;
 		$this->logger = $logger;
+		$this->config = $config;
 	}
 
 	/**
@@ -298,45 +308,48 @@ class AccountManager implements IAccountManager {
 	 * @return array
 	 */
 	protected function buildDefaultUserRecord(IUser $user) {
+		$scopes = array_merge(self::DEFAULT_SCOPE_VALUES, array_filter($this->config->getSystemValue('account_manager_default_property_scope', []), function (string $scope) {
+			return in_array($scope, self::VISIBILITIES_LIST, true);
+		}));
 		return [
 			self::PROPERTY_DISPLAYNAME =>
 				[
 					'value' => $user->getDisplayName(),
-					'scope' => self::VISIBILITY_CONTACTS_ONLY,
+					'scope' => $scopes[self::PROPERTY_DISPLAYNAME],
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_ADDRESS =>
 				[
 					'value' => '',
-					'scope' => self::VISIBILITY_PRIVATE,
+					'scope' => $scopes[self::PROPERTY_ADDRESS],
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_WEBSITE =>
 				[
 					'value' => '',
-					'scope' => self::VISIBILITY_PRIVATE,
+					'scope' => $scopes[self::PROPERTY_WEBSITE],
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_EMAIL =>
 				[
 					'value' => $user->getEMailAddress(),
-					'scope' => self::VISIBILITY_CONTACTS_ONLY,
+					'scope' => $scopes[self::PROPERTY_EMAIL],
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_AVATAR =>
 				[
-					'scope' => self::VISIBILITY_CONTACTS_ONLY
+					'scope' => $scopes[self::PROPERTY_AVATAR],
 				],
 			self::PROPERTY_PHONE =>
 				[
 					'value' => '',
-					'scope' => self::VISIBILITY_PRIVATE,
+					'scope' => $scopes[self::PROPERTY_PHONE],
 					'verified' => self::NOT_VERIFIED,
 				],
 			self::PROPERTY_TWITTER =>
 				[
 					'value' => '',
-					'scope' => self::VISIBILITY_PRIVATE,
+					'scope' => $scopes[self::PROPERTY_TWITTER],
 					'verified' => self::NOT_VERIFIED,
 				],
 		];

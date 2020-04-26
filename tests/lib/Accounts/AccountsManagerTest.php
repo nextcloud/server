@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -25,6 +26,7 @@ use OC\Accounts\Account;
 use OC\Accounts\AccountManager;
 use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
+use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -55,12 +57,16 @@ class AccountsManagerTest extends TestCase {
 	/** @var ILogger|MockObject */
 	private $logger;
 
+	/** @var IConfig|MockObject */
+	private $config;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->logger = $this->createMock(ILogger::class);
+		$this->config = $this->createMock(IConfig::class);
 	}
 
 	protected function tearDown(): void {
@@ -77,7 +83,7 @@ class AccountsManagerTest extends TestCase {
 	 */
 	public function getInstance($mockedMethods = null) {
 		return $this->getMockBuilder(AccountManager::class)
-			->setConstructorArgs([$this->connection, $this->eventDispatcher, $this->jobList, $this->logger])
+			->setConstructorArgs([$this->connection, $this->eventDispatcher, $this->jobList, $this->logger, $this->config])
 			->setMethods($mockedMethods)
 			->getMock();
 	}
