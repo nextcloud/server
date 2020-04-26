@@ -142,6 +142,7 @@ OC.L10N.register(
     "Add another link" : "הוספת קישור נוסף",
     "Share link" : "שיתוף קישור",
     "Resharing is not allowed" : "שיתוף מחדש אסור",
+    "Searching …" : "מתבצע חיפוש…",
     "Search globally" : "חיפוש גלובלי",
     "Link to a file" : "קישור לקובץ",
     "Shared" : "משותף",
