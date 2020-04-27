@@ -154,7 +154,7 @@ class Mailer implements IMailer {
 			return new $class(
 				$this->defaults,
 				$this->urlGenerator,
-				$this->l10n,
+				$this->l10nFactory,
 				$emailId,
 				$data
 			);
