@@ -1374,24 +1374,6 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 
-	public function testLinkCreateChecksSharePermissions() {
-		$this->expectException(\Exception::class);
-		$this->expectExceptionMessage('Link shares can’t have reshare permissions');
-
-		$share = $this->manager->newShare();
-
-		$share->setPermissions(\OCP\Constants::PERMISSION_SHARE);
-
-		$this->config
-			->method('getAppValue')
-			->willReturnMap([
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
-			]);
-
-		self::invokePrivate($this->manager, 'linkCreateChecks', [$share]);
-	}
-
-
 	public function testLinkCreateChecksNoPublicUpload() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Public upload is not allowed');
