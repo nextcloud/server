@@ -829,6 +829,9 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			return $groupUsers;
 		}
 
+		if ($limit === -1) {
+			$limit = null;
+		}
 		// check for cache of the query without limit and offset
 		$groupUsers = $this->access->connection->getFromCache('usersInGroup-'.$gid.'-'.$search);
 		if(!is_null($groupUsers)) {
@@ -837,9 +840,6 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 			return $groupUsers;
 		}
 
-		if($limit === -1) {
-			$limit = null;
-		}
 		$groupDN = $this->access->groupname2dn($gid);
 		if(!$groupDN) {
 			// group couldn't be found, return empty resultset
