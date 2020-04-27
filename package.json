@@ -71,7 +71,7 @@
     "url-search-params-polyfill": "^8.0.0",
     "v-tooltip": "^2.0.2",
     "vue": "^2.6.11",
-    "vue-click-outside": "^1.0.7",
+    "vue-click-outside": "^1.1.0",
     "vue-clipboard2": "^0.3.1",
     "vue-infinite-loading": "^2.4.5",
     "vue-localstorage": "^0.6.2",
