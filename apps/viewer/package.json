@@ -90,7 +90,7 @@
     "sass-loader": "^8.0.2",
     "stylelint": "^8.4.0",
     "stylelint-config-recommended-scss": "^3.3.0",
-    "stylelint-scss": "^3.17.0",
+    "stylelint-scss": "^3.17.1",
     "stylelint-webpack-plugin": "^0.10.5",
     "url-loader": "^4.1.0",
     "vue-loader": "^15.9.1",
