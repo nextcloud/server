@@ -338,6 +338,35 @@ class AppManagerTest extends TestCase {
 		$this->assertEquals(\OC::$SERVERROOT . '/apps/files', $this->manager->getAppPath('files'));
 	}
 
+	public function testGetAppPathSymlink() {
+		$fakeAppDirname = sha1(uniqid('test', true));
+		$fakeAppPath = sys_get_temp_dir() . '/' . $fakeAppDirname;
+		$fakeAppLink = \OC::$SERVERROOT . '/' . $fakeAppDirname;
+
+		mkdir($fakeAppPath);
+		if (symlink($fakeAppPath, $fakeAppLink) === false) {
+			$this->markTestSkipped('Failed to create symlink');
+		}
+
+		// Use the symlink as the app path
+		\OC::$APPSROOTS[] = [
+			'path' => $fakeAppLink,
+			'url' => \OC::$WEBROOT . '/' . $fakeAppDirname,
+			'writable' => false,
+		];
+
+		$fakeTestAppPath = $fakeAppPath . '/' . 'test-test-app';
+		mkdir($fakeTestAppPath);
+
+		$generatedAppPath = $this->manager->getAppPath('test-test-app');
+
+		rmdir($fakeTestAppPath);
+		unlink($fakeAppLink);
+		rmdir($fakeAppPath);
+
+		$this->assertEquals($fakeAppLink . '/test-test-app', $generatedAppPath);
+	}
+
 	public function testGetAppPathFail() {
 		$this->expectException(AppPathNotFoundException::class);
 		$this->manager->getAppPath('testnotexisting');
