@@ -33,8 +33,10 @@ declare(strict_types=1);
 namespace OC\Avatar;
 
 use OC\User\Manager;
+use OC\User\NoUserException;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IAvatar;
 use OCP\IAvatarManager;
 use OCP\IConfig;
@@ -123,6 +125,20 @@ class AvatarManager implements IAvatarManager {
 			}
 			$this->config->setUserValue($userId, 'avatar', 'generated', 'false');
 		}
+	}
+
+	public function deleteUserAvatar(string $userId): void {
+		try {
+			$folder = $this->appData->getFolder($userId);
+			$folder->delete();
+		} catch (NotFoundException $e) {
+			$this->logger->debug("No cache for the user $userId. Ignoring avatar deletion");
+		} catch (NotPermittedException $e) {
+			$this->logger->error("Unable to delete user avatars for $userId. gnoring avatar deletion");
+		} catch (NoUserException $e) {
+			$this->logger->debug("User $userId not found. gnoring avatar deletion");
+		}
+		$this->config->deleteUserValue($userId, 'avatar', 'generated');
 	}
 
 	/**
