@@ -50,7 +50,7 @@
     "vue": "^2.6.11",
     "vue-async-computed": "^3.8.2",
     "vue-plyr": "^6.0.4",
-    "webdav": "^3.2.0"
+    "webdav": "^3.3.0"
   },
   "browserslist": [
     "last 2 versions",
