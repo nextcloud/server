@@ -105,6 +105,10 @@ class Enable extends Command implements CompletionAwareInterface {
 			return $group->getDisplayName();
 		}, $groupIds);
 
+		if ($this->appManager->isInstalled($appId) && $groupIds === []) {
+			$output->writeln($appId . ' already enabled');
+			return;
+		}
 
 		try {
 			/** @var Installer $installer */
