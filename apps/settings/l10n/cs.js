@@ -252,7 +252,7 @@ OC.L10N.register(
     "Adding your device …" : "Přidávání zařízení…",
     "Server error while trying to add WebAuthn device" : "Chyba serveru při pokusu o přidání WebAuthn zařízení",
     "Server error while trying to complete WebAuthn device registration" : "Chyba serveru při pokusu o dokončení registrace WebAuthn zařízení",
-    "Unnamed device" : "Nenazvané zařízení",
+    "Unnamed device" : "Nepojmenované zařízení",
     "Passwordless Authentication" : "Ověřování se bez zadávání hesla",
     "Set up your account for passwordless authentication following the FIDO2 standard." : "Nastavte svůj účet pro využívání ověřování se bez hesla pomocí standardu FIDO2.",
     "No devices configured." : "Není nastavené žádné zařízení.",

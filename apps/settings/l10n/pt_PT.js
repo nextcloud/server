@@ -27,6 +27,7 @@ OC.L10N.register(
     "Good password" : "Palavra-passe boa",
     "Strong password" : "Palavra-passe forte",
     "Select a profile picture" : "Selecione uma fotografia de perfil",
+    "Week starts on {fdow}" : "Semana começa em {fdow}",
     "Groups" : "Grupos",
     "{actor} changed your password" : "{actor} alterou a sua senha",
     "You changed your password" : "Você alterou a sua senha",
