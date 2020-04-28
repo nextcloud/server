@@ -95,7 +95,7 @@ class Admin implements ISettings {
 		$defaultCustomerUpdateServerURLPrefix = 'https://updates.nextcloud.com/customers/';
 
 		$isDefaultUpdateServerURL = $updateServerURL === $defaultUpdateServerURL
-			|| $updateServerURL === substr($updateServerURL, 0, strlen($defaultCustomerUpdateServerURLPrefix));
+			|| strpos($updateServerURL, $defaultCustomerUpdateServerURLPrefix) === 0;
 
 		$hasValidSubscription = $this->subscriptionRegistry->delegateHasValidSubscription();
 
