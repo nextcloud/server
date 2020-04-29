@@ -126,21 +126,21 @@
 				<template v-if="share.canEdit">
 					<!-- folder -->
 					<template v-if="isFolder && fileHasCreatePermission && config.isPublicUploadEnabled">
-						<ActionRadio :checked="share.permissions === publicUploadRValue"
+						<ActionRadio :checked="sharePermissions === publicUploadRValue"
 							:value="publicUploadRValue"
 							:name="randomId"
 							:disabled="saving"
 							@change="togglePermissions">
 							{{ t('files_sharing', 'Read only') }}
 						</ActionRadio>
-						<ActionRadio :checked="share.permissions === publicUploadRWValue"
+						<ActionRadio :checked="sharePermissions === publicUploadRWValue"
 							:value="publicUploadRWValue"
 							:disabled="saving"
 							:name="randomId"
 							@change="togglePermissions">
 							{{ t('files_sharing', 'Allow upload and editing') }}
 						</ActionRadio>
-						<ActionRadio :checked="share.permissions === publicUploadWValue"
+						<ActionRadio :checked="sharePermissions === publicUploadWValue"
 							:value="publicUploadWValue"
 							:disabled="saving"
 							:name="randomId"
@@ -358,6 +358,15 @@ export default {
 	},
 
 	computed: {
+		/**
+		 * Return the current share permissions
+		 * We always ignore the SHARE permission as this is used for the
+		 * federated sharing.
+		 * @returns {number}
+		 */
+		sharePermissions() {
+			return this.share.permissions & ~OC.PERMISSION_SHARE
+		},
 		/**
 		 * Generate a unique random id for this SharingEntryLink only
 		 * This allows ActionRadios to have the same name prop
