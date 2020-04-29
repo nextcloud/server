@@ -248,6 +248,8 @@
     "Name your device" : "Nom de votre appareil",
     "Add" : "Ajouter",
     "Adding your device …" : "Ajout de votre appareil…",
+    "Server error while trying to add WebAuthn device" : "Erreur du serveur lors de l'ajout de l'appareil WebAuthn ",
+    "Server error while trying to complete WebAuthn device registration" : "Erreur du serveur lors de l'enregistrement de l'appareil WebAuthn",
     "Unnamed device" : "Appareil sans nom",
     "Passwordless Authentication" : "Authentification sans mot de passe",
     "Set up your account for passwordless authentication following the FIDO2 standard." : "Configurer votre compte pour une authentification sans mot de passe suivant le standard FIDO2.",
