@@ -853,8 +853,12 @@ class ShareAPIController extends OCSController {
 			throw new OCSNotFoundException($this->l->t('Could not lock path'));
 		}
 
-		// current User has resharing rights ?
-		$this->confirmSharingRights($node);
+		if (!($node->getPermissions() & Constants::PERMISSION_SHARE)) {
+			throw new SharingRightsException('no sharing rights on this item');
+		}
+
+		// The current top parent we have access to
+		$parent = $node;
 
 		// initiate real owner.
 		$owner = $node->getOwner()
@@ -882,10 +886,25 @@ class ShareAPIController extends OCSController {
 			$nodes[] = $node;
 		}
 
+		// The user that is requesting this list
+		$currentUserFolder = $this->rootFolder->getUserFolder($this->currentUser);
+
 		// for each nodes, retrieve shares.
 		$shares = [];
+
 		foreach ($nodes as $node) {
 			$getShares = $this->getFormattedShares($owner, $node, false, true);
+
+			$currentUserNodes = $currentUserFolder->getById($node->getId());
+			if (!empty($currentUserNodes)) {
+				$parent = array_pop($currentUserNodes);
+			}
+
+			$subPath = $currentUserFolder->getRelativePath($parent->getPath());
+			foreach ($getShares as &$share) {
+				$share['via_fileid'] = $parent->getId();
+				$share['via_path'] = $subPath;
+			}
 			$this->mergeFormattedShares($shares, $getShares);
 		}
 
