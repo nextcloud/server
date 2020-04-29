@@ -11,6 +11,7 @@ declare(strict_types=1);
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
+ * @author Mario Danic <mario@lovelyhq.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -251,6 +252,19 @@ class AddMissingIndices extends Command {
 				$this->connection->migrateToSchema($schema->getWrappedSchema());
 				$updated = true;
 				$output->writeln('<info>schedulingobjects table updated successfully.</info>');
+			}
+		}
+
+		$output->writeln('<info>Check indices of the oc_properties table.</info>');
+		if ($schema->hasTable('properties')) {
+			$table = $schema->getTable('properties');
+			if (!$table->hasIndex('properties_path_index')) {
+				$output->writeln('<info>Adding properties_path_index index to the oc_properties table, this can take some time...</info>');
+
+				$table->addIndex(['userid', 'propertypath'], 'properties_path_index');
+				$this->connection->migrateToSchema($schema->getWrappedSchema());
+				$updated = true;
+				$output->writeln('<info>oc_properties table updated successfully.</info>');
 			}
 		}
 
