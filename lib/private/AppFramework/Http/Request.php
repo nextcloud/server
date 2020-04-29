@@ -9,10 +9,8 @@ declare(strict_types=1);
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author coderkun <olli@coderkun.de>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>

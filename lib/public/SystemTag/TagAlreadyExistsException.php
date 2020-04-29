@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @license AGPL-3.0

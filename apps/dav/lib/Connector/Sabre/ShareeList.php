@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
  *

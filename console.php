@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Estelle Poulin <dev@inspiredby.es>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Ko- <k.stoffelen@cs.ru.nl>

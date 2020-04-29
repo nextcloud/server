@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>

@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

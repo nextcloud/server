@@ -12,7 +12,6 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Klaas Freitag <freitag@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
- * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>

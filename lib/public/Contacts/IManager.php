@@ -5,6 +5,7 @@
  * @author Arne Hamann <kontakt+github@arne.email>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

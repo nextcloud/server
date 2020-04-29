@@ -4,7 +4,7 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
- * @author Joas Schilling <coding@schilljs.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>

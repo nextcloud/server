@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Mario Danic <mario@lovelyhq.com>

@@ -2,6 +2,7 @@
 /**
  * @copyright 2017, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

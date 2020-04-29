@@ -7,6 +7,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *

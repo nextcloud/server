@@ -5,6 +5,8 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Julien Lutran <julien.lutran@corp.ovh.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Julius Haertl <jus@bitgrid.net>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>

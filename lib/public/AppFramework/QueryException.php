@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license AGPL-3.0

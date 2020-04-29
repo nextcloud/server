@@ -18,7 +18,6 @@
  * @author Pauli Järvinen <pauli.jarvinen@gmail.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Stephan Müller <mail@stephanmueller.eu>
  * @author Thibault Coupin <thibault.coupin@gmail.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *

@@ -10,6 +10,7 @@
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Ko- <k.stoffelen@cs.ru.nl>
+ * @author Lauris Binde <laurisb@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Weimann <mail@michael-weimann.eu>
  * @author Morris Jobke <hey@morrisjobke.de>

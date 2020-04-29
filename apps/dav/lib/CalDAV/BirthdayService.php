@@ -7,6 +7,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019, Georg Ehrke
  *
  * @author Achim Königs <garfonso@tratschtante.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

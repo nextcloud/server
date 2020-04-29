@@ -3,6 +3,8 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license GNU AGPL version 3 or any later version
  *

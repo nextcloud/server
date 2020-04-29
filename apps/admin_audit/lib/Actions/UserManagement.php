@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>

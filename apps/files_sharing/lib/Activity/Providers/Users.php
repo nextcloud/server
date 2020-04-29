@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Joas Schilling <coding@schilljs.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Kevin Ndung'u <kevgathuku@gmail.com>

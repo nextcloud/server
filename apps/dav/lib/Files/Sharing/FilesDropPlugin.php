@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

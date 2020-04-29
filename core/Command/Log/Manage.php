@@ -2,11 +2,11 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Johannes Ernst <jernst@indiecomputing.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Thomas Pulzer <t.pulzer@kniel.de>
  * @author Tim Terhorst <mynamewastaken+gitlab@gmail.com>
  *
  * @license AGPL-3.0

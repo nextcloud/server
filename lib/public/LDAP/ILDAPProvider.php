@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, Roger Szabo (roger.szabo@web.de)
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  * @author root <root@localhost.localdomain>

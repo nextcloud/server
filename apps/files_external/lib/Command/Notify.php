@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016 Robin Appelman <robin@icewind.nl>
  *
  * @author Ari Selseng <ari@selseng.net>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

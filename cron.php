@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Artem Sidorenko <artem@posteo.de>
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Damjan Georgievski <gdamjan@gmail.com>

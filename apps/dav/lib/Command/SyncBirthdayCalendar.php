@@ -2,7 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Tobia De Koninck <tobia@ledfan.be>

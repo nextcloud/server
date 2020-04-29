@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Carla Schroder <carla@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *

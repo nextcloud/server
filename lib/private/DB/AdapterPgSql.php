@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Ole Ostergaard <ole.c.ostergaard@gmail.com>
  * @author Ole Ostergaard <ole.ostergaard@knime.com>

@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Hemanth Kumar Veeranki <hems.india1997@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Göhler <somebody.here@gmx.de>

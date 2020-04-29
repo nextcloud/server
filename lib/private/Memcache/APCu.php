@@ -4,6 +4,7 @@
  *
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>

@@ -11,6 +11,7 @@ declare(strict_types=1);
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>

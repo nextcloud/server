@@ -3,13 +3,11 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Aaron Wood <aaronjwood@gmail.com>
- * @author Alexander Bergolth <leo@strike.wu.ac.at>
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Benjamin Diele <benjamin@diele.be>
  * @author bline <scottbeck@gmail.com>
- * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>

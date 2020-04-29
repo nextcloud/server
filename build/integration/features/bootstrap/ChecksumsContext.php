@@ -2,6 +2,7 @@
 /**
  *
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Phil Davis <phil.davis@inf.org>
  * @author Robin Appelman <robin@icewind.nl>

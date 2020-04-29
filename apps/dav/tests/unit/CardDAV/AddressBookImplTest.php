@@ -3,8 +3,10 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *

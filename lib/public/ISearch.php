@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Andrew Brown <andrew@casabrown.com>
- * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>

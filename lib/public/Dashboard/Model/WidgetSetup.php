@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2018, Maxence Lange <maxence@artificial-owl.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Maxence Lange <maxence@artificial-owl.com>
  *
  * @license GNU AGPL version 3 or any later version

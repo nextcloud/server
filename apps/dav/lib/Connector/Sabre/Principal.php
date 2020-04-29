@@ -5,6 +5,7 @@
  *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christoph Seitz <christoph.seitz@posteo.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Julius Härtl <jus@bitgrid.net>

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

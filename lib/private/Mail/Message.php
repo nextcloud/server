@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
  * @author Arne Hamann <kontakt+github@arne.email>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jared Boone <jared.boone@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>

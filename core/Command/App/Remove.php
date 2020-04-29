@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2018, Patrik Kernstock <info@pkern.at>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Patrik Kernstock <info@pkern.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

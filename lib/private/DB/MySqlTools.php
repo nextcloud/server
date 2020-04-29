@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2017, ownCloud GmbH
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *

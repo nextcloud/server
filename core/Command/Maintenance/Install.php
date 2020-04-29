@@ -4,6 +4,7 @@
  *
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Christian Kampka <christian@kampka.net>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Hansson <daniel@techandme.se>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
