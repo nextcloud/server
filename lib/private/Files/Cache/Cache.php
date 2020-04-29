@@ -553,25 +553,35 @@ class Cache implements ICache {
 	 * @throws \OC\DatabaseException
 	 */
 	private function removeChildren(ICacheEntry $entry) {
-		$children = $this->getFolderContentsById($entry->getId());
-		$childIds = array_map(function (ICacheEntry $cacheEntry) {
-			return $cacheEntry->getId();
-		}, $children);
-		$childFolders = array_filter($children, function ($child) {
-			return $child->getMimeType() == FileInfo::MIMETYPE_FOLDER;
-		});
-		foreach ($childFolders as $folder) {
-			$this->removeChildren($folder);
+		$parentIds = [$entry->getId()];
+		$queue = [$entry->getId()];
+
+		// we walk depth first trough the file tree, removing all filecache_extended attributes while we walk
+		// and collecting all folder ids to later use to delete the filecache entries
+		while ($entryId = array_pop($queue)) {
+			$children = $this->getFolderContentsById($entryId);
+			$childIds = array_map(function (ICacheEntry $cacheEntry) {
+				return $cacheEntry->getId();
+			}, $children);
+
+			$query = $this->getQueryBuilder();
+			$query->delete('filecache_extended')
+				->where($query->expr()->in('fileid', $query->createNamedParameter($childIds, IQueryBuilder::PARAM_INT_ARRAY)));
+			$query->execute();
+
+			/** @var ICacheEntry[] $childFolders */
+			$childFolders = array_filter($children, function ($child) {
+				return $child->getMimeType() == FileInfo::MIMETYPE_FOLDER;
+			});
+			foreach ($childFolders as $folder) {
+				$parentIds[] = $folder->getId();
+				$queue[] = $folder->getId();
+			}
 		}
 
 		$query = $this->getQueryBuilder();
 		$query->delete('filecache')
-			->whereParent($entry->getId());
-		$query->execute();
-
-		$query = $this->getQueryBuilder();
-		$query->delete('filecache_extended')
-			->where($query->expr()->in('fileid', $query->createNamedParameter($childIds, IQueryBuilder::PARAM_INT_ARRAY)));
+			->whereParentIn($parentIds);
 		$query->execute();
 	}
 
