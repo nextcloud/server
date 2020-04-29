@@ -2,6 +2,7 @@
 /**
  * @copyright 2018 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

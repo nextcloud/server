@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2018, Michael Weimann <mail@michael-weimann.eu>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Michael Weimann <mail@michael-weimann.eu>
  *

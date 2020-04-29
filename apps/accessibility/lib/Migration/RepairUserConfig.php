@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019 Janis Köhr <janiskoehr@icloud.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Janis Köhr <janis.koehr@novatec-gmbh.de>
  *
  * @license GNU AGPL version 3 or any later version

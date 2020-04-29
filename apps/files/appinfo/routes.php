@@ -10,6 +10,7 @@ declare(strict_types=1);
  * @author Felix Nüsse <Felix.nuesse@t-online.de>
  * @author fnuesse <felix.nuesse@t-online.de>
  * @author fnuesse <fnuesse@techfak.uni-bielefeld.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>

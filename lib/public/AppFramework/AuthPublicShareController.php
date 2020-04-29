@@ -2,6 +2,7 @@
 /**
  * @copyright 2018, Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Tim Obert <tobert@w-commerce.de>
  * @author TimObert <tobert@w-commerce.de>

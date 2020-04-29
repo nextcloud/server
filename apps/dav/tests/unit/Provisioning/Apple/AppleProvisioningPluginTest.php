@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2018 Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Nils Wittenbrink <nilswittenbrink@web.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>

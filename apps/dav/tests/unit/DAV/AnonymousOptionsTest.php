@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2018 Robin Appelman <robin@icewind.nl>
  *
  * @author Bastien Durel <bastien@durel.org>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Robin Appelman <robin@icewind.nl>
  *

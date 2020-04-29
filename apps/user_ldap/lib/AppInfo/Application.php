@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Roger Szabo <roger.szabo@web.de>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roger Szabo <roger.szabo@web.de>
  *

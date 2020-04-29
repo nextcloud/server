@@ -2,6 +2,7 @@
 /**
  *
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author MasterOfDeath <rinat.gumirov@mail.ru>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

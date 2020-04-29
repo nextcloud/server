@@ -11,6 +11,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Peter Kubica <peter@kubica.ch>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license AGPL-3.0

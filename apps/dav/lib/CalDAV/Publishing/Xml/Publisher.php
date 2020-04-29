@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016 Thomas Citharel <tcit@tcit.fr>
  *
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Citharel <nextcloud@tcit.fr>
  *

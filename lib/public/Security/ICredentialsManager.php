@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
  * @license AGPL-3.0
