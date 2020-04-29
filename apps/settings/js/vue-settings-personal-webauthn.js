@@ -157,4 +157,4 @@ r.VTooltip.options.defaultTemplate='<div class="vue-tooltip" role="tooltip" data
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 r.nc=btoa(OC.requestToken),o.default.prototype.t=t,new(o.default.extend(D))({propsData:{initialDevices:Object(i.loadState)("settings","webauthn-devices"),isHttps:"https:"===window.location.protocol,hasPublicKeyCredential:void 0!==window.PublicKeyCredential}}).$mount("#security-webauthn")}]);
-//# sourceMappingURL=vue-settings-personal-webauthn.js.map?v=6b3db7f4e4a79ac45319
+//# sourceMappingURL=vue-settings-personal-webauthn.js.map?v=33e9c38739ee63b47639
