@@ -26,17 +26,12 @@
 namespace OC\Files\ObjectStore;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\HandlerStack;
 use function GuzzleHttp\Psr7\stream_for;
 use Icewind\Streams\RetryWrapper;
 use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
-use OpenStack\Common\Error\BadResponseError;
 
 class Swift implements IObjectStore {
 	/**
@@ -112,7 +107,6 @@ class Swift implements IObjectStore {
 					],
 				]
 			);
-
 		} catch (BadResponseException $e) {
 			if ($e->getResponse() && $e->getResponse()->getStatusCode() === 404) {
 				throw new NotFoundException("object $urn not found in object store");
