@@ -64,6 +64,7 @@
 	box-sizing: border-box;
 	opacity: 1;
 	align-items: center;
+	display: flex;
 	flex-wrap: wrap;
 	overflow: hidden;
 
@@ -211,9 +212,9 @@
 	}
 
 	#header-left, .header-left {
-		flex: 0 0;
-		flex-grow: 1;
+		flex: 1 0;
 		white-space: nowrap;
+		min-width: 0;
 	}
 
 	#header-right, .header-right {
@@ -269,6 +270,7 @@
 	}
 }
 
+/* TODO: move into minimal css file for public shared template */
 /* only used for public share pages now as we have the app icons when logged in */
 .header-appname {
 	color: var(--color-primary-text);
@@ -277,6 +279,18 @@
 	margin: 0;
 	padding: 0;
 	padding-right: 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	// Take full width to push the header-shared-by bellow (if any)
+	flex: 1 1 100%;
+}
+
+.header-shared-by  {
+	color: var(--color-primary-text);
+	position: relative;
+	font-weight: 300;
+	font-size: 11px;
+	line-height: 11px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
