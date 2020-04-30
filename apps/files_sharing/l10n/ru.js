@@ -156,7 +156,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Пользователь {owner} предоставил(а) {user} доступ во время беседы",
     "Shared with {user} by {owner}" : "{owner} предоставил(а) доступ {user} ",
     "Added by {initiator}" : "Добавлено пользователем {initiator}",
-    "Via folder" : "Через папку",
     "Internal link" : "Внутренняя ссылка",
     "Link copied" : "Ссылка скопирована",
     "Cannot copy, please copy the link manually" : "Не удалось скопировать, выполните копирование вручную",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Uploaded files:" : "Отправленные файлы:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Передачей файлов на сервер, вы принимаете %1$sусловия обслуживания%2$s.",
     "could not delete share" : "не удалось удалить общий ресурс",
-    "Uploading files…" : "Файлы передаются на сервер…"
+    "Uploading files…" : "Файлы передаются на сервер…",
+    "Via folder" : "Через папку"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

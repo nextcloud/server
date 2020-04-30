@@ -156,7 +156,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Διαμοιράστηκε με τη συζήτηση {user} από {owner}",
     "Shared with {user} by {owner}" : "Διαμοιράστηκε με {user} από τον {owner}",
     "Added by {initiator}" : "Προστέθηκε από {initiator}",
-    "Via folder" : "Μέσω φακέλου",
     "Internal link" : "Εσωτερικός σύνδεσμος",
     "Link copied" : "Ο σύνδεσμος αντιγράφηκε",
     "Cannot copy, please copy the link manually" : "Δεν μπορεί να αντιγραφή, παρακαλώ αντιγράψτε χειροκίνητα",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Uploaded files:" : "Αποστολή αρχείων:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Με την μεταφόρτωση αρχείων, συμφωνείτε με %1$sόρους χρήσεως %2$s.",
     "could not delete share" : "αδυναμία διαγραφής κοινόχρηστου φακέλου",
-    "Uploading files…" : "Αποστολή αρχείων ..."
+    "Uploading files…" : "Αποστολή αρχείων ...",
+    "Via folder" : "Μέσω φακέλου"
 },
 "nplurals=2; plural=(n != 1);");

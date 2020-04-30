@@ -117,7 +117,6 @@ OC.L10N.register(
     "remote" : "oddaljeno",
     "remote group" : "oddaljena skupina",
     "guest" : "gost",
-    "Via folder" : "Prek mape",
     "Internal link" : "Notranja povezava",
     "Link copied" : "Povezava je kopirana",
     "Cannot copy, please copy the link manually" : "Povezave ni mogoče kopirati. Storite to ročno.",
@@ -166,6 +165,7 @@ OC.L10N.register(
     "Select or drop files" : "Izberte ali povlecite datoteke",
     "Uploaded files:" : "Poslane datoteke:",
     "could not delete share" : "mesta souporabe ni mogoče ustvariti",
-    "Uploading files…" : "Poteka pošiljanje datotek ..."
+    "Uploading files…" : "Poteka pošiljanje datotek ...",
+    "Via folder" : "Prek mape"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

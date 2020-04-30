@@ -156,7 +156,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Delad med konversationen {user} av {owner}",
     "Shared with {user} by {owner}" : "Delad med {user} av {owner}",
     "Added by {initiator}" : "Tillagd av {initiator}",
-    "Via folder" : "Via mapp",
     "Internal link" : "Intern länk",
     "Link copied" : "Länk kopierad",
     "Cannot copy, please copy the link manually" : "Kan inte kopiera, länken måste kopieras manuellt",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Uploaded files:" : "Uppladdade filer:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
     "could not delete share" : "kunde inte ta bort delningen",
-    "Uploading files…" : "Laddar upp filer..."
+    "Uploading files…" : "Laddar upp filer...",
+    "Via folder" : "Via mapp"
 },
 "nplurals=2; plural=(n != 1);");
