@@ -78,15 +78,16 @@ class AppFetcher extends Fetcher {
 	 *
 	 * @param string $ETag
 	 * @param string $content
+	 * @param bool [$allowUnstable] Allow unstable releases
 	 *
 	 * @return array
 	 */
-	protected function fetch($ETag, $content) {
+	protected function fetch($ETag, $content, $allowUnstable = false) {
 		/** @var mixed[] $response */
 		$response = parent::fetch($ETag, $content);
 
-		$allowPreReleases = $this->getChannel() === 'beta' || $this->getChannel() === 'daily';
-		$allowNightly = $this->getChannel() === 'daily';
+		$allowPreReleases = $allowUnstable || $this->getChannel() === 'beta' || $this->getChannel() === 'daily';
+		$allowNightly = $allowUnstable || $this->getChannel() === 'daily';
 
 		foreach ($response['data'] as $dataKey => $app) {
 			$releases = [];

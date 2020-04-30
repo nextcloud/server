@@ -120,13 +120,14 @@ class Enable extends Command implements CompletionAwareInterface {
 			}
 
 			$installer->installApp($appId, $forceEnable);
+			$appVersion = \OC_App::getAppVersion($appId);
 
 			if ($groupIds === []) {
 				$this->appManager->enableApp($appId, $forceEnable);
-				$output->writeln($appId . ' enabled');
+				$output->writeln($appId . ' ' . $appVersion . ' enabled');
 			} else {
 				$this->appManager->enableAppForGroups($appId, $groupIds, $forceEnable);
-				$output->writeln($appId . ' enabled for groups: ' . implode(', ', $groupNames));
+				$output->writeln($appId . ' ' . $appVersion . ' enabled for groups: ' . implode(', ', $groupNames));
 			}
 		} catch (AppPathNotFoundException $e) {
 			$output->writeln($appId . ' not found');

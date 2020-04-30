@@ -74,7 +74,8 @@ class Install extends Command {
 			return 1;
 		}
 
-		$output->writeln($appId . ' installed');
+		$appVersion = \OC_App::getAppVersion($appId);
+		$output->writeln($appId . ' ' . $appVersion . ' installed');
 
 		if (!$input->getOption('keep-disabled')) {
 			$appClass = new \OC_App();

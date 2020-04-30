@@ -129,9 +129,10 @@ abstract class Fetcher {
 	/**
 	 * Returns the array with the categories on the appstore server
 	 *
+	 * @param bool [$allowUnstable] Allow unstable releases
 	 * @return array
 	 */
-	public function get() {
+	public function get($allowUnstable = false) {
 		$appstoreenabled = $this->config->getSystemValue('appstoreenabled', true);
 		$internetavailable = $this->config->getSystemValue('has_internet_connection', true);
 
@@ -148,7 +149,9 @@ abstract class Fetcher {
 			// File does already exists
 			$file = $rootFolder->getFile($this->fileName);
 			$jsonBlob = json_decode($file->getContent(), true);
-			if (is_array($jsonBlob)) {
+
+			// Always get latests apps info if $allowUnstable
+			if (!$allowUnstable && is_array($jsonBlob)) {
 
 				// No caching when the version has been updated
 				if (isset($jsonBlob['ncversion']) && $jsonBlob['ncversion'] === $this->getVersion()) {
@@ -171,7 +174,12 @@ abstract class Fetcher {
 
 		// Refresh the file content
 		try {
-			$responseJson = $this->fetch($ETag, $content);
+			$responseJson = $this->fetch($ETag, $content, $allowUnstable);
+			// Don't store the apps request file
+			if ($allowUnstable) {
+				return $responseJson['data'];
+			}
+
 			$file->putContent(json_encode($responseJson));
 			return json_decode($file->getContent(), true)['data'];
 		} catch (ConnectException $e) {

@@ -124,7 +124,8 @@ class Remove extends Command implements CompletionAwareInterface {
 			return 1;
 		}
 
-		$output->writeln($appId . ' removed');
+		$appVersion = \OC_App::getAppVersion($appId);
+		$output->writeln($appId . ' ' . $appVersion . ' removed');
 
 		return 0;
 	}
