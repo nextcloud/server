@@ -504,8 +504,8 @@ class UsersController extends AUserData {
 		} else {
 			// Check if admin / subadmin
 			$subAdminManager = $this->groupManager->getSubAdmin();
-			if ($subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)
-			|| $this->groupManager->isAdmin($currentLoggedInUser->getUID())) {
+			if ($this->groupManager->isAdmin($currentLoggedInUser->getUID())
+			|| $subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
 				// They have permissions over the user
 				$permittedFields[] = 'display';
 				$permittedFields[] = AccountManager::PROPERTY_DISPLAYNAME;
