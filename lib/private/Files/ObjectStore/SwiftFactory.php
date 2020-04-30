@@ -78,12 +78,12 @@ class SwiftFactory {
 	 * @throws StorageAuthException
 	 */
 	public function getCachedTokenId() {
-		if ( !isset($this->params['cachedToken']) ) {
+		if (!isset($this->params['cachedToken'])) {
 			throw new StorageAuthException('Unauthenticated ObjectStore connection');
 		}
 
 		// Is it V2 token?
-		if ( isset($this->params['cachedToken']['token']) ) {
+		if (isset($this->params['cachedToken']['token'])) {
 			return $this->params['cachedToken']['token']['id'];
 		}
 

@@ -541,6 +541,6 @@ class Jail extends Wrapper {
 	}
 
 	public function getDirectoryContent($directory): \Traversable {
-		return $this->getWrapperStorage()->getDirectoryContent($this->getJailedPath($directory));
+		return $this->getWrapperStorage()->getDirectoryContent($this->getUnjailedPath($directory));
 	}
 }
