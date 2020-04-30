@@ -53,9 +53,6 @@ class Calendar extends Base {
 	/** @var IL10N */
 	protected $l;
 
-	/** @var IURLGenerator */
-	protected $url;
-
 	/** @var IManager */
 	protected $activityManager;
 
@@ -71,9 +68,8 @@ class Calendar extends Base {
 	 * @param IEventMerger $eventMerger
 	 */
 	public function __construct(IFactory $languageFactory, IURLGenerator $url, IManager $activityManager, IUserManager $userManager, IGroupManager $groupManager, IEventMerger $eventMerger) {
-		parent::__construct($userManager, $groupManager);
+		parent::__construct($userManager, $groupManager, $url);
 		$this->languageFactory = $languageFactory;
-		$this->url = $url;
 		$this->activityManager = $activityManager;
 		$this->eventMerger = $eventMerger;
 	}
