@@ -113,6 +113,11 @@ class HasherTest extends \Test\TestCase {
 
 		$this->config = $this->createMock(IConfig::class);
 
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(function ($name, $default) {
+				return $default;
+			});
+
 		$this->hasher = new Hasher($this->config);
 	}
 
