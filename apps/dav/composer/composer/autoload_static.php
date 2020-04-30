@@ -225,6 +225,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\RootCollection' => __DIR__ . '/..' . '/../lib/RootCollection.php',
         'OCA\\DAV\\Server' => __DIR__ . '/..' . '/../lib/Server.php',
         'OCA\\DAV\\Settings\\CalDAVSettings' => __DIR__ . '/..' . '/../lib/Settings/CalDAVSettings.php',
+        'OCA\\DAV\\Storage\\PublicOwnerWrapper' => __DIR__ . '/..' . '/../lib/Storage/PublicOwnerWrapper.php',
         'OCA\\DAV\\SystemTag\\SystemTagMappingNode' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagMappingNode.php',
         'OCA\\DAV\\SystemTag\\SystemTagNode' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagNode.php',
         'OCA\\DAV\\SystemTag\\SystemTagPlugin' => __DIR__ . '/..' . '/../lib/SystemTag/SystemTagPlugin.php',
