@@ -186,22 +186,6 @@ thead {
 	text-align: left;
 }
 
-/* Needed to ellipsize long header text on share page */
-#body-login #header-left,
-#body-login .header-left {
-	overflow: hidden;
-}
-
-#header .header-shared-by  {
-	color: var(--color-primary-text);
-	position: relative;
-	font-weight: 300;
-	font-size: 11px;
-	line-height: 11px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
 #note-content {
 	padding: 5px;
 	display:inline-block;
