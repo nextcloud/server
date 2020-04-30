@@ -156,7 +156,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} zdieľa konverzáciu {user}",
     "Shared with {user} by {owner}" : "{owner} zdieľa s {user}",
     "Added by {initiator}" : "Pridal(a) {initiator}",
-    "Via folder" : "Prostredníctvom priečinka",
     "Internal link" : "Interný odkaz",
     "Link copied" : "Odkaz skopírovaný",
     "Cannot copy, please copy the link manually" : "Nedarí sa skopírovať, skopírujte prosím ručne.",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Uploaded files:" : "Nahrané súbory...",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
     "could not delete share" : "nie je možné zmazať sprístupnenie",
-    "Uploading files…" : "Nahrávanie súborov..."
+    "Uploading files…" : "Nahrávanie súborov...",
+    "Via folder" : "Prostredníctvom priečinka"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -82,7 +82,6 @@ OC.L10N.register(
     "remote" : "отдалечен",
     "remote group" : "отдалечена група",
     "guest" : "гост",
-    "Via folder" : "С папка",
     "Link copied" : "Връзката е копирана",
     "Copy to clipboard" : "Копирай",
     "Password protection" : "Password protection",
@@ -123,6 +122,7 @@ OC.L10N.register(
     "Note" : "Бележка",
     "Select or drop files" : "Изберете файл или преместете с мишката",
     "Uploaded files:" : "Качени файлове:",
-    "Uploading files…" : "Качване на файлове…"
+    "Uploading files…" : "Качване на файлове…",
+    "Via folder" : "С папка"
 },
 "nplurals=2; plural=(n != 1);");

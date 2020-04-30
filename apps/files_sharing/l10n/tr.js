@@ -156,7 +156,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} tarafından görüşme {user} ile paylaştırılmış",
     "Shared with {user} by {owner}" : "{owner} tarafından {user} ile paylaşılmış",
     "Added by {initiator}" : "{initiator} tarafından eklendi",
-    "Via folder" : "Şu klasör ile",
     "Internal link" : "İç bağlantı",
     "Link copied" : "Bağlantı kopyalandı",
     "Cannot copy, please copy the link manually" : "Kopyalanamadı. Lütfen bağlantıyı el ile kopyalayın",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
     "could not delete share" : "paylaşım kaldırılamadı",
-    "Uploading files…" : "Dosyalar yükleniyor …"
+    "Uploading files…" : "Dosyalar yükleniyor …",
+    "Via folder" : "Şu klasör ile"
 },
 "nplurals=2; plural=(n > 1);");

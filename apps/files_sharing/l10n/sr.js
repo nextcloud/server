@@ -156,7 +156,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} поделио са разговором {user}",
     "Shared with {user} by {owner}" : "{owner} поделио са корисником {user}",
     "Added by {initiator}" : "Додао {initiator}",
-    "Via folder" : "Преко фасцикле",
     "Internal link" : "Интерна веза",
     "Link copied" : "Веза ископирана",
     "Cannot copy, please copy the link manually" : "Не могу да копирам, копирајте везу ручно",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Uploaded files:" : "Отпремљени фајлови:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Отпремањем фајлова, слажете се са %1$sусловима коришћења%2$s.",
     "could not delete share" : "не могу да обришем дељење",
-    "Uploading files…" : "Отпремам фајлове…"
+    "Uploading files…" : "Отпремам фајлове…",
+    "Via folder" : "Преко фасцикле"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -153,7 +153,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Споделено со разговор на {user} од {owner}",
     "Shared with {user} by {owner}" : "Споделено со {user} од {owner}",
     "Added by {initiator}" : "Додадено од {initiator}",
-    "Via folder" : "Преку папка",
     "Internal link" : "Внатрешен линк",
     "Link copied" : "Линкот е копиран",
     "Cannot copy, please copy the link manually" : "Неможе да се копира, копирајте го линкот рачно",
@@ -225,6 +224,7 @@ OC.L10N.register(
     "Uploaded files:" : "Прикачени датотеки:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Со прикачување на датотеките, вие се согласувате со  %1$sусловите за користење%2$s.",
     "could not delete share" : "неможе да се избрише споделувањето",
-    "Uploading files…" : "Прикачување датотеки…"
+    "Uploading files…" : "Прикачување датотеки…",
+    "Via folder" : "Преку папка"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
