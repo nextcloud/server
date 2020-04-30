@@ -156,7 +156,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} jabeak {user} elkarrizketarekin partekatua",
     "Shared with {user} by {owner}" : "{owner} jabeak {user} erabiltzailearekin partekatua",
     "Added by {initiator}" : "Honek gehitua: {initiator}",
-    "Via folder" : "Karpeta bidez",
     "Internal link" : "Barneko esteka",
     "Link copied" : "Esteka kopiatu da",
     "Cannot copy, please copy the link manually" : "Ezin izan da kopiatu. Kopiatu esteka eskuz",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Uploaded files:" : "Igotako fitxategiak:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
     "could not delete share" : "ezin izan da partekatzea ezabatu",
-    "Uploading files…" : "Fitxategiak igotzen…"
+    "Uploading files…" : "Fitxategiak igotzen…",
+    "Via folder" : "Karpeta bidez"
 },
 "nplurals=2; plural=(n != 1);");

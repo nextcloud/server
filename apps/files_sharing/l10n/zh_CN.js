@@ -154,7 +154,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "由{owner}共享给会话{user}",
     "Shared with {user} by {owner}" : "{owner} 共享给 {user}",
     "Added by {initiator}" : "由 {initiator} 添加",
-    "Via folder" : "通过文件夹",
     "Internal link" : "内部链接",
     "Link copied" : "已复制链接",
     "Cannot copy, please copy the link manually" : "无法复制，请手动复制链接",
@@ -226,6 +225,7 @@ OC.L10N.register(
     "Uploaded files:" : "上传的文件： ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
     "could not delete share" : "无法删除共享",
-    "Uploading files…" : "正在上传文件... "
+    "Uploading files…" : "正在上传文件... ",
+    "Via folder" : "通过文件夹"
 },
 "nplurals=1; plural=0;");

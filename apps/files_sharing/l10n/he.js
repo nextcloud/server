@@ -143,7 +143,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "שותף עם הדיון {user} על ידי {owner}",
     "Shared with {user} by {owner}" : "שותף עם {user} על ידי {owner}",
     "Added by {initiator}" : "נוסף על ידי {initiator}",
-    "Via folder" : "דרך התיקייה",
     "Internal link" : "קישור פנימי",
     "Link copied" : "הקישור הועתק",
     "Cannot copy, please copy the link manually" : "לא ניתן להעתיק, נא להעתיק את הקישור ידנית",
@@ -216,6 +215,7 @@ OC.L10N.register(
     "Uploaded files:" : "קבצים שהועלו:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "עצם העלאתם של קבצים מביעה את הסכמתך ל%1$sתנאי השירות%2$s.",
     "could not delete share" : "לא ניתן למחוק שיתוף",
-    "Uploading files…" : "קבצים מועלים…"
+    "Uploading files…" : "קבצים מועלים…",
+    "Via folder" : "דרך התיקייה"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");
