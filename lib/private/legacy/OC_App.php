@@ -348,7 +348,8 @@ class OC_App {
 		if ($all) {
 			$user = null;
 		} else {
-			$user = \OC::$server->getUserSession()->getUser();
+			// getUser but don't validate session yet
+			$user = \OC::$server->getUserSession()->getUser(false);
 		}
 
 		if (is_null($user)) {

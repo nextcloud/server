@@ -223,9 +223,10 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * get the current active user
 	 *
+	 * @param bool $validate whether to validate session
 	 * @return IUser|null Current user, otherwise null
 	 */
-	public function getUser() {
+	public function getUser($validate = true) {
 		// FIXME: This is a quick'n dirty work-around for the incognito mode as
 		// described at https://github.com/owncloud/core/pull/12912#issuecomment-67391155
 		if (OC_User::isIncognitoMode()) {
@@ -236,11 +237,16 @@ class Session implements IUserSession, Emitter {
 			if (is_null($uid)) {
 				return null;
 			}
-			$this->activeUser = $this->manager->get($uid);
-			if (is_null($this->activeUser)) {
+			// UserManager will cache user for later validation...
+			$user = $this->manager->get($uid);
+			if (is_null($user)) {
 				return null;
 			}
-			$this->validateSession();
+			if ($validate === true) {
+				// only set activeUser when validating...
+				$this->activeUser = $user;
+				$this->validateSession();
+			}
 		}
 		return $this->activeUser;
 	}
