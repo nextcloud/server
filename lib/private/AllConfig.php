@@ -130,7 +130,7 @@ class AllConfig implements \OCP\IConfig {
 	 * Looks up a boolean system wide defined value
 	 *
 	 * @param string $key the key of the value, under which it was saved
-	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @param bool $default the default value to be returned if the value isn't set
 	 *
 	 * @return bool
 	 *
@@ -144,7 +144,7 @@ class AllConfig implements \OCP\IConfig {
 	 * Looks up an integer system wide defined value
 	 *
 	 * @param string $key the key of the value, under which it was saved
-	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @param int $default the default value to be returned if the value isn't set
 	 *
 	 * @return int
 	 *
@@ -158,7 +158,7 @@ class AllConfig implements \OCP\IConfig {
 	 * Looks up a string system wide defined value
 	 *
 	 * @param string $key the key of the value, under which it was saved
-	 * @param mixed $default the default value to be returned if the value isn't set
+	 * @param string $default the default value to be returned if the value isn't set
 	 *
 	 * @return string
 	 *
