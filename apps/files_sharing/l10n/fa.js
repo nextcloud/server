@@ -154,7 +154,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "به اشتراک گذاشته شده با مکالمه {کاربر} توسط {صاحب}",
     "Shared with {user} by {owner}" : "مشترک با {user} توسط {صاحب}",
     "Added by {initiator}" : "اضافه شده توسط {ابتکار}",
-    "Via folder" : "از طریق پوشه",
     "Internal link" : "پیوند داخلی",
     "Link copied" : "پیوند کپی شد",
     "Cannot copy, please copy the link manually" : "کپی کردن امکان پذیر نیست ، لطفا پیوند را به صورت دستی کپی کنید",
@@ -226,6 +225,7 @@ OC.L10N.register(
     "Uploaded files:" : "پرونده های بارگذاری شده:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
     "could not delete share" : "نتوانست اشتراک را حذف کند",
-    "Uploading files…" : "بارگذاری پرونده ها ..."
+    "Uploading files…" : "بارگذاری پرونده ها ...",
+    "Via folder" : "از طریق پوشه"
 },
 "nplurals=2; plural=(n > 1);");

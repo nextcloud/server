@@ -156,7 +156,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Gedeeld met gesprek {user} door {owner}",
     "Shared with {user} by {owner}" : "Gedeeld met {user} door {owner}",
     "Added by {initiator}" : "Toegevoegd door {initiator}",
-    "Via folder" : "Via map",
     "Internal link" : "Interne link",
     "Link copied" : "Link gekopieerd",
     "Cannot copy, please copy the link manually" : "Kan niet kopiëren, kopieer de link handmatig",
@@ -229,6 +228,7 @@ OC.L10N.register(
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
     "could not delete share" : "Kan gedeelde folder niet verwijderen",
-    "Uploading files…" : "Uploaden bestanden..."
+    "Uploading files…" : "Uploaden bestanden...",
+    "Via folder" : "Via map"
 },
 "nplurals=2; plural=(n != 1);");

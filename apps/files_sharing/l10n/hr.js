@@ -26,7 +26,9 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Nešto se dogodilo. Dijeljenje nije moguće prihvatiti.",
     "Reject share" : "Odbij dijeljenje",
     "Something happened. Unable to reject the share." : "Nešto se dogodilo. Dijeljenje nije moguće odbiti.",
+    "Waiting…" : "Čekanje…",
     "error" : "pogreška",
+    "finished" : "završeno",
     "This will stop your current uploads." : "Ovo će zaustaviti vaše trenutačne otpreme.",
     "Move or copy" : "Premjesti ili kopiraj",
     "Download" : "Preuzmi",
@@ -154,7 +156,6 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "S razgovorom {user} dijeli {owner}",
     "Shared with {user} by {owner}" : "S {user} dijeli {owner}",
     "Added by {initiator}" : "Dodao {initiator}",
-    "Via folder" : "Putem mape",
     "Internal link" : "Interna poveznica",
     "Link copied" : "Poveznica je kopirana",
     "Cannot copy, please copy the link manually" : "Kopiranje nije moguće, ručno kopirajte poveznicu",
@@ -223,9 +224,11 @@ OC.L10N.register(
     "Upload files to %s" : "Otpremi datoteke na %s",
     "Note" : "Bilješka",
     "Select or drop files" : "Odaberi ili ispusti datoteke",
+    "Uploading files" : "Otpremanje datoteka",
     "Uploaded files:" : "Otpremljene datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s.",
     "could not delete share" : "dijeljenje nije moguće izbrisati",
-    "Uploading files…" : "Otpremanje datoteka..."
+    "Uploading files…" : "Otpremanje datoteka...",
+    "Via folder" : "Putem mape"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

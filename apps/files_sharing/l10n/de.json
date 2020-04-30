@@ -154,7 +154,6 @@
     "Shared with the conversation {user} by {owner}" : "Geteilt mit der Unterhaltung {user} von {owner}",
     "Shared with {user} by {owner}" : "Geteilt mit {user} von {owner}",
     "Added by {initiator}" : "Hinzugefügt von  {initiator}",
-    "Via folder" : "Über Ordner",
     "Internal link" : "Interner Link",
     "Link copied" : "Link kopiert",
     "Cannot copy, please copy the link manually" : "Kopieren fehlgeschlagen. Bitte kopiere den Link manuell.",
@@ -227,6 +226,7 @@
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmst Du den %1$sNutzungsbedingungen%2$szu.",
     "could not delete share" : "Freigabe konnte nicht gelöscht werden",
-    "Uploading files…" : "Dateien werden hochgeladen…"
+    "Uploading files…" : "Dateien werden hochgeladen…",
+    "Via folder" : "Über Ordner"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

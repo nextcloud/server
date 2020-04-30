@@ -154,7 +154,6 @@
     "Shared with the conversation {user} by {owner}" : "Compartido coa conversa {user} por {owner}",
     "Shared with {user} by {owner}" : "Compartido con {user} por {owner}",
     "Added by {initiator}" : "Engadido por {initiator}",
-    "Via folder" : "A través do cartafol",
     "Internal link" : "Ligazón interna",
     "Link copied" : "Ligazón copiada",
     "Cannot copy, please copy the link manually" : "Non foi posíbel copiala. Copie a ligazón manualmente",
@@ -227,6 +226,7 @@
     "Uploaded files:" : "Ficheiros enviados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar ficheiros acepta os %1$s termos do servizo %2$s.",
     "could not delete share" : "non foi posíbel eliminar o recurso compartido",
-    "Uploading files…" : "Enviando ficheiros…"
+    "Uploading files…" : "Enviando ficheiros…",
+    "Via folder" : "A través do cartafol"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
