@@ -65,7 +65,7 @@ class Hasher implements IHasher {
 	public function __construct(IConfig $config) {
 		$this->config = $config;
 
-		if (\defined('PASSWORD_ARGON2I')) {
+		if (\defined('PASSWORD_ARGON2ID') || \defined('PASSWORD_ARGON2I')) {
 			// password_hash fails, when the minimum values are undershot.
 			// In this case, apply minimum.
 			$this->options['threads'] = max($this->config->getSystemValueInt('hashingThreads', PASSWORD_ARGON2_DEFAULT_THREADS), 1);
