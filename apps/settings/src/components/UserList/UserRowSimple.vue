@@ -65,8 +65,12 @@
 					</ActionButton>
 				</Actions>
 				<div class="userPopoverMenuWrapper">
-					<div v-click-outside="hideMenu" class="icon-more" @click="$emit('toggleMenu')" />
-					<div class="popovermenu" :class="{ 'open': openedMenu }">
+					<button
+						v-click-outside="hideMenu"
+						class="icon-more"
+						:aria-label="t('settings', 'Toggle user actions menu')"
+						@click.prevent="$emit('toggleMenu')" />
+					<div class="popovermenu" :class="{ 'open': openedMenu }" :aria-expanded="openedMenu">
 						<PopoverMenu :menu="userActions" />
 					</div>
 				</div>
@@ -170,10 +174,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 	.cellText {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+}
+	.icon-more {
+		background-color: var(--color-main-background);
+		border: 0;
 	}
 </style>
