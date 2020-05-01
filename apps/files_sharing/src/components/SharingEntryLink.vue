@@ -105,8 +105,7 @@
 				icon=""
 				type="date"
 				value-type="format"
-				:not-before="dateTomorrow"
-				:not-after="dateMaxEnforced">
+				:disabled-date="disabledDate">
 				<!-- let's not submit when picked, the user
 					might want to still edit or copy the password -->
 				{{ t('files_sharing', 'Enter a date') }}
@@ -231,8 +230,7 @@
 						value-type="format"
 						icon="icon-calendar-dark"
 						type="date"
-						:not-before="dateTomorrow"
-						:not-after="dateMaxEnforced"
+						:disabled-date="disabledDate"
 						@update:value="onExpirationChange">
 						{{ t('files_sharing', 'Enter a date') }}
 					</ActionInput>

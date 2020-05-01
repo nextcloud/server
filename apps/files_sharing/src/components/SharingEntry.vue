@@ -95,8 +95,7 @@
 					value-type="format"
 					icon="icon-calendar-dark"
 					type="date"
-					:not-before="dateTomorrow"
-					:not-after="dateMaxEnforced"
+					:disabled-date="disabledDate"
 					@update:value="onExpirationChange">
 					{{ t('files_sharing', 'Enter a date') }}
 				</ActionInput>
