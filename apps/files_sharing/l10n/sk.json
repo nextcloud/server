@@ -154,6 +154,7 @@
     "Shared with the conversation {user} by {owner}" : "{owner} zdieľa konverzáciu {user}",
     "Shared with {user} by {owner}" : "{owner} zdieľa s {user}",
     "Added by {initiator}" : "Pridal(a) {initiator}",
+    "Via “{folder}”" : "Prostredníctvom „{folder}“",
     "Internal link" : "Interný odkaz",
     "Link copied" : "Odkaz skopírovaný",
     "Cannot copy, please copy the link manually" : "Nedarí sa skopírovať, skopírujte prosím ručne.",
