@@ -398,15 +398,19 @@ export default {
 		 * @returns {boolean}
 		 */
 		hasExpirationDate: {
-			get: function() {
-				return this.config.isDefaultExpireDateEnforced || !!this.share.expireDate
+			get() {
+				return this.config.isDefaultExpireDateEnforced
+					|| !!this.share.expireDate
 			},
-			set: function(enabled) {
-				this.share.expireDate = enabled
-					? this.config.defaultExpirationDateString !== ''
-						? this.config.defaultExpirationDateString
-						: moment().format('YYYY-MM-DD')
+			set(enabled) {
+				let dateString = moment(this.config.defaultExpirationDateString)
+				if (!dateString.isValid()) {
+					dateString = moment()
+				}
+				this.share.state.expiration = enabled
+					? dateString.format('YYYY-MM-DD')
 					: ''
+				console.debug('Expiration date status', enabled, this.share.expireDate)
 			},
 		},
 
@@ -420,11 +424,11 @@ export default {
 		 * @returns {boolean}
 		 */
 		isPasswordProtected: {
-			get: function() {
+			get() {
 				return this.config.enforcePasswordForPublicLink
 					|| !!this.share.password
 			},
-			set: async function(enabled) {
+			async set(enabled) {
 				// TODO: directly save after generation to make sure the share is always protected
 				Vue.set(this.share, 'password', enabled ? await this.generatePassword() : '')
 				Vue.set(this.share, 'newPassword', this.share.password)
