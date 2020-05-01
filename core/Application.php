@@ -163,6 +163,13 @@ class Application extends App {
 						$subject->addHintForMissingSubject($table->getName(), 'schedulobj_principuri_index');
 					}
 				}
+
+				if ($schema->hasTable('properties')) {
+					$table = $schema->getTable('properties');
+					if (!$table->hasIndex('properties_path_index')) {
+						$subject->addHintForMissingSubject($table->getName(), 'properties_path_index');
+					}
+				}
 			}
 		);
 
