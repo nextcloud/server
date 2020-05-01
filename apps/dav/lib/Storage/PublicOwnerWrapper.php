@@ -49,5 +49,7 @@ class PublicOwnerWrapper extends Wrapper {
 		if ($owner === null || $owner === false) {
 			return $this->owner;
 		}
+
+		return $owner;
 	}
 }
