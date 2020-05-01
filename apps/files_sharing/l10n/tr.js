@@ -156,6 +156,7 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} tarafından görüşme {user} ile paylaştırılmış",
     "Shared with {user} by {owner}" : "{owner} tarafından {user} ile paylaşılmış",
     "Added by {initiator}" : "{initiator} tarafından eklendi",
+    "Via “{folder}”" : "“{folder}” ile",
     "Internal link" : "İç bağlantı",
     "Link copied" : "Bağlantı kopyalandı",
     "Cannot copy, please copy the link manually" : "Kopyalanamadı. Lütfen bağlantıyı el ile kopyalayın",
