@@ -20,7 +20,7 @@ OC.L10N.register(
     "Dark theme (beta)" : "Tamsus apipavidalinimas (beta)",
     "Web Content Accessibility Guidelines" : "Saityno turinio prieinamumo gairėms",
     "our issue tracker" : "mūsų klaidų sekiklyje",
-    "our design team" : "mūsų dizaino komandos",
+    "our design team" : "mūsų dizaino komanda",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "Mums universalioji prieiga yra labai svarbi. Mes sekame saityno standartus ir stengiamės, kad viskuo galima būtų praktiškai pasinaudoti be pelės ir pagalbinės programinės įrangos, tokios kaip ekrano skaitytuvė. Stengiamės atitikti {guidelines} 2.1 pagal AA lygmenį, o su didelio kontrasto apipavidalinimu netgi pagal AAA lygmenį.",
     "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "Jei rasite kokių nors problemų, nesivaržykite apie jas pranešti {issuetracker}. O jei norite įsitraukti, prisijunkite prie {designteam}!",
     "Enable" : "Įjungti"
