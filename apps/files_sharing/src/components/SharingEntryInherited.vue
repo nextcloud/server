@@ -35,10 +35,10 @@
 		<ActionText icon="icon-user">
 			{{ t('files_sharing', 'Added by {initiator}', { initiator: share.ownerDisplayName }) }}
 		</ActionText>
-		<ActionLink v-if="share.canDelete && share.fileSource"
+		<ActionLink v-if="share.viaPath && share.viaFileid"
 			icon="icon-folder"
-			:href="fileTargetUrl">
-			{{ t('files_sharing', 'Via folder') }}
+			:href="viaFileTargetUrl">
+			{{ t('files_sharing', 'Via “{folder}”', {folder: viaFolderName} ) }}
 		</ActionLink>
 		<ActionButton v-if="share.canDelete"
 			icon="icon-close"
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import { basename } from '@nextcloud/paths'
 import { generateUrl } from '@nextcloud/router'
 import Avatar from 'nextcloud-vue/dist/Components/Avatar'
 import ActionButton from 'nextcloud-vue/dist/Components/ActionButton'
@@ -81,10 +82,14 @@ export default {
 	},
 
 	computed: {
-		fileTargetUrl() {
+		viaFileTargetUrl() {
 			return generateUrl('/f/{fileid}', {
-				fileid: this.share.fileSource,
+				fileid: this.share.viaFileid,
 			})
+		},
+
+		viaFolderName() {
+			return basename(this.share.viaPath)
 		},
 	},
 }
