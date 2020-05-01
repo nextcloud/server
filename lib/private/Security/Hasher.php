@@ -65,16 +65,11 @@ class Hasher implements IHasher {
 
 		if (\defined('PASSWORD_ARGON2I')) {
 			// password_hash fails, when the minimum values are undershot.
-			// In this case, ignore and revert to default
-			if ($this->config->getSystemValueInt('hashingMemoryCost', PASSWORD_ARGON2_DEFAULT_MEMORY_COST) >= 8) {
-				$this->options['memory_cost'] = $this->config->getSystemValueInt('hashingMemoryCost', PASSWORD_ARGON2_DEFAULT_MEMORY_COST);
-			}
-			if ($this->config->getSystemValueInt('hashingTimeCost', PASSWORD_ARGON2_DEFAULT_MEMORY_COST) >= 1) {
-				$this->options['time_cost'] = $this->config->getSystemValueInt('hashingTimeCost', PASSWORD_ARGON2_DEFAULT_TIME_COST);
-			}
-			if ($this->config->getSystemValueInt('hashingThreads', PASSWORD_ARGON2_DEFAULT_MEMORY_COST) >= 1) {
-				$this->options['threads'] = $this->config->getSystemValueInt('hashingThreads', PASSWORD_ARGON2_DEFAULT_THREADS);
-			}
+			// In this case, apply minimum.
+			$this->options['threads'] = max($this->config->getSystemValueInt('hashingThreads', PASSWORD_ARGON2_DEFAULT_THREADS), 1);
+			// The minimum memory cost is 8 KiB per thread.
+			$this->options['memory_cost'] = max($this->config->getSystemValueInt('hashingMemoryCost', PASSWORD_ARGON2_DEFAULT_MEMORY_COST), $this->options['threads'] * 8);
+			$this->options['time_cost'] = max($this->config->getSystemValueInt('hashingTimeCost', PASSWORD_ARGON2_DEFAULT_TIME_COST), 1);
 		}
 
 		$hashingCost = $this->config->getSystemValue('hashingCost', null);
