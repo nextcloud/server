@@ -396,7 +396,12 @@ class Manager implements IManager {
 		if ($fullId === null && $expirationDate === null && $this->shareApiInternalDefaultExpireDate()) {
 			$expirationDate = new \DateTime();
 			$expirationDate->setTime(0,0,0);
-			$expirationDate->add(new \DateInterval('P'.$this->shareApiInternalDefaultExpireDays().'D'));
+
+			$days = (int)$this->config->getAppValue('core', 'internal_defaultExpDays', $this->shareApiLinkDefaultExpireDays());
+			if ($days > $this->shareApiLinkDefaultExpireDays()) {
+				$days = $this->shareApiLinkDefaultExpireDays();
+			}
+			$expirationDate->add(new \DateInterval('P'.$days.'D'));
 		}
 
 		// If we enforce the expiration date check that is does not exceed
@@ -468,7 +473,12 @@ class Manager implements IManager {
 		if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
 			$expirationDate = new \DateTime();
 			$expirationDate->setTime(0,0,0);
-			$expirationDate->add(new \DateInterval('P'.$this->shareApiLinkDefaultExpireDays().'D'));
+
+			$days = (int)$this->config->getAppValue('core', 'link_defaultExpDays', $this->shareApiLinkDefaultExpireDays());
+			if ($days > $this->shareApiLinkDefaultExpireDays()) {
+				$days = $this->shareApiLinkDefaultExpireDays();
+			}
+			$expirationDate->add(new \DateInterval('P'.$days.'D'));
 		}
 
 		// If we enforce the expiration date check that is does not exceed
