@@ -27,6 +27,7 @@ OC.L10N.register(
     "Select a profile picture" : "Избор на снимка за профила",
     "Week starts on {fdow}" : "Първи ден от седмицата е {fdow}",
     "Groups" : "Групи",
+    "Retry" : "Опитай отново",
     "{actor} changed your password" : "{actor} промени паролата ви",
     "You changed your password" : "Променихте паролата си",
     "Your password was reset by an administrator" : "Паролата ви е променена от администратора",

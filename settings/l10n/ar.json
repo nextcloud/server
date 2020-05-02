@@ -23,6 +23,8 @@
     "Select a profile picture" : "اختر صورة الملف الشخصي ",
     "Week starts on {fdow}" : "بداية الأسبوع يوم {fdow}",
     "Groups" : "مجموعات",
+    "Add link" : "إضافة رابط",
+    "Retry" : "أعد المحاولة",
     "{actor} changed your password" : "{actor} قام بتغيير كلمتك السرية",
     "You changed your password" : "لقد قمت بتعديل كلمة مرورك",
     "Your password was reset by an administrator" : "قام أحد المدراء بإعادة تعيين كلمة مرورك",

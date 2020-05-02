@@ -25,6 +25,7 @@ OC.L10N.register(
     "Strong password" : "Contraseña mui bona",
     "Select a profile picture" : "Esbillar una imaxe de perfil",
     "Groups" : "Grupos",
+    "Retry" : "Retentar",
     "{actor} changed your password" : "{actor} camudó la to contraseña",
     "You changed your password" : "Camudesti la to contraseña",
     "Your password was reset by an administrator" : "La to contraseña reafitóla un alministrador",

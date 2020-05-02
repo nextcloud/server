@@ -28,6 +28,8 @@
     "Groups" : "Groups",
     "Group list is empty" : "Group list is empty",
     "Unable to retrieve the group list" : "Unable to retrieve the group list",
+    "Unsaved changes" : "Unsaved changes",
+    "Retry" : "Retry",
     "{actor} changed your password" : "{actor} changed your password",
     "You changed your password" : "You changed your password",
     "Your password was reset by an administrator" : "Your password was reset by an administrator",
