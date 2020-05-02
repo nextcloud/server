@@ -1281,9 +1281,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new CloudIdManager();
 		});
 
-		$this->registerService(IConfig::class, function (Server $c) {
-			return new GlobalScale\Config($c->getConfig());
-		});
+		$this->registerAlias(\OCP\GlobalScale\IConfig::class, \OC\GlobalScale\Config::class);
 
 		$this->registerService(ICloudFederationProviderManager::class, function (Server $c) {
 			return new CloudFederationProviderManager($c->getAppManager(), $c->getHTTPClientService(), $c->getCloudIdManager(), $c->getLogger());
