@@ -28,6 +28,8 @@ OC.L10N.register(
     "Strong password" : "ძლიერი პაროლ",
     "Select a profile picture" : "აირჩიეთ პროფილის სურათი",
     "Groups" : "ჯგუფები",
+    "Unsaved changes" : "შეუნახავი ცვლილებები",
+    "Retry" : "ვცადოთ ახლიდან",
     "{actor} changed your password" : "{actor} მომხმარებელმა შეცვალა თქვენი პაროლი",
     "You changed your password" : "თქვენ შეცვალეთ თქვენი პაროლი",
     "Your password was reset by an administrator" : "თქვენი პაროლი ადმინისტრატორმა აღადგინა",

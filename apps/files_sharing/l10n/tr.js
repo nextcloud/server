@@ -229,7 +229,6 @@ OC.L10N.register(
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
     "could not delete share" : "paylaşım kaldırılamadı",
-    "Uploading files…" : "Dosyalar yükleniyor …",
-    "Via folder" : "Şu klasör ile"
+    "Uploading files…" : "Dosyalar yükleniyor …"
 },
 "nplurals=2; plural=(n > 1);");

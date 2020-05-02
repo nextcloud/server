@@ -33,6 +33,8 @@ OC.L10N.register(
     "Groups" : "그룹",
     "Group list is empty" : "그룹 목록이 비었음",
     "Unable to retrieve the group list" : "그룹 목록을 받아올 수 없음",
+    "Unsaved changes" : "저장하지 않은 변경 사항",
+    "Retry" : "다시 시도",
     "{actor} added you to group {group}" : "{actor} 가 당신을 {group} 그룹에 추가했습니다.",
     "You added {user} to group {group}" : "당신은 {user}를 {group} 그룹에 추가했습니다.",
     "{actor} added {user} to group {group}" : "{actor} 가 {user}를 {group} 그룹에 추가했습니다.",

@@ -103,6 +103,8 @@
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Общий ресурс",
     "Show hidden files" : "Показать скрытые файлы",
+    "Verify ACL access when listing files" : "Проверять права ACL при получении списка файлов",
+    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "При получении списка файлов возможно проверять права доступа и исключать из списка файлы, к которым отсутствуют права чтения. Такая проверка снижает производительность.",
     "Timeout" : "Тайм-аут",
     "SMB / CIFS using OC login" : "SMB / CIFS с использованием логина OC",
     "Username as share" : "Имя пользователя в качестве имени общего ресурса",
