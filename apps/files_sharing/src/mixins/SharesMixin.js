@@ -300,5 +300,16 @@ export default {
 		debounceQueueUpdate: debounce(function(property) {
 			this.queueUpdate(property)
 		}, 500),
+
+		/**
+		 * Returns which dates are disabled for the datepicker
+		 * @param {Date} date date to check
+		 * @returns {boolean}
+		 */
+		disabledDate(date) {
+			const dateMoment = moment(date)
+			return (this.dateTomorrow && dateMoment.isBefore(this.dateTomorrow, 'day'))
+				|| (this.dateMaxEnforced && dateMoment.isSameOrAfter(this.dateMaxEnforced, 'day'))
+		},
 	},
 }
