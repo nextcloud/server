@@ -228,7 +228,6 @@ OC.L10N.register(
     "Uploaded files:" : "Uppladdade filer:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Genom att ladda upp filer godkänner du %1$sanvändarvillkoren %2$s.",
     "could not delete share" : "kunde inte ta bort delningen",
-    "Uploading files…" : "Laddar upp filer...",
-    "Via folder" : "Via mapp"
+    "Uploading files…" : "Laddar upp filer..."
 },
 "nplurals=2; plural=(n != 1);");

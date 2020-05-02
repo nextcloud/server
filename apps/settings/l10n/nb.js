@@ -33,6 +33,8 @@ OC.L10N.register(
     "Groups" : "Grupper",
     "Group list is empty" : "Gruppeliste er tom",
     "Unable to retrieve the group list" : "Kunne ikke hente gruppelisten",
+    "Unsaved changes" : "Ulagrede endringer",
+    "Retry" : "Prøv igjen",
     "{actor} added you to group {group}" : "{actor} la deg til i gruppen {group}",
     "You added {user} to group {group}" : "Du la til {user} i gruppen {group}",
     "{actor} added {user} to group {group}" : "{actor} la {user} til i gruppen {group}",

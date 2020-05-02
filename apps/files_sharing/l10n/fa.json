@@ -223,7 +223,6 @@
     "Uploaded files:" : "پرونده های بارگذاری شده:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
     "could not delete share" : "نتوانست اشتراک را حذف کند",
-    "Uploading files…" : "بارگذاری پرونده ها ...",
-    "Via folder" : "از طریق پوشه"
+    "Uploading files…" : "بارگذاری پرونده ها ..."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

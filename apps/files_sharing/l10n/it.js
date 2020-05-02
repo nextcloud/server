@@ -228,7 +228,6 @@ OC.L10N.register(
     "Uploaded files:" : "File caricati:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Caricando i file, accetti i %1$stermini del servizio%2$s.",
     "could not delete share" : "impossibile eliminare la condivisione",
-    "Uploading files…" : "Caricamento file in corso...",
-    "Via folder" : "Tramite cartella"
+    "Uploading files…" : "Caricamento file in corso..."
 },
 "nplurals=2; plural=(n != 1);");

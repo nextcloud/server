@@ -33,6 +33,7 @@ OC.L10N.register(
     "Groups" : "Групи",
     "Group list is empty" : "Листата во групата е празна",
     "Unable to retrieve the group list" : "Неможе да се вчита листата со групи",
+    "Retry" : "Обидете се повторно",
     "{actor} added you to group {group}" : "{actor} те додаде во групата {group}",
     "You added {user} to group {group}" : "Го додаде {user} во групата {group}",
     "{actor} added {user} to group {group}" : "{actor} го додаде {user} во групата {group}",

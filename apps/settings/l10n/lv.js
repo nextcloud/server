@@ -28,6 +28,7 @@ OC.L10N.register(
     "Groups" : "Grupas",
     "Group list is empty" : "Grupu saraksts ir tukšš",
     "Unable to retrieve the group list" : "Nevarēja saņemt grupu sarakstu",
+    "Retry" : "Mēģināt vēlreiz",
     "You successfully logged in using two-factor authentication (%1$s)" : "Esat veiksmīgi pieteicies, izmantojot divpakāpju autentifikācija (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "Pieteikšanās mēģinājums, izmantojot divpakāpju autentifikāciju neizdevās (%1$s)",
     "Couldn't remove app." : "Nebija iespējams noņemt lietotni.",

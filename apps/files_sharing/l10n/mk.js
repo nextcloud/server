@@ -224,7 +224,6 @@ OC.L10N.register(
     "Uploaded files:" : "Прикачени датотеки:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Со прикачување на датотеките, вие се согласувате со  %1$sусловите за користење%2$s.",
     "could not delete share" : "неможе да се избрише споделувањето",
-    "Uploading files…" : "Прикачување датотеки…",
-    "Via folder" : "Преку папка"
+    "Uploading files…" : "Прикачување датотеки…"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
