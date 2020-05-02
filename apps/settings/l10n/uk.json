@@ -31,6 +31,7 @@
     "Groups" : "Групи",
     "Group list is empty" : "Список груп порожній",
     "Unable to retrieve the group list" : "Неможливо отримати список груп",
+    "Retry" : "Ще раз",
     "{actor} added you to group {group}" : "{actor} додав вас до групи {group}",
     "You added {user} to group {group}" : "Ви додали {user} до групи {group}",
     "{actor} added {user} to group {group}" : "{actor} додав {user} до групи {group}",

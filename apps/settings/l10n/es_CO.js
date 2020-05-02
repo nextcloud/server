@@ -30,6 +30,8 @@ OC.L10N.register(
     "Groups" : "Grupos",
     "Group list is empty" : "La lista de grupos esta vacía",
     "Unable to retrieve the group list" : "No fue posible recuperar la lista del gurpo",
+    "Unsaved changes" : "Cambios no guardados",
+    "Retry" : "Reintentar",
     "{actor} changed your password" : "{actor} ha cambiado tu contraseña",
     "You changed your password" : "Cambiaste tu contraseña",
     "Your password was reset by an administrator" : "Tu contraseña ha sido restablecida por un adminsitrador",

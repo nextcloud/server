@@ -228,7 +228,6 @@ OC.L10N.register(
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
     "could not delete share" : "Kan gedeelde folder niet verwijderen",
-    "Uploading files…" : "Uploaden bestanden...",
-    "Via folder" : "Via map"
+    "Uploading files…" : "Uploaden bestanden..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -156,6 +156,7 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Partagé avec la conversation {user} par {owner}",
     "Shared with {user} by {owner}" : "Partagé avec {user} par {owner}",
     "Added by {initiator}" : "Ajouté par {initiator}",
+    "Via “{folder}”" : "Via “{folder}”",
     "Internal link" : "Lien interne",
     "Link copied" : "Lien copié",
     "Cannot copy, please copy the link manually" : "Impossible de copier, merci de le copier manuellement",
@@ -228,7 +229,6 @@ OC.L10N.register(
     "Uploaded files:" : "Fichiers envoyés :",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "En envoyant des fichiers, vous acceptez les %1$sconditions d'utilisation%2$s.",
     "could not delete share" : "impossible de supprimer le partage",
-    "Uploading files…" : "Envoi des fichiers...",
-    "Via folder" : "Via dossier"
+    "Uploading files…" : "Envoi des fichiers..."
 },
 "nplurals=2; plural=(n > 1);");

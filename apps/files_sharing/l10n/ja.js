@@ -225,7 +225,6 @@ OC.L10N.register(
     "Uploaded files:" : "アップロード済ファイル:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "ファイルをアップロードすると、%1$s のサービス条件 %2$s に同意したことになります。",
     "could not delete share" : "共有を削除できませんでした",
-    "Uploading files…" : "ファイルをアップロード中...",
-    "Via folder" : "フォルダ経由"
+    "Uploading files…" : "ファイルをアップロード中..."
 },
 "nplurals=1; plural=0;");

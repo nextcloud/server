@@ -228,7 +228,6 @@ OC.L10N.register(
     "Uploaded files:" : "Αποστολή αρχείων:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Με την μεταφόρτωση αρχείων, συμφωνείτε με %1$sόρους χρήσεως %2$s.",
     "could not delete share" : "αδυναμία διαγραφής κοινόχρηστου φακέλου",
-    "Uploading files…" : "Αποστολή αρχείων ...",
-    "Via folder" : "Μέσω φακέλου"
+    "Uploading files…" : "Αποστολή αρχείων ..."
 },
 "nplurals=2; plural=(n != 1);");
