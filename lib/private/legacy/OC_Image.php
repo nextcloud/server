@@ -1101,6 +1101,9 @@ class OC_Image implements \OCP\IImage {
 
 	public function cropCopy(int $x, int $y, int $w, int $h): IImage {
 		$image = new OC_Image(null, $this->logger, $this->config);
+		$image->imageType = $this->imageType;
+		$image->mimeType = $this->mimeType;
+		$image->bitDepth = $this->bitDepth;
 		$image->resource = $this->cropNew($x, $y, $w, $h);
 
 		return $image;
@@ -1108,6 +1111,9 @@ class OC_Image implements \OCP\IImage {
 
 	public function preciseResizeCopy(int $width, int $height): IImage {
 		$image = new OC_Image(null, $this->logger, $this->config);
+		$image->imageType = $this->imageType;
+		$image->mimeType = $this->mimeType;
+		$image->bitDepth = $this->bitDepth;
 		$image->resource = $this->preciseResizeNew($width, $height);
 
 		return $image;
@@ -1115,6 +1121,9 @@ class OC_Image implements \OCP\IImage {
 
 	public function resizeCopy(int $maxSize): IImage {
 		$image = new OC_Image(null, $this->logger, $this->config);
+		$image->imageType = $this->imageType;
+		$image->mimeType = $this->mimeType;
+		$image->bitDepth = $this->bitDepth;
 		$image->resource = $this->resizeNew($maxSize);
 
 		return $image;
