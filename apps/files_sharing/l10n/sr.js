@@ -156,6 +156,7 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} поделио са разговором {user}",
     "Shared with {user} by {owner}" : "{owner} поделио са корисником {user}",
     "Added by {initiator}" : "Додао {initiator}",
+    "Via “{folder}”" : "Преко „{folder}“",
     "Internal link" : "Интерна веза",
     "Link copied" : "Веза ископирана",
     "Cannot copy, please copy the link manually" : "Не могу да копирам, копирајте везу ручно",
