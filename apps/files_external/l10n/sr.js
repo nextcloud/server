@@ -105,6 +105,8 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Дели",
     "Show hidden files" : "Прикажи скривене фајлове",
+    "Verify ACL access when listing files" : "Провери ACL (листу контроле приступа) приликом излиставања фајлова",
+    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Провери ACL (листу контроле приступа) сваког фајла или фасцикле унутар директоријума да исфилтрираш ставке где корисник нема право читања, али уз удар на перформансе",
     "Timeout" : "Истек времена",
     "SMB / CIFS using OC login" : "SMB / CIFS користећи Некстклауд пријаву",
     "Username as share" : "Корисничко име као дељење",
