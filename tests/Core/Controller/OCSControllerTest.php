@@ -113,6 +113,7 @@ class OCSControllerTest extends TestCase {
 		$result['capabilities'] = $capabilities;
 
 		$expected = new DataResponse($result);
+		$expected->setETag(md5(json_encode($result)));
 		$this->assertEquals($expected, $this->controller->getCapabilities());
 	}
 
@@ -146,6 +147,7 @@ class OCSControllerTest extends TestCase {
 		$result['capabilities'] = $capabilities;
 
 		$expected = new DataResponse($result);
+		$expected->setETag(md5(json_encode($result)));
 		$this->assertEquals($expected, $this->controller->getCapabilities());
 	}
 

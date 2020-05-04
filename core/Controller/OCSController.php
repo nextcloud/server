@@ -108,7 +108,9 @@ class OCSController extends \OCP\AppFramework\OCSController {
 			$result['capabilities'] = $this->capabilitiesManager->getCapabilities(true);
 		}
 
-		return new DataResponse($result);
+		$response = new DataResponse($result);
+		$response->setETag(md5(json_encode($result)));
+		return $response;
 	}
 
 	/**
