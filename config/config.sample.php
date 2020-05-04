@@ -607,7 +607,7 @@ $CONFIG = [
  *     automatically, delete other files anytime if space needed
  * * ``D1, D2``
  *     keep files and folders in the trash bin for at least D1 days and
- *     delete when exceeds D2 days
+ *     delete when exceeds D2 days (note: files will not be deleted automatically if space is needed)
  * * ``disabled``
  *     trash bin auto clean disabled, files and folders will be kept forever
  *
