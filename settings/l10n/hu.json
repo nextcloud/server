@@ -94,7 +94,7 @@
     "Unable to change email address" : "Nem lehet megváltoztatni az e-mail címet",
     "In order to verify your Twitter account, post the following tweet on Twitter (please make sure to post it without any line breaks):" : "A twitter fiók megerősítésére tweeteld ki az alábbit. (Kérünk pontosan így, sortörések nélkül tweeteld)",
     "In order to verify your Website, store the following content in your web-root at '.well-known/CloudIdVerificationCode.txt' (please make sure that the complete text is in one line):" : "A weboldalad ellenőrzése érdekében helyezd el a következő tartalmat a  '.well-known/CloudIdVerificationCode.txt'-ba. (figyelj arra, hogy az egész szöveg egy sorban legyen):",
-    "%1$s changed your password on %2$s." : "%1$smegváltoztatta a jelszavadat%2$s-on.",
+    "%1$s changed your password on %2$s." : "%1$s megváltoztatta a jelszavadat a %2$s-on.",
     "Your password on %s was changed." : "A jelszavad %s-on megváltozott.",
     "Your password on %s was reset by an administrator." : "A jelszavad %s-on visszaállította egy rendszergazda.",
     "Your password on %s was reset." : "Jelszavad %s-on visszállítva. ",
