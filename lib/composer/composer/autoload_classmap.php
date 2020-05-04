@@ -982,6 +982,7 @@ return array(
     'OC\\Files\\Node\\File' => $baseDir . '/lib/private/Files/Node/File.php',
     'OC\\Files\\Node\\Folder' => $baseDir . '/lib/private/Files/Node/Folder.php',
     'OC\\Files\\Node\\HookConnector' => $baseDir . '/lib/private/Files/Node/HookConnector.php',
+    'OC\\Files\\Node\\LazyFolder' => $baseDir . '/lib/private/Files/Node/LazyFolder.php',
     'OC\\Files\\Node\\LazyRoot' => $baseDir . '/lib/private/Files/Node/LazyRoot.php',
     'OC\\Files\\Node\\Node' => $baseDir . '/lib/private/Files/Node/Node.php',
     'OC\\Files\\Node\\NonExistingFile' => $baseDir . '/lib/private/Files/Node/NonExistingFile.php',

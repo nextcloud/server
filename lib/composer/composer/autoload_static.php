@@ -1011,6 +1011,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\Node\\File' => __DIR__ . '/../../..' . '/lib/private/Files/Node/File.php',
         'OC\\Files\\Node\\Folder' => __DIR__ . '/../../..' . '/lib/private/Files/Node/Folder.php',
         'OC\\Files\\Node\\HookConnector' => __DIR__ . '/../../..' . '/lib/private/Files/Node/HookConnector.php',
+        'OC\\Files\\Node\\LazyFolder' => __DIR__ . '/../../..' . '/lib/private/Files/Node/LazyFolder.php',
         'OC\\Files\\Node\\LazyRoot' => __DIR__ . '/../../..' . '/lib/private/Files/Node/LazyRoot.php',
         'OC\\Files\\Node\\Node' => __DIR__ . '/../../..' . '/lib/private/Files/Node/Node.php',
         'OC\\Files\\Node\\NonExistingFile' => __DIR__ . '/../../..' . '/lib/private/Files/Node/NonExistingFile.php',
