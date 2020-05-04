@@ -77,7 +77,10 @@ class App {
 	 * @since 6.0.0
 	 */
 	public function __construct(string $appName, array $urlParams = []) {
-		if (\OC::$server->getConfig()->getSystemValueBool('debug')) {
+		$runIsSetupDirectly = \OC::$server->getConfig()->getSystemValueBool('debug')
+			&& (PHP_VERSION_ID < 70400 || (PHP_VERSION_ID >= 70400 && !ini_get('zend.exception_ignore_args')));
+
+		if ($runIsSetupDirectly) {
 			$applicationClassName = get_class($this);
 			$e = new \RuntimeException('App class ' . $applicationClassName . ' is not setup via query() but directly');
 			$setUpViaQuery = false;
