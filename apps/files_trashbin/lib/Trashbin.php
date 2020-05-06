@@ -47,10 +47,13 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Command\Expire;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
 use OCP\User;
 
 class Trashbin {
@@ -220,8 +223,8 @@ class Trashbin {
 	public static function move2trash($file_path, $ownerOnly = false) {
 		// get the user for which the filesystem is setup
 		$root = Filesystem::getRoot();
-		list(, $user) = explode('/', $root);
-		list($owner, $ownerPath) = self::getUidAndFilename($file_path);
+		[, $user] = explode('/', $root);
+		[$owner, $ownerPath] = self::getUidAndFilename($file_path);
 
 		// if no owner found (ex: ext storage + share link), will use the current user's trashbin then
 		if (is_null($owner)) {
@@ -245,15 +248,36 @@ class Trashbin {
 
 		$filename = $path_parts['basename'];
 		$location = $path_parts['dirname'];
-		$timestamp = time();
+		/** @var ITimeFactory $timeFactory */
+		$timeFactory = \OC::$server->query(ITimeFactory::class);
+		$timestamp = $timeFactory->getTime();
+
+		$lockingProvider = \OC::$server->getLockingProvider();
 
 		// disable proxy to prevent recursive calls
 		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
+		$gotLock = false;
 
-		/** @var \OC\Files\Storage\Storage $trashStorage */
-		list($trashStorage, $trashInternalPath) = $ownerView->resolvePath($trashPath);
+		while (!$gotLock) {
+			try {
+				/** @var \OC\Files\Storage\Storage $trashStorage */
+				[$trashStorage, $trashInternalPath] = $ownerView->resolvePath($trashPath);
+
+				$trashStorage->acquireLock($trashInternalPath, ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
+				$gotLock = true;
+			} catch (LockedException $e) {
+				// a file with the same name is being deleted concurrently
+				// nudge the timestamp a bit to resolve the conflict
+
+				$timestamp = $timestamp + 1;
+
+				$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
+			}
+		}
+
 		/** @var \OC\Files\Storage\Storage $sourceStorage */
-		list($sourceStorage, $sourceInternalPath) = $ownerView->resolvePath('/files/' . $ownerPath);
+		[$sourceStorage, $sourceInternalPath] = $ownerView->resolvePath('/files/' . $ownerPath);
+
 		try {
 			$moveSuccessful = true;
 			if ($trashStorage->file_exists($trashInternalPath)) {
@@ -295,6 +319,8 @@ class Trashbin {
 				self::copyFilesToUser($ownerPath, $owner, $file_path, $user, $timestamp);
 			}
 		}
+
+		$trashStorage->releaseLock($trashInternalPath, ILockingProvider::LOCK_EXCLUSIVE, $lockingProvider);
 
 		self::scheduleExpire($user);
 
@@ -345,9 +371,9 @@ class Trashbin {
 	 */
 	private static function move(View $view, $source, $target) {
 		/** @var \OC\Files\Storage\Storage $sourceStorage */
-		list($sourceStorage, $sourceInternalPath) = $view->resolvePath($source);
+		[$sourceStorage, $sourceInternalPath] = $view->resolvePath($source);
 		/** @var \OC\Files\Storage\Storage $targetStorage */
-		list($targetStorage, $targetInternalPath) = $view->resolvePath($target);
+		[$targetStorage, $targetInternalPath] = $view->resolvePath($target);
 		/** @var \OC\Files\Storage\Storage $ownerTrashStorage */
 
 		$result = $targetStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
@@ -367,9 +393,9 @@ class Trashbin {
 	 */
 	private static function copy(View $view, $source, $target) {
 		/** @var \OC\Files\Storage\Storage $sourceStorage */
-		list($sourceStorage, $sourceInternalPath) = $view->resolvePath($source);
+		[$sourceStorage, $sourceInternalPath] = $view->resolvePath($source);
 		/** @var \OC\Files\Storage\Storage $targetStorage */
-		list($targetStorage, $targetInternalPath) = $view->resolvePath($target);
+		[$targetStorage, $targetInternalPath] = $view->resolvePath($target);
 		/** @var \OC\Files\Storage\Storage $ownerTrashStorage */
 
 		$result = $targetStorage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
@@ -465,7 +491,7 @@ class Trashbin {
 
 			$target = Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
 
-			list($owner, $ownerPath) = self::getUidAndFilename($target);
+			[$owner, $ownerPath] = self::getUidAndFilename($target);
 
 			// file has been deleted in between
 			if (empty($ownerPath)) {
@@ -731,7 +757,7 @@ class Trashbin {
 		$dirContent = Helper::getTrashFiles('/', $user, 'mtime');
 
 		// delete all files older then $retention_obligation
-		list($delSize, $count) = self::deleteExpiredFiles($dirContent, $user);
+		[$delSize, $count] = self::deleteExpiredFiles($dirContent, $user);
 
 		$availableSpace += $delSize;
 
@@ -868,7 +894,7 @@ class Trashbin {
 		//force rescan of versions, local storage may not have updated the cache
 		if (!self::$scannedVersions) {
 			/** @var \OC\Files\Storage\Storage $storage */
-			list($storage,) = $view->resolvePath('/');
+			[$storage,] = $view->resolvePath('/');
 			$storage->getScanner()->scan('files_trashbin/versions');
 			self::$scannedVersions = true;
 		}
