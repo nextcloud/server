@@ -216,15 +216,6 @@ class ShareAPIController extends OCSController {
 			$result['expiration'] = $expiration->format('Y-m-d 00:00:00');
 		}
 
-		// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
-		// For link shares, we need to have the PERMISSION_SHARE if federated is enabled
-		if ($this->shareManager->outgoingServer2ServerSharesAllowed()) {
-			if ($share->getShareType() === IShare::TYPE_LINK
-				|| $share->getShareType() === IShare::TYPE_EMAIL) {
-				$result['permissions'] |= Constants::PERMISSION_SHARE;
-			}
-		}
-
 		if ($share->getShareType() === IShare::TYPE_USER) {
 			$sharedWith = $this->userManager->get($share->getSharedWith());
 			$result['share_with'] = $share->getSharedWith();
@@ -509,6 +500,11 @@ class ShareAPIController extends OCSController {
 					Constants::PERMISSION_DELETE;
 			} else {
 				$permissions = Constants::PERMISSION_READ;
+			}
+
+			// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
+			if (($permissions & Constants::PERMISSION_READ) && $this->shareManager->outgoingServer2ServerSharesAllowed()) {
+				$permissions |= Constants::PERMISSION_SHARE;
 			}
 
 			$share->setPermissions($permissions);
@@ -1055,6 +1051,11 @@ class ShareAPIController extends OCSController {
 			}
 
 			if ($newPermissions !== null) {
+				// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
+				if (($newPermissions & Constants::PERMISSION_READ) && $this->shareManager->outgoingServer2ServerSharesAllowed()) {
+					$newPermissions |= Constants::PERMISSION_SHARE;
+				}
+
 				$share->setPermissions($newPermissions);
 				$permissions = $newPermissions;
 			}
