@@ -42,7 +42,7 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Дозволи им на корисниците на овој сервер да примаат споделувања од други сервери",
     "Allow users on this server to send shares to groups on other servers" : "Дозволи им на корисниците на овој сервер да испраќаат споделувања со во групи на други сервери",
     "Allow users on this server to receive group shares from other servers" : "Дозволи им на корисниците на овој сервер да примаат споделувања со групи од други сервери",
-    "Search global and public address book for users" : "Бребарајте го глобалниот и јавниот именик на корисници",
+    "Search global and public address book for users" : "Пребарајте го глобалниот и јавниот именик на корисници",
     "Allow users to publish their data to a global and public address book" : "Дозволи им на корисниците да објавуваат информации во глобалниот и јавниот именик ",
     "Federated Cloud" : "Федерален клауд",
     "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Можете да споделувате со секој што користи Nextcloud сервер или друг вид на Open Cloud Mesh (OCM) компатибилен сервер или сервис! Само внесете го федералниот ID во полето за споделување. Треба да изгреда korisnik@cloud.primer.com",
