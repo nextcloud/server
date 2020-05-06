@@ -306,14 +306,16 @@ export default {
 					return arr
 				}
 				try {
-					// filter out current user
-					if (share.value.shareWith === getCurrentUser().uid) {
-						return arr
-					}
+					if (share.value.shareType === this.SHARE_TYPES.SHARE_TYPE_USER) {
+						// filter out current user
+						if (share.value.shareWith === getCurrentUser().uid) {
+							return arr
+						}
 
-					// filter out the owner of the share
-					if (this.reshare && share.value.shareWith === this.reshare.owner) {
-						return arr
+						// filter out the owner of the share
+						if (this.reshare && share.value.shareWith === this.reshare.owner) {
+							return arr
+						}
 					}
 
 					// filter out existing mail shares
