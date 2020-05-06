@@ -23,6 +23,7 @@
 <template>
 	<li class="sharing-entry">
 		<Avatar class="sharing-entry__avatar"
+			:is-no-user="share.type !== SHARE_TYPES.SHARE_TYPE_USER"
 			:user="share.shareWith"
 			:display-name="share.shareWithDisplayName"
 			:url="share.shareWithAvatar" />
