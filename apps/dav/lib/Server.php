@@ -92,7 +92,7 @@ class Server {
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
 
 		// Add maintenance plugin
-		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin(\OC::$server->getConfig()));
+		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin(\OC::$server->getConfig(), \OC::$server->getL10N('dav')));
 
 		// Backends
 		$authBackend = new Auth(

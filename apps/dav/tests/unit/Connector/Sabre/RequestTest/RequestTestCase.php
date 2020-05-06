@@ -70,7 +70,8 @@ abstract class RequestTestCase extends TestCase {
 				->disableOriginalConstructor()
 				->getMock(),
 			\OC::$server->getPreviewManager(),
-			\OC::$server->getEventDispatcher()
+			\OC::$server->getEventDispatcher(),
+			\OC::$server->getL10N('dav')
 		);
 	}
 
