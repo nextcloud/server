@@ -33,6 +33,8 @@ use OCP\Files\NotFoundException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OCP\Files\StorageAuthException;
 
+const SWIFT_SEGMENT_SIZE = 1073741824; // 1GB
+
 class Swift implements IObjectStore {
 	/**
 	 * @var array
@@ -81,10 +83,18 @@ class Swift implements IObjectStore {
 		file_put_contents($tmpFile, $stream);
 		$handle = fopen($tmpFile, 'rb');
 
-		$this->getContainer()->createObject([
-			'name' => $urn,
-			'stream' => stream_for($handle)
-		]);
+		if (filesize($tmpFile) < SWIFT_SEGMENT_SIZE) {
+			$this->getContainer()->createObject([
+				'name' => $urn,
+				'stream' => stream_for($handle)
+			]);
+		} else {
+			$this->getContainer()->createLargeObject([
+				'name' => $urn,
+				'stream' => stream_for($handle),
+				'segmentSize' => SWIFT_SEGMENT_SIZE
+			]);
+		}
 	}
 
 	/**
