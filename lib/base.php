@@ -644,6 +644,10 @@ class OC {
 			OC\Log\ErrorHandler::register($debug);
 		}
 
+		/** @var \OC\AppFramework\Bootstrap\Coordinator $bootstrapCoordinator */
+		$bootstrapCoordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
+		$bootstrapCoordinator->runRegistration();
+
 		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
 		OC_App::loadApps(['session']);
 		if (!self::$CLI) {
