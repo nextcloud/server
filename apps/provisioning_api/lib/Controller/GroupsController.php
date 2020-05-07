@@ -218,11 +218,11 @@ class GroupsController extends AUserData {
 					$userData = $this->getUserData($userId);
 					// Do not insert empty entry
 					if (!empty($userData)) {
-						$usersDetails[$userId] = $userData;
+						$usersDetails[] = $userData;
 					} else {
 						// Logged user does not have permissions to see this user
 						// only showing its id
-						$usersDetails[$userId] = ['id' => $userId];
+						$usersDetails[] = ['id' => $userId];
 					}
 				} catch (OCSNotFoundException $e) {
 					// continue if a users ceased to exist.

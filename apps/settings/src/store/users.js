@@ -56,9 +56,9 @@ const state = {
 }
 
 const mutations = {
-	appendUsers(state, usersObj) {
+	appendUsers(state, userArray) {
 		// convert obj to array
-		const users = state.users.concat(Object.keys(usersObj).map(userid => usersObj[userid]))
+		const users = state.users.concat(userArray)
 		state.usersOffset += state.usersLimit
 		state.users = users
 	},
