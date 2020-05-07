@@ -143,6 +143,8 @@ OC.L10N.register(
     "I know what I'm doing" : "Ég veit hvað ég er að gera",
     "Resetting password" : "Endurstilli lykilorð",
     "Recommended apps" : "Ráðlögð forrit",
+    "Loading apps …" : "Hleð inn forritum …",
+    "Installing apps …" : "Set upp forrit …",
     "Nextcloud {app}" : "Nextcloud {app}",
     "Cancel" : "Hætta við",
     "Forgot password?" : "Gleymdirðu lykilorði?",
