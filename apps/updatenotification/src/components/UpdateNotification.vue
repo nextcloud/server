@@ -109,6 +109,7 @@
 </template>
 
 <script>
+import { generateUrl, getRootUrl, generateOcsUrl } from '@nextcloud/router'
 import { PopoverMenu, Multiselect } from '@nextcloud/vue'
 import { VTooltip } from 'v-tooltip'
 import ClickOutside from 'vue-click-outside'
@@ -287,7 +288,7 @@ export default {
 			}
 
 			$.ajax({
-				url: OC.linkToOCS('apps/updatenotification/api/v1/applist', 2) + this.newVersion,
+				url: generateOcsUrl('apps/updatenotification/api/v1/applist', 2) + this.newVersion,
 				type: 'GET',
 				beforeSend: function(request) {
 					request.setRequestHeader('Accept', 'application/json')
@@ -344,7 +345,7 @@ export default {
 		}.bind(this))
 
 		$.ajax({
-			url: OC.linkToOCS('cloud', 2) + '/groups',
+			url: generateOcsUrl('cloud', 2) + '/groups',
 			dataType: 'json',
 			success: function(data) {
 				const results = []
@@ -364,12 +365,12 @@ export default {
 			 */
 		clickUpdaterButton: function() {
 			$.ajax({
-				url: OC.generateUrl('/apps/updatenotification/credentials'),
+				url: generateUrl('/apps/updatenotification/credentials'),
 			}).success(function(token) {
 				// create a form to send a proper post request to the updater
 				const form = document.createElement('form')
 				form.setAttribute('method', 'post')
-				form.setAttribute('action', OC.getRootPath() + '/updater/')
+				form.setAttribute('action', getRootUrl() + '/updater/')
 
 				const hiddenField = document.createElement('input')
 				hiddenField.setAttribute('type', 'hidden')
@@ -395,7 +396,7 @@ export default {
 			this.currentChannel = channel
 
 			$.ajax({
-				url: OC.generateUrl('/apps/updatenotification/channel'),
+				url: generateUrl('/apps/updatenotification/channel'),
 				type: 'POST',
 				data: {
 					'channel': this.currentChannel,
