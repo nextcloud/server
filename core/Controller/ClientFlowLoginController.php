@@ -377,6 +377,24 @@ class ClientFlowLoginController extends Controller {
 			return $this->stateTokenForbiddenResponse();
 		}
 
+		try {
+			$token = $this->tokenProvider->getToken($password);
+			if ($token->getLoginName() !== $user) {
+				throw new InvalidTokenException('login name does not match');
+			}
+		} catch (InvalidTokenException $e) {
+			$response = new StandaloneTemplateResponse(
+				$this->appName,
+				'403',
+				[
+					'message' => $this->l10n->t('Invalid app password'),
+				],
+				'guest'
+			);
+			$response->setStatus(Http::STATUS_FORBIDDEN);
+			return $response;
+		}
+
 		$redirectUri = 'nc://login/server:' . $this->getServerPath() . '&user:' . urlencode($user) . '&password:' . urlencode($password);
 		return new Http\RedirectResponse($redirectUri);
 	}
