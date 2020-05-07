@@ -15,6 +15,7 @@ OC.L10N.register(
     "Only visible to local users" : "Kun synlig for lokale brugere",
     "Only visible to you" : "Kun synlig for dig",
     "Contacts" : "Kontakter",
+    "Visible to local users and to trusted servers" : "Tilgængelig for lokale brugere og godkendte servere",
     "Public" : "Offentlig",
     "Verify" : "Bekræft",
     "Verifying …" : "Bekræfter.....",
