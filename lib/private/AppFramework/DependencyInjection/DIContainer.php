@@ -53,6 +53,7 @@ use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\Folder;
@@ -296,6 +297,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerAlias(\OCP\Collaboration\Resources\IManager::class, OC\Collaboration\Resources\Manager::class);
 
 		$this->registerAlias(IAppConfig::class, OC\AppFramework\Services\AppConfig::class);
+		$this->registerAlias(IInitialState::class, OC\AppFramework\Services\InitialState::class);
 	}
 
 	/**
