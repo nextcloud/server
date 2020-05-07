@@ -104,6 +104,30 @@ class RecentContactMapper extends QBMapper {
 		return $this->findEntities($select);
 	}
 
+	/**
+	 * @param string $uid
+	 * @return int|null
+	 */
+	public function findLastUpdatedForUserId(string $uid):?int {
+		$qb = $this->db->getQueryBuilder();
+
+		$select = $qb
+			->select('last_contact')
+			->from($this->getTableName())
+			->where($qb->expr()->eq('actor_uid', $qb->createNamedParameter($uid)))
+			->orderBy('last_contact', 'DESC')
+			->setMaxResults(1);
+
+		$cursor = $select->execute();
+		$row = $cursor->fetch();
+
+		if ($row === false) {
+			return null;
+		}
+
+		return (int)$row['last_contact'];
+	}
+
 	public function cleanUp(int $olderThan): void {
 		$qb = $this->db->getQueryBuilder();
 
