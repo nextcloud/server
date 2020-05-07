@@ -132,6 +132,7 @@ OC.L10N.register(
     "remote group" : "grup remot",
     "guest" : "convidat",
     "Link copied" : "Enllaç copiat",
+    "Cannot copy, please copy the link manually" : "No es pot copiar, si us plau, copieu l'enllaç manualment",
     "Copy to clipboard" : "Copia-ho al porta-papers",
     "Only works for users with access to this folder" : "Només funciona per a usuaris amb accés a aquesta carpeta",
     "Password protection" : "Protecció amb contrasenya",
