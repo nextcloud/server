@@ -71,7 +71,9 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 		} catch (IMapperException $e) {
 		}
 
+		$defaultName = false;
 		if ($name === null) {
+			$defaultName = true;
 			$name = 'default';
 		}
 
@@ -79,7 +81,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository {
 
 		if ($oldEntity) {
 			$entity->setId($oldEntity->getId());
-			if ($name === null) {
+			if ($defaultName) {
 				$entity->setName($oldEntity->getName());
 			}
 		}
