@@ -34,7 +34,6 @@ use OCA\DAV\DAV\Sharing\Plugin;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IL10N;
 use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\PropPatch;
 use Sabre\DAVACL\ACLTrait;
 use Sabre\DAVACL\IACL;
