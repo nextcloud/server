@@ -44,7 +44,6 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IDBConnection;
-use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -888,7 +887,7 @@ class DefaultShareProvider implements IShareProvider {
 			$cursor->closeCursor();
 		} elseif ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
 			$user = $this->userManager->get($userId);
-			$allGroups = $this->groupManager->getUserGroups($user);
+			$allGroups = $this->groupManager->getUserGroupIds($user);
 
 			/** @var Share[] $shares2 */
 			$shares2 = [];
@@ -925,12 +924,7 @@ class DefaultShareProvider implements IShareProvider {
 				}
 
 
-				$groups = array_filter($groups, function ($group) {
-					return $group instanceof IGroup;
-				});
-				$groups = array_map(function (IGroup $group) {
-					return $group->getGID();
-				}, $groups);
+				$groups = array_filter($groups);
 
 				$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP)))
 					->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter(
