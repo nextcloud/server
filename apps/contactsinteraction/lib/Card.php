@@ -95,7 +95,7 @@ class Card implements ICard, IACL {
 	 * @inheritDoc
 	 */
 	public function getETag(): ?string {
-		return null;
+		return '"' . md5((string) $this->getLastModified()) . '"';
 	}
 
 	/**

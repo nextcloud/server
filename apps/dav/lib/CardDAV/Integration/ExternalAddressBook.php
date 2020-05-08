@@ -34,7 +34,7 @@ use Sabre\DAV;
 abstract class ExternalAddressBook implements IAddressBook, DAV\IProperties {
 
 	/** @var string */
-	private const PREFIX = 'app-generated';
+	private const PREFIX = 'z-app-generated';
 
 	/**
 	 * @var string
