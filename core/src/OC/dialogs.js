@@ -787,11 +787,11 @@ const Dialogs = {
 
 			$conflict.find('.filename').text(original.name)
 			$originalDiv.find('.size').text(OC.Util.humanFileSize(original.size))
-			$originalDiv.find('.mtime').text(formatDate(original.mtime))
+			$originalDiv.find('.mtime').text(OC.Util.formatDate(original.mtime))
 			// ie sucks
 			if (replacement.size && replacement.lastModifiedDate) {
 				$replacementDiv.find('.size').text(OC.Util.humanFileSize(replacement.size))
-				$replacementDiv.find('.mtime').text(formatDate(replacement.lastModifiedDate))
+				$replacementDiv.find('.mtime').text(OC.Util.formatDate(replacement.lastModifiedDate))
 			}
 			var path = original.directory + '/' + original.name
 			var urlSpec = {
