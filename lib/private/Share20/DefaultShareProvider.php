@@ -44,7 +44,6 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IDBConnection;
-use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
