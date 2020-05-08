@@ -183,10 +183,16 @@ export default {
 	},
 
 	watch: {
-		fileInfo() {
-			this.resetState()
-			this.getShares()
+		fileInfo(newFile, oldFile) {
+			if (newFile.id !== oldFile.id) {
+				this.resetState()
+				this.getShares()
+			}
 		},
+	},
+
+	beforeMount() {
+		this.getShares()
 	},
 
 	methods: {
