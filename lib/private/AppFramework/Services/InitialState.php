@@ -25,7 +25,6 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Services;
 
-use OCP\AppFramework\Services\Closure;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IInitialStateService;
 
