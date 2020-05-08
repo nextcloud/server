@@ -165,7 +165,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 
 
-	
+
 	public function testGetShareByIdNotExist() {
 		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
 
@@ -856,7 +856,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame(null, $share->getSharedWith());
 	}
 
-	
+
 	public function testGetShareByTokenNotFound() {
 		$this->expectException(\OCP\Share\Exceptions\ShareNotFound::class);
 
@@ -986,14 +986,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$groups = [];
 		foreach (range(0, 100) as $i) {
-			$group = $this->createMock(IGroup::class);
-			$group->method('getGID')->willReturn('group'.$i);
-			$groups[] = $group;
+			$groups[] = 'group'.$i;
 		}
 
-		$group = $this->createMock(IGroup::class);
-		$group->method('getGID')->willReturn('sharedWith');
-		$groups[] = $group;
+		$groups[] = 'sharedWith';
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('sharedWith');
@@ -1007,8 +1003,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			['shareOwner', $owner],
 			['sharedBy', $initiator],
 		]);
-		$this->groupManager->method('getUserGroups')->with($user)->willReturn($groups);
-		$this->groupManager->method('get')->with('sharedWith')->willReturn($group);
+		$this->groupManager->method('getUserGroupIds')->with($user)->willReturn($groups);
 
 		$file = $this->createMock(File::class);
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
@@ -1082,9 +1077,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			]);
 		$this->assertEquals(1, $qb->execute());
 
-		$group = $this->createMock(IGroup::class);
-		$group->method('getGID')->willReturn('sharedWith');
-		$groups = [$group];
+		$groups = ['sharedWith'];
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('user');
@@ -1098,8 +1091,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			['shareOwner', $owner],
 			['sharedBy', $initiator],
 		]);
-		$this->groupManager->method('getUserGroups')->with($user)->willReturn($groups);
-		$this->groupManager->method('get')->with('sharedWith')->willReturn($group);
+		$this->groupManager->method('getUserGroupIds')->with($user)->willReturn($groups);
 
 		$file = $this->createMock(File::class);
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
@@ -1182,11 +1174,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			['user1', $user1],
 		]);
 
-		$group0 = $this->createMock(IGroup::class);
-		$group0->method('getGID')->willReturn('group0');
-
-		$this->groupManager->method('get')->with('group0')->willReturn($group0);
-		$this->groupManager->method('getUserGroups')->with($user0)->willReturn([$group0]);
+		$this->groupManager->method('getUserGroupIds')->with($user0)->willReturn(['group0']);
 
 		$node = $this->createMock(Folder::class);
 		$node->method('getId')->willReturn($fileId2);
@@ -1246,14 +1234,10 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$groups = [];
 		foreach (range(0, 100) as $i) {
-			$group = $this->createMock(IGroup::class);
-			$group->method('getGID')->willReturn('group'.$i);
-			$groups[] = $group;
+			$groups[] = 'group'.$i;
 		}
 
-		$group = $this->createMock(IGroup::class);
-		$group->method('getGID')->willReturn('sharedWith');
-		$groups[] = $group;
+		$groups[] = 'sharedWith';
 
 		$user = $this->createMock(IUser::class);
 		$user->method('getUID')->willReturn('sharedWith');
@@ -1267,8 +1251,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			['shareOwner', $owner],
 			['sharedBy', $initiator],
 		]);
-		$this->groupManager->method('getUserGroups')->with($user)->willReturn($groups);
-		$this->groupManager->method('get')->with('sharedWith')->willReturn($group);
+		$this->groupManager->method('getUserGroupIds')->with($user)->willReturn($groups);
 
 		$share = $this->provider->getSharedWith('sharedWith', $shareType, null, 1 , 0);
 		$this->assertCount(0, $share);
@@ -1559,7 +1542,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('user2', $share2['share_with']);
 	}
 
-	
+
 	public function testDeleteFromSelfGroupUserNotInGroup() {
 		$this->expectException(\OC\Share20\Exception\ProviderException::class);
 		$this->expectExceptionMessage('Recipient not in receiving group');
@@ -1604,7 +1587,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->provider->deleteFromSelf($share, 'user2');
 	}
 
-	
+
 	public function testDeleteFromSelfGroupDoesNotExist() {
 		$this->expectException(\OC\Share20\Exception\ProviderException::class);
 		$this->expectExceptionMessage('Group "group" does not exist');
@@ -1695,7 +1678,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertCount(0, $shares);
 	}
 
-	
+
 	public function testDeleteFromSelfUserNotRecipient() {
 		$this->expectException(\OC\Share20\Exception\ProviderException::class);
 		$this->expectExceptionMessage('Recipient does not match');
@@ -1738,7 +1721,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->provider->deleteFromSelf($share, $user3);
 	}
 
-	
+
 	public function testDeleteFromSelfLink() {
 		$this->expectException(\OC\Share20\Exception\ProviderException::class);
 		$this->expectExceptionMessage('Invalid shareType');
