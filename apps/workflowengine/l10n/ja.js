@@ -36,6 +36,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (制限)",
     "Predefined URLs" : "定義済みのURL",
     "Files WebDAV" : "ファイルWebDAV",
+    "Others" : "その他",
     "Android client" : "アンドロイドクライアント",
     "iOS client" : "iOSクライアント",
     "Desktop client" : "デスクトップクライアント",
