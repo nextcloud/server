@@ -166,7 +166,7 @@ script('core', [
 			<input type="checkbox" id="install-recommended-apps" name="install-recommended-apps" class="checkbox checkbox--white" checked>
 			<label for="install-recommended-apps">
 				<?php p($l->t('Install recommended apps')); ?>
-				<span><?php p($l->t('Calendar, Contacts, Talk, Mail & OnlyOffice')); ?></span>
+				<span><?php p($l->t('Calendar, Contacts, Talk, Mail & Collaborative editing')); ?></span>
 			</label>
 		</p>
 	</fieldset>
