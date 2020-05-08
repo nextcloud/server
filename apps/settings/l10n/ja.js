@@ -255,6 +255,7 @@ OC.L10N.register(
     "Disabled apps" : "無効なアプリ",
     "Updates" : "アップデート",
     "App bundles" : "アプリバンドル",
+    "Featured apps" : "注目のアプリ",
     "{license}-licensed" : "{license}-ライセンス",
     "New user" : "新しいユーザー",
     "Add group" : "グループを追加する",
