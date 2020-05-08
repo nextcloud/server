@@ -236,6 +236,7 @@ class UsersController extends Controller {
 		$serverData['userCount'] = $userCount;
 		$serverData['languages'] = $languages;
 		$serverData['defaultLanguage'] = $this->config->getSystemValue('default_language', 'en');
+		$serverData['forceLanguage'] = $this->config->getSystemValue('force_language', false);
 		// Settings
 		$serverData['defaultQuota'] = $defaultQuota;
 		$serverData['canChangePassword'] = $canChangePassword;
