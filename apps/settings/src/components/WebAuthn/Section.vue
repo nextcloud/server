@@ -40,7 +40,7 @@
 			{{ t('settings', 'Your browser does not support WebAuthn.') }}
 		</p>
 
-		<AddDevice v-if="hasPublicKeyCredential" :isHttps="isHttps" @added="deviceAdded" />
+		<AddDevice v-if="hasPublicKeyCredential" :is-https="isHttps" @added="deviceAdded" />
 	</div>
 </template>
 

@@ -35,15 +35,15 @@ export default {
 	 * you'll need to be careful when using it.
 	 * e.g
 	 * // store
-	 * 	action(context) {
-	 *		return api.requireAdmin().then((response) => {
-	 *			return api.get('url')
-	 *				.then((response) => {API success})
-	 *				.catch((error) => {API failure});
-	 *		}).catch((error) => {requireAdmin failure});
-	 *	}
+	 * action(context) {
+	 *   return api.requireAdmin().then((response) => {
+	 *     return api.get('url')
+	 *       .then((response) => {API success})
+	 *       .catch((error) => {API failure});
+	 *   }).catch((error) => {requireAdmin failure});
+	 * }
 	 * // vue
-	 *	this.$store.dispatch('action').then(() => {always executed})
+	 * this.$store.dispatch('action').then(() => {always executed})
 	 *
 	 * Since Promise.then().catch().then() will always execute the last then
 	 * this.$store.dispatch('action').then will always be executed
@@ -52,11 +52,11 @@ export default {
 	 * you will need to throw a new error in the api.get.catch()
 	 *
 	 * e.g
-	 *	api.requireAdmin().then((response) => {
-	 *		api.get('url')
-	 *			.then((response) => {API success})
-	 *			.catch((error) => {throw error;});
-	 *	}).catch((error) => {requireAdmin OR API failure});
+	 * api.requireAdmin().then((response) => {
+	 *   api.get('url')
+	 *     .then((response) => {API success})
+	 *     .catch((error) => {throw error;});
+	 * }).catch((error) => {requireAdmin OR API failure});
 	 *
 	 * @returns {Promise}
 	 */

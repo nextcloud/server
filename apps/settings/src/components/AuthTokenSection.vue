@@ -37,6 +37,7 @@
 <script>
 import axios from '@nextcloud/axios'
 import confirmPassword from '@nextcloud/password-confirmation'
+import { generateUrl } from '@nextcloud/router'
 
 import AuthTokenList from './AuthTokenList'
 import AuthTokenSetupDialogue from './AuthTokenSetupDialogue'
@@ -80,7 +81,7 @@ export default {
 	},
 	data() {
 		return {
-			baseUrl: OC.generateUrl('/settings/personal/authtokens'),
+			baseUrl: generateUrl('/settings/personal/authtokens'),
 		}
 	},
 	methods: {

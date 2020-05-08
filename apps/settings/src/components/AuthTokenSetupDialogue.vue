@@ -29,7 +29,7 @@
 		<button class="button"
 			:disabled="loading"
 			@click="submit">
-			{{ t('settings', 'Create new app password')	}}
+			{{ t('settings', 'Create new app password') }}
 		</button>
 	</div>
 	<div v-else>
@@ -79,6 +79,7 @@
 <script>
 import QR from '@chenfengyuan/vue-qrcode'
 import confirmPassword from '@nextcloud/password-confirmation'
+import { getRootUrl } from '@nextcloud/router'
 
 export default {
 	name: 'AuthTokenSetupDialogue',
@@ -141,7 +142,7 @@ export default {
 					this.loginName = token.loginName
 					this.appPassword = token.token
 
-					const server = window.location.protocol + '//' + window.location.host + OC.getRootPath()
+					const server = window.location.protocol + '//' + window.location.host + getRootUrl()
 					this.qrUrl = `nc://login/user:${token.loginName}&password:${token.token}&server:${server}`
 
 					this.$nextTick(() => {
