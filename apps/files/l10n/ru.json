@@ -185,8 +185,6 @@
     "Pending shares" : "Ожидающие общие ресурсы",
     "Text file" : "Текстовый файл",
     "New text file.txt" : "Новый текстовый файл.txt",
-    "%s of %s used" : "использовано %s из %s",
-    "%1$s%% of %2$s used" : "использовано %1$s%% из %2$s",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Используйте этот адрес для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">доступа к своим файлам по протоколу WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Изменение владельца возможно только для своих файлов и папок"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"

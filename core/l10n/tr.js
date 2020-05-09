@@ -287,7 +287,6 @@ OC.L10N.register(
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite yalnız küçük ve geliştirme ortamları için seçilmelidir. Üretim ortamları için farklı bir veritabanı kullanmanız önerilir.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Dosya eşitlemesi için istemcileri kullanıyorsanız SQLite kullanımından kaçınmalısınız.",
     "Install recommended apps" : "Önerilen uygulamaları kur",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Takvim, Kişiler, Sohbet ve E-posta ve OnlyOffice",
     "Finish setup" : "Kurulumu tamamla",
     "Finishing …" : "Tamamlanıyor …",
     "Need help?" : "Yardım gerekiyor mu?",
@@ -352,13 +351,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Bu %s kopyası şu anda bakım kipinde, bu işlem biraz zaman alabilir.",
     "This page will refresh itself when the instance is available again." : "Sistem yeniden kullanılabilir olduğunda bu sayfa kendiliğinden yenilenecek",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Bu ileti görüntülenmeye devam ediyor ya da beklenmedik şekilde ortaya çıkıyorsa BT yöneticinizle görüşün.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Bu kullanıcı için bir e-posta adresi olmadığından sıfırlama e-postası gönderilemedi. Lütfen BT yöneticiniz ile görüşün.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Sıfırlama e-postası gönderilemedi. Lütfen kullanıcı adınızın doğru olduğundan emin olun.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Bu hesabın kayıtlı e-posta adresine bir parola sıfırlama bağlantısı gönderildi. Makul bir süre içinde bir e-posta almazsanız gelen kutunuzdaki spam/gereksiz klasörlerine bakın.<br>E-postayı göremiyorsanız yerel BT yöneticinizle görüşün.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Dosyalarınız şifrelenmiş. Parola sıfırlama işleminden sonra verilerinize erişemeyeceksiniz.<br />Ne yapacağınızdan emin değilseniz, ilerlemeden önce BT yöneticiniz ile görüşün.<br />Gerçekten devam etmek istiyor musunuz?",
-    "Sending email …" : "E-posta gönderiliyor …",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "PHP 5.6 sürümünü kullanıyorsunuz. Geçerli Nextcloud ana sürümü PHP 5.6 sürümünü destekleyen son sürüm olacak. Nextcloud 14 sürümünü kullanabilmek için PHP sürümünü 7.0 ve üzerine yükseltmeniz önerilir.",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "Siteye HTTP üzerinden güvenli olmayan bağlantı ile erişiliyor. Sunucunuzu <a href=\"{docUrl}\">güvenlik ipuçlarında ↗</a> anlatıldığı şekilde HTTPS kullanılacak şekilde yapılandırmanız önemle önerilir.",
     "Shared" : "Paylaşılan",
     "Shared with" : "Paylaşılanlar",
     "Shared by" : "Paylaşan",
@@ -438,9 +431,8 @@ OC.L10N.register(
     "Error removing share" : "Paylaşımdan kaldırılırken sorun çıktı",
     "({scope})" : "({scope})",
     "Saving..." : "Kaydediliyor...",
-    "Dismiss" : "Yok say",
     "Your client should now be connected! You can close this window." : "İstemcinizin bağlanmış olması gerekir! Bu pencereyi kapatabilirsiniz",
-    "New Password" : "Yeni Parola",
-    "Cancel log in" : "Oturum açmaktan vazgeç"
+    "Cancel log in" : "Oturum açmaktan vazgeç",
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Takvim, Kişiler, Sohbet ve E-posta ve OnlyOffice"
 },
 "nplurals=2; plural=(n > 1);");

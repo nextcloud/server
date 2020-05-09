@@ -41,8 +41,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Son kararlı sürüm. Normal kullanıma uygundur ve her zaman son büyük sürümü kullanır.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Yeni özellikleri denemek için kullanılabilecek yayın öncesi sürümü. Üretim ortamları için önerilmez.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok","<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok"],
-    "Production" : "Üretim",
-    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Her zaman son yama düzeyini sunar. Ancak sonraki büyük sürümü hemen kullanmaz. Bu güncelleme genellikle ikinci küçük sürümün (x.0.2) yayınlanmasından sonra ve ancak  son küçük sürüm yüklü ise kullanılır."
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok","<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok"]
 },
 "nplurals=2; plural=(n > 1);");

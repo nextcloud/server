@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Сообщайте об обнаруженных проблемах в  {issuetracker} системе отслеживания ошибок{linkend}. Присоединяйтесь к {designteam}команде дизайнеров{linkend} чтобы участвовать в разработке.",
     "High contrast theme" : "Режим высокой контрастности",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Это высококонтрастное оформление упрощает навигацию по сайту. Качество изображения будет уменьшено за счёт увеличения чёткости.",
-    "Dark theme (beta)" : "Тёмное оформление (бета)",
     "Web Content Accessibility Guidelines" : "Руководство по обеспечению доступности Web-контента WGAG",
     "our issue tracker" : "Сообщить об ошибке",
     "our design team" : "Команда разработчиков",

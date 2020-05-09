@@ -400,6 +400,7 @@ OC.L10N.register(
     "New password" : "Contrasenya nova",
     "Change password" : "Canvia la contrasenya",
     "Use a second factor besides your password to increase security for your account." : "Feu servir un segon factor a més de la vostra contrasenya per augmentar la seguretat del vostre compte.",
+    "Share" : "Comparteix",
     "Afrikaans (Namibia)" : "Afrikaans (Namíbia)",
     "Afrikaans (South Africa)" : "Afrikaans (Sud-àfrica)",
     "Afrikaans" : "Afrikaans",
@@ -837,10 +838,6 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Les aplicacions oficials són desenvolupades per i dins de la comunitat. Ofereixen funcionalitats centrals i estan preparades per ser emprades en producció.",
     "Official" : "Oficial",
     "The backend does not support changing the display name" : "El rerefons no està preparat per canviar el nom visualitzat",
-    "Store credentials" : "Emmagatzema les credencials",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php està registrat en un servei webcron per cridar cron.php cada 15 minuts mitjançant HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Utilitza el servei del sistema cron per cridar al fitxer cron.php cada 15 minuts.",
-    "Set default expiration date" : "Estableix la data de caducitat per defecte",
-    "Share" : "Comparteix"
+    "Set default expiration date" : "Estableix la data de caducitat per defecte"
 },
 "nplurals=2; plural=(n != 1);");

@@ -286,7 +286,6 @@ OC.L10N.register(
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite bør kun bruges til minimale og udviklingsmæssige servere. Til produktion anbefaler vi en anden database backend.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Hvis du bruger klienter til fil synkronisering, frarådes brugen af SQLite på det kraftigste.",
     "Install recommended apps" : "Installer anbefalede apps",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalender, Kontakter, Snak, Mail & OnlyOffice",
     "Finish setup" : "Afslut opsætning",
     "Finishing …" : "Færdigbehandler …",
     "Need help?" : "Brug for hjælp?",
@@ -351,13 +350,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Denne %s-instans befinder sig i vedligeholdelsestilstand for øjeblikket, hvilket kan tage et stykke tid.",
     "This page will refresh itself when the instance is available again." : "Denne side vil genopfriske sig selv, når instancen er tilgængelig igen.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Kunne ikke sende e-mail om nulstilling af adgangskode, da der ikke er knyttet en e-mail-adresse til dette brugernavn. Kontakt venligst din administrator.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Der opstod et problem under afsendelse af nulstillings e-mailen. Kontroller venligst om dit brugernavnet er korrekt.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "En e-post til at nulstille dit kodeord er blevet sendt til e-postadressen for denne konto. Hvis du ikke modtager den inden for en rimelig tid, så tjek dine spam/junk-mapper.<br> Hvis den ikke er der, så spørg din lokale administrator.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Dine filer er krypteret. Det vil ikke være muligt at kunne genskabe din data hvis din adgangskode nulstilles.<br />Hvis du ikke er sikker på hvad du gør, kontakt venligst din administrator før du fortsætter.<br />Ønsker du at forsætte?",
-    "Sending email …" : "Sender email...",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Du kører PHP 5.6. Den nuværende større version af Nextcloud er den sidste, der understøttes på PHP 5.6. Det anbefales at opgradere PHP-versionen til 7.0+ for at kunne opgradere til Nextcloud 14.",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "Tilgang via usikker HTTP. Det er kraftigt anbefalet at du konfigurerer din server, så der kræves brug af HTTPS i stedet, som foreskrevet i vores <a href=\"{docUrl}\">sikkerhedstips ↗</a>. ",
     "Shared" : "Delt",
     "Shared with" : "Delt med",
     "Shared by" : "Delt af",
@@ -437,9 +430,8 @@ OC.L10N.register(
     "Error removing share" : "Fejl ved fjernelse af deling",
     "({scope})" : "({scope})",
     "Saving..." : "Gemmer...",
-    "Dismiss" : "Afvis",
     "Your client should now be connected! You can close this window." : "Din klient er nu forbundet. Du kan lukke dette vindue",
-    "New Password" : "Ny adgangskode",
-    "Cancel log in" : "Annullér login"
+    "Cancel log in" : "Annullér login",
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalender, Kontakter, Snak, Mail & OnlyOffice"
 },
 "nplurals=2; plural=(n != 1);");

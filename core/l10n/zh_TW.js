@@ -341,13 +341,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "這個 %s 安裝目前處於維護模式，需要一段時間恢復。",
     "This page will refresh itself when the instance is available again." : "安裝恢復可用之後，本頁會自動重新整理",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "若這個訊息持續出現，請聯絡系統管理員",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "由於您尚未設定電子郵件地址，導致系統無法傳送重設密碼資訊，請聯絡管理員。",
-    "Couldn't send reset email. Please make sure your username is correct." : "無法寄送重設 email ，請確認您的帳號輸入正確",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "我們已將重設密碼的信件寄到這個帳號所對應的信箱。如果你在合理的時間內沒有收到，請至垃圾郵件中檢查，如果還是沒有，請聯絡管理員。",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "由於您已啟用檔案加密，重設密碼後，您的資料將無法解密。<br/>若您不確定繼續與否，請與管理員聯繫。<br/>確定要繼續嗎？",
-    "Sending email …" : "正在傳送電子郵件…",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "您目前正運行 PHP 5.6 ，目前使用的 Nextcloud 將會是最後一個支援 PHP 5.6 的版本，建議您升級至 PHP 7.0 以上以使用 Nextcloud 14。",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "正在透過不安全的 HTTP 存取站台，強烈建議您設定伺服器啟用 HTTPS ，更多資訊請查閱<a href=\"{docUrl}\">安全建議</a>。",
     "Shared" : "已分享",
     "Shared with" : "分享給",
     "Shared by" : "分享自",
@@ -427,9 +421,7 @@ OC.L10N.register(
     "Error removing share" : "移除分享時發生錯誤",
     "({scope})" : "（{scope}）",
     "Saving..." : "儲存中...",
-    "Dismiss" : "知道了",
     "Your client should now be connected! You can close this window." : "您的客戶端應該已經完成連結，您可以關閉這個視窗",
-    "New Password" : "新密碼",
     "Cancel log in" : "取消登入"
 },
 "nplurals=1; plural=0;");

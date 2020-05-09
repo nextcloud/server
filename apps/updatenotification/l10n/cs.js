@@ -41,8 +41,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Nejnovější stabilní verze. Je vhodná pro běžné používání a vždy ji lze aktualizovat na nejnovější hlavní verzi",
     "Beta" : "Vývojové",
     "A pre-release version only for testing new features, not for production environments." : "Předprodukční verze, pouze pro zkoušení nových funkcí, není určeno pro praktické nasazení.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikace nemá k dispozici aktualizaci na tuto verzi","<strong>%n</strong>  aplikace nemají k dispozici aktualizaci na tuto verzi","<strong>%n</strong> aplikací nemá k dispozici aktualizaci na tuto verzi","<strong>%n</strong> aplikace nemají k dispozici aktualizaci na tuto verzi"],
-    "Production" : "Produkční",
-    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Vždy poskytuje nejnovější opravy, ale neaktualizuje hned na příští hlavní verzi. Taková aktualizace se obvykle děje při druhém podvydání (x.0.2) a pouze pokud je instance už na nejnovější podverzi."
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikace nemá k dispozici aktualizaci na tuto verzi","<strong>%n</strong>  aplikace nemají k dispozici aktualizaci na tuto verzi","<strong>%n</strong> aplikací nemá k dispozici aktualizaci na tuto verzi","<strong>%n</strong> aplikace nemají k dispozici aktualizaci na tuto verzi"]
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

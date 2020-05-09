@@ -14,7 +14,6 @@ OC.L10N.register(
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "امکان دسترسی امکانات از چند مسیر برای کار کردن راحت تر شما با نکست کلود قرارداده شده است.",
     "High contrast theme" : "تم با وضوح بالا",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "یک تم با وضوح بالا برای آسان نمودن راهبری شما\nکیفیت بصری کاهش خاهد یافت تا وضوح افزایش یابد.",
-    "Dark theme (beta)" : "تم تاریک (بتا)",
     "Web Content Accessibility Guidelines" : "راهنمای در دسترس بودن محتوا وب",
     "our issue tracker" : "دنبال کننده مساله ها",
     "our design team" : "تیم طراحی ما",

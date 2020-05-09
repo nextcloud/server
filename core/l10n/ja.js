@@ -286,7 +286,6 @@ OC.L10N.register(
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLiteは小規模もしくは開発用のインスタンスでのみ利用できます。プロダクション環境では他のデータベースをお勧めします。",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "ファイルの同期にクライアントを使用している場合、SQLiteの使用はお勧めできません。",
     "Install recommended apps" : "推奨アプリをインストール",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "カレンダー、連絡先、トーク、メール、OnlyOffice",
     "Finish setup" : "セットアップを完了します",
     "Finishing …" : "作業を完了しています ...",
     "Need help?" : "ヘルプが必要ですか？",
@@ -351,13 +350,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "このサーバー %s は現在メンテナンスモードです。しばらくお待ちください。",
     "This page will refresh itself when the instance is available again." : "この画面は、サーバー の再起動後に自動的に更新されます。",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "このメッセージが引き続き、または予期せず現れる場合は、システム管理者に問い合わせてください。",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "このユーザー名に紐付けられたメールアドレスがないため、リセットメールを送信できませんでした。管理者に問い合わせてください。",
-    "Couldn't send reset email. Please make sure your username is correct." : "リセットメールを送信できませんでした。ユーザー名が正しいことを確認してください。",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "このアカウントのパスワードをリセットするためのメールを、登録されているアドレスに送信しました。 あなたが妥当な時間内にメールを受け取れない場合は、スパム/ジャンクフォルダーをチェックしてください。<br>そこにもない場合は、サーバー管理者に確認してください。",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "ファイルが暗号化されています。パスワードをリセットした場合、データを元に戻す方法はありません。<br />どういうことか分からない場合は、操作を継続する前に管理者に問い合わせてください。<br />続けてよろしいでしょうか?",
-    "Sending email …" : "メールを送信中 ...",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "あなたは現在PHP 5.6を実行しています。 Nextcloudの現在のメジャーバージョンは、PHP 5.6でサポートされている最新バージョンです。 Nextcloud 14にアップグレードできるようにするには、PHPバージョンを7.0以降にアップグレードすることをお勧めします。",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "セキュアではないHTTP経由でアクセスしています。<a href=\"{docUrl}\">セキュリティTips ↗</a>で述べているように、代わりにHTTPSを必要とするようサーバーを設定することを強くおすすめします。",
     "Shared" : "共有中",
     "Shared with" : "と共有",
     "Shared by" : "共有者",
@@ -437,9 +430,8 @@ OC.L10N.register(
     "Error removing share" : "共有の削除エラー",
     "({scope})" : "({scope})",
     "Saving..." : "保存中...",
-    "Dismiss" : "閉じる",
     "Your client should now be connected! You can close this window." : "あなたのクライアントは接続されているはずです。 このウィンドウは閉じても構いません。",
-    "New Password" : "新しいパスワード",
-    "Cancel log in" : "ログインをキャンセルする"
+    "Cancel log in" : "ログインをキャンセルする",
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "カレンダー、連絡先、トーク、メール、OnlyOffice"
 },
 "nplurals=1; plural=0;");

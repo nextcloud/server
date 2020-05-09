@@ -329,11 +329,10 @@
     "Current password" : "Поточний пароль",
     "New password" : "Новий пароль",
     "Change password" : "Змінити пароль",
+    "Share" : "Поділитися",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Офіційні додатки розробляються спільнотою та в межах спільноти. Вони пропонують основну функціональність і готові до використання в продакшні.",
     "Official" : "Офіційні",
     "The backend does not support changing the display name" : "Бекенд не підтримує зміну відображуваного імені",
-    "Store credentials" : "Зберігати облікові дані",
-    "Set default expiration date" : "Встановити термін дії за замовчуванням",
-    "Share" : "Поділитися"
+    "Set default expiration date" : "Встановити термін дії за замовчуванням"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

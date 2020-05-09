@@ -289,6 +289,7 @@ OC.L10N.register(
     "Current password" : "Fjalëkalimi i tanishëm",
     "New password" : "Fjalëkalimi i ri",
     "Change password" : "Ndrysho fjalëkalimin",
+    "Share" : "Shpërndaje",
     "Afrikaans" : "Afrikanë",
     "Bulgarian" : "Bullgarë",
     "English" : "Anglisht",
@@ -296,10 +297,6 @@ OC.L10N.register(
     "Tonga" : "Tonga",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikacionet zyrtare zhvillohen nga komuniteti dhe brenta tij. Ato ofrojnë funksionalitet qëndror dhe janë gati për përdorim.",
     "Official" : "Zyrtare",
-    "Store credentials" : "Depozitoji kredencialet",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php është regjistruar në një server webcron për të thirrur cron.php çdo 15 minuta mbi HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Përdor shërbimin cron të sistemit për të thirrur skedarin cron.php çdo 15 minuta.",
-    "Set default expiration date" : "Caktoni datë parazgjedhje skadimi",
-    "Share" : "Shpërndaje"
+    "Set default expiration date" : "Caktoni datë parazgjedhje skadimi"
 },
 "nplurals=2; plural=(n != 1);");

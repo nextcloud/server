@@ -19,9 +19,8 @@ OC.L10N.register(
     "{name} backup codes" : "{name} záložné kódy",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Pri nastavovaní dvojfaktorového overovania totožnosti použite jeden zo záložných kódov, ktoré ste uložili.",
     "Submit" : "Odoslať",
+    "function" : "funkcia",
     "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["načítanie-malej-ikony","vytvoriť-záložné-kódy","vytvoriť-záložné-kódy","vytvoriť-záložné-kódy"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Povolili ste dvojfaktorové overenie, ale ešte ste nevytvorili záložné kódy. Určite to urobte pre prípad, že stratíte prístup k druhému faktoru.",
-    "function" : "funkcia"
+    "_icon-loading-small_::_generate-backup-codes_" : ["načítanie-malej-ikony","vytvoriť-záložné-kódy","vytvoriť-záložné-kódy","vytvoriť-záložné-kódy"]
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -394,6 +394,7 @@
     "New password" : "Nýtt lykilorð",
     "Change password" : "Breyta lykilorði",
     "Use a second factor besides your password to increase security for your account." : "Notaðu annað þrep til viðbótar lykilorðinu þínu til að auka öryggi notandaaðgangsins þíns.",
+    "Share" : "Deila",
     "Afrikaans (Namibia)" : "Afríkanska (Namibía)",
     "Afrikaans (South Africa)" : "Afrikaans (Suður Afríka)",
     "Afrikaans" : "Afríkanska",
@@ -831,10 +832,6 @@
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Opinber forrit eru þróuð af og innan samfélagsins. Þau bjóða upp á ýmsa kjarnaeiginleika og eru tilbúin til notkunar í raunvinnslu.",
     "Official" : "Opinbert",
     "The backend does not support changing the display name" : "Bakendinn styður ekki að birtingarnafni sé breytt",
-    "Store credentials" : "Geyma auðkenni",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php er skráð á webcron-þjónustu til að kalla á cron.php á 15 mínútna fresti yfir HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Nota cron-þjónustu kerfisins til að kalla á cron.php skrána á 15 mínútna fresti.",
-    "Set default expiration date" : "Setja sjálfgefinn gildistíma",
-    "Share" : "Deila"
+    "Set default expiration date" : "Setja sjálfgefinn gildistíma"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

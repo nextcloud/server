@@ -269,10 +269,6 @@
     "Maintenance mode" : "Uzturēšanas režīms",
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s serveris pašlaik darbojas uzturēšanas režīmā, tas var ilgt kādu laiku.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Nevarēja nosūtīt paroles maiņas e-pastu, jo lietotājam nav norādīts e-pasts. Lūdzu sazinies ar savu administratoru.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Nevarēja nosūtīt paroles maiņas e-pastu. Pārliecinies, ka tavs lietotājvārds ir pareizs.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Jūsu datnes ir šifrētas. Atiestatot paroli, jums zudīs iespēja tos atšifrēt. <br />Ja neessat pārliecināts, ko darīt, sazinieties ar savu administratoru. <br />Vai tiešām vēlaties turpināt?",
-    "Sending email …" : "Sūta e-pastu ...",
     "Shared" : "Koplietots",
     "Shared with" : "Koplietots ar",
     "Shared by" : "Koplietoja",
@@ -332,8 +328,6 @@
     "Error removing share" : "Kļūda, noņemot koplietošanu",
     "({scope})" : "({scope})",
     "Saving..." : "Saglabā...",
-    "Dismiss" : "Atmest",
-    "New Password" : "Jauna parole",
     "Cancel log in" : "Atcelt pieteikšanos"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

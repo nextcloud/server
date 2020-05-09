@@ -17,9 +17,8 @@
     "{name} backup codes" : "{name} εφεδρικοί κωδικοί",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Χρησιμοποιήστε έναν από τους εφεδρικούς κωδικούς που αποθηκεύσατε όταν ρυθμίζετε τον έλεγχο ταυτότητας δύο παραγόντων.",
     "Submit" : "Υποβολή",
+    "function" : "λειτουργία",
     "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["εικονίδιο-φόρτωση-μικρό","δημιουργία-εφεδρικό-κωδικών"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Ενεργοποιήσατε τον έλεγχο ταυτότητας δύο παραγόντων, αλλά δεν δημιουργήθηκαν ακόμη εφεδρικοί κωδικοί. Απαιτούνται για να αποκαταστήσετε την πρόσβαση στο λογαριασμό σας σε περίπτωση που χάσετε τον δεύτερο παράγοντα.",
-    "function" : "λειτουργία"
+    "_icon-loading-small_::_generate-backup-codes_" : ["εικονίδιο-φόρτωση-μικρό","δημιουργία-εφεδρικό-κωδικών"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

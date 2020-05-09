@@ -43,9 +43,6 @@
     "Oct." : "Okt.",
     "Nov." : "Nov.",
     "Dec." : "Dis.",
-    "Authentication error" : "Ralat pengesahan",
-    "Create" : "Buat",
-    "Delete" : "Padam",
-    "Share" : "Kongsi"
+    "Authentication error" : "Ralat pengesahan"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

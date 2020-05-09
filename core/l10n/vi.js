@@ -222,10 +222,6 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Nâng cấp qua web",
     "This %s instance is currently in maintenance mode, which may take a while." : "Bản cài đặt%s hiện tại đang trong chế độ \"bảo trì\", do vậy có thể bạn cần phải đợi thêm chút ít thời gian.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Không thể gửi thư điện tử yêu cầu thiết lập lại vì chưa có địa chỉ thư điện tử đối với tên đăng nhập này. Xin vui long liên hệ với quản trị hệ thống.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Không thể gửi thư điện tử yêu cầu thiết lập lại. Xin vui lòng kiểm tra tên tài khoản đăng nhập",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Các file của bạn đã được mã hóa. Sẽ không có cách nào lấy lại dữ liệu của bạn sau khi mật khẩu được thiết lập lại. <br/> Nếu bạn không chắc điều gì sẽ xảy ra, xin vui lòng liên hệ người quản trị hệ thốngtrước khi bạn tiếp tục. <br/> Bạn có <b> thực sự muốn </b> tiếp tục?",
-    "Sending email …" : "Đang gửi mail...",
     "Shared" : "Được chia sẻ",
     "Shared with" : "Chia sẽ với",
     "Shared by" : "Đã chia sẽ bởi",
@@ -288,8 +284,6 @@ OC.L10N.register(
     "Error removing share" : "Lỗi khi xóa chia sẻ",
     "({scope})" : "({scope})",
     "Saving..." : "Đang lưu...",
-    "Dismiss" : "Bỏ qua",
-    "New Password" : "Mật khẩu mới",
     "Cancel log in" : "Hủy đăng nhập"
 },
 "nplurals=1; plural=0;");

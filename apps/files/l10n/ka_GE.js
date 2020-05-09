@@ -150,7 +150,6 @@ OC.L10N.register(
     "Shared by link" : "გაზიარდა ბმულით",
     "Text file" : "ტექსტური ფაილი",
     "New text file.txt" : "ახალი ტექსტი file.txt",
-    "%s of %s used" : "%s სულ %s-დან მოხმარებულია",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "გამოიყენეთ ეს მისამართი რომ <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">იქონიოთ წვდომა თქვენს ფაილებთან WebDAV-ით</a>"
 },
 "nplurals=2; plural=(n!=1);");

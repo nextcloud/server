@@ -160,8 +160,6 @@ OC.L10N.register(
     "Deleted shares" : "Slettede delinger",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekstfil.txt",
-    "%s of %s used" : "%s av %s brukt",
-    "%1$s%% of %2$s used" : "%1$s%% av %2$s brukt",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Bruk adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">for å få tilgang til dine filer via WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

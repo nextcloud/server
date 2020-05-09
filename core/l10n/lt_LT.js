@@ -236,7 +236,6 @@ OC.L10N.register(
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite turėtų būti naudojama tik minimaliems ir plėtojimo egzemplioriams. Darbiniam egzemplioriui rekomenduojame naudoti kitą duomenų bazės vidinę pusę.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Jei sinchronizavimui naudojate kliento programas, tuomet SQLite naudojimas yra primygtinai nerekomenduojamas.",
     "Install recommended apps" : "Įdiegti rekomenduojamas programėles",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalendorius, Adresatai, Pokalbiai ir OnlyOffice",
     "Finish setup" : "Užbaigti sąranką",
     "Finishing …" : "Užbaigiama …",
     "Need help?" : "Reikia pagalbos?",
@@ -295,11 +294,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s egzempliorius šiuo metu yra techninės priežiūros veiksenoje, kas savo ruožtu gali šiek tiek užtrukti.",
     "This page will refresh itself when the instance is available again." : "Šis puslapis bus įkeltas iš naujo, kai egzempliorius bus ir vėl prieinamas.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Susisiekite su savo sistemos administratoriumi jei šis pranešimas nedingsta arba jei jis pasirodė netikėtai.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Nepavyko išsiųsti atstatymo el. laiško dėl to, kad šiam naudotojo vardui nėra nustatytas joks el. pašto adresas. Susisiekite su savo administratoriumi.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Nepavyko išsiųsti atstatymo el. laiško. Prašome įsitikinti, kad jūsų naudotojo vardas yra teisingas.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Jūsų failai yra šifruoti. Atstatę slaptažodį, neturėsite jokios galimybės susigrąžinti savo duomenų.<br />Jei nesate tikri ką daryti, prieš tęsdami, susisiekite su savo administratoriumi. <br />Ar tikrai norite tęsti?",
-    "Sending email …" : "Siunčiamas el. laiškas ...",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "Gaunate prieigą prie šios svetainės nesaugiu būdu per HTTP. Primygtinai rekomenduojama, kad nusistatytumėte serverį taip, kad jis vietoj HTTP reikalautų HTTPS, kaip tai yra aprašyta <a href=\"{docUrl}\">saugumo patarimuose ↗</a>.",
     "Shared" : "Bendrinama",
     "Shared with" : "Bendrinama su",
     "Shared by" : "Bendrina",
@@ -378,9 +372,8 @@ OC.L10N.register(
     "Error removing share" : "Klaida šalinant viešinį",
     "({scope})" : "({scope})",
     "Saving..." : "Įrašoma...",
-    "Dismiss" : "Atmesti",
     "Your client should now be connected! You can close this window." : "Klientas jau turi būti prijungtas! Langą galite užverti.",
-    "New Password" : "Naujas slaptažodis",
-    "Cancel log in" : "Atšaukti prisijungimą"
+    "Cancel log in" : "Atšaukti prisijungimą",
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalendorius, Adresatai, Pokalbiai ir OnlyOffice"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

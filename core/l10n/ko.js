@@ -313,13 +313,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "이 %s 인스턴스는 현재 점검 모드입니다. 시간이 걸릴 수도 있습니다.",
     "This page will refresh itself when the instance is available again." : "인스턴스를 다시 사용할 수 있을 때 페이지를 자동으로 새로 고칩니다.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "이 메시지가 계속 표시되거나 예상하지 못하였을 때 표시된다면 시스템 관리자에게 연락하십시오.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "이 사용자 이름과 연결된 이메일 주소가 없어서 초기화 메일을 보낼 수 없습니다. 시스템 관리자에게 연락하십시오.",
-    "Couldn't send reset email. Please make sure your username is correct." : "재설정 메일을 보낼 수 없습니다. 사용자 이름이 올바른지 확인하십시오.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "암호 재설정 링크를 이 계정에 연결된 이메일 주소로 보냈습니다. 일정 시간이 지난 후에도 이메일을 받지 못했다면 스팸 메일함을 확인해 보십시오.<br>스팸 메일함에도 링크가 없다면 시스템 관리자에게 문의하십시오.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "내 파일이 암호화되어 있습니다. 암호를 초기화하면 데이터를 복구할 수 없습니다.<br />무엇을 해야 할 지 잘 모르겠으면 시스템 관리자에게 연락하십시오.<br />그래도 계속 진행하시겠습니까?",
-    "Sending email …" : "이메일 보내는 중…",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "PHP 5.6을 실행하고 있습니다. 현재 사용하고 있는 Nextcloud의 주 버전은 PHP 5.6을 지원하는 마지막 버전입니다. Nextcloud 14로 업그레이드하려면 PHP 7.0 이상으로 업그레이드하십시오.",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "사이트에 HTTP를 통해서 보안 없이 접근하고 있습니다. <a href=\"{docUrl}\">보안 팁↗</a>에서 제안하는 것처럼 HTTPS를 설정하는 것을 추천합니다.",
     "Shared" : "공유됨",
     "Shared with" : "다음 사용자와 공유함",
     "Shared by" : "다음 사용자가 공유함",
@@ -399,9 +393,7 @@ OC.L10N.register(
     "Error removing share" : "공유 삭제 중 오류 발생",
     "({scope})" : "({scope})",
     "Saving..." : "저장 중...",
-    "Dismiss" : "닫기",
     "Your client should now be connected! You can close this window." : "클라이언트가 연동되었습니다! 이제 창을 닫으셔도 됩니다.",
-    "New Password" : "새 암호",
     "Cancel log in" : "로그인 취소"
 },
 "nplurals=1; plural=0;");

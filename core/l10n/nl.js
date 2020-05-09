@@ -287,7 +287,6 @@ OC.L10N.register(
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite zou alleen moeten worden gebruikt voor minimale en ontwikkelomgevingen. Voor productie raden we aan om een andere database backend te gebruiken.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Als je clients gebruikt voor bestandssynchronisatie wordt het gebruik van SQLite sterk ontraden.",
     "Install recommended apps" : "Installeer aanbevolen apps",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalender, Contacten, Talk, Mail & OnlyOffice",
     "Finish setup" : "Installatie afronden",
     "Finishing …" : "Afronden ...",
     "Need help?" : "Hulp nodig?",
@@ -352,13 +351,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Deze %s staat momenteel in de onderhoudsstand, dat kan enige tijd duren.",
     "This page will refresh itself when the instance is available again." : "Deze pagina wordt ververst als de server weer beschikbaar is.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Neem contact op met je systeembeheerder als deze melding aanhoudt of onverwacht verscheen.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Kon geen herstel e-mail versturen, omdat er geen emailadres bekend is bij deze gebruikersnaam. Neem contact op met je beheerder.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Kon herstel email niet versturen. Controleer je gebruikersnaam.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "We hebben een wachtwoordherstel e-mail verzonden naar het e-mailadres dat bij ons bekend is voor dit account. Als je het niet binnen een redelijke tijd hebt ontvangen, controleer dan je spam / ongewenste mappen. <br> Als het bericht er niet is, vraag het dan je beheerder.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Je bestanden zijn versleuteld. Het is niet mogelijk om je gegevens terug te krijgen als je wachtwoord wordt gereset.<br />Als je niet zeker weer wat je moet doen, neem dan contact op met je beheerder voordat je verdergaat. <br />Wil je echt verder gaan?",
-    "Sending email …" : "Versturen e-mail...",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Je gebruikt momenteel PHP 5.6. Dit is de laatste versie van Nextcloud die PHP 5.6 ondersteund. Wij raden aan om je PHP te upgraden naar versie 7.0 of later zodat je kunt upgraden naar Nextcloud 14.",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "De site is onveilig verbonden over HTTP. We adviseren je dringend om je server zo te configureren dat HTTPS wordt vereist, zoals beschreven in de <a href=\"{docUrl}\">security tips ↗</a>.",
     "Shared" : "Gedeeld",
     "Shared with" : "Gedeeld met",
     "Shared by" : "Gedeeld door",
@@ -438,9 +431,8 @@ OC.L10N.register(
     "Error removing share" : "Fout bij verwijderen gedeelde",
     "({scope})" : "({scope})",
     "Saving..." : "Opslaan",
-    "Dismiss" : "Negeren",
     "Your client should now be connected! You can close this window." : "Je client is nu verbonden! Je kunt het venster sluiten.",
-    "New Password" : "Nieuw wachtwoord",
-    "Cancel log in" : "Inloggen annuleren"
+    "Cancel log in" : "Inloggen annuleren",
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalender, Contacten, Talk, Mail & OnlyOffice"
 },
 "nplurals=2; plural=(n != 1);");

@@ -187,8 +187,6 @@ OC.L10N.register(
     "Pending shares" : "Čekající sdílení",
     "Text file" : "Textový soubor",
     "New text file.txt" : "Nový textový soubor.txt",
-    "%s of %s used" : "%s z %s použito",
-    "%1$s%% of %2$s used" : "použito %1$s%% z %2$s",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">přístup k vašim souborům přes WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru nebo složky, která vám nenáleží"
 },

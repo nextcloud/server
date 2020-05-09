@@ -184,9 +184,6 @@ OC.L10N.register(
     "Update needed" : "Pembaruan dibutuhkan",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instansi %s ini sedang dalam modus pemeliharaan, mungkin memerlukan beberapa saat.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Tidak dapat mengirim email karena tidak ada alamat email untuk nama pengguna ini. Silahkan hubungi administrator Anda.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Tidak dapat menyetel ulang email. Mohon pastikan nama pengguna Anda benar.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Berkas anda terenkripsi. Tidak ada jalan untuk mendapatkan kembali data anda setelah kata sandi disetel ulang.<br />Jika anda tidak yakin, harap hubungi administrator anda sebelum melanjutkannya. <br />Apa anda ingin melanjutkannya?",
     "Shared" : "Dibagikan",
     "Shared by" : "Dibagikan oleh",
     "Choose a password for the public link" : "Tetapkan kata sandi untuk tautan publik",
@@ -234,8 +231,6 @@ OC.L10N.register(
     "Error removing share" : "Terjadi kesalahan saat menghapus pembagian",
     "({scope})" : "({scope})",
     "Saving..." : "Menyimpan...",
-    "Dismiss" : "Buang",
-    "New Password" : "Kata sandi Baru",
     "Cancel log in" : "Batalkan masuk log"
 },
 "nplurals=1; plural=0;");

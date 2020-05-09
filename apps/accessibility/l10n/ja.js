@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "問題がある場合は、お気軽に{issuetracker}issue tracker {linkend}に報告してください。 手伝って頂ける方は、{designteam}デザインチーム{linkend}にご参加ください。",
     "High contrast theme" : "ハイコントラストテーマ",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "ハイコントラストテーマは表示の質は下がりますが、見やすさは上がります。",
-    "Dark theme (beta)" : "ダークテーマ (ベータ版)",
     "Web Content Accessibility Guidelines" : "Webコンテンツ アクセシビリティガイドライン",
     "our issue tracker" : "問題追跡",
     "our design team" : "デザインチーム",
