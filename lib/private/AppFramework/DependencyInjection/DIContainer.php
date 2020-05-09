@@ -58,7 +58,6 @@ use OCP\AppFramework\Utility\IControllerMethodReflector;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\Folder;
 use OCP\Files\IAppData;
-use OCP\GlobalScale\IConfig;
 use OCP\Group\ISubAdmin;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -152,10 +151,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('OC_Defaults', function ($c) {
 			return $c->getServer()->getThemingDefaults();
-		});
-
-		$this->registerService(IConfig::class, function ($c) {
-			return $c->query(OC\GlobalScale\Config::class);
 		});
 
 		$this->registerService('Protocol', function ($c) {
@@ -292,9 +287,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			);
 			return $dispatcher;
 		});
-
-		$this->registerAlias(\OCP\Collaboration\Resources\IProviderManager::class, OC\Collaboration\Resources\ProviderManager::class);
-		$this->registerAlias(\OCP\Collaboration\Resources\IManager::class, OC\Collaboration\Resources\Manager::class);
 
 		$this->registerAlias(IAppConfig::class, OC\AppFramework\Services\AppConfig::class);
 		$this->registerAlias(IInitialState::class, OC\AppFramework\Services\InitialState::class);
