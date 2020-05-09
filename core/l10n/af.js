@@ -185,9 +185,6 @@ OC.L10N.register(
     "Start update" : "Begin bywerking",
     "Detailed logs" : "Gedetailleerde joernale",
     "Update needed" : "Bywerking benodig",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Kon nie die herstel-e-pos stuur nie aangesien daar geen e-posadres met die gebruikersnaam geassosieer is nie. Kontak asseblief jou administrateur.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Kon nie die herstel e-pos stuur nie. Kontroleer jou gebruikersnaam.",
-    "Sending email …" : "Stuur tans e-pos …",
     "Shared" : "Gedeel",
     "Shared with" : "Gedeel met",
     "Shared by" : "Gedeel deur",
@@ -246,8 +243,6 @@ OC.L10N.register(
     "Error removing share" : "Fout terwyl deel verwyder word",
     "({scope})" : "({scope})",
     "Saving..." : "Stoor tans…",
-    "Dismiss" : "Ontslaan",
-    "New Password" : "Nuwe wagwoord",
     "Cancel log in" : "Kanselleer aanmelding"
 },
 "nplurals=2; plural=(n != 1);");

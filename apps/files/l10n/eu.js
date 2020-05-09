@@ -187,8 +187,6 @@ OC.L10N.register(
     "Pending shares" : "Zain dauden partekatzeak",
     "Text file" : "Testu-fitxategia",
     "New text file.txt" : "Testu-fitxategi berria.txt",
-    "%s of %s used" : "%s / %s erabilita",
-    "%1$s%% of %2$s used" : "%1$s%% / %2$serabilita",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Erabili helbide hau <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">zure fitxategiak WebDAV bidez atzitzeko</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu"
 },

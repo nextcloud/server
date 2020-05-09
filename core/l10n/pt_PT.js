@@ -309,10 +309,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instância %s está atualmente no modo de manutenção, o que poderá demorar algum tempo.",
     "This page will refresh itself when the instance is available again." : "Esta página irá ser atualizada quando a instância ficar novamente disponível.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte o seu administrador do sistema se esta mensagem persistir ou apareceu inesperadamente.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Não foi possível enviar a mensagem de reposição porque não existe nenhum endereço de e-mail associado para este utilizador. Por favor, contacte o seu administrador.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Não foi possível enviar a mensagem de reposição. Por favor, confirme se o seu nome de utilizador está correto.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Os seus ficheiros estão encriptados. Não haverá forma de recuperar os dados depois de alterar a senha.<br />Se não tiver a certeza do que fazer, por favor, contacte o administrador antes de continuar. <br />Deseja mesmo continuar?",
-    "Sending email …" : "A enviar e-mail ...",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Está actualmente a correr PHP 5.6. A versão actual mais alta do Nextcloud é a última suportada no PHP 5.6. Aconselhamos que actualize a versão do PHP para 7.0+ para que possa actualizar para o Nextcloud 14.",
     "Shared" : "Partilhado",
     "Shared with" : "Partilhado com ",
@@ -393,9 +389,7 @@ OC.L10N.register(
     "Error removing share" : "Erro ao remover a partilha",
     "({scope})" : "({scope})",
     "Saving..." : "A guardar...",
-    "Dismiss" : "Dispensar",
     "Your client should now be connected! You can close this window." : "O seu cliente deverá estar agora conectado! Pode fechar esta janela.",
-    "New Password" : "Nova Palavra-passe",
     "Cancel log in" : "Cancelar entrada"
 },
 "nplurals=2; plural=(n != 1);");

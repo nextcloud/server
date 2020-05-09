@@ -433,6 +433,7 @@ OC.L10N.register(
     "New password" : "Nové heslo",
     "Change password" : "Změnit heslo",
     "Use a second factor besides your password to increase security for your account." : "Pro zlepšení zabezpečení vašeho účtu použijte vedle hesla také druhý faktor.",
+    "Share" : "Sdílet",
     "Afrikaans (Namibia)" : "afrikánština (Namibie)",
     "Afrikaans (South Africa)" : "afrikánština (Jihoafrická republika)",
     "Afrikaans" : "afrikánština",
@@ -870,11 +871,7 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Oficiální aplikace jsou vyvíjeny komunitou. Poskytují klíčové funkce a jsou připravené na produkční nasazení.",
     "Official" : "Oficiální",
     "The backend does not support changing the display name" : "Podpůrná vrstva nepodporuje změnu zobrazovaného názvu",
-    "Store credentials" : "Ukládat přihlašovací údaje",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php je registrován u služby webcron, aby volal cron.php jednou za 15 minut přes HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Použít systémovou službu cron pro volání cron.php každých 15 minut.",
     "Set default expiration date" : "Nastavit výchozí datum skončení platnosti",
-    "Share" : "Sdílet",
     "{counter} apps have an update available" : "pro {counter} aplikací je k dispozici aktualizace"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

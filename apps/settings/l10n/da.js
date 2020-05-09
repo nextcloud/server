@@ -314,6 +314,7 @@ OC.L10N.register(
     "Current password" : "Nuværende adgangskode",
     "New password" : "Nyt kodeord",
     "Change password" : "Skift kodeord",
+    "Share" : "Del",
     "Arabic" : "Arabisk",
     "Chinese" : "Kinesisk",
     "Croatian" : "Kroatisk",
@@ -337,8 +338,6 @@ OC.L10N.register(
     "Russian" : "Russisk",
     "Swedish" : "Svensk",
     "Official" : "Officiel",
-    "Store credentials" : "Gem brugeroplysninger",
-    "Set default expiration date" : "Vælg standard udløbsdato",
-    "Share" : "Del"
+    "Set default expiration date" : "Vælg standard udløbsdato"
 },
 "nplurals=2; plural=(n != 1);");

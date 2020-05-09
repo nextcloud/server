@@ -30,7 +30,6 @@ OC.L10N.register(
     "View changelog" : "Näytä muutosloki",
     "Stable" : "Vakaa",
     "Beta" : "Beta",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> sovelluksella ei ole päivitystä tähän versioon saatavilla","<strong>%n</strong> sovelluksella ei ole päivitystä tähän versioon saatavilla"],
-    "Production" : "Tuotanto"
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> sovelluksella ei ole päivitystä tähän versioon saatavilla","<strong>%n</strong> sovelluksella ei ole päivitystä tähän versioon saatavilla"]
 },
 "nplurals=2; plural=(n != 1);");

@@ -187,8 +187,6 @@ OC.L10N.register(
     "Pending shares" : "Oczekujące udostępnienia",
     "Text file" : "Plik tekstowy",
     "New text file.txt" : "Nowy plik tekstowy.txt",
-    "%s of %s used" : "Wykorzystano %s z %s",
-    "%1$s%% of %2$s used" : "Wykorzystane: %1$s%% z %2$s",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Użyj tego adresu, aby uzyskać <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">dostęp do swoich plików poprzez WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem"
 },

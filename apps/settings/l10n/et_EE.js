@@ -257,11 +257,8 @@ OC.L10N.register(
     "Current password" : "Praegune parool",
     "New password" : "Uus parool",
     "Change password" : "Muuda parooli",
+    "Share" : "Jaga",
     "Official" : "Ametlik",
-    "Store credentials" : "Säilita kasutajaandmed",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php on registreeritud webcron teenuses, et käivitada fail cron.php iga 15 minuti tagant üle http.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Kasuta süsteemi cron teenust, et käivitada fail cron.php iga 15 minuti järel.",
-    "Set default expiration date" : "Määra vaikimisi aegumise kuupäev",
-    "Share" : "Jaga"
+    "Set default expiration date" : "Määra vaikimisi aegumise kuupäev"
 },
 "nplurals=2; plural=(n != 1);");

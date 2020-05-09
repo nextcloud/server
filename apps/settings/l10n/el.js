@@ -433,6 +433,7 @@ OC.L10N.register(
     "New password" : "Νέο συνθηματικό",
     "Change password" : "Αλλαγή συνθηματικού",
     "Use a second factor besides your password to increase security for your account." : "Χρησιμοποιείστε έναν δεύτερο παράγοντα εκτός του κωδικού πρόσβασης για να αυξήσετε την ασφάλεια του λογαριαμού σας.",
+    "Share" : "Διαμοιρασμός",
     "Afrikaans (Namibia)" : "Αφρικανικά (Ναμίμπια)",
     "Afrikaans (South Africa)" : "Αφρικανικά (Νότια Αφρική)",
     "Afrikaans" : "Αφρικανικά",
@@ -870,11 +871,7 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Οι επίσημες εφαρμογές αναπτύσσονται μέσα από την κοινότητα. Προσφέρουν κεντρική λειτουργικότητα και είναι έτοιμες για παραγωγική χρήση. ",
     "Official" : "Επίσημο",
     "The backend does not support changing the display name" : "Το σύστημα δεν υποστηρίζει την αλλαγή του εμφανιζόμενου ονόματος",
-    "Store credentials" : "Διαπιστευτήρια αποθήκευσης",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Το cron.php είναι καταχωρημένο σε μια υπηρεσία webcron ώστε να καλεί το cron.php κάθε 15 λεπτά μέσω HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Χρησιμοποιήστε την cron υπηρεσία του συστήματος για να καλέσετε το cron.php αρχείο κάθε 15 λεπτά.",
     "Set default expiration date" : "Ορισμός ερήμην ημερομηνίας λήξης",
-    "Share" : "Διαμοιρασμός",
     "{counter} apps have an update available" : "Εφαρμογές {counter} έχουν διαθέσιμη ενημέρωση"
 },
 "nplurals=2; plural=(n != 1);");

@@ -151,7 +151,6 @@ OC.L10N.register(
     "Shared by link" : "Shared by link",
     "Text file" : "Text file",
     "New text file.txt" : "New text file.txt",
-    "%s of %s used" : "%s of %s used",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

@@ -241,7 +241,6 @@ OC.L10N.register(
     "Performance warning" : "Предупредување за перформансите",
     "You chose SQLite as database." : "Вие избравте SQLite како база на податоци.",
     "Install recommended apps" : "Инсталирајте ги препорачаните апликации",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календар, контакти, разговор, Е-пошта & Документи",
     "Finish setup" : "Заврши го подесувањето",
     "Finishing …" : "Завршувам ...",
     "Need help?" : "Ви треба помош?",
@@ -304,12 +303,6 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Оваа %s истанца моментално е во режим на одржување, што значи дека може да потрае некое време.",
     "This page will refresh itself when the instance is available again." : "Оваа веб страница ќе се рефрешира кога истанцата ќе биде повторно достапна.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте го вашиот систем администратор до колку оваа порака продолжи да се појавува или пак се појавува ненадејно.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Не можам да истпратам порака за ресетирање бидејќи нема внесено е-пошта адсреса за ова корисничко име. Контактирајте го администраторот.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Не можам да истпратам порака за ресетирање. Проверете дали вашето корисничко име е точно внесено.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Порака за ресетирање на лозинката е испратена на е-пошта на оваа сметка. Доколку не сте ја добиле, проверете во spam/junk папката.<br>Ако не е таму прашајте го вашиот локален администратор.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Вашите податоци се шифрирани. Не постои можност за враќање на податоците одкако вашата лозинка ќе биде ресетирана.<br />Доколку незнаете што да правите, контактирајте го вашиот администратор пред да продолжите понатаму. <br />Дали сте сигурни дека сакате да продолжите?",
-    "Sending email …" : "Се испраќа е-пошта ...",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "Пристапувате до станата преку HTTP. Препорачуваме да го поставите вашиот сервер за да се пристапува преку HTTPS, проверете како е опишано во <a href=\"{docUrl}\">безбедносни совети ↗</a>.",
     "Shared" : "Споделени",
     "Shared with" : "Споделено со",
     "Shared by" : "Споделено од",
@@ -389,9 +382,8 @@ OC.L10N.register(
     "Error removing share" : "Грешка при отстранување на споделувањето",
     "({scope})" : "({scope})",
     "Saving..." : "Зачувува ...",
-    "Dismiss" : "Отфрли",
     "Your client should now be connected! You can close this window." : "Вашиот клиент сега е поврзан! можете да го затворите прозорот.",
-    "New Password" : "Нова лозинка",
-    "Cancel log in" : "Откажи го најавувањето"
+    "Cancel log in" : "Откажи го најавувањето",
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календар, контакти, разговор, Е-пошта & Документи"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

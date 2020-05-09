@@ -144,7 +144,6 @@ OC.L10N.register(
     "Shared with you" : "Compartido con usted",
     "Shared by link" : "Compartido por link",
     "Text file" : "Archivo de texto",
-    "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
-    "%s of %s used" : "%s de %s usado"
+    "New text file.txt" : "Nuevo ArchivoDeTexto.txt"
 },
 "nplurals=2; plural=(n != 1);");

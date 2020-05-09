@@ -1,7 +1,5 @@
 { "translations": {
     "Authentication error" : "Samgildis feilur",
-    "Delete" : "Strika",
-    "Security" : "Trygd",
-    "Unlimited" : "Óavmarkað"
+    "Security" : "Trygd"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

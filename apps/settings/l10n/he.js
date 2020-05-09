@@ -416,6 +416,7 @@ OC.L10N.register(
     "New password" : "סיסמא חדשה",
     "Change password" : "שינוי סיסמא",
     "Use a second factor besides your password to increase security for your account." : "ניתן להשתמש בגורם נוסף מלבד הססמה שלך כדי להגביר את אבטחת החשבון שלך.",
+    "Share" : "שיתוף",
     "Afrikaans (Namibia)" : "אפריקאנס (נמיביה)",
     "Afrikaans (South Africa)" : "אפריקאנס (דרום אפריקה)",
     "Afrikaans" : "אפריקאנס",
@@ -710,11 +711,7 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "היישומונים הרשמיים מפותחים על ידי ובתוך הקהילה. הם מציעים תכונות ליבה מסוימות והן מוכנות לשימוש יומיומי.",
     "Official" : "רישמי",
     "The backend does not support changing the display name" : "המנגנון שלך לא תומך בשינוי שם התצוגה",
-    "Store credentials" : "שמירת אישורים",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php רשום בשירות webcron לקרוא ל- cron.php בכל 15 דקות באמצעות HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "ניתן להשתמש בשירות cron של המערכת כדי לקרוא לקובץ cron.php בכל 15 דקות.",
     "Set default expiration date" : "הגדרת תאריך תפוגה ברירת מחדל",
-    "Share" : "שיתוף",
     "{counter} apps have an update available" : "ל־{counter} יישומונים יש עדכון זמין"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

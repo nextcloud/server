@@ -187,8 +187,6 @@ OC.L10N.register(
     "Pending shares" : "Väntande delningar",
     "Text file" : "Textfil",
     "New text file.txt" : "Ny textfil.txt",
-    "%s of %s used" : "%s av %s använt",
-    "%1$s%% of %2$s used" : "%1$s%% av %2$s använt",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Använd denna adress för att <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">komma åt dina filer med WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap till en fil eller mapp som du inte äger"
 },

@@ -187,8 +187,6 @@ OC.L10N.register(
     "Pending shares" : "Condivisioni in corso",
     "Text file" : "File di testo",
     "New text file.txt" : "Nuovo file di testo.txt",
-    "%s of %s used" : "%s di %s utilizzati",
-    "%1$s%% of %2$s used" : "%1$s%% di %2$s utilizzati",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilizza questo indirizzo per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accedere ai tuoi file con WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : " Impossibile trasferire la proprietà di un file o di una cartella di altri"
 },

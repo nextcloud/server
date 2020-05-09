@@ -285,7 +285,6 @@
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite bi se trebao upotrebljavati samo za minimalne i razvojne instance. Za produkcijske instance preporučujemo korištenje neke druge pozadinske baze podataka.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Ako upotrebljavate klijente za sinkronizaciju datoteka, preporučujemo izbjegavanje baze podataka SQLite.",
     "Install recommended apps" : "Instaliraj preporučene aplikacije",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendar, Contacts, Talk, Mail i OnlyOffice",
     "Finish setup" : "Završite postavljanje",
     "Finishing …" : "Završavanje...",
     "Need help?" : "Treba li vam pomoć?",
@@ -350,13 +349,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Ova %s instanca trenutno je u načinu za održavanje; ovo može potrajati.",
     "This page will refresh itself when the instance is available again." : "Ova će se stranica osvježiti kada je instanca ponovno dostupna.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Obratite se administratoru sustava ako se ova poruka ponavlja ili se pojavila neočekivano.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Nije moguće poslati poruku e-pošte za resetiranje jer ne postoji adresa e-pošte za ovo korisničko ime. Obratite se svom administratoru.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Nije moguće poslati poruku e-pošte za resetiranje. Provjerite ispravnost svog korisničkog imena.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Poslali smo poruku e-pošte za resetiranje zaporke na adresu e-pošte koja nam je poznata za ovaj račun. Ako je ne primite u razumnom vremenskom razdoblju, provjerite mape neželjena pošta/smeće.<br>Ako se ne nalazi u tim mapama, obratite se svom lokalnom administratoru.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Vaši podaci su šifrirani. Ako resetirate zaporku, nećete ih moći kasnije vratiti.<br />Ako ne znate što učiniti, obratite se svom administratoru prije nego što nastavite. <br />Želite li nastaviti?",
-    "Sending email …" : "Slanje e-pošte u tijeku...",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Trenutno upotrebljavate PHP 5.6. Trenutna glavna inačica Nextclouda ujedno je i posljednja koju podržava PHP 5.6. Preporučujemo da nadogradite inačicu PHP-a na 7.0+ kako biste mogli nadograditi sustav na Nextcloud 14.",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "Nesiguran pristup web-mjestu putem HTTP-a. Preporučujemo da postavite poslužitelj tako da zahtijeva korištenje HTTPS-a kao što je opisano u <a href=“{docUrl}“>sigurnosnim savjetima ↗</a>.",
     "Shared" : "Dijeljeno",
     "Shared with" : "Dijeljeno s",
     "Shared by" : "Dijeli",
@@ -436,9 +429,8 @@
     "Error removing share" : "Pogreška pri uklanjanju dijeljenja",
     "({scope})" : "({scope})",
     "Saving..." : "Spremanje...",
-    "Dismiss" : "Zanemari",
     "Your client should now be connected! You can close this window." : "Vaš klijent sada bi trebao biti povezan! Možete zatvoriti ovaj prozor.",
-    "New Password" : "Nova zaporka",
-    "Cancel log in" : "Otkaži prijavu"
+    "Cancel log in" : "Otkaži prijavu",
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendar, Contacts, Talk, Mail i OnlyOffice"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

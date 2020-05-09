@@ -48,10 +48,6 @@
     "A valid username must be provided" : "چوقۇم ئىناۋەتلىك ئىشلەتكۈچى ئىسمىدىن بىرنى تەمىنلەش كېرەك",
     "A valid password must be provided" : "چوقۇم ئىناۋەتلىك ئىم تەمىنلەش كېرەك",
     "Authentication error" : "سالاھىيەت دەلىللەش خاتالىقى",
-    "Create" : "قۇر",
-    "Delete" : "ئۆچۈر",
-    "Share" : "ھەمبەھىر",
-    "Sharing" : "ھەمبەھىر",
-    "Unlimited" : "چەكسىز"
+    "Sharing" : "ھەمبەھىر"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

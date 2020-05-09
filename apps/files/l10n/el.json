@@ -185,8 +185,6 @@
     "Pending shares" : "Κοινή χρήση σε εκκρεμότητα",
     "Text file" : "Αρχείο κειμένου",
     "New text file.txt" : "Νέο αρχείο κειμένου.txt",
-    "%s of %s used" : "%s από %s σε χρήση",
-    "%1$s%% of %2$s used" : "%1$s%% από %2$s σε χρήση",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Χρησιμοποιήστε αυτή την διεύθυνση, προκειμένου να <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">έχετε πρόσβαση στα αρχεία σας μέσω WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

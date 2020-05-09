@@ -433,6 +433,7 @@ OC.L10N.register(
     "New password" : "Nuova password",
     "Change password" : "Modifica password",
     "Use a second factor besides your password to increase security for your account." : "Utilizza un secondo fattore oltre alla tua password per aumentare la sicurezza per il tuo account.",
+    "Share" : "Condividi",
     "Afrikaans (Namibia)" : "Afrikaans (Namibia)",
     "Afrikaans (South Africa)" : "Afrikaans (Sud Africa)",
     "Afrikaans" : "Afrikaans",
@@ -870,11 +871,7 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Le applicazioni ufficiali sono sviluppate dalla comunità. Esse offrono nuove funzionalità e sono pronte per l'uso in produzione.",
     "Official" : "Ufficiali",
     "The backend does not support changing the display name" : "Il motore non supporta la modifica del nome visualizzato",
-    "Store credentials" : "Memorizza le credenziali",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php è registrato su un servizio webcron per invocare cron.php ogni 15 minuti su HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Usa il servizio cron di sistema per invocare il file cron.php ogni 15 minuti.",
     "Set default expiration date" : "Imposta data di scadenza predefinita",
-    "Share" : "Condividi",
     "{counter} apps have an update available" : "{counter} applicazioni hanno un aggiornamento disponibile"
 },
 "nplurals=2; plural=(n != 1);");

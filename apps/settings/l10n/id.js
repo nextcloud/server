@@ -351,6 +351,7 @@ OC.L10N.register(
     "Current password" : "Kata sandi saat ini",
     "New password" : "Kata sandi baru",
     "Change password" : "Ubah kata sandi",
+    "Share" : "Bagikan",
     "Afrikaans (Namibia)" : "Afrika (Namibia)",
     "Afrikaans (South Africa)" : "Afrika (Afrika Selatan)",
     "Afrikaans" : "Afrika",
@@ -423,8 +424,6 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikasi resmi dikembangkan oleh dan didalam komunitas. Mereka menawarkan fungsi sentral dan siap untuk penggunaan produksi.",
     "Official" : "Resmi",
     "The backend does not support changing the display name" : "Backend tidak mendukung pergantian tampilan nama",
-    "Store credentials" : "Simpan kredensial",
-    "Set default expiration date" : "Atur tanggal kadaluarsa default",
-    "Share" : "Bagikan"
+    "Set default expiration date" : "Atur tanggal kadaluarsa default"
 },
 "nplurals=1; plural=0;");

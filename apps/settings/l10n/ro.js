@@ -251,6 +251,7 @@ OC.L10N.register(
     "Current password" : "Parola curentă",
     "New password" : "Noua parolă",
     "Change password" : "Schimbă parola",
+    "Share" : "Partajează",
     "Afrikaans (Namibia)" : "Afrikaans (Namibia)",
     "Afrikaans (South Africa)" : "Afrikaans (South Africa)",
     "Afrikaans" : "Afrikaans",
@@ -401,8 +402,6 @@ OC.L10N.register(
     "Yoruba" : "Yoruba",
     "Zulu" : "Zulu",
     "Official" : "Oficial",
-    "Store credentials" : "Stochează datele de autentificare",
-    "Set default expiration date" : "Setează data implicită de expirare",
-    "Share" : "Partajează"
+    "Set default expiration date" : "Setează data implicită de expirare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

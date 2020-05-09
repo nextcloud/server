@@ -32,10 +32,6 @@
     "October" : "十月",
     "November" : "十一月",
     "December" : "十二月",
-    "Create" : "新增",
-    "Delete" : "刪除",
-    "Share" : "分享",
-    "Sharing" : "分享",
-    "Unlimited" : "無限"
+    "Sharing" : "分享"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

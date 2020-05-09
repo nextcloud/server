@@ -161,8 +161,6 @@
     "Deleted shares" : "Вилучено зі спільного доступу",
     "Text file" : "Текстовий файл",
     "New text file.txt" : "Новий текстовий файл file.txt",
-    "%s of %s used" : "%s з %s використано",
-    "%1$s%% of %2$s used" : "використано %1$s%% з %2$s",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Використовуйте цю адресу для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">доступ до своїх файлів через WebDAV</a>"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

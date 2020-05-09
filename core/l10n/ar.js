@@ -178,8 +178,6 @@ OC.L10N.register(
     "Update needed" : "التحديث مطلوب",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "للمساعدة يُرجى الإطلاع على <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">الدليل</a>.",
     "Maintenance mode" : "وضع الصيانة",
-    "Couldn't send reset email. Please make sure your username is correct." : "تعذر إرسال البريد الإلكتروني لإعادة التعيين. الرجاء التأكد من صحة اسم المستخدم.",
-    "Sending email …" : "جارٍ إرسال البريد …",
     "Shared" : "مشارك",
     "Shared with" : "تمت مشاركته مع",
     "Shared by" : "شاركه",
@@ -233,8 +231,6 @@ OC.L10N.register(
     "Name..." : "التسمية …",
     "({scope})" : "({scope})",
     "Saving..." : "جاري الحفظ...",
-    "Dismiss" : "تجاهل",
-    "New Password" : "كلمة السر الجديدة",
     "Cancel log in" : "إلغاء تسجيل الدخول"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

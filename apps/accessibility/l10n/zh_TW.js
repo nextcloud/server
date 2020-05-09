@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "如果您發現任何一個問題，請不要猶豫並請在 {issuetracker}我們的問題追蹤系統{linkend} 回報。而如果您想參與，歡迎加入 {designteam}我們的設計團隊{linked}！",
     "High contrast theme" : "高對比度主題",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "使用高對比度主題以便於頁面導覽。提高操作理解程度，但視覺質感會下降。",
-    "Dark theme (beta)" : "黑暗主題（測試）",
     "Web Content Accessibility Guidelines" : "網路內容協助工具指南",
     "our issue tracker" : "問題追蹤",
     "our design team" : "我們的設計團隊",

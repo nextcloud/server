@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "如果您发现任何问题，请随时在 {issuetracker} 我们的问题跟踪器 {linkend} 上报告。 如果您想参与其中，请加入 {designteam} 我们的设计团队 {linkend}！",
     "High contrast theme" : "高对比度主题",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "便于您浏览的高对比度主题。图像质量会下降但清晰度会提升。",
-    "Dark theme (beta)" : "深色主题（beta）",
     "Web Content Accessibility Guidelines" : "万维网内容易用性指导原则",
     "our issue tracker" : "我们的问题跟踪",
     "our design team" : "我们的设计团队",

@@ -13,6 +13,7 @@
     "No valid crop data provided" : "Nebyla poskytnuta platná data pro oříznutí obrázku",
     "Crop is not square" : "Ořez není čtvercový",
     "State token does not match" : "Stavový token neodpovídá",
+    "Invalid app password" : "Neplatné heslo pro aplikaci",
     "Could not complete login" : "Přihlášení se nedaří dokončit",
     "Your login token is invalid or has expired" : "Váš přihlašovací token není platný nebo jeho platnost skončila",
     "Password reset is disabled" : "Resetování hesla je vypnuté",
@@ -285,7 +286,6 @@
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite by mělo být použito pouze pro opravdu malé a vývojové instance. Pro produkční použití doporučujeme použít robustnější databázové řešení.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Pokud používáte klienty pro synchronizaci souborů, je použití SQLite silně nedoporučeno.",
     "Install recommended apps" : "Nainstalovat doporučené aplikace",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalendář, Kontakty, Talk, E-mail a OnlyOffice",
     "Finish setup" : "Dokončit nastavení",
     "Finishing …" : "Dokončování…",
     "Need help?" : "Potřebujete nápovědu?",
@@ -350,13 +350,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Tato instance %s se právě nachází v režimu údržby a ta může chvíli trvat.",
     "This page will refresh itself when the instance is available again." : "Tato stránka se automaticky znovu načte, jakmile bude tato instance opět dostupná.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Pokud se tato zpráva objevuje opakovaně nebo nečekaně, obraťte se správce systému.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Nelze odeslat e-mail pro změnu hesla, protože u tohoto uživatelského jména není uvedena e-mailová adresa. Obraťte se na svého správce.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Nedaří se odeslat e-mail pro změnu hesla. Ověřte, že zadáváte správné uživatelské jméno.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Odkaz na obnovení hesla byl odeslán na e-mailovou adresu, uvedenou pro tento účet. Pokud jej v krátké době neobdržíte, zkontrolujte nevyžádanou poštu a koš.<br>Pokud jej nenaleznete, kontaktujte svého správce systému.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Vaše soubory jsou šifrovány. Po vyresetování vašeho hesla nebudete moc získat data zpět.<br/>Pokud si nejste jisti tím co děláte, tak se předtím než budete pokračovat obraťte na svého správce.<br/>Opravdu chcete pokračovat?",
-    "Sending email …" : "Odesílání e-mailu…",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Aktuálně používáte PHP 5.6. Aktuální verze Nextcloud podporuje verzi PHP 5.6, ale je doporučený upgrade na PHP verzi 7.0 a vyšší pro upgrade na Nextcloud 14",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "Přistupujete přes nezabezpečené HTTP. Silně doporučujeme nastavit svůj server tak, aby vyžadoval namísto toho HTTPS, jak je popsáno v <a href=\"{docUrl}\">tipech pro zabezpečení ↗</a>.",
     "Shared" : "Sdílené",
     "Shared with" : "Sdíleno s",
     "Shared by" : "Nasdílel",
@@ -436,9 +430,8 @@
     "Error removing share" : "Chyba při odstraňování sdílení",
     "({scope})" : "({scope})",
     "Saving..." : "Ukládání…",
-    "Dismiss" : "Zamítnout",
     "Your client should now be connected! You can close this window." : "Váš klient by nyní měl být připojen. Toto okno už můžete zavřít.",
-    "New Password" : "Nové heslo",
-    "Cancel log in" : "Zrušit přihlášení"
+    "Cancel log in" : "Zrušit přihlášení",
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalendář, Kontakty, Talk, E-mail a OnlyOffice"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

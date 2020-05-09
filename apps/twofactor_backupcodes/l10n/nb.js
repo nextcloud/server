@@ -18,7 +18,6 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Bruk en av backup kodene du lagret når du opprettet to-faktor autentisering.",
     "Submit" : "Send",
     "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Du har aktivert to-faktor autentisering men har ikke generert backup koder. Vær sikker på å gjøre dette i tilfelle du mister tilgang til din andre faktor."
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"]
 },
 "nplurals=2; plural=(n != 1);");
