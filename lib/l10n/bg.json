@@ -134,26 +134,9 @@
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Моля, променете правата за достъп на 0770, за да не може директорията да бъде видяна от други потребители.",
     "Could not obtain lock type %d on \"%s\"." : "Неуспешен опит за ексклузивен достъп от типa %d върху \"%s\".",
     "Storage is temporarily not available" : "Временно хранилището не е налично",
-    "Create" : "Създай",
-    "Change" : "Промени",
-    "Delete" : "Изтриване",
-    "Share" : "Споделяне",
     "Basic settings" : "Основни настройки",
     "Sharing" : "Споделяне",
     "Security" : "Сигурност",
-    "Personal info" : "Лични данни",
-    "Unlimited" : "Неограничено",
-    "Verifying" : "Потвърждаване",
-    "Verifying …" : "Потвърждаване...",
-    "Verify" : "Потвърждаване",
-    "Sharing %s failed, because the backend does not allow shares from type %i" : "Неуспешно споделяне на %s  , защото сървъра не позволява споделяне от тип $i.",
-    "Sharing %s failed, because the file does not exist" : "Неуспешно споделяне на %s, защото файлът не съществува.",
-    "You need to provide a password to create a public link, only protected links are allowed" : "Трябва да зададеш парола, за да създадеш общодостъпен линк за споделяне, само защитени с пароли линкове са разрешени.",
-    "Sharing %s failed, because sharing with links is not allowed" : "Неуспешно споделяне на %s, защото споделянето посредством връзки не е разрешено.",
-    "Not allowed to create a federated share with the same user" : "Не е позволено създаване на федерално споделяне със същият потребител",
-    "Cannot set expiration date. Shares cannot expire later than %s after they have been shared" : "Неуспешно задаване на срок на валидност. Споделянията не могат да изтичат по-късно от %s след като са били споделени",
-    "Cannot set expiration date. Expiration date is in the past" : "Неуспешно задаване на срок на валидност. Датата на изтичане е в миналото",
-    "Sharing %s failed, because resharing is not allowed" : "Неуспешно споделяне на %s, защото повторното споделяне е забранено",
-    "Sharing %s failed, because the file could not be found in the file cache" : "Неуспешно споделяне на %s, защото файлът не може да бъде намерен в кеша."
+    "Personal info" : "Лични данни"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

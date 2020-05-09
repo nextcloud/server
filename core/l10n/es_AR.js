@@ -246,9 +246,6 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "No fue posible enviar el correo electrónico para restablecer porque no hay una dirección de correo electrónico para este usuario. Favor de contactar a su adminsitrador. ",
-    "Couldn't send reset email. Please make sure your username is correct." : "No fue posible restablecer el correo electrónico. Favor de asegurarse que su nombre de usuario sea correcto. ",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Sus archivos están encriptados. No habrá manera de recuperar sus datos una vez que restablezca su contraseña. <br />Si no está seguro de qué hacer, favor de contactar a su administrador antes de continuar. <br />¿Realmente desea continuar?",
     "Shared" : "Compartido",
     "Shared by" : "Compartido por",
     "Choose a password for the public link" : "Seleccione una contraseña para el link público",
@@ -308,8 +305,6 @@ OC.L10N.register(
     "Error removing share" : "Se presentó un error al dejar de compartir",
     "({scope})" : "({scope})",
     "Saving..." : "Guardando...",
-    "Dismiss" : "Descartar",
-    "New Password" : "Nueva Contraseña",
     "Cancel log in" : "Cancelar inicio de sesión"
 },
 "nplurals=2; plural=(n != 1);");

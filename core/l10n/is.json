@@ -321,13 +321,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Þessi %s er nú í viðhaldsham, sem getur tekið smá stund.",
     "This page will refresh itself when the instance is available again." : "Þessi síða mun uppfæra sig þegar tilvikið er í boði á ný.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hafðu samband við kerfisstjóra ef þessi skilaboð eru viðvarandi eða birtust óvænt.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Gat ekki sent endurstillingu í tölvupósti því það er ekkert gilt tölvupóstfang fyrir þennan notanda. Hafðu samband við kerfisstjóra.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Gat ekki sent endurstillingu í tölvupósti. Gakktu úr skugga um að notandanafn þitt sé rétt.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Tengillinn til að endurstilla lykilorðið þitt hefur verið sendur á netfangið þitt. Ef þú færð ekki póstinn innan hæfilegs tíma, athugaðu þá ruslpóstmöppuna.<br>Ef hann er ekki þar, spurðu þá kerfisstjórann þinn.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Skrárnar þínar eru dulritaðar. Það er engin leið til að fá gögnin þín til baka eftir lykilorðið þitt er endurstillt.<br />Ef þú ert ekki viss hvað eigi að gera, skaltu hafa samband við kerfisstjórann áður en þú heldur áfram. <br />Viltu halda áfram?",
-    "Sending email …" : "Sendi tölvupóst ...",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Þú ert núna að keyra PHP 5.6. Núverandi aðalútgáfa Nextcloud er sú síðasta sem  mun virka á PHP 5.6. Mælt er með því að uppfæra PHP í útgáfu 7.0+ til að eiga möguleika á að uppfæra í Nextcloud 14.",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : " Þú ert að tengjast þessu vefsvæði með HTTP. Við mælum eindregið með að þú stillir þjóninn á að krefjast HTTPS í staðinn eins og lýst er í <a href=\"{docUrl}\">öryggisleiðbeiningunum okkar ↗</a>.",
     "Shared" : "Deilt",
     "Shared with" : "Deilt með",
     "Shared by" : "Deilt af",
@@ -407,9 +401,7 @@
     "Error removing share" : "Villa við að fjarlægja sameign",
     "({scope})" : "({scope})",
     "Saving..." : "Er að vista ...",
-    "Dismiss" : "Hafna",
     "Your client should now be connected! You can close this window." : "Biðlaraforritið þitt ætti núna að vera tengt! Þú mátt loka þessum glugga.",
-    "New Password" : "Nýtt lykilorð",
     "Cancel log in" : "Hætta við innskráningu"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

@@ -63,9 +63,6 @@
     "Dec." : "Dez.",
     "Authentication error" : "Authentifikatioun's Fehler",
     "Storage is temporarily not available" : "Späicherplaatz temporär net erreeschbar",
-    "Create" : "Erstellen",
-    "Delete" : "Läschen",
-    "Share" : "Deelen",
     "Sharing" : "Gedeelt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

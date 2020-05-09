@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Arazorik aurkitzen baduzu, bidali ezazu lasai {issuetracker}gure arazo-kontrolatzailera{linkend}. Eta parte hartu nahi baduzu, elkartu zaitez gurekin {designteam}gure diseinu taldera{linkend}!",
     "High contrast theme" : "Kontraste altuko gaia",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Kontraste altuko gaia nabigazioa errazteko. Kalitate bisuala murriztuko da baina argitasuna handiagotu.",
-    "Dark theme (beta)" : "Gai beltza (beta)",
     "Web Content Accessibility Guidelines" : "Web Edukiaren Erabilerraztasun Jarraibideak",
     "our issue tracker" : "gure akats egunkaria",
     "our design team" : "gure diseinatzaile taldea",

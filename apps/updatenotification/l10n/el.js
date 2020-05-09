@@ -41,8 +41,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Η πιο πρόσφατη σταθερή έκδοση. Είναι κατάλληλη για τακτική χρήση και πάντα θα ενημερώνεται με την τελευταία μεγάλη έκδοση.",
     "Beta" : "Δοκιμαστικό",
     "A pre-release version only for testing new features, not for production environments." : "Μια προηγούμενη έκδοση μόνο για τη δοκιμή νέων λειτουργιών, όχι για περιβάλλοντα παραγωγής.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["Η <strong>%n</strong> εφαρμογή  δεν έχει αναβάθμιση για αυτή την έκδοση διαθέσιμη","Οι <strong>%n</strong> εφαρμογές δεν έχουν αναβάθμιση για αυτή την έκδοση διαθέσιμη"],
-    "Production" : "Παραγωγή",
-    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Θα παρέχει πάντα το τελευταίο επίπεδο επιδιορθώσεων, αλλά δεν θα αναβαθμίζεται αμέσως στην επόμενη μεγάλη έκδοση. Αυτή η ενημέρωση συνήθως συμβαίνει με τη δεύτερη δευτερεύουσα έκδοση (x.0.2) και μόνο όταν η τρέχουσα εγκατάσταση είναι στην πιο πρόσφατη δευτερέυουσα έκδοση."
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["Η <strong>%n</strong> εφαρμογή  δεν έχει αναβάθμιση για αυτή την έκδοση διαθέσιμη","Οι <strong>%n</strong> εφαρμογές δεν έχουν αναβάθμιση για αυτή την έκδοση διαθέσιμη"]
 },
 "nplurals=2; plural=(n != 1);");

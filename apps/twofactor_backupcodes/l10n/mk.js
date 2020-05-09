@@ -19,9 +19,8 @@ OC.L10N.register(
     "{name} backup codes" : "{name} резервни кодови",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Искористи еден од резервните кодови што ги зачувавте кога активиравте двофакторна автентикација.",
     "Submit" : "Испрати",
+    "function" : "функција",
     "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Вие имате активирано двофакторна автентикација но немате генерирано резервни кодови за пристап. Генерирајте кодови и зачувајте ги на безбедно место за да не го изгубите пристапот до вашата сметка.",
-    "function" : "функција"
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"]
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

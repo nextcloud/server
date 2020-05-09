@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Se atopa algún problema, non dubide en informalo no {issuetracker}noso seguidor de fallos{linkend} E se quere involucrarse, únase ao {designteam}noso equipo de deseño {linkend}!",
     "High contrast theme" : "Tema de alto contraste",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un tema de alto contraste para facilitar a navegación. A calidade visual será reducida, mais a claridade aumentará.",
-    "Dark theme (beta)" : "Tema escuro (beta)",
     "Web Content Accessibility Guidelines" : "Pautas de accesibilidade ao contido web",
     "our issue tracker" : "o noso seguidor de incidencias",
     "our design team" : "o noso equipo de deseño",

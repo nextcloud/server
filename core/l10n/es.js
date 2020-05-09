@@ -287,7 +287,6 @@ OC.L10N.register(
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite solo debería usarse para instancias mínimas y de desarrollo. Para producción recomendamos un motor de bases de datos diferente.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Si usas clientes para sincronizar archivos, el uso del SQLite está muy desaconsejado.",
     "Install recommended apps" : "Instalar las aplicaciones recomendadas",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendario, Contactos, Talk, Correo y OnlyOffice",
     "Finish setup" : "Completar la instalación",
     "Finishing …" : "Finalizando...",
     "Need help?" : "¿Necesita ayuda?",
@@ -352,13 +351,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Está instancia %s está en modo mantenimiento, y puede tardar un rato.",
     "This page will refresh itself when the instance is available again." : "Esta página se actualizará sola cuando la instancia esté disponible de nuevo.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte con su administrador de sistemas si este mensaje persiste o aparece de forma inesperada.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "No se ha podido enviar el correo electrónico de restablecimiento porque no hay una dirección de correo electrónico para este nombre de usuario. Por favor, póngase en contacto con un administrador.",
-    "Couldn't send reset email. Please make sure your username is correct." : "No se pudo enviar el correo electrónico para el restablecimiento. Por favor, asegúrese de que su nombre de usuario es el correcto.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Se ha enviado un enlace para restablecer la contraseña a tu correo electrónico. Si no lo recibes en un tiempo razonable, revisa tu carpeta de correo no deseado.<br>Si no está ahí, ponte en contacto con el administrador.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Sus archivos han sido cifrados. No habrá forma de recuperar sus datos tras resetear la contraseña.<br /> Si no está seguro de qué hacer, contacte con su administrador antes de continuar. ¿Está seguro de qué quiere continuar?",
-    "Sending email …" : "Enviando correo…",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Estás funcionando con PHP 5.6. Esta versión mayor de Nextcloud es la última que está soportada en PHP 5.6. Se recomienda actualizar la versión de PHP a 7.0+ para poder actualizar a Nextcloud 14.",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "Se está accediendo al sitio de forma insegura vía HTTP. Se recomienda encarecidamente configurar que el servidor requiera HTTPS, como se describe en los <a href=\"{docUrl}\">trucos de seguridad ↗</a>.",
     "Shared" : "Compartido",
     "Shared with" : "Compartido con",
     "Shared by" : "Compartido por",
@@ -438,9 +431,8 @@ OC.L10N.register(
     "Error removing share" : "Error quitando el comparto",
     "({scope})" : "({scope})",
     "Saving..." : "Guardando...",
-    "Dismiss" : "Descartar",
     "Your client should now be connected! You can close this window." : "Tu cliente debería estar conectado ahora. Puedes cerrar esta ventana.",
-    "New Password" : "Contraseña nueva",
-    "Cancel log in" : "Cancelar inicio de sesión"
+    "Cancel log in" : "Cancelar inicio de sesión",
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendario, Contactos, Talk, Correo y OnlyOffice"
 },
 "nplurals=2; plural=(n != 1);");

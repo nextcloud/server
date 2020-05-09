@@ -185,8 +185,6 @@ OC.L10N.register(
     "Pending shares" : "等待分享",
     "Text file" : "文字檔",
     "New text file.txt" : "新文字檔.txt",
-    "%s of %s used" : "在 %s 中使用了%s ",
-    "%1$s%% of %2$s used" : "在%2$s使用了%1$s%%",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "使用這個位址來<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">使用 WebDAV 存取檔案</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "無法轉換非您擁有檔案或資料夾的所有權"
 },

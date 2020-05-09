@@ -188,8 +188,7 @@ OC.L10N.register(
     "Current password" : "Pašreizējā parole",
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",
-    "Store credentials" : "Saglabāt akreditācijas datus",
-    "Set default expiration date" : "Iestatīt noklusējuma beigu datumu",
-    "Share" : "Koplietot"
+    "Share" : "Koplietot",
+    "Set default expiration date" : "Iestatīt noklusējuma beigu datumu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

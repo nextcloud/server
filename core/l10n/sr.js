@@ -287,7 +287,6 @@ OC.L10N.register(
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite треба да се користи само за најмање инстанце или за инстанце за развој. За продукцију, препоручујемо други тип база података.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Коришћење SQLite базе података нарочите није препоручљиво ако користите клијенте за синхронизацију фајлова.",
     "Install recommended apps" : "Инсталирајте препоручене апликације",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календар, контакти, разговор, пошта & OnlyOffice",
     "Finish setup" : "Заврши подешавање",
     "Finishing …" : "Завршавам…",
     "Need help?" : "Треба Вам помоћ?",
@@ -352,13 +351,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Овај %s је тренутно у режиму одржавања што може потрајати.",
     "This page will refresh itself when the instance is available again." : "Ова страница ће се сама освежити када инстанца постане поново доступна.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте администратора ако се порука понавља или се неочекивано појавила.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Није могуће послати е-пошту за ресетовање лозинке јер није подешена адреса е-поште за овог корисника. Контактирајте администратора.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Не могу да пошаљем поруку за ресетовање. Проверите да ли је корисничко име исправно.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Послали смо Вам е-пошту за ресетовање лозинке на е-мејл адресу која је повезана са овим налогом. Ако је не примите ускоро, проверите фасцикле за нежељену пошту.<br>Ако није ни тамо, контактирајте вашег администратора.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Ваши фајлови су шифровани. Не постоји ниједан начин да се Ваши подаци поврате ако се лозинка сад ресетује.<br /> Уколико нисте сигурни шта да радите, контактирајте Вашег администратора пре него што наставите.<br /> Да ли стварно желите да наставите?",
-    "Sending email …" : "Слање е-поште…",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Тренутно користите PHP верзију 5.6. Тренутна главна верзија Некстклауда је последња која подржава PHP 5.6. Препорука је да пређете на PHP верзију 7.0+ да бисте могли да ажурирате Некстклауд на верзију 14.",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "Приступање сајту преко HTTP-а. Препоручује се да подесите Ваш сервер да захтева HTTPS као што је описано у <a href=\"{docUrl}\">безбедоносним саветима↗</a>",
     "Shared" : "Дељено",
     "Shared with" : "Дељено са",
     "Shared by" : "Поделио",
@@ -438,9 +431,8 @@ OC.L10N.register(
     "Error removing share" : "Грешка при уклањању дељења",
     "({scope})" : "({scope})",
     "Saving..." : "Чувам...",
-    "Dismiss" : "Откажи",
     "Your client should now be connected! You can close this window." : "Ваш клијент сада треба да је повезан! Можете затворити овај прозор.",
-    "New Password" : "Нова лозинка",
-    "Cancel log in" : "Поништите пријаву"
+    "Cancel log in" : "Поништите пријаву",
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календар, контакти, разговор, пошта & OnlyOffice"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

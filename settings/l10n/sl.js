@@ -411,6 +411,7 @@ OC.L10N.register(
     "New password" : "Novo geslo",
     "Change password" : "Spremeni geslo",
     "Use a second factor besides your password to increase security for your account." : "Ob geslu je priporočljivo uporabiti tudi drugo-stopenjsko overitev za večjo varnost računa.",
+    "Share" : "Souporaba",
     "Afrikaans (Namibia)" : "Afrikanščina (Namibia)",
     "Afrikaans (South Africa)" : "Afrikanščina (Južna Afrika)",
     "Afrikaans" : "Afrikanščina",
@@ -827,11 +828,7 @@ OC.L10N.register(
     "Zulu" : "Zulu",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Uradne programe razvijajo posamezniki, ki sodelujejo s skupnostjo. Paketi vključujejo osrednje zmožnosti programa, uporaba pa je namenjena tudi končnim uporabnikom.",
     "Official" : "Uradno",
-    "Store credentials" : "Shrani poverila",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Za določila periodičnih opravil Webcron je vpisana datoteka cron.php. Opravilo se izvede vsakih 15 minut pri povezavi prek protokola HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Uporabi sistemsko storitev cron za periodična opravila datoteke cron.php vsakih 15 minut.",
     "Set default expiration date" : "Samodejno nastavi datuma poteka",
-    "Share" : "Souporaba",
     "{counter} apps have an update available" : "Na voljo so posodobitve: {counter} "
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

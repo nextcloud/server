@@ -163,8 +163,6 @@ OC.L10N.register(
     "Deleted shares" : "Törölt megosztások",
     "Text file" : "Szövegfájl",
     "New text file.txt" : "Új szöveges fájl.txt",
-    "%s of %s used" : "%s / %s használt",
-    "%1$s%% of %2$s used" : "%1$s%% / %2$s használt",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Használd ezt a címet a <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">fájlok WebDAV-al való eléréséhez</a>"
 },
 "nplurals=2; plural=(n != 1);");

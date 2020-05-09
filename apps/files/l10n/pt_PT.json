@@ -145,7 +145,6 @@
     "Shared by link" : "Partilhado por hiperligação",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
-    "%s of %s used" : "%s de %s utilizado",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilize este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">aceder aos seus ficheiros por WebDAV</a>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

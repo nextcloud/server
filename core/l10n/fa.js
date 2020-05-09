@@ -205,9 +205,6 @@ OC.L10N.register(
     "Start update" : "اغاز به روز رسانی",
     "Detailed logs" : "Detailed logs",
     "Update needed" : "نیاز به روز رسانی دارد",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "ایمیل بازنشانی ارسال نشد, زیرا هیچ نشانی ایمیل برای این نام کاربری وجود ندارد. لطفا با ادمین خود تماس بگیرید.",
-    "Couldn't send reset email. Please make sure your username is correct." : "پست الکترونیکی بازنشانی نشد, لطفا مطمئن شوید که نام کاربری شما درست است",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "فایل های شما رمزگذاری می شوند پس از بازنشانی گذرواژه شما هیچ راهی برای بازگرداندن اطلاعات نخواهید داشت. <br /> اگر مطمئن نیستید که چه کاری باید انجام دهید، قبل از ادامه دادن، با ادمین خود تماس بگیرید. <br />واقعا می خواهید ادامه دهید؟ ",
     "Shared" : "اشتراک گذاشته شده",
     "Shared with" : "مشترک با",
     "Shared by" : "اشتراک گذاشته شده به وسیله",
@@ -278,8 +275,6 @@ OC.L10N.register(
     "Error removing share" : "خطا در حذف اشتراک گذاری",
     "({scope})" : "({scope})",
     "Saving..." : "در حال ذخیره سازی...",
-    "Dismiss" : "پنهان کن",
-    "New Password" : "رمزعبور جدید",
     "Cancel log in" : "لغو ورود"
 },
 "nplurals=2; plural=(n > 1);");
