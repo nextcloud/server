@@ -7,6 +7,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author S. Cat <33800996+sparrowjack63@users.noreply.github.com>
+ * @author Stephen Cuppett <steve@cuppett.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,8 +29,13 @@
 namespace OC\Files\ObjectStore;
 
 use Aws\ClientResolver;
+use Aws\Credentials\CredentialProvider;
+use Aws\Credentials\Credentials;
+use Aws\Exception\CredentialsException;
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\RejectedPromise;
 use OCP\ILogger;
 
 trait S3ConnectionTrait {
@@ -54,8 +60,8 @@ trait S3ConnectionTrait {
 	protected $test;
 
 	protected function parseParams($params) {
-		if (empty($params['key']) || empty($params['secret']) || empty($params['bucket'])) {
-			throw new \Exception("Access Key, Secret and Bucket have to be configured.");
+		if (empty($params['bucket'])) {
+			throw new \Exception("Bucket has to be configured.");
 		}
 
 		$this->id = 'amazon::' . $params['bucket'];
@@ -90,12 +96,19 @@ trait S3ConnectionTrait {
 		$scheme = (isset($this->params['use_ssl']) && $this->params['use_ssl'] === false) ? 'http' : 'https';
 		$base_url = $scheme . '://' . $this->params['hostname'] . ':' . $this->params['port'] . '/';
 
+		// Adding explicit credential provider to the beginning chain.
+		// Including environment variables and IAM instance profiles.
+		$provider = CredentialProvider::memoize(
+			CredentialProvider::chain(
+				$this->paramCredentialProvider(),
+				CredentialProvider::env(),
+				CredentialProvider::instanceProfile()
+			)
+		);
+
 		$options = [
 			'version' => isset($this->params['version']) ? $this->params['version'] : 'latest',
-			'credentials' => [
-				'key' => $this->params['key'],
-				'secret' => $this->params['secret'],
-			],
+			'credentials' => $provider,
 			'endpoint' => $base_url,
 			'region' => $this->params['region'],
 			'use_path_style_endpoint' => isset($this->params['use_path_style']) ? $this->params['use_path_style'] : false,
@@ -160,5 +173,24 @@ trait S3ConnectionTrait {
 			default:
 				return null;
 		}
+	}
+
+	/**
+	 * This function creates a credential provider based on user parameter file
+	 */
+	protected function paramCredentialProvider() : callable {
+		return function () {
+			$key = empty($this->params['key']) ? null : $this->params['key'];
+			$secret = empty($this->params['secret']) ? null : $this->params['secret'];
+
+			if ($key && $secret) {
+				return Promise\promise_for(
+					new Credentials($key, $secret)
+				);
+			}
+
+			$msg = 'Could not find parameters set for credentials in config file.';
+			return new RejectedPromise(new CredentialsException($msg));
+		};
 	}
 }
