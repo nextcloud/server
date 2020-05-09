@@ -19,9 +19,8 @@ OC.L10N.register(
     "{name} backup codes" : "{name} 备用码",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "在设置两步验证时使用您保存的其中一个备用码",
     "Submit" : "提交",
+    "function" : "功能",
     "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["生成备用码"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "您已启用两步认证但还没有生成备用码。请确保您进行了这一操作以防您不能访问您的第二因素。",
-    "function" : "功能"
+    "_icon-loading-small_::_generate-backup-codes_" : ["生成备用码"]
 },
 "nplurals=1; plural=0;");

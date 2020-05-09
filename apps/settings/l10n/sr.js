@@ -433,6 +433,7 @@ OC.L10N.register(
     "New password" : "Нова лозинка",
     "Change password" : "Измени лозинку",
     "Use a second factor besides your password to increase security for your account." : "Поред лозинке, користите и други фактор да повећате безбедност Вашег налога.",
+    "Share" : "Подели",
     "Afrikaans (Namibia)" : "Африканс (Намибија)",
     "Afrikaans (South Africa)" : "Африканс (Јужноафричка република)",
     "Afrikaans" : "Африканс",
@@ -870,11 +871,7 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Званичне апликације су развијене за и од стране заједнице. Нуде главне функционалности и спремне су за продукциону употребу.",
     "Official" : "Званичне",
     "The backend does not support changing the display name" : "Позадински мотор не дозвољава промену имена за приказ",
-    "Store credentials" : "Сачувај акредитиве",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php је регистрован код вебкрон сервиса за позивање cron.php сваких 15 минута преко протокола HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Користите системски крон сервис за позивање cron.php фајла сваких 15 минута.",
     "Set default expiration date" : "Постави подразумевано време истека",
-    "Share" : "Подели",
     "{counter} apps have an update available" : "{counter} апликација имају доступно ажурирање"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -25,6 +25,8 @@ OC.L10N.register(
     "Web link" : "Web esteka",
     "https://…" : "https://…",
     "Color" : "Kolorea",
+    "Upload new logo" : "Kargatu logo berria",
+    "Login image" : "Saio-hasiera irudia",
     "Advanced options" : "Ezarpen aurreratuak",
     "Legal notice link" : "Ohar legalaren esteka",
     "Privacy policy link" : "Pribatutasun politikaren esteka"

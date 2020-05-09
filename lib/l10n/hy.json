@@ -50,9 +50,6 @@
     "Sep." : "Սեպ.",
     "Oct." : "Հոկ.",
     "Nov." : "Նոյ.",
-    "Dec." : "Դեկ.",
-    "Create" : "Ստեղծել",
-    "Delete" : "հեռացնել",
-    "Share" : "Կիսվել"
+    "Dec." : "Դեկ."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -21,7 +21,6 @@ OC.L10N.register(
     "Stable" : "Egonkorra",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Argitaratu aurreko bertsioa funtzionalitate berriak probatzeko soilik da, ez ekoizpen inguruneetarako.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikazioak ez du bertsio hau eskuragarri eguneratzeko","<strong>%n</strong> aplikazioek ez dute bertsio hau eskuragarri eguneratzeko"],
-    "Production" : "Ekoizpena"
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> aplikazioak ez du bertsio hau eskuragarri eguneratzeko","<strong>%n</strong> aplikazioek ez dute bertsio hau eskuragarri eguneratzeko"]
 },
 "nplurals=2; plural=(n != 1);");

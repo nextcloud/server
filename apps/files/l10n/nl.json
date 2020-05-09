@@ -185,8 +185,6 @@
     "Pending shares" : "Deellinks in behandeling",
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt",
-    "%s of %s used" : "%s van %s gebruikt",
-    "%1$s%% of %2$s used" : "%1$s%% van %2$s gebruikt",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gebruik deze link <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">om je bestanden te benaderen via WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Kan het eigenaarschap van een bestand of map waarvan u niet de eigenaar bent, niet overdragen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

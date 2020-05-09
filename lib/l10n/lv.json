@@ -120,13 +120,7 @@
     "Storage connection error. %s" : "Datu savienojuma kļūda. %s",
     "Storage is temporarily not available" : "Glabātuve īslaicīgi nav pieejama",
     "Storage connection timeout. %s" : "Datu savienojuma taimauts. %s",
-    "Create" : "Izveidot",
-    "Change" : "Mainīt",
-    "Delete" : "Dzēst",
-    "Share" : "Koplietot",
     "Sharing" : "Koplietošana",
-    "Personal info" : "Personiskā informācija",
-    "Unlimited" : "Neierobežota",
-    "Verify" : "Verificēt"
+    "Personal info" : "Personiskā informācija"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }

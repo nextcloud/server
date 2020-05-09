@@ -433,6 +433,7 @@ OC.L10N.register(
     "New password" : "Новый пароль",
     "Change password" : "Сменить пароль",
     "Use a second factor besides your password to increase security for your account." : "Чтобы повысить безопасность своей учётной записи, помимо пароля используйте второй фактор проверки подлинности.",
+    "Share" : "Поделиться",
     "Afrikaans (Namibia)" : "Африкаанс (Намибия)",
     "Afrikaans (South Africa)" : "Африкаанс (Южная Африка)",
     "Afrikaans" : "Африкаанс",
@@ -870,11 +871,7 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Официальные приложения разработаны вместе с сообществом. Они предлагают базовую функциональность и готовы для использования.",
     "Official" : "Официальное",
     "The backend does not support changing the display name" : "Используемый механизм не поддерживает смену отображаемого имени",
-    "Store credentials" : "Сохранить учётные данные",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php зарегистрирован в службе webcron и будет вызываться каждые 15 минут по HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Использовать системный cron для вызова файла cron.php каждые 15 минут.",
     "Set default expiration date" : "Установить дату истечения по умолчанию",
-    "Share" : "Поделиться",
     "{counter} apps have an update available" : "Возможно обновить {counter} приложение(ий)."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

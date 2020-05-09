@@ -164,8 +164,6 @@ OC.L10N.register(
     "Deleted shares" : "Eyddar sameignir",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
-    "%s of %s used" : "%s af %s notað",
-    "%1$s%% of %2$s used" : "%1$s%% af %2$s notað",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">nálgast skrárnar þínar með WebDAV</a>"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

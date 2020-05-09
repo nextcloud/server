@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ikke nøl med å rapportere problemer på {issuetracker}vår problemdatabase{linkend}. Og bli gjerne med i {designteam}vårt designteam{linkend} hvis du vil bidra.",
     "High contrast theme" : "Høykontrast-tema",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "En høykontrast tema for å få en lettere navigasjon. Den visuelle kvaliteten vil bli reusert men klarheten vil bli økt.",
-    "Dark theme (beta)" : "Mørkt tema (beta)",
     "Web Content Accessibility Guidelines" : "Retningslinjer for tilgjengelighet på nettsider",
     "our issue tracker" : "vår problemsporer",
     "our design team" : "vårt designteam",

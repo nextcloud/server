@@ -187,8 +187,6 @@ OC.L10N.register(
     "Pending shares" : "Bekleyen paylaşımlar",
     "Text file" : "Metin dosyası",
     "New text file.txt" : "Yeni metin dosyası.txt",
-    "%s of %s used" : "%s / %s kullanılıyor",
-    "%1$s%% of %2$s used" : "%1$s%% / %2$s kullanılmış",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV üzerinden erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">bu adresi kullanın</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız"
 },

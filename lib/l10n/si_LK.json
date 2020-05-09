@@ -54,9 +54,6 @@
     "Application is not enabled" : "යෙදුම සක්‍රිය කර නොමැත",
     "Authentication error" : "සත්‍යාපන දෝෂයක්",
     "Token expired. Please reload page." : "ටෝකනය කල් ඉකුත් වී ඇත. පිටුව නැවුම් කරන්න",
-    "Create" : "තනන්න",
-    "Delete" : "ඉවත් කරන්න",
-    "Share" : "බෙදා හදා ගන්න",
     "Sharing" : "හුවමාරු කිරීම"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

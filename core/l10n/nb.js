@@ -309,13 +309,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Denne %s-instansen er for øyeblikket i vedlikeholdsmodus, noe som kan vare en stund.",
     "This page will refresh itself when the instance is available again." : "Siden vil oppdatere seg selv når instans er tilgjengelig igjen.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakt systemadministratoren hvis denne meldingen var uventet eller ikke forsvinner.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Klarte ikke å sende e-post for tilbakestilling av passord fordi det ikke finnes noen e-postadresse for dette brukernavnet. Kontakt administratoren din.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Klarte ikke å sende e-post for tilbakestilling av passord. Sjekk at brukernavnet ditt er korrekt.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Vi har sendt e-post for tilbakestilling av til e-postadressen for kontoen. Hvis du ikke mottar denne innen rimelig tid, må du sjekke mappene for spam/søppelpost.<br>Hvis den ikke er der, spør din lokale administrator om hjelp.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Filene dine er kryptert. Det vil ikke være mulig å gjenopprette dine data etter at passordet ditt er satt på nytt.<br />Hvis du ikke er sikker på hva du skal gjøre, kontakt administratoren din før du fortsetter. <br />Vil du virkelig fortsette?",
-    "Sending email …" : "Sender e-post …",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Du kjører nå PHP 5.6. Den nåværende hovedversjonen er den siste som støtter PHP 5.6. Det anbefales å oppgradere PHP-versjonen til 7.0+, for å kunne oppgradere til Nextcloud 14.",
-    "Accessing site insecurely via HTTP. You are strongly adviced to set up your server to require HTTPS instead, as described in the <a href=\"{docUrl}\">security tips ↗</a>." : "Få tilgang til nettstedet usikkert via HTTP. Du er sterkt anbefalt å sette opp serveren din for å kreve HTTPS i stedet, som beskrevet i<a href=\"{docUrl}\">tips for bedre sikkerhet  ↗</a>.",
     "Shared" : "Delt",
     "Shared with" : "Delt med",
     "Shared by" : "Delt av",
@@ -395,8 +389,6 @@ OC.L10N.register(
     "Error removing share" : "Feil ved fjerning av deling",
     "({scope})" : "({scope})",
     "Saving..." : "Lagrer …",
-    "Dismiss" : "Forkast",
-    "New Password" : "Nytt passord",
     "Cancel log in" : "Avbryt innlogging"
 },
 "nplurals=2; plural=(n != 1);");

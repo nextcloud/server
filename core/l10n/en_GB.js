@@ -253,10 +253,6 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Upgrade via web on my own risk",
     "This %s instance is currently in maintenance mode, which may take a while." : "This %s instance is currently in maintenance mode, which may take a while.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contact your system administrator if this message persists or appeared unexpectedly.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Could not send reset email because there is no email address for this username. Please contact your administrator.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Couldn't send reset email. Please make sure your username is correct.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?",
-    "Sending email …" : "Sending email …",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14.",
     "Shared" : "Shared",
     "Shared with" : "Shared with",
@@ -319,8 +315,6 @@ OC.L10N.register(
     "Error removing share" : "Error removing share",
     "({scope})" : "({scope})",
     "Saving..." : "Saving...",
-    "Dismiss" : "Dismiss",
-    "New Password" : "New Password",
     "Cancel log in" : "Cancel log in"
 },
 "nplurals=2; plural=(n != 1);");

@@ -12,7 +12,6 @@ OC.L10N.register(
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Býður upp á marga valkosti fyrir auðveldað aðgengi í Nextcloud",
     "High contrast theme" : "Þema með mikil birtuskil",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Þema með mikil birtuskil til að auðvelda vafur. Sjónræn gæði minnka en skýrleiki eykst",
-    "Dark theme (beta)" : "Dökkt þema (beta-prófunarútgáfa)",
     "Web Content Accessibility Guidelines" : "Leiðbeiningar fyrir aukið aðgengi vefefnis",
     "our issue tracker" : "villuskráningin okkar",
     "our design team" : "hönnunarteymið okkar",

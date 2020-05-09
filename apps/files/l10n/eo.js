@@ -166,8 +166,6 @@ OC.L10N.register(
     "Deleted shares" : "Forigitaj kunhavigoj",
     "Text file" : "Tekstodosiero",
     "New text file.txt" : "Nova tekstodosiero.txt",
-    "%s of %s used" : "%s uzataj el %s",
-    "%1$s%% of %2$s used" : "%1$s%% el %2$s uzataj",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Uzu tiun adreson por <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">atingi viajn dosierojn per WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

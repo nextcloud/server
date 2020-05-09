@@ -136,8 +136,6 @@ OC.L10N.register(
     "Shared by link" : "په لېنک شريک شوي",
     "Deleted shares" : "ړنګ شوي لېنکونه",
     "Text file" : "متن فایل",
-    "New text file.txt" : "New text file.txt",
-    "%s of %s used" : "د %sبرخې %sکارول شوې",
-    "%1$s%% of %2$s used" : "د %2$sبرخې %1$s%%کارول شوې"
+    "New text file.txt" : "New text file.txt"
 },
 "nplurals=2; plural=(n != 1);");
