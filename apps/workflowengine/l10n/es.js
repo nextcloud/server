@@ -47,7 +47,7 @@ OC.L10N.register(
     "Select a filter" : "Seleccione un filtro",
     "Select a comparator" : "Seleccione un comparador",
     "Select a file type" : "Selecciona un tipo de archivo",
-    "e.g. httpd/unix-directory" : "p.ej.. httpd/carpeta-unix",
+    "e.g. httpd/unix-directory" : "p.ej.: httpd/carpeta-unix",
     "Folder" : "Carpeta",
     "Images" : "Imágenes",
     "Office documents" : "Documentos de oficina",

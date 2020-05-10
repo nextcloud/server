@@ -8,7 +8,7 @@ OC.L10N.register(
     "Select tag…" : "Seleccionar etiqueta...",
     "System tag %1$s added by the system" : "Etiqueta de sistema %1$s añadida por el sistema",
     "Added system tag {systemtag}" : "Se añadió la etiqueta de sistema {systemtag}",
-    "Added system tag %1$s" : "Se añadió la etiqueta delsistema %1$s",
+    "Added system tag %1$s" : "Se añadió la etiqueta del sistema %1$s",
     "%1$s added system tag %2$s" : "%1$s añadió la etiqueta de sistema %2$s",
     "{actor} added system tag {systemtag}" : "{actor} añadió la etiqueta de sistema {systemtag}",
     "System tag %1$s removed by the system" : "Etiqueta de sistema %1$s eliminada por el sistema",
