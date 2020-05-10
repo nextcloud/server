@@ -11,7 +11,7 @@
 (function(OC, OCA) {
 
 	_.extend(OC.Files.Client, {
-		PROPERTY_READMARKER:	'{' + OC.Files.Client.NS_OWNCLOUD + '}readMarker',
+		PROPERTY_READMARKER: '{' + OC.Files.Client.NS_OWNCLOUD + '}readMarker',
 	})
 
 	/**
