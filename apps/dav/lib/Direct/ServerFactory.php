@@ -31,14 +31,18 @@ use OCA\DAV\Db\DirectMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IRequest;
 
 class ServerFactory {
 	/** @var IConfig */
 	private $config;
+	/** @var IL10N */
+	private $l10n;
 
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config, IL10N $l10n) {
 		$this->config = $config;
+		$this->l10n = $l10n;
 	}
 
 	public function createServer(string $baseURI,
@@ -54,7 +58,7 @@ class ServerFactory {
 		$server->httpRequest->setUrl($requestURI);
 		$server->setBaseUri($baseURI);
 
-		$server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin($this->config));
+		$server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin($this->config, $this->l10n));
 
 		return $server;
 	}

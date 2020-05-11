@@ -38,6 +38,7 @@ use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IPreview;
 use OCP\IRequest;
@@ -66,6 +67,8 @@ class ServerFactory {
 	private $previewManager;
 	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
+	/** @var IL10N */
+	private $l10n;
 
 	/**
 	 * @param IConfig $config
@@ -86,7 +89,8 @@ class ServerFactory {
 		ITagManager $tagManager,
 		IRequest $request,
 		IPreview $previewManager,
-		EventDispatcherInterface $eventDispatcher
+		EventDispatcherInterface $eventDispatcher,
+		IL10N $l10n
 	) {
 		$this->config = $config;
 		$this->logger = $logger;
@@ -97,6 +101,7 @@ class ServerFactory {
 		$this->request = $request;
 		$this->previewManager = $previewManager;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->l10n = $l10n;
 	}
 
 	/**
@@ -118,7 +123,7 @@ class ServerFactory {
 		$server->setBaseUri($baseUri);
 
 		// Load plugins
-		$server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin($this->config));
+		$server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin($this->config, $this->l10n));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin($this->config));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin());
 		$server->addPlugin($authPlugin);
