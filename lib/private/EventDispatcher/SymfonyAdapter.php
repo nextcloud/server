@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace OC\EventDispatcher;
 
+use Symfony\Component\EventDispatcher\GenericEvent;
 use function is_callable;
 use OCP\EventDispatcher\Event;
 use OCP\ILogger;
@@ -62,12 +63,18 @@ class SymfonyAdapter implements EventDispatcherInterface {
 		if ($event instanceof Event) {
 			$this->eventDispatcher->dispatch($eventName, $event);
 		} else {
-			// Legacy event
-			$this->logger->info(
-				'Deprecated event type for {name}: {class}',
-				[ 'name' => $eventName, 'class' => is_object($event) ? get_class($event) : 'null' ]
-			);
-			$this->eventDispatcher->getSymfonyDispatcher()->dispatch($eventName, $event);
+			if ($event instanceof GenericEvent) {
+				$newEvent = new GenericEventWrapper($this->logger, $eventName, $event);
+			} else {
+				$newEvent = $event;
+
+				// Legacy event
+				$this->logger->info(
+					'Deprecated event type for {name}: {class}',
+					['name' => $eventName, 'class' => is_object($event) ? get_class($event) : 'null']
+				);
+			}
+			$this->eventDispatcher->getSymfonyDispatcher()->dispatch($eventName, $newEvent);
 		}
 	}
 
