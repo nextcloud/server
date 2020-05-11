@@ -263,7 +263,7 @@ class Factory implements IFactory {
 		if ($this->languageExists($app, $locale)) {
 			return $locale;
 		}
-		
+
 		// Try to split e.g: fr_FR => fr
 		$locale = explode('_', $locale)[0];
 		if ($this->languageExists($app, $locale)) {
@@ -585,7 +585,16 @@ class Factory implements IFactory {
 	public function getLanguages() {
 		$forceLanguage = $this->config->getSystemValue('force_language', false);
 		if ($forceLanguage !== false) {
-			return [];
+			$l = $this->get('lib', $forceLanguage);
+			$potentialName = (string) $l->t('__language_name__');
+
+			return [
+				'commonlanguages' => [[
+					'code' => $forceLanguage,
+					'name' => $potentialName,
+				]],
+				'languages' => [],
+			];
 		}
 
 		$languageCodes = $this->findAvailableLanguages();
