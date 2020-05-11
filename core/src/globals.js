@@ -53,11 +53,16 @@ import 'strengthify/strengthify.css'
 import OC from './OC/index'
 import OCP from './OCP/index'
 import OCA from './OCA/index'
+import { debug } from './OC/debug'
 import escapeHTML from 'escape-html'
 import { getToken as getRequestToken } from './OC/requesttoken'
 
 const warnIfNotTesting = function() {
-	if (window.TESTING === undefined) {
+	const notTesting = window.TESTING === undefined
+	if (notTesting && debug) {
+		/* eslint-disable no-console */
+		console.trace.apply(console, arguments)
+	} else if (notTesting) {
 		console.warn.apply(console, arguments)
 	}
 }
