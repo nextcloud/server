@@ -2,6 +2,7 @@
     "You created two-factor backup codes for your account" : "Þú útbjóst tveggja-þrepa öryggisafritunarkóða fyrir aðganginn þinn",
     "Second-factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar",
     "Generate backup codes" : "Útbúa öryggisafritunarkóða",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Þú virkjaðir tveggja-þrepa auðkenningu en hefur ekki ennþá útbúið öryggisafritunarkóða. Þeir eru nauðsynlegir til að geta endurheimt aðganginn þinn fari svo að þú tapir seinni þætti auðkenningarinnar.",
     "Backup code" : "Öryggisafritunarkóði",
     "Use backup code" : "Nota öryggisafritunarkóða",
     "Two factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar",
