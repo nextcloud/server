@@ -76,7 +76,7 @@ class Version16000Date20190207141427 extends SimpleMigrationStep {
 				'length' => 64,
 			]);
 
-			$table->addUniqueIndex(['collection_id', 'resource_type', 'resource_id'], 'collres_unique_res');
+			$table->setPrimaryKey(['collection_id', 'resource_type', 'resource_id'], 'collres_unique_res');
 		}
 
 		if (!$schema->hasTable('collres_accesscache')) {
@@ -105,7 +105,7 @@ class Version16000Date20190207141427 extends SimpleMigrationStep {
 				'default' => 0,
 			]);
 
-			$table->addUniqueIndex(['user_id', 'collection_id', 'resource_type', 'resource_id'], 'collres_unique_user');
+			$table->setPrimaryKey(['user_id', 'collection_id', 'resource_type', 'resource_id'], 'collres_unique_user');
 			$table->addIndex(['user_id', 'resource_type', 'resource_id'], 'collres_user_res');
 			$table->addIndex(['user_id', 'collection_id'], 'collres_user_coll');
 		}
