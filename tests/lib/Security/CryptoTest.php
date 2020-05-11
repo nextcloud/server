@@ -26,7 +26,7 @@ class CryptoTest extends \Test\TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->crypto = new Crypto(\OC::$server->getConfig(), \OC::$server->getSecureRandom());
+		$this->crypto = new Crypto(\OC::$server->getConfig());
 	}
 
 	/**
@@ -69,5 +69,12 @@ class CryptoTest extends \Test\TestCase {
 
 		$encryptedString = '1|2';
 		$this->crypto->decrypt($encryptedString, 'ThisIsAVeryS3cur3P4ssw0rd');
+	}
+
+	public function testLegacy() {
+		$cipherText = 'e16599188e3d212f5c7f17fdc2abca46|M1WfLAxbcAmITeD6|509457885d6ca5e6c3bfd3741852687a7f2bffce197f8d5ae97b65818b15a1b7f616b68326ff312371540f4ca8ac55f8e2de4aa13aab3474bd3431e51214e3ee';
+		$password = 'mypass';
+
+		$this->assertSame('legacy test', $this->crypto->decrypt($cipherText, $password));
 	}
 }
