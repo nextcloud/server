@@ -116,8 +116,7 @@ class Dispatcher {
 			$controller, $methodName, $response);
 
 		// depending on the cache object the headers need to be changed
-		$out[0] = $this->protocol->getStatusHeader($response->getStatus(),
-			$response->getLastModified(), $response->getETag());
+		$out[0] = $this->protocol->getStatusHeader($response->getStatus());
 		$out[1] = array_merge($response->getHeaders());
 		$out[2] = $response->getCookies();
 		$out[3] = $this->middlewareDispatcher->beforeOutput(

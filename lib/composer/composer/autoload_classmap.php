@@ -532,6 +532,7 @@ return array(
     'OC\\AppFramework\\Middleware\\AdditionalScriptsMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/AdditionalScriptsMiddleware.php',
     'OC\\AppFramework\\Middleware\\CompressionMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/CompressionMiddleware.php',
     'OC\\AppFramework\\Middleware\\MiddlewareDispatcher' => $baseDir . '/lib/private/AppFramework/Middleware/MiddlewareDispatcher.php',
+    'OC\\AppFramework\\Middleware\\NotModifiedMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/NotModifiedMiddleware.php',
     'OC\\AppFramework\\Middleware\\OCSMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/OCSMiddleware.php',
     'OC\\AppFramework\\Middleware\\PublicShare\\Exceptions\\NeedAuthenticationException' => $baseDir . '/lib/private/AppFramework/Middleware/PublicShare/Exceptions/NeedAuthenticationException.php',
     'OC\\AppFramework\\Middleware\\PublicShare\\PublicShareMiddleware' => $baseDir . '/lib/private/AppFramework/Middleware/PublicShare/PublicShareMiddleware.php',

@@ -181,19 +181,11 @@ class DispatcherTest extends \Test\TestCase {
 			->method('getStatus')
 			->willReturn(Http::STATUS_OK);
 		$this->response->expects($this->once())
-			->method('getLastModified')
-			->willReturn($this->lastModified);
-		$this->response->expects($this->once())
-			->method('getETag')
-			->willReturn($this->etag);
-		$this->response->expects($this->once())
 			->method('getHeaders')
 			->willReturn($responseHeaders);
 		$this->http->expects($this->once())
 			->method('getStatusHeader')
-			->with($this->equalTo(Http::STATUS_OK),
-				$this->equalTo($this->lastModified),
-				$this->equalTo($this->etag))
+			->with($this->equalTo(Http::STATUS_OK))
 			->willReturn($httpHeaders);
 
 		$this->middlewareDispatcher->expects($this->once())
