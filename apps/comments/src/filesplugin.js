@@ -11,7 +11,7 @@
 (function() {
 
 	_.extend(OC.Files.Client, {
-		PROPERTY_COMMENTS_UNREAD:	'{' + OC.Files.Client.NS_OWNCLOUD + '}comments-unread',
+		PROPERTY_COMMENTS_UNREAD: '{' + OC.Files.Client.NS_OWNCLOUD + '}comments-unread',
 	})
 
 	OCA.Comments = _.extend({}, OCA.Comments)
