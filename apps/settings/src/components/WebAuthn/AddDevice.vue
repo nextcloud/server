@@ -87,8 +87,8 @@ export default {
 		httpWarning: Boolean,
 		isHttps: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	data() {
 		return {

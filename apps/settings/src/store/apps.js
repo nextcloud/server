@@ -22,6 +22,7 @@
 
 import api from './api'
 import Vue from 'vue'
+import { generateUrl } from '@nextcloud/router'
 
 const state = {
 	apps: [],
@@ -165,7 +166,7 @@ const actions = {
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', apps)
 			context.commit('startLoading', 'install')
-			return api.post(OC.generateUrl(`settings/apps/enable`), { appIds: apps, groups: groups })
+			return api.post(generateUrl(`settings/apps/enable`), { appIds: apps, groups: groups })
 				.then((response) => {
 					context.commit('stopLoading', apps)
 					context.commit('stopLoading', 'install')
@@ -174,7 +175,7 @@ const actions = {
 					})
 
 					// check for server health
-					return api.get(OC.generateUrl('apps/files'))
+					return api.get(generateUrl('apps/files'))
 						.then(() => {
 							if (response.data.update_required) {
 								OC.dialogs.info(
@@ -223,7 +224,7 @@ const actions = {
 		return api.requireAdmin().then(() => {
 			context.commit('startLoading', apps)
 			context.commit('startLoading', 'install')
-			return api.post(OC.generateUrl(`settings/apps/force`), { appId })
+			return api.post(generateUrl(`settings/apps/force`), { appId })
 				.then((response) => {
 					// TODO: find a cleaner solution
 					location.reload()
@@ -248,7 +249,7 @@ const actions = {
 		}
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', apps)
-			return api.post(OC.generateUrl(`settings/apps/disable`), { appIds: apps })
+			return api.post(generateUrl(`settings/apps/disable`), { appIds: apps })
 				.then((response) => {
 					context.commit('stopLoading', apps)
 					apps.forEach(_appId => {
@@ -265,7 +266,7 @@ const actions = {
 	uninstallApp(context, { appId }) {
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', appId)
-			return api.get(OC.generateUrl(`settings/apps/uninstall/${appId}`))
+			return api.get(generateUrl(`settings/apps/uninstall/${appId}`))
 				.then((response) => {
 					context.commit('stopLoading', appId)
 					context.commit('uninstallApp', appId)
@@ -282,7 +283,7 @@ const actions = {
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', appId)
 			context.commit('startLoading', 'install')
-			return api.get(OC.generateUrl(`settings/apps/update/${appId}`))
+			return api.get(generateUrl(`settings/apps/update/${appId}`))
 				.then((response) => {
 					context.commit('stopLoading', 'install')
 					context.commit('stopLoading', appId)
@@ -299,7 +300,7 @@ const actions = {
 
 	getAllApps(context) {
 		context.commit('startLoading', 'list')
-		return api.get(OC.generateUrl(`settings/apps/list`))
+		return api.get(generateUrl(`settings/apps/list`))
 			.then((response) => {
 				context.commit('setAllApps', response.data.apps)
 				context.commit('stopLoading', 'list')
@@ -310,7 +311,7 @@ const actions = {
 
 	getCategories(context) {
 		context.commit('startLoading', 'categories')
-		return api.get(OC.generateUrl('settings/apps/categories'))
+		return api.get(generateUrl('settings/apps/categories'))
 			.then((response) => {
 				if (response.data.length > 0) {
 					context.commit('appendCategories', response.data)

@@ -21,6 +21,7 @@
  */
 
 import api from './api'
+import { generateOcsUrl } from '@nextcloud/router'
 
 const state = {}
 const mutations = {}
@@ -38,7 +39,7 @@ const actions = {
 	 */
 	setAppConfig(context, { app, key, value }) {
 		return api.requireAdmin().then((response) => {
-			return api.post(OC.linkToOCS(`apps/provisioning_api/api/v1/config/apps/${app}/${key}`, 2), { value: value })
+			return api.post(generateOcsUrl(`apps/provisioning_api/api/v1/config/apps/${app}/${key}`, 2), { value: value })
 				.catch((error) => { throw error })
 		}).catch((error) => context.commit('API_FAILURE', { app, key, value, error }))
 	},
