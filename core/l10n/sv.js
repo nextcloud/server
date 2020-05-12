@@ -15,6 +15,7 @@ OC.L10N.register(
     "No valid crop data provided" : "Ingen giltig beskärningsdata tillhandahölls",
     "Crop is not square" : "Beskärning är inte kvadratisk",
     "State token does not match" : "Tillstånds-token matchar inte",
+    "Invalid app password" : "Felaktigt app-lösenord",
     "Could not complete login" : "Kunde inte slutföra inloggningen",
     "Your login token is invalid or has expired" : "Din inloggnings-token är ogiltigt eller har gått ut",
     "Password reset is disabled" : "Lösenordsåterställning är avaktiverat",

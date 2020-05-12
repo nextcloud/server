@@ -36,6 +36,8 @@ OC.L10N.register(
     "Please provide a login name to test against" : "Mesedez saioa hasteko izen bat eman probatu ahal izateko",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Taldeen sarrera desgaitu da, LDAP / AD zerbitzariak ez duelako memberOf onartzen.",
     "Please login with the new password" : "Mesedez hasi saioa pasahitz berriarekin",
+    "Your password will expire today." : "Zure pasahitza gaur iraungiko da.",
+    "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Zure pasahitza egun %nean iraungiko da.","Zure pasahitza %n egunetan iraungiko da."],
     "LDAP / AD integration" : "LDAP / AD integrazioa",
     "_%s group found_::_%s groups found_" : ["Talde %s aurkitu da","%s talde aurkitu dira"],
     "_%s user found_::_%s users found_" : ["Erabiltzaile %s aurkitu da","%s erabiltzaile aurkitu dira"],

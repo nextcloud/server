@@ -1,6 +1,7 @@
 OC.L10N.register(
     "theming",
     {
+    "Loading preview…" : "Aurreikuspena kargatzen...",
     "Saved" : "Gordeta",
     "Admin" : "Administratzailea",
     "a safe home for all your data" : "zure datu guztientzako toki segurua",
@@ -22,11 +23,13 @@ OC.L10N.register(
     "Privacy policy" : "Pribatutasun politika",
     "Open documentation" : "Ireki dokumentazioa",
     "Name" : "Izena",
+    "Reset to default" : "Berezarri balio lehenetsira",
     "Web link" : "Web esteka",
     "https://…" : "https://…",
     "Color" : "Kolorea",
     "Upload new logo" : "Kargatu logo berria",
     "Login image" : "Saio-hasiera irudia",
+    "Remove background image" : "Kendu atzeko-planoko irudia",
     "Advanced options" : "Ezarpen aurreratuak",
     "Legal notice link" : "Ohar legalaren esteka",
     "Privacy policy link" : "Pribatutasun politikaren esteka"

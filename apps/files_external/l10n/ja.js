@@ -105,6 +105,8 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "共有",
     "Show hidden files" : "隠しファイルを表示",
+    "Verify ACL access when listing files" : "ファイルをリストアップする際に ACL アクセスを確認する",
+    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "ディレクトリ内の各ファイルまたはフォルダのACLをチェックして、ユーザーが読み取り権限を持たないアイテムを除外すると、パフォーマンスが低下します",
     "Timeout" : "タイムアウト",
     "SMB / CIFS using OC login" : "Nextcloud ログインを利用したSMB / CIFS",
     "Username as share" : "共有名",
