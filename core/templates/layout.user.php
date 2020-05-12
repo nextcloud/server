@@ -156,7 +156,7 @@
 		</header>
 
 		<div id="sudo-login-background" class="hidden"></div>
-		<form id="sudo-login-form" class="hidden">
+		<form id="sudo-login-form" class="hidden" method="POST">
 			<label>
 				<?php p($l->t('This action requires you to confirm your password')); ?><br/>
 				<input type="password" class="question" autocomplete="new-password" name="question" value=" <?php /* Hack against browsers ignoring autocomplete="off" */ ?>"
