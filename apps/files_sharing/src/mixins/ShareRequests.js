@@ -88,17 +88,11 @@ export default {
 		 * Update a share
 		 *
 		 * @param {number} id share id
-		 * @param {Object} data destructuring object
-		 * @param {string} data.property property to update
-		 * @param {any} data.value value to set
+		 * @param {Object} properties key-value object of the properties to update
 		 */
-		async updateShare(id, { property, value }) {
+		async updateShare(id, properties) {
 			try {
-				// ocs api requires x-www-form-urlencoded
-				const data = new URLSearchParams()
-				data.append(property, value)
-
-				const request = await axios.put(shareUrl + `/${id}`, { [property]: value }, headers)
+				const request = await axios.put(shareUrl + `/${id}`, properties, headers)
 				if (!('ocs' in request.data)) {
 					throw request
 				}
@@ -107,7 +101,7 @@ export default {
 				console.error('Error while updating share', error)
 				OC.Notification.showTemporary(t('files_sharing', 'Error updating the share'), { type: 'error' })
 				const message = error.response.data.ocs.meta.message
-				throw new Error(`${property}, ${message}`)
+				throw new Error(`${Object.keys(properties)}, ${message}`)
 			}
 		},
 	},
