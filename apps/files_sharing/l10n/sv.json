@@ -154,6 +154,7 @@
     "Shared with the conversation {user} by {owner}" : "Delad med konversationen {user} av {owner}",
     "Shared with {user} by {owner}" : "Delad med {user} av {owner}",
     "Added by {initiator}" : "Tillagd av {initiator}",
+    "Via “{folder}”" : "Via “{folder}”",
     "Internal link" : "Intern länk",
     "Link copied" : "Länk kopierad",
     "Cannot copy, please copy the link manually" : "Kan inte kopiera, länken måste kopieras manuellt",

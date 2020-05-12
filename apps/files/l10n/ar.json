@@ -95,6 +95,8 @@
     "Upload (max. %s)" : "الرفع ( حد اقصى. %s ) ",
     "Accept" : "قبول",
     "File Management" : "إدارة الملفات",
+    "Transfer ownership of a file or folder" : "تحويل ملكية ملف أو مجلد",
+    "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك",
     "Tags" : "الوسوم",
     "%s used" : "%s مُستخدَم",
     "%1$s of %2$s used" : "تم استخدام %1$s من %2$s",
