@@ -153,8 +153,8 @@ class AvatarController extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		// Cache for 30 minutes
-		$response->cacheFor(1800);
+		// Cache for 1 day
+		$response->cacheFor(60*60*24);
 		return $response;
 	}
 
