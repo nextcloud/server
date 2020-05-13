@@ -432,8 +432,8 @@ class DependencyAnalyzerTest extends TestCase {
 		return [
 			[[], null],
 			[[], []],
-			[['Following platforms are supported: ANDROID'], 'ANDROID'],
-			[['Following platforms are supported: WINNT'], ['WINNT']]
+			[['The following platforms are supported: ANDROID'], 'ANDROID'],
+			[['The following platforms are supported: WINNT'], ['WINNT']]
 		];
 	}
 
@@ -493,8 +493,8 @@ class DependencyAnalyzerTest extends TestCase {
 			// non BC - in case on databases are defined -> all are supported
 			[[], null],
 			[[], []],
-			[['Following databases are supported: mongodb'], 'mongodb'],
-			[['Following databases are supported: sqlite, postgres'], ['sqlite', ['@value' => 'postgres']]],
+			[['The following databases are supported: mongodb'], 'mongodb'],
+			[['The following databases are supported: sqlite, postgres'], ['sqlite', ['@value' => 'postgres']]],
 		];
 	}
 
