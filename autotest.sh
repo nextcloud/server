@@ -359,17 +359,8 @@ function execute_tests {
 
 	# test for primary indices
 	if [ "$DB" == "mysql" ] || [ "$DB" == "mysqlmb4" ] || [ "$DB" == "mariadb" ] ; then
-		if [ -z "$USEDOCKER" ] ; then
-			echo "Checking for missing primary indices..."
-			rowCount=$(mysql -u "$DATABASEUSER" -powncloud -e "SELECT tab.table_schema as database_name, tab.table_name FROM information_schema.tables tab LEFT JOIN information_schema.table_constraints tco ON tab.table_schema = tco.table_schema AND tab.table_name = tco.table_name AND tco.constraint_type = 'PRIMARY KEY' WHERE tco.constraint_type IS NULL AND tab.table_schema NOT IN('mysql', 'information_schema', 'performance_schema', 'sys') AND tab.table_type = 'BASE TABLE' ORDER BY tab.table_schema, tab.table_name;" -h $DATABASEHOST | wc -l)
-			if [ $rowCount -gt 0 ] ; then
-				echo "Missing primary indices"
-				mysql -u "$DATABASEUSER" -powncloud -e "SELECT tab.table_schema as database_name, tab.table_name FROM information_schema.tables tab LEFT JOIN information_schema.table_constraints tco ON tab.table_schema = tco.table_schema AND tab.table_name = tco.table_name AND tco.constraint_type = 'PRIMARY KEY' WHERE tco.constraint_type IS NULL AND tab.table_schema NOT IN('mysql', 'information_schema', 'performance_schema', 'sys') AND tab.table_type = 'BASE TABLE' ORDER BY tab.table_schema, tab.table_name;" -h $DATABASEHOST
-				exit 1
-			fi
-		else
-			echo "Skipped primary key check - it is only executed on non-docker environment"
-		fi
+		echo "Checking for missing primary indices..."
+		"$PHP" build/missing-primary-index-checker.php
 	else
 		echo "Skipped primary key check - it is only executed on mysql/mariadb"
 	fi
