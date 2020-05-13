@@ -29,6 +29,7 @@ OC.L10N.register(
     "Color" : "Kolorea",
     "Upload new logo" : "Kargatu logo berria",
     "Login image" : "Saio-hasiera irudia",
+    "Upload new login background" : "Kargatu saio-hasiera atzeko-plano berria",
     "Remove background image" : "Kendu atzeko-planoko irudia",
     "Advanced options" : "Ezarpen aurreratuak",
     "Legal notice link" : "Ohar legalaren esteka",
