@@ -185,6 +185,12 @@ class Definitions {
 					'description' => 'The type of the call: one2one, group or public',
 					'example' => 'one2one',
 				],
+				'link' => [
+					'since' => '19.0.0',
+					'required' => false,
+					'description' => 'The link to the conversation',
+					'example' => 'https://localhost/index.php/call/R4nd0mToken',
+				],
 			],
 		],
 		'circle' => [
