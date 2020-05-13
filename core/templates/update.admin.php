@@ -8,7 +8,7 @@
 		<?php } ?>
 		<?php if (!empty($_['appsToUpgrade'])) { ?>
 		<div class="infogroup">
-			<span><?php p($l->t('These apps will be updated:')); ?></span>
+			<span><?php p($l->t('The following apps will be updated:')); ?></span>
 			<ul class="content appList">
 				<?php foreach ($_['appsToUpgrade'] as $appInfo) { ?>
 				<li><?php p($appInfo['name']) ?> (<?php p($appInfo['id']) ?>)</li>
