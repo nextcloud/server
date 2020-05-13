@@ -93,7 +93,7 @@ class OCJSController extends Controller {
 			$iniWrapper,
 			$urlGenerator,
 			$capabilitiesManager,
-			$initialStateService,
+			$initialStateService
 		);
 	}
 
