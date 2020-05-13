@@ -70,6 +70,6 @@ class AppConfig implements IAppConfig {
 	}
 
 	public function deleteUserValue(string $userId, string $key): void {
-		return $this->config->deleteUserValue($userId, $this->appName, $key);
+		$this->config->deleteUserValue($userId, $this->appName, $key);
 	}
 }
