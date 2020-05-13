@@ -358,7 +358,7 @@ function execute_tests {
 	"$PHP" ./occ maintenance:install -vvv --database="$_DB" --database-name="$DATABASENAME" --database-host="$DATABASEHOST" --database-user="$DATABASEUSER" --database-pass=owncloud --database-table-prefix=oc_ --admin-user="$ADMINLOGIN" --admin-pass=admin --data-dir="$DATADIR"
 
 	# test for primary indices
-	if [ "$DB" == "mysql" OR "$DB" == "mysqlmb4" OR "$DB" == "mariadb" ] ; then
+	if [ "$DB" == "mysql" ] || [ "$DB" == "mysqlmb4" ] || [ "$DB" == "mariadb" ] ; then
 		if [ ! -z "$USEDOCKER" ] ; then
 			echo "Missing primary indices"
 			mysql -u "$DATABASEUSER" -powncloud -e "SELECT tab.table_schema as database_name, tab.table_name FROM information_schema.tables tab LEFT JOIN information_schema.table_constraints tco ON tab.table_schema = tco.table_schema AND tab.table_name = tco.table_name AND tco.constraint_type = 'PRIMARY KEY' WHERE tco.constraint_type IS NULL AND tab.table_schema NOT IN('mysql', 'information_schema', 'performance_schema', 'sys') AND tab.table_type = 'BASE TABLE' ORDER BY tab.table_schema, tab.table_name;" -h $DATABASEHOST
