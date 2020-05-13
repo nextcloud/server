@@ -359,7 +359,7 @@ function execute_tests {
 
 	# test for primary indices
 	if [ "$DB" == "mysql" ] || [ "$DB" == "mysqlmb4" ] || [ "$DB" == "mariadb" ] ; then
-		if [ ! -z "$USEDOCKER" ] ; then
+		if [ -z "$USEDOCKER" ] ; then
 			echo "Missing primary indices"
 			mysql -u "$DATABASEUSER" -powncloud -e "SELECT tab.table_schema as database_name, tab.table_name FROM information_schema.tables tab LEFT JOIN information_schema.table_constraints tco ON tab.table_schema = tco.table_schema AND tab.table_name = tco.table_name AND tco.constraint_type = 'PRIMARY KEY' WHERE tco.constraint_type IS NULL AND tab.table_schema NOT IN('mysql', 'information_schema', 'performance_schema', 'sys') AND tab.table_type = 'BASE TABLE' ORDER BY tab.table_schema, tab.table_name;" -h $DATABASEHOST
 		else
