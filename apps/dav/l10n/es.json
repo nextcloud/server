@@ -73,6 +73,8 @@
     "More options …" : "Más opciones...",
     "More options at %s" : "Más opciones en %s",
     "Contacts" : "Contactos",
+    "System in maintenance mode." : "Sistema en modo de mantenimiento.",
+    "Upgrade needed" : "Se necesita actualizar",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Tu %s necesita configurarse para usar HTTPS en caso de usar CalDAV y CardDAV con iOS/macOS.",
     "Configures a CalDAV account" : "Configura una cuenta CalDAV",
     "Configures a CardDAV account" : "Configura una cuenta CardDAV",
