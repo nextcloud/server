@@ -105,12 +105,11 @@ class Response {
 	 * @return $this
 	 * @since 6.0.0 - return value was added in 7.0.0
 	 */
-	public function cacheFor(int $cacheSeconds) {
+	public function cacheFor(int $cacheSeconds, bool $public = false) {
 		if ($cacheSeconds > 0) {
-			$this->addHeader('Cache-Control', 'max-age=' . $cacheSeconds . ', must-revalidate');
-
-			// Old scool prama caching
-			$this->addHeader('Pragma', 'public');
+			$pragma = $public ? 'public' : 'private';
+			$this->addHeader('Cache-Control', $pragma . ', max-age=' . $cacheSeconds . ', must-revalidate');
+			$this->addHeader('Pragma', $pragma);
 
 			// Set expires header
 			$expires = new \DateTime();
