@@ -913,26 +913,6 @@ o.a.widget("oc.ocdialog",{options:{width:"auto",height:"auto",closeButton:!0,clo
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */function p(e){return(p="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}
-/**
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */o()(document).on("ajaxSend",(function(e,t,n){!1===n.crossDomain&&(t.setRequestHeader("requesttoken",Object(f.a)()),t.setRequestHeader("OCS-APIREQUEST","true"))})),
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -975,7 +955,7 @@ o.a.fn.selectRange=function(e,t){return this.each((function(){if(this.setSelecti
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-o.a.fn.extend({showPassword:function(e){var t={fn:null,args:{}};t.fn=e;var n=function(e,t){t.val(e.val())},i=function(e,t,i){e.is(":checked")?(n(t,i),i.show(),t.hide()):(n(i,t),i.hide(),t.show())};return this.each((function(){var e=o()(this),r=o()(e.data("typetoggle")),s=function(e){var t=o()(e),n=o()("<input />");return n.attr({type:"text",class:t.attr("class"),style:t.attr("style"),size:t.attr("size"),name:t.attr("name")+"-clone",tabindex:t.attr("tabindex"),autocomplete:"off"}),void 0!==t.attr("placeholder")&&n.attr("placeholder",t.attr("placeholder")),n}(e);s.insertAfter(e),t.fn&&(t.args.input=e,t.args.checkbox=r,t.args.clone=s),r.bind("click",(function(){i(r,e,s)})),e.bind("keyup",(function(){n(e,s)})),s.bind("keyup",(function(){n(s,e),e.trigger("keyup")})),s.bind("blur",(function(){e.trigger("focusout")})),i(r,e,s),s.closest("form").submit((function(e){s.prop("type","password")})),t.fn&&t.fn(t.args)}))}}),o.a.fn.tipsy=function(e){if(console.warn("Deprecation warning: tipsy is deprecated. Use tooltip instead."),"object"===p(e)&&null!==e){var t={placement:"bottom",delay:{show:0,hide:0},trigger:"hover",html:!1,container:"body"};if(e.gravity)switch(e.gravity){case"n":case"nw":case"ne":t.placement="bottom";break;case"s":case"sw":case"se":t.placement="top";break;case"w":t.placement="right";break;case"e":t.placement="left"}e.trigger&&(t.trigger=e.trigger),e.delayIn&&(t.delay.show=e.delayIn),e.delayOut&&(t.delay.hide=e.delayOut),e.html&&(t.html=!0),e.fallback&&(t.title=e.fallback),o.a.fn.tooltip.call(this,"destroy"),o.a.fn.tooltip.call(this,t)}else this.tooltip(e),o.a.fn.tooltip.call(this,e);return this},o.a.ui.autocomplete.prototype._resizeMenu=function(){this.menu.element.outerWidth(this.element.outerWidth())};i(801),i(808);
+o.a.fn.extend({showPassword:function(e){var t={fn:null,args:{}};t.fn=e;var n=function(e,t){t.val(e.val())},i=function(e,t,i){e.is(":checked")?(n(t,i),i.show(),t.hide()):(n(i,t),i.hide(),t.show())};return this.each((function(){var e=o()(this),r=o()(e.data("typetoggle")),s=function(e){var t=o()(e),n=o()("<input />");return n.attr({type:"text",class:t.attr("class"),style:t.attr("style"),size:t.attr("size"),name:t.attr("name")+"-clone",tabindex:t.attr("tabindex"),autocomplete:"off"}),void 0!==t.attr("placeholder")&&n.attr("placeholder",t.attr("placeholder")),n}(e);s.insertAfter(e),t.fn&&(t.args.input=e,t.args.checkbox=r,t.args.clone=s),r.bind("click",(function(){i(r,e,s)})),e.bind("keyup",(function(){n(e,s)})),s.bind("keyup",(function(){n(s,e),e.trigger("keyup")})),s.bind("blur",(function(){e.trigger("focusout")})),i(r,e,s),s.closest("form").submit((function(e){s.prop("type","password")})),t.fn&&t.fn(t.args)}))}}),o.a.ui.autocomplete.prototype._resizeMenu=function(){this.menu.element.outerWidth(this.element.outerWidth())};i(801),i(808);
 /**
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
