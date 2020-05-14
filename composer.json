@@ -19,6 +19,6 @@
     "scripts": {
         "cs:fix": "php-cs-fixer fix",
         "cs:check": "php-cs-fixer fix --dry-run --diff",
-        "lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/.phan/*' -exec php -l \"{}\" \\;"
+        "lint": "find . -name \\*.php -not -path './lib/composer/*' -not -path './build/.phan/*' -print0 | xargs -0 -n1 php -l"
     }
 }
