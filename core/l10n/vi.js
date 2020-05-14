@@ -45,7 +45,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Bắt đầu mã kiểm tra sự toàn vẹn",
     "Finished code integrity check" : "Kết thúc mã kiểm tra sự toàn vẹn",
     "%s (incompatible)" : "%s (không tương thích)",
-    "Following apps have been disabled: %s" : "Các ứng dụng sau bị vô hiệu hóa: %s",
     "Already up to date" : "Đã được cập nhật bản mới nhất",
     "Error occurred while checking server setup" : "Có lỗi xảy ra khi kiểm tra thiết lập máy chủ",
     "Non-existing tag #{tag}" : "Thẻ không tồn tại # {tag}",
@@ -208,7 +207,6 @@ OC.L10N.register(
     "Access through untrusted domain" : "Truy nhập thông qua tên miền không đáng tin",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Xin vui lòng liên hệ với quản trị hệ thống của bạn. Nếu ban là người quản trị hệ thống, sửa phần thiết lập \"trusted_domains\" trong file config/config.php giống như trong ví dụ tại file config.sample.php.",
     "App update required" : "Ứng dụng yêu cầu cập nhật",
-    "These apps will be updated:" : "Những ứng dụng sẽ được cập nhật:",
     "These incompatible apps will be disabled:" : "Những ứng dụng không tương thích sẽ bị tắt:",
     "The theme %s has been disabled." : "Giao diện %s đã bị tắt.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Bạn cần phải bảo đảm rằng cơ sở dữ liệu, thư mục chứa file cấu hình hệ thống và thư mục chứa dữ liệu người dùng phải được sao lưu trước khi thực hiện.",
@@ -222,6 +220,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Nâng cấp qua web",
     "This %s instance is currently in maintenance mode, which may take a while." : "Bản cài đặt%s hiện tại đang trong chế độ \"bảo trì\", do vậy có thể bạn cần phải đợi thêm chút ít thời gian.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
+    "Following apps have been disabled: %s" : "Các ứng dụng sau bị vô hiệu hóa: %s",
     "Shared" : "Được chia sẻ",
     "Shared with" : "Chia sẽ với",
     "Shared by" : "Đã chia sẽ bởi",
@@ -284,6 +283,7 @@ OC.L10N.register(
     "Error removing share" : "Lỗi khi xóa chia sẻ",
     "({scope})" : "({scope})",
     "Saving..." : "Đang lưu...",
-    "Cancel log in" : "Hủy đăng nhập"
+    "Cancel log in" : "Hủy đăng nhập",
+    "These apps will be updated:" : "Những ứng dụng sẽ được cập nhật:"
 },
 "nplurals=1; plural=0;");

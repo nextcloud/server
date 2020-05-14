@@ -55,7 +55,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Inicia el test d'integritat del codi",
     "Finished code integrity check" : "Finalitzat el test d'integritat del codi",
     "%s (incompatible)" : "%s (incompatible)",
-    "Following apps have been disabled: %s" : "S'han desactivat les aplicacions següents: %s",
     "Already up to date" : "Ja està actualitzat",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "El servidor web no està configurat correctament per permetre la sincronització de fitxers perquè la interfície WebDAV sembla no funcionar correctament.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "El vostre servidor web no està configurat correctament per resoldre \"{url}\". Trobareu més informació a la nostra <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentació</a>.",
@@ -335,7 +334,6 @@ OC.L10N.register(
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Podeu trobar més informació sobre com configurar-ho a la %1$sdocumentació%2$s.",
     "App update required" : "Cal que actualitzeu la aplicació",
     "%1$s will be updated to version %2$s" : "%1$s s'actualitzarà a la versió %2$s",
-    "These apps will be updated:" : "Aquestes aplicacions s'actualitzaran:",
     "These incompatible apps will be disabled:" : "Aquestes aplicacions incompatibles es desactivaran:",
     "The theme %s has been disabled." : "S'ha desactivat el tema %s.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Assegureu-vos que heu fet una còpia de seguretat de la base de dades, del fitxer de configuració i de la carpeta de dades abans de continuar.",
@@ -351,6 +349,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Aquesta instància %s està actualment en manteniment i podria trigar una estona.",
     "This page will refresh itself when the instance is available again." : "Aquesta pàgina s'actualitzarà automàticament quan la instància estigui disponible de nou.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacteu amb l'administrador del sistema si aquest missatge persisteix o apareix inesperadament.",
+    "Following apps have been disabled: %s" : "S'han desactivat les aplicacions següents: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Actualment esteu executant PHP 5.6. La versió actual principal de Nextcloud és l'última que funciona a PHP 5.6. Es recomana actualitzar la versió PHP a 7.0+ per que es pugui actualitzar a Nextcloud 14.",
     "Shared" : "Compartit",
     "Shared with" : "Compartit amb",
@@ -433,6 +432,7 @@ OC.L10N.register(
     "Saving..." : "S'està desant...",
     "Your client should now be connected! You can close this window." : "El vostre client ja està connectat! Podeu tancar aquesta finestra.",
     "Cancel log in" : "Cancel·la l'accés a",
+    "These apps will be updated:" : "Aquestes aplicacions s'actualitzaran:",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendari, Contactes, Parla, Correu i OnlyOffice"
 },
 "nplurals=2; plural=(n != 1);");

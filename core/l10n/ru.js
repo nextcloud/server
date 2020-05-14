@@ -56,7 +56,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Начат процесс проверки целостности кода",
     "Finished code integrity check" : "Проверка целостности кода завершена",
     "%s (incompatible)" : "%s (несовместимое)",
-    "Following apps have been disabled: %s" : "Были отключены следующие приложения: %s",
     "Already up to date" : "Не нуждается в обновлении",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Веб-сервер ещё не настроен должным образом для синхронизации файлов: похоже, что не работоспособен интерфейс WebDAV.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Веб-сервер не настроен должным образом для разрешения «{url}». Дополнительная информация может быть найдена в нашей <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">документации</a>.",
@@ -337,7 +336,6 @@ OC.L10N.register(
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Дополнительная информация как это настроить может быть найдена в %1$sдокументации %2$s",
     "App update required" : "Требуется обновление приложения",
     "%1$s will be updated to version %2$s" : "%1$s будет обновлено до версии %2$s",
-    "These apps will be updated:" : "Следующие приложения будут обновлены:",
     "These incompatible apps will be disabled:" : "Эти несовместимые приложения будут отключены:",
     "The theme %s has been disabled." : "Тема %s была отключена.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Перед продолжением убедитесь, что вы сделали резервную копию базы данных, каталога конфигурации и каталога с данными.",
@@ -353,6 +351,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Этот сервер %s находится в режиме технического обслуживания, которое может занять некоторое время.",
     "This page will refresh itself when the instance is available again." : "Эта страница обновится автоматически когда сервер снова станет доступен.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
+    "Following apps have been disabled: %s" : "Были отключены следующие приложения: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "На этом сервере используется PHP версии 5.6. Текущая версия Nextcloud является последней из поддерживающих PHP версии 5.6. Для обновления до Nextcloud версии 14 рекомендуется  обновить PHP до версии 7.0 или более старшей.",
     "Shared" : "Общий доступ",
     "Shared with" : "Общий доступ",
@@ -435,6 +434,7 @@ OC.L10N.register(
     "Saving..." : "Сохранение…",
     "Your client should now be connected! You can close this window." : "Приложение-клиент подключено. Можете закрыть это окно.",
     "Cancel log in" : "Отменить вход",
+    "These apps will be updated:" : "Следующие приложения будут обновлены:",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календарь, Контакты, Talk, Почта и OnlyOffice"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

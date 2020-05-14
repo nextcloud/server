@@ -56,7 +56,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Starten code betrouwbaarheidscontrole",
     "Finished code integrity check" : "Code betrouwbaarheidscontrole beeindigd",
     "%s (incompatible)" : "%s (incompatibel)",
-    "Following apps have been disabled: %s" : "De volgende apps zijn uitgeschakeld: %s",
     "Already up to date" : "Al bijgewerkt",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Je webserver is nog niet goed ingesteld voor bestandssynchronisatie, omdat de WebDAV interface niet goed lijkt te werken.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Je webserver is niet goed ingesteld om \"{url}\" te vinden. Meer informatie is te vinden in onze <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentatie</a>.",
@@ -337,7 +336,6 @@ OC.L10N.register(
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Verdere informatie over hoe je dit instelt staat in de %1$s documentatie  %2$s.",
     "App update required" : "Bijwerken App vereist",
     "%1$s will be updated to version %2$s" : "%1$s wordt geüpdatet naar versie %2$s",
-    "These apps will be updated:" : "Deze apps worden bijgewerkt:",
     "These incompatible apps will be disabled:" : "De volgende incompatibele apps worden uitgeschakeld:",
     "The theme %s has been disabled." : "Het thema %s is uitgeschakeld.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Let erop dat de database, de config map en de data map zijn gebackupt voordat je verder gaat.",
@@ -353,6 +351,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Deze %s staat momenteel in de onderhoudsstand, dat kan enige tijd duren.",
     "This page will refresh itself when the instance is available again." : "Deze pagina wordt ververst als de server weer beschikbaar is.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Neem contact op met je systeembeheerder als deze melding aanhoudt of onverwacht verscheen.",
+    "Following apps have been disabled: %s" : "De volgende apps zijn uitgeschakeld: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Je gebruikt momenteel PHP 5.6. Dit is de laatste versie van Nextcloud die PHP 5.6 ondersteund. Wij raden aan om je PHP te upgraden naar versie 7.0 of later zodat je kunt upgraden naar Nextcloud 14.",
     "Shared" : "Gedeeld",
     "Shared with" : "Gedeeld met",
@@ -435,6 +434,7 @@ OC.L10N.register(
     "Saving..." : "Opslaan",
     "Your client should now be connected! You can close this window." : "Je client is nu verbonden! Je kunt het venster sluiten.",
     "Cancel log in" : "Inloggen annuleren",
+    "These apps will be updated:" : "Deze apps worden bijgewerkt:",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalender, Contacten, Talk, Mail & OnlyOffice"
 },
 "nplurals=2; plural=(n != 1);");

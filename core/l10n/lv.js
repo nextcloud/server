@@ -55,7 +55,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Uzsākta koda integritātes pārbaude",
     "Finished code integrity check" : "Pabeigta  koda integritātes pārbaude",
     "%s (incompatible)" : "%s (nesaderīgs)",
-    "Following apps have been disabled: %s" : "Sekojošas lietotnes tika atslēgtas: %s",
     "Already up to date" : "Jau ir jaunākā",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Jūsu serveris nav pareizi uzstādīts lai atļautu datņu sinhronizēšanu jo WebDAV interfeiss šķiet salūzis.",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP nešķiet pareizi uzstādīts lai veiktu sistēmas vides mainīgo vaicājumus. Tests ar getenv(\"PATH\") atgriež tikai tukšu atbildi.",
@@ -257,7 +256,6 @@ OC.L10N.register(
     "Error while validating your second factor" : "Kļūda validējot jūsu otru faktoru.",
     "Access through untrusted domain" : "Piekļūt caur neuzticamu domēnu",
     "App update required" : "Lietotnei nepieciešama atjaunināšana",
-    "These apps will be updated:" : "Šīs lietotnes tiks atjauninātas:",
     "These incompatible apps will be disabled:" : "Šīs nesaderīgās lietotnes tiks atspējotas:",
     "The theme %s has been disabled." : "Tēma %s ir atspējota.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Lūdzu pārliecinieties ka datubāze, config mape un data mape ir  dublētas pirms turpināšanas.",
@@ -271,6 +269,7 @@ OC.L10N.register(
     "Maintenance mode" : "Uzturēšanas režīms",
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s serveris pašlaik darbojas uzturēšanas režīmā, tas var ilgt kādu laiku.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Sazinieties ar sistēmas administratoru, ja šis ziņojums tiek rādīts.. vai parādījās negaidīti",
+    "Following apps have been disabled: %s" : "Sekojošas lietotnes tika atslēgtas: %s",
     "Shared" : "Koplietots",
     "Shared with" : "Koplietots ar",
     "Shared by" : "Koplietoja",
@@ -330,6 +329,7 @@ OC.L10N.register(
     "Error removing share" : "Kļūda, noņemot koplietošanu",
     "({scope})" : "({scope})",
     "Saving..." : "Saglabā...",
-    "Cancel log in" : "Atcelt pieteikšanos"
+    "Cancel log in" : "Atcelt pieteikšanos",
+    "These apps will be updated:" : "Šīs lietotnes tiks atjauninātas:"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
