@@ -53,7 +53,6 @@
     "Starting code integrity check" : "코드 무결성 검사 시작 중",
     "Finished code integrity check" : "코드 무결성 검사 완료됨",
     "%s (incompatible)" : "%s(호환 불가)",
-    "Following apps have been disabled: %s" : "다음 앱이 비활성화되었습니다: %s",
     "Already up to date" : "최신 상태임",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "WebDAV 인터페이스를 사용할 수 없어서 웹 서버에서 파일 동기화를 사용할 수 있도록 설정할 수 없습니다.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "웹 서버에서 \"{url}\"을(를) 올바르게 처리할 수 없습니다. 더 많은 정보를 보려면 <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">문서</a>를 참고하십시오.",
@@ -295,7 +294,6 @@
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "설정하는 방법에 대한 정보는 %1$s문서%2$s에서 찾을 수 있습니다.",
     "App update required" : "앱 업데이트 필요",
     "%1$s will be updated to version %2$s" : "%1$s을(를) 버전 %2$s(으)로 업데이트합니다.",
-    "These apps will be updated:" : "다음 앱을 업데이트합니다:",
     "These incompatible apps will be disabled:" : "다음 호환되지 않는 앱이 비활성화됩니다:",
     "The theme %s has been disabled." : "%s 테마가 비활성화되었습니다.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "계속하기 전에 데이터베이스, 설정 폴더, 데이터 폴더가 백업되어 있는지 확인하십시오.",
@@ -311,6 +309,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "이 %s 인스턴스는 현재 점검 모드입니다. 시간이 걸릴 수도 있습니다.",
     "This page will refresh itself when the instance is available again." : "인스턴스를 다시 사용할 수 있을 때 페이지를 자동으로 새로 고칩니다.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "이 메시지가 계속 표시되거나 예상하지 못하였을 때 표시된다면 시스템 관리자에게 연락하십시오.",
+    "Following apps have been disabled: %s" : "다음 앱이 비활성화되었습니다: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "PHP 5.6을 실행하고 있습니다. 현재 사용하고 있는 Nextcloud의 주 버전은 PHP 5.6을 지원하는 마지막 버전입니다. Nextcloud 14로 업그레이드하려면 PHP 7.0 이상으로 업그레이드하십시오.",
     "Shared" : "공유됨",
     "Shared with" : "다음 사용자와 공유함",
@@ -392,6 +391,7 @@
     "({scope})" : "({scope})",
     "Saving..." : "저장 중...",
     "Your client should now be connected! You can close this window." : "클라이언트가 연동되었습니다! 이제 창을 닫으셔도 됩니다.",
-    "Cancel log in" : "로그인 취소"
+    "Cancel log in" : "로그인 취소",
+    "These apps will be updated:" : "다음 앱을 업데이트합니다:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

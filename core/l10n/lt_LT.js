@@ -53,7 +53,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Pradedama kodo vientisumo patikra",
     "Finished code integrity check" : "Kodo vientisumo patikra užbaigta",
     "%s (incompatible)" : "%s (nesuderinama)",
-    "Following apps have been disabled: %s" : "Šios programėlės buvo išjungtos: %s",
     "Already up to date" : "Naudojama naujausia versija",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Jūsų svetainės serveris nėra tinkamai sukonfiguruotas, Failų sinchronizavimas negalimas, nes neveikia WebDAV interfeisas.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Jūsų svetainės serveris nėra sukonfiguruotas atpažinti \"{url}\". Daugiau informacijos rasite <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentacijoje</a>.",
@@ -279,7 +278,6 @@ OC.L10N.register(
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Tolimesnę informaciją apie tai, kaip tai konfigūruoti, galite rasti %1$sdokumentacijoje%2$s.",
     "App update required" : "Reikalingas programėlės atnaujinimas",
     "%1$s will be updated to version %2$s" : "%1$s bus atnaujinta į versiją %2$s",
-    "These apps will be updated:" : "Bus atnaujintos šios programėlės:",
     "These incompatible apps will be disabled:" : "Bus išjungtos šios nesuderinamos programėlės:",
     "The theme %s has been disabled." : "Apipavidalinimas %s buvo išjungtas.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Prieš tęsdami, įsitikinkite, kad pasidarėte duomenų bazės, konfigūracijos aplanko bei duomenų aplanko atsarginę kopiją.",
@@ -294,6 +292,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Šis %s egzempliorius šiuo metu yra techninės priežiūros veiksenoje, kas savo ruožtu gali šiek tiek užtrukti.",
     "This page will refresh itself when the instance is available again." : "Šis puslapis bus įkeltas iš naujo, kai egzempliorius bus ir vėl prieinamas.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Susisiekite su savo sistemos administratoriumi jei šis pranešimas nedingsta arba jei jis pasirodė netikėtai.",
+    "Following apps have been disabled: %s" : "Šios programėlės buvo išjungtos: %s",
     "Shared" : "Bendrinama",
     "Shared with" : "Bendrinama su",
     "Shared by" : "Bendrina",
@@ -374,6 +373,7 @@ OC.L10N.register(
     "Saving..." : "Įrašoma...",
     "Your client should now be connected! You can close this window." : "Klientas jau turi būti prijungtas! Langą galite užverti.",
     "Cancel log in" : "Atšaukti prisijungimą",
+    "These apps will be updated:" : "Bus atnaujintos šios programėlės:",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalendorius, Adresatai, Pokalbiai ir OnlyOffice"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

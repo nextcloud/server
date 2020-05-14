@@ -2,7 +2,7 @@
     "You created two-factor backup codes for your account" : "Du skapade återställningsnycklar till tvåfaktorsautentiseringen på ditt användarkonto.",
     "Second-factor backup codes" : "Tvåfaktorsautentisering",
     "Generate backup codes" : "Generera återställningsnycklar",
-    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Du har aktiverat tvåfaktorsautentisering men har ännu inte skapat återställningsnycklar. Detta är nödvändigt om du förlorar tillgång till din andra faktor.",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Du har aktiverat tvåfaktorsautentisering men har ännu inte skapat återställningsnycklar. Detta är nödvändigt om du förlorar åtkomst till din andra faktor.",
     "Backup code" : "Återställningsnyckel",
     "Use backup code" : "Använd återställningsnyckel",
     "Two factor backup codes" : "Återställningsnycklar tvåfaktor",

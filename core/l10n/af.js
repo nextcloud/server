@@ -39,7 +39,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Kode integriteit word tans nagegaan",
     "Finished code integrity check" : "Kode integriteit is suksesvol nagegaan",
     "%s (incompatible)" : "%s (onversoenbaar)",
-    "Following apps have been disabled: %s" : "Die volgende toeps is gedeaktiveer: %s",
     "Already up to date" : "Reeds op datum",
     "Error occurred while checking server setup" : "'n Fout het voorgekom tydens die nagaan van die bediener se konfigurasie",
     "Non-existing tag #{tag}" : "Merker #{tag} bestaan nie",
@@ -179,12 +178,12 @@ OC.L10N.register(
     "Use backup code" : "Gebruik rugsteunkode",
     "Error while validating your second factor" : "Fout terwyl u tweede faktor gevalideer word",
     "App update required" : "Toepbywerking benodig",
-    "These apps will be updated:" : "Die volgende toeps sal bygewerk word:",
     "These incompatible apps will be disabled:" : "Die volgende onversoenbare toeps sal gedeaktiveer word:",
     "The theme %s has been disabled." : "Die tema %s is gedeaktiveer.",
     "Start update" : "Begin bywerking",
     "Detailed logs" : "Gedetailleerde joernale",
     "Update needed" : "Bywerking benodig",
+    "Following apps have been disabled: %s" : "Die volgende toeps is gedeaktiveer: %s",
     "Shared" : "Gedeel",
     "Shared with" : "Gedeel met",
     "Shared by" : "Gedeel deur",
@@ -243,6 +242,7 @@ OC.L10N.register(
     "Error removing share" : "Fout terwyl deel verwyder word",
     "({scope})" : "({scope})",
     "Saving..." : "Stoor tans…",
-    "Cancel log in" : "Kanselleer aanmelding"
+    "Cancel log in" : "Kanselleer aanmelding",
+    "These apps will be updated:" : "Die volgende toeps sal bygewerk word:"
 },
 "nplurals=2; plural=(n != 1);");

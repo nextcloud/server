@@ -56,7 +56,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Kódintegritási ellenőrzés indítása",
     "Finished code integrity check" : "Kódintegritási ellenőrzés befejezve",
     "%s (incompatible)" : "%s (nem kompatibilis)",
-    "Following apps have been disabled: %s" : "A következő alkalmazások le lettek tiltva: %s",
     "Already up to date" : "Már naprakész",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "A webkiszolgáló nincs megfelelően beállítva a fájlok szinkronizálásához, mert a WebDAV interfész hibásnak tűnik.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "A webkiszolgálója nincs megfelelően beállítva a(z) „{url}” feloldásához. További információk a <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentációban</a> találhatók.",
@@ -337,7 +336,6 @@ OC.L10N.register(
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Ennek a beállításához további információkat talál a %1$sdokumentációban%2$s.",
     "App update required" : "Alkalmazásfrissítés szükséges",
     "%1$s will be updated to version %2$s" : "A(z) %1$s frissítve lesz erre a verzióra: %2$s",
-    "These apps will be updated:" : "A következő alkalmazások lesznek frissítve:",
     "These incompatible apps will be disabled:" : "A következő nem kompatibilis alkalmazások le lesznek tiltva:",
     "The theme %s has been disabled." : "A(z) %s téma letiltásra került.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Gondoskodjon róla, hogy elmentse az adatbázist, a konfigurációs mappa és az adatmappa tartalmát, mielőtt folytatja.",
@@ -353,6 +351,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Ez a %s példány éppen karbantartási üzemmódban van, amely eltarthat egy darabig.",
     "This page will refresh itself when the instance is available again." : "Ez az oldal frissíteni fogja magát, amint a példány ismét elérhető lesz.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ha ez az üzenet mindig vagy váratlanul megjelenik, akkor keresse fel a rendszergazdáját!",
+    "Following apps have been disabled: %s" : "A következő alkalmazások le lettek tiltva: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Jelenleg a PHP 5.6-os verzióját használja. A Nextcloud jelenlegi főverziója az utolsó, amelyik támogatja a PHP 5.6-ot. Javasolt PHP 7.0+-ra frissíteni, hogy a Nextcloud 14-re frissíthessen.",
     "Shared" : "Megosztott",
     "Shared with" : "Megosztva vele:",
@@ -435,6 +434,7 @@ OC.L10N.register(
     "Saving..." : "Mentés…",
     "Your client should now be connected! You can close this window." : "A kliens már csatlakozott. Bezárhatja ezt az ablakot.",
     "Cancel log in" : "Bejelentkezés megszakítása",
+    "These apps will be updated:" : "A következő alkalmazások lesznek frissítve:",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Naptár, Névjegyek, Beszélgetés, Levelezés és OnlyOffice"
 },
 "nplurals=2; plural=(n != 1);");

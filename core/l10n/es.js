@@ -56,7 +56,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Comenzando comprobación de integridad de código",
     "Finished code integrity check" : "Terminada la comprobación de integridad de código",
     "%s (incompatible)" : "%s (incompatible)",
-    "Following apps have been disabled: %s" : "Las siguientes aplicaciones han sido deshabilitadas: %s",
     "Already up to date" : "Ya actualizado",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Tu servidor web todavía no está configurado correctamente para permitir la sincronización de archivos, porque la interfaz WebDAV parece estar rota.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Tu servidor web no está configurado correctamente para resolver \"{url}\". Se puede encontrar más información en la <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentación</a>.",
@@ -337,7 +336,6 @@ OC.L10N.register(
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Más información sobre cómo configurar esto se puede encontrar en la %1$sdocumentación%2$s.",
     "App update required" : "Es necesaria una actualización en la aplicación",
     "%1$s will be updated to version %2$s" : "%1$s se actualizará a la versión %2$s",
-    "These apps will be updated:" : "Estas aplicaciones serán actualizadas:",
     "These incompatible apps will be disabled:" : "Estas aplicaciones incompatibles serán deshabilitadas:",
     "The theme %s has been disabled." : "El tema %s ha sido desactivado.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Antes de proceder, asegúrese de que se haya hecho un respaldo de la base de datos, la carpeta de configuración y la carpeta de datos.",
@@ -353,6 +351,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Está instancia %s está en modo mantenimiento, y puede tardar un rato.",
     "This page will refresh itself when the instance is available again." : "Esta página se actualizará sola cuando la instancia esté disponible de nuevo.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte con su administrador de sistemas si este mensaje persiste o aparece de forma inesperada.",
+    "Following apps have been disabled: %s" : "Las siguientes aplicaciones han sido deshabilitadas: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Estás funcionando con PHP 5.6. Esta versión mayor de Nextcloud es la última que está soportada en PHP 5.6. Se recomienda actualizar la versión de PHP a 7.0+ para poder actualizar a Nextcloud 14.",
     "Shared" : "Compartido",
     "Shared with" : "Compartido con",
@@ -435,6 +434,7 @@ OC.L10N.register(
     "Saving..." : "Guardando...",
     "Your client should now be connected! You can close this window." : "Tu cliente debería estar conectado ahora. Puedes cerrar esta ventana.",
     "Cancel log in" : "Cancelar inicio de sesión",
+    "These apps will be updated:" : "Estas aplicaciones serán actualizadas:",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendario, Contactos, Talk, Correo y OnlyOffice"
 },
 "nplurals=2; plural=(n != 1);");

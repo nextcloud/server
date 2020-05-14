@@ -56,7 +56,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Začína kontrola integrity kódu",
     "Finished code integrity check" : "Kontrola integrity kódu ukončená",
     "%s (incompatible)" : "%s (nekompatibilná)",
-    "Following apps have been disabled: %s" : "Nasledovné aplikácie boli zakázané: %s",
     "Already up to date" : "Už aktuálne",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Váš webový server nie je zatiaľ správne nastavený, aby umožnil synchronizáciu súborov, pretože rozhranie WebDAV sa zdá byť nefunkčné.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Váš webový server nie je správne nastavený na spracovanie \"{url}\". Viac informácií môžete nájsť v našej <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentácii</a>.",
@@ -337,7 +336,6 @@ OC.L10N.register(
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Viac informácií o konfigurácii je možné nájsť v %1$s dokumentácii %2$s.",
     "App update required" : "Je nutná aktualizácia aplikácie",
     "%1$s will be updated to version %2$s" : "%1$s bude zaktualizovaný na verziu %2$s.",
-    "These apps will be updated:" : "Tieto aplikácie budú aktualizované:",
     "These incompatible apps will be disabled:" : "Tieto nekompatibilné aplikácie budú vypnuté:",
     "The theme %s has been disabled." : "Téma %s bola zakázaná.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Pred vykonaním ďalšieho kroku sa presvedčte, že databáza, konfiguračný a dátový priečinok sú zazálohované.",
@@ -353,6 +351,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Táto %s inštancia je v súčasnej dobe v režime údržby. Počkajte prosím.",
     "This page will refresh itself when the instance is available again." : "Táto stránka sa obnoví sama hneď ako bude inštancia znovu dostupná.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktujte prosím správcu systému, ak sa táto správa objavuje opakovane alebo neočakávane.",
+    "Following apps have been disabled: %s" : "Nasledovné aplikácie boli zakázané: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Aktuálne používate PHP 5.6. Aktuálne verzia Nextcloud podporuje verziu PHP 5.6, ale odporúčame upgrade na PHP verzie 7.0 a vyššej pre upgrade na Nextcloud 14",
     "Shared" : "Sprístupnené",
     "Shared with" : "Sprístupnené používateľovi",
@@ -435,6 +434,7 @@ OC.L10N.register(
     "Saving..." : "Ukladám...",
     "Your client should now be connected! You can close this window." : "Váš klient by mal byť pripojený. Toto okno už môžete zatvoriť.",
     "Cancel log in" : "Zrušiť prihlásenie",
+    "These apps will be updated:" : "Tieto aplikácie budú aktualizované:",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalendár, Kontakty, Talk, E-mail a OnlyIffice"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

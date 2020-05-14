@@ -18,7 +18,7 @@
     "You unshared {file} from {email} by mail" : "Du slutade dela {file} från {email} via e-post",
     "%3$s unshared %1$s from %2$s by mail" : "%3$s slutade dela %1$s från %2$s via e-post",
     "{actor} unshared {file} from {email} by mail" : "{actor} slutade dela {file} från {email} via e-post",
-    "Password to access %1$s was sent to %2s" : "Lösenord för tillgång till %1$s skickades till %2s",
+    "Password to access %1$s was sent to %2s" : "Lösenord för åtkomst till %1$s skickades till %2s",
     "Password to access {file} was sent to {email}" : "Lösenord till {file} skickades till {email}",
     "Password to access %1$s was sent to you" : "Lösenord för att nå %1$s skickades till dig",
     "Password to access {file} was sent to you" : "Lösenord till {file} skickades till dig",

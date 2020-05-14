@@ -53,7 +53,6 @@
     "Starting code integrity check" : "Стартува проверка на интегритетот на кодот",
     "Finished code integrity check" : "Заврши проверката на интегритетот на кодот",
     "%s (incompatible)" : "%s (некомпатибилен)",
-    "Following apps have been disabled: %s" : "Следниве апликации се оневозможени: %s",
     "Already up to date" : "Веќе ажурирано",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Вашиот веб опслужувач сеуште не е точно подесен да овозможува синхронизација на датотеки бидејќи интерфејсот за WebDAV изгледа дека е расипан. ",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Вашиот веб сервер не е правилно поставен за разрешаување на \"{url}\".  Повеќе информации можат да се пронајдат во <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">документацијата</a>.",
@@ -285,7 +284,6 @@
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Дополнителни информации како да го конфигурирате ова може да најдете во %1$sдокоментацијата%2$s.",
     "App update required" : "Потребна е надградба на апликацијата",
     "%1$s will be updated to version %2$s" : "%1$s ќе биде ажурирана во верзија %2$s",
-    "These apps will be updated:" : "Следните апликации чќе бидат надградени:",
     "These incompatible apps will be disabled:" : "Овие апликации се некомпатабилни и ќе бидат оневозможени:",
     "The theme %s has been disabled." : "Темета %s е оневозможена.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Ве молиме осигурајте се дека базата на податоци, конфигурациониот директориум и директориумот со податоци се безбедно копирани  пред да продолжите.",
@@ -301,6 +299,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Оваа %s истанца моментално е во режим на одржување, што значи дека може да потрае некое време.",
     "This page will refresh itself when the instance is available again." : "Оваа веб страница ќе се рефрешира кога истанцата ќе биде повторно достапна.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте го вашиот систем администратор до колку оваа порака продолжи да се појавува или пак се појавува ненадејно.",
+    "Following apps have been disabled: %s" : "Следниве апликации се оневозможени: %s",
     "Shared" : "Споделени",
     "Shared with" : "Споделено со",
     "Shared by" : "Споделено од",
@@ -382,6 +381,7 @@
     "Saving..." : "Зачувува ...",
     "Your client should now be connected! You can close this window." : "Вашиот клиент сега е поврзан! можете да го затворите прозорот.",
     "Cancel log in" : "Откажи го најавувањето",
+    "These apps will be updated:" : "Следните апликации чќе бидат надградени:",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календар, контакти, разговор, Е-пошта & Документи"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }
