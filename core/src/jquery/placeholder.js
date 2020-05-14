@@ -63,9 +63,9 @@ import md5 from 'blueimp-md5'
 *
 */
 
-String.prototype.toRgb = function() {
+const toRgb = (s) => {
 	// Normalize hash
-	var hash = this.toLowerCase()
+	var hash = s.toLowerCase()
 
 	// Already a md5 hash?
 	if (hash.match(/^([0-9a-f]{4}-?){8}$/) === null) {
@@ -89,8 +89,7 @@ String.prototype.toRgb = function() {
 	}
 
 	function mixPalette(steps, color1, color2) {
-		var count = steps + 1
-		var palette = new Array()
+		var palette = []
 		palette.push(color1)
 		var step = stepCalc(steps, [color1, color2])
 		for (var i = 1; i < steps; i++) {
@@ -102,23 +101,23 @@ String.prototype.toRgb = function() {
 		return palette
 	}
 
-	var red = new Color(182, 70, 157)
-	var yellow = new Color(221, 203, 85)
-	var blue = new Color(0, 130, 201) // Nextcloud blue
+	const red = new Color(182, 70, 157);
+	const yellow = new Color(221, 203, 85);
+	const blue = new Color(0, 130, 201); // Nextcloud blue
 	// Number of steps to go from a color to another
 	// 3 colors * 6 will result in 18 generated colors
-	var steps = 6
+	const steps = 6;
 
-	var palette1 = mixPalette(steps, red, yellow)
-	var palette2 = mixPalette(steps, yellow, blue)
-	var palette3 = mixPalette(steps, blue, red)
+	const palette1 = mixPalette(steps, red, yellow);
+	const palette2 = mixPalette(steps, yellow, blue);
+	const palette3 = mixPalette(steps, blue, red);
 
-	var finalPalette = palette1.concat(palette2).concat(palette3)
+	const finalPalette = palette1.concat(palette2).concat(palette3);
 
 	// Convert a string to an integer evenly
 	function hashToInt(hash, maximum) {
 		var finalInt = 0
-		var result = Array()
+		var result = []
 
 		// Splitting evenly the string
 		for (var i = 0; i < hash.length; i++) {
@@ -137,11 +136,17 @@ String.prototype.toRgb = function() {
 	return finalPalette[hashToInt(hash, steps * 3)]
 }
 
+String.prototype.toRgb = function() {
+	console.warn('String.prototype.toRgb is deprecated! It will be removed in Nextcloud 22.')
+
+	return toRgb(this)
+}
+
 $.fn.imageplaceholder = function(seed, text, size) {
 	text = text || seed
 
 	// Compute the hash
-	var rgb = seed.toRgb()
+	var rgb = toRgb(seed)
 	this.css('background-color', 'rgb(' + rgb.r + ', ' + rgb.g + ', ' + rgb.b + ')')
 
 	// Placeholders are square
