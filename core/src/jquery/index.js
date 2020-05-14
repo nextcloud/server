@@ -31,7 +31,6 @@ import './placeholder'
 import './requesttoken'
 import './selectrange'
 import './showpassword'
-import './tipsy'
 import './ui-fixes'
 
 import './css/jquery-ui-fixes.scss'
