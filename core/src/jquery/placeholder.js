@@ -23,6 +23,7 @@
  */
 
 import $ from 'jquery'
+import md5 from 'blueimp-md5'
 
 /*
  * Adds a background color to the element called on and adds the first character
