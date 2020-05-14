@@ -53,7 +53,6 @@ import 'strengthify/strengthify.css'
 import OC from './OC/index'
 import OCP from './OCP/index'
 import OCA from './OCA/index'
-import escapeHTML from 'escape-html'
 import { getToken as getRequestToken } from './OC/requesttoken'
 
 const warnIfNotTesting = function() {
@@ -126,7 +125,6 @@ setDeprecatedProp('oc_webroot', () => OC.webroot, 'use OC.getRootPath() instead,
 setDeprecatedProp('OCDialogs', () => OC.dialogs, 'use OC.dialogs instead, this will be removed in Nextcloud 20')
 window['OCP'] = OCP
 window['OCA'] = OCA
-window['escapeHTML'] = deprecate(escapeHTML, 'escapeHTML', 19)
 $.fn.select2 = deprecate($.fn.select2, 'select2', 19)
 
 /**
