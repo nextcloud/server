@@ -55,7 +55,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Begynder tjek af kodeintegritet",
     "Finished code integrity check" : "Fuldførte tjek af kodeintegritet",
     "%s (incompatible)" : "%s (inkombatible)",
-    "Following apps have been disabled: %s" : "Følgende apps er blevet deaktiveret: %s",
     "Already up to date" : "Allerede opdateret",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Din webserver er endnu ikke sat korrekt op til at tillade filsynkronisering, fordi WebDAV-grænsefladen ser ud til at være i stykker.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Din webserver er ikke sat op til at benytte  \"{url}\". Nærmere information kan findes i vores <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">dokumentation</a>.",
@@ -334,7 +333,6 @@ OC.L10N.register(
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Nærmere information om hvordan %1$s indstilles kan findes i dokumentationen %2$s. ",
     "App update required" : "Opdatering af app påkræves",
     "%1$s will be updated to version %2$s" : "%1$s vil blive opdateret til version %2$s",
-    "These apps will be updated:" : "Følgende apps vil blive opdateret:",
     "These incompatible apps will be disabled:" : "Følgende inkompatible apps vil blive slået fra:",
     "The theme %s has been disabled." : "Temaet, %s, er blevet deaktiveret.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Sørg venligst for at sikre, at databasen, config-mappen og data-mappen er blevet sikkerhedskopieret inden vi fortsætter.",
@@ -350,6 +348,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Denne %s-instans befinder sig i vedligeholdelsestilstand for øjeblikket, hvilket kan tage et stykke tid.",
     "This page will refresh itself when the instance is available again." : "Denne side vil genopfriske sig selv, når instancen er tilgængelig igen.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet.",
+    "Following apps have been disabled: %s" : "Følgende apps er blevet deaktiveret: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Du kører PHP 5.6. Den nuværende større version af Nextcloud er den sidste, der understøttes på PHP 5.6. Det anbefales at opgradere PHP-versionen til 7.0+ for at kunne opgradere til Nextcloud 14.",
     "Shared" : "Delt",
     "Shared with" : "Delt med",
@@ -432,6 +431,7 @@ OC.L10N.register(
     "Saving..." : "Gemmer...",
     "Your client should now be connected! You can close this window." : "Din klient er nu forbundet. Du kan lukke dette vindue",
     "Cancel log in" : "Annullér login",
+    "These apps will be updated:" : "Følgende apps vil blive opdateret:",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalender, Kontakter, Snak, Mail & OnlyOffice"
 },
 "nplurals=2; plural=(n != 1);");

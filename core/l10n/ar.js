@@ -172,7 +172,6 @@ OC.L10N.register(
     "Two-factor authentication" : "المصادقة بخطوتين",
     "Use backup code" : "إستخدم الرمز الإحتياطي",
     "App update required" : "تحديث التطبيق مطلوب",
-    "These apps will be updated:" : "سوف يتم تحديث هذه التطبيقات :",
     "Start update" : "تشغيل التحديث",
     "Detailed logs" : "السجلات المفصلة",
     "Update needed" : "التحديث مطلوب",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "Name..." : "التسمية …",
     "({scope})" : "({scope})",
     "Saving..." : "جاري الحفظ...",
-    "Cancel log in" : "إلغاء تسجيل الدخول"
+    "Cancel log in" : "إلغاء تسجيل الدخول",
+    "These apps will be updated:" : "سوف يتم تحديث هذه التطبيقات :"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -53,7 +53,6 @@
     "Starting code integrity check" : "Ræsi athugun á áreiðanleika kóða",
     "Finished code integrity check" : "Lauk athugun á áreiðanleika kóða",
     "%s (incompatible)" : "%s (ósamhæft)",
-    "Following apps have been disabled: %s" : "Eftirfarandi forrit hafa verið gerð óvirk: %s",
     "Already up to date" : "Allt uppfært nú þegar",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Vefþjónninn er ekki enn sett upp á réttan hátt til að leyfa skráasamstillingu því WebDAV viðmótið virðist vera skemmt.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Vefþjónninn þinn er ekki uppsettur þannig að hann geti leyst \"{url}\". Frekari upplýsingar er að finna í <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">hjálparskjölum</a> okkar.",
@@ -321,7 +320,6 @@
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Frekari upplýsingar um hvernig hægt er að stilla þetta má finna í %1$shjálparskjölunum%2$s.",
     "App update required" : "App þarfnast uppfærslu ",
     "%1$s will be updated to version %2$s" : "%1$s verður uppfært í útgáfu %2$s.",
-    "These apps will be updated:" : "Eftirfarandi öpp verða uppfærð:",
     "These incompatible apps will be disabled:" : "Eftirfarandi forrit eru ósamhæfð og verið gerð óvirk: %s",
     "The theme %s has been disabled." : "Þema %s hefur verið gert óvirkt.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Gakktu úr skugga um að gagnagrunnurinn, config mappan og gagnamappan hafi verið öryggisafritaðar áður en lengra er haldið.",
@@ -337,6 +335,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Þessi %s er nú í viðhaldsham, sem getur tekið smá stund.",
     "This page will refresh itself when the instance is available again." : "Þessi síða mun uppfæra sig þegar tilvikið er í boði á ný.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hafðu samband við kerfisstjóra ef þessi skilaboð eru viðvarandi eða birtust óvænt.",
+    "Following apps have been disabled: %s" : "Eftirfarandi forrit hafa verið gerð óvirk: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Þú ert núna að keyra PHP 5.6. Núverandi aðalútgáfa Nextcloud er sú síðasta sem  mun virka á PHP 5.6. Mælt er með því að uppfæra PHP í útgáfu 7.0+ til að eiga möguleika á að uppfæra í Nextcloud 14.",
     "Shared" : "Deilt",
     "Shared with" : "Deilt með",
@@ -419,6 +418,7 @@
     "Saving..." : "Er að vista ...",
     "Your client should now be connected! You can close this window." : "Biðlaraforritið þitt ætti núna að vera tengt! Þú mátt loka þessum glugga.",
     "Cancel log in" : "Hætta við innskráningu",
+    "These apps will be updated:" : "Eftirfarandi öpp verða uppfærð:",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Dagatal, tengiliðir, spjall, póstur & OnlyOffice"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

@@ -103,6 +103,7 @@ OC.L10N.register(
     "%1$s changed your password on %2$s." : "%1$s-(e)k zure pasahitza aldatu du %2$s-(e)n",
     "Your password on %s was changed." : "Zure %s-(e)ko pasahitza aldatu da.",
     "Your password on %s was reset by an administrator." : "Administratzaile batek zure %s-(e)ko pasahitza berrezarri du",
+    "Your password on %s was reset." : "Zure pasahitza %s(e)n berezarri egin da. ",
     "Password for %1$s changed on %2$s" : "%1$s-(r)en %2$s-(e)ko pasahitza aldatu da",
     "Password changed for %s" : "%s-(r)en pasahitza aldatu da",
     "If you did not request this, please contact an administrator." : "Zuk ez baduzu hau eskatu, jarri kontaktuan administratzailearekin.",

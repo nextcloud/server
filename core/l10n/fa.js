@@ -45,7 +45,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Starting code integrity check",
     "Finished code integrity check" : "Finished code integrity check",
     "%s (incompatible)" : "%s (incompatible)",
-    "Following apps have been disabled: %s" : "برنامه های زیر غیر فعال شده اند %s",
     "Already up to date" : "در حال حاضر بروز است",
     "Error occurred while checking server setup" : "خطا در هنگام چک کردن راه‌اندازی سرور رخ داده است",
     "Non-existing tag #{tag}" : "برچسب غیر موجود #{tag}",
@@ -200,11 +199,11 @@ OC.L10N.register(
     "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید.",
     "Use backup code" : "از کد پشتیبان استفاده شود",
     "App update required" : "نیاز به بروزرسانی برنامه وجود دارد",
-    "These apps will be updated:" : "این برنامه‌ها بروزرسانی شده‌اند:",
     "The theme %s has been disabled." : "قالب %s غیر فعال شد.",
     "Start update" : "اغاز به روز رسانی",
     "Detailed logs" : "Detailed logs",
     "Update needed" : "نیاز به روز رسانی دارد",
+    "Following apps have been disabled: %s" : "برنامه های زیر غیر فعال شده اند %s",
     "Shared" : "اشتراک گذاشته شده",
     "Shared with" : "مشترک با",
     "Shared by" : "اشتراک گذاشته شده به وسیله",
@@ -275,6 +274,7 @@ OC.L10N.register(
     "Error removing share" : "خطا در حذف اشتراک گذاری",
     "({scope})" : "({scope})",
     "Saving..." : "در حال ذخیره سازی...",
-    "Cancel log in" : "لغو ورود"
+    "Cancel log in" : "لغو ورود",
+    "These apps will be updated:" : "این برنامه‌ها بروزرسانی شده‌اند:"
 },
 "nplurals=2; plural=(n > 1);");

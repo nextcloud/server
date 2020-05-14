@@ -13,6 +13,7 @@
     "No valid crop data provided" : "לא סופק מידע קיטום חוקי",
     "Crop is not square" : "הקיטום אינו מרובע",
     "State token does not match" : "קוד אימות מצב אינו תואם",
+    "Invalid app password" : "ססמת היישומון שגויה",
     "Could not complete login" : "לא ניתן להשלים את הכניסה",
     "Your login token is invalid or has expired" : "אסימון הכניסה שלך שגוי או שהוא פג",
     "Password reset is disabled" : "אין אפשרות לאפס סיסמה",
@@ -53,7 +54,6 @@
     "Starting code integrity check" : "התחלת בדיקת תקינות קוד",
     "Finished code integrity check" : "סיום בדיקת תקינות קוד",
     "%s (incompatible)" : "%s (לא תואם)",
-    "Following apps have been disabled: %s" : "היישומים הבאים נוטרלו: %s",
     "Already up to date" : "כבר עדכני",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "שרת האינטרנט לא מוגדר עדיין כראוי כדי לאפשר סנכרון קבצים, כיוון שמנשק ה־WebDAV כנראה אינו מתפקד.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "שרת האינטרנט שלך אינו מוגדר כראוי כדי לפתור את „{url}”. ניתן למצוא מידע נוסף ב<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">תיעוד</a>.",
@@ -308,7 +308,6 @@
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "ניתן למצוא מידע נוסף על אופן ההגדרה של התכונה הזאת ב%1$sתיעוד%2$s.",
     "App update required" : "נדרש עדכון יישום",
     "%1$s will be updated to version %2$s" : "%1$s יעודכן לגרסה %2$s",
-    "These apps will be updated:" : "יישומים אלו יעודכנו:",
     "These incompatible apps will be disabled:" : "יישומים לא תואמים ינוטרלו:",
     "The theme %s has been disabled." : "ערכת הנושא %s הושבתה.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "יש לוודא שמסד הנתונים, תיקיית config ותיקיית data גובו לפני המשך התהליך.",
@@ -324,6 +323,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "הפעלה %s זו כרגע במצב אחזקה, שתמשך זמן מה.",
     "This page will refresh itself when the instance is available again." : "עמוד זה ירענן את עצמו כאשר העותק ישוב להיות זמין.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "יש ליצור קשר עם מנהל המערכת אם הודעה שו נמשכת או מופיעה באופן בלתי צפוי. ",
+    "Following apps have been disabled: %s" : "היישומים הבאים נוטרלו: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "גרסת ה־PHP הנוכחית שלך היא 5.6. הגרסה העיקרית הנוכחית של Nextcloud היא הגרסה האחרונה שעוד תומכת ב־PHP 5.6. מומלץ לשדרג את גרסה ה־PHP ל־7.0 ומעלה כדי לאפשר את השדרוג ל־Nextcloud 14.",
     "Shared" : "שותף",
     "Shared with" : "משותף עם",
@@ -406,6 +406,7 @@
     "Saving..." : "שמירה…",
     "Your client should now be connected! You can close this window." : "הלקוח שלך אמור להיות מחובר עכשיו! ניתן לסגור את החלון הזה.",
     "Cancel log in" : "ביטול כניסה",
+    "These apps will be updated:" : "יישומים אלו יעודכנו:",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "יומן, אנשי קשר, שיחה, דוא״ל ו־OnlyOffice"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }
