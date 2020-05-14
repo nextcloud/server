@@ -33,6 +33,7 @@ OC.L10N.register(
     "Remove background image" : "Kendu atzeko-planoko irudia",
     "Advanced options" : "Ezarpen aurreratuak",
     "Legal notice link" : "Ohar legalaren esteka",
-    "Privacy policy link" : "Pribatutasun politikaren esteka"
+    "Privacy policy link" : "Pribatutasun politikaren esteka",
+    "Upload new favicon" : "Kargatu gogoko-ikono berria"
 },
 "nplurals=2; plural=(n != 1);");

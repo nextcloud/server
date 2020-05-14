@@ -37,7 +37,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Memulai pengecekan integritas kode",
     "Finished code integrity check" : "Pengecekan integritas kode selesai",
     "%s (incompatible)" : "%s (tidak kompatibel)",
-    "Following apps have been disabled: %s" : "Aplikasi berikut telah dinonaktifkan: %s",
     "Already up to date" : "Sudah yang terbaru",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Database Anda tidak dijalankan dengan isolasi transaksi level \"READ COMMITED\". Ini dapat menyebabkan masalah saat banyak tindakan dilakukan secara paralel.",
     "Error occurred while checking server setup" : "Kesalahan tidak terduga saat memeriksa setelan server",
@@ -174,7 +173,6 @@ OC.L10N.register(
     "Cancel login" : "Batalkan log masuk",
     "Error while validating your second factor" : "Galat ketika memvalidasi faktor kedua anda",
     "App update required" : "Diperlukan perbarui aplikasi",
-    "These apps will be updated:" : "Aplikasi berikut akan diperbarui:",
     "These incompatible apps will be disabled:" : "Aplikasi yang tidak kompatibel berikut akan dinonaktifkan:",
     "The theme %s has been disabled." : "Tema %s telah dinonaktfkan.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Pastikan bahwa basis data, folder konfig, dan folder data telah dicadangkan sebelum melanjutkan.",
@@ -184,6 +182,7 @@ OC.L10N.register(
     "Update needed" : "Pembaruan dibutuhkan",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instansi %s ini sedang dalam modus pemeliharaan, mungkin memerlukan beberapa saat.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
+    "Following apps have been disabled: %s" : "Aplikasi berikut telah dinonaktifkan: %s",
     "Shared" : "Dibagikan",
     "Shared by" : "Dibagikan oleh",
     "Choose a password for the public link" : "Tetapkan kata sandi untuk tautan publik",
@@ -231,6 +230,7 @@ OC.L10N.register(
     "Error removing share" : "Terjadi kesalahan saat menghapus pembagian",
     "({scope})" : "({scope})",
     "Saving..." : "Menyimpan...",
-    "Cancel log in" : "Batalkan masuk log"
+    "Cancel log in" : "Batalkan masuk log",
+    "These apps will be updated:" : "Aplikasi berikut akan diperbarui:"
 },
 "nplurals=1; plural=0;");

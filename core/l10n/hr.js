@@ -55,7 +55,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Početna provjera cjelovitosti koda",
     "Finished code integrity check" : "Provjera cjelovitosti koda je završena",
     "%s (incompatible)" : "%s (nije kompatibilno)",
-    "Following apps have been disabled: %s" : "Sljedeće aplikacije su onemogućene: %s",
     "Already up to date" : "Nema potrebe za ažuriranjem",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Vaš mrežni poslužitelj nije pravilno podešen za sinkronizaciju podataka jer je sučelje protokola WebDAV neispravno.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Vaš mrežni poslužitelj ne može razriješiti „{url}”. Više informacija možete pronaći u <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">dokumentaciji</a>.",
@@ -335,7 +334,6 @@ OC.L10N.register(
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Više informacija o konfiguriranju možete pronaći u %1$sdokumentaciji%2$s.",
     "App update required" : "Ažuriranje aplikacije potrebno",
     "%1$s will be updated to version %2$s" : "%1$s će biti ažuriran na inačicu %2$s",
-    "These apps will be updated:" : "Sljedeće aplikacije bit će ažurirane:",
     "These incompatible apps will be disabled:" : "Sljedeće nekompatibilne aplikacije bit će onemogućene:",
     "The theme %s has been disabled." : "Tema %s je onemogućena.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Prije nego što nastavite, osigurajte da su baza podataka, mapa konfiguracije i mapa za podatke sigurnosno kopirani.",
@@ -351,6 +349,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "Ova %s instanca trenutno je u načinu za održavanje; ovo može potrajati.",
     "This page will refresh itself when the instance is available again." : "Ova će se stranica osvježiti kada je instanca ponovno dostupna.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Obratite se administratoru sustava ako se ova poruka ponavlja ili se pojavila neočekivano.",
+    "Following apps have been disabled: %s" : "Sljedeće aplikacije su onemogućene: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Trenutno upotrebljavate PHP 5.6. Trenutna glavna inačica Nextclouda ujedno je i posljednja koju podržava PHP 5.6. Preporučujemo da nadogradite inačicu PHP-a na 7.0+ kako biste mogli nadograditi sustav na Nextcloud 14.",
     "Shared" : "Dijeljeno",
     "Shared with" : "Dijeljeno s",
@@ -433,6 +432,7 @@ OC.L10N.register(
     "Saving..." : "Spremanje...",
     "Your client should now be connected! You can close this window." : "Vaš klijent sada bi trebao biti povezan! Možete zatvoriti ovaj prozor.",
     "Cancel log in" : "Otkaži prijavu",
+    "These apps will be updated:" : "Sljedeće aplikacije bit će ažurirane:",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendar, Contacts, Talk, Mail i OnlyOffice"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

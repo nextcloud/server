@@ -77,6 +77,7 @@
     "Open »%s«" : "Ireki »%s«",
     "%1$s via %2$s" : "%2$s bidez, %1$s",
     "You are not allowed to share %s" : "Ez zadue %s elkarbanatzeko baimendua",
+    "Can’t increase permissions of %s" : "Ezin dira %s(r)en baimenak handitu",
     "Expiration date is in the past" : "Iraungitze-data iraganean dago",
     "%1$s shared »%2$s« with you" : "%1$serabiltzaileak »%2$s« partekatu du zurekin",
     "%1$s shared »%2$s« with you." : "%1$serabiltzaileak »%2$s« partekatu du zurekin",
