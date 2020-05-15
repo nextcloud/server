@@ -89,6 +89,7 @@ OC.L10N.register(
     "is tagged with" : "honela etiketatuta dago:",
     "is not tagged with" : "ez dago honela etiketatuta:",
     "Request URL" : "Eskaera URL",
+    "Request time" : "Eskaera-denbora",
     "is member of" : "hemengo kide da:",
     "is not member of" : "ez da hemengo kide:",
     "Example: {placeholder}" : "Adibidea: {placeholder}",
