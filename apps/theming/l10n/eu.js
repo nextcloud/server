@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Gordeta",
     "Admin" : "Administratzailea",
     "a safe home for all your data" : "zure datu guztientzako toki segurua",
+    "Name cannot be empty" : "Izena ezin da hutsik egon",
     "The given name is too long" : "Idatzitako izena luzeegia da",
     "The given web address is too long" : "Idatzitako web helbidea luzeegia da",
     "The given slogan is too long" : "Emandako leloa luzeegia da",
@@ -34,6 +35,9 @@ OC.L10N.register(
     "Advanced options" : "Ezarpen aurreratuak",
     "Legal notice link" : "Ohar legalaren esteka",
     "Privacy policy link" : "Pribatutasun politikaren esteka",
+    "Header logo" : "Goiburuaren logoa",
+    "Upload new header logo" : "Kargatu goiburuaren logo berria",
+    "Favicon" : "Gogoko-ikonoa",
     "Upload new favicon" : "Kargatu gogoko-ikono berria"
 },
 "nplurals=2; plural=(n != 1);");

@@ -15,6 +15,7 @@
     "Your version is up to date." : "Zure bertsioa eguneratuta dago.",
     "Update channel:" : "Eguneraketa kanala:",
     "Only notification for app updates are available." : "Aplikazioaren eguneraketen jakinarazpenak soilik daude eskuragarri.",
+    "A new version is available: <strong>{newVersionString}</strong>" : "Bertsio berri bat dago eskuragarri: <strong>{newVersionString}</strong>",
     "Checked on {lastCheckedDate}" : "{lastCheckedDate}-n egiaztatuta",
     "Checking apps for compatible updates" : "Egiaztatzen eguneratzeetarako aplikazio bateragarriak",
     "<strong>All</strong> apps have an update for this version available" : "Aplikazio <strong>guztiek</strong>  eguneraketa bat dute bertsio honentzat eskuragarri",

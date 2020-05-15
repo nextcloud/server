@@ -5,7 +5,7 @@ OC.L10N.register(
     "Enable dark theme" : "Activa el tema fosc",
     "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Un tema fosc que ajuda els ulls reduint la lluminositat i la brillantor generals. Com que encara es troba en desenvolupament, agrairem que informeu de les errades que hi pugueu trobar.",
     "High contrast mode" : "Mode de contrast alt",
-    "Enable high contrast mode" : "Activa el mode de contrast alt",
+    "Enable high contrast mode" : "Activa el mode d'alt contrast",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un mode de contrast alt per facilitar la navegació. La qualitat visual es reduirà però s'incrementarà la claredat.",
     "Dyslexia font" : "Tipus de lletra per a la dislèxia",
     "Enable dyslexia font" : "Activa el tipus de lletra per dislèxia",
