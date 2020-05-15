@@ -31,6 +31,10 @@ External storage can be configured using the GUI or at the command line. This se
 		<nextcloud min-version="20" max-version="20"/>
 	</dependencies>
 
+	<background-jobs>
+		<job>OCA\Files_External\BackgroundJob\CredentialsCleanup</job>
+	</background-jobs>
+
 	<commands>
 		<command>OCA\Files_External\Command\ListCommand</command>
 		<command>OCA\Files_External\Command\Config</command>
