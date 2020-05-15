@@ -29,6 +29,7 @@ use OC\AppFramework\OCS\BaseResponse;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\IRequest;
 
@@ -65,6 +66,9 @@ class CompressionMiddleware extends Middleware {
 			$allowGzip = true;
 		}
 		if ($response instanceof JSONResponse) {
+			$allowGzip = true;
+		}
+		if ($response instanceof TemplateResponse) {
 			$allowGzip = true;
 		}
 
