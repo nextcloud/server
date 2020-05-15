@@ -13,6 +13,7 @@
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Pulzer <t.pulzer@kniel.de>
+ * @author Ruben Barkow-Kuder <github@r.z11.de>
  *
  * @license AGPL-3.0
  *
@@ -180,6 +181,10 @@ class Install extends Command {
 
 		if ($adminEmail !== null && !filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
 			throw new InvalidArgumentException('Invalid e-mail-address <' . $adminEmail . '> for <' . $adminLogin . '>.');
+		}
+
+		if ($dbTablePrefix !== null && strlen($dbTablePrefix)>3) {
+			throw new InvalidArgumentException('Invalid database prefix: <'.$dbTablePrefix.'> (maximum length is 3 characters.)');
 		}
 
 		$options = [
