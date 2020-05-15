@@ -195,7 +195,7 @@ class DependencyAnalyzer {
 		}, $supportedDatabases);
 		$currentDatabase = $this->platform->getDatabase();
 		if (!in_array($currentDatabase, $supportedDatabases)) {
-			$missing[] = (string)$this->l->t('Following databases are supported: %s', [implode(', ', $supportedDatabases)]);
+			$missing[] = (string)$this->l->t('The following databases are supported: %s', [implode(', ', $supportedDatabases)]);
 		}
 		return $missing;
 	}
@@ -298,7 +298,7 @@ class DependencyAnalyzer {
 		}
 		$currentOS = $this->platform->getOS();
 		if (!in_array($currentOS, $oss)) {
-			$missing[] = (string)$this->l->t('Following platforms are supported: %s', [implode(', ', $oss)]);
+			$missing[] = (string)$this->l->t('The following platforms are supported: %s', [implode(', ', $oss)]);
 		}
 		return $missing;
 	}
