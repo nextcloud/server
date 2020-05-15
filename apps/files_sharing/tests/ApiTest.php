@@ -999,7 +999,8 @@ class ApiTest extends TestCase {
 			\OCP\Constants::PERMISSION_READ |
 			\OCP\Constants::PERMISSION_CREATE |
 			\OCP\Constants::PERMISSION_UPDATE |
-			\OCP\Constants::PERMISSION_DELETE,
+			\OCP\Constants::PERMISSION_DELETE |
+			\OCP\Constants::PERMISSION_SHARE,
 			$share1->getPermissions()
 		);
 
