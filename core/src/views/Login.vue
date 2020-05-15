@@ -58,8 +58,8 @@
 					:redirect-url="redirectUrl"
 					:inverted-colors="invertedColors"
 					:auto-complete-allowed="autoCompleteAllowed"
-					:isHttps="isHttps"
-					:hasPublicKeyCredential="hasPublicKeyCredential"
+					:is-https="isHttps"
+					:has-public-key-credential="hasPublicKeyCredential"
 					@submit="loading = true" />
 				<a @click.prevent="passwordlessLogin = false">
 					{{ t('core', 'Back') }}

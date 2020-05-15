@@ -127,6 +127,8 @@ module.exports = function(config) {
 
 	files.push(corePath + 'tests/html-domparser.js');
 	files.push('core/js/dist/main.js');
+	files.push('core/js/dist/files_fileinfo.js');
+	files.push('core/js/dist/files_client.js');
 	// core mocks
 	files.push(corePath + 'tests/specHelper.js');
 
