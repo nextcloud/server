@@ -54,7 +54,7 @@
     "Starting code integrity check" : "Code-Integrität wird überprüft",
     "Finished code integrity check" : "Code-Integritätsprüfung abgeschlossen",
     "%s (incompatible)" : "%s (inkompatibel)",
-    "The following apps have been disabled: %s" : "Die folgenden Apps wurden deaktiviert: %s",
+    "The following apps have been disabled: %s" : "Folgende Apps wurden deaktiviert: %s",
     "Already up to date" : "Bereits aktuell",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Ihr Webserver ist noch nicht hinreichend für Datei-Synchronisierung konfiguriert. Die WebDAV-Schnittstelle ist vermutlich defekt.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Ihr Webserver ist nicht richtig konfiguriert um \"{url}\" aufzulösen. Weitere Informationen hierzu finden Sie in der <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">Dokumentation</a>.",

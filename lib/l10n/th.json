@@ -7,10 +7,8 @@
     "PHP %s or higher is required." : "จำเป็นต้องมี PHP รุ่น %s หรือที่สูงกว่า ",
     "PHP with a version lower than %s is required." : "รุ่น PHP ของคุณต่ำกว่า %s",
     "%sbit or higher PHP required." : "%sบิต หรือ PHP จะต้องเป็นรุ่นสูงกว่าที่กำหนด",
-    "Following databases are supported: %s" : "ฐานข้อมูลต่อไปนี้ได้รับการสนับสนุน: %s",
     "The command line tool %s could not be found" : "ไม่พบเครื่องมือบรรทัดคำสั่ง %s ",
     "The library %s is not available." : "ไลบรารี %s ไม่สามารถใช้ได้",
-    "Following platforms are supported: %s" : "แพลตฟอร์มต่อไปนี้ได้รับการสนับสนุน: %s",
     "Authentication" : "รับรองความถูกต้อง",
     "Unknown filetype" : "ไม่รู้จักชนิดของไฟล์",
     "Invalid image" : "รูปภาพไม่ถูกต้อง",
@@ -136,6 +134,8 @@
     "Storage incomplete configuration. %s" : "การตั้งค่าการจัดเก็บข้อมูลไม่สำเร็จ %s",
     "Storage connection error. %s" : "ข้อผิดพลาดการเชื่อมต่อพื้นที่จัดเก็บข้อมูล %s",
     "Storage connection timeout. %s" : "หมดเวลาการเชื่อมต่อพื้นที่จัดเก็บข้อมูล %s",
+    "Following databases are supported: %s" : "ฐานข้อมูลต่อไปนี้ได้รับการสนับสนุน: %s",
+    "Following platforms are supported: %s" : "แพลตฟอร์มต่อไปนี้ได้รับการสนับสนุน: %s",
     "Sharing" : "แชร์ข้อมูล",
     "Personal info" : "ข้อมูลส่วนบุคคล"
 },"pluralForm" :"nplurals=1; plural=0;"
