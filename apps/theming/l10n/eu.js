@@ -28,6 +28,7 @@ OC.L10N.register(
     "Web link" : "Web esteka",
     "https://…" : "https://…",
     "Color" : "Kolorea",
+    "Logo" : "Logoa",
     "Upload new logo" : "Kargatu logo berria",
     "Login image" : "Saio-hasiera irudia",
     "Upload new login background" : "Kargatu saio-hasiera atzeko-plano berria",
