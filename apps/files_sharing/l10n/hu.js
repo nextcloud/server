@@ -110,6 +110,7 @@ OC.L10N.register(
     "Share API is disabled" : "Megosztás API letiltva",
     "File sharing" : "Fájlmegosztás",
     "Accept" : "Elfogad",
+    "Reject" : "Elutasítás",
     "Sharing" : "Megosztás",
     "Allow editing" : "Szerkesztés engedélyezése",
     "Allow resharing" : "A megosztás továbbadásának engedélyezése",

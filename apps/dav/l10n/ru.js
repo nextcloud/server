@@ -75,6 +75,8 @@ OC.L10N.register(
     "More options …" : "Дополнительные параметры…",
     "More options at %s" : "Дополнительные параметры на %s",
     "Contacts" : "Контакты",
+    "System in maintenance mode." : "Сервер находится в режиме обслуживания.",
+    "Upgrade needed" : "Требуется обновление",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Ваш %s должен быть настроен на использование протокола HTTPS, чтобы можно было использовать CalDAV и CardDAV на iOS/macOS.",
     "Configures a CalDAV account" : "Настройка аккаунта CalDAV",
     "Configures a CardDAV account" : "Настройка аккаунта CardDAV",
