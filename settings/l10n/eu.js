@@ -262,6 +262,7 @@ OC.L10N.register(
     "Add" : "Gehitu",
     "Adding your device …" : "Zure gailua gehitzen ...",
     "Unnamed device" : "Izen gabeko gailua",
+    "Passwordless Authentication" : "Pasahitzik gabeko autentifikazioa",
     "No devices configured." : "Ez da gailurik konfiguratu.",
     "Your apps" : "Zure aplikazioak",
     "Active apps" : "Aplikazio aktiboak",
