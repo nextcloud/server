@@ -148,7 +148,7 @@ class AccountManager implements IAccountManager {
 
 		$userDataArray = json_decode($result[0]['data'], true);
 		$jsonError = json_last_error();
-		if ($userDataArray === null || $jsonError !== JSON_ERROR_NONE) {
+		if ($userDataArray === null || $userDataArray === [] || $jsonError !== JSON_ERROR_NONE) {
 			$this->logger->critical("User data of $uid contained invalid JSON (error $jsonError), hence falling back to a default user record");
 			return $this->buildDefaultUserRecord($user);
 		}
