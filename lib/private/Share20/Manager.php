@@ -1511,6 +1511,19 @@ class Manager implements IManager {
 	public function groupDeleted($gid) {
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
 		$provider->groupDeleted($gid);
+
+		$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
+		if ($excludedGroups === '') {
+			return;
+		}
+
+		$excludedGroups = json_decode($excludedGroups, true);
+		if (json_last_error() !== JSON_ERROR_NONE) {
+			return;
+		}
+
+		$excludedGroups = array_diff($excludedGroups, [$gid]);
+		$this->config->setAppValue('core', 'shareapi_exclude_groups_list', json_encode($excludedGroups));
 	}
 
 	/**
