@@ -129,6 +129,7 @@ OC.L10N.register(
     "Dynamic Group Member URL" : "Taldekide URL dinamikoa",
     "Nested Groups" : "Talde habiaratuak",
     "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "Piztuta dagoenean, taldeak dauzkaten taldeak onartzen dira. (Bakarrik taldeko kideen atributuak DNak baditu).",
+    "Paging chunksize" : "Orrikatze zati-tamaina",
     "Special Attributes" : "Atributu Bereziak",
     "Quota Field" : "Kuota Eremua",
     "Quota Default" : "Kuota Lehenetsia",

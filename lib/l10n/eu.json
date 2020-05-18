@@ -50,6 +50,7 @@
     "Dot files are not allowed" : "Dot fitxategiak ez dira onartzen",
     "Empty filename is not allowed" : "Fitxategiaren izena izin da hutsa izan",
     "App \"%s\" cannot be installed because appinfo file cannot be read." : "«%s» aplikazioa ezin da instalatu appinfo fitxategia ezin delako irakurri.",
+    "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "\"%s\" aplikazioa ezin da instalatu ez delako zerbitzariaren bertsio honekin bateragarria.",
     "__language_name__" : "Euskara",
     "This is an automatically sent email, please do not reply." : "Hau automatikoki bidalitako e-posta bat da, ez erantzun mesedez.",
     "Help" : "Laguntza",
