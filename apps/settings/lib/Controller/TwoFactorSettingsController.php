@@ -49,9 +49,9 @@ class TwoFactorSettingsController extends Controller {
 		return new JSONResponse($this->mandatoryTwoFactor->getState());
 	}
 
-	public function update(bool $enforced, array $enforcedGroups = [], array $excludedGroups = []): JSONResponse {
+	public function update(bool $enforced, array $enforcedGroups = [], array $excludedGroups = [], array $enforcedNetworks = [], array $excludedNetworks = []): JSONResponse {
 		$this->mandatoryTwoFactor->setState(
-			new EnforcementState($enforced, $enforcedGroups, $excludedGroups)
+			new EnforcementState($enforced, $enforcedGroups, $excludedGroups, $enforcedNetworks, $excludedNetworks)
 		);
 
 		return new JSONResponse($this->mandatoryTwoFactor->getState());

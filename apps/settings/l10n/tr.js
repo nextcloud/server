@@ -118,7 +118,7 @@ OC.L10N.register(
     "Unlimited" : "Sınırsız",
     "Verifying" : "Doğrulanıyor",
     "Nextcloud settings" : "Nextcloud ayarları",
-    "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Tüm kullanıcılar ve belirli gruplar için iki aşamalı kimlik doğrulama kullanılır. Yapılandırılmış bir iki aşamalı kimlik doğrulama hizmeti sağlayıcısı olmayan kullanıcılar oturum açamaz.",
+    "Two-factor authentication can be enforced for all users, specific networks and specific groups. If users do not have a two-factor provider configured, they will be unable to log into the system." : "Tüm kullanıcılar ve belirli gruplar için iki aşamalı kimlik doğrulama kullanılır. Yapılandırılmış bir iki aşamalı kimlik doğrulama hizmeti sağlayıcısı olmayan kullanıcılar oturum açamaz.",
     "Enforce two-factor authentication" : "İki aşamalı kimlik doğrulama dayatılsın",
     "Limit to groups" : "Şu gruplarla sınırla",
     "Enforcement of two-factor authentication can be set for certain groups only." : "İki aşamalı kimlik doğrulaması yalnız belirli gruplara dayatılabilir.",

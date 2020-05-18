@@ -72,13 +72,27 @@ class Enforce extends Command {
 			InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
 			'exclude mandatory two-factor auth for the given group(s)'
 		);
+		$this->addOption(
+			'network',
+			null,
+			InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+			'enforce only for the given network(s)'
+		);
+		$this->addOption(
+			'exclude_network',
+			null,
+			InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+			'exclude mandatory two-factor auth for the given network(s)'
+		);
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		if ($input->getOption('on')) {
 			$enforcedGroups = $input->getOption('group');
 			$excludedGroups = $input->getOption('exclude');
-			$this->mandatoryTwoFactor->setState(new EnforcementState(true, $enforcedGroups, $excludedGroups));
+			$enforcedNetworks = $input->getOption('network');
+			$excludedNetworks = $input->getOption('exclude_network');
+			$this->mandatoryTwoFactor->setState(new EnforcementState(true, $enforcedGroups, $excludedGroups, $enforcedNetworks, $excludedNetworks));
 		} elseif ($input->getOption('off')) {
 			$this->mandatoryTwoFactor->setState(new EnforcementState(false));
 		}
@@ -103,6 +117,14 @@ class Enforce extends Command {
 		if (!empty($state->getExcludedGroups())) {
 			$message .= ', except members of ' . implode(', ', $state->getExcludedGroups());
 		}
+
+		if (!empty($state->getEnforcedNetworks())) {
+			$message .= ' on the networks ' . implode(', ', $state->getEnforcedNetworks());
+		}
+		if (!empty($state->getExcludedNetworks())) {
+			$message .= ' but the ranges ' . implode(', ', $state->getExcludedNetworks());
+		}
+
 		$output->writeln($message);
 	}
 

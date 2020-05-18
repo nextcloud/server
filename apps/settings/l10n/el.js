@@ -118,7 +118,7 @@ OC.L10N.register(
     "Unlimited" : "Απεριόριστο",
     "Verifying" : "Γίνεται επαλήθευση",
     "Nextcloud settings" : "Ρυθμίσεις Nextcloud ",
-    "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Η πιστοποίηση δύο-παραγόντων μπορεί να επιβληθεί σε όλους τους χρήστες και σε ομάδες. Εάν δεν έχουν ρυθμίσει πάροχο πιστοποίησης δύο βημάτων, δεν θα μπορούν να συνδεθούν.",
+    "Two-factor authentication can be enforced for all users, specific networks and specific groups. If users do not have a two-factor provider configured, they will be unable to log into the system." : "Η πιστοποίηση δύο-παραγόντων μπορεί να επιβληθεί σε όλους τους χρήστες και σε ομάδες. Εάν δεν έχουν ρυθμίσει πάροχο πιστοποίησης δύο βημάτων, δεν θα μπορούν να συνδεθούν.",
     "Enforce two-factor authentication" : "Υποχρεωτική πιστοποίηση δύο-παραγόντων",
     "Limit to groups" : "Όριο στις ομάδες",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Η υποχρεωτική χρήση πιστοποίησης δύο-βημάτων μπορεί να ρυθμιστεί μόνο για ομάδες.",

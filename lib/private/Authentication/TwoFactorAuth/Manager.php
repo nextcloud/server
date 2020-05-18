@@ -109,7 +109,7 @@ class Manager {
 	 * @return boolean
 	 */
 	public function isTwoFactorAuthenticated(IUser $user): bool {
-		if ($this->mandatoryTwoFactor->isEnforcedFor($user)) {
+		if ($this->mandatoryTwoFactor->isEnforcedForNetwork(\OC::$server->getRequest()->getRemoteAddress()) && $this->mandatoryTwoFactor->isEnforcedFor($user)) {
 			return true;
 		}
 

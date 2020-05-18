@@ -118,7 +118,7 @@ OC.L10N.register(
     "Unlimited" : "Sen límites",
     "Verifying" : "Verificando",
     "Nextcloud settings" : "Axustes do Nextcloud",
-    "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "A autenticación de dous factores pode ser aplicada para todos os usuarios e grupos específicos. Se non tiveran configurado un provedor de dous factores, non podería acceder ao sistema.",
+    "Two-factor authentication can be enforced for all users, specific networks and specific groups. If users do not have a two-factor provider configured, they will be unable to log into the system." : "A autenticación de dous factores pode ser aplicada para todos os usuarios e grupos específicos. Se non tiveran configurado un provedor de dous factores, non podería acceder ao sistema.",
     "Enforce two-factor authentication" : "Obrigar a autenticación de dous factores",
     "Limit to groups" : "Límite para grupos",
     "Enforcement of two-factor authentication can be set for certain groups only." : "A obrigatoriedade da autenticación de dous factores pode estabelecerse só para certos grupos.",

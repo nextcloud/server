@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<p class="settings-hint">
-			{{ t('settings', 'Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system.') }}
+			{{ t('settings', 'Two-factor authentication can be enforced for all users, specific networks and specific groups. If users do not have a two-factor provider configured, they will be unable to log into the system.') }}
 		</p>
 		<p v-if="loading">
 			<span class="icon-loading-small two-factor-loading" />
@@ -111,6 +111,24 @@ export default {
 				this.$store.commit('setExcludedGroups', val)
 			},
 		},
+		enforcedNetworks: {
+			get: function() {
+				return this.$store.state.enforcedNetworks
+			},
+			set: function(val) {
+				this.dirty = true
+				this.$store.commit('setEnforcedNetworks', val)
+			},
+		},
+		excludedNetworks: {
+			get: function() {
+				return this.$store.state.excludedNetworks
+			},
+			set: function(val) {
+				this.dirty = true
+				this.$store.commit('setExcludedNetworks', val)
+			},
+		},
 	},
 	mounted() {
 		// Groups are loaded dynamically, but the assigned ones *should*
@@ -139,6 +157,8 @@ export default {
 				enforced: this.enforced,
 				enforcedGroups: this.enforcedGroups,
 				excludedGroups: this.excludedGroups,
+				enforcedNetworks: this.enforcedNetworks,
+				excludedNetworks: this.excludedNetworks,
 			}
 			axios.put(OC.generateUrl('/settings/api/admin/twofactorauth'), data)
 				.then(resp => resp.data)

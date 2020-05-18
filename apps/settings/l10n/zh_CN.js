@@ -118,7 +118,7 @@ OC.L10N.register(
     "Unlimited" : "无限",
     "Verifying" : "正在验证",
     "Nextcloud settings" : "Nextcloud 设置",
-    "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "两步验证可以对于所有用户和特定分组启用。如果没有设置两步验证提供者，他们则不能登录到系统。",
+    "Two-factor authentication can be enforced for all users, specific networks and specific groups. If users do not have a two-factor provider configured, they will be unable to log into the system." : "两步验证可以对于所有用户和特定分组启用。如果没有设置两步验证提供者，他们则不能登录到系统。",
     "Enforce two-factor authentication" : "强制启用两步验证",
     "Limit to groups" : "限制于组",
     "Enforcement of two-factor authentication can be set for certain groups only." : "可以仅为某些组设置两步验证的强制执行。",

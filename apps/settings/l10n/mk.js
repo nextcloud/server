@@ -118,7 +118,7 @@ OC.L10N.register(
     "Unlimited" : "Неограничено",
     "Verifying" : "Потврдување",
     "Nextcloud settings" : "Nextcloud параметри",
-    "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Двофакторна автентикација може да биде задолжителна за сите корисници и одредени групи. Доколку корисниците немаат поставено провајдер за двофакторна автентикација, нема да можат да се најават на системот.",
+    "Two-factor authentication can be enforced for all users, specific networks and specific groups. If users do not have a two-factor provider configured, they will be unable to log into the system." : "Двофакторна автентикација може да биде задолжителна за сите корисници и одредени групи. Доколку корисниците немаат поставено провајдер за двофакторна автентикација, нема да можат да се најават на системот.",
     "Enforce two-factor authentication" : "Задолжителна двофакторна автентикација",
     "Limit to groups" : "Ограничување на групи",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Задолжителна двофакторна автентикација може да се постави само за одредени групи.",

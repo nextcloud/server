@@ -112,7 +112,7 @@ OC.L10N.register(
     "Unlimited" : "Rajoittamaton",
     "Verifying" : "Vahvistetaan",
     "Nextcloud settings" : "Nextcloud-asetukset",
-    "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Kaksivaiheinen tunnistautuminen voidaan pakottaa kaikille käyttäjille ja halutuille ryhmille. Mikäli heillä ei ole kaksivaiheista tunnistautumistapaa määriteltynä, he eivät pysty kirjautumaan järjestelmään.",
+    "Two-factor authentication can be enforced for all users, specific networks and specific groups. If users do not have a two-factor provider configured, they will be unable to log into the system." : "Kaksivaiheinen tunnistautuminen voidaan pakottaa kaikille käyttäjille ja halutuille ryhmille. Mikäli heillä ei ole kaksivaiheista tunnistautumistapaa määriteltynä, he eivät pysty kirjautumaan järjestelmään.",
     "Enforce two-factor authentication" : "Pakota kaksivaiheinen tunnistautuminen",
     "Limit to groups" : "Rajoita ryhmiin",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Kaksivaiheisen tunnistautumisen pakottaminen on mahdollista kohdentaa vain tietyille ryhmille.",

@@ -109,7 +109,7 @@ OC.L10N.register(
     "Unlimited" : "Neomejeno",
     "Verifying" : "Preverjanje",
     "Nextcloud settings" : "Nastavitve Nextcloud",
-    "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Dvostopenjsko overjanje je mogoče vsiliti za vse uporabnike in določene skupine. Če za tovrstno prijavo nimajo nastavljenega ustreznega ponudnika, se v sistem ne bodo uspeli povezati.",
+    "Two-factor authentication can be enforced for all users, specific networks and specific groups. If users do not have a two-factor provider configured, they will be unable to log into the system." : "Dvostopenjsko overjanje je mogoče vsiliti za vse uporabnike in določene skupine. Če za tovrstno prijavo nimajo nastavljenega ustreznega ponudnika, se v sistem ne bodo uspeli povezati.",
     "Enforce two-factor authentication" : "Vsili dvo-stopenjsko overjanje",
     "Limit to groups" : "Omeji na skupine",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Vsiljeno dvo-stopenjsko overjanje je mogoče določiti le za določene skupine.",

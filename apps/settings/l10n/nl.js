@@ -118,7 +118,7 @@ OC.L10N.register(
     "Unlimited" : "Ongelimiteerd",
     "Verifying" : "Controleer",
     "Nextcloud settings" : "Nextcloud instellingen",
-    "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Twee-factor-authenticatie kan worden afgedwongen voor alle gebruikers en specifieke groepen. Als ze geen twee-factor provider hebben ingesteld, dan kunnen ze niet inloggen in het systeem.",
+    "Two-factor authentication can be enforced for all users, specific networks and specific groups. If users do not have a two-factor provider configured, they will be unable to log into the system." : "Twee-factor-authenticatie kan worden afgedwongen voor alle gebruikers en specifieke groepen. Als ze geen twee-factor provider hebben ingesteld, dan kunnen ze niet inloggen in het systeem.",
     "Enforce two-factor authentication" : "Forceren gebruik twee-factor-authenticatie",
     "Limit to groups" : "Beperk tot groepen",
     "Enforcement of two-factor authentication can be set for certain groups only." : "Forceren van gebruik twee-factor-authenticatie kan worden ingesteld voor bepaalde groepen",

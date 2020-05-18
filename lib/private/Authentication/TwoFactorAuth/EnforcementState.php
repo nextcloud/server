@@ -48,10 +48,14 @@ class EnforcementState implements JsonSerializable {
 	 */
 	public function __construct(bool $enforced,
 								array $enforcedGroups = [],
-								array $excludedGroups = []) {
+								array $excludedGroups = [],
+								array $enforcedNetworks = [],
+								array $excludedNetworks = []) {
 		$this->enforced = $enforced;
 		$this->enforcedGroups = $enforcedGroups;
 		$this->excludedGroups = $excludedGroups;
+		$this->enforcedNetworks = $enforcedNetworks;
+		$this->excludedNetworks = $excludedNetworks;
 	}
 
 	/**
@@ -75,11 +79,27 @@ class EnforcementState implements JsonSerializable {
 		return $this->excludedGroups;
 	}
 
+	/**
+	 * @return string[]
+	 */
+	public function getEnforcedNetworks(): array {
+		return $this->enforcedNetworks;
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getExcludedNetworks(): array {
+		return $this->excludedNetworks;
+	}
+
 	public function jsonSerialize(): array {
 		return [
 			'enforced' => $this->enforced,
 			'enforcedGroups' => $this->enforcedGroups,
 			'excludedGroups' => $this->excludedGroups,
+			'enforcedNetworks' => $this->enforcedNetworks,
+			'excludedNetworks' => $this->excludedNetworks,
 		];
 	}
 
