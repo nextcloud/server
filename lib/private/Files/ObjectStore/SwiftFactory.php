@@ -119,6 +119,10 @@ class SwiftFactory {
 		if (!isset($this->params['tenantName']) && isset($this->params['tenant'])) {
 			$this->params['tenantName'] = $this->params['tenant'];
 		}
+		if (isset($this->params['domain'])) {
+			$this->params['scope']['project']['name'] = $this->params['tenant'];
+			$this->params['scope']['project']['domain']['name'] = $this->params['domain'];
+		}
 		$this->params = array_merge(self::DEFAULT_OPTIONS, $this->params);
 
 		$cacheKey = $userName . '@' . $this->params['url'] . '/' . $this->params['container'];
