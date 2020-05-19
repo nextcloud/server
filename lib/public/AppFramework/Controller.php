@@ -91,6 +91,14 @@ abstract class Controller {
 						unset($headers['Content-Type']);
 					}
 					$response->setHeaders(array_merge($dataHeaders, $headers));
+
+					if ($data->getETag() !== null) {
+						$response->setETag($data->getETag());
+					}
+					if ($data->getLastModified() !== null) {
+						$response->setLastModified($data->getLastModified());
+					}
+
 					return $response;
 				}
 				return new JSONResponse($data);
