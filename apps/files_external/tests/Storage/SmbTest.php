@@ -96,7 +96,7 @@ class SmbTest extends \Test\Files\Storage\Storage {
 		$this->instance = null;
 	}
 
-	public function testStorageId() {
+	public function testSharedStorageId() {
 		$this->instance = new SMB([
 			'host' => 'testhost',
 			'user' => 'testuser',
