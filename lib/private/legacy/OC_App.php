@@ -157,11 +157,17 @@ class OC_App {
 				if ($ex instanceof ServerNotAvailableException) {
 					throw $ex;
 				}
-				\OC::$server->getLogger()->logException($ex);
-
 				if (!\OC::$server->getAppManager()->isShipped($app) && !self::isType($app, ['authentication'])) {
+					\OC::$server->getLogger()->logException($ex, [
+						'message' => "App $app threw an error during app.php load and will be disabled: " . $ex->getMessage(),
+					]);
+
 					// Only disable apps which are not shipped and that are not authentication apps
 					\OC::$server->getAppManager()->disableApp($app, true);
+				} else {
+					\OC::$server->getLogger()->logException($ex, [
+						'message' => "App $app threw an error during app.php load: " . $ex->getMessage(),
+					]);
 				}
 			}
 			\OC::$server->getEventLogger()->end('load_app_' . $app);
