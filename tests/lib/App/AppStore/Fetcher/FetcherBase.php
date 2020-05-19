@@ -249,7 +249,15 @@ abstract class FetcherBase extends TestCase {
 		$client
 			->expects($this->once())
 			->method('get')
-			->with($this->endpoint)
+			->with(
+				$this->equalTo($this->endpoint),
+				$this->equalTo([
+					'timeout' => 10,
+					'headers' => [
+						'Accept-Encoding' => 'gzip',
+					]
+				])
+			)
 			->willReturn($response);
 		$response
 			->expects($this->once())
@@ -342,7 +350,15 @@ abstract class FetcherBase extends TestCase {
 		$client
 			->expects($this->once())
 			->method('get')
-			->with($this->endpoint)
+			->with(
+				$this->equalTo($this->endpoint),
+				$this->equalTo([
+					'timeout' => 10,
+					'headers' => [
+						'Accept-Encoding' => 'gzip',
+					]
+				])
+			)
 			->willReturn($response);
 		$response
 			->expects($this->once())
@@ -430,7 +446,15 @@ abstract class FetcherBase extends TestCase {
 		$client
 			->expects($this->once())
 			->method('get')
-			->with($this->endpoint)
+			->with(
+				$this->equalTo($this->endpoint),
+				$this->equalTo([
+					'timeout' => 10,
+					'headers' => [
+						'Accept-Encoding' => 'gzip',
+					]
+				])
+			)
 			->willReturn($response);
 		$response
 			->expects($this->once())
@@ -495,7 +519,15 @@ abstract class FetcherBase extends TestCase {
 		$client
 			->expects($this->once())
 			->method('get')
-			->with($this->endpoint)
+			->with(
+				$this->equalTo($this->endpoint),
+				$this->equalTo([
+					'timeout' => 10,
+					'headers' => [
+						'Accept-Encoding' => 'gzip',
+					]
+				])
+			)
 			->willThrowException(new \Exception());
 
 		$this->assertSame([], $this->fetcher->get());
@@ -552,7 +584,8 @@ abstract class FetcherBase extends TestCase {
 				$this->equalTo([
 					'timeout' => 10,
 					'headers' => [
-						'If-None-Match' => '"myETag"'
+						'Accept-Encoding' => 'gzip',
+						'If-None-Match' => '"myETag"',
 					]
 				])
 			)->willReturn($response);
@@ -624,6 +657,7 @@ abstract class FetcherBase extends TestCase {
 				$this->equalTo([
 					'timeout' => 10,
 					'headers' => [
+						'Accept-Encoding' => 'gzip',
 						'If-None-Match' => '"myETag"',
 					]
 				])
@@ -710,6 +744,9 @@ abstract class FetcherBase extends TestCase {
 				$this->equalTo($this->endpoint),
 				$this->equalTo([
 					'timeout' => 10,
+					'headers' => [
+						'Accept-Encoding' => 'gzip',
+					],
 				])
 			)
 			->willReturn($response);
