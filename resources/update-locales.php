@@ -29,12 +29,20 @@ if (!extension_loaded('intl')) {
 	exit(1);
 }
 
-$locales = array_map(function (string $localeCode) {
+require '../3rdparty/autoload.php';
+
+$locales = array_map(static function (string $localeCode) {
 	return [
 		'code' => $localeCode,
 		'name' => Locale::getDisplayName($localeCode, 'en')
 	];
 }, ResourceBundle::getLocales(''));
+
+$locales = array_filter($locales, static function (array $locale) {
+	return is_array(Punic\Data::explodeLocale($locale['code']));
+});
+
+$locales = array_values($locales);
 
 if (file_put_contents(__DIR__ . '/locales.json', json_encode($locales, JSON_PRETTY_PRINT)) === false) {
 	echo 'Failed to update locales.json';
