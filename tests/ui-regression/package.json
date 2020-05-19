@@ -1,20 +1,24 @@
 {
-    "name": "ui-regression",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "mocha test/"
-    },
-    "author": "",
-    "dependencies": {
-        "chai": "^4.1.2",
-        "mocha": "^7.1.1",
-        "mocha-json-report": "0.0.2",
-        "pixelmatch": "^5.0.2",
-        "png-js": "^0.1.1",
-        "pngjs2": "^2.0.0",
-        "polyserve": "^0.27.13",
-        "puppeteer": "^1.6.1"
-    }
+  "name": "ui-regression",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "author": "",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^7.1.1",
+    "mocha-json-report": "0.0.2",
+    "pixelmatch": "^5.0.2",
+    "png-js": "^0.1.1",
+    "pngjs2": "^2.0.0",
+    "polyserve": "^0.27.13",
+    "puppeteer": "^1.6.1",
+    "snyk": "^1.316.1"
+  },
+  "snyk": true
 }

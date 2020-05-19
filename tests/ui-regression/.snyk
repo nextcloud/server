@@ -1,0 +1,64 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - mocha > yargs-unparser > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > http-proxy-middleware > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > @babel/plugin-transform-block-scoping > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > babel-preset-minify > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > @babel/plugin-transform-sticky-regex > @babel/helper-regex > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-analyzer > @babel/traverse > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > babel-preset-minify > babel-plugin-minify-dead-code-elimination > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-project-config > winston > async > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-bundler > babel-types > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-bundler > babel-generator > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-bundler > babel-traverse > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > @babel/plugin-transform-unicode-regex > @babel/helper-create-regexp-features-plugin > @babel/helper-regex > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-analyzer > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-bundler > polymer-analyzer > @babel/traverse > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-project-config > plylog > winston > async > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > plylog > winston > async > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-project-config > winston > async > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-bundler > babel-generator > babel-types > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-bundler > babel-traverse > babel-types > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-analyzer > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-bundler > polymer-analyzer > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-project-config > plylog > winston > async > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-bundler > polymer-analyzer > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-analyzer > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > polymer-bundler > polymer-analyzer > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
+    - polyserve > polymer-build > @babel/plugin-transform-exponentiation-operator > @babel/helper-builder-binary-assignment-operator-visitor > @babel/helper-explode-assignable-expression > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        patched: '2020-05-01T00:34:28.276Z'
