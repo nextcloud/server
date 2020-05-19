@@ -156,6 +156,7 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "S razgovorom {user} dijeli {owner}",
     "Shared with {user} by {owner}" : "S {user} dijeli {owner}",
     "Added by {initiator}" : "Dodao {initiator}",
+    "Via “{folder}”" : "Putem „{folder}“",
     "Internal link" : "Interna poveznica",
     "Link copied" : "Poveznica je kopirana",
     "Cannot copy, please copy the link manually" : "Kopiranje nije moguće, ručno kopirajte poveznicu",

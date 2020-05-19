@@ -103,6 +103,8 @@
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Dijeli",
     "Show hidden files" : "Prikaz skrivenih datoteka",
+    "Verify ACL access when listing files" : "Provjeri ACL pristup pri pregledu popisa datoteka",
+    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Provjerava ACL-ove pojedinih datoteka ili mapa unutar direktorija radi filtriranja stavki za koje korisnik nema pravo pristupa, opterećuje rad sustava",
     "Timeout" : "Istek vremena",
     "SMB / CIFS using OC login" : "SMB / CIFS s prijavom putem OC-a",
     "Username as share" : "Korisničko ime kao dijeljenje",
