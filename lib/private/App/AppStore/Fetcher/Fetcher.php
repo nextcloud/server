@@ -98,11 +98,12 @@ abstract class Fetcher {
 
 		$options = [
 			'timeout' => 10,
-			'headers' => ['Accept-Encoding' => 'gzip'],
 		];
 
 		if ($ETag !== '') {
-			$options['headers']['If-None-Match'] = $ETag;
+			$options['headers'] = [
+				'If-None-Match' => $ETag,
+			];
 		}
 
 		$client = $this->clientService->newClient();
