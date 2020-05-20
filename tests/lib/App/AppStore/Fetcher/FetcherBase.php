@@ -239,7 +239,7 @@ abstract class FetcherBase extends TestCase {
 		$this->timeFactory
 			->expects($this->at(0))
 			->method('getTime')
-			->willReturn(1501);
+			->willReturn(4801);
 		$client = $this->createMock(IClient::class);
 		$this->clientService
 			->expects($this->once())
@@ -249,7 +249,15 @@ abstract class FetcherBase extends TestCase {
 		$client
 			->expects($this->once())
 			->method('get')
-			->with($this->endpoint)
+			->with(
+				$this->equalTo($this->endpoint),
+				$this->equalTo([
+					'timeout' => 10,
+					'headers' => [
+						'Accept-Encoding' => 'gzip',
+					]
+				])
+			)
 			->willReturn($response);
 		$response
 			->expects($this->once())
@@ -342,7 +350,15 @@ abstract class FetcherBase extends TestCase {
 		$client
 			->expects($this->once())
 			->method('get')
-			->with($this->endpoint)
+			->with(
+				$this->equalTo($this->endpoint),
+				$this->equalTo([
+					'timeout' => 10,
+					'headers' => [
+						'Accept-Encoding' => 'gzip',
+					]
+				])
+			)
 			->willReturn($response);
 		$response
 			->expects($this->once())
@@ -430,7 +446,15 @@ abstract class FetcherBase extends TestCase {
 		$client
 			->expects($this->once())
 			->method('get')
-			->with($this->endpoint)
+			->with(
+				$this->equalTo($this->endpoint),
+				$this->equalTo([
+					'timeout' => 10,
+					'headers' => [
+						'Accept-Encoding' => 'gzip',
+					]
+				])
+			)
 			->willReturn($response);
 		$response
 			->expects($this->once())
@@ -495,7 +519,15 @@ abstract class FetcherBase extends TestCase {
 		$client
 			->expects($this->once())
 			->method('get')
-			->with($this->endpoint)
+			->with(
+				$this->equalTo($this->endpoint),
+				$this->equalTo([
+					'timeout' => 10,
+					'headers' => [
+						'Accept-Encoding' => 'gzip',
+					]
+				])
+			)
 			->willThrowException(new \Exception());
 
 		$this->assertSame([], $this->fetcher->get());
@@ -533,11 +565,11 @@ abstract class FetcherBase extends TestCase {
 		$this->timeFactory
 			->expects($this->at(0))
 			->method('getTime')
-			->willReturn(1501);
+			->willReturn(4801);
 		$this->timeFactory
 			->expects($this->at(1))
 			->method('getTime')
-			->willReturn(1502);
+			->willReturn(4802);
 		$client = $this->createMock(IClient::class);
 		$this->clientService
 			->expects($this->once())
@@ -552,14 +584,15 @@ abstract class FetcherBase extends TestCase {
 				$this->equalTo([
 					'timeout' => 10,
 					'headers' => [
-						'If-None-Match' => '"myETag"'
+						'Accept-Encoding' => 'gzip',
+						'If-None-Match' => '"myETag"',
 					]
 				])
 			)->willReturn($response);
 		$response->method('getStatusCode')
 			->willReturn(304);
 
-		$newData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
+		$newData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":4802,"ncversion":"11.0.0.2","ETag":"\"myETag\""}';
 		$file
 			->expects($this->at(1))
 			->method('putContent')
@@ -624,6 +657,7 @@ abstract class FetcherBase extends TestCase {
 				$this->equalTo([
 					'timeout' => 10,
 					'headers' => [
+						'Accept-Encoding' => 'gzip',
 						'If-None-Match' => '"myETag"',
 					]
 				])
@@ -638,7 +672,7 @@ abstract class FetcherBase extends TestCase {
 		$response->method('getHeader')
 			->with($this->equalTo('ETag'))
 			->willReturn('"newETag"');
-		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":1502,"ncversion":"11.0.0.2","ETag":"\"newETag\""}';
+		$fileData = '{"data":[{"id":"MyNewApp","foo":"foo"},{"id":"bar"}],"timestamp":4802,"ncversion":"11.0.0.2","ETag":"\"newETag\""}';
 		$file
 			->expects($this->at(1))
 			->method('putContent')
@@ -650,11 +684,11 @@ abstract class FetcherBase extends TestCase {
 		$this->timeFactory
 			->expects($this->at(0))
 			->method('getTime')
-			->willReturn(1501);
+			->willReturn(4801);
 		$this->timeFactory
 			->expects($this->at(1))
 			->method('getTime')
-			->willReturn(1502);
+			->willReturn(4802);
 
 		$expected = [
 			[
@@ -710,6 +744,9 @@ abstract class FetcherBase extends TestCase {
 				$this->equalTo($this->endpoint),
 				$this->equalTo([
 					'timeout' => 10,
+					'headers' => [
+						'Accept-Encoding' => 'gzip',
+					],
 				])
 			)
 			->willReturn($response);
