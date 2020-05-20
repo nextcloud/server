@@ -29,10 +29,13 @@ use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore as CredentialsStore;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\Security\ICredentialsManager;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserLoggedInEvent;
 
 /**
  * Username and password from login credentials, saved in DB
@@ -49,7 +52,7 @@ class LoginCredentials extends AuthMechanism {
 	/** @var CredentialsStore */
 	private $credentialsStore;
 
-	public function __construct(IL10N $l, ISession $session, ICredentialsManager $credentialsManager, CredentialsStore $credentialsStore) {
+	public function __construct(IL10N $l, ISession $session, ICredentialsManager $credentialsManager, CredentialsStore $credentialsStore, IEventDispatcher $eventDispatcher) {
 		$this->session = $session;
 		$this->credentialsManager = $credentialsManager;
 		$this->credentialsStore = $credentialsStore;
@@ -60,6 +63,29 @@ class LoginCredentials extends AuthMechanism {
 			->setText($l->t('Log-in credentials, save in database'))
 			->addParameters([
 			]);
+
+		$eventDispatcher->addListener(UserLoggedInEvent::class, [$this, 'updateCredentials']);
+		$eventDispatcher->addListener(PasswordUpdatedEvent::class, [$this, 'updateCredentials']);
+	}
+
+	/**
+	 * @param UserLoggedInEvent | PasswordUpdatedEvent $event
+	 */
+	public function updateCredentials($event) {
+		if ($event instanceof UserLoggedInEvent && $event->isTokenLogin()) {
+			return;
+		}
+
+		$stored = $this->credentialsManager->retrieve($event->getUser()->getUID(), self::CREDENTIALS_IDENTIFIER);
+
+		if ($stored && $stored['password'] != $event->getPassword()) {
+			$credentials = [
+				'user' => $stored['user'],
+				'password' => $event->getPassword()
+			];
+
+			$this->credentialsManager->store($event->getUser()->getUID(), self::CREDENTIALS_IDENTIFIER, $credentials);
+		}
 	}
 
 	private function getCredentials(IUser $user): array {
