@@ -89,6 +89,10 @@ class Client implements IClient {
 			$options[RequestOptions::HEADERS]['User-Agent'] = 'Nextcloud Server Crawler';
 		}
 
+		if (!isset($options[RequestOptions::HEADERS]['Accept-Encoding'])) {
+			$options[RequestOptions::HEADERS]['Accept-Encoding'] = 'gzip';
+		}
+
 		return $options;
 	}
 
