@@ -175,6 +175,10 @@ class SCSSCacher {
 				$retry++;
 			}
 			$this->logger->debug('SCSSCacher: Giving up scss caching for '.$lockKey, ['app' => 'core']);
+			
+			// Cleaning lock
+			$this->lockingCache->remove($lockKey);
+			
 			return false;
 		}
 
