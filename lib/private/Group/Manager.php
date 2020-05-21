@@ -77,7 +77,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	/** @var \OC\Group\Group[] */
 	private $cachedGroups = [];
 
-	/** @var \OC\Group\Group[] */
+	/** @var (string[])[] */
 	private $cachedUserGroups = [];
 
 	/** @var \OC\SubAdmin */
@@ -276,25 +276,18 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return \OC\Group\Group[]
 	 */
 	public function getUserIdGroups($uid) {
-		if (isset($this->cachedUserGroups[$uid])) {
-			return $this->cachedUserGroups[$uid];
-		}
 		$groups = [];
-		foreach ($this->backends as $backend) {
-			$groupIds = $backend->getUserGroups($uid);
-			if (is_array($groupIds)) {
-				foreach ($groupIds as $groupId) {
-					$aGroup = $this->get($groupId);
-					if ($aGroup instanceof IGroup) {
-						$groups[$groupId] = $aGroup;
-					} else {
-						$this->logger->debug('User "' . $uid . '" belongs to deleted group: "' . $groupId . '"', ['app' => 'core']);
-					}
-				}
+
+		foreach ($this->getUserIdGroupIds($uid) as $groupId) {
+			$aGroup = $this->get($groupId);
+			if ($aGroup instanceof IGroup) {
+				$groups[$groupId] = $aGroup;
+			} else {
+				$this->logger->debug('User "' . $uid . '" belongs to deleted group: "' . $groupId . '"', ['app' => 'core']);
 			}
 		}
-		$this->cachedUserGroups[$uid] = $groups;
-		return $this->cachedUserGroups[$uid];
+
+		return $groups;
 	}
 
 	/**
@@ -320,7 +313,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return bool if in group
 	 */
 	public function isInGroup($userId, $group) {
-		return array_key_exists($group, $this->getUserIdGroups($userId));
+		return array_search($group, $this->getUserIdGroupIds($userId)) !== false;
 	}
 
 	/**
@@ -330,9 +323,25 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return array with group ids
 	 */
 	public function getUserGroupIds(IUser $user) {
-		return array_map(function ($value) {
-			return (string)$value;
-		}, array_keys($this->getUserGroups($user)));
+		return $this->getUserIdGroupIds($user->getUID());
+	}
+
+	/**
+	 * @param string $uid the user id
+	 * @return GroupInterface[]
+	 */
+	private function getUserIdGroupIds($uid) {
+		if (!isset($this->cachedUserGroups[$uid])) {
+			$groups = [];
+			foreach ($this->backends as $backend) {
+				if ($groupIds = $backend->getUserGroups($uid)) {
+					$groups = array_merge($groups, $groupIds);
+				}
+			}
+			$this->cachedUserGroups[$uid] = $groups;
+		}
+
+		return $this->cachedUserGroups[$uid];
 	}
 
 	/**

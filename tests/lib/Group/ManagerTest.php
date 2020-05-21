@@ -390,17 +390,15 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testGetUserGroupIds() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Group\Manager $manager */
-		$manager = $this->getMockBuilder(\OC\Group\Manager::class)
-			->disableOriginalConstructor()
-			->setMethods(['getUserGroups'])
-			->getMock();
-		$manager->expects($this->once())
-			->method('getUserGroups')
-			->willReturn([
-				'123' => '123',
-				'abc' => 'abc',
-			]);
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend
+		 */
+		$backend = $this->getTestBackend();
+		$backend->method('getUserGroups')
+			->willReturn(['123', 'abc']);
+
+		$manager = new \OC\Group\Manager($this->userManager, $this->dispatcher, $this->logger);
+		$manager->addBackend($backend);
 
 		/** @var \OC\User\User|\PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->createMock(IUser::class);
