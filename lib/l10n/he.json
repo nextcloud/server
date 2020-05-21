@@ -15,6 +15,7 @@
     "PHP %s or higher is required." : "נדרש PHP בגרסת %s ומעלה.",
     "PHP with a version lower than %s is required." : "נדרש PHP בגרסה נמוכה מ- %s.",
     "%sbit or higher PHP required." : "נדרש PHP בגרסת %s ומעלה.",
+    "The following databases are supported: %s" : "יש תמיכה במסדי הנתונים הבאים: %s",
     "The command line tool %s could not be found" : "כלי שורת הפקודה %s לא אותר",
     "The library %s is not available." : "הספריה %s אינה זמינה.",
     "Library %1$s with a version lower than %2$s is required - available version %3$s." : "נדרשת ספרייה %1$s עם גרסה מתחת ל־%2$s - הגרסה הזמינה היא %3$s.",
