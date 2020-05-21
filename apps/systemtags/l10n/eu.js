@@ -16,6 +16,7 @@ OC.L10N.register(
     "You created system tag {systemtag}" : "{systemtag} sistemako etiketa zuk sortu duzu",
     "%1$s created system tag %2$s" : "%1$s(e)k %2$s sistemako etiketa sortu du",
     "You deleted system tag %1$s" : "%1$s sistemako etiketa ezabatu duzu",
+    "You deleted system tag {systemtag}" : "{systemtag} sistemako etiketa ezabatu duzu",
     "%1$s deleted system tag %2$s" : "%1$s(e)k %2$s sistemako etiketa ezabatu du",
     "%1$s updated system tag %3$s to %2$s" : "%1$s(e)k %3$s sistemako etiketa %2$s(e)ra eguneratu du",
     "You removed system tag %2$s from %1$s" : "%2$s sistemako etiketa %1$s(e)tik kendu duzu",
