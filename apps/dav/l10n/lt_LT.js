@@ -66,6 +66,8 @@ OC.L10N.register(
     "Decline" : "Atmesti",
     "More options …" : "Daugiau parinkčių…",
     "Contacts" : "Adresatai",
+    "System in maintenance mode." : "Sistema yra techninės priežiūros veiksenoje.",
+    "Upgrade needed" : "Reikalingas naujinimas",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Norint naudoti CalDAV ir CardDAV su iOS/macOS, jūsų %s turi būti sukonfigūruota taip, kad naudotų HTTPS.",
     "Configures a CalDAV account" : "Konfigūruoja CalDAV paskyrą",
     "Configures a CardDAV account" : "Konfigūruoja CardDAV paskyrą",
