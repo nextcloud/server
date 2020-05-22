@@ -154,7 +154,7 @@ OC.L10N.register(
     "New owner" : "Nowy właściciel",
     "Search users" : "Wyszukaj użytkowników",
     "Choose a file or folder to transfer" : "Wybierz plik lub katalog do przesłania",
-    "Transfer" : "Przeniesienia",
+    "Transfer" : "Przenieś",
     "Transfer {path} to {userid}" : "Przenieś {path} do {userid}",
     "Invalid path selected" : "Wybrano nieprawidłową ścieżkę",
     "Ownership transfer request sent" : "Wysłano żądanie przeniesienia własności",

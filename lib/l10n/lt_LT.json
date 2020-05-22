@@ -187,6 +187,7 @@
     "Your data directory is invalid" : "Neteisingas duomenų katalogas",
     "Ensure there is a file called \".ocdata\" in the root of the data directory." : "Įsitikinkite, kad šakniniame duomenų kataloge yra  yra \".ocdata\" failas.",
     "Action \"%s\" not supported or implemented." : "Veiksmas \"%s\" nepalaikomas ar neįgyvendintas.",
+    "Authentication failed, wrong token or provider ID given" : "Tapatybės nustatymas nepavyko, nurodytas neteisingas prieigos raktas arba teikėjo ID",
     "Could not obtain lock type %d on \"%s\"." : "Nepavyko gauti užrakto tipo %d ties \"%s\".",
     "Storage unauthorized. %s" : "Saugykla nesankcionuota. %s",
     "Storage incomplete configuration. %s" : "Nepilna saugyklos konfigūracija. %s",
