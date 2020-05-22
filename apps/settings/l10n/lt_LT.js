@@ -222,6 +222,7 @@ OC.L10N.register(
     "Add" : "Pridėti",
     "Adding your device …" : "Pridedamas jūsų įrenginys …",
     "Unnamed device" : "Įrenginys be pavadinimo",
+    "Your browser does not support WebAuthn." : "Jūsų naršyklė nepalaiko WebAuthn.",
     "Your apps" : "Jūsų programėlės",
     "Active apps" : "Aktyvios programėlės",
     "Disabled apps" : "Išjungtos programėlės",
