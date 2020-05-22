@@ -5,6 +5,7 @@
     "Please check the Nextcloud and server log files for errors." : "Mesedez, egiaztatu Nextcloud eta zerbitzariaren erregistroko fitxategiak akatsak dauden ikusteko.",
     "Update to %1$s is available." : "%1$s-ra eguneratzea eskuragarri dago.",
     "Update for %1$s to version %2$s is available." : "%1$s(r)entzako %2$s bertsiora eguneratzea eskuragarri dago.",
+    "Update for {app} to version %s is available." : "{app}(r)entzako eguneraketa %s bertsiora eskuragarri dago.",
     "Update notification" : "Eguneratu jakinarazpena",
     "Apps missing updates" : "Eguneratzeak falta dituzten aplikazioak",
     "View in store" : "Dendan ikusi",

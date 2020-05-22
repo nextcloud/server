@@ -73,6 +73,8 @@
     "More options …" : "更多选项",
     "More options at %s" : "在%s的更多选项",
     "Contacts" : "联系人",
+    "System in maintenance mode." : "系统处于维护模式。",
+    "Upgrade needed" : "需要升级",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "您的%s 需要配置使用HTTPS以在iOS/macOS中使用CalDAV和CardDAV。",
     "Configures a CalDAV account" : "配置一个 CalDAV 账号",
     "Configures a CardDAV account" : "配置一个 CardDAV 账号",
