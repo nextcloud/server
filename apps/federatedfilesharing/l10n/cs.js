@@ -30,7 +30,7 @@ OC.L10N.register(
     "You received {share} as a remote share from {user}" : "Obdrželi jste {share} jako vzdálené sdílení od {user}",
     "Accept" : "Přijmout",
     "Decline" : "Zamítnout",
-    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Sdílej se mnou pomocí mého #Nextcloud sdruženého cloud ID, více na %s",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Sdílejte se mnou pomocí mého #Nextcloud sdruženého cloud ID, více na %s",
     "Share with me through my #Nextcloud Federated Cloud ID" : "Sdílejte se mnou pomocí mého #Nextcloud sdruženého cloud ID",
     "Sharing" : "Sdílení",
     "Federated file sharing" : "Federované sdílení souborů",
