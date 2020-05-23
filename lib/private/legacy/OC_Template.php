@@ -118,14 +118,14 @@ class OC_Template extends \OC\Template\Base {
 				OC_Util::addScript('search', 'search', true);
 				OC_Util::addScript('search', 'searchprovider');
 				OC_Util::addScript('merged-template-prepend', null, true);
-				OC_Util::addScript('files/fileinfo');
-				OC_Util::addScript('files/client');
+				OC_Util::addScript('dist/files_fileinfo');
+				OC_Util::addScript('dist/files_client');
 			}
 			OC_Util::addScript('core', 'dist/main', true);
 
 			if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE])) {
 				// shim for the davclient.js library
-				\OCP\Util::addScript('files/iedavclient');
+				\OCP\Util::addScript('dist/files_iedavclient');
 			}
 
 			self::$initTemplateEngineFirstRun = false;

@@ -16,8 +16,6 @@
 		"../search/js/search.js",
 		"mimetype.js",
 		"mimetypelist.js",
-		"files/fileinfo.js",
-		"files/client.js",
 		"systemtags/systemtags.js",
 		"systemtags/templates.js",
 		"systemtags/systemtagmodel.js",
