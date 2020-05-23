@@ -25,6 +25,8 @@ OC.L10N.register(
     "Sharing %1$s failed, this item is already shared with %2$s" : "השיתוף של %1$s נכשל, הפריט הזה כבר שותף עם %2$s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "אין לנו אפשרות לשלוח לך את הססמה שנוצרה אוטומטית. נא להגדיר כתובת דוא״ל תקנית בהגדרות האישיות שלך ולנסות שוב.",
     "Failed to send share by email" : "שליחת השיתוף בדוא״ל נכשלה",
+    "%1$s shared »%2$s« with you" : "„%2$s” שותף אתך על ידי %1$s",
+    "%1$s shared »%2$s« with you." : "„%2$s” שותף אתך על ידי %1$s.",
     "Click the button below to open it." : "יש ללחוץ על הכפתור שלהלן כדי לפתוח אותו.",
     "Open »%s«" : "פתיחת „%s”",
     "%1$s via %2$s" : "%1$s דרך %2$s",

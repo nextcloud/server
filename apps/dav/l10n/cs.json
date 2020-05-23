@@ -10,7 +10,7 @@
     "You updated calendar {calendar}" : "Aktualizovali jste kalendář {calendar}",
     "You shared calendar {calendar} as public link" : "Sdíleli jste kalendář {calendar} jako veřejný odkaz",
     "You removed public link for calendar {calendar}" : "Odstranili jste veřejný odkaz pro kalendář {calendar} ",
-    "{actor} shared calendar {calendar} with you" : "{actor} s vámi nasdílel(a) kalendář {calendar}",
+    "{actor} shared calendar {calendar} with you" : "{actor} vám nasdílel(a) kalendář {calendar}",
     "You shared calendar {calendar} with {user}" : "S uživatelem {user} jste začali sdílet kalendář {calendar}",
     "{actor} shared calendar {calendar} with {user}" : "{actor} začal(a) sdílet kalendář {calendar} s uživatelem {user}",
     "{actor} unshared calendar {calendar} from you" : "{actor} s vámi přestal(a) sdílet kalendář {calendar}",

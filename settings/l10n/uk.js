@@ -150,6 +150,7 @@ OC.L10N.register(
     "Enable" : "Увімкнути",
     "Enable untested app" : "Увімкнути непротестований застосунок",
     "The app will be downloaded from the app store" : "Застосунок буде звантажено з крамниці застосунків",
+    "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Відсутня інформація щодо підтримки цього застосунку вашою версією Nextcloud. Ви зможете встановити цей застосунок, проте він може працювати не так, як ви очікуєте.",
     "Device settings" : "Налаштування пристрою",
     "Allow filesystem access" : "Дозволити доступ до файлової системи",
     "Rename" : "Перейменувати",
