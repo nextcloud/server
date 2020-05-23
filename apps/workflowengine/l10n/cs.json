@@ -8,7 +8,7 @@
     "The given IP range is not valid for IPv6" : "Zadaný rozsah IP adres není pro IPv6 platný",
     "The given time span is invalid" : "Zadaný časový rozsah není platný",
     "The given start time is invalid" : "Zadaný počáteční čas není platný",
-    "The given end time is invalid" : "Zadaný koncový čas je neplatný",
+    "The given end time is invalid" : "Zadaný koncový čas není platný",
     "The given group does not exist" : "Zadaná skupina neexistuje",
     "File" : "Soubor",
     "File created" : "Soubor vytvořen",

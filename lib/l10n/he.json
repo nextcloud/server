@@ -90,6 +90,8 @@
     "Files can’t be shared with create permissions" : "לא ניתן לשתף קבצים עם הרשאות יצירה",
     "Expiration date is in the past" : "תאריך תפוגה הנו בעבר",
     "Can’t set expiration date more than %s days in the future" : "לא ניתן להגדיר את תאריך התפוגה מעל %s ימים בעתיד",
+    "%1$s shared »%2$s« with you" : "%2$s שותף אתך על ידי %1$s",
+    "%1$s shared »%2$s« with you." : "„%2$s” שותף אתך על ידי %1$s.",
     "Click the button below to open it." : "יש ללחוץ על הכפתור להלן כדי לפתוח אותו.",
     "The requested share does not exist anymore" : "השיתוף המבוקש אינו קיים עוד",
     "Could not find category \"%s\"" : "לא ניתן למצוא את הקטגוריה „%s“",

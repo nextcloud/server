@@ -52,6 +52,8 @@ OC.L10N.register(
     "Selected groups" : "Обрані групи",
     "LDAP Filter:" : "LDAP фільтр:",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Фільтр визначає, які LDAP групи повинні мати доступ до %s примірника.",
+    "Verify settings and count the groups" : "Перевірити налаштування та порахувати групи",
+    "LDAP / AD Username:" : "ім'я користувача LDAP/AD:",
     "LDAP / AD Email Address:" : "LDAP / AD Email адреса:",
     "Other Attributes:" : "Інші Атрибути:",
     "Test Loginname" : "Тестове ім'я при вході",
