@@ -239,8 +239,8 @@ class ResponseTest extends \Test\TestCase {
 		$this->childResponse->cacheFor(33);
 
 		$headers = $this->childResponse->getHeaders();
-		$this->assertEquals('max-age=33, must-revalidate', $headers['Cache-Control']);
-		$this->assertEquals('public', $headers['Pragma']);
+		$this->assertEquals('private, max-age=33, must-revalidate', $headers['Cache-Control']);
+		$this->assertEquals('private', $headers['Pragma']);
 		$this->assertEquals('Thu, 15 Jan 1970 06:56:40 +0000', $headers['Expires']);
 	}
 
