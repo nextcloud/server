@@ -1036,6 +1036,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\Storage\\Wrapper\\Wrapper' => __DIR__ . '/../../..' . '/lib/private/Files/Storage/Wrapper/Wrapper.php',
         'OC\\Files\\Stream\\Encryption' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/Encryption.php',
         'OC\\Files\\Stream\\Quota' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/Quota.php',
+        'OC\\Files\\Stream\\SeekableHttpStream' => __DIR__ . '/../../..' . '/lib/private/Files/Stream/SeekableHttpStream.php',
         'OC\\Files\\Type\\Detection' => __DIR__ . '/../../..' . '/lib/private/Files/Type/Detection.php',
         'OC\\Files\\Type\\Loader' => __DIR__ . '/../../..' . '/lib/private/Files/Type/Loader.php',
         'OC\\Files\\Type\\TemplateManager' => __DIR__ . '/../../..' . '/lib/private/Files/Type/TemplateManager.php',
