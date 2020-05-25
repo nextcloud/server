@@ -93,18 +93,18 @@ class Client implements IClient {
 	}
 
 	private function getCertBundle() {
-		if ($this->certificateManager->listCertificates() !== []) {
-			return $this->certificateManager->getAbsoluteBundlePath();
-		} else {
-			// If the instance is not yet setup we need to use the static path as
-			// $this->certificateManager->getAbsoluteBundlePath() tries to instantiiate
-			// a view
-			if ($this->config->getSystemValue('installed', false)) {
-				return $this->certificateManager->getAbsoluteBundlePath(null);
-			} else {
-				return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
-			}
+		// If the instance is not yet setup we need to use the static path as
+		// $this->certificateManager->getAbsoluteBundlePath() tries to instantiiate
+		// a view
+		if ($this->config->getSystemValue('installed', false) === false) {
+			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 		}
+
+		if ($this->certificateManager->listCertificates() === []) {
+			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
+		}
+
+		return $this->certificateManager->getAbsoluteBundlePath();
 	}
 
 	/**
