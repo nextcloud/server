@@ -175,6 +175,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Security\ListCertificates(\OC::$server->getCertificateManager(null), \OC::$server->getL10N('core')));
 	$application->add(new OC\Core\Command\Security\ImportCertificate(\OC::$server->getCertificateManager(null)));
 	$application->add(new OC\Core\Command\Security\RemoveCertificate(\OC::$server->getCertificateManager(null)));
+	$application->add(new OC\Core\Command\Security\ResetBruteforceAttempts(\OC::$server->getBruteForceThrottler()));
 } else {
 	$application->add(new OC\Core\Command\Maintenance\Install(\OC::$server->getSystemConfig()));
 }

@@ -90,6 +90,17 @@ class Throttler {
 	}
 
 	/**
+	 *  Calculate the cut off timestamp
+	 *
+	 * @return int
+	 */
+	private function getCutoffTimestamp(): int {
+		return (new \DateTime())
+			->sub($this->getCutoff(43200))
+			->getTimestamp();
+	}
+
+	/**
 	 * Register a failed attempt to bruteforce a security control
 	 *
 	 * @param string $action
@@ -212,9 +223,7 @@ class Throttler {
 			return 0;
 		}
 
-		$cutoffTime = (new \DateTime())
-			->sub($this->getCutoff(43200))
-			->getTimestamp();
+		$cutoffTime = $this->getCutoffTimestamp();
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
@@ -259,9 +268,7 @@ class Throttler {
 			return;
 		}
 
-		$cutoffTime = (new \DateTime())
-			->sub($this->getCutoff(43200))
-			->getTimestamp();
+		$cutoffTime = $this->getCutoffTimestamp();
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('bruteforce_attempts')
@@ -269,6 +276,22 @@ class Throttler {
 			->andWhere($qb->expr()->eq('subnet', $qb->createNamedParameter($ipAddress->getSubnet())))
 			->andWhere($qb->expr()->eq('action', $qb->createNamedParameter($action)))
 			->andWhere($qb->expr()->eq('metadata', $qb->createNamedParameter(json_encode($metadata))));
+
+		$qb->execute();
+	}
+
+	/**
+	 * Reset the throttling delay for an IP address
+	 *
+	 * @param string $ip
+	 */
+	public function resetDelayForIP($ip) {
+		$cutoffTime = $this->getCutoffTimestamp();
+
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('bruteforce_attempts')
+			->where($qb->expr()->gt('occurred', $qb->createNamedParameter($cutoffTime)))
+			->andWhere($qb->expr()->eq('ip', $qb->createNamedParameter($ip)));
 
 		$qb->execute();
 	}

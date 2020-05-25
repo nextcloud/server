@@ -818,6 +818,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Core\\Command\\Security\\ImportCertificate' => __DIR__ . '/../../..' . '/core/Command/Security/ImportCertificate.php',
         'OC\\Core\\Command\\Security\\ListCertificates' => __DIR__ . '/../../..' . '/core/Command/Security/ListCertificates.php',
         'OC\\Core\\Command\\Security\\RemoveCertificate' => __DIR__ . '/../../..' . '/core/Command/Security/RemoveCertificate.php',
+        'OC\\Core\\Command\\Security\\ResetBruteforceAttempts' => __DIR__ . '/../../..' . '/core/Command/Security/ResetBruteforceAttempts.php',
         'OC\\Core\\Command\\Status' => __DIR__ . '/../../..' . '/core/Command/Status.php',
         'OC\\Core\\Command\\TwoFactorAuth\\Base' => __DIR__ . '/../../..' . '/core/Command/TwoFactorAuth/Base.php',
         'OC\\Core\\Command\\TwoFactorAuth\\Cleanup' => __DIR__ . '/../../..' . '/core/Command/TwoFactorAuth/Cleanup.php',
