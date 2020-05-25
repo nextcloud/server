@@ -105,7 +105,7 @@
     "new" : "novo",
     "_download %n file_::_download %n files_" : ["prejmi %n datoteko","prejmi %n datoteki","prejmi %n datoteke","prejmi %n datotek"],
     "The update is in progress, leaving this page might interrupt the process in some environments." : "V teku je posodobitev. Odhod s te strani lahko v določenih okoljih prekine opravilo.",
-    "Update to {version}" : "Posodobi na {version}",
+    "Update to {version}" : "Posodobitev na {version}",
     "An error occurred." : "Prišlo je do napake.",
     "Please reload the page." : "Stran je treba osvežiti.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Posodobitev je spodletela. Več podrobnosti o napaki je <a href=\"{url}\">objavljenih na forumu</a>.",

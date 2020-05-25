@@ -203,7 +203,7 @@
     "Do you really want to wipe your data from this device?" : "Θέλετε σίγουρα να διαγράψετε τα δεδομένα από την συσκεύη?",
     "Confirm wipe" : "Επιβεβαίωση εκκαθάρισης",
     "Error while creating device token" : "Σφάλμα κατά τη δημιουργία διακριτικού συσκευής",
-    "Error while updating device token scope" : "Σφάλμα κατά την ενημέρωση του σκοπού αναγνωριστικού συσκευής",
+    "Error while updating device token scope" : "Σφάλμα κατά την ενημέρωση του αναγνωριστικού συσκευής",
     "Error while updating device token name" : "Σφάλμα κατά την ενημέρωση του ονόματος αναγνωριστικού συσκευής",
     "Error while deleting the token" : "Σφάλμα κατά την διαγραφή του διακριτικού",
     "Error while wiping the device with the token" : "Σφάλμα κατά την εκκαθάριση συσκευής με το αναγνωριστικό",
