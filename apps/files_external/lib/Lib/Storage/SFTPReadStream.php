@@ -82,6 +82,9 @@ class SFTPReadStream implements File {
 
 	public function stream_open($path, $mode, $options, &$opened_path) {
 		[, $path] = explode('://', $path);
+		$path = '/' . ltrim($path);
+		$path = str_replace('//', '/', $path);
+
 		$this->loadContext('sftp');
 
 		if (!($this->sftp->bitmap & SSH2::MASK_LOGIN)) {
