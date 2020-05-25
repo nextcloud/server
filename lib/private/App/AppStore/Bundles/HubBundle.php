@@ -37,8 +37,8 @@ class HubBundle extends Bundle {
 			'contacts',
 			'calendar',
 			'mail',
-			'documentserver_community',
-			'onlyoffice',
+			'richdocumentscode',
+			'richdocuments',
 		];
 	}
 }
