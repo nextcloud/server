@@ -2049,6 +2049,12 @@ class Access extends LDAPUtility {
 				// of '0' is valid, because 389ds
 				$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
 				$this->search($filter, $base, $attr, $limit, $reOffset, true);
+				if (!$this->hasMoreResults()) {
+					// when the cookie is reset with != 0 offset, there are no further
+					// results, so stop. This if block is not necessary with new API
+					// and can be removed with dropping PHP 7.2
+					return false;
+				}
 			}
 			if ($this->lastCookie !== '' && $offset === 0) {
 				//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
