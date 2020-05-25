@@ -285,7 +285,7 @@ class Throttler {
 	 *
 	 * @param string $ip
 	 */
-	public function resetDelayForIP($ip){
+	public function resetDelayForIP($ip) {
 		$cutoffTime = $this->getCutoffTimestamp();
 
 		$qb = $this->db->getQueryBuilder();
