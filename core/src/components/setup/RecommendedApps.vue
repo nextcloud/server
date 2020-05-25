@@ -82,11 +82,11 @@ const recommended = {
 	spreed: {
 		description: t('core', 'Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps.'),
 	},
-	onlyoffice: {
+	richdocuments: {
 		description: t('core', 'Collaboratively edit office documents.'),
 	},
-	documentserver_community: {
-		description: t('core', 'Local document editing back-end used by the OnlyOffice app.'),
+	richdocumentscode: {
+		description: t('core', 'Local document editing back-end used by the Collabora Online app.'),
 	},
 }
 const recommendedIds = Object.keys(recommended)
