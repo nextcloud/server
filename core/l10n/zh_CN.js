@@ -171,7 +171,6 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "简单的电子邮件应用程序与文件，联系人和日历完美集成。",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "在浏览器和移动设备应用中进行聊天，视频通话，屏幕共享，线上见面和网络会议。",
     "Collaboratively edit office documents." : "协作编辑办公文档。",
-    "Local document editing back-end used by the OnlyOffice app." : "OnlyOffice 应用使用的本地文档编辑后端。",
     "Forgot password?" : "忘记密码？",
     "Log in with a device" : "使用设备登录",
     "Back" : "返回",
@@ -437,6 +436,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "您的客户端现在应该可以连接了！您可以关闭这个窗口。",
     "Cancel log in" : "取消登录",
     "These apps will be updated:" : "以下应用将被更新：",
+    "Local document editing back-end used by the OnlyOffice app." : "OnlyOffice 应用使用的本地文档编辑后端。",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "日历、联系人、通话、电子邮件和 OnlyOffice"
 },
 "nplurals=1; plural=0;");

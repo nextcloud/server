@@ -148,7 +148,6 @@ OC.L10N.register(
     "Keep your colleagues and friends in one place without leaking their private info." : "עמיתים לעבודה וחברים מרוכזים במקום אחד מבלי זליגה של הפרטים האישיים שלהם.",
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "יישומון דוא״ל פשוט שמשתלב בצורה נחמדה עם הקבצים, אנשי הקשר והיומן.",
     "Collaboratively edit office documents." : "עריכה שיתופית של מסמכי Office.",
-    "Local document editing back-end used by the OnlyOffice app." : "מנגנון עריכת מסמכים מקומי בו משתמש היישומון OnlyOffice.",
     "Forgot password?" : "שכחת ססמה?",
     "Log in with a device" : "כניסה עם מכשיר",
     "Back" : "חזרה",
@@ -409,6 +408,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "הלקוח שלך אמור להיות מחובר עכשיו! ניתן לסגור את החלון הזה.",
     "Cancel log in" : "ביטול כניסה",
     "These apps will be updated:" : "יישומים אלו יעודכנו:",
+    "Local document editing back-end used by the OnlyOffice app." : "מנגנון עריכת מסמכים מקומי בו משתמש היישומון OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "יומן, אנשי קשר, שיחה, דוא״ל ו־OnlyOffice"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

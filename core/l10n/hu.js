@@ -171,7 +171,6 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Egyszerű e-mail alkalmazás, amely szépen integrálódik a Fájlok, Névjegyek és Naptár alkalmazásba.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Csevegés, videóhívások, képernyőmegosztás, online megbeszélések és webes konferencia – a böngészőjében és mobilalkalmazásokkal.",
     "Collaboratively edit office documents." : "Szerkesszen közösen irodai dokumentumokat.",
-    "Local document editing back-end used by the OnlyOffice app." : "Helyi dokumentumszerkesztési háttérszolgáltatás, melyet az OnlyOffice alkalmazás használ.",
     "Forgot password?" : "Elfelejtett jelszó?",
     "Log in with a device" : "Bejelentkezés eszközzel",
     "Back" : "Vissza",
@@ -437,6 +436,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "A kliens már csatlakozott. Bezárhatja ezt az ablakot.",
     "Cancel log in" : "Bejelentkezés megszakítása",
     "These apps will be updated:" : "A következő alkalmazások lesznek frissítve:",
+    "Local document editing back-end used by the OnlyOffice app." : "Helyi dokumentumszerkesztési háttérszolgáltatás, melyet az OnlyOffice alkalmazás használ.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Naptár, Névjegyek, Beszélgetés, Levelezés és OnlyOffice"
 },
 "nplurals=2; plural=(n != 1);");

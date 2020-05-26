@@ -170,7 +170,6 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Jednostavna aplikacija za upravljanje e-poštom, integrirana s aplikacijama Files, Contacts i Calendar.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Razmjenjivanje poruka, video pozivi, dijeljenje zaslona, sastanci na mreži i web-konferencije – putem preglednika i mobilnih aplikacija.",
     "Collaboratively edit office documents." : "Surađujte na uređivanju dokumenata paketa Office.",
-    "Local document editing back-end used by the OnlyOffice app." : "Pozadinski sustav za uređivanje lokalnih dokumenata u aplikaciji OnlyOffice.",
     "Forgot password?" : "Zaboravili ste zaporku?",
     "Log in with a device" : "Prijavite se s pomoću uređaja",
     "Back" : "Natrag",
@@ -435,6 +434,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Vaš klijent sada bi trebao biti povezan! Možete zatvoriti ovaj prozor.",
     "Cancel log in" : "Otkaži prijavu",
     "These apps will be updated:" : "Sljedeće aplikacije bit će ažurirane:",
+    "Local document editing back-end used by the OnlyOffice app." : "Pozadinski sustav za uređivanje lokalnih dokumenata u aplikaciji OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendar, Contacts, Talk, Mail i OnlyOffice"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

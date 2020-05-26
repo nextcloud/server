@@ -131,7 +131,6 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Vienkāršā e-pasta lietotne labi integrēta ar Failiem, Kontaktiem un Kalendāru.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Tērzēšana, videozvani, ekrāna koplietošana, tiešsaistes sapulces un tīmekļa konferences - pārlūkprogrammā un ar mobilajām lietotnēm.",
     "Collaboratively edit office documents." : "Kopīgi rediģējiet ofisa dokumentus.",
-    "Local document editing back-end used by the OnlyOffice app." : "Lokālo dokumentu rediģēšanas back-end, ko izmanto OnlyOffice lietojumprogramma.",
     "Forgot password?" : "Aizmirsi paroli?",
     "Log in with a device" : "Pieslēgties izmantojot ierīci",
     "Back" : "Atpakaļ",
@@ -330,6 +329,7 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Saving..." : "Saglabā...",
     "Cancel log in" : "Atcelt pieteikšanos",
-    "These apps will be updated:" : "Šīs lietotnes tiks atjauninātas:"
+    "These apps will be updated:" : "Šīs lietotnes tiks atjauninātas:",
+    "Local document editing back-end used by the OnlyOffice app." : "Lokālo dokumentu rediģēšanas back-end, ko izmanto OnlyOffice lietojumprogramma."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

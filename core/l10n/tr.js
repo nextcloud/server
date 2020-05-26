@@ -171,7 +171,6 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Dosyalar, Kişiler ve Takvim uygulamaları ile bir arada çalışan basit bir e-posta uygulaması.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Sohbet, görüntülü arama, ekran paylaşımı, çevrimiçi toplantılar ve web görüşmeleri - masaüstü ve mobil için uygulamalar.",
     "Collaboratively edit office documents." : "Ofis belgelerini işbirlikli düzenleme.",
-    "Local document editing back-end used by the OnlyOffice app." : "OnlyOffice uygulaması ile yerel belge düzenleme altyapısı.",
     "Forgot password?" : "Parolamı unuttum",
     "Log in with a device" : "Bir aygıt ile oturum açın",
     "Back" : "Geri",
@@ -437,6 +436,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "İstemcinizin bağlanmış olması gerekir! Bu pencereyi kapatabilirsiniz",
     "Cancel log in" : "Oturum açmaktan vazgeç",
     "These apps will be updated:" : "Şu uygulamalar güncellenecek:",
+    "Local document editing back-end used by the OnlyOffice app." : "OnlyOffice uygulaması ile yerel belge düzenleme altyapısı.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Takvim, Kişiler, Sohbet ve E-posta ve OnlyOffice"
 },
 "nplurals=2; plural=(n > 1);");
