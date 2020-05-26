@@ -36,7 +36,7 @@ module.exports = [
 	},
 	{
 		entry: {
-			systemtags: path.resolve(__dirname, 'js/systemtags/merged-systemtags.js')
+			systemtags: path.resolve(__dirname, 'src/systemtags/merged-systemtags.js')
 		},
 		output: {
 			filename: '[name].js',

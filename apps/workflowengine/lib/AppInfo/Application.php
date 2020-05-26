@@ -66,9 +66,7 @@ class Application extends \OCP\AppFramework\App {
 				script('core', [
 					'files/fileinfo',
 					'files/client',
-					'systemtags/systemtags',
-					'systemtags/systemtagmodel',
-					'systemtags/systemtagscollection',
+					'dist/systemtags',
 				]);
 
 				script(self::APP_ID, [
