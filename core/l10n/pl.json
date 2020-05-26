@@ -169,7 +169,6 @@
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Prosta aplikacja e-mail przyjemnie zintegrowana z plikami, kontaktami i kalendarzem.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Czat, rozmowy wideo, udostępnianie ekranu, spotkania i konferencje internetowe - w przeglądarce i aplikacjach mobilnych.",
     "Collaboratively edit office documents." : "Wspólnie edytuj dokumenty biurowe.",
-    "Local document editing back-end used by the OnlyOffice app." : "Lokalne zaplecze do edycji dokumentów używane przez aplikację OnlyOffice.",
     "Forgot password?" : "Zapomniałeś hasła?",
     "Log in with a device" : "Zaloguj się za pomocą urządzenia",
     "Back" : "Wróć",
@@ -435,6 +434,7 @@
     "Your client should now be connected! You can close this window." : "Aplikacja kliencka powinna być już połączona! Można zamknąć to okno.",
     "Cancel log in" : "Anuluj logowanie",
     "These apps will be updated:" : "Następujące aplikacje zostaną zaktualizowane:",
+    "Local document editing back-end used by the OnlyOffice app." : "Lokalne zaplecze do edycji dokumentów używane przez aplikację OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalendarz, Kontakty, Rozmowy, Poczta i Jedne Biuro"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

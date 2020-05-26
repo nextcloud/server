@@ -53,6 +53,7 @@
     "Starting code integrity check" : "Inicia el test d'integritat del codi",
     "Finished code integrity check" : "Finalitzat el test d'integritat del codi",
     "%s (incompatible)" : "%s (incompatible)",
+    "The following apps have been disabled: %s" : "S'han desactivat les aplicacions següents: %s",
     "Already up to date" : "Ja està actualitzat",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "El servidor web no està configurat correctament per permetre la sincronització de fitxers perquè la interfície WebDAV sembla no funcionar correctament.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "El vostre servidor web no està configurat correctament per resoldre \"{url}\". Trobareu més informació a la nostra <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentació</a>.",
@@ -167,7 +168,6 @@
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Senzilla aplicació de correu electrònic ben integrada amb Fitxers, Contactes i el Calendari.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Xat, videotrucades, compartició de la pantalla, reunions en línia i conferències per Internet; al navegador i amb aplicacions mòbils.",
     "Collaboratively edit office documents." : "Editeu documents d'ofimàtica de manera col·laborativa.",
-    "Local document editing back-end used by the OnlyOffice app." : "Rerefons d'edició de documents local que utilitza l'aplicació OnlyOffice.",
     "Forgot password?" : "Heu oblidat la contrasenya?",
     "Log in with a device" : "Inicia la sessió amb un dispositiu",
     "Back" : "Enrere",
@@ -284,6 +284,7 @@
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite només s'hauria de fer servir per a instàncies mínimes i de desenvolupament. Per a sistemes en producció, us recomanem un motor de base de dades diferent.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Si feu servir clients per a la sincronització de fitxers, l’ús de SQLite és altament decebedor.",
     "Install recommended apps" : "Instal·la les aplicacions recomanades",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Calendari, Contactes, Parla, Correu i edició col·laborativa",
     "Finish setup" : "Acaba la configuració",
     "Finishing …" : "S'està acabant …",
     "Need help?" : "Necessiteu ajuda?",
@@ -332,6 +333,7 @@
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Podeu trobar més informació sobre com configurar-ho a la %1$sdocumentació%2$s.",
     "App update required" : "Cal que actualitzeu la aplicació",
     "%1$s will be updated to version %2$s" : "%1$s s'actualitzarà a la versió %2$s",
+    "The following apps will be updated:" : "S'actualitzaran les aplicacions següents:",
     "These incompatible apps will be disabled:" : "Aquestes aplicacions incompatibles es desactivaran:",
     "The theme %s has been disabled." : "S'ha desactivat el tema %s.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Assegureu-vos que heu fet una còpia de seguretat de la base de dades, del fitxer de configuració i de la carpeta de dades abans de continuar.",
@@ -431,6 +433,7 @@
     "Your client should now be connected! You can close this window." : "El vostre client ja està connectat! Podeu tancar aquesta finestra.",
     "Cancel log in" : "Cancel·la l'accés a",
     "These apps will be updated:" : "Aquestes aplicacions s'actualitzaran:",
+    "Local document editing back-end used by the OnlyOffice app." : "Rerefons d'edició de documents local que utilitza l'aplicació OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendari, Contactes, Parla, Correu i OnlyOffice"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
