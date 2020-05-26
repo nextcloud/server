@@ -167,7 +167,6 @@
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Једноставна е-мејл апликација која се лепо интегрише са Фајловима, Контактима и Календаром.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Ћаскање, видео позиви, дељење екрана, састанци на интернету & веб конференције – на десктоп рачунару и преко мобилних апликација.",
     "Collaboratively edit office documents." : "Уређујте документа заједно.",
-    "Local document editing back-end used by the OnlyOffice app." : "Позадински мотор за локално уређивање докумената који користи OnlyOffice апликацију",
     "Forgot password?" : "Заборавили сте лозинку?",
     "Log in with a device" : "Пријава са уређајем",
     "Back" : "Назад",
@@ -431,6 +430,7 @@
     "Your client should now be connected! You can close this window." : "Ваш клијент сада треба да је повезан! Можете затворити овај прозор.",
     "Cancel log in" : "Поништите пријаву",
     "These apps will be updated:" : "Следеће апликације ће бити ажуриране:",
+    "Local document editing back-end used by the OnlyOffice app." : "Позадински мотор за локално уређивање докумената који користи OnlyOffice апликацију",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календар, контакти, разговор, пошта & OnlyOffice"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

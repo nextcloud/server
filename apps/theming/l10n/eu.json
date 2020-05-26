@@ -6,6 +6,7 @@
     "Name cannot be empty" : "Izena ezin da hutsik egon",
     "The given name is too long" : "Idatzitako izena luzeegia da",
     "The given web address is too long" : "Idatzitako web helbidea luzeegia da",
+    "The given web address is not a valid URL" : "Emandako web helbidea URL baliogabea da",
     "The given slogan is too long" : "Emandako leloa luzeegia da",
     "The given color is invalid" : "Emandako kolorea ez du balio",
     "The file was uploaded" : "Fitxategia igo da",
