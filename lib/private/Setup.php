@@ -543,6 +543,7 @@ class Setup {
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs-provider/";
 			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocm-provider/";
 			$content .= "\n  RewriteCond %{REQUEST_URI} !^/\\.well-known/(acme-challenge|pki-validation)/.*";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/richdocumentscode/proxy.php$";
 			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
 			$content .= "\n  RewriteBase " . $rewriteBase;
 			$content .= "\n  <IfModule mod_env.c>";
