@@ -153,7 +153,6 @@
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Enostaven program za pošto se odlično povezuje z Datotekami, Stiki in Koledarjem.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Klepet, video klici, souporaba zaslonske slike, spletni sestanki in konference – znotraj brskalnika in z mobilnimi napravami.",
     "Collaboratively edit office documents." : "Sodelovalno urejanje pisarniških dokumentov.",
-    "Local document editing back-end used by the OnlyOffice app." : "Ozadnji program za krajevno urejanje dokumentov, ki ga uporablja program OnlyOffice",
     "Forgot password?" : "Ali ste pozabili geslo?",
     "Log in with a device" : "Prijava z napravo",
     "Back" : "Nazaj",
@@ -405,6 +404,7 @@
     "Your client should now be connected! You can close this window." : "Odjemalec naj bi bil sedaj povezan! To okno lahko zaprete.",
     "Cancel log in" : "Prekini prijavo",
     "These apps will be updated:" : "Posodobljeni bodo programi:",
+    "Local document editing back-end used by the OnlyOffice app." : "Ozadnji program za krajevno urejanje dokumentov, ki ga uporablja program OnlyOffice",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Koledar, Stiki, Talk, Pošta in OnlyOffice"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

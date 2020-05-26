@@ -171,7 +171,6 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Jednoduchý e-mailový klient, propojený se Soubory, Kontakty a Kalendářem.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Chatování, videohovory, sdílení obrazovky, schůze na dálku a webové konference – ve webovém prohlížeči a mobilních aplikacích.",
     "Collaboratively edit office documents." : "Spolupracujte na upravování kancelářských dokumentů.",
-    "Local document editing back-end used by the OnlyOffice app." : "Místně nainstalovaná vykonávající část pro úpravu dokumentů, využívaná aplikací OnlyOffice.",
     "Forgot password?" : "Zapomněli jste heslo?",
     "Log in with a device" : "Přihlásit se pomocí zařízení",
     "Back" : "Zpět",
@@ -437,6 +436,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Váš klient by nyní měl být připojen. Toto okno už můžete zavřít.",
     "Cancel log in" : "Zrušit přihlášení",
     "These apps will be updated:" : "Následující aplikace budou aktualizovány:",
+    "Local document editing back-end used by the OnlyOffice app." : "Místně nainstalovaná vykonávající část pro úpravu dokumentů, využívaná aplikací OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalendář, Kontakty, Talk, E-mail a OnlyOffice"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

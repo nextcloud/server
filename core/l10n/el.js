@@ -171,7 +171,6 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Απλή εφαρμογή ηλ.ταχυδρομίου ενσωματώνοντας Αρχεία, Επαφές και Ημερολόγιο.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Μηνύματα, κλήσεις βίντεο, κοινή χρήση οθόνης, συναντήσεις και τηλεδιασκέψεις - στον περιηγητή σας και με εφαρμογές κινητού.",
     "Collaboratively edit office documents." : "Συνεργατική επεξεργασία εγγράφων.",
-    "Local document editing back-end used by the OnlyOffice app." : "Επεξεργασία τοπικών εγγράφων με χρήση εφαρμογής OnlyOffice.",
     "Forgot password?" : "Ξεχάσατε το συνθηματικό;",
     "Log in with a device" : "Συνδεθείτε με συσκευή",
     "Back" : "Πίσω",
@@ -437,6 +436,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Η εφαρμογή υπολογιστή έχει συνδεθεί! Μπορείτε να κλείσετε το παράθυρο.",
     "Cancel log in" : "Ακύρωση εισόδου",
     "These apps will be updated:" : "Αυτές οι εφαρμογές θα ενημερωθούν:",
+    "Local document editing back-end used by the OnlyOffice app." : "Επεξεργασία τοπικών εγγράφων με χρήση εφαρμογής OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Ημερολόγιο, Επαφές, Συνομιλία, Αλληλογραφία & OnlyOffice"
 },
 "nplurals=2; plural=(n != 1);");

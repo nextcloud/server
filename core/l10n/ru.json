@@ -169,7 +169,6 @@
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Простое приложение электронной почты, прекрасно интегрированное с приложениями Files, Contacts и Calendar.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Текстовые сообщения, видеозвонки, демонстрация содержимого экрана, онлайн общение и веб-конференции на ПК и мобильных устройствах. ",
     "Collaboratively edit office documents." : "Совместная работа над документами.",
-    "Local document editing back-end used by the OnlyOffice app." : "Исполняемый на стороне клиента механизм для редактирования документов, используемый приложением OnlyOffice.",
     "Forgot password?" : "Забыли пароль?",
     "Log in with a device" : "Войти с устройства",
     "Back" : "Назад",
@@ -435,6 +434,7 @@
     "Your client should now be connected! You can close this window." : "Приложение-клиент подключено. Можете закрыть это окно.",
     "Cancel log in" : "Отменить вход",
     "These apps will be updated:" : "Следующие приложения будут обновлены:",
+    "Local document editing back-end used by the OnlyOffice app." : "Исполняемый на стороне клиента механизм для редактирования документов, используемый приложением OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календарь, Контакты, Talk, Почта и OnlyOffice"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

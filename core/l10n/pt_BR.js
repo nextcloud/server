@@ -171,7 +171,6 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Aplicativo de e-mail simples e bem integrado com Arquivos, Contatos e Calendário.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Bate-papo, vídeo chamadas, compartilhamento de tela, reuniões online e conferência na web - no seu navegador e com aplicativos móveis.",
     "Collaboratively edit office documents." : "Edite documentos de escritório colaborativamente.",
-    "Local document editing back-end used by the OnlyOffice app." : "Infraestrutura de edição de documento local usado pelo aplicativo OnlyOffice.",
     "Forgot password?" : "Esqueceu a senha?",
     "Log in with a device" : "Logar-se com um dispositivo",
     "Back" : "Voltar",
@@ -437,6 +436,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Seu cliente deve estar conectado agora! Você pode fechar esta janela.",
     "Cancel log in" : "Cancelar login",
     "These apps will be updated:" : "Estes aplicativos serão atualizados:",
+    "Local document editing back-end used by the OnlyOffice app." : "Infraestrutura de edição de documento local usado pelo aplicativo OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendário, Contatos, Talk, Correio & OnlyOffice"
 },
 "nplurals=2; plural=(n > 1);");
