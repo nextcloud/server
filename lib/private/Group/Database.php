@@ -118,7 +118,10 @@ class Database extends ABackend implements
 		}
 
 		// Add to cache
-		$this->groupCache[$gid] = $gid;
+		$this->groupCache[$gid] = [
+			'gid' => $gid,
+			'displayname' => $gid
+		];
 
 		return $result === 1;
 	}
@@ -244,15 +247,19 @@ class Database extends ABackend implements
 
 		// No magic!
 		$qb = $this->dbConn->getQueryBuilder();
-		$cursor = $qb->select('gid')
-			->from('group_user')
+		$cursor = $qb->select('gu.gid', 'g.displayname')
+			->from('group_user', 'gu')
+			->leftJoin('gu', 'groups', 'g', $qb->expr()->eq('gu.gid', 'g.gid'))
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->execute();
 
 		$groups = [];
 		while ($row = $cursor->fetch()) {
 			$groups[] = $row['gid'];
-			$this->groupCache[$row['gid']] = $row['gid'];
+			$this->groupCache[$row['gid']] = [
+				'gid' => $row['gid'],
+				'displayname' => $row['displayname'],
+			];
 		}
 		$cursor->closeCursor();
 
@@ -309,7 +316,7 @@ class Database extends ABackend implements
 		}
 
 		$qb = $this->dbConn->getQueryBuilder();
-		$cursor = $qb->select('gid')
+		$cursor = $qb->select('gid', 'displayname')
 			->from('groups')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
 			->execute();
@@ -317,7 +324,10 @@ class Database extends ABackend implements
 		$cursor->closeCursor();
 
 		if ($result !== false) {
-			$this->groupCache[$gid] = $gid;
+			$this->groupCache[$gid] = [
+				'gid' => $gid,
+				'displayname' => $result['displayname'],
+			];
 			return true;
 		}
 		return false;
@@ -430,6 +440,10 @@ class Database extends ABackend implements
 	}
 
 	public function getDisplayName(string $gid): string {
+		if (isset($this->groupCache[$gid])) {
+			return $this->groupCache[$gid]['displayname'];
+		}
+
 		$this->fixDI();
 
 		$query = $this->dbConn->getQueryBuilder();
