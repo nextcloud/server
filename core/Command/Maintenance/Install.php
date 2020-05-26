@@ -66,7 +66,6 @@ class Install extends Command {
 			->addOption('database-port', null, InputOption::VALUE_REQUIRED, 'Port the database is listening on')
 			->addOption('database-user', null, InputOption::VALUE_REQUIRED, 'User name to connect to the database')
 			->addOption('database-pass', null, InputOption::VALUE_OPTIONAL, 'Password of the database user', null)
-			->addOption('database-table-prefix', null, InputOption::VALUE_OPTIONAL, 'Prefix for all tables (default: oc_)', null)
 			->addOption('database-table-space', null, InputOption::VALUE_OPTIONAL, 'Table space of the database (oci only)', null)
 			->addOption('admin-user', null, InputOption::VALUE_REQUIRED, 'User name of the admin account', 'admin')
 			->addOption('admin-pass', null, InputOption::VALUE_REQUIRED, 'Password of the admin account')
@@ -139,11 +138,6 @@ class Install extends Command {
 			// Append the port to the host so it is the same as in the config (there is no dbport config)
 			$dbHost .= ':' . $dbPort;
 		}
-		$dbTablePrefix = 'oc_';
-		if ($input->hasParameterOption('--database-table-prefix')) {
-			$dbTablePrefix = (string) $input->getOption('database-table-prefix');
-			$dbTablePrefix = trim($dbTablePrefix);
-		}
 		if ($input->hasParameterOption('--database-pass')) {
 			$dbPass = (string) $input->getOption('database-pass');
 		}
@@ -188,7 +182,6 @@ class Install extends Command {
 			'dbpass' => $dbPass,
 			'dbname' => $dbName,
 			'dbhost' => $dbHost,
-			'dbtableprefix' => $dbTablePrefix,
 			'adminlogin' => $adminLogin,
 			'adminpass' => $adminPassword,
 			'adminemail' => $adminEmail,
