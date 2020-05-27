@@ -35,6 +35,8 @@ use OCP\IUserManager;
 class ChangePasswordControllerTest extends \Test\TestCase {
 	/** @var string */
 	private $userId = 'currentUser';
+	/** @var string */
+	private $loginName = 'ua1337';
 	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 	/** @var Session|\PHPUnit_Framework_MockObject_MockObject */
@@ -74,9 +76,13 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPasswordWrongPassword() {
+		$this->userSession->expects($this->once())
+			->method('getLoginName')
+			->willReturn($this->loginName);
+
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->with($this->userId, 'old')
+			->with($this->loginName, 'old')
 			->willReturn(false);
 
 		$expects = new JSONResponse([
@@ -92,10 +98,14 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPasswordCommonPassword() {
+		$this->userSession->expects($this->once())
+			->method('getLoginName')
+			->willReturn($this->loginName);
+
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->with($this->userId, 'old')
+			->with($this->loginName, 'old')
 			->willReturn($user);
 
 		$user->expects($this->once())
@@ -115,10 +125,14 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPasswordNoNewPassword() {
+		$this->userSession->expects($this->once())
+			->method('getLoginName')
+			->willReturn($this->loginName);
+
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->with($this->userId, 'old')
+			->with($this->loginName, 'old')
 			->willReturn($user);
 
 		$expects = [
@@ -131,10 +145,14 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPasswordCantSetPassword() {
+		$this->userSession->expects($this->once())
+			->method('getLoginName')
+			->willReturn($this->loginName);
+
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->with($this->userId, 'old')
+			->with($this->loginName, 'old')
 			->willReturn($user);
 
 		$user->expects($this->once())
@@ -151,10 +169,14 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	}
 
 	public function testChangePersonalPassword() {
+		$this->userSession->expects($this->once())
+			->method('getLoginName')
+			->willReturn($this->loginName);
+
 		$user = $this->getMockBuilder(IUser::class)->getMock();
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->with($this->userId, 'old')
+			->with($this->loginName, 'old')
 			->willReturn($user);
 
 		$user->expects($this->once())
