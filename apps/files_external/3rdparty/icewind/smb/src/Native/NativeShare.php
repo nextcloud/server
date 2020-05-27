@@ -350,6 +350,10 @@ class NativeShare extends AbstractShare {
 		return $share->notify($path);
 	}
 
+	public function getServer(): IServer {
+		return $this->server;
+	}
+
 	public function __destruct() {
 		unset($this->state);
 	}
