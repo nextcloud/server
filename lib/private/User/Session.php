@@ -531,6 +531,10 @@ class Session implements IUserSession, Emitter {
 		} catch (ExpiredTokenException $e) {
 			throw $e;
 		} catch (InvalidTokenException $ex) {
+			$this->logger->logException($ex, [
+				'level' => ILogger::DEBUG,
+				'message' => 'Token is not valid: ' . $ex->getMessage(),
+			]);
 			return false;
 		}
 	}
