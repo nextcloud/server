@@ -103,7 +103,7 @@ class PublicKeyTokenProvider implements IProvider {
 				$token = $this->mapper->getToken($this->hashToken($tokenId));
 				$this->cache[$token->getToken()] = $token;
 			} catch (DoesNotExistException $ex) {
-				throw new InvalidTokenException();
+				throw new InvalidTokenException("Token does not exist: " . $ex->getMessage(), 0, $ex);
 			}
 		}
 
@@ -127,7 +127,7 @@ class PublicKeyTokenProvider implements IProvider {
 		try {
 			$token = $this->mapper->getTokenById($tokenId);
 		} catch (DoesNotExistException $ex) {
-			throw new InvalidTokenException();
+			throw new InvalidTokenException("Token with ID $tokenId does not exist: " . $ex->getMessage(), 0, $ex);
 		}
 
 		if ((int)$token->getExpires() !== 0 && $token->getExpires() < $this->time->getTime()) {
@@ -152,7 +152,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$token = $this->getToken($oldSessionId);
 
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException();
+			throw new InvalidTokenException("Invalid token type");
 		}
 
 		$password = null;
@@ -203,7 +203,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cache->clear();
 
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException();
+			throw new InvalidTokenException("Invalid token type");
 		}
 		$this->mapper->update($token);
 	}
@@ -212,7 +212,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cache->clear();
 
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException();
+			throw new InvalidTokenException("Invalid token type");
 		}
 		/** @var DefaultToken $token */
 		$now = $this->time->getTime();
@@ -229,7 +229,7 @@ class PublicKeyTokenProvider implements IProvider {
 
 	public function getPassword(IToken $token, string $tokenId): string {
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException();
+			throw new InvalidTokenException("Invalid token type");
 		}
 
 		if ($token->getPassword() === null) {
@@ -247,7 +247,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cache->clear();
 
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException();
+			throw new InvalidTokenException("Invalid token type");
 		}
 
 		// When changing passwords all temp tokens are deleted
@@ -266,7 +266,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cache->clear();
 
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException();
+			throw new InvalidTokenException("Invalid token type");
 		}
 
 		// Decrypt private key with oldTokenId
@@ -295,7 +295,7 @@ class PublicKeyTokenProvider implements IProvider {
 		} catch (\Exception $ex) {
 			// Delete the invalid token
 			$this->invalidateToken($token);
-			throw new InvalidTokenException();
+			throw new InvalidTokenException("Could not decrypt token password: " . $ex->getMessage(), 0, $ex);
 		}
 	}
 
@@ -399,7 +399,7 @@ class PublicKeyTokenProvider implements IProvider {
 		$this->cache->clear();
 
 		if (!($token instanceof PublicKeyToken)) {
-			throw new InvalidTokenException();
+			throw new InvalidTokenException("Invalid token type");
 		}
 
 		$token->setPasswordInvalid(true);
