@@ -171,6 +171,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Application de messagerie électronique simple et bien intégrée avec Fichiers, Contacts et Calendar.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Discussions, appels vidéo, partage d'écran, réunions en ligne et conférences web – depuis votre navigateur et les applications mobiles.",
     "Collaboratively edit office documents." : "Modifier des documents de manière collaborative.",
+    "Local document editing back-end used by the Collabora Online app." : "Moteur d'édition de document local utilisé par l'application Collabora Online.",
     "Forgot password?" : "Mot de passe oublié ?",
     "Log in with a device" : "Se connecter avec un appareil",
     "Back" : "Retour",
