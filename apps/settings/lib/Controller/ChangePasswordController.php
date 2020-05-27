@@ -113,8 +113,9 @@ class ChangePasswordController extends Controller {
 	 * @BruteForceProtection(action=changePersonalPassword)
 	 */
 	public function changePersonalPassword(string $oldpassword = '', string $newpassword = null): JSONResponse {
+		$loginName = $this->userSession->getLoginName();
 		/** @var IUser $user */
-		$user = $this->userManager->checkPassword($this->userId, $oldpassword);
+		$user = $this->userManager->checkPassword($loginName, $oldpassword);
 		if ($user === false) {
 			$response = new JSONResponse([
 				'status' => 'error',
