@@ -36,6 +36,7 @@ use OCP\Dashboard\IDashboardWidget;
  * @see IDashboardWidget::loadWidget
  *
  * @since 15.0.0
+ * @deprecated 20.0.0
  *
  * @package OCP\Dashboard\Model
  */
@@ -46,6 +47,7 @@ interface IWidgetConfig {
 	 * Returns the userId
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return string
 	 */
@@ -56,6 +58,7 @@ interface IWidgetConfig {
 	 * Returns the widgetId
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return string
 	 */
@@ -75,6 +78,7 @@ interface IWidgetConfig {
 	 * ]
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return array
 	 */
@@ -105,6 +109,7 @@ interface IWidgetConfig {
 	 * Dashboard app.
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return array
 	 */
@@ -115,6 +120,7 @@ interface IWidgetConfig {
 	 * Returns if the widget is enabled/displayed in this user's dashboard.
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return bool
 	 */
