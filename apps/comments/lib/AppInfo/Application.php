@@ -27,6 +27,7 @@
 
 namespace OCA\Comments\AppInfo;
 
+use OCA\Comments\Capabilities;
 use OCA\Comments\Controller\Notifications;
 use OCA\Comments\EventHandler;
 use OCA\Comments\JSSettingsHelper;
@@ -67,6 +68,7 @@ class Application extends App {
 		$this->registerNotifier();
 		$this->registerCommentsEventHandler();
 
+		$this->getContainer()->registerCapability(Capabilities::class);
 		$server->getSearch()->registerProvider(Provider::class, ['apps' => ['files']]);
 	}
 
