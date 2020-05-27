@@ -48,7 +48,7 @@ OC.L10N.register(
     "Invalid storage backend \"%s\"" : "Nieprawidłowy magazyn zaplecza \"%s\"",
     "Not permitted to use backend \"%s\"" : "Nie można używać powrotu \"%s\"",
     "Not permitted to use authentication mechanism \"%s\"" : "Nie można używać mechanizmu uwierzytelnienia \"%s\"",
-    "Unsatisfied backend parameters" : "Niepoprawne parametry backendu",
+    "Unsatisfied backend parameters" : "Niepoprawne parametry zaplecza",
     "Unsatisfied authentication mechanism parameters" : "Niepoprawne parametry mechanizmu uwierzytelnienia",
     "Insufficient data: %s" : "Niewystarczające dane: %s",
     "%s" : "%s",
