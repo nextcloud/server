@@ -150,4 +150,11 @@ interface IShare {
 	 * @return INotifyHandler
 	 */
 	public function notify($path);
+
+	/**
+	 * Get the IServer instance for this share
+	 *
+	 * @return IServer
+	 */
+	public function getServer(): IServer;
 }

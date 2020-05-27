@@ -552,6 +552,10 @@ class Share extends AbstractShare {
 		return $acls;
 	}
 
+	public function getServer(): IServer {
+		return $this->server;
+	}
+
 	public function __destruct() {
 		unset($this->connection);
 	}
