@@ -673,7 +673,7 @@ class OC_App {
 	/**
 	 * get a list of all apps in the apps folder
 	 *
-	 * @return array an array of app names (string IDs)
+	 * @return string[] an array of app names (string IDs)
 	 * @todo: change the name of this method to getInstalledApps, which is more accurate
 	 */
 	public static function getAllApps(): array {
