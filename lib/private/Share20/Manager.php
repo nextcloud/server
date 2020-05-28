@@ -861,7 +861,13 @@ class Manager implements IManager {
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$this->linkCreateChecks($share);
 
+			$plainTextPassword = $share->getPassword();
+
 			$this->updateSharePasswordIfNeeded($share, $originalShare);
+
+			if (empty($plainTextPassword) && $share->getSendPasswordByTalk()) {
+				throw new \InvalidArgumentException('Can’t enable sending the password by Talk with an empty password');
+			}
 
 			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
 				//Verify the expiration date
