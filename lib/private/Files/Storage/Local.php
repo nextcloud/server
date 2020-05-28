@@ -156,6 +156,7 @@ class Local extends \OC\Files\Storage\Common {
 	 */
 	public function getMetaData($path) {
 		$fullPath = $this->getSourcePath($path);
+		clearstatcache();
 		$stat = @stat($fullPath);
 		if (!$stat) {
 			return null;
