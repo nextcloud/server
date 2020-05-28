@@ -11,6 +11,7 @@ return array(
     'OCA\\Comments\\Activity\\Provider' => $baseDir . '/../lib/Activity/Provider.php',
     'OCA\\Comments\\Activity\\Setting' => $baseDir . '/../lib/Activity/Setting.php',
     'OCA\\Comments\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
+    'OCA\\Comments\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
     'OCA\\Comments\\Collaboration\\CommentersSorter' => $baseDir . '/../lib/Collaboration/CommentersSorter.php',
     'OCA\\Comments\\Controller\\Notifications' => $baseDir . '/../lib/Controller/Notifications.php',
     'OCA\\Comments\\EventHandler' => $baseDir . '/../lib/EventHandler.php',
