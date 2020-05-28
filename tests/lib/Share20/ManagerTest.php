@@ -2963,6 +2963,88 @@ class ManagerTest extends \Test\TestCase {
 		$manager->updateShare($share);
 	}
 
+	public function testUpdateShareMailEnableSendPasswordByTalkWithDifferentPassword() {
+		$manager = $this->createManagerMock()
+			->setMethods([
+				'canShare',
+				'getShareById',
+				'generalCreateChecks',
+				'verifyPassword',
+				'pathCreateChecks',
+				'linkCreateChecks',
+				'validateExpirationDate',
+			])
+			->getMock();
+
+		$originalShare = $this->manager->newShare();
+		$originalShare->setShareType(\OCP\Share::SHARE_TYPE_EMAIL)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setPassword('anotherPasswordHash')
+			->setSendPasswordByTalk(false);
+
+		$tomorrow = new \DateTime();
+		$tomorrow->setTime(0,0,0);
+		$tomorrow->add(new \DateInterval('P1D'));
+
+		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(100);
+
+		$share = $this->manager->newShare();
+		$share->setProviderId('foo')
+			->setId('42')
+			->setShareType(\OCP\Share::SHARE_TYPE_EMAIL)
+			->setToken('token')
+			->setSharedBy('owner')
+			->setShareOwner('owner')
+			->setPassword('password')
+			->setSendPasswordByTalk(true)
+			->setExpirationDate($tomorrow)
+			->setNode($file)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+
+		$manager->expects($this->once())->method('canShare')->willReturn(true);
+		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
+		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
+		$manager->expects($this->once())->method('verifyPassword')->with('password');
+		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
+		$manager->expects($this->never())->method('linkCreateChecks');
+		$manager->expects($this->never())->method('validateExpirationDate');
+
+		$this->hasher->expects($this->once())
+			->method('verify')
+			->with('password', 'anotherPasswordHash')
+			->willReturn(false);
+
+		$this->hasher->expects($this->once())
+			->method('hash')
+			->with('password')
+			->willReturn('hashed');
+
+		$this->defaultProvider->expects($this->once())
+			->method('update')
+			->with($share, 'password')
+			->willReturn($share);
+
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
+		$hookListner->expects($this->never())->method('post');
+
+		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
+		$hookListner2->expects($this->once())->method('post')->with([
+			'itemType' => 'file',
+			'itemSource' => 100,
+			'uidOwner' => 'owner',
+			'token' => 'token',
+			'disabled' => false,
+		]);
+
+		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
+		$hookListner3->expects($this->never())->method('post');
+
+		$manager->updateShare($share);
+	}
 
 	public function testUpdateShareMailEnableSendPasswordByTalkWithNoPassword() {
 		$this->expectException(\InvalidArgumentException::class);
@@ -3055,7 +3137,7 @@ class ManagerTest extends \Test\TestCase {
 		$originalShare = $this->manager->newShare();
 		$originalShare->setShareType(\OCP\Share::SHARE_TYPE_EMAIL)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setPassword('password')
+			->setPassword('passwordHash')
 			->setSendPasswordByTalk(false);
 
 		$tomorrow = new \DateTime();
@@ -3127,7 +3209,7 @@ class ManagerTest extends \Test\TestCase {
 		$originalShare = $this->manager->newShare();
 		$originalShare->setShareType(\OCP\Share::SHARE_TYPE_EMAIL)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setPassword('password')
+			->setPassword('passwordHash')
 			->setSendPasswordByTalk(false);
 
 		$tomorrow = new \DateTime();
@@ -3199,7 +3281,7 @@ class ManagerTest extends \Test\TestCase {
 		$originalShare = $this->manager->newShare();
 		$originalShare->setShareType(\OCP\Share::SHARE_TYPE_EMAIL)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setPassword('password')
+			->setPassword('passwordHash')
 			->setSendPasswordByTalk(false);
 
 		$tomorrow = new \DateTime();
@@ -3229,6 +3311,11 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->never())->method('linkCreateChecks');
 		$manager->expects($this->never())->method('validateExpirationDate');
+
+		$this->hasher->expects($this->once())
+			->method('verify')
+			->with('password', 'passwordHash')
+			->willReturn(true);
 
 		$this->hasher->expects($this->never())
 			->method('hash');
@@ -3267,7 +3354,7 @@ class ManagerTest extends \Test\TestCase {
 		$originalShare = $this->manager->newShare();
 		$originalShare->setShareType(\OCP\Share::SHARE_TYPE_EMAIL)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setPassword('password')
+			->setPassword('passwordHash')
 			->setSendPasswordByTalk(true);
 
 		$tomorrow = new \DateTime();
@@ -3297,6 +3384,11 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->never())->method('verifyPassword');
 		$manager->expects($this->never())->method('linkCreateChecks');
 		$manager->expects($this->never())->method('validateExpirationDate');
+
+		$this->hasher->expects($this->once())
+			->method('verify')
+			->with('password', 'passwordHash')
+			->willReturn(true);
 
 		$this->hasher->expects($this->never())
 			->method('hash');
