@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -27,6 +30,7 @@
 namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\Connection;
+use OCP\IDBConnection;
 
 /**
  * This class provides a wrapper around Doctrine's QueryBuilder
@@ -76,7 +80,7 @@ interface IQueryBuilder {
 	 * owncloud database prefix automatically.
 	 * @since 8.2.0
 	 */
-	public function automaticTablePrefix($enabled);
+	public function automaticTablePrefix(bool $enabled): void;
 
 	/**
 	 * Gets an ExpressionBuilder used for object-oriented construction of query expressions.
@@ -95,7 +99,7 @@ interface IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 * @since 8.2.0
 	 */
-	public function expr();
+	public function expr(): IExpressionBuilder;
 
 	/**
 	 * Gets an FunctionBuilder used for object-oriented construction of query functions.
@@ -114,15 +118,15 @@ interface IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IFunctionBuilder
 	 * @since 12.0.0
 	 */
-	public function func();
+	public function func(): IFunctionBuilder;
 
 	/**
 	 * Gets the type of the currently built query.
 	 *
-	 * @return integer
+	 * @return int
 	 * @since 8.2.0
 	 */
-	public function getType();
+	public function getType(): int;
 
 	/**
 	 * Gets the associated DBAL Connection for this query builder.
@@ -130,15 +134,15 @@ interface IQueryBuilder {
 	 * @return \OCP\IDBConnection
 	 * @since 8.2.0
 	 */
-	public function getConnection();
+	public function getConnection(): IDBConnection;
 
 	/**
 	 * Gets the state of this query builder instance.
 	 *
-	 * @return integer Either QueryBuilder::STATE_DIRTY or QueryBuilder::STATE_CLEAN.
+	 * @return int Either QueryBuilder::STATE_DIRTY or QueryBuilder::STATE_CLEAN.
 	 * @since 8.2.0
 	 */
-	public function getState();
+	public function getState(): int;
 
 	/**
 	 * Executes this query using the bound parameters and their types.
@@ -164,7 +168,7 @@ interface IQueryBuilder {
 	 * @return string The SQL query string.
 	 * @since 8.2.0
 	 */
-	public function getSQL();
+	public function getSQL(): string;
 
 	/**
 	 * Sets a query parameter for the query being constructed.
@@ -177,14 +181,14 @@ interface IQueryBuilder {
 	 *         ->setParameter(':user_id', 1);
 	 * </code>
 	 *
-	 * @param string|integer $key The parameter position or name.
+	 * @param string|int $key The parameter position or name.
 	 * @param mixed $value The parameter value.
 	 * @param string|null|int $type One of the IQueryBuilder::PARAM_* constants.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function setParameter($key, $value, $type = null);
+	public function setParameter($key, $value, $type = null): self ;
 
 	/**
 	 * Sets a collection of query parameters for the query being constructed.
@@ -206,7 +210,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function setParameters(array $params, array $types = []);
+	public function setParameters(array $params, array $types = []) :self;
 
 	/**
 	 * Gets all defined query parameters for the query being constructed indexed by parameter index or name.
@@ -214,7 +218,7 @@ interface IQueryBuilder {
 	 * @return array The currently defined query parameters indexed by parameter index or name.
 	 * @since 8.2.0
 	 */
-	public function getParameters();
+	public function getParameters(): array ;
 
 	/**
 	 * Gets a (previously set) query parameter of the query being constructed.
@@ -232,7 +236,7 @@ interface IQueryBuilder {
 	 * @return array The currently defined query parameter types indexed by parameter index or name.
 	 * @since 8.2.0
 	 */
-	public function getParameterTypes();
+	public function getParameterTypes(): array ;
 
 	/**
 	 * Gets a (previously set) query parameter type of the query being constructed.
@@ -247,40 +251,40 @@ interface IQueryBuilder {
 	/**
 	 * Sets the position of the first result to retrieve (the "offset").
 	 *
-	 * @param integer $firstResult The first result to return.
+	 * @param int $firstResult The first result to return.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function setFirstResult($firstResult);
+	public function setFirstResult(int $firstResult): self;
 
 	/**
 	 * Gets the position of the first result the query object was set to retrieve (the "offset").
 	 * Returns NULL if {@link setFirstResult} was not applied to this QueryBuilder.
 	 *
-	 * @return integer The position of the first result.
+	 * @return int The position of the first result.
 	 * @since 8.2.0
 	 */
-	public function getFirstResult();
+	public function getFirstResult(): int;
 
 	/**
 	 * Sets the maximum number of results to retrieve (the "limit").
 	 *
-	 * @param integer $maxResults The maximum number of results to retrieve.
+	 * @param int $maxResults The maximum number of results to retrieve.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function setMaxResults($maxResults);
+	public function setMaxResults(int $maxResults): self;
 
 	/**
 	 * Gets the maximum number of results the query object was set to retrieve (the "limit").
 	 * Returns NULL if {@link setMaxResults} was not applied to this query builder.
 	 *
-	 * @return integer The maximum number of results.
+	 * @return int The maximum number of results.
 	 * @since 8.2.0
 	 */
-	public function getMaxResults();
+	public function getMaxResults(): int;
 
 	/**
 	 * Specifies an item that is to be returned in the query result.
@@ -298,7 +302,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function select(...$selects);
+	public function select(...$selects): self;
 
 	/**
 	 * Specifies an item that is to be returned with a different name in the query result.
@@ -316,7 +320,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.1
 	 */
-	public function selectAlias($select, $alias);
+	public function selectAlias($select, string $alias): self;
 
 	/**
 	 * Specifies an item that is to be returned uniquely in the query result.
@@ -332,7 +336,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 9.0.0
 	 */
-	public function selectDistinct($select);
+	public function selectDistinct($select): self;
 
 	/**
 	 * Adds an item that is to be returned in the query result.
@@ -350,7 +354,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function addSelect(...$select);
+	public function addSelect(...$select): self;
 
 	/**
 	 * Turns the query being built into a bulk delete query that ranges over
@@ -364,12 +368,12 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $delete The table whose rows are subject to the deletion.
-	 * @param string $alias The table alias used in the constructed query.
+	 * @param string|null $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function delete($delete = null, $alias = null);
+	public function delete(string $delete, string $alias = null): self;
 
 	/**
 	 * Turns the query being built into a bulk update query that ranges over
@@ -383,12 +387,12 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $update The table whose rows are subject to the update.
-	 * @param string $alias The table alias used in the constructed query.
+	 * @param string|null $alias The table alias used in the constructed query.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function update($update = null, $alias = null);
+	public function update(string $update, string $alias = null): self;
 
 	/**
 	 * Turns the query being built into an insert query that inserts into
@@ -410,7 +414,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function insert($insert = null);
+	public function insert(string $insert): self;
 
 	/**
 	 * Creates and adds a query root corresponding to the table identified by the
@@ -428,7 +432,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function from($from, $alias = null);
+	public function from(string $from, string $alias = null): self;
 
 	/**
 	 * Creates and adds a join to the query.
@@ -443,12 +447,12 @@ interface IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function join($fromAlias, $join, $alias, $condition = null);
+	public function join(string $fromAlias, string $join, string $alias, string $condition = null): self;
 
 	/**
 	 * Creates and adds a join to the query.
@@ -463,12 +467,12 @@ interface IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function innerJoin($fromAlias, $join, $alias, $condition = null);
+	public function innerJoin(string $fromAlias, string $join, string $alias, string $condition = null): self;
 
 	/**
 	 * Creates and adds a left join to the query.
@@ -483,12 +487,12 @@ interface IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function leftJoin($fromAlias, $join, $alias, $condition = null);
+	public function leftJoin(string $fromAlias, string $join, string $alias, string $condition = null): self;
 
 	/**
 	 * Creates and adds a right join to the query.
@@ -503,12 +507,12 @@ interface IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string $condition The condition for the join.
+	 * @param string|null $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function rightJoin($fromAlias, $join, $alias, $condition = null);
+	public function rightJoin(string $fromAlias, string $join, string $alias, string $condition = null): self;
 
 	/**
 	 * Sets a new value for a column in a bulk update query.
@@ -526,7 +530,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function set($key, $value);
+	public function set(string $key, string $value): self;
 
 	/**
 	 * Specifies one or more restrictions to the query result.
@@ -555,7 +559,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function where(...$predicates);
+	public function where(...$predicates): self;
 
 	/**
 	 * Adds one or more restrictions to the query results, forming a logical
@@ -576,7 +580,7 @@ interface IQueryBuilder {
 	 * @see where()
 	 * @since 8.2.0
 	 */
-	public function andWhere(...$where);
+	public function andWhere(...$where): self;
 
 	/**
 	 * Adds one or more restrictions to the query results, forming a logical
@@ -597,7 +601,7 @@ interface IQueryBuilder {
 	 * @see where()
 	 * @since 8.2.0
 	 */
-	public function orWhere(...$where);
+	public function orWhere(...$where): self;
 
 	/**
 	 * Specifies a grouping over the results of the query.
@@ -615,7 +619,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function groupBy(...$groupBys);
+	public function groupBy(...$groupBys): self;
 
 	/**
 	 * Adds a grouping expression to the query.
@@ -633,7 +637,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function addGroupBy(...$groupBy);
+	public function addGroupBy(...$groupBy): self;
 
 	/**
 	 * Sets a value for a column in an insert query.
@@ -655,7 +659,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function setValue($column, $value);
+	public function setValue(string $column, string $value): self;
 
 	/**
 	 * Specifies values for an insert query indexed by column names.
@@ -677,7 +681,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function values(array $values);
+	public function values(array $values): self;
 
 	/**
 	 * Specifies a restriction over the groups of the query.
@@ -688,7 +692,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function having(...$having);
+	public function having(...$having): self;
 
 	/**
 	 * Adds a restriction over the groups of the query, forming a logical
@@ -699,7 +703,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function andHaving(...$having);
+	public function andHaving(...$having): self;
 
 	/**
 	 * Adds a restriction over the groups of the query, forming a logical
@@ -710,30 +714,30 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function orHaving(...$having);
+	public function orHaving(...$having): self;
 
 	/**
 	 * Specifies an ordering for the query results.
 	 * Replaces any previously specified orderings, if any.
 	 *
 	 * @param string $sort The ordering expression.
-	 * @param string $order The ordering direction.
+	 * @param string $order|null The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function orderBy($sort, $order = null);
+	public function orderBy(string $sort, string $order = null): self;
 
 	/**
 	 * Adds an ordering to the query results.
 	 *
 	 * @param string $sort The ordering expression.
-	 * @param string $order The ordering direction.
+	 * @param string|null $order The ordering direction.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function addOrderBy($sort, $order = null);
+	public function addOrderBy(string $sort, string $order = null): self;
 
 	/**
 	 * Gets a query part by its name.
@@ -743,12 +747,12 @@ interface IQueryBuilder {
 	 * @return mixed
 	 * @since 8.2.0
 	 */
-	public function getQueryPart($queryPartName);
+	public function getQueryPart(string $queryPartName);
 
 	/**
 	 * Gets all query parts.
 	 *
-	 * @return array
+	 * @return mixed[]
 	 * @since 8.2.0
 	 */
 	public function getQueryParts();
@@ -761,7 +765,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function resetQueryParts($queryPartNames = null);
+	public function resetQueryParts(array $queryPartNames = null);
 
 	/**
 	 * Resets a single SQL part.
@@ -771,7 +775,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function resetQueryPart($queryPartName);
+	public function resetQueryPart(string $queryPartName): self;
 
 	/**
 	 * Creates a new named parameter and bind the value $value to it.
@@ -803,7 +807,7 @@ interface IQueryBuilder {
 	 * @return IParameter
 	 * @since 8.2.0
 	 */
-	public function createNamedParameter($value, $type = self::PARAM_STR, $placeHolder = null);
+	public function createNamedParameter($value, $type = self::PARAM_STR, string $placeHolder = null): IParameter;
 
 	/**
 	 * Creates a new positional parameter and bind the given value to it.
@@ -823,12 +827,12 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param mixed $value
-	 * @param integer $type
+	 * @param int $type
 	 *
 	 * @return IParameter
 	 * @since 8.2.0
 	 */
-	public function createPositionalParameter($value, $type = self::PARAM_STR);
+	public function createPositionalParameter($value, int $type = self::PARAM_STR): IParameter;
 
 	/**
 	 * Creates a new parameter
@@ -847,7 +851,7 @@ interface IQueryBuilder {
 	 * @return IParameter
 	 * @since 8.2.0
 	 */
-	public function createParameter($name);
+	public function createParameter(string $name): IParameter;
 
 	/**
 	 * Creates a new function
@@ -873,7 +877,7 @@ interface IQueryBuilder {
 	 * @return IQueryFunction
 	 * @since 8.2.0
 	 */
-	public function createFunction($call);
+	public function createFunction($call):IQueryFunction;
 
 	/**
 	 * Used to get the id of the last inserted element
@@ -881,7 +885,7 @@ interface IQueryBuilder {
 	 * @throws \BadMethodCallException When being called before an insert query has been run.
 	 * @since 9.0.0
 	 */
-	public function getLastInsertId();
+	public function getLastInsertId(): int;
 
 	/**
 	 * Returns the table name quoted and with database prefix as needed by the implementation
@@ -890,7 +894,7 @@ interface IQueryBuilder {
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getTableName($table);
+	public function getTableName(string $table): string;
 
 	/**
 	 * Returns the column name quoted and with table alias prefix as needed by the implementation
@@ -900,5 +904,5 @@ interface IQueryBuilder {
 	 * @return string
 	 * @since 9.0.0
 	 */
-	public function getColumnName($column, $tableAlias = '');
+	public function getColumnName(string $column, string $tableAlias = ''): string;
 }
