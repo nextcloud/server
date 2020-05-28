@@ -36,9 +36,9 @@
 		<a href="#app-content" class="button primary skip-navigation skip-content"><?php p($l->t('Skip to main content')); ?></a>
 		<a href="#app-navigation" class="button primary skip-navigation"><?php p($l->t('Skip to navigation of app')); ?></a>
 
-		<div id="notification-container">
+		<!-- <div id="notification-container">
 			<div id="notification"></div>
-		</div>
+		</div> -->
 		<header role="banner" id="header">
 			<div class="header-left">
 				<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"

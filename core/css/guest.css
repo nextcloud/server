@@ -20,12 +20,14 @@ body {
 	/* bring the default font size up to 14px */
 	font-size: .875em;
 	line-height: 1.6em;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+	/* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; */
+	font-family: 'Montserrat', sans-serif !important;
 	color: #000;
 	text-align: center;
 	background-color: #0082c9;
 	background-image: url('../img/background.png?v=2');
 	background-image: url('../img/background.png?v=2'), linear-gradient(40deg, #0082c9 0%, rgba(28,175,255,1) 100%);
+	background-image: url('../img/background/Background.png'), linear-gradient(40deg, #000 0%, #333 100%) !important;
 	background-position: 50% 50%;
 	background-repeat: repeat;
 	background-size: 275px, contain;
@@ -34,10 +36,16 @@ body {
 	height: auto;
 }
 
+#body-login {
+	background-size: cover !important;
+    background-repeat: no-repeat !important;
+}
+
 /* Various fonts settings */
 #body-login a {
-	color: #fff;
-	font-weight: 600;
+	color: black !important;
+	font-weight: 500;
+	text-shadow: 0 0 2px rgba(0, 0, 0, .4);
 }
 #body-login a:not(.button):hover,
 #body-login a:not(.button):focus {
@@ -84,12 +92,15 @@ body {
 	background-repeat: no-repeat;
 	background-size: 175px;
 	background-position: center;
-	width: 256px;
+	width: 350px;
 	min-height: 128px;
 	max-height: 200px;
 	margin: 0 auto;
 	position: relative;
 	left: unset;
+	background-color: white !important;
+	margin-bottom: 0px !important;
+	padding-bottom: 7px !important;
 }
 
 #header .logo img {
@@ -101,7 +112,59 @@ body {
 .wrapper {
 	width: 100%;
 	max-width: 700px;
-	margin-top: 10vh;
+	margin-top: 15vh;
+}
+
+.wrapper .v-align {
+	box-shadow: 14px 10px 7px 0px rgba(12, 12, 12, 0.6);
+    width: 350px;
+    margin: auto;
+}
+
+.wrapper main {
+	width: 350px;
+	background-color: #ffce3a !important;
+	margin: auto;
+	border-bottom: 1px solid white;
+}
+
+.wrapper .v-align main fieldset .msg {
+	color: black;
+    margin: 7px 12px;
+    margin-top: 25px;
+    font-size: 18px;
+}
+
+.wrapper .v-align main fieldset .groupofone #email {
+	font-size: 15px !important;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 20px !important;
+}
+
+.wrapper .v-align main fieldset #submit {
+	background: black;
+    border-radius: 5px !important;
+    color: white !important;
+    margin: 20px 5px !important;
+    font-size: 18px !important;
+}
+
+.wrapper .v-align main fieldset #email-icon {
+	display: none !important;
+}
+
+.wrapper .v-align main .lost-password-container input {
+	margin: 20px !important;
+	margin-bottom: 0px !important;
+	padding: 12px 10px !important;
+	padding-left: 20px !important;
+    width: 80%;
+    font-size: 18px !important;
+}
+
+.wrapper .v-align main .lost-password-container a {
+	color: black !important;
 }
 
 /* Default FORM */
@@ -111,8 +174,8 @@ form {
 	padding: 0;
 }
 form fieldset {
-	width: 260px;
-	margin: auto auto 20px;
+	width: 290px;
+	margin: auto;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -158,8 +221,8 @@ form #datadirField legend {
 #alternative-logins {
 	margin: auto;
 	display: block;
-	min-width: 260px;
-	max-width: 400px;
+	/* min-width: 260px; */
+	max-width: 350px;
 	overflow: hidden;
 }
 
@@ -184,13 +247,16 @@ form #datadirField legend {
 }
 
 #alternative-logins .button {
-	color: #0082c9;
-	padding: 12px 20px;
+	color: black;
+	/* padding: 12px 20px; */
+	background: transparent;
+    width: 100px !important;
+    float: right;
 }
 
 @media only screen and (max-width: 1024px) {
 	.wrapper {
-		margin-top: 0;
+		margin-top: 15px;
 	}
 	#alternative-logins {
 		margin: auto;
@@ -200,6 +266,7 @@ form #datadirField legend {
 
 #submit-wrapper .submit-icon,
 #reset-password-wrapper .submit-icon {
+	display: none;
 	position: absolute;
 	top: 22px;
 	right: 24px;
@@ -212,6 +279,7 @@ form #datadirField legend {
 
 #submit-wrapper {
 	margin: 0 auto;
+	margin-top: 20px;
 }
 
 #submit-wrapper input.login:hover ~ .submit-icon.icon-confirm-white,
@@ -224,6 +292,8 @@ form #datadirField legend {
 	padding: 10px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	border: none !important;
+    border-radius: 5px !important;
 }
 
 #submit-wrapper .icon-loading-small {
@@ -239,13 +309,24 @@ input, textarea, select, button, div[contenteditable=true] {
 input,
 input:not([type='range']),
 a.button {
-	font-size: 20px;
-	margin: 5px;
-	padding: 11px 10px 9px;
+	font-size: 17px;
+	/* margin: 5px; */
+	padding: 10px 0px;
 	outline: none;
 	border-radius: 3px; /* --border-radius */
 	-webkit-appearance: none;
 }
+#submit-wrapper input[type='submit'].login {
+	border-radius: 5px !important;
+	background-color: black !important;
+	border-color: black;
+    color: white;
+    text-transform: uppercase;
+    font-size: 25px;
+    padding: 5px 0px !important;
+	height: 100% !important;
+}
+
 input[type='submit'],
 input[type='submit'].icon-confirm,
 input[type='button'],
@@ -268,7 +349,7 @@ input[type='text'],
 input[type='tel'],
 input[type='password'],
 input[type='email'] {
-	width: 249px;
+	width: 100%;
 	background: #fff;
 	color: #555;
 	cursor: text;
@@ -280,13 +361,15 @@ input[type='email'] {
 	font-weight: normal;
 }
 input[type='password'].password-with-toggle, input[type='text'].password-with-toggle {
-	width: 219px;
-	padding-right: 40px;
+	/* width: 219px; */
+	/* padding-right: 40px; */
+	/* height: 30px; */
 }
 .toggle-password {
 	position: absolute;
 	top: 17px;
 	right: 20px;
+	display: none;
 }
 input.login {
 	width: 260px;
@@ -313,6 +396,11 @@ input.update-continue {
 	color: #222 !important;
 }
 
+form fieldset .loginlabel {
+	font-size: 22px;
+    margin: 7px 0px;
+}
+
 /* Get rid of the inside dotted line in Firefox */
 button::-moz-focus-inner,
 input::-moz-focus-inner {
@@ -322,9 +410,12 @@ input::-moz-focus-inner {
 input.primary,
 button.primary,
 a.primary {
-	border: 1px solid #fff;
-	background-color: #0082c9;
+	/* border: 1px solid #fff;
+	background-color: #0082c9; */
 	color: #fff;
+	background-color: black;
+	border: none !important;
+	border-radius: 5px !important;
 	transition: color 100ms ease-in-out;
 }
 
@@ -415,6 +506,9 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 	top: .8em;
 	float: right;
 }
+#show {
+	display: none !important;
+}
 #show + label, #dbpassword-toggle + label {
 	right: 21px;
 	top: 15px !important;
@@ -462,7 +556,7 @@ form fieldset legend,
 form fieldset .warning-info,
 form input[type='checkbox']+label {
 	text-align: center;
-	color: #fff;
+	/* color: #fff; */
 }
 /* overrides another !important statement that sets this to unreadable black */
 form .warning input[type='checkbox']:hover+label,
@@ -547,7 +641,9 @@ form .warning input[type='checkbox']+label {
 	text-shadow: 0 0 2px rgba(0, 0, 0, .4); /* better readability on bright background */
 }
 #lost-password {
-	margin-top: -6px;
+	color: black !important;
+	float: left;
+	transform: translate(10px, 10px);
 }
 #forgot-password {
 	padding: 11px;
@@ -623,12 +719,16 @@ form #selectDbType label span {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	margin-top: 10px;
 }
 .grouptop input {
 	margin-bottom: 0 !important;
 	border-bottom: 0 !important;
 	border-bottom-left-radius: 0 !important;
 	border-bottom-right-radius: 0 !important;
+	background: white url(../img/Selection_002.png) left no-repeat;
+	padding-left: 43px !important;
+    width: 250px !important;
 }
 .groupmiddle input {
 	margin-top: 0 !important;
@@ -637,6 +737,9 @@ form #selectDbType label span {
 	border-bottom: 0 !important;
 	border-radius: 0 !important;
 	box-shadow: 0 1px 0 rgba(0,0,0,.1) inset !important;
+	background: white url(../img/Selection_002.png) left no-repeat !important;
+	padding-left: 43px !important;
+    width: 250px !important;
 }
 .groupbottom input {
 	margin-top: 0 !important;
@@ -644,9 +747,20 @@ form #selectDbType label span {
 	border-top-right-radius: 0 !important;
 	border-top-left-radius: 0 !important;
 	box-shadow: 0 1px 0 rgba(0,0,0,.1) inset !important;
+	background: white url(../img/Selection_003.png) left no-repeat;
+	padding-left: 43px !important;
+    width: 250px !important;
 }
 .groupbottom input[type=submit] {
 	box-shadow: none !important;
+}
+
+#email-icon, #username-icon, #password-icon {
+	display: none !important;
+}
+
+#email {
+	background: white !important;
 }
 
 #install-recommended-apps + label span {
@@ -661,11 +775,11 @@ form #selectDbType label span {
 .update,
 .error {
 	display: block;
-	margin-top: 15px;
+	/* margin-top: 15px; */
 	padding: 15px;
-	background-color: rgba(0,0,0,.3);
-	color: #fff;
-	text-align: left;
+	/* background-color: rgba(0,0,0,.3); */
+	/* color: #fff; */
+	/* text-align: left; */
 	word-wrap: break-word;
 	border-radius: 10px; /* --border-radius-large */
 	cursor: default;
@@ -679,7 +793,7 @@ form #selectDbType label span {
 .warning h2,
 .update h2,
 .error h2 {
-	color: #fff;
+	/* color: #fff; */
 	text-align: center;
 }
 
@@ -717,8 +831,9 @@ form #selectDbType label span {
 	text-align: left;
 }
 .error-wide {
-	width: 700px;
-	margin-top: 35px;
+	/* width: 700px;
+	margin-top: 35px; */
+	font-size: 16px !important;
 }
 .error-wide .button {
 	color: black !important;
@@ -919,4 +1034,28 @@ label.infield,
 
 a.legal {
 	font-size: smaller;
+}
+
+#submit-app-token-login {
+	border-radius: 5px !important;
+	border: none !important;
+	margin-top: 20px !important;
+}
+
+.picker-window {
+	background-color: #ffce3a !important;
+	margin-top: 0px !important;
+}
+
+#redirect-link .icon-confirm-white {
+	border-radius: 5px !important;
+	border: none !important;
+}
+
+.msg.error-wide.nc-theming-main-text {
+	color: black !important;
+	width: 90% !important;
+    margin-top: 0px !important;
+    margin: auto !important;
+    padding: 15px !important;
 }

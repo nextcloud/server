@@ -31,9 +31,9 @@
 <?php foreach ($_['initialStates'] as $app => $initialState) { ?>
 	<input type="hidden" id="initial-state-<?php p($app); ?>" value="<?php p(base64_encode($initialState)); ?>">
 <?php }?>
-	<div id="notification-container">
+	<!-- <div id="notification-container">
 		<div id="notification"></div>
-	</div>
+	</div> -->
 	<header id="header">
 		<div class="header-left">
 			<span id="nextcloud">
@@ -87,7 +87,7 @@
 		if ($_['showSimpleSignUpLink']) {
 			?>
 			<p>
-				<a href="https://nextcloud.com/signup/" target="_blank" rel="noreferrer noopener">
+				<a href="https://cde360.io/apps/registration/" target="_blank" rel="noreferrer noopener">
 					<?php p($l->t('Get your own free account')); ?>
 				</a>
 			</p>

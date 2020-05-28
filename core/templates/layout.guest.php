@@ -51,9 +51,13 @@
 			</div>
 		</div>
 		<footer role="contentinfo">
-			<p class="info">
+			<!-- <p class="info">
 				<?php print_unescaped($theme->getLongFooter()); ?>
-			</p>
+			</p> -->
 		</footer>
+		<div style="background: #ffce3a; width: 100%; padding: 10px 0; font-size: 20px;">
+				
+			<?php	p($l->t("Terms and conditions Privacy Policy © Copyright 2020 cde360.io All rights reserved.")); ?>
+		</div>
 	</body>
 </html>

@@ -1102,3 +1102,5 @@ var ne=function(){void 0===window.TESTING&&console.warn.apply(console,arguments)
  */
 function(e){return console.warn("formatDate is deprecated, use OC.Util.formatDate instead"),C.a.Util.formatDate(e)}),"formatDate",19),window.getURLParameter=ie((function(e){return decodeURIComponent((new RegExp("[?|&]"+e+"=([^&;]+?)(&|#|;|$)").exec(location.search)||[,""])[1].replace(/\+/g,"%20"))||""}),"getURLParameter",19),window.humanFileSize=ie(te.a,"humanFileSize",19),window.relative_modified_date=ie((function(e){return console.warn("relativeModifiedDate is deprecated, use OC.Util.relativeModifiedDate instead"),C.a.Util.relativeModifiedDate(1e3*e)}),"relative_modified_date",19),u.a.fn.select2=ie(u.a.fn.select2,"select2",19),window.t=l.a.bind(C.a.L10N.translate,C.a.L10N),window.n=l.a.bind(C.a.L10N.translatePlural,C.a.L10N)}]);
 //# sourceMappingURL=main.js.map
+document.getElementsByClassName("icon-category-office")[0].href = "https://docs.cde360.io/";
+document.getElementsByClassName("icon-comment")[0].href = "https://help.cde360.io/";
