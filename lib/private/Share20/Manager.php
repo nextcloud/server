@@ -950,8 +950,14 @@ class Manager implements IManager {
 	 * @return boolean whether the password was updated or not.
 	 */
 	private function updateSharePasswordIfNeeded(\OCP\Share\IShare $share, \OCP\Share\IShare $originalShare) {
+		$passwordsAreDifferent = ($share->getPassword() !== $originalShare->getPassword()) &&
+									(($share->getPassword() !== null && $originalShare->getPassword() === null) ||
+									 ($share->getPassword() === null && $originalShare->getPassword() !== null) ||
+									 ($share->getPassword() !== null && $originalShare->getPassword() !== null &&
+										!$this->hasher->verify($share->getPassword(), $originalShare->getPassword())));
+
 		// Password updated.
-		if ($share->getPassword() !== $originalShare->getPassword()) {
+		if ($passwordsAreDifferent) {
 			//Verify the password
 			$this->verifyPassword($share->getPassword());
 
@@ -961,6 +967,10 @@ class Manager implements IManager {
 
 				return true;
 			}
+		} else {
+			// Reset the password to the original one, as it is either the same
+			// as the "new" password or a hashed version of it.
+			$share->setPassword($originalShare->getPassword());
 		}
 
 		return false;
