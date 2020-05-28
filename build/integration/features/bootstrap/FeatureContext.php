@@ -32,6 +32,36 @@ require __DIR__ . '/../../vendor/autoload.php';
  * Features context.
  */
 class FeatureContext implements Context, SnippetAcceptingContext {
+	use Mail;
 	use Search;
 	use WebDav;
+
+	/**
+	 * @BeforeScenario
+	 * @AfterScenario
+	 */
+	public function resetAppConfigs() {
+		$this->runOcc(['config:app:set', 'sharebymail', 'enforcePasswordProtection', '--value="no"']);
+	}
+
+	private static function runOcc(array $args): string {
+		// Based on "runOcc" from CommandLine trait (which can not be used due
+		// to being already used in other sibling contexts).
+		$args = array_map(function ($arg) {
+			return escapeshellarg($arg);
+		}, $args);
+		$args[] = '--no-ansi --no-warnings';
+		$args = implode(' ', $args);
+
+		$descriptor = [
+			0 => ['pipe', 'r'],
+			1 => ['pipe', 'w'],
+			2 => ['pipe', 'w'],
+		];
+		$process = proc_open('php console.php ' . $args, $descriptor, $pipes, $ocPath = '../..');
+		$lastStdOut = stream_get_contents($pipes[1]);
+		proc_close($process);
+
+		return $lastStdOut;
+	}
 }
