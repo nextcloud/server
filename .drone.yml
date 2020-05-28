@@ -1419,6 +1419,37 @@ trigger:
 
 ---
 kind: pipeline
+name: integration-sharing-v1-video-verification
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+    - git submodule update --init
+- name: install-talk
+  image: docker:git
+  commands:
+    # JavaScript files are not used in integration tests so it is not needed to
+    # build them.
+    - git clone --branch stable18 --depth 1 https://github.com/nextcloud/spreed apps/spreed
+- name: integration-sharing-v1-video-verification
+  image: nextcloudci/integration-php7.3:integration-php7.3-2
+  commands:
+    - bash tests/drone-run-integration-tests.sh || exit 0
+    - ./occ maintenance:install --admin-pass=admin --data-dir=/dev/shm/nc_int
+    - cd build/integration
+    - ./run.sh sharing_features/sharing-v1-video-verification.feature
+
+trigger:
+  branch:
+    - master
+    - stable*
+  event:
+    - pull_request
+    - push
+
+---
+kind: pipeline
 name: integration-setup-features
 
 steps:
