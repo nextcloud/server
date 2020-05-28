@@ -983,11 +983,9 @@ class Manager implements IManager {
 			}
 		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			// The new password is not set again if it is the same as the old
-			// one, unless when switching from sending by Talk to sending by
-			// mail.
+			// one.
 			$plainTextPassword = $share->getPassword();
-			if (!empty($plainTextPassword) && !$this->updateSharePasswordIfNeeded($share, $originalShare) &&
-					!($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk())) {
+			if (!empty($plainTextPassword) && !$this->updateSharePasswordIfNeeded($share, $originalShare)) {
 				$plainTextPassword = null;
 			}
 			if (empty($plainTextPassword) && !$originalShare->getSendPasswordByTalk() && $share->getSendPasswordByTalk()) {
@@ -995,6 +993,8 @@ class Manager implements IManager {
 				// would already have access to the share without having to call
 				// the sharer to verify her identity
 				throw new \InvalidArgumentException('Can’t enable sending the password by Talk without setting a new password');
+			} elseif (empty($plainTextPassword) && $originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk()) {
+				throw new \InvalidArgumentException('Can’t disable sending the password by Talk without setting a new password');
 			}
 		}
 

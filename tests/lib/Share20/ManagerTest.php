@@ -3339,6 +3339,9 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testUpdateShareMailDisableSendPasswordByTalkWithPreviousPassword() {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Can’t disable sending the password by Talk without setting a new password');
+
 		$manager = $this->createManagerMock()
 			->setMethods([
 				'canShare',
@@ -3380,8 +3383,8 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())->method('canShare')->willReturn(true);
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
 		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
-		$manager->expects($this->once())->method('pathCreateChecks')->with($file);
 		$manager->expects($this->never())->method('verifyPassword');
+		$manager->expects($this->never())->method('pathCreateChecks');
 		$manager->expects($this->never())->method('linkCreateChecks');
 		$manager->expects($this->never())->method('validateExpirationDate');
 
@@ -3393,10 +3396,8 @@ class ManagerTest extends \Test\TestCase {
 		$this->hasher->expects($this->never())
 			->method('hash');
 
-		$this->defaultProvider->expects($this->once())
-			->method('update')
-			->with($share, 'password')
-			->willReturn($share);
+		$this->defaultProvider->expects($this->never())
+			->method('update');
 
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
@@ -3413,6 +3414,79 @@ class ManagerTest extends \Test\TestCase {
 		$manager->updateShare($share);
 	}
 
+	public function testUpdateShareMailDisableSendPasswordByTalkWithoutChangingPassword() {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Can’t disable sending the password by Talk without setting a new password');
+
+		$manager = $this->createManagerMock()
+			->setMethods([
+				'canShare',
+				'getShareById',
+				'generalCreateChecks',
+				'verifyPassword',
+				'pathCreateChecks',
+				'linkCreateChecks',
+				'validateExpirationDate',
+			])
+			->getMock();
+
+		$originalShare = $this->manager->newShare();
+		$originalShare->setShareType(\OCP\Share::SHARE_TYPE_EMAIL)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setPassword('passwordHash')
+			->setSendPasswordByTalk(true);
+
+		$tomorrow = new \DateTime();
+		$tomorrow->setTime(0,0,0);
+		$tomorrow->add(new \DateInterval('P1D'));
+
+		$file = $this->createMock(File::class);
+		$file->method('getId')->willReturn(100);
+
+		$share = $this->manager->newShare();
+		$share->setProviderId('foo')
+			->setId('42')
+			->setShareType(\OCP\Share::SHARE_TYPE_EMAIL)
+			->setToken('token')
+			->setSharedBy('owner')
+			->setShareOwner('owner')
+			->setPassword('passwordHash')
+			->setSendPasswordByTalk(false)
+			->setExpirationDate($tomorrow)
+			->setNode($file)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+
+		$manager->expects($this->once())->method('canShare')->willReturn(true);
+		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
+		$manager->expects($this->once())->method('generalCreateChecks')->with($share);
+		$manager->expects($this->never())->method('verifyPassword');
+		$manager->expects($this->never())->method('pathCreateChecks');
+		$manager->expects($this->never())->method('linkCreateChecks');
+		$manager->expects($this->never())->method('validateExpirationDate');
+
+		$this->hasher->expects($this->never())
+			->method('verify');
+
+		$this->hasher->expects($this->never())
+			->method('hash');
+
+		$this->defaultProvider->expects($this->never())
+			->method('update');
+
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
+		$hookListner->expects($this->never())->method('post');
+
+		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
+		$hookListner2->expects($this->never())->method('post');
+
+		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
+		$hookListner3->expects($this->never())->method('post');
+
+		$manager->updateShare($share);
+	}
 
 	public function testMoveShareLink() {
 		$this->expectException(\InvalidArgumentException::class);
