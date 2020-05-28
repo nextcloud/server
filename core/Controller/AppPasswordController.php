@@ -116,7 +116,8 @@ class AppPasswordController extends \OCP\AppFramework\OCSController {
 		$this->eventDispatcher->dispatch('app_password_created', $event);
 
 		return new DataResponse([
-			'apppassword' => $token
+			'apppassword' => $token,
+			'loginname' => $credentials->getLoginName()
 		]);
 	}
 
