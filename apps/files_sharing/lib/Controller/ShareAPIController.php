@@ -1603,15 +1603,15 @@ class ShareAPIController extends OCSController {
 			return false;
 		}
 
-		if ($share->getShareType() === \OCP\IShare::TYPE_USER && $share->getSharedWith() === $userId) {
+		if ($share->getShareType() === IShare::TYPE_USER && $share->getSharedWith() === $userId) {
 			return true;
 		}
 
-		if ($share->getShareType() === \OCP\IShare::TYPE_GROUP && $this->groupManager->isInGroup($userId, $share->getSharedWith())) {
+		if ($share->getShareType() === IShare::TYPE_GROUP && $this->groupManager->isInGroup($userId, $share->getSharedWith())) {
 			return true;
 		}
 
-		if ($share->getShareType() === \OCP\IShare::TYPE_CIRCLE && \OC::$server->getAppManager()->isEnabledForUser('circles')
+		if ($share->getShareType() === IShare::TYPE_CIRCLE && \OC::$server->getAppManager()->isEnabledForUser('circles')
 			&& class_exists('\OCA\Circles\Api\v1\Circles')) {
 			$hasCircleId = (substr($share->getSharedWith(), -1) === ']');
 			$shareWithStart = ($hasCircleId ? strrpos($share->getSharedWith(), '[') + 1 : 0);
