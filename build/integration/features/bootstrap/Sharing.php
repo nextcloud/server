@@ -164,9 +164,23 @@ trait Sharing {
 	}
 
 	/**
-	 * @Then /^last link share with password "([^"]*)" can be downloaded$/
+	 * @Then /^last share can be downloaded$/
 	 */
-	public function lastLinkShareWithPasswordCanBeDownloaded($password) {
+	public function lastShareCanBeDownloaded() {
+		if (count($this->lastShareData->data->element) > 0) {
+			$token = $this->lastShareData->data[0]->token;
+		} else {
+			$token = $this->lastShareData->data->token;
+		}
+
+		$fullUrl = substr($this->baseUrl, 0, -4) . "index.php/s/" . $token . "/download";
+		$this->checkDownload($fullUrl, null, 'text/plain');
+	}
+
+	/**
+	 * @Then /^last share with password "([^"]*)" can be downloaded$/
+	 */
+	public function lastShareWithPasswordCanBeDownloaded($password) {
 		if (count($this->lastShareData->data->element) > 0) {
 			$token = $this->lastShareData->data[0]->token;
 		} else {

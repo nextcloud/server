@@ -75,7 +75,7 @@ Feature: sharing
       | password | publicpw |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And last link share with password "publicpw" can be downloaded
+    And last share with password "publicpw" can be downloaded
 
   Scenario: Creating a new public share of a folder
    Given user "user0" exists
@@ -108,7 +108,7 @@ Feature: sharing
       | expireDate | +3 days |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And last link share with password "publicpw" can be downloaded
+    And last share with password "publicpw" can be downloaded
 
   Scenario: Creating a new public share, updating its expiration date and getting its info
     Given user "user0" exists
