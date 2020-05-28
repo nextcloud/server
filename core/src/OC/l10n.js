@@ -12,6 +12,7 @@ import _ from 'underscore'
 import $ from 'jquery'
 import DOMPurify from 'dompurify'
 import Handlebars from 'handlebars'
+import identity from 'lodash/fp/identity'
 import escapeHTML from 'escape-html'
 
 import OC from './index'
@@ -84,14 +85,19 @@ const L10n = {
 	 * @param {number} [count] number to replace %n with
 	 * @param {array} [options] options array
 	 * @param {bool} [options.escape=true] enable/disable auto escape of placeholders (by default enabled)
+	 * @param {bool} [options.sanitize=true] enable/disable sanitization (by default enabled)
 	 * @returns {string}
 	 */
 	translate: function(app, text, vars, count, options) {
 		const defaultOptions = {
 			escape: true,
+			sanitize: true,
 		}
 		const allOptions = options || {}
 		_.defaults(allOptions, defaultOptions)
+
+		const optSanitize = allOptions.sanitize ? DOMPurify.sanitize : identity
+		const optEscape = allOptions.escape ? escapeHTML : identity
 
 		// TODO: cache this function to avoid inline recreation
 		// of the same function over and over again in case
@@ -101,13 +107,9 @@ const L10n = {
 				function(a, b) {
 					const r = vars[b]
 					if (typeof r === 'string' || typeof r === 'number') {
-						if (allOptions.escape) {
-							return DOMPurify.sanitize(escapeHTML(r))
-						} else {
-							return DOMPurify.sanitize(r)
-						}
+						return optSanitize(optEscape(r))
 					} else {
-						return DOMPurify.sanitize(a)
+						return optSanitize(a)
 					}
 				}
 			)
@@ -120,9 +122,9 @@ const L10n = {
 		}
 
 		if (typeof vars === 'object' || count !== undefined) {
-			return DOMPurify.sanitize(_build(translation, vars, count))
+			return optSanitize(_build(translation, vars, count))
 		} else {
-			return DOMPurify.sanitize(translation)
+			return optSanitize(translation)
 		}
 	},
 
