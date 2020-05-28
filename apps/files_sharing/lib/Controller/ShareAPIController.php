@@ -470,15 +470,20 @@ class ShareAPIController extends OCSController {
 					throw new OCSNotFoundException($this->l->t('Public upload is only possible for publicly shared folders'));
 				}
 
-				$share->setPermissions(
-					Constants::PERMISSION_READ |
+				$permissions = Constants::PERMISSION_READ |
 					Constants::PERMISSION_CREATE |
 					Constants::PERMISSION_UPDATE |
-					Constants::PERMISSION_DELETE
-				);
+					Constants::PERMISSION_DELETE;
 			} else {
-				$share->setPermissions(Constants::PERMISSION_READ);
+				$permissions = Constants::PERMISSION_READ;
 			}
+
+			// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
+			if (($permissions & Constants::PERMISSION_READ) && $this->shareManager->outgoingServer2ServerSharesAllowed()) {
+				$permissions |= Constants::PERMISSION_SHARE;
+			}
+
+			$share->setPermissions($permissions);
 
 			// Set password
 			if ($password !== '') {
@@ -903,6 +908,11 @@ class ShareAPIController extends OCSController {
 			}
 
 			if ($newPermissions !== null) {
+				// TODO: It might make sense to have a dedicated setting to allow/deny converting link shares into federated ones
+				if (($newPermissions & Constants::PERMISSION_READ) && $this->shareManager->outgoingServer2ServerSharesAllowed()) {
+					$newPermissions |= Constants::PERMISSION_SHARE;
+				}
+
 				$share->setPermissions($newPermissions);
 				$permissions = $newPermissions;
 			}
