@@ -25,6 +25,7 @@ default:
         - CommandLineContext:
             baseUrl: http://localhost:8080
             ocPath: ../../
+        - TalkContext
     federation:
       paths:
         - "%paths.base%/../federation_features"
