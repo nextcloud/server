@@ -597,6 +597,7 @@ class OC {
 
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
+		self::$server->boot();
 		\OC::$server->getEventLogger()->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
 		\OC::$server->getEventLogger()->start('boot', 'Initialize');
 
