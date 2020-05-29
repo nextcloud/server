@@ -9,6 +9,8 @@
  *
  */
 
+import escapeHTML from 'escape-html'
+
 (function(OC) {
 	/**
 	 * @namespace

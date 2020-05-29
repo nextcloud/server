@@ -15,12 +15,6 @@
 		"setupchecks.js",
 		"../search/js/search.js",
 		"mimetype.js",
-		"mimetypelist.js",
-		"systemtags/systemtags.js",
-		"systemtags/templates.js",
-		"systemtags/systemtagmodel.js",
-		"systemtags/systemtagscollection.js",
-		"systemtags/systemtagsmappingcollection.js",
-		"systemtags/systemtagsinputfield.js"
+		"mimetypelist.js"
 	]
 }

@@ -9,7 +9,9 @@
  *
  */
 
-/* global Handlebars */
+import templateResult from './templates/result.handlebars'
+import templateResultForm from './templates/result_form.handlebars'
+import templateSelection from './templates/selection.handlebars'
 
 (function(OC) {
 
@@ -108,7 +110,7 @@
 				var tagModel = this.collection.get(tagId)
 
 				var oldName = tagModel.get('name')
-				var $renameForm = $(OC.SystemTags.Templates['result_form']({
+				var $renameForm = $(templateResultForm({
 					cid: this.cid,
 					name: oldName,
 					deleteTooltip: t('core', 'Delete'),
@@ -272,7 +274,7 @@
 		 * @returns {string} HTML markup
 		 */
 			_formatDropDownResult: function(data) {
-				return OC.SystemTags.Templates['result'](_.extend({
+				return templateResult(_.extend({
 					renameTooltip: t('core', 'Rename'),
 					allowActions: this._allowActions,
 					tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data)[0].innerHTML : null,
@@ -287,7 +289,7 @@
 		 * @returns {string} HTML markup
 		 */
 			_formatSelection: function(data) {
-				return OC.SystemTags.Templates['selection'](_.extend({
+				return templateSelection(_.extend({
 					tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data)[0].innerHTML : null,
 					isAdmin: this._isAdmin
 				}, data))
