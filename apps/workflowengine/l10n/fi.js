@@ -27,6 +27,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Tarkistus %s on virheellinen",
     "Check #%s does not exist" : "Tarkistusta #%s ei ole olemassa",
     "Check %s is invalid or does not exist" : "Tarkistus %s on virheellinen tai sitä ei ole olemassa",
+    "Flow" : "Kulku",
     "Nextcloud workflow engine" : "Nextcloudin työnkulkumoottori",
     "Select a file type" : "Valitse tiedostotyyppi",
     "Folder" : "Kansio",
