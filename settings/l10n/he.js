@@ -814,6 +814,8 @@ OC.L10N.register(
     "Tachelhit (Tifinagh)" : "תשלחית (טיפינאר)",
     "Tachelhit (Tifinagh, Morocco)" : "תשלחית (טיפינאר, מרוקו)",
     "Tachelhit" : "תשלחית",
+    "Taita (Kenya)" : "טאיטה (קניה)",
+    "Taita" : "טאיטה",
     "Tamil (India)" : "טמילית (הודו)",
     "Tamil (Sri Lanka)" : "טמילית (סרי לנקה)",
     "Tamil" : "טמילית",

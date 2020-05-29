@@ -247,6 +247,7 @@ OC.L10N.register(
     "Disabled apps" : "Käytöstä poistetut sovellukset",
     "Updates" : "Päivitykset",
     "App bundles" : "Sovelluskokoelmat",
+    "Featured apps" : "Esitellyt sovellukset",
     "{license}-licensed" : "{license}-lisensoitu",
     "New user" : "Uusi käyttäjä",
     "Enter group name" : "Kirjoita ryhmän nimi",
