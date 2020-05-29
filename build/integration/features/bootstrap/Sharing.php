@@ -150,9 +150,11 @@ trait Sharing {
 	}
 
 	/**
-	 * @Then /^last link share can be downloaded$/
+	 * @Then /^Public shared file "([^"]*)" can be downloaded$/
 	 */
-	public function lastLinkShareCanBeDownloaded() {
+	public function checkPublicSharedFile($filename) {
+		$client = new Client();
+		$options = [];
 		if (count($this->lastShareData->data->element) > 0){
 			$url = $this->lastShareData->data[0]->url;
 		}
@@ -164,23 +166,10 @@ trait Sharing {
 	}
 
 	/**
-	 * @Then /^last share can be downloaded$/
+	 * @Then /^Public shared file "([^"]*)" with password "([^"]*)" can be downloaded$/
 	 */
-	public function lastShareCanBeDownloaded() {
-		if (count($this->lastShareData->data->element) > 0) {
-			$token = $this->lastShareData->data[0]->token;
-		} else {
-			$token = $this->lastShareData->data->token;
-		}
-
-		$fullUrl = substr($this->baseUrl, 0, -4) . "index.php/s/" . $token . "/download";
-		$this->checkDownload($fullUrl, null, 'text/plain');
-	}
-
-	/**
-	 * @Then /^last share with password "([^"]*)" can be downloaded$/
-	 */
-	public function lastShareWithPasswordCanBeDownloaded($password) {
+	public function checkPublicSharedFileWithPassword($filename, $password) {
+		$options = [];
 		if (count($this->lastShareData->data->element) > 0){
 			$token = $this->lastShareData->data[0]->token;
 		}

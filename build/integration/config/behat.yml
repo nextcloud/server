@@ -65,7 +65,6 @@ default:
               - admin
               - admin
             regular_user_password: 123456
-        - TalkContext
     setup:
       paths:
         - "%paths.base%/../setup_features"
