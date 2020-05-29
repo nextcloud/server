@@ -187,10 +187,14 @@ class ShareByMailProvider implements IShareProvider {
 
 		// if the admin enforces a password for all mail shares we create a
 		// random password and send it to the recipient
-		$password = '';
+		$password = $share->getPassword() ?: '';
 		$passwordEnforced = $this->settingsManager->enforcePasswordProtection();
-		if ($passwordEnforced) {
+		if ($passwordEnforced && empty($password)) {
 			$password = $this->autoGeneratePassword($share);
+		}
+
+		if (!empty($password)) {
+			$share->setPassword($this->hasher->hash($password));
 		}
 
 		$shareId = $this->createMailShare($share);
@@ -232,8 +236,6 @@ class ShareByMailProvider implements IShareProvider {
 		}
 
 		$password = $this->secureRandom->generate($passwordLength, $passwordCharset);
-
-		$share->setPassword($this->hasher->hash($password));
 
 		return $password;
 	}
