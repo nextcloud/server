@@ -34,6 +34,9 @@ require __DIR__ . '/../../vendor/autoload.php';
 class SharingContext implements Context, SnippetAcceptingContext {
 	use Sharing;
 	use AppConfiguration;
+	use CommandLine;
 
-	protected function resetAppConfigs() {}
+	protected function resetAppConfigs() {
+		$this->modifyServerConfig('sharebymail', 'enforcePasswordProtection', 'no');
+	}
 }

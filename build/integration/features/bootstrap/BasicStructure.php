@@ -46,6 +46,7 @@ trait BasicStructure {
 
 	use Auth;
 	use Download;
+	use Mail;
 	use Trashbin;
 
 	/** @var string */
