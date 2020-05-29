@@ -156,7 +156,7 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Partagé avec la conversation {user} par {owner}",
     "Shared with {user} by {owner}" : "Partagé avec {user} par {owner}",
     "Added by {initiator}" : "Ajouté par {initiator}",
-    "Via folder" : "Via dossier",
+    "Via “{folder}”" : "Via “{folder}”",
     "Internal link" : "Lien interne",
     "Link copied" : "Lien copié",
     "Cannot copy, please copy the link manually" : "Impossible de copier, merci de le copier manuellement",

@@ -14,7 +14,6 @@ OC.L10N.register(
     "If you regenerate backup codes, you automatically invalidate old codes." : "При регенерирането на резервния код, стария код автоматично бива анулиран.",
     "An error occurred while generating your backup codes" : "Възникна грешка при генерирането на резервния код",
     "Submit" : "Изпращане",
-    "_" : "_",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Включили сте двустепенното удостоверяването, но не сте създали резервен код. Моля, създайте резервен код, който да ползвате когато загубите достъп до устройството генериращо кода за втората стъпка в удостоверяването."
+    "_" : "_"
 },
 "nplurals=2; plural=(n != 1);");

@@ -164,6 +164,7 @@ use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\ITempManager;
 use OCP\IUser;
+use OCP\L10N\IFactory;
 use OCP\Lock\ILockingProvider;
 use OCP\Log\ILogFactory;
 use OCP\Remote\Api\IApiFactory;
@@ -946,7 +947,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getLogger(),
 				$c->query(Defaults::class),
 				$c->getURLGenerator(),
-				$c->getL10N('lib')
+				$c->getL10N('lib'),
+				$c->query(IFactory::class)
 			);
 		});
 		$this->registerAlias('Mailer', \OCP\Mail\IMailer::class);

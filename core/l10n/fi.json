@@ -53,7 +53,6 @@
     "Starting code integrity check" : "Aloitetaan koodin eheystarkistus",
     "Finished code integrity check" : "Koodin eheystarkistus suoritettu",
     "%s (incompatible)" : "%s (ei yhteensopiva)",
-    "Following apps have been disabled: %s" : "Seuraavat sovellukset on poistettu käytöstä: %s",
     "Already up to date" : "Kaikki on jo ajan tasalla",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Palvelintasi ei ole määritetty oikein tiedostojen synkronointia varten, koska WebDAV-liitäntä vaikuttaa olevan rikki.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Palvelinta ei ole määritelty oikein tunnistamaan osoitetta \"{url}\". Katso lisätiedot <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">ohjeista</a>.",
@@ -273,7 +272,6 @@
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Ota yhteys ylläpitoon, tai jos olet tämän palvelun ylläpitäjä, määritä \"trusted_domains\"-asetus config/config.php-tiedostossa. Esimerkkimääritys on tiedostossa config/config.sample.php.",
     "App update required" : "Sovelluksen päivittäminen vaaditaan",
     "%1$s will be updated to version %2$s" : "%1$s päivitetään versioon %2$s",
-    "These apps will be updated:" : "Nämä sovellukset päivitetään:",
     "These incompatible apps will be disabled:" : "Nämä yhteensopimattomat sovellukset poistetaan käytöstä:",
     "The theme %s has been disabled." : "Teema %s on poistettu käytöstä.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Varmista ennen jatkamista, että tietokanta, asetuskansio ja datakansio on varmuuskopioitu.",
@@ -289,10 +287,7 @@
     "This %s instance is currently in maintenance mode, which may take a while." : "Tämä %s-instanssi on parhaillaan huoltotilassa, huollossa saattaa kestää hetki.",
     "This page will refresh itself when the instance is available again." : "Tämä sivu päivittyy itsestään, kun instanssi on jälleen käytettävissä.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Salasanan palautusviestiä ei voitu lähettää sähköpostitse, koska käyttäjätunnukselle ei ole määritetty sähköpostiosoitetta. Ota yhteys ylläpitäjään.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Palautussähköpostin lähettäminen ei onnistunut. Varmista, että käyttäjätunnuksesi on oikein.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Tiedostosi ovat salattuja. Salasanan palauttamisen jälkeen niitä ei ole mahdollista palauttaa.<br />Jos et ole varma, mitä tehdä, ole yhteydessä ylläpitäjään ennen kuin jatkat.<br />Haluatko varmasti jatkaa?",
-    "Sending email …" : "Lähetetään sähköpostia ...",
+    "Following apps have been disabled: %s" : "Seuraavat sovellukset on poistettu käytöstä: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "Käytössä on PHP 5.6. Nykyinen Nextcloudversio on viimeinen, mikä sitä tukee. Suositeltavaa on päivittää versioon 7.0+, jotta päivitys onnistuisi Nextcloud 14:än sen ilmestyessä.",
     "Shared" : "Jaettu",
     "Shared with" : "Jaettu",
@@ -366,8 +361,7 @@
     "Error removing share" : "Virhe jakoa poistaessa",
     "({scope})" : "({scope})",
     "Saving..." : "Tallennetaan...",
-    "Dismiss" : "Hylkää",
-    "New Password" : "Uusi salasana",
-    "Cancel log in" : "Peru kirjautuminen"
+    "Cancel log in" : "Peru kirjautuminen",
+    "These apps will be updated:" : "Nämä sovellukset päivitetään:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -156,7 +156,7 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Udostępnione w rozmowie {user} przez {owner}",
     "Shared with {user} by {owner}" : "Udostępnione {user} przez {owner}",
     "Added by {initiator}" : "Dodane przez {initiator}",
-    "Via folder" : "Przez katalog",
+    "Via “{folder}”" : "Przez “{folder}”",
     "Internal link" : "Link wewnętrzny",
     "Link copied" : "Link skopiowany",
     "Cannot copy, please copy the link manually" : "Nie można skopiować, spróbuj skopiować link ręcznie",

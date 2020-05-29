@@ -7,11 +7,10 @@
 
 namespace Icewind\SMB\Native;
 
+use Icewind\SMB\ACL;
 use Icewind\SMB\IFileInfo;
 
 class NativeFileInfo implements IFileInfo {
-	const MODE_FILE = 0100000;
-
 	/**
 	 * @var string
 	 */
@@ -30,34 +29,17 @@ class NativeFileInfo implements IFileInfo {
 	/**
 	 * @var array|null
 	 */
-	protected $statCache = null;
-
-	/** @var callable|null */
-	protected $statCallback = null;
-
-	/**
-	 * @var int
-	 */
-	protected $modeCache;
+	protected $attributeCache = null;
 
 	/**
 	 * @param NativeShare $share
 	 * @param string $path
 	 * @param string $name
-	 * @param array|callable $stat
 	 */
-	public function __construct($share, $path, $name, $stat) {
+	public function __construct($share, $path, $name) {
 		$this->share = $share;
 		$this->path = $path;
 		$this->name = $name;
-
-		if (is_array($stat)) {
-			$this->statCache = $stat;
-		} elseif (is_callable($stat)) {
-			$this->statCallback = $stat;
-		} else {
-			throw new \InvalidArgumentException('$stat needs to be an array or callback');
-		}
 	}
 
 	/**
@@ -78,10 +60,20 @@ class NativeFileInfo implements IFileInfo {
 	 * @return array
 	 */
 	protected function stat() {
-		if (is_null($this->statCache)) {
-			$this->statCache = call_user_func($this->statCallback);
+		if (is_null($this->attributeCache)) {
+			$rawAttributes = explode(',', $this->share->getAttribute($this->path, 'system.dos_attr.*'));
+			$this->attributeCache = [];
+			foreach ($rawAttributes as $rawAttribute) {
+				list($name, $value) = explode(':', $rawAttribute);
+				$name = strtolower($name);
+				if ($name == 'mode') {
+					$this->attributeCache[$name] = (int)hexdec(substr($value, 2));
+				} else {
+					$this->attributeCache[$name] = (int)$value;
+				}
+			}
 		}
-		return $this->statCache;
+		return $this->attributeCache;
 	}
 
 	/**
@@ -97,27 +89,38 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function getMTime() {
 		$stat = $this->stat();
-		return $stat['mtime'];
+		return $stat['change_time'];
+	}
+
+	/**
+	 * On "mode":
+	 *
+	 * different smbclient versions seem to return different mode values for 'system.dos_attr.mode'
+	 *
+	 * older versions return the dos permissions mask as defined in `IFileInfo::MODE_*` while
+	 * newer versions return the equivalent unix permission mask.
+	 *
+	 * Since the unix mask doesn't contain the proper hidden/archive/system flags we have to assume them
+	 * as false (except for `hidden` where we use the unix dotfile convention)
+	 */
+
+	/**
+	 * @return int
+	 */
+	protected function getMode() {
+		return $this->stat()['mode'];
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isDirectory() {
-		$stat = $this->stat();
-		return !($stat['mode'] & self::MODE_FILE);
-	}
-
-	/**
-	 * @return int
-	 */
-	protected function getMode() {
-		if (!$this->modeCache) {
-			$attribute = $this->share->getAttribute($this->path, 'system.dos_attr.mode');
-			// parse hex string
-			$this->modeCache = (int)hexdec(substr($attribute, 2));
+		$mode = $this->getMode();
+		if ($mode > 0x80) {
+			return (bool)($mode & 0x4000); // 0x80: unix directory flag
+		} else {
+			return (bool)($mode & IFileInfo::MODE_DIRECTORY);
 		}
-		return $this->modeCache;
 	}
 
 	/**
@@ -125,7 +128,11 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isReadOnly() {
 		$mode = $this->getMode();
-		return (bool)($mode & IFileInfo::MODE_READONLY);
+		if ($mode > 0x80) {
+			return !(bool)($mode & 0x80); // 0x80: owner write permissions
+		} else {
+			return (bool)($mode & IFileInfo::MODE_READONLY);
+		}
 	}
 
 	/**
@@ -133,7 +140,11 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isHidden() {
 		$mode = $this->getMode();
-		return (bool)($mode & IFileInfo::MODE_HIDDEN);
+		if ($mode > 0x80) {
+			return $this->name[0] === '.';
+		} else {
+			return (bool)($mode & IFileInfo::MODE_HIDDEN);
+		}
 	}
 
 	/**
@@ -141,7 +152,11 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isSystem() {
 		$mode = $this->getMode();
-		return (bool)($mode & IFileInfo::MODE_SYSTEM);
+		if ($mode > 0x80) {
+			return false;
+		} else {
+			return (bool)($mode & IFileInfo::MODE_SYSTEM);
+		}
 	}
 
 	/**
@@ -149,6 +164,28 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isArchived() {
 		$mode = $this->getMode();
-		return (bool)($mode & IFileInfo::MODE_ARCHIVE);
+		if ($mode > 0x80) {
+			return false;
+		} else {
+			return (bool)($mode & IFileInfo::MODE_ARCHIVE);
+		}
+	}
+
+	/**
+	 * @return ACL[]
+	 */
+	public function getAcls(): array {
+		$acls = [];
+		$attribute = $this->share->getAttribute($this->path, 'system.nt_sec_desc.acl.*+');
+
+		foreach (explode(',', $attribute) as $acl) {
+			list($user, $permissions) = explode(':', $acl, 2);
+			list($type, $flags, $mask) = explode('/', $permissions);
+			$mask = hexdec($mask);
+
+			$acls[$user] = new ACL($type, $flags, $mask);
+		}
+
+		return $acls;
 	}
 }

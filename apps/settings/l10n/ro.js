@@ -33,6 +33,13 @@ OC.L10N.register(
     "Groups" : "Grupuri",
     "Group list is empty" : "Lista de grupuri este goală",
     "Unable to retrieve the group list" : "Nu s-a putut obține lista de grupuri",
+    "Add link" : "Adaugă link",
+    "Unsaved changes" : "Modificări nesalvate",
+    "Use current version" : "Folosește versiunea curentă",
+    "Use the saved version" : "Folosește versiuna salvată",
+    "Retry" : "Reîncearcă",
+    "Show image" : "Arată imaginea",
+    "Show file" : "Arată fișierul",
     "{actor} added you to group {group}" : "{actor} te-a adăugat în grupul {group}",
     "You added {user} to group {group}" : "Ai adăugat {user} în grupul {group}",
     "{actor} added {user} to group {group}" : "{actor} a adăugat pe {user} în grupul {group}",
@@ -244,6 +251,7 @@ OC.L10N.register(
     "Current password" : "Parola curentă",
     "New password" : "Noua parolă",
     "Change password" : "Schimbă parola",
+    "Share" : "Partajează",
     "Afrikaans (Namibia)" : "Afrikaans (Namibia)",
     "Afrikaans (South Africa)" : "Afrikaans (South Africa)",
     "Afrikaans" : "Afrikaans",
@@ -394,8 +402,6 @@ OC.L10N.register(
     "Yoruba" : "Yoruba",
     "Zulu" : "Zulu",
     "Official" : "Oficial",
-    "Store credentials" : "Stochează datele de autentificare",
-    "Set default expiration date" : "Setează data implicită de expirare",
-    "Share" : "Partajează"
+    "Set default expiration date" : "Setează data implicită de expirare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

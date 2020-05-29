@@ -33,6 +33,8 @@ OC.L10N.register(
     "Groups" : "Grupper",
     "Group list is empty" : "Gruppeliste er tom",
     "Unable to retrieve the group list" : "Kunne ikke hente gruppelisten",
+    "Unsaved changes" : "Ulagrede endringer",
+    "Retry" : "Prøv igjen",
     "{actor} added you to group {group}" : "{actor} la deg til i gruppen {group}",
     "You added {user} to group {group}" : "Du la til {user} i gruppen {group}",
     "{actor} added {user} to group {group}" : "{actor} la {user} til i gruppen {group}",
@@ -367,16 +369,13 @@ OC.L10N.register(
     "New password" : "Nytt passord",
     "Change password" : "Endre passord",
     "Use a second factor besides your password to increase security for your account." : "Bruk en annen faktor i tillegg til passordet ditt for å øke sikkerheten for kontoen din.",
+    "Share" : "Del",
     "Albanian" : "Albansk",
     "Arabic" : "Arabisk",
     "Tonga" : "Tonga",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Offisielle apper utvikles av og innenfor miljøet, de byr på sentral funksjonalitet og er klare for bruk i produksjon.",
     "Official" : "Offisiell",
     "The backend does not support changing the display name" : "Serveren støtter ikke endring av visningsnavn",
-    "Store credentials" : "Lagre påloggingsdetaljer",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php er registrert i en webcron-tjeneste for å kalle cron.php hvert kvarter over HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Bruk systemets cron-tjeneste til å kalle cron.php hvert kvarter.",
-    "Set default expiration date" : "Sett forvalgt utløpsdato",
-    "Share" : "Del"
+    "Set default expiration date" : "Sett forvalgt utløpsdato"
 },
 "nplurals=2; plural=(n != 1);");

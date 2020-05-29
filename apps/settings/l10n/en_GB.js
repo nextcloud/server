@@ -30,6 +30,8 @@ OC.L10N.register(
     "Groups" : "Groups",
     "Group list is empty" : "Group list is empty",
     "Unable to retrieve the group list" : "Unable to retrieve the group list",
+    "Unsaved changes" : "Unsaved changes",
+    "Retry" : "Retry",
     "{actor} changed your password" : "{actor} changed your password",
     "You changed your password" : "You changed your password",
     "Your password was reset by an administrator" : "Your password was reset by an administrator",
@@ -301,12 +303,9 @@ OC.L10N.register(
     "Current password" : "Current password",
     "New password" : "New password",
     "Change password" : "Change password",
+    "Share" : "Share",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Official apps are developed by the community. They offer additional functionality and are ready for production use.",
     "Official" : "Official",
-    "Store credentials" : "Store credentials",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Use system cron service to call the cron.php file every 15 minutes.",
-    "Set default expiration date" : "Set default expiry date",
-    "Share" : "Share"
+    "Set default expiration date" : "Set default expiry date"
 },
 "nplurals=2; plural=(n != 1);");

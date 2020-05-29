@@ -47,7 +47,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Comenzando verificación de integridad del código",
     "Finished code integrity check" : "Verificación de integridad del código terminó",
     "%s (incompatible)" : "%s (incompatible)",
-    "Following apps have been disabled: %s" : "Las siguientes aplicaciones han sido deshabilitadas: %s",
     "Already up to date" : "Ya está actualizado",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Su base de datos no puede correr con el nivel de aislamiento de transacción de \"READ COMMITTED\".  Puede causar problemas cuando mútiples acciones sean ejecutadas en paralelo.",
     "SQLite is currently being used as the backend database. For larger installations we recommend that you switch to a different database backend." : "Actualmente está usando SQLite como el backend de base de datos. Para instalaciones más grandes le recomendamos cambiar a un backend de base de datos diferente.",
@@ -233,7 +232,6 @@ OC.L10N.register(
     "Use backup code" : "Usar código de respaldo",
     "Error while validating your second factor" : "Se presentó un error al validar su segundo factor",
     "App update required" : "Se requiere una actualización de la aplicación",
-    "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:",
     "These incompatible apps will be disabled:" : "Las siguientes aplicaciones incompatibles serán deshabilitadas:",
     "The theme %s has been disabled." : "El tema %s ha sido deshabilitado. ",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Favor de asegurarse que la base de datos, la carpeta de configuración y las carpetas de datos hayan sido respaldadas antes de continuar. ",
@@ -246,9 +244,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Actualizar vía Web bajo mi propio riesgo",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instancia %s se encuentra actualmente en modo mantenimiento, que podría tomar algo de tiempo. ",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte a su administrador del sistema si este mensaje persiste o se presentó de manera inesperada.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "No fue posible enviar el correo electrónico para restablecer porque no hay una dirección de correo electrónico para este usuario. Favor de contactar a su adminsitrador. ",
-    "Couldn't send reset email. Please make sure your username is correct." : "No fue posible restablecer el correo electrónico. Favor de asegurarse que su nombre de usuario sea correcto. ",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Sus archivos están encriptados. No habrá manera de recuperar sus datos una vez que restablezca su contraseña. <br />Si no está seguro de qué hacer, favor de contactar a su administrador antes de continuar. <br />¿Realmente desea continuar?",
+    "Following apps have been disabled: %s" : "Las siguientes aplicaciones han sido deshabilitadas: %s",
     "Shared" : "Compartido",
     "Shared by" : "Compartido por",
     "Choose a password for the public link" : "Seleccione una contraseña para el link público",
@@ -308,8 +304,7 @@ OC.L10N.register(
     "Error removing share" : "Se presentó un error al dejar de compartir",
     "({scope})" : "({scope})",
     "Saving..." : "Guardando...",
-    "Dismiss" : "Descartar",
-    "New Password" : "Nueva Contraseña",
-    "Cancel log in" : "Cancelar inicio de sesión"
+    "Cancel log in" : "Cancelar inicio de sesión",
+    "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
 },
 "nplurals=2; plural=(n != 1);");

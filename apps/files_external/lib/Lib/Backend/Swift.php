@@ -46,8 +46,7 @@ class Swift extends Backend {
 			->addParameters([
 				(new DefinitionParameter('service_name', $l->t('Service name')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
-				(new DefinitionParameter('region', $l->t('Region')))
-					->setFlag(DefinitionParameter::FLAG_OPTIONAL),
+				new DefinitionParameter('region', $l->t('Region')),
 				new DefinitionParameter('bucket', $l->t('Bucket')),
 				(new DefinitionParameter('timeout', $l->t('Request timeout (seconds)')))
 					->setFlag(DefinitionParameter::FLAG_OPTIONAL),

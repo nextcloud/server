@@ -41,8 +41,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "A versión estábel máis recente. É axeitada para uso en produción e actualizarase sempre á última versión maior.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Unha versión preliminar só para probar funcionalidades novas, non para contornos de produción",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>  aplicación non ten unha actualización dispoñíbel para esta versión","<strong>%n</strong> aplicacións non teñen unha actualización dispoñíbel para esta versión"],
-    "Production" : "Produción",
-    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Fornecerá sempre o último nivel de parches, mais non se actualizará á seguinte versión maior de inmediato. Esa actualización xeralmente acontece coa segunda publicación menor (x.0.2) e só se a instancia está xa na última versión menor."
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong>  aplicación non ten unha actualización dispoñíbel para esta versión","<strong>%n</strong> aplicacións non teñen unha actualización dispoñíbel para esta versión"]
 },
 "nplurals=2; plural=(n != 1);");

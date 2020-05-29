@@ -43,7 +43,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Koodi terviklikkuse kontrolli alustamine",
     "Finished code integrity check" : "Koodi terviklikkuse kontrolli lõpp",
     "%s (incompatible)" : "%s (pole ühilduv)",
-    "Following apps have been disabled: %s" : "Järgnevad rakendused on välja lülitatud: %s",
     "Already up to date" : "On juba ajakohane",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Sinu veebiserver pole veel piisavalt korralikult seadistatud, et lubada failide sünkroniseerimist, kuna WebDAV liides paistab olevat katki.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Sinu veebiserver pole veel piisavalt korralikult seadistatud, et lahendada aadressi \"{url}\". Lisateavet leiate meie <a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\"> dokumentatsioonist </a>.",
@@ -202,7 +201,6 @@ OC.L10N.register(
     "Access through untrusted domain" : "Ligipääs läbi ebausaldusväärse domeeni",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Palun võtke ühendust oma administraatoriga. Kui olete administraator, muutke konfiguratsioonis config/config.php sätet \"trusted_domains\", nagu näidis config.sample.php failis.",
     "App update required" : "Rakenduse uuendus on nõutud",
-    "These apps will be updated:" : "Neid rakendusi uuendatakse:",
     "These incompatible apps will be disabled:" : "Need mitteühilduvad rakendused lülitatakse välja:",
     "The theme %s has been disabled." : "Teema %s on keelatud.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Enne jätkamist veendu, et andmebaas, seadete ning andmete kataloog on varundatud.",
@@ -215,10 +213,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Uuenda veebi kaudu omal vastutusel",
     "This %s instance is currently in maintenance mode, which may take a while." : "See %s instants on hetkel haldusrežiimis, mis võib kesta mõnda aega.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakteeru oma süsteemihalduriga, kui see teade püsib või on tekkinud ootamatult.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Ei saanud saata lähtestamise e-kirja kuna antud kasutajal puudub e-posti aadress. Palun kontakteeruge administraatoriga ",
-    "Couldn't send reset email. Please make sure your username is correct." : "Ei suutnud lähtestada e-maili. Palun veendu, et kasutajatunnus on õige.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Sinu failid on krüpteeritud. Andmete taaastaamine ei ole pärast parooli lähtestaamist enam võimalik. <br />Kui Sa ei ole kindel mida teha, kontakteeru palun enne jätkamist administraatoriga. <br />Kas Sa kindlasti soovid jätkata?",
-    "Sending email …" : "Saadan kirja ...",
+    "Following apps have been disabled: %s" : "Järgnevad rakendused on välja lülitatud: %s",
     "Shared" : "Jagatud",
     "Shared with" : "Jagatud",
     "Shared by" : "Jagas",
@@ -277,8 +272,7 @@ OC.L10N.register(
     "Error removing share" : "Viga jagamise eemaldamisel",
     "({scope})" : "({scope})",
     "Saving..." : "Salvestamine...",
-    "Dismiss" : "Jäta vahele",
-    "New Password" : "Uus parool",
-    "Cancel log in" : "Katkesta sisselogimine"
+    "Cancel log in" : "Katkesta sisselogimine",
+    "These apps will be updated:" : "Neid rakendusi uuendatakse:"
 },
 "nplurals=2; plural=(n != 1);");

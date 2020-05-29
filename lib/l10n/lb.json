@@ -4,7 +4,6 @@
     "Sample configuration detected" : "Beispill-Konfiguratioun erkannt",
     "PHP %s or higher is required." : "PHP %s oder méi nei ass néideg.",
     "PHP with a version lower than %s is required." : "PHP mat enger Versioun %s oder méi kleng ass néideg.",
-    "Following databases are supported: %s" : "Dës Datebanke ginn ënnerstëtzt: %s",
     "Unknown filetype" : "Onbekannten Fichier Typ",
     "Invalid image" : "Ongülteg d'Bild",
     "today" : "haut",
@@ -63,9 +62,7 @@
     "Dec." : "Dez.",
     "Authentication error" : "Authentifikatioun's Fehler",
     "Storage is temporarily not available" : "Späicherplaatz temporär net erreeschbar",
-    "Create" : "Erstellen",
-    "Delete" : "Läschen",
-    "Share" : "Deelen",
+    "Following databases are supported: %s" : "Dës Datebanke ginn ënnerstëtzt: %s",
     "Sharing" : "Gedeelt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

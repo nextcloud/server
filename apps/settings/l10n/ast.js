@@ -25,6 +25,7 @@ OC.L10N.register(
     "Strong password" : "Contraseña mui bona",
     "Select a profile picture" : "Esbillar una imaxe de perfil",
     "Groups" : "Grupos",
+    "Retry" : "Retentar",
     "{actor} changed your password" : "{actor} camudó la to contraseña",
     "You changed your password" : "Camudesti la to contraseña",
     "Your password was reset by an administrator" : "La to contraseña reafitóla un alministrador",
@@ -237,10 +238,9 @@ OC.L10N.register(
     "Current password" : "Contraseña actual",
     "New password" : "Contraseña nueva",
     "Change password" : "Camudar contraseña",
+    "Share" : "Share",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Les aplicaciones oficiales desendólquense dientro la comunidá. Ufren funcionalidá central y tán preparaes pal usu en producción.",
     "Official" : "Oficial",
-    "Store credentials" : "Atroxar credenciales",
-    "Set default expiration date" : "Afitar la data d'espiración predeterminada",
-    "Share" : "Share"
+    "Set default expiration date" : "Afitar la data d'espiración predeterminada"
 },
 "nplurals=2; plural=(n != 1);");

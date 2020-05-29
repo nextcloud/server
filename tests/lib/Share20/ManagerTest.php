@@ -809,6 +809,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
 				['core', 'shareapi_default_expire_date', 'no', 'yes'],
+				['core', 'link_defaultExpDays', 3, '3'],
 			]));
 
 		$expected = new \DateTime();

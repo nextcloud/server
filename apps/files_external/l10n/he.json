@@ -103,6 +103,7 @@
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "שיתוף",
     "Show hidden files" : "הצגת קבצים נסתרים",
+    "Verify ACL access when listing files" : "אימות גישה דרש רשימת בקרת גישה (ACL) בעת הצגת קבצים",
     "Timeout" : "פג הזמן הקצוב",
     "SMB / CIFS using OC login" : "SMB / CIFS בשימוש עם כניסת OC",
     "Username as share" : "שם משתמש כשיתוף",

@@ -61,10 +61,6 @@
     "A valid username must be provided" : "Du må oppgje eit gyldig brukarnamn",
     "A valid password must be provided" : "Du må oppgje eit gyldig passord",
     "Authentication error" : "Feil i autentisering",
-    "Create" : "Lag",
-    "Delete" : "Ta bort",
-    "Share" : "Del",
-    "Sharing" : "Deling",
-    "Unlimited" : "Ubegrensa"
+    "Sharing" : "Deling"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

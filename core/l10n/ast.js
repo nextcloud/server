@@ -35,7 +35,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Aniciando comprobación integridá del códigu",
     "Finished code integrity check" : "Finó la comprobación d'integridá del códigu",
     "%s (incompatible)" : "%s (incompatible)",
-    "Following apps have been disabled: %s" : "Deshabilitáronse les aplicaciones de darréu: %s",
     "Already up to date" : "Yá s'anovó",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP nun paez tar configuráu de mou afayadizu pa solicitar les variables del sistema. La prueba con getenv(\"PATH\") namái devuelve una rempuesta balera.",
     "This is particularly recommended when using the desktop client for file synchronisation." : "Esto aconséyase particularmente al usar el veceru d'escritoriu pa la sincronización de ficheros.",
@@ -177,7 +176,6 @@ OC.L10N.register(
     "Two-factor authentication" : "Autenticación en dos pasos",
     "Use backup code" : "Usar códigu de respaldu",
     "Error while validating your second factor" : "Fallu al validar el to pasu segundu",
-    "These apps will be updated:" : "Anovaránse estes aplicaciones:",
     "These incompatible apps will be disabled:" : "Deshabilitaránse estes aplicaciones incompletes:",
     "The theme %s has been disabled." : "Deshabilitóse'l tema %s.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Enantes de siguir, asegúrate de que se fizo una copia de seguridá de la base de datos, la carpeta de configuración y la carpeta de datos.",
@@ -186,9 +184,7 @@ OC.L10N.register(
     "Please use the command line updater because you have a big instance with more than 50 users." : "Usa l'anovador en llinia de comandos porque tienes una instancia grande con más de 50 usuarios.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Sé que si sigo faciendo l'anovamientu pela IU web pue escosar el tiempu de la solicitú y causar una perda de datos, pero teo un respaldu y sé cómo restaurar la mio instancia en casu de fallu.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contauta col alministrador si esti problema sigui apaeciendo.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Nun pudo unviase'l corréu de reaniciu porque nun hai direición de corréu dala pa esti nome d'usuariu. Contauta col to alministrador, por favor.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Nun pudo unviase'l corréu. Asegurate que'l to nome d'usuariu seya correutu, por favor",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Los tos ficheros tán cifraos. Nun habrá mou de recuperar los datos dempués de reaniciar la to contraseña.<br />Si nun tas seguru de lo que facer, contautua col to alministrador enantes de siguir. <br />¿De xuru que quies siguir?",
+    "Following apps have been disabled: %s" : "Deshabilitáronse les aplicaciones de darréu: %s",
     "Shared" : "Compartíu",
     "Shared by" : "Compartíos por",
     "Choose a password for the public link" : "Escueyi una contraseña pal enllaz públicu",
@@ -239,7 +235,6 @@ OC.L10N.register(
     "Error removing share" : "Fallu desaniciando la compartición",
     "({scope})" : "({scope})",
     "Saving..." : "Guardando...",
-    "Dismiss" : "Encaboxar",
-    "New Password" : "Contraseña nueva"
+    "These apps will be updated:" : "Anovaránse estes aplicaciones:"
 },
 "nplurals=2; plural=(n != 1);");

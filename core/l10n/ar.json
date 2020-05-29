@@ -170,14 +170,11 @@
     "Two-factor authentication" : "المصادقة بخطوتين",
     "Use backup code" : "إستخدم الرمز الإحتياطي",
     "App update required" : "تحديث التطبيق مطلوب",
-    "These apps will be updated:" : "سوف يتم تحديث هذه التطبيقات :",
     "Start update" : "تشغيل التحديث",
     "Detailed logs" : "السجلات المفصلة",
     "Update needed" : "التحديث مطلوب",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "للمساعدة يُرجى الإطلاع على <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">الدليل</a>.",
     "Maintenance mode" : "وضع الصيانة",
-    "Couldn't send reset email. Please make sure your username is correct." : "تعذر إرسال البريد الإلكتروني لإعادة التعيين. الرجاء التأكد من صحة اسم المستخدم.",
-    "Sending email …" : "جارٍ إرسال البريد …",
     "Shared" : "مشارك",
     "Shared with" : "تمت مشاركته مع",
     "Shared by" : "شاركه",
@@ -190,6 +187,7 @@
     "Press Ctrl-C to copy." : "للنسخ إضغط على CTRL+C.",
     "Resharing is not allowed" : "لا يسمح بعملية إعادة المشاركة",
     "Link" : "الرابط",
+    "Hide download" : "إخفاء التنزيل",
     "Password protect" : "حماية كلمة السر",
     "Allow editing" : "السماح بالتعديلات",
     "Email link to person" : "ارسل الرابط بالبريد الى صديق",
@@ -199,6 +197,7 @@
     "Set expiration date" : "تعيين تاريخ إنتهاء الصلاحية",
     "Expiration" : "إنتهاء",
     "Expiration date" : "تاريخ إنتهاء الصلاحية",
+    "Note to recipient" : "ملاحظة للمستلم",
     "Unshare" : "إلغاء مشاركة",
     "Add another link" : "إضافة رابط آخر",
     "Share to {name}" : "تمت مشاركته مع {name}",
@@ -229,8 +228,7 @@
     "Name..." : "التسمية …",
     "({scope})" : "({scope})",
     "Saving..." : "جاري الحفظ...",
-    "Dismiss" : "تجاهل",
-    "New Password" : "كلمة السر الجديدة",
-    "Cancel log in" : "إلغاء تسجيل الدخول"
+    "Cancel log in" : "إلغاء تسجيل الدخول",
+    "These apps will be updated:" : "سوف يتم تحديث هذه التطبيقات :"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

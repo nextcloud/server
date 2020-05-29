@@ -33,6 +33,8 @@ OC.L10N.register(
     "Groups" : "그룹",
     "Group list is empty" : "그룹 목록이 비었음",
     "Unable to retrieve the group list" : "그룹 목록을 받아올 수 없음",
+    "Unsaved changes" : "저장하지 않은 변경 사항",
+    "Retry" : "다시 시도",
     "{actor} added you to group {group}" : "{actor} 가 당신을 {group} 그룹에 추가했습니다.",
     "You added {user} to group {group}" : "당신은 {user}를 {group} 그룹에 추가했습니다.",
     "{actor} added {user} to group {group}" : "{actor} 가 {user}를 {group} 그룹에 추가했습니다.",
@@ -337,13 +339,10 @@ OC.L10N.register(
     "New password" : "새 암호",
     "Change password" : "암호 변경",
     "Use a second factor besides your password to increase security for your account." : "사용자의 계정을 더욱 안전하게 보호하기 위해 암호와 함께 2단계 인증을 사용하세요.",
+    "Share" : "공유",
     "Korean" : "한국어",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "커뮤니티가 개발한 공식 앱입니다. 이 앱은 Nextcloud의 핵심 기능이며 프로덕션 환경에서 사용할 수 있습니다.",
     "Official" : "공식",
-    "Store credentials" : "인증 정보 저장",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "15분마다 HTTP를 통해 cron.php를 실행하는 webcron 서비스에 cron.php가 등록되었습니다.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "시스템 cron 서비스를 통해 15분마다 cron.php 파일을 실행합니다.",
-    "Set default expiration date" : "기본 만료 날짜 설정",
-    "Share" : "공유"
+    "Set default expiration date" : "기본 만료 날짜 설정"
 },
 "nplurals=1; plural=0;");

@@ -43,7 +43,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Стартиране на проверка за цялостта на кода",
     "Finished code integrity check" : "Приключена проверка за цялостта на кода",
     "%s (incompatible)" : "%s (несъвместим)",
-    "Following apps have been disabled: %s" : "Следните приложения са изключени: %s",
     "Already up to date" : "Актуално",
     "Last background job execution ran {relativeTime}. Something seems wrong." : "За последно задача е стартирала {relativeTime}. Изглежда, че има проблем.",
     "You are currently running PHP {version}. Upgrade your PHP version to take advantage of <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{phpLink}\">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it." : "В момента използвате PHP {version}. Актуализирайте версията на PHP за да се възползвате от <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{phpLink}\">подобренията в производителността и сигурността, предоставени от PHP Group</a> колкото можете по-скоро.",
@@ -222,7 +221,6 @@ OC.L10N.register(
     "Access through untrusted domain" : "Достъп през недоверен домейн",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Моля, свържете се с администратора. Ако сте администратор на текущата инстанция, конфигурирайте \"trusted_domains\" настройките в config/config.php. Примерна конфигурация е предоставена в config/config.sample.php.",
     "App update required" : "Изисква се актуализиране на приложението",
-    "These apps will be updated:" : "Следните добавки ще бъдат актуализирани:",
     "These incompatible apps will be disabled:" : "Следните несъвместими добавки ще бъдат деактивирани:",
     "The theme %s has been disabled." : "Темата %s е изключена.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Моля, уверете се, че сте направили копия на базата данни, папките с настройки и данните, преди да продължите.",
@@ -236,10 +234,7 @@ OC.L10N.register(
     "This %s instance is currently in maintenance mode, which may take a while." : "В момента се извършва профилактика на %s, може да продължи дълго.",
     "This page will refresh itself when the instance is available again." : "Страницата ще се зареди автоматично, когато е отново на линия.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Свържете се със системния администратор ако това съобщение се задържи твърде дълго или се е появило неочаквано.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Имейлът за възстановяване на паролата  не може да бъде изпратен защо потребителят няма имейл адрес. Свържете се с администратора.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Неуспешно изпращане на имейл за възстановяване на паролата. Моля, уверете се, че потребителското име е правилно.",
-    "We have send a password reset e-mail to the e-mail address known to us for this account. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "До имейла на профила е изпратена връзка за възстановяване на паролата. Не забравяйте да проверете и спам/junk папката.<br> Свържете с администратора ако не получите имейла.",
-    "Sending email …" : "Изпращане на имейл ...",
+    "Following apps have been disabled: %s" : "Следните приложения са изключени: %s",
     "Shared" : "Споделено",
     "Shared with" : "Споделено с",
     "Shared by" : "Споделено от",
@@ -304,8 +299,7 @@ OC.L10N.register(
     "Error removing share" : "Грешка при изриване на споделяне",
     "({scope})" : "({scope})",
     "Saving..." : "Запазване...",
-    "Dismiss" : "Отхвърляне",
-    "New Password" : "Нова парола",
-    "Cancel log in" : "Откажи вписването"
+    "Cancel log in" : "Откажи вписването",
+    "These apps will be updated:" : "Следните добавки ще бъдат актуализирани:"
 },
 "nplurals=2; plural=(n != 1);");

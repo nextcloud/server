@@ -156,7 +156,7 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "{owner} sdílí konverzaci {user}",
     "Shared with {user} by {owner}" : "{owner} sdílí s {user}",
     "Added by {initiator}" : "Přidal(a) {initiator}",
-    "Via folder" : "Prostřednictvím složky",
+    "Via “{folder}”" : "Prostřednictvím „{folder}“",
     "Internal link" : "Interní odkaz",
     "Link copied" : "Odkaz zkopírován",
     "Cannot copy, please copy the link manually" : "Nedaří se zkopírovat, zkopírujte odkaz ručně",

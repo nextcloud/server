@@ -154,7 +154,7 @@
     "Shared with the conversation {user} by {owner}" : "Διαμοιράστηκε με τη συζήτηση {user} από {owner}",
     "Shared with {user} by {owner}" : "Διαμοιράστηκε με {user} από τον {owner}",
     "Added by {initiator}" : "Προστέθηκε από {initiator}",
-    "Via folder" : "Μέσω φακέλου",
+    "Via “{folder}”" : "Μέσω “{folder}”",
     "Internal link" : "Εσωτερικός σύνδεσμος",
     "Link copied" : "Ο σύνδεσμος αντιγράφηκε",
     "Cannot copy, please copy the link manually" : "Δεν μπορεί να αντιγραφή, παρακαλώ αντιγράψτε χειροκίνητα",

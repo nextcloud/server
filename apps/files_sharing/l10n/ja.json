@@ -152,7 +152,6 @@
     "Shared with the conversation {user} by {owner}" : "{owner}が{user}との会話を共有しました",
     "Shared with {user} by {owner}" : "{owner}が{user}と共有",
     "Added by {initiator}" : "{initiator}によって追加されました",
-    "Via folder" : "フォルダ経由",
     "Internal link" : "内部リンク",
     "Link copied" : "リンクをコピーしました",
     "Cannot copy, please copy the link manually" : "コピーできませんでした。手動でリンクをコピーしてください。",

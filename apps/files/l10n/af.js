@@ -136,8 +136,6 @@ OC.L10N.register(
     "Shared by link" : "Gedeel per skakel",
     "Text file" : "Tekslêer",
     "New text file.txt" : "Nuwe tekslêer.txt",
-    "%s of %s used" : "%s van %s gebruik",
-    "%1$s%% of %2$s used" : "%1$s%% van %2$s gebruik",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gebruik dié adres vir <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">toegang tot lêers d.m.v. WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

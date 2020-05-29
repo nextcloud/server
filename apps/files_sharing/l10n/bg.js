@@ -82,7 +82,6 @@ OC.L10N.register(
     "remote" : "отдалечен",
     "remote group" : "отдалечена група",
     "guest" : "гост",
-    "Via folder" : "С папка",
     "Link copied" : "Връзката е копирана",
     "Copy to clipboard" : "Копирай",
     "Password protection" : "Password protection",

@@ -28,6 +28,8 @@ OC.L10N.register(
     "Strong password" : "ძლიერი პაროლ",
     "Select a profile picture" : "აირჩიეთ პროფილის სურათი",
     "Groups" : "ჯგუფები",
+    "Unsaved changes" : "შეუნახავი ცვლილებები",
+    "Retry" : "ვცადოთ ახლიდან",
     "{actor} changed your password" : "{actor} მომხმარებელმა შეცვალა თქვენი პაროლი",
     "You changed your password" : "თქვენ შეცვალეთ თქვენი პაროლი",
     "Your password was reset by an administrator" : "თქვენი პაროლი ადმინისტრატორმა აღადგინა",
@@ -274,12 +276,9 @@ OC.L10N.register(
     "Current password" : "მიმდინარე პაროლი",
     "New password" : "ახალი პაროლი",
     "Change password" : "პაროლის შეცვლა",
+    "Share" : "გაზიარება",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "ოფიციალური აპლიკაციები განვითარებულია და მოქცეულია ჩვენს საზოგადოებაში. ისინი გთავაზობენ ცენტრალურ ფუნქციონირებას და საწარმოო გამოყენებისათვის მზადყოფნაში არიან.",
     "Official" : "ოფიციალური",
-    "Store credentials" : "უფლებამოსილებანის შენახვა",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php რეგისტრირებულია ვებკრონის სერვისით რომ 15 წუთში ერთხელ HTTP-თი გაიშვას.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "გამოიყენეთ სისტემის კრონი cron.php ფაილის გასაშვებად ყოველ 15 წუთში.",
-    "Set default expiration date" : "დააყენეთ საწყისი ვადის ამოწურვის თარიღი",
-    "Share" : "გაზიარება"
+    "Set default expiration date" : "დააყენეთ საწყისი ვადის ამოწურვის თარიღი"
 },
 "nplurals=2; plural=(n!=1);");

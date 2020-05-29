@@ -31,6 +31,7 @@ use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -70,11 +71,11 @@ class UserPlugin implements ISearchPlugin {
 		$userGroups = [];
 		if ($this->shareWithGroupOnly) {
 			// Search in all the groups this user is part of
-			$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
+			$userGroups = $this->groupManager->getUserGroups($this->userSession->getUser());
 			foreach ($userGroups as $userGroup) {
-				$usersTmp = $this->groupManager->displayNamesInGroup($userGroup, $search, $limit, $offset);
-				foreach ($usersTmp as $uid => $userDisplayName) {
-					$users[(string) $uid] = $userDisplayName;
+				$usersInGroup = $userGroup->searchDisplayName($search, $limit, $offset);
+				foreach ($usersInGroup as $user) {
+					$users[$user->getUID()] = $user;
 				}
 			}
 		} else {
@@ -83,7 +84,7 @@ class UserPlugin implements ISearchPlugin {
 
 			foreach ($usersTmp as $user) {
 				if ($user->isEnabled()) { // Don't keep deactivated users
-					$users[(string) $user->getUID()] = $user->getDisplayName();
+					$users[(string) $user->getUID()] = $user;
 				}
 			}
 		}
@@ -96,9 +97,15 @@ class UserPlugin implements ISearchPlugin {
 
 		$foundUserById = false;
 		$lowerSearch = strtolower($search);
-		foreach ($users as $uid => $userDisplayName) {
+		foreach ($users as $uid => $user) {
+			$userDisplayName = $user->getDisplayName();
+			$userEmail = $user->getEMailAddress();
 			$uid = (string) $uid;
-			if (strtolower($uid) === $lowerSearch || strtolower($userDisplayName) === $lowerSearch) {
+			if (
+				strtolower($uid) === $lowerSearch ||
+				strtolower($userDisplayName) === $lowerSearch ||
+				strtolower($userEmail) === $lowerSearch
+			) {
 				if (strtolower($uid) === $lowerSearch) {
 					$foundUserById = true;
 				}
@@ -129,7 +136,10 @@ class UserPlugin implements ISearchPlugin {
 
 				if ($this->shareWithGroupOnly) {
 					// Only add, if we have a common group
-					$commonGroups = array_intersect($userGroups, $this->groupManager->getUserGroupIds($user));
+					$userGroupIds = array_map(function(IGroup $group) {
+						return $group->getGID();
+					}, $userGroups);
+					$commonGroups = array_intersect($userGroupIds, $this->groupManager->getUserGroupIds($user));
 					$addUser = !empty($commonGroups);
 				}
 
@@ -151,6 +161,9 @@ class UserPlugin implements ISearchPlugin {
 
 		$type = new SearchResultType('users');
 		$searchResult->addResultSet($type, $result['wide'], $result['exact']);
+		if (count($result['exact'])) {
+			$searchResult->markExactIdMatch($type);
+		}
 
 		return $hasMoreResults;
 	}

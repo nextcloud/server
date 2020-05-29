@@ -74,13 +74,13 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->accountManager = $this->createMock(AccountManager::class);
 		$this->logger = $this->createMock(ILogger::class);
-		
+
 		$this->subAdminManager = $this->createMock(SubAdmin::class);
 
 		$this->groupManager
 				->method('getSubAdmin')
 				->willReturn($this->subAdminManager);
-		
+
 		$this->api = $this->getMockBuilder(GroupsController::class)
 			->setConstructorArgs([
 				'provisioning_api',
@@ -286,7 +286,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals(['users' => ['user1', 'user2']], $result->getData());
 	}
 
-	
+
 	public function testGetGroupAsIrrelevantSubadmin() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionCode(403);
@@ -331,7 +331,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals(['users' => ['user1', 'user2']], $result->getData());
 	}
 
-	
+
 	public function testGetGroupNonExisting() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionMessage('The requested group could not be found');
@@ -342,7 +342,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->getGroup($this->getUniqueID());
 	}
 
-	
+
 	public function testGetSubAdminsOfGroupsNotExists() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionMessage('Group does not exist');
@@ -389,7 +389,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->assertEquals([], $result->getData());
 	}
 
-	
+
 	public function testAddGroupEmptyGroup() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionMessage('Invalid group name');
@@ -398,7 +398,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->addGroup('');
 	}
 
-	
+
 	public function testAddGroupExistingGroup() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionCode(102);
@@ -439,7 +439,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->addGroup('Iñtërnâtiônàlizætiøn');
 	}
 
-	
+
 	public function testDeleteGroupNonExisting() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionCode(101);
@@ -447,7 +447,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->api->deleteGroup('NonExistingGroup');
 	}
 
-	
+
 	public function testDeleteAdminGroup() {
 		$this->expectException(\OCP\AppFramework\OCS\OCSException::class);
 		$this->expectExceptionCode(102);
@@ -477,6 +477,25 @@ class GroupsControllerTest extends \Test\TestCase {
 			->willReturn(true);
 
 		$this->api->deleteGroup('ExistingGroup');
+	}
+
+	public function testDeleteGroupEncoding() {
+		$this->groupManager
+			->method('groupExists')
+			->with('ExistingGroup A/B')
+			->willReturn('true');
+
+		$group = $this->createGroup('ExistingGroup');
+		$this->groupManager
+			->method('get')
+			->with('ExistingGroup A/B')
+			->willReturn($group);
+		$group
+			->expects($this->once())
+			->method('delete')
+			->willReturn(true);
+
+		$this->api->deleteGroup(urlencode('ExistingGroup A/B'));
 	}
 
 	public function testGetGroupUsersDetails() {
@@ -523,5 +542,51 @@ class GroupsControllerTest extends \Test\TestCase {
 
 
 		$this->api->getGroupUsersDetails($gid);
+	}
+
+	public function testGetGroupUsersDetailsEncoded() {
+		$gid = 'Department A/B C/D';
+
+		$this->asAdmin();
+		$this->useAccountManager();
+
+		$users = [
+			'ncu1' => $this->createUser('ncu1'), # regular
+			'ncu2' => $this->createUser('ncu2'), # the zombie
+		];
+		$users['ncu2']->expects($this->atLeastOnce())
+			->method('getHome')
+			->willThrowException(new NoUserException());
+
+		$this->userManager->expects($this->any())
+			->method('get')
+			->willReturnCallback(function(string $uid) use ($users) {
+				return isset($users[$uid]) ? $users[$uid] : null;
+			});
+
+		$group = $this->createGroup($gid);
+		$group->expects($this->once())
+			->method('searchUsers')
+			->with('', null, 0)
+			->willReturn(array_values($users));
+
+		$this->groupManager
+			->method('get')
+			->with($gid)
+			->willReturn($group);
+		$this->groupManager->expects($this->any())
+			->method('getUserGroups')
+			->willReturn([$group]);
+
+		/** @var \PHPUnit_Framework_MockObject_MockObject */
+		$this->subAdminManager->expects($this->any())
+			->method('isSubAdminOfGroup')
+			->willReturn(false);
+		$this->subAdminManager->expects($this->any())
+			->method('getSubAdminsGroups')
+			->willReturn([]);
+
+
+		$this->api->getGroupUsersDetails(urlencode($gid));
 	}
 }

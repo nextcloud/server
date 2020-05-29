@@ -105,6 +105,8 @@ OC.L10N.register(
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Compartir",
     "Show hidden files" : "Amosar os ficheiros agochados",
+    "Verify ACL access when listing files" : "Verificar a lista de control de acceso (ACL) ao listar ficheiros",
+    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Comprobar as listas de control de acceso (ACL) de cada ficheiro ou cartafol dentro dun directorio para filtrar os elementos onde o usuario non ten permisos de lectura, ten unha penalización de rendemento.",
     "Timeout" : "Límite de tempo",
     "SMB / CIFS using OC login" : "SMB / CIFS usando acceso OC",
     "Username as share" : "Nome de usuario como compartición",

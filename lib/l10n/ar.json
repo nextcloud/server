@@ -12,7 +12,6 @@
     "PHP %s or higher is required." : "إصدار PHP %s أو أحدث منه مطلوب.",
     "PHP with a version lower than %s is required." : "PHP الإصدار %s أو أقل مطلوب.",
     "%sbit or higher PHP required." : "مكتبات PHP ذات %s بت أو أعلى مطلوبة.",
-    "Following databases are supported: %s" : "قواعد البيانات التالية مدعومة: %s",
     "The command line tool %s could not be found" : "لم يتم العثور على أداة سطر الأوامر %s",
     "The library %s is not available." : "مكتبة %s غير متوفرة.",
     "Authentication" : "المصادقة",
@@ -118,19 +117,12 @@
     "Token expired. Please reload page." : "انتهت صلاحية الكلمة , يرجى اعادة تحميل الصفحة",
     "This can usually be fixed by giving the webserver write access to the config directory. See %s" : "يمكن إصلاح هذا الخطا بإعطاء مخدّم الموقع صلاحيات التعديل على مجلد الإعدادات. أنظر %s",
     "Storage is temporarily not available" : "وحدة التخزين غير متوفرة",
-    "Create" : "إنشاء",
-    "Delete" : "حذف",
-    "Share" : "شارك",
+    "Following databases are supported: %s" : "قواعد البيانات التالية مدعومة: %s",
     "Overview" : "نظرة شاملة",
     "Basic settings" : "الإعدادات الأساسية",
     "Sharing" : "المشاركة",
     "Security" : "الأمان",
     "Personal info" : "المعلومات الشخصية",
-    "Unlimited" : "غير محدود",
-    "Verifying" : "التحقق",
-    "Verifying …" : "عملية التحقق جارية …",
-    "Verify" : "التحقق",
-    "Sharing %s failed, because the file does not exist" : "فشلت مشاركة %s فالملف غير موجود",
-    "Sharing %s failed, because you can not share with yourself" : "فشلت مشاركة %s لأنك لايمكنك المشاركة مع نفسك"
+    "Mobile & desktop" : "الجوال وسطح المكتب"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

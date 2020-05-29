@@ -45,7 +45,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Starting code integrity check",
     "Finished code integrity check" : "Finished code integrity check",
     "%s (incompatible)" : "%s (incompatible)",
-    "Following apps have been disabled: %s" : "Following apps have been disabled: %s",
     "Already up to date" : "Already up to date",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "Your web server is not yet properly set up to allow file synchronisation, because the WebDAV interface seems to be broken.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>.",
@@ -239,7 +238,6 @@ OC.L10N.register(
     "Access through untrusted domain" : "Access through untrusted domain",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php.",
     "App update required" : "App update required",
-    "These apps will be updated:" : "These apps will be updated:",
     "These incompatible apps will be disabled:" : "These incompatible apps will be disabled:",
     "The theme %s has been disabled." : "The theme %s has been disabled.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Please make sure that the database, the config folder and the data folder have been backed up before proceeding.",
@@ -253,10 +251,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "Upgrade via web on my own risk",
     "This %s instance is currently in maintenance mode, which may take a while." : "This %s instance is currently in maintenance mode, which may take a while.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contact your system administrator if this message persists or appeared unexpectedly.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Could not send reset email because there is no email address for this username. Please contact your administrator.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Couldn't send reset email. Please make sure your username is correct.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?",
-    "Sending email …" : "Sending email …",
+    "Following apps have been disabled: %s" : "Following apps have been disabled: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14.",
     "Shared" : "Shared",
     "Shared with" : "Shared with",
@@ -319,8 +314,7 @@ OC.L10N.register(
     "Error removing share" : "Error removing share",
     "({scope})" : "({scope})",
     "Saving..." : "Saving...",
-    "Dismiss" : "Dismiss",
-    "New Password" : "New Password",
-    "Cancel log in" : "Cancel log in"
+    "Cancel log in" : "Cancel log in",
+    "These apps will be updated:" : "These apps will be updated:"
 },
 "nplurals=2; plural=(n != 1);");

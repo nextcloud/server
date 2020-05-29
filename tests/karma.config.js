@@ -84,12 +84,6 @@ module.exports = function(config) {
 					'apps/comments/js/comments.js'
 				],
 				testFiles: ['apps/comments/tests/js/**/*.js']
-			},
-			{
-				name: 'settings',
-				srcFiles: [
-					'settings/js/apps.js'
-				]
 			}
 		];
 	}

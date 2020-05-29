@@ -164,7 +164,7 @@ OC.L10N.register(
     "Unable to change the favourite state of the file" : "Não foi possível alterar o estado favorito do arquivo",
     "%s used" : "%s usado",
     "%s%% of %s used" : "%s%% usados de %s",
-    "%1$s of %2$s used" : "%1$s usado de %2$s",
+    "%1$s of %2$s used" : "%1$s usados de %2$s",
     "Settings" : "Configurações",
     "Show hidden files" : "Exibir arquivos ocultos",
     "WebDAV" : "WebDAV",
@@ -187,8 +187,6 @@ OC.L10N.register(
     "Pending shares" : "Compartilhamentos pendentes",
     "Text file" : "Arquivo texto",
     "New text file.txt" : "Novo texto file.txt",
-    "%s of %s used" : "%s de %s usado",
-    "%1$s%% of %2$s used" : "%1$s%% de %2$s usados",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Use este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">acessar seus arquivos via WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Não é possível transferir a propriedade de um arquivo ou pasta que você não é o dono"
 },

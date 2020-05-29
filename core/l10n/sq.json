@@ -44,7 +44,6 @@
     "Starting code integrity check" : "Po fillohet kontroll integriteti për kodin",
     "Finished code integrity check" : "Përfundoi kontrolli i integritetit për kodin",
     "%s (incompatible)" : "%s (e papërputhshme)",
-    "Following apps have been disabled: %s" : "Janë çaktivizuar aplikacionet vijuese : %s",
     "Already up to date" : "Tashmë e përditësuar",
     "PHP does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "PHP-ja nuk duket të jetë ngritur si duhet për të kërkuar ndryshore mjedisi sistemi. Testi me getenv(\"PATH\") kthen vetëm një përgjigje të zbrazët.",
     "Your database does not run with \"READ COMMITTED\" transaction isolation level. This can cause problems when multiple actions are executed in parallel." : "Baza juaj e të dhënave nuk ekzekutohet me nivelin \"READ COMMITED\" e izolimit për ndërveprimet. Kjo mund të shkaktojë probleme, kur kryhen paralelisht disa veprime njëherësh.",
@@ -205,7 +204,6 @@
     "Cancel login" : "Anuloje hyrjen",
     "Error while validating your second factor" : "Gabim gjatë verifikimit të elementit të dytë",
     "App update required" : "Lypset përditësim aplikacioni",
-    "These apps will be updated:" : "Do të përditësohen këto aplikacione:",
     "These incompatible apps will be disabled:" : "Do të çaktivizohen këto aplikacione të papërputhshme:",
     "The theme %s has been disabled." : "Tema %s u çaktivizua.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Ju lutemi, para se të vazhdoni më tej, sigurohuni që baza e të dhënave, dosja e formësimeve dhe dosja e të dhënave janë kopjeruajtur.",
@@ -218,9 +216,7 @@
     "Upgrade via web on my own risk" : "Përditëso me anë të internetit në rrezikun tim",
     "This %s instance is currently in maintenance mode, which may take a while." : "Kjo instancë %s hëpërhë gjendet nën mënyrën mirëmbajtje, çka mund të zgjasë ca.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Nëse ky mesazh shfaqet vazhdimisht ose u shfaq papritmas, lidhuni me përgjegjësin e sistemit.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "S’u dërgua dot email ricaktimi, ngaqë s’ka adresë email për këtë përdoruesi. Ju lutemi, lidhuni me përgjegjësin tuaj.",
-    "Couldn't send reset email. Please make sure your username is correct." : "S’u dërgua dot email ricaktimi. Ju lutemi, sigurohuni që emri juaj i përdoruesit është i saktë.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Skedarët tuaj janë të enkriptuar. Nuk do ketë asnjë mënyrë për ti rimarrë të dhënat pasi fjalëkalimi juaj të rivendoset. <br>Nëse nuk jeni të sigurt se çfarë duhet të bëni, ju lutemi flisni me administratorin tuaj para se të vazhdoni. <br /> Doni vërtet të vazhdoni?",
+    "Following apps have been disabled: %s" : "Janë çaktivizuar aplikacionet vijuese : %s",
     "Shared" : "Ndarë",
     "Shared with" : "Ndarë me",
     "Shared by" : "Shpërndarë nga",
@@ -282,8 +278,7 @@
     "Error removing share" : "Gabim në heqjen e ndarjes",
     "({scope})" : "({scope})",
     "Saving..." : "Po ruhet …",
-    "Dismiss" : "Mos e merr parasysh",
-    "New Password" : "Fjalëkalim i Ri",
-    "Cancel log in" : "Anuloni identifikimin"
+    "Cancel log in" : "Anuloni identifikimin",
+    "These apps will be updated:" : "Do të përditësohen këto aplikacione:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

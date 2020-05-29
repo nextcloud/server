@@ -152,7 +152,6 @@
     "Shared with the conversation {user} by {owner}" : "به اشتراک گذاشته شده با مکالمه {کاربر} توسط {صاحب}",
     "Shared with {user} by {owner}" : "مشترک با {user} توسط {صاحب}",
     "Added by {initiator}" : "اضافه شده توسط {ابتکار}",
-    "Via folder" : "از طریق پوشه",
     "Internal link" : "پیوند داخلی",
     "Link copied" : "پیوند کپی شد",
     "Cannot copy, please copy the link manually" : "کپی کردن امکان پذیر نیست ، لطفا پیوند را به صورت دستی کپی کنید",

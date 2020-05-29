@@ -302,7 +302,7 @@ class Manager implements IManager {
 		$isFederatedShare = $share->getNode()->getStorage()->instanceOfStorage('\OCA\Files_Sharing\External\Storage');
 		$permissions = 0;
 		$mount = $share->getNode()->getMountPoint();
-		if (!$isFederatedShare && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
+		if (!$isFederatedShare && $share->getNode()->getOwner() && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
 			// When it's a reshare use the parent share permissions as maximum
 			$userMountPointId = $mount->getStorageRootId();
 			$userMountPoints = $userFolder->getById($userMountPointId);
@@ -396,7 +396,12 @@ class Manager implements IManager {
 		if ($fullId === null && $expirationDate === null && $this->shareApiInternalDefaultExpireDate()) {
 			$expirationDate = new \DateTime();
 			$expirationDate->setTime(0,0,0);
-			$expirationDate->add(new \DateInterval('P'.$this->shareApiInternalDefaultExpireDays().'D'));
+
+			$days = (int)$this->config->getAppValue('core', 'internal_defaultExpDays', $this->shareApiLinkDefaultExpireDays());
+			if ($days > $this->shareApiLinkDefaultExpireDays()) {
+				$days = $this->shareApiLinkDefaultExpireDays();
+			}
+			$expirationDate->add(new \DateInterval('P'.$days.'D'));
 		}
 
 		// If we enforce the expiration date check that is does not exceed
@@ -468,7 +473,12 @@ class Manager implements IManager {
 		if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
 			$expirationDate = new \DateTime();
 			$expirationDate->setTime(0,0,0);
-			$expirationDate->add(new \DateInterval('P'.$this->shareApiLinkDefaultExpireDays().'D'));
+
+			$days = (int)$this->config->getAppValue('core', 'link_defaultExpDays', $this->shareApiLinkDefaultExpireDays());
+			if ($days > $this->shareApiLinkDefaultExpireDays()) {
+				$days = $this->shareApiLinkDefaultExpireDays();
+			}
+			$expirationDate->add(new \DateInterval('P'.$days.'D'));
 		}
 
 		// If we enforce the expiration date check that is does not exceed
@@ -711,7 +721,11 @@ class Manager implements IManager {
 			}
 			$share->setShareOwner($parent->getOwner()->getUID());
 		} else {
-			$share->setShareOwner($share->getNode()->getOwner()->getUID());
+			if ($share->getNode()->getOwner()) {
+				$share->setShareOwner($share->getNode()->getOwner()->getUID());
+			} else {
+				$share->setShareOwner($share->getSharedBy());
+			}
 		}
 
 		//Verify share type
@@ -890,9 +904,9 @@ class Manager implements IManager {
 		$initiatorEmail = $initiatorUser->getEMailAddress();
 		if($initiatorEmail !== null) {
 			$message->setReplyTo([$initiatorEmail => $initiatorDisplayName]);
-			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan() !== '' ? ' - ' . $this->defaults->getSlogan() : ''));
+			$emailTemplate->addFooter($instanceName . ($this->defaults->getSlogan($l->getLanguageCode()) !== '' ? ' - ' . $this->defaults->getSlogan($l->getLanguageCode()) : ''));
 		} else {
-			$emailTemplate->addFooter();
+			$emailTemplate->addFooter('', $l->getLanguageCode());
 		}
 
 		$message->useTemplate($emailTemplate);

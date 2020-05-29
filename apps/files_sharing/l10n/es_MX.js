@@ -102,6 +102,7 @@ OC.L10N.register(
     "group" : "grupo",
     "remote" : "remoto",
     "guest" : "invitado",
+    "Link copied" : "Vinculo copiado",
     "Copy to clipboard" : "Copiar al portapapeles",
     "Password protection" : "Protección con contraseña",
     "Enter a password" : "Ingresa una contraseña",

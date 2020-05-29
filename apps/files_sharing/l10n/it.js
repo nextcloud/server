@@ -156,7 +156,7 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Condiviso con la conversazione {user} da {owner}",
     "Shared with {user} by {owner}" : "Condiviso con {user} da {owner}",
     "Added by {initiator}" : "Aggiunto da {initiator}",
-    "Via folder" : "Tramite cartella",
+    "Via “{folder}”" : "Tramite “{folder}”",
     "Internal link" : "Collegamento interno",
     "Link copied" : "Collegamento copiato",
     "Cannot copy, please copy the link manually" : "Impossibile copiare, copia il collegamento manualmente",

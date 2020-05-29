@@ -168,6 +168,7 @@ OC.L10N.register(
     "Settings" : "הגדרות",
     "Show hidden files" : "הצגת קבצים נסתרים",
     "WebDAV" : "WebDAV",
+    "Use this address to access your Files via WebDAV" : "יש להשתמש בכתובת הזאת כדי לגשת לקבצים שלך דרך WebDAV",
     "Toggle grid view" : "החלפת תצוגת טבלה",
     "No files in here" : "אין כאן קבצים",
     "Upload some content or sync with your devices!" : "יש להעלות קצת תוכן או לסנכרן עם ההתקנים שלך!",
@@ -186,8 +187,6 @@ OC.L10N.register(
     "Pending shares" : "שיתופים ממתינים",
     "Text file" : "קובץ טקסט",
     "New text file.txt" : "קובץ טקסט חדש.txt",
-    "%s of %s used" : "%s מתוך %s בשימוש",
-    "%1$s%% of %2$s used" : "%1$s%% מתוך %2$s בשימוש",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "יש להשתמש בכתובת זו כדי <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">לגשת לקבצים שלך באמצעות WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם"
 },

@@ -28,6 +28,7 @@ OC.L10N.register(
     "Strong password" : "Contraseña fuerte",
     "Select a profile picture" : "Seleccionar una imagen de perfil",
     "Groups" : "Grupos",
+    "Retry" : "Reintentar",
     "{actor} changed your password" : "{actor} ha cambiado su contraseña",
     "You changed your password" : "Usted ha cambiado su contraseña",
     "Your password was reset by an administrator" : "Su contraseña ha sido restablecida por un adminsitrador",
@@ -266,11 +267,9 @@ OC.L10N.register(
     "Current password" : "Contraseña actual",
     "New password" : "Nueva contraseña",
     "Change password" : "Cambiar contraseña",
+    "Share" : "Compartir",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Las aplicaciones oficiales son desarrolladas por y dentro de la comunidad. Ofrecen una funcionalidad centralizada y se encuentran listas para ser usadas en producción. ",
     "Official" : "Oficial",
-    "Store credentials" : "Almacenar credenciales",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Usar el servicio cron del sistema para llamar al archivo cron.php cada 15 minutos. ",
-    "Set default expiration date" : "Establecer la fecha de expiración predeterminada",
-    "Share" : "Compartir"
+    "Set default expiration date" : "Establecer la fecha de expiración predeterminada"
 },
 "nplurals=2; plural=(n != 1);");

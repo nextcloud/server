@@ -17,9 +17,8 @@
     "{name} backup codes" : "{name} segurtasun kodeak",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Erabili bi faktoreko autentifikazioa aktibatu zenuenean sortutako segurtasun kodeetako bat",
     "Submit" : "Bidali",
+    "function" : "funtzioa",
     "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","segurtasun-kodeak-sortu"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Bi faktoreko autentifikazioa aktibatu duzu baina ez duzu segurtasun koderik sortu oraindik. Bigarren faktorea galtzen baduzu zure kontura sartu ahal izateko beharrezkoak dira segurtasun kode horiek.",
-    "function" : "funtzioa"
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","segurtasun-kodeak-sortu"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -32,7 +32,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Son denetim: {lastCheckedDate}",
     "Checking apps for compatible updates" : "Uyumlu güncellemeler için uygulamalar denetleniyor",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Lütfen config.php dosyasındaki <samp>appstoreenabled</samp> seçeneğinin false olarak ayarlanmadığından emin olun.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Uygulama mağazasına bağlanılamadı ya da uygulama mağazasında herhangi bir güncelleme yok. Güncellemeleri el ile arayın ya da sunucunuzun İnternet üzerine ve uygulama mağazasına bağlanabildiğinden emin olun.",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Uygulama mağazası ile bağlantı kurulamadı ya da uygulama mağazasında herhangi bir güncelleme yok. Güncellemeleri el ile arayın ya da sunucunuzun İnternet ve uygulama mağazası ile bağlantı kurabildiğinden emin olun.",
     "<strong>All</strong> apps have an update for this version available" : "<strong>Tüm</strong> uygulamaların bu sürüm için kullanılabilecek bir güncellemesi var",
     "View changelog" : "Değişiklik günlüğünü görüntüle",
     "Enterprise" : "Kurumsal",
@@ -41,8 +41,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Son kararlı sürüm. Normal kullanıma uygundur ve her zaman son büyük sürümü kullanır.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Yeni özellikleri denemek için kullanılabilecek yayın öncesi sürümü. Üretim ortamları için önerilmez.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok","<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok"],
-    "Production" : "Üretim",
-    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Her zaman son yama düzeyini sunar. Ancak sonraki büyük sürümü hemen kullanmaz. Bu güncelleme genellikle ikinci küçük sürümün (x.0.2) yayınlanmasından sonra ve ancak  son küçük sürüm yüklü ise kullanılır."
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok","<strong>%n</strong> uygulamanın bu sürüm için kullanılabilecek bir güncellemesi yok"]
 },
 "nplurals=2; plural=(n > 1);");

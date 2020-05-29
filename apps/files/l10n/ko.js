@@ -147,7 +147,6 @@ OC.L10N.register(
     "Deleted shares" : "삭제된 공유",
     "Text file" : "텍스트 파일",
     "New text file.txt" : "새 텍스트 파일.txt",
-    "%s of %s used" : "%s/%s 사용함",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">내 파일에 WebDAV로 접근</a>하려면 이 주소를 사용하십시오"
 },
 "nplurals=1; plural=0;");

@@ -19,7 +19,6 @@ OC.L10N.register(
     "Use one of the backup codes you saved when setting up two-factor authentication." : "2단계 인증을 설정할 때 저장한 백업 코드를 사용하십시오.",
     "Submit" : "제출",
     "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["백업 코드 생성"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "2단계 인증을 활성화했으나 아직 백업 코드를 생성하지 않았습니다. 2단계 인증을 사용할 수 없을 때를 대비하기 위하여 백업 코드를 생성하십시오."
+    "_icon-loading-small_::_generate-backup-codes_" : ["백업 코드 생성"]
 },
 "nplurals=1; plural=0;");

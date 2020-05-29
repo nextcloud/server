@@ -4,6 +4,7 @@ OC.L10N.register(
     "You created two-factor backup codes for your account" : "Þú útbjóst tveggja-þrepa öryggisafritunarkóða fyrir aðganginn þinn",
     "Second-factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar",
     "Generate backup codes" : "Útbúa öryggisafritunarkóða",
+    "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Þú virkjaðir tveggja-þrepa auðkenningu en hefur ekki ennþá útbúið öryggisafritunarkóða. Þeir eru nauðsynlegir til að geta endurheimt aðganginn þinn fari svo að þú tapir seinni þætti auðkenningarinnar.",
     "Backup code" : "Öryggisafritunarkóði",
     "Use backup code" : "Nota öryggisafritunarkóða",
     "Two factor backup codes" : "Tveggja-þrepa öryggisafritunarkóðar",
@@ -18,9 +19,8 @@ OC.L10N.register(
     "{name} backup codes" : "{name} öryggisafritunarkóðar",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Notaðu einn af öryggisafritunarkóðunum sem þú vistaðir þegar þú settir upp tveggja-þátta auðkenningu.",
     "Submit" : "Senda inn",
+    "function" : "aðgerð",
     "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Þú hefur virkjað tveggja-þátta auðkenningu en hefur ekki ennþá útbúið öryggisafritunarkóða. Vertu viss um að gera það ef ske kynni að þú týndir staðfestingarþætti.",
-    "function" : "aðgerð"
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"]
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

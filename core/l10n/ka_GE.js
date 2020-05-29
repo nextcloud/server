@@ -45,7 +45,6 @@ OC.L10N.register(
     "Starting code integrity check" : "კოდის ერთიანობის შემოწმების დაწყება",
     "Finished code integrity check" : "დასრულდა კოდის ერთიანობის შემოწმება",
     "%s (incompatible)" : "%s (არაა თავსებადი)",
-    "Following apps have been disabled: %s" : "შემდეგი აპლიკაციები გაითიშა: %s",
     "Already up to date" : "უკვე განახლებულია",
     "Your web server is not yet properly set up to allow file synchronization, because the WebDAV interface seems to be broken." : "ფაილის სინქრონიზაციის დასაშვებად თქვენი ვებ-სერვერი ჯერ არაა სწორად კოფინგირურებული, როგორც ჩანს WebDAV ინტერფეისი გაფუჭებულია.",
     "Your web server is not properly set up to resolve \"{url}\". Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "\"{url}\"-ის გასახსნელად თქვენი ვებ-სერვერი არაა სწორად კონფიგურირებული. შეგიძლიათ იხილოთ მეტი ინფორმაცია <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">დოკუმენტაციაში</a>.",
@@ -227,7 +226,6 @@ OC.L10N.register(
     "Access through untrusted domain" : "წვდომა არა-სანდო დომენიდან",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "გთხოვთ დაუკავშირდეთ თქვენს ადმინისტრატორს. იმ შემთხვევაში თუ ბრძანდებით ადმინისტრატორი, config/config.php-ში შეცვალეთ \"trusted_domains\" პარამეტრი, ისე როგორც ნაჩვენებია მაგალითში config.sample.php.",
     "App update required" : "აპლიკაციას ესაჭიროება განახლება",
-    "These apps will be updated:" : "ეს აპლიკაციები განახლდება:",
     "These incompatible apps will be disabled:" : "ეს არათავსებადი აპლიკაციები წაიშლება:",
     "The theme %s has been disabled." : "ვიზუალური თემა %s გაითიშა.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "გაგრძელებმდე გთხოვთ დარწმუნდეთ, რომ მონაცემთა ბაზას, კონფიგურაციის დირექტორიას და მონაცემთა დირექტორიას ჩაუტარდა ბექაფი.",
@@ -241,10 +239,7 @@ OC.L10N.register(
     "Upgrade via web on my own risk" : "ვებით განაახლეთ თქვენი პასუხისმგებლობით",
     "This %s instance is currently in maintenance mode, which may take a while." : "ეს %s ინსტანცია ამჟამად სარემონტო რეჟიმშია, ამან შეიძლება გასტანოს გარკვეული დრო.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "თუ ეს წერილი გამოჩნდა მოულოდნელად ან მისი გამოჩენა გრძელდება, დაუკავშირდით სისტემის ადმინისტრატორს.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "ამ მომხმარებლისთვის ელ-ფოსტის მისამართი არაა დაყენებული, შესაბამისად აღდგენის ელ-წერილი ვერ გაიგზავნა. გთხოვთ დაუკავშირდეთ თქვენს ადმინისტრატორს.",
-    "Couldn't send reset email. Please make sure your username is correct." : "აღდგენის ელ-წერილი ვერ გაიგზავნა. დარწმუნდით, რომ მომხმარებლის სახელი სწორია.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "ფაილები კოდირებულია. პაროლის აღდგენის შემდეგ ვერანაირად ვერ დაიბრუნებთ მონაცემებს.<br />თუ არ ხართ დარწმუნებული რა გააკეთოთ, გაგრძელებამდე მიმართეთ თქვენს ადმინისტრატორს.<br />დარწმუნებული ხართ, რომ გსურთ გაგრძელება?",
-    "Sending email …" : "წერილი იგზავნება ...",
+    "Following apps have been disabled: %s" : "შემდეგი აპლიკაციები გაითიშა: %s",
     "You are currently running PHP 5.6. The current major version of Nextcloud is the last that is supported on PHP 5.6. It is recommended to upgrade the PHP version to 7.0+ to be able to upgrade to Nextcloud 14." : "თქვენთან ამ მომენტისთვის მოქმედია PHP 5.6. ამჟამინდელი Nextcloud-ის ძირითადი ვერსია ბოლოა, რომელიც მხარს უჭერს PHP 5.6-ს. Nextcloud 14-ზე განახლებისთვის, რეკომენდირებულია PHP განაახლოთ 7.0+ ვერსიამდე.",
     "Shared" : "გაზიარებული",
     "Shared with" : "გაზიარებულია",
@@ -304,8 +299,7 @@ OC.L10N.register(
     "Error removing share" : "გაზიარების გაუქმებისას წარმოიშვა შეცდომა",
     "({scope})" : "({scope})",
     "Saving..." : "შენახვა...",
-    "Dismiss" : "დათხოვნა",
-    "New Password" : "ახლი პაროლი",
-    "Cancel log in" : "ავტორიზაციის შეჩერება"
+    "Cancel log in" : "ავტორიზაციის შეჩერება",
+    "These apps will be updated:" : "ეს აპლიკაციები განახლდება:"
 },
 "nplurals=2; plural=(n!=1);");

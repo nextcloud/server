@@ -156,7 +156,7 @@ OC.L10N.register(
     "Shared with the conversation {user} by {owner}" : "Пользователь {owner} предоставил(а) {user} доступ во время беседы",
     "Shared with {user} by {owner}" : "{owner} предоставил(а) доступ {user} ",
     "Added by {initiator}" : "Добавлено пользователем {initiator}",
-    "Via folder" : "Через папку",
+    "Via “{folder}”" : "Через «{folder}»",
     "Internal link" : "Внутренняя ссылка",
     "Link copied" : "Ссылка скопирована",
     "Cannot copy, please copy the link manually" : "Не удалось скопировать, выполните копирование вручную",

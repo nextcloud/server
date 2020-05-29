@@ -132,7 +132,6 @@ OC.L10N.register(
     "Shared by link" : "E ndarë me lidhje",
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
-    "New text file.txt" : "Kartelë e re file.txt",
-    "%s of %s used" : "%s nga %s është përdorur"
+    "New text file.txt" : "Kartelë e re file.txt"
 },
 "nplurals=2; plural=(n != 1);");

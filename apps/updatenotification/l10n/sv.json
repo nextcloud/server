@@ -10,7 +10,7 @@
     "Update notification" : "Uppdatera notifikation",
     "Displays update notifications for Nextcloud and provides the SSO for the updater." : "Visar uppdateringsaviseringar för Nextcloud och tillhandahåller SSO för uppdateraren.",
     "The version you are running is not maintained anymore. Please make sure to update to a supported version as soon as possible." : "Den version som du kör underhålls inte längre. Se till att uppdatera till en aktuell version så snart som möjligt.",
-    "Apps missing updates" : "Appar saknar uppdateringar",
+    "Apps missing updates" : "Appar som saknar uppdateringar",
     "View in store" : "Visa i butik",
     "Apps with available updates" : "Appar med tillgängliga uppdateringar",
     "Open updater" : "Öppna uppdateraren",
@@ -39,8 +39,6 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Den senaste stabila versionen. Den är lämplig för regelbunden användning och kommer alltid att uppdatera till den senaste större mer omfattande versionen.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "En förhandsversion endast för att testa nya funktioner, inte för produktionsmiljöer.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> appen har ingen uppdatering för den här versionen tillgänglig","<strong>%n</strong> appar har inga uppdateringar för den här versionen tillgänglig"],
-    "Production" : "Produktion",
-    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Kommer alltid att tillhandahålla den senaste patchnivån, men uppdateras inte omedelbart till nästa större version. Uppdateringen sker vanligen med den andra mindre versionen (x.0.2) och endast om instansen redan har den senaste mindre versionen."
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> appen har ingen uppdatering för den här versionen tillgänglig","<strong>%n</strong> appar har inga uppdateringar för den här versionen tillgänglig"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

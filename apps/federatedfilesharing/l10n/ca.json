@@ -24,6 +24,7 @@
     "Federated sharing" : "Compartició federada",
     "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Has rebut \"%3$s\" com a compartició remota de %4$s (%1$s) (en nom de %5$s (%2$s))",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Heu rebut {share} com un recompte remot de {user} (en nom de {nom})",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Heu rebut \"%3$s\" com a compartició remota de %4$s (%1$s)",
     "You received {share} as a remote share from {user}" : "Heu rebut {share} com a recompte remot de {user}",
     "Accept" : "Accepta",
     "Decline" : "Denega",

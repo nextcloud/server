@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Наиђете ли на било какве проблеме, не оклевајте да их пријавите на {issuetracker}нашем пратиоцу проблема{linkend}. А ако пожелите да се укључите, придружите се {designteam}нашем тиму{linkend}!",
     "High contrast theme" : "Тема високог контраста",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Тема високог контраста олакшава навигацију. Биће мање лепа али јаснија и читљивија.",
-    "Dark theme (beta)" : "Тамна тема (бета)",
     "Web Content Accessibility Guidelines" : "Смернице приступачности веб садржаја",
     "our issue tracker" : "нашем пратиоцу проблема",
     "our design team" : "нашем тиму",

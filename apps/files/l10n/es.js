@@ -27,7 +27,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Subir este archivo no es compatible",
     "Target folder does not exist any more" : "La carpeta destino ya no existe",
-    "Error when assembling chunks, status code {status}" : "Error al reunir las partes, código de estado {status}",
+    "Error when assembling chunks, status code {status}" : "Error al reunir los trozos, código de estado {status}",
     "Actions" : "Acciones",
     "Rename" : "Renombrar",
     "Copy" : "Copiar",
@@ -187,8 +187,6 @@ OC.L10N.register(
     "Pending shares" : "Recursos compartidos pendientes",
     "Text file" : "Archivo de texto",
     "New text file.txt" : "Nuevo archivo.txt",
-    "%s of %s used" : "%s de %s usado",
-    "%1$s%% of %2$s used" : "%1$s %% de %2$s usados",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Usa esta dirección para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">acceder a tus archivos vía WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "No se puede transferir la propiedad de un archivo o carpeta que no te pertenece"
 },

@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ak nájdete nejaký problém, neváhajte a nahláste ho na {issuetracker}nástroj na sledovanie problémov{linkend}. A ak sa chcete zapojiť, pripojte sa k {designteam}nášmu dizajnérskemu tímu{linkend}!",
     "High contrast theme" : "Motív vzhľadu s vysokým kontrastom",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Motív vzhľadu s vysokým kontrastom pre uľahčenie navigácie. Zníži sa síce vizuálna kvalita, ale zvýši sa čitateľnosť.",
-    "Dark theme (beta)" : "Tmavý motív vzhľadu (beta)",
     "Web Content Accessibility Guidelines" : "Usmernenia o prístupnosti webového obsahu",
     "our issue tracker" : "náš systém evidencie hlásenia chýb",
     "our design team" : "náš tím dizajnérov",

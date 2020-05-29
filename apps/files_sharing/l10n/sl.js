@@ -117,7 +117,6 @@ OC.L10N.register(
     "remote" : "oddaljeno",
     "remote group" : "oddaljena skupina",
     "guest" : "gost",
-    "Via folder" : "Prek mape",
     "Internal link" : "Notranja povezava",
     "Link copied" : "Povezava je kopirana",
     "Cannot copy, please copy the link manually" : "Povezave ni mogoče kopirati. Storite to ročno.",

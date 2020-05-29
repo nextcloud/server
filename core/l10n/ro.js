@@ -50,7 +50,6 @@ OC.L10N.register(
     "Starting code integrity check" : "Începe verificarea integrității codului",
     "Finished code integrity check" : "Verificarea integrității codului a fost finalizată",
     "%s (incompatible)" : "%s (incompatibil)",
-    "Following apps have been disabled: %s" : "Următoarele aplicații au fost dezactivate: %s",
     "Already up to date" : "Deja actualizat",
     "Check the background job settings" : "Verificați setările jobului de fundal",
     "Missing index \"{indexName}\" in table \"{tableName}\"." : "Lipsește indexul \"{indexName}\" in tabela \"{tableName}\".",
@@ -238,7 +237,6 @@ OC.L10N.register(
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Vă rugăm contactați administratorul. Dacă sunteți administrator, editați setarea \"trusted_domains\" în config/config.php la fel ca în exemplul din config.sample.php",
     "App update required" : "E necesară o actualizare a aplicației",
     "%1$s will be updated to version %2$s" : "%1$sva fi actualizat la versiunea %2$s",
-    "These apps will be updated:" : "Aceste aplicații vor fi actualizate:",
     "These incompatible apps will be disabled:" : "Aceste aplicații incompatibile vor fi dezactivate:",
     "The theme %s has been disabled." : "Tema %s a fost dezactivată.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Asigură-te că ai creat un backup pentru baza de date, folderul config și folderul de date înainte de a continua.",
@@ -252,10 +250,7 @@ OC.L10N.register(
     "Maintenance mode" : "Mod mentenanță",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instanța %s este acum în modul de mentenanță, ceea ce ar putea dura o vreme.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contactează-ți administratorul de sistem dacă acest mesaj persistă sau a apărut neașteptat.",
-    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Nu a putut fi trimis un email pentru resetare deoarece nu există o adresă de email pentru acest utilizator. Vă rugăm contactați administratorul.",
-    "Couldn't send reset email. Please make sure your username is correct." : "Nu a putut fi trimis un email pentru resetare. Asigură-te că numele de utilizator este corect.",
-    "Your files are encrypted. There will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Fișierele tale sunt criptate. Nu îți vei putea recupera informațiile după resetarea parolei.<br />Dacă nu ești sigur ce să faci, contactează administratorul de rețea înainte de a continua. <br />Sigur vrei să continui?",
-    "Sending email …" : "Se trimite email ...",
+    "Following apps have been disabled: %s" : "Următoarele aplicații au fost dezactivate: %s",
     "Shared" : "Partajat",
     "Shared with" : "Partajat cu",
     "Shared by" : "Partajat de",
@@ -335,8 +330,7 @@ OC.L10N.register(
     "Error removing share" : "Eroare la înlăturarea elementului partajat",
     "({scope})" : "({scope})",
     "Saving..." : "Se salvează...",
-    "Dismiss" : "Înlătură",
-    "New Password" : "Noua Parolă",
-    "Cancel log in" : "Anulează conectarea"
+    "Cancel log in" : "Anulează conectarea",
+    "These apps will be updated:" : "Aceste aplicații vor fi actualizate:"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

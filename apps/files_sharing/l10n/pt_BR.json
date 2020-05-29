@@ -154,7 +154,7 @@
     "Shared with the conversation {user} by {owner}" : "Compartilhado com a conversa {conversation} por {owner}",
     "Shared with {user} by {owner}" : "Compartilhado com {user} por {owner}",
     "Added by {initiator}" : "Adicionado por {initiator}",
-    "Via folder" : "Via pasta",
+    "Via “{folder}”" : "Via “{folder}”",
     "Internal link" : "Link interno",
     "Link copied" : "Link copiado",
     "Cannot copy, please copy the link manually" : "Não é possível copiar, copie o link manualmente",

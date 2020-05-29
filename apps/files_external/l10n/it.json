@@ -103,6 +103,8 @@
     "SMB / CIFS" : "SMB / CIFS",
     "Share" : "Condividi",
     "Show hidden files" : "Mostra i file nascosti",
+    "Verify ACL access when listing files" : "Verifica le ACL di accesso quando elenchi i file",
+    "Check the ACL's of each file or folder inside a directory to filter out items where the user has no read permissions, comes with a performance penalty" : "Controlla le ACL di ogni file o cartella all'interno di una cartella per filtrare elementi dove l'utente non ha permessi di lettura, implica una riduzione di prestazioni",
     "Timeout" : "Tempo scaduto",
     "SMB / CIFS using OC login" : "SMB / CIFS utilizzando le credenziali di OC",
     "Username as share" : "Nome utente come condivisione",

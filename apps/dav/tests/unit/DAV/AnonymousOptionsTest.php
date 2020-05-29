@@ -33,7 +33,7 @@ use Sabre\HTTP\Sapi;
 use Test\TestCase;
 
 class AnonymousOptionsTest extends TestCase {
-	private function sendRequest($method, $path) {
+	private function sendRequest($method, $path, $userAgent = '') {
 		$server = new Server();
 		$server->addPlugin(new AnonymousOptionsPlugin());
 		$server->addPlugin(new Plugin(new BasicCallBack(function() {
@@ -42,6 +42,7 @@ class AnonymousOptionsTest extends TestCase {
 
 		$server->httpRequest->setMethod($method);
 		$server->httpRequest->setUrl($path);
+		$server->httpRequest->setHeader('User-Agent', $userAgent);
 
 		$server->sapi = new SapiMock();
 		$server->exec();
@@ -51,19 +52,49 @@ class AnonymousOptionsTest extends TestCase {
 	public function testAnonymousOptionsRoot() {
 		$response = $this->sendRequest('OPTIONS', '');
 
-		$this->assertEquals(200, $response->getStatus());
+		$this->assertEquals(401, $response->getStatus());
 	}
 
 	public function testAnonymousOptionsNonRoot() {
 		$response = $this->sendRequest('OPTIONS', 'foo');
 
-		$this->assertEquals(200, $response->getStatus());
+		$this->assertEquals(401, $response->getStatus());
 	}
 
 	public function testAnonymousOptionsNonRootSubDir() {
 		$response = $this->sendRequest('OPTIONS', 'foo/bar');
 
 		$this->assertEquals(401, $response->getStatus());
+	}
+
+	public function testAnonymousOptionsRootOffice() {
+		$response = $this->sendRequest('OPTIONS', '', 'Microsoft Office does strange things');
+
+		$this->assertEquals(200, $response->getStatus());
+	}
+
+	public function testAnonymousOptionsNonRootOffice() {
+		$response = $this->sendRequest('OPTIONS', 'foo', 'Microsoft Office does strange things');
+
+		$this->assertEquals(200, $response->getStatus());
+	}
+
+	public function testAnonymousOptionsNonRootSubDirOffice() {
+		$response = $this->sendRequest('OPTIONS', 'foo/bar', 'Microsoft Office does strange things');
+
+		$this->assertEquals(200, $response->getStatus());
+	}
+
+	public function testAnonymousHead() {
+		$response = $this->sendRequest('HEAD', '', 'Microsoft Office does strange things');
+
+		$this->assertEquals(200, $response->getStatus());
+	}
+
+	public function testAnonymousHeadNoOffice() {
+		$response = $this->sendRequest('HEAD', '');
+
+		$this->assertEquals(401, $response->getStatus(), 'curl');
 	}
 }
 
