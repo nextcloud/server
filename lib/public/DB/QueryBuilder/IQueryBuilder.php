@@ -654,12 +654,12 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $column The column into which the value should be inserted.
-	 * @param string $value The value that should be inserted into the column.
+	 * @param string|IParameter $value The value that should be inserted into the column.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function setValue(string $column, string $value): self;
+	public function setValue(string $column, $value): self;
 
 	/**
 	 * Specifies values for an insert query indexed by column names.
