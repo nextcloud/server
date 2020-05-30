@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const capabilities = window._oc_capabilities || {}
+import { getCapabilities as realGetCapabilities } from '@nextcloud/capabilities'
 
 /**
  * Returns the capabilities
@@ -28,4 +28,7 @@ const capabilities = window._oc_capabilities || {}
  *
  * @since 14.0
  */
-export const getCapabilities = () => capabilities
+export const getCapabilities = () => {
+	console.warn('OC.getCapabilities is deprecated and will be removed in Nextcloud 21. See @nextcloud/capabilities')
+	return realGetCapabilities()
+}
