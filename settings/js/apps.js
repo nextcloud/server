@@ -42,11 +42,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						var a = $('<a></a>').attr('href', entry.href);
 						var filename = $('<span></span>');
 						var loading = $('<div class="icon-loading-dark"></div>').css('display', 'none');
-						filename.text(entry.name);							filename.text(entry.name);
+						filename.text(entry.name);
 						a.prepend(loading);
+						a.prepend(filename);
 						a.prepend(img);
 						li.append(a);
-						li.append(filename);
 
 						// add app icon to the navigation
 						var previousElement = $('#navigation li[data-id=' + previousEntry.id + ']');
@@ -84,9 +84,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						var loading = $('<div class="icon-loading-dark"></div>').css('display', 'none');
 						filename.text(entry.name);
 						a.prepend(loading);
+						a.prepend(filename);
 						a.prepend(img);
 						li.append(a);
-						li.append(filename);
 
 						// add app icon to the navigation
 						var previousElement = $('#appmenu li[data-id=' + previousEntry.id + ']');
