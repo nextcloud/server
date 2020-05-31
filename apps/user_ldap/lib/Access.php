@@ -1454,7 +1454,7 @@ class Access extends LDAPUtility {
 	 * @param bool $allowAsterisk whether in * at the beginning should be preserved
 	 * @return string the escaped string
 	 */
-	public function escapeFilterPart($input, $allowAsterisk = false) {
+	public function escapeFilterPart($input, $allowAsterisk = false): string {
 		$asterisk = '';
 		if ($allowAsterisk && strlen($input) > 0 && $input[0] === '*') {
 			$asterisk = '*';
@@ -1471,7 +1471,7 @@ class Access extends LDAPUtility {
 	 * @param string[] $filters the filters to connect
 	 * @return string the combined filter
 	 */
-	public function combineFilterWithAnd($filters) {
+	public function combineFilterWithAnd($filters): string {
 		return $this->combineFilter($filters, '&');
 	}
 

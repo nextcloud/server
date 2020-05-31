@@ -36,8 +36,10 @@ use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Group_LDAP as GroupLDAP;
 use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\ILDAPWrapper;
+use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\User\Manager;
 use OCP\GroupInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -49,18 +51,18 @@ use Test\TestCase;
  */
 class Group_LDAPTest extends TestCase {
 	/**
-	 * @return \PHPUnit_Framework_MockObject_MockObject|Access
+	 * @return MockObject|Access
 	 */
 	private function getAccessMock() {
 		static $conMethods;
 		static $accMethods;
 
 		if (is_null($conMethods) || is_null($accMethods)) {
-			$conMethods = get_class_methods('\OCA\User_LDAP\Connection');
-			$accMethods = get_class_methods('\OCA\User_LDAP\Access');
+			$conMethods = get_class_methods(Connection::class);
+			$accMethods = get_class_methods(Access::class);
 		}
 		$lw = $this->createMock(ILDAPWrapper::class);
-		$connector = $this->getMockBuilder('\OCA\User_LDAP\Connection')
+		$connector = $this->getMockBuilder(Connection::class)
 			->setMethods($conMethods)
 			->setConstructorArgs([$lw, null, null])
 			->getMock();
@@ -74,14 +76,14 @@ class Group_LDAPTest extends TestCase {
 		return $access;
 	}
 
+	/**
+	 * @return MockObject|GroupPluginManager
+	 */
 	private function getPluginManagerMock() {
-		return $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')->getMock();
+		return $this->createMock(GroupPluginManager::class);
 	}
 
-	/**
-	 * @param Access|\PHPUnit_Framework_MockObject_MockObject $access
-	 */
-	private function enableGroups($access) {
+	private function enableGroups(Access $access) {
 		$access->connection = $this->createMock(Connection::class);
 
 		$access->connection->expects($this->any())
@@ -104,7 +106,6 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('groupname2dn')
 			->willReturn($groupDN);
-
 		$access->expects($this->any())
 			->method('readAttribute')
 			->willReturnCallback(function ($dn) use ($groupDN) {
@@ -121,7 +122,6 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
-
 		// for primary groups
 		$access->expects($this->once())
 			->method('countUsers')
@@ -166,6 +166,9 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
+		$access->expects($this->any())
+			->method('escapeFilterPart')
+			->willReturnArgument(0);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->countUsersInGroup('group', '3');
@@ -174,8 +177,8 @@ class Group_LDAPTest extends TestCase {
 	}
 
 	public function testCountUsersWithPlugin() {
-		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
-		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
+		/** @var GroupPluginManager|MockObject $pluginManager */
+		$pluginManager = $this->getMockBuilder(GroupPluginManager::class)
 			->setMethods(['implementsActions', 'countUsersInGroup'])
 			->getMock();
 
@@ -636,11 +639,9 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('username2dn')
 			->willReturn($dn);
-
 		$access->expects($this->exactly(5))
 			->method('readAttribute')
 			->will($this->onConsecutiveCalls(['cn=groupA,dc=foobar', 'cn=groupB,dc=foobar'], [], [], [], []));
-
 		$access->expects($this->any())
 			->method('dn2groupname')
 			->willReturnArgument(0);
@@ -770,8 +771,8 @@ class Group_LDAPTest extends TestCase {
 	}
 
 	public function testCreateGroupWithPlugin() {
-		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
-		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
+		/** @var GroupPluginManager|MockObject $pluginManager */
+		$pluginManager = $this->getMockBuilder(GroupPluginManager::class)
 			->setMethods(['implementsActions', 'createGroup'])
 			->getMock();
 
@@ -797,8 +798,8 @@ class Group_LDAPTest extends TestCase {
 	public function testCreateGroupFailing() {
 		$this->expectException(\Exception::class);
 
-		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
-		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
+		/** @var GroupPluginManager|MockObject $pluginManager */
+		$pluginManager = $this->getMockBuilder(GroupPluginManager::class)
 			->setMethods(['implementsActions', 'createGroup'])
 			->getMock();
 
@@ -816,8 +817,8 @@ class Group_LDAPTest extends TestCase {
 	}
 
 	public function testDeleteGroupWithPlugin() {
-		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
-		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
+		/** @var GroupPluginManager|MockObject $pluginManager */
+		$pluginManager = $this->getMockBuilder(GroupPluginManager::class)
 			->setMethods(['implementsActions', 'deleteGroup'])
 			->getMock();
 
@@ -831,7 +832,7 @@ class Group_LDAPTest extends TestCase {
 			->with('gid')
 			->willReturn('result');
 
-		$mapper = $this->getMockBuilder('\OCA\User_LDAP\Mapping\GroupMapping')
+		$mapper = $this->getMockBuilder(GroupMapping::class)
 			->setMethods(['unmap'])
 			->disableOriginalConstructor()
 			->getMock();
@@ -852,8 +853,8 @@ class Group_LDAPTest extends TestCase {
 	public function testDeleteGroupFailing() {
 		$this->expectException(\Exception::class);
 
-		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
-		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
+		/** @var GroupPluginManager|MockObject $pluginManager */
+		$pluginManager = $this->getMockBuilder(GroupPluginManager::class)
 			->setMethods(['implementsActions', 'deleteGroup'])
 			->getMock();
 
@@ -871,8 +872,8 @@ class Group_LDAPTest extends TestCase {
 	}
 
 	public function testAddToGroupWithPlugin() {
-		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
-		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
+		/** @var GroupPluginManager|MockObject $pluginManager */
+		$pluginManager = $this->getMockBuilder(GroupPluginManager::class)
 			->setMethods(['implementsActions', 'addToGroup'])
 			->getMock();
 
@@ -898,8 +899,8 @@ class Group_LDAPTest extends TestCase {
 	public function testAddToGroupFailing() {
 		$this->expectException(\Exception::class);
 
-		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
-		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
+		/** @var GroupPluginManager|MockObject $pluginManager */
+		$pluginManager = $this->getMockBuilder(GroupPluginManager::class)
 			->setMethods(['implementsActions', 'addToGroup'])
 			->getMock();
 
@@ -917,8 +918,8 @@ class Group_LDAPTest extends TestCase {
 	}
 
 	public function testRemoveFromGroupWithPlugin() {
-		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
-		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
+		/** @var GroupPluginManager|MockObject $pluginManager */
+		$pluginManager = $this->getMockBuilder(GroupPluginManager::class)
 			->setMethods(['implementsActions', 'removeFromGroup'])
 			->getMock();
 
@@ -944,8 +945,8 @@ class Group_LDAPTest extends TestCase {
 	public function testRemoveFromGroupFailing() {
 		$this->expectException(\Exception::class);
 
-		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
-		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
+		/** @var GroupPluginManager|MockObject $pluginManager */
+		$pluginManager = $this->getMockBuilder(GroupPluginManager::class)
 			->setMethods(['implementsActions', 'removeFromGroup'])
 			->getMock();
 
@@ -963,8 +964,8 @@ class Group_LDAPTest extends TestCase {
 	}
 
 	public function testGetGroupDetailsWithPlugin() {
-		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
-		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
+		/** @var GroupPluginManager|MockObject $pluginManager */
+		$pluginManager = $this->getMockBuilder(GroupPluginManager::class)
 			->setMethods(['implementsActions', 'getGroupDetails'])
 			->getMock();
 
@@ -990,8 +991,8 @@ class Group_LDAPTest extends TestCase {
 	public function testGetGroupDetailsFailing() {
 		$this->expectException(\Exception::class);
 
-		/** @var GroupPluginManager|\PHPUnit_Framework_MockObject_MockObject $pluginManager */
-		$pluginManager = $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')
+		/** @var GroupPluginManager|MockObject $pluginManager */
+		$pluginManager = $this->getMockBuilder(GroupPluginManager::class)
 			->setMethods(['implementsActions', 'getGroupDetails'])
 			->getMock();
 
