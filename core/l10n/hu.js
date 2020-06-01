@@ -164,6 +164,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "Egyszerű e-mail alkalmazás, amely szépen integrálódik a Fájlok, Névjegyek és Naptár alkalmazásba.",
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "Csevegés, videóhívások, képernyőmegosztás, online megbeszélések és webes konferencia – a böngészőjében és mobilalkalmazásokkal.",
     "Collaboratively edit office documents." : "Szerkesszen közösen irodai dokumentumokat.",
+    "Local document editing back-end used by the Collabora Online app." : "Helyi dokumentumszerkesztési háttérprogram, amit a Collabora Online alkalmazás használ.",
     "Forgot password?" : "Elfelejtett jelszó?",
     "Log in with a device" : "Bejelentkezés eszközzel",
     "Back" : "Vissza",
