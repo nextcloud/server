@@ -170,14 +170,7 @@
 				shareNote: shareNote,
 				hasNote: shareNote !== '',
 				expireDate: moment(this.model.getExpireDate(shareIndex), 'YYYY-MM-DD').format('DD-MM-YYYY'),
-				// The password placeholder does not take into account if
-				// sending the password by Talk is enabled or not; when
-				// switching from sending the password by Talk to sending the
-				// password by email the password is reused and the share
-				// updated, so the placeholder already shows the password in the
-				// brief time between disabling sending the password by email
-				// and receiving the updated share.
-				passwordPlaceholder: hasPassword ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
+				passwordPlaceholder: (hasPassword && !sendPasswordByTalk) ? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 				passwordByTalkPlaceholder: (hasPassword && sendPasswordByTalk)? PASSWORD_PLACEHOLDER : PASSWORD_PLACEHOLDER_MESSAGE,
 			});
 		},
@@ -575,10 +568,11 @@
 				passwordContainer.toggleClass('hidden', !state);
 			} else if (state) {
 				if (passwordByTalkState) {
-					// Switching from sending the password by Talk to sending
-					// the password by mail can be done keeping the previous
-					// password sent by Talk.
-					this.model.updateShare(shareId, {sendPasswordByTalk: false});
+					// Disabling sending the password by Talk requires a new
+					// password to be given (the already set password is hashed,
+					// so it is not possible to send it by mail), so the share
+					// is not updated until the user explicitly gives the new
+					// password.
 
 					var passwordByTalkContainerClass = '.passwordByTalkMenu-' + this.cid + '-' + shareId;
 					var passwordByTalkContainer = $(passwordByTalkContainerClass);
