@@ -19,6 +19,7 @@ OC.L10N.register(
     "Check for changes" : "Periksa perubahan",
     "Never" : "Jangan pernah",
     "Once every direct access" : "Setiap kali akses langsung",
+    "Read only" : "Hanya baca",
     "Delete" : "Hapus",
     "Admin defined" : "Terdefinisi Admin",
     "Saved" : "Disimpan",
