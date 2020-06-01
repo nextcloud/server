@@ -291,6 +291,14 @@ export default {
 				}
 				break
 			}
+			case 'sendPasswordByTalk': {
+				// show error
+				this.$set(this.errors, property, message)
+
+				// Restore previous state
+				this.share.sendPasswordByTalk = !this.share.sendPasswordByTalk
+				break
+			}
 			}
 		},
 
