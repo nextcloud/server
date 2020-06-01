@@ -14,6 +14,7 @@
     "More comments …" : "Komentar lainnya ...",
     "Save" : "Simpan",
     "Allowed characters {count} of {max}" : "Karakter yang diizinkan {count} dari {max}",
+    "Error occurred while retrieving comment with ID {id}" : "Terjadi galat saat mendapatkan komentar dengan ID {id}",
     "Error occurred while updating comment with id {id}" : "Terjadi kesalahan saat memperbarui komentar dengan id {id}",
     "Error occurred while posting comment" : "Terjadi kesalahan saat memosting komentar",
     "Comment" : "Komentar"
