@@ -22,6 +22,7 @@
 import _ from 'underscore'
 import $ from 'jquery'
 import moment from 'moment'
+import { generateUrl } from '@nextcloud/router'
 
 import OC from './index'
 
@@ -105,7 +106,7 @@ export default {
 		const self = this
 
 		$.ajax({
-			url: OC.generateUrl('/login/confirm'),
+			url: generateUrl('/login/confirm'),
 			data: {
 				password: password,
 			},
