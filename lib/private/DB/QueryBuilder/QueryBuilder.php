@@ -255,7 +255,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function setParameter($key, $value, $type = null): IQueryFunction {
+	public function setParameter($key, $value, $type = null): IQueryBuilder {
 		$this->queryBuilder->setParameter($key, $value, $type);
 
 		return $this;
