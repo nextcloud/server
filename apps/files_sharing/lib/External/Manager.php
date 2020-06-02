@@ -520,7 +520,7 @@ class Manager {
 		if ($result && $share !== false && (int)$share['share_type'] === Share::SHARE_TYPE_USER) {
 			try {
 				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
-			} catch (\Exception $e) {
+			} catch (\Throwable $e) {
 				// if we fail to notify the remote (probably cause the remote is down)
 				// we still want the share to be gone to prevent undeletable remotes
 			}
@@ -630,7 +630,7 @@ class Manager {
 		}
 
 		$query = 'SELECT `id`, `remote`, `remote_id`, `share_token`, `name`, `owner`, `user`, `mountpoint`, `accepted`
-		          FROM `*PREFIX*share_external` 
+		          FROM `*PREFIX*share_external`
 				  WHERE (`user` = ? OR `user` IN (?))';
 		$parameters = [$this->uid, implode(',',$userGroups)];
 		if (!is_null($accepted)) {
