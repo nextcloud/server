@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Deleted files" : "Berkas yang dihapus",
     "restored" : "dipulihkan",
+    "This application enables users to restore files that were deleted from the system." : "Aplikasi ini memungkinkan pengguna untuk memulihkan berkas terhapus dari sistem.",
     "Restore" : "Pulihkan",
     "Delete permanently" : "Hapus secara permanen",
     "This operation is forbidden" : "Operasi ini dilarang",
