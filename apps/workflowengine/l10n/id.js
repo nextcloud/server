@@ -21,6 +21,7 @@ OC.L10N.register(
     "Check #%s does not exist" : "Cek #%s tidak ada",
     "Check %s is invalid or does not exist" : "Cek %s tidak valid atau tidak ada",
     "Folder" : "Folder",
+    "Images" : "Gambar",
     "No results" : "Tidak ada hasil",
     "%s (invisible)" : "%s (tersembunyi)",
     "%s (restricted)" : "%s (terbatas)",
