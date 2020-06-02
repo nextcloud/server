@@ -20,6 +20,7 @@
  */
 
 import $ from 'jquery'
+import { generateFilePath } from '@nextcloud/router'
 
 const loadedScripts = {}
 const loadedStyles = []
@@ -37,7 +38,7 @@ export const addScript = (app, script, ready) => {
 	console.warn('OC.addScript is deprecated, use OCP.Loader.loadScript instead')
 
 	let deferred
-	const path = OC.filePath(app, 'js', script + '.js')
+	const path = generateFilePath(app, 'js', script + '.js')
 	if (!loadedScripts[path]) {
 		deferred = $.Deferred()
 		$.getScript(path, () => deferred.resolve())
@@ -59,7 +60,7 @@ export const addScript = (app, script, ready) => {
 export const addStyle = (app, style) => {
 	console.warn('OC.addStyle is deprecated, use OCP.Loader.loadStylesheet instead')
 
-	const path = OC.filePath(app, 'css', style + '.css')
+	const path = generateFilePath(app, 'css', style + '.css')
 	if (loadedStyles.indexOf(path) === -1) {
 		loadedStyles.push(path)
 		if (document.createStyleSheet) {

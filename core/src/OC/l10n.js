@@ -14,6 +14,7 @@ import DOMPurify from 'dompurify'
 import Handlebars from 'handlebars'
 import identity from 'lodash/fp/identity'
 import escapeHTML from 'escape-html'
+import { generateFilePath } from '@nextcloud/router'
 
 import OC from './index'
 import {
@@ -49,7 +50,7 @@ const L10n = {
 		}
 
 		const self = this
-		const url = OC.filePath(appName, 'l10n', OC.getLocale() + '.json')
+		const url = generateFilePath(appName, 'l10n', OC.getLocale() + '.json')
 
 		// load JSON translation bundle per AJAX
 		return $.get(url)
