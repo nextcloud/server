@@ -188,7 +188,7 @@ interface IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function setParameter($key, $value, $type = null): self ;
+	public function setParameter($key, $value, $type = null): self;
 
 	/**
 	 * Sets a collection of query parameters for the query being constructed.
