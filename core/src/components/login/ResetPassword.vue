@@ -78,7 +78,7 @@
 <script>
 import axios from '@nextcloud/axios'
 
-import { generateUrl } from '../../OC/routing'
+import { generateUrl } from '@nextcloud/router'
 
 export default {
 	name: 'ResetPassword',
