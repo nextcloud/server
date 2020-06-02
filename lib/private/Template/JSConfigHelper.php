@@ -292,7 +292,6 @@ class JSConfigHelper {
 				'longFooter' => $this->defaults->getLongFooter(),
 				'folder' => \OC_Util::getTheme(),
 			]),
-			"_oc_capabilities" => json_encode($capabilities),
 		];
 
 		if ($this->currentUser !== null) {

@@ -9,6 +9,8 @@
  *
  */
 
+import escapeHTML from 'escape-html'
+
 (function() {
 
 	_.extend(OC.Files.Client, {

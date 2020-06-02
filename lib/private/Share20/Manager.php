@@ -968,7 +968,13 @@ class Manager implements IManager {
 		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$this->linkCreateChecks($share);
 
+			$plainTextPassword = $share->getPassword();
+
 			$this->updateSharePasswordIfNeeded($share, $originalShare);
+
+			if (empty($plainTextPassword) && $share->getSendPasswordByTalk()) {
+				throw new \InvalidArgumentException('Can’t enable sending the password by Talk with an empty password');
+			}
 
 			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
 				//Verify the expiration date
@@ -977,11 +983,9 @@ class Manager implements IManager {
 			}
 		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
 			// The new password is not set again if it is the same as the old
-			// one, unless when switching from sending by Talk to sending by
-			// mail.
+			// one.
 			$plainTextPassword = $share->getPassword();
-			if (!empty($plainTextPassword) && !$this->updateSharePasswordIfNeeded($share, $originalShare) &&
-					!($originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk())) {
+			if (!empty($plainTextPassword) && !$this->updateSharePasswordIfNeeded($share, $originalShare)) {
 				$plainTextPassword = null;
 			}
 			if (empty($plainTextPassword) && !$originalShare->getSendPasswordByTalk() && $share->getSendPasswordByTalk()) {
@@ -989,6 +993,8 @@ class Manager implements IManager {
 				// would already have access to the share without having to call
 				// the sharer to verify her identity
 				throw new \InvalidArgumentException('Can’t enable sending the password by Talk without setting a new password');
+			} elseif (empty($plainTextPassword) && $originalShare->getSendPasswordByTalk() && !$share->getSendPasswordByTalk()) {
+				throw new \InvalidArgumentException('Can’t disable sending the password by Talk without setting a new password');
 			}
 		}
 
@@ -1075,8 +1081,14 @@ class Manager implements IManager {
 	 * @return boolean whether the password was updated or not.
 	 */
 	private function updateSharePasswordIfNeeded(\OCP\Share\IShare $share, \OCP\Share\IShare $originalShare) {
+		$passwordsAreDifferent = ($share->getPassword() !== $originalShare->getPassword()) &&
+									(($share->getPassword() !== null && $originalShare->getPassword() === null) ||
+									 ($share->getPassword() === null && $originalShare->getPassword() !== null) ||
+									 ($share->getPassword() !== null && $originalShare->getPassword() !== null &&
+										!$this->hasher->verify($share->getPassword(), $originalShare->getPassword())));
+
 		// Password updated.
-		if ($share->getPassword() !== $originalShare->getPassword()) {
+		if ($passwordsAreDifferent) {
 			//Verify the password
 			$this->verifyPassword($share->getPassword());
 
@@ -1086,6 +1098,10 @@ class Manager implements IManager {
 
 				return true;
 			}
+		} else {
+			// Reset the password to the original one, as it is either the same
+			// as the "new" password or a hashed version of it.
+			$share->setPassword($originalShare->getPassword());
 		}
 
 		return false;

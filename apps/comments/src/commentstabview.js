@@ -9,7 +9,9 @@
  *
  */
 
-/* global Handlebars, escapeHTML */
+/* global Handlebars */
+
+import escapeHTML from 'escape-html'
 
 (function(OC, OCA) {
 

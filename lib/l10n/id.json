@@ -143,6 +143,7 @@
     "Storage unauthorized. %s" : "Penyimpanan tidak terotorisasi. %s",
     "Storage incomplete configuration. %s" : "Konfigurasi penyimpanan tidak terselesaikan. %s",
     "Storage connection error. %s" : "Koneksi penyimpanan bermasalah. %s",
+    "Storage is temporarily not available" : "Penyimpanan sementara tidak tersedia",
     "Storage connection timeout. %s" : "Koneksi penyimpanan waktu-habis. %s",
     "Following databases are supported: %s" : "Berikut adalah basis data yang didukung: %s",
     "Following platforms are supported: %s" : "Berikut adalah platform yang didukung: %s",

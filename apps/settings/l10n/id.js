@@ -108,6 +108,7 @@ OC.L10N.register(
     "Sharing" : "Berbagi",
     "Personal info" : "Info pribadi",
     "Create" : "Buat",
+    "Change" : "Ubah",
     "Unlimited" : "Tak terbatas",
     "Limit to groups" : "Batasi ke grup",
     "Excluded groups" : "Grup yang dikecualikan",
