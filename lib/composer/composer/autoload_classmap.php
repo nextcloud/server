@@ -465,6 +465,7 @@ return array(
     'OCP\\Support\\CrashReport\\IMessageReporter' => $baseDir . '/lib/public/Support/CrashReport/IMessageReporter.php',
     'OCP\\Support\\CrashReport\\IRegistry' => $baseDir . '/lib/public/Support/CrashReport/IRegistry.php',
     'OCP\\Support\\CrashReport\\IReporter' => $baseDir . '/lib/public/Support/CrashReport/IReporter.php',
+    'OCP\\Support\\IStringSerializable' => $baseDir . '/lib/public/Support/IStringSerializable.php',
     'OCP\\Support\\Subscription\\Exception\\AlreadyRegisteredException' => $baseDir . '/lib/public/Support/Subscription/Exception/AlreadyRegisteredException.php',
     'OCP\\Support\\Subscription\\IRegistry' => $baseDir . '/lib/public/Support/Subscription/IRegistry.php',
     'OCP\\Support\\Subscription\\ISubscription' => $baseDir . '/lib/public/Support/Subscription/ISubscription.php',

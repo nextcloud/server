@@ -494,6 +494,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Support\\CrashReport\\IMessageReporter' => __DIR__ . '/../../..' . '/lib/public/Support/CrashReport/IMessageReporter.php',
         'OCP\\Support\\CrashReport\\IRegistry' => __DIR__ . '/../../..' . '/lib/public/Support/CrashReport/IRegistry.php',
         'OCP\\Support\\CrashReport\\IReporter' => __DIR__ . '/../../..' . '/lib/public/Support/CrashReport/IReporter.php',
+        'OCP\\Support\\IStringSerializable' => __DIR__ . '/../../..' . '/lib/public/Support/IStringSerializable.php',
         'OCP\\Support\\Subscription\\Exception\\AlreadyRegisteredException' => __DIR__ . '/../../..' . '/lib/public/Support/Subscription/Exception/AlreadyRegisteredException.php',
         'OCP\\Support\\Subscription\\IRegistry' => __DIR__ . '/../../..' . '/lib/public/Support/Subscription/IRegistry.php',
         'OCP\\Support\\Subscription\\ISubscription' => __DIR__ . '/../../..' . '/lib/public/Support/Subscription/ISubscription.php',

@@ -52,6 +52,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\IDBConnection;
 use OCP\ILogger;
+use OCP\Support\IStringSerializable;
 
 class QueryBuilder implements IQueryBuilder {
 
@@ -590,11 +591,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string|null $condition The condition for the join.
+	 * @param string|IStringSerializable $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function join(string $fromAlias, string $join, string $alias, string $condition = null): IQueryBuilder {
+	public function join(string $fromAlias, string $join, string $alias, $condition): IQueryBuilder {
 		$this->queryBuilder->join(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
@@ -618,11 +619,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string|null $condition The condition for the join.
+	 * @param string|IStringSerializable $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function innerJoin(string $fromAlias, string $join, string $alias, string $condition = null): IQueryBuilder {
+	public function innerJoin(string $fromAlias, string $join, string $alias, $condition): IQueryBuilder {
 		$this->queryBuilder->innerJoin(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
@@ -646,11 +647,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string|null $condition The condition for the join.
+	 * @param string|IStringSerializable $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function leftJoin(string $fromAlias, string $join, string $alias, string $condition = null): IQueryBuilder {
+	public function leftJoin(string $fromAlias, string $join, string $alias, $condition): IQueryBuilder {
 		$this->queryBuilder->leftJoin(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
@@ -674,11 +675,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string|null $condition The condition for the join.
+	 * @param string|IStringSerializable $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function rightJoin(string $fromAlias, string $join, string $alias, string $condition = null): IQueryBuilder {
+	public function rightJoin(string $fromAlias, string $join, string $alias, $condition): IQueryBuilder {
 		$this->queryBuilder->rightJoin(
 			$this->quoteAlias($fromAlias),
 			$this->getTableName($join),
@@ -700,7 +701,7 @@ class QueryBuilder implements IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $key The column to set.
-	 * @param string|IQueryFunction $value The value, expression, placeholder, etc.
+	 * @param string|IStringSerializable $value The value, expression, placeholder, etc.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */

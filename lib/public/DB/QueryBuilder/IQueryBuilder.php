@@ -31,6 +31,7 @@ namespace OCP\DB\QueryBuilder;
 
 use Doctrine\DBAL\Connection;
 use OCP\IDBConnection;
+use OCP\Support\IStringSerializable;
 
 /**
  * This class provides a wrapper around Doctrine's QueryBuilder
@@ -447,12 +448,12 @@ interface IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string|null $condition The condition for the join.
+	 * @param string|IStringSerializable $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function join(string $fromAlias, string $join, string $alias, string $condition = null): self;
+	public function join(string $fromAlias, string $join, string $alias, $condition): self;
 
 	/**
 	 * Creates and adds a join to the query.
@@ -467,12 +468,12 @@ interface IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string|null $condition The condition for the join.
+	 * @param string|IStringSerializable $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function innerJoin(string $fromAlias, string $join, string $alias, string $condition = null): self;
+	public function innerJoin(string $fromAlias, string $join, string $alias, $condition): self;
 
 	/**
 	 * Creates and adds a left join to the query.
@@ -487,12 +488,12 @@ interface IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string|null $condition The condition for the join.
+	 * @param string|IStringSerializable $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function leftJoin(string $fromAlias, string $join, string $alias, string $condition = null): self;
+	public function leftJoin(string $fromAlias, string $join, string $alias, $condition): self;
 
 	/**
 	 * Creates and adds a right join to the query.
@@ -507,12 +508,12 @@ interface IQueryBuilder {
 	 * @param string $fromAlias The alias that points to a from clause.
 	 * @param string $join The table name to join.
 	 * @param string $alias The alias of the join table.
-	 * @param string|null $condition The condition for the join.
+	 * @param string|IStringSerializable $condition The condition for the join.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function rightJoin(string $fromAlias, string $join, string $alias, string $condition = null): self;
+	public function rightJoin(string $fromAlias, string $join, string $alias, $condition): self;
 
 	/**
 	 * Sets a new value for a column in a bulk update query.
@@ -525,7 +526,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $key The column to set.
-	 * @param string|IQueryFunction $value The value, expression, placeholder, etc.
+	 * @param string|IStringSerializable $value The value, expression, placeholder, etc.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
@@ -654,7 +655,7 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $column The column into which the value should be inserted.
-	 * @param string|IParameter $value The value that should be inserted into the column.
+	 * @param string|IStringSerializable $value The value that should be inserted into the column.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0

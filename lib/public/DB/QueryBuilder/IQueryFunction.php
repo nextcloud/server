@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -24,13 +27,10 @@
 
 namespace OCP\DB\QueryBuilder;
 
+use OCP\Support\IStringSerializable;
+
 /**
  * @since 8.2.0
  */
-interface IQueryFunction {
-	/**
-	 * @return string
-	 * @since 8.2.0
-	 */
-	public function __toString();
+interface IQueryFunction extends IStringSerializable {
 }
