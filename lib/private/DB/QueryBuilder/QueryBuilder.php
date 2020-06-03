@@ -700,11 +700,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $key The column to set.
-	 * @param string $value The value, expression, placeholder, etc.
+	 * @param string|IQueryFunction $value The value, expression, placeholder, etc.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
-	public function set(string $key, string $value) : IQueryBuilder {
+	public function set(string $key, $value) : IQueryBuilder {
 		$this->queryBuilder->set(
 			$this->helper->quoteColumnName($key),
 			$this->helper->quoteColumnName($value)

@@ -525,12 +525,12 @@ interface IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $key The column to set.
-	 * @param string $value The value, expression, placeholder, etc.
+	 * @param string|IQueryFunction $value The value, expression, placeholder, etc.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 * @since 8.2.0
 	 */
-	public function set(string $key, string $value): self;
+	public function set(string $key, $value): self;
 
 	/**
 	 * Specifies one or more restrictions to the query result.
