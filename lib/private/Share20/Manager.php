@@ -278,12 +278,10 @@ class Manager implements IManager {
 		// And you can't share your rootfolder
 		if ($this->userManager->userExists($share->getSharedBy())) {
 			$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
-			$userFolderPath = $userFolder->getPath();
 		} else {
 			$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
-			$userFolderPath = $userFolder->getPath();
 		}
-		if ($userFolderPath === $share->getNode()->getPath()) {
+		if ($userFolder->getId() === $share->getNode()->getId()) {
 			throw new \InvalidArgumentException('You can’t share your root folder');
 		}
 
