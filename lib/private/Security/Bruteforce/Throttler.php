@@ -99,7 +99,7 @@ class Throttler {
 	 * @param float $maxAgeHours
 	 * @return int
 	 */
-	private function getCutoffTimestamp(float $maxAgeHours): int {
+	private function getCutoffTimestamp(float $maxAgeHours = 12.0): int {
 		return (new \DateTime())
 			->sub($this->getCutoff((int) ($maxAgeHours * 3600)))
 			->getTimestamp();
