@@ -23,9 +23,9 @@
 <template>
 	<div class="section" :class="{ selected: isSelected }" @click="showAppDetails">
 		<div class="app-image app-image-icon" @click="showAppDetails">
-			<div v-if="(listView && !app.preview) || (!listView && !app.screenshot)" class="icon-settings-dark" />
+			<div v-if="(listView && !app.preview) || (!listView && !screenshotLoaded)" class="icon-settings-dark" />
 
-			<svg v-if="listView && app.preview"
+			<svg v-else-if="listView && app.preview"
 				width="32"
 				height="32"
 				viewBox="0 0 32 32">
@@ -40,7 +40,7 @@
 					class="app-icon" />
 			</svg>
 
-			<img v-if="!listView && app.screenshot" :src="app.screenshot" width="100%">
+			<img v-if="!listView && app.screenshot && screenshotLoaded" :src="app.screenshot" width="100%">
 		</div>
 		<div class="app-name" @click="showAppDetails">
 			{{ app.name }}
@@ -129,6 +129,7 @@ export default {
 		return {
 			isSelected: false,
 			scrolled: false,
+			screenshotLoaded: false,
 		}
 	},
 	computed: {
@@ -143,6 +144,13 @@ export default {
 	},
 	mounted() {
 		this.isSelected = (this.app.id === this.$route.params.id)
+		if (this.app.screenshot) {
+			const image = new Image()
+			image.onload = (e) => {
+				this.screenshotLoaded = true
+			}
+			image.src = this.app.screenshot
+		}
 	},
 	watchers: {
 

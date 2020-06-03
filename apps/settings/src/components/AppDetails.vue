@@ -40,7 +40,7 @@
 			</svg>
 			{{ app.name }}
 		</h2>
-		<img v-if="app.screenshot" :src="app.screenshot" width="100%">
+		<img v-if="screenshotLoaded" :src="app.screenshot" width="100%">
 		<div v-if="app.level === 300 || app.level === 200 || hasRating" class="app-level">
 			<span v-if="app.level === 300"
 				v-tooltip.auto="t('settings', 'This app is supported via your current Nextcloud subscription.')"
@@ -207,6 +207,7 @@ export default {
 	data() {
 		return {
 			groupCheckedAppsData: false,
+			screenshotLoaded: false,
 		}
 	},
 	computed: {
@@ -307,6 +308,13 @@ export default {
 	mounted() {
 		if (this.app.groups.length > 0) {
 			this.groupCheckedAppsData = true
+		}
+		if (this.app.screenshot) {
+			const image = new Image()
+			image.onload = (e) => {
+				this.screenshotLoaded = true
+			}
+			image.src = this.app.screenshot
 		}
 	},
 }
