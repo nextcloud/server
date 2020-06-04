@@ -42,6 +42,7 @@ class Provider implements IProvider {
 	public const PASSWORD_CHANGED_BY = 'password_changed_by';
 	public const PASSWORD_CHANGED_SELF = 'password_changed_self';
 	public const PASSWORD_RESET = 'password_changed';
+	public const PASSWORD_RESET_SELF = 'password_reset_self';
 	public const EMAIL_CHANGED_BY = 'email_changed_by';
 	public const EMAIL_CHANGED_SELF = 'email_changed_self';
 	public const EMAIL_CHANGED = 'email_changed';
@@ -107,6 +108,8 @@ class Provider implements IProvider {
 		} else if ($event->getSubject() === self::PASSWORD_RESET) {
 			$subject = $this->l->t('Your password was reset by an administrator');
 
+		} else if ($event->getSubject() === self::PASSWORD_RESET_SELF) {
+			$subject = $this->l->t('Your password was reset');
 		} else if ($event->getSubject() === self::EMAIL_CHANGED_BY) {
 			$subject = $this->l->t('{actor} changed your email address');
 		} else if ($event->getSubject() === self::EMAIL_CHANGED_SELF) {
@@ -147,6 +150,7 @@ class Provider implements IProvider {
 		switch ($subject) {
 			case self::PASSWORD_CHANGED_SELF:
 			case self::PASSWORD_RESET:
+			case self::PASSWORD_RESET_SELF:
 			case self::EMAIL_CHANGED_SELF:
 			case self::EMAIL_CHANGED:
 				return [];
