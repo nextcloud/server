@@ -23,8 +23,8 @@ import $ from 'jquery'
 import { emit } from '@nextcloud/event-bus'
 import { loadState } from '@nextcloud/initial-state'
 import { getCurrentUser } from '@nextcloud/auth'
+import { generateUrl } from '@nextcloud/router'
 
-import { generateUrl } from './OC/routing'
 import OC from './OC'
 import { setToken as setRequestToken, getToken as getRequestToken } from './OC/requesttoken'
 
