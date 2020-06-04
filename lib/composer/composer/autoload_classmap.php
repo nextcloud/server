@@ -408,6 +408,7 @@ return array(
     'OCP\\Notification\\AlreadyProcessedException' => $baseDir . '/lib/public/Notification/AlreadyProcessedException.php',
     'OCP\\Notification\\IAction' => $baseDir . '/lib/public/Notification/IAction.php',
     'OCP\\Notification\\IApp' => $baseDir . '/lib/public/Notification/IApp.php',
+    'OCP\\Notification\\IDeferrableApp' => $baseDir . '/lib/public/Notification/IDeferrableApp.php',
     'OCP\\Notification\\IDismissableNotifier' => $baseDir . '/lib/public/Notification/IDismissableNotifier.php',
     'OCP\\Notification\\IManager' => $baseDir . '/lib/public/Notification/IManager.php',
     'OCP\\Notification\\INotification' => $baseDir . '/lib/public/Notification/INotification.php',

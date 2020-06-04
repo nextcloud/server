@@ -437,6 +437,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Notification\\AlreadyProcessedException' => __DIR__ . '/../../..' . '/lib/public/Notification/AlreadyProcessedException.php',
         'OCP\\Notification\\IAction' => __DIR__ . '/../../..' . '/lib/public/Notification/IAction.php',
         'OCP\\Notification\\IApp' => __DIR__ . '/../../..' . '/lib/public/Notification/IApp.php',
+        'OCP\\Notification\\IDeferrableApp' => __DIR__ . '/../../..' . '/lib/public/Notification/IDeferrableApp.php',
         'OCP\\Notification\\IDismissableNotifier' => __DIR__ . '/../../..' . '/lib/public/Notification/IDismissableNotifier.php',
         'OCP\\Notification\\IManager' => __DIR__ . '/../../..' . '/lib/public/Notification/IManager.php',
         'OCP\\Notification\\INotification' => __DIR__ . '/../../..' . '/lib/public/Notification/INotification.php',
