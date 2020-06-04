@@ -42,11 +42,9 @@ namespace OCA\Theming\Controller;
 use OC\Template\SCSSCacher;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
-use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
@@ -69,8 +67,6 @@ use OCP\IURLGenerator;
 class ThemingController extends Controller {
 	/** @var ThemingDefaults */
 	private $themingDefaults;
-	/** @var Util */
-	private $util;
 	/** @var IL10N */
 	private $l10n;
 	/** @var IConfig */
@@ -95,7 +91,6 @@ class ThemingController extends Controller {
 	 * @param IRequest $request
 	 * @param IConfig $config
 	 * @param ThemingDefaults $themingDefaults
-	 * @param Util $util
 	 * @param IL10N $l
 	 * @param ITempManager $tempManager
 	 * @param IAppData $appData
@@ -109,7 +104,6 @@ class ThemingController extends Controller {
 		IRequest $request,
 		IConfig $config,
 		ThemingDefaults $themingDefaults,
-		Util $util,
 		IL10N $l,
 		ITempManager $tempManager,
 		IAppData $appData,
@@ -121,7 +115,6 @@ class ThemingController extends Controller {
 		parent::__construct($appName, $request);
 
 		$this->themingDefaults = $themingDefaults;
-		$this->util = $util;
 		$this->l10n = $l;
 		$this->config = $config;
 		$this->tempManager = $tempManager;
@@ -427,32 +420,6 @@ class ThemingController extends Controller {
 		} catch (NotFoundException $e) {
 			return new NotFoundResponse();
 		}
-	}
-
-	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @NoSameSiteCookieRequired
-	 *
-	 * @return DataDownloadResponse
-	 */
-	public function getJavascript() {
-		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
-		$responseJS = '(function() {
-	OCA.Theming = {
-		name: ' . json_encode($this->themingDefaults->getName()) . ',
-		url: ' . json_encode($this->themingDefaults->getBaseUrl()) . ',
-		slogan: ' . json_encode($this->themingDefaults->getSlogan()) . ',
-		color: ' . json_encode($this->themingDefaults->getColorPrimary()) . ',
-		imprintUrl: ' . json_encode($this->themingDefaults->getImprintUrl()) . ',
-		privacyUrl: ' . json_encode($this->themingDefaults->getPrivacyUrl()) . ',
-		inverted: ' . json_encode($this->util->invertTextColor($this->themingDefaults->getColorPrimary())) . ',
-		cacheBuster: ' . json_encode($cacheBusterValue) . '
-	};
-})();';
-		$response = new DataDownloadResponse($responseJS, 'javascript', 'text/javascript');
-		$response->cacheFor(3600);
-		return $response;
 	}
 
 	/**
