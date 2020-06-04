@@ -647,7 +647,7 @@ class ManagerTest extends \Test\TestCase {
 		$rootFolder = $this->createMock(Folder::class);
 		$rootFolder->method('isShareable')->willReturn(true);
 		$rootFolder->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_ALL);
-		$rootFolder->method('getPath')->willReturn('myrootfolder');
+		$rootFolder->method('getId')->willReturn(42);
 
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $rootFolder, $user2, $user0, $user0, 30, null, null), 'You can’t share your root folder', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $rootFolder, $group0, $user0, $user0, 2, null, null), 'You can’t share your root folder', true];
@@ -707,7 +707,9 @@ class ManagerTest extends \Test\TestCase {
 		]));
 
 		$userFolder = $this->createMock(Folder::class);
-		$userFolder->method('getPath')->willReturn('myrootfolder');
+		$userFolder->expects($this->any())
+			->method('getId')
+			->willReturn(42);
 		$userFolder->expects($this->any())
 			->method('getRelativePath')
 			->willReturnArgument(0);
