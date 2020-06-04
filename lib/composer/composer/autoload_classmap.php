@@ -954,6 +954,7 @@ return array(
     'OC\\Encryption\\Update' => $baseDir . '/lib/private/Encryption/Update.php',
     'OC\\Encryption\\Util' => $baseDir . '/lib/private/Encryption/Util.php',
     'OC\\EventDispatcher\\EventDispatcher' => $baseDir . '/lib/private/EventDispatcher/EventDispatcher.php',
+    'OC\\EventDispatcher\\GenericEventWrapper' => $baseDir . '/lib/private/EventDispatcher/GenericEventWrapper.php',
     'OC\\EventDispatcher\\ServiceEventListener' => $baseDir . '/lib/private/EventDispatcher/ServiceEventListener.php',
     'OC\\EventDispatcher\\SymfonyAdapter' => $baseDir . '/lib/private/EventDispatcher/SymfonyAdapter.php',
     'OC\\Federation\\CloudFederationFactory' => $baseDir . '/lib/private/Federation/CloudFederationFactory.php',
