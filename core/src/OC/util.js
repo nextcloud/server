@@ -24,7 +24,7 @@ import moment from 'moment'
 
 import History from './util-history'
 import OC from './index'
-import humanFileSize from '../Util/human-file-size'
+import { formatFileSize as humanFileSize } from '@nextcloud/files'
 
 function chunkify(t) {
 	// Adapted from http://my.opera.com/GreyWyvern/blog/show.dml/1671288
@@ -58,6 +58,9 @@ export default {
 
 	History,
 
+	/**
+	 * @deprecated use https://nextcloud.github.io/nextcloud-files/modules/_humanfilesize_.html#formatfilesize
+	 */
 	humanFileSize,
 
 	/**

@@ -324,16 +324,6 @@ const L10n = {
 export default L10n
 
 /**
- * Returns the user's locale as a BCP 47 compliant language tag
- *
- * @returns {String} locale string
- */
-export const getCanonicalLocale = () => {
-	const locale = getLocale()
-	return typeof locale === 'string' ? locale.replace(/_/g, '-') : locale
-}
-
-/**
  * Returns the user's locale
  *
  * @returns {String} locale string

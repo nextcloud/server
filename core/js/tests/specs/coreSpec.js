@@ -55,29 +55,6 @@ describe('Core base tests', function() {
 			expect(OC.filePath('files', 'ajax', 'test.php')).toEqual('http://localhost/index.php/apps/files/ajax/test.php');
 		});
 	});
-	describe('getCanonicalLocale', function() {
-		var oldLocale;
-
-		beforeEach(function() {
-			oldLocale = $('html').data('locale')
-		});
-		afterEach(function() {
-			$('html').data('locale', oldLocale)
-		});
-
-		it("Returns primary locales as is", function() {
-			$('html').data('locale', 'de')
-			expect(OC.getCanonicalLocale()).toEqual('de');
-			$('html').data('locale', 'zu')
-			expect(OC.getCanonicalLocale()).toEqual('zu');
-		});
-		it("Returns extended locales with hyphens", function() {
-			$('html').data('locale', 'az_Cyrl_AZ')
-			expect(OC.getCanonicalLocale()).toEqual('az-Cyrl-AZ');
-			$('html').data('locale', 'de_DE')
-			expect(OC.getCanonicalLocale()).toEqual('de-DE');
-		});
-	});
 	describe('Link functions', function() {
 		var TESTAPP = 'testapp';
 		var TESTAPP_ROOT = OC.getRootPath() + '/appsx/testapp';
@@ -364,71 +341,6 @@ describe('Core base tests', function() {
 		});
 	});
 	describe('Util', function() {
-		var locale;
-		var localeStub;
-
-		beforeEach(function() {
-			locale = OC.getCanonicalLocale();
-			localeStub = sinon.stub(OC, 'getCanonicalLocale');
-			localeStub.returns(locale);
-		});
-
-		afterEach(function() {
-			localeStub.restore();
-		});
-
-		describe('humanFileSize', function() {
-			// cit() will skip tests if toLocaleString() is not supported.
-			// See https://github.com/ariya/phantomjs/issues/12581
-			//
-			// Please run these tests in Chrome/Firefox manually.
-			var cit = 4.2.toLocaleString("de") !== "4,2" ? xit : it;
-
-			it('renders file sizes with the correct unit', function() {
-				var data = [
-					[0, '0 B'],
-					["0", '0 B'],
-					["A", 'NaN B'],
-					[125, '125 B'],
-					[128000, '125 KB'],
-					[128000000, '122.1 MB'],
-					[128000000000, '119.2 GB'],
-					[128000000000000, '116.4 TB']
-				];
-				for (var i = 0; i < data.length; i++) {
-					expect(OC.Util.humanFileSize(data[i][0])).toEqual(data[i][1]);
-				}
-			});
-			it('renders file sizes with the correct unit for small sizes', function() {
-				var data = [
-					[0, '0 KB'],
-					[125, '< 1 KB'],
-					[128000, '125 KB'],
-					[128000000, '122.1 MB'],
-					[128000000000, '119.2 GB'],
-					[128000000000000, '116.4 TB']
-				];
-				for (var i = 0; i < data.length; i++) {
-					expect(OC.Util.humanFileSize(data[i][0], true)).toEqual(data[i][1]);
-				}
-			});
-			cit('renders file sizes with the correct locale', function() {
-				localeStub.returns("de");
-				var data = [
-					[0, '0 B'],
-					["0", '0 B'],
-					["A", 'NaN B'],
-					[125, '125 B'],
-					[128000, '125 KB'],
-					[128000000, '122,1 MB'],
-					[128000000000, '119,2 GB'],
-					[128000000000000, '116,4 TB']
-				];
-				for (var i = 0; i < data.length; i++) {
-					expect(OC.Util.humanFileSize(data[i][0])).toEqual(data[i][1]);
-				}
-			});
-		});
 		describe('computerFileSize', function() {
 			it('correctly parses file sizes from a human readable formated string', function() {
 				var data = [
