@@ -126,7 +126,7 @@ class Hooks {
 					->setSubject(Provider::PASSWORD_CHANGED_SELF);
 			}
 		} else {
-			if (PHP_SAPI === 'cli') {
+			if (\OC::$CLI) {
 				// Admin used occ to reset the password
 				$text = $this->l->t('Your password on %s was reset by an administrator.', [$instanceUrl]);
 				$event->setSubject(Provider::PASSWORD_RESET);
