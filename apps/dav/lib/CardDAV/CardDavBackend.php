@@ -949,20 +949,38 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 */
 	public function search($addressBookId, $pattern, $searchProperties, $options = []) {
+		$escapePattern = !\array_key_exists('escape_like_param', $options) || $options['escape_like_param'] !== false;
+
 		$query2 = $this->db->getQueryBuilder();
+		$or = $query2->expr()->orX();
+		foreach ($searchProperties as $property) {
+			if ($escapePattern) {
+				if ($property === 'EMAIL' && strpos($pattern, ' ') !== false) {
+					// There can be no spaces in emails
+					continue;
+				}
+
+				if ($property === 'CLOUD' && preg_match('/[^a-zA-Z0-9 _.@\-\']/', $pattern) === 1) {
+					// There can be no chars in cloud ids which are not valid for user ids
+					continue;
+				}
+			}
+
+			$or->add($query2->expr()->eq('cp.name', $query2->createNamedParameter($property)));
+		}
+
+		if ($or->count() === 0) {
+			return [];
+		}
 
 		$query2->selectDistinct('cp.cardid')
 			->from($this->dbCardsPropertiesTable, 'cp')
-			->andWhere($query2->expr()->eq('cp.addressbookid', $query2->createNamedParameter($addressBookId)));
-		$or = $query2->expr()->orX();
-		foreach ($searchProperties as $property) {
-			$or->add($query2->expr()->eq('cp.name', $query2->createNamedParameter($property)));
-		}
-		$query2->andWhere($or);
+			->andWhere($query2->expr()->eq('cp.addressbookid', $query2->createNamedParameter($addressBookId)))
+			->andWhere($or);
 
 		// No need for like when the pattern is empty
 		if ('' !== $pattern) {
-			if (\array_key_exists('escape_like_param', $options) && $options['escape_like_param'] === false) {
+			if (!$escapePattern) {
 				$query2->andWhere($query2->expr()->ilike('cp.value', $query2->createNamedParameter($pattern)));
 			} else {
 				$query2->andWhere($query2->expr()->ilike('cp.value', $query2->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
