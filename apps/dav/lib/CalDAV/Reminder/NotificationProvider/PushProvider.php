@@ -94,8 +94,10 @@ class PushProvider extends AbstractProvider {
 		$eventDetails = $this->extractEventDetails($vevent);
 		$eventDetails['calendar_displayname'] = $calendarDisplayName;
 		$eventUUID = (string) $vevent->UID;
-		// Empty Notification ObjectId will be catched by OC\Notification\Notification
-		$eventUUIDHash = $eventUUID ? hash('sha256', $eventUUID, false) : '';
+		if (!$eventUUID) {
+			return;
+		};
+		$eventUUIDHash = hash('sha256', $eventUUID, false);
 
 		foreach($users as $user) {
 			/** @var INotification $notification */
