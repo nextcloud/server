@@ -201,6 +201,7 @@ OC.L10N.register(
     "this share just expired." : "Diese Freigabe ist gerade abgelaufen.",
     "Link to a file" : "Mit einer Datei verknüpfen",
     "Error creating the share" : "Fehler beim Erstellen der Freigabe",
+    "Error updating the share" : "Fehler beim Aktualisieren der Freigabe",
     "Shared" : "Geteilt",
     "Share" : "Teilen",
     "Shared with" : "Geteilt mit",

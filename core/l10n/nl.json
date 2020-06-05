@@ -338,7 +338,7 @@
     "The following apps will be updated:" : "Deze apps worden bijgewerkt:",
     "These incompatible apps will be disabled:" : "De volgende incompatibele apps worden uitgeschakeld:",
     "The theme %s has been disabled." : "Het thema %s is uitgeschakeld.",
-    "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Let erop dat de database, de config map en de data map zijn gebackupt voordat je verder gaat.",
+    "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Let erop dat de database, de config-map en de data-map zijn geback-upt voordat je verder gaat.",
     "Start update" : "Begin de update",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Om time-outs tijdens grotere installaties te voorkomen, kun je in plaats hiervan de volgende opdracht geven vanaf je installatiedirectory:",
     "Detailed logs" : "Gedetailleerde logs",

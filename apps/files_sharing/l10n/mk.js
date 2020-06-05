@@ -201,6 +201,7 @@ OC.L10N.register(
     "this share just expired." : "ова споделување штотуку истече.",
     "Link to a file" : "Линк до датотеката",
     "Error creating the share" : "Грешка при креирање на споделување",
+    "Error updating the share" : "Грешка при ажурирање на споделувањето",
     "Shared" : "Споделен",
     "Share" : "Сподели",
     "Shared with" : "Споделено со",
