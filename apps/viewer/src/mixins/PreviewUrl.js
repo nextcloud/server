@@ -22,6 +22,7 @@
  */
 import { generateUrl } from '@nextcloud/router'
 import { getRootPath, getToken, isPublic } from '../utils/davUtils'
+import { encodeFilePath } from '../utils/fileUtils'
 
 export default {
 	computed: {
@@ -66,7 +67,7 @@ export default {
 			if (hasPreview) {
 				// TODO: find a nicer standard way of doing this?
 				if (isPublic()) {
-					return generateUrl(`/apps/files_sharing/publicpreview/${getToken()}?fileId=${fileid}&file=${filename}&x=${screen.width}&y=${screen.height}&a=true`)
+					return generateUrl(`/apps/files_sharing/publicpreview/${getToken()}?fileId=${fileid}&file=${encodeFilePath(filename)}&x=${screen.width}&y=${screen.height}&a=true`)
 				}
 				return generateUrl(`/core/preview?fileId=${fileid}&x=${screen.width}&y=${screen.height}&a=true`)
 			}
