@@ -55,11 +55,6 @@ return ['routes' => [
 		'verb' => 'GET',
 	],
 	[
-		'name' => 'Theming#getJavascript',
-		'url' => '/js/theming',
-		'verb' => 'GET',
-	],
-	[
 		'name' => 'Theming#getManifest',
 		'url' => '/manifest/{app}',
 		'verb' => 'GET',

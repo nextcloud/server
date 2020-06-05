@@ -24,8 +24,28 @@
 
 namespace OCA\Theming\AppInfo;
 
+use OCA\Theming\Service\JSDataService;
+use OCP\AppFramework\IAppContainer;
+use OCP\IInitialStateService;
+
 class Application extends \OCP\AppFramework\App {
+	public const APP_ID = 'theming';
+
 	public function __construct() {
-		parent::__construct('theming', []);
+		parent::__construct(self::APP_ID);
+
+		$container = $this->getContainer();
+		$this->registerInitialState($container);
+	}
+
+	private function registerInitialState(IAppContainer $container) {
+		/** @var IInitialStateService $initialState */
+		$initialState = $container->query(IInitialStateService::class);
+
+		$initialState->provideLazyInitialState(self::APP_ID, 'data', function () use ($container) {
+			/** @var JSDataService $data */
+			$data = $container->query(JSDataService::class);
+			return $data;
+		});
 	}
 }

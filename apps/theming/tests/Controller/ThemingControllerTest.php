@@ -41,7 +41,6 @@ use OC\Template\SCSSCacher;
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
-use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -64,8 +63,6 @@ class ThemingControllerTest extends TestCase {
 	private $config;
 	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
 	private $themingDefaults;
-	/** @var Util */
-	private $util;
 	/** @var \OCP\AppFramework\Utility\ITimeFactory */
 	private $timeFactory;
 	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
@@ -92,7 +89,6 @@ class ThemingControllerTest extends TestCase {
 		$this->l10n = $this->createMock(L10N::class);
 		$this->appData = $this->createMock(IAppData::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->util = new Util($this->config, $this->appManager, $this->appData);
 		$this->tempManager = \OC::$server->getTempManager();
 		$this->scssCacher = $this->createMock(SCSSCacher::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
@@ -110,7 +106,6 @@ class ThemingControllerTest extends TestCase {
 			$this->request,
 			$this->config,
 			$this->themingDefaults,
-			$this->util,
 			$this->l10n,
 			$this->tempManager,
 			$this->appData,
@@ -846,76 +841,6 @@ class ThemingControllerTest extends TestCase {
 
 		$actual = $this->themingController->getStylesheet();
 		$this->assertEquals($response, $actual);
-	}
-
-	public function testGetJavascript() {
-		$this->themingDefaults
-			->expects($this->at(0))
-			->method('getName')
-			->willReturn("");
-		$this->themingDefaults
-			->expects($this->at(1))
-			->method('getBaseUrl')
-			->willReturn("");
-		$this->themingDefaults
-			->expects($this->at(2))
-			->method('getSlogan')
-			->willReturn("");
-		$this->themingDefaults
-			->expects($this->at(3))
-			->method('getColorPrimary')
-			->willReturn("#000");
-
-
-		$expectedResponse = '(function() {
-	OCA.Theming = {
-		name: "",
-		url: "",
-		slogan: "",
-		color: "#000",
-		imprintUrl: null,
-		privacyUrl: null,
-		inverted: false,
-		cacheBuster: null
-	};
-})();';
-		$expected = new Http\DataDownloadResponse($expectedResponse, 'javascript', 'text/javascript');
-		$expected->cacheFor(3600);
-		@$this->assertEquals($expected, $this->themingController->getJavascript());
-	}
-	public function testGetJavascriptInverted() {
-		$this->themingDefaults
-			->expects($this->at(0))
-			->method('getName')
-			->willReturn("Nextcloud");
-		$this->themingDefaults
-			->expects($this->at(1))
-			->method('getBaseUrl')
-			->willReturn("nextcloudurl");
-		$this->themingDefaults
-			->expects($this->at(2))
-			->method('getSlogan')
-			->willReturn("awesome");
-		$this->themingDefaults
-			->expects($this->any())
-			->method('getColorPrimary')
-			->willReturn("#ffffff");
-
-		$expectedResponse = '(function() {
-	OCA.Theming = {
-		name: "Nextcloud",
-		url: "nextcloudurl",
-		slogan: "awesome",
-		color: "#ffffff",
-		imprintUrl: null,
-		privacyUrl: null,
-		inverted: true,
-		cacheBuster: null
-	};
-})();';
-		$expected = new Http\DataDownloadResponse($expectedResponse, 'javascript', 'text/javascript');
-		$expected->cacheFor(3600);
-		@$this->assertEquals($expected, $this->themingController->getJavascript());
 	}
 
 	public function testGetManifest() {
