@@ -298,7 +298,7 @@ OC.L10N.register(
     "Access through untrusted domain" : "Доступ з не довіреного домену",
     "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Подальшу інформацію з налаштуваннями можна переглянути на сторінці %1$sДокументація%2$s.",
     "App update required" : "Застосунок потребує оновлення",
-    "%1$s will be updated to version %2$s" : "%1$s буде оновлено до версії%2$s",
+    "%1$s will be updated to version %2$s" : "%1$s буде оновлено до версії %2$s",
     "The following apps will be updated:" : "Ці застосунки буде оновлено:",
     "These incompatible apps will be disabled:" : "Такі несумісні застосунки буде вимкнено:",
     "The theme %s has been disabled." : "Тему %s було вимкнено.",

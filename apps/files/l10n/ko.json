@@ -12,6 +12,7 @@
     "Home" : "홈",
     "Close" : "닫기",
     "Could not create folder \"{dir}\"" : "폴더 \"{dir}\"을(를) 만들 수 없음",
+    "This will stop your current uploads." : "이것은 현재 업로드를 중단시킬 것입니다.",
     "Upload cancelled." : "업로드가 취소되었습니다.",
     "Processing files …" : "파일 처리중 ...",
     "…" : "…",
