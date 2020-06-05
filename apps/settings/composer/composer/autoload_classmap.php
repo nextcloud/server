@@ -18,7 +18,6 @@ return array(
     'OCA\\Settings\\Controller\\AdminSettingsController' => $baseDir . '/../lib/Controller/AdminSettingsController.php',
     'OCA\\Settings\\Controller\\AppSettingsController' => $baseDir . '/../lib/Controller/AppSettingsController.php',
     'OCA\\Settings\\Controller\\AuthSettingsController' => $baseDir . '/../lib/Controller/AuthSettingsController.php',
-    'OCA\\Settings\\Controller\\CertificateController' => $baseDir . '/../lib/Controller/CertificateController.php',
     'OCA\\Settings\\Controller\\ChangePasswordController' => $baseDir . '/../lib/Controller/ChangePasswordController.php',
     'OCA\\Settings\\Controller\\CheckSetupController' => $baseDir . '/../lib/Controller/CheckSetupController.php',
     'OCA\\Settings\\Controller\\CommonSettingsTrait' => $baseDir . '/../lib/Controller/CommonSettingsTrait.php',
