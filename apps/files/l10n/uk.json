@@ -3,7 +3,7 @@
     "Storage invalid" : "Невірне сховище",
     "Unknown error" : "Невідома помилка",
     "All files" : "Усі файли",
-    "Recent" : "Останні",
+    "Recent" : "Нещодавні",
     "Favorites" : "Улюблені",
     "File could not be found" : "Неможливо знайти файл",
     "Move or copy" : "Перенести або копіювати",
@@ -164,7 +164,7 @@
     "%s%% of %s used" : "%s%% з %s використано",
     "%1$s of %2$s used" : "Використано %1$s з %2$s",
     "Settings" : "Налаштування",
-    "Show hidden files" : "Показати приховані файли",
+    "Show hidden files" : "Показувати приховані файли",
     "WebDAV" : "WebDAV",
     "Use this address to access your Files via WebDAV" : "Використовуйте цю адресу для доступу до ваших Файлів за допомогою WebDAV",
     "Toggle grid view" : "Показати плитками",
@@ -176,7 +176,7 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файли, які ви намагаєтеся завантажити, перевищують максимально дозволений розмір файлів для завантаження на цьому сервері.",
     "No favorites yet" : "Ще немає улюблених",
     "Files and folders you mark as favorite will show up here" : "Файли і теки, які ви позначили як улюблені, з’являться тут",
-    "Deleted files" : "Вилучені файли",
+    "Deleted files" : "Кошик",
     "Shares" : "Спільний доступ",
     "Shared with others" : "Поділились з іншими",
     "Shared with you" : "Поділились з вами",
@@ -185,7 +185,7 @@
     "Pending shares" : "Спільні ресурси в очікуванні",
     "Text file" : "Текстовий файл",
     "New text file.txt" : "Новий текстовий файл file.txt",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Використовуйте цю адресу для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">доступ до своїх файлів через WebDAV</a>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Адреса для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">доступу до файлів через WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або теку, що вам не належить"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

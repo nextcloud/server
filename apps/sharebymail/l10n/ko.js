@@ -22,6 +22,8 @@ OC.L10N.register(
     "Open »%s«" : "%s 열기",
     "%1$s via %2$s" : "%1$s(%2$s 경유)",
     "Password to access »%s«" : "%s에 접근할 수 있는 암호",
+    "It is protected with the following password:" : "비밀번호로 보호됩니다.",
+    "This is the password:" : "비밀번호",
     "You can choose a different password at any time in the share dialog." : "공유 대화 상자에서 언제든지 다른 암호를 선택할 수 있습니다.",
     "Could not find share" : "공유를 찾을 수 없음",
     "Share by mail" : "이메일로 공유",
