@@ -31,6 +31,7 @@ class ComposerStaticInitComments
         'OCA\\Comments\\Controller\\Notifications' => __DIR__ . '/..' . '/../lib/Controller/Notifications.php',
         'OCA\\Comments\\EventHandler' => __DIR__ . '/..' . '/../lib/EventHandler.php',
         'OCA\\Comments\\JSSettingsHelper' => __DIR__ . '/..' . '/../lib/JSSettingsHelper.php',
+        'OCA\\Comments\\Listener\\CommentsEntityEventListener' => __DIR__ . '/..' . '/../lib/Listener/CommentsEntityEventListener.php',
         'OCA\\Comments\\Listener\\LoadAdditionalScripts' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalScripts.php',
         'OCA\\Comments\\Listener\\LoadSidebarScripts' => __DIR__ . '/..' . '/../lib/Listener/LoadSidebarScripts.php',
         'OCA\\Comments\\Notification\\Listener' => __DIR__ . '/..' . '/../lib/Notification/Listener.php',
