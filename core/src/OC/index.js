@@ -79,10 +79,12 @@ import {
 } from './menu'
 import { isUserAdmin } from './admin'
 import L10N, {
-	getCanonicalLocale,
 	getLanguage,
 	getLocale,
 } from './l10n'
+import {
+	getCanonicalLocale,
+} from '@nextcloud/l10n'
 
 import {
 	generateUrl,
@@ -223,7 +225,7 @@ export default {
 	getProtocol,
 
 	/**
-	 * L10n
+	 * @deprecated 20.0.0 use `getCanonicalLocale` from https://www.npmjs.com/package/@nextcloud/l10n
 	 */
 	getCanonicalLocale,
 	getLocale,
