@@ -8,6 +8,8 @@
  *
  */
 
+import { generateRemoteUrl } from '@nextcloud/router'
+
 (function(OC) {
 	/**
 	 * @class OC.SystemTags.SystemTagsMappingCollection
@@ -43,7 +45,7 @@
 			model: OC.SystemTags.SystemTagModel,
 
 			url: function() {
-				return OC.linkToRemote('dav') + '/systemtags-relations/' + this._objectType + '/' + this._objectId
+				return generateRemoteUrl('dav') + '/systemtags-relations/' + this._objectType + '/' + this._objectId
 			},
 
 			/**

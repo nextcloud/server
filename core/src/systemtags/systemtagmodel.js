@@ -11,10 +11,10 @@
 (function(OC) {
 
 	_.extend(OC.Files.Client, {
-		PROPERTY_FILEID:	'{' + OC.Files.Client.NS_OWNCLOUD + '}id',
+		PROPERTY_FILEID: '{' + OC.Files.Client.NS_OWNCLOUD + '}id',
 		PROPERTY_CAN_ASSIGN: '{' + OC.Files.Client.NS_OWNCLOUD + '}can-assign',
-		PROPERTY_DISPLAYNAME:	'{' + OC.Files.Client.NS_OWNCLOUD + '}display-name',
-		PROPERTY_USERVISIBLE:	'{' + OC.Files.Client.NS_OWNCLOUD + '}user-visible',
+		PROPERTY_DISPLAYNAME: '{' + OC.Files.Client.NS_OWNCLOUD + '}display-name',
+		PROPERTY_USERVISIBLE: '{' + OC.Files.Client.NS_OWNCLOUD + '}user-visible',
 		PROPERTY_USERASSIGNABLE: '{' + OC.Files.Client.NS_OWNCLOUD + '}user-assignable',
 	})
 
@@ -36,7 +36,7 @@
 			},
 
 			davProperties: {
-				'id':	OC.Files.Client.PROPERTY_FILEID,
+				'id': OC.Files.Client.PROPERTY_FILEID,
 				'name': OC.Files.Client.PROPERTY_DISPLAYNAME,
 				'userVisible': OC.Files.Client.PROPERTY_USERVISIBLE,
 				'userAssignable': OC.Files.Client.PROPERTY_USERASSIGNABLE,
