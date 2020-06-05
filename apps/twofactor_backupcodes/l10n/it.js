@@ -19,9 +19,8 @@ OC.L10N.register(
     "{name} backup codes" : "Codici di backup di {name}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Usa uno dei codici di backup che hai salvato quando configuri l'autenticazione a due fattori.",
     "Submit" : "Invia",
+    "function" : "funzione",
     "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Hai abilitato l'autenticazione a due fattori, ma non hai ancora generato i codici di backup. Assicurati di farlo, nel caso in cui tu perda l'accesso al secondo fattore.",
-    "function" : "funzione"
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"]
 },
 "nplurals=2; plural=(n != 1);");

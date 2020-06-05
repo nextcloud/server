@@ -17,9 +17,8 @@
     "{name} backup codes" : "{naam} backup codes",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Gebruik een van de backupcodes die je bewaarde bij het inschakelen van de twee-factor authenticatie.",
     "Submit" : "Verwerken",
+    "function" : "functie",
     "_" : "_",
-    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"],
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Je hebt tweefactor authenticatie ingeschakeld, maar nog geen backup codes gegenereerd. Doe dat eerst, voor het geval dat je toegang tot je tweede factor apparaat kwijt bent.",
-    "function" : "functie"
+    "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

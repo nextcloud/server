@@ -15,6 +15,7 @@ OC.L10N.register(
     "Only visible to local users" : "Kun synlig for lokale brugere",
     "Only visible to you" : "Kun synlig for dig",
     "Contacts" : "Kontakter",
+    "Visible to local users and to trusted servers" : "Tilgængelig for lokale brugere og godkendte servere",
     "Public" : "Offentlig",
     "Verify" : "Bekræft",
     "Verifying …" : "Bekræfter.....",
@@ -313,6 +314,7 @@ OC.L10N.register(
     "Current password" : "Nuværende adgangskode",
     "New password" : "Nyt kodeord",
     "Change password" : "Skift kodeord",
+    "Share" : "Del",
     "Arabic" : "Arabisk",
     "Chinese" : "Kinesisk",
     "Croatian" : "Kroatisk",
@@ -336,8 +338,6 @@ OC.L10N.register(
     "Russian" : "Russisk",
     "Swedish" : "Svensk",
     "Official" : "Officiel",
-    "Store credentials" : "Gem brugeroplysninger",
-    "Set default expiration date" : "Vælg standard udløbsdato",
-    "Share" : "Del"
+    "Set default expiration date" : "Vælg standard udløbsdato"
 },
 "nplurals=2; plural=(n != 1);");

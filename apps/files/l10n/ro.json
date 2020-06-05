@@ -159,8 +159,6 @@
     "Deleted shares" : "Partajări șterse",
     "Text file" : "Fișier text",
     "New text file.txt" : "Fișier nou.txt",
-    "%s of %s used" : "%s din %s folosiți",
-    "%1$s%% of %2$s used" : "%1$s%% din %2$s utilizat",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Folosește această adresă <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">pentru a accesa Fișierele prin WebDAV</a>"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

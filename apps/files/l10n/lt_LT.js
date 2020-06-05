@@ -186,8 +186,6 @@ OC.L10N.register(
     "Pending shares" : "Laukiantys viešiniai",
     "Text file" : "Tekstinis failas",
     "New text file.txt" : "Naujas tekstinis failas.txt",
-    "%s of %s used" : "naudojama %s iš %s",
-    "%1$s%% of %2$s used" : "%1$s naudojama %% iš %2$s",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Naudokite šį adresą norėdami <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">gauti prieigą prie failų per WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Negalima perduoti, failo aplanko, kuris jums nepriklauso, nuosavybės"
 },

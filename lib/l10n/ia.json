@@ -59,12 +59,7 @@
     "A valid password must be provided" : "Un contrasigno valide debe esser providite",
     "Authentication error" : "Error in authentication",
     "Storage is temporarily not available" : "Immagazinage es provisorimente non disponibile",
-    "Create" : "Crear",
-    "Delete" : "Deler",
-    "Share" : "Compartir",
     "Sharing" : "Compartente",
-    "Personal info" : "Information personal",
-    "Unlimited" : "Ilimitate",
-    "Not allowed to create a federated share with the same user" : "Il non es permittite crear le Compartir Federate con le mesme usator."
+    "Personal info" : "Information personal"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

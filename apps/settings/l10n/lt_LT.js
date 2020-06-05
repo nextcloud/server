@@ -222,6 +222,7 @@ OC.L10N.register(
     "Add" : "Pridėti",
     "Adding your device …" : "Pridedamas jūsų įrenginys …",
     "Unnamed device" : "Įrenginys be pavadinimo",
+    "Your browser does not support WebAuthn." : "Jūsų naršyklė nepalaiko WebAuthn.",
     "Your apps" : "Jūsų programėlės",
     "Active apps" : "Aktyvios programėlės",
     "Disabled apps" : "Išjungtos programėlės",
@@ -366,6 +367,7 @@ OC.L10N.register(
     "New password" : "Naujas slaptažodis",
     "Change password" : "Pakeisti slaptažodį",
     "Use a second factor besides your password to increase security for your account." : "Be savo slaptažodžio naudokite ir antrąjį faktorių, kad padidintumėte savo paskyros saugumą.",
+    "Share" : "Bendrinti",
     "Afrikaans (Namibia)" : "Afrikanso (Namibija)",
     "Afrikaans (South Africa)" : "Afrikanso (Pietų Afrika)",
     "Afrikaans" : "Afrikanso",
@@ -598,8 +600,6 @@ OC.L10N.register(
     "Zulu" : "Zulų",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Oficialios programėlės yra kuriamos bendruomenės viduje ir jas kuria bendruomenė. Šios programėlės siūlo centrinį funkcionalumą ir yra paruoštos kasdieniam naudojimui.",
     "Official" : "Oficiali",
-    "Store credentials" : "Išsaugoti prisijungimo duomenis",
-    "Set default expiration date" : "Nustatyti numatytąją galiojimo pabaigos datą",
-    "Share" : "Bendrinti"
+    "Set default expiration date" : "Nustatyti numatytąją galiojimo pabaigos datą"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -433,6 +433,7 @@ OC.L10N.register(
     "New password" : "新密码",
     "Change password" : "修改密码",
     "Use a second factor besides your password to increase security for your account." : "使用除您密码之外的第二种方法来增强您账号的安全性。",
+    "Share" : "共享",
     "Afrikaans (Namibia)" : "南非语（纳米比亚）",
     "Afrikaans (South Africa)" : "南非语（南非）",
     "Afrikaans" : "南非语",
@@ -870,11 +871,7 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "官方应用由社区和内部开发。其可以提供核心功能并保证生产用途。",
     "Official" : "官方",
     "The backend does not support changing the display name" : "此后端不支持修改显示名称",
-    "Store credentials" : "存储证书",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php 注册到 webcron 服务上，通过 http 每 15 分钟执行 cron.php。",
-    "Use system cron service to call the cron.php file every 15 minutes." : "使用系统定时任务服务每 15 分钟执行一次 cron.php 文件。",
     "Set default expiration date" : "设置默认过期日期",
-    "Share" : "共享",
     "{counter} apps have an update available" : "{counter} 个应用有可用的更新"
 },
 "nplurals=1; plural=0;");

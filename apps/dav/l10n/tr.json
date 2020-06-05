@@ -73,6 +73,8 @@
     "More options …" : "Diğer seçenekler …",
     "More options at %s" : "%s üzerindeki diğer seçenekler",
     "Contacts" : "Kişiler",
+    "System in maintenance mode." : "Sistem bakım kipinde.",
+    "Upgrade needed" : "Yükseltme gerekiyor",
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "iOS/macOS üzerinde CalDAV ve CardDAV kullanabilmek için %s HTTPS kullanacak şekilde yapılandırılmalıdır.",
     "Configures a CalDAV account" : "Bir CalDAV hesabı yapılandırır",
     "Configures a CardDAV account" : "Bir CardDAV hesabı yapılandırır",

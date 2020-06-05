@@ -185,8 +185,6 @@
     "Pending shares" : "Compartilhamentos pendentes",
     "Text file" : "Arquivo texto",
     "New text file.txt" : "Novo texto file.txt",
-    "%s of %s used" : "%s de %s usado",
-    "%1$s%% of %2$s used" : "%1$s%% de %2$s usados",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Use este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">acessar seus arquivos via WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Não é possível transferir a propriedade de um arquivo ou pasta que você não é o dono"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

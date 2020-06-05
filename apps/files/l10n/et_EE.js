@@ -143,7 +143,6 @@ OC.L10N.register(
     "Shared by link" : "Jagatud lingiga",
     "Text file" : "Tekstifail",
     "New text file.txt" : "Uus tekstifail.txt",
-    "%s of %s used" : "Kasutatud %s/%s",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Kasuta seda aadressi, et <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">oma failidele WebDAV kaudu ligi pääseda</a>"
 },
 "nplurals=2; plural=(n != 1);");

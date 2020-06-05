@@ -101,6 +101,7 @@
     "%1$s changed your password on %2$s." : "%1$s-(e)k zure pasahitza aldatu du %2$s-(e)n",
     "Your password on %s was changed." : "Zure %s-(e)ko pasahitza aldatu da.",
     "Your password on %s was reset by an administrator." : "Administratzaile batek zure %s-(e)ko pasahitza berrezarri du",
+    "Your password on %s was reset." : "Zure pasahitza %s(e)n berezarri egin da. ",
     "Password for %1$s changed on %2$s" : "%1$s-(r)en %2$s-(e)ko pasahitza aldatu da",
     "Password changed for %s" : "%s-(r)en pasahitza aldatu da",
     "If you did not request this, please contact an administrator." : "Zuk ez baduzu hau eskatu, jarri kontaktuan administratzailearekin.",
@@ -259,6 +260,8 @@
     "Add" : "Gehitu",
     "Adding your device …" : "Zure gailua gehitzen ...",
     "Unnamed device" : "Izen gabeko gailua",
+    "Passwordless Authentication" : "Pasahitzik gabeko autentifikazioa",
+    "No devices configured." : "Ez da gailurik konfiguratu.",
     "Your apps" : "Zure aplikazioak",
     "Active apps" : "Aplikazio aktiboak",
     "Disabled apps" : "Gaitu gabeko aplikazioak",
@@ -418,6 +421,7 @@
     "New password" : "Pasahitz berria",
     "Change password" : "Aldatu pasahitza",
     "Use a second factor besides your password to increase security for your account." : "Zure pasahitzaz gain bigarren faktore bat erabiltzeak zure kontua seguruago egingo du.",
+    "Share" : "Partekatu",
     "Afrikaans (Namibia)" : "Afrikaans (Namibia)",
     "Afrikaans (South Africa)" : "Afrikaans (Hego Africa)",
     "Afrikaans" : "Afrikaans",
@@ -855,11 +859,7 @@
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikazio ofizialak komunitateak eta komunitatean garatzen dira. Funtzionalak dira eta produkziorako gertu daude.",
     "Official" : "Ofiziala",
     "The backend does not support changing the display name" : "Sistemak ez du uzten bistan dagoen izena aldatzen",
-    "Store credentials" : "Gorde kredentzialak",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "cron.php webcrom zerbitzu bezala erregistratua dago, cron.php 15 minuturo HTTP bidez deitu ahal izateko.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Sistemaren cron zerbitzua erabili cron.php 15 minuturo deitzeko.",
     "Set default expiration date" : "Ezarri iraungitze-data lehenetsia",
-    "Share" : "Partekatu",
     "{counter} apps have an update available" : "{counter} aplikaziok eguneraketaren bat dute prest"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

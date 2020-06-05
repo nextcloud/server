@@ -79,7 +79,7 @@ OC.L10N.register(
     "_matches '{filter}'_::_match '{filter}'_" : ["corresponde a '{filter}'","correspondem a '{filter}'"],
     "View in folder" : "Ver na pasta",
     "Copied!" : "Copiado!",
-    "Copy direct link (only works for users who have access to this file/folder)" : "Copiar hiperligação directa (apenas funciona para utilizadores que tenham acesso a este ficheiro/pasta)",
+    "Copy direct link (only works for users who have access to this file/folder)" : "Copiar hiperligação direta (apenas funciona para os utilizadores que tenham acesso a este ficheiro/pasta)",
     "Path" : "Caminho",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Nos Favoritos",
@@ -147,7 +147,6 @@ OC.L10N.register(
     "Shared by link" : "Partilhado por hiperligação",
     "Text file" : "Ficheiro de Texto",
     "New text file.txt" : "Novo texto ficheiro.txt",
-    "%s of %s used" : "%s de %s utilizado",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilize este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">aceder aos seus ficheiros por WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

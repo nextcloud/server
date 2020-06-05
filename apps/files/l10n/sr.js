@@ -187,8 +187,6 @@ OC.L10N.register(
     "Pending shares" : "Дељења на чекању",
     "Text file" : "Tекстуални фајл",
     "New text file.txt" : "Нов текстуални фајл.txt",
-    "%s of %s used" : "%s од %s искоришћено",
-    "%1$s%% of %2$s used" : "%1$s%% од %2$s искоришћено",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Користи ову адресу да <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">приступате Вашим фајловима преко ВебДАВа</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Не можете пренети власништво фајла или фасцикле које нису Ваше"
 },

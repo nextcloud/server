@@ -17,7 +17,6 @@ OC.L10N.register(
     "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Jei rasite kokių nors problemų, nesivaržykite apie jas pranešti {issuetracker}mūsų klaidų sekiklyje{linkend}. O jei norite įsitraukti, prisijunkite prie {designteam}mūsų dizaino komandos{linkend}!",
     "High contrast theme" : "Didelio kontrasto apipavidalinimas",
     "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Didelio kontrasto apipavidalinimas, skirtas palengvinti jūsų naršymą. Vaizdinė kokybė bus sumažinta, tačiau aiškumas bus padidintas.",
-    "Dark theme (beta)" : "Tamsus apipavidalinimas (beta)",
     "Web Content Accessibility Guidelines" : "Saityno turinio prieinamumo gairėms",
     "our issue tracker" : "mūsų klaidų sekiklyje",
     "our design team" : "mūsų dizaino komanda",

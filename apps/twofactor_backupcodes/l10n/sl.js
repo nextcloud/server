@@ -19,8 +19,7 @@ OC.L10N.register(
     "{name} backup codes" : "Varnostne kode {name}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Uporabite eno izmed varnostnih kod, ki ste jo shranili pri nastavljanju dvostopenjske overitve",
     "Submit" : "Pošlji",
-    "_" : "_",
-    "You have enabled two-factor authentication but have not yet generated backup codes. Be sure to do this in case you lose access to your second factor." : "Omogočena je dvostopenjska overitev, ni pa še ustvarjenih varnostnih kod. Prepričajte se, da so te ustvarjene za primer neveljavnosti kode druge stopnje.",
-    "function" : "funkcija"
+    "function" : "funkcija",
+    "_" : "_"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

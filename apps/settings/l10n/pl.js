@@ -1,7 +1,7 @@
 OC.L10N.register(
     "settings",
     {
-    "Migration in progress. Please wait until the migration is finished" : "Trwa migracja. Proszę poczekać, aż migracja dobiegnie końca.",
+    "Migration in progress. Please wait until the migration is finished" : "Migracja w toku. Poczekaj na zakończenie migracji.",
     "Migration started …" : "Migracja rozpoczęta…",
     "Saved" : "Zapisano",
     "Not saved" : "Nie zapisany",
@@ -106,7 +106,7 @@ OC.L10N.register(
     "Your password on %s was reset by an administrator." : "Twoje hasło w %s zostało zresetowane przez administratora",
     "Your password on %s was reset." : "Twoje hasło w %s zostało zresetowane.",
     "Password for %1$s changed on %2$s" : "Hasło dla %1$s zostało zmienione w %2$s",
-    "Password changed for %s" : "Hasło zmieniono dla %s",
+    "Password changed for %s" : "Hasło zostało zmienione dla %s",
     "If you did not request this, please contact an administrator." : "Jeśli nie żądałeś tego, skontaktuj się z administratorem.",
     "Your email address on %s was changed." : "Twój adres e-mail w %s został zmieniony.",
     "Your email address on %s was changed by an administrator." : "Twój adres e-mail w %s został zmieniony przez administratora.",
@@ -433,6 +433,7 @@ OC.L10N.register(
     "New password" : "Nowe hasło",
     "Change password" : "Zmień hasło",
     "Use a second factor besides your password to increase security for your account." : "Użyj drugiego zabezpieczenia oprócz hasła, aby zwiększyć bezpieczeństwo konta.",
+    "Share" : "Udostępnij",
     "Afrikaans (Namibia)" : "Afrykański (Namibia)",
     "Afrikaans (South Africa)" : "Afrykański (Południowa Afryka)",
     "Afrikaans" : "Afrykański",
@@ -870,11 +871,7 @@ OC.L10N.register(
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Oficjalne aplikacje są tworzone przez społeczność. Oferują główną funkcjonalność i są gotowe do użycia w produkcji.",
     "Official" : "Oficjalna",
     "The backend does not support changing the display name" : "System zaplecza nie obsługuje zmiany nazwy wyświetlanej",
-    "Store credentials" : "Zapisz poświadczenia",
-    "cron.php is registered at a webcron service to call cron.php every 15 minutes over HTTP." : "Użyj cron.php, który jest zarejestrowany w usłudze webcron, aby wywoływać cron.php co 15 minut przez HTTP.",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Użyj usługi systemowej cron, aby wywoływać plik cron.php co 15 minut.",
     "Set default expiration date" : "Ustaw domyślną datę wygaśnięcia",
-    "Share" : "Udostępnij",
-    "{counter} apps have an update available" : "Aplikacje {counter} mają dostępną aktualizację"
+    "{counter} apps have an update available" : "{counter} aplikacje mają dostępną aktualizację"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

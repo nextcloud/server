@@ -168,8 +168,6 @@ OC.L10N.register(
     "Pending shares" : "Afventende delinger",
     "Text file" : "Tekstfil",
     "New text file.txt" : "Ny tekst file.txt",
-    "%s of %s used" : "%s af %s brugt",
-    "%1$s%% of %2$s used" : "%1$s%% af %2$s brugt",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Brug denne adresse til at <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">få adgang til dine filer via WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

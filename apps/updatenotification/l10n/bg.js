@@ -37,8 +37,6 @@ OC.L10N.register(
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Последната стабилна версия. Подходяща е за ежедневно ползване и се актуализации до последната главна версия.",
     "Beta" : "Бета",
     "A pre-release version only for testing new features, not for production environments." : "Версия само за тестване на нови функционалности, която не е подходяща за ползване в производствена среда.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> приложение няма актуализация за тази версия","<strong>%n</strong> приложения нямат актуализация за тази версия"],
-    "Production" : "Производствена ",
-    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Осигурява последните пачове, но не се актуализиране, веднага, до следваща главна версия. Актуализирането става на втората малка версия (x0.2), само при условие, че е инсталирана последната малка версия."
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> приложение няма актуализация за тази версия","<strong>%n</strong> приложения нямат актуализация за тази версия"]
 },
 "nplurals=2; plural=(n != 1);");

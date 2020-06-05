@@ -3,7 +3,7 @@
     "Channel updated" : "Canal actualizado",
     "Update notifications" : "Actualizar notificaciones",
     "The update server could not be reached since %d days to check for new updates." : "No se ha podido contactar con el servidor de actualizaciones desde hace %d días para comprobar nuevas actualizaciones.",
-    "Please check the Nextcloud and server log files for errors." : "Por favor, revisa que no haya errores en Nextcloud y en los archivos de registro.",
+    "Please check the Nextcloud and server log files for errors." : "Por favor, revisa los archivos de registro de Nextcloud y del servidor en busca de errores.",
     "Update to %1$s is available." : "La actualización a %1$s está disponible.",
     "Update for %1$s to version %2$s is available." : "La actualización de %1$s a la versión %2$s está disponible.",
     "Update for {app} to version %s is available." : "Actualización de {app} a la versión %s está disponible.",
@@ -39,8 +39,6 @@
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Es la versión estable más reciente. Es adecuada para uso en producción y siempre se actualizará a la última versión principal.",
     "Beta" : "Beta",
     "A pre-release version only for testing new features, not for production environments." : "Es la versión preliminar para poder probar nuevas características, no para entornos de producción.",
-    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> app no dispone de actualización para esta versión.","<strong>%n</strong> apps no disponen de actualización para esta versión."],
-    "Production" : "Producción",
-    "Will always provide the latest patch level, but not update to the next major release immediately. That update usually happens with the second minor release (x.0.2) and only if the instance is already on the latest minor version." : "Proporcionará el último nivel de parches, pero no se actualizará automáticamente a la próxima versión mayor. La actualización sucederá con la segunda versión menor (x.0.2) y solo si la instancia ya está en la última versión menor."
+    "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["<strong>%n</strong> app no dispone de actualización para esta versión.","<strong>%n</strong> apps no disponen de actualización para esta versión."]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

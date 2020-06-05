@@ -169,6 +169,7 @@ OC.L10N.register(
     "Expires {relativetime}" : "Galioja iki {relativetime}",
     "this share just expired." : "šis viešinys ką tik nustojo galioti.",
     "Error creating the share" : "Klaida kuriant viešinį",
+    "Error updating the share" : "Klaida atnaujinant viešinį",
     "Shared" : "Pasidalinta",
     "Share" : "Dalintis",
     "Shared with" : "Bendrinama su",

@@ -50,6 +50,6 @@ OC.L10N.register(
     "Upload new header logo" : "Nahrát nové logo do záhlaví",
     "Favicon" : "ikona webu",
     "Upload new favicon" : "Nahrát novou ikonu webu",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky generuje favicony na základě nahraného loga a barvy."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Nainstalujte rozšíření Imagemagick PHP s podporou obrázků SVG, které automaticky vytváří favicon na základě nahraného loga a barvy."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

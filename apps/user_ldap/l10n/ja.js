@@ -176,6 +176,7 @@ OC.L10N.register(
     "Email Field" : "メール属性",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "LDAP属性からユーザーのメールを設定します。 デフォルト動作では空のままにします。",
     "User Home Folder Naming Rule" : "ユーザーのホームフォルダー命名規則",
+    "Leave empty for username (default). Otherwise, specify an LDAP/AD attribute." : "ユーザー名は空のままにしてください（デフォルト）。それ以外の場合は、LDAP/AD属性を指定します。",
     "\"$home\" Placeholder Field" : "\"$home\" 属性設定",
     "$home in an external storage configuration will be replaced with the value of the specified attribute" : "外部ストレージ設定の $home 変数には、指定した属性の値が入ります",
     "Internal Username" : "内部ユーザー名",

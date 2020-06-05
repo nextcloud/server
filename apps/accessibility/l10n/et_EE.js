@@ -9,7 +9,6 @@ OC.L10N.register(
     "Enable dyslexia font" : "Luba düsleksia font",
     "Accessibility" : "Ligipääsetavus",
     "High contrast theme" : "Kõrge kontrastsusega teema",
-    "Dark theme (beta)" : "Tume teema (beeta)",
     "our issue tracker" : "meie vigade jälitaja",
     "our design team" : "meie disaini meeskond",
     "Enable" : "Lülita sisse"

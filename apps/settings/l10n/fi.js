@@ -247,6 +247,7 @@ OC.L10N.register(
     "Disabled apps" : "Käytöstä poistetut sovellukset",
     "Updates" : "Päivitykset",
     "App bundles" : "Sovelluskokoelmat",
+    "Featured apps" : "Esitellyt sovellukset",
     "{license}-licensed" : "{license}-lisensoitu",
     "New user" : "Uusi käyttäjä",
     "Enter group name" : "Kirjoita ryhmän nimi",
@@ -388,13 +389,11 @@ OC.L10N.register(
     "New password" : "Uusi salasana",
     "Change password" : "Vaihda salasana",
     "Use a second factor besides your password to increase security for your account." : "Käytä toista vaihetta salasanasi lisäksi parantaaksesi tilisi tietoturvaa.",
+    "Share" : "Jaa",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Viralliset sovellukset ovat yhteisössä kehitettyjä. Ne tarjoavat keskeistä toiminnallisuutta ja ovat valmiita tuotantokäyttöön.",
     "Official" : "Virallinen",
     "The backend does not support changing the display name" : "Taustaosa ei tue näyttönimen vaihtamista",
-    "Store credentials" : "Säilytä tilitiedot",
-    "Use system cron service to call the cron.php file every 15 minutes." : "Käytä järjestelmän cron-palvelua kutsuaksesi cron.php-tiedostoa 15 minuutin välein.",
     "Set default expiration date" : "Aseta oletusvanhenemispäivä",
-    "Share" : "Jaa",
     "{counter} apps have an update available" : "{counter} sovellukselle on päivitys saatavilla"
 },
 "nplurals=2; plural=(n != 1);");
