@@ -198,9 +198,9 @@
 					<!-- password protected by Talk -->
 					<ActionCheckbox v-if="isPasswordProtectedByTalkAvailable"
 						:checked.sync="isPasswordProtectedByTalk"
-						:disabled="saving"
+						:disabled="!canTogglePasswordProtectedByTalkAvailable || saving"
 						class="share-link-password-talk-checkbox"
-						@change="queueUpdate('sendPasswordByTalk')">
+						@change="onPasswordProtectedByTalkChange">
 						{{ t('files_sharing', 'Video verification') }}
 					</ActionCheckbox>
 
@@ -479,6 +479,20 @@ export default {
 			return this.share
 				? this.share.type === this.SHARE_TYPES.SHARE_TYPE_EMAIL
 				: false
+		},
+
+		canTogglePasswordProtectedByTalkAvailable() {
+			if (!this.isPasswordProtected) {
+				// Makes no sense
+				return false
+			} else if (this.isEmailShareType && !this.hasUnsavedPassword) {
+				// For email shares we need a new password in order to enable or
+				// disable
+				return false
+			}
+
+			// Anything else should be fine
+			return true
 		},
 
 		/**
@@ -790,6 +804,22 @@ export default {
 				this.share.password = this.share.newPassword.trim()
 				this.queueUpdate('password')
 			}
+		},
+
+		/**
+		 * Update the password along with "sendPasswordByTalk".
+		 *
+		 * If the password was modified the new password is sent; otherwise
+		 * updating a mail share would fail, as in that case it is required that
+		 * a new password is set when enabling or disabling
+		 * "sendPasswordByTalk".
+		 */
+		onPasswordProtectedByTalkChange() {
+			if (this.hasUnsavedPassword) {
+				this.share.password = this.share.newPassword.trim()
+			}
+
+			this.queueUpdate('sendPasswordByTalk', 'password')
 		},
 
 		/**
