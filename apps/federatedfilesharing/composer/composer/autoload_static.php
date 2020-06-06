@@ -29,7 +29,7 @@ class ComposerStaticInitFederatedFileSharing
         'OCA\\FederatedFileSharing\\FederatedShareProvider' => __DIR__ . '/..' . '/../lib/FederatedShareProvider.php',
         'OCA\\FederatedFileSharing\\Notifications' => __DIR__ . '/..' . '/../lib/Notifications.php',
         'OCA\\FederatedFileSharing\\Notifier' => __DIR__ . '/..' . '/../lib/Notifier.php',
-        'OCA\\FederatedFileSharing\\OCM\\CloudFederationProviderFiles' => __DIR__ . '/..' . '/../lib/ocm/CloudFederationProviderFiles.php',
+        'OCA\\FederatedFileSharing\\OCM\\CloudFederationProviderFiles' => __DIR__ . '/..' . '/../lib/OCM/CloudFederationProviderFiles.php',
         'OCA\\FederatedFileSharing\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
         'OCA\\FederatedFileSharing\\Settings\\Personal' => __DIR__ . '/..' . '/../lib/Settings/Personal.php',
         'OCA\\FederatedFileSharing\\Settings\\PersonalSection' => __DIR__ . '/..' . '/../lib/Settings/PersonalSection.php',
