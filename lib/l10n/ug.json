@@ -49,5 +49,5 @@
     "A valid password must be provided" : "چوقۇم ئىناۋەتلىك ئىم تەمىنلەش كېرەك",
     "Authentication error" : "سالاھىيەت دەلىللەش خاتالىقى",
     "Sharing" : "ھەمبەھىر"
-},"pluralForm" :"nplurals=1; plural=0;"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

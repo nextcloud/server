@@ -20,6 +20,7 @@ OC.L10N.register(
     "File accessed" : "Tiedostoa käytetty",
     "File copied" : "Tiedosto kopioitu",
     "Tag assigned" : "Tunniste asetettu",
+    "Someone" : "Joku",
     "Operation #%s does not exist" : "Toimenpidettä #%s ei ole olemassa",
     "Operation %s does not exist" : "Toimenpidettä %s ei ole olemassa",
     "Operation %s is invalid" : "Toimenpide %s on virheellinen",
