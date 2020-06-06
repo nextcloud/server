@@ -179,9 +179,8 @@ export default {
 	 * Capabilities
 	 *
 	 * @type {Array}
-	 * @deprecated 17.0.0 use OC.getCapabilities() instead
+	 * @deprecated 20.0.0 use @nextcloud/capabilities instead
 	 */
-	_capabilities: getCapabilities(),
 	getCapabilities,
 
 	/*
