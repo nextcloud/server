@@ -154,6 +154,7 @@ OC.L10N.register(
     "Name or email address …" : "Nimi tai sähköpostiosoite…",
     "Name …" : "Nimi…",
     "Searching …" : "Haetaan…",
+    "Search globally" : "Hae globaalisti",
     "Expires {relativetime}" : "Vanhenee {relativetime}",
     "Link to a file" : "Linkki tiedostoon",
     "Shared" : "Jaettu",
