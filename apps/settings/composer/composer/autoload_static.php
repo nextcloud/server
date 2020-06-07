@@ -33,7 +33,6 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Controller\\AdminSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AdminSettingsController.php',
         'OCA\\Settings\\Controller\\AppSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AppSettingsController.php',
         'OCA\\Settings\\Controller\\AuthSettingsController' => __DIR__ . '/..' . '/../lib/Controller/AuthSettingsController.php',
-        'OCA\\Settings\\Controller\\CertificateController' => __DIR__ . '/..' . '/../lib/Controller/CertificateController.php',
         'OCA\\Settings\\Controller\\ChangePasswordController' => __DIR__ . '/..' . '/../lib/Controller/ChangePasswordController.php',
         'OCA\\Settings\\Controller\\CheckSetupController' => __DIR__ . '/..' . '/../lib/Controller/CheckSetupController.php',
         'OCA\\Settings\\Controller\\CommonSettingsTrait' => __DIR__ . '/..' . '/../lib/Controller/CommonSettingsTrait.php',
