@@ -202,7 +202,7 @@ OC.L10N.register(
     "Link to a file" : "Collega a un file",
     "Error creating the share" : "Errore durante la creazione della condivisione",
     "Error deleting the share" : "Errore durante l'eliminazione della condivisione",
-    "Error updating the share" : "Errore durante il caricamento della condivisione",
+    "Error updating the share" : "Errore durante l'aggiornamento della condivisione",
     "Shared" : "Condiviso",
     "Share" : "Condividi",
     "Shared with" : "Condiviso con",

@@ -55,7 +55,7 @@
     "You removed {user} from group {group}" : "U hebt gebruiker {user} uit de groep {group} verwijderd.",
     "{actor} removed {user} from group {group}" : "{actor} verwijderde {user} uit groep {group}",
     "An administrator removed you from group {group}" : "Een beheerder heeft u uit groep {group} verwijderd.",
-    "An administrator removed {user} from group {group}" : "Een beheerder verwijderde  {user} uit groep {group}",
+    "An administrator removed {user} from group {group}" : "Een beheerder verwijderde {user} uit groep {group}",
     "Your <strong>group memberships</strong> were modified" : "Je<strong>groepslidmaatschap</strong> werd gewijzigd",
     "{actor} changed your password" : "{actor} heeft je wachtwoord aangepast",
     "You changed your password" : "Je hebt je wachtwoord aangepast",
