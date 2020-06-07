@@ -112,7 +112,7 @@ class Store implements IStore {
 
 		if ($trySession && $this->session->exists('login_credentials')) {
 			$creds = json_decode($this->session->get('login_credentials'));
-			return new Credentials($creds->uid, $creds->uid, $creds->password);
+			return new Credentials($creds->uid, $this->session->get('loginname'), $creds->password);
 		}
 
 		// If we reach this line, an exception was thrown.
