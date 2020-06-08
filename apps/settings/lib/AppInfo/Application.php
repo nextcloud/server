@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -44,6 +47,9 @@ use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Defaults;
 use OCP\IContainer;
 use OCP\IGroup;
@@ -54,7 +60,7 @@ use OCP\Util;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 	public const APP_ID = 'settings';
 
 	/**
@@ -62,22 +68,22 @@ class Application extends App {
 	 */
 	public function __construct(array $urlParams=[]) {
 		parent::__construct(self::APP_ID, $urlParams);
+	}
 
-		$container = $this->getContainer();
-
+	public function register(IRegistrationContext $context): void {
 		// Register Middleware
-		$container->registerAlias('SubadminMiddleware', SubadminMiddleware::class);
-		$container->registerMiddleWare('SubadminMiddleware');
+		$context->registerServiceAlias('SubadminMiddleware', SubadminMiddleware::class);
+		$context->registerMiddleware(SubadminMiddleware::class);
 
 		/**
 		 * Core class wrappers
 		 */
 		/** FIXME: Remove once OC_User is non-static and mockable */
-		$container->registerService('isAdmin', function () {
+		$context->registerService('isAdmin', function () {
 			return \OC_User::isAdminUser(\OC_User::getUser());
 		});
 		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
-		$container->registerService('isSubAdmin', function (IContainer $c) {
+		$context->registerService('isSubAdmin', function (IContainer $c) {
 			$userObject = \OC::$server->getUserSession()->getUser();
 			$isSubAdmin = false;
 			if ($userObject !== null) {
@@ -85,20 +91,20 @@ class Application extends App {
 			}
 			return $isSubAdmin;
 		});
-		$container->registerService('userCertificateManager', function (IContainer $c) {
+		$context->registerService('userCertificateManager', function (IContainer $c) {
 			return $c->query('ServerContainer')->getCertificateManager();
 		}, false);
-		$container->registerService('systemCertificateManager', function (IContainer $c) {
+		$context->registerService('systemCertificateManager', function (IContainer $c) {
 			return $c->query('ServerContainer')->getCertificateManager(null);
 		}, false);
-		$container->registerService(IProvider::class, function (IContainer $c) {
+		$context->registerService(IProvider::class, function (IContainer $c) {
 			return $c->query('ServerContainer')->query(IProvider::class);
 		});
-		$container->registerService(IManager::class, function (IContainer $c) {
+		$context->registerService(IManager::class, function (IContainer $c) {
 			return $c->query('ServerContainer')->getSettingsManager();
 		});
 
-		$container->registerService(NewUserMailHelper::class, function (IContainer $c) {
+		$context->registerService(NewUserMailHelper::class, function (IContainer $c) {
 			/** @var Server $server */
 			$server = $c->query('ServerContainer');
 			/** @var Defaults $defaults */
@@ -116,9 +122,12 @@ class Application extends App {
 				Util::getDefaultEmailAddress('no-reply')
 			);
 		});
+	}
 
+	public function boot(IBootContext $context): void {
 		/** @var EventDispatcherInterface $eventDispatcher */
-		$eventDispatcher = $container->getServer()->getEventDispatcher();
+		$eventDispatcher = $context->getServerContainer()->getEventDispatcher();
+		$container = $context->getAppContainer();
 		$eventDispatcher->addListener('app_password_created', function (GenericEvent $event) use ($container) {
 			if (($token = $event->getSubject()) instanceof IToken) {
 				/** @var IActivityManager $activityManager */
@@ -141,13 +150,11 @@ class Application extends App {
 				}
 			}
 		});
-	}
 
-	public function register() {
 		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
 		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
 
-		$groupManager = $this->getContainer()->getServer()->getGroupManager();
+		$groupManager = $context->getServerContainer()->getGroupManager();
 		$groupManager->listen('\OC\Group', 'postRemoveUser',  [$this, 'removeUserFromGroup']);
 		$groupManager->listen('\OC\Group', 'postAddUser',  [$this, 'addUserToGroup']);
 
