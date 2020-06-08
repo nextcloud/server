@@ -517,13 +517,13 @@ class IMipPlugin extends SabreIMipPlugin {
 	private function addSubjectAndHeading(IEMailTemplate $template, IL10N $l10n,
 										  $method, $summary) {
 		if ($method === self::METHOD_CANCEL) {
-			$template->setSubject('Canceled: ' . $summary);
+			$template->setSubject($l10n->t('Cancelled: %1$s', [$summary]));
 			$template->addHeading($l10n->t('Invitation canceled'));
 		} elseif ($method === self::METHOD_REPLY) {
-			$template->setSubject('Re: ' . $summary);
+			$template->setSubject($l10n->t('Re: %1$s', [$summary]));
 			$template->addHeading($l10n->t('Invitation updated'));
 		} else {
-			$template->setSubject('Invitation: ' . $summary);
+			$template->setSubject($l10n->t('Invitation: %1$s', [$summary]));
 			$template->addHeading($l10n->t('Invitation'));
 		}
 	}
