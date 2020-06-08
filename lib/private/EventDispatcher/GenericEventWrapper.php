@@ -40,24 +40,26 @@ class GenericEventWrapper extends GenericEvent {
 	private $eventName;
 
 	public function __construct(ILogger $logger, string $eventName, ?GenericEvent $event) {
+		parent::__construct($eventName);
 		$this->logger = $logger;
 		$this->event = $event;
 		$this->eventName = $eventName;
 	}
 
 	private function log() {
+		$class = ($this->event !== null && is_object($this->event)) ? get_class($this->event) : 'null';
 		$this->logger->info(
 			'Deprecated event type for {name}: {class} is used',
-			[ 'name' => $this->eventName, 'class' => is_object($this->event) ? get_class($this->event) : 'null' ]
+			[ 'name' => $this->eventName, 'class' => $class]
 		);
 	}
 
-	public function isPropagationStopped() {
+	public function isPropagationStopped(): bool {
 		$this->log();
 		return $this->event->isPropagationStopped();
 	}
 
-	public function stopPropagation() {
+	public function stopPropagation(): void {
 		$this->log();
 		$this->event->stopPropagation();
 	}
