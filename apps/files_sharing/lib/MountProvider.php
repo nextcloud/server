@@ -156,10 +156,12 @@ class MountProvider implements IMountProvider {
 		// sort by stime, the super share will be based on the least recent share
 		foreach ($tmp as &$tmp2) {
 			@usort($tmp2, function ($a, $b) {
-				if ($a->getShareTime() <= $b->getShareTime()) {
-					return -1;
+				$aTime = $a->getShareTime()->getTimestamp();
+				$bTime = $b->getShareTime()->getTimestamp();
+				if ($aTime === $bTime) {
+					return $a->getId() < $b->getId() ? -1 : 1;
 				}
-				return 1;
+				return $aTime < $bTime ? -1 : 1;
 			});
 			$result[] = $tmp2;
 		}
