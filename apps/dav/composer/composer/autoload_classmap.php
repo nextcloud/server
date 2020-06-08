@@ -143,6 +143,7 @@ return array(
     'OCA\\DAV\\Connector\\Sabre\\Node' => $baseDir . '/../lib/Connector/Sabre/Node.php',
     'OCA\\DAV\\Connector\\Sabre\\ObjectTree' => $baseDir . '/../lib/Connector/Sabre/ObjectTree.php',
     'OCA\\DAV\\Connector\\Sabre\\Principal' => $baseDir . '/../lib/Connector/Sabre/Principal.php',
+    'OCA\\DAV\\Connector\\Sabre\\PropfindCompressionPlugin' => $baseDir . '/../lib/Connector/Sabre/PropfindCompressionPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\QuotaPlugin' => $baseDir . '/../lib/Connector/Sabre/QuotaPlugin.php',
     'OCA\\DAV\\Connector\\Sabre\\Server' => $baseDir . '/../lib/Connector/Sabre/Server.php',
     'OCA\\DAV\\Connector\\Sabre\\ServerFactory' => $baseDir . '/../lib/Connector/Sabre/ServerFactory.php',
