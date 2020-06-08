@@ -389,6 +389,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 		$this->access->getUserMapper()->unmap($uid); // we don't emit unassign signals here, since it is implicit to delete signals fired from core
 		$this->access->userManager->invalidate($uid);
+		$this->access->connection->clearCache();
 		return true;
 	}
 
