@@ -243,12 +243,6 @@
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Appen er aktivert men må oppdateres. Du vil bli videresendt til oppdateringssiden om 5 sekunder.",
     "App update" : "App-oppdatering",
     "Error: This app can not be enabled because it makes the server unstable" : "Feil: Denne appen kan ikke aktiveres fordi det gjør serveren ustabil",
-    "SSL Root Certificates" : "SSL-rotsertifikater",
-    "Common Name" : "Vanlig navn",
-    "Valid until" : "Gyldig til",
-    "Issued By" : "Utstedt av",
-    "Valid until %s" : "Gyldig til %s",
-    "Import root certificate" : "Importer rotsertifikat",
     "Administrator documentation" : "Administratordokumentasjon",
     "Documentation" : "Dokumentasjon",
     "Forum" : "Forum",
@@ -374,6 +368,12 @@
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Offisielle apper utvikles av og innenfor miljøet, de byr på sentral funksjonalitet og er klare for bruk i produksjon.",
     "Official" : "Offisiell",
     "The backend does not support changing the display name" : "Serveren støtter ikke endring av visningsnavn",
+    "SSL Root Certificates" : "SSL-rotsertifikater",
+    "Common Name" : "Vanlig navn",
+    "Valid until" : "Gyldig til",
+    "Issued By" : "Utstedt av",
+    "Valid until %s" : "Gyldig til %s",
+    "Import root certificate" : "Importer rotsertifikat",
     "Set default expiration date" : "Sett forvalgt utløpsdato"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -150,11 +150,6 @@ OC.L10N.register(
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Habilitóse l'aplicación pero precisa anovase. Redirixirásete a la páxina d'anovamientu en 5 segundos.",
     "App update" : "Paquetes d'aplicaciones",
     "Error: This app can not be enabled because it makes the server unstable" : "Fallu: Esta aplicación nun pue activase porque fai inestable'l sirvidor",
-    "Common Name" : "Nome común",
-    "Valid until" : "Válidu hasta",
-    "Issued By" : "Emitíu por",
-    "Valid until %s" : "Válidu hasta'l %s",
-    "Import root certificate" : "Importar certificáu raigañu",
     "Administrator documentation" : "Documentación d'alministrador",
     "Documentation" : "Documentación",
     "Forum" : "Foru",
@@ -241,6 +236,11 @@ OC.L10N.register(
     "Share" : "Share",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Les aplicaciones oficiales desendólquense dientro la comunidá. Ufren funcionalidá central y tán preparaes pal usu en producción.",
     "Official" : "Oficial",
+    "Common Name" : "Nome común",
+    "Valid until" : "Válidu hasta",
+    "Issued By" : "Emitíu por",
+    "Valid until %s" : "Válidu hasta'l %s",
+    "Import root certificate" : "Importar certificáu raigañu",
     "Set default expiration date" : "Afitar la data d'espiración predeterminada"
 },
 "nplurals=2; plural=(n != 1);");

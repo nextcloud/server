@@ -166,12 +166,6 @@
     "Never" : "Mitte kunagi",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Rakendus on lubatud, aga see vajab uuendamist. Sind suunatakse 5 sekundi pärast uuendamise lehele.",
     "App update" : "Rakenduse uuendus",
-    "SSL Root Certificates" : "SSL juursertifikaadid",
-    "Common Name" : "Üldnimetus",
-    "Valid until" : "Kehtib kuni",
-    "Issued By" : "Välja antud",
-    "Valid until %s" : "Kehtib kuni %s",
-    "Import root certificate" : "Impordi root sertifikaat",
     "Administrator documentation" : "Administraatori dokumentatsioon",
     "Documentation" : "Dokumentatsioon",
     "Forum" : "Foorum",
@@ -257,6 +251,12 @@
     "Change password" : "Muuda parooli",
     "Share" : "Jaga",
     "Official" : "Ametlik",
+    "SSL Root Certificates" : "SSL juursertifikaadid",
+    "Common Name" : "Üldnimetus",
+    "Valid until" : "Kehtib kuni",
+    "Issued By" : "Välja antud",
+    "Valid until %s" : "Kehtib kuni %s",
+    "Import root certificate" : "Impordi root sertifikaat",
     "Set default expiration date" : "Määra vaikimisi aegumise kuupäev"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

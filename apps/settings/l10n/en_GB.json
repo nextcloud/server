@@ -188,12 +188,6 @@
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds.",
     "App update" : "App update",
     "Error: This app can not be enabled because it makes the server unstable" : "Error: This app can not be enabled because it makes the server unstable",
-    "SSL Root Certificates" : "SSL Root Certificates",
-    "Common Name" : "Common Name",
-    "Valid until" : "Valid until",
-    "Issued By" : "Issued By",
-    "Valid until %s" : "Valid until %s",
-    "Import root certificate" : "Import root certificate",
     "Administrator documentation" : "Administrator documentation",
     "Documentation" : "Documentation",
     "Forum" : "Forum",
@@ -304,6 +298,12 @@
     "Share" : "Share",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Official apps are developed by the community. They offer additional functionality and are ready for production use.",
     "Official" : "Official",
+    "SSL Root Certificates" : "SSL Root Certificates",
+    "Common Name" : "Common Name",
+    "Valid until" : "Valid until",
+    "Issued By" : "Issued By",
+    "Valid until %s" : "Valid until %s",
+    "Import root certificate" : "Import root certificate",
     "Set default expiration date" : "Set default expiry date"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

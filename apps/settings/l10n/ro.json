@@ -173,12 +173,6 @@
     "Send email to new user" : "Trimite email către noul utilizator",
     "Never" : "Niciodată",
     "App update" : "Actualizare aplicație",
-    "SSL Root Certificates" : "Certificate SSL rădăcină",
-    "Common Name" : "Nume comun",
-    "Valid until" : "Valabil până la",
-    "Issued By" : "Emis de",
-    "Valid until %s" : "Valabil până la %s",
-    "Import root certificate" : "Importă certificat rădăcină",
     "Administrator documentation" : "Documentație pentru administrare",
     "Documentation" : "Documentație",
     "Forum" : "Forum",
@@ -400,6 +394,12 @@
     "Yoruba" : "Yoruba",
     "Zulu" : "Zulu",
     "Official" : "Oficial",
+    "SSL Root Certificates" : "Certificate SSL rădăcină",
+    "Common Name" : "Nume comun",
+    "Valid until" : "Valabil până la",
+    "Issued By" : "Emis de",
+    "Valid until %s" : "Valabil până la %s",
+    "Import root certificate" : "Importă certificat rădăcină",
     "Set default expiration date" : "Setează data implicită de expirare"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

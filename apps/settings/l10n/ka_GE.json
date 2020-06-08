@@ -165,12 +165,6 @@
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "აპლიკაცია ამოქმედდა, თუმცა საჭიროებს განახლებას. 5 წამში გადამისამართდებით განახლების გვერდზე.",
     "App update" : "აპლიკაციის განახლება",
     "Error: This app can not be enabled because it makes the server unstable" : "შეცდომა: ეს აპლიკაცია ვერ მოქმედდება რადგანაც სერვერს ხდის არასტაბილურს",
-    "SSL Root Certificates" : "SSL Root სერტიფიკატები",
-    "Common Name" : "საზოგადო სახელი",
-    "Valid until" : "ვარგისია",
-    "Issued By" : "განაცხადა",
-    "Valid until %s" : "ვარგისია %s-მდე",
-    "Import root certificate" : "Root სერტიფიკატის იმპორტი",
     "Administrator documentation" : "ადმინისტრატორის დოკუმენტაცია",
     "Documentation" : "დოკუმენტაცია",
     "Forum" : "ფორუმი",
@@ -277,6 +271,12 @@
     "Share" : "გაზიარება",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "ოფიციალური აპლიკაციები განვითარებულია და მოქცეულია ჩვენს საზოგადოებაში. ისინი გთავაზობენ ცენტრალურ ფუნქციონირებას და საწარმოო გამოყენებისათვის მზადყოფნაში არიან.",
     "Official" : "ოფიციალური",
+    "SSL Root Certificates" : "SSL Root სერტიფიკატები",
+    "Common Name" : "საზოგადო სახელი",
+    "Valid until" : "ვარგისია",
+    "Issued By" : "განაცხადა",
+    "Valid until %s" : "ვარგისია %s-მდე",
+    "Import root certificate" : "Root სერტიფიკატის იმპორტი",
     "Set default expiration date" : "დააყენეთ საწყისი ვადის ამოწურვის თარიღი"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

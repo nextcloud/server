@@ -180,12 +180,6 @@
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "A app foi activada mas necessita ser actualizada. Irá ser redireccionado para a página de actualização em 5 segundos.",
     "App update" : "Actualização de app",
     "Error: This app can not be enabled because it makes the server unstable" : "Erro: Esta app não pode ser activada porque torna o servidor instável.",
-    "SSL Root Certificates" : "Certificados SSL Root",
-    "Common Name" : "Nome Comum",
-    "Valid until" : "Válido até",
-    "Issued By" : "Emitido Por",
-    "Valid until %s" : "Válido até %s",
-    "Import root certificate" : "Importar certificado root",
     "Administrator documentation" : "Documentação de Administrador.",
     "Documentation" : "Documentação",
     "Forum" : "Fórum",
@@ -290,6 +284,12 @@
     "Share" : "Partilhar",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "As apps oficiais são desenvolvidas de e para a comunidade. Oferecem um repositório central de funcionalidades e estão preparadas para uso em produção.",
     "Official" : "Oficial",
+    "SSL Root Certificates" : "Certificados SSL Root",
+    "Common Name" : "Nome Comum",
+    "Valid until" : "Válido até",
+    "Issued By" : "Emitido Por",
+    "Valid until %s" : "Válido até %s",
+    "Import root certificate" : "Importar certificado root",
     "Set default expiration date" : "Especificar a data padrão de expiração"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -231,11 +231,6 @@ OC.L10N.register(
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Ứng dụng đã được kích hoạt nhưng cần được cập nhật. Bạn sẽ được chuyển hướng đến trang cập nhật sau 5 giây.",
     "App update" : "Cập nhật ứng dụng",
     "Error: This app can not be enabled because it makes the server unstable" : "Lỗi: Không thể bật ứng dụng này vì nó làm cho máy chủ không ổn định",
-    "Common Name" : "Tên thông dụng",
-    "Valid until" : "Có hiệu lực đến",
-    "Issued By" : "Phát hành bởi",
-    "Valid until %s" : "Có hiệu lực đến %s",
-    "Import root certificate" : "Nhập root certificate",
     "Administrator documentation" : "Tài liệu quản trị viên",
     "Documentation" : "Tài liệu",
     "Forum" : "Diễn đàn",
@@ -270,6 +265,11 @@ OC.L10N.register(
     "Share" : "Chia sẻ",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Các ứng dụng chính thức được phát triển bởi và trong cộng đồng. Họ cung cấp chức năng trung tâm và sẵn sàng để sử dụng sản xuất.",
     "Official" : "Chính thức",
-    "The backend does not support changing the display name" : "Trang cài đặt không hỗ trợ thay đổi tên hiển thị"
+    "The backend does not support changing the display name" : "Trang cài đặt không hỗ trợ thay đổi tên hiển thị",
+    "Common Name" : "Tên thông dụng",
+    "Valid until" : "Có hiệu lực đến",
+    "Issued By" : "Phát hành bởi",
+    "Valid until %s" : "Có hiệu lực đến %s",
+    "Import root certificate" : "Nhập root certificate"
 },
 "nplurals=1; plural=0;");

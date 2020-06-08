@@ -188,12 +188,6 @@
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "這個應用程式已啟用但是需要更新，您將會在 5 秒後被引導至更新頁面",
     "App update" : "應用程式更新",
     "Error: This app can not be enabled because it makes the server unstable" : "錯誤：此應用程序無法啟用，因為它造成伺服器不穩定",
-    "SSL Root Certificates" : "SSL 根憑證",
-    "Common Name" : "Common Name",
-    "Valid until" : "到期日",
-    "Issued By" : "發行者：",
-    "Valid until %s" : "有效至 %s",
-    "Import root certificate" : "匯入根憑證",
     "Administrator documentation" : "管理者說明文件",
     "Documentation" : "說明文件",
     "Forum" : "論壇",
@@ -300,6 +294,12 @@
     "Chinese" : "中文",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "官方應用程序是由社區內部和內部開發的。 它們提供核心功能，並可在正式成品使用。",
     "Official" : "官方",
+    "SSL Root Certificates" : "SSL 根憑證",
+    "Common Name" : "Common Name",
+    "Valid until" : "到期日",
+    "Issued By" : "發行者：",
+    "Valid until %s" : "有效至 %s",
+    "Import root certificate" : "匯入根憑證",
     "Set default expiration date" : "設定預設到期日"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

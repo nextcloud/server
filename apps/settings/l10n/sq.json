@@ -180,12 +180,6 @@
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikacioni është aktivizuar, por lyp të përditësohet. Do të ridrejtoheni te faqja e përditësimeve brenda 5 sekondash.",
     "App update" : "Përditësim aplikacioni",
     "Error: This app can not be enabled because it makes the server unstable" : "Gabim: Ky aplikacion s’u aktivizua dot, ngaqë e bën shërbyesin të paqëndrueshëm.",
-    "SSL Root Certificates" : "Dëshmi SSL Rrënjë",
-    "Common Name" : "Emër i Rëndomtë",
-    "Valid until" : "E vlefshme deri më",
-    "Issued By" : "Lëshuar Nga",
-    "Valid until %s" : "E vlefshme deri më %s",
-    "Import root certificate" : "Importoni dëshmi rrënjë",
     "Administrator documentation" : "Dokumentim për përgjegjës",
     "Documentation" : "Dokumentacioni",
     "Forum" : "Forum",
@@ -295,6 +289,12 @@
     "Tonga" : "Tonga",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Aplikacionet zyrtare zhvillohen nga komuniteti dhe brenta tij. Ato ofrojnë funksionalitet qëndror dhe janë gati për përdorim.",
     "Official" : "Zyrtare",
+    "SSL Root Certificates" : "Dëshmi SSL Rrënjë",
+    "Common Name" : "Emër i Rëndomtë",
+    "Valid until" : "E vlefshme deri më",
+    "Issued By" : "Lëshuar Nga",
+    "Valid until %s" : "E vlefshme deri më %s",
+    "Import root certificate" : "Importoni dëshmi rrënjë",
     "Set default expiration date" : "Caktoni datë parazgjedhje skadimi"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -160,12 +160,6 @@
     "Never" : "Nunca",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "La aplicación está habilitada pero necesita ser actualizada. Usted será redireccionado a la página de actualización en 5 segundos. ",
     "App update" : "Actualización de la aplicación",
-    "SSL Root Certificates" : "Certificado SSL Raíz",
-    "Common Name" : "Nombre común",
-    "Valid until" : "Válido hasta",
-    "Issued By" : "Levantado Por",
-    "Valid until %s" : "Válido hasta %s",
-    "Import root certificate" : "Importar certificado raíz",
     "Administrator documentation" : "Documentación de adminsitrador",
     "Documentation" : "Documentación",
     "Forum" : "Foro",
@@ -268,6 +262,12 @@
     "Share" : "Compartir",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Las aplicaciones oficiales son desarrolladas por y dentro de la comunidad. Ofrecen una funcionalidad centralizada y se encuentran listas para ser usadas en producción. ",
     "Official" : "Oficial",
+    "SSL Root Certificates" : "Certificado SSL Raíz",
+    "Common Name" : "Nombre común",
+    "Valid until" : "Válido hasta",
+    "Issued By" : "Levantado Por",
+    "Valid until %s" : "Válido hasta %s",
+    "Import root certificate" : "Importar certificado raíz",
     "Set default expiration date" : "Establecer la fecha de expiración predeterminada"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
