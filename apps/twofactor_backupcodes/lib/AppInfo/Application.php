@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -34,44 +37,44 @@ use OCA\TwoFactorBackupCodes\Listener\ProviderEnabled;
 use OCA\TwoFactorBackupCodes\Listener\RegistryUpdater;
 use OCA\TwoFactorBackupCodes\Notifications\Notifier;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\Notification\IManager;
 use OCP\Util;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
+	public const APP_ID = 'twofactor_backupcodes';
+
 	public function __construct() {
-		parent::__construct('twofactor_backupcodes');
+		parent::__construct(self::APP_ID);
 	}
 
-	/**
-	 * Register the different app parts
-	 */
-	public function register() {
-		$this->registerHooksAndEvents();
-		$this->registerNotification();
+	public function register(IRegistrationContext $context): void {
+		$this->registerHooksAndEvents($context);
+	}
+
+	public function boot(IBootContext $context): void {
+		Util::connectHook('OC_User', 'post_deleteUser', $this, 'deleteUser');
+
+		$this->registerNotification(
+			$context->getAppContainer()->query(IManager::class)
+		);
 	}
 
 	/**
 	 * Register the hooks and events
 	 */
-	public function registerHooksAndEvents() {
-		Util::connectHook('OC_User', 'post_deleteUser', $this, 'deleteUser');
-
-		$container = $this->getContainer();
-
-		/** @var IEventDispatcher $eventDispatcher */
-		$eventDispatcher = $container->query(IEventDispatcher::class);
-		$eventDispatcher->addServiceListener(CodesGenerated::class, ActivityPublisher::class);
-		$eventDispatcher->addServiceListener(CodesGenerated::class, RegistryUpdater::class);
-		$eventDispatcher->addServiceListener(CodesGenerated::class, ClearNotifications::class);
-		$eventDispatcher->addServiceListener(IRegistry::EVENT_PROVIDER_ENABLED, ProviderEnabled::class);
-		$eventDispatcher->addServiceListener(IRegistry::EVENT_PROVIDER_DISABLED, ProviderDisabled::class);
+	public function registerHooksAndEvents(IRegistrationContext $context) {
+		$context->registerEventListener(CodesGenerated::class, ActivityPublisher::class);
+		$context->registerEventListener(CodesGenerated::class, RegistryUpdater::class);
+		$context->registerEventListener(CodesGenerated::class, ClearNotifications::class);
+		$context->registerEventListener(IRegistry::EVENT_PROVIDER_ENABLED, ProviderEnabled::class);
+		$context->registerEventListener(IRegistry::EVENT_PROVIDER_DISABLED, ProviderDisabled::class);
 	}
 
-	public function registerNotification() {
-		$container = $this->getContainer();
-		/** @var IManager $manager */
-		$manager = $container->query(IManager::class);
+	private function registerNotification(IManager $manager) {
 		$manager->registerNotifierService(Notifier::class);
 	}
 
