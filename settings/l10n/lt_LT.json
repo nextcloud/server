@@ -246,12 +246,6 @@
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Programėlė įjungta, tačiau turi būti atnaujinta. Po 5 sekundžių būsite peradresuoti į atnaujinimo puslapį.",
     "App update" : "Programėlės atnaujinimas",
     "Error: This app can not be enabled because it makes the server unstable" : "Klaida: ši programėlė negali būti įjungta, nes ji neigiamai veikia serverio stabilumą",
-    "SSL Root Certificates" : "SSL šakniniai sertifikatai",
-    "Common Name" : "Bendrasis vardas",
-    "Valid until" : "Galioja iki",
-    "Issued By" : "Išdavė",
-    "Valid until %s" : "Galioja iki %s",
-    "Import root certificate" : "Importuoti šakninius sertifikatus",
     "Administrator documentation" : "Administratoriaus dokumentacija",
     "Documentation" : "Dokumentacija",
     "Forum" : "Forumas",
@@ -598,6 +592,12 @@
     "Zulu" : "Zulų",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Oficialios programėlės yra kuriamos bendruomenės viduje ir jas kuria bendruomenė. Šios programėlės siūlo centrinį funkcionalumą ir yra paruoštos kasdieniam naudojimui.",
     "Official" : "Oficiali",
+    "SSL Root Certificates" : "SSL šakniniai sertifikatai",
+    "Common Name" : "Bendrasis vardas",
+    "Valid until" : "Galioja iki",
+    "Issued By" : "Išdavė",
+    "Valid until %s" : "Galioja iki %s",
+    "Import root certificate" : "Importuoti šakninius sertifikatus",
     "Set default expiration date" : "Nustatyti numatytąją galiojimo pabaigos datą"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }
