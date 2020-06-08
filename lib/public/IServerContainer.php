@@ -490,6 +490,7 @@ interface IServerContainer extends IContainer {
 	 * Get the EventDispatcher
 	 *
 	 * @return EventDispatcherInterface
+	 * @deprecated 20.0.0 use \OCP\EventDispatcher\IEventDispatcher
 	 * @since 8.2.0
 	 */
 	public function getEventDispatcher();
