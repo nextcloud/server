@@ -535,6 +535,11 @@ class ShareAPIController extends OCSController {
 			}
 			$share->setSharedWith($shareWith);
 
+			// Set password
+			if ($password !== '') {
+				$share->setPassword($password);
+			}
+
 			if ($sendPasswordByTalk === 'true') {
 				if (!$this->appManager->isEnabledForUser('spreed')) {
 					throw new OCSForbiddenException($this->l->t('Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled', [$path->getPath()]));

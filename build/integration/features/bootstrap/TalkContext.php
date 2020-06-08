@@ -1,10 +1,8 @@
 <?php
 /**
+ * @copyright Copyright (c) 2020, Daniel Calviño Sánchez (danxuliu@gmail.com)
  *
- *
- * @author Joas Schilling <coding@schilljs.com>
- * @author Sergio Bertolin <sbertolin@solidgear.es>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,34 +17,41 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 
-require __DIR__ . '/../../vendor/autoload.php';
-
-
-/**
- * Features context.
- */
-class FeatureContext implements Context, SnippetAcceptingContext {
-	use Mail;
-	use Search;
-	use WebDav;
+class TalkContext implements Context {
 
 	/**
-	 * @BeforeScenario
-	 * @AfterScenario
+	 * @BeforeFeature @Talk
+	 * @BeforeScenario @Talk
 	 */
-	public function resetAppConfigs() {
-		$this->runOcc(['config:app:set', 'sharebymail', 'enforcePasswordProtection', '--value="no"']);
+	public static function skipTestsIfTalkIsNotInstalled() {
+		if (!TalkContext::isTalkInstalled()) {
+			throw new Exception('Talk needs to be installed to run features or scenarios tagged with @Talk');
+		}
+	}
+
+	/**
+	 * @AfterScenario @Talk
+	 */
+	public static function disableTalk() {
+		TalkContext::runOcc(['app:disable', 'spreed']);
+	}
+
+	private static function isTalkInstalled(): bool {
+		$appList = TalkContext::runOcc(['app:list']);
+
+		return strpos($appList, 'spreed') !== false;
 	}
 
 	private static function runOcc(array $args): string {
 		// Based on "runOcc" from CommandLine trait (which can not be used due
-		// to being already used in other sibling contexts).
+		// to not being static and being already used in other sibling
+		// contexts).
 		$args = array_map(function ($arg) {
 			return escapeshellarg($arg);
 		}, $args);

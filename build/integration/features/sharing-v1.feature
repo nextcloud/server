@@ -55,6 +55,92 @@ Feature: sharing
     Then the OCS status code should be "403"
     And the HTTP status code should be "401"
 
+  Scenario: Creating a new mail share
+    Given dummy mail server is listening
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 4 |
+      | shareWith | dumy@test.com |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share can be downloaded
+
+  Scenario: Creating a new mail share with password
+    Given dummy mail server is listening
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 4 |
+      | shareWith | dumy@test.com |
+      | password | publicpw |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share with password "publicpw" can be downloaded
+
+  Scenario: Creating a new mail share with password when password protection is enforced
+    Given dummy mail server is listening
+    And As an "admin"
+    And invoking occ with "config:app:set sharebymail enforcePasswordProtection --value=yes"
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 4 |
+      | shareWith | dumy@test.com |
+      | password | publicpw |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share with password "publicpw" can be downloaded
+
+  Scenario: Creating a new mail share and setting a password
+    Given dummy mail server is listening
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 4 |
+      | shareWith | dumy@test.com |
+    And Updating last share with
+      | password | publicpw |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share with password "publicpw" can be downloaded
+
+  Scenario: Creating a new mail share and setting a password twice
+    Given dummy mail server is listening
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 4 |
+      | shareWith | dumy@test.com |
+    And Updating last share with
+      | password | publicpw |
+    And Updating last share with
+      | password | another publicpw |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share with password "another publicpw" can be downloaded
+
+  Scenario: Creating a new mail share and setting the same password twice
+    Given dummy mail server is listening
+    And user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | welcome.txt |
+      | shareType | 4 |
+      | shareWith | dumy@test.com |
+    And Updating last share with
+      | password | publicpw |
+    And Updating last share with
+      | password | publicpw |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share with password "publicpw" can be downloaded
+
   Scenario: Creating a new public share
     Given user "user0" exists
     And As an "user0"
@@ -63,7 +149,7 @@ Feature: sharing
       | shareType | 3 |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Public shared file "welcome.txt" can be downloaded
+    And last link share can be downloaded
 
   Scenario: Creating a new public share with password
     Given user "user0" exists
@@ -74,7 +160,7 @@ Feature: sharing
       | password | publicpw |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Public shared file "welcome.txt" with password "publicpw" can be downloaded
+    And last share with password "publicpw" can be downloaded
 
   Scenario: Creating a new public share of a folder
    Given user "user0" exists
@@ -107,7 +193,7 @@ Feature: sharing
       | expireDate | +3 days |
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And Public shared file "welcome.txt" with password "publicpw" can be downloaded
+    And last share with password "publicpw" can be downloaded
 
   Scenario: Creating a new public share, updating its expiration date and getting its info
     Given user "user0" exists
