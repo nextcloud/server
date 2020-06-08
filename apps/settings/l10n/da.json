@@ -212,12 +212,6 @@
     "Never" : "Aldrig",
     "App update" : "App opdatering",
     "Error: This app can not be enabled because it makes the server unstable" : "Fejl: Denne app kan ikke aktiveres fordi den gør serveren ustabil",
-    "SSL Root Certificates" : "SSL rodcertifikater",
-    "Common Name" : "Almindeligt navn",
-    "Valid until" : "Gyldig indtil",
-    "Issued By" : "Udstedt af",
-    "Valid until %s" : "Gyldig indtil %s",
-    "Import root certificate" : "Importer rodcertifikat",
     "Administrator documentation" : "Administratordokumentation",
     "Documentation" : "Dokumentation",
     "Forum" : "Forum",
@@ -336,6 +330,12 @@
     "Russian" : "Russisk",
     "Swedish" : "Svensk",
     "Official" : "Officiel",
+    "SSL Root Certificates" : "SSL rodcertifikater",
+    "Common Name" : "Almindeligt navn",
+    "Valid until" : "Gyldig indtil",
+    "Issued By" : "Udstedt af",
+    "Valid until %s" : "Gyldig indtil %s",
+    "Import root certificate" : "Importer rodcertifikat",
     "Set default expiration date" : "Vælg standard udløbsdato"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

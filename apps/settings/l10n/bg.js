@@ -167,11 +167,6 @@ OC.L10N.register(
     "Show last login" : "Показвай последното вписване",
     "Send email to new user" : "Изпращай писмо към нов потребител",
     "Never" : "Никога",
-    "Common Name" : "Познато Име",
-    "Valid until" : "Валиден до",
-    "Issued By" : "Издаден от",
-    "Valid until %s" : "Валиден до %s",
-    "Import root certificate" : "Внасяне на основен сертификат",
     "Administrator documentation" : "Документация за администратори",
     "Documentation" : "Документация",
     "Forum" : "Форум",
@@ -349,6 +344,11 @@ OC.L10N.register(
     "Zulu" : "зулуски",
     "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Официалните приложения са разработени от общността. ",
     "Official" : "Официално",
+    "Common Name" : "Познато Име",
+    "Valid until" : "Валиден до",
+    "Issued By" : "Издаден от",
+    "Valid until %s" : "Валиден до %s",
+    "Import root certificate" : "Внасяне на основен сертификат",
     "Set default expiration date" : "Задайте стандартен срок на валидност"
 },
 "nplurals=2; plural=(n != 1);");

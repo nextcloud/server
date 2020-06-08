@@ -106,12 +106,6 @@
     "Send email to new user" : "Sūtīt e-pastu jaunajam lietotājam",
     "Never" : "Nekad",
     "App update" : "Programmu atjaunināšana",
-    "SSL Root Certificates" : "SSL Root Sertifikāti",
-    "Common Name" : "Kopīgais nosaukums",
-    "Valid until" : "Derīgs līdz",
-    "Issued By" : "Izsniedza",
-    "Valid until %s" : "Derīgs līdz %s",
-    "Import root certificate" : "Importēt root sertifikātu",
     "Administrator documentation" : "Administratora dokumentācija",
     "Documentation" : "Dokumentācija",
     "Forum" : "Forums",
@@ -187,6 +181,12 @@
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",
     "Share" : "Koplietot",
+    "SSL Root Certificates" : "SSL Root Sertifikāti",
+    "Common Name" : "Kopīgais nosaukums",
+    "Valid until" : "Derīgs līdz",
+    "Issued By" : "Izsniedza",
+    "Valid until %s" : "Derīgs līdz %s",
+    "Import root certificate" : "Importēt root sertifikātu",
     "Set default expiration date" : "Iestatīt noklusējuma beigu datumu"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }
