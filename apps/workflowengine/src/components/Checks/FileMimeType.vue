@@ -79,7 +79,7 @@ export default {
 				{
 					iconUrl: imagePath('core', 'filetypes/x-office-document'),
 					label: t('workflowengine', 'Office documents'),
-					pattern: '/(vnd\\.(ms-|openxmlformats-).*)$/',
+					pattern: '/(vnd\\.(ms-|openxmlformats-|oasis\\.opendocument).*)$/',
 				},
 				{
 					iconUrl: imagePath('core', 'filetypes/application-pdf'),
