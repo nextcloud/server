@@ -133,6 +133,7 @@ OC.L10N.register(
     "Video verification" : "Video overitev",
     "Add another link" : "Dodaj novo povezavo",
     "Share link" : "Povezava za souporabo",
+    "No recommendations. Start typing." : "Ni priporočil; začnite vpisovati",
     "Resharing is not allowed" : "Nadaljnja souporaba ni dovoljena",
     "Name or email address …" : "Ime ali elektronski naslov ...",
     "Name or federated cloud ID …" : "Ime ali ID zveznega oblaka ...",
