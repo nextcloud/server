@@ -77,6 +77,7 @@ export default {
 	mounted() {
 		// append the backbone element and set the FileInfo
 		this.component.$el.appendTo(this.$el)
+		this.setFileInfo(this.fileInfo)
 	},
 	beforeDestroy() {
 		this.component.remove()
