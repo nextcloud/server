@@ -516,12 +516,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			[
 				'd1', 'data2', null, null,
 				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
-				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2`  ON '
+				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` '
 			],
 			[
 				'd1', 'data2', 'd2', null,
 				['`d1`' => [['joinType' => 'inner', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => null]]],
-				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` `d2` ON '
+				'`*PREFIX*data1` `d1` INNER JOIN `*PREFIX*data2` `d2`'
 			],
 			[
 				'd1', 'data2', 'd2', '`d1`.`field1` = `d2`.`field2`',
@@ -597,12 +597,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			[
 				'd1', 'data2', null, null,
 				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
-				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2`  ON '
+				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2` '
 			],
 			[
 				'd1', 'data2', 'd2', null,
 				['`d1`' => [['joinType' => 'left', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => null]]],
-				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2` `d2` ON '
+				'`*PREFIX*data1` `d1` LEFT JOIN `*PREFIX*data2` `d2`'
 			],
 			[
 				'd1', 'data2', 'd2', '`d1`.`field1` = `d2`.`field2`',
@@ -647,12 +647,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			[
 				'd1', 'data2', null, null,
 				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => null, 'joinCondition' => null]]],
-				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2`  ON '
+				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2` '
 			],
 			[
 				'd1', 'data2', 'd2', null,
 				['`d1`' => [['joinType' => 'right', 'joinTable' => '`*PREFIX*data2`', 'joinAlias' => '`d2`', 'joinCondition' => null]]],
-				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2` `d2` ON '
+				'`*PREFIX*data1` `d1` RIGHT JOIN `*PREFIX*data2` `d2`'
 			],
 			[
 				'd1', 'data2', 'd2', '`d1`.`field1` = `d2`.`field2`',
