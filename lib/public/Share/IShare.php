@@ -550,7 +550,7 @@ interface IShare {
 	 * This is mainly for public shares. It will signal that the share page should
 	 * hide download buttons etc.
 	 *
-	 * @param bool $ro
+	 * @param bool $hide
 	 * @return IShare
 	 * @since 15.0.0
 	 */
