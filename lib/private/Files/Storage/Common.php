@@ -461,8 +461,8 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			\OC::$server->getLogger()->info("External storage not available: stat() failed");
 			return false;
 		} catch (\Exception $e) {
-			\OC::$server->getLogger()->info("External storage not available: " . $e->getMessage());
-			\OC::$server->getLogger()->logException($e, ['level' => ILogger::DEBUG]);
+			\OC::$server->getLogger()->warning("External storage not available: " . $e->getMessage());
+			\OC::$server->getLogger()->logException($e, ['level' => ILogger::WARN]);
 			return false;
 		}
 	}
