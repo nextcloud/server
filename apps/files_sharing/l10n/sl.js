@@ -26,6 +26,7 @@ OC.L10N.register(
     "Something happened. Unable to accept the share." : "Prišlo je do napake. Ni mogoče sprejeti mesta souporabe.",
     "Reject share" : "Zavrni souporabo",
     "Something happened. Unable to reject the share." : "Prišlo je do napake. Ni mogoče zavrniti mesta souporabe.",
+    "Waiting…" : "Čakanje na povezavo ...",
     "error" : "napaka",
     "This will stop your current uploads." : "S tem bodo zaustavljena vsa pošiljanja v oblak.",
     "Move or copy" : "Premakni ali kopiraj",
@@ -164,6 +165,7 @@ OC.L10N.register(
     "Upload files to %s" : "Pošlji datoteke v račun %s",
     "Note" : "Opomba",
     "Select or drop files" : "Izberte ali povlecite datoteke",
+    "Uploading files" : "Pošiljanje datotek",
     "Uploaded files:" : "Poslane datoteke:",
     "could not delete share" : "mesta souporabe ni mogoče ustvariti",
     "Uploading files…" : "Poteka pošiljanje datotek ..."
