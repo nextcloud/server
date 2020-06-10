@@ -287,6 +287,9 @@ class Database extends ABackend implements
 			$query->where($query->expr()->iLike('gid', $query->createNamedParameter(
 				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
 			)));
+			$query->orWhere($query->expr()->iLike('displayname', $query->createNamedParameter(
+				'%' . $this->dbConn->escapeLikeParameter($search) . '%'
+			)));
 		}
 
 		$query->setMaxResults($limit)
