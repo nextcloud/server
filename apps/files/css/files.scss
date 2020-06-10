@@ -84,6 +84,15 @@
 	tbody {
 		display: table;
 		width: 100%;
+
+		tr[data-permissions="0"],
+		tr[data-permissions="16"] {
+			background-color: var(--color-background-dark);
+
+			td.filename .nametext .innernametext {
+				color: var(--color-text-maxcontrast);
+			}
+		}
 	}
 }
 
