@@ -39,7 +39,7 @@ export default {
 			const time = this.timer.getHours()
 
 			if (time > 18) {
-				return t('dashboard', '🌙 Good evening')
+				return t('dashboard', '🌙 Time to call it a day')
 			}
 			if (time > 12) {
 				return t('dashboard', '☀ Good afternoon')
@@ -47,7 +47,10 @@ export default {
 			if (time === 12) {
 				return t('dashboard', '🍽 Time for lunch')
 			}
-			return t('dashboard', '🌄 Good morning')
+			if (time > 5) {
+				return t('dashboard', '🌄 Good morning')
+			}
+			return t('dashboard', '🦉 Have a night owl')
 		},
 	},
 	watch: {
