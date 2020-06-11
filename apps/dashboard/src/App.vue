@@ -86,37 +86,43 @@ export default {
 <style lang="scss" scoped>
 	#app-dashboard {
 		width: 100%;
-		padding-left: 50px;
-		padding-right: 50px;
 	}
 	h2 {
 		text-align: center;
-		padding: 40px;
+		font-size: 32px;
+		line-height: 130%;
+		padding: 80px 16px 32px;
 	}
 
 	.panels {
 		width: 100%;
 		display: flex;
 		justify-content: center;
+		flex-direction: row;
+		align-items: center;
+		flex-wrap: wrap;
 	}
 
 	.panel {
 		width: 250px;
-		margin: 0 30px 30px 0;
+		margin: 16px;
 
-		&:first-child {
-			margin-left: 30px;
-		}
-
-		h3 {
+		& > a {
 			position: sticky;
 			top: 50px;
-			margin-top: 0;
-			background-position: 10px 32px;
-			padding: 30px 12px 12px 35px;
-			background-color: var(--color-main-background);
-		}
+			display: block;
+			background: linear-gradient(var(--color-main-background-translucent), var(--color-main-background-translucent) 80%, rgba(255, 255, 255, 0));
+			backdrop-filter: blur(4px);
 
+			h3 {
+				margin: 0;
+				font-size: 20px;
+				font-weight: bold;
+				background-size: 32px;
+				background-position: 10px 10px;
+				padding: 16px 8px 16px 52px;
+			}
+		}
 	}
 
 </style>
