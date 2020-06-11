@@ -95,6 +95,17 @@ abstract class Avatar implements IAvatar {
 		if (empty($displayName) === true) {
 			return '?';
 		}
+
+		/* if enable user_ldap and set '2nd User Display Name Field'
+		 * so getDisplayName() would be like 'john (john@some.com)'
+		 * getAvatarText() will return firstTwoLetters as 'j('
+		 * so have to remove email.
+		 * but if avatar shown as txt instead of img, it still be 'j('
+		 * I didn't find how to fix it.
+		 */
+		$displayName = mb_ereg_replace(' *\([\w\.]+@\w+?\.\w+\.?\w*\) *', ' ', $displayName); //remove email (**@**.**)
+		$displayName = mb_ereg_replace(' +', ' ', $displayName);
+
 		$firstTwoLetters = array_map(function ($namePart) {
 			return mb_strtoupper(mb_substr($namePart, 0, 1), 'UTF-8');
 		}, explode(' ', $displayName, 2));
