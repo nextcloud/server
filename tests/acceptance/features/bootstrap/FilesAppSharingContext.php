@@ -124,6 +124,20 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function canEditCheckbox($sharedWithName) {
+		return self::permissionCheckboxFor($sharedWithName, 'Allow editing');
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function canEditCheckboxInput($sharedWithName) {
+		return self::permissionCheckboxInputFor($sharedWithName, 'Allow editing');
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function canReshareCheckbox($sharedWithName) {
 		return self::permissionCheckboxFor($sharedWithName, 'Allow resharing');
 	}
@@ -373,6 +387,17 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I set the share with :shareWithName as not editable
+	 */
+	public function iSetTheShareWithAsNotEditable($shareWithName) {
+		$this->showShareWithMenuIfNeeded($shareWithName);
+
+		$this->iSeeThatCanEditTheShare($shareWithName);
+
+		$this->actor->find(self::canEditCheckbox($shareWithName), 2)->click();
+	}
+
+	/**
 	 * @When I set the share with :shareWithName as not reshareable
 	 */
 	public function iSetTheShareWithAsNotReshareable($shareWithName) {
@@ -407,6 +432,36 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 				$this->actor->find(self::shareWithInput(), 10)->getWrappedElement()->getAttribute("disabled"), "disabled");
 		PHPUnit_Framework_Assert::assertEquals(
 				$this->actor->find(self::shareWithInput(), 10)->getWrappedElement()->getAttribute("placeholder"), "Resharing is not allowed");
+	}
+
+	/**
+	 * @Then I see that :sharedWithName can not be allowed to edit the share
+	 */
+	public function iSeeThatCanNotBeAllowedToEditTheShare($sharedWithName) {
+		$this->showShareWithMenuIfNeeded($sharedWithName);
+
+		PHPUnit_Framework_Assert::assertEquals(
+				$this->actor->find(self::canEditCheckboxInput($sharedWithName), 10)->getWrappedElement()->getAttribute("disabled"), "disabled");
+	}
+
+	/**
+	 * @Then I see that :sharedWithName can edit the share
+	 */
+	public function iSeeThatCanEditTheShare($sharedWithName) {
+		$this->showShareWithMenuIfNeeded($sharedWithName);
+
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::canEditCheckboxInput($sharedWithName), 10)->isChecked());
+	}
+
+	/**
+	 * @Then I see that :sharedWithName can not edit the share
+	 */
+	public function iSeeThatCanNotEditTheShare($sharedWithName) {
+		$this->showShareWithMenuIfNeeded($sharedWithName);
+
+		PHPUnit_Framework_Assert::assertFalse(
+				$this->actor->find(self::canEditCheckboxInput($sharedWithName), 10)->isChecked());
 	}
 
 	/**

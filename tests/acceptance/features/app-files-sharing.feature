@@ -294,3 +294,23 @@ Feature: app-files-sharing
     And I open the "Sharing" tab in the details view
     And I see that the "Sharing" tab in the details view is eventually loaded
     And I see that resharing the file is not allowed
+
+  Scenario: sharee can not reshare a file with edit permission if the sharer disables it
+    Given I act as John
+    And I am logged in as the admin
+    And I act as Jane
+    And I am logged in
+    And I act as John
+    And I rename "welcome.txt" to "farewell.txt"
+    And I see that the file list contains a file named "farewell.txt"
+    And I share "farewell.txt" with "user0"
+    And I see that the file is shared with "user0"
+    And I set the share with "user0" as not editable
+    And I see that "user0" can not edit the share
+    When I act as Jane
+    # The Files app is open again to reload the file list
+    And I open the Files app
+    And I share "farewell.txt" with "user1"
+    Then I see that the file is shared with "user1"
+    And I see that "user1" can not edit the share
+    And I see that "user1" can not be allowed to edit the share
