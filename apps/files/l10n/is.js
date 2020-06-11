@@ -150,6 +150,7 @@ OC.L10N.register(
     "Transfer" : "Færa",
     "Transfer {path} to {userid}" : "Færa {path} til {userid}",
     "Invalid path selected" : "Ógild slóð valin",
+    "Ownership transfer request sent" : "Beiðni um millifærslu eignarhalds send",
     "Cannot transfer ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki",
     "Tags" : "Merki",
     "Error while loading the file data" : "Villa við að hlaða inn skráagögnum",
@@ -159,6 +160,7 @@ OC.L10N.register(
     "Settings" : "Stillingar",
     "Show hidden files" : "Sýna faldar skrár",
     "WebDAV" : "WebDAV",
+    "Use this address to access your Files via WebDAV" : "Notaðu þetta vistfang til að nálgast skrárnar þínar með WebDAV",
     "Toggle grid view" : "Víxla reitasýn af/á",
     "No files in here" : "Engar skrár hér",
     "Upload some content or sync with your devices!" : "Sendu inn eitthvað efni eða samstilltu við tækin þín!",
@@ -177,6 +179,7 @@ OC.L10N.register(
     "Pending shares" : "Sameignir í bið",
     "Text file" : "Textaskrá",
     "New text file.txt" : "Ný textaskrá.txt",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">nálgast skrárnar þínar með WebDAV</a>"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">nálgast skrárnar þínar með WebDAV</a>",
+    "Cannot transfter ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
