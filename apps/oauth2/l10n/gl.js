@@ -11,10 +11,10 @@ OC.L10N.register(
     "Name" : "Nome",
     "Redirection URI" : "URI de redireccionamento",
     "Client Identifier" : "Identificador do cliente",
-    "Secret" : "Secreto",
+    "Secret" : "Segredo",
     "Add client" : "Engadir cliente",
     "Add" : "Engadir",
-    "Show client secret" : "Amosar o secreto do cliente",
+    "Show client secret" : "Amosar o segredo do cliente",
     "Delete" : "Eliminar"
 },
 "nplurals=2; plural=(n != 1);");
