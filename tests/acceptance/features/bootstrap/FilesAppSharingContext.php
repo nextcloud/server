@@ -138,6 +138,20 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function canCreateCheckbox($sharedWithName) {
+		return self::permissionCheckboxFor($sharedWithName, 'Allow creating');
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function canCreateCheckboxInput($sharedWithName) {
+		return self::permissionCheckboxInputFor($sharedWithName, 'Allow creating');
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function canReshareCheckbox($sharedWithName) {
 		return self::permissionCheckboxFor($sharedWithName, 'Allow resharing');
 	}
@@ -398,6 +412,17 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I set the share with :shareWithName as not creatable
+	 */
+	public function iSetTheShareWithAsNotCreatable($shareWithName) {
+		$this->showShareWithMenuIfNeeded($shareWithName);
+
+		$this->iSeeThatCanCreateInTheShare($shareWithName);
+
+		$this->actor->find(self::canCreateCheckbox($shareWithName), 2)->click();
+	}
+
+	/**
 	 * @When I set the share with :shareWithName as not reshareable
 	 */
 	public function iSetTheShareWithAsNotReshareable($shareWithName) {
@@ -462,6 +487,36 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 
 		PHPUnit_Framework_Assert::assertFalse(
 				$this->actor->find(self::canEditCheckboxInput($sharedWithName), 10)->isChecked());
+	}
+
+	/**
+	 * @Then I see that :sharedWithName can not be allowed to create in the share
+	 */
+	public function iSeeThatCanNotBeAllowedToCreateInTheShare($sharedWithName) {
+		$this->showShareWithMenuIfNeeded($sharedWithName);
+
+		PHPUnit_Framework_Assert::assertEquals(
+				$this->actor->find(self::canCreateCheckboxInput($sharedWithName), 10)->getWrappedElement()->getAttribute("disabled"), "disabled");
+	}
+
+	/**
+	 * @Then I see that :sharedWithName can create in the share
+	 */
+	public function iSeeThatCanCreateInTheShare($sharedWithName) {
+		$this->showShareWithMenuIfNeeded($sharedWithName);
+
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::canCreateCheckboxInput($sharedWithName), 10)->isChecked());
+	}
+
+	/**
+	 * @Then I see that :sharedWithName can not create in the share
+	 */
+	public function iSeeThatCanNotCreateInTheShare($sharedWithName) {
+		$this->showShareWithMenuIfNeeded($sharedWithName);
+
+		PHPUnit_Framework_Assert::assertFalse(
+				$this->actor->find(self::canCreateCheckboxInput($sharedWithName), 10)->isChecked());
 	}
 
 	/**
