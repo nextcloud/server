@@ -254,6 +254,29 @@ export default class Share {
 	}
 
 	/**
+	 * Get the share label if any
+	 * Should only exist on link shares
+	 *
+	 * @returns {string}
+	 * @readonly
+	 * @memberof Share
+	 */
+	get label() {
+		return this.#share.label
+	}
+
+	/**
+	 * Set the share label if any
+	 * Should only be set on link shares
+	 *
+	 * @param {string} label the label
+	 * @memberof Share
+	 */
+	set label(label) {
+		this.#share.label = label
+	}
+
+	/**
 	 * Have a mail been sent
 	 *
 	 * @returns {boolean}
@@ -488,9 +511,6 @@ export default class Share {
 	}
 
 	// TODO: SORT THOSE PROPERTIES
-	get label() {
-		return this.#share.label
-	}
 
 	get parent() {
 		return this.#share.parent

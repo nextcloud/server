@@ -274,6 +274,7 @@ export default {
 			case 'password':
 			case 'pending':
 			case 'expireDate':
+			case 'label':
 			case 'note': {
 				// show error
 				this.$set(this.errors, property, message)
