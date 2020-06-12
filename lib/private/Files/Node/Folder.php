@@ -185,6 +185,9 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$this->sendHooks(['preWrite', 'preCreate'], [$nonExisting]);
 			if ($content !== null) {
 				$result = $this->view->file_put_contents($fullPath, $content);
+				if ($content === '' && $result === 0) {
+					$result = true;
+				}
 			} else {
 				$result = $this->view->touch($fullPath);
 			}
