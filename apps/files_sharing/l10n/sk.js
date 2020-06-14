@@ -173,7 +173,7 @@ OC.L10N.register(
     "Allow upload and editing" : "Povoliť nahrávanie a úpravy",
     "File drop (upload only)" : "Odovzdávanie súborov (len nahrávanie)",
     "Hide download" : "Skryť sťahovanie",
-    "Password protect" : "Chániť heslom",
+    "Password protect" : "Chrániť heslom",
     "Video verification" : "Overovanie pomocou videa",
     "Enter a note for the share recipient" : "Zadajte poznámku pre príjemcu zdieľania",
     "Add another link" : "Pridať ďalší odkaz",
