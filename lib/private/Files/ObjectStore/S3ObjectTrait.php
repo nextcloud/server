@@ -33,8 +33,6 @@ use Aws\S3\S3Client;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Stream\SeekableHttpStream;
 
-const S3_UPLOAD_PART_SIZE = 524288000; // 500MB
-
 trait S3ObjectTrait {
 	/**
 	 * Returns the connection
@@ -91,7 +89,7 @@ trait S3ObjectTrait {
 		$uploader = new MultipartUploader($this->getConnection(), $countStream, [
 			'bucket' => $this->bucket,
 			'key' => $urn,
-			'part_size' => S3_UPLOAD_PART_SIZE,
+			'part_size' => $this->uploadPartSize,
 		]);
 
 		try {
