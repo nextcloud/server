@@ -28,6 +28,7 @@
 
 namespace OC\Activity;
 
+use OCP\Activity\ActivitySettings;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IFilter;
@@ -262,7 +263,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @return ISetting[]
+	 * @return ActivitySettings[]
 	 * @throws \InvalidArgumentException
 	 */
 	public function getSettings(): array {
@@ -270,7 +271,9 @@ class Manager implements IManager {
 			/** @var ISetting $setting */
 			$setting = \OC::$server->query($class);
 
-			if (!$setting instanceof ISetting) {
+			if ($setting instanceof ISetting) {
+				$setting = new ActivitySettingsAdapter($setting);
+			} else if (!$setting instanceof ActivitySettings) {
 				throw new \InvalidArgumentException('Invalid activity filter registered');
 			}
 
@@ -283,11 +286,11 @@ class Manager implements IManager {
 
 	/**
 	 * @param string $id
-	 * @return ISetting
+	 * @return ActivitySettings
 	 * @throws \InvalidArgumentException when the setting was not found
 	 * @since 11.0.0
 	 */
-	public function getSettingById(string $id): ISetting {
+	public function getSettingById(string $id): ActivitySettings {
 		$settings = $this->getSettings();
 
 		if (isset($settings[$id])) {

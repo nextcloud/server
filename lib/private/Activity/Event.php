@@ -74,6 +74,8 @@ class Event implements IEvent {
 	protected $link = '';
 	/** @var string */
 	protected $icon = '';
+	/** @var bool */
+	protected $generateNotification = true;
 
 	/** @var IEvent|null */
 	protected $child;
@@ -531,5 +533,14 @@ class Event implements IEvent {
 			 * $this->getObjectId() !== 0
 			 */
 		;
+	}
+
+	public function setGenerateNotification(bool $generate): IEvent {
+		$this->generateNotification = $generate;
+		return $this;
+	}
+
+	public function getGenerateNotification(): bool {
+		return $this->generateNotification;
 	}
 }

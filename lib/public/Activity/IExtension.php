@@ -34,6 +34,7 @@ namespace OCP\Activity;
 interface IExtension {
 	public const METHOD_STREAM = 'stream';
 	public const METHOD_MAIL = 'email';
+	public const METHOD_NOTIFICATION = 'notification';
 
 	public const PRIORITY_VERYLOW 	= 10;
 	public const PRIORITY_LOW	= 20;
