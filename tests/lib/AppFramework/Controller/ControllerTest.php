@@ -92,7 +92,7 @@ class ControllerTest extends \Test\TestCase {
 		$this->controller = new ChildController($this->app, $request);
 	}
 
-	
+
 	public function testFormatResonseInvalidFormat() {
 		$this->expectException(\DomainException::class);
 
@@ -114,6 +114,7 @@ class ControllerTest extends \Test\TestCase {
 			'Content-Type' => 'application/json; charset=utf-8',
 			'Content-Security-Policy' => "default-src 'none';base-uri 'none';manifest-src 'self'",
 			'Feature-Policy' => "autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone 'none';payment 'none'",
+			'X-Robots-Tag' => 'none',
 		];
 
 		$response = $this->controller->customDataResponse(['hi']);
