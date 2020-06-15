@@ -32,7 +32,7 @@ OC.L10N.register(
     "Checked on {lastCheckedDate}" : "Geprüft am {lastCheckedDate}",
     "Checking apps for compatible updates" : "Es werden alle Apps auf kompatible Aktualisierungen geprüft",
     "Please make sure your config.php does not set <samp>appstoreenabled</samp> to false." : "Bitte stellen Sie sicher, dass in der \"config.php\"-Datei die Variable <samp>appstoreenabled</samp>nicht auf \"false\" steht.",
-    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Die Verbindung zum Appstore konnte nicht aufgebaut werden oder der Appstore hat keine Apps zurück geliefert. Suchen Sie selbst nach den Updates oder stellen Sie sicher, dass ihr Server Zugriff auf das Internet hat und eine Verbindung zum Appstore aufbauen kann. ",
+    "Could not connect to the appstore or the appstore returned no updates at all. Search manually for updates or make sure your server has access to the internet and can connect to the appstore." : "Die Verbindung zum Appstore konnte nicht aufgebaut werden oder der Appstore hat keine Apps zurück geliefert. Suchen Sie selbst nach den Updates oder stellen Sie sicher, dass Ihr Server Zugriff auf das Internet hat und eine Verbindung zum Appstore aufbauen kann. ",
     "<strong>All</strong> apps have an update for this version available" : "Für <strong>alle</strong> Apps steht eine Aktualisierung zur Verfügung",
     "View changelog" : "Liste der Änderungen anschauen",
     "Enterprise" : "Version für Unternehmen",
@@ -40,7 +40,7 @@ OC.L10N.register(
     "Stable" : "Stabil",
     "The most recent stable version. It is suited for regular use and will always update to the latest major version." : "Die aktuellste stabile Version. Diese ist für den regelmäßigen Gebrauch geeignet und wird immer auf die letzte Hauptversion aktualisiert.",
     "Beta" : "Beta",
-    "A pre-release version only for testing new features, not for production environments." : "Eine Vorabversion die einzig zum Testen neuer Funktionen dient, nicht aber für den Einsatz in Produktivumgebungen geeignet ist.",
+    "A pre-release version only for testing new features, not for production environments." : "Eine Vorabversion, die einzig zum Testen neuer Funktionen dient, nicht aber für den Einsatz in Produktivumgebungen geeignet ist.",
     "_<strong>%n</strong> app has no update for this version available_::_<strong>%n</strong> apps have no update for this version available_" : ["Für <strong>%n</strong> App steht keine Aktualisierung für diese Version zur Verfügung","Für <strong>%n</strong> Apps stehen keine Aktualisierungen für diese Version zur Verfügung"]
 },
 "nplurals=2; plural=(n != 1);");
