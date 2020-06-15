@@ -12,7 +12,7 @@ OC.L10N.register(
     "The given legal notice address is too long" : "Die im Impressum angegebene Adresse ist zu lang",
     "The given legal notice address is not a valid URL" : "Die eingegebene Impressums-Adresse ist keine gültige URL",
     "The given privacy policy address is too long" : "Die eingegebene Adresse der Datenschutzerklärung ist zu lang",
-    "The given privacy policy address is not a valid URL" : "Die eingegebene Datenschutz-Adresse ist keine gültige URL",
+    "The given privacy policy address is not a valid URL" : "Die eingegebene Adresse der Datenschutzerklärung ist keine gültige URL",
     "The given slogan is too long" : "Der eingegebene Slogan ist zu lang",
     "The given color is invalid" : "Die gewählte Farbe ist ungültig",
     "The file was uploaded" : "Die Datei wurde hochgeladen",
@@ -50,6 +50,6 @@ OC.L10N.register(
     "Upload new header logo" : "Neues Kopfbereichs-Logo hochladen",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Neues Favicon hochladen",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installieren Sie die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favoriten-Icons auf Basis des hochgeladenen Icons und der Farbe zu erstellen."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installieren Sie die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favicons auf Basis des hochgeladenen Logos und der Farbe zu erstellen."
 },
 "nplurals=2; plural=(n != 1);");
