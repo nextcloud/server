@@ -27,5 +27,6 @@ declare(strict_types=1);
 return [
 	'routes' => [
 		['name' => 'dashboard#index', 'url' => '/', 'verb' => 'GET'],
+		['name' => 'dashboard#updateLayout', 'url' => '/layout', 'verb' => 'POST'],
 	]
 ];
