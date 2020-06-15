@@ -21,6 +21,7 @@
 
 namespace OCA\WorkflowEngine\Check;
 
+use OCA\Files_Sharing\SharedStorage;
 use OCA\WorkflowEngine\Entity\File;
 use OCP\Files\Cache\ICache;
 use OCP\Files\IHomeStorage;
@@ -95,7 +96,7 @@ class FileSystemTags implements ICheck, IFileCheck {
 	 */
 	protected function getSystemTags() {
 		$cache = $this->storage->getCache();
-		$fileIds = $this->getFileIds($cache, $this->path, !$this->storage->instanceOfStorage(IHomeStorage::class));
+		$fileIds = $this->getFileIds($cache, $this->path, !$this->storage->instanceOfStorage(IHomeStorage::class) || $this->storage->instanceOfStorage(SharedStorage::class));
 
 		$systemTags = [];
 		foreach ($fileIds as $i => $fileId) {
