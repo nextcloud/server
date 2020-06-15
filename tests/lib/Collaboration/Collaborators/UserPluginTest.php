@@ -522,7 +522,16 @@ class UserPluginTest extends TestCase {
 					['uid' => 'test1', 'groups' => ['groupA']],
 					['uid' => 'test2', 'groups' => ['groupB']],
 				],
-				['test1'],
+				['exact' => [], 'wide' => ['test1']],
+			],
+			[
+				'test1',
+				['groupA'],
+				[
+					['uid' => 'test1', 'groups' => ['groupA']],
+					['uid' => 'test2', 'groups' => ['groupB']],
+				],
+				['exact' => ['test1'], 'wide' => []],
 			],
 			[
 				'test',
@@ -531,7 +540,7 @@ class UserPluginTest extends TestCase {
 					['uid' => 'test1', 'groups' => ['groupA']],
 					['uid' => 'test2', 'groups' => ['groupB', 'groupA']],
 				],
-				['test1', 'test2'],
+				['exact' => [], 'wide' => ['test1', 'test2']],
 			],
 			[
 				'test',
@@ -540,7 +549,7 @@ class UserPluginTest extends TestCase {
 					['uid' => 'test1', 'groups' => ['groupA', 'groupC']],
 					['uid' => 'test2', 'groups' => ['groupB', 'groupA']],
 				],
-				['test1', 'test2'],
+				['exact' => [], 'wide' => ['test1', 'test2']],
 			],
 			[
 				'test',
@@ -549,7 +558,7 @@ class UserPluginTest extends TestCase {
 					['uid' => 'test1', 'groups' => ['groupA', 'groupC']],
 					['uid' => 'test2', 'groups' => ['groupB', 'groupA']],
 				],
-				['test1', 'test2'],
+				['exact' => [], 'wide' => ['test1', 'test2']],
 			],
 			[
 				'test',
@@ -558,7 +567,7 @@ class UserPluginTest extends TestCase {
 					['uid' => 'test1', 'groups' => ['groupA']],
 					['uid' => 'test2', 'groups' => ['groupB', 'groupA']],
 				],
-				[],
+				['exact' => [], 'wide' => []],
 			],
 			[
 				'test',
@@ -567,7 +576,16 @@ class UserPluginTest extends TestCase {
 					['uid' => 'test1', 'groups' => []],
 					['uid' => 'test2', 'groups' => []],
 				],
-				[],
+				['exact' => [], 'wide' => []],
+			],
+			[
+				'test',
+				['groupC', 'groupB'],
+				[
+					['uid' => 'test1', 'groups' => []],
+					['uid' => 'test2', 'groups' => []],
+				],
+				['exact' => [], 'wide' => []],
 			],
 		];
 	}
@@ -582,9 +600,12 @@ class UserPluginTest extends TestCase {
 			return $this->getUserMock($user['uid'], $user['uid']);
 		}, $matchingUsers);
 
-		$mappedResult = array_map(function ($user) {
+		$mappedResultExact = array_map(function ($user) {
 			return ['label' => $user, 'value' => ['shareType' => 0, 'shareWith' => $user]];
-		}, $result);
+		}, $result['exact']);
+		$mappedResultWide = array_map(function ($user) {
+			return ['label' => $user, 'value' => ['shareType' => 0, 'shareWith' => $user]];
+		}, $result['wide']);
 
 		$this->userManager->expects($this->once())
 			->method('searchDisplayName')
@@ -615,7 +636,7 @@ class UserPluginTest extends TestCase {
 		$this->plugin->search($search, $this->limit, $this->offset, $this->searchResult);
 		$result = $this->searchResult->asArray();
 
-		$this->assertEquals([], $result['exact']['users']);
-		$this->assertEquals($mappedResult, $result['users']);
+		$this->assertEquals($mappedResultExact, $result['exact']['users']);
+		$this->assertEquals($mappedResultWide, $result['users']);
 	}
 }

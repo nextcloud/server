@@ -71,7 +71,6 @@ class UserPlugin implements ISearchPlugin {
 	public function search($search, $limit, $offset, ISearchResult $searchResult) {
 		$result = ['wide' => [], 'exact' => []];
 		$users = [];
-		$autoCompleteUsers = [];
 		$hasMoreResults = false;
 
 		$userGroups = [];
@@ -91,28 +90,6 @@ class UserPlugin implements ISearchPlugin {
 			foreach ($usersTmp as $user) {
 				if ($user->isEnabled()) { // Don't keep deactivated users
 					$users[$user->getUID()] = $user;
-
-					$addToWideResults = false;
-					if ($this->shareeEnumeration && !$this->shareeEnumerationInGroupOnly) {
-						$addToWideResults = true;
-					}
-
-					if ($this->shareeEnumerationInGroupOnly) {
-						$commonGroups = array_intersect($currentUserGroups, $this->groupManager->getUserGroupIds($user));
-						if (!empty($commonGroups)) {
-							$addToWideResults = true;
-						}
-					}
-
-					if ($addToWideResults) {
-						$autoCompleteUsers[] = [
-							'label' => $user->getDisplayName(),
-							'value' => [
-								'shareType' => IShare::TYPE_USER,
-								'shareWith' => (string)$user->getUID(),
-							],
-						];
-					}
 				}
 			}
 		}
@@ -145,13 +122,27 @@ class UserPlugin implements ISearchPlugin {
 					],
 				];
 			} else {
-				$result['wide'][] = [
-					'label' => $userDisplayName,
-					'value' => [
-						'shareType' => Share::SHARE_TYPE_USER,
-						'shareWith' => $uid,
-					],
-				];
+				$addToWideResults = false;
+				if ($this->shareeEnumeration && !$this->shareeEnumerationInGroupOnly) {
+					$addToWideResults = true;
+				}
+
+				if ($this->shareeEnumerationInGroupOnly) {
+					$commonGroups = array_intersect($currentUserGroups, $this->groupManager->getUserGroupIds($user));
+					if (!empty($commonGroups)) {
+						$addToWideResults = true;
+					}
+				}
+
+				if ($addToWideResults) {
+					$result['wide'][] = [
+						'label' => $userDisplayName,
+						'value' => [
+							'shareType' => IShare::TYPE_USER,
+							'shareWith' => $uid,
+						],
+					];
+				}
 			}
 		}
 
@@ -183,10 +174,7 @@ class UserPlugin implements ISearchPlugin {
 			}
 		}
 
-		// overwrite wide matches if they are limited
-		if (!$this->shareeEnumeration || $this->shareeEnumerationInGroupOnly) {
-			$result['wide'] = $autoCompleteUsers;
-		}
+
 
 		$type = new SearchResultType('users');
 		$searchResult->addResultSet($type, $result['wide'], $result['exact']);
