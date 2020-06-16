@@ -67,8 +67,14 @@ try {
 	OC_API::setContentType();
 	http_response_code(405);
 	exit();
-} catch (Exception $ex) {
+} catch (\OC\OCS\Exception $ex) {
 	OC_API::respond($ex->getResult(), OC_API::requestedFormat());
+	exit();
+} catch (Throwable $ex) {
+	OC::$server->getLogger()->logException($ex);
+
+	OC_API::setContentType();
+	http_response_code(500);
 	exit();
 }
 
