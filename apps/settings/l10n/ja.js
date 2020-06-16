@@ -11,7 +11,7 @@ OC.L10N.register(
     "Private" : "非公開",
     "Only visible to local users" : "ローカルユーザーのみ見れます",
     "Only visible to you" : "あなたのみから見れます",
-    "Contacts" : "アドレス帳",
+    "Contacts" : "連絡先",
     "Visible to local users and to trusted servers" : "ローカルユーザーと信頼できるサーバーから見れます",
     "Public" : "公開",
     "Will be synced to a global and public address book" : "グローバルなアドレス帳と公開アドレス帳に同期されます",
