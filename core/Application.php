@@ -36,6 +36,7 @@ use OC\Authentication\Listeners\RemoteWipeActivityListener;
 use OC\Authentication\Listeners\RemoteWipeEmailListener;
 use OC\Authentication\Listeners\RemoteWipeNotificationsListener;
 use OC\Authentication\Listeners\UserDeletedStoreCleanupListener;
+use OC\Authentication\Listeners\UserDeletedTokenCleanupListener;
 use OC\Authentication\Notifications\Notifier as AuthenticationNotifier;
 use OC\Core\Notification\RemoveLinkSharesNotifier;
 use OC\DB\MissingColumnInformation;
@@ -197,5 +198,6 @@ class Application extends App {
 		$eventDispatcher->addServiceListener(RemoteWipeFinished::class, RemoteWipeNotificationsListener::class);
 		$eventDispatcher->addServiceListener(RemoteWipeFinished::class, RemoteWipeEmailListener::class);
 		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedStoreCleanupListener::class);
+		$eventDispatcher->addServiceListener(UserDeletedEvent::class, UserDeletedTokenCleanupListener::class);
 	}
 }
