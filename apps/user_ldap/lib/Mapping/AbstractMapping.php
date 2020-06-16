@@ -123,7 +123,7 @@ abstract class AbstractMapping {
 	 */
 	public function getDNByName($name) {
 		$dn = array_search($name, $this->cache);
-		if ($dn === false && $dn = $this->getXbyY('ldap_dn', 'owncloud_name', $name)) {
+		if ($dn === false && ($dn = $this->getXbyY('ldap_dn', 'owncloud_name', $name)) !== false) {
 			$this->cache[$dn] = $name;
 		}
 		return $dn;
