@@ -47,7 +47,7 @@ OC.L10N.register(
     "Active" : "アクティブ化",
     "Save" : "保存",
     "Browse the app store" : "アプリストアをブラウザでみる",
-    "matches" : "合致",
+    "matches" : "一致",
     "does not match" : "一致しない",
     "is" : "は",
     "is not" : "は異なる",
