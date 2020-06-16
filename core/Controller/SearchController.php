@@ -28,20 +28,28 @@ namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISearch;
+use OCP\Search\Result;
 
 class SearchController extends Controller {
 
 	/** @var ISearch */
 	private $searcher;
+	/** @var ILogger */
+	private $logger;
 
-	public function __construct(string $appName,
-								IRequest $request,
-								ISearch $search) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		ISearch $search,
+		ILogger $logger
+	) {
 		parent::__construct($appName, $request);
 
 		$this->searcher = $search;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -49,6 +57,15 @@ class SearchController extends Controller {
 	 */
 	public function search(string $query, array $inApps = [], int $page = 1, int $size = 30): JSONResponse {
 		$results = $this->searcher->searchPaged($query, $inApps, $page, $size);
+
+		$results = array_filter($results, function (Result $result) {
+			if (json_encode($result, JSON_HEX_TAG) === false) {
+				$this->logger->warning("Skipping search result due to invalid encoding: {type: " . $result->type . ", id: " . $result->id . "}");
+				return false;
+			} else {
+				return true;
+			}
+		});
 
 		return new JSONResponse($results);
 	}
