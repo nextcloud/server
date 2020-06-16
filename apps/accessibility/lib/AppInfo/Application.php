@@ -29,12 +29,14 @@ declare(strict_types=1);
 
 namespace OCA\Accessibility\AppInfo;
 
+use OCA\Accessibility\Service\JSDataService;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\IAppContainer;
 use OCP\IConfig;
-use OCP\IServerContainer;
+use OCP\IInitialStateService;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use function count;
@@ -45,15 +47,6 @@ class Application extends App implements IBootstrap {
 
 	/** @var string */
 	public const APP_ID = 'accessibility';
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
 
 	public function __construct() {
 		parent::__construct(self::APP_ID);
@@ -68,11 +61,8 @@ class Application extends App implements IBootstrap {
 			$context->getAppContainer()->query(IConfig::class),
 			$context->getAppContainer()->query(IURLGenerator::class)
 		);
-		$this->injectJavascript(
-			$context->getAppContainer()->query(IURLGenerator::class),
-			$context->getAppContainer()->query(IConfig::class),
-			$context->getServerContainer()
-		);
+
+		$this->registerInitialState($context->getAppContainer());
 	}
 
 	private function injectCss(IUserSession $userSession,
@@ -91,23 +81,14 @@ class Application extends App implements IBootstrap {
 		}
 	}
 
-	private function injectJavascript(IURLGenerator $urlGenerator,
-									  IConfig $config,
-									  IServerContainer $serverContainer) {
-		$linkToJs = $urlGenerator->linkToRoute(
-			self::APP_ID . '.accessibility.getJavascript',
-			[
-				'v' => $config->getAppValue(self::APP_ID, 'cachebuster', '0'),
-			]
-		);
+	private function registerInitialState(IAppContainer $container) {
+		/** @var IInitialStateService $initialState */
+		$initialState = $container->query(IInitialStateService::class);
 
-		\OCP\Util::addHeader(
-			'script',
-			[
-				'src' => $linkToJs,
-				'nonce' => $serverContainer->getContentSecurityPolicyNonceManager()->getNonce()
-			],
-			''
-		);
+		$initialState->provideLazyInitialState(self::APP_ID, 'data', function () use ($container) {
+			/** @var JSDataService $data */
+			$data = $container->query(JSDataService::class);
+			return $data;
+		});
 	}
 }

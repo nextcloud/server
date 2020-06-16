@@ -39,7 +39,6 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
-use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -201,44 +200,6 @@ class AccessibilityController extends Controller {
 		// store current cache hash
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), $this->appName, 'icons-css', md5($css));
 
-		return $response;
-	}
-
-	/**
-	 * @NoCSRFRequired
-	 * @PublicPage
-	 * @NoSameSiteCookieRequired
-	 *
-	 * @return DataDownloadResponse
-	 */
-	public function getJavascript(): DataDownloadResponse {
-		$user = $this->userSession->getUser();
-
-		if ($user === null) {
-			$theme = false;
-			$highcontrast = false;
-		} else {
-			$theme = $this->config->getUserValue($user->getUID(), $this->appName, 'theme', false);
-			$highcontrast = $this->config->getUserValue($user->getUID(), $this->appName, 'highcontrast', false) !== false;
-		}
-		if ($theme !== false) {
-			$responseJS = '(function() {
-	OCA.Accessibility = {
-		highcontrast: ' . json_encode($highcontrast) . ',
-		theme: ' . json_encode($theme) . ',
-	};
-	document.body.classList.add(' . json_encode($theme) . ');
-})();';
-		} else {
-			$responseJS = '(function() {
-	OCA.Accessibility = {
-		highcontrast: ' . json_encode($highcontrast) . ',
-		theme: ' . json_encode($theme) . ',
-	};
-})();';
-		}
-		$response = new DataDownloadResponse($responseJS, 'javascript', 'text/javascript');
-		$response->cacheFor(3600);
 		return $response;
 	}
 
