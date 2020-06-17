@@ -171,7 +171,7 @@ OC.L10N.register(
     "File drop (upload only)" : "ファイルドロップ(アップロードのみ)",
     "Hide download" : "ダウンロードを隠す",
     "Password protect" : "パスワード保護",
-    "Video verification" : "映像の検証",
+    "Video verification" : "ビデオ通話によるパスワード通知",
     "Enter a note for the share recipient" : "共有受信者へのメモを入力してください",
     "Add another link" : "別のリンクを追加",
     "Create a new share link" : "新しい共有リンクを作成する",
