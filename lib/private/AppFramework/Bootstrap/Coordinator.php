@@ -32,6 +32,7 @@ use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IServerContainer;
+use Throwable;
 use function class_exists;
 use function class_implements;
 use function in_array;
@@ -81,9 +82,17 @@ class Coordinator {
 				try {
 					/** @var IBootstrap|App $application */
 					$apps[$appId] = $application = $this->serverContainer->query($applicationClassName);
-					$application->register($context->for($appId));
 				} catch (QueryException $e) {
 					// Weird, but ok
+					return;
+				}
+				try {
+					$application->register($context->for($appId));
+				} catch (Throwable $e) {
+					$this->logger->logException($e, [
+						'message' => 'Error during app service registration: ' . $e->getMessage(),
+						'level' => ILogger::FATAL,
+					]);
 				}
 			}
 		}
@@ -125,6 +134,11 @@ class Coordinator {
 				'message' => "Could not boot $appId" . $e->getMessage(),
 			]);
 			return;
+		} catch (Throwable $e) {
+			$this->logger->logException($e, [
+				'message' => "Could not boot $appId" . $e->getMessage(),
+				'level' => ILogger::FATAL,
+			]);
 		}
 	}
 }
