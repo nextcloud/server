@@ -144,6 +144,7 @@ OC.L10N.register(
     "No elements found." : "Ni najdenih predmetov",
     "Search globally" : "Splošno iskanje",
     "Others with access" : "Drugi z dostopom",
+    "Link to a file" : "Povezava do datoteke",
     "Shared" : "V souporabi",
     "Share" : "Souporaba",
     "Shared with" : "V skupni rabi z uporabnikom",
