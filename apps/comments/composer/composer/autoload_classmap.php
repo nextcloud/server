@@ -16,6 +16,7 @@ return array(
     'OCA\\Comments\\Controller\\Notifications' => $baseDir . '/../lib/Controller/Notifications.php',
     'OCA\\Comments\\EventHandler' => $baseDir . '/../lib/EventHandler.php',
     'OCA\\Comments\\JSSettingsHelper' => $baseDir . '/../lib/JSSettingsHelper.php',
+    'OCA\\Comments\\Listener\\CommentsEntityEventListener' => $baseDir . '/../lib/Listener/CommentsEntityEventListener.php',
     'OCA\\Comments\\Listener\\LoadAdditionalScripts' => $baseDir . '/../lib/Listener/LoadAdditionalScripts.php',
     'OCA\\Comments\\Listener\\LoadSidebarScripts' => $baseDir . '/../lib/Listener/LoadSidebarScripts.php',
     'OCA\\Comments\\Notification\\Listener' => $baseDir . '/../lib/Notification/Listener.php',

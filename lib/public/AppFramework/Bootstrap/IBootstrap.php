@@ -1,10 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
+ * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Robin Appelman <robin@icewind.nl>
+ * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,11 +20,27 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use OCA\TwoFactorBackupCodes\AppInfo\Application;
+namespace OCP\AppFramework\Bootstrap;
 
-$app = \OC::$server->query(Application::class);
-$app->register();
+/**
+ * @since 20.0.0
+ */
+interface IBootstrap {
+
+	/**
+	 * @param IRegistrationContext $context
+	 *
+	 * @since 20.0.0
+	 */
+	public function register(IRegistrationContext $context): void;
+
+	/**
+	 * @param IBootContext $context
+	 *
+	 * @since 20.0.0
+	 */
+	public function boot(IBootContext $context): void;
+}

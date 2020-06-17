@@ -3,12 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
- * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
+ * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Joas Schilling <coding@schilljs.com>
- * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -23,9 +20,25 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$app = \OC::$server->query(\OCA\AdminAudit\AppInfo\Application::class);
-$app->register();
+namespace OCA\Comments\Listener;
+
+use OCP\Comments\CommentsEntityEvent;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
+
+class CommentsEntityEventListener implements IEventListener {
+	public function handle(Event $event): void {
+		if (!($event instanceof CommentsEntityEvent)) {
+			// Unrelated
+			return;
+		}
+
+		$event->addEntityCollection('files', function ($name) {
+			$nodes = \OC::$server->getUserFolder()->getById((int)$name);
+			return !empty($nodes);
+		});
+	}
+}

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
  *
@@ -27,14 +30,21 @@
 namespace OCA\Accessibility\AppInfo;
 
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\IConfig;
+use OCP\IServerContainer;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use function count;
+use function implode;
+use function md5;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 
 	/** @var string */
-	public const APP_NAME = 'accessibility';
+	public const APP_ID = 'accessibility';
 
 	/** @var IConfig */
 	private $config;
@@ -46,31 +56,48 @@ class Application extends App {
 	private $urlGenerator;
 
 	public function __construct() {
-		parent::__construct(self::APP_NAME);
-		$this->config       = \OC::$server->getConfig();
-		$this->userSession  = \OC::$server->getUserSession();
-		$this->urlGenerator = \OC::$server->getURLGenerator();
+		parent::__construct(self::APP_ID);
 	}
 
-	public function injectCss() {
+	public function register(IRegistrationContext $context): void {
+	}
+
+	public function boot(IBootContext $context): void {
+		$this->injectCss(
+			$context->getAppContainer()->query(IUserSession::class),
+			$context->getAppContainer()->query(IConfig::class),
+			$context->getAppContainer()->query(IURLGenerator::class)
+		);
+		$this->injectJavascript(
+			$context->getAppContainer()->query(IURLGenerator::class),
+			$context->getAppContainer()->query(IConfig::class),
+			$context->getServerContainer()
+		);
+	}
+
+	private function injectCss(IUserSession $userSession,
+							   IConfig $config,
+							   IURLGenerator $urlGenerator) {
 		// Inject the fake css on all pages if enabled and user is logged
-		$loggedUser = $this->userSession->getUser();
-		if (!is_null($loggedUser)) {
-			$userValues = $this->config->getUserKeys($loggedUser->getUID(), self::APP_NAME);
+		$loggedUser = $userSession->getUser();
+		if ($loggedUser !== null) {
+			$userValues = $config->getUserKeys($loggedUser->getUID(), self::APP_ID);
 			// we want to check if any theme or font is enabled.
 			if (count($userValues) > 0) {
-				$hash = $this->config->getUserValue($loggedUser->getUID(), self::APP_NAME, 'icons-css', md5(implode('-', $userValues)));
-				$linkToCSS = $this->urlGenerator->linkToRoute(self::APP_NAME . '.accessibility.getCss', ['md5' => $hash]);
+				$hash = $config->getUserValue($loggedUser->getUID(), self::APP_ID, 'icons-css', md5(implode('-', $userValues)));
+				$linkToCSS = $urlGenerator->linkToRoute(self::APP_ID . '.accessibility.getCss', ['md5' => $hash]);
 				\OCP\Util::addHeader('link', ['rel' => 'stylesheet', 'href' => $linkToCSS]);
 			}
 		}
 	}
 
-	public function injectJavascript() {
-		$linkToJs = $this->urlGenerator->linkToRoute(
-			self::APP_NAME . '.accessibility.getJavascript',
+	private function injectJavascript(IURLGenerator $urlGenerator,
+									  IConfig $config,
+									  IServerContainer $serverContainer) {
+		$linkToJs = $urlGenerator->linkToRoute(
+			self::APP_ID . '.accessibility.getJavascript',
 			[
-				'v' => \OC::$server->getConfig()->getAppValue('accessibility', 'cachebuster', '0'),
+				'v' => $config->getAppValue(self::APP_ID, 'cachebuster', '0'),
 			]
 		);
 
@@ -78,7 +105,7 @@ class Application extends App {
 			'script',
 			[
 				'src' => $linkToJs,
-				'nonce' => \OC::$server->getContentSecurityPolicyNonceManager()->getNonce()
+				'nonce' => $serverContainer->getContentSecurityPolicyNonceManager()->getNonce()
 			],
 			''
 		);

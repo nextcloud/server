@@ -149,6 +149,9 @@ class OC_App {
 		// in case someone calls loadApp() directly
 		self::registerAutoloading($app, $appPath);
 
+		/** @var \OC\AppFramework\Bootstrap\Coordinator $coordinator */
+		$coordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
+		$coordinator->bootApp($app);
 		if (is_file($appPath . '/appinfo/app.php')) {
 			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
 			try {

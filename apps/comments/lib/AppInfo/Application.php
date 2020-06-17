@@ -31,6 +31,7 @@ use OCA\Comments\Capabilities;
 use OCA\Comments\Controller\Notifications;
 use OCA\Comments\EventHandler;
 use OCA\Comments\JSSettingsHelper;
+use OCA\Comments\Listener\CommentsEntityEventListener;
 use OCA\Comments\Listener\LoadAdditionalScripts;
 use OCA\Comments\Listener\LoadSidebarScripts;
 use OCA\Comments\Notification\Notifier;
@@ -38,60 +39,55 @@ use OCA\Comments\Search\Provider;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Comments\CommentsEntityEvent;
-use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IServerContainer;
 use OCP\Util;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 	public const APP_ID = 'comments';
 
 	public function __construct(array $urlParams = []) {
 		parent::__construct(self::APP_ID, $urlParams);
-		$container = $this->getContainer();
+	}
 
-		$container->registerAlias('NotificationsController', Notifications::class);
+	public function register(IRegistrationContext $context): void {
+		$context->registerCapability(Capabilities::class);
 
-		$jsSettingsHelper = new JSSettingsHelper($container->getServer());
+		$context->registerServiceAlias('NotificationsController', Notifications::class);
+
+		$context->registerEventListener(
+			LoadAdditionalScriptsEvent::class,
+			LoadAdditionalScripts::class
+		);
+		$context->registerEventListener(
+			LoadSidebar::class,
+			LoadSidebarScripts::class
+		);
+		$context->registerEventListener(
+			CommentsEntityEvent::EVENT_ENTITY,
+			CommentsEntityEventListener::class
+		);
+	}
+
+	public function boot(IBootContext $context): void {
+		$this->registerNotifier($context->getServerContainer());
+		$this->registerCommentsEventHandler($context->getServerContainer());
+
+		$jsSettingsHelper = new JSSettingsHelper($context->getServerContainer());
 		Util::connectHook('\OCP\Config', 'js', $jsSettingsHelper, 'extend');
 
-		$this->register();
+		$context->getServerContainer()->getSearch()->registerProvider(Provider::class, ['apps' => ['files']]);
 	}
 
-	private function register() {
-		$server = $this->getContainer()->getServer();
-
-		/** @var IEventDispatcher $newDispatcher */
-		$dispatcher = $server->query(IEventDispatcher::class);
-
-		$this->registerEventsScripts($dispatcher);
-		$this->registerDavEntity($dispatcher);
-		$this->registerNotifier();
-		$this->registerCommentsEventHandler();
-
-		$this->getContainer()->registerCapability(Capabilities::class);
-		$server->getSearch()->registerProvider(Provider::class, ['apps' => ['files']]);
+	protected function registerNotifier(IServerContainer $container) {
+		$container->getNotificationManager()->registerNotifierService(Notifier::class);
 	}
 
-	protected function registerEventsScripts(IEventDispatcher $dispatcher) {
-		$dispatcher->addServiceListener(LoadAdditionalScriptsEvent::class, LoadAdditionalScripts::class);
-		$dispatcher->addServiceListener(LoadSidebar::class, LoadSidebarScripts::class);
-	}
-
-	protected function registerDavEntity(IEventDispatcher $dispatcher) {
-		$dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function (CommentsEntityEvent $event) {
-			$event->addEntityCollection('files', function ($name) {
-				$nodes = \OC::$server->getUserFolder()->getById((int)$name);
-				return !empty($nodes);
-			});
-		});
-	}
-
-	protected function registerNotifier() {
-		$this->getContainer()->getServer()->getNotificationManager()->registerNotifierService(Notifier::class);
-	}
-
-	protected function registerCommentsEventHandler() {
-		$this->getContainer()->getServer()->getCommentsManager()->registerEventHandler(function () {
+	protected function registerCommentsEventHandler(IServerContainer $container) {
+		$container->getCommentsManager()->registerEventHandler(function () {
 			return $this->getContainer()->query(EventHandler::class);
 		});
 	}
