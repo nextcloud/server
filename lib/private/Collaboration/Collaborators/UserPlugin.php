@@ -68,14 +68,14 @@ class UserPlugin implements ISearchPlugin {
 		$users = [];
 		$hasMoreResults = false;
 
-		$userGroups = [];
+		$currentUserGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
 		if ($this->shareWithGroupOnly) {
 			// Search in all the groups this user is part of
-			$userGroups = $this->groupManager->getUserGroups($this->userSession->getUser());
-			foreach ($userGroups as $userGroup) {
-				$usersInGroup = $userGroup->searchDisplayName($search, $limit, $offset);
-				foreach ($usersInGroup as $user) {
-					$users[$user->getUID()] = $user;
+			foreach ($currentUserGroups as $userGroupId) {
+				$usersInGroup = $this->groupManager->displayNamesInGroup($userGroupId, $search, $limit, $offset);
+				foreach ($usersInGroup as $userId => $displayName) {
+					$userId = (string) $userId;
+					$users[$userId] = $this->userManager->get($userId);
 				}
 			}
 		} else {
@@ -136,10 +136,7 @@ class UserPlugin implements ISearchPlugin {
 
 				if ($this->shareWithGroupOnly) {
 					// Only add, if we have a common group
-					$userGroupIds = array_map(function(IGroup $group) {
-						return $group->getGID();
-					}, $userGroups);
-					$commonGroups = array_intersect($userGroupIds, $this->groupManager->getUserGroupIds($user));
+					$commonGroups = array_intersect($currentUserGroups, $this->groupManager->getUserGroupIds($user));
 					$addUser = !empty($commonGroups);
 				}
 
