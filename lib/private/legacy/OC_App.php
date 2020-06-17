@@ -149,9 +149,6 @@ class OC_App {
 		// in case someone calls loadApp() directly
 		self::registerAutoloading($app, $appPath);
 
-		/** @var \OC\AppFramework\Bootstrap\Coordinator $coordinator */
-		$coordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
-		$coordinator->bootApp($app);
 		if (is_file($appPath . '/appinfo/app.php')) {
 			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
 			try {
@@ -175,6 +172,10 @@ class OC_App {
 			}
 			\OC::$server->getEventLogger()->end('load_app_' . $app);
 		}
+
+		/** @var \OC\AppFramework\Bootstrap\Coordinator $coordinator */
+		$coordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
+		$coordinator->bootApp($app);
 
 		$info = self::getAppInfo($app);
 		if (!empty($info['activity']['filters'])) {
