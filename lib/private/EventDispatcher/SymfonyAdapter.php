@@ -63,7 +63,7 @@ class SymfonyAdapter implements EventDispatcherInterface {
 		if ($event instanceof Event) {
 			$this->eventDispatcher->dispatch($eventName, $event);
 		} else {
-			if ($event instanceof GenericEvent) {
+			if ($event instanceof GenericEvent && get_class($event) === GenericEvent::class) {
 				$newEvent = new GenericEventWrapper($this->logger, $eventName, $event);
 			} else {
 				$newEvent = $event;
