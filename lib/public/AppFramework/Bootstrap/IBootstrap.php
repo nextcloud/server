@@ -38,6 +38,13 @@ interface IBootstrap {
 	public function register(IRegistrationContext $context): void;
 
 	/**
+	 * Boot the application
+	 *
+	 * At this stage you can assume that all services are registered and the DI
+	 * container(s) are ready to be queried.
+	 *
+	 * This is also the state where an optional `appinfo/app.php` was loaded.
+	 *
 	 * @param IBootContext $context
 	 *
 	 * @since 20.0.0
