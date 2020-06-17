@@ -31,7 +31,6 @@ use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\ISearchResult;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\IConfig;
-use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
