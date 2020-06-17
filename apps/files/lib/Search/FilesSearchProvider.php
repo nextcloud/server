@@ -25,7 +25,10 @@ declare(strict_types=1);
 
 namespace OCA\Files\Search;
 
+use OC\Search\Provider\File;
+use OC\Search\Result\File as FileResult;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
@@ -33,11 +36,21 @@ use OCP\Search\SearchResult;
 
 class FilesSearchProvider implements IProvider {
 
+	/** @var File */
+	private $fileSearch;
+
 	/** @var IL10N */
 	private $l10n;
 
-	public function __construct(IL10N $l10n) {
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
+	public function __construct(File $fileSearch,
+								IL10N $l10n,
+								IURLGenerator $urlGenerator) {
 		$this->l10n = $l10n;
+		$this->fileSearch = $fileSearch;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	public function getId(): string {
@@ -47,26 +60,14 @@ class FilesSearchProvider implements IProvider {
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		return SearchResult::complete(
 			$this->l10n->t('Files'),
-			[
-				new FilesSearchResultEntry(
-					"path/to/icon.png",
-					"cute cats.jpg",
-					"/Cats",
-					"/f/21156"
-				),
-				new FilesSearchResultEntry(
-					"path/to/icon.png",
-					"cat 1.jpg",
-					"/Cats",
-					"/f/21192"
-				),
-				new FilesSearchResultEntry(
-					"path/to/icon.png",
-					"cat 2.jpg",
-					"/Cats",
-					"/f/25942"
-				),
-			]
+			array_map(function (FileResult $result) {
+				return new FilesSearchResultEntry(
+					$this->urlGenerator->linkToRoute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id]),
+					$result->name,
+					$result->path,
+					$result->link
+				);
+			}, $this->fileSearch->search($query->getTerm()))
 		);
 	}
 }

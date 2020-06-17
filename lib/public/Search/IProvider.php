@@ -28,7 +28,7 @@ namespace OCP\Search;
 use OCP\IUser;
 
 /**
- * Interface for an app search providers
+ * Interface for search providers
  *
  * These providers will be implemented in apps, so they can participate in the
  * global search results of Nextcloud. If an app provides more than one type of

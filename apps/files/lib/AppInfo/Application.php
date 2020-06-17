@@ -44,6 +44,7 @@ use OCA\Files\Event\LoadSidebar;
 use OCA\Files\Listener\LegacyLoadAdditionalScriptsAdapter;
 use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Notification\Notifier;
+use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -106,6 +107,8 @@ class Application extends App implements IBootstrap {
 
 		$context->registerEventListener(LoadAdditionalScriptsEvent::class, LegacyLoadAdditionalScriptsAdapter::class);
 		$context->registerEventListener(LoadSidebar::class, LoadSidebarListener::class);
+
+		$context->registerSearchProvider(FilesSearchProvider::class);
 	}
 
 	public function boot(IBootContext $context): void {

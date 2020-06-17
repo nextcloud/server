@@ -25,6 +25,8 @@ declare(strict_types=1);
 
 namespace OC\Search;
 
+use InvalidArgumentException;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
 use OCP\ILogger;
 use OCP\IServerContainer;
@@ -37,6 +39,21 @@ use function array_map;
 /**
  * Queries individual \OCP\Search\IProvider implementations and composes a
  * unified search result for the user's search term
+ *
+ * The search process is generally split into two steps
+ *
+ *   1. Get a list of provider (`getProviders`)
+ *   2. Get search results of each provider (`search`)
+ *
+ * The reasoning behind this is that the runtime complexity of a combined search
+ * result would be O(n) and linearly grow with each provider added. This comes
+ * from the nature of php where we can't concurrently fetch the search results.
+ * So we offload the concurrency the client application (e.g. JavaScript in the
+ * browser) and let it first get the list of providers to then fetch all results
+ * concurrently. The client is free to decide whether all concurrent search
+ * results are awaited or shown as they come in.
+ *
+ * @see IProvider::search() for the arguments of the individual search requests
  */
 class SearchComposer {
 
@@ -58,6 +75,17 @@ class SearchComposer {
 		$this->logger = $logger;
 	}
 
+	/**
+	 * Register a search provider lazily
+	 *
+	 * Registers the fully-qualified class name of an implementation of an
+	 * IProvider. The service will only be queried on demand. Apps will register
+	 * the providers through the registration context object.
+	 *
+	 * @see IRegistrationContext::registerSearchProvider()
+	 *
+	 * @param string $class
+	 */
 	public function registerProvider(string $class): void {
 		$this->lazyProviders[] = $class;
 	}
@@ -85,6 +113,11 @@ class SearchComposer {
 		$this->lazyProviders = [];
 	}
 
+	/**
+	 * Get a list of all provider IDs for the consecutive calls to `search`
+	 *
+	 * @return string[]
+	 */
 	public function getProviders(): array {
 		$this->loadLazyProviders();
 
@@ -97,11 +130,25 @@ class SearchComposer {
 			}, $this->providers));
 	}
 
+	/**
+	 * Query an individual search provider for results
+	 *
+	 * @param IUser $user
+	 * @param string $providerId one of the IDs received by `getProviders`
+	 * @param ISearchQuery $query
+	 *
+	 * @return SearchResult
+	 * @throws InvalidArgumentException when the $providerId does not correspond to a registered provider
+	 */
 	public function search(IUser $user,
 						   string $providerId,
 						   ISearchQuery $query): SearchResult {
 		$this->loadLazyProviders();
 
-		return $this->providers[$providerId]->search($user, $query);
+		$provider = $this->providers[$providerId] ?? null;
+		if ($provider === null) {
+			throw new InvalidArgumentException("Provider $providerId is unknown");
+		}
+		return $provider->search($user, $query);
 	}
 }
