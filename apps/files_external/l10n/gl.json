@@ -38,7 +38,7 @@
     "Password" : "Contrasinal",
     "Credentials saved" : "Credenciais gardadas",
     "Credentials saving failed" : "Non foi posíbel gardar as credenciais",
-    "Credentials required" : "Requírense as credenciais",
+    "Credentials required" : "Son necesarias as credenciais",
     "Storage with ID \"%d\" not found" : "Non se atopa o almacenamento co ID «%d» ",
     "Invalid backend or authentication mechanism class" : "Clase de mecanismo de autenticación ou infraestrutura incorrecta",
     "Invalid mount point" : "Punto de montaxe incorrecto",
