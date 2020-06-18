@@ -210,7 +210,7 @@ OC.L10N.register(
     "Copy to {folder}" : "Copiar en {folder}",
     "Move to {folder}" : "Mover a {folder}",
     "Saving …" : "Gardando…",
-    "Authentication required" : "Requírese autenticación",
+    "Authentication required" : "É necesaria a autenticación",
     "This action requires you to confirm your password" : "Esta acción require que confirme o seu contrasinal",
     "Confirm" : "Confirmar",
     "Failed to authenticate, try again" : "Fallou a autenticación, ténteo de novo",

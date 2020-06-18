@@ -318,7 +318,7 @@ OC.L10N.register(
     "From address" : "Dende o enderezo",
     "mail" : "correo",
     "Authentication method" : "Método de autenticación",
-    "Authentication required" : "Requírese autenticación",
+    "Authentication required" : "É necesaria a autenticación",
     "Server address" : "Enderezo do servidor",
     "Port" : "Porto",
     "Credentials" : "Credenciais",

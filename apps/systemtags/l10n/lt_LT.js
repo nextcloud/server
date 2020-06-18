@@ -35,6 +35,8 @@ OC.L10N.register(
     "You removed system tag {systemtag} from {file}" : "Jūs pašalinote sistemos žymę {systemtag} nuo {file}",
     "%1$s removed system tag %3$s from %2$s" : "%1$s pašalino sistemos žymę %3$s nuo %2$s",
     "{actor} removed system tag {systemtag} from {file}" : "{actor} pašalino sistemos žymę {systemtag} nuo {file}",
+    "%s (restricted)" : "%s (apribotas)",
+    "%s (invisible)" : "%s (nematomas)",
     "<strong>System tags</strong> for a file have been modified" : "Modifikuotos failo <strong>sistemos žymės</strong>",
     "Collaborative tags" : "Bendradarbiavimo žymės",
     "Tagged files" : "Pažymėti failai",
