@@ -258,7 +258,7 @@ class UserPluginTest extends TestCase {
 				true,
 				['abc', 'xyz'],
 				[
-					['abc', 'test', 2, 0, [$this->getUserMock('test1', 'Test One')]],
+					['abc', 'test', 2, 0, ['test1' => 'Test One']],
 					['xyz', 'test', 2, 0, []],
 				],
 				[],
@@ -267,6 +267,7 @@ class UserPluginTest extends TestCase {
 				],
 				true,
 				false,
+				[['test1', $this->getUserMock('test1', 'Test One')]],
 			],
 			[
 				'test',
@@ -274,13 +275,14 @@ class UserPluginTest extends TestCase {
 				false,
 				['abc', 'xyz'],
 				[
-					['abc', 'test', 2, 0, [$this->getUserMock('test1', 'Test One')]],
+					['abc', 'test', 2, 0, ['test1' => 'Test One']],
 					['xyz', 'test', 2, 0, []],
 				],
 				[],
 				[],
 				true,
 				false,
+				[['test1', $this->getUserMock('test1', 'Test One')]],
 			],
 			[
 				'test',
@@ -289,12 +291,12 @@ class UserPluginTest extends TestCase {
 				['abc', 'xyz'],
 				[
 					['abc', 'test', 2, 0, [
-						$this->getUserMock('test1', 'Test One'),
-						$this->getUserMock('test2', 'Test Two'),
+						'test1' => 'Test One',
+						'test2' => 'Test Two',
 					]],
 					['xyz', 'test', 2, 0, [
-						$this->getUserMock('test1', 'Test One'),
-						$this->getUserMock('test2', 'Test Two'),
+						'test1' => 'Test One',
+						'test2' => 'Test Two',
 					]],
 				],
 				[],
@@ -304,6 +306,10 @@ class UserPluginTest extends TestCase {
 				],
 				false,
 				false,
+				[
+					['test1', $this->getUserMock('test1', 'Test One')],
+					['test2', $this->getUserMock('test2', 'Test Two')],
+				],
 			],
 			[
 				'test',
@@ -312,18 +318,22 @@ class UserPluginTest extends TestCase {
 				['abc', 'xyz'],
 				[
 					['abc', 'test', 2, 0, [
-						$this->getUserMock('test1', 'Test One'),
-						$this->getUserMock('test2', 'Test Two'),
+						'test1' => 'Test One',
+						'test2' => 'Test Two',
 					]],
 					['xyz', 'test', 2, 0, [
-						$this->getUserMock('test1', 'Test One'),
-						$this->getUserMock('test2', 'Test Two'),
+						'test1' => 'Test One',
+						'test2' => 'Test Two',
 					]],
 				],
 				[],
 				[],
 				true,
 				false,
+				[
+					['test1', $this->getUserMock('test1', 'Test One')],
+					['test2', $this->getUserMock('test2', 'Test Two')],
+				],
 			],
 			[
 				'test',
@@ -332,10 +342,10 @@ class UserPluginTest extends TestCase {
 				['abc', 'xyz'],
 				[
 					['abc', 'test', 2, 0, [
-						$this->getUserMock('test', 'Test One'),
+						'test' => 'Test One',
 					]],
 					['xyz', 'test', 2, 0, [
-						$this->getUserMock('test2', 'Test Two'),
+						'test2' => 'Test Two',
 					]],
 				],
 				[
@@ -346,6 +356,10 @@ class UserPluginTest extends TestCase {
 				],
 				false,
 				false,
+				[
+					['test', $this->getUserMock('test', 'Test One')],
+					['test2', $this->getUserMock('test2', 'Test Two')],
+				],
 			],
 			[
 				'test',
@@ -354,10 +368,10 @@ class UserPluginTest extends TestCase {
 				['abc', 'xyz'],
 				[
 					['abc', 'test', 2, 0, [
-						$this->getUserMock('test', 'Test One'),
+						'test' => 'Test One',
 					]],
 					['xyz', 'test', 2, 0, [
-						$this->getUserMock('test2', 'Test Two'),
+						'test2' => 'Test Two',
 					]],
 				],
 				[
@@ -366,6 +380,10 @@ class UserPluginTest extends TestCase {
 				[],
 				true,
 				false,
+				[
+					['test', $this->getUserMock('test', 'Test One')],
+					['test2', $this->getUserMock('test2', 'Test Two')],
+				],
 			],
 		];
 	}
@@ -382,6 +400,7 @@ class UserPluginTest extends TestCase {
 	 * @param array $expected
 	 * @param bool $reachedEnd
 	 * @param bool|IUser $singleUser
+	 * @param array $users
 	 */
 	public function testSearch(
 		$searchTerm,
@@ -392,7 +411,8 @@ class UserPluginTest extends TestCase {
 		array $exactExpected,
 		array $expected,
 		$reachedEnd,
-		$singleUser
+		$singleUser,
+		array $users = []
 	) {
 		$this->config->expects($this->any())
 			->method('getAppValue')
@@ -421,39 +441,29 @@ class UserPluginTest extends TestCase {
 				->with($searchTerm, $this->limit, $this->offset)
 				->willReturn($userResponse);
 		} else {
-			$groups = array_combine($groupResponse, array_map(function ($gid) {
-				return $this->getGroupMock($gid);
-			}, $groupResponse));
-			if ($singleUser !== false) {
-				$this->groupManager->method('getUserGroups')
-					->with($this->user)
-					->willReturn($groups);
+			$this->groupManager->method('getUserGroupIds')
+				->with($this->user)
+				->willReturn($groupResponse);
 
+			if ($singleUser !== false) {
 				$this->groupManager->method('getUserGroupIds')
 					->with($singleUser)
 					->willReturn($groupResponse);
-			} else {
-				$this->groupManager->expects($this->once())
-					->method('getUserGroups')
-					->with($this->user)
-					->willReturn($groups);
 			}
 
-			foreach ($userResponse as $groupDefinition) {
-				[$gid, $search, $limit, $offset, $users] = $groupDefinition;
-				$groups[$gid]->method('searchDisplayName')
-					->with($search, $limit, $offset)
-					->willReturn($users);
-			}
+			$this->groupManager->method('displayNamesInGroup')
+				->willReturnMap($userResponse);
 		}
 
 		if ($singleUser !== false) {
-			$this->userManager->expects($this->once())
-				->method('get')
-				->with($searchTerm)
-				->willReturn($singleUser);
+			$users[] = [$searchTerm, $singleUser];
 		}
 
+		if (!empty($users)) {
+			$this->userManager->expects($this->atLeastOnce())
+				->method('get')
+				->willReturnMap($users);
+		}
 
 		$moreResults = $this->plugin->search($searchTerm, $this->limit, $this->offset, $this->searchResult);
 		$result = $this->searchResult->asArray();
