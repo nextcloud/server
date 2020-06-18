@@ -541,6 +541,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\WorkflowEngine\\EntityContext\\IDisplayText' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/EntityContext/IDisplayText.php',
         'OCP\\WorkflowEngine\\EntityContext\\IIcon' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/EntityContext/IIcon.php',
         'OCP\\WorkflowEngine\\EntityContext\\IUrl' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/EntityContext/IUrl.php',
+        'OCP\\WorkflowEngine\\Events\\LoadSettingsScriptsEvent' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/Events/LoadSettingsScriptsEvent.php',
         'OCP\\WorkflowEngine\\Events\\RegisterChecksEvent' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/Events/RegisterChecksEvent.php',
         'OCP\\WorkflowEngine\\Events\\RegisterEntitiesEvent' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/Events/RegisterEntitiesEvent.php',
         'OCP\\WorkflowEngine\\Events\\RegisterOperationsEvent' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/Events/RegisterOperationsEvent.php',

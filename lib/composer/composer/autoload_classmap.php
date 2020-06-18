@@ -512,6 +512,7 @@ return array(
     'OCP\\WorkflowEngine\\EntityContext\\IDisplayText' => $baseDir . '/lib/public/WorkflowEngine/EntityContext/IDisplayText.php',
     'OCP\\WorkflowEngine\\EntityContext\\IIcon' => $baseDir . '/lib/public/WorkflowEngine/EntityContext/IIcon.php',
     'OCP\\WorkflowEngine\\EntityContext\\IUrl' => $baseDir . '/lib/public/WorkflowEngine/EntityContext/IUrl.php',
+    'OCP\\WorkflowEngine\\Events\\LoadSettingsScriptsEvent' => $baseDir . '/lib/public/WorkflowEngine/Events/LoadSettingsScriptsEvent.php',
     'OCP\\WorkflowEngine\\Events\\RegisterChecksEvent' => $baseDir . '/lib/public/WorkflowEngine/Events/RegisterChecksEvent.php',
     'OCP\\WorkflowEngine\\Events\\RegisterEntitiesEvent' => $baseDir . '/lib/public/WorkflowEngine/Events/RegisterEntitiesEvent.php',
     'OCP\\WorkflowEngine\\Events\\RegisterOperationsEvent' => $baseDir . '/lib/public/WorkflowEngine/Events/RegisterOperationsEvent.php',
