@@ -199,7 +199,7 @@ class RegistrationContext {
 						$registration['priority']
 					);
 				} else {
-					$eventDispatcher->addListener(
+					$eventDispatcher->addServiceListener(
 						$registration['event'],
 						$registration['listener']
 					);
