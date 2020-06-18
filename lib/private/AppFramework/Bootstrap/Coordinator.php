@@ -84,7 +84,7 @@ class Coordinator {
 					$apps[$appId] = $application = $this->serverContainer->query($applicationClassName);
 				} catch (QueryException $e) {
 					// Weird, but ok
-					return;
+					continue;
 				}
 				try {
 					$application->register($context->for($appId));
