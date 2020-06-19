@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OC\AppFramework\Bootstrap;
 
 use Closure;
+use OC\Support\CrashReport\Registry;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -36,6 +37,9 @@ class RegistrationContext {
 
 	/** @var array[] */
 	private $capabilities = [];
+
+	/** @var array[] */
+	private $crashReporters = [];
 
 	/** @var array[] */
 	private $services = [];
@@ -76,6 +80,13 @@ class RegistrationContext {
 				$this->context->registerCapability(
 					$this->appId,
 					$capability
+				);
+			}
+
+			public function registerCrashReporter(string $reporterClass): void {
+				$this->context->registerCrashReporter(
+					$this->appId,
+					$reporterClass
 				);
 			}
 
@@ -126,6 +137,13 @@ class RegistrationContext {
 		$this->capabilities[] = [
 			'appId' => $appId,
 			'capability' => $capability
+		];
+	}
+
+	public function registerCrashReporter(string $appId, string $reporterClass): void {
+		$this->crashReporters[] = [
+			'appId' => $appId,
+			'class' => $reporterClass,
 		];
 	}
 
@@ -183,6 +201,23 @@ class RegistrationContext {
 				$appId = $registration['appId'];
 				$this->logger->logException($e, [
 					'message' => "Error during capability registration of $appId: " . $e->getMessage(),
+					'level' => ILogger::ERROR,
+				]);
+			}
+		}
+	}
+
+	/**
+	 * @param App[] $apps
+	 */
+	public function delegateCrashReporterRegistrations(array $apps, Registry $registry): void {
+		foreach ($this->crashReporters as $registration) {
+			try {
+				$registry->registerLazy($registration['class']);
+			} catch (Throwable $e) {
+				$appId = $registration['appId'];
+				$this->logger->logException($e, [
+					'message' => "Error during crash reporter registration of $appId: " . $e->getMessage(),
 					'level' => ILogger::ERROR,
 				]);
 			}

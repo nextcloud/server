@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace lib\AppFramework\Bootstrap;
 
 use OC\AppFramework\Bootstrap\Coordinator;
+use OC\Support\CrashReport\Registry;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -46,6 +47,9 @@ class CoordinatorTest extends TestCase {
 	/** @var IServerContainer|MockObject */
 	private $serverContainer;
 
+	/** @var Registry|MockObject */
+	private $crashReporterRegistry;
+
 	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
 
@@ -60,11 +64,13 @@ class CoordinatorTest extends TestCase {
 
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->serverContainer = $this->createMock(IServerContainer::class);
+		$this->crashReporterRegistry = $this->createMock(Registry::class);
 		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(ILogger::class);
 
 		$this->coordinator = new Coordinator(
 			$this->serverContainer,
+			$this->crashReporterRegistry,
 			$this->eventDispatcher,
 			$this->logger
 		);

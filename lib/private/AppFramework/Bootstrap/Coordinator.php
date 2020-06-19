@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Bootstrap;
 
+use OC\Support\CrashReport\Registry;
 use OC_App;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -42,6 +43,9 @@ class Coordinator {
 	/** @var IServerContainer */
 	private $serverContainer;
 
+	/** @var Registry */
+	private $registry;
+
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
@@ -49,9 +53,11 @@ class Coordinator {
 	private $logger;
 
 	public function __construct(IServerContainer $container,
+								Registry $registry,
 								IEventDispatcher $eventListener,
 								ILogger $logger) {
 		$this->serverContainer = $container;
+		$this->registry = $registry;
 		$this->eventDispatcher = $eventListener;
 		$this->logger = $logger;
 	}
@@ -102,6 +108,7 @@ class Coordinator {
 		 * to the actual services
 		 */
 		$context->delegateCapabilityRegistrations($apps);
+		$context->delegateCrashReporterRegistrations($apps, $this->registry);
 		$context->delegateEventListenerRegistrations($this->eventDispatcher);
 		$context->delegateContainerRegistrations($apps);
 		$context->delegateMiddlewareRegistrations($apps);

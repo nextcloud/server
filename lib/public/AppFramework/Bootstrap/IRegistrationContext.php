@@ -46,6 +46,16 @@ interface IRegistrationContext {
 	public function registerCapability(string $capability): void;
 
 	/**
+	 * Register an implementation of \OCP\Support\CrashReport\IReporter that
+	 * will receive unhandled exceptions and throwables
+	 *
+	 * @param string $reporterClass
+	 * @return void
+	 * @since 20.0.0
+	 */
+	public function registerCrashReporter(string $reporterClass): void;
+
+	/**
 	 * Register a service
 	 *
 	 * @param string $name
