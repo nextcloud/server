@@ -151,6 +151,8 @@ class App {
 			if ($value['expireDate'] instanceof \DateTime) {
 				$expireDate = $value['expireDate']->getTimestamp();
 			}
+			$sameSite = $value['sameSite'] ?? 'Lax';
+
 			$io->setCookie(
 				$name,
 				$value['value'],
@@ -158,7 +160,8 @@ class App {
 				$container->getServer()->getWebRoot(),
 				null,
 				$container->getServer()->getRequest()->getServerProtocol() === 'https',
-				true
+				true,
+				$sameSite
 			);
 		}
 

@@ -133,11 +133,12 @@ class Response {
 	 * @param \DateTime|null $expireDate Date on that the cookie should expire, if set
 	 * 									to null cookie will be considered as session
 	 * 									cookie.
+	 * @param string $sameSite The samesite value of the cookie. Defaults to Lax. Other possibilities are Strict or None
 	 * @return $this
 	 * @since 8.0.0
 	 */
-	public function addCookie($name, $value, \DateTime $expireDate = null) {
-		$this->cookies[$name] = ['value' => $value, 'expireDate' => $expireDate];
+	public function addCookie($name, $value, \DateTime $expireDate = null, $sameSite = 'Lax') {
+		$this->cookies[$name] = ['value' => $value, 'expireDate' => $expireDate, 'sameSite' => $sameSite];
 		return $this;
 	}
 
