@@ -80,7 +80,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
  * - preUnassignedUserId(string $uid)
  * - postUnassignedUserId(string $uid)
  * - preLogin(string $user, string $password)
- * - postLogin(\OC\User\User $user, string $password)
+ * - postLogin(\OC\User\User $user, string $loginName, string $password, boolean $isTokenLogin)
  * - preRememberedLogin(string $uid)
  * - postRememberedLogin(\OC\User\User $user)
  * - logout()
@@ -400,11 +400,13 @@ class Session implements IUserSession, Emitter {
 
 		$this->dispatcher->dispatchTyped(new PostLoginEvent(
 			$user,
+			$loginDetails['loginName'],
 			$loginDetails['password'],
 			$isToken
 		));
 		$this->manager->emit('\OC\User', 'postLogin', [
 			$user,
+			$loginDetails['loginName'],
 			$loginDetails['password'],
 			$isToken,
 		]);

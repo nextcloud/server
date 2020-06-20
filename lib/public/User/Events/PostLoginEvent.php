@@ -38,6 +38,12 @@ class PostLoginEvent extends Event {
 	/** @var IUser */
 	private $user;
 
+	/**
+	 * @since 20.0.0
+	 * @var string
+	 */
+	private $loginName;
+
 	/** @var string */
 	private $password;
 
@@ -47,9 +53,10 @@ class PostLoginEvent extends Event {
 	/**
 	 * @since 18.0.0
 	 */
-	public function __construct(IUser $user, string $password, bool $isTokenLogin) {
+	public function __construct(IUser $user, string $loginName, string $password, bool $isTokenLogin) {
 		parent::__construct();
 		$this->user = $user;
+		$this->loginName = $loginName;
 		$this->password = $password;
 		$this->isTokenLogin = $isTokenLogin;
 	}
@@ -59,6 +66,13 @@ class PostLoginEvent extends Event {
 	 */
 	public function getUser(): IUser {
 		return $this->user;
+	}
+
+	/**
+	 * @since 20.0.0
+	 */
+	public function getLoginName(): string {
+		return $this->loginName;
 	}
 
 	/**

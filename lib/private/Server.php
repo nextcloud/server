@@ -566,9 +566,9 @@ class Server extends ServerContainer implements IServerContainer {
 				$dispatcher = $this->query(IEventDispatcher::class);
 				$dispatcher->dispatchTyped(new BeforeUserLoggedInEvent($uid, $password));
 			});
-			$userSession->listen('\OC\User', 'postLogin', function ($user, $password, $isTokenLogin) {
+			$userSession->listen('\OC\User', 'postLogin', function ($user, $loginName, $password, $isTokenLogin) {
 				/** @var \OC\User\User $user */
-				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $user->getUID(), 'password' => $password, 'isTokenLogin' => $isTokenLogin]);
+				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $user->getUID(), 'loginName' => $loginName, 'password' => $password, 'isTokenLogin' => $isTokenLogin]);
 
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = $this->query(IEventDispatcher::class);
