@@ -80,6 +80,7 @@
     "Sharing backend %s not found" : "Sharing backend %s not found",
     "Sharing backend for %s not found" : "Sharing backend for %s not found",
     "Open »%s«" : "Open »%s«",
+    "%1$s via %2$s" : "%1$s via %2$s",
     "You are not allowed to share %s" : "You are not allowed to share %s",
     "Can’t increase permissions of %s" : "Can’t increase permissions of %s",
     "Files can’t be shared with delete permissions" : "Files can’t be shared with delete permissions",

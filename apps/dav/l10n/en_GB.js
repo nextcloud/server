@@ -45,6 +45,7 @@ OC.L10N.register(
     "Contact birthdays" : "Contact birthdays",
     "Where:" : "Where:",
     "Description:" : "Description:",
+    "%1$s via %2$s" : "%1$s via %2$s",
     "Invitation canceled" : "Invitation canceled",
     "Hello %s," : "Hello %s,",
     "Invitation updated" : "Invitation updated",
