@@ -171,7 +171,7 @@ class SCSSCacher {
 					return $this->injectCssVariablesIfAny();
 				}
 				$this->logger->debug('SCSSCacher: scss cache file locked for '.$lockKey, ['app' => 'core']);
-				sleep($retry);
+				sleep(1);
 				$retry++;
 			}
 			$this->logger->debug('SCSSCacher: Giving up scss caching for '.$lockKey, ['app' => 'core']);
