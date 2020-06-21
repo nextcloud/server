@@ -30,6 +30,7 @@ namespace OC\Log;
 
 use OC\Core\Controller\SetupController;
 use OC\HintException;
+use OC\Security\IdentityProof\Key;
 use OC\Setup;
 
 class ExceptionSerializer {
@@ -95,7 +96,10 @@ class ExceptionSerializer {
 		],
 		Setup::class => [
 			'install'
-		]
+		],
+		Key::class => [
+			'__construct'
+		],
 	];
 
 	private function editTrace(array &$sensitiveValues, array $traceLine): array {
