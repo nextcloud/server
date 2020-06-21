@@ -64,6 +64,7 @@ if [ "$1" = "--acceptance-tests-dir" ]; then
 fi
 
 ACCEPTANCE_TESTS_CONFIG_DIR="../../$ACCEPTANCE_TESTS_DIR/config"
+DEV_BRANCH="master"
 
 # "--timeout-multiplier N" option can be provided to set the timeout multiplier
 # to be used in ActorContext.
@@ -195,7 +196,7 @@ ln --symbolic $(pwd) /var/www/html
 
 # Add Notifications app to the "apps" directory (unless it is already there).
 if [ ! -e "apps/notifications" ]; then
-	(cd apps && git clone --depth 1 https://github.com/nextcloud/notifications)
+	(cd apps && git clone --depth 1 --branch ${DEV_BRANCH} https://github.com/nextcloud/notifications)
 fi
 
 INSTALL_AND_CONFIGURE_SERVER_PARAMETERS=""
