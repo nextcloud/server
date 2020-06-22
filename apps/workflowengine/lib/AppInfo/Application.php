@@ -25,19 +25,20 @@ use OCA\WorkflowEngine\Controller\RequestTime;
 use OCA\WorkflowEngine\Helper\LogContext;
 use OCA\WorkflowEngine\Manager;
 use OCA\WorkflowEngine\Service\Logger;
+use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Template;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityCompat;
 use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\IOperationCompat;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class Application extends \OCP\AppFramework\App {
+class Application extends App {
 	public const APP_ID = 'workflowengine';
 
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	protected $dispatcher;
 	/** @var Manager */
 	protected $manager;
@@ -47,7 +48,7 @@ class Application extends \OCP\AppFramework\App {
 
 		$this->getContainer()->registerAlias('RequestTimeController', RequestTime::class);
 
-		$this->dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$this->dispatcher = $this->getContainer()->getServer()->query(IEventDispatcher::class);
 		$this->manager = $this->getContainer()->query(Manager::class);
 	}
 

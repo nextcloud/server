@@ -28,17 +28,18 @@ namespace OCA\WorkflowEngine\Settings;
 use OCA\WorkflowEngine\AppInfo\Application;
 use OCA\WorkflowEngine\Manager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\Settings\ISettings;
+use OCP\WorkflowEngine\Events\LoadSettingsScriptsEvent;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IComplexOperation;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityEvent;
 use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\ISpecificOperation;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class ASettings implements ISettings {
 	/** @var IL10N */
@@ -47,7 +48,7 @@ abstract class ASettings implements ISettings {
 	/** @var string */
 	private $appName;
 
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
 	/** @var Manager */
@@ -59,18 +60,10 @@ abstract class ASettings implements ISettings {
 	/** @var IConfig */
 	private $config;
 
-	/**
-	 * @param string $appName
-	 * @param IL10N $l
-	 * @param EventDispatcherInterface $eventDispatcher
-	 * @param Manager $manager
-	 * @param IInitialStateService $initialStateService
-	 * @param IConfig $config
-	 */
 	public function __construct(
-		$appName,
+		string $appName,
 		IL10N $l,
-		EventDispatcherInterface $eventDispatcher,
+		IEventDispatcher $eventDispatcher,
 		Manager $manager,
 		IInitialStateService $initialStateService,
 		IConfig $config
@@ -89,7 +82,10 @@ abstract class ASettings implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$this->eventDispatcher->dispatch('OCP\WorkflowEngine::loadAdditionalSettingScripts');
+		$this->eventDispatcher->dispatch(
+			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
+			new LoadSettingsScriptsEvent()
+		);
 
 		$entities = $this->manager->getEntitiesList();
 		$this->initialStateService->provideInitialState(
