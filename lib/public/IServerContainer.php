@@ -359,6 +359,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\ISearch
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function getSearch();
 

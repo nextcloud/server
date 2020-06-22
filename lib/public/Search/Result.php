@@ -29,6 +29,7 @@ namespace OCP\Search;
 /**
  * The generic result of a search
  * @since 7.0.0
+ * @deprecated 20.0.0
  */
 class Result {
 
@@ -37,6 +38,7 @@ class Result {
 	 * corresponding application.
 	 * @var string
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public $id;
 
@@ -45,6 +47,7 @@ class Result {
 	 * results.
 	 * @var string
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public $name;
 
@@ -52,6 +55,7 @@ class Result {
 	 * URL to the application item.
 	 * @var string
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public $link;
 
@@ -60,6 +64,7 @@ class Result {
 	 * as the class name (e.g. \OC\Search\File -> 'file') in lowercase.
 	 * @var string
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public $type = 'generic';
 
@@ -69,6 +74,7 @@ class Result {
 	 * @param string $name displayed text of result
 	 * @param string $link URL to the result within its app
 	 * @since 7.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function __construct($id = null, $name = null, $link = null) {
 		$this->id = $id;

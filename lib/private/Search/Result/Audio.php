@@ -27,15 +27,17 @@ namespace OC\Search\Result;
 
 /**
  * A found audio file
+ * @deprecated 20.0.0
  */
 class Audio extends File {
 
 	/**
 	 * Type name; translated in templates
 	 * @var string
+	 * @deprecated 20.0.0
 	 */
 	public $type = 'audio';
-	
+
 	/**
 	 * @TODO add ID3 information
 	 */

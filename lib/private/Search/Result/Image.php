@@ -27,15 +27,17 @@ namespace OC\Search\Result;
 
 /**
  * A found image file
+ * @deprecated 20.0.0
  */
 class Image extends File {
 
 	/**
 	 * Type name; translated in templates
 	 * @var string
+	 * @deprecated 20.0.0
 	 */
 	public $type = 'image';
-	
+
 	/**
 	 * @TODO add EXIF information
 	 */

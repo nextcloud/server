@@ -30,12 +30,14 @@ namespace OCP\Search;
 /**
  * Provides a template for search functionality throughout ownCloud;
  * @since 8.0.0
+ * @deprecated 20.0.0
  */
 abstract class PagedProvider extends Provider {
 
 	/**
 	 * show all results
 	 * @since 8.0.0
+	 * @deprecated 20.0.0
 	 */
 	public const SIZE_ALL = 0;
 
@@ -43,6 +45,7 @@ abstract class PagedProvider extends Provider {
 	 * Constructor
 	 * @param array $options
 	 * @since 8.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function __construct($options) {
 		parent::__construct($options);
@@ -53,6 +56,7 @@ abstract class PagedProvider extends Provider {
 	 * @param string $query
 	 * @return array An array of OCP\Search\Result's
 	 * @since 8.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function search($query) {
 		// old apps might assume they get all results, so we use SIZE_ALL
@@ -66,6 +70,7 @@ abstract class PagedProvider extends Provider {
 	 * @param int $size 0 = SIZE_ALL
 	 * @return array An array of OCP\Search\Result's
 	 * @since 8.0.0
+	 * @deprecated 20.0.0
 	 */
 	abstract public function searchPaged($query, $page, $size);
 }

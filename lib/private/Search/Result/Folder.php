@@ -27,12 +27,14 @@ namespace OC\Search\Result;
 
 /**
  * A found folder
+ * @deprecated 20.0.0
  */
 class Folder extends File {
 
 	/**
 	 * Type name; translated in templates
 	 * @var string
+	 * @deprecated 20.0.0
 	 */
 	public $type = 'folder';
 }
