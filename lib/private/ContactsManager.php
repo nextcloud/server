@@ -31,6 +31,8 @@
 
 namespace OC {
 
+	use OCP\IAddressBook;
+
 	class ContactsManager implements \OCP\Contacts\IManager {
 
 		/**
@@ -112,16 +114,16 @@ namespace OC {
 		}
 
 		/**
-		 * @param \OCP\IAddressBook $addressBook
+		 * @param IAddressBook $addressBook
 		 */
-		public function registerAddressBook(\OCP\IAddressBook $addressBook) {
+		public function registerAddressBook(IAddressBook $addressBook) {
 			$this->addressBooks[$addressBook->getKey()] = $addressBook;
 		}
 
 		/**
-		 * @param \OCP\IAddressBook $addressBook
+		 * @param IAddressBook $addressBook
 		 */
-		public function unregisterAddressBook(\OCP\IAddressBook $addressBook) {
+		public function unregisterAddressBook(IAddressBook $addressBook) {
 			unset($this->addressBooks[$addressBook->getKey()]);
 		}
 
@@ -163,7 +165,7 @@ namespace OC {
 		}
 
 		/**
-		 * @var \OCP\IAddressBook[] which holds all registered address books
+		 * @var IAddressBook[] which holds all registered address books
 		 */
 		private $addressBooks = [];
 
@@ -186,7 +188,7 @@ namespace OC {
 		 * Get (and load when needed) the address book for $key
 		 *
 		 * @param string $addressBookKey
-		 * @return \OCP\IAddressBook
+		 * @return IAddressBook
 		 */
 		protected function getAddressBook($addressBookKey) {
 			$this->loadAddressBooks();
