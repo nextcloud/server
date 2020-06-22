@@ -56,11 +56,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	/**
-	 * @var int in seconds
-	 */
-	private $rescanDelay = 10;
-
 	/** @var CappedMemoryCache|Result[] */
 	private $objectCache;
 
@@ -377,7 +372,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			if ($this->is_dir($path)) {
 				//folders don't really exist
 				$stat['size'] = -1; //unknown
-				$stat['mtime'] = time() - $this->rescanDelay * 1000;
+				$stat['mtime'] = time();
 			} else {
 				$stat['size'] = $this->getContentLength($path);
 				$stat['mtime'] = strtotime($this->getLastModified($path));
