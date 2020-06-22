@@ -108,10 +108,12 @@ class ResponseTest extends \Test\TestCase {
 			'foo' => [
 				'value' => 'bar',
 				'expireDate' => null,
+				'sameSite' => 'Lax',
 			],
 			'bar' => [
 				'value' => 'foo',
-				'expireDate' => new \DateTime('1970-01-01')
+				'expireDate' => new \DateTime('1970-01-01'),
+				'sameSite' => 'Lax',
 			]
 		];
 		$this->assertEquals($expectedResponse, $this->childResponse->getCookies());
@@ -143,7 +145,8 @@ class ResponseTest extends \Test\TestCase {
 		$expected = [
 			'foo' => [
 				'value' => 'expired',
-				'expireDate' => new \DateTime('1971-01-01')
+				'expireDate' => new \DateTime('1971-01-01'),
+				'sameSite' => 'Lax',
 			]
 		];
 
@@ -159,11 +162,13 @@ class ResponseTest extends \Test\TestCase {
 		$expected = [
 			'foo' => [
 				'value' => 'bar',
-				'expireDate' => null
+				'expireDate' => null,
+				'sameSite' => 'Lax',
 			],
 			'bar' => [
 				'value' => 'foo',
-				'expireDate' => null
+				'expireDate' => null,
+				'sameSite' => 'Lax',
 			]
 		];
 		$cookies = $this->childResponse->getCookies();
@@ -173,11 +178,13 @@ class ResponseTest extends \Test\TestCase {
 		$expected = [
 			'foo' => [
 				'value' => 'expired',
-				'expireDate' => new \DateTime('1971-01-01')
+				'expireDate' => new \DateTime('1971-01-01'),
+				'sameSite' => 'Lax',
 			],
 			'bar' => [
 				'value' => 'expired',
-				'expireDate' => new \DateTime('1971-01-01')
+				'expireDate' => new \DateTime('1971-01-01'),
+				'sameSite' => 'Lax',
 			]
 		];
 
