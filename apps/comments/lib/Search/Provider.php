@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
- * @copyright Copyright (c) 2018 Joas Schilling <coding@schilljs.com>
+ * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Joas Schilling <coding@schilljs.com>
+ * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -17,92 +20,62 @@
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 namespace OCA\Comments\Search;
 
-use OCP\Comments\IComment;
-use OCP\Files\Folder;
-use OCP\Files\Node;
-use OCP\Files\NotFoundException;
+use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\Search\IProvider;
+use OCP\Search\ISearchQuery;
+use OCP\Search\SearchResult;
+use function array_map;
+use function pathinfo;
 
-class Provider extends \OCP\Search\Provider {
+class Provider implements IProvider {
 
-	/**
-	 * Search for $query
-	 *
-	 * @param string $query
-	 * @return array An array of OCP\Search\Result's
-	 * @since 7.0.0
-	 */
-	public function search($query): array {
-		$cm = \OC::$server->getCommentsManager();
-		$us = \OC::$server->getUserSession();
+	/** @var IL10N */
+	private $l10n;
 
-		$user = $us->getUser();
-		if (!$user instanceof IUser) {
-			return [];
-		}
-		$uf = \OC::$server->getUserFolder($user->getUID());
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
-		if ($uf === null) {
-			return [];
-		}
+	/** @var LegacyProvider */
+	private $legacyProvider;
 
-		$result = [];
-		$numComments = 50;
-		$offset = 0;
-
-		while (\count($result) < $numComments) {
-			/** @var IComment[] $comments */
-			$comments = $cm->search($query, 'files', '', 'comment', $offset, $numComments);
-
-			foreach ($comments as $comment) {
-				if ($comment->getActorType() !== 'users') {
-					continue;
-				}
-
-				$displayName = $cm->resolveDisplayName('user', $comment->getActorId());
-
-				try {
-					$file = $this->getFileForComment($uf, $comment);
-					$result[] = new Result($query,
-						$comment,
-						$displayName,
-						$file->getPath()
-					);
-				} catch (NotFoundException $e) {
-					continue;
-				}
-			}
-
-			if (\count($comments) < $numComments) {
-				// Didn't find more comments when we tried to get, so there are no more comments.
-				return $result;
-			}
-
-			$offset += $numComments;
-			$numComments = 50 - \count($result);
-		}
-
-		return $result;
+	public function __construct(IL10N $l10n,
+								IURLGenerator $urlGenerator,
+								LegacyProvider $legacyProvider) {
+		$this->l10n = $l10n;
+		$this->urlGenerator = $urlGenerator;
+		$this->legacyProvider = $legacyProvider;
 	}
 
-	/**
-	 * @param Folder $userFolder
-	 * @param IComment $comment
-	 * @return Node
-	 * @throws NotFoundException
-	 */
-	protected function getFileForComment(Folder $userFolder, IComment $comment): Node {
-		$nodes = $userFolder->getById((int) $comment->getObjectId());
-		if (empty($nodes)) {
-			throw new NotFoundException('File not found');
-		}
+	public function getId(): string {
+		return 'comments';
+	}
 
-		return array_shift($nodes);
+	public function search(IUser $user, ISearchQuery $query): SearchResult {
+		return SearchResult::complete(
+			$this->l10n->t('Comments'),
+			array_map(function (Result $result) {
+				$path = $result->path;
+				$pathInfo = pathinfo($path);
+				return new CommentsSearchResultEntry(
+					$this->urlGenerator->linkToRoute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id]),
+					$result->name,
+					$path,
+					$this->urlGenerator->linkToRoute(
+						'files.view.index',
+						[
+							'dir' => $pathInfo['dirname'],
+							'scrollto' => $pathInfo['basename'],
+						]
+					)
+				);
+			}, $this->legacyProvider->search($query->getTerm()))
+		);
 	}
 }

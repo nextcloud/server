@@ -35,6 +35,7 @@ use OCA\Comments\Listener\CommentsEntityEventListener;
 use OCA\Comments\Listener\LoadAdditionalScripts;
 use OCA\Comments\Listener\LoadSidebarScripts;
 use OCA\Comments\Notification\Notifier;
+use OCA\Comments\Search\LegacyProvider;
 use OCA\Comments\Search\Provider;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
@@ -70,6 +71,7 @@ class Application extends App implements IBootstrap {
 			CommentsEntityEvent::EVENT_ENTITY,
 			CommentsEntityEventListener::class
 		);
+		$context->registerSearchProvider(Provider::class);
 	}
 
 	public function boot(IBootContext $context): void {
@@ -79,7 +81,7 @@ class Application extends App implements IBootstrap {
 		$jsSettingsHelper = new JSSettingsHelper($context->getServerContainer());
 		Util::connectHook('\OCP\Config', 'js', $jsSettingsHelper, 'extend');
 
-		$context->getServerContainer()->getSearch()->registerProvider(Provider::class, ['apps' => ['files']]);
+		$context->getServerContainer()->getSearch()->registerProvider(LegacyProvider::class, ['apps' => ['files']]);
 	}
 
 	protected function registerNotifier(IServerContainer $container) {
