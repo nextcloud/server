@@ -126,4 +126,13 @@ interface IFactory {
 	 * @since 14.0.0
 	 */
 	public function getLanguageIterator(IUser $user = null): ILanguageIterator;
+
+	/**
+	 * Return the language to use when sending something to a user
+	 *
+	 * @param IUser|null $user
+	 * @return string
+	 * @since 20.0.0
+	 */
+	public function getUserLanguage(IUser $user = null): string;
 }
