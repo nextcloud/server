@@ -139,6 +139,14 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 		)
 	);
 	$application->add(new OC\Core\Command\Encryption\ShowKeyStorageRoot($util));
+	$application->add(new OC\Core\Command\Encryption\MigrateKeyStorage(
+			$view,
+			\OC::$server->getUserManager(),
+			\OC::$server->getConfig(),
+			$util,
+			\OC::$server->getCrypto()
+		)
+	);
 
 	$application->add(new OC\Core\Command\Maintenance\DataFingerprint(\OC::$server->getConfig(), new \OC\AppFramework\Utility\TimeFactory()));
 	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateDB(\OC::$server->getMimeTypeDetector(), \OC::$server->getMimeTypeLoader()));
