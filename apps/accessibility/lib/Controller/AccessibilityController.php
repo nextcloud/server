@@ -130,7 +130,7 @@ class AccessibilityController extends Controller {
 	}
 
 	/**
-	 * @NoAdminRequired
+	 * @PublicPage
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 *
@@ -139,7 +139,11 @@ class AccessibilityController extends Controller {
 	public function getCss(): DataDisplayResponse {
 		$css        = '';
 		$imports    = '';
-		$userValues = $this->getUserValues();
+		if ($this->userSession->isLoggedIn()) {
+			$userValues = $this->getUserValues();
+		} else {
+			$userValues = ['dark'];
+		}
 
 		foreach ($userValues as $key => $scssFile) {
 			if ($scssFile !== false) {
@@ -198,7 +202,9 @@ class AccessibilityController extends Controller {
 		$response->addHeader('Pragma', 'cache');
 
 		// store current cache hash
-		$this->config->setUserValue($this->userSession->getUser()->getUID(), $this->appName, 'icons-css', md5($css));
+		if ($this->userSession->isLoggedIn()) {
+			$this->config->setUserValue($this->userSession->getUser()->getUID(), $this->appName, 'icons-css', md5($css));
+		}
 
 		return $response;
 	}
