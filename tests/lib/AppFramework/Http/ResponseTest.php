@@ -229,15 +229,15 @@ class ResponseTest extends \Test\TestCase {
 	public function testCacheSeconds() {
 		$time = $this->createMock(ITimeFactory::class);
 		$time->method('getTime')
-			->willReturn('1234567');
+			->willReturn(1234567);
 
 		$this->overwriteService(ITimeFactory::class, $time);
 
 		$this->childResponse->cacheFor(33);
 
 		$headers = $this->childResponse->getHeaders();
-		$this->assertEquals('max-age=33, must-revalidate', $headers['Cache-Control']);
-		$this->assertEquals('public', $headers['Pragma']);
+		$this->assertEquals('private, max-age=33, must-revalidate', $headers['Cache-Control']);
+		$this->assertEquals('private', $headers['Pragma']);
 		$this->assertEquals('Thu, 15 Jan 1970 06:56:40 +0000', $headers['Expires']);
 	}
 
