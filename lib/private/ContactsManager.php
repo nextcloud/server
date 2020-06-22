@@ -31,9 +31,11 @@
 
 namespace OC;
 
+use OCP\Constants;
+use OCP\Contacts\IManager;
 use OCP\IAddressBook;
 
-class ContactsManager implements \OCP\Contacts\IManager {
+class ContactsManager implements IManager {
 
 	/**
 	 * This function is used to search and find contacts within the users address books.
@@ -76,7 +78,7 @@ class ContactsManager implements \OCP\Contacts\IManager {
 			return null;
 		}
 
-		if ($addressBook->getPermissions() & \OCP\Constants::PERMISSION_DELETE) {
+		if ($addressBook->getPermissions() & Constants::PERMISSION_DELETE) {
 			return $addressBook->delete($id);
 		}
 
@@ -97,7 +99,7 @@ class ContactsManager implements \OCP\Contacts\IManager {
 			return null;
 		}
 
-		if ($addressBook->getPermissions() & \OCP\Constants::PERMISSION_CREATE) {
+		if ($addressBook->getPermissions() & Constants::PERMISSION_CREATE) {
 			return $addressBook->createOrUpdate($properties);
 		}
 
@@ -131,7 +133,7 @@ class ContactsManager implements \OCP\Contacts\IManager {
 	 * Return a list of the user's addressbooks display names
 	 * ! The addressBook displayName are not unique, please use getUserAddressBooks
 	 *
-	 * @return array
+	 * @return IAddressBook[]
 	 * @since 6.0.0
 	 * @deprecated 16.0.0 - Use `$this->getUserAddressBooks()` instead
 	 */
