@@ -55,6 +55,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 			// extract everything prefixed by @ and first letter uppercase
 			preg_match_all('/^\h+\*\h+@(?P<annotation>[A-Z]\w+)((?P<parameter>.*))?$/m', $docs, $matches);
 			foreach ($matches['annotation'] as $key => $annontation) {
+				$annontation = strtolower($annontation);
 				$annotationValue = $matches['parameter'][$key];
 				if (isset($annotationValue[0]) && $annotationValue[0] === '(' && $annotationValue[\strlen($annotationValue) - 1] === ')') {
 					$cutString = substr($annotationValue, 1, -1);
@@ -118,6 +119,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @return bool true if the annotation is found
 	 */
 	public function hasAnnotation(string $name): bool {
+		$name = strtolower($name);
 		return array_key_exists($name, $this->annotations);
 	}
 
@@ -129,6 +131,7 @@ class ControllerMethodReflector implements IControllerMethodReflector {
 	 * @return string
 	 */
 	public function getAnnotationParameter(string $name, string $key): string {
+		$name = strtolower($name);
 		if (isset($this->annotations[$name][$key])) {
 			return $this->annotations[$name][$key];
 		}
