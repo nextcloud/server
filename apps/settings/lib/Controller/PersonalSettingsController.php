@@ -61,7 +61,7 @@ class PersonalSettingsController extends Controller {
 	 *
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 */
 	public function index($section) {
 		return $this->getIndexResponse('personal', $section);

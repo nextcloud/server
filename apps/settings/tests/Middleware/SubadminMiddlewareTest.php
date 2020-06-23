@@ -36,7 +36,7 @@ use OCP\IL10N;
 
 /**
  * Verifies whether an user has at least subadmin rights.
- * To bypass use the `@NoSubadminRequired` annotation
+ * To bypass use the `@NoSubAdminRequired` annotation
  *
  * @package Tests\Settings\Middleware
  */
@@ -64,14 +64,14 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->subadminMiddleware = new SubadminMiddleware($this->reflector, false, $this->l10n);
 	}
 
-	
+
 	public function testBeforeControllerAsUserWithExemption() {
 		$this->expectException(\OC\AppFramework\Middleware\Security\Exceptions\NotAdminException::class);
 
 		$this->reflector
 			->expects($this->once())
 			->method('hasAnnotation')
-			->with('NoSubadminRequired')
+			->with('NoSubAdminRequired')
 			->willReturn(false);
 		$this->subadminMiddleware->beforeController($this->controller, 'foo');
 	}
@@ -81,7 +81,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->reflector
 			->expects($this->once())
 			->method('hasAnnotation')
-			->with('NoSubadminRequired')
+			->with('NoSubAdminRequired')
 			->willReturn(true);
 		$this->subadminMiddleware->beforeController($this->controller, 'foo');
 	}
@@ -90,7 +90,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->reflector
 			->expects($this->once())
 			->method('hasAnnotation')
-			->with('NoSubadminRequired')
+			->with('NoSubAdminRequired')
 			->willReturn(false);
 		$this->subadminMiddlewareAsSubAdmin->beforeController($this->controller, 'foo');
 	}
@@ -99,7 +99,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->reflector
 			->expects($this->once())
 			->method('hasAnnotation')
-			->with('NoSubadminRequired')
+			->with('NoSubAdminRequired')
 			->willReturn(true);
 		$this->subadminMiddlewareAsSubAdmin->beforeController($this->controller, 'foo');
 	}
@@ -110,7 +110,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $this->subadminMiddleware->afterException($this->controller, 'foo', new NotAdminException('')));
 	}
 
-	
+
 	public function testAfterRegularException() {
 		$this->expectException(\Exception::class);
 

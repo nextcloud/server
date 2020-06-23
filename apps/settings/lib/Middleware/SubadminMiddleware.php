@@ -35,7 +35,7 @@ use OCP\IL10N;
 
 /**
  * Verifies whether an user has at least subadmin rights.
- * To bypass use the `@NoSubadminRequired` annotation
+ * To bypass use the `@NoSubAdminRequired` annotation
  */
 class SubadminMiddleware extends Middleware {
 	/** @var bool */
@@ -65,7 +65,7 @@ class SubadminMiddleware extends Middleware {
 	 * @throws \Exception
 	 */
 	public function beforeController($controller, $methodName) {
-		if (!$this->reflector->hasAnnotation('NoSubadminRequired')) {
+		if (!$this->reflector->hasAnnotation('NoSubAdminRequired')) {
 			if (!$this->isSubAdmin) {
 				throw new NotAdminException($this->l10n->t('Logged in user must be a subadmin'));
 			}

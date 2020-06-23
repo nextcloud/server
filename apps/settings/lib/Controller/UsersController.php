@@ -311,7 +311,7 @@ class UsersController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $avatarScope
@@ -440,7 +440,7 @@ class UsersController extends Controller {
 	 * Set the mail address of a user
 	 *
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $account

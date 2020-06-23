@@ -85,7 +85,7 @@ class ChangePasswordController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @BruteForceProtection(action=changePersonalPassword)
 	 */
 	public function changePersonalPassword(string $oldpassword = '', string $newpassword = null): JSONResponse {

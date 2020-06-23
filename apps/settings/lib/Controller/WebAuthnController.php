@@ -65,7 +65,7 @@ class WebAuthnController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 * @UseSession
 	 * @NoCSRFRequired
@@ -83,7 +83,7 @@ class WebAuthnController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 * @UseSession
 	 */
@@ -105,7 +105,7 @@ class WebAuthnController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 */
 	public function deleteRegistration(int $id): JSONResponse {

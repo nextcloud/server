@@ -114,7 +114,7 @@ class AuthSettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param string $name
@@ -183,7 +183,7 @@ class AuthSettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 *
 	 * @param int $id
 	 * @return array|JSONResponse
@@ -205,7 +205,7 @@ class AuthSettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 *
 	 * @param int $id
 	 * @param array $scope
@@ -278,7 +278,7 @@ class AuthSettingsController extends Controller {
 
 	/**
 	 * @NoAdminRequired
-	 * @NoSubadminRequired
+	 * @NoSubAdminRequired
 	 * @PasswordConfirmationRequired
 	 *
 	 * @param int $id
