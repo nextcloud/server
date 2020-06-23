@@ -26,37 +26,53 @@ use OCA\WorkflowEngine\Helper\LogContext;
 use OCA\WorkflowEngine\Manager;
 use OCA\WorkflowEngine\Service\Logger;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\ILogger;
+use OCP\IServerContainer;
 use OCP\Template;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityCompat;
 use OCP\WorkflowEngine\IOperation;
 use OCP\WorkflowEngine\IOperationCompat;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 	public const APP_ID = 'workflowengine';
 
 	/** @var IEventDispatcher */
 	protected $dispatcher;
+
 	/** @var Manager */
 	protected $manager;
 
 	public function __construct() {
 		parent::__construct(self::APP_ID);
+	}
 
-		$this->getContainer()->registerAlias('RequestTimeController', RequestTime::class);
+	public function register(IRegistrationContext $context): void {
+		$context->registerServiceAlias('RequestTimeController', RequestTime::class);
+	}
 
-		$this->dispatcher = $this->getContainer()->getServer()->query(IEventDispatcher::class);
-		$this->manager = $this->getContainer()->query(Manager::class);
+	public function boot(IBootContext $context): void {
+		$this->registerHooksAndListeners(
+			$context->getAppContainer()->query(IEventDispatcher::class)
+		);
+		$this->registerRuleListeners(
+			$context->getAppContainer()->query(IEventDispatcher::class),
+			$context->getServerContainer(),
+			$context->getAppContainer()->query(ILogger::class)
+		);
 	}
 
 	/**
 	 * Register all hooks and listeners
 	 */
-	public function registerHooksAndListeners() {
-		$this->dispatcher->addListener(
+	private function registerHooksAndListeners(IEventDispatcher $dispatcher): void {
+		$dispatcher->addListener(
 			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
 			function () {
 				if (!function_exists('style')) {
@@ -78,21 +94,23 @@ class Application extends App {
 		);
 	}
 
-	public function registerRuleListeners() {
+	private function registerRuleListeners(IEventDispatcher $dispatcher,
+										   IServerContainer $container,
+										   ILogger $logger): void {
 		$configuredEvents = $this->manager->getAllConfiguredEvents();
 
 		foreach ($configuredEvents as $operationClass => $events) {
 			foreach ($events as $entityClass => $eventNames) {
-				array_map(function (string $eventName) use ($operationClass, $entityClass) {
-					$this->dispatcher->addListener(
+				array_map(function (string $eventName) use ($container, $dispatcher, $logger, $operationClass, $entityClass) {
+					$dispatcher->addListener(
 						$eventName,
-						function ($event) use ($eventName, $operationClass, $entityClass) {
+						function ($event) use ($container, $eventName, $logger, $operationClass, $entityClass) {
 							$ruleMatcher = $this->manager->getRuleMatcher();
 							try {
 								/** @var IEntity $entity */
-								$entity = $this->getContainer()->query($entityClass);
+								$entity = $container->query($entityClass);
 								/** @var IOperation $operation */
-								$operation = $this->getContainer()->query($operationClass);
+								$operation = $container->query($operationClass);
 
 								$ruleMatcher->setEntity($entity);
 								$ruleMatcher->setOperation($operation);
@@ -104,7 +122,7 @@ class Application extends App {
 									->setEventName($eventName);
 
 								/** @var Logger $flowLogger */
-								$flowLogger = $this->getContainer()->query(Logger::class);
+								$flowLogger = $container->query(Logger::class);
 								$flowLogger->logEventInit($ctx);
 
 								if ($event instanceof Event) {
@@ -115,7 +133,6 @@ class Application extends App {
 									$entity->prepareRuleMatcherCompat($ruleMatcher, $eventName, $event);
 									$operation->onEventCompat($eventName, $event, $ruleMatcher);
 								} else {
-									$logger = $this->getContainer()->getServer()->getLogger();
 									$logger->debug(
 										'Cannot handle event {name} of {event} against entity {entity} and operation {operation}',
 										[
