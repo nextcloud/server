@@ -38,6 +38,12 @@ interface IManager {
 	public function registerPanel(IPanel $panel): void;
 
 	/**
+	 * @param string $panelClass
+	 * @since 20.0.0
+	 */
+	public function lazyRegisterPanel(string $panelClass): void;
+
+	/**
 	 * @since 20.0.0
 	 *
 	 * @return IPanel[]

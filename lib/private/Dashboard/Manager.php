@@ -23,11 +23,25 @@
 
 namespace OC\Dashboard;
 
+use OCP\AppFramework\QueryException;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IPanel;
+use OCP\IServerContainer;
 
 class Manager implements IManager {
+
+	/** @var array */
+	private $lazyPanels = [];
+
+	/** @var IPanel[] */
 	private $panels = [];
+
+	/** @var IServerContainer */
+	private $serverContainer;
+
+	public function __construct(IServerContainer $serverContainer) {
+		$this->serverContainer = $serverContainer;
+	}
 
 	/**
 	 * @inheritDoc
@@ -40,7 +54,48 @@ class Manager implements IManager {
 		$this->panels[$panel->getId()] = $panel;
 	}
 
+	public function lazyRegisterPanel(string $panelClass): void {
+		$this->lazyPanels[] = $panelClass;
+	}
+
+	public function loadLazyPanels(): void {
+		$classes = $this->lazyPanels;
+		foreach ($classes as $class) {
+			try {
+				/** @var IPanel $panel */
+				$panel = $this->serverContainer->query($class);
+			} catch (QueryException $e) {
+				/*
+				 * There is a circular dependency between the logger and the registry, so
+				 * we can not inject it. Thus the static call.
+				 */
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Could not load lazy dashbaord panel: ' . $e->getMessage(),
+					'level' => ILogger::FATAL,
+				]);
+			}
+			/**
+			 * Try to register the loaded reporter. Theoretically it could be of a wrong
+			 * type, so we might get a TypeError here that we should catch.
+			 */
+			try {
+				$this->registerPanel($panel);
+			} catch (Throwable $e) {
+				/*
+				 * There is a circular dependency between the logger and the registry, so
+				 * we can not inject it. Thus the static call.
+				 */
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Could not register lazy crash reporter: ' . $e->getMessage(),
+					'level' => ILogger::FATAL,
+				]);
+			}
+		}
+		$this->lazyPanels = [];
+	}
+
 	public function getPanels(): array {
+		$this->loadLazyPanels();
 		return $this->panels;
 	}
 }

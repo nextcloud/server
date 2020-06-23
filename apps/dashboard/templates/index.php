@@ -1,4 +1,4 @@
 <?php
-	\OC_Util::addScript('dashboard', 'dashboard');
+	\OCP\Util::addScript('dashboard', 'dashboard');
 ?>
 <div id="app"></div>
