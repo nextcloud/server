@@ -25,6 +25,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\Files\File;
 use OCP\Files\Folder;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IL10N;
@@ -34,8 +35,10 @@ use OCP\IUserManager;
 use OCP\IGroupManager;
 use OCP\Files\IRootFolder;
 use OC\Share20\DefaultShareProvider;
+use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Share\IShare;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class DefaultShareProviderTest
@@ -63,6 +66,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject|IMailer */
 	protected $mailer;
 
+	/** @var IFactory|MockObject */
+	protected $l10nFactory;
+
 	/** @var \PHPUnit_Framework_MockObject_MockObject|IL10N */
 	protected $l10n;
 
@@ -78,9 +84,11 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->rootFolder = $this->createMock(IRootFolder::class);
 		$this->mailer = $this->createMock(IMailer::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->defaults = $this->getMockBuilder(Defaults::class)->disableOriginalConstructor()->getMock();
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->config = $this->createMock(IConfig::class);
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 
@@ -94,8 +102,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$this->rootFolder,
 			$this->mailer,
 			$this->defaults,
-			$this->l10n,
-			$this->urlGenerator
+			$this->l10nFactory,
+			$this->urlGenerator,
+			$this->config
 		);
 	}
 
@@ -431,8 +440,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->rootFolder,
 				$this->mailer,
 				$this->defaults,
-				$this->l10n,
-				$this->urlGenerator
+				$this->l10nFactory,
+				$this->urlGenerator,
+				$this->config
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -525,8 +535,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				$this->rootFolder,
 				$this->mailer,
 				$this->defaults,
-				$this->l10n,
-				$this->urlGenerator
+				$this->l10nFactory,
+				$this->urlGenerator,
+				$this->config
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -2469,8 +2480,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$rootFolder,
 			$this->mailer,
 			$this->defaults,
-			$this->l10n,
-			$this->urlGenerator
+			$this->l10nFactory,
+			$this->urlGenerator,
+			$this->config
 		);
 
 		$password = md5(time());
@@ -2566,8 +2578,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$rootFolder,
 			$this->mailer,
 			$this->defaults,
-			$this->l10n,
-			$this->urlGenerator
+			$this->l10nFactory,
+			$this->urlGenerator,
+			$this->config
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');
@@ -2661,8 +2674,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			$rootFolder,
 			$this->mailer,
 			$this->defaults,
-			$this->l10n,
-			$this->urlGenerator
+			$this->l10nFactory,
+			$this->urlGenerator,
+			$this->config
 		);
 
 		$u1 = $userManager->createUser('testShare1', 'test');
