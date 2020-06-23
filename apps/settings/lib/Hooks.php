@@ -34,7 +34,6 @@ use OCP\Activity\IManager as IActivityManager;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -60,8 +59,6 @@ class Hooks {
 	protected $config;
 	/** @var IFactory */
 	protected $languageFactory;
-	/** @var IL10N */
-	protected $l;
 
 	public function __construct(IActivityManager $activityManager,
 								IGroupManager $groupManager,
@@ -70,8 +67,7 @@ class Hooks {
 								IURLGenerator $urlGenerator,
 								IMailer $mailer,
 								IConfig $config,
-								IFactory $languageFactory,
-								IL10N $l) {
+								IFactory $languageFactory) {
 		$this->activityManager = $activityManager;
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
@@ -80,7 +76,6 @@ class Hooks {
 		$this->mailer = $mailer;
 		$this->config = $config;
 		$this->languageFactory = $languageFactory;
-		$this->l = $l;
 	}
 
 	/**
@@ -103,36 +98,30 @@ class Hooks {
 			->setAffectedUser($user->getUID());
 
 		$instanceUrl = $this->urlGenerator->getAbsoluteURL('/');
+		$language = $this->languageFactory->getUserLanguage($user);
+		$l = $this->languageFactory->get('settings', $language);
 
 		$actor = $this->userSession->getUser();
 		if ($actor instanceof IUser) {
 			if ($actor->getUID() !== $user->getUID()) {
 				// Admin changed the password through the user panel
-				$this->l = $this->languageFactory->get(
-					'settings',
-					$this->config->getUserValue(
-						$user->getUID(), 'core', 'lang',
-						$this->config->getSystemValue('default_language', 'en')
-					)
-				);
-
-				$text = $this->l->t('%1$s changed your password on %2$s.', [$actor->getDisplayName(), $instanceUrl]);
+				$text = $l->t('%1$s changed your password on %2$s.', [$actor->getDisplayName(), $instanceUrl]);
 				$event->setAuthor($actor->getUID())
 					->setSubject(Provider::PASSWORD_CHANGED_BY, [$actor->getUID()]);
 			} else {
 				// User changed their password themselves through settings
-				$text = $this->l->t('Your password on %s was changed.', [$instanceUrl]);
+				$text = $l->t('Your password on %s was changed.', [$instanceUrl]);
 				$event->setAuthor($actor->getUID())
 					->setSubject(Provider::PASSWORD_CHANGED_SELF);
 			}
 		} else {
 			if (\OC::$CLI) {
 				// Admin used occ to reset the password
-				$text = $this->l->t('Your password on %s was reset by an administrator.', [$instanceUrl]);
+				$text = $l->t('Your password on %s was reset by an administrator.', [$instanceUrl]);
 				$event->setSubject(Provider::PASSWORD_RESET);
 			} else {
 				// User reset their password from Lost page
-				$text = $this->l->t('Your password on %s was reset.', [$instanceUrl]);
+				$text = $l->t('Your password on %s was reset.', [$instanceUrl]);
 				$event->setSubject(Provider::PASSWORD_RESET_SELF);
 			}
 		}
@@ -146,10 +135,10 @@ class Hooks {
 				'instanceUrl' => $instanceUrl,
 			]);
 
-			$template->setSubject($this->l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
+			$template->setSubject($l->t('Password for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
 			$template->addHeader();
-			$template->addHeading($this->l->t('Password changed for %s', [$user->getDisplayName()]), false);
-			$template->addBodyText($text . ' ' . $this->l->t('If you did not request this, please contact an administrator.'));
+			$template->addHeading($l->t('Password changed for %s', [$user->getDisplayName()]), false);
+			$template->addBodyText($text . ' ' . $l->t('If you did not request this, please contact an administrator.'));
 			$template->addFooter();
 
 
@@ -180,25 +169,20 @@ class Hooks {
 			->setAffectedUser($user->getUID());
 
 		$instanceUrl = $this->urlGenerator->getAbsoluteURL('/');
+		$language = $this->languageFactory->getUserLanguage($user);
+		$l = $this->languageFactory->get('settings', $language);
 
 		$actor = $this->userSession->getUser();
 		if ($actor instanceof IUser) {
 			$subject = Provider::EMAIL_CHANGED_SELF;
 			if ($actor->getUID() !== $user->getUID()) {
-				$this->l = $this->languageFactory->get(
-					'settings',
-					$this->config->getUserValue(
-						$user->getUID(), 'core', 'lang',
-						$this->config->getSystemValue('default_language', 'en')
-					)
-				);
 				$subject = Provider::EMAIL_CHANGED;
 			}
-			$text = $this->l->t('Your email address on %s was changed.', [$instanceUrl]);
+			$text = $l->t('Your email address on %s was changed.', [$instanceUrl]);
 			$event->setAuthor($actor->getUID())
 				->setSubject($subject);
 		} else {
-			$text = $this->l->t('Your email address on %s was changed by an administrator.', [$instanceUrl]);
+			$text = $l->t('Your email address on %s was changed by an administrator.', [$instanceUrl]);
 			$event->setSubject(Provider::EMAIL_CHANGED);
 		}
 		$this->activityManager->publish($event);
@@ -212,12 +196,12 @@ class Hooks {
 				'instanceUrl' => $instanceUrl,
 			]);
 
-			$template->setSubject($this->l->t('Email address for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
+			$template->setSubject($l->t('Email address for %1$s changed on %2$s', [$user->getDisplayName(), $instanceUrl]));
 			$template->addHeader();
-			$template->addHeading($this->l->t('Email address changed for %s', [$user->getDisplayName()]), false);
-			$template->addBodyText($text . ' ' . $this->l->t('If you did not request this, please contact an administrator.'));
+			$template->addHeading($l->t('Email address changed for %s', [$user->getDisplayName()]), false);
+			$template->addBodyText($text . ' ' . $l->t('If you did not request this, please contact an administrator.'));
 			if ($user->getEMailAddress()) {
-				$template->addBodyText($this->l->t('The new email address is %s', [$user->getEMailAddress()]));
+				$template->addBodyText($l->t('The new email address is %s', [$user->getEMailAddress()]));
 			}
 			$template->addFooter();
 

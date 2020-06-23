@@ -44,6 +44,7 @@ use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\User\Backend\ISetDisplayNameBackend;
 use OCP\User\Backend\ISetPasswordBackend;
 
@@ -59,23 +60,17 @@ abstract class AUserData extends OCSController {
 	protected $userSession;
 	/** @var AccountManager */
 	protected $accountManager;
+	/** @var IFactory */
+	protected $l10nFactory;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IUserManager $userManager
-	 * @param IConfig $config
-	 * @param IGroupManager $groupManager
-	 * @param IUserSession $userSession
-	 * @param AccountManager $accountManager
-	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IUserManager $userManager,
 								IConfig $config,
 								IGroupManager $groupManager,
 								IUserSession $userSession,
-								AccountManager $accountManager) {
+								AccountManager $accountManager,
+								IFactory $l10nFactory) {
 		parent::__construct($appName, $request);
 
 		$this->userManager = $userManager;
@@ -83,6 +78,7 @@ abstract class AUserData extends OCSController {
 		$this->groupManager = $groupManager;
 		$this->userSession = $userSession;
 		$this->accountManager = $accountManager;
+		$this->l10nFactory = $l10nFactory;
 	}
 
 	/**
@@ -146,7 +142,7 @@ abstract class AUserData extends OCSController {
 		$data[AccountManager::PROPERTY_WEBSITE] = $userAccount[AccountManager::PROPERTY_WEBSITE]['value'];
 		$data[AccountManager::PROPERTY_TWITTER] = $userAccount[AccountManager::PROPERTY_TWITTER]['value'];
 		$data['groups'] = $gids;
-		$data['language'] = $this->config->getSystemValue('force_language', $this->config->getUserValue($targetUserObject->getUID(), 'core', 'lang'));
+		$data['language'] = $this->l10nFactory->getUserLanguage($targetUserObject);
 		$data['locale'] = $this->config->getUserValue($targetUserObject->getUID(), 'core', 'locale');
 
 		$backend = $targetUserObject->getBackend();

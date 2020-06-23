@@ -41,6 +41,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 use OCP\UserInterface;
 
 class GroupsControllerTest extends \Test\TestCase {
@@ -75,6 +76,7 @@ class GroupsControllerTest extends \Test\TestCase {
 		$this->groupManager = $this->createMock(Manager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->accountManager = $this->createMock(AccountManager::class);
+		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->logger = $this->createMock(ILogger::class);
 
 		$this->subAdminManager = $this->createMock(SubAdmin::class);
@@ -92,6 +94,7 @@ class GroupsControllerTest extends \Test\TestCase {
 				$this->groupManager,
 				$this->userSession,
 				$this->accountManager,
+				$this->l10nFactory,
 				$this->logger
 			])
 			->setMethods(['fillStorageInfo'])

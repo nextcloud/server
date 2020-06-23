@@ -54,7 +54,7 @@ abstract class AbstractProvider implements INotificationProvider {
 	protected $logger;
 
 	/** @var L10NFactory */
-	private $l10nFactory;
+	protected $l10nFactory;
 
 	/** @var IL10N[] */
 	private $l10ns;

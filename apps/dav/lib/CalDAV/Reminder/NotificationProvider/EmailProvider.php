@@ -35,7 +35,6 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IURLGenerator;
-use OCP\IUser;
 use OCP\L10N\IFactory as L10NFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
@@ -349,7 +348,7 @@ class EmailProvider extends AbstractProvider {
 		foreach ($users as $user) {
 			$emailAddress = $user->getEMailAddress();
 			if ($emailAddress) {
-				$lang = $this->getLangForUser($user);
+				$lang = $this->l10nFactory->getUserLanguage($user);
 				if ($lang) {
 					$emailAddresses[$emailAddress] = [
 						'LANG' => $lang,
@@ -361,14 +360,6 @@ class EmailProvider extends AbstractProvider {
 		}
 
 		return $emailAddresses;
-	}
-
-	/**
-	 * @param IUser $user
-	 * @return string
-	 */
-	private function getLangForUser(IUser $user): ?string {
-		return $this->config->getUserValue($user->getUID(), 'core', 'lang', null);
 	}
 
 	/**

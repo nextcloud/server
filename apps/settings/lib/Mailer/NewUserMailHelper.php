@@ -99,11 +99,7 @@ class NewUserMailHelper {
 	 */
 	public function generateTemplate(IUser $user, $generatePasswordResetToken = false) {
 		$userId = $user->getUID();
-		$lang = $this->config->getUserValue($userId, 'core', 'lang', 'en');
-		if (!$this->l10nFactory->languageExists('settings', $lang)) {
-			$lang = 'en';
-		}
-
+		$lang = $this->l10nFactory->getUserLanguage($user);
 		$l10n = $this->l10nFactory->get('settings', $lang);
 
 		if ($generatePasswordResetToken) {
