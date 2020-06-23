@@ -28,8 +28,14 @@ use OCP\EventDispatcher\Event;
 /**
  * Class IRegisterPanelEvent
  *
+ * This event is dispatched to allow apps supporting older Nextcloud versions to
+ * still register their dashboard panels so that they are only constructed when
+ * they are needed. Deprecated right away so we can drop it again after 19 is EOL
+ * and backward compatible apps can use OCP\AppFramework\Bootstrap\IBootstrap
+ *
  * @package OCP\Dashboard
  * @since 20.0.0
+ * @deprecated 20.0.0
  */
 class IRegisterPanelEvent extends Event {
 	private $manager;
