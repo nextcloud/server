@@ -59,16 +59,15 @@ class DashboardController extends Controller {
 		$this->eventDispatcher->dispatchTyped(new IRegisterPanelEvent($this->dashboardManager));
 
 		$dashboardManager = $this->dashboardManager;
-		$this->inititalStateService->provideLazyInitialState('dashboard', 'panels', function () use ($dashboardManager) {
-			return array_map(function (IPanel $panel) {
-				return [
-					'id' => $panel->getId(),
-					'title' => $panel->getTitle(),
-					'iconClass' => $panel->getIconClass(),
-					'url' => $panel->getUrl()
-				];
-			}, $dashboardManager->getPanels());
-		});
+		$panels = array_map(function (IPanel $panel) {
+			return [
+				'id' => $panel->getId(),
+				'title' => $panel->getTitle(),
+				'iconClass' => $panel->getIconClass(),
+				'url' => $panel->getUrl()
+			];
+		}, $dashboardManager->getPanels());
+		$this->inititalStateService->provideInitialState('dashboard', 'panels', $panels);
 
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
