@@ -1,6 +1,6 @@
 <template>
 	<div id="app-dashboard">
-		<h2>{{ greeting }}, {{ name }}</h2>
+		<h2>{{ greeting.icon }} {{ greeting.text }}, {{ name }}</h2>
 
 		<div class="panels">
 			<div v-for="panel in panels" :key="panel.id" class="panel">
@@ -22,8 +22,6 @@ import { getCurrentUser } from '@nextcloud/auth'
 
 const panels = loadState('dashboard', 'panels')
 
-console.debug('Loading dashboard panels', panels)
-
 export default {
 	name: 'App',
 	data() {
@@ -39,18 +37,18 @@ export default {
 			const time = this.timer.getHours()
 
 			if (time > 18) {
-				return t('dashboard', '🌙 Time to call it a day')
+				return { icon: '🌙', text: t('dashboard', 'Good evening') }
 			}
 			if (time > 12) {
-				return t('dashboard', '☀ Good afternoon')
+				return { icon: '☀', text: t('dashboard', 'Good afternoon') }
 			}
 			if (time === 12) {
-				return t('dashboard', '🍽 Time for lunch')
+				return { icon: '🍽', text: t('dashboard', 'Time for lunch') }
 			}
 			if (time > 5) {
-				return t('dashboard', '🌄 Good morning')
+				return { icon: '🌄', text: t('dashboard', 'Good morning') }
 			}
-			return t('dashboard', '🦉 Have a night owl')
+			return { icon: '🦉', text: t('dashboard', 'Have a night owl') }
 		},
 	},
 	watch: {
