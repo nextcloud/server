@@ -23,6 +23,7 @@ namespace OCA\WorkflowEngine\AppInfo;
 
 use OCA\WorkflowEngine\Controller\RequestTime;
 use OCA\WorkflowEngine\Helper\LogContext;
+use OCA\WorkflowEngine\Listener\LoadAdditionalSettingsScriptsListener;
 use OCA\WorkflowEngine\Manager;
 use OCA\WorkflowEngine\Service\Logger;
 use OCP\AppFramework\App;
@@ -34,7 +35,6 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IServerContainer;
-use OCP\Template;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityCompat;
 use OCP\WorkflowEngine\IOperation;
@@ -43,24 +43,20 @@ use OCP\WorkflowEngine\IOperationCompat;
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'workflowengine';
 
-	/** @var IEventDispatcher */
-	protected $dispatcher;
-
-	/** @var Manager */
-	protected $manager;
-
 	public function __construct() {
 		parent::__construct(self::APP_ID);
 	}
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerServiceAlias('RequestTimeController', RequestTime::class);
+		$context->registerEventListener(
+			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
+			LoadAdditionalSettingsScriptsListener::class,
+			-100
+		);
 	}
 
 	public function boot(IBootContext $context): void {
-		$this->registerHooksAndListeners(
-			$context->getAppContainer()->query(IEventDispatcher::class)
-		);
 		$this->registerRuleListeners(
 			$context->getAppContainer()->query(IEventDispatcher::class),
 			$context->getServerContainer(),
@@ -68,44 +64,19 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
-	/**
-	 * Register all hooks and listeners
-	 */
-	private function registerHooksAndListeners(IEventDispatcher $dispatcher): void {
-		$dispatcher->addListener(
-			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
-			function () {
-				if (!function_exists('style')) {
-					// This is hacky, but we need to load the template class
-					class_exists(Template::class, true);
-				}
-
-				script('core', [
-					'files/fileinfo',
-					'files/client',
-					'dist/systemtags',
-				]);
-
-				script(self::APP_ID, [
-					'workflowengine',
-				]);
-			},
-			-100
-		);
-	}
-
 	private function registerRuleListeners(IEventDispatcher $dispatcher,
 										   IServerContainer $container,
 										   ILogger $logger): void {
-		$configuredEvents = $this->manager->getAllConfiguredEvents();
+		$manager = $container->query(Manager::class);
+		$configuredEvents = $manager->getAllConfiguredEvents();
 
 		foreach ($configuredEvents as $operationClass => $events) {
 			foreach ($events as $entityClass => $eventNames) {
-				array_map(function (string $eventName) use ($container, $dispatcher, $logger, $operationClass, $entityClass) {
+				array_map(function (string $eventName) use ($manager, $container, $dispatcher, $logger, $operationClass, $entityClass) {
 					$dispatcher->addListener(
 						$eventName,
-						function ($event) use ($container, $eventName, $logger, $operationClass, $entityClass) {
-							$ruleMatcher = $this->manager->getRuleMatcher();
+						function ($event) use ($manager, $container, $eventName, $logger, $operationClass, $entityClass) {
+							$ruleMatcher = $manager->getRuleMatcher();
 							try {
 								/** @var IEntity $entity */
 								$entity = $container->query($entityClass);
