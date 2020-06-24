@@ -183,6 +183,10 @@ class User_LDAPTest extends TestCase {
 			   	}
 			   	return false;
 			   });
+
+		$this->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['dn', 'uid', 'mail', 'displayname']);
 	}
 
 	public function testCheckPasswordUidReturn() {
@@ -400,6 +404,10 @@ class User_LDAPTest extends TestCase {
 			   ->willReturnArgument(0);
 		$this->access->method('fetchUsersByLoginName')
 			->willReturn([]);
+
+		$this->access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['dn', 'uid', 'mail', 'displayname']);
 	}
 
 	public function testGetUsersNoParam() {
@@ -1065,6 +1073,9 @@ class User_LDAPTest extends TestCase {
 			->method('get')
 			->with($dn)
 			->willReturn($user);
+		$this->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['dn', 'uid', 'mail', 'displayname']);
 
 		$name = $backend->loginName2UserName($loginName);
 		$this->assertSame($username, $name);
@@ -1092,6 +1103,10 @@ class User_LDAPTest extends TestCase {
 		$this->connection->expects($this->once())
 			->method('writeToCache')
 			->with($this->equalTo('loginName2UserName-'.$loginName), false);
+
+		$this->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['dn', 'uid', 'mail', 'displayname']);
 
 		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager);
 		$name = $backend->loginName2UserName($loginName);
@@ -1126,6 +1141,9 @@ class User_LDAPTest extends TestCase {
 			->method('get')
 			->with($dn)
 			->willReturn($offlineUser);
+		$this->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['dn', 'uid', 'mail', 'displayname']);
 
 		$backend = new UserLDAP($this->access, $this->config, $this->notificationManager, $this->session, $this->pluginManager);
 		$name = $backend->loginName2UserName($loginName);

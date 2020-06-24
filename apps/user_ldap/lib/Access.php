@@ -847,12 +847,8 @@ class Access extends LDAPUtility {
 	/**
 	 * fetches a list of users according to a provided loginName and utilizing
 	 * the login filter.
-	 *
-	 * @param string $loginName
-	 * @param array $attributes optional, list of attributes to read
-	 * @return array
 	 */
-	public function fetchUsersByLoginName($loginName, $attributes = ['dn']) {
+	public function fetchUsersByLoginName(string $loginName, array $attributes = ['dn']): array {
 		$loginName = $this->escapeFilterPart($loginName);
 		$filter = str_replace('%uid', $loginName, $this->connection->ldapLoginFilter);
 		return $this->fetchListOfUsers($filter, $attributes);
@@ -872,15 +868,9 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @param string $filter
-	 * @param string|string[] $attr
-	 * @param int $limit
-	 * @param int $offset
-	 * @param bool $forceApplyAttributes
-	 * @return array
 	 * @throws \Exception
 	 */
-	public function fetchListOfUsers($filter, $attr, $limit = null, $offset = null, $forceApplyAttributes = false) {
+	public function fetchListOfUsers(string $filter, array $attr, int $limit = null, int $offset = null, bool $forceApplyAttributes = false): array {
 		$ldapRecords = $this->searchUsers($filter, $attr, $limit, $offset);
 		$recordsToUpdate = $ldapRecords;
 		if (!$forceApplyAttributes) {
@@ -992,18 +982,9 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * executes an LDAP search, optimized for Users
-	 *
-	 * @param string $filter the LDAP filter for the search
-	 * @param string|string[] $attr optional, when a certain attribute shall be filtered out
-	 * @param integer $limit
-	 * @param integer $offset
-	 * @return array with the search result
-	 *
-	 * Executes an LDAP search
 	 * @throws ServerNotAvailableException
 	 */
-	public function searchUsers($filter, $attr = null, $limit = null, $offset = null) {
+	public function searchUsers(string $filter, array $attr = null, int $limit = null, int $offset = null): array {
 		$result = [];
 		foreach ($this->connection->ldapBaseUsers as $base) {
 			$result = array_merge($result, $this->search($filter, $base, $attr, $limit, $offset));
