@@ -72,6 +72,10 @@
 	height: 100%;
 }
 
+body.dark .oc-dialog-dim {
+	opacity: .8;
+}
+
 .oc-dialog-content {
 	width: 100%;
 	max-width: 550px;

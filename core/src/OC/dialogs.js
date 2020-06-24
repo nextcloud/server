@@ -107,7 +107,7 @@ const Dialogs = {
 			'none',
 			buttons,
 			callback,
-			modal
+			modal === undefined ? true : modal
 		)
 	},
 	/**
@@ -1245,7 +1245,7 @@ const Dialogs = {
 			dir: '',
 			name: '' // Ugly but works ;)
 		}, { escapeFunction: null }).prependTo(this.$dirTree)
-		
+
 	},
 	/**
 	 * handle selection made in the tree list
