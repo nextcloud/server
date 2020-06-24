@@ -28,7 +28,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IPanel;
-use OCP\Dashboard\IRegisterPanelEvent;
+use OCP\Dashboard\RegisterPanelEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IInitialStateService;
 use OCP\IRequest;
@@ -42,7 +42,13 @@ class DashboardController extends Controller {
 	/** @var IManager */
 	private $dashboardManager;
 
-	public function __construct($appName, IRequest $request, IInitialStateService $initialStateService, IEventDispatcher $eventDispatcher, IManager $dashboardManager) {
+	public function __construct(
+		$appName,
+		IRequest $request,
+		IInitialStateService $initialStateService,
+		IEventDispatcher $eventDispatcher,
+		IManager $dashboardManager
+	) {
 		parent::__construct($appName, $request);
 
 		$this->inititalStateService = $initialStateService;
@@ -56,7 +62,7 @@ class DashboardController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index(): TemplateResponse {
-		$this->eventDispatcher->dispatchTyped(new IRegisterPanelEvent($this->dashboardManager));
+		$this->eventDispatcher->dispatchTyped(new RegisterPanelEvent($this->dashboardManager));
 
 		$dashboardManager = $this->dashboardManager;
 		$panels = array_map(function (IPanel $panel) {

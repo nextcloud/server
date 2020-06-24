@@ -26,7 +26,7 @@ namespace OCP\Dashboard;
 use OCP\EventDispatcher\Event;
 
 /**
- * Class IRegisterPanelEvent
+ * Class RegisterPanelEvent
  *
  * This event is dispatched to allow apps supporting older Nextcloud versions to
  * still register their dashboard panels so that they are only constructed when
@@ -37,7 +37,7 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  * @deprecated 20.0.0
  */
-class IRegisterPanelEvent extends Event {
+class RegisterPanelEvent extends Event {
 	private $manager;
 
 	public function __construct(IManager $manager) {
@@ -47,10 +47,10 @@ class IRegisterPanelEvent extends Event {
 	}
 
 	/**
-	 * @param IPanel $panel
+	 * @param string $panelClass
 	 * @since 20.0.0
 	 */
-	public function registerPanel(IPanel $panel) {
-		$this->manager->registerPanel($panel);
+	public function registerPanel(string $panelClass) {
+		$this->manager->lazyRegisterPanel($panelClass);
 	}
 }

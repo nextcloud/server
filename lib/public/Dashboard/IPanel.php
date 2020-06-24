@@ -56,12 +56,6 @@ interface IPanel {
 	public function getIconClass(): string;
 
 	/**
-	 * @return string The absolute path to an icon in SVG
-	 * @since 20.0.0
-	 */
-	public function getIconUrl(): string;
-
-	/**
 	 * @return string The absolute url to the apps own view
 	 * @since 20.0.0
 	 */

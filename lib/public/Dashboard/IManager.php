@@ -32,12 +32,6 @@ namespace OCP\Dashboard;
 interface IManager {
 
 	/**
-	 * @param IPanel $panel
-	 * @since 20.0.0
-	 */
-	public function registerPanel(IPanel $panel): void;
-
-	/**
 	 * @param string $panelClass
 	 * @since 20.0.0
 	 */

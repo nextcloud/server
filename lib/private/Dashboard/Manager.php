@@ -26,6 +26,7 @@ namespace OC\Dashboard;
 use OCP\AppFramework\QueryException;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IPanel;
+use OCP\ILogger;
 use OCP\IServerContainer;
 
 class Manager implements IManager {
@@ -43,10 +44,7 @@ class Manager implements IManager {
 		$this->serverContainer = $serverContainer;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
-	public function registerPanel(IPanel $panel): void {
+	private function registerPanel(IPanel $panel): void {
 		if (array_key_exists($panel->getId(), $this->panels)) {
 			throw new \InvalidArgumentException('Dashboard panel with this id has already been registered');
 		}
@@ -86,7 +84,7 @@ class Manager implements IManager {
 				 * we can not inject it. Thus the static call.
 				 */
 				\OC::$server->getLogger()->logException($e, [
-					'message' => 'Could not register lazy crash reporter: ' . $e->getMessage(),
+					'message' => 'Could not register lazy dashboard panel: ' . $e->getMessage(),
 					'level' => ILogger::FATAL,
 				]);
 			}
