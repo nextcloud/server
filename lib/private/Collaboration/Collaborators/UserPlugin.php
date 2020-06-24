@@ -37,7 +37,6 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Share;
 use OCP\Share\IShare;
 
 class UserPlugin implements ISearchPlugin {

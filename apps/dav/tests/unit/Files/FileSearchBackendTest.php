@@ -44,7 +44,6 @@ use OCP\Share\IManager;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Query\Limit;
 use SearchDAV\Query\Query;
-use SearchDAV\XML\Operator;
 use Test\TestCase;
 
 class FileSearchBackendTest extends TestCase {
@@ -258,7 +257,7 @@ class FileSearchBackendTest extends TestCase {
 		$this->assertEquals('/files/test/test/path', $result[0]->href);
 	}
 
-	
+
 	public function testSearchInvalidProp() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -295,7 +294,7 @@ class FileSearchBackendTest extends TestCase {
 		return new Query($select, $from, $where, $orderBy, $limit);
 	}
 
-	
+
 	public function testSearchNonFolder() {
 		$this->expectException(\InvalidArgumentException::class);
 
