@@ -538,6 +538,9 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
 		$access->userManager = $this->createMock(Manager::class);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
@@ -576,6 +579,9 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
 		$access->userManager = $this->createMock(Manager::class);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);

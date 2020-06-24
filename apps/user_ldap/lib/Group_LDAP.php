@@ -140,6 +140,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 
 		//extra work if we don't get back user DNs
 		if (strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'memberuid') {
+			$requestAttributes = $this->access->userManager->getAttributes(true);
 			$dns = [];
 			$filterParts = [];
 			$bytes = 0;
@@ -153,13 +154,13 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 					$filter = $this->access->combineFilterWithOr($filterParts);
 					$bytes = 0;
 					$filterParts = [];
-					$users = $this->access->fetchListOfUsers($filter, 'dn', count($filterParts));
+					$users = $this->access->fetchListOfUsers($filter, $requestAttributes, count($filterParts));
 					$dns = array_merge($dns, $users);
 				}
 			}
 			if (count($filterParts) > 0) {
 				$filter = $this->access->combineFilterWithOr($filterParts);
-				$users = $this->access->fetchListOfUsers($filter, 'dn', count($filterParts));
+				$users = $this->access->fetchListOfUsers($filter, $requestAttributes, count($filterParts));
 				$dns = array_merge($dns, $users);
 			}
 			$members = $dns;
@@ -989,7 +990,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface, IGroupLD
 					str_replace('%uid', $member, $this->access->connection->ldapLoginFilter),
 					$this->access->getFilterPartForUserSearch($search)
 				]);
-				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn', 1);
+				$ldap_users = $this->access->fetchListOfUsers($filter, ['dn'], 1);
 				if (count($ldap_users) < 1) {
 					continue;
 				}
