@@ -115,4 +115,19 @@ interface IRegistrationContext {
 	 * @since 20.0.0
 	 */
 	public function registerMiddleware(string $class): void;
+
+	/**
+	 * Register a search provider for the unified search
+	 *
+	 * It is allowed to register more than one provider per app as the search
+	 * results can go into distinct sections, e.g. "Files" and "Files shared
+	 * with you" in the Files app.
+	 *
+	 * @param string $class
+	 *
+	 * @return void
+	 *
+	 * @since 20.0.0
+	 */
+	public function registerSearchProvider(string $class): void;
 }

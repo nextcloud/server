@@ -23,18 +23,21 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OCA\Comments\Search;
+namespace OCA\Files\Search;
 
+use OC\Search\Provider\File;
+use OC\Search\Result\File as FileResult;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
-use function array_map;
-use function pathinfo;
 
-class Provider implements IProvider {
+class FilesSearchProvider implements IProvider {
+
+	/** @var File */
+	private $fileSearch;
 
 	/** @var IL10N */
 	private $l10n;
@@ -42,40 +45,29 @@ class Provider implements IProvider {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	/** @var LegacyProvider */
-	private $legacyProvider;
-
-	public function __construct(IL10N $l10n,
-								IURLGenerator $urlGenerator,
-								LegacyProvider $legacyProvider) {
+	public function __construct(File $fileSearch,
+								IL10N $l10n,
+								IURLGenerator $urlGenerator) {
 		$this->l10n = $l10n;
+		$this->fileSearch = $fileSearch;
 		$this->urlGenerator = $urlGenerator;
-		$this->legacyProvider = $legacyProvider;
 	}
 
 	public function getId(): string {
-		return 'comments';
+		return 'files';
 	}
 
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		return SearchResult::complete(
-			$this->l10n->t('Comments'),
-			array_map(function (Result $result) {
-				$path = $result->path;
-				$pathInfo = pathinfo($path);
-				return new CommentsSearchResultEntry(
+			$this->l10n->t('Files'),
+			array_map(function (FileResult $result) {
+				return new FilesSearchResultEntry(
 					$this->urlGenerator->linkToRoute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id]),
 					$result->name,
-					$path,
-					$this->urlGenerator->linkToRoute(
-						'files.view.index',
-						[
-							'dir' => $pathInfo['dirname'],
-							'scrollto' => $pathInfo['basename'],
-						]
-					)
+					$result->path,
+					$result->link
 				);
-			}, $this->legacyProvider->search($query->getTerm()))
+			}, $this->fileSearch->search($query->getTerm()))
 		);
 	}
 }

@@ -32,6 +32,7 @@ use OC\Files\Filesystem;
 
 /**
  * Provide search results from the 'files' app
+ * @deprecated 20.0.0
  */
 class File extends \OCP\Search\Provider {
 
@@ -39,6 +40,7 @@ class File extends \OCP\Search\Provider {
 	 * Search for files and folders matching the given query
 	 * @param string $query
 	 * @return \OCP\Search\Result
+	 * @deprecated 20.0.0
 	 */
 	public function search($query) {
 		$files = Filesystem::search($query);

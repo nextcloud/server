@@ -31,36 +31,42 @@ use OCP\Files\Folder;
 
 /**
  * A found file
+ * @deprecated 20.0.0
  */
 class File extends \OCP\Search\Result {
 
 	/**
 	 * Type name; translated in templates
 	 * @var string
+	 * @deprecated 20.0.0
 	 */
 	public $type = 'file';
 
 	/**
 	 * Path to file
 	 * @var string
+	 * @deprecated 20.0.0
 	 */
 	public $path;
 
 	/**
 	 * Size, in bytes
 	 * @var int
+	 * @deprecated 20.0.0
 	 */
 	public $size;
 
 	/**
 	 * Date modified, in human readable form
 	 * @var string
+	 * @deprecated 20.0.0
 	 */
 	public $modified;
 
 	/**
 	 * File mime type
 	 * @var string
+	 * @deprecated 20.0.0
 	 */
 	public $mime_type;
 
@@ -68,12 +74,14 @@ class File extends \OCP\Search\Result {
 	 * File permissions:
 	 *
 	 * @var string
+	 * @deprecated 20.0.0
 	 */
 	public $permissions;
 
 	/**
 	 * Create a new file search result
 	 * @param FileInfo $data file data given by provider
+	 * @deprecated 20.0.0
 	 */
 	public function __construct(FileInfo $data) {
 		$path = $this->getRelativePath($data->getPath());
@@ -97,6 +105,7 @@ class File extends \OCP\Search\Result {
 
 	/**
 	 * @var Folder $userFolderCache
+	 * @deprecated 20.0.0
 	 */
 	protected static $userFolderCache = null;
 
@@ -105,6 +114,7 @@ class File extends \OCP\Search\Result {
 	 * eg /user/files/foo.txt -> /foo.txt
 	 * @param string $path
 	 * @return string relative path
+	 * @deprecated 20.0.0
 	 */
 	protected function getRelativePath($path) {
 		if (!isset(self::$userFolderCache)) {
