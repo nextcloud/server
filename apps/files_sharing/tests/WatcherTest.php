@@ -70,7 +70,7 @@ class WatcherTest extends TestCase {
 
 		// share "shareddir" with user2
 		$this->_share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			'container/shareddir',
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,

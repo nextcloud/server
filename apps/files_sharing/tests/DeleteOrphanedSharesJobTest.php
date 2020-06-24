@@ -27,6 +27,7 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\DeleteOrphanedSharesJob;
+use OCP\Share\IShare;
 
 /**
  * Class DeleteOrphanedSharesJobTest
@@ -138,7 +139,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 		$share = $shareManager->newShare();
 
 		$share->setNode($testSubFolder)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setSharedWith($this->user2)
 			->setSharedBy($this->user1);

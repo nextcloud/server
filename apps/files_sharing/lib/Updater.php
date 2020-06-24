@@ -27,6 +27,8 @@
 
 namespace OCA\Files_Sharing;
 
+use OCP\Share\IShare;
+
 class Updater {
 
 	/**
@@ -59,9 +61,9 @@ class Updater {
 
 		$shareManager = \OC::$server->getShareManager();
 
-		$shares = $shareManager->getSharesBy($userFolder->getOwner()->getUID(), \OCP\Share::SHARE_TYPE_USER, $src, false, -1);
-		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $src, false, -1));
-		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), \OCP\Share::SHARE_TYPE_ROOM, $src, false, -1));
+		$shares = $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_USER, $src, false, -1);
+		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_GROUP, $src, false, -1));
+		$shares = array_merge($shares, $shareManager->getSharesBy($userFolder->getOwner()->getUID(), IShare::TYPE_ROOM, $src, false, -1));
 
 		// If the path we move is not a share we don't care
 		if (empty($shares)) {
@@ -79,7 +81,7 @@ class Updater {
 
 		//Ownership is moved over
 		foreach ($shares as $share) {
-			/** @var \OCP\Share\IShare $share */
+			/** @var IShare $share */
 			$share->setShareOwner($newOwner);
 			$shareManager->updateShare($share);
 		}

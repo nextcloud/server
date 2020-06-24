@@ -9,10 +9,10 @@
 namespace Test\Repair;
 
 use OC\Repair\RepairInvalidShares;
-use OC\Share\Constants;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use OCP\Share\IShare;
 use Test\TestCase;
 
 /**
@@ -65,7 +65,7 @@ class RepairInvalidSharesTest extends TestCase {
 	public function testSharesNonExistingParent() {
 		$qb = $this->connection->getQueryBuilder();
 		$shareValues = [
-			'share_type' => $qb->expr()->literal(Constants::SHARE_TYPE_USER),
+			'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
 			'share_with' => $qb->expr()->literal('recipientuser1'),
 			'uid_owner' => $qb->expr()->literal('user1'),
 			'item_type' => $qb->expr()->literal('folder'),
@@ -159,7 +159,7 @@ class RepairInvalidSharesTest extends TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(Constants::SHARE_TYPE_LINK),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
 				'uid_owner' => $qb->expr()->literal('user1'),
 				'item_type' => $qb->expr()->literal($itemType),
 				'item_source' => $qb->expr()->literal(123),

@@ -26,6 +26,7 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
+use OCP\Share\IShare;
 use Test\Traits\UserTrait;
 
 /**
@@ -54,7 +55,7 @@ class SizePropagationTest extends TestCase {
 		$ownerView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'bar');
 
 		$this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			'/sharedfolder',
 			self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER1,
@@ -89,7 +90,7 @@ class SizePropagationTest extends TestCase {
 		$ownerView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'bar');
 
 		$this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			'/sharedfolder',
 			self::TEST_FILES_SHARING_API_USER2,
 			self::TEST_FILES_SHARING_API_USER1,

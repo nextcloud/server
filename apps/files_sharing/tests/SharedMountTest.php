@@ -32,6 +32,7 @@ namespace OCA\Files_Sharing\Tests;
 
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\Share\IShare;
 
 /**
  * Class SharedMountTest
@@ -84,7 +85,7 @@ class SharedMountTest extends TestCase {
 
 		// share to user
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -115,7 +116,7 @@ class SharedMountTest extends TestCase {
 	public function testDeleteParentOfMountPoint() {
 		// share to user
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -154,7 +155,7 @@ class SharedMountTest extends TestCase {
 
 	public function testMoveSharedFile() {
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->filename,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -197,7 +198,7 @@ class SharedMountTest extends TestCase {
 
 		$fileinfo = $this->view->getFileInfo($this->filename);
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_GROUP,
+			IShare::TYPE_GROUP,
 			$this->filename,
 			self::TEST_FILES_SHARING_API_USER1,
 			'testGroup',
@@ -351,7 +352,7 @@ class SharedMountTest extends TestCase {
 
 		// Share item with group
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_GROUP,
+			IShare::TYPE_GROUP,
 			$path,
 			self::TEST_FILES_SHARING_API_USER1,
 			'testGroup',
@@ -415,7 +416,7 @@ class SharedMountTest extends TestCase {
 		// Share item with group
 		$fileinfo = $this->view->getFileInfo($this->folder);
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_GROUP,
+			IShare::TYPE_GROUP,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			'testGroup',

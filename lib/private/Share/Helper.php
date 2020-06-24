@@ -31,6 +31,7 @@
 namespace OC\Share;
 
 use OC\HintException;
+use OCP\Share\IShare;
 
 class Helper extends \OC\Share\Constants {
 
@@ -49,13 +50,13 @@ class Helper extends \OC\Share\Constants {
 	public static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $suggestedTarget = null, $groupParent = null) {
 		// FIXME: $uidOwner and $groupParent seems to be unused
 		$backend = \OC\Share\Share::getBackend($itemType);
-		if ($shareType === self::SHARE_TYPE_LINK || $shareType === self::SHARE_TYPE_REMOTE) {
+		if ($shareType === IShare::TYPE_LINK || $shareType === IShare::TYPE_REMOTE) {
 			if (isset($suggestedTarget)) {
 				return $suggestedTarget;
 			}
 			return $backend->generateTarget($itemSource, false);
 		} else {
-			if ($shareType == self::SHARE_TYPE_USER) {
+			if ($shareType == IShare::TYPE_USER) {
 				// Share with is a user, so set share type to user and groups
 				$shareType = self::$shareTypeUserAndGroups;
 			}
@@ -64,7 +65,7 @@ class Helper extends \OC\Share\Constants {
 			if (!isset($suggestedTarget)) {
 				$suggestedTarget = $itemSource;
 			}
-			if ($shareType == self::SHARE_TYPE_GROUP) {
+			if ($shareType == IShare::TYPE_GROUP) {
 				$target = $backend->generateTarget($suggestedTarget, false);
 			} else {
 				$target = $backend->generateTarget($suggestedTarget, $shareWith);

@@ -129,19 +129,19 @@ class MountProviderTest extends \Test\TestCase {
 			->willReturn('user1');
 		$this->shareManager->expects($this->at(0))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_USER)
+			->with('user1', IShare::TYPE_USER)
 			->willReturn($userShares);
 		$this->shareManager->expects($this->at(1))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_GROUP, null, -1)
+			->with('user1', IShare::TYPE_GROUP, null, -1)
 			->willReturn($groupShares);
 		$this->shareManager->expects($this->at(2))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_CIRCLE, null, -1)
+			->with('user1', IShare::TYPE_CIRCLE, null, -1)
 			->willReturn($circleShares);
 		$this->shareManager->expects($this->at(3))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_ROOM, null, -1)
+			->with('user1', IShare::TYPE_ROOM, null, -1)
 			->willReturn($roomShares);
 		$this->shareManager->expects($this->any())
 			->method('newShare')
@@ -338,19 +338,19 @@ class MountProviderTest extends \Test\TestCase {
 		$roomShares = [];
 		$this->shareManager->expects($this->at(0))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_USER)
+			->with('user1', IShare::TYPE_USER)
 			->willReturn($userShares);
 		$this->shareManager->expects($this->at(1))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_GROUP, null, -1)
+			->with('user1', IShare::TYPE_GROUP, null, -1)
 			->willReturn($groupShares);
 		$this->shareManager->expects($this->at(2))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_CIRCLE, null, -1)
+			->with('user1', IShare::TYPE_CIRCLE, null, -1)
 			->willReturn($circleShares);
 		$this->shareManager->expects($this->at(3))
 			->method('getSharedWith')
-			->with('user1', \OCP\Share::SHARE_TYPE_ROOM, null, -1)
+			->with('user1', IShare::TYPE_ROOM, null, -1)
 			->willReturn($roomShares);
 		$this->shareManager->expects($this->any())
 			->method('newShare')

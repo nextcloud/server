@@ -37,7 +37,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Share;
+use OCP\Share\IShare;
 
 class MailPlugin implements ISearchPlugin {
 	protected $shareeEnumeration;
@@ -133,7 +133,7 @@ class MailPlugin implements ISearchPlugin {
 									'uuid' => $contact['UID'],
 									'name' => $contact['FN'],
 									'value' => [
-										'shareType' => Share::SHARE_TYPE_USER,
+										'shareType' => IShare::TYPE_USER,
 										'shareWith' => $cloud->getUser(),
 									],
 								]];
@@ -167,7 +167,7 @@ class MailPlugin implements ISearchPlugin {
 									'uuid' => $contact['UID'],
 									'name' => $contact['FN'],
 									'value' => [
-										'shareType' => Share::SHARE_TYPE_USER,
+										'shareType' => IShare::TYPE_USER,
 										'shareWith' => $cloud->getUser(),
 									],
 								];
@@ -188,7 +188,7 @@ class MailPlugin implements ISearchPlugin {
 							'name' => $contact['FN'],
 							'type' => $emailAddressType ?? '',
 							'value' => [
-								'shareType' => Share::SHARE_TYPE_EMAIL,
+								'shareType' => IShare::TYPE_EMAIL,
 								'shareWith' => $emailAddress,
 							],
 						];
@@ -199,7 +199,7 @@ class MailPlugin implements ISearchPlugin {
 							'name' => $contact['FN'],
 							'type' => $emailAddressType ?? '',
 							'value' => [
-								'shareType' => Share::SHARE_TYPE_EMAIL,
+								'shareType' => IShare::TYPE_EMAIL,
 								'shareWith' => $emailAddress,
 							],
 						];
@@ -226,7 +226,7 @@ class MailPlugin implements ISearchPlugin {
 				'label' => $search,
 				'uuid' => $search,
 				'value' => [
-					'shareType' => Share::SHARE_TYPE_EMAIL,
+					'shareType' => IShare::TYPE_EMAIL,
 					'shareWith' => $search,
 				],
 			];

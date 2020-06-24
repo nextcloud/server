@@ -37,7 +37,6 @@ use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Share;
 use OCP\Share\IShare;
 
 class UserPlugin implements ISearchPlugin {
@@ -115,7 +114,7 @@ class UserPlugin implements ISearchPlugin {
 				$result['exact'][] = [
 					'label' => $userDisplayName,
 					'value' => [
-						'shareType' => Share::SHARE_TYPE_USER,
+						'shareType' => IShare::TYPE_USER,
 						'shareWith' => $uid,
 					],
 				];
@@ -161,7 +160,7 @@ class UserPlugin implements ISearchPlugin {
 					$result['exact'][] = [
 						'label' => $user->getDisplayName(),
 						'value' => [
-							'shareType' => Share::SHARE_TYPE_USER,
+							'shareType' => IShare::TYPE_USER,
 							'shareWith' => $user->getUID(),
 						],
 					];

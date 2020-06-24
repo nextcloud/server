@@ -52,7 +52,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Lock\LockedException;
-use OCP\Share;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -260,7 +259,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$share = $this->newShare();
 		$share->setSharedWith($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setNode($node);
 
 		$this->shareManager
@@ -355,7 +354,7 @@ class ShareAPIControllerTest extends TestCase {
 		$node = $this->getMockBuilder(File::class)->getMock();
 
 		$share = $this->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+		$share->setShareType(IShare::TYPE_GROUP)
 			->setSharedWith('group')
 			->setNode($node);
 
@@ -417,7 +416,7 @@ class ShareAPIControllerTest extends TestCase {
 		$node = $this->getMockBuilder(File::class)->getMock();
 
 		$share = $this->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+		$share->setShareType(IShare::TYPE_GROUP)
 			->setSharedWith('group')
 			->setNode($node);
 
@@ -504,9 +503,9 @@ class ShareAPIControllerTest extends TestCase {
 		$share->method('getToken')->willReturn($token);
 		$share->method('getPassword')->willReturn($password);
 
-		if ($shareType === \OCP\Share::SHARE_TYPE_USER  ||
-			$shareType === \OCP\Share::SHARE_TYPE_GROUP ||
-			$shareType === \OCP\Share::SHARE_TYPE_LINK) {
+		if ($shareType === IShare::TYPE_USER  ||
+			$shareType === IShare::TYPE_GROUP ||
+			$shareType === IShare::TYPE_LINK) {
 			$share->method('getFullId')->willReturn('ocinternal:'.$id);
 		}
 
@@ -547,7 +546,7 @@ class ShareAPIControllerTest extends TestCase {
 		// File shared with user
 		$share = $this->createShare(
 			100,
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			'userId',
 			'initiatorId',
 			'ownerId',
@@ -562,7 +561,7 @@ class ShareAPIControllerTest extends TestCase {
 		);
 		$expected = [
 			'id' => 100,
-			'share_type' => \OCP\Share::SHARE_TYPE_USER,
+			'share_type' => IShare::TYPE_USER,
 			'share_with' => 'userId',
 			'share_with_displayname' => 'userDisplay',
 			'uid_owner' => 'initiatorId',
@@ -595,7 +594,7 @@ class ShareAPIControllerTest extends TestCase {
 		// Folder shared with group
 		$share = $this->createShare(
 			101,
-			\OCP\Share::SHARE_TYPE_GROUP,
+			IShare::TYPE_GROUP,
 			'groupId',
 			'initiatorId',
 			'ownerId',
@@ -610,7 +609,7 @@ class ShareAPIControllerTest extends TestCase {
 		);
 		$expected = [
 			'id' => 101,
-			'share_type' => \OCP\Share::SHARE_TYPE_GROUP,
+			'share_type' => IShare::TYPE_GROUP,
 			'share_with' => 'groupId',
 			'share_with_displayname' => 'groupId',
 			'uid_owner' => 'initiatorId',
@@ -644,7 +643,7 @@ class ShareAPIControllerTest extends TestCase {
 		$expire = \DateTime::createFromFormat('Y-m-d h:i:s', '2000-01-02 01:02:03');
 		$share = $this->createShare(
 			101,
-			\OCP\Share::SHARE_TYPE_LINK,
+			IShare::TYPE_LINK,
 			null,
 			'initiatorId',
 			'ownerId',
@@ -662,7 +661,7 @@ class ShareAPIControllerTest extends TestCase {
 		);
 		$expected = [
 			'id' => 101,
-			'share_type' => \OCP\Share::SHARE_TYPE_LINK,
+			'share_type' => IShare::TYPE_LINK,
 			'password' => 'password',
 			'share_with' => 'password',
 			'share_with_displayname' => '(Shared link)',
@@ -1405,7 +1404,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		$share = $this->getMockBuilder(IShare::class)->getMock();
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
+		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
 		$share->method('getSharedWith')->willReturn($this->currentUser);
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
@@ -1425,18 +1424,18 @@ class ShareAPIControllerTest extends TestCase {
 
 		// getPermissions -> share
 		$share = $this->getMockBuilder(IShare::class)->getMock();
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
+		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
 		$share->method('getSharedWith')->willReturn($this->getMockBuilder(IUser::class)->getMock());
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		// getPermissions -> read
 		$share = $this->getMockBuilder(IShare::class)->getMock();
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
+		$share->method('getShareType')->willReturn(IShare::TYPE_USER);
 		$share->method('getSharedWith')->willReturn($this->getMockBuilder(IUser::class)->getMock());
 		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		$share = $this->getMockBuilder(IShare::class)->getMock();
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
+		$share->method('getShareType')->willReturn(IShare::TYPE_GROUP);
 		$share->method('getSharedWith')->willReturn('group');
 
 		$user = $this->createMock(IUser::class);
@@ -1457,18 +1456,18 @@ class ShareAPIControllerTest extends TestCase {
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		$share = $this->createMock(IShare::class);
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
+		$share->method('getShareType')->willReturn(IShare::TYPE_GROUP);
 		$share->method('getSharedWith')->willReturn('group2');
 		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		// null group
 		$share = $this->createMock(IShare::class);
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
+		$share->method('getShareType')->willReturn(IShare::TYPE_GROUP);
 		$share->method('getSharedWith')->willReturn('groupnull');
 		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		$share = $this->createMock(IShare::class);
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
+		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 	}
 
@@ -1476,7 +1475,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result = [];
 
 		$share = $this->createMock(IShare::class);
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_ROOM);
+		$share->method('getShareType')->willReturn(IShare::TYPE_ROOM);
 		$share->method('getSharedWith')->willReturn('recipientRoom');
 
 		$result[] = [
@@ -1623,7 +1622,7 @@ class ShareAPIControllerTest extends TestCase {
 			->method('lock')
 			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 
-		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER);
+		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_USER);
 	}
 
 
@@ -1657,7 +1656,7 @@ class ShareAPIControllerTest extends TestCase {
 			->with('invalidUser')
 			->willReturn(false);
 
-		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, 'invalidUser');
+		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_USER, 'invalidUser');
 	}
 
 	public function testCreateShareUser() {
@@ -1713,14 +1712,14 @@ class ShareAPIControllerTest extends TestCase {
 						~\OCP\Constants::PERMISSION_DELETE &
 						~\OCP\Constants::PERMISSION_CREATE
 					) &&
-					$share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
+					$share->getShareType() === IShare::TYPE_USER &&
 					$share->getSharedWith() === 'validUser' &&
 					$share->getSharedBy() === 'currentUser';
 			}))
 			->willReturnArgument(0);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, 'validUser');
+		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_USER, 'validUser');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1757,7 +1756,7 @@ class ShareAPIControllerTest extends TestCase {
 			->method('lock')
 			->with(\OCP\Lock\ILockingProvider::LOCK_SHARED);
 
-		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_GROUP, 'invalidGroup');
+		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_GROUP, 'invalidGroup');
 	}
 
 	public function testCreateShareGroup() {
@@ -1787,7 +1786,7 @@ class ShareAPIControllerTest extends TestCase {
 			->willReturnMap([
 				['path', null, 'valid-path'],
 				['permissions', null, \OCP\Constants::PERMISSION_ALL],
-				['shareType', '-1', \OCP\Share::SHARE_TYPE_GROUP],
+				['shareType', '-1', IShare::TYPE_GROUP],
 				['shareWith', null, 'validGroup'],
 			]);
 
@@ -1822,14 +1821,14 @@ class ShareAPIControllerTest extends TestCase {
 			->with($this->callback(function (\OCP\Share\IShare $share) use ($path) {
 				return $share->getNode() === $path &&
 				$share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
-				$share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP &&
+				$share->getShareType() === IShare::TYPE_GROUP &&
 				$share->getSharedWith() === 'validGroup' &&
 				$share->getSharedBy() === 'currentUser';
 			}))
 			->willReturnArgument(0);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_GROUP, 'validGroup');
+		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_GROUP, 'validGroup');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1866,7 +1865,7 @@ class ShareAPIControllerTest extends TestCase {
 			->method('allowGroupSharing')
 			->willReturn(false);
 
-		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_GROUP, 'invalidGroup');
+		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_GROUP, 'invalidGroup');
 	}
 
 
@@ -1878,7 +1877,7 @@ class ShareAPIControllerTest extends TestCase {
 			->method('getParam')
 			->willReturnMap([
 				['path', null, 'valid-path'],
-				['shareType', '-1', \OCP\Share::SHARE_TYPE_LINK],
+				['shareType', '-1', IShare::TYPE_LINK],
 			]);
 
 		$path = $this->getMockBuilder(Folder::class)->getMock();
@@ -1892,7 +1891,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
 
-		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK);
+		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK);
 	}
 
 
@@ -1912,7 +1911,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('newShare')->willReturn(\OC::$server->getShareManager()->newShare());
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
 
-		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'true');
+		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'true');
 	}
 
 
@@ -1933,7 +1932,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
-		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'true');
+		$this->ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'true');
 	}
 
 	public function testCreateShareLinkPublicUploadFolder() {
@@ -1955,7 +1954,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('createShare')->with(
 			$this->callback(function (\OCP\Share\IShare $share) use ($path) {
 				return $share->getNode() === $path &&
-					$share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
+					$share->getShareType() === IShare::TYPE_LINK &&
 					$share->getPermissions() === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE) &&
 					$share->getSharedBy() === 'currentUser' &&
 					$share->getPassword() === null &&
@@ -1964,7 +1963,7 @@ class ShareAPIControllerTest extends TestCase {
 		)->willReturnArgument(0);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'true', '', null, '');
+		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'true', '', null, '');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -1989,7 +1988,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('createShare')->with(
 			$this->callback(function (\OCP\Share\IShare $share) use ($path) {
 				return $share->getNode() === $path &&
-				$share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
+				$share->getShareType() === IShare::TYPE_LINK &&
 				$share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
 				$share->getSharedBy() === 'currentUser' &&
 				$share->getPassword() === 'password' &&
@@ -1998,7 +1997,7 @@ class ShareAPIControllerTest extends TestCase {
 		)->willReturnArgument(0);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', 'password', null, '');
+		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', 'password', null, '');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -2025,7 +2024,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->once())->method('createShare')->with(
 			$this->callback(function (\OCP\Share\IShare $share) use ($path) {
 				return $share->getNode() === $path &&
-				$share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
+				$share->getShareType() === IShare::TYPE_LINK &&
 				$share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
 				$share->getSharedBy() === 'currentUser' &&
 				$share->getPassword() === 'password' &&
@@ -2035,7 +2034,7 @@ class ShareAPIControllerTest extends TestCase {
 		)->willReturnArgument(0);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', 'password', 'true', '');
+		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', 'password', 'true', '');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -2066,7 +2065,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->never())->method('createShare');
 
-		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', 'password', 'true', '');
+		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', 'password', 'true', '');
 	}
 
 	public function testCreateShareValidExpireDate() {
@@ -2076,7 +2075,7 @@ class ShareAPIControllerTest extends TestCase {
 			->method('getParam')
 			->willReturnMap([
 				['path', null, 'valid-path'],
-				['shareType', '-1', \OCP\Share::SHARE_TYPE_LINK],
+				['shareType', '-1', IShare::TYPE_LINK],
 				['publicUpload', null, 'false'],
 				['expireDate', '', '2000-01-01'],
 				['password', '', ''],
@@ -2101,7 +2100,7 @@ class ShareAPIControllerTest extends TestCase {
 				$date->setTime(0,0,0);
 
 				return $share->getNode() === $path &&
-				$share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
+				$share->getShareType() === IShare::TYPE_LINK &&
 				$share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
 				$share->getSharedBy() === 'currentUser' &&
 				$share->getPassword() === null &&
@@ -2110,7 +2109,7 @@ class ShareAPIControllerTest extends TestCase {
 		)->willReturnArgument(0);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '', null, '2000-01-01');
+		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', '', null, '2000-01-01');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -2136,7 +2135,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
-		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_LINK, null, 'false', '', null, 'a1b2d3');
+		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_LINK, null, 'false', '', null, 'a1b2d3');
 	}
 
 	public function testCreateShareRoom() {
@@ -2204,14 +2203,14 @@ class ShareAPIControllerTest extends TestCase {
 						~\OCP\Constants::PERMISSION_DELETE &
 						~\OCP\Constants::PERMISSION_CREATE
 					) &&
-					$share->getShareType() === \OCP\Share::SHARE_TYPE_ROOM &&
+					$share->getShareType() === IShare::TYPE_ROOM &&
 					$share->getSharedWith() === 'recipientRoom' &&
 					$share->getSharedBy() === 'currentUser';
 			}))
 			->willReturnArgument(0);
 
 		$expected = new DataResponse([]);
-		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_ROOM, 'recipientRoom');
+		$result = $ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_ROOM, 'recipientRoom');
 
 		$this->assertInstanceOf(get_class($expected), $result);
 		$this->assertEquals($expected->getData(), $result->getData());
@@ -2255,7 +2254,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->never())->method('createShare');
 
-		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_ROOM, 'recipientRoom');
+		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_ROOM, 'recipientRoom');
 	}
 
 
@@ -2316,7 +2315,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		$this->shareManager->expects($this->never())->method('createShare');
 
-		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_ROOM, 'recipientRoom');
+		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_ROOM, 'recipientRoom');
 	}
 
 	/**
@@ -2373,7 +2372,7 @@ class ShareAPIControllerTest extends TestCase {
 			}))
 			->willReturnArgument(0);
 
-		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, \OCP\Share::SHARE_TYPE_USER, 'validUser');
+		$ocs->createShare('valid-path', \OCP\Constants::PERMISSION_ALL, IShare::TYPE_USER, 'validUser');
 	}
 
 
@@ -2412,7 +2411,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setNode($node);
 
 		$node->expects($this->once())
@@ -2433,7 +2432,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setShareType(IShare::TYPE_GROUP)
 			->setNode($node);
 
 		$node->expects($this->once())
@@ -2454,7 +2453,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate(new \DateTime())
 			->setNote('note')
@@ -2517,7 +2516,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setNode($folder);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
@@ -2575,7 +2574,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPassword('password')
 			->setNode($folder);
 
@@ -2625,7 +2624,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setNode($folder);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
@@ -2664,7 +2663,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setNode($folder);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
@@ -2685,7 +2684,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setNode($file);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
@@ -2704,7 +2703,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPassword('password')
 			->setSendPasswordByTalk(true)
 			->setExpirationDate($date)
@@ -2749,7 +2748,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPassword('password')
 			->setSendPasswordByTalk(false)
 			->setExpirationDate($date)
@@ -2800,7 +2799,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPassword('password')
 			->setSendPasswordByTalk(false)
 			->setExpirationDate($date)
@@ -2833,7 +2832,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPassword('password')
 			->setSendPasswordByTalk(true)
 			->setExpirationDate($date)
@@ -2883,7 +2882,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPassword('password')
 			->setSendPasswordByTalk(true)
 			->setExpirationDate($date)
@@ -2951,7 +2950,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPassword('password')
 			->setSendPasswordByTalk(true)
 			->setExpirationDate(new \DateTime())
@@ -3016,7 +3015,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPassword('password')
 			->setSendPasswordByTalk(true)
 			->setExpirationDate($date)
@@ -3078,7 +3077,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPassword('password')
 			->setSendPasswordByTalk(true)
 			->setExpirationDate($date)
@@ -3139,7 +3138,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPassword('password')
 			->setSendPasswordByTalk(true)
 			->setExpirationDate($date)
@@ -3198,7 +3197,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setNode($file);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
@@ -3246,7 +3245,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setId(42)
 			->setSharedBy($this->currentUser)
 			->setShareOwner('anotheruser')
-			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setShareType(IShare::TYPE_GROUP)
 			->setSharedWith('group1')
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setNode($folder);
@@ -3258,7 +3257,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setId(42)
 			->setSharedBy($this->currentUser)
 			->setShareOwner('anotheruser')
-			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setShareType(IShare::TYPE_GROUP)
 			->setSharedWith('group1')
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setNode($folder);
@@ -3274,9 +3273,9 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->any())
 			->method('getSharedWith')
 			->willReturnMap([
-				['currentUser', \OCP\Share::SHARE_TYPE_USER, $share->getNode(), -1, 0, []],
-				['currentUser', \OCP\Share::SHARE_TYPE_GROUP, $share->getNode(), -1, 0, [$incomingShare]],
-				['currentUser', \OCP\Share::SHARE_TYPE_ROOM, $share->getNode(), -1, 0, []]
+				['currentUser', IShare::TYPE_USER, $share->getNode(), -1, 0, []],
+				['currentUser', IShare::TYPE_GROUP, $share->getNode(), -1, 0, [$incomingShare]],
+				['currentUser', IShare::TYPE_ROOM, $share->getNode(), -1, 0, []]
 			]);
 
 		$userFolder = $this->createMock(Folder::class);
@@ -3319,7 +3318,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setId(42)
 			->setSharedBy($this->currentUser)
 			->setShareOwner($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setShareType(IShare::TYPE_GROUP)
 			->setSharedWith('group1')
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setNode($folder);
@@ -3331,7 +3330,7 @@ class ShareAPIControllerTest extends TestCase {
 			->setId(42)
 			->setSharedBy($this->currentUser)
 			->setShareOwner($this->currentUser)
-			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setShareType(IShare::TYPE_GROUP)
 			->setSharedWith('group1')
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setNode($folder);
@@ -3341,8 +3340,8 @@ class ShareAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->any())
 			->method('getSharedWith')
 			->willReturnMap([
-				['currentUser', \OCP\Share::SHARE_TYPE_USER, $share->getNode(), -1, 0, []],
-				['currentUser', \OCP\Share::SHARE_TYPE_GROUP, $share->getNode(), -1, 0, [$incomingShare]]
+				['currentUser', IShare::TYPE_USER, $share->getNode(), -1, 0, []],
+				['currentUser', IShare::TYPE_GROUP, $share->getNode(), -1, 0, [$incomingShare]]
 			]);
 
 		$this->shareManager->expects($this->once())
@@ -3406,7 +3405,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result = [];
 
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_USER)
+		$share->setShareType(IShare::TYPE_USER)
 			->setSharedWith('recipient')
 			->setSharedBy('initiator')
 			->setShareOwner('owner')
@@ -3421,7 +3420,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_USER,
+				'share_type' => IShare::TYPE_USER,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -3454,7 +3453,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_USER,
+				'share_type' => IShare::TYPE_USER,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiatorDN',
 				'permissions' => 1,
@@ -3489,7 +3488,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_USER)
+		$share->setShareType(IShare::TYPE_USER)
 			->setSharedWith('recipient')
 			->setSharedBy('initiator')
 			->setShareOwner('owner')
@@ -3503,7 +3502,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_USER,
+				'share_type' => IShare::TYPE_USER,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -3534,7 +3533,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_USER)
+		$share->setShareType(IShare::TYPE_USER)
 			->setSharedWith('recipient')
 			->setSharedBy('initiator')
 			->setShareOwner('currentUser')
@@ -3548,7 +3547,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_USER,
+				'share_type' => IShare::TYPE_USER,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -3581,7 +3580,7 @@ class ShareAPIControllerTest extends TestCase {
 		// with existing group
 
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+		$share->setShareType(IShare::TYPE_GROUP)
 			->setSharedWith('recipientGroup')
 			->setSharedBy('initiator')
 			->setShareOwner('owner')
@@ -3595,7 +3594,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_GROUP,
+				'share_type' => IShare::TYPE_GROUP,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -3627,7 +3626,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		// with unknown group / no group backend
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(Share::SHARE_TYPE_GROUP)
+		$share->setShareType(IShare::TYPE_GROUP)
 			->setSharedWith('recipientGroup2')
 			->setSharedBy('initiator')
 			->setShareOwner('owner')
@@ -3640,7 +3639,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => Share::SHARE_TYPE_GROUP,
+				'share_type' => IShare::TYPE_GROUP,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -3671,7 +3670,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+		$share->setShareType(IShare::TYPE_LINK)
 			->setSharedBy('initiator')
 			->setShareOwner('owner')
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
@@ -3688,7 +3687,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_LINK,
+				'share_type' => IShare::TYPE_LINK,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -3722,7 +3721,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+		$share->setShareType(IShare::TYPE_LINK)
 			->setSharedBy('initiator')
 			->setShareOwner('owner')
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
@@ -3740,7 +3739,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_LINK,
+				'share_type' => IShare::TYPE_LINK,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -3774,7 +3773,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
+		$share->setShareType(IShare::TYPE_REMOTE)
 			->setSharedBy('initiator')
 			->setSharedWith('user@server.com')
 			->setShareOwner('owner')
@@ -3788,7 +3787,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_REMOTE,
+				'share_type' => IShare::TYPE_REMOTE,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -3820,7 +3819,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		// Circle with id, display name and avatar set by the Circles app
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_CIRCLE)
+		$share->setShareType(IShare::TYPE_CIRCLE)
 			->setSharedBy('initiator')
 			->setSharedWith('Circle (Public circle, circleOwner) [4815162342]')
 			->setSharedWithDisplayName('The display name')
@@ -3835,7 +3834,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_CIRCLE,
+				'share_type' => IShare::TYPE_CIRCLE,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -3868,7 +3867,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		// Circle with id set by the Circles app
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_CIRCLE)
+		$share->setShareType(IShare::TYPE_CIRCLE)
 			->setSharedBy('initiator')
 			->setSharedWith('Circle (Public circle, circleOwner) [4815162342]')
 			->setShareOwner('owner')
@@ -3881,7 +3880,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_CIRCLE,
+				'share_type' => IShare::TYPE_CIRCLE,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -3914,7 +3913,7 @@ class ShareAPIControllerTest extends TestCase {
 
 		// Circle with id not set by the Circles app
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_CIRCLE)
+		$share->setShareType(IShare::TYPE_CIRCLE)
 			->setSharedBy('initiator')
 			->setSharedWith('Circle (Public circle, circleOwner)')
 			->setShareOwner('owner')
@@ -3927,7 +3926,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_CIRCLE,
+				'share_type' => IShare::TYPE_CIRCLE,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -3959,7 +3958,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_USER)
+		$share->setShareType(IShare::TYPE_USER)
 			->setSharedBy('initiator')
 			->setSharedWith('recipient')
 			->setShareOwner('owner')
@@ -3974,7 +3973,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_EMAIL)
+		$share->setShareType(IShare::TYPE_EMAIL)
 			->setSharedBy('initiator')
 			->setSharedWith('user@server.com')
 			->setShareOwner('owner')
@@ -3988,7 +3987,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_EMAIL,
+				'share_type' => IShare::TYPE_EMAIL,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -4021,7 +4020,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_EMAIL)
+		$share->setShareType(IShare::TYPE_EMAIL)
 			->setSharedBy('initiator')
 			->setSharedWith('user@server.com')
 			->setShareOwner('owner')
@@ -4036,7 +4035,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_EMAIL,
+				'share_type' => IShare::TYPE_EMAIL,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -4167,7 +4166,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result = [];
 
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_ROOM)
+		$share->setShareType(IShare::TYPE_ROOM)
 			->setSharedWith('recipientRoom')
 			->setSharedBy('initiator')
 			->setShareOwner('owner')
@@ -4181,7 +4180,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_ROOM,
+				'share_type' => IShare::TYPE_ROOM,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,
@@ -4212,7 +4211,7 @@ class ShareAPIControllerTest extends TestCase {
 		];
 
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_ROOM)
+		$share->setShareType(IShare::TYPE_ROOM)
 			->setSharedWith('recipientRoom')
 			->setSharedBy('initiator')
 			->setShareOwner('owner')
@@ -4226,7 +4225,7 @@ class ShareAPIControllerTest extends TestCase {
 		$result[] = [
 			[
 				'id' => 42,
-				'share_type' => \OCP\Share::SHARE_TYPE_ROOM,
+				'share_type' => IShare::TYPE_ROOM,
 				'uid_owner' => 'initiator',
 				'displayname_owner' => 'initiator',
 				'permissions' => 1,

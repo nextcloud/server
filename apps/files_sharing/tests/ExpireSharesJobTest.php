@@ -25,6 +25,7 @@
 namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\ExpireSharesJob;
+use OCP\Share\IShare;
 
 /**
  * Class ExpireSharesJobTest
@@ -140,7 +141,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		$share = $shareManager->newShare();
 
 		$share->setNode($testFolder)
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setSharedBy($this->user1);
 
@@ -197,7 +198,7 @@ class ExpireSharesJobTest extends \Test\TestCase {
 		$share = $shareManager->newShare();
 
 		$share->setNode($testFolder)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setSharedBy($this->user1)
 			->setSharedWith($this->user2);

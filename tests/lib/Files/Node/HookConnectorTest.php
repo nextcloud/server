@@ -13,7 +13,6 @@ use OC\Files\Node\HookConnector;
 use OC\Files\Node\Root;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
-use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\GenericEvent as APIGenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Events\Node\AbstractNodeEvent;

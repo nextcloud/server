@@ -31,6 +31,8 @@
 
 namespace OCA\Files_Sharing\Tests;
 
+use OCP\Share\IShare;
+
 /**
  * Class UpdaterTest
  *
@@ -82,7 +84,7 @@ class UpdaterTest extends TestCase {
 		$this->assertTrue($fileinfo instanceof \OC\Files\FileInfo);
 
 		$this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -166,7 +168,7 @@ class UpdaterTest extends TestCase {
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -202,7 +204,7 @@ class UpdaterTest extends TestCase {
 		$fileinfo = \OC\Files\Filesystem::getFileInfo($this->folder);
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,

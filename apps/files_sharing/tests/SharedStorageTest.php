@@ -79,7 +79,7 @@ class SharedStorageTest extends TestCase {
 
 		// share to user
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -124,7 +124,7 @@ class SharedStorageTest extends TestCase {
 
 		// share to user
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -164,7 +164,7 @@ class SharedStorageTest extends TestCase {
 		$file2Size = $this->view->filesize($this->filename);
 
 		$share1 = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -172,7 +172,7 @@ class SharedStorageTest extends TestCase {
 		);
 
 		$share2 = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->filename,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -194,7 +194,7 @@ class SharedStorageTest extends TestCase {
 
 	public function testGetPermissions() {
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -226,7 +226,7 @@ class SharedStorageTest extends TestCase {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -259,7 +259,7 @@ class SharedStorageTest extends TestCase {
 		$fileinfoFolder = $this->view->getFileInfo($this->folder);
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -298,7 +298,7 @@ class SharedStorageTest extends TestCase {
 
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OC\Share\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+		$result = \OC\Share\Share::unshare('folder', $fileinfoFolder['fileid'], IShare::TYPE_USER,
 			self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue($result);
 	}
@@ -307,7 +307,7 @@ class SharedStorageTest extends TestCase {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -353,7 +353,7 @@ class SharedStorageTest extends TestCase {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -387,14 +387,14 @@ class SharedStorageTest extends TestCase {
 
 		// share 2 different files with 2 different users
 		$share1 = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
 			\OCP\Constants::PERMISSION_ALL
 		);
 		$share2 = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->filename,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER3,
@@ -426,7 +426,7 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -459,7 +459,7 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,
@@ -501,7 +501,7 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$share1 = $this->share(
-			\OCP\Share::SHARE_TYPE_GROUP,
+			IShare::TYPE_GROUP,
 			'foo',
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_GROUP1,
@@ -514,7 +514,7 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
 
 		$share2 = $this->share(
-			\OCP\Share::SHARE_TYPE_GROUP,
+			IShare::TYPE_GROUP,
 			'foo',
 			self::TEST_FILES_SHARING_API_USER3,
 			self::TEST_FILES_SHARING_API_GROUP1,
@@ -543,7 +543,7 @@ class SharedStorageTest extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_USER,
+			IShare::TYPE_USER,
 			$this->folder,
 			self::TEST_FILES_SHARING_API_USER1,
 			self::TEST_FILES_SHARING_API_USER2,

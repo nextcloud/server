@@ -36,6 +36,7 @@ namespace OCA\Files_Sharing\ShareBackend;
 
 use OCA\FederatedFileSharing\AppInfo\Application;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\Share\IShare;
 
 class File implements \OCP\Share_Backend_File_Dependent {
 	public const FORMAT_SHARED_STORAGE = 0;
@@ -192,11 +193,11 @@ class File implements \OCP\Share_Backend_File_Dependent {
 	 * @return boolean
 	 */
 	public function isShareTypeAllowed($shareType) {
-		if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
+		if ($shareType === IShare::TYPE_REMOTE) {
 			return $this->federatedShareProvider->isOutgoingServer2serverShareEnabled();
 		}
 
-		if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
+		if ($shareType === IShare::TYPE_REMOTE_GROUP) {
 			return $this->federatedShareProvider->isOutgoingServer2serverGroupShareEnabled();
 		}
 

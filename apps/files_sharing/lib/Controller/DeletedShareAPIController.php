@@ -139,11 +139,11 @@ class DeletedShareAPIController extends OCSController {
 			$result['expiration'] = $expiration->format('Y-m-d 00:00:00');
 		}
 
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+		if ($share->getShareType() === IShare::TYPE_GROUP) {
 			$group = $this->groupManager->get($share->getSharedWith());
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $group !== null ? $group->getDisplayName() : $share->getSharedWith();
-		} elseif ($share->getShareType() === \OCP\Share::SHARE_TYPE_ROOM) {
+		} elseif ($share->getShareType() === IShare::TYPE_ROOM) {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = '';
 
@@ -160,8 +160,8 @@ class DeletedShareAPIController extends OCSController {
 	 * @NoAdminRequired
 	 */
 	public function index(): DataResponse {
-		$groupShares = $this->shareManager->getDeletedSharedWith($this->userId, \OCP\Share::SHARE_TYPE_GROUP, null, -1, 0);
-		$roomShares = $this->shareManager->getDeletedSharedWith($this->userId, \OCP\Share::SHARE_TYPE_ROOM, null, -1, 0);
+		$groupShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_GROUP, null, -1, 0);
+		$roomShares = $this->shareManager->getDeletedSharedWith($this->userId, IShare::TYPE_ROOM, null, -1, 0);
 
 		$shares = array_merge($groupShares, $roomShares);
 
