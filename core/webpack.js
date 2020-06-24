@@ -22,7 +22,11 @@ module.exports = [
 			rules: [
 				{
 					test: /davclient/,
-					use: 'exports-loader?dav'
+					loader: 'exports-loader',
+					options: {
+						type: 'commonjs',
+						exports: 'dav',
+					}
 				}
 			]
 		},

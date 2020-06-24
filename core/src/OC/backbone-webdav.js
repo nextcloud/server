@@ -55,7 +55,7 @@
  */
 
 import _ from 'underscore'
-import dav from 'davclient.js'
+import { dav } from 'davclient.js'
 
 const methodMap = {
 	create: 'POST',
