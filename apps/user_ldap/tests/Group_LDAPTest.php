@@ -71,6 +71,8 @@ class Group_LDAPTest extends TestCase {
 			->method('getConnection')
 			->willReturn($connector);
 
+		$access->userManager = $this->createMock(Manager::class);
+
 		return $access;
 	}
 
