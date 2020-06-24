@@ -30,6 +30,7 @@ use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Federation\ICloudIdManager;
 use OCP\Share;
+use OCP\Share\IShare;
 
 class RemoteGroupPlugin implements ISearchPlugin {
 	protected $shareeEnumeration;
@@ -63,7 +64,7 @@ class RemoteGroupPlugin implements ISearchPlugin {
 				'guid' => $remoteGroup,
 				'name' => $remoteGroup,
 				'value' => [
-					'shareType' => Share::SHARE_TYPE_REMOTE_GROUP,
+					'shareType' => IShare::TYPE_REMOTE_GROUP,
 					'shareWith' => $search,
 					'server' => $serverUrl,
 				],

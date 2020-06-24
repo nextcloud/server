@@ -41,6 +41,7 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountManager;
 use OCP\IUser;
 use OCP\Share\IManager as IShareManager;
+use OCP\Share\IShare;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -238,7 +239,7 @@ class OwnershipTransferService {
 
 		$shares = [];
 		$progress = new ProgressBar($output);
-		foreach ([\OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_LINK, \OCP\Share::SHARE_TYPE_REMOTE, \OCP\Share::SHARE_TYPE_ROOM] as $shareType) {
+		foreach ([IShare::TYPE_GROUP, IShare::TYPE_USER, IShare::TYPE_LINK, IShare::TYPE_REMOTE, IShare::TYPE_ROOM] as $shareType) {
 			$offset = 0;
 			while (true) {
 				$sharePage = $this->shareManager->getSharesBy($sourceUid, $shareType, null, true, 50, $offset);
@@ -290,7 +291,7 @@ class OwnershipTransferService {
 
 		foreach ($shares as $share) {
 			try {
-				if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
+				if ($share->getShareType() === IShare::TYPE_USER &&
 					$share->getSharedWith() === $destinationUid) {
 					// Unmount the shares before deleting, so we don't try to get the storage later on.
 					$shareMountPoint = $this->mountManager->find('/' . $destinationUid . '/files' . $share->getTarget());

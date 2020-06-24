@@ -28,7 +28,7 @@ use OCA\Files_Sharing\Migration\SetPasswordColumn;
 use OCA\Files_Sharing\Tests\TestCase;
 use OCP\IConfig;
 use OCP\Migration\IOutput;
-use OCP\Share;
+use OCP\Share\IShare;
 
 /**
  * Class SetPasswordColumnTest
@@ -74,7 +74,7 @@ class SetPasswordColumnTest extends TestCase {
 			->with('files_sharing', 'installed_version', '0.0.0')
 			->willReturn('1.3.0');
 
-		$shareTypes = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE, Share::SHARE_TYPE_EMAIL, Share::SHARE_TYPE_LINK];
+		$shareTypes = [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_REMOTE, IShare::TYPE_EMAIL, IShare::TYPE_LINK];
 
 		foreach ($shareTypes as $shareType) {
 			for ($i = 0; $i < 5; $i++) {
@@ -109,7 +109,7 @@ class SetPasswordColumnTest extends TestCase {
 		$allShares = $query->execute()->fetchAll();
 
 		foreach ($allShares as $share) {
-			if ((int)$share['share_type'] === Share::SHARE_TYPE_LINK) {
+			if ((int)$share['share_type'] === IShare::TYPE_LINK) {
 				$this->assertNull($share['share_with']);
 				$this->assertSame('shareWith', $share['password']);
 			} else {

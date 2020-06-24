@@ -39,6 +39,7 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\Share\IShare;
 use Test\Traits\UserTrait;
 
 /**
@@ -130,7 +131,7 @@ class ManagerTest extends TestCase {
 			'password' => '',
 			'name' => '/SharedFolder',
 			'owner' => 'foobar',
-			'shareType' => \OCP\Share::SHARE_TYPE_USER,
+			'shareType' => IShare::TYPE_USER,
 			'accepted' => false,
 			'user' => $this->uid,
 		];

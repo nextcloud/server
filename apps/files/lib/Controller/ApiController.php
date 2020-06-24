@@ -52,6 +52,7 @@ use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 
 /**
  * Class ApiController
@@ -216,12 +217,12 @@ class ApiController extends Controller {
 		$userId = $this->userSession->getUser()->getUID();
 		$shareTypes = [];
 		$requestedShareTypes = [
-			\OCP\Share::SHARE_TYPE_USER,
-			\OCP\Share::SHARE_TYPE_GROUP,
-			\OCP\Share::SHARE_TYPE_LINK,
-			\OCP\Share::SHARE_TYPE_REMOTE,
-			\OCP\Share::SHARE_TYPE_EMAIL,
-			\OCP\Share::SHARE_TYPE_ROOM
+			IShare::TYPE_USER,
+			IShare::TYPE_GROUP,
+			IShare::TYPE_LINK,
+			IShare::TYPE_REMOTE,
+			IShare::TYPE_EMAIL,
+			IShare::TYPE_ROOM
 		];
 		foreach ($requestedShareTypes as $requestedShareType) {
 			// one of each type is enough to find out about the types

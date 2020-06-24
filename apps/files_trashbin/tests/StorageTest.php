@@ -45,6 +45,7 @@ use OCP\Files\Node;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Lock\ILockingProvider;
+use OCP\Share\IShare;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -284,7 +285,7 @@ class StorageTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder($this->user)->get('share');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy($this->user)
 			->setSharedWith($recipientUser)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -338,7 +339,7 @@ class StorageTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder($this->user)->get('share');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy($this->user)
 			->setSharedWith($recipientUser)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);

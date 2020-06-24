@@ -21,11 +21,11 @@
 
 namespace Test\Share;
 
-use OC\Share\Share;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Share\IShare;
 
 /**
  * Class Test_Share
@@ -140,15 +140,15 @@ class ShareTest extends \Test\TestCase {
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` ('
 			.' `item_type`, `item_source`, `item_target`, `share_type`,'
 			.' `share_with`, `uid_owner`) VALUES (?,?,?,?,?,?)');
-		$args = ['test', 99, 'target1', \OCP\Share::SHARE_TYPE_USER, $this->user2->getUID(), $this->user1->getUID()];
+		$args = ['test', 99, 'target1', IShare::TYPE_USER, $this->user2->getUID(), $this->user1->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target2', \OCP\Share::SHARE_TYPE_USER, $this->user4->getUID(), $this->user1->getUID()];
+		$args = ['test', 99, 'target2', IShare::TYPE_USER, $this->user4->getUID(), $this->user1->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target3', \OCP\Share::SHARE_TYPE_USER, $this->user3->getUID(), $this->user2->getUID()];
+		$args = ['test', 99, 'target3', IShare::TYPE_USER, $this->user3->getUID(), $this->user2->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target4', \OCP\Share::SHARE_TYPE_USER, $this->user3->getUID(), $this->user4->getUID()];
+		$args = ['test', 99, 'target4', IShare::TYPE_USER, $this->user3->getUID(), $this->user4->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target4', \OCP\Share::SHARE_TYPE_USER, $this->user6->getUID(), $this->user4->getUID()];
+		$args = ['test', 99, 'target4', IShare::TYPE_USER, $this->user6->getUID(), $this->user4->getUID()];
 		$query->execute($args);
 
 
@@ -180,13 +180,13 @@ class ShareTest extends \Test\TestCase {
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` ('
 			.' `item_type`, `item_source`, `item_target`, `share_type`,'
 			.' `share_with`, `uid_owner`) VALUES (?,?,?,?,?,?)');
-		$args = ['test', 99, 'target1', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), $this->user1->getUID()];
+		$args = ['test', 99, 'target1', IShare::TYPE_GROUP, $this->group1->getGID(), $this->user1->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target2', \OCP\Share::SHARE_TYPE_GROUP, $this->group2->getGID(), $this->user1->getUID()];
+		$args = ['test', 99, 'target2', IShare::TYPE_GROUP, $this->group2->getGID(), $this->user1->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target3', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), $this->user2->getUID()];
+		$args = ['test', 99, 'target3', IShare::TYPE_GROUP, $this->group1->getGID(), $this->user2->getUID()];
 		$query->execute($args);
-		$args = ['test', 99, 'target4', \OCP\Share::SHARE_TYPE_GROUP, $this->group1->getGID(), $this->user4->getUID()];
+		$args = ['test', 99, 'target4', IShare::TYPE_GROUP, $this->group1->getGID(), $this->user4->getUID()];
 		$query->execute($args);
 
 		// user2 is in group1 and group2

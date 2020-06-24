@@ -35,7 +35,7 @@ use OCP\Federation\ICloudIdManager;
 use OCP\IConfig;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Share;
+use OCP\Share\IShare;
 
 class RemotePlugin implements ISearchPlugin {
 	protected $shareeEnumeration;
@@ -101,7 +101,7 @@ class RemotePlugin implements ISearchPlugin {
 							'label' => $contact['FN'],
 							'uuid' => $contact['UID'],
 							'value' => [
-								'shareType' => Share::SHARE_TYPE_USER,
+								'shareType' => IShare::TYPE_USER,
 								'shareWith' => $remoteUser
 							]
 						];
@@ -117,7 +117,7 @@ class RemotePlugin implements ISearchPlugin {
 							'name' => $contact['FN'],
 							'type' => $cloudIdType,
 							'value' => [
-								'shareType' => Share::SHARE_TYPE_REMOTE,
+								'shareType' => IShare::TYPE_REMOTE,
 								'shareWith' => $cloudId,
 								'server' => $serverUrl,
 							],
@@ -129,7 +129,7 @@ class RemotePlugin implements ISearchPlugin {
 							'name' => $contact['FN'],
 							'type' => $cloudIdType,
 							'value' => [
-								'shareType' => Share::SHARE_TYPE_REMOTE,
+								'shareType' => IShare::TYPE_REMOTE,
 								'shareWith' => $cloudId,
 								'server' => $serverUrl,
 							],
@@ -158,7 +158,7 @@ class RemotePlugin implements ISearchPlugin {
 						'uuid' => $remoteUser,
 						'name' => $remoteUser,
 						'value' => [
-							'shareType' => Share::SHARE_TYPE_REMOTE,
+							'shareType' => IShare::TYPE_REMOTE,
 							'shareWith' => $search,
 							'server' => $serverUrl,
 						],

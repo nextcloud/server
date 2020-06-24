@@ -33,7 +33,7 @@ use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Share;
+use OCP\Share\IShare;
 use Test\TestCase;
 
 class RemotePluginTest extends TestCase {
@@ -150,7 +150,7 @@ class RemotePluginTest extends TestCase {
 				'test@remote',
 				[],
 				true,
-				['remotes' => [], 'exact' => ['remotes' => [['label' => 'test (remote)', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'test@remote', 'server' => 'remote'], 'uuid' => 'test', 'name' => 'test']]]],
+				['remotes' => [], 'exact' => ['remotes' => [['label' => 'test (remote)', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'test@remote', 'server' => 'remote'], 'uuid' => 'test', 'name' => 'test']]]],
 				false,
 				true,
 			],
@@ -158,7 +158,7 @@ class RemotePluginTest extends TestCase {
 				'test@remote',
 				[],
 				false,
-				['remotes' => [], 'exact' => ['remotes' => [['label' => 'test (remote)', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'test@remote', 'server' => 'remote'], 'uuid' => 'test', 'name' => 'test']]]],
+				['remotes' => [], 'exact' => ['remotes' => [['label' => 'test (remote)', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'test@remote', 'server' => 'remote'], 'uuid' => 'test', 'name' => 'test']]]],
 				false,
 				true,
 			],
@@ -184,7 +184,7 @@ class RemotePluginTest extends TestCase {
 					],
 				],
 				true,
-				['remotes' => [['name' => 'User @ Localhost', 'label' => 'User @ Localhost (username@localhost)', 'uuid' => 'uid1', 'type' => '', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]], 'exact' => ['remotes' => []]],
+				['remotes' => [['name' => 'User @ Localhost', 'label' => 'User @ Localhost (username@localhost)', 'uuid' => 'uid1', 'type' => '', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]], 'exact' => ['remotes' => []]],
 				false,
 				true,
 			],
@@ -236,7 +236,7 @@ class RemotePluginTest extends TestCase {
 					],
 				],
 				true,
-				['remotes' => [['name' => 'User @ Localhost', 'label' => 'User @ Localhost (username@localhost)', 'uuid' => 'uid', 'type' => '', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]], 'exact' => ['remotes' => [['label' => 'test (remote)', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'test@remote', 'server' => 'remote'], 'uuid' => 'test', 'name' => 'test']]]],
+				['remotes' => [['name' => 'User @ Localhost', 'label' => 'User @ Localhost (username@localhost)', 'uuid' => 'uid', 'type' => '', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]], 'exact' => ['remotes' => [['label' => 'test (remote)', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'test@remote', 'server' => 'remote'], 'uuid' => 'test', 'name' => 'test']]]],
 				false,
 				true,
 			],
@@ -262,7 +262,7 @@ class RemotePluginTest extends TestCase {
 					],
 				],
 				false,
-				['remotes' => [], 'exact' => ['remotes' => [['label' => 'test (remote)', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'test@remote', 'server' => 'remote'], 'uuid' => 'test', 'name' => 'test']]]],
+				['remotes' => [], 'exact' => ['remotes' => [['label' => 'test (remote)', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'test@remote', 'server' => 'remote'], 'uuid' => 'test', 'name' => 'test']]]],
 				false,
 				true,
 			],
@@ -288,7 +288,7 @@ class RemotePluginTest extends TestCase {
 					],
 				],
 				true,
-				['remotes' => [], 'exact' => ['remotes' => [['name' => 'User @ Localhost', 'label' => 'User @ Localhost (username@localhost)', 'uuid' => 'uid1', 'type' => '', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]]]],
+				['remotes' => [], 'exact' => ['remotes' => [['name' => 'User @ Localhost', 'label' => 'User @ Localhost (username@localhost)', 'uuid' => 'uid1', 'type' => '', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]]]],
 				true,
 				true,
 			],
@@ -314,7 +314,7 @@ class RemotePluginTest extends TestCase {
 					],
 				],
 				false,
-				['remotes' => [], 'exact' => ['remotes' => [['name' => 'User @ Localhost', 'label' => 'User @ Localhost (username@localhost)', 'uuid' => 'uid1', 'type' => '', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]]]],
+				['remotes' => [], 'exact' => ['remotes' => [['name' => 'User @ Localhost', 'label' => 'User @ Localhost (username@localhost)', 'uuid' => 'uid1', 'type' => '', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'username@localhost', 'server' => 'localhost']]]]],
 				true,
 				true,
 			],
@@ -341,7 +341,7 @@ class RemotePluginTest extends TestCase {
 					],
 				],
 				false,
-				['remotes' => [], 'exact' => ['remotes' => [['name' => 'User Name @ Localhost', 'label' => 'User Name @ Localhost (user name@localhost)', 'uuid' => 'uid3', 'type' => '', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'user name@localhost', 'server' => 'localhost']]]]],
+				['remotes' => [], 'exact' => ['remotes' => [['name' => 'User Name @ Localhost', 'label' => 'User Name @ Localhost (user name@localhost)', 'uuid' => 'uid3', 'type' => '', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'user name@localhost', 'server' => 'localhost']]]]],
 				true,
 				true,
 			],
@@ -368,7 +368,7 @@ class RemotePluginTest extends TestCase {
 					],
 				],
 				false,
-				['remotes' => [], 'exact' => ['remotes' => [['label' => 'user space (remote)', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'user space@remote', 'server' => 'remote'], 'uuid' => 'user space', 'name' => 'user space']]]],
+				['remotes' => [], 'exact' => ['remotes' => [['label' => 'user space (remote)', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'user space@remote', 'server' => 'remote'], 'uuid' => 'user space', 'name' => 'user space']]]],
 				false,
 				true,
 			],

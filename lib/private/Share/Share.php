@@ -39,6 +39,7 @@ namespace OC\Share;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\ILogger;
+use OCP\Share\IShare;
 
 /**
  * This class provides the ability for apps to share their content between users.
@@ -278,7 +279,7 @@ class Share extends Constants {
 	 * @since 5.0.0 - parameter $itemSourceName was added in 6.0.0, parameter $expirationDate was added in 7.0.0, parameter $passwordChanged added in 9.0.0
 	 * @deprecated 14.0.0 TESTS ONLY - this methods is as of 2018-06 only used by tests
 	 * called like this:
-	 * \OC\Share\Share::shareItem('test', 1, \OCP\Share::SHARE_TYPE_USER, $otherUserId, \OCP\Constants::PERMISSION_READ);
+	 * \OC\Share\Share::shareItem('test', 1, IShare::TYPE_USER, $otherUserId, \OCP\Constants::PERMISSION_READ);
 	 */
 	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions) {
 		$backend = self::getBackend($itemType);
@@ -291,7 +292,7 @@ class Share extends Constants {
 		$uidOwner = \OC_User::getUser();
 
 		// Verify share type and sharing conditions are met
-		if ($shareType === self::SHARE_TYPE_USER) {
+		if ($shareType === IShare::TYPE_USER) {
 			if ($shareWith == $uidOwner) {
 				$message = 'Sharing failed, because you can not share with yourself';
 				throw new \Exception($message);
@@ -311,7 +312,7 @@ class Share extends Constants {
 					throw new \Exception(sprintf($message, $shareWith));
 				}
 			}
-			if ($checkExists = self::getItems($itemType, $itemSource, self::SHARE_TYPE_USER,
+			if ($checkExists = self::getItems($itemType, $itemSource, IShare::TYPE_USER,
 				$shareWith, null, self::FORMAT_NONE, null, 1, true, true)) {
 				// Only allow the same share to occur again if it is the same
 				// owner and is not a user share, this use case is for increasing
@@ -324,7 +325,7 @@ class Share extends Constants {
 		}
 
 		// Put the item into the database
-		$result = self::put('test', $itemSource, self::SHARE_TYPE_USER, $shareWith, $uidOwner, $permissions);
+		$result = self::put('test', $itemSource, IShare::TYPE_USER, $shareWith, $uidOwner, $permissions);
 
 		return $result ? true : false;
 	}
@@ -378,7 +379,7 @@ class Share extends Constants {
 		$result = false;
 
 		// only use default expiration date for link shares
-		if ((int) $item['share_type'] === self::SHARE_TYPE_LINK) {
+		if ((int) $item['share_type'] === IShare::TYPE_LINK) {
 
 			// calculate expiration date
 			if (!empty($item['expiration'])) {
@@ -414,7 +415,7 @@ class Share extends Constants {
 	protected static function unshareItem(array $item, $newParent = null) {
 		$shareType = (int)$item['share_type'];
 		$shareWith = null;
-		if ($shareType !== \OCP\Share::SHARE_TYPE_LINK) {
+		if ($shareType !== IShare::TYPE_LINK) {
 			$shareWith = $item['share_with'];
 		}
 
@@ -438,7 +439,7 @@ class Share extends Constants {
 		$deletedShares[] = $hookParams;
 		$hookParams['deletedShares'] = $deletedShares;
 		\OC_Hook::emit(\OCP\Share::class, 'post_unshare', $hookParams);
-		if ((int)$item['share_type'] === \OCP\Share::SHARE_TYPE_REMOTE && \OC::$server->getUserSession()->getUser()) {
+		if ((int)$item['share_type'] === IShare::TYPE_REMOTE && \OC::$server->getUserSession()->getUser()) {
 			list(, $remote) = Helper::splitUserRemote($item['share_with']);
 			self::sendRemoteUnshare($remote, $item['id'], $item['token']);
 		}
@@ -635,13 +636,13 @@ class Share extends Constants {
 		}
 		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			$where .= ' AND `share_type` != ?';
-			$queryArgs[] = self::SHARE_TYPE_LINK;
+			$queryArgs[] = IShare::TYPE_LINK;
 		}
 		if (isset($shareType)) {
 			// Include all user and group items
 			if ($shareType == self::$shareTypeUserAndGroups && isset($shareWith)) {
 				$where .= ' AND ((`share_type` in (?, ?) AND `share_with` = ?) ';
-				$queryArgs[] = self::SHARE_TYPE_USER;
+				$queryArgs[] = IShare::TYPE_USER;
 				$queryArgs[] = self::$shareTypeGroupUserUnique;
 				$queryArgs[] = $shareWith;
 
@@ -653,7 +654,7 @@ class Share extends Constants {
 				if (!empty($groups)) {
 					$placeholders = implode(',', array_fill(0, count($groups), '?'));
 					$where .= ' OR (`share_type` = ? AND `share_with` IN ('.$placeholders.')) ';
-					$queryArgs[] = self::SHARE_TYPE_GROUP;
+					$queryArgs[] = IShare::TYPE_GROUP;
 					$queryArgs = array_merge($queryArgs, $groups);
 				}
 				$where .= ')';
@@ -761,7 +762,7 @@ class Share extends Constants {
 				continue;
 			}
 			if ($row['share_type'] == self::$shareTypeGroupUserUnique && isset($items[$row['parent']])) {
-				$row['share_type'] = self::SHARE_TYPE_GROUP;
+				$row['share_type'] = IShare::TYPE_GROUP;
 				$row['unique_name'] = true; // remember that we use a unique name for this user
 				$row['share_with'] = $items[$row['parent']]['share_with'];
 				// if the group share was unshared from the user we keep the permission, otherwise
@@ -783,8 +784,8 @@ class Share extends Constants {
 					$id = $targets[$row['id']];
 					if (isset($items[$id]) && $items[$id]['uid_owner'] == $row['uid_owner']) {
 						// Switch to group share type to ensure resharing conditions aren't bypassed
-						if ($items[$id]['share_type'] != self::SHARE_TYPE_GROUP) {
-							$items[$id]['share_type'] = self::SHARE_TYPE_GROUP;
+						if ($items[$id]['share_type'] != IShare::TYPE_GROUP) {
+							$items[$id]['share_type'] = IShare::TYPE_GROUP;
 							$items[$id]['share_with'] = $row['share_with'];
 						}
 						// Switch ids if sharing permission is granted on only
@@ -851,11 +852,11 @@ class Share extends Constants {
 			// Add display names to result
 			$row['share_with_displayname'] = $row['share_with'];
 			if (isset($row['share_with']) && $row['share_with'] != '' &&
-				$row['share_type'] === self::SHARE_TYPE_USER) {
+				$row['share_type'] === IShare::TYPE_USER) {
 				$shareWithUser = \OC::$server->getUserManager()->get($row['share_with']);
 				$row['share_with_displayname'] = $shareWithUser === null ? $row['share_with'] : $shareWithUser->getDisplayName();
 			} elseif (isset($row['share_with']) && $row['share_with'] != '' &&
-				$row['share_type'] === self::SHARE_TYPE_REMOTE) {
+				$row['share_type'] === IShare::TYPE_REMOTE) {
 				$addressBookEntries = \OC::$server->getContactsManager()->search($row['share_with'], ['CLOUD']);
 				foreach ($addressBookEntries as $entry) {
 					foreach ($entry['CLOUD'] as $cloudID) {
@@ -1045,7 +1046,7 @@ class Share extends Constants {
 	 * @return mixed id of the new share or false
 	 * @deprecated TESTS ONLY - this methods is only used by tests
 	 * called like this:
-	 * self::put('test', $itemSource, self::SHARE_TYPE_USER, $shareWith, $uidOwner, $permissions);
+	 * self::put('test', $itemSource, IShare::TYPE_USER, $shareWith, $uidOwner, $permissions);
 	 */
 	private static function put($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
 								$permissions) {
@@ -1054,7 +1055,7 @@ class Share extends Constants {
 		$groupFileTarget = $fileTarget = $suggestedFileTarget = $filePath = '';
 		$groupItemTarget = $itemTarget = $fileSource = $parent = 0;
 
-		$result = self::checkReshare('test', $itemSource, self::SHARE_TYPE_USER, $shareWith, $uidOwner, $permissions, null, null);
+		$result = self::checkReshare('test', $itemSource, IShare::TYPE_USER, $shareWith, $uidOwner, $permissions, null, null);
 		if (!empty($result)) {
 			$parent = $result['parent'];
 			$itemSource = $result['itemSource'];
@@ -1115,12 +1116,12 @@ class Share extends Constants {
 
 				// group share which doesn't exists until now, check if we need a unique target for this user
 
-				$itemTarget = Helper::generateTarget($itemType, $itemSource, self::SHARE_TYPE_USER, $user,
+				$itemTarget = Helper::generateTarget($itemType, $itemSource, IShare::TYPE_USER, $user,
 					$uidOwner, $suggestedItemTarget, $parent);
 
 				// do we also need a file target
 				if (isset($fileSource)) {
-					$fileTarget = Helper::generateTarget('file', $filePath, self::SHARE_TYPE_USER, $user,
+					$fileTarget = Helper::generateTarget('file', $filePath, IShare::TYPE_USER, $user,
 						$uidOwner, $suggestedFileTarget, $parent);
 				} else {
 					$fileTarget = null;
@@ -1190,7 +1191,7 @@ class Share extends Constants {
 	 * @param null|\DateTime $expirationDate
 	 * @deprecated TESTS ONLY - this methods is only used by tests
 	 * called like this:
-	 * self::checkReshare('test', $itemSource, self::SHARE_TYPE_USER, $shareWith, $uidOwner, $permissions, null, null);
+	 * self::checkReshare('test', $itemSource, IShare::TYPE_USER, $shareWith, $uidOwner, $permissions, null, null);
 	 */
 	private static function checkReshare($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions, $itemSourceName, $expirationDate) {
 		$backend = self::getBackend($itemType);
@@ -1384,7 +1385,7 @@ class Share extends Constants {
 		if (isset($row['stime'])) {
 			$row['stime'] = (int) $row['stime'];
 		}
-		if (isset($row['expiration']) && $row['share_type'] !== self::SHARE_TYPE_LINK) {
+		if (isset($row['expiration']) && $row['share_type'] !== IShare::TYPE_LINK) {
 			// discard expiration date for non-link shares, which might have been
 			// set by ancient bugs
 			$row['expiration'] = null;
@@ -1406,7 +1407,7 @@ class Share extends Constants {
 		} elseif ($format === self::FORMAT_STATUSES) {
 			$statuses = [];
 			foreach ($items as $item) {
-				if ($item['share_type'] === self::SHARE_TYPE_LINK) {
+				if ($item['share_type'] === IShare::TYPE_LINK) {
 					if ($item['uid_initiator'] !== \OC::$server->getUserSession()->getUser()->getUID()) {
 						continue;
 					}

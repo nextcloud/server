@@ -21,7 +21,7 @@ use OCP\Files\FileInfo;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
-use OCP\Share;
+use OCP\Share\IShare;
 use OCP\Util;
 use Test\HookHelper;
 use Test\TestMoveableMountPoint;
@@ -243,7 +243,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('/foo.txt', $folderView->getPath($id2));
 	}
 
-	
+
 	public function testGetPathNotExisting() {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
@@ -1290,7 +1290,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertNull($view->getRelativePath(null));
 	}
 
-	
+
 	public function testNullAsRoot() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -1678,7 +1678,7 @@ class ViewTest extends \Test\TestCase {
 		$share = $shareManager->newShare();
 		$share->setSharedWith('test2')
 			->setSharedBy($this->user)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ)
 			->setNode($shareDir);
 		$shareManager->createShare($share);
@@ -1687,7 +1687,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertFalse($view->rename('mount1', 'shareddir/sub'), 'Cannot move mount point into shared folder');
 		$this->assertFalse($view->rename('mount1', 'shareddir/sub/sub2'), 'Cannot move mount point into shared subfolder');
 
-		$this->assertTrue(\OC\Share\Share::unshare('folder', $fileId, Share::SHARE_TYPE_USER, 'test2'));
+		$this->assertTrue(\OC\Share\Share::unshare('folder', $fileId, IShare::TYPE_USER, 'test2'));
 		$userObject->delete();
 	}
 

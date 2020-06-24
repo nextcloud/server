@@ -102,9 +102,9 @@ class LegacyHooks {
 		// Prepare hook
 		$shareType = $share->getShareType();
 		$sharedWith = '';
-		if ($shareType === \OCP\Share::SHARE_TYPE_USER ||
-			$shareType === \OCP\Share::SHARE_TYPE_GROUP ||
-			$shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
+		if ($shareType === IShare::TYPE_USER ||
+			$shareType === IShare::TYPE_GROUP ||
+			$shareType === IShare::TYPE_REMOTE) {
 			$sharedWith = $share->getSharedWith();
 		}
 

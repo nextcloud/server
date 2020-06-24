@@ -762,7 +762,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance = $this->getInstance(['createShareObject']);
 
 		$idMail = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
-		$idPublic = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, '', \OCP\Share::SHARE_TYPE_LINK);
+		$idPublic = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, '', IShare::TYPE_LINK);
 
 		$this->assertTrue($idMail !== $idPublic);
 
@@ -795,7 +795,7 @@ class ShareByMailProviderTest extends TestCase {
 		$instance = $this->getInstance(['createShareObject']);
 
 		$idMail = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
-		$idPublic = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, "token2", '', \OCP\Share::SHARE_TYPE_LINK);
+		$idPublic = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, "token2", '', IShare::TYPE_LINK);
 
 		$this->assertTrue($idMail !== $idPublic);
 
@@ -858,7 +858,7 @@ class ShareByMailProviderTest extends TestCase {
 
 		$instance = $this->getInstance();
 
-		$instance->userDeleted($uidOwner, \OCP\Share::SHARE_TYPE_EMAIL);
+		$instance->userDeleted($uidOwner, IShare::TYPE_EMAIL);
 
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')->from('share');
@@ -913,7 +913,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->invokePrivate($instance, 'getRawShare', [$id+1]);
 	}
 
-	private function createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $note='', $shareType = \OCP\Share::SHARE_TYPE_EMAIL) {
+	private function createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $note='', $shareType = IShare::TYPE_EMAIL) {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter($shareType))

@@ -29,7 +29,7 @@ use OCP\Collaboration\Collaborators\ISearch;
 use OCP\Collaboration\Collaborators\ISearchPlugin;
 use OCP\Collaboration\Collaborators\SearchResultType;
 use OCP\IContainer;
-use OCP\Share;
+use OCP\Share\IShare;
 use Test\TestCase;
 
 class SearchTest extends TestCase {
@@ -132,7 +132,7 @@ class SearchTest extends TestCase {
 	public function dataSearchSharees() {
 		return [
 			[
-				'test', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, [], [], ['results' => [], 'exact' => [], 'exactIdMatch' => false],
+				'test', [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_REMOTE], 1, 2, [], [], ['results' => [], 'exact' => [], 'exactIdMatch' => false],
 				[
 					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
 					'users' => [],
@@ -141,7 +141,7 @@ class SearchTest extends TestCase {
 				], false
 			],
 			[
-				'test', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, [], [], ['results' => [], 'exact' => [], 'exactIdMatch' => false],
+				'test', [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_REMOTE], 1, 2, [], [], ['results' => [], 'exact' => [], 'exactIdMatch' => false],
 				[
 					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
 					'users' => [],
@@ -150,66 +150,66 @@ class SearchTest extends TestCase {
 				], false
 			],
 			[
-				'test', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE], 1, 2, [
-					['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				'test', [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_REMOTE], 1, 2, [
+					['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
 				], [
-					['label' => 'testgroup1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
+					['label' => 'testgroup1', 'value' => ['shareType' => IShare::TYPE_GROUP, 'shareWith' => 'testgroup1']],
 				], [
-					'results' => [['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false,
+					'results' => [['label' => 'testz@remote', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false,
 				],
 				[
 					'exact' => ['users' => [], 'groups' => [], 'remotes' => []],
 					'users' => [
-						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+						['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
 					],
 					'groups' => [
-						['label' => 'testgroup1', 'value' => ['shareType' => Share::SHARE_TYPE_GROUP, 'shareWith' => 'testgroup1']],
+						['label' => 'testgroup1', 'value' => ['shareType' => IShare::TYPE_GROUP, 'shareWith' => 'testgroup1']],
 					],
 					'remotes' => [
-						['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+						['label' => 'testz@remote', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'testz@remote']],
 					],
 				], true,
 			],
 			// No groups requested
 			[
-				'test', [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_REMOTE], 1, 2, [
-					['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				'test', [IShare::TYPE_USER, IShare::TYPE_REMOTE], 1, 2, [
+					['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
 				], [], [
-					'results' => [['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false
+					'results' => [['label' => 'testz@remote', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'testz@remote']]], 'exact' => [], 'exactIdMatch' => false
 				],
 				[
 					'exact' => ['users' => [], 'remotes' => []],
 					'users' => [
-						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+						['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
 					],
 					'remotes' => [
-						['label' => 'testz@remote', 'value' => ['shareType' => Share::SHARE_TYPE_REMOTE, 'shareWith' => 'testz@remote']],
+						['label' => 'testz@remote', 'value' => ['shareType' => IShare::TYPE_REMOTE, 'shareWith' => 'testz@remote']],
 					],
 				], false,
 			],
 			// Share type restricted to user - Only one user
 			[
-				'test', [Share::SHARE_TYPE_USER], 1, 2, [
-					['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+				'test', [IShare::TYPE_USER], 1, 2, [
+					['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
 				], [], [],
 				[
 					'exact' => ['users' => []],
 					'users' => [
-						['label' => 'test One', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
+						['label' => 'test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
 					],
 				], false,
 			],
 			// Share type restricted to user - Multipage result
 			[
-				'test', [Share::SHARE_TYPE_USER], 1, 2, [
-					['label' => 'test 1', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-					['label' => 'test 2', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+				'test', [IShare::TYPE_USER], 1, 2, [
+					['label' => 'test 1', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
+					['label' => 'test 2', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2']],
 				], [], [],
 				[
 					'exact' => ['users' => []],
 					'users' => [
-						['label' => 'test 1', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test1']],
-						['label' => 'test 2', 'value' => ['shareType' => Share::SHARE_TYPE_USER, 'shareWith' => 'test2']],
+						['label' => 'test 1', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1']],
+						['label' => 'test 2', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2']],
 					],
 				], true,
 			],

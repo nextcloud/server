@@ -134,7 +134,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_REMOTE);
+		$share->method('getShareType')->willReturn(IShare::TYPE_REMOTE);
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -150,7 +150,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
+		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -172,7 +172,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_EMAIL);
+		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 
 		$this->shareManager->expects($this->once())
 			->method('getShareByToken')
@@ -194,7 +194,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
+		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getId')->willReturn('42');
 
 		$this->shareManager->expects($this->once())
@@ -220,7 +220,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
+		$share->method('getShareType')->willReturn(IShare::TYPE_LINK);
 		$share->method('getId')->willReturn('42');
 
 		$this->shareManager->expects($this->once())
@@ -247,7 +247,7 @@ class PublicAuthTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$share->method('getPassword')->willReturn('password');
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_EMAIL);
+		$share->method('getShareType')->willReturn(IShare::TYPE_EMAIL);
 		$share->method('getId')->willReturn('42');
 
 		$this->shareManager->expects($this->once())

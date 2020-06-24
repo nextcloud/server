@@ -247,9 +247,9 @@ class Manager {
 		$validShare = is_array($share) && isset($share['share_type']) && isset($share['user']);
 
 		// check if the user is allowed to access it
-		if ($validShare && (int)$share['share_type'] === Share::SHARE_TYPE_USER && $share['user'] === $this->uid) {
+		if ($validShare && (int)$share['share_type'] === IShare::TYPE_USER && $share['user'] === $this->uid) {
 			return $share;
-		} elseif ($validShare && (int)$share['share_type'] === Share::SHARE_TYPE_GROUP) {
+		} elseif ($validShare && (int)$share['share_type'] === IShare::TYPE_GROUP) {
 			$user = $this->userManager->get($this->uid);
 			if ($this->groupManager->get($share['user'])->inGroup($user)) {
 				return $share;
@@ -277,7 +277,7 @@ class Manager {
 			$hash = md5($mountPoint);
 			$userShareAccepted = false;
 
-			if ((int)$share['share_type'] === Share::SHARE_TYPE_USER) {
+			if ((int)$share['share_type'] === IShare::TYPE_USER) {
 				$acceptShare = $this->connection->prepare('
 				UPDATE `*PREFIX*share_external`
 				SET `accepted` = ?,
@@ -321,7 +321,7 @@ class Manager {
 		$share = $this->getShare($id);
 		$result = false;
 
-		if ($share && (int)$share['share_type'] === Share::SHARE_TYPE_USER) {
+		if ($share && (int)$share['share_type'] === IShare::TYPE_USER) {
 			$removeShare = $this->connection->prepare('
 				DELETE FROM `*PREFIX*share_external` WHERE `id` = ? AND `user` = ?');
 			$removeShare->execute([$id, $this->uid]);
@@ -329,7 +329,7 @@ class Manager {
 
 			$this->processNotification($id);
 			$result = true;
-		} elseif ($share && (int)$share['share_type'] === Share::SHARE_TYPE_GROUP) {
+		} elseif ($share && (int)$share['share_type'] === IShare::TYPE_GROUP) {
 			$result = $this->writeShareToDb(
 				$share['remote'],
 				$share['share_token'],
@@ -517,7 +517,7 @@ class Manager {
 
 		$share = $getShare->fetch();
 		$getShare->closeCursor();
-		if ($result && $share !== false && (int)$share['share_type'] === Share::SHARE_TYPE_USER) {
+		if ($result && $share !== false && (int)$share['share_type'] === IShare::TYPE_USER) {
 			try {
 				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 			} catch (\Throwable $e) {
@@ -530,7 +530,7 @@ class Manager {
 			WHERE `id` = ?
 			');
 			$result = (bool)$query->execute([(int)$share['id']]);
-		} elseif ($result && (int)$share['share_type'] === Share::SHARE_TYPE_GROUP) {
+		} elseif ($result && (int)$share['share_type'] === IShare::TYPE_GROUP) {
 			$query = $this->connection->prepare('
 				UPDATE `*PREFIX*share_external`
 				SET `accepted` = ?

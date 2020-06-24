@@ -336,7 +336,7 @@ class VersioningTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -403,7 +403,7 @@ class VersioningTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -452,7 +452,7 @@ class VersioningTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder1');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -519,7 +519,7 @@ class VersioningTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('test.txt');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE);
@@ -662,7 +662,7 @@ class VersioningTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
@@ -700,7 +700,7 @@ class VersioningTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -875,7 +875,7 @@ class VersioningTest extends \Test\TestCase {
 		$node = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER)->get('folder');
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedBy(self::TEST_VERSIONS_USER)
 			->setSharedWith(self::TEST_VERSIONS_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);

@@ -73,6 +73,7 @@ use OCP\IUserManager;
 use OCP\Share;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
+use OCP\Share\IShare;
 use OCP\Template;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -701,7 +702,7 @@ class ShareController extends AuthPublicShareController {
 
 		$parameters = [$userPath];
 
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_EMAIL) {
+		if ($share->getShareType() === IShare::TYPE_EMAIL) {
 			if ($node instanceof \OCP\Files\File) {
 				$subject = Downloads::SUBJECT_SHARED_FILE_BY_EMAIL_DOWNLOADED;
 			} else {

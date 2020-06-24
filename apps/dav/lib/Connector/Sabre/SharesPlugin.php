@@ -113,13 +113,13 @@ class SharesPlugin extends \Sabre\DAV\ServerPlugin {
 	private function getShare(\OCP\Files\Node $node): array {
 		$result = [];
 		$requestedShareTypes = [
-			\OCP\Share::SHARE_TYPE_USER,
-			\OCP\Share::SHARE_TYPE_GROUP,
-			\OCP\Share::SHARE_TYPE_LINK,
-			\OCP\Share::SHARE_TYPE_REMOTE,
-			\OCP\Share::SHARE_TYPE_EMAIL,
-			\OCP\Share::SHARE_TYPE_ROOM,
-			\OCP\Share::SHARE_TYPE_CIRCLE,
+			IShare::TYPE_USER,
+			IShare::TYPE_GROUP,
+			IShare::TYPE_LINK,
+			IShare::TYPE_REMOTE,
+			IShare::TYPE_EMAIL,
+			IShare::TYPE_ROOM,
+			IShare::TYPE_CIRCLE,
 		];
 		foreach ($requestedShareTypes as $requestedShareType) {
 			$shares = $this->shareManager->getSharesBy(

@@ -209,7 +209,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 			}
 
 			// FIXME this should be a method in the user management instead
-			if ($shareType === Share::SHARE_TYPE_USER) {
+			if ($shareType === IShare::TYPE_USER) {
 				$this->logger->debug('shareWith before, ' . $shareWith, ['app' => 'files_sharing']);
 				Util::emitHook(
 					'\OCA\Files_Sharing\API\Server2Server',
@@ -225,7 +225,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				\OC_Util::setupFS($shareWith);
 			}
 
-			if ($shareType === Share::SHARE_TYPE_GROUP && !$this->groupManager->groupExists($shareWith)) {
+			if ($shareType === IShare::TYPE_GROUP && !$this->groupManager->groupExists($shareWith)) {
 				throw new ProviderCouldNotAddShareException('Group does not exists', '',Http::STATUS_BAD_REQUEST);
 			}
 
@@ -247,7 +247,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				$externalManager->addShare($remote, $token, '', $name, $owner, $shareType,false, $shareWith, $remoteId);
 				$shareId = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share_external');
 
-				if ($shareType === Share::SHARE_TYPE_USER) {
+				if ($shareType === IShare::TYPE_USER) {
 					$event = $this->activityManager->generateEvent();
 					$event->setApp('files_sharing')
 						->setType('remote_share')
@@ -324,9 +324,9 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 * @return int
 	 */
 	private function mapShareTypeToNextcloud($shareType) {
-		$result = Share::SHARE_TYPE_USER;
+		$result = IShare::TYPE_USER;
 		if ($shareType === 'group') {
-			$result = Share::SHARE_TYPE_GROUP;
+			$result = IShare::TYPE_GROUP;
 		}
 
 		return $result;
@@ -585,7 +585,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				->where($qb->expr()->eq('parent', $qb->createNamedParameter((int)$share['id'])));
 			$qb->execute();
 
-			if ((int)$share['share_type'] === Share::SHARE_TYPE_USER) {
+			if ((int)$share['share_type'] === IShare::TYPE_USER) {
 				if ($share['accepted']) {
 					$path = trim($mountpoint, '/');
 				} else {
@@ -792,7 +792,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 	 */
 	protected function verifyShare(IShare $share, $token) {
 		if (
-			$share->getShareType() === FederatedShareProvider::SHARE_TYPE_REMOTE &&
+			$share->getShareType() === IShare::TYPE_REMOTE &&
 			$share->getToken() === $token
 		) {
 			return true;

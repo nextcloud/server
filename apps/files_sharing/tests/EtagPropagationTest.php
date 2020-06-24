@@ -31,6 +31,7 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCP\Share\IShare;
 
 /**
  * Class EtagPropagationTest
@@ -75,7 +76,7 @@ class EtagPropagationTest extends PropagationTestCase {
 			->get('/foo.txt');
 		$share = $shareManager->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE);
@@ -86,7 +87,7 @@ class EtagPropagationTest extends PropagationTestCase {
 
 		$share = $shareManager->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -95,7 +96,7 @@ class EtagPropagationTest extends PropagationTestCase {
 
 		$share = $shareManager->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER3)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -109,7 +110,7 @@ class EtagPropagationTest extends PropagationTestCase {
 			->get('/directReshare');
 		$share = $shareManager->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -134,7 +135,7 @@ class EtagPropagationTest extends PropagationTestCase {
 			->get('/sub1/sub2/folder/inside');
 		$share = $shareManager->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER4)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -148,7 +149,7 @@ class EtagPropagationTest extends PropagationTestCase {
 			->get('/directReshare');
 		$share = $shareManager->newShare();
 		$share->setNode($node)
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setSharedWith(self::TEST_FILES_SHARING_API_USER4)
 			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
@@ -284,7 +285,7 @@ class EtagPropagationTest extends PropagationTestCase {
 
 		$node = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/sub1/sub2/folder');
 		$shareManager = \OC::$server->getShareManager();
-		$shares = $shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, \OCP\Share::SHARE_TYPE_USER, $node, true);
+		$shares = $shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, IShare::TYPE_USER, $node, true);
 
 		foreach ($shares as $share) {
 			if ($share->getSharedWith() === self::TEST_FILES_SHARING_API_USER2) {
@@ -307,7 +308,7 @@ class EtagPropagationTest extends PropagationTestCase {
 
 		$node = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/sub1/sub2/folder/inside');
 		$shareManager = \OC::$server->getShareManager();
-		$shares = $shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, \OCP\Share::SHARE_TYPE_USER, $node, true);
+		$shares = $shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, IShare::TYPE_USER, $node, true);
 
 		foreach ($shares as $share) {
 			$shareManager->deleteShare($share);
@@ -455,7 +456,7 @@ class EtagPropagationTest extends PropagationTestCase {
 		$userFolder = $this->rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 		$node = $userFolder->get('/sub1/sub2/folder');
 
-		$shares = $this->shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, \OCP\Share::SHARE_TYPE_USER, $node);
+		$shares = $this->shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, IShare::TYPE_USER, $node);
 		/** @var \OCP\Share\IShare[] $shares */
 		$shares = array_filter($shares, function (\OCP\Share\IShare $share) {
 			return $share->getSharedWith() === self::TEST_FILES_SHARING_API_USER2;

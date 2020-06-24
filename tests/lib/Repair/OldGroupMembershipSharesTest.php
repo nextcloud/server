@@ -9,8 +9,8 @@
 namespace Test\Repair;
 
 use OC\Repair\OldGroupMembershipShares;
-use OC\Share\Constants;
 use OCP\Migration\IOutput;
+use OCP\Share\IShare;
 
 /**
  * Class OldGroupMembershipSharesTest
@@ -66,9 +66,9 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 				['not-a-member', 'group', false],
 			]);
 
-		$parent = $this->createShare(Constants::SHARE_TYPE_GROUP, 'group', null);
-		$group2 = $this->createShare(Constants::SHARE_TYPE_GROUP, 'group2', $parent);
-		$user1 = $this->createShare(Constants::SHARE_TYPE_USER, 'user1', $parent);
+		$parent = $this->createShare(IShare::TYPE_GROUP, 'group', null);
+		$group2 = $this->createShare(IShare::TYPE_GROUP, 'group2', $parent);
+		$user1 = $this->createShare(IShare::TYPE_USER, 'user1', $parent);
 
 		// \OC\Share\Constant::$shareTypeGroupUserUnique === 2
 		$member = $this->createShare(2, 'member', $parent);

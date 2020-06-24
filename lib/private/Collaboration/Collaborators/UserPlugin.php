@@ -115,7 +115,7 @@ class UserPlugin implements ISearchPlugin {
 				$result['exact'][] = [
 					'label' => $userDisplayName,
 					'value' => [
-						'shareType' => Share::SHARE_TYPE_USER,
+						'shareType' => IShare::TYPE_USER,
 						'shareWith' => $uid,
 					],
 				];
@@ -161,7 +161,7 @@ class UserPlugin implements ISearchPlugin {
 					$result['exact'][] = [
 						'label' => $user->getDisplayName(),
 						'value' => [
-							'shareType' => Share::SHARE_TYPE_USER,
+							'shareType' => IShare::TYPE_USER,
 							'shareWith' => $user->getUID(),
 						],
 					];

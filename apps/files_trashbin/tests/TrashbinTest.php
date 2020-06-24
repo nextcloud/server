@@ -30,6 +30,7 @@
  */
 
 use OCA\Files_Sharing\AppInfo\Application;
+use OCP\Share\IShare;
 
 /**
  * Class Test_Encryption
@@ -223,7 +224,7 @@ class TrashbinTest extends \Test\TestCase {
 		//share user1-4.txt with user2
 		$node = \OC::$server->getUserFolder(self::TEST_TRASHBIN_USER1)->get($folder);
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_USER)
+		$share->setShareType(IShare::TYPE_USER)
 			->setNode($node)
 			->setSharedBy(self::TEST_TRASHBIN_USER1)
 			->setSharedWith(self::TEST_TRASHBIN_USER2)

@@ -38,7 +38,7 @@ use OCP\Collaboration\Collaborators\ISearch;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\Share;
+use OCP\Share\IShare;
 use OCP\Share\IManager;
 
 /**
@@ -91,8 +91,8 @@ class ShareesAPIControllerTest extends TestCase {
 	}
 
 	public function dataSearch() {
-		$noRemote = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_EMAIL];
-		$allTypes = [Share::SHARE_TYPE_USER, Share::SHARE_TYPE_GROUP, Share::SHARE_TYPE_REMOTE, Share::SHARE_TYPE_REMOTE_GROUP, Share::SHARE_TYPE_EMAIL];
+		$noRemote = [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_EMAIL];
+		$allTypes = [IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_REMOTE, IShare::TYPE_REMOTE_GROUP, IShare::TYPE_EMAIL];
 
 		return [
 			[[], '', 'yes', true, true, true, $noRemote, false, true, true],
@@ -293,7 +293,7 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->shareManager->expects($this->any())
 			->method('shareProviderExists')
 			->willReturnCallback(function ($shareType) use ($emailSharingEnabled) {
-				if ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
+				if ($shareType === \OCP\IShare::TYPE_EMAIL) {
 					return $emailSharingEnabled;
 				} else {
 					return false;

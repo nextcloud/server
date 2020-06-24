@@ -24,6 +24,7 @@ namespace Test;
 
 use OCP\IUser;
 use OCP\IUserSession;
+use OCP\Share\IShare;
 
 /**
  * Class TagsTest
@@ -314,7 +315,7 @@ class TagsTest extends \Test\TestCase {
 
 		\OC_User::setUserId($this->user->getUID());
 		// TODO new sharing
-		\OC\Share\Share::shareItem('test', 1, \OCP\Share::SHARE_TYPE_USER, $otherUserId, \OCP\Constants::PERMISSION_READ);
+		\OC\Share\Share::shareItem('test', 1, IShare::TYPE_USER, $otherUserId, \OCP\Constants::PERMISSION_READ);
 
 		\OC_User::setUserId($otherUserId);
 		$otherTagger = $otherTagMgr->load('test', [], true); // Update tags, load shared ones.

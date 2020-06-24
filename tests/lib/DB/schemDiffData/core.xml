@@ -526,7 +526,7 @@
 				<length>4</length>
 			</field>
 
-			<!-- Constant OCP\Share::SHARE_TYPE_* -->
+			<!-- Constant OCP\Share\IShare::TYPE_* -->
 			<field>
 				<name>share_type</name>
 				<type>integer</type>

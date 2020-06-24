@@ -272,16 +272,16 @@ class SharesPluginTest extends \Test\TestCase {
 	public function sharesGetPropertiesDataProvider() {
 		return [
 			[[]],
-			[[\OCP\Share::SHARE_TYPE_USER]],
-			[[\OCP\Share::SHARE_TYPE_GROUP]],
-			[[\OCP\Share::SHARE_TYPE_LINK]],
-			[[\OCP\Share::SHARE_TYPE_REMOTE]],
-			[[\OCP\Share::SHARE_TYPE_ROOM]],
-			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP]],
-			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_LINK]],
-			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_LINK]],
-			[[\OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_LINK]],
-			[[\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_REMOTE]],
+			[[IShare::TYPE_USER]],
+			[[IShare::TYPE_GROUP]],
+			[[IShare::TYPE_LINK]],
+			[[IShare::TYPE_REMOTE]],
+			[[IShare::TYPE_ROOM]],
+			[[IShare::TYPE_USER, IShare::TYPE_GROUP]],
+			[[IShare::TYPE_USER, IShare::TYPE_GROUP, IShare::TYPE_LINK]],
+			[[IShare::TYPE_USER, IShare::TYPE_LINK]],
+			[[IShare::TYPE_GROUP, IShare::TYPE_LINK]],
+			[[IShare::TYPE_USER, IShare::TYPE_REMOTE]],
 		];
 	}
 

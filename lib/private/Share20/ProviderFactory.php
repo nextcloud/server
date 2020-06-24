@@ -41,6 +41,7 @@ use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Defaults;
 use OCP\IServerContainer;
 use OCP\Share\IProviderFactory;
+use OCP\Share\IShare;
 
 /**
  * Class ProviderFactory
@@ -278,18 +279,18 @@ class ProviderFactory implements IProviderFactory {
 	public function getProviderForType($shareType) {
 		$provider = null;
 
-		if ($shareType === \OCP\Share::SHARE_TYPE_USER ||
-			$shareType === \OCP\Share::SHARE_TYPE_GROUP ||
-			$shareType === \OCP\Share::SHARE_TYPE_LINK
+		if ($shareType === IShare::TYPE_USER ||
+			$shareType === IShare::TYPE_GROUP ||
+			$shareType === IShare::TYPE_LINK
 		) {
 			$provider = $this->defaultShareProvider();
-		} elseif ($shareType === \OCP\Share::SHARE_TYPE_REMOTE || $shareType === \OCP\Share::SHARE_TYPE_REMOTE_GROUP) {
+		} elseif ($shareType === IShare::TYPE_REMOTE || $shareType === IShare::TYPE_REMOTE_GROUP) {
 			$provider = $this->federatedShareProvider();
-		} elseif ($shareType === \OCP\Share::SHARE_TYPE_EMAIL) {
+		} elseif ($shareType === IShare::TYPE_EMAIL) {
 			$provider = $this->getShareByMailProvider();
-		} elseif ($shareType === \OCP\Share::SHARE_TYPE_CIRCLE) {
+		} elseif ($shareType === IShare::TYPE_CIRCLE) {
 			$provider = $this->getShareByCircleProvider();
-		} elseif ($shareType === \OCP\Share::SHARE_TYPE_ROOM) {
+		} elseif ($shareType === IShare::TYPE_ROOM) {
 			$provider = $this->getRoomShareProvider();
 		}
 

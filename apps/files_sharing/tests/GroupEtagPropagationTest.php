@@ -28,6 +28,7 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OCP\Share\IShare;
 
 /**
  * @group SLOWDB
@@ -53,7 +54,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 		$view1->mkdir('/test/sub');
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_GROUP,
+			IShare::TYPE_GROUP,
 			'/test',
 			self::TEST_FILES_SHARING_API_USER1,
 			'group1',
@@ -68,7 +69,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 		$view2 = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_GROUP,
+			IShare::TYPE_GROUP,
 			'/test',
 			self::TEST_FILES_SHARING_API_USER2,
 			'group2',
@@ -76,7 +77,7 @@ class GroupEtagPropagationTest extends PropagationTestCase {
 		);
 		$this->shareManager->acceptShare($share, self::TEST_FILES_SHARING_API_USER3);
 		$share = $this->share(
-			\OCP\Share::SHARE_TYPE_GROUP,
+			IShare::TYPE_GROUP,
 			'/test/sub',
 			self::TEST_FILES_SHARING_API_USER2,
 			'group3',

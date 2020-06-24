@@ -34,7 +34,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserSession;
-use OCP\Share;
+use OCP\Share\IShare;
 
 class LookupPlugin implements ISearchPlugin {
 
@@ -107,7 +107,7 @@ class LookupPlugin implements ISearchPlugin {
 				$result[] = [
 					'label' => $label,
 					'value' => [
-						'shareType' => Share::SHARE_TYPE_REMOTE,
+						'shareType' => IShare::TYPE_REMOTE,
 						'shareWith' => $lookup['federationId'],
 					],
 					'extra' => $lookup,

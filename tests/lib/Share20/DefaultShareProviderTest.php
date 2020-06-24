@@ -189,7 +189,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type'  => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with'  => $qb->expr()->literal('sharedWith'),
 				'uid_owner'   => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -220,7 +220,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share = $this->provider->getShareById($id);
 
 		$this->assertEquals($id, $share->getId());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 		$this->assertEquals('sharedWith', $share->getSharedWith());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals('shareOwner', $share->getShareOwner());
@@ -236,7 +236,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type'  => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with'  => $qb->expr()->literal('sharedWith'),
 				'uid_owner'   => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -256,7 +256,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		// We do not fetch the node so the rootfolder is never called.
 
 		$this->assertEquals($id, $share->getId());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 		$this->assertEquals('sharedWith', $share->getSharedWith());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals('shareOwner', $share->getShareOwner());
@@ -271,7 +271,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type'  => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with'  => $qb->expr()->literal('sharedWith'),
 				'uid_owner'   => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -299,7 +299,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		// We fetch the node so the root folder is eventually called
 
 		$this->assertEquals($id, $share->getId());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 		$this->assertEquals('sharedWith', $share->getSharedWith());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals('shareOwner', $share->getShareOwner());
@@ -315,7 +315,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_GROUP),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -342,7 +342,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share = $this->provider->getShareById($id);
 
 		$this->assertEquals($id, $share->getId());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_GROUP, $share->getShareType());
 		$this->assertEquals('sharedWith', $share->getSharedWith());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals('shareOwner', $share->getShareOwner());
@@ -354,7 +354,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testGetShareByIdUserGroupShare() {
-		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_GROUP, 'group0', 'user0', 'user0', 'file', 42, 'myTarget', 31, null, null);
+		$id = $this->addShareToDB(IShare::TYPE_GROUP, 'group0', 'user0', 'user0', 'file', 42, 'myTarget', 31, null, null);
 		$this->addShareToDB(2, 'user1', 'user0', 'user0', 'file', 42, 'userTarget', 0, null, null, $id);
 
 		$user0 = $this->createMock(IUser::class);
@@ -380,7 +380,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share = $this->provider->getShareById($id, 'user1');
 
 		$this->assertEquals($id, $share->getId());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_GROUP, $share->getShareType());
 		$this->assertSame('group0', $share->getSharedWith());
 		$this->assertSame('user0', $share->getSharedBy());
 		$this->assertSame('user0', $share->getShareOwner());
@@ -396,7 +396,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
 				'password' => $qb->expr()->literal('password'),
 				'password_by_talk' => $qb->expr()->literal(true),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
@@ -425,7 +425,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share = $this->provider->getShareById($id);
 
 		$this->assertEquals($id, $share->getId());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_LINK, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_LINK, $share->getShareType());
 		$this->assertNull($share->getSharedWith());
 		$this->assertEquals('password', $share->getPassword());
 		$this->assertEquals(true, $share->getSendPasswordByTalk());
@@ -442,7 +442,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('sharedBy'),
 				'item_type'   => $qb->expr()->literal('file'),
@@ -490,7 +490,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -523,7 +523,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_GROUP),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('sharedBy'),
 				'item_type'   => $qb->expr()->literal('file'),
@@ -550,7 +550,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->createMock(IShare::class);
 		$share->method('getId')->willReturn($id);
-		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
+		$share->method('getShareType')->willReturn(IShare::TYPE_GROUP);
 
 		/** @var DefaultShareProvider $provider */
 		$provider = $this->getMockBuilder(DefaultShareProvider::class)
@@ -585,7 +585,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type'  => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with'  => $qb->expr()->literal('sharedWith'),
 				'uid_owner'   => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -602,7 +602,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type'  => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with'  => $qb->expr()->literal('user1'),
 				'uid_owner'   => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('user2'),
@@ -617,7 +617,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_type'  => $qb->expr()->literal(IShare::TYPE_GROUP),
 				'share_with'  => $qb->expr()->literal('group1'),
 				'uid_owner'   => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('user3'),
@@ -647,7 +647,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertCount(2, $children);
 
 		//Child1
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $children[0]->getShareType());
+		$this->assertEquals(IShare::TYPE_USER, $children[0]->getShareType());
 		$this->assertEquals('user1', $children[0]->getSharedWith());
 		$this->assertEquals('user2', $children[0]->getSharedBy());
 		$this->assertEquals('shareOwner', $children[0]->getShareOwner());
@@ -658,7 +658,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('myTarget1', $children[0]->getTarget());
 
 		//Child2
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $children[1]->getShareType());
+		$this->assertEquals(IShare::TYPE_GROUP, $children[1]->getShareType());
 		$this->assertEquals('group1', $children[1]->getSharedWith());
 		$this->assertEquals('user3', $children[1]->getSharedBy());
 		$this->assertEquals('shareOwner', $children[1]->getShareOwner());
@@ -695,7 +695,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->with(100)
 			->willReturn([$path]);
 
-		$share->setShareType(\OCP\Share::SHARE_TYPE_USER);
+		$share->setShareType(IShare::TYPE_USER);
 		$share->setSharedWith('sharedWith');
 		$share->setSharedBy('sharedBy');
 		$share->setShareOwner('shareOwner');
@@ -709,7 +709,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertNotNull($share2->getId());
 		$this->assertSame('ocinternal:'.$share2->getId(), $share2->getFullId());
-		$this->assertSame(\OCP\Share::SHARE_TYPE_USER, $share2->getShareType());
+		$this->assertSame(IShare::TYPE_USER, $share2->getShareType());
 		$this->assertSame('sharedWith', $share2->getSharedWith());
 		$this->assertSame('sharedBy', $share2->getSharedBy());
 		$this->assertSame('shareOwner', $share2->getShareOwner());
@@ -751,7 +751,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->with(100)
 			->willReturn([$path]);
 
-		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP);
+		$share->setShareType(IShare::TYPE_GROUP);
 		$share->setSharedWith('sharedWith');
 		$share->setSharedBy('sharedBy');
 		$share->setShareOwner('shareOwner');
@@ -765,7 +765,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertNotNull($share2->getId());
 		$this->assertSame('ocinternal:'.$share2->getId(), $share2->getFullId());
-		$this->assertSame(\OCP\Share::SHARE_TYPE_GROUP, $share2->getShareType());
+		$this->assertSame(IShare::TYPE_GROUP, $share2->getShareType());
 		$this->assertSame('sharedWith', $share2->getSharedWith());
 		$this->assertSame('sharedBy', $share2->getSharedBy());
 		$this->assertSame('shareOwner', $share2->getShareOwner());
@@ -807,7 +807,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				->with(100)
 				->willReturn([$path]);
 
-		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK);
+		$share->setShareType(IShare::TYPE_LINK);
 		$share->setSharedBy('sharedBy');
 		$share->setShareOwner('shareOwner');
 		$share->setNode($path);
@@ -823,7 +823,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertNotNull($share2->getId());
 		$this->assertSame('ocinternal:'.$share2->getId(), $share2->getFullId());
-		$this->assertSame(\OCP\Share::SHARE_TYPE_LINK, $share2->getShareType());
+		$this->assertSame(IShare::TYPE_LINK, $share2->getShareType());
 		$this->assertSame('sharedBy', $share2->getSharedBy());
 		$this->assertSame('shareOwner', $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
@@ -841,7 +841,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$qb->insert('share')
 			->values([
-				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
+				'share_type'    => $qb->expr()->literal(IShare::TYPE_LINK),
 				'password'    => $qb->expr()->literal('password'),
 				'password_by_talk' => $qb->expr()->literal(true),
 				'uid_owner'     => $qb->expr()->literal('shareOwner'),
@@ -921,7 +921,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -936,7 +936,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with' => $qb->expr()->literal('sharedWith2'),
 				'uid_owner' => $qb->expr()->literal('shareOwner2'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy2'),
@@ -951,7 +951,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
 		$this->rootFolder->method('getById')->with($fileId)->willReturn([$file]);
 
-		$share = $this->provider->getSharedWith('sharedWith', \OCP\Share::SHARE_TYPE_USER, null, 1 , 0);
+		$share = $this->provider->getSharedWith('sharedWith', IShare::TYPE_USER, null, 1 , 0);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
@@ -959,7 +959,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('sharedWith', $share->getSharedWith());
 		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 	}
 
 	/**
@@ -972,7 +972,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_GROUP),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner2'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy2'),
@@ -986,7 +986,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_GROUP),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -1023,7 +1023,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
 		$this->rootFolder->method('getById')->with($fileId)->willReturn([$file]);
 
-		$share = $this->provider->getSharedWith('sharedWith', \OCP\Share::SHARE_TYPE_GROUP, null, 20 , 1);
+		$share = $this->provider->getSharedWith('sharedWith', IShare::TYPE_GROUP, null, 20 , 1);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
@@ -1031,7 +1031,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('sharedWith', $share->getSharedWith());
 		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_GROUP, $share->getShareType());
 	}
 
 	/**
@@ -1043,7 +1043,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_GROUP),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -1111,7 +1111,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
 		$this->rootFolder->method('getById')->with($fileId)->willReturn([$file]);
 
-		$share = $this->provider->getSharedWith('user', \OCP\Share::SHARE_TYPE_GROUP, null, -1, 0);
+		$share = $this->provider->getSharedWith('user', IShare::TYPE_GROUP, null, -1, 0);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
@@ -1119,7 +1119,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('sharedWith', $share->getSharedWith());
 		$this->assertSame('shareOwner', $share->getShareOwner());
 		$this->assertSame('sharedBy', $share->getSharedBy());
-		$this->assertSame(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
+		$this->assertSame(IShare::TYPE_GROUP, $share->getShareType());
 		$this->assertSame(0, $share->getPermissions());
 		$this->assertSame('userTarget', $share->getTarget());
 	}
@@ -1131,9 +1131,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$storageId = $this->createTestStorageEntry($storageStringId);
 		$fileId = $this->createTestFileEntry($fileName1, $storageId);
 		$fileId2 = $this->createTestFileEntry($fileName2, $storageId);
-		$this->addShareToDB(\OCP\Share::SHARE_TYPE_USER, 'user0', 'user1', 'user1',
+		$this->addShareToDB(IShare::TYPE_USER, 'user0', 'user1', 'user1',
 			'file', $fileId, 'myTarget', 31, null, null, null);
-		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_USER, 'user0', 'user1', 'user1',
+		$id = $this->addShareToDB(IShare::TYPE_USER, 'user0', 'user1', 'user1',
 			'file', $fileId2, 'myTarget', 31, null, null, null);
 
 		$user0 = $this->createMock(IUser::class);
@@ -1154,7 +1154,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
 		$this->rootFolder->method('getById')->with($fileId2)->willReturn([$file]);
 
-		$share = $this->provider->getSharedWith('user0', \OCP\Share::SHARE_TYPE_USER, $file, -1, 0);
+		$share = $this->provider->getSharedWith('user0', IShare::TYPE_USER, $file, -1, 0);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
@@ -1163,7 +1163,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('user1', $share->getShareOwner());
 		$this->assertSame('user1', $share->getSharedBy());
 		$this->assertSame($file, $share->getNode());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 	}
 
 	/**
@@ -1173,9 +1173,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$storageId = $this->createTestStorageEntry($storageStringId);
 		$fileId = $this->createTestFileEntry($fileName1, $storageId);
 		$fileId2 = $this->createTestFileEntry($fileName2, $storageId);
-		$this->addShareToDB(\OCP\Share::SHARE_TYPE_GROUP, 'group0', 'user1', 'user1',
+		$this->addShareToDB(IShare::TYPE_GROUP, 'group0', 'user1', 'user1',
 			'file', $fileId, 'myTarget', 31, null, null, null);
-		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_GROUP, 'group0', 'user1', 'user1',
+		$id = $this->addShareToDB(IShare::TYPE_GROUP, 'group0', 'user1', 'user1',
 			'file', $fileId2, 'myTarget', 31, null, null, null);
 
 		$user0 = $this->createMock(IUser::class);
@@ -1195,7 +1195,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('user1')->willReturnSelf();
 		$this->rootFolder->method('getById')->with($fileId2)->willReturn([$node]);
 
-		$share = $this->provider->getSharedWith('user0', \OCP\Share::SHARE_TYPE_GROUP, $node, -1, 0);
+		$share = $this->provider->getSharedWith('user0', IShare::TYPE_GROUP, $node, -1, 0);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
@@ -1204,15 +1204,15 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('user1', $share->getShareOwner());
 		$this->assertSame('user1', $share->getSharedBy());
 		$this->assertSame($node, $share->getNode());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_GROUP, $share->getShareType());
 	}
 
 	public function shareTypesProvider() {
 		return [
-			[\OCP\Share::SHARE_TYPE_USER, false],
-			[\OCP\Share::SHARE_TYPE_GROUP, false],
-			[\OCP\Share::SHARE_TYPE_USER, true],
-			[\OCP\Share::SHARE_TYPE_GROUP, true],
+			[IShare::TYPE_USER, false],
+			[IShare::TYPE_GROUP, false],
+			[IShare::TYPE_USER, true],
+			[IShare::TYPE_GROUP, true],
 		];
 	}
 
@@ -1275,7 +1275,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -1290,7 +1290,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy2'),
@@ -1306,7 +1306,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
 		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
 
-		$share = $this->provider->getSharesBy('sharedBy', \OCP\Share::SHARE_TYPE_USER, null, false, 1, 0);
+		$share = $this->provider->getSharesBy('sharedBy', IShare::TYPE_USER, null, false, 1, 0);
 		$this->assertCount(1, $share);
 
 		/** @var IShare $share */
@@ -1315,7 +1315,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('sharedWith', $share->getSharedWith());
 		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 		$this->assertEquals(13, $share->getPermissions());
 		$this->assertEquals('myTarget', $share->getTarget());
 	}
@@ -1324,7 +1324,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -1339,7 +1339,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -1356,7 +1356,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
 		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
 
-		$share = $this->provider->getSharesBy('sharedBy', \OCP\Share::SHARE_TYPE_USER, $file, false, 1, 0);
+		$share = $this->provider->getSharesBy('sharedBy', IShare::TYPE_USER, $file, false, 1, 0);
 		$this->assertCount(1, $share);
 
 		/** @var IShare $share */
@@ -1365,7 +1365,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('sharedWith', $share->getSharedWith());
 		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals('sharedBy', $share->getSharedBy());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 		$this->assertEquals(13, $share->getPermissions());
 		$this->assertEquals('myTarget', $share->getTarget());
 	}
@@ -1374,7 +1374,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('shareOwner'),
@@ -1389,7 +1389,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
@@ -1406,7 +1406,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->willReturnSelf();
 		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
 
-		$shares = $this->provider->getSharesBy('shareOwner', \OCP\Share::SHARE_TYPE_USER, null, true, -1, 0);
+		$shares = $this->provider->getSharesBy('shareOwner', IShare::TYPE_USER, null, true, -1, 0);
 		$this->assertCount(2, $shares);
 
 		/** @var IShare $share */
@@ -1415,7 +1415,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('sharedWith', $share->getSharedWith());
 		$this->assertSame('shareOwner', $share->getShareOwner());
 		$this->assertSame('shareOwner', $share->getSharedBy());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 		$this->assertEquals(13, $share->getPermissions());
 		$this->assertEquals('myTarget', $share->getTarget());
 
@@ -1424,7 +1424,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('sharedWith', $share->getSharedWith());
 		$this->assertSame('shareOwner', $share->getShareOwner());
 		$this->assertSame('sharedBy', $share->getSharedBy());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 		$this->assertEquals(0, $share->getPermissions());
 		$this->assertEquals('userTarget', $share->getTarget());
 	}
@@ -1433,7 +1433,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->insert('share')
 			->values([
-				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_type'    => $qb->expr()->literal(IShare::TYPE_GROUP),
 				'share_with'    => $qb->expr()->literal('group'),
 				'uid_owner'     => $qb->expr()->literal('user1'),
 				'uid_initiator' => $qb->expr()->literal('user1'),
@@ -1489,7 +1489,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->insert('share')
 			->values([
-				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_type'    => $qb->expr()->literal(IShare::TYPE_GROUP),
 				'share_with'    => $qb->expr()->literal('group'),
 				'uid_owner'     => $qb->expr()->literal('user1'),
 				'uid_initiator' => $qb->expr()->literal('user1'),
@@ -1564,7 +1564,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->insert('share')
 			->values([
-				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_type'    => $qb->expr()->literal(IShare::TYPE_GROUP),
 				'share_with'    => $qb->expr()->literal('group'),
 				'uid_owner'     => $qb->expr()->literal('user1'),
 				'uid_initiator' => $qb->expr()->literal('user1'),
@@ -1609,7 +1609,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->insert('share')
 			->values([
-				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_type'    => $qb->expr()->literal(IShare::TYPE_GROUP),
 				'share_with'    => $qb->expr()->literal('group'),
 				'uid_owner'     => $qb->expr()->literal('user1'),
 				'uid_initiator' => $qb->expr()->literal('user1'),
@@ -1647,7 +1647,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->insert('share')
 			->values([
-				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type'    => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with'    => $qb->expr()->literal('user2'),
 				'uid_owner'     => $qb->expr()->literal('user1'),
 				'uid_initiator' => $qb->expr()->literal('user1'),
@@ -1700,7 +1700,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->insert('share')
 			->values([
-				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type'    => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with'    => $qb->expr()->literal('user2'),
 				'uid_owner'     => $qb->expr()->literal('user1'),
 				'uid_initiator' => $qb->expr()->literal('user1'),
@@ -1743,7 +1743,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->insert('share')
 			->values([
-				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
+				'share_type' => $qb->expr()->literal(IShare::TYPE_LINK),
 				'uid_owner' => $qb->expr()->literal('user1'),
 				'uid_initiator' => $qb->expr()->literal('user1'),
 				'item_type' => $qb->expr()->literal('file'),
@@ -1773,7 +1773,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testUpdateUser() {
-		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_USER, 'user0', 'user1', 'user2',
+		$id = $this->addShareToDB(IShare::TYPE_USER, 'user0', 'user1', 'user2',
 			'file', 42, 'target', 31, null, null);
 
 		$users = [];
@@ -1831,7 +1831,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testUpdateLink() {
-		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_LINK, null, 'user1', 'user2',
+		$id = $this->addShareToDB(IShare::TYPE_LINK, null, 'user1', 'user2',
 			'file', 42, 'target', 31, null, null);
 
 		$users = [];
@@ -1891,7 +1891,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testUpdateLinkRemovePassword() {
-		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_LINK, 'foo', 'user1', 'user2',
+		$id = $this->addShareToDB(IShare::TYPE_LINK, 'foo', 'user1', 'user2',
 			'file', 42, 'target', 31, null, null);
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -1954,7 +1954,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testUpdateGroupNoSub() {
-		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_GROUP, 'group0', 'user1', 'user2',
+		$id = $this->addShareToDB(IShare::TYPE_GROUP, 'group0', 'user1', 'user2',
 			'file', 42, 'target', 31, null, null);
 
 		$users = [];
@@ -2026,7 +2026,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testUpdateGroupSubShares() {
-		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_GROUP, 'group0', 'user1', 'user2',
+		$id = $this->addShareToDB(IShare::TYPE_GROUP, 'group0', 'user1', 'user2',
 			'file', 42, 'target', 31, null, null);
 
 		$id2 = $this->addShareToDB(2, 'user0', 'user1', 'user2',
@@ -2126,7 +2126,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testMoveUserShare() {
-		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_USER, 'user0', 'user1', 'user1', 'file',
+		$id = $this->addShareToDB(IShare::TYPE_USER, 'user0', 'user1', 'user1', 'file',
 			42, 'mytaret', 31, null, null);
 
 		$user0 = $this->createMock(IUser::class);
@@ -2157,7 +2157,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testMoveGroupShare() {
-		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_GROUP, 'group0', 'user1', 'user1', 'file',
+		$id = $this->addShareToDB(IShare::TYPE_GROUP, 'group0', 'user1', 'user1', 'file',
 			42, 'mytaret', 31, null, null);
 
 		$user0 = $this->createMock(IUser::class);
@@ -2199,20 +2199,20 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 	public function dataDeleteUser() {
 		return [
-			[\OCP\Share::SHARE_TYPE_USER, 'a', 'b', 'c', 'a', true],
-			[\OCP\Share::SHARE_TYPE_USER, 'a', 'b', 'c', 'b', false],
-			[\OCP\Share::SHARE_TYPE_USER, 'a', 'b', 'c', 'c', true],
-			[\OCP\Share::SHARE_TYPE_USER, 'a', 'b', 'c', 'd', false],
-			[\OCP\Share::SHARE_TYPE_GROUP, 'a', 'b', 'c', 'a', true],
-			[\OCP\Share::SHARE_TYPE_GROUP, 'a', 'b', 'c', 'b', false],
+			[IShare::TYPE_USER, 'a', 'b', 'c', 'a', true],
+			[IShare::TYPE_USER, 'a', 'b', 'c', 'b', false],
+			[IShare::TYPE_USER, 'a', 'b', 'c', 'c', true],
+			[IShare::TYPE_USER, 'a', 'b', 'c', 'd', false],
+			[IShare::TYPE_GROUP, 'a', 'b', 'c', 'a', true],
+			[IShare::TYPE_GROUP, 'a', 'b', 'c', 'b', false],
 			// The group c is still valid but user c is deleted so group share stays
-			[\OCP\Share::SHARE_TYPE_GROUP, 'a', 'b', 'c', 'c', false],
-			[\OCP\Share::SHARE_TYPE_GROUP, 'a', 'b', 'c', 'd', false],
-			[\OCP\Share::SHARE_TYPE_LINK, 'a', 'b', 'c', 'a', true],
+			[IShare::TYPE_GROUP, 'a', 'b', 'c', 'c', false],
+			[IShare::TYPE_GROUP, 'a', 'b', 'c', 'd', false],
+			[IShare::TYPE_LINK, 'a', 'b', 'c', 'a', true],
 			// To avoid invisible link shares delete initiated link shares as well (see #22327)
-			[\OCP\Share::SHARE_TYPE_LINK, 'a', 'b', 'c', 'b', true],
-			[\OCP\Share::SHARE_TYPE_LINK, 'a', 'b', 'c', 'c', false],
-			[\OCP\Share::SHARE_TYPE_LINK, 'a', 'b', 'c', 'd', false],
+			[IShare::TYPE_LINK, 'a', 'b', 'c', 'b', true],
+			[IShare::TYPE_LINK, 'a', 'b', 'c', 'c', false],
+			[IShare::TYPE_LINK, 'a', 'b', 'c', 'd', false],
 		];
 	}
 
@@ -2277,7 +2277,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	public function testDeleteUserGroup($owner, $initiator, $recipient, $deletedUser, $groupShareDeleted, $userGroupShareDeleted) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
-			->setValue('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP))
+			->setValue('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP))
 			->setValue('uid_owner', $qb->createNamedParameter($owner))
 			->setValue('uid_initiator', $qb->createNamedParameter($initiator))
 			->setValue('share_with', $qb->createNamedParameter('group'))
@@ -2299,7 +2299,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->execute();
 		$userGroupId = $qb->getLastInsertId();
 
-		$this->provider->userDeleted($deletedUser, \OCP\Share::SHARE_TYPE_GROUP);
+		$this->provider->userDeleted($deletedUser, IShare::TYPE_GROUP);
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
@@ -2328,28 +2328,28 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		return [
 			[
 				[
-					'type' => \OCP\Share::SHARE_TYPE_USER,
+					'type' => IShare::TYPE_USER,
 					'recipient' => 'user',
 					'children' => []
 				], 'group', false
 			],
 			[
 				[
-					'type' => \OCP\Share::SHARE_TYPE_USER,
+					'type' => IShare::TYPE_USER,
 					'recipient' => 'user',
 					'children' => []
 				], 'user', false
 			],
 			[
 				[
-					'type' => \OCP\Share::SHARE_TYPE_LINK,
+					'type' => IShare::TYPE_LINK,
 					'recipient' => 'user',
 					'children' => []
 				], 'group', false
 			],
 			[
 				[
-					'type' => \OCP\Share::SHARE_TYPE_GROUP,
+					'type' => IShare::TYPE_GROUP,
 					'recipient' => 'group1',
 					'children' => [
 						'foo',
@@ -2359,7 +2359,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			],
 			[
 				[
-					'type' => \OCP\Share::SHARE_TYPE_GROUP,
+					'type' => IShare::TYPE_GROUP,
 					'recipient' => 'group1',
 					'children' => [
 						'foo',
@@ -2440,7 +2440,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	public function testUserDeletedFromGroup($group, $user, $toDelete) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
-			->setValue('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP))
+			->setValue('share_type', $qb->createNamedParameter(IShare::TYPE_GROUP))
 			->setValue('uid_owner', $qb->createNamedParameter('owner'))
 			->setValue('uid_initiator', $qb->createNamedParameter('initiator'))
 			->setValue('share_with', $qb->createNamedParameter('group1'))
@@ -2512,7 +2512,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setSharedBy($u1->getUID())
 			->setSharedWith($u2->getUID())
 			->setShareOwner($u1->getUID())
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share1 = $this->provider->create($share1);
 
@@ -2521,7 +2521,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setSharedBy($u2->getUID())
 			->setSharedWith($u3->getUID())
 			->setShareOwner($u1->getUID())
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
 		$share2 = $this->provider->create($share2);
 
@@ -2529,7 +2529,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share3->setNode($folder2)
 			->setSharedBy($u2->getUID())
 			->setShareOwner($u1->getUID())
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
 		$share3 = $this->provider->create($share3);
 
@@ -2538,7 +2538,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setSharedBy($u1->getUID())
 			->setSharedWith($g1->getGID())
 			->setShareOwner($u1->getUID())
-			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setShareType(IShare::TYPE_GROUP)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
 		$share4 = $this->provider->create($share4);
 
@@ -2554,14 +2554,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$file_shares = $result[$file1->getId()];
 		$this->assertCount(1, $file_shares);
 		$this->assertSame($file1->getId(), $file_shares[0]->getNodeId());
-		$this->assertSame(\OCP\Share::SHARE_TYPE_USER, $file_shares[0]->getShareType());
+		$this->assertSame(IShare::TYPE_USER, $file_shares[0]->getShareType());
 
 		$folder_shares = $result[$folder2->getId()];
 		$this->assertCount(2, $folder_shares);
 		$this->assertSame($folder2->getId(), $folder_shares[0]->getNodeId());
 		$this->assertSame($folder2->getId(), $folder_shares[1]->getNodeId());
-		$this->assertSame(\OCP\Share::SHARE_TYPE_LINK, $folder_shares[0]->getShareType());
-		$this->assertSame(\OCP\Share::SHARE_TYPE_GROUP, $folder_shares[1]->getShareType());
+		$this->assertSame(IShare::TYPE_LINK, $folder_shares[0]->getShareType());
+		$this->assertSame(IShare::TYPE_GROUP, $folder_shares[1]->getShareType());
 
 		$provider->delete($share1);
 		$provider->delete($share2);
@@ -2616,7 +2616,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setSharedBy($u1->getUID())
 			->setSharedWith($u2->getUID())
 			->setShareOwner($u1->getUID())
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share1 = $this->provider->create($share1);
 
@@ -2625,7 +2625,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setSharedBy($u2->getUID())
 			->setSharedWith($g1->getGID())
 			->setShareOwner($u1->getUID())
-			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setShareType(IShare::TYPE_GROUP)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share2 = $this->provider->create($share2);
 
@@ -2635,7 +2635,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share3->setNode($file1)
 			->setSharedBy($u3->getUID())
 			->setShareOwner($u1->getUID())
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
 		$share3 = $this->provider->create($share3);
 
@@ -2644,7 +2644,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setSharedBy($u3->getUID())
 			->setSharedWith($u5->getUID())
 			->setShareOwner($u1->getUID())
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
 		$share4 = $this->provider->create($share4);
 
@@ -2712,7 +2712,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setSharedBy($u1->getUID())
 			->setSharedWith($u2->getUID())
 			->setShareOwner($u1->getUID())
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share1 = $this->provider->create($share1);
 
@@ -2721,7 +2721,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setSharedBy($u2->getUID())
 			->setSharedWith($g1->getGID())
 			->setShareOwner($u1->getUID())
-			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setShareType(IShare::TYPE_GROUP)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL);
 		$share2 = $this->provider->create($share2);
 
@@ -2731,7 +2731,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share3->setNode($file1)
 			->setSharedBy($u3->getUID())
 			->setShareOwner($u1->getUID())
-			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setShareType(IShare::TYPE_LINK)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
 		$share3 = $this->provider->create($share3);
 
@@ -2740,7 +2740,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->setSharedBy($u3->getUID())
 			->setSharedWith($u5->getUID())
 			->setShareOwner($u1->getUID())
-			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setShareType(IShare::TYPE_USER)
 			->setPermissions(\OCP\Constants::PERMISSION_READ);
 		$share4 = $this->provider->create($share4);
 
@@ -2770,7 +2770,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_type'  => $qb->expr()->literal(IShare::TYPE_USER),
 				'share_with'  => $qb->expr()->literal('sharedWith1'),
 				'uid_owner'   => $qb->expr()->literal('shareOwner1'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy1'),
@@ -2785,7 +2785,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_type'  => $qb->expr()->literal(IShare::TYPE_GROUP),
 				'share_with'  => $qb->expr()->literal('sharedWith2'),
 				'uid_owner'   => $qb->expr()->literal('shareOwner2'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy2'),
@@ -2800,7 +2800,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
+				'share_type'  => $qb->expr()->literal(IShare::TYPE_LINK),
 				'token'  => $qb->expr()->literal('token3'),
 				'uid_owner'   => $qb->expr()->literal('shareOwner3'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy3'),
@@ -2815,7 +2815,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_EMAIL),
+				'share_type'  => $qb->expr()->literal(IShare::TYPE_EMAIL),
 				'share_with'  => $qb->expr()->literal('shareOwner4'),
 				'token'  => $qb->expr()->literal('token4'),
 				'uid_owner'   => $qb->expr()->literal('shareOwner4'),
@@ -2831,7 +2831,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$qb->insert('share')
 			->values([
-				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
+				'share_type'  => $qb->expr()->literal(IShare::TYPE_LINK),
 				'token'  => $qb->expr()->literal('token5'),
 				'uid_owner'   => $qb->expr()->literal('shareOwner5'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy5'),
@@ -2884,7 +2884,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		// We fetch the node so the root folder is eventually called
 
 		$this->assertEquals($id1, $share->getId());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_USER, $share->getShareType());
 		$this->assertEquals('sharedWith1', $share->getSharedWith());
 		$this->assertEquals('sharedBy1', $share->getSharedBy());
 		$this->assertEquals('shareOwner1', $share->getShareOwner());
@@ -2896,7 +2896,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share = $shares[1];
 
 		$this->assertEquals($id2, $share->getId());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_GROUP, $share->getShareType());
 		$this->assertEquals('sharedWith2', $share->getSharedWith());
 		$this->assertEquals('sharedBy2', $share->getSharedBy());
 		$this->assertEquals('shareOwner2', $share->getShareOwner());
@@ -2908,7 +2908,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share = $shares[2];
 
 		$this->assertEquals($id3, $share->getId());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_LINK, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_LINK, $share->getShareType());
 		$this->assertEquals(null, $share->getSharedWith());
 		$this->assertEquals('sharedBy3', $share->getSharedBy());
 		$this->assertEquals('shareOwner3', $share->getShareOwner());
@@ -2920,7 +2920,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share = $shares[3];
 
 		$this->assertEquals($id5, $share->getId());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_LINK, $share->getShareType());
+		$this->assertEquals(IShare::TYPE_LINK, $share->getShareType());
 		$this->assertEquals(null, $share->getSharedWith());
 		$this->assertEquals('sharedBy5', $share->getSharedBy());
 		$this->assertEquals('shareOwner5', $share->getShareOwner());

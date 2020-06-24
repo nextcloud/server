@@ -177,7 +177,7 @@ class ShareByMailProvider implements IShareProvider {
 		/*
 		 * Check if file is not already shared with the remote user
 		 */
-		$alreadyShared = $this->getSharedWith($shareWith, \OCP\Share::SHARE_TYPE_EMAIL, $share->getNode(), 1, 0);
+		$alreadyShared = $this->getSharedWith($shareWith, IShare::TYPE_EMAIL, $share->getNode(), 1, 0);
 		if (!empty($alreadyShared)) {
 			$message = 'Sharing %1$s failed, this item is already shared with %2$s';
 			$message_t = $this->l->t('Sharing %1$s failed, this item is already shared with %2$s', [$share->getNode()->getName(), $shareWith]);
@@ -655,7 +655,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb->select('*')
 			->from('share')
 			->where($qb->expr()->eq('parent', $qb->createNamedParameter($parent->getId())))
-			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL)))
+			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->orderBy('id');
 
 		$cursor = $qb->execute();
@@ -685,7 +685,7 @@ class ShareByMailProvider implements IShareProvider {
 	protected function addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $password, $sendPasswordByTalk, $hideDownload) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->insert('share')
-			->setValue('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL))
+			->setValue('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL))
 			->setValue('item_type', $qb->createNamedParameter($itemType))
 			->setValue('item_source', $qb->createNamedParameter($itemSource))
 			->setValue('file_source', $qb->createNamedParameter($itemSource))
@@ -794,7 +794,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb->select('*')
 			->from('share');
 
-		$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL)));
+		$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)));
 
 		/**
 		 * Reshares for this user are shares where they are the owner.
@@ -851,7 +851,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb->select('*')
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
-			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL)));
+			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)));
 
 		$cursor = $qb->execute();
 		$data = $cursor->fetch();
@@ -882,7 +882,7 @@ class ShareByMailProvider implements IShareProvider {
 		$cursor = $qb->select('*')
 			->from('share')
 			->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($path->getId())))
-			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL)))
+			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->execute();
 
 		$shares = [];
@@ -915,7 +915,7 @@ class ShareByMailProvider implements IShareProvider {
 		}
 		$qb->setFirstResult($offset);
 
-		$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL)));
+		$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)));
 		$qb->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)));
 
 		// Filter by node if provided
@@ -946,7 +946,7 @@ class ShareByMailProvider implements IShareProvider {
 
 		$cursor = $qb->select('*')
 			->from('share')
-			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL)))
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
 			->execute();
 
@@ -1065,7 +1065,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb = $this->dbConnection->getQueryBuilder();
 
 		$qb->delete('share')
-			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL)))
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->andWhere($qb->expr()->eq('uid_owner', $qb->createNamedParameter($uid)))
 			->execute();
 	}
@@ -1122,7 +1122,7 @@ class ShareByMailProvider implements IShareProvider {
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
 			))
 			->andWhere(
-				$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL))
+				$qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL))
 			);
 
 		/**
@@ -1166,7 +1166,7 @@ class ShareByMailProvider implements IShareProvider {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('share_with')
 			->from('share')
-			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_EMAIL)))
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(IShare::TYPE_EMAIL)))
 			->andWhere($qb->expr()->in('file_source', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
 			->andWhere($qb->expr()->orX(
 				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
