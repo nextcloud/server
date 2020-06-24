@@ -2051,8 +2051,7 @@ class Access extends LDAPUtility {
 				$this->search($filter, $base, $attr, $limit, $reOffset, true);
 				if (!$this->hasMoreResults()) {
 					// when the cookie is reset with != 0 offset, there are no further
-					// results, so stop. This if block is not necessary with new API
-					// and can be removed with dropping PHP 7.2
+					// results, so stop.
 					return false;
 				}
 			}
