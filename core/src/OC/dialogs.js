@@ -108,7 +108,7 @@ const Dialogs = {
 			'none',
 			buttons,
 			callback,
-			modal
+			modal === undefined ? true : modal
 		)
 	},
 	/**
