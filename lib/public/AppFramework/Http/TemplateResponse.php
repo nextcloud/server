@@ -157,6 +157,7 @@ class TemplateResponse extends Response {
 		// \OCP\Template needs an empty string instead of 'blank' for an unwrapped response
 		$renderAs = $this->renderAs === 'blank' ? '' : $this->renderAs;
 
+		\OCP\Util::addHeader('meta', ['name' => 'robots', 'content' => 'noindex, nofollow']);
 		$template = new \OCP\Template($this->appName, $this->templateName, $renderAs);
 
 		foreach ($this->params as $key => $value) {

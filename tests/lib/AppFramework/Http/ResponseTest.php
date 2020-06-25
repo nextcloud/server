@@ -51,7 +51,8 @@ class ResponseTest extends \Test\TestCase {
 		$expected = [
 			'Last-Modified' => 1,
 			'ETag' => 3,
-			'Something-Else' => 'hi'
+			'Something-Else' => 'hi',
+			'X-Robots-Tag' => 'none',
 		];
 
 		$this->childResponse->setHeaders($expected);
@@ -90,7 +91,7 @@ class ResponseTest extends \Test\TestCase {
 	public function testAddHeaderValueNullDeletesIt() {
 		$this->childResponse->addHeader('hello', 'world');
 		$this->childResponse->addHeader('hello', null);
-		$this->assertEquals(3, count($this->childResponse->getHeaders()));
+		$this->assertEquals(4, count($this->childResponse->getHeaders()));
 	}
 
 
