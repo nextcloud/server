@@ -1,0 +1,21 @@
+OC.L10N.register(
+    "updatenotification",
+    {
+    "{version} is available. Get more information on how to update." : "{version} on saadaval. Vaata lisainfot uuendamise kohta.",
+    "Your version is up to date." : "Su versioon on ajakohane.",
+    "Update channel:" : "Uuenduste kanal:",
+    "Notify members of the following groups about available updates:" : "Teavita jägmiste gruppide liikmeid saadaval olevatest uuendustest:",
+    "Only notification for app updates are available." : "Saadaval on ainult rakenduste uuenduste kohta käivad teated.",
+    "Could not start updater, please try the manual update" : "Uuendajat ei saanud käivitad, proovige käsitsi uuendada",
+    "Update notifications" : "Uuendusmärguanded",
+    "Channel updated" : "Kanal värskendatud",
+    "Update to %1$s is available." : "Uuendus versioonile %1$s on saadaval.",
+    "Update for %1$s to version %2$s is available." : "Uuendus versioonilt %1$s versioonile %2$s on saadaval.",
+    "Update for {app} to version %s is available." : "Uuendus {app} versioonile %s on saadaval.",
+    "A new version is available: %s" : "Saadaval on uus versioon: %s",
+    "Open updater" : "Ava uuendaja",
+    "Download now" : "Lae kohe alla",
+    "Checked on %s" : "Kontrollitud %s",
+    "The update check is not yet finished. Please refresh the page." : "Uuenduste kontrollimine pole veel lõppenud. Palun värskendage lehte."
+},
+"nplurals=2; plural=(n != 1);");

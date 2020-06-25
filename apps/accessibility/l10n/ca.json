@@ -1,0 +1,25 @@
+{ "translations": {
+    "Dark theme" : "Tema fosc",
+    "Enable dark theme" : "Activa el tema fosc",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Un tema fosc que ajuda els ulls reduint la lluminositat i la brillantor generals. Com que encara es troba en desenvolupament, agrairem que informeu de les errades que hi pugueu trobar.",
+    "High contrast mode" : "Mode de contrast alt",
+    "Enable high contrast mode" : "Activa el mode d'alt contrast",
+    "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un mode de contrast alt per facilitar la navegació. La qualitat visual es reduirà però s'incrementarà la claredat.",
+    "Dyslexia font" : "Tipus de lletra per a la dislèxia",
+    "Enable dyslexia font" : "Activa el tipus de lletra per dislèxia",
+    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic és un tipus de lletra gratuït dissenyat per mitigar alguns dels errors de lectura habituals causats per la dislèxia.",
+    "Accessibility" : "Accessibilitat",
+    "Accessibility options for nextcloud" : "Paràmetres d'accessibilitat de Nextcloud",
+    "Provides multiple accessibilities options to ease your use of Nextcloud" : "Proporciona diversos paràmetres d'accessibilitat per facilitar-vos l'ús de Nextcloud",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "L’accés universal és molt important per a nosaltres. Seguim els estàndards web i comprovem que tot es pugui fer servir també sense el ratolí i amb programes d’assistència, com ara els lectors de pantalla. Volem complir les {guidelines}Directrius d’accessibilitat al contingut web{linkend} 2.1 a nivell AA, amb el tema d’alt contrast fins i tot a nivell AAA.",
+    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Si trobeu cap problema, no dubteu en informar-ne {issuetracker}al nostre seguidor d'incidències{linkend}. I si voleu implicar-vos, uniu-vos al {designteam}nostre equip de disseny{linkend}!",
+    "High contrast theme" : "Tema de contrast alt",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un tema de contrast alt per facilitar la navegació. La qualitat visual es reduirà però s'incrementarà la claredat.",
+    "Web Content Accessibility Guidelines" : "Pautes d'accessibilitat de continguts web",
+    "our issue tracker" : "el nostre seguidor d'incidències",
+    "our design team" : "el nostre equip de disseny",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "L’accés universal és molt important per a nosaltres. Seguim els estàndards web i comprovem que tot es pugui fer servir també sense el ratolí i amb programes d’assistència, com ara els lectors de pantalla. Volem complir les {guidelines} 2.1 a nivell AA, amb un tema d’alt contrast fins i tot a nivell AAA.",
+    "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "Si trobeu cap problema, no dubteu a informar-ne a {issuetracker}. I si voleu implicar-vos, uniu-vos a {designteam}!",
+    "Enable" : "Activa"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

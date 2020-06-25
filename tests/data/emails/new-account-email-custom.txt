@@ -1,0 +1,12 @@
+Welcome aboard
+
+Welcome to your Nextcloud account, you can add, protect, and share your data.
+
+Your username is: abc
+
+Set your password: https://example.org/resetPassword/123
+Install Client: https://nextcloud.com/install/#install-clients
+
+
+-- 
+TestCloud - A safe home for your data

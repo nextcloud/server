@@ -1,0 +1,17 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Contact;Mulberry;;;
+FN:Mulberry Contact
+NICKNAME:mulberry
+ORG:Apple Inc.;
+EMAIL;type=INTERNET;type=WORK;type=pref:mulberry_contact@example.com
+TEL;type=HOME;type=pref:555-555-5555
+TEL;type=WORK:555-555-5555
+TEL;type=WORK;type=FAX:555-555-5555
+item1.ADR;type=WORK;type=pref:;;1 Infinite Circle;Exampletino\, CA 99999;USA;;
+item1.X-ABADR:us
+NOTE:This is a contact created in Mulberry.
+item2.URL;type=pref:http://www.example.com/~magic
+item2.X-ABLabel:_$!<HomePage>!$_
+UID:782DAAF92CB1ED1BC155CDB3@D76FAF7B10D9E8D2D41F779D
+END:VCARD

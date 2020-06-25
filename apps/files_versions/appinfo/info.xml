@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>files_versions</id>
+	<name>Versions</name>
+	<summary>This application automatically maintains older versions of files that are changed.</summary>
+	<description>
+		This application automatically maintains older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user’s directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. The app automatically manages the versions folder to ensure the user doesn’t run out of Quota because of versions.
+		In addition to the expiry of versions, the versions app makes certain never to use more than 50% of the user’s currently available free space. If stored versions exceed this limit, the app will delete the oldest versions first until it meets this limit. More information is available in the Versions documentation.
+	</description>
+	<version>1.13.0</version>
+	<licence>agpl</licence>
+	<author>Frank Karlitschek</author>
+	<author>Bjoern Schiessle</author>
+	<namespace>Files_Versions</namespace>
+	<default_enable/>
+	<types>
+		<filesystem/>
+		<dav/>
+	</types>
+	<documentation>
+		<user>user-versions</user>
+	</documentation>
+	<category>files</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="20" max-version="20"/>
+	</dependencies>
+
+	<background-jobs>
+		<job>OCA\Files_Versions\BackgroundJob\ExpireVersions</job>
+	</background-jobs>
+
+	<commands>
+		<command>OCA\Files_Versions\Command\CleanUp</command>
+		<command>OCA\Files_Versions\Command\ExpireVersions</command>
+	</commands>
+
+	<sabre>
+		<plugins>
+			<plugin>OCA\Files_Versions\Sabre\Plugin</plugin>
+		</plugins>
+		<collections>
+			<collection>OCA\Files_Versions\Sabre\RootCollection</collection>
+		</collections>
+	</sabre>
+
+	<versions>
+		<backend for="OCP\Files\Storage\IStorage">OCA\Files_Versions\Versions\LegacyVersionsBackend</backend>
+	</versions>
+</info>

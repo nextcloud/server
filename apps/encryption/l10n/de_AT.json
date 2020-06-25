@@ -1,0 +1,5 @@
+{ "translations": {
+    "The share will expire on %s." : "Die Freigabe wird am %s ablaufen.",
+    "Cheers!" : "Noch einen schönen Tag!"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

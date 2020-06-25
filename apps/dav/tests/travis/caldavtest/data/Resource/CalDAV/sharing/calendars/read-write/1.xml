@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CS:share xmlns:D="DAV:" xmlns:CS="http://owncloud.org/ns">
+	<CS:set>
+		<D:href>principal:principals/users/user02</D:href>
+		<CS:summary>My Shared Calendar</CS:summary>
+		<CS:read-write/>
+	</CS:set>
+</CS:share>

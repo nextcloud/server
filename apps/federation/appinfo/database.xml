@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+	<name>*dbname*</name>
+	<create>true</create>
+	<overwrite>false</overwrite>
+	<charset>utf8</charset>
+	<table>
+		<name>*dbprefix*trusted_servers</name>
+		<declaration>
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+			<field>
+				<name>url</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>512</length>
+				<comments>Url of trusted server</comments>
+			</field>
+			<field>
+				<name>url_hash</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<comments>sha1 hash of the url without the protocol</comments>
+			</field>
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<length>128</length>
+				<comments>token used to exchange the shared secret</comments>
+			</field>
+			<field>
+				<name>shared_secret</name>
+				<type>text</type>
+				<length>256</length>
+				<comments>shared secret used to authenticate</comments>
+			</field>
+			<field>
+				<name>status</name>
+				<type>integer</type>
+				<length>4</length>
+				<notnull>true</notnull>
+				<default>2</default>
+				<comments>current status of the connection</comments>
+			</field>
+			<field>
+				<name>sync_token</name>
+				<type>text</type>
+				<length>512</length>
+				<comments>cardDav sync token</comments>
+			</field>
+			<index>
+				<name>url_hash</name>
+				<unique>true</unique>
+				<field>
+					<name>url_hash</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+		</declaration>
+	</table>
+</database>

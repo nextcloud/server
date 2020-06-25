@@ -1,0 +1,24 @@
+{ "translations": {
+    "Deleted files" : "Fitxers suprimits",
+    "restored" : "s'ha restaurat",
+    "This application enables users to restore files that were deleted from the system." : "Aquesta aplicació permet als usuaris restaurar fitxers que s’han suprimit del sistema.",
+    "This application enables users to restore files that were deleted from the system. It displays a list of deleted files in the web interface, and has options to restore those deleted files back to the users file directories or remove them permanently from the system. Restoring a file also restores related file versions, if the versions application is enabled. When a file is deleted from a share, it can be restored in the same manner, though it is no longer shared. By default, these files remain in the trash bin for 30 days.\nTo prevent a user from running out of disk space, the Deleted files app will not utilize more than 50% of the currently available free quota for deleted files. If the deleted files exceed this limit, the app deletes the oldest files until it gets below this limit. More information is available in the Deleted Files documentation." : "Aquesta aplicació permet als usuaris restaurar fitxers que s’han suprimit del sistema. Mostra una llista de fitxers suprimits a la interfície web i té opcions per restaurar els fitxers suprimits als directoris de fitxers dels usuaris o eliminar-los permanentment del sistema. La restauració d’un fitxer també restaura les versions de fitxers relacionades, si l’aplicació de versions està activada. Quan se suprimeix un fitxer d’una compartició, es pot restaurar de la mateixa manera, tot i que ja no es comparteix. Per defecte, aquests fitxers romanen a la paperera durant 30 dies.\nPer evitar que un usuari es quedi sense espai en disc, l’aplicació de fitxers suprimits no utilitzarà més del 50% de la quota gratuïta disponible actualment per als fitxers suprimits. Si els fitxers suprimits superen aquest límit, l’aplicació suprimeix els fitxers més antics fins que quedi per sota d’aquest límit. Podeu trobar més informació a la documentació dels Fitxers Suprimits.",
+    "Restore" : "Recupera",
+    "Delete permanently" : "Suprimeix permanentment",
+    "Error while restoring file from trashbin" : "S'ha produït un error mentre es restaurava el fitxer des de la paperera",
+    "Error while removing file from trashbin" : "S'ha produït un error mentre se suprimia el fitxer de la paperera",
+    "Error while restoring files from trashbin" : "S'ha produït un error mentre es restauraven els fitxers des de la paperera",
+    "Error while emptying trashbin" : "S'ha produït un error mentre es buidava la paperera",
+    "Error while removing files from trashbin" : "S'ha produït un error mentre se suprimien els fitxers de la paperera",
+    "This operation is forbidden" : "Aquesta operació està prohibida",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Aquesta carpeta no està disponible. Comproveu els registres o contacteu amb l'administrador.",
+    "No deleted files" : "No hi ha cap fitxer suprimit",
+    "You will be able to recover deleted files from here" : "Des d'aquí es podran recuperar fitxers suprimits",
+    "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",
+    "Select all" : "Selecciona-ho tot",
+    "Name" : "Nom",
+    "Actions" : "Accions",
+    "Deleted" : "Suprimit",
+    "Delete" : "Suprimeix"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

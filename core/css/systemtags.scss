@@ -1,0 +1,88 @@
+/**
+ * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2016, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @copyright Copyright (c) 2016, Vincent Petry <pvince81@owncloud.com>
+ * @copyright Copyright (c) 2016, Erik Pellikka <erik@pellikka.org>
+ * @copyright Copyright (c) 2015, Vincent Petry <pvince81@owncloud.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+
+.systemtags-select2-dropdown {
+	.select2-result-label {
+		.checkmark {
+			visibility: hidden;
+			margin-left: -5px;
+			margin-right: 5px;
+			padding: 4px;
+		}
+		.new-item .systemtags-actions {
+			display: none;
+		}
+	}
+	.select2-selected .select2-result-label .checkmark {
+		visibility: visible;
+	}
+	.select2-result-label .icon {
+		display: inline-block;
+		opacity: .5;
+		&.rename {
+			padding: 4px;
+		}
+	}
+	.systemtags-actions {
+		position: absolute;
+		right: 5px;
+	}
+	.systemtags-rename-form {
+		display: inline-block;
+		width: calc(100% - 20px);
+		top: -6px;
+		position: relative;
+		input {
+			display: inline-block;
+			height: 30px;
+			width: calc(100% - 40px);
+		}
+	}
+	.label {
+		width: 85%;
+		display: inline-block;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		&.hidden {
+			display: none;
+		}
+	}
+	span {
+		line-height: 25px;
+	}
+	.systemtags-item {
+		display: inline-block;
+		height: 25px;
+		width: 100%;
+	}
+	.select2-result-label {
+		height: 25px;
+	}
+}
+
+.systemTagsInfoView,
+.systemtags-select2-container {
+	width: 100%;
+
+	.select2-choices {
+		flex-wrap: nowrap !important;
+		max-height: 44px;
+	}
+
+	.select2-choices .select2-search-choice.select2-locked .label {
+		opacity: 0.5;
+	}
+}
+
+#select2-drop.systemtags-select2-dropdown .select2-results li.select2-result {
+	padding: 5px;
+}

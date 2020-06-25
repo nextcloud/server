@@ -1,0 +1,135 @@
+[main]
+host = https://www.transifex.com
+lang_map = bg_BG: bg, cs_CZ: cs, fi_FI: fi, hu_HU: hu, nb_NO: nb, sk_SK: sk, th_TH: th, ja_JP: ja
+
+[nextcloud.core]
+file_filter = translationfiles/<lang>/core.po
+source_file = translationfiles/templates/core.pot
+source_lang = en
+type = PO
+
+[nextcloud.files]
+file_filter = translationfiles/<lang>/files.po
+source_file = translationfiles/templates/files.pot
+source_lang = en
+type = PO
+
+[nextcloud.settings-1]
+file_filter = translationfiles/<lang>/settings.po
+source_file = translationfiles/templates/settings.pot
+source_lang = en
+type = PO
+
+[nextcloud.lib]
+file_filter = translationfiles/<lang>/lib.po
+source_file = translationfiles/templates/lib.pot
+source_lang = en
+type = PO
+
+[nextcloud.dav]
+file_filter = translationfiles/<lang>/dav.po
+source_file = translationfiles/templates/dav.pot
+source_lang = en
+type = PO
+
+[nextcloud.files_encryption]
+file_filter = translationfiles/<lang>/encryption.po
+source_file = translationfiles/templates/encryption.pot
+source_lang = en
+type = PO
+
+[nextcloud.files_external]
+file_filter = translationfiles/<lang>/files_external.po
+source_file = translationfiles/templates/files_external.pot
+source_lang = en
+type = PO
+
+[nextcloud.files_sharing]
+file_filter = translationfiles/<lang>/files_sharing.po
+source_file = translationfiles/templates/files_sharing.pot
+source_lang = en
+type = PO
+
+[nextcloud.files_trashbin]
+file_filter = translationfiles/<lang>/files_trashbin.po
+source_file = translationfiles/templates/files_trashbin.pot
+source_lang = en
+type = PO
+
+[nextcloud.files_versions]
+file_filter = translationfiles/<lang>/files_versions.po
+source_file = translationfiles/templates/files_versions.pot
+source_lang = en
+type = PO
+
+[nextcloud.user_ldap]
+file_filter = translationfiles/<lang>/user_ldap.po
+source_file = translationfiles/templates/user_ldap.pot
+source_lang = en
+type = PO
+
+[nextcloud.comments]
+file_filter = translationfiles/<lang>/comments.po
+source_file = translationfiles/templates/comments.pot
+source_lang = en
+type = PO
+
+[nextcloud.federatedfilesharing]
+file_filter = translationfiles/<lang>/federatedfilesharing.po
+source_file = translationfiles/templates/federatedfilesharing.pot
+source_lang = en
+type = PO
+
+[nextcloud.federation]
+file_filter = translationfiles/<lang>/federation.po
+source_file = translationfiles/templates/federation.pot
+source_lang = en
+type = PO
+
+[nextcloud.oauth2]
+file_filter = translationfiles/<lang>/oauth2.po
+source_file = translationfiles/templates/oauth2.pot
+source_lang = en
+type = PO
+
+[nextcloud.sharebymail]
+file_filter = translationfiles/<lang>/sharebymail.po
+source_file = translationfiles/templates/sharebymail.pot
+source_lang = en
+type = PO
+
+[nextcloud.systemtags]
+file_filter = translationfiles/<lang>/systemtags.po
+source_file = translationfiles/templates/systemtags.pot
+source_lang = en
+type = PO
+
+[nextcloud.updatenotification]
+file_filter = translationfiles/<lang>/updatenotification.po
+source_file = translationfiles/templates/updatenotification.pot
+source_lang = en
+type = PO
+
+[nextcloud.theming]
+file_filter = translationfiles/<lang>/theming.po
+source_file = translationfiles/templates/theming.pot
+source_lang = en
+type = PO
+
+[nextcloud.twofactor_backupcodes]
+file_filter = translationfiles/<lang>/twofactor_backupcodes.po
+source_file = translationfiles/templates/twofactor_backupcodes.pot
+source_lang = en
+type = PO
+
+[nextcloud.workflowengine]
+file_filter = translationfiles/<lang>/workflowengine.po
+source_file = translationfiles/templates/workflowengine.pot
+source_lang = en
+type = PO
+
+[nextcloud.accessibility]
+file_filter = translationfiles/<lang>/accessibility.po
+source_file = translationfiles/templates/accessibility.pot
+source_lang = en
+type = PO

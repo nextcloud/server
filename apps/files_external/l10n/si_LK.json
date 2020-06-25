@@ -1,0 +1,21 @@
+{ "translations": {
+    "Personal" : "පෞද්ගලික",
+    "Grant access" : "පිවිසුම ලබාදෙන්න",
+    "Username" : "පරිශීලක නම",
+    "Password" : "මුර පදය",
+    "Save" : "සුරකින්න",
+    "None" : "කිසිවක් නැත",
+    "Port" : "තොට",
+    "Region" : "කළාපය",
+    "URL" : "URL",
+    "Host" : "සත්කාරකය",
+    "Location" : "ස්ථානය",
+    "ownCloud" : "ownCloud",
+    "Share" : "බෙදා හදා ගන්න",
+    "Name" : "නම",
+    "External Storage" : "භාහිර ගබඩාව",
+    "Folder name" : "ෆොල්ඩරයේ නම",
+    "Configuration" : "වින්‍යාසය",
+    "Delete" : "මකා දමන්න"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

@@ -1,0 +1,99 @@
+/**
+ * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
+ *
+ * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+/**
+ * Removes the "#" from a color.
+ *
+ * @param string $color The color
+ * @return string The color without #
+ */
+@function remove-hash-from-color($color) {
+	$index: str-index(inspect($color), '#');
+	@if $index {
+		$color: str-slice(inspect($color), 2);
+	}
+	@return $color;
+}
+
+/**
+ * Calculates the URL to the svg under the SVG API.
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int [$version] the version of the file
+ * @param bool [$core] search icon in core
+ * @return string The URL to the svg.
+ */
+@function icon-color-path($icon, $dir, $color, $version: 1, $core: false) {
+	$color: remove-hash-from-color($color);
+	@if $core {
+		@return '#{$webroot}/svg/core/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
+	} @else {
+		@return '#{$webroot}/svg/#{$dir}/#{$icon}?color=#{$color}&v=#{$version}';
+	}
+}
+
+/**
+ * SVG COLOR API
+ *
+ * @param string $icon the icon filename
+ * @param string $dir the icon folder within /core/img if $core or app name
+ * @param string $color the desired color in hexadecimal
+ * @param int $version the version of the file
+ * @param bool [$core] search icon in core
+ *
+ * @returns A background image with the url to the set to the requested icon.
+ */
+@mixin icon-color($icon, $dir, $color, $version: 1, $core: false) {
+	$color: remove-hash-from-color($color);
+	/* $dir is the app name, so we add this to the icon var to avoid conflicts between apps */
+	$varName: "--icon-#{$dir}-#{$icon}-#{$color}";
+	@if $core {
+		$varName: "--icon-#{$icon}-#{$color}";
+	}
+	#{$varName}: url(icon-color-path($icon, $dir, $color, $version, $core));
+	background-image: var(#{$varName});
+}
+
+/**
+ * Create black and white icons
+ * This will add a default black version of and an additional white version when .icon-white is applied
+ */
+@mixin icon-black-white($icon, $dir, $version, $core: false) {
+	.icon-#{$icon} {
+		@include icon-color($icon, $dir, $color-black, $version, $core);
+	}
+	.icon-#{$icon}-white,
+	.icon-#{$icon}.icon-white {
+		@include icon-color($icon, $dir, $color-white, $version, $core);
+	}
+}
+
+@mixin position($value) {
+	@if $value == 'sticky' {
+		position: -webkit-sticky; // Safari support
+		position: sticky;
+	} @else {
+		position: $value;
+	}
+}

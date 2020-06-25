@@ -1,0 +1,23 @@
+{ "translations": {
+    "Deleted files" : "Törölt fájlok",
+    "restored" : "visszaállítva",
+    "This application enables users to restore files that were deleted from the system." : "Ez az alkalmazás lehetővé teszi a felhasználók számára, hogy visszaállítson rendszerből már törölt fájlokat.",
+    "Restore" : "Visszaállítás",
+    "Delete permanently" : "Végleges törlés",
+    "Error while restoring file from trashbin" : "Hiba a fájl kukából történő visszaállítása során",
+    "Error while removing file from trashbin" : "Hiba a fájl kukából történő eltávolítása során",
+    "Error while restoring files from trashbin" : "Hiba a fájlok kukából történő visszaállítása során",
+    "Error while emptying trashbin" : "Hiba a kuka ürítése során",
+    "Error while removing files from trashbin" : "Hiba a fájlok kukából történő eltávolítása során",
+    "This operation is forbidden" : "Tiltott művelet",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Ez a könyvtár nem elérhető, kérem nézze meg a naplófájlokat vagy keresse a rendszergazdát",
+    "No deleted files" : "Nincs törölt fájl",
+    "You will be able to recover deleted files from here" : "Innen vissza tudja állítani a törölt fáljait.",
+    "No entries found in this folder" : "Nincsenek bejegyzések ebben a mappában",
+    "Select all" : "Összes kijelölése",
+    "Name" : "Név",
+    "Actions" : "Műveletek",
+    "Deleted" : "Törölve",
+    "Delete" : "Törlés"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

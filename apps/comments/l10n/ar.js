@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "comments",
+    {
+    "Comments" : "تعليقات",
+    "You commented" : "قمت بكتابة تعليق",
+    "%1$s commented" : "%1$s كتب تعليق",
+    "You commented on %1$s" : "لقد علقت على %1$s",
+    "You commented on {file}" : "علقت على {file}",
+    "%1$s commented on %2$s" : "%1$s كتب تعليق على %2$s",
+    "{author} commented on {file}" : "{author} علّق على {file}",
+    "<strong>Comments</strong> for files" : "<strong>تعليقات</strong> على الملفات",
+    "Edit comment" : "تعديل التعليق",
+    "Delete comment" : "حذف التعليق",
+    "New comment …" : "تعليق جديد",
+    "Post" : "ارسال",
+    "Cancel" : "إلغاء",
+    "[Deleted user]" : "[مستخدم محذوف]",
+    "No comments yet, start the conversation!" : "لا يوجد تعليقات, ابدأ النقاش الآن!",
+    "More comments …" : "مزيد من التعليقات...",
+    "Save" : "حفظ",
+    "Allowed characters {count} of {max}" : "عدد الأحرف المسموح بها {count} من {max}",
+    "Error occurred while retrieving comment with ID {id}" : "حدث خطأ عند محاولة إيجاد التعليق المعرف بـ {id}",
+    "Error occurred while updating comment with id {id}" : "حصل خطأ أثناء تعديل التعليق رقم {id}",
+    "Error occurred while posting comment" : "حصل خطأ أثناء إرسال التعليق",
+    "_%n unread comment_::_%n unread comments_" : ["%n تعليق غير مقروء","%n تعليق غير مقروء","تعليقان غير مقروءة","%n تعليقات غير مقروء","%n تعليق غير مقروء","%n تعليق غير مقروء"],
+    "Comment" : "تعليق"
+},
+"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

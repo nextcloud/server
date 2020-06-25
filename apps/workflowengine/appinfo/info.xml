@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>workflowengine</id>
+	<name>Nextcloud workflow engine</name>
+	<summary>Nextcloud workflow engine</summary>
+	<description>Nextcloud workflow engine</description>
+	<version>2.2.0</version>
+	<licence>agpl</licence>
+	<author>Arthur Schiwon</author>
+	<author>Julius Härtl</author>
+	<author>Morris Jobke</author>
+	<namespace>WorkflowEngine</namespace>
+
+	<types>
+		<filesystem/>
+	</types>
+
+	<category>files</category>
+	<website>https://github.com/nextcloud/server</website>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<repository>https://github.com/nextcloud/server.git</repository>
+
+	<dependencies>
+		<nextcloud min-version="20" max-version="20"/>
+	</dependencies>
+
+	<background-jobs>
+		<job>OCA\WorkflowEngine\BackgroundJobs\Rotate</job>
+	</background-jobs>
+
+	<repair-steps>
+		<post-migration>
+			<step>OCA\WorkflowEngine\Migration\PopulateNewlyIntroducedDatabaseFields</step>
+		</post-migration>
+	</repair-steps>
+
+	<commands>
+		<command>OCA\WorkflowEngine\Command\Index</command>
+	</commands>
+
+	<settings>
+		<admin>OCA\WorkflowEngine\Settings\Admin</admin>
+		<admin-section>OCA\WorkflowEngine\Settings\Section</admin-section>
+		<personal>OCA\WorkflowEngine\Settings\Personal</personal>
+		<personal-section>OCA\WorkflowEngine\Settings\Section</personal-section>
+	</settings>
+</info>

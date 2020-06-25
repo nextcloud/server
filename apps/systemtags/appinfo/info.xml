@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>systemtags</id>
+	<name>Collaborative tags</name>
+	<summary>Collaborative tagging functionality which shares tags among users.</summary>
+	<description>Collaborative tagging functionality which shares tags among users. Great for teams.
+	(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)</description>
+	<version>1.10.0</version>
+	<licence>agpl</licence>
+	<author>Vincent Petry</author>
+	<author>Joas Schilling</author>
+	<namespace>SystemTags</namespace>
+	<default_enable/>
+	<types>
+		<logging/>
+	</types>
+	<category>files</category>
+	<category>organization</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="20" max-version="20"/>
+	</dependencies>
+	<settings>
+		<admin>OCA\SystemTags\Settings\Admin</admin>
+	</settings>
+
+	<activity>
+		<settings>
+			<setting>OCA\SystemTags\Activity\Setting</setting>
+		</settings>
+
+		<providers>
+			<provider>OCA\SystemTags\Activity\Provider</provider>
+		</providers>
+	</activity>
+</info>

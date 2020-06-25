@@ -1,0 +1,139 @@
+/**
+ * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Robin Appelman <robin@icewind.nl>
+ * @copyright Copyright (c) 2016, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @copyright Copyright (c) 2016, Erik Pellikka <erik@pellikka.org>
+ * @copyright Copyright (c) 2015, Vincent Petry <pvince81@owncloud.com>
+ *
+ * Bootstrap v3.3.5 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+.tooltip {
+    position: absolute;
+    display: block;
+    font-family: var(--font-face);
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: normal;
+    line-break: auto;
+    line-height: 1.6;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    white-space: normal;
+    word-break: normal;
+    word-spacing: normal;
+    word-wrap: normal;
+    font-size: 12px;
+    opacity: 0;
+    z-index: 100000;
+    /* default to top */
+    margin-top: -3px;
+    padding: 10px 0;
+    filter: drop-shadow(0 1px 10px var(--color-box-shadow));
+    &.in,
+    &.show,
+    &.tooltip[aria-hidden='false'] {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity .15s;
+    }
+    &.top .tooltip-arrow,
+    &[x-placement^='top'] {
+        left: 50%;
+        margin-left: -10px;
+    }
+    &.bottom,
+    &[x-placement^='bottom'] {
+        margin-top: 3px;
+        padding: 10px 0;
+    }
+    &.right,
+    &[x-placement^='right'] {
+        margin-left: 3px;
+        padding: 0 10px;
+        .tooltip-arrow {
+            top: 50%;
+            left: 0;
+            margin-top: -10px;
+            border-width: 10px 10px 10px 0;
+            border-right-color: var(--color-main-background);
+        }
+    }
+    &.left,
+    &[x-placement^='left'] {
+        margin-left: -3px;
+        padding: 0 5px;
+        .tooltip-arrow {
+            top: 50%;
+            right: 0;
+            margin-top: -10px;
+            border-width: 10px 0 10px 10px;
+            border-left-color: var(--color-main-background);
+        }
+    }
+    /* TOP */
+    &.top,
+    &.top-left,
+    &[x-placement^='top'],
+    &.top-right {
+        .tooltip-arrow, .arrow {
+            bottom: 0;
+            border-width: 10px 10px 0;
+            border-top-color: var(--color-main-background);
+        }
+    }
+    &.top-left .tooltip-arrow {
+        right: 10px;
+        margin-bottom: -10px;
+    }
+    &.top-right .tooltip-arrow {
+        left: 10px;
+        margin-bottom: -10px;
+    }
+    /* BOTTOM */
+    &.bottom,
+    &[x-placement^='bottom'],
+    &.bottom-left,
+    &.bottom-right {
+        .tooltip-arrow, .arrow {
+            top: 0;
+            border-width: 0 10px 10px;
+            border-bottom-color: var(--color-main-background);
+        }
+    }
+    &[x-placement^='bottom'] .tooltip-arrow,
+    &.bottom .tooltip-arrow {
+        left: 50%;
+        margin-left: -10px;
+    }
+    &.bottom-left .tooltip-arrow {
+        right: 10px;
+        margin-top: -10px;
+    }
+    &.bottom-right .tooltip-arrow {
+        left: 10px;
+        margin-top: -10px;
+    }
+}
+
+.tooltip-inner {
+    max-width: 350px;
+    padding: 5px 8px;
+    background-color: var(--color-main-background);
+    color: var(--color-main-text);
+    text-align: center;
+    border-radius: var(--border-radius);
+}
+
+.tooltip-arrow, .tooltip .arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+}

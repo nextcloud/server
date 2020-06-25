@@ -1,0 +1,66 @@
+.versionsTabView .clear-float {
+	clear: both;
+}
+
+.versionsTabView li {
+	width: 100%;
+	cursor: default;
+	height: 56px;
+	float: left;
+	border-bottom: 1px solid rgba(100,100,100,.1);
+}
+.versionsTabView li:last-child {
+	border-bottom: none;
+}
+
+.versionsTabView a,
+.versionsTabView div > span {
+	vertical-align: middle;
+	opacity: .5;
+}
+
+.versionsTabView li a{
+	padding: 15px 10px 11px;
+}
+
+.versionsTabView a:hover,
+.versionsTabView a:focus {
+	opacity: 1;
+}
+
+.versionsTabView .preview-container {
+	display: inline-block;
+  vertical-align: top;
+}
+
+.versionsTabView img {
+	cursor: pointer;
+	padding-right: 4px;
+}
+
+.versionsTabView img.preview {
+	cursor: default;
+}
+
+.versionsTabView .version-container {
+	display: inline-block;
+}
+
+.versionsTabView .versiondate {
+	min-width: 100px;
+	vertical-align: super;
+}
+
+.versionsTabView .version-details {
+	text-align: left;
+}
+
+.versionsTabView .version-details > span {
+	padding: 0 10px;
+}
+
+.versionsTabView .revertVersion {
+	cursor: pointer;
+	float: right;
+	margin-right: -10px;
+}

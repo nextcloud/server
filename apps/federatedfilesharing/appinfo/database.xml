@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!--
+Keep a mapping of the share ID stored in the local oc_share table
+and the share ID stored in the remote servers oc_share table.
+This is needed in order to send updates in both directions between
+the servers (e.g. permissions change, unshare,...)
+-->
+
+<database>
+	<name>*dbname*</name>
+	<create>true</create>
+	<overwrite>false</overwrite>
+	<charset>utf8</charset>
+	<table>
+		<name>*dbprefix*federated_reshares</name>
+		<declaration>
+			<field>
+				<name>share_id</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+			<field>
+				<name>remote_id</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<length>4</length>
+				<comments>share ID at the remote server</comments>
+			</field>
+			<index>
+				<name>share_id_index</name>
+				<unique>true</unique>
+				<field>
+					<name>share_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+		</declaration>
+	</table>
+</database>

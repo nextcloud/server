@@ -1,0 +1,23 @@
+{ "translations": {
+    "Deleted files" : "回收桶",
+    "restored" : "已還原",
+    "This application enables users to restore files that were deleted from the system." : "此應用程式讓使用者可以還原他們在系統當中刪除的檔案",
+    "Restore" : "還原",
+    "Delete permanently" : "永久刪除",
+    "Error while restoring file from trashbin" : "從回收桶回復檔案發生錯誤",
+    "Error while removing file from trashbin" : "從回收桶刪除檔案發生錯誤",
+    "Error while restoring files from trashbin" : "從回收桶回復檔案發生錯誤",
+    "Error while emptying trashbin" : "清空回收桶發生錯誤",
+    "Error while removing files from trashbin" : "從回收桶刪除檔案發生錯誤",
+    "This operation is forbidden" : "此動作被禁止",
+    "This directory is unavailable, please check the logs or contact the administrator" : "這個目錄無法存取，請檢查伺服器記錄檔或聯絡管理員",
+    "No deleted files" : "沒有已刪除的檔案",
+    "You will be able to recover deleted files from here" : "您可以從這裡還原已刪除的檔案",
+    "No entries found in this folder" : "在此資料夾中沒有任何項目",
+    "Select all" : "全選",
+    "Name" : "名稱",
+    "Actions" : "動作",
+    "Deleted" : "已刪除",
+    "Delete" : "刪除"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

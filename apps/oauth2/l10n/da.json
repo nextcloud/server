@@ -1,0 +1,12 @@
+{ "translations": {
+    "OAuth 2.0" : "OAuth 2.0",
+    "OAuth 2.0 clients" : "OAuth 2.0 klienter",
+    "Name" : "Navn",
+    "Redirection URI" : "Viderestilling URI",
+    "Client Identifier" : "Klient ID",
+    "Secret" : "Hemmelighed",
+    "Add client" : "Tilføj klient",
+    "Add" : "Tilføj",
+    "Delete" : "Slet"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

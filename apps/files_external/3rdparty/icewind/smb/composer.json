@@ -1,0 +1,25 @@
+{
+	"name"             : "icewind/smb",
+	"description"      : "php wrapper for smbclient and libsmbclient-php",
+	"license"          : "MIT",
+	"authors"          : [
+		{
+			"name" : "Robin Appelman",
+			"email": "icewind@owncloud.com"
+		}
+	],
+	"require"          : {
+		"php": ">=7.1",
+		"icewind/streams": ">=0.2.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^7.0",
+		"friendsofphp/php-cs-fixer": "^2.13"
+	},
+	"autoload"         : {
+		"psr-4": {
+			"Icewind\\SMB\\": "src/",
+			"Icewind\\SMB\\Test\\": "tests/"
+		}
+	}
+}

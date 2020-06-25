@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+
+ <name>*dbname*</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+ <charset>utf8</charset>
+
+ <table>
+
+  <name>*dbprefix*ldap_user_mapping</name>
+
+  <declaration>
+
+   <field>
+    <name>ldap_dn</name>
+    <type>text</type>
+    <notnull>true</notnull>
+	<length>255</length>
+	<default></default>
+   </field>
+
+   <field>
+    <name>owncloud_name</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+	<default></default>
+   </field>
+
+   <field>
+    <name>directory_uuid</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+	<default></default>
+   </field>
+
+   <index>
+    <name>ldap_dn_users</name>
+    <unique>true</unique>
+    <field>
+     <name>ldap_dn</name>
+    </field>
+   </index>
+
+   <index>
+    <name>owncloud_name_users</name>
+	   <primary>true</primary>
+    <unique>true</unique>
+    <field>
+     <name>owncloud_name</name>
+	 <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>*dbprefix*ldap_group_mapping</name>
+
+  <declaration>
+
+   <field>
+    <name>ldap_dn</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+    <default></default>
+   </field>
+
+   <field>
+    <name>owncloud_name</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+    <default></default>
+   </field>
+
+   <field>
+    <name>directory_uuid</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+	<default></default>
+   </field>
+
+   <index>
+    <name>ldap_dn_groups</name>
+    <unique>true</unique>
+	   <primary>true</primary>
+    <field>
+     <name>ldap_dn</name>
+    </field>
+   </index>
+
+   <index>
+    <name>owncloud_name_groups</name>
+    <unique>true</unique>
+    <field>
+     <name>owncloud_name</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+
+ <table>
+
+  <name>*dbprefix*ldap_group_members</name>
+
+  <declaration>
+
+   <field>
+    <name>owncloudname</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>255</length>
+    <default></default>
+   </field>
+
+   <field>
+    <name>owncloudusers</name>
+    <type>clob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>ldap_group_members_index</name>
+    <unique>true</unique>
+	   <primary>true</primary>
+    <field>
+     <name>owncloudname</name>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+</database>

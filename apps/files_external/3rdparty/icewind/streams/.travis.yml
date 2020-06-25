@@ -1,0 +1,24 @@
+language: php
+php:
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+
+env:
+  global:
+    - CURRENT_DIR=`pwd`
+
+install:
+  - composer install --dev --no-interaction
+
+script:
+  - mkdir -p build/logs
+  - cd tests
+  - phpunit --coverage-clover ../build/logs/clover.xml --configuration phpunit.xml
+
+after_script:
+ - cd $CURRENT_DIR
+ - php vendor/bin/coveralls -v

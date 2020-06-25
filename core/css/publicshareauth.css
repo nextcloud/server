@@ -1,0 +1,33 @@
+form fieldset {
+	display: flex !important;
+	flex-direction: column;
+}
+
+form fieldset > p {
+	position: relative;
+}
+
+#password {
+	margin: 5px 0;
+	padding-right: 45px;
+	height: 45px;
+	box-sizing: border-box;
+	flex: 1 1 auto;
+	width: 100% !important;
+	min-width: 0; /* FF hack for to override default value */
+}
+
+input[type='submit'],
+input[type='submit'].icon-confirm {
+	position: absolute;
+	top: 0px;
+	right: -5px;
+	width: 45px !important;
+	height: 45px;
+	background-color: transparent !important;
+}
+
+.warning > .warning {
+	/* Do not use a top margin for warning messages in the warning container. */
+	margin-top: 0;
+}

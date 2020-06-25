@@ -1,0 +1,136 @@
+#theming {
+    input {
+        width: 230px;
+    }
+
+    input:focus,
+    input:active {
+        padding-right: 30px;
+    }
+
+    .fileupload {
+        display: none;
+    }
+
+    div > label {
+        position: relative;
+    }
+
+    .theme-undo {
+        position: absolute;
+        top: -7px; // input padding
+        right: 4px; // input right margin + border
+        cursor: pointer;
+        opacity: .3;
+        padding: 7px;
+        vertical-align: top;
+        display: inline-block;
+        visibility: hidden;
+        height: 32px; // height of input
+        width: 32px; // height of input
+    }
+    form.uploadButton {
+        width: 411px;
+    }
+    form .theme-undo,
+    .theme-remove-bg {
+        cursor: pointer;
+        opacity: .3;
+        padding: 7px;
+        vertical-align: top;
+        display: inline-block;
+        float: right;
+        position: relative;
+        top: 4px;
+        right: 0px;
+        visibility: visible;
+        height: 32px;
+        width: 32px;
+    }
+    input[type='text']:hover + .theme-undo,
+    input[type='text'] + .theme-undo:hover,
+    input[type='text']:focus + .theme-undo,
+    input[type='text']:active + .theme-undo,
+    input[type='url']:hover + .theme-undo,
+    input[type='url'] + .theme-undo:hover,
+    input[type='url']:focus + .theme-undo,
+    input[type='url']:active + .theme-undo{
+        visibility: visible;
+    }
+
+    label span {
+        display: inline-block;
+        min-width: 175px;
+        padding: 8px 0px;
+        vertical-align: top;
+    }
+
+    .icon-upload,
+    .uploadButton .icon-loading-small {
+        padding: 8px 20px;
+        width: 20px;
+        margin: 2px 0px;
+        min-height: 32px;
+        display: inline-block;
+    }
+
+    #theming_settings_status {
+        height: 26px;
+        margin: 10px;
+    }
+
+    #theming_settings_loading {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+
+    #theming_settings_msg {
+        vertical-align: middle;
+        border-radius: 3px;
+    }
+
+    #theming-preview {
+        width: 230px;
+        height: 140px;
+        background-size: cover;
+        background-position: center center;
+        text-align: center;
+        margin-left: 178px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        cursor: pointer;
+
+        #theming-preview-logo {
+            cursor: pointer;
+            width: 20%;
+            height: 20%;
+            margin-top: 20px;
+            display: inline-block;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+    }
+
+    .theming-hints {
+        margin-top: 20px;
+    }
+
+    .image-preview {
+        display: inline-block;
+        width: 80px;
+        height: 36px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+}
+
+/* transition effects for theming value changes */
+#header {
+    transition: background-color 500ms linear;
+    svg, img {
+        transition: 500ms filter linear;
+    }
+}

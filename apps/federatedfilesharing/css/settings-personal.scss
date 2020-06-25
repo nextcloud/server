@@ -1,0 +1,39 @@
+#fileSharingSettings h2 {
+	display: inline-block;
+}
+
+#fileSharingSettings img {
+	cursor: pointer;
+}
+
+#fileSharingSettings xmp {
+	margin-top: 0;
+	white-space: pre-wrap;
+}
+
+#fileSharingSettings .icon {
+	background-size: 16px 16px;
+	display: inline-block;
+	position: relative;
+	top: 3px;
+	margin-left: 5px;
+}
+
+[class^="social-"], [class*=" social-"] {
+	background-repeat: no-repeat;
+	background-position: 8px;
+	min-width: 16px;
+	min-height: 16px;
+	padding-left: 28px;
+	background-size: 16px;
+}
+
+.social-diaspora {
+	@include icon-color('social-diaspora', 'federatedfilesharing', $color-black);
+}
+.social-twitter {
+    @include icon-color('social-twitter', 'federatedfilesharing', $color-black);
+}
+.social-facebook {
+	@include icon-color('social-facebook', 'federatedfilesharing', $color-black);
+}

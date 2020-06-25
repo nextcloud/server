@@ -1,0 +1,45 @@
+#!/usr/bin/php
+<?php
+
+$timeout = 60;
+
+switch ($argc) {
+case 4:
+	$timeout = (float)$argv[3];
+case 3:
+	$host = $argv[1];
+	$port = (int)$argv[2];
+	break;
+default:
+	fwrite(STDERR, 'Usage: '.$argv[0].' host port [timeout]'."\n");
+	exit(2);
+}
+
+if ($timeout < 0) {
+	fwrite(STDERR, 'Timeout must be greater than zero'."\n");
+	exit(2);
+}
+if ($port < 1) {
+	fwrite(STDERR, 'Port must be an integer greater than zero'."\n");
+	exit(2);
+}
+
+$socketTimeout = (float)ini_get('default_socket_timeout');
+if ($socketTimeout > $timeout) {
+	$socketTimeout = $timeout;
+}
+
+$stopTime = time() + $timeout;
+do {
+	$sock = @fsockopen($host, $port, $errno, $errstr, $socketTimeout);
+	if ($sock !== false) {
+		fclose($sock);
+		fwrite(STDOUT, "\n");
+		exit(0);
+	}
+	sleep(1);
+	fwrite(STDOUT, '.');
+} while (time() < $stopTime);
+
+fwrite(STDOUT, "\n");
+exit(1);

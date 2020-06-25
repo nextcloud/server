@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>dav</id>
+	<name>WebDAV</name>
+	<summary>WebDAV endpoint</summary>
+	<description>WebDAV endpoint</description>
+	<version>1.16.0</version>
+	<licence>agpl</licence>
+	<author>owncloud.org</author>
+	<namespace>DAV</namespace>
+	<default_enable/>
+	<types>
+		<filesystem/>
+	</types>
+	<category>integration</category>
+	<bugs>https://github.com/nextcloud/server/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="20" max-version="20"/>
+	</dependencies>
+
+	<background-jobs>
+		<job>OCA\DAV\BackgroundJob\CleanupDirectLinksJob</job>
+		<job>OCA\DAV\BackgroundJob\UpdateCalendarResourcesRoomsBackgroundJob</job>
+		<job>OCA\DAV\BackgroundJob\CleanupInvitationTokenJob</job>
+		<job>OCA\DAV\BackgroundJob\EventReminderJob</job>
+	</background-jobs>
+
+	<repair-steps>
+		<post-migration>
+			<step>OCA\DAV\Migration\FixBirthdayCalendarComponent</step>
+			<step>OCA\DAV\Migration\RegenerateBirthdayCalendars</step>
+			<step>OCA\DAV\Migration\CalDAVRemoveEmptyValue</step>
+			<step>OCA\DAV\Migration\BuildCalendarSearchIndex</step>
+			<step>OCA\DAV\Migration\RefreshWebcalJobRegistrar</step>
+			<step>OCA\DAV\Migration\RegisterBuildReminderIndexBackgroundJob</step>
+			<step>OCA\DAV\Migration\RemoveOrphanEventsAndContacts</step>
+			<step>OCA\DAV\Migration\RemoveClassifiedEventActivity</step>
+		</post-migration>
+		<live-migration>
+			<step>OCA\DAV\Migration\ChunkCleanup</step>
+		</live-migration>
+	</repair-steps>
+
+	<commands>
+		<command>OCA\DAV\Command\CreateAddressBook</command>
+		<command>OCA\DAV\Command\CreateCalendar</command>
+		<command>OCA\DAV\Command\MoveCalendar</command>
+		<command>OCA\DAV\Command\ListCalendars</command>
+		<command>OCA\DAV\Command\SendEventReminders</command>
+		<command>OCA\DAV\Command\SyncBirthdayCalendar</command>
+		<command>OCA\DAV\Command\SyncSystemAddressBook</command>
+		<command>OCA\DAV\Command\RemoveInvalidShares</command>
+	</commands>
+
+	<settings>
+		<admin>OCA\DAV\Settings\CalDAVSettings</admin>
+	</settings>
+
+	<activity>
+		<settings>
+			<setting>OCA\DAV\CalDAV\Activity\Setting\Calendar</setting>
+			<setting>OCA\DAV\CalDAV\Activity\Setting\Event</setting>
+			<setting>OCA\DAV\CalDAV\Activity\Setting\Todo</setting>
+		</settings>
+
+		<filters>
+			<filter>OCA\DAV\CalDAV\Activity\Filter\Calendar</filter>
+			<filter>OCA\DAV\CalDAV\Activity\Filter\Todo</filter>
+		</filters>
+
+		<providers>
+			<provider>OCA\DAV\CalDAV\Activity\Provider\Calendar</provider>
+			<provider>OCA\DAV\CalDAV\Activity\Provider\Event</provider>
+			<provider>OCA\DAV\CalDAV\Activity\Provider\Todo</provider>
+		</providers>
+	</activity>
+
+	<public>
+		<webdav>appinfo/v1/publicwebdav.php</webdav>
+	</public>
+</info>

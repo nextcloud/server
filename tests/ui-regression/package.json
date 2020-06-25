@@ -1,0 +1,20 @@
+{
+    "name": "ui-regression",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha test/"
+    },
+    "author": "",
+    "dependencies": {
+        "chai": "^4.1.2",
+        "mocha": "^5.2.0",
+        "mocha-json-report": "0.0.2",
+        "pixelmatch": "^5.0.2",
+        "png-js": "^0.1.1",
+        "pngjs2": "^2.0.0",
+        "polyserve": "^0.27.13",
+        "puppeteer": "^1.6.1"
+    }
+}

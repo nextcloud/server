@@ -1,0 +1,695 @@
+/**
+ * @copyright Copyright (c) 2016, John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2016, Julius Haertl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2016, Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016, Jos Poortvliet <jos@opensuse.org>
+ * @copyright Copyright (c) 2016, Erik Pellikka <erik@pellikka.org>
+ * @copyright Copyright (c) 2016, jowi <sjw@gmx.ch>
+ * @copyright Copyright (c) 2015, Hendrik Leppelsack <hendrik@leppelsack.de>
+ * @copyright Copyright (c) 2015, Volker E <volker.e@temporaer.net>
+ * @copyright Copyright (c) 2014-2017, Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ */
+
+/* prevent ugly selection effect on accidental selection */
+#header,
+#navigation,
+#expanddiv {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+/* removed until content-focusing issue is fixed */
+#skip-to-content a {
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	&:focus {
+		left: 76px;
+		top: -9px;
+		color: var(--color-primary-text);
+		width: auto;
+		height: auto;
+	}
+}
+
+/* HEADERS ------------------------------------------------------------------ */
+#body-user #header,
+#body-settings #header,
+#body-public #header {
+	display: inline-flex;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 2000;
+	height: $header-height;
+	background-color: var(--color-primary);
+	background-image: linear-gradient(40deg, var(--color-primary) 0%, var(--color-primary-element-light) 100%);
+	box-sizing: border-box;
+	justify-content: space-between;
+}
+
+/* LOGO and APP NAME -------------------------------------------------------- */
+#nextcloud {
+	padding: 7px 0;
+	padding-left: 86px; // logo width + 2* pa
+	position: relative;
+	height: 100%;
+	box-sizing: border-box;
+	opacity: 1;
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	overflow: hidden;
+
+	&:focus {
+		opacity: .75;
+	}
+	&:hover, &:active {
+		opacity: 1;
+	}
+}
+
+@mixin header-menu-height() {
+	min-height: calc(44px * 1.5); // show at least 1.5 entries
+	max-height: calc(100vh - #{$header-height} * 2);
+}
+
+#header {
+	/* Header menu */
+	$header-menu-entry-height: 44px;
+
+	.header-left > nav > .menu,
+	.header-right > div > .menu {
+		background-color: var(--color-main-background);
+		filter: drop-shadow(0 1px 5px var(--color-box-shadow));
+		border-radius: 0 0 var(--border-radius) var(--border-radius);
+		box-sizing: border-box;
+		z-index: 2000;
+		position: absolute;
+		max-width: 350px;
+		@include header-menu-height();
+		right: 5px; // relative to parent
+		top: $header-height;
+		margin: 0;
+
+		&:not(.popovermenu) {
+			display: none;
+		}
+
+		/* Dropdown arrow */
+		&:after {
+			border: 10px solid transparent;
+			border-bottom-color: var(--color-main-background);
+			bottom: 100%;
+			content: ' ';
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			right: 10px;
+		}
+
+		#apps > ul,
+		& > div,
+		& > ul {
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch;
+			@include header-menu-height();
+		}
+
+		/* Use by the apps menu and the settings right menu */
+		#apps > ul,
+		&.settings-menu > ul {
+			li {
+				a {
+					display: inline-flex;
+					align-items: center;
+					height: $header-menu-entry-height;
+					color: var(--color-main-text);
+					padding: 10px 12px;
+					box-sizing: border-box;
+					opacity: .7;
+					white-space: nowrap;
+					position: relative;
+					width: 100%;
+					&:hover,
+					&:focus,
+					&:active,
+					&.active {
+						opacity: 1;
+						box-shadow: inset 4px 0 var(--color-primary-element);
+					}
+					span {
+						display: inline-block;
+						padding-bottom: 0;
+						color: var(--color-main-text);
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						max-width: 110px;
+					}
+					.icon-loading-small {
+						margin-right: 10px;
+						background-size: 16px 16px;
+					}
+					img,
+					svg {
+						opacity: .7;
+						margin-right: 10px;
+						height: 16px;
+						width: 16px;
+					}
+				}
+			}
+		}
+	}
+	.logo {
+		display: inline-flex;
+		background-image: var(--image-logo);
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+		width: 62px;
+		position: absolute;
+		left: 12px;
+		top: 1px;
+		bottom: 1px;
+
+		img {
+			opacity: 0;
+			max-width: 100%;
+			max-height: 200px;
+		}
+	}
+
+	.header-appname-container {
+		display: none;
+		padding-right: 10px;
+		flex-shrink: 0;
+	}
+	/* show caret indicator next to logo to make clear it is tappable */
+	.icon-caret {
+		display: inline-block;
+		width: 12px;
+		height: 12px;
+		margin: 0;
+		margin-top: -21px;
+		padding: 0;
+		vertical-align: middle;
+	}
+
+	#header-left, .header-left,
+	#header-right, .header-right {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	#header-left, .header-left {
+		flex: 1 0;
+		white-space: nowrap;
+		min-width: 0;
+	}
+
+	#header-right, .header-right {
+		justify-content: flex-end;
+		flex-shrink: 1;
+	}
+
+	/* Right header standard */
+	.header-right {
+		> div,
+		> form {
+			height: 100%;
+			position: relative;
+			> .menutoggle {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: $header-height;
+				height: 100%;
+				cursor: pointer;
+				opacity: 0.6;
+				padding: 0;
+				margin: 0;
+			}
+		}
+	}
+}
+
+/* hover effect for app switcher label */
+
+.header-appname-container .header-appname {
+	opacity: .75;
+}
+
+.menutoggle {
+	.icon-caret {
+		opacity: .75;
+	}
+	&:hover {
+		.header-appname, .icon-caret {
+			opacity: 1;
+		}
+	}
+	&:focus {
+		.header-appname, .icon-caret {
+			opacity: 1;
+		}
+	}
+	&.active {
+		.header-appname, .icon-caret {
+			opacity: 1;
+		}
+	}
+}
+
+/* TODO: move into minimal css file for public shared template */
+/* only used for public share pages now as we have the app icons when logged in */
+.header-appname {
+	color: var(--color-primary-text);
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+	padding-right: 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	// Take full width to push the header-shared-by bellow (if any)
+	flex: 1 1 100%;
+}
+
+.header-shared-by  {
+	color: var(--color-primary-text);
+	position: relative;
+	font-weight: 300;
+	font-size: 11px;
+	line-height: 11px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* do not show menu toggle on public share links as there is no menu */
+#body-public #header .icon-caret {
+	display: none;
+}
+
+/* NAVIGATION --------------------------------------------------------------- */
+nav[role='navigation'] {
+	display: inline-block;
+	width: $header-height;
+	height: $header-height;
+	margin-left: -$header-height;
+	position: relative;
+}
+
+#header .header-left > nav > #navigation {
+	position: relative;
+	left: 25px; /* half the togglemenu */
+	transform: translateX(-50%);
+	width: 160px;
+}
+
+#header .header-left > nav > #navigation,
+.ui-datepicker,
+.ui-timepicker.ui-widget {
+	background-color: var(--color-main-background);
+	filter: drop-shadow(0 1px 10px var(--color-box-shadow));
+	&:after {
+		/* position of dropdown arrow */
+		left: 50%;
+		bottom: 100%;
+		border: solid transparent;
+		content: ' ';
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+		border-color: rgba(0, 0, 0, 0);
+		border-bottom-color: var(--color-main-background);
+		border-width: 10px;
+		margin-left: -10px; /* border width */
+	}
+}
+
+#navigation {
+	box-sizing: border-box;
+	.in-header {
+		display: none;
+	}
+}
+
+/* USER MENU -----------------------------------------------------------------*/
+#settings {
+	display: inline-block;
+	height: 100%;
+	cursor: pointer;
+	flex: 0 0 auto;
+
+	/* User menu on the right */
+	#expand {
+		opacity: 1; /* override icon opacity */
+		padding-right: 12px;
+
+		&:hover,
+		&:focus,
+		&:active {
+			color: var(--color-primary-text);
+
+			#expandDisplayName,
+			.avatardiv{
+				border-radius: 50%;
+				border: 2px solid var(--color-primary-text);
+				margin: -2px;
+			}
+			.avatardiv{
+				background-color: var(--color-primary-text);
+			}
+			#expandDisplayName {
+				opacity: 1;
+			}
+		}
+
+		/* Profile picture in header */
+		.avatardiv {
+			cursor: pointer;
+			height: 32px;
+			width: 32px;
+
+			img {
+				opacity: 1;
+				cursor: pointer;
+			}
+			/* do not show display name when profile picture is present */
+			&.avatardiv-shown + #expandDisplayName {
+				display: none;
+			}
+		}
+
+		#expandDisplayName {
+			padding: 8px;
+			opacity: .6;
+			cursor: pointer;
+
+			/* full opacity for gear icon if active */
+			#body-settings & {
+				opacity: 1;
+			}
+		}
+
+		/* show triangle below user menu if active */
+		#body-settings &:before {
+			content: ' ';
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border: 0 solid transparent;
+			border-bottom-color: var(--color-main-background);
+			border-width: 10px;
+			bottom: 0;
+			z-index: 100;
+			display: block;
+		}
+	}
+
+	#expanddiv:after {
+		right: 22px;
+	}
+}
+
+/* Apps menu */
+#appmenu {
+	display: inline-flex;
+	min-width: $header-height;
+	z-index: 2;
+
+	li {
+		position: relative;
+		cursor: pointer;
+		margin: 0 2px;
+		display: flex;
+		justify-content: center;
+
+		a {
+			position: relative;
+			display: flex;
+			margin: 0;
+			height: $header-height;
+			width: $header-height;
+			align-items: center;
+			justify-content: center;
+			opacity: .6;
+		}
+
+		/* focused app visual feedback */
+		&:hover a,
+		a:focus,
+		a.active {
+			opacity: 1;
+		}
+
+		&:hover a + span,
+		a:focus + span,
+		&:hover span,
+		&:focus span,
+		a:focus span {
+			display: inline-block;
+			text-overflow: initial;
+			width: auto;
+			overflow: hidden;
+			padding: 0 5px;
+			z-index: 2;
+		}
+
+		/* hidden apps menu */
+		img,
+		.icon-more-white {
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+		}
+
+		/* App title */
+		span {
+			opacity: 0;
+			position: absolute;
+			color: var(--color-primary-text);
+			bottom: 2px;
+			width: calc(100% - 4px);
+			text-align: center;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			transition: all var(--animation-quick) ease;
+			pointer-events: none;
+		}
+
+		/* Set up transitions for showing app titles on hover */
+		/* App icon */
+		svg,
+		.icon-more-white {
+			transition: transform var(--animation-quick) ease;
+		}
+
+		/* Triangle */
+		a::before {
+			transition: border var(--animation-quick) ease;
+		}
+	}
+
+	/* Show all app titles on hovering app menu area */
+	&:hover {
+		li {
+			/* Move up app icon */
+			svg,
+			.icon-more,
+			.icon-more-white,
+			.icon-loading-small,
+			.icon-loading-small-dark {
+				transform: translateY(-7px);
+			}
+
+			/* Show app title */
+			span {
+				opacity: .6;
+				bottom: 2px;
+				z-index: -1; /* fix clickability issue - otherwise we need to move the span into the link */
+			}
+
+			/* Prominent app title for current and hovered/focused app */
+			&:hover span,
+			&:focus span,
+			.active + span {
+				opacity: 1;
+			}
+
+			/* Smaller triangle because of limited space */
+			a::before {
+				border-width: 5px;
+			}
+		}
+	}
+
+	/* Also show app title on focusing single entry (showing all on focus is only possible with CSS4 and parent selectors) */
+	li a:focus {
+		/* Move up app icon */
+		svg,
+		.icon-more,
+		.icon-more-white,
+		.icon-loading-small,
+		.icon-loading-small-dark {
+			transform: translateY(-7px);
+		}
+
+		/* Show app title */
+		& + span,
+		span {
+			opacity: 1;
+			bottom: 2px;
+		}
+
+		/* Smaller triangle because of limited space */
+		&::before {
+			border-width: 5px;
+		}
+	}
+
+	/* show triangle below active app */
+	li a::before {
+		content: ' ';
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+		border: 0 solid transparent;
+		border-bottom-color: var(--color-main-background);
+		border-width: 10px;
+		transform: translateX(-50%);
+		left: 50%;
+		bottom: 0;
+		display: none;
+	}
+
+	/* triangle focus feedback */
+	li a.active::before,
+	li:hover a::before,
+	li:hover a.active::before,
+	li a:focus::before {
+		display: block;
+	}
+	li a.active::before {
+		z-index: 99;
+	}
+	li:hover a::before,
+	li a.active:hover::before,
+	li a:focus::before {
+		z-index: 101;
+	}
+
+	li.hidden {
+		display: none;
+	}
+
+	#more-apps {
+		z-index: 3;
+	}
+}
+
+/* Skip navigation links – show only on keyboard focus */
+.skip-navigation {
+	padding: 11px;
+	position: absolute;
+	overflow: hidden;
+	z-index: 9999;
+	top: -999px;
+	left: 3px;
+	/* Force primary color, otherwise too light focused color */
+	background: var(--color-primary) !important;
+
+	&.skip-content {
+		left: $navigation-width;
+		margin-left: 3px;
+	}
+
+	&:focus,
+	&:active {
+		top: $header-height;
+	}
+}
+
+/* SEARCHBOX --------------------------------------------------------------- */
+.searchbox {
+	position: relative;
+	display: flex;
+	align-items: center;
+	input[type='search'] {
+		position: relative;
+		font-size: 1.2em;
+		padding: 3px;
+		padding-left: 25px;
+		padding-right: 20px;
+		background-color: transparent;
+		color: var(--color-primary-text);
+		border: 0;
+		border-radius: var(--border-radius-pill);
+		height: 34px;
+		width: 0;
+		cursor: pointer;
+		transition: width 100ms, opacity 100ms;
+		opacity: .6;
+		&:focus, &:active, &:valid {
+			background-position-x: 6px;
+			color: var(--color-primary-text);
+			width: 155px;
+			cursor: text;
+			background-color: transparent !important;
+			border: 1px solid var(--color-primary-text) !important;
+		}
+		&:hover, &:focus, &:active {
+			opacity: 1;
+		}
+		& ~ .icon-close-white {
+			display: inline;
+			position: absolute;
+			width: 30px;
+			height: 100%;
+			right: 0;
+			top: 0;
+			margin: 0;
+			&, &:focus, &:active, &:hover {
+				border: none;
+				background-color: transparent;
+			}
+		}
+		&:not(:valid) ~ .icon-close-white {
+			display: none;
+		}
+		&::-webkit-search-cancel-button {
+			-webkit-appearance: none;
+		}
+	}
+	.icon-search-force-white {
+		@include icon-color('search', 'actions', '#fffffe', 1, true);
+	}
+}
+
+/* Empty content messages in the header e.g. notifications, contacts menu, … */
+header #emptycontent,
+header .emptycontent {
+	h2 {
+		font-weight: normal;
+		font-size: 16px;
+	}
+	[class^='icon-'],
+	[class*='icon-'] {
+		background-size: 48px;
+		height: 48px;
+		width: 48px;
+	}
+}

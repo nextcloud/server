@@ -1,0 +1,103 @@
+/*
+ * @copyright Copyright (c) 2018 Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
+#searchresults {
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+	padding-top: 51px; /* table row is 51px height */
+	box-sizing: border-box;
+	z-index: 75;
+	/* account for margin-bottom in files list */
+	margin-top: -250px;
+	table {
+		border-spacing: 0;
+		padding-left: 41px;
+		table-layout: fixed;
+		top: 0;
+		width: 100%;
+	}
+	tr {
+		&.result {
+			border-bottom: 1px solid var(--color-border);
+			* {
+				cursor: pointer;
+			}
+		}
+		&.template {
+			display: none;
+		}
+		&:hover,
+		&.current {
+			background-color: var(--color-primary-light);
+		}
+		td {
+			padding: 5px 9px;
+			font-style: normal;
+			vertical-align: middle;
+			border-bottom: none;
+			&.icon {
+				text-align: right;
+				width: 40px;
+				height: 40px;
+				padding: 5px 0;
+				background-position: right center;
+				background-repeat: no-repeat;
+			}
+			.has-selection:not(.hidden) ~ &.icon {
+				width: 50px;
+				padding-left: 41px;
+				background-size: 32px;
+			}
+		}
+
+		.name,
+		.text,
+		.path {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.text {
+			white-space: normal;
+			color: var(--color-primary-text);
+		}
+		.path {
+			opacity: 0.5;
+		}
+		.text em {
+			color: var(--color-primary-text);
+			font-weight: bold;
+			opacity: 1;
+		}
+	}
+	.hidden {
+		display: none;
+	}
+	&.filter-empty {
+		/* remove whitespace on bottom when no search results, to fix layout */
+		margin-top: 0 !important;
+	}
+	.status.summary .info {
+		margin-left: 100px;
+	}
+}

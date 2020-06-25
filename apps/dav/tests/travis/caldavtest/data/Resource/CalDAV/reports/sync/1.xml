@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<D:propfind xmlns:D="DAV:">
+	<D:prop>
+		<D:supported-report-set/>
+		<D:sync-token/>
+	</D:prop>
+</D:propfind>

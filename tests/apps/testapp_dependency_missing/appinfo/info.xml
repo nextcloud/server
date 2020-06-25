@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>testapp_infoxml</id>
+	<name>Test app</name>
+	<summary>A b c</summary>
+	<description>A b c</description>
+	<version>1.2.3</version>
+	<licence>agpl</licence>
+	<author>Jane</author>
+	<category>games</category>
+	<bugs>https://example.org</bugs>
+</info>

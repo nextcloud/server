@@ -1,0 +1,18 @@
+{ "translations": {
+    "Your client is not authorized to connect. Please inform the administrator of your client." : "Ваш клиент не авторизован для соединения. Пожалуйста, сообщите о вашем клиенте администратору.",
+    "Your redirect URL needs to be a full URL for example: https://yourdomain.com/path" : "Ваш перенаправляющий URL должен быть полным, например: https://yourdomain.com/path",
+    "OAuth 2.0" : "OAuth 2.0",
+    "Allows OAuth2 compatible authentication from other web applications." : "Разрешает аутентификацию, совместимую с OAuth2, из других веб-приложений.",
+    "The OAuth2 app allows administrators to configure the built-in authentication workflow to also allow OAuth2 compatible authentication from other web applications." : "Приложение OAuth2 позволяет администраторам настроить встроенный процесс проверки подлинности, чтобы также обеспечить совместимость OAuth2 с другими веб-приложениями.",
+    "OAuth 2.0 clients" : "Клиенты OAuth 2.0",
+    "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 позволяет внешним службам запрашивать доступ к {instanceName}.",
+    "Name" : "Имя",
+    "Redirection URI" : "URI перенаправления",
+    "Client Identifier" : "Идентификатор клиента",
+    "Secret" : "Секрет",
+    "Add client" : "Добавить клиента",
+    "Add" : "Добавить",
+    "Show client secret" : "Показать секретный ключ клиента",
+    "Delete" : "Удалить"
+},"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
+}

@@ -1,0 +1,157 @@
+# the default generated dir + db file
+/data
+/config/config.php
+/config/*.config.php
+/config/mimetype*.json
+/config/mount.php
+/apps/inc.php
+/assets
+/.htaccess
+/node_modules
+/translationfiles
+/translationtool.phar
+
+# ignore all apps except core ones
+/apps*/*
+!/apps/accessibility
+!/apps/cloud_federation_api
+!/apps/comments
+!/apps/contactsinteraction
+!/apps/dav
+!/apps/files
+!/apps/federation
+!/apps/federatedfilesharing
+!/apps/sharebymail
+!/apps/encryption
+!/apps/files_external
+!/apps/files_sharing
+!/apps/files_trashbin
+!/apps/files_versions
+!/apps/lookup_server_connector
+!/apps/user_ldap
+!/apps/oauth2
+!/apps/provisioning_api
+!/apps/settings
+!/apps/systemtags
+!/apps/testing
+!/apps/admin_audit
+!/apps/updatenotification
+!/apps/theming
+!/apps/twofactor_backupcodes
+!/apps/workflowengine
+/apps/files_external/3rdparty/irodsphp/PHPUnitTest
+/apps/files_external/3rdparty/irodsphp/web
+/apps/files_external/3rdparty/irodsphp/prods/test
+/apps/files_external/3rdparty/irodsphp/prods/tutorials
+/apps/files_external/3rdparty/irodsphp/prods/test*
+/apps/files_external/tests/config.*.php
+
+# apps modules
+/apps/*/node_modules
+
+
+# ignore themes except the example and the README
+/themes/*
+!/themes/example
+!/themes/README
+
+# just sane ignores
+.*.sw[po]
+*.bak
+*.BAK
+*~
+*.orig
+*.class
+.cvsignore
+Thumbs.db
+*.py[co]
+_darcs/*
+CVS/*
+.svn/*
+RCS/*
+*.backup*
+.php_cs.cache
+
+# kdevelop
+.kdev
+*.kdev4
+*.kate-swp
+
+# Lokalize
+*lokalize*
+
+# eclipse
+.project
+.settings
+
+# netbeans
+nbproject
+
+# phpStorm
+.idea
+*.iml
+
+# vscode
+.vscode
+
+# geany
+*.geany
+
+# Cloud9IDE
+.settings.xml
+.c9revisions
+
+# vim ex mode
+.vimrc
+
+# ack(-grep)
+.ackrc
+
+# Mac OS
+.DS_Store
+
+# WebFinger
+.well-known
+/.buildpath
+
+# Tests
+/tests/phpunit.xml
+
+# Node Modules
+/build/node_modules/
+
+# nodejs
+/build/bin
+/build/lib/
+/build/jsdocs/
+/npm-debug.log
+/PhantomJS_*
+/build/package-lock.json
+
+# puphpet
+puphpet
+
+# vagrant
+.vagrant
+Vagrantfile
+
+# Tests - auto-generated files
+/data-autotest
+/tests/.phpunit.result.cache
+/tests/coverage*
+/tests/css
+/tests/karma-coverage
+/tests/autoconfig*
+/tests/autotest*
+/tests/data/lorem-copy.txt
+/tests/data/testimage-copy.png
+/tests/ui-regression/out/
+/tests/ui-regression/node_modules/
+/tests/ui-regression/package-lock.json
+/config/config-autotest-backup.php
+/config/autoconfig.php
+clover.xml
+
+# Tests - dependencies
+tests/acceptance/composer.lock
+tests/acceptance/vendor/

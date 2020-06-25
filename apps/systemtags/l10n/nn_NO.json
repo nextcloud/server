@@ -1,0 +1,7 @@
+{ "translations": {
+    "Tags" : "Emneord",
+    "Name" : "Namn",
+    "Size" : "Storleik",
+    "Modified" : "Endra"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
