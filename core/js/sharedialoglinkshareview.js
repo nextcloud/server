@@ -882,7 +882,9 @@
 			var publicUploadRChecked = '';
 			var publicUploadWChecked = '';
 
-			switch (this.model.linkSharePermissions(share.id)) {
+			// Public upload status is independent of the share permission,
+			// which is used for federated shares.
+			switch (this.model.linkSharePermissions(share.id) & ~OC.PERMISSION_SHARE) {
 				case OC.PERMISSION_READ:
 					publicUploadRChecked = 'checked';
 					break;
