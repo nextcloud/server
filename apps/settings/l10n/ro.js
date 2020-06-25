@@ -232,6 +232,7 @@ OC.L10N.register(
     "Full name" : "Nume complet",
     "Your email address" : "Adresa ta de email",
     "No email address set" : "Fără adresă de email setată",
+    "For password reset and notifications" : "Pentru resetare parolă și notificări",
     "Phone number" : "Număr telefon",
     "Your phone number" : "Numărul tău de telefon",
     "Address" : "Adresă",
