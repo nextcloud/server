@@ -32,32 +32,38 @@ namespace OCP\Dashboard;
 interface IPanel {
 
 	/**
-	 * @return string
+	 * @return string Unique id that identifies the panel, e.g. the app id
 	 * @since 20.0.0
 	 */
 	public function getId(): string;
 
 	/**
-	 * @return string
+	 * @return string User facing title of the panel
 	 * @since 20.0.0
 	 */
 	public function getTitle(): string;
 
 	/**
-	 * @return int
+	 * @return int Initial order for panel sorting
 	 * @since 20.0.0
 	 */
 	public function getOrder(): int;
 
 	/**
-	 * @return string
+	 * @return string css class that displays an icon next to the panel title
 	 * @since 20.0.0
 	 */
 	public function getIconClass(): string;
 
 	/**
-	 * @return string The absolute url to the apps own view
+	 * @return string|null The absolute url to the apps own view
 	 * @since 20.0.0
 	 */
-	public function getUrl(): string;
+	public function getUrl(): ?string;
+
+	/**
+	 * Execute panel bootstrap code like loading scripts and providing initial state
+	 * @since 20.0.0
+	 */
+	public function load(): void;
 }

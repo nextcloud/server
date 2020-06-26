@@ -23,11 +23,13 @@
 
 namespace OC\Dashboard;
 
+use InvalidArgumentException;
 use OCP\AppFramework\QueryException;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IPanel;
 use OCP\ILogger;
 use OCP\IServerContainer;
+use Throwable;
 
 class Manager implements IManager {
 
@@ -46,7 +48,7 @@ class Manager implements IManager {
 
 	private function registerPanel(IPanel $panel): void {
 		if (array_key_exists($panel->getId(), $this->panels)) {
-			throw new \InvalidArgumentException('Dashboard panel with this id has already been registered');
+			throw new InvalidArgumentException('Dashboard panel with this id has already been registered');
 		}
 
 		$this->panels[$panel->getId()] = $panel;
@@ -85,6 +87,15 @@ class Manager implements IManager {
 				 */
 				\OC::$server->getLogger()->logException($e, [
 					'message' => 'Could not register lazy dashboard panel: ' . $e->getMessage(),
+					'level' => ILogger::FATAL,
+				]);
+			}
+
+			try {
+				$panel->load();
+			} catch (Throwable $e) {
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Error during dashboard panel loading: ' . $e->getMessage(),
 					'level' => ILogger::FATAL,
 				]);
 			}
