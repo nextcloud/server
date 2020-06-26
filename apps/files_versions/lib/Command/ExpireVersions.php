@@ -74,7 +74,7 @@ class ExpireVersions extends Command {
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
 			$output->writeln("No expiry configured.");
-			return;
+			return 1;
 		}
 
 		$users = $input->getArgument('user_id');
