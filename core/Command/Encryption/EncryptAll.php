@@ -106,14 +106,14 @@ class EncryptAll extends Command {
 		);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if (!$input->isInteractive()) {
 			$output->writeln('Invalid TTY.');
 			$output->writeln('If you are trying to execute the command in a Docker ');
 			$output->writeln("container, do not forget to execute 'docker exec' with");
 			$output->writeln("the '-i' and '-t' options.");
 			$output->writeln('');
-			return;
+			return 1;
 		}
 
 		if ($this->encryptionManager->isEnabled() === false) {
@@ -141,6 +141,8 @@ class EncryptAll extends Command {
 			$this->resetMaintenanceAndTrashbin();
 		} else {
 			$output->writeln('aborted');
+			return 1;
 		}
+		return 0;
 	}
 }

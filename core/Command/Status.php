@@ -38,7 +38,7 @@ class Status extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$values = [
 			'installed' => (bool) \OC::$server->getConfig()->getSystemValue('installed', false),
 			'version' => implode('.', \OCP\Util::getVersion()),
@@ -47,5 +47,6 @@ class Status extends Base {
 		];
 
 		$this->writeArrayInOutputFormat($input, $output, $values);
+		return 0;
 	}
 }

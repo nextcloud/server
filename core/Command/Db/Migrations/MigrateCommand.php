@@ -55,12 +55,13 @@ class MigrateCommand extends Command implements CompletionAwareInterface {
 		parent::configure();
 	}
 
-	public function execute(InputInterface $input, OutputInterface $output) {
+	public function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$ms = new MigrationService($appName, $this->connection, new ConsoleOutput($output));
 		$version = $input->getArgument('version');
 
 		$ms->migrate($version);
+		return 0;
 	}
 
 	/**

@@ -48,8 +48,8 @@ abstract class Base extends Command {
 	 * @param \OCP\IConfig $config
 	 */
 	public function __construct(IConfig $config) {
-		$this->config = $config;
 		parent::__construct();
+		$this->config = $config;
 	}
 
 	protected function configure() {
@@ -67,9 +67,10 @@ abstract class Base extends Command {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$mode = $this->getMode();
 		$this->config->setAppValue('core', 'backgroundjobs_mode', $mode);
 		$output->writeln("Set mode for background jobs to '$mode'");
+		return 0;
 	}
 }

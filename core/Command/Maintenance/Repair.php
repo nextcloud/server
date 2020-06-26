@@ -79,7 +79,7 @@ class Repair extends Command {
 				'Use this option when you want to include resource and load expensive tasks');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$repairSteps = $this->repair::getRepairSteps();
 
 		if ($input->getOption('include-expensive')) {
@@ -126,6 +126,7 @@ class Repair extends Command {
 		$this->repair->run();
 
 		$this->config->setSystemValue('maintenance', $maintenanceMode);
+		return 0;
 	}
 
 	public function handleRepairFeedBack($event) {

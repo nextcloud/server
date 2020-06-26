@@ -59,12 +59,12 @@ class ListModules extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isMaintenanceModeEnabled = $this->config->getSystemValue('maintenance', false);
 		if ($isMaintenanceModeEnabled) {
 			$output->writeln("Maintenance mode must be disabled when listing modules");
 			$output->writeln("in order to list the relevant encryption modules correctly.");
-			return;
+			return 1;
 		}
 
 		$encryptionModules = $this->encryptionManager->getEncryptionModules();
@@ -76,6 +76,7 @@ class ListModules extends Base {
 			$encModules[$module['id']]['default'] = $module['id'] === $defaultEncryptionModuleId;
 		}
 		$this->writeModuleList($input, $output, $encModules);
+		return 0;
 	}
 
 	/**

@@ -55,18 +55,19 @@ class Delete extends Command {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $this->userManager->get($input->getArgument('uid'));
 		if (is_null($user)) {
 			$output->writeln('<error>User does not exist</error>');
-			return;
+			return 0;
 		}
 
 		if ($user->delete()) {
 			$output->writeln('<info>The specified user was deleted</info>');
-			return;
+			return 0;
 		}
 
 		$output->writeln('<error>The specified user could not be deleted. Please check the logs.</error>');
+		return 1;
 	}
 }

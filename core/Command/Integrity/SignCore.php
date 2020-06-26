@@ -67,13 +67,13 @@ class SignCore extends Command {
 	/**
 	 * {@inheritdoc }
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$privateKeyPath = $input->getOption('privateKey');
 		$keyBundlePath = $input->getOption('certificate');
 		$path = $input->getOption('path');
 		if (is_null($privateKeyPath) || is_null($keyBundlePath) || is_null($path)) {
 			$output->writeln('--privateKey, --certificate and --path are required.');
-			return null;
+			return 1;
 		}
 
 		$privateKey = $this->fileAccessHelper->file_get_contents($privateKeyPath);
@@ -81,12 +81,12 @@ class SignCore extends Command {
 
 		if ($privateKey === false) {
 			$output->writeln(sprintf('Private key "%s" does not exists.', $privateKeyPath));
-			return null;
+			return 1;
 		}
 
 		if ($keyBundle === false) {
 			$output->writeln(sprintf('Certificate "%s" does not exists.', $keyBundlePath));
-			return null;
+			return 1;
 		}
 
 		$rsa = new RSA();

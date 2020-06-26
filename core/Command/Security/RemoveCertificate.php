@@ -50,9 +50,10 @@ class RemoveCertificate extends Base {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$name = $input->getArgument('name');
 
 		$this->certificateManager->removeCertificate($name);
+		return 0;
 	}
 }

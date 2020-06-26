@@ -73,7 +73,7 @@ class Manage extends Command implements CompletionAwareInterface {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// collate config setting to the end, to avoid partial configuration
 		$toBeSet = [];
 
@@ -114,6 +114,7 @@ class Manage extends Command implements CompletionAwareInterface {
 
 		$timezone = $this->config->getSystemValue('logtimezone', self::DEFAULT_TIMEZONE);
 		$output->writeln('Log timezone: '.$timezone);
+		return 0;
 	}
 
 	/**

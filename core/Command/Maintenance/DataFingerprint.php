@@ -48,7 +48,8 @@ class DataFingerprint extends Command {
 			->setDescription('update the systems data-fingerprint after a backup is restored');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->config->setSystemValue('data-fingerprint', md5($this->timeFactory->getTime()));
+		return 0;
 	}
 }

@@ -72,7 +72,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$toBeSet = [];
 
 		if ($input->getOption('enable')) {
@@ -115,6 +115,7 @@ class File extends Command implements Completion\CompletionAwareInterface {
 			$rotateString = 'disabled';
 		}
 		$output->writeln('Rotate at: '.$rotateString);
+		return 0;
 	}
 
 	/**

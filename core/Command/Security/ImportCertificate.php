@@ -49,17 +49,18 @@ class ImportCertificate extends Base {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$path = $input->getArgument('path');
 
 		if (!file_exists($path)) {
 			$output->writeln('<error>certificate not found</error>');
-			return;
+			return 1;
 		}
 
 		$certData = file_get_contents($path);
 		$name = basename($path);
 
 		$this->certificateManager->addCertificate($certData, $name);
+		return 0;
 	}
 }

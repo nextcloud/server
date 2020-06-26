@@ -71,7 +71,7 @@ class ConvertFilecacheBigInt extends Command {
 		];
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$schema = new SchemaWrapper($this->connection);
 		$isSqlite = $this->connection->getDatabasePlatform() instanceof SqlitePlatform;
 		$updates = [];

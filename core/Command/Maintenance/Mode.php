@@ -61,7 +61,7 @@ class Mode extends Command {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maintenanceMode = $this->config->getSystemValueBool('maintenance');
 		if ($input->getOption('on')) {
 			if ($maintenanceMode === false) {
@@ -84,5 +84,6 @@ class Mode extends Command {
 				$output->writeln('Maintenance mode is currently disabled');
 			}
 		}
+		return 0;
 	}
 }

@@ -69,12 +69,13 @@ class AddMissingIndices extends Command {
 			->setDescription('Add missing indices to the database tables');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->addCoreIndexes($output);
 
 		// Dispatch event so apps can also update indexes if needed
 		$event = new GenericEvent($output);
 		$this->dispatcher->dispatch(IDBConnection::ADD_MISSING_INDEXES_EVENT, $event);
+		return 0;
 	}
 
 	/**

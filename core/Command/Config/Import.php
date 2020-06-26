@@ -60,7 +60,7 @@ class Import extends Command implements CompletionAwareInterface {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$importFile = $input->getArgument('file');
 		if ($importFile !== null) {
 			$content = $this->getArrayFromFile($importFile);
@@ -72,7 +72,7 @@ class Import extends Command implements CompletionAwareInterface {
 			$configs = $this->validateFileContent($content);
 		} catch (\UnexpectedValueException $e) {
 			$output->writeln('<error>' . $e->getMessage(). '</error>');
-			return;
+			return 1;
 		}
 
 		if (!empty($configs['system'])) {
@@ -92,6 +92,7 @@ class Import extends Command implements CompletionAwareInterface {
 		}
 
 		$output->writeln('<info>Config successfully imported from: ' . $importFile . '</info>');
+		return 0;
 	}
 
 	/**

@@ -63,12 +63,13 @@ class AddMissingColumns extends Command {
 			->setDescription('Add missing optional columns to the database tables');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->addCoreColumns($output);
 
 		// Dispatch event so apps can also update columns if needed
 		$event = new GenericEvent($output);
 		$this->dispatcher->dispatch(IDBConnection::ADD_MISSING_COLUMNS_EVENT, $event);
+		return 0;
 	}
 
 	/**

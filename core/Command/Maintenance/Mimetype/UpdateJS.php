@@ -48,7 +48,7 @@ class UpdateJS extends Command {
 			->setDescription('Update mimetypelist.js');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// Fetch all the aliases
 		$aliases = $this->mimetypeDetector->getAllAliases();
 
@@ -57,5 +57,6 @@ class UpdateJS extends Command {
 		file_put_contents(\OC::$SERVERROOT.'/core/js/mimetypelist.js', $generatedMimetypeFile->generateFile($aliases));
 
 		$output->writeln('<info>mimetypelist.js is updated');
+		return 0;
 	}
 }
