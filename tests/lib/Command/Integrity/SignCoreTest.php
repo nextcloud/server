@@ -66,7 +66,7 @@ class SignCoreTest extends TestCase {
 			->method('writeln')
 			->with('--privateKey, --certificate and --path are required.');
 
-		$this->assertNull(self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithMissingCertificate() {
@@ -89,7 +89,7 @@ class SignCoreTest extends TestCase {
 			->method('writeln')
 			->with('--privateKey, --certificate and --path are required.');
 
-		$this->assertNull(self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithNotExistingPrivateKey() {
@@ -123,7 +123,7 @@ class SignCoreTest extends TestCase {
 			->method('writeln')
 			->with('Private key "privateKey" does not exists.');
 
-		$this->assertNull(self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithNotExistingCertificate() {
@@ -162,7 +162,7 @@ class SignCoreTest extends TestCase {
 			->method('writeln')
 			->with('Certificate "certificate" does not exists.');
 
-		$this->assertNull(self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithException() {
