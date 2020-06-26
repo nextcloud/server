@@ -178,7 +178,7 @@ class CapabilitiesTest extends TestCase {
 		$this->util->expects($this->exactly(3))
 			->method('elementColor')
 			->with($color)
-			->willReturnCallback(static function(string $color, bool $brightBackground = true) use ($util) {
+			->willReturnCallback(static function (string $color, bool $brightBackground = true) use ($util) {
 				return $util->elementColor($color, $brightBackground);
 			});
 
