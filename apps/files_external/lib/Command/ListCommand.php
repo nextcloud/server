@@ -96,7 +96,7 @@ class ListCommand extends Base {
 		parent::configure();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('all')) {
 			/** @var  $mounts StorageConfig[] */
 			$mounts = $this->globalService->getStorageForAllUsers();
@@ -110,6 +110,7 @@ class ListCommand extends Base {
 		}
 
 		$this->listMounts($userId, $mounts, $input, $output);
+		return 0;
 	}
 
 	/**

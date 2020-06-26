@@ -51,7 +51,7 @@ class DeleteOrphanedFiles extends Command {
 			->setDescription('cleanup filecache');
 	}
 
-	public function execute(InputInterface $input, OutputInterface $output) {
+	public function execute(InputInterface $input, OutputInterface $output): int {
 		$deletedEntries = 0;
 
 		$query = $this->connection->getQueryBuilder();
@@ -78,5 +78,6 @@ class DeleteOrphanedFiles extends Command {
 		}
 
 		$output->writeln("$deletedEntries orphaned file cache entries deleted");
+		return 0;
 	}
 }

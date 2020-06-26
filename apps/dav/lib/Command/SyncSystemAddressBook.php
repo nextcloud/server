@@ -53,7 +53,7 @@ class SyncSystemAddressBook extends Command {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$output->writeln('Syncing users ...');
 		$progress = new ProgressBar($output);
 		$progress->start();
@@ -63,5 +63,6 @@ class SyncSystemAddressBook extends Command {
 
 		$progress->finish();
 		$output->writeln('');
+		return 0;
 	}
 }

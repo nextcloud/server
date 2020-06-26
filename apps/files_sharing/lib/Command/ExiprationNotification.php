@@ -63,7 +63,7 @@ class ExiprationNotification extends Command {
 			->setDescription('Notify share initiators when a share will expire the next day.');
 	}
 
-	public function execute(InputInterface $input, OutputInterface $output) {
+	public function execute(InputInterface $input, OutputInterface $output): int {
 		//Current time
 		$minTime = $this->time->getDateTime();
 		$minTime->add(new \DateInterval('P1D'));
@@ -94,5 +94,6 @@ class ExiprationNotification extends Command {
 			$notification->setUser($share->getSharedBy());
 			$this->notificationManager->notify($notification);
 		}
+		return 0;
 	}
 }

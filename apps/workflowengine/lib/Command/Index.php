@@ -69,7 +69,7 @@ class Index extends Command {
 		return $scopes[$scope] ?? -1;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$ops = $this->manager->getAllOperations(
 			new ScopeContext(
 				$this->mappedScope($input->getArgument('scope')),
@@ -77,5 +77,6 @@ class Index extends Command {
 			)
 		);
 		$output->writeln(\json_encode($ops));
+		return 0;
 	}
 }

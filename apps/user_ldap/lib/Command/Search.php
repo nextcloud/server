@@ -105,7 +105,7 @@ class Search extends Command {
 		}
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$helper = new Helper($this->ocConfig);
 		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
@@ -141,5 +141,6 @@ class Search extends Command {
 			$line = $name . ($printID ? ' ('.$id.')' : '');
 			$output->writeln($line);
 		}
+		return 0;
 	}
 }

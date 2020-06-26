@@ -56,7 +56,7 @@ class SyncFederationAddressBooks extends Command {
 	 * @param OutputInterface $output
 	 * @return int
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$progress = new ProgressBar($output);
 		$progress->start();
 		$this->syncService->syncThemAll(function ($url, $ex) use ($progress, $output) {

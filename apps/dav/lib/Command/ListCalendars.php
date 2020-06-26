@@ -62,7 +62,7 @@ class ListCalendars extends Command {
 				'User for whom all calendars will be listed');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getArgument('uid');
 		if (!$this->userManager->userExists($user)) {
 			throw new \InvalidArgumentException("User <$user> is unknown.");
@@ -101,5 +101,6 @@ class ListCalendars extends Command {
 		} else {
 			$output->writeln("<info>User <$user> has no calendars</info>");
 		}
+		return 0;
 	}
 }

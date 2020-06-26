@@ -75,7 +75,7 @@ class ShowRemnants extends Command {
 	 *
 	 * {@inheritdoc}
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		/** @var \Symfony\Component\Console\Helper\Table $table */
 		$table = new Table($output);
 		$table->setHeaders([
@@ -103,5 +103,6 @@ class ShowRemnants extends Command {
 			$table->setRows($rows);
 			$table->render($output);
 		}
+		return 0;
 	}
 }

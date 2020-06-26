@@ -58,7 +58,7 @@ class CreateEmptyConfig extends Command {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configPrefix = $this->helper->getNextServerConfigurationPrefix();
 		$configHolder = new Configuration($configPrefix);
 		$configHolder->saveConfiguration();
@@ -68,5 +68,6 @@ class CreateEmptyConfig extends Command {
 			$prose = 'Created new configuration with configID ';
 		}
 		$output->writeln($prose . "{$configPrefix}");
+		return 0;
 	}
 }

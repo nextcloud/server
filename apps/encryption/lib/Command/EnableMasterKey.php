@@ -62,7 +62,7 @@ class EnableMasterKey extends Command {
 			->setDescription('Enable the master key. Only available for fresh installations with no existing encrypted data! There is also no way to disable it again.');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isAlreadyEnabled = $this->util->isMasterKeyEnabled();
 
 		if ($isAlreadyEnabled) {
@@ -76,7 +76,9 @@ class EnableMasterKey extends Command {
 				$output->writeln('Master key successfully enabled.');
 			} else {
 				$output->writeln('aborted.');
+				return 1;
 			}
 		}
+		return 0;
 	}
 }

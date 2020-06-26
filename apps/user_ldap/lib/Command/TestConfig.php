@@ -47,13 +47,13 @@ class TestConfig extends Command {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$helper = new Helper(\OC::$server->getConfig());
 		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if (!in_array($configID, $availableConfigs)) {
 			$output->writeln("Invalid configID");
-			return;
+			return 1;
 		}
 
 		$result = $this->testConfig($configID);
@@ -61,11 +61,13 @@ class TestConfig extends Command {
 			$output->writeln('The configuration is valid and the connection could be established!');
 		} elseif ($result === 1) {
 			$output->writeln('The configuration is invalid. Please have a look at the logs for further details.');
+			return 1;
 		} elseif ($result === 2) {
 			$output->writeln('The configuration is valid, but the Bind failed. Please check the server settings and credentials.');
 		} else {
 			$output->writeln('Your LDAP server was kidnapped by aliens.');
 		}
+		return 0;
 	}
 
 	/**

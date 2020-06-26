@@ -77,7 +77,7 @@ class CleanUp extends Command {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$users = $input->getArgument('user_id');
 		if ((!empty($users)) and ($input->getOption('all-users'))) {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
@@ -88,6 +88,7 @@ class CleanUp extends Command {
 					$this->removeDeletedFiles($user);
 				} else {
 					$output->writeln("<error>Unknown user $user</error>");
+					return 1;
 				}
 			}
 		} elseif ($input->getOption('all-users')) {
@@ -112,6 +113,7 @@ class CleanUp extends Command {
 		} else {
 			throw new InvalidOptionException('Either specify a user_id or --all-users');
 		}
+		return 0;
 	}
 
 	/**

@@ -86,7 +86,7 @@ class TransferOwnership extends Command {
 		);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$sourceUserObject = $this->userManager->get($input->getArgument('source-user'));
 		$destinationUserObject = $this->userManager->get($input->getArgument('destination-user'));
 

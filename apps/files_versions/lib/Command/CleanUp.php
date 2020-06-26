@@ -61,7 +61,7 @@ class CleanUp extends Command {
 	}
 
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$users = $input->getArgument('user_id');
 		if (!empty($users)) {
 			foreach ($users as $user) {
@@ -70,6 +70,7 @@ class CleanUp extends Command {
 					$this->deleteVersions($user);
 				} else {
 					$output->writeln("<error>Unknown user $user</error>");
+					return 1;
 				}
 			}
 		} else {
@@ -95,6 +96,7 @@ class CleanUp extends Command {
 				} while (count($users) >= $limit);
 			}
 		}
+		return 0;
 	}
 
 

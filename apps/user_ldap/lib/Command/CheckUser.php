@@ -87,7 +87,7 @@ class CheckUser extends Command {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$uid = $input->getArgument('ocName');
 			$this->isAllowed($input->getOption('force'));
@@ -98,15 +98,17 @@ class CheckUser extends Command {
 				if ($input->getOption('update')) {
 					$this->updateUser($uid, $output);
 				}
-				return;
+				return 0;
 			}
 
 			$this->dui->markUser($uid);
 			$output->writeln('The user does not exists on LDAP anymore.');
 			$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
 				. $uid . '"');
+			return 0;
 		} catch (\Exception $e) {
 			$output->writeln('<error>' . $e->getMessage(). '</error>');
+			return 1;
 		}
 	}
 

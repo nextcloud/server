@@ -63,7 +63,7 @@ class Check extends Command {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$updatesAvailableCount = 0;
 
 		// Server
