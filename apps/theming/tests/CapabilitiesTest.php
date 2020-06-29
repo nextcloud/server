@@ -78,6 +78,8 @@ class CapabilitiesTest extends TestCase {
 				'color' => '#FFFFFF',
 				'color-text' => '#000000',
 				'color-element' => '#aaaaaa',
+				'color-element-bright' => '#aaaaaa',
+				'color-element-dark' => '#FFFFFF',
 				'logo' => 'http://absolute/logo',
 				'background' => 'http://absolute/background',
 				'background-plain' => false,
@@ -92,6 +94,8 @@ class CapabilitiesTest extends TestCase {
 				'color' => '#01e4a0',
 				'color-text' => '#ffffff',
 				'color-element' => '#01e4a0',
+				'color-element-bright' => '#01e4a0',
+				'color-element-dark' => '#01e4a0',
 				'logo' => 'http://localhost/logo5',
 				'background' => 'http://localhost/background6',
 				'background-plain' => false,
@@ -106,6 +110,8 @@ class CapabilitiesTest extends TestCase {
 				'color' => '#000000',
 				'color-text' => '#ffffff',
 				'color-element' => '#000000',
+				'color-element-bright' => '#000000',
+				'color-element-dark' => '#555555',
 				'logo' => 'http://localhost/logo5',
 				'background' => '#000000',
 				'background-plain' => true,
@@ -120,6 +126,8 @@ class CapabilitiesTest extends TestCase {
 				'color' => '#000000',
 				'color-text' => '#ffffff',
 				'color-element' => '#000000',
+				'color-element-bright' => '#000000',
+				'color-element-dark' => '#555555',
 				'logo' => 'http://localhost/logo5',
 				'background' => '#000000',
 				'background-plain' => true,
@@ -167,10 +175,12 @@ class CapabilitiesTest extends TestCase {
 			->willReturn($textColor);
 
 		$util = new Util($this->config, $this->createMock(IAppManager::class), $this->createMock(IAppData::class));
-		$this->util->expects($this->once())
+		$this->util->expects($this->exactly(3))
 			->method('elementColor')
 			->with($color)
-			->willReturn($util->elementColor($color));
+			->willReturnCallback(static function (string $color, bool $brightBackground = true) use ($util) {
+				return $util->elementColor($color, $brightBackground);
+			});
 
 		$this->util->expects($this->once())
 			->method('isBackgroundThemed')
