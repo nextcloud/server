@@ -620,18 +620,15 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			}
 		} else {
 			$source = $sourceStorage->fopen($sourceInternalPath, 'r');
-			// TODO: call fopen in a way that we execute again all storage wrappers
-			// to avoid that we bypass storage wrappers which perform important actions
-			// for this operation. Same is true for all other operations which
-			// are not the same as the original one.Once this is fixed we also
-			// need to adjust the encryption wrapper.
-			$target = $this->fopen($targetInternalPath, 'w');
-			[, $result] = \OC_Helper::streamCopy($source, $target);
+			if ($source) {
+				$result = $this->writeStream($targetInternalPath, $source) > 0;
+			} else {
+				$result = false;
+			}
+
 			if ($result and $preserveMtime) {
 				$this->touch($targetInternalPath, $sourceStorage->filemtime($sourceInternalPath));
 			}
-			fclose($source);
-			fclose($target);
 
 			if (!$result) {
 				// delete partially written target file
