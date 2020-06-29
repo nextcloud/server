@@ -548,6 +548,7 @@ return array(
     'OC\\AppFramework\\App' => $baseDir . '/lib/private/AppFramework/App.php',
     'OC\\AppFramework\\Bootstrap\\BootContext' => $baseDir . '/lib/private/AppFramework/Bootstrap/BootContext.php',
     'OC\\AppFramework\\Bootstrap\\Coordinator' => $baseDir . '/lib/private/AppFramework/Bootstrap/Coordinator.php',
+    'OC\\AppFramework\\Bootstrap\\FunctionInjector' => $baseDir . '/lib/private/AppFramework/Bootstrap/FunctionInjector.php',
     'OC\\AppFramework\\Bootstrap\\RegistrationContext' => $baseDir . '/lib/private/AppFramework/Bootstrap/RegistrationContext.php',
     'OC\\AppFramework\\DependencyInjection\\DIContainer' => $baseDir . '/lib/private/AppFramework/DependencyInjection/DIContainer.php',
     'OC\\AppFramework\\Http' => $baseDir . '/lib/private/AppFramework/Http.php',

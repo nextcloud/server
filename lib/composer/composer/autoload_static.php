@@ -577,6 +577,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\AppFramework\\App' => __DIR__ . '/../../..' . '/lib/private/AppFramework/App.php',
         'OC\\AppFramework\\Bootstrap\\BootContext' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/BootContext.php',
         'OC\\AppFramework\\Bootstrap\\Coordinator' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/Coordinator.php',
+        'OC\\AppFramework\\Bootstrap\\FunctionInjector' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/FunctionInjector.php',
         'OC\\AppFramework\\Bootstrap\\RegistrationContext' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Bootstrap/RegistrationContext.php',
         'OC\\AppFramework\\DependencyInjection\\DIContainer' => __DIR__ . '/../../..' . '/lib/private/AppFramework/DependencyInjection/DIContainer.php',
         'OC\\AppFramework\\Http' => __DIR__ . '/../../..' . '/lib/private/AppFramework/Http.php',
