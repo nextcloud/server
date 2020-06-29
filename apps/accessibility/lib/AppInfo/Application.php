@@ -56,16 +56,11 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$this->injectCss(
-			$context->getAppContainer()->query(IUserSession::class),
-			$context->getAppContainer()->query(IConfig::class),
-			$context->getAppContainer()->query(IURLGenerator::class)
-		);
-
-		$this->registerInitialState($context->getAppContainer());
+		$context->injectFn([$this, 'injectCss']);
+		$context->injectFn([$this, 'registerInitialState']);
 	}
 
-	private function injectCss(IUserSession $userSession,
+	public function injectCss(IUserSession $userSession,
 							   IConfig $config,
 							   IURLGenerator $urlGenerator) {
 		// Inject the fake css on all pages if enabled and user is logged
@@ -87,10 +82,8 @@ class Application extends App implements IBootstrap {
 		}
 	}
 
-	private function registerInitialState(IAppContainer $container) {
-		/** @var IInitialStateService $initialState */
-		$initialState = $container->query(IInitialStateService::class);
-
+	public function registerInitialState(IInitialStateService $initialState,
+										  IAppContainer $container) {
 		$initialState->provideLazyInitialState(self::APP_ID, 'data', function () use ($container) {
 			/** @var JSDataService $data */
 			$data = $container->query(JSDataService::class);
