@@ -33,6 +33,7 @@ declare(strict_types=1);
 
 namespace OCA\AdminAudit\AppInfo;
 
+use Closure;
 use OC\Files\Filesystem;
 use OC\Files\Node\File;
 use OC\Group\Manager;
@@ -78,10 +79,9 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$logger = $this->getLogger(
-			$context->getAppContainer()->query(IConfig::class),
-			$context->getAppContainer()->query(ILogger::class),
-			$context->getAppContainer()->query(ILogFactory::class)
+		/** @var ILogger $logger */
+		$logger = $context->injectFn(
+			Closure::fromCallable([$this, 'getLogger'])
 		);
 
 		/*
