@@ -1,4 +1,6 @@
 { "translations": {
+    "Unknown filetype" : "N'eo ket anavezet stumm an teuliad",
+    "Invalid image" : "N'eo ket aotreet ar skeudenn",
     "__language_name__" : "Brezhoneg",
     "Help" : "Skoazell",
     "Settings" : "Arventennoù",

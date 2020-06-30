@@ -161,6 +161,7 @@ OC.L10N.register(
     "Cannot transfer ownership of a file or folder you don't own" : "Negalima perduoti, failo aplanko, kuris jums nepriklauso, nuosavybės",
     "Tags" : "Žymės",
     "Error while loading the file data" : "Klaida įkeliant failo duomenis",
+    "Unable to change the favourite state of the file" : "Nepavyksta pakeisti failo Lankomiausiųjų būsenos",
     "%s used" : "%s panaudota",
     "%s%% of %s used" : "naudojama %s%% iš %s",
     "%1$s of %2$s used" : "naudojama %1$s iš %2$s",
