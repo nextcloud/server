@@ -106,6 +106,11 @@ class UtilTest extends TestCase {
 		$this->assertEquals('#000000', $elementColor);
 	}
 
+	public function testElementColorOnDarkBackground() {
+		$elementColor = $this->util->elementColor("#000000", false);
+		$this->assertEquals('#555555', $elementColor);
+	}
+
 	public function testElementColorOnBrightBackground() {
 		$elementColor = $this->util->elementColor('#ffffff');
 		$this->assertEquals('#aaaaaa', $elementColor);
