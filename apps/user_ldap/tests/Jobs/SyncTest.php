@@ -189,9 +189,16 @@ class SyncTest extends TestCase {
 			->with($connection)
 			->willReturn($access);
 
+		$this->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['dn', 'uid', 'mail', 'displayname']);
+
 		$access->expects($this->once())
 			->method('fetchListOfUsers')
 			->willReturn(array_pad([], $results, 'someUser'));
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
 		$access->connection = $connection;
 		$access->userManager = $this->userManager;
 
@@ -356,9 +363,16 @@ class SyncTest extends TestCase {
 			->with($connection)
 			->willReturn($access);
 
+		$this->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['dn', 'uid', 'mail', 'displayname']);
+
 		$access->expects($this->once())
 			->method('fetchListOfUsers')
 			->willReturn(array_pad([], $runData['usersThisCycle'], 'someUser'));
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
 		$access->connection = $connection;
 		$access->userManager = $this->userManager;
 
