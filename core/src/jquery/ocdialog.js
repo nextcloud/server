@@ -27,6 +27,7 @@ $.widget('oc.ocdialog', {
 		height: 'auto',
 		closeButton: true,
 		closeOnEscape: true,
+		closeCallback: null,
 		modal: false,
 	},
 	_create: function() {
@@ -169,6 +170,7 @@ $.widget('oc.ocdialog', {
 				const $closeButton = $('<a class="oc-dialog-close"></a>')
 				this.$dialog.prepend($closeButton)
 				$closeButton.on('click', function() {
+					self.options.closeCallback && self.options.closeCallback()
 					self.close()
 				})
 			} else {

@@ -625,6 +625,7 @@ const Dialogs = {
 
 			$(dialogId).ocdialog({
 				closeOnEscape: true,
+				closeCallback: () => { callback && callback(false) },
 				modal: modal,
 				buttons: buttonlist
 			})
