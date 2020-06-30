@@ -278,6 +278,8 @@ class Trashbin {
 		/** @var \OC\Files\Storage\Storage $sourceStorage */
 		[$sourceStorage, $sourceInternalPath] = $ownerView->resolvePath('/files/' . $ownerPath);
 
+		$connection = \OC::$server->getDatabaseConnection();
+		$connection->beginTransaction();
 		$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 
 		try {
@@ -300,8 +302,11 @@ class Trashbin {
 			} else {
 				$sourceStorage->unlink($sourceInternalPath);
 			}
+			$connection->rollBack();
 			return false;
 		}
+
+		$connection->commit();
 
 		if ($moveSuccessful) {
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");

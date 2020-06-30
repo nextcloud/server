@@ -1167,13 +1167,8 @@ class ViewTest extends \Test\TestCase {
 			->setMethods(['fopen'])
 			->getMock();
 
-		$storage2->expects($this->any())
-			->method('fopen')
-			->willReturnCallback(function ($path, $mode) use ($storage2) {
-				/** @var \PHPUnit_Framework_MockObject_MockObject | \OC\Files\Storage\Temporary $storage2 */
-				$source = fopen($storage2->getSourcePath($path), $mode);
-				return Quota::wrap($source, 9);
-			});
+		$storage2->method('writeStream')
+			->willReturn(0);
 
 		$storage1->mkdir('sub');
 		$storage1->file_put_contents('foo.txt', '0123456789ABCDEFGH');
