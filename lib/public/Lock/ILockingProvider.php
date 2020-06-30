@@ -55,10 +55,11 @@ interface ILockingProvider {
 	/**
 	 * @param string $path
 	 * @param int $type self::LOCK_SHARED or self::LOCK_EXCLUSIVE
+	 * @param string $readablePath human readable path to use in error messages, since 20.0.0
 	 * @throws \OCP\Lock\LockedException
 	 * @since 8.1.0
 	 */
-	public function acquireLock(string $path, int $type);
+	public function acquireLock(string $path, int $type, string $readablePath = null);
 
 	/**
 	 * @param string $path
