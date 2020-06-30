@@ -28,7 +28,7 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -56,7 +56,7 @@ class Version18000Date20190920085628 extends SimpleMigrationStep {
 		if ($schema->hasTable('groups')) {
 			$table = $schema->getTable('groups');
 
-			$table->addColumn('displayname', Type::STRING, [
+			$table->addColumn('displayname', Types::STRING, [
 				'notnull' => true,
 				'length' => 255,
 				'default' => '',

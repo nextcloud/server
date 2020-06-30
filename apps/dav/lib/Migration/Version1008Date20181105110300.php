@@ -27,7 +27,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Migration;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
@@ -57,7 +57,7 @@ class Version1008Date20181105110300 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 		$table = $schema->getTable('calendarsubscriptions');
-		$table->addColumn('source', Type::TEXT, [
+		$table->addColumn('source', Types::TEXT, [
 			'notnull' => false,
 			'length' => null,
 		]);

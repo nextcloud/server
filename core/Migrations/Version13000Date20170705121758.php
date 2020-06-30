@@ -24,7 +24,7 @@
 
 namespace OC\Core\Migrations;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -44,15 +44,15 @@ class Version13000Date20170705121758 extends SimpleMigrationStep {
 		if (!$schema->hasTable('personal_sections')) {
 			$table = $schema->createTable('personal_sections');
 
-			$table->addColumn('id', Type::STRING, [
+			$table->addColumn('id', Types::STRING, [
 				'notnull' => false,
 				'length' => 64,
 			]);
-			$table->addColumn('class', Type::STRING, [
+			$table->addColumn('class', Types::STRING, [
 				'notnull' => true,
 				'length' => 255,
 			]);
-			$table->addColumn('priority', Type::INTEGER, [
+			$table->addColumn('priority', Types::INTEGER, [
 				'notnull' => true,
 				'length' => 6,
 				'default' => 0,
@@ -65,20 +65,20 @@ class Version13000Date20170705121758 extends SimpleMigrationStep {
 		if (!$schema->hasTable('personal_settings')) {
 			$table = $schema->createTable('personal_settings');
 
-			$table->addColumn('id', Type::INTEGER, [
+			$table->addColumn('id', Types::INTEGER, [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 20,
 			]);
-			$table->addColumn('class', Type::STRING, [
+			$table->addColumn('class', Types::STRING, [
 				'notnull' => true,
 				'length' => 255,
 			]);
-			$table->addColumn('section', Type::STRING, [
+			$table->addColumn('section', Types::STRING, [
 				'notnull' => false,
 				'length' => 64,
 			]);
-			$table->addColumn('priority', Type::INTEGER, [
+			$table->addColumn('priority', Types::INTEGER, [
 				'notnull' => true,
 				'length' => 6,
 				'default' => 0,

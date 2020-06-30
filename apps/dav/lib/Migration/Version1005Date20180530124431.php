@@ -26,7 +26,7 @@
 
 namespace OCA\DAV\Migration;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -49,29 +49,29 @@ class Version1005Date20180530124431 extends SimpleMigrationStep {
 			if (!$schema->hasTable('calendar_' . $type)) {
 				$table = $schema->createTable('calendar_' . $type);
 
-				$table->addColumn('id', Type::BIGINT, [
+				$table->addColumn('id', Types::BIGINT, [
 					'autoincrement' => true,
 					'notnull' => true,
 					'length' => 11,
 					'unsigned' => true,
 				]);
-				$table->addColumn('backend_id', Type::STRING, [
+				$table->addColumn('backend_id', Types::STRING, [
 					'notnull' => false,
 					'length' => 64,
 				]);
-				$table->addColumn('resource_id', Type::STRING, [
+				$table->addColumn('resource_id', Types::STRING, [
 					'notnull' => false,
 					'length' => 64,
 				]);
-				$table->addColumn('email', Type::STRING, [
+				$table->addColumn('email', Types::STRING, [
 					'notnull' => false,
 					'length' => 255,
 				]);
-				$table->addColumn('displayname', Type::STRING, [
+				$table->addColumn('displayname', Types::STRING, [
 					'notnull' => false,
 					'length' => 255,
 				]);
-				$table->addColumn('group_restrictions', Type::STRING, [
+				$table->addColumn('group_restrictions', Types::STRING, [
 					'notnull' => false,
 					'length' => 4000,
 				]);

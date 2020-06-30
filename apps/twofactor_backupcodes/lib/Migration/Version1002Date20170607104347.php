@@ -24,7 +24,7 @@
 
 namespace OCA\TwoFactorBackupCodes\Migration;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -44,20 +44,20 @@ class Version1002Date20170607104347 extends SimpleMigrationStep {
 		if (!$schema->hasTable('twofactor_backupcodes')) {
 			$table = $schema->createTable('twofactor_backupcodes');
 
-			$table->addColumn('id', Type::INTEGER, [
+			$table->addColumn('id', Types::INTEGER, [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 20,
 			]);
-			$table->addColumn('user_id', Type::STRING, [
+			$table->addColumn('user_id', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
-			$table->addColumn('code', Type::STRING, [
+			$table->addColumn('code', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
-			$table->addColumn('used', Type::INTEGER, [
+			$table->addColumn('used', Types::INTEGER, [
 				'notnull' => true,
 				'length' => 1,
 				'default' => 0,

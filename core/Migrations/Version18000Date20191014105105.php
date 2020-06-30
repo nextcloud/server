@@ -27,7 +27,7 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\IDBConnection;
 use OCP\Migration\SimpleMigrationStep;
@@ -53,34 +53,34 @@ class Version18000Date20191014105105 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 		$table = $schema->createTable('direct_edit');
 
-		$table->addColumn('id', Type::BIGINT, [
+		$table->addColumn('id', Types::BIGINT, [
 			'autoincrement' => true,
 			'notnull' => true,
 		]);
-		$table->addColumn('editor_id', Type::STRING, [
+		$table->addColumn('editor_id', Types::STRING, [
 			'notnull' => true,
 			'length' => 64,
 		]);
-		$table->addColumn('token', Type::STRING, [
+		$table->addColumn('token', Types::STRING, [
 			'notnull' => true,
 			'length' => 64,
 		]);
-		$table->addColumn('file_id', Type::BIGINT, [
+		$table->addColumn('file_id', Types::BIGINT, [
 			'notnull' => true,
 		]);
-		$table->addColumn('user_id', Type::STRING, [
+		$table->addColumn('user_id', Types::STRING, [
 			'notnull' => false,
 			'length' => 64,
 		]);
-		$table->addColumn('share_id', Type::BIGINT, [
+		$table->addColumn('share_id', Types::BIGINT, [
 			'notnull' => false
 		]);
-		$table->addColumn('timestamp', Type::BIGINT, [
+		$table->addColumn('timestamp', Types::BIGINT, [
 			'notnull' => true,
 			'length' => 20,
 			'unsigned' => true,
 		]);
-		$table->addColumn('accessed', Type::BOOLEAN, [
+		$table->addColumn('accessed', Types::BOOLEAN, [
 			'notnull' => true,
 			'default' => false
 		]);
