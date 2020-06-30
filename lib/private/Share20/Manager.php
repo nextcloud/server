@@ -687,7 +687,7 @@ class Manager implements IManager {
 	 * Share a path
 	 *
 	 * @param IShare $share
-	 * @return Share The share object
+	 * @return IShare The share object
 	 * @throws \Exception
 	 *
 	 * TODO: handle link share permissions or check them
@@ -1212,7 +1212,7 @@ class Manager implements IManager {
 		list($providerId, ) = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
-		$provider->move($share, $recipientId);
+		return $provider->move($share, $recipientId);
 	}
 
 	public function getSharesInFolder($userId, Folder $node, $reshares = false) {
@@ -1387,7 +1387,7 @@ class Manager implements IManager {
 	 * Get the share by token possible with password
 	 *
 	 * @param string $token
-	 * @return Share
+	 * @return IShare
 	 *
 	 * @throws ShareNotFound
 	 */
