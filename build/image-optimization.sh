@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 CHECK_DIR='../'
-if ! [ "$SERVER_VERSION" ]; then
+if [[ -d "$1" ]]; then
 	CHECK_DIR=$1
 fi
 
