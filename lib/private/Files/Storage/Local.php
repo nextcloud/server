@@ -43,6 +43,7 @@ namespace OC\Files\Storage;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\ForbiddenException;
+use OCP\Files\GenericFileException;
 use OCP\Files\Storage\IStorage;
 use OCP\ILogger;
 
@@ -500,6 +501,11 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function writeStream(string $path, $stream, int $size = null): int {
-		return (int)file_put_contents($this->getSourcePath($path), $stream);
+		$result = file_put_contents($this->getSourcePath($path), $stream);
+		if ($result === false) {
+			throw new GenericFileException("Failed write steam to $path");
+		} else {
+			return $result;
+		}
 	}
 }
