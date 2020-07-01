@@ -46,12 +46,13 @@ class Disable extends Command {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($this->config->getAppValue('core', 'encryption_enabled', 'no') !== 'yes') {
 			$output->writeln('Encryption is already disabled');
 		} else {
 			$this->config->setAppValue('core', 'encryption_enabled', 'no');
 			$output->writeln('<info>Encryption disabled</info>');
 		}
+		return 0;
 	}
 }

@@ -41,7 +41,7 @@ class ExpireVersions extends Command {
 	 * @var Expiration
 	 */
 	private $expiration;
-	
+
 	/**
 	 * @var IUserManager
 	 */
@@ -70,11 +70,11 @@ class ExpireVersions extends Command {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$maxAge = $this->expiration->getMaxAgeAsTimestamp();
 		if (!$maxAge) {
 			$output->writeln("No expiry configured.");
-			return;
+			return 1;
 		}
 
 		$users = $input->getArgument('user_id');
@@ -86,6 +86,7 @@ class ExpireVersions extends Command {
 					$this->expireVersionsForUser($userObject);
 				} else {
 					$output->writeln("<error>Unknown user $user</error>");
+					return 1;
 				}
 			}
 		} else {
@@ -98,6 +99,7 @@ class ExpireVersions extends Command {
 			$p->finish();
 			$output->writeln('');
 		}
+		return 0;
 	}
 
 	public function expireVersionsForUser(IUser $user) {

@@ -49,7 +49,7 @@ class ResetBruteforceAttempts extends Base {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$ip = $input->getArgument('ipaddress');
 
 		if (!filter_var($ip, FILTER_VALIDATE_IP)) {
@@ -58,5 +58,6 @@ class ResetBruteforceAttempts extends Base {
 		}
 
 		$this->throttler->resetDelayForIP($ip);
+		return 0;
 	}
 }

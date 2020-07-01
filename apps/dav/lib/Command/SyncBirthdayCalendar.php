@@ -73,7 +73,7 @@ class SyncBirthdayCalendar extends Command {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->verifyEnabled();
 
 		$user = $input->getArgument('user');
@@ -91,7 +91,7 @@ class SyncBirthdayCalendar extends Command {
 
 			$output->writeln("Start birthday calendar sync for $user");
 			$this->birthdayService->syncUser($user);
-			return;
+			return 0;
 		}
 		$output->writeln("Start birthday calendar sync for all users ...");
 		$p = new ProgressBar($output);
@@ -111,6 +111,7 @@ class SyncBirthdayCalendar extends Command {
 
 		$p->finish();
 		$output->writeln('');
+		return 0;
 	}
 
 	protected function verifyEnabled() {

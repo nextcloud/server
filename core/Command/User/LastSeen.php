@@ -56,11 +56,11 @@ class LastSeen extends Command {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $this->userManager->get($input->getArgument('uid'));
 		if (is_null($user)) {
 			$output->writeln('<error>User does not exist</error>');
-			return;
+			return 1;
 		}
 
 		$lastLogin = $user->getLastLogin();
@@ -73,5 +73,6 @@ class LastSeen extends Command {
 			$output->writeln($user->getUID() .
 				'`s last login: ' . $date->format('d.m.Y H:i'));
 		}
+		return 0;
 	}
 }

@@ -57,7 +57,7 @@ class RemoveInvalidShares extends Command {
 			->setDescription('Remove invalid dav shares');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->selectDistinct('principaluri')
 			->from('dav_shares')
@@ -72,6 +72,7 @@ class RemoveInvalidShares extends Command {
 		}
 
 		$result->closeCursor();
+		return 0;
 	}
 
 	/**

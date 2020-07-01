@@ -119,7 +119,7 @@ class Create extends Base {
 		parent::configure();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getOption('user');
 		$mountPoint = $input->getArgument('mount_point');
 		$storageIdentifier = $input->getArgument('storage_backend');

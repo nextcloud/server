@@ -67,7 +67,7 @@ class ResetPassword extends Command {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$username = $input->getArgument('user');
 
 		/** @var $user \OCP\IUser */
@@ -134,5 +134,6 @@ class ResetPassword extends Command {
 			$output->writeln("<error>Error while resetting password!</error>");
 			return 1;
 		}
+		return 0;
 	}
 }

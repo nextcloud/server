@@ -64,7 +64,7 @@ class CreateAddressBook extends Command {
 						'Name of the addressbook');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getArgument('user');
 		if (!$this->userManager->userExists($user)) {
 			throw new \InvalidArgumentException("User <$user> in unknown.");
@@ -72,5 +72,6 @@ class CreateAddressBook extends Command {
 
 		$name = $input->getArgument('name');
 		$this->cardDavBackend->createAddressBook("principals/users/$user", $name, []);
+		return 0;
 	}
 }

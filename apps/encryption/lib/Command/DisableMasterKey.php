@@ -63,7 +63,7 @@ class DisableMasterKey extends Command {
 			->setDescription('Disable the master key and use per-user keys instead. Only available for fresh installations with no existing encrypted data! There is no way to enable it again.');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$isMasterKeyEnabled = $this->util->isMasterKeyEnabled();
 
 		if (!$isMasterKeyEnabled) {
@@ -80,7 +80,9 @@ class DisableMasterKey extends Command {
 				$output->writeln('Master key successfully disabled.');
 			} else {
 				$output->writeln('aborted.');
+				return 1;
 			}
 		}
+		return 0;
 	}
 }

@@ -188,7 +188,7 @@ class ConvertType extends Command implements CompletionAwareInterface {
 		}
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$this->validateInput($input, $output);
 		$this->readPassword($input, $output);
 
@@ -221,11 +221,12 @@ class ConvertType extends Command implements CompletionAwareInterface {
 			$helper = $this->getHelper('question');
 
 			if (!$helper->ask($input, $output, $question)) {
-				return;
+				return 1;
 			}
 		}
 		$intersectingTables = array_intersect($toTables, $fromTables);
 		$this->convertDB($fromDB, $toDB, $intersectingTables, $input, $output);
+		return 0;
 	}
 
 	protected function createSchema(Connection $fromDB, Connection $toDB, InputInterface $input, OutputInterface $output) {

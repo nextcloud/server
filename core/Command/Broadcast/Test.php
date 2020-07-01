@@ -60,7 +60,7 @@ class Test extends Command {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$name = $input->getArgument('name');
 		$uid = $input->getArgument('uid');
 

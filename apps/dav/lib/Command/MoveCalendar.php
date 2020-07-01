@@ -106,7 +106,7 @@ class MoveCalendar extends Command {
 			->addOption('force', 'f', InputOption::VALUE_NONE, "Force the migration by removing existing shares");
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$userOrigin = $input->getArgument('sourceuid');
 		$userDestination = $input->getArgument('destinationuid');
 
@@ -137,6 +137,7 @@ class MoveCalendar extends Command {
 		$this->calDav->moveCalendar($name, self::URI_USERS . $userOrigin, self::URI_USERS . $userDestination);
 
 		$this->io->success("Calendar <$name> was moved from user <$userOrigin> to <$userDestination>");
+		return 0;
 	}
 
 	/**

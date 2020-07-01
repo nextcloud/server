@@ -169,7 +169,7 @@ class Scan extends Base {
 		return substr_count($mountPoint->getMountPoint(), '/') <= 3;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$inputPath = $input->getOption('path');
 		if ($inputPath) {
 			$inputPath = '/' . trim($inputPath, '/');
@@ -190,7 +190,7 @@ class Scan extends Base {
 		$users_total = count($users);
 		if ($users_total === 0) {
 			$output->writeln('<error>Please specify the user id to scan, --all to scan for all users or --path=...</error>');
-			return;
+			return 1;
 		}
 
 		$this->initTools();
@@ -219,6 +219,7 @@ class Scan extends Base {
 		}
 
 		$this->presentStats($output);
+		return 0;
 	}
 
 	/**

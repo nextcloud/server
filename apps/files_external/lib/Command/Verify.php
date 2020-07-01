@@ -65,7 +65,7 @@ class Verify extends Base {
 		parent::configure();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$mountId = $input->getArgument('mount_id');
 		$configInput = $input->getOption('config');
 
@@ -83,6 +83,7 @@ class Verify extends Base {
 			'code' => $mount->getStatus(),
 			'message' => $mount->getStatusMessage()
 		]);
+		return 0;
 	}
 
 	private function manipulateStorageConfig(StorageConfig $storage) {

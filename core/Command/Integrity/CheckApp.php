@@ -66,7 +66,7 @@ class CheckApp extends Base {
 	/**
 	 * {@inheritdoc }
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appid = $input->getArgument('appid');
 		$path = (string)$input->getOption('path');
 		$result = $this->checker->verifyAppSignature($appid, $path);
@@ -74,5 +74,6 @@ class CheckApp extends Base {
 		if (count($result)>0) {
 			return 1;
 		}
+		return 0;
 	}
 }

@@ -149,7 +149,7 @@ class ScanAppData extends Base {
 	}
 
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		# restrict the verbosity level to VERBOSITY_VERBOSE
 		if ($output->getVerbosity() > OutputInterface::VERBOSITY_VERBOSE) {
 			$output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);

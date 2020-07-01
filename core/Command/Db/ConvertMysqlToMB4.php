@@ -68,7 +68,7 @@ class ConvertMysqlToMB4 extends Command {
 			->setDescription('Convert charset of MySQL/MariaDB to use utf8mb4');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
 			$output->writeln("This command is only valid for MySQL/MariaDB databases.");
 			return 1;

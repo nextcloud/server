@@ -52,14 +52,15 @@ class Enable extends Command {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $this->userManager->get($input->getArgument('uid'));
 		if (is_null($user)) {
 			$output->writeln('<error>User does not exist</error>');
-			return;
+			return 1;
 		}
 
 		$user->setEnabled(true);
 		$output->writeln('<info>The specified user is enabled</info>');
+		return 0;
 	}
 }

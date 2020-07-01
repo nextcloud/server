@@ -110,7 +110,7 @@ class {{classname}} extends SimpleMigrationStep {
 		parent::configure();
 	}
 
-	public function execute(InputInterface $input, OutputInterface $output) {
+	public function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$version = $input->getArgument('version');
 

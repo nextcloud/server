@@ -73,7 +73,7 @@ class CreateCalendar extends Command {
 				'Name of the calendar');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getArgument('user');
 		if (!$this->userManager->userExists($user)) {
 			throw new \InvalidArgumentException("User <$user> in unknown.");
@@ -94,5 +94,6 @@ class CreateCalendar extends Command {
 		$name = $input->getArgument('name');
 		$caldav = new CalDavBackend($this->dbConnection, $principalBackend, $this->userManager, $this->groupManager, $random, $logger, $dispatcher);
 		$caldav->createCalendar("principals/users/$user", $name, []);
+		return 0;
 	}
 }

@@ -158,7 +158,7 @@ class Setting extends Base {
 		}
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		try {
 			$this->checkInput($input);
 		} catch (\InvalidArgumentException $e) {

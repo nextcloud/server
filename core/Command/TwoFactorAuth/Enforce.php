@@ -74,7 +74,7 @@ class Enforce extends Command {
 		);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('on')) {
 			$enforcedGroups = $input->getOption('group');
 			$excludedGroups = $input->getOption('exclude');
@@ -89,6 +89,7 @@ class Enforce extends Command {
 		} else {
 			$this->writeNotEnforced($output);
 		}
+		return 0;
 	}
 
 	/**

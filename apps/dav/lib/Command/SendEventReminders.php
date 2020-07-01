@@ -67,19 +67,20 @@ class SendEventReminders extends Command {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output):void {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($this->config->getAppValue('dav', 'sendEventReminders', 'yes') !== 'yes') {
 			$output->writeln('<error>Sending event reminders disabled!</error>');
 			$output->writeln('<info>Please run "php occ config:app:set dav sendEventReminders --value yes"');
-			return;
+			return 1;
 		}
 
 		if ($this->config->getAppValue('dav', 'sendEventRemindersMode', 'backgroundjob') !== 'occ') {
 			$output->writeln('<error>Sending event reminders mode set to background-job!</error>');
 			$output->writeln('<info>Please run "php occ config:app:set dav sendEventRemindersMode --value occ"');
-			return;
+			return 1;
 		}
 
 		$this->reminderService->processReminders();
+		return 0;
 	}
 }

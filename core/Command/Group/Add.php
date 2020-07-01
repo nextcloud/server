@@ -65,7 +65,7 @@ class Add extends Base {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$gid = $input->getArgument('groupid');
 		$group = $this->groupManager->get($gid);
 		if ($group) {

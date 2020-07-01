@@ -61,7 +61,7 @@ class ListApps extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($input->getOption('shipped') === 'true' || $input->getOption('shipped') === 'false') {
 			$shippedFilter = $input->getOption('shipped') === 'true';
 		} else {
@@ -97,6 +97,7 @@ class ListApps extends Base {
 		}
 
 		$this->writeAppList($input, $output, $apps);
+		return 0;
 	}
 
 	/**

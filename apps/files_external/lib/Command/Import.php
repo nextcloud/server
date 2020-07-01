@@ -107,7 +107,7 @@ class Import extends Base {
 		parent::configure();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$user = $input->getOption('user');
 		$path = $input->getArgument('path');
 		if ($path === '-') {

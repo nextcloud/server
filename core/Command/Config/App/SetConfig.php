@@ -71,7 +71,7 @@ class SetConfig extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$appName = $input->getArgument('app');
 		$configName = $input->getArgument('name');
 

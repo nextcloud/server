@@ -52,7 +52,7 @@ class Enable extends Base {
 		$this->addArgument('provider_id', InputArgument::REQUIRED);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$uid = $input->getArgument('uid');
 		$providerId = $input->getArgument('provider_id');
 		$user = $this->userManager->get($uid);

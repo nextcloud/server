@@ -54,7 +54,7 @@ class UpdateTheme extends UpdateJS {
 			->setDescription('Apply custom theme changes');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		// run mimetypelist.js update since themes might change mimetype icons
 		parent::execute($input, $output);
 
@@ -62,5 +62,6 @@ class UpdateTheme extends UpdateJS {
 		$c = $this->cacheFactory->createDistributed('imagePath');
 		$c->clear('');
 		$output->writeln('<info>Image cache cleared</info>');
+		return 0;
 	}
 }

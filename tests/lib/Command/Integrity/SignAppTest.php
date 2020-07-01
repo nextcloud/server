@@ -76,7 +76,7 @@ class SignAppTest extends TestCase {
 			->method('writeln')
 			->with('This command requires the --path, --privateKey and --certificate.');
 
-		$this->assertNull(self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithMissingPrivateKey() {
@@ -104,7 +104,7 @@ class SignAppTest extends TestCase {
 				->method('writeln')
 				->with('This command requires the --path, --privateKey and --certificate.');
 
-		$this->assertNull(self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithMissingCertificate() {
@@ -132,7 +132,7 @@ class SignAppTest extends TestCase {
 			->method('writeln')
 			->with('This command requires the --path, --privateKey and --certificate.');
 
-		$this->assertNull(self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithNotExistingPrivateKey() {
@@ -166,7 +166,7 @@ class SignAppTest extends TestCase {
 			->method('writeln')
 			->with('Private key "privateKey" does not exists.');
 
-		$this->assertNull(self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithNotExistingCertificate() {
@@ -205,7 +205,7 @@ class SignAppTest extends TestCase {
 			->method('writeln')
 			->with('Certificate "certificate" does not exists.');
 
-		$this->assertNull(self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
+		$this->assertSame(1, self::invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]));
 	}
 
 	public function testExecuteWithException() {

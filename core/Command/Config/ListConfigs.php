@@ -71,7 +71,7 @@ class ListConfigs extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$app = $input->getArgument('app');
 		$noSensitiveValues = !$input->getOption('private');
 
@@ -102,6 +102,7 @@ class ListConfigs extends Base {
 		}
 
 		$this->writeArrayInOutputFormat($input, $output, $configs);
+		return 0;
 	}
 
 	/**

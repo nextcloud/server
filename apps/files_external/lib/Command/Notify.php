@@ -88,7 +88,7 @@ class Notify extends Base {
 		parent::configure();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$mount = $this->globalService->getStorage($input->getArgument('mount_id'));
 		if (is_null($mount)) {
 			$output->writeln('<error>Mount not found</error>');
@@ -147,6 +147,7 @@ class Notify extends Base {
 			}
 			$this->markParentAsOutdated($mount->getId(), $change->getPath(), $output);
 		});
+		return 0;
 	}
 
 	private function createStorage(StorageConfig $mount) {

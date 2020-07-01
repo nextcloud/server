@@ -83,7 +83,7 @@ class Upgrade extends Command {
 	 * @param InputInterface $input input interface
 	 * @param OutputInterface $output output interface
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if (Util::needUpgrade()) {
 			if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
 				// Prepend each line with a little timestamp

@@ -67,9 +67,10 @@ class ListCommand extends Base {
 			);
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$groups = $this->groupManager->search('', (int)$input->getOption('limit'), (int)$input->getOption('offset'));
 		$this->writeArrayInOutputFormat($input, $output, $this->formatGroups($groups));
+		return 0;
 	}
 
 	/**

@@ -77,7 +77,7 @@ class SetConfig extends Base {
 		;
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output) {
+	protected function execute(InputInterface $input, OutputInterface $output): int {
 		$configNames = $input->getArgument('name');
 		$configName = $configNames[0];
 		$configValue = $this->castValue($input->getOption('value'), $input->getOption('type'));
