@@ -59,6 +59,7 @@ return array(
     'OCA\\Files_Sharing\\Migration\\OwncloudGuestShareType' => $baseDir . '/../lib/Migration/OwncloudGuestShareType.php',
     'OCA\\Files_Sharing\\Migration\\SetAcceptedStatus' => $baseDir . '/../lib/Migration/SetAcceptedStatus.php',
     'OCA\\Files_Sharing\\Migration\\SetPasswordColumn' => $baseDir . '/../lib/Migration/SetPasswordColumn.php',
+    'OCA\\Files_Sharing\\Migration\\Version1012Date20200630192019' => $baseDir . '/../lib/Migration/Version1012Date20200630192019.php',
     'OCA\\Files_Sharing\\MountProvider' => $baseDir . '/../lib/MountProvider.php',
     'OCA\\Files_Sharing\\Notification\\Listener' => $baseDir . '/../lib/Notification/Listener.php',
     'OCA\\Files_Sharing\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
