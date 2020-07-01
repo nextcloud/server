@@ -33,6 +33,7 @@ class ComposerStaticInitFiles_Trashbin
         'OCA\\Files_Trashbin\\Expiration' => __DIR__ . '/..' . '/../lib/Expiration.php',
         'OCA\\Files_Trashbin\\Helper' => __DIR__ . '/..' . '/../lib/Helper.php',
         'OCA\\Files_Trashbin\\Hooks' => __DIR__ . '/..' . '/../lib/Hooks.php',
+        'OCA\\Files_Trashbin\\Migration\\Version1010Date20200630192639' => __DIR__ . '/..' . '/../lib/Migration/Version1010Date20200630192639.php',
         'OCA\\Files_Trashbin\\Sabre\\AbstractTrash' => __DIR__ . '/..' . '/../lib/Sabre/AbstractTrash.php',
         'OCA\\Files_Trashbin\\Sabre\\AbstractTrashFile' => __DIR__ . '/..' . '/../lib/Sabre/AbstractTrashFile.php',
         'OCA\\Files_Trashbin\\Sabre\\AbstractTrashFolder' => __DIR__ . '/..' . '/../lib/Sabre/AbstractTrashFolder.php',
