@@ -140,12 +140,9 @@ class RouteConfig {
 
 		$routeName = $routeNamePrefix . $this->appName . '.' . $controller . '.' . $action . $postfix;
 
-		// register the route
-		$handler = new RouteActionHandler($this->container, $controllerName, $actionName);
-
 		$router = $this->router->create($routeName, $url)
 			->method($verb)
-			->action($handler);
+			->setDefault('caller', [$this->appName, $controllerName, $actionName]);
 
 		// optionally register requirements for route. This is used to
 		// tell the route parser how url parameters should be matched
@@ -233,9 +230,9 @@ class RouteConfig {
 
 				$routeName = $routeNamePrefix . $this->appName . '.' . strtolower($resource) . '.' . strtolower($method);
 
-				$this->router->create($routeName, $url)->method($verb)->action(
-					new RouteActionHandler($this->container, $controllerName, $actionName)
-				);
+				$this->router->create($routeName, $url)
+					->method($verb)
+					->setDefault('caller', [$this->appName, $controllerName, $actionName]);
 			}
 		}
 	}

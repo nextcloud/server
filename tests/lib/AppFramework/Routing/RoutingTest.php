@@ -3,7 +3,6 @@
 namespace Test\AppFramework\Routing;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
-use OC\AppFramework\Routing\RouteActionHandler;
 use OC\AppFramework\Routing\RouteConfig;
 use OC\Route\Route;
 use OC\Route\Router;
@@ -420,7 +419,7 @@ class RoutingTest extends \Test\TestCase {
 		array $defaults=[]
 	) {
 		$route = $this->getMockBuilder(Route::class)
-			->onlyMethods(['method', 'action', 'requirements', 'defaults'])
+			->onlyMethods(['method', 'setDefault', 'requirements', 'defaults'])
 			->disableOriginalConstructor()
 			->getMock();
 		$route
@@ -431,8 +430,8 @@ class RoutingTest extends \Test\TestCase {
 
 		$route
 			->expects($this->once())
-			->method('action')
-			->with($this->equalTo(new RouteActionHandler($container, $controllerName, $actionName)))
+			->method('setDefault')
+			->with('caller', ['app1', $controllerName, $actionName])
 			->willReturn($route);
 
 		if (count($requirements) > 0) {
