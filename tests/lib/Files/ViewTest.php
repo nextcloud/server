@@ -13,7 +13,6 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Temporary;
-use OC\Files\Stream\Quota;
 use OC\Files\View;
 use OCP\Constants;
 use OCP\Files\Config\IMountProvider;
