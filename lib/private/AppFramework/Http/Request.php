@@ -659,6 +659,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				if(isset($this->server[$header])) {
 					foreach(explode(',', $this->server[$header]) as $IP) {
 						$IP = trim($IP);
+
+						// remove brackets from IPv6 addresses
+						if (strpos($IP, '[') === 0 && substr($IP, -1) === ']') {
+							$IP = substr($IP, 1, -1);
+						}
+
 						if (filter_var($IP, FILTER_VALIDATE_IP) !== false) {
 							return $IP;
 						}
