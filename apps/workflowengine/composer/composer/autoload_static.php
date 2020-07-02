@@ -42,6 +42,7 @@ class ComposerStaticInitWorkflowEngine
         'OCA\\WorkflowEngine\\Entity\\File' => __DIR__ . '/..' . '/../lib/Entity/File.php',
         'OCA\\WorkflowEngine\\Helper\\LogContext' => __DIR__ . '/..' . '/../lib/Helper/LogContext.php',
         'OCA\\WorkflowEngine\\Helper\\ScopeContext' => __DIR__ . '/..' . '/../lib/Helper/ScopeContext.php',
+        'OCA\\WorkflowEngine\\Listener\\LoadAdditionalSettingsScriptsListener' => __DIR__ . '/..' . '/../lib/Listener/LoadAdditionalSettingsScriptsListener.php',
         'OCA\\WorkflowEngine\\Manager' => __DIR__ . '/..' . '/../lib/Manager.php',
         'OCA\\WorkflowEngine\\Migration\\PopulateNewlyIntroducedDatabaseFields' => __DIR__ . '/..' . '/../lib/Migration/PopulateNewlyIntroducedDatabaseFields.php',
         'OCA\\WorkflowEngine\\Migration\\Version2000Date20190808074233' => __DIR__ . '/..' . '/../lib/Migration/Version2000Date20190808074233.php',
