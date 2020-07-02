@@ -143,6 +143,7 @@ use OCP\AppFramework\QueryException;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\BackgroundJob\IJobList;
 use OCP\Collaboration\AutoComplete\IManager;
+use OCP\Command\IBus;
 use OCP\Comments\ICommentsManager;
 use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IContactsStore;
@@ -906,7 +907,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('AsyncCommandBus', function (Server $c) {
 			$busClass = $c->getConfig()->getSystemValue('commandbus');
 			if ($busClass) {
-				list($app, $class) = explode('::', $busClass, 2);
+				[$app, $class] = explode('::', $busClass, 2);
 				if ($c->getAppManager()->isInstalled($app)) {
 					\OC_App::loadApp($app);
 					return $c->query($class);
@@ -918,6 +919,7 @@ class Server extends ServerContainer implements IServerContainer {
 				return new CronBus($jobList);
 			}
 		});
+		$this->registerAlias(IBus::class, 'AsyncCommandBus');
 		$this->registerService('TrustedDomainHelper', function ($c) {
 			return new TrustedDomainHelper($this->getConfig());
 		});
