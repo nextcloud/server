@@ -634,6 +634,34 @@ class RequestTest extends \Test\TestCase {
 		$this->assertSame('192.168.3.99', $request->getRemoteAddress());
 	}
 
+	public function testGetRemoteAddressWithXForwardedForIPv6() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('trusted_proxies')
+			->willReturn(['192.168.2.0/24']);
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('forwarded_for_headers')
+			->willReturn(['HTTP_X_FORWARDED_FOR']);
+
+		$request = new Request(
+			[
+				'server' => [
+					'REMOTE_ADDR' => '192.168.2.99',
+					'HTTP_X_FORWARDED_FOR' => '[2001:db8:85a3:8d3:1319:8a2e:370:7348]',
+				],
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
+		);
+
+		$this->assertSame('2001:db8:85a3:8d3:1319:8a2e:370:7348', $request->getRemoteAddress());
+	}
+
 	/**
 	 * @return array
 	 */
