@@ -73,7 +73,8 @@ class S3Signature implements SignatureInterface {
 	public function presign(
 		RequestInterface $request,
 		CredentialsInterface $credentials,
-		$expires
+		$expires,
+		array $options = []
 	) {
 		$query = [];
 		// URL encoding already occurs in the URI template expansion. Undo that
