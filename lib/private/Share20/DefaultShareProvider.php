@@ -43,13 +43,14 @@ use OCP\Defaults;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IGroupManager;
-use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\Mail\IMailer;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
@@ -84,24 +85,15 @@ class DefaultShareProvider implements IShareProvider {
 	/** @var Defaults */
 	private $defaults;
 
-	/** @var IL10N */
-	private $l;
+	/** @var IFactory */
+	private $l10nFactory;
 
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	/**
-	 * DefaultShareProvider constructor.
-	 *
-	 * @param IDBConnection $connection
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IRootFolder $rootFolder
-	 * @param IMailer $mailer ;
-	 * @param Defaults $defaults
-	 * @param IL10N $l
-	 * @param IURLGenerator $urlGenerator
-	 */
+	/** @var IConfig */
+	private $config;
+
 	public function __construct(
 			IDBConnection $connection,
 			IUserManager $userManager,
@@ -109,16 +101,18 @@ class DefaultShareProvider implements IShareProvider {
 			IRootFolder $rootFolder,
 			IMailer $mailer,
 			Defaults $defaults,
-			IL10N $l,
-			IURLGenerator $urlGenerator) {
+			IFactory $l10nFactory,
+			IURLGenerator $urlGenerator,
+			IConfig $config) {
 		$this->dbConn = $connection;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->rootFolder = $rootFolder;
 		$this->mailer = $mailer;
 		$this->defaults = $defaults;
-		$this->l = $l;
+		$this->l10nFactory = $l10nFactory;
 		$this->urlGenerator = $urlGenerator;
+		$this->config = $config;
 	}
 
 	/**
@@ -1413,46 +1407,59 @@ class DefaultShareProvider implements IShareProvider {
 	 */
 	private function sendNote(array $recipients, IShare $share) {
 
-		$toList = [];
+		$toListByLanguage = [];
 
 		foreach ($recipients as $recipient) {
 			/** @var IUser $recipient */
 			$email = $recipient->getEMailAddress();
 			if ($email) {
-				$toList[$email] = $recipient->getDisplayName();
+				$language = $this->config->getSystemValue('force_language', false);
+				$language = \is_string($language) ? $language : $this->config->getUserValue($recipient->getUID(), 'core', 'lang', null);
+				$language = $language ?? $this->config->getSystemValue('default_language', 'en');
+
+				if (!isset($toListByLanguage[$language])) {
+					$toListByLanguage[$language] = [];
+				}
+				$toListByLanguage[$language][$email] = $recipient->getDisplayName();
 			}
 		}
 
-		if (!empty($toList)) {
+		if (empty($toListByLanguage)) {
+			return;
+		}
+
+		foreach ($toListByLanguage as $l10n => $toList) {
 
 			$filename = $share->getNode()->getName();
 			$initiator = $share->getSharedBy();
 			$note = $share->getNote();
 
+			$l = $this->l10nFactory->get('lib', $l10n);
+
 			$initiatorUser = $this->userManager->get($initiator);
 			$initiatorDisplayName = ($initiatorUser instanceof IUser) ? $initiatorUser->getDisplayName() : $initiator;
 			$initiatorEmailAddress = ($initiatorUser instanceof IUser) ? $initiatorUser->getEMailAddress() : null;
-			$plainHeading = $this->l->t('%1$s shared »%2$s« with you and wants to add:', [$initiatorDisplayName, $filename]);
-			$htmlHeading = $this->l->t('%1$s shared »%2$s« with you and wants to add', [$initiatorDisplayName, $filename]);
+			$plainHeading = $l->t('%1$s shared »%2$s« with you and wants to add:', [$initiatorDisplayName, $filename]);
+			$htmlHeading = $l->t('%1$s shared »%2$s« with you and wants to add', [$initiatorDisplayName, $filename]);
 			$message = $this->mailer->createMessage();
 
 			$emailTemplate = $this->mailer->createEMailTemplate('defaultShareProvider.sendNote');
 
-			$emailTemplate->setSubject($this->l->t('»%s« added a note to a file shared with you', [$initiatorDisplayName]));
+			$emailTemplate->setSubject($l->t('»%s« added a note to a file shared with you', [$initiatorDisplayName]));
 			$emailTemplate->addHeader();
 			$emailTemplate->addHeading($htmlHeading, $plainHeading);
 			$emailTemplate->addBodyText(htmlspecialchars($note), $note);
 
 			$link = $this->urlGenerator->linkToRouteAbsolute('files.viewcontroller.showFile', ['fileid' => $share->getNode()->getId()]);
 			$emailTemplate->addBodyButton(
-				$this->l->t('Open »%s«', [$filename]),
+				$l->t('Open »%s«', [$filename]),
 				$link
 			);
 
 
 			// The "From" contains the sharers name
 			$instanceName = $this->defaults->getName();
-			$senderName = $this->l->t(
+			$senderName = $l->t(
 				'%1$s via %2$s',
 				[
 					$initiatorDisplayName,
