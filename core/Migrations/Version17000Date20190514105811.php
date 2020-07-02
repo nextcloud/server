@@ -30,7 +30,7 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -48,21 +48,21 @@ class Version17000Date20190514105811 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 		if (!$schema->hasTable('filecache_extended')) {
 			$table = $schema->createTable('filecache_extended');
-			$table->addColumn('fileid', Type::BIGINT, [
+			$table->addColumn('fileid', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 4,
 				'unsigned' => true,
 			]);
-			$table->addColumn('metadata_etag', Type::STRING, [
+			$table->addColumn('metadata_etag', Types::STRING, [
 				'notnull' => false,
 				'length' => 40,
 			]);
-			$table->addColumn('creation_time', Type::BIGINT, [
+			$table->addColumn('creation_time', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 20,
 				'default' => 0,
 			]);
-			$table->addColumn('upload_time', Type::BIGINT, [
+			$table->addColumn('upload_time', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 20,
 				'default' => 0,

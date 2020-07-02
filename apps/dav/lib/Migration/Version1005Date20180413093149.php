@@ -26,7 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\DAV\Migration;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -47,26 +47,26 @@ class Version1005Date20180413093149 extends SimpleMigrationStep {
 		if (!$schema->hasTable('directlink')) {
 			$table = $schema->createTable('directlink');
 
-			$table->addColumn('id',Type::BIGINT, [
+			$table->addColumn('id',Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 11,
 				'unsigned' => true,
 			]);
-			$table->addColumn('user_id', Type::STRING, [
+			$table->addColumn('user_id', Types::STRING, [
 				'notnull' => false,
 				'length' => 64,
 			]);
-			$table->addColumn('file_id', Type::BIGINT, [
+			$table->addColumn('file_id', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 11,
 				'unsigned' => true,
 			]);
-			$table->addColumn('token', Type::STRING, [
+			$table->addColumn('token', Types::STRING, [
 				'notnull' => false,
 				'length' => 60,
 			]);
-			$table->addColumn('expiration', Type::BIGINT, [
+			$table->addColumn('expiration', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 11,
 				'unsigned' => true,

@@ -28,7 +28,7 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -49,11 +49,11 @@ class Version16000Date20190207141427 extends SimpleMigrationStep {
 		if (!$schema->hasTable('collres_collections')) {
 			$table = $schema->createTable('collres_collections');
 
-			$table->addColumn('id', Type::BIGINT, [
+			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 			]);
-			$table->addColumn('name', Type::STRING, [
+			$table->addColumn('name', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
@@ -64,14 +64,14 @@ class Version16000Date20190207141427 extends SimpleMigrationStep {
 		if (!$schema->hasTable('collres_resources')) {
 			$table = $schema->createTable('collres_resources');
 
-			$table->addColumn('collection_id', Type::BIGINT, [
+			$table->addColumn('collection_id', Types::BIGINT, [
 				'notnull' => true,
 			]);
-			$table->addColumn('resource_type', Type::STRING, [
+			$table->addColumn('resource_type', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
-			$table->addColumn('resource_id', Type::STRING, [
+			$table->addColumn('resource_id', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
@@ -82,25 +82,25 @@ class Version16000Date20190207141427 extends SimpleMigrationStep {
 		if (!$schema->hasTable('collres_accesscache')) {
 			$table = $schema->createTable('collres_accesscache');
 
-			$table->addColumn('user_id', Type::STRING, [
+			$table->addColumn('user_id', Types::STRING, [
 				'notnull' => true,
 				'length' => 64,
 			]);
-			$table->addColumn('collection_id', Type::BIGINT, [
+			$table->addColumn('collection_id', Types::BIGINT, [
 				'notnull' => false,
 				'default' => 0,
 			]);
-			$table->addColumn('resource_type', Type::STRING, [
+			$table->addColumn('resource_type', Types::STRING, [
 				'notnull' => false,
 				'length' => 64,
 				'default' => '',
 			]);
-			$table->addColumn('resource_id', Type::STRING, [
+			$table->addColumn('resource_id', Types::STRING, [
 				'notnull' => false,
 				'length' => 64,
 				'default' => '',
 			]);
-			$table->addColumn('access', Type::SMALLINT, [
+			$table->addColumn('access', Types::SMALLINT, [
 				'notnull' => true,
 				'default' => 0,
 			]);

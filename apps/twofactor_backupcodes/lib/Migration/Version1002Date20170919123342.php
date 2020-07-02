@@ -25,6 +25,7 @@
 namespace OCA\TwoFactorBackupCodes\Migration;
 
 use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -47,8 +48,8 @@ class Version1002Date20170919123342 extends SimpleMigrationStep {
 		$column->setDefault('');
 
 		$column = $table->getColumn('used');
-		if ($column->getType()->getName() !== Type::SMALLINT) {
-			$column->setType(Type::getType(Type::SMALLINT));
+		if ($column->getType()->getName() !== Types::SMALLINT) {
+			$column->setType(Type::getType(Types::SMALLINT));
 			$column->setOptions(['length' => 6]);
 		}
 

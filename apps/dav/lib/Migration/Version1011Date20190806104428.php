@@ -28,7 +28,7 @@ declare(strict_types=1);
 namespace OCA\DAV\Migration;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -48,21 +48,21 @@ class Version1011Date20190806104428 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		$table = $schema->createTable('dav_cal_proxy');
-		$table->addColumn('id', Type::BIGINT, [
+		$table->addColumn('id', Types::BIGINT, [
 			'autoincrement' => true,
 			'notnull' => true,
 			'length' => 11,
 			'unsigned' => true,
 		]);
-		$table->addColumn('owner_id', Type::STRING, [
+		$table->addColumn('owner_id', Types::STRING, [
 			'notnull' => true,
 			'length' => 64,
 		]);
-		$table->addColumn('proxy_id', Type::STRING, [
+		$table->addColumn('proxy_id', Types::STRING, [
 			'notnull' => true,
 			'length' => 64,
 		]);
-		$table->addColumn('permissions', Type::INTEGER, [
+		$table->addColumn('permissions', Types::INTEGER, [
 			'notnull' => false,
 			'length' => 4,
 			'unsigned' => true,

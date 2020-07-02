@@ -6,7 +6,7 @@ namespace OCA\WorkflowEngine\Migration;
 
 use Closure;
 use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -25,25 +25,25 @@ class Version2000Date20190808074233 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('flow_checks')) {
 			$table = $schema->createTable('flow_checks');
-			$table->addColumn('id', Type::INTEGER, [
+			$table->addColumn('id', Types::INTEGER, [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
 			]);
-			$table->addColumn('class', Type::STRING, [
+			$table->addColumn('class', Types::STRING, [
 				'notnull' => true,
 				'length' => 256,
 				'default' => '',
 			]);
-			$table->addColumn('operator', Type::STRING, [
+			$table->addColumn('operator', Types::STRING, [
 				'notnull' => true,
 				'length' => 16,
 				'default' => '',
 			]);
-			$table->addColumn('value', Type::TEXT, [
+			$table->addColumn('value', Types::TEXT, [
 				'notnull' => false,
 			]);
-			$table->addColumn('hash', Type::STRING, [
+			$table->addColumn('hash', Types::STRING, [
 				'notnull' => true,
 				'length' => 32,
 				'default' => '',
@@ -54,25 +54,25 @@ class Version2000Date20190808074233 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('flow_operations')) {
 			$table = $schema->createTable('flow_operations');
-			$table->addColumn('id', Type::INTEGER, [
+			$table->addColumn('id', Types::INTEGER, [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
 			]);
-			$table->addColumn('class', Type::STRING, [
+			$table->addColumn('class', Types::STRING, [
 				'notnull' => true,
 				'length' => 256,
 				'default' => '',
 			]);
-			$table->addColumn('name', Type::STRING, [
+			$table->addColumn('name', Types::STRING, [
 				'notnull' => true,
 				'length' => 256,
 				'default' => '',
 			]);
-			$table->addColumn('checks', Type::TEXT, [
+			$table->addColumn('checks', Types::TEXT, [
 				'notnull' => false,
 			]);
-			$table->addColumn('operation', Type::TEXT, [
+			$table->addColumn('operation', Types::TEXT, [
 				'notnull' => false,
 			]);
 			$this->ensureEntityColumns($table);
@@ -84,22 +84,22 @@ class Version2000Date20190808074233 extends SimpleMigrationStep {
 
 		if (!$schema->hasTable('flow_operations_scope')) {
 			$table = $schema->createTable('flow_operations_scope');
-			$table->addColumn('id', Type::BIGINT, [
+			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 4,
 			]);
-			$table->addColumn('operation_id', Type::INTEGER, [
+			$table->addColumn('operation_id', Types::INTEGER, [
 				'notnull' => true,
 				'length' => 4,
 				'default' => 0,
 			]);
-			$table->addColumn('type', Type::INTEGER, [
+			$table->addColumn('type', Types::INTEGER, [
 				'notnull' => true,
 				'length' => 4,
 				'default' => 0,
 			]);
-			$table->addColumn('value', Type::STRING, [
+			$table->addColumn('value', Types::STRING, [
 				'notnull' => false,
 				'length' => 64,
 				'default' => '',
@@ -113,14 +113,14 @@ class Version2000Date20190808074233 extends SimpleMigrationStep {
 
 	protected function ensureEntityColumns(Table $table) {
 		if (!$table->hasColumn('entity')) {
-			$table->addColumn('entity', Type::STRING, [
+			$table->addColumn('entity', Types::STRING, [
 				'notnull' => true,
 				'length' => 256,
 				'default' => '',
 			]);
 		}
 		if (!$table->hasColumn('events')) {
-			$table->addColumn('events', Type::TEXT, [
+			$table->addColumn('events', Types::TEXT, [
 				'notnull' => true,
 				'default' => '[]',
 			]);

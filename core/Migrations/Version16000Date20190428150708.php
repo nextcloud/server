@@ -28,7 +28,7 @@ declare(strict_types=1);
 namespace OC\Core\Migrations;
 
 use Closure;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -48,7 +48,7 @@ class Version16000Date20190428150708 extends SimpleMigrationStep {
 
 		if ($schema->hasTable('collres_accesscache')) {
 			$table = $schema->getTable('collres_accesscache');
-			$table->addColumn('access', Type::BOOLEAN, [
+			$table->addColumn('access', Types::BOOLEAN, [
 				'notnull' => true,
 				'default' => false
 			]);

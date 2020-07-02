@@ -24,7 +24,7 @@ namespace Test\DB;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Class OCPostgreSqlPlatformTest
@@ -42,8 +42,8 @@ class OCPostgreSqlPlatformTest extends \Test\TestCase {
 		$sourceSchema = new Schema();
 		$targetSchema = new Schema();
 
-		$this->createTableAndColumn($sourceSchema, Type::INTEGER);
-		$this->createTableAndColumn($targetSchema, Type::BIGINT);
+		$this->createTableAndColumn($sourceSchema, Types::INTEGER);
+		$this->createTableAndColumn($targetSchema, Types::BIGINT);
 
 		$comparator = new Comparator();
 		$diff = $comparator->compare($sourceSchema, $targetSchema);

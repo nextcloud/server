@@ -25,7 +25,7 @@
  */
 namespace OCA\DAV\Migration;
 
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
@@ -49,38 +49,38 @@ class Version1006Date20180619154313 extends SimpleMigrationStep {
 		if (!$schema->hasTable('calendar_invitations')) {
 			$table = $schema->createTable('calendar_invitations');
 
-			$table->addColumn('id', Type::BIGINT, [
+			$table->addColumn('id', Types::BIGINT, [
 				'autoincrement' => true,
 				'notnull' => true,
 				'length' => 11,
 				'unsigned' => true,
 			]);
-			$table->addColumn('uid', Type::STRING, [
+			$table->addColumn('uid', Types::STRING, [
 				'notnull' => true,
 				'length' => 255,
 			]);
-			$table->addColumn('recurrenceid', Type::STRING, [
+			$table->addColumn('recurrenceid', Types::STRING, [
 				'notnull' => false,
 				'length' => 255,
 			]);
-			$table->addColumn('attendee', Type::STRING, [
+			$table->addColumn('attendee', Types::STRING, [
 				'notnull' => true,
 				'length' => 255,
 			]);
-			$table->addColumn('organizer', Type::STRING, [
+			$table->addColumn('organizer', Types::STRING, [
 				'notnull' => true,
 				'length' => 255,
 			]);
-			$table->addColumn('sequence', Type::BIGINT, [
+			$table->addColumn('sequence', Types::BIGINT, [
 				'notnull' => false,
 				'length' => 11,
 				'unsigned' => true,
 			]);
-			$table->addColumn('token', Type::STRING, [
+			$table->addColumn('token', Types::STRING, [
 				'notnull' => true,
 				'length' => 60,
 			]);
-			$table->addColumn('expiration', Type::BIGINT, [
+			$table->addColumn('expiration', Types::BIGINT, [
 				'notnull' => true,
 				'length' => 11,
 				'unsigned' => true,
