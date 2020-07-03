@@ -31,6 +31,8 @@ OC.L10N.register(
     "Click the button below to open it." : "Norėdami atverti failą, spustelėkite žemiau esantį mygtuką.",
     "Open »%s«" : "Atverti „%s“",
     "%1$s via %2$s" : "%1$s per %2$s",
+    "%1$s shared »%2$s« with you.\nYou should have already received a separate mail with a link to access it.\n" : "%1$s bpabendrino »%2$s« su jumis.\nJūs turėjote gauti laišką su nuoroda, bendrinamam failui pasiekti.\n",
+    "%1$s shared »%2$s« with you. You should have already received a separate mail with a link to access it." : " %1$s pabendrino »%2$s« su jumis. Jūs turėjote gauti laišką su nuoroda, bendrinamam failui pasiekti.",
     "Password to access »%1$s« shared to you by %2$s" : "%2$s pasidalino slaptažodžiu, reikalingu atverti „%1$s“",
     "Password to access »%s«" : "Slaptažodis, skirtas prieigai prie „%s“",
     "It is protected with the following password:" : "Apsaugota šiuo slaptažodžiu:",
