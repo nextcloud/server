@@ -104,11 +104,18 @@ class Client implements IClient {
 			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 		}
 
-		if ($this->certificateManager->listCertificates() === []) {
-			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
+		// If the user has personal certificates use those
+		if ($this->certificateManager->listCertificates() !== []) {
+			return $this->certificateManager->getAbsoluteBundlePath();
 		}
 
-		return $this->certificateManager->getAbsoluteBundlePath();
+		// If there are server wide customer certifcates use those
+		if ($this->certificateManager->listCertificates(null) !== []) {
+			return $this->certificateManager->getAbsoluteBundlePath(null);
+		}
+
+		// Else just use the default bundle
+		return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 	}
 
 	/**

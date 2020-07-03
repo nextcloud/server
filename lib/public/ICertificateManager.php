@@ -35,7 +35,7 @@ interface ICertificateManager {
 	 * @return \OCP\ICertificate[]
 	 * @since 8.0.0
 	 */
-	public function listCertificates();
+	public function listCertificates($uid = '');
 
 	/**
 	 * @param string $certificate the certificate data

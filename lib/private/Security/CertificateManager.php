@@ -86,12 +86,12 @@ class CertificateManager implements ICertificateManager {
 	 *
 	 * @return \OCP\ICertificate[]
 	 */
-	public function listCertificates() {
+	public function listCertificates($uid = '') {
 		if (!$this->config->getSystemValue('installed', false)) {
 			return [];
 		}
 
-		$path = $this->getPathToCertificates() . 'uploads/';
+		$path = $this->getPathToCertificates($uid) . 'uploads/';
 		if (!$this->view->is_dir($path)) {
 			return [];
 		}
