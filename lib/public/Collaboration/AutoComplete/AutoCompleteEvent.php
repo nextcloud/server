@@ -26,7 +26,7 @@ declare(strict_types=1);
 
 namespace OCP\Collaboration\AutoComplete;
 
-use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\GenericEvent;
 
 /**
  * @since 16.0.0

@@ -26,9 +26,9 @@ namespace Tests\Core\Controller;
 use OC\Core\Controller\AutoCompleteController;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class AutoCompleteControllerTest extends TestCase {
@@ -36,7 +36,7 @@ class AutoCompleteControllerTest extends TestCase {
 	protected $collaboratorSearch;
 	/** @var  IManager|MockObject */
 	protected $autoCompleteManager;
-	/** @var  EventDispatcherInterface|MockObject */
+	/** @var  IEventDispatcher|MockObject */
 	protected $dispatcher;
 	/** @var  AutoCompleteController */
 	protected $controller;
@@ -48,7 +48,7 @@ class AutoCompleteControllerTest extends TestCase {
 		$request = $this->createMock(IRequest::class);
 		$this->collaboratorSearch = $this->createMock(ISearch::class);
 		$this->autoCompleteManager = $this->createMock(IManager::class);
-		$this->dispatcher = $this->createMock(EventDispatcherInterface::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->controller = new AutoCompleteController(
 			'core',

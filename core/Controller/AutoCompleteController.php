@@ -34,17 +34,16 @@ use OCP\AppFramework\OCSController as Controller;
 use OCP\Collaboration\AutoComplete\AutoCompleteEvent;
 use OCP\Collaboration\AutoComplete\IManager;
 use OCP\Collaboration\Collaborators\ISearch;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
-use OCP\Share;
 use OCP\Share\IShare;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AutoCompleteController extends Controller {
 	/** @var ISearch */
 	private $collaboratorSearch;
 	/** @var IManager */
 	private $autoCompleteManager;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $dispatcher;
 
 	public function __construct(
@@ -52,7 +51,7 @@ class AutoCompleteController extends Controller {
 		IRequest $request,
 		ISearch $collaboratorSearch,
 		IManager $autoCompleteManager,
-		EventDispatcherInterface $dispatcher
+		IEventDispatcher $dispatcher
 	) {
 		parent::__construct($appName, $request);
 
