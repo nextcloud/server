@@ -142,8 +142,8 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function stat($path) {
-		clearstatcache();
 		$fullPath = $this->getSourcePath($path);
+		clearstatcache(true, $fullPath);
 		$statResult = stat($fullPath);
 		if (PHP_INT_SIZE === 4 && !$this->is_dir($path)) {
 			$filesize = $this->filesize($path);
@@ -158,7 +158,7 @@ class Local extends \OC\Files\Storage\Common {
 	 */
 	public function getMetaData($path) {
 		$fullPath = $this->getSourcePath($path);
-		clearstatcache();
+		clearstatcache(true, $fullPath);
 		$stat = @stat($fullPath);
 		if (!$stat) {
 			return null;
