@@ -28,6 +28,7 @@
 namespace OC\BackgroundJob;
 
 use OCP\BackgroundJob\IJob;
+use OCP\BackgroundJob\IJobList;
 use OCP\ILogger;
 
 abstract class Job implements IJob {
@@ -47,7 +48,7 @@ abstract class Job implements IJob {
 	protected $argument;
 
 	/**
-	 * @param JobList $jobList
+	 * @param IJobList $jobList
 	 * @param ILogger|null $logger
 	 */
 	public function execute($jobList, ILogger $logger = null) {

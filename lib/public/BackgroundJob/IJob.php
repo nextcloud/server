@@ -38,7 +38,7 @@ interface IJob {
 	/**
 	 * Run the background job with the registered argument
 	 *
-	 * @param \OCP\BackgroundJob\IJobList $jobList The job list that manages the state of this job
+	 * @param IJobList $jobList The job list that manages the state of this job
 	 * @param ILogger|null $logger
 	 * @since 7.0.0
 	 */
