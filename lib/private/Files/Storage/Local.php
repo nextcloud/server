@@ -108,6 +108,7 @@ class Local extends \OC\Files\Storage\Common {
 				 * @var \SplFileInfo $file
 				 */
 				$file = $it->current();
+				clearstatcache(true, $this->getSourcePath($file));
 				if (in_array($file->getBasename(), ['.', '..'])) {
 					$it->next();
 					continue;
@@ -118,6 +119,7 @@ class Local extends \OC\Files\Storage\Common {
 				}
 				$it->next();
 			}
+			clearstatcache(true, $this->getSourcePath($path));
 			return rmdir($this->getSourcePath($path));
 		} catch (\UnexpectedValueException $e) {
 			return false;
