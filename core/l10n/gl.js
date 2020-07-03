@@ -265,7 +265,7 @@ OC.L10N.register(
     "File: %s" : "Ficheiro: %s",
     "Line: %s" : "Liña: %s",
     "Trace" : "Traza",
-    "Security warning" : "Aviso de seguridade",
+    "Security warning" : "Advertencia de seguridade",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "O seu directorio de datos e os ficheiros probabelmente sexan accesíbeis dende a Internet xa que o ficheiro .htaccess non está a traballar.",
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">documentation</a>." : "Para obter información sobre como configurar o seu servidor de xeito correcto, vexa a <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">documentación</a>.",
     "Create an <strong>admin account</strong>" : "Crear unha <strong>conta de administrador</strong>",

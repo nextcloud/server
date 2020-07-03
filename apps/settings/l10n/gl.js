@@ -327,7 +327,7 @@ OC.L10N.register(
     "Save" : "Gardar",
     "Test email settings" : "Correo de proba dos axustes",
     "Send email" : "Enviar o correo",
-    "Security & setup warnings" : "Avisos de seguridade e configuración",
+    "Security & setup warnings" : "Advertencias de seguridade e configuración",
     "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "É importante para a seguridade e o bo funcionamento da súa instancia que todo estea configurado correctamente. Para axudarlle niso, imos facer algunhas comprobacións automáticas. Vexa a documentación ligada para obter máis información. ",
     "All checks passed." : "Pasáronse todas as verificacións.",
     "There are some errors regarding your setup." : "Hai algún erro relativo aos seus axustes.",
