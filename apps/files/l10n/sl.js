@@ -173,7 +173,7 @@ OC.L10N.register(
     "Shared with you" : "V skupni rabi z vami",
     "Shared by link" : "V souporabi prek povezave",
     "Deleted shares" : "Izbrisana mesta souporabe",
-    "Pending shares" : "Mesta souporabe na čakanju",
+    "Pending shares" : "Predmeti za souporabo na čakanju",
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "nova_datoteka.txt",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Naslov omogoča dostop do datotek prek <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">WebDAV</a>."
