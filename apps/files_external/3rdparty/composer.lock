@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9454f546b6ab8865140c991e8f197951",
+    "content-hash": "71341c5501f2d0c68ca2bfa4e92f4eec",
     "packages": [
         {
             "name": "icewind/smb",
-            "version": "v3.2.4",
+            "version": "v3.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/SMB.git",
-                "reference": "999d6687ca9d4ac2600185c935b45206e47e604a"
+                "reference": "80921d69f5e47157c825f0bdac6c838fe0b901b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/999d6687ca9d4ac2600185c935b45206e47e604a",
-                "reference": "999d6687ca9d4ac2600185c935b45206e47e604a",
+                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/80921d69f5e47157c825f0bdac6c838fe0b901b2",
+                "reference": "80921d69f5e47157c825f0bdac6c838fe0b901b2",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 }
             ],
             "description": "php wrapper for smbclient and libsmbclient-php",
-            "time": "2020-05-11T14:12:35+00:00"
+            "time": "2020-05-27T13:56:04+00:00"
         },
         {
             "name": "icewind/streams",
