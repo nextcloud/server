@@ -953,16 +953,6 @@ class UsersControllerTest extends TestCase {
 			->method('getUserValue')
 			->with('UID', 'core', 'enabled', 'true')
 			->willReturn('true');
-		$this->config
-			->expects($this->at(1))
-			->method('getUserValue')
-			->with('UID', 'core', 'lang')
-			->willReturn('de');
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('force_language', 'de')
-			->willReturn('de');
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
@@ -995,9 +985,14 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 		$targetUser
-			->expects($this->exactly(6))
 			->method('getUID')
 			->willReturn('UID');
+
+		$this->l10nFactory
+			->expects($this->once())
+			->method('getUserLanguage')
+			->with($targetUser)
+			->willReturn('de');
 
 		$expected = [
 			'id' => 'UID',
@@ -1078,16 +1073,6 @@ class UsersControllerTest extends TestCase {
 			->method('getUserValue')
 			->with('UID', 'core', 'enabled', 'true')
 			->willReturn('true');
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('force_language', 'da')
-			->willReturn('da');
-		$this->config
-			->expects($this->at(1))
-			->method('getUserValue')
-			->with('UID', 'core', 'lang')
-			->willReturn('da');
 		$this->api
 			->expects($this->once())
 			->method('fillStorageInfo')
@@ -1120,7 +1105,6 @@ class UsersControllerTest extends TestCase {
 			->method('getBackend')
 			->willReturn($backend);
 		$targetUser
-			->expects($this->exactly(6))
 			->method('getUID')
 			->willReturn('UID');
 		$this->accountManager->expects($this->any())->method('getUser')
@@ -1133,6 +1117,12 @@ class UsersControllerTest extends TestCase {
 					AccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
 				]
 			);
+
+		$this->l10nFactory
+			->expects($this->once())
+			->method('getUserLanguage')
+			->with($targetUser)
+			->willReturn('da');
 
 		$expected = [
 			'id' => 'UID',
@@ -1255,11 +1245,6 @@ class UsersControllerTest extends TestCase {
 			->method('fillStorageInfo')
 			->with('UID')
 			->willReturn(['DummyValue']);
-		$this->config
-			->expects($this->once())
-			->method('getSystemValue')
-			->with('force_language', 'ru')
-			->willReturn('ru');
 
 		$backend = $this->createMock(UserInterface::class);
 		$backend->expects($this->atLeastOnce())
@@ -1275,7 +1260,6 @@ class UsersControllerTest extends TestCase {
 			->method('getEMailAddress')
 			->willReturn('subadmin@nextcloud.com');
 		$targetUser
-			->expects($this->exactly(6))
 			->method('getUID')
 			->willReturn('UID');
 		$targetUser
@@ -1294,11 +1278,6 @@ class UsersControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getBackend')
 			->willReturn($backend);
-		$this->config
-			->expects($this->at(0))
-			->method('getUserValue')
-			->with('UID', 'core', 'lang')
-			->willReturn('ru');
 		$this->accountManager->expects($this->any())->method('getUser')
 			->with($targetUser)
 			->willReturn(
@@ -1309,6 +1288,12 @@ class UsersControllerTest extends TestCase {
 					AccountManager::PROPERTY_WEBSITE => ['value' => 'website'],
 				]
 			);
+
+		$this->l10nFactory
+			->expects($this->once())
+			->method('getUserLanguage')
+			->with($targetUser)
+			->willReturn('ru');
 
 		$expected = [
 			'id' => 'UID',
@@ -2911,8 +2896,7 @@ class UsersControllerTest extends TestCase {
 		$subAdminManager
 			->expects($this->once())
 			->method('createSubAdmin')
-			->with($targetUser, $targetGroup)
-			->willReturn(true);
+			->with($targetUser, $targetGroup);
 		$this->groupManager
 			->expects($this->once())
 			->method('getSubAdmin')
@@ -3014,8 +2998,7 @@ class UsersControllerTest extends TestCase {
 		$subAdminManager
 			->expects($this->once())
 			->method('deleteSubAdmin')
-			->with($targetUser, $targetGroup)
-			->willReturn(true);
+			->with($targetUser, $targetGroup);
 		$this->groupManager
 			->expects($this->once())
 			->method('getSubAdmin')

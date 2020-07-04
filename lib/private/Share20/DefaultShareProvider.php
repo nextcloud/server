@@ -1401,10 +1401,7 @@ class DefaultShareProvider implements IShareProvider {
 			/** @var IUser $recipient */
 			$email = $recipient->getEMailAddress();
 			if ($email) {
-				$language = $this->config->getSystemValue('force_language', false);
-				$language = \is_string($language) ? $language : $this->config->getUserValue($recipient->getUID(), 'core', 'lang', null);
-				$language = $language ?? $this->config->getSystemValue('default_language', 'en');
-
+				$language = $this->l10nFactory->getUserLanguage($recipient);
 				if (!isset($toListByLanguage[$language])) {
 					$toListByLanguage[$language] = [];
 				}

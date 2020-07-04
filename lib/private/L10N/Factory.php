@@ -359,6 +359,29 @@ class Factory implements IFactory {
 	}
 
 	/**
+	 * Return the language to use when sending something to a user
+	 *
+	 * @param IUser|null $user
+	 * @return string
+	 * @since 20.0.0
+	 */
+	public function getUserLanguage(IUser $user = null): string {
+		$language = $this->config->getSystemValue('force_language', false);
+		if ($language !== false) {
+			return $language;
+		}
+
+		if ($user instanceof IUser) {
+			$language = $this->config->getUserValue($user->getUID(), 'core', 'lang', null);
+			if ($language !== null) {
+				return $language;
+			}
+		}
+
+		return $this->config->getSystemValue('default_language', 'en');
+	}
+
+	/**
 	 * @param string $locale
 	 * @return bool
 	 */

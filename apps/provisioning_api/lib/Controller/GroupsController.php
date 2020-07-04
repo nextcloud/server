@@ -47,23 +47,13 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\L10N\IFactory;
 
 class GroupsController extends AUserData {
 
 	/** @var ILogger */
 	private $logger;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IUserManager $userManager
-	 * @param IConfig $config
-	 * @param IGroupManager $groupManager
-	 * @param IUserSession $userSession
-	 * @param AccountManager $accountManager
-	 * @param ILogger $logger
-	 * @param UsersController $userController
-	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IUserManager $userManager,
@@ -71,6 +61,7 @@ class GroupsController extends AUserData {
 								IGroupManager $groupManager,
 								IUserSession $userSession,
 								AccountManager $accountManager,
+								IFactory $l10nFactory,
 								ILogger $logger) {
 		parent::__construct($appName,
 			$request,
@@ -78,7 +69,9 @@ class GroupsController extends AUserData {
 			$config,
 			$groupManager,
 			$userSession,
-			$accountManager);
+			$accountManager,
+			$l10nFactory
+		);
 
 		$this->logger = $logger;
 	}

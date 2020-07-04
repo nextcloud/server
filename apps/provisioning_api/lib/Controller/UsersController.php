@@ -67,7 +67,7 @@ class UsersController extends AUserData {
 	/** @var ILogger */
 	private $logger;
 	/** @var IFactory */
-	private $l10nFactory;
+	protected $l10nFactory;
 	/** @var NewUserMailHelper */
 	private $newUserMailHelper;
 	/** @var FederatedFileSharingFactory */
@@ -77,21 +77,6 @@ class UsersController extends AUserData {
 	/** @var RemoteWipe */
 	private $remoteWipe;
 
-	/**
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IUserManager $userManager
-	 * @param IConfig $config
-	 * @param IAppManager $appManager
-	 * @param IGroupManager $groupManager
-	 * @param IUserSession $userSession
-	 * @param AccountManager $accountManager
-	 * @param ILogger $logger
-	 * @param IFactory $l10nFactory
-	 * @param NewUserMailHelper $newUserMailHelper
-	 * @param FederatedFileSharingFactory $federatedFileSharingFactory
-	 * @param ISecureRandom $secureRandom
-	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IUserManager $userManager,
@@ -112,7 +97,8 @@ class UsersController extends AUserData {
 							$config,
 							$groupManager,
 							$userSession,
-							$accountManager);
+							$accountManager,
+							$l10nFactory);
 
 		$this->appManager = $appManager;
 		$this->logger = $logger;

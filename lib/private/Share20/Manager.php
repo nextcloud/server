@@ -805,7 +805,7 @@ class Manager implements IManager {
 				if ($user !== null) {
 					$emailAddress = $user->getEMailAddress();
 					if ($emailAddress !== null && $emailAddress !== '') {
-						$userLang = $this->config->getUserValue($share->getSharedWith(), 'core', 'lang', null);
+						$userLang = $this->l10nFactory->getUserLanguage($user);
 						$l = $this->l10nFactory->get('lib', $userLang);
 						$this->sendMailNotification(
 							$l,
