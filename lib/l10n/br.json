@@ -1,14 +1,24 @@
 { "translations": {
     "Unknown filetype" : "N'eo ket anavezet stumm an teuliad",
     "Invalid image" : "N'eo ket aotreet ar skeudenn",
+    "today" : "hiziv",
+    "yesterday" : "dec'h",
+    "_%n day ago_::_%n days ago_" : ["%n deiz zo","%n deiz zo","%n deiz zo","%n deiz zo","%n deiz zo"],
+    "last month" : "ar miz tremenet",
+    "_%n month ago_::_%n months ago_" : ["%n miz zo","%n miz zo","%n miz zo","%n miz zo","%n miz zo"],
+    "last year" : "Ar bloaz tremenet",
     "seconds ago" : "eilenn zo",
+    "File name is too long" : "Anv ar restr a zo re hir",
     "__language_name__" : "Brezhoneg",
     "Help" : "Skoazell",
     "Apps" : "Meziant",
     "Settings" : "Arventennoù",
     "Users" : "Implijer",
+    "Unknown user" : "Implijer dianv",
     "Open »%s«" : "Digeriñ  »%s«",
     "User disabled" : "Implijer disaotreet",
-    "Storage is temporarily not available" : "N'haller ket tizhout ar skor roadennoù evit ar poent"
+    "Can't read file" : "N'eo ket posupl lenn ar restr",
+    "Storage is temporarily not available" : "N'haller ket tizhout ar skor roadennoù evit ar poent",
+    "Sharing" : "Rannan"
 },"pluralForm" :"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);"
 }
