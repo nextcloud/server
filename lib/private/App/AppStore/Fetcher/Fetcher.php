@@ -96,7 +96,7 @@ abstract class Fetcher {
 		}
 
 		$options = [
-			'timeout' => 10,
+			'timeout' => 60,
 			'headers' => ['Accept-Encoding' => 'gzip'],
 		];
 
