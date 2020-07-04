@@ -9,6 +9,7 @@ OC.L10N.register(
     "Federation allows you to connect with other trusted servers to exchange the user directory." : "Федерацијата ви овозможува да се поврзете со други доверливи сервери и размена на корисничките директориуми.",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Федерацијата ви овозможува да се поврзете со други доверливи сервери и размена на корисничките директориуми. Како пример ова ќе биде искористено и како автоматско комплетирање на корисничкото име при споделување во федерацијата.",
     "Trusted servers" : "Доверливи сервери",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing. It is not necessary to add a server as trusted server in order to create a federated share." : "Федерацијата ви овозможува да се поврзете со други доверливи сервери и размена на корисничките директориуми. Како пример ова ќе биде искористено и како автоматско комплетирање на корисничкото име при споделување во федерацијата. Не е потребно да се додаде како веродостоен сервер за да се креира федерално споделување.",
     "Add server automatically once a federated share was created successfully" : "Додади го серверот автоматски одкога еднаш успешно ќе се споделат податоци со истиот",
     "+ Add trusted server" : "+ Додади доверлив сервер",
     "Trusted server" : "Доверлив сервер",
