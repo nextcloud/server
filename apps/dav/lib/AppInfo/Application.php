@@ -105,30 +105,14 @@ class Application extends App implements IBootstrap {
 		// Load all dav apps
 		\OC_App::loadApps(['dav']);
 
-		$this->registerHooks(
-			$context->getAppContainer()->query(HookManager::class),
-			$context->getServerContainer()->getEventDispatcher(),
-			$context->getAppContainer(),
-			$context->getServerContainer()
-		);
-		$this->registerContactsManager(
-			$context->getAppContainer()->query(IContactsManager::class),
-			$context->getAppContainer()
-		);
-		$this->registerCalendarManager(
-			$context->getAppContainer()->query(ICalendarManager::class),
-			$context->getAppContainer()
-		);
-		$this->registerNotifier(
-			$context->getServerContainer()->getNotificationManager()
-		);
-		$this->registerCalendarReminders(
-			$context->getAppContainer()->query(NotificationProviderManager::class),
-			$context->getAppContainer()->query(ILogger::class)
-		);
+		$context->injectFn([$this, 'registerHooks']);
+		$context->injectFn([$this, 'registerContactsManager']);
+		$context->injectFn([$this, 'registerCalendarManager']);
+		$context->injectFn([$this, 'registerNotifier']);
+		$context->injectFn([$this, 'registerCalendarReminders']);
 	}
 
-	private function registerHooks(HookManager $hm,
+	public function registerHooks(HookManager $hm,
 								   EventDispatcherInterface $dispatcher,
 								   IAppContainer $container,
 								   IServerContainer $serverContainer) {
@@ -349,7 +333,7 @@ class Application extends App implements IBootstrap {
 		$dispatcher->addListener('\OCP\Calendar\Room\ForceRefreshEvent', $eventHandler);
 	}
 
-	private function registerContactsManager(IContactsManager $cm, IAppContainer $container): void {
+	public function registerContactsManager(IContactsManager $cm, IAppContainer $container): void {
 		$cm->register(function () use ($container, $cm): void {
 			$user = \OC::$server->getUserSession()->getUser();
 			if (!is_null($user)) {
@@ -377,7 +361,7 @@ class Application extends App implements IBootstrap {
 		$cm->setupSystemContactsProvider($contactsManager, $urlGenerator);
 	}
 
-	private function registerCalendarManager(ICalendarManager $calendarManager,
+	public function registerCalendarManager(ICalendarManager $calendarManager,
 											 IAppContainer $container): void {
 		$calendarManager->register(function () use ($container, $calendarManager) {
 			$user = \OC::$server->getUserSession()->getUser();
@@ -394,11 +378,11 @@ class Application extends App implements IBootstrap {
 		$cm->setupCalendarProvider($calendarManager, $userId);
 	}
 
-	private function registerNotifier(INotificationManager $manager): void {
+	public function registerNotifier(INotificationManager $manager): void {
 		$manager->registerNotifierService(Notifier::class);
 	}
 
-	private function registerCalendarReminders(NotificationProviderManager $manager,
+	public function registerCalendarReminders(NotificationProviderManager $manager,
 											   ILogger $logger): void {
 		try {
 			$manager->registerProvider(AudioProvider::class);

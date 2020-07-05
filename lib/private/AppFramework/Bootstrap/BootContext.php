@@ -45,4 +45,8 @@ class BootContext implements IBootContext {
 	public function getServerContainer(): IServerContainer {
 		return $this->appContainer->getServer();
 	}
+
+	public function injectFn(callable $fn) {
+		return (new FunctionInjector($this->appContainer))->injectFn($fn);
+	}
 }

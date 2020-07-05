@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * ownCloud - App Framework
  *
@@ -67,13 +69,14 @@ class SimpleContainerTest extends \Test\TestCase {
 	}
 
 
+
 	public function testRegister() {
 		$this->container->registerParameter('test', 'abc');
 		$this->assertEquals('abc', $this->container->query('test'));
 	}
 
 
-	
+
 	public function testNothingRegistered() {
 		$this->expectException(\OCP\AppFramework\QueryException::class);
 
@@ -81,7 +84,7 @@ class SimpleContainerTest extends \Test\TestCase {
 	}
 
 
-	
+
 	public function testNotAClass() {
 		$this->expectException(\OCP\AppFramework\QueryException::class);
 
@@ -190,7 +193,7 @@ class SimpleContainerTest extends \Test\TestCase {
 		$this->assertEquals('abc', $this->container->query($query));
 	}
 
-	
+
 	public function testConstructorComplexNoTestParameterFound() {
 		$this->expectException(\OCP\AppFramework\QueryException::class);
 
