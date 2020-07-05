@@ -175,8 +175,8 @@ class ServerTest extends \Test\TestCase {
 	}
 
 	public function testGetCertificateManager() {
-		$this->assertInstanceOf('\OC\Security\CertificateManager', $this->server->getCertificateManager('test'), 'service returned by "getCertificateManager" did not return the right class');
-		$this->assertInstanceOf('\OCP\ICertificateManager', $this->server->getCertificateManager('test'), 'service returned by "getCertificateManager" did not return the right class');
+		$this->assertInstanceOf('\OC\Security\CertificateManager', $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
+		$this->assertInstanceOf('\OCP\ICertificateManager', $this->server->getCertificateManager(), 'service returned by "getCertificateManager" did not return the right class');
 	}
 
 	public function testCreateEventSource() {
