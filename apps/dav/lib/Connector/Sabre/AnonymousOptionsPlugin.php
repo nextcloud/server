@@ -67,7 +67,7 @@ class AnonymousOptionsPlugin extends ServerPlugin {
 		$emptyAuth = $request->getHeader('Authorization') === null
 			|| $request->getHeader('Authorization') === ''
 			|| trim($request->getHeader('Authorization')) === 'Bearer';
-		$isAnonymousOfficeOption = $request->getMethod() === 'OPTIONS' && $isOffice && $emptyAuth;
+		$isAnonymousOfficeOption = $request->getMethod() === 'OPTIONS' && $emptyAuth;
 		$isOfficeHead = $request->getMethod() === 'HEAD' && $isOffice && $emptyAuth;
 		if ($isAnonymousOfficeOption || $isOfficeHead) {
 			/** @var CorePlugin $corePlugin */
