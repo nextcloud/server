@@ -95,9 +95,9 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When /^transfering ownership from "([^"]+)" to "([^"]+)"/
+	 * @When /^transferring ownership from "([^"]+)" to "([^"]+)"/
 	 */
-	public function transferingOwnership($user1, $user2) {
+	public function transferringOwnership($user1, $user2) {
 		if ($this->runOcc(['files:transfer-ownership', $user1, $user2]) === 0) {
 			$this->lastTransferPath = $this->findLastTransferFolderForUser($user1, $user2);
 		} else {
@@ -107,9 +107,9 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When /^transfering ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)"/
+	 * @When /^transferring ownership of path "([^"]+)" from "([^"]+)" to "([^"]+)"/
 	 */
-	public function transferingOwnershipPath($path, $user1, $user2) {
+	public function transferringOwnershipPath($path, $user1, $user2) {
 		$path = '--path=' . $path;
 		if ($this->runOcc(['files:transfer-ownership', $path, $user1, $user2]) === 0) {
 			$this->lastTransferPath = $this->findLastTransferFolderForUser($user1, $user2);
