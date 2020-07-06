@@ -32,26 +32,16 @@ use OCP\BackgroundJob\IJobList;
 use OCP\ILogger;
 
 abstract class Job implements IJob {
-	/**
-	 * @var int $id
-	 */
+	/** @var int */
 	protected $id;
 
-	/**
-	 * @var int $lastRun
-	 */
+	/** @var int */
 	protected $lastRun;
 
-	/**
-	 * @var mixed $argument
-	 */
+	/** @var mixed */
 	protected $argument;
 
-	/**
-	 * @param IJobList $jobList
-	 * @param ILogger|null $logger
-	 */
-	public function execute($jobList, ILogger $logger = null) {
+	public function execute(IJobList $jobList, ILogger $logger = null) {
 		$jobList->setLastRun($this);
 		if ($logger === null) {
 			$logger = \OC::$server->getLogger();
@@ -77,11 +67,11 @@ abstract class Job implements IJob {
 
 	abstract protected function run($argument);
 
-	public function setId($id) {
+	public function setId(int $id) {
 		$this->id = $id;
 	}
 
-	public function setLastRun($lastRun) {
+	public function setLastRun(int $lastRun) {
 		$this->lastRun = $lastRun;
 	}
 

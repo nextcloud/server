@@ -42,19 +42,17 @@ interface IJob {
 	 * @param ILogger|null $logger
 	 * @since 7.0.0
 	 */
-	public function execute($jobList, ILogger $logger = null);
+	public function execute(IJobList $jobList, ILogger $logger = null);
 
 	/**
-	 * @param int $id
 	 * @since 7.0.0
 	 */
-	public function setId($id);
+	public function setId(int $id);
 
 	/**
-	 * @param int $lastRun
 	 * @since 7.0.0
 	 */
-	public function setLastRun($lastRun);
+	public function setLastRun(int $lastRun);
 
 	/**
 	 * @param mixed $argument
