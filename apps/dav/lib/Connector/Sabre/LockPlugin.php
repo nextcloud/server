@@ -42,12 +42,20 @@ class LockPlugin extends ServerPlugin {
 	private $server;
 
 	/**
+	 * State of the lock
+	 *
+	 * @var bool
+	 */
+	private $isLocked;
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
 		$this->server = $server;
 		$this->server->on('beforeMethod:*', [$this, 'getLock'], 50);
 		$this->server->on('afterMethod:*', [$this, 'releaseLock'], 50);
+		$this->isLocked = false;
 	}
 
 	public function getLock(RequestInterface $request) {
@@ -67,10 +75,15 @@ class LockPlugin extends ServerPlugin {
 			} catch (LockedException $e) {
 				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}
+			$this->isLocked = true;
 		}
 	}
 
 	public function releaseLock(RequestInterface $request) {
+		// don't try to release the lock if we never locked one
+		if ($this->isLocked === false) {
+			return;
+		}
 		if ($request->getMethod() !== 'PUT' || isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			return;
 		}
@@ -81,6 +94,7 @@ class LockPlugin extends ServerPlugin {
 		}
 		if ($node instanceof Node) {
 			$node->releaseLock(ILockingProvider::LOCK_SHARED);
+			$this->isLocked = false;
 		}
 	}
 }
