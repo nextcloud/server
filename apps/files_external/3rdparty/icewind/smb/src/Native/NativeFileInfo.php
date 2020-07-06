@@ -141,7 +141,7 @@ class NativeFileInfo implements IFileInfo {
 	public function isHidden() {
 		$mode = $this->getMode();
 		if ($mode > 0x80) {
-			return $this->name[0] === '.';
+			return strlen($this->name) > 0 && $this->name[0] === '.';
 		} else {
 			return (bool)($mode & IFileInfo::MODE_HIDDEN);
 		}
