@@ -1005,7 +1005,7 @@ class OC {
 					OC_App::loadApps(['filesystem', 'logging']);
 					OC_App::loadApps();
 				}
-				OC::$server->getRouter()->match(\OC::$server->getRequest()->getRawPathInfo());
+				OC::$server->get(\OC\Route\Router::class)->match(\OC::$server->getRequest()->getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
 				//header('HTTP/1.0 404 Not Found');

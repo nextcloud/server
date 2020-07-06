@@ -178,14 +178,6 @@ class Router implements IRouter {
 	}
 
 	/**
-	 * @return string
-	 * @deprecated
-	 */
-	public function getCacheKey() {
-		return '';
-	}
-
-	/**
 	 * @param string $name
 	 * @return \Symfony\Component\Routing\RouteCollection
 	 */
