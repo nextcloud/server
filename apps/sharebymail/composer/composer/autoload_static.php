@@ -24,7 +24,6 @@ class ComposerStaticInitShareByMail
         'OCA\\ShareByMail\\Activity' => __DIR__ . '/..' . '/../lib/Activity.php',
         'OCA\\ShareByMail\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\ShareByMail\\Capabilities' => __DIR__ . '/..' . '/../lib/Capabilities.php',
-        'OCA\\ShareByMail\\Settings' => __DIR__ . '/..' . '/../lib/Settings.php',
         'OCA\\ShareByMail\\Settings\\Admin' => __DIR__ . '/..' . '/../lib/Settings/Admin.php',
         'OCA\\ShareByMail\\Settings\\SettingsManager' => __DIR__ . '/..' . '/../lib/Settings/SettingsManager.php',
         'OCA\\ShareByMail\\ShareByMailProvider' => __DIR__ . '/..' . '/../lib/ShareByMailProvider.php',

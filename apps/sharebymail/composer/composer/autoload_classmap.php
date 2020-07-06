@@ -9,7 +9,6 @@ return array(
     'OCA\\ShareByMail\\Activity' => $baseDir . '/../lib/Activity.php',
     'OCA\\ShareByMail\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\ShareByMail\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
-    'OCA\\ShareByMail\\Settings' => $baseDir . '/../lib/Settings.php',
     'OCA\\ShareByMail\\Settings\\Admin' => $baseDir . '/../lib/Settings/Admin.php',
     'OCA\\ShareByMail\\Settings\\SettingsManager' => $baseDir . '/../lib/Settings/SettingsManager.php',
     'OCA\\ShareByMail\\ShareByMailProvider' => $baseDir . '/../lib/ShareByMailProvider.php',

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2017 Bjoern Schiessle <bjoern@schiessle.org>
  *
@@ -43,7 +45,7 @@ class SettingsManager {
 	 *
 	 * @return bool
 	 */
-	public function sendPasswordByMail() {
+	public function sendPasswordByMail(): bool {
 		$sendPasswordByMail = $this->config->getAppValue('sharebymail', 'sendpasswordmail', $this->sendPasswordByMailDefault);
 		return $sendPasswordByMail === 'yes';
 	}
@@ -53,7 +55,7 @@ class SettingsManager {
 	 *
 	 * @return bool
 	 */
-	public function enforcePasswordProtection() {
+	public function enforcePasswordProtection(): bool {
 		$enforcePassword = $this->config->getAppValue('sharebymail', 'enforcePasswordProtection', $this->enforcePasswordProtectionDefault);
 		return $enforcePassword === 'yes';
 	}
