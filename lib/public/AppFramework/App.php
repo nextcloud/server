@@ -143,6 +143,7 @@ class App {
 	 * @param array $routes
 	 * @since 6.0.0
 	 * @suppress PhanAccessMethodInternal
+	 * @deprecated 20.0.0 Just return an array from your routes.php
 	 */
 	public function registerRoutes(IRouter $router, array $routes) {
 		$routeConfig = new RouteConfig($this->container, $router, $routes);
