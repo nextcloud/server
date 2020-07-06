@@ -27,6 +27,7 @@ class ComposerStaticInitFederatedFileSharing
         'OCA\\FederatedFileSharing\\Controller\\MountPublicLinkController' => __DIR__ . '/..' . '/../lib/Controller/MountPublicLinkController.php',
         'OCA\\FederatedFileSharing\\Controller\\RequestHandlerController' => __DIR__ . '/..' . '/../lib/Controller/RequestHandlerController.php',
         'OCA\\FederatedFileSharing\\FederatedShareProvider' => __DIR__ . '/..' . '/../lib/FederatedShareProvider.php',
+        'OCA\\FederatedFileSharing\\Migration\\Version1010Date20200630191755' => __DIR__ . '/..' . '/../lib/Migration/Version1010Date20200630191755.php',
         'OCA\\FederatedFileSharing\\Notifications' => __DIR__ . '/..' . '/../lib/Notifications.php',
         'OCA\\FederatedFileSharing\\Notifier' => __DIR__ . '/..' . '/../lib/Notifier.php',
         'OCA\\FederatedFileSharing\\OCM\\CloudFederationProviderFiles' => __DIR__ . '/..' . '/../lib/OCM/CloudFederationProviderFiles.php',
