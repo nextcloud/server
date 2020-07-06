@@ -24,7 +24,6 @@ namespace Test;
 
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Share\IShare;
 
 /**
  * Class TagsTest
@@ -286,40 +285,5 @@ class TagsTest extends \Test\TestCase {
 		$this->assertEquals([1], $tagger->getFavorites());
 		$this->assertTrue($tagger->removeFromFavorites(1));
 		$this->assertEquals([], $tagger->getFavorites());
-	}
-
-	public function testShareTags() {
-		$testTag = 'TestTag';
-		\OC\Share\Share::registerBackend('test', 'Test\Share\Backend');
-
-		$tagger = $this->tagMgr->load('test');
-		$tagger->tagAs(1, $testTag);
-
-
-		$otherUserId = $this->getUniqueID('user2_');
-		$otherUser = $this->createMock(IUser::class);
-		$otherUser->method('getUID')
-			->willReturn($otherUserId);
-
-		\OC::$server->getUserManager()->createUser($otherUserId, 'pass');
-		\OC_User::setUserId($otherUserId);
-		$otherUserSession = $this->createMock(IUserSession::class);
-		$otherUserSession
-			->expects($this->any())
-			->method('getUser')
-			->willReturn($otherUser);
-
-		$otherTagMgr = new \OC\TagManager($this->tagMapper, $otherUserSession);
-		$otherTagger = $otherTagMgr->load('test');
-		$this->assertFalse($otherTagger->hasTag($testTag));
-
-		\OC_User::setUserId($this->user->getUID());
-		// TODO new sharing
-		\OC\Share\Share::shareItem('test', 1, IShare::TYPE_USER, $otherUserId, \OCP\Constants::PERMISSION_READ);
-
-		\OC_User::setUserId($otherUserId);
-		$otherTagger = $otherTagMgr->load('test', [], true); // Update tags, load shared ones.
-		$this->assertTrue($otherTagger->hasTag($testTag));
-		$this->assertContains(1, $otherTagger->getIdsForTag($testTag));
 	}
 }

@@ -76,6 +76,8 @@ class TagManager implements \OCP\ITagManager {
 	 * @param string $userId user for which to retrieve the tags, defaults to the currently
 	 * logged in user
 	 * @return \OCP\ITags
+	 *
+	 * since 20.0.0 $includeShared isn't used anymore
 	 */
 	public function load($type, $defaultTags = [], $includeShared = false, $userId = null) {
 		if (is_null($userId)) {
@@ -86,6 +88,6 @@ class TagManager implements \OCP\ITagManager {
 			}
 			$userId = $this->userSession->getUser()->getUId();
 		}
-		return new Tags($this->mapper, $userId, $type, $defaultTags, $includeShared);
+		return new Tags($this->mapper, $userId, $type, $defaultTags);
 	}
 }
