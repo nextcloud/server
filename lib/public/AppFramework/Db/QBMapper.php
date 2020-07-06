@@ -111,7 +111,7 @@ abstract class QBMapper {
 	public function insert(Entity $entity): Entity {
 		// get updated fields to save, fields have to be set using a setter to
 		// be saved
-		$properties = $entity->getUpdatedFields();
+		$properties = array_keys($entity->getFieldTypes());
 
 		$qb = $this->db->getQueryBuilder();
 		$qb->insert($this->tableName);
