@@ -25,6 +25,7 @@
 
 namespace OC\BackgroundJob;
 
+use OCP\BackgroundJob\IJobList;
 use OCP\ILogger;
 
 /**
@@ -49,7 +50,7 @@ abstract class TimedJob extends Job {
 	/**
 	 * run the job if
 	 *
-	 * @param JobList $jobList
+	 * @param IJobList $jobList
 	 * @param ILogger|null $logger
 	 */
 	public function execute($jobList, ILogger $logger = null) {
