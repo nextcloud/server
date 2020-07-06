@@ -624,6 +624,8 @@ class ShareByMailProviderTest extends TestCase {
 		$node = $this->getMockBuilder(File::class)->getMock();
 		$node->expects($this->any())->method('getName')->willReturn('filename');
 
+		$this->settingsManager->method('sendPasswordByMail')->willReturn(true);
+
 		$originalShare = $this->getMockBuilder(IShare::class)->getMock();
 		$originalShare->expects($this->any())->method('getSharedWith')->willReturn('receiver@example.com');
 		$originalShare->expects($this->any())->method('getNode')->willReturn($node);
