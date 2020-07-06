@@ -35,6 +35,10 @@ $urlGenerator = $_['urlGenerator'];
 							])) ?>
 	</p>
 
+	<p class="info">
+		<?php print_unescaped($l->t('If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator.')) ?>
+	</p>
+
 	<br/>
 
 	<p id="redirect-link">
