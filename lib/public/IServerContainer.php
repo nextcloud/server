@@ -145,15 +145,6 @@ interface IServerContainer extends IContainer {
 	public function getUserFolder($userId = null);
 
 	/**
-	 * Returns an app-specific view in ownClouds data directory
-	 *
-	 * @return \OCP\Files\Folder
-	 * @since 6.0.0
-	 * @deprecated 9.2.0 use IAppData
-	 */
-	public function getAppFolder();
-
-	/**
 	 * Returns a user manager
 	 *
 	 * @return \OCP\IUserManager

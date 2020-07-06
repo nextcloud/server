@@ -1568,23 +1568,6 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * Returns an app-specific view in ownClouds data directory
-	 *
-	 * @return \OCP\Files\Folder
-	 * @deprecated since 9.2.0 use IAppData
-	 */
-	public function getAppFolder() {
-		$dir = '/' . \OC_App::getCurrentApp();
-		$root = $this->getRootFolder();
-		if (!$root->nodeExists($dir)) {
-			$folder = $root->newFolder($dir);
-		} else {
-			$folder = $root->get($dir);
-		}
-		return $folder;
-	}
-
-	/**
 	 * @return \OC\User\Manager
 	 */
 	public function getUserManager() {
