@@ -335,7 +335,7 @@ class BirthdayServiceTest extends TestCase {
 			->method('createCalendar')
 			->with('principal001', 'contact_birthdays', [
 				'{DAV:}displayname' => 'Contact birthdays',
-				'{http://apple.com/ns/ical/}calendar-color' => '#FFFFCA',
+				'{http://apple.com/ns/ical/}calendar-color' => '#E9D859',
 				'components'   => 'VEVENT',
 			]);
 		$this->service->ensureCalendarExists('principal001');
