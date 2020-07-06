@@ -211,7 +211,7 @@ class SecurityMiddleware extends Middleware {
 	public function afterException($controller, $methodName, \Exception $exception): Response {
 		if ($exception instanceof SecurityException) {
 			if ($exception instanceof StrictCookieMissingException) {
-				return new RedirectResponse(\OC::$WEBROOT);
+				return new RedirectResponse(\OC::$WEBROOT . '/');
 			}
 			if (stripos($this->request->getHeader('Accept'),'html') === false) {
 				$response = new JSONResponse(

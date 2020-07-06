@@ -535,7 +535,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			new StrictCookieMissingException()
 		);
 
-		$expected = new RedirectResponse(\OC::$WEBROOT);
+		$expected = new RedirectResponse(\OC::$WEBROOT . '/');
 		$this->assertEquals($expected , $response);
 	}
 
