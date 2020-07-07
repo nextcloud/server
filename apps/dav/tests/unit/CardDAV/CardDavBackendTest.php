@@ -253,7 +253,7 @@ class CardDavBackendTest extends TestCase {
 		$uri = $this->getUniqueID('card');
 		// updateProperties is expected twice, once for createCard and once for updateCard
 		$backend->expects($this->at(0))->method('updateProperties')->with($bookId, $uri, $this->vcardTest0);
-		$backend->expects($this->at(1))->method('updateProperties')->with($bookId, $uri, $this->vcardTest0);
+		$backend->expects($this->at(1))->method('updateProperties')->with($bookId, $uri, $this->vcardTest1);
 
 		// Expect event
 		$this->dispatcher->expects($this->at(0))
@@ -288,13 +288,13 @@ class CardDavBackendTest extends TestCase {
 			->with('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $this->callback(function (GenericEvent $e) use ($bookId, $uri) {
 				return $e->getArgument('addressBookId') === $bookId &&
 					$e->getArgument('cardUri') === $uri &&
-					$e->getArgument('cardData') === $this->vcardTest0;
+					$e->getArgument('cardData') === $this->vcardTest1;
 			}));
 
 		// update the card
-		$backend->updateCard($bookId, $uri, $this->vcardTest0);
+		$backend->updateCard($bookId, $uri, $this->vcardTest1);
 		$card = $backend->getCard($bookId, $uri);
-		$this->assertEquals($this->vcardTest0, $card['carddata']);
+		$this->assertEquals($this->vcardTest1, $card['carddata']);
 
 		// Expect event
 		$this->dispatcher->expects($this->at(0))

@@ -90,6 +90,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
+	private $etagCache = [];
+
 	/**
 	 * CardDavBackend constructor.
 	 *
@@ -653,6 +655,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			])
 			->execute();
 
+		$etagCacheKey = "$addressBookId#$cardUri";
+		$this->etagCache[$etagCacheKey] = $etag;
+
 		$this->addChange($addressBookId, $cardUri, 1);
 		$this->updateProperties($addressBookId, $cardUri, $cardData);
 
@@ -694,6 +699,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$uid = $this->getUID($cardData);
 		$etag = md5($cardData);
 		$query = $this->db->getQueryBuilder();
+
+		// check for recently stored etag and stop if it is the same
+		$etagCacheKey = "$addressBookId#$cardUri";
+		if (isset($this->etagCache[$etagCacheKey]) && $this->etagCache[$etagCacheKey] === $etag) {
+			return '"' . $etag . '"';
+		}
+
 		$query->update($this->dbCardsTable)
 			->set('carddata', $query->createNamedParameter($cardData, IQueryBuilder::PARAM_LOB))
 			->set('lastmodified', $query->createNamedParameter(time()))
@@ -703,6 +715,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->where($query->expr()->eq('uri', $query->createNamedParameter($cardUri)))
 			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->execute();
+
+		$this->etagCache[$etagCacheKey] = $etag;
 
 		$this->addChange($addressBookId, $cardUri, 2);
 		$this->updateProperties($addressBookId, $cardUri, $cardData);
