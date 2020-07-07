@@ -152,3 +152,5 @@ clover.xml
 tests/acceptance/composer.lock
 tests/acceptance/vendor/
 config/config-sagis-test.php
+phpunit.xml
+config/config-prod.php
