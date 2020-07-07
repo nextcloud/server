@@ -41,6 +41,9 @@ use OC\Avatar\AvatarManager;
 use OC\Files\Cache\Storage;
 use OC\Hooks\Emitter;
 use OC_Helper;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\BeforeUserRemovedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IImage;
@@ -62,6 +65,9 @@ class User implements IUser {
 	private $backend;
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
+
+	/** @var IEventDispatcher */
+	private $newDispatcher;
 
 	/** @var bool */
 	private $enabled;
@@ -100,6 +106,8 @@ class User implements IUser {
 		if (is_null($this->urlGenerator)) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
+		// TODO: inject
+		$this->newDispatcher = \OC::$server->query(IEventDispatcher::class);
 	}
 
 	/**
@@ -219,9 +227,9 @@ class User implements IUser {
 			foreach ($groupManager->getUserGroupIds($this) as $groupId) {
 				$group = $groupManager->get($groupId);
 				if ($group) {
-					\OC_Hook::emit("OC_Group", "pre_removeFromGroup", ["run" => true, "uid" => $this->uid, "gid" => $groupId]);
+					$this->newDispatcher->dispatchTyped(new BeforeUserRemovedEvent($group, $this));
 					$group->removeUser($this);
-					\OC_Hook::emit("OC_User", "post_removeFromGroup", ["uid" => $this->uid, "gid" => $groupId]);
+					$this->newDispatcher->dispatchTyped(new UserRemovedEvent($group, $this));
 				}
 			}
 			// Delete the user's keys in preferences
