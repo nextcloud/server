@@ -694,6 +694,18 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$uid = $this->getUID($cardData);
 		$etag = md5($cardData);
 		$query = $this->db->getQueryBuilder();
+
+		// query for the etag and stop if it is the same
+		$result = $query->select($query->func()->count())
+			->from($this->dbCardsTable)
+			->where($query->expr()->eq('uri', $query->createNamedParameter($cardUri)))
+			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
+			->andWhere($query->expr()->eq('etag', $query->createNamedParameter($etag)))
+			->execute();
+		if ((int)$result->fetchColumn() === 1) {
+			return '"' . $etag . '"';
+		}
+
 		$query->update($this->dbCardsTable)
 			->set('carddata', $query->createNamedParameter($cardData, IQueryBuilder::PARAM_LOB))
 			->set('lastmodified', $query->createNamedParameter(time()))
