@@ -45,6 +45,7 @@ use Aws\S3\S3Client;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Cache\CappedMemoryCache;
+use OC\Files\Cache\CacheEntry;
 use OC\Files\ObjectStore\S3ConnectionTrait;
 use OC\Files\ObjectStore\S3ObjectTrait;
 use OCP\Constants;
@@ -374,6 +375,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				//folders don't really exist
 				$stat['size'] = -1; //unknown
 				$stat['mtime'] = time();
+				$cacheEntry = $this->getCache()->get($path);
+				if ($cacheEntry instanceof CacheEntry && $this->getMountOption('filesystem_check_changes', 1) !== 1) {
+					$stat['size'] = $cacheEntry->getSize();
+					$stat['mtime'] = $cacheEntry->getMTime();
+				}
 			} else {
 				$stat['size'] = $this->getContentLength($path);
 				$stat['mtime'] = strtotime($this->getLastModified($path));
