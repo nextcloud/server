@@ -30,6 +30,7 @@ namespace OC\Settings\Controller;
 use BadMethodCallException;
 use OC\AppFramework\Http;
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\ExpiredTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\INamedToken;
 use OC\Authentication\Token\IProvider;
@@ -237,10 +238,13 @@ class AuthSettingsController extends Controller {
 	 * @param int $id
 	 * @return IToken
 	 * @throws InvalidTokenException
-	 * @throws \OC\Authentication\Exceptions\ExpiredTokenException
 	 */
 	private function findTokenByIdAndUser(int $id): IToken {
-		$token = $this->tokenProvider->getTokenById($id);
+		try {
+			$token = $this->tokenProvider->getTokenById($id);
+		} catch (ExpiredTokenException $e) {
+			$token = $e->getToken();
+		}
 		if ($token->getUID() !== $this->uid) {
 			throw new InvalidTokenException('This token does not belong to you!');
 		}

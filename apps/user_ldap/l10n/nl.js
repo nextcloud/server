@@ -176,7 +176,7 @@ OC.L10N.register(
     "Email Field" : "E-mailveld",
     "Set the user's email from their LDAP attribute. Leave it empty for default behaviour." : "Stel het e-mailadres van de gebruiker op het LDAP attribuut. Vul niets in voor de standaardwijze.",
     "User Home Folder Naming Rule" : "Gebruikers Home map naamgevingsregel",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Laat leeg voor de gebruikersnaam (standaard). Of specificeer een LDAP/AD attribuut.",
+    "Leave empty for username (default). Otherwise, specify an LDAP/AD attribute." : "Laat leeg voor de gebruikersnaam (standaard). Of specificeer een LDAP/AD attribuut.",
     "\"$home\" Placeholder Field" : "\"$home\" Plaatshouder veld",
     "$home in an external storage configuration will be replaced with the value of the specified attribute" : "$home in een externe opslag configuratie wordt vervangen door de waarde van het gespecificeerde attribuut",
     "Internal Username" : "Interne gebruikersnaam",
@@ -189,6 +189,7 @@ OC.L10N.register(
     "Username-LDAP User Mapping" : "Gebruikersnaam-LDAP gebruikers vertaling",
     "Usernames are used to store and assign metadata. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "Gebruikersnamen worden gebruikt om metadata op te slaan en toe te wijzen. Om gebruikers uniek te identificeren, krijgt elke LDAP-gebruiker ook een interne gebruikersnaam. Dit vereist een koppeling van de gebruikersnaam naar een ​​LDAP-gebruiker. De gecreëerde gebruikersnaam is gekoppeld aan de UUID van de LDAP-gebruiker. Aanvullend wordt ook de 'DN' gecached om het aantal LDAP-interacties te verminderen, maar dit wordt niet gebruikt voor identificatie. Als de DN verandert, zullen de veranderingen worden gevonden. De interne gebruikersnaam wordt overal gebruikt. Het wissen van de koppeling zal overal resten achterlaten. Het wissen van koppelingen is niet configuratiegevoelig, maar het raakt wel alle LDAP instellingen! Zorg ervoor dat deze koppelingen nooit in een productieomgeving gewist worden. Maak ze alleen leeg in een test- of ontwikkelomgeving.",
     "Clear Username-LDAP User Mapping" : "Leegmaken Gebruikersnaam-LDAP gebruikers vertaling",
-    "Clear Groupname-LDAP Group Mapping" : "Leegmaken Groepsnaam-LDAP groep vertaling"
+    "Clear Groupname-LDAP Group Mapping" : "Leegmaken Groepsnaam-LDAP groep vertaling",
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Laat leeg voor de gebruikersnaam (standaard). Of specificeer een LDAP/AD attribuut."
 },
 "nplurals=2; plural=(n != 1);");

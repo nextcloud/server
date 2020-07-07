@@ -345,7 +345,7 @@ class Access extends LDAPUtility {
 		}
 		return [];
 	}
-	
+
 	/**
 	 * Set password for an LDAP user identified by a DN
 	 *
@@ -635,7 +635,7 @@ class Access extends LDAPUtility {
 		return false;
 	}
 
-	protected function mapAndAnnounceIfApplicable(
+	public function mapAndAnnounceIfApplicable(
 		AbstractMapping $mapper,
 		string $fdn,
 		string $name,
@@ -646,6 +646,8 @@ class Access extends LDAPUtility {
 			if ($this->ncUserManager instanceof PublicEmitter && $isUser) {
 				$this->cacheUserExists($name);
 				$this->ncUserManager->emit('\OC\User', 'assignedUserId', [$name]);
+			} elseif (!$isUser) {
+				$this->cacheGroupExists($name);
 			}
 			return true;
 		}
@@ -747,6 +749,13 @@ class Access extends LDAPUtility {
 	 */
 	public function cacheUserExists($ocName) {
 		$this->connection->writeToCache('userExists'.$ocName, true);
+	}
+
+	/**
+	 * caches a group as existing
+	 */
+	public function cacheGroupExists(string $gid): void {
+		$this->connection->writeToCache('groupExists'.$gid, true);
 	}
 
 	/**
@@ -938,7 +947,15 @@ class Access extends LDAPUtility {
 	 * @return array
 	 */
 	public function fetchListOfGroups($filter, $attr, $limit = null, $offset = null) {
-		return $this->fetchList($this->searchGroups($filter, $attr, $limit, $offset), $this->manyAttributes($attr));
+		$groupRecords = $this->searchGroups($filter, $attr, $limit, $offset);
+		array_walk($groupRecords, function($record) {
+			$newlyMapped = false;
+			$gid = $this->dn2ocname($record['dn'][0], null, false, $newlyMapped, $record);
+			if(!$newlyMapped && is_string($gid)) {
+				$this->cacheGroupExists($gid);
+			}
+		});
+		return $this->fetchList($groupRecords, $this->manyAttributes($attr));
 	}
 
 	/**
@@ -1659,13 +1676,19 @@ class Access extends LDAPUtility {
 			$uuidOverride = $this->connection->ldapExpertUUIDGroupAttr;
 		}
 
-		if(($this->connection->$uuidAttr !== 'auto') && !$force) {
-			return true;
-		}
+		if(!$force) {
+			if($this->connection->$uuidAttr !== 'auto') {
+				return true;
+			} else if (is_string($uuidOverride) && trim($uuidOverride) !== '') {
+				$this->connection->$uuidAttr = $uuidOverride;
+				return true;
+			}
 
-		if (is_string($uuidOverride) && trim($uuidOverride) !== '' && !$force) {
-			$this->connection->$uuidAttr = $uuidOverride;
-			return true;
+			$attribute = $this->connection->getFromCache($uuidAttr);
+			if(!$attribute === null) {
+				$this->connection->$uuidAttr = $attribute;
+				return true;
+			}
 		}
 
 		foreach(self::UUID_ATTRIBUTES as $attribute) {
@@ -1674,27 +1697,25 @@ class Access extends LDAPUtility {
 				if(isset($ldapRecord[$attribute])) {
 					$this->connection->$uuidAttr = $attribute;
 					return true;
-				} else {
-					continue;
 				}
 			}
 
 			$value = $this->readAttribute($dn, $attribute);
 			if(is_array($value) && isset($value[0]) && !empty($value[0])) {
-				\OCP\Util::writeLog(
-					'user_ldap',
-					'Setting '.$attribute.' as '.$uuidAttr,
-					ILogger::DEBUG
+				\OC::$server->getLogger()->debug(
+					'Setting {attribute} as {subject}',
+					[
+						'app' => 'user_ldap',
+						'attribute' => $attribute,
+						'subject' => $uuidAttr
+					]
 				);
 				$this->connection->$uuidAttr = $attribute;
+				$this->connection->writeToCache($uuidAttr, $attribute);
 				return true;
 			}
 		}
-		\OCP\Util::writeLog(
-			'user_ldap',
-			'Could not autodetect the UUID attribute',
-			ILogger::ERROR
-		);
+		\OC::$server->getLogger()->debug('Could not autodetect the UUID attribute', ['app' => 'user_ldap']);
 
 		return false;
 	}

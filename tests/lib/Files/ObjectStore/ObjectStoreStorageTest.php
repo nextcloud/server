@@ -181,4 +181,29 @@ class ObjectStoreStorageTest extends Storage {
 		}
 		$this->assertFalse($this->instance->file_exists('test.txt'));
 	}
+
+	public function testDeleteObjectFailureKeepCache() {
+		$objectStore = $this->instance->getObjectStore();
+		$this->instance->setObjectStore(new FailDeleteObjectStore($objectStore));
+		$cache = $this->instance->getCache();
+
+		$this->instance->file_put_contents('test.txt', 'foo');
+
+		$this->assertTrue($cache->inCache('test.txt'));
+
+		$this->assertFalse($this->instance->unlink('test.txt'));
+
+		$this->assertTrue($cache->inCache('test.txt'));
+
+		$this->instance->mkdir('foo');
+		$this->instance->file_put_contents('foo/test.txt', 'foo');
+
+		$this->assertTrue($cache->inCache('foo'));
+		$this->assertTrue($cache->inCache('foo/test.txt'));
+
+		$this->instance->rmdir('foo');
+
+		$this->assertTrue($cache->inCache('foo'));
+		$this->assertTrue($cache->inCache('foo/test.txt'));
+	}
 }

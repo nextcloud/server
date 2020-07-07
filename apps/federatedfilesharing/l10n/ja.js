@@ -24,9 +24,9 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "%1$s の共有に失敗しました。%2$s が見つかりませんでした。おそらくサーバーに接続できないか、自己証明書を使用しています。",
     "Could not find share" : "共有が見つかりませんでした",
     "Federated sharing" : "連携共有",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s からリモート共有として \"%3$s\" を受け取りました。(%2$s の代理として)",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "%4$s (%1$s)からリモート共有として \"%3$s\" を受け取りました(%5$s(%2$s)の代理として)",
     "You received {share} as a remote share from {user} (on behalf of {behalf})" : "{user} からリモート共有として {share} を受け取りました。({behalf} の代理として)",
-    "You received \"%3$s\" as a remote share from %1$s" : "%1$s からリモート共有として \"%3$s\" を受け取りました。",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "  %4$s (%1$s)からリモート共有として \"%3$s\" を受け取りました",
     "You received {share} as a remote share from {user}" : "{user} から {file} のリモート共有が届いています",
     "Accept" : "承諾",
     "Decline" : "拒否《はてなキーワード》",
@@ -51,7 +51,7 @@ OC.L10N.register(
     "Add to your website" : "ウェブサイトに追加",
     "Share with me via Nextcloud" : "Nextcloud 経由で共有",
     "HTML Code:" : "HTMLコード:",
-    "Sharing %s failed, because this item is already shared with %s" : "%s を共有できませんでした。このアイテムはすでに %s に共有されています。",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable or uses a self-signed certificate." : "%s を共有できませんでした。%s が見つかりませんでした。現在サーバーに接続できないか、自己証明書を使っています。"
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s からリモート共有として \"%3$s\" を受け取りました。(%2$s の代理として)",
+    "You received \"%3$s\" as a remote share from %1$s" : "%1$s からリモート共有として \"%3$s\" を受け取りました。"
 },
 "nplurals=1; plural=0;");

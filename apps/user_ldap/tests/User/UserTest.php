@@ -521,6 +521,17 @@ class UserTest extends \Test\TestCase {
 		$this->image->expects($this->once())
 			->method('centerCrop')
 			->will($this->returnValue(true));
+		$this->image->expects($this->once())
+			->method('data')
+			->will($this->returnValue('this is a photo'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', '')
+			->willReturn('');
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', md5('this is a photo'));
 
 		$this->filesystemhelper->expects($this->once())
 			->method('isLoaded')
@@ -542,6 +553,53 @@ class UserTest extends \Test\TestCase {
 			->willReturn(['jpegphoto', 'thumbnailphoto']);
 
 		$this->user->updateAvatar();
+	}
+
+	public function testUpdateAvatarKnownJpegPhotoProvided() {
+		$this->access->expects($this->once())
+			->method('readAttribute')
+			->with($this->equalTo($this->dn),
+				$this->equalTo('jpegphoto'))
+			->will($this->returnValue(['this is a photo']));
+
+		$this->image->expects($this->once())
+			->method('loadFromBase64')
+			->willReturn('imageResource');
+		$this->image->expects($this->never())
+			->method('valid');
+		$this->image->expects($this->never())
+			->method('width');
+		$this->image->expects($this->never())
+			->method('height');
+		$this->image->expects($this->never())
+			->method('centerCrop');
+		$this->image->expects($this->once())
+			->method('data')
+			->will($this->returnValue('this is a photo'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', '')
+			->willReturn(md5('this is a photo'));
+		$this->config->expects($this->never())
+			->method('setUserValue');
+
+		$this->filesystemhelper->expects($this->never())
+			->method('isLoaded');
+
+		$avatar = $this->createMock(IAvatar::class);
+		$avatar->expects($this->never())
+			->method('set');
+
+		$this->avatarManager->expects($this->never())
+			->method('getAvatar');
+
+		$this->connection->expects($this->any())
+			->method('resolveRule')
+			->with('avatar')
+			->willReturn(['jpegphoto', 'thumbnailphoto']);
+
+		$this->assertTrue($this->user->updateAvatar());
 	}
 
 	public function testUpdateAvatarThumbnailPhotoProvided() {
@@ -575,6 +633,17 @@ class UserTest extends \Test\TestCase {
 		$this->image->expects($this->once())
 			->method('centerCrop')
 			->will($this->returnValue(true));
+		$this->image->expects($this->once())
+			->method('data')
+			->will($this->returnValue('this is a photo'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', '')
+			->willReturn('');
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', md5('this is a photo'));
 
 		$this->filesystemhelper->expects($this->once())
 			->method('isLoaded')
@@ -625,6 +694,13 @@ class UserTest extends \Test\TestCase {
 			->method('height');
 		$this->image->expects($this->never())
 			->method('centerCrop');
+		$this->image->expects($this->never())
+			->method('data');
+
+		$this->config->expects($this->never())
+			->method('getUserValue');
+		$this->config->expects($this->never())
+			->method('setUserValue');
 
 		$this->filesystemhelper->expects($this->never())
 			->method('isLoaded');
@@ -675,6 +751,16 @@ class UserTest extends \Test\TestCase {
 		$this->image->expects($this->once())
 			->method('centerCrop')
 			->will($this->returnValue(true));
+		$this->image->expects($this->once())
+			->method('data')
+			->will($this->returnValue('this is a photo'));
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with($this->uid, 'user_ldap', 'lastAvatarChecksum', '')
+			->willReturn('');
+		$this->config->expects($this->never())
+			->method('setUserValue');
 
 		$this->filesystemhelper->expects($this->once())
 			->method('isLoaded')
@@ -723,6 +809,13 @@ class UserTest extends \Test\TestCase {
 			->method('height');
 		$this->image->expects($this->never())
 			->method('centerCrop');
+		$this->image->expects($this->never())
+			->method('data');
+
+		$this->config->expects($this->never())
+			->method('getUserValue');
+		$this->config->expects($this->never())
+			->method('setUserValue');
 
 		$this->filesystemhelper->expects($this->never())
 			->method('isLoaded');

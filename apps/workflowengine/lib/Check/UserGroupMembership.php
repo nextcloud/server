@@ -60,8 +60,9 @@ class UserGroupMembership implements ICheck {
 	/**
 	 * @param IStorage $storage
 	 * @param string $path
+	 * @param bool $isDir
 	 */
-	public function setFileInfo(IStorage $storage, $path) {
+	public function setFileInfo(IStorage $storage, $path, $isDir = false) {
 		// A different path doesn't change group memberships, so nothing to do here.
 	}
 

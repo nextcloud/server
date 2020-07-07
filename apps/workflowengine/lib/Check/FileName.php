@@ -49,8 +49,9 @@ class FileName extends AbstractStringCheck {
 	/**
 	 * @param IStorage $storage
 	 * @param string $path
+	 * @param bool $isDir
 	 */
-	public function setFileInfo(IStorage $storage, $path) {
+	public function setFileInfo(IStorage $storage, $path, $isDir = false) {
 		$this->storage = $storage;
 		$this->path = $path;
 	}
@@ -59,7 +60,7 @@ class FileName extends AbstractStringCheck {
 	 * @return string
 	 */
 	protected function getActualValue(): string {
-		return basename($this->path);
+		return $this->path === null ? '' : basename($this->path);
 	}
 
 	/**

@@ -125,6 +125,14 @@
 		dirInfo: null,
 
 		/**
+		 * Whether to prevent or to execute the default file actions when the
+		 * file name is clicked.
+		 *
+		 * @type boolean
+		 */
+		_defaultFileActionsDisabled: false,
+
+		/**
 		 * File actions handler, defaults to OCA.Files.FileActions
 		 * @type OCA.Files.FileActions
 		 */
@@ -282,6 +290,10 @@
 			if (_.isUndefined(options.detailsViewEnabled) || options.detailsViewEnabled) {
 				this._detailsView = new OCA.Files.DetailsView();
 				this._detailsView.$el.addClass('disappear');
+			}
+
+			if (options && options.defaultFileActionsDisabled) {
+				this._defaultFileActionsDisabled = options.defaultFileActionsDisabled
 			}
 
 			this._initFileActions(options.fileActions);
@@ -590,6 +602,7 @@
 			}
 
 			if (!fileName) {
+				this._detailsView.$el.find('[data-original-title]').tooltip('hide')
 				this._detailsView.setFileInfo(null);
 				if (this._currentFileModel) {
 					this._currentFileModel.off();
@@ -674,6 +687,11 @@
 				.addClass(show ? 'icon-toggle-filelist' : 'icon-toggle-pictures')
 				
 			$('.list-container').toggleClass('view-grid', show);
+			if (show) {
+				// If switching into grid view from list view, too few files might be displayed
+				// Try rendering the next page
+				this._onScroll();
+			}
 		},
 
 		/**
@@ -825,10 +843,12 @@
 				this.updateSelectionSummary();
 			} else {
 				// clicked directly on the name
-				if (!this._detailsView || $(event.target).is('.nametext, .name') || $(event.target).closest('.nametext').length) {
+				if (!this._detailsView || $(event.target).is('.nametext, .name, .thumbnail') || $(event.target).closest('.nametext').length) {
 					var filename = $tr.attr('data-file');
 					var renaming = $tr.data('renaming');
-					if (!renaming) {
+					if (this._defaultFileActionsDisabled) {
+						event.preventDefault();
+					} else if (!renaming) {
 						this.fileActions.currentFile = $tr.find('td');
 						var mime = this.fileActions.getCurrentMimeType();
 						var type = this.fileActions.getCurrentType();
@@ -1473,6 +1493,11 @@
 				"class": "name",
 				"href": linkUrl
 			});
+			if (this._defaultFileActionsDisabled) {
+				linkElem = $('<p></p>').attr({
+					"class": "name"
+				})
+			}
 
 			linkElem.append('<div class="thumbnail-wrapper"><div class="thumbnail" style="background-image:url(' + icon + ');"></div></div>');
 
@@ -2562,6 +2587,7 @@
 		 * @return {Object} new row element
 		 */
 		updateRow: function($tr, fileInfo, options) {
+			$tr.find('[data-original-title]').tooltip('hide');
 			this.files.splice($tr.index(), 1);
 			$tr.remove();
 			options = _.extend({silent: true}, options);

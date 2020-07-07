@@ -70,8 +70,6 @@ class ThemingDefaults extends \OC_Defaults {
 	/** @var string */
 	private $url;
 	/** @var string */
-	private $slogan;
-	/** @var string */
 	private $color;
 
 	/** @var string */
@@ -115,7 +113,6 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->title = parent::getTitle();
 		$this->entity = parent::getEntity();
 		$this->url = parent::getBaseUrl();
-		$this->slogan = parent::getSlogan();
 		$this->color = parent::getColorPrimary();
 		$this->iTunesAppId = parent::getiTunesAppId();
 		$this->iOSClientUrl = parent::getiOSClientUrl();
@@ -143,7 +140,7 @@ class ThemingDefaults extends \OC_Defaults {
 	}
 
 	public function getSlogan() {
-		return \OCP\Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', $this->slogan));
+		return \OCP\Util::sanitizeHTML($this->config->getAppValue('theming', 'slogan', parent::getSlogan()));
 	}
 
 	public function getImprintUrl() {

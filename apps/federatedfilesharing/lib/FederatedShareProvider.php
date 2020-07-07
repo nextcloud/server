@@ -563,6 +563,11 @@ class FederatedShareProvider implements IShareProvider {
 	 * @throws \OC\HintException
 	 */
 	protected function revokeShare($share, $isOwner) {
+		if ($this->userManager->userExists($share->getShareOwner() && $this->userManager->userExists($share->getSharedBy()))) {
+			// If both the owner and the initiator of the share are local users we don't have to notify anybody else
+			return;
+		}
+
 		// also send a unShare request to the initiator, if this is a different user than the owner
 		if ($share->getShareOwner() !== $share->getSharedBy()) {
 			if ($isOwner) {
@@ -1038,7 +1043,7 @@ class FederatedShareProvider implements IShareProvider {
 		if ($this->gsConfig->isGlobalScaleEnabled()) {
 			return true;
 		}
-		$result = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'no');
+		$result = $this->config->getAppValue('files_sharing', 'lookupServerEnabled', 'yes');
 		return ($result === 'yes');
 	}
 

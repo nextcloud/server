@@ -21,9 +21,6 @@ OC.L10N.register(
     "Name" : "名前",
     "Actions" : "アクション",
     "Deleted" : "削除日時",
-    "Delete" : "削除",
-    "Couldn't delete %s permanently" : "%s を完全に削除できませんでした",
-    "Couldn't restore %s" : "%s を復元できませんでした",
-    "Error" : "エラー"
+    "Delete" : "削除"
 },
 "nplurals=1; plural=0;");

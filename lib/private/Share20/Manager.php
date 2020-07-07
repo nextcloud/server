@@ -281,7 +281,8 @@ class Manager implements IManager {
 
 		// Check if we actually have share permissions
 		if (!$share->getNode()->isShareable()) {
-			$message_t = $this->l->t('You are not allowed to share %s', [$share->getNode()->getPath()]);
+			$path = $userFolder->getRelativePath($share->getNode()->getPath());
+			$message_t = $this->l->t('You are not allowed to share %s', [$path]);
 			throw new GenericShareException($message_t, $message_t, 404);
 		}
 
@@ -323,7 +324,8 @@ class Manager implements IManager {
 
 		// Check that we do not share with more permissions than we have
 		if ($share->getPermissions() & ~$permissions) {
-			$message_t = $this->l->t('Can’t increase permissions of %s', [$share->getNode()->getPath()]);
+			$path = $userFolder->getRelativePath($share->getNode()->getPath());
+			$message_t = $this->l->t('Can’t increase permissions of %s', [$path]);
 			throw new GenericShareException($message_t, $message_t, 404);
 		}
 
@@ -692,6 +694,11 @@ class Manager implements IManager {
 		$share = $provider->create($share);
 		//reuse the node we already have
 		$share->setNode($oldShare->getNode());
+
+		// Reset the target if it is null for the new share
+		if ($share->getTarget() === '') {
+			$share->setTarget($target);
+		}
 
 		// Post share event
 		$event = new GenericEvent($share);
@@ -1329,7 +1336,8 @@ class Manager implements IManager {
 	 */
 	public function checkPassword(\OCP\Share\IShare $share, $password) {
 		$passwordProtected = $share->getShareType() !== \OCP\Share::SHARE_TYPE_LINK
-			|| $share->getShareType() !== \OCP\Share::SHARE_TYPE_EMAIL;
+							 || $share->getShareType() !== \OCP\Share::SHARE_TYPE_EMAIL
+							 || $share->getShareType() !== \OCP\Share::SHARE_TYPE_CIRCLE;
 		if (!$passwordProtected) {
 			//TODO maybe exception?
 			return false;

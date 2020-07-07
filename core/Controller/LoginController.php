@@ -137,7 +137,7 @@ class LoginController extends Controller {
 
 		$this->session->set('clearingExecutionContexts', '1');
 		$this->session->close();
-		$response->addHeader('Clear-Site-Data', '"cache", "storage", "executionContexts"');
+		$response->addHeader('Clear-Site-Data', '"cache", "storage"');
 		return $response;
 	}
 
@@ -284,6 +284,7 @@ class LoginController extends Controller {
 		if(!is_string($user)) {
 			throw new \InvalidArgumentException('Username must be string');
 		}
+		$user = trim($user);
 
 		// If the user is already logged in and the CSRF check does not pass then
 		// simply redirect the user to the correct page as required. This is the

@@ -70,7 +70,7 @@ const mutations = {
 		state.orderBy = orderBy;
 		state.userCount = userCount;
 		state.groups = orderGroups(state.groups, state.orderBy);
-		
+
 	},
 	addGroup(state, {gid, displayName}) {
 		try {
@@ -98,8 +98,8 @@ const mutations = {
 		let group = state.groups.find(groupSearch => groupSearch.id == gid);
 		let user = state.users.find(user => user.id == userid);
 		// increase count if user is enabled
-		if (group && user.enabled) {
-			group.usercount++; 
+		if (group && user.enabled && state.userCount > 0) {
+			group.usercount++;
 		}
 		let groups = user.groups;
 		groups.push(gid);
@@ -109,7 +109,7 @@ const mutations = {
 		let group = state.groups.find(groupSearch => groupSearch.id == gid);
 		let user = state.users.find(user => user.id == userid);
 		// lower count if user is enabled
-		if (group && user.enabled) {
+		if (group && user.enabled && state.userCount > 0) {
 			group.usercount--;
 		}
 		let groups = user.groups;
@@ -135,12 +135,14 @@ const mutations = {
 		let user  = state.users.find(user => user.id == userid);
 		user.enabled = enabled;
 		// increment or not
-		state.groups.find(group => group.id == 'disabled').usercount += enabled ? -1 : 1;
-		state.userCount += enabled ? 1 : -1;
-		user.groups.forEach(group => {
-			// Increment disabled count
-			state.groups.find(groupSearch => groupSearch.id == group).disabled += enabled ? -1 : 1;
-		});
+		if (state.userCount > 0) {
+			state.groups.find(group => group.id === 'disabled').usercount += enabled ? -1 : 1
+			state.userCount += enabled ? 1 : -1
+			user.groups.forEach(group => {
+				// Increment disabled count
+				state.groups.find(groupSearch => groupSearch.id === group).disabled += enabled ? -1 : 1
+			})
+		}
 	},
 	setUserData(state, { userid, key, value }) {
 		if (key === 'quota') {
@@ -189,7 +191,7 @@ const actions = {
 
 	/**
 	 * Get all users with full details
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {int} options.offset List offset to request
@@ -202,7 +204,7 @@ const actions = {
 		search = typeof search === 'string' ? search : '';
 		group = typeof group === 'string' ? group : '';
 		if (group !== '') {
-			return api.get(OC.linkToOCS(`cloud/groups/${group}/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2))
+			return api.get(OC.linkToOCS(`cloud/groups/${encodeURIComponent(group)}/users/details?offset=${offset}&limit=${limit}&search=${search}`, 2))
 			.then((response) => {
 				if (Object.keys(response.data.ocs.data.users).length > 0) {
 					context.commit('appendUsers', response.data.ocs.data.users);
@@ -242,7 +244,7 @@ const actions = {
 
 	/**
 	 * Get all users with full details
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {int} options.offset List offset to request
@@ -264,7 +266,7 @@ const actions = {
 
 	/**
 	 * Get all users with full details from a groupid
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {int} options.offset List offset to request
@@ -272,11 +274,11 @@ const actions = {
 	 * @returns {Promise}
 	 */
 	getUsersFromGroup(context, { groupid, offset, limit }) {
-		return api.get(OC.linkToOCS(`cloud/users/${groupid}/details?offset=${offset}&limit=${limit}`, 2))
+		return api.get(OC.linkToOCS(`cloud/users/${encodeURIComponent(groupid)}/details?offset=${offset}&limit=${limit}`, 2))
 			.then((response) => context.commit('getUsersFromList', response.data.ocs.data.users))
 			.catch((error) => context.commit('API_FAILURE', error));
 	},
-	
+
 
 	getPasswordPolicyMinLength(context) {
 		if(oc_capabilities.password_policy && oc_capabilities.password_policy.minLength) {
@@ -288,7 +290,7 @@ const actions = {
 
 	/**
 	 * Add group
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {string} gid Group id
 	 * @returns {Promise}
@@ -311,14 +313,14 @@ const actions = {
 
 	/**
 	 * Remove group
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {string} gid Group id
 	 * @returns {Promise}
 	 */
 	removeGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
-			return api.delete(OC.linkToOCS(`cloud/groups/${gid}`, 2))
+			return api.delete(OC.linkToOCS(`cloud/groups/${encodeURIComponent(gid)}`, 2))
 				.then((response) => context.commit('removeGroup', gid))
 				.catch((error) => {throw error;});
 		}).catch((error) => context.commit('API_FAILURE', { gid, error }));
@@ -326,7 +328,7 @@ const actions = {
 
 	/**
 	 * Add user to group
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
@@ -343,7 +345,7 @@ const actions = {
 
 	/**
 	 * Remove user from group
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
@@ -359,13 +361,13 @@ const actions = {
 			context.commit('API_FAILURE', { userid, error });
 			// let's throw one more time to prevent
 			// the view from removing the user row on failure
-			throw error; 
+			throw error;
 		});
 	},
 
 	/**
 	 * Add user to group admin
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
@@ -382,7 +384,7 @@ const actions = {
 
 	/**
 	 * Remove user from group admin
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
@@ -399,9 +401,9 @@ const actions = {
 
 	/**
 	 * Delete a user
-	 * 
+	 *
 	 * @param {Object} context
-	 * @param {string} userid User id 
+	 * @param {string} userid User id
 	 * @returns {Promise}
 	 */
 	deleteUser(context, userid) {
@@ -414,7 +416,7 @@ const actions = {
 
 	/**
 	 * Add a user
-	 * 
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
@@ -439,9 +441,9 @@ const actions = {
 
 	/**
 	 * Get user data and commit addition
-	 * 
+	 *
 	 * @param {Object} context
-	 * @param {string} userid User id 
+	 * @param {string} userid User id
 	 * @returns {Promise}
 	 */
 	addUserData(context, userid) {
@@ -452,8 +454,8 @@ const actions = {
 		}).catch((error) => context.commit('API_FAILURE', { userid, error }));
 	},
 
-	/** Enable or disable user 
-	 * 
+	/** Enable or disable user
+	 *
 	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
@@ -471,8 +473,8 @@ const actions = {
 
 	/**
 	 * Edit user data
-	 * 
-	 * @param {Object} context 
+	 *
+	 * @param {Object} context
 	 * @param {Object} options
 	 * @param {string} options.userid User id
 	 * @param {string} options.key User field to edit
@@ -501,9 +503,9 @@ const actions = {
 
 	/**
 	 * Send welcome mail
-	 * 
+	 *
 	 * @param {Object} context
-	 * @param {string} userid User id 
+	 * @param {string} userid User id
 	 * @returns {Promise}
 	 */
 	sendWelcomeMail(context, userid) {

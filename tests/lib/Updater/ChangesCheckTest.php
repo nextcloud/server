@@ -279,6 +279,10 @@ class ChangesCheckTest extends TestCase {
 					],
 				]
 			],
+			[ # 4 - empty
+				'',
+				[]
+			],
 		];
 	}
 
@@ -375,5 +379,22 @@ class ChangesCheckTest extends TestCase {
 		$data = $this->checker->getChangesForVersion($inputVersion);
 		$this->assertTrue(isset($data['whatsNew']['en']['regular']));
 		$this->assertTrue(isset($data['changelogURL']));
+	}
+
+	public function testGetChangesForVersionEmptyData() {
+		$entry = $this->createMock(ChangesResult::class);
+		$entry->expects($this->once())
+			->method('__call')
+			->with('getData')
+			->willReturn('');
+
+		$this->mapper->expects($this->once())
+			->method('getChanges')
+			->with('13.0.7')
+			->willReturn($entry);
+
+		$this->expectException(DoesNotExistException::class);
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$this->checker->getChangesForVersion('13.0.7');
 	}
 }

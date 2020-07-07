@@ -25,8 +25,6 @@ declare(strict_types=1);
 style('core', 'login/authpicker');
 
 /** @var array $_ */
-/** @var \OCP\IURLGenerator $urlGenerator */
-$urlGenerator = $_['urlGenerator'];
 ?>
 
 <div class="picker-window">

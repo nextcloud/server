@@ -54,6 +54,9 @@ use OCP\Util;
 use OCP\Mail\IMailer;
 use OCP\Security\ICrypto;
 use OCP\Security\ISecureRandom;
+use function array_filter;
+use function count;
+use function reset;
 
 /**
  * Class LostController
@@ -285,8 +288,12 @@ class LostController extends Controller {
 			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 		}
 
+		$encryptedToken = $this->config->getUserValue($userId, 'core', 'lostpassword', null);
+		if ($encryptedToken === null) {
+			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
+		}
+
 		try {
-			$encryptedToken = $this->config->getUserValue($userId, 'core', 'lostpassword', null);
 			$mailAddress = !is_null($user->getEMailAddress()) ? $user->getEMailAddress() : '';
 			$decryptedToken = $this->crypto->decrypt($encryptedToken, $mailAddress.$this->config->getSystemValue('secret'));
 		} catch (\Exception $e) {
@@ -525,32 +532,12 @@ class LostController extends Controller {
 			return $user;
 		}
 
-		throw $userNotFound;
-	}
+		$users = array_filter($this->userManager->getByEmail($input), function (IUser $user) {
+			return $user->isEnabled();
+		});
 
-	/**
-	 * Sets the password reset params.
-	 *
-	 * Users may not change their passwords if:
-	 * - The account is disabled
-	 * - The backend doesn't support password resets
-	 * - The password reset function is disabled
-	 *
-	 * @param IUser $userObj
-	 * @param array $parameters
-	 * @return array
-	 */
-	protected function setPasswordResetParameters(
-		IUser $userObj = null, array $parameters): array {
-
-		if ($parameters['resetPasswordLink'] === 'disabled') {
-			$parameters['canResetPassword'] = false;
-		} else if ($userObj !== null && !$parameters['resetPasswordLink']) {
-			$parameters['canResetPassword'] = $userObj->canChangePassword();
-		} else if ($userObj !== null && $userObj->isEnabled() === false) {
-			$parameters['canResetPassword'] = false;
-		} else {
-			$parameters['canResetPassword'] = true;
+		if (count($users) === 1) {
+			return reset($users);
 		}
 
 		return $parameters;

@@ -77,7 +77,7 @@ kbd {
 
 /* APP-NAVIGATION ------------------------------------------------------------ */
 /* Navigation: folder like structure */
-#app-navigation {
+#app-navigation:not(.vue) {
 	width: $navigation-width;
 	position: fixed;
 	top: $header-height;

@@ -49,27 +49,22 @@ class ClientTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(0))
 			->method('getSystemValue')
-			->with('proxy', null)
-			->willReturn(null);
-		$this->config
-			->expects($this->at(1))
-			->method('getSystemValue')
-			->with('proxyuserpwd', null)
-			->willReturn(null);
-		$this->assertSame('', self::invokePrivate($this->client, 'getProxyUri'));
+			->with('proxy', '')
+			->willReturn('');
+		$this->assertNull(self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
 	public function testGetProxyUriProxyHostEmptyPassword() {
 		$this->config
 			->expects($this->at(0))
 			->method('getSystemValue')
-			->with('proxy', null)
+			->with('proxy', '')
 			->willReturn('foo');
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('proxyuserpwd', null)
-			->willReturn(null);
+			->with('proxyuserpwd', '')
+			->willReturn('');
 		$this->assertSame('foo', self::invokePrivate($this->client, 'getProxyUri'));
 	}
 
@@ -77,12 +72,22 @@ class ClientTest extends \Test\TestCase {
 		$this->config
 			->expects($this->at(0))
 			->method('getSystemValue')
-			->with('proxy', null)
+			->with(
+				$this->equalTo('proxy'),
+				$this->callback(function ($input) {
+					return $input === '';
+				})
+			)
 			->willReturn('foo');
 		$this->config
 			->expects($this->at(1))
 			->method('getSystemValue')
-			->with('proxyuserpwd', null)
+			->with(
+				$this->equalTo('proxyuserpwd'),
+				$this->callback(function ($input) {
+					return $input === '';
+				})
+			)
 			->willReturn('username:password');
 		$this->assertSame('username:password@foo', self::invokePrivate($this->client, 'getProxyUri'));
 	}
@@ -260,7 +265,8 @@ class ClientTest extends \Test\TestCase {
 			->willReturn([]);
 
 		$this->assertEquals([
-			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt'
+			'verify' => \OC::$SERVERROOT . '/resources/config/ca-bundle.crt',
+			'proxy' => null,
 		], self::invokePrivate($this->client, 'getRequestOptions'));
 	}
 

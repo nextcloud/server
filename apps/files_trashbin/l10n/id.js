@@ -3,8 +3,14 @@ OC.L10N.register(
     {
     "Deleted files" : "Berkas yang dihapus",
     "restored" : "dipulihkan",
+    "This application enables users to restore files that were deleted from the system." : "Aplikasi ini memungkinkan pengguna untuk memulihkan berkas terhapus dari sistem.",
     "Restore" : "Pulihkan",
     "Delete permanently" : "Hapus secara permanen",
+    "Error while restoring file from trashbin" : "Galat memulihkan berkas dari keranjang sampah",
+    "Error while removing file from trashbin" : "Galat menghapus berkas dari keranjang sampah",
+    "Error while restoring files from trashbin" : "Galat memulihkan berkas dari keranjang sampah",
+    "Error while emptying trashbin" : "Galat mengosongkan keranjang sampah",
+    "Error while removing files from trashbin" : "Galat menghapus berkas dari keranjang sampah",
     "This operation is forbidden" : "Operasi ini dilarang",
     "This directory is unavailable, please check the logs or contact the administrator" : "Direktori ini tidak tersedia, silakan periksa log atau hubungi kontak",
     "No deleted files" : "Tidak ada berkas yang dihapus",
@@ -12,10 +18,8 @@ OC.L10N.register(
     "No entries found in this folder" : "Tidak ada entri yang ditemukan dalam folder ini",
     "Select all" : "Pilih Semua",
     "Name" : "Nama",
+    "Actions" : "Tindakan",
     "Deleted" : "Dihapus",
-    "Delete" : "Hapus",
-    "Couldn't delete %s permanently" : "Tidak dapat menghapus permanen %s",
-    "Couldn't restore %s" : "Tidak dapat memulihkan %s",
-    "Error" : "Galat"
+    "Delete" : "Hapus"
 },
 "nplurals=1; plural=0;");

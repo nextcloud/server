@@ -33,7 +33,7 @@ class VersionCheck {
 
 	/** @var IClientService */
 	private $clientService;
-	
+
 	/** @var IConfig */
 	private $config;
 
@@ -54,6 +54,11 @@ class VersionCheck {
 	 * @return array|bool
 	 */
 	public function check() {
+		// If this server is set to have no internet connection this is all not needed
+		if (!$this->config->getSystemValueBool('has_internet_connection', true)) {
+			return false;
+		}
+
 		// Look up the cache - it is invalidated all 30 minutes
 		if (((int)$this->config->getAppValue('core', 'lastupdatedat') + 1800) > time()) {
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);

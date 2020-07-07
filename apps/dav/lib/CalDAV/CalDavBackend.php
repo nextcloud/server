@@ -33,6 +33,7 @@
 
 namespace OCA\DAV\CalDAV;
 
+use DateTime;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -445,7 +446,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		return $this->userDisplayNames[$uid];
 	}
-	
+
 	/**
 	 * @return array
 	 */
@@ -1550,14 +1551,14 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->from('calendarobjects', 'c');
 
 		if (isset($options['timerange'])) {
-			if (isset($options['timerange']['start'])) {
+			if (isset($options['timerange']['start']) && $options['timerange']['start'] instanceof DateTime) {
 				$outerQuery->andWhere($outerQuery->expr()->gt('lastoccurence',
-					$outerQuery->createNamedParameter($options['timerange']['start']->getTimeStamp)));
+					$outerQuery->createNamedParameter($options['timerange']['start']->getTimeStamp())));
 
 			}
-			if (isset($options['timerange']['end'])) {
+			if (isset($options['timerange']['end']) && $options['timerange']['end'] instanceof DateTime) {
 				$outerQuery->andWhere($outerQuery->expr()->lt('firstoccurence',
-					$outerQuery->createNamedParameter($options['timerange']['end']->getTimeStamp)));
+					$outerQuery->createNamedParameter($options['timerange']['end']->getTimeStamp())));
 			}
 		}
 
@@ -2257,7 +2258,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				}
 			} else {
 				$it = new EventIterator($vObject, (string)$component->UID);
-				$maxDate = new \DateTime(self::MAX_DATE);
+				$maxDate = new DateTime(self::MAX_DATE);
 				if ($it->isInfinite()) {
 					$lastOccurrence = $maxDate->getTimestamp();
 				} else {
@@ -2464,11 +2465,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 							if ($this->db->supports4ByteText()) {
 								$value = preg_replace('/[\x{10000}-\x{10FFFF}]/u', "\xEF\xBF\xBD", $value);
 							}
-							$value = mb_substr($value, 0, 254);
 
 							$query->setParameter('name', $property->name);
-							$query->setParameter('parameter', substr($key, 0, 254));
-							$query->setParameter('value', substr($value, 0, 254));
+							$query->setParameter('parameter', mb_substr($key, 0, 254));
+							$query->setParameter('value', mb_substr($value, 0, 254));
 							$query->execute();
 						}
 					}

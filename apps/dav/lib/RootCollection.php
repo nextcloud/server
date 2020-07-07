@@ -61,7 +61,7 @@ class RootCollection extends SimpleCollection {
 			$config,
 			\OC::$server->getAppManager()
 		);
-		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager, $l10n);
+		$groupPrincipalBackend = new GroupPrincipalBackend($groupManager, $userSession, $shareManager);
 		$calendarResourcePrincipalBackend = new ResourcePrincipalBackend($db, $userSession, $groupManager, $logger);
 		$calendarRoomPrincipalBackend = new RoomPrincipalBackend($db, $userSession, $groupManager, $logger);
 		// as soon as debug mode is enabled we allow listing of principals

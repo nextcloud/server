@@ -16,6 +16,7 @@ return array(
     'OCA\\Files_Versions\\Events\\CreateVersionEvent' => $baseDir . '/../lib/Events/CreateVersionEvent.php',
     'OCA\\Files_Versions\\Expiration' => $baseDir . '/../lib/Expiration.php',
     'OCA\\Files_Versions\\Hooks' => $baseDir . '/../lib/Hooks.php',
+    'OCA\\Files_Versions\\Sabre\\Plugin' => $baseDir . '/../lib/Sabre/Plugin.php',
     'OCA\\Files_Versions\\Sabre\\RestoreFolder' => $baseDir . '/../lib/Sabre/RestoreFolder.php',
     'OCA\\Files_Versions\\Sabre\\RootCollection' => $baseDir . '/../lib/Sabre/RootCollection.php',
     'OCA\\Files_Versions\\Sabre\\VersionCollection' => $baseDir . '/../lib/Sabre/VersionCollection.php',

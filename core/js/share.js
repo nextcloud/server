@@ -269,22 +269,23 @@ OC.Share = _.extend(OC.Share || {}, {
 		var message, recipients, avatars;
 		var ownerId = $tr.attr('data-share-owner-id');
 		var owner = $tr.attr('data-share-owner');
+		var mountType = $tr.attr('data-mounttype');
 		var shareFolderIcon;
 		var iconClass = 'icon-shared';
 		action.removeClass('shared-style');
 		// update folder icon
 		if (type === 'dir' && (hasShares || hasLink || ownerId)) {
-			if (hasLink) {
+			if (typeof mountType !== 'undefined' && mountType !== 'shared-root' && mountType !== 'shared') {
+				shareFolderIcon = OC.MimeType.getIconUrl('dir-' + mountType);
+			} else if (hasLink) {
 				shareFolderIcon = OC.MimeType.getIconUrl('dir-public');
-			}
-			else {
+			} else {
 				shareFolderIcon = OC.MimeType.getIconUrl('dir-shared');
 			}
 			$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')');
 			$tr.attr('data-icon', shareFolderIcon);
 		} else if (type === 'dir') {
 			var isEncrypted = $tr.attr('data-e2eencrypted');
-			var mountType = $tr.attr('data-mounttype');
 			// FIXME: duplicate of FileList._createRow logic for external folder,
 			// need to refactor the icon logic into a single code path eventually
 			if (isEncrypted === 'true') {

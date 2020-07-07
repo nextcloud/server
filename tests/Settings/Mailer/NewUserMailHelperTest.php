@@ -79,6 +79,18 @@ class NewUserMailHelperTest extends TestCase {
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->config
+			->expects($this->any())
+			->method('getSystemValue')
+			->willReturnCallback(function($arg) {
+				switch ($arg) {
+					case 'secret':
+						return 'MyInstanceWideSecret';
+					case 'customclient_desktop':
+						return 'https://nextcloud.com/install/#install-clients';
+				}
+				return '';
+			});
 		$this->crypto = $this->createMock(ICrypto::class);
 		$this->l10n->method('t')
 			->will($this->returnCallback(function ($text, $parameters = []) {
@@ -122,11 +134,6 @@ class NewUserMailHelperTest extends TestCase {
 			->expects($this->any())
 			->method('getEmailAddress')
 			->willReturn('recipient@example.com');
-		$this->config
-			->expects($this->any())
-			->method('getSystemValue')
-			->with('secret')
-			->willReturn('MyInstanceWideSecret');
 		$this->crypto
 			->expects($this->once())
 			->method('encrypt')

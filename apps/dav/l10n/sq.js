@@ -53,16 +53,12 @@ OC.L10N.register(
     "More options …" : "Më shumë opsione ...",
     "Contacts" : "Kontaktet",
     "WebDAV" : "WebDAV",
-    "Technical details" : "Detaje teknike",
-    "Remote Address: %s" : "Adresa remote: %s",
-    "Request ID: %s" : "ID e kërkesës: %s",
     "Tentative" : "Tentativë",
     "Save" : "Ruaj",
     "Your attendance was updated successfully." : "Pjesëmarrja juaj u përditësua me sukses.",
     "Send invitations to attendees" : "Dërgo ftesa tek pjesëmarrësit",
-    "%s via %s" : "%s nëpërmjet %s",
-    "The meeting »%s« with %s was canceled." : "Takimi »%s« me %s u anullua.",
-    "The meeting »%s« with %s was updated." : "Takimi »%s« me %s u përditësua.",
-    "%s invited you to »%s«" : "%s ju ftoi juve tek %s"
+    "Technical details" : "Detaje teknike",
+    "Remote Address: %s" : "Adresa remote: %s",
+    "Request ID: %s" : "ID e kërkesës: %s"
 },
 "nplurals=2; plural=(n != 1);");

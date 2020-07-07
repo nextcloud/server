@@ -50,7 +50,7 @@ class ActionFactory implements IActionFactory {
 	 * @return ILinkAction
 	 */
 	public function newEMailAction($icon, $name, $email) {
-		return $this->newLinkAction($icon, $name, 'mailto:' . urlencode($email));
+		return $this->newLinkAction($icon, $name, 'mailto:' . $email);
 	}
 
 }

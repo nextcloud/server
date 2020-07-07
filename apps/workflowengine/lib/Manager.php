@@ -22,6 +22,7 @@
 namespace OCA\WorkflowEngine;
 
 
+use OC\Files\Storage\Wrapper\Jail;
 use OCP\AppFramework\QueryException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
@@ -71,6 +72,10 @@ class Manager implements IManager {
 	 */
 	public function setFileInfo(IStorage $storage, $path) {
 		$this->storage = $storage;
+
+		if ($storage->instanceOfStorage(Jail::class)) {
+			$path = $storage->getJailedPath($path);
+		}
 		$this->path = $path;
 	}
 

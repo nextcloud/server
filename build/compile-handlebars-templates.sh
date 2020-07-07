@@ -5,25 +5,25 @@ REPODIR=`git rev-parse --show-toplevel`
 cd $REPODIR
 
 # Settings
-handlebars -n OC.Settings.Templates  settings/js/templates -f settings/js/templates.js
+node node_modules/handlebars/bin/handlebars -n OC.Settings.Templates  settings/js/templates -f settings/js/templates.js
 
 # Systemtags
-handlebars -n OC.SystemTags.Templates core/js/systemtags/templates -f core/js/systemtags/templates.js
+node node_modules/handlebars/bin/handlebars -n OC.SystemTags.Templates core/js/systemtags/templates -f core/js/systemtags/templates.js
 
 # Share
-handlebars -n OC.Share.Templates core/js/share -f core/js/sharetemplates.js
+node node_modules/handlebars/bin/handlebars -n OC.Share.Templates core/js/share -f core/js/sharetemplates.js
 
 # Files app
-handlebars -n OCA.Files.Templates apps/files/js/templates -f apps/files/js/templates.js
+node node_modules/handlebars/bin/handlebars -n OCA.Files.Templates apps/files/js/templates -f apps/files/js/templates.js
 
 # Workflowengine
-handlebars -n OCA.WorkflowEngine.Templates apps/workflowengine/js/templates -f apps/workflowengine/js/templates.js
+node node_modules/handlebars/bin/handlebars -n OCA.WorkflowEngine.Templates apps/workflowengine/js/templates -f apps/workflowengine/js/templates.js
 
 # Sharing
-handlebars -n OCA.Sharing.Templates apps/files_sharing/js/templates -f apps/files_sharing/js/templates.js
+node node_modules/handlebars/bin/handlebars -n OCA.Sharing.Templates apps/files_sharing/js/templates -f apps/files_sharing/js/templates.js
 
 # Files external
-handlebars -n OCA.Files_External.Templates apps/files_external/js/templates -f apps/files_external/js/templates.js
+node node_modules/handlebars/bin/handlebars -n OCA.Files_External.Templates apps/files_external/js/templates -f apps/files_external/js/templates.js
 
 if [[ $(git diff --name-only) ]]; then
     echo "Please submit your compiled handlebars templates"

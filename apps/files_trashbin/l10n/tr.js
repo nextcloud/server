@@ -13,7 +13,7 @@ OC.L10N.register(
     "Error while emptying trashbin" : "Çöp kutusu boşaltılırken sorun çıktı",
     "Error while removing files from trashbin" : "Dosyalar çöp kutusundan silinirken sorun çıktı",
     "This operation is forbidden" : "Bu işlem yapılamaz",
-    "This directory is unavailable, please check the logs or contact the administrator" : "Bu dizine yazılamıyor, lütfen günlüğü denetleyin ya da yönetici ile görüşün",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Bu klasör kullanılamıyor. Lütfen günlüğü denetleyin ya da BT yöneticiniz ile görüşün",
     "No deleted files" : "Silinmiş bir dosya yok",
     "You will be able to recover deleted files from here" : "Silinmiş dosyalarınızı buradan geri yükleyebilirsiniz",
     "No entries found in this folder" : "Bu klasörde herhangi bir kayıt yok",
@@ -21,9 +21,6 @@ OC.L10N.register(
     "Name" : "Ad",
     "Actions" : "İşlemler",
     "Deleted" : "Silinme",
-    "Delete" : "Sil",
-    "Couldn't delete %s permanently" : "%s kalıcı olarak silinemedi",
-    "Couldn't restore %s" : "%s geri yüklenemedi",
-    "Error" : "Hata"
+    "Delete" : "Sil"
 },
 "nplurals=2; plural=(n > 1);");

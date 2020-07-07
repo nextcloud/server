@@ -178,11 +178,14 @@ class Detection implements IMimeTypeDetector {
 		if (strpos($fileName, '.') > 0) {
 
 			// remove versioning extension: name.v1508946057 and transfer extension: name.ocTransferId2057600214.part
-			$fileName = preg_replace('!((\.v\d+)|((.ocTransferId\d+)?.part))$!', '', $fileName);
+			$fileName = preg_replace('!((\.v\d+)|((\.ocTransferId\d+)?\.part))$!', '', $fileName);
 
 			//try to guess the type by the file extension
-			$extension = strtolower(strrchr($fileName, '.'));
-			$extension = substr($extension, 1); //remove leading .
+			$extension = strrchr($fileName, '.');
+			if ($extension !== false) {
+				$extension = strtolower($extension);
+				$extension = substr($extension, 1); //remove leading .
+			}
 			return (isset($this->mimetypes[$extension]) && isset($this->mimetypes[$extension][0]))
 				? $this->mimetypes[$extension][0]
 				: 'application/octet-stream';
@@ -192,12 +195,12 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * detect mimetype based on both filename and content
-	 *
+	 * detect mimetype only based on the content of file
 	 * @param string $path
 	 * @return string
+	 * @since 18.0.0
 	 */
-	public function detect($path) {
+	public function detectContent(string $path): string {
 		$this->loadMappings();
 
 		if (@is_dir($path)) {
@@ -205,41 +208,72 @@ class Detection implements IMimeTypeDetector {
 			return "httpd/unix-directory";
 		}
 
-		$mimeType = $this->detectPath($path);
-
-		if ($mimeType === 'application/octet-stream' and function_exists('finfo_open')
-			and function_exists('finfo_file') and $finfo = finfo_open(FILEINFO_MIME)
-		) {
-			$info = @strtolower(finfo_file($finfo, $path));
+		if (function_exists('finfo_open')
+			&& function_exists('finfo_file')
+			&& $finfo = finfo_open(FILEINFO_MIME)) {
+			$info = @finfo_file($finfo, $path);
 			finfo_close($finfo);
 			if ($info) {
+				$info = strtolower($info);
 				$mimeType = strpos($info, ';') !== false ? substr($info, 0, strpos($info, ';')) : $info;
-				return empty($mimeType) ? 'application/octet-stream' : $mimeType;
+				$mimeType = $this->getSecureMimeType($mimeType);
+				if ($mimeType !== 'application/octet-stream') {
+					return $mimeType;
+				}
 			}
-
 		}
-		$isWrapped = (strpos($path, '://') !== false) and (substr($path, 0, 7) === 'file://');
-		if (!$isWrapped and $mimeType === 'application/octet-stream' && function_exists("mime_content_type")) {
+
+		if (strpos($path, '://') !== false && strpos($path, 'file://') === 0) {
+			// Is the file wrapped in a stream?
+			return 'application/octet-stream';
+		}
+
+		if (function_exists('mime_content_type')) {
 			// use mime magic extension if available
 			$mimeType = mime_content_type($path);
+			if ($mimeType !== false) {
+				$mimeType = $this->getSecureMimeType($mimeType);
+				if ($mimeType !== 'application/octet-stream') {
+					return $mimeType;
+				}
+			}
 		}
-		if (!$isWrapped and $mimeType === 'application/octet-stream' && \OC_Helper::canExecute("file")) {
+
+		if (\OC_Helper::canExecute('file')) {
 			// it looks like we have a 'file' command,
 			// lets see if it does have mime support
 			$path = escapeshellarg($path);
-			$fp = popen("file -b --mime-type $path 2>/dev/null", "r");
-			$reply = fgets($fp);
+			$fp = popen("test -f $path && file -b --mime-type $path", 'r');
+			$mimeType = fgets($fp);
 			pclose($fp);
 
-			//trim the newline
-			$mimeType = trim($reply);
-
-			if (empty($mimeType)) {
-				$mimeType = 'application/octet-stream';
+			if ($mimeType !== false) {
+				//trim the newline
+				$mimeType = trim($mimeType);
+				$mimeType = $this->getSecureMimeType($mimeType);
+				if ($mimeType !== 'application/octet-stream') {
+					return $mimeType;
+				}
 			}
 
 		}
-		return $mimeType;
+		return 'application/octet-stream';
+	}
+
+	/**
+	 * detect mimetype based on both filename and content
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	public function detect($path) {
+		$mimeType = $this->detectPath($path);
+
+		if ($mimeType !== 'application/octet-stream') {
+			return $mimeType;
+		}
+
+		return $this->detectContent($path);
 	}
 
 	/**

@@ -61,6 +61,15 @@ class Hasher implements IHasher {
 	public function __construct(IConfig $config) {
 		$this->config = $config;
 
+		if (\defined('PASSWORD_ARGON2I')) {
+			// password_hash fails, when the minimum values are undershot.
+			// In this case, apply minimum.
+			$this->options['threads'] = max($this->config->getSystemValueInt('hashingThreads', PASSWORD_ARGON2_DEFAULT_THREADS), 1);
+			// The minimum memory cost is 8 KiB per thread.
+			$this->options['memory_cost'] = max($this->config->getSystemValueInt('hashingMemoryCost', PASSWORD_ARGON2_DEFAULT_MEMORY_COST), $this->options['threads'] * 8);
+			$this->options['time_cost'] = max($this->config->getSystemValueInt('hashingTimeCost', PASSWORD_ARGON2_DEFAULT_TIME_COST), 1);
+		}
+
 		$hashingCost = $this->config->getSystemValue('hashingCost', null);
 		if(!\is_null($hashingCost)) {
 			$this->options['cost'] = $hashingCost;
