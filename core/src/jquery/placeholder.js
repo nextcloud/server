@@ -164,7 +164,7 @@ $.fn.imageplaceholder = function(seed, text, size) {
 	this.css('font-size', (height * 0.55) + 'px')
 
 	if (seed !== null && seed.length) {
-		var placeholderText = text.split(' ', 2).map((word) => word[0].toUpperCase()).join('')
+		var placeholderText = text.replace(/\s+/g, ' ').trim().split(' ', 2).map((word) => word[0].toUpperCase()).join('')
 		this.html(placeholderText);
 	}
 }
