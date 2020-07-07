@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "タグ",
     "Tag name is empty" : "タグ名が空です",
     "Update" : "更新",
     "Create" : "作成",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (制限)",
     "%s (invisible)" : "%s (不可視)",
     "<strong>System tags</strong> for a file have been modified" : "ファイルの<strong>タグ</strong>が変更されたとき",
+    "Tags" : "タグ",
     "Collaborative tags" : "コラボタグ",
     "Collaborative tagging functionality which shares tags among users." : "ユーザー間でタグを共有するコラボレーティブタグ機能。",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "ユーザー間でタグを共有する共同タグ機能。 チームに最適です。\n（マルチテナンシーインストールのプロバイダーの場合は、タグが共有されているため、このアプリを非アクティブ化することをお勧めします。）",

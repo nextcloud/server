@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Merki",
     "Tag name is empty" : "Nafn merkis vantar",
     "Update" : "Uppfæra",
     "Create" : "Búa til",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (takmarkaður aðgangur)",
     "%s (invisible)" : "%s (ósýnilegt)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Kerfismerkjum</strong> á skrá hefur verið breytt",
+    "Tags" : "Merki",
     "Collaborative tags" : "Samstarfsmerkingar",
     "Collaborative tagging functionality which shares tags among users." : "Samstarfsmerkingareiginleiki sem deilir merkjum á milli notenda.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samstarfsmerkingareiginleiki sem deilir merkjum á milli notenda. Frábært fyrir hópvinnu.\n\t(Ef þú ert þjónustuaðili með margar uppsetningar á sömu þjónum, þá er ráðlagt að gera þetta óvirkt því merkin eru sameiginleg.)",

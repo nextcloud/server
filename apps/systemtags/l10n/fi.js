@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Tunnisteet",
     "Tag name is empty" : "Tunnisteen nimi on tyhjä",
     "Update" : "Päivitys",
     "Create" : "Luo",
@@ -39,6 +38,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (rajoitettu)",
     "%s (invisible)" : "%s (näkymätön)",
     "<strong>System tags</strong> for a file have been modified" : "Tiedoston <strong>järjestelmätunnisteita</strong> on muokattu",
+    "Tags" : "Tunnisteet",
     "Collaborative tags" : "Yhteistyölliset tunnisteet",
     "Collaborative tagging functionality which shares tags among users." : "Yhteisöllistä tunnistetoiminnallisuutta, lopputuloksena tunnisteet jaetaan käyttäjien kesken.",
     "Tagged files" : "Tunnisteella merkityt tiedostot",

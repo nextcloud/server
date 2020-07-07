@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Etiquettas",
     "Update" : "Actualisation",
     "Create" : "Crear",
     "Select tag…" : "Selectionar etiquetta...",
@@ -36,6 +35,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (restringite)",
     "%s (invisible)" : "%s (invisibile)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Le etiquettas de systema</strong> de un file esseva modificate",
+    "Tags" : "Etiquettas",
     "Collaborative tags" : "Etiquettas collaborative",
     "Tagged files" : "Files etiquettate",
     "Select tags to filter by" : "Selectionar etiquettas a filtrar per",

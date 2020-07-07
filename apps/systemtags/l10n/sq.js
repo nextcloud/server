@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Etiketa",
     "Update" : "Përditëso",
     "Create" : "Krijo",
     "Select tag…" : "Përzgjidh etiketën...",
@@ -36,6 +35,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (e kufizuar)",
     "%s (invisible)" : "%s (e padukshme)",
     "<strong>System tags</strong> for a file have been modified" : "U ndryshyan <strong>etiketa sistemi</strong>për një kartelë",
+    "Tags" : "Etiketa",
     "Collaborative tags" : "Etiketa bashkëpunuese",
     "Tagged files" : "Kartela të etiketuara",
     "Select tags to filter by" : "Përzgjidhni etiketa sipas të cilat të bëhet filtrimi",

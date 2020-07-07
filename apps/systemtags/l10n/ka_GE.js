@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "ტეგები",
     "Update" : "განახლება",
     "Create" : "შექმნა",
     "Select tag…" : "ტეგის არჩევა…",
@@ -36,6 +35,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (აკრძალული)",
     "%s (invisible)" : "%s (უჩინარი)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>სისტემური ტეგები</strong> ფაილისთვის შეიცვალა",
+    "Tags" : "ტეგები",
     "Collaborative tags" : "თანამშრომლობის ტეგები",
     "Tagged files" : "დატაგული ფაილები",
     "Select tags to filter by" : "ფილტრაციისთვის აირჩიეთ ტეგები",

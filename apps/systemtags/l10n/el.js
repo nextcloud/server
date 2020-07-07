@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Ετικέτες",
     "Tag name is empty" : "Το όνομα ετικέτας είναι κενό",
     "Update" : "Ενημέρωση",
     "Create" : "Δημιουργία",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (περιορισμένο)",
     "%s (invisible)" : "%s (αόρατο)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Οι ετικέτες συστήματος</strong> για ένα αρχείο έχουν τροποποιηθεί",
+    "Tags" : "Ετικέτες",
     "Collaborative tags" : "Ετικέτες συνεργασίας",
     "Collaborative tagging functionality which shares tags among users." : "Λειτουργία προσθήκης ετικετών με συνεργασία που μοιράζεται ετικέτες μεταξύ χρηστών.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Λειτουργία προσθήκης ετικετών με συνεργασία που μοιράζεται ετικέτες μεταξύ χρηστών. Χρήσιμο για ομάδες.\n\t(Εάν είστε πάροχος με πολλαπλές εγκαταστάσεις, συνιστάται να απενεργοποιήσετε αυτήν την εφαρμογή καθώς οι ετικέτες μοιράζονται.)",

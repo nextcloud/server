@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Etikedoj",
     "Tag name is empty" : "Etikednomo malplenas",
     "Update" : "Ĝisdatigi",
     "Create" : "Krei",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (limigita)",
     "%s (invisible)" : "%s (nevidebla)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Sistemaj etikedoj</strong> por dosiero modifiĝis",
+    "Tags" : "Etikedoj",
     "Collaborative tags" : "Kunlaboraj etikedoj",
     "Collaborative tagging functionality which shares tags among users." : "Kunlabora etikedado por kunhavigi etikedojn inter uzantoj.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Kunlabora etikedado por kunhavigi etikedojn inter uzantoj. Taŭga por teamoj.\n\n(Se vi estas provizanto kun plurklienta instalado, oni konsilas malŝalti tiun aplikaĵon, alimaniere etikedoj estus kunhavigitaj inter ĉiuj klientoj.)",
