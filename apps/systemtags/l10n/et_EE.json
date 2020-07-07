@@ -1,5 +1,4 @@
 { "translations": {
-    "Tags" : "Sildid",
     "Update" : "Uuenda",
     "Create" : "Loo",
     "Select tag…" : "Vali silt...",
@@ -34,6 +33,7 @@
     "%s (restricted)" : "%s (piiratud)",
     "%s (invisible)" : "%s (nähtamatu)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Süsteemi sildid</strong> sellele failile on muudetud",
+    "Tags" : "Sildid",
     "Collaborative tags" : "Koostöö sildid",
     "Tagged files" : "Sildistatud failid",
     "Select tags to filter by" : "Vali sildid, mille järgi filtreerida",

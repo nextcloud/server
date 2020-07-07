@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Címkék",
     "Update" : "Frissítés",
     "Create" : "Létrehozás",
     "Select tag…" : "Címke választás...",
@@ -36,6 +35,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (korlátozott)",
     "%s (invisible)" : "%s (láthatatlan)",
     "<strong>System tags</strong> for a file have been modified" : "A fájl <strong>rendszer címkéje</strong> módosítva lett",
+    "Tags" : "Címkék",
     "Collaborative tags" : "Együttműködési címkék",
     "Tagged files" : "Címkézett fájlok",
     "Select tags to filter by" : "Kiválasztott címkék a szűrő által:",

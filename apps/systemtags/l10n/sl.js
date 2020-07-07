@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Oznake",
     "Update" : "Posodobi",
     "Create" : "Ustvari",
     "Select tag…" : "Izbor oznake ...",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (omejeno)",
     "%s (invisible)" : "%s (nevidno)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Sistemske oznake</strong> datoteke so bile spremenjene",
+    "Tags" : "Oznake",
     "Collaborative tags" : "Sodelovalne oznake",
     "Collaborative tagging functionality which shares tags among users." : "Možnost dodajanja sodelovalnih oznak za souporabo med uporabniki.",
     "Tagged files" : "Označene datoteke",

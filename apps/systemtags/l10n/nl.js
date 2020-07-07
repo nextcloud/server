@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Markering",
     "Tag name is empty" : "Markeringsnaam is niet ingevuld",
     "Update" : "Update",
     "Create" : "Opslaan",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (beperkt)",
     "%s (invisible)" : "%s (onzichtbaar)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systeemmarkeringen</strong> voor een bestand zijn gewijzigd",
+    "Tags" : "Markering",
     "Collaborative tags" : "Systeemtags",
     "Collaborative tagging functionality which shares tags among users." : "Samenwerkings tagfunctionaliteit, waardoor je tags kunt delen onder gebruikers.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samenwerkings tagfunctionaliteit, waardoor je tags kunt delen onder gebruikers. Perfect voor teams\n(als je een provider met een multi-tenancy installatie bent, adviseren we om deze app uit te schakelen omdat tags worden gedeeld.)",

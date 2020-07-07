@@ -1,5 +1,4 @@
 { "translations": {
-    "Tags" : "Oznake",
     "Update" : "Posodobi",
     "Create" : "Ustvari",
     "Select tag…" : "Izbor oznake ...",
@@ -18,6 +17,7 @@
     "%s (restricted)" : "%s (omejeno)",
     "%s (invisible)" : "%s (nevidno)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Sistemske oznake</strong> datoteke so bile spremenjene",
+    "Tags" : "Oznake",
     "Collaborative tags" : "Sodelovalne oznake",
     "Collaborative tagging functionality which shares tags among users." : "Možnost dodajanja sodelovalnih oznak za souporabo med uporabniki.",
     "Tagged files" : "Označene datoteke",
