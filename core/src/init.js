@@ -39,8 +39,8 @@ const resizeMenu = () => {
 	const appList = $('#appmenu li')
 	const rightHeaderWidth = $('.header-right').outerWidth()
 	const headerWidth = $('header').outerWidth()
-	const usePercentualAppMenuLimit = 0.33
-	const minAppsDesktop = 8
+	const usePercentualAppMenuLimit = 0.67
+	const minAppsDesktop = 12
 	let availableWidth = headerWidth - $('#nextcloud').outerWidth() - (rightHeaderWidth > 210 ? rightHeaderWidth : 210)
 	const isMobile = $(window).width() < breakpointMobileWidth
 	if (!isMobile) {
