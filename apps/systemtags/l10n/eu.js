@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Etiketak",
     "Tag name is empty" : "Etiketaren izena hutsik dago",
     "Update" : "Eguneratu",
     "Create" : "Sortu",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (mugatua)",
     "%s (invisible)" : "%s (ikusezina)",
     "<strong>System tags</strong> for a file have been modified" : "Fitxategi baten <strong>sistema-etiketak</strong> aldatu egin dira",
+    "Tags" : "Etiketak",
     "Collaborative tags" : "Elkarlaneko etiketak",
     "Tagged files" : "Etiketatutako fitxategiak",
     "Select tags to filter by" : "Hautatu etiketak iragazteko",

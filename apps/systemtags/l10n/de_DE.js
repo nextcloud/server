@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Tags",
     "Tag name is empty" : "Schlagwortbezeichnung ist leer",
     "Update" : "Aktualisieren",
     "Create" : "Erstellen",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (eingeschränkt)",
     "%s (invisible)" : "%s (unsichtbar)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>System-Tag</strong> für eine Datei wurden geändert",
+    "Tags" : "Tags",
     "Collaborative tags" : "Kollaborative Tags",
     "Collaborative tagging functionality which shares tags among users." : "Gemeinschaftliche Schlagwort-Funktionalität, welche Schlagworte unter den Benutzern teilt.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Gemeinschaftliche Schlagwort-Funktionalität, welche Schlagworte unter den Benutzern teilt. Sehr gut für Gruppen.\n\t(Wenn Sie ein Anbieter mit einer Mehrkundeninstallation sind, so ist angeraten diese App zu deaktiveren, da die Schlagworte mit allen Kunden geteilt werden.)",

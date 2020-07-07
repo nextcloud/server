@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Etiquetas",
     "Tag name is empty" : "O nome da etiqueta está baleiro",
     "Update" : "Actualizar",
     "Create" : "Crear",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (restrinxida)",
     "%s (invisible)" : "%s (invisíbel)",
     "<strong>System tags</strong> for a file have been modified" : "Modificáronse as <strong>etiquetas de sistemas</strong> dun ficheio",
+    "Tags" : "Etiquetas",
     "Collaborative tags" : "Etiquetas colaborativas",
     "Collaborative tagging functionality which shares tags among users." : "Funcionalidade de etiquetado colaborativo que comparte as etiquetas entre usuarios.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funcionalidade de etiquetado colaborativo que comparte as etiquetas entre usuarios. Moi axeitado para equipos.\n(Se vostede é un provedor cunha instalación de varias instalacións, recoméndase desactivar esta aplicación xa que as etiquetas compártense).",

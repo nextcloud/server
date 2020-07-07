@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Taggar",
     "Tag name is empty" : "Taggens namn är tomt",
     "Update" : "Uppdatera",
     "Create" : "Skapa",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (begränsad)",
     "%s (invisible)" : "%s (osynlig)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systemtaggar</strong> för en fil har blivit ändrade",
+    "Tags" : "Taggar",
     "Collaborative tags" : "Samverkande taggar",
     "Collaborative tagging functionality which shares tags among users." : "Samarbetande tagg-funktionalitet som delar taggar bland användare.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Samarbetande tagg-funktionalitet som delar taggar bland användare. Utmärkt för arbetsgrupper.\n\t(Om du är en leverantör med flera kunder, rekommenderas att deaktivera den här appen eftersom taggar delas.)",

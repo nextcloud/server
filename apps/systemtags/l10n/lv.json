@@ -1,5 +1,4 @@
 { "translations": {
-    "Tags" : "Birkas",
     "Update" : "Atjaunināt",
     "Create" : "Izveidot",
     "Select tag…" : "Izvēlieties birku...",
@@ -35,6 +34,7 @@
     "%s (restricted)" : "%s (ierobežots)",
     "%s (invisible)" : "%s (neredzams)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Sistēmas birkas</strong> datnei tikušas mainītas",
+    "Tags" : "Birkas",
     "Collaborative tags" : "Sadarbības birkas",
     "Tagged files" : "Atzīmētās datnes",
     "Select tags to filter by" : "Izvēlieties birkas, pēc kurām filtrēt",

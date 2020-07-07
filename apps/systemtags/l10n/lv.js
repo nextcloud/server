@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Birkas",
     "Update" : "Atjaunināt",
     "Create" : "Izveidot",
     "Select tag…" : "Izvēlieties birku...",
@@ -37,6 +36,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (ierobežots)",
     "%s (invisible)" : "%s (neredzams)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Sistēmas birkas</strong> datnei tikušas mainītas",
+    "Tags" : "Birkas",
     "Collaborative tags" : "Sadarbības birkas",
     "Tagged files" : "Atzīmētās datnes",
     "Select tags to filter by" : "Izvēlieties birkas, pēc kurām filtrēt",

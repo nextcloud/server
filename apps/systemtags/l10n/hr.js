@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Oznake",
     "Tag name is empty" : "Nema naziva oznake",
     "Update" : "Ažuriraj",
     "Create" : "Stvori",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (ograničeno)",
     "%s (invisible)" : "%s (nevidljivo)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Oznake sustava</strong> za datoteku su izmijenjene",
+    "Tags" : "Oznake",
     "Collaborative tags" : "Oznake za suradnju",
     "Collaborative tagging functionality which shares tags among users." : "Funkcija kolaborativnog označavanja dijeli oznake među korisnicima.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funkcija kolaborativnog označavanja dijeli oznake među korisnicima. Izvrsna ideja za timove.\n\t(Ako ste davatelj usluga s instalacijom za više stanara, deaktivirajte ovu aplikaciju jer se dijele oznake.)",

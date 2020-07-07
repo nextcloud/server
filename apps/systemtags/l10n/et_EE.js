@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Sildid",
     "Update" : "Uuenda",
     "Create" : "Loo",
     "Select tag…" : "Vali silt...",
@@ -36,6 +35,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (piiratud)",
     "%s (invisible)" : "%s (nähtamatu)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Süsteemi sildid</strong> sellele failile on muudetud",
+    "Tags" : "Sildid",
     "Collaborative tags" : "Koostöö sildid",
     "Tagged files" : "Sildistatud failid",
     "Select tags to filter by" : "Vali sildid, mille järgi filtreerida",
