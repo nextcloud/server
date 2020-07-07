@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Етикети",
     "Update" : "Актуализирай",
     "Create" : "Създай",
     "Select tag…" : "Изберете етикет...",
@@ -34,6 +33,7 @@ OC.L10N.register(
     "%1$s removed system tag %3$s from %2$s" : "%1$s премахна системни етикет %3$s от %2$s",
     "{actor} removed system tag {systemtag} from {file}" : "{actor} премахна системен етикет {systemtag} от {file}",
     "<strong>System tags</strong> for a file have been modified" : "Промяна на <strong>системни етикети</strong> за файл",
+    "Tags" : "Етикети",
     "Collaborative tags" : "Съвместни етикети",
     "Tagged files" : "Отбелязани файлове",
     "Select tags to filter by" : "Филтриране по етикет",

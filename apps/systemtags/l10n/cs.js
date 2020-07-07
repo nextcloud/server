@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Štítky",
     "Tag name is empty" : "Název štítku je prázdný",
     "Update" : "Aktualizovat",
     "Create" : "Vytvořit",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (omezeno)",
     "%s (invisible)" : "%s (neviditelný)",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systémové štítky</strong> souboru byly upraveny",
+    "Tags" : "Štítky",
     "Collaborative tags" : "Štítky pro spolupráci",
     "Collaborative tagging functionality which shares tags among users." : "Funkce pro spolupráci při opatřování štítky, sdílenými mezi uživateli.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Funkce pro spolupráci při opatřování štítky, sdílenými mezi uživateli. Skvělé pro týmy.\n\t(Pokud jste poskytovatel instalace, sloužící více subjektům, je doporučeno tuto aplikaci vypnout, protože štítky jsou sdílené.)",

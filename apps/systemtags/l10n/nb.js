@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Merkelapper",
     "Update" : "Oppdater",
     "Create" : "Opprett",
     "Select tag…" : "Velg merkelapp…",
@@ -36,6 +35,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (begrenset)",
     "%s (invisible)" : "%s (usynlig)",
     "<strong>System tags</strong> for a file have been modified" : "Endringer av en fils <strong>System-merkelapper</strong>",
+    "Tags" : "Merkelapper",
     "Collaborative tags" : "Samarbeidsmerkelapper",
     "Tagged files" : "Filer med merkelapper",
     "Select tags to filter by" : "Velg merkelapper å filtrere etter",

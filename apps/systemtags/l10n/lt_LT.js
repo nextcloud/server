@@ -1,7 +1,6 @@
 OC.L10N.register(
     "systemtags",
     {
-    "Tags" : "Žymės",
     "Update" : "Atnaujinti",
     "Create" : "Sukurti",
     "Select tag…" : "Pasirinkti žymę...",
@@ -38,6 +37,7 @@ OC.L10N.register(
     "%s (restricted)" : "%s (apribotas)",
     "%s (invisible)" : "%s (nematomas)",
     "<strong>System tags</strong> for a file have been modified" : "Modifikuotos failo <strong>sistemos žymės</strong>",
+    "Tags" : "Žymės",
     "Collaborative tags" : "Bendradarbiavimo žymės",
     "Tagged files" : "Pažymėti failai",
     "Select tags to filter by" : "Pasirinkite žymes, pagal kurias filtruoti",

@@ -1,5 +1,4 @@
 { "translations": {
-    "Tags" : "標籤",
     "Update" : "套用",
     "Create" : "新增",
     "Select tag…" : "選擇標籤",
@@ -25,6 +24,7 @@
     "%s (restricted)" : "%s （受限）",
     "%s (invisible)" : "%s （隱藏）",
     "<strong>System tags</strong> for a file have been modified" : "一個檔案的<strong>系統標籤</strong>已經被修改",
+    "Tags" : "標籤",
     "Collaborative tags" : "協作標籤",
     "Tagged files" : "已標籤檔案",
     "Select tags to filter by" : "依照選擇的標籤篩選",

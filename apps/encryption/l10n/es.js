@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Missing recovery key password" : "Falta la contraseña de recuperación",
     "Please repeat the recovery key password" : "Por favor, repita la contraseña de recuperación",
-    "Repeated recovery key password does not match the provided recovery key password" : "La contraseña repetida no coincide con la contraseña proporcionada",
+    "Repeated recovery key password does not match the provided recovery key password" : "La contraseña repetida no coincide con la contraseña inicial",
     "Recovery key successfully enabled" : "La contraseña de recuperación se ha activado con éxito",
     "Could not enable recovery key. Please check your recovery key password!" : "No se ha podido habilitar la contraseña de recuperación. Por favor, ¡compruebe su contraseña de recuperación!",
     "Recovery key successfully disabled" : "Contraseña de recuperación deshabilitada",
@@ -42,7 +42,7 @@ OC.L10N.register(
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Al activar esta opción se encriptarán todos los archivos almacenados en la memoria principal, de lo contrario serán cifrados sólo los archivos de almacenamiento externo",
     "Enable recovery key" : "Activa la clave de recuperación",
     "Disable recovery key" : "Desactiva la clave de recuperación",
-    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La clave de recuperación es una clave de cifrado extra que se usa para cifrar archivos . Permite la recuperación de los archivos de un usuario si él o ella olvida su contraseña.",
+    "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "La clave de recuperación es una clave de cifrado extra que se usa para cifrar archivos. Permite la recuperación de los archivos de un usuario si él o ella olvida su contraseña.",
     "Recovery key password" : "Contraseña de clave de recuperación",
     "Repeat recovery key password" : "Repita la contraseña de recuperación",
     "Change recovery key password:" : "Cambiar la contraseña de la clave de recuperación",

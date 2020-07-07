@@ -1,5 +1,4 @@
 { "translations": {
-    "Tags" : "Ознаки",
     "Tag name is empty" : "Името на ознаката е празна",
     "Update" : "Ажурирај",
     "Create" : "Креирај",
@@ -41,6 +40,7 @@
     "%s (restricted)" : "%s (ограничена)",
     "%s (invisible)" : "%s (невидлива)",
     "<strong>System tags</strong> for a file have been modified" : "Изменета е <strong>Системска ознака</strong> за датотека",
+    "Tags" : "Ознаки",
     "Collaborative tags" : "Колаборативна ознака",
     "Collaborative tagging functionality which shares tags among users." : "Колаборативна ознака е можност да се споделуваат ознаките со корисниците.",
     "Collaborative tagging functionality which shares tags among users. Great for teams.\n\t(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)" : "Колаборативна ознака е можност да се споделуваат ознаките со корисниците. Одлично за тимско работење.\n\t(Доколку користите провајдер со инсталирани повеќе инстанци, се препорачува да се оневозможи оваа апликацика бидејќи ознаките ќе бидат споделени.)",
