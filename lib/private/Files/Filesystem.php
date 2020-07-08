@@ -437,6 +437,10 @@ class Filesystem {
 
 			// home mounts are handled seperate since we need to ensure this is mounted before we call the other mount providers
 			$homeMount = $mountConfigManager->getHomeMountForUser($userObject);
+			if ($homeMount->getStorageRootId() === -1) {
+				$homeMount->getStorage()->mkdir('');
+				$homeMount->getStorage()->getScanner()->scan('');
+			}
 
 			self::getMountManager()->addMount($homeMount);
 
