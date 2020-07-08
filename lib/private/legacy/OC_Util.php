@@ -851,7 +851,6 @@ class OC_Util {
 		];
 		$missingDependencies = [];
 		$invalidIniSettings = [];
-		$moduleHint = $l->t('Please ask your server administrator to install the module.');
 
 		$iniWrapper = \OC::$server->getIniWrapper();
 		foreach ($dependencies['classes'] as $class => $module) {
@@ -890,7 +889,7 @@ class OC_Util {
 		foreach ($missingDependencies as $missingDependency) {
 			$errors[] = [
 				'error' => $l->t('PHP module %s not installed.', [$missingDependency]),
-				'hint' => $moduleHint
+				'hint' => $l->t('Please ask your server administrator to install the module.'),
 			];
 			$webServerRestart = true;
 		}
