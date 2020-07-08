@@ -44,7 +44,10 @@ class MetaData {
 	protected $isAdmin;
 	/** @var array */
 	protected $metaData = [];
-	/** @var IGroupManager */
+	/**
+	 * @var IGroupManager
+	 * @phan-var \OC\Group\Manager
+	 */
 	protected $groupManager;
 	/** @var bool */
 	protected $sorting = false;
@@ -55,7 +58,6 @@ class MetaData {
 	 * @param string $user the uid of the current user
 	 * @param bool $isAdmin whether the current users is an admin
 	 * @param IGroupManager $groupManager
-	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
 	 */
 	public function __construct(
