@@ -117,4 +117,14 @@ class RegistryTest extends TestCase {
 
 		$this->assertSame(['abc'], $this->registry->delegateGetSupportedApps());
 	}
+
+	public function testSubscriptionService() {
+		$this->serverContainer->method('query')
+			->with(DummySubscription::class)
+			->willReturn(new DummySubscription(true, false));
+		$this->registry->registerService(DummySubscription::class);
+
+		$this->assertTrue($this->registry->delegateHasValidSubscription());
+		$this->assertFalse($this->registry->delegateHasExtendedSupport());
+	}
 }
