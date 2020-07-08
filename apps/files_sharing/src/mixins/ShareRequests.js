@@ -99,9 +99,11 @@ export default {
 				return true
 			} catch (error) {
 				console.error('Error while updating share', error)
-				OC.Notification.showTemporary(t('files_sharing', 'Error updating the share'), { type: 'error' })
+				if (error.response.status !== 400) {
+					OC.Notification.showTemporary(t('files_sharing', 'Error updating the share'), { type: 'error' })
+				}
 				const message = error.response.data.ocs.meta.message
-				throw new Error(`${Object.keys(properties)}, ${message}`)
+				throw new Error(message)
 			}
 		},
 	},
