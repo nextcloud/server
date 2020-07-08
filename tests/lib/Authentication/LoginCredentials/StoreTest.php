@@ -142,7 +142,8 @@ class StoreTest extends TestCase {
 	}
 
 	public function testGetLoginCredentialsInvalidTokenLoginCredentials() {
-		$uid = 'user987';
+		$uid = 'id987';
+		$user = 'user987';
 		$password = '7389374';
 
 		$this->session->expects($this->once())
@@ -156,11 +157,11 @@ class StoreTest extends TestCase {
 			->method('exists')
 			->with($this->equalTo('login_credentials'))
 			->willReturn(true);
-		$this->session->expects($this->once())
+		$this->session->expects($this->exactly(2))
 			->method('get')
-			->with($this->equalTo('login_credentials'))
-			->willReturn('{"run":true,"uid":"user987","password":"7389374"}');
-		$expected = new Credentials('user987', 'user987', '7389374');
+			->withConsecutive(['login_credentials'], ['loginname'])
+			->willReturnOnConsecutiveCalls('{"run":true,"uid":"id987","password":"7389374"}', $user);
+		$expected = new Credentials($uid, $user, $password);
 
 		$actual = $this->store->getLoginCredentials();
 
