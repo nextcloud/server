@@ -24,6 +24,7 @@ namespace Test\Support\Subscription;
 
 use OC\Support\Subscription\Registry;
 use OCP\IConfig;
+use OCP\IServerContainer;
 use OCP\Support\Subscription\ISubscription;
 use OCP\Support\Subscription\ISupportedApps;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -37,11 +38,15 @@ class RegistryTest extends TestCase {
 	/** @var MockObject|IConfig */
 	private $config;
 
+	/** @var MockObject|IServerContainer */
+	private $serverContainer;
+
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
-		$this->registry = new Registry($this->config);
+		$this->serverContainer = $this->createMock(IServerContainer::class);
+		$this->registry = new Registry($this->config, $this->serverContainer);
 	}
 
 	/**
@@ -52,7 +57,7 @@ class RegistryTest extends TestCase {
 		$this->addToAssertionCount(1);
 	}
 
-	
+
 	public function testDoubleRegistration() {
 		$this->expectException(\OCP\Support\Subscription\Exception\AlreadyRegisteredException::class);
 
