@@ -288,7 +288,12 @@ class Router implements IRouter {
 		}
 
 		\OC::$server->getEventLogger()->start('run_route', 'Run route');
-		if (isset($parameters['action'])) {
+		if (isset($parameters['caller'])) {
+			$caller = $parameters['caller'];
+			unset($parameters['caller']);
+			$application = $this->getApplicationClass($caller[0]);
+			\OC\AppFramework\App::main($caller[1], $caller[2], $application->getContainer(), $parameters);
+		} elseif (isset($parameters['action'])) {
 			$action = $parameters['action'];
 			if (!is_callable($action)) {
 				throw new \Exception('not a callable action');
@@ -394,17 +399,22 @@ class Router implements IRouter {
 	 */
 	private function setupRoutes($routes, $appName) {
 		if (is_array($routes)) {
-			$appNameSpace = App::buildAppNamespace($appName);
-
-			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
-
-			if (class_exists($applicationClassName)) {
-				$application = \OC::$server->query($applicationClassName);
-			} else {
-				$application = new App($appName);
-			}
-
+			$application = $this->getApplicationClass($appName);
 			$application->registerRoutes($this, $routes);
 		}
+	}
+
+	private function getApplicationClass(string $appName) {
+		$appNameSpace = App::buildAppNamespace($appName);
+
+		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
+
+		if (class_exists($applicationClassName)) {
+			$application = \OC::$server->query($applicationClassName);
+		} else {
+			$application = new App($appName);
+		}
+
+		return $application;
 	}
 }
