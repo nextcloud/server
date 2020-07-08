@@ -63,21 +63,24 @@ This will load all the necessary scripts and make the Viewer accessible trough j
 ### Open a file
 1. Open a file and let the viewer fetch the folder data
   ```js
-  OCA.Viewer.open('/path/to/file.jpg')
+  OCA.Viewer.open({path: '/path/to/file.jpg'})
   ```
 2. Open a file and profide a list of files
   ```js
-  OCA.Viewer.open('/path/to/file.jpg', [
-    	{
-			basename: 'file.jpg',
-			filename: '/path/to/file.jpg',
+  OCA.Viewer.open({
+		path: '/path/to/file.jpg',
+		list: [
+			{
+				basename: 'file.jpg',
+				filename: '/path/to/file.jpg',
+				...
+			},
 			...
-		},
-		...
-  ])
+		],
+  })
   ```
-  The second parametter requires an array of fileinfo. You can check how we generate a fileinfo object [here](https://github.com/nextcloud/viewer/blob/master/src/utils/fileUtils.js#L97) from a dav PROPFIND request data. There is currently no dedicated package for it, but this is coming. You can check the [photos](https://github.com/nextcloud/photos) repository where we also uses it.
-  
+  The list parameter requires an array of fileinfo. You can check how we generate a fileinfo object [here](https://github.com/nextcloud/viewer/blob/master/src/utils/fileUtils.js#L97) from a dav PROPFIND request data. There is currently no dedicated package for it, but this is coming. You can check the [photos](https://github.com/nextcloud/photos) repository where we also uses it.
+
 ### Close the viewer
 ```js
 OCA.Viewer.close()
