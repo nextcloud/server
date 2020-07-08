@@ -87,6 +87,11 @@ class DeleteOrphanedFilesTest extends TestCase {
 		return $stmt->fetchAll();
 	}
 
+	protected function getMounts($storageId) {
+		$stmt = $this->connection->executeQuery('SELECT * FROM `*PREFIX*mounts` WHERE `storage_id` = ?', [$storageId]);
+		return $stmt->fetchAll();
+	}
+
 	/**
 	 * Test clearing orphaned files
 	 */
@@ -98,7 +103,11 @@ class DeleteOrphanedFilesTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		// scan home storage so that mounts are properly setup
+		\OC::$server->getRootFolder()->getUserFolder($this->user1)->getStorage()->getScanner()->scan('');
+
 		$this->loginAsUser($this->user1);
+
 
 		$view = new View('/' . $this->user1 . '/');
 		$view->mkdir('files/test');
@@ -106,12 +115,16 @@ class DeleteOrphanedFilesTest extends TestCase {
 		$fileInfo = $view->getFileInfo('files/test');
 
 		$storageId = $fileInfo->getStorage()->getId();
+		$numericStorageId = $fileInfo->getStorage()->getStorageCache()->getNumericId();
 
 		$this->assertCount(1, $this->getFile($fileInfo->getId()), 'Asserts that file is available');
+		$this->assertCount(1, $this->getMounts($numericStorageId), 'Asserts that mount is available');
 
 		$this->command->execute($input, $output);
 
 		$this->assertCount(1, $this->getFile($fileInfo->getId()), 'Asserts that file is still available');
+		$this->assertCount(1, $this->getMounts($numericStorageId), 'Asserts that mount is still available');
+
 
 		$deletedRows = $this->connection->executeUpdate('DELETE FROM `*PREFIX*storages` WHERE `id` = ?', [$storageId]);
 		$this->assertNotNull($deletedRows, 'Asserts that storage got deleted');
@@ -119,13 +132,19 @@ class DeleteOrphanedFilesTest extends TestCase {
 
 		// parent folder, `files`, ´test` and `welcome.txt` => 4 elements
 		$output
-			->expects($this->once())
+			->expects($this->at(0))
 			->method('writeln')
 			->with('3 orphaned file cache entries deleted');
+
+		$output
+			->expects($this->at(1))
+			->method('writeln')
+			->with('1 orphaned mount entries deleted');
 
 		$this->command->execute($input, $output);
 
 		$this->assertCount(0, $this->getFile($fileInfo->getId()), 'Asserts that file gets cleaned up');
+		$this->assertCount(0, $this->getMounts($numericStorageId), 'Asserts that mount gets cleaned up');
 
 		// since we deleted the storage it might throw a (valid) StorageNotAvailableException
 		try {
