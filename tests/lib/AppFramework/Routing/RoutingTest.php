@@ -419,19 +419,13 @@ class RoutingTest extends \Test\TestCase {
 		array $defaults=[]
 	) {
 		$route = $this->getMockBuilder(Route::class)
-			->onlyMethods(['method', 'setDefault', 'requirements', 'defaults'])
+			->onlyMethods(['method', 'requirements', 'defaults'])
 			->disableOriginalConstructor()
 			->getMock();
 		$route
 			->expects($this->once())
 			->method('method')
 			->with($this->equalTo($verb))
-			->willReturn($route);
-
-		$route
-			->expects($this->once())
-			->method('setDefault')
-			->with('caller', ['app1', $controllerName, $actionName])
 			->willReturn($route);
 
 		if (count($requirements) > 0) {
@@ -442,13 +436,15 @@ class RoutingTest extends \Test\TestCase {
 				->willReturn($route);
 		}
 
-		if (count($defaults) > 0) {
-			$route
-				->expects($this->once())
-				->method('defaults')
-				->with($this->equalTo($defaults))
-				->willReturn($route);
-		}
+		$route->expects($this->once())
+			->method('defaults')
+			->with($this->callback(function (array $def) use ($defaults, $controllerName, $actionName) {
+				$defaults['caller'] = ['app1', $controllerName, $actionName];
+
+				$this->assertEquals($defaults, $def);
+				return true;
+			}))
+			->willReturn($route);
 
 		return $route;
 	}
