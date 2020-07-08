@@ -1,0 +1,27 @@
+OC.L10N.register(
+    "accessibility",
+    {
+    "Dark theme" : "Dodenn deñval",
+    "Enable dark theme" : "Gweredekat an dodenn deñval",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "Un dodenn deñval evit distannañ ho taoulagad en ur vihanaat ar sklêrijenn. Emañ war ziorren c'hoazh, setu ma c'hallit kas deomp hoc'h evezhiadennoù.",
+    "High contrast mode" : "Mod dargemm uhel",
+    "Enable high contrast mode" : "Gweredekat an dargemm uhel",
+    "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Ur mod dargemm uhel evit aesaat ho merdeiñ. Bihanaet e vo ar c'halite met brasaet ar spisder .",
+    "Dyslexia font" : "Font evit an disleksiezh",
+    "Enable dyslexia font" : "Gweredekat ar font evit an disleksiezh",
+    "OpenDyslexic is a free typeface/font designed to mitigate some of the common reading errors caused by dyslexia." : "OpenDyslexic a zo ur folis stummet evit skañva ar fazioù lenn pennañ graet blamm d'an drouglenn.",
+    "Accessibility" : "Diraezusted",
+    "Accessibility options for nextcloud" : "Dibab diraezusted evit nexcloud",
+    "Provides multiple accessibilities options to ease your use of Nextcloud" : "Roet vez meur a dibab diraezusted evit gwelaat implij Nexcloud",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 on AA level, with the high contrast theme even on AAA level." : "Un digoradur da toud an dud a zo pouezus kenañ evideomp. Heulied a vez ganeomp ar standardoù web ha gwiriet a vez m'az eo an implij posuple evit tout an dud, hep logedenn ivez, ha gant meziantoù sikour evel screenreaders. Klasket vez ober hervez ar  {guidelines}Web Content Accessibility Guidelines{linkend} 2.1 gant ul live AA, gant an tem peursisheñvel bras eus ul live AAA memes.",
+    "If you find any issues, don’t hesitate to report them on {issuetracker}our issue tracker{linkend}. And if you want to get involved, come join {designteam}our design team{linkend}!" : "Ma vez kavet ur gudennoù ganeoc'h, na dortit ket da kelaoiñ anezho da {issuetracker}o heulier kudennoù{linkend}. Ha m'o peus c'hoant sikour, deuit en {designteam}o skipailh design{linkend}!",
+    "High contrast theme" : "Tem peursishevelder kreñv",
+    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "Un tem gant peursishevelder kreñv a aesa o merdeiñ. Ar ferzh-gwelet a vo digresket mes gwellaet a vo ar splannder.",
+    "Web Content Accessibility Guidelines" : "Web Content Accessibility Guidelines",
+    "our issue tracker" : "Or heulier kudennoù",
+    "our design team" : "Or skipailh design",
+    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "Un digoradur da toud an dud a zo pouezus kenañ evideomp. Heulied a vez ganeomp ar standardoù web ha gwiriet a vez m'az eo an implij posuple evit tout an dud, hep logedenn ivez, ha gant meziantoù sikour evel screenreaders. Klasket vez ober hervez ar {guidelines} 2.1 gant ul live AA, gant an tem peursisheñvel bras eus ul live AAA memes.",
+    "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "Ma vez kavet ur gudennoù ganeoc'h, na dortit ket da kelaoiñ anezho da {issuetracker}. Ha m'o peus c'hoant sikour, deuit en {designteam}.",
+    "Enable" : "Aotreañ"
+},
+"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");
