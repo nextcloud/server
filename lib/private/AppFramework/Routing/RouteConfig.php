@@ -141,8 +141,7 @@ class RouteConfig {
 		$routeName = $routeNamePrefix . $this->appName . '.' . $controller . '.' . $action . $postfix;
 
 		$router = $this->router->create($routeName, $url)
-			->method($verb)
-			->setDefault('caller', [$this->appName, $controllerName, $actionName]);
+			->method($verb);
 
 		// optionally register requirements for route. This is used to
 		// tell the route parser how url parameters should be matched
@@ -152,9 +151,13 @@ class RouteConfig {
 
 		// optionally register defaults for route. This is used to
 		// tell the route parser how url parameters should be default valued
+		$defaults = [];
 		if (array_key_exists('defaults', $route)) {
-			$router->defaults($route['defaults']);
+			$defaults = $route['defaults'];
 		}
+
+		$defaults['caller'] = [$this->appName, $controllerName, $actionName];
+		$router->defaults($defaults);
 	}
 
 	/**
@@ -230,9 +233,10 @@ class RouteConfig {
 
 				$routeName = $routeNamePrefix . $this->appName . '.' . strtolower($resource) . '.' . strtolower($method);
 
-				$this->router->create($routeName, $url)
-					->method($verb)
-					->setDefault('caller', [$this->appName, $controllerName, $actionName]);
+				$route = $this->router->create($routeName, $url)
+					->method($verb);
+
+				$route->defaults(['caller' => [$this->appName, $controllerName, $actionName]]);
 			}
 		}
 	}
