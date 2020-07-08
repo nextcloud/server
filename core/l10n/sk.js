@@ -310,6 +310,7 @@ OC.L10N.register(
     "Confirm your password" : "Potvrďte svoje heslo",
     "Connect to your account" : "Pripojte sa k svojmu účtu",
     "Please log in before granting %1$s access to your %2$s account." : "Skôr než udelíte prístup pre %1$s do vášho účtu %2$s je potrebné sa prihlásiť.",
+    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Ak sa nesnažíte nastaviť nové zariadenie alebo aplikáciu, niekto sa vás pokúša oklamať, aby ste im poskytli prístup k vašim údajom. V takom prípade nepokračujte a obráťte sa na správcu systému.",
     "App token" : "Token aplikácie",
     "Grant access" : "Povoliť prístup",
     "Alternative log in using app token" : "Alternatívne prihlásenie pomocou tokenu aplikácie",

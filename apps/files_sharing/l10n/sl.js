@@ -106,7 +106,7 @@ OC.L10N.register(
     "Accept" : "Sprejmi",
     "Reject" : "Zavrni",
     "Sharing" : "Souporaba",
-    "Accept user and group shares by default" : "Privzeto sprejmi souporabo uporabnikov in skupin",
+    "Accept user and group shares by default" : "Privzeto sprejmi uporabniško in skupinsko souporabo predmetov",
     "Allow editing" : "Dovoli urejanje",
     "Allow creating" : "Dovoli ustvarjanje",
     "Allow deleting" : "Dovoli brisanje",

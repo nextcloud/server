@@ -310,6 +310,7 @@ OC.L10N.register(
     "Confirm your password" : "Parolanızı onaylayın",
     "Connect to your account" : "Hesabınızı bağlayın",
     "Please log in before granting %1$s access to your %2$s account." : "Lütfen %1$s için %2$s hesabınıza erişim izni vermeden önce oturum açın.",
+    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Yeni bir aygıt ya da uygulama kurmaya çalışmıyorsanız, başka biri verilerinize erişmek için sizi kandırmaya çalışıyor. Durum buysa daha ileri gitmeyin ve sistem yöneticiniz ile görüşün.",
     "App token" : "Uygulama Kodu",
     "Grant access" : "Erişim izni ver",
     "Alternative log in using app token" : "Uygulama kodu ile alternatif oturum açma",
