@@ -30,32 +30,33 @@ namespace OCA\LookupServerConnector\AppInfo;
 
 use OCA\LookupServerConnector\UpdateLookupServer;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
+	public const APP_ID = 'lookup_server_connector';
+
 	public function __construct() {
-		parent::__construct('lookup_server_connector');
+		parent::__construct(self::APP_ID);
 	}
 
-	/**
-	 * Register the different app parts
-	 */
-	public function register(): void {
-		$this->registerHooksAndEvents();
+	public function register(IRegistrationContext $context): void {
 	}
 
-	/**
-	 * Register the hooks and events
-	 */
-	public function registerHooksAndEvents(): void {
-		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-		$dispatcher->addListener('OC\AccountManager::userUpdated', static function (GenericEvent $event) {
+	public function boot(IBootContext $context): void {
+		/*
+		 * @todo move the OCP events and then move the registration to `register`
+		 */
+		$dispatcher = $context->getServerContainer()->getEventDispatcher();
+		$dispatcher->addListener('OC\AccountManager::userUpdated', function (GenericEvent $event) use ($context) {
 			/** @var IUser $user */
 			$user = $event->getSubject();
 
 			/** @var UpdateLookupServer $updateLookupServer */
-			$updateLookupServer = \OC::$server->query(UpdateLookupServer::class);
+			$updateLookupServer = $context->getServerContainer()->query(UpdateLookupServer::class);
 			$updateLookupServer->userUpdated($user);
 		});
 	}
