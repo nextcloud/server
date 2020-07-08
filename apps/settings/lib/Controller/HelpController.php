@@ -33,13 +33,12 @@ use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\IUserSession;
 
 class HelpController extends Controller {
 
 	/** @var INavigationManager */
 	private $navigationManager;
-	/** @var IUserSession */
+	/** @var IURLGenerator */
 	private $urlGenerator;
 	/** @var IGroupManager */
 	private $groupManager;
