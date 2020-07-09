@@ -99,14 +99,14 @@ const initLiveTimestamps = () => {
 }
 
 /**
+ * Set users locale to moment.js as soon as possible
+ */
+moment.locale(OC.getLocale())
+
+/**
  * Initializes core
  */
 export const initCore = () => {
-	/**
-	 * Set users locale to moment.js as soon as possible
-	 */
-	moment.locale(OC.getLocale())
-
 	const userAgent = window.navigator.userAgent
 	const msie = userAgent.indexOf('MSIE ')
 	const trident = userAgent.indexOf('Trident/')
