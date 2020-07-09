@@ -385,7 +385,7 @@
 				function(query) {
 					if (lastQuery !== query) {
 						currentResult = -1;
-						if (query.length > 2) {
+						if (query.length > 1) {
 							self.search(query);
 						} else {
 							self.hideResults();
