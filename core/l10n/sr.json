@@ -308,6 +308,7 @@
     "Confirm your password" : "Потврдите лозинку",
     "Connect to your account" : "Повежите се на Ваш налог",
     "Please log in before granting %1$s access to your %2$s account." : "Прво се пријавите пре него што одобрите привилегију %1$s приступ Вашем налогу %2$s.",
+    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Ако не покушавате да подесите нови уређај или апликацију, неко покушава да Вас превари да му дате приступ Вашим подацима. У том случају, не настављајте и контактирајте администратора Вашег система.",
     "App token" : "Апликативни жетон",
     "Grant access" : "Одобри приступ",
     "Alternative log in using app token" : "Алтернативна пријава коришћењем апликативног жетона",
