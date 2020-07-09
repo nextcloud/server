@@ -125,6 +125,14 @@ abstract class TestCase extends \Test\TestCase {
 		$qb->delete('share');
 		$qb->execute();
 
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb->delete('mounts');
+		$qb->execute();
+
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb->delete('filecache');
+		$qb->execute();
+
 		parent::tearDown();
 	}
 
