@@ -53,6 +53,7 @@ use OCP\Security\Bruteforce\MaxDelayReached;
 class Throttler {
 	public const LOGIN_ACTION = 'login';
 	public const MAX_DELAY = 25;
+	public const MAX_DELAY_MS = 25000; // in milliseconds
 	public const MAX_ATTEMPTS = 10;
 
 	/** @var IDBConnection */
@@ -263,12 +264,12 @@ class Throttler {
 		$firstDelay = 0.1;
 		if ($attempts > self::MAX_ATTEMPTS) {
 			// Don't ever overflow. Just assume the maxDelay time:s
-			return self::MAX_DELAY;
+			return self::MAX_DELAY_MS;
 		}
 
 		$delay = $firstDelay * 2**$attempts;
 		if ($delay > self::MAX_DELAY) {
-			return self::MAX_DELAY;
+			return self::MAX_DELAY_MS;
 		}
 		return (int) \ceil($delay * 1000);
 	}
@@ -338,7 +339,7 @@ class Throttler {
 	 */
 	public function sleepDelayOrThrowOnMax(string $ip, string $action = ''): int {
 		$delay = $this->getDelay($ip, $action);
-		if (($delay === self::MAX_DELAY * 1000) && $this->getAttempts($ip, $action, 0.5) > self::MAX_ATTEMPTS) {
+		if (($delay === self::MAX_DELAY_MS) && $this->getAttempts($ip, $action, 0.5) > self::MAX_ATTEMPTS) {
 			// If the ip made too many attempts within the last 30 mins we don't execute anymore
 			throw new MaxDelayReached('Reached maximum delay');
 		}
