@@ -161,72 +161,75 @@ class Application extends App {
 
 	protected function setupSharingMenus() {
 		$config = \OC::$server->getConfig();
-		$l = \OC::$server->getL10N('files_sharing');
 
 		if ($config->getAppValue('core', 'shareapi_enabled', 'yes') !== 'yes') {
 			return;
 		}
 
-		$sharingSublistArray = [];
+		// show_Quick_Access stored as string
+		\OCA\Files\App::getNavigationManager()->add(function () {
+			$config = \OC::$server->getConfig();
+			$l = \OC::$server->getL10N('files_sharing');
 
-		if (\OCP\Util::isSharingDisabledForUser() === false) {
-			array_push($sharingSublistArray, [
-				'id' => 'sharingout',
-				'appname' => 'files_sharing',
-				'script' => 'list.php',
-				'order' => 16,
-				'name' => $l->t('Shared with others'),
-			]);
-		}
+			$sharingSublistArray = [];
 
-		array_push($sharingSublistArray, [
-			'id' => 'sharingin',
-			'appname' => 'files_sharing',
-			'script' => 'list.php',
-			'order' => 15,
-			'name' => $l->t('Shared with you'),
-		]);
-
-		if (\OCP\Util::isSharingDisabledForUser() === false) {
-			// Check if sharing by link is enabled
-			if ($config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
-				array_push($sharingSublistArray, [
-					'id' => 'sharinglinks',
+			if (\OCP\Util::isSharingDisabledForUser() === false) {
+				$sharingSublistArray[] = [
+					'id' => 'sharingout',
 					'appname' => 'files_sharing',
 					'script' => 'list.php',
-					'order' => 17,
-					'name' => $l->t('Shared by link'),
-				]);
+					'order' => 16,
+					'name' => $l->t('Shared with others'),
+				];
 			}
-		}
 
-		array_push($sharingSublistArray, [
-			'id' => 'deletedshares',
-			'appname' => 'files_sharing',
-			'script' => 'list.php',
-			'order' => 19,
-			'name' => $l->t('Deleted shares'),
-		]);
+			$sharingSublistArray[] = [
+				'id' => 'sharingin',
+				'appname' => 'files_sharing',
+				'script' => 'list.php',
+				'order' => 15,
+				'name' => $l->t('Shared with you'),
+			];
 
-		array_push($sharingSublistArray, [
-			'id' => 'pendingshares',
-			'appname' => 'files_sharing',
-			'script' => 'list.php',
-			'order' => 19,
-			'name' => $l->t('Pending shares'),
-		]);
+			if (\OCP\Util::isSharingDisabledForUser() === false) {
+				// Check if sharing by link is enabled
+				if ($config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
+					$sharingSublistArray[] = [
+						'id' => 'sharinglinks',
+						'appname' => 'files_sharing',
+						'script' => 'list.php',
+						'order' => 17,
+						'name' => $l->t('Shared by link'),
+					];
+				}
+			}
 
+			$sharingSublistArray[] = [
+				'id' => 'deletedshares',
+				'appname' => 'files_sharing',
+				'script' => 'list.php',
+				'order' => 19,
+				'name' => $l->t('Deleted shares'),
+			];
 
-		// show_Quick_Access stored as string
-		\OCA\Files\App::getNavigationManager()->add([
-			'id' => 'shareoverview',
-			'appname' => 'files_sharing',
-			'script' => 'list.php',
-			'order' => 18,
-			'name' => $l->t('Shares'),
-			'classes' => 'collapsible',
-			'sublist' => $sharingSublistArray,
-			'expandedState' => 'show_sharing_menu'
-		]);
+			$sharingSublistArray[] = [
+				'id' => 'pendingshares',
+				'appname' => 'files_sharing',
+				'script' => 'list.php',
+				'order' => 19,
+				'name' => $l->t('Pending shares'),
+			];
+
+			return [
+				'id' => 'shareoverview',
+				'appname' => 'files_sharing',
+				'script' => 'list.php',
+				'order' => 18,
+				'name' => $l->t('Shares'),
+				'classes' => 'collapsible',
+				'sublist' => $sharingSublistArray,
+				'expandedState' => 'show_sharing_menu'
+			];
+		});
 	}
 }

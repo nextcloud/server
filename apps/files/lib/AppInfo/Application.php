@@ -153,28 +153,34 @@ class Application extends App implements IBootstrap {
 	private function registerNavigation(IBootContext $context): void {
 		/** @var IL10N $l10n */
 		$l10n = $context->getAppContainer()->query(IL10N::class);
-		\OCA\Files\App::getNavigationManager()->add([
-			'id' => 'files',
-			'appname' => 'files',
-			'script' => 'list.php',
-			'order' => 0,
-			'name' => $l10n->t('All files')
-		]);
-		\OCA\Files\App::getNavigationManager()->add([
-			'id' => 'recent',
-			'appname' => 'files',
-			'script' => 'recentlist.php',
-			'order' => 2,
-			'name' => $l10n->t('Recent')
-		]);
-		\OCA\Files\App::getNavigationManager()->add([
-			'id' => 'favorites',
-			'appname' => 'files',
-			'script' => 'simplelist.php',
-			'order' => 5,
-			'name' => $l10n->t('Favorites'),
-			'expandedState' => 'show_Quick_Access'
-		]);
+		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
+			return [
+				'id' => 'files',
+				'appname' => 'files',
+				'script' => 'list.php',
+				'order' => 0,
+				'name' => $l10n->t('All files')
+			];
+		});
+		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
+			return [
+				'id' => 'recent',
+				'appname' => 'files',
+				'script' => 'recentlist.php',
+				'order' => 2,
+				'name' => $l10n->t('Recent')
+			];
+		});
+		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
+			return [
+				'id' => 'favorites',
+				'appname' => 'files',
+				'script' => 'simplelist.php',
+				'order' => 5,
+				'name' => $l10n->t('Favorites'),
+				'expandedState' => 'show_Quick_Access'
+			];
+		});
 	}
 
 	private function registerHooks(): void {
