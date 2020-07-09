@@ -35,8 +35,6 @@
 
 namespace OCA\Files_Versions\Tests;
 
-require_once __DIR__ . '/../appinfo/app.php';
-
 use OC\Files\Storage\Temporary;
 use OCP\IConfig;
 use OCP\IUser;
