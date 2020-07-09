@@ -66,9 +66,10 @@ interface IContainer extends ContainerInterface {
 	/**
 	 * Look up a service for a given name in the container.
 	 *
-	 * @param string $name
+	 * @template T
+	 * @param class-string<T> $name
 	 * @param bool $autoload Should we try to autoload the service. If we are trying to resolve built in types this makes no sense for example
-	 * @return mixed
+	 * @return T
 	 * @throws ContainerExceptionInterface if the query could not be resolved
 	 * @throws QueryException if the query could not be resolved
 	 * @since 6.0.0
