@@ -64,8 +64,7 @@ class Application extends App {
 			$isSubAdmin = false;
 
 			if ($user instanceof IUser) {
-				$groupManager = $server->getGroupManager();
-				assert($groupManager instanceof GroupManager);
+				$groupManager = $server->query(GroupManager::class);
 				$isAdmin = $groupManager->isAdmin($user->getUID());
 				$isSubAdmin = $groupManager->getSubAdmin()->isSubAdmin($user);
 			}
