@@ -1006,10 +1006,10 @@ class OC_Util {
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 			if ($perms[2] !== '0') {
 				$l = \OC::$server->getL10N('lib');
-				return [
+				return [[
 					'error' => $l->t('Your data directory is readable by other users'),
 					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other users.'),
-				];
+				]];
 			}
 		}
 		return [];
