@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2018 Bjoern Schiessle <bjoern@schiessle.org>
  *
@@ -25,12 +28,21 @@ namespace OCA\CloudFederationAPI\AppInfo;
 
 use OCA\CloudFederationAPI\Capabilities;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
+	public const APP_ID = 'cloud_federation_api';
+
 	public function __construct() {
-		parent::__construct('cloud_federation_api');
+		parent::__construct(self::APP_ID);
+	}
 
-		$container = $this->getContainer();
-		$container->registerCapability(Capabilities::class);
+	public function register(IRegistrationContext $context): void {
+		$context->registerCapability(Capabilities::class);
+	}
+
+	public function boot(IBootContext $context): void {
 	}
 }
