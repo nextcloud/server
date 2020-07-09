@@ -102,7 +102,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			'datadirectory',
 			\OC::$SERVERROOT . '/data/'
 		);
-		\OC_Mount_Config::$skipTest = true;
+		\OCA\Files_External\MountConfig::$skipTest = true;
 
 		$this->mountCache = $this->createMock(IUserMountCache::class);
 
@@ -169,15 +169,15 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 				}
 			});
 
-		\OC_Mount_Config::$app = $this->getMockBuilder('\OCA\Files_External\Appinfo\Application')
+		\OCA\Files_External\MountConfig::$app = $this->getMockBuilder('\OCA\Files_External\Appinfo\Application')
 			->disableOriginalConstructor()
 			->getMock();
-		\OC_Mount_Config::$app->method('getContainer')
+		\OCA\Files_External\MountConfig::$app->method('getContainer')
 			->willReturn($containerMock);
 	}
 
 	protected function tearDown(): void {
-		\OC_Mount_Config::$skipTest = false;
+		\OCA\Files_External\MountConfig::$skipTest = false;
 		self::$hookCalls = [];
 		if ($this->dbConfig) {
 			$this->dbConfig->clean();

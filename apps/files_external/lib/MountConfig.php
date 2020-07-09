@@ -38,6 +38,8 @@
  *
  */
 
+namespace OCA\Files_External;
+
 use OCA\Files_External\AppInfo\Application;
 use OCA\Files_External\Config\IConfigHandler;
 use OCA\Files_External\Config\UserContext;
@@ -57,7 +59,7 @@ use phpseclib\Crypt\AES;
 /**
  * Class to configure mount.json globally and for users
  */
-class OC_Mount_Config {
+class MountConfig {
 	// TODO: make this class non-static and give it a proper namespace
 
 	public const MOUNT_TYPE_GLOBAL = 'global';
@@ -325,7 +327,7 @@ class OC_Mount_Config {
 			$backends = implode(', ', array_map(function ($backend) {
 				return '"' . $backend->getText() . '"';
 			}, $dependants));
-			$message .= '<p>' . OC_Mount_Config::getSingleDependencyMessage($l, $module, $backends) . '</p>';
+			$message .= '<p>' . MountConfig::getSingleDependencyMessage($l, $module, $backends) . '</p>';
 		}
 
 		return $message;

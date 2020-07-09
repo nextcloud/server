@@ -30,7 +30,7 @@
 /**
  * @var $this \OCP\Route\IRouter
  **/
-\OC_Mount_Config::$app->registerRoutes(
+\OCA\Files_External\MountConfig::$app->registerRoutes(
 	$this,
 	[
 		'resources' => [

@@ -81,7 +81,7 @@ class ExceptionSerializer {
 		'storeKeyPair',
 		'setupUser',
 
-		// files_external: OC_Mount_Config
+		// files_external: OCA\Files_External\MountConfig
 		'getBackendStatus',
 
 		// files_external: UserStoragesController

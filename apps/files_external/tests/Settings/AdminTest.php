@@ -95,7 +95,7 @@ class AdminTest extends TestCase {
 			'storages'             => ['a', 'b', 'c'],
 			'backends'             => ['d', 'e', 'f'],
 			'authMechanisms'       => ['g', 'h', 'i'],
-			'dependencies'         => \OC_Mount_Config::dependencyMessage($this->backendService->getBackends()),
+			'dependencies'         => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
 			'allowUserMounting'    => true,
 			'globalCredentials'    => 'asdf:asdf',
 			'globalCredentialsUid' => '',

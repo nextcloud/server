@@ -106,7 +106,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 			current(self::$hookCalls),
 			Filesystem::signal_create_mount,
 			$storage->getMountPoint(),
-			\OC_Mount_Config::MOUNT_TYPE_USER,
+			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
 			$this->userId
 		);
 
@@ -157,7 +157,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 			self::$hookCalls[1],
 			Filesystem::signal_delete_mount,
 			'/mountpoint',
-			\OC_Mount_Config::MOUNT_TYPE_USER,
+			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
 			$this->userId
 		);
 	}
@@ -178,19 +178,19 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 			self::$hookCalls[0],
 			Filesystem::signal_delete_mount,
 			'/mountpoint',
-			\OC_Mount_Config::MOUNT_TYPE_USER,
+			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
 			$this->userId
 		);
 		$this->assertHookCall(
 			self::$hookCalls[1],
 			Filesystem::signal_create_mount,
 			'/renamedMountpoint',
-			\OC_Mount_Config::MOUNT_TYPE_USER,
+			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
 			$this->userId
 		);
 	}
 
-	
+
 	public function testGetAdminStorage() {
 		$this->expectException(\OCA\Files_External\NotFoundException::class);
 
