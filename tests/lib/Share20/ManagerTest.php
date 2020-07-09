@@ -602,6 +602,7 @@ class ManagerTest extends \Test\TestCase {
 		$limitedPermssions = $this->createMock(File::class);
 		$limitedPermssions->method('isShareable')->willReturn(true);
 		$limitedPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
+		$limitedPermssions->method('getId')->willReturn(108);
 		$limitedPermssions->method('getPath')->willReturn('path');
 		$limitedPermssions->method('getOwner')
 			->willReturn($owner);
@@ -623,6 +624,7 @@ class ManagerTest extends \Test\TestCase {
 		$nonMoveableMountPermssions = $this->createMock(Folder::class);
 		$nonMoveableMountPermssions->method('isShareable')->willReturn(true);
 		$nonMoveableMountPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
+		$nonMoveableMountPermssions->method('getId')->willReturn(108);
 		$nonMoveableMountPermssions->method('getPath')->willReturn('path');
 		$nonMoveableMountPermssions->method('getOwner')
 			->willReturn($owner);
@@ -644,6 +646,7 @@ class ManagerTest extends \Test\TestCase {
 		$allPermssions = $this->createMock(Folder::class);
 		$allPermssions->method('isShareable')->willReturn(true);
 		$allPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_ALL);
+		$allPermssions->method('getId')->willReturn(108);
 		$allPermssions->method('getOwner')
 			->willReturn($owner);
 		$allPermssions->method('getStorage')
@@ -664,6 +667,7 @@ class ManagerTest extends \Test\TestCase {
 		$remoteFile = $this->createMock(Folder::class);
 		$remoteFile->method('isShareable')->willReturn(true);
 		$remoteFile->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ ^ \OCP\Constants::PERMISSION_UPDATE);
+		$remoteFile->method('getId')->willReturn(108);
 		$remoteFile->method('getOwner')
 			->willReturn($owner);
 		$remoteFile->method('getStorage')
@@ -698,6 +702,11 @@ class ManagerTest extends \Test\TestCase {
 		$userFolder->expects($this->any())
 			->method('getId')
 			->willReturn(42);
+		// Id 108 is used in the data to refer to the node of the share.
+		$userFolder->expects($this->any())
+			->method('getById')
+			->with(108)
+			->willReturn([$share->getNode()]);
 		$userFolder->expects($this->any())
 			->method('getRelativePath')
 			->willReturnArgument(0);
