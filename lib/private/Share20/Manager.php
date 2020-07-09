@@ -298,12 +298,19 @@ class Manager implements IManager {
 
 		$isFederatedShare = $share->getNode()->getStorage()->instanceOfStorage('\OCA\Files_Sharing\External\Storage');
 		$permissions = 0;
-		$mount = $share->getNode()->getMountPoint();
+
+		$userMounts = $userFolder->getById($share->getNode()->getId());
+		$userMount = array_shift($userMounts);
+		$mount = $userMount->getMountPoint();
 		if (!$isFederatedShare && $share->getNode()->getOwner() && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
 			// When it's a reshare use the parent share permissions as maximum
 			$userMountPointId = $mount->getStorageRootId();
 			$userMountPoints = $userFolder->getById($userMountPointId);
 			$userMountPoint = array_shift($userMountPoints);
+
+			if ($userMountPoint === null) {
+				throw new GenericShareException('Could not get proper user mount for ' . $userMountPointId . '. Failing since else the next calls are called with null');
+			}
 
 			/* Check if this is an incoming share */
 			$incomingShares = $this->getSharedWith($share->getSharedBy(), Share::SHARE_TYPE_USER, $userMountPoint, -1, 0);
