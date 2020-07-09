@@ -20,6 +20,8 @@
     "So-so password" : "Jævnt kodeord",
     "Good password" : "Godt kodeord",
     "Strong password" : "Stærkt kodeord",
+    "An error occurred while changing your language. Please reload the page and try again." : "Der opstod en fejl under ændring af dit sprog. Genindlæs venligst siden og prøv igen.",
+    "An error occurred while changing your locale. Please reload the page and try again." : "Der opstod en fejl under ændring af din lokalitet. Genindlæs venligst siden og prøv igen.",
     "Select a profile picture" : "Vælg et profilbillede",
     "Week starts on {fdow}" : "Ugen starter {fdow}",
     "Groups" : "Grupper",
