@@ -35,15 +35,27 @@ use OCP\Support\Subscription\Exception\AlreadyRegisteredException;
 interface IRegistry {
 
 	/**
-	 * Register a subscription instance. In case it is called multiple times the
-	 * first one is used.
+	 * Register a subscription instance. In case it is called multiple times an
+	 * exception is thrown
 	 *
 	 * @param ISubscription $subscription
 	 * @throws AlreadyRegisteredException
 	 *
 	 * @since 17.0.0
+	 * @deprecated 20.0.0 use registerService
 	 */
 	public function register(ISubscription $subscription): void;
+
+	/**
+	 * Register a subscription handler. The service has to implement the ISubscription interface.
+	 * In case this is called multiple times an exception is thrown.
+	 *
+	 * @param string $subscriptionService
+	 * @throws AlreadyRegisteredException
+	 *
+	 * @since 20.0.0
+	 */
+	public function registerService(string $subscriptionService): void;
 
 	/**
 	 * Fetches the list of app IDs that are supported by the subscription
