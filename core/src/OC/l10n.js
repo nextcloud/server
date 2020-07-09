@@ -168,7 +168,7 @@ const L10n = {
 	 */
 	_getPlural: function(number) {
 		let language = OC.getLanguage()
-		if (language === 'pt_BR') {
+		if (language === 'pt-BR') {
 			// temporary set a locale for brazilian
 			language = 'xbr'
 		}
@@ -178,7 +178,7 @@ const L10n = {
 		}
 
 		if (language.length > 3) {
-			language = language.substring(0, language.lastIndexOf('_'))
+			language = language.substring(0, language.lastIndexOf('-'))
 		}
 
 		/*
