@@ -998,23 +998,21 @@ class OC_Util {
 		if (\OC::$server->getConfig()->getSystemValue('check_data_directory_permissions', true) === false) {
 			return  [];
 		}
-		$l = \OC::$server->getL10N('lib');
-		$errors = [];
-		$permissionsModHint = $l->t('Please change the permissions to 0770 so that the directory'
-			. ' cannot be listed by other users.');
+
 		$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 		if (substr($perms, -1) !== '0') {
 			chmod($dataDirectory, 0770);
 			clearstatcache();
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 			if ($perms[2] !== '0') {
-				$errors[] = [
+				$l = \OC::$server->getL10N('lib');
+				return [
 					'error' => $l->t('Your data directory is readable by other users'),
-					'hint' => $permissionsModHint
+					'hint' => $l->t('Please change the permissions to 0770 so that the directory cannot be listed by other users.'),
 				];
 			}
 		}
-		return $errors;
+		return [];
 	}
 
 	/**
