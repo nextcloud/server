@@ -27,22 +27,22 @@
 			this._scopes = [
 				{
 					name: 'private',
-					displayName: (this.field === 'avatar' || this.field === 'displayname' || this.field === 'email') ? t('settings', 'Local') : t('settings', 'Private'),
-					tooltip: (this.field === 'avatar' || this.field === 'displayname' || this.field === 'email') ? t('settings', 'Only visible to local users') : t('settings', 'Only visible to you'),
+					displayName: t('settings', 'Private'),
+					tooltip: t('settings', "Don't synchronize to servers"),
 					iconClass: 'icon-password',
 					active: false
 				},
 				{
 					name: 'contacts',
-					displayName: t('settings', 'Contacts'),
-					tooltip: t('settings', 'Visible to local users and to trusted servers'),
+					displayName: t('settings', 'Trusted'),
+					tooltip: t('settings', 'Only synchronize to trusted servers'),
 					iconClass: 'icon-contacts-dark',
 					active: false
 				},
 				{
 					name: 'public',
 					displayName: t('settings', 'Public'),
-					tooltip: t('settings', 'Will be synced to a global and public address book'),
+					tooltip: t('settings', 'Synchronize to trusted servers and the global and public address book'),
 					iconClass: 'icon-link',
 					active: false
 				}
@@ -106,13 +106,13 @@
 			}
 
 			switch (currentlyActiveValue) {
-				case "private":
+				case 'private':
 					this._scopes[0].active = true;
 					break;
-				case "contacts":
+				case 'contacts':
 					this._scopes[1].active = true;
 					break;
-				case "public":
+				case 'public':
 					this._scopes[2].active = true;
 					break;
 			}
