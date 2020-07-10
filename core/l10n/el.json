@@ -308,6 +308,7 @@
     "Confirm your password" : "Επιβεβαίωση συνθηματικού",
     "Connect to your account" : "Σύνδεση στον λογαριασμό σας",
     "Please log in before granting %1$s access to your %2$s account." : "Παρακαλώ συνδεθείτε πρίν χορηγήσετε %1$s πρόσβαση στον λογαριασμό σας %2$s.",
+    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Εάν δεν προσπαθείτε να ρυθμίσετε μια νέα συσκευή ή εφαρμογή, κάποιος προσπαθεί να σας εξαπατήσει ώστε να του παραχωρήσετε πρόσβαση στα δεδομένα σας. Σε αυτήν την περίπτωση μην προχωρήσετε και επικοινωνήστε με τον διαχειριστή του συστήματός σας.",
     "App token" : "Διακριτικό εφαρμογής",
     "Grant access" : "Παροχή άδειας πρόσβασης",
     "Alternative log in using app token" : "Εναλλακτική είσοδος με την χρήση του αναγνωριστικού της εφαρμογής",
