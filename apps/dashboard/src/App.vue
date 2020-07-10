@@ -220,9 +220,10 @@ export default {
 			display: flex;
 			top: 50px;
 			padding: 16px;
-			background: linear-gradient(var(--color-main-background-translucent), var(--color-main-background-translucent) 80%, rgba(255, 255, 255, 0));
-			border-top-left-radius: var(--border-radius-large);
-			border-top-right-radius: var(--border-radius-large);
+			// TO DO: use variables here
+			background: linear-gradient(170deg, rgba(0, 130,201, 0.2) 0%, rgba(255,255,255,.1) 50%, rgba(255,255,255,0) 100%);
+			border-top-left-radius: calc(var(--border-radius-large) - 2px);
+			border-top-right-radius: calc(var(--border-radius-large) - 2px);
 			backdrop-filter: blur(4px);
 			cursor: grab;
 
