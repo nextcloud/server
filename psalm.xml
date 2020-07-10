@@ -21,18 +21,21 @@
 		<ignoreFiles>
 			<directory name="apps/**/composer"/>
 			<directory name="apps/**/tests"/>
+			<directory name="apps/files_external/3rdparty"/>
 			<directory name="lib/composer"/>
 			<directory name="lib/l10n"/>
 		</ignoreFiles>
 	</projectFiles>
 	<extraFiles>
 		<directory name="3rdparty"/>
+		<directory name="apps/files_external/3rdparty"/>
 	</extraFiles>
 	<stubs>
 		<file name="build/stubs/apcu.php"/>
 		<file name="build/stubs/imagick.php"/>
 		<file name="build/stubs/memcached.php"/>
 		<file name="build/stubs/redis.php"/>
-		<file name="build/stubs/redis_cluster.php"/>
+		<file name="build/stubs/sftp.php"/>
+		<file name="build/stubs/ssh2.php"/>
 	</stubs>
 </psalm>
