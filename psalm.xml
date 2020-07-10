@@ -14,6 +14,7 @@
 		<directory name="ocs"/>
 		<directory name="ocs-provider"/>
 		<file name="index.php"/>
+		<file name="lib/private/legacy/template/functions.php"/>
 		<file name="public.php"/>
 		<file name="remote.php"/>
 		<file name="status.php"/>
