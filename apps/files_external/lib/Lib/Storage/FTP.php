@@ -35,6 +35,7 @@
 namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\Streams\CallbackWrapper;
+use Icewind\Streams\IteratorDirectory;
 use Icewind\Streams\RetryWrapper;
 
 class FTP extends StreamWrapper {
@@ -135,6 +136,22 @@ class FTP extends StreamWrapper {
 		}
 		return false;
 	}
+
+	public function opendir($path) {
+		$dh = parent::opendir($path);
+		if (is_resource($dh)) {
+			$files = [];
+			while (($file = readdir($dh)) !== false) {
+				if ($file != '.' && $file != '..' && strpos($file, '#') === false) {
+					$files[] = $file;
+				}
+			}
+			return IteratorDirectory::wrap($files);
+		} else {
+			return false;
+		}
+	}
+
 
 	public function writeBack($tmpFile, $path) {
 		$this->uploadFile($tmpFile, $path);
