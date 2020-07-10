@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
@@ -43,7 +46,7 @@ class DashboardController extends Controller {
 	private $dashboardManager;
 
 	public function __construct(
-		$appName,
+		string $appName,
 		IRequest $request,
 		IInitialStateService $initialStateService,
 		IEventDispatcher $eventDispatcher,
