@@ -14,12 +14,15 @@
 						</h3>
 					</a>
 				</div>
-				<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
+				<div class="panel--content">
+					<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
+				</div>
 			</Draggable>
 		</Container>
 		<a class="edit-panels icon-add" @click="showModal">{{ t('dashboard', 'Edit panels') }}</a>
 		<Modal v-if="modal" @close="closeModal">
 			<div class="modal__content">
+				<h3>{{ t('dashboard', 'Edit panels') }}</h3>
 				<transition-group name="flip-list" tag="ol">
 					<li v-for="panel in sortedPanels" :key="panel.id">
 						<input :id="'panel-checkbox-' + panel.id"
@@ -32,7 +35,7 @@
 						</label>
 					</li>
 					<li key="appstore">
-						<a href="/index.php/apps/settings" class="button">{{ t('dashboard', 'Get more panels from the app store') }}</a>
+						<a href="generateUrl('/apps/settings')" class="button">{{ t('dashboard', 'Get more panels from the app store') }}</a>
 					</li>
 				</transition-group>
 			</div>
@@ -208,24 +211,25 @@ export default {
 		width: 320px;
 		max-width: 100%;
 		margin: 16px;
-		padding: 16px;
+		background-color: var(--color-main-background-translucent);
 		border-radius: var(--border-radius-large);
 		border: 2px solid var(--color-border);
 
-		.panel--header h3 {
+		& > .panel--header {
+			position: sticky;
+			display: flex;
+			top: 50px;
+			padding: 16px;
+			background: linear-gradient(var(--color-main-background-translucent), var(--color-main-background-translucent) 80%, rgba(255, 255, 255, 0));
+			border-top-left-radius: var(--border-radius-large);
+			border-top-right-radius: var(--border-radius-large);
+			backdrop-filter: blur(4px);
 			cursor: grab;
+
 			&:active {
 				cursor: grabbing;
 			}
-		}
 
-		& > .panel--header {
-			position: sticky;
-			top: 50px;
-			margin-bottom: 16px;
-			background: linear-gradient(var(--color-main-background-translucent), var(--color-main-background-translucent) 80%, rgba(255, 255, 255, 0));
-			backdrop-filter: blur(4px);
-			display: flex;
 			a {
 				flex-grow: 1;
 			}
@@ -239,7 +243,12 @@ export default {
 				background-size: 32px;
 				background-position: 10px 10px;
 				padding: 16px 8px 16px 52px;
+				cursor: grab;
 			}
+		}
+
+		& > .panel--content {
+			margin: 0 16px 16px 16px;
 		}
 	}
 
@@ -251,10 +260,11 @@ export default {
 		padding-left: 35px;
 		padding-right: 15px;
 		background-position: 10px center;
-		color: var(--color-text-maxcontrast);
+		opacity: .7;
+		background-color: var(--color-main-background);
 		border-radius: var(--border-radius-pill);
 		&:hover {
-			color: var(--color-main-text);
+			opacity: 1;
 			background-color: var(--color-background-hover);
 		}
 	}
