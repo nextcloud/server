@@ -1,6 +1,6 @@
 <template>
 	<div id="app-dashboard">
-		<h2>{{ greeting.icon }} {{ greeting.text }}, {{ name }}</h2>
+		<h2>{{ greeting.icon }} {{ greeting.text }}</h2>
 
 		<div class="panels">
 			<div v-for="panel in panels" :key="panel.id" class="panel">
@@ -37,18 +37,18 @@ export default {
 			const time = this.timer.getHours()
 
 			if (time > 18) {
-				return { icon: '🌙', text: t('dashboard', 'Good evening') }
+				return { icon: '🌙', text: t('dashboard', 'Good evening, {name}', { name: this.name }) }
 			}
 			if (time > 12) {
-				return { icon: '☀', text: t('dashboard', 'Good afternoon') }
+				return { icon: '☀', text: t('dashboard', 'Good afternoon, {name}', { name: this.name }) }
 			}
 			if (time === 12) {
-				return { icon: '🍽', text: t('dashboard', 'Time for lunch') }
+				return { icon: '🍽', text: t('dashboard', 'Time for lunch, {name}', { name: this.name }) }
 			}
 			if (time > 5) {
-				return { icon: '🌄', text: t('dashboard', 'Good morning') }
+				return { icon: '🌄', text: t('dashboard', 'Good morning, {name}', { name: this.name }) }
 			}
-			return { icon: '🦉', text: t('dashboard', 'Have a night owl') }
+			return { icon: '🦉', text: t('dashboard', 'Have a night owl, {name}', { name: this.name }) }
 		},
 	},
 	watch: {
