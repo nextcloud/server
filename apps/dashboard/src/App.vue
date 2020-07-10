@@ -17,7 +17,7 @@
 				<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
 			</Draggable>
 		</Container>
-		<a class="add-panels icon-add" @click="showModal">Add more panels</a>
+		<a class="edit-panels icon-add" @click="showModal">{{ t('dashboard', 'Edit panels') }}</a>
 		<Modal v-if="modal" @close="closeModal">
 			<div class="modal__content">
 				<transition-group name="flip-list" tag="ol">
@@ -205,8 +205,12 @@ export default {
 	}
 
 	.panel, .panels > div {
-		width: 280px;
+		width: 320px;
+		max-width: 100%;
+		margin: 16px;
 		padding: 16px;
+		border-radius: var(--border-radius-large);
+		border: 2px solid var(--color-border);
 
 		.panel--header h3 {
 			cursor: grab;
@@ -218,6 +222,7 @@ export default {
 		& > .panel--header {
 			position: sticky;
 			top: 50px;
+			margin-bottom: 16px;
 			background: linear-gradient(var(--color-main-background-translucent), var(--color-main-background-translucent) 80%, rgba(255, 255, 255, 0));
 			backdrop-filter: blur(4px);
 			display: flex;
@@ -238,7 +243,7 @@ export default {
 		}
 	}
 
-	.add-panels {
+	.edit-panels {
 		position: fixed;
 		bottom: 20px;
 		right: 20px;
@@ -246,8 +251,10 @@ export default {
 		padding-left: 35px;
 		padding-right: 15px;
 		background-position: 10px center;
-		border-radius: 100px;
+		color: var(--color-text-maxcontrast);
+		border-radius: var(--border-radius-pill);
 		&:hover {
+			color: var(--color-main-text);
 			background-color: var(--color-background-hover);
 		}
 	}
