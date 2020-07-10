@@ -1,0 +1,22 @@
+name: Static code analysis
+
+on: [pull_request]
+
+jobs:
+    static-code-analysis:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Checkout submodules
+              shell: bash
+              run: |
+                auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+                git submodule sync --recursive
+                git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+            - name: Remove composer.json
+              shell: bash
+              run: rm composer.json composer.lock
+            - name: Psalm
+              uses: docker://jakzal/phpqa:php7.4-alpine
+              with:
+                  args: psalm --monochrome --no-progress --output-format=text

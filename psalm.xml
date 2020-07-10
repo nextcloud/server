@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<psalm
+	errorLevel="4"
+	resolveFromConfigFile="true"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="https://getpsalm.org/schema/config"
+	xsi:schemaLocation="https://getpsalm.org/schema/config lib/composer/vimeo/psalm/config.xsd"
+>
+	<projectFiles>
+		<directory name="apps"/>
+		<directory name="core"/>
+		<directory name="lib"/>
+		<directory name="ocm-provider"/>
+		<directory name="ocs"/>
+		<directory name="ocs-provider"/>
+		<file name="index.php"/>
+		<file name="public.php"/>
+		<file name="remote.php"/>
+		<file name="status.php"/>
+		<file name="version.php"/>
+		<ignoreFiles>
+			<directory name="apps/**/composer"/>
+			<directory name="apps/**/tests"/>
+			<directory name="lib/composer"/>
+			<directory name="lib/l10n"/>
+		</ignoreFiles>
+	</projectFiles>
+	<extraFiles>
+		<directory name="3rdparty"/>
+	</extraFiles>
+	<stubs>
+		<file name="build/stubs/apcu.php"/>
+		<file name="build/stubs/imagick.php"/>
+		<file name="build/stubs/memcached.php"/>
+		<file name="build/stubs/redis.php"/>
+		<file name="build/stubs/redis_cluster.php"/>
+	</stubs>
+</psalm>
