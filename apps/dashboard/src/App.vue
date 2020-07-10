@@ -56,7 +56,7 @@ export default {
 			for (const app in this.callbacks) {
 				const element = this.$refs[app]
 				if (this.panels[app].mounted) {
-					return
+					continue
 				}
 
 				if (element) {
@@ -97,7 +97,7 @@ export default {
 		display: flex;
 		justify-content: center;
 		flex-direction: row;
-		align-items: center;
+		align-items: flex-start;
 		flex-wrap: wrap;
 	}
 
