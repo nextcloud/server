@@ -14,7 +14,6 @@
 		<directory name="ocs"/>
 		<directory name="ocs-provider"/>
 		<file name="index.php"/>
-		<file name="lib/private/legacy/template/functions.php"/>
 		<file name="public.php"/>
 		<file name="remote.php"/>
 		<file name="status.php"/>
@@ -39,4 +38,16 @@
 		<file name="build/stubs/sftp.php"/>
 		<file name="build/stubs/ssh2.php"/>
 	</stubs>
+	<issueHandlers>
+		<UndefinedFunction>
+			<errorLevel type="suppress">
+				<referencedFunction name="p"/>
+				<referencedFunction name="print_unescaped"/>
+				<referencedFunction name="script"/>
+				<referencedFunction name="style"/>
+				<directory name="apps/**/templates"/>
+				<directory name="core/templates"/>
+			</errorLevel>
+		</UndefinedFunction>
+	</issueHandlers>
 </psalm>
