@@ -191,6 +191,7 @@ export default {
 	#app-dashboard {
 		width: 100%;
 	}
+
 	h2 {
 		text-align: center;
 		font-size: 32px;
@@ -218,6 +219,7 @@ export default {
 		& > .panel--header {
 			position: sticky;
 			display: flex;
+			z-index: 1;
 			top: 50px;
 			padding: 16px;
 			// TO DO: use variables here
@@ -242,8 +244,8 @@ export default {
 				font-size: 20px;
 				font-weight: bold;
 				background-size: 32px;
-				background-position: 10px 10px;
-				padding: 16px 8px 16px 52px;
+				background-position: 12px 12px;
+				padding: 16px 8px 16px 60px;
 				cursor: grab;
 			}
 		}
