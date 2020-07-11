@@ -308,6 +308,7 @@
     "Confirm your password" : "确认您的密码",
     "Connect to your account" : "连接到您的账号",
     "Please log in before granting %1$s access to your %2$s account." : "在授权 %1$s 访问您的账号 %2$s 之前，请先登录。",
+    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "如果您不打算设置新设备或应用程序，则有人试图欺骗您，以授予他们访问数据的权限。 在这种情况下，请勿继续操作，而应与系统管理员联系。",
     "App token" : "App 令牌",
     "Grant access" : "授权访问",
     "Alternative log in using app token" : "使用应用程序令牌替代登录",
