@@ -27,7 +27,7 @@ const getRootPath = function() {
 	if (getCurrentUser()) {
 		return generateRemoteUrl(`dav/files/${getCurrentUser().uid}`)
 	} else {
-		return generateRemoteUrl(`webdav`).replace('/remote.php', '/public.php')
+		return generateRemoteUrl('webdav').replace('/remote.php', '/public.php')
 	}
 }
 
