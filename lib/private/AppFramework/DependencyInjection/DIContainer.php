@@ -69,7 +69,11 @@ use OCP\IServerContainer;
 use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use Psr\Container\ContainerInterface;
 
+/**
+ * @deprecated 20.0.0
+ */
 class DIContainer extends SimpleContainer implements IAppContainer {
 
 	/**
@@ -116,17 +120,17 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getUserFolder();
 		});
 
-		$this->registerService(IAppData::class, function (SimpleContainer $c) {
-			return $this->getServer()->getAppDataDir($c->query('AppName'));
+		$this->registerService(IAppData::class, function (ContainerInterface $c) {
+			return $this->getServer()->getAppDataDir($c->get('AppName'));
 		});
 
-		$this->registerService(IL10N::class, function ($c) {
-			return $this->getServer()->getL10N($c->query('AppName'));
+		$this->registerService(IL10N::class, function (ContainerInterface $c) {
+			return $this->getServer()->getL10N($c->get('AppName'));
 		});
 
 		// Log wrapper
-		$this->registerService(ILogger::class, function ($c) {
-			return new OC\AppFramework\Logger($this->server->query(ILogger::class), $c->query('AppName'));
+		$this->registerService(ILogger::class, function (ContainerInterface $c) {
+			return new OC\AppFramework\Logger($this->server->query(ILogger::class), $c->get('AppName'));
 		});
 
 		$this->registerService(IServerContainer::class, function () {
@@ -134,40 +138,41 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 		$this->registerAlias('ServerContainer', IServerContainer::class);
 
-		$this->registerService(\OCP\WorkflowEngine\IManager::class, function ($c) {
-			return $c->query(Manager::class);
+		$this->registerService(\OCP\WorkflowEngine\IManager::class, function (ContainerInterface $c) {
+			return $c->get(Manager::class);
 		});
 
-		$this->registerService(\OCP\AppFramework\IAppContainer::class, function ($c) {
+		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
 			return $c;
 		});
+		$this->registerAlias(IAppContainer::class, ContainerInterface::class);
 
 		// commonly used attributes
-		$this->registerService('UserId', function ($c) {
-			return $c->query(IUserSession::class)->getSession()->get('user_id');
+		$this->registerService('UserId', function (ContainerInterface $c) {
+			return $c->get(IUserSession::class)->getSession()->get('user_id');
 		});
 
-		$this->registerService('WebRoot', function ($c) {
-			return $c->query('ServerContainer')->getWebRoot();
+		$this->registerService('WebRoot', function (ContainerInterface $c) {
+			return $c->get(IServerContainer::class)->getWebRoot();
 		});
 
-		$this->registerService('OC_Defaults', function ($c) {
-			return $c->getServer()->getThemingDefaults();
+		$this->registerService('OC_Defaults', function (ContainerInterface $c) {
+			return $c->get(IServerContainer::class)->getThemingDefaults();
 		});
 
-		$this->registerService('Protocol', function ($c) {
+		$this->registerService('Protocol', function (ContainerInterface $c) {
 			/** @var \OC\Server $server */
-			$server = $c->query('ServerContainer');
+			$server = $c->get(IServerContainer::class);
 			$protocol = $server->getRequest()->getHttpProtocol();
 			return new Http($_SERVER, $protocol);
 		});
 
-		$this->registerService('Dispatcher', function ($c) {
+		$this->registerService('Dispatcher', function (ContainerInterface $c) {
 			return new Dispatcher(
-				$c['Protocol'],
-				$c['MiddlewareDispatcher'],
-				$c->query(IControllerMethodReflector::class),
-				$c['Request']
+				$c->get('Protocol'),
+				$c->get(MiddlewareDispatcher::class),
+				$c->get(IControllerMethodReflector::class),
+				$c->get(IRequest::class)
 			);
 		});
 
@@ -181,48 +186,49 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		/**
 		 * Middleware
 		 */
-		$this->registerService('MiddlewareDispatcher', function (SimpleContainer $c) {
-			$server =  $this->getServer();
+		$this->registerAlias('MiddlewareDispatcher', MiddlewareDispatcher::class);
+		$this->registerService(MiddlewareDispatcher::class, function (ContainerInterface $c) {
+			$server = $this->getServer();
 
 			$dispatcher = new MiddlewareDispatcher();
 
 			$dispatcher->registerMiddleware(
-				$c->query(OC\AppFramework\Middleware\CompressionMiddleware::class)
+				$c->get(OC\AppFramework\Middleware\CompressionMiddleware::class)
 			);
 
-			$dispatcher->registerMiddleware($c->query(OC\AppFramework\Middleware\NotModifiedMiddleware::class));
+			$dispatcher->registerMiddleware($c->get(OC\AppFramework\Middleware\NotModifiedMiddleware::class));
 
 			$dispatcher->registerMiddleware(
-				$c->query(OC\AppFramework\Middleware\Security\ReloadExecutionMiddleware::class)
+				$c->get(OC\AppFramework\Middleware\Security\ReloadExecutionMiddleware::class)
 			);
 
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\SameSiteCookieMiddleware(
-					$c->query(IRequest::class),
-					$c->query(IControllerMethodReflector::class)
+					$c->get(IRequest::class),
+					$c->get(IControllerMethodReflector::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
 				new CORSMiddleware(
-					$c->query(IRequest::class),
-					$c->query(IControllerMethodReflector::class),
-					$c->query(IUserSession::class),
-					$c->query(OC\Security\Bruteforce\Throttler::class)
+					$c->get(IRequest::class),
+					$c->get(IControllerMethodReflector::class),
+					$c->get(IUserSession::class),
+					$c->get(OC\Security\Bruteforce\Throttler::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
 				new OCSMiddleware(
-					$c->query(IRequest::class)
+					$c->get(IRequest::class)
 				)
 			);
 
 			$securityMiddleware = new SecurityMiddleware(
-				$c->query(IRequest::class),
-				$c->query(IControllerMethodReflector::class),
-				$c->query(INavigationManager::class),
-				$c->query(IURLGenerator::class),
-				$server->getLogger(),
-				$c['AppName'],
+				$c->get(IRequest::class),
+				$c->get(IControllerMethodReflector::class),
+				$c->get(INavigationManager::class),
+				$c->get(IURLGenerator::class),
+				$server->query(ILogger::class),
+				$c->get('AppName'),
 				$server->getUserSession()->isLoggedIn(),
 				$server->getGroupManager()->isAdmin($this->getUserId()),
 				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
@@ -242,71 +248,71 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			);
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware(
-					$c->query(IControllerMethodReflector::class),
-					$c->query(ISession::class),
-					$c->query(IUserSession::class),
-					$c->query(ITimeFactory::class)
+					$c->get(IControllerMethodReflector::class),
+					$c->get(ISession::class),
+					$c->get(IUserSession::class),
+					$c->get(ITimeFactory::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
 				new TwoFactorMiddleware(
-					$c->query(OC\Authentication\TwoFactorAuth\Manager::class),
-					$c->query(IUserSession::class),
-					$c->query(ISession::class),
-					$c->query(IURLGenerator::class),
-					$c->query(IControllerMethodReflector::class),
-					$c->query(IRequest::class)
+					$c->get(OC\Authentication\TwoFactorAuth\Manager::class),
+					$c->get(IUserSession::class),
+					$c->get(ISession::class),
+					$c->get(IURLGenerator::class),
+					$c->get(IControllerMethodReflector::class),
+					$c->get(IRequest::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\BruteForceMiddleware(
-					$c->query(IControllerMethodReflector::class),
-					$c->query(OC\Security\Bruteforce\Throttler::class),
-					$c->query(IRequest::class)
+					$c->get(IControllerMethodReflector::class),
+					$c->get(OC\Security\Bruteforce\Throttler::class),
+					$c->get(IRequest::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
 				new RateLimitingMiddleware(
-					$c->query(IRequest::class),
-					$c->query(IUserSession::class),
-					$c->query(IControllerMethodReflector::class),
-					$c->query(OC\Security\RateLimiting\Limiter::class)
+					$c->get(IRequest::class),
+					$c->get(IUserSession::class),
+					$c->get(IControllerMethodReflector::class),
+					$c->get(OC\Security\RateLimiting\Limiter::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\PublicShare\PublicShareMiddleware(
-					$c->query(IRequest::class),
-					$c->query(ISession::class),
-					$c->query(\OCP\IConfig::class)
+					$c->get(IRequest::class),
+					$c->get(ISession::class),
+					$c->get(\OCP\IConfig::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
-				$c->query(\OC\AppFramework\Middleware\AdditionalScriptsMiddleware::class)
+				$c->get(\OC\AppFramework\Middleware\AdditionalScriptsMiddleware::class)
 			);
 
 			foreach ($this->middleWares as $middleWare) {
-				$dispatcher->registerMiddleware($c->query($middleWare));
+				$dispatcher->registerMiddleware($c->get($middleWare));
 			}
 
 			$dispatcher->registerMiddleware(
 				new SessionMiddleware(
-					$c->query(IControllerMethodReflector::class),
-					$c->query(ISession::class)
+					$c->get(IControllerMethodReflector::class),
+					$c->get(ISession::class)
 				)
 			);
 			return $dispatcher;
 		});
 
-		$this->registerService(IAppConfig::class, function (SimpleContainer $c) {
+		$this->registerService(IAppConfig::class, function (ContainerInterface $c) {
 			return new OC\AppFramework\Services\AppConfig(
-				$c->query(IConfig::class),
-				$c->query('AppName')
+				$c->get(IConfig::class),
+				$c->get('AppName')
 			);
 		});
-		$this->registerService(IInitialState::class, function (SimpleContainer $c) {
+		$this->registerService(IInitialState::class, function (ContainerInterface $c) {
 			return new OC\AppFramework\Services\InitialState(
-				$c->query(IInitialStateService::class),
-				$c->query('AppName')
+				$c->get(IInitialStateService::class),
+				$c->get('AppName')
 			);
 		});
 	}
@@ -396,6 +402,18 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 	}
 
+	public function has($id): bool {
+		if (parent::has($id)) {
+			return true;
+		}
+
+		if ($this->server->has($id, true)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public function query(string $name, bool $autoload = true) {
 		try {
 			return $this->queryNoFallback($name);
@@ -421,14 +439,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		if ($this->offsetExists($name)) {
 			return parent::query($name);
-		} else {
-			if ($this['AppName'] === 'settings' && strpos($name, 'OC\\Settings\\') === 0) {
-				return parent::query($name);
-			} elseif ($this['AppName'] === 'core' && strpos($name, 'OC\\Core\\') === 0) {
-				return parent::query($name);
-			} elseif (strpos($name, \OC\AppFramework\App::buildAppNamespace($this['AppName']) . '\\') === 0) {
-				return parent::query($name);
-			}
+		} elseif ($this['AppName'] === 'settings' && strpos($name, 'OC\\Settings\\') === 0) {
+			return parent::query($name);
+		} elseif ($this['AppName'] === 'core' && strpos($name, 'OC\\Core\\') === 0) {
+			return parent::query($name);
+		} elseif (strpos($name, \OC\AppFramework\App::buildAppNamespace($this['AppName']) . '\\') === 0) {
+			return parent::query($name);
 		}
 
 		throw new QueryException('Could not resolve ' . $name . '!' .

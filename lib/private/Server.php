@@ -139,7 +139,6 @@ use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
 use OCP\Accounts\IAccountManager;
 use OCP\App\IAppManager;
-use OCP\AppFramework\QueryException;
 use OCP\Authentication\LoginCredentials\IStore;
 use OCP\BackgroundJob\IJobList;
 use OCP\Collaboration\AutoComplete\IManager;
@@ -178,7 +177,6 @@ use OCP\IAppConfig;
 use OCP\IAvatarManager;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use OCP\IContainer;
 use OCP\IDateTimeFormatter;
 use OCP\IDateTimeZone;
 use OCP\IDBConnection;
@@ -226,6 +224,8 @@ use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
 use OCP\User\Events\UserLoggedOutEvent;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -242,6 +242,7 @@ use OCA\Files_External\Service\BackendService;
  * TODO: hookup all manager classes
  */
 class Server extends ServerContainer implements IServerContainer {
+
 	/** @var string */
 	private $webRoot;
 
@@ -256,7 +257,10 @@ class Server extends ServerContainer implements IServerContainer {
 		// To find out if we are running from CLI or not
 		$this->registerParameter('isCLI', \OC::$CLI);
 
-		$this->registerService(\OCP\IServerContainer::class, function (IServerContainer $c) {
+		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
+			return $c;
+		});
+		$this->registerService(\OCP\IServerContainer::class, function (ContainerInterface $c) {
 			return $c;
 		});
 
@@ -2232,16 +2236,16 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	private function registerDeprecatedAlias(string $alias, string $target) {
-		$this->registerService($alias, function (IContainer $container) use ($target, $alias) {
+		$this->registerService($alias, function (ContainerInterface $container) use ($target, $alias) {
 			try {
 				/** @var ILogger $logger */
-				$logger = $container->query(ILogger::class);
+				$logger = $container->get(ILogger::class);
 				$logger->debug('The requested alias "' . $alias . '" is depreacted. Please request "' . $target . '" directly. This alias will be removed in a future Nextcloud version.', ['app' => 'serverDI']);
-			} catch (QueryException $e) {
+			} catch (ContainerExceptionInterface $e) {
 				// Could not get logger. Continue
 			}
 
-			return $container->query($target);
+			return $container->get($target);
 		}, false);
 	}
 }
