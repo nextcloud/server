@@ -30,10 +30,12 @@ namespace OCA\User_LDAP\Tests\Integration;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\User\Manager;
+use OCA\User_LDAP\UserPluginManager;
 
 abstract class AbstractIntegrationTest {
 	/** @var  LDAP */
@@ -47,7 +49,7 @@ abstract class AbstractIntegrationTest {
 
 	/** @var Manager */
 	protected $userManager;
-	
+
 	/** @var Helper */
 	protected $helper;
 
@@ -72,10 +74,10 @@ abstract class AbstractIntegrationTest {
 	 * the LDAP backend.
 	 */
 	public function init() {
-		\OC::$server->registerService('LDAPUserPluginManager', function () {
+		\OC::$server->registerService(UserPluginManager::class, function () {
 			return new \OCA\User_LDAP\UserPluginManager();
 		});
-		\OC::$server->registerService('LDAPGroupPluginManager', function () {
+		\OC::$server->registerService(GroupPluginManager::class, function () {
 			return new \OCA\User_LDAP\GroupPluginManager();
 		});
 
@@ -128,7 +130,7 @@ abstract class AbstractIntegrationTest {
 			\OC::$server->getNotificationManager()
 		);
 	}
-	
+
 	/**
 	 * initializes the test Helper
 	 */

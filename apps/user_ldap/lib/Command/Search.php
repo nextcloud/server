@@ -29,9 +29,11 @@
 namespace OCA\User_LDAP\Command;
 
 use OCA\User_LDAP\Group_Proxy;
+use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User_Proxy;
+use OCA\User_LDAP\UserPluginManager;
 use OCP\IConfig;
 
 use Symfony\Component\Console\Command\Command;
@@ -115,7 +117,7 @@ class Search extends Command {
 		$this->validateOffsetAndLimit($offset, $limit);
 
 		if ($input->getOption('group')) {
-			$proxy = new Group_Proxy($configPrefixes, $ldapWrapper, \OC::$server->query('LDAPGroupPluginManager'));
+			$proxy = new Group_Proxy($configPrefixes, $ldapWrapper, \OC::$server->query(GroupPluginManager::class));
 			$getMethod = 'getGroups';
 			$printID = false;
 			// convert the limit of groups to null. This will show all the groups available instead of
@@ -130,7 +132,7 @@ class Search extends Command {
 				$this->ocConfig,
 				\OC::$server->getNotificationManager(),
 				\OC::$server->getUserSession(),
-				\OC::$server->query('LDAPUserPluginManager')
+				\OC::$server->query(UserPluginManager::class)
 			);
 			$getMethod = 'getDisplayNames';
 			$printID = true;

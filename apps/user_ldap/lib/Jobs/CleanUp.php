@@ -35,6 +35,7 @@ use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\User_Proxy;
+use OCA\User_LDAP\UserPluginManager;
 
 /**
  * Class CleanUp
@@ -105,7 +106,7 @@ class CleanUp extends TimedJob {
 				$this->ocConfig,
 				\OC::$server->getNotificationManager(),
 				\OC::$server->getUserSession(),
-				\OC::$server->query('LDAPUserPluginManager')
+				\OC::$server->query(UserPluginManager::class)
 			);
 		}
 
