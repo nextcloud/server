@@ -27,13 +27,6 @@
  *
  */
 
-\OC::$server->registerService('LDAPUserPluginManager', function () {
-	return new OCA\User_LDAP\UserPluginManager();
-});
-\OC::$server->registerService('LDAPGroupPluginManager', function () {
-	return new OCA\User_LDAP\GroupPluginManager();
-});
-
 $app = \OC::$server->query(\OCA\User_LDAP\AppInfo\Application::class);
 
 $helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
@@ -45,8 +38,8 @@ if (count($configPrefixes) > 0) {
 	$notificationManager->registerNotifierService(\OCA\User_LDAP\Notification\Notifier::class);
 	$userSession = \OC::$server->getUserSession();
 
-	$userPluginManager = \OC::$server->query('LDAPUserPluginManager');
-	$groupPluginManager = \OC::$server->query('LDAPGroupPluginManager');
+	$userPluginManager = \OC::$server->query(\OCA\User_LDAP\UserPluginManager::class);
+	$groupPluginManager = \OC::$server->query(\OCA\User_LDAP\GroupPluginManager::class);
 
 	$userBackend  = new OCA\User_LDAP\User_Proxy(
 		$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession, $userPluginManager

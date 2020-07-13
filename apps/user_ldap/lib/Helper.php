@@ -321,7 +321,7 @@ class Helper {
 		$notificationManager = \OC::$server->getNotificationManager();
 
 		$userSession = \OC::$server->getUserSession();
-		$userPluginManager = \OC::$server->query('LDAPUserPluginManager');
+		$userPluginManager = \OC::$server->query(UserPluginManager::class);
 
 		$userBackend = new User_Proxy(
 			$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession, $userPluginManager
