@@ -27,6 +27,7 @@ namespace OCA\FederatedFileSharing\Tests;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCA\FederatedFileSharing\Notifications;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
@@ -52,6 +53,9 @@ class NotificationsTest extends \Test\TestCase {
 	/** @var ICloudFederationFactory|\PHPUnit_Framework_MockObject_MockObject */
 	private $cloudFederationFactory;
 
+	/** @var IEventDispatcher|\PHPUnit_Framework_MockObject_MockObject */
+	private $eventDispatcher;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -62,6 +66,7 @@ class NotificationsTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->cloudFederationProviderManager = $this->createMock(ICloudFederationProviderManager::class);
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 	}
 
 	/**
@@ -78,7 +83,8 @@ class NotificationsTest extends \Test\TestCase {
 				$this->discoveryService,
 				$this->jobList,
 				$this->cloudFederationProviderManager,
-				$this->cloudFederationFactory
+				$this->cloudFederationFactory,
+				$this->eventDispatcher
 			);
 		} else {
 			$instance = $this->getMockBuilder('OCA\FederatedFileSharing\Notifications')
@@ -89,7 +95,8 @@ class NotificationsTest extends \Test\TestCase {
 						$this->discoveryService,
 						$this->jobList,
 						$this->cloudFederationProviderManager,
-						$this->cloudFederationFactory
+						$this->cloudFederationFactory,
+						$this->eventDispatcher
 					]
 				)->setMethods($mockedMethods)->getMock();
 		}

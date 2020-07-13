@@ -25,8 +25,10 @@
 
 namespace OCA\FederatedFileSharing;
 
+use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
@@ -53,21 +55,17 @@ class Notifications {
 	/** @var ICloudFederationFactory */
 	private $cloudFederationFactory;
 
-	/**
-	 * @param AddressHandler $addressHandler
-	 * @param IClientService $httpClientService
-	 * @param IDiscoveryService $discoveryService
-	 * @param IJobList $jobList
-	 * @param ICloudFederationProviderManager $federationProviderManager
-	 * @param ICloudFederationFactory $cloudFederationFactory
-	 */
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
+
 	public function __construct(
 		AddressHandler $addressHandler,
 		IClientService $httpClientService,
 		IDiscoveryService $discoveryService,
 		IJobList $jobList,
 		ICloudFederationProviderManager $federationProviderManager,
-		ICloudFederationFactory $cloudFederationFactory
+		ICloudFederationFactory $cloudFederationFactory,
+		IEventDispatcher $eventDispatcher
 	) {
 		$this->addressHandler = $addressHandler;
 		$this->httpClientService = $httpClientService;
@@ -75,6 +73,7 @@ class Notifications {
 		$this->jobList = $jobList;
 		$this->federationProviderManager = $federationProviderManager;
 		$this->cloudFederationFactory = $cloudFederationFactory;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -119,7 +118,8 @@ class Notifications {
 			$ocsSuccess = $ocsStatus && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200);
 
 			if ($result['success'] && (!$ocsStatus ||$ocsSuccess)) {
-				\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $remote]);
+				$event = new FederatedShareAddedEvent($remote);
+				$this->eventDispatcher->dispatchTyped($event);
 				return true;
 			}
 		}

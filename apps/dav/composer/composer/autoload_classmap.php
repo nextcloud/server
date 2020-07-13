@@ -170,6 +170,7 @@ return array(
     'OCA\\DAV\\Direct\\DirectHome' => $baseDir . '/../lib/Direct/DirectHome.php',
     'OCA\\DAV\\Direct\\Server' => $baseDir . '/../lib/Direct/Server.php',
     'OCA\\DAV\\Direct\\ServerFactory' => $baseDir . '/../lib/Direct/ServerFactory.php',
+    'OCA\\DAV\\Events\\SabrePluginAuthInitEvent' => $baseDir . '/../lib/Events/SabrePluginAuthInitEvent.php',
     'OCA\\DAV\\Exception\\UnsupportedLimitOnInitialSyncException' => $baseDir . '/../lib/Exception/UnsupportedLimitOnInitialSyncException.php',
     'OCA\\DAV\\Files\\BrowserErrorPagePlugin' => $baseDir . '/../lib/Files/BrowserErrorPagePlugin.php',
     'OCA\\DAV\\Files\\FileSearchBackend' => $baseDir . '/../lib/Files/FileSearchBackend.php',

@@ -33,7 +33,9 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
+use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
 use OCA\Files_Sharing\Helper;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Files;
@@ -50,39 +52,25 @@ use OCP\Share\IShare;
 class Manager {
 	public const STORAGE = '\OCA\Files_Sharing\External\Storage';
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $uid;
 
-	/**
-	 * @var IDBConnection
-	 */
+	/** @var IDBConnection */
 	private $connection;
 
-	/**
-	 * @var \OC\Files\Mount\Manager
-	 */
+	/** @var \OC\Files\Mount\Manager */
 	private $mountManager;
 
-	/**
-	 * @var IStorageFactory
-	 */
+	/** @var IStorageFactory */
 	private $storageLoader;
 
-	/**
-	 * @var IClientService
-	 */
+	/** @var IClientService */
 	private $clientService;
 
-	/**
-	 * @var IManager
-	 */
+	/** @var IManager */
 	private $notificationManager;
 
-	/**
-	 * @var IDiscoveryService
-	 */
+	/** @var IDiscoveryService */
 	private $discoveryService;
 
 	/** @var ICloudFederationProviderManager */
@@ -97,19 +85,9 @@ class Manager {
 	/** @var IUserManager */
 	private $userManager;
 
-	/**
-	 * @param IDBConnection $connection
-	 * @param \OC\Files\Mount\Manager $mountManager
-	 * @param IStorageFactory $storageLoader
-	 * @param IClientService $clientService
-	 * @param IManager $notificationManager
-	 * @param IDiscoveryService $discoveryService
-	 * @param ICloudFederationProviderManager $cloudFederationProviderManager
-	 * @param ICloudFederationFactory $cloudFederationFactory
-	 * @param IGroupManager $groupManager
-	 * @param IUserManager $userManager
-	 * @param string $uid
-	 */
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
+
 	public function __construct(IDBConnection $connection,
 								\OC\Files\Mount\Manager $mountManager,
 								IStorageFactory $storageLoader,
@@ -120,7 +98,8 @@ class Manager {
 								ICloudFederationFactory $cloudFederationFactory,
 								IGroupManager $groupManager,
 								IUserManager $userManager,
-								$uid) {
+								string $uid,
+								IEventDispatcher $eventDispatcher) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
 		$this->storageLoader = $storageLoader;
@@ -132,6 +111,7 @@ class Manager {
 		$this->cloudFederationFactory = $cloudFederationFactory;
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -300,7 +280,8 @@ class Manager {
 			}
 			if ($userShareAccepted === true) {
 				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'accept');
-				\OC_Hook::emit(Share::class, 'federated_share_added', ['server' => $share['remote']]);
+				$event = new FederatedShareAddedEvent($share['remote']);
+				$this->eventDispatcher->dispatchTyped($event);
 				$result = true;
 			}
 		}

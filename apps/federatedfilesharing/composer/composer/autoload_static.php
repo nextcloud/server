@@ -26,6 +26,7 @@ class ComposerStaticInitFederatedFileSharing
         'OCA\\FederatedFileSharing\\BackgroundJob\\RetryJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/RetryJob.php',
         'OCA\\FederatedFileSharing\\Controller\\MountPublicLinkController' => __DIR__ . '/..' . '/../lib/Controller/MountPublicLinkController.php',
         'OCA\\FederatedFileSharing\\Controller\\RequestHandlerController' => __DIR__ . '/..' . '/../lib/Controller/RequestHandlerController.php',
+        'OCA\\FederatedFileSharing\\Events\\FederatedShareAddedEvent' => __DIR__ . '/..' . '/../lib/Events/FederatedShareAddedEvent.php',
         'OCA\\FederatedFileSharing\\FederatedShareProvider' => __DIR__ . '/..' . '/../lib/FederatedShareProvider.php',
         'OCA\\FederatedFileSharing\\Listeners\\LoadAdditionalScriptsListener' => __DIR__ . '/..' . '/../lib/Listeners/LoadAdditionalScriptsListener.php',
         'OCA\\FederatedFileSharing\\Migration\\Version1010Date20200630191755' => __DIR__ . '/..' . '/../lib/Migration/Version1010Date20200630191755.php',
