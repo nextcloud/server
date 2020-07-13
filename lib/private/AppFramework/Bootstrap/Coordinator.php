@@ -147,12 +147,18 @@ class Coordinator {
 			$this->logger->logException($e, [
 				'message' => "Could not boot $appId" . $e->getMessage(),
 			]);
-			return;
 		} catch (Throwable $e) {
 			$this->logger->logException($e, [
 				'message' => "Could not boot $appId" . $e->getMessage(),
 				'level' => ILogger::FATAL,
 			]);
 		}
+	}
+
+	public function isBootable(string $appId) {
+		$appNameSpace = App::buildAppNamespace($appId);
+		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
+		return class_exists($applicationClassName) &&
+			in_array(IBootstrap::class, class_implements($applicationClassName), true);
 	}
 }

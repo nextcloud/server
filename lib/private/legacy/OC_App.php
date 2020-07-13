@@ -149,7 +149,17 @@ class OC_App {
 		// in case someone calls loadApp() directly
 		self::registerAutoloading($app, $appPath);
 
-		if (is_file($appPath . '/appinfo/app.php')) {
+		/** @var \OC\AppFramework\Bootstrap\Coordinator $coordinator */
+		$coordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
+		$isBootable = $coordinator->isBootable($app);
+
+		$hasAppPhpFile = is_file($appPath . '/appinfo/app.php');
+
+		if ($isBootable && $hasAppPhpFile) {
+			\OC::$server->getLogger()->error('/appinfo/app.php is not loaded when \OCP\AppFramework\Bootstrap\IBootstrap on the application class is used. Migrate everything from app.php to the Application class.', [
+				'app' => $app,
+			]);
+		} elseif ($hasAppPhpFile) {
 			\OC::$server->getLogger()->debug('/appinfo/app.php is deprecated, use \OCP\AppFramework\Bootstrap\IBootstrap on the application class instead.', [
 				'app' => $app,
 			]);
@@ -175,9 +185,6 @@ class OC_App {
 			}
 			\OC::$server->getEventLogger()->end('load_app_' . $app);
 		}
-
-		/** @var \OC\AppFramework\Bootstrap\Coordinator $coordinator */
-		$coordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
 		$coordinator->bootApp($app);
 
 		$info = self::getAppInfo($app);
