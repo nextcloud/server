@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
@@ -25,4 +26,5 @@ namespace OCA\Viewer\Event;
 
 use OCP\EventDispatcher\Event;
 
-class LoadViewer extends Event {}
+class LoadViewer extends Event {
+}
