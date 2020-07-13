@@ -30,7 +30,8 @@ jobs:
       with:
         php-version: 7.4
         coverage: none
+        tools: cs2pr
     - name: Install dependencies
       run: composer i
     - name: Run coding standards check
-      run: composer run cs:check || ( echo 'Please run `composer run cs:fix` to format your code' && exit 1 )
+      run: composer run cs:check -- --format=checkstyle | cs2pr
