@@ -22,7 +22,7 @@
 
 export default function(fileInfo, mime, component) {
 	const data = {
-		mime: mime,
+		mime,
 		modal: component,
 		failed: false,
 		loaded: false,

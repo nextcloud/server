@@ -87,7 +87,7 @@ export default {
 	},
 
 	watch: {
-		active: function(val, old) {
+		active(val, old) {
 			// the item was hidden before and is now the current view
 			if (val === true && old === false) {
 				this.player.play()

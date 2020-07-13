@@ -202,7 +202,7 @@ export default {
 		// make sure any late external app can register handlers
 		// should not happens if external apps do not wait for
 		// the DOMContentLoaded event!
-		handlers: function() {
+		handlers() {
 			// make sure the viewer is done registering handlers
 			// so we only register handlers added AFTER the init
 			// of the viewer
@@ -217,7 +217,7 @@ export default {
 			}
 		},
 
-		file: function(path) {
+		file(path) {
 			// we got a valid path! Load file...
 			if (path.trim() !== '') {
 				console.info('Opening viewer for file ', path)
@@ -228,7 +228,7 @@ export default {
 			}
 		},
 
-		files: function(fileList) {
+		files(fileList) {
 			// the files list changed, let's update the current opened index
 			const currentIndex = fileList.findIndex(file => file.basename === this.currentFile.basename)
 			if (currentIndex > -1) {
@@ -240,7 +240,7 @@ export default {
 		},
 
 		// user reached the end of list
-		isEndOfList: async function(isEndOfList) {
+		async isEndOfList(isEndOfList) {
 			if (!isEndOfList) {
 				return
 			}
@@ -256,7 +256,7 @@ export default {
 			}
 		},
 
-		sidebarFile: function(file) {
+		sidebarFile(file) {
 			// TODO: implement sidebar event bus
 			if (file === '') {
 				this.hideAppsSidebar()
@@ -385,7 +385,7 @@ export default {
 					this.currentFile = new File(fileInfo, mime, this.components[mime])
 					this.updatePreviousNext()
 				} else {
-					console.error(`The following file could not be displayed`, fileName, fileInfo)
+					console.error('The following file could not be displayed', fileName, fileInfo)
 					this.close()
 				}
 
@@ -459,13 +459,13 @@ export default {
 		registerHandler(handler) {
 			// checking if handler is not already registered
 			if (handler.id && this.registeredHandlers.indexOf(handler.id) > -1) {
-				console.error(`The following handler is already registered`, handler)
+				console.error('The following handler is already registered', handler)
 				return
 			}
 
 			// checking valid handler id
 			if (!handler.id || handler.id.trim() === '' || typeof handler.id !== 'string') {
-				console.error(`The following handler doesn't have a valid id`, handler)
+				console.error('The following handler doesn\'t have a valid id', handler)
 				return
 			}
 
@@ -476,13 +476,13 @@ export default {
 
 			// Nothing available to process! Failure
 			if (!(handler.mimes && Array.isArray(handler.mimes)) && !handler.mimesAliases) {
-				console.error(`The following handler doesn't have a valid mime array`, handler)
+				console.error('The following handler doesn\'t have a valid mime array', handler)
 				return
 			}
 
 			// checking valid handler component data
 			if ((!handler.component || typeof handler.component !== 'object')) {
-				console.error(`The following handler doesn't have a valid component`, handler)
+				console.error('The following handler doesn\'t have a valid component', handler)
 				return
 			}
 
@@ -494,7 +494,7 @@ export default {
 				handler.mimes.forEach(mime => {
 					// checking valid mime
 					if (this.components[mime]) {
-						console.error(`The following mime is already registered`, mime, handler)
+						console.error('The following mime is already registered', mime, handler)
 						return
 					}
 
@@ -517,7 +517,7 @@ export default {
 				Object.keys(handler.mimesAliases).forEach(mime => {
 
 					if (handler.mimesAliases && typeof handler.mimesAliases !== 'object') {
-						console.error(`The following handler doesn't have a valid mimesAliases object`, handler)
+						console.error('The following handler doesn\'t have a valid mimesAliases object', handler)
 						return
 
 					}
@@ -527,11 +527,11 @@ export default {
 
 					// checking valid mime
 					if (this.components[mime]) {
-						console.error(`The following mime is already registered`, mime, handler)
+						console.error('The following mime is already registered', mime, handler)
 						return
 					}
 					if (!this.components[alias]) {
-						console.error(`The requested alias does not exists`, alias, mime, handler)
+						console.error('The requested alias does not exists', alias, mime, handler)
 						return
 					}
 
@@ -553,7 +553,7 @@ export default {
 				OCA.Files.fileActions.registerAction({
 					name: 'view',
 					displayName: t('viewer', 'View'),
-					mime: mime,
+					mime,
 					permissions: OC.PERMISSION_READ,
 					actionHandler: (name, { dir }) => {
 						// replace potential leading double slashes
@@ -702,7 +702,7 @@ export default {
 
 // force white icon
 .icon-menu-sidebar-white-forced {
-	background-image: url('~Assets/menu-sidebar-white.svg');
+	background-image: url('../assets/menu-sidebar-white.svg');
 }
 
 .file-view {
