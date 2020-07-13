@@ -4,13 +4,7 @@ const webpackConfig = require('@nextcloud/webpack-vue-config')
 
 const isTesting = !!process.env.TESTING
 
-// Remove default js rule
-webpackConfig.prod.module.rules.pop()
-
 const config = {
-	plugins: [
-		new webpack.DefinePlugin({ isTesting }),
-	],
 	module: {
 		rules: [
 			{
@@ -25,9 +19,16 @@ const config = {
 			},
 		],
 	},
+	plugins: [
+		new webpack.DefinePlugin({ isTesting }),
+	],
 }
 
-if (process.env.NODE_ENV === 'production') {
-	module.exports = merge(webpackConfig.prod, config)
-}
-module.exports = merge(webpackConfig.dev, config)
+const mergedConfigs = merge(config, webpackConfig)
+
+// Remove default js rule
+const jsRuleIndex = mergedConfigs.module.rules.findIndex(rule => rule.test.toString() === '/\\.js$/')
+mergedConfigs.module.rules.splice(jsRuleIndex, 1)
+
+// Merge rules by replacing existing tests
+module.exports = mergedConfigs
