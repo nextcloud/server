@@ -36,6 +36,7 @@ use OC\AppFramework\Http;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\ForbiddenException;
 use OC\Security\IdentityProof\Manager;
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCA\User_LDAP\User_Proxy;
 use OCP\App\IAppManager;
@@ -362,8 +363,7 @@ class UsersController extends Controller {
 			$data[AccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
 		}
 		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-			$federatedFileSharing = new \OCA\FederatedFileSharing\AppInfo\Application();
-			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
+			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
 			if ($shareProvider->isLookupServerUploadEnabled()) {
 				$data[AccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
 				$data[AccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];

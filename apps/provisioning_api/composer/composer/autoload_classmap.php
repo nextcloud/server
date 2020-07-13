@@ -12,7 +12,7 @@ return array(
     'OCA\\Provisioning_API\\Controller\\AppsController' => $baseDir . '/../lib/Controller/AppsController.php',
     'OCA\\Provisioning_API\\Controller\\GroupsController' => $baseDir . '/../lib/Controller/GroupsController.php',
     'OCA\\Provisioning_API\\Controller\\UsersController' => $baseDir . '/../lib/Controller/UsersController.php',
-    'OCA\\Provisioning_API\\FederatedFileSharingFactory' => $baseDir . '/../lib/FederatedFileSharingFactory.php',
+    'OCA\\Provisioning_API\\FederatedShareProviderFactory' => $baseDir . '/../lib/FederatedShareProviderFactory.php',
     'OCA\\Provisioning_API\\Middleware\\Exceptions\\NotSubAdminException' => $baseDir . '/../lib/Middleware/Exceptions/NotSubAdminException.php',
     'OCA\\Provisioning_API\\Middleware\\ProvisioningApiMiddleware' => $baseDir . '/../lib/Middleware/ProvisioningApiMiddleware.php',
 );

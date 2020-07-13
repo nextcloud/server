@@ -42,10 +42,9 @@ use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\Group\Manager;
 use OC\SubAdmin;
-use OCA\FederatedFileSharing\AppInfo\Application;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Provisioning_API\Controller\UsersController;
-use OCA\Provisioning_API\FederatedFileSharingFactory;
+use OCA\Provisioning_API\FederatedShareProviderFactory;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
@@ -89,8 +88,8 @@ class UsersControllerTest extends TestCase {
 	private $l10nFactory;
 	/** @var NewUserMailHelper|PHPUnit_Framework_MockObject_MockObject */
 	private $newUserMailHelper;
-	/** @var FederatedFileSharingFactory|\PHPUnit_Framework_MockObject_MockObject */
-	private $federatedFileSharingFactory;
+	/** @var FederatedShareProviderFactory|\PHPUnit_Framework_MockObject_MockObject */
+	private $federatedShareProviderFactory;
 	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
 	private $secureRandom;
 	/** @var RemoteWipe|MockObject */
@@ -109,7 +108,7 @@ class UsersControllerTest extends TestCase {
 		$this->accountManager = $this->createMock(AccountManager::class);
 		$this->l10nFactory = $this->createMock(IFactory::class);
 		$this->newUserMailHelper = $this->createMock(NewUserMailHelper::class);
-		$this->federatedFileSharingFactory = $this->createMock(FederatedFileSharingFactory::class);
+		$this->federatedShareProviderFactory = $this->createMock(FederatedShareProviderFactory::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->remoteWipe = $this->createMock(RemoteWipe::class);
 
@@ -126,7 +125,7 @@ class UsersControllerTest extends TestCase {
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
-				$this->federatedFileSharingFactory,
+				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
 			])
@@ -388,7 +387,7 @@ class UsersControllerTest extends TestCase {
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
-				$this->federatedFileSharingFactory,
+				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe
 			])
@@ -3124,7 +3123,7 @@ class UsersControllerTest extends TestCase {
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
-				$this->federatedFileSharingFactory,
+				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
 			])
@@ -3188,7 +3187,7 @@ class UsersControllerTest extends TestCase {
 				$this->logger,
 				$this->l10nFactory,
 				$this->newUserMailHelper,
-				$this->federatedFileSharingFactory,
+				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
 			])
@@ -3555,14 +3554,9 @@ class UsersControllerTest extends TestCase {
 		$shareprovider = $this->createMock(FederatedShareProvider::class);
 		$shareprovider->method('isLookupServerUploadEnabled')->willReturn(true);
 
-		$federatedFileSharing = $this->createMock(Application::class);
-		$federatedFileSharing
-			->method('getFederatedShareProvider')
-			->willReturn($shareprovider);
-
-		$this->federatedFileSharingFactory
+		$this->federatedShareProviderFactory
 			->method('get')
-			->willReturn($federatedFileSharing);
+			->willReturn($shareprovider);
 
 		$expectedResp = new DataResponse($expected);
 		$this->assertEquals($expectedResp, $this->api->getEditableFields());

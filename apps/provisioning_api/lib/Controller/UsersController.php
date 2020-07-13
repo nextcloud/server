@@ -43,7 +43,7 @@ namespace OCA\Provisioning_API\Controller;
 use OC\Accounts\AccountManager;
 use OC\Authentication\Token\RemoteWipe;
 use OC\HintException;
-use OCA\Provisioning_API\FederatedFileSharingFactory;
+use OCA\Provisioning_API\FederatedShareProviderFactory;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
@@ -70,8 +70,8 @@ class UsersController extends AUserData {
 	protected $l10nFactory;
 	/** @var NewUserMailHelper */
 	private $newUserMailHelper;
-	/** @var FederatedFileSharingFactory */
-	private $federatedFileSharingFactory;
+	/** @var FederatedShareProviderFactory */
+	private $federatedShareProviderFactory;
 	/** @var ISecureRandom */
 	private $secureRandom;
 	/** @var RemoteWipe */
@@ -88,7 +88,7 @@ class UsersController extends AUserData {
 								ILogger $logger,
 								IFactory $l10nFactory,
 								NewUserMailHelper $newUserMailHelper,
-								FederatedFileSharingFactory $federatedFileSharingFactory,
+								FederatedShareProviderFactory $federatedShareProviderFactory,
 								ISecureRandom $secureRandom,
 								RemoteWipe $remoteWipe) {
 		parent::__construct($appName,
@@ -104,7 +104,7 @@ class UsersController extends AUserData {
 		$this->logger = $logger;
 		$this->l10nFactory = $l10nFactory;
 		$this->newUserMailHelper = $newUserMailHelper;
-		$this->federatedFileSharingFactory = $federatedFileSharingFactory;
+		$this->federatedShareProviderFactory = $federatedShareProviderFactory;
 		$this->secureRandom = $secureRandom;
 		$this->remoteWipe = $remoteWipe;
 	}
@@ -418,8 +418,7 @@ class UsersController extends AUserData {
 		}
 
 		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-			$federatedFileSharing = $this->federatedFileSharingFactory->get();
-			$shareProvider = $federatedFileSharing->getFederatedShareProvider();
+			$shareProvider = $this->federatedShareProviderFactory->get();
 			if ($shareProvider->isLookupServerUploadEnabled()) {
 				$permittedFields[] = AccountManager::PROPERTY_PHONE;
 				$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
@@ -473,8 +472,7 @@ class UsersController extends AUserData {
 			}
 
 			if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-				$federatedFileSharing = \OC::$server->query(\OCA\FederatedFileSharing\AppInfo\Application::class);
-				$shareProvider = $federatedFileSharing->getFederatedShareProvider();
+				$shareProvider = $this->federatedShareProviderFactory->get();
 				if ($shareProvider->isLookupServerUploadEnabled()) {
 					$permittedFields[] = AccountManager::PROPERTY_PHONE;
 					$permittedFields[] = AccountManager::PROPERTY_ADDRESS;
