@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -30,17 +31,23 @@ namespace OCA\UpdateNotification\AppInfo;
 use OCA\UpdateNotification\Notification\Notifier;
 use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
 use OCP\IUser;
 use OCP\Util;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 	public function __construct() {
 		parent::__construct('updatenotification', []);
 	}
 
-	public function register() {
-		$server = $this->getContainer()->getServer();
+	public function register(IRegistrationContext $context): void {
+	}
+
+	public function boot(IBootContext $context): void {
+		$server = $context->getServerContainer();
 
 		if ($server->getConfig()->getSystemValue('updatechecker', true) !== true) {
 			// Updater check is disabled
@@ -48,7 +55,8 @@ class Application extends App {
 		}
 
 		// Always register the notifier, so background jobs (without a user) can send push notifications
-		$this->registerNotifier();
+		$notificationsManager = $server->getNotificationManager();
+		$notificationsManager->registerNotifierService(Notifier::class);
 
 		$user = $server->getUserSession()->getUser();
 		if (!$user instanceof IUser) {
@@ -59,7 +67,7 @@ class Application extends App {
 		if (!$server->getAppManager()->isEnabledForUser('notifications') &&
 			$server->getGroupManager()->isAdmin($user->getUID())) {
 			try {
-				$updateChecker = $this->getContainer()->query(UpdateChecker::class);
+				$updateChecker = $server->query(UpdateChecker::class);
 			} catch (QueryException $e) {
 				$server->getLogger()->logException($e);
 				return;
@@ -70,10 +78,5 @@ class Application extends App {
 				\OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'populateJavaScriptVariables');
 			}
 		}
-	}
-
-	public function registerNotifier() {
-		$notificationsManager = $this->getContainer()->getServer()->getNotificationManager();
-		$notificationsManager->registerNotifierService(Notifier::class);
 	}
 }
