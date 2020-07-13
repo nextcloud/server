@@ -27,24 +27,29 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Middleware;
 
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\PublicShareController;
 use OCP\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AdditionalScriptsMiddleware extends Middleware {
 	/** @var EventDispatcherInterface */
-	private $dispatcher;
+	private $legacyDispatcher;
 	/** @var IUserSession */
 	private $userSession;
+	/** @var IEventDispatcher */
+	private $dispatcher;
 
-	public function __construct(EventDispatcherInterface $dispatcher, IUserSession $userSession) {
-		$this->dispatcher = $dispatcher;
+	public function __construct(EventDispatcherInterface $legacyDispatcher, IUserSession $userSession, IEventDispatcher $dispatcher) {
+		$this->legacyDispatcher = $legacyDispatcher;
 		$this->userSession = $userSession;
+		$this->dispatcher = $dispatcher;
 	}
 
 	public function afterController($controller, $methodName, Response $response): Response {
@@ -57,11 +62,16 @@ class AdditionalScriptsMiddleware extends Middleware {
 		}
 
 		if ($response instanceof TemplateResponse) {
-			$this->dispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS, new GenericEvent());
+			$this->legacyDispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS, new GenericEvent());
 
 			if (!($response instanceof StandaloneTemplateResponse) && $this->userSession->isLoggedIn()) {
-				$this->dispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN, new GenericEvent());
+				$this->legacyDispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN, new GenericEvent());
+				$isLoggedIn = true;
+			} else {
+				$isLoggedIn = false;
 			}
+
+			$this->dispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($isLoggedIn));
 		}
 
 		return $response;
