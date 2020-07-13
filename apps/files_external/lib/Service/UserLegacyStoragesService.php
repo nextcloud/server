@@ -51,6 +51,6 @@ class UserLegacyStoragesService extends LegacyStoragesService {
 	protected function readLegacyConfig() {
 		// read user config
 		$user = $this->userSession->getUser()->getUID();
-		return \OC_Mount_Config::readData($user);
+		return \OCA\Files_External\MountConfig::readData($user);
 	}
 }

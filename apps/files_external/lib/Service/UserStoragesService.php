@@ -78,7 +78,7 @@ class UserStoragesService extends StoragesService {
 		$this->triggerApplicableHooks(
 			$signal,
 			$storage->getMountPoint(),
-			\OC_Mount_Config::MOUNT_TYPE_USER,
+			\OCA\Files_External\MountConfig::MOUNT_TYPE_USER,
 			[$user]
 		);
 	}

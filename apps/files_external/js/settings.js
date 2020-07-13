@@ -171,7 +171,7 @@ var StorageConfig = function(id) {
 	this.id = id;
 	this.backendOptions = {};
 };
-// Keep this in sync with \OC_Mount_Config::STATUS_*
+// Keep this in sync with \OCA\Files_External\MountConfig::STATUS_*
 StorageConfig.Status = {
 	IN_PROGRESS: -1,
 	SUCCESS: 0,

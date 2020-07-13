@@ -99,7 +99,7 @@ class ApiController extends OCSController {
 		$entries = [];
 		$user = $this->userSession->getUser()->getUID();
 
-		$mounts = \OC_Mount_Config::getAbsoluteMountPoints($user);
+		$mounts = \OCA\Files_External\MountConfig::getAbsoluteMountPoints($user);
 		foreach ($mounts as $mountPoint => $mount) {
 			$entries[] = $this->formatMount($mountPoint, $mount);
 		}

@@ -74,7 +74,7 @@ class Personal implements ISettings {
 			'storages'             => $this->userGlobalStoragesService->getStorages(),
 			'backends'             => $this->backendService->getAvailableBackends(),
 			'authMechanisms'       => $this->backendService->getAuthMechanisms(),
-			'dependencies'         => \OC_Mount_Config::dependencyMessage($this->backendService->getBackends()),
+			'dependencies'         => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
 			'allowUserMounting'    => $this->backendService->isUserMountingAllowed(),
 			'globalCredentials'    => $this->globalAuth->getAuth($uid),
 			'globalCredentialsUid' => $uid,
