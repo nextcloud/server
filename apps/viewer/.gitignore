@@ -19,3 +19,5 @@ coverage/
 
 cypress/screenshots
 cypress/snapshots
+vendor
+.php_cs.cache

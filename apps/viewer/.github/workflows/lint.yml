@@ -28,6 +28,30 @@ jobs:
       - name: Lint
         run: composer run lint
 
+  php-cs-fixer:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-versions: ['7.4']
+
+    name: cs php${{ matrix.php-versions }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Set up php
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: ${{ matrix.php-versions }}
+        coverage: none
+
+    - name: Install dependencies
+      run: composer i
+
+    - name: Run coding standards check
+      run: composer run cs:check || ( echo 'Please run `composer run cs:fix` to format your code' && exit 1 )
+
   node:
     runs-on: ubuntu-latest
 
@@ -35,7 +59,7 @@ jobs:
       matrix:
         node-versions: [12.x]
 
-    name: node${{ matrix.node-versions }}
+    name: eslint node${{ matrix.node-versions }}
     steps:
       - uses: actions/checkout@v2
 
@@ -49,3 +73,25 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+  stylelint:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-versions: [12.x]
+
+    name: stylelint node${{ matrix.node-versions }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up node ${{ matrix.node-versions }}
+        uses: actions/setup-node@v1
+        with:
+          node-versions: ${{ matrix.node-versions }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run stylelint

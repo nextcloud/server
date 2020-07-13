@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 /**
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
@@ -30,8 +31,7 @@ use OCP\AppFramework\App;
 use OCP\EventDispatcher\IEventDispatcher;
 
 class Application extends App {
-
-	const APP_ID = 'viewer';
+	public const APP_ID = 'viewer';
 
 	public function __construct() {
 		parent::__construct(self::APP_ID);
