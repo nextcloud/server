@@ -12,6 +12,7 @@ OC.L10N.register(
     "Trusted" : "Approuvé",
     "Only synchronize to trusted servers" : "Ne synchroniser qu'avec les serveurs de confiance",
     "Public" : "Publique",
+    "Synchronize to trusted servers and the global and public address book" : "Synchronisation avec les serveurs de confiance et le carnet d'adresses mondial et public",
     "Verify" : "Vérifier",
     "Verifying …" : "Vérification en cours...",
     "Unable to change password" : "Impossible de modifier le mot de passe",

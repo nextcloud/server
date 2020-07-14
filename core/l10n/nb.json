@@ -13,6 +13,7 @@
     "No valid crop data provided" : "Ingen gyldige beskjæringsdata oppgitt",
     "Crop is not square" : "Beskjæringen er ikke kvadratisk",
     "State token does not match" : "Tilstands-symbolet samsvarer ikke",
+    "Invalid app password" : "Ugyldig programpassord",
     "Could not complete login" : "Kunne ikke fullføre pålogging",
     "Password reset is disabled" : "Tilbakestilling av passord er avskrudd",
     "Couldn't reset password because the token is invalid" : "Klarte ikke å tilbakestille passordet fordi symbolet er ugyldig.",
