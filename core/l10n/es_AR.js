@@ -269,6 +269,7 @@ OC.L10N.register(
     "Expiration date" : "Fecha de expiración",
     "Note to recipient" : "Nota al destinatario",
     "Unshare" : "Dejar de compartir",
+    "Add another link" : "Agregar otro enlace",
     "Share to {name}" : "Compartir con {name}",
     "Share link" : "Compartir link",
     "Could not unshare" : "No fue posible dejar de compartir",
