@@ -29,6 +29,9 @@ namespace OC\Log;
 use OCP\ILogger;
 use Psr\Log\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
+use Throwable;
+use function array_key_exists;
+use function array_merge;
 
 final class PsrLoggerAdapter implements LoggerInterface {
 
@@ -37,6 +40,10 @@ final class PsrLoggerAdapter implements LoggerInterface {
 
 	public function __construct(ILogger $logger) {
 		$this->logger = $logger;
+	}
+
+	private function containsThrowable(array $context): bool {
+		return array_key_exists('exception', $context) && $context['exception'] instanceof Throwable;
 	}
 
 	/**
@@ -48,7 +55,17 @@ final class PsrLoggerAdapter implements LoggerInterface {
 	 * @return void
 	 */
 	public function emergency($message, array $context = []): void {
-		$this->logger->emergency($message, $context);
+		if ($this->containsThrowable($context)) {
+			$this->logger->logException($context['exception'], array_merge(
+				[
+					'message' => $message,
+					'level' => ILogger::FATAL,
+				],
+				$context
+			));
+		} else {
+			$this->logger->emergency($message, $context);
+		}
 	}
 
 	/**
@@ -63,7 +80,17 @@ final class PsrLoggerAdapter implements LoggerInterface {
 	 * @return void
 	 */
 	public function alert($message, array $context = []) {
-		$this->logger->alert($message, $context);
+		if ($this->containsThrowable($context)) {
+			$this->logger->logException($context['exception'], array_merge(
+				[
+					'message' => $message,
+					'level' => ILogger::ERROR,
+				],
+				$context
+			));
+		} else {
+			$this->logger->alert($message, $context);
+		}
 	}
 
 	/**
@@ -77,7 +104,17 @@ final class PsrLoggerAdapter implements LoggerInterface {
 	 * @return void
 	 */
 	public function critical($message, array $context = []) {
-		$this->logger->critical($message, $context);
+		if ($this->containsThrowable($context)) {
+			$this->logger->logException($context['exception'], array_merge(
+				[
+					'message' => $message,
+					'level' => ILogger::ERROR,
+				],
+				$context
+			));
+		} else {
+			$this->logger->critical($message, $context);
+		}
 	}
 
 	/**
@@ -90,7 +127,17 @@ final class PsrLoggerAdapter implements LoggerInterface {
 	 * @return void
 	 */
 	public function error($message, array $context = []) {
-		$this->logger->error($message, $context);
+		if ($this->containsThrowable($context)) {
+			$this->logger->logException($context['exception'], array_merge(
+				[
+					'message' => $message,
+					'level' => ILogger::ERROR,
+				],
+				$context
+			));
+		} else {
+			$this->logger->error($message, $context);
+		}
 	}
 
 	/**
@@ -105,7 +152,17 @@ final class PsrLoggerAdapter implements LoggerInterface {
 	 * @return void
 	 */
 	public function warning($message, array $context = []) {
-		$this->logger->warning($message, $context);
+		if ($this->containsThrowable($context)) {
+			$this->logger->logException($context['exception'], array_merge(
+				[
+					'message' => $message,
+					'level' => ILogger::WARN,
+				],
+				$context
+			));
+		} else {
+			$this->logger->warning($message, $context);
+		}
 	}
 
 	/**
@@ -117,7 +174,17 @@ final class PsrLoggerAdapter implements LoggerInterface {
 	 * @return void
 	 */
 	public function notice($message, array $context = []) {
-		$this->logger->notice($message, $context);
+		if ($this->containsThrowable($context)) {
+			$this->logger->logException($context['exception'], array_merge(
+				[
+					'message' => $message,
+					'level' => ILogger::INFO,
+				],
+				$context
+			));
+		} else {
+			$this->logger->notice($message, $context);
+		}
 	}
 
 	/**
@@ -131,7 +198,17 @@ final class PsrLoggerAdapter implements LoggerInterface {
 	 * @return void
 	 */
 	public function info($message, array $context = []) {
-		$this->logger->info($message, $context);
+		if ($this->containsThrowable($context)) {
+			$this->logger->logException($context['exception'], array_merge(
+				[
+					'message' => $message,
+					'level' => ILogger::INFO,
+				],
+				$context
+			));
+		} else {
+			$this->logger->info($message, $context);
+		}
 	}
 
 	/**
@@ -143,7 +220,17 @@ final class PsrLoggerAdapter implements LoggerInterface {
 	 * @return void
 	 */
 	public function debug($message, array $context = []) {
-		$this->logger->debug($message, $context);
+		if ($this->containsThrowable($context)) {
+			$this->logger->logException($context['exception'], array_merge(
+				[
+					'message' => $message,
+					'level' => ILogger::DEBUG,
+				],
+				$context
+			));
+		} else {
+			$this->logger->debug($message, $context);
+		}
 	}
 
 	/**
@@ -161,6 +248,16 @@ final class PsrLoggerAdapter implements LoggerInterface {
 		if (!is_int($level) || $level < ILogger::DEBUG || $level > ILogger::FATAL) {
 			throw new InvalidArgumentException('Nextcloud allows only integer log levels');
 		}
-		$this->logger->log($level, $message, $context);
+		if ($this->containsThrowable($context)) {
+			$this->logger->logException($context['exception'], array_merge(
+				[
+					'message' => $message,
+					'level' => $level,
+				],
+				$context
+			));
+		} else {
+			$this->logger->log($level, $message, $context);
+		}
 	}
 }
