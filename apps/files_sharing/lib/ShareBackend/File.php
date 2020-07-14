@@ -34,7 +34,6 @@
 
 namespace OCA\Files_Sharing\ShareBackend;
 
-use OCA\FederatedFileSharing\AppInfo\Application;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\Share\IShare;
 
@@ -56,8 +55,7 @@ class File implements \OCP\Share_Backend_File_Dependent {
 		if ($federatedShareProvider) {
 			$this->federatedShareProvider = $federatedShareProvider;
 		} else {
-			$federatedSharingApp = \OC::$server->query(Application::class);
-			$this->federatedShareProvider = $federatedSharingApp->getFederatedShareProvider();
+			$this->federatedShareProvider = \OC::$server->query(FederatedShareProvider::class);
 		}
 	}
 

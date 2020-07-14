@@ -66,8 +66,8 @@ $filesDropPlugin = new \OCA\DAV\Files\Sharing\FilesDropPlugin();
 
 $server = $serverFactory->createServer($baseuri, $requestUri, $authPlugin, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin, $filesDropPlugin) {
 	$isAjax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest');
-	$federatedSharingApp = \OC::$server->query(\OCA\FederatedFileSharing\AppInfo\Application::class);
-	$federatedShareProvider = $federatedSharingApp->getFederatedShareProvider();
+	/** @var \OCA\FederatedFileSharing\FederatedShareProvider $shareProvider */
+	$federatedShareProvider = \OC::$server->query(\OCA\FederatedFileSharing\FederatedShareProvider::class);
 	if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
 		// this is what is thrown when trying to access a non-existing share
 		throw new \Sabre\DAV\Exception\NotAuthenticated();
