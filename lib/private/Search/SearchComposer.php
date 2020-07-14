@@ -26,7 +26,7 @@ declare(strict_types=1);
 namespace OC\Search;
 
 use InvalidArgumentException;
-use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OCP\AppFramework\QueryException;
 use OCP\ILogger;
 use OCP\IServerContainer;
@@ -57,11 +57,11 @@ use function array_map;
  */
 class SearchComposer {
 
-	/** @var string[] */
-	private $lazyProviders = [];
-
 	/** @var IProvider[] */
 	private $providers = [];
+
+	/** @var Coordinator */
+	private $bootstrapCoordinator;
 
 	/** @var IServerContainer */
 	private $container;
@@ -69,25 +69,12 @@ class SearchComposer {
 	/** @var ILogger */
 	private $logger;
 
-	public function __construct(IServerContainer $container,
+	public function __construct(Coordinator $bootstrapCoordinator,
+								IServerContainer $container,
 								ILogger $logger) {
 		$this->container = $container;
 		$this->logger = $logger;
-	}
-
-	/**
-	 * Register a search provider lazily
-	 *
-	 * Registers the fully-qualified class name of an implementation of an
-	 * IProvider. The service will only be queried on demand. Apps will register
-	 * the providers through the registration context object.
-	 *
-	 * @see IRegistrationContext::registerSearchProvider()
-	 *
-	 * @param string $class
-	 */
-	public function registerProvider(string $class): void {
-		$this->lazyProviders[] = $class;
+		$this->bootstrapCoordinator = $bootstrapCoordinator;
 	}
 
 	/**
@@ -96,11 +83,17 @@ class SearchComposer {
 	 * If a provider can't be loaded we log it but the operation continues nevertheless
 	 */
 	private function loadLazyProviders(): void {
-		$classes = $this->lazyProviders;
-		foreach ($classes as $class) {
+		$context = $this->bootstrapCoordinator->getRegistrationContext();
+		if ($context === null) {
+			// Too early, nothing registered yet
+			return;
+		}
+
+		$registrations = $context->getSearchProviders();
+		foreach ($registrations as $registration) {
 			try {
 				/** @var IProvider $provider */
-				$provider = $this->container->query($class);
+				$provider = $this->container->query($registration['class']);
 				$this->providers[$provider->getId()] = $provider;
 			} catch (QueryException $e) {
 				// Log an continue. We can be fault tolerant here.
@@ -110,7 +103,6 @@ class SearchComposer {
 				]);
 			}
 		}
-		$this->lazyProviders = [];
 	}
 
 	/**
