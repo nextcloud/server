@@ -45,7 +45,9 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Authentication\Events\AlternativeLoginOptionsEvent;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\ILogger;
@@ -83,6 +85,8 @@ class LoginController extends Controller {
 	private $initialStateService;
 	/** @var WebAuthnManager */
 	private $webAuthnManager;
+	/** @var IEventDispatcher */
+	private $dispatcher;
 
 	public function __construct(?string $appName,
 								IRequest $request,
@@ -96,7 +100,8 @@ class LoginController extends Controller {
 								Throttler $throttler,
 								Chain $loginChain,
 								IInitialStateService $initialStateService,
-								WebAuthnManager $webAuthnManager) {
+								WebAuthnManager $webAuthnManager,
+								IEventDispatcher $dispatcher) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -109,6 +114,7 @@ class LoginController extends Controller {
 		$this->loginChain = $loginChain;
 		$this->initialStateService = $initialStateService;
 		$this->webAuthnManager = $webAuthnManager;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -196,8 +202,11 @@ class LoginController extends Controller {
 		Util::addHeader('meta', ['property' => 'og:type', 'content' => 'website']);
 		Util::addHeader('meta', ['property' => 'og:image', 'content' => $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-touch.png'))]);
 
+		$event = new AlternativeLoginOptionsEvent();
+		$this->dispatcher->dispatchTyped($event);
+
 		$parameters = [
-			'alt_login' => OC_App::getAlternativeLogIns(),
+			'alt_login' => $event->getAlternativeLogins(),
 		];
 		return new TemplateResponse(
 			$this->appName, 'login', $parameters, 'guest'

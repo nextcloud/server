@@ -57,6 +57,7 @@ use OC\Installer;
 use OC\Repair;
 use OC\ServerNotAvailableException;
 use OCP\App\ManagerEvent;
+use OCP\Authentication\Events\AlternativeLoginOptionsEvent;
 use OCP\ILogger;
 
 /**
@@ -665,16 +666,30 @@ class OC_App {
 
 	/**
 	 * @param array $entry
+	 * @depreacted 20.0.0 Use \OCP\Authentication\Events\AlternativeLoginOptionsEvent
 	 */
 	public static function registerLogIn(array $entry) {
+		if (empty(self::$altLogin)) {
+			/** @var \OCP\EventDispatcher\IEventDispatcher $dispatcher */
+			$dispatcher = \OC::$server->query(\OCP\EventDispatcher\IEventDispatcher::class);
+			$dispatcher->addListener(\OCP\Authentication\Events\AlternativeLoginOptionsEvent::class, function(\OCP\Authentication\Events\AlternativeLoginOptionsEvent $event) {
+				foreach (self::$altLogin as $login) {
+					$event->addLoginOption($login['name'], $login['href'], $login['style'] ?? '');
+				}
+			});
+		}
 		self::$altLogin[] = $entry;
 	}
 
 	/**
 	 * @return array
+	 * @depreacted 20.0.0 Use \OCP\Authentication\Events\AlternativeLoginOptionsEvent
 	 */
 	public static function getAlternativeLogIns(): array {
-		return self::$altLogin;
+		$event = new AlternativeLoginOptionsEvent();
+		$dispatcher = \OC::$server->query(\OCP\EventDispatcher\IEventDispatcher::class);
+		$dispatcher->dispatchTyped($event);
+		return $event->getAlternativeLogins();
 	}
 
 	/**
