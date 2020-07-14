@@ -16,6 +16,7 @@ module.exports = common.map(
 							keep_quoted_props: true,
 						},
 					},
+					sourceMap: true,
 				}),
 			],
 		},
