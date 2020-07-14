@@ -12,6 +12,8 @@ php ./build/htaccess-checker.php
 RESULT=$(($RESULT+$?))
 bash ./build/ca-bundle-checker.sh
 RESULT=$(($RESULT+$?))
+php ./build/OCPSinceChecker.php
+RESULT=$(($RESULT+$?))
 
 dataDirCreated=0
 if ! [ -e data/ ]; then
