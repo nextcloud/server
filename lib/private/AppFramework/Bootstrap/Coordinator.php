@@ -25,7 +25,6 @@ declare(strict_types=1);
 
 namespace OC\AppFramework\Bootstrap;
 
-use OC\Search\SearchComposer;
 use OC\Support\CrashReport\Registry;
 use OC_App;
 use OCP\AppFramework\App;
@@ -34,6 +33,7 @@ use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IServerContainer;
+use RuntimeException;
 use Throwable;
 use function class_exists;
 use function class_implements;
@@ -50,26 +50,28 @@ class Coordinator {
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
-	/** @var SearchComposer */
-	private $searchComposer;
-
 	/** @var ILogger */
 	private $logger;
+
+	/** @var RegistrationContext|null */
+	private $registrationContext;
 
 	public function __construct(IServerContainer $container,
 								Registry $registry,
 								IEventDispatcher $eventListener,
-								SearchComposer $searchComposer,
 								ILogger $logger) {
 		$this->serverContainer = $container;
 		$this->registry = $registry;
 		$this->eventDispatcher = $eventListener;
-		$this->searchComposer = $searchComposer;
 		$this->logger = $logger;
 	}
 
 	public function runRegistration(): void {
-		$context = new RegistrationContext($this->logger);
+		if ($this->registrationContext !== null) {
+			throw new RuntimeException('Registration has already been run');
+		}
+
+		$this->registrationContext = new RegistrationContext($this->logger);
 		$apps = [];
 		foreach (OC_App::getEnabledApps() as $appId) {
 			/*
@@ -99,7 +101,7 @@ class Coordinator {
 					continue;
 				}
 				try {
-					$application->register($context->for($appId));
+					$application->register($this->registrationContext->for($appId));
 				} catch (Throwable $e) {
 					$this->logger->logException($e, [
 						'message' => 'Error during app service registration: ' . $e->getMessage(),
@@ -113,12 +115,15 @@ class Coordinator {
 		 * Now that all register methods have been called, we can delegate the registrations
 		 * to the actual services
 		 */
-		$context->delegateCapabilityRegistrations($apps);
-		$context->delegateCrashReporterRegistrations($apps, $this->registry);
-		$context->delegateEventListenerRegistrations($this->eventDispatcher);
-		$context->delegateContainerRegistrations($apps);
-		$context->delegateMiddlewareRegistrations($apps);
-		$context->delegateSearchProviderRegistration($apps, $this->searchComposer);
+		$this->registrationContext->delegateCapabilityRegistrations($apps);
+		$this->registrationContext->delegateCrashReporterRegistrations($apps, $this->registry);
+		$this->registrationContext->delegateEventListenerRegistrations($this->eventDispatcher);
+		$this->registrationContext->delegateContainerRegistrations($apps);
+		$this->registrationContext->delegateMiddlewareRegistrations($apps);
+	}
+
+	public function getRegistrationContext(): ?RegistrationContext {
+		return $this->registrationContext;
 	}
 
 	public function bootApp(string $appId): void {
