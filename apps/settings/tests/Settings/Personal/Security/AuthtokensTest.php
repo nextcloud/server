@@ -30,7 +30,7 @@ use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IProvider as IAuthTokenProvider;
 use OCA\Settings\Settings\Personal\Security\Authtokens;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\ISession;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -47,8 +47,8 @@ class AuthtokensTest extends TestCase {
 	/** @var IUserSession|MockObject */
 	private $userSession;
 
-	/** @var IInitialStateService|MockObject */
-	private $initialStateService;
+	/** @var IInitialState|MockObject */
+	private $initialState;
 
 	/** @var string */
 	private $uid;
@@ -62,14 +62,14 @@ class AuthtokensTest extends TestCase {
 		$this->authTokenProvider = $this->createMock(IAuthTokenProvider::class);
 		$this->session = $this->createMock(ISession::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->initialStateService = $this->createMock(IInitialStateService::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 		$this->uid = 'test123';
 
 		$this->section = new Authtokens(
 			$this->authTokenProvider,
 			$this->session,
 			$this->userSession,
-			$this->initialStateService,
+			$this->initialState,
 			$this->uid
 		);
 	}
@@ -97,9 +97,9 @@ class AuthtokensTest extends TestCase {
 			->method('getToken')
 			->with('session123')
 			->willReturn($sessionToken);
-		$this->initialStateService->expects($this->at(0))
+		$this->initialState->expects($this->at(0))
 			->method('provideInitialState')
-			->with('settings', 'app_tokens', [
+			->with('app_tokens', [
 				[
 					'id' => 100,
 					'name' => null,
@@ -121,9 +121,9 @@ class AuthtokensTest extends TestCase {
 				],
 			]);
 
-		$this->initialStateService->expects($this->at(1))
+		$this->initialState->expects($this->at(1))
 			->method('provideInitialState')
-			->with('settings', 'can_create_app_token', true);
+			->with('can_create_app_token', true);
 
 		$form = $this->section->getForm();
 
