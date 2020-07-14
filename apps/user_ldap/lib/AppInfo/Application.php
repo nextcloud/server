@@ -28,14 +28,23 @@ namespace OCA\User_LDAP\AppInfo;
 
 use OCA\Files_External\Service\BackendService;
 use OCA\User_LDAP\Controller\RenewPasswordController;
+use OCA\User_LDAP\Group_Proxy;
+use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
+use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\Notification\Notifier;
+use OCA\User_LDAP\User_Proxy;
+use OCA\User_LDAP\UserPluginManager;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\IL10N;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 	public function __construct() {
 		parent::__construct('user_ldap');
 		$container = $this->getContainer();
@@ -63,15 +72,55 @@ class Application extends App {
 		});
 	}
 
-	public function registerBackendDependents() {
-		$container = $this->getContainer();
+	public function register(IRegistrationContext $context): void {
+	}
 
-		$container->getServer()->getEventDispatcher()->addListener(
+	public function boot(IBootContext $context): void {
+		$server = $context->getServerContainer();
+		$config = $server->getConfig();
+
+		$helper = new Helper($config);
+		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
+		if (count($configPrefixes) > 0) {
+			$ldapWrapper = new LDAP();
+
+			$notificationManager = $server->getNotificationManager();
+			$notificationManager->registerNotifierService(Notifier::class);
+			$userSession = $server->getUserSession();
+
+			$userPluginManager = $server->query(UserPluginManager::class);
+			$groupPluginManager = $server->query(GroupPluginManager::class);
+
+			$userBackend  = new User_Proxy(
+				$configPrefixes, $ldapWrapper, $config, $notificationManager, $userSession, $userPluginManager
+			);
+			$groupBackend  = new Group_Proxy($configPrefixes, $ldapWrapper, $groupPluginManager);
+			// register user backend
+			\OC_User::useBackend($userBackend);
+
+			// Hook to allow plugins to work on registered backends
+			$server->getEventDispatcher()->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded');
+
+			$server->getGroupManager()->addBackend($groupBackend);
+
+			$this->registerBackendDependents($context->getAppContainer());
+		}
+
+		\OCP\Util::connectHook(
+			'\OCA\Files_Sharing\API\Server2Server',
+			'preLoginNameUsedAsUserName',
+			'\OCA\User_LDAP\Helper',
+			'loginName2UserName'
+		);
+	}
+
+	public function registerBackendDependents(IAppContainer $appContainer) {
+		$appContainer->getServer()->getEventDispatcher()->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
-			function () use ($container) {
-				$storagesBackendService = $container->query(BackendService::class);
-				$storagesBackendService->registerConfigHandler('home', function () use ($container) {
-					return $container->query(ExtStorageConfigHandler::class);
+			function () use ($appContainer) {
+				$storagesBackendService = $appContainer->query(BackendService::class);
+				$storagesBackendService->registerConfigHandler('home', function () use ($appContainer) {
+					return $appContainer->query(ExtStorageConfigHandler::class);
 				});
 			}
 		);
