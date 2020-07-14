@@ -381,7 +381,7 @@ class Detection implements IMimeTypeDetector {
 
 		// Try only the first part of the filetype
 
-		if(strpos($icon, '-')) {
+		if (strpos($icon, '-')) {
 			$mimePart = substr($icon, 0, strpos($icon, '-'));
 			try {
 				$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/' . $mimePart . '.svg');
