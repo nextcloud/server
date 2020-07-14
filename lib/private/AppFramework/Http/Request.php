@@ -308,7 +308,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/**
 	 * Returns the value for a specific http header.
 	 *
-	 * This method returns null if the header did not exist.
+	 * This method returns an empty string if the header did not exist.
 	 *
 	 * @param string $name
 	 * @return string
