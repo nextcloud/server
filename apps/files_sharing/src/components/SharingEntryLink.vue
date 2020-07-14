@@ -26,7 +26,7 @@
 			:class="isEmailShareType ? 'icon-mail-white' : 'icon-public-white'"
 			class="sharing-entry__avatar" />
 		<div class="sharing-entry__desc">
-			<h5>{{ title }}</h5>
+			<h5 :title="title">{{ title }}</h5>
 		</div>
 
 		<!-- clipboard -->
@@ -124,6 +124,24 @@
 			@close="onMenuClose">
 			<template v-if="share">
 				<template v-if="share.canEdit">
+					<!-- Custom Label -->
+					<ActionInput
+						ref="label"
+						v-tooltip.auto="{
+							content: errors.label,
+							show: errors.label,
+							trigger: 'manual',
+							defaultContainer: '.app-sidebar'
+						}"
+						:class="{ error: errors.label }"
+						:disabled="saving"
+						:placeholder="t('files_sharing', 'Share label')"
+						:aria-label="t('files_sharing', 'Share label')"
+						:value="share.newLabel || share.label"
+						icon="icon-edit"
+						maxlength="255"
+						@update:value="onLabelChange"
+						@submit="onLabelSubmit" />
 					<!-- folder -->
 					<template v-if="isFolder && fileHasCreatePermission && config.isPublicUploadEnabled">
 						<ActionRadio :checked="sharePermissions === publicUploadRValue"
@@ -391,7 +409,9 @@ export default {
 					})
 				}
 				if (this.share.label && this.share.label.trim() !== '') {
-					return this.share.label
+					return t('files_sharing', 'Share link ({label})', {
+						label: this.share.label.trim()
+					})
 				}
 				if (this.isEmailShareType) {
 					return this.share.shareWith
@@ -713,6 +733,25 @@ export default {
 		},
 
 		/**
+		 * Label changed, let's save it to a different key
+		 * @param {String} label the share label
+		 */
+		onLabelChange(label) {
+			this.$set(this.share, 'newLabel', label.trim())
+		},
+
+		/**
+		 * When the note change, we trim, save and dispatch
+		 */
+		onLabelSubmit() {
+			if (typeof this.share.newLabel === 'string') {
+				this.share.label = this.share.newLabel
+				this.$delete(this.share, 'newLabel')
+				this.queueUpdate('label')
+			}
+		},
+
+		/**
 		 * Generate a valid policy password or
 		 * request a valid password if password_policy
 		 * is enabled
@@ -856,6 +895,13 @@ export default {
 		justify-content: space-between;
 		padding: 8px;
 		line-height: 1.2em;
+		overflow: hidden;
+
+		h5 {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+		}
 	}
 
 	&:not(.sharing-entry--share) &__actions {

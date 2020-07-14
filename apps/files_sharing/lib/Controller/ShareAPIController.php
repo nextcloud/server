@@ -1079,6 +1079,9 @@ class ShareAPIController extends OCSController {
 
 			// only link shares have labels
 			if ($share->getShareType() === IShare::TYPE_LINK && $label !== null) {
+				if (strlen($label) > 255) {
+					throw new OCSBadRequestException("Maxmimum label length is 255");
+				}
 				$share->setLabel($label);
 			}
 
