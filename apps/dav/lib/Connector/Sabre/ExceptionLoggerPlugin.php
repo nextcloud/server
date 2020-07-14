@@ -40,6 +40,7 @@ use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\NotImplemented;
 use Sabre\DAV\Exception\PreconditionFailed;
+use Sabre\DAV\Exception\RequestedRangeNotSatisfiable;
 use Sabre\DAV\Exception\ServiceUnavailable;
 
 class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
@@ -74,6 +75,8 @@ class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 		MethodNotAllowed::class => true,
 		// A locked file is perfectly valid and can happen in various cases
 		FileLocked::class => true,
+		// An invalid range is requested
+		RequestedRangeNotSatisfiable::class => true,
 	];
 
 	/** @var string */
