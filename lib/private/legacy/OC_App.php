@@ -672,7 +672,7 @@ class OC_App {
 		if (empty(self::$altLogin)) {
 			/** @var \OCP\EventDispatcher\IEventDispatcher $dispatcher */
 			$dispatcher = \OC::$server->query(\OCP\EventDispatcher\IEventDispatcher::class);
-			$dispatcher->addListener(\OCP\Authentication\Events\AlternativeLoginOptionsEvent::class, function(\OCP\Authentication\Events\AlternativeLoginOptionsEvent $event) {
+			$dispatcher->addListener(\OCP\Authentication\Events\AlternativeLoginOptionsEvent::class, function (\OCP\Authentication\Events\AlternativeLoginOptionsEvent $event) {
 				foreach (self::$altLogin as $login) {
 					$event->addLoginOption($login['name'], $login['href'], $login['style'] ?? '');
 				}
