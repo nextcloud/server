@@ -65,7 +65,7 @@
 					:aria-label="t('core', 'Username or email')"
 					required
 					@change="updateUsername">
-				<label for="user" class="infield">{{ t('core', 'Username or	email') }}</label>
+				<label for="user" class="infield">{{ t('core', 'Username or email') }}</label>
 			</p>
 
 			<p class="groupbottom"
