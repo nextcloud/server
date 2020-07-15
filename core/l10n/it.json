@@ -308,7 +308,7 @@
     "Confirm your password" : "Conferma la tua password",
     "Connect to your account" : "Connetti il tuo account",
     "Please log in before granting %1$s access to your %2$s account." : "Accedi prima di accordare a %1$s l'accesso al tuo account %2$s.",
-    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Se non stai tentando di configurare un nuovo dispositivo o app, qualcuno sta provando a ingannarti per ottenere l'accesso ai tuoi dati. In questo caso non procedere e contatta l'amministratore di sistema.",
+    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Se non stai tentando di configurare un nuovo dispositivo o applicazione, qualcuno sta provando a ingannarti per ottenere l'accesso ai tuoi dati. In questo caso non procedere e contatta l'amministratore di sistema.",
     "App token" : "Token applicazione",
     "Grant access" : "Accorda accesso",
     "Alternative log in using app token" : "Accesso alternativo utilizzando il token dell'applicazione",
