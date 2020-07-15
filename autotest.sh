@@ -109,9 +109,6 @@ else
 	PRIMARY_STORAGE_CONFIG="local"
 fi
 
-# check for the presence of @since in all OCP methods
-$PHP build/OCPSinceChecker.php
-
 # Back up existing (dev) config if one exists and backup not already there
 if [ -f config/config.php ] && [ ! -f config/config-autotest-backup.php ]; then
 	mv config/config.php config/config-autotest-backup.php
