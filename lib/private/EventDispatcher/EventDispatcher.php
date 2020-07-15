@@ -100,6 +100,7 @@ class EventDispatcher implements IEventDispatcher {
 
 	/**
 	 * @return SymfonyDispatcher
+	 * @deprecated 20.0.0
 	 */
 	public function getSymfonyDispatcher(): SymfonyDispatcher {
 		return $this->dispatcher;
