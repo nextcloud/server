@@ -45,6 +45,7 @@ use OCP\Dashboard\Model\WidgetTemplate;
  * Multiple widget can be defined in the same appinfo/info.xml.
  *
  * @since 15.0.0
+ * @deprecated 20.0.0
  *
  * @package OCP\Dashboard
  */
@@ -54,6 +55,7 @@ interface IDashboardWidget {
 	 * Should returns the (unique) Id of the widget.
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return string
 	 */
@@ -64,6 +66,7 @@ interface IDashboardWidget {
 	 * Should returns the [display] name of the widget.
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return string
 	 */
@@ -75,6 +78,7 @@ interface IDashboardWidget {
 	 * This description is displayed in the listing of the available widgets.
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return string
 	 */
@@ -88,6 +92,7 @@ interface IDashboardWidget {
 	 * @see WidgetTemplate
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return WidgetTemplate
 	 */
@@ -101,6 +106,7 @@ interface IDashboardWidget {
 	 * @see WidgetSetup
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @return WidgetSetup
 	 */
@@ -119,6 +125,7 @@ interface IDashboardWidget {
 	 * @see IWidgetConfig
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @param IWidgetConfig $settings
 	 */
@@ -134,6 +141,7 @@ interface IDashboardWidget {
 	 * @see IWidgetRequest
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @param IWidgetRequest $request
 	 */

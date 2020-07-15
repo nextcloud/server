@@ -17,6 +17,7 @@
 !/apps/cloud_federation_api
 !/apps/comments
 !/apps/contactsinteraction
+!/apps/dashboard
 !/apps/dav
 !/apps/files
 !/apps/federation

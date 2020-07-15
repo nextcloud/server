@@ -35,6 +35,7 @@ use OCP\Dashboard\IDashboardManager;
  * are used by the IDashboardManager when creating push event.
  *
  * @since 15.0.0
+ * @deprecated 20.0.0
  *
  * @package OCP\Dashboard\Service
  */
@@ -47,6 +48,7 @@ interface IEventsService {
 	 * @see IDashboardManager::createUsersEvent
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @param string $widgetId
 	 * @param array $users
@@ -62,6 +64,7 @@ interface IEventsService {
 	 * @see IDashboardManager::createGroupsEvent
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @param string $widgetId
 	 * @param array $groups
@@ -77,6 +80,7 @@ interface IEventsService {
 	 * @see IDashboardManager::createGlobalEvent
 	 *
 	 * @since 15.0.0
+	 * @deprecated 20.0.0
 	 *
 	 * @param string $widgetId
 	 * @param array $payload

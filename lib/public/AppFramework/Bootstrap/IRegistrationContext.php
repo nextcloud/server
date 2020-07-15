@@ -56,6 +56,15 @@ interface IRegistrationContext {
 	public function registerCrashReporter(string $reporterClass): void;
 
 	/**
+	 * Register an implementation of \OCP\Dashboard\IPanel that
+	 * will handle the implementation of a dashboard panel
+	 *
+	 * @param string $panelClass
+	 * @return void
+	 * @since 20.0.0
+	 */
+	public function registerDashboardPanel(string $panelClass): void;
+	/**
 	 * Register a service
 	 *
 	 * @param string $name
