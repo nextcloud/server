@@ -29,9 +29,9 @@ namespace OCP\AppFramework\Http\Events;
 use OCP\EventDispatcher\Event;
 
 /**
- * The event is triggered before the rendering step of each TemplateResponse.
+ * Emitted before the rendering step of each TemplateResponse. The event holds a
+ * flag that specifies if an user is logged in.
  *
- * @package OCP\AppFramework\Http\Events
  * @since 20.0.0
  */
 class BeforeTemplateRenderedEvent extends Event {
