@@ -52,11 +52,14 @@ declare(strict_types=1);
  */
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
+use OC\AppFramework\Bootstrap\Coordinator;
 use OC\DB\MigrationService;
 use OC\Installer;
 use OC\Repair;
 use OC\ServerNotAvailableException;
 use OCP\App\ManagerEvent;
+use OCP\AppFramework\QueryException;
+use OCP\Authentication\IAlternativeLogin;
 use OCP\ILogger;
 
 /**
@@ -149,8 +152,8 @@ class OC_App {
 		// in case someone calls loadApp() directly
 		self::registerAutoloading($app, $appPath);
 
-		/** @var \OC\AppFramework\Bootstrap\Coordinator $coordinator */
-		$coordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
+		/** @var Coordinator $coordinator */
+		$coordinator = \OC::$server->query(Coordinator::class);
 		$isBootable = $coordinator->isBootable($app);
 
 		$hasAppPhpFile = is_file($appPath . '/appinfo/app.php');
@@ -672,8 +675,10 @@ class OC_App {
 
 	/**
 	 * @param array $entry
+	 * @deprecated 20.0.0 Please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface
 	 */
 	public static function registerLogIn(array $entry) {
+		\OC::$server->getLogger()->debug('OC_App::registerLogIn() is deprecated, please register your alternative login option using the registerAlternativeLogin() on the RegistrationContext in your Application class implementing the OCP\Authentication\IAlternativeLogin interface');
 		self::$altLogin[] = $entry;
 	}
 
@@ -681,6 +686,47 @@ class OC_App {
 	 * @return array
 	 */
 	public static function getAlternativeLogIns(): array {
+		/** @var Coordinator $bootstrapCoordinator */
+		$bootstrapCoordinator = \OC::$server->query(Coordinator::class);
+
+		foreach ($bootstrapCoordinator->getRegistrationContext()->getAlternativeLogins() as $registration) {
+			if (!in_array(IAlternativeLogin::class, class_implements($registration['class']), true)) {
+				\OC::$server->getLogger()->error('Alternative login option {option} does not implement {interface} and is therefore ignored.', [
+					'option' => $registration['class'],
+					'interface' => IAlternativeLogin::class,
+					'app' => $registration['app'],
+				]);
+				continue;
+			}
+
+			try {
+				/** @var IAlternativeLogin $provider */
+				$provider = \OC::$server->query($registration['class']);
+			} catch (QueryException $e) {
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Alternative login option {option} can not be initialised.',
+					'option' => $registration['class'],
+					'app' => $registration['app'],
+				]);
+			}
+
+			try {
+				$provider->load();
+
+				self::$altLogin[] = [
+					'name' => $provider->getLabel(),
+					'href' => $provider->getLink(),
+					'style' => $provider->getClass(),
+				];
+			} catch (Throwable $e) {
+				\OC::$server->getLogger()->logException($e, [
+					'message' => 'Alternative login option {option} had an error while loading.',
+					'option' => $registration['class'],
+					'app' => $registration['app'],
+				]);
+			}
+		}
+
 		return self::$altLogin;
 	}
 

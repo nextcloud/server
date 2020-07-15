@@ -83,6 +83,7 @@ return array(
     'OCP\\Authentication\\Events\\LoginFailedEvent' => $baseDir . '/lib/public/Authentication/Events/LoginFailedEvent.php',
     'OCP\\Authentication\\Exceptions\\CredentialsUnavailableException' => $baseDir . '/lib/public/Authentication/Exceptions/CredentialsUnavailableException.php',
     'OCP\\Authentication\\Exceptions\\PasswordUnavailableException' => $baseDir . '/lib/public/Authentication/Exceptions/PasswordUnavailableException.php',
+    'OCP\\Authentication\\IAlternativeLogin' => $baseDir . '/lib/public/Authentication/IAlternativeLogin.php',
     'OCP\\Authentication\\IApacheBackend' => $baseDir . '/lib/public/Authentication/IApacheBackend.php',
     'OCP\\Authentication\\LoginCredentials\\ICredentials' => $baseDir . '/lib/public/Authentication/LoginCredentials/ICredentials.php',
     'OCP\\Authentication\\LoginCredentials\\IStore' => $baseDir . '/lib/public/Authentication/LoginCredentials/IStore.php',
