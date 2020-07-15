@@ -70,6 +70,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\AppFramework\\Http\\DownloadResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/DownloadResponse.php',
         'OCP\\AppFramework\\Http\\EmptyContentSecurityPolicy' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/EmptyContentSecurityPolicy.php',
         'OCP\\AppFramework\\Http\\EmptyFeaturePolicy' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/EmptyFeaturePolicy.php',
+        'OCP\\AppFramework\\Http\\Events\\BeforeTemplateRenderedEvent' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Events/BeforeTemplateRenderedEvent.php',
         'OCP\\AppFramework\\Http\\FeaturePolicy' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/FeaturePolicy.php',
         'OCP\\AppFramework\\Http\\FileDisplayResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/FileDisplayResponse.php',
         'OCP\\AppFramework\\Http\\ICallbackResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/ICallbackResponse.php',
