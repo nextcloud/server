@@ -48,6 +48,7 @@ use OC_Util;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity\Providers\Downloads;
+use OCA\Files_Sharing\Event\BeforeTemplateRenderedEvent;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\Accounts\IAccountManager;
 use OCP\AppFramework\AuthPublicShareController;
@@ -58,6 +59,7 @@ use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -75,8 +77,6 @@ use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager as ShareManager;
 use OCP\Share\IShare;
 use OCP\Template;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class ShareController
@@ -101,7 +101,7 @@ class ShareController extends AuthPublicShareController {
 	protected $federatedShareProvider;
 	/** @var IAccountManager */
 	protected $accountManager;
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	protected $eventDispatcher;
 	/** @var IL10N */
 	protected $l10n;
@@ -127,7 +127,7 @@ class ShareController extends AuthPublicShareController {
 	 * @param IRootFolder $rootFolder
 	 * @param FederatedShareProvider $federatedShareProvider
 	 * @param IAccountManager $accountManager
-	 * @param EventDispatcherInterface $eventDispatcher
+	 * @param IEventDispatcher $eventDispatcher
 	 * @param IL10N $l10n
 	 * @param Defaults $defaults
 	 */
@@ -144,7 +144,7 @@ class ShareController extends AuthPublicShareController {
 								IRootFolder $rootFolder,
 								FederatedShareProvider $federatedShareProvider,
 								IAccountManager $accountManager,
-								EventDispatcherInterface $eventDispatcher,
+								IEventDispatcher $eventDispatcher,
 								IL10N $l10n,
 								Defaults $defaults) {
 		parent::__construct($appName, $request, $session, $urlGenerator);
@@ -173,8 +173,7 @@ class ShareController extends AuthPublicShareController {
 	public function showAuthenticate(): TemplateResponse {
 		$templateParameters = ['share' => $this->share];
 
-		$event = new GenericEvent(null, $templateParameters);
-		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts::publicShareAuth', $event);
+		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
 		$response = new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
 		if ($this->share->getSendPasswordByTalk()) {
@@ -193,8 +192,7 @@ class ShareController extends AuthPublicShareController {
 	protected function showAuthFailed(): TemplateResponse {
 		$templateParameters = ['share' => $this->share, 'wrongpw' => true];
 
-		$event = new GenericEvent(null, $templateParameters);
-		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts::publicShareAuth', $event);
+		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($this->share, BeforeTemplateRenderedEvent::SCOPE_PUBLIC_SHARE_AUTH));
 
 		$response = new TemplateResponse('core', 'publicshareauth', $templateParameters, 'guest');
 		if ($this->share->getSendPasswordByTalk()) {
@@ -478,7 +476,7 @@ class ShareController extends AuthPublicShareController {
 
 			// Load Viewer scripts
 			if (class_exists(LoadViewer::class)) {
-				$this->eventDispatcher->dispatch(LoadViewer::class, new LoadViewer());
+				$this->eventDispatcher->dispatchTyped(new LoadViewer());
 			}
 		}
 
@@ -490,8 +488,7 @@ class ShareController extends AuthPublicShareController {
 		\OCP\Util::addHeader('meta', ['property' => "og:type", 'content' => "object"]);
 		\OCP\Util::addHeader('meta', ['property' => "og:image", 'content' => $ogPreview]);
 
-		$event = new GenericEvent(null, ['share' => $share]);
-		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts', $event);
+		$this->eventDispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($share));
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');

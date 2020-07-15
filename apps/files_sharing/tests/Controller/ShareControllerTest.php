@@ -48,6 +48,7 @@ use OCP\AppFramework\Http\Template\LinkMenuAction;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\AppFramework\Http\Template\SimpleMenuAction;
 use OCP\Constants;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
 use OCP\Files\Storage;
@@ -64,7 +65,6 @@ use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IShare;
 use PHPUnit\Framework\MockObject\MockObject;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OCP\Activity\IManager;
 use OCP\Files\IRootFolder;
 use OCP\Defaults;
@@ -102,7 +102,7 @@ class ShareControllerTest extends \Test\TestCase {
 	private $federatedShareProvider;
 	/** @var IAccountManager|MockObject */
 	private $accountManager;
-	/** @var EventDispatcherInterface|MockObject */
+	/** @var IEventDispatcher|MockObject */
 	private $eventDispatcher;
 	/** @var IL10N */
 	private $l10n;
@@ -123,7 +123,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->federatedShareProvider->expects($this->any())
 			->method('isIncomingServer2serverShareEnabled')->willReturn(true);
 		$this->accountManager = $this->createMock(IAccountManager::class);
-		$this->eventDispatcher = $this->createMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->l10n = $this->createMock(IL10N::class);
 
 		$this->shareController = new \OCA\Files_Sharing\Controller\ShareController(
@@ -296,11 +296,10 @@ class ShareControllerTest extends \Test\TestCase {
 		});
 
 		$this->eventDispatcher->expects($this->once())
-			->method('dispatch')
+			->method('dispatchTyped')
 			->with(
-				'OCA\Files_Sharing::loadAdditionalScripts',
 				$this->callback(function ($event) use ($share) {
-					return $event->getArgument('share') === $share;
+					return $event->getShare() === $share;
 				})
 			);
 
@@ -443,11 +442,10 @@ class ShareControllerTest extends \Test\TestCase {
 		});
 
 		$this->eventDispatcher->expects($this->once())
-			->method('dispatch')
+			->method('dispatchTyped')
 			->with(
-				'OCA\Files_Sharing::loadAdditionalScripts',
 				$this->callback(function ($event) use ($share) {
-					return $event->getArgument('share') === $share;
+					return $event->getShare() === $share;
 				})
 			);
 
@@ -594,11 +592,10 @@ class ShareControllerTest extends \Test\TestCase {
 		});
 
 		$this->eventDispatcher->expects($this->once())
-			->method('dispatch')
+			->method('dispatchTyped')
 			->with(
-				'OCA\Files_Sharing::loadAdditionalScripts',
 				$this->callback(function ($event) use ($share) {
-					return $event->getArgument('share') === $share;
+					return $event->getShare() === $share;
 				})
 			);
 
