@@ -329,6 +329,7 @@ Feature: provisioning
 			| cloud_federation_api |
 			| comments |
 			| contactsinteraction |
+			| dashboard |
 			| dav |
 			| federatedfilesharing |
 			| federation |
