@@ -124,7 +124,7 @@ kbd {
 		width: inherit;
 		overflow-x: hidden;
 		overflow-y: auto;
-		overscroll-behavior: contain;
+		overscroll-behavior: auto contain;
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
