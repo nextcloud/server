@@ -1,19 +1,19 @@
-#app-sidebar .detailFileInfoContainer {
+.app-sidebar .detailFileInfoContainer {
 	min-height: 50px;
 	padding: 15px;
 }
 
-#app-sidebar .detailFileInfoContainer > div {
+.app-sidebar .detailFileInfoContainer > div {
 	clear: both;
 }
 
 
-#app-sidebar .mainFileInfoView .icon {
+.app-sidebar .mainFileInfoView .icon {
 	display: inline-block;
 	background-size: 16px 16px;
 }
 
-#app-sidebar .mainFileInfoView .permalink {
+.app-sidebar .mainFileInfoView .permalink {
 	padding: 6px 10px;
 	vertical-align: top;
 	opacity: .6;
@@ -23,22 +23,22 @@
 		opacity: 1;
 	}
 }
-#app-sidebar .mainFileInfoView .permalink-field>input {
+.app-sidebar .mainFileInfoView .permalink-field>input {
 	clear: both;
 	width: 90%;
 }
 
-#app-sidebar .thumbnailContainer.large {
+.app-sidebar .thumbnailContainer.large {
 	margin-left: -15px;
 	margin-right: -35px; /* 15 + 20 for the close button */
 	margin-top: -15px;
 }
 
-#app-sidebar .thumbnailContainer.large.portrait {
+.app-sidebar .thumbnailContainer.large.portrait {
 	margin: 0; /* if we don't fit the image anyway we give it back the margin */
 }
 
-#app-sidebar .large .thumbnail {
+.app-sidebar .large .thumbnail {
 	width:100%;
 	display:block;
 	background-repeat: no-repeat;
@@ -49,21 +49,21 @@
 	height: auto;
 }
 
-#app-sidebar .large .thumbnail .stretcher {
+.app-sidebar .large .thumbnail .stretcher {
 	content: '';
 	display: block;
 	padding-bottom: 56.25%; /* sets height of .thumbnail to 9/16 of the width */
 }
 
-#app-sidebar .large.portrait .thumbnail {
+.app-sidebar .large.portrait .thumbnail {
 	background-position: 50% top;
 }
 
-#app-sidebar .large.portrait .thumbnail {
+.app-sidebar .large.portrait .thumbnail {
 	background-size: contain;
 }
 
-#app-sidebar .large.text {
+.app-sidebar .large.text {
 	overflow-y: scroll;
 	overflow-x: hidden;
 	padding-top: 14px;
@@ -71,7 +71,7 @@
 	margin-left: 0;
 }
 
-#app-sidebar .thumbnail {
+.app-sidebar .thumbnail {
 	width: 100%;
 	min-height: 75px;
 	display: inline-block;
@@ -81,44 +81,44 @@
 	background-repeat: no-repeat;
 }
 
-#app-sidebar .ellipsis {
+.app-sidebar .ellipsis {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
 
-#app-sidebar .fileName {
+.app-sidebar .fileName {
 	font-size: 16px;
 	padding-top: 13px;
 	padding-bottom: 3px;
 }
 
-#app-sidebar .fileName h3 {
+.app-sidebar .fileName h3 {
 	width: calc(100% - 42px); /* 36px is the with of the copy link icon, but this breaks so we add some more to be sure */
 	display: inline-block;
 	padding: 5px 0;
 	margin: -5px 0;
 }
 
-#app-sidebar .file-details {
+.app-sidebar .file-details {
 	color: var(--color-text-maxcontrast);
 }
 
-#app-sidebar .action-favorite {
+.app-sidebar .action-favorite {
 	vertical-align: sub;
 	padding: 10px;
 	margin: -10px;
 }
 
-#app-sidebar .action-favorite > span{
+.app-sidebar .action-favorite > span{
 	opacity: .7 !important;
 }
 
-#app-sidebar .detailList {
+.app-sidebar .detailList {
 	float: left;
 }
 
-#app-sidebar .close {
+.app-sidebar .close {
 	position: absolute;
 	top: 0;
 	right: 0;

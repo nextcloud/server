@@ -39,7 +39,7 @@ class ToastContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function toastContainer() {
-		return Locator::forThe()->id("content")->
+		return Locator::forThe()->xpath("//*[@id=\"content\" or contains(@class, 'content')]")->
 				describedAs("Toast container");
 	}
 

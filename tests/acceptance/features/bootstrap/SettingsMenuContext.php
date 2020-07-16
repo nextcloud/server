@@ -88,7 +88,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function settingsPanelFor($itemText) {
-		return Locator::forThe()->xpath("//div[@id = 'app-navigation']//ul//li[@class = 'app-navigation-caption' and normalize-space() = '$itemText']")->
+		return Locator::forThe()->xpath("//div[@id = 'app-navigation' or contains(@class, 'app-navigation')]//ul//li[@class = 'app-navigation-caption' and normalize-space() = '$itemText']")->
 		describedAs($itemText . " item in Settings panel");
 	}
 
@@ -97,7 +97,7 @@ class SettingsMenuContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	private static function settingsPanelEntryFor($itemText) {
-		return Locator::forThe()->xpath("//div[@id = 'app-navigation']//ul//li[normalize-space() = '$itemText']")->
+		return Locator::forThe()->xpath("//div[@id = 'app-navigation' or contains(@class, 'app-navigation')]//ul//li[normalize-space() = '$itemText']")->
 		describedAs($itemText . " entry in Settings panel");
 	}
 

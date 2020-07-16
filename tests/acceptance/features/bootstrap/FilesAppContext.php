@@ -80,7 +80,7 @@ class FilesAppContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function detailsView() {
-		return Locator::forThe()->id("app-sidebar")->
+		return Locator::forThe()->xpath("//*[@id=\"app-sidebar\" or contains(@class, 'app-sidebar')]")->
 				describedAs("Details view in Files app");
 	}
 
