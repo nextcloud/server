@@ -43,9 +43,9 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\IAppContainer;
 use OCP\ILogger;
 use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_versions';
@@ -63,20 +63,21 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Register $principalBackend for the DAV collection
 		 */
-		$context->registerService('principalBackend', function (IAppContainer $c) {
-			$server = $c->getServer();
+		$context->registerService('principalBackend', function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
 			return new Principal(
 				$server->getUserManager(),
 				$server->getGroupManager(),
 				$server->getShareManager(),
 				$server->getUserSession(),
 				$server->getAppManager(),
-				$server->query(ProxyMapper::class),
+				$server->get(ProxyMapper::class),
 				$server->getConfig()
 			);
 		});
 
-		$context->registerService(IVersionManager::class, function (IAppContainer $c) {
+		$context->registerService(IVersionManager::class, function () {
 			return new VersionManager();
 		});
 
@@ -96,17 +97,17 @@ class Application extends App implements IBootstrap {
 		Hooks::connectHooks();
 	}
 
-	public function registerVersionBackends(IServerContainer $server, IAppManager $appManager, ILogger $logger) {
+	public function registerVersionBackends(ContainerInterface $container, IAppManager $appManager, ILogger $logger) {
 		foreach ($appManager->getInstalledApps() as $app) {
 			$appInfo = $appManager->getAppInfo($app);
 			if (isset($appInfo['versions'])) {
 				$backends = $appInfo['versions'];
 				foreach ($backends as $backend) {
 					if (isset($backend['@value'])) {
-						$this->loadBackend($backend, $server, $logger);
+						$this->loadBackend($backend, $container, $logger);
 					} else {
 						foreach ($backend as $singleBackend) {
-							$this->loadBackend($singleBackend, $server, $logger);
+							$this->loadBackend($singleBackend, $container, $logger);
 						}
 					}
 				}
@@ -114,13 +115,13 @@ class Application extends App implements IBootstrap {
 		}
 	}
 
-	private function loadBackend(array $backend, IServerContainer $server, ILogger $logger) {
+	private function loadBackend(array $backend, ContainerInterface $container, ILogger $logger) {
 		/** @var IVersionManager $versionManager */
-		$versionManager = $server->query(IVersionManager::class);
+		$versionManager = $container->get(IVersionManager::class);
 		$class = $backend['@value'];
 		$for = $backend['@attributes']['for'];
 		try {
-			$backendObject = $server->query($class);
+			$backendObject = $container->get($class);
 			$versionManager->registerBackend($for, $backendObject);
 		} catch (\Exception $e) {
 			$logger->logException($e);
