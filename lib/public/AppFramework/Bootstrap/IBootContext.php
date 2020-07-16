@@ -41,20 +41,20 @@ interface IBootContext {
 	 *
 	 * Useful to register and query app-specific services
 	 *
-	 * @return IAppContainer|ContainerInterface
+	 * @return ContainerInterface|IAppContainer
 	 * @since 20.0.0
 	 */
-	public function getAppContainer(): IAppContainer;
+	public function getAppContainer(): ContainerInterface;
 
 	/**
 	 * Get hold of the server DI container
 	 *
 	 * Useful to register and query system-wide services
 	 *
-	 * @return IServerContainer
+	 * @return ContainerInterface|IServerContainer
 	 * @since 20.0.0
 	 */
-	public function getServerContainer(): IServerContainer;
+	public function getServerContainer(): ContainerInterface;
 
 	/**
 	 * Invoke the given callable and inject all parameters based on their types

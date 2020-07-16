@@ -120,6 +120,7 @@ class App {
 	/**
 	 * @return IAppContainer
 	 * @since 6.0.0
+	 * @todo make this return a ContainerInterface as well
 	 */
 	public function getContainer(): IAppContainer {
 		return $this->container;
