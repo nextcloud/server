@@ -146,7 +146,7 @@
 			search.setFilter('files', function (query) {
 				if (self.fileAppLoaded()) {
 					self.fileList.setFilter(query);
-					if (query.length > 2) {
+					if (query.length > 1) {
 						//search is not started until 500msec have passed
 						window.setTimeout(function() {
 							$('.nofilterresults').addClass('hidden');
