@@ -50,13 +50,15 @@ use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCP\AppFramework\App;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Federation\ICloudIdManager;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Group\Events\UserAddedEvent;
-use OCP\IContainer;
+use OCP\IDBConnection;
 use OCP\IGroup;
 use OCP\IServerContainer;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Util;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
@@ -103,15 +105,13 @@ class Application extends App {
 		$container->registerMiddleWare(OCSShareAPIMiddleware::class);
 		$container->registerMiddleWare(ShareInfoMiddleware::class);
 
-		$container->registerService('ExternalMountProvider', function (IContainer $c) {
-			/** @var \OCP\IServerContainer $server */
-			$server = $c->query('ServerContainer');
+		$container->registerService('ExternalMountProvider', function (ContainerInterface $c) {
 			return new \OCA\Files_Sharing\External\MountProvider(
-				$server->getDatabaseConnection(),
+				$c->get(IDBConnection::class),
 				function () use ($c) {
-					return $c->query(Manager::class);
+					return $c->get(Manager::class);
 				},
-				$server->getCloudIdManager()
+				$c->get(ICloudIdManager::class)
 			);
 		});
 
