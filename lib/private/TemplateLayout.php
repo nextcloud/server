@@ -48,6 +48,7 @@ use OC\AppFramework\Http\Request;
 use OC\Template\JSCombiner;
 use OC\Template\JSConfigHelper;
 use OC\Template\SCSSCacher;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IInitialStateService;
 use OCP\Support\Subscription\IRegistry;
@@ -74,7 +75,7 @@ class TemplateLayout extends \OC_Template {
 		}
 
 		// Decide which page we show
-		if ($renderAs === 'user') {
+		if ($renderAs === TemplateResponse::RENDER_AS_USER) {
 			parent::__construct('core', 'layout.user');
 			if (in_array(\OC_App::getCurrentApp(), ['settings','admin', 'help']) !== false) {
 				$this->assign('bodyid', 'body-settings');
@@ -123,12 +124,12 @@ class TemplateLayout extends \OC_Template {
 			} catch (\OCP\AutoloadNotAllowedException $e) {
 				$this->assign('themingInvertMenu', false);
 			}
-		} elseif ($renderAs === 'error') {
+		} elseif ($renderAs === TemplateResponse::RENDER_AS_ERROR) {
 			parent::__construct('core', 'layout.guest', '', false);
 			$this->assign('bodyid', 'body-login');
 			$this->assign('user_displayname', '');
 			$this->assign('user_uid', '');
-		} elseif ($renderAs === 'guest') {
+		} elseif ($renderAs === TemplateResponse::RENDER_AS_GUEST) {
 			parent::__construct('core', 'layout.guest');
 			\OC_Util::addStyle('guest');
 			$this->assign('bodyid', 'body-login');
@@ -136,7 +137,7 @@ class TemplateLayout extends \OC_Template {
 			$userDisplayName = \OC_User::getDisplayName();
 			$this->assign('user_displayname', $userDisplayName);
 			$this->assign('user_uid', \OC_User::getUser());
-		} elseif ($renderAs === 'public') {
+		} elseif ($renderAs === TemplateResponse::RENDER_AS_PUBLIC) {
 			parent::__construct('core', 'layout.public');
 			$this->assign('appid', $appId);
 			$this->assign('bodyid', 'body-public');
@@ -172,7 +173,7 @@ class TemplateLayout extends \OC_Template {
 		// Add the js files
 		$jsFiles = self::findJavascriptFiles(\OC_Util::$scripts);
 		$this->assign('jsfiles', []);
-		if ($this->config->getSystemValue('installed', false) && $renderAs != 'error') {
+		if ($this->config->getSystemValue('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
 				$jsConfigHelper = new JSConfigHelper(
 					\OC::$server->getL10N('lib'),
@@ -210,7 +211,7 @@ class TemplateLayout extends \OC_Template {
 			&& !\OCP\Util::needUpgrade()
 			&& $pathInfo !== ''
 			&& !preg_match('/^\/login/', $pathInfo)
-			&& $renderAs !== 'error'
+			&& $renderAs !== TemplateResponse::RENDER_AS_ERROR
 		) {
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 		} else {
