@@ -34,7 +34,6 @@ use OCA\Files_Trashbin\Expiration;
 use OCA\Files_Trashbin\Trash\ITrashManager;
 use OCA\Files_Trashbin\Trash\TrashManager;
 use OCP\AppFramework\App;
-use OCP\AppFramework\IAppContainer;
 
 class Application extends App {
 	public function __construct(array $urlParams = []) {
@@ -66,7 +65,7 @@ class Application extends App {
 			);
 		});
 
-		$container->registerService(ITrashManager::class, function (IAppContainer $c) {
+		$container->registerService(ITrashManager::class, function () {
 			return new TrashManager();
 		});
 
