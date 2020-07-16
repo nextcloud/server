@@ -60,6 +60,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * This container holds all ownCloud services
  * @since 6.0.0
+ * @deprecated 20.0.0 use \Psr\Container\ContainerInterface
  */
 interface IServerContainer extends IContainer {
 

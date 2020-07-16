@@ -37,6 +37,8 @@ namespace OCP;
 
 use Closure;
 use OCP\AppFramework\QueryException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class IContainer
@@ -45,8 +47,9 @@ use OCP\AppFramework\QueryException;
  *
  * @package OCP
  * @since 6.0.0
+ * @deprecated 20.0.0 use \Psr\Container\ContainerInterface
  */
-interface IContainer {
+interface IContainer extends ContainerInterface {
 
 	/**
 	 * If a parameter is not registered in the container try to instantiate it
@@ -54,6 +57,8 @@ interface IContainer {
 	 * @param string $name the class name to resolve
 	 * @return \stdClass
 	 * @since 8.2.0
+	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
+	 * @throws ContainerExceptionInterface if the class could not be found or instantiated
 	 * @throws QueryException if the class could not be found or instantiated
 	 */
 	public function resolve($name);
@@ -64,8 +69,10 @@ interface IContainer {
 	 * @param string $name
 	 * @param bool $autoload Should we try to autoload the service. If we are trying to resolve built in types this makes no sense for example
 	 * @return mixed
+	 * @throws ContainerExceptionInterface if the query could not be resolved
 	 * @throws QueryException if the query could not be resolved
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
 	 */
 	public function query(string $name, bool $autoload = true);
 
@@ -76,6 +83,7 @@ interface IContainer {
 	 * @param mixed $value
 	 * @return void
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerParameter
 	 */
 	public function registerParameter($name, $value);
 
@@ -91,6 +99,7 @@ interface IContainer {
 	 * @param bool $shared
 	 * @return void
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerService
 	 */
 	public function registerService($name, Closure $closure, $shared = true);
 
@@ -101,6 +110,7 @@ interface IContainer {
 	 * @param string $alias the alias that should be registered
 	 * @param string $target the target that should be resolved instead
 	 * @since 8.2.0
+	 * @deprecated 20.0.0 use \OCP\AppFramework\Bootstrap\IRegistrationContext::registerServiceAlias
 	 */
 	public function registerAlias($alias, $target);
 }

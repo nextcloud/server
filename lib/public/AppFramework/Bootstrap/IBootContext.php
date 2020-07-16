@@ -26,8 +26,9 @@ declare(strict_types=1);
 namespace OCP\AppFramework\Bootstrap;
 
 use OCP\AppFramework\IAppContainer;
-use OCP\AppFramework\QueryException;
 use OCP\IServerContainer;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
 use Throwable;
 
 /**
@@ -40,7 +41,7 @@ interface IBootContext {
 	 *
 	 * Useful to register and query app-specific services
 	 *
-	 * @return IAppContainer
+	 * @return IAppContainer|ContainerInterface
 	 * @since 20.0.0
 	 */
 	public function getAppContainer(): IAppContainer;
@@ -68,7 +69,7 @@ interface IBootContext {
 	 * Note: the app container will be queried
 	 *
 	 * @param callable $fn
-	 * @throws QueryException if at least one of the parameter can't be resolved
+	 * @throws ContainerExceptionInterface if at least one of the parameter can't be resolved
 	 * @throws Throwable any error the function invocation might cause
 	 * @return mixed|null the return value of the invoked function, if any
 	 * @since 20.0.0

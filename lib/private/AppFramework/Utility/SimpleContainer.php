@@ -30,20 +30,37 @@
 
 namespace OC\AppFramework\Utility;
 
+use ArrayAccess;
 use Closure;
 use OCP\AppFramework\QueryException;
 use OCP\IContainer;
 use Pimple\Container;
+use Psr\Container\ContainerInterface;
 use ReflectionClass;
 use ReflectionException;
+use ReflectionParameter;
+use function class_exists;
 
 /**
- * Class SimpleContainer
- *
- * SimpleContainer is a simple implementation of IContainer on basis of Pimple
+ * SimpleContainer is a simple implementation of a container on basis of Pimple
  */
-class SimpleContainer extends Container implements IContainer {
+class SimpleContainer implements ArrayAccess, ContainerInterface, IContainer {
 
+	/** @var Container */
+	private $container;
+
+	public function __construct() {
+		$this->container = new Container();
+	}
+
+	public function get($id) {
+		return $this->query($id);
+	}
+
+	public function has($id): bool {
+		// If a service is no registered but is an existing class, we can probably load it
+		return isset($this->container[$id]) || class_exists($id);
+	}
 
 	/**
 	 * @param ReflectionClass $class the class to instantiate
@@ -54,45 +71,37 @@ class SimpleContainer extends Container implements IContainer {
 		$constructor = $class->getConstructor();
 		if ($constructor === null) {
 			return $class->newInstance();
-		} else {
-			$parameters = [];
-			foreach ($constructor->getParameters() as $parameter) {
-				$parameterClass = $parameter->getClass();
-
-				// try to find out if it is a class or a simple parameter
-				if ($parameterClass === null) {
-					$resolveName = $parameter->getName();
-				} else {
-					$resolveName = $parameterClass->name;
-				}
-
-				try {
-					$builtIn = $parameter->hasType() && $parameter->getType()->isBuiltin();
-					$parameters[] = $this->query($resolveName, !$builtIn);
-				} catch (QueryException $e) {
-					// Service not found, use the default value when available
-					if ($parameter->isDefaultValueAvailable()) {
-						$parameters[] = $parameter->getDefaultValue();
-					} elseif ($parameterClass !== null) {
-						$resolveName = $parameter->getName();
-						$parameters[] = $this->query($resolveName);
-					} else {
-						throw $e;
-					}
-				}
-			}
-			return $class->newInstanceArgs($parameters);
 		}
+
+		return $class->newInstanceArgs(array_map(function (ReflectionParameter $parameter) {
+			$parameterClass = $parameter->getClass();
+
+			// try to find out if it is a class or a simple parameter
+			if ($parameterClass === null) {
+				$resolveName = $parameter->getName();
+			} else {
+				$resolveName = $parameterClass->name;
+			}
+
+			try {
+				$builtIn = $parameter->hasType() && $parameter->getType()->isBuiltin();
+				return $this->query($resolveName, !$builtIn);
+			} catch (QueryException $e) {
+				// Service not found, use the default value when available
+				if ($parameter->isDefaultValueAvailable()) {
+					return $parameter->getDefaultValue();
+				}
+
+				if ($parameterClass !== null) {
+					$resolveName = $parameter->getName();
+					return $this->query($resolveName);
+				}
+
+				throw $e;
+			}
+		}, $constructor->getParameters()));
 	}
 
-
-	/**
-	 * If a parameter is not registered in the container try to instantiate it
-	 * by using reflection to find out how to build the class
-	 * @param string $name the class name to resolve
-	 * @return \stdClass
-	 * @throws QueryException if the class could not be found or instantiated
-	 */
 	public function resolve($name) {
 		$baseMsg = 'Could not resolve ' . $name . '!';
 		try {
@@ -110,15 +119,18 @@ class SimpleContainer extends Container implements IContainer {
 
 	public function query(string $name, bool $autoload = true) {
 		$name = $this->sanitizeName($name);
-		if ($this->offsetExists($name)) {
-			return $this->offsetGet($name);
-		} elseif ($autoload) {
+		if (isset($this->container[$name])) {
+			return $this->container[$name];
+		}
+
+		if ($autoload) {
 			$object = $this->resolve($name);
 			$this->registerService($name, function () use ($object) {
 				return $object;
 			});
 			return $object;
 		}
+
 		throw new QueryException('Could not resolve ' . $name . '!');
 	}
 
@@ -140,14 +152,17 @@ class SimpleContainer extends Container implements IContainer {
 	 * @param bool $shared
 	 */
 	public function registerService($name, Closure $closure, $shared = true) {
+		$wrapped = function () use ($closure) {
+			return $closure($this);
+		};
 		$name = $this->sanitizeName($name);
 		if (isset($this[$name])) {
 			unset($this[$name]);
 		}
 		if ($shared) {
-			$this[$name] = $closure;
+			$this[$name] = $wrapped;
 		} else {
-			$this[$name] = parent::factory($closure);
+			$this[$name] = $this->container->factory($wrapped);
 		}
 	}
 
@@ -159,8 +174,8 @@ class SimpleContainer extends Container implements IContainer {
 	 * @param string $target the target that should be resolved instead
 	 */
 	public function registerAlias($alias, $target) {
-		$this->registerService($alias, function (IContainer $container) use ($target) {
-			return $container->query($target);
+		$this->registerService($alias, function (ContainerInterface $container) use ($target) {
+			return $container->get($target);
 		}, false);
 	}
 
@@ -173,5 +188,33 @@ class SimpleContainer extends Container implements IContainer {
 			return ltrim($name, '\\');
 		}
 		return $name;
+	}
+
+	/**
+	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::has
+	 */
+	public function offsetExists($id) {
+		return $this->container->offsetExists($id);
+	}
+
+	/**
+	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
+	 */
+	public function offsetGet($id) {
+		return $this->container->offsetGet($id);
+	}
+
+	/**
+	 * @deprecated 20.0.0 use \OCP\IContainer::registerService
+	 */
+	public function offsetSet($id, $service) {
+		$this->container->offsetSet($id, $service);
+	}
+
+	/**
+	 * @deprecated 20.0.0
+	 */
+	public function offsetUnset($offset) {
+		$this->container->offsetUnset($offset);
 	}
 }
