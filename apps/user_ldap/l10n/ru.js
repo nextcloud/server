@@ -51,7 +51,7 @@ OC.L10N.register(
     "The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise." : "Некорректный фильтр поиска, возможно из-за синтаксических проблем, таких как несоответствие открывающих и закрывающих скобок. Пожалуйста проверьте.",
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Произошла ошибка подключения к LDAP / AD, пожалуйста проверьте настройки подключения и учетные данные.",
     "The \"%uid\" placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "Отсутствует заполнитель «%uid». Он будет заменен на логин при запросе к LDAP / AD.",
-    "Please provide a login name to test against" : "Пожалуйста укажите логин для проверки",
+    "Please provide a login name to test against" : "Пожалуйста, укажите логин для проверки",
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Настройка групп была отключена, так как сервер LDAP / AD не поддерживает memberOf.",
     "Password change rejected. Hint: " : "Смена пароля отклонена. Подсказка:",
     "Please login with the new password" : "Войдите в систему со своим новым паролем",
