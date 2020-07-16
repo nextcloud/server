@@ -27,6 +27,7 @@
 
 namespace OCA\Comments\AppInfo;
 
+use Closure;
 use OCA\Comments\Capabilities;
 use OCA\Comments\Controller\Notifications;
 use OCA\Comments\EventHandler;
@@ -44,6 +45,8 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Comments\CommentsEntityEvent;
+use OCP\IConfig;
+use OCP\ISearch;
 use OCP\IServerContainer;
 use OCP\Util;
 
@@ -75,13 +78,13 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$this->registerNotifier($context->getServerContainer());
-		$this->registerCommentsEventHandler($context->getServerContainer());
+		$context->injectFn(Closure::fromCallable([$this, 'registerNotifier']));
+		$context->injectFn(Closure::fromCallable([$this, 'registerCommentsEventHandler']));
 
-		$jsSettingsHelper = new JSSettingsHelper($context->getServerContainer());
+		$jsSettingsHelper = new JSSettingsHelper($context->getAppContainer()->get(IConfig::class));
 		Util::connectHook('\OCP\Config', 'js', $jsSettingsHelper, 'extend');
 
-		$context->getServerContainer()->getSearch()->registerProvider(LegacyProvider::class, ['apps' => ['files']]);
+		$context->getServerContainer()->get(ISearch::class)->registerProvider(LegacyProvider::class, ['apps' => ['files']]);
 	}
 
 	protected function registerNotifier(IServerContainer $container) {

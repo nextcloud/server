@@ -34,6 +34,7 @@ declare(strict_types=1);
 
 namespace OCA\Files\AppInfo;
 
+use Closure;
 use OC\Search\Provider\File;
 use OCA\Files\Capabilities;
 use OCA\Files\Collaboration\Resources\Listener;
@@ -53,6 +54,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Resources\IProviderManager;
 use OCP\IContainer;
 use OCP\IL10N;
+use OCP\ISearch;
 use OCP\IServerContainer;
 use OCP\Notification\IManager;
 use OCP\Util;
@@ -112,35 +114,25 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$this->registerCollaboration($context);
-		Listener::register($context->getServerContainer()->getEventDispatcher());
-		$this->registerNotification($context);
-		$this->registerSearchProvider($context);
+		$context->injectFn(Closure::fromCallable([$this, 'registerCollaboration']));
+		$context->injectFn([Listener::class, 'register']);
+		$context->injectFn(Closure::fromCallable([$this, 'registerNotification']));
+		$context->injectFn(Closure::fromCallable([$this, 'registerSearchProvider']));
 		$this->registerTemplates();
-		$this->registerNavigation($context);
+		$context->injectFn(Closure::fromCallable([$this, 'registerNavigation']));
 		$this->registerHooks();
 	}
 
-	/**
-	 * Register Collaboration ResourceProvider
-	 */
-	private function registerCollaboration(IBootContext $context): void {
-		/** @var IProviderManager $providerManager */
-		$providerManager = $context->getAppContainer()->query(IProviderManager::class);
+	private function registerCollaboration(IProviderManager $providerManager): void {
 		$providerManager->registerResourceProvider(ResourceProvider::class);
 	}
 
-	private function registerNotification(IBootContext $context): void {
-		/** @var IManager $notifications */
-		$notifications = $context->getAppContainer()->query(IManager::class);
+	private function registerNotification(IManager $notifications): void {
 		$notifications->registerNotifierService(Notifier::class);
 	}
 
-	/**
-	 * @param IBootContext $context
-	 */
-	private function registerSearchProvider(IBootContext $context): void {
-		$context->getServerContainer()->getSearch()->registerProvider(File::class, ['apps' => ['files']]);
+	private function registerSearchProvider(ISearch $search): void {
+		$search->registerProvider(File::class, ['apps' => ['files']]);
 	}
 
 	private function registerTemplates(): void {
@@ -150,9 +142,7 @@ class Application extends App implements IBootstrap {
 		$templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadsheet', 'core/templates/filetemplates/template.ods');
 	}
 
-	private function registerNavigation(IBootContext $context): void {
-		/** @var IL10N $l10n */
-		$l10n = $context->getAppContainer()->query(IL10N::class);
+	private function registerNavigation(IL10N $l10n): void {
 		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
 			return [
 				'id' => 'files',

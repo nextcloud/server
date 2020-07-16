@@ -40,6 +40,7 @@ use BadMethodCallException;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Group\Manager;
 use OC\Server;
 use OCA\Settings\Activity\Provider;
 use OCA\Settings\Hooks;
@@ -52,6 +53,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Defaults;
 use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUser;
@@ -134,38 +136,39 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		/** @var EventDispatcherInterface $eventDispatcher */
-		$eventDispatcher = $context->getServerContainer()->getEventDispatcher();
-		$container = $context->getAppContainer();
-		$eventDispatcher->addListener('app_password_created', function (GenericEvent $event) use ($container) {
-			if (($token = $event->getSubject()) instanceof IToken) {
-				/** @var IActivityManager $activityManager */
-				$activityManager = $container->query(IActivityManager::class);
-				/** @var ILogger $logger */
-				$logger = $container->query(ILogger::class);
+		$context->injectFn(function (EventDispatcherInterface $dispatcher, ContainerInterface $container) {
+			$dispatcher->addListener('app_password_created', function (GenericEvent $event) use ($container) {
+				if (($token = $event->getSubject()) instanceof IToken) {
+					/** @var IActivityManager $activityManager */
+					$activityManager = $container->get(IActivityManager::class);
+					/** @var ILogger $logger */
+					$logger = $container->get(ILogger::class);
 
-				$activity = $activityManager->generateEvent();
-				$activity->setApp('settings')
-					->setType('security')
-					->setAffectedUser($token->getUID())
-					->setAuthor($token->getUID())
-					->setSubject(Provider::APP_TOKEN_CREATED, ['name' => $token->getName()])
-					->setObject('app_token', $token->getId());
+					$activity = $activityManager->generateEvent();
+					$activity->setApp('settings')
+						->setType('security')
+						->setAffectedUser($token->getUID())
+						->setAuthor($token->getUID())
+						->setSubject(Provider::APP_TOKEN_CREATED, ['name' => $token->getName()])
+						->setObject('app_token', $token->getId());
 
-				try {
-					$activityManager->publish($activity);
-				} catch (BadMethodCallException $e) {
-					$logger->logException($e, ['message' => 'could not publish activity', 'level' => ILogger::WARN]);
+					try {
+						$activityManager->publish($activity);
+					} catch (BadMethodCallException $e) {
+						$logger->logException($e, ['message' => 'could not publish activity', 'level' => ILogger::WARN]);
+					}
 				}
-			}
+			});
 		});
 
 		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
 		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
 
-		$groupManager = $context->getServerContainer()->getGroupManager();
-		$groupManager->listen('\OC\Group', 'postRemoveUser',  [$this, 'removeUserFromGroup']);
-		$groupManager->listen('\OC\Group', 'postAddUser',  [$this, 'addUserToGroup']);
+		$context->injectFn(function (IGroupManager $groupManager) {
+			/** @var IGroupManager|Manager $groupManager */
+			$groupManager->listen('\OC\Group', 'postRemoveUser',  [$this, 'removeUserFromGroup']);
+			$groupManager->listen('\OC\Group', 'postAddUser',  [$this, 'addUserToGroup']);
+		});
 
 		Util::connectHook('\OCP\Config', 'js', $this, 'extendJsConfig');
 	}

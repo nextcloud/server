@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace OCA\TwoFactorBackupCodes\AppInfo;
 
+use Closure;
 use OCA\TwoFactorBackupCodes\Db\BackupCodeMapper;
 use OCA\TwoFactorBackupCodes\Event\CodesGenerated;
 use OCA\TwoFactorBackupCodes\Listener\ActivityPublisher;
@@ -58,9 +59,7 @@ class Application extends App implements IBootstrap {
 	public function boot(IBootContext $context): void {
 		Util::connectHook('OC_User', 'post_deleteUser', $this, 'deleteUser');
 
-		$this->registerNotification(
-			$context->getAppContainer()->query(IManager::class)
-		);
+		$context->injectFn(Closure::fromCallable([$this, 'registerNotification']));
 	}
 
 	/**

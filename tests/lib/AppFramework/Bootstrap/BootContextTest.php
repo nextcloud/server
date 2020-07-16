@@ -57,7 +57,8 @@ class BootContextTest extends TestCase {
 
 	public function testGetServerContainer(): void {
 		$serverContainer = $this->createMock(IServerContainer::class);
-		$this->appContainer->method('getServer')
+		$this->appContainer->method('get')
+			->with(IServerContainer::class)
 			->willReturn($serverContainer);
 
 		$container = $this->context->getServerContainer();

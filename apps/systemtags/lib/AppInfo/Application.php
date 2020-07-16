@@ -32,6 +32,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\MapperEvent;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'systemtags';
@@ -44,35 +45,36 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		/*
-		 * @todo move the OCP events and then move the registration to `register`
-		 */
-		$eventDispatcher = $context->getServerContainer()->getEventDispatcher();
-		$eventDispatcher->addListener(
-			'OCA\Files::loadAdditionalScripts',
-			function () {
-				// FIXME: no public API for these ?
-				\OCP\Util::addScript('dist/systemtags');
-				\OCP\Util::addScript(self::APP_ID, 'systemtags');
-			}
-		);
+		$context->injectFn(function (EventDispatcher $dispatcher) use ($context) {
+			/*
+			 * @todo move the OCP events and then move the registration to `register`
+			 */
+			$dispatcher->addListener(
+				'OCA\Files::loadAdditionalScripts',
+				function () {
+					// FIXME: no public API for these ?
+					\OCP\Util::addScript('dist/systemtags');
+					\OCP\Util::addScript(self::APP_ID, 'systemtags');
+				}
+			);
 
-		$managerListener = function (ManagerEvent $event) use ($context) {
-			/** @var \OCA\SystemTags\Activity\Listener $listener */
-			$listener = $context->getServerContainer()->query(Listener::class);
-			$listener->event($event);
-		};
-		$eventDispatcher->addListener(ManagerEvent::EVENT_CREATE, $managerListener);
-		$eventDispatcher->addListener(ManagerEvent::EVENT_DELETE, $managerListener);
-		$eventDispatcher->addListener(ManagerEvent::EVENT_UPDATE, $managerListener);
+			$managerListener = function (ManagerEvent $event) use ($context) {
+				/** @var \OCA\SystemTags\Activity\Listener $listener */
+				$listener = $context->getServerContainer()->query(Listener::class);
+				$listener->event($event);
+			};
+			$dispatcher->addListener(ManagerEvent::EVENT_CREATE, $managerListener);
+			$dispatcher->addListener(ManagerEvent::EVENT_DELETE, $managerListener);
+			$dispatcher->addListener(ManagerEvent::EVENT_UPDATE, $managerListener);
 
-		$mapperListener = function (MapperEvent $event) use ($context) {
-			/** @var \OCA\SystemTags\Activity\Listener $listener */
-			$listener = $context->getServerContainer()->query(Listener::class);
-			$listener->mapperEvent($event);
-		};
-		$eventDispatcher->addListener(MapperEvent::EVENT_ASSIGN, $mapperListener);
-		$eventDispatcher->addListener(MapperEvent::EVENT_UNASSIGN, $mapperListener);
+			$mapperListener = function (MapperEvent $event) use ($context) {
+				/** @var \OCA\SystemTags\Activity\Listener $listener */
+				$listener = $context->getServerContainer()->query(Listener::class);
+				$listener->mapperEvent($event);
+			};
+			$dispatcher->addListener(MapperEvent::EVENT_ASSIGN, $mapperListener);
+			$dispatcher->addListener(MapperEvent::EVENT_UNASSIGN, $mapperListener);
+		});
 
 		\OCA\Files\App::getNavigationManager()->add(function () {
 			$l = \OC::$server->getL10N(self::APP_ID);

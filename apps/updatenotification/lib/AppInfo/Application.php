@@ -30,13 +30,20 @@ namespace OCA\UpdateNotification\AppInfo;
 
 use OCA\UpdateNotification\Notification\Notifier;
 use OCA\UpdateNotification\UpdateChecker;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\QueryException;
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\ILogger;
 use OCP\IUser;
+use OCP\IUserSession;
+use OCP\Notification\IManager as INotificationManager;
 use OCP\Util;
+use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -47,36 +54,41 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$server = $context->getServerContainer();
-
-		if ($server->getConfig()->getSystemValue('updatechecker', true) !== true) {
-			// Updater check is disabled
-			return;
-		}
-
-		// Always register the notifier, so background jobs (without a user) can send push notifications
-		$notificationsManager = $server->getNotificationManager();
-		$notificationsManager->registerNotifierService(Notifier::class);
-
-		$user = $server->getUserSession()->getUser();
-		if (!$user instanceof IUser) {
-			// Nothing to do for guests
-			return;
-		}
-
-		if (!$server->getAppManager()->isEnabledForUser('notifications') &&
-			$server->getGroupManager()->isAdmin($user->getUID())) {
-			try {
-				$updateChecker = $server->query(UpdateChecker::class);
-			} catch (QueryException $e) {
-				$server->getLogger()->logException($e);
+		$context->injectFn(function (IConfig $config,
+									 INotificationManager $notificationsManager,
+									 IUserSession $userSession,
+									 IAppManager $appManager,
+									 IGroupManager $groupManager,
+									 ContainerInterface $container,
+									 ILogger $logger) {
+			if ($config->getSystemValue('updatechecker', true) !== true) {
+				// Updater check is disabled
 				return;
 			}
 
-			if ($updateChecker->getUpdateState() !== []) {
-				Util::addScript('updatenotification', 'legacy-notification');
-				\OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'populateJavaScriptVariables');
+			// Always register the notifier, so background jobs (without a user) can send push notifications
+			$notificationsManager->registerNotifierService(Notifier::class);
+
+			$user = $userSession->getUser();
+			if (!$user instanceof IUser) {
+				// Nothing to do for guests
+				return;
 			}
-		}
+
+			if (!$appManager->isEnabledForUser('notifications') &&
+				$groupManager->isAdmin($user->getUID())) {
+				try {
+					$updateChecker = $container->get(UpdateChecker::class);
+				} catch (QueryException $e) {
+					$logger->logException($e);
+					return;
+				}
+
+				if ($updateChecker->getUpdateState() !== []) {
+					Util::addScript('updatenotification', 'legacy-notification');
+					\OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'populateJavaScriptVariables');
+				}
+			}
+		});
 	}
 }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Arthur Schiwon <blizzz@arthur-schiwon.de>
  *
@@ -26,11 +29,11 @@ namespace OCA\Comments\Tests\Unit;
 
 use OCA\Comments\JSSettingsHelper;
 use OCP\IConfig;
-use OCP\IServerContainer;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class JSSettingsHelperTest extends TestCase {
-	/** @var  IServerContainer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IConfig|MockObject */
 	protected $c;
 	/** @var  JSSettingsHelper */
 	protected $helper;
@@ -38,21 +41,16 @@ class JSSettingsHelperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->c = $this->createMock(IServerContainer::class);
+		$this->c = $this->createMock(IConfig::class);
 
 		$this->helper = new JSSettingsHelper($this->c);
 	}
 
 	public function testExtend() {
-		$config = $this->createMock(IConfig::class);
-		$config->expects($this->once())
+		$this->c->expects($this->once())
 			->method('getAppValue')
 			->with('comments', 'maxAutoCompleteResults')
 			->willReturn(13);
-
-		$this->c->expects($this->once())
-			->method('getConfig')
-			->willReturn($config);
 
 		$config = [
 			'oc_appconfig' => json_encode([

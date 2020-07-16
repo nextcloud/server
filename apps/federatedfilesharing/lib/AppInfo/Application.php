@@ -28,6 +28,7 @@
 
 namespace OCA\FederatedFileSharing\AppInfo;
 
+use Closure;
 use OCA\FederatedFileSharing\Listeners\LoadAdditionalScriptsListener;
 use OCA\FederatedFileSharing\Notifier;
 use OCA\FederatedFileSharing\OCM\CloudFederationProviderFiles;
@@ -36,6 +37,9 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Federation\ICloudFederationProviderManager;
+use OCP\Notification\IManager as INotifiactionManager;
+use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -47,16 +51,20 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$server = $context->getServerContainer();
+		$context->injectFn(Closure::fromCallable([$this, 'registerCloudFederationProvider']));
+		$context->injectFn(Closure::fromCallable([$this, 'registerNotificationManager']));
+	}
 
-		$cloudFederationManager = $server->getCloudFederationProviderManager();
-		$cloudFederationManager->addCloudFederationProvider('file',
+	private function registerCloudFederationProvider(ICloudFederationProviderManager $manager,
+													 ContainerInterface $container): void {
+		$manager->addCloudFederationProvider('file',
 			'Federated Files Sharing',
-			function () use ($server) {
-				return $server->query(CloudFederationProviderFiles::class);
+			function () use ($container) {
+				return $container->get(CloudFederationProviderFiles::class);
 			});
+	}
 
-		$manager = $server->getNotificationManager();
+	private function registerNotificationManager(INotifiactionManager $manager): void {
 		$manager->registerNotifierService(Notifier::class);
 	}
 }

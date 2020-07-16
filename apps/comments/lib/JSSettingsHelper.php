@@ -23,20 +23,20 @@
 
 namespace OCA\Comments;
 
-use OCP\IServerContainer;
+use OCP\IConfig;
 
 class JSSettingsHelper {
-	/** @var IServerContainer */
+	/** @var IConfig */
 	private $c;
 
-	public function __construct(IServerContainer $c) {
+	public function __construct(IConfig $c) {
 		$this->c = $c;
 	}
 
 	public function extend(array $settings) {
 		$appConfig = json_decode($settings['array']['oc_appconfig'], true);
 
-		$value = (int)$this->c->getConfig()->getAppValue('comments', 'maxAutoCompleteResults', 10);
+		$value = (int)$this->c->getAppValue('comments', 'maxAutoCompleteResults', 10);
 		$appConfig['comments']['maxAutoCompleteResults'] = $value;
 
 		$settings['array']['oc_appconfig'] = json_encode($appConfig);
