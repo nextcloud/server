@@ -39,26 +39,32 @@ namespace OCP;
  *
  * This logger interface follows the design guidelines of PSR-3
  * https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md#3-psrlogloggerinterface
+ * @deprecated 20.0.0 use the PSR-3 logger \Psr\Log\LoggerInterface
  */
 interface ILogger {
 	/**
 	 * @since 14.0.0
+	 * @deprecated 20.0.0
 	 */
 	public const DEBUG=0;
 	/**
 	 * @since 14.0.0
+	 * @deprecated 20.0.0
 	 */
 	public const INFO=1;
 	/**
 	 * @since 14.0.0
+	 * @deprecated 20.0.0
 	 */
 	public const WARN=2;
 	/**
 	 * @since 14.0.0
+	 * @deprecated 20.0.0
 	 */
 	public const ERROR=3;
 	/**
 	 * @since 14.0.0
+	 * @deprecated 20.0.0
 	 */
 	public const FATAL=4;
 
@@ -69,6 +75,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::emergency
 	 */
 	public function emergency(string $message, array $context = []);
 
@@ -79,6 +86,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::alert
 	 */
 	public function alert(string $message, array $context = []);
 
@@ -89,6 +97,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::critical
 	 */
 	public function critical(string $message, array $context = []);
 
@@ -100,6 +109,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::error
 	 */
 	public function error(string $message, array $context = []);
 
@@ -110,6 +120,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::warning
 	 */
 	public function warning(string $message, array $context = []);
 
@@ -120,6 +131,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::notice
 	 */
 	public function notice(string $message, array $context = []);
 
@@ -130,6 +142,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::info
 	 */
 	public function info(string $message, array $context = []);
 
@@ -140,6 +153,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return null
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::debug
 	 */
 	public function debug(string $message, array $context = []);
 
@@ -151,6 +165,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return mixed
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 use \Psr\Log\LoggerInterface::log
 	 */
 	public function log(int $level, string $message, array $context = []);
 
@@ -169,6 +184,7 @@ interface ILogger {
 	 * @param array $context
 	 * @return void
 	 * @since 8.2.0
+	 * @deprecated 20.0.0 use the `exception` entry in the context of any method in \Psr\Log\LoggerInterface
 	 */
 	public function logException(\Throwable $exception, array $context = []);
 }
