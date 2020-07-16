@@ -606,12 +606,12 @@ class ShareAPIController extends OCSController {
 
 		$shares = array_merge($userShares, $groupShares, $circleShares, $roomShares);
 
-		$shares = array_filter($shares, function(IShare $share) {
+		$filteredShares = array_filter($shares, function(IShare $share) {
 			return $share->getShareOwner() !== $this->currentUser;
 		});
 
 		$formatted = [];
-		foreach ($shares as $share) {
+		foreach ($filteredShares as $share) {
 			if ($this->canAccessShare($share)) {
 				try {
 					$formatted[] = $this->formatShare($share);
@@ -656,7 +656,8 @@ class ShareAPIController extends OCSController {
 		$resharingRight = false;
 		$known = [];
 		foreach ($shares as $share) {
-			if (in_array($share->getId(), $known) || $share->getSharedWith() === $this->currentUser) {
+			if (in_array($share->getId(), $known)
+				|| ($share->getSharedWith() === $this->currentUser && $share->getShareType() === IShare::TYPE_USER)) {
 				continue;
 			}
 
