@@ -70,6 +70,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Calendar\IManager
 	 * @since 13.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCalendarManager();
 
@@ -79,6 +80,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Calendar\Resource\IBackend
 	 * @since 14.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCalendarResourceBackendManager();
 
@@ -88,6 +90,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Calendar\Room\IBackend
 	 * @since 14.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCalendarRoomBackendManager();
 
@@ -97,6 +100,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Contacts\IManager
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getContactsManager();
 
@@ -107,6 +111,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\IRequest
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getRequest();
 
@@ -115,6 +120,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\IPreview
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getPreviewManager();
 
@@ -124,6 +130,7 @@ interface IServerContainer extends IContainer {
 	 * @see \OCP\ITagManager::load()
 	 * @return \OCP\ITagManager
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getTagManager();
 
@@ -132,6 +139,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Files\IRootFolder
 	 * @since 6.0.0 - between 6.0.0 and 8.0.0 this returned \OCP\Files\Folder
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getRootFolder();
 
@@ -142,6 +150,7 @@ interface IServerContainer extends IContainer {
 	 * @return \OCP\Files\Folder
 	 * @since 6.0.0 - parameter $userId was added in 8.0.0
 	 * @see getUserFolder in \OCP\Files\IRootFolder
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getUserFolder($userId = null);
 
@@ -150,6 +159,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\IUserManager
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getUserManager();
 
@@ -158,6 +168,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\IGroupManager
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getGroupManager();
 
@@ -166,6 +177,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\IUserSession
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getUserSession();
 
@@ -174,6 +186,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\INavigationManager
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getNavigationManager();
 
@@ -182,6 +195,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\IConfig
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getConfig();
 
@@ -190,6 +204,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Security\ICrypto
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCrypto();
 
@@ -198,6 +213,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Security\IHasher
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getHasher();
 
@@ -206,6 +222,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Security\ISecureRandom
 	 * @since 8.1.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getSecureRandom();
 
@@ -214,6 +231,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Security\ICredentialsManager
 	 * @since 9.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCredentialsManager();
 
@@ -222,12 +240,14 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\IAppConfig
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getAppConfig();
 
 	/**
 	 * @return \OCP\L10N\IFactory
 	 * @since 8.2.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getL10NFactory();
 
@@ -237,24 +257,28 @@ interface IServerContainer extends IContainer {
 	 * @param string $lang
 	 * @return \OCP\IL10N
 	 * @since 6.0.0 - parameter $lang was added in 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getL10N($app, $lang = null);
 
 	/**
 	 * @return \OC\Encryption\Manager
 	 * @since 8.1.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getEncryptionManager();
 
 	/**
 	 * @return \OC\Encryption\File
 	 * @since 8.1.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getEncryptionFilesHelper();
 
 	/**
 	 * @return \OCP\Encryption\Keys\IStorage
 	 * @since 8.1.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getEncryptionKeyStorage();
 
@@ -263,6 +287,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\IURLGenerator
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getURLGenerator();
 
@@ -271,6 +296,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\ICache
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCache();
 
@@ -279,6 +305,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\ICacheFactory
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getMemCacheFactory();
 
@@ -287,6 +314,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\ISession
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getSession();
 
@@ -295,6 +323,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Activity\IManager
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getActivityManager();
 
@@ -303,6 +332,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\IDBConnection
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getDatabaseConnection();
 
@@ -311,6 +341,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\IAvatarManager
 	 * @since 6.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getAvatarManager();
 
@@ -319,6 +350,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\BackgroundJob\IJobList
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getJobList();
 
@@ -327,6 +359,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\ILogger
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getLogger();
 
@@ -335,6 +368,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return ILogFactory
 	 * @since 14.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getLogFactory();
 
@@ -343,6 +377,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Route\IRouter
 	 * @since 7.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getRouter();
 
@@ -361,6 +396,7 @@ interface IServerContainer extends IContainer {
 	 * @param string $userId (optional) if not specified the current loggedin user is used, use null to get the system certificate manager
 	 * @return \OCP\ICertificateManager | null if $userId is null and no user is logged in
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCertificateManager($userId = null);
 
@@ -369,6 +405,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\IEventSource
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function createEventSource();
 
@@ -377,6 +414,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Http\Client\IClientService
 	 * @since 8.1.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getHTTPClientService();
 
@@ -385,6 +423,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Diagnostics\IEventLogger
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getEventLogger();
 
@@ -395,6 +434,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Diagnostics\IQueryLogger
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getQueryLogger();
 
@@ -403,6 +443,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\ITempManager
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getTempManager();
 
@@ -411,6 +452,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\App\IAppManager
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getAppManager();
 
@@ -419,12 +461,14 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return string
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getWebRoot();
 
 	/**
 	 * @return \OCP\Files\Config\IMountProviderCollection
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getMountProviderCollection();
 
@@ -433,11 +477,13 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \bantu\IniGetWrapper\IniGetWrapper
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getIniWrapper();
 	/**
 	 * @return \OCP\Command\IBus
 	 * @since 8.1.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCommandBus();
 
@@ -446,6 +492,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Mail\IMailer
 	 * @since 8.1.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getMailer();
 
@@ -454,12 +501,14 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Lock\ILockingProvider
 	 * @since 8.1.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getLockingProvider();
 
 	/**
 	 * @return \OCP\Files\Mount\IMountManager
 	 * @since 8.2.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getMountManager();
 
@@ -468,6 +517,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Files\IMimeTypeDetector
 	 * @since 8.2.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getMimeTypeDetector();
 
@@ -476,6 +526,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Files\IMimeTypeLoader
 	 * @since 8.2.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getMimeTypeLoader();
 
@@ -493,12 +544,14 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Notification\IManager
 	 * @since 9.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getNotificationManager();
 
 	/**
 	 * @return \OCP\Comments\ICommentsManager
 	 * @since 9.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCommentsManager();
 
@@ -508,6 +561,7 @@ interface IServerContainer extends IContainer {
 	 * @return \OCP\SystemTag\ISystemTagManager
 	 *
 	 * @since 9.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getSystemTagManager();
 
@@ -517,6 +571,7 @@ interface IServerContainer extends IContainer {
 	 * @return \OCP\SystemTag\ISystemTagObjectMapper
 	 *
 	 * @since 9.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getSystemTagObjectMapper();
 
@@ -525,6 +580,7 @@ interface IServerContainer extends IContainer {
 	 *
 	 * @return \OCP\Share\IManager
 	 * @since 9.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getShareManager();
 
@@ -538,54 +594,63 @@ interface IServerContainer extends IContainer {
 	/**
 	 * @return \OCP\IDateTimeZone
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getDateTimeZone();
 
 	/**
 	 * @return \OCP\IDateTimeFormatter
 	 * @since 8.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getDateTimeFormatter();
 
 	/**
 	 * @return \OCP\Federation\ICloudIdManager
 	 * @since 12.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCloudIdManager();
 
 	/**
 	 * @return \OCP\GlobalScale\IConfig
 	 * @since 14.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getGlobalScaleConfig();
 
 	/**
 	 * @return ICloudFederationFactory
 	 * @since 14.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCloudFederationFactory();
 
 	/**
 	 * @return ICloudFederationProviderManager
 	 * @since 14.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getCloudFederationProviderManager();
 
 	/**
 	 * @return \OCP\Remote\Api\IApiFactory
 	 * @since 13.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getRemoteApiFactory();
 
 	/**
 	 * @return \OCP\Remote\IInstanceFactory
 	 * @since 13.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getRemoteInstanceFactory();
 
 	/**
 	 * @return \OCP\Files\Storage\IStorageFactory
 	 * @since 15.0.0
+	 * @deprecated 20.0.0 have it injected or fetch it through \Psr\Container\ContainerInterface::get
 	 */
 	public function getStorageFactory();
 }
