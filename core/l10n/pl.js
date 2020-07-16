@@ -373,7 +373,7 @@ OC.L10N.register(
     "Hide download" : "Ukryj pobieranie",
     "Password protection enforced" : "Ochrona hasłem jest wymuszona",
     "Password protect" : "Zabezpiecz hasłem",
-    "Allow editing" : "Pozwól na edycję",
+    "Allow editing" : "Zezwalaj na edycję",
     "Email link to person" : "Wyślij link przez e-mail",
     "Send" : "Wyślij",
     "Allow upload and editing" : "Zezwalaj na wysyłanie i edycję",
