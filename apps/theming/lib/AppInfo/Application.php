@@ -40,11 +40,11 @@ class Application extends \OCP\AppFramework\App {
 
 	private function registerInitialState(IAppContainer $container) {
 		/** @var IInitialStateService $initialState */
-		$initialState = $container->query(IInitialStateService::class);
+		$initialState = $container->get(IInitialStateService::class);
 
 		$initialState->provideLazyInitialState(self::APP_ID, 'data', function () use ($container) {
 			/** @var JSDataService $data */
-			$data = $container->query(JSDataService::class);
+			$data = $container->get(JSDataService::class);
 			return $data;
 		});
 	}

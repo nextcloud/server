@@ -59,7 +59,7 @@ class Application extends App implements IBootstrap {
 
 		$managerListener = function (ManagerEvent $event) use ($context) {
 			/** @var \OCA\SystemTags\Activity\Listener $listener */
-			$listener = $context->getServerContainer()->query(Listener::class);
+			$listener = $context->getServerContainer()->get(Listener::class);
 			$listener->event($event);
 		};
 		$eventDispatcher->addListener(ManagerEvent::EVENT_CREATE, $managerListener);
@@ -68,7 +68,7 @@ class Application extends App implements IBootstrap {
 
 		$mapperListener = function (MapperEvent $event) use ($context) {
 			/** @var \OCA\SystemTags\Activity\Listener $listener */
-			$listener = $context->getServerContainer()->query(Listener::class);
+			$listener = $context->getServerContainer()->get(Listener::class);
 			$listener->mapperEvent($event);
 		};
 		$eventDispatcher->addListener(MapperEvent::EVENT_ASSIGN, $mapperListener);

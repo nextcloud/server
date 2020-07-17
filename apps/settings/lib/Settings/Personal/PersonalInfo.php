@@ -97,7 +97,7 @@ class PersonalInfo implements ISettings {
 		$lookupServerUploadEnabled = false;
 		if ($federatedFileSharingEnabled) {
 			/** @var FederatedShareProvider $shareProvider */
-			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
+			$shareProvider = \OC::$server->get(FederatedShareProvider::class);
 			$lookupServerUploadEnabled = $shareProvider->isLookupServerUploadEnabled();
 		}
 

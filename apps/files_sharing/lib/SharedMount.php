@@ -94,7 +94,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 		$event = new VerifyMountPointEvent($share, $this->recipientView, $parent);
 		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$dispatcher = \OC::$server->get(IEventDispatcher::class);
 		$dispatcher->dispatchTyped($event);
 		$parent = $event->getParent();
 

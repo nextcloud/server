@@ -249,7 +249,7 @@ class Trashbin {
 		$filename = $path_parts['basename'];
 		$location = $path_parts['dirname'];
 		/** @var ITimeFactory $timeFactory */
-		$timeFactory = \OC::$server->query(ITimeFactory::class);
+		$timeFactory = \OC::$server->get(ITimeFactory::class);
 		$timestamp = $timeFactory->getTime();
 
 		$lockingProvider = \OC::$server->getLockingProvider();
@@ -771,8 +771,8 @@ class Trashbin {
 	private static function scheduleExpire($user) {
 		// let the admin disable auto expire
 		/** @var Application $application */
-		$application = \OC::$server->query(Application::class);
-		$expiration = $application->getContainer()->query('Expiration');
+		$application = \OC::$server->get(Application::class);
+		$expiration = $application->getContainer()->get('Expiration');
 		if ($expiration->isEnabled()) {
 			\OC::$server->getCommandBus()->push(new Expire($user));
 		}
@@ -789,8 +789,8 @@ class Trashbin {
 	 */
 	protected static function deleteFiles($files, $user, $availableSpace) {
 		/** @var Application $application */
-		$application = \OC::$server->query(Application::class);
-		$expiration = $application->getContainer()->query('Expiration');
+		$application = \OC::$server->get(Application::class);
+		$expiration = $application->getContainer()->get('Expiration');
 		$size = 0;
 
 		if ($availableSpace < 0) {
@@ -817,7 +817,7 @@ class Trashbin {
 	 */
 	public static function deleteExpiredFiles($files, $user) {
 		/** @var Expiration $expiration */
-		$expiration = \OC::$server->query(Expiration::class);
+		$expiration = \OC::$server->get(Expiration::class);
 		$size = 0;
 		$count = 0;
 		foreach ($files as $file) {

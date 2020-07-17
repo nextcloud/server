@@ -72,7 +72,7 @@ class SimpleContainerTest extends \Test\TestCase {
 
 	public function testRegister() {
 		$this->container->registerParameter('test', 'abc');
-		$this->assertEquals('abc', $this->container->query('test'));
+		$this->assertEquals('abc', $this->container->get('test'));
 	}
 
 
@@ -80,7 +80,7 @@ class SimpleContainerTest extends \Test\TestCase {
 	public function testNothingRegistered() {
 		$this->expectException(\OCP\AppFramework\QueryException::class);
 
-		$this->container->query('something really hard');
+		$this->container->get('something really hard');
 	}
 
 
@@ -88,25 +88,25 @@ class SimpleContainerTest extends \Test\TestCase {
 	public function testNotAClass() {
 		$this->expectException(\OCP\AppFramework\QueryException::class);
 
-		$this->container->query('Test\AppFramework\Utility\TestInterface');
+		$this->container->get('Test\AppFramework\Utility\TestInterface');
 	}
 
 
 	public function testNoConstructorClass() {
-		$object = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
+		$object = $this->container->get('Test\AppFramework\Utility\ClassEmptyConstructor');
 		$this->assertTrue($object instanceof ClassEmptyConstructor);
 	}
 
 
 	public function testInstancesOnlyOnce() {
-		$object = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
-		$object2 = $this->container->query('Test\AppFramework\Utility\ClassEmptyConstructor');
+		$object = $this->container->get('Test\AppFramework\Utility\ClassEmptyConstructor');
+		$object2 = $this->container->get('Test\AppFramework\Utility\ClassEmptyConstructor');
 		$this->assertSame($object, $object2);
 	}
 
 	public function testConstructorSimple() {
 		$this->container->registerParameter('test', 'abc');
-		$object = $this->container->query(
+		$object = $this->container->get(
 			'Test\AppFramework\Utility\ClassSimpleConstructor'
 		);
 		$this->assertTrue($object instanceof ClassSimpleConstructor);
@@ -116,7 +116,7 @@ class SimpleContainerTest extends \Test\TestCase {
 
 	public function testConstructorComplex() {
 		$this->container->registerParameter('test', 'abc');
-		$object = $this->container->query(
+		$object = $this->container->get(
 			'Test\AppFramework\Utility\ClassComplexConstructor'
 		);
 		$this->assertTrue($object instanceof ClassComplexConstructor);
@@ -131,7 +131,7 @@ class SimpleContainerTest extends \Test\TestCase {
 		'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
 			return $c->query('Test\AppFramework\Utility\ClassSimpleConstructor');
 		});
-		$object = $this->container->query(
+		$object = $this->container->get(
 			'Test\AppFramework\Utility\ClassInterfaceConstructor'
 		);
 		$this->assertTrue($object instanceof ClassInterfaceConstructor);
@@ -149,7 +149,7 @@ class SimpleContainerTest extends \Test\TestCase {
 		'Test\AppFramework\Utility\IInterfaceConstructor', function ($c) {
 			return $c->query('Test\AppFramework\Utility\ClassEmptyConstructor');
 		});
-		$object = $this->container->query(
+		$object = $this->container->get(
 			'Test\AppFramework\Utility\IInterfaceConstructor'
 		);
 		$this->assertTrue($object instanceof ClassEmptyConstructor);
@@ -158,7 +158,7 @@ class SimpleContainerTest extends \Test\TestCase {
 	public function testRegisterAliasParamter() {
 		$this->container->registerParameter('test', 'abc');
 		$this->container->registerAlias('test1', 'test');
-		$this->assertEquals('abc', $this->container->query('test1'));
+		$this->assertEquals('abc', $this->container->get('test1'));
 	}
 
 	public function testRegisterAliasService() {
@@ -167,11 +167,11 @@ class SimpleContainerTest extends \Test\TestCase {
 		}, true);
 		$this->container->registerAlias('test1', 'test');
 		$this->assertSame(
-			$this->container->query('test'), $this->container->query('test'));
+			$this->container->get('test'), $this->container->get('test'));
 		$this->assertSame(
-			$this->container->query('test1'), $this->container->query('test1'));
+			$this->container->get('test1'), $this->container->get('test1'));
 		$this->assertSame(
-			$this->container->query('test'), $this->container->query('test1'));
+			$this->container->get('test'), $this->container->get('test1'));
 	}
 
 	public function sanitizeNameProvider() {
@@ -190,14 +190,14 @@ class SimpleContainerTest extends \Test\TestCase {
 		$this->container->registerService($register, function () {
 			return 'abc';
 		});
-		$this->assertEquals('abc', $this->container->query($query));
+		$this->assertEquals('abc', $this->container->get($query));
 	}
 
 
 	public function testConstructorComplexNoTestParameterFound() {
 		$this->expectException(\OCP\AppFramework\QueryException::class);
 
-		$object = $this->container->query(
+		$object = $this->container->get(
 			'Test\AppFramework\Utility\ClassComplexConstructor'
 		);
 	}
@@ -207,7 +207,7 @@ class SimpleContainerTest extends \Test\TestCase {
 			return new \StdClass();
 		}, false);
 		$this->assertNotSame(
-			$this->container->query('test'), $this->container->query('test'));
+			$this->container->get('test'), $this->container->get('test'));
 	}
 
 	public function testRegisterAliasFactory() {
@@ -216,10 +216,10 @@ class SimpleContainerTest extends \Test\TestCase {
 		}, false);
 		$this->container->registerAlias('test1', 'test');
 		$this->assertNotSame(
-			$this->container->query('test'), $this->container->query('test'));
+			$this->container->get('test'), $this->container->get('test'));
 		$this->assertNotSame(
-			$this->container->query('test1'), $this->container->query('test1'));
+			$this->container->get('test1'), $this->container->get('test1'));
 		$this->assertNotSame(
-			$this->container->query('test'), $this->container->query('test1'));
+			$this->container->get('test'), $this->container->get('test1'));
 	}
 }

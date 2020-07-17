@@ -94,7 +94,7 @@ try {
 		\OC::$server->getEventDispatcher(),
 		\OC::$server->getRequest(),
 		\OC::$server->getLogger(),
-		\OC::$server->query(\OC\MemoryInfo::class)
+		\OC::$server->get(\OC\MemoryInfo::class)
 	);
 	$application->loadCommands(new ArgvInput(), new ConsoleOutput());
 	$application->run();

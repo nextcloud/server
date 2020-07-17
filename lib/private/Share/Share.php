@@ -1064,7 +1064,7 @@ class Share extends Constants {
 			'result' => '',
 		];
 		$try = 0;
-		$discoveryService = \OC::$server->query(\OCP\OCS\IDiscoveryService::class);
+		$discoveryService = \OC::$server->get(\OCP\OCS\IDiscoveryService::class);
 		while ($result['success'] === false && $try < 2) {
 			$federationEndpoints = $discoveryService->discover($protocol . $remoteDomain, 'FEDERATED_SHARING');
 			$endpoint = isset($federationEndpoints['share']) ? $federationEndpoints['share'] : '/ocs/v2.php/cloud/shares';

@@ -54,15 +54,15 @@ class Application extends App implements IBootstrap {
 		 */
 		$container->registerService('RenewPasswordController', function (IAppContainer $c) {
 			/** @var \OC\Server $server */
-			$server = $c->query('ServerContainer');
+			$server = $c->get('ServerContainer');
 
 			return new RenewPasswordController(
 				$c->getAppName(),
 				$server->getRequest(),
-				$c->query('UserManager'),
+				$c->get('UserManager'),
 				$server->getConfig(),
-				$c->query(IL10N::class),
-				$c->query('Session'),
+				$c->get(IL10N::class),
+				$c->get('Session'),
 				$server->getURLGenerator()
 			);
 		});
@@ -88,8 +88,8 @@ class Application extends App implements IBootstrap {
 			$notificationManager->registerNotifierService(Notifier::class);
 			$userSession = $server->getUserSession();
 
-			$userPluginManager = $server->query(UserPluginManager::class);
-			$groupPluginManager = $server->query(GroupPluginManager::class);
+			$userPluginManager = $server->get(UserPluginManager::class);
+			$groupPluginManager = $server->get(GroupPluginManager::class);
 
 			$userBackend  = new User_Proxy(
 				$configPrefixes, $ldapWrapper, $config, $notificationManager, $userSession, $userPluginManager
@@ -118,9 +118,9 @@ class Application extends App implements IBootstrap {
 		$appContainer->getServer()->getEventDispatcher()->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
 			function () use ($appContainer) {
-				$storagesBackendService = $appContainer->query(BackendService::class);
+				$storagesBackendService = $appContainer->get(BackendService::class);
 				$storagesBackendService->registerConfigHandler('home', function () use ($appContainer) {
-					return $appContainer->query(ExtStorageConfigHandler::class);
+					return $appContainer->get(ExtStorageConfigHandler::class);
 				});
 			}
 		);

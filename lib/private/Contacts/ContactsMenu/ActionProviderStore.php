@@ -67,7 +67,7 @@ class ActionProviderStore {
 
 		foreach ($allClasses as $class) {
 			try {
-				$providers[] = $this->serverContainer->query($class);
+				$providers[] = $this->serverContainer->get($class);
 			} catch (QueryException $ex) {
 				$this->logger->logException($ex, [
 					'message' => "Could not load contacts menu action provider $class",

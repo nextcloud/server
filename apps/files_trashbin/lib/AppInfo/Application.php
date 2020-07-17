@@ -60,7 +60,7 @@ class Application extends App {
 				\OC::$server->getShareManager(),
 				\OC::$server->getUserSession(),
 				\OC::$server->getAppManager(),
-				\OC::$server->query(ProxyMapper::class),
+				\OC::$server->get(ProxyMapper::class),
 				\OC::$server->getConfig()
 			);
 		});
@@ -77,7 +77,7 @@ class Application extends App {
 		$logger = $server->getLogger();
 		$appManager = $server->getAppManager();
 		/** @var ITrashManager $trashManager */
-		$trashManager = $this->getContainer()->getServer()->query(ITrashManager::class);
+		$trashManager = $this->getContainer()->getServer()->get(ITrashManager::class);
 		foreach ($appManager->getInstalledApps() as $app) {
 			$appInfo = $appManager->getAppInfo($app);
 			if (isset($appInfo['trash'])) {
@@ -87,7 +87,7 @@ class Application extends App {
 					$for = $backend['@attributes']['for'];
 
 					try {
-						$backendObject = $server->query($class);
+						$backendObject = $server->get($class);
 						$trashManager->registerBackend($for, $backendObject);
 					} catch (\Exception $e) {
 						$logger->logException($e);

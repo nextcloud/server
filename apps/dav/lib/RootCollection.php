@@ -59,7 +59,7 @@ class RootCollection extends SimpleCollection {
 		$shareManager = \OC::$server->getShareManager();
 		$db = \OC::$server->getDatabaseConnection();
 		$dispatcher = \OC::$server->getEventDispatcher();
-		$proxyMapper = \OC::$server->query(ProxyMapper::class);
+		$proxyMapper = \OC::$server->get(ProxyMapper::class);
 
 		$userPrincipalBackend = new Principal(
 			$userManager,
@@ -125,7 +125,7 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getLogger()
 		);
 
-		$pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager::class));
+		$pluginManager = new PluginManager(\OC::$server, \OC::$server->get(IAppManager::class));
 		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $userManager, $groupManager, $dispatcher);
 		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, $pluginManager, 'principals/users');
 		$usersAddressBookRoot->disableListing = $disableListing;
@@ -137,14 +137,14 @@ class RootCollection extends SimpleCollection {
 		$uploadCollection = new Upload\RootCollection(
 			$userPrincipalBackend,
 			'principals/users',
-			\OC::$server->query(CleanupService::class));
+			\OC::$server->get(CleanupService::class));
 		$uploadCollection->disableListing = $disableListing;
 
 		$avatarCollection = new Avatars\RootCollection($userPrincipalBackend, 'principals/users');
 		$avatarCollection->disableListing = $disableListing;
 
 		$appleProvisioning = new AppleProvisioningNode(
-			\OC::$server->query(ITimeFactory::class));
+			\OC::$server->get(ITimeFactory::class));
 
 		$children = [
 			new SimpleCollection('principals', [

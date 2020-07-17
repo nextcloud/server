@@ -59,7 +59,7 @@ class Application extends App {
 	 */
 	public function registerHooks() {
 		$container = $this->getContainer();
-		$hooksManager = $container->query(Hooks::class);
+		$hooksManager = $container->get(Hooks::class);
 
 		Util::connectHook(
 				Share::class,
@@ -75,7 +75,7 @@ class Application extends App {
 				if ($server instanceof Server) {
 					$authPlugin = $server->getPlugin('auth');
 					if ($authPlugin instanceof Plugin) {
-						$authPlugin->addBackend($container->query(FedAuth::class));
+						$authPlugin->addBackend($container->get(FedAuth::class));
 					}
 				}
 			}

@@ -729,10 +729,10 @@ class OC_Util {
 			$config,
 			\OC::$server->getIniWrapper(),
 			\OC::$server->getL10N('lib'),
-			\OC::$server->query(\OCP\Defaults::class),
+			\OC::$server->get(\OCP\Defaults::class),
 			\OC::$server->getLogger(),
 			\OC::$server->getSecureRandom(),
-			\OC::$server->query(\OC\Installer::class)
+			\OC::$server->get(\OC\Installer::class)
 		);
 
 		$urlGenerator = \OC::$server->getURLGenerator();

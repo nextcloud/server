@@ -90,7 +90,7 @@ class Application extends App implements IBootstrap {
 
 	protected function registerCommentsEventHandler(IServerContainer $container) {
 		$container->getCommentsManager()->registerEventHandler(function () {
-			return $this->getContainer()->query(EventHandler::class);
+			return $this->getContainer()->get(EventHandler::class);
 		});
 	}
 }

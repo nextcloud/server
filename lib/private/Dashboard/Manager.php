@@ -66,7 +66,7 @@ class Manager implements IManager {
 		foreach ($classes as $class) {
 			try {
 				/** @var IPanel $panel */
-				$panel = $this->serverContainer->query($class);
+				$panel = $this->serverContainer->get($class);
 			} catch (QueryException $e) {
 				/*
 				 * There is a circular dependency between the logger and the registry, so

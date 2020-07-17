@@ -99,15 +99,15 @@ class App {
 	 */
 	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
 		if (!is_null($urlParams)) {
-			$container->query(IRequest::class)->setUrlParameters($urlParams);
+			$container->get(IRequest::class)->setUrlParameters($urlParams);
 		} elseif (isset($container['urlParams']) && !is_null($container['urlParams'])) {
-			$container->query(IRequest::class)->setUrlParameters($container['urlParams']);
+			$container->get(IRequest::class)->setUrlParameters($container['urlParams']);
 		}
 		$appName = $container['AppName'];
 
 		// first try $controllerName then go for \OCA\AppName\Controller\$controllerName
 		try {
-			$controller = $container->query($controllerName);
+			$controller = $container->get($controllerName);
 		} catch (QueryException $e) {
 			if (strpos($controllerName, '\\Controller\\') !== false) {
 				// This is from a global registered app route that is not enabled.
@@ -121,7 +121,7 @@ class App {
 				$appNameSpace = self::buildAppNamespace($appName);
 			}
 			$controllerName = $appNameSpace . '\\Controller\\' . $controllerName;
-			$controller = $container->query($controllerName);
+			$controller = $container->get($controllerName);
 		}
 
 		// initialize the dispatcher and run all the middleware before the controller

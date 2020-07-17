@@ -251,7 +251,7 @@ class Filesystem {
 	 */
 	public static function getLoader() {
 		if (!self::$loader) {
-			self::$loader = \OC::$server->query(IStorageFactory::class);
+			self::$loader = \OC::$server->get(IStorageFactory::class);
 		}
 		return self::$loader;
 	}

@@ -40,7 +40,7 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 	 * @var Expiration
 	 */
 	private $expiration;
-	
+
 	/**
 	 * @var IUserManager
 	 */
@@ -65,9 +65,9 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 
 	protected function fixDIForJobs() {
 		/** @var Application $application */
-		$application = \OC::$server->query(Application::class);
+		$application = \OC::$server->get(Application::class);
 		$this->userManager = \OC::$server->getUserManager();
-		$this->expiration = $application->getContainer()->query('Expiration');
+		$this->expiration = $application->getContainer()->get('Expiration');
 	}
 
 	/**
@@ -88,7 +88,7 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 			$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
 			Trashbin::deleteExpiredFiles($dirContent, $uid);
 		});
-		
+
 		\OC_Util::tearDownFS();
 	}
 

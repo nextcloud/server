@@ -38,6 +38,6 @@ class FederatedShareProviderFactory {
 	}
 
 	public function get(): FederatedShareProvider {
-		return $this->serverContainer->query(FederatedShareProvider::class);
+		return $this->serverContainer->get(FederatedShareProvider::class);
 	}
 }

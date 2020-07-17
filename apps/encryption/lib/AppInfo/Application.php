@@ -68,7 +68,7 @@ class Application extends \OCP\AppFramework\App {
 	public function setUp() {
 		if ($this->encryptionManager->isEnabled()) {
 			/** @var Setup $setup */
-			$setup = $this->getContainer()->query('UserSetup');
+			$setup = $this->getContainer()->get('UserSetup');
 			$setup->setupSystem();
 		}
 	}
@@ -84,15 +84,15 @@ class Application extends \OCP\AppFramework\App {
 			$hookManager = new HookManager();
 
 			$hookManager->registerHook([
-				new UserHooks($container->query('KeyManager'),
+				new UserHooks($container->get('KeyManager'),
 					$server->getUserManager(),
 					$server->getLogger(),
-					$container->query('UserSetup'),
+					$container->get('UserSetup'),
 					$server->getUserSession(),
-					$container->query('Util'),
-					$container->query('Session'),
-					$container->query('Crypt'),
-					$container->query('Recovery'))
+					$container->get('Util'),
+					$container->get('Session'),
+					$container->get('Crypt'),
+					$container->get('Recovery'))
 			]);
 
 			$hookManager->fireHooks();
@@ -111,12 +111,12 @@ class Application extends \OCP\AppFramework\App {
 			Encryption::DISPLAY_NAME,
 			function () use ($container) {
 				return new Encryption(
-				$container->query('Crypt'),
-				$container->query('KeyManager'),
-				$container->query('Util'),
-				$container->query('Session'),
-				$container->query('EncryptAll'),
-				$container->query('DecryptAll'),
+				$container->get('Crypt'),
+				$container->get('KeyManager'),
+				$container->get('Util'),
+				$container->get('Session'),
+				$container->get('EncryptAll'),
+				$container->get('DecryptAll'),
 				$container->getServer()->getLogger(),
 				$container->getServer()->getL10N($container->getAppName())
 			);
@@ -147,12 +147,12 @@ class Application extends \OCP\AppFramework\App {
 				$server = $c->getServer();
 
 				return new KeyManager($server->getEncryptionKeyStorage(),
-					$c->query('Crypt'),
+					$c->get('Crypt'),
 					$server->getConfig(),
 					$server->getUserSession(),
 					new Session($server->getSession()),
 					$server->getLogger(),
-					$c->query('Util')
+					$c->get('Util')
 				);
 			});
 
@@ -162,8 +162,8 @@ class Application extends \OCP\AppFramework\App {
 
 				return new Recovery(
 					$server->getUserSession(),
-					$c->query('Crypt'),
-					$c->query('KeyManager'),
+					$c->get('Crypt'),
+					$c->get('KeyManager'),
 					$server->getConfig(),
 					$server->getEncryptionFilesHelper(),
 					new View());
@@ -176,7 +176,7 @@ class Application extends \OCP\AppFramework\App {
 				$server->getRequest(),
 				$server->getConfig(),
 				$server->getL10N($c->getAppName()),
-				$c->query('Recovery'));
+				$c->get('Recovery'));
 		});
 
 		$container->registerService('StatusController', function (IAppContainer $c) {
@@ -185,7 +185,7 @@ class Application extends \OCP\AppFramework\App {
 				$c->getAppName(),
 				$server->getRequest(),
 				$server->getL10N($c->getAppName()),
-				$c->query('Session'),
+				$c->get('Session'),
 				$server->getEncryptionManager()
 			);
 		});
@@ -198,11 +198,11 @@ class Application extends \OCP\AppFramework\App {
 				$server->getL10N($c->getAppName()),
 				$server->getUserManager(),
 				$server->getUserSession(),
-				$c->query('KeyManager'),
-				$c->query('Crypt'),
-				$c->query('Session'),
+				$c->get('KeyManager'),
+				$c->get('Crypt'),
+				$c->get('Session'),
 				$server->getSession(),
-				$c->query('Util')
+				$c->get('Util')
 			);
 		});
 
@@ -211,8 +211,8 @@ class Application extends \OCP\AppFramework\App {
 				$server = $c->getServer();
 				return new Setup($server->getLogger(),
 					$server->getUserSession(),
-					$c->query('Crypt'),
-					$c->query('KeyManager'));
+					$c->get('Crypt'),
+					$c->get('KeyManager'));
 			});
 
 		$container->registerService('Util',
@@ -221,7 +221,7 @@ class Application extends \OCP\AppFramework\App {
 
 				return new Util(
 					new View(),
-					$c->query('Crypt'),
+					$c->get('Crypt'),
 					$server->getLogger(),
 					$server->getUserSession(),
 					$server->getConfig(),
@@ -232,11 +232,11 @@ class Application extends \OCP\AppFramework\App {
 			function (IAppContainer $c) {
 				$server = $c->getServer();
 				return new EncryptAll(
-					$c->query('UserSetup'),
+					$c->get('UserSetup'),
 					$c->getServer()->getUserManager(),
 					new View(),
-					$c->query('KeyManager'),
-					$c->query('Util'),
+					$c->get('KeyManager'),
+					$c->get('Util'),
 					$server->getConfig(),
 					$server->getMailer(),
 					$server->getL10N('encryption'),
@@ -249,10 +249,10 @@ class Application extends \OCP\AppFramework\App {
 		$container->registerService('DecryptAll',
 			function (IAppContainer $c) {
 				return new DecryptAll(
-					$c->query('Util'),
-					$c->query('KeyManager'),
-					$c->query('Crypt'),
-					$c->query('Session'),
+					$c->get('Util'),
+					$c->get('KeyManager'),
+					$c->get('Crypt'),
+					$c->get('Session'),
 					new QuestionHelper()
 				);
 			}

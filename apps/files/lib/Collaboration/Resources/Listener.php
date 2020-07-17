@@ -38,9 +38,9 @@ class Listener {
 
 	public static function shareModification(): void {
 		/** @var IManager $resourceManager */
-		$resourceManager = \OC::$server->query(IManager::class);
+		$resourceManager = \OC::$server->get(IManager::class);
 		/** @var ResourceProvider $resourceProvider */
-		$resourceProvider = \OC::$server->query(ResourceProvider::class);
+		$resourceProvider = \OC::$server->get(ResourceProvider::class);
 
 		$resourceManager->invalidateAccessCacheForProvider($resourceProvider);
 	}

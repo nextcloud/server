@@ -49,7 +49,7 @@ $principalBackend = new Principal(
 	\OC::$server->getShareManager(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getAppManager(),
-	\OC::$server->query(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
+	\OC::$server->get(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
 	\OC::$server->getConfig(),
 	'principals/'
 );
@@ -96,7 +96,7 @@ $server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 $server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig()));
 
 if ($sendInvitations) {
-	$server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
+	$server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 }
 $server->addPlugin(new ExceptionLoggerPlugin('caldav', \OC::$server->getLogger()));
 

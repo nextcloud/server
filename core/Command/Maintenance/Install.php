@@ -81,10 +81,10 @@ class Install extends Command {
 			$this->config,
 			$server->getIniWrapper(),
 			$server->getL10N('lib'),
-			$server->query(Defaults::class),
+			$server->get(Defaults::class),
 			$server->getLogger(),
 			$server->getSecureRandom(),
-			\OC::$server->query(Installer::class)
+			\OC::$server->get(Installer::class)
 		);
 		$sysInfo = $setupHelper->getSystemInfo(true);
 		$errors = $sysInfo['errors'];

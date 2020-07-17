@@ -70,13 +70,13 @@ class Application extends App implements IBootstrap {
 		 */
 		$context->registerService('APIController', function (IContainer $c) {
 			/** @var IServerContainer $server */
-			$server = $c->query(IServerContainer::class);
+			$server = $c->get(IServerContainer::class);
 
 			return new ApiController(
-				$c->query('AppName'),
-				$c->query('Request'),
+				$c->get('AppName'),
+				$c->get('Request'),
 				$server->getUserSession(),
-				$c->query('TagService'),
+				$c->get('TagService'),
 				$server->getPreviewManager(),
 				$server->getShareManager(),
 				$server->getConfig(),
@@ -89,7 +89,7 @@ class Application extends App implements IBootstrap {
 		 */
 		$context->registerService('TagService', function (IContainer $c) {
 			/** @var IServerContainer $server */
-			$server = $c->query(IServerContainer::class);
+			$server = $c->get(IServerContainer::class);
 
 			return new TagService(
 				$server->getUserSession(),
@@ -126,13 +126,13 @@ class Application extends App implements IBootstrap {
 	 */
 	private function registerCollaboration(IBootContext $context): void {
 		/** @var IProviderManager $providerManager */
-		$providerManager = $context->getAppContainer()->query(IProviderManager::class);
+		$providerManager = $context->getAppContainer()->get(IProviderManager::class);
 		$providerManager->registerResourceProvider(ResourceProvider::class);
 	}
 
 	private function registerNotification(IBootContext $context): void {
 		/** @var IManager $notifications */
-		$notifications = $context->getAppContainer()->query(IManager::class);
+		$notifications = $context->getAppContainer()->get(IManager::class);
 		$notifications->registerNotifierService(Notifier::class);
 	}
 
@@ -152,7 +152,7 @@ class Application extends App implements IBootstrap {
 
 	private function registerNavigation(IBootContext $context): void {
 		/** @var IL10N $l10n */
-		$l10n = $context->getAppContainer()->query(IL10N::class);
+		$l10n = $context->getAppContainer()->get(IL10N::class);
 		\OCA\Files\App::getNavigationManager()->add(function () use ($l10n) {
 			return [
 				'id' => 'files',

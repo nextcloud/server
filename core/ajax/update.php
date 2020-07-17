@@ -122,7 +122,7 @@ if (\OCP\Util::needUpgrade()) {
 			$config,
 			\OC::$server->getIntegrityCodeChecker(),
 			$logger,
-			\OC::$server->query(\OC\Installer::class)
+			\OC::$server->get(\OC\Installer::class)
 	);
 	$incompatibleApps = [];
 

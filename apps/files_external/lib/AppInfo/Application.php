@@ -83,11 +83,11 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$container = $this->getContainer();
 
 		/** @var BackendService $backendService */
-		$backendService = $container->query(BackendService::class);
+		$backendService = $container->get(BackendService::class);
 		$backendService->registerBackendProvider($this);
 		$backendService->registerAuthMechanismProvider($this);
 		$backendService->registerConfigHandler('user', function () use ($container) {
-			return $container->query(UserPlaceholderHandler::class);
+			return $container->get(UserPlaceholderHandler::class);
 		});
 
 		// force-load auth mechanisms since some will register hooks
@@ -103,7 +103,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 				/** @var IUser $user */
 				$user = $event->getSubject();
 				/** @var DBConfigService $config */
-				$config = $this->getContainer()->query(DBConfigService::class);
+				$config = $this->getContainer()->get(DBConfigService::class);
 				$config->modifyMountsOnUserDelete($user->getUID());
 			}
 		);
@@ -113,7 +113,7 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 				/** @var IGroup $group */
 				$group = $event->getSubject();
 				/** @var DBConfigService $config */
-				$config = $this->getContainer()->query(DBConfigService::class);
+				$config = $this->getContainer()->get(DBConfigService::class);
 				$config->modifyMountsOnGroupDelete($group->getGID());
 			}
 		);
@@ -126,16 +126,16 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$container = $this->getContainer();
 
 		$backends = [
-			$container->query(Local::class),
-			$container->query(FTP::class),
-			$container->query(DAV::class),
-			$container->query(OwnCloud::class),
-			$container->query(SFTP::class),
-			$container->query(AmazonS3::class),
-			$container->query(Swift::class),
-			$container->query(SFTP_Key::class),
-			$container->query(SMB::class),
-			$container->query(SMB_OC::class),
+			$container->get(Local::class),
+			$container->get(FTP::class),
+			$container->get(DAV::class),
+			$container->get(OwnCloud::class),
+			$container->get(SFTP::class),
+			$container->get(AmazonS3::class),
+			$container->get(Swift::class),
+			$container->get(SFTP_Key::class),
+			$container->get(SMB::class),
+			$container->get(SMB_OC::class),
 		];
 
 		return $backends;
@@ -149,37 +149,37 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 
 		return [
 			// AuthMechanism::SCHEME_NULL mechanism
-			$container->query(NullMechanism::class),
+			$container->get(NullMechanism::class),
 
 			// AuthMechanism::SCHEME_BUILTIN mechanism
-			$container->query(Builtin::class),
+			$container->get(Builtin::class),
 
 			// AuthMechanism::SCHEME_PASSWORD mechanisms
-			$container->query(Password::class),
-			$container->query(SessionCredentials::class),
-			$container->query(LoginCredentials::class),
-			$container->query(UserProvided::class),
-			$container->query(GlobalAuth::class),
-			$container->query(UserGlobalAuth::class),
+			$container->get(Password::class),
+			$container->get(SessionCredentials::class),
+			$container->get(LoginCredentials::class),
+			$container->get(UserProvided::class),
+			$container->get(GlobalAuth::class),
+			$container->get(UserGlobalAuth::class),
 
 			// AuthMechanism::SCHEME_OAUTH1 mechanisms
-			$container->query(OAuth1::class),
+			$container->get(OAuth1::class),
 
 			// AuthMechanism::SCHEME_OAUTH2 mechanisms
-			$container->query(OAuth2::class),
+			$container->get(OAuth2::class),
 
 			// AuthMechanism::SCHEME_PUBLICKEY mechanisms
-			$container->query(RSA::class),
-			$container->query(RSAPrivateKey::class),
+			$container->get(RSA::class),
+			$container->get(RSAPrivateKey::class),
 
 			// AuthMechanism::SCHEME_OPENSTACK mechanisms
-			$container->query(OpenStackV2::class),
-			$container->query(OpenStackV3::class),
-			$container->query(Rackspace::class),
+			$container->get(OpenStackV2::class),
+			$container->get(OpenStackV3::class),
+			$container->get(Rackspace::class),
 
 			// Specialized mechanisms
-			$container->query(AccessKey::class),
-			$container->query(KerberosAuth::class),
+			$container->get(AccessKey::class),
+			$container->get(KerberosAuth::class),
 		];
 	}
 }

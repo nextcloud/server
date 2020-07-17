@@ -639,7 +639,7 @@ class OC {
 		}
 
 		/** @var \OC\AppFramework\Bootstrap\Coordinator $bootstrapCoordinator */
-		$bootstrapCoordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
+		$bootstrapCoordinator = \OC::$server->get(\OC\AppFramework\Bootstrap\Coordinator::class);
 		$bootstrapCoordinator->runRegistration();
 
 		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
@@ -857,7 +857,7 @@ class OC {
 	}
 
 	private static function registerAppRestrictionsHooks() {
-		$groupManager = self::$server->query(\OCP\IGroupManager::class);
+		$groupManager = self::$server->get(\OCP\IGroupManager::class);
 		$groupManager->listen('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
 			$appManager = self::$server->getAppManager();
 			$apps = $appManager->getEnabledAppsForGroup($group);
@@ -933,10 +933,10 @@ class OC {
 				$systemConfig,
 				\OC::$server->getIniWrapper(),
 				\OC::$server->getL10N('lib'),
-				\OC::$server->query(\OCP\Defaults::class),
+				\OC::$server->get(\OCP\Defaults::class),
 				\OC::$server->getLogger(),
 				\OC::$server->getSecureRandom(),
-				\OC::$server->query(\OC\Installer::class)
+				\OC::$server->get(\OC\Installer::class)
 			);
 			$controller = new OC\Core\Controller\SetupController($setupHelper);
 			$controller->run($_POST);

@@ -32,4 +32,4 @@ use OCA\Files_Sharing\AppInfo\Application;
 \OC\Share\Share::registerBackend('file', File::class);
 \OC\Share\Share::registerBackend('folder', Folder::class, 'file');
 
-\OC::$server->query(Application::class);
+\OC::$server->get(Application::class);

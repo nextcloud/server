@@ -114,7 +114,7 @@ class Response {
 			// Set expires header
 			$expires = new \DateTime();
 			/** @var ITimeFactory $time */
-			$time = \OC::$server->query(ITimeFactory::class);
+			$time = \OC::$server->get(ITimeFactory::class);
 			$expires->setTimestamp($time->getTime());
 			$expires->add(new \DateInterval('PT'.$cacheSeconds.'S'));
 			$this->addHeader('Expires', $expires->format(\DateTime::RFC2822));

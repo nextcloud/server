@@ -124,7 +124,7 @@ class Registry implements IRegistry {
 		foreach ($classes as $class) {
 			try {
 				/** @var IReporter $reporter */
-				$reporter = $this->serverContainer->query($class);
+				$reporter = $this->serverContainer->get($class);
 			} catch (QueryException $e) {
 				/*
 				 * There is a circular dependency between the logger and the registry, so

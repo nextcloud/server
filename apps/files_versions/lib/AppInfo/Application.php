@@ -71,7 +71,7 @@ class Application extends App implements IBootstrap {
 				$server->getShareManager(),
 				$server->getUserSession(),
 				$server->getAppManager(),
-				$server->query(ProxyMapper::class),
+				$server->get(ProxyMapper::class),
 				$server->getConfig()
 			);
 		});
@@ -116,11 +116,11 @@ class Application extends App implements IBootstrap {
 
 	private function loadBackend(array $backend, IServerContainer $server, ILogger $logger) {
 		/** @var IVersionManager $versionManager */
-		$versionManager = $server->query(IVersionManager::class);
+		$versionManager = $server->get(IVersionManager::class);
 		$class = $backend['@value'];
 		$for = $backend['@attributes']['for'];
 		try {
-			$backendObject = $server->query($class);
+			$backendObject = $server->get($class);
 			$versionManager->registerBackend($for, $backendObject);
 		} catch (\Exception $e) {
 			$logger->logException($e);

@@ -71,7 +71,7 @@ class Application extends App {
 		$server = $container->getServer();
 
 		/** @var IEventDispatcher $dispatcher */
-		$dispatcher = $container->query(IEventDispatcher::class);
+		$dispatcher = $container->get(IEventDispatcher::class);
 		$mountProviderCollection = $server->getMountProviderCollection();
 		$notifications = $server->getNotificationManager();
 
@@ -87,7 +87,7 @@ class Application extends App {
 				\OC\Files\Filesystem::getLoader(),
 				$server->getHTTPClientService(),
 				$server->getNotificationManager(),
-				$server->query(\OCP\OCS\IDiscoveryService::class),
+				$server->get(\OCP\OCS\IDiscoveryService::class),
 				$server->getCloudFederationProviderManager(),
 				$server->getCloudFederationFactory(),
 				$server->getGroupManager(),
@@ -105,11 +105,11 @@ class Application extends App {
 
 		$container->registerService('ExternalMountProvider', function (IContainer $c) {
 			/** @var \OCP\IServerContainer $server */
-			$server = $c->query('ServerContainer');
+			$server = $c->get('ServerContainer');
 			return new \OCA\Files_Sharing\External\MountProvider(
 				$server->getDatabaseConnection(),
 				function () use ($c) {
-					return $c->query(Manager::class);
+					return $c->get(Manager::class);
 				},
 				$server->getCloudIdManager()
 			);
@@ -133,8 +133,8 @@ class Application extends App {
 	}
 
 	protected function registerMountProviders(IMountProviderCollection $mountProviderCollection) {
-		$mountProviderCollection->registerProvider($this->getContainer()->query(MountProvider::class));
-		$mountProviderCollection->registerProvider($this->getContainer()->query('ExternalMountProvider'));
+		$mountProviderCollection->registerProvider($this->getContainer()->get(MountProvider::class));
+		$mountProviderCollection->registerProvider($this->getContainer()->get('ExternalMountProvider'));
 	}
 
 	protected function registerEventsScripts(IEventDispatcher $dispatcher) {
@@ -152,12 +152,12 @@ class Application extends App {
 		// notifications api to accept incoming user shares
 		$dispatcher->addListener('OCP\Share::postShare', function (GenericEvent $event) {
 			/** @var Listener $listener */
-			$listener = $this->getContainer()->query(Listener::class);
+			$listener = $this->getContainer()->get(Listener::class);
 			$listener->shareNotification($event);
 		});
 		$dispatcher->addListener(IGroup::class . '::postAddUser', function (GenericEvent $event) {
 			/** @var Listener $listener */
-			$listener = $this->getContainer()->query(Listener::class);
+			$listener = $this->getContainer()->get(Listener::class);
 			$listener->userAddedToGroup($event);
 		});
 	}

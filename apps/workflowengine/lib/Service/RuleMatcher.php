@@ -204,7 +204,7 @@ class RuleMatcher implements IRuleMatcher {
 	 */
 	public function check(array $check) {
 		try {
-			$checkInstance = $this->container->query($check['class']);
+			$checkInstance = $this->container->get($check['class']);
 		} catch (QueryException $e) {
 			// Check does not exist, assume it matches.
 			return true;

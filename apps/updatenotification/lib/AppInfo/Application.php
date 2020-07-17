@@ -67,7 +67,7 @@ class Application extends App implements IBootstrap {
 		if (!$server->getAppManager()->isEnabledForUser('notifications') &&
 			$server->getGroupManager()->isAdmin($user->getUID())) {
 			try {
-				$updateChecker = $server->query(UpdateChecker::class);
+				$updateChecker = $server->get(UpdateChecker::class);
 			} catch (QueryException $e) {
 				$server->getLogger()->logException($e);
 				return;

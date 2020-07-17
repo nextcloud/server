@@ -109,7 +109,7 @@ class Manager implements IManager {
 		foreach ($this->sectionClasses[$type] as $index => $class) {
 			try {
 				/** @var ISection $section */
-				$section = \OC::$server->query($class);
+				$section = \OC::$server->get($class);
 			} catch (QueryException $e) {
 				$this->log->logException($e, ['level' => ILogger::INFO]);
 				continue;
@@ -173,7 +173,7 @@ class Manager implements IManager {
 
 			try {
 				/** @var ISettings $setting */
-				$setting = $this->container->query($class);
+				$setting = $this->container->get($class);
 			} catch (QueryException $e) {
 				$this->log->logException($e, ['level' => ILogger::INFO]);
 				continue;

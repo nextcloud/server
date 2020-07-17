@@ -1488,7 +1488,7 @@ class ShareAPIController extends OCSController {
 			throw new QueryException();
 		}
 
-		return $this->serverContainer->query('\OCA\Talk\Share\Helper\ShareAPIController');
+		return $this->serverContainer->get('\OCA\Talk\Share\Helper\ShareAPIController');
 	}
 
 

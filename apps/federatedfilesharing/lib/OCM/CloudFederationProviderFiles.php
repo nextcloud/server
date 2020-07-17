@@ -235,7 +235,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				Filesystem::getLoader(),
 				\OC::$server->getHTTPClientService(),
 				\OC::$server->getNotificationManager(),
-				\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
+				\OC::$server->get(\OCP\OCS\IDiscoveryService::class),
 				\OC::$server->getCloudFederationProviderManager(),
 				\OC::$server->getCloudFederationFactory(),
 				\OC::$server->getGroupManager(),

@@ -113,7 +113,7 @@ class Repair implements IOutput {
 	public function addStep($repairStep) {
 		if (is_string($repairStep)) {
 			try {
-				$s = \OC::$server->query($repairStep);
+				$s = \OC::$server->get($repairStep);
 			} catch (QueryException $e) {
 				if (class_exists($repairStep)) {
 					$s = new $repairStep();
@@ -147,15 +147,15 @@ class Repair implements IOutput {
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
 			new FixMountStorages(\OC::$server->getDatabaseConnection()),
 			new AddLogRotateJob(\OC::$server->getJobList()),
-			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->query(SCSSCacher::class), \OC::$server->query(JSCombiner::class)),
-			new ClearGeneratedAvatarCache(\OC::$server->getConfig(), \OC::$server->query(AvatarManager::class)),
+			new ClearFrontendCaches(\OC::$server->getMemCacheFactory(), \OC::$server->get(SCSSCacher::class), \OC::$server->get(JSCombiner::class)),
+			new ClearGeneratedAvatarCache(\OC::$server->getConfig(), \OC::$server->get(AvatarManager::class)),
 			new AddPreviewBackgroundCleanupJob(\OC::$server->getJobList()),
 			new AddCleanupUpdaterBackupsJob(\OC::$server->getJobList()),
 			new CleanupCardDAVPhotoCache(\OC::$server->getConfig(), \OC::$server->getAppDataDir('dav-photocache'), \OC::$server->getLogger()),
 			new AddClenupLoginFlowV2BackgroundJob(\OC::$server->getJobList()),
-			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OC::$server->query(ITimeFactory::class)),
-			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OC::$server->query(IManager::class)),
-			\OC::$server->query(ResetGeneratedAvatarFlag::class),
+			new RemoveLinkShares(\OC::$server->getDatabaseConnection(), \OC::$server->getConfig(), \OC::$server->getGroupManager(), \OC::$server->getNotificationManager(), \OC::$server->get(ITimeFactory::class)),
+			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OC::$server->get(IManager::class)),
+			\OC::$server->get(ResetGeneratedAvatarFlag::class),
 		];
 	}
 

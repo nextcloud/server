@@ -204,7 +204,7 @@ class Storage extends Wrapper {
 		\OC\Files\Filesystem::addStorageWrapper('oc_trashbin', function ($mountPoint, $storage) {
 			return new \OCA\Files_Trashbin\Storage(
 				['storage' => $storage, 'mountPoint' => $mountPoint],
-				\OC::$server->query(ITrashManager::class),
+				\OC::$server->get(ITrashManager::class),
 				\OC::$server->getUserManager(),
 				\OC::$server->getLogger(),
 				\OC::$server->getEventDispatcher(),

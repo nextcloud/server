@@ -81,7 +81,7 @@ class HookConnectorTest extends TestCase {
 			$this->createMock(IUserManager::class)
 		);
 		$this->legacyDispatcher = \OC::$server->getEventDispatcher();
-		$this->eventDispatcher = \OC::$server->query(IEventDispatcher::class);
+		$this->eventDispatcher = \OC::$server->get(IEventDispatcher::class);
 	}
 
 	protected function tearDown(): void {

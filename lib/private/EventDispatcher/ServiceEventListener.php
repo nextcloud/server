@@ -63,7 +63,7 @@ final class ServiceEventListener {
 	public function __invoke(Event $event) {
 		if ($this->service === null) {
 			try {
-				$this->service = $this->container->query($this->class);
+				$this->service = $this->container->get($this->class);
 			} catch (QueryException $e) {
 				$this->logger->logException($e, [
 					'level' => ILogger::ERROR,

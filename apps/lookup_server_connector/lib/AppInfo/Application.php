@@ -56,7 +56,7 @@ class Application extends App implements IBootstrap {
 			$user = $event->getSubject();
 
 			/** @var UpdateLookupServer $updateLookupServer */
-			$updateLookupServer = $context->getServerContainer()->query(UpdateLookupServer::class);
+			$updateLookupServer = $context->getServerContainer()->get(UpdateLookupServer::class);
 			$updateLookupServer->userUpdated($user);
 		});
 	}

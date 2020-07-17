@@ -59,7 +59,7 @@ class Application extends App implements IBootstrap {
 		Util::connectHook('OC_User', 'post_deleteUser', $this, 'deleteUser');
 
 		$this->registerNotification(
-			$context->getAppContainer()->query(IManager::class)
+			$context->getAppContainer()->get(IManager::class)
 		);
 	}
 
@@ -80,7 +80,7 @@ class Application extends App implements IBootstrap {
 
 	public function deleteUser($params) {
 		/** @var BackupCodeMapper $mapper */
-		$mapper = $this->getContainer()->query(BackupCodeMapper::class);
+		$mapper = $this->getContainer()->get(BackupCodeMapper::class);
 		$mapper->deleteCodesByUserId($params['uid']);
 	}
 }

@@ -53,7 +53,7 @@ class Application extends App implements IBootstrap {
 		$cloudFederationManager->addCloudFederationProvider('file',
 			'Federated Files Sharing',
 			function () use ($server) {
-				return $server->query(CloudFederationProviderFiles::class);
+				return $server->get(CloudFederationProviderFiles::class);
 			});
 
 		$manager = $server->getNotificationManager();

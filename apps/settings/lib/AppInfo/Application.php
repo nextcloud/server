@@ -92,23 +92,23 @@ class Application extends App implements IBootstrap {
 			return $isSubAdmin;
 		});
 		$context->registerService('userCertificateManager', function (IContainer $c) {
-			return $c->query('ServerContainer')->getCertificateManager();
+			return $c->get('ServerContainer')->getCertificateManager();
 		}, false);
 		$context->registerService('systemCertificateManager', function (IContainer $c) {
-			return $c->query('ServerContainer')->getCertificateManager(null);
+			return $c->get('ServerContainer')->getCertificateManager(null);
 		}, false);
 		$context->registerService(IProvider::class, function (IContainer $c) {
-			return $c->query('ServerContainer')->query(IProvider::class);
+			return $c->get('ServerContainer')->query(IProvider::class);
 		});
 		$context->registerService(IManager::class, function (IContainer $c) {
-			return $c->query('ServerContainer')->getSettingsManager();
+			return $c->get('ServerContainer')->getSettingsManager();
 		});
 
 		$context->registerService(NewUserMailHelper::class, function (IContainer $c) {
 			/** @var Server $server */
-			$server = $c->query('ServerContainer');
+			$server = $c->get('ServerContainer');
 			/** @var Defaults $defaults */
-			$defaults = $server->query(Defaults::class);
+			$defaults = $server->get(Defaults::class);
 
 			return new NewUserMailHelper(
 				$defaults,
@@ -131,9 +131,9 @@ class Application extends App implements IBootstrap {
 		$eventDispatcher->addListener('app_password_created', function (GenericEvent $event) use ($container) {
 			if (($token = $event->getSubject()) instanceof IToken) {
 				/** @var IActivityManager $activityManager */
-				$activityManager = $container->query(IActivityManager::class);
+				$activityManager = $container->get(IActivityManager::class);
 				/** @var ILogger $logger */
-				$logger = $container->query(ILogger::class);
+				$logger = $container->get(ILogger::class);
 
 				$activity = $activityManager->generateEvent();
 				$activity->setApp('settings')
@@ -163,13 +163,13 @@ class Application extends App implements IBootstrap {
 
 	public function addUserToGroup(IGroup $group, IUser $user): void {
 		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks = $this->getContainer()->get(Hooks::class);
 		$hooks->addUserToGroup($group, $user);
 	}
 
 	public function removeUserFromGroup(IGroup $group, IUser $user): void {
 		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks = $this->getContainer()->get(Hooks::class);
 		$hooks->removeUserFromGroup($group, $user);
 	}
 
@@ -183,7 +183,7 @@ class Application extends App implements IBootstrap {
 	 */
 	public function onChangePassword(array $parameters) {
 		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks = $this->getContainer()->get(Hooks::class);
 		$hooks->onChangePassword($parameters['uid']);
 	}
 
@@ -200,7 +200,7 @@ class Application extends App implements IBootstrap {
 		}
 
 		/** @var Hooks $hooks */
-		$hooks = $this->getContainer()->query(Hooks::class);
+		$hooks = $this->getContainer()->get(Hooks::class);
 		$hooks->onChangeEmail($parameters['user'], $parameters['old_value']);
 	}
 

@@ -87,6 +87,6 @@ class DIContainerTest extends \Test\TestCase {
 
 	public function testInvalidAppClass() {
 		$this->expectException(QueryException::class);
-		$this->container->query('\OCA\Name\Foo');
+		$this->container->get('\OCA\Name\Foo');
 	}
 }

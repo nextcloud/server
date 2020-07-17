@@ -65,7 +65,7 @@ class ScanFiles extends \OC\BackgroundJob\TimedJob {
 
 		$this->config = $config ?? \OC::$server->getConfig();
 		$this->userManager = $userManager ?? \OC::$server->getUserManager();
-		$this->dispatcher = $dispatcher ?? \OC::$server->query(IEventDispatcher::class);
+		$this->dispatcher = $dispatcher ?? \OC::$server->get(IEventDispatcher::class);
 		$this->logger = $logger ?? \OC::$server->getLogger();
 	}
 

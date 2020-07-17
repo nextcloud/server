@@ -265,7 +265,7 @@ class JobList implements IJobList {
 			try {
 				// Try to load the job as a service
 				/** @var IJob $job */
-				$job = \OC::$server->query($row['class']);
+				$job = \OC::$server->get($row['class']);
 			} catch (QueryException $e) {
 				if (class_exists($row['class'])) {
 					$class = $row['class'];

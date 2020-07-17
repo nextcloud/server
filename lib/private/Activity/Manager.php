@@ -184,7 +184,7 @@ class Manager implements IManager {
 	public function getFilters(): array {
 		foreach ($this->filterClasses as $class => $false) {
 			/** @var IFilter $filter */
-			$filter = \OC::$server->query($class);
+			$filter = \OC::$server->get($class);
 
 			if (!$filter instanceof IFilter) {
 				throw new \InvalidArgumentException('Invalid activity filter registered');
@@ -234,7 +234,7 @@ class Manager implements IManager {
 	public function getProviders(): array {
 		foreach ($this->providerClasses as $class => $false) {
 			/** @var IProvider $provider */
-			$provider = \OC::$server->query($class);
+			$provider = \OC::$server->get($class);
 
 			if (!$provider instanceof IProvider) {
 				throw new \InvalidArgumentException('Invalid activity provider registered');
@@ -268,7 +268,7 @@ class Manager implements IManager {
 	public function getSettings(): array {
 		foreach ($this->settingsClasses as $class => $false) {
 			/** @var ISetting $setting */
-			$setting = \OC::$server->query($class);
+			$setting = \OC::$server->get($class);
 
 			if (!$setting instanceof ISetting) {
 				throw new \InvalidArgumentException('Invalid activity filter registered');

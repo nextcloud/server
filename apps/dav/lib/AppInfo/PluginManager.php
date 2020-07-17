@@ -231,7 +231,7 @@ class PluginManager {
 	private function loadSabrePluginsFromInfoXml(array $plugins) {
 		foreach ($plugins as $plugin) {
 			try {
-				$this->plugins[] = $this->container->query($plugin);
+				$this->plugins[] = $this->container->get($plugin);
 			} catch (QueryException $e) {
 				if (class_exists($plugin)) {
 					$this->plugins[] = new $plugin();
@@ -245,7 +245,7 @@ class PluginManager {
 	private function loadSabreCollectionsFromInfoXml(array $collections) {
 		foreach ($collections as $collection) {
 			try {
-				$this->collections[] = $this->container->query($collection);
+				$this->collections[] = $this->container->get($collection);
 			} catch (QueryException $e) {
 				if (class_exists($collection)) {
 					$this->collections[] = new $collection();
@@ -258,7 +258,7 @@ class PluginManager {
 
 	private function createPluginInstance(string $className) {
 		try {
-			return $this->container->query($className);
+			return $this->container->get($className);
 		} catch (QueryException $e) {
 			if (class_exists($className)) {
 				return new $className();
@@ -287,7 +287,7 @@ class PluginManager {
 	private function loadSabreCalendarPluginsFromInfoXml(array $calendarPlugins):void {
 		foreach ($calendarPlugins as $calendarPlugin) {
 			try {
-				$instantiatedCalendarPlugin = $this->container->query($calendarPlugin);
+				$instantiatedCalendarPlugin = $this->container->get($calendarPlugin);
 			} catch (QueryException $e) {
 				if (class_exists($calendarPlugin)) {
 					$instantiatedCalendarPlugin = new $calendarPlugin();

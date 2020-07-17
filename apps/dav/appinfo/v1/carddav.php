@@ -52,7 +52,7 @@ $principalBackend = new Principal(
 	\OC::$server->getShareManager(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getAppManager(),
-	\OC::$server->query(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
+	\OC::$server->get(\OCA\DAV\CalDAV\Proxy\ProxyMapper::class),
 	\OC::$server->getConfig(),
 	'principals/'
 );
@@ -65,7 +65,7 @@ $debugging = \OC::$server->getConfig()->getSystemValue('debug', false);
 $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
 $principalCollection->disableListing = !$debugging; // Disable listing
 
-$pluginManager = new PluginManager(\OC::$server, \OC::$server->query(IAppManager::class));
+$pluginManager = new PluginManager(\OC::$server, \OC::$server->get(IAppManager::class));
 $addressBookRoot = new AddressBookRoot($principalBackend, $cardDavBackend, $pluginManager);
 $addressBookRoot->disableListing = !$debugging; // Disable listing
 

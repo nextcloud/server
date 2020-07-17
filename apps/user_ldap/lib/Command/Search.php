@@ -117,7 +117,7 @@ class Search extends Command {
 		$this->validateOffsetAndLimit($offset, $limit);
 
 		if ($input->getOption('group')) {
-			$proxy = new Group_Proxy($configPrefixes, $ldapWrapper, \OC::$server->query(GroupPluginManager::class));
+			$proxy = new Group_Proxy($configPrefixes, $ldapWrapper, \OC::$server->get(GroupPluginManager::class));
 			$getMethod = 'getGroups';
 			$printID = false;
 			// convert the limit of groups to null. This will show all the groups available instead of
@@ -132,7 +132,7 @@ class Search extends Command {
 				$this->ocConfig,
 				\OC::$server->getNotificationManager(),
 				\OC::$server->getUserSession(),
-				\OC::$server->query(UserPluginManager::class)
+				\OC::$server->get(UserPluginManager::class)
 			);
 			$getMethod = 'getDisplayNames';
 			$printID = true;

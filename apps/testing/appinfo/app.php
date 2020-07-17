@@ -24,4 +24,4 @@ declare(strict_types=1);
  *
  */
 
-$app = \OC::$server->query(\OCA\Testing\AppInfo\Application::class);
+$app = \OC::$server->get(\OCA\Testing\AppInfo\Application::class);

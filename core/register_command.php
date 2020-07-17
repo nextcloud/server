@@ -71,20 +71,20 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\Install());
 	$application->add(new OC\Core\Command\App\GetPath());
 	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
-	$application->add(new OC\Core\Command\App\Remove(\OC::$server->getAppManager(), \OC::$server->query(\OC\Installer::class), \OC::$server->getLogger()));
-	$application->add(\OC::$server->query(\OC\Core\Command\App\Update::class));
+	$application->add(new OC\Core\Command\App\Remove(\OC::$server->getAppManager(), \OC::$server->get(\OC\Installer::class), \OC::$server->getLogger()));
+	$application->add(\OC::$server->get(\OC\Core\Command\App\Update::class));
 
-	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Cleanup::class));
-	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Enforce::class));
-	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Enable::class));
-	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\Disable::class));
-	$application->add(\OC::$server->query(\OC\Core\Command\TwoFactorAuth\State::class));
+	$application->add(\OC::$server->get(\OC\Core\Command\TwoFactorAuth\Cleanup::class));
+	$application->add(\OC::$server->get(\OC\Core\Command\TwoFactorAuth\Enforce::class));
+	$application->add(\OC::$server->get(\OC\Core\Command\TwoFactorAuth\Enable::class));
+	$application->add(\OC::$server->get(\OC\Core\Command\TwoFactorAuth\Disable::class));
+	$application->add(\OC::$server->get(\OC\Core\Command\TwoFactorAuth\State::class));
 
 	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\WebCron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\Ajax(\OC::$server->getConfig()));
 
-	$application->add(\OC::$server->query(\OC\Core\Command\Broadcast\Test::class));
+	$application->add(\OC::$server->get(\OC\Core\Command\Broadcast\Test::class));
 
 	$application->add(new OC\Core\Command\Config\App\DeleteConfig(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Config\App\GetConfig(\OC::$server->getConfig()));
@@ -147,7 +147,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Maintenance\UpdateHtaccess());
 	$application->add(new OC\Core\Command\Maintenance\UpdateTheme(\OC::$server->getMimeTypeDetector(), \OC::$server->getMemCacheFactory()));
 
-	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger(), \OC::$server->query(\OC\Installer::class)));
+	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger(), \OC::$server->get(\OC\Installer::class)));
 	$application->add(new OC\Core\Command\Maintenance\Repair(
 		new \OC\Repair([], \OC::$server->getEventDispatcher()),
 		\OC::$server->getConfig(),

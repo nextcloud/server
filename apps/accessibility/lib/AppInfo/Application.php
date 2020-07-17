@@ -86,7 +86,7 @@ class Application extends App implements IBootstrap {
 										  IAppContainer $container) {
 		$initialState->provideLazyInitialState(self::APP_ID, 'data', function () use ($container) {
 			/** @var JSDataService $data */
-			$data = $container->query(JSDataService::class);
+			$data = $container->get(JSDataService::class);
 			return $data;
 		});
 	}

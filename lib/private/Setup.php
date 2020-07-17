@@ -430,13 +430,13 @@ class Setup {
 			// The token provider requires a working db, so it's not injected on setup
 			/* @var $userSession User\Session */
 			$userSession = \OC::$server->getUserSession();
-			$defaultTokenProvider = \OC::$server->query(DefaultTokenProvider::class);
+			$defaultTokenProvider = \OC::$server->get(DefaultTokenProvider::class);
 			$userSession->setTokenProvider($defaultTokenProvider);
 			$userSession->login($username, $password);
 			$userSession->createSessionToken($request, $userSession->getUser()->getUID(), $username, $password);
 
 			$session = $userSession->getSession();
-			$session->set('last-password-confirm', \OC::$server->query(ITimeFactory::class)->getTime());
+			$session->set('last-password-confirm', \OC::$server->get(ITimeFactory::class)->getTime());
 
 			// Set email for admin
 			if (!empty($options['adminemail'])) {
@@ -505,10 +505,10 @@ class Setup {
 			$config,
 			\OC::$server->getIniWrapper(),
 			\OC::$server->getL10N('lib'),
-			\OC::$server->query(Defaults::class),
+			\OC::$server->get(Defaults::class),
 			\OC::$server->getLogger(),
 			\OC::$server->getSecureRandom(),
-			\OC::$server->query(Installer::class)
+			\OC::$server->get(Installer::class)
 		);
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());

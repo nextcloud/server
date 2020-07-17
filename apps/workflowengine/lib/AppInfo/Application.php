@@ -58,16 +58,16 @@ class Application extends App implements IBootstrap {
 
 	public function boot(IBootContext $context): void {
 		$this->registerRuleListeners(
-			$context->getAppContainer()->query(IEventDispatcher::class),
+			$context->getAppContainer()->get(IEventDispatcher::class),
 			$context->getServerContainer(),
-			$context->getAppContainer()->query(ILogger::class)
+			$context->getAppContainer()->get(ILogger::class)
 		);
 	}
 
 	private function registerRuleListeners(IEventDispatcher $dispatcher,
 										   IServerContainer $container,
 										   ILogger $logger): void {
-		$manager = $container->query(Manager::class);
+		$manager = $container->get(Manager::class);
 		$configuredEvents = $manager->getAllConfiguredEvents();
 
 		foreach ($configuredEvents as $operationClass => $events) {
@@ -79,9 +79,9 @@ class Application extends App implements IBootstrap {
 							$ruleMatcher = $manager->getRuleMatcher();
 							try {
 								/** @var IEntity $entity */
-								$entity = $container->query($entityClass);
+								$entity = $container->get($entityClass);
 								/** @var IOperation $operation */
-								$operation = $container->query($operationClass);
+								$operation = $container->get($operationClass);
 
 								$ruleMatcher->setEntity($entity);
 								$ruleMatcher->setOperation($operation);
@@ -93,7 +93,7 @@ class Application extends App implements IBootstrap {
 									->setEventName($eventName);
 
 								/** @var Logger $flowLogger */
-								$flowLogger = $container->query(Logger::class);
+								$flowLogger = $container->get(Logger::class);
 								$flowLogger->logEventInit($ctx);
 
 								if ($event instanceof Event) {

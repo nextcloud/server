@@ -39,7 +39,7 @@ class Application extends App {
 
 			// replace all user backends with this one
 			$userManager->clearBackends();
-			$userManager->registerBackend($c->query(AlternativeHomeUserBackend::class));
+			$userManager->registerBackend($c->get(AlternativeHomeUserBackend::class));
 		}
 	}
 }

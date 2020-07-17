@@ -80,8 +80,8 @@ class MountConfig {
 	 * @deprecated 8.2.0 use \OCA\Files_External\Service\BackendService::registerBackend()
 	 */
 	public static function registerBackend($class, $definition) {
-		$backendService = self::$app->getContainer()->query(BackendService::class);
-		$auth = self::$app->getContainer()->query(Builtin::class);
+		$backendService = self::$app->getContainer()->get(BackendService::class);
+		$auth = self::$app->getContainer()->get(Builtin::class);
 
 		$backendService->registerBackend(new LegacyBackend($class, $definition, $auth));
 
@@ -100,9 +100,9 @@ class MountConfig {
 	public static function getAbsoluteMountPoints($uid) {
 		$mountPoints = [];
 
-		$userGlobalStoragesService = self::$app->getContainer()->query(UserGlobalStoragesService::class);
-		$userStoragesService = self::$app->getContainer()->query(UserStoragesService::class);
-		$user = self::$app->getContainer()->query(IUserManager::class)->get($uid);
+		$userGlobalStoragesService = self::$app->getContainer()->get(UserGlobalStoragesService::class);
+		$userStoragesService = self::$app->getContainer()->get(UserStoragesService::class);
+		$user = self::$app->getContainer()->get(IUserManager::class)->get($uid);
 
 		$userGlobalStoragesService->setUser($user);
 		$userStoragesService->setUser($user);
@@ -141,7 +141,7 @@ class MountConfig {
 	 */
 	public static function getSystemMountPoints() {
 		$mountPoints = [];
-		$service = self::$app->getContainer()->query(GlobalStoragesService::class);
+		$service = self::$app->getContainer()->get(GlobalStoragesService::class);
 
 		foreach ($service->getStorages() as $storage) {
 			$mountPoints[] = self::prepareMountPointEntry($storage, false);
@@ -159,7 +159,7 @@ class MountConfig {
 	 */
 	public static function getPersonalMountPoints() {
 		$mountPoints = [];
-		$service = self::$app->getContainer()->query(UserStoragesService::class);
+		$service = self::$app->getContainer()->get(UserStoragesService::class);
 
 		foreach ($service->getStorages() as $storage) {
 			$mountPoints[] = self::prepareMountPointEntry($storage, true);
@@ -210,7 +210,7 @@ class MountConfig {
 	 * @deprecated use self::substitutePlaceholdersInConfig($input)
 	 */
 	public static function setUserVars($user, $input) {
-		$handler = self::$app->getContainer()->query(UserPlaceholderHandler::class);
+		$handler = self::$app->getContainer()->get(UserPlaceholderHandler::class);
 		return $handler->handle($input);
 	}
 
@@ -223,7 +223,7 @@ class MountConfig {
 	 */
 	public static function substitutePlaceholdersInConfig($input, string $userId = null) {
 		/** @var BackendService $backendService */
-		$backendService = self::$app->getContainer()->query(BackendService::class);
+		$backendService = self::$app->getContainer()->get(BackendService::class);
 		/** @var IConfigHandler[] $handlers */
 		$handlers = $backendService->getConfigHandlers();
 		foreach ($handlers as $handler) {

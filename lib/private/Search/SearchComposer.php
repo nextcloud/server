@@ -93,7 +93,7 @@ class SearchComposer {
 		foreach ($registrations as $registration) {
 			try {
 				/** @var IProvider $provider */
-				$provider = $this->container->query($registration['class']);
+				$provider = $this->container->get($registration['class']);
 				$this->providers[$provider->getId()] = $provider;
 			} catch (QueryException $e) {
 				// Log an continue. We can be fault tolerant here.

@@ -70,7 +70,7 @@ class ManagerTest extends TestCase {
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
 		$this->assertEquals([
-			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
+			55 => [\OC::$server->get(\OCA\WorkflowEngine\Settings\Section::class)],
 		], $this->manager->getAdminSections());
 	}
 
@@ -78,7 +78,7 @@ class ManagerTest extends TestCase {
 		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
 
 		$this->assertEquals([
-			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
+			55 => [\OC::$server->get(\OCA\WorkflowEngine\Settings\Section::class)],
 		], $this->manager->getPersonalSections());
 	}
 
@@ -200,11 +200,11 @@ class ManagerTest extends TestCase {
 		$this->manager->registerSection('admin', \OCA\WorkflowEngine\Settings\Section::class);
 
 		$this->assertEquals([
-			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
+			55 => [\OC::$server->get(\OCA\WorkflowEngine\Settings\Section::class)],
 		], $this->manager->getPersonalSections());
 
 		$this->assertEquals([
-			55 => [\OC::$server->query(\OCA\WorkflowEngine\Settings\Section::class)],
+			55 => [\OC::$server->get(\OCA\WorkflowEngine\Settings\Section::class)],
 		], $this->manager->getAdminSections());
 	}
 }

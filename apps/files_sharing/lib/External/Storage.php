@@ -70,7 +70,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 
 		$this->manager = $options['manager'];
 		$this->cloudId = $options['cloudId'];
-		$discoveryService = \OC::$server->query(\OCP\OCS\IDiscoveryService::class);
+		$discoveryService = \OC::$server->get(\OCP\OCS\IDiscoveryService::class);
 
 		list($protocol, $remote) = explode('://', $this->cloudId->getRemote());
 		if (strpos($remote, '/')) {

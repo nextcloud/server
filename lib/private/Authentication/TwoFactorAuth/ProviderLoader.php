@@ -62,7 +62,7 @@ class ProviderLoader {
 				foreach ($providerClasses as $class) {
 					try {
 						$this->loadTwoFactorApp($appId);
-						$provider = OC::$server->query($class);
+						$provider = OC::$server->get($class);
 						$providers[$provider->getId()] = $provider;
 					} catch (QueryException $exc) {
 						// Provider class can not be resolved

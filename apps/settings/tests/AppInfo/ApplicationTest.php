@@ -83,6 +83,6 @@ class ApplicationTest extends TestCase {
 	 * @param string $expected
 	 */
 	public function testContainerQuery($service, $expected) {
-		$this->assertTrue($this->container->query($service) instanceof $expected);
+		$this->assertTrue($this->container->get($service) instanceof $expected);
 	}
 }

@@ -363,7 +363,7 @@ class UsersController extends Controller {
 			$data[AccountManager::PROPERTY_EMAIL] = ['value' => $email, 'scope' => $emailScope];
 		}
 		if ($this->appManager->isEnabledForUser('federatedfilesharing')) {
-			$shareProvider = \OC::$server->query(FederatedShareProvider::class);
+			$shareProvider = \OC::$server->get(FederatedShareProvider::class);
 			if ($shareProvider->isLookupServerUploadEnabled()) {
 				$data[AccountManager::PROPERTY_WEBSITE] = ['value' => $website, 'scope' => $websiteScope];
 				$data[AccountManager::PROPERTY_ADDRESS] = ['value' => $address, 'scope' => $addressScope];

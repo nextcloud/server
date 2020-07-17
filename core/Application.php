@@ -66,7 +66,7 @@ class Application extends App {
 
 		$server = $container->getServer();
 		/** @var IEventDispatcher $eventDispatcher */
-		$eventDispatcher = $server->query(IEventDispatcher::class);
+		$eventDispatcher = $server->get(IEventDispatcher::class);
 
 		$notificationManager = $server->getNotificationManager();
 		$notificationManager->registerNotifierService(RemoveLinkSharesNotifier::class);
@@ -77,7 +77,7 @@ class Application extends App {
 				/** @var MissingIndexInformation $subject */
 				$subject = $event->getSubject();
 
-				$schema = new SchemaWrapper($container->query(IDBConnection::class));
+				$schema = new SchemaWrapper($container->get(IDBConnection::class));
 
 				if ($schema->hasTable('share')) {
 					$table = $schema->getTable('share');
@@ -179,7 +179,7 @@ class Application extends App {
 				/** @var MissingColumnInformation $subject */
 				$subject = $event->getSubject();
 
-				$schema = new SchemaWrapper($container->query(IDBConnection::class));
+				$schema = new SchemaWrapper($container->get(IDBConnection::class));
 
 				if ($schema->hasTable('comments')) {
 					$table = $schema->getTable('comments');

@@ -139,7 +139,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			);
 		});
 		$this->registerService(ILogger::class, function (ContainerInterface $c) {
-			return new OC\AppFramework\Logger($this->server->query(ILogger::class), $c->get('AppName'));
+			return new OC\AppFramework\Logger($this->server->get(ILogger::class), $c->get('AppName'));
 		});
 
 		$this->registerService(IServerContainer::class, function () {
@@ -236,24 +236,24 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get(IControllerMethodReflector::class),
 				$c->get(INavigationManager::class),
 				$c->get(IURLGenerator::class),
-				$server->query(ILogger::class),
+				$server->get(ILogger::class),
 				$c->get('AppName'),
 				$server->getUserSession()->isLoggedIn(),
 				$server->getGroupManager()->isAdmin($this->getUserId()),
-				$server->getUserSession()->getUser() !== null && $server->query(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
+				$server->getUserSession()->getUser() !== null && $server->get(ISubAdmin::class)->isSubAdmin($server->getUserSession()->getUser()),
 				$server->getAppManager(),
 				$server->getL10N('lib')
 			);
 			$dispatcher->registerMiddleware($securityMiddleware);
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\CSPMiddleware(
-					$server->query(OC\Security\CSP\ContentSecurityPolicyManager::class),
-					$server->query(OC\Security\CSP\ContentSecurityPolicyNonceManager::class),
-					$server->query(OC\Security\CSRF\CsrfTokenManager::class)
+					$server->get(OC\Security\CSP\ContentSecurityPolicyManager::class),
+					$server->get(OC\Security\CSP\ContentSecurityPolicyNonceManager::class),
+					$server->get(OC\Security\CSRF\CsrfTokenManager::class)
 				)
 			);
 			$dispatcher->registerMiddleware(
-				$server->query(OC\AppFramework\Middleware\Security\FeaturePolicyMiddleware::class)
+				$server->get(OC\AppFramework\Middleware\Security\FeaturePolicyMiddleware::class)
 			);
 			$dispatcher->registerMiddleware(
 				new OC\AppFramework\Middleware\Security\PasswordConfirmationMiddleware(
@@ -349,7 +349,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @return string the name of your application
 	 */
 	public function getAppName() {
-		return $this->query('AppName');
+		return $this->get('AppName');
 	}
 
 	/**
@@ -406,8 +406,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 * @param string $serviceName e.g. 'OCA\Files\Capabilities'
 	 */
 	public function registerCapability($serviceName) {
-		$this->query('OC\CapabilitiesManager')->registerCapability(function () use ($serviceName) {
-			return $this->query($serviceName);
+		$this->get('OC\CapabilitiesManager')->registerCapability(function () use ($serviceName) {
+			return $this->get($serviceName);
 		});
 	}
 

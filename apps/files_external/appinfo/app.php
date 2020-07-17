@@ -33,7 +33,7 @@ use OCA\Files_External\Config\ConfigAdapter;
 require_once __DIR__ . '/../3rdparty/autoload.php';
 
 // register Application object singleton
-\OCA\Files_External\MountConfig::$app = \OC::$server->query(\OCA\Files_External\AppInfo\Application::class);
+\OCA\Files_External\MountConfig::$app = \OC::$server->get(\OCA\Files_External\AppInfo\Application::class);
 \OCA\Files_External\MountConfig::$app->registerListeners();
 
 $appContainer = \OCA\Files_External\MountConfig::$app->getContainer();
@@ -49,5 +49,5 @@ $appContainer = \OCA\Files_External\MountConfig::$app->getContainer();
 	];
 });
 
-$mountProvider = $appContainer->query(ConfigAdapter::class);
+$mountProvider = $appContainer->get(ConfigAdapter::class);
 \OC::$server->getMountProviderCollection()->registerProvider($mountProvider);

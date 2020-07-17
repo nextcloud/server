@@ -140,7 +140,7 @@ class Manager implements IManager {
 			$this->container,
 			$this->l,
 			$this,
-			$this->container->query(Logger::class)
+			$this->container->get(Logger::class)
 		);
 	}
 
@@ -440,7 +440,7 @@ class Manager implements IManager {
 	protected function validateEvents(string $entity, array $events, IOperation $operation) {
 		try {
 			/** @var IEntity $instance */
-			$instance = $this->container->query($entity);
+			$instance = $this->container->get($entity);
 		} catch (QueryException $e) {
 			throw new \UnexpectedValueException($this->l->t('Entity %s does not exist', [$entity]));
 		}
@@ -478,7 +478,7 @@ class Manager implements IManager {
 	public function validateOperation($class, $name, array $checks, $operation, string $entity, array $events) {
 		try {
 			/** @var IOperation $instance */
-			$instance = $this->container->query($class);
+			$instance = $this->container->get($class);
 		} catch (QueryException $e) {
 			throw new \UnexpectedValueException($this->l->t('Operation %s does not exist', [$class]));
 		}
@@ -501,7 +501,7 @@ class Manager implements IManager {
 
 			try {
 				/** @var ICheck $instance */
-				$instance = $this->container->query($check['class']);
+				$instance = $this->container->get($check['class']);
 			} catch (QueryException $e) {
 				throw new \UnexpectedValueException($this->l->t('Check %s does not exist', [$class]));
 			}
@@ -672,7 +672,7 @@ class Manager implements IManager {
 	protected function getBuildInEntities(): array {
 		try {
 			return [
-				File::class => $this->container->query(File::class),
+				File::class => $this->container->get(File::class),
 			];
 		} catch (QueryException $e) {
 			$this->logger->logException($e);
@@ -700,15 +700,15 @@ class Manager implements IManager {
 	protected function getBuildInChecks(): array {
 		try {
 			return [
-				$this->container->query(FileMimeType::class),
-				$this->container->query(FileName::class),
-				$this->container->query(FileSize::class),
-				$this->container->query(FileSystemTags::class),
-				$this->container->query(RequestRemoteAddress::class),
-				$this->container->query(RequestTime::class),
-				$this->container->query(RequestURL::class),
-				$this->container->query(RequestUserAgent::class),
-				$this->container->query(UserGroupMembership::class),
+				$this->container->get(FileMimeType::class),
+				$this->container->get(FileName::class),
+				$this->container->get(FileSize::class),
+				$this->container->get(FileSystemTags::class),
+				$this->container->get(RequestRemoteAddress::class),
+				$this->container->get(RequestTime::class),
+				$this->container->get(RequestURL::class),
+				$this->container->get(RequestUserAgent::class),
+				$this->container->get(UserGroupMembership::class),
 			];
 		} catch (QueryException $e) {
 			$this->logger->logException($e);

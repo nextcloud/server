@@ -155,7 +155,7 @@ class Server {
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\ICSExportPlugin\ICSExportPlugin(\OC::$server->getConfig(), \OC::$server->getLogger()));
 			$this->server->addPlugin(new \OCA\DAV\CalDAV\Schedule\Plugin(\OC::$server->getConfig()));
 			if (\OC::$server->getConfig()->getAppValue('dav', 'sendInvitations', 'yes') === 'yes') {
-				$this->server->addPlugin(\OC::$server->query(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
+				$this->server->addPlugin(\OC::$server->get(\OCA\DAV\CalDAV\Schedule\IMipPlugin::class));
 			}
 
 			$this->server->addPlugin(new CalDAV\WebcalCaching\Plugin($request));
@@ -289,7 +289,7 @@ class Server {
 				}
 				$this->server->addPlugin(new \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin(
 					\OC::$server->getConfig(),
-					\OC::$server->query(BirthdayService::class)
+					\OC::$server->get(BirthdayService::class)
 				));
 				$this->server->addPlugin(new AppleProvisioningPlugin(
 					\OC::$server->getUserSession(),

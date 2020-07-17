@@ -73,7 +73,7 @@ class RetryJob extends Job {
 			$this->notifications = new Notifications(
 				$addressHandler,
 				\OC::$server->getHTTPClientService(),
-				\OC::$server->query(\OCP\OCS\IDiscoveryService::class),
+				\OC::$server->get(\OCP\OCS\IDiscoveryService::class),
 				\OC::$server->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
 				\OC::$server->getCloudFederationFactory()

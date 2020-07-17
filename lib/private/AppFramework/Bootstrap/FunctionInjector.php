@@ -47,14 +47,14 @@ class FunctionInjector {
 			// First we try by type (more likely these days)
 			if (($type = $param->getType()) !== null) {
 				try {
-					return $this->container->query($type->getName());
+					return $this->container->get($type->getName());
 				} catch (QueryException $ex) {
 					// Ignore and try name as well
 				}
 			}
 			// Second we try by name (mostly for primitives)
 			try {
-				return $this->container->query($param->getName());
+				return $this->container->get($param->getName());
 			} catch (QueryException $ex) {
 				// As a last resort we pass `null` if allowed
 				if ($type !== null && $type->allowsNull()) {

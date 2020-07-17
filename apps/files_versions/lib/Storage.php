@@ -200,7 +200,7 @@ class Storage {
 		}
 
 		/** @var IVersionManager $versionManager */
-		$versionManager = \OC::$server->query(IVersionManager::class);
+		$versionManager = \OC::$server->get(IVersionManager::class);
 		$userManager = \OC::$server->getUserManager();
 		$user = $userManager->get($uid);
 
@@ -848,8 +848,8 @@ class Storage {
 	 */
 	protected static function getExpiration() {
 		if (self::$application === null) {
-			self::$application = \OC::$server->query(Application::class);
+			self::$application = \OC::$server->get(Application::class);
 		}
-		return self::$application->getContainer()->query(Expiration::class);
+		return self::$application->getContainer()->get(Expiration::class);
 	}
 }

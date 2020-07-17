@@ -45,7 +45,7 @@ class Application extends App {
 
 		$container->registerService(NewUserMailHelper::class, function (SimpleContainer $c) use ($server) {
 			return new NewUserMailHelper(
-				$server->query(Defaults::class),
+				$server->get(Defaults::class),
 				$server->getURLGenerator(),
 				$server->getL10NFactory(),
 				$server->getMailer(),
@@ -61,7 +61,7 @@ class Application extends App {
 			$isAdmin = $user !== null ? $server->getGroupManager()->isAdmin($user->getUID()) : false;
 			$isSubAdmin = $user !== null ? $server->getGroupManager()->getSubAdmin()->isSubAdmin($user) : false;
 			return new ProvisioningApiMiddleware(
-				$c->query(IControllerMethodReflector::class),
+				$c->get(IControllerMethodReflector::class),
 				$isAdmin,
 				$isSubAdmin
 			);

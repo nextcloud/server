@@ -113,7 +113,7 @@ class Manager implements IManager {
 
 		foreach ($this->appClasses as $appClass) {
 			try {
-				$app = \OC::$server->query($appClass);
+				$app = \OC::$server->get($appClass);
 			} catch (QueryException $e) {
 				$this->logger->logException($e, [
 					'message' => 'Failed to load notification app class: ' . $appClass,
@@ -147,7 +147,7 @@ class Manager implements IManager {
 
 		foreach ($this->notifierClasses as $notifierClass) {
 			try {
-				$notifier = \OC::$server->query($notifierClass);
+				$notifier = \OC::$server->get($notifierClass);
 			} catch (QueryException $e) {
 				$this->logger->logException($e, [
 					'message' => 'Failed to load notification notifier class: ' . $notifierClass,

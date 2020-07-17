@@ -298,7 +298,7 @@ function strip_time($timestamp) {
  */
 function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false) {
 	/** @var \OC\DateTimeFormatter $formatter */
-	$formatter = \OC::$server->query('DateTimeFormatter');
+	$formatter = \OC::$server->get('DateTimeFormatter');
 
 	if ($dateOnly) {
 		return $formatter->formatDateSpan($timestamp, $fromTime);

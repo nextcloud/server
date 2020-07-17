@@ -39,7 +39,7 @@ class Listener {
 			/** @var IUser $user */
 			$user = $event->getArgument('user');
 			/** @var IManager $resourceManager */
-			$resourceManager = \OC::$server->query(IManager::class);
+			$resourceManager = \OC::$server->get(IManager::class);
 
 			$resourceManager->invalidateAccessCacheForUser($user);
 		};
@@ -50,7 +50,7 @@ class Listener {
 			/** @var IUser $user */
 			$user = $event->getSubject();
 			/** @var IManager $resourceManager */
-			$resourceManager = \OC::$server->query(IManager::class);
+			$resourceManager = \OC::$server->get(IManager::class);
 
 			$resourceManager->invalidateAccessCacheForUser($user);
 		});
@@ -59,7 +59,7 @@ class Listener {
 			/** @var IGroup $group */
 			$group = $event->getSubject();
 			/** @var IManager $resourceManager */
-			$resourceManager = \OC::$server->query(IManager::class);
+			$resourceManager = \OC::$server->get(IManager::class);
 
 			foreach ($group->getUsers() as $user) {
 				$resourceManager->invalidateAccessCacheForUser($user);

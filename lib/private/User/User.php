@@ -241,7 +241,7 @@ class User implements IUser {
 			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
 
 			/** @var IAvatarManager $avatarManager */
-			$avatarManager = \OC::$server->query(AvatarManager::class);
+			$avatarManager = \OC::$server->get(AvatarManager::class);
 			$avatarManager->deleteUserAvatar($this->uid);
 
 			$notification = \OC::$server->getNotificationManager()->createNotification();
@@ -249,7 +249,7 @@ class User implements IUser {
 			\OC::$server->getNotificationManager()->markProcessed($notification);
 
 			/** @var AccountManager $accountManager */
-			$accountManager = \OC::$server->query(AccountManager::class);
+			$accountManager = \OC::$server->get(AccountManager::class);
 			$accountManager->deleteUser($this);
 
 			$this->dispatcher->dispatch(IUser::class . '::postDelete', new GenericEvent($this));

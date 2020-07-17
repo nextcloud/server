@@ -99,7 +99,7 @@ class ScanAppData extends Base {
 		}
 
 		$connection = $this->reconnectToDatabase($output);
-		$scanner = new \OC\Files\Utils\Scanner(null, $connection, \OC::$server->query(IEventDispatcher::class), \OC::$server->getLogger());
+		$scanner = new \OC\Files\Utils\Scanner(null, $connection, \OC::$server->get(IEventDispatcher::class), \OC::$server->getLogger());
 
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {

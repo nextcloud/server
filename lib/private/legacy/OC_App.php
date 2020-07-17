@@ -150,7 +150,7 @@ class OC_App {
 		self::registerAutoloading($app, $appPath);
 
 		/** @var \OC\AppFramework\Bootstrap\Coordinator $coordinator */
-		$coordinator = \OC::$server->query(\OC\AppFramework\Bootstrap\Coordinator::class);
+		$coordinator = \OC::$server->get(\OC\AppFramework\Bootstrap\Coordinator::class);
 		$isBootable = $coordinator->isBootable($app);
 
 		$hasAppPhpFile = is_file($appPath . '/appinfo/app.php');
@@ -412,7 +412,7 @@ class OC_App {
 
 		// Check if app is already downloaded
 		/** @var Installer $installer */
-		$installer = \OC::$server->query(Installer::class);
+		$installer = \OC::$server->get(Installer::class);
 		$isDownloaded = $installer->isDownloaded($appId);
 
 		if (!$isDownloaded) {
@@ -729,7 +729,7 @@ class OC_App {
 		$langCode = \OC::$server->getL10N('core')->getLanguageCode();
 		$urlGenerator = \OC::$server->getURLGenerator();
 		/** @var \OCP\Support\Subscription\IRegistry $subscriptionRegistry */
-		$subscriptionRegistry = \OC::$server->query(\OCP\Support\Subscription\IRegistry::class);
+		$subscriptionRegistry = \OC::$server->get(\OCP\Support\Subscription\IRegistry::class);
 		$supportedApps = $subscriptionRegistry->delegateGetSupportedApps();
 
 		foreach ($installedApps as $app) {

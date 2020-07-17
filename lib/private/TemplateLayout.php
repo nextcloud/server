@@ -117,7 +117,7 @@ class TemplateLayout extends \OC_Template {
 			// check if app menu icons should be inverted
 			try {
 				/** @var \OCA\Theming\Util $util */
-				$util = \OC::$server->query(\OCA\Theming\Util::class);
+				$util = \OC::$server->get(\OCA\Theming\Util::class);
 				$this->assign('themingInvertMenu', $util->invertTextColor(\OC::$server->getThemingDefaults()->getColorPrimary()));
 			} catch (\OCP\AppFramework\QueryException $e) {
 				$this->assign('themingInvertMenu', false);
@@ -143,7 +143,7 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('bodyid', 'body-public');
 
 			/** @var IRegistry $subscription */
-			$subscription = \OC::$server->query(IRegistry::class);
+			$subscription = \OC::$server->get(IRegistry::class);
 			$showSimpleSignup = $this->config->getSystemValueBool('simpleSignUpLink.shown', true);
 			if ($showSimpleSignup && $subscription->delegateHasValidSubscription()) {
 				$showSimpleSignup = false;
@@ -177,7 +177,7 @@ class TemplateLayout extends \OC_Template {
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
 				$jsConfigHelper = new JSConfigHelper(
 					\OC::$server->getL10N('lib'),
-					\OC::$server->query(Defaults::class),
+					\OC::$server->get(Defaults::class),
 					\OC::$server->getAppManager(),
 					\OC::$server->getSession(),
 					\OC::$server->getUserSession()->getUser(),
@@ -186,7 +186,7 @@ class TemplateLayout extends \OC_Template {
 					\OC::$server->getIniWrapper(),
 					\OC::$server->getURLGenerator(),
 					\OC::$server->getCapabilitiesManager(),
-					\OC::$server->query(IInitialStateService::class)
+					\OC::$server->get(IInitialStateService::class)
 				);
 				$this->assign('inline_ocjs', $jsConfigHelper->getConfig());
 			} else {
@@ -242,7 +242,7 @@ class TemplateLayout extends \OC_Template {
 		}
 
 		/** @var InitialStateService $initialState */
-		$initialState = \OC::$server->query(InitialStateService::class);
+		$initialState = \OC::$server->get(InitialStateService::class);
 		$this->assign('initialStates', $initialState->getInitialStates());
 	}
 
@@ -295,7 +295,7 @@ class TemplateLayout extends \OC_Template {
 		$theme = \OC_Util::getTheme();
 
 		if ($compileScss) {
-			$SCSSCacher = \OC::$server->query(SCSSCacher::class);
+			$SCSSCacher = \OC::$server->get(SCSSCacher::class);
 		} else {
 			$SCSSCacher = null;
 		}
@@ -340,7 +340,7 @@ class TemplateLayout extends \OC_Template {
 			$theme,
 			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
 			[ \OC::$SERVERROOT => \OC::$WEBROOT ],
-			\OC::$server->query(JSCombiner::class)
+			\OC::$server->get(JSCombiner::class)
 			);
 		$locator->find($scripts);
 		return $locator->getResources();

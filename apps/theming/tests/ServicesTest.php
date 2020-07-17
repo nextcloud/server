@@ -88,6 +88,6 @@ class ServicesTest extends TestCase {
 		if ($expected === null) {
 			$expected = $service;
 		}
-		$this->assertTrue($this->container->query($service) instanceof $expected);
+		$this->assertTrue($this->container->get($service) instanceof $expected);
 	}
 }

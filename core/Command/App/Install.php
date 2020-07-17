@@ -61,7 +61,7 @@ class Install extends Command {
 
 		try {
 			/** @var Installer $installer */
-			$installer = \OC::$server->query(Installer::class);
+			$installer = \OC::$server->get(Installer::class);
 			$installer->downloadApp($appId);
 			$result = $installer->installApp($appId);
 		} catch (\Exception $e) {

@@ -55,7 +55,7 @@ class ProviderManager implements IProviderManager {
 		if ($this->providers !== []) {
 			foreach ($this->providers as $provider) {
 				try {
-					$this->providerInstances[] = $this->serverContainer->query($provider);
+					$this->providerInstances[] = $this->serverContainer->get($provider);
 				} catch (QueryException $e) {
 					$this->logger->logException($e, [
 						'message' => "Could not query resource provider $provider: " . $e->getMessage()

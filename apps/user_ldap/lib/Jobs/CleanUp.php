@@ -106,7 +106,7 @@ class CleanUp extends TimedJob {
 				$this->ocConfig,
 				\OC::$server->getNotificationManager(),
 				\OC::$server->getUserSession(),
-				\OC::$server->query(UserPluginManager::class)
+				\OC::$server->get(UserPluginManager::class)
 			);
 		}
 
