@@ -60,6 +60,7 @@ OC.L10N.register(
     "Could not fetch file details \"{file}\"" : "Details zu \"{file}\" konnten nicht ermittelt werden",
     "Error deleting file \"{fileName}\"." : "Fehler beim Löschen der Datei \"{fileName}\"",
     "No search results in other folders for {tag}{filter}{endtag}" : "Keine Suchergebnisse in anderen Ordnern für {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Gebe mehr als zwei Zeichen ein um in anderen Ordnern zu suchen",
     "Name" : "Name",
     "Size" : "Größe",
     "Modified" : "Geändert",

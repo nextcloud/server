@@ -33,7 +33,7 @@
     "External mount error" : "Błąd przy montowaniu zewnętrznym",
     "external-storage" : "magazyn zewnętrzny",
     "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Nie można pobrać listy punktów montowania dysku sieciowego systemu Windows: Pusta odpowiedź z serwera",
-    "Please enter the credentials for the {mount} mount" : "Proszę wprowadzić poświadczenia dla {mount} montażu",
+    "Please enter the credentials for the {mount} mount" : "Wprowadź dane uwierzytelniające dla zamontowania {mount}",
     "Username" : "Nazwa użytkownika",
     "Password" : "Hasło",
     "Credentials saved" : "Poświadczenia zapisane",

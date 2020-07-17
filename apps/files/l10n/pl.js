@@ -60,6 +60,7 @@ OC.L10N.register(
     "Could not fetch file details \"{file}\"" : "Nie można pobrać szczegółów pliku \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Błąd podczas usuwania pliku \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Brak wyników wyszukiwania w innych katalogach dla {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Wprowadź więcej niż dwa znaki, aby przeszukać inne katalogi",
     "Name" : "Nazwa",
     "Size" : "Rozmiar",
     "Modified" : "Zmodyfikowany",

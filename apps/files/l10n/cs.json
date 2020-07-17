@@ -58,6 +58,7 @@
     "Could not fetch file details \"{file}\"" : "Nedaří se získat podrobnosti o souboru „{file}“",
     "Error deleting file \"{fileName}\"." : "Chyba mazání souboru „{fileName}“.",
     "No search results in other folders for {tag}{filter}{endtag}" : "Žádné výsledky hledání v ostatních složkách pro {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Pokud chcete hledat v ostatních složkách, zadejte více než dva znaky",
     "Name" : "Název",
     "Size" : "Velikost",
     "Modified" : "Změněno",
