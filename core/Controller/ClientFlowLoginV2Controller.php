@@ -44,8 +44,8 @@ use OCP\IURLGenerator;
 use OCP\Security\ISecureRandom;
 
 class ClientFlowLoginV2Controller extends Controller {
-	private const tokenName = 'client.flow.v2.login.token';
-	private const stateName = 'client.flow.v2.state.token';
+	public const TOKEN_NAME = 'client.flow.v2.login.token';
+	public const STATE_NAME = 'client.flow.v2.state.token';
 
 	/** @var LoginFlowV2Service */
 	private $loginFlowV2Service;
@@ -105,7 +105,7 @@ class ClientFlowLoginV2Controller extends Controller {
 			return $this->loginTokenForbiddenResponse();
 		}
 
-		$this->session->set(self::tokenName, $token);
+		$this->session->set(self::TOKEN_NAME, $token);
 
 		return new RedirectResponse(
 			$this->urlGenerator->linkToRouteAbsolute('core.ClientFlowLoginV2.showAuthPickerPage')
@@ -128,7 +128,7 @@ class ClientFlowLoginV2Controller extends Controller {
 			64,
 			ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS
 		);
-		$this->session->set(self::stateName, $stateToken);
+		$this->session->set(self::STATE_NAME, $stateToken);
 
 		return new StandaloneTemplateResponse(
 			$this->appName,
@@ -188,11 +188,11 @@ class ClientFlowLoginV2Controller extends Controller {
 			return $this->loginTokenForbiddenResponse();
 		}
 
-		$loginToken = $this->session->get(self::tokenName);
+		$loginToken = $this->session->get(self::TOKEN_NAME);
 
 		// Clear session variables
-		$this->session->remove(self::tokenName);
-		$this->session->remove(self::stateName);
+		$this->session->remove(self::TOKEN_NAME);
+		$this->session->remove(self::STATE_NAME);
 		$sessionId = $this->session->getId();
 
 		$result = $this->loginFlowV2Service->flowDone($loginToken, $sessionId, $this->getServerPath(), $this->userId);
@@ -240,7 +240,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	}
 
 	private function isValidStateToken(string $stateToken): bool {
-		$currentToken = $this->session->get(self::stateName);
+		$currentToken = $this->session->get(self::STATE_NAME);
 		if (!is_string($stateToken) || !is_string($currentToken)) {
 			return false;
 		}
@@ -265,7 +265,7 @@ class ClientFlowLoginV2Controller extends Controller {
 	 * @throws LoginFlowV2NotFoundException
 	 */
 	private function getFlowByLoginToken(): LoginFlowV2 {
-		$currentToken = $this->session->get(self::tokenName);
+		$currentToken = $this->session->get(self::TOKEN_NAME);
 		if (!is_string($currentToken)) {
 			throw new LoginFlowV2NotFoundException('Login token not set in session');
 		}
