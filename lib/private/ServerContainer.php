@@ -127,6 +127,9 @@ class ServerContainer extends SimpleContainer {
 		return parent::has($id);
 	}
 
+	/**
+	 * @deprecated 20.0.0 use \Psr\Container\ContainerInterface::get
+	 */
 	public function query(string $name, bool $autoload = true) {
 		$name = $this->sanitizeName($name);
 
