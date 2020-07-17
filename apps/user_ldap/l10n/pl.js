@@ -28,7 +28,7 @@ OC.L10N.register(
     "Please check the credentials, they seem to be wrong." : "Sprawdź dane logowania, wydają się być nieprawidłowe.",
     "Please specify the port, it could not be auto-detected." : "Podaj port, nie można ustalić go automatycznie.",
     "Base DN could not be auto-detected, please revise credentials, host and port." : "Base DN nie mógł zostać wykryty automatycznie, proszę sprawdzić ustawienia hosta, port oraz dane dostępowe",
-    "Could not detect Base DN, please enter it manually." : "Nie udało się wykryć Base DN, proszę podać ręcznie.",
+    "Could not detect Base DN, please enter it manually." : "Nie udało się wykryć Base DN, wprowadź ją ręcznie.",
     "{nthServer}. Server" : "{nthServer}. Serwer",
     "No object found in the given Base DN. Please revise." : "Brak obiektów w podanym Base DN. Proszę sprawdzić.",
     "More than 1,000 directory entries available." : "Ponad 1,000 wpisów katalogowych dostępne.",
