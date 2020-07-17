@@ -62,11 +62,11 @@ use OCP\AppFramework\IAppContainer;
 use OCP\Calendar\IManager as ICalendarManager;
 use OCP\Contacts\IManager as IContactsManager;
 use OCP\IConfig;
-use OCP\IContainer;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\Notification\IManager as INotificationManager;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Throwable;
@@ -76,22 +76,19 @@ use function strpos;
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'dav';
 
-	/**
-	 * Application constructor.
-	 */
 	public function __construct() {
 		parent::__construct(self::APP_ID);
 	}
 
 	public function register(IRegistrationContext $context): void {
 		$context->registerServiceAlias('CardDAVSyncService', SyncService::class);
-		$context->registerService(PhotoCache::class, function (IContainer $c) {
+		$context->registerService(PhotoCache::class, function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
-			$server = $c->query(IServerContainer::class);
+			$server = $c->get(IServerContainer::class);
 
 			return new PhotoCache(
 				$server->getAppDataDir('dav-photocache'),
-				$server->getLogger()
+				$c->get(ILogger::class)
 			);
 		});
 
