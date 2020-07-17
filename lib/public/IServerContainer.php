@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  *
@@ -37,32 +40,25 @@
  *
  */
 
-/**
- * Public interface of ownCloud for apps to use.
- * Server container interface
- *
- */
-
-// use OCP namespace for all classes that are considered public.
-// This means that they should be used by apps instead of the internal ownCloud classes
-
 namespace OCP;
 
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Log\ILogFactory;
 use OCP\Security\IContentSecurityPolicyManager;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class IServerContainer
- * @package OCP
+ * This is a tagging interface for the server container
  *
- * This container holds all ownCloud services
+ * The interface currently extends IContainer, but this interface is deprecated as of Nextcloud 20,
+ * thus this interface won't extend it anymore once that was removed. So migrate to the ContainerInterface
+ * only.
+ *
  * @since 6.0.0
- * @deprecated 20.0.0 use \Psr\Container\ContainerInterface
  */
-interface IServerContainer extends IContainer {
+interface IServerContainer extends ContainerInterface, IContainer {
 
 	/**
 	 * The calendar manager will act as a broker between consumers for calendar information and
