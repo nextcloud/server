@@ -78,7 +78,7 @@ class ClientFlowLoginController extends Controller {
 	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
 
-	public const stateName = 'client.flow.state.token';
+	public const STATE_NAME = 'client.flow.state.token';
 
 	/**
 	 * @param string $appName
@@ -135,7 +135,7 @@ class ClientFlowLoginController extends Controller {
 	 * @return bool
 	 */
 	private function isValidToken($stateToken) {
-		$currentToken = $this->session->get(self::stateName);
+		$currentToken = $this->session->get(self::STATE_NAME);
 		if (!is_string($stateToken) || !is_string($currentToken)) {
 			return false;
 		}
@@ -198,7 +198,7 @@ class ClientFlowLoginController extends Controller {
 			64,
 			ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS
 		);
-		$this->session->set(self::stateName, $stateToken);
+		$this->session->set(self::STATE_NAME, $stateToken);
 
 		$csp = new Http\ContentSecurityPolicy();
 		if ($client) {
@@ -286,11 +286,11 @@ class ClientFlowLoginController extends Controller {
 	public function generateAppPassword($stateToken,
 										$clientIdentifier = '') {
 		if (!$this->isValidToken($stateToken)) {
-			$this->session->remove(self::stateName);
+			$this->session->remove(self::STATE_NAME);
 			return $this->stateTokenForbiddenResponse();
 		}
 
-		$this->session->remove(self::stateName);
+		$this->session->remove(self::STATE_NAME);
 
 		try {
 			$sessionId = $this->session->getId();
@@ -343,7 +343,7 @@ class ClientFlowLoginController extends Controller {
 			$this->accessTokenMapper->insert($accessToken);
 
 			$redirectUri = $client->getRedirectUri();
-			
+
 			if (parse_url($redirectUri, PHP_URL_QUERY)) {
 				$redirectUri .= '&';
 			} else {
