@@ -1,4 +1,4 @@
-/*
+/**
  * @copyright 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2018 Christoph Wurst <christoph@winzerhof-wurst.at>
@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.js');
 // webpack.config.js
 const nodeExternals = require('webpack-node-externals')

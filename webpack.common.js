@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const path = require('path')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const { VueLoaderPlugin } = require('vue-loader')
 
 const accessibility = require('./apps/accessibility/webpack')
