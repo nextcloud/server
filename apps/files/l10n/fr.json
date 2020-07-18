@@ -58,6 +58,7 @@
     "Could not fetch file details \"{file}\"" : "Impossible de récupérer les détails du fichier \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Erreur à la suppression du fichier \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Aucun résultat dans d'autres dossiers pour {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Entrez plus de deux caractères pour effectuer une recherche dans d'autres dossiers",
     "Name" : "Nom",
     "Size" : "Taille",
     "Modified" : "Modifié",
