@@ -58,7 +58,7 @@ OC.L10N.register(
     "Current log-in password" : "Contrasinal actual de acceso",
     "Update Private Key Password" : "Actualizar o contrasinal da chave privada",
     "Enable password recovery:" : "Activar o  contrasinal de recuperación:",
-    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ao activar esta opción permitiráselle volver a obter acceso aos ficheiros cifrados no caso de perda do contrasinal",
+    "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Ao activar esta opción permitiráselle volver obter acceso aos ficheiros cifrados no caso de perda do contrasinal",
     "Enabled" : "Activado",
     "Disabled" : "Desactivado"
 },
