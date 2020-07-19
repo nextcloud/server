@@ -974,6 +974,15 @@ class Server extends ServerContainer implements IServerContainer {
 				$stream = 'php://input';
 			}
 
+			if(isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === "POST") {
+				foreach($_SERVER as $item => $value) {
+					if($item === "HTTP_X_WEBDAV") {
+						$_SERVER["REQUEST_METHOD"]=$value;
+						break;
+					}
+				};
+			}
+
 			return new Request(
 				[
 					'get' => $_GET,
