@@ -61,7 +61,7 @@ OC.L10N.register(
     "You changed your email address" : "Du ändrade din e-postadress",
     "Your email address was changed by an administrator" : "Din e-postadress ändrades av en administratör",
     "You created app password \"{token}\"" : "Du skapade applösenord \"{token}\"",
-    "You deleted app password \"{token}\"" : "Du raderade applösenord \"{token}\"",
+    "You deleted app password \"{token}\"" : "Du tog bort applösenordet \"{token}\"",
     "You renamed app password \"{token}\" to \"{newToken}\"" : "Du ändrade namn på applösenord \"{token}\" till \"{newToken}\"",
     "You granted filesystem access to app password \"{token}\"" : "Du tilldelade filsystem-åtkomst till applösenord \"{token}\"",
     "You revoked filesystem access from app password \"{token}\"" : "Du återkallade filsystem-åtkomst från applösenord \"{token}\"",
