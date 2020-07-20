@@ -30,7 +30,9 @@
 		:src="data"
 		:style="{
 			marginTop: shiftY + 'px',
-			marginLeft: shiftX + 'px'
+			marginLeft: shiftX + 'px',
+			maxHeight: zoomRatio * 100 + '%',
+			maxWidth: zoomRatio * 100 + '%',
 		}"
 		@load="updateImgSize"
 		@wheel="updateZoom"
@@ -69,19 +71,6 @@ export default {
 		},
 		zoomWidth() {
 			return Math.round(this.width * this.zoomRatio)
-		},
-
-		// prevent images smaller than 100px
-		minHeight() {
-			return this.zoomWidth < 100
-				? null
-				: this.zoomHeight + 'px'
-		},
-		// prevent images smaller than 100px
-		minWidth() {
-			return this.zoomHeight < 100
-				? null
-				: this.zoomWidth + 'px'
 		},
 	},
 
