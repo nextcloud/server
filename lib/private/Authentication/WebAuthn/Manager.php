@@ -107,7 +107,11 @@ class Manager {
 		$excludedPublicKeyDescriptors = [
 		];
 
-		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria();
+		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria(
+			null,
+			false,
+			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED
+		);
 
 		return new PublicKeyCredentialCreationOptions(
 			$rpEntity,
@@ -186,7 +190,8 @@ class Manager {
 			random_bytes(32),                                                    // Challenge
 			60000,                                                              // Timeout
 			$this->stripPort($serverHost),                                                                  // Relying Party ID
-			$registeredPublicKeyCredentialDescriptors                                  // Registered PublicKeyCredentialDescriptor classes
+			$registeredPublicKeyCredentialDescriptors,                                  // Registered PublicKeyCredentialDescriptor classes
+			AuthenticatorSelectionCriteria::USER_VERIFICATION_REQUIREMENT_DISCOURAGED
 		);
 	}
 
