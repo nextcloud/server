@@ -51,12 +51,13 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Defaults;
-use OCP\IContainer;
 use OCP\IGroup;
 use OCP\ILogger;
+use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\Settings\IManager;
 use OCP\Util;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -83,7 +84,7 @@ class Application extends App implements IBootstrap {
 			return \OC_User::isAdminUser(\OC_User::getUser());
 		});
 		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
-		$context->registerService('isSubAdmin', function (IContainer $c) {
+		$context->registerService('isSubAdmin', function () {
 			$userObject = \OC::$server->getUserSession()->getUser();
 			$isSubAdmin = false;
 			if ($userObject !== null) {
@@ -91,22 +92,30 @@ class Application extends App implements IBootstrap {
 			}
 			return $isSubAdmin;
 		});
-		$context->registerService('userCertificateManager', function (IContainer $c) {
-			return $c->query('ServerContainer')->getCertificateManager();
+		$context->registerService('userCertificateManager', function (ContainerInterface $c) {
+			/** @var IServerContainer $serverContainer */
+			$serverContainer = $c->get(IServerContainer::class);
+			return $serverContainer->getCertificateManager();
 		}, false);
-		$context->registerService('systemCertificateManager', function (IContainer $c) {
-			return $c->query('ServerContainer')->getCertificateManager(null);
+		$context->registerService('systemCertificateManager', function (ContainerInterface $c) {
+			/** @var IServerContainer $serverContainer */
+			$serverContainer = $c->query('ServerContainer');
+			return $serverContainer->getCertificateManager(null);
 		}, false);
-		$context->registerService(IProvider::class, function (IContainer $c) {
-			return $c->query('ServerContainer')->query(IProvider::class);
+		$context->registerService(IProvider::class, function (ContainerInterface $c) {
+			/** @var IServerContainer $serverContainer */
+			$serverContainer = $c->query(IServerContainer::class);
+			return $serverContainer->query(IProvider::class);
 		});
-		$context->registerService(IManager::class, function (IContainer $c) {
-			return $c->query('ServerContainer')->getSettingsManager();
+		$context->registerService(IManager::class, function (ContainerInterface $c) {
+			/** @var IServerContainer $serverContainer */
+			$serverContainer = $c->query(IServerContainer::class);
+			return $serverContainer->getSettingsManager();
 		});
 
-		$context->registerService(NewUserMailHelper::class, function (IContainer $c) {
+		$context->registerService(NewUserMailHelper::class, function (ContainerInterface $c) {
 			/** @var Server $server */
-			$server = $c->query('ServerContainer');
+			$server = $c->query(IServerContainer::class);
 			/** @var Defaults $defaults */
 			$defaults = $server->query(Defaults::class);
 
