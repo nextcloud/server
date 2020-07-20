@@ -561,7 +561,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @throws \OC\HintException
 	 */
 	protected function revokeShare($share, $isOwner) {
-		if ($this->userManager->userExists($share->getShareOwner() && $this->userManager->userExists($share->getSharedBy()))) {
+		if ($this->userManager->userExists($share->getShareOwner()) && $this->userManager->userExists($share->getSharedBy())) {
 			// If both the owner and the initiator of the share are local users we don't have to notify anybody else
 			return;
 		}
