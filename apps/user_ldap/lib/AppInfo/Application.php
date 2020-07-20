@@ -41,8 +41,9 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\IAppContainer;
 use OCP\IL10N;
+use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -52,17 +53,17 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Controller
 		 */
-		$container->registerService('RenewPasswordController', function (IAppContainer $c) {
-			/** @var \OC\Server $server */
-			$server = $c->query('ServerContainer');
+		$container->registerService('RenewPasswordController', function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
 
 			return new RenewPasswordController(
-				$c->getAppName(),
+				$c->get('AppName'),
 				$server->getRequest(),
-				$c->query('UserManager'),
+				$c->get('UserManager'),
 				$server->getConfig(),
-				$c->query(IL10N::class),
-				$c->query('Session'),
+				$c->get(IL10N::class),
+				$c->get('Session'),
 				$server->getURLGenerator()
 			);
 		});
@@ -114,13 +115,15 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
-	public function registerBackendDependents(IAppContainer $appContainer) {
-		$appContainer->getServer()->getEventDispatcher()->addListener(
+	public function registerBackendDependents(ContainerInterface $appContainer) {
+		/** @var IServerContainer $serverContainer */
+		$serverContainer = $appContainer->get(IServerContainer::class);
+		$serverContainer->getEventDispatcher()->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
 			function () use ($appContainer) {
-				$storagesBackendService = $appContainer->query(BackendService::class);
+				$storagesBackendService = $appContainer->get(BackendService::class);
 				$storagesBackendService->registerConfigHandler('home', function () use ($appContainer) {
-					return $appContainer->query(ExtStorageConfigHandler::class);
+					return $appContainer->get(ExtStorageConfigHandler::class);
 				});
 			}
 		);
