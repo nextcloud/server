@@ -145,7 +145,7 @@
 
 })();
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	$('.updateButton').on('click', function() {
 		var $updateEl = $('.update');
 		var $progressEl = $('.update-progress');

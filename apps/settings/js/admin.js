@@ -1,4 +1,4 @@
-$(document).ready(function(){
+window.addEventListener('DOMContentLoaded', function(){
 	$('#excludedGroups').each(function (index, element) {
 		OC.Settings.setupGroupsSelect($(element));
 		$(element).change(function(ev) {

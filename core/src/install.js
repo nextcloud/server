@@ -10,7 +10,7 @@ import 'jquery-ui/themes/base/button.css'
 import 'strengthify'
 import 'strengthify/strengthify.css'
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	const dbtypes = {
 		sqlite: !!$('#hasSQLite').val(),
 		mysql: !!$('#hasMySQL').val(),

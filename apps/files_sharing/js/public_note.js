@@ -20,7 +20,7 @@
  *
  */
 
- $(document).ready(function() {
+ window.addEventListener('DOMContentLoaded', function() {
 	 var noteElmt = document.getElementById('notemenu')
 	 if	(noteElmt) {
 		var noteHtml = noteElmt.outerHTML

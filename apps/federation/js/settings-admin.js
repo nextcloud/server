@@ -135,7 +135,7 @@
  
 })( jQuery );
 
-$(document).ready(function () {
+window.addEventListener('DOMContentLoaded', function () {
 
     $('#ocFederationSettings').ocFederationAddServer();
     

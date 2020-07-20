@@ -164,7 +164,7 @@
 
 	OCA.FilesSharingDrop = Drop;
 
-	$(document).ready(function() {
+	window.addEventListener('DOMContentLoaded', function() {
 		if($('#upload-only-interface').val() === "1") {
 			$('.avatardiv').avatar($('#sharingUserId').val(), 128, true);
 		}

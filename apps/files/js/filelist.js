@@ -648,7 +648,7 @@
 				return;
 			}
 
-			if (!fileName) {
+			if (!fileName && OCA.Files.Sidebar.close) {
 				OCA.Files.Sidebar.close()
 				return
 			} else if (typeof fileName !== 'string') {
@@ -3839,7 +3839,7 @@
 	OCA.Files.FileList = FileList;
 })();
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	// FIXME: unused ?
 	OCA.Files.FileList.useUndo = (window.onbeforeunload)?true:false;
 	$(window).on('beforeunload', function () {

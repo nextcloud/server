@@ -75,6 +75,6 @@ OCA = OCA || {};
 	OCA.LDAP.Wizard.Wizard = Wizard;
 })();
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	new OCA.LDAP.Wizard.Wizard();
 });

@@ -102,7 +102,7 @@
 
 })()
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	$('#app-content-systemtagsfilter').on('show', function(e) {
 		OCA.SystemTags.App.initFileList($(e.target))
 	})

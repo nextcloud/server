@@ -20,7 +20,7 @@
  */
 
 import {
-	getRootUrl as realGetRootUrl
+	getRootUrl as realGetRootUrl,
 } from '@nextcloud/router'
 
 /**

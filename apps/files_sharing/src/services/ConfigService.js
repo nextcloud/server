@@ -178,8 +178,11 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isMailShareAllowed() {
-		return OC.getCapabilities()['files_sharing']['sharebymail'] !== undefined
-			&& OC.getCapabilities()['files_sharing']['public']['enabled'] === true
+		const capabilities = OC.getCapabilities()
+		// eslint-disable-next-line camelcase
+		return capabilities?.files_sharing?.sharebymail !== undefined
+			// eslint-disable-next-line camelcase
+			&& capabilities?.files_sharing?.public?.enabled === true
 	}
 
 	/**

@@ -1295,7 +1295,7 @@ MountConfigListView.prototype = _.extend({
 	}
 }, OC.Backbone.Events);
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	var enabled = $('#files_external').attr('data-encryption-enabled');
 	var encryptionEnabled = (enabled ==='true')? true: false;
 	var mountConfigListView = new MountConfigListView($('#externalStorage'), {

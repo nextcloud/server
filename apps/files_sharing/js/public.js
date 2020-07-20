@@ -468,7 +468,7 @@ OCA.Sharing.PublicApp = {
 	}
 };
 
-$(document).ready(function () {
+window.addEventListener('DOMContentLoaded', function () {
 	// FIXME: replace with OC.Plugins.register()
 	if (window.TESTING) {
 		return;

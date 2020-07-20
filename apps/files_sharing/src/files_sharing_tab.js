@@ -34,7 +34,7 @@ Object.assign(window.OCA.Sharing, { ShareSearch: new ShareSearch() })
 Object.assign(window.OCA.Sharing, { ExternalLinkActions: new ExternalLinkActions() })
 Object.assign(window.OCA.Sharing, { ShareTabSections: new TabSections() })
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', function() {
 	if (OCA.Files && OCA.Files.Sidebar) {
 		OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab('sharing', SharingTab))
 	}

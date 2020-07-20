@@ -13,7 +13,7 @@
 /**
  * This only gets loaded if an update is available and the notifications app is not enabled for the user.
  */
-$(document).ready(function(){
+window.addEventListener('DOMContentLoaded', function(){
 	var text = t('core', '{version} is available. Get more information on how to update.', {version: oc_updateState.updateVersion}),
 		element = $('<a>').attr('href', oc_updateState.updateLink).attr('target','_blank').text(text);
 
