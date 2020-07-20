@@ -40,6 +40,7 @@ use OCP\IUser;
 use Webauthn\AttestationStatement\AttestationObjectLoader;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
 use Webauthn\AttestationStatement\NoneAttestationStatementSupport;
+use Webauthn\AttestationStatement\PackedAttestationStatementSupport;
 use Webauthn\AuthenticationExtensions\ExtensionOutputCheckerHandler;
 use Webauthn\AuthenticatorAssertionResponse;
 use Webauthn\AuthenticatorAssertionResponseValidator;
@@ -132,6 +133,12 @@ class Manager {
 		$attestationStatementSupportManager = new AttestationStatementSupportManager();
 		$attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
 
+		$algorithmManager = new \Cose\Algorithm\Manager();
+		$algorithmManager->add(new ES256());
+		$algorithmManager->add(new RS256());
+		$packedAttestation = new PackedAttestationStatementSupport($algorithmManager);
+		$attestationStatementSupportManager->add($packedAttestation);
+
 		$attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
 		$publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
 
@@ -199,14 +206,17 @@ class Manager {
 		$attestationStatementSupportManager = new AttestationStatementSupportManager();
 		$attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
 
+		$algorithmManager = new \Cose\Algorithm\Manager();
+		$algorithmManager->add(new ES256());
+		$algorithmManager->add(new RS256());
+		$packedAttestation = new PackedAttestationStatementSupport($algorithmManager);
+		$attestationStatementSupportManager->add($packedAttestation);
+
 		$attestationObjectLoader = new AttestationObjectLoader($attestationStatementSupportManager);
 		$publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader);
 
 		$tokenBindingHandler = new TokenBindingNotSupportedHandler();
 		$extensionOutputCheckerHandler = new ExtensionOutputCheckerHandler();
-		$algorithmManager = new \Cose\Algorithm\Manager();
-		$algorithmManager->add(new ES256());
-		$algorithmManager->add(new RS256());
 
 		$authenticatorAssertionResponseValidator = new AuthenticatorAssertionResponseValidator(
 			$this->repository,
