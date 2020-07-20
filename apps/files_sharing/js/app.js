@@ -348,7 +348,7 @@ OCA.Sharing.App = {
 	},
 }
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	$('#app-content-sharingin').on('show', function(e) {
 		OCA.Sharing.App.initSharingIn($(e.target))
 	})

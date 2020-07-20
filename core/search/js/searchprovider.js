@@ -410,7 +410,7 @@
 	OCA.Search.Core = Search;
 })();
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	var $searchResults = $('#searchresults');
 	var $searchBox = $('#searchbox');
 	if ($searchResults.length > 0 && $searchBox.length > 0) {

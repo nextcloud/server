@@ -30,10 +30,10 @@
 		</fieldset>
 	</form>
 	<div v-else-if="!hasPublicKeyCredential">
-		{{ t('core', 'Passwordless authentication is not supported in your browser.')}}
+		{{ t('core', 'Passwordless authentication is not supported in your browser.') }}
 	</div>
 	<div v-else-if="!isHttps">
-		{{ t('core', 'Passwordless authentication is only available over a secure connection.')}}
+		{{ t('core', 'Passwordless authentication is only available over a secure connection.') }}
 	</div>
 </template>
 
@@ -76,7 +76,7 @@ export default {
 		hasPublicKeyCredential: {
 			type: Boolean,
 			default: false,
-		}
+		},
 	},
 	data() {
 		return {

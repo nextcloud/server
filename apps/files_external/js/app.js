@@ -65,7 +65,7 @@ OCA.Files_External.App = {
 	}
 };
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	$('#app-content-extstoragemounts').on('show', function(e) {
 		OCA.Files_External.App.initList($(e.target));
 	});

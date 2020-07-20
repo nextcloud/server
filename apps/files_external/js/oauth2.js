@@ -1,4 +1,4 @@
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 
 	function displayGranted($tr) {
 		$tr.find('.configuration input.auth-param').attr('disabled', 'disabled').addClass('disabled-success');

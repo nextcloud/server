@@ -26,7 +26,9 @@
 			:class="isEmailShareType ? 'icon-mail-white' : 'icon-public-white'"
 			class="sharing-entry__avatar" />
 		<div class="sharing-entry__desc">
-			<h5 :title="title">{{ title }}</h5>
+			<h5 :title="title">
+				{{ title }}
+			</h5>
 		</div>
 
 		<!-- clipboard -->
@@ -410,7 +412,7 @@ export default {
 				}
 				if (this.share.label && this.share.label.trim() !== '') {
 					return t('files_sharing', 'Share link ({label})', {
-						label: this.share.label.trim()
+						label: this.share.label.trim(),
 					})
 				}
 				if (this.isEmailShareType) {

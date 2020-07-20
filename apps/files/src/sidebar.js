@@ -37,7 +37,7 @@ if (!window.OCA.Files) {
 Object.assign(window.OCA.Files, { Sidebar: new Sidebar() })
 Object.assign(window.OCA.Files.Sidebar, { Tab })
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', function() {
 	// Make sure we have a proper layout
 	if (document.getElementById('content')) {
 

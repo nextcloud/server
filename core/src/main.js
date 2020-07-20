@@ -33,7 +33,7 @@ import './jquery/index'
 import { initCore } from './init'
 import { registerAppsSlideToggle } from './OC/apps'
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	initCore()
 	registerAppsSlideToggle()
 

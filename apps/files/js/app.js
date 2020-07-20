@@ -331,7 +331,7 @@
 	};
 })();
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	// wait for other apps/extensions to register their event handlers and file actions
 	// in the "ready" clause
 	_.defer(function() {

@@ -103,7 +103,7 @@ function hideUndoButton(setting, value) {
 	}
 }
 
-$(document).ready(function () {
+window.addEventListener('DOMContentLoaded', function () {
 	$('#theming [data-toggle="tooltip"]').tooltip();
 
 	// manually instantiate jscolor to work around new Function call which violates strict CSP

@@ -126,7 +126,7 @@ OCA.Trashbin.App = {
 	},
 }
 
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded', function() {
 	$('#app-content-trashbin').one('show', function() {
 		const App = OCA.Trashbin.App
 		App.initialize($('#app-content-trashbin'))
