@@ -109,16 +109,6 @@ describe('Open custom images list in viewer', function() {
 		cy.get('#viewer-content a.next').should('be.visible')
 	})
 
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2000)}px`, 'i'))
-	})
-
 	it('Does not have any visual regression 1', function() {
 		cy.matchImageSnapshot()
 	})
@@ -143,16 +133,6 @@ describe('Open custom images list in viewer', function() {
 		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
 	})
 
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2002)}px`, 'i'))
-	})
-
 	it('Does not have any visual regression 2', function() {
 		cy.matchImageSnapshot()
 	})
@@ -175,16 +155,6 @@ describe('Open custom images list in viewer', function() {
 		cy.get('#viewer-content .modal-title').should('contain', 'image1.jpg')
 		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
 		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
-	})
-
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2000)}px`, 'i'))
 	})
 
 	it('Does not have any visual regression 3', function() {

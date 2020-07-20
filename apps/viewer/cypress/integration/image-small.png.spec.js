@@ -68,14 +68,6 @@ describe('Open image-small.png in viewer', function() {
 		cy.get('#viewer-content a.next').should('not.be.visible')
 	})
 
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			.should('match', /width: 252px/i)
-			.should('match', /height: 120px/i)
-	})
-
 	it('Does not have any visual regression', function() {
 		cy.matchImageSnapshot()
 	})
