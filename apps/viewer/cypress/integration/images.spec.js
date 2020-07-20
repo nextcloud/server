@@ -80,16 +80,6 @@ describe('Open images in viewer', function() {
 		cy.get('#viewer-content a.next').should('be.visible')
 	})
 
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2000)}px`, 'i'))
-	})
-
 	it('Does not have any visual regression 1', function() {
 		cy.matchImageSnapshot()
 	})
@@ -108,16 +98,6 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 1688)}px`, 'i'))
-	})
-
 	it('Does not have any visual regression 2', function() {
 		cy.matchImageSnapshot()
 	})
@@ -134,16 +114,6 @@ describe('Open images in viewer', function() {
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
-	})
-
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2002)}px`, 'i'))
 	})
 
 	it('Does not have any visual regression 3', function() {
@@ -165,16 +135,6 @@ describe('Open images in viewer', function() {
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2000)}px`, 'i'))
-	})
-
 	it('Does not have any visual regression 4', function() {
 		cy.matchImageSnapshot()
 	})
@@ -191,16 +151,6 @@ describe('Open images in viewer', function() {
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
-	})
-
-	it('Have the proper height and width values', function() {
-		// not using should('have.css'), we want the inline styling
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			// 70% max width (see cypress config)
-			.should('match', new RegExp(`width: ${Math.round(Cypress.config('viewportWidth') * 0.7)}px`, 'i'))
-			// capped by the width, keeping ratio
-			.should('match', new RegExp(`height: ${Math.round(Cypress.config('viewportWidth') * 0.7 / 3000 * 2000)}px`, 'i'))
 	})
 
 	it('Does not have any visual regression 5', function() {

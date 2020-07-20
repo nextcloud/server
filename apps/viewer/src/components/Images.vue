@@ -29,8 +29,6 @@
 		}"
 		:src="data"
 		:style="{
-			height: minHeight,
-			width: minWidth,
 			marginTop: shiftY + 'px',
 			marginLeft: shiftX + 'px'
 		}"

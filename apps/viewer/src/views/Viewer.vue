@@ -683,12 +683,14 @@ export default {
 	transition: width ease 100ms;
 	.modal-container {
 		display: flex !important;
-		width: auto !important;
 		border-radius: 0 !important;
 		// let the mime components manage their own background-color
 		background-color: transparent;
 		justify-content: center;
 		align-items: center;
+		// Override max-height & max-width
+		width: 85% !important;
+		height: 90% !important;
 	}
 }
 
