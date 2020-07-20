@@ -112,6 +112,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Authentication\\Events\\LoginFailedEvent' => __DIR__ . '/../../..' . '/lib/public/Authentication/Events/LoginFailedEvent.php',
         'OCP\\Authentication\\Exceptions\\CredentialsUnavailableException' => __DIR__ . '/../../..' . '/lib/public/Authentication/Exceptions/CredentialsUnavailableException.php',
         'OCP\\Authentication\\Exceptions\\PasswordUnavailableException' => __DIR__ . '/../../..' . '/lib/public/Authentication/Exceptions/PasswordUnavailableException.php',
+        'OCP\\Authentication\\IAlternativeLogin' => __DIR__ . '/../../..' . '/lib/public/Authentication/IAlternativeLogin.php',
         'OCP\\Authentication\\IApacheBackend' => __DIR__ . '/../../..' . '/lib/public/Authentication/IApacheBackend.php',
         'OCP\\Authentication\\LoginCredentials\\ICredentials' => __DIR__ . '/../../..' . '/lib/public/Authentication/LoginCredentials/ICredentials.php',
         'OCP\\Authentication\\LoginCredentials\\IStore' => __DIR__ . '/../../..' . '/lib/public/Authentication/LoginCredentials/IStore.php',

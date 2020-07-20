@@ -63,6 +63,9 @@ class RegistrationContext {
 	/** @var array[] */
 	private $searchProviders = [];
 
+	/** @var array[] */
+	private $alternativeLogins = [];
+
 	/** @var ILogger */
 	private $logger;
 
@@ -151,6 +154,13 @@ class RegistrationContext {
 					$class
 				);
 			}
+
+			public function registerAlternativeLogin(string $class): void {
+				$this->context->registerAlternativeLogin(
+					$this->appId,
+					$class
+				);
+			}
 		};
 	}
 
@@ -218,6 +228,13 @@ class RegistrationContext {
 
 	public function registerSearchProvider(string $appId, string $class) {
 		$this->searchProviders[] = [
+			'appId' => $appId,
+			'class' => $class,
+		];
+	}
+
+	public function registerAlternativeLogin(string $appId, string $class): void {
+		$this->alternativeLogins[] = [
 			'appId' => $appId,
 			'class' => $class,
 		];
@@ -385,5 +402,12 @@ class RegistrationContext {
 	 */
 	public function getSearchProviders(): array {
 		return $this->searchProviders;
+	}
+
+	/**
+	 * @return array[]
+	 */
+	public function getAlternativeLogins(): array {
+		return $this->alternativeLogins;
 	}
 }

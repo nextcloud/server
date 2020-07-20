@@ -139,4 +139,17 @@ interface IRegistrationContext {
 	 * @since 20.0.0
 	 */
 	public function registerSearchProvider(string $class): void;
+
+	/**
+	 * Register an alternative login option
+	 *
+	 * It is allowed to register more than one option per app.
+	 *
+	 * @param string $class
+	 *
+	 * @return void
+	 *
+	 * @since 20.0.0
+	 */
+	public function registerAlternativeLogin(string $class): void;
 }
