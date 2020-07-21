@@ -328,6 +328,17 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	 * @Given I write down the shared link
 	 */
 	public function iWriteDownTheSharedLink() {
+		// Close the share link menu if it is open to ensure that it does not
+		// cover the copy link button.
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::shareLinkMenu(),
+				$timeout = 2 * $this->actor->getFindTimeoutMultiplier())) {
+			// It may not be possible to click on the menu button (due to the
+			// menu itself covering it), so "Esc" key is pressed instead.
+			$this->actor->find(self::shareLinkMenu(), 2)->getWrappedElement()->keyPress(27);
+		}
+
 		$this->actor->find(self::copyLinkButton(), 10)->click();
 
 		// Clicking on the menu item copies the link to the clipboard, but it is
