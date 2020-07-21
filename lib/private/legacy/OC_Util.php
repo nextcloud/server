@@ -1100,7 +1100,7 @@ class OC_Util {
 			} else {
 				$appId = 'files';
 				$config = \OC::$server->getConfig();
-				$defaultApps = explode(',', $config->getSystemValue('defaultapp', 'files'));
+				$defaultApps = explode(',', $config->getSystemValue('defaultapp', 'dashboard'));
 				// find the first app that is enabled for the current user
 				foreach ($defaultApps as $defaultApp) {
 					$defaultApp = OC_App::cleanAppId(strip_tags($defaultApp));
