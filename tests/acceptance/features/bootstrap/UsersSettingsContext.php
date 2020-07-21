@@ -108,7 +108,7 @@ class UsersSettingsContext implements Context, ActorAwareInterface {
 	 * @return Locator
 	 */
 	public static function displayNameCellForUser($user) {
-		return self::inputForUserInCell("displayName", $user);
+		return self::classCellForUser("displayName", $user);
 	}
 
 	/**
