@@ -28,7 +28,6 @@ namespace OCP\AppFramework\Bootstrap;
 use OCP\AppFramework\IAppContainer;
 use OCP\IServerContainer;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
 use Throwable;
 
 /**
@@ -41,20 +40,20 @@ interface IBootContext {
 	 *
 	 * Useful to register and query app-specific services
 	 *
-	 * @return ContainerInterface|IAppContainer
+	 * @return IAppContainer
 	 * @since 20.0.0
 	 */
-	public function getAppContainer(): ContainerInterface;
+	public function getAppContainer(): IAppContainer;
 
 	/**
 	 * Get hold of the server DI container
 	 *
 	 * Useful to register and query system-wide services
 	 *
-	 * @return ContainerInterface|IServerContainer
+	 * @return IServerContainer
 	 * @since 20.0.0
 	 */
-	public function getServerContainer(): ContainerInterface;
+	public function getServerContainer(): IServerContainer;
 
 	/**
 	 * Invoke the given callable and inject all parameters based on their types

@@ -37,9 +37,9 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\IAppContainer;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Notification\IManager as INotifiactionManager;
-use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -56,11 +56,11 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function registerCloudFederationProvider(ICloudFederationProviderManager $manager,
-													 ContainerInterface $container): void {
+													 IAppContainer $appContainer): void {
 		$manager->addCloudFederationProvider('file',
 			'Federated Files Sharing',
-			function () use ($container) {
-				return $container->get(CloudFederationProviderFiles::class);
+			function () use ($appContainer) {
+				return $appContainer->get(CloudFederationProviderFiles::class);
 			});
 	}
 

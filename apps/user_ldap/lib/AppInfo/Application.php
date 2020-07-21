@@ -42,13 +42,13 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\IAppContainer;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App implements IBootstrap {
@@ -59,17 +59,17 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Controller
 		 */
-		$container->registerService('RenewPasswordController', function (ContainerInterface $c) {
+		$container->registerService('RenewPasswordController', function (IAppContainer $appContainer) {
 			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
+			$server = $appContainer->get(IServerContainer::class);
 
 			return new RenewPasswordController(
-				$c->get('AppName'),
+				$appContainer->get('AppName'),
 				$server->getRequest(),
-				$c->get('UserManager'),
+				$appContainer->get('UserManager'),
 				$server->getConfig(),
-				$c->get(IL10N::class),
-				$c->get('Session'),
+				$appContainer->get(IL10N::class),
+				$appContainer->get('Session'),
 				$server->getURLGenerator()
 			);
 		});
@@ -86,7 +86,7 @@ class Application extends App implements IBootstrap {
 		$context->injectFn(function (IConfig $config,
 									 INotificationManager $notificationManager,
 									 IUserSession $userSession,
-									 ContainerInterface $container,
+									 IAppContainer $appContainer,
 									 EventDispatcherInterface $dispatcher,
 									 IGroupManager $groupManager) {
 			$helper = new Helper($config);
@@ -96,8 +96,8 @@ class Application extends App implements IBootstrap {
 
 				$notificationManager->registerNotifierService(Notifier::class);
 
-				$userPluginManager = $container->get(UserPluginManager::class);
-				$groupPluginManager = $container->get(GroupPluginManager::class);
+				$userPluginManager = $appContainer->get(UserPluginManager::class);
+				$groupPluginManager = $appContainer->get(GroupPluginManager::class);
 
 				$userBackend = new User_Proxy(
 					$configPrefixes, $ldapWrapper, $config, $notificationManager, $userSession, $userPluginManager
@@ -123,7 +123,7 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
-	private function registerBackendDependents(ContainerInterface $appContainer, EventDispatcherInterface $dispatcher) {
+	private function registerBackendDependents(IAppContainer $appContainer, EventDispatcherInterface $dispatcher) {
 		$dispatcher->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
 			function () use ($appContainer) {

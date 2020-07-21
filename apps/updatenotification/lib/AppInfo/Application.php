@@ -35,6 +35,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\QueryException;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -43,7 +44,6 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Util;
-use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -59,7 +59,7 @@ class Application extends App implements IBootstrap {
 									 IUserSession $userSession,
 									 IAppManager $appManager,
 									 IGroupManager $groupManager,
-									 ContainerInterface $container,
+									 IAppContainer $appContainer,
 									 ILogger $logger) {
 			if ($config->getSystemValue('updatechecker', true) !== true) {
 				// Updater check is disabled
@@ -78,7 +78,7 @@ class Application extends App implements IBootstrap {
 			if (!$appManager->isEnabledForUser('notifications') &&
 				$groupManager->isAdmin($user->getUID())) {
 				try {
-					$updateChecker = $container->get(UpdateChecker::class);
+					$updateChecker = $appContainer->get(UpdateChecker::class);
 				} catch (QueryException $e) {
 					$logger->logException($e);
 					return;

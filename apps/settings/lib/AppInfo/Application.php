@@ -51,6 +51,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\IAppContainer;
 use OCP\Defaults;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -59,7 +60,6 @@ use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\Settings\IManager;
 use OCP\Util;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -94,30 +94,30 @@ class Application extends App implements IBootstrap {
 			}
 			return $isSubAdmin;
 		});
-		$context->registerService('userCertificateManager', function (ContainerInterface $c) {
+		$context->registerService('userCertificateManager', function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
-			$serverContainer = $c->get(IServerContainer::class);
+			$serverContainer = $appContainer->get(IServerContainer::class);
 			return $serverContainer->getCertificateManager();
 		}, false);
-		$context->registerService('systemCertificateManager', function (ContainerInterface $c) {
+		$context->registerService('systemCertificateManager', function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
-			$serverContainer = $c->query('ServerContainer');
+			$serverContainer = $appContainer->query('ServerContainer');
 			return $serverContainer->getCertificateManager(null);
 		}, false);
-		$context->registerService(IProvider::class, function (ContainerInterface $c) {
+		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
-			$serverContainer = $c->query(IServerContainer::class);
+			$serverContainer = $appContainer->query(IServerContainer::class);
 			return $serverContainer->query(IProvider::class);
 		});
-		$context->registerService(IManager::class, function (ContainerInterface $c) {
+		$context->registerService(IManager::class, function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
-			$serverContainer = $c->query(IServerContainer::class);
+			$serverContainer = $appContainer->query(IServerContainer::class);
 			return $serverContainer->getSettingsManager();
 		});
 
-		$context->registerService(NewUserMailHelper::class, function (ContainerInterface $c) {
+		$context->registerService(NewUserMailHelper::class, function (IAppContainer $appContainer) {
 			/** @var Server $server */
-			$server = $c->query(IServerContainer::class);
+			$server = $appContainer->query(IServerContainer::class);
 			/** @var Defaults $defaults */
 			$defaults = $server->query(Defaults::class);
 
@@ -136,13 +136,13 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (EventDispatcherInterface $dispatcher, ContainerInterface $container) {
-			$dispatcher->addListener('app_password_created', function (GenericEvent $event) use ($container) {
+		$context->injectFn(function (EventDispatcherInterface $dispatcher, IAppContainer $appContainer) {
+			$dispatcher->addListener('app_password_created', function (GenericEvent $event) use ($appContainer) {
 				if (($token = $event->getSubject()) instanceof IToken) {
 					/** @var IActivityManager $activityManager */
-					$activityManager = $container->get(IActivityManager::class);
+					$activityManager = $appContainer->get(IActivityManager::class);
 					/** @var ILogger $logger */
-					$logger = $container->get(ILogger::class);
+					$logger = $appContainer->get(ILogger::class);
 
 					$activity = $activityManager->generateEvent();
 					$activity->setApp('settings')

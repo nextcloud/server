@@ -37,7 +37,6 @@ use Closure;
 use OC\Files\Filesystem;
 use OC\Files\Node\File;
 use OC\Group\Manager;
-use OC\User\Session;
 use OCA\AdminAudit\Actions\AppManagement;
 use OCA\AdminAudit\Actions\Auth;
 use OCA\AdminAudit\Actions\Console;
@@ -59,11 +58,11 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IPreview;
+use OCP\IServerContainer;
 use OCP\IUserSession;
 use OCP\Log\ILogFactory;
 use OCP\Share;
 use OCP\Util;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -108,44 +107,43 @@ class Application extends App implements IBootstrap {
 	 * Register hooks in order to log them
 	 */
 	private function registerHooks(ILogger $logger,
-									 ContainerInterface $container) {
-		$this->userManagementHooks($logger, $container);
-		$this->groupHooks($logger, $container);
+									 IServerContainer $serverContainer) {
+		$this->userManagementHooks($logger, $serverContainer->get(IUserSession::class));
+		$this->groupHooks($logger, $serverContainer->get(IGroupManager::class));
 		$this->authHooks($logger);
 
-		$this->consoleHooks($logger, $container);
-		$this->appHooks($logger, $container);
+		/** @var EventDispatcherInterface $eventDispatcher */
+		$eventDispatcher = $serverContainer->get(EventDispatcherInterface::class);
+		$this->consoleHooks($logger, $eventDispatcher);
+		$this->appHooks($logger, $eventDispatcher);
 
 		$this->sharingHooks($logger);
 
-		$this->fileHooks($logger, $container);
+		$this->fileHooks($logger, $eventDispatcher);
 		$this->trashbinHooks($logger);
 		$this->versionsHooks($logger);
 
-		$this->securityHooks($logger, $container);
+		$this->securityHooks($logger, $eventDispatcher);
 	}
 
 	private function userManagementHooks(ILogger $logger,
-										 ContainerInterface $container) {
+										 IUserSession $userSession) {
 		$userActions = new UserManagement($logger);
 
 		Util::connectHook('OC_User', 'post_createUser', $userActions, 'create');
 		Util::connectHook('OC_User', 'post_deleteUser', $userActions, 'delete');
 		Util::connectHook('OC_User', 'changeUser', $userActions, 'change');
 
-		/** @var IUserSession|Session $userSession */
-		$userSession = $container->get(IUserSession::class);
 		$userSession->listen('\OC\User', 'postSetPassword', [$userActions, 'setPassword']);
 		$userSession->listen('\OC\User', 'assignedUserId', [$userActions, 'assign']);
 		$userSession->listen('\OC\User', 'postUnassignedUserId', [$userActions, 'unassign']);
 	}
 
 	private function groupHooks(ILogger $logger,
-								  ContainerInterface $container) {
+								IGroupManager $groupManager) {
 		$groupActions = new GroupManagement($logger);
 
 		/** @var IGroupManager|Manager $groupManager */
-		$groupManager = $container->getGroupManager(IGroupManager::class);
 		$groupManager->listen('\OC\Group', 'postRemoveUser', [$groupActions, 'removeUser']);
 		$groupManager->listen('\OC\Group', 'postAddUser', [$groupActions, 'addUser']);
 		$groupManager->listen('\OC\Group', 'postDelete', [$groupActions, 'deleteGroup']);
@@ -173,8 +171,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function appHooks(ILogger $logger,
-								ContainerInterface $container) {
-		$eventDispatcher = $container->get(EventDispatcherInterface::class);
+							  EventDispatcherInterface $eventDispatcher) {
 		$eventDispatcher->addListener(ManagerEvent::EVENT_APP_ENABLE, function (ManagerEvent $event) use ($logger) {
 			$appActions = new AppManagement($logger);
 			$appActions->enableApp($event->getAppID());
@@ -190,8 +187,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function consoleHooks(ILogger $logger,
-									ContainerInterface $container) {
-		$eventDispatcher = $container->get(EventDispatcherInterface::class);
+								  EventDispatcherInterface $eventDispatcher) {
 		$eventDispatcher->addListener(ConsoleEvent::EVENT_RUN, function (ConsoleEvent $event) use ($logger) {
 			$appActions = new Console($logger);
 			$appActions->runCommand($event->getArguments());
@@ -199,9 +195,8 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function fileHooks(ILogger $logger,
-								 ContainerInterface $container) {
+							   EventDispatcherInterface $eventDispatcher) {
 		$fileActions = new Files($logger);
-		$eventDispatcher = $container->get(EventDispatcherInterface::class);
 		$eventDispatcher->addListener(
 			IPreview::EVENT,
 			function (GenericEvent $event) use ($fileActions) {
@@ -274,8 +269,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function securityHooks(ILogger $logger,
-									 ContainerInterface $container) {
-		$eventDispatcher = $container->get(EventDispatcherInterface::class);
+								   EventDispatcherInterface $eventDispatcher) {
 		$eventDispatcher->addListener(IProvider::EVENT_SUCCESS, function (GenericEvent $event) use ($logger) {
 			$security = new Security($logger);
 			$security->twofactorSuccess($event->getSubject(), $event->getArguments());
