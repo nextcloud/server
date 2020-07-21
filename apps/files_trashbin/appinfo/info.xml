@@ -34,6 +34,7 @@ To prevent a user from running out of disk space, the Deleted files app will not
 	<commands>
 		<command>OCA\Files_Trashbin\Command\CleanUp</command>
 		<command>OCA\Files_Trashbin\Command\ExpireTrash</command>
+		<command>OCA\Files_Trashbin\Command\Size</command>
 	</commands>
 
 	<sabre>
