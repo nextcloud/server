@@ -60,6 +60,7 @@ OC.L10N.register(
     "Could not fetch file details \"{file}\"" : "Podrobnosti o súbore „{file}“ sa nepodarilo načítať",
     "Error deleting file \"{fileName}\"." : "Chyba pri mazaní súboru \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Žiadne výsledky vyhľadávania v ostatných priečinkoch pre {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Ak chcete hľadať v iných priečinkoch, zadajte viac ako dva znaky",
     "Name" : "Názov",
     "Size" : "Veľkosť",
     "Modified" : "Upravené",
