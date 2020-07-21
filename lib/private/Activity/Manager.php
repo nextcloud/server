@@ -273,7 +273,7 @@ class Manager implements IManager {
 
 			if ($setting instanceof ISetting) {
 				$setting = new ActivitySettingsAdapter($setting);
-			} else if (!$setting instanceof ActivitySettings) {
+			} elseif (!$setting instanceof ActivitySettings) {
 				throw new \InvalidArgumentException('Invalid activity filter registered');
 			}
 
