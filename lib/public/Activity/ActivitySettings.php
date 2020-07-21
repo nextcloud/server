@@ -74,6 +74,6 @@ abstract class ActivitySettings {
 	 * @since 20.0.0
 	 */
 	public function isDefaultEnabledNotification() {
-		return $this->isDefaultEnabledMail();
+		return $this->isDefaultEnabledMail() && !$this->canChangeMail();
 	}
 }
