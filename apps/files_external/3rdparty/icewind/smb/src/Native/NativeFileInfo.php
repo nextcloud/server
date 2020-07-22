@@ -108,6 +108,11 @@ class NativeFileInfo implements IFileInfo {
 	 * @return int
 	 */
 	protected function getMode() {
+		$mode = $this->stat()['mode'];
+
+		// Let us ignore the ATTR_NOT_CONTENT_INDEXED for now
+		$mode &= ~0x00002000;
+		
 		return $this->stat()['mode'];
 	}
 
@@ -116,8 +121,8 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isDirectory() {
 		$mode = $this->getMode();
-		if ($mode > 0x80) {
-			return (bool)($mode & 0x4000); // 0x80: unix directory flag
+		if ($mode > 0x1000) {
+			return (bool)($mode & 0x4000); // 0x4000: unix directory flag
 		} else {
 			return (bool)($mode & IFileInfo::MODE_DIRECTORY);
 		}
@@ -128,7 +133,7 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isReadOnly() {
 		$mode = $this->getMode();
-		if ($mode > 0x80) {
+		if ($mode > 0x1000) {
 			return !(bool)($mode & 0x80); // 0x80: owner write permissions
 		} else {
 			return (bool)($mode & IFileInfo::MODE_READONLY);
@@ -140,7 +145,7 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isHidden() {
 		$mode = $this->getMode();
-		if ($mode > 0x80) {
+		if ($mode > 0x1000) {
 			return strlen($this->name) > 0 && $this->name[0] === '.';
 		} else {
 			return (bool)($mode & IFileInfo::MODE_HIDDEN);
@@ -152,7 +157,7 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isSystem() {
 		$mode = $this->getMode();
-		if ($mode > 0x80) {
+		if ($mode > 0x1000) {
 			return false;
 		} else {
 			return (bool)($mode & IFileInfo::MODE_SYSTEM);
@@ -164,7 +169,7 @@ class NativeFileInfo implements IFileInfo {
 	 */
 	public function isArchived() {
 		$mode = $this->getMode();
-		if ($mode > 0x80) {
+		if ($mode > 0x1000) {
 			return false;
 		} else {
 			return (bool)($mode & IFileInfo::MODE_ARCHIVE);
