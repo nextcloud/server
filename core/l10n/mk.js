@@ -306,7 +306,7 @@ OC.L10N.register(
     "Start update" : "Започни ја надградбата",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "За да избегнете тајм аут за големи инсталации, можете да ја извршите следнава команда во директориумот за инсталација:",
     "Detailed logs" : "Детални записи",
-    "Update needed" : "Потребна е надградба",
+    "Update needed" : "Потребно е ажутирање",
     "Please use the command line updater because you have a big instance with more than 50 users." : "Ве молиме користете ја командната линија за ажурирање бидејќи имате голема истанца со повеќе од 50 корисници.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">documentation</a>." : "За помош, прочитајте ја <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">документацијата</a>.",
     "I know that if I continue doing the update via web UI has the risk, that the request runs into a timeout and could cause data loss, but I have a backup and know how to restore my instance in case of a failure." : "Знам дека има ризик ако продолжам со ажурирањето преку веб-интерфејс, и да застане во тајм аут и може да предизвика загуба на податоци, но имам резервна копија и знам како да ја вратам мојата истанца во случај на дефект.",
