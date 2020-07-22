@@ -27,7 +27,6 @@
 namespace OC\Files\ObjectStore;
 
 use Aws\S3\Exception\S3MultipartUploadException;
-use Aws\S3\MultipartUploader;
 use Aws\S3\ObjectUploader;
 use Aws\S3\S3Client;
 use Icewind\Streams\CallbackWrapper;
@@ -86,11 +85,14 @@ trait S3ObjectTrait {
 			$count += $read;
 		});
 
-		$uploader = new MultipartUploader($this->getConnection(), $countStream, [
-			'bucket' => $this->bucket,
-			'key' => $urn,
-			'part_size' => $this->uploadPartSize,
-		]);
+		$uploader = new ObjectUploader(
+			$this->getConnection(),
+			$this->getBucket(),
+			$urn,
+			$countStream,
+			'private',
+			['part_size' => $this->uploadPartSize]
+		);
 
 		try {
 			$uploader->upload();
