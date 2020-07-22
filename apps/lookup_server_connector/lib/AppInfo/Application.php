@@ -28,11 +28,14 @@ declare(strict_types=1);
 
 namespace OCA\LookupServerConnector\AppInfo;
 
+use Closure;
 use OCA\LookupServerConnector\UpdateLookupServer;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\AppFramework\IAppContainer;
 use OCP\IUser;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -47,16 +50,20 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		/*
-		 * @todo move the OCP events and then move the registration to `register`
-		 */
-		$dispatcher = $context->getServerContainer()->getEventDispatcher();
-		$dispatcher->addListener('OC\AccountManager::userUpdated', function (GenericEvent $event) use ($context) {
+		$context->injectFn(Closure::fromCallable([$this, 'registerEventListeners']));
+	}
+
+	/**
+	 * @todo move the OCP events and then move the registration to `register`
+	 */
+	private function registerEventListeners(IEventDispatcher $dispatcher,
+											IAppContainer $appContainer): void {
+		$dispatcher->addListener('OC\AccountManager::userUpdated', function (GenericEvent $event) use ($appContainer) {
 			/** @var IUser $user */
 			$user = $event->getSubject();
 
 			/** @var UpdateLookupServer $updateLookupServer */
-			$updateLookupServer = $context->getServerContainer()->query(UpdateLookupServer::class);
+			$updateLookupServer = $appContainer->get(UpdateLookupServer::class);
 			$updateLookupServer->userUpdated($user);
 		});
 	}

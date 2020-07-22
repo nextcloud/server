@@ -40,6 +40,7 @@ use BadMethodCallException;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
+use OC\Group\Manager;
 use OC\Server;
 use OCA\Settings\Activity\Provider;
 use OCA\Settings\Hooks;
@@ -50,14 +51,15 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\IAppContainer;
 use OCP\Defaults;
 use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUser;
 use OCP\Settings\IManager;
 use OCP\Util;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -92,30 +94,30 @@ class Application extends App implements IBootstrap {
 			}
 			return $isSubAdmin;
 		});
-		$context->registerService('userCertificateManager', function (ContainerInterface $c) {
+		$context->registerService('userCertificateManager', function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
-			$serverContainer = $c->get(IServerContainer::class);
+			$serverContainer = $appContainer->get(IServerContainer::class);
 			return $serverContainer->getCertificateManager();
 		}, false);
-		$context->registerService('systemCertificateManager', function (ContainerInterface $c) {
+		$context->registerService('systemCertificateManager', function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
-			$serverContainer = $c->query('ServerContainer');
+			$serverContainer = $appContainer->query('ServerContainer');
 			return $serverContainer->getCertificateManager(null);
 		}, false);
-		$context->registerService(IProvider::class, function (ContainerInterface $c) {
+		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
-			$serverContainer = $c->query(IServerContainer::class);
+			$serverContainer = $appContainer->query(IServerContainer::class);
 			return $serverContainer->query(IProvider::class);
 		});
-		$context->registerService(IManager::class, function (ContainerInterface $c) {
+		$context->registerService(IManager::class, function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
-			$serverContainer = $c->query(IServerContainer::class);
+			$serverContainer = $appContainer->query(IServerContainer::class);
 			return $serverContainer->getSettingsManager();
 		});
 
-		$context->registerService(NewUserMailHelper::class, function (ContainerInterface $c) {
+		$context->registerService(NewUserMailHelper::class, function (IAppContainer $appContainer) {
 			/** @var Server $server */
-			$server = $c->query(IServerContainer::class);
+			$server = $appContainer->query(IServerContainer::class);
 			/** @var Defaults $defaults */
 			$defaults = $server->query(Defaults::class);
 
@@ -134,38 +136,39 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		/** @var EventDispatcherInterface $eventDispatcher */
-		$eventDispatcher = $context->getServerContainer()->getEventDispatcher();
-		$container = $context->getAppContainer();
-		$eventDispatcher->addListener('app_password_created', function (GenericEvent $event) use ($container) {
-			if (($token = $event->getSubject()) instanceof IToken) {
-				/** @var IActivityManager $activityManager */
-				$activityManager = $container->query(IActivityManager::class);
-				/** @var ILogger $logger */
-				$logger = $container->query(ILogger::class);
+		$context->injectFn(function (EventDispatcherInterface $dispatcher, IAppContainer $appContainer) {
+			$dispatcher->addListener('app_password_created', function (GenericEvent $event) use ($appContainer) {
+				if (($token = $event->getSubject()) instanceof IToken) {
+					/** @var IActivityManager $activityManager */
+					$activityManager = $appContainer->get(IActivityManager::class);
+					/** @var ILogger $logger */
+					$logger = $appContainer->get(ILogger::class);
 
-				$activity = $activityManager->generateEvent();
-				$activity->setApp('settings')
-					->setType('security')
-					->setAffectedUser($token->getUID())
-					->setAuthor($token->getUID())
-					->setSubject(Provider::APP_TOKEN_CREATED, ['name' => $token->getName()])
-					->setObject('app_token', $token->getId());
+					$activity = $activityManager->generateEvent();
+					$activity->setApp('settings')
+						->setType('security')
+						->setAffectedUser($token->getUID())
+						->setAuthor($token->getUID())
+						->setSubject(Provider::APP_TOKEN_CREATED, ['name' => $token->getName()])
+						->setObject('app_token', $token->getId());
 
-				try {
-					$activityManager->publish($activity);
-				} catch (BadMethodCallException $e) {
-					$logger->logException($e, ['message' => 'could not publish activity', 'level' => ILogger::WARN]);
+					try {
+						$activityManager->publish($activity);
+					} catch (BadMethodCallException $e) {
+						$logger->logException($e, ['message' => 'could not publish activity', 'level' => ILogger::WARN]);
+					}
 				}
-			}
+			});
 		});
 
 		Util::connectHook('OC_User', 'post_setPassword', $this, 'onChangePassword');
 		Util::connectHook('OC_User', 'changeUser', $this, 'onChangeInfo');
 
-		$groupManager = $context->getServerContainer()->getGroupManager();
-		$groupManager->listen('\OC\Group', 'postRemoveUser',  [$this, 'removeUserFromGroup']);
-		$groupManager->listen('\OC\Group', 'postAddUser',  [$this, 'addUserToGroup']);
+		$context->injectFn(function (IGroupManager $groupManager) {
+			/** @var IGroupManager|Manager $groupManager */
+			$groupManager->listen('\OC\Group', 'postRemoveUser',  [$this, 'removeUserFromGroup']);
+			$groupManager->listen('\OC\Group', 'postAddUser',  [$this, 'addUserToGroup']);
+		});
 
 		Util::connectHook('\OCP\Config', 'js', $this, 'extendJsConfig');
 	}

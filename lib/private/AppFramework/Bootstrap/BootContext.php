@@ -43,7 +43,7 @@ class BootContext implements IBootContext {
 	}
 
 	public function getServerContainer(): IServerContainer {
-		return $this->appContainer->getServer();
+		return $this->appContainer->get(IServerContainer::class);
 	}
 
 	public function injectFn(callable $fn) {

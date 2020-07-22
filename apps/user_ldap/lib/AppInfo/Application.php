@@ -26,6 +26,7 @@
 
 namespace OCA\User_LDAP\AppInfo;
 
+use Closure;
 use OCA\Files_External\Service\BackendService;
 use OCA\User_LDAP\Controller\RenewPasswordController;
 use OCA\User_LDAP\Group_Proxy;
@@ -41,9 +42,14 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\IAppContainer;
+use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IServerContainer;
-use Psr\Container\ContainerInterface;
+use OCP\IUserSession;
+use OCP\Notification\IManager as INotificationManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App implements IBootstrap {
 	public function __construct() {
@@ -53,17 +59,17 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Controller
 		 */
-		$container->registerService('RenewPasswordController', function (ContainerInterface $c) {
+		$container->registerService('RenewPasswordController', function (IAppContainer $appContainer) {
 			/** @var IServerContainer $server */
-			$server = $c->get(IServerContainer::class);
+			$server = $appContainer->get(IServerContainer::class);
 
 			return new RenewPasswordController(
-				$c->get('AppName'),
+				$appContainer->get('AppName'),
 				$server->getRequest(),
-				$c->get('UserManager'),
+				$appContainer->get('UserManager'),
 				$server->getConfig(),
-				$c->get(IL10N::class),
-				$c->get('Session'),
+				$appContainer->get(IL10N::class),
+				$appContainer->get('Session'),
 				$server->getURLGenerator()
 			);
 		});
@@ -77,35 +83,37 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$server = $context->getServerContainer();
-		$config = $server->getConfig();
+		$context->injectFn(function (IConfig $config,
+									 INotificationManager $notificationManager,
+									 IUserSession $userSession,
+									 IAppContainer $appContainer,
+									 EventDispatcherInterface $dispatcher,
+									 IGroupManager $groupManager) {
+			$helper = new Helper($config);
+			$configPrefixes = $helper->getServerConfigurationPrefixes(true);
+			if (count($configPrefixes) > 0) {
+				$ldapWrapper = new LDAP();
 
-		$helper = new Helper($config);
-		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
-		if (count($configPrefixes) > 0) {
-			$ldapWrapper = new LDAP();
+				$notificationManager->registerNotifierService(Notifier::class);
 
-			$notificationManager = $server->getNotificationManager();
-			$notificationManager->registerNotifierService(Notifier::class);
-			$userSession = $server->getUserSession();
+				$userPluginManager = $appContainer->get(UserPluginManager::class);
+				$groupPluginManager = $appContainer->get(GroupPluginManager::class);
 
-			$userPluginManager = $server->query(UserPluginManager::class);
-			$groupPluginManager = $server->query(GroupPluginManager::class);
+				$userBackend = new User_Proxy(
+					$configPrefixes, $ldapWrapper, $config, $notificationManager, $userSession, $userPluginManager
+				);
+				$groupBackend = new Group_Proxy($configPrefixes, $ldapWrapper, $groupPluginManager);
+				// register user backend
+				\OC_User::useBackend($userBackend);
 
-			$userBackend  = new User_Proxy(
-				$configPrefixes, $ldapWrapper, $config, $notificationManager, $userSession, $userPluginManager
-			);
-			$groupBackend  = new Group_Proxy($configPrefixes, $ldapWrapper, $groupPluginManager);
-			// register user backend
-			\OC_User::useBackend($userBackend);
+				// Hook to allow plugins to work on registered backends
+				$dispatcher->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded');
 
-			// Hook to allow plugins to work on registered backends
-			$server->getEventDispatcher()->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded');
+				$groupManager->addBackend($groupBackend);
+			}
+		});
 
-			$server->getGroupManager()->addBackend($groupBackend);
-
-			$this->registerBackendDependents($context->getAppContainer());
-		}
+		$context->injectFn(Closure::fromCallable([$this, 'registerBackendDependents']));
 
 		\OCP\Util::connectHook(
 			'\OCA\Files_Sharing\API\Server2Server',
@@ -115,10 +123,8 @@ class Application extends App implements IBootstrap {
 		);
 	}
 
-	public function registerBackendDependents(ContainerInterface $appContainer) {
-		/** @var IServerContainer $serverContainer */
-		$serverContainer = $appContainer->get(IServerContainer::class);
-		$serverContainer->getEventDispatcher()->addListener(
+	private function registerBackendDependents(IAppContainer $appContainer, EventDispatcherInterface $dispatcher) {
+		$dispatcher->addListener(
 			'OCA\\Files_External::loadAdditionalBackends',
 			function () use ($appContainer) {
 				$storagesBackendService = $appContainer->get(BackendService::class);
