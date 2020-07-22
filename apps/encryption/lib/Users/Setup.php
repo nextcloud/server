@@ -73,8 +73,8 @@ class Setup {
 	 */
 	public function setupUser($uid, $password) {
 		if (!$this->keyManager->userHasKeys($uid)) {
-			return $this->keyManager->storeKeyPair($uid, $password,
-				$this->crypt->createKeyPair());
+			$keyPair = $this->crypt->createKeyPair();
+			return is_array($keyPair) ? $this->keyManager->storeKeyPair($uid, $password, $keyPair) : false;
 		}
 		return true;
 	}
