@@ -152,7 +152,8 @@ class Application extends \OCP\AppFramework\App {
 					$server->getUserSession(),
 					new Session($server->getSession()),
 					$server->getLogger(),
-					$c->query('Util')
+					$c->query('Util'),
+					$server->getLockingProvider()
 				);
 			});
 
