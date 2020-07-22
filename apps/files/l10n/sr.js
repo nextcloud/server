@@ -60,6 +60,7 @@ OC.L10N.register(
     "Could not fetch file details \"{file}\"" : "Не могу да дохватим детаље за „{file}”",
     "Error deleting file \"{fileName}\"." : "Грешка при брисању фајла \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Нема резултата претраге у осталим фасциклама за {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Унесите више од два карактера да претражујете у другим фасциклама",
     "Name" : "Назив",
     "Size" : "Величина",
     "Modified" : "Измењен",

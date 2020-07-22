@@ -1,7 +1,7 @@
 OC.L10N.register(
     "twofactor_backupcodes",
     {
-    "You created two-factor backup codes for your account" : "Вие креиравте резервни кодови за двофакторна автентификација на вашата сметка",
+    "You created two-factor backup codes for your account" : "Креиравте резервни кодови за двофакторна автентификација на вашата сметка",
     "Second-factor backup codes" : "Резервни кодови за двофакторна автентификација",
     "Generate backup codes" : "Генерирај резервни кодови",
     "You enabled two-factor authentication but did not generate backup codes yet. They are needed to restore access to your account in case you lose your second factor." : "Вие имате активирано двофакторна автентикација но немате генерирано резервни кодови. Тие се потребни за во случај да го изгубите пристапот до вториот фактор.",

@@ -58,6 +58,7 @@
     "Could not fetch file details \"{file}\"" : "Неможливо отримати деталі файлу \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Помилка вилучення файлу \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Нічого не знайдено в інших теках за запитом {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Для пошуку в інших теках потрібно зазначити більше двох символів",
     "Name" : "Ім'я",
     "Size" : "Розмір",
     "Modified" : "Змінено",
