@@ -85,8 +85,7 @@ module.exports = []
 					loader: 'babel-loader',
 					// automatically detect necessary packages to
 					// transpile in the node_modules folder
-					exclude: /node_modules(?!(\/|\\)(nextcloud-vue-collections|p-finally|p-limit|p-locate|p-queue|p-timeout|p-try)(\/|\\))/
-
+					exclude: /node_modules(?!(\/|\\)(nextcloud-vue-collections|p-finally|p-limit|p-locate|p-queue|p-timeout|p-try|toastify-js|v-tooltip)(\/|\\))/
 				},
 				{
 					test: /\.(png|jpg|gif)$/,

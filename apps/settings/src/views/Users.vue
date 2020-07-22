@@ -27,7 +27,7 @@
 				:text="t('settings','New user')"
 				button-class="icon-add"
 				@click="toggleNewUserMenu" />
-			<ul id="usergrouplist">
+			<template #list>
 				<AppNavigationItem
 					id="addgroup"
 					ref="addGroup"
@@ -92,58 +92,60 @@
 						</ActionButton>
 					</template>
 				</AppNavigationItem>
-			</ul>
-			<AppNavigationSettings>
-				<div>
-					<p>{{ t('settings', 'Default quota:') }}</p>
-					<Multiselect :value="defaultQuota"
-						:options="quotaOptions"
-						tag-placeholder="create"
-						:placeholder="t('settings', 'Select default quota')"
-						label="label"
-						track-by="id"
-						:allow-empty="false"
-						:taggable="true"
-						@tag="validateQuota"
-						@input="setDefaultQuota" />
-				</div>
-				<div>
-					<input id="showLanguages"
-						v-model="showLanguages"
-						type="checkbox"
-						class="checkbox">
-					<label for="showLanguages">{{ t('settings', 'Show Languages') }}</label>
-				</div>
-				<div>
-					<input id="showLastLogin"
-						v-model="showLastLogin"
-						type="checkbox"
-						class="checkbox">
-					<label for="showLastLogin">{{ t('settings', 'Show last login') }}</label>
-				</div>
-				<div>
-					<input id="showUserBackend"
-						v-model="showUserBackend"
-						type="checkbox"
-						class="checkbox">
-					<label for="showUserBackend">{{ t('settings', 'Show user backend') }}</label>
-				</div>
-				<div>
-					<input id="showStoragePath"
-						v-model="showStoragePath"
-						type="checkbox"
-						class="checkbox">
-					<label for="showStoragePath">{{ t('settings', 'Show storage path') }}</label>
-				</div>
-				<div>
-					<input id="sendWelcomeMail"
-						v-model="sendWelcomeMail"
-						:disabled="loadingSendMail"
-						type="checkbox"
-						class="checkbox">
-					<label for="sendWelcomeMail">{{ t('settings', 'Send email to new user') }}</label>
-				</div>
-			</AppNavigationSettings>
+			</template>
+			<template #footer>
+				<AppNavigationSettings>
+					<div>
+						<p>{{ t('settings', 'Default quota:') }}</p>
+						<Multiselect :value="defaultQuota"
+							:options="quotaOptions"
+							tag-placeholder="create"
+							:placeholder="t('settings', 'Select default quota')"
+							label="label"
+							track-by="id"
+							:allow-empty="false"
+							:taggable="true"
+							@tag="validateQuota"
+							@input="setDefaultQuota" />
+					</div>
+					<div>
+						<input id="showLanguages"
+							v-model="showLanguages"
+							type="checkbox"
+							class="checkbox">
+						<label for="showLanguages">{{ t('settings', 'Show Languages') }}</label>
+					</div>
+					<div>
+						<input id="showLastLogin"
+							v-model="showLastLogin"
+							type="checkbox"
+							class="checkbox">
+						<label for="showLastLogin">{{ t('settings', 'Show last login') }}</label>
+					</div>
+					<div>
+						<input id="showUserBackend"
+							v-model="showUserBackend"
+							type="checkbox"
+							class="checkbox">
+						<label for="showUserBackend">{{ t('settings', 'Show user backend') }}</label>
+					</div>
+					<div>
+						<input id="showStoragePath"
+							v-model="showStoragePath"
+							type="checkbox"
+							class="checkbox">
+						<label for="showStoragePath">{{ t('settings', 'Show storage path') }}</label>
+					</div>
+					<div>
+						<input id="sendWelcomeMail"
+							v-model="sendWelcomeMail"
+							:disabled="loadingSendMail"
+							type="checkbox"
+							class="checkbox">
+						<label for="sendWelcomeMail">{{ t('settings', 'Send email to new user') }}</label>
+					</div>
+				</AppNavigationSettings>
+			</template>
 		</AppNavigation>
 		<AppContent>
 			<UserList #content
@@ -514,7 +516,7 @@ export default {
 
 <style lang="scss" scoped>
 // force hiding the editing action for the add group entry
-#usergrouplist #addgroup::v-deep .app-navigation-entry__utils {
+.app-navigation__list #addgroup::v-deep .app-navigation-entry__utils {
 	display: none;
 }
 </style>

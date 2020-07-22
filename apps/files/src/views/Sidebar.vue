@@ -454,7 +454,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-#app-sidebar {
+.app-sidebar {
 	&.has-preview::v-deep {
 		.app-sidebar-header__figure {
 			background-size: cover;

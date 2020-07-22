@@ -26,7 +26,7 @@
 		:content-class="{ 'icon-loading': loadingList }"
 		:navigation-class="{ 'icon-loading': loading }">
 		<AppNavigation>
-			<ul id="appscategories">
+			<template #list>
 				<AppNavigationItem
 					id="app-category-your-apps"
 					:to="{ name: 'apps' }"
@@ -84,7 +84,7 @@
 					id="app-developer-docs"
 					href="settings.developerDocumentation"
 					:title="t('settings', 'Developer documentation') + ' ↗'" />
-			</ul>
+			</template>
 		</AppNavigation>
 		<AppContent class="app-settings-content" :class="{ 'icon-loading': loadingList }">
 			<AppList :category="category" :app="currentApp" :search="searchQuery" />
