@@ -60,6 +60,7 @@ OC.L10N.register(
     "Could not fetch file details \"{file}\"" : "Kunde inte hämta filinformation \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Fel när \"{fileName}\" skulle raderas.",
     "No search results in other folders for {tag}{filter}{endtag}" : "Inga sökresultat i andra mappar för {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Ange mer än två tecken för att söka i andra mappar",
     "Name" : "Namn",
     "Size" : "Storlek",
     "Modified" : "Ändrad",
