@@ -58,13 +58,14 @@
     "Could not fetch file details \"{file}\"" : "Ni mogoče pridobiti podrobnosti datoteke »{file}«.",
     "Error deleting file \"{fileName}\"." : "Prišli je do napake med brisanjem datoteke »{fileName}«.",
     "No search results in other folders for {tag}{filter}{endtag}" : "Za iskalni niz {tag}{filter}{endtag} ni zadetkov v nobeni mapi",
+    "Enter more than two characters to search in other folders" : "Vpišite več kot dva znaka za iskanje po drugih mapah",
     "Name" : "Ime",
     "Size" : "Velikost",
     "Modified" : "Spremenjeno",
     "_%n folder_::_%n folders_" : ["%n mapa","%n mapi","%n mape","%n mape"],
     "_%n file_::_%n files_" : ["%n datoteka","%n datoteki","%n datoteke","%n datotek"],
     "{dirs} and {files}" : "{dirs} in {files}",
-    "_including %n hidden_::_including %n hidden_" : ["Vključujoč %n skrit","Vključujoč %n skrita","Vključujoč %n skritih","Vključujoč %n skritih"],
+    "_including %n hidden_::_including %n hidden_" : ["vključujoč %n skrite","vključujoč %n skritih","vključujoč %n skritih","vključujoč %n skritih"],
     "You don’t have permission to upload or create files here" : "Ni ustreznih dovoljenj za pošiljanje in ustvarjanje datotek na tem mestu.",
     "_Uploading %n file_::_Uploading %n files_" : ["Posodabljanje %n datoteke","Posodabljanje %n datotek","Posodabljanje %n datotek","Poteka posodabljanje %n datotek"],
     "New" : "Novo",
@@ -152,6 +153,7 @@
     "Transfer {path} to {userid}" : "Prenesi pot {path} k uporabniku {userid}",
     "Invalid path selected" : "Izbrana je neveljavna pot",
     "Ownership transfer request sent" : "Zahteva za prenos lastništva je poslana",
+    "Cannot transfer ownership of a file or folder you don't own" : "Ni mogoče prenesti lastništva datotek in map, katerih niste lastnik",
     "Tags" : "Oznake",
     "Error while loading the file data" : "Prišlo je do napake med nalaganjem podatkov računa",
     "Unable to change the favourite state of the file" : "Ni mogoče spremeniti stanja priljubljenosti datoteke",
@@ -161,6 +163,7 @@
     "Settings" : "Nastavitve",
     "Show hidden files" : "Pokaži skrite datoteke",
     "WebDAV" : "WebDAV",
+    "Use this address to access your Files via WebDAV" : "Uporabite ta naslov za dostop do datotek prek WebDAV",
     "Toggle grid view" : "Preklopi mrežni pogled",
     "No files in here" : "V mapi ni datotek",
     "Upload some content or sync with your devices!" : "Uvozite vsebino, ali pa omogočite usklajevanje z napravami!",
@@ -179,6 +182,7 @@
     "Pending shares" : "Predmeti za souporabo na čakanju",
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "nova_datoteka.txt",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Naslov omogoča dostop do datotek prek <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">WebDAV</a>."
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Naslov omogoča dostop do datotek prek <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">WebDAV</a>.",
+    "Cannot transfter ownership of a file or folder you don't own" : "Ni mogoče prenesti lastništva datotek in map, katerih niste lastnik"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
