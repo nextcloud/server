@@ -280,7 +280,7 @@ EOD;
 		$this->assertCount(0, $calendarObjects);
 	}
 
-	
+
 	public function testMultipleCalendarObjectsWithSameUID() {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Calendar object with uid already exists in this calendar collection.');
@@ -443,7 +443,7 @@ EOD;
 		$expectedEventsInResult = array_map(function($index) use($events) {
 			return $events[$index];
 		}, $expectedEventsInResult);
-		$this->assertEquals($expectedEventsInResult, $result, '', 0.0, 10, true);
+		$this->assertEqualsCanonicalizing($expectedEventsInResult, $result);
 	}
 
 	public function testGetCalendarObjectByUID() {
