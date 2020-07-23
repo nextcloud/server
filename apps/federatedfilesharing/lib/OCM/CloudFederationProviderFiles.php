@@ -34,6 +34,7 @@ use OCA\Files_Sharing\Activity\Providers\RemoteShares;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\App\IAppManager;
 use OCP\Constants;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\Exceptions\ActionNotSupportedException;
 use OCP\Federation\Exceptions\AuthenticationFailedException;
 use OCP\Federation\Exceptions\BadRequestException;
@@ -240,7 +241,8 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 				\OC::$server->getCloudFederationFactory(),
 				\OC::$server->getGroupManager(),
 				\OC::$server->getUserManager(),
-				$shareWith
+				$shareWith,
+				\OC::$server->query(IEventDispatcher::class)
 			);
 
 			try {

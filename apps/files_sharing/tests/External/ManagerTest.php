@@ -33,6 +33,7 @@ use OC\Files\Storage\StorageFactory;
 use OCA\Files_Sharing\External\Manager;
 use OCA\Files_Sharing\External\MountProvider;
 use OCA\Files_Sharing\Tests\TestCase;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Federation\ICloudFederationFactory;
 use OCP\Federation\ICloudFederationProviderManager;
 use OCP\Http\Client\IClientService;
@@ -80,6 +81,8 @@ class ManagerTest extends TestCase {
 	 */
 	private $user;
 	private $testMountProvider;
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	private $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -94,6 +97,7 @@ class ManagerTest extends TestCase {
 		$this->cloudFederationFactory = $this->createMock(ICloudFederationFactory::class);
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->manager = $this->getMockBuilder(Manager::class)
 			->setConstructorArgs(
@@ -108,7 +112,8 @@ class ManagerTest extends TestCase {
 					$this->cloudFederationFactory,
 					$this->groupManager,
 					$this->userManager,
-					$this->uid
+					$this->uid,
+					$this->eventDispatcher,
 				]
 			)->setMethods(['tryOCMEndPoint'])->getMock();
 

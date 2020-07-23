@@ -27,58 +27,32 @@
 
 namespace OCA\Federation\AppInfo;
 
-use OCA\Federation\DAV\FedAuth;
-use OCA\Federation\Hooks;
+use OCA\DAV\Events\SabrePluginAuthInitEvent;
+use OCA\FederatedFileSharing\Events\FederatedShareAddedEvent;
+use OCA\Federation\Listener\FederatedShareAddedListener;
+use OCA\Federation\Listener\SabrePluginAuthInitListener;
 use OCA\Federation\Middleware\AddServerMiddleware;
 use OCP\AppFramework\App;
-use OCP\SabrePluginEvent;
-use OCP\Share;
-use OCP\Util;
-use Sabre\DAV\Auth\Plugin;
-use Sabre\DAV\Server;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 
 	/**
 	 * @param array $urlParams
 	 */
 	public function __construct($urlParams = []) {
 		parent::__construct('federation', $urlParams);
-		$this->registerMiddleware();
 	}
 
-	private function registerMiddleware() {
-		$container = $this->getContainer();
-		$container->registerAlias('AddServerMiddleware', AddServerMiddleware::class);
-		$container->registerMiddleWare('AddServerMiddleware');
+	public function register(IRegistrationContext $context): void {
+		$context->registerMiddleware(AddServerMiddleware::class);
+
+		$context->registerEventListener(FederatedShareAddedEvent::class, FederatedShareAddedListener::class);
+		$context->registerEventListener(SabrePluginAuthInitEvent::class, SabrePluginAuthInitListener::class);
 	}
 
-	/**
-	 * listen to federated_share_added hooks to auto-add new servers to the
-	 * list of trusted servers.
-	 */
-	public function registerHooks() {
-		$container = $this->getContainer();
-		$hooksManager = $container->query(Hooks::class);
-
-		Util::connectHook(
-				Share::class,
-				'federated_share_added',
-				$hooksManager,
-				'addServerHook'
-		);
-
-		$dispatcher = $container->getServer()->getEventDispatcher();
-		$dispatcher->addListener('OCA\DAV\Connector\Sabre::authInit', function ($event) use ($container) {
-			if ($event instanceof SabrePluginEvent) {
-				$server = $event->getServer();
-				if ($server instanceof Server) {
-					$authPlugin = $server->getPlugin('auth');
-					if ($authPlugin instanceof Plugin) {
-						$authPlugin->addBackend($container->query(FedAuth::class));
-					}
-				}
-			}
-		});
+	public function boot(IBootContext $context): void {
 	}
 }

@@ -28,6 +28,7 @@
 namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
+use OCP\EventDispatcher\IEventDispatcher;
 
 class Hooks {
 	public static function deleteUser($params) {
@@ -42,7 +43,9 @@ class Hooks {
 			\OC::$server->getCloudFederationFactory(),
 			\OC::$server->getGroupManager(),
 			\OC::$server->getUserManager(),
-			$params['uid']);
+			$params['uid'],
+			\OC::$server->query(IEventDispatcher::class)
+		);
 
 		$manager->removeUserShares($params['uid']);
 	}

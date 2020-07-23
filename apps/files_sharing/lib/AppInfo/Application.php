@@ -94,7 +94,8 @@ class Application extends App {
 				$server->getCloudFederationFactory(),
 				$server->getGroupManager(),
 				$server->getUserManager(),
-				$uid
+				$uid,
+				$server->query(IEventDispatcher::class)
 			);
 		});
 

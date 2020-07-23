@@ -39,6 +39,7 @@ use OCA\FederatedFileSharing\TokenHandler;
 use OCA\ShareByMail\Settings\SettingsManager;
 use OCA\ShareByMail\ShareByMailProvider;
 use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IServerContainer;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
@@ -127,7 +128,8 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->query(\OCP\OCS\IDiscoveryService::class),
 				$this->serverContainer->getJobList(),
 				\OC::$server->getCloudFederationProviderManager(),
-				\OC::$server->getCloudFederationFactory()
+				\OC::$server->getCloudFederationFactory(),
+				$this->serverContainer->query(IEventDispatcher::class)
 			);
 			$tokenHandler = new TokenHandler(
 				$this->serverContainer->getSecureRandom()

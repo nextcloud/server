@@ -11,6 +11,7 @@ return array(
     'OCA\\FederatedFileSharing\\BackgroundJob\\RetryJob' => $baseDir . '/../lib/BackgroundJob/RetryJob.php',
     'OCA\\FederatedFileSharing\\Controller\\MountPublicLinkController' => $baseDir . '/../lib/Controller/MountPublicLinkController.php',
     'OCA\\FederatedFileSharing\\Controller\\RequestHandlerController' => $baseDir . '/../lib/Controller/RequestHandlerController.php',
+    'OCA\\FederatedFileSharing\\Events\\FederatedShareAddedEvent' => $baseDir . '/../lib/Events/FederatedShareAddedEvent.php',
     'OCA\\FederatedFileSharing\\FederatedShareProvider' => $baseDir . '/../lib/FederatedShareProvider.php',
     'OCA\\FederatedFileSharing\\Listeners\\LoadAdditionalScriptsListener' => $baseDir . '/../lib/Listeners/LoadAdditionalScriptsListener.php',
     'OCA\\FederatedFileSharing\\Migration\\Version1010Date20200630191755' => $baseDir . '/../lib/Migration/Version1010Date20200630191755.php',

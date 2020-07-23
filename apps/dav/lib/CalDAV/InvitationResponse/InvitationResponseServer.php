@@ -30,8 +30,9 @@ use OCA\DAV\Connector\Sabre\AnonymousOptionsPlugin;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\CachingTree;
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
+use OCA\DAV\Events\SabrePluginAuthInitEvent;
 use OCA\DAV\RootCollection;
-use OCP\SabrePluginEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use Sabre\DAV\Auth\Plugin;
 use Sabre\VObject\ITip\Message;
 
@@ -46,7 +47,8 @@ class InvitationResponseServer {
 	public function __construct() {
 		$baseUri = \OC::$WEBROOT . '/remote.php/dav/';
 		$logger = \OC::$server->getLogger();
-		$dispatcher = \OC::$server->getEventDispatcher();
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = \OC::$server->query(IEventDispatcher::class);
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server(new CachingTree($root));
@@ -67,8 +69,8 @@ class InvitationResponseServer {
 		});
 
 		// allow setup of additional auth backends
-		$event = new SabrePluginEvent($this->server);
-		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::authInit', $event);
+		$event = new SabrePluginAuthInitEvent($this->server);
+		$dispatcher->dispatchTyped($event);
 
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $logger));
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
