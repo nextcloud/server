@@ -203,8 +203,8 @@ class NewUserMailHelperTest extends TestCase {
 						<table class="row collapse" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
-								<center data-parsed="" style="background-color:;min-width:150px;padding:50px 0;border-radius:200px">
-									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none" height="50">
+								<center data-parsed="" style="background-color:;width:150px;height:150px;padding:0px;position:relative;border-radius:200px">
+									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;clear:both;display:block;float:none;outline:0;text-align:center;text-decoration:none;position:absolute;max-height:100px;max-width:100px;width:auto;height:auto;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;">
 								</center>
 							</tr>
 							</tbody>
@@ -434,8 +434,8 @@ EOF;
 						<table class="row collapse" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
-								<center data-parsed="" style="background-color:;min-width:150px;padding:50px 0;border-radius:200px">
-									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none" height="50">
+								<center data-parsed="" style="background-color:;width:150px;height:150px;padding:0px;position:relative;border-radius:200px">
+									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;clear:both;display:block;float:none;outline:0;text-align:center;text-decoration:none;position:absolute;max-height:100px;max-width:100px;width:auto;height:auto;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;">
 								</center>
 							</tr>
 							</tbody>
@@ -669,8 +669,8 @@ EOF;
 						<table class="row collapse" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
 							<tbody>
 							<tr style="padding:0;text-align:left;vertical-align:top">
-								<center data-parsed="" style="background-color:;min-width:150px;padding:50px 0;border-radius:200px">
-									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;Margin:0 auto;clear:both;display:block;float:none;margin:0 auto;outline:0;text-align:center;text-decoration:none" height="50">
+								<center data-parsed="" style="background-color:;width:150px;height:150px;padding:0px;position:relative;border-radius:200px">
+									<img class="logo float-center" src="" alt="TestCloud" align="center" style="-ms-interpolation-mode:bicubic;clear:both;display:block;float:none;outline:0;text-align:center;text-decoration:none;position:absolute;max-height:100px;max-width:100px;width:auto;height:auto;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;">
 								</center>
 							</tr>
 							</tbody>
