@@ -58,6 +58,7 @@
     "Could not fetch file details \"{file}\"" : "\"{file}\" dosyasının ayrıntıları alınamadı",
     "Error deleting file \"{fileName}\"." : "\"{fileName}\" dosyası silinirken sorun çıktı.",
     "No search results in other folders for {tag}{filter}{endtag}" : "{tag}{filter}{endtag} için diğer klasörlerde herhangi bir arama sonucu yok",
+    "Enter more than two characters to search in other folders" : "Diğer klasörlerde aramak için iki karakterden fazla yazın",
     "Name" : "Ad",
     "Size" : "Boyut",
     "Modified" : "Değiştirilme",
