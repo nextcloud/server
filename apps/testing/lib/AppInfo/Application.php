@@ -26,20 +26,27 @@ namespace OCA\Testing\AppInfo;
 
 use OCA\Testing\AlternativeHomeUserBackend;
 use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
 
-class Application extends App {
+class Application extends App implements IBootstrap {
 	public function __construct(array $urlParams = []) {
-		$appName = 'testing';
-		parent::__construct($appName, $urlParams);
+		parent::__construct('testing', $urlParams);
+	}
 
-		$c = $this->getContainer();
-		$config = $c->getServer()->getConfig();
-		if ($config->getAppValue($appName, 'enable_alt_user_backend', 'no') === 'yes') {
-			$userManager = $c->getServer()->getUserManager();
+	public function register(IRegistrationContext $context): void {
+	}
+
+	public function boot(IBootContext $context): void {
+		$server = $context->getServerContainer();
+		$config = $server->getConfig();
+		if ($config->getAppValue('testing', 'enable_alt_user_backend', 'no') === 'yes') {
+			$userManager = $server->getUserManager();
 
 			// replace all user backends with this one
 			$userManager->clearBackends();
-			$userManager->registerBackend($c->query(AlternativeHomeUserBackend::class));
+			$userManager->registerBackend($context->getAppContainer()->get(AlternativeHomeUserBackend::class));
 		}
 	}
 }
