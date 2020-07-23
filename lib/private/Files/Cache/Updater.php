@@ -27,6 +27,7 @@
 
 namespace OC\Files\Cache;
 
+use OC\Files\FileInfo;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IUpdater;
 use OCP\Files\Storage\IStorage;
@@ -187,7 +188,9 @@ class Updater implements IUpdater {
 		$sourceUpdater = $sourceStorage->getUpdater();
 		$sourcePropagator = $sourceStorage->getPropagator();
 
-		if ($sourceCache->inCache($source)) {
+		$sourceInfo = $sourceCache->get($source);
+
+		if ($sourceInfo !== false) {
 			if ($this->cache->inCache($target)) {
 				$this->cache->remove($target);
 			}
@@ -197,13 +200,13 @@ class Updater implements IUpdater {
 			} else {
 				$this->cache->moveFromCache($sourceCache, $source, $target);
 			}
-		}
 
-		if (pathinfo($source, PATHINFO_EXTENSION) !== pathinfo($target, PATHINFO_EXTENSION)) {
-			// handle mime type change
-			$mimeType = $this->storage->getMimeType($target);
-			$fileId = $this->cache->getId($target);
-			$this->cache->update($fileId, ['mimetype' => $mimeType]);
+			if (pathinfo($source, PATHINFO_EXTENSION) !== pathinfo($target, PATHINFO_EXTENSION) && $sourceInfo->getMimeType() !== FileInfo::MIMETYPE_FOLDER) {
+				// handle mime type change
+				$mimeType = $this->storage->getMimeType($target);
+				$fileId = $this->cache->getId($target);
+				$this->cache->update($fileId, ['mimetype' => $mimeType]);
+			}
 		}
 
 		if ($sourceCache instanceof Cache) {
