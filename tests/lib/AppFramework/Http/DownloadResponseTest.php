@@ -47,8 +47,8 @@ class DownloadResponseTest extends \Test\TestCase {
 	public function testHeaders() {
 		$headers = $this->response->getHeaders();
 
-		$this->assertContains('attachment; filename="file"', $headers['Content-Disposition']);
-		$this->assertContains('content', $headers['Content-Type']);
+		$this->assertStringContainsString('attachment; filename="file"', $headers['Content-Disposition']);
+		$this->assertStringContainsString('content', $headers['Content-Type']);
 	}
 
 
