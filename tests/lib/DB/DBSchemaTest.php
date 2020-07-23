@@ -83,8 +83,8 @@ class DBSchemaTest extends TestCase {
 		$outfile = $this->tempManager->getTemporaryFile();
 		OC_DB::getDbStructure($outfile);
 		$content = file_get_contents($outfile);
-		$this->assertContains($this->table1, $content);
-		$this->assertContains($this->table2, $content);
+		$this->assertStringContainsString($this->table1, $content);
+		$this->assertStringContainsString($this->table2, $content);
 	}
 
 	public function doTestSchemaRemoving() {
