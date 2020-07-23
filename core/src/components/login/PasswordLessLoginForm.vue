@@ -155,6 +155,10 @@ export default {
 				return window.btoa(String.fromCharCode(...a))
 			}
 
+			const arrayToString = function(a) {
+				return String.fromCharCode(...a)
+			}
+
 			return navigator.credentials.get({ publicKey })
 				.then(data => {
 					console.debug(data)
@@ -168,7 +172,7 @@ export default {
 							authenticatorData: arrayToBase64String(new Uint8Array(data.response.authenticatorData)),
 							clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
 							signature: arrayToBase64String(new Uint8Array(data.response.signature)),
-							userHandle: data.response.userHandle ? arrayToBase64String(new Uint8Array(data.response.userHandle)) : null,
+							userHandle: data.response.userHandle ? arrayToString(new Uint8Array(data.response.userHandle)) : null,
 						},
 					}
 				})
