@@ -28,9 +28,9 @@ Feature: users
     And I open the User settings
     And I see that the list of users contains the user user0
     And I open the actions menu for the user user0
-#    And I see that the "Delete user" action in the user0 actions menu is shown
-#    When I click the "Delete user" action in the user0 actions menu
-#    Then I see that the list of users does not contains the user user0
+    And I see that the "Delete user" action in the user0 actions menu is shown
+    When I click the "Delete user" action in the user0 actions menu
+    Then I see that the list of users does not contains the user user0
 
   Scenario: disable a user
     Given I act as Jane
@@ -38,11 +38,11 @@ Feature: users
     And I open the User settings
     And I see that the list of users contains the user user0
     And I open the actions menu for the user user0
-#    And I see that the "Disable user" action in the user0 actions menu is shown
-#    When I click the "Disable user" action in the user0 actions menu
-#    Then I see that the list of users does not contains the user user0
-#    When I open the "Disabled users" section
-#    Then I see that the list of users contains the user user0
+    And I see that the "Disable user" action in the user0 actions menu is shown
+    When I click the "Disable user" action in the user0 actions menu
+    Then I see that the list of users does not contains the user user0
+    When I open the "Disabled users" section
+    Then I see that the list of users contains the user user0
 
   Scenario: users navigation without disabled users
     Given I act as Jane
@@ -51,12 +51,12 @@ Feature: users
     And I open the "Disabled users" section
     And I see that the list of users contains the user disabledUser
     And I open the actions menu for the user disabledUser
-#    And I see that the "Enable user" action in the disabledUser actions menu is shown
-#    When I click the "Enable user" action in the disabledUser actions menu
-#    Then I see that the section "Disabled users" is not shown
+    And I see that the "Enable user" action in the disabledUser actions menu is shown
+    When I click the "Enable user" action in the disabledUser actions menu
+    Then I see that the section "Disabled users" is not shown
     # check again after reloading the settings
-#    When I open the User settings
-#    Then I see that the section "Disabled users" is not shown
+    When I open the User settings
+    Then I see that the section "Disabled users" is not shown
 
   Scenario: assign user to a group
     Given I act as Jane
