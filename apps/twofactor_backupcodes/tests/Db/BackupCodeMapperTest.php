@@ -117,8 +117,13 @@ class BackupCodeMapperTest extends TestCase {
 		$code->setUserId($this->testUID);
 		$code->setCode('2|$argon2i$v=19$m=1024,t=2,p=2$MjJWUjRFWndtMm5BWGxOag$BusVxLeFyiLLWtaVvX/JRFBiPdZcjRrzpQ/rAhn6vqY');
 		$code->setUsed(1);
+		$user = $this->getMockBuilder(IUser::class)->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->willReturn($this->testUID);
 
 		$this->mapper->insert($code);
+		$this->assertCount(1, $this->mapper->getBackupCodes($user));
 	}
 
 }
