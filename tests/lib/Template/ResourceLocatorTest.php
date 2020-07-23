@@ -33,17 +33,6 @@ class ResourceLocatorTest extends \Test\TestCase {
 			'', true, true, true, []);
 	}
 
-	public function testConstructor() {
-		$locator = $this->getResourceLocator('theme',
-			['core'=>'map'], ['3rd'=>'party'], ['foo'=>'bar']);
-		$this->assertAttributeEquals('theme', 'theme', $locator);
-		$this->assertAttributeEquals('core', 'serverroot', $locator);
-		$this->assertAttributeEquals(['core'=>'map','3rd'=>'party'], 'mapping', $locator);
-		$this->assertAttributeEquals('3rd', 'thirdpartyroot', $locator);
-		$this->assertAttributeEquals('map', 'webroot', $locator);
-		$this->assertAttributeEquals([], 'resources', $locator);
-	}
-
 	public function testFind() {
 		$locator = $this->getResourceLocator('theme',
 			['core' => 'map'], ['3rd' => 'party'], ['foo' => 'bar']);
