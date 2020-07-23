@@ -143,7 +143,7 @@ OC.L10N.register(
     "Expiration date enforced" : "تاریخ انقضا اجرا شده است",
     "Set expiration date" : "تنظیم تاریخ انقضا",
     "Enter a date" : "تاریخ را وارد کنید",
-    "Note to recipient" : "توجه داشته باشید به گیرنده",
+    "Note to recipient" : "یادداشت برای گیرنده",
     "Unshare" : "لغو اشتراک",
     "group" : "گروه",
     "conversation" : "گفتگو",
