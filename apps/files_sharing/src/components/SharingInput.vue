@@ -435,7 +435,7 @@ export default {
 					path,
 					shareType: value.shareType,
 					shareWith: value.shareWith,
-					permissions: this.fileInfo.sharePermissions,
+					permissions: this.fileInfo.sharePermissions & OC.getCapabilities().files_sharing.default_permissions,
 				})
 				this.$emit('add:share', share)
 
