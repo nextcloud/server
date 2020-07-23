@@ -273,6 +273,14 @@ class OC_User {
 			return $backend->getLogoutUrl();
 		}
 
+		$user = \OC::$server->getUserSession()->getUser();
+		if ($user instanceof \OCP\IUser) {
+			$backend = $user->getBackend();
+			if ($backend instanceof \OCP\User\Backend\ICustomLogout) {
+				return $backend->getLogoutUrl();
+			}
+		}
+
 		$logoutUrl = $urlGenerator->linkToRoute('core.login.logout');
 		$logoutUrl .= '?requesttoken=' . urlencode(\OCP\Util::callRegister());
 

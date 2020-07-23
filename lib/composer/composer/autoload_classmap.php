@@ -498,6 +498,7 @@ return array(
     'OCP\\User\\Backend\\ICheckPasswordBackend' => $baseDir . '/lib/public/User/Backend/ICheckPasswordBackend.php',
     'OCP\\User\\Backend\\ICountUsersBackend' => $baseDir . '/lib/public/User/Backend/ICountUsersBackend.php',
     'OCP\\User\\Backend\\ICreateUserBackend' => $baseDir . '/lib/public/User/Backend/ICreateUserBackend.php',
+    'OCP\\User\\Backend\\ICustomLogout' => $baseDir . '/lib/public/User/Backend/ICustomLogout.php',
     'OCP\\User\\Backend\\IGetDisplayNameBackend' => $baseDir . '/lib/public/User/Backend/IGetDisplayNameBackend.php',
     'OCP\\User\\Backend\\IGetHomeBackend' => $baseDir . '/lib/public/User/Backend/IGetHomeBackend.php',
     'OCP\\User\\Backend\\IGetRealUIDBackend' => $baseDir . '/lib/public/User/Backend/IGetRealUIDBackend.php',
