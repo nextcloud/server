@@ -271,9 +271,11 @@ class Manager implements IManager {
 			/** @var ISetting $setting */
 			$setting = \OC::$server->query($class);
 
-			if ($setting instanceof ISetting) {
-				$setting = new ActivitySettingsAdapter($setting);
-			} elseif (!$setting instanceof ActivitySettings) {
+			if (!$setting instanceof ISetting) {
+				if (!$setting instanceof ActivitySettings) {
+					$setting = new ActivitySettingsAdapter($setting);
+				}
+			} else {
 				throw new \InvalidArgumentException('Invalid activity filter registered');
 			}
 

@@ -26,7 +26,7 @@ namespace OCP\Activity;
 /**
  * @since 20.0.0
  */
-abstract class ActivitySettings {
+abstract class ActivitySettings implements ISetting {
 	/**
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 20.0.0
@@ -77,5 +77,25 @@ abstract class ActivitySettings {
 	 */
 	public function isDefaultEnabledNotification() {
 		return $this->isDefaultEnabledMail() && !$this->canChangeMail();
+	}
+
+	/**
+	 * Left in for backwards compatibility
+	 *
+	 * @return bool
+	 * @since 20.0.0
+	 */
+	public function canChangeStream() {
+		return false;
+	}
+
+	/**
+	 * Left in for backwards compatibility
+	 *
+	 * @return bool
+	 * @since 20.0.0
+	 */
+	public function isDefaultEnabledStream() {
+		return true;
 	}
 }
