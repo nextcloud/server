@@ -198,7 +198,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			'accepted' => 0,
 			'token' => 'token',
 		];
-		$this->assertArraySubset($expected, $data);
+		foreach (array_keys($expected) as $key) {
+			$this->assertEquals($expected[$key], $data[$key], "Assert that value for key '$key' is the same");
+		}
 
 		$this->assertEquals($data['id'], $share->getId());
 		$this->assertEquals(IShare::TYPE_REMOTE, $share->getShareType());
