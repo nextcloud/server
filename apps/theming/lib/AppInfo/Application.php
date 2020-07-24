@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2019 Robin Appelman <robin@icewind.nl>
  *
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -24,28 +25,26 @@
 
 namespace OCA\Theming\AppInfo;
 
-use OCA\Theming\Service\JSDataService;
-use OCP\AppFramework\IAppContainer;
-use OCP\IInitialStateService;
+use OCA\Theming\Capabilities;
+use OCA\Theming\Listener\BeforeTemplateRenderedListener;
+use OCP\AppFramework\App;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 
-class Application extends \OCP\AppFramework\App {
+class Application extends App implements IBootstrap {
 	public const APP_ID = 'theming';
 
 	public function __construct() {
 		parent::__construct(self::APP_ID);
-
-		$container = $this->getContainer();
-		$this->registerInitialState($container);
 	}
 
-	private function registerInitialState(IAppContainer $container) {
-		/** @var IInitialStateService $initialState */
-		$initialState = $container->query(IInitialStateService::class);
+	public function register(IRegistrationContext $context): void {
+		$context->registerCapability(Capabilities::class);
+		$context->registerEventListener(BeforeTemplateRenderedEvent::class, BeforeTemplateRenderedListener::class);
+	}
 
-		$initialState->provideLazyInitialState(self::APP_ID, 'data', function () use ($container) {
-			/** @var JSDataService $data */
-			$data = $container->query(JSDataService::class);
-			return $data;
-		});
+	public function boot(IBootContext $context): void {
 	}
 }
