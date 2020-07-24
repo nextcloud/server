@@ -54,6 +54,7 @@ use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\HookManager;
+use OCA\DAV\Search\ContactsSearchProvider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -96,6 +97,11 @@ class Application extends App implements IBootstrap {
 		 * Register capabilities
 		 */
 		$context->registerCapability(Capabilities::class);
+
+		/*
+		 * Register Search Providers
+		 */
+		$context->registerSearchProvider(ContactsSearchProvider::class);
 	}
 
 	public function boot(IBootContext $context): void {
