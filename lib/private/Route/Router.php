@@ -337,7 +337,7 @@ class Router implements IRouter {
 			$name = $this->fixLegacyRootName($name);
 			return $this->getGenerator()->generate($name, $parameters, $referenceType);
 		} catch (RouteNotFoundException $e) {
-			$this->logger->logException($e);
+			$this->logger->logException($e, ['level' => ILogger::INFO]);
 			return '';
 		}
 	}
