@@ -53,16 +53,15 @@ class AdditionalScriptsMiddleware extends Middleware {
 	}
 
 	public function afterController($controller, $methodName, Response $response): Response {
-		/*
-		 * There is no need to emit these signals on a public share page
-		 * There is a separate event for that already
-		 */
-		if ($controller instanceof PublicShareController) {
-			return $response;
-		}
-
 		if ($response instanceof TemplateResponse) {
-			$this->legacyDispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS, new GenericEvent());
+			if (!$controller instanceof PublicShareController) {
+				/*
+				 * The old event was not dispatched on the public share controller as there was
+				 * OCA\Files_Sharing::loadAdditionalScripts for that. This is kept for compatibility reasons
+				 * only for the old event as this is now also included in BeforeTemplateRenderedEvent
+				 */
+				$this->legacyDispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS, new GenericEvent());
+			}
 
 			if (!($response instanceof StandaloneTemplateResponse) && $this->userSession->isLoggedIn()) {
 				$this->legacyDispatcher->dispatch(TemplateResponse::EVENT_LOAD_ADDITIONAL_SCRIPTS_LOGGEDIN, new GenericEvent());
