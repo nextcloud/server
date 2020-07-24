@@ -91,7 +91,7 @@ class LoginPageContext implements Context, ActorAwareInterface {
 	 */
 	public function iSeeThatTheCurrentPageIsTheLoginPage() {
 		PHPUnit_Framework_Assert::assertStringStartsWith(
-				$this->actor->locatePath("/login"),
+				$this->actor->locatePath("/login?redirect_url=/index.php/apps/files"),
 				$this->actor->getSession()->getCurrentUrl());
 	}
 
