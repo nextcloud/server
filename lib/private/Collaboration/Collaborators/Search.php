@@ -54,6 +54,9 @@ class Search implements ISearch {
 	public function search($search, array $shareTypes, $lookup, $limit, $offset) {
 		$hasMoreResults = false;
 
+		// Trim leading and trailing whitespace characters, e.g. when query is copy-pasted
+		$search = trim($search);
+
 		/** @var ISearchResult $searchResult */
 		$searchResult = $this->c->resolve(SearchResult::class);
 
