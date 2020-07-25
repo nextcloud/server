@@ -53,6 +53,8 @@ use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
 use OC\MemoryInfo;
+use OCA\Settings\SetupChecks\PhpDefaultCharset;
+use OCA\Settings\SetupChecks\PhpOutputBuffering;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -683,6 +685,8 @@ Raw output
 	 * @return DataResponse
 	 */
 	public function check() {
+		$phpDefaultCharset = new PhpDefaultCharset();
+		$phpOutputBuffering = new PhpOutputBuffering();
 		return new DataResponse(
 			[
 				'isGetenvServerWorking' => !empty(getenv('PATH')),
@@ -723,6 +727,8 @@ Raw output
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
+				PhpDefaultCharset::class => ['pass' => $phpDefaultCharset->run(), 'description' => $phpDefaultCharset->description(), 'severity' => $phpDefaultCharset->severity()],
+				PhpOutputBuffering::class => ['pass' => $phpOutputBuffering->run(), 'description' => $phpOutputBuffering->description(), 'severity' => $phpOutputBuffering->severity()],
 			]
 		);
 	}

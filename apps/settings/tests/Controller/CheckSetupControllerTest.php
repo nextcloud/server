@@ -593,6 +593,8 @@ class CheckSetupControllerTest extends TestCase {
 				'isMysqlUsedWithoutUTF8MB4' => false,
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => true,
 				'reverseProxyGeneratedURL' => 'https://server/index.php',
+				'OCA\Settings\SetupChecks\PhpDefaultCharset' => ['pass' => true, 'description' => 'PHP configuration option default_charset should be UTF-8', 'severity' => 'warning'],
+				'OCA\Settings\SetupChecks\PhpOutputBuffering' => ['pass' => true, 'description' => 'PHP configuration option output_buffering must be disabled', 'severity' => 'error'],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());

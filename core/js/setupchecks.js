@@ -488,6 +488,9 @@
 						})
 					}
 
+					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpDefaultCharset', messages)
+					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpOutputBuffering', messages)
+
 				} else {
 					messages.push({
 						msg: t('core', 'Error occurred while checking server setup'),
@@ -503,6 +506,24 @@
 				allowAuthErrors: true
 			}).then(afterCall, afterCall);
 			return deferred.promise();
+		},
+
+		addGenericSetupCheck: function(data, check, messages) {
+			const setupCheck = data[check] || { pass: true, description: '', severity: 'info'}
+
+			let type = OC.SetupChecks.MESSAGE_TYPE_INFO
+			if (setupCheck.severity === 'warning') {
+				type = OC.SetupChecks.MESSAGE_TYPE_WARNING
+			} else if (setupCheck.severity === 'error') {
+				type = OC.SetupChecks.MESSAGE_TYPE_ERROR
+			}
+
+			if (!setupCheck.pass) {
+				messages.push({
+					msg: setupCheck.description,
+					type: type,
+				})
+			}
 		},
 
 		/**
