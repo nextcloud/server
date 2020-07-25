@@ -60,6 +60,7 @@ OC.L10N.register(
     "Could not fetch file details \"{file}\"" : "Dibosupl eo adtapout munudoù ar restr \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Ur fazi zo bet en ur ziverkañ ar restr \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Disoc'h ebet e teuliadoù all evit {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Lakait muioc'h eget daou arouez evit klask e teuliadoù all",
     "Name" : "Anv",
     "Size" : "Ment",
     "Modified" : "Cheñchet",
