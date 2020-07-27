@@ -121,7 +121,12 @@ abstract class AbstractCalDavBackend extends TestCase {
 		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP, self::UNIT_TEST_GROUP2]);
-		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->cleanupForPrincipal(self::UNIT_TEST_USER);
+		$this->cleanupForPrincipal(self::UNIT_TEST_USER1);
+	}
+
+	private function cleanupForPrincipal($principal): void {
+		$calendars = $this->backend->getCalendarsForUser($principal);
 		foreach ($calendars as $calendar) {
 			$this->dispatcher->expects($this->at(0))
 				->method('dispatch')
@@ -129,7 +134,7 @@ abstract class AbstractCalDavBackend extends TestCase {
 
 			$this->backend->deleteCalendar($calendar['id']);
 		}
-		$subscriptions = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
+		$subscriptions = $this->backend->getSubscriptionsForUser($principal);
 		foreach ($subscriptions as $subscription) {
 			$this->backend->deleteSubscription($subscription['id']);
 		}

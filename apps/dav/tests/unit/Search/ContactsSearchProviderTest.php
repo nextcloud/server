@@ -224,7 +224,7 @@ class ContactsSearchProviderTest extends TestCase {
 		$this->assertEquals('icon-contacts-dark', $result0Data['iconClass']);
 		$this->assertTrue($result0Data['rounded']);
 
-		$this->assertInstanceOf(ContactsSearchResultEntry::class, $result0);
+		$this->assertInstanceOf(ContactsSearchResultEntry::class, $result1);
 		$this->assertEquals('absolute-thumbnail-url?photo', $result1Data['thumbnailUrl']);
 		$this->assertEquals('FN of Test2', $result1Data['title']);
 		$this->assertEquals('subline', $result1Data['subline']);

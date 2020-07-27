@@ -55,6 +55,8 @@ use OCA\DAV\CardDAV\PhotoCache;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\HookManager;
 use OCA\DAV\Search\ContactsSearchProvider;
+use OCA\DAV\Search\EventsSearchProvider;
+use OCA\DAV\Search\TasksSearchProvider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -102,6 +104,8 @@ class Application extends App implements IBootstrap {
 		 * Register Search Providers
 		 */
 		$context->registerSearchProvider(ContactsSearchProvider::class);
+		$context->registerSearchProvider(EventsSearchProvider::class);
+		$context->registerSearchProvider(TasksSearchProvider::class);
 	}
 
 	public function boot(IBootContext $context): void {

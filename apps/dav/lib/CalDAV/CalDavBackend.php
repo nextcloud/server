@@ -1670,6 +1670,124 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * @param string $principalUri
+	 * @param string $pattern
+	 * @param array $componentTypes
+	 * @param array $searchProperties
+	 * @param array $searchParameters
+	 * @param array $options
+	 * @return array
+	 */
+	public function searchPrincipalUri(string $principalUri,
+									   string $pattern,
+									   array $componentTypes,
+									   array $searchProperties,
+									   array $searchParameters,
+									   array $options = []): array {
+		$escapePattern = !\array_key_exists('escape_like_param', $options) || $options['escape_like_param'] !== false;
+
+		$calendarObjectIdQuery = $this->db->getQueryBuilder();
+		$calendarOr = $calendarObjectIdQuery->expr()->orX();
+		$searchOr = $calendarObjectIdQuery->expr()->orX();
+
+		// Fetch calendars and subscription
+		$calendars = $this->getCalendarsForUser($principalUri);
+		$subscriptions = $this->getSubscriptionsForUser($principalUri);
+		foreach ($calendars as $calendar) {
+			$calendarAnd = $calendarObjectIdQuery->expr()->andX();
+			$calendarAnd->add($calendarObjectIdQuery->expr()->eq('cob.calendarid', $calendarObjectIdQuery->createNamedParameter((int)$calendar['id'])));
+			$calendarAnd->add($calendarObjectIdQuery->expr()->eq('cob.calendartype', $calendarObjectIdQuery->createNamedParameter(self::CALENDAR_TYPE_CALENDAR)));
+
+			// If it's shared, limit search to public events
+			if ($calendar['principaluri'] !== $calendar['{http://owncloud.org/ns}owner-principal']) {
+				$calendarAnd->add($calendarObjectIdQuery->expr()->eq('co.classification', $calendarObjectIdQuery->createNamedParameter(self::CLASSIFICATION_PUBLIC)));
+			}
+
+			$calendarOr->add($calendarAnd);
+		}
+		foreach ($subscriptions as $subscription) {
+			$subscriptionAnd = $calendarObjectIdQuery->expr()->andX();
+			$subscriptionAnd->add($calendarObjectIdQuery->expr()->eq('cob.calendarid', $calendarObjectIdQuery->createNamedParameter((int)$subscription['id'])));
+			$subscriptionAnd->add($calendarObjectIdQuery->expr()->eq('cob.calendartype', $calendarObjectIdQuery->createNamedParameter(self::CALENDAR_TYPE_SUBSCRIPTION)));
+
+			// If it's shared, limit search to public events
+			if ($subscription['principaluri'] !== $subscription['{http://owncloud.org/ns}owner-principal']) {
+				$subscriptionAnd->add($calendarObjectIdQuery->expr()->eq('co.classification', $calendarObjectIdQuery->createNamedParameter(self::CLASSIFICATION_PUBLIC)));
+			}
+
+			$calendarOr->add($subscriptionAnd);
+		}
+
+		foreach ($searchProperties as $property) {
+			$propertyAnd = $calendarObjectIdQuery->expr()->andX();
+			$propertyAnd->add($calendarObjectIdQuery->expr()->eq('cob.name', $calendarObjectIdQuery->createNamedParameter($property, IQueryBuilder::PARAM_STR)));
+			$propertyAnd->add($calendarObjectIdQuery->expr()->isNull('cob.parameter'));
+
+			$searchOr->add($propertyAnd);
+		}
+		foreach ($searchParameters as $property => $parameter) {
+			$parameterAnd = $calendarObjectIdQuery->expr()->andX();
+			$parameterAnd->add($calendarObjectIdQuery->expr()->eq('cob.name', $calendarObjectIdQuery->createNamedParameter($property, IQueryBuilder::PARAM_STR)));
+			$parameterAnd->add($calendarObjectIdQuery->expr()->eq('cob.parameter', $calendarObjectIdQuery->createNamedParameter($parameter, IQueryBuilder::PARAM_STR)));
+
+			$searchOr->add($parameterAnd);
+		}
+
+		if ($calendarOr->count() === 0) {
+			return [];
+		}
+		if ($searchOr->count() === 0) {
+			return [];
+		}
+
+		$calendarObjectIdQuery->selectDistinct('cob.objectid')
+			->from($this->dbObjectPropertiesTable, 'cob')
+			->leftJoin('cob', 'calendarobjects', 'co', $calendarObjectIdQuery->expr()->eq('co.id', 'cob.objectid'))
+			->andWhere($calendarObjectIdQuery->expr()->in('co.componenttype', $calendarObjectIdQuery->createNamedParameter($componentTypes, IQueryBuilder::PARAM_STR_ARRAY)))
+			->andWhere($calendarOr)
+			->andWhere($searchOr);
+
+		if ('' !== $pattern) {
+			if (!$escapePattern) {
+				$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->ilike('cob.value', $calendarObjectIdQuery->createNamedParameter($pattern)));
+			} else {
+				$calendarObjectIdQuery->andWhere($calendarObjectIdQuery->expr()->ilike('cob.value', $calendarObjectIdQuery->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%')));
+			}
+		}
+
+		if (isset($options['limit'])) {
+			$calendarObjectIdQuery->setMaxResults($options['limit']);
+		}
+		if (isset($options['offset'])) {
+			$calendarObjectIdQuery->setFirstResult($options['offset']);
+		}
+
+		$result = $calendarObjectIdQuery->execute();
+		$matches = $result->fetchAll();
+		$result->closeCursor();
+		$matches = array_map(static function (array $match):int {
+			return (int) $match['objectid'];
+		}, $matches);
+
+		$query = $this->db->getQueryBuilder();
+		$query->select('calendardata', 'uri', 'calendarid', 'calendartype')
+			->from('calendarobjects')
+			->where($query->expr()->in('id', $query->createNamedParameter($matches, IQueryBuilder::PARAM_INT_ARRAY)));
+
+		$result = $query->execute();
+		$calendarObjects = $result->fetchAll();
+		$result->closeCursor();
+
+		return array_map(function (array $array): array {
+			$array['calendarid'] = (int)$array['calendarid'];
+			$array['calendartype'] = (int)$array['calendartype'];
+			$array['calendardata'] = $this->readBlob($array['calendardata']);
+
+			return $array;
+		}, $calendarObjects);
+	}
+
+	/**
 	 * Searches through all of a users calendars and calendar objects to find
 	 * an object with a specific UID.
 	 *
