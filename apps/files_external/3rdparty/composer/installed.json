@@ -1,17 +1,17 @@
 [
     {
         "name": "icewind/smb",
-        "version": "v3.2.5",
-        "version_normalized": "3.2.5.0",
+        "version": "v3.2.6",
+        "version_normalized": "3.2.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/icewind1991/SMB.git",
-            "reference": "80921d69f5e47157c825f0bdac6c838fe0b901b2"
+            "reference": "507b186800ac6c3b287604a4ff9b138cf430da79"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/icewind1991/SMB/zipball/80921d69f5e47157c825f0bdac6c838fe0b901b2",
-            "reference": "80921d69f5e47157c825f0bdac6c838fe0b901b2",
+            "url": "https://api.github.com/repos/icewind1991/SMB/zipball/507b186800ac6c3b287604a4ff9b138cf430da79",
+            "reference": "507b186800ac6c3b287604a4ff9b138cf430da79",
             "shasum": ""
         },
         "require": {
@@ -22,13 +22,12 @@
             "friendsofphp/php-cs-fixer": "^2.13",
             "phpunit/phpunit": "^7.0"
         },
-        "time": "2020-05-27T13:56:04+00:00",
+        "time": "2020-07-20T14:12:51+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
             "psr-4": {
-                "Icewind\\SMB\\": "src/",
-                "Icewind\\SMB\\Test\\": "tests/"
+                "Icewind\\SMB\\": "src/"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
