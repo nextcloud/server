@@ -43,6 +43,9 @@ use OCP\Files\Storage;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserSession;
+use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class KeyManagerTest extends TestCase {
@@ -79,6 +82,9 @@ class KeyManagerTest extends TestCase {
 	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $configMock;
 
+	/** @var ILockingProvider|MockObject */
+	private $lockingProviderMock;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->userId = 'user1';
@@ -99,6 +105,7 @@ class KeyManagerTest extends TestCase {
 		$this->utilMock = $this->getMockBuilder(Util::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$this->lockingProviderMock = $this->createMock(ILockingProvider::class);
 
 		$this->instance = new KeyManager(
 			$this->keyStorageMock,
@@ -107,7 +114,9 @@ class KeyManagerTest extends TestCase {
 			$this->userMock,
 			$this->sessionMock,
 			$this->logMock,
-			$this->utilMock);
+			$this->utilMock,
+			$this->lockingProviderMock
+		);
 	}
 
 	public function testDeleteShareKey() {
@@ -269,7 +278,8 @@ class KeyManagerTest extends TestCase {
 					$this->userMock,
 					$this->sessionMock,
 					$this->logMock,
-					$this->utilMock
+					$this->utilMock,
+					$this->lockingProviderMock
 				]
 			)->setMethods(['getMasterKeyId', 'getMasterKeyPassword', 'getSystemPrivateKey', 'getPrivateKey'])
 			->getMock();
@@ -559,7 +569,8 @@ class KeyManagerTest extends TestCase {
 					$this->userMock,
 					$this->sessionMock,
 					$this->logMock,
-					$this->utilMock
+					$this->utilMock,
+					$this->lockingProviderMock
 				]
 			)->setMethods(['getPublicMasterKey', 'setSystemPrivateKey', 'getMasterKeyPassword'])
 			->getMock();
@@ -578,6 +589,8 @@ class KeyManagerTest extends TestCase {
 			$this->cryptMock->expects($this->once())->method('encryptPrivateKey')
 				->with('private', 'masterKeyPassword', 'systemKeyId')
 				->willReturn('EncryptedKey');
+			$this->lockingProviderMock->expects($this->once())
+				->method('acquireLock');
 			$instance->expects($this->once())->method('setSystemPrivateKey')
 				->with('systemKeyId', 'headerEncryptedKey');
 		} else {
@@ -587,6 +600,39 @@ class KeyManagerTest extends TestCase {
 			$instance->expects($this->never())->method('setSystemPrivateKey');
 		}
 
+		$instance->validateMasterKey();
+	}
+
+	public function testValidateMasterKeyLocked() {
+		/** @var \OCA\Encryption\KeyManager | \PHPUnit_Framework_MockObject_MockObject $instance */
+		$instance = $this->getMockBuilder(KeyManager::class)
+			->setConstructorArgs(
+				[
+					$this->keyStorageMock,
+					$this->cryptMock,
+					$this->configMock,
+					$this->userMock,
+					$this->sessionMock,
+					$this->logMock,
+					$this->utilMock,
+					$this->lockingProviderMock
+				]
+			)->setMethods(['getPublicMasterKey', 'getPrivateMasterKey', 'setSystemPrivateKey', 'getMasterKeyPassword'])
+			->getMock();
+
+		$instance->expects($this->once())->method('getPublicMasterKey')
+			->willReturn('');
+		$instance->expects($this->once())->method('getPrivateMasterKey')
+			->willReturn('');
+
+		$instance->expects($this->any())->method('getMasterKeyPassword')->willReturn('masterKeyPassword');
+		$this->cryptMock->expects($this->any())->method('generateHeader')->willReturn('header');
+
+		$this->lockingProviderMock->expects($this->once())
+			->method('acquireLock')
+			->willThrowException(new LockedException('encryption-generateMasterKey'));
+
+		$this->expectException(LockedException::class);
 		$instance->validateMasterKey();
 	}
 

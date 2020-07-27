@@ -90,9 +90,9 @@ class SetupTest extends TestCase {
 		if ($hasKeys) {
 			$this->keyManagerMock->expects($this->never())->method('storeKeyPair');
 		} else {
-			$this->cryptMock->expects($this->once())->method('createKeyPair')->willReturn('keyPair');
+			$this->cryptMock->expects($this->once())->method('createKeyPair')->willReturn(['publicKey' => 'publicKey', 'privateKey' => 'privateKey']);
 			$this->keyManagerMock->expects($this->once())->method('storeKeyPair')
-				->with('uid', 'password', 'keyPair')->willReturn(true);
+				->with('uid', 'password', ['publicKey' => 'publicKey', 'privateKey' => 'privateKey'])->willReturn(true);
 		}
 
 		$this->assertSame($expected,
