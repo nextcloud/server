@@ -5,6 +5,8 @@
 /apps/accessibility/js/accessibility.js.map binary
 /apps/comments/js/*.js binary
 /apps/comments/js/*.js.map binary
+/apps/dashboard/js/*.js binary
+/apps/dashboard/js/*.js.map binary
 /apps/files/js/dist/*.js binary
 /apps/files/js/dist/*.js.map binary
 /apps/files_sharing/js/dist/*.js binary
