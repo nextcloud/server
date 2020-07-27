@@ -437,6 +437,33 @@
 			OC.Plugins.attach('OCA.Files.FileList', this);
 
 			this.initHeadersAndFooters()
+
+			this.initFileInfoUpdater();
+		},
+
+		updateElements: function(fileinfo) {
+			if (!Array.isArray(fileinfo)) {
+                        	fileinfo = [fileinfo];
+			}
+			fileinfo.forEach((o, i) => {
+				let $row = this.findFileEl(o.name);
+				$row.attr('data-mtime', o.mtime);
+
+				$timestamp = $row.find('.live-relative-timestamp');
+				$timestamp.attr('data-timestamp', o.mtime)
+				.attr('data-original-title', OC.Util.formatDate(o.mtime))
+				.text(OC.Util.relativeModifiedDate(o.mtime));
+
+				$filesize = $row.find('.filesize');
+				$filesize.text(OC.Util.humanFileSize(o.size));
+			});
+		},
+
+		initFileInfoUpdater: function() {
+			setInterval(() => {
+				this.filesClient.getFolderContents(this.getCurrentDirectory())
+				.then((status, result) => {this.updateElements(result)});
+			}, 30 * 1000)
 		},
 
 		initHeadersAndFooters: function() {
