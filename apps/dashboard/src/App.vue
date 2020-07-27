@@ -2,7 +2,7 @@
 	<div id="app-dashboard">
 		<h2>{{ greeting.icon }} {{ greeting.text }}</h2>
 
-		<Draggable class="panels" v-model="layout" @end="saveLayout">
+		<Draggable v-model="layout" class="panels" @end="saveLayout">
 			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
 				<div class="panel--header">
 					<h3 :class="panels[panelId].iconClass">
@@ -18,6 +18,21 @@
 		<Modal v-if="modal" @close="closeModal">
 			<div class="modal__content">
 				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
+				<Draggable v-model="layout"
+					class="panels"
+					tag="ol"
+					@end="saveLayout">
+					<li v-for="panel in sortedPanels" :key="panel.id">
+						<input :id="'panel-checkbox-' + panel.id"
+							type="checkbox"
+							class="checkbox"
+							:checked="isActive(panel)"
+							@input="updateCheckbox(panel, $event.target.checked)">
+						<label :for="'panel-checkbox-' + panel.id" :class="panel.iconClass">
+							{{ panel.title }}
+						</label>
+					</li>
+				</Draggable>
 				<transition-group name="flip-list" tag="ol">
 					<li v-for="panel in sortedPanels" :key="panel.id">
 						<input :id="'panel-checkbox-' + panel.id"
@@ -29,10 +44,9 @@
 							{{ panel.title }}
 						</label>
 					</li>
-					<li key="appstore">
-						<a :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
-					</li>
 				</transition-group>
+
+				<a :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
 			</div>
 		</Modal>
 	</div>
@@ -121,6 +135,9 @@ export default {
 		rerenderPanels() {
 			for (const app in this.callbacks) {
 				const element = this.$refs[app]
+				if (this.layout.indexOf(app) === -1) {
+					continue
+				}
 				if (this.panels[app] && this.panels[app].mounted) {
 					continue
 				}
@@ -266,6 +283,8 @@ export default {
 		width: 30vw;
 		margin: 20px;
 		ol {
+			display: flex;
+			flex-direction: column;
 			list-style-type: none;
 		}
 		li label {
