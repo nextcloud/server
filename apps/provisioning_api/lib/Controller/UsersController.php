@@ -315,9 +315,8 @@ class UsersController extends AUserData {
  			$passwordEvent = new GenerateSecurePasswordEvent();
 			$this->eventDispatcher->dispatchTyped($passwordEvent);
 			$passwordEvent->getPassword();
-			if(isset($passwordEvent)){
-				$password .= $passwordEvent->getPassword();
-			} else {
+			$password = $passwordEvent->getPassword();
+			if($password === null){
 				// Fallback: ensure to pass password_policy in any case
 				$password = $this->secureRandom->generate(10);
 				$password .= $this->secureRandom->generate(1, ISecureRandom::CHAR_UPPER);
