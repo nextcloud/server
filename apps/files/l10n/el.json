@@ -58,6 +58,7 @@
     "Could not fetch file details \"{file}\"" : "Δεν είναι δυνατή η ανάγνωση λεπτομερειών του αρχείου \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Σφάλμα διαγραφής του \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Κανένα αποτέλεσμα αναζήτησης σε άλλους φακέλους για {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Εισαγάγετε περισσότερους από δύο χαρακτήρες για αναζήτηση σε άλλους φακέλους",
     "Name" : "Όνομα",
     "Size" : "Μέγεθος",
     "Modified" : "Τροποποιήθηκε",
