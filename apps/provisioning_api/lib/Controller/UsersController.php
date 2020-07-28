@@ -60,6 +60,11 @@ use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 
+use OCP\Security\Events\GenerateSecurePasswordEvent; 
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
+
 class UsersController extends AUserData {
 
 	/** @var IAppManager */
@@ -77,6 +82,25 @@ class UsersController extends AUserData {
 	/** @var RemoteWipe */
 	private $remoteWipe;
 
+	private $eventDispatcher;
+
+	/**
+	 * @param string $appName
+	 * @param IRequest $request
+	 * @param IUserManager $userManager
+	 * @param IConfig $config
+	 * @param IAppManager $appManager
+	 * @param IGroupManager $groupManager
+	 * @param IUserSession $userSession
+	 * @param AccountManager $accountManager
+	 * @param ILogger $logger
+	 * @param IFactory $l10nFactory
+	 * @param NewUserMailHelper $newUserMailHelper
+	 * @param FederatedFileSharingFactory $federatedFileSharingFactory
+	 * @param ISecureRandom $secureRandom
+	 * @param RemoteWipe $remoteWipe
+	 * @param IEventDispatcher $eventDispatcher
+	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IUserManager $userManager,
@@ -90,7 +114,8 @@ class UsersController extends AUserData {
 								NewUserMailHelper $newUserMailHelper,
 								FederatedShareProviderFactory $federatedShareProviderFactory,
 								ISecureRandom $secureRandom,
-								RemoteWipe $remoteWipe) {
+								RemoteWipe $remoteWipe,
+								IEventDispatcher $eventDispatcher) {
 		parent::__construct($appName,
 							$request,
 							$userManager,
@@ -107,6 +132,7 @@ class UsersController extends AUserData {
 		$this->federatedShareProviderFactory = $federatedShareProviderFactory;
 		$this->secureRandom = $secureRandom;
 		$this->remoteWipe = $remoteWipe;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -286,9 +312,19 @@ class UsersController extends AUserData {
 				throw new OCSException('To send a password link to the user an email address is required.', 108);
 			}
 
-			$password = $this->secureRandom->generate(10);
-			// Make sure we pass the password_policy
-			$password .= $this->secureRandom->generate(2, '$!.,;:-~+*[]{}()');
+ 			$passwordEvent = new GenerateSecurePasswordEvent();
+			$this->eventDispatcher->dispatchTyped($passwordEvent);
+			$passwordEvent->getPassword();
+			if(isset($passwordEvent)){
+				$password .= $passwordEvent->getPassword();
+			} else {
+				// Fallback: ensure to pass password_policy in any case
+				$password = $this->secureRandom->generate(10);
+				$password .= $this->secureRandom->generate(1, ISecureRandom::CHAR_UPPER);
+				$password .= $this->secureRandom->generate(1, ISecureRandom::CHAR_LOWER);
+				$password .= $this->secureRandom->generate(1, ISecureRandom::CHAR_DIGITS);
+				$password .= $this->secureRandom->generate(1, ISecureRandom::CHAR_SYMBOLS);
+			}
 			$generatePasswordResetToken = true;
 		}
 
