@@ -51,13 +51,16 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 * @param mixed $newService
 	 * @return bool
 	 */
-	public function overwriteService($name, $newService) {
+	public function overwriteService(string $name, $newService): bool {
 		if (isset($this->services[$name])) {
 			return false;
 		}
 
 		$this->services[$name] = \OC::$server->query($name);
-		\OC::$server->registerService($name, function () use ($newService) {
+		$container = \OC::$server->getAppContainerForService($name);
+		$container = $container ?? \OC::$server;
+
+		$container->registerService($name, function () use ($newService) {
 			return $newService;
 		});
 
@@ -68,10 +71,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 	 * @param string $name
 	 * @return bool
 	 */
-	public function restoreService($name) {
+	public function restoreService(string $name): bool {
 		if (isset($this->services[$name])) {
 			$oldService = $this->services[$name];
-			\OC::$server->registerService($name, function () use ($oldService) {
+
+			$container = \OC::$server->getAppContainerForService($name);
+			$container = $container ?? \OC::$server;
+
+			$container->registerService($name, function () use ($oldService) {
 				return $oldService;
 			});
 

@@ -156,7 +156,12 @@ class ServerContainer extends SimpleContainer {
 		return parent::query($name, $autoload);
 	}
 
-	private function getAppContainerForService(string $id): ?DIContainer {
+	/**
+	 * @internal
+	 * @param string $id
+	 * @return DIContainer|null
+	 */
+	public function getAppContainerForService(string $id): ?DIContainer {
 		if (strpos($id, 'OCA\\') !== 0 || substr_count($id, '\\') < 2) {
 			return null;
 		}
