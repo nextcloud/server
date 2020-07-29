@@ -52,7 +52,7 @@ use OCP\Share\IShare;
 class Manager {
 	public const STORAGE = '\OCA\Files_Sharing\External\Storage';
 
-	/** @var string */
+	/** @var string|null */
 	private $uid;
 
 	/** @var IDBConnection */
@@ -98,7 +98,7 @@ class Manager {
 								ICloudFederationFactory $cloudFederationFactory,
 								IGroupManager $groupManager,
 								IUserManager $userManager,
-								string $uid,
+								?string $uid,
 								IEventDispatcher $eventDispatcher) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
