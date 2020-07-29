@@ -58,6 +58,7 @@
     "Could not fetch file details \"{file}\"" : "Не удалось получить сведения о файле «{file}»",
     "Error deleting file \"{fileName}\"." : "Ошибка удаления файла «{fileName}».",
     "No search results in other folders for {tag}{filter}{endtag}" : "Нет результатов поиска в других папках для {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Введите более двух символов для поиска в других каталогах",
     "Name" : "Имя",
     "Size" : "Размер",
     "Modified" : "Изменён",
