@@ -158,7 +158,7 @@ class Client implements IClient {
 		}
 
 		$host = parse_url($uri, PHP_URL_HOST);
-		if ($host === false) {
+		if ($host === false || $host === null) {
 			$this->logger->warning("Could not detect any host in $uri");
 			throw new LocalServerException('Could not detect any host');
 		}
