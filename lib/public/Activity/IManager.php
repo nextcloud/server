@@ -103,7 +103,7 @@ interface IManager {
 	public function registerSetting(string $setting): void;
 
 	/**
-	 * @return ISetting[]
+	 * @return ActivitySettings[]
 	 * @since 11.0.0
 	 */
 	public function getSettings(): array;
@@ -122,11 +122,11 @@ interface IManager {
 
 	/**
 	 * @param string $id
-	 * @return ISetting
+	 * @return ActivitySettings
 	 * @throws \InvalidArgumentException when the setting was not found
 	 * @since 11.0.0
 	 */
-	public function getSettingById(string $id): ISetting;
+	public function getSettingById(string $id): ActivitySettings;
 
 	/**
 	 * @param string $type

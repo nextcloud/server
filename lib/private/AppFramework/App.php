@@ -87,6 +87,20 @@ class App {
 		return $topNamespace . self::$nameSpaceCache[$appId];
 	}
 
+	public static function getAppIdForClass(string $className, string $topNamespace='OCA\\'): ?string {
+		if (strpos($className, $topNamespace) !== 0) {
+			return null;
+		}
+
+		foreach (self::$nameSpaceCache as $appId => $namespace) {
+			if (strpos($className, $topNamespace . $namespace . '\\') === 0) {
+				return $appId;
+			}
+		}
+
+		return null;
+	}
+
 
 	/**
 	 * Shortcut for calling a controller method and printing the result

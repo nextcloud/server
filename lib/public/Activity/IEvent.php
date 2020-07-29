@@ -364,4 +364,23 @@ interface IEvent {
 	 * @since 11.0.0
 	 */
 	public function isValidParsed(): bool;
+
+	/**
+	 * Set whether or not a notification should be automatically generated for this activity.
+	 *
+	 * Set this to `false` if the app already generates a notification for the event.
+	 *
+	 * @param bool $generate
+	 * @return IEvent
+	 * @since 20.0.0
+	 */
+	public function setGenerateNotification(bool $generate): self;
+
+	/**
+	 * whether or not a notification should be automatically generated for this activity.
+	 *
+	 * @return bool
+	 * @since 20.0.0
+	 */
+	public function getGenerateNotification(): bool;
 }
