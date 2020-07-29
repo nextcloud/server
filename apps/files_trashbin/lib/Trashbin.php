@@ -573,6 +573,7 @@ class Trashbin {
 
 	/**
 	 * wrapper function to emit the 'preDelete' hook of \OCP\Trashbin before a file is deleted
+	 *
 	 * @param string $path
 	 */
 	protected static function emitTrashbinPreDelete($path){
@@ -581,6 +582,7 @@ class Trashbin {
 
 	/**
 	 * wrapper function to emit the 'delete' hook of \OCP\Trashbin after a file has been deleted
+	 *
 	 * @param string $path
 	 */
 	protected static function emitTrashbinPostDelete($path){
@@ -697,6 +699,14 @@ class Trashbin {
 	 * @return int available free space for trash bin
 	 */
 	private static function calculateFreeSpace($trashbinSize, $user) {
+		$config = \OC::$server->getConfig();
+		$systemTrashbinSize = (int)$config->getAppValue('files_trashbin', 'trashbin_size', '-1');
+		$userTrashbinSize = (int)$config->getUserValue($user, 'files_trashbin', 'trashbin_size', '-1');
+		$configuredTrashbinSize = ($userTrashbinSize < 0) ? $systemTrashbinSize : $userTrashbinSize;
+		if ($configuredTrashbinSize) {
+			return $configuredTrashbinSize - $trashbinSize;
+		}
+
 		$softQuota = true;
 		$userObject = \OC::$server->getUserManager()->get($user);
 		if(is_null($userObject)) {
