@@ -60,6 +60,7 @@ OC.L10N.register(
     "Could not fetch file details \"{file}\"" : "Nepavyko gauti išsamesnės failo \"{file}\" informacijos",
     "Error deleting file \"{fileName}\"." : "Klaida trinant failą \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Kituose aplankuose nėra paieškos rezultatų, skirtų {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Įveskite daugiau nei du simbolius, jei norite ieškoti kituose aplankuose",
     "Name" : "Pavadinimas",
     "Size" : "Dydis",
     "Modified" : "Pakeistas",

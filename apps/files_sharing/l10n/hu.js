@@ -136,6 +136,7 @@ OC.L10N.register(
     "Password protect" : "Jelszóvédelem",
     "Add another link" : "További hivatkozás hozzáadása",
     "Share link" : "Hivatkozás megosztása",
+    "No recommendations. Start typing." : "Nincs javaslat. Kezdjen gépelni.",
     "Resharing is not allowed" : "Az újra megosztás nem engedélyezett",
     "Searching …" : "Keresés ...",
     "Search globally" : "Keresés globálisan",
