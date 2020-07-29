@@ -82,6 +82,12 @@ class Php73 implements IAdapter {
 		return $this->linkData[$linkId]['serverControls'][LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] ?? '';
 	}
 
+	private function resetCookie(int $linkId): void {
+		if (isset($this->linkData[$linkId]['serverControls'][LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'])) {
+			$this->linkData[$linkId]['serverControls'][LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] = '';
+		}
+	}
+
 	public function getRequestCallFunc(): ?string {
 		return null;
 	}
@@ -94,6 +100,10 @@ class Php73 implements IAdapter {
 		$this->linkData[$linkId]['requestArgs'] = [];
 		$this->linkData[$linkId]['requestArgs']['pageSize'] = $pageSize;
 		$this->linkData[$linkId]['requestArgs']['isCritical'] = $isCritical;
+
+		if ($pageSize === 0) {
+			$this->resetCookie($linkId);
+		}
 	}
 
 	public function getRequestCallArgs($link): array {
@@ -153,7 +163,7 @@ class Php73 implements IAdapter {
 			'oid' => LDAP_CONTROL_PAGEDRESULTS,
 			'value' => [
 				'size' => $this->linkData[$linkId]['requestArgs']['pageSize'],
-				'cookie' => $this->linkData[$linkId]['serverControls'][LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] ?? ''
+				'cookie' => $this->linkData[$linkId]['serverControls'][LDAP_CONTROL_PAGEDRESULTS]['value']['cookie'] ?? '',
 			]
 		]];
 
