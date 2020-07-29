@@ -79,15 +79,15 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 
 	it('Open the sidebar', function() {
 		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').click()
-		cy.get('aside#app-sidebar').should('be.visible')
+		cy.get('aside.app-sidebar').should('be.visible')
 		// we hide the sidebar button if opened
 		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('not.be.visible')
 		// check the sidebar is opened for the correct file
-		cy.get('aside#app-sidebar .app-sidebar-header .app-sidebar-header__title').should('contain', 'image1.jpg')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__title').should('contain', 'image1.jpg')
 		// check we indeed have a preview
-		cy.get('aside#app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--with-figure')
+		cy.get('aside.app-sidebar .app-sidebar-header').should('have.class', 'app-sidebar-header--with-figure')
 		cy.getFileId('image1.jpg').then(fileID1 => {
-			cy.get('aside#app-sidebar .app-sidebar-header .app-sidebar-header__figure').should('have.attr', 'style').should('contain', fileID1)
+			cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__figure').should('have.attr', 'style').should('contain', fileID1)
 		})
 
 	})
@@ -95,52 +95,52 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 	it('Does not have any visual regression 2', function() {
 		// Comments have the user's username which is randomly generated for tests causing a difference in the snapshot.
 		// Switch to sharing section to avoid the issue.
-		cy.get('aside#app-sidebar a#sharing').click()
+		cy.get('aside.app-sidebar a#sharing').click()
 
 		cy.matchImageSnapshot()
 	})
 
 	it('Change to next image with sidebar open', function() {
-		cy.get('aside#app-sidebar').should('be.visible')
+		cy.get('aside.app-sidebar').should('be.visible')
 
 		// check the sidebar is opened for the correct file
-		cy.get('aside#app-sidebar .app-sidebar-header .app-sidebar-header__title').should('contain', 'image1.jpg')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__title').should('contain', 'image1.jpg')
 
 		// open the next file (image2.png) using the arrow
 		cy.get('#viewer-content .icon-next').click()
-		cy.get('aside#app-sidebar .app-sidebar-header .app-sidebar-header__title').should('contain', 'image2.jpg')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__title').should('contain', 'image2.jpg')
 	})
 
 	it('Does not have any visual regression 3', function() {
 		// Comments have the user's username which is randomly generated for tests causing a difference in the snapshot.
 		// Switch to sharing section to avoid the issue.
-		cy.get('aside#app-sidebar a#sharing').click()
+		cy.get('aside.app-sidebar a#sharing').click()
 
 		cy.matchImageSnapshot()
 	})
 
 	it('Change to previous image with sidebar open', function() {
-		cy.get('aside#app-sidebar').should('be.visible')
+		cy.get('aside.app-sidebar').should('be.visible')
 
 		// check the sidebar is opened for the correct file
-		cy.get('aside#app-sidebar .app-sidebar-header .app-sidebar-header__title').should('contain', 'image2.jpg')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__title').should('contain', 'image2.jpg')
 
 		// open the previous file (image1.png) using the arrow
 		cy.get('#viewer-content .icon-previous').click()
-		cy.get('aside#app-sidebar .app-sidebar-header .app-sidebar-header__title').should('contain', 'image1.jpg')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar-header__title').should('contain', 'image1.jpg')
 	})
 
 	it('Does not have any visual regression 4', function() {
 		// Comments have the user's username which is randomly generated for tests causing a difference in the snapshot.
 		// Switch to sharing section to avoid the issue.
-		cy.get('aside#app-sidebar a#sharing').click()
+		cy.get('aside.app-sidebar a#sharing').click()
 
 		cy.matchImageSnapshot()
 	})
 
 	it('Close the sidebar', function() {
-		cy.get('aside#app-sidebar .app-sidebar-header .app-sidebar__close').click()
-		cy.get('aside#app-sidebar').should('not.be.visible')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar__close').click()
+		cy.get('aside.app-sidebar').should('not.be.visible')
 		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
 	})
 
@@ -156,11 +156,11 @@ describe('Open the sidebar from the viewer and open viewer with sidebar already 
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
-		cy.get('aside#app-sidebar').should('have.class', 'app-sidebar--full')
+		cy.get('aside.app-sidebar').should('have.class', 'app-sidebar--full')
 
 		// close the sidebar again
-		cy.get('aside#app-sidebar .app-sidebar-header .app-sidebar__close').click()
-		cy.get('aside#app-sidebar').should('not.be.visible')
+		cy.get('aside.app-sidebar .app-sidebar-header .app-sidebar__close').click()
+		cy.get('aside.app-sidebar').should('not.be.visible')
 		cy.get('#viewer-content .modal-header button.icon-menu-sidebar-white-forced').should('be.visible')
 	})
 

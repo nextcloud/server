@@ -652,7 +652,7 @@ export default {
 
 		showAppsSidebar() {
 			this.isSidebarShown = true
-			const sidebar = document.getElementById('app-sidebar')
+			const sidebar = document.querySelector('aside.app-sidebar')
 			if (sidebar) {
 				sidebar.classList.add('app-sidebar--full')
 				this.sidebarWidth = sidebar.offsetWidth
@@ -661,7 +661,7 @@ export default {
 
 		hideAppsSidebar() {
 			this.isSidebarShown = false
-			const sidebar = document.getElementById('app-sidebar')
+			const sidebar = document.querySelector('aside.app-sidebar')
 			if (sidebar) {
 				sidebar.classList.remove('app-sidebar--full')
 			}
@@ -669,7 +669,7 @@ export default {
 
 		onResize(event) {
 			// update sidebar width
-			const sidebar = document.getElementById('app-sidebar')
+			const sidebar = document.querySelector('aside.app-sidebar')
 			if (sidebar) {
 				this.sidebarWidth = sidebar.offsetWidth
 			}
@@ -713,7 +713,7 @@ export default {
 }
 
 // Override vue componets scss
-#app-sidebar.app-sidebar--full {
+.app-sidebar.app-sidebar--full {
 	position: fixed !important;
 	top: 0 !important;
 	height: 100% !important;
