@@ -44,8 +44,8 @@ import AuthTokenSetupDialogue from './AuthTokenSetupDialogue'
 const confirm = () => {
 	return new Promise(resolve => {
 		OC.dialogs.confirm(
-			t('core', 'Do you really want to wipe your data from this device?'),
-			t('core', 'Confirm wipe'),
+			t('settings', 'Do you really want to wipe your data from this device?'),
+			t('settings', 'Confirm wipe'),
 			resolve,
 			true
 		)
