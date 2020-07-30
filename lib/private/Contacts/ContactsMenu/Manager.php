@@ -66,7 +66,7 @@ class Manager {
 		$minSearchStringLength = $this->config->getSystemValueInt('sharing.minSearchStringLength', 0);
 		$topEntries = [];
 		if (strlen($filter) >= $minSearchStringLength) {
-			$entries = $this->store->getContacts($user, $filter);
+			$entries = $this->store->getContacts($user, $filter, $maxAutocompleteResults);
 
 			$sortedEntries = $this->sortEntries($entries);
 			$topEntries = array_slice($sortedEntries, 0, $maxAutocompleteResults);

@@ -33,11 +33,13 @@ interface IContactsStore {
 
 	/**
 	 * @param IUser $user
-	 * @param $filter
+	 * @param string $filter
+	 * @param int $limit added 19.0.2
+	 * @param int $offset added 19.0.2
 	 * @return IEntry[]
 	 * @since 13.0.0
 	 */
-	public function getContacts(IUser $user, $filter);
+	public function getContacts(IUser $user, $filter, ?int $limit = null, ?int $offset = null);
 
 	/**
 	 * @brief finds a contact by specifying the property to search on ($shareType) and the value ($shareWith)
