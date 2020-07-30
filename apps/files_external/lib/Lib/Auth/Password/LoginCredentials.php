@@ -27,6 +27,7 @@ namespace OCA\Files_External\Lib\Auth\Password;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Listener\StorePasswordListener;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
 use OCP\Authentication\LoginCredentials\IStore as CredentialsStore;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -64,28 +65,8 @@ class LoginCredentials extends AuthMechanism {
 			->addParameters([
 			]);
 
-		$eventDispatcher->addListener(UserLoggedInEvent::class, [$this, 'updateCredentials']);
-		$eventDispatcher->addListener(PasswordUpdatedEvent::class, [$this, 'updateCredentials']);
-	}
-
-	/**
-	 * @param UserLoggedInEvent | PasswordUpdatedEvent $event
-	 */
-	public function updateCredentials($event) {
-		if ($event instanceof UserLoggedInEvent && $event->isTokenLogin()) {
-			return;
-		}
-
-		$stored = $this->credentialsManager->retrieve($event->getUser()->getUID(), self::CREDENTIALS_IDENTIFIER);
-
-		if ($stored && $stored['password'] != $event->getPassword()) {
-			$credentials = [
-				'user' => $stored['user'],
-				'password' => $event->getPassword()
-			];
-
-			$this->credentialsManager->store($event->getUser()->getUID(), self::CREDENTIALS_IDENTIFIER, $credentials);
-		}
+		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, StorePasswordListener::class);
+		$eventDispatcher->addServiceListener(PasswordUpdatedEvent::class, StorePasswordListener::class);
 	}
 
 	private function getCredentials(IUser $user): array {
