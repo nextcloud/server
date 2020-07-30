@@ -271,7 +271,7 @@ class Manager implements IManager {
 			/** @var ISetting $setting */
 			$setting = \OC::$server->query($class);
 
-			if (!$setting instanceof ISetting) {
+			if ($setting instanceof ISetting) {
 				if (!$setting instanceof ActivitySettings) {
 					$setting = new ActivitySettingsAdapter($setting);
 				}
