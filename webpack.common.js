@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const path = require('path')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const { VueLoaderPlugin } = require('vue-loader')
 
 const accessibility = require('./apps/accessibility/webpack')
@@ -50,16 +50,16 @@ module.exports = []
 	.concat(
 		...modulesToBuild()
 	)
-	.map(config => merge.smart({
+	.map(config => merge({
 		module: {
 			rules: [
 				{
 					test: /\.css$/,
-					use: ['vue-style-loader', 'css-loader']
+					use: ['vue-style-loader', 'css-loader'],
 				},
 				{
 					test: /\.scss$/,
-					use: ['vue-style-loader', 'css-loader', 'sass-loader']
+					use: ['vue-style-loader', 'css-loader', 'sass-loader'],
 				},
 				{
 					test: /\.(js|vue)$/,
@@ -72,38 +72,38 @@ module.exports = []
 						// don't want to parse all the js files so let's
 						// use it from within webpack and only check
 						// against our compiled files
-						fix: process.env.ESLINT_FIX === 'true'
-					}
+						fix: process.env.ESLINT_FIX === 'true',
+					},
 				},
 				{
 					test: /\.vue$/,
 					loader: 'vue-loader',
-					exclude: /node_modules/
+					exclude: /node_modules/,
 				},
 				{
 					test: /\.js$/,
 					loader: 'babel-loader',
 					// automatically detect necessary packages to
 					// transpile in the node_modules folder
-					exclude: /node_modules(?!(\/|\\)(nextcloud-vue-collections|p-finally|p-limit|p-locate|p-queue|p-timeout|p-try|toastify-js|v-tooltip)(\/|\\))/
+					exclude: /node_modules(?!(\/|\\)(nextcloud-vue-collections|p-finally|p-limit|p-locate|p-queue|p-timeout|p-try|toastify-js|v-tooltip)(\/|\\))/,
 				},
 				{
 					test: /\.(png|jpg|gif)$/,
 					loader: 'url-loader',
 					options: {
 						name: '[name].[ext]?[hash]',
-						limit: 8192
-					}
+						limit: 8192,
+					},
 				},
 				{
 					test: /\.handlebars/,
 					loader: 'handlebars-loader',
 					query: {
-						extensions: '.handlebars'
-					}
-				}
+						extensions: '.handlebars',
+					},
+				},
 
-			]
+			],
 		},
 		plugins: [new VueLoaderPlugin()],
 		resolve: {
@@ -111,9 +111,9 @@ module.exports = []
 				OC: path.resolve(__dirname, './core/src/OC'),
 				OCA: path.resolve(__dirname, './core/src/OCA'),
 				// make sure to use the handlebar runtime when importing
-				handlebars: 'handlebars/runtime'
+				handlebars: 'handlebars/runtime',
 			},
 			extensions: ['*', '.js', '.vue'],
-			symlinks: false
-		}
+			symlinks: false,
+		},
 	}, config))
