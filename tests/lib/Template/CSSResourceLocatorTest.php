@@ -107,16 +107,6 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		return sha1(uniqid(mt_rand(), true));
 	}
 
-	public function testConstructor() {
-		$locator = $this->cssResourceLocator();
-		$this->assertAttributeEquals('theme', 'theme', $locator);
-		$this->assertAttributeEquals('core', 'serverroot', $locator);
-		$this->assertAttributeEquals(array('core'=>'map','3rd'=>'party'), 'mapping', $locator);
-		$this->assertAttributeEquals('3rd', 'thirdpartyroot', $locator);
-		$this->assertAttributeEquals('map', 'webroot', $locator);
-		$this->assertAttributeEquals(array(), 'resources', $locator);
-	}
-
 	public function testFindWithAppPathSymlink() {
 		// First create new apps path, and a symlink to it
 		$apps_dirname = $this->randomString();

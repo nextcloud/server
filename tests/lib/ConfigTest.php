@@ -71,9 +71,7 @@ class ConfigTest extends TestCase {
 
 	public function testSetValue() {
 		$this->config->setValue('foo', 'moo');
-		$expectedConfig = $this->initialConfig;
-		$expectedConfig['foo'] = 'moo';
-		$this->assertAttributeEquals($expectedConfig, 'cache', $this->config);
+		$this->assertSame('moo', $this->config->getValue('foo'));
 
 		$content = file_get_contents($this->configFile);
 		$expected = "<?php\n\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  " .
@@ -81,10 +79,9 @@ class ConfigTest extends TestCase {
 		$this->assertEquals($expected, $content);
 
 		$this->config->setValue('bar', 'red');
-		$this->config->setValue('apps', array('files', 'gallery'));
-		$expectedConfig['bar'] = 'red';
-		$expectedConfig['apps'] = array('files', 'gallery');
-		$this->assertAttributeEquals($expectedConfig, 'cache', $this->config);
+		$this->config->setValue('apps', ['files', 'gallery']);
+		$this->assertSame('red', $this->config->getValue('bar'));
+		$this->assertSame(['files', 'gallery'], $this->config->getValue('apps'));
 
 		$content = file_get_contents($this->configFile);
 
@@ -105,7 +102,8 @@ class ConfigTest extends TestCase {
 			'not_exists'	=> null,
 		]);
 
-		$this->assertAttributeEquals($this->initialConfig, 'cache', $this->config);
+		$this->assertSame('bar', $this->config->getValue('foo'));
+		$this->assertSame(null, $this->config->getValue('not_exists'));
 		$content = file_get_contents($this->configFile);
 		$this->assertEquals(self::TESTCONTENT, $content);
 
@@ -113,10 +111,8 @@ class ConfigTest extends TestCase {
 			'foo'			=> 'moo',
 			'alcohol_free'	=> null,
 		]);
-		$expectedConfig = $this->initialConfig;
-		$expectedConfig['foo'] = 'moo';
-		unset($expectedConfig['alcohol_free']);
-		$this->assertAttributeEquals($expectedConfig, 'cache', $this->config);
+		$this->assertSame('moo', $this->config->getValue('foo'));
+		$this->assertSame(null, $this->config->getValue('not_exists'));
 
 		$content = file_get_contents($this->configFile);
 		$expected = "<?php\n\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  " .
@@ -126,9 +122,7 @@ class ConfigTest extends TestCase {
 
 	public function testDeleteKey() {
 		$this->config->deleteKey('foo');
-		$expectedConfig = $this->initialConfig;
-		unset($expectedConfig['foo']);
-		$this->assertAttributeEquals($expectedConfig, 'cache', $this->config);
+		$this->assertSame('this_was_clearly_not_set_before', $this->config->getValue('foo', 'this_was_clearly_not_set_before'));
 		$content = file_get_contents($this->configFile);
 
 		$expected = "<?php\n\$CONFIG = array (\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  " .
