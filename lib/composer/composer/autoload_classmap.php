@@ -1307,6 +1307,7 @@ return array(
     'OC\\Share20\\ProviderFactory' => $baseDir . '/lib/private/Share20/ProviderFactory.php',
     'OC\\Share20\\Share' => $baseDir . '/lib/private/Share20/Share.php',
     'OC\\Share20\\ShareHelper' => $baseDir . '/lib/private/Share20/ShareHelper.php',
+    'OC\\Share20\\UserRemovedListener' => $baseDir . '/lib/private/Share20/UserRemovedListener.php',
     'OC\\Share\\Constants' => $baseDir . '/lib/private/Share/Constants.php',
     'OC\\Share\\Helper' => $baseDir . '/lib/private/Share/Helper.php',
     'OC\\Share\\SearchResultSorter' => $baseDir . '/lib/private/Share/SearchResultSorter.php',
