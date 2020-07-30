@@ -905,7 +905,7 @@ class OC {
 			OC_Hook::connect('OC_User', 'post_deleteGroup', Hooks::class, 'post_deleteGroup');
 
 			/** @var \OCP\EventDispatcher\IEventDispatcher $dispatcher */
-			$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
+			$dispatcher = \OC::$server->query(\OCP\EventDispatcher\IEventDispatcher::class);
 			$dispatcher->addServiceListener(UserRemovedEvent::class, \OC\Share20\UserRemovedListener::class);
 		}
 	}
