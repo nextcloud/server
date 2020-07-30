@@ -32,6 +32,7 @@ use OCP\IUser;
 
 /**
  * @since 18.0.0
+ * @deprecated 20.0.0
  */
 class BeforeUserRemovedEvent extends Event {
 
@@ -43,6 +44,7 @@ class BeforeUserRemovedEvent extends Event {
 
 	/**
 	 * @since 18.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function __construct(IGroup $group, IUser $user) {
 		parent::__construct();
@@ -53,6 +55,7 @@ class BeforeUserRemovedEvent extends Event {
 	/**
 	 * @return IGroup
 	 * @since 18.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function getGroup(): IGroup {
 		return $this->group;
@@ -61,6 +64,7 @@ class BeforeUserRemovedEvent extends Event {
 	/**
 	 * @return IUser
 	 * @since 18.0.0
+	 * @deprecated 20.0.0
 	 */
 	public function getUser(): IUser {
 		return $this->user;
