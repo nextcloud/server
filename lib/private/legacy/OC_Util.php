@@ -297,6 +297,17 @@ class OC_Util {
 			self::initLocalStorageRootFS();
 		}
 
+		/** @var \OCP\Files\Config\IMountProviderCollection $mountProviderCollection */
+		$mountProviderCollection = \OC::$server->query(\OCP\Files\Config\IMountProviderCollection::class);
+		/** @var \OCP\Files\Mount\IMountPoint[] $rootMountProviders */
+		$rootMountProviders = $mountProviderCollection->getRootMounts();
+
+		/** @var \OC\Files\Mount\Manager $mountManager */
+		$mountManager = \OC\Files\Filesystem::getMountManager();
+		foreach ($rootMountProviders as $rootMountProvider) {
+			$mountManager->addMount($rootMountProvider);
+		}
+
 		if ($user != '' && !\OC::$server->getUserManager()->userExists($user)) {
 			\OC::$server->getEventLogger()->end('setup_fs');
 			return false;
