@@ -26,6 +26,8 @@ declare(strict_types=1);
 namespace OC\Files\Mount;
 
 use OC\Files\ObjectStore\AppdataPreviewObjectStoreStorage;
+use OC\Files\ObjectStore\ObjectStoreStorage;
+use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
@@ -45,6 +47,10 @@ class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
 		$this->config = $config;
 	}
 
+	/**
+	 * @return MountPoint[]
+	 * @throws \Exception
+	 */
 	public function getRootMounts(IStorageFactory $loader): array {
 		if (!is_array($this->config->getSystemValue('objectstore_multibucket'))) {
 			return [];
@@ -65,12 +71,25 @@ class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
 				$i++;
 			}
 		}
+
+		$rootStorageArguments = $this->getMultiBucketObjectStoreForRoot();
+		$fakeRootStorage = new ObjectStoreStorage($rootStorageArguments);
+		$fakeRootStorageJail = new Jail([
+			'storage' => $fakeRootStorage,
+			'root' => '/appdata_' . $instanceId . '/preview',
+		]);
+
+		// add a fallback location to be able to fetch existing previews from the old bucket
+		$mountPoints[] = new MountPoint(
+			$fakeRootStorageJail,
+			'/appdata_' . $instanceId . '/preview/old-multibucket',
+			null,
+			$loader
+		);
+
 		return $mountPoints;
 	}
 
-	/**
-	 * @return array
-	 */
 	protected function getMultiBucketObjectStore(int $number): array {
 		$config = $this->config->getSystemValue('objectstore_multibucket');
 
@@ -96,6 +115,32 @@ class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
 		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
 
 		$config['arguments']['internal-id'] = $number;
+
+		return $config['arguments'];
+	}
+
+	protected function getMultiBucketObjectStoreForRoot(): array {
+		$config = $this->config->getSystemValue('objectstore_multibucket');
+
+		// sanity checks
+		if (empty($config['class'])) {
+			$this->logger->error('No class given for objectstore', ['app' => 'files']);
+		}
+		if (!isset($config['arguments'])) {
+			$config['arguments'] = [];
+		}
+
+		/*
+		 * Use any provided bucket argument as prefix
+		 * and add the mapping from parent/child => bucket
+		 */
+		if (!isset($config['arguments']['bucket'])) {
+			$config['arguments']['bucket'] = '';
+		}
+		$config['arguments']['bucket'] .= '0';
+
+		// instantiate object store implementation
+		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
 
 		return $config['arguments'];
 	}

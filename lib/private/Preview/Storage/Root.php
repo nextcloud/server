@@ -41,6 +41,17 @@ class Root extends AppData {
 		$internalFolder = $this->getInternalFolder($name);
 
 		try {
+			return parent::getFolder('old-multibucket/' . $internalFolder);
+		} catch (NotFoundException $e) {
+			// not in multibucket fallback #1
+		}
+		try {
+			return parent::getFolder('old-multibucket/' . $name);
+		} catch (NotFoundException $e) {
+			// not in multibucket fallback #2
+		}
+
+		try {
 			return parent::getFolder($internalFolder);
 		} catch (NotFoundException $e) {
 			/*
