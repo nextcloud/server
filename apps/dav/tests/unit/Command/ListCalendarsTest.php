@@ -63,7 +63,6 @@ class ListCalendarsTest extends TestCase {
 		);
 	}
 
-	
 	public function testWithBadUser() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -76,7 +75,7 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertContains("User <" . self::USERNAME . "> in unknown", $commandTester->getDisplay());
+		$this->assertStringContainsString("User <" . self::USERNAME . "> in unknown", $commandTester->getDisplay());
 	}
 
 	public function testWithCorrectUserWithNoCalendars() {
@@ -94,7 +93,7 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertContains("User <" . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
+		$this->assertStringContainsString("User <" . self::USERNAME . "> has no calendars\n", $commandTester->getDisplay());
 	}
 
 	public function dataExecute() {
@@ -133,7 +132,7 @@ class ListCalendarsTest extends TestCase {
 		$commandTester->execute([
 			'uid' => self::USERNAME,
 		]);
-		$this->assertContains($output, $commandTester->getDisplay());
-		$this->assertNotContains(BirthdayService::BIRTHDAY_CALENDAR_URI, $commandTester->getDisplay());
+		$this->assertStringContainsString($output, $commandTester->getDisplay());
+		$this->assertStringNotContainsString(BirthdayService::BIRTHDAY_CALENDAR_URI, $commandTester->getDisplay());
 	}
 }
