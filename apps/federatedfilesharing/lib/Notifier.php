@@ -102,9 +102,16 @@ class Notifier implements INotifier {
 
 				$params = $notification->getSubjectParameters();
 				if ($params[0] !== $params[1] && $params[1] !== null) {
-					$notification->setParsedSubject(
-						$l->t('You received "%3$s" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))', $params)
-					);
+					if (count($params) === 3) {
+						// Legacy: prior 17.0.5
+						$notification->setParsedSubject(
+							$l->t('You received "%3$s" as a remote share from %1$s (on behalf of %2$s)', $params)
+						);
+					} else {
+						$notification->setParsedSubject(
+							$l->t('You received "%3$s" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))', $params)
+						);
+					}
 
 					$initiator = $params[0];
 					$initiatorDisplay = isset($params[3]) ? $params[3] : null;
@@ -124,9 +131,16 @@ class Notifier implements INotifier {
 						]
 					);
 				} else {
-					$notification->setParsedSubject(
-						$l->t('You received "%3$s" as a remote share from %4$s (%1$s)', $params)
-					);
+					if (count($params) === 3) {
+						// Legacy: prior 17.0.5
+						$notification->setParsedSubject(
+							$l->t('You received "%3$s" as a remote share from %1$s', $params)
+						);
+					} else {
+						$notification->setParsedSubject(
+							$l->t('You received "%3$s" as a remote share from %4$s (%1$s)', $params)
+						);
+					}
 
 					$owner = $params[0];
 					$ownerDisplay = isset($params[3]) ? $params[3] : null;
