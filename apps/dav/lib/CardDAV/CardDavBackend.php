@@ -974,8 +974,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					continue;
 				}
 
-				if ($property === 'CLOUD' && preg_match('/[^a-zA-Z0-9 _.@\-\']/', $pattern) === 1) {
-					// There can be no chars in cloud ids which are not valid for user ids
+				if ($property === 'CLOUD' && preg_match('/[^a-zA-Z0-9 :_.@\/\-\']/', $pattern) === 1) {
+					// There can be no chars in cloud ids which are not valid for user ids plus :/
+					// worst case: CA61590A-BBBC-423E-84AF-E6DF01455A53@https://my.nxt/srv/
 					continue;
 				}
 			}

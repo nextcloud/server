@@ -107,9 +107,7 @@ class Notifier implements INotifier {
 					);
 
 					$initiator = $params[0];
-					$initiatorDisplay = isset($params[3]) ? $params[3] : null;
 					$owner = $params[1];
-					$ownerDisplay = isset($params[4]) ? $params[4] : null;
 
 					$notification->setRichSubject(
 						$l->t('You received {share} as a remote share from {user} (on behalf of {behalf})'),
@@ -119,8 +117,8 @@ class Notifier implements INotifier {
 								'id' => $notification->getObjectId(),
 								'name' => $params[2],
 							],
-							'user' => $this->createRemoteUser($initiator, $initiatorDisplay),
-							'behalf' => $this->createRemoteUser($owner, $ownerDisplay),
+							'user' => $this->createRemoteUser($initiator),
+							'behalf' => $this->createRemoteUser($owner),
 						]
 					);
 				} else {
@@ -129,7 +127,6 @@ class Notifier implements INotifier {
 					);
 
 					$owner = $params[0];
-					$ownerDisplay = isset($params[3]) ? $params[3] : null;
 
 					$notification->setRichSubject(
 						$l->t('You received {share} as a remote share from {user}'),
@@ -139,7 +136,7 @@ class Notifier implements INotifier {
 								'id' => $notification->getObjectId(),
 								'name' => $params[2],
 							],
-							'user' => $this->createRemoteUser($owner, $ownerDisplay),
+							'user' => $this->createRemoteUser($owner),
 						]
 					);
 				}
@@ -203,7 +200,7 @@ class Notifier implements INotifier {
 	 * @param ICloudId $cloudId
 	 * @return string
 	 */
-	protected function getDisplayName(ICloudId $cloudId) {
+	protected function getDisplayName(ICloudId $cloudId): string {
 		$server = $cloudId->getRemote();
 		$user = $cloudId->getUser();
 		if (strpos($server, 'http://') === 0) {
@@ -213,17 +210,24 @@ class Notifier implements INotifier {
 		}
 
 		try {
+			// contains protocol in the  ID
 			return $this->getDisplayNameFromContact($cloudId->getId());
 		} catch (\OutOfBoundsException $e) {
 		}
 
 		try {
-			$this->getDisplayNameFromContact($user . '@http://' . $server);
+			// does not include protocol, as stored in addressbooks
+			return $this->getDisplayNameFromContact($cloudId->getDisplayId());
 		} catch (\OutOfBoundsException $e) {
 		}
 
 		try {
-			$this->getDisplayNameFromContact($user . '@https://' . $server);
+			return $this->getDisplayNameFromContact($user . '@http://' . $server);
+		} catch (\OutOfBoundsException $e) {
+		}
+
+		try {
+			return $this->getDisplayNameFromContact($user . '@https://' . $server);
 		} catch (\OutOfBoundsException $e) {
 		}
 
