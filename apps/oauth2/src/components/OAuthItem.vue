@@ -40,7 +40,7 @@ export default {
 			required: true,
 		},
 	},
-	data: function() {
+	data() {
 		return {
 			id: this.client.id,
 			name: this.client.name,
@@ -51,7 +51,7 @@ export default {
 		}
 	},
 	computed: {
-		renderedSecret: function() {
+		renderedSecret() {
 			if (this.renderSecret) {
 				return this.clientSecret
 			} else {

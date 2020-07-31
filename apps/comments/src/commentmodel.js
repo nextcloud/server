@@ -52,7 +52,7 @@
 				'mentions': OC.Files.Client.PROPERTY_MENTIONS,
 			},
 
-			parse: function(data) {
+			parse(data) {
 				return {
 					id: data.id,
 					message: data.message,
@@ -67,7 +67,7 @@
 				}
 			},
 
-			_parseMentions: function(mentions) {
+			_parseMentions(mentions) {
 				if (_.isUndefined(mentions)) {
 					return {}
 				}

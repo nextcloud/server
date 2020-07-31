@@ -34,7 +34,7 @@ export default {
 	 *
 	 * @param {Object} selector    Placeholder to display the message in
 	 */
-	startSaving: function(selector) {
+	startSaving(selector) {
 		this.startAction(selector, t('core', 'Saving …'))
 	},
 
@@ -44,7 +44,7 @@ export default {
 	 * @param {Object} selector    Placeholder to display the message in
 	 * @param {string} message    Plain text message to display (no HTML allowed)
 	 */
-	startAction: function(selector, message) {
+	startAction(selector, message) {
 		$(selector).text(message)
 			.removeClass('success')
 			.removeClass('error')
@@ -62,7 +62,7 @@ export default {
 	 * @param {string} response.status    is being used to decide whether the message
 	 * is displayed as an error/success
 	 */
-	finishedSaving: function(selector, response) {
+	finishedSaving(selector, response) {
 		this.finishedAction(selector, response)
 	},
 
@@ -76,7 +76,7 @@ export default {
 	 * @param {string} response.status is being used to decide whether the message
 	 * is displayed as an error/success
 	 */
-	finishedAction: function(selector, response) {
+	finishedAction(selector, response) {
 		if (response.status === 'success') {
 			this.finishedSuccess(selector, response.data.message)
 		} else {
@@ -90,7 +90,7 @@ export default {
 	 * @param {Object} selector Placeholder to display the message in
 	 * @param {string} message Plain text success message to display (no HTML allowed)
 	 */
-	finishedSuccess: function(selector, message) {
+	finishedSuccess(selector, message) {
 		$(selector).text(message)
 			.addClass('success')
 			.removeClass('error')
@@ -106,7 +106,7 @@ export default {
 	 * @param {Object} selector Placeholder to display the message in
 	 * @param {string} message Plain text error message to display (no HTML allowed)
 	 */
-	finishedError: function(selector, message) {
+	finishedError(selector, message) {
 		$(selector).text(message)
 			.addClass('error')
 			.removeClass('success')

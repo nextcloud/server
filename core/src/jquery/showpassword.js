@@ -36,7 +36,7 @@ import $ from 'jquery'
 *	@licens							MIT License - http://www.opensource.org/licenses/mit-license.php
 */
 $.fn.extend({
-	showPassword: function(c) {
+	showPassword(c) {
 
 		// Setup callback object
 		const callback = { 'fn': null, 'args': {} }

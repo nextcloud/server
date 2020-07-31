@@ -26,7 +26,7 @@
 			'files.public',
 		],
 
-		attach: function(fileList) {
+		attach(fileList) {
 			if (this.ignoreLists.indexOf(fileList.id) >= 0) {
 				return
 			}

@@ -163,8 +163,8 @@ export default {
 			return generateUrl(
 				'/avatar/{user}/{size}?v={version}',
 				{
-					user: user,
-					size: size,
+					user,
+					size,
 					version: oc_userconfig.avatar.version,
 				}
 			)

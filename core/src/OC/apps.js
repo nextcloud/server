@@ -13,7 +13,7 @@ import $ from 'jquery'
 let dynamicSlideToggleEnabled = false
 
 const Apps = {
-	enableDynamicSlideToggle: function() {
+	enableDynamicSlideToggle() {
 		dynamicSlideToggleEnabled = true
 	},
 }

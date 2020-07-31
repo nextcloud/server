@@ -163,7 +163,7 @@ export default {
 		},
 	},
 	watch: {
-		category: function(val, old) {
+		category(val, old) {
 			this.setSearch('')
 		},
 	},

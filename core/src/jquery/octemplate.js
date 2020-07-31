@@ -56,7 +56,7 @@ import escapeHTML from 'escape-html'
  * Inspired by micro templating done by e.g. underscore.js
  */
 const Template = {
-	init: function(vars, options, elem) {
+	init(vars, options, elem) {
 		// Mix in the passed in options with the default options
 		this.vars = vars
 		this.options = $.extend({}, this.options, options)
@@ -77,7 +77,7 @@ const Template = {
 		return $(_html)
 	},
 	// From stackoverflow.com/questions/1408289/best-way-to-do-variable-interpolation-in-javascript
-	_build: function(o) {
+	_build(o) {
 		const data = this.elem.attr('type') === 'text/template' ? this.elem.html() : this.elem.get(0).outerHTML
 		try {
 			return data.replace(/{([^{}]*)}/g,

@@ -44,7 +44,7 @@
 				'canAssign': OC.Files.Client.PROPERTY_CAN_ASSIGN,
 			},
 
-			parse: function(data) {
+			parse(data) {
 				return {
 					id: data.id,
 					name: data.name,

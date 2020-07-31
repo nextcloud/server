@@ -20,7 +20,7 @@ OCA.Trashbin.App = {
 	/** @type {OC.Files.Client} */
 	client: null,
 
-	initialize: function($el) {
+	initialize($el) {
 		if (this._initialized) {
 			return
 		}
@@ -60,7 +60,7 @@ OCA.Trashbin.App = {
 		)
 	},
 
-	_createFileActions: function() {
+	_createFileActions() {
 		const client = this.client
 		const fileActions = new OCA.Files.FileActions()
 		fileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function(filename, context) {
@@ -77,7 +77,7 @@ OCA.Trashbin.App = {
 			mime: 'all',
 			permissions: OC.PERMISSION_READ,
 			iconClass: 'icon-history',
-			actionHandler: function(filename, context) {
+			actionHandler(filename, context) {
 				const fileList = context.fileList
 				const tr = fileList.findFileEl(filename)
 				fileList.showFileBusyState(tr, true)
@@ -99,14 +99,14 @@ OCA.Trashbin.App = {
 			mime: 'all',
 			permissions: OC.PERMISSION_READ,
 			iconClass: 'icon-delete',
-			render: function(actionSpec, isDefault, context) {
+			render(actionSpec, isDefault, context) {
 				const $actionLink = fileActions._makeActionLink(actionSpec, context)
 				$actionLink.attr('original-title', t('files_trashbin', 'Delete permanently'))
 				$actionLink.children('img').attr('alt', t('files_trashbin', 'Delete permanently'))
 				context.$file.find('td:last').append($actionLink)
 				return $actionLink
 			},
-			actionHandler: function(filename, context) {
+			actionHandler(filename, context) {
 				const fileList = context.fileList
 				$('.tipsy').remove()
 				const tr = fileList.findFileEl(filename)

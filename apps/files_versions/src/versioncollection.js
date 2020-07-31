@@ -25,27 +25,27 @@
 
 		_client: null,
 
-		setFileInfo: function(fileInfo) {
+		setFileInfo(fileInfo) {
 			this._fileInfo = fileInfo
 		},
 
-		getFileInfo: function() {
+		getFileInfo() {
 			return this._fileInfo
 		},
 
-		setCurrentUser: function(user) {
+		setCurrentUser(user) {
 			this._currentUser = user
 		},
 
-		getCurrentUser: function() {
+		getCurrentUser() {
 			return this._currentUser || OC.getCurrentUser().uid
 		},
 
-		setClient: function(client) {
+		setClient(client) {
 			this._client = client
 		},
 
-		getClient: function() {
+		getClient() {
 			return this._client || new OC.Files.Client({
 				host: OC.getHost(),
 				root: OC.linkToRemoteBase('dav') + '/versions/' + this.getCurrentUser(),
@@ -53,11 +53,11 @@
 			})
 		},
 
-		url: function() {
+		url() {
 			return OC.linkToRemoteBase('dav') + '/versions/' + this.getCurrentUser() + '/versions/' + this._fileInfo.get('id')
 		},
 
-		parse: function(result) {
+		parse(result) {
 			const fullPath = this._fileInfo.getFullPath()
 			const fileId = this._fileInfo.get('id')
 			const name = this._fileInfo.get('name')

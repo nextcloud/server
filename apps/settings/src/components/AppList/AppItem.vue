@@ -138,7 +138,7 @@ export default {
 		},
 	},
 	watch: {
-		'$route.params.id': function(id) {
+		'$route.params.id'(id) {
 			this.isSelected = (this.app.id === id)
 		},
 	},

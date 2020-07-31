@@ -87,10 +87,10 @@ export default {
 		 * @returns {boolean}
 		 */
 		hasNote: {
-			get: function() {
+			get() {
 				return this.share.note !== ''
 			},
-			set: function(enabled) {
+			set(enabled) {
 				this.share.note = enabled
 					? null // enabled but user did not changed the content yet
 					: '' // empty = no note = disabled

@@ -38,7 +38,7 @@ export default {
 	 * @param {Function} callback callback function
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
-	setDefault: function(callback) {
+	setDefault(callback) {
 		this.getDefaultNotificationFunction = callback
 	},
 
@@ -52,7 +52,7 @@ export default {
 	 * @param {Function} [callback] callback
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
-	hide: function($row, callback) {
+	hide($row, callback) {
 		if (_.isFunction($row)) {
 			// first arg is the callback
 			callback = $row
@@ -95,7 +95,7 @@ export default {
 	 * @returns {jQuery} jQuery element for notification row
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
-	showHtml: function(html, options) {
+	showHtml(html, options) {
 		options = options || {}
 		options.isHTML = true
 		options.timeout = (!options.timeout) ? -1 : options.timeout
@@ -114,7 +114,7 @@ export default {
 	 * @returns {jQuery} jQuery element for notification row
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
-	show: function(text, options) {
+	show(text, options) {
 		options = options || {}
 		options.timeout = (!options.timeout) ? -1 : options.timeout
 		const toast = showMessage(text, options)
@@ -129,7 +129,7 @@ export default {
 	 * @returns {jQuery} JQuery element for notificaiton row
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
-	showUpdate: function(text) {
+	showUpdate(text) {
 		if (this.updatableNotification) {
 			this.updatableNotification.hideToast()
 		}
@@ -150,7 +150,7 @@ export default {
 	 * @returns {JQuery<any>} the toast element
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
-	showTemporary: function(text, options) {
+	showTemporary(text, options) {
 		options = options || {}
 		options.timeout = options.timeout || 7
 		const toast = showMessage(text, options)
@@ -163,7 +163,7 @@ export default {
 	 * @returns {boolean}
 	 * @deprecated 17.0.0 use the `@nextcloud/dialogs` package
 	 */
-	isHidden: function() {
+	isHidden() {
 		return !$('#content').find('.toastify').length
 	},
 }

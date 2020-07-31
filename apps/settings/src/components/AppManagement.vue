@@ -76,7 +76,7 @@ export default {
 			}
 			return false
 		},
-		setGroupLimit: function() {
+		setGroupLimit() {
 			if (!this.groupCheckedAppsData) {
 				this.$store.dispatch('enableApp', { appId: this.app.id, groups: [] })
 			}
@@ -93,7 +93,7 @@ export default {
 		},
 		addGroupLimitation(group) {
 			const groups = this.app.groups.concat([]).concat([group.id])
-			this.$store.dispatch('enableApp', { appId: this.app.id, groups: groups })
+			this.$store.dispatch('enableApp', { appId: this.app.id, groups })
 		},
 		removeGroupLimitation(group) {
 			const currentGroups = this.app.groups.concat([])
@@ -104,32 +104,32 @@ export default {
 			this.$store.dispatch('enableApp', { appId: this.app.id, groups: currentGroups })
 		},
 		forceEnable(appId) {
-			this.$store.dispatch('forceEnableApp', { appId: appId, groups: [] })
+			this.$store.dispatch('forceEnableApp', { appId, groups: [] })
 				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
 				.catch((error) => { OC.Notification.show(error) })
 		},
 		enable(appId) {
-			this.$store.dispatch('enableApp', { appId: appId, groups: [] })
+			this.$store.dispatch('enableApp', { appId, groups: [] })
 				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
 				.catch((error) => { OC.Notification.show(error) })
 		},
 		disable(appId) {
-			this.$store.dispatch('disableApp', { appId: appId })
+			this.$store.dispatch('disableApp', { appId })
 				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
 				.catch((error) => { OC.Notification.show(error) })
 		},
 		remove(appId) {
-			this.$store.dispatch('uninstallApp', { appId: appId })
+			this.$store.dispatch('uninstallApp', { appId })
 				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
 				.catch((error) => { OC.Notification.show(error) })
 		},
 		install(appId) {
-			this.$store.dispatch('enableApp', { appId: appId })
+			this.$store.dispatch('enableApp', { appId })
 				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
 				.catch((error) => { OC.Notification.show(error) })
 		},
 		update(appId) {
-			this.$store.dispatch('updateApp', { appId: appId })
+			this.$store.dispatch('updateApp', { appId })
 				.then((response) => { OC.Settings.Apps.rebuildNavigation() })
 				.catch((error) => { OC.Notification.show(error) })
 		},

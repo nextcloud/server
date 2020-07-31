@@ -18,7 +18,7 @@
 
 	OCA.SystemTags.App = {
 
-		initFileList: function($el) {
+		initFileList($el) {
 			if (this._fileList) {
 				return this._fileList
 			}
@@ -41,13 +41,13 @@
 			return this._fileList
 		},
 
-		removeFileList: function() {
+		removeFileList() {
 			if (this._fileList) {
 				this._fileList.$fileList.empty()
 			}
 		},
 
-		_createFileActions: function() {
+		_createFileActions() {
 			// inherit file actions from the files app
 			const fileActions = new OCA.Files.FileActions()
 			// note: not merging the legacy actions because legacy apps are not
@@ -73,7 +73,7 @@
 			return fileActions
 		},
 
-		_onActionsUpdated: function(ev) {
+		_onActionsUpdated(ev) {
 			if (!this._fileList) {
 				return
 			}
@@ -91,7 +91,7 @@
 		/**
 		 * Destroy the app
 		 */
-		destroy: function() {
+		destroy() {
 			OCA.Files.fileActions.off('setDefault.app-systemtags', this._onActionsUpdated)
 			OCA.Files.fileActions.off('registerAction.app-systemtags', this._onActionsUpdated)
 			this.removeFileList()

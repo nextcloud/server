@@ -64,7 +64,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDetails_vue_vue_type_style_index_0_id_59a92e62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-style-loader!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib??vue-loader-options!./AppDetails.vue?vue&type=style&index=0&id=59a92e62&scoped=true&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./apps/settings/src/components/AppDetails.vue?vue&type=style&index=0&id=59a92e62&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDetails_vue_vue_type_style_index_0_id_59a92e62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDetails_vue_vue_type_style_index_0_id_59a92e62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDetails_vue_vue_type_style_index_0_id_59a92e62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDetails_vue_vue_type_style_index_0_id_59a92e62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDetails_vue_vue_type_style_index_0_id_59a92e62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDetails_vue_vue_type_style_index_0_id_59a92e62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDetails_vue_vue_type_style_index_0_id_59a92e62_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
@@ -220,7 +220,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppItem_vue_vue_type_style_index_0_id_429da85a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-style-loader!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/vue-loader/lib??vue-loader-options!./AppItem.vue?vue&type=style&index=0&id=429da85a&scoped=true&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./apps/settings/src/components/AppList/AppItem.vue?vue&type=style&index=0&id=429da85a&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppItem_vue_vue_type_style_index_0_id_429da85a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppItem_vue_vue_type_style_index_0_id_429da85a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppItem_vue_vue_type_style_index_0_id_429da85a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppItem_vue_vue_type_style_index_0_id_429da85a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppItem_vue_vue_type_style_index_0_id_429da85a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppItem_vue_vue_type_style_index_0_id_429da85a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_AppItem_vue_vue_type_style_index_0_id_429da85a_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
@@ -3116,125 +3116,134 @@ var render = function() {
       }
     },
     [
-      _c("AppNavigation", [
-        _c(
-          "ul",
-          { attrs: { id: "appscategories" } },
-          [
-            _c("AppNavigationItem", {
-              attrs: {
-                id: "app-category-your-apps",
-                to: { name: "apps" },
-                exact: true,
-                icon: "icon-category-installed",
-                title: _vm.t("settings", "Your apps")
-              }
-            }),
-            _vm._v(" "),
-            _c("AppNavigationItem", {
-              attrs: {
-                id: "app-category-enabled",
-                to: { name: "apps-category", params: { category: "enabled" } },
-                icon: "icon-category-enabled",
-                title: _vm.t("settings", "Active apps")
-              }
-            }),
-            _vm._v(" "),
-            _c("AppNavigationItem", {
-              attrs: {
-                id: "app-category-disabled",
-                to: { name: "apps-category", params: { category: "disabled" } },
-                icon: "icon-category-disabled",
-                title: _vm.t("settings", "Disabled apps")
-              }
-            }),
-            _vm._v(" "),
-            _vm.updateCount > 0
-              ? _c(
-                  "AppNavigationItem",
-                  {
-                    attrs: {
-                      id: "app-category-updates",
-                      to: {
-                        name: "apps-category",
-                        params: { category: "updates" }
+      _c("AppNavigation", {
+        scopedSlots: _vm._u([
+          {
+            key: "list",
+            fn: function() {
+              return [
+                _c("AppNavigationItem", {
+                  attrs: {
+                    id: "app-category-your-apps",
+                    to: { name: "apps" },
+                    exact: true,
+                    icon: "icon-category-installed",
+                    title: _vm.t("settings", "Your apps")
+                  }
+                }),
+                _vm._v(" "),
+                _c("AppNavigationItem", {
+                  attrs: {
+                    id: "app-category-enabled",
+                    to: {
+                      name: "apps-category",
+                      params: { category: "enabled" }
+                    },
+                    icon: "icon-category-enabled",
+                    title: _vm.t("settings", "Active apps")
+                  }
+                }),
+                _vm._v(" "),
+                _c("AppNavigationItem", {
+                  attrs: {
+                    id: "app-category-disabled",
+                    to: {
+                      name: "apps-category",
+                      params: { category: "disabled" }
+                    },
+                    icon: "icon-category-disabled",
+                    title: _vm.t("settings", "Disabled apps")
+                  }
+                }),
+                _vm._v(" "),
+                _vm.updateCount > 0
+                  ? _c(
+                      "AppNavigationItem",
+                      {
+                        attrs: {
+                          id: "app-category-updates",
+                          to: {
+                            name: "apps-category",
+                            params: { category: "updates" }
+                          },
+                          icon: "icon-download",
+                          title: _vm.t("settings", "Updates")
+                        }
                       },
-                      icon: "icon-download",
-                      title: _vm.t("settings", "Updates")
-                    }
-                  },
-                  [
-                    _c(
-                      "AppNavigationCounter",
-                      { attrs: { slot: "counter" }, slot: "counter" },
                       [
-                        _vm._v(
-                          "\n\t\t\t\t\t" +
-                            _vm._s(_vm.updateCount) +
-                            "\n\t\t\t\t"
+                        _c(
+                          "AppNavigationCounter",
+                          { attrs: { slot: "counter" }, slot: "counter" },
+                          [
+                            _vm._v(
+                              "\n\t\t\t\t\t" +
+                                _vm._s(_vm.updateCount) +
+                                "\n\t\t\t\t"
+                            )
+                          ]
                         )
-                      ]
+                      ],
+                      1
                     )
-                  ],
-                  1
-                )
-              : _vm._e(),
-            _vm._v(" "),
-            _c("AppNavigationItem", {
-              attrs: {
-                id: "app-category-your-bundles",
-                to: {
-                  name: "apps-category",
-                  params: { category: "app-bundles" }
-                },
-                icon: "icon-category-app-bundles",
-                title: _vm.t("settings", "App bundles")
-              }
-            }),
-            _vm._v(" "),
-            _c("AppNavigationSpacer"),
-            _vm._v(" "),
-            _vm.settings.appstoreEnabled
-              ? [
-                  _c("AppNavigationItem", {
-                    attrs: {
-                      id: "app-category-featured",
-                      to: {
-                        name: "apps-category",
-                        params: { category: "featured" }
-                      },
-                      icon: "icon-favorite",
-                      title: _vm.t("settings", "Featured apps")
-                    }
-                  }),
-                  _vm._v(" "),
-                  _vm._l(_vm.categories, function(cat) {
-                    return _c("AppNavigationItem", {
-                      key: "icon-category-" + cat.ident,
-                      attrs: {
-                        icon: "icon-category-" + cat.ident,
-                        to: {
-                          name: "apps-category",
-                          params: { category: cat.ident }
-                        },
-                        title: cat.displayName
-                      }
-                    })
-                  })
-                ]
-              : _vm._e(),
-            _vm._v(" "),
-            _c("AppNavigationItem", {
-              attrs: {
-                id: "app-developer-docs",
-                href: "settings.developerDocumentation",
-                title: _vm.t("settings", "Developer documentation") + " ↗"
-              }
-            })
-          ],
-          2
-        )
-      ]),
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("AppNavigationItem", {
+                  attrs: {
+                    id: "app-category-your-bundles",
+                    to: {
+                      name: "apps-category",
+                      params: { category: "app-bundles" }
+                    },
+                    icon: "icon-category-app-bundles",
+                    title: _vm.t("settings", "App bundles")
+                  }
+                }),
+                _vm._v(" "),
+                _c("AppNavigationSpacer"),
+                _vm._v(" "),
+                _vm.settings.appstoreEnabled
+                  ? [
+                      _c("AppNavigationItem", {
+                        attrs: {
+                          id: "app-category-featured",
+                          to: {
+                            name: "apps-category",
+                            params: { category: "featured" }
+                          },
+                          icon: "icon-favorite",
+                          title: _vm.t("settings", "Featured apps")
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._l(_vm.categories, function(cat) {
+                        return _c("AppNavigationItem", {
+                          key: "icon-category-" + cat.ident,
+                          attrs: {
+                            icon: "icon-category-" + cat.ident,
+                            to: {
+                              name: "apps-category",
+                              params: { category: cat.ident }
+                            },
+                            title: cat.displayName
+                          }
+                        })
+                      })
+                    ]
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("AppNavigationItem", {
+                  attrs: {
+                    id: "app-developer-docs",
+                    href: "settings.developerDocumentation",
+                    title: _vm.t("settings", "Developer documentation") + " ↗"
+                  }
+                })
+              ]
+            },
+            proxy: true
+          }
+        ])
+      }),
       _vm._v(" "),
       _c(
         "AppContent",
@@ -3320,4 +3329,4 @@ if(false) {}
 /***/ })
 
 }]);
-//# sourceMappingURL=vue-1.js.map?v=555ba5a3156287837e37
+//# sourceMappingURL=vue-1.js.map?v=9e5fdb9904cc924225e3

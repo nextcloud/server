@@ -126,7 +126,7 @@ export default {
 		ClickOutside,
 		tooltip: VTooltip,
 	},
-	data: function() {
+	data() {
 		return {
 			newVersionString: '',
 			lastCheckedDate: '',
@@ -162,19 +162,19 @@ export default {
 	_$notifyGroups: null,
 
 	computed: {
-		newVersionAvailableString: function() {
+		newVersionAvailableString() {
 			return t('updatenotification', 'A new version is available: <strong>{newVersionString}</strong>', {
 				newVersionString: this.newVersionString,
 			})
 		},
 
-		lastCheckedOnString: function() {
+		lastCheckedOnString() {
 			return t('updatenotification', 'Checked on {lastCheckedDate}', {
 				lastCheckedDate: this.lastCheckedDate,
 			})
 		},
 
-		statusText: function() {
+		statusText() {
 			if (!this.isListFetched) {
 				return t('updatenotification', 'Checking apps for compatible updates')
 			}
@@ -192,7 +192,7 @@ export default {
 				: n('updatenotification', '<strong>%n</strong> app has no update for this version available', '<strong>%n</strong> apps have no update for this version available', this.missingAppUpdates.length)
 		},
 
-		whatsNew: function() {
+		whatsNew() {
 			if (this.whatsNewData.length === 0) {
 				return null
 			}
@@ -212,7 +212,7 @@ export default {
 			return whatsNew
 		},
 
-		channelList: function() {
+		channelList() {
 			const channelList = []
 
 			channelList.push({
@@ -251,11 +251,11 @@ export default {
 			return channelList
 		},
 
-		isNonDefaultChannel: function() {
+		isNonDefaultChannel() {
 			return this.currentChannel !== 'enterprise' && this.currentChannel !== 'stable' && this.currentChannel !== 'beta'
 		},
 
-		localizedChannelName: function() {
+		localizedChannelName() {
 			switch (this.currentChannel) {
 			case 'enterprise':
 				return t('updatenotification', 'Enterprise')
@@ -270,7 +270,7 @@ export default {
 	},
 
 	watch: {
-		notifyGroups: function(selectedOptions) {
+		notifyGroups(selectedOptions) {
 			if (!this.enableChangeWatcher) {
 				return
 			}
@@ -282,7 +282,7 @@ export default {
 
 			OCP.AppConfig.setValue('updatenotification', 'notify_groups', JSON.stringify(selectedGroups))
 		},
-		isNewVersionAvailable: function() {
+		isNewVersionAvailable() {
 			if (!this.isNewVersionAvailable) {
 				return
 			}
@@ -290,7 +290,7 @@ export default {
 			$.ajax({
 				url: generateOcsUrl('apps/updatenotification/api/v1/applist', 2) + this.newVersion,
 				type: 'GET',
-				beforeSend: function(request) {
+				beforeSend(request) {
 					request.setRequestHeader('Accept', 'application/json')
 				},
 				success: function(response) {
@@ -309,7 +309,7 @@ export default {
 			})
 		},
 	},
-	beforeMount: function() {
+	beforeMount() {
 		// Parse server data
 		const data = JSON.parse($('#updatenotification').attr('data-json'))
 
@@ -337,7 +337,7 @@ export default {
 			this.whatsNewData = this.whatsNewData.concat(data.changes.whatsNew.regular)
 		}
 	},
-	mounted: function() {
+	mounted() {
 		this._$el = $(this.$el)
 		this._$notifyGroups = this._$el.find('#oca_updatenotification_groups_list')
 		this._$notifyGroups.on('change', function() {
@@ -363,7 +363,7 @@ export default {
 		/**
 			 * Creates a new authentication token and loads the updater URL
 			 */
-		clickUpdaterButton: function() {
+		clickUpdaterButton() {
 			$.ajax({
 				url: generateUrl('/apps/updatenotification/credentials'),
 			}).success(function(token) {
@@ -383,16 +383,16 @@ export default {
 				form.submit()
 			})
 		},
-		changeReleaseChannelToEnterprise: function() {
+		changeReleaseChannelToEnterprise() {
 			this.changeReleaseChannel('enterprise')
 		},
-		changeReleaseChannelToStable: function() {
+		changeReleaseChannelToStable() {
 			this.changeReleaseChannel('stable')
 		},
-		changeReleaseChannelToBeta: function() {
+		changeReleaseChannelToBeta() {
 			this.changeReleaseChannel('beta')
 		},
-		changeReleaseChannel: function(channel) {
+		changeReleaseChannel(channel) {
 			this.currentChannel = channel
 
 			$.ajax({
@@ -401,29 +401,29 @@ export default {
 				data: {
 					'channel': this.currentChannel,
 				},
-				success: function(data) {
+				success(data) {
 					OC.msg.finishedAction('#channel_save_msg', data)
 				},
 			})
 
 			this.openedUpdateChannelMenu = false
 		},
-		toggleUpdateChannelMenu: function() {
+		toggleUpdateChannelMenu() {
 			this.openedUpdateChannelMenu = !this.openedUpdateChannelMenu
 		},
-		toggleHideMissingUpdates: function() {
+		toggleHideMissingUpdates() {
 			this.hideMissingUpdates = !this.hideMissingUpdates
 		},
-		toggleHideAvailableUpdates: function() {
+		toggleHideAvailableUpdates() {
 			this.hideAvailableUpdates = !this.hideAvailableUpdates
 		},
-		toggleMenu: function() {
+		toggleMenu() {
 			this.openedWhatsNew = !this.openedWhatsNew
 		},
-		closeUpdateChannelMenu: function() {
+		closeUpdateChannelMenu() {
 			this.openedUpdateChannelMenu = false
 		},
-		hideMenu: function() {
+		hideMenu() {
 			this.openedWhatsNew = false
 		},
 	},

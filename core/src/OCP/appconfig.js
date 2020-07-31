@@ -79,7 +79,7 @@ export function getKeys(app, options) {
 export function getValue(app, key, defaultValue, options) {
 	options = options || {}
 	options.data = {
-		defaultValue: defaultValue,
+		defaultValue,
 	}
 
 	call('get', '/' + app + '/' + key, options)
@@ -97,7 +97,7 @@ export function getValue(app, key, defaultValue, options) {
 export function setValue(app, key, value, options) {
 	options = options || {}
 	options.data = {
-		value: value,
+		value,
 	}
 
 	call('post', '/' + app + '/' + key, options)

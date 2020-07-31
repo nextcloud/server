@@ -64,7 +64,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserList_vue_vue_type_style_index_0_id_6cba3aca_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-style-loader!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/vue-loader/lib??vue-loader-options!./UserList.vue?vue&type=style&index=0&id=6cba3aca&scoped=true&lang=css& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js?!./apps/settings/src/components/UserList.vue?vue&type=style&index=0&id=6cba3aca&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserList_vue_vue_type_style_index_0_id_6cba3aca_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserList_vue_vue_type_style_index_0_id_6cba3aca_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserList_vue_vue_type_style_index_0_id_6cba3aca_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserList_vue_vue_type_style_index_0_id_6cba3aca_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserList_vue_vue_type_style_index_0_id_6cba3aca_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserList_vue_vue_type_style_index_0_id_6cba3aca_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserList_vue_vue_type_style_index_0_id_6cba3aca_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
@@ -151,7 +151,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRow_vue_vue_type_style_index_0_id_77960baa_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-style-loader!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/sass-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib??vue-loader-options!./UserRow.vue?vue&type=style&index=0&id=77960baa&scoped=true&lang=scss& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js?!./apps/settings/src/components/UserList/UserRow.vue?vue&type=style&index=0&id=77960baa&scoped=true&lang=scss&");
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRow_vue_vue_type_style_index_0_id_77960baa_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRow_vue_vue_type_style_index_0_id_77960baa_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRow_vue_vue_type_style_index_0_id_77960baa_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRow_vue_vue_type_style_index_0_id_77960baa_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRow_vue_vue_type_style_index_0_id_77960baa_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRow_vue_vue_type_style_index_0_id_77960baa_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRow_vue_vue_type_style_index_0_id_77960baa_scoped_true_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
@@ -238,7 +238,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRowSimple_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-style-loader!../../../../../node_modules/css-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/sass-loader/dist/cjs.js!../../../../../node_modules/vue-loader/lib??vue-loader-options!./UserRowSimple.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js?!./apps/settings/src/components/UserList/UserRowSimple.vue?vue&type=style&index=0&lang=scss&");
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRowSimple_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRowSimple_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRowSimple_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRowSimple_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRowSimple_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRowSimple_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_UserRowSimple_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
@@ -548,7 +548,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_style_index_0_id_889b7562_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-style-loader!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../node_modules/sass-loader/dist/cjs.js!../../../../node_modules/vue-loader/lib??vue-loader-options!./Users.vue?vue&type=style&index=0&id=889b7562&lang=scss&scoped=true& */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/sass-loader/dist/cjs.js!./node_modules/vue-loader/lib/index.js?!./apps/settings/src/views/Users.vue?vue&type=style&index=0&id=889b7562&lang=scss&scoped=true&");
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_style_index_0_id_889b7562_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_style_index_0_id_889b7562_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_style_index_0_id_889b7562_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_style_index_0_id_889b7562_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_style_index_0_id_889b7562_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_style_index_0_id_889b7562_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_sass_loader_dist_cjs_js_node_modules_vue_loader_lib_index_js_vue_loader_options_Users_vue_vue_type_style_index_0_id_889b7562_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
@@ -2521,6 +2521,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 
 
@@ -3011,7 +3013,7 @@ module.exports = exports;
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "#usergrouplist #addgroup[data-v-889b7562] .app-navigation-entry__utils {\n  display: none;\n}\n", ""]);
+exports.push([module.i, ".app-navigation__list #addgroup[data-v-889b7562] .app-navigation-entry__utils {\n  display: none;\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -4401,6 +4403,481 @@ var render = function() {
     [
       _c(
         "AppNavigation",
+        {
+          scopedSlots: _vm._u([
+            {
+              key: "list",
+              fn: function() {
+                return [
+                  _c("AppNavigationItem", {
+                    ref: "addGroup",
+                    attrs: {
+                      id: "addgroup",
+                      "edit-placeholder": _vm.t("settings", "Enter group name"),
+                      editable: true,
+                      loading: _vm.loadingAddGroup,
+                      title: _vm.t("settings", "Add group"),
+                      icon: "icon-add"
+                    },
+                    on: {
+                      click: function($event) {
+                        return _vm.toggleAddGroupEntry(true)
+                      },
+                      "update:title": _vm.createGroup
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "AppNavigationItem",
+                    {
+                      attrs: {
+                        id: "everyone",
+                        exact: true,
+                        title: _vm.t("settings", "Everyone"),
+                        to: { name: "users" },
+                        icon: "icon-contacts-dark"
+                      }
+                    },
+                    [
+                      _vm.userCount > 0
+                        ? _c(
+                            "AppNavigationCounter",
+                            { attrs: { slot: "counter" }, slot: "counter" },
+                            [
+                              _vm._v(
+                                "\n\t\t\t\t\t" +
+                                  _vm._s(_vm.userCount) +
+                                  "\n\t\t\t\t"
+                              )
+                            ]
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm.settings.isAdmin
+                    ? _c(
+                        "AppNavigationItem",
+                        {
+                          attrs: {
+                            id: "admin",
+                            exact: true,
+                            title: _vm.t("settings", "Admins"),
+                            to: {
+                              name: "group",
+                              params: { selectedGroup: "admin" }
+                            },
+                            icon: "icon-user-admin"
+                          }
+                        },
+                        [
+                          _vm.adminGroupMenu.count
+                            ? _c(
+                                "AppNavigationCounter",
+                                { attrs: { slot: "counter" }, slot: "counter" },
+                                [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t" +
+                                      _vm._s(_vm.adminGroupMenu.count) +
+                                      "\n\t\t\t\t"
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.disabledGroupMenu.usercount > 0 ||
+                  _vm.disabledGroupMenu.usercount === -1
+                    ? _c(
+                        "AppNavigationItem",
+                        {
+                          attrs: {
+                            id: "disabled",
+                            exact: true,
+                            title: _vm.t("settings", "Disabled users"),
+                            to: {
+                              name: "group",
+                              params: { selectedGroup: "disabled" }
+                            },
+                            icon: "icon-disabled-users"
+                          }
+                        },
+                        [
+                          _vm.disabledGroupMenu.usercount > 0
+                            ? _c(
+                                "AppNavigationCounter",
+                                { attrs: { slot: "counter" }, slot: "counter" },
+                                [
+                                  _vm._v(
+                                    "\n\t\t\t\t\t" +
+                                      _vm._s(_vm.disabledGroupMenu.usercount) +
+                                      "\n\t\t\t\t"
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.groupList.length > 0
+                    ? _c("AppNavigationCaption", {
+                        attrs: { title: _vm.t("settings", "Groups") }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm._l(_vm.groupList, function(group) {
+                    return _c(
+                      "AppNavigationItem",
+                      {
+                        key: group.id,
+                        attrs: {
+                          exact: true,
+                          title: group.title,
+                          to: {
+                            name: "group",
+                            params: {
+                              selectedGroup: encodeURIComponent(group.id)
+                            }
+                          }
+                        }
+                      },
+                      [
+                        group.count
+                          ? _c(
+                              "AppNavigationCounter",
+                              { attrs: { slot: "counter" }, slot: "counter" },
+                              [
+                                _vm._v(
+                                  "\n\t\t\t\t\t" +
+                                    _vm._s(group.count) +
+                                    "\n\t\t\t\t"
+                                )
+                              ]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "template",
+                          { slot: "actions" },
+                          [
+                            group.id !== "admin" &&
+                            group.id !== "disabled" &&
+                            _vm.settings.isAdmin
+                              ? _c(
+                                  "ActionButton",
+                                  {
+                                    attrs: { icon: "icon-delete" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.removeGroup(group.id)
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n\t\t\t\t\t\t" +
+                                        _vm._s(
+                                          _vm.t("settings", "Remove group")
+                                        ) +
+                                        "\n\t\t\t\t\t"
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      ],
+                      2
+                    )
+                  })
+                ]
+              },
+              proxy: true
+            },
+            {
+              key: "footer",
+              fn: function() {
+                return [
+                  _c("AppNavigationSettings", [
+                    _c(
+                      "div",
+                      [
+                        _c("p", [
+                          _vm._v(_vm._s(_vm.t("settings", "Default quota:")))
+                        ]),
+                        _vm._v(" "),
+                        _c("Multiselect", {
+                          attrs: {
+                            value: _vm.defaultQuota,
+                            options: _vm.quotaOptions,
+                            "tag-placeholder": "create",
+                            placeholder: _vm.t(
+                              "settings",
+                              "Select default quota"
+                            ),
+                            label: "label",
+                            "track-by": "id",
+                            "allow-empty": false,
+                            taggable: true
+                          },
+                          on: {
+                            tag: _vm.validateQuota,
+                            input: _vm.setDefaultQuota
+                          }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.showLanguages,
+                            expression: "showLanguages"
+                          }
+                        ],
+                        staticClass: "checkbox",
+                        attrs: { id: "showLanguages", type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.showLanguages)
+                            ? _vm._i(_vm.showLanguages, null) > -1
+                            : _vm.showLanguages
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.showLanguages,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.showLanguages = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.showLanguages = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.showLanguages = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "showLanguages" } }, [
+                        _vm._v(_vm._s(_vm.t("settings", "Show Languages")))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.showLastLogin,
+                            expression: "showLastLogin"
+                          }
+                        ],
+                        staticClass: "checkbox",
+                        attrs: { id: "showLastLogin", type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.showLastLogin)
+                            ? _vm._i(_vm.showLastLogin, null) > -1
+                            : _vm.showLastLogin
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.showLastLogin,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.showLastLogin = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.showLastLogin = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.showLastLogin = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "showLastLogin" } }, [
+                        _vm._v(_vm._s(_vm.t("settings", "Show last login")))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.showUserBackend,
+                            expression: "showUserBackend"
+                          }
+                        ],
+                        staticClass: "checkbox",
+                        attrs: { id: "showUserBackend", type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.showUserBackend)
+                            ? _vm._i(_vm.showUserBackend, null) > -1
+                            : _vm.showUserBackend
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.showUserBackend,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.showUserBackend = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.showUserBackend = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.showUserBackend = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "showUserBackend" } }, [
+                        _vm._v(_vm._s(_vm.t("settings", "Show user backend")))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.showStoragePath,
+                            expression: "showStoragePath"
+                          }
+                        ],
+                        staticClass: "checkbox",
+                        attrs: { id: "showStoragePath", type: "checkbox" },
+                        domProps: {
+                          checked: Array.isArray(_vm.showStoragePath)
+                            ? _vm._i(_vm.showStoragePath, null) > -1
+                            : _vm.showStoragePath
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.showStoragePath,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.showStoragePath = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.showStoragePath = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.showStoragePath = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "showStoragePath" } }, [
+                        _vm._v(_vm._s(_vm.t("settings", "Show storage path")))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.sendWelcomeMail,
+                            expression: "sendWelcomeMail"
+                          }
+                        ],
+                        staticClass: "checkbox",
+                        attrs: {
+                          id: "sendWelcomeMail",
+                          disabled: _vm.loadingSendMail,
+                          type: "checkbox"
+                        },
+                        domProps: {
+                          checked: Array.isArray(_vm.sendWelcomeMail)
+                            ? _vm._i(_vm.sendWelcomeMail, null) > -1
+                            : _vm.sendWelcomeMail
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.sendWelcomeMail,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.sendWelcomeMail = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.sendWelcomeMail = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.sendWelcomeMail = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("label", { attrs: { for: "sendWelcomeMail" } }, [
+                        _vm._v(
+                          _vm._s(_vm.t("settings", "Send email to new user"))
+                        )
+                      ])
+                    ])
+                  ])
+                ]
+              },
+              proxy: true
+            }
+          ])
+        },
         [
           _c("AppNavigationNew", {
             attrs: {
@@ -4409,452 +4886,7 @@ var render = function() {
               "button-class": "icon-add"
             },
             on: { click: _vm.toggleNewUserMenu }
-          }),
-          _vm._v(" "),
-          _c(
-            "ul",
-            { attrs: { id: "usergrouplist" } },
-            [
-              _c("AppNavigationItem", {
-                ref: "addGroup",
-                attrs: {
-                  id: "addgroup",
-                  "edit-placeholder": _vm.t("settings", "Enter group name"),
-                  editable: true,
-                  loading: _vm.loadingAddGroup,
-                  title: _vm.t("settings", "Add group"),
-                  icon: "icon-add"
-                },
-                on: {
-                  click: function($event) {
-                    return _vm.toggleAddGroupEntry(true)
-                  },
-                  "update:title": _vm.createGroup
-                }
-              }),
-              _vm._v(" "),
-              _c(
-                "AppNavigationItem",
-                {
-                  attrs: {
-                    id: "everyone",
-                    exact: true,
-                    title: _vm.t("settings", "Everyone"),
-                    to: { name: "users" },
-                    icon: "icon-contacts-dark"
-                  }
-                },
-                [
-                  _vm.userCount > 0
-                    ? _c(
-                        "AppNavigationCounter",
-                        { attrs: { slot: "counter" }, slot: "counter" },
-                        [
-                          _vm._v(
-                            "\n\t\t\t\t\t" +
-                              _vm._s(_vm.userCount) +
-                              "\n\t\t\t\t"
-                          )
-                        ]
-                      )
-                    : _vm._e()
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _vm.settings.isAdmin
-                ? _c(
-                    "AppNavigationItem",
-                    {
-                      attrs: {
-                        id: "admin",
-                        exact: true,
-                        title: _vm.t("settings", "Admins"),
-                        to: {
-                          name: "group",
-                          params: { selectedGroup: "admin" }
-                        },
-                        icon: "icon-user-admin"
-                      }
-                    },
-                    [
-                      _vm.adminGroupMenu.count
-                        ? _c(
-                            "AppNavigationCounter",
-                            { attrs: { slot: "counter" }, slot: "counter" },
-                            [
-                              _vm._v(
-                                "\n\t\t\t\t\t" +
-                                  _vm._s(_vm.adminGroupMenu.count) +
-                                  "\n\t\t\t\t"
-                              )
-                            ]
-                          )
-                        : _vm._e()
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.disabledGroupMenu.usercount > 0 ||
-              _vm.disabledGroupMenu.usercount === -1
-                ? _c(
-                    "AppNavigationItem",
-                    {
-                      attrs: {
-                        id: "disabled",
-                        exact: true,
-                        title: _vm.t("settings", "Disabled users"),
-                        to: {
-                          name: "group",
-                          params: { selectedGroup: "disabled" }
-                        },
-                        icon: "icon-disabled-users"
-                      }
-                    },
-                    [
-                      _vm.disabledGroupMenu.usercount > 0
-                        ? _c(
-                            "AppNavigationCounter",
-                            { attrs: { slot: "counter" }, slot: "counter" },
-                            [
-                              _vm._v(
-                                "\n\t\t\t\t\t" +
-                                  _vm._s(_vm.disabledGroupMenu.usercount) +
-                                  "\n\t\t\t\t"
-                              )
-                            ]
-                          )
-                        : _vm._e()
-                    ],
-                    1
-                  )
-                : _vm._e(),
-              _vm._v(" "),
-              _vm.groupList.length > 0
-                ? _c("AppNavigationCaption", {
-                    attrs: { title: _vm.t("settings", "Groups") }
-                  })
-                : _vm._e(),
-              _vm._v(" "),
-              _vm._l(_vm.groupList, function(group) {
-                return _c(
-                  "AppNavigationItem",
-                  {
-                    key: group.id,
-                    attrs: {
-                      exact: true,
-                      title: group.title,
-                      to: {
-                        name: "group",
-                        params: { selectedGroup: encodeURIComponent(group.id) }
-                      }
-                    }
-                  },
-                  [
-                    group.count
-                      ? _c(
-                          "AppNavigationCounter",
-                          { attrs: { slot: "counter" }, slot: "counter" },
-                          [
-                            _vm._v(
-                              "\n\t\t\t\t\t" +
-                                _vm._s(group.count) +
-                                "\n\t\t\t\t"
-                            )
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c(
-                      "template",
-                      { slot: "actions" },
-                      [
-                        group.id !== "admin" &&
-                        group.id !== "disabled" &&
-                        _vm.settings.isAdmin
-                          ? _c(
-                              "ActionButton",
-                              {
-                                attrs: { icon: "icon-delete" },
-                                on: {
-                                  click: function($event) {
-                                    return _vm.removeGroup(group.id)
-                                  }
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n\t\t\t\t\t\t" +
-                                    _vm._s(_vm.t("settings", "Remove group")) +
-                                    "\n\t\t\t\t\t"
-                                )
-                              ]
-                            )
-                          : _vm._e()
-                      ],
-                      1
-                    )
-                  ],
-                  2
-                )
-              })
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c("AppNavigationSettings", [
-            _c(
-              "div",
-              [
-                _c("p", [_vm._v(_vm._s(_vm.t("settings", "Default quota:")))]),
-                _vm._v(" "),
-                _c("Multiselect", {
-                  attrs: {
-                    value: _vm.defaultQuota,
-                    options: _vm.quotaOptions,
-                    "tag-placeholder": "create",
-                    placeholder: _vm.t("settings", "Select default quota"),
-                    label: "label",
-                    "track-by": "id",
-                    "allow-empty": false,
-                    taggable: true
-                  },
-                  on: { tag: _vm.validateQuota, input: _vm.setDefaultQuota }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("div", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.showLanguages,
-                    expression: "showLanguages"
-                  }
-                ],
-                staticClass: "checkbox",
-                attrs: { id: "showLanguages", type: "checkbox" },
-                domProps: {
-                  checked: Array.isArray(_vm.showLanguages)
-                    ? _vm._i(_vm.showLanguages, null) > -1
-                    : _vm.showLanguages
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.showLanguages,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 && (_vm.showLanguages = $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          (_vm.showLanguages = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
-                      }
-                    } else {
-                      _vm.showLanguages = $$c
-                    }
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "showLanguages" } }, [
-                _vm._v(_vm._s(_vm.t("settings", "Show Languages")))
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.showLastLogin,
-                    expression: "showLastLogin"
-                  }
-                ],
-                staticClass: "checkbox",
-                attrs: { id: "showLastLogin", type: "checkbox" },
-                domProps: {
-                  checked: Array.isArray(_vm.showLastLogin)
-                    ? _vm._i(_vm.showLastLogin, null) > -1
-                    : _vm.showLastLogin
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.showLastLogin,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 && (_vm.showLastLogin = $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          (_vm.showLastLogin = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
-                      }
-                    } else {
-                      _vm.showLastLogin = $$c
-                    }
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "showLastLogin" } }, [
-                _vm._v(_vm._s(_vm.t("settings", "Show last login")))
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.showUserBackend,
-                    expression: "showUserBackend"
-                  }
-                ],
-                staticClass: "checkbox",
-                attrs: { id: "showUserBackend", type: "checkbox" },
-                domProps: {
-                  checked: Array.isArray(_vm.showUserBackend)
-                    ? _vm._i(_vm.showUserBackend, null) > -1
-                    : _vm.showUserBackend
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.showUserBackend,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 && (_vm.showUserBackend = $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          (_vm.showUserBackend = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
-                      }
-                    } else {
-                      _vm.showUserBackend = $$c
-                    }
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "showUserBackend" } }, [
-                _vm._v(_vm._s(_vm.t("settings", "Show user backend")))
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.showStoragePath,
-                    expression: "showStoragePath"
-                  }
-                ],
-                staticClass: "checkbox",
-                attrs: { id: "showStoragePath", type: "checkbox" },
-                domProps: {
-                  checked: Array.isArray(_vm.showStoragePath)
-                    ? _vm._i(_vm.showStoragePath, null) > -1
-                    : _vm.showStoragePath
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.showStoragePath,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 && (_vm.showStoragePath = $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          (_vm.showStoragePath = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
-                      }
-                    } else {
-                      _vm.showStoragePath = $$c
-                    }
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "showStoragePath" } }, [
-                _vm._v(_vm._s(_vm.t("settings", "Show storage path")))
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.sendWelcomeMail,
-                    expression: "sendWelcomeMail"
-                  }
-                ],
-                staticClass: "checkbox",
-                attrs: {
-                  id: "sendWelcomeMail",
-                  disabled: _vm.loadingSendMail,
-                  type: "checkbox"
-                },
-                domProps: {
-                  checked: Array.isArray(_vm.sendWelcomeMail)
-                    ? _vm._i(_vm.sendWelcomeMail, null) > -1
-                    : _vm.sendWelcomeMail
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.sendWelcomeMail,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 && (_vm.sendWelcomeMail = $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          (_vm.sendWelcomeMail = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
-                      }
-                    } else {
-                      _vm.sendWelcomeMail = $$c
-                    }
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("label", { attrs: { for: "sendWelcomeMail" } }, [
-                _vm._v(_vm._s(_vm.t("settings", "Send email to new user")))
-              ])
-            ])
-          ])
+          })
         ],
         1
       ),
@@ -4978,4 +5010,4 @@ if(false) {}
 /***/ })
 
 }]);
-//# sourceMappingURL=vue-2.js.map?v=888f47793ecddf751d7a
+//# sourceMappingURL=vue-2.js.map?v=b42f167f76ca1740ec0a

@@ -39,7 +39,7 @@ const L10n = {
 	 * the translations are loaded
 	 * @returns {Promise} promise
 	 */
-	load: function(appName, callback) {
+	load(appName, callback) {
 		// already available ?
 		if (hasAppTranslations(appName) || OC.getLocale() === 'en') {
 			const deferred = $.Deferred()
@@ -69,7 +69,7 @@ const L10n = {
 	 * @param {String} appName name of the app
 	 * @param {Object<String,String>} bundle bundle
 	 */
-	register: function(appName, bundle) {
+	register(appName, bundle) {
 		registerAppTranslations(appName, bundle, this._getPlural)
 	},
 
@@ -89,7 +89,7 @@ const L10n = {
 	 * @param {bool} [options.sanitize=true] enable/disable sanitization (by default enabled)
 	 * @returns {string}
 	 */
-	translate: function(app, text, vars, count, options) {
+	translate(app, text, vars, count, options) {
 		const defaultOptions = {
 			escape: true,
 			sanitize: true,
@@ -140,7 +140,7 @@ const L10n = {
 	 * @param {bool} [options.escape=true] enable/disable auto escape of placeholders (by default enabled)
 	 * @returns {string} Translated string
 	 */
-	translatePlural: function(app, textSingular, textPlural, count, vars, options) {
+	translatePlural(app, textSingular, textPlural, count, vars, options) {
 		const identifier = '_' + textSingular + '_::_' + textPlural + '_'
 		const bundle = getAppTranslations(app)
 		const value = bundle.translations[identifier]
@@ -166,7 +166,7 @@ const L10n = {
 	 * @returns {number}
 	 * @private
 	 */
-	_getPlural: function(number) {
+	_getPlural(number) {
 		let language = OC.getLanguage()
 		if (language === 'pt-BR') {
 			// temporary set a locale for brazilian
