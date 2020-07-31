@@ -16,9 +16,9 @@
 		sync: OC.Backbone.davSync,
 
 		davProperties: {
-			'size': '{DAV:}getcontentlength',
-			'mimetype': '{DAV:}getcontenttype',
-			'timestamp': '{DAV:}getlastmodified',
+			size: '{DAV:}getcontentlength',
+			mimetype: '{DAV:}getcontenttype',
+			timestamp: '{DAV:}getlastmodified',
 		},
 
 		/**

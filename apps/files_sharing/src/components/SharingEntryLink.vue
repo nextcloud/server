@@ -469,7 +469,7 @@ export default {
 		 * @returns {boolean}
 		 */
 		isTalkEnabled() {
-			return OC.appswebroots['spreed'] !== undefined
+			return OC.appswebroots.spreed !== undefined
 		},
 
 		/**

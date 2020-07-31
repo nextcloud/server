@@ -58,7 +58,7 @@
 		 * Renders the menu with the currently set items
 		 */
 		render() {
-			this.$el.html(OCA.Comments.Templates['commentsmodifymenu']({
+			this.$el.html(OCA.Comments.Templates.commentsmodifymenu({
 				items: this._scopes,
 			}))
 		},

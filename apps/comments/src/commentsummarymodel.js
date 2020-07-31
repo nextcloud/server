@@ -41,7 +41,7 @@
 			_objectId: null,
 
 			davProperties: {
-				'readMarker': OC.Files.Client.PROPERTY_READMARKER,
+				readMarker: OC.Files.Client.PROPERTY_READMARKER,
 			},
 
 			/**

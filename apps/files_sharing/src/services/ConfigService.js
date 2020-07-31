@@ -226,7 +226,7 @@ export default class Config {
 	 * @memberof Config
 	 */
 	get isPasswordForMailSharesRequired() {
-		return (OC.getCapabilities()['files_sharing']['sharebymail'] === undefined) ? false : OC.getCapabilities()['files_sharing']['sharebymail']['password']['enforced']
+		return (OC.getCapabilities().files_sharing.sharebymail === undefined) ? false : OC.getCapabilities().files_sharing.sharebymail.password.enforced
 	}
 
 	/**

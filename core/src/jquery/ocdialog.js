@@ -203,7 +203,7 @@ $.widget('oc.ocdialog', {
 			lessHeight += this.$buttonrow.outerHeight(true)
 		}
 		this.element.css({
-			'height': 'calc(100% - ' + lessHeight + 'px)',
+			height: 'calc(100% - ' + lessHeight + 'px)',
 		})
 	},
 	_createOverlay() {

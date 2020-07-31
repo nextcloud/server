@@ -36,12 +36,12 @@
 			},
 
 			davProperties: {
-				'id': OC.Files.Client.PROPERTY_FILEID,
-				'name': OC.Files.Client.PROPERTY_DISPLAYNAME,
-				'userVisible': OC.Files.Client.PROPERTY_USERVISIBLE,
-				'userAssignable': OC.Files.Client.PROPERTY_USERASSIGNABLE,
+				id: OC.Files.Client.PROPERTY_FILEID,
+				name: OC.Files.Client.PROPERTY_DISPLAYNAME,
+				userVisible: OC.Files.Client.PROPERTY_USERVISIBLE,
+				userAssignable: OC.Files.Client.PROPERTY_USERASSIGNABLE,
 				// read-only, effective permissions computed by the server,
-				'canAssign': OC.Files.Client.PROPERTY_CAN_ASSIGN,
+				canAssign: OC.Files.Client.PROPERTY_CAN_ASSIGN,
 			},
 
 			parse(data) {

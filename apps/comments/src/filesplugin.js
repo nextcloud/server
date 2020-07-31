@@ -32,7 +32,7 @@
 		],
 
 		_formatCommentCount(count) {
-			return OCA.Comments.Templates['filesplugin']({
+			return OCA.Comments.Templates.filesplugin({
 				count,
 				countMessage: n('comments', '%n unread comment', '%n unread comments', count),
 				iconUrl: OC.imagePath('core', 'actions/comment'),

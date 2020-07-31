@@ -40,16 +40,16 @@
 			},
 
 			davProperties: {
-				'id': OC.Files.Client.PROPERTY_FILEID,
-				'message': OC.Files.Client.PROPERTY_MESSAGE,
-				'actorType': OC.Files.Client.PROPERTY_ACTORTYPE,
-				'actorId': OC.Files.Client.PROPERTY_ACTORID,
-				'actorDisplayName': OC.Files.Client.PROPERTY_ACTORDISPLAYNAME,
-				'creationDateTime': OC.Files.Client.PROPERTY_CREATIONDATETIME,
-				'objectType': OC.Files.Client.PROPERTY_OBJECTTYPE,
-				'objectId': OC.Files.Client.PROPERTY_OBJECTID,
-				'isUnread': OC.Files.Client.PROPERTY_ISUNREAD,
-				'mentions': OC.Files.Client.PROPERTY_MENTIONS,
+				id: OC.Files.Client.PROPERTY_FILEID,
+				message: OC.Files.Client.PROPERTY_MESSAGE,
+				actorType: OC.Files.Client.PROPERTY_ACTORTYPE,
+				actorId: OC.Files.Client.PROPERTY_ACTORID,
+				actorDisplayName: OC.Files.Client.PROPERTY_ACTORDISPLAYNAME,
+				creationDateTime: OC.Files.Client.PROPERTY_CREATIONDATETIME,
+				objectType: OC.Files.Client.PROPERTY_OBJECTTYPE,
+				objectId: OC.Files.Client.PROPERTY_OBJECTID,
+				isUnread: OC.Files.Client.PROPERTY_ISUNREAD,
+				mentions: OC.Files.Client.PROPERTY_MENTIONS,
 			},
 
 			parse(data) {

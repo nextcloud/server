@@ -137,7 +137,7 @@ export default {
 					publicKey.allowCredentials = publicKey.allowCredentials.map(function(data) {
 						return {
 							...data,
-							'id': Uint8Array.from(base64urlDecode(data.id), c => c.charCodeAt(0)),
+							id: Uint8Array.from(base64urlDecode(data.id), c => c.charCodeAt(0)),
 						}
 					})
 

@@ -399,7 +399,7 @@ export default {
 				url: generateUrl('/apps/updatenotification/channel'),
 				type: 'POST',
 				data: {
-					'channel': this.currentChannel,
+					channel: this.currentChannel,
 				},
 				success(data) {
 					OC.msg.finishedAction('#channel_save_msg', data)
