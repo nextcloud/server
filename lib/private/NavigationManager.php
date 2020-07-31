@@ -200,7 +200,7 @@ class NavigationManager implements INavigationManager {
 			$this->add([
 				'type' => 'settings',
 				'id' => 'help',
-				'order' => 5,
+				'order' => 6,
 				'href' => $this->urlGenerator->linkToRoute('settings.Help.help'),
 				'name' => $l->t('Help'),
 				'icon' => $this->urlGenerator->imagePath('settings', 'help.svg'),
@@ -213,7 +213,7 @@ class NavigationManager implements INavigationManager {
 				$this->add([
 					'type' => 'settings',
 					'id' => 'core_apps',
-					'order' => 3,
+					'order' => 4,
 					'href' => $this->urlGenerator->linkToRoute('settings.AppSettings.viewApps'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'apps.svg'),
 					'name' => $l->t('Apps'),
@@ -224,7 +224,7 @@ class NavigationManager implements INavigationManager {
 			$this->add([
 				'type' => 'settings',
 				'id' => 'settings',
-				'order' => 1,
+				'order' => 2,
 				'href' => $this->urlGenerator->linkToRoute('settings.PersonalSettings.index'),
 				'name' => $l->t('Settings'),
 				'icon' => $this->urlGenerator->imagePath('settings', 'admin.svg'),
@@ -248,7 +248,7 @@ class NavigationManager implements INavigationManager {
 				$this->add([
 					'type' => 'settings',
 					'id' => 'core_users',
-					'order' => 4,
+					'order' => 5,
 					'href' => $this->urlGenerator->linkToRoute('settings.Users.usersList'),
 					'name' => $l->t('Users'),
 					'icon' => $this->urlGenerator->imagePath('settings', 'users.svg'),

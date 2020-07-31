@@ -244,7 +244,7 @@ class NavigationManagerTest extends TestCase {
 		$apps = [
 			'core_apps' => [
 				'id'      => 'core_apps',
-				'order'   => 3,
+				'order'   => 4,
 				'href'    => '/apps/test/',
 				'icon'    => '/apps/settings/img/apps.svg',
 				'name'    => 'Apps',
@@ -256,7 +256,7 @@ class NavigationManagerTest extends TestCase {
 		$defaults = [
 			'settings' => [
 				'id'      => 'settings',
-				'order'   => 1,
+				'order'   => 2,
 				'href'    => '/apps/test/',
 				'icon'    => '/apps/settings/img/admin.svg',
 				'name'    => 'Settings',

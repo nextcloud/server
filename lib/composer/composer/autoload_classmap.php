@@ -519,6 +519,7 @@ return array(
     'OCP\\User\\Events\\UserChangedEvent' => $baseDir . '/lib/public/User/Events/UserChangedEvent.php',
     'OCP\\User\\Events\\UserCreatedEvent' => $baseDir . '/lib/public/User/Events/UserCreatedEvent.php',
     'OCP\\User\\Events\\UserDeletedEvent' => $baseDir . '/lib/public/User/Events/UserDeletedEvent.php',
+    'OCP\\User\\Events\\UserLiveStatusEvent' => $baseDir . '/lib/public/User/Events/UserLiveStatusEvent.php',
     'OCP\\User\\Events\\UserLoggedInEvent' => $baseDir . '/lib/public/User/Events/UserLoggedInEvent.php',
     'OCP\\User\\Events\\UserLoggedInWithCookieEvent' => $baseDir . '/lib/public/User/Events/UserLoggedInWithCookieEvent.php',
     'OCP\\User\\Events\\UserLoggedOutEvent' => $baseDir . '/lib/public/User/Events/UserLoggedOutEvent.php',

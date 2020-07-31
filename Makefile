@@ -39,6 +39,7 @@ clean:
 	rm -rf apps/systemtags/js/systemtags.*
 	rm -rf apps/twofactor_backupcodes/js
 	rm -rf apps/updatenotification/js/updatenotification.*
+	rm -rf apps/user_status/js/
 	rm -rf apps/workflowengine/js/
 	rm -rf core/js/dist
 
@@ -57,5 +58,6 @@ clean-git: clean
 	git checkout -- apps/systemtags/js/systemtags.*
 	git checkout -- apps/twofactor_backupcodes/js
 	git checkout -- apps/updatenotification/js/updatenotification.*
+	git checkout -- apps/user_status/js/
 	git checkout -- apps/workflowengine/js/
 	git checkout -- core/js/dist
