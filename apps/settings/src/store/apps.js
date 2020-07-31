@@ -166,12 +166,12 @@ const actions = {
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', apps)
 			context.commit('startLoading', 'install')
-			return api.post(generateUrl(`settings/apps/enable`), { appIds: apps, groups: groups })
+			return api.post(generateUrl('settings/apps/enable'), { appIds: apps, groups })
 				.then((response) => {
 					context.commit('stopLoading', apps)
 					context.commit('stopLoading', 'install')
 					apps.forEach(_appId => {
-						context.commit('enableApp', { appId: _appId, groups: groups })
+						context.commit('enableApp', { appId: _appId, groups })
 					})
 
 					// check for server health
@@ -224,7 +224,7 @@ const actions = {
 		return api.requireAdmin().then(() => {
 			context.commit('startLoading', apps)
 			context.commit('startLoading', 'install')
-			return api.post(generateUrl(`settings/apps/force`), { appId })
+			return api.post(generateUrl('settings/apps/force'), { appId })
 				.then((response) => {
 					// TODO: find a cleaner solution
 					location.reload()
@@ -249,7 +249,7 @@ const actions = {
 		}
 		return api.requireAdmin().then((response) => {
 			context.commit('startLoading', apps)
-			return api.post(generateUrl(`settings/apps/disable`), { appIds: apps })
+			return api.post(generateUrl('settings/apps/disable'), { appIds: apps })
 				.then((response) => {
 					context.commit('stopLoading', apps)
 					apps.forEach(_appId => {
@@ -300,7 +300,7 @@ const actions = {
 
 	getAllApps(context) {
 		context.commit('startLoading', 'list')
-		return api.get(generateUrl(`settings/apps/list`))
+		return api.get(generateUrl('settings/apps/list'))
 			.then((response) => {
 				context.commit('setAllApps', response.data.apps)
 				context.commit('stopLoading', 'list')

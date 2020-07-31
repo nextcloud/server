@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
  *
  * This file is licensed under the Affero General Public License version 3
@@ -14,6 +14,7 @@ if (!OCA.Sharing) {
 	 */
 	OCA.Sharing = {}
 }
+
 /**
  * @namespace
  */

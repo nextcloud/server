@@ -268,10 +268,10 @@ export default {
 		 * Can the sharee edit the shared file ?
 		 */
 		canEdit: {
-			get: function() {
+			get() {
 				return this.share.hasUpdatePermission
 			},
-			set: function(checked) {
+			set(checked) {
 				this.updatePermissions({ isEditChecked: checked })
 			},
 		},
@@ -280,10 +280,10 @@ export default {
 		 * Can the sharee create the shared file ?
 		 */
 		canCreate: {
-			get: function() {
+			get() {
 				return this.share.hasCreatePermission
 			},
-			set: function(checked) {
+			set(checked) {
 				this.updatePermissions({ isCreateChecked: checked })
 			},
 		},
@@ -292,10 +292,10 @@ export default {
 		 * Can the sharee delete the shared file ?
 		 */
 		canDelete: {
-			get: function() {
+			get() {
 				return this.share.hasDeletePermission
 			},
-			set: function(checked) {
+			set(checked) {
 				this.updatePermissions({ isDeleteChecked: checked })
 			},
 		},
@@ -304,10 +304,10 @@ export default {
 		 * Can the sharee reshare the file ?
 		 */
 		canReshare: {
-			get: function() {
+			get() {
 				return this.share.hasSharePermission
 			},
-			set: function(checked) {
+			set(checked) {
 				this.updatePermissions({ isReshareChecked: checked })
 			},
 		},
@@ -325,10 +325,10 @@ export default {
 		 * @returns {boolean}
 		 */
 		hasExpirationDate: {
-			get: function() {
+			get() {
 				return this.config.isDefaultInternalExpireDateEnforced || !!this.share.expireDate
 			},
-			set: function(enabled) {
+			set(enabled) {
 				this.share.expireDate = enabled
 					? this.config.defaultInternalExpirationDateString !== ''
 						? this.config.defaultInternalExpirationDateString

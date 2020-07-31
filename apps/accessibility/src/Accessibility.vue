@@ -68,7 +68,7 @@ export default {
 				.replace('{linkend}', '</a>')
 		},
 		guidelinesLink() {
-			return `<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">`
+			return '<a target="_blank" href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noreferrer nofollow">'
 		},
 		descriptionDetail() {
 			return t(
@@ -80,10 +80,10 @@ export default {
 				.replace(/\{linkend\}/g, '</a>')
 		},
 		issuetrackerLink() {
-			return `<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">`
+			return '<a target="_blank" href="https://github.com/nextcloud/server/issues/" rel="noreferrer nofollow">'
 		},
 		designteamLink() {
-			return `<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">`
+			return '<a target="_blank" href="https://nextcloud.com/design" rel="noreferrer nofollow">'
 		},
 	},
 	methods: {
