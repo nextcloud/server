@@ -74,7 +74,8 @@ export default {
 			timer: new Date(),
 			callbacks: {},
 			panels,
-			name: getCurrentUser()?.displayName,
+			displayName: getCurrentUser()?.displayName,
+			uid: getCurrentUser()?.uid,
 			layout: loadState('dashboard', 'layout').filter((panelId) => panels[panelId]),
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps'),
@@ -83,20 +84,21 @@ export default {
 	computed: {
 		greeting() {
 			const time = this.timer.getHours()
+			const shouldShowName = this.displayName && this.uid !== this.displayName
 
 			if (time > 18) {
-				return { icon: '🌙', text: t('dashboard', 'Good evening, {name}', { name: this.name }) }
+				return { icon: '🌙', text: shouldShowName ? t('dashboard', 'Good evening, {name}', { name: this.name }) : t('dashboard', 'Good evening') }
 			}
 			if (time > 12) {
-				return { icon: '☀', text: t('dashboard', 'Good afternoon, {name}', { name: this.name }) }
+				return { icon: '☀', text: shouldShowName ? t('dashboard', 'Good afternoon, {name}', { name: this.name }) : t('dashboard', 'Good afternoon') }
 			}
 			if (time === 12) {
-				return { icon: '🍽', text: t('dashboard', 'Time for lunch, {name}', { name: this.name }) }
+				return { icon: '🍽', text: shouldShowName ? t('dashboard', 'Time for lunch, {name}', { name: this.name }) : t('dashboard', 'Time for lunch') }
 			}
 			if (time > 5) {
-				return { icon: '🌄', text: t('dashboard', 'Good morning, {name}', { name: this.name }) }
+				return { icon: '🌄', text: shouldShowName ? t('dashboard', 'Good morning, {name}', { name: this.name }) : t('dashboard', 'Good morning') }
 			}
-			return { icon: '🦉', text: t('dashboard', 'Have a night owl, {name}', { name: this.name }) }
+			return { icon: '🦉', text: shouldShowName ? t('dashboard', 'Have a night owl, {name}', { name: this.name }) : t('dashboard', 'Have a night owl') }
 		},
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
