@@ -84,7 +84,7 @@ export default {
 			this.inputValObjects = this.getValueObject()
 		},
 	},
-	beforeCreate: function() {
+	beforeCreate() {
 		this.uuid = uuid.toString()
 		uuid += 1
 		searchTags().then((result) => {

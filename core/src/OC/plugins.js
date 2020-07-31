@@ -35,7 +35,7 @@ export default {
 	 * @param {String} targetName app name / class name to hook into
 	 * @param {OC.Plugin} plugin plugin
 	 */
-	register: function(targetName, plugin) {
+	register(targetName, plugin) {
 		let plugins = this._plugins[targetName]
 		if (!plugins) {
 			plugins = this._plugins[targetName] = []
@@ -50,7 +50,7 @@ export default {
 	 * @param {String} targetName app name / class name to hook into
 	 * @returns {Array.<OC.Plugin>} array of plugins
 	 */
-	getPlugins: function(targetName) {
+	getPlugins(targetName) {
 		return this._plugins[targetName] || []
 	},
 
@@ -61,7 +61,7 @@ export default {
 	 * @param {Object} targetObject to be extended
 	 * @param {Object} [options] options
 	 */
-	attach: function(targetName, targetObject, options) {
+	attach(targetName, targetObject, options) {
 		const plugins = this.getPlugins(targetName)
 		for (let i = 0; i < plugins.length; i++) {
 			if (plugins[i].attach) {
@@ -77,7 +77,7 @@ export default {
 	 * @param {Object} targetObject to be extended
 	 * @param {Object} [options] options
 	 */
-	detach: function(targetName, targetObject, options) {
+	detach(targetName, targetObject, options) {
 		const plugins = this.getPlugins(targetName)
 		for (let i = 0; i < plugins.length; i++) {
 			if (plugins[i].detach) {

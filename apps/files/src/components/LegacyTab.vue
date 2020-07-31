@@ -33,7 +33,7 @@ import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
 export default {
 	name: 'LegacyTab',
 	components: {
-		AppSidebarTab: AppSidebarTab,
+		AppSidebarTab,
 	},
 	props: {
 		component: {

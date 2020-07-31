@@ -88,7 +88,7 @@ export default {
 			required: true,
 		},
 	},
-	data: function() {
+	data() {
 		return {
 			newClient: {
 				name: '',
@@ -100,7 +100,7 @@ export default {
 	},
 	methods: {
 		deleteClient(id) {
-			axios.delete(generateUrl('apps/oauth2/clients/{id}', { id: id }))
+			axios.delete(generateUrl('apps/oauth2/clients/{id}', { id }))
 				.then((response) => {
 					this.clients = this.clients.filter(client => client.id !== id)
 				})

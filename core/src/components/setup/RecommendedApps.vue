@@ -135,7 +135,7 @@ export default {
 				.map(app => limit(() => {
 					logger.info(`installing ${app.id}`)
 					app.loading = true
-					return axios.post(generateUrl(`settings/apps/enable`), { appIds: [app.id], groups: [] })
+					return axios.post(generateUrl('settings/apps/enable'), { appIds: [app.id], groups: [] })
 						.catch(error => {
 							logger.error(`could not install ${app.id}`, { error })
 							app.installationError = true

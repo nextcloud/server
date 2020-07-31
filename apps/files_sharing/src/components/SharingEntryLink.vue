@@ -469,7 +469,7 @@ export default {
 		 * @returns {boolean}
 		 */
 		isTalkEnabled() {
-			return OC.appswebroots['spreed'] !== undefined
+			return OC.appswebroots.spreed !== undefined
 		},
 
 		/**
@@ -485,10 +485,10 @@ export default {
 		 * @returns {boolean}
 		 */
 		isPasswordProtectedByTalk: {
-			get: function() {
+			get() {
 				return this.share.sendPasswordByTalk
 			},
-			set: async function(enabled) {
+			async set(enabled) {
 				this.share.sendPasswordByTalk = enabled
 			},
 		},
@@ -535,10 +535,10 @@ export default {
 		 * @returns {boolean}
 		 */
 		canUpdate: {
-			get: function() {
+			get() {
 				return this.share.hasUpdatePermission
 			},
-			set: function(enabled) {
+			set(enabled) {
 				this.share.permissions = enabled
 					? OC.PERMISSION_READ | OC.PERMISSION_UPDATE
 					: OC.PERMISSION_READ

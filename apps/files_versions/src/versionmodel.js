@@ -16,9 +16,9 @@
 		sync: OC.Backbone.davSync,
 
 		davProperties: {
-			'size': '{DAV:}getcontentlength',
-			'mimetype': '{DAV:}getcontenttype',
-			'timestamp': '{DAV:}getlastmodified',
+			size: '{DAV:}getcontentlength',
+			mimetype: '{DAV:}getcontenttype',
+			timestamp: '{DAV:}getlastmodified',
 		},
 
 		/**
@@ -27,7 +27,7 @@
 		 * @param {Object} [options] options
 		 * @returns {Promise}
 		 */
-		revert: function(options) {
+		revert(options) {
 			options = options ? _.clone(options) : {}
 			const model = this
 
@@ -48,11 +48,11 @@
 				})
 		},
 
-		getFullPath: function() {
+		getFullPath() {
 			return this.get('fullPath')
 		},
 
-		getPreviewUrl: function() {
+		getPreviewUrl() {
 			const url = OC.generateUrl('/apps/files_versions/preview')
 			const params = {
 				file: this.get('fullPath'),
@@ -61,7 +61,7 @@
 			return url + '?' + OC.buildQueryString(params)
 		},
 
-		getDownloadUrl: function() {
+		getDownloadUrl() {
 			return OC.linkToRemoteBase('dav') + '/versions/' + this.get('user') + '/versions/' + this.get('fileId') + '/' + this.get('id')
 		},
 	})

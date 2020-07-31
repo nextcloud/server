@@ -31,7 +31,7 @@
 				iconClass: 'icon-delete',
 			},
 		],
-		initialize: function() {
+		initialize() {
 
 		},
 		events: {
@@ -43,7 +43,7 @@
 		 *
 		 * @param {Object} event event object
 		 */
-		_onClickAction: function(event) {
+		_onClickAction(event) {
 			let $target = $(event.currentTarget)
 			if (!$target.hasClass('menuitem')) {
 				$target = $target.closest('.menuitem')
@@ -57,8 +57,8 @@
 		/**
 		 * Renders the menu with the currently set items
 		 */
-		render: function() {
-			this.$el.html(OCA.Comments.Templates['commentsmodifymenu']({
+		render() {
+			this.$el.html(OCA.Comments.Templates.commentsmodifymenu({
 				items: this._scopes,
 			}))
 		},
@@ -67,7 +67,7 @@
 		 * Displays the menu
 		 * @param {Event} context the click event
 		 */
-		show: function(context) {
+		show(context) {
 			this._context = context
 
 			for (const i in this._scopes) {

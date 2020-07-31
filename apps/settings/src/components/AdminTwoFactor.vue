@@ -86,28 +86,28 @@ export default {
 	},
 	computed: {
 		enforced: {
-			get: function() {
+			get() {
 				return this.$store.state.enforced
 			},
-			set: function(val) {
+			set(val) {
 				this.dirty = true
 				this.$store.commit('setEnforced', val)
 			},
 		},
 		enforcedGroups: {
-			get: function() {
+			get() {
 				return this.$store.state.enforcedGroups
 			},
-			set: function(val) {
+			set(val) {
 				this.dirty = true
 				this.$store.commit('setEnforcedGroups', val)
 			},
 		},
 		excludedGroups: {
-			get: function() {
+			get() {
 				return this.$store.state.excludedGroups
 			},
-			set: function(val) {
+			set(val) {
 				this.dirty = true
 				this.$store.commit('setExcludedGroups', val)
 			},

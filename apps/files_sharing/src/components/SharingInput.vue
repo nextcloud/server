@@ -194,7 +194,7 @@ export default {
 				this.SHARE_TYPES.SHARE_TYPE_GUEST,
 			]
 
-			if (OC.getCapabilities()['files_sharing']['public']['enabled'] === true) {
+			if (OC.getCapabilities().files_sharing.public.enabled === true) {
 				shareType.push(this.SHARE_TYPES.SHARE_TYPE_EMAIL)
 			}
 

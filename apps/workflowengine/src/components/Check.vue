@@ -99,7 +99,7 @@ export default {
 		},
 	},
 	watch: {
-		'check.operator': function() {
+		'check.operator'() {
 			this.validate()
 		},
 	},

@@ -31,15 +31,15 @@
 			'files.public',
 		],
 
-		_formatCommentCount: function(count) {
-			return OCA.Comments.Templates['filesplugin']({
-				count: count,
+		_formatCommentCount(count) {
+			return OCA.Comments.Templates.filesplugin({
+				count,
 				countMessage: n('comments', '%n unread comment', '%n unread comments', count),
 				iconUrl: OC.imagePath('core', 'actions/comment'),
 			})
 		},
 
-		attach: function(fileList) {
+		attach(fileList) {
 			const self = this
 			if (this.ignoreLists.indexOf(fileList.id) >= 0) {
 				return
@@ -77,11 +77,11 @@
 			// register "comment" action for reading comments
 			fileList.fileActions.registerAction({
 				name: 'Comment',
-				displayName: function(context) {
+				displayName(context) {
 					if (context && context.$file) {
 						const unread = parseInt(context.$file.data('comments-unread'), 10)
 						if (unread >= 0) {
-							return n('comments', '1 new comment', '{unread} new comments', unread, { unread: unread })
+							return n('comments', '1 new comment', '{unread} new comments', unread, { unread })
 						}
 					}
 					return t('comments', 'Comment')
@@ -91,7 +91,7 @@
 				iconClass: 'icon-comment',
 				permissions: OC.PERMISSION_READ,
 				type: OCA.Files.FileActions.TYPE_INLINE,
-				render: function(actionSpec, isDefault, context) {
+				render(actionSpec, isDefault, context) {
 					const $file = context.$file
 					const unreadComments = $file.data('comments-unread')
 					if (unreadComments) {
@@ -101,7 +101,7 @@
 					}
 					return ''
 				},
-				actionHandler: function(fileName, context) {
+				actionHandler(fileName, context) {
 					context.$file.find('.action-comment').tooltip('hide')
 					// open sidebar in comments section
 					context.fileList.showDetailsView(fileName, 'comments')

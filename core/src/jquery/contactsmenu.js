@@ -65,8 +65,8 @@ $.fn.contactsMenu = function(shareWith, shareType, appendTo) {
 		$.ajax(OC.generateUrl('/contactsmenu/findOne'), {
 			method: 'POST',
 			data: {
-				shareType: shareType,
-				shareWith: shareWith,
+				shareType,
+				shareWith,
 			},
 		}).then(function(data) {
 			$list.find('ul').find('li').addClass('hidden')
@@ -98,7 +98,7 @@ $.fn.contactsMenu = function(shareWith, shareType, appendTo) {
 			const template = entryTemplate
 			$list.find('ul').append(template({
 				hyperlink: '#',
-				title: title,
+				title,
 			}))
 		})
 	})

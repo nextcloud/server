@@ -64,7 +64,7 @@ export default class ShareSearch {
 			this.#state.results.push(result)
 			return true
 		}
-		console.error(`Invalid search result provided`, result)
+		console.error('Invalid search result provided', result)
 		return false
 	}
 

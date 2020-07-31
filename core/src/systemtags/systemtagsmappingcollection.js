@@ -44,7 +44,7 @@ import { generateRemoteUrl } from '@nextcloud/router'
 
 			model: OC.SystemTags.SystemTagModel,
 
-			url: function() {
+			url() {
 				return generateRemoteUrl('dav') + '/systemtags-relations/' + this._objectType + '/' + this._objectId
 			},
 
@@ -53,7 +53,7 @@ import { generateRemoteUrl } from '@nextcloud/router'
 		 *
 		 * @param {int} objectId file id or null
 		 */
-			setObjectId: function(objectId) {
+			setObjectId(objectId) {
 				this._objectId = objectId
 			},
 
@@ -62,11 +62,11 @@ import { generateRemoteUrl } from '@nextcloud/router'
 		 *
 		 * @param {int} objectType file id or null
 		 */
-			setObjectType: function(objectType) {
+			setObjectType(objectType) {
 				this._objectType = objectType
 			},
 
-			initialize: function(models, options) {
+			initialize(models, options) {
 				options = options || {}
 				if (!_.isUndefined(options.objectId)) {
 					this._objectId = options.objectId
@@ -76,7 +76,7 @@ import { generateRemoteUrl } from '@nextcloud/router'
 				}
 			},
 
-			getTagIds: function() {
+			getTagIds() {
 				return this.map(function(model) {
 					return model.id
 				})

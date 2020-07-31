@@ -36,10 +36,10 @@ import $ from 'jquery'
 *	@licens							MIT License - http://www.opensource.org/licenses/mit-license.php
 */
 $.fn.extend({
-	showPassword: function(c) {
+	showPassword(c) {
 
 		// Setup callback object
-		const callback = { 'fn': null, 'args': {} }
+		const callback = { fn: null, args: {} }
 		callback.fn = c
 
 		// Clones passwords and turn the clones into text inputs
@@ -52,13 +52,13 @@ $.fn.extend({
 			// Name added for JQuery Validation compatibility
 			// Element name is required to avoid script warning.
 			$clone.attr({
-				'type': 'text',
-				'class': $element.attr('class'),
-				'style': $element.attr('style'),
-				'size': $element.attr('size'),
-				'name': $element.attr('name') + '-clone',
-				'tabindex': $element.attr('tabindex'),
-				'autocomplete': 'off',
+				type: 'text',
+				class: $element.attr('class'),
+				style: $element.attr('style'),
+				size: $element.attr('size'),
+				name: $element.attr('name') + '-clone',
+				tabindex: $element.attr('tabindex'),
+				autocomplete: 'off',
 			})
 
 			if ($element.attr('placeholder') !== undefined) {

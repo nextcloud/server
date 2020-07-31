@@ -72,7 +72,7 @@ export default {
 	 *
 	 *
 	 */
-	computerFileSize: function(string) {
+	computerFileSize(string) {
 		if (typeof string !== 'string') {
 			return null
 		}
@@ -81,17 +81,17 @@ export default {
 		let bytes = null
 
 		const bytesArray = {
-			'b': 1,
-			'k': 1024,
-			'kb': 1024,
-			'mb': 1024 * 1024,
-			'm': 1024 * 1024,
-			'gb': 1024 * 1024 * 1024,
-			'g': 1024 * 1024 * 1024,
-			'tb': 1024 * 1024 * 1024 * 1024,
-			't': 1024 * 1024 * 1024 * 1024,
-			'pb': 1024 * 1024 * 1024 * 1024 * 1024,
-			'p': 1024 * 1024 * 1024 * 1024 * 1024,
+			b: 1,
+			k: 1024,
+			kb: 1024,
+			mb: 1024 * 1024,
+			m: 1024 * 1024,
+			gb: 1024 * 1024 * 1024,
+			g: 1024 * 1024 * 1024,
+			tb: 1024 * 1024 * 1024 * 1024,
+			t: 1024 * 1024 * 1024 * 1024,
+			pb: 1024 * 1024 * 1024 * 1024 * 1024,
+			p: 1024 * 1024 * 1024 * 1024 * 1024,
 		}
 
 		const matches = s.match(/^[\s+]?([0-9]*)(\.([0-9]+))?( +)?([kmgtp]?b?)$/i)
@@ -116,7 +116,7 @@ export default {
 	 * @param {string} format date format, see momentjs docs
 	 * @returns {string} timestamp formatted as requested
 	 */
-	formatDate: function(timestamp, format) {
+	formatDate(timestamp, format) {
 		console.warn('OC.Util.formatDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
 		format = format || 'LLL'
 		return moment(timestamp).format(format)
@@ -126,7 +126,7 @@ export default {
 	 * @param {string|number} timestamp timestamp
 	 * @returns {string} human readable difference from now
 	 */
-	relativeModifiedDate: function(timestamp) {
+	relativeModifiedDate(timestamp) {
 		console.warn('OC.Util.relativeModifiedDate is deprecated and will be removed in Nextcloud 21. See @nextcloud/moment')
 		const diff = moment().diff(moment(timestamp))
 		if (diff >= 0 && diff < 45000) {
@@ -140,7 +140,7 @@ export default {
 	 *
 	 * @returns {bool} true if this is IE, false otherwise
 	 */
-	isIE: function() {
+	isIE() {
 		return $('html').hasClass('ie')
 	},
 
@@ -149,7 +149,7 @@ export default {
 	 *
 	 * @returns {int} width of scrollbar
 	 */
-	getScrollBarWidth: function() {
+	getScrollBarWidth() {
 		if (this._scrollBarWidth) {
 			return this._scrollBarWidth
 		}
@@ -189,7 +189,7 @@ export default {
 	 * @param {Date} date date
 	 * @returns {Date} date with stripped time
 	 */
-	stripTime: function(date) {
+	stripTime(date) {
 		// FIXME: likely to break when crossing DST
 		// would be better to use a library like momentJS
 		return new Date(date.getFullYear(), date.getMonth(), date.getDate())
@@ -202,7 +202,7 @@ export default {
 	 * @returns {number} -1 if b comes before a, 1 if a comes before b
 	 * or 0 if the strings are identical
 	 */
-	naturalSortCompare: function(a, b) {
+	naturalSortCompare(a, b) {
 		let x
 		const aa = chunkify(a)
 		const bb = chunkify(b)
@@ -229,7 +229,7 @@ export default {
 	 * @param {function} callback function to call on success
 	 * @param {integer} interval in milliseconds
 	 */
-	waitFor: function(callback, interval) {
+	waitFor(callback, interval) {
 		const internalCallback = function() {
 			if (callback() !== true) {
 				setTimeout(internalCallback, interval)
@@ -245,7 +245,7 @@ export default {
 	 * @param {string} value value of the cookie
 	 * @returns {boolean} true if the cookie with the given name has the given value
 	 */
-	isCookieSetToValue: function(name, value) {
+	isCookieSetToValue(name, value) {
 		const cookies = document.cookie.split(';')
 		for (let i = 0; i < cookies.length; i++) {
 			const cookie = cookies[i].split('=')

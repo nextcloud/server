@@ -30,7 +30,7 @@
 		},
 		_dirInfo: undefined,
 
-		render: function(data) {
+		render(data) {
 			this._dirInfo = data.dirInfo || null
 
 			if (this._dirInfo !== null && (this._dirInfo.path !== '/' || this._dirInfo.name !== '')) {
@@ -55,7 +55,7 @@
 
 			return this
 		},
-		_onClick: function(e) {
+		_onClick(e) {
 			e.preventDefault()
 
 			const fileInfoModel = new OCA.Files.FileInfoModel(this._dirInfo)

@@ -60,8 +60,8 @@ export default {
 	},
 	data() {
 		return {
-			groups: groups,
-			status: status,
+			groups,
+			status,
 		}
 	},
 	computed: {

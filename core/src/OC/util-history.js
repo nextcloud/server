@@ -45,7 +45,7 @@ export default {
 	 * using the params as query string
 	 * @param {boolean} [replace=false] whether to replace instead of pushing
 	 */
-	_pushState: function(params, url, replace) {
+	_pushState(params, url, replace) {
 		let strParams
 		if (typeof (params) === 'string') {
 			strParams = params
@@ -93,7 +93,7 @@ export default {
 	 * @param {Object|string} params to append to the URL, can be either a string or a map
 	 * @param {string} [url] URL to be used, otherwise the current URL will be used, using the params as query string
 	 */
-	pushState: function(params, url) {
+	pushState(params, url) {
 		this._pushState(params, url, false)
 	},
 
@@ -108,7 +108,7 @@ export default {
 	 * @param {string} [url] URL to be used, otherwise the current URL will be used,
 	 * using the params as query string
 	 */
-	replaceState: function(params, url) {
+	replaceState(params, url) {
 		this._pushState(params, url, true)
 	},
 
@@ -117,7 +117,7 @@ export default {
 	 *
 	 * @param {Function} handler handler
 	 */
-	addOnPopStateHandler: function(handler) {
+	addOnPopStateHandler(handler) {
 		this._handlers.push(handler)
 	},
 
@@ -126,7 +126,7 @@ export default {
 	 * (workaround for IE8 / IE9)
 	 * @returns {string}
 	 */
-	_parseHashQuery: function() {
+	_parseHashQuery() {
 		const hash = window.location.hash
 		const pos = hash.indexOf('?')
 		if (pos >= 0) {
@@ -139,7 +139,7 @@ export default {
 		return ''
 	},
 
-	_decodeQuery: function(query) {
+	_decodeQuery(query) {
 		return query.replace(/\+/g, ' ')
 	},
 
@@ -149,7 +149,7 @@ export default {
 	 *
 	 * @returns {Object} map of parameters
 	 */
-	parseUrlQuery: function() {
+	parseUrlQuery() {
 		const query = this._parseHashQuery()
 		let params
 		// try and parse from URL hash first
@@ -161,7 +161,7 @@ export default {
 		return params || {}
 	},
 
-	_onPopState: function(e) {
+	_onPopState(e) {
 		if (this._cancelPop) {
 			this._cancelPop = false
 			return

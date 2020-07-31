@@ -27,7 +27,7 @@ import Template from './templates/template.handlebars';
 			'click .revertVersion': '_onClickRevertVersion',
 		},
 
-		initialize: function() {
+		initialize() {
 			OCA.Files.DetailTabView.prototype.initialize.apply(this, arguments)
 			this.collection = new OCA.Versions.VersionCollection()
 			this.collection.on('request', this._onRequest, this)
@@ -37,15 +37,15 @@ import Template from './templates/template.handlebars';
 			this.collection.on('add', this._onAddModel, this)
 		},
 
-		getLabel: function() {
+		getLabel() {
 			return t('files_versions', 'Versions')
 		},
 
-		getIcon: function() {
+		getIcon() {
 			return 'icon-history'
 		},
 
-		nextPage: function() {
+		nextPage() {
 			if (this._loading) {
 				return
 			}
@@ -56,7 +56,7 @@ import Template from './templates/template.handlebars';
 			this.collection.fetch()
 		},
 
-		_onClickRevertVersion: function(ev) {
+		_onClickRevertVersion(ev) {
 			const self = this
 			let $target = $(ev.target)
 			const fileInfoModel = this.collection.getFileInfo()
@@ -69,7 +69,7 @@ import Template from './templates/template.handlebars';
 
 			const versionModel = this.collection.get(revision)
 			versionModel.revert({
-				success: function() {
+				success() {
 					// reset and re-fetch the updated collection
 					self.$versionsContainer.empty()
 					self.collection.setFileInfo(fileInfoModel)
@@ -88,7 +88,7 @@ import Template from './templates/template.handlebars';
 					})
 				},
 
-				error: function() {
+				error() {
 					fileInfoModel.trigger('busy', fileInfoModel, false)
 					self.$el.find('.versions').removeClass('hidden')
 					self._toggleLoading(false)
@@ -109,35 +109,35 @@ import Template from './templates/template.handlebars';
 			fileInfoModel.trigger('busy', fileInfoModel, true)
 		},
 
-		_toggleLoading: function(state) {
+		_toggleLoading(state) {
 			this._loading = state
 			this.$el.find('.loading').toggleClass('hidden', !state)
 		},
 
-		_onRequest: function() {
+		_onRequest() {
 			this._toggleLoading(true)
 		},
 
-		_onEndRequest: function() {
+		_onEndRequest() {
 			this._toggleLoading(false)
 			this.$el.find('.empty').toggleClass('hidden', !!this.collection.length)
 		},
 
-		_onAddModel: function(model) {
+		_onAddModel(model) {
 			const $el = $(this.itemTemplate(this._formatItem(model)))
 			this.$versionsContainer.append($el)
 			$el.find('.has-tooltip').tooltip()
 		},
 
-		template: function(data) {
+		template(data) {
 			return Template(data)
 		},
 
-		itemTemplate: function(data) {
+		itemTemplate(data) {
 			return ItemTemplate(data)
 		},
 
-		setFileInfo: function(fileInfo) {
+		setFileInfo(fileInfo) {
 			if (fileInfo) {
 				this.render()
 				this.collection.setFileInfo(fileInfo)
@@ -149,7 +149,7 @@ import Template from './templates/template.handlebars';
 			}
 		},
 
-		_formatItem: function(version) {
+		_formatItem(version) {
 			const timestamp = version.get('timestamp') * 1000
 			const size = version.has('size') ? version.get('size') : 0
 			const preview = OC.MimeType.getIconUrl(version.get('mimetype'))
@@ -180,7 +180,7 @@ import Template from './templates/template.handlebars';
 		/**
 		 * Renders this details view
 		 */
-		render: function() {
+		render() {
 			this.$el.html(this.template({
 				emptyResultLabel: t('files_versions', 'No other versions available'),
 			}))
@@ -194,7 +194,7 @@ import Template from './templates/template.handlebars';
 		 * @param {FileInfo} fileInfo fileInfo
 		 * @returns {bool} true for files, false for folders
 		 */
-		canDisplay: function(fileInfo) {
+		canDisplay(fileInfo) {
 			if (!fileInfo) {
 				return false
 			}

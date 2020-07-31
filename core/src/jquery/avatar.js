@@ -110,7 +110,7 @@ $.fn.avatar = function(user, size, ie8fix, hidedefault, callback, displayname) {
 		url = OC.generateUrl(
 			'/avatar/{user}/{size}?v={version}',
 			{
-				user: user,
+				user,
 				size: Math.ceil(size * window.devicePixelRatio),
 				version: oc_userconfig.avatar.version,
 			})
@@ -118,7 +118,7 @@ $.fn.avatar = function(user, size, ie8fix, hidedefault, callback, displayname) {
 		url = OC.generateUrl(
 			'/avatar/{user}/{size}',
 			{
-				user: user,
+				user,
 				size: Math.ceil(size * window.devicePixelRatio),
 			})
 	}

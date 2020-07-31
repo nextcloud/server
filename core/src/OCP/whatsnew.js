@@ -59,14 +59,14 @@ function onQuerySuccess(data, statusText, xhr, dismissOptions) {
 	menuItem.className = 'menuitem'
 
 	text = document.createElement('span')
-	text.innerText = t('core', 'New in') + ' ' + data['ocs']['data']['product']
+	text.innerText = t('core', 'New in') + ' ' + data.ocs.data.product
 	text.className = 'caption'
 	menuItem.appendChild(text)
 
 	icon = document.createElement('span')
 	icon.className = 'icon-close'
 	icon.onclick = function() {
-		dismiss(data['ocs']['data']['version'], dismissOptions)
+		dismiss(data.ocs.data.version, dismissOptions)
 	}
 	menuItem.appendChild(icon)
 
@@ -74,8 +74,8 @@ function onQuerySuccess(data, statusText, xhr, dismissOptions) {
 	list.appendChild(item)
 
 	// Highlights
-	for (const i in data['ocs']['data']['whatsNew']['regular']) {
-		const whatsNewTextItem = data['ocs']['data']['whatsNew']['regular'][i]
+	for (const i in data.ocs.data.whatsNew.regular) {
+		const whatsNewTextItem = data.ocs.data.whatsNew.regular[i]
 		item = document.createElement('li')
 
 		menuItem = document.createElement('span')
@@ -94,11 +94,11 @@ function onQuerySuccess(data, statusText, xhr, dismissOptions) {
 	}
 
 	// Changelog URL
-	if (!_.isUndefined(data['ocs']['data']['changelogURL'])) {
+	if (!_.isUndefined(data.ocs.data.changelogURL)) {
 		item = document.createElement('li')
 
 		menuItem = document.createElement('a')
-		menuItem.href = data['ocs']['data']['changelogURL']
+		menuItem.href = data.ocs.data.changelogURL
 		menuItem.rel = 'noreferrer noopener'
 		menuItem.target = '_blank'
 
