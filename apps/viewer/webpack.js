@@ -1,7 +1,7 @@
 const { merge } = require('webpack-merge')
 const webpack = require('webpack')
 const webpackConfig = require('@nextcloud/webpack-vue-config')
-const babelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
+const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 
 const isTesting = !!process.env.TESTING
 
@@ -12,7 +12,7 @@ const config = {
 				// vue-plyr uses .mjs file
 				test: /\.m?js$/,
 				loader: 'babel-loader',
-				exclude: babelLoaderExcludeNodeModulesExcept([
+				exclude: BabelLoaderExcludeNodeModulesExcept([
 					'camelcase',
 					'fast-xml-parser',
 					'hot-patcher',
