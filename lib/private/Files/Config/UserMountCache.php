@@ -409,4 +409,9 @@ class UserMountCache implements IUserMountCache {
 		$result->closeCursor();
 		return $results;
 	}
+
+	public function clear(): void {
+		$this->cacheInfoCache = new CappedMemoryCache();
+		$this->mountsForUsers = new CappedMemoryCache();
+	}
 }
