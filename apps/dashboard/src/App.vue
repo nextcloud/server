@@ -62,6 +62,7 @@ import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 
 const panels = loadState('dashboard', 'panels')
+const firstRun = loadState('dashboard', 'firstRun')
 
 export default {
 	name: 'App',
@@ -74,6 +75,7 @@ export default {
 			timer: new Date(),
 			callbacks: {},
 			panels,
+			firstRun,
 			displayName: getCurrentUser()?.displayName,
 			uid: getCurrentUser()?.uid,
 			layout: loadState('dashboard', 'layout').filter((panelId) => panels[panelId]),
