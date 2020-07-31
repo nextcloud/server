@@ -232,7 +232,7 @@ export default {
 				font-size: 20px;
 				font-weight: bold;
 				background-size: 32px;
-				background-position: 12px 12px;
+				background-position: 14px 12px;
 				padding: 16px 8px 16px 60px;
 				cursor: grab;
 			}
