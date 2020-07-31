@@ -151,6 +151,7 @@ OC.L10N.register(
     "Settings" : "Indstillinger",
     "Show hidden files" : "Vis skjulte filer",
     "WebDAV" : "WebDAV",
+    "Use this address to access your Files via WebDAV" : "Brug denne adresse til at få adgang til dine filer via WebDAV",
     "Toggle grid view" : "Vis som gitter",
     "No files in here" : "Her er ingen filer",
     "Upload some content or sync with your devices!" : "Overfør indhold eller synkronisér med dine enheder!",
