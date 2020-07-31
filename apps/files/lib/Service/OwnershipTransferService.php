@@ -32,12 +32,14 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files\Exception\TransferOwnershipException;
 use OCP\Encryption\IManager as IEncryptionManager;
+use OCP\Files\Config\IUserMountCache;
 use OCP\Files\FileInfo;
 use OCP\Files\IHomeStorage;
 use OCP\Files\InvalidPathException;
 use OCP\Files\Mount\IMountManager;
 use OCP\IUser;
 use OCP\Share\IManager as IShareManager;
+use OCP\Share\IShare;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -59,12 +61,17 @@ class OwnershipTransferService {
 	/** @var IMountManager */
 	private $mountManager;
 
+	/** @var IUserMountCache */
+	private $userMountCache;
+
 	public function __construct(IEncryptionManager $manager,
 								IShareManager $shareManager,
-								IMountManager $mountManager) {
+								IMountManager $mountManager,
+								IUserMountCache $userMountCache) {
 		$this->encryptionManager = $manager;
 		$this->shareManager = $shareManager;
 		$this->mountManager = $mountManager;
+		$this->userMountCache = $userMountCache;
 	}
 
 	/**
@@ -145,7 +152,9 @@ class OwnershipTransferService {
 		// collect all the shares
 		$shares = $this->collectUsersShares(
 			$sourceUid,
-			$output
+			$output,
+			$view,
+			$sourcePath
 		);
 
 		// transfer the files
@@ -230,7 +239,9 @@ class OwnershipTransferService {
 	}
 
 	private function collectUsersShares(string $sourceUid,
-										OutputInterface $output): array {
+										OutputInterface $output,
+										View $view,
+										?string $path = null): array {
 		$output->writeln("Collecting all share information for files and folders of $sourceUid ...");
 
 		$shares = [];
@@ -242,6 +253,23 @@ class OwnershipTransferService {
 				$progress->advance(count($sharePage));
 				if (empty($sharePage)) {
 					break;
+				}
+				if ($path !== null) {
+					$sharePage = array_filter($sharePage, function (IShare $share) use ($view, $path) {
+						try {
+							$relativePath = $view->getPath($share->getNodeId());
+							$singleFileTranfer = $view->is_file($path);
+							if ($singleFileTranfer) {
+								return Filesystem::normalizePath($relativePath) === Filesystem::normalizePath($path);
+							}
+
+							return mb_strpos(
+								Filesystem::normalizePath($relativePath . '/', false),
+								Filesystem::normalizePath($path . '/', false)) === 0;
+						} catch (\Exception $e) {
+							return false;
+						}
+					});
 				}
 				$shares = array_merge($shares, $sharePage);
 				$offset += 50;
@@ -302,6 +330,12 @@ class OwnershipTransferService {
 					if ($share->getSharedBy() === $sourceUid) {
 						$share->setSharedBy($destinationUid);
 					}
+
+
+					// trigger refetching of the node so that the new owner and mountpoint are taken into account
+					// otherwise the checks on the share update will fail due to the original node not being available in the new user scope
+					$this->userMountCache->clear();
+					$share->setNodeId($share->getNode()->getId());
 
 					$this->shareManager->updateShare($share);
 				}
