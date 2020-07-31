@@ -31,7 +31,7 @@ class Hooks {
 		\OC::$server->getShareManager()->groupDeleted($arguments['gid']);
 	}
 
-	public static function post_removeFromGroup($arguments) {
+	public static function post_removeFromGroupLDAP($arguments) {
 		\OC::$server->getShareManager()->userDeletedFromGroup($arguments['uid'], $arguments['gid']);
 	}
 }
