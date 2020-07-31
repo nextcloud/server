@@ -56,7 +56,7 @@ export default class ExternalLinkActions {
 			this.#state.actions.push(action)
 			return true
 		}
-		console.error(`Invalid action provided`, action)
+		console.error('Invalid action provided', action)
 		return false
 	}
 

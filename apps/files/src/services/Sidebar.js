@@ -71,7 +71,7 @@ export default class Sidebar {
 			this.#state.views.push(view)
 			return true
 		}
-		console.error(`A similar view already exists`, view)
+		console.error('A similar view already exists', view)
 		return false
 	}
 

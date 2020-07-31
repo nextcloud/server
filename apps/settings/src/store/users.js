@@ -298,10 +298,10 @@ const actions = {
 	 */
 	addGroup(context, gid) {
 		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl(`cloud/groups`, 2), { groupid: gid })
+			return api.post(generateOcsUrl('cloud/groups', 2), { groupid: gid })
 				.then((response) => {
-					context.commit('addGroup', { gid: gid, displayName: gid })
-					return { gid: gid, displayName: gid }
+					context.commit('addGroup', { gid, displayName: gid })
+					return { gid, displayName: gid }
 				})
 				.catch((error) => { throw error })
 		}).catch((error) => {
@@ -445,7 +445,7 @@ const actions = {
 	 */
 	addUser({ commit, dispatch }, { userid, password, displayName, email, groups, subadmin, quota, language }) {
 		return api.requireAdmin().then((response) => {
-			return api.post(generateOcsUrl(`cloud/users`, 2), { userid, password, displayName, email, groups, subadmin, quota, language })
+			return api.post(generateOcsUrl('cloud/users', 2), { userid, password, displayName, email, groups, subadmin, quota, language })
 				.then((response) => dispatch('addUserData', userid || response.data.ocs.data.id))
 				.catch((error) => { throw error })
 		}).catch((error) => {
@@ -507,7 +507,7 @@ const actions = {
 				)
 			) {
 				return api.requireAdmin().then((response) => {
-					return api.put(generateOcsUrl(`cloud/users/${userid}`, 2), { key: key, value: value })
+					return api.put(generateOcsUrl(`cloud/users/${userid}`, 2), { key, value })
 						.then((response) => context.commit('setUserData', { userid, key, value }))
 						.catch((error) => { throw error })
 				}).catch((error) => context.commit('API_FAILURE', { userid, error }))

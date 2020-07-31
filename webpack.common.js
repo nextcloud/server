@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
-const path = require('path')
 const { merge } = require('webpack-merge')
 const { VueLoaderPlugin } = require('vue-loader')
+const babelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
+const path = require('path')
 
 const accessibility = require('./apps/accessibility/webpack')
 const comments = require('./apps/comments/webpack')
@@ -85,7 +86,20 @@ module.exports = []
 					loader: 'babel-loader',
 					// automatically detect necessary packages to
 					// transpile in the node_modules folder
-					exclude: /node_modules(?!(\/|\\)(nextcloud-vue-collections|p-finally|p-limit|p-locate|p-queue|p-timeout|p-try|toastify-js|v-tooltip)(\/|\\))/,
+					exclude: babelLoaderExcludeNodeModulesExcept([
+						'nextcloud-vue-collections',
+						'p-finally',
+						'p-limit',
+						'p-locate',
+						'p-queue',
+						'p-timeout',
+						'p-try',
+						'toastify-js',
+						'v-tooltip',
+						'@nextcloud/dialogs',
+						'davclient.js',
+						'semver',
+					]),
 				},
 				{
 					test: /\.(png|jpg|gif)$/,

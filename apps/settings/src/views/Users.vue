@@ -235,26 +235,26 @@ export default {
 
 		// Local settings
 		showLanguages: {
-			get: function() { return this.getLocalstorage('showLanguages') },
-			set: function(status) {
+			get() { return this.getLocalstorage('showLanguages') },
+			set(status) {
 				this.setLocalStorage('showLanguages', status)
 			},
 		},
 		showLastLogin: {
-			get: function() { return this.getLocalstorage('showLastLogin') },
-			set: function(status) {
+			get() { return this.getLocalstorage('showLastLogin') },
+			set(status) {
 				this.setLocalStorage('showLastLogin', status)
 			},
 		},
 		showUserBackend: {
-			get: function() { return this.getLocalstorage('showUserBackend') },
-			set: function(status) {
+			get() { return this.getLocalstorage('showUserBackend') },
+			set(status) {
 				this.setLocalStorage('showUserBackend', status)
 			},
 		},
 		showStoragePath: {
-			get: function() { return this.getLocalstorage('showStoragePath') },
-			set: function(status) {
+			get() { return this.getLocalstorage('showStoragePath') },
+			set(status) {
 				this.setLocalStorage('showStoragePath', status)
 			},
 		},
@@ -276,7 +276,7 @@ export default {
 		},
 		// mapping saved values to objects
 		defaultQuota: {
-			get: function() {
+			get() {
 				if (this.selectedQuota !== false) {
 					return this.selectedQuota
 				}
@@ -286,7 +286,7 @@ export default {
 				}
 				return this.unlimitedQuota // unlimited
 			},
-			set: function(quota) {
+			set(quota) {
 				this.selectedQuota = quota
 			},
 
@@ -303,7 +303,7 @@ export default {
 						...this.settings,
 						newUserSendEmail: value,
 					})
-					await axios.post(generateUrl(`/settings/users/preferences/newUser.sendEmail`), { value: value ? 'yes' : 'no' })
+					await axios.post(generateUrl('/settings/users/preferences/newUser.sendEmail'), { value: value ? 'yes' : 'no' })
 				} catch (e) {
 					console.error('could not update newUser.sendEmail preference: ' + e.message, e)
 				} finally {
@@ -428,9 +428,9 @@ export default {
 		 */
 		registerAction(icon, text, action) {
 			this.externalActions.push({
-				icon: icon,
-				text: text,
-				action: action,
+				icon,
+				text,
+				action,
 			})
 			return this.externalActions
 		},

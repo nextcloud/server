@@ -278,7 +278,7 @@ export default {
 			}
 			return dompurify.sanitize(
 				marked(this.app.description.trim(), {
-					renderer: renderer,
+					renderer,
 					gfm: false,
 					highlight: false,
 					tables: false,

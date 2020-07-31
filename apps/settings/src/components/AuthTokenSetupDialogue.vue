@@ -131,7 +131,7 @@ export default {
 		selectInput(e) {
 			e.currentTarget.select()
 		},
-		submit: function() {
+		submit() {
 			confirmPassword()
 				.then(() => {
 					this.loading = true

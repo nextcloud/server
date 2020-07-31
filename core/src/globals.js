@@ -99,19 +99,19 @@ const setDeprecatedProp = (global, cb, msg) => {
 	})
 }
 
-window['_'] = _
+window._ = _
 setDeprecatedProp(['$', 'jQuery'], () => $, 'The global jQuery is deprecated. It will be updated to v3.x in Nextcloud 21. In later versions of Nextcloud it might be removed completely. Please ship your own.')
 setDeprecatedProp('autosize', () => autosize, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('Backbone', () => Backbone, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp(['Clipboard', 'ClipboardJS'], () => ClipboardJS, 'please ship your own, this will be removed in Nextcloud 20')
-window['dav'] = dav
+window.dav = dav
 setDeprecatedProp('DOMPurify', () => DOMPurify, 'The global DOMPurify is deprecated, this will be removed in Nextcloud 21')
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp(['jstz', 'jstimezonedetect'], () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 
-window['OC'] = OC
+window.OC = OC
 setDeprecatedProp('initCore', () => initCore, 'this is an internal function')
 setDeprecatedProp('oc_appswebroots', () => OC.appswebroots, 'use OC.appswebroots instead, this will be removed in Nextcloud 20')
 setDeprecatedProp('oc_config', () => OC.config, 'use OC.config instead, this will be removed in Nextcloud 20')
@@ -122,8 +122,8 @@ setDeprecatedProp('oc_isadmin', OC.isUserAdmin, 'use OC.isUserAdmin() instead, t
 setDeprecatedProp('oc_requesttoken', () => getRequestToken(), 'use OC.requestToken instead, this will be removed in Nextcloud 20')
 setDeprecatedProp('oc_webroot', () => OC.webroot, 'use OC.getRootPath() instead, this will be removed in Nextcloud 20')
 setDeprecatedProp('OCDialogs', () => OC.dialogs, 'use OC.dialogs instead, this will be removed in Nextcloud 20')
-window['OCP'] = OCP
-window['OCA'] = OCA
+window.OCP = OCP
+window.OCA = OCA
 $.fn.select2 = deprecate($.fn.select2, 'select2', 19)
 
 /**
