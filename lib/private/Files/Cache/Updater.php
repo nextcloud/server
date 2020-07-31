@@ -201,7 +201,11 @@ class Updater implements IUpdater {
 				$this->cache->moveFromCache($sourceCache, $source, $target);
 			}
 
-			if (pathinfo($source, PATHINFO_EXTENSION) !== pathinfo($target, PATHINFO_EXTENSION) && $sourceInfo->getMimeType() !== FileInfo::MIMETYPE_FOLDER) {
+			$sourceExtension = pathinfo($source, PATHINFO_EXTENSION);
+			$targetExtension = pathinfo($target, PATHINFO_EXTENSION);
+			$targetIsTrash = preg_match("/d\d+/", $targetExtension);
+
+			if ($sourceExtension !== $targetExtension && $sourceInfo->getMimeType() !== FileInfo::MIMETYPE_FOLDER && !$targetIsTrash) {
 				// handle mime type change
 				$mimeType = $this->storage->getMimeType($target);
 				$fileId = $this->cache->getId($target);
