@@ -24,7 +24,6 @@ OC.L10N.register(
     "Groups" : "Nhóm",
     "Group list is empty" : "Danh sách nhóm trống",
     "Unable to retrieve the group list" : "Không thể truy xuất danh sách nhóm",
-    "Unsaved changes" : "Thay đổi chưa được lưu",
     "{actor} added you to group {group}" : "{actor} đã thêm bạn vào nhóm {group}",
     "You added {user} to group {group}" : "Bạn đã thêm {user} vào nhóm {group}",
     "{actor} added {user} to group {group}" : "{actor} đã thêm {user} vào nhóm {group}",
@@ -270,6 +269,7 @@ OC.L10N.register(
     "Valid until" : "Có hiệu lực đến",
     "Issued By" : "Phát hành bởi",
     "Valid until %s" : "Có hiệu lực đến %s",
-    "Import root certificate" : "Nhập root certificate"
+    "Import root certificate" : "Nhập root certificate",
+    "Unsaved changes" : "Thay đổi chưa được lưu"
 },
 "nplurals=1; plural=0;");

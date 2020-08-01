@@ -19,7 +19,6 @@ OC.L10N.register(
     "Strong password" : "Contraseña fuerte",
     "Select a profile picture" : "Seleccionar una imagen de perfil",
     "Groups" : "Grupos",
-    "Retry" : "Reintentar",
     "{actor} changed your password" : "{actor} ha cambiado su contraseña",
     "You changed your password" : "Usted ha cambiado su contraseña",
     "Your password was reset by an administrator" : "Su contraseña ha sido restablecida por un adminsitrador",
@@ -270,6 +269,7 @@ OC.L10N.register(
     "Issued By" : "Levantado Por",
     "Valid until %s" : "Válido hasta %s",
     "Import root certificate" : "Importar certificado raíz",
-    "Set default expiration date" : "Establecer la fecha de expiración predeterminada"
+    "Set default expiration date" : "Establecer la fecha de expiración predeterminada",
+    "Retry" : "Reintentar"
 },
 "nplurals=2; plural=(n != 1);");

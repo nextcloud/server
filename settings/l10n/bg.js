@@ -19,7 +19,6 @@ OC.L10N.register(
     "Select a profile picture" : "Избор на снимка за профила",
     "Week starts on {fdow}" : "Първи ден от седмицата е {fdow}",
     "Groups" : "Групи",
-    "Retry" : "Опитай отново",
     "{actor} changed your password" : "{actor} промени паролата ви",
     "You changed your password" : "Променихте паролата си",
     "Your password was reset by an administrator" : "Паролата ви е променена от администратора",
@@ -349,6 +348,7 @@ OC.L10N.register(
     "Issued By" : "Издаден от",
     "Valid until %s" : "Валиден до %s",
     "Import root certificate" : "Внасяне на основен сертификат",
-    "Set default expiration date" : "Задайте стандартен срок на валидност"
+    "Set default expiration date" : "Задайте стандартен срок на валидност",
+    "Retry" : "Опитай отново"
 },
 "nplurals=2; plural=(n != 1);");
