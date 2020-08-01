@@ -19,8 +19,6 @@ OC.L10N.register(
     "Strong password" : "ძლიერი პაროლ",
     "Select a profile picture" : "აირჩიეთ პროფილის სურათი",
     "Groups" : "ჯგუფები",
-    "Unsaved changes" : "შეუნახავი ცვლილებები",
-    "Retry" : "ვცადოთ ახლიდან",
     "{actor} changed your password" : "{actor} მომხმარებელმა შეცვალა თქვენი პაროლი",
     "You changed your password" : "თქვენ შეცვალეთ თქვენი პაროლი",
     "Your password was reset by an administrator" : "თქვენი პაროლი ადმინისტრატორმა აღადგინა",
@@ -279,6 +277,8 @@ OC.L10N.register(
     "Issued By" : "განაცხადა",
     "Valid until %s" : "ვარგისია %s-მდე",
     "Import root certificate" : "Root სერტიფიკატის იმპორტი",
-    "Set default expiration date" : "დააყენეთ საწყისი ვადის ამოწურვის თარიღი"
+    "Set default expiration date" : "დააყენეთ საწყისი ვადის ამოწურვის თარიღი",
+    "Unsaved changes" : "შეუნახავი ცვლილებები",
+    "Retry" : "ვცადოთ ახლიდან"
 },
 "nplurals=2; plural=(n!=1);");
