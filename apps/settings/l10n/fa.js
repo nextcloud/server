@@ -24,12 +24,6 @@ OC.L10N.register(
     "Groups" : "گروه ها",
     "Group list is empty" : "لیست گروه ها خالی است.",
     "Unable to retrieve the group list" : "بازیابی لیست گروه امکان پذیر نیست",
-    "Edit guest name" : "ویرایش نام مهمان",
-    "Save guest name" : "ذخیره نام مهمان",
-    "Add link" : "افزودن لینک",
-    "Retry" : "تلاش دوباره",
-    "Show image" : "نمایش تصویر",
-    "Show file" : "نمایش فایل",
     "{actor} added you to group {group}" : "{actor} شما را به گروه {group} اضافه کرد",
     "You added {user} to group {group}" : "شما {user} را به گروه {group} اضافه کردید.",
     "{actor} added {user} to group {group}" : "{actor} کاربر {user} را به گروه {group} اضافه کرد",
@@ -838,6 +832,12 @@ OC.L10N.register(
     "Valid until %s" : "متعبر تا %s",
     "Import root certificate" : "وارد کردن گواهی اصلی",
     "Set default expiration date" : "اعمال تاریخ اتمام پیش فرض",
-    "{counter} apps have an update available" : "{counter} برنامه ها دارای یک به روزرسانی هستند"
+    "{counter} apps have an update available" : "{counter} برنامه ها دارای یک به روزرسانی هستند",
+    "Edit guest name" : "ویرایش نام مهمان",
+    "Save guest name" : "ذخیره نام مهمان",
+    "Add link" : "افزودن لینک",
+    "Retry" : "تلاش دوباره",
+    "Show image" : "نمایش تصویر",
+    "Show file" : "نمایش فایل"
 },
 "nplurals=2; plural=(n > 1);");

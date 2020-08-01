@@ -20,7 +20,6 @@ OC.L10N.register(
     "Groups" : "Grupas",
     "Group list is empty" : "Grupu saraksts ir tukšš",
     "Unable to retrieve the group list" : "Nevarēja saņemt grupu sarakstu",
-    "Retry" : "Mēģināt vēlreiz",
     "You successfully logged in using two-factor authentication (%1$s)" : "Esat veiksmīgi pieteicies, izmantojot divpakāpju autentifikācija (%1$s)",
     "A login attempt using two-factor authentication failed (%1$s)" : "Pieteikšanās mēģinājums, izmantojot divpakāpju autentifikāciju neizdevās (%1$s)",
     "Couldn't remove app." : "Nebija iespējams noņemt lietotni.",
@@ -189,6 +188,7 @@ OC.L10N.register(
     "Issued By" : "Izsniedza",
     "Valid until %s" : "Derīgs līdz %s",
     "Import root certificate" : "Importēt root sertifikātu",
-    "Set default expiration date" : "Iestatīt noklusējuma beigu datumu"
+    "Set default expiration date" : "Iestatīt noklusējuma beigu datumu",
+    "Retry" : "Mēģināt vēlreiz"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

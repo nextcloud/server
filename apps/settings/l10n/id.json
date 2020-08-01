@@ -22,15 +22,6 @@
     "Groups" : "Grup",
     "Group list is empty" : "Daftar grup kosong",
     "Unable to retrieve the group list" : "Tidak dapat mengambil daftar grup",
-    "Enter your name so other users can see who is editing" : "Tuliskan nama Anda, agar pengguna lain dapat melihat siapa yang sedang mengedit",
-    "Edit guest name" : "Edit nama tamu",
-    "Save guest name" : "Simpan nama tamu",
-    "Add link" : "Tambah tautan",
-    "Last saved {lastSaved}" : "Terakhir disimpan {lastSaved}",
-    "File could not be loaded. Please check your internet connection." : "Berkas tidak dapat dimuat. Periksa koneksi internet Anda.",
-    "Retry" : "Ulangi",
-    "Show image" : "Tampilkan gambar",
-    "Show file" : "Tampilkan berkas",
     "{actor} added you to group {group}" : "{actor} menambahkan Anda ke grup {group}",
     "You added {user} to group {group}" : "Anda menambahkan {user} ke grup {group}",
     "{actor} added {user} to group {group}" : "{actor} menambahkan {user} kedalam grup {group}",
@@ -435,6 +426,15 @@
     "Issued By" : "Diterbitkan oleh",
     "Valid until %s" : "Berlaku sampai %s",
     "Import root certificate" : "Impor sertifikat root",
-    "Set default expiration date" : "Atur tanggal kadaluarsa default"
+    "Set default expiration date" : "Atur tanggal kadaluarsa default",
+    "Enter your name so other users can see who is editing" : "Tuliskan nama Anda, agar pengguna lain dapat melihat siapa yang sedang mengedit",
+    "Edit guest name" : "Edit nama tamu",
+    "Save guest name" : "Simpan nama tamu",
+    "Add link" : "Tambah tautan",
+    "Last saved {lastSaved}" : "Terakhir disimpan {lastSaved}",
+    "File could not be loaded. Please check your internet connection." : "Berkas tidak dapat dimuat. Periksa koneksi internet Anda.",
+    "Retry" : "Ulangi",
+    "Show image" : "Tampilkan gambar",
+    "Show file" : "Tampilkan berkas"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

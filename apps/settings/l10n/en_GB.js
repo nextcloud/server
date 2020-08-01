@@ -21,8 +21,6 @@ OC.L10N.register(
     "Groups" : "Groups",
     "Group list is empty" : "Group list is empty",
     "Unable to retrieve the group list" : "Unable to retrieve the group list",
-    "Unsaved changes" : "Unsaved changes",
-    "Retry" : "Retry",
     "{actor} changed your password" : "{actor} changed your password",
     "You changed your password" : "You changed your password",
     "Your password was reset by an administrator" : "Your password was reset by an administrator",
@@ -308,6 +306,8 @@ OC.L10N.register(
     "Issued By" : "Issued By",
     "Valid until %s" : "Valid until %s",
     "Import root certificate" : "Import root certificate",
-    "Set default expiration date" : "Set default expiry date"
+    "Set default expiration date" : "Set default expiry date",
+    "Unsaved changes" : "Unsaved changes",
+    "Retry" : "Retry"
 },
 "nplurals=2; plural=(n != 1);");
