@@ -24,11 +24,6 @@ OC.L10N.register(
     "Groups" : "Grupper",
     "Group list is empty" : "Tom gruppeliste",
     "Unable to retrieve the group list" : "Kan ikke hente gruppelisten",
-    "Unsaved changes" : "Ikke gemte ændringer",
-    "Use current version" : "Brug aktuelle version",
-    "Use the saved version" : "Brug den gemte version",
-    "Retry" : "Prøv igen",
-    "Show file" : "Vis fil",
     "{actor} added you to group {group}" : "{actor} tilføjede dig til gruppe {group}",
     "You added {user} to group {group}" : "Tilføjede {user} til gruppen {group}",
     "{actor} added {user} to group {group}" : "{actor} tilføjede {user} til gruppe {group}",
@@ -342,6 +337,11 @@ OC.L10N.register(
     "Issued By" : "Udstedt af",
     "Valid until %s" : "Gyldig indtil %s",
     "Import root certificate" : "Importer rodcertifikat",
-    "Set default expiration date" : "Vælg standard udløbsdato"
+    "Set default expiration date" : "Vælg standard udløbsdato",
+    "Unsaved changes" : "Ikke gemte ændringer",
+    "Use current version" : "Brug aktuelle version",
+    "Use the saved version" : "Brug den gemte version",
+    "Retry" : "Prøv igen",
+    "Show file" : "Vis fil"
 },
 "nplurals=2; plural=(n != 1);");

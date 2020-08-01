@@ -19,8 +19,6 @@ OC.L10N.register(
     "Select a profile picture" : "اختر صورة الملف الشخصي ",
     "Week starts on {fdow}" : "بداية الأسبوع يوم {fdow}",
     "Groups" : "مجموعات",
-    "Add link" : "إضافة رابط",
-    "Retry" : "أعد المحاولة",
     "{actor} changed your password" : "{actor} قام بتغيير كلمتك السرية",
     "You changed your password" : "لقد قمت بتعديل كلمة مرورك",
     "Your password was reset by an administrator" : "قام أحد المدراء بإعادة تعيين كلمة مرورك",
@@ -265,6 +263,8 @@ OC.L10N.register(
     "Issued By" : "سُلّمت مِن طرف",
     "Valid until %s" : "صالحة إلى غاية %s",
     "Import root certificate" : "إستيراد شهادة جذرية",
-    "Set default expiration date" : "تعيين تاريخ إنتهاء الصلاحية الإفتراضية"
+    "Set default expiration date" : "تعيين تاريخ إنتهاء الصلاحية الإفتراضية",
+    "Add link" : "إضافة رابط",
+    "Retry" : "أعد المحاولة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

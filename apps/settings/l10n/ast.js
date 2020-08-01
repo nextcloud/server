@@ -17,7 +17,6 @@ OC.L10N.register(
     "Strong password" : "Contraseña mui bona",
     "Select a profile picture" : "Esbillar una imaxe de perfil",
     "Groups" : "Grupos",
-    "Retry" : "Retentar",
     "{actor} changed your password" : "{actor} camudó la to contraseña",
     "You changed your password" : "Camudesti la to contraseña",
     "Your password was reset by an administrator" : "La to contraseña reafitóla un alministrador",
@@ -241,6 +240,7 @@ OC.L10N.register(
     "Issued By" : "Emitíu por",
     "Valid until %s" : "Válidu hasta'l %s",
     "Import root certificate" : "Importar certificáu raigañu",
-    "Set default expiration date" : "Afitar la data d'espiración predeterminada"
+    "Set default expiration date" : "Afitar la data d'espiración predeterminada",
+    "Retry" : "Retentar"
 },
 "nplurals=2; plural=(n != 1);");
