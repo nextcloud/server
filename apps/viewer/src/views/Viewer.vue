@@ -115,6 +115,7 @@ import File from '../models/file'
 import Mime from '../mixins/Mime'
 import getFileList from '../services/FileList'
 import getFileInfo from '../services/FileInfo'
+import filesActionHandler from '../services/FilesActionHandler'
 
 import cancelableRequest from '../utils/CancelableRequest'
 
@@ -223,8 +224,8 @@ export default {
 				console.info('Opening viewer for file ', path)
 				this.openFile(path)
 			} else {
-				// path is empty, closing!
-				this.close()
+				// path is empty, we're closing!
+				this.cleanup()
 			}
 		},
 
@@ -329,7 +330,7 @@ export default {
 			const title = document.getElementsByTagName('head')[0].getElementsByTagName('title')[0]
 			if (title && !title.dataset.old) {
 				title.dataset.old = document.title
-				document.title = `${fileName} - ${OC.theme.title}`
+				this.updateTitle(fileName)
 			}
 
 			try {
@@ -447,6 +448,10 @@ export default {
 
 		},
 
+		updateTitle(fileName) {
+			document.title = `${fileName} - ${OCA.Theming.name}`
+		},
+
 		/**
 		 * Registering possible new handers
 		 *
@@ -555,10 +560,7 @@ export default {
 					displayName: t('viewer', 'View'),
 					mime,
 					permissions: OC.PERMISSION_READ,
-					actionHandler: (name, { dir }) => {
-						// replace potential leading double slashes
-						OCA.Viewer.open(`${dir}/${name}`.replace(/^\/\//, '/'))
-					},
+					actionHandler: filesActionHandler,
 				})
 				OCA.Files.fileActions.setDefault(mime, 'view')
 			}
@@ -578,8 +580,13 @@ export default {
 		 * Close the viewer
 		 */
 		close() {
-			// reset all properties
+			// This will set file to ''
+			// which then triggers cleanup.
 			OCA.Viewer.close()
+		},
+
+		cleanup() {
+			// reset all properties
 			this.currentFile = {}
 			this.currentModal = null
 			this.fileList = []
@@ -593,6 +600,12 @@ export default {
 			// restore default
 			document.body.style.overflow = null
 
+			// Callback before updating the title
+			// If the callback creates a new entry in browser history
+			// the title update will affect the new entry
+			// rather then the previous one.
+			this.onClose()
+
 			// swap back original title
 			const title = document.getElementsByTagName('head')[0].getElementsByTagName('title')[0]
 			if (title && title.dataset.old) {
@@ -605,24 +618,32 @@ export default {
 		 * Open previous available file
 		 */
 		previous() {
+			const oldFileInfo = this.fileList[this.currentIndex]
 			this.currentIndex--
 			if (this.currentIndex < 0) {
 				this.currentIndex = this.fileList.length - 1
 			}
 
-			this.openFileFromList(this.fileList[this.currentIndex])
+			const fileInfo = this.fileList[this.currentIndex]
+			this.openFileFromList(fileInfo)
+			this.onPrev(fileInfo, oldFileInfo)
+			this.updateTitle(this.currentFile.basename)
 		},
 
 		/**
 		 * Open next available file
 		 */
 		next() {
+			const oldFileInfo = this.fileList[this.currentIndex]
 			this.currentIndex++
 			if (this.currentIndex > this.fileList.length - 1) {
 				this.currentIndex = 0
 			}
 
-			this.openFileFromList(this.fileList[this.currentIndex])
+			const fileInfo = this.fileList[this.currentIndex]
+			this.openFileFromList(fileInfo)
+			this.onNext(fileInfo, oldFileInfo)
+			this.updateTitle(this.currentFile.basename)
 		},
 
 		/**
@@ -673,6 +694,18 @@ export default {
 			if (sidebar) {
 				this.sidebarWidth = sidebar.offsetWidth
 			}
+		},
+
+		onPrev(info, oldFileInfo) {
+			this.Viewer.onPrev(info, oldFileInfo)
+		},
+
+		onNext(info, oldFileInfo) {
+			this.Viewer.onNext(oldFileInfo)
+		},
+
+		onClose() {
+			this.Viewer.onClose()
 		},
 	},
 }
