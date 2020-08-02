@@ -69,13 +69,6 @@ describe('Open image.svg in viewer', function() {
 		cy.get('#viewer-content a.next').should('not.be.visible')
 	})
 
-	it('Not have a height or width style value', function() {
-		cy.get('#viewer-content .modal-container img.active')
-			.should('have.attr', 'style')
-			.should('not.match', /height/i)
-			.should('not.match', /width/i)
-	})
-
 	it('Have the base64 encoded value of the svg', function() {
 		cy.get('#viewer-content .modal-container img.active')
 			.should('have.attr', 'src')
