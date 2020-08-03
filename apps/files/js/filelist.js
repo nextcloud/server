@@ -383,8 +383,6 @@
 				}
 			});
 
-			this.updateSearch();
-
 			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
 
 			this.$fileList.on("droppedOnFavorites", function (event, file) {
@@ -1126,7 +1124,6 @@
 			if ($targetDir !== undefined && e.which === 1) {
 				e.preventDefault();
 				this.changeDirectory($targetDir, true, true);
-				this.updateSearch();
 			}
 		},
 
@@ -3260,17 +3257,7 @@
 		getFilter:function(filter) {
 			return this._filter;
 		},
-		/**
-		 * update the search object to use this filelist when filtering
-		 */
-		updateSearch:function() {
-			if (OCA.Search.files) {
-				OCA.Search.files.setFileList(this);
-			}
-			if (OC.Search) {
-				OC.Search.clear();
-			}
-		},
+
 		/**
 		 * Update UI based on the current selection
 		 */
