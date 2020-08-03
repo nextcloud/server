@@ -102,12 +102,14 @@ class Notifier implements INotifier {
 
 				$params = $notification->getSubjectParameters();
 				if ($params[0] !== $params[1] && $params[1] !== null) {
+					$remoteInitiator = $this->createRemoteUser($params[0]);
+					$remoteOwner = $this->createRemoteUser($params[1]);
+					$params[3] = $remoteInitiator['name'] . '@' . $remoteInitiator['server'];
+					$params[4] = $remoteOwner['name'] . '@' . $remoteOwner['server'];
+
 					$notification->setParsedSubject(
 						$l->t('You received "%3$s" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))', $params)
 					);
-
-					$initiator = $params[0];
-					$owner = $params[1];
 
 					$notification->setRichSubject(
 						$l->t('You received {share} as a remote share from {user} (on behalf of {behalf})'),
@@ -117,16 +119,18 @@ class Notifier implements INotifier {
 								'id' => $notification->getObjectId(),
 								'name' => $params[2],
 							],
-							'user' => $this->createRemoteUser($initiator),
-							'behalf' => $this->createRemoteUser($owner),
+							'user' => $remoteInitiator,
+							'behalf' => $remoteOwner,
 						]
 					);
 				} else {
+					$remoteOwner = $this->createRemoteUser($params[0]);
+					$params[3] = $remoteOwner['name'] . '@' . $remoteOwner['server'];
+
 					$notification->setParsedSubject(
 						$l->t('You received "%3$s" as a remote share from %4$s (%1$s)', $params)
 					);
 
-					$owner = $params[0];
 
 					$notification->setRichSubject(
 						$l->t('You received {share} as a remote share from {user}'),
@@ -136,7 +140,7 @@ class Notifier implements INotifier {
 								'id' => $notification->getObjectId(),
 								'name' => $params[2],
 							],
-							'user' => $this->createRemoteUser($owner),
+							'user' => $remoteOwner,
 						]
 					);
 				}
