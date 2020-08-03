@@ -57,17 +57,43 @@ class FilesSearchProvider implements IProvider {
 		return 'files';
 	}
 
+	public function getName(): string {
+		return $this->l10n->t('Files');
+	}
+
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		return SearchResult::complete(
 			$this->l10n->t('Files'),
 			array_map(function (FileResult $result) {
+				// Generate thumbnail url
+				$thumbnailUrl = $result->type === 'folder'
+					? ''
+					: $this->urlGenerator->linkToRoute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id]);
+
 				return new FilesSearchResultEntry(
-					$this->urlGenerator->linkToRoute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id]),
+					$thumbnailUrl,
 					$result->name,
-					$result->path,
-					$result->link
+					$this->formatSubline($result),
+					$result->link,
+					$result->type === 'folder' ? 'icon-folder' : 'icon-filetype-file'
 				);
 			}, $this->fileSearch->search($query->getTerm()))
 		);
+	}
+
+	/**
+	 * Format subline for files
+	 *
+	 * @param FileResult $result
+	 * @return string
+	 */
+	private function formatSubline($result): string {
+		// Do not show the location if the file is in root
+		if ($result->path === '/' . $result->name) {
+			return '';
+		}
+
+		$path = ltrim(dirname($result->path), '/');
+		return $this->l10n->t('in %s', [$path]);
 	}
 }

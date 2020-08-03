@@ -102,15 +102,7 @@
 			</div>
 
 			<div class="header-right">
-				<form class="searchbox" action="#" method="post" role="search" novalidate>
-					<label for="searchbox" class="hidden-visually">
-						<?php p($l->t('Search'));?>
-					</label>
-					<input id="searchbox" type="search" name="query"
-						value="" required class="hidden icon-search-white icon-search-force-white"
-						autocomplete="off">
-					<button class="icon-close-white" type="reset"><span class="hidden-visually"><?php p($l->t('Reset search'));?></span></button>
-				</form>
+				<div id="unified-search"></div>
 				<div id="contactsmenu">
 					<div class="icon-contacts menutoggle" tabindex="0" role="button"
 					aria-haspopup="true" aria-controls="contactsmenu-menu" aria-expanded="false">

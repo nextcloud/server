@@ -69,21 +69,39 @@ abstract class ASearchResultEntry implements JsonSerializable {
 	protected $resourceUrl;
 
 	/**
+	 * @var string
+	 * @since 20.0.0
+	 */
+	protected $iconClass;
+
+	/**
+	 * @var boolean
+	 * @since 20.0.0
+	 */
+	protected $rounded;
+
+	/**
 	 * @param string $thumbnailUrl a relative or absolute URL to the thumbnail or icon of the entry
 	 * @param string $title a main title of the entry
 	 * @param string $subline the secondary line of the entry
 	 * @param string $resourceUrl the URL where the user can find the detail, like a deep link inside the app
+	 * @param string $iconClass the icon class fallback
+	 * @param boolean $rounded is the thumbnail rounded
 	 *
 	 * @since 20.0.0
 	 */
 	public function __construct(string $thumbnailUrl,
 								string $title,
 								string $subline,
-								string $resourceUrl) {
+								string $resourceUrl,
+								string $iconClass = '',
+								bool $rounded = false) {
 		$this->thumbnailUrl = $thumbnailUrl;
 		$this->title = $title;
 		$this->subline = $subline;
 		$this->resourceUrl = $resourceUrl;
+		$this->iconClass = $iconClass;
+		$this->rounded = $rounded;
 	}
 
 	/**
@@ -97,6 +115,8 @@ abstract class ASearchResultEntry implements JsonSerializable {
 			'title' => $this->title,
 			'subline' => $this->subline,
 			'resourceUrl' => $this->resourceUrl,
+			'iconClass' => $this->iconClass,
+			'rounded' => $this->rounded,
 		];
 	}
 }

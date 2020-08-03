@@ -384,20 +384,20 @@ audio, canvas, embed, iframe, img, input, object, video {
 
 .icon-file,
 .icon-filetype-text {
-	@include icon-color('text', 'filetypes', $color-black, 1, true);
+	@include icon-color('text', 'filetypes', #969696, 1, true);
 }
 
 .icon-filetype-file {
-	@include icon-color('file', 'filetypes', $color-black, 1, true);
+	@include icon-color('file', 'filetypes', #969696, 1, true);
 }
 
 @include icon-black-white('folder', 'filetypes', 1, true);
 .icon-filetype-folder {
-	@include icon-color('folder', 'filetypes', $color-black, 1, true);
+	@include icon-color('folder', 'filetypes', $color-primary, 1, true);
 }
 
 .icon-filetype-folder-drag-accept {
-	@include icon-color('folder-drag-accept', 'filetypes', $color-black, 1, true);
+	@include icon-color('folder-drag-accept', 'filetypes', $color-primary, 1, true);
 }
 
 

@@ -106,9 +106,9 @@ class SearchComposer {
 	}
 
 	/**
-	 * Get a list of all provider IDs for the consecutive calls to `search`
+	 * Get a list of all provider IDs & Names for the consecutive calls to `search`
 	 *
-	 * @return string[]
+	 * @return array
 	 */
 	public function getProviders(): array {
 		$this->loadLazyProviders();
@@ -118,7 +118,10 @@ class SearchComposer {
 		 */
 		return array_values(
 			array_map(function (IProvider $provider) {
-				return $provider->getId();
+				return [
+					'id' => $provider->getId(),
+					'name' => $provider->getName()
+				];
 			}, $this->providers));
 	}
 

@@ -28,7 +28,7 @@ namespace OC\Search;
 use OCP\Search\ISearchQuery;
 
 class SearchQuery implements ISearchQuery {
-	public const LIMIT_DEFAULT = 20;
+	public const LIMIT_DEFAULT = 5;
 
 	/** @var string */
 	private $term;

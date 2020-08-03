@@ -451,7 +451,6 @@ export default {
 			const entry = event.target
 			const results = this.getResultsList()
 			const index = [...results].findIndex(search => search === entry)
-			console.info(entry, index)
 			if (index > -1) {
 				// let's not use focusIndex as the entry is already focused
 				this.focused = index

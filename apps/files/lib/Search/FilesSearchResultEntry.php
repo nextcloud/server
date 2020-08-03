@@ -31,7 +31,8 @@ class FilesSearchResultEntry extends ASearchResultEntry {
 	public function __construct(string $thumbnailUrl,
 								string $filename,
 								string $path,
-								string $url) {
-		parent::__construct($thumbnailUrl, $filename, $path, $url);
+								string $url,
+								string $icon) {
+		parent::__construct($thumbnailUrl, $filename, $path, $url, $icon, false);
 	}
 }

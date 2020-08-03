@@ -44,22 +44,25 @@
 
 namespace OC;
 
-use OC\AppFramework\Http\Request;
+use OC\Search\SearchQuery;
 use OC\Template\JSCombiner;
 use OC\Template\JSConfigHelper;
 use OC\Template\SCSSCacher;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
+use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\Support\Subscription\IRegistry;
+use OCP\Util;
 
 class TemplateLayout extends \OC_Template {
 	private static $versionHash = '';
 
-	/**
-	 * @var \OCP\IConfig
-	 */
+	/** @var IConfig */
 	private $config;
+
+	/** @var IInitialStateService */
+	private $initialState;
 
 	/**
 	 * @param string $renderAs
@@ -67,11 +70,14 @@ class TemplateLayout extends \OC_Template {
 	 */
 	public function __construct($renderAs, $appId = '') {
 
-		// yes - should be injected ....
-		$this->config = \OC::$server->getConfig();
+		/** @var IConfig */
+		$this->config = \OC::$server->get(IConfig::class);
 
-		if (\OCP\Util::isIE()) {
-			\OC_Util::addStyle('ie');
+		/** @var IInitialStateService */
+		$this->initialState = \OC::$server->get(InitialStateService::class);
+
+		if (Util::isIE()) {
+			Util::addStyle('ie');
 		}
 
 		// Decide which page we show
@@ -82,6 +88,9 @@ class TemplateLayout extends \OC_Template {
 			} else {
 				$this->assign('bodyid', 'body-user');
 			}
+
+			$this->initialState->provideInitialState('unified-search', 'limit-default', SearchQuery::LIMIT_DEFAULT);
+			Util::addScript('dist/unified-search', null, true);
 
 			// Add navigation entry
 			$this->assign('application', '');
@@ -240,10 +249,8 @@ class TemplateLayout extends \OC_Template {
 				}
 			}
 		}
-
-		/** @var InitialStateService $initialState */
-		$initialState = \OC::$server->query(InitialStateService::class);
-		$this->assign('initialStates', $initialState->getInitialStates());
+		
+		$this->assign('initialStates', $this->initialState->getInitialStates());
 	}
 
 	/**
