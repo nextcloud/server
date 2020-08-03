@@ -41,7 +41,7 @@
 import {
 	startAuthentication,
 	finishAuthentication,
-} from '../../service/WebAuthnAuthenticationService'
+} from '../../services/WebAuthnAuthenticationService'
 import LoginButton from './LoginButton'
 
 class NoValidCredentials extends Error {

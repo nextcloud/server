@@ -78,7 +78,7 @@ class UnifiedSearchController extends Controller {
 						   ?int $sortOrder = null,
 						   ?int $limit = null,
 						   $cursor = null): JSONResponse {
-		if (empty($term)) {
+		if (empty(trim($term))) {
 			return new JSONResponse(null, Http::STATUS_BAD_REQUEST);
 		}
 

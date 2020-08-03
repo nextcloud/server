@@ -54,6 +54,17 @@ interface IProvider {
 	public function getId(): string;
 
 	/**
+	 * Get the translated name of this search provider
+	 *
+	 * Example: 'Mail', 'Contacts'...
+	 *
+	 * @return string
+	 *
+	 * @since 20.0.0
+	 */
+	public function getName(): string;
+
+	/**
 	 * Find matching search entries in an app
 	 *
 	 * Search results can either be a complete list of all the matches the app can
