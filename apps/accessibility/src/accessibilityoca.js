@@ -1,6 +1,7 @@
 /**
- * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+ * @copyright Copyright (c) 2020 Roeland Jago Douma <roeland@famdouma.nl>
  *
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
@@ -18,22 +19,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-import Vue from 'vue'
 import { loadState } from '@nextcloud/initial-state'
-import App from './Accessibility.vue'
 
-// bind to window
-Vue.prototype.OC = OC
-Vue.prototype.t = t
-
-const availableConfig = loadState('accessibility', 'available-config')
-const userConfig = loadState('accessibility', 'user-config')
-
-const View = Vue.extend(App)
-const accessibility = new View({
-	propsData: {
-		availableConfig,
-		userConfig,
-	},
-})
-accessibility.$mount('#accessibility')
+OCA.Accessibility = loadState('accessibility', 'data')
+if (OCA.Accessibility.theme !== false) {
+	document.body.classList.add(OCA.Accessibility.theme)
+}
