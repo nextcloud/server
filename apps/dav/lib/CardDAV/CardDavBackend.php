@@ -162,7 +162,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				'{DAV:}displayname' => $row['displayname'],
 				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-				'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ? $row['synctoken'] : '0',
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
 			];
 
 			$this->addOwnerPrincipal($addressBooks[$row['id']]);
@@ -218,7 +218,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				'{DAV:}displayname' => $displayName,
 				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-				'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ? $row['synctoken'] : '0',
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
 				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
 				$readOnlyPropertyName => $readOnly,
 			];
@@ -248,7 +248,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				'{DAV:}displayname' => $row['displayname'],
 				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-				'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ? $row['synctoken'] : '0',
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
 			];
 
 			$this->addOwnerPrincipal($addressBooks[$row['id']]);
@@ -295,7 +295,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			'{DAV:}displayname' => $row['displayname'],
 			'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 			'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ? $row['synctoken'] : '0',
+			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
 		];
 
 		$this->addOwnerPrincipal($addressBook);
@@ -329,7 +329,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			'{DAV:}displayname' => $row['displayname'],
 			'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 			'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ? $row['synctoken'] : '0',
+			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
 		];
 
 		$this->addOwnerPrincipal($addressBook);
