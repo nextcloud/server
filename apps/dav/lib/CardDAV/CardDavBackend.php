@@ -951,7 +951,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
-	 * search contact
+	 * Search contacts in a specific address-book
 	 *
 	 * @param int $addressBookId
 	 * @param string $pattern which should match within the $searchProperties
@@ -962,11 +962,55 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * 	- 'offset' - Set the offset for the limited search results
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 */
-	public function search($addressBookId, $pattern, $searchProperties, $options = []) {
+	public function search($addressBookId, $pattern, $searchProperties, $options = []): array {
+		return $this->searchByAddressBookIds([$addressBookId], $pattern, $searchProperties, $options);
+	}
+
+	/**
+	 * Search contacts in all address-books accessible by a user
+	 *
+	 * @param string $principalUri
+	 * @param string $pattern
+	 * @param array $searchProperties
+	 * @param array $options
+	 * @return array
+	 */
+	public function searchPrincipalUri(string $principalUri,
+									   string $pattern,
+									   array $searchProperties,
+									   array $options = []): array {
+		$addressBookIds = array_map(static function ($row):int {
+			return (int) $row['id'];
+		}, $this->getAddressBooksForUser($principalUri));
+
+		return $this->searchByAddressBookIds($addressBookIds, $pattern, $searchProperties, $options);
+	}
+
+	/**
+	 * @param array $addressBookIds
+	 * @param string $pattern
+	 * @param array $searchProperties
+	 * @param array $options
+	 * @return array
+	 */
+	private function searchByAddressBookIds(array $addressBookIds,
+											string $pattern,
+											array $searchProperties,
+											array $options = []): array {
 		$escapePattern = !\array_key_exists('escape_like_param', $options) || $options['escape_like_param'] !== false;
 
 		$query2 = $this->db->getQueryBuilder();
-		$or = $query2->expr()->orX();
+
+		$addressBookOr =  $query2->expr()->orX();
+		foreach ($addressBookIds as $addressBookId) {
+			$addressBookOr->add($query2->expr()->eq('cp.addressbookid', $query2->createNamedParameter($addressBookId)));
+		}
+
+		if ($addressBookOr->count() === 0) {
+			return [];
+		}
+
+		$propertyOr = $query2->expr()->orX();
 		foreach ($searchProperties as $property) {
 			if ($escapePattern) {
 				if ($property === 'EMAIL' && strpos($pattern, ' ') !== false) {
@@ -980,17 +1024,17 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				}
 			}
 
-			$or->add($query2->expr()->eq('cp.name', $query2->createNamedParameter($property)));
+			$propertyOr->add($query2->expr()->eq('cp.name', $query2->createNamedParameter($property)));
 		}
 
-		if ($or->count() === 0) {
+		if ($propertyOr->count() === 0) {
 			return [];
 		}
 
 		$query2->selectDistinct('cp.cardid')
 			->from($this->dbCardsPropertiesTable, 'cp')
-			->andWhere($query2->expr()->eq('cp.addressbookid', $query2->createNamedParameter($addressBookId)))
-			->andWhere($or);
+			->andWhere($addressBookOr)
+			->andWhere($propertyOr);
 
 		// No need for like when the pattern is empty
 		if ('' !== $pattern) {
@@ -1016,7 +1060,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}, $matches);
 
 		$query = $this->db->getQueryBuilder();
-		$query->select('c.carddata', 'c.uri')
+		$query->select('c.addressbookid', 'c.carddata', 'c.uri')
 			->from($this->dbCardsTable, 'c')
 			->where($query->expr()->in('c.id', $query->createNamedParameter($matches, IQueryBuilder::PARAM_INT_ARRAY)));
 
@@ -1026,6 +1070,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result->closeCursor();
 
 		return array_map(function ($array) {
+			$array['addressbookid'] = (int) $array['addressbookid'];
 			$modified = false;
 			$array['carddata'] = $this->readBlob($array['carddata'], $modified);
 			if ($modified) {

@@ -210,6 +210,8 @@ return array(
     'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningNode' => $baseDir . '/../lib/Provisioning/Apple/AppleProvisioningNode.php',
     'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningPlugin' => $baseDir . '/../lib/Provisioning/Apple/AppleProvisioningPlugin.php',
     'OCA\\DAV\\RootCollection' => $baseDir . '/../lib/RootCollection.php',
+    'OCA\\DAV\\Search\\ContactsSearchProvider' => $baseDir . '/../lib/Search/ContactsSearchProvider.php',
+    'OCA\\DAV\\Search\\ContactsSearchResultEntry' => $baseDir . '/../lib/Search/ContactsSearchResultEntry.php',
     'OCA\\DAV\\Server' => $baseDir . '/../lib/Server.php',
     'OCA\\DAV\\Settings\\CalDAVSettings' => $baseDir . '/../lib/Settings/CalDAVSettings.php',
     'OCA\\DAV\\Storage\\PublicOwnerWrapper' => $baseDir . '/../lib/Storage/PublicOwnerWrapper.php',
