@@ -257,7 +257,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 						->setAffectedUser($shareWith)
 						->setObject('remote_share', (int)$shareId, $name);
 					\OC::$server->getActivityManager()->publish($event);
-					$this->notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $sharedBy, $owner);
+					$this->notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name);
 				} else {
 					$groupMembers = $this->groupManager->get($shareWith)->getUsers();
 					foreach ($groupMembers as $user) {
@@ -268,7 +268,7 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 							->setAffectedUser($user->getUID())
 							->setObject('remote_share', (int)$shareId, $name);
 						\OC::$server->getActivityManager()->publish($event);
-						$this->notifyAboutNewShare($user->getUID(), $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $sharedBy, $owner);
+						$this->notifyAboutNewShare($user->getUID(), $shareId, $ownerFederatedId, $sharedByFederatedId, $name);
 					}
 				}
 				return $shareId;
@@ -334,22 +334,13 @@ class CloudFederationProviderFiles implements ICloudFederationProvider {
 		return $result;
 	}
 
-	/**
-	 * notify user about new federated share
-	 *
-	 * @param $shareWith
-	 * @param $shareId
-	 * @param $ownerFederatedId
-	 * @param $sharedByFederatedId
-	 * @param $name
-	 */
-	private function notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name, $sharedBy, $owner) {
+	private function notifyAboutNewShare($shareWith, $shareId, $ownerFederatedId, $sharedByFederatedId, $name): void {
 		$notification = $this->notificationManager->createNotification();
 		$notification->setApp('files_sharing')
 			->setUser($shareWith)
 			->setDateTime(new \DateTime())
 			->setObject('remote_share', $shareId)
-			->setSubject('remote_share', [$ownerFederatedId, $sharedByFederatedId, trim($name, '/'), $sharedBy, $owner]);
+			->setSubject('remote_share', [$ownerFederatedId, $sharedByFederatedId, trim($name, '/')]);
 
 		$declineAction = $notification->createAction();
 		$declineAction->setLabel('decline')
