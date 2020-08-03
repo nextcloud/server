@@ -46,6 +46,7 @@ use OCA\Settings\Activity\Provider;
 use OCA\Settings\Hooks;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCA\Settings\Middleware\SubadminMiddleware;
+use OCA\Settings\Search\SectionSearch;
 use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -77,6 +78,7 @@ class Application extends App implements IBootstrap {
 		// Register Middleware
 		$context->registerServiceAlias('SubadminMiddleware', SubadminMiddleware::class);
 		$context->registerMiddleware(SubadminMiddleware::class);
+		$context->registerSearchProvider(SectionSearch::class);
 
 		/**
 		 * Core class wrappers
