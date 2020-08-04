@@ -82,7 +82,7 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(): int {
+	public function getOrder(string $from): int {
 		return 10;
 	}
 

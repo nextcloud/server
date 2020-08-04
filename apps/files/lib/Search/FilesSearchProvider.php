@@ -77,7 +77,7 @@ class FilesSearchProvider implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(): int {
+	public function getOrder(string $from): int {
 		return 5;
 	}
 

@@ -75,7 +75,11 @@ class SectionSearch implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(): int {
+	public function getOrder(string $from): int {
+		if (strpos($from, $this->urlGenerator->linkToRoute('settings.PersonalSettings.index') === 0)
+		|| strpos($from, $this->urlGenerator->linkToRoute('settings.AdminSettings.index')) === 0) {
+			return -1;
+		}
 		return 20;
 	}
 

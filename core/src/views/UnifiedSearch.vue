@@ -169,18 +169,7 @@ export default {
 		orderedResults() {
 			const ordered = {}
 			Object.keys(this.results)
-				.sort((a, b) => {
-					if (a.startsWith(activeApp) && b.startsWith(activeApp)) {
-						return this.typesMap[a].order - this.typesMap[b].order
-					}
-					if (a.startsWith(activeApp)) {
-						return -1
-					}
-					if (b.startsWith(activeApp)) {
-						return 1
-					}
-					return 0
-				})
+				.sort((a, b) => this.typesMap[a].order - this.typesMap[b].order)
 				.forEach(type => {
 					ordered[type] = this.results[type]
 				})

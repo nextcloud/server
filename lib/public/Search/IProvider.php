@@ -68,11 +68,13 @@ interface IProvider {
 	 * Get the search provider order
 	 * The lower the int, the higher it will be sorted (0 will be before 10)
 	 *
+	 * @param string $from the url the user is currently at. (e.g. /apps/files/?dir=/&fileid=982)
+	 *
 	 * @return int
 	 *
 	 * @since 20.0.0
 	 */
-	public function getOrder(): int;
+	public function getOrder(string $from): int;
 
 	/**
 	 * Find matching search entries in an app

@@ -109,17 +109,19 @@ class SearchComposer {
 	 * Get a list of all provider IDs & Names for the consecutive calls to `search`
 	 * Sort the list by the order property
 	 *
+	 * @param string $from the url the user is currently at
+	 *
 	 * @return array
 	 */
-	public function getProviders(): array {
+	public function getProviders(string $from): array {
 		$this->loadLazyProviders();
 
 		$providers = array_values(
-			array_map(function (IProvider $provider) {
+			array_map(function (IProvider $provider) use ($from) {
 				return [
 					'id' => $provider->getId(),
 					'name' => $provider->getName(),
-					'order' => $provider->getOrder()
+					'order' => $provider->getOrder($from)
 				];
 			}, $this->providers)
 		);

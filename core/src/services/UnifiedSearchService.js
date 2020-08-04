@@ -33,37 +33,20 @@ export const activeApp = loadState('core', 'active-app')
  */
 export async function getTypes() {
 	try {
-		const { data } = await axios.get(generateUrl('/search/providers'))
+		const { data } = await axios.get(generateUrl('/search/providers'), {
+			params: {
+				// Sending which location we're currently at
+				from: window.location.pathname.replace('/index.php', '') + window.location.search,
+			},
+		})
 		if (Array.isArray(data) && data.length > 0) {
-			return sortProviders(data)
+			// Providers are sorted by the api based on their order key
+			return data
 		}
 	} catch (error) {
 		console.error(error)
 	}
 	return []
-}
-
-/**
- * Sort the providers by the current active app
- *
- * @param {Array} providers the providers list
- * @returns {Array}
- */
-export function sortProviders(providers) {
-	providers.sort((a, b) => {
-		if (a.id.startsWith(activeApp) && b.id.startsWith(activeApp)) {
-			return a.order - b.order
-		}
-
-		if (a.id.startsWith(activeApp)) {
-			return -1
-		}
-		if (b.id.startsWith(activeApp)) {
-			return 1
-		}
-		return 0
-	})
-	return providers
 }
 
 /**

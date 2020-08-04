@@ -54,10 +54,14 @@ class UnifiedSearchController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * 
+	 * @param string $from the url the user is currently at
+	 * 
+	 * @return JSONResponse
 	 */
-	public function getProviders(): JSONResponse {
+	public function getProviders(string $from): JSONResponse {
 		return new JSONResponse(
-			$this->composer->getProviders()
+			$this->composer->getProviders($from)
 		);
 	}
 
