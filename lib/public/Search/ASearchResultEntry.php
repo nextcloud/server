@@ -72,7 +72,7 @@ abstract class ASearchResultEntry implements JsonSerializable {
 	 * @var string
 	 * @since 20.0.0
 	 */
-	protected $iconClass;
+	protected $icon;
 
 	/**
 	 * @var boolean
