@@ -130,6 +130,7 @@
     "Forgot password?" : "Unohditko salasanasi?",
     "Log in with a device" : "Kirjaudu laitteella",
     "Back" : "Takaisin",
+    "Searching …" : "Haetaan…",
     "Settings" : "Asetukset",
     "Could not load your contacts" : "Yhteystietojasi ei voitu ladata",
     "Search contacts …" : "Etsi yhteystietoja…",
@@ -257,8 +258,6 @@
     "More apps" : "Lisää sovelluksia",
     "More" : "Lisää",
     "More apps menu" : "Lisäsovellusvalikko",
-    "Search" : "Etsi",
-    "Reset search" : "Tyhjennä haku",
     "Contacts" : "Yhteystiedot",
     "Contacts menu" : "Yhteystietovalikko",
     "Settings menu" : "Asetusvalikko",
@@ -375,6 +374,8 @@
     "Error removing share" : "Virhe jakoa poistaessa",
     "({scope})" : "({scope})",
     "Saving..." : "Tallennetaan...",
+    "Search" : "Etsi",
+    "Reset search" : "Tyhjennä haku",
     "Cancel log in" : "Peru kirjautuminen",
     "These apps will be updated:" : "Nämä sovellukset päivitetään:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

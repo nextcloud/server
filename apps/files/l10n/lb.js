@@ -102,6 +102,7 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitéier Notifikatiounen op d'Erstellen an Veränneren vun dengen <strong> Favoriten</strong> (nëmmen Floss)",
     "All files" : "All d'Fichieren",
     "Upload (max. %s)" : "Upload (maximal ¦%s)",
+    "in %s" : "an %s",
     "Tags" : "Tags",
     "Settings" : "Astellungen",
     "Show hidden files" : "Weis déi verstoppten Dateien",

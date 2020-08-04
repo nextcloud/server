@@ -264,8 +264,6 @@ OC.L10N.register(
     "More apps" : "Mais apps",
     "More" : "Mais",
     "More apps menu" : "Menu de mais aplicações",
-    "Search" : "Procurar",
-    "Reset search" : "Repor procura",
     "Contacts" : "Contactos",
     "Contacts menu" : "Menu de contactos",
     "Settings menu" : "Menu de configurações",
@@ -388,6 +386,8 @@ OC.L10N.register(
     "Error removing share" : "Erro ao remover a partilha",
     "({scope})" : "({scope})",
     "Saving..." : "A guardar...",
+    "Search" : "Procurar",
+    "Reset search" : "Repor procura",
     "Your client should now be connected! You can close this window." : "O seu cliente deverá estar agora conectado! Pode fechar esta janela.",
     "Cancel log in" : "Cancelar entrada",
     "These apps will be updated:" : "Estas aplicações irão ser atualizadas."

@@ -289,8 +289,6 @@ OC.L10N.register(
     "More apps" : "更多應用程式",
     "More" : "更多",
     "More apps menu" : "更多應用程式選單",
-    "Search" : "搜尋",
-    "Reset search" : "重置搜尋",
     "Contacts" : "聯絡人",
     "Contacts menu" : "聯絡人選單",
     "Settings menu" : "設定選單",
@@ -420,6 +418,8 @@ OC.L10N.register(
     "Error removing share" : "移除分享時發生錯誤",
     "({scope})" : "（{scope}）",
     "Saving..." : "儲存中...",
+    "Search" : "搜尋",
+    "Reset search" : "重置搜尋",
     "Your client should now be connected! You can close this window." : "您的客戶端應該已經完成連結，您可以關閉這個視窗",
     "Cancel log in" : "取消登入",
     "These apps will be updated:" : "將會更新這些應用程式"

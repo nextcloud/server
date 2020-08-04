@@ -140,6 +140,7 @@ OC.L10N.register(
     "Reject" : "Hafna",
     "Ownership transfer failed" : "Millifærsla eignarhalds mistókst",
     "Ownership transfer done" : "Millifærslu eignarhalds er lokið",
+    "in %s" : "í %s",
     "File Management" : "Skráastjórnun",
     "Transfer ownership of a file or folder" : "Millifæra eignarhald skráar eða möppu",
     "Choose file or folder to transfer" : "Veldu skrá eða möppu til að millifæra",

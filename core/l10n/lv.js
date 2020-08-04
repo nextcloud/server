@@ -242,7 +242,6 @@ OC.L10N.register(
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Šai lietotnei nepieciešams JavaScript. Lūdzu {linkstart}ieslēdziet JavasScript{linkend} un pārlādējiet lapu.",
     "More apps" : "Vairāk lietotnes",
     "More" : "Vairāk",
-    "Search" : "Meklēt",
     "Contacts" : "Kontakti",
     "Confirm your password" : "Apstipriniet paroli",
     "App token" : "Lietotnes pilnvara",
@@ -328,6 +327,7 @@ OC.L10N.register(
     "Error removing share" : "Kļūda, noņemot koplietošanu",
     "({scope})" : "({scope})",
     "Saving..." : "Saglabā...",
+    "Search" : "Meklēt",
     "Cancel log in" : "Atcelt pieteikšanos",
     "These apps will be updated:" : "Šīs lietotnes tiks atjauninātas:",
     "Local document editing back-end used by the OnlyOffice app." : "Lokālo dokumentu rediģēšanas back-end, ko izmanto OnlyOffice lietojumprogramma."

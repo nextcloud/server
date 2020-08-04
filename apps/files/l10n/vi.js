@@ -117,6 +117,7 @@ OC.L10N.register(
     "Unlimited" : "Không giới hạn",
     "Upload (max. %s)" : "Tải lên (tối đa. %s)",
     "Accept" : "Đồng ý",
+    "in %s" : "trong %s",
     "Change" : "Chỉnh sửa",
     "Tags" : "Nhãn",
     "%1$s of %2$s used" : "%1$s trên %2$s đã sử dụng",

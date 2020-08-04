@@ -218,8 +218,6 @@ OC.L10N.register(
     "More apps" : "More apps",
     "More" : "More",
     "More apps menu" : "More apps menu",
-    "Search" : "Search",
-    "Reset search" : "Reset search",
     "Contacts" : "Contacts",
     "Contacts menu" : "Contacts menu",
     "Settings menu" : "Settings menu",
@@ -314,6 +312,8 @@ OC.L10N.register(
     "Error removing share" : "Error removing share",
     "({scope})" : "({scope})",
     "Saving..." : "Saving...",
+    "Search" : "Search",
+    "Reset search" : "Reset search",
     "Cancel log in" : "Cancel log in",
     "These apps will be updated:" : "These apps will be updated:"
 },

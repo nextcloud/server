@@ -212,8 +212,6 @@ OC.L10N.register(
     "More apps" : "Mai multe aplicatii",
     "More" : "Mai mult",
     "More apps menu" : "Meniu mai multe aplicații",
-    "Search" : "Căutare",
-    "Reset search" : "Resetează căutarea",
     "Contacts" : "Contacte",
     "Contacts menu" : "Meniu contacte",
     "Settings menu" : "Meniul Setări",
@@ -330,6 +328,8 @@ OC.L10N.register(
     "Error removing share" : "Eroare la înlăturarea elementului partajat",
     "({scope})" : "({scope})",
     "Saving..." : "Se salvează...",
+    "Search" : "Căutare",
+    "Reset search" : "Resetează căutarea",
     "Cancel log in" : "Anulează conectarea",
     "These apps will be updated:" : "Aceste aplicații vor fi actualizate:"
 },

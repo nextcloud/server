@@ -146,6 +146,7 @@
     "Ownership transfer done" : "Nuosavybės perdavimas atliktas",
     "Your ownership transfer of {path} to {user} has completed." : "Jūsų {path} nuosavybės perdavimas naudotojui {user} užbaigtas.",
     "The ownership transfer of {path} from {user} has completed." : "{path} nuosavybės perdavimas iš naudotojo {user} užbaigtas.",
+    "in %s" : "per %s",
     "File Management" : "Failų tvarkymas",
     "Transfer ownership of a file or folder" : "Perduoti failo ar aplanko nuosavybę",
     "Choose file or folder to transfer" : "Pasirinkti norimą perduoti failą ar aplanką",

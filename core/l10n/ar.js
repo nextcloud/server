@@ -158,8 +158,6 @@ OC.L10N.register(
     "Skip to main content" : "تخطّيه وانتقل إلى المحتوى الرئيسي",
     "More apps" : "المزيد من التطبيقات",
     "More" : "المزيد",
-    "Search" : "البحث",
-    "Reset search" : "إعادة تعيين البحث",
     "Contacts" : "المُراسِلون",
     "Contacts menu" : "قائمة المراسِلين",
     "Settings menu" : "قائمة الإعدادات",
@@ -230,6 +228,8 @@ OC.L10N.register(
     "Name..." : "التسمية …",
     "({scope})" : "({scope})",
     "Saving..." : "جاري الحفظ...",
+    "Search" : "البحث",
+    "Reset search" : "إعادة تعيين البحث",
     "Cancel log in" : "إلغاء تسجيل الدخول",
     "These apps will be updated:" : "سوف يتم تحديث هذه التطبيقات :"
 },

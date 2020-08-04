@@ -146,6 +146,7 @@
     "Ownership transfer done" : "Ägarskapsöverföring klar",
     "Your ownership transfer of {path} to {user} has completed." : "Din ägaröverföring av {path} till {user} är klar.",
     "The ownership transfer of {path} from {user} has completed." : "Ägaröverföringen av {path} från {user} är klar.",
+    "in %s" : "om %s",
     "File Management" : "Filhantering",
     "Transfer ownership of a file or folder" : "Överför ägarskap till en fil eller mapp",
     "Choose file or folder to transfer" : "Välj fil eller mapp att överföra",

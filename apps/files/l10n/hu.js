@@ -138,6 +138,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Feltöltés (max.: %s)",
     "Accept" : "Elfogad",
     "Reject" : "Elutasítás",
+    "in %s" : "itt:  %s",
     "File Management" : "Fájlkezelés",
     "Change" : "Módosít",
     "Invalid path selected" : "Érvénytelen útvonal kiválasztva",

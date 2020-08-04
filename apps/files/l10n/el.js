@@ -148,6 +148,7 @@ OC.L10N.register(
     "Ownership transfer done" : "Η μεταφορά κυριότητας ολοκληρώθηκε",
     "Your ownership transfer of {path} to {user} has completed." : "Η μεταφορά κυριότητας σας του {path} στον {user} ολοκληρώθηκε.",
     "The ownership transfer of {path} from {user} has completed." : "Η μεταφορά κυριότητας του {path} στον {user} ολοκληρώθηκε.",
+    "in %s" : "σε %s",
     "File Management" : "Διαχείριση αρχείων",
     "Transfer ownership of a file or folder" : "Μεταβίβαση κυριότητας αρχείου ή φακέλου",
     "Choose file or folder to transfer" : "Επιλέξτε αρχείο ή φάκελο για μεταφορά",

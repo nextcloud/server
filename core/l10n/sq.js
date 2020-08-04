@@ -191,7 +191,6 @@ OC.L10N.register(
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Ky aplikacion lyp JavaScript për punim të saktë. Ju lutemi, {linkstart}aktivizoni JavaScript-in{linkend} dhe ringarkoni faqen.",
     "More apps" : "Më shumë aplikacione",
     "More" : "More",
-    "Search" : "Kërko",
     "Contacts" : "Kontaktet",
     "Contacts menu" : "Menuja e kontakteve",
     "Settings menu" : "Menuja e cilësimeve",
@@ -280,6 +279,7 @@ OC.L10N.register(
     "Error removing share" : "Gabim në heqjen e ndarjes",
     "({scope})" : "({scope})",
     "Saving..." : "Po ruhet …",
+    "Search" : "Kërko",
     "Cancel log in" : "Anuloni identifikimin",
     "These apps will be updated:" : "Do të përditësohen këto aplikacione:"
 },

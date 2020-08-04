@@ -145,6 +145,7 @@
     "Ownership transfer done" : "Eigenaarschap overdracht geslaagd",
     "Your ownership transfer of {path} to {user} has completed." : "Eigenaarsoverdracht van {path} naar {user} is gereed.",
     "The ownership transfer of {path} from {user} has completed." : "Eigenaarsoverdracht van {path} van {user} is gereed.",
+    "in %s" : "in %s",
     "File Management" : "Bestandsbeheer",
     "Transfer ownership of a file or folder" : "Overdragen eigenaarschap bestand of map ",
     "Choose file or folder to transfer" : "Kies over te dragen bestand of map",

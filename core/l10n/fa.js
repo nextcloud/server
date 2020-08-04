@@ -94,6 +94,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "برنامه ایمیل ساده با پرونده ها ، مخاطبین و تقویم یکپارچه شده است.",
     "Forgot password?" : "رمز فراموش شده؟",
     "Back" : "بازگشت",
+    "Searching …" : "جستجوکردن …",
     "Settings" : "تنظیمات",
     "Search contacts …" : "جستجو مخاطبین ...",
     "No contacts found" : "مخاطبین یافت نشد",
@@ -197,7 +198,6 @@ OC.L10N.register(
     "See the documentation" : "مشاهده‌ی مستندات",
     "More apps" : "برنامه های بیشتر",
     "More" : "بیش‌تر",
-    "Search" : "جست‌و‌جو",
     "Contacts" : "مخاطبین",
     "Contacts menu" : "منوی دفتر تلفن",
     "Confirm your password" : "گذرواژه خود را تأیید کنید",
@@ -283,6 +283,7 @@ OC.L10N.register(
     "Error removing share" : "خطا در حذف اشتراک گذاری",
     "({scope})" : "({scope})",
     "Saving..." : "در حال ذخیره سازی...",
+    "Search" : "جست‌و‌جو",
     "Cancel log in" : "لغو ورود",
     "These apps will be updated:" : "این برنامه‌ها بروزرسانی شده‌اند:"
 },
