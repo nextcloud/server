@@ -30,7 +30,6 @@ use OCP\IUser;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
-use OCP\Settings\IIconSection;
 use OCP\Settings\ISection;
 use OCP\Settings\IManager;
 
@@ -118,17 +117,20 @@ class SectionSearch implements IProvider {
 					continue;
 				}
 
+				/**
+				 * We can't use the icon URL at the moment as they don't invert correctly for dark theme
 				$iconUrl = '';
 				if ($section instanceof IIconSection) {
 					$iconUrl = $section->getIcon();
 				}
+				 */
 
 				$result[] = new SectionResult(
 					'',
 					$section->getName(),
 					$subline,
 					$this->urlGenerator->linkToRouteAbsolute($routeName, ['section' => $section->getID()]),
-					$iconUrl
+					'icon-settings'
 				);
 			}
 		}
