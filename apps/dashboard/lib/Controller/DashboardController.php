@@ -32,8 +32,8 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Dashboard\IManager;
-use OCP\Dashboard\IPanel;
-use OCP\Dashboard\RegisterPanelEvent;
+use OCP\Dashboard\IWidget;
+use OCP\Dashboard\RegisterWidgetEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IInitialStateService;
@@ -76,18 +76,18 @@ class DashboardController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index(): TemplateResponse {
-		$this->eventDispatcher->dispatchTyped(new RegisterPanelEvent($this->dashboardManager));
+		$this->eventDispatcher->dispatchTyped(new RegisterWidgetEvent($this->dashboardManager));
 
 		$userLayout = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', 'recommendations,spreed,mail,calendar'));
-		$panels = array_map(function (IPanel $panel) {
+		$widgets = array_map(function (IWidget $widget) {
 			return [
-				'id' => $panel->getId(),
-				'title' => $panel->getTitle(),
-				'iconClass' => $panel->getIconClass(),
-				'url' => $panel->getUrl()
+				'id' => $widget->getId(),
+				'title' => $widget->getTitle(),
+				'iconClass' => $widget->getIconClass(),
+				'url' => $widget->getUrl()
 			];
-		}, $this->dashboardManager->getPanels());
-		$this->inititalStateService->provideInitialState('dashboard', 'panels', $panels);
+		}, $this->dashboardManager->getWidgets());
+		$this->inititalStateService->provideInitialState('dashboard', 'panels', $widgets);
 		$this->inititalStateService->provideInitialState('dashboard', 'layout', $userLayout);
 		$this->inititalStateService->provideInitialState('dashboard', 'firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');

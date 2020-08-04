@@ -100,10 +100,10 @@ class RegistrationContext {
 				);
 			}
 
-			public function registerDashboardPanel(string $panelClass): void {
+			public function registerDashboardWidget(string $widgetClass): void {
 				$this->context->registerDashboardPanel(
 					$this->appId,
-					$panelClass
+					$widgetClass
 				);
 			}
 
@@ -282,7 +282,7 @@ class RegistrationContext {
 	public function delegateDashboardPanelRegistrations(array $apps, IManager $dashboardManager): void {
 		foreach ($this->dashboardPanels as $panel) {
 			try {
-				$dashboardManager->lazyRegisterPanel($panel['class']);
+				$dashboardManager->lazyRegisterWidget($panel['class']);
 			} catch (Throwable $e) {
 				$appId = $panel['appId'];
 				$this->logger->logException($e, [

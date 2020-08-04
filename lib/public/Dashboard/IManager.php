@@ -35,15 +35,15 @@ namespace OCP\Dashboard;
 interface IManager {
 
 	/**
-	 * @param string $panelClass
+	 * @param string $widgetClass
 	 * @since 20.0.0
 	 */
-	public function lazyRegisterPanel(string $panelClass): void;
+	public function lazyRegisterWidget(string $widgetClass): void;
 
 	/**
 	 * @since 20.0.0
 	 *
-	 * @return IPanel[]
+	 * @return IWidget[]
 	 */
-	public function getPanels(): array;
+	public function getWidgets(): array;
 }
