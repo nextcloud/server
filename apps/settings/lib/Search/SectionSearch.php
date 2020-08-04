@@ -30,6 +30,7 @@ use OCP\IUser;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
+use OCP\Search\SearchResultEntry;
 use OCP\Settings\ISection;
 use OCP\Settings\IManager;
 
@@ -132,7 +133,7 @@ class SectionSearch implements IProvider {
 				 * }
 				 */
 
-				$result[] = new SectionResult(
+				$result[] = new SearchResultEntry(
 					'',
 					$section->getName(),
 					$subline,

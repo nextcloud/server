@@ -32,6 +32,7 @@ use OCP\IUserManager;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
+use OCP\Search\SearchResultEntry;
 use function array_map;
 use function pathinfo;
 
@@ -93,7 +94,7 @@ class CommentsSearchProvider implements IProvider {
 				$avatarUrl = $isUser
 					? $this->urlGenerator->linkToRoute('core.avatar.getAvatar', ['userId' => $result->authorId, 'size' => 42])
 					: $this->urlGenerator->linkToRoute('core.GuestAvatar.getAvatar', ['guestName' => $result->authorId, 'size' => 42]);
-				return new CommentsSearchResultEntry(
+				return new SearchResultEntry(
 					$avatarUrl,
 					$result->name,
 					$path,

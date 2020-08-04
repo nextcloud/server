@@ -34,7 +34,7 @@ use JsonSerializable;
  * The app providing the results has to extend this class for customization. In
  * most cases apps do not have to add any additional code.
  *
- * @example ``class MailResultEntry extends ASearchResultEntry {}`
+ * @example ``class MailResultEntry extends SearchResultEntry {}`
  *
  * This approach was chosen over a final class as it allows Nextcloud to later
  * add new optional properties of an entry without having to break the usage of
@@ -42,7 +42,7 @@ use JsonSerializable;
  *
  * @since 20.0.0
  */
-abstract class ASearchResultEntry implements JsonSerializable {
+class SearchResultEntry implements JsonSerializable {
 
 	/**
 	 * @var string

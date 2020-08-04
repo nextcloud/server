@@ -226,7 +226,6 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\Provisioning\\Apple\\AppleProvisioningPlugin' => __DIR__ . '/..' . '/../lib/Provisioning/Apple/AppleProvisioningPlugin.php',
         'OCA\\DAV\\RootCollection' => __DIR__ . '/..' . '/../lib/RootCollection.php',
         'OCA\\DAV\\Search\\ContactsSearchProvider' => __DIR__ . '/..' . '/../lib/Search/ContactsSearchProvider.php',
-        'OCA\\DAV\\Search\\ContactsSearchResultEntry' => __DIR__ . '/..' . '/../lib/Search/ContactsSearchResultEntry.php',
         'OCA\\DAV\\Server' => __DIR__ . '/..' . '/../lib/Server.php',
         'OCA\\DAV\\Settings\\CalDAVSettings' => __DIR__ . '/..' . '/../lib/Settings/CalDAVSettings.php',
         'OCA\\DAV\\Storage\\PublicOwnerWrapper' => __DIR__ . '/..' . '/../lib/Storage/PublicOwnerWrapper.php',

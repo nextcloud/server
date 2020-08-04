@@ -32,6 +32,7 @@ use OCP\IUser;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
+use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
@@ -123,7 +124,7 @@ class ContactsSearchProvider implements IProvider {
 				'offset' => $query->getCursor(),
 			]
 		);
-		$formattedResults = \array_map(function (array $contactRow) use ($addressBooksById):ContactsSearchResultEntry {
+		$formattedResults = \array_map(function (array $contactRow) use ($addressBooksById):SearchResultEntry {
 			$addressBook = $addressBooksById[$contactRow['addressbookid']];
 
 			/** @var VCard $vCard */
@@ -137,7 +138,7 @@ class ContactsSearchProvider implements IProvider {
 			$subline = $this->generateSubline($vCard);
 			$resourceUrl = $this->getDeepLinkToContactsApp($addressBook['uri'], (string) $vCard->UID);
 
-			return new ContactsSearchResultEntry($thumbnailUrl, $title, $subline, $resourceUrl, 'icon-contacts-dark', true);
+			return new SearchResultEntry($thumbnailUrl, $title, $subline, $resourceUrl, 'icon-contacts-dark', true);
 		}, $searchResults);
 
 		return SearchResult::paginated(

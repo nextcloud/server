@@ -22,7 +22,6 @@ return array(
     'OCA\\Comments\\Notification\\Listener' => $baseDir . '/../lib/Notification/Listener.php',
     'OCA\\Comments\\Notification\\Notifier' => $baseDir . '/../lib/Notification/Notifier.php',
     'OCA\\Comments\\Search\\CommentsSearchProvider' => $baseDir . '/../lib/Search/CommentsSearchProvider.php',
-    'OCA\\Comments\\Search\\CommentsSearchResultEntry' => $baseDir . '/../lib/Search/CommentsSearchResultEntry.php',
     'OCA\\Comments\\Search\\LegacyProvider' => $baseDir . '/../lib/Search/LegacyProvider.php',
     'OCA\\Comments\\Search\\Result' => $baseDir . '/../lib/Search/Result.php',
 );
