@@ -447,4 +447,63 @@ class AddressBookImplTest extends TestCase {
 			'isLocalSystemBook' => true,
 		], $array);
 	}
+
+	public function testIsSystemAddressBook(): void {
+		$addressBookInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'principals/system/system',
+			'principaluri' => 'principals/system/system',
+			'{DAV:}displayname' => 'display name',
+			'id' => 666,
+			'uri' => 'system',
+		];
+
+		$addressBookImpl = new AddressBookImpl(
+			$this->addressBook,
+			$addressBookInfo,
+			$this->backend,
+			$this->urlGenerator
+		);
+
+		$this->assertTrue($addressBookImpl->isSystemAddressBook());
+	}
+
+	public function testIsShared(): void {
+		$addressBookInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'{DAV:}displayname' => 'Test address book',
+			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'default',
+		];
+
+		$addressBookImpl = new AddressBookImpl(
+			$this->addressBook,
+			$addressBookInfo,
+			$this->backend,
+			$this->urlGenerator
+		);
+
+		$this->assertFalse($addressBookImpl->isSystemAddressBook());
+		$this->assertTrue($addressBookImpl->isShared());
+	}
+
+	public function testIsNotShared(): void {
+		$addressBookInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'{DAV:}displayname' => 'Test address book',
+			'principaluri' => 'user1',
+			'id' => 666,
+			'uri' => 'default',
+		];
+
+		$addressBookImpl = new AddressBookImpl(
+			$this->addressBook,
+			$addressBookInfo,
+			$this->backend,
+			$this->urlGenerator
+		);
+
+		$this->assertFalse($addressBookImpl->isSystemAddressBook());
+		$this->assertFalse($addressBookImpl->isShared());
+	}
 }
