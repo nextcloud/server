@@ -164,8 +164,6 @@ OC.L10N.register(
     "See the documentation" : "Lees die dokumentasie",
     "More apps" : "Meer toeps",
     "More" : "Meer",
-    "Search" : "Soek",
-    "Reset search" : "Herstel soek",
     "Contacts" : "Kontakte",
     "Contacts menu" : "Kontakkieslys",
     "Settings menu" : "Instellingskieslys",
@@ -242,6 +240,8 @@ OC.L10N.register(
     "Error removing share" : "Fout terwyl deel verwyder word",
     "({scope})" : "({scope})",
     "Saving..." : "Stoor tans…",
+    "Search" : "Soek",
+    "Reset search" : "Herstel soek",
     "Cancel log in" : "Kanselleer aanmelding",
     "These apps will be updated:" : "Die volgende toeps sal bygewerk word:"
 },

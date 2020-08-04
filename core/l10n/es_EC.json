@@ -212,8 +212,6 @@
     "More apps" : "Más aplicaciones",
     "More" : "Más",
     "More apps menu" : "Menú de más aplicaciones",
-    "Search" : "Buscar",
-    "Reset search" : "Reestablecer búsqueda",
     "Contacts" : "Contactos",
     "Contacts menu" : "Menú de Contactos",
     "Settings menu" : "Menú de Configuraciones",
@@ -269,6 +267,7 @@
     "Expiration" : "Expiración",
     "Expiration date" : "Fecha de expiración",
     "Unshare" : "Dejar de compartir",
+    "Add another link" : "Agregar otro enlace",
     "Share to {name}" : "Compartir con {name}",
     "Share link" : "Compartir liga",
     "Could not unshare" : "No fue posible dejar de compartir",
@@ -305,6 +304,8 @@
     "Error removing share" : "Se presentó un error al dejar de compartir",
     "({scope})" : "({scope})",
     "Saving..." : "Guardando...",
+    "Search" : "Buscar",
+    "Reset search" : "Reestablecer búsqueda",
     "Cancel log in" : "Cancelar inicio de sesión",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

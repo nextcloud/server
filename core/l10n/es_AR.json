@@ -95,6 +95,7 @@
     "Cancel" : "Cancelar",
     "Forgot password?" : "¿Contraseña olvidada?",
     "Back" : "Atrás",
+    "Searching …" : "Buscando ...",
     "Settings" : "Configuraciones ",
     "Could not load your contacts" : "No se pudieron cargar tus contactos",
     "Search contacts …" : "Buscar contactos ...",
@@ -212,8 +213,6 @@
     "More apps" : "Más aplicaciones",
     "More" : "Más",
     "More apps menu" : "Más menú de apps",
-    "Search" : "Buscar",
-    "Reset search" : "Restablecer búsqueda",
     "Contacts" : "Contactos",
     "Contacts menu" : "Menú de contactos",
     "Settings menu" : "Menú de configuración",
@@ -303,6 +302,8 @@
     "Error removing share" : "Se presentó un error al dejar de compartir",
     "({scope})" : "({scope})",
     "Saving..." : "Guardando...",
+    "Search" : "Buscar",
+    "Reset search" : "Restablecer búsqueda",
     "Cancel log in" : "Cancelar inicio de sesión",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

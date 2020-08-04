@@ -117,6 +117,7 @@ OC.L10N.register(
     "Unlimited" : "Neierobežota",
     "Upload (max. %s)" : "Augšupielādēt (maks. %s)",
     "Accept" : "Akceptēt",
+    "in %s" : "iekš %s",
     "Change" : "Mainīt",
     "Tags" : "Birkas",
     "%s used" : "%s izmantoti",

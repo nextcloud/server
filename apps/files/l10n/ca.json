@@ -145,6 +145,7 @@
     "Ownership transfer done" : "Transferència de la propietat feta",
     "Your ownership transfer of {path} to {user} has completed." : "La vostra transferència de la propietat de {path} a {user} ha estat completat.",
     "The ownership transfer of {path} from {user} has completed." : "La transferència de la propietat de {path} de {user} ha estat completat.",
+    "in %s" : "en %s",
     "File Management" : "Gestió de fitxers",
     "Transfer ownership of a file or folder" : "Transfereix la propietat d'un fitxer o carpeta",
     "Choose file or folder to transfer" : "Tria un fitxer o carpeta a transferir",

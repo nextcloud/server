@@ -145,6 +145,7 @@ OC.L10N.register(
     "Ownership transfer done" : "Omistajuuden siirto valmis",
     "Your ownership transfer of {path} to {user} has completed." : "Kohteen {path} omistajuussiirto käyttäjälle {user} valmistui.",
     "The ownership transfer of {path} from {user} has completed." : "Kohteen {path} omistajuussiirto käyttäjältä {user} valmistui.",
+    "in %s" : "polussa %s",
     "File Management" : "Tiedostohallinta",
     "Transfer ownership of a file or folder" : "Siirrä tiedoston tai kansion omistajuus",
     "Choose file or folder to transfer" : "Valitse siirrettävä tiedosto tai kansio",

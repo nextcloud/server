@@ -34,6 +34,7 @@ OC.L10N.register(
     "There was an error with message: " : "Настана грешка со порака:",
     "External mount error" : "Грешка при надворешно монтирање",
     "external-storage" : "Надворешно складиште",
+    "Couldn't fetch list of Windows network drive mount points: Empty response from server" : "Неможат да се превземе листата на надворешните монтирани точки: Празен одговор од серверот",
     "Please enter the credentials for the {mount} mount" : "Внесете акредитиви за {mount}",
     "Username" : "Корисничко име",
     "Password" : "Лозинка",

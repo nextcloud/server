@@ -147,6 +147,7 @@ OC.L10N.register(
     "Ownership transfer done" : "העברת הבעלות הושלמה",
     "Your ownership transfer of {path} to {user} has completed." : "העברת הבעלות על {path} לידי {user} ממך הושלמה.",
     "The ownership transfer of {path} from {user} has completed." : "העברת הבעלות על {path} לידי {user} הושלמה.",
+    "in %s" : "ב־%s",
     "File Management" : "ניהול קבצים",
     "Transfer ownership of a file or folder" : "העברת בעלות על קובץ או תיקייה",
     "Choose file or folder to transfer" : "נא לבחור קובץ או תיקייה להעברה",

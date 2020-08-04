@@ -207,8 +207,6 @@ OC.L10N.register(
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Esta aplicación requiere de JavaScript para su correcta operación. Por favor {linkstart}habilita JavaScript{linkend} y vuelve a cargar la página. ",
     "More apps" : "Más aplicaciones",
     "More" : "Más",
-    "Search" : "Buscar",
-    "Reset search" : "Reestablecer búsqueda",
     "Contacts" : "Contactos",
     "Confirm your password" : "Confirma tu contraseña",
     "App token" : "Ficha de la aplicación",
@@ -295,6 +293,8 @@ OC.L10N.register(
     "Error removing share" : "Se presentó un error al dejar de compartir",
     "({scope})" : "({scope})",
     "Saving..." : "Guardando...",
+    "Search" : "Buscar",
+    "Reset search" : "Reestablecer búsqueda",
     "Cancel log in" : "Cancelar inicio de sesión",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
 },

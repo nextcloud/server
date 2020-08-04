@@ -119,6 +119,7 @@ OC.L10N.register(
     "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Cargar (max. %s)",
     "Accept" : "Aceptar",
+    "in %s" : "en %s",
     "Change" : "Cambiar",
     "Tags" : "Etiquetas",
     "%s used" : "%s usado",

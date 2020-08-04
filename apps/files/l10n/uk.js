@@ -148,6 +148,7 @@ OC.L10N.register(
     "Ownership transfer done" : "Права власності передано",
     "Your ownership transfer of {path} to {user} has completed." : "Передачу ваших прав на {path} користувачеві {user} виконано.",
     "The ownership transfer of {path} from {user} has completed." : "Передачу прав на {path} від користувача {user} завершено.",
+    "in %s" : "в %s",
     "File Management" : "Керування файлами",
     "Transfer ownership of a file or folder" : "Передача прав власності на файл або теку",
     "Choose file or folder to transfer" : "Виберіть файл або теку для передачі",

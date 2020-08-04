@@ -146,6 +146,7 @@
     "Ownership transfer done" : "Направено е трансфер на сопственост",
     "Your ownership transfer of {path} to {user} has completed." : "Вашиот транфер на сопственост на {path} до {user} е комплетиран.",
     "The ownership transfer of {path} from {user} has completed." : "Трансферот на сопственост на {path} од {user} е комплетиран.",
+    "in %s" : "во %s",
     "File Management" : "Датотеки",
     "Transfer ownership of a file or folder" : "Трансфер на сопственост на датотека или папка",
     "Choose file or folder to transfer" : "Избери датотека или папка за трансфер",

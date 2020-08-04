@@ -128,6 +128,7 @@ OC.L10N.register(
     "Unlimited" : "ულიმიტო",
     "Upload (max. %s)" : "ატვირთვა (მაქს. %s)",
     "Accept" : "მიღება",
+    "in %s" : "%s-ში",
     "Change" : "შეცვლა",
     "Tags" : "ტეგები",
     "%s used" : "%s მოხმარებულია",

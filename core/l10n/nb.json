@@ -273,8 +273,6 @@
     "More apps" : "Flere apper",
     "More" : "Mer",
     "More apps menu" : "Flere apper-meny",
-    "Search" : "Søk",
-    "Reset search" : "Tilbakestill søk",
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontakter meny",
     "Settings menu" : "Meny for innstillinger",
@@ -401,6 +399,8 @@
     "Error removing share" : "Feil ved fjerning av deling",
     "({scope})" : "({scope})",
     "Saving..." : "Lagrer …",
+    "Search" : "Søk",
+    "Reset search" : "Tilbakestill søk",
     "Cancel log in" : "Avbryt innlogging",
     "These apps will be updated:" : "Disse appene vil bli oppdatert:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

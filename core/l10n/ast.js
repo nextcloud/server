@@ -166,7 +166,6 @@ OC.L10N.register(
     "See the documentation" : "Mira la documentación",
     "More apps" : "Más aplicaciones",
     "More" : "Más",
-    "Search" : "Guetar",
     "Contacts" : "Contautos",
     "Confirm your password" : "Confirma la to contraseña",
     "App token" : "Pase d'aplicación",
@@ -235,6 +234,7 @@ OC.L10N.register(
     "Error removing share" : "Fallu desaniciando la compartición",
     "({scope})" : "({scope})",
     "Saving..." : "Guardando...",
+    "Search" : "Guetar",
     "These apps will be updated:" : "Anovaránse estes aplicaciones:"
 },
 "nplurals=2; plural=(n != 1);");

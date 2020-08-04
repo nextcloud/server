@@ -144,6 +144,7 @@ OC.L10N.register(
     "Do you want to accept {path}?\n\nNote: The transfer process after accepting may take up to 1 hour." : "Ali želite sprejeti pot {path}?\n\nOpomba: po sprejetju lahko prenos traja tudi več kot 1 uro.",
     "Ownership transfer failed" : "Prenos lastništva je spodletel",
     "Ownership transfer done" : "Prenos lastništva je uspešno končan",
+    "in %s" : "v %s",
     "File Management" : "Upravljanje datotek",
     "Transfer ownership of a file or folder" : "Prenos lastništva datoteke ali mape",
     "Choose file or folder to transfer" : "Izbor datoteke ali mape za prenos",
