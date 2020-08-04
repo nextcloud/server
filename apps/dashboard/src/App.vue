@@ -1,6 +1,12 @@
 <template>
 	<div id="app-dashboard">
 		<h2>{{ greeting.icon }} {{ greeting.text }}</h2>
+		<div class="statuses">
+			<div v-for="status in registeredStatus"
+				:id="'status-' + status"
+				:key="status"
+				:ref="'status-' + status" />
+		</div>
 
 		<Draggable v-model="layout" class="panels" @end="saveLayout">
 			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
@@ -73,7 +79,9 @@ export default {
 	data() {
 		return {
 			timer: new Date(),
+			registeredStatus: [],
 			callbacks: {},
+			callbacksStatus: {},
 			panels,
 			firstRun,
 			displayName: getCurrentUser()?.displayName,
@@ -81,6 +89,7 @@ export default {
 			layout: loadState('dashboard', 'layout').filter((panelId) => panels[panelId]),
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps'),
+			statuses: {},
 		}
 	},
 	computed: {
@@ -89,18 +98,18 @@ export default {
 			const shouldShowName = this.displayName && this.uid !== this.displayName
 
 			if (time > 18) {
-				return { icon: '🌙', text: shouldShowName ? t('dashboard', 'Good evening, {name}', { name: this.name }) : t('dashboard', 'Good evening') }
+				return { icon: '🌙', text: shouldShowName ? t('dashboard', 'Good evening, {name}', { name: this.displayName }) : t('dashboard', 'Good evening') }
 			}
 			if (time > 12) {
-				return { icon: '☀', text: shouldShowName ? t('dashboard', 'Good afternoon, {name}', { name: this.name }) : t('dashboard', 'Good afternoon') }
+				return { icon: '☀', text: shouldShowName ? t('dashboard', 'Good afternoon, {name}', { name: this.displayName }) : t('dashboard', 'Good afternoon') }
 			}
 			if (time === 12) {
-				return { icon: '🍽', text: shouldShowName ? t('dashboard', 'Time for lunch, {name}', { name: this.name }) : t('dashboard', 'Time for lunch') }
+				return { icon: '🍽', text: shouldShowName ? t('dashboard', 'Time for lunch, {name}', { name: this.displayName }) : t('dashboard', 'Time for lunch') }
 			}
 			if (time > 5) {
-				return { icon: '🌄', text: shouldShowName ? t('dashboard', 'Good morning, {name}', { name: this.name }) : t('dashboard', 'Good morning') }
+				return { icon: '🌄', text: shouldShowName ? t('dashboard', 'Good morning, {name}', { name: this.displayName }) : t('dashboard', 'Good morning') }
 			}
-			return { icon: '🦉', text: shouldShowName ? t('dashboard', 'Have a night owl, {name}', { name: this.name }) : t('dashboard', 'Have a night owl') }
+			return { icon: '🦉', text: shouldShowName ? t('dashboard', 'Have a night owl, {name}', { name: this.displayName }) : t('dashboard', 'Have a night owl') }
 		},
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
@@ -120,6 +129,20 @@ export default {
 		callbacks() {
 			this.rerenderPanels()
 		},
+		callbacksStatus() {
+			for (const app in this.callbacksStatus) {
+				const element = this.$refs['status-' + app]
+				if (this.statuses[app] && this.statuses[app].mounted) {
+					continue
+				}
+				if (element) {
+					this.callbacksStatus[app](element[0])
+					Vue.set(this.statuses, app, { mounted: true })
+				} else {
+					console.error('Failed to register panel in the frontend as no backend data was provided for ' + app)
+				}
+			}
+		},
 	},
 	mounted() {
 		setInterval(() => {
@@ -135,6 +158,12 @@ export default {
 		 */
 		register(app, callback) {
 			Vue.set(this.callbacks, app, callback)
+		},
+		registerStatus(app, callback) {
+			this.registeredStatus.push(app)
+			this.$nextTick(() => {
+				Vue.set(this.callbacksStatus, app, callback)
+			})
 		},
 		rerenderPanels() {
 			for (const app in this.callbacks) {
@@ -153,7 +182,6 @@ export default {
 				}
 			}
 		},
-
 		saveLayout() {
 			axios.post(generateUrl('/apps/dashboard/layout'), {
 				layout: this.layout.join(','),
@@ -190,7 +218,7 @@ export default {
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
-		padding: 80px 16px 32px;
+		padding: 80px 16px 0px;
 	}
 
 	.panels {
@@ -303,6 +331,17 @@ export default {
 
 	.flip-list-move {
 		transition: transform 1s;
+	}
+
+	.statuses {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		margin-bottom: 40px;
+
+		& > div {
+			max-width: 200px;
+		}
 	}
 
 </style>

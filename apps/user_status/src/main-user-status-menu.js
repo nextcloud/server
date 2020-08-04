@@ -20,4 +20,20 @@ const app = new Vue({
 	store,
 }).$mount('li[data-id="user_status-menuitem"]')
 
+document.addEventListener('DOMContentLoaded', function() {
+	if (!OCA.Dashboard) {
+		return
+	}
+
+	OCA.Dashboard.registerStatus('status', (el) => {
+		const Dashboard = Vue.extend(App)
+		return new Dashboard({
+			propsData: {
+				inline: true,
+			},
+			store,
+		}).$mount(el)
+	})
+})
+
 export { app }

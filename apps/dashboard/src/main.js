@@ -8,4 +8,5 @@ const Instance = new Dashboard({}).$mount('#app')
 
 window.OCA.Dashboard = {
 	register: (app, callback) => Instance.register(app, callback),
+	registerStatus: (app, callback) => Instance.registerStatus(app, callback),
 }
