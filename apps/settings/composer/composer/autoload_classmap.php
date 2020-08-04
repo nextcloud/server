@@ -31,6 +31,7 @@ return array(
     'OCA\\Settings\\Hooks' => $baseDir . '/../lib/Hooks.php',
     'OCA\\Settings\\Mailer\\NewUserMailHelper' => $baseDir . '/../lib/Mailer/NewUserMailHelper.php',
     'OCA\\Settings\\Middleware\\SubadminMiddleware' => $baseDir . '/../lib/Middleware/SubadminMiddleware.php',
+    'OCA\\Settings\\Search\\AppSearch' => $baseDir . '/../lib/Search/AppSearch.php',
     'OCA\\Settings\\Search\\SectionSearch' => $baseDir . '/../lib/Search/SectionSearch.php',
     'OCA\\Settings\\Sections\\Admin\\Additional' => $baseDir . '/../lib/Sections/Admin/Additional.php',
     'OCA\\Settings\\Sections\\Admin\\Groupware' => $baseDir . '/../lib/Sections/Admin/Groupware.php',
