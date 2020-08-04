@@ -38,10 +38,13 @@ class SectionSearch implements IProvider {
 
 	/** @var IManager */
 	protected $settingsManager;
+
 	/** @var IGroupManager */
 	protected $groupManager;
+
 	/** @var IURLGenerator */
 	protected $urlGenerator;
+
 	/** @var IL10N */
 	protected $l;
 
@@ -121,10 +124,11 @@ class SectionSearch implements IProvider {
 				}
 
 				$result[] = new SectionResult(
-					$iconUrl,
+					'',
 					$section->getName(),
 					$subline,
-					$this->urlGenerator->linkToRouteAbsolute($routeName, ['section' => $section->getID()])
+					$this->urlGenerator->linkToRouteAbsolute($routeName, ['section' => $section->getID()]),
+					$iconUrl
 				);
 			}
 		}

@@ -6,18 +6,24 @@
 		}"
 		@click="reEmitEvent"
 		@focus="reEmitEvent">
+
 		<!-- Icon describing the result -->
 		<div class="unified-search__result-icon"
 			:class="{
 				'unified-search__result-icon--rounded': rounded,
 				'unified-search__result-icon--no-preview': !hasValidThumbnail && !loaded,
 				'unified-search__result-icon--with-thumbnail': hasValidThumbnail && loaded,
-				[iconClass]: true
+				[icon]: !loaded && !isIconUrl
+			}"
+			:style="{
+				backgroundImage: isIconUrl ? `url(${icon})` : ''
 			}"
 			role="img">
+
 			<img v-if="hasValidThumbnail"
+				v-show="loaded"
 				:src="thumbnailUrl"
-				:alt="t('core', 'Thumbnail for {result}', {result: title})"
+				alt=""
 				@error="onError"
 				@load="onLoad">
 		</div>
@@ -59,7 +65,7 @@ export default {
 			type: String,
 			default: null,
 		},
-		iconClass: {
+		icon: {
 			type: String,
 			default: '',
 		},
@@ -88,6 +94,24 @@ export default {
 			hasValidThumbnail: this.thumbnailUrl && this.thumbnailUrl.trim() !== '',
 			loaded: false,
 		}
+	},
+
+	computed: {
+		isIconUrl() {
+			// If we're facing an absolute url
+			if (this.icon.startsWith('/')) {
+				return true
+			}
+
+			// Otherwise, let's check if this is a valid url
+			try {
+				// eslint-disable-next-line no-new
+				new URL(this.icon)
+			} catch {
+				return false
+			}
+			return true
+		},
 	},
 
 	watch: {
@@ -148,6 +172,7 @@ $margin: 10px;
 		width: $clickable-area;
 		height: $clickable-area;
 		border-radius: var(--border-radius);
+		background-repeat: no-repeat;
 		background-position: center center;
 		background-size: 32px;
 		&--rounded {

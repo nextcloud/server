@@ -488,7 +488,7 @@ $input-padding: 6px;
 			margin: $margin;
 			margin-left: $margin + $input-padding;
 			content: attr(aria-label);
-			color: var(--color-primary);
+			color: var(--color-primary-element);
 		}
 	}
 
