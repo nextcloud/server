@@ -49,6 +49,10 @@ class TemplateResponse extends Response {
 	/**
 	 * @since 20.0.0
 	 */
+	public const RENDER_AS_BASE = 'base';
+	/**
+	 * @since 20.0.0
+	 */
 	public const RENDER_AS_USER = 'user';
 	/**
 	 * @since 20.0.0
@@ -188,6 +192,7 @@ class TemplateResponse extends Response {
 		} elseif (in_array($this->renderAs, [
 			self::RENDER_AS_GUEST,
 			self::RENDER_AS_BLANK,
+			self::RENDER_AS_BASE,
 			self::RENDER_AS_ERROR,
 			self::RENDER_AS_PUBLIC,
 			self::RENDER_AS_USER], true)) {
