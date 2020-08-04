@@ -29,7 +29,6 @@ use OC\Search\Provider\File;
 use OC\Search\Result\File as FileResult;
 use OCP\Files\IMimeTypeDetector;
 use OCP\IL10N;
-use OCP\IPreview;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\IProvider;
@@ -47,32 +46,43 @@ class FilesSearchProvider implements IProvider {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
-	/** @var IPreview */
-	private $preview;
-
 	/** @var IMimeTypeDetector */
 	private $mimeTypeDetector;
 
 	public function __construct(File $fileSearch,
 								IL10N $l10n,
 								IURLGenerator $urlGenerator,
-								IPreview $preview,
 								IMimeTypeDetector $mimeTypeDetector) {
 		$this->l10n = $l10n;
 		$this->fileSearch = $fileSearch;
 		$this->urlGenerator = $urlGenerator;
-		$this->preview = $preview;
 		$this->mimeTypeDetector = $mimeTypeDetector;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getId(): string {
 		return 'files';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getName(): string {
 		return $this->l10n->t('Files');
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function getOrder(): int {
+		return 5;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		return SearchResult::complete(
 			$this->l10n->t('Files'),

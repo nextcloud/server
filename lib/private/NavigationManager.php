@@ -79,12 +79,7 @@ class NavigationManager implements INavigationManager {
 	}
 
 	/**
-	 * Creates a new navigation entry
-	 *
-	 * @param array|\Closure $entry Array containing: id, name, order, icon and href key
-	 *					The use of a closure is preferred, because it will avoid
-	 * 					loading the routing of your app, unless required.
-	 * @return void
+	 * @inheritDoc
 	 */
 	public function add($entry) {
 		if ($entry instanceof \Closure) {
@@ -106,10 +101,7 @@ class NavigationManager implements INavigationManager {
 	}
 
 	/**
-	 * Get a list of navigation entries
-	 *
-	 * @param string $type type of the navigation entries
-	 * @return array
+	 * @inheritDoc
 	 */
 	public function getAll(string $type = 'link'): array {
 		$this->init();
@@ -171,19 +163,14 @@ class NavigationManager implements INavigationManager {
 	}
 
 	/**
-	 * Sets the current navigation entry of the currently running app
-	 * @param string $id of the app entry to activate (from added $entry)
+	 * @inheritDoc
 	 */
 	public function setActiveEntry($id) {
 		$this->activeEntry = $id;
 	}
 
 	/**
-	 * gets the active Menu entry
-	 * @return string id or empty string
-	 *
-	 * This function returns the id of the active navigation entry (set by
-	 * setActiveEntry
+	 * @inheritDoc
 	 */
 	public function getActiveEntry() {
 		return $this->activeEntry;

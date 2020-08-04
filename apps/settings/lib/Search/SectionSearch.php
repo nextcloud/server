@@ -74,6 +74,13 @@ class SectionSearch implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
+	public function getOrder(): int {
+		return 20;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		$isAdmin = $this->groupManager->isAdmin($user->getUID());
 
@@ -119,10 +126,10 @@ class SectionSearch implements IProvider {
 
 				/**
 				 * We can't use the icon URL at the moment as they don't invert correctly for dark theme
-				$iconUrl = '';
-				if ($section instanceof IIconSection) {
-					$iconUrl = $section->getIcon();
-				}
+				 * $iconUrl = '';
+				 * if ($section instanceof IIconSection) {
+				 * $iconUrl = $section->getIcon();
+				 * }
 				 */
 
 				$result[] = new SectionResult(

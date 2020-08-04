@@ -95,6 +95,13 @@ class ContactsSearchProvider implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
+	public function getOrder(): int {
+		return 7;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		if (!$this->appManager->isEnabledForUser('contacts', $user)) {
 			return SearchResult::complete($this->getName(), []);

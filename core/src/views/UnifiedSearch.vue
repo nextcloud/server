@@ -479,7 +479,14 @@ $input-padding: 6px;
 		height: 34px;
 		margin: $margin;
 		padding: $input-padding;
-		text-overflow: ellipsis;
+		&,
+		&[placeholder],
+		&::placeholder {
+			overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+		}
+
 	}
 
 	&__results {

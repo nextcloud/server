@@ -35,7 +35,7 @@ use OCP\Search\SearchResult;
 use function array_map;
 use function pathinfo;
 
-class Provider implements IProvider {
+class CommentsSearchProvider implements IProvider {
 
 	/** @var IUserManager */
 	private $userManager;
@@ -59,14 +59,30 @@ class Provider implements IProvider {
 		$this->legacyProvider = $legacyProvider;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getId(): string {
 		return 'comments';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getName(): string {
 		return $this->l10n->t('Comments');
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function getOrder(): int {
+		return 10;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		return SearchResult::complete(
 			$this->l10n->t('Comments'),

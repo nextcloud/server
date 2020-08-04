@@ -37,7 +37,7 @@ use OCA\Comments\Listener\LoadAdditionalScripts;
 use OCA\Comments\Listener\LoadSidebarScripts;
 use OCA\Comments\Notification\Notifier;
 use OCA\Comments\Search\LegacyProvider;
-use OCA\Comments\Search\Provider;
+use OCA\Comments\Search\CommentsSearchProvider;
 use OCA\Files\Event\LoadAdditionalScriptsEvent;
 use OCA\Files\Event\LoadSidebar;
 use OCP\AppFramework\App;
@@ -74,7 +74,7 @@ class Application extends App implements IBootstrap {
 			CommentsEntityEvent::EVENT_ENTITY,
 			CommentsEntityEventListener::class
 		);
-		$context->registerSearchProvider(Provider::class);
+		$context->registerSearchProvider(CommentsSearchProvider::class);
 	}
 
 	public function boot(IBootContext $context): void {
