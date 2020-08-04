@@ -26,13 +26,13 @@ namespace OCA\DAV\Tests\unit\Search;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Search\TasksSearchProvider;
-use OCA\DAV\Search\TasksSearchResultEntry;
 use OCP\App\IAppManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
+use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
@@ -276,28 +276,28 @@ class TasksSearchProviderTest extends TestCase {
 		$result2 = $data['entries'][2];
 		$result2Data = $result2->jsonSerialize();
 
-		$this->assertInstanceOf(TasksSearchResultEntry::class, $result0);
+		$this->assertInstanceOf(SearchResultEntry::class, $result0);
 		$this->assertEmpty($result0Data['thumbnailUrl']);
 		$this->assertEquals('Untitled task', $result0Data['title']);
 		$this->assertEquals('subline', $result0Data['subline']);
 		$this->assertEquals('deep-link-to-tasks', $result0Data['resourceUrl']);
-		$this->assertEquals('icon-checkmark', $result0Data['iconClass']);
+		$this->assertEquals('icon-checkmark', $result0Data['icon']);
 		$this->assertFalse($result0Data['rounded']);
 
-		$this->assertInstanceOf(TasksSearchResultEntry::class, $result1);
+		$this->assertInstanceOf(SearchResultEntry::class, $result1);
 		$this->assertEmpty($result1Data['thumbnailUrl']);
 		$this->assertEquals('Task title', $result1Data['title']);
 		$this->assertEquals('subline', $result1Data['subline']);
 		$this->assertEquals('deep-link-to-tasks', $result1Data['resourceUrl']);
-		$this->assertEquals('icon-checkmark', $result1Data['iconClass']);
+		$this->assertEquals('icon-checkmark', $result1Data['icon']);
 		$this->assertFalse($result1Data['rounded']);
 
-		$this->assertInstanceOf(TasksSearchResultEntry::class, $result2);
+		$this->assertInstanceOf(SearchResultEntry::class, $result2);
 		$this->assertEmpty($result2Data['thumbnailUrl']);
 		$this->assertEquals('Task title', $result2Data['title']);
 		$this->assertEquals('subline', $result2Data['subline']);
 		$this->assertEquals('deep-link-to-tasks', $result2Data['resourceUrl']);
-		$this->assertEquals('icon-checkmark', $result2Data['iconClass']);
+		$this->assertEquals('icon-checkmark', $result2Data['icon']);
 		$this->assertFalse($result2Data['rounded']);
 	}
 

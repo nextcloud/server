@@ -28,6 +28,8 @@ namespace OC\Search\Result;
 
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
+use OCP\IPreview;
+use OCP\IUserSession;
 
 /**
  * A found file
@@ -79,6 +81,14 @@ class File extends \OCP\Search\Result {
 	public $permissions;
 
 	/**
+	 * Has a preview
+	 *
+	 * @var string
+	 * @deprecated 20.0.0
+	 */
+	public $has_preview;
+
+	/**
 	 * Create a new file search result
 	 * @param FileInfo $data file data given by provider
 	 * @deprecated 20.0.0
@@ -101,6 +111,7 @@ class File extends \OCP\Search\Result {
 		$this->size = $data->getSize();
 		$this->modified = $data->getMtime();
 		$this->mime_type = $data->getMimetype();
+		$this->has_preview = $this->hasPreview($data);
 	}
 
 	/**
@@ -118,9 +129,21 @@ class File extends \OCP\Search\Result {
 	 */
 	protected function getRelativePath($path) {
 		if (!isset(self::$userFolderCache)) {
-			$user = \OC::$server->getUserSession()->getUser()->getUID();
-			self::$userFolderCache = \OC::$server->getUserFolder($user);
+			$userSession = \OC::$server->get(IUserSession::class);
+			$userID = $userSession->getUser()->getUID();
+			self::$userFolderCache = \OC::$server->getUserFolder($userID);
 		}
 		return self::$userFolderCache->getRelativePath($path);
+	}
+
+	/**
+	 * Is the preview available
+	 * @param FileInfo $data
+	 * @return bool
+	 * @deprecated 20.0.0
+	 */
+	protected function hasPreview($data) {
+		$previewManager = \OC::$server->get(IPreview::class);
+		return $previewManager->isAvailable($data);
 	}
 }

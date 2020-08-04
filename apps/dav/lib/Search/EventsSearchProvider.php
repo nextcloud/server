@@ -28,6 +28,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\IUser;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
+use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Component;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Property;
@@ -81,6 +82,13 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
+	public function getOrder(): int {
+		return 10;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function search(IUser $user,
 						   ISearchQuery $query): SearchResult {
 		if (!$this->appManager->isEnabledForUser('calendar', $user)) {
@@ -102,7 +110,7 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 				'offset' => $query->getCursor(),
 			]
 		);
-		$formattedResults = \array_map(function (array $eventRow) use ($calendarsById, $subscriptionsById):EventsSearchResultEntry {
+		$formattedResults = \array_map(function (array $eventRow) use ($calendarsById, $subscriptionsById):SearchResultEntry {
 			$component = $this->getPrimaryComponent($eventRow['calendardata'], self::$componentType);
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled event'));
 			$subline = $this->generateSubline($component);
@@ -114,7 +122,7 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 			}
 			$resourceUrl = $this->getDeepLinkToCalendarApp($calendar['principaluri'], $calendar['uri'], $eventRow['uri']);
 
-			return new EventsSearchResultEntry('', $title, $subline, $resourceUrl, 'icon-calendar-dark', false);
+			return new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-calendar-dark', false);
 		}, $searchResults);
 
 		return SearchResult::paginated(

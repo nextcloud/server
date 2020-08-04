@@ -38,7 +38,7 @@ final class SearchResult implements JsonSerializable {
 	/** @var bool */
 	private $isPaginated;
 
-	/** @var ASearchResultEntry[] */
+	/** @var SearchResultEntry[] */
 	private $entries;
 
 	/** @var int|string|null */
@@ -47,7 +47,7 @@ final class SearchResult implements JsonSerializable {
 	/**
 	 * @param string $name the translated name of the result section or group, e.g. "Mail"
 	 * @param bool $isPaginated
-	 * @param ASearchResultEntry[] $entries
+	 * @param SearchResultEntry[] $entries
 	 * @param null $cursor
 	 *
 	 * @since 20.0.0
@@ -63,7 +63,7 @@ final class SearchResult implements JsonSerializable {
 	}
 
 	/**
-	 * @param ASearchResultEntry[] $entries
+	 * @param SearchResultEntry[] $entries
 	 *
 	 * @return static
 	 *
@@ -78,7 +78,7 @@ final class SearchResult implements JsonSerializable {
 	}
 
 	/**
-	 * @param ASearchResultEntry[] $entries
+	 * @param SearchResultEntry[] $entries
 	 * @param int|string $cursor
 	 *
 	 * @return static

@@ -28,6 +28,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\IUser;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
+use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Component;
 
 /**
@@ -73,6 +74,13 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
+	public function getOrder(): int {
+		return 10;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function search(IUser $user,
 						   ISearchQuery $query): SearchResult {
 		if (!$this->appManager->isEnabledForUser('tasks', $user)) {
@@ -94,7 +102,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 				'offset' => $query->getCursor(),
 			]
 		);
-		$formattedResults = \array_map(function (array $taskRow) use ($calendarsById, $subscriptionsById):TasksSearchResultEntry {
+		$formattedResults = \array_map(function (array $taskRow) use ($calendarsById, $subscriptionsById):SearchResultEntry {
 			$component = $this->getPrimaryComponent($taskRow['calendardata'], self::$componentType);
 			$title = (string)($component->SUMMARY ?? $this->l10n->t('Untitled task'));
 			$subline = $this->generateSubline($component);
@@ -106,7 +114,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 			}
 			$resourceUrl = $this->getDeepLinkToTasksApp($calendar['uri'], $taskRow['uri']);
 
-			return new TasksSearchResultEntry('', $title, $subline, $resourceUrl, 'icon-checkmark', false);
+			return new SearchResultEntry('', $title, $subline, $resourceUrl, 'icon-checkmark', false);
 		}, $searchResults);
 
 		return SearchResult::paginated(

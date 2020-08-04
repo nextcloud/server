@@ -65,6 +65,16 @@ interface IProvider {
 	public function getName(): string;
 
 	/**
+	 * Get the search provider order
+	 * The lower the int, the higher it will be sorted (0 will be before 10)
+	 *
+	 * @return int
+	 *
+	 * @since 20.0.0
+	 */
+	public function getOrder(): int;
+
+	/**
 	 * Find matching search entries in an app
 	 *
 	 * Search results can either be a complete list of all the matches the app can

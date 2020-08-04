@@ -27,12 +27,14 @@ namespace OCA\Files\Search;
 
 use OC\Search\Provider\File;
 use OC\Search\Result\File as FileResult;
+use OCP\Files\IMimeTypeDetector;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
+use OCP\Search\SearchResultEntry;
 
 class FilesSearchProvider implements IProvider {
 
@@ -45,37 +47,58 @@ class FilesSearchProvider implements IProvider {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var IMimeTypeDetector */
+	private $mimeTypeDetector;
+
 	public function __construct(File $fileSearch,
 								IL10N $l10n,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								IMimeTypeDetector $mimeTypeDetector) {
 		$this->l10n = $l10n;
 		$this->fileSearch = $fileSearch;
 		$this->urlGenerator = $urlGenerator;
+		$this->mimeTypeDetector = $mimeTypeDetector;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getId(): string {
 		return 'files';
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function getName(): string {
 		return $this->l10n->t('Files');
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	public function getOrder(): int {
+		return 5;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
 		return SearchResult::complete(
 			$this->l10n->t('Files'),
 			array_map(function (FileResult $result) {
 				// Generate thumbnail url
-				$thumbnailUrl = $result->type === 'folder'
-					? ''
-					: $this->urlGenerator->linkToRoute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id]);
+				$thumbnailUrl = $result->has_preview
+					? $this->urlGenerator->linkToRoute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id])
+					: '';
 
-				return new FilesSearchResultEntry(
+				return new SearchResultEntry(
 					$thumbnailUrl,
 					$result->name,
 					$this->formatSubline($result),
 					$result->link,
-					$result->type === 'folder' ? 'icon-folder' : 'icon-filetype-file'
+					$result->type === 'folder' ? 'icon-folder' : $this->mimeTypeDetector->mimeTypeIcon($result->mime_type)
 				);
 			}, $this->fileSearch->search($query->getTerm()))
 		);

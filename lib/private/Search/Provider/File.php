@@ -39,7 +39,7 @@ class File extends \OCP\Search\Provider {
 	/**
 	 * Search for files and folders matching the given query
 	 * @param string $query
-	 * @return \OCP\Search\Result
+	 * @return \OCP\Search\Result[]
 	 * @deprecated 20.0.0
 	 */
 	public function search($query) {

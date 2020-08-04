@@ -107,22 +107,31 @@ class SearchComposer {
 
 	/**
 	 * Get a list of all provider IDs & Names for the consecutive calls to `search`
+	 * Sort the list by the order property
 	 *
 	 * @return array
 	 */
 	public function getProviders(): array {
 		$this->loadLazyProviders();
 
-		/**
-		 * Return an array with the IDs, but strip the associative keys
-		 */
-		return array_values(
+		$providers = array_values(
 			array_map(function (IProvider $provider) {
 				return [
 					'id' => $provider->getId(),
-					'name' => $provider->getName()
+					'name' => $provider->getName(),
+					'order' => $provider->getOrder()
 				];
-			}, $this->providers));
+			}, $this->providers)
+		);
+
+		usort($providers, function ($provider1, $provider2) {
+			return $provider1['order'] <=> $provider2['order'];
+		});
+
+		/**
+		 * Return an array with the IDs, but strip the associative keys
+		 */
+		return $providers;
 	}
 
 	/**

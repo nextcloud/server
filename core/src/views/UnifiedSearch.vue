@@ -27,7 +27,7 @@
 		@close="onClose">
 		<!-- Header icon -->
 		<template #trigger>
-			<span class="icon-search-white" />
+			<Magnify class="unified-search__trigger" :size="20" fill-color="var(--color-primary-text)" />
 		</template>
 
 		<!-- Search input -->
@@ -36,17 +36,20 @@
 				v-model="query"
 				class="unified-search__input"
 				type="search"
-				:placeholder="t('core', 'Search for {types} …', { types: typesNames.join(', ') })"
+				:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ').toLowerCase() })"
 				@input="onInputDebounced"
 				@keypress.enter.prevent.stop="onInputEnter">
 		</div>
 
-		<EmptyContent v-if="isLoading" icon="icon-loading">
-			{{ t('core', 'Searching …') }}
-		</EmptyContent>
+		<template v-if="!hasResults">
+			<!-- Loading placeholders -->
+			<ul v-if="isLoading">
+				<li v-for="placeholder in [1, 2, 3]" :key="placeholder">
+					<SearchResultPlaceholder />
+				</li>
+			</ul>
 
-		<template v-else-if="!hasResults">
-			<EmptyContent v-if="isValidQuery && isDoneSearching" icon="icon-search">
+			<EmptyContent v-else-if="isValidQuery && isDoneSearching" icon="icon-search">
 				{{ t('core', 'No results for {query}', {query}) }}
 			</EmptyContent>
 
@@ -64,7 +67,7 @@
 
 		<!-- Grouped search results -->
 		<template v-else>
-			<ul v-for="(list, type, typesIndex) in results"
+			<ul v-for="(list, type, typesIndex) in orderedResults"
 				:key="type"
 				class="unified-search__results"
 				:class="`unified-search__results-${type}`"
@@ -94,13 +97,14 @@
 </template>
 
 <script>
-import { getTypes, search, defaultLimit } from '../services/UnifiedSearchService'
+import { getTypes, search, defaultLimit, activeApp } from '../services/UnifiedSearchService'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-
+import Magnify from 'vue-material-design-icons/Magnify'
 import debounce from 'debounce'
 
 import HeaderMenu from '../components/HeaderMenu'
 import SearchResult from '../components/UnifiedSearch/SearchResult'
+import SearchResultPlaceholder from '../components/UnifiedSearch/SearchResultPlaceholder'
 
 const minSearchLength = 2
 
@@ -110,7 +114,9 @@ export default {
 	components: {
 		EmptyContent,
 		HeaderMenu,
+		Magnify,
 		SearchResult,
+		SearchResultPlaceholder,
 	},
 
 	data() {
@@ -126,6 +132,7 @@ export default {
 			query: '',
 			focused: null,
 
+			activeApp,
 			defaultLimit,
 			minSearchLength,
 
@@ -156,6 +163,32 @@ export default {
 		},
 
 		/**
+		 * Order results by putting the active app first
+		 * @returns {Object}
+		 */
+		orderedResults() {
+			const ordered = {}
+			Object.keys(this.results)
+				.sort((a, b) => {
+					if (a.startsWith(activeApp) && b.startsWith(activeApp)) {
+						return this.typesMap[a].order - this.typesMap[b].order
+					}
+					if (a.startsWith(activeApp)) {
+						return -1
+					}
+					if (b.startsWith(activeApp)) {
+						return 1
+					}
+					return 0
+				})
+				.forEach(type => {
+					ordered[type] = this.results[type]
+				})
+
+			return ordered
+		},
+
+		/**
 		 * Is the current search too short
 		 * @returns {boolean}
 		 */
@@ -176,7 +209,7 @@ export default {
 		 * @returns {boolean}
 		 */
 		isDoneSearching() {
-			return Object.values(this.reached).indexOf(false) === -1
+			return Object.values(this.reached).every(state => state === false)
 		},
 
 		/**
@@ -184,7 +217,7 @@ export default {
 		 * @returns {boolean}
 		 */
 		isLoading() {
-			return Object.values(this.loading).indexOf(true) !== -1
+			return Object.values(this.loading).some(state => state === true)
 		},
 	},
 
@@ -465,6 +498,11 @@ $margin: 10px;
 $input-padding: 6px;
 
 .unified-search {
+	&__trigger {
+		width: 20px;
+		height: 20px;
+	}
+
 	&__input-wrapper {
 		position: sticky;
 		// above search results
@@ -479,7 +517,14 @@ $input-padding: 6px;
 		height: 34px;
 		margin: $margin;
 		padding: $input-padding;
-		text-overflow: ellipsis;
+		&,
+		&[placeholder],
+		&::placeholder {
+			overflow: hidden;
+			text-overflow:ellipsis;
+			white-space: nowrap;
+		}
+
 	}
 
 	&__results {
@@ -488,7 +533,7 @@ $input-padding: 6px;
 			margin: $margin;
 			margin-left: $margin + $input-padding;
 			content: attr(aria-label);
-			color: var(--color-primary);
+			color: var(--color-primary-element);
 		}
 	}
 

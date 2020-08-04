@@ -30,7 +30,7 @@ use OCP\IUser;
 use OCP\Search\IProvider;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
-use OCP\Settings\IIconSection;
+use OCP\Search\SearchResultEntry;
 use OCP\Settings\ISection;
 use OCP\Settings\IManager;
 
@@ -38,10 +38,13 @@ class SectionSearch implements IProvider {
 
 	/** @var IManager */
 	protected $settingsManager;
+
 	/** @var IGroupManager */
 	protected $groupManager;
+
 	/** @var IURLGenerator */
 	protected $urlGenerator;
+
 	/** @var IL10N */
 	protected $l;
 
@@ -67,6 +70,13 @@ class SectionSearch implements IProvider {
 	 */
 	public function getName(): string {
 		return $this->l->t('Settings');
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getOrder(): int {
+		return 20;
 	}
 
 	/**
@@ -115,16 +125,20 @@ class SectionSearch implements IProvider {
 					continue;
 				}
 
-				$iconUrl = '';
-				if ($section instanceof IIconSection) {
-					$iconUrl = $section->getIcon();
-				}
+				/**
+				 * We can't use the icon URL at the moment as they don't invert correctly for dark theme
+				 * $iconUrl = '';
+				 * if ($section instanceof IIconSection) {
+				 * $iconUrl = $section->getIcon();
+				 * }
+				 */
 
-				$result[] = new SectionResult(
-					$iconUrl,
+				$result[] = new SearchResultEntry(
+					'',
 					$section->getName(),
 					$subline,
-					$this->urlGenerator->linkToRouteAbsolute($routeName, ['section' => $section->getID()])
+					$this->urlGenerator->linkToRouteAbsolute($routeName, ['section' => $section->getID()]),
+					'icon-settings'
 				);
 			}
 		}
