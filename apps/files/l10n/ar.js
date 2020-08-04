@@ -98,6 +98,7 @@ OC.L10N.register(
     "Unlimited" : "غير محدود",
     "Upload (max. %s)" : "الرفع ( حد اقصى. %s ) ",
     "Accept" : "قبول",
+    "in %s" : "في %s",
     "File Management" : "إدارة الملفات",
     "Transfer ownership of a file or folder" : "تحويل ملكية ملف أو مجلد",
     "Cannot transfer ownership of a file or folder you don't own" : "لا يمكنك تحويل ملكية ملف أو مجلد ليس ملكك",

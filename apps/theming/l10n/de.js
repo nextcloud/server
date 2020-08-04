@@ -42,7 +42,7 @@ OC.L10N.register(
     "Upload new logo" : "Neues Logo hochladen",
     "Login image" : "Anmeldebild",
     "Upload new login background" : "Neuen Anmelde-Hintergrund hochladen",
-    "Remove background image" : "Entferne Hintergrundbild",
+    "Remove background image" : "Hintergrundbild entfernen",
     "Advanced options" : "Erweiterte Optionen",
     "Legal notice link" : "Link zum Impressum",
     "Privacy policy link" : "Link zur Datenschutzerklärung",

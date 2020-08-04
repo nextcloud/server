@@ -211,8 +211,6 @@ OC.L10N.register(
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "ეს აპლიკაცია სწორი ოპერაციისთვის საჭიროებს JavaScript-ს. გთხოვთ {linkstart}ჩართოთ JavaScript-ი{linkend} და გადატვირთოთ გვერდი.",
     "More apps" : "მეტი აპლიკაცია",
     "More" : "მეტი",
-    "Search" : "ძებნა",
-    "Reset search" : "ძიების შედეგები",
     "Contacts" : "კონტაქტები",
     "Confirm your password" : "დაადასტურეთ თქვენი პაროლი",
     "App token" : "აპლიკაციის ტოკენი",
@@ -299,6 +297,8 @@ OC.L10N.register(
     "Error removing share" : "გაზიარების გაუქმებისას წარმოიშვა შეცდომა",
     "({scope})" : "({scope})",
     "Saving..." : "შენახვა...",
+    "Search" : "ძებნა",
+    "Reset search" : "ძიების შედეგები",
     "Cancel log in" : "ავტორიზაციის შეჩერება",
     "These apps will be updated:" : "ეს აპლიკაციები განახლდება:"
 },

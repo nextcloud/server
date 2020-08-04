@@ -136,6 +136,7 @@ OC.L10N.register(
     "Unlimited" : "Nelimitată",
     "Upload (max. %s)" : "Încarcă (max. %s)",
     "Accept" : "Accept",
+    "in %s" : "în %s",
     "File Management" : "Management fișiere",
     "Tags" : "Etichete",
     "%s used" : "%s folosiți",

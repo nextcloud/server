@@ -147,6 +147,7 @@ OC.L10N.register(
     "Ownership transfer done" : "所有權轉移完成",
     "Your ownership transfer of {path} to {user} has completed." : "您將 \"{path}\" 的所有權轉移給 {user} 已經完成",
     "The ownership transfer of {path} from {user} has completed." : "來自 {user} 的 \"{path}\" 所有權轉移已經完成",
+    "in %s" : "在 %s",
     "File Management" : "檔案管理",
     "Transfer ownership of a file or folder" : "轉移檔案或是資料夾的所有權",
     "Choose file or folder to transfer" : "選擇要轉移的檔案或資料夾",

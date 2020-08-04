@@ -110,6 +110,7 @@ OC.L10N.register(
     "Unlimited" : "E palimituar",
     "Upload (max. %s)" : "Ngarkim (max. %s)",
     "Accept" : "Prano",
+    "in %s" : "në %s",
     "Change" : "Ndrysho",
     "Tags" : "Etiketë",
     "%s used" : "%s të përdorura",

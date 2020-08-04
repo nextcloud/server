@@ -145,6 +145,7 @@
     "Ownership transfer done" : "Transfer kepemilikan selesai",
     "Your ownership transfer of {path} to {user} has completed." : "Transfer kepemilikan Anda pada {path} ke {user} selesai.",
     "The ownership transfer of {path} from {user} has completed." : "Transfer kepemilikan pada {path} dari {user} selesai.",
+    "in %s" : "dalam %s",
     "File Management" : "Pengelolaan Berkas",
     "Transfer ownership of a file or folder" : "Transfer kepemilikan dari berkas atau folder",
     "Choose file or folder to transfer" : "Pilih berkas atau folder untuk transfer",

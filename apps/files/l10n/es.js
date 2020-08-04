@@ -148,6 +148,7 @@ OC.L10N.register(
     "Ownership transfer done" : "Transferencia de propiedad realizada",
     "Your ownership transfer of {path} to {user} has completed." : "Se ha completado su transferencia de propiedad de {path} a {user}.",
     "The ownership transfer of {path} from {user} has completed." : "Se ha completado la transferencia de propiedad de {path} a {user}.",
+    "in %s" : "en %s",
     "File Management" : "Gestión de archivos",
     "Transfer ownership of a file or folder" : "Transferir la propiedad de un archivo o carpeta",
     "Choose file or folder to transfer" : "Elegir archivo o carpeta para transferir",

@@ -148,6 +148,7 @@ OC.L10N.register(
     "Ownership transfer done" : "Sahiplik aktarıldı",
     "Your ownership transfer of {path} to {user} has completed." : "{path} yolundaki sahipliğiniz {user} kullanıcısına aktarıldı.",
     "The ownership transfer of {path} from {user} has completed." : "{path} yolundaki {user} kullanıcısının sahipliği size aktarıldı.",
+    "in %s" : "%s içinde",
     "File Management" : "Dosya Yönetimi",
     "Transfer ownership of a file or folder" : "Bir dosya ya da klasörün sahipliğini aktar",
     "Choose file or folder to transfer" : "Sahipliği aktarılacak dosya ya da klasörü seçin",

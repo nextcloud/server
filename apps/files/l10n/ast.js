@@ -94,6 +94,7 @@ OC.L10N.register(
     "Unlimited" : "Non llendáu",
     "Upload (max. %s)" : "Xuba (máx. %s)",
     "Accept" : "Aceutar",
+    "in %s" : "en %s",
     "Change" : "Camudar",
     "Tags" : "Etiquetes",
     "%1$s of %2$s used" : "%1$s de %2$s usao",

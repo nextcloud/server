@@ -138,6 +138,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Alŝuti (maks. %s)",
     "Accept" : "Akcepti",
     "Reject" : "Rifuzi",
+    "in %s" : "en %s",
     "File Management" : "Dosieradministrado",
     "Change" : "Ŝanĝi",
     "Tags" : "Etikedoj",

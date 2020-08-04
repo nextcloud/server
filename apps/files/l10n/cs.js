@@ -148,6 +148,7 @@ OC.L10N.register(
     "Ownership transfer done" : "Převedení vlastnictví dokončeno",
     "Your ownership transfer of {path} to {user} has completed." : "Převedení vámi vlastněného {path} na {user} dokončeno.",
     "The ownership transfer of {path} from {user} has completed." : "Převedení vlastnictví {path} od {user} dokončeno.",
+    "in %s" : "v %s",
     "File Management" : "Správa souboru",
     "Transfer ownership of a file or folder" : "Převést vlastnictví souboru či složky",
     "Choose file or folder to transfer" : "Zvolte soubor nebo složku k převedení",

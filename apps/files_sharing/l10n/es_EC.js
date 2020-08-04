@@ -108,6 +108,7 @@ OC.L10N.register(
     "Allow upload and editing" : "Permitir carga y edición",
     "File drop (upload only)" : "Permitir carga",
     "Password protect" : "Proteger con contraseña",
+    "Add another link" : "Agregar otro enlace",
     "Share link" : "Compartir enlace",
     "Resharing is not allowed" : "No se permite volver a compartir",
     "Shared" : "Compartido",
