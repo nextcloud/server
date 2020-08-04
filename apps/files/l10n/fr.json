@@ -146,6 +146,7 @@
     "Ownership transfer done" : "Transfert de propriétaire terminé",
     "Your ownership transfer of {path} to {user} has completed." : "Votre transfert de propriété de {path} à {user} est terminé.",
     "The ownership transfer of {path} from {user} has completed." : "Le transfert de propriété de {path} de {user} est terminé.",
+    "in %s" : "dans %s",
     "File Management" : "Gestion de fichier",
     "Transfer ownership of a file or folder" : "Transférer la propriété d'un fichier ou d'un dossier",
     "Choose file or folder to transfer" : "Sélectionnez un fichier ou un dossier à transférer",

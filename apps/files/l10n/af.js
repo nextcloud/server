@@ -116,6 +116,7 @@ OC.L10N.register(
     "All files" : "Alle lêers",
     "Unlimited" : "Onbeperkte",
     "Upload (max. %s)" : "Oplaai (maks. %s)",
+    "in %s" : "in %s",
     "File Management" : "Lêerbestuur",
     "Tags" : "Merkers",
     "%s used" : "%s gebruik",

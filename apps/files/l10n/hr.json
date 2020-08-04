@@ -145,6 +145,7 @@
     "Ownership transfer done" : "Prijenos vlasništva je završen",
     "Your ownership transfer of {path} to {user} has completed." : "Vaš prijenos vlasništva {path} na {user} je završen.",
     "The ownership transfer of {path} from {user} has completed." : "Prijenos vlasništva {path} od {user} je završen.",
+    "in %s" : "za %s",
     "File Management" : "Upravljanje datotekama",
     "Transfer ownership of a file or folder" : "Prenesi vlasništvo nad datotekom ili mapom",
     "Choose file or folder to transfer" : "Odaberite datoteku ili mapu za prijenos",

@@ -129,6 +129,7 @@ OC.L10N.register(
     "Accept" : "Приемане",
     "Reject" : "Откажи",
     "Ownership transfer done" : "Промяната на собственик е успешна",
+    "in %s" : "в %s",
     "File Management" : "Управление на файлове",
     "Change" : "Промени",
     "New owner" : "Нов собственик",

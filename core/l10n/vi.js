@@ -189,8 +189,6 @@ OC.L10N.register(
     "More apps" : "Thêm ứng dụng",
     "More" : "hơn",
     "More apps menu" : "Nhiều trình đơn ứng dụng hơn",
-    "Search" : "Tìm kiếm",
-    "Reset search" : "Đặt lại tìm kiếm",
     "Contacts" : "Liên hệ",
     "Contacts menu" : "Trình đơn liên hệ",
     "Settings menu" : "Trình đơn thiết lập",
@@ -283,6 +281,8 @@ OC.L10N.register(
     "Error removing share" : "Lỗi khi xóa chia sẻ",
     "({scope})" : "({scope})",
     "Saving..." : "Đang lưu...",
+    "Search" : "Tìm kiếm",
+    "Reset search" : "Đặt lại tìm kiếm",
     "Cancel log in" : "Hủy đăng nhập",
     "These apps will be updated:" : "Những ứng dụng sẽ được cập nhật:"
 },

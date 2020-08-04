@@ -135,6 +135,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "Upload (max. %s)",
     "Accept" : "Accepter",
     "Reject" : "Afvis",
+    "in %s" : "i %s",
     "File Management" : "Filhåndtering",
     "Choose file or folder to transfer" : "Vælg fil eller mappe til overførsel",
     "Change" : "Ændr",

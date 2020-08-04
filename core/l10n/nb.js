@@ -275,8 +275,6 @@ OC.L10N.register(
     "More apps" : "Flere apper",
     "More" : "Mer",
     "More apps menu" : "Flere apper-meny",
-    "Search" : "Søk",
-    "Reset search" : "Tilbakestill søk",
     "Contacts" : "Kontakter",
     "Contacts menu" : "Kontakter meny",
     "Settings menu" : "Meny for innstillinger",
@@ -403,6 +401,8 @@ OC.L10N.register(
     "Error removing share" : "Feil ved fjerning av deling",
     "({scope})" : "({scope})",
     "Saving..." : "Lagrer …",
+    "Search" : "Søk",
+    "Reset search" : "Tilbakestill søk",
     "Cancel log in" : "Avbryt innlogging",
     "These apps will be updated:" : "Disse appene vil bli oppdatert:"
 },

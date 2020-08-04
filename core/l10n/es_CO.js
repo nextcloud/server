@@ -214,8 +214,6 @@ OC.L10N.register(
     "More apps" : "Más aplicaciones",
     "More" : "Más",
     "More apps menu" : "Menú de más aplicaciones",
-    "Search" : "Buscar",
-    "Reset search" : "Reestablecer búsqueda",
     "Contacts" : "Contactos",
     "Contacts menu" : "Menú de Contactos",
     "Settings menu" : "Menú de Configuraciones",
@@ -307,6 +305,8 @@ OC.L10N.register(
     "Error removing share" : "Se presentó un error al dejar de compartir",
     "({scope})" : "({scope})",
     "Saving..." : "Guardando...",
+    "Search" : "Buscar",
+    "Reset search" : "Reestablecer búsqueda",
     "Cancel log in" : "Cancelar inicio de sesión",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
 },

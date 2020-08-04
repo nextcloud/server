@@ -275,8 +275,6 @@ OC.L10N.register(
     "More apps" : "Pli da aplikaĵoj",
     "More" : "Pli",
     "More apps menu" : "Menuo „Pli da aplikaĵoj“",
-    "Search" : "Serĉi",
-    "Reset search" : "Restarigi serĉon",
     "Contacts" : "Kontaktoj",
     "Contacts menu" : "Menuo de kontaktoj",
     "Settings menu" : "Menuo de agordo",
@@ -405,6 +403,8 @@ OC.L10N.register(
     "Error removing share" : "Eraro dum forigo de kunhavigo",
     "({scope})" : "({scope})",
     "Saving..." : "Konservado...",
+    "Search" : "Serĉi",
+    "Reset search" : "Restarigi serĉon",
     "Your client should now be connected! You can close this window." : "Via kliento estas konektita! Vi povas fermi tiun fenestron.",
     "Cancel log in" : "Nuligi ensaluton",
     "These apps will be updated:" : "La jenajn aplikaĵoj ĝisdatiĝos:"

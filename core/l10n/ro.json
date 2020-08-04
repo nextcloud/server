@@ -210,8 +210,6 @@
     "More apps" : "Mai multe aplicatii",
     "More" : "Mai mult",
     "More apps menu" : "Meniu mai multe aplicații",
-    "Search" : "Căutare",
-    "Reset search" : "Resetează căutarea",
     "Contacts" : "Contacte",
     "Contacts menu" : "Meniu contacte",
     "Settings menu" : "Meniul Setări",
@@ -328,6 +326,8 @@
     "Error removing share" : "Eroare la înlăturarea elementului partajat",
     "({scope})" : "({scope})",
     "Saving..." : "Se salvează...",
+    "Search" : "Căutare",
+    "Reset search" : "Resetează căutarea",
     "Cancel log in" : "Anulează conectarea",
     "These apps will be updated:" : "Aceste aplicații vor fi actualizate:"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"

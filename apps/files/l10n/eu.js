@@ -147,6 +147,7 @@ OC.L10N.register(
     "Ownership transfer done" : "Jabetzaren transferentzia egina",
     "Your ownership transfer of {path} to {user} has completed." : "{path}-ren jabetza {user} erabiltzaileari transferitzea osatu da.",
     "The ownership transfer of {path} from {user} has completed." : "{path}-ren jabetza {user} erabiltzailetik transferitzea osatu da.",
+    "in %s" : "%s-an",
     "File Management" : "Fitxategi-kudeaketa",
     "Transfer ownership of a file or folder" : "Transferitu fitxategiaren edo karpetaren jabetza",
     "Choose file or folder to transfer" : "Aukeratu fitxategia edo karpeta transferitzeko",

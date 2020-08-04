@@ -146,6 +146,7 @@
     "Ownership transfer done" : "所有权转移完成",
     "Your ownership transfer of {path} to {user} has completed." : "您的{path}向{user}的所有权转移已完成。",
     "The ownership transfer of {path} from {user} has completed." : "来自{user}的{path}的所有权转移已完成。",
+    "in %s" : "在 %s",
     "File Management" : "文件管理",
     "Transfer ownership of a file or folder" : "转移文件或文件夹的所有权",
     "Choose file or folder to transfer" : "选择要转移的文件或文件夹",

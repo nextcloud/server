@@ -146,6 +146,7 @@
     "Ownership transfer done" : "Передача владения завершена",
     "Your ownership transfer of {path} to {user} has completed." : "Завершена передача владения «{path}» от вас пользователю {user}.",
     "The ownership transfer of {path} from {user} has completed." : "Завершена передача владения «{path}» от пользователя {user}.",
+    "in %s" : "в %s",
     "File Management" : "Управление файлами",
     "Transfer ownership of a file or folder" : "Изменение владельца файла или папки",
     "Choose file or folder to transfer" : "Выберите файл или папку для передачи владения",

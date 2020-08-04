@@ -135,6 +135,7 @@ OC.L10N.register(
     "Unlimited" : "Ubegrenset",
     "Upload (max. %s)" : "Opplasting (maks %s)",
     "Accept" : "Aksepter",
+    "in %s" : "om %s",
     "File Management" : "Filbehandling",
     "Change" : "Endre",
     "Tags" : "Merkelapper",

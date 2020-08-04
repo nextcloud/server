@@ -129,6 +129,7 @@ OC.L10N.register(
     "Upload (max. %s)" : "업로드(최대 %s)",
     "Accept" : "수락",
     "Reject" : "거절",
+    "in %s" : "%s",
     "Change" : "변경",
     "Tags" : "태그",
     "%s used" : "%s 사용함",

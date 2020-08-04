@@ -85,6 +85,7 @@
     "Cancel" : "Отказ",
     "Forgot password?" : "Забравена парола?",
     "Back" : "Назад",
+    "Searching …" : "Търсене ...",
     "Settings" : "Настройки",
     "Could not load your contacts" : "Контактите не могат да бъдат заредени",
     "Search contacts …" : "Търсене в контактите ...",
@@ -194,8 +195,6 @@
     "This application requires JavaScript for correct operation. Please {linkstart}enable JavaScript{linkend} and reload the page." : "Приложението изисква JavaScript. Моля, {linkstart}включете JavaScript{linkend} и презаредете страницата.",
     "More apps" : "Още приложения",
     "More" : "Още",
-    "Search" : "Търсене",
-    "Reset search" : "Рестартирай търсенето",
     "Contacts" : "Контакти",
     "Contacts menu" : "Контакти",
     "Settings menu" : "Настройки",
@@ -297,6 +296,8 @@
     "Error removing share" : "Грешка при изриване на споделяне",
     "({scope})" : "({scope})",
     "Saving..." : "Запазване...",
+    "Search" : "Търсене",
+    "Reset search" : "Рестартирай търсенето",
     "Cancel log in" : "Откажи вписването",
     "These apps will be updated:" : "Следните добавки ще бъдат актуализирани:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

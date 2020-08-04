@@ -145,6 +145,7 @@
     "Ownership transfer done" : "所有権の譲渡が完了しました",
     "Your ownership transfer of {path} to {user} has completed." : "{user} への {path} の所有権転送が完了しました。",
     "The ownership transfer of {path} from {user} has completed." : "{user} からの {path} の所有権転送が完了しました。",
+    "in %s" : "%s で",
     "File Management" : "ファイル管理",
     "Transfer ownership of a file or folder" : "ファイルまたはフォルダーの所有権を譲渡する",
     "Choose file or folder to transfer" : "譲渡するファイルまたはフォルダを選択してください",

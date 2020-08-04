@@ -148,6 +148,7 @@ OC.L10N.register(
     "Ownership transfer done" : "Пренос власништва завршен",
     "Your ownership transfer of {path} to {user} has completed." : "Ваш пренос власништва {path} на корисника {user} завршен.",
     "The ownership transfer of {path} from {user} has completed." : "Пренос власништва {path} на корисника {user} завршен.",
+    "in %s" : "за %s",
     "File Management" : "Управљање фајловима",
     "Transfer ownership of a file or folder" : "Пренеси власништво фајла или фасцикле",
     "Choose file or folder to transfer" : "Одаберите фајл или фасциклу за пренос",
