@@ -314,7 +314,7 @@ export default {
 
 		& > .panel--content {
 			margin: 0 16px 16px 16px;
-			height: 445px;
+			height: 420px;
 			overflow: auto;
 		}
 	}
