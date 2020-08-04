@@ -78,7 +78,7 @@ class DashboardController extends Controller {
 	public function index(): TemplateResponse {
 		$this->eventDispatcher->dispatchTyped(new RegisterPanelEvent($this->dashboardManager));
 
-		$userLayout = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', 'calendar,recommendations,spreed,mail'));
+		$userLayout = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', 'recommendations,spreed,mail,calendar'));
 		$panels = array_map(function (IPanel $panel) {
 			return [
 				'id' => $panel->getId(),
