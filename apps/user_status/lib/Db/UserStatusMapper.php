@@ -85,6 +85,20 @@ class UserStatusMapper extends QBMapper {
 	}
 
 	/**
+	 * @param array $userIds
+	 * @return array
+	 */
+	public function findByUserIds(array $userIds):array {
+		$qb = $this->db->getQueryBuilder();
+		$qb
+			->select('*')
+			->from($this->tableName)
+			->where($qb->expr()->in('user_id', $qb->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)));
+
+		return $this->findEntities($qb);
+	}
+
+	/**
 	 * Clear all statuses older than a given timestamp
 	 *
 	 * @param int $timestamp
