@@ -21,9 +21,11 @@
 .actions input, .actions button, .actions .button { margin:0; float:left; }
 .actions .button a { color: #555; }
 .actions .button a:hover,
-.actions .button a:focus,
+.actions .button a:focus {
+	background-color: var(--color-background-hover);
+}
 .actions .button a:active {
-	color: #333;
+	background-color: var(--color-primary-light);
 }
 
 .actions.creatable {
@@ -107,14 +109,12 @@
 }
 
 .app-files #app-content {
-	transition: background-color 0.3s ease;
 	// force  the width to be the full width to not go bigger than the screen
 	// flex will grow for the mobile view if necessary
 	width: calc(100% - 300px);
 }
 
 .file-drag, .file-drag #filestable tbody tr, .file-drag #filestable tbody tr:hover {
-	transition: background-color 0.3s ease!important;
 	background-color: var(--color-primary-light) !important;
 }
 
@@ -186,22 +186,23 @@
 }
 
 #filestable tbody tr {
-	transition: background-color 0.3s ease;
 	height: 51px;
 }
 #filestable tbody tr:hover,
 #filestable tbody tr:focus,
 #filestable tbody .name:focus,
+#filestable tbody tr:hover .filename form,
+table tr.mouseOver td {
+	background-color: var(--color-background-hover);
+}
 #filestable tbody tr:active,
 #filestable tbody tr.highlighted,
 #filestable tbody tr.highlighted .name:focus,
 #filestable tbody tr.selected,
-#filestable tbody tr.searchresult,
-#filestable tbody tr:hover .filename form,
-table tr.mouseOver td {
-	transition: background-color 0.3s ease;
-	background-color: var(--color-background-dark);
+#filestable tbody tr.searchresult {
+	background-color: var(--color-primary-light);
 }
+
 tbody a { color: var(--color-main-text); }
 
 span.conflict-path, span.extension, span.uploading, td.date {
@@ -625,6 +626,9 @@ a.action > img {
 	.fileActionsMenu a.action, a.action.action-share.shared-style {
 		opacity: .7;
 	}
+	.fileActionsMenu .action.permanent {
+		opacity: 1;
+	}
 }
 
 // Ellipsize long sharer names
@@ -878,8 +882,7 @@ table.dragshadow td.size {
 				.thumbnail-wrapper,
 				.nametext,
 				.fileactions {
-					transition: background-color 0.3s ease;
-					background-color: var(--color-background-dark);
+					background-color: var(--color-background-hover);
 				}
 			}
 		}

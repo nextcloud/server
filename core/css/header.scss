@@ -135,16 +135,16 @@
 					color: var(--color-main-text);
 					padding: 10px 12px;
 					box-sizing: border-box;
-					opacity: .7;
 					white-space: nowrap;
 					position: relative;
 					width: 100%;
 					&:hover,
-					&:focus,
+					&:focus {
+						background-color: var(--color-background-hover);
+					}
 					&:active,
 					&.active {
-						opacity: 1;
-						box-shadow: inset 4px 0 var(--color-primary-element);
+						background-color: var(--color-primary-light);
 					}
 					span {
 						display: inline-block;
