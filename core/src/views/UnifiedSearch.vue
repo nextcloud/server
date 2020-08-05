@@ -67,7 +67,7 @@
 
 		<!-- Grouped search results -->
 		<template v-else>
-			<ul v-for="(list, type, typesIndex) in orderedResults"
+			<ul v-for="({list, type}, typesIndex) in orderedResults"
 				:key="type"
 				class="unified-search__results"
 				:class="`unified-search__results-${type}`"
@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { getTypes, search, defaultLimit, activeApp } from '../services/UnifiedSearchService'
+import { minSearchLength, getTypes, search, defaultLimit } from '../services/UnifiedSearchService'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import Magnify from 'vue-material-design-icons/Magnify'
 import debounce from 'debounce'
@@ -105,8 +105,6 @@ import debounce from 'debounce'
 import HeaderMenu from '../components/HeaderMenu'
 import SearchResult from '../components/UnifiedSearch/SearchResult'
 import SearchResultPlaceholder from '../components/UnifiedSearch/SearchResultPlaceholder'
-
-const minSearchLength = 2
 
 export default {
 	name: 'UnifiedSearch',
@@ -132,7 +130,6 @@ export default {
 			query: '',
 			focused: null,
 
-			activeApp,
 			defaultLimit,
 			minSearchLength,
 
@@ -163,29 +160,16 @@ export default {
 		},
 
 		/**
-		 * Order results by putting the active app first
+		 * Return ordered results
 		 * @returns {Object}
 		 */
 		orderedResults() {
-			const ordered = {}
-			Object.keys(this.results)
-				.sort((a, b) => {
-					if (a.startsWith(activeApp) && b.startsWith(activeApp)) {
-						return this.typesMap[a].order - this.typesMap[b].order
-					}
-					if (a.startsWith(activeApp)) {
-						return -1
-					}
-					if (b.startsWith(activeApp)) {
-						return 1
-					}
-					return 0
-				})
-				.forEach(type => {
-					ordered[type] = this.results[type]
-				})
-
-			return ordered
+			return Object.values(this.typesIDs)
+				.filter(type => type in this.results)
+				.map(type => ({
+					type,
+					list: this.results[type],
+				}))
 		},
 
 		/**
@@ -401,10 +385,10 @@ export default {
 		 * @returns {Array}
 		 */
 		limitIfAny(list, type) {
-			if (!this.limits[type]) {
-				return list
+			if (type in this.limits) {
+				return list.slice(0, this.limits[type])
 			}
-			return list.slice(0, this.limits[type])
+			return list
 		},
 
 		getResultsList() {

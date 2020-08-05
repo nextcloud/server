@@ -42,20 +42,32 @@ class SearchQuery implements ISearchQuery {
 	/** @var int|string|null */
 	private $cursor;
 
+	/** @var string */
+	private $route;
+
+	/** @var array */
+	private $routeParameters;
+
 	/**
 	 * @param string $term
 	 * @param int $sortOrder
 	 * @param int $limit
 	 * @param int|string|null $cursor
+	 * @param string $route
+	 * @param array $routeParameters
 	 */
 	public function __construct(string $term,
 								int $sortOrder = ISearchQuery::SORT_DATE_DESC,
 								int $limit = self::LIMIT_DEFAULT,
-								$cursor = null) {
+								$cursor = null,
+								string $route = '',
+								array $routeParameters = []) {
 		$this->term = $term;
 		$this->sortOrder = $sortOrder;
 		$this->limit = $limit;
 		$this->cursor = $cursor;
+		$this->route = $route;
+		$this->routeParameters = $routeParameters;
 	}
 
 	/**
@@ -84,5 +96,19 @@ class SearchQuery implements ISearchQuery {
 	 */
 	public function getCursor() {
 		return $this->cursor;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getRoute(): string {
+		return $this->route;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getRouteParameters(): array {
+		return $this->routeParameters;
 	}
 }

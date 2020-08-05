@@ -77,7 +77,11 @@ class CommentsSearchProvider implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(): int {
+	public function getOrder(string $route, array $routeParameters): int {
+		if ($route === 'files.View.index') {
+			// Files first
+			return 0;
+		}
 		return 10;
 	}
 

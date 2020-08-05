@@ -239,9 +239,9 @@ class Router implements IRouter {
 	 *
 	 * @param string $url The url to find
 	 * @throws \Exception
-	 * @return void
+	 * @return array
 	 */
-	public function match($url) {
+	public function findMatchingRoute(string $url): array {
 		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
 			list(, , $app,) = explode('/', $url, 4);
@@ -286,6 +286,19 @@ class Router implements IRouter {
 				throw $e;
 			}
 		}
+
+		return $parameters;
+	}
+
+	/**
+	 * Find and execute the route matching $url
+	 *
+	 * @param string $url The url to find
+	 * @throws \Exception
+	 * @return void
+	 */
+	public function match($url) {
+		$parameters = $this->findMatchingRoute($url);
 
 		\OC::$server->getEventLogger()->start('run_route', 'Run route');
 		if (isset($parameters['caller'])) {

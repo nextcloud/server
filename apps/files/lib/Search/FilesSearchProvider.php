@@ -77,7 +77,11 @@ class FilesSearchProvider implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(): int {
+	public function getOrder(string $route, array $routeParameters): int {
+		if ($route === 'files.View.index') {
+			// Before comments
+			return -5;
+		}
 		return 5;
 	}
 

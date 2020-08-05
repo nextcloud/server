@@ -75,7 +75,10 @@ class SectionSearch implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(): int {
+	public function getOrder(string $route, array $routeParameters): int {
+		if ($route === 'settings.PersonalSettings.index' || $route === 'settings.AdminSettings.index') {
+			return -1;
+		}
 		return 20;
 	}
 

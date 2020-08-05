@@ -82,7 +82,10 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(): int {
+	public function getOrder(string $route, array $routeParameters): int {
+		if ($route === 'calendar.View.index') {
+			return -1;
+		}
 		return 10;
 	}
 

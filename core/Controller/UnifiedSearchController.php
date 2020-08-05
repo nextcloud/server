@@ -32,7 +32,9 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\Route\IRouter;
 use OCP\Search\ISearchQuery;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class UnifiedSearchController extends Controller {
 
@@ -42,22 +44,33 @@ class UnifiedSearchController extends Controller {
 	/** @var IUserSession */
 	private $userSession;
 
+	/** @var IRouter */
+	private $router;
+
 	public function __construct(IRequest $request,
 								IUserSession $userSession,
-								SearchComposer $composer) {
+								SearchComposer $composer,
+								IRouter $router) {
 		parent::__construct('core', $request);
 
 		$this->composer = $composer;
 		$this->userSession = $userSession;
+		$this->router = $router;
 	}
 
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 *
+	 * @param string $from the url the user is currently at
+	 *
+	 * @return JSONResponse
 	 */
-	public function getProviders(): JSONResponse {
+	public function getProviders(string $from = ''): JSONResponse {
+		[$route, $parameters] = $this->getRouteInformation($from);
+
 		return new JSONResponse(
-			$this->composer->getProviders()
+			$this->composer->getProviders($route, $parameters)
 		);
 	}
 
@@ -70,6 +83,7 @@ class UnifiedSearchController extends Controller {
 	 * @param int|null $sortOrder
 	 * @param int|null $limit
 	 * @param int|string|null $cursor
+	 * @param string $from
 	 *
 	 * @return JSONResponse
 	 */
@@ -77,10 +91,12 @@ class UnifiedSearchController extends Controller {
 						   string $term = '',
 						   ?int $sortOrder = null,
 						   ?int $limit = null,
-						   $cursor = null): JSONResponse {
+						   $cursor = null,
+						   string $from = ''): JSONResponse {
 		if (empty(trim($term))) {
 			return new JSONResponse(null, Http::STATUS_BAD_REQUEST);
 		}
+		[$route, $routeParameters] = $this->getRouteInformation($from);
 
 		return new JSONResponse(
 			$this->composer->search(
@@ -90,9 +106,45 @@ class UnifiedSearchController extends Controller {
 					$term,
 					$sortOrder ?? ISearchQuery::SORT_DATE_DESC,
 					$limit ?? SearchQuery::LIMIT_DEFAULT,
-					$cursor
+					$cursor,
+					$route,
+					$routeParameters
 				)
 			)
 		);
+	}
+
+	protected function getRouteInformation(string $url): array {
+		$routeStr = '';
+		$parameters = [];
+
+		if ($url !== '') {
+			$urlParts = parse_url($url);
+
+			try {
+				$parameters = $this->router->findMatchingRoute($urlParts['path']);
+
+				// contacts.PageController.index => contacts.Page.index
+				$route = $parameters['caller'];
+				if (substr($route[1], -10) === 'Controller') {
+					$route[1] = substr($route[1], 0, -10);
+				}
+				$routeStr = implode('.', $route);
+
+				// cleanup
+				unset($parameters['_route'], $parameters['action'], $parameters['caller']);
+			} catch (ResourceNotFoundException $exception) {
+			}
+
+			if (isset($urlParts['query'])) {
+				parse_str($urlParts['query'], $queryParameters);
+				$parameters = array_merge($parameters, $queryParameters);
+			}
+		}
+
+		return [
+			$routeStr,
+			$parameters,
+		];
 	}
 }

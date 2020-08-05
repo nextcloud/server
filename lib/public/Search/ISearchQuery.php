@@ -76,4 +76,16 @@ interface ISearchQuery {
 	 * @since 20.0.0
 	 */
 	public function getCursor();
+
+	/**
+	 * @return string
+	 * @since 20.0.0
+	 */
+	public function getRoute(): string;
+
+	/**
+	 * @return array
+	 * @since 20.0.0
+	 */
+	public function getRouteParameters(): array;
 }

@@ -96,8 +96,11 @@ class ContactsSearchProvider implements IProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(): int {
-		return 7;
+	public function getOrder(string $route, array $routeParameters): int {
+		if ($route === 'contacts.Page.index') {
+			return -1;
+		}
+		return 20;
 	}
 
 	/**
