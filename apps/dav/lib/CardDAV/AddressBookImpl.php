@@ -281,12 +281,7 @@ class AddressBookImpl implements IAddressBook {
 			}
 		}
 
-		if (
-			$this->addressBookInfo['principaluri'] === 'principals/system/system' && (
-				$this->addressBookInfo['uri'] === 'system' ||
-				$this->addressBookInfo['{DAV:}displayname'] === $this->urlGenerator->getBaseUrl()
-			)
-		) {
+		if ($this->isSystemAddressBook()) {
 			$result['isLocalSystemBook'] = true;
 		}
 		return $result;
@@ -308,5 +303,27 @@ class AddressBookImpl implements IAddressBook {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isShared(): bool {
+		if (!isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
+			return false;
+		}
+
+		return $this->addressBookInfo['principaluri']
+			!== $this->addressBookInfo['{http://owncloud.org/ns}owner-principal'];
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isSystemAddressBook(): bool {
+		return $this->addressBookInfo['principaluri'] === 'principals/system/system' && (
+			$this->addressBookInfo['uri'] === 'system' ||
+			$this->addressBookInfo['{DAV:}displayname'] === $this->urlGenerator->getBaseUrl()
+		);
 	}
 }
