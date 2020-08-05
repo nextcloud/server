@@ -41,6 +41,17 @@
 				@keypress.enter.prevent.stop="onInputEnter">
 		</div>
 
+		<!-- Search filters -->
+		<div v-if="availableFilters.length > 1" class="unified-search__filters">
+			<ul>
+				<SearchFilter v-for="type in availableFilters"
+					:key="type"
+					:type="type"
+					:name="typesMap[type]"
+					@click="onClickFilter" />
+			</ul>
+		</div>
+
 		<template v-if="!hasResults">
 			<!-- Loading placeholders -->
 			<ul v-if="isLoading">
@@ -97,12 +108,13 @@
 </template>
 
 <script>
-import { minSearchLength, getTypes, search, defaultLimit } from '../services/UnifiedSearchService'
+import { minSearchLength, getTypes, search, defaultLimit, regexFilterIn, regexFilterNot } from '../services/UnifiedSearchService'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import Magnify from 'vue-material-design-icons/Magnify'
 import debounce from 'debounce'
 
 import HeaderMenu from '../components/HeaderMenu'
+import SearchFilter from '../components/UnifiedSearch/SearchFilter'
 import SearchResult from '../components/UnifiedSearch/SearchResult'
 import SearchResultPlaceholder from '../components/UnifiedSearch/SearchResultPlaceholder'
 
@@ -113,6 +125,7 @@ export default {
 		EmptyContent,
 		HeaderMenu,
 		Magnify,
+		SearchFilter,
 		SearchResult,
 		SearchResultPlaceholder,
 	},
@@ -161,15 +174,50 @@ export default {
 
 		/**
 		 * Return ordered results
-		 * @returns {Object}
+		 * @returns {Array}
 		 */
 		orderedResults() {
-			return Object.values(this.typesIDs)
+			return this.typesIDs
 				.filter(type => type in this.results)
 				.map(type => ({
 					type,
 					list: this.results[type],
 				}))
+		},
+
+		/**
+		 * Available filters
+		 * We only show filters that are available on the results
+		 * @returns {string[]}
+		 */
+		availableFilters() {
+			return Object.keys(this.results)
+		},
+
+		/**
+		 * Applied filters
+		 * @returns {string[]}
+		 */
+		usedFiltersIn() {
+			let match
+			const filters = []
+			while ((match = regexFilterIn.exec(this.query)) !== null) {
+				filters.push(match[1])
+			}
+			return filters
+		},
+
+		/**
+		 * Applied anti filters
+		 * @returns {string[]}
+		 */
+		usedFiltersNot() {
+			let match
+			const filters = []
+			while ((match = regexFilterNot.exec(this.query)) !== null) {
+				filters.push(match[1])
+			}
+			return filters
 		},
 
 		/**
@@ -286,12 +334,30 @@ export default {
 				return
 			}
 
+			let types = this.typesIDs
+			let query = this.query
+
+			// Filter out types
+			if (this.usedFiltersNot.length > 0) {
+				types = this.typesIDs.filter(type => this.usedFiltersNot.indexOf(type) === -1)
+			}
+
+			// Only use those filters if any and check if they are valid
+			if (this.usedFiltersIn.length > 0) {
+				types = this.typesIDs.filter(type => this.usedFiltersIn.indexOf(type) > -1)
+			}
+
+			// remove any filters from the query
+			query = query.replace(regexFilterIn, '').replace(regexFilterNot, '')
+
+			console.debug('Searching', query, 'in', types)
+
 			// reset search if the query changed
 			this.resetState()
 
-			this.typesIDs.forEach(async type => {
+			types.forEach(async type => {
 				this.$set(this.loading, type, true)
-				const request = await search(type, this.query)
+				const request = await search(type, query)
 
 				// Process results
 				if (request.data.entries.length > 0) {
@@ -473,6 +539,13 @@ export default {
 				this.focused = index
 			}
 		},
+
+		onClickFilter(filter) {
+			this.query = `${this.query} ${filter}`
+				.replace(/ {2}/g, ' ')
+				.trim()
+			this.onInput()
+		},
 	},
 }
 </script>
@@ -495,6 +568,14 @@ $input-padding: 6px;
 		background-color: var(--color-main-background);
 	}
 
+	&__filters {
+		margin: $margin / 2 $margin;
+		ul {
+			display: inline-flex;
+			justify-content: space-between;
+		}
+	}
+
 	&__input {
 		// Minus margins
 		width: calc(100% - 2 * #{$margin});
@@ -505,10 +586,9 @@ $input-padding: 6px;
 		&[placeholder],
 		&::placeholder {
 			overflow: hidden;
-			text-overflow:ellipsis;
 			white-space: nowrap;
+			text-overflow: ellipsis;
 		}
-
 	}
 
 	&__results {
