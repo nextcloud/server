@@ -8,7 +8,10 @@
 				:ref="'status-' + status" />
 		</div>
 
-		<Draggable v-model="layout" class="panels" @end="saveLayout" handle=".panel--header">
+		<Draggable v-model="layout"
+			class="panels"
+			handle=".panel--header"
+			@end="saveLayout">
 			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
 				<div class="panel--header">
 					<h3 :class="panels[panelId].iconClass">
@@ -21,7 +24,10 @@
 			</div>
 		</Draggable>
 
-		<a class="edit-panels icon-add" :class="{ firstrun: firstRun }" @click="showModal" v-tooltip="tooltip">{{ t('dashboard', 'Edit widgets') }}</a>
+		<a v-tooltip="tooltip"
+			class="edit-panels icon-add"
+			:class="{ firstrun: firstRun }"
+			@click="showModal">{{ t('dashboard', 'Edit widgets') }}</a>
 
 		<Modal v-if="modal" @close="closeModal">
 			<div class="modal__content">
@@ -29,6 +35,7 @@
 				<Draggable v-model="layout"
 					class="panels"
 					tag="ol"
+					handle=".draggable"
 					@end="saveLayout">
 					<li v-for="panel in sortedPanels" :key="panel.id">
 						<input :id="'panel-checkbox-' + panel.id"
@@ -36,23 +43,11 @@
 							class="checkbox"
 							:checked="isActive(panel)"
 							@input="updateCheckbox(panel, $event.target.checked)">
-						<label :for="'panel-checkbox-' + panel.id" :class="panel.iconClass">
+						<label :for="'panel-checkbox-' + panel.id" :class="isActive(panel) ? 'draggable ' + panel.iconClass : panel.iconClass">
 							{{ panel.title }}
 						</label>
 					</li>
 				</Draggable>
-				<transition-group name="flip-list" tag="ol">
-					<li v-for="panel in sortedPanels" :key="panel.id">
-						<input :id="'panel-checkbox-' + panel.id"
-							type="checkbox"
-							class="checkbox"
-							:checked="isActive(panel)"
-							@input="updateCheckbox(panel, $event.target.checked)">
-						<label :for="'panel-checkbox-' + panel.id" :class="panel.iconClass">
-							{{ panel.title }}
-						</label>
-					</li>
-				</transition-group>
 
 				<a :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
 			</div>
@@ -270,7 +265,6 @@ export default {
 		}
 
 		& > .panel--header {
-			position: sticky;
 			display: flex;
 			z-index: 1;
 			top: 50px;
@@ -365,7 +359,7 @@ export default {
 	}
 
 	.flip-list-move {
-		transition: transform 1s;
+		transition: transform var(--animation-slow);
 	}
 
 	.statuses {
