@@ -8,7 +8,7 @@
 				:ref="'status-' + status" />
 		</div>
 
-		<Draggable v-model="layout" class="panels" @end="saveLayout">
+		<Draggable v-model="layout" class="panels" @end="saveLayout" handle=".panel--header">
 			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
 				<div class="panel--header">
 					<h3 :class="panels[panelId].iconClass">
