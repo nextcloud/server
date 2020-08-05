@@ -63,7 +63,7 @@ class AppSearch implements IProvider {
 	 * @inheritDoc
 	 */
 	public function getOrder(string $route, array $routeParameters): int {
-		return -1;
+		return -50;
 	}
 
 	/**
