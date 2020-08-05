@@ -20,7 +20,7 @@
   -
   -->
 <template>
-	<div v-click-outside="closeMenu" :class="{ 'header-menu--opened': opened }" class="header-menu">
+	<div v-click-outside="clickOutsideConfig" :class="{ 'header-menu--opened': opened }" class="header-menu">
 		<a class="header-menu__trigger"
 			href="#"
 			:aria-controls="`header-menu-${id}`"
@@ -44,6 +44,7 @@
 <script>
 import { directive as ClickOutside } from 'v-click-outside'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
+import excludeClickOutsideClasses from '@nextcloud/vue/dist/Mixins/excludeClickOutsideClasses'
 
 export default {
 	name: 'HeaderMenu',
@@ -51,6 +52,10 @@ export default {
 	directives: {
 		ClickOutside,
 	},
+
+	mixins: [
+		excludeClickOutsideClasses,
+	],
 
 	props: {
 		id: {
@@ -66,6 +71,10 @@ export default {
 	data() {
 		return {
 			opened: this.open,
+			clickOutsideConfig: {
+				handler: this.closeMenu,
+				middleware: this.clickOutsideMiddleware,
+			},
 		}
 	},
 
