@@ -194,7 +194,7 @@ class Generator {
 
 		// Free memory being used by the embedded image resource.  Without this the image is kept in memory indefinitely.
 		// Garbage Collection does NOT free this memory.  We have to do it ourselves.
-		if ($maxPreviewImage instanceof IImage) {
+		if ($maxPreviewImage instanceof \OC_Image) {
 			$maxPreviewImage->destroy();
 		}
 
