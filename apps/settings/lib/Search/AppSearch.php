@@ -87,6 +87,11 @@ class AppSearch implements IProvider {
 				continue;
 			}
 
+			if ($entry['href'] === '') {
+				// Nothing we can open, so ignore
+				continue;
+			}
+
 			$result[] = new SearchResultEntry(
 				'',
 				$entry['name'],
