@@ -53,6 +53,7 @@ OC.L10N.register(
     "Accept" : "მიღება",
     "Decline" : "ურაყოფა",
     "Contacts" : "კონტაქტები",
+    "Tasks" : "დავალებები",
     "WebDAV" : "WebDAV",
     "Tentative" : "საცდელი",
     "Save" : "შენახვა",

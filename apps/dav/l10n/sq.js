@@ -52,6 +52,7 @@ OC.L10N.register(
     "Decline" : "Refuzo",
     "More options …" : "Më shumë opsione ...",
     "Contacts" : "Kontaktet",
+    "Tasks" : "Detyra",
     "WebDAV" : "WebDAV",
     "Tentative" : "Tentativë",
     "Save" : "Ruaj",

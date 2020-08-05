@@ -78,6 +78,7 @@
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Din %s måste konfigureras att använda HTTPS för CalDAV och CardDAV med iOS/macOS.",
     "Configures a CalDAV account" : "Konfigurerar ett CalDAV-konto",
     "Configures a CardDAV account" : "Konfigurerar ett CardDAV-konto",
+    "Tasks" : "Uppgifter",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
     "There was an error updating your attendance status." : "Ett fel uppstod vid uppdatering av din närvarostatus.",

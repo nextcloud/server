@@ -73,6 +73,7 @@ OC.L10N.register(
     "Decline" : "Afvis",
     "More options …" : "Flere indstillinger…",
     "Contacts" : "Kontakter",
+    "Tasks" : "Opgaver",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
     "Are you accepting the invitation?" : "Accepter du invitationen?",
