@@ -49,6 +49,7 @@ OC.L10N.register(
     "Link:" : "Връзка:",
     "Accept" : "Приемане",
     "Contacts" : "Контакти",
+    "Tasks" : "Задачи",
     "WebDAV" : "WebDAV",
     "Tentative" : "Несигурно",
     "Save" : "Запазване",

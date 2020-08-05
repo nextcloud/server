@@ -69,6 +69,8 @@ OC.L10N.register(
     "Contacts" : "Stiki",
     "Configures a CalDAV account" : "Nastavi račun CalDAV",
     "Configures a CardDAV account" : "Nastavi račun CardDAV",
+    "Tasks" : "Naloge",
+    "Untitled task" : "Neimenovana naloga",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Končna točka WebDAV",
     "There was an error updating your attendance status." : "Prišlo je do napake med posodabljanjem vaše udeležbe.",
