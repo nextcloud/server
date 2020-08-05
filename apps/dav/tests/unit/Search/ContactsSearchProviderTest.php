@@ -88,7 +88,7 @@ class ContactsSearchProviderTest extends TestCase {
 	}
 
 	public function testGetId(): void {
-		$this->assertEquals('contacts-dav', $this->provider->getId());
+		$this->assertEquals('contacts', $this->provider->getId());
 	}
 
 	public function testGetName(): void {

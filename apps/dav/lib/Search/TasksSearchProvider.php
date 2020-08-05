@@ -61,7 +61,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	 * @inheritDoc
 	 */
 	public function getId(): string {
-		return 'tasks-dav';
+		return 'tasks';
 	}
 
 	/**
@@ -78,7 +78,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 		if ($route === 'tasks.Page.index') {
 			return -1;
 		}
-		return 10;
+		return 35;
 	}
 
 	/**
