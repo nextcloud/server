@@ -55,6 +55,7 @@ OC.L10N.register(
     "Accept" : "Accept",
     "Decline" : "Decline",
     "Contacts" : "Contacts",
+    "Tasks" : "Tasks",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV endpoint",
     "Tentative" : "Tentative",

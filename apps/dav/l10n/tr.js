@@ -80,6 +80,8 @@ OC.L10N.register(
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "iOS/macOS üzerinde CalDAV ve CardDAV kullanabilmek için %s HTTPS kullanacak şekilde yapılandırılmalıdır.",
     "Configures a CalDAV account" : "Bir CalDAV hesabı yapılandırır",
     "Configures a CardDAV account" : "Bir CardDAV hesabı yapılandırır",
+    "Tasks" : "Görevler",
+    "Untitled task" : "Başlıksız görev",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV Bağlantı Noktası",
     "There was an error updating your attendance status." : "Katılım durumunuz güncellenirken bir sorun çıktı.",

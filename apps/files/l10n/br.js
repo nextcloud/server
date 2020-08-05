@@ -148,6 +148,7 @@ OC.L10N.register(
     "Ownership transfer done" : "Treuzkas perc'hienniezh echu",
     "Your ownership transfer of {path} to {user} has completed." : "Ho treuzkas perc'henniezh eus {path} da {user} a zo echu.",
     "The ownership transfer of {path} from {user} has completed." : "An treuzkas perc'henniezh eus {path} da {user} a zo echu.",
+    "in %s" : "e %s",
     "File Management" : "Meradur ar restr",
     "Transfer ownership of a file or folder" : "Treuzkas perc'henniezh ur restr pe un teuliad",
     "Choose file or folder to transfer" : "Dibabit ur restr pe un teuliad da dreuzkas",
