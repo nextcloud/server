@@ -26,6 +26,7 @@ declare(strict_types=1);
 namespace OCA\UserStatus\AppInfo;
 
 use OCA\UserStatus\Capabilities;
+use OCA\UserStatus\Connector\UserStatusProvider;
 use OCA\UserStatus\Listener\BeforeTemplateRenderedListener;
 use OCA\UserStatus\Listener\UserDeletedListener;
 use OCA\UserStatus\Listener\UserLiveStatusListener;
@@ -36,6 +37,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\Http\Events\BeforeTemplateRenderedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLiveStatusEvent;
+use OCP\UserStatus\IManager;
 
 /**
  * Class Application
@@ -70,5 +72,8 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
+		/** @var IManager $userStatusManager */
+		$userStatusManager = $context->getServerContainer()->get(IManager::class);
+		$userStatusManager->registerProvider(UserStatusProvider::class);
 	}
 }

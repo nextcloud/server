@@ -105,6 +105,16 @@ class StatusService {
 	}
 
 	/**
+	 * @param array $userIds
+	 * @return UserStatus[]
+	 */
+	public function findByUserIds(array $userIds):array {
+		return array_map(function ($status) {
+			return $this->processStatus($status);
+		}, $this->mapper->findByUserIds($userIds));
+	}
+
+	/**
 	 * @param string $userId
 	 * @param string $status
 	 * @param int|null $statusTimestamp

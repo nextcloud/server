@@ -9,6 +9,8 @@ return array(
     'OCA\\UserStatus\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\UserStatus\\BackgroundJob\\ClearOldStatusesBackgroundJob' => $baseDir . '/../lib/BackgroundJob/ClearOldStatusesBackgroundJob.php',
     'OCA\\UserStatus\\Capabilities' => $baseDir . '/../lib/Capabilities.php',
+    'OCA\\UserStatus\\Connector\\UserStatus' => $baseDir . '/../lib/Connector/UserStatus.php',
+    'OCA\\UserStatus\\Connector\\UserStatusProvider' => $baseDir . '/../lib/Connector/UserStatusProvider.php',
     'OCA\\UserStatus\\Controller\\HeartbeatController' => $baseDir . '/../lib/Controller/HeartbeatController.php',
     'OCA\\UserStatus\\Controller\\PredefinedStatusController' => $baseDir . '/../lib/Controller/PredefinedStatusController.php',
     'OCA\\UserStatus\\Controller\\StatusesController' => $baseDir . '/../lib/Controller/StatusesController.php',

@@ -96,6 +96,31 @@ class UserStatusMapperTest extends TestCase {
 		$this->assertEquals(60000, $user2Status->getClearAt());
 	}
 
+	public function testFindByUserIds(): void {
+		$this->insertSampleStatuses();
+
+		$statuses = $this->mapper->findByUserIds(['admin', 'user2']);
+		$this->assertCount(2, $statuses);
+
+		$adminStatus = $statuses[0];
+		$this->assertEquals('admin', $adminStatus->getUserId());
+		$this->assertEquals('offline', $adminStatus->getStatus());
+		$this->assertEquals(0, $adminStatus->getStatusTimestamp());
+		$this->assertEquals(false, $adminStatus->getIsUserDefined());
+		$this->assertEquals(null, $adminStatus->getCustomIcon());
+		$this->assertEquals(null, $adminStatus->getCustomMessage());
+		$this->assertEquals(null, $adminStatus->getClearAt());
+
+		$user2Status = $statuses[1];
+		$this->assertEquals('user2', $user2Status->getUserId());
+		$this->assertEquals('away', $user2Status->getStatus());
+		$this->assertEquals(5000, $user2Status->getStatusTimestamp());
+		$this->assertEquals(false, $user2Status->getIsUserDefined());
+		$this->assertEquals('🏝', $user2Status->getCustomIcon());
+		$this->assertEquals('On vacation', $user2Status->getCustomMessage());
+		$this->assertEquals(60000, $user2Status->getClearAt());
+	}
+
 	public function testUserIdUnique(): void {
 		// Test that inserting a second status for a user is throwing an exception
 
