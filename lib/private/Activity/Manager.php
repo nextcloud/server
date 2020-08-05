@@ -36,6 +36,7 @@ use OCP\Activity\IManager;
 use OCP\Activity\IProvider;
 use OCP\Activity\ISetting;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -66,14 +67,20 @@ class Manager implements IManager {
 	/** @var string */
 	protected $currentUserId;
 
-	public function __construct(IRequest $request,
-								IUserSession $session,
-								IConfig $config,
-								IValidator $validator) {
+	protected $l10n;
+
+	public function __construct(
+			IRequest $request,
+			IUserSession $session,
+			IConfig $config,
+			IValidator $validator,
+			IL10N $l10n
+	) {
 		$this->request = $request;
 		$this->session = $session;
 		$this->config = $config;
 		$this->validator = $validator;
+		$this->l10n = $l10n;
 	}
 
 	/** @var \Closure[] */
@@ -273,7 +280,7 @@ class Manager implements IManager {
 
 			if ($setting instanceof ISetting) {
 				if (!$setting instanceof ActivitySettings) {
-					$setting = new ActivitySettingsAdapter($setting);
+					$setting = new ActivitySettingsAdapter($setting, $this->l10n);
 				}
 			} else {
 				throw new \InvalidArgumentException('Invalid activity filter registered');

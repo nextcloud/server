@@ -27,6 +27,7 @@ class ComposerStaticInitFiles
         'OCA\\Files\\Activity\\Helper' => __DIR__ . '/..' . '/../lib/Activity/Helper.php',
         'OCA\\Files\\Activity\\Provider' => __DIR__ . '/..' . '/../lib/Activity/Provider.php',
         'OCA\\Files\\Activity\\Settings\\FavoriteAction' => __DIR__ . '/..' . '/../lib/Activity/Settings/FavoriteAction.php',
+        'OCA\\Files\\Activity\\Settings\\FileActivitySettings' => __DIR__ . '/..' . '/../lib/Activity/Settings/FileActivitySettings.php',
         'OCA\\Files\\Activity\\Settings\\FileChanged' => __DIR__ . '/..' . '/../lib/Activity/Settings/FileChanged.php',
         'OCA\\Files\\Activity\\Settings\\FileCreated' => __DIR__ . '/..' . '/../lib/Activity/Settings/FileCreated.php',
         'OCA\\Files\\Activity\\Settings\\FileDeleted' => __DIR__ . '/..' . '/../lib/Activity/Settings/FileDeleted.php',

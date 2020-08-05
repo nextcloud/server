@@ -694,11 +694,13 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService(\OCP\Activity\IManager::class, function (Server $c) {
+			$l10n = $this->get(IFactory::class)->get('activity');
 			return new \OC\Activity\Manager(
 				$c->getRequest(),
 				$c->getUserSession(),
 				$c->getConfig(),
-				$c->query(IValidator::class)
+				$c->query(IValidator::class),
+				$l10n
 			);
 		});
 		$this->registerDeprecatedAlias('ActivityManager', \OCP\Activity\IManager::class);

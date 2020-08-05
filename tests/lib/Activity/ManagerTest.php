@@ -56,7 +56,8 @@ class ManagerTest extends TestCase {
 			$this->request,
 			$this->session,
 			$this->config,
-			$this->validator
+			$this->validator,
+			$this->createMock(IL10N::class)
 		);
 
 		$this->assertSame([], self::invokePrivate($this->activityManager, 'getConsumers'));

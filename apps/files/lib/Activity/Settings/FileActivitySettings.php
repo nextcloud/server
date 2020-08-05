@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2020 Robin Appelman <robin@icewind.nl>
  *
@@ -21,50 +22,27 @@ declare(strict_types=1);
  *
  */
 
-namespace OC\Activity;
+namespace OCA\Files\Activity\Settings;
 
 use OCP\Activity\ActivitySettings;
-use OCP\Activity\ISetting;
 use OCP\IL10N;
 
-/**
- * Adapt the old interface based settings into the new abstract
- * class based one
- */
-class ActivitySettingsAdapter extends ActivitySettings {
-	private $oldSettings;
-	private $l10n;
+abstract class FileActivitySettings extends ActivitySettings {
+	/** @var IL10N */
+	protected $l;
 
-	public function __construct(ISetting $oldSettings, IL10N $l10n) {
-		$this->oldSettings = $oldSettings;
-		$this->l10n = $l10n;
-	}
-
-	public function getIdentifier() {
-		return $this->oldSettings->getIdentifier();
-	}
-
-	public function getName() {
-		return $this->oldSettings->getName();
+	/**
+	 * @param IL10N $l
+	 */
+	public function __construct(IL10N $l) {
+		$this->l = $l;
 	}
 
 	public function getGroupIdentifier() {
-		return 'other';
+		return 'files';
 	}
 
 	public function getGroupName() {
-		return $this->l10n->t('Other activities');
-	}
-
-	public function getPriority() {
-		return $this->oldSettings->getPriority();
-	}
-
-	public function canChangeMail() {
-		return $this->oldSettings->canChangeMail();
-	}
-
-	public function isDefaultEnabledMail() {
-		return $this->oldSettings->isDefaultEnabledMail();
+		return $this->l->t('Files');
 	}
 }
