@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
 import { translate as t } from '@nextcloud/l10n'
+import VTooltip from '@nextcloud/vue/dist/Directives/Tooltip'
+
+Vue.directive('Tooltip', VTooltip)
+
 Vue.prototype.t = t
 
 // FIXME workaround to make the sidebar work

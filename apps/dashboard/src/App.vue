@@ -20,7 +20,9 @@
 				</div>
 			</div>
 		</Draggable>
-		<a class="edit-panels icon-add" @click="showModal">{{ t('dashboard', 'Edit widgets') }}</a>
+
+		<a class="edit-panels icon-add" :class="{ firstrun: firstRun }" @click="showModal" v-tooltip="tooltip">{{ t('dashboard', 'Edit widgets') }}</a>
+
 		<Modal v-if="modal" @close="closeModal">
 			<div class="modal__content">
 				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
@@ -88,11 +90,22 @@ export default {
 			uid: getCurrentUser()?.uid,
 			layout: loadState('dashboard', 'layout').filter((panelId) => panels[panelId]),
 			modal: false,
-			appStoreUrl: generateUrl('/settings/apps'),
+			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			statuses: {},
 		}
 	},
 	computed: {
+		tooltip() {
+			if (!this.firstRun) {
+				return null
+			}
+			return {
+				content: t('dashboard', 'Adjust the dashboard to your needs'),
+				placement: 'top',
+				show: true,
+				trigger: 'manual',
+			}
+		},
 		greeting() {
 			const time = this.timer.getHours()
 			const shouldShowName = this.displayName && this.uid !== this.displayName
@@ -148,6 +161,10 @@ export default {
 		setInterval(() => {
 			this.timer = new Date()
 		}, 30000)
+
+		if (this.firstRun) {
+			window.addEventListener('scroll', this.disableFirstrunHint)
+		}
 	},
 	methods: {
 		/**
@@ -189,6 +206,7 @@ export default {
 		},
 		showModal() {
 			this.modal = true
+			this.firstRun = false
 		},
 		closeModal() {
 			this.modal = false
@@ -205,6 +223,12 @@ export default {
 			this.saveLayout()
 			this.$nextTick(() => this.rerenderPanels())
 		},
+		disableFirstrunHint() {
+			window.removeEventListener('scroll', this.disableFirstrunHint)
+			setTimeout(() => {
+				this.firstRun = false
+			}, 1000)
+		},
 	},
 }
 </script>
@@ -212,6 +236,7 @@ export default {
 <style lang="scss" scoped>
 	#app-dashboard {
 		width: 100%;
+		margin-bottom: 100px;
 	}
 
 	h2 {
@@ -295,19 +320,29 @@ export default {
 	}
 
 	.edit-panels {
+		z-index: 99;
 		position: fixed;
 		bottom: 20px;
 		right: 20px;
-		padding: 10px;
-		padding-left: 35px;
-		padding-right: 15px;
+		padding: 10px 15px 10px 35px;
 		background-position: 10px center;
 		opacity: .7;
 		background-color: var(--color-main-background);
 		border-radius: var(--border-radius-pill);
+		transition: right var(--animation-slow) ease-in-out;
+
 		&:hover {
 			opacity: 1;
 			background-color: var(--color-background-hover);
+		}
+
+		&.firstrun {
+			right: 50%;
+			transform: translateX(50%);
+			max-width: 200px;
+			box-shadow: 0px 0px 3px var(--color-box-shadow);
+			opacity: 1;
+			text-align: center;
 		}
 	}
 
