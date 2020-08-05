@@ -78,6 +78,8 @@
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Il tuo %s deve essere configurato all'uso di HTTPS per poter usare CalDAV e CardDAV con iOS/macOS.",
     "Configures a CalDAV account" : "Configura un account CalDAV",
     "Configures a CardDAV account" : "Configura un account CardDAV",
+    "Tasks" : "Attività",
+    "Untitled task" : "Attività senza titolo",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Terminatore WebDAV",
     "There was an error updating your attendance status." : "Si è verificato un errore durante l'aggiornamento dello stato della tua partecipazione.",

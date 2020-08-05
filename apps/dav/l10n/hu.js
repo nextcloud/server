@@ -67,6 +67,8 @@ OC.L10N.register(
     "More options …" : "További opciók ...",
     "More options at %s" : "További opciók itt: %s",
     "Contacts" : "Névjegyek",
+    "Tasks" : "Feladatok",
+    "Untitled task" : "Névtelen feladat",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV végpont",
     "There was an error updating your attendance status." : "Probléma lépett fel a részvételed státuszának frissítése közben.",

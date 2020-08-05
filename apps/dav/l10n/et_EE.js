@@ -51,6 +51,7 @@ OC.L10N.register(
     "Accept" : "Nõustu",
     "Decline" : "Keeldu",
     "Contacts" : "Kontaktid",
+    "Tasks" : "Ülesanded",
     "WebDAV" : "WebDAV",
     "Tentative" : "Esialgne",
     "Save" : "Salvesta",

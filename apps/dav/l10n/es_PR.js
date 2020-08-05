@@ -53,6 +53,7 @@ OC.L10N.register(
     "Accept" : "Aceptar",
     "Decline" : "Declinar",
     "Contacts" : "Contactos",
+    "Tasks" : "Tareas",
     "WebDAV" : "WebDAV",
     "Tentative" : "Tentativo",
     "Save" : "Guardar",

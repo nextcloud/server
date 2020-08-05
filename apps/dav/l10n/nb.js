@@ -55,6 +55,7 @@ OC.L10N.register(
     "Accept" : "Aksepter",
     "Decline" : "Avslå",
     "Contacts" : "Kontakter",
+    "Tasks" : "Oppgaver",
     "WebDAV" : "WebDAV",
     "Tentative" : "Foreløpig",
     "Save" : "Lagre",
