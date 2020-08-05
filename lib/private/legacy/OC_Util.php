@@ -1101,7 +1101,6 @@ class OC_Util {
 			if ($defaultPage) {
 				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
-
 				$appId = 'files';
 				$defaultApps = explode(',', $config->getSystemValue('defaultapp', 'dashboard,files'));
 

@@ -26,7 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\Dashboard\Controller;
 
-use OCA\Dashboard\AppInfo\Application;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\Controller;
