@@ -109,6 +109,7 @@ class Local extends \OC\Files\Storage\Common {
 				 * @var \SplFileInfo $file
 				 */
 				$file = $it->current();
+				clearstatcache(true, $this->getSourcePath($file));
 				if (in_array($file->getBasename(), ['.', '..'])) {
 					$it->next();
 					continue;
@@ -119,6 +120,7 @@ class Local extends \OC\Files\Storage\Common {
 				}
 				$it->next();
 			}
+			clearstatcache(true, $this->getSourcePath($path));
 			return rmdir($this->getSourcePath($path));
 		} catch (\UnexpectedValueException $e) {
 			return false;
@@ -141,8 +143,8 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function stat($path) {
-		clearstatcache();
 		$fullPath = $this->getSourcePath($path);
+		clearstatcache(true, $fullPath);
 		$statResult = stat($fullPath);
 		if (PHP_INT_SIZE === 4 && !$this->is_dir($path)) {
 			$filesize = $this->filesize($path);
@@ -157,7 +159,7 @@ class Local extends \OC\Files\Storage\Common {
 	 */
 	public function getMetaData($path) {
 		$fullPath = $this->getSourcePath($path);
-		clearstatcache();
+		clearstatcache(true, $fullPath);
 		$stat = @stat($fullPath);
 		if (!$stat) {
 			return null;
