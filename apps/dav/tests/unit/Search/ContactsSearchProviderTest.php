@@ -26,13 +26,13 @@ namespace OCA\DAV\Tests\unit;
 
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Search\ContactsSearchProvider;
-use OCA\DAV\Search\ContactsSearchResultEntry;
 use OCP\App\IAppManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
+use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
@@ -216,20 +216,20 @@ class ContactsSearchProviderTest extends TestCase {
 		$result1 = $data['entries'][1];
 		$result1Data = $result1->jsonSerialize();
 
-		$this->assertInstanceOf(ContactsSearchResultEntry::class, $result0);
+		$this->assertInstanceOf(SearchResultEntry::class, $result0);
 		$this->assertEquals('', $result0Data['thumbnailUrl']);
 		$this->assertEquals('FN of Test', $result0Data['title']);
 		$this->assertEquals('subline', $result0Data['subline']);
 		$this->assertEquals('deep-link-to-contacts', $result0Data['resourceUrl']);
-		$this->assertEquals('icon-contacts-dark', $result0Data['iconClass']);
+		$this->assertEquals('icon-contacts-dark', $result0Data['icon']);
 		$this->assertTrue($result0Data['rounded']);
 
-		$this->assertInstanceOf(ContactsSearchResultEntry::class, $result1);
+		$this->assertInstanceOf(SearchResultEntry::class, $result1);
 		$this->assertEquals('absolute-thumbnail-url?photo', $result1Data['thumbnailUrl']);
 		$this->assertEquals('FN of Test2', $result1Data['title']);
 		$this->assertEquals('subline', $result1Data['subline']);
 		$this->assertEquals('deep-link-to-contacts', $result1Data['resourceUrl']);
-		$this->assertEquals('icon-contacts-dark', $result1Data['iconClass']);
+		$this->assertEquals('icon-contacts-dark', $result1Data['icon']);
 		$this->assertTrue($result1Data['rounded']);
 	}
 

@@ -82,6 +82,13 @@ interface INavigationManager {
 	public function setActiveEntry($appId);
 
 	/**
+	 * Get the current navigation entry of the currently running app
+	 * @return string
+	 * @since 20.0.0
+	 */
+	public function getActiveEntry();
+
+	/**
 	 * Get a list of navigation entries
 	 *
 	 * @param string $type type of the navigation entries

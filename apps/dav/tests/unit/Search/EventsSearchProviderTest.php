@@ -26,13 +26,13 @@ namespace OCA\DAV\Tests\unit\Search;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Search\EventsSearchProvider;
-use OCA\DAV\Search\EventsSearchResultEntry;
 use OCP\App\IAppManager;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Search\ISearchQuery;
 use OCP\Search\SearchResult;
+use OCP\Search\SearchResultEntry;
 use Sabre\VObject\Reader;
 use Test\TestCase;
 
@@ -392,28 +392,28 @@ class EventsSearchProviderTest extends TestCase {
 		$result2 = $data['entries'][2];
 		$result2Data = $result2->jsonSerialize();
 
-		$this->assertInstanceOf(EventsSearchResultEntry::class, $result0);
+		$this->assertInstanceOf(SearchResultEntry::class, $result0);
 		$this->assertEmpty($result0Data['thumbnailUrl']);
 		$this->assertEquals('Untitled event', $result0Data['title']);
 		$this->assertEquals('subline', $result0Data['subline']);
 		$this->assertEquals('deep-link-to-calendar', $result0Data['resourceUrl']);
-		$this->assertEquals('icon-calendar-dark', $result0Data['iconClass']);
+		$this->assertEquals('icon-calendar-dark', $result0Data['icon']);
 		$this->assertFalse($result0Data['rounded']);
 
-		$this->assertInstanceOf(EventsSearchResultEntry::class, $result1);
+		$this->assertInstanceOf(SearchResultEntry::class, $result1);
 		$this->assertEmpty($result1Data['thumbnailUrl']);
 		$this->assertEquals('Test Europe Berlin', $result1Data['title']);
 		$this->assertEquals('subline', $result1Data['subline']);
 		$this->assertEquals('deep-link-to-calendar', $result1Data['resourceUrl']);
-		$this->assertEquals('icon-calendar-dark', $result1Data['iconClass']);
+		$this->assertEquals('icon-calendar-dark', $result1Data['icon']);
 		$this->assertFalse($result1Data['rounded']);
 
-		$this->assertInstanceOf(EventsSearchResultEntry::class, $result2);
+		$this->assertInstanceOf(SearchResultEntry::class, $result2);
 		$this->assertEmpty($result2Data['thumbnailUrl']);
 		$this->assertEquals('Test Europe Berlin', $result2Data['title']);
 		$this->assertEquals('subline', $result2Data['subline']);
 		$this->assertEquals('deep-link-to-calendar', $result2Data['resourceUrl']);
-		$this->assertEquals('icon-calendar-dark', $result2Data['iconClass']);
+		$this->assertEquals('icon-calendar-dark', $result2Data['icon']);
 		$this->assertFalse($result2Data['rounded']);
 	}
 

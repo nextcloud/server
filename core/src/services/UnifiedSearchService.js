@@ -24,20 +24,46 @@ import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 
 export const defaultLimit = loadState('unified-search', 'limit-default')
+export const activeApp = loadState('core', 'active-app')
 
 /**
  * Get the list of available search providers
+ *
+ * @returns {Array}
  */
 export async function getTypes() {
 	try {
 		const { data } = await axios.get(generateUrl('/search/providers'))
 		if (Array.isArray(data) && data.length > 0) {
-			return data
+			return sortProviders(data)
 		}
 	} catch (error) {
 		console.error(error)
 	}
 	return []
+}
+
+/**
+ * Sort the providers by the current active app
+ *
+ * @param {Array} providers the providers list
+ * @returns {Array}
+ */
+export function sortProviders(providers) {
+	providers.sort((a, b) => {
+		if (a.id.startsWith(activeApp) && b.id.startsWith(activeApp)) {
+			return a.order - b.order
+		}
+
+		if (a.id.startsWith(activeApp)) {
+			return -1
+		}
+		if (b.id.startsWith(activeApp)) {
+			return 1
+		}
+		return 0
+	})
+	return providers
 }
 
 /**

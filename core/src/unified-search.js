@@ -32,6 +32,18 @@ __webpack_nonce__ = btoa(getRequestToken())
 // eslint-disable-next-line camelcase
 __webpack_public_path__ = generateFilePath('core', '', 'js/')
 
+// TODO: remove with nc22
+if (!OCA.Search) {
+	class Search {
+
+		constructor() {
+			console.warn('OCA.Search is deprecated. Please use the unified search API instead')
+		}
+
+	}
+	OCA.Search = Search
+}
+
 Vue.mixin({
 	methods: {
 		t,

@@ -52,6 +52,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
+use OCP\INavigationManager;
 use OCP\Support\Subscription\IRegistry;
 use OCP\Util;
 
@@ -64,6 +65,9 @@ class TemplateLayout extends \OC_Template {
 	/** @var IInitialStateService */
 	private $initialState;
 
+	/** @var INavigationManager */
+	private $navigationManager;
+
 	/**
 	 * @param string $renderAs
 	 * @param string $appId application id
@@ -74,7 +78,7 @@ class TemplateLayout extends \OC_Template {
 		$this->config = \OC::$server->get(IConfig::class);
 
 		/** @var IInitialStateService */
-		$this->initialState = \OC::$server->get(InitialStateService::class);
+		$this->initialState = \OC::$server->get(IInitialStateService::class);
 
 		if (Util::isIE()) {
 			Util::addStyle('ie');
@@ -82,6 +86,9 @@ class TemplateLayout extends \OC_Template {
 
 		// Decide which page we show
 		if ($renderAs === TemplateResponse::RENDER_AS_USER) {
+			/** @var INavigationManager */
+			$this->navigationManager = \OC::$server->get(INavigationManager::class);
+
 			parent::__construct('core', 'layout.user');
 			if (in_array(\OC_App::getCurrentApp(), ['settings','admin', 'help']) !== false) {
 				$this->assign('bodyid', 'body-settings');
@@ -89,16 +96,19 @@ class TemplateLayout extends \OC_Template {
 				$this->assign('bodyid', 'body-user');
 			}
 
+			$this->initialState->provideInitialState('core', 'active-app', $this->navigationManager->getActiveEntry());
 			$this->initialState->provideInitialState('unified-search', 'limit-default', SearchQuery::LIMIT_DEFAULT);
 			Util::addScript('dist/unified-search', null, true);
 
 			// Add navigation entry
 			$this->assign('application', '');
 			$this->assign('appid', $appId);
-			$navigation = \OC::$server->getNavigationManager()->getAll();
+
+			$navigation = $this->navigationManager->getAll();
 			$this->assign('navigation', $navigation);
-			$settingsNavigation = \OC::$server->getNavigationManager()->getAll('settings');
+			$settingsNavigation = $this->navigationManager->getAll('settings');
 			$this->assign('settingsnavigation', $settingsNavigation);
+
 			foreach ($navigation as $entry) {
 				if ($entry['active']) {
 					$this->assign('application', $entry['name']);
