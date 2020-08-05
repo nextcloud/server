@@ -22,6 +22,7 @@
 <template>
 	<HeaderMenu id="unified-search"
 		class="unified-search"
+		exclude-click-outside-classes="popover"
 		:open.sync="open"
 		@open="onOpen"
 		@close="onClose">
@@ -39,26 +40,21 @@
 				:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ').toLowerCase() })"
 				@input="onInputDebounced"
 				@keypress.enter.prevent.stop="onInputEnter">
-		</div>
-
-		<!-- Search filters -->
-		<div v-if="availableFilters.length > 1" class="unified-search__filters">
-			<ul>
-				<SearchFilter v-for="type in availableFilters"
+			<!-- Search filters -->
+			<Actions v-if="availableFilters.length > 1" class="unified-search__filters" placement="bottom">
+				<ActionButton v-for="type in availableFilters"
 					:key="type"
-					:type="type"
-					:name="typesMap[type]"
-					@click="onClickFilter" />
-			</ul>
+					icon="icon-filter"
+					:title="t('core', 'Search for {name} only', { name: typesMap[type] })"
+					@click="onClickFilter(`in:${type}`)">
+					{{ `in:${type}` }}
+				</ActionButton>
+			</Actions>
 		</div>
 
 		<template v-if="!hasResults">
 			<!-- Loading placeholders -->
-			<ul v-if="isLoading">
-				<li v-for="placeholder in [1, 2, 3]" :key="placeholder">
-					<SearchResultPlaceholder />
-				</li>
-			</ul>
+			<SearchResultPlaceholders v-if="isLoading" />
 
 			<EmptyContent v-else-if="isValidQuery && isDoneSearching" icon="icon-search">
 				{{ t('core', 'No results for {query}', {query}) }}
@@ -109,25 +105,27 @@
 
 <script>
 import { minSearchLength, getTypes, search, defaultLimit, regexFilterIn, regexFilterNot } from '../services/UnifiedSearchService'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import debounce from 'debounce'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import Magnify from 'vue-material-design-icons/Magnify'
-import debounce from 'debounce'
 
 import HeaderMenu from '../components/HeaderMenu'
-import SearchFilter from '../components/UnifiedSearch/SearchFilter'
 import SearchResult from '../components/UnifiedSearch/SearchResult'
-import SearchResultPlaceholder from '../components/UnifiedSearch/SearchResultPlaceholder'
+import SearchResultPlaceholders from '../components/UnifiedSearch/SearchResultPlaceholders'
 
 export default {
 	name: 'UnifiedSearch',
 
 	components: {
+		ActionButton,
+		Actions,
 		EmptyContent,
 		HeaderMenu,
 		Magnify,
-		SearchFilter,
 		SearchResult,
-		SearchResultPlaceholder,
+		SearchResultPlaceholders,
 	},
 
 	data() {
@@ -347,12 +345,12 @@ export default {
 				types = this.typesIDs.filter(type => this.usedFiltersIn.indexOf(type) > -1)
 			}
 
-			// remove any filters from the query
+			// Remove any filters from the query
 			query = query.replace(regexFilterIn, '').replace(regexFilterNot, '')
 
 			console.debug('Searching', query, 'in', types)
 
-			// reset search if the query changed
+			// Reset search if the query changed
 			this.resetState()
 
 			types.forEach(async type => {
@@ -561,24 +559,18 @@ $input-padding: 6px;
 	}
 
 	&__input-wrapper {
+		width: 100%;
 		position: sticky;
 		// above search results
 		z-index: 2;
 		top: 0;
+		display: inline-flex;
+		align-items: center;
 		background-color: var(--color-main-background);
 	}
 
-	&__filters {
-		margin: $margin / 2 $margin;
-		ul {
-			display: inline-flex;
-			justify-content: space-between;
-		}
-	}
-
 	&__input {
-		// Minus margins
-		width: calc(100% - 2 * #{$margin});
+		width: 100%;
 		height: 34px;
 		margin: $margin;
 		padding: $input-padding;
@@ -589,6 +581,10 @@ $input-padding: 6px;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 		}
+	}
+
+	&__filters {
+		margin-right: $margin / 2;
 	}
 
 	&__results {
