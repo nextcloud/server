@@ -28,9 +28,7 @@
 	@include icon-color('user-status-dnd', 'user_status', '#ED484C', 1);
 }
 
-.icon-user-status-invisible {
-	@include icon-color('user-status-invisible', 'user_status', '#000000', 1);
-}
+@include icon-black-white('user-status-invisible', 'user_status', 2);
 
 .icon-user-status-online {
 	@include icon-color('user-status-online', 'user_status', '#49B382', 2);
