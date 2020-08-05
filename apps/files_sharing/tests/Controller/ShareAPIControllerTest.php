@@ -56,6 +56,7 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 use Test\TestCase;
+use OCP\UserStatus\IManager as IUserStatusManager;
 
 /**
  * Class ShareAPIControllerTest
@@ -104,6 +105,9 @@ class ShareAPIControllerTest extends TestCase {
 	/** @var IServerContainer|\PHPUnit\Framework\MockObject\MockObject */
 	private $serverContainer;
 
+	/** @var IUserStatusManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $userStatusManager;
+
 	protected function setUp(): void {
 		$this->shareManager = $this->createMock(IManager::class);
 		$this->shareManager
@@ -128,6 +132,7 @@ class ShareAPIControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->serverContainer = $this->createMock(IServerContainer::class);
+		$this->userStatusManager = $this->createMock(IUserStatusManager::class);
 
 		$this->ocs = new ShareAPIController(
 			$this->appName,
@@ -141,7 +146,8 @@ class ShareAPIControllerTest extends TestCase {
 			$this->l,
 			$this->config,
 			$this->appManager,
-			$this->serverContainer
+			$this->serverContainer,
+			$this->userStatusManager
 		);
 	}
 
@@ -162,7 +168,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->l,
 				$this->config,
 				$this->appManager,
-				$this->serverContainer
+				$this->serverContainer,
+				$this->userStatusManager,
 			])->setMethods(['formatShare'])
 			->getMock();
 	}
@@ -588,6 +595,7 @@ class ShareAPIControllerTest extends TestCase {
 			'hide_download' => 0,
 			'can_edit' => false,
 			'can_delete' => false,
+			'status' => [],
 		];
 		$data[] = [$share, $expected];
 
@@ -715,7 +723,8 @@ class ShareAPIControllerTest extends TestCase {
 					$this->l,
 					$this->config,
 					$this->appManager,
-					$this->serverContainer
+					$this->serverContainer,
+					$this->userStatusManager,
 				])->setMethods(['canAccessShare'])
 				->getMock();
 
@@ -1334,7 +1343,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->l,
 				$this->config,
 				$this->appManager,
-				$this->serverContainer
+				$this->serverContainer,
+				$this->userStatusManager,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -1677,7 +1687,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->l,
 				$this->config,
 				$this->appManager,
-				$this->serverContainer
+				$this->serverContainer,
+				$this->userStatusManager,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -1777,7 +1788,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->l,
 				$this->config,
 				$this->appManager,
-				$this->serverContainer
+				$this->serverContainer,
+				$this->userStatusManager,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -2340,7 +2352,8 @@ class ShareAPIControllerTest extends TestCase {
 				$this->l,
 				$this->config,
 				$this->appManager,
-				$this->serverContainer
+				$this->serverContainer,
+				$this->userStatusManager,
 			])->setMethods(['formatShare'])
 			->getMock();
 
@@ -3447,6 +3460,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'status' => [],
 			], $share, [], false
 		];
 		// User backend up
@@ -3480,6 +3494,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'status' => [],
 			], $share, [
 				['owner', $owner],
 				['initiator', $initiator],
@@ -3529,6 +3544,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => false,
 				'can_delete' => false,
+				'status' => [],
 			], $share, [], false
 		];
 
@@ -3574,6 +3590,7 @@ class ShareAPIControllerTest extends TestCase {
 				'hide_download' => 0,
 				'can_edit' => true,
 				'can_delete' => true,
+				'status' => [],
 			], $share, [], false
 		];
 
