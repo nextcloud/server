@@ -250,7 +250,7 @@ class EventsSearchProviderTest extends TestCase {
 	}
 
 	public function testGetId(): void {
-		$this->assertEquals('calendar-dav', $this->provider->getId());
+		$this->assertEquals('calendar', $this->provider->getId());
 	}
 
 	public function testGetName(): void {

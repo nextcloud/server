@@ -134,7 +134,7 @@ class TasksSearchProviderTest extends TestCase {
 	}
 
 	public function testGetId(): void {
-		$this->assertEquals('tasks-dav', $this->provider->getId());
+		$this->assertEquals('tasks', $this->provider->getId());
 	}
 
 	public function testGetName(): void {

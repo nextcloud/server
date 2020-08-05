@@ -69,7 +69,7 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 	 * @inheritDoc
 	 */
 	public function getId(): string {
-		return 'calendar-dav';
+		return 'calendar';
 	}
 
 	/**
@@ -86,7 +86,7 @@ class EventsSearchProvider extends ACalendarSearchProvider {
 		if ($route === 'calendar.View.index') {
 			return -1;
 		}
-		return 10;
+		return 30;
 	}
 
 	/**

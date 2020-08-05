@@ -62,7 +62,7 @@ class SectionSearch implements IProvider {
 	 * @inheritDoc
 	 */
 	public function getId(): string {
-		return 'settings_sections';
+		return 'settings';
 	}
 
 	/**
@@ -79,7 +79,8 @@ class SectionSearch implements IProvider {
 		if ($route === 'settings.PersonalSettings.index' || $route === 'settings.AdminSettings.index') {
 			return -1;
 		}
-		return 20;
+		// At the very bottom
+		return 500;
 	}
 
 	/**

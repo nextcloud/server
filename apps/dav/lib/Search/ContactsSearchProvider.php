@@ -83,7 +83,7 @@ class ContactsSearchProvider implements IProvider {
 	 * @inheritDoc
 	 */
 	public function getId(): string {
-		return 'contacts-dav';
+		return 'contacts';
 	}
 
 	/**
@@ -100,7 +100,7 @@ class ContactsSearchProvider implements IProvider {
 		if ($route === 'contacts.Page.index') {
 			return -1;
 		}
-		return 20;
+		return 25;
 	}
 
 	/**
