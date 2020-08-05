@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Dashboard\Controller;
 
 use OCA\Dashboard\AppInfo\Application;
+use OCA\Files\Event\LoadSidebar;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
@@ -76,6 +77,11 @@ class DashboardController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index(): TemplateResponse {
+		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
+		if (class_exists(LoadViewer::class)) {
+			$this->eventDispatcher->dispatchTyped(new LoadViewer());
+		}
+
 		$this->eventDispatcher->dispatchTyped(new RegisterWidgetEvent($this->dashboardManager));
 
 		$userLayout = explode(',', $this->config->getUserValue($this->userId, 'dashboard', 'layout', 'recommendations,spreed,mail,calendar'));
@@ -91,10 +97,6 @@ class DashboardController extends Controller {
 		$this->inititalStateService->provideInitialState('dashboard', 'layout', $userLayout);
 		$this->inititalStateService->provideInitialState('dashboard', 'firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');
-
-		if (class_exists(LoadViewer::class)) {
-			$this->eventDispatcher->dispatchTyped(new LoadViewer());
-		}
 
 		return new TemplateResponse('dashboard', 'index');
 	}

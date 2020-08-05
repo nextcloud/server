@@ -1,4 +1,4 @@
 <?php
 	\OCP\Util::addScript('dashboard', 'dashboard');
 ?>
-<div id="app"></div>
+<div id="app-content-vue"></div>
