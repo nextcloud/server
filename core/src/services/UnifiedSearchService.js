@@ -24,8 +24,7 @@ import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 
 export const defaultLimit = loadState('unified-search', 'limit-default')
-export const activeApp = loadState('core', 'active-app')
-
+export const minSearchLength = 2
 /**
  * Get the list of available search providers
  *

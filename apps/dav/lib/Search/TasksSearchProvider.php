@@ -74,7 +74,10 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 	/**
 	 * @inheritDoc
 	 */
-	public function getOrder(string $from): int {
+	public function getOrder(string $route, array $routeParameters): int {
+		if ($route === 'tasks.Page.index') {
+			return -1;
+		}
 		return 10;
 	}
 
