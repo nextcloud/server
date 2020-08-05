@@ -22,7 +22,11 @@
 <template>
 	<li>
 		<div id="user-status-menu-item">
-			<span id="user-status-menu-item__header">{{ displayName }}</span>
+			<span
+				id="user-status-menu-item__header"
+				:title="displayName">
+				{{ displayName }}
+			</span>
 			<Actions
 				id="user-status-menu-item__subheader"
 				:default-icon="statusIcon"
@@ -236,17 +240,14 @@ export default {
 #user-status-menu-item {
 	&__header {
 		display: block;
-		align-items: center;
 		color: var(--color-main-text);
-		padding: 10px 12px 5px 12px;
-		box-sizing: border-box;
+		padding: 10px 12px 5px 38px;
 		opacity: 1;
 		white-space: nowrap;
-		width: 100%;
-		text-align: center;
-		max-width: 250px;
+		text-align: left;
+		max-width: 150px;
+		overflow: hidden;
 		text-overflow: ellipsis;
-		min-width: 175px;
 	}
 
 	&__subheader {
@@ -254,12 +255,13 @@ export default {
 
 		> button {
 			background-color: var(--color-main-background);
+			background-position: 12px center;
 			background-size: 16px;
 			border: 0;
 			border-radius: 0;
 			font-weight: normal;
-			font-size: 0.875em;
-			padding-left: 40px;
+			padding-left: 38px;
+			opacity: 1;
 
 			&:hover,
 			&:focus {
