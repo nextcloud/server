@@ -102,6 +102,7 @@ OC.L10N.register(
     "Go to %s" : "Aller à %s",
     "Install Client" : "Installer le Client",
     "Logged in user must be a subadmin" : "L'utilisateur connecté doit être un sous-administrateur",
+    "Apps" : "Apps",
     "Settings" : "Paramètres",
     "Personal" : "Personnel",
     "Administration" : "Administration",

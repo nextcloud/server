@@ -203,7 +203,6 @@ OC.L10N.register(
     "this share just expired." : "este recurso compartido acaba de caducar.",
     "Link to a file" : "Enlace al archivo",
     "Error creating the share" : "Error quitando el recurso compartido",
-    "Error deleting the share" : "Error borrando el recurso compartido",
     "Error updating the share" : "Error actualizando el recurso compartido",
     "Shared" : "Compartido",
     "Share" : "Compartir",

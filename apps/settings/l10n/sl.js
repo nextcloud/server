@@ -92,6 +92,7 @@ OC.L10N.register(
     "Go to %s" : "Odpri oblak %s",
     "Install Client" : "Namesti odjemalca",
     "Logged in user must be a subadmin" : "Prijavljen uporabnik mora imeti dovoljenja podpornega skrbnika",
+    "Apps" : "Programi",
     "Settings" : "Nastavitve",
     "Personal" : "Osebno",
     "Administration" : "Skrbništvo",

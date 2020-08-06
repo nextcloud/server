@@ -203,7 +203,6 @@ OC.L10N.register(
     "this share just expired." : "bu paylaşımın kullanma süresi doldu.",
     "Link to a file" : "Bir dosya ile bağla",
     "Error creating the share" : "Paylaşım oluşturulurken sorun çıktı",
-    "Error deleting the share" : "Paylaşım silinirken sorun çıktı",
     "Error updating the share" : "Paylaşım güncellenirken sorun çıktı",
     "Shared" : "Paylaşılan",
     "Share" : "Paylaş",

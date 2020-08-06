@@ -203,7 +203,6 @@ OC.L10N.register(
     "this share just expired." : "ово дељење је управо истекло.",
     "Link to a file" : "Веза ка фајлу",
     "Error creating the share" : "Грешка при прављењу дељења",
-    "Error deleting the share" : "Грешка при брисању дељења",
     "Error updating the share" : "Грешка при ажурирању дељења",
     "Shared" : "Подељено",
     "Share" : "Подели",

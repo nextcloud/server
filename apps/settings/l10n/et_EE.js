@@ -71,6 +71,7 @@ OC.L10N.register(
     "Set your password" : "Määra oma parool",
     "Go to %s" : "Mine %s",
     "Install Client" : "Paigalda kliendiprogramm",
+    "Apps" : "Rakendused",
     "Settings" : "Seaded",
     "Personal" : "Isiklik",
     "Administration" : "Haldus",

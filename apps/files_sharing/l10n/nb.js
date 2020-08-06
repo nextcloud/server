@@ -18,7 +18,9 @@ OC.L10N.register(
     "Shares will show up here" : "Delinger vil vises her",
     "Restore" : "Gjenopprett",
     "Restore share" : "Gjenopprett deling",
+    "Waiting…" : "Venter...",
     "error" : "feil",
+    "finished" : "fullført",
     "This will stop your current uploads." : "Dette fille stoppe dine nåværende opplastinger.",
     "Move or copy" : "Flytt eller kopier",
     "Download" : "Last ned",
@@ -158,6 +160,7 @@ OC.L10N.register(
     "Upload files to %s" : "Last opp filer til %s",
     "Note" : "Melding",
     "Select or drop files" : "Velg eller slipp filer",
+    "Uploading files" : "Laster opp filer",
     "Uploaded files:" : "Opplastede filer:",
     "could not delete share" : "kunne ikke slette ressursen",
     "Uploading files…" : "Laster opp filer…"

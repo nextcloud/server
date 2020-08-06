@@ -201,7 +201,6 @@ OC.L10N.register(
     "this share just expired." : "το κοινόχρηστο μόλις έληξε.",
     "Link to a file" : "Σύνδεσμος σε αρχείο",
     "Error creating the share" : "Σφάλμα κατά την δημιουργία κοινόχρηστου",
-    "Error deleting the share" : "Σφάλμα διαγραφής του κοινόχρηστου",
     "Error updating the share" : "Σφάλμα κατά την ενημέρωση του κοινόχρηστου",
     "Shared" : "Κοινόχρηστα",
     "Share" : "Διαμοιρασμός",

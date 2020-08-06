@@ -98,6 +98,7 @@ OC.L10N.register(
     "Go to %s" : "%s に移動",
     "Install Client" : "クライアントをインストール",
     "Logged in user must be a subadmin" : "ログインユーザーはサブ管理者である必要があります",
+    "Apps" : "アプリ",
     "Settings" : "設定",
     "Personal" : "個人",
     "Administration" : "管理",

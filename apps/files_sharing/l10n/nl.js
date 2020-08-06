@@ -201,7 +201,6 @@ OC.L10N.register(
     "this share just expired." : "deze share is net verlopen.",
     "Link to a file" : "Link naar een bestand",
     "Error creating the share" : "Fout tijdens aanmaken share",
-    "Error deleting the share" : "Fout bij verwijderen share",
     "Error updating the share" : "Fout tijdens bijwerken share",
     "Shared" : "Gedeeld",
     "Share" : "Deel",
