@@ -68,6 +68,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUser;
+use OCP\IUserSession;
 
 class OC_Util {
 	public static $scripts = [];
@@ -1088,6 +1089,8 @@ class OC_Util {
 	 * @suppress PhanDeprecatedFunction
 	 */
 	public static function getDefaultPageUrl() {
+		/** @var IConfig $config */
+		$config = \OC::$server->get(IConfig::class);
 		$urlGenerator = \OC::$server->getURLGenerator();
 		// Deny the redirect if the URL contains a @
 		// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
@@ -1099,8 +1102,16 @@ class OC_Util {
 				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
 				$appId = 'files';
-				$config = \OC::$server->getConfig();
-				$defaultApps = explode(',', $config->getSystemValue('defaultapp', 'files'));
+				$defaultApps = explode(',', $config->getSystemValue('defaultapp', 'dashboard,files'));
+
+				/** @var IUserSession $userSession */
+				$userSession = \OC::$server->get(IUserSession::class);
+				$user = $userSession->getUser();
+				if ($user) {
+					$userDefaultApps = explode(',', $config->getUserValue($user->getUID(), 'core', 'defaultapp'));
+					$defaultApps = array_filter(array_merge($userDefaultApps, $defaultApps));
+				}
+
 				// find the first app that is enabled for the current user
 				foreach ($defaultApps as $defaultApp) {
 					$defaultApp = OC_App::cleanAppId(strip_tags($defaultApp));

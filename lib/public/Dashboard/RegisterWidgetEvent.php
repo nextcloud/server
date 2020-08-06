@@ -40,7 +40,7 @@ use OCP\EventDispatcher\Event;
  * @since 20.0.0
  * @deprecated 20.0.0
  */
-class RegisterPanelEvent extends Event {
+class RegisterWidgetEvent extends Event {
 	private $manager;
 
 	public function __construct(IManager $manager) {
@@ -53,7 +53,7 @@ class RegisterPanelEvent extends Event {
 	 * @param string $panelClass
 	 * @since 20.0.0
 	 */
-	public function registerPanel(string $panelClass) {
-		$this->manager->lazyRegisterPanel($panelClass);
+	public function registerWidget(string $panelClass) {
+		$this->manager->lazyRegisterWidget($panelClass);
 	}
 }

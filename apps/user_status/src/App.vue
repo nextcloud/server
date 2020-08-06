@@ -20,9 +20,10 @@
   -->
 
 <template>
-	<li>
+	<li :class="{ inline }">
 		<div id="user-status-menu-item">
 			<span
+				v-if="!inline"
 				id="user-status-menu-item__header"
 				:title="displayName">
 				{{ displayName }}
@@ -70,6 +71,12 @@ export default {
 		Actions,
 		ActionButton,
 		SetStatusModal,
+	},
+	props: {
+		inline: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -237,7 +244,7 @@ export default {
 </script>
 
 <style lang="scss">
-#user-status-menu-item {
+li:not(.inline) #user-status-menu-item {
 	&__header {
 		display: block;
 		color: var(--color-main-text);
@@ -270,4 +277,33 @@ export default {
 		}
 	}
 }
+
+.inline #user-status-menu-item__subheader {
+	width: 100%;
+
+	> button {
+		background-color: var(--color-main-background);
+		background-size: 16px;
+		border: 0;
+		border-radius: var(--border-radius-pill);
+		font-weight: normal;
+		font-size: 0.875em;
+		padding-left: 40px;
+
+		&:hover,
+		&:focus {
+			background-color: var(--color-background-hover);
+		}
+
+		&.icon-loading-small {
+			&::after {
+				left: 21px;
+			}
+		}
+	}
+}
+
+	li {
+		list-style-type: none;
+	}
 </style>

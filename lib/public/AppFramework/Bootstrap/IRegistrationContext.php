@@ -59,11 +59,11 @@ interface IRegistrationContext {
 	 * Register an implementation of \OCP\Dashboard\IPanel that
 	 * will handle the implementation of a dashboard panel
 	 *
-	 * @param string $panelClass
+	 * @param string $widgetClass
 	 * @return void
 	 * @since 20.0.0
 	 */
-	public function registerDashboardPanel(string $panelClass): void;
+	public function registerDashboardWidget(string $widgetClass): void;
 	/**
 	 * Register a service
 	 *

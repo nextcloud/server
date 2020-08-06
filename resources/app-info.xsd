@@ -341,6 +341,7 @@
 
     <xs:simpleType name="category">
         <xs:restriction base="xs:string">
+            <xs:enumeration value="dashboard"/>
             <xs:enumeration value="security"/>
             <xs:enumeration value="customization"/>
             <xs:enumeration value="files"/>

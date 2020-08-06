@@ -29,7 +29,7 @@ namespace OC\Dashboard;
 use InvalidArgumentException;
 use OCP\AppFramework\QueryException;
 use OCP\Dashboard\IManager;
-use OCP\Dashboard\IPanel;
+use OCP\Dashboard\IWidget;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use Throwable;
@@ -37,10 +37,10 @@ use Throwable;
 class Manager implements IManager {
 
 	/** @var array */
-	private $lazyPanels = [];
+	private $lazyWidgets = [];
 
-	/** @var IPanel[] */
-	private $panels = [];
+	/** @var IWidget[] */
+	private $widgets = [];
 
 	/** @var IServerContainer */
 	private $serverContainer;
@@ -49,31 +49,31 @@ class Manager implements IManager {
 		$this->serverContainer = $serverContainer;
 	}
 
-	private function registerPanel(IPanel $panel): void {
-		if (array_key_exists($panel->getId(), $this->panels)) {
-			throw new InvalidArgumentException('Dashboard panel with this id has already been registered');
+	private function registerWidget(IWidget $widget): void {
+		if (array_key_exists($widget->getId(), $this->widgets)) {
+			throw new InvalidArgumentException('Dashboard widget with this id has already been registered');
 		}
 
-		$this->panels[$panel->getId()] = $panel;
+		$this->widgets[$widget->getId()] = $widget;
 	}
 
-	public function lazyRegisterPanel(string $panelClass): void {
-		$this->lazyPanels[] = $panelClass;
+	public function lazyRegisterWidget(string $widgetClass): void {
+		$this->lazyWidgets[] = $widgetClass;
 	}
 
 	public function loadLazyPanels(): void {
-		$classes = $this->lazyPanels;
+		$classes = $this->lazyWidgets;
 		foreach ($classes as $class) {
 			try {
-				/** @var IPanel $panel */
-				$panel = $this->serverContainer->query($class);
+				/** @var IWidget $widget */
+				$widget = $this->serverContainer->query($class);
 			} catch (QueryException $e) {
 				/*
 				 * There is a circular dependency between the logger and the registry, so
 				 * we can not inject it. Thus the static call.
 				 */
 				\OC::$server->getLogger()->logException($e, [
-					'message' => 'Could not load lazy dashbaord panel: ' . $e->getMessage(),
+					'message' => 'Could not load lazy dashbaord widget: ' . $e->getMessage(),
 					'level' => ILogger::FATAL,
 				]);
 			}
@@ -82,32 +82,32 @@ class Manager implements IManager {
 			 * type, so we might get a TypeError here that we should catch.
 			 */
 			try {
-				$this->registerPanel($panel);
+				$this->registerWidget($widget);
 			} catch (Throwable $e) {
 				/*
 				 * There is a circular dependency between the logger and the registry, so
 				 * we can not inject it. Thus the static call.
 				 */
 				\OC::$server->getLogger()->logException($e, [
-					'message' => 'Could not register lazy dashboard panel: ' . $e->getMessage(),
+					'message' => 'Could not register lazy dashboard widget: ' . $e->getMessage(),
 					'level' => ILogger::FATAL,
 				]);
 			}
 
 			try {
-				$panel->load();
+				$widget->load();
 			} catch (Throwable $e) {
 				\OC::$server->getLogger()->logException($e, [
-					'message' => 'Error during dashboard panel loading: ' . $e->getMessage(),
+					'message' => 'Error during dashboard widget loading: ' . $e->getMessage(),
 					'level' => ILogger::FATAL,
 				]);
 			}
 		}
-		$this->lazyPanels = [];
+		$this->lazyWidgets = [];
 	}
 
-	public function getPanels(): array {
+	public function getWidgets(): array {
 		$this->loadLazyPanels();
-		return $this->panels;
+		return $this->widgets;
 	}
 }
