@@ -69,13 +69,16 @@ class ChunkingPlugin extends ServerPlugin {
 	 * @return bool|void false to stop handling, void to skip this handler
 	 */
 	public function performMove($path, $destination) {
-		if (!$this->server->tree->nodeExists($destination)) {
-			// skip and let the default handler do its work
-			return;
-		}
-
 		// do a move manually, skipping Sabre's default "delete" for existing nodes
-		$this->server->tree->move($path, $destination);
+		try {
+			$this->server->tree->move($path, $destination);
+		} catch (Forbidden $e) {
+			$sourceNode = $this->server->tree->getNodeForPath($path);
+			if ($sourceNode instanceof FutureFile) {
+				$sourceNode->delete();
+			}
+			throw $e;
+		}
 
 		// trigger all default events (copied from CorePlugin::move)
 		$this->server->emit('afterMove', [$path, $destination]);
