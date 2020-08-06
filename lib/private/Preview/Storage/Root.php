@@ -32,23 +32,23 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 
 class Root extends AppData {
+	private $isMultibucketPreviewDistributionEnabled = false;
 	public function __construct(IRootFolder $rootFolder, SystemConfig $systemConfig) {
 		parent::__construct($rootFolder, $systemConfig, 'preview');
+
+		$this->isMultibucketPreviewDistributionEnabled = $systemConfig->getValue('objectstore.multibucket.preview-distribution', false) === true;
 	}
 
 
 	public function getFolder(string $name): ISimpleFolder {
 		$internalFolder = $this->getInternalFolder($name);
 
-		try {
-			return parent::getFolder('old-multibucket/' . $internalFolder);
-		} catch (NotFoundException $e) {
-			// not in multibucket fallback #1
-		}
-		try {
-			return parent::getFolder('old-multibucket/' . $name);
-		} catch (NotFoundException $e) {
-			// not in multibucket fallback #2
+		if ($this->isMultibucketPreviewDistributionEnabled) {
+			try {
+				return parent::getFolder('old-multibucket/' . $internalFolder);
+			} catch (NotFoundException $e) {
+				// not in multibucket fallback
+			}
 		}
 
 		try {

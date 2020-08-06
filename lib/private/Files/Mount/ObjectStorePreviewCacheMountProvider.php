@@ -55,6 +55,9 @@ class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
 		if (!is_array($this->config->getSystemValue('objectstore_multibucket'))) {
 			return [];
 		}
+		if ($this->config->getSystemValue('objectstore.multibucket.preview-distribution', false) !== true) {
+			return [];
+		}
 
 		$instanceId = $this->config->getSystemValueString('instanceid', '');
 		$mountPoints = [];

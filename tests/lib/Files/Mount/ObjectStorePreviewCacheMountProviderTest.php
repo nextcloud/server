@@ -71,22 +71,29 @@ class ObjectStorePreviewCacheMountProviderTest extends \Test\TestCase {
 	}
 
 	public function testMultibucketObjectStorage() {
+		$objectstoreConfig = [
+			'class' => S3::class,
+			'arguments' => [
+				'bucket' => 'abc',
+				'num_buckets' => 64,
+				'key' => 'KEY',
+				'secret' => 'SECRET',
+				'hostname' => 'IP',
+				'port' => 'PORT',
+				'use_ssl' => false,
+				'use_path_style' => true,
+			],
+		];
 		$this->config->expects($this->any())
 			->method('getSystemValue')
-			->with('objectstore_multibucket')
-			->willReturn([
-				'class' => S3::class,
-				'arguments' => [
-					'bucket' => 'abc',
-					'num_buckets' => 64,
-					'key' => 'KEY',
-					'secret' => 'SECRET',
-					'hostname' => 'IP',
-					'port' => 'PORT',
-					'use_ssl' => false,
-					'use_path_style' => true,
-				],
-			]);
+			->willReturnCallback(function ($config) use ($objectstoreConfig) {
+				if ($config === 'objectstore_multibucket') {
+					return $objectstoreConfig;
+				} elseif ($config === 'objectstore.multibucket.preview-distribution') {
+					return true;
+				}
+				return null;
+			});
 		$this->config->expects($this->once())
 			->method('getSystemValueString')
 			->with('instanceid')
