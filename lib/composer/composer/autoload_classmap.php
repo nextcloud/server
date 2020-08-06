@@ -527,6 +527,7 @@ return array(
     'OCP\\User\\Events\\UserLoggedInWithCookieEvent' => $baseDir . '/lib/public/User/Events/UserLoggedInWithCookieEvent.php',
     'OCP\\User\\Events\\UserLoggedOutEvent' => $baseDir . '/lib/public/User/Events/UserLoggedOutEvent.php',
     'OCP\\Util' => $baseDir . '/lib/public/Util.php',
+    'OCP\\WorkflowEngine\\EntityContext\\IContextPortation' => $baseDir . '/lib/public/WorkflowEngine/EntityContext/IContextPortation.php',
     'OCP\\WorkflowEngine\\EntityContext\\IDisplayName' => $baseDir . '/lib/public/WorkflowEngine/EntityContext/IDisplayName.php',
     'OCP\\WorkflowEngine\\EntityContext\\IDisplayText' => $baseDir . '/lib/public/WorkflowEngine/EntityContext/IDisplayText.php',
     'OCP\\WorkflowEngine\\EntityContext\\IIcon' => $baseDir . '/lib/public/WorkflowEngine/EntityContext/IIcon.php',

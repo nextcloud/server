@@ -556,6 +556,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\User\\Events\\UserLoggedInWithCookieEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserLoggedInWithCookieEvent.php',
         'OCP\\User\\Events\\UserLoggedOutEvent' => __DIR__ . '/../../..' . '/lib/public/User/Events/UserLoggedOutEvent.php',
         'OCP\\Util' => __DIR__ . '/../../..' . '/lib/public/Util.php',
+        'OCP\\WorkflowEngine\\EntityContext\\IContextPortation' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/EntityContext/IContextPortation.php',
         'OCP\\WorkflowEngine\\EntityContext\\IDisplayName' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/EntityContext/IDisplayName.php',
         'OCP\\WorkflowEngine\\EntityContext\\IDisplayText' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/EntityContext/IDisplayText.php',
         'OCP\\WorkflowEngine\\EntityContext\\IIcon' => __DIR__ . '/../../..' . '/lib/public/WorkflowEngine/EntityContext/IIcon.php',
