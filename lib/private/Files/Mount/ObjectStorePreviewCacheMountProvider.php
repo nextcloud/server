@@ -108,8 +108,8 @@ class ObjectStorePreviewCacheMountProvider implements IRootMountProvider {
 		if (!isset($config['arguments']['bucket'])) {
 			$config['arguments']['bucket'] = '';
 		}
-		$numBuckets = isset($config['arguments']['num_buckets']) ? $config['arguments']['num_buckets'] : 64;
-		$config['arguments']['bucket'] .= (string)($number % $numBuckets);
+
+		$config['arguments']['bucket'] .= "-preview-$number";
 
 		// instantiate object store implementation
 		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
