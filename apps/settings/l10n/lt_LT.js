@@ -101,6 +101,7 @@ OC.L10N.register(
     "Go to %s" : "Pereiti į %s",
     "Install Client" : "Įdiegti kliento programą",
     "Logged in user must be a subadmin" : "Prisijungęs naudotojas privalo būti administratoriaus pavaduotojas",
+    "Apps" : "Programėlės",
     "Settings" : "Nustatymai",
     "Personal" : "Asmeniniai",
     "Administration" : "Administravimas",

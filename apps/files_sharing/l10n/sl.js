@@ -169,7 +169,6 @@ OC.L10N.register(
     "this share just expired." : "to mesto souporabe je ravnokar poteklo.",
     "Link to a file" : "Povezava do datoteke",
     "Error creating the share" : "Napaka ustvarjanja mesta souporabe",
-    "Error deleting the share" : " Napaka brisanja mesta souporabe",
     "Error updating the share" : "Napaka posodabljanja mesta souporabe",
     "Shared" : "V souporabi",
     "Share" : "Souporaba",

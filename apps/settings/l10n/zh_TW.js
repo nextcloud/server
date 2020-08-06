@@ -77,6 +77,7 @@ OC.L10N.register(
     "Set your password" : "設定您的密碼",
     "Go to %s" : "前往 %s",
     "Install Client" : "安裝客戶端程式",
+    "Apps" : "應用程式",
     "Settings" : "設定",
     "Personal" : "個人",
     "Administration" : "管理",

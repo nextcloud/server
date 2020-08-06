@@ -98,6 +98,7 @@ OC.L10N.register(
     "Go to %s" : "מעבר אל %s",
     "Install Client" : "התקנת לקו",
     "Logged in user must be a subadmin" : "המשתמש שנכנס חייב להיות תת־מנהל",
+    "Apps" : "יישומונים",
     "Settings" : "הגדרות",
     "Personal" : "אישי",
     "Administration" : "ניהול",

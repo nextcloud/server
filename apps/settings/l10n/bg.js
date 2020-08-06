@@ -53,6 +53,7 @@ OC.L10N.register(
     "Welcome to your %s account, you can add, protect, and share your data." : "Добре дошли във вашия %s акаунт, можете да добавяте, защитавате и споделяте своите данни.",
     "Your username is: %s" : "Потребителско име: %s",
     "Set your password" : "Задайте парола",
+    "Apps" : "Приложения",
     "Settings" : "Настройки",
     "Personal" : "Лични",
     "Administration" : "Административни",

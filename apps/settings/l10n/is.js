@@ -96,6 +96,7 @@ OC.L10N.register(
     "Go to %s" : "Farðu í %s",
     "Install Client" : "Setja upp biðlaraforrit",
     "Logged in user must be a subadmin" : "Innskráður notandi verður að vera undirstjórnandi (subadmin)",
+    "Apps" : "Forrit",
     "Settings" : "Stillingar",
     "Personal" : "Einka",
     "Administration" : "Stjórnun",

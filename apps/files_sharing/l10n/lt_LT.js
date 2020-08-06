@@ -203,7 +203,6 @@ OC.L10N.register(
     "this share just expired." : "šis viešinys ką tik nustojo galioti.",
     "Link to a file" : "Nuoroda į failą",
     "Error creating the share" : "Klaida kuriant viešinį",
-    "Error deleting the share" : "Klaida ištrinant bendrinimą",
     "Error updating the share" : "Klaida atnaujinant viešinį",
     "Shared" : "Pasidalinta",
     "Share" : "Dalintis",

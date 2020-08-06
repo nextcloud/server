@@ -72,6 +72,7 @@ OC.L10N.register(
     "Go to %s" : "გადადით %s-ზე",
     "Install Client" : "დააყენეთ კლიენტი",
     "Logged in user must be a subadmin" : "ავტორიზირებული მომხმარებელი უნდა იყოს ქვე-ადმინისტრატორი",
+    "Apps" : "აპლიკაციები",
     "Settings" : "პარამეტრები",
     "Personal" : "პირადი",
     "Administration" : "ადმინისტრაცია",

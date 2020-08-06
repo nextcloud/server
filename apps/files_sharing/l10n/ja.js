@@ -202,7 +202,6 @@ OC.L10N.register(
     "this share just expired." : "この共有は期限切れになりました。",
     "Link to a file" : "ファイルへリンク",
     "Error creating the share" : "共有の作成中にエラーが発生しました",
-    "Error deleting the share" : "共有の削除中にエラー",
     "Error updating the share" : "共有の更新中にエラー",
     "Shared" : "共有中",
     "Share" : "共有",

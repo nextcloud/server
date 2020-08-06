@@ -102,6 +102,7 @@ OC.L10N.register(
     "Go to %s" : "%s sayfasına gidin",
     "Install Client" : "İstemciyi Yükleyin",
     "Logged in user must be a subadmin" : "Oturum açmış kullanıcı bir alt yönetici olmalıdır",
+    "Apps" : "Uygulamalar",
     "Settings" : "Ayarlar",
     "Personal" : "Kişisel",
     "Administration" : "Yönetim",

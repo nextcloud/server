@@ -203,7 +203,6 @@ OC.L10N.register(
     "this share just expired." : "denna delning har just gått ut.",
     "Link to a file" : "Länka till en fil",
     "Error creating the share" : "Kunde inte skapa delning",
-    "Error deleting the share" : "Kunde inte radera delningen",
     "Error updating the share" : "Kunde inte uppdatera delning",
     "Shared" : "Delad",
     "Share" : "Dela",

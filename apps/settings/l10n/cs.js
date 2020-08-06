@@ -102,6 +102,7 @@ OC.L10N.register(
     "Go to %s" : "Jít na %s",
     "Install Client" : "Nainstalovat klienta",
     "Logged in user must be a subadmin" : "Je třeba, aby přihlášený uživatel byl dílčím správcem",
+    "Apps" : "Aplikace",
     "Settings" : "Nastavení",
     "Personal" : "Osobní",
     "Administration" : "Správa",

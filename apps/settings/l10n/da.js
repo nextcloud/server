@@ -88,6 +88,7 @@ OC.L10N.register(
     "Set your password" : "Sæt dit password",
     "Go to %s" : "Gå til %s",
     "Install Client" : "Installer client",
+    "Apps" : "Apps",
     "Settings" : "Indstillinger",
     "Personal" : "Personligt",
     "Administration" : "Administration",
