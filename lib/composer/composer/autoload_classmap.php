@@ -829,6 +829,7 @@ return array(
     'OC\\Core\\Command\\Maintenance\\Repair' => $baseDir . '/core/Command/Maintenance/Repair.php',
     'OC\\Core\\Command\\Maintenance\\UpdateHtaccess' => $baseDir . '/core/Command/Maintenance/UpdateHtaccess.php',
     'OC\\Core\\Command\\Maintenance\\UpdateTheme' => $baseDir . '/core/Command/Maintenance/UpdateTheme.php',
+    'OC\\Core\\Command\\Preview\\Repair' => $baseDir . '/core/Command/Preview/Repair.php',
     'OC\\Core\\Command\\Security\\ImportCertificate' => $baseDir . '/core/Command/Security/ImportCertificate.php',
     'OC\\Core\\Command\\Security\\ListCertificates' => $baseDir . '/core/Command/Security/ListCertificates.php',
     'OC\\Core\\Command\\Security\\RemoveCertificate' => $baseDir . '/core/Command/Security/RemoveCertificate.php',

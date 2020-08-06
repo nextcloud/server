@@ -39,7 +39,7 @@ class Root extends AppData {
 
 
 	public function getFolder(string $name): ISimpleFolder {
-		$internalFolder = $this->getInternalFolder($name);
+		$internalFolder = self::getInternalFolder($name);
 
 		try {
 			return parent::getFolder($internalFolder);
@@ -54,7 +54,7 @@ class Root extends AppData {
 	}
 
 	public function newFolder(string $name): ISimpleFolder {
-		$internalFolder = $this->getInternalFolder($name);
+		$internalFolder = self::getInternalFolder($name);
 		return parent::newFolder($internalFolder);
 	}
 
@@ -66,7 +66,7 @@ class Root extends AppData {
 		return [];
 	}
 
-	private function getInternalFolder(string $name): string {
+	public static function getInternalFolder(string $name): string {
 		return implode('/', str_split(substr(md5($name), 0, 7))) . '/' . $name;
 	}
 }
