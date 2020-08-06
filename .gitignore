@@ -40,6 +40,7 @@
 !/apps/theming
 !/apps/twofactor_backupcodes
 !/apps/user_status
+!/apps/weather_status
 !/apps/workflowengine
 /apps/files_external/3rdparty/irodsphp/PHPUnitTest
 /apps/files_external/3rdparty/irodsphp/web
