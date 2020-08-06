@@ -98,6 +98,7 @@ OC.L10N.register(
     "Go to %s" : "Оди до %s",
     "Install Client" : "Инсталирај клиент",
     "Logged in user must be a subadmin" : "Најавениот корисник мора да биде подадминистратор",
+    "Apps" : "Аппликации",
     "Settings" : "Параметри",
     "Personal" : "Лично",
     "Administration" : "Администрација",

@@ -72,6 +72,7 @@ OC.L10N.register(
     "Set your password" : "Establece tu contraseña",
     "Go to %s" : "Ir a %s",
     "Install Client" : "Instalar el cliente",
+    "Apps" : "Aplicaciones",
     "Settings" : "Configuraciones ",
     "Personal" : "Personal",
     "Administration" : "Administración",

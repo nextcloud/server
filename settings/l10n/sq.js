@@ -70,6 +70,7 @@ OC.L10N.register(
     "Set your password" : "Vendos fjalëkalimin tënd",
     "Go to %s" : "Shko tek %s",
     "Install Client" : "Instalo Klient",
+    "Apps" : "Aplikacione",
     "Settings" : "Rregullimet",
     "Personal" : "Personale",
     "Additional settings" : "Konfigurime shtesë",

@@ -102,6 +102,7 @@ OC.L10N.register(
     "Go to %s" : "Mont da %s",
     "Install Client" : "Stalia ar c'hliant",
     "Logged in user must be a subadmin" : "An trement e implijer a zo ret bezañ un iz-administratour",
+    "Apps" : "Meziant",
     "Settings" : "Arventennoù",
     "Personal" : "Personel",
     "Administration" : "Merouriez",

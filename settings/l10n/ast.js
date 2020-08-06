@@ -65,6 +65,7 @@ OC.L10N.register(
     "Set your password" : "Afita la to contraseña",
     "Go to %s" : "Dir a %s",
     "Install Client" : "Instalar veceru",
+    "Apps" : "Aplicaciones",
     "Settings" : "Settings",
     "Personal" : "Personal",
     "Additional settings" : "Axustes adicionales",
