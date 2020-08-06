@@ -79,5 +79,7 @@ return [
 		['name' => 'WebAuthn#startRegistration', 'url' => '/settings/api/personal/webauthn/registration', 'verb' => 'GET' , 'root' => ''],
 		['name' => 'WebAuthn#finishRegistration', 'url' => '/settings/api/personal/webauthn/registration', 'verb' => 'POST' , 'root' => ''],
 		['name' => 'WebAuthn#deleteRegistration', 'url' => '/settings/api/personal/webauthn/registration/{id}', 'verb' => 'DELETE' , 'root' => ''],
+
+		['name' => 'Reasons#getPdf', 'url' => '/settings/download/reasons', 'verb' => 'GET', 'root' => ''],
 	]
 ];

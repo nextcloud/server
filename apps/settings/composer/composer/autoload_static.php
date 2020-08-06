@@ -40,6 +40,7 @@ class ComposerStaticInitSettings
         'OCA\\Settings\\Controller\\LogSettingsController' => __DIR__ . '/..' . '/../lib/Controller/LogSettingsController.php',
         'OCA\\Settings\\Controller\\MailSettingsController' => __DIR__ . '/..' . '/../lib/Controller/MailSettingsController.php',
         'OCA\\Settings\\Controller\\PersonalSettingsController' => __DIR__ . '/..' . '/../lib/Controller/PersonalSettingsController.php',
+        'OCA\\Settings\\Controller\\ReasonsController' => __DIR__ . '/..' . '/../lib/Controller/ReasonsController.php',
         'OCA\\Settings\\Controller\\TwoFactorSettingsController' => __DIR__ . '/..' . '/../lib/Controller/TwoFactorSettingsController.php',
         'OCA\\Settings\\Controller\\UsersController' => __DIR__ . '/..' . '/../lib/Controller/UsersController.php',
         'OCA\\Settings\\Controller\\WebAuthnController' => __DIR__ . '/..' . '/../lib/Controller/WebAuthnController.php',

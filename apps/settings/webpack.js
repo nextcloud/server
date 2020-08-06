@@ -5,7 +5,8 @@ module.exports = {
 		'settings-apps-users-management': path.join(__dirname, 'src', 'main-apps-users-management'),
 		'settings-admin-security': path.join(__dirname, 'src', 'main-admin-security'),
 		'settings-personal-security': path.join(__dirname, 'src', 'main-personal-security'),
-		'settings-personal-webauthn': path.join(__dirname, 'src', 'main-personal-webauth')
+		'settings-personal-webauthn': path.join(__dirname, 'src', 'main-personal-webauth'),
+		'settings-nextcloud-pdf': path.join(__dirname, 'src', 'main-nextcloud-pdf'),
 	},
 	output: {
 		path: path.resolve(__dirname, './js'),

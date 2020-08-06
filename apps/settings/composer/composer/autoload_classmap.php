@@ -25,6 +25,7 @@ return array(
     'OCA\\Settings\\Controller\\LogSettingsController' => $baseDir . '/../lib/Controller/LogSettingsController.php',
     'OCA\\Settings\\Controller\\MailSettingsController' => $baseDir . '/../lib/Controller/MailSettingsController.php',
     'OCA\\Settings\\Controller\\PersonalSettingsController' => $baseDir . '/../lib/Controller/PersonalSettingsController.php',
+    'OCA\\Settings\\Controller\\ReasonsController' => $baseDir . '/../lib/Controller/ReasonsController.php',
     'OCA\\Settings\\Controller\\TwoFactorSettingsController' => $baseDir . '/../lib/Controller/TwoFactorSettingsController.php',
     'OCA\\Settings\\Controller\\UsersController' => $baseDir . '/../lib/Controller/UsersController.php',
     'OCA\\Settings\\Controller\\WebAuthnController' => $baseDir . '/../lib/Controller/WebAuthnController.php',
