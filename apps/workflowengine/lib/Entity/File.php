@@ -43,12 +43,13 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\MapperEvent;
 use OCP\WorkflowEngine\EntityContext\IContextPortation;
 use OCP\WorkflowEngine\EntityContext\IDisplayText;
+use OCP\WorkflowEngine\EntityContext\IIcon;
 use OCP\WorkflowEngine\EntityContext\IUrl;
 use OCP\WorkflowEngine\GenericEntityEvent;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IRuleMatcher;
 
-class File implements IEntity, IDisplayText, IUrl, IContextPortation {
+class File implements IEntity, IDisplayText, IUrl, IIcon, IContextPortation {
 	private const EVENT_NAMESPACE = '\OCP\Files::';
 
 	/** @var IL10N */
@@ -269,5 +270,12 @@ class File implements IEntity, IDisplayText, IUrl, IContextPortation {
 		if ($contextIDs['actingUserId']) {
 			$this->actingUser = $this->userManager->get($contextIDs['actingUserId']);
 		}
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getIconUrl(): string {
+		return $this->getIcon();
 	}
 }
