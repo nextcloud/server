@@ -102,6 +102,7 @@ OC.L10N.register(
     "Go to %s" : "Ugrás ide: %s",
     "Install Client" : "Kliens telepítése",
     "Logged in user must be a subadmin" : "Nem rendszergazda felhasználóként kell bejelentkezzen",
+    "Apps" : "Alkalmazások",
     "Settings" : "Beállítások",
     "Personal" : "Személyes",
     "Administration" : "Adminisztráció",

@@ -102,6 +102,7 @@ OC.L10N.register(
     "Go to %s" : "访问 %s",
     "Install Client" : "安装客户端",
     "Logged in user must be a subadmin" : "当前登录用户必须为子管理员",
+    "Apps" : "应用",
     "Settings" : "设置",
     "Personal" : "个人",
     "Administration" : "管理",

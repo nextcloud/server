@@ -85,6 +85,7 @@ OC.L10N.register(
     "Your username is: %s" : "Utilizatorul tău este: %s",
     "Set your password" : "Setează parola",
     "Install Client" : "Instalează client",
+    "Apps" : "Aplicații",
     "Settings" : "Setări",
     "Personal" : "Personal",
     "Administration" : "Administrare",

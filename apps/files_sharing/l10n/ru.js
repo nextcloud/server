@@ -203,7 +203,6 @@ OC.L10N.register(
     "this share just expired." : "срок действия этого общего ресурса только что истёк.",
     "Link to a file" : "Ссылка на файл",
     "Error creating the share" : "Ошибка создания общего доступа",
-    "Error deleting the share" : "Ошибка прекращения общего доступа",
     "Error updating the share" : "Ошибка изменения параметров общего доступа",
     "Shared" : "Опубликованное",
     "Share" : "Поделиться",

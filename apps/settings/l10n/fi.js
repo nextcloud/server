@@ -95,6 +95,7 @@ OC.L10N.register(
     "Set your password" : "Aseta salasanasi",
     "Go to %s" : "Siirry %s-palveluun",
     "Install Client" : "Asenna sovellus",
+    "Apps" : "Sovellukset",
     "Settings" : "Asetukset",
     "Personal" : "Henkilökohtainen",
     "Administration" : "Ylläpito",

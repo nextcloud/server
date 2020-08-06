@@ -96,6 +96,7 @@ OC.L10N.register(
     "Go to %s" : "Pergi ke %s",
     "Install Client" : "Pasang Klien",
     "Logged in user must be a subadmin" : "Masuk ke dalam pengguna harus sebagai seorang subadmin",
+    "Apps" : "Aplikasi",
     "Settings" : "Setelan",
     "Personal" : "Personal",
     "Administration" : "Administrasi",

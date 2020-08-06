@@ -91,6 +91,7 @@ OC.L10N.register(
     "Set your password" : "내 암호 설정하기",
     "Go to %s" : "%s(으)로 이동",
     "Install Client" : "클라이언트 설치",
+    "Apps" : "앱",
     "Settings" : "설정",
     "Personal" : "개인",
     "Administration" : "관리",

@@ -94,6 +94,7 @@ OC.L10N.register(
     "Go to %s" : "Gå til %s",
     "Install Client" : "Installer klient",
     "Logged in user must be a subadmin" : "Innlogget bruker må være subadministrator",
+    "Apps" : "Apper",
     "Settings" : "Innstillinger",
     "Personal" : "Personlig",
     "Administration" : "Administrasjon",

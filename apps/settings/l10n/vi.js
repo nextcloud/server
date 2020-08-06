@@ -96,6 +96,7 @@ OC.L10N.register(
     "Go to %s" : "Đi tới %s",
     "Install Client" : "Cài đặt máy khách",
     "Logged in user must be a subadmin" : "Người dùng đã đăng nhập phải là một subadmin",
+    "Apps" : "Ứng dụng",
     "Settings" : "Cài đặt",
     "Personal" : "Cá nhân",
     "Sharing" : "Chia sẻ",
