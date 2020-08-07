@@ -170,6 +170,7 @@ OC.L10N.register(
     "Loading more results …" : "O kargañ muioc'h a zisoc'hoù ...",
     "Load more results" : "Kagañ muioc'h a disoc'hoù",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Lakait {minSearchLength} arouez pe muioc'h evit klask","Lakait {minSearchLength} arouez pe muioc'h evit klask","Lakait {minSearchLength} arouez pe muioc'h evit klask","Lakait {minSearchLength} arouez pe muioc'h evit klask","Lakait  {minSearchLength} arouez pe muioc'h evit klask"],
+    "Search {types} …" : "Klask {types} ...",
     "Settings" : "Arventennoù",
     "Could not load your contacts" : "N'eo ket posuple kargañ an darempredoù",
     "Search contacts …" : "Klask darempred ...",

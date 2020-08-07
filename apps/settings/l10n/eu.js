@@ -191,7 +191,7 @@ OC.L10N.register(
     "Error while deleting the token" : "Errorea tokena ezabatzean",
     "Error while wiping the device with the token" : "Errorea gailua tokenarekin garbitzean",
     "App name" : "Aplikazioaren izena",
-    "Create new app password" : "Sortu app pasahitza berria",
+    "Create new app password" : "Sortu aplikaziorako pasahitz berria",
     "Use the credentials below to configure your app or device." : "Erabili kredentzialak beheko zure aplikazioa edo gailua konfiguratzeko.",
     "For security reasons this password will only be shown once." : "Segurtasun arrazoiengatik, pasahitz hau behin soilik erakutsiko da.",
     "Username" : "Erabiltzaile izena",
