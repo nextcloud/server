@@ -509,9 +509,9 @@
 		},
 
 		addGenericSetupCheck: function(data, check, messages) {
-			const setupCheck = data[check] || { pass: true, description: '', severity: 'info'}
+			var setupCheck = data[check] || { pass: true, description: '', severity: 'info'}
 
-			let type = OC.SetupChecks.MESSAGE_TYPE_INFO
+			var type = OC.SetupChecks.MESSAGE_TYPE_INFO
 			if (setupCheck.severity === 'warning') {
 				type = OC.SetupChecks.MESSAGE_TYPE_WARNING
 			} else if (setupCheck.severity === 'error') {
