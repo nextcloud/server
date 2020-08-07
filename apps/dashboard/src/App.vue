@@ -114,7 +114,7 @@ export default {
 			if (time > 5) {
 				return { text: shouldShowName ? t('dashboard', 'Good morning, {name}', { name: this.displayName }) : t('dashboard', 'Good morning') }
 			}
-			return {text: shouldShowName ? t('dashboard', 'Good night, {name}', { name: this.displayName }) : t('dashboard', 'Have a night owl') }
+			return { text: shouldShowName ? t('dashboard', 'Good night, {name}', { name: this.displayName }) : t('dashboard', 'Have a night owl') }
 		},
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
@@ -266,11 +266,6 @@ export default {
 			z-index: 1;
 			top: 50px;
 			padding: 16px;
-			// TO DO: use variables here
-			background: linear-gradient(170deg, rgba(0, 130,201, 0.2) 0%, rgba(255,255,255,.1) 50%, rgba(255,255,255,0) 100%);
-			border-top-left-radius: calc(var(--border-radius-large) - 2px);
-			border-top-right-radius: calc(var(--border-radius-large) - 2px);
-			backdrop-filter: blur(4px);
 			cursor: grab;
 
 			&, ::v-deep * {
