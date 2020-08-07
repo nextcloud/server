@@ -225,17 +225,57 @@ export default {
 }
 </script>
 
+<style lang="scss">
+// Show Dashboard background image beneath header
+#body-user #header {
+	background: none;
+}
+
+#content {
+	padding-top: 0;
+}
+
+// Hide triangle indicators from navigation since they are out of place without the header bar
+#appmenu li a.active::before,
+#appmenu li:hover a::before,
+#appmenu li:hover a.active::before,
+#appmenu li a:focus::before {
+	display: none;
+}
+</style>
+
 <style lang="scss" scoped>
 	#app-dashboard {
 		width: 100%;
-		margin-bottom: 100px;
+		padding-bottom: 100px;
+
+		background-color: var(--color-primary);
+		background-image: url('/nextcloud/apps/dashboard/img/flickr-paszczak000-8715851521.jpg?v=1');
+		background-size: cover;
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+	}
+
+	@media only screen and (max-width: var(--breakpoint-mobile)) {
+		body {
+			background-image: url('/nextcloud/apps/dashboard/img/flickr-paszczak000-8715851521-mobile.jpg?v=1');
+		}
 	}
 
 	h2 {
+		color: var(--color-primary-text);
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
-		padding: 80px 16px 0px;
+		padding: 120px 16px 0px;
+	}
+
+	.statuses {
+		::v-deep #user-status-menu-item__subheader>button {
+			background-color: rgba(255, 255, 255, 0.8);
+			backdrop-filter: blur(10px);
+		}
 	}
 
 	.panels {
@@ -253,9 +293,9 @@ export default {
 		width: 320px;
 		max-width: 100%;
 		margin: 16px;
-		background-color: var(--color-main-background-translucent);
+		background-color: rgba(255, 255, 255, 0.8);
+		backdrop-filter: blur(10px);
 		border-radius: var(--border-radius-large);
-		border: 2px solid var(--color-border);
 
 		&.sortable-ghost {
 			 opacity: 0.1;
