@@ -27,10 +27,16 @@ namespace OCA\Files_External\Lib\Auth\Password;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\Listener\StorePasswordListener;
+use OCP\Authentication\Exceptions\CredentialsUnavailableException;
+use OCP\Authentication\LoginCredentials\IStore as CredentialsStore;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IL10N;
 use OCP\ISession;
 use OCP\IUser;
 use OCP\Security\ICredentialsManager;
+use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\UserLoggedInEvent;
 
 /**
  * Username and password from login credentials, saved in DB
@@ -44,45 +50,52 @@ class LoginCredentials extends AuthMechanism {
 	/** @var ICredentialsManager */
 	protected $credentialsManager;
 
-	public function __construct(IL10N $l, ISession $session, ICredentialsManager $credentialsManager) {
+	/** @var CredentialsStore */
+	private $credentialsStore;
+
+	public function __construct(IL10N $l, ISession $session, ICredentialsManager $credentialsManager, CredentialsStore $credentialsStore, IEventDispatcher $eventDispatcher) {
 		$this->session = $session;
 		$this->credentialsManager = $credentialsManager;
+		$this->credentialsStore = $credentialsStore;
 
 		$this
 			->setIdentifier('password::logincredentials')
 			->setScheme(self::SCHEME_PASSWORD)
 			->setText($l->t('Log-in credentials, save in database'))
 			->addParameters([
-			])
-		;
+			]);
 
-		\OCP\Util::connectHook('OC_User', 'post_login', $this, 'authenticate');
+		$eventDispatcher->addServiceListener(UserLoggedInEvent::class, StorePasswordListener::class);
+		$eventDispatcher->addServiceListener(PasswordUpdatedEvent::class, StorePasswordListener::class);
 	}
 
-	/**
-	 * Hook listener on post login
-	 *
-	 * @param array $params
-	 */
-	public function authenticate(array $params) {
-		$userId = $params['uid'];
-		$credentials = [
-			'user' => $this->session->get('loginname'),
-			'password' => $params['password']
-		];
-		$this->credentialsManager->store($userId, self::CREDENTIALS_IDENTIFIER, $credentials);
+	private function getCredentials(IUser $user): array {
+		$credentials = $this->credentialsManager->retrieve($user->getUID(), self::CREDENTIALS_IDENTIFIER);
+
+		if (is_null($credentials)) {
+			// nothing saved in db, try to get it from the session and save it
+			try {
+				$sessionCredentials = $this->credentialsStore->getLoginCredentials();
+
+				$credentials = [
+					'user' => $sessionCredentials->getLoginName(),
+					'password' => $sessionCredentials->getPassword()
+				];
+
+				$this->credentialsManager->store($user->getUID(), self::CREDENTIALS_IDENTIFIER, $credentials);
+			} catch (CredentialsUnavailableException $e) {
+				throw new InsufficientDataForMeaningfulAnswerException('No login credentials saved');
+			}
+		}
+
+		return $credentials;
 	}
 
 	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
 		if (!isset($user)) {
 			throw new InsufficientDataForMeaningfulAnswerException('No login credentials saved');
 		}
-		$uid = $user->getUID();
-		$credentials = $this->credentialsManager->retrieve($uid, self::CREDENTIALS_IDENTIFIER);
-
-		if (!isset($credentials)) {
-			throw new InsufficientDataForMeaningfulAnswerException('No login credentials saved');
-		}
+		$credentials = $this->getCredentials($user);
 
 		$storage->setBackendOption('user', $credentials['user']);
 		$storage->setBackendOption('password', $credentials['password']);
