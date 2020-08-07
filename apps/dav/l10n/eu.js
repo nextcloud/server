@@ -44,7 +44,7 @@ OC.L10N.register(
     "A calendar <strong>event</strong> was modified" : "Egutegiaren <strong>gertaera</strong> bat aldatu da",
     "A calendar <strong>todo</strong> was modified" : "Egutegiaren zeregin bat aldatu da",
     "Death of %s" : "%s(r)en heriotza",
-    "Contact birthdays" : "Urtebetetze kontaktua",
+    "Contact birthdays" : "Kontaktuen urtebetetzeak",
     "Calendar:" : "Egutegia:",
     "Date:" : "Data:",
     "Where:" : "Non:",
