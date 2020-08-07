@@ -30,6 +30,9 @@
  */
 
 use OCA\Files_Sharing\AppInfo\Application;
+use OCA\Files_Trashbin\AppInfo\Application as TrashbinApplication;
+use OC\AppFramework\Bootstrap\BootContext;
+use OC\AppFramework\DependencyInjection\DIContainer;
 use OCP\Share\IShare;
 
 /**
@@ -83,8 +86,9 @@ class TrashbinTest extends \Test\TestCase {
 		$expiration = \OC::$server->query(\OCA\Files_Trashbin\Expiration::class);
 		$expiration->setRetentionObligation('auto, 2');
 
-		// register hooks
-		\OCA\Files_Trashbin\Trashbin::registerHooks();
+		// register trashbin hooks
+		$trashbinApp = new TrashbinApplication();
+		$trashbinApp->boot(new BootContext(new DIContainer('', [], \OC::$server)));
 
 		// create test user
 		self::loginHelper(self::TEST_TRASHBIN_USER2, true);

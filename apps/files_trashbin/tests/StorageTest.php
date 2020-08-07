@@ -34,9 +34,11 @@ namespace OCA\Files_Trashbin\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
+use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Events\MoveToTrashEvent;
 use OCA\Files_Trashbin\Storage;
 use OCA\Files_Trashbin\Trash\ITrashManager;
+use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\Cache\ICache;
 use OCP\Files\Folder;
@@ -75,7 +77,9 @@ class StorageTest extends \Test\TestCase {
 		parent::setUp();
 
 		\OC_Hook::clear();
-		\OCA\Files_Trashbin\Trashbin::registerHooks();
+		// register trashbin hooks
+		$trashbinApp = new Application();
+		$trashbinApp->boot($this->createMock(IBootContext::class));
 
 		$this->user = $this->getUniqueId('user');
 		\OC::$server->getUserManager()->createUser($this->user, $this->user);

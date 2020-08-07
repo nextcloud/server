@@ -31,6 +31,8 @@ namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
 use OCA\Files_Sharing\SharedStorage;
+use OCA\Files_Trashbin\AppInfo\Application;
+use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\Files\NotFoundException;
 use OCP\Share\IShare;
 
@@ -42,7 +44,9 @@ use OCP\Share\IShare;
 class SharedStorageTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
-		\OCA\Files_Trashbin\Trashbin::registerHooks();
+		// register trashbin hooks
+		$trashbinApp = new Application();
+		$trashbinApp->boot($this->createMock(IBootContext::class));
 		$this->folder = '/folder_share_storage_test';
 
 		$this->filename = '/share-api-storage.txt';

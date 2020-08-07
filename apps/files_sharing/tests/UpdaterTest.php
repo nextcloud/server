@@ -31,6 +31,8 @@
 
 namespace OCA\Files_Sharing\Tests;
 
+use OCA\Files_Trashbin\AppInfo\Application;
+use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\Share\IShare;
 
 /**
@@ -77,8 +79,9 @@ class UpdaterTest extends TestCase {
 		$status = \OC::$server->getAppManager()->isEnabledForUser('files_trashbin');
 		(new \OC_App())->enable('files_trashbin');
 
-
-		\OCA\Files_Trashbin\Trashbin::registerHooks();
+		// register trashbin hooks
+		$trashbinApp = new Application();
+		$trashbinApp->boot($this->createMock(IBootContext::class));
 
 		$fileinfo = \OC\Files\Filesystem::getFileInfo($this->folder);
 		$this->assertTrue($fileinfo instanceof \OC\Files\FileInfo);
