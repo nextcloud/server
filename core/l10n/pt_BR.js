@@ -330,7 +330,7 @@ OC.L10N.register(
     "Error while validating your second factor" : "Erro ao validar o segundo fator",
     "Access through untrusted domain" : "Acessar através de um domínio inseguro",
     "Please contact your administrator. If you are an administrator, edit the \"trusted_domains\" setting in config/config.php like the example in config.sample.php." : "Por favor contacte seu administrador. Se você for o administrador, edite a configuração \"trusted_domains\" em config/config.php como o exemplo em config.sample.php.",
-    "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Mais informações de como configurar isso pode ser encontrado na %1$sdocumentação%2$s.",
+    "Further information how to configure this can be found in the %1$sdocumentation%2$s." : "Mais informações de como configurar isso podem ser encontradas na %1$sdocumentação%2$s.",
     "App update required" : "Atualização de aplicativo é necessária",
     "%1$s will be updated to version %2$s" : "%1$s será atualizado para a versão %2$s",
     "The following apps will be updated:" : "Os seguintes aplicativos serão atualizados:",
