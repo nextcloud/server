@@ -1,7 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
 /**
  * @copyright Copyright (c) 2020, Roeland Jago Douma <roeland@famdouma.nl>
  *
@@ -33,13 +32,24 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFolder;
 
 class Root extends AppData {
+	private $isMultibucketPreviewDistributionEnabled = false;
 	public function __construct(IRootFolder $rootFolder, SystemConfig $systemConfig) {
 		parent::__construct($rootFolder, $systemConfig, 'preview');
+
+		$this->isMultibucketPreviewDistributionEnabled = $systemConfig->getValue('objectstore.multibucket.preview-distribution', false) === true;
 	}
 
 
 	public function getFolder(string $name): ISimpleFolder {
 		$internalFolder = $this->getInternalFolder($name);
+
+		if ($this->isMultibucketPreviewDistributionEnabled) {
+			try {
+				return parent::getFolder('old-multibucket/' . $internalFolder);
+			} catch (NotFoundException $e) {
+				// not in multibucket fallback
+			}
+		}
 
 		try {
 			return parent::getFolder($internalFolder);

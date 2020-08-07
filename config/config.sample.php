@@ -1354,6 +1354,23 @@ $CONFIG = [
 	],
 ],
 
+/**
+ * If this is set to true and a multibucket object store is configured then
+ * newly created previews are put into 256 dedicated buckets.
+ *
+ * Those buckets are named like the mulibucket version but with the postfix
+ * ``-preview-NUMBER`` where NUMBER is between 0 and 255.
+ *
+ * Keep in mind that only previews of files are put in there that don't have
+ * some already. Otherwise the old bucket will be used.
+ *
+ * To migrate existing previews to this new multibucket distribution of previews
+ * use the occ command ``preview:repair``. For now this will only migrate
+ * previews that were generated before Nextcloud 19 in the flat
+ * ``appdata_INSTANCEID/previews/FILEID`` folder structure.
+ */
+'objectstore.multibucket.preview-distribution' => false,
+
 
 /**
  * Sharing

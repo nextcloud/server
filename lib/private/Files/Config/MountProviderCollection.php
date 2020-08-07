@@ -30,6 +30,7 @@ use OC\Hooks\EmitterTrait;
 use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
+use OCP\Files\Config\IRootMountProvider;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountManager;
 use OCP\Files\Mount\IMountPoint;
@@ -48,6 +49,9 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 * @var \OCP\Files\Config\IMountProvider[]
 	 */
 	private $providers = [];
+
+	/** @var \OCP\Files\Config\IRootMountProvider[] */
+	private $rootProviders = [];
 
 	/**
 	 * @var \OCP\Files\Storage\IStorageFactory
@@ -197,5 +201,20 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	 */
 	public function getMountCache() {
 		return $this->mountCache;
+	}
+
+	public function registerRootProvider(IRootMountProvider $provider) {
+		$this->rootProviders[] = $provider;
+	}
+
+	public function getRootMounts(): array {
+		$loader = $this->loader;
+		$mounts = array_map(function (IRootMountProvider $provider) use ($loader) {
+			return $provider->getRootMounts($loader);
+		}, $this->rootProviders);
+		$mounts = array_reduce($mounts, function (array $mounts, array $providerMounts) {
+			return array_merge($mounts, $providerMounts);
+		}, []);
+		return $mounts;
 	}
 }
