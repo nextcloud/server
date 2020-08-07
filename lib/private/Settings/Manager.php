@@ -260,11 +260,6 @@ class Manager implements IManager {
 
 		$sections = [];
 
-		$legacyForms = \OC_App::getForms('personal');
-		if (!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms)) {
-			$sections[98] = [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))];
-		}
-
 		$appSections = $this->getSections('personal');
 
 		foreach ($appSections as $section) {
@@ -275,7 +270,10 @@ class Manager implements IManager {
 
 			$sections[$section->getPriority()][] = $section;
 		}
-
+		$legacyForms = \OC_App::getForms('personal');
+		if (!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms) && !array_key_exists(98,$sections)) {
+			$sections[98] = [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))];
+		}
 		ksort($sections);
 
 		return $sections;
@@ -301,14 +299,22 @@ class Manager implements IManager {
 	public function getPersonalSettings($section): array {
 		$settings = [];
 		$appSettings = $this->getSettings('personal', $section);
-
+	
+		if (count($appSettings) == 1 && strcmp($section,'additional') === 0) {
+			// only empty addtional settings returned
+			$legacyForms = \OC_App::getForms('personal');
+			if (empty($legacyForms) || !$this->hasLegacyPersonalSettingsToRender($legacyForms)) {
+				// remove empty addtional setting
+				return [];
+			}
+		}
+	
 		foreach ($appSettings as $setting) {
 			if (!isset($settings[$setting->getPriority()])) {
 				$settings[$setting->getPriority()] = [];
 			}
 			$settings[$setting->getPriority()][] = $setting;
 		}
-
 		ksort($settings);
 		return $settings;
 	}

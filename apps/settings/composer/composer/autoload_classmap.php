@@ -39,6 +39,7 @@ return array(
     'OCA\\Settings\\Sections\\Admin\\Security' => $baseDir . '/../lib/Sections/Admin/Security.php',
     'OCA\\Settings\\Sections\\Admin\\Server' => $baseDir . '/../lib/Sections/Admin/Server.php',
     'OCA\\Settings\\Sections\\Admin\\Sharing' => $baseDir . '/../lib/Sections/Admin/Sharing.php',
+    'OCA\\Settings\\Sections\\Personal\\Additional' => $baseDir . '/../lib/Sections/Personal/Additional.php',
     'OCA\\Settings\\Sections\\Personal\\PersonalInfo' => $baseDir . '/../lib/Sections/Personal/PersonalInfo.php',
     'OCA\\Settings\\Sections\\Personal\\Security' => $baseDir . '/../lib/Sections/Personal/Security.php',
     'OCA\\Settings\\Sections\\Personal\\SyncClients' => $baseDir . '/../lib/Sections/Personal/SyncClients.php',
