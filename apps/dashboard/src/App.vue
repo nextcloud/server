@@ -249,17 +249,30 @@ export default {
 		width: 100%;
 		padding-bottom: 100px;
 
-		background-color: var(--color-primary);
-		background-image: url('/nextcloud/apps/dashboard/img/flickr-paszczak000-8715851521.jpg?v=1');
 		background-size: cover;
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-attachment: fixed;
+
+		#body-user:not(.dark) & {
+			background-color: var(--color-primary);
+			background-image: url('/nextcloud/apps/dashboard/img/flickr-paszczak000-8715851521.jpg?v=1');
+		}
+
+		#body-user.dark & {
+			background-color: var(--color-main-background);
+			background-image: url('/nextcloud/apps/dashboard/img/flickr-148302424@N05-36591009215.jpg?v=1');
+		}
 	}
 
 	@media only screen and (max-width: var(--breakpoint-mobile)) {
-		body {
+		#body-user:not(.dark) #app-dashboard {
 			background-image: url('/nextcloud/apps/dashboard/img/flickr-paszczak000-8715851521-mobile.jpg?v=1');
+		}
+
+		#body-user.dark #app-dashboard {
+			background-color: var(--color-main-background);
+			background-image: url('/nextcloud/apps/dashboard/img/flickr-148302424@N05-36591009215-mobile.jpg?v=1');
 		}
 	}
 
@@ -273,8 +286,12 @@ export default {
 
 	.statuses {
 		::v-deep #user-status-menu-item__subheader>button {
-			background-color: rgba(255, 255, 255, 0.8);
 			backdrop-filter: blur(10px);
+			background-color: rgba(255, 255, 255, 0.8);
+
+			#body-user.dark & {
+				background-color: rgba(24, 24, 24, 0.8);
+			}
 		}
 	}
 
@@ -296,6 +313,10 @@ export default {
 		background-color: rgba(255, 255, 255, 0.8);
 		backdrop-filter: blur(10px);
 		border-radius: var(--border-radius-large);
+
+		#body-user.dark & {
+			background-color: rgba(24, 24, 24, 0.8);
+		}
 
 		&.sortable-ghost {
 			 opacity: 0.1;
