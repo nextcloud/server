@@ -55,7 +55,7 @@ export default {
 		// list of all the visible files
 		fileList: {
 			type: Array,
-			default: [],
+			default: () => [],
 		},
 		// file mime (aliased if specified in the model)
 		mime: {
