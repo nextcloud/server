@@ -170,6 +170,7 @@ OC.L10N.register(
     "Loading more results …" : "Lade weitere Ergebnisse…",
     "Load more results" : "Weitere Ergebnisse laden",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Bitte geben Sie {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll","Bitte geben Sie {minSearchLength} Zeichen oder mehr ein nach denen gesucht werden soll"],
+    "Search {types} …" : "Suche {types}…",
     "Settings" : "Einstellungen",
     "Could not load your contacts" : "Ihre Kontakte konnten nicht geladen werden",
     "Search contacts …" : "Kontakte suchen…",
