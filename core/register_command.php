@@ -155,6 +155,8 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 		\OC::$server->getAppManager()
 	));
 
+	$application->add(\OC::$server->query(\OC\Core\Command\Preview\Repair::class));
+
 	$application->add(new OC\Core\Command\User\Add(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\Disable(\OC::$server->getUserManager()));
