@@ -112,30 +112,29 @@ class Repair extends Command {
 		 * by default there could be 0-9 a-f and the old-multibucket folder which are all fine
 		 */
 		if ($total < 18) {
-			foreach ($directoryListing as $index => $dir) {
+			$directoryListing = array_filter($directoryListing, function ($dir) {
 				if ($dir->getName() === 'old-multibucket') {
-					unset($directoryListing[$index]);
+					return false;
 				}
+
 				// a-f can't be a file ID -> removing from migration
 				if (preg_match('!^[a-f]$!', $dir->getName())) {
-					unset($directoryListing[$index]);
+					return false;
 				}
+
 				if (preg_match('!^[0-9]$!', $dir->getName())) {
 					// ignore folders that only has folders in them
 					if ($dir instanceof Folder) {
-						$hasFile = false;
 						foreach ($dir->getDirectoryListing() as $entry) {
 							if (!$entry instanceof Folder) {
-								$hasFile = true;
-								break;
+								return true;
 							}
 						}
-						if (!$hasFile) {
-							unset($directoryListing[$index]);
-						}
+						return false;
 					}
 				}
-			}
+				return true;
+			});
 			$total = count($directoryListing);
 		}
 
