@@ -43,14 +43,6 @@ class Root extends AppData {
 	public function getFolder(string $name): ISimpleFolder {
 		$internalFolder = self::getInternalFolder($name);
 
-		if ($this->isMultibucketPreviewDistributionEnabled) {
-			try {
-				return parent::getFolder('old-multibucket/' . $internalFolder);
-			} catch (NotFoundException $e) {
-				// not in multibucket fallback
-			}
-		}
-
 		try {
 			return parent::getFolder($internalFolder);
 		} catch (NotFoundException $e) {
@@ -60,7 +52,20 @@ class Root extends AppData {
 			 */
 		}
 
-		return parent::getFolder($name);
+		try {
+			return parent::getFolder($name);
+		} catch (NotFoundException $e) {
+			/*
+			 * The old folder structure is not found.
+			 * Lets try the multibucket fallback if available
+			 */
+			if ($this->isMultibucketPreviewDistributionEnabled) {
+				return parent::getFolder('old-multibucket/' . $internalFolder);
+			}
+
+			// when there is no further fallback just throw the exception
+			throw $e;
+		}
 	}
 
 	public function newFolder(string $name): ISimpleFolder {
