@@ -41,6 +41,9 @@ use OC\Avatar\AvatarManager;
 use OC\Files\Cache\Storage;
 use OC\Hooks\Emitter;
 use OC_Helper;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\BeforeUserRemovedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IImage;
@@ -61,6 +64,9 @@ class User implements IUser {
 	/** @var UserInterface|null */
 	private $backend;
 	/** @var EventDispatcherInterface */
+	private $legacyDispatcher;
+
+	/** @var IEventDispatcher */
 	private $dispatcher;
 
 	/** @var bool */
@@ -87,7 +93,7 @@ class User implements IUser {
 	public function __construct(string $uid, ?UserInterface $backend, EventDispatcherInterface $dispatcher, $emitter = null, IConfig $config = null, $urlGenerator = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
-		$this->dispatcher = $dispatcher;
+		$this->legacyDispatcher = $dispatcher;
 		$this->emitter = $emitter;
 		if (is_null($config)) {
 			$config = \OC::$server->getConfig();
@@ -100,6 +106,8 @@ class User implements IUser {
 		if (is_null($this->urlGenerator)) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
+		// TODO: inject
+		$this->dispatcher = \OC::$server->query(IEventDispatcher::class);
 	}
 
 	/**
@@ -203,7 +211,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function delete() {
-		$this->dispatcher->dispatch(IUser::class . '::preDelete', new GenericEvent($this));
+		$this->legacyDispatcher->dispatch(IUser::class . '::preDelete', new GenericEvent($this));
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preDelete', [$this]);
 		}
@@ -219,9 +227,9 @@ class User implements IUser {
 			foreach ($groupManager->getUserGroupIds($this) as $groupId) {
 				$group = $groupManager->get($groupId);
 				if ($group) {
-					\OC_Hook::emit("OC_Group", "pre_removeFromGroup", ["run" => true, "uid" => $this->uid, "gid" => $groupId]);
+					$this->dispatcher->dispatchTyped(new BeforeUserRemovedEvent($group, $this));
 					$group->removeUser($this);
-					\OC_Hook::emit("OC_User", "post_removeFromGroup", ["uid" => $this->uid, "gid" => $groupId]);
+					$this->dispatcher->dispatchTyped(new UserRemovedEvent($group, $this));
 				}
 			}
 			// Delete the user's keys in preferences
@@ -252,7 +260,7 @@ class User implements IUser {
 			$accountManager = \OC::$server->query(AccountManager::class);
 			$accountManager->deleteUser($this);
 
-			$this->dispatcher->dispatch(IUser::class . '::postDelete', new GenericEvent($this));
+			$this->legacyDispatcher->dispatch(IUser::class . '::postDelete', new GenericEvent($this));
 			if ($this->emitter) {
 				$this->emitter->emit('\OC\User', 'postDelete', [$this]);
 			}
@@ -268,7 +276,7 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function setPassword($password, $recoveryPassword = null) {
-		$this->dispatcher->dispatch(IUser::class . '::preSetPassword', new GenericEvent($this, [
+		$this->legacyDispatcher->dispatch(IUser::class . '::preSetPassword', new GenericEvent($this, [
 			'password' => $password,
 			'recoveryPassword' => $recoveryPassword,
 		]));
@@ -277,7 +285,7 @@ class User implements IUser {
 		}
 		if ($this->backend->implementsActions(Backend::SET_PASSWORD)) {
 			$result = $this->backend->setPassword($this->uid, $password);
-			$this->dispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($this, [
+			$this->legacyDispatcher->dispatch(IUser::class . '::postSetPassword', new GenericEvent($this, [
 				'password' => $password,
 				'recoveryPassword' => $recoveryPassword,
 			]));
@@ -474,7 +482,7 @@ class User implements IUser {
 	}
 
 	public function triggerChange($feature, $value = null, $oldValue = null) {
-		$this->dispatcher->dispatch(IUser::class . '::changeUser', new GenericEvent($this, [
+		$this->legacyDispatcher->dispatch(IUser::class . '::changeUser', new GenericEvent($this, [
 			'feature' => $feature,
 			'value' => $value,
 			'oldValue' => $oldValue,

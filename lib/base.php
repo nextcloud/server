@@ -61,6 +61,7 @@
  *
  */
 
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;
 use OCP\Share;
@@ -898,11 +899,10 @@ class OC {
 	public static function registerShareHooks() {
 		if (\OC::$server->getSystemConfig()->getValue('installed')) {
 			OC_Hook::connect('OC_User', 'post_deleteUser', Hooks::class, 'post_deleteUser');
-			OC_Hook::connect('OC_User', 'post_removeFromGroup', Hooks::class, 'post_removeFromGroupLDAP');
 			OC_Hook::connect('OC_User', 'post_deleteGroup', Hooks::class, 'post_deleteGroup');
 
-			/** @var \OCP\EventDispatcher\IEventDispatcher $dispatcher */
-			$dispatcher = \OC::$server->get(\OCP\EventDispatcher\IEventDispatcher::class);
+			/** @var IEventDispatcher $dispatcher */
+			$dispatcher = \OC::$server->get(IEventDispatcher::class);
 			$dispatcher->addServiceListener(UserRemovedEvent::class, \OC\Share20\UserRemovedListener::class);
 		}
 	}
