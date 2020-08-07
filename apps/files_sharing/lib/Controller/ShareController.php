@@ -247,6 +247,35 @@ class ShareController extends AuthPublicShareController {
 	 * @throws \OC\ServerNotAvailableException
 	 */
 	protected function emitAccessShareHook($share, $errorCode = 200, $errorMessage = '') {
+		$this->emitShareHook('share_link_access', $share, $errorCode, $errorMessage);
+	}
+
+	/**
+	 * throws hooks when a share is attempted to be downloaded
+	 *
+	 * @param \OCP\Share\IShare|string $share the Share instance if available,
+	 * otherwise token
+	 * @param int $errorCode
+	 * @param string $errorMessage
+	 * @throws \OC\HintException
+	 * @throws \OC\ServerNotAvailableException
+	 */
+	protected function emitDownloadShareHook($share, $errorCode = 200, $errorMessage = '') {
+		$this->emitShareHook('share_link_download', $share, $errorCode, $errorMessage);
+	}
+
+	/**
+	 * emits a share hook with specified type
+	 *
+	 * @param string $type the type of hook, can be share_link_access or share_link_download
+	 * @param \OCP\Share\IShare|string $share the Share instance if available,
+	 * otherwise token
+	 * @param int $errorCode
+	 * @param string $errorMessage
+	 * @throws \OC\HintException
+	 * @throws \OC\ServerNotAvailableException
+	 */
+	protected function emitShareHook($type, $share, $errorCode = 200, $errorMessage = '') {
 		$itemType = $itemSource = $uidOwner = '';
 		$token = $share;
 		$exception = null;
@@ -261,7 +290,7 @@ class ShareController extends AuthPublicShareController {
 				$exception = $e;
 			}
 		}
-		\OC_Hook::emit(Share::class, 'share_link_access', [
+		\OC_Hook::emit(Share::class, $type, [
 			'itemType' => $itemType,
 			'itemSource' => $itemSource,
 			'uidOwner' => $uidOwner,
@@ -593,6 +622,7 @@ class ShareController extends AuthPublicShareController {
 					$node = $node->get($path);
 				} catch (NotFoundException $e) {
 					$this->emitAccessShareHook($share, 404, 'Share not found');
+					$this->emitDownloadShareHook($share, 404, 'Share not found');
 					return new NotFoundResponse();
 				}
 			}
@@ -634,6 +664,7 @@ class ShareController extends AuthPublicShareController {
 		}
 
 		$this->emitAccessShareHook($share);
+		$this->emitDownloadShareHook($share);
 
 		$server_params = [ 'head' => $this->request->getMethod() === 'HEAD' ];
 
