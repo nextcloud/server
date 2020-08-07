@@ -60,6 +60,9 @@ class Coordinator {
 	/** @var RegistrationContext|null */
 	private $registrationContext;
 
+	/** @var string[] */
+	private $bootedApps = [];
+
 	public function __construct(IServerContainer $container,
 								Registry $registry,
 								IManager $dashboardManager,
@@ -134,6 +137,11 @@ class Coordinator {
 	}
 
 	public function bootApp(string $appId): void {
+		if (isset($this->bootedApps[$appId])) {
+			return;
+		}
+		$this->bootedApps[$appId] = true;
+
 		$appNameSpace = App::buildAppNamespace($appId);
 		$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
 		if (!class_exists($applicationClassName)) {
