@@ -189,12 +189,13 @@ class Installer {
 	 * Updates the specified app from the appstore
 	 *
 	 * @param string $appId
+	 * @param bool [$allowUnstable] Allow unstable releases
 	 * @return bool
 	 */
-	public function updateAppstoreApp($appId) {
-		if ($this->isUpdateAvailable($appId)) {
+	public function updateAppstoreApp($appId, $allowUnstable = false) {
+		if ($this->isUpdateAvailable($appId, $allowUnstable)) {
 			try {
-				$this->downloadApp($appId);
+				$this->downloadApp($appId, $allowUnstable);
 			} catch (\Exception $e) {
 				$this->logger->logException($e, [
 					'level' => ILogger::ERROR,
@@ -212,13 +213,14 @@ class Installer {
 	 * Downloads an app and puts it into the app directory
 	 *
 	 * @param string $appId
+	 * @param bool [$allowUnstable]
 	 *
 	 * @throws \Exception If the installation was not successful
 	 */
-	public function downloadApp($appId) {
+	public function downloadApp($appId, $allowUnstable = false) {
 		$appId = strtolower($appId);
 
-		$apps = $this->appFetcher->get();
+		$apps = $this->appFetcher->get($allowUnstable);
 		foreach ($apps as $app) {
 			if ($app['id'] === $appId) {
 				// Load the certificate
@@ -384,9 +386,10 @@ class Installer {
 	 * Check if an update for the app is available
 	 *
 	 * @param string $appId
+	 * @param bool $allowUnstable
 	 * @return string|false false or the version number of the update
 	 */
-	public function isUpdateAvailable($appId) {
+	public function isUpdateAvailable($appId, $allowUnstable = false) {
 		if ($this->isInstanceReadyForUpdates === null) {
 			$installPath = OC_App::getInstallPath();
 			if ($installPath === false || $installPath === null) {
@@ -405,7 +408,7 @@ class Installer {
 		}
 
 		if ($this->apps === null) {
-			$this->apps = $this->appFetcher->get();
+			$this->apps = $this->appFetcher->get($allowUnstable);
 		}
 
 		foreach ($this->apps as $app) {

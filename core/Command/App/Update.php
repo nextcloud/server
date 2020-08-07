@@ -76,7 +76,12 @@ class Update extends Command {
 				InputOption::VALUE_NONE,
 				'show update(s) without updating'
 			)
-
+			->addOption(
+				'allow-unstable',
+				null,
+				InputOption::VALUE_NONE,
+				'allow updating to unstable releases'
+			)
 		;
 	}
 
@@ -100,13 +105,13 @@ class Update extends Command {
 
 		$return = 0;
 		foreach ($apps as $appId) {
-			$newVersion = $this->installer->isUpdateAvailable($appId);
+			$newVersion = $this->installer->isUpdateAvailable($appId, $input->getOption('allow-unstable'));
 			if ($newVersion) {
 				$output->writeln($appId . ' new version available: ' . $newVersion);
 
 				if (!$input->getOption('showonly')) {
 					try {
-						$result = $this->installer->updateAppstoreApp($appId);
+						$result = $this->installer->updateAppstoreApp($appId, $input->getOption('allow-unstable'));
 					} catch (\Exception $e) {
 						$this->logger->logException($e, ['message' => 'Failure during update of app "' . $appId . '"','app' => 'app:update']);
 						$output->writeln('Error: ' . $e->getMessage());
