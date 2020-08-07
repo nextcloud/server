@@ -1,6 +1,6 @@
 <template>
 	<div id="app-dashboard">
-		<h2>{{ greeting.icon }} {{ greeting.text }}</h2>
+		<h2>{{ greeting.text }}</h2>
 		<div class="statuses">
 			<div v-for="status in registeredStatus"
 				:id="'status-' + status"
@@ -106,18 +106,15 @@ export default {
 			const shouldShowName = this.displayName && this.uid !== this.displayName
 
 			if (time > 18) {
-				return { icon: '🌙', text: shouldShowName ? t('dashboard', 'Good evening, {name}', { name: this.displayName }) : t('dashboard', 'Good evening') }
+				return { text: shouldShowName ? t('dashboard', 'Good evening, {name}', { name: this.displayName }) : t('dashboard', 'Good evening') }
 			}
 			if (time > 12) {
-				return { icon: '☀', text: shouldShowName ? t('dashboard', 'Good afternoon, {name}', { name: this.displayName }) : t('dashboard', 'Good afternoon') }
-			}
-			if (time === 12) {
-				return { icon: '🍽', text: shouldShowName ? t('dashboard', 'Time for lunch, {name}', { name: this.displayName }) : t('dashboard', 'Time for lunch') }
+				return { text: shouldShowName ? t('dashboard', 'Good afternoon, {name}', { name: this.displayName }) : t('dashboard', 'Good afternoon') }
 			}
 			if (time > 5) {
-				return { icon: '🌄', text: shouldShowName ? t('dashboard', 'Good morning, {name}', { name: this.displayName }) : t('dashboard', 'Good morning') }
+				return { text: shouldShowName ? t('dashboard', 'Good morning, {name}', { name: this.displayName }) : t('dashboard', 'Good morning') }
 			}
-			return { icon: '🦉', text: shouldShowName ? t('dashboard', 'Have a night owl, {name}', { name: this.displayName }) : t('dashboard', 'Have a night owl') }
+			return {text: shouldShowName ? t('dashboard', 'Good night, {name}', { name: this.displayName }) : t('dashboard', 'Have a night owl') }
 		},
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
