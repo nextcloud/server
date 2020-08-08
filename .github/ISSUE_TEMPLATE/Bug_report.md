@@ -24,7 +24,7 @@ Guidelines for submitting issues:
 
 * The issues in other components should be reported in their respective repositories: You will find them in our GitHub Organization (https://github.com/nextcloud/)
   
-* You can also use the Issue Template app to prefill most of the required information: https://apps.nextcloud.com/apps/issuetemplate
+* You can also use the Issue Template app to prefill most of the required information: https://apps.nextcloud.com/apps/issuetemplate (it may be outdated with the current version of the template, but is still viable!)
 -->
 
 <!--- Please keep this note for other contributors -->
@@ -35,11 +35,18 @@ Guidelines for submitting issues:
 * Please don't comment if you have no relevant information to add. It's just extra noise for everyone subscribed to this issue.
 * Subscribe to receive notifications on status change and new comments. 
 
+### Summary
+<!-- Brief summary of the issue consisting of 1-3 Sentences. Example:-->
+Downloading a file containing the word `xmas` causes the server to do a barrel roll. Does not occur when the server is wearing a Halloween-Costume.
 
 ### Steps to reproduce
-1.
-2.
-3.
+<!-- Github is smart enough to count by itsself -->
+1. Open Homepage
+1. Navigate to Folder x y z
+1. Do stuff with it (please describe what you are actually doing :D)
+1. ... 
+1. Profit?
+
 
 ### Expected behaviour
 Tell us what should happen
@@ -47,120 +54,203 @@ Tell us what should happen
 ### Actual behaviour
 Tell us what happens instead
 
-### Server configuration
-
-**Operating system:**
-
+### Server Configuration
+<!-- If the issue only occurs to specific users/client configurations please fill out the "Client Configuration"-Section below. -->
+**Server OS:** [replace with OS and version, please include the kernel-version/build-number]
+**Nextcloud version:** [replace with OS and version] (see Nextcloud admin page)
+**Lifetime of Nextcloud:** [replace with an approximate age of the nextcloud installation, e.g. 'fresh install', 'few weeks', 'several years']
+**PHP version:** [replace with PHP version]
 **Web server:**
+<!-- Please change the appropriate [ ] to [x] and (if applicable) add the version number behind it. -->
+- [ ] Apache
+- [ ] nginx
+- [ ] IIS
+- [ ] _something else_ <!-- please specify -->
 
-**Database:**
+**Database:** <!-- Don't forget adding the version -->
+- [ ] MySQL
+- [ ] MariaDB
+- [ ] PostgreSQL
+- [ ] OracleDB
+- [ ] _something else_ <!-- please specify -->
 
-**PHP version:**
+**Fresh install or updated from an older Nextcloud/ownCloud?:**
+- [ ] fresh installation
+  - [ ] using the webinstaller
+  - [ ] using the archive file
+  - [ ] using docker image
+  - [ ] using snap
+  - [ ] _something else_ <!-- please specify -->
+- [ ] upgrade (from [replace with old version])
+  - [ ] update from webinterface
+  - [ ] update using `php updater/updater.phar`
+  - [ ] manual upgrade using unpacking of archive and `php occ upgrade`
+  - [ ] _something else_ <!-- please specify -->
+  
+**Are you using encryption?**
+- [ ] yes
+- [ ] no
 
-**Nextcloud version:** (see Nextcloud admin page)
+**Which Storage-Solution(s) do you use for your nextcloud?**
+<!-- This Section asks for the location `Data`-Folder AND any configured external Storage you are using -->
+- [ ] Local <!-- e.g. the `Data`-Folder is on the same Device as the nextcloud server -->
+- [ ] NFS
+- [ ] Samba/smb/Windows Share(s) <!-- if you know which, please clarify if smb1, smb2 or smb3 -->
+- [ ] SFTP
+- [ ] WebDAV
+- [ ] _something else_ <!-- please specify and add an additional bullet point for each solution -->
 
-**Updated from an older Nextcloud/ownCloud or fresh install:**
+**Which User-Backend are you using:**
+- [ ] internal 
+- [ ] ActiveDirectory
+- [ ] LDAP <!-- Please fill out the "LDAP-Configuration"-Section below! -->
+- [ ] WebDAV
+- [ ] _something else_ <!-- please specify -->
 
-**Where did you install Nextcloud from:**
+<!-- 
+The following are templates for further details that can greatly help in narrowing down the issue!
+So please fill out as much as you can of them! 
 
-**Signing status:**
-<details>
-<summary>Signing status</summary>
+CAUTION! For some sections you might need to filter out sensitive information like IP-Adresses or Passwords!
 
-```
-Login as admin user into your Nextcloud and access 
-http://example.com/index.php/settings/integrity/failed 
-paste the results here.
-```
-</details>
+If it seems to you, that a Section is not relevant to the issue at hand, please remove it. 
+PLEASE fill out the "Nextcloud configuration"- and "Nextcloud Log"-Sections!
+-->
 
-**List of activated apps:**
-<details>
-<summary>App list</summary>
-
-```
-If you have access to your command line run e.g.:
-sudo -u www-data php occ app:list
-from within your Nextcloud installation folder
-```
-</details>
-
-**Nextcloud configuration:**
+### Nextcloud configuration
+<!-- This is a quite important section, as many issues arise from an oversight in the config! -->
 <details>
 <summary>Config report</summary>
+	```
+	If you have access to your command line run e.g.:
+	sudo -u www-data php occ config:list system
+	from within your Nextcloud installation folder
 
-```
-If you have access to your command line run e.g.:
-sudo -u www-data php occ config:list system
-from within your Nextcloud installation folder
+	or 
 
-or 
-
-Insert your config.php content here. 
-Make sure to remove all sensitive content such as passwords. (e.g. database password, passwordsalt, secret, smtp password, …)
-```
+	Insert your [nextcloud]/config/config.php content here. 
+	Make sure to remove all sensitive content such as passwords. (e.g. database password, passwordsalt, secret, smtp password, …)
+	```
 </details>
 
-**Are you using external storage, if yes which one:** local/smb/sftp/...
+### Signing status
+<!-- This section helps identify, why some features/apps might be flunky. -->
+<details>
+<summary>Signing status</summary>
+	```
+	If you can login to your nextcloud, please replace this text with the content of 
+	the url http://your.domain/[pathToNextCloud]/index.php/settings/integrity/failed 
+	(e.g. http://nextcloud.your.domain/index.php/settings/integrity/failed)
+	here.
+	```
+</details>
 
-**Are you using encryption:** yes/no
+### List of activated apps
+<!-- 
+Some apps can cause unforessen issues when used together. 
+Knowing which apps installed are installed helps in finding the culprit.
+-->
+<details>
+<summary>App list</summary>
+	```
+	If you have access to your command line run e.g.:
+	sudo -u www-data php occ app:list
+	from within your Nextcloud installation folder. 
+	If you don't please please remove this section.
+	```
+</details>
 
-**Are you using an external user-backend, if yes which one:** LDAP/ActiveDirectory/Webdav/...
 
-#### LDAP configuration (delete this part if not used)
+### LDAP configuration (delete this part if not used)
+<!-- Important for when you are using LDAP as a user-backend! -->
 <details>
 <summary>LDAP config</summary>
+	```
+	With access to your command line run e.g.:
+	sudo -u www-data php occ ldap:show-config
+	from within your Nextcloud installation folder
 
-```
-With access to your command line run e.g.:
-sudo -u www-data php occ ldap:show-config
-from within your Nextcloud installation folder
-
-Without access to your command line download the data/owncloud.db to your local
-computer or access your SQL server remotely and run the select query:
-SELECT * FROM `oc_appconfig` WHERE `appid` = 'user_ldap';
+	Without access to your command line download the data/owncloud.db to your local
+	computer or access your SQL server remotely and run the select query:
+	SELECT * FROM `oc_appconfig` WHERE `appid` = 'user_ldap';
 
 
-Eventually replace sensitive data as the name/IP-address of your LDAP server or groups.
-```
+	Eventually replace sensitive data as the name/IP-address of your LDAP server or groups.
+	```
 </details>
 
 ### Client configuration
-**Browser:**
-
-**Operating system:**
-
-### Logs
-
-<!--- Reports without logs might be closed as unqualified reports! -->
-
-#### Web server error log
+<!-- When an issue is limited to a specific Browser configuration it helps greatly to know what that configuration is! -->
 <details>
-<summary>Web server error log</summary>
-
-```
-Insert your webserver log here
-```
+<summary>Client Config</summary>
+	**Browser:** [please include the Version]
+	**Operating system:** [please include the kernel-version or windows build number]
+	```
+		if there are errors or warnings in the Browser Console (CTRL+SHIFT+J), please paste them here!
+		Make sure they don't contain sensitive information (like filenames/IP-Adresses/...)!
+		
+		Maybe the Browsers Network-Log might be relevant, then this would be the place to put it.
+	```
 </details>
 
-#### Nextcloud log (data/nextcloud.log)
+### Web server error log
+<!-- If, for example, you get "Internal Server Errors" this greatly helps narrowing why. -->
+<details>
+<summary>Web server error</summary>
+	```
+	Insert the specific Error(s) here. 
+	Make sure to remove sensitive Date like IP-Adresses.
+	```
+</details>
+
+### Nextcloud log
+<!-- As with most issues: Knowing what the program has to say about it REALLY helps in knowing why something doesn't work as expected! -->
 <details>
 <summary>Nextcloud log</summary>
 
-```
-Insert your Nextcloud log here
-```
+	```
+	Depending on your configuration you might have more than one 'nextcloud.log'
+	Either in "[nextcloud]/data/nextcloud.log"
+	or in "[yourDataPath]/nextcloud.log"
+	The important one is usually the one with the more recent modification time.
+	
+	We do NOT NEED THE ENTIRE Log. Please go to the end of the logfile and look for the applicable line.
+	Then please add a few lines before and after that and remove any sensitive information.
+	To find out which line is the important first look for the correct username in the '"user":'-Field 
+	then look at appropriate '"message":'-Field
+	
+	EXAMPLE:
+	{"reqId":"PFfc77ZgiEQJ30W51INt","level":2,"time":"2020-08-01T01:00:00+00:00","remoteAddr":"REDACTED","user":"REDACTED","app":"fulltextsearch","method":"GET","url":"/index.php/settings/user","message":"Issue while loading Provider: ocsms/OCA\\OcSms\\Provider\\FullTextSearchProvider - OCP\\AppFramework\\QueryException Could not resolve OCA\\OcSms\\Provider\\FullTextSearchProvider! Class OCA\\OcSms\\Provider\\FullTextSearchProvider does not exist","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0","version":"19.0.1.1"}
+	{"reqId":"naeop61NUmHvPzglsn8r","level":2,"time":"2020-08-01T01:00:01+00:00","remoteAddr":"REDACTED","user":"REDACTED","app":"fulltextsearch","method":"GET","url":"/index.php/settings/admin/overview","message":"Issue while loading Provider: ocsms/OCA\\OcSms\\Provider\\FullTextSearchProvider - OCP\\AppFramework\\QueryException Could not resolve OCA\\OcSms\\Provider\\FullTextSearchProvider! Class OCA\\OcSms\\Provider\\FullTextSearchProvider does not exist","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0","version":"19.0.1.1"}
+	{"reqId":"DYuAX24xsi7XFUceyoW5","level":2,"time":"2020-08-01T01:00:02+00:00","remoteAddr":"REDACTED","user":"REDACTED","app":"fulltextsearch","method":"GET","url":"/index.php/settings/admin/overview","message":"Issue while loading Provider: ocsms/OCA\\OcSms\\Provider\\FullTextSearchProvider - OCP\\AppFramework\\QueryException Could not resolve OCA\\OcSms\\Provider\\FullTextSearchProvider! Class OCA\\OcSms\\Provider\\FullTextSearchProvider does not exist","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:79.0) Gecko/20100101 Firefox/79.0","version":"19.0.1.1"}
+	```
 </details>
 
-#### Browser log
+### Updater log
+<!-- If you encounter the given issue after an update, the log of the update is also quite helpful -->
 <details>
-<summary>Browser log</summary>
+<summary>Nextcloud log</summary>
+	```
+		As with the nextcloud.log there are multiple locations where the updater.log might be!
+		Either in "[nextcloud]/data/updater.log"
+		or in "[yourDataPath]/updater.log"
+		
+		In the case of the updater the full logfile would be helpful, as it can be quite hard to identify the issue in it.
+		Make sure to remove sensitive paths in it. e.g. lines containing
+		- "configFileName [absolute path to config.php]"
+		- "storage location: [absolute path to archive download location in data-folder]"
+		- A few lines after "checkForExpectedFilesAndFolders()" might be a list of unexpected/modified files in the nextcloud-folder
+			Example for this last point looks like this: 
+				#0 /var/www/nextcloud/updater/index.php(1330): Updater->checkForExpectedFilesAndFolders()
+				#1 {main}
+				File:/var/www/nextcloud/updater/index.php
+				Line:395
+				Data:
+				Array
+				(
+					[0] => a_random_file_that_does_not_belong_here.log
+					[1] => another_random_file.log
+				)
 
-```
-Insert your browser log here, this could for example include:
-
-a) The javascript console log
-b) The network log
-c) ...
-```
+	```
 </details>
