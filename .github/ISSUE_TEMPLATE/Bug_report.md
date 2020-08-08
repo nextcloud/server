@@ -35,9 +35,13 @@ Guidelines for submitting issues:
 * Please don't comment if you have no relevant information to add. It's just extra noise for everyone subscribed to this issue.
 * Subscribe to receive notifications on status change and new comments. 
 
+
+
 ### Summary
 <!-- Brief summary of the issue consisting of 1-3 Sentences. Example:-->
 Downloading a file containing the word `xmas` causes the server to do a barrel roll. Does not occur when the server is wearing a Halloween-Costume.
+
+
 
 ### Steps to reproduce
 <!-- Github is smart enough to count by itsself -->
@@ -48,11 +52,16 @@ Downloading a file containing the word `xmas` causes the server to do a barrel r
 1. Profit?
 
 
+
 ### Expected behaviour
 Tell us what should happen
 
+
+
 ### Actual behaviour
 Tell us what happens instead
+
+
 
 ### Server Configuration
 <!-- If the issue only occurs to specific users/client configurations please fill out the "Client Configuration"-Section below. -->
@@ -107,6 +116,8 @@ Tell us what happens instead
 - [ ] WebDAV
 - [ ] _something else_ <!-- please specify -->
 
+
+
 <!-- 
 ###############################################################
 ###############################################################
@@ -120,8 +131,6 @@ PLEASE fill out the "Nextcloud configuration"- and "Nextcloud Log"-Sections!
 ###############################################################
 ###############################################################
 -->
-
-
 
 ### List of activated apps
 <!-- 
@@ -146,14 +155,15 @@ If you don't please please remove this section.
 <!-- When an issue is limited to a specific Browser configuration it helps greatly to know what that configuration is! -->
 <details>
 <summary>Client Config</summary>
-**Browser:** [please include the Version]
-**Operating system:** [please include the kernel-version or windows build number]
 
 ```
+Browser: [please include the Version]
+Operating system: [please include the kernel-version or windows build number]
+
 if there are errors or warnings in the Browser Console (CTRL+SHIFT+J), please paste them here!
 Make sure they don't contain sensitive information (like filenames/IP-Adresses/...)!
 
-Maybe the Browsers Network-Log might be relevant, then this would be the place to put it.
+This section is in general for all kinds of Client Side Logs. Maybe the Browsers Network-Log might be relevant, then this would be the place to put it.
 ```
 
 </details>
@@ -278,14 +288,14 @@ Make sure to remove sensitive paths in it. e.g. lines containing
 
 
 
-### Web server error log
+### Web server error
 <!-- If, for example, you get "Internal Server Errors" this greatly helps narrowing why. -->
 <details>
 <summary>Web server error</summary>
 
 ```
 Insert the specific Error(s) here. 
-Make sure to remove sensitive Date like IP-Adresses.
+Make sure to remove sensitive Data like IP-Adresses.
 ```
 
 </details>
