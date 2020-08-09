@@ -81,6 +81,7 @@ OC.L10N.register(
     "Configures a CalDAV account" : "מגדיר חשבון CalDAV",
     "Configures a CardDAV account" : "מגדיר חשבון CardDAV",
     "Tasks" : "משימות",
+    "Untitled task" : "משימה ללא כותרת",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "נקודת קצה WebDAV",
     "There was an error updating your attendance status." : "אירעה שגיאה בעת עדכון מצב ההשתתפות שלך.",

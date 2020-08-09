@@ -82,6 +82,8 @@
     "Tasks" : "Tâches",
     "Untitled task" : "Tâche sans titre",
     "Completed on %s" : "Terminé le %s",
+    "Due on %s by %s" : "Echéance le %s pour %s",
+    "Due on %s" : "Echéance le %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Point d'accès WebDAV",
     "There was an error updating your attendance status." : "Une erreur s'est produite lors de la mise à jour de votre statut de présence.",
