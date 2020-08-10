@@ -100,7 +100,7 @@ class ShowRemnants extends Command {
 			$output->writeln(json_encode($rows));
 		} else {
 			$table->setRows($rows);
-			$table->render($output);
+			$table->render();
 		}
 	}
 }
