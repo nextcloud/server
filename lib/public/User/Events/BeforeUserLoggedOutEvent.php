@@ -30,6 +30,8 @@ use OCP\EventDispatcher\Event;
 use OCP\IUser;
 
 /**
+ * Emitted before a user is logged out.
+ *
  * @since 18.0.0
  */
 class BeforeUserLoggedOutEvent extends Event {

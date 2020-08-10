@@ -32,6 +32,16 @@ use OCP\AppFramework\Http\EmptyContentSecurityPolicy;
 use OCP\EventDispatcher\Event;
 
 /**
+ * Allows to inject something into the default content policy. This is for
+ * example useful when you're injecting Javascript code into a view belonging
+ * to another controller and cannot modify its Content-Security-Policy itself.
+ * Note that the adjustment is only applied to applications that use AppFramework
+ * controllers.
+ *
+ * WARNING: Using this API incorrectly may make the instance more insecure.
+ * Do think twice before adding whitelisting resources. Please do also note
+ * that it is not possible to use the `disallowXYZ` functions.
+ *
  * @since 17.0.0
  */
 class AddContentSecurityPolicyEvent extends Event {

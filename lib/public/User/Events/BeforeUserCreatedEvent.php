@@ -29,6 +29,8 @@ namespace OCP\User\Events;
 use OCP\EventDispatcher\Event;
 
 /**
+ * Emitted before a new user is created on the back-end.
+ *
  * @since 18.0.0
  */
 class BeforeUserCreatedEvent extends Event {

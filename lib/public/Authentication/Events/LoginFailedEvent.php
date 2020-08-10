@@ -29,9 +29,7 @@ namespace OCP\Authentication\Events;
 use OCP\EventDispatcher\Event;
 
 /**
- * Class LoginFailedEvent
- *
- * @package OCP\Authentication\Events
+ * Emitted when the authentication fails, but only if the login name can be associated with an existing user.
  *
  * @since 19.0.0
  */

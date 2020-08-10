@@ -32,6 +32,8 @@ use OCP\AppFramework\Http\EmptyFeaturePolicy;
 use OCP\EventDispatcher\Event;
 
 /**
+ * Event that allows to register a feature policy header to a request.
+ *
  * @since 17.0.0
  */
 class AddFeaturePolicyEvent extends Event {

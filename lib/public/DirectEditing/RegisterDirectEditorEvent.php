@@ -26,6 +26,8 @@ namespace OCP\DirectEditing;
 use OCP\EventDispatcher\Event;
 
 /**
+ * Event to allow to register the direct editor.
+ *
  * @since 18.0.0
  */
 class RegisterDirectEditorEvent extends Event {
