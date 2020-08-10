@@ -47,7 +47,7 @@ class FeaturePolicyManager {
 
 	public function getDefaultPolicy(): FeaturePolicy {
 		$event = new AddFeaturePolicyEvent($this);
-		$this->dispatcher->dispatch(AddFeaturePolicyEvent::class, $event);
+		$this->dispatcher->dispatchTyped($event);
 
 		$defaultPolicy = new FeaturePolicy();
 		foreach ($this->policies as $policy) {
