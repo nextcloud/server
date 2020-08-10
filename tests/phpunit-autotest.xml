@@ -21,6 +21,7 @@
 				<directory suffix=".php">../3rdparty</directory>
 				<directory suffix=".php">../apps/*/composer</directory>
 				<directory suffix=".php">../apps/*/tests</directory>
+				<directory suffix=".php">../apps/files_external/3rdparty</directory>
 				<directory suffix=".php">../build</directory>
 				<directory suffix=".php">../lib/composer</directory>
 				<directory suffix=".php">../tests</directory>
