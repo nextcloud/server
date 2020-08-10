@@ -4,7 +4,7 @@
 	resolveFromConfigFile="true"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="https://getpsalm.org/schema/config"
-	xsi:schemaLocation="https://getpsalm.org/schema/config lib/composer/vimeo/psalm/config.xsd"
+	xsi:schemaLocation="https://getpsalm.org/schema/config"
 >
 	<projectFiles>
 		<directory name="apps"/>
@@ -49,5 +49,13 @@
 				<directory name="core/templates"/>
 			</errorLevel>
 		</UndefinedFunction>
+		<UndefinedGlobalVariable>
+			<errorLevel type="suppress">
+				<referencedVariable name="l" />
+				<referencedVariable name="_" />
+				<directory name="apps/**/templates"/>
+				<directory name="core/templates"/>
+			</errorLevel>
+		</UndefinedGlobalVariable>
 	</issueHandlers>
 </psalm>
