@@ -28,6 +28,11 @@ namespace OCA\Files\Event;
 
 use OCP\EventDispatcher\Event;
 
+/**
+ * This event is triggered when the files app is rendered. It canb e used to add additional scripts to the files app.
+ *
+ * @since 17.0.0
+ */
 class LoadAdditionalScriptsEvent extends Event {
 	private $hiddenFields = [];
 

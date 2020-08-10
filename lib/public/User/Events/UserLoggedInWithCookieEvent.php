@@ -30,6 +30,8 @@ use OCP\EventDispatcher\Event;
 use OCP\IUser;
 
 /**
+ * Emitted when a user has been succesfully logged in via remember-me cookies.
+ *
  * @since 18.0.0
  */
 class UserLoggedInWithCookieEvent extends Event {

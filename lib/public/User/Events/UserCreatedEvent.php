@@ -30,6 +30,8 @@ use OCP\EventDispatcher\Event;
 use OCP\IUser;
 
 /**
+ * Emitted when a new user has been created on the back-end.
+ *
  * @since 18.0.0
  */
 class UserCreatedEvent extends Event {

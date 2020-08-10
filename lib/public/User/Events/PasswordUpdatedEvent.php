@@ -30,6 +30,8 @@ use OCP\EventDispatcher\Event;
 use OCP\IUser;
 
 /**
+ * Emitted when the user password has been updated.
+ *
  * @since 18.0.0
  */
 class PasswordUpdatedEvent extends Event {

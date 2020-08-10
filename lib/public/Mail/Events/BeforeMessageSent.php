@@ -30,6 +30,8 @@ use OCP\EventDispatcher\Event;
 use OCP\Mail\IMessage;
 
 /**
+ * Emitted before a system mail is sent. It can be used to alter the message.
+ *
  * @since 19.0.0
  */
 class BeforeMessageSent extends Event {

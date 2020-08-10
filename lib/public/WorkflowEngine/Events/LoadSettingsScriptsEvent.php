@@ -28,6 +28,8 @@ namespace OCP\WorkflowEngine\Events;
 use OCP\EventDispatcher\Event;
 
 /**
+ * Emitted when the workflow engine settings page is loaded.
+ *
  * @since 20.0.0
  */
 class LoadSettingsScriptsEvent extends Event {

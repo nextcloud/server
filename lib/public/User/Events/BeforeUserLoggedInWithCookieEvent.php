@@ -29,6 +29,8 @@ namespace OCP\User\Events;
 use OCP\EventDispatcher\Event;
 
 /**
+ * Emitted before a user is logged in via remember-me cookies.
+ *
  * @since 18.0.0
  */
 class BeforeUserLoggedInWithCookieEvent extends Event {
