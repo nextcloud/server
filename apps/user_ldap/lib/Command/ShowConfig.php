@@ -108,7 +108,7 @@ class ShowConfig extends Command {
 				$rows[] = [$key, $value];
 			}
 			$table->setRows($rows);
-			$table->render($output);
+			$table->render();
 		}
 	}
 }
