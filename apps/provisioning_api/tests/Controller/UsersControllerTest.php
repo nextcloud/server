@@ -48,6 +48,7 @@ use OCA\Provisioning_API\FederatedShareProviderFactory;
 use OCA\Settings\Mailer\NewUserMailHelper;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IL10N;
@@ -58,6 +59,7 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
+use OCP\Security\Events\GenerateSecurePasswordEvent;
 use OCP\Security\ISecureRandom;
 use OCP\UserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -94,6 +96,8 @@ class UsersControllerTest extends TestCase {
 	private $secureRandom;
 	/** @var RemoteWipe|MockObject */
 	private $remoteWipe;
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -111,6 +115,7 @@ class UsersControllerTest extends TestCase {
 		$this->federatedShareProviderFactory = $this->createMock(FederatedShareProviderFactory::class);
 		$this->secureRandom = $this->createMock(ISecureRandom::class);
 		$this->remoteWipe = $this->createMock(RemoteWipe::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->api = $this->getMockBuilder(UsersController::class)
 			->setConstructorArgs([
@@ -128,6 +133,7 @@ class UsersControllerTest extends TestCase {
 				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
+				$this->eventDispatcher,
 			])
 			->setMethods(['fillStorageInfo'])
 			->getMock();
@@ -389,7 +395,8 @@ class UsersControllerTest extends TestCase {
 				$this->newUserMailHelper,
 				$this->federatedShareProviderFactory,
 				$this->secureRandom,
-				$this->remoteWipe
+				$this->remoteWipe,
+				$this->eventDispatcher,
 			])
 			->setMethods(['editUser'])
 			->getMock();
@@ -483,6 +490,46 @@ class UsersControllerTest extends TestCase {
 		$this->assertTrue(key_exists(
 			'id',
 			$this->api->addUser('', 'PasswordOfTheNewUser')->getData()
+		));
+	}
+
+	public function testAddUserSuccessfulGeneratePassword() {
+		$this->userManager
+			->expects($this->once())
+			->method('userExists')
+			->with('NewUser')
+			->willReturn(false);
+		$this->userManager
+			->expects($this->once())
+			->method('createUser');
+		$this->logger
+			->expects($this->once())
+			->method('info')
+			->with('Successful addUser call with userid: NewUser', ['app' => 'ocs_api']);
+		$loggedInUser = $this->getMockBuilder(IUser::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$loggedInUser
+			->expects($this->once())
+			->method('getUID')
+			->willReturn('adminUser');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($loggedInUser);
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('adminUser')
+			->willReturn(true);
+		$this->eventDispatcher
+			->expects($this->once())
+			->method('dispatchTyped')
+			->with(new GenerateSecurePasswordEvent());
+
+		$this->assertTrue(key_exists(
+			'id',
+			$this->api->addUser('NewUser', '', '', 'foo@bar')->getData()
 		));
 	}
 
@@ -3126,6 +3173,7 @@ class UsersControllerTest extends TestCase {
 				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
+				$this->eventDispatcher,
 			])
 			->setMethods(['getUserData'])
 			->getMock();
@@ -3190,6 +3238,7 @@ class UsersControllerTest extends TestCase {
 				$this->federatedShareProviderFactory,
 				$this->secureRandom,
 				$this->remoteWipe,
+				$this->eventDispatcher,
 			])
 			->setMethods(['getUserData'])
 			->getMock();

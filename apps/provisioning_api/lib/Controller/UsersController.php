@@ -59,6 +59,8 @@ use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
+use OCP\Security\Events\GenerateSecurePasswordEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 
 class UsersController extends AUserData {
 
@@ -76,6 +78,8 @@ class UsersController extends AUserData {
 	private $secureRandom;
 	/** @var RemoteWipe */
 	private $remoteWipe;
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -90,7 +94,8 @@ class UsersController extends AUserData {
 								NewUserMailHelper $newUserMailHelper,
 								FederatedShareProviderFactory $federatedShareProviderFactory,
 								ISecureRandom $secureRandom,
-								RemoteWipe $remoteWipe) {
+								RemoteWipe $remoteWipe,
+								IEventDispatcher $eventDispatcher) {
 		parent::__construct($appName,
 							$request,
 							$userManager,
@@ -107,6 +112,7 @@ class UsersController extends AUserData {
 		$this->federatedShareProviderFactory = $federatedShareProviderFactory;
 		$this->secureRandom = $secureRandom;
 		$this->remoteWipe = $remoteWipe;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -286,9 +292,18 @@ class UsersController extends AUserData {
 				throw new OCSException('To send a password link to the user an email address is required.', 108);
 			}
 
-			$password = $this->secureRandom->generate(10);
-			// Make sure we pass the password_policy
-			$password .= $this->secureRandom->generate(2, '$!.,;:-~+*[]{}()');
+			$passwordEvent = new GenerateSecurePasswordEvent();
+			$this->eventDispatcher->dispatchTyped($passwordEvent);
+
+			$password = $passwordEvent->getPassword();
+			if ($password === null) {
+				// Fallback: ensure to pass password_policy in any case
+				$password = $this->secureRandom->generate(10)
+					. $this->secureRandom->generate(1, ISecureRandom::CHAR_UPPER)
+					. $this->secureRandom->generate(1, ISecureRandom::CHAR_LOWER)
+					. $this->secureRandom->generate(1, ISecureRandom::CHAR_DIGITS)
+					. $this->secureRandom->generate(1, ISecureRandom::CHAR_SYMBOLS);
+			}
 			$generatePasswordResetToken = true;
 		}
 
