@@ -44,6 +44,7 @@
 namespace OCA\Files_Trashbin;
 
 use OC\Files\Filesystem;
+use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\View;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Command\Expire;
@@ -278,12 +279,22 @@ class Trashbin {
 		/** @var \OC\Files\Storage\Storage $sourceStorage */
 		[$sourceStorage, $sourceInternalPath] = $ownerView->resolvePath('/files/' . $ownerPath);
 
+
+		if ($trashStorage->file_exists($trashInternalPath)) {
+			$trashStorage->unlink($trashInternalPath);
+		}
+
+		$connection = \OC::$server->getDatabaseConnection();
+		$connection->beginTransaction();
+		$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
+
 		try {
 			$moveSuccessful = true;
-			if ($trashStorage->file_exists($trashInternalPath)) {
-				$trashStorage->unlink($trashInternalPath);
+
+			// when moving within the same object store, the cache update done above is enough to move the file
+			if (!($trashStorage->instanceOfStorage(ObjectStoreStorage::class) && $trashStorage->getId() === $sourceStorage->getId())) {
+				$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 			}
-			$trashStorage->moveFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 		} catch (\OCA\Files_Trashbin\Exceptions\CopyRecursiveException $e) {
 			$moveSuccessful = false;
 			if ($trashStorage->file_exists($trashInternalPath)) {
@@ -298,10 +309,11 @@ class Trashbin {
 			} else {
 				$sourceStorage->unlink($sourceInternalPath);
 			}
+			$connection->rollBack();
 			return false;
 		}
 
-		$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
+		$connection->commit();
 
 		if ($moveSuccessful) {
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");

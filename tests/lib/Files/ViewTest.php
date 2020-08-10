@@ -13,7 +13,6 @@ use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Common;
 use OC\Files\Storage\Temporary;
-use OC\Files\Stream\Quota;
 use OC\Files\View;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\FileInfo;
@@ -242,7 +241,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('/foo.txt', $folderView->getPath($id2));
 	}
 
-	
+
 	public function testGetPathNotExisting() {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
@@ -1167,13 +1166,8 @@ class ViewTest extends \Test\TestCase {
 			->setMethods(['fopen'])
 			->getMock();
 
-		$storage2->expects($this->any())
-			->method('fopen')
-			->will($this->returnCallback(function ($path, $mode) use ($storage2) {
-				/** @var \PHPUnit_Framework_MockObject_MockObject | \OC\Files\Storage\Temporary $storage2 */
-				$source = fopen($storage2->getSourcePath($path), $mode);
-				return Quota::wrap($source, 9);
-			}));
+		$storage2->method('writeStream')
+			->willReturn(0);
 
 		$storage1->mkdir('sub');
 		$storage1->file_put_contents('foo.txt', '0123456789ABCDEFGH');
@@ -1291,7 +1285,7 @@ class ViewTest extends \Test\TestCase {
 		$this->assertNull($view->getRelativePath(null));
 	}
 
-	
+
 	public function testNullAsRoot() {
 		$this->expectException(\InvalidArgumentException::class);
 

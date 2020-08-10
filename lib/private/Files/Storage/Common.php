@@ -52,6 +52,7 @@ use OC\Files\Storage\Wrapper\Jail;
 use OC\Files\Storage\Wrapper\Wrapper;
 use OCP\Files\EmptyFileNameException;
 use OCP\Files\FileNameTooLongException;
+use OCP\Files\GenericFileException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidDirectoryException;
 use OCP\Files\InvalidPathException;
@@ -618,18 +619,19 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 			}
 		} else {
 			$source = $sourceStorage->fopen($sourceInternalPath, 'r');
-			// TODO: call fopen in a way that we execute again all storage wrappers
-			// to avoid that we bypass storage wrappers which perform important actions
-			// for this operation. Same is true for all other operations which
-			// are not the same as the original one.Once this is fixed we also
-			// need to adjust the encryption wrapper.
-			$target = $this->fopen($targetInternalPath, 'w');
-			list(, $result) = \OC_Helper::streamCopy($source, $target);
+			$result = false;
+			if ($source) {
+				try {
+					$this->writeStream($targetInternalPath, $source);
+					$result = true;
+				} catch (\Exception $e) {
+					\OC::$server->getLogger()->logException($e, ['level' => ILogger::WARN, 'message' => 'Failed to copy stream to storage']);
+				}
+			}
+
 			if ($result and $preserveMtime) {
 				$this->touch($targetInternalPath, $sourceStorage->filemtime($sourceInternalPath));
 			}
-			fclose($source);
-			fclose($target);
 
 			if (!$result) {
 				// delete partially written target file
@@ -855,10 +857,13 @@ abstract class Common implements Storage, ILockingStorage, IWriteStreamStorage {
 	public function writeStream(string $path, $stream, int $size = null): int {
 		$target = $this->fopen($path, 'w');
 		if (!$target) {
-			return 0;
+			throw new GenericFileException("Failed to open $path for writing");
 		}
 		try {
 			[$count, $result] = \OC_Helper::streamCopy($stream, $target);
+			if (!$result) {
+				throw new GenericFileException("Failed to copy stream");
+			}
 		} finally {
 			fclose($target);
 			fclose($stream);
