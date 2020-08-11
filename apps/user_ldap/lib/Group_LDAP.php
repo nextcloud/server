@@ -246,6 +246,37 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		if ($groupMembers !== null) {
 			return $groupMembers;
 		}
+
+		if ($this->access->connection->ldapNestedGroups
+			&& $this->access->connection->useMemberOfToDetectMembership
+			&& $this->access->connection->hasMemberOfFilterSupport
+			&& $this->access->connection->ldapMatchingRuleInChainState !== Configuration::LDAP_SERVER_FEATURE_UNAVAILABLE
+		) {
+			$attemptedLdapMatchingRuleInChain = true;
+			// compatibility hack with servers supporting :1.2.840.113556.1.4.1941:, and others)
+			$filter = $this->access->combineFilterWithAnd([
+				$this->access->connection->ldapUserFilter,
+				$this->access->connection->ldapUserDisplayName . '=*',
+				'memberof:1.2.840.113556.1.4.1941:=' . $dnGroup
+			]);
+			$memberRecords = $this->access->fetchListOfUsers(
+				$filter,
+				$this->access->userManager->getAttributes(true)
+			);
+			$result = array_reduce($memberRecords, function ($carry, $record) {
+				$carry[] = $record['dn'][0];
+				return $carry;
+			}, []);
+			if ($this->access->connection->ldapMatchingRuleInChainState === Configuration::LDAP_SERVER_FEATURE_AVAILABLE) {
+				return $result;
+			} elseif (!empty($memberRecords)) {
+				$this->access->connection->ldapMatchingRuleInChainState = Configuration::LDAP_SERVER_FEATURE_AVAILABLE;
+				$this->access->connection->saveConfiguration();
+				return $result;
+			}
+			// when feature availability is unknown, and the result is empty, continue and test with original approach
+		}
+
 		$seen[$dnGroup] = 1;
 		$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr);
 		if (is_array($members)) {
@@ -258,6 +289,13 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		$allMembers += $this->getDynamicGroupMembers($dnGroup);
 
 		$this->access->connection->writeToCache($cacheKey, $allMembers);
+		if (isset($attemptedLdapMatchingRuleInChain)
+			&& $this->access->connection->ldapMatchingRuleInChainState === Configuration::LDAP_SERVER_FEATURE_UNKNOWN
+			&& !empty($allMembers)
+		) {
+			$this->access->connection->ldapMatchingRuleInChainState = Configuration::LDAP_SERVER_FEATURE_UNAVAILABLE;
+			$this->access->connection->saveConfiguration();
+		}
 		return $allMembers;
 	}
 

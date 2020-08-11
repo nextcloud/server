@@ -72,6 +72,7 @@ use OCP\ILogger;
  * @property string ldapGidNumber
  * @property int hasMemberOfFilterSupport
  * @property int useMemberOfToDetectMembership
+ * @property string ldapMatchingRuleInChainState
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
