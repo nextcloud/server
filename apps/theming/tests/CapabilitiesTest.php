@@ -44,16 +44,16 @@ use Test\TestCase;
  * @package OCA\Theming\Tests
  */
 class CapabilitiesTest extends TestCase {
-	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
 	protected $theming;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $url;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var Util|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
 	/** @var Capabilities */

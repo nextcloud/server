@@ -29,9 +29,9 @@ use Test\TestCase;
 class ScannerTest extends TestCase {
 	/** @var \OCA\Files_Sharing\External\Scanner */
 	protected $scanner;
-	/** @var \OCA\Files_Sharing\External\Storage|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Files_Sharing\External\Storage|\PHPUnit\Framework\MockObject\MockObject */
 	protected $storage;
-	/** @var \OC\Files\Cache\Cache|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Files\Cache\Cache|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cache;
 
 	protected function setUp(): void {

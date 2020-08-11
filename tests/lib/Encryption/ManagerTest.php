@@ -17,22 +17,22 @@ class ManagerTest extends TestCase {
 	/** @var Manager */
 	private $manager;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 
-	/** @var View|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
 	private $view;
 
-	/** @var Util|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
 	private $util;
-	
-	/** @var ArrayCache|\PHPUnit_Framework_MockObject_MockObject */
+
+	/** @var ArrayCache|\PHPUnit\Framework\MockObject\MockObject */
 	private $arrayCache;
 
 	protected function setUp(): void {
@@ -100,7 +100,7 @@ class ManagerTest extends TestCase {
 		$this->assertEmpty($this->manager->getEncryptionModules());
 	}
 
-	
+
 	public function testGetEncryptionModuleUnknown() {
 		$this->expectException(\OC\Encryption\Exceptions\ModuleDoesNotExistsException::class);
 		$this->expectExceptionMessage('Module with ID: unknown does not exist.');

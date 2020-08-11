@@ -33,13 +33,13 @@ use Test\TestCase;
 
 class NavigationControllerTest extends TestCase {
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var INavigationManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $navigationManager;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
 	/** @var NavigationController */

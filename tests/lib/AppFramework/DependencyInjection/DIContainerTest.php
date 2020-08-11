@@ -37,7 +37,7 @@ use OCP\Security\ISecureRandom;
  */
 class DIContainerTest extends \Test\TestCase {
 
-	/** @var DIContainer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var DIContainer|\PHPUnit\Framework\MockObject\MockObject */
 	private $container;
 
 	protected function setUp(): void {

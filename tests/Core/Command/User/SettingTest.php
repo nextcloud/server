@@ -30,15 +30,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SettingTest extends TestCase {
-	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var \OCP\IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connection;
-	/** @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Symfony\Component\Console\Input\InputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
-	/** @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleOutput;
 
 	protected function setUp(): void {

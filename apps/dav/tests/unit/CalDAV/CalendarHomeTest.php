@@ -37,7 +37,7 @@ use Test\TestCase;
 
 class CalendarHomeTest extends TestCase {
 
-	/** @var CalDavBackend | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $backend;
 
 	/** @var array */
@@ -69,7 +69,7 @@ class CalendarHomeTest extends TestCase {
 	}
 
 	public function testCreateCalendarValidName() {
-		/** @var MkCol | \PHPUnit_Framework_MockObject_MockObject $mkCol */
+		/** @var MkCol | \PHPUnit\Framework\MockObject\MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
 		$mkCol->method('getResourceType')
@@ -89,7 +89,7 @@ class CalendarHomeTest extends TestCase {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('The resource you tried to create has a reserved name');
 
-		/** @var MkCol | \PHPUnit_Framework_MockObject_MockObject $mkCol */
+		/** @var MkCol | \PHPUnit\Framework\MockObject\MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
 		$this->calendarHome->createExtendedCollection('contact_birthdays', $mkCol);
@@ -99,7 +99,7 @@ class CalendarHomeTest extends TestCase {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 		$this->expectExceptionMessage('The resource you tried to create has a reserved name');
 
-		/** @var MkCol | \PHPUnit_Framework_MockObject_MockObject $mkCol */
+		/** @var MkCol | \PHPUnit\Framework\MockObject\MockObject $mkCol */
 		$mkCol = $this->createMock(MkCol::class);
 
 		$this->calendarHome->createExtendedCollection('app-generated--example--foo-1', $mkCol);

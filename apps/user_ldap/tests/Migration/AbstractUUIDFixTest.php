@@ -35,25 +35,25 @@ use OCP\IConfig;
 use Test\TestCase;
 
 abstract class AbstractUUIDFixTest extends TestCase {
-	/** @var  Helper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Helper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $helper;
 
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var  LDAP|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  LDAP|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ldap;
 
-	/** @var  UserMapping|GroupMapping|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  UserMapping|GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $mapper;
 
 	/** @var  UUIDFixUser */
 	protected $job;
 
-	/** @var  User_Proxy|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  User_Proxy|\PHPUnit\Framework\MockObject\MockObject */
 	protected $proxy;
 
-	/** @var  Access|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Access|\PHPUnit\Framework\MockObject\MockObject */
 	protected $access;
 
 	/** @var bool */

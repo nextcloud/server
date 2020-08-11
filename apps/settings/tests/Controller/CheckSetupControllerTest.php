@@ -65,33 +65,33 @@ use Test\TestCase;
  * @package Tests\Settings\Controller
  */
 class CheckSetupControllerTest extends TestCase {
-	/** @var CheckSetupController | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var CheckSetupController | \PHPUnit\Framework\MockObject\MockObject */
 	private $checkSetupController;
-	/** @var IRequest | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest | \PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IClientService | \PHPUnit_Framework_MockObject_MockObject*/
+	/** @var IClientService | \PHPUnit\Framework\MockObject\MockObject*/
 	private $clientService;
-	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 	/** @var ILogger */
 	private $logger;
-	/** @var Checker|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
-	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $dispatcher;
-	/** @var Connection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Connection|\PHPUnit\Framework\MockObject\MockObject */
 	private $db;
-	/** @var ILockingProvider|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILockingProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $lockingProvider;
-	/** @var IDateTimeFormatter|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
 	private $dateTimeFormatter;
 	/** @var MemoryInfo|MockObject */
 	private $memoryInfo;
-	/** @var SecureRandom|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var SecureRandom|\PHPUnit\Framework\MockObject\MockObject */
 	private $secureRandom;
 
 	/**

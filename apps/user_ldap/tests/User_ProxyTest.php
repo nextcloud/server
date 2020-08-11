@@ -37,17 +37,17 @@ use OCP\Notification\IManager as INotificationManager;
 use Test\TestCase;
 
 class User_ProxyTest extends TestCase {
-	/** @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $ldapWrapper;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var INotificationManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var INotificationManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $notificationManager;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
-	/** @var User_Proxy|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var User_Proxy|\PHPUnit\Framework\MockObject\MockObject */
 	private $proxy;
-	/** @var UserPluginManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var UserPluginManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userPluginManager;
 
 	protected function setUp(): void {

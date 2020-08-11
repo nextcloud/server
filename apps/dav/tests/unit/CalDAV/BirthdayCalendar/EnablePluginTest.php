@@ -34,13 +34,13 @@ use Test\TestCase;
 
 class EnablePluginTest extends TestCase {
 
-	/** @var \Sabre\DAV\Server|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Sabre\DAV\Server|\PHPUnit\Framework\MockObject\MockObject */
 	protected $server;
 
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var BirthdayService |\PHPUnit_Framework_MockObject_MockObject */
+	/** @var BirthdayService |\PHPUnit\Framework\MockObject\MockObject */
 	protected $birthdayService;
 
 	/** @var \OCA\DAV\CalDAV\BirthdayCalendar\EnablePlugin $plugin */

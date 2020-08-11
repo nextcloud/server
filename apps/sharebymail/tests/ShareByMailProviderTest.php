@@ -51,7 +51,6 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**
@@ -68,40 +67,40 @@ class ShareByMailProviderTest extends TestCase {
 	/** @var  IManager */
 	private $shareManager;
 
-	/** @var  IL10N | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $l;
 
-	/** @var  ILogger | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  ILogger | \PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
-	/** @var  IRootFolder | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IRootFolder | \PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
-	/** @var  IUserManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUserManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
-	/** @var  ISecureRandom | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  ISecureRandom | \PHPUnit\Framework\MockObject\MockObject */
 	private $secureRandom;
 
-	/** @var  IMailer | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IMailer | \PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
 
-	/** @var  IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
-	/** @var  IShare | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IShare | \PHPUnit\Framework\MockObject\MockObject */
 	private $share;
 
-	/** @var  \OCP\Activity\IManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \OCP\Activity\IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $activityManager;
 
-	/** @var  SettingsManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  SettingsManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $settingsManager;
 
-	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $defaults;
 
-	/** @var  IHasher | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IHasher | \PHPUnit\Framework\MockObject\MockObject */
 	private $hasher;
 
 	/** @var IEventDispatcher */
@@ -138,7 +137,7 @@ class ShareByMailProviderTest extends TestCase {
 	 * get instance of Mocked ShareByMailProvider
 	 *
 	 * @param array $mockedMethods internal methods which should be mocked
-	 * @return \PHPUnit_Framework_MockObject_MockObject | ShareByMailProvider
+	 * @return \PHPUnit\Framework\MockObject\MockObject | ShareByMailProvider
 	 */
 	private function getInstance(array $mockedMethods = []) {
 		$instance = $this->getMockBuilder('OCA\ShareByMail\ShareByMailProvider')

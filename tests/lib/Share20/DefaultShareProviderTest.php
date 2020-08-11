@@ -52,31 +52,31 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	/** @var IDBConnection */
 	protected $dbConn;
 
-	/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager | \PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
 
-	/** @var IGroupManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager | \PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	/** @var IRootFolder | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder | \PHPUnit\Framework\MockObject\MockObject */
 	protected $rootFolder;
 
 	/** @var DefaultShareProvider */
 	protected $provider;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IMailer */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IMailer */
 	protected $mailer;
 
 	/** @var IFactory|MockObject */
 	protected $l10nFactory;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IL10N */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IL10N */
 	protected $l10n;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|Defaults */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|Defaults */
 	protected $defaults;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IURLGenerator */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IURLGenerator */
 	protected $urlGenerator;
 
 	/** @var IConfig|MockObject */

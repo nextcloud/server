@@ -32,10 +32,10 @@ use Test\TestCase;
 
 class GenerateBirthdayCalendarBackgroundJobTest extends TestCase {
 
-	/** @var BirthdayService | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var BirthdayService | \PHPUnit\Framework\MockObject\MockObject */
 	private $birthdayService;
 
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	/** @var \OCA\DAV\BackgroundJob\GenerateBirthdayCalendarBackgroundJob */

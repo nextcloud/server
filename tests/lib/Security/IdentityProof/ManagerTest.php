@@ -52,7 +52,7 @@ class ManagerTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var Factory|\PHPUnit_Framework_MockObject_MockObject $factory */
+		/** @var Factory|\PHPUnit\Framework\MockObject\MockObject $factory */
 		$this->factory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(AppData::class);
 		$this->config = $this->createMock(IConfig::class);
@@ -70,7 +70,7 @@ class ManagerTest extends TestCase {
 	 * create manager object
 	 *
 	 * @param array $setMethods
-	 * @return Manager|\PHPUnit_Framework_MockObject_MockObject
+	 * @return Manager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getManager($setMethods = []) {
 		if (empty($setMethods)) {
@@ -204,7 +204,7 @@ class ManagerTest extends TestCase {
 	public function testGetSystemKey() {
 		$manager = $this->getManager(['retrieveKey']);
 
-		/** @var Key|\PHPUnit_Framework_MockObject_MockObject $key */
+		/** @var Key|\PHPUnit\Framework\MockObject\MockObject $key */
 		$key = $this->createMock(Key::class);
 
 		$this->config->expects($this->once())->method('getSystemValue')
@@ -217,13 +217,13 @@ class ManagerTest extends TestCase {
 	}
 
 
-	
+
 	public function testGetSystemKeyFailure() {
 		$this->expectException(\RuntimeException::class);
 
 		$manager = $this->getManager(['retrieveKey']);
 
-		/** @var Key|\PHPUnit_Framework_MockObject_MockObject $key */
+		/** @var Key|\PHPUnit\Framework\MockObject\MockObject $key */
 		$key = $this->createMock(Key::class);
 
 		$this->config->expects($this->once())->method('getSystemValue')

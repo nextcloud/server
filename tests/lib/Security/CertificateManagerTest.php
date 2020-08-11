@@ -92,7 +92,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->assertEqualsArrays($certificateStore, $this->certificateManager->listCertificates());
 	}
 
-	
+
 	public function testAddInvalidCertificate() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Certificate could not get parsed.');
@@ -156,7 +156,7 @@ class CertificateManagerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$config = $this->createMock(IConfig::class);
 
-		/** @var CertificateManager | \PHPUnit_Framework_MockObject_MockObject $certificateManager */
+		/** @var CertificateManager | \PHPUnit\Framework\MockObject\MockObject $certificateManager */
 		$certificateManager = $this->getMockBuilder('OC\Security\CertificateManager')
 			->setConstructorArgs([$uid, $view, $config, $this->createMock(ILogger::class), $this->random])
 			->setMethods(['getFilemtimeOfCaBundle', 'getCertificateBundle'])

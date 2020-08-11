@@ -37,10 +37,10 @@ class AddressHandlerTest extends \Test\TestCase {
 	/** @var  AddressHandler */
 	private $addressHandler;
 
-	/** @var  IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
-	/** @var  IL10N | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $il10n;
 
 	/** @var CloudIdManager */

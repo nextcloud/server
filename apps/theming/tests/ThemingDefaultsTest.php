@@ -50,29 +50,29 @@ use OCP\IURLGenerator;
 use Test\TestCase;
 
 class ThemingDefaultsTest extends TestCase {
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var \OC_Defaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC_Defaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $defaults;
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	private $appData;
-	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
 	/** @var ThemingDefaults */
 	private $template;
-	/** @var Util|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Util|\PHPUnit\Framework\MockObject\MockObject */
 	private $util;
-	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
 	private $cache;
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
-	/** @var ImageManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ImageManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $imageManager;
-	/** @var INavigationManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $navigationManager;
 
 	protected function setUp(): void {

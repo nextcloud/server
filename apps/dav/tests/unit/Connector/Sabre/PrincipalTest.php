@@ -46,28 +46,28 @@ use Test\TestCase;
 
 class PrincipalTest extends TestCase {
 
-	/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
 	/** @var \OCA\DAV\Connector\Sabre\Principal */
 	private $connector;
 
-	/** @var IGroupManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
 
-	/** @var IManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
-	/** @var IUserSession | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession | \PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 
-	/** @var IAppManager | \PHPUnit_Framework_MockObject_MockObject  */
+	/** @var IAppManager | \PHPUnit\Framework\MockObject\MockObject  */
 	private $appManager;
 
-	/** @var ProxyMapper | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var ProxyMapper | \PHPUnit\Framework\MockObject\MockObject */
 	private $proxyMapper;
 
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {

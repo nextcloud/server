@@ -33,25 +33,25 @@ use Test\TestCase;
 
 class EncryptAllTest extends TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\IConfig */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IConfig */
 	protected $config;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\Encryption\IManager  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IManager  */
 	protected $encryptionManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\App\IAppManager  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\App\IAppManager  */
 	protected $appManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject  | \Symfony\Component\Console\Input\InputInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject  | \Symfony\Component\Console\Input\InputInterface */
 	protected $consoleInput;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \Symfony\Component\Console\Output\OutputInterface */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
 	protected $consoleOutput;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Helper\QuestionHelper */
 	protected $questionHelper;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\Encryption\IEncryptionModule */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\Encryption\IEncryptionModule */
 	protected $encryptionModule;
 
 	/** @var  EncryptAll */
@@ -125,7 +125,7 @@ class EncryptAllTest extends TestCase {
 		];
 	}
 
-	
+
 	public function testExecuteException() {
 		$this->expectException(\Exception::class);
 

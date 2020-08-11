@@ -33,7 +33,7 @@ use OCP\Share\IShare;
 use Test\TestCase;
 
 class SearchTest extends TestCase {
-	/** @var  IContainer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IContainer|\PHPUnit\Framework\MockObject\MockObject */
 	protected $container;
 	/** @var  ISearch */
 	protected $search;

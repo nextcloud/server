@@ -39,15 +39,15 @@ use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ClientMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ClientMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $clientMapper;
-	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
 	private $secureRandom;
-	/** @var AccessTokenMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var AccessTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $accessTokenMapper;
-	/** @var DefaultTokenMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var DefaultTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $defaultTokenMapper;
 	/** @var SettingsController */
 	private $settingsController;

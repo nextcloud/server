@@ -25,7 +25,7 @@ use OC\Session\CryptoSessionData;
 use OCP\Security\ICrypto;
 
 class CryptoSessionDataTest extends Session {
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\OCP\Security\ICrypto */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\OCP\Security\ICrypto */
 	protected $crypto;
 
 	/** @var \OCP\ISession */

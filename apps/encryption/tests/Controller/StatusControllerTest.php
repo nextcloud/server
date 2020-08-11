@@ -36,16 +36,16 @@ use Test\TestCase;
 
 class StatusControllerTest extends TestCase {
 
-	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $requestMock;
 
-	/** @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
-	/** @var  \OCA\Encryption\Session | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \OCA\Encryption\Session | \PHPUnit\Framework\MockObject\MockObject */
 	protected $sessionMock;
 
-	/** @var  IManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
 	protected $encryptionManagerMock;
 
 	/** @var StatusController */

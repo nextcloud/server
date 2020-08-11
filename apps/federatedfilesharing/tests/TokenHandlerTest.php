@@ -32,7 +32,7 @@ class TokenHandlerTest extends \Test\TestCase {
 	/** @var  TokenHandler */
 	private $tokenHandler;
 
-	/** @var  ISecureRandom | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  ISecureRandom | \PHPUnit\Framework\MockObject\MockObject */
 	private $secureRandom;
 
 	/** @var int */

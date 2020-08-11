@@ -17,16 +17,16 @@ class UtilTest extends TestCase {
 	 */
 	protected $headerSize = 8192;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $view;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	/** @var  \OC\Encryption\Util */
@@ -94,7 +94,7 @@ class UtilTest extends TestCase {
 		];
 	}
 
-	
+
 	public function testCreateHeaderFailed() {
 		$this->expectException(\OC\Encryption\Exceptions\EncryptionHeaderKeyExistsException::class);
 

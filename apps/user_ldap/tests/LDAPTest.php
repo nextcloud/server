@@ -30,7 +30,7 @@ use OCA\User_LDAP\LDAP;
 use Test\TestCase;
 
 class LDAPTest extends TestCase {
-	/** @var LDAP|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LDAP|\PHPUnit\Framework\MockObject\MockObject */
 	private $ldap;
 
 	protected function setUp(): void {

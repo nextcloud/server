@@ -36,19 +36,19 @@ use OCP\ILogger;
 use OCP\IURLGenerator;
 
 class JSCombinerTest extends \Test\TestCase {
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appData;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $urlGenerator;
-	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
 	protected $depsCache;
 	/** @var JSCombiner */
 	protected $jsCombiner;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
-	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cacheFactory;
 
 	protected function setUp(): void {

@@ -45,29 +45,29 @@ class SyncTest extends TestCase {
 
 	/** @var  array */
 	protected $arguments;
-	/** @var  Helper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Helper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $helper;
-	/** @var  LDAP|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  LDAP|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ldapWrapper;
-	/** @var  Manager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Manager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var  UserMapping|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  UserMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $mapper;
 	/** @var  Sync */
 	protected $sync;
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var  IAvatarManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $avatarManager;
-	/** @var  IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $dbc;
-	/** @var  IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ncUserManager;
-	/** @var  IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $notificationManager;
-	/** @var ConnectionFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ConnectionFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connectionFactory;
-	/** @var AccessFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var AccessFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $accessFactory;
 
 	protected function setUp(): void {
@@ -182,7 +182,7 @@ class SyncTest extends TestCase {
 				return null;
 			});
 
-		/** @var Access|\PHPUnit_Framework_MockObject_MockObject $access */
+		/** @var Access|\PHPUnit\Framework\MockObject\MockObject $access */
 		$access = $this->createMock(Access::class);
 		$this->accessFactory->expects($this->any())
 			->method('get')
@@ -356,7 +356,7 @@ class SyncTest extends TestCase {
 				return null;
 			});
 
-		/** @var Access|\PHPUnit_Framework_MockObject_MockObject $access */
+		/** @var Access|\PHPUnit\Framework\MockObject\MockObject $access */
 		$access = $this->createMock(Access::class);
 		$this->accessFactory->expects($this->any())
 			->method('get')

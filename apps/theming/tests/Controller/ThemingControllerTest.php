@@ -57,25 +57,25 @@ use OCP\IURLGenerator;
 use Test\TestCase;
 
 class ThemingControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $themingDefaults;
 	/** @var \OCP\AppFramework\Utility\ITimeFactory */
 	private $timeFactory;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 	/** @var ThemingController */
 	private $themingController;
 	/** @var ITempManager */
 	private $tempManager;
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	private $appData;
-	/** @var ImageManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ImageManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $imageManager;
 	/** @var SCSSCacher */
 	private $scssCacher;

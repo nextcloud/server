@@ -38,17 +38,17 @@ use Test\TestCase;
 
 class DefaultTokenProviderTest extends TestCase {
 
-	/** @var DefaultTokenProvider|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var DefaultTokenProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $tokenProvider;
-	/** @var DefaultTokenMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var DefaultTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $mapper;
-	/** @var ICrypto|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
 	private $crypto;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 	/** @var int */
 	private $time;
@@ -131,7 +131,7 @@ class DefaultTokenProviderTest extends TestCase {
 
 		$this->tokenProvider->updateTokenActivity($tk);
 	}
-	
+
 	public function testGetTokenByUser() {
 		$this->mapper->expects($this->once())
 			->method('getTokenByUser')
@@ -159,7 +159,7 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->assertEquals('passme', $actual);
 	}
 
-	
+
 	public function testGetPasswordPasswordLessToken() {
 		$this->expectException(\OC\Authentication\Exceptions\PasswordlessTokenException::class);
 
@@ -170,7 +170,7 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->tokenProvider->getPassword($tk, $token);
 	}
 
-	
+
 	public function testGetPasswordDeletesInvalidToken() {
 		$this->expectException(\OC\Authentication\Exceptions\InvalidTokenException::class);
 
@@ -222,7 +222,7 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->assertEquals('encryptedpassword', $token->getPassword());
 	}
 
-	
+
 	public function testSetPasswordInvalidToken() {
 		$this->expectException(\OC\Authentication\Exceptions\InvalidTokenException::class);
 

@@ -47,7 +47,7 @@ class SvgControllerTest extends TestCase {
 		self::TEST_IMAGE_RECT,
 	];
 
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 
 	/**

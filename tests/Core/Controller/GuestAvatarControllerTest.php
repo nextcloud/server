@@ -21,27 +21,27 @@ class GuestAvatarControllerTest extends \Test\TestCase {
 	private $guestAvatarController;
 
 	/**
-	 * @var IRequest|\PHPUnit_Framework_MockObject_MockObject
+	 * @var IRequest|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $request;
 
 	/**
-	 * @var IAvatarManager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $avatarManager;
 
 	/**
-	 * @var IAvatar|\PHPUnit_Framework_MockObject_MockObject
+	 * @var IAvatar|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $avatar;
 
 	/**
-	 * @var \OCP\Files\File|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\Files\File|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $file;
 
 	/**
-	 * @var ILogger|\PHPUnit_Framework_MockObject_MockObject
+	 * @var ILogger|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $logger;
 

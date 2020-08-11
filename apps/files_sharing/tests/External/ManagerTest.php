@@ -53,25 +53,25 @@ use Test\Traits\UserTrait;
 class ManagerTest extends TestCase {
 	use UserTrait;
 
-	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject **/
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject **/
 	private $manager;
 
 	/** @var \OC\Files\Mount\Manager */
 	private $mountManager;
 
-	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
 	private $clientService;
 
-	/** @var ICloudFederationProviderManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICloudFederationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $cloudFederationProviderManager;
 
-	/** @var ICloudFederationFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICloudFederationFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cloudFederationFactory;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IGroupManager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IGroupManager */
 	private $groupManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IUserManager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IUserManager */
 	private $userManager;
 
 	private $uid;

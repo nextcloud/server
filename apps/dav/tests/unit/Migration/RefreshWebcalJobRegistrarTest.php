@@ -35,10 +35,10 @@ use Test\TestCase;
 
 class RefreshWebcalJobRegistrarTest extends TestCase {
 
-	/** @var IDBConnection | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IDBConnection | \PHPUnit\Framework\MockObject\MockObject */
 	private $db;
 
-	/** @var IJobList | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IJobList | \PHPUnit\Framework\MockObject\MockObject */
 	private $jobList;
 
 	/** @var RefreshWebcalJobRegistrar */

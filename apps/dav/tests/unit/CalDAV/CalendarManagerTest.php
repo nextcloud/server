@@ -36,13 +36,13 @@ use OCP\IL10N;
 
 class CalendarManagerTest extends \Test\TestCase {
 
-	/** @var CalDavBackend | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $backend;
 
-	/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	/** @var CalendarManager */
@@ -66,7 +66,7 @@ class CalendarManagerTest extends \Test\TestCase {
 				['id' => 456, 'uri' => 'blablub2'],
 			]);
 
-		/** @var IManager | \PHPUnit_Framework_MockObject_MockObject $calendarManager */
+		/** @var IManager | \PHPUnit\Framework\MockObject\MockObject $calendarManager */
 		$calendarManager = $this->createMock(Manager::class);
 		$calendarManager->expects($this->at(0))
 			->method('registerCalendar')

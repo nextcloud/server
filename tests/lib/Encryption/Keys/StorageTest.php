@@ -33,13 +33,13 @@ class StorageTest extends TestCase {
 	/** @var Storage */
 	protected $storage;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $util;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $view;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
 	protected function setUp(): void {

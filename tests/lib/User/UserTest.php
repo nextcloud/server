@@ -41,7 +41,7 @@ class UserTest extends TestCase {
 
 	public function testDisplayName() {
 		/**
-		 * @var \OC\User\Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var \OC\User\Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\OC\User\Backend::class);
 		$backend->expects($this->once())
@@ -63,7 +63,7 @@ class UserTest extends TestCase {
 	 */
 	public function testDisplayNameEmpty() {
 		/**
-		 * @var \OC\User\Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var \OC\User\Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\OC\User\Backend::class);
 		$backend->expects($this->once())
@@ -82,7 +82,7 @@ class UserTest extends TestCase {
 
 	public function testDisplayNameNotSupported() {
 		/**
-		 * @var \OC\User\Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var \OC\User\Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\OC\User\Backend::class);
 		$backend->expects($this->never())
@@ -99,7 +99,7 @@ class UserTest extends TestCase {
 
 	public function testSetPassword() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -122,7 +122,7 @@ class UserTest extends TestCase {
 
 	public function testSetPasswordNotSupported() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->never())
@@ -138,7 +138,7 @@ class UserTest extends TestCase {
 
 	public function testChangeAvatarSupportedYes() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(AvatarUserDummy::class);
 		$backend->expects($this->once())
@@ -162,7 +162,7 @@ class UserTest extends TestCase {
 
 	public function testChangeAvatarSupportedNo() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(AvatarUserDummy::class);
 		$backend->expects($this->once())
@@ -186,7 +186,7 @@ class UserTest extends TestCase {
 
 	public function testChangeAvatarNotSupported() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(AvatarUserDummy::class);
 		$backend->expects($this->never())
@@ -202,7 +202,7 @@ class UserTest extends TestCase {
 
 	public function testDelete() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -215,7 +215,7 @@ class UserTest extends TestCase {
 
 	public function testDeleteWithDifferentHome() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -247,7 +247,7 @@ class UserTest extends TestCase {
 
 	public function testGetHome() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -278,7 +278,7 @@ class UserTest extends TestCase {
 
 	public function testGetHomeNotSupported() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->never())
@@ -305,7 +305,7 @@ class UserTest extends TestCase {
 
 	public function testCanChangePassword() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -325,7 +325,7 @@ class UserTest extends TestCase {
 
 	public function testCanChangePasswordNotSupported() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -339,7 +339,7 @@ class UserTest extends TestCase {
 
 	public function testCanChangeDisplayName() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -359,7 +359,7 @@ class UserTest extends TestCase {
 
 	public function testCanChangeDisplayNameNotSupported() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -373,7 +373,7 @@ class UserTest extends TestCase {
 
 	public function testSetDisplayNameSupported() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\OC\User\Database::class);
 
@@ -402,7 +402,7 @@ class UserTest extends TestCase {
 	 */
 	public function testSetDisplayNameEmpty() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\OC\User\Database::class);
 
@@ -423,7 +423,7 @@ class UserTest extends TestCase {
 
 	public function testSetDisplayNameNotSupported() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\OC\User\Database::class);
 
@@ -444,7 +444,7 @@ class UserTest extends TestCase {
 		$test = $this;
 
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -497,7 +497,7 @@ class UserTest extends TestCase {
 		$test = $this;
 
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$backend->expects($this->once())
@@ -574,7 +574,7 @@ class UserTest extends TestCase {
 
 	public function testGetCloudId() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 		$urlGenerator = $this->getMockBuilder('\OC\URLGenerator')
@@ -591,7 +591,7 @@ class UserTest extends TestCase {
 
 	public function testSetEMailAddressEmpty() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -627,7 +627,7 @@ class UserTest extends TestCase {
 
 	public function testSetEMailAddress() {
 		/**
-		 * @var UserInterface | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var UserInterface | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -664,11 +664,11 @@ class UserTest extends TestCase {
 
 	public function testSetEMailAddressNoChange() {
 		/**
-		 * @var UserInterface | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var UserInterface | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
-		/** @var PublicEmitter|\PHPUnit_Framework_MockObject_MockObject $emitter */
+		/** @var PublicEmitter|\PHPUnit\Framework\MockObject\MockObject $emitter */
 		$emitter = $this->createMock(PublicEmitter::class);
 		$emitter->expects($this->never())
 			->method('emit');
@@ -686,7 +686,7 @@ class UserTest extends TestCase {
 
 	public function testSetQuota() {
 		/**
-		 * @var UserInterface | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var UserInterface | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -723,11 +723,11 @@ class UserTest extends TestCase {
 
 	public function testSetQuotaAddressNoChange() {
 		/**
-		 * @var UserInterface | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var UserInterface | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
-		/** @var PublicEmitter|\PHPUnit_Framework_MockObject_MockObject $emitter */
+		/** @var PublicEmitter|\PHPUnit\Framework\MockObject\MockObject $emitter */
 		$emitter = $this->createMock(PublicEmitter::class);
 		$emitter->expects($this->never())
 			->method('emit');
@@ -745,7 +745,7 @@ class UserTest extends TestCase {
 
 	public function testGetLastLogin() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -765,7 +765,7 @@ class UserTest extends TestCase {
 
 	public function testSetEnabled() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -785,7 +785,7 @@ class UserTest extends TestCase {
 
 	public function testSetDisabled() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -825,7 +825,7 @@ class UserTest extends TestCase {
 
 	public function testSetDisabledAlreadyDisabled() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 
@@ -855,7 +855,7 @@ class UserTest extends TestCase {
 
 	public function testGetEMailAddress() {
 		/**
-		 * @var Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var Backend | \PHPUnit\Framework\MockObject\MockObject $backend
 		 */
 		$backend = $this->createMock(\Test\Util\User\Dummy::class);
 

@@ -44,16 +44,16 @@ class AddressBookImplTest extends TestCase {
 	/** @var  array */
 	private $addressBookInfo;
 
-	/** @var  AddressBook | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  AddressBook | \PHPUnit\Framework\MockObject\MockObject */
 	private $addressBook;
 
-	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
-	/** @var  CardDavBackend | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  CardDavBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $backend;
 
-	/** @var  VCard | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  VCard | \PHPUnit\Framework\MockObject\MockObject */
 	private $vCard;
 
 	protected function setUp(): void {
@@ -92,7 +92,7 @@ class AddressBookImplTest extends TestCase {
 
 	public function testSearch() {
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject | AddressBookImpl $addressBookImpl */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | AddressBookImpl $addressBookImpl */
 		$addressBookImpl = $this->getMockBuilder(AddressBookImpl::class)
 			->setConstructorArgs(
 				[
@@ -138,7 +138,7 @@ class AddressBookImplTest extends TestCase {
 	public function testCreate($properties) {
 		$uid = 'uid';
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject | AddressBookImpl $addressBookImpl */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | AddressBookImpl $addressBookImpl */
 		$addressBookImpl = $this->getMockBuilder(AddressBookImpl::class)
 			->setConstructorArgs(
 				[
@@ -178,7 +178,7 @@ class AddressBookImplTest extends TestCase {
 		$uri = 'bla.vcf';
 		$properties = ['URI' => $uri, 'UID' => $uid, 'FN' => 'John Doe'];
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject | AddressBookImpl $addressBookImpl */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | AddressBookImpl $addressBookImpl */
 		$addressBookImpl = $this->getMockBuilder(AddressBookImpl::class)
 			->setConstructorArgs(
 				[
@@ -261,7 +261,7 @@ class AddressBookImplTest extends TestCase {
 	}
 
 	public function testCreateUid() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject | AddressBookImpl $addressBookImpl */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | AddressBookImpl $addressBookImpl */
 		$addressBookImpl = $this->getMockBuilder(AddressBookImpl::class)
 			->setConstructorArgs(
 				[

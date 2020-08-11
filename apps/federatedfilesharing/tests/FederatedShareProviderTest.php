@@ -57,23 +57,23 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 	/** @var IDBConnection */
 	protected $connection;
-	/** @var AddressHandler | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var AddressHandler | \PHPUnit\Framework\MockObject\MockObject */
 	protected $addressHandler;
-	/** @var Notifications | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Notifications | \PHPUnit\Framework\MockObject\MockObject */
 	protected $notifications;
-	/** @var TokenHandler|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var TokenHandler|\PHPUnit\Framework\MockObject\MockObject */
 	protected $tokenHandler;
 	/** @var IL10N */
 	protected $l;
 	/** @var ILogger */
 	protected $logger;
-	/** @var IRootFolder | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder | \PHPUnit\Framework\MockObject\MockObject */
 	protected $rootFolder;
-	/** @var  IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var  IUserManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUserManager | \PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var  \OCP\GlobalScale\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \OCP\GlobalScale\IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $gsConfig;
 
 	/** @var IManager */
@@ -84,7 +84,7 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	/** @var  ICloudIdManager */
 	private $cloudIdManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|ICloudFederationProviderManager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ICloudFederationProviderManager */
 	private $cloudFederationProviderManager;
 
 	protected function setUp(): void {

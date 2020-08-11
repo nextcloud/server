@@ -47,28 +47,28 @@ use SearchDAV\Query\Query;
 use Test\TestCase;
 
 class FileSearchBackendTest extends TestCase {
-	/** @var CachingTree|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var CachingTree|\PHPUnit\Framework\MockObject\MockObject */
 	private $tree;
 
 	/** @var IUser */
 	private $user;
 
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
-	/** @var View|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
 	private $view;
 
-	/** @var Folder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Folder|\PHPUnit\Framework\MockObject\MockObject */
 	private $searchFolder;
 
 	/** @var FileSearchBackend */
 	private $search;
 
-	/** @var Directory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Directory|\PHPUnit\Framework\MockObject\MockObject */
 	private $davFolder;
 
 	protected function setUp(): void {

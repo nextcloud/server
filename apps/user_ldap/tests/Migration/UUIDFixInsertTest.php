@@ -33,16 +33,16 @@ use OCP\Migration\IOutput;
 use Test\TestCase;
 
 class UUIDFixInsertTest extends TestCase {
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var  UserMapping|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  UserMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userMapper;
 
-	/** @var  GroupMapping|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  GroupMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupMapper;
 
-	/** @var  IJobList|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IJobList|\PHPUnit\Framework\MockObject\MockObject */
 	protected $jobList;
 
 	/** @var  UUIDFixInsert */

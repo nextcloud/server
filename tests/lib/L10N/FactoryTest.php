@@ -24,13 +24,13 @@ use Test\TestCase;
  */
 class FactoryTest extends TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	protected $request;
 
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 
 	/** @var string */
@@ -57,7 +57,7 @@ class FactoryTest extends TestCase {
 	/**
 	 * @param array $methods
 	 * @param bool $mockRequestGetHeaderMethod
-	 * @return Factory|\PHPUnit_Framework_MockObject_MockObject
+	 * @return Factory|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getFactory(array $methods = [], $mockRequestGetHeaderMethod = false) {
 		if ($mockRequestGetHeaderMethod) {

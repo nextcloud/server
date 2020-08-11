@@ -43,19 +43,19 @@ use OCP\Util;
 use Test\TestCase;
 
 class AdminTest extends TestCase {
-	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $l10nFactory;
 	/** @var Admin */
 	private $admin;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var UpdateChecker|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var UpdateChecker|\PHPUnit\Framework\MockObject\MockObject */
 	private $updateChecker;
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
-	/** @var IDateTimeFormatter|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IDateTimeFormatter|\PHPUnit\Framework\MockObject\MockObject */
 	private $dateTimeFormatter;
-	/** @var IRegistry|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRegistry|\PHPUnit\Framework\MockObject\MockObject */
 	private $subscriptionRegistry;
 
 	protected function setUp(): void {

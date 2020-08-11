@@ -30,7 +30,7 @@ use OCP\IConfig;
 
 class HelperTest extends \Test\TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	/** @var Helper */

@@ -75,7 +75,7 @@ class RegistryTest extends TestCase {
 	}
 
 	public function testDelegateHasValidSubscription() {
-		/* @var ISubscription|\PHPUnit_Framework_MockObject_MockObject $subscription */
+		/* @var ISubscription|\PHPUnit\Framework\MockObject\MockObject $subscription */
 		$subscription = $this->createMock(ISubscription::class);
 		$subscription->expects($this->once())
 			->method('hasValidSubscription')
@@ -86,7 +86,7 @@ class RegistryTest extends TestCase {
 	}
 
 	public function testDelegateHasValidSubscriptionConfig() {
-		/* @var ISubscription|\PHPUnit_Framework_MockObject_MockObject $subscription */
+		/* @var ISubscription|\PHPUnit\Framework\MockObject\MockObject $subscription */
 		$this->config->expects($this->once())
 			->method('getSystemValueBool')
 			->with('has_valid_subscription')
@@ -96,7 +96,7 @@ class RegistryTest extends TestCase {
 	}
 
 	public function testDelegateHasExtendedSupport() {
-		/* @var ISubscription|\PHPUnit_Framework_MockObject_MockObject $subscription */
+		/* @var ISubscription|\PHPUnit\Framework\MockObject\MockObject $subscription */
 		$subscription = $this->createMock(ISubscription::class);
 		$subscription->expects($this->once())
 			->method('hasExtendedSupport')
@@ -108,7 +108,7 @@ class RegistryTest extends TestCase {
 
 
 	public function testDelegateGetSupportedApps() {
-		/* @var ISupportedApps|\PHPUnit_Framework_MockObject_MockObject $subscription */
+		/* @var ISupportedApps|\PHPUnit\Framework\MockObject\MockObject $subscription */
 		$subscription = $this->createMock(ISupportedApps::class);
 		$subscription->expects($this->once())
 			->method('getSupportedApps')

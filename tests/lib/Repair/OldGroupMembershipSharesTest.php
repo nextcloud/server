@@ -27,13 +27,13 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 	/** @var \OCP\IDBConnection */
 	protected $connection;
 
-	/** @var \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+		/** \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 		$this->groupManager = $this->getMockBuilder('OCP\IGroupManager')
 			->disableOriginalConstructor()
 			->getMock();
@@ -83,7 +83,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$this->assertEquals([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member], ['id' => $notAMember]], $rows);
 		$result->closeCursor();
 
-		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
 		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
 			->disableOriginalConstructor()
 			->getMock();

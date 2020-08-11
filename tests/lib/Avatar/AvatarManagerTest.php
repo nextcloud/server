@@ -38,17 +38,17 @@ use OCP\IUser;
  * Class AvatarManagerTest
  */
 class AvatarManagerTest extends \Test\TestCase {
-	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	private $appData;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var AvatarManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var AvatarManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $avatarManager;
 
 	protected function setUp(): void {
@@ -69,7 +69,7 @@ class AvatarManagerTest extends \Test\TestCase {
 		);
 	}
 
-	
+
 	public function testGetAvatarInvalidUser() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('user does not exist');

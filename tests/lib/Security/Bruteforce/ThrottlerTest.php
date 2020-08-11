@@ -41,7 +41,7 @@ class ThrottlerTest extends TestCase {
 	private $dbConnection;
 	/** @var ILogger */
 	private $logger;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {
@@ -153,7 +153,7 @@ class ThrottlerTest extends TestCase {
 				'dead:beef:cafe::1111',
 				[
 					'whitelist_0' => 'dead:beef:cafe::1100/123',
-					
+
 				],
 				true,
 			],

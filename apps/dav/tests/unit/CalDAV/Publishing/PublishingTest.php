@@ -43,11 +43,11 @@ class PluginTest extends TestCase {
 	private $plugin;
 	/** @var Server */
 	private $server;
-	/** @var Calendar | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Calendar | \PHPUnit\Framework\MockObject\MockObject */
 	private $book;
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator | \PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
 	protected function setUp(): void {

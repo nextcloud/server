@@ -35,13 +35,13 @@ use Test\TestCase;
 
 class SettingsControllerTest extends TestCase {
 
-	/** @var IRequest|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var BackupCodeStorage|PHPUnit_Framework_MockObject_MockObject */
+	/** @var BackupCodeStorage|\PHPUnit\Framework\MockObject\MockObject */
 	private $storage;
 
-	/** @var IUserSession|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 
 	/** @var SettingsController */

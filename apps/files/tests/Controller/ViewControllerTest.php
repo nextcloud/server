@@ -56,27 +56,27 @@ use Test\TestCase;
  * @package OCA\Files\Tests\Controller
  */
 class ViewControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 	/** @var IL10N */
 	private $l10n;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
-	/** @var ViewController|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ViewController|\PHPUnit\Framework\MockObject\MockObject */
 	private $viewController;
 	/** @var IUser */
 	private $user;
 	/** @var IUserSession */
 	private $userSession;
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
-	/** @var Helper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Helper|\PHPUnit\Framework\MockObject\MockObject */
 	private $activityHelper;
 
 	protected function setUp(): void {

@@ -50,16 +50,16 @@ class MoveCalendarTest extends TestCase {
 	/** @var \OCP\IGroupManager|\PHPUnit\Framework\MockObject\MockObject $groupManager */
 	private $groupManager;
 
-	/** @var \OCP\Share\IManager|\PHPUnit_Framework_MockObject_MockObject $shareManager */
+	/** @var \OCP\Share\IManager|\PHPUnit\Framework\MockObject\MockObject $shareManager */
 	private $shareManager;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $l10n */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $l10n */
 	private $config;
 
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject $l10n */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l10n */
 	private $l10n;
 
-	/** @var CalDavBackend|\PHPUnit_Framework_MockObject_MockObject $l10n */
+	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject $l10n */
 	private $calDav;
 
 	/** @var MoveCalendar */

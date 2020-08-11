@@ -43,19 +43,19 @@ use OCP\IRequest;
 use Test\TestCase;
 
 class IconControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ThemingDefaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ThemingDefaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $themingDefaults;
 	/** @var \OCP\AppFramework\Utility\ITimeFactory */
 	private $timeFactory;
-	/** @var IconController|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IconController|\PHPUnit\Framework\MockObject\MockObject */
 	private $iconController;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IconBuilder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IconBuilder|\PHPUnit\Framework\MockObject\MockObject */
 	private $iconBuilder;
-	/** @var FileAccessHelper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var FileAccessHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $fileAccessHelper;
 	/** @var ImageManager */
 	private $imageManager;

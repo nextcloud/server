@@ -28,11 +28,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class ManageTest extends TestCase {
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleOutput;
 
 	/** @var \Symfony\Component\Console\Command\Command */
@@ -86,14 +86,14 @@ class ManageTest extends TestCase {
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
 
-	
+
 	public function testValidateBackend() {
 		$this->expectException(\InvalidArgumentException::class);
 
 		self::invokePrivate($this->command, 'validateBackend', ['notabackend']);
 	}
 
-	
+
 	public function testValidateTimezone() {
 		$this->expectException(\Exception::class);
 
@@ -122,7 +122,7 @@ class ManageTest extends TestCase {
 		);
 	}
 
-	
+
 	public function testConvertLevelStringInvalid() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -148,7 +148,7 @@ class ManageTest extends TestCase {
 		);
 	}
 
-	
+
 	public function testConvertLevelNumberInvalid() {
 		$this->expectException(\InvalidArgumentException::class);
 

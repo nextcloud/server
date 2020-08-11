@@ -39,25 +39,25 @@ use Test\TestCase;
 
 class OCSAuthAPIControllerTest extends TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IRequest */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
 	private $request;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|ISecureRandom  */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ISecureRandom  */
 	private $secureRandom;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|JobList */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|JobList */
 	private $jobList;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|TrustedServers */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|TrustedServers */
 	private $trustedServers;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|DbHandler */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|DbHandler */
 	private $dbHandler;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|ILogger */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ILogger */
 	private $logger;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|ITimeFactory */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ITimeFactory */
 	private $timeFactory;
 
 
@@ -146,7 +146,7 @@ class OCSAuthAPIControllerTest extends TestCase {
 		$url = 'url';
 		$token = 'token';
 
-		/** @var OCSAuthAPIController | \PHPUnit_Framework_MockObject_MockObject $ocsAuthApi */
+		/** @var OCSAuthAPIController | \PHPUnit\Framework\MockObject\MockObject $ocsAuthApi */
 		$ocsAuthApi = $this->getMockBuilder('OCA\Federation\Controller\OCSAuthAPIController')
 			->setConstructorArgs(
 				[

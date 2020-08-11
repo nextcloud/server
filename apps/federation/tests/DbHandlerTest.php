@@ -40,7 +40,7 @@ class DbHandlerTest extends TestCase {
 	/** @var  DbHandler */
 	private $dbHandler;
 
-	/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $il10n;
 
 	/** @var  IDBConnection */

@@ -44,13 +44,13 @@ use OCP\Mail\IMailer;
  */
 class MailSettingsControllerTest extends \Test\TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
-	/** @var IMailer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
 
 	/** @var MailSettingsController */
@@ -63,7 +63,7 @@ class MailSettingsControllerTest extends \Test\TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->mailer = $this->createMock(IMailer::class);
-		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock(IRequest::class);
 		$this->mailController = new MailSettingsController(
 			'settings',

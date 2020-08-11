@@ -55,39 +55,39 @@ use OCP\Security\ISecureRandom;
  */
 class UsersControllerTest extends \Test\TestCase {
 
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var IMailer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
-	/** @var IFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nFactory;
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
-	/** @var IAvatarManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarManager;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
-	/** @var AccountManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var AccountManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $accountManager;
-	/** @var ISecureRandom | \PHPUnit_Framework_MockObject_MockObject  */
+	/** @var ISecureRandom | \PHPUnit\Framework\MockObject\MockObject  */
 	private $secureRandom;
-	/** @var \OCA\Settings\Mailer\NewUserMailHelper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Settings\Mailer\NewUserMailHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $newUserMailHelper;
-	/** @var  IJobList | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IJobList | \PHPUnit\Framework\MockObject\MockObject */
 	private $jobList;
-	/** @var \OC\Security\IdentityProof\Manager |\PHPUnit_Framework_MockObject_MockObject  */
+	/** @var \OC\Security\IdentityProof\Manager |\PHPUnit\Framework\MockObject\MockObject  */
 	private $securityManager;
-	/** @var  IManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionManager;
-	/** @var  IEncryptionModule  | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IEncryptionModule  | \PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionModule;
 
 	protected function setUp(): void {
@@ -120,7 +120,7 @@ class UsersControllerTest extends \Test\TestCase {
 
 	/**
 	 * @param bool $isAdmin
-	 * @return UsersController | \PHPUnit_Framework_MockObject_MockObject
+	 * @return UsersController | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getController($isAdmin = false, $mockedMethods = []) {
 		if (empty($mockedMethods)) {

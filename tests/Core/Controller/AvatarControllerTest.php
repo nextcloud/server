@@ -59,28 +59,28 @@ use PHPUnit\Framework\MockObject\MockObject;
 class AvatarControllerTest extends \Test\TestCase {
 	/** @var AvatarController */
 	private $avatarController;
-	/** @var IAvatar|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAvatar|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarMock;
-	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $userMock;
-	/** @var File|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var File|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarFile;
 
-	/** @var IAvatarManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $avatarManager;
-	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
 	private $cache;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var TimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var TimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 	/** @var IAccountManager|MockObject */
 	private $accountManager;

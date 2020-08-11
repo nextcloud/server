@@ -35,21 +35,20 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\ILogger;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class AppFetcherTest extends TestCase {
-	/** @var IAppData|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appData;
-	/** @var IClientService|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
 	protected $clientService;
-	/** @var ITimeFactory|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $timeFactory;
-	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var CompareVersion|PHPUnit_Framework_MockObject_MockObject */
+	/** @var CompareVersion|\PHPUnit\Framework\MockObject\MockObject */
 	protected $compareVersion;
-	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 	/** @var AppFetcher */
 	protected $fetcher;
@@ -1838,7 +1837,7 @@ EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 	protected function setUp(): void {
 		parent::setUp();
 
-		/** @var Factory|PHPUnit_Framework_MockObject_MockObject $factory */
+		/** @var Factory|\PHPUnit\Framework\MockObject\MockObject $factory */
 		$factory = $this->createMock(Factory::class);
 		$this->appData = $this->createMock(AppData::class);
 		$factory->expects($this->once())

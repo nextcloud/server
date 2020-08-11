@@ -28,9 +28,9 @@ use OCP\IUser;
 use Test\TestCase;
 
 class LimiterTest extends TestCase {
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
-	/** @var IBackend|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IBackend|\PHPUnit\Framework\MockObject\MockObject */
 	private $backend;
 	/** @var Limiter */
 	private $limiter;
@@ -47,7 +47,7 @@ class LimiterTest extends TestCase {
 		);
 	}
 
-	
+
 	public function testRegisterAnonRequestExceeded() {
 		$this->expectException(\OC\Security\RateLimiting\Exception\RateLimitExceededException::class);
 		$this->expectExceptionMessage('Rate limit exceeded');
@@ -91,12 +91,12 @@ class LimiterTest extends TestCase {
 		$this->limiter->registerAnonRequest('MyIdentifier', 100, 100, '127.0.0.1');
 	}
 
-	
+
 	public function testRegisterUserRequestExceeded() {
 		$this->expectException(\OC\Security\RateLimiting\Exception\RateLimitExceededException::class);
 		$this->expectExceptionMessage('Rate limit exceeded');
 
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())
@@ -116,7 +116,7 @@ class LimiterTest extends TestCase {
 	}
 
 	public function testRegisterUserRequestSuccess() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->once())

@@ -46,21 +46,21 @@ use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
 class OauthApiControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ICrypto|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
 	private $crypto;
-	/** @var AccessTokenMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var AccessTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $accessTokenMapper;
-	/** @var ClientMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ClientMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $clientMapper;
-	/** @var TokenProvider|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var TokenProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $tokenProvider;
-	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
 	private $secureRandom;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $time;
-	/** @var Throttler|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 	/** @var OauthApiController */
 	private $oauthApiController;

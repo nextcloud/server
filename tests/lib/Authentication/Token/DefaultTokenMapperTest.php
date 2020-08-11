@@ -145,7 +145,7 @@ class DefaultTokenMapperTest extends TestCase {
 		$this->assertEquals($token, $dbToken);
 	}
 
-	
+
 	public function testGetInvalidToken() {
 		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
 
@@ -175,14 +175,14 @@ class DefaultTokenMapperTest extends TestCase {
 		$this->assertEquals($token, $dbToken);
 	}
 
-	
+
 	public function testGetTokenByIdNotFound() {
 		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
 
 		$this->mapper->getTokenById(-1);
 	}
 
-	
+
 	public function testGetInvalidTokenById() {
 		$this->expectException(\OCP\AppFramework\Db\DoesNotExistException::class);
 
@@ -200,7 +200,7 @@ class DefaultTokenMapperTest extends TestCase {
 	}
 
 	public function testDeleteById() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('id')

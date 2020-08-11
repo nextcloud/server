@@ -31,7 +31,7 @@ use OCP\Comments\ICommentsManager;
 use Test\TestCase;
 
 class CommentersSorterTest extends TestCase {
-	/** @var  ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  ICommentsManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $commentsManager;
 	/** @var  CommentersSorter */
 	protected $sorter;

@@ -42,13 +42,13 @@ class UpdateCalendarResourcesRoomsBackgroundJobTest extends TestCase {
 	/** @var UpdateCalendarResourcesRoomsBackgroundJob */
 	private $backgroundJob;
 
-	/** @var IResourceManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IResourceManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $resourceManager;
 
-	/** @var IRoomManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRoomManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $roomManager;
 
-	/** @var CalDavBackend | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var CalDavBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $calDavBackend;
 
 	protected function setUp(): void {

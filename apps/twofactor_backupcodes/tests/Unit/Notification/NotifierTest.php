@@ -69,11 +69,11 @@ class NotifierTest extends TestCase {
 		);
 	}
 
-	
+
 	public function testPrepareWrongApp() {
 		$this->expectException(\InvalidArgumentException::class);
 
-		/** @var INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
+		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
 			->method('getApp')
@@ -84,11 +84,11 @@ class NotifierTest extends TestCase {
 		$this->notifier->prepare($notification, 'en');
 	}
 
-	
+
 	public function testPrepareWrongSubject() {
 		$this->expectException(\InvalidArgumentException::class);
 
-		/** @var INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
+		/** @var INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 		$notification->expects($this->once())
 			->method('getApp')
@@ -101,7 +101,7 @@ class NotifierTest extends TestCase {
 	}
 
 	public function testPrepare() {
-		/** @var \OCP\Notification\INotification|\PHPUnit_Framework_MockObject_MockObject $notification */
+		/** @var \OCP\Notification\INotification|\PHPUnit\Framework\MockObject\MockObject $notification */
 		$notification = $this->createMock(INotification::class);
 
 		$notification->expects($this->once())

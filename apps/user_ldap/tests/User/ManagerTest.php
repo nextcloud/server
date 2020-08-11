@@ -51,34 +51,34 @@ use OCP\Notification\IManager as INotificationManager;
  * @package OCA\User_LDAP\Tests\User
  */
 class ManagerTest extends \Test\TestCase {
-	/** @var Access|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Access|\PHPUnit\Framework\MockObject\MockObject */
 	protected $access;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var FilesystemHelper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var FilesystemHelper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $fileSystemHelper;
 
-	/** @var LogWrapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LogWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $log;
 
-	/** @var IAvatarManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $avatarManager;
 
-	/** @var Image|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Image|\PHPUnit\Framework\MockObject\MockObject */
 	protected $image;
 
-	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $dbc;
 
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ncUserManager;
 
-	/** @var INotificationManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var INotificationManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $notificationManager;
 
-	/** @var ILDAPWrapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILDAPWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ldapWrapper;
 
 	/** @var Connection */

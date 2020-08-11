@@ -26,15 +26,15 @@ use Test\TestCase;
 use Swift_SwiftException;
 
 class MailerTest extends TestCase {
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $defaults;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 	/** @var Mailer */
 	private $mailer;

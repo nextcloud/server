@@ -39,7 +39,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 		$this->savedMimetypeLoader = \OC::$server->getMimeTypeLoader();
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 
-		/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject $config */
+		/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();
@@ -99,7 +99,7 @@ class RepairMimeTypesTest extends \Test\TestCase {
 	private function renameMimeTypes($currentMimeTypes, $fixedMimeTypes) {
 		$this->addEntries($currentMimeTypes);
 
-		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
 		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
 			->disableOriginalConstructor()
 			->getMock();

@@ -1160,7 +1160,7 @@ class ViewTest extends \Test\TestCase {
 
 	private function doTestCopyRenameFail($operation) {
 		$storage1 = new Temporary([]);
-		/** @var \PHPUnit_Framework_MockObject_MockObject|Temporary $storage2 */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|Temporary $storage2 */
 		$storage2 = $this->getMockBuilder(TemporaryNoCross::class)
 			->setConstructorArgs([[]])
 			->setMethods(['fopen'])
@@ -1206,7 +1206,7 @@ class ViewTest extends \Test\TestCase {
 	}
 
 	public function testDeleteFailKeepCache() {
-		/** @var Temporary|\PHPUnit_Framework_MockObject_MockObject $storage */
+		/** @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage */
 		$storage = $this->getMockBuilder(Temporary::class)
 			->setConstructorArgs([[]])
 			->setMethods(['unlink'])
@@ -1585,7 +1585,7 @@ class ViewTest extends \Test\TestCase {
 				->getMock();
 		}
 
-		/** @var IMountProvider|\PHPUnit_Framework_MockObject_MockObject $mountProvider */
+		/** @var IMountProvider|\PHPUnit\Framework\MockObject\MockObject $mountProvider */
 		$mountProvider = $this->createMock(IMountProvider::class);
 		$mountProvider->expects($this->any())
 			->method('getMountsForUser')
@@ -1822,7 +1822,7 @@ class ViewTest extends \Test\TestCase {
 	) {
 		$view = new View('/' . $this->user . '/files/');
 
-		/** @var Temporary|\PHPUnit_Framework_MockObject_MockObject $storage */
+		/** @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage */
 		$storage = $this->getMockBuilder(Temporary::class)
 			->setMethods([$operation])
 			->getMock();
@@ -1872,7 +1872,7 @@ class ViewTest extends \Test\TestCase {
 		$view = new View('/' . $this->user . '/files/');
 
 		$path = 'test_file_put_contents.txt';
-		/** @var Temporary|\PHPUnit_Framework_MockObject_MockObject $storage */
+		/** @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage */
 		$storage = $this->getMockBuilder(Temporary::class)
 			->setMethods(['fopen'])
 			->getMock();
@@ -1911,7 +1911,7 @@ class ViewTest extends \Test\TestCase {
 		$view = new View('/' . $this->user . '/files/');
 
 		$path = 'test_file_put_contents.txt';
-		/** @var Temporary|\PHPUnit_Framework_MockObject_MockObject $storage */
+		/** @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage */
 		$storage = $this->getMockBuilder(Temporary::class)
 			->setMethods(['fopen'])
 			->getMock();
@@ -1966,7 +1966,7 @@ class ViewTest extends \Test\TestCase {
 		}
 		$view = new View('/' . $this->user . '/files/');
 
-		/** @var Temporary|\PHPUnit_Framework_MockObject_MockObject $storage */
+		/** @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage */
 		$storage = $this->getMockBuilder(Temporary::class)
 			->setMethods([$operation])
 			->getMock();
@@ -2048,7 +2048,7 @@ class ViewTest extends \Test\TestCase {
 	) {
 		$view = new View('/' . $this->user . '/files/');
 
-		/** @var Temporary|\PHPUnit_Framework_MockObject_MockObject $storage */
+		/** @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage */
 		$storage = $this->getMockBuilder(Temporary::class)
 			->setMethods([$operation])
 			->getMock();
@@ -2087,7 +2087,7 @@ class ViewTest extends \Test\TestCase {
 	public function testLockFileRename($operation, $expectedLockTypeSourceDuring) {
 		$view = new View('/' . $this->user . '/files/');
 
-		/** @var Temporary|\PHPUnit_Framework_MockObject_MockObject $storage */
+		/** @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage */
 		$storage = $this->getMockBuilder(Temporary::class)
 			->setMethods([$operation, 'getMetaData', 'filemtime'])
 			->getMock();
@@ -2153,7 +2153,7 @@ class ViewTest extends \Test\TestCase {
 
 		$view = new View('/' . $this->user . '/files/');
 
-		/** @var Temporary|\PHPUnit_Framework_MockObject_MockObject $storage */
+		/** @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage */
 		$storage = $this->getMockBuilder(Temporary::class)
 			->setMethods(['copy'])
 			->getMock();
@@ -2272,11 +2272,11 @@ class ViewTest extends \Test\TestCase {
 	public function testLockFileRenameCrossStorage($viewOperation, $storageOperation, $expectedLockTypeSourceDuring) {
 		$view = new View('/' . $this->user . '/files/');
 
-		/** @var Temporary|\PHPUnit_Framework_MockObject_MockObject $storage */
+		/** @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage */
 		$storage = $this->getMockBuilder(Temporary::class)
 			->setMethods([$storageOperation])
 			->getMock();
-		/** @var Temporary|\PHPUnit_Framework_MockObject_MockObject $storage2 */
+		/** @var Temporary|\PHPUnit\Framework\MockObject\MockObject $storage2 */
 		$storage2 = $this->getMockBuilder(Temporary::class)
 			->setMethods([$storageOperation, 'getMetaData', 'filemtime'])
 			->getMock();
@@ -2471,7 +2471,7 @@ class ViewTest extends \Test\TestCase {
 		$mountPoint = '/' . $this->user . '/files/mount/';
 
 		// Mock the mount point
-		/** @var TestMoveableMountPoint|\PHPUnit_Framework_MockObject_MockObject $mount */
+		/** @var TestMoveableMountPoint|\PHPUnit\Framework\MockObject\MockObject $mount */
 		$mount = $this->createMock(TestMoveableMountPoint::class);
 		$mount->expects($this->once())
 			->method('getMountPoint')

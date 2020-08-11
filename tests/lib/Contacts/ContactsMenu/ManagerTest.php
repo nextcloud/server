@@ -32,21 +32,20 @@ use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\IConfig;
 use OCP\IUser;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class ManagerTest extends TestCase {
 
-	/** @var ContactsStore|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ContactsStore|\PHPUnit\Framework\MockObject\MockObject */
 	private $contactsStore;
 
-	/** @var IAppManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 
-	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
-	/** @var ActionProviderStore|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ActionProviderStore|\PHPUnit\Framework\MockObject\MockObject */
 	private $actionProviderStore;
 
 	/** @var Manager */

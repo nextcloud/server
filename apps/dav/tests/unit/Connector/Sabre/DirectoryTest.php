@@ -71,9 +71,9 @@ class TestViewDirectory extends \OC\Files\View {
  */
 class DirectoryTest extends \Test\TestCase {
 
-	/** @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject */
 	private $view;
-	/** @var \OC\Files\FileInfo | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Files\FileInfo | \PHPUnit\Framework\MockObject\MockObject */
 	private $info;
 
 	protected function setUp(): void {

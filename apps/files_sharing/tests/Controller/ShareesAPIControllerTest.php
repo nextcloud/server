@@ -55,13 +55,13 @@ class ShareesAPIControllerTest extends TestCase {
 	/** @var string */
 	protected $uid;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	protected $request;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $shareManager;
 
-	/** @var  ISearch|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  ISearch|\PHPUnit\Framework\MockObject\MockObject */
 	protected $collaboratorSearch;
 
 	protected function setUp(): void {
@@ -71,10 +71,10 @@ class ShareesAPIControllerTest extends TestCase {
 		$this->request = $this->createMock(IRequest::class);
 		$this->shareManager = $this->createMock(IManager::class);
 
-		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $configMock */
+		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $configMock */
 		$configMock = $this->createMock(IConfig::class);
 
-		/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject $urlGeneratorMock */
+		/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject $urlGeneratorMock */
 		$urlGeneratorMock = $this->createMock(IURLGenerator::class);
 
 		$this->collaboratorSearch = $this->createMock(ISearch::class);
@@ -236,7 +236,7 @@ class ShareesAPIControllerTest extends TestCase {
 		$perPage = isset($getData['perPage']) ? $getData['perPage'] : 200;
 		$shareType = isset($getData['shareType']) ? $getData['shareType'] : null;
 
-		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
+		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->exactly(1))
 			->method('getAppValue')
@@ -251,12 +251,12 @@ class ShareesAPIControllerTest extends TestCase {
 
 		/** @var string */
 		$uid = 'test123';
-		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock(IRequest::class);
-		/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject $urlGenerator */
+		/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject $urlGenerator */
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
 		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
 			->setConstructorArgs([
 				$uid,
@@ -339,19 +339,19 @@ class ShareesAPIControllerTest extends TestCase {
 		$page = isset($getData['page']) ? $getData['page'] : 1;
 		$perPage = isset($getData['perPage']) ? $getData['perPage'] : 200;
 
-		/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject $config */
+		/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->createMock(IConfig::class);
 		$config->expects($this->never())
 			->method('getAppValue');
 
 		/** @var string */
 		$uid = 'test123';
-		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock(IRequest::class);
-		/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject $urlGenerator */
+		/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject $urlGenerator */
 		$urlGenerator = $this->createMock(IURLGenerator::class);
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|\OCA\Files_Sharing\Controller\ShareesAPIController $sharees */
 		$sharees = $this->getMockBuilder('\OCA\Files_Sharing\Controller\ShareesAPIController')
 			->setConstructorArgs([
 				$uid,

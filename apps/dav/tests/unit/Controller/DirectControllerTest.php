@@ -44,19 +44,19 @@ use Test\TestCase;
 
 class DirectControllerTest extends TestCase {
 
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
-	/** @var DirectMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var DirectMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $directMapper;
 
-	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
 	private $random;
 
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
 	/** @var DirectController */

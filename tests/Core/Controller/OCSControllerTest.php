@@ -34,15 +34,15 @@ use OCP\IUserSession;
 use Test\TestCase;
 
 class OCSControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var CapabilitiesManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var CapabilitiesManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $capabilitiesManager;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
-	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $keyManager;
 	/** @var OCSController */
 	private $controller;

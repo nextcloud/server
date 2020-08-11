@@ -33,7 +33,7 @@ class FileTest extends NodeTest {
 	}
 
 	public function testGetContent() {
-		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
+		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
@@ -59,11 +59,11 @@ class FileTest extends NodeTest {
 		$this->assertEquals('bar', $node->getContent());
 	}
 
-	
+
 	public function testGetContentNotPermitted() {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
-		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
+		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
@@ -82,7 +82,7 @@ class FileTest extends NodeTest {
 	}
 
 	public function testPutContent() {
-		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
+		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
@@ -105,11 +105,11 @@ class FileTest extends NodeTest {
 		$node->putContent('bar');
 	}
 
-	
+
 	public function testPutContentNotPermitted() {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
-		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
+		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
@@ -124,7 +124,7 @@ class FileTest extends NodeTest {
 	}
 
 	public function testGetMimeType() {
-		/** @var \OC\Files\Node\Root|\PHPUnit_Framework_MockObject_MockObject $root */
+		/** @var \OC\Files\Node\Root|\PHPUnit\Framework\MockObject\MockObject $root */
 		$root = $this->getMockBuilder('\OC\Files\Node\Root')
 			->setConstructorArgs([$this->manager, $this->view, $this->user, $this->userMountCache, $this->logger, $this->userManager])
 			->getMock();
@@ -213,7 +213,7 @@ class FileTest extends NodeTest {
 		$this->assertEquals(2, $hooksCalled);
 	}
 
-	
+
 	public function testFOpenReadNotPermitted() {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
@@ -238,7 +238,7 @@ class FileTest extends NodeTest {
 		$node->fopen('r');
 	}
 
-	
+
 	public function testFOpenReadWriteNoReadPermissions() {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 
@@ -263,7 +263,7 @@ class FileTest extends NodeTest {
 		$node->fopen('w');
 	}
 
-	
+
 	public function testFOpenReadWriteNoWritePermissions() {
 		$this->expectException(\OCP\Files\NotPermittedException::class);
 

@@ -47,21 +47,21 @@ use OCP\Security\ISecureRandom;
 use Test\TestCase;
 
 class NewUserMailHelperTest extends TestCase {
-	/** @var Defaults|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Defaults|\PHPUnit\Framework\MockObject\MockObject */
 	private $defaults;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
-	/** @var IMailer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IMailer|\PHPUnit\Framework\MockObject\MockObject */
 	private $mailer;
-	/** @var ISecureRandom|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
 	private $secureRandom;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ICrypto|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICrypto|\PHPUnit\Framework\MockObject\MockObject */
 	private $crypto;
 	/** @var \OCA\Settings\Mailer\NewUserMailHelper */
 	private $newUserMailHelper;
@@ -137,7 +137,7 @@ class NewUserMailHelperTest extends TestCase {
 			->expects($this->once())
 			->method('getTime')
 			->willReturn('12345');
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->any())
@@ -390,7 +390,7 @@ EOF;
 			->with('/')
 			->willReturn('https://example.com/');
 
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->any())
@@ -621,7 +621,7 @@ EOF;
 			->with('/')
 			->willReturn('https://example.com/');
 
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->any())
@@ -833,7 +833,7 @@ EOF;
 	}
 
 	public function testSendMail() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user
 			->expects($this->at(0))
@@ -843,7 +843,7 @@ EOF;
 			->expects($this->at(1))
 			->method('getDisplayName')
 			->willReturn('John Doe');
-		/** @var IEMailTemplate|\PHPUnit_Framework_MockObject_MockObject $emailTemplate */
+		/** @var IEMailTemplate|\PHPUnit\Framework\MockObject\MockObject $emailTemplate */
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
 		$message = $this->createMock(Message::class);
 		$message

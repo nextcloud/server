@@ -39,25 +39,25 @@ use Test\TestCase;
 
 class BirthdayCalendarControllerTest extends TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	private $db;
 
-	/** @var IJobList|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IJobList|\PHPUnit\Framework\MockObject\MockObject */
 	private $jobList;
 
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
-	/** @var CalDavBackend|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var CalDavBackend|\PHPUnit\Framework\MockObject\MockObject */
 	private $caldav;
 
-	/** @var BirthdayCalendarController|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var BirthdayCalendarController|\PHPUnit\Framework\MockObject\MockObject */
 	private $controller;
 
 	protected function setUp(): void {

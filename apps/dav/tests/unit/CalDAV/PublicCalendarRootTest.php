@@ -60,11 +60,11 @@ class PublicCalendarRootTest extends TestCase {
 	private $publicCalendarRoot;
 	/** @var IL10N */
 	private $l10n;
-	/** @var Principal|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Principal|\PHPUnit\Framework\MockObject\MockObject */
 	private $principal;
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 	/** @var IConfig */
 	protected $config;

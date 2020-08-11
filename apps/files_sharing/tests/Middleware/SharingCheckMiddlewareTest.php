@@ -46,19 +46,19 @@ use OCP\Share\IShare;
  */
 class SharingCheckMiddlewareTest extends \Test\TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 	/** @var SharingCheckMiddleware */
 	private $sharingCheckMiddleware;
-	/** @var Controller|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Controller|\PHPUnit\Framework\MockObject\MockObject */
 	private $controllerMock;
-	/** @var IControllerMethodReflector|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IControllerMethodReflector|\PHPUnit\Framework\MockObject\MockObject */
 	private $reflector;
-	/** @var  IManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
-	/** @var  IRequest | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IRequest | \PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
 	protected function setUp(): void {
@@ -197,7 +197,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->sharingCheckMiddleware->beforeController($controller, 'myMethod');
 	}
 
-	
+
 	public function testBeforeControllerWithSharingDisabled() {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 		$this->expectExceptionMessage('Sharing is disabled.');
@@ -211,7 +211,7 @@ class SharingCheckMiddlewareTest extends \Test\TestCase {
 		$this->sharingCheckMiddleware->beforeController($this->controllerMock, 'myMethod');
 	}
 
-	
+
 	public function testAfterExceptionWithRegularException() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('My Exception message');

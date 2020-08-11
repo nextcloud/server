@@ -28,10 +28,10 @@ use OC\SystemConfig;
 use OCP\Files\IRootFolder;
 
 class FactoryTest extends \Test\TestCase {
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
-	/** @var SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $systemConfig;
 
 	/** @var Factory */

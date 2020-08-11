@@ -39,17 +39,17 @@ use Test\TestCase;
 
 class PublicKeyTokenProviderTest extends TestCase {
 
-	/** @var PublicKeyTokenProvider|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var PublicKeyTokenProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $tokenProvider;
-	/** @var PublicKeyTokenMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var PublicKeyTokenMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $mapper;
 	/** @var ICrypto */
 	private $crypto;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 	/** @var int */
 	private $time;
@@ -145,7 +145,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->assertSame($password, $this->tokenProvider->getPassword($actual, $token));
 	}
 
-	
+
 	public function testGetPasswordPasswordLessToken() {
 		$this->expectException(\OC\Authentication\Exceptions\PasswordlessTokenException::class);
 
@@ -156,7 +156,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->tokenProvider->getPassword($tk, $token);
 	}
 
-	
+
 	public function testGetPasswordInvalidToken() {
 		$this->expectException(\OC\Authentication\Exceptions\InvalidTokenException::class);
 
@@ -205,7 +205,7 @@ class PublicKeyTokenProviderTest extends TestCase {
 		$this->assertSame($newpass, $this->tokenProvider->getPassword($actual, 'token'));
 	}
 
-	
+
 	public function testSetPasswordInvalidToken() {
 		$this->expectException(\OC\Authentication\Exceptions\InvalidTokenException::class);
 

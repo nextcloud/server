@@ -29,7 +29,6 @@ namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCP\IConfig;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 /**
@@ -38,7 +37,7 @@ use Test\TestCase;
  * @package OCA\DAV\Tests\unit\Connector\Sabre
  */
 class BlockLegacyClientPluginTest extends TestCase {
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 	/** @var BlockLegacyClientPlugin */
 	private $blockLegacyClientVersionPlugin;
@@ -73,7 +72,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->expectExceptionMessage('Unsupported client version.');
 
-		/** @var \Sabre\HTTP\RequestInterface | PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var \Sabre\HTTP\RequestInterface | \PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
 		$request
 			->expects($this->once())
@@ -108,7 +107,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 	 * @param string $userAgent
 	 */
 	public function testBeforeHandlerSuccess($userAgent) {
-		/** @var \Sabre\HTTP\RequestInterface | PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var \Sabre\HTTP\RequestInterface | \PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
 		$request
 			->expects($this->once())
@@ -126,7 +125,7 @@ class BlockLegacyClientPluginTest extends TestCase {
 	}
 
 	public function testBeforeHandlerNoUserAgent() {
-		/** @var \Sabre\HTTP\RequestInterface | PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var \Sabre\HTTP\RequestInterface | \PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock('\Sabre\HTTP\RequestInterface');
 		$request
 			->expects($this->once())

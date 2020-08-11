@@ -28,11 +28,11 @@ use OCP\ICacheFactory;
 use Test\TestCase;
 
 class MemoryCacheTest extends TestCase {
-	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
-	/** @var ICache|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICache|\PHPUnit\Framework\MockObject\MockObject */
 	private $cache;
 	/** @var MemoryCache */
 	private $memoryCache;

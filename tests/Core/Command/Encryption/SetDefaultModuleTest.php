@@ -29,13 +29,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SetDefaultModuleTest extends TestCase {
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IManager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IManager */
 	protected $manager;
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IConfig */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
 	protected $config;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleInput;
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $consoleOutput;
 
 	/** @var \Symfony\Component\Console\Command\Command */

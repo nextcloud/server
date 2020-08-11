@@ -26,10 +26,10 @@ use OCP\ISession;
 use Test\TestCase;
 
 class CryptoWrappingTest extends TestCase {
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\OCP\Security\ICrypto */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\OCP\Security\ICrypto */
 	protected $crypto;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|\OCP\ISession */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|\OCP\ISession */
 	protected $wrappedSession;
 
 	/** @var \OC\Session\CryptoSessionData */

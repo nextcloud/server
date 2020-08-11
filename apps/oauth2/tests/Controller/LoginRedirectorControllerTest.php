@@ -41,13 +41,13 @@ use Test\TestCase;
  * @group DB
  */
 class LoginRedirectorControllerTest extends TestCase {
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var ClientMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ClientMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $clientMapper;
-	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
 	/** @var LoginRedirectorController */
 	private $loginRedirectorController;

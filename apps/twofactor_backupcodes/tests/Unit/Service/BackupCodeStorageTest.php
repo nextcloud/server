@@ -32,21 +32,20 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class BackupCodeStorageTest extends TestCase {
 
-	/** @var BackupCodeMapper|PHPUnit_Framework_MockObject_MockObject */
+	/** @var BackupCodeMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $mapper;
 
-	/** @var ISecureRandom|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISecureRandom|\PHPUnit\Framework\MockObject\MockObject */
 	private $random;
 
-	/** @var IHasher|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IHasher|\PHPUnit\Framework\MockObject\MockObject */
 	private $hasher;
 
-	/** @var IEventDispatcher|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
 
 	/** @var BackupCodeStorage */

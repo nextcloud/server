@@ -14,10 +14,10 @@ use OCP\Log\IWriter;
 
 class LoggerTest extends TestCase implements IWriter {
 
-	/** @var \OC\SystemConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\SystemConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
-	/** @var \OCP\Support\CrashReport\IRegistry|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Support\CrashReport\IRegistry|\PHPUnit\Framework\MockObject\MockObject */
 	private $registry;
 
 	/** @var \OCP\ILogger */
