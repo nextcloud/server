@@ -191,7 +191,7 @@ class Crypt {
 			$this->getCipher());
 
 		// Create a signature based on the key as well as the current version
-		$sig = $this->createSignature($encryptedContent, $passPhrase.$version.$position);
+		$sig = $this->createSignature($encryptedContent, $passPhrase.'_'.$version.'_'.$position);
 
 		// combine content to encrypt the IV identifier and actual IV
 		$catFile = $this->concatIV($encryptedContent, $iv);
@@ -464,7 +464,13 @@ class Crypt {
 		$catFile = $this->splitMetaData($keyFileContents, $cipher);
 
 		if ($catFile['signature'] !== false) {
-			$this->checkSignature($catFile['encrypted'], $passPhrase.$version.$position, $catFile['signature']);
+			try {
+				// First try the new format
+				$this->checkSignature($catFile['encrypted'], $passPhrase . '_' . $version . '_' . $position, $catFile['signature']);
+			} catch (GenericEncryptionException $e) {
+				// For compatibility with old files check the version without _
+				$this->checkSignature($catFile['encrypted'], $passPhrase . $version . $position, $catFile['signature']);
+			}
 		}
 
 		return $this->decrypt($catFile['encrypted'],
