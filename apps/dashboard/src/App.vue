@@ -1,5 +1,5 @@
 <template>
-	<div id="app-dashboard">
+	<div id="app-dashboard" :style="{ backgroundImage: `url(${backgroundImage})` }">
 		<h2>{{ greeting.text }}</h2>
 		<div class="statuses">
 			<div v-for="status in registeredStatus"
@@ -62,7 +62,8 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { Modal } from '@nextcloud/vue'
 import Draggable from 'vuedraggable'
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, generateFilePath } from '@nextcloud/router'
+import isMobile from './mixins/isMobile'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
@@ -73,6 +74,9 @@ export default {
 		Modal,
 		Draggable,
 	},
+	mixins: [
+		isMobile,
+	],
 	data() {
 		return {
 			timer: new Date(),
@@ -90,6 +94,13 @@ export default {
 		}
 	},
 	computed: {
+		backgroundImage() {
+			const prefixWithBaseUrl = (url) => generateFilePath('dashboard', '', 'img/') + url
+			if (window.OCA.Accessibility.theme === 'dark') {
+				return !isMobile ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-148302424@N05-36591009215-mobile.jpg?v=1')
+			}
+			return !isMobile ? prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521-mobile.jpg?v=1')
+		},
 		tooltip() {
 			if (!this.firstRun) {
 				return null
@@ -256,23 +267,10 @@ export default {
 
 		#body-user:not(.dark) & {
 			background-color: var(--color-primary);
-			background-image: url('/nextcloud/apps/dashboard/img/flickr-paszczak000-8715851521.jpg?v=1');
 		}
 
 		#body-user.dark & {
 			background-color: var(--color-main-background);
-			background-image: url('/nextcloud/apps/dashboard/img/flickr-148302424@N05-36591009215.jpg?v=1');
-		}
-	}
-
-	@media only screen and (max-width: var(--breakpoint-mobile)) {
-		#body-user:not(.dark) #app-dashboard {
-			background-image: url('/nextcloud/apps/dashboard/img/flickr-paszczak000-8715851521-mobile.jpg?v=1');
-		}
-
-		#body-user.dark #app-dashboard {
-			background-color: var(--color-main-background);
-			background-image: url('/nextcloud/apps/dashboard/img/flickr-148302424@N05-36591009215-mobile.jpg?v=1');
 		}
 	}
 
