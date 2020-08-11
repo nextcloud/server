@@ -129,6 +129,10 @@ class Group_LDAPTest extends TestCase {
 			->method('countUsers')
 			->willReturn(2);
 
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
+
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->countUsersInGroup('group');
 
@@ -168,6 +172,10 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->countUsersInGroup('group', '3');
@@ -543,7 +551,10 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('combineFilterWithAnd')
 			->willReturn('pseudo=filter');
-		$access->userManager = $this->createMock(Manager::class);
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->usersInGroup('foobar');
@@ -584,7 +595,10 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('combineFilterWithAnd')
 			->willReturn('pseudo=filter');
-		$access->userManager = $this->createMock(Manager::class);
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->usersInGroup('foobar');
@@ -623,6 +637,10 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->countUsersInGroup('foobar');
