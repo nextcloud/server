@@ -877,8 +877,8 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 						])
 					]);
 					$ldap_users = $this->access->fetchListOfUsers($filter, $attrs, 1);
-					if (count($ldap_users) < 1) {
-						continue;
+					if (empty($ldap_users)) {
+						break;
 					}
 					$groupUsers[] = $this->access->dn2username($ldap_users[0]['dn'][0]);
 					break;
@@ -886,13 +886,13 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 					//we got DNs, check if we need to filter by search or we can give back all of them
 					$uid = $this->access->dn2username($member);
 					if (!$uid) {
-						continue;
+						break;
 					}
 
 					$cacheKey = 'userExistsOnLDAP' . $uid;
 					$userExists = $this->access->connection->getFromCache($cacheKey);
 					if ($userExists === false) {
-						continue;
+						break;
 					}
 					if ($userExists === null || $search !== '') {
 						if (!$this->access->readAttribute($member,
@@ -904,7 +904,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 							if ($search === '') {
 								$this->access->connection->writeToCache($cacheKey, false);
 							}
-							continue;
+							break;
 						}
 						$this->access->connection->writeToCache($cacheKey, true);
 					}
