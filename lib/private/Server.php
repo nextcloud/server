@@ -93,6 +93,7 @@ use OC\Files\Node\HookConnector;
 use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
 use OC\Files\Storage\StorageFactory;
+use OC\Files\Type\Loader;
 use OC\Files\View;
 use OC\FullTextSearch\FullTextSearchManager;
 use OC\Http\Client\ClientService;
@@ -121,7 +122,6 @@ use OC\Security\CredentialsManager;
 use OC\Security\Crypto;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\CSP\ContentSecurityPolicyNonceManager;
-use OC\Security\CSRF\CsrfTokenGenerator;
 use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
@@ -132,9 +132,7 @@ use OC\Share20\ProviderFactory;
 use OC\Share20\ShareHelper;
 use OC\SystemTag\ManagerFactory as SystemTagManagerFactory;
 use OC\Tagging\TagMapper;
-use OC\Template\IconsCacher;
 use OC\Template\JSCombiner;
-use OC\Template\SCSSCacher;
 use OCA\Theming\ImageManager;
 use OCA\Theming\ThemingDefaults;
 use OCA\Theming\Util;
@@ -258,6 +256,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		// To find out if we are running from CLI or not
 		$this->registerParameter('isCLI', \OC::$CLI);
+		$this->registerParameter('serverRoot', \OC::$SERVERROOT);
 
 		$this->registerService(ContainerInterface::class, function (ContainerInterface $c) {
 			return $c;
@@ -345,14 +344,9 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return new Encryption\Keys\Storage($view, $util);
 		});
-		$this->registerService('TagMapper', function (Server $c) {
-			return new TagMapper($c->getDatabaseConnection());
-		});
+		$this->registerAlias('TagMapper', TagMapper::class);
 
-		$this->registerService(\OCP\ITagManager::class, function (Server $c) {
-			$tagMapper = $c->query('TagMapper');
-			return new TagManager($tagMapper, $c->getUserSession());
-		});
+		$this->registerAlias(\OCP\ITagManager::class, TagManager::class);
 		$this->registerDeprecatedAlias('TagManager', \OCP\ITagManager::class);
 
 		$this->registerService('SystemTagManagerFactory', function (Server $c) {
@@ -477,10 +471,6 @@ class Server extends ServerContainer implements IServerContainer {
 			return new Store($session, $logger, $tokenProvider);
 		});
 		$this->registerAlias(IStore::class, Store::class);
-		$this->registerService(Authentication\Token\DefaultTokenMapper::class, function (Server $c) {
-			$dbConnection = $c->getDatabaseConnection();
-			return new Authentication\Token\DefaultTokenMapper($dbConnection);
-		});
 		$this->registerAlias(IProvider::class, Authentication\Token\Manager::class);
 
 		$this->registerService(\OC\User\Session::class, function (Server $c) {
@@ -614,11 +604,6 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(INavigationManager::class, \OC\NavigationManager::class);
 		$this->registerDeprecatedAlias('NavigationManager', INavigationManager::class);
 
-		$this->registerService(\OC\AllConfig::class, function (Server $c) {
-			return new \OC\AllConfig(
-				$c->getSystemConfig()
-			);
-		});
 		$this->registerDeprecatedAlias('AllConfig', \OC\AllConfig::class);
 		$this->registerAlias(\OCP\IConfig::class, \OC\AllConfig::class);
 
@@ -627,9 +612,6 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerDeprecatedAlias('SystemConfig', \OC\SystemConfig::class);
 
-		$this->registerService(\OC\AppConfig::class, function (Server $c) {
-			return new \OC\AppConfig($c->getDatabaseConnection());
-		});
 		$this->registerDeprecatedAlias('AppConfig', \OC\AppConfig::class);
 		$this->registerAlias(IAppConfig::class, \OC\AppConfig::class);
 
@@ -745,14 +727,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new LogFactory($c, $this->getSystemConfig());
 		});
 
-		$this->registerService(IJobList::class, function (Server $c) {
-			$config = $c->getConfig();
-			return new \OC\BackgroundJob\JobList(
-				$c->getDatabaseConnection(),
-				$config,
-				new TimeFactory()
-			);
-		});
+		$this->registerAlias(IJobList::class, \OC\BackgroundJob\JobList::class);
 		$this->registerDeprecatedAlias('JobList', IJobList::class);
 
 		$this->registerService(IRouter::class, function (Server $c) {
@@ -767,9 +742,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerDeprecatedAlias('Router', IRouter::class);
 
-		$this->registerService(ISearch::class, function ($c) {
-			return new Search();
-		});
+		$this->registerAlias(ISearch::class, Search::class);
 		$this->registerDeprecatedAlias('Search', ISearch::class);
 
 		$this->registerService(\OC\Security\RateLimiting\Backend\IBackend::class, function ($c) {
@@ -779,24 +752,16 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 
-		$this->registerService(\OCP\Security\ISecureRandom::class, function ($c) {
-			return new SecureRandom();
-		});
+		$this->registerAlias(\OCP\Security\ISecureRandom::class, SecureRandom::class);
 		$this->registerDeprecatedAlias('SecureRandom', \OCP\Security\ISecureRandom::class);
 
-		$this->registerService(ICrypto::class, function (Server $c) {
-			return new Crypto($c->getConfig(), $c->getSecureRandom());
-		});
+		$this->registerAlias(ICrypto::class, Crypto::class);
 		$this->registerDeprecatedAlias('Crypto', ICrypto::class);
 
-		$this->registerService(IHasher::class, function (Server $c) {
-			return new Hasher($c->getConfig());
-		});
+		$this->registerAlias(IHasher::class, Hasher::class);
 		$this->registerDeprecatedAlias('Hasher', IHasher::class);
 
-		$this->registerService(ICredentialsManager::class, function (Server $c) {
-			return new CredentialsManager($c->getCrypto(), $c->getDatabaseConnection());
-		});
+		$this->registerAlias(ICredentialsManager::class, CredentialsManager::class);
 		$this->registerDeprecatedAlias('CredentialsManager', ICredentialsManager::class);
 
 		$this->registerService(IDBConnection::class, function (Server $c) {
@@ -850,12 +815,6 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerDeprecatedAlias('QueryLogger', IQueryLogger::class);
 
-		$this->registerService(TempManager::class, function (Server $c) {
-			return new TempManager(
-				$c->getLogger(),
-				$c->getConfig()
-			);
-		});
 		$this->registerDeprecatedAlias('TempManager', TempManager::class);
 		$this->registerAlias(ITempManager::class, TempManager::class);
 
@@ -873,12 +832,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerDeprecatedAlias('AppManager', AppManager::class);
 		$this->registerAlias(IAppManager::class, AppManager::class);
 
-		$this->registerService(IDateTimeZone::class, function (Server $c) {
-			return new DateTimeZone(
-				$c->getConfig(),
-				$c->getSession()
-			);
-		});
+		$this->registerAlias(IDateTimeZone::class, DateTimeZone::class);
 		$this->registerDeprecatedAlias('DateTimeZone', IDateTimeZone::class);
 
 		$this->registerService(IDateTimeFormatter::class, function (Server $c) {
@@ -917,9 +871,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerDeprecatedAlias('MountConfigManager', IMountProviderCollection::class);
 
-		$this->registerService('IniWrapper', function ($c) {
-			return new IniGetWrapper();
-		});
+		$this->registerAlias('IniWrapper', IniGetWrapper::class);
 		$this->registerService('AsyncCommandBus', function (Server $c) {
 			$busClass = $c->getConfig()->getSystemValue('commandbus');
 			if ($busClass) {
@@ -936,17 +888,7 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 		});
 		$this->registerAlias(IBus::class, 'AsyncCommandBus');
-		$this->registerService('TrustedDomainHelper', function ($c) {
-			return new TrustedDomainHelper($this->getConfig());
-		});
-		$this->registerService(Throttler::class, function (Server $c) {
-			return new Throttler(
-				$c->getDatabaseConnection(),
-				new TimeFactory(),
-				$c->getLogger(),
-				$c->getConfig()
-			);
-		});
+		$this->registerAlias('TrustedDomainHelper', TrustedDomainHelper::class);
 		$this->registerDeprecatedAlias('Throttler', Throttler::class);
 		$this->registerService('IntegrityCodeChecker', function (Server $c) {
 			// IConfig and IAppManager requires a working database. This code
@@ -1052,9 +994,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerDeprecatedAlias('LockingProvider', ILockingProvider::class);
 
-		$this->registerService(IMountManager::class, function () {
-			return new \OC\Files\Mount\Manager();
-		});
+		$this->registerAlias(IMountManager::class, \OC\Files\Mount\Manager::class);
 		$this->registerDeprecatedAlias('MountManager', IMountManager::class);
 
 		$this->registerService(IMimeTypeDetector::class, function (Server $c) {
@@ -1067,21 +1007,12 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerDeprecatedAlias('MimeTypeDetector', IMimeTypeDetector::class);
 
-		$this->registerService(IMimeTypeLoader::class, function (Server $c) {
-			return new \OC\Files\Type\Loader(
-				$c->getDatabaseConnection()
-			);
-		});
+		$this->registerAlias(IMimeTypeLoader::class, Loader::class);
 		$this->registerDeprecatedAlias('MimeTypeLoader', IMimeTypeLoader::class);
 		$this->registerService(BundleFetcher::class, function () {
 			return new BundleFetcher($this->getL10N('lib'));
 		});
-		$this->registerService(\OCP\Notification\IManager::class, function (Server $c) {
-			return new Manager(
-				$c->query(IValidator::class),
-				$c->getLogger()
-			);
-		});
+		$this->registerAlias(\OCP\Notification\IManager::class, Manager::class);
 		$this->registerDeprecatedAlias('NotificationManager', \OCP\Notification\IManager::class);
 
 		$this->registerService(CapabilitiesManager::class, function (Server $c) {
@@ -1119,6 +1050,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerDeprecatedAlias('CommentsManager', ICommentsManager::class);
 
+		$this->registerAlias(\OC_Defaults::class, 'ThemingDefaults');
 		$this->registerService('ThemingDefaults', function (Server $c) {
 			/*
 			 * Dark magic for autoloader.
@@ -1146,19 +1078,6 @@ class Server extends ServerContainer implements IServerContainer {
 				);
 			}
 			return new \OC_Defaults();
-		});
-		$this->registerService(SCSSCacher::class, function (Server $c) {
-			return new SCSSCacher(
-				$c->getLogger(),
-				$c->query(\OC\Files\AppData\Factory::class),
-				$c->getURLGenerator(),
-				$c->getConfig(),
-				$c->getThemingDefaults(),
-				\OC::$SERVERROOT,
-				$this->getMemCacheFactory(),
-				$c->query(IconsCacher::class),
-				new TimeFactory()
-			);
 		});
 		$this->registerService(JSCombiner::class, function (Server $c) {
 			return new JSCombiner(
@@ -1198,27 +1117,12 @@ class Server extends ServerContainer implements IServerContainer {
 				$request
 			);
 		});
-		$this->registerService(CsrfTokenManager::class, function (Server $c) {
-			$tokenGenerator = new CsrfTokenGenerator($c->getSecureRandom());
-
-			return new CsrfTokenManager(
-				$tokenGenerator,
-				$c->query(SessionStorage::class)
-			);
-		});
 		$this->registerDeprecatedAlias('CsrfTokenManager', CsrfTokenManager::class);
 		$this->registerService(SessionStorage::class, function (Server $c) {
 			return new SessionStorage($c->getSession());
 		});
 		$this->registerAlias(\OCP\Security\IContentSecurityPolicyManager::class, ContentSecurityPolicyManager::class);
 		$this->registerDeprecatedAlias('ContentSecurityPolicyManager', ContentSecurityPolicyManager::class);
-
-		$this->registerService('ContentSecurityPolicyNonceManager', function (Server $c) {
-			return new ContentSecurityPolicyNonceManager(
-				$c->getCsrfTokenManager(),
-				$c->getRequest()
-			);
-		});
 
 		$this->registerService(\OCP\Share\IManager::class, function (Server $c) {
 			$config = $c->getConfig();
@@ -1352,20 +1256,10 @@ class Server extends ServerContainer implements IServerContainer {
 			return new InstanceFactory($memcacheFactory->createLocal('remoteinstance.'), $c->getHTTPClientService());
 		});
 
-		$this->registerService(IContactsStore::class, function (Server $c) {
-			return new ContactsStore(
-				$c->getContactsManager(),
-				$c->getConfig(),
-				$c->getUserManager(),
-				$c->getGroupManager()
-			);
-		});
 		$this->registerAlias(IContactsStore::class, ContactsStore::class);
 		$this->registerAlias(IAccountManager::class, AccountManager::class);
 
-		$this->registerService(IStorageFactory::class, function () {
-			return new StorageFactory();
-		});
+		$this->registerAlias(IStorageFactory::class, StorageFactory::class);
 
 		$this->registerAlias(IDashboardManager::class, DashboardManager::class);
 		$this->registerAlias(\OCP\Dashboard\IManager::class, \OC\Dashboard\Manager::class);
@@ -2165,7 +2059,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated
 	 */
 	public function getContentSecurityPolicyNonceManager() {
-		return $this->query('ContentSecurityPolicyNonceManager');
+		return $this->query(ContentSecurityPolicyNonceManager::class);
 	}
 
 	/**
