@@ -27,7 +27,7 @@
 		<a v-tooltip="tooltip"
 			class="edit-panels icon-add"
 			:class="{ firstrun: firstRun }"
-			@click="showModal">{{ t('dashboard', 'Edit widgets') }}</a>
+			@click="showModal">{{ t('dashboard', 'Customize') }}</a>
 
 		<Modal v-if="modal" @close="closeModal">
 			<div class="modal__content">
@@ -50,6 +50,9 @@
 				</Draggable>
 
 				<a :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
+
+				<h3>{{ t('dashboard', 'Credits') }}</h3>
+				<p>{{ t('dashboard', 'Photos') }}: <a href="https://www.flickr.com/photos/paszczak000/8715851521/" target="_blank" rel="noopener">Clouds (Kamil Porembiński)</a>, <a href="https://www.flickr.com/photos/148302424@N05/36591009215/" target="_blank" rel="noopener">Un beau soir dété (Tanguy Domenge)</a>.</p>
 			</div>
 		</Modal>
 	</div>
@@ -406,6 +409,14 @@ export default {
 			background-size: 16px;
 			background-position: left center;
 			padding-left: 26px;
+		}
+
+		h3 {
+			font-weight: bold;
+
+			&:not(:first-of-type) {
+				margin-top: 32px;
+			}
 		}
 	}
 
