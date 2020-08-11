@@ -73,7 +73,7 @@ class Router implements IRouter {
 		$this->logger = $logger;
 		$baseUrl = \OC::$WEBROOT;
 		if (!(\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
-			$baseUrl = \OC::$server->getURLGenerator()->linkTo('', 'index.php');
+			$baseUrl .= '/index.php';
 		}
 		if (!\OC::$CLI && isset($_SERVER['REQUEST_METHOD'])) {
 			$method = $_SERVER['REQUEST_METHOD'];
