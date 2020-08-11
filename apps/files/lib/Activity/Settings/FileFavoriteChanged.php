@@ -23,13 +23,13 @@
 
 namespace OCA\Files\Activity\Settings;
 
-class FileDeleted extends FileActivitySettings {
+class FileFavoriteChanged extends FileActivitySettings {
 	/**
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0
 	 */
 	public function getIdentifier() {
-		return 'file_deleted';
+		return 'file_favorite_changed';
 	}
 
 	/**
@@ -37,7 +37,7 @@ class FileDeleted extends FileActivitySettings {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l->t('A file or folder has been <strong>deleted</strong>');
+		return $this->l->t('A favorite file or folder has been <strong>changed</strong>');
 	}
 
 	/**
@@ -47,7 +47,7 @@ class FileDeleted extends FileActivitySettings {
 	 * @since 11.0.0
 	 */
 	public function getPriority() {
-		return 3;
+		return 1;
 	}
 
 	/**
@@ -80,5 +80,9 @@ class FileDeleted extends FileActivitySettings {
 	 */
 	public function isDefaultEnabledMail() {
 		return false;
+	}
+
+	public function isDefaultEnabledNotification() {
+		return true;
 	}
 }

@@ -23,9 +23,6 @@
 
 namespace OCA\Files_Sharing\Activity\Settings;
 
-use OCP\Activity\ISetting;
-use OCP\IL10N;
-
 class PublicLinks extends ShareActivitySettings {
 	/**
 	 * @return string Lowercase a-z and underscore only identifier

@@ -37,7 +37,7 @@ class FileChanged extends FileActivitySettings {
 	 * @since 11.0.0
 	 */
 	public function getName() {
-		return $this->l->t('A file or folder has been <strong>changed</strong> or <strong>renamed</strong>');
+		return $this->l->t('A file or folder has been <strong>changed</strong>');
 	}
 
 	/**
@@ -50,35 +50,19 @@ class FileChanged extends FileActivitySettings {
 		return 1;
 	}
 
-	/**
-	 * @return bool True when the option can be changed for the stream
-	 * @since 11.0.0
-	 */
-	public function canChangeStream() {
-		return true;
-	}
-
-	/**
-	 * @return bool True when the option can be changed for the stream
-	 * @since 11.0.0
-	 */
-	public function isDefaultEnabledStream() {
-		return true;
-	}
-
-	/**
-	 * @return bool True when the option can be changed for the mail
-	 * @since 11.0.0
-	 */
 	public function canChangeMail() {
-		return true;
+		return false;
 	}
 
-	/**
-	 * @return bool True when the option can be changed for the stream
-	 * @since 11.0.0
-	 */
 	public function isDefaultEnabledMail() {
+		return false;
+	}
+
+	public function canChangeNotification() {
+		return false;
+	}
+
+	public function isDefaultEnabledNotification() {
 		return false;
 	}
 }
