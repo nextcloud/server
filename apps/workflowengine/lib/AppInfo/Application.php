@@ -36,6 +36,7 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IServerContainer;
+use OCP\WorkflowEngine\Events\LoadSettingsScriptsEvent;
 use OCP\WorkflowEngine\IEntity;
 use OCP\WorkflowEngine\IEntityCompat;
 use OCP\WorkflowEngine\IOperation;
@@ -51,7 +52,7 @@ class Application extends App implements IBootstrap {
 	public function register(IRegistrationContext $context): void {
 		$context->registerServiceAlias('RequestTimeController', RequestTime::class);
 		$context->registerEventListener(
-			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
+			LoadSettingsScriptsEvent::class,
 			LoadAdditionalSettingsScriptsListener::class,
 			-100
 		);

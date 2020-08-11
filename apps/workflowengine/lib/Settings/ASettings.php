@@ -82,10 +82,12 @@ abstract class ASettings implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
+		// @deprecated in 20.0.0: retire this one in favor of the typed event
 		$this->eventDispatcher->dispatch(
 			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
 			new LoadSettingsScriptsEvent()
 		);
+		$this->eventDispatcher->dispatchTyped(new LoadSettingsScriptsEvent());
 
 		$entities = $this->manager->getEntitiesList();
 		$this->initialStateService->provideInitialState(

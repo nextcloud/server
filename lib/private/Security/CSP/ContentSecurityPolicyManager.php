@@ -57,7 +57,7 @@ class ContentSecurityPolicyManager implements IContentSecurityPolicyManager {
 	 */
 	public function getDefaultPolicy(): ContentSecurityPolicy {
 		$event = new AddContentSecurityPolicyEvent($this);
-		$this->dispatcher->dispatch(AddContentSecurityPolicyEvent::class, $event);
+		$this->dispatcher->dispatchTyped($event);
 
 		$defaultPolicy = new \OC\Security\CSP\ContentSecurityPolicy();
 		foreach ($this->policies as $policy) {

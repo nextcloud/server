@@ -278,9 +278,8 @@ class ViewController extends Controller {
 		}
 
 		$event = new LoadAdditionalScriptsEvent();
-		$this->eventDispatcher->dispatch(LoadAdditionalScriptsEvent::class, $event);
-
-		$this->eventDispatcher->dispatch(LoadSidebar::class, new LoadSidebar());
+		$this->eventDispatcher->dispatchTyped($event);
+		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
 		// Load Viewer scripts
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
