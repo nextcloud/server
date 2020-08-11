@@ -26,18 +26,7 @@ namespace OCA\Files_Sharing\Activity\Settings;
 use OCP\Activity\ISetting;
 use OCP\IL10N;
 
-class PublicLinks implements ISetting {
-
-	/** @var IL10N */
-	protected $l;
-
-	/**
-	 * @param IL10N $l
-	 */
-	public function __construct(IL10N $l) {
-		$this->l = $l;
-	}
-
+class PublicLinks extends ShareActivitySettings {
 	/**
 	 * @return string Lowercase a-z and underscore only identifier
 	 * @since 11.0.0

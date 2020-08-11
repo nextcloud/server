@@ -30,6 +30,7 @@ class ComposerStaticInitFiles_Sharing
         'OCA\\Files_Sharing\\Activity\\Providers\\Users' => __DIR__ . '/..' . '/../lib/Activity/Providers/Users.php',
         'OCA\\Files_Sharing\\Activity\\Settings\\PublicLinks' => __DIR__ . '/..' . '/../lib/Activity/Settings/PublicLinks.php',
         'OCA\\Files_Sharing\\Activity\\Settings\\RemoteShare' => __DIR__ . '/..' . '/../lib/Activity/Settings/RemoteShare.php',
+        'OCA\\Files_Sharing\\Activity\\Settings\\ShareActivitySettings' => __DIR__ . '/..' . '/../lib/Activity/Settings/ShareActivitySettings.php',
         'OCA\\Files_Sharing\\Activity\\Settings\\Shared' => __DIR__ . '/..' . '/../lib/Activity/Settings/Shared.php',
         'OCA\\Files_Sharing\\AppInfo\\Application' => __DIR__ . '/..' . '/../lib/AppInfo/Application.php',
         'OCA\\Files_Sharing\\BackgroundJob\\FederatedSharesDiscoverJob' => __DIR__ . '/..' . '/../lib/BackgroundJob/FederatedSharesDiscoverJob.php',
