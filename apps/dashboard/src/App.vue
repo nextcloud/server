@@ -125,7 +125,7 @@ export default {
 			if (time > 5) {
 				return { text: shouldShowName ? t('dashboard', 'Good morning, {name}', { name: this.displayName }) : t('dashboard', 'Good morning') }
 			}
-			return { text: shouldShowName ? t('dashboard', 'Good night, {name}', { name: this.displayName }) : t('dashboard', 'Have a night owl') }
+			return { text: shouldShowName ? t('dashboard', 'Good night, {name}', { name: this.displayName }) : t('dashboard', 'Good night') }
 		},
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
