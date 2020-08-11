@@ -12,6 +12,7 @@ return array(
     'OCA\\Files\\Activity\\Helper' => $baseDir . '/../lib/Activity/Helper.php',
     'OCA\\Files\\Activity\\Provider' => $baseDir . '/../lib/Activity/Provider.php',
     'OCA\\Files\\Activity\\Settings\\FavoriteAction' => $baseDir . '/../lib/Activity/Settings/FavoriteAction.php',
+    'OCA\\Files\\Activity\\Settings\\FileActivitySettings' => $baseDir . '/../lib/Activity/Settings/FileActivitySettings.php',
     'OCA\\Files\\Activity\\Settings\\FileChanged' => $baseDir . '/../lib/Activity/Settings/FileChanged.php',
     'OCA\\Files\\Activity\\Settings\\FileCreated' => $baseDir . '/../lib/Activity/Settings/FileCreated.php',
     'OCA\\Files\\Activity\\Settings\\FileDeleted' => $baseDir . '/../lib/Activity/Settings/FileDeleted.php',
