@@ -1,6 +1,6 @@
 <template>
-	<div id="app-dashboard">
-		<h2>{{ greeting.icon }} {{ greeting.text }}</h2>
+	<div id="app-dashboard" :style="{ backgroundImage: `url(${backgroundImage})` }">
+		<h2>{{ greeting.text }}</h2>
 		<div class="statuses">
 			<div v-for="status in registeredStatus"
 				:id="'status-' + status"
@@ -27,7 +27,7 @@
 		<a v-tooltip="tooltip"
 			class="edit-panels icon-add"
 			:class="{ firstrun: firstRun }"
-			@click="showModal">{{ t('dashboard', 'Edit widgets') }}</a>
+			@click="showModal">{{ t('dashboard', 'Customize') }}</a>
 
 		<Modal v-if="modal" @close="closeModal">
 			<div class="modal__content">
@@ -50,6 +50,9 @@
 				</Draggable>
 
 				<a :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
+
+				<h3>{{ t('dashboard', 'Credits') }}</h3>
+				<p>{{ t('dashboard', 'Photos') }}: <a href="https://www.flickr.com/photos/paszczak000/8715851521/" target="_blank" rel="noopener">Clouds (Kamil Porembiński)</a>, <a href="https://www.flickr.com/photos/148302424@N05/36591009215/" target="_blank" rel="noopener">Un beau soir dété (Tanguy Domenge)</a>.</p>
 			</div>
 		</Modal>
 	</div>
@@ -62,7 +65,8 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { Modal } from '@nextcloud/vue'
 import Draggable from 'vuedraggable'
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, generateFilePath } from '@nextcloud/router'
+import isMobile from './mixins/isMobile'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
@@ -73,6 +77,9 @@ export default {
 		Modal,
 		Draggable,
 	},
+	mixins: [
+		isMobile,
+	],
 	data() {
 		return {
 			timer: new Date(),
@@ -90,6 +97,13 @@ export default {
 		}
 	},
 	computed: {
+		backgroundImage() {
+			const prefixWithBaseUrl = (url) => generateFilePath('dashboard', '', 'img/') + url
+			if (window.OCA.Accessibility.theme === 'dark') {
+				return !isMobile ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-148302424@N05-36591009215-mobile.jpg?v=1')
+			}
+			return !isMobile ? prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521-mobile.jpg?v=1')
+		},
 		tooltip() {
 			if (!this.firstRun) {
 				return null
@@ -106,18 +120,15 @@ export default {
 			const shouldShowName = this.displayName && this.uid !== this.displayName
 
 			if (time > 18) {
-				return { icon: '🌙', text: shouldShowName ? t('dashboard', 'Good evening, {name}', { name: this.displayName }) : t('dashboard', 'Good evening') }
+				return { text: shouldShowName ? t('dashboard', 'Good evening, {name}', { name: this.displayName }) : t('dashboard', 'Good evening') }
 			}
 			if (time > 12) {
-				return { icon: '☀', text: shouldShowName ? t('dashboard', 'Good afternoon, {name}', { name: this.displayName }) : t('dashboard', 'Good afternoon') }
-			}
-			if (time === 12) {
-				return { icon: '🍽', text: shouldShowName ? t('dashboard', 'Time for lunch, {name}', { name: this.displayName }) : t('dashboard', 'Time for lunch') }
+				return { text: shouldShowName ? t('dashboard', 'Good afternoon, {name}', { name: this.displayName }) : t('dashboard', 'Good afternoon') }
 			}
 			if (time > 5) {
-				return { icon: '🌄', text: shouldShowName ? t('dashboard', 'Good morning, {name}', { name: this.displayName }) : t('dashboard', 'Good morning') }
+				return { text: shouldShowName ? t('dashboard', 'Good morning, {name}', { name: this.displayName }) : t('dashboard', 'Good morning') }
 			}
-			return { icon: '🦉', text: shouldShowName ? t('dashboard', 'Have a night owl, {name}', { name: this.displayName }) : t('dashboard', 'Have a night owl') }
+			return { text: shouldShowName ? t('dashboard', 'Good night, {name}', { name: this.displayName }) : t('dashboard', 'Good night') }
 		},
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
@@ -228,17 +239,61 @@ export default {
 }
 </script>
 
+<style lang="scss">
+// Show Dashboard background image beneath header
+#body-user #header {
+	background: none;
+}
+
+#content {
+	padding-top: 0;
+}
+
+// Hide triangle indicators from navigation since they are out of place without the header bar
+#appmenu li a.active::before,
+#appmenu li:hover a::before,
+#appmenu li:hover a.active::before,
+#appmenu li a:focus::before {
+	display: none;
+}
+</style>
+
 <style lang="scss" scoped>
 	#app-dashboard {
 		width: 100%;
-		margin-bottom: 100px;
+		padding-bottom: 100px;
+
+		background-size: cover;
+		background-position: center center;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+
+		#body-user:not(.dark) & {
+			background-color: var(--color-primary);
+		}
+
+		#body-user.dark & {
+			background-color: var(--color-main-background);
+		}
 	}
 
 	h2 {
+		color: var(--color-primary-text);
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
-		padding: 80px 16px 0px;
+		padding: 120px 16px 0px;
+	}
+
+	.statuses {
+		::v-deep #user-status-menu-item__subheader>button {
+			backdrop-filter: blur(10px);
+			background-color: rgba(255, 255, 255, 0.8);
+
+			#body-user.dark & {
+				background-color: rgba(24, 24, 24, 0.8);
+			}
+		}
 	}
 
 	.panels {
@@ -256,9 +311,13 @@ export default {
 		width: 320px;
 		max-width: 100%;
 		margin: 16px;
-		background-color: var(--color-main-background-translucent);
+		background-color: rgba(255, 255, 255, 0.8);
+		backdrop-filter: blur(10px);
 		border-radius: var(--border-radius-large);
-		border: 2px solid var(--color-border);
+
+		#body-user.dark & {
+			background-color: rgba(24, 24, 24, 0.8);
+		}
 
 		&.sortable-ghost {
 			 opacity: 0.1;
@@ -269,11 +328,6 @@ export default {
 			z-index: 1;
 			top: 50px;
 			padding: 16px;
-			// TO DO: use variables here
-			background: linear-gradient(170deg, rgba(0, 130,201, 0.2) 0%, rgba(255,255,255,.1) 50%, rgba(255,255,255,0) 100%);
-			border-top-left-radius: calc(var(--border-radius-large) - 2px);
-			border-top-right-radius: calc(var(--border-radius-large) - 2px);
-			backdrop-filter: blur(4px);
 			cursor: grab;
 
 			&, ::v-deep * {
@@ -355,6 +409,14 @@ export default {
 			background-size: 16px;
 			background-position: left center;
 			padding-left: 26px;
+		}
+
+		h3 {
+			font-weight: bold;
+
+			&:not(:first-of-type) {
+				margin-top: 32px;
+			}
 		}
 	}
 
