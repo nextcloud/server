@@ -127,6 +127,10 @@ class Group_LDAPTest extends TestCase {
 			->method('countUsers')
 			->will($this->returnValue(2));
 
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
+
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->countUsersInGroup('group');
 
@@ -166,6 +170,10 @@ class Group_LDAPTest extends TestCase {
 			->will($this->returnCallback(function() {
 				return 'foobar' . \OC::$server->getSecureRandom()->generate(7);
 			}));
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access,$pluginManager);
 		$users = $groupBackend->countUsersInGroup('group', '3');
@@ -535,7 +543,10 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->exactly(2))
 			->method('nextcloudUserNames')
 			->willReturnOnConsecutiveCalls(['lisa', 'bart', 'kira', 'brad'], ['walle', 'dino', 'xenia']);
-		$access->userManager = $this->createMock(Manager::class);
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->usersInGroup('foobar');
@@ -570,7 +581,10 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->once())
 			->method('nextcloudUserNames')
 			->will($this->returnValue(array('lisa', 'bart', 'kira', 'brad')));
-		$access->userManager = $this->createMock(Manager::class);
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->usersInGroup('foobar');
@@ -608,6 +622,10 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->once())
 			->method('countUsers')
 			->will($this->returnValue(4));
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->countUsersInGroup('foobar');

@@ -66,6 +66,7 @@ use OCP\ILogger;
  * @property string[] ldapBaseGroups
  * @property string ldapGroupFilter
  * @property string ldapGroupDisplayName
+ * @property string ldapMatchingRuleInChainState
  */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
