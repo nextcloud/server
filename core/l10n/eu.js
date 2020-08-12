@@ -1,7 +1,7 @@
 OC.L10N.register(
     "core",
     {
-    "Please select a file." : "Aukeratu fitxategi bat mesedez.",
+    "Please select a file." : "Aukeratu fitxategi bat.",
     "File is too big" : "Fitxategia handiegia da",
     "The selected file is not an image." : "Aukeratutako fitxategia ez da irudi bat.",
     "The selected file cannot be read." : "Aukeratutako fitxategia ezin da irakurri.",
@@ -165,6 +165,11 @@ OC.L10N.register(
     "Forgot password?" : "Pasahitza ahaztu duzu?",
     "Log in with a device" : "Hasi saioa gailu batekin",
     "Back" : "Atzera",
+    "No results for {query}" : " {query}-(r)entzako emaitzarik ez",
+    "Start typing to search" : "Hasi bilaketa idazten",
+    "Loading more results …" : "Emaitza gehiago kargatzen ...",
+    "Load more results" : "Kargatu emaitza gehiago ",
+    "Search {types} …" : "Bilatu  {types} …",
     "Settings" : "Ezarpenak",
     "Could not load your contacts" : "Ezin izan dira zure kontaktuak kargatu",
     "Search contacts …" : "Bilatu kontaktuak...",
