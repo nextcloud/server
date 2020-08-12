@@ -72,13 +72,15 @@ class Group_LDAPTest extends TestCase {
 			->method('getConnection')
 			->will($this->returnValue($connector));
 
+		$access->userManager = $this->createMock(Manager::class);
+
 		return $access;
 	}
 
 	private function getPluginManagerMock() {
 		return $this->getMockBuilder('\OCA\User_LDAP\GroupPluginManager')->getMock();
 	}
-	
+
 	/**
 	 * @param Access|\PHPUnit_Framework_MockObject_MockObject $access
 	 */
@@ -119,11 +121,20 @@ class Group_LDAPTest extends TestCase {
 				}
 				return [];
 			});
-
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
+		$access->expects($this->any())
+			->method('fetchListOfUsers')
+			->will($this->returnValue([])); // return val does not matter here
 		// for primary groups
 		$access->expects($this->once())
 			->method('countUsers')
 			->will($this->returnValue(2));
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->countUsersInGroup('group');
@@ -164,6 +175,13 @@ class Group_LDAPTest extends TestCase {
 			->will($this->returnCallback(function() {
 				return 'foobar' . \OC::$server->getSecureRandom()->generate(7);
 			}));
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access,$pluginManager);
 		$users = $groupBackend->countUsersInGroup('group', '3');
@@ -193,7 +211,7 @@ class Group_LDAPTest extends TestCase {
 		$ldap = new GroupLDAP($access, $pluginManager);
 
 		$this->assertEquals($ldap->countUsersInGroup('gid', 'search'),42);
-	}	
+	}
 
 	public function testGidNumber2NameSuccess() {
 		$access = $this->getAccessMock();
@@ -533,7 +551,13 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->exactly(2))
 			->method('nextcloudUserNames')
 			->willReturnOnConsecutiveCalls(['lisa', 'bart', 'kira', 'brad'], ['walle', 'dino', 'xenia']);
-		$access->userManager = $this->createMock(Manager::class);
+		$access->expects($this->any())
+			->method('fetchListOfUsers')
+			->will($this->returnValue([])); // return val does not matter here
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->usersInGroup('foobar');
@@ -568,7 +592,12 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->once())
 			->method('nextcloudUserNames')
 			->will($this->returnValue(array('lisa', 'bart', 'kira', 'brad')));
-		$access->userManager = $this->createMock(Manager::class);
+		$access->expects($this->any())
+			->method('fetchListOfUsers')
+			->will($this->returnValue([])); // return val does not matter here
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->usersInGroup('foobar');
@@ -602,10 +631,19 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('groupname2dn')
 			->will($this->returnValue('cn=foobar,dc=foo,dc=bar'));
-
+		$access->expects($this->any())
+			->method('fetchListOfUsers')
+			->will($this->returnValue([])); // return val does not matter here
 		$access->expects($this->once())
 			->method('countUsers')
 			->will($this->returnValue(4));
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->countUsersInGroup('foobar');
@@ -770,7 +808,7 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals($ldap->createGroup('gid'),true);
 	}
 
-	
+
 	public function testCreateGroupFailing() {
 		$this->expectException(\Exception::class);
 
@@ -825,7 +863,7 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals($ldap->deleteGroup('gid'),'result');
 	}
 
-	
+
 	public function testDeleteGroupFailing() {
 		$this->expectException(\Exception::class);
 
@@ -871,7 +909,7 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals($ldap->addToGroup('uid', 'gid'),'result');
 	}
 
-	
+
 	public function testAddToGroupFailing() {
 		$this->expectException(\Exception::class);
 
@@ -917,7 +955,7 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals($ldap->removeFromGroup('uid', 'gid'),'result');
 	}
 
-	
+
 	public function testRemoveFromGroupFailing() {
 		$this->expectException(\Exception::class);
 
@@ -963,7 +1001,7 @@ class Group_LDAPTest extends TestCase {
 		$this->assertEquals($ldap->getGroupDetails('gid'),'result');
 	}
 
-	
+
 	public function testGetGroupDetailsFailing() {
 		$this->expectException(\Exception::class);
 
