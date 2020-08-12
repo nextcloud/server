@@ -818,6 +818,7 @@ class Encryption extends Wrapper {
 		$fileSize = $this->filesize($path);
 		$stat['size'] = $fileSize;
 		$stat[7] = $fileSize;
+		$stat['hasHeader'] = $this->getHeaderSize($path) > 0;
 		return $stat;
 	}
 
