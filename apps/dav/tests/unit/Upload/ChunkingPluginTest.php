@@ -107,7 +107,7 @@ class ChunkingPluginTest extends TestCase {
 			->with('OC-Total-Length')
 			->willReturn(4);
 
-		$this->assertNull($this->plugin->beforeMove('source', 'target'));
+		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
 	}
 
 	public function testBeforeMoveFutureFileMoveIt() {
