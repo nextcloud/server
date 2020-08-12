@@ -344,7 +344,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return new Encryption\Keys\Storage($view, $util);
 		});
-		$this->registerAlias('TagMapper', TagMapper::class);
+		$this->registerDeprecatedAlias('TagMapper', TagMapper::class);
 
 		$this->registerAlias(\OCP\ITagManager::class, TagManager::class);
 		$this->registerDeprecatedAlias('TagManager', \OCP\ITagManager::class);
@@ -871,7 +871,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerDeprecatedAlias('MountConfigManager', IMountProviderCollection::class);
 
-		$this->registerAlias('IniWrapper', IniGetWrapper::class);
+		$this->registerDeprecatedAlias('IniWrapper', IniGetWrapper::class);
 		$this->registerService('AsyncCommandBus', function (Server $c) {
 			$busClass = $c->getConfig()->getSystemValue('commandbus');
 			if ($busClass) {
@@ -888,7 +888,7 @@ class Server extends ServerContainer implements IServerContainer {
 			}
 		});
 		$this->registerAlias(IBus::class, 'AsyncCommandBus');
-		$this->registerAlias('TrustedDomainHelper', TrustedDomainHelper::class);
+		$this->registerDeprecatedAlias('TrustedDomainHelper', TrustedDomainHelper::class);
 		$this->registerDeprecatedAlias('Throttler', Throttler::class);
 		$this->registerService('IntegrityCodeChecker', function (Server $c) {
 			// IConfig and IAppManager requires a working database. This code
