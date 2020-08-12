@@ -24,10 +24,12 @@
 			</div>
 		</Draggable>
 
-		<a v-tooltip="tooltip"
-			class="edit-panels icon-add"
-			:class="{ firstrun: firstRun }"
-			@click="showModal">{{ t('dashboard', 'Customize') }}</a>
+		<div class="footer"
+			:class="{ firstrun: firstRun }">
+			<a v-tooltip="tooltip"
+				class="edit-panels icon-add"
+				@click="showModal">{{ t('dashboard', 'Customize') }}</a>
+		</div>
 
 		<Modal v-if="modal" @close="closeModal">
 			<div class="modal__content">
@@ -377,30 +379,32 @@ export default {
 		}
 	}
 
+	.footer {
+		text-align: center;
+		transition: bottom var(--animation-slow) ease-in-out;
+		bottom: 0;
+
+		&.firstrun {
+			position: sticky;
+			bottom: 10px;
+		}
+	}
 	.edit-panels {
-		z-index: 99;
-		position: fixed;
-		bottom: 20px;
-		right: 20px;
-		padding: 10px 15px 10px 35px;
+
+		display: inline-block;
+		margin:auto;
 		background-position: 10px center;
-		opacity: .7;
+		padding: 12px;
+		padding-left: 30px;
 		background-color: var(--color-main-background);
 		border-radius: var(--border-radius-pill);
-		transition: right var(--animation-slow) ease-in-out;
+		max-width: 200px;
+		opacity: 1;
+		text-align: center;
 
 		&:hover {
 			opacity: 1;
 			background-color: var(--color-background-hover);
-		}
-
-		&.firstrun {
-			right: 50%;
-			transform: translateX(50%);
-			max-width: 200px;
-			box-shadow: 0px 0px 3px var(--color-box-shadow);
-			opacity: 1;
-			text-align: center;
 		}
 	}
 
