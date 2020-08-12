@@ -162,6 +162,13 @@ export default {
 				}
 			}
 		},
+		backgroundImage: {
+			immediate: true,
+			handler() {
+				const header = document.getElementById('header')
+				header.style.backgroundImage = `url(${this.backgroundImage})`
+			},
+		},
 	},
 	mounted() {
 		setInterval(() => {
@@ -242,7 +249,10 @@ export default {
 <style lang="scss">
 // Show Dashboard background image beneath header
 #body-user #header {
-	background: none;
+	background-size: cover;
+	background-position: center 50%;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
 }
 
 #content {
