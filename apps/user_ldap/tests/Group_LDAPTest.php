@@ -123,6 +123,9 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
 
 		// for primary groups
 		$access->expects($this->once())
@@ -172,6 +175,9 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
 
 		$access->userManager->expects($this->any())
 			->method('getAttributes')
@@ -637,6 +643,9 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
 
 		$access->userManager->expects($this->any())
 			->method('getAttributes')
