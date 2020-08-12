@@ -58,6 +58,7 @@
     "Could not fetch file details \"{file}\"" : "Ei voitu hakea tiedoston tietoja \"{file}\"",
     "Error deleting file \"{fileName}\"." : "Virhe poistaessa tiedostoa \"{fileName}\".",
     "No search results in other folders for {tag}{filter}{endtag}" : "Ei hakutuloksia muissa kansioissa haulla {tag}{filter}{endtag}",
+    "Enter more than two characters to search in other folders" : "Kirjoita enemmän kuin kaksi merkkiä etsiäksesi muista kansioista",
     "Name" : "Nimi",
     "Size" : "Koko",
     "Modified" : "Muokattu",
