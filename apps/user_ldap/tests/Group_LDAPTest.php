@@ -71,6 +71,8 @@ class Group_LDAPTest extends TestCase {
 			->method('getConnection')
 			->willReturn($connector);
 
+		$access->userManager = $this->createMock(Manager::class);
+
 		return $access;
 	}
 
@@ -121,11 +123,18 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
 
 		// for primary groups
 		$access->expects($this->once())
 			->method('countUsers')
 			->willReturn(2);
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->countUsersInGroup('group');
@@ -166,6 +175,13 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->countUsersInGroup('group', '3');
@@ -541,7 +557,10 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('combineFilterWithAnd')
 			->willReturn('pseudo=filter');
-		$access->userManager = $this->createMock(Manager::class);
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->usersInGroup('foobar');
@@ -582,7 +601,10 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('combineFilterWithAnd')
 			->willReturn('pseudo=filter');
-		$access->userManager = $this->createMock(Manager::class);
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->usersInGroup('foobar');
@@ -621,6 +643,13 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->any())
 			->method('isDNPartOfBase')
 			->willReturn(true);
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturn('pseudo=filter');
+
+		$access->userManager->expects($this->any())
+			->method('getAttributes')
+			->willReturn(['displayName', 'mail']);
 
 		$groupBackend = new GroupLDAP($access, $pluginManager);
 		$users = $groupBackend->countUsersInGroup('foobar');
