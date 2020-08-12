@@ -29,6 +29,8 @@ namespace OCA\User_LDAP\AppInfo;
 use Closure;
 use OCA\Files_External\Service\BackendService;
 use OCA\User_LDAP\Controller\RenewPasswordController;
+use OCA\User_LDAP\Events\GroupBackendRegistered;
+use OCA\User_LDAP\Events\UserBackendRegistered;
 use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\Handler\ExtStorageConfigHandler;
@@ -43,6 +45,7 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -87,7 +90,8 @@ class Application extends App implements IBootstrap {
 									 INotificationManager $notificationManager,
 									 IUserSession $userSession,
 									 IAppContainer $appContainer,
-									 EventDispatcherInterface $dispatcher,
+									 EventDispatcherInterface $legacyDispatcher,
+									 IEventDispatcher $dispatcher,
 									 IGroupManager $groupManager) {
 			$helper = new Helper($config);
 			$configPrefixes = $helper->getServerConfigurationPrefixes(true);
@@ -103,13 +107,15 @@ class Application extends App implements IBootstrap {
 					$configPrefixes, $ldapWrapper, $config, $notificationManager, $userSession, $userPluginManager
 				);
 				$groupBackend = new Group_Proxy($configPrefixes, $ldapWrapper, $groupPluginManager);
-				// register user backend
-				\OC_User::useBackend($userBackend);
 
-				// Hook to allow plugins to work on registered backends
-				$dispatcher->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded');
+				\OC_User::useBackend($userBackend);
+				$userBackendRegisteredEvent = new UserBackendRegistered($userBackend, $userPluginManager);
+				$dispatcher->dispatchTyped($userBackendRegisteredEvent);
+				$legacyDispatcher->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded', $userBackendRegisteredEvent);
 
 				$groupManager->addBackend($groupBackend);
+				$groupBackendRegisteredEvent = new GroupBackendRegistered($groupBackend, $groupPluginManager);
+				$dispatcher->dispatchTyped($groupBackendRegisteredEvent);
 			}
 		});
 
