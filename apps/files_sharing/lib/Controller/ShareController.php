@@ -622,7 +622,6 @@ class ShareController extends AuthPublicShareController {
 					$node = $node->get($path);
 				} catch (NotFoundException $e) {
 					$this->emitAccessShareHook($share, 404, 'Share not found');
-					$this->emitDownloadShareHook($share, 404, 'Share not found');
 					return new NotFoundResponse();
 				}
 			}
