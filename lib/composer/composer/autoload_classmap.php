@@ -1245,6 +1245,7 @@ return array(
     'OC\\Repair\\NC16\\CleanupCardDAVPhotoCache' => $baseDir . '/lib/private/Repair/NC16/CleanupCardDAVPhotoCache.php',
     'OC\\Repair\\NC16\\ClearCollectionsAccessCache' => $baseDir . '/lib/private/Repair/NC16/ClearCollectionsAccessCache.php',
     'OC\\Repair\\NC18\\ResetGeneratedAvatarFlag' => $baseDir . '/lib/private/Repair/NC18/ResetGeneratedAvatarFlag.php',
+    'OC\\Repair\\NC20\\EncryptionLegacyCipher' => $baseDir . '/lib/private/Repair/NC20/EncryptionLegacyCipher.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Owncloud\\DropAccountTermsTable' => $baseDir . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
     'OC\\Repair\\Owncloud\\SaveAccountsTableData' => $baseDir . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',

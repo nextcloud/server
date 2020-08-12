@@ -32,6 +32,7 @@ namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\EncryptionFailedException;
+use OC\ServerNotAvailableException;
 use OCA\Encryption\Exceptions\MultiKeyDecryptException;
 use OCA\Encryption\Exceptions\MultiKeyEncryptException;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
@@ -89,6 +90,9 @@ class Crypt {
 		'AES-128-CFB' => 16,
 	];
 
+	/** @var bool */
+	private $supportLegacy;
+
 	/**
 	 * @param ILogger $logger
 	 * @param IUserSession $userSession
@@ -101,6 +105,8 @@ class Crypt {
 		$this->config = $config;
 		$this->l = $l;
 		$this->supportedKeyFormats = ['hash', 'password'];
+
+		$this->supportLegacy = $this->config->getSystemValueBool('encryption.legacy_format_support', false);
 	}
 
 	/**
@@ -299,6 +305,10 @@ class Crypt {
 	 * @return string
 	 */
 	public function getLegacyCipher() {
+		if (!$this->supportLegacy) {
+			throw new ServerNotAvailableException('Legacy cipher is no longer supported!');
+		}
+
 		return self::LEGACY_CIPHER;
 	}
 
@@ -391,7 +401,7 @@ class Crypt {
 		if (isset($header['cipher'])) {
 			$cipher = $header['cipher'];
 		} else {
-			$cipher = self::LEGACY_CIPHER;
+			$cipher = $this->getLegacyCipher();
 		}
 
 		if (isset($header['keyFormat'])) {
@@ -569,6 +579,11 @@ class Crypt {
 
 		$meta = substr($catFile, -93);
 		$signaturePosition = strpos($meta, '00sig00');
+
+		// If we no longer support the legacy format then everything needs a signature
+		if (!$skipSignatureCheck && !$this->supportLegacy && $signaturePosition === false) {
+			throw new GenericEncryptionException('Missing Signature', $this->l->t('Missing Signature'));
+		}
 
 		// enforce signature for the new 'CTR' ciphers
 		if (!$skipSignatureCheck && $signaturePosition === false && stripos($cipher, 'ctr') !== false) {
