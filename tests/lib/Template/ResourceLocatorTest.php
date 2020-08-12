@@ -12,7 +12,7 @@ use OC\Template\ResourceNotFoundException;
 use OCP\ILogger;
 
 class ResourceLocatorTest extends \Test\TestCase {
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -25,7 +25,7 @@ class ResourceLocatorTest extends \Test\TestCase {
 	 * @param array $core_map
 	 * @param array $party_map
 	 * @param array $appsRoots
-	 * @return \PHPUnit_Framework_MockObject_MockObject
+	 * @return \PHPUnit\Framework\MockObject\MockObject
 	 */
 	public function getResourceLocator($theme, $core_map, $party_map, $appsRoots) {
 		return $this->getMockForAbstractClass('OC\Template\ResourceLocator',

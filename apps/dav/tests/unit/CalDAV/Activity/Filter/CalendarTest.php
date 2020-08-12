@@ -34,10 +34,10 @@ use Test\TestCase;
 
 class CalendarTest extends TestCase {
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	protected $url;
 
-	/** @var IFilter|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IFilter|\PHPUnit\Framework\MockObject\MockObject */
 	protected $filter;
 
 	protected function setUp(): void {

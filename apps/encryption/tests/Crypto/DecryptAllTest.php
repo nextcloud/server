@@ -38,19 +38,19 @@ class DecryptAllTest extends TestCase {
 	/** @var  DecryptAll */
 	protected $instance;
 
-	/** @var Util | \PHPUnit_Framework_MockObject_MockObject  */
+	/** @var Util | \PHPUnit\Framework\MockObject\MockObject  */
 	protected $util;
 
-	/** @var KeyManager | \PHPUnit_Framework_MockObject_MockObject  */
+	/** @var KeyManager | \PHPUnit\Framework\MockObject\MockObject  */
 	protected $keyManager;
 
-	/** @var  Crypt | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Crypt | \PHPUnit\Framework\MockObject\MockObject */
 	protected $crypt;
 
-	/** @var  Session | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Session | \PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
 
-	/** @var QuestionHelper | \PHPUnit_Framework_MockObject_MockObject  */
+	/** @var QuestionHelper | \PHPUnit\Framework\MockObject\MockObject  */
 	protected $questionHelper;
 
 	protected function setUp(): void {

@@ -32,7 +32,7 @@ use Test\TestCase;
 
 class ProvisioningApiMiddlewareTest extends TestCase {
 
-	/** @var IControllerMethodReflector|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IControllerMethodReflector|\PHPUnit\Framework\MockObject\MockObject */
 	private $reflector;
 
 	protected function setUp(): void {

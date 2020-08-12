@@ -31,12 +31,11 @@ use OC\Accounts\AccountManager;
 use OCA\DAV\CardDAV\Converter;
 use OCP\IImage;
 use OCP\IUser;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class ConverterTest extends TestCase {
 
-	/** @var  AccountManager | PHPUnit_Framework_MockObject_MockObject */
+	/** @var  AccountManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $accountManager;
 
 	protected function setUp(): void {
@@ -201,7 +200,7 @@ class ConverterTest extends TestCase {
 	 * @param $displayName
 	 * @param $eMailAddress
 	 * @param $cloudId
-	 * @return IUser | PHPUnit_Framework_MockObject_MockObject
+	 * @return IUser | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getUserMock($displayName, $eMailAddress, $cloudId) {
 		$image0 = $this->getMockBuilder(IImage::class)->disableOriginalConstructor()->getMock();

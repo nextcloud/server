@@ -31,7 +31,6 @@ use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\Template;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class BackupCodesProviderTest extends TestCase {
@@ -39,16 +38,16 @@ class BackupCodesProviderTest extends TestCase {
 	/** @var string */
 	private $appName;
 
-	/** @var BackupCodeStorage|PHPUnit_Framework_MockObject_MockObject */
+	/** @var BackupCodeStorage|\PHPUnit\Framework\MockObject\MockObject */
 	private $storage;
 
-	/** @var IL10N|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 
-	/** @var AppManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var AppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 
-	/** @var IInitialStateService|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IInitialStateService|\PHPUnit\Framework\MockObject\MockObject */
 	private $initialState;
 
 	/** @var BackupCodesProvider */

@@ -42,16 +42,16 @@ use Test\TestCase;
 
 class DirectHomeTest extends TestCase {
 
-	/** @var DirectMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var DirectMapper|\PHPUnit\Framework\MockObject\MockObject */
 	private $directMapper;
 
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	/** @var Throttler|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Throttler|\PHPUnit\Framework\MockObject\MockObject */
 	private $throttler;
 
 	/** @var IRequest */

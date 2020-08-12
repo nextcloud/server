@@ -61,7 +61,7 @@ class FileTest extends TestCase {
 	 */
 	private $user;
 
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
 	protected function setUp(): void {
@@ -89,7 +89,7 @@ class FileTest extends TestCase {
 	}
 
 	/**
-	 * @return \PHPUnit_Framework_MockObject_MockObject|Storage
+	 * @return \PHPUnit\Framework\MockObject\MockObject|Storage
 	 */
 	private function getMockStorage() {
 		$storage = $this->getMockBuilder(Storage::class)
@@ -177,7 +177,7 @@ class FileTest extends TestCase {
 			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
 			->getMock();
 		\OC\Files\Filesystem::mount($storage, [], $this->user . '/');
-		/** @var View | \PHPUnit_Framework_MockObject_MockObject $view */
+		/** @var View | \PHPUnit\Framework\MockObject\MockObject $view */
 		$view = $this->getMockBuilder(View::class)
 			->setMethods(['getRelativePath', 'resolvePath'])
 			->getMock();
@@ -323,7 +323,7 @@ class FileTest extends TestCase {
 			null
 		);
 
-		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit_Framework_MockObject_MockObject $file */
+		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit\Framework\MockObject\MockObject $file */
 		$file = $this->getMockBuilder(\OCA\DAV\Connector\Sabre\File::class)
 			->setConstructorArgs([$view, $info, null, $request])
 			->setMethods(['header'])
@@ -837,7 +837,7 @@ class FileTest extends TestCase {
 		$file->setName('/super*star.txt');
 	}
 
-	
+
 	public function testUploadAbort() {
 		// setup
 		$view = $this->getMockBuilder(View::class)
@@ -881,7 +881,7 @@ class FileTest extends TestCase {
 		$this->assertEmpty($this->listPartFiles($view, ''), 'No stray part files');
 	}
 
-	
+
 	public function testDeleteWhenAllowed() {
 		// setup
 		$view = $this->getMockBuilder(View::class)
@@ -901,7 +901,7 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-	
+
 	public function testDeleteThrowsWhenDeletionNotAllowed() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -919,7 +919,7 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-	
+
 	public function testDeleteThrowsWhenDeletionFailed() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -942,7 +942,7 @@ class FileTest extends TestCase {
 		$file->delete();
 	}
 
-	
+
 	public function testDeleteThrowsWhenDeletionThrows() {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\Forbidden::class);
 
@@ -1112,7 +1112,7 @@ class FileTest extends TestCase {
 		];
 	}
 
-	
+
 	public function testGetFopenFails() {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
@@ -1132,7 +1132,7 @@ class FileTest extends TestCase {
 		$file->get();
 	}
 
-	
+
 	public function testGetFopenThrows() {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\Forbidden::class);
 
@@ -1152,7 +1152,7 @@ class FileTest extends TestCase {
 		$file->get();
 	}
 
-	
+
 	public function testGetThrowsIfNoPermission() {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 

@@ -28,14 +28,14 @@ use Test\TestCase;
 
 class AvatarNodeTest extends TestCase {
 	public function testGetName() {
-		/** @var IAvatar | \PHPUnit_Framework_MockObject_MockObject $a */
+		/** @var IAvatar | \PHPUnit\Framework\MockObject\MockObject $a */
 		$a = $this->createMock(IAvatar::class);
 		$n = new AvatarNode(1024, 'png', $a);
 		$this->assertEquals('1024.png', $n->getName());
 	}
 
 	public function testGetContentType() {
-		/** @var IAvatar | \PHPUnit_Framework_MockObject_MockObject $a */
+		/** @var IAvatar | \PHPUnit\Framework\MockObject\MockObject $a */
 		$a = $this->createMock(IAvatar::class);
 		$n = new AvatarNode(1024, 'png', $a);
 		$this->assertEquals('image/png', $n->getContentType());

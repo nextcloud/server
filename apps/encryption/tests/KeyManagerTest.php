@@ -58,25 +58,25 @@ class KeyManagerTest extends TestCase {
 	/** @var string */
 	private $systemKeyId;
 
-	/** @var \OCP\Encryption\Keys\IStorage|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Encryption\Keys\IStorage|\PHPUnit\Framework\MockObject\MockObject */
 	private $keyStorageMock;
 
-	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject */
 	private $cryptMock;
 
-	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userMock;
 
-	/** @var \OCA\Encryption\Session|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $sessionMock;
 
-	/** @var \OCP\ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logMock;
 
-	/** @var \OCA\Encryption\Util|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Util|\PHPUnit\Framework\MockObject\MockObject */
 	private $utilMock;
 
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $configMock;
 
 	protected function setUp(): void {
@@ -220,7 +220,7 @@ class KeyManagerTest extends TestCase {
 		];
 	}
 
-	
+
 	public function testUserHasKeysMissingPrivateKey() {
 		$this->expectException(\OCA\Encryption\Exceptions\PrivateKeyMissingException::class);
 
@@ -236,7 +236,7 @@ class KeyManagerTest extends TestCase {
 		$this->instance->userHasKeys($this->userId);
 	}
 
-	
+
 	public function testUserHasKeysMissingPublicKey() {
 		$this->expectException(\OCA\Encryption\Exceptions\PublicKeyMissingException::class);
 
@@ -259,7 +259,7 @@ class KeyManagerTest extends TestCase {
 	 */
 	public function testInit($useMasterKey) {
 
-		/** @var \OCA\Encryption\KeyManager|\PHPUnit_Framework_MockObject_MockObject $instance */
+		/** @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject $instance */
 		$instance = $this->getMockBuilder(KeyManager::class)
 			->setConstructorArgs(
 				[
@@ -532,7 +532,7 @@ class KeyManagerTest extends TestCase {
 		);
 	}
 
-	
+
 	public function testGetMasterKeyPasswordException() {
 		$this->expectException(\Exception::class);
 
@@ -549,7 +549,7 @@ class KeyManagerTest extends TestCase {
 	 */
 	public function testValidateMasterKey($masterKey) {
 
-		/** @var \OCA\Encryption\KeyManager | \PHPUnit_Framework_MockObject_MockObject $instance */
+		/** @var \OCA\Encryption\KeyManager | \PHPUnit\Framework\MockObject\MockObject $instance */
 		$instance = $this->getMockBuilder(KeyManager::class)
 			->setConstructorArgs(
 				[

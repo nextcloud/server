@@ -40,17 +40,17 @@ use Test\TestCase;
 
 class ImageExportPluginTest extends TestCase {
 
-	/** @var ResponseInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $response;
-	/** @var RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var RequestInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ImageExportPlugin|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ImageExportPlugin|\PHPUnit\Framework\MockObject\MockObject */
 	private $plugin;
 	/** @var Server */
 	private $server;
-	/** @var Tree|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Tree|\PHPUnit\Framework\MockObject\MockObject */
 	private $tree;
-	/** @var PhotoCache|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var PhotoCache|\PHPUnit\Framework\MockObject\MockObject */
 	private $cache;
 
 	protected function setUp(): void {

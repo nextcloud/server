@@ -29,10 +29,10 @@ use Test\TestCase;
 
 class DiscoveryServiceTest extends TestCase {
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | ICacheFactory */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | ICacheFactory */
 	private $cacheFactory;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | IClientService */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | IClientService */
 	private $clientService;
 
 	/** @var  IDiscoveryService */

@@ -37,13 +37,13 @@ use OCP\Share\IShare;
 use Test\TestCase;
 
 class MailPluginTest extends TestCase {
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var  IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $contactsManager;
 
-	/** @var  ICloudIdManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cloudIdManager;
 
 	/** @var  MailPlugin */
@@ -52,10 +52,10 @@ class MailPluginTest extends TestCase {
 	/** @var  SearchResult */
 	protected $searchResult;
 
-	/** @var  IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	/** @var  IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 
 	protected function setUp(): void {
@@ -544,7 +544,7 @@ class MailPluginTest extends TestCase {
 
 		$this->instantiatePlugin();
 
-		/** @var \OCP\IUser | \PHPUnit_Framework_MockObject_MockObject */
+		/** @var \OCP\IUser | \PHPUnit\Framework\MockObject\MockObject */
 		$currentUser = $this->createMock('\OCP\IUser');
 
 		$currentUser->expects($this->any())

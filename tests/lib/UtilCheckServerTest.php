@@ -18,7 +18,7 @@ class UtilCheckServerTest extends \Test\TestCase {
 
 	/**
 	 * @param array $systemOptions
-	 * @return \OC\SystemConfig | \PHPUnit_Framework_MockObject_MockObject
+	 * @return \OC\SystemConfig | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getConfig($systemOptions) {
 		$systemOptions['datadirectory'] = $this->datadir;

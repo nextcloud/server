@@ -47,31 +47,31 @@ class EncryptionTest extends TestCase {
 	/** @var Encryption */
 	private $instance;
 
-	/** @var \OCA\Encryption\KeyManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\KeyManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $keyManagerMock;
 
-	/** @var \OCA\Encryption\Crypto\EncryptAll|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Crypto\EncryptAll|\PHPUnit\Framework\MockObject\MockObject */
 	private $encryptAllMock;
 
-	/** @var \OCA\Encryption\Crypto\DecryptAll|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Crypto\DecryptAll|\PHPUnit\Framework\MockObject\MockObject */
 	private $decryptAllMock;
 
-	/** @var \OCA\Encryption\Session|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $sessionMock;
 
-	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit\Framework\MockObject\MockObject */
 	private $cryptMock;
 
-	/** @var \OCA\Encryption\Util|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Util|\PHPUnit\Framework\MockObject\MockObject */
 	private $utilMock;
 
-	/** @var \OCP\ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $loggerMock;
 
-	/** @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
 
-	/** @var \OCP\Files\Storage|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Files\Storage|\PHPUnit\Framework\MockObject\MockObject */
 	private $storageMock;
 
 	protected function setUp(): void {
@@ -428,7 +428,7 @@ class EncryptionTest extends TestCase {
 		];
 	}
 
-	
+
 	public function testDecrypt() {
 		$this->expectException(\OC\Encryption\Exceptions\DecryptionFailedException::class);
 		$this->expectExceptionMessage('Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');

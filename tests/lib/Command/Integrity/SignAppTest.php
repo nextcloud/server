@@ -30,13 +30,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SignAppTest extends TestCase {
-	/** @var Checker|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
 	/** @var SignApp */
 	private $signApp;
-	/** @var FileAccessHelper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var FileAccessHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $fileAccessHelper;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
 	protected function setUp(): void {

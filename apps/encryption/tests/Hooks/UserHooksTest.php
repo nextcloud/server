@@ -50,32 +50,32 @@ use Test\TestCase;
  */
 class UserHooksTest extends TestCase {
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $utilMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $recoveryMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $sessionMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $keyManagerMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $userManagerMock;
 
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $userSetupMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $userSessionMock;
 	/**
@@ -83,11 +83,11 @@ class UserHooksTest extends TestCase {
 	 */
 	private $user;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $cryptMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $loggerMock;
 	/**
@@ -162,7 +162,7 @@ class UserHooksTest extends TestCase {
 	 */
 	public function testPreSetPassphrase($canChange) {
 
-		/** @var UserHooks | \PHPUnit_Framework_MockObject_MockObject  $instance */
+		/** @var UserHooks | \PHPUnit\Framework\MockObject\MockObject  $instance */
 		$instance = $this->getMockBuilder(UserHooks::class)
 			->setConstructorArgs(
 				[

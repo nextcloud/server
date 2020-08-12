@@ -34,22 +34,22 @@ class UpdateTest extends TestCase {
 	/** @var string */
 	private $uid;
 
-	/** @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Files\View | \PHPUnit\Framework\MockObject\MockObject */
 	private $view;
 
-	/** @var \OC\Encryption\Util | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Encryption\Util | \PHPUnit\Framework\MockObject\MockObject */
 	private $util;
 
-	/** @var \OC\Files\Mount\Manager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Files\Mount\Manager | \PHPUnit\Framework\MockObject\MockObject */
 	private $mountManager;
 
-	/** @var \OC\Encryption\Manager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Encryption\Manager | \PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionManager;
 
-	/** @var \OCP\Encryption\IEncryptionModule | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Encryption\IEncryptionModule | \PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionModule;
 
-	/** @var \OC\Encryption\File | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Encryption\File | \PHPUnit\Framework\MockObject\MockObject */
 	private $fileHelper;
 
 	protected function setUp(): void {
@@ -212,7 +212,7 @@ class UpdateTest extends TestCase {
 	 * create mock of the update method
 	 *
 	 * @param array$methods methods which should be set
-	 * @return \OC\Encryption\Update | \PHPUnit_Framework_MockObject_MockObject
+	 * @return \OC\Encryption\Update | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getUpdateMock($methods) {
 		return  $this->getMockBuilder('\OC\Encryption\Update')

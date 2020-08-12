@@ -60,7 +60,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		$this->createUser($this->userId, $this->userId);
 		$this->user = \OC::$server->getUserManager()->get($this->userId);
 
-		/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject $userSession */
+		/** @var \OCP\IUserSession|\PHPUnit\Framework\MockObject\MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 		$userSession
 			->expects($this->any())

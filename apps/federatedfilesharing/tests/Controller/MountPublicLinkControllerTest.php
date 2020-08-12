@@ -50,34 +50,34 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 	/** @var  MountPublicLinkController */
 	private $controller;
 
-	/** @var  \OCP\IRequest | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \OCP\IRequest | \PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var  FederatedShareProvider | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  FederatedShareProvider | \PHPUnit\Framework\MockObject\MockObject */
 	private $federatedShareProvider;
 
-	/** @var  IManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
-	/** @var  AddressHandler | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  AddressHandler | \PHPUnit\Framework\MockObject\MockObject */
 	private $addressHandler;
 
-	/** @var  IRootFolder | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IRootFolder | \PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
-	/** @var  IUserManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUserManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
-	/** @var  ISession | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  ISession | \PHPUnit\Framework\MockObject\MockObject */
 	private $session;
 
-	/** @var  IL10N | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IL10N | \PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 
-	/** @var  IUserSession | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUserSession | \PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 
-	/** @var  IClientService | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IClientService | \PHPUnit\Framework\MockObject\MockObject */
 	private $clientService;
 
 	/** @var  IShare */

@@ -78,7 +78,7 @@ class RepairSqliteAutoincrementTest extends \Test\TestCase {
 	public function testConvertIdColumn() {
 		$this->assertFalse($this->checkAutoincrement());
 
-		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		/** @var IOutput | \PHPUnit\Framework\MockObject\MockObject $outputMock */
 		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
 			->disableOriginalConstructor()
 			->getMock();

@@ -19,16 +19,16 @@ use OCP\IL10N;
 use OCP\ILogger;
 
 class UserAvatarTest extends \Test\TestCase {
-	/** @var Folder | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Folder | \PHPUnit\Framework\MockObject\MockObject */
 	private $folder;
 
 	/** @var \OC\Avatar\UserAvatar */
 	private $avatar;
 
-	/** @var \OC\User\User | \PHPUnit_Framework_MockObject_MockObject $user */
+	/** @var \OC\User\User | \PHPUnit\Framework\MockObject\MockObject $user */
 	private $user;
 
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {
@@ -278,7 +278,7 @@ class UserAvatarTest extends \Test\TestCase {
 	}
 
 	private function getUserAvatar($user) {
-		/** @var \OCP\IL10N | \PHPUnit_Framework_MockObject_MockObject $l */
+		/** @var \OCP\IL10N | \PHPUnit\Framework\MockObject\MockObject $l */
 		$l = $this->createMock(IL10N::class);
 		$l->method('t')->willReturnArgument(0);
 

@@ -43,9 +43,9 @@ class SharingTest extends TestCase {
 	private $admin;
 	/** @var IConfig */
 	private $config;
-	/** @var  IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
-	/** @var  IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
 	protected function setUp(): void {

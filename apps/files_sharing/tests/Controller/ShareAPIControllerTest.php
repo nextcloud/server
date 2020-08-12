@@ -68,40 +68,40 @@ class ShareAPIControllerTest extends TestCase {
 	/** @var string */
 	private $appName = 'files_sharing';
 
-	/** @var \OC\Share20\Manager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Share20\Manager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
 
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var IRootFolder|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRootFolder|\PHPUnit\Framework\MockObject\MockObject */
 	private $rootFolder;
 
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
-	/** @var string|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var string|\PHPUnit\Framework\MockObject\MockObject */
 	private $currentUser;
 
 	/** @var ShareAPIController */
 	private $ocs;
 
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
 
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 
-	/** @var IServerContainer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IServerContainer|\PHPUnit\Framework\MockObject\MockObject */
 	private $serverContainer;
 
 	protected function setUp(): void {
@@ -146,7 +146,7 @@ class ShareAPIControllerTest extends TestCase {
 	}
 
 	/**
-	 * @return ShareAPIController|\PHPUnit_Framework_MockObject_MockObject
+	 * @return ShareAPIController|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private function mockFormatShare() {
 		return $this->getMockBuilder(ShareAPIController::class)
@@ -701,7 +701,7 @@ class ShareAPIControllerTest extends TestCase {
 	 * @dataProvider dataGetShare
 	 */
 	public function testGetShare(\OCP\Share\IShare $share, array $result) {
-		/** @var ShareAPIController|\PHPUnit_Framework_MockObject_MockObject $ocs */
+		/** @var ShareAPIController|\PHPUnit\Framework\MockObject\MockObject $ocs */
 		$ocs = $this->getMockBuilder(ShareAPIController::class)
 				->setConstructorArgs([
 					$this->appName,
@@ -1763,7 +1763,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = $this->newShare();
 		$this->shareManager->method('newShare')->willReturn($share);
 
-		/** @var ShareAPIController|\PHPUnit_Framework_MockObject_MockObject $ocs */
+		/** @var ShareAPIController|\PHPUnit\Framework\MockObject\MockObject $ocs */
 		$ocs = $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
 				$this->appName,
@@ -2326,7 +2326,7 @@ class ShareAPIControllerTest extends TestCase {
 		$share = \OC::$server->getShareManager()->newShare();
 		$this->shareManager->method('newShare')->willReturn($share);
 
-		/** @var ShareAPIController|\PHPUnit_Framework_MockObject_MockObject $ocs */
+		/** @var ShareAPIController|\PHPUnit\Framework\MockObject\MockObject $ocs */
 		$ocs = $this->getMockBuilder(ShareAPIController::class)
 			->setConstructorArgs([
 				$this->appName,

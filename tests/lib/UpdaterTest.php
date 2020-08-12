@@ -29,15 +29,15 @@ use OCP\IConfig;
 use OCP\ILogger;
 
 class UpdaterTest extends TestCase {
-	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger | \PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 	/** @var Updater */
 	private $updater;
-	/** @var Checker | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Checker | \PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
-	/** @var Installer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Installer|\PHPUnit\Framework\MockObject\MockObject */
 	private $installer;
 
 	protected function setUp(): void {

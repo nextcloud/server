@@ -37,72 +37,72 @@ class EncryptionTest extends Storage {
 	private $sourceStorage;
 
 	/**
-	 * @var \OC\Files\Storage\Wrapper\Encryption | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Files\Storage\Wrapper\Encryption | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected $instance;
 
 	/**
-	 * @var \OC\Encryption\Keys\Storage | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Encryption\Keys\Storage | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $keyStore;
 
 	/**
-	 * @var \OC\Encryption\Util | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Encryption\Util | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $util;
 
 	/**
-	 * @var \OC\Encryption\Manager | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Encryption\Manager | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $encryptionManager;
 
 	/**
-	 * @var \OCP\Encryption\IEncryptionModule | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\Encryption\IEncryptionModule | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $encryptionModule;
 
 	/**
-	 * @var \OC\Encryption\Update | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Encryption\Update | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $update;
 
 	/**
-	 * @var \OC\Files\Cache\Cache | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Files\Cache\Cache | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $cache;
 
 	/**
-	 * @var \OC\Log | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Log | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $logger;
 
 	/**
-	 * @var \OC\Encryption\File | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Encryption\File | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $file;
 
 
 	/**
-	 * @var \OC\Files\Mount\MountPoint | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Files\Mount\MountPoint | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $mount;
 
 	/**
-	 * @var \OC\Files\Mount\Manager | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Files\Mount\Manager | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $mountManager;
 
 	/**
-	 * @var \OC\Group\Manager | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Group\Manager | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $groupManager;
 
 	/**
-	 * @var \OCP\IConfig | \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\IConfig | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $config;
 
-	/** @var  \OC\Memcache\ArrayCache | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  \OC\Memcache\ArrayCache | \PHPUnit\Framework\MockObject\MockObject */
 	private $arrayCache;
 
 
@@ -212,7 +212,7 @@ class EncryptionTest extends Storage {
 	}
 
 	/**
-	 * @return \PHPUnit_Framework_MockObject_MockObject
+	 * @return \PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function buildMockModule() {
 		$this->encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
@@ -848,7 +848,7 @@ class EncryptionTest extends Storage {
 
 		$mountPoint = '/mountPoint';
 
-		/** @var \OC\Files\Storage\Wrapper\Encryption |\PHPUnit_Framework_MockObject_MockObject  $instance */
+		/** @var \OC\Files\Storage\Wrapper\Encryption |\PHPUnit\Framework\MockObject\MockObject  $instance */
 		$instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
 			->setConstructorArgs(
 				[
@@ -994,7 +994,7 @@ class EncryptionTest extends Storage {
 			->getMock();
 
 		if ($encryptionModule === true) {
-			/** @var IEncryptionModule|\PHPUnit_Framework_MockObject_MockObject $encryptionModule */
+			/** @var IEncryptionModule|\PHPUnit\Framework\MockObject\MockObject $encryptionModule */
 			$encryptionModule = $this->createMock(IEncryptionModule::class);
 		}
 

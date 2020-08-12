@@ -35,13 +35,13 @@ use Test\TestCase;
 class AdminTest extends TestCase {
 	/** @var Admin */
 	private $admin;
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionManager;
-	/** @var GlobalStoragesService|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var GlobalStoragesService|\PHPUnit\Framework\MockObject\MockObject */
 	private $globalStoragesService;
-	/** @var BackendService|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var BackendService|\PHPUnit\Framework\MockObject\MockObject */
 	private $backendService;
-	/** @var GlobalAuth|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var GlobalAuth|\PHPUnit\Framework\MockObject\MockObject */
 	private $globalAuth;
 
 	protected function setUp(): void {

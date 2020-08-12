@@ -35,25 +35,25 @@ use OCP\OCS\IDiscoveryService;
 
 class NotificationsTest extends \Test\TestCase {
 
-	/** @var  AddressHandler | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  AddressHandler | \PHPUnit\Framework\MockObject\MockObject */
 	private $addressHandler;
 
-	/** @var  IClientService | \PHPUnit_Framework_MockObject_MockObject*/
+	/** @var  IClientService | \PHPUnit\Framework\MockObject\MockObject*/
 	private $httpClientService;
 
-	/** @var  IDiscoveryService | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IDiscoveryService | \PHPUnit\Framework\MockObject\MockObject */
 	private $discoveryService;
 
-	/** @var  IJobList | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IJobList | \PHPUnit\Framework\MockObject\MockObject */
 	private $jobList;
 
-	/** @var ICloudFederationProviderManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICloudFederationProviderManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $cloudFederationProviderManager;
 
-	/** @var ICloudFederationFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICloudFederationFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cloudFederationFactory;
 
-	/** @var IEventDispatcher|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
 	private $eventDispatcher;
 
 	protected function setUp(): void {
@@ -73,7 +73,7 @@ class NotificationsTest extends \Test\TestCase {
 	 * get instance of Notifications class
 	 *
 	 * @param array $mockedMethods methods which should be mocked
-	 * @return Notifications | \PHPUnit_Framework_MockObject_MockObject
+	 * @return Notifications | \PHPUnit\Framework\MockObject\MockObject
 	 */
 	private function getInstance(array $mockedMethods = []) {
 		if (empty($mockedMethods)) {

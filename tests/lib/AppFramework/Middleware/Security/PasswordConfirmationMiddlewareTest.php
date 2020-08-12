@@ -36,17 +36,17 @@ use Test\TestCase;
 class PasswordConfirmationMiddlewareTest extends TestCase {
 	/** @var ControllerMethodReflector */
 	private $reflector;
-	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
-	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $user;
 	/** @var PasswordConfirmationMiddleware */
 	private $middleware;
 	/** @var Controller */
 	private $contoller;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
 	protected function setUp(): void {

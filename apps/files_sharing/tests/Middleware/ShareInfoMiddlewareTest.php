@@ -35,7 +35,7 @@ use Test\TestCase;
 
 class ShareInfoMiddlewareTest extends TestCase {
 
-	/** @var ShareManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ShareManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
 	/** @var ShareInfoMiddleware */

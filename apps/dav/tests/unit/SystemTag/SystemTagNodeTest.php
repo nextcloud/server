@@ -37,7 +37,7 @@ use Sabre\DAV\Exception\Forbidden;
 class SystemTagNodeTest extends \Test\TestCase {
 
 	/**
-	 * @var \OCP\SystemTag\ISystemTagManager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\SystemTag\ISystemTagManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $tagManager;
 
@@ -81,7 +81,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->assertEquals($tag, $node->getSystemTag());
 	}
 
-	
+
 	public function testSetName() {
 		$this->expectException(\Sabre\DAV\Exception\MethodNotAllowed::class);
 
@@ -198,7 +198,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
-	
+
 	public function testUpdateTagAlreadyExists() {
 		$this->expectException(\Sabre\DAV\Exception\Conflict::class);
 
@@ -218,7 +218,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->getTagNode(false, $tag)->update('Renamed', true, true);
 	}
 
-	
+
 	public function testUpdateTagNotFound() {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -286,7 +286,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 		$this->getTagNode(false, $tag)->delete();
 	}
 
-	
+
 	public function testDeleteTagNotFound() {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 

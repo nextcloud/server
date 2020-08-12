@@ -46,24 +46,24 @@ use OCP\UserInterface;
 
 class GroupsControllerTest extends \Test\TestCase {
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	protected $request;
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var Manager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Manager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
-	/** @var AccountManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var AccountManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $accountManager;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
-	/** @var  SubAdmin|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  SubAdmin|\PHPUnit\Framework\MockObject\MockObject */
 	protected $subAdminManager;
 
-	/** @var GroupsController|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var GroupsController|\PHPUnit\Framework\MockObject\MockObject */
 	protected $api;
 
 
@@ -103,7 +103,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	/**
 	 * @param string $gid
-	 * @return \OCP\IGroup|\PHPUnit_Framework_MockObject_MockObject
+	 * @return \OCP\IGroup|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private function createGroup($gid) {
 		$group = $this->getMockBuilder('\OCP\IGroup')->disableOriginalConstructor()->getMock();
@@ -131,7 +131,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 	/**
 	 * @param string $uid
-	 * @return \OCP\IUser|\PHPUnit_Framework_MockObject_MockObject
+	 * @return \OCP\IUser|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private function createUser($uid) {
 		$user = $this->getMockBuilder(IUser::class)->disableOriginalConstructor()->getMock();
@@ -534,7 +534,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getUserGroups')
 			->willReturn([$group]);
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject */
+		/** @var \PHPUnit\Framework\MockObject\MockObject */
 		$this->subAdminManager->expects($this->any())
 			->method('isSubAdminOfGroup')
 			->willReturn(false);
@@ -580,7 +580,7 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('getUserGroups')
 			->willReturn([$group]);
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject */
+		/** @var \PHPUnit\Framework\MockObject\MockObject */
 		$this->subAdminManager->expects($this->any())
 			->method('isSubAdminOfGroup')
 			->willReturn(false);

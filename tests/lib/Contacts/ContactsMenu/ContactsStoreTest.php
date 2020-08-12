@@ -31,19 +31,18 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class ContactsStoreTest extends TestCase {
 	/** @var ContactsStore */
 	private $contactsStore;
-	/** @var IManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $contactsManager;
-	/** @var IUserManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
-	/** @var IGroupManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
-	/** @var IConfig|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	protected function setUp(): void {
@@ -57,7 +56,7 @@ class ContactsStoreTest extends TestCase {
 	}
 
 	public function testGetContactsWithoutFilter() {
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
@@ -87,7 +86,7 @@ class ContactsStoreTest extends TestCase {
 	}
 
 	public function testGetContactsHidesOwnEntry() {
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
@@ -114,7 +113,7 @@ class ContactsStoreTest extends TestCase {
 	}
 
 	public function testGetContactsWithoutBinaryImage() {
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
@@ -143,7 +142,7 @@ class ContactsStoreTest extends TestCase {
 	}
 
 	public function testGetContactsWithoutAvatarURI() {
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
@@ -196,7 +195,7 @@ class ContactsStoreTest extends TestCase {
 			->with($this->equalTo('core'), $this->equalTo('shareapi_exclude_groups_list'), $this->equalTo(''))
 			->willReturn('["group1", "group5", "group6"]');
 
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $currentUser */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
 		$currentUser->expects($this->once())
 			->method('getUID')
@@ -246,7 +245,7 @@ class ContactsStoreTest extends TestCase {
 			->with($this->equalTo('core'), $this->equalTo('shareapi_only_share_with_group_members'), $this->equalTo('no'))
 			->willReturn('yes');
 
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $currentUser */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
 		$currentUser->expects($this->once())
 			->method('getUID')
@@ -332,7 +331,7 @@ class ContactsStoreTest extends TestCase {
 			->with($this->equalTo('core'), $this->equalTo('shareapi_only_share_with_group_members'), $this->equalTo('no'))
 			->willReturn('no');
 
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $currentUser */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $currentUser */
 		$currentUser = $this->createMock(IUser::class);
 		$currentUser->expects($this->once())
 			->method('getUID')
@@ -405,7 +404,7 @@ class ContactsStoreTest extends TestCase {
 			->with($this->equalTo('core'), $this->equalTo('shareapi_allow_share_dialog_user_enumeration'), $this->equalTo('yes'))
 			->willReturn('no');
 
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->any())
 			->method('search')
@@ -489,7 +488,7 @@ class ContactsStoreTest extends TestCase {
 			->with($this->equalTo('core'), $this->equalTo('shareapi_allow_share_dialog_user_enumeration'), $this->equalTo('yes'))
 			->willReturn('yes');
 
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
@@ -520,7 +519,7 @@ class ContactsStoreTest extends TestCase {
 	}
 
 	public function testFindOneEMail() {
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')
@@ -551,7 +550,7 @@ class ContactsStoreTest extends TestCase {
 	}
 
 	public function testFindOneNotSupportedType() {
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 
 		$entry = $this->contactsStore->findOne($user, 42, 'darren@roner.au');
@@ -560,7 +559,7 @@ class ContactsStoreTest extends TestCase {
 	}
 
 	public function testFindOneNoMatches() {
-		/** @var IUser|PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$this->contactsManager->expects($this->once())
 			->method('search')

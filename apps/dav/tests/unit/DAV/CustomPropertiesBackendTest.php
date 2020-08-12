@@ -39,16 +39,16 @@ use Test\TestCase;
  */
 class CustomPropertiesBackendTest extends TestCase {
 
-	/** @var Tree | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Tree | \PHPUnit\Framework\MockObject\MockObject */
 	private $tree;
 
 	/** @var  IDBConnection */
 	private $dbConnection;
 
-	/** @var IUser | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser | \PHPUnit\Framework\MockObject\MockObject */
 	private $user;
 
-	/** @var CustomPropertiesBackend | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var CustomPropertiesBackend | \PHPUnit\Framework\MockObject\MockObject */
 	private $backend;
 
 	protected function setUp(): void {

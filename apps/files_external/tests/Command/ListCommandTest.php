@@ -40,21 +40,20 @@ use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Security\ICrypto;
-use PHPUnit_Framework_MockObject_MockObject;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class ListCommandTest extends CommandTest {
 	/**
-	 * @return ListCommand|PHPUnit_Framework_MockObject_MockObject
+	 * @return ListCommand|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private function getInstance() {
-		/** @var GlobalStoragesService|PHPUnit_Framework_MockObject_MockObject $globalService */
+		/** @var GlobalStoragesService|\PHPUnit\Framework\MockObject\MockObject $globalService */
 		$globalService = $this->createMock(GlobalStoragesService::class);
-		/** @var UserStoragesService|PHPUnit_Framework_MockObject_MockObject $userService */
+		/** @var UserStoragesService|\PHPUnit\Framework\MockObject\MockObject $userService */
 		$userService = $this->createMock(UserStoragesService::class);
-		/** @var IUserManager|PHPUnit_Framework_MockObject_MockObject $userManager */
+		/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject $userManager */
 		$userManager = $this->createMock(IUserManager::class);
-		/** @var IUserSession|PHPUnit_Framework_MockObject_MockObject $userSession */
+		/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject $userSession */
 		$userSession = $this->createMock(IUserSession::class);
 
 		return new ListCommand($globalService, $userService, $userSession, $userManager);

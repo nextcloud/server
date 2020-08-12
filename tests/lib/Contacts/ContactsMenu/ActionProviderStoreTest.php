@@ -33,18 +33,17 @@ use OCP\Contacts\ContactsMenu\IProvider;
 use OCP\ILogger;
 use OCP\IServerContainer;
 use OCP\IUser;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class ActionProviderStoreTest extends TestCase {
 
-	/** @var IServerContainer|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IServerContainer|\PHPUnit\Framework\MockObject\MockObject */
 	private $serverContainer;
 
-	/** @var IAppManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 
-	/** @var ILogger|PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	/** @var ActionProviderStore */
@@ -114,7 +113,7 @@ class ActionProviderStoreTest extends TestCase {
 		$this->assertInstanceOf(EMailProvider::class, $providers[0]);
 	}
 
-	
+
 	public function testGetProvidersWithQueryException() {
 		$this->expectException(\Exception::class);
 

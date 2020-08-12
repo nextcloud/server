@@ -30,7 +30,6 @@ use OC\Security\CSRF\CsrfTokenManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class CSRFTokenControllerTest extends TestCase {
@@ -38,10 +37,10 @@ class CSRFTokenControllerTest extends TestCase {
 	/** @var CSRFTokenController */
 	private $controller;
 
-	/** @var IRequest|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var CsrfTokenManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var CsrfTokenManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $tokenManager;
 
 	protected function setUp(): void {

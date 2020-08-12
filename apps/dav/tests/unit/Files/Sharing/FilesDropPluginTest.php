@@ -35,19 +35,19 @@ use Test\TestCase;
 
 class FilesDropPluginTest extends TestCase {
 
-	/** @var View|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var View|\PHPUnit\Framework\MockObject\MockObject */
 	private $view;
 
-	/** @var Server|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Server|\PHPUnit\Framework\MockObject\MockObject */
 	private $server;
 
 	/** @var FilesDropPlugin */
 	private $plugin;
 
-	/** @var RequestInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var RequestInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var ResponseInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ResponseInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $response;
 
 	protected function setUp(): void {

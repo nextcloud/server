@@ -32,7 +32,6 @@ use OC\Log;
 use OC\SystemConfig;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin as PluginToTest;
-use PHPUnit_Framework_MockObject_MockObject;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\ServiceUnavailable;
 use Sabre\DAV\Server;
@@ -56,7 +55,7 @@ class ExceptionLoggerPluginTest extends TestCase {
 	/** @var PluginToTest */
 	private $plugin;
 
-	/** @var TestLogger | PHPUnit_Framework_MockObject_MockObject */
+	/** @var TestLogger | \PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	private function init() {

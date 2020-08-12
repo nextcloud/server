@@ -39,16 +39,16 @@ abstract class AbstractPrincipalBackendTest extends TestCase {
 	/** @var \OCA\DAV\CalDAV\ResourceBooking\ResourcePrincipalBackend|\OCA\DAV\CalDAV\ResourceBooking\RoomPrincipalBackend */
 	protected $principalBackend;
 
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
 
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
-	/** @var ProxyMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ProxyMapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $proxyMapper;
 
 	/** @var string */

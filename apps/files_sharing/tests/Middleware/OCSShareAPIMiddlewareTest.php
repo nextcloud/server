@@ -39,7 +39,7 @@ use OCP\Share\IManager;
  */
 class OCSShareAPIMiddlewareTest extends \Test\TestCase {
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 	/** @var IL10N */
 	private $l;

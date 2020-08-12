@@ -17,7 +17,7 @@ use Test\TestCase;
 
 class DependencyAnalyzerTest extends TestCase {
 
-	/** @var Platform|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Platform|\PHPUnit\Framework\MockObject\MockObject */
 	private $platformMock;
 
 	/** @var IL10N */

@@ -41,17 +41,17 @@ use Test\TestCase;
 
 class LookupPluginTest extends TestCase {
 
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var  IClientService|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IClientService|\PHPUnit\Framework\MockObject\MockObject */
 	protected $clientService;
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userSession;
-	/** @var ICloudIdManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICloudIdManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $cloudIdManager;
 	/** @var  LookupPlugin */
 	protected $plugin;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
 	protected function setUp(): void {
@@ -108,7 +108,7 @@ class LookupPluginTest extends TestCase {
 		$this->clientService->expects($this->never())
 			->method('newClient');
 
-		/** @var ISearchResult|\PHPUnit_Framework_MockObject_MockObject $searchResult */
+		/** @var ISearchResult|\PHPUnit\Framework\MockObject\MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);
 
 		$this->plugin->search('foobar', 10, 0, $searchResult);
@@ -132,7 +132,7 @@ class LookupPluginTest extends TestCase {
 		$this->clientService->expects($this->never())
 			->method('newClient');
 
-		/** @var ISearchResult|\PHPUnit_Framework_MockObject_MockObject $searchResult */
+		/** @var ISearchResult|\PHPUnit\Framework\MockObject\MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);
 
 		$this->plugin->search('foobar', 10, 0, $searchResult);
@@ -145,7 +145,7 @@ class LookupPluginTest extends TestCase {
 	public function testSearch(array $searchParams) {
 		$type = new SearchResultType('lookup');
 
-		/** @var ISearchResult|\PHPUnit_Framework_MockObject_MockObject $searchResult */
+		/** @var ISearchResult|\PHPUnit\Framework\MockObject\MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);
 		$searchResult->expects($this->once())
 			->method('addResultSet')
@@ -207,7 +207,7 @@ class LookupPluginTest extends TestCase {
 	public function testSearchEnableDisableLookupServer(array $searchParams, $GSEnabled, $LookupEnabled) {
 		$type = new SearchResultType('lookup');
 
-		/** @var ISearchResult|\PHPUnit_Framework_MockObject_MockObject $searchResult */
+		/** @var ISearchResult|\PHPUnit\Framework\MockObject\MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);
 
 		$this->config->expects($this->once())
@@ -269,7 +269,7 @@ class LookupPluginTest extends TestCase {
 			->with('files_sharing', 'lookupServerEnabled', 'yes')
 			->willReturn('no');
 
-		/** @var ISearchResult|\PHPUnit_Framework_MockObject_MockObject $searchResult */
+		/** @var ISearchResult|\PHPUnit\Framework\MockObject\MockObject $searchResult */
 		$searchResult = $this->createMock(ISearchResult::class);
 		$searchResult->expects($this->never())
 			->method('addResultSet');

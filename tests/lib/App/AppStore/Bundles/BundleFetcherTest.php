@@ -32,7 +32,7 @@ use OCP\IL10N;
 use Test\TestCase;
 
 class BundleFetcherTest extends TestCase {
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 	/** @var BundleFetcher */
 	private $bundleFetcher;

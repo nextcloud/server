@@ -29,15 +29,14 @@ use OCP\Contacts\ContactsMenu\IActionFactory;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\ILinkAction;
 use OCP\IURLGenerator;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class EMailproviderTest extends TestCase {
 
-	/** @var IActionFactory|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IActionFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $actionFactory;
 
-	/** @var IURLGenerator|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
 	/** @var EMailProvider */

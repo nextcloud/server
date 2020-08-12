@@ -31,7 +31,7 @@ use Test\TestCase;
 
 class CalDAVSettingsTest extends TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	/** @var CalDAVSettings */

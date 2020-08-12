@@ -208,10 +208,10 @@ class MessageTest extends TestCase {
 	}
 
 	public function testPlainTextRenderOption() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject|Swift_Message $swiftMessage */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|Swift_Message $swiftMessage */
 		$swiftMessage = $this->getMockBuilder('\Swift_Message')
 			->disableOriginalConstructor()->getMock();
-		/** @var \PHPUnit_Framework_MockObject_MockObject|IEMailTemplate $template */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|IEMailTemplate $template */
 		$template = $this->getMockBuilder('\OCP\Mail\IEMailTemplate')
 			->disableOriginalConstructor()->getMock();
 
@@ -231,10 +231,10 @@ class MessageTest extends TestCase {
 	}
 
 	public function testBothRenderingOptions() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject|Swift_Message $swiftMessage */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|Swift_Message $swiftMessage */
 		$swiftMessage = $this->getMockBuilder('\Swift_Message')
 			->disableOriginalConstructor()->getMock();
-		/** @var \PHPUnit_Framework_MockObject_MockObject|IEMailTemplate $template */
+		/** @var \PHPUnit\Framework\MockObject\MockObject|IEMailTemplate $template */
 		$template = $this->getMockBuilder('\OCP\Mail\IEMailTemplate')
 			->disableOriginalConstructor()->getMock();
 

@@ -125,7 +125,7 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 	 */
 	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add) {
 
-		/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject $l10n */
+		/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l10n */
 		$l10n = $this->createMock(IL10N::class);
 		$l10n
 			->expects($this->any())
@@ -506,7 +506,7 @@ EOD;
 
 		$calendarInfo = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER)[0];
 
-		/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject $l10n */
+		/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject $l10n */
 		$l10n = $this->createMock(IL10N::class);
 		$config = $this->createMock(IConfig::class);
 

@@ -34,9 +34,9 @@ use OCA\UpdateNotification\UpdateChecker;
 use Test\TestCase;
 
 class UpdateCheckerTest extends TestCase {
-	/** @var ChangesCheck|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ChangesCheck|\PHPUnit\Framework\MockObject\MockObject */
 	protected $changesChecker;
-	/** @var VersionCheck|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var VersionCheck|\PHPUnit\Framework\MockObject\MockObject */
 	private $updater;
 	/** @var UpdateChecker */
 	private $updateChecker;

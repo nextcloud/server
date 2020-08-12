@@ -32,7 +32,7 @@ class MDB2SchemaReaderTest extends TestCase {
 	 * @return IConfig
 	 */
 	protected function getConfig() {
-		/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject $config */
+		/** @var IConfig | \PHPUnit\Framework\MockObject\MockObject $config */
 		$config = $this->getMockBuilder(IConfig::class)
 			->disableOriginalConstructor()
 			->getMock();

@@ -30,7 +30,7 @@ use OCP\IL10N;
 use Test\TestCase;
 
 class SettingTest extends TestCase {
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
 	/** @var Setting */
 	private $setting;
@@ -63,15 +63,15 @@ class SettingTest extends TestCase {
 	public function testCanChangeStream() {
 		$this->assertSame(true, $this->setting->canChangeStream());
 	}
-	
+
 	public function testIsDefaultEnabledStream() {
 		$this->assertSame(true, $this->setting->isDefaultEnabledStream());
 	}
-	
+
 	public function testCanChangeMail() {
 		$this->assertSame(true, $this->setting->canChangeMail());
 	}
-	
+
 	public function testIsDefaultEnabledMail() {
 		$this->assertSame(false, $this->setting->isDefaultEnabledMail());
 	}

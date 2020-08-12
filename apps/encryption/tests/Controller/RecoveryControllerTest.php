@@ -37,13 +37,13 @@ use Test\TestCase;
 class RecoveryControllerTest extends TestCase {
 	/** @var RecoveryController */
 	private $controller;
-	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $requestMock;
-	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $configMock;
-	/** @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10nMock;
-	/** @var \OCA\Encryption\Recovery|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Recovery|\PHPUnit\Framework\MockObject\MockObject */
 	private $recoveryMock;
 
 	public function adminRecoveryProvider() {

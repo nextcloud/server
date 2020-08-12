@@ -68,7 +68,7 @@ class FixMountStoragesTest extends TestCase {
 		$mount2 = $this->createMount($file2, 1337);
 		$this->assertStorage($mount2, 1337);
 
-		/** @var IOutput|\PHPUnit_Framework_MockObject_MockObject $output */
+		/** @var IOutput|\PHPUnit\Framework\MockObject\MockObject $output */
 		$output = $this->createMock(IOutput::class);
 		$output->expects($this->at(0))
 			->method('info')

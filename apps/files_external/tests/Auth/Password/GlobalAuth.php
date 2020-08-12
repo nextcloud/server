@@ -32,12 +32,12 @@ use Test\TestCase;
 
 class GlobalAuthTest extends TestCase {
 	/**
-	 * @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\IL10N|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $l10n;
 
 	/**
-	 * @var \OCP\Security\ICredentialsManager|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\Security\ICredentialsManager|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $credentialsManager;
 
@@ -54,7 +54,7 @@ class GlobalAuthTest extends TestCase {
 	}
 
 	private function getStorageConfig($type, $config = []) {
-		/** @var \OCA\Files_External\Lib\StorageConfig|\PHPUnit_Framework_MockObject_MockObject $storageConfig */
+		/** @var \OCA\Files_External\Lib\StorageConfig|\PHPUnit\Framework\MockObject\MockObject $storageConfig */
 		$storageConfig = $this->createMock(StorageConfig::class);
 		$storageConfig->expects($this->any())
 			->method('getType')
@@ -106,7 +106,7 @@ class GlobalAuthTest extends TestCase {
 		], $storage->getBackendOptions());
 	}
 
-	
+
 	public function testNoCredentialsPersonal() {
 		$this->expectException(\OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException::class);
 

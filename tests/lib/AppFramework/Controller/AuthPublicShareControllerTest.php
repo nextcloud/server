@@ -32,14 +32,14 @@ use OCP\IURLGenerator;
 
 class AuthPublicShareControllerTest extends \Test\TestCase {
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
 
-	/** @var AuthPublicShareController|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var AuthPublicShareController|\PHPUnit\Framework\MockObject\MockObject */
 	private $controller;
 
 

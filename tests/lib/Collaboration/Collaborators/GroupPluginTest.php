@@ -35,13 +35,13 @@ use OCP\Share\IShare;
 use Test\TestCase;
 
 class GroupPluginTest extends TestCase {
-	/** @var  IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
 
-	/** @var  IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $groupManager;
 
-	/** @var  IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	protected $session;
 
 	/** @var  ISearchResult */
@@ -56,7 +56,7 @@ class GroupPluginTest extends TestCase {
 	/** @var int */
 	protected $offset = 0;
 
-	/** @var  IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IUser|\PHPUnit\Framework\MockObject\MockObject */
 	protected $user;
 
 	protected function setUp(): void {
@@ -101,7 +101,7 @@ class GroupPluginTest extends TestCase {
 	 * @param string $gid
 	 * @param null $displayName
 	 * @param bool $hide
-	 * @return IGroup|\PHPUnit_Framework_MockObject_MockObject
+	 * @return IGroup|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getGroupMock($gid, $displayName = null, $hide = false) {
 		$group = $this->createMock(IGroup::class);

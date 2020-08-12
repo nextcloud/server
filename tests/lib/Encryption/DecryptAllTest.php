@@ -44,22 +44,22 @@ use Test\TestCase;
  */
 class DecryptAllTest extends TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | IUserManager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IUserManager */
 	protected $userManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | Manager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | Manager */
 	protected $encryptionManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | View */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | View */
 	protected $view;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | \Symfony\Component\Console\Input\InputInterface */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Input\InputInterface */
 	protected $inputInterface;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | \Symfony\Component\Console\Output\OutputInterface */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | \Symfony\Component\Console\Output\OutputInterface */
 	protected $outputInterface;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject | \OCP\UserInterface */
+	/** @var  \PHPUnit\Framework\MockObject\MockObject | \OCP\UserInterface */
 	protected $userInterface;
 
 	/** @var  DecryptAll */
@@ -112,7 +112,7 @@ class DecryptAllTest extends TestCase {
 		} else {
 			$this->userManager->expects($this->never())->method('userExists');
 		}
-		/** @var DecryptAll | \PHPUnit_Framework_MockObject_MockObject |  $instance */
+		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject |  $instance */
 		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
 			->setConstructorArgs(
 				[
@@ -198,7 +198,7 @@ class DecryptAllTest extends TestCase {
 	 */
 	public function testDecryptAllUsersFiles($user) {
 
-		/** @var DecryptAll | \PHPUnit_Framework_MockObject_MockObject |  $instance */
+		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject |  $instance */
 		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
 			->setConstructorArgs(
 				[
@@ -243,7 +243,7 @@ class DecryptAllTest extends TestCase {
 	}
 
 	public function testDecryptUsersFiles() {
-		/** @var DecryptAll | \PHPUnit_Framework_MockObject_MockObject  $instance */
+		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject  $instance */
 		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
 			->setConstructorArgs(
 				[
@@ -313,7 +313,7 @@ class DecryptAllTest extends TestCase {
 	public function testDecryptFile($isEncrypted) {
 		$path = 'test.txt';
 
-		/** @var DecryptAll | \PHPUnit_Framework_MockObject_MockObject  $instance */
+		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject  $instance */
 		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
 			->setConstructorArgs(
 				[
@@ -353,7 +353,7 @@ class DecryptAllTest extends TestCase {
 	public function testDecryptFileFailure() {
 		$path = 'test.txt';
 
-		/** @var DecryptAll | \PHPUnit_Framework_MockObject_MockObject  $instance */
+		/** @var DecryptAll | \PHPUnit\Framework\MockObject\MockObject  $instance */
 		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
 			->setConstructorArgs(
 				[

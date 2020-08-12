@@ -52,23 +52,23 @@ use OCP\Notification\INotification;
  * @package OCA\User_LDAP\Tests\User
  */
 class UserTest extends \Test\TestCase {
-	/** @var  Access|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Access|\PHPUnit\Framework\MockObject\MockObject */
 	protected $access;
-	/** @var  Connection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Connection|\PHPUnit\Framework\MockObject\MockObject */
 	protected $connection;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var FilesystemHelper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var FilesystemHelper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $filesystemhelper;
-	/** @var INotificationManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var INotificationManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $notificationManager;
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var Image|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Image|\PHPUnit\Framework\MockObject\MockObject */
 	protected $image;
-	/** @var IAvatarManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $avatarManager;
-	/** @var LogWrapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var LogWrapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $log;
 	/** @var string */
 	protected $uid = 'alice';
@@ -1007,7 +1007,7 @@ class UserTest extends \Test\TestCase {
 			'updateExtStorageHome',
 		];
 
-		/** @var User|\PHPUnit_Framework_MockObject_MockObject $userMock */
+		/** @var User|\PHPUnit\Framework\MockObject\MockObject $userMock */
 		$userMock = $this->getMockBuilder(User::class)
 			->setConstructorArgs([
 				$this->uid,

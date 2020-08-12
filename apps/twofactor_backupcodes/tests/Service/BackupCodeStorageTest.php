@@ -41,7 +41,7 @@ class BackupCodeStorageTest extends TestCase {
 	/** @var string */
 	private $testUID = 'test123456789';
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $notificationManager;
 
 	protected function setUp(): void {

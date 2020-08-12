@@ -60,7 +60,7 @@ class CalendarTest extends TestCase {
 	}
 
 	public function testDelete() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->once())->method('updateShares');
 		$backend->expects($this->any())->method('getShares')->willReturn([
@@ -80,7 +80,7 @@ class CalendarTest extends TestCase {
 	public function testDeleteFromGroup() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->never())->method('updateShares');
 		$backend->expects($this->any())->method('getShares')->willReturn([
@@ -97,7 +97,7 @@ class CalendarTest extends TestCase {
 	}
 
 	public function testDeleteOwn() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
 		$backend = $this->createMock(CalDavBackend::class);
 		$backend->expects($this->never())->method('updateShares');
 		$backend->expects($this->never())->method('getShares');
@@ -118,7 +118,7 @@ class CalendarTest extends TestCase {
 	}
 
 	public function testDeleteBirthdayCalendar() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
 		$backend = $this->createMock(CalDavBackend::class);
 		$backend->expects($this->once())->method('deleteCalendar')
 			->with(666);
@@ -169,7 +169,7 @@ class CalendarTest extends TestCase {
 	 * @dataProvider dataPropPatch
 	 */
 	public function testPropPatch($ownerPrincipal, $principalUri, $mutations, $shared) {
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => $ownerPrincipal,
@@ -193,7 +193,7 @@ class CalendarTest extends TestCase {
 	 * @dataProvider providesReadOnlyInfo
 	 */
 	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet, $uri = 'default') {
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);
 		$calendarInfo = [
@@ -300,7 +300,7 @@ class CalendarTest extends TestCase {
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL];
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('getCalendarObjects')->willReturn([
 			$calObject0, $calObject1, $calObject2
@@ -387,7 +387,7 @@ EOD;
 		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL, 'calendardata' => $calData];
 		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder(CalDavBackend::class)->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('getCalendarObjects')->willReturn([
 			$calObject0, $calObject1, $calObject2
@@ -554,7 +554,7 @@ EOD;
 			'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL,
 			'calendardata' => $confidentialObjectData];
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		/** @var \PHPUnit\Framework\MockObject\MockObject | CalDavBackend $backend */
 		$backend = $this->createMock(CalDavBackend::class);
 		$backend->expects($this->any())
 			->method('getCalendarObjects')

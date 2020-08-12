@@ -39,7 +39,7 @@ class QuerySearchHelperTest extends TestCase {
 	/** @var  IQueryBuilder */
 	private $builder;
 
-	/** @var  IMimeTypeLoader|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var  IMimeTypeLoader|\PHPUnit\Framework\MockObject\MockObject */
 	private $mimetypeLoader;
 
 	/** @var  QuerySearchHelper */

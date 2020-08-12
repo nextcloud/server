@@ -40,17 +40,17 @@ use Test\TestCase;
 
 class ImageManagerTest extends TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var IAppData|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppData|\PHPUnit\Framework\MockObject\MockObject */
 	protected $appData;
 	/** @var ImageManager */
 	protected $imageManager;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	protected function setUp(): void {
@@ -83,7 +83,7 @@ class ImageManagerTest extends TestCase {
 	}
 
 	public function mockGetImage($key, $file) {
-		/** @var \PHPUnit_Framework_MockObject_MockObject $folder */
+		/** @var \PHPUnit\Framework\MockObject\MockObject $folder */
 		$folder = $this->createMock(ISimpleFolder::class);
 		if ($file === null) {
 			$folder->expects($this->once())
@@ -185,7 +185,7 @@ class ImageManagerTest extends TestCase {
 		$this->assertEquals($file, $this->imageManager->getImage('logo', false));
 	}
 
-	
+
 	public function testGetImageUnset() {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 
@@ -240,7 +240,7 @@ class ImageManagerTest extends TestCase {
 		$this->assertEquals($expected, $this->imageManager->getCachedImage('filename'));
 	}
 
-	
+
 	public function testGetCachedImageNotFound() {
 		$this->expectException(\OCP\Files\NotFoundException::class);
 

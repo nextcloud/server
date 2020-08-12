@@ -48,10 +48,10 @@ class TagServiceTest extends \Test\TestCase {
 	 */
 	private $user;
 
-	/** @var IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $activityManager;
 
 	/**
@@ -59,11 +59,11 @@ class TagServiceTest extends \Test\TestCase {
 	 */
 	private $root;
 
-	/** @var EventDispatcherInterface|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $dispatcher;
 
 	/**
-	 * @var \OCA\Files\Service\TagService|\PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCA\Files\Service\TagService|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private $tagService;
 
@@ -98,7 +98,7 @@ class TagServiceTest extends \Test\TestCase {
 
 	/**
 	 * @param array $methods
-	 * @return TagService|\PHPUnit_Framework_MockObject_MockObject
+	 * @return TagService|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getTagService(array $methods = []) {
 		return $this->getMockBuilder(TagService::class)

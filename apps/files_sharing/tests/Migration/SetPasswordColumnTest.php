@@ -40,7 +40,7 @@ class SetPasswordColumnTest extends TestCase {
 	/** @var \OCP\IDBConnection */
 	private $connection;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
 	/** @var SetPasswordColumn */

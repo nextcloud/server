@@ -26,9 +26,9 @@ use OCP\Http\Client\IClientService;
 use OCP\Http\Client\IResponse;
 
 trait ClientServiceTrait {
-	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
 	private $clientService;
-	/** @var IClient|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IClient|\PHPUnit\Framework\MockObject\MockObject */
 	private $client;
 	private $expectedGetRequests = [];
 	private $expectedPostRequests = [];
@@ -37,7 +37,7 @@ trait ClientServiceTrait {
 	 * Wrapper to be forward compatible to phpunit 5.4+
 	 *
 	 * @param string $originalClassName
-	 * @return \PHPUnit_Framework_MockObject_MockObject
+	 * @return \PHPUnit\Framework\MockObject\MockObject
 	 */
 	abstract protected function createMock($originalClassName);
 
@@ -112,7 +112,7 @@ trait ClientServiceTrait {
 	}
 
 	/**
-	 * @return IClientService|\PHPUnit_Framework_MockObject_MockObject
+	 * @return IClientService|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getClientService() {
 		return $this->clientService;

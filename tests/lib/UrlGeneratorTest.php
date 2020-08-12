@@ -18,11 +18,11 @@ use OCP\IURLGenerator;
  */
 class UrlGeneratorTest extends \Test\TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IConfig */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IConfig */
 	private $config;
-	/** @var \PHPUnit_Framework_MockObject_MockObject|ICacheFactory */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|ICacheFactory */
 	private $cacheFactory;
-	/** @var \PHPUnit_Framework_MockObject_MockObject|IRequest */
+	/** @var \PHPUnit\Framework\MockObject\MockObject|IRequest */
 	private $request;
 	/** @var IURLGenerator */
 	private $urlGenerator;

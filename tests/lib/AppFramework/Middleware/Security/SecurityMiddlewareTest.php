@@ -47,27 +47,27 @@ use OCP\Security\ISecureRandom;
 
 class SecurityMiddlewareTest extends \Test\TestCase {
 
-	/** @var SecurityMiddleware|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var SecurityMiddleware|\PHPUnit\Framework\MockObject\MockObject */
 	private $middleware;
-	/** @var Controller|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Controller|\PHPUnit\Framework\MockObject\MockObject */
 	private $controller;
 	/** @var SecurityException */
 	private $secException;
 	/** @var SecurityException */
 	private $secAjaxException;
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 	/** @var ControllerMethodReflector */
 	private $reader;
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
-	/** @var INavigationManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var INavigationManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $navigationManager;
-	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator|\PHPUnit\Framework\MockObject\MockObject */
 	private $urlGenerator;
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l10n;
 
 	protected function setUp(): void {

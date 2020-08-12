@@ -29,9 +29,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Test\TestCase;
 
 class SignCoreTest extends TestCase {
-	/** @var Checker|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Checker|\PHPUnit\Framework\MockObject\MockObject */
 	private $checker;
-	/** @var FileAccessHelper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var FileAccessHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $fileAccessHelper;
 	/** @var SignCore */
 	private $signCore;

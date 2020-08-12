@@ -42,10 +42,10 @@ use Test\TestCase;
  */
 class QuotaPluginTest extends TestCase {
 
-	/** @var \Sabre\DAV\Server | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \Sabre\DAV\Server | \PHPUnit\Framework\MockObject\MockObject */
 	private $server;
 
-	/** @var \OCA\DAV\Connector\Sabre\QuotaPlugin | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\DAV\Connector\Sabre\QuotaPlugin | \PHPUnit\Framework\MockObject\MockObject */
 	private $plugin;
 
 	private function init($quota, $checkedPath = '') {

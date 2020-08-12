@@ -67,7 +67,7 @@ class ManagerTest extends TestCase {
 		return $factory->getManager();
 	}
 
-	
+
 	public function testGetCommentNotFound() {
 		$this->expectException(\OCP\Comments\NotFoundException::class);
 
@@ -75,7 +75,7 @@ class ManagerTest extends TestCase {
 		$manager->get('22');
 	}
 
-	
+
 	public function testGetCommentNotFoundInvalidInput() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -125,7 +125,7 @@ class ManagerTest extends TestCase {
 		$this->assertEquals($comment->getLatestChildDateTime(), $latestChildDT);
 	}
 
-	
+
 	public function testGetTreeNotFound() {
 		$this->expectException(\OCP\Comments\NotFoundException::class);
 
@@ -133,7 +133,7 @@ class ManagerTest extends TestCase {
 		$manager->getTree('22');
 	}
 
-	
+
 	public function testGetTreeNotFoundInvalidIpnut() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -335,7 +335,7 @@ class ManagerTest extends TestCase {
 			$this->addDatabaseEntry(0, 0, null, null, $fileIds[$i]);
 		}
 		$this->addDatabaseEntry(0, 0, (new \DateTime())->modify('-2 days'), null, $fileIds[0]);
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
@@ -437,7 +437,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame($comment->getObjectId(), $objectId);
 	}
 
-	
+
 	public function testDelete() {
 		$this->expectException(\OCP\Comments\NotFoundException::class);
 
@@ -498,7 +498,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame($comment->getMessage(), $loadedComment->getMessage());
 	}
 
-	
+
 	public function testSaveUpdateException() {
 		$this->expectException(\OCP\Comments\NotFoundException::class);
 
@@ -517,7 +517,7 @@ class ManagerTest extends TestCase {
 		$manager->save($comment);
 	}
 
-	
+
 	public function testSaveIncomplete() {
 		$this->expectException(\UnexpectedValueException::class);
 
@@ -675,7 +675,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testSetMarkRead() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
@@ -692,7 +692,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testSetMarkReadUpdate() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
@@ -712,7 +712,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testReadMarkDeleteUser() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
@@ -730,7 +730,7 @@ class ManagerTest extends TestCase {
 	}
 
 	public function testReadMarkDeleteObject() {
-		/** @var IUser|\PHPUnit_Framework_MockObject_MockObject $user */
+		/** @var IUser|\PHPUnit\Framework\MockObject\MockObject $user */
 		$user = $this->createMock(IUser::class);
 		$user->expects($this->any())
 			->method('getUID')
@@ -800,7 +800,7 @@ class ManagerTest extends TestCase {
 		$this->assertSame('SOMBRERO', $manager->resolveDisplayName('galaxy', 'sombrero'));
 	}
 
-	
+
 	public function testRegisterResolverDuplicate() {
 		$this->expectException(\OutOfBoundsException::class);
 
@@ -813,7 +813,7 @@ class ManagerTest extends TestCase {
 		$manager->registerDisplayNameResolver('planet', $planetClosure);
 	}
 
-	
+
 	public function testRegisterResolverInvalidType() {
 		$this->expectException(\InvalidArgumentException::class);
 
@@ -825,7 +825,7 @@ class ManagerTest extends TestCase {
 		$manager->registerDisplayNameResolver(1337, $planetClosure);
 	}
 
-	
+
 	public function testResolveDisplayNameUnregisteredType() {
 		$this->expectException(\OutOfBoundsException::class);
 
@@ -850,7 +850,7 @@ class ManagerTest extends TestCase {
 		$this->assertTrue(is_string($manager->resolveDisplayName('planet', 'neptune')));
 	}
 
-	
+
 	public function testResolveDisplayNameInvalidType() {
 		$this->expectException(\InvalidArgumentException::class);
 

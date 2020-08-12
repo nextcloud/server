@@ -532,7 +532,7 @@ class CacheTest extends \Test\TestCase {
 		$folderWith0308 = "\x53\x63\x68\x6f\xcc\x88\x6e";
 
 		/**
-		 * @var \OC\Files\Cache\Cache | \PHPUnit_Framework_MockObject_MockObject $cacheMock
+		 * @var \OC\Files\Cache\Cache | \PHPUnit\Framework\MockObject\MockObject $cacheMock
 		 */
 		$cacheMock = $this->getMockBuilder(Cache::class)
 			->setMethods(['normalize'])

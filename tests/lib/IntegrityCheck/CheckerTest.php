@@ -34,21 +34,21 @@ use phpseclib\File\X509;
 use Test\TestCase;
 
 class CheckerTest extends TestCase {
-	/** @var EnvironmentHelper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var EnvironmentHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $environmentHelper;
-	/** @var AppLocator|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var AppLocator|\PHPUnit\Framework\MockObject\MockObject */
 	private $appLocator;
 	/** @var Checker */
 	private $checker;
-	/** @var FileAccessHelper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var FileAccessHelper|\PHPUnit\Framework\MockObject\MockObject */
 	private $fileAccessHelper;
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ICacheFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ICacheFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $cacheFactory;
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
-	/** @var \OC\Files\Type\Detection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Files\Type\Detection|\PHPUnit\Framework\MockObject\MockObject */
 	private $mimeTypeDetector;
 
 	protected function setUp(): void {
@@ -82,7 +82,7 @@ class CheckerTest extends TestCase {
 		);
 	}
 
-	
+
 	public function testWriteAppSignatureOfNotExistingApp() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Exception message');
@@ -107,7 +107,7 @@ class CheckerTest extends TestCase {
 		$this->checker->writeAppSignature('NotExistingApp', $x509, $rsa);
 	}
 
-	
+
 	public function testWriteAppSignatureWrongPermissions() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessageRegExp('/[a-zA-Z\\/_-]+ is not writable/');
@@ -480,7 +480,7 @@ class CheckerTest extends TestCase {
 		$this->assertSame([], $this->checker->verifyAppSignature('SomeApp'));
 	}
 
-	
+
 	public function testWriteCoreSignatureWithException() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Exception message');
@@ -504,7 +504,7 @@ class CheckerTest extends TestCase {
 		$this->checker->writeCoreSignature($x509, $rsa, __DIR__);
 	}
 
-	
+
 	public function testWriteCoreSignatureWrongPermissions() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessageRegExp('/[a-zA-Z\\/_-]+ is not writable/');
@@ -996,7 +996,7 @@ class CheckerTest extends TestCase {
 			->method('getServerRoot')
 			->willReturn(\OC::$SERVERROOT . '/tests/data/integritycheck/mimetypeListModified');
 		$signatureDataFile = '{
-    "hashes": { 
+    "hashes": {
         "mimetypelist.js": "dc48de7ad4baa030c5e563350c9a80b274bad783f6f5adbf1595ecef6c6a32e52890a24cb26cddb0aa20193ba52c001150c68d8bfb567f0aed566f4029a190a3"
     },
     "signature": "dtNDyufRB1jOG3e\/\/Ng6O3ZPnX5wgt3rrD9SpRQ66cpWlixwvGaI6knH85MkWm3q1c+hTYBipJ\/o+nJxHWoxydMXm+F6mC5MvXWfESB\/ag4fvKe0fg25yKstzlrpIyWwcnmOhLE\/sd7D8LZOQXk72PXsIJw4vX2YPyf3peHLevlUkVhB+mfYGDQJfrtPHjJII0Do+TV2MA0qm42q7SO\/zf7Ly24nZP3AoY5bYDMewlrczS2xz9tMN2ikZZcDgHvmC2W4RkaFP9E8ZeAZphKVjyQn6HdSu7EDlJgJ1YtoqTetFzNy\/q7+ODiJDB0KUzKocEDcXF2n2cTKXKCrklB6tEhEnjADhhQNxQouq2soc0ouIujifyH2zBL0sawNxGje5wpuchhCPnWcvQnSJbK1oXnv\/0wSGsp0iSslvx9NXAZ+nQbJnIuodLBl7XuTxxPVa8jDwFdJ7mLrs79ZfN2Op4qF10PiFRoz5VztJm4KWcaWnm\/Xqxke\/6yxY+gU2c6aH\/plwzkcxhdDJjNI\/d+G+b6NSadfcrduO+gTeHK\/go68mx0k1XxCln4Qu31nPmJZcboTvAtHvHXoeqZVAzMpT+jrq+vZ3oVAvFfNpvH4CA3eZebfkV13wV4RaSETyz5QNbnBL24C26aAhkzdShKHJc4NSNV9XdFqN74XEzSZGoc=",

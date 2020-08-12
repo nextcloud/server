@@ -44,16 +44,16 @@ class InvitationResponseControllerTest extends TestCase {
 	/** @var InvitationResponseController */
 	private $controller;
 
-	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
 	private $dbConnection;
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
 
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 
-	/** @var InvitationResponseServer|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var InvitationResponseServer|\PHPUnit\Framework\MockObject\MockObject */
 	private $responseServer;
 
 	protected function setUp(): void {

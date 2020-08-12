@@ -41,7 +41,7 @@ class ShareInfoControllerTest extends TestCase {
 	/** @var ShareInfoController */
 	private $controller;
 
-	/** @var ShareManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ShareManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
 

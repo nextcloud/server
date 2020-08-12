@@ -46,19 +46,19 @@ class MountProviderTest extends \Test\TestCase {
 	/** @var MountProvider */
 	private $provider;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
 
-	/** @var IUser|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $user;
 
-	/** @var IStorageFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IStorageFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $loader;
 
-	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
-	/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger | \PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	protected function setUp(): void {

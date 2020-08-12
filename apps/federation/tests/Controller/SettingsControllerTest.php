@@ -35,13 +35,13 @@ class SettingsControllerTest extends TestCase {
 	/** @var SettingsController  */
 	private $controller;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\IRequest */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IRequest */
 	private $request;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCP\IL10N */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCP\IL10N */
 	private $l10n;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | \OCA\Federation\TrustedServers */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | \OCA\Federation\TrustedServers */
 	private $trustedServers;
 
 	protected function setUp(): void {

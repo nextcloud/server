@@ -47,7 +47,7 @@ class DeletedUsersIndexTest extends \Test\TestCase {
 	/** @var IDBConnection */
 	protected $db;
 
-	/** @var UserMapping|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var UserMapping|\PHPUnit\Framework\MockObject\MockObject */
 	protected $mapping;
 
 	protected function setUp(): void {

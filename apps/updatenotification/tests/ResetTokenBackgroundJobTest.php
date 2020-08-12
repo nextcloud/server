@@ -33,9 +33,9 @@ use OCP\IConfig;
 use Test\TestCase;
 
 class ResetTokenBackgroundJobTest extends TestCase {
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	private $timeFactory;
 	/** @var ResetTokenBackgroundJob */
 	private $resetTokenBackgroundJob;

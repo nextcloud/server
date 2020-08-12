@@ -37,16 +37,16 @@ use OCP\ILogger;
 use Test\TestCase;
 
 class ChangesCheckTest extends TestCase {
-	/** @var IClientService|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IClientService|\PHPUnit\Framework\MockObject\MockObject */
 	protected $clientService;
 
 	/** @var ChangesCheck */
 	protected $checker;
 
-	/** @var ChangesMapper|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ChangesMapper|\PHPUnit\Framework\MockObject\MockObject */
 	protected $mapper;
 
-	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
 	protected $logger;
 
 	protected function setUp(): void {

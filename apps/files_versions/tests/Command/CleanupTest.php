@@ -42,10 +42,10 @@ class CleanupTest extends TestCase {
 	/** @var  CleanUp */
 	protected $cleanup;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | Manager */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | Manager */
 	protected $userManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject | IRootFolder */
+	/** @var \PHPUnit\Framework\MockObject\MockObject | IRootFolder */
 	protected $rootFolder;
 
 	protected function setUp(): void {

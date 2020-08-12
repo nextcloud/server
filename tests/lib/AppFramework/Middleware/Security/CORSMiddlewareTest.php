@@ -27,7 +27,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 
 	/** @var ControllerMethodReflector */
 	private $reflector;
-	/** @var Session|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
 	/** @var Throttler */
 	private $throttler;
@@ -254,7 +254,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->assertEquals($expected, $response);
 	}
 
-	
+
 	public function testAfterExceptionWithRegularException() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('A regular exception');

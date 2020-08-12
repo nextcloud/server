@@ -38,15 +38,15 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 	private $userId = 'currentUser';
 	/** @var string */
 	private $loginName = 'ua1337';
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $userManager;
-	/** @var Session|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var Session|\PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
-	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
-	/** @var IAppManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
-	/** @var IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
 	private $l;
 	/** @var ChangePasswordController */
 	private $controller;
@@ -61,7 +61,7 @@ class ChangePasswordControllerTest extends \Test\TestCase {
 		$this->l = $this->createMock(IL10N::class);
 		$this->l->method('t')->willReturnArgument(0);
 
-		/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject $request */
+		/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject $request */
 		$request = $this->createMock(IRequest::class);
 
 		$this->controller = new ChangePasswordController(

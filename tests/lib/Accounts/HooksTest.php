@@ -35,13 +35,13 @@ use Test\TestCase;
  */
 class HooksTest extends TestCase {
 
-	/** @var  ILogger | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  ILogger | \PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
-	/** @var  AccountManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  AccountManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $accountManager;
 
-	/** @var  Hooks | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var  Hooks | \PHPUnit\Framework\MockObject\MockObject */
 	private $hooks;
 
 	protected function setUp(): void {

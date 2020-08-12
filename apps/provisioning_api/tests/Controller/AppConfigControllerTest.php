@@ -40,9 +40,9 @@ use Test\TestCase;
  */
 class AppConfigControllerTest extends TestCase {
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $config;
-	/** @var IAppConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppConfig|\PHPUnit\Framework\MockObject\MockObject */
 	private $appConfig;
 
 	protected function setUp(): void {
@@ -54,7 +54,7 @@ class AppConfigControllerTest extends TestCase {
 
 	/**
 	 * @param string[] $methods
-	 * @return AppConfigController|\PHPUnit_Framework_MockObject_MockObject
+	 * @return AppConfigController|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	protected function getInstance(array $methods = []) {
 		$request = $this->createMock(IRequest::class);

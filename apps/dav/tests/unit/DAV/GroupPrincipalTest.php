@@ -39,13 +39,13 @@ use Sabre\DAV\PropPatch;
 
 class GroupPrincipalTest extends \Test\TestCase {
 
-	/** @var IGroupManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IGroupManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
 
-	/** @var IUserSession | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserSession | \PHPUnit\Framework\MockObject\MockObject */
 	private $userSession;
 
-	/** @var IManager | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IManager | \PHPUnit\Framework\MockObject\MockObject */
 	private $shareManager;
 
 	/** @var GroupPrincipalBackend */
@@ -176,7 +176,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 		$this->assertSame([], $response);
 	}
 
-	
+
 	public function testSetGroupMembership() {
 		$this->expectException(\Sabre\DAV\Exception::class);
 		$this->expectExceptionMessage('Setting members of the group is not supported yet');
@@ -312,7 +312,7 @@ class GroupPrincipalTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @return Group|\PHPUnit_Framework_MockObject_MockObject
+	 * @return Group|\PHPUnit\Framework\MockObject\MockObject
 	 */
 	private function mockGroup($gid) {
 		$fooGroup = $this->createMock(Group::class);

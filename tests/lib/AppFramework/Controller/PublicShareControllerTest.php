@@ -29,12 +29,12 @@ use OCP\ISession;
 
 class PublicShareControllerTest extends \Test\TestCase {
 
-	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IRequest|\PHPUnit\Framework\MockObject\MockObject */
 	private $request;
-	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var ISession|\PHPUnit\Framework\MockObject\MockObject */
 	private $session;
 
-	/** @var PublicShareController|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var PublicShareController|\PHPUnit\Framework\MockObject\MockObject */
 	private $controller;
 
 

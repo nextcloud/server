@@ -29,15 +29,14 @@ namespace lib\Authentication\TwoFactorAuth;
 use OC\Authentication\TwoFactorAuth\ProviderLoader;
 use OCP\App\IAppManager;
 use OCP\Authentication\TwoFactorAuth\IProvider;
-use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 class ProviderLoaderTest extends TestCase {
 
-	/** @var IAppManager|PHPUnit_Framework_MockObject_MockObject */
+	/** @var IAppManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $appManager;
 
-	/** @var IUser|PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUser|\PHPUnit\Framework\MockObject\MockObject */
 	private $user;
 
 	/** @var ProviderLoader */
@@ -52,7 +51,7 @@ class ProviderLoaderTest extends TestCase {
 		$this->loader = new ProviderLoader($this->appManager);
 	}
 
-	
+
 	public function testFailHardIfProviderCanNotBeLoaded() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Could not load two-factor auth provider \\OCA\\MyFaulty2faApp\\DoesNotExist');
