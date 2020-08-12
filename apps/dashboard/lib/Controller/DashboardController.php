@@ -26,9 +26,12 @@ declare(strict_types=1);
 
 namespace OCA\Dashboard\Controller;
 
+use OCA\Dashboard\Service\BackgroundService;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Dashboard\IManager;
@@ -51,6 +54,10 @@ class DashboardController extends Controller {
 	private $config;
 	/** @var string */
 	private $userId;
+	/**
+	 * @var BackgroundService
+	 */
+	private $backgroundService;
 
 	public function __construct(
 		string $appName,
@@ -59,6 +66,7 @@ class DashboardController extends Controller {
 		IEventDispatcher $eventDispatcher,
 		IManager $dashboardManager,
 		IConfig $config,
+		BackgroundService $backgroundService,
 		$userId
 	) {
 		parent::__construct($appName, $request);
@@ -67,6 +75,7 @@ class DashboardController extends Controller {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->dashboardManager = $dashboardManager;
 		$this->config = $config;
+		$this->backgroundService = $backgroundService;
 		$this->userId = $userId;
 	}
 
@@ -95,6 +104,7 @@ class DashboardController extends Controller {
 		$this->inititalStateService->provideInitialState('dashboard', 'panels', $widgets);
 		$this->inititalStateService->provideInitialState('dashboard', 'layout', $userLayout);
 		$this->inititalStateService->provideInitialState('dashboard', 'firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
+		$this->inititalStateService->provideInitialState('dashboard', 'shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS);
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');
 
 		return new TemplateResponse('dashboard', 'index');
@@ -108,5 +118,31 @@ class DashboardController extends Controller {
 	public function updateLayout(string $layout): JSONResponse {
 		$this->config->setUserValue($this->userId, 'dashboard', 'layout', $layout);
 		return new JSONResponse(['layout' => $layout]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function setBackground($path = null, $url = null): JSONResponse {
+		// FIXME: store current version of the background and return the result
+		// FIXME: handle shipped backgrounds  avoid file duplication
+		// FIXME: allow to reset to default ones
+		if ($path !== null) {
+			$this->backgroundService->setFileBackground($path);
+		}
+		if ($url !== null) {
+			$this->backgroundService->setUrlBackground($url);
+		}
+		return new JSONResponse([]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function getBackground(): FileDisplayResponse {
+		$file = $this->backgroundService->getBackground();
+		$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $file->getMimeType()]);
+		return $response;
 	}
 }

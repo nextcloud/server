@@ -53,6 +53,9 @@
 
 				<a :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
 
+				<h3>{{ t('dashboard', 'Change the background image') }}</h3>
+				<BackgroundSettings @updateBackground="updateBackground" />
+
 				<h3>{{ t('dashboard', 'Credits') }}</h3>
 				<p>{{ t('dashboard', 'Photos') }}: <a href="https://www.flickr.com/photos/paszczak000/8715851521/" target="_blank" rel="noopener">Clouds (Kamil Porembiński)</a>, <a href="https://www.flickr.com/photos/148302424@N05/36591009215/" target="_blank" rel="noopener">Un beau soir dété (Tanguy Domenge)</a>.</p>
 			</div>
@@ -69,15 +72,19 @@ import Draggable from 'vuedraggable'
 import axios from '@nextcloud/axios'
 import { generateUrl, generateFilePath } from '@nextcloud/router'
 import isMobile from './mixins/isMobile'
+import BackgroundSettings from './components/BackgroundSettings'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
+
+const prefixWithBaseUrl = (url) => generateFilePath('dashboard', '', 'img/') + url
 
 export default {
 	name: 'App',
 	components: {
 		Modal,
 		Draggable,
+		BackgroundSettings,
 	},
 	mixins: [
 		isMobile,
@@ -96,11 +103,14 @@ export default {
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			statuses: {},
+			backgroundTime: Date.now(),
+			defaultBackground: window.OCA.Accessibility.theme === 'dark' ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1'),
 		}
 	},
 	computed: {
 		backgroundImage() {
-			const prefixWithBaseUrl = (url) => generateFilePath('dashboard', '', 'img/') + url
+			// FIXME: make this dependent if the default is set or not
+			return generateUrl('/apps/dashboard/background') + '?v=' + this.backgroundTime
 			if (window.OCA.Accessibility.theme === 'dark') {
 				return !isMobile ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-148302424@N05-36591009215-mobile.jpg?v=1')
 			}
@@ -243,6 +253,9 @@ export default {
 			setTimeout(() => {
 				this.firstRun = false
 			}, 1000)
+		},
+		updateBackground(date) {
+			this.backgroundTime = date
 		},
 	},
 }
@@ -411,6 +424,8 @@ export default {
 	.modal__content {
 		width: 30vw;
 		margin: 20px;
+		max-height: 70vh;
+		overflow: auto;
 		ol {
 			display: flex;
 			flex-direction: column;

@@ -1,7 +1,4 @@
 <?php
-
-declare(strict_types=1);
-
 /**
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
@@ -24,11 +21,43 @@ declare(strict_types=1);
  *
  */
 
-return [
-	'routes' => [
-		['name' => 'dashboard#index', 'url' => '/', 'verb' => 'GET'],
-		['name' => 'dashboard#updateLayout', 'url' => '/layout', 'verb' => 'POST'],
-		['name' => 'dashboard#getBackground', 'url' => '/background', 'verb' => 'GET'],
-		['name' => 'dashboard#setBackground', 'url' => '/background', 'verb' => 'POST'],
-	]
-];
+declare(strict_types=1);
+
+
+namespace OCA\Dashboard\Controller;
+
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\OCSController;
+use OCP\IConfig;
+use OCP\IRequest;
+
+class LayoutApiController extends OCSController {
+
+	/** @var IConfig */
+	private $config;
+	/** @var string */
+	private $userId;
+
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		IConfig $config,
+		$userId
+	) {
+		parent::__construct($appName, $request);
+
+		$this->config = $config;
+		$this->userId = $userId;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $layout
+	 * @return JSONResponse
+	 */
+	public function create(string $layout): JSONResponse {
+		$this->config->setUserValue($this->userId, 'dashboard', 'layout', $layout);
+		return new JSONResponse(['layout' => $layout]);
+	}
+}
