@@ -182,6 +182,9 @@ class Hooks {
 			$event->setAuthor($actor->getUID())
 				->setSubject($subject);
 		} else {
+			if ($this->config->getAppValue('settings', 'disable_email.email_address_changed_by_admin', 'no') === 'yes') {
+				return;
+			}
 			$text = $l->t('Your email address on %s was changed by an administrator.', [$instanceUrl]);
 			$event->setSubject(Provider::EMAIL_CHANGED);
 		}
