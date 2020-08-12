@@ -102,7 +102,7 @@ OC.L10N.register(
     "Go to %s" : "%s aufrufen",
     "Install Client" : "Installiere den Client",
     "Logged in user must be a subadmin" : "Der angemeldete Benutzer muss ein Administrator sein",
-    "Apps" : "Benötigt keine Übersetzung. Für den Desktop wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Apps" : "Apps",
     "Settings" : "Einstellungen",
     "Personal" : "Persönlich",
     "Administration" : "Verwaltung",
