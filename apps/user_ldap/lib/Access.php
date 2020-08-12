@@ -46,6 +46,7 @@
 
 namespace OCA\User_LDAP;
 
+use DomainException;
 use OC\HintException;
 use OC\Hooks\PublicEmitter;
 use OC\ServerNotAvailableException;
@@ -1518,11 +1519,11 @@ class Access extends LDAPUtility {
 	 * @param string[] $searchAttributes needs to have at least two attributes,
 	 * otherwise it does not make sense :)
 	 * @return string the final filter part to use in LDAP searches
-	 * @throws \Exception
+	 * @throws DomainException
 	 */
 	private function getAdvancedFilterPartForSearch($search, $searchAttributes) {
 		if (!is_array($searchAttributes) || count($searchAttributes) < 2) {
-			throw new \Exception('searchAttributes must be an array with at least two string');
+			throw new DomainException('searchAttributes must be an array with at least two string');
 		}
 		$searchWords = explode(' ', trim($search));
 		$wordFilters = [];
@@ -1553,12 +1554,8 @@ class Access extends LDAPUtility {
 		if ($haveMultiSearchAttributes && strpos(trim($search), ' ') !== false) {
 			try {
 				return $this->getAdvancedFilterPartForSearch($search, $searchAttributes);
-			} catch (\Exception $e) {
-				\OCP\Util::writeLog(
-					'user_ldap',
-					'Creating advanced filter for search failed, falling back to simple method.',
-					ILogger::INFO
-				);
+			} catch (DomainException $e) {
+				// Creating advanced filter for search failed, falling back to simple method. Edge case, but valid.
 			}
 		}
 
