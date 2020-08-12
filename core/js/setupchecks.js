@@ -490,6 +490,7 @@
 
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpDefaultCharset', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpOutputBuffering', messages)
+					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat', messages)
 
 				} else {
 					messages.push({
@@ -509,7 +510,7 @@
 		},
 
 		addGenericSetupCheck: function(data, check, messages) {
-			var setupCheck = data[check] || { pass: true, description: '', severity: 'info'}
+			var setupCheck = data[check] || { pass: true, description: '', severity: 'info', linkToDocumentation: null}
 
 			var type = OC.SetupChecks.MESSAGE_TYPE_INFO
 			if (setupCheck.severity === 'warning') {
@@ -518,9 +519,14 @@
 				type = OC.SetupChecks.MESSAGE_TYPE_ERROR
 			}
 
+			var message = setupCheck.description;
+			if (setupCheck.linkToDocumentation) {
+				message += ' ' + t('core', 'For more details see the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: setupCheck.linkToDocumentation});
+			}
+
 			if (!setupCheck.pass) {
 				messages.push({
-					msg: setupCheck.description,
+					msg: message,
 					type: type,
 				})
 			}
