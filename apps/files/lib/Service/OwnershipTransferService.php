@@ -193,7 +193,7 @@ class OwnershipTransferService {
 		$output->writeln('Validating quota');
 		$size = $view->getFileInfo($sourcePath, false)->getSize(false);
 		$freeSpace = $view->free_space($destinationUid . '/files/');
-		if ($size > $freeSpace) {
+		if ($size > $freeSpace && $freeSpace !== FileInfo::SPACE_UNKNOWN) {
 			$output->writeln('<error>Target user does not have enough free space available.</error>');
 			throw new \Exception('Execution terminated.');
 		}
