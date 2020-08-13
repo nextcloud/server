@@ -15,6 +15,7 @@ return array(
     'OCA\\Files_Sharing\\Activity\\Providers\\Users' => $baseDir . '/../lib/Activity/Providers/Users.php',
     'OCA\\Files_Sharing\\Activity\\Settings\\PublicLinks' => $baseDir . '/../lib/Activity/Settings/PublicLinks.php',
     'OCA\\Files_Sharing\\Activity\\Settings\\RemoteShare' => $baseDir . '/../lib/Activity/Settings/RemoteShare.php',
+    'OCA\\Files_Sharing\\Activity\\Settings\\ShareActivitySettings' => $baseDir . '/../lib/Activity/Settings/ShareActivitySettings.php',
     'OCA\\Files_Sharing\\Activity\\Settings\\Shared' => $baseDir . '/../lib/Activity/Settings/Shared.php',
     'OCA\\Files_Sharing\\AppInfo\\Application' => $baseDir . '/../lib/AppInfo/Application.php',
     'OCA\\Files_Sharing\\BackgroundJob\\FederatedSharesDiscoverJob' => $baseDir . '/../lib/BackgroundJob/FederatedSharesDiscoverJob.php',

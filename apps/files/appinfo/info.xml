@@ -40,10 +40,7 @@
 		<settings>
 			<setting>OCA\Files\Activity\Settings\FavoriteAction</setting>
 			<setting>OCA\Files\Activity\Settings\FileChanged</setting>
-			<setting>OCA\Files\Activity\Settings\FileCreated</setting>
-			<setting>OCA\Files\Activity\Settings\FileDeleted</setting>
-			<setting>OCA\Files\Activity\Settings\FileFavorite</setting>
-			<setting>OCA\Files\Activity\Settings\FileRestored</setting>
+			<setting>OCA\Files\Activity\Settings\FileFavoriteChanged</setting>
 		</settings>
 
 		<filters>
