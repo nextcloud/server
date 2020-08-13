@@ -165,6 +165,8 @@ OC.L10N.register(
     "Forgot password?" : "Ξεχάσατε το συνθηματικό;",
     "Log in with a device" : "Συνδεθείτε με συσκευή",
     "Back" : "Πίσω",
+    "Loading more results …" : "Γίνεται φόρτωση περισσότερων αποτελεσμάτων …",
+    "Load more results" : "Φόρτωση περισσοτέρων αποτελεσμάτων",
     "Settings" : "Ρυθμίσεις",
     "Could not load your contacts" : "Αδυναμία φόρτωσης των επαφών σας",
     "Search contacts …" : "Αναζήτηση επαφών …",

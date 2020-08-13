@@ -17,7 +17,7 @@ OC.L10N.register(
     "State token does not match" : "El token dado no coincide",
     "Invalid app password" : "Contraseña de la app no válida",
     "Could not complete login" : "No se ha podido completar el inicio de sesión",
-    "Your login token is invalid or has expired" : "Tu token de login es inválido o ha caducado",
+    "Your login token is invalid or has expired" : "Tu token de login no es válido o ha caducado",
     "Password reset is disabled" : "El restablecimiento de la contraseña está deshabilitado",
     "Couldn't reset password because the token is invalid" : "No se puede restablecer la contraseña porque el token de identificación no es válido.",
     "Couldn't reset password because the token is expired" : "No se puede restablecer la contraseña porque el token de identificación ha caducado.",
