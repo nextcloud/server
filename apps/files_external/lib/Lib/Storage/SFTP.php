@@ -430,15 +430,6 @@ class SFTP extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @param string $path
-	 * @param string $target
-	 * @throws \Exception
-	 */
-	public function uploadFile($path, $target) {
-		$this->getConnection()->put($target, $path, NET_SFTP_LOCAL_FILE);
-	}
-
-	/**
 	 * {@inheritdoc}
 	 */
 	public function rename($source, $target) {
