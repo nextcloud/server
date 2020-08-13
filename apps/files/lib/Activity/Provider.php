@@ -404,7 +404,7 @@ class Provider implements IProvider {
 		}
 
 		$fileName = basename($path);
-		if (!preg_match('/^[0-9a-fA-F]{32}$/', $fileName)) {
+		if (!preg_match('/^[0-9a-fA-F]{32}(?:\.e2e-to-save|\.e2e-to-delete)?$/', $fileName)) {
 			$this->fileEncrypted[$fileId] = false;
 			return $this->fileEncrypted[$fileId];
 		}
@@ -478,8 +478,12 @@ class Provider implements IProvider {
 			return null;
 		}
 
+		// Some clients like Desktop and iOS are marking
+		// every sub-folder as encrypted as well, not only the root folder.
+
+
 		if ($parent->isEncrypted()) {
-			return $parent;
+			return $this->getParentEndToEndEncryptionContainer($userFolder, $parent) ?? $parent;
 		}
 
 		return $this->getParentEndToEndEncryptionContainer($userFolder, $parent);
