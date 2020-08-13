@@ -311,18 +311,6 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * get the id of the last ran job
-	 *
-	 * @return int
-	 * @deprecated 9.1.0 - The functionality behind the value is deprecated, it
-	 *    only tells you which job finished last, but since we now allow multiple
-	 *    executors to run in parallel, it's not used to calculate the next job.
-	 */
-	public function getLastJob() {
-		return (int) $this->config->getAppValue('backgroundjob', 'lastjob', 0);
-	}
-
-	/**
 	 * set the lastRun of $job to now
 	 *
 	 * @param IJob $job
