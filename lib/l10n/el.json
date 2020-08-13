@@ -8,6 +8,7 @@
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Τα αρχεία της εφαρμογής %1$s δεν αντικαταστάθηκαν σωστά. Βεβαιωθείτε ότι πρόκειται για συμβατή έκδοση με το διακομιστή.",
     "Sample configuration detected" : "Ανιχνεύθηκε δείγμα εγκατάστασης",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Έχει ανιχνευθεί ότι το δείγμα εγκατάστασης έχει αντιγραφεί. Αυτό μπορεί να σπάσει την εγκατάστασή σας και δεν υποστηρίζεται. Παρακαλούμε διαβάστε την τεκμηρίωση πριν εκτελέσετε αλλαγές στο config.php",
+    "Other activities" : "Άλλες δραστηριότητες",
     "%1$s and %2$s" : "%1$s και %2$s",
     "%1$s, %2$s and %3$s" : "%1$s, %2$s και %3$s",
     "%1$s, %2$s, %3$s and %4$s" : "%1$s, %2$s, %3$s και %4$s",

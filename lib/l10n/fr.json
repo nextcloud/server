@@ -8,6 +8,7 @@
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Les fichiers de l'application %1$s n'ont pas été remplacés correctement. Veuillez vérifier que c'est une version compatible avec le serveur.",
     "Sample configuration detected" : "Configuration d'exemple détectée",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Il a été détecté que la configuration donnée à titre d'exemple a été copiée. Cela peut rendre votre installation inopérante et n'est pas pris en charge. Veuillez lire la documentation avant d'effectuer des modifications dans config.php",
+    "Other activities" : "Autres activités",
     "%1$s and %2$s" : "%1$s et %2$s",
     "%1$s, %2$s and %3$s" : "%1$s, %2$s et %3$s",
     "%1$s, %2$s, %3$s and %4$s" : "%1$s, %2$s, %3$s et %4$s",
