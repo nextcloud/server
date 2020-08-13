@@ -133,7 +133,7 @@ class ChunkingPluginTest extends TestCase {
 			->with('Content-Length', '0');
 		$this->response->expects($this->once())
 			->method('setStatus')
-			->with(204);
+			->with(201);
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->with('OC-Total-Length')
