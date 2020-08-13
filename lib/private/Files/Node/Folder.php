@@ -188,7 +188,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 			} else {
 				$result = $this->view->touch($fullPath);
 			}
-			if (!$result) {
+			if ($result === false) {
 				throw new NotPermittedException('Could not create path');
 			}
 			$node = new File($this->root, $this->view, $fullPath);
