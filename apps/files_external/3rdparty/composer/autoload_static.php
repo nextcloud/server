@@ -11,7 +11,6 @@ class ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3
         array (
             'Icewind\\Streams\\Tests\\' => 22,
             'Icewind\\Streams\\' => 16,
-            'Icewind\\SMB\\Test\\' => 17,
             'Icewind\\SMB\\' => 12,
         ),
     );
@@ -24,10 +23,6 @@ class ComposerStaticInit98fe9b281934250b3a93f69a5ce843b3
         'Icewind\\Streams\\' => 
         array (
             0 => __DIR__ . '/..' . '/icewind/streams/src',
-        ),
-        'Icewind\\SMB\\Test\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/icewind/smb/tests',
         ),
         'Icewind\\SMB\\' => 
         array (
