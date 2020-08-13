@@ -8,6 +8,7 @@
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Os ficheiros da aplicación %1$s non foron substituídos correctamente. Asegúrese que é unha versión compatíbel co servidor.",
     "Sample configuration detected" : "Detectouse a configuración de exemplo",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Detectouse que foi copiada a configuración de exemplo. Isto pode rachar a súa instalación e non é compatíbel. Lea a documentación antes de facer cambios en config.php",
+    "Other activities" : "Outras actividades",
     "%1$s and %2$s" : "%1$s e %2$s",
     "%1$s, %2$s and %3$s" : "%1$s, %2$s e %3$s",
     "%1$s, %2$s, %3$s and %4$s" : "%1$s, %2$s, %3$s e %4$s",
