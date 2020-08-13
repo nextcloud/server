@@ -157,13 +157,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
 			$addressBooks[$row['id']] = [
-				'id'  => $row['id'],
+				'id' => $row['id'],
 				'uri' => $row['uri'],
 				'principaluri' => $this->convertPrincipal($row['principaluri'], false),
 				'{DAV:}displayname' => $row['displayname'],
 				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
 			];
 
 			$this->addOwnerPrincipal($addressBooks[$row['id']]);
@@ -177,7 +177,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$principals = array_map(function ($principal) {
 			return urldecode($principal);
 		}, $principals);
-		$principals[]= $principalUri;
+		$principals[] = $principalUri;
 
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select(['a.id', 'a.uri', 'a.displayname', 'a.principaluri', 'a.description', 'a.synctoken', 's.access'])
@@ -195,7 +195,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				continue;
 			}
 
-			$readOnly = (int) $row['access'] === Backend::ACCESS_READ;
+			$readOnly = (int)$row['access'] === Backend::ACCESS_READ;
 			if (isset($addressBooks[$row['id']])) {
 				if ($readOnly) {
 					// New share can not have more permissions then the old one.
@@ -213,13 +213,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$displayName = $row['displayname'] . ' (' . $this->getUserDisplayName($name) . ')';
 
 			$addressBooks[$row['id']] = [
-				'id'  => $row['id'],
+				'id' => $row['id'],
 				'uri' => $uri,
 				'principaluri' => $principalUriOriginal,
 				'{DAV:}displayname' => $displayName,
 				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
 				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
 				$readOnlyPropertyName => $readOnly,
 			];
@@ -235,21 +235,21 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
-			  ->from('addressbooks')
-			  ->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
+			->from('addressbooks')
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
 
 		$addressBooks = [];
 
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
 			$addressBooks[$row['id']] = [
-				'id'  => $row['id'],
+				'id' => $row['id'],
 				'uri' => $row['uri'],
 				'principaluri' => $this->convertPrincipal($row['principaluri'], false),
 				'{DAV:}displayname' => $row['displayname'],
 				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
 			];
 
 			$this->addOwnerPrincipal($addressBooks[$row['id']]);
@@ -290,13 +290,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 
 		$addressBook = [
-			'id'  => $row['id'],
+			'id' => $row['id'],
 			'uri' => $row['uri'],
 			'principaluri' => $row['principaluri'],
 			'{DAV:}displayname' => $row['displayname'],
 			'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 			'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-			'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
 		];
 
 		$this->addOwnerPrincipal($addressBook);
@@ -324,13 +324,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 
 		$addressBook = [
-			'id'  => $row['id'],
+			'id' => $row['id'],
 			'uri' => $row['uri'],
 			'principaluri' => $row['principaluri'],
 			'{DAV:}displayname' => $row['displayname'],
 			'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 			'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-			'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+			'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
 		];
 
 		$this->addOwnerPrincipal($addressBook);
@@ -365,7 +365,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		 */
 		$propPatch->handle($supportedProperties, function ($mutations) use ($addressBookId) {
 			$updates = [];
-			foreach ($mutations as $property=>$newValue) {
+			foreach ($mutations as $property => $newValue) {
 				switch ($property) {
 					case '{DAV:}displayname':
 						$updates['displayname'] = $newValue;
@@ -378,11 +378,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$query = $this->db->getQueryBuilder();
 			$query->update('addressbooks');
 
-			foreach ($updates as $key=>$value) {
+			foreach ($updates as $key => $value) {
 				$query->set($key, $query->createNamedParameter($value));
 			}
 			$query->where($query->expr()->eq('id', $query->createNamedParameter($addressBookId)))
-			->execute();
+				->execute();
 
 			$this->addChange($addressBookId, "", 2);
 
@@ -408,7 +408,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			'synctoken' => 1
 		];
 
-		foreach ($properties as $property=>$newValue) {
+		foreach ($properties as $property => $newValue) {
 			switch ($property) {
 				case '{DAV:}displayname':
 					$values['displayname'] = $newValue;
@@ -634,7 +634,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->andWhere($q->expr()->eq('uid', $q->createNamedParameter($uid)))
 			->setMaxResults(1);
 		$result = $q->execute();
-		$count = (bool) $result->fetchColumn();
+		$count = (bool)$result->fetchColumn();
 		$result->closeCursor();
 		if ($count) {
 			throw new \Sabre\DAV\Exception\BadRequest('VCard object with uid already exists in this addressbook collection.');
@@ -811,7 +811,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	public function getChangesForAddressBook($addressBookId, $syncToken, $syncLevel, $limit = null) {
 		// Current synctoken
 		$stmt = $this->db->prepare('SELECT `synctoken` FROM `*PREFIX*addressbooks` WHERE `id` = ?');
-		$stmt->execute([ $addressBookId ]);
+		$stmt->execute([$addressBookId]);
 		$currentToken = $stmt->fetchColumn(0);
 
 		if (is_null($currentToken)) {
@@ -820,14 +820,14 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$result = [
 			'syncToken' => $currentToken,
-			'added'     => [],
-			'modified'  => [],
-			'deleted'   => [],
+			'added' => [],
+			'modified' => [],
+			'deleted' => [],
 		];
 
 		if ($syncToken) {
 			$query = "SELECT `uri`, `operation` FROM `*PREFIX*addressbookchanges` WHERE `synctoken` >= ? AND `synctoken` < ? AND `addressbookid` = ? ORDER BY `synctoken`";
-			if ($limit>0) {
+			if ($limit > 0) {
 				$query .= " LIMIT " . (int)$limit;
 			}
 
@@ -895,7 +895,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param bool $modified
 	 * @return string
 	 */
-	private function readBlob($cardData, &$modified=false) {
+	private function readBlob($cardData, &$modified = false) {
 		if (is_resource($cardData)) {
 			$cardData = stream_get_contents($cardData);
 		}
@@ -943,9 +943,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $pattern which should match within the $searchProperties
 	 * @param array $searchProperties defines the properties within the query pattern should match
 	 * @param array $options = array() to define the search behavior
-	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped, otherwise they are
-	 * 	- 'limit' - Set a numeric limit for the search results
-	 * 	- 'offset' - Set the offset for the limited search results
+	 *    - 'escape_like_param' - If set to false wildcards _ and % are not escaped, otherwise they are
+	 *    - 'limit' - Set a numeric limit for the search results
+	 *    - 'offset' - Set the offset for the limited search results
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 */
 	public function search($addressBookId, $pattern, $searchProperties, $options = []) {
@@ -980,7 +980,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$matches = $result->fetchAll();
 		$result->closeCursor();
 		$matches = array_map(function ($match) {
-			return (int) $match['cardid'];
+			return (int)$match['cardid'];
 		}, $matches);
 
 		$query = $this->db->getQueryBuilder();
@@ -1031,8 +1031,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	public function getCardUri($id) {
 		$query = $this->db->getQueryBuilder();
 		$query->select('uri')->from($this->dbCardsTable)
-				->where($query->expr()->eq('id', $query->createParameter('id')))
-				->setParameter('id', $id);
+			->where($query->expr()->eq('id', $query->createParameter('id')))
+			->setParameter('id', $id);
 
 		$result = $query->execute();
 		$uri = $result->fetch();
@@ -1056,8 +1056,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result = [];
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')->from($this->dbCardsTable)
-				->where($query->expr()->eq('uri', $query->createNamedParameter($uri)))
-				->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
+			->where($query->expr()->eq('uri', $query->createNamedParameter($uri)))
+			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
 		$queryResult = $query->execute();
 		$contact = $queryResult->fetch();
 		$queryResult->closeCursor();
@@ -1142,7 +1142,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return VCard
 	 */
 	protected function readCard($cardData) {
-		return  Reader::read($cardData);
+		return Reader::read($cardData);
 	}
 
 	/**
@@ -1185,6 +1185,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 	/**
 	 * For shared address books the sharee is set in the ACL of the address book
+	 *
 	 * @param $addressBookId
 	 * @param $acl
 	 * @return array
