@@ -43,6 +43,7 @@ use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\MoveableMount;
 use OC\HintException;
 use OC\Share20\Exception\ProviderException;
+use OCA\Files_Sharing\ISharedStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -299,10 +300,17 @@ class Manager implements IManager {
 		$isFederatedShare = $share->getNode()->getStorage()->instanceOfStorage('\OCA\Files_Sharing\External\Storage');
 		$permissions = 0;
 
-		$userMounts = $userFolder->getById($share->getNode()->getId());
-		$userMount = array_shift($userMounts);
-		$mount = $userMount->getMountPoint();
 		if (!$isFederatedShare && $share->getNode()->getOwner() && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
+			$userMounts = array_filter($userFolder->getById($share->getNode()->getId()), function ($mount) {
+				// We need to filter since there might be other mountpoints that contain the file
+				// e.g. if the user has access to the same external storage that the file is originating from
+				return $mount->getStorage()->instanceOfStorage(ISharedStorage::class);
+			});
+			$userMount = array_shift($userMounts);
+			if ($userMount === null) {
+				throw new GenericShareException('Could not get proper share mount for ' . $share->getNode()->getId() . '. Failing since else the next calls are called with null');
+			}
+			$mount = $userMount->getMountPoint();
 			// When it's a reshare use the parent share permissions as maximum
 			$userMountPointId = $mount->getStorageRootId();
 			$userMountPoints = $userFolder->getById($userMountPointId);
@@ -331,7 +339,7 @@ class Manager implements IManager {
 			 * while we 'most likely' do have that on the storage.
 			 */
 			$permissions = $share->getNode()->getPermissions();
-			if (!($mount instanceof MoveableMount)) {
+			if (!($share->getNode()->getMountPoint() instanceof MoveableMount)) {
 				$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
 			}
 		}
