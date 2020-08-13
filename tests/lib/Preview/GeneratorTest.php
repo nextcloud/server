@@ -31,7 +31,6 @@ use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
-use OCP\IImage;
 use OCP\IPreview;
 use OCP\Preview\IProviderV2;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -183,7 +182,7 @@ class GeneratorTest extends \Test\TestCase {
 				$this->fail('Unexpected provider requested');
 			});
 
-		$image = $this->createMock(IImage::class);
+		$image = $this->createMock(\OC_Image::class);
 		$image->method('width')->willReturn(2048);
 		$image->method('height')->willReturn(2048);
 		$image->method('valid')->willReturn(true);
@@ -318,7 +317,7 @@ class GeneratorTest extends \Test\TestCase {
 	}
 
 	private function getMockImage($width, $height, $data = null) {
-		$image = $this->createMock(IImage::class);
+		$image = $this->createMock(\OC_Image::class);
 		$image->method('height')->willReturn($width);
 		$image->method('width')->willReturn($height);
 		$image->method('valid')->willReturn(true);
