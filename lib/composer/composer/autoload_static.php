@@ -130,6 +130,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Authentication\\TwoFactorAuth\\IRegistry' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/IRegistry.php',
         'OCP\\Authentication\\TwoFactorAuth\\RegistryEvent' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/RegistryEvent.php',
         'OCP\\Authentication\\TwoFactorAuth\\TwoFactorException' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/TwoFactorException.php',
+        'OCP\\Authentication\\TwoFactorAuth\\TwoFactorProviderDisabled' => __DIR__ . '/../../..' . '/lib/public/Authentication/TwoFactorAuth/TwoFactorProviderDisabled.php',
         'OCP\\AutoloadNotAllowedException' => __DIR__ . '/../../..' . '/lib/public/AutoloadNotAllowedException.php',
         'OCP\\BackgroundJob' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob.php',
         'OCP\\BackgroundJob\\IJob' => __DIR__ . '/../../..' . '/lib/public/BackgroundJob/IJob.php',

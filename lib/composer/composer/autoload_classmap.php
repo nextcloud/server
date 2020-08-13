@@ -101,6 +101,7 @@ return array(
     'OCP\\Authentication\\TwoFactorAuth\\IRegistry' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/IRegistry.php',
     'OCP\\Authentication\\TwoFactorAuth\\RegistryEvent' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/RegistryEvent.php',
     'OCP\\Authentication\\TwoFactorAuth\\TwoFactorException' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/TwoFactorException.php',
+    'OCP\\Authentication\\TwoFactorAuth\\TwoFactorProviderDisabled' => $baseDir . '/lib/public/Authentication/TwoFactorAuth/TwoFactorProviderDisabled.php',
     'OCP\\AutoloadNotAllowedException' => $baseDir . '/lib/public/AutoloadNotAllowedException.php',
     'OCP\\BackgroundJob' => $baseDir . '/lib/public/BackgroundJob.php',
     'OCP\\BackgroundJob\\IJob' => $baseDir . '/lib/public/BackgroundJob/IJob.php',
