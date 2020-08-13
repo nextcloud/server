@@ -88,6 +88,7 @@ class ChunkingPlugin extends ServerPlugin {
 	 * @return bool|void false to stop handling, void to skip this handler
 	 */
 	public function performMove($path, $destination) {
+		$fileExists = $this->server->tree->nodeExists($destination);
 		// do a move manually, skipping Sabre's default "delete" for existing nodes
 		try {
 			$this->server->tree->move($path, $destination);
@@ -106,7 +107,7 @@ class ChunkingPlugin extends ServerPlugin {
 
 		$response = $this->server->httpResponse;
 		$response->setHeader('Content-Length', '0');
-		$response->setStatus(204);
+		$response->setStatus($fileExists ? 204 : 201);
 
 		return false;
 	}
