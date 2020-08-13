@@ -43,6 +43,7 @@ use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\MoveableMount;
 use OC\HintException;
 use OC\Share20\Exception\ProviderException;
+use OCA\Files_Sharing\ISharedStorage;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -299,7 +300,9 @@ class Manager implements IManager {
 		$isFederatedShare = $share->getNode()->getStorage()->instanceOfStorage('\OCA\Files_Sharing\External\Storage');
 		$permissions = 0;
 
-		$userMounts = $userFolder->getById($share->getNode()->getId());
+		$userMounts = array_filter($userFolder->getById($share->getNode()->getId()), function($mount) use ($share) {
+			return $mount->getPath() === $share->getNode()->getPath();
+		});
 		$userMount = array_shift($userMounts);
 		$mount = $userMount->getMountPoint();
 		if (!$isFederatedShare && $share->getNode()->getOwner() && $share->getNode()->getOwner()->getUID() !== $share->getSharedBy()) {
