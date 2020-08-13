@@ -80,7 +80,7 @@ class File extends LogDetails implements IWriter, IFileBased {
 	public function write(string $app, $message, int $level) {
 		$entry = $this->logDetailsAsJSON($app, $message, $level);
 		$handle = @fopen($this->logFile, 'a');
-		if ($this->logFileMode > 0 && (fileperms($this->logFile) & 0777) != $this->logFileMode) {
+		if ($this->logFileMode > 0 && is_file($this->logFile) && (fileperms($this->logFile) & 0777) != $this->logFileMode) {
 			@chmod($this->logFile, $this->logFileMode);
 		}
 		if ($handle) {
