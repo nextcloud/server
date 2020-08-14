@@ -22,17 +22,24 @@
 
 <template>
 	<div class="background-selector">
-		<div v-if="loading">Loading</div>
-		<div v-for="background in shippedBackgrounds"
-			:key="background"
-			class="background"
-			@click="setUrl(background)">
-			<img :src="background">
+		<div class="background default"
+			:class="{ 'icon-loading': loading === 'default' }"
+			@click="setDefault()">
+			<div class="background--preview">
+				Default
+			</div>
 		</div>
 		<div class="background" @click="pickFile">
 			<a>
 				{{ t('dashboard', 'Pick an image from your files') }}
 			</a>
+		</div>
+		<div v-for="background in shippedBackgrounds"
+			:key="background.name"
+			class="background"
+			:class="{ 'icon-loading': loading === background.name }"
+			@click="setShipped(background.name)">
+			<div class="background--preview" :style="{ 'background-image': 'url(' + background.url + ')' }" />
 		</div>
 	</div>
 </template>
@@ -41,9 +48,22 @@
 import axios from '@nextcloud/axios'
 import { generateUrl, generateFilePath } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
+import isMobile from '../mixins/isMobile'
 
 const prefixWithBaseUrl = (url) => generateFilePath('dashboard', '', 'img/') + url
 const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
+
+const getBackgroundUrl = (background, time = 0) => {
+	if (background === 'default') {
+		if (window.OCA.Accessibility.theme === 'dark') {
+			return !isMobile ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-148302424@N05-36591009215-mobile.jpg?v=1')
+		}
+		return !isMobile ? prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521-mobile.jpg?v=1')
+	} else if (background === 'custom') {
+		return generateUrl('/apps/dashboard/background') + '?v=' + time
+	}
+	return prefixWithBaseUrl(background)
+}
 
 export default {
 	name: 'BackgroundSettings',
@@ -56,36 +76,43 @@ export default {
 	computed: {
 		shippedBackgrounds() {
 			return shippedBackgroundList.map((item) => {
-				return prefixWithBaseUrl(item)
+				return {
+					name: item,
+					url: prefixWithBaseUrl(item),
+				}
 			})
 		},
 	},
 	methods: {
-		async update() {
+		async update(state) {
 			const date = Date.now()
-			this.backgroundImage = generateUrl('/apps/dashboard/background') + '?v=' + date
+			this.backgroundImage = getBackgroundUrl(state, date)
 			const image = new Image()
 			image.onload = () => {
-				this.$emit('updateBackground', date)
+				this.$emit('updateBackground', state)
 				this.loading = false
 			}
 			image.src = this.backgroundImage
 		},
-		setDefault() {
+		async setDefault() {
 			console.debug('SetDefault')
-			this.update()
+			await axios.post(generateUrl('/apps/dashboard/background'))
+			this.update('default')
+		},
+		async setShipped(shipped) {
+			this.loading = shipped
+			await axios.post(generateUrl('/apps/dashboard/background'), { shipped })
+			this.update(shipped)
 		},
 		async setUrl(url) {
 			this.loading = true
-			console.debug('SetUrl ' + url)
 			await axios.post(generateUrl('/apps/dashboard/background'), { url })
-			this.update()
+			this.update('custom')
 		},
 		async setFile(path) {
 			this.loading = true
-			console.debug('SetFile ' + path)
 			await axios.post(generateUrl('/apps/dashboard/background'), { path })
-			this.update()
+			this.update('custom')
 		},
 		pickFile() {
 			window.OC.dialogs.filepicker(t('dashboard', 'Insert from {productName}', { productName: OC.theme.name }), (path, type) => {
@@ -114,8 +141,11 @@ export default {
 				background-image: var(--color-background-dark);
 			}
 
-			& img {
+			&--preview {
 				width: 140px;
+				height: 90px;
+				background-size: cover;
+				background-position: center center;
 			}
 
 			&:hover {

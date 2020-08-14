@@ -33,11 +33,13 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\RegisterWidgetEvent;
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
@@ -105,6 +107,7 @@ class DashboardController extends Controller {
 		$this->inititalStateService->provideInitialState('dashboard', 'layout', $userLayout);
 		$this->inititalStateService->provideInitialState('dashboard', 'firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
 		$this->inititalStateService->provideInitialState('dashboard', 'shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS);
+		$this->inititalStateService->provideInitialState('dashboard', 'background', $this->config->getUserValue($this->userId, 'dashboard', 'background', 'default'));
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');
 
 		return new TemplateResponse('dashboard', 'index');
@@ -123,16 +126,20 @@ class DashboardController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function setBackground($path = null, $url = null): JSONResponse {
+	public function setBackground($path = null, $url = null, $shipped = null): JSONResponse {
 		// FIXME: store current version of the background and return the result
 		// FIXME: handle shipped backgrounds  avoid file duplication
 		// FIXME: allow to reset to default ones
+		if ($shipped !== null) {
+			$this->backgroundService->setShippedBackground($shipped);
+		}
 		if ($path !== null) {
 			$this->backgroundService->setFileBackground($path);
 		}
 		if ($url !== null) {
 			$this->backgroundService->setUrlBackground($url);
 		}
+		$this->backgroundService->setDefaultBackground();
 		return new JSONResponse([]);
 	}
 
@@ -140,9 +147,13 @@ class DashboardController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 */
-	public function getBackground(): FileDisplayResponse {
+	public function getBackground() {
 		$file = $this->backgroundService->getBackground();
-		$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $file->getMimeType()]);
-		return $response;
+		if ($file !== null) {
+			$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $file->getMimeType()]);
+			$response->cacheFor(24 * 60 * 60);
+			return $response;
+		}
+		return new NotFoundResponse();
 	}
 }

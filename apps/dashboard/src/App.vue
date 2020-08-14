@@ -76,6 +76,7 @@ import BackgroundSettings from './components/BackgroundSettings'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
+const background = loadState('dashboard', 'background')
 
 const prefixWithBaseUrl = (url) => generateFilePath('dashboard', '', 'img/') + url
 
@@ -103,18 +104,22 @@ export default {
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			statuses: {},
+			background,
 			backgroundTime: Date.now(),
 			defaultBackground: window.OCA.Accessibility.theme === 'dark' ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1'),
 		}
 	},
 	computed: {
 		backgroundImage() {
-			// FIXME: make this dependent if the default is set or not
-			return generateUrl('/apps/dashboard/background') + '?v=' + this.backgroundTime
-			if (window.OCA.Accessibility.theme === 'dark') {
-				return !isMobile ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-148302424@N05-36591009215-mobile.jpg?v=1')
+			if (this.background === 'default') {
+				if (window.OCA.Accessibility.theme === 'dark') {
+					return !isMobile ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-148302424@N05-36591009215-mobile.jpg?v=1')
+				}
+				return !isMobile ? prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521-mobile.jpg?v=1')
+			} else if (this.background === 'custom') {
+				return generateUrl('/apps/dashboard/background') + '?v=' + this.backgroundTime
 			}
-			return !isMobile ? prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521-mobile.jpg?v=1')
+			return prefixWithBaseUrl(this.background)
 		},
 		tooltip() {
 			if (!this.firstRun) {
@@ -254,8 +259,8 @@ export default {
 				this.firstRun = false
 			}, 1000)
 		},
-		updateBackground(date) {
-			this.backgroundTime = date
+		updateBackground(backgroundType) {
+			this.background = backgroundType
 		},
 	},
 }

@@ -32,6 +32,7 @@ use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
+use OCP\IConfig;
 
 class BackgroundService {
 
@@ -64,7 +65,7 @@ class BackgroundService {
 		'yana-sichikova-sergey-ovachev-stone-flower-2k.jpg',
 	];
 
-	public function __construct(IRootFolder $rootFolder, IAppData $appData, $userId) {
+	public function __construct(IRootFolder $rootFolder, IAppData $appData, IConfig $config, $userId) {
 		if ($userId === null) {
 			return;
 		}
@@ -74,14 +75,26 @@ class BackgroundService {
 		} catch (NotFoundException $e) {
 			$this->dashboardUserFolder = $appData->newFolder($userId);
 		}
+		$this->config = $config;
+		$this->userId = $userId;
+	}
+
+	public function setDefaultBackground() {
+		$this->config->deleteUserValue($this->userId, 'dashboard', 'background');
 	}
 
 	public function setFileBackground($path) {
+		$this->config->setUserValue($this->userId, 'dashboard', 'background', 'custom');
 		$file = $this->userFolder->get($path);
 		$newFile = $this->dashboardUserFolder->newFile('background.jpg', $file->fopen('r'));
 	}
 
+	public function setShippedBackground($fileName) {
+		$this->config->setUserValue($this->userId, 'dashboard', 'background', $fileName);
+	}
+
 	public function setUrlBackground($url) {
+		$this->config->setUserValue($this->userId, 'dashboard', 'background', 'custom');
 		if (substr($url, 0, 1) === '/') {
 			$url = \OC::$server->getURLGenerator()->getAbsoluteURL($url);
 		}
@@ -92,11 +105,15 @@ class BackgroundService {
 		$newFile = $this->dashboardUserFolder->newFile('background.jpg', $content);
 	}
 
-	/**
-	 * @throws NotFoundException
-	 */
-	public function getBackground(): ISimpleFile {
-		return $this->dashboardUserFolder->getFile('background.jpg');
+	public function getBackground() {
+		$background = $this->config->getUserValue($this->userId, 'dashboard', 'background', 'default');
+		if ($background === 'custom') {
+			try {
+				return $this->dashboardUserFolder->getFile('background.jpg');
+			} catch (NotFoundException $e) {
+			}
+		}
+		return null;
 	}
 
 }
