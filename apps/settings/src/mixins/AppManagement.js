@@ -1,39 +1,36 @@
-<!--
-  - @copyright Copyright (c) 2018 Julius Härtl <jus@bitgrid.net>
-  -
-  - @author Julius Härtl <jus@bitgrid.net>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+/**
+ * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
+ *
+ * @author Julius Härtl <jus@bitgrid.net>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
-<script>
 export default {
 	computed: {
 		appGroups() {
 			return this.app.groups.map(group => { return { id: group, name: group } })
 		},
-		loading() {
-			const self = this
-			return function(id) {
-				return self.$store.getters.loading(id)
-			}
-		},
 		installing() {
 			return this.$store.getters.loading('install')
+		},
+		isLoading() {
+			return this.app && this.$store.getters.loading(this.app.id)
 		},
 		enableButtonText() {
 			if (this.app.needsDownload) {
@@ -61,11 +58,19 @@ export default {
 			return base
 		},
 	},
+
+	data() {
+		return {
+			groupCheckedAppsData: false,
+		}
+	},
+
 	mounted() {
-		if (this.app.groups.length > 0) {
+		if (this.app && this.app.groups && this.app.groups.length > 0) {
 			this.groupCheckedAppsData = true
 		}
 	},
+
 	methods: {
 		asyncFindGroup(query) {
 			return this.$store.dispatch('getGroups', { search: query, limit: 5, offset: 0 })
@@ -135,4 +140,3 @@ export default {
 		},
 	},
 }
-</script>
