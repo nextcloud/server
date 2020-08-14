@@ -80,6 +80,19 @@ const background = loadState('dashboard', 'background')
 
 const prefixWithBaseUrl = (url) => generateFilePath('dashboard', '', 'img/') + url
 
+// FIXME: move out duplicate
+const getBackgroundUrl = (background, time = 0) => {
+	if (background === 'default') {
+		if (window.OCA.Accessibility.theme === 'dark') {
+			return prefixWithBaseUrl('eduardo-neves-pedra-azul.jpg')
+		}
+		return prefixWithBaseUrl('kamil-porembinski-clouds.jpg')
+	} else if (background === 'custom') {
+		return generateUrl('/apps/dashboard/background') + '?v=' + time
+	}
+	return prefixWithBaseUrl(background)
+}
+
 export default {
 	name: 'App',
 	components: {
@@ -111,15 +124,7 @@ export default {
 	},
 	computed: {
 		backgroundImage() {
-			if (this.background === 'default') {
-				if (window.OCA.Accessibility.theme === 'dark') {
-					return !isMobile ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-148302424@N05-36591009215-mobile.jpg?v=1')
-				}
-				return !isMobile ? prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521-mobile.jpg?v=1')
-			} else if (this.background === 'custom') {
-				return generateUrl('/apps/dashboard/background') + '?v=' + this.backgroundTime
-			}
-			return prefixWithBaseUrl(this.background)
+			return getBackgroundUrl(this.background, this.backgroundTime)
 		},
 		tooltip() {
 			if (!this.firstRun) {

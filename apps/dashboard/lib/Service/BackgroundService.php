@@ -37,8 +37,6 @@ use OCP\IConfig;
 class BackgroundService {
 
 	const SHIPPED_BACKGROUNDS = [
-		'flickr-148302424@N05-36591009215.jpg',
-		'flickr-paszczak000-8715851521.jpg',
 		'anatoly-mikhaltsov-butterfly-wing-scale.jpg',
 		'bernie-cetonia-aurata-take-off-composition.jpg',
 		'dejan-krsmanovic-ribbed-red-metal.jpg',

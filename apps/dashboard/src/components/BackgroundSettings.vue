@@ -48,7 +48,6 @@
 import axios from '@nextcloud/axios'
 import { generateUrl, generateFilePath } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-import isMobile from '../mixins/isMobile'
 
 const prefixWithBaseUrl = (url) => generateFilePath('dashboard', '', 'img/') + url
 const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
@@ -56,9 +55,9 @@ const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
 const getBackgroundUrl = (background, time = 0) => {
 	if (background === 'default') {
 		if (window.OCA.Accessibility.theme === 'dark') {
-			return !isMobile ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-148302424@N05-36591009215-mobile.jpg?v=1')
+			return prefixWithBaseUrl('eduardo-neves-pedra-azul.jpg')
 		}
-		return !isMobile ? prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521-mobile.jpg?v=1')
+		return prefixWithBaseUrl('kamil-porembinski-clouds.jpg')
 	} else if (background === 'custom') {
 		return generateUrl('/apps/dashboard/background') + '?v=' + time
 	}
