@@ -141,7 +141,7 @@ OC.L10N.register(
     "Turn off SSL certificate validation." : "Schalten Sie die SSL-Zertifikatsprüfung aus.",
     "Not recommended, use it for testing only! If connection only works with this option, import the LDAP server's SSL certificate in your %s server." : "Nur für Testzwecke geeignet, sollte Standardmäßig nicht verwendet werden. Falls die Verbindung nur mit dieser Option funktioniert, importieren Sie das SSL-Zertifikat des LDAP-Servers in Ihren %s Server.",
     "Cache Time-To-Live" : "Speichere Time-To-Live zwischen",
-    "in seconds. A change empties the cache." : "in Kürze. Eine Änderung leert den Cache.",
+    "in seconds. A change empties the cache." : "in Sekunden. Eine Änderung leert den Cache.",
     "Directory Settings" : "Ordnereinstellungen",
     "User Display Name Field" : "Feld für den Anzeigenamen des Benutzers",
     "The LDAP attribute to use to generate the user's display name." : "Das LDAP-Attribut zur Erzeugung des Anzeigenamens des Benutzers.",

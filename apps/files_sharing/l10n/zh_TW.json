@@ -73,6 +73,7 @@
     "{actor} shared {file} with you" : "{actor} 與你分享了 {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "email或公開連結分享的檔案與資料夾已被 <strong>下載</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "檔案或目錄已被 <strong>其他伺服器</strong> 分享",
+    "Files" : "檔案",
     "A file or folder has been <strong>shared</strong>" : "檔案或目錄已被 <strong>分享</strong>",
     "Wrong share ID, share doesn't exist" : "錯誤的分享 ID ，分享不存在",
     "Could not delete share" : "無法刪除分享",

@@ -86,6 +86,7 @@ OC.L10N.register(
     "{actor} removed you from the share named {file}" : "{actor} 님이 여러분을 {file} 공유에서 삭제함",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "이메일이나 공개 공유로 공유한 파일이 <strong>다운로드됨</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "<strong>다른 서버</strong>에서 파일이나 폴더를 공유함",
+    "Files" : "파일",
     "A file or folder has been <strong>shared</strong>" : "파일이나 폴더가 <strong>공유됨</strong>",
     "Shared link" : "공유 링크",
     "Wrong share ID, share doesn't exist" : "잘못된 공유 ID, 공유가 존재하지 않음",

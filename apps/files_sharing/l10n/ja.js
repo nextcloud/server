@@ -95,6 +95,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "ファイル:{file}の共有が解除されました",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "メールまたは公開リンクにより共有されたファイルまたはフォルダーが<strong>ダウンロード</strong>されたとき",
     "A file or folder was shared from <strong>another server</strong>" : "ファイルまたはフォルダーが<strong>他のサーバー</strong>から共有されたとき",
+    "Files" : "ファイル",
     "A file or folder has been <strong>shared</strong>" : "ファイルまたはフォルダーが<strong>共有</strong>されたとき",
     "Shared link" : "共有リンク",
     "Wrong share ID, share doesn't exist" : "共有IDが間違っています。共有がありません。",

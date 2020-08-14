@@ -111,8 +111,7 @@ OC.L10N.register(
     "You moved {oldfile} to {newfile}" : "Bạn đã chuyển {oldfile} tới {newfile}",
     "{user} moved {oldfile} to {newfile}" : "{user} đã chuyển {oldfile} tới {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Một tệp đã được thêm hoặc bị xóa khỏi <strong>mục yêu thích của bạn</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Tệp hoặc thư mục đã bị <strong>xóa</strong>",
-    "A file or folder has been <strong>restored</strong>" : "Tệp hoặc thư mục đã được <strong>khôi phục</strong>",
+    "A file or folder has been <strong>changed</strong>" : "Tệp hoặc thư mục đã được <strong>thay đổi</strong>",
     "All files" : "Tất cả tệp tin",
     "Unlimited" : "Không giới hạn",
     "Upload (max. %s)" : "Tải lên (tối đa. %s)",
@@ -136,6 +135,8 @@ OC.L10N.register(
     "Shared with others" : "Chia sẻ với người khác",
     "Shared with you" : "Đã chia sẻ với bạn",
     "Shared by link" : "Được chia sẻ bởi liên kết",
-    "Text file" : "Tập tin văn bản"
+    "Text file" : "Tập tin văn bản",
+    "A file or folder has been <strong>deleted</strong>" : "Tệp hoặc thư mục đã bị <strong>xóa</strong>",
+    "A file or folder has been <strong>restored</strong>" : "Tệp hoặc thư mục đã được <strong>khôi phục</strong>"
 },
 "nplurals=1; plural=0;");

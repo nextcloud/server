@@ -96,9 +96,7 @@
     "Changed by {user}" : "{user} تغییر داد",
     "Deleted by {user}" : " {user} حذف کرد",
     "\"remote user\"" : "\"کاربران از راه‌ دور\"",
-    "A new file or folder has been <strong>created</strong>" : "فایل یا پوشه ای <strong>ایجاد</strong> شد",
-    "A file or folder has been <strong>deleted</strong>" : "فایل یا پوشه ای به <strong>حذف</strong> شد",
-    "A file or folder has been <strong>restored</strong>" : "یک فایل یا پوشه <strong>بازگردانی شد</strong>",
+    "A file or folder has been <strong>changed</strong>" : "فایل یا پوشه ای به <strong>تغییر</strong> یافت",
     "All files" : "تمامی فایل‌ها",
     "Unlimited" : "نامحدود",
     "Upload (max. %s)" : "آپلود (بیشترین سایز %s)",
@@ -128,6 +126,9 @@
     "Deleted shares" : "اشتراک گذاری های حذف شده",
     "Pending shares" : "اشتراک در حال انتظار ",
     "Text file" : "فایل متنی",
-    "New text file.txt" : "فایل متنی جدید .txt"
+    "New text file.txt" : "فایل متنی جدید .txt",
+    "A new file or folder has been <strong>created</strong>" : "فایل یا پوشه ای <strong>ایجاد</strong> شد",
+    "A file or folder has been <strong>deleted</strong>" : "فایل یا پوشه ای به <strong>حذف</strong> شد",
+    "A file or folder has been <strong>restored</strong>" : "یک فایل یا پوشه <strong>بازگردانی شد</strong>"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

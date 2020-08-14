@@ -84,6 +84,7 @@
     "Share for file {file} expired" : "Kunhavo de dosiero {file} senvalidiĝis",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Dosiero aŭ dosierujo kunhavigita per retpoŝte aŭ publika ligilo <strong>elŝutiĝis</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Dosiero aŭ dosierujo kunhaviĝis el <strong>alia servilo</strong>",
+    "Files" : "Dosieroj",
     "A file or folder has been <strong>shared</strong>" : "Dosiero aŭ dosierujo <strong>kunhaviĝis</strong>",
     "Wrong share ID, share doesn't exist" : "Neĝusta kunhava identigilo, kunhavo ne ekzistas",
     "Could not delete share" : "Ne eblis forigi kunhavon",

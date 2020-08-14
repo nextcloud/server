@@ -95,6 +95,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "Freigabe für die Datei {file} abgelaufen",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Öffentlich oder per E-Mail geteilte Datei / Ordner wurde <strong>heruntergeladen</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Eine Datei oder ein Ordner wurde von <strong>einem anderen Server</strong> geteilt",
+    "Files" : "Dateien",
     "A file or folder has been <strong>shared</strong>" : "Eine Datei oder ein Ordner wurde <strong>geteilt</strong>",
     "Shared link" : "Geteilter Link",
     "Wrong share ID, share doesn't exist" : "Fehlerhafte Freigabe-ID, Freigabe existiert nicht",
