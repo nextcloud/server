@@ -127,19 +127,16 @@ class DashboardController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function setBackground($path = null, $url = null, $shipped = null): JSONResponse {
-		// FIXME: store current version of the background and return the result
-		// FIXME: handle shipped backgrounds  avoid file duplication
-		// FIXME: allow to reset to default ones
 		if ($shipped !== null) {
 			$this->backgroundService->setShippedBackground($shipped);
-		}
-		if ($path !== null) {
+		} else if ($path !== null) {
 			$this->backgroundService->setFileBackground($path);
-		}
-		if ($url !== null) {
+		} else if ($url !== null) {
 			$this->backgroundService->setUrlBackground($url);
+		} else {
+			$this->backgroundService->setDefaultBackground();
 		}
-		$this->backgroundService->setDefaultBackground();
+
 		return new JSONResponse([]);
 	}
 
