@@ -528,4 +528,8 @@ export default class Share {
 		return this.#share.item_source
 	}
 
+	get status() {
+		return this.#share.status
+	}
+
 }
