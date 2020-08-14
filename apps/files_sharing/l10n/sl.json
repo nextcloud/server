@@ -79,6 +79,7 @@
     "{actor} removed you from the share named {file}" : "{actor} vas odstrani s souporabe datoteke {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Datoteko oziroma mapo v souporabi prek elektronske pošte oziroma javne povezave je uporabnik <strong>prejel na svoj krajevni disk</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Datoteka ali mapa je bila dodana v souporabo prek <strong>drugega strežnika</strong>",
+    "Files" : "Datoteke",
     "A file or folder has been <strong>shared</strong>" : "Za datoteko ali mapo je omogočena <strong>souporaba</strong>",
     "Shared link" : "Povezava do mesta souporabe",
     "Wrong share ID, share doesn't exist" : "Napačen ID mesta uporabe; mesto ne obstaja!",

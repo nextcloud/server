@@ -110,9 +110,6 @@ OC.L10N.register(
     "{user} renamed {oldfile} to {newfile}" : "{user} het die naam van {oldfile} na {newfile} verander",
     "You moved {oldfile} to {newfile}" : "U het {oldfile} na {newfile} geskuif",
     "{user} moved {oldfile} to {newfile}" : "{user} het {oldfile} na {newfile} geskuif",
-    "A new file or folder has been <strong>created</strong>" : "'n Lêer of gids is <strong>geskep</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "'n Lêer of gids is <strong>geskrap</strong>",
-    "A file or folder has been <strong>restored</strong>" : "'n Lêer of gids is <strong>herstel</strong>",
     "All files" : "Alle lêers",
     "Unlimited" : "Onbeperkte",
     "Upload (max. %s)" : "Oplaai (maks. %s)",
@@ -137,6 +134,9 @@ OC.L10N.register(
     "Shared by link" : "Gedeel per skakel",
     "Text file" : "Tekslêer",
     "New text file.txt" : "Nuwe tekslêer.txt",
+    "A new file or folder has been <strong>created</strong>" : "'n Lêer of gids is <strong>geskep</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "'n Lêer of gids is <strong>geskrap</strong>",
+    "A file or folder has been <strong>restored</strong>" : "'n Lêer of gids is <strong>herstel</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gebruik dié adres vir <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">toegang tot lêers d.m.v. WebDAV</a>"
 },
 "nplurals=2; plural=(n != 1);");

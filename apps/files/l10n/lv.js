@@ -108,11 +108,7 @@ OC.L10N.register(
     "You moved {oldfile} to {newfile}" : "Pārvietoji {oldfile} uz {newfile}",
     "{user} moved {oldfile} to {newfile}" : "{user} pārvietoja {oldfile} uz {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Datne ir pievienota vai noņemta no jūsu <strong>favorītiem</strong>",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Datne vai mape tika <strong>mainīta</strong> vai <strong>pārsaukta</strong>",
-    "A new file or folder has been <strong>created</strong>" : "<strong>Izveidota</strong> jauna datne vai mape",
-    "A file or folder has been <strong>deleted</strong>" : "<strong>Dzēsta</strong> datne vai mape",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitēt ziņojumus par jūsu <strong>iecienīto datņu</strong> izveidošanu un izmaiņām <em>(tikai datu straumei)</em>",
-    "A file or folder has been <strong>restored</strong>" : "<strong>Atjaunota</strong> datne vai mape",
+    "A file or folder has been <strong>changed</strong>" : "<strong>Izmainīta</strong> datne vai mape",
     "All files" : "Visas datnes",
     "Unlimited" : "Neierobežota",
     "Upload (max. %s)" : "Augšupielādēt (maks. %s)",
@@ -139,6 +135,11 @@ OC.L10N.register(
     "Shared by link" : "Koplietots ar saiti",
     "Deleted shares" : "Dzēstās koplietotnes",
     "Text file" : "Teksta datne",
-    "New text file.txt" : "Jauna teksta datne.txt"
+    "New text file.txt" : "Jauna teksta datne.txt",
+    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Datne vai mape tika <strong>mainīta</strong> vai <strong>pārsaukta</strong>",
+    "A new file or folder has been <strong>created</strong>" : "<strong>Izveidota</strong> jauna datne vai mape",
+    "A file or folder has been <strong>deleted</strong>" : "<strong>Dzēsta</strong> datne vai mape",
+    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitēt ziņojumus par jūsu <strong>iecienīto datņu</strong> izveidošanu un izmaiņām <em>(tikai datu straumei)</em>",
+    "A file or folder has been <strong>restored</strong>" : "<strong>Atjaunota</strong> datne vai mape"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -66,6 +66,7 @@ OC.L10N.register(
     "{actor} shared {file} with you" : "{actor} ha compartido {file} contigo",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Un archivo o carpeta comparitdo por correo o por liga pública ha sido <strong>descargado</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Un archivo o carpeta fue compartido desde <strong>otro servidor</strong>",
+    "Files" : "Archivos",
     "A file or folder has been <strong>shared</strong>" : "Un archivo o carpeta ha sido <strong>compartido</strong>",
     "Wrong share ID, share doesn't exist" : "ID del elemento compartido equivocado, el elemento compartido no existe",
     "Could not delete share" : "No fue posible borrar el elemento compartido",

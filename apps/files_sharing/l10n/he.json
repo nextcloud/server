@@ -89,6 +89,7 @@
     "Share for file {file} expired" : "שיתוף הקובץ {file} פג",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "קובץ או תיקייה ששותפו בדוא״ל או דרך קישור ציבורי <strong>הורדו</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "קובץ או תיקייה שותפו מ- <strong>שרת אחר</strong>",
+    "Files" : "קבצים",
     "A file or folder has been <strong>shared</strong>" : "קובץ או תיקייה <strong>שותפו<strong/>",
     "Shared link" : "שותף קישור",
     "Wrong share ID, share doesn't exist" : "מספר זיהוי שיתוף שגוי, שיתוף אינו קיים",

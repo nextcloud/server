@@ -113,10 +113,7 @@ OC.L10N.register(
     "You moved {oldfile} to {newfile}" : "Usted movió {oldfile} a {newfile}",
     "{user} moved {oldfile} to {newfile}" : "{user} movió {oldfile} a {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Un archivo ha sido agregado o eliminado de sus strong>favoritos</strong>",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un archivo o carpeta ha sido <strong>cambiado </strong> o <strong>renombrado</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Un nuevo archivo ha sido <strong>creado</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Un archivo o carpeta ha sido <strong>eliminado</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limite las notificación de la creación y cambios a sus <strong>archivos favoritos</strong> <em>(sólo flujo)</em>",
+    "A file or folder has been <strong>changed</strong>" : "Un archivo o carpeta ha sido <strong>modificado</strong>",
     "All files" : "Todos los archivos",
     "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Cargar (max. %s)",
@@ -145,6 +142,10 @@ OC.L10N.register(
     "Shared with you" : "Compartido con usted",
     "Shared by link" : "Compartido por link",
     "Text file" : "Archivo de texto",
-    "New text file.txt" : "Nuevo ArchivoDeTexto.txt"
+    "New text file.txt" : "Nuevo ArchivoDeTexto.txt",
+    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un archivo o carpeta ha sido <strong>cambiado </strong> o <strong>renombrado</strong>",
+    "A new file or folder has been <strong>created</strong>" : "Un nuevo archivo ha sido <strong>creado</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "Un archivo o carpeta ha sido <strong>eliminado</strong>",
+    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limite las notificación de la creación y cambios a sus <strong>archivos favoritos</strong> <em>(sólo flujo)</em>"
 },
 "nplurals=2; plural=(n != 1);");
