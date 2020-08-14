@@ -41,16 +41,36 @@
 	<issueHandlers>
 		<UndefinedFunction>
 			<errorLevel type="suppress">
+				<!-- template functions: https://github.com/nextcloud/server/blob/6e8e34fef920a073118c22111f0f31eb3b3a91dc/lib/private/legacy/template/functions.php -->
 				<referencedFunction name="p"/>
+				<referencedFunction name="emit_css_tag"/>
+				<referencedFunction name="emit_css_loading_tags"/>
+				<referencedFunction name="emit_script_tag"/>
+				<referencedFunction name="emit_script_loading_tags"/>
 				<referencedFunction name="print_unescaped"/>
 				<referencedFunction name="script"/>
+				<referencedFunction name="vendor_script"/>
 				<referencedFunction name="style"/>
+				<referencedFunction name="vendor_style"/>
+				<referencedFunction name="translation"/>
+				<referencedFunction name="component"/>
+				<referencedFunction name="link_to"/>
+				<referencedFunction name="link_to_docs"/>
+				<referencedFunction name="image_path"/>
+				<referencedFunction name="mimetype_icon"/>
+				<referencedFunction name="preview_icon"/>
+				<referencedFunction name="publicPreview_icon"/>
+				<referencedFunction name="human_file_size"/>
+				<referencedFunction name="strip_time"/>
+				<referencedFunction name="relative_modified_date"/>
+				<referencedFunction name="html_select_options"/>
 			</errorLevel>
 		</UndefinedFunction>
 		<UndefinedGlobalVariable>
 			<errorLevel type="suppress">
-				<referencedVariable name="$l"/>
 				<referencedVariable name="$_"/>
+				<referencedVariable name="$l"/>
+				<referencedVariable name="$theme"/>
 				<!-- false positive: https://github.com/nextcloud/server/blob/cb057829f72c70e819f456edfadbb29d72dba832/lib/private/Console/Application.php#L92 -->
 				<file name="apps/*/appinfo/register_command.php" />
 				<file name="core/register_command.php" />
