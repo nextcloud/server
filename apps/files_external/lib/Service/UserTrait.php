@@ -55,7 +55,7 @@ trait UserTrait {
 	 * Override the user from the session
 	 * Unset with ->resetUser() when finished!
 	 *
-	 * @param IUser
+	 * @param IUser $user
 	 * @return self
 	 */
 	public function setUser(IUser $user) {

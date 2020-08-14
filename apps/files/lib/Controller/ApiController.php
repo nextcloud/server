@@ -332,7 +332,7 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 *
-	 * @param string
+	 * @param string $folderpath
 	 * @return string
 	 * @throws \OCP\Files\NotFoundException
 	 */

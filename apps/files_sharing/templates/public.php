@@ -1,6 +1,6 @@
 <?php
-/** @var $l \OCP\IL10N */
-/** @var $_ array */
+/** @var \OCP\IL10N $_ */
+/** @var array $_ */
 ?>
 <div id="app-content">
 <?php if ($_['previewSupported']): /* This enables preview images for links (e.g. on Facebook, Google+, ...)*/?>

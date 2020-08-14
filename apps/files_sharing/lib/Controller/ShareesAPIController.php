@@ -54,7 +54,7 @@ use function usort;
 
 class ShareesAPIController extends OCSController {
 
-	/** @var userId */
+	/** @var string */
 	protected $userId;
 
 	/** @var IConfig */
