@@ -95,6 +95,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "Isteklo je dijeljenje datoteke {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Datoteka ili mapa dijeljena poštom ili javnom poveznicom <strong>je preuzeta</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Datoteka ili mapa dijeli se s <strong>drugog poslužitelja</strong>",
+    "Files" : "Datoteke",
     "A file or folder has been <strong>shared</strong>" : "Datoteka ili mapa je <strong>dijeljena</strong>",
     "Shared link" : "Dijeljena poveznica",
     "Wrong share ID, share doesn't exist" : "Pogrešan ID dijeljenja, dijeljenje ne postoji",

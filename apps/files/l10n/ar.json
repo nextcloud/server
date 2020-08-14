@@ -89,9 +89,7 @@
     "Removed from favorites" : "تمت إزالته مِن المفضلة",
     "\"remote user\"" : "\"مستخدم عن بعد\"",
     "You created {file}" : "أنشأتَ {file}",
-    "A new file or folder has been <strong>created</strong>" : "تم <strong>  إنشاء</strong> ملف جديد أو مجلد ",
-    "A file or folder has been <strong>deleted</strong>" : "تم <strong>حذف </strong> ملف أو مجلد",
-    "A file or folder has been <strong>restored</strong>" : "تم <strong> استعادة </strong> ملف أو مجلد",
+    "A file or folder has been <strong>changed</strong>" : "تم  <strong> تغيير</strong> ملف أو مجلد",
     "All files" : "كل الملفات",
     "Unlimited" : "غير محدود",
     "Upload (max. %s)" : "الرفع ( حد اقصى. %s ) ",
@@ -121,6 +119,9 @@
     "Shared by link" : "شاركته باستخدام رابط مشاركة",
     "Text file" : "ملف نصي",
     "New text file.txt" : "ملف نصي جديد fille.txt",
+    "A new file or folder has been <strong>created</strong>" : "تم <strong>  إنشاء</strong> ملف جديد أو مجلد ",
+    "A file or folder has been <strong>deleted</strong>" : "تم <strong>حذف </strong> ملف أو مجلد",
+    "A file or folder has been <strong>restored</strong>" : "تم <strong> استعادة </strong> ملف أو مجلد",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "استخدم هذا العنوان قصد <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">الوصول إلى ملفاتك على WebDAV</a>"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

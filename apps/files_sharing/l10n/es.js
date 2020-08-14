@@ -95,6 +95,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "Ha caducado el compartir el archivo {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Un archivo o carpeta compartida por correo o enlace público fue  <strong>descargado</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Se ha compartido un archivo o carpeta desde <strong>otro servidor</strong>",
+    "Files" : "Archivos",
     "A file or folder has been <strong>shared</strong>" : "Se ha <strong>compartido</strong> un archivo o carpeta",
     "Shared link" : "Enlace compartido",
     "Wrong share ID, share doesn't exist" : "El ID del recurso compartido no es correcto, el recurso compartido no existe",

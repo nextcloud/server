@@ -93,6 +93,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "برای اشتراک {پرونده }منقضی شد",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "یک پرونده یا پوشه به اشتراک گذاشته شده از طریق پست یا از طریق لینک عمومی بارگیری شد",
     "A file or folder was shared from <strong>another server</strong>" : "یک پرونده یا پوشه از سرور دیگر به اشتراک گذاشته شد",
+    "Files" : "فایل‌ها",
     "A file or folder has been <strong>shared</strong>" : "فایل یا پوشه ای به <strong>اشتراک</strong> گذاشته شد",
     "Shared link" : "پیوند به اشتراک گذاری شده",
     "Wrong share ID, share doesn't exist" : "شناسه اشتراك اشتباه ، اشتراك وجود ندارد",

@@ -66,6 +66,7 @@ OC.L10N.register(
     "{actor} shared {file} with you" : "{actor} shared {file} with you",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "A file or folder shared by mail or by public link was <strong>downloaded</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "A file or folder was shared from <strong>another server</strong>",
+    "Files" : "Files",
     "A file or folder has been <strong>shared</strong>" : "A file or folder has been <strong>shared</strong>",
     "Wrong share ID, share doesn't exist" : "Wrong share ID, share doesn't exist",
     "Could not delete share" : "Could not delete share",

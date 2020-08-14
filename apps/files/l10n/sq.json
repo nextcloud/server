@@ -99,11 +99,7 @@
     "You moved {oldfile} to {newfile}" : "Ju lëvizët {oldfile} në {newfile}",
     "{user} moved {oldfile} to {newfile}" : "{user} lëvizi {oldfile} në {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Një skedar është shtuar ose është hequr nga <strong>të preferuarat</strong> tuaja",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Një skedar ose dosje është <strong>ndryshuar</strong> ose <strong>riemëruar</strong>",
-    "A new file or folder has been <strong>created</strong>" : "<strong>U krijua</strong> një kartelë ose dosje e re",
-    "A file or folder has been <strong>deleted</strong>" : "Një skedar ose dosje është <strong> fshirë </strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Kufizojini njoftimet mbi krijim dhe ndryshim kartelash vetëm për <strong>kartelat tuaja të parapëlqyera</strong> <em>(Vetëm te rrjedha)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Një skedar ose dosje është <strong> rikthyer </strong>",
+    "A file or folder has been <strong>changed</strong>" : "<strong>U ndryshua</strong> një kartelë ose dosje",
     "All files" : "Të gjithë skedarët",
     "Unlimited" : "E palimituar",
     "Upload (max. %s)" : "Ngarkim (max. %s)",
@@ -131,6 +127,11 @@
     "Shared by link" : "E ndarë me lidhje",
     "Deleted shares" : "Fshi shpërndarjet",
     "Text file" : "Kartelë tekst",
-    "New text file.txt" : "Kartelë e re file.txt"
+    "New text file.txt" : "Kartelë e re file.txt",
+    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Një skedar ose dosje është <strong>ndryshuar</strong> ose <strong>riemëruar</strong>",
+    "A new file or folder has been <strong>created</strong>" : "<strong>U krijua</strong> një kartelë ose dosje e re",
+    "A file or folder has been <strong>deleted</strong>" : "Një skedar ose dosje është <strong> fshirë </strong>",
+    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Kufizojini njoftimet mbi krijim dhe ndryshim kartelash vetëm për <strong>kartelat tuaja të parapëlqyera</strong> <em>(Vetëm te rrjedha)</em>",
+    "A file or folder has been <strong>restored</strong>" : "Një skedar ose dosje është <strong> rikthyer </strong>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -95,6 +95,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "Η κοινή χρήση του αρχείου {file} έληξε",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Ένα αρχείο ή φάκελος διαμοιρασμένο με mail ή με δημόσιο σύνδεσμο <strong>κατέβηκε</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Ένα αρχείο ή φάκελος διαμοιράστηκε από <strong>έναν άλλο διακομιστή</strong>",
+    "Files" : "Αρχεία",
     "A file or folder has been <strong>shared</strong>" : "Ένα αρχείο ή φάκελος <strong>διαμοιράστηκε</strong>",
     "Shared link" : "Διαμοιρασμένος σύνδεσμος",
     "Wrong share ID, share doesn't exist" : "Λάθος ID διαμοιρασμού, διαμοιρασμός δεν υπάρχει",

@@ -95,6 +95,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "Share voor bestand {file} verlopen",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Een bestand of map gedeeld via mail of publieke link werd <strong>gedownload</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Een bestand of map werd gedeeld vanaf <strong>een andere server</strong>",
+    "Files" : "Bestanden",
     "A file or folder has been <strong>shared</strong>" : "Een bestand of map is <strong>gedeeld</strong>",
     "Shared link" : "Gedeeld link",
     "Wrong share ID, share doesn't exist" : "Onjuist deel-ID, de gedeelde folder bestaat niet",

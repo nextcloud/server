@@ -391,7 +391,7 @@ OC.L10N.register(
     "You are using <strong>%s</strong>" : "Está usando <strong>%s</strong>",
     "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "Está usando <strong>%1$s</strong> de <strong>%2$s</strong> (<strong>%3$s%%)",
     "Full name" : "Nome completo",
-    "No display name set" : "Sen nome visíbel estabelecido",
+    "No display name set" : "Sen nome de usuario para amosar estabelecido",
     "Your email address" : "O seu enderezo de correo",
     "No email address set" : "Non hai un enderezo de correo definido",
     "For password reset and notifications" : "Para o restabelecemento de contrasinais e notificacións",
