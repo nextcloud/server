@@ -505,4 +505,9 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	public function setMountOptions(array $options) {
 		$this->mountOptions = $options;
 	}
+
+	public function getUnjailedPath($path) {
+		$this->init();
+		return parent::getUnjailedPath($path);
+	}
 }
