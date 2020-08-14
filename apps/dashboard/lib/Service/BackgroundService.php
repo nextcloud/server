@@ -65,6 +65,9 @@ class BackgroundService {
 	];
 
 	public function __construct(IRootFolder $rootFolder, IAppData $appData, $userId) {
+		if ($userId === null) {
+			return;
+		}
 		$this->userFolder = $rootFolder->getUserFolder($userId);
 		try {
 			$this->dashboardUserFolder = $appData->getFolder($userId);
