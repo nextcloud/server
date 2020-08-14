@@ -222,7 +222,9 @@ export default {
 					continue
 				}
 				if (element) {
-					this.callbacks[app](element[0])
+					this.callbacks[app](element[0], {
+						widget: this.panels[app],
+					})
 					Vue.set(this.panels[app], 'mounted', true)
 				} else {
 					console.error('Failed to register panel in the frontend as no backend data was provided for ' + app)
