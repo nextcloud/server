@@ -45,16 +45,12 @@
 				<referencedFunction name="print_unescaped"/>
 				<referencedFunction name="script"/>
 				<referencedFunction name="style"/>
-				<directory name="apps/**/templates"/>
-				<directory name="core/templates"/>
 			</errorLevel>
 		</UndefinedFunction>
 		<UndefinedGlobalVariable>
 			<errorLevel type="suppress">
 				<referencedVariable name="l" />
 				<referencedVariable name="_" />
-				<directory name="apps/**/templates"/>
-				<directory name="core/templates"/>
 			</errorLevel>
 		</UndefinedGlobalVariable>
 	</issueHandlers>
