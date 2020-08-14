@@ -95,6 +95,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "Дељење фајла {file} је истекло",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Фајл или фасцикла подељена е-поштом су <strong>преузети</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Фајл или фасцикла су дељени са <strong>другог сервера</strong>",
+    "Files" : "Фајлови",
     "A file or folder has been <strong>shared</strong>" : "Фајл или фасцикла је <strong>дељен</strong>",
     "Shared link" : "Подељена веза",
     "Wrong share ID, share doesn't exist" : "Погрешна идентификација дељења, дељење не постоји",

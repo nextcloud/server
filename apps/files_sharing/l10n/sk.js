@@ -95,6 +95,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "Zdieľanie súboru {file} vypršalo",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Súbor alebo adresár zdieľaný cez email alebo verejný odkaz bol <strong>stiahnutý</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Súbor alebo priečinok bol sprístupnený z <strong>iného servera</strong>",
+    "Files" : "Súbory",
     "A file or folder has been <strong>shared</strong>" : "Súbor alebo priečinok bol <strong>sprístupnený</strong>",
     "Shared link" : "Zdieľaný odkaz",
     "Wrong share ID, share doesn't exist" : "Neplatné ID sprístupnenia, sprístupnenie neexistuje",

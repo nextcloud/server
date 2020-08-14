@@ -87,6 +87,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "Ha caducat la compartició per al fitxer {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "S'ha <strong>descarregat</strong> un fitxer compartit o carpeta compartida per correu o per enllaç públic",
     "A file or folder was shared from <strong>another server</strong>" : "S'ha compartit un fitxer o una carpeta d'un <strong>altre servidor</strong>",
+    "Files" : "Fitxers",
     "A file or folder has been <strong>shared</strong>" : "S'ha <strong>compartit</strong> un fitxer o una carpeta",
     "Wrong share ID, share doesn't exist" : "L'identificador de la compartició és incorrecte, la compartició no existeix",
     "Could not delete share" : "No s'ha pogut suprimir la compartició",

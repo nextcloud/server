@@ -87,6 +87,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "Tiedoston {file} jako vanhentui",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Tiedosto tai kansio, joka on jaettu sähköpostitse tai julkisen linkin kautta, on <strong>ladattu</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Tiedosto tai kansio on jaettu <strong>toiselta palvelimelta</strong>",
+    "Files" : "Tiedostot",
     "A file or folder has been <strong>shared</strong>" : "Tiedosto tai kansio on <strong>jaettu</strong>",
     "Wrong share ID, share doesn't exist" : "Väärä jakotunniste, jakoa ei ole olemassa",
     "Could not delete share" : "Jaon poistaminen epäonnistui",

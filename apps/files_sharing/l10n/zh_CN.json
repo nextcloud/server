@@ -93,6 +93,7 @@
     "Share for file {file} expired" : "文件 {file} 的共享已过期",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "通过邮件或公共链接共享的文件或文件夹<strong>已下载</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "<strong>其它服务器</strong> 中一个文件或者文件夹被共享 ",
+    "Files" : "文件",
     "A file or folder has been <strong>shared</strong>" : "一个文件或文件夹已<strong>共享</strong>。",
     "Shared link" : "已共享的链接",
     "Wrong share ID, share doesn't exist" : "错误的共享 ID，共享不存在",

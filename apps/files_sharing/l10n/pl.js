@@ -95,6 +95,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "Udostępnianie pliku {file} wygasło",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Plik lub katalog udostępniony za pomocą e-maila lub linku publicznego został <strong>pobrany</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Plik lub katalog został udostępniony z <strong>innego serwera</strong>",
+    "Files" : "Pliki",
     "A file or folder has been <strong>shared</strong>" : "Plik lub katalog został <strong>udostępniony</strong>",
     "Shared link" : "Udostępnij link",
     "Wrong share ID, share doesn't exist" : "Złe ID współdzielenia, udostępnienie nie istnieje",

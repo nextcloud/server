@@ -98,11 +98,7 @@ OC.L10N.register(
     "You moved {oldfile} to {newfile}" : "Tu displaciava {oldfile} a {newfile}",
     "{user} moved {oldfile} to {newfile}" : "{user} displaciava {oldfile} a {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Un file esseva addite a o removite de tu <strong>favoritos</strong>",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un nove file o dossier ha essite <strong>delite</strong> o <strong>renominate</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Un nove file o dossier ha essite <strong>create</strong>",
-    "A file or folder has been <strong>deleted</strong>" : "Un file o dossier ha essite <strong>delite</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitar notificationes concernente le creation e le modification de tu <strong>files favorite</strong> <em>(Solmente fluxo)</em>",
-    "A file or folder has been <strong>restored</strong>" : "Un file o un dossier ha essite <strong>restabilite</strong>",
+    "A file or folder has been <strong>changed</strong>" : "Un file o dossier ha essite <strong>modificate</strong>",
     "All files" : "Tote files",
     "Unlimited" : "Ilimitate",
     "Upload (max. %s)" : "Incarga (maxime %s)",
@@ -126,6 +122,11 @@ OC.L10N.register(
     "Shared with you" : "Compartite con te",
     "Shared by link" : "Compartite per ligamine",
     "Text file" : "File de texto",
-    "New text file.txt" : "Nove texto file.txt"
+    "New text file.txt" : "Nove texto file.txt",
+    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Un nove file o dossier ha essite <strong>delite</strong> o <strong>renominate</strong>",
+    "A new file or folder has been <strong>created</strong>" : "Un nove file o dossier ha essite <strong>create</strong>",
+    "A file or folder has been <strong>deleted</strong>" : "Un file o dossier ha essite <strong>delite</strong>",
+    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitar notificationes concernente le creation e le modification de tu <strong>files favorite</strong> <em>(Solmente fluxo)</em>",
+    "A file or folder has been <strong>restored</strong>" : "Un file o un dossier ha essite <strong>restabilite</strong>"
 },
 "nplurals=2; plural=(n != 1);");

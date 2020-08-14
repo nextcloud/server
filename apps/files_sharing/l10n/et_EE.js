@@ -85,6 +85,7 @@ OC.L10N.register(
     "{actor} removed you from the share named {file}" : "{actor} lõpetas sinuga {file} jagamise",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Fail või kaust mis on jagatud e-posti või avaliku lingiga  <strong>laeti alla</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Fail või kaust jagati <strong>teisest serverist</strong>",
+    "Files" : "Failid",
     "A file or folder has been <strong>shared</strong>" : "Fail või kataloog on <strong>jagatud</strong>",
     "Shared link" : "Jagatud link",
     "Wrong share ID, share doesn't exist" : "Vale jagamise ID, sellist jagamist ei eksisteeri",

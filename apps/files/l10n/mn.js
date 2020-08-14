@@ -98,8 +98,7 @@ OC.L10N.register(
     "{user} renamed {oldfile} to {newfile}" : "{user} хэрэглэгч {oldfile} файлын нэрийг {newfile} болгож өөрчлөв",
     "You moved {oldfile} to {newfile}" : "Та {oldfile} файлыг {newfile} болгож зөөв",
     "{user} moved {oldfile} to {newfile}" : "{user} хэрэглэгч {oldfile} файлыг {newfile} болгож зөөв",
-    "A file or folder has been <strong>deleted</strong>" : "Файл эсвэл хавтас амжилттай <strong>устгагдлаа</strong>",
-    "A file or folder has been <strong>restored</strong>" : "Файл эсвэл хавтас амжилттай <strong>сэргээгдлээ</strong>",
+    "A file or folder has been <strong>changed</strong>" : "Файл эсвэл хавтас амжилттай <strong>солигдлоо</strong>",
     "All files" : "Бүх файлууд",
     "Accept" : "Хүлээн зөвшөөрөх",
     "Tags" : "Тэгүүд",
@@ -117,6 +116,8 @@ OC.L10N.register(
     "Shared with you" : "тантай хуваалцсан",
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
-    "New text file.txt" : "шинэ текст file.txt"
+    "New text file.txt" : "шинэ текст file.txt",
+    "A file or folder has been <strong>deleted</strong>" : "Файл эсвэл хавтас амжилттай <strong>устгагдлаа</strong>",
+    "A file or folder has been <strong>restored</strong>" : "Файл эсвэл хавтас амжилттай <strong>сэргээгдлээ</strong>"
 },
 "nplurals=2; plural=(n != 1);");

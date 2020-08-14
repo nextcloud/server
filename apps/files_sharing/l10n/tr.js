@@ -95,6 +95,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "{file} dosyasının paylaşım süresi geçmiş",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "E-posta ya da herkese açık bağlantı ile paylaşılan bir dosya ya da klasör <strong>indirildi</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "<strong>Başka bir sunucudan</strong> bir dosya ya da klasör paylaşıldı",
+    "Files" : "Dosyalar",
     "A file or folder has been <strong>shared</strong>" : "Bir dosya ya da klasör <strong>paylaşıldı</strong>",
     "Shared link" : "Paylaşılmış bağlantı",
     "Wrong share ID, share doesn't exist" : "Paylaşım kimliği yanlış. Paylaşım bulunamadı",

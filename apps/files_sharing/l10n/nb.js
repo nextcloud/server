@@ -82,6 +82,7 @@ OC.L10N.register(
     "{actor} removed you from the share named {file}" : "{actor} fjernet deg fra delingen kalt {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Ei fil eller mappe delt via e-post eller offentlig lenke ble <strong>lastet ned</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mappe ble delt fra <strong>en annen server</strong>",
+    "Files" : "Filer",
     "A file or folder has been <strong>shared</strong>" : "En fil eller mappe ble <strong>delt</strong>",
     "Wrong share ID, share doesn't exist" : "Feil ressurs ID, ressursen finnes ikke",
     "Could not delete share" : "Kunne ikke slette ressursen",

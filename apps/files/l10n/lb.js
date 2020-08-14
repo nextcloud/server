@@ -97,9 +97,6 @@ OC.L10N.register(
     "You moved {oldfile} to {newfile}" : "Du hues {oldfile} zu {newfile} verreckelt",
     "{user} moved {oldfile} to {newfile}" : "Den {user} huet {oldfile} zu {newfile} verreckelt",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Eng Datei gouf zu dengen Favoriten <strong> dobäigesat </strong> oder aus dengen Favortien <strong> geläscht </strong>",
-    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Eng Datei gouf <strong> verännert</strong> oder <strong> embenannt</strong>",
-    "A new file or folder has been <strong>created</strong>" : "Eng nei Datei oder e neien Dossier gouf <strong> erstallt </strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitéier Notifikatiounen op d'Erstellen an Veränneren vun dengen <strong> Favoriten</strong> (nëmmen Floss)",
     "All files" : "All d'Fichieren",
     "Upload (max. %s)" : "Upload (maximal ¦%s)",
     "in %s" : "an %s",
@@ -119,6 +116,9 @@ OC.L10N.register(
     "Shared with you" : "Mat dir gedeelt",
     "Shared by link" : "Mat engem Link gedeelt",
     "Text file" : "Text Fichier",
-    "New text file.txt" : "Neien Text file.txt"
+    "New text file.txt" : "Neien Text file.txt",
+    "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Eng Datei gouf <strong> verännert</strong> oder <strong> embenannt</strong>",
+    "A new file or folder has been <strong>created</strong>" : "Eng nei Datei oder e neien Dossier gouf <strong> erstallt </strong>",
+    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitéier Notifikatiounen op d'Erstellen an Veränneren vun dengen <strong> Favoriten</strong> (nëmmen Floss)"
 },
 "nplurals=2; plural=(n != 1);");

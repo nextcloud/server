@@ -93,6 +93,7 @@
     "Share for file {file} expired" : "Срок действия общего доступа к «{file}» истек",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "<strong>Скачаны</strong> файлы или папки, доступ к которым был предоставлен по электронной почте или общедоступной ссылке",
     "A file or folder was shared from <strong>another server</strong>" : "Общий доступ к файлу или каталогу предоставлен <strong>с другого сервера</strong>",
+    "Files" : "Файлы",
     "A file or folder has been <strong>shared</strong>" : "Файл или каталог <strong>опубликован</strong>",
     "Shared link" : "Общая ссылка",
     "Wrong share ID, share doesn't exist" : "Неверный идентификатор, общий ресурс не существует",

@@ -82,7 +82,7 @@
     "Tasks" : "Aufgaben",
     "Untitled task" : "Unbenannte Aufgabe",
     "Completed on %s" : "Erledigt am %s",
-    "Due on %s by %s" : "Fällig am %s für %s",
+    "Due on %s by %s" : "Fällig am %s von %s",
     "Due on %s" : "Fällig am %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "WebDAV-Endpunkt",

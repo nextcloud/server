@@ -93,6 +93,7 @@
     "Share for file {file} expired" : "Споделувањето на {file} истече",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Датотека или папка споделена преку е-пошта или преку јавен линк е <strong>превземена</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Датотека или папка е споделена од <strong>друг сервер</strong>",
+    "Files" : "Датотеки",
     "A file or folder has been <strong>shared</strong>" : "Датотека или фолдер беше <strong>споделен</strong>",
     "Shared link" : "Споделен линк",
     "Wrong share ID, share doesn't exist" : "Погрешно ID на споделување, споделувањето не постои",

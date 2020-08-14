@@ -95,6 +95,7 @@ OC.L10N.register(
     "Share for file {file} expired" : "Delning för fil {file} har gått ut",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "En fil eller mapp som delats via e-post eller offentlig länk har blivit <strong>hämtad</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mapp delades från <strong>en annan server</strong>",
+    "Files" : "Filer",
     "A file or folder has been <strong>shared</strong>" : "En fil eller mapp har <strong>delats</strong>",
     "Shared link" : "Delad länk",
     "Wrong share ID, share doesn't exist" : "Fel delnings-ID, delningen finns inte",

@@ -67,6 +67,7 @@ OC.L10N.register(
     "{actor} shared {file} with you" : "{actor} ndau {skedarë} me ju",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Një skedar ose dosje e ndarë nga posta ose lidhja publike ishte <strong> shkarkuar</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Një kartelë ose dosje u nda prej një <strong>shërbyesi tjetër</strong>",
+    "Files" : "Skedarët",
     "A file or folder has been <strong>shared</strong>" : "U <strong>nda me të tjerë</strong> një kartelë ose dosje",
     "Wrong share ID, share doesn't exist" : "ID e gabuar ndarjeje, ndarja s’ekziston",
     "Could not delete share" : "Ndarja s’u fshi dot",

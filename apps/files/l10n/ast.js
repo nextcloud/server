@@ -86,10 +86,7 @@ OC.L10N.register(
     "You renamed {oldfile} to {newfile}" : "Renomesti {oldfile} a {newfile}",
     "{user} renamed {oldfile} to {newfile}" : "{user} renomó {oldfile} a {newfile}",
     "You moved {oldfile} to {newfile}" : "Moviesti {oldfile} a {newfile}",
-    "A new file or folder has been <strong>created</strong>" : "<strong>Creóse</strong> un ficheru o carpeta nuevos",
-    "A file or folder has been <strong>deleted</strong>" : "<strong>Desanicióse</strong> un ficheru o carpeta",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Llendar les notificaciones tocantes a creación y cambeos a tos <strong>ficheros favoritos</strong <em>(namás Stream)</em>",
-    "A file or folder has been <strong>restored</strong>" : "<strong>Restauróse</strong> un ficheru o carpeta",
+    "A file or folder has been <strong>changed</strong>" : "<strong>Camudóse</strong> un ficheru o carpeta",
     "All files" : "Tolos ficheros",
     "Unlimited" : "Non llendáu",
     "Upload (max. %s)" : "Xuba (máx. %s)",
@@ -115,6 +112,10 @@ OC.L10N.register(
     "Shared with you" : "Shared with you",
     "Shared by link" : "Compartíos per enllaz",
     "Text file" : "Ficheru de testu",
-    "New text file.txt" : "Nuevu testu ficheru.txt"
+    "New text file.txt" : "Nuevu testu ficheru.txt",
+    "A new file or folder has been <strong>created</strong>" : "<strong>Creóse</strong> un ficheru o carpeta nuevos",
+    "A file or folder has been <strong>deleted</strong>" : "<strong>Desanicióse</strong> un ficheru o carpeta",
+    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Llendar les notificaciones tocantes a creación y cambeos a tos <strong>ficheros favoritos</strong <em>(namás Stream)</em>",
+    "A file or folder has been <strong>restored</strong>" : "<strong>Restauróse</strong> un ficheru o carpeta"
 },
 "nplurals=2; plural=(n != 1);");

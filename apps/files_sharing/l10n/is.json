@@ -80,6 +80,7 @@
     "{actor} removed you from the share named {file}" : "{actor} fjarlægði þig af sameign með heitinu {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Skrá eða mappa sem deilt var með tölvupósti eða almenningstengli var <strong>sótt</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Skjali eða möppu hefur verið deilt <strong>frá öðrum þjóni</strong>",
+    "Files" : "Skrár",
     "A file or folder has been <strong>shared</strong>" : "Skjali eða  möppu hefur verið <strong>deilt</strong>",
     "Wrong share ID, share doesn't exist" : "Rangt auðkenni sameignar, sameign er ekki til",
     "Could not delete share" : "Tókst ekki að eyða sameign",
