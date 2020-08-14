@@ -98,7 +98,7 @@
     "babel-loader": "^8.1.0",
     "babel-loader-exclude-node-modules-except": "^1.0.3",
     "chai": "^4.2.0",
-    "css-loader": "^3.6.0",
+    "css-loader": "^4.2.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-loader": "^4.0.2",
