@@ -51,6 +51,9 @@
 			<errorLevel type="suppress">
 				<referencedVariable name="l" />
 				<referencedVariable name="_" />
+				<!-- false positive: https://github.com/nextcloud/server/blob/cb057829f72c70e819f456edfadbb29d72dba832/lib/private/Console/Application.php#L92 -->
+				<file name="apps/*/appinfo/register_command.php" />
+				<file name="core/register_command.php" />
 			</errorLevel>
 		</UndefinedGlobalVariable>
 	</issueHandlers>
