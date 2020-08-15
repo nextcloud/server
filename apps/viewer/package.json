@@ -49,7 +49,7 @@
     "path-parse": "^1.0.6",
     "regenerator-runtime": "^0.13.7",
     "vue": "^2.6.11",
-    "vue-async-computed": "^3.8.2",
+    "vue-async-computed": "^3.8.3",
     "vue-plyr": "^6.0.4",
     "webdav": "^3.3.0"
   },
