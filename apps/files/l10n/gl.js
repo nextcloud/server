@@ -131,6 +131,7 @@ OC.L10N.register(
     "{user} moved {oldfile} to {newfile}" : "{user} moveu {oldfile} para {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Engadiuse ou retirouse un ficheiro dos seus <strong>favoritos</strong>",
     "A file or folder has been <strong>changed</strong>" : "<strong>Cambiouse</strong> un ficheiro ou cartafol",
+    "A favorite file or folder has been <strong>changed</strong>" : "<strong>Cambiouse</strong> un ficheiro ou cartafol favorito",
     "All files" : "Todos os ficheiros",
     "Unlimited" : "Sen límites",
     "Upload (max. %s)" : "Envío (máx. %s)",
