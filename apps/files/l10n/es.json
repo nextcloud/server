@@ -129,6 +129,7 @@
     "{user} moved {oldfile} to {newfile}" : "{user} movió {oldfile} a {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Un archivo fue agregado o borrado de tus <strong>favoritos</strong>",
     "A file or folder has been <strong>changed</strong>" : "Se ha <strong>modificado</strong> un archivo o carpeta",
+    "A favorite file or folder has been <strong>changed</strong>" : "Un archivo o carpeta favorito ha sido <strong>cambiado</strong>",
     "All files" : "Todos los archivos",
     "Unlimited" : "Ilimitado",
     "Upload (max. %s)" : "Subida (máx. %s)",
