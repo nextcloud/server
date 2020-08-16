@@ -22,22 +22,24 @@
 
 <template>
 	<div class="background-selector">
+		<div class="background" tabindex="0" @click="pickFile">
+			<div class="background--preview">
+				{{ t('dashboard', 'Pick from files') }}
+			</div>
+		</div>
 		<div class="background default"
 			:class="{ 'icon-loading': loading === 'default' }"
+			tabindex="0"
 			@click="setDefault()">
 			<div class="background--preview">
 				Default
 			</div>
 		</div>
-		<div class="background" @click="pickFile">
-			<a>
-				{{ t('dashboard', 'Pick an image from your files') }}
-			</a>
-		</div>
 		<div v-for="background in shippedBackgrounds"
 			:key="background.name"
 			class="background"
 			:class="{ 'icon-loading': loading === background.name }"
+			tabindex="0"
 			@click="setShipped(background.name)">
 			<div class="background--preview" :style="{ 'background-image': 'url(' + background.url + ')' }" />
 		</div>
@@ -129,26 +131,30 @@ export default {
 	.background-selector {
 		display: flex;
 		flex-wrap: wrap;
+		justify-content: center;
 
 		.background {
-			width: 140px;
-			padding: 15px;
-			border-radius: var(--border-radius);
+			width: 176px;
+            margin: 8px;
 			text-align: center;
+            border-radius: var(--border-radius-large);
 
 			&.current {
 				background-image: var(--color-background-dark);
 			}
 
 			&--preview {
-				width: 140px;
-				height: 90px;
+				width: 172px;
+				height: 96px;
 				background-size: cover;
 				background-position: center center;
+				border-radius: var(--border-radius-large);
+                border: 2px solid var(--color-main-background);
 			}
 
-			&:hover {
-				background-color: var(--color-background-hover);
+			&:hover .background--preview,
+            &:focus .background--preview {
+                border: 2px solid var(--color-primary);
 			}
 		}
 	}

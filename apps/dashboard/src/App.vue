@@ -27,7 +27,8 @@
 		<div class="footer"
 			:class="{ firstrun: firstRun }">
 			<a v-tooltip="tooltip"
-				class="edit-panels icon-add"
+				class="edit-panels icon-rename"
+				tabindex="0"
 				@click="showModal">{{ t('dashboard', 'Customize') }}</a>
 		</div>
 
@@ -53,7 +54,7 @@
 
 				<a :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
 
-				<h3>{{ t('dashboard', 'Change the background image') }}</h3>
+				<h3>{{ t('dashboard', 'Change background image') }}</h3>
 				<BackgroundSettings @updateBackground="updateBackground" />
 
 				<h3>{{ t('dashboard', 'Credits') }}</h3>
@@ -298,8 +299,6 @@ export default {
 <style lang="scss" scoped>
 	#app-dashboard {
 		width: 100%;
-		padding-bottom: 100px;
-
 		background-size: cover;
 		background-position: center center;
 		background-repeat: no-repeat;
@@ -408,19 +407,20 @@ export default {
 		text-align: center;
 		transition: bottom var(--animation-slow) ease-in-out;
 		bottom: 0;
+		padding: 44px 0;
 
 		&.firstrun {
 			position: sticky;
 			bottom: 10px;
 		}
 	}
-	.edit-panels {
 
+	.edit-panels {
 		display: inline-block;
 		margin:auto;
-		background-position: 10px center;
-		padding: 12px;
-		padding-left: 30px;
+		background-position: 16px center;
+		padding: 12px 16px;
+		padding-left: 36px;
 		background-color: var(--color-main-background);
 		border-radius: var(--border-radius-pill);
 		max-width: 200px;
@@ -434,29 +434,46 @@ export default {
 	}
 
 	.modal__content {
-		width: 30vw;
-		margin: 20px;
+		padding: 32px 16px;
 		max-height: 70vh;
+		text-align: center;
 		overflow: auto;
+
 		ol {
 			display: flex;
-			flex-direction: column;
+			flex-direction: row;
+			justify-content: center;
 			list-style-type: none;
+			padding-bottom: 16px;
 		}
-		li label {
-			padding: 10px;
-			display: block;
-			list-style-type: none;
-			background-size: 16px;
-			background-position: left center;
-			padding-left: 26px;
+		li {
+			label {
+				display: block;
+				padding: 48px 8px 16px 8px;
+				margin: 8px;
+				width: 160px;
+				background-color: var(--color-background-hover);
+				border: 2px solid var(--color-main-background);
+				border-radius: var(--border-radius-large);
+				background-size: 24px;
+				background-position: center 16px;
+				text-align: center;
+
+				&:hover {
+					border-color: var(--color-primary);
+				}
+			}
+
+			input:focus + label {
+				border-color: var(--color-primary);
+			}
 		}
 
 		h3 {
 			font-weight: bold;
 
 			&:not(:first-of-type) {
-				margin-top: 32px;
+				margin-top: 64px;
 			}
 		}
 	}
