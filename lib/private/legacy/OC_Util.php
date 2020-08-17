@@ -299,7 +299,6 @@ class OC_Util {
 
 		/** @var \OCP\Files\Config\IMountProviderCollection $mountProviderCollection */
 		$mountProviderCollection = \OC::$server->query(\OCP\Files\Config\IMountProviderCollection::class);
-		/** @var \OCP\Files\Mount\IMountPoint[] $rootMountProviders */
 		$rootMountProviders = $mountProviderCollection->getRootMounts();
 
 		/** @var \OC\Files\Mount\Manager $mountManager */
