@@ -18,7 +18,6 @@
             <name>User status</name>
             <route />
             <order>1</order>
-            <icon>info.svg</icon>
             <type>settings</type>
         </navigation>
     </navigations>
