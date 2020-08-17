@@ -37,6 +37,7 @@ use OCP\AppFramework\OCSController;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUserSession;
+use OCP\PreConditionNotMetException;
 
 class ConfigController extends OCSController {
 
@@ -103,7 +104,7 @@ class ConfigController extends OCSController {
 	 *
 	 * @param string $key theme or font
 	 * @return DataResponse
-	 * @throws Exception
+	 * @throws OCSBadRequestException|PreConditionNotMetException
 	 */
 	public function setConfig(string $key, $value): DataResponse {
 		if ($key === 'theme' || $key === 'font' || $key === 'highcontrast') {
@@ -137,7 +138,7 @@ class ConfigController extends OCSController {
 	 *
 	 * @param string $key theme or font
 	 * @return DataResponse
-	 * @throws Exception
+	 * @throws OCSBadRequestException
 	 */
 	public function deleteConfig(string $key): DataResponse {
 		if ($key === 'theme' || $key === 'font' || $key === 'highcontrast') {

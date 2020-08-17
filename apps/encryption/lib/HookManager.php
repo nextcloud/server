@@ -26,6 +26,7 @@ namespace OCA\Encryption;
 use OCA\Encryption\Hooks\Contracts\IHook;
 
 class HookManager {
+	/** @var IHook[] */
 	private $hookInstances = [];
 
 	/**
@@ -51,8 +52,6 @@ class HookManager {
 		foreach ($this->hookInstances as $instance) {
 			/**
 			 * Fire off the add hooks method of each instance stored in cache
-			 *
-			 * @var $instance IHook
 			 */
 			$instance->addHooks();
 		}

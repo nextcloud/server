@@ -1466,7 +1466,7 @@ class ShareAPIController extends OCSController {
 
 	/**
 	 * Cleanup the remaining locks
-	 * @throws @LockedException
+	 * @throws LockedException
 	 */
 	public function cleanup() {
 		if ($this->lockedNode !== null) {
@@ -1642,7 +1642,7 @@ class ShareAPIController extends OCSController {
 	 *
 	 * @param Node|null $path
 	 * @param boolean $reshares
-	 * @return void
+	 * @return IShare[]
 	 */
 	private function getAllShares(?Node $path = null, bool $reshares = false) {
 		// Get all shares

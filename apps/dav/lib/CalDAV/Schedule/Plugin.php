@@ -325,7 +325,7 @@ EOF;
 	 * Returns a list of addresses that are associated with a principal.
 	 *
 	 * @param string $principal
-	 * @return string?
+	 * @return string|null
 	 */
 	protected function getCalendarUserTypeForPrincipal($principal):?string {
 		$calendarUserType = '{' . self::NS_CALDAV . '}calendar-user-type';
