@@ -580,7 +580,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$dispatcher->dispatchTyped(new BeforeUserLoggedInWithCookieEvent($uid));
 			});
 			$userSession->listen('\OC\User', 'postRememberedLogin', function ($user, $password) {
-				/** @var $user \OC\User\User */
+				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'post_login', ['run' => true, 'uid' => $user->getUID(), 'password' => $password]);
 
 				/** @var IEventDispatcher $dispatcher */
