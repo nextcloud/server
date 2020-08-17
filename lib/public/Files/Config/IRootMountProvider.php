@@ -32,7 +32,7 @@ use OCP\Files\Storage\IStorageFactory;
  */
 interface IRootMountProvider {
 	/**
-	 * Get all root mountpoints
+	 * Get all root mountpoints of this provider
 	 *
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 * @since 20.0.0
