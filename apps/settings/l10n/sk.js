@@ -260,6 +260,7 @@ OC.L10N.register(
     "App bundles" : "Aplikačné balíky",
     "Featured apps" : "Odporúčané aplikácie",
     "{license}-licensed" : "{license}-licencovaný",
+    "by {author}\n{license}" : "od {author}\n{license}",
     "New user" : "Nový používateľ",
     "Enter group name" : "Zadajte názov skupiny",
     "Add group" : "Pridať skupinu",
