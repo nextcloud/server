@@ -108,6 +108,7 @@ class DashboardController extends Controller {
 		$this->inititalStateService->provideInitialState('dashboard', 'firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
 		$this->inititalStateService->provideInitialState('dashboard', 'shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS);
 		$this->inititalStateService->provideInitialState('dashboard', 'background', $this->config->getUserValue($this->userId, 'dashboard', 'background', 'default'));
+		$this->inititalStateService->provideInitialState('dashboard', 'version', $this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', 0));
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');
 
 		return new TemplateResponse('dashboard', 'index');
@@ -126,18 +127,35 @@ class DashboardController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function setBackground($path = null, $url = null, $shipped = null): JSONResponse {
-		if ($shipped !== null) {
-			$this->backgroundService->setShippedBackground($shipped);
-		} else if ($path !== null) {
-			$this->backgroundService->setFileBackground($path);
-		} else if ($url !== null) {
-			$this->backgroundService->setUrlBackground($url);
-		} else {
-			$this->backgroundService->setDefaultBackground();
+	public function setBackground(string $type = 'default', $value): JSONResponse {
+		$currentVersion = $this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', 0);
+		try {
+			switch ($type) {
+				case 'shipped':
+					$this->backgroundService->setShippedBackground($value);
+					break;
+				case 'custom':
+					$this->backgroundService->setFileBackground($value);
+					break;
+				case 'color':
+					$this->backgroundService->setColorBackground($value);
+					break;
+				case 'default':
+					$this->backgroundService->setDefaultBackground();
+					break;
+				default:
+					return new JSONResponse(['error' => 'Invalid type provided'], Http::STATUS_BAD_REQUEST);
+			}
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-
-		return new JSONResponse([]);
+		$currentVersion++;
+		$this->config->setUserValue($this->userId, 'dashboard', 'backgroundVersion', $currentVersion);
+		return new JSONResponse([
+			'type' => $type,
+			'value' => $value,
+			'version' => $this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', $currentVersion)
+		]);
 	}
 
 	/**

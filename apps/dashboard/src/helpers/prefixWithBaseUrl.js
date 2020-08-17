@@ -1,8 +1,4 @@
-<?php
-
-declare(strict_types=1);
-
-/**
+/*
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
@@ -23,12 +19,6 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import { generateFilePath } from '@nextcloud/router'
 
-return [
-	'routes' => [
-		['name' => 'dashboard#index', 'url' => '/', 'verb' => 'GET'],
-		['name' => 'dashboard#updateLayout', 'url' => '/layout', 'verb' => 'POST'],
-		['name' => 'dashboard#getBackground', 'url' => '/background', 'verb' => 'GET'],
-		['name' => 'dashboard#setBackground', 'url' => '/background/{type}', 'verb' => 'POST'],
-	]
-];
+export default (url) => generateFilePath('dashboard', '', 'img/') + url

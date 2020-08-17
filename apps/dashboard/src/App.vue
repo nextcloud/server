@@ -1,5 +1,5 @@
 <template>
-	<div id="app-dashboard" :style="{ backgroundImage: `url(${backgroundImage})` }">
+	<div id="app-dashboard" :style="backgroundStyle">
 		<h2>{{ greeting.text }}</h2>
 		<div class="statuses">
 			<div v-for="status in registeredStatus"
@@ -73,28 +73,16 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { Modal } from '@nextcloud/vue'
 import Draggable from 'vuedraggable'
 import axios from '@nextcloud/axios'
-import { generateUrl, generateFilePath } from '@nextcloud/router'
+import { generateUrl } from '@nextcloud/router'
 import isMobile from './mixins/isMobile'
 import BackgroundSettings from './components/BackgroundSettings'
+import getBackgroundUrl from './helpers/getBackgroundUrl'
+import prefixWithBaseUrl from './helpers/prefixWithBaseUrl'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
 const background = loadState('dashboard', 'background')
-
-const prefixWithBaseUrl = (url) => generateFilePath('dashboard', '', 'img/') + url
-
-// FIXME: move out duplicate
-const getBackgroundUrl = (background, time = 0) => {
-	if (background === 'default') {
-		if (window.OCA.Accessibility.theme === 'dark') {
-			return prefixWithBaseUrl('eduardo-neves-pedra-azul.jpg')
-		}
-		return prefixWithBaseUrl('kamil-porembinski-clouds.jpg')
-	} else if (background === 'custom') {
-		return generateUrl('/apps/dashboard/background') + '?v=' + time
-	}
-	return prefixWithBaseUrl(background)
-}
+const version = loadState('dashboard', 'version')
 
 export default {
 	name: 'App',
@@ -121,13 +109,21 @@ export default {
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			statuses: {},
 			background,
-			backgroundTime: Date.now(),
+			version,
 			defaultBackground: window.OCA.Accessibility.theme === 'dark' ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1'),
 		}
 	},
 	computed: {
 		backgroundImage() {
-			return getBackgroundUrl(this.background, this.backgroundTime)
+			return getBackgroundUrl(this.background, this.version)
+		},
+		backgroundStyle() {
+			if (this.background.match(/#[0-9A-Fa-f]{6}/g)) {
+				return null
+			}
+			return {
+				backgroundImage: `url(${this.backgroundImage})`,
+			}
 		},
 		tooltip() {
 			if (!this.firstRun) {
@@ -269,8 +265,9 @@ export default {
 				this.firstRun = false
 			}, 1000)
 		},
-		updateBackground(backgroundType) {
-			this.background = backgroundType
+		updateBackground(data) {
+			this.background = data.type === 'custom' || data.type === 'default' ? data.type : data.value
+			this.version = data.version
 		},
 	},
 }

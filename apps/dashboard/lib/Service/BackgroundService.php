@@ -74,19 +74,17 @@ class BackgroundService {
 	}
 
 	public function setShippedBackground($fileName) {
+		if (!in_array($fileName, self::SHIPPED_BACKGROUNDS)) {
+			throw new \InvalidArgumentException('The given file name is invalid');
+		}
 		$this->config->setUserValue($this->userId, 'dashboard', 'background', $fileName);
 	}
 
-	public function setUrlBackground($url) {
-		$this->config->setUserValue($this->userId, 'dashboard', 'background', 'custom');
-		if (substr($url, 0, 1) === '/') {
-			$url = \OC::$server->getURLGenerator()->getAbsoluteURL($url);
+	public function setColorBackground(string $color) {
+		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
+			throw new \InvalidArgumentException('The given color is invalid');
 		}
-
-		$client = \OC::$server->getHTTPClientService()->newClient();
-		$response = $client->get($url);
-		$content = $response->getBody();
-		$newFile = $this->dashboardUserFolder->newFile('background.jpg', $content);
+		$this->config->setUserValue($this->userId, 'dashboard', 'background', $color);
 	}
 
 	public function getBackground() {

@@ -41,6 +41,15 @@
 				{{ t('dashboard', 'Default images') }}
 			</div>
 		</a>
+		<a class="background color"
+			tabindex="0"
+			@click="pickColor"
+			@keyup.enter="pickColor"
+			@keyup.space="pickColor">
+			<div class="background--preview">
+				{{ t('dashboard', 'Plain background') }}
+			</div>
+		</a>
 		<a v-for="background in shippedBackgrounds"
 			:key="background.name"
 			tabindex="0"
@@ -56,23 +65,11 @@
 
 <script>
 import axios from '@nextcloud/axios'
-import { generateUrl, generateFilePath } from '@nextcloud/router'
+import { generateUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-
-const prefixWithBaseUrl = (url) => generateFilePath('dashboard', '', 'img/') + url
+import getBackgroundUrl from './../helpers/getBackgroundUrl'
+import prefixWithBaseUrl from './../helpers/prefixWithBaseUrl'
 const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
-
-const getBackgroundUrl = (background, time = 0) => {
-	if (background === 'default') {
-		if (window.OCA.Accessibility.theme === 'dark') {
-			return prefixWithBaseUrl('eduardo-neves-pedra-azul.jpg')
-		}
-		return prefixWithBaseUrl('kamil-porembinski-clouds.jpg')
-	} else if (background === 'custom') {
-		return generateUrl('/apps/dashboard/background') + '?v=' + time
-	}
-	return prefixWithBaseUrl(background)
-}
 
 export default {
 	name: 'BackgroundSettings',
@@ -93,35 +90,36 @@ export default {
 		},
 	},
 	methods: {
-		async update(state) {
-			const date = Date.now()
-			this.backgroundImage = getBackgroundUrl(state, date)
+		async update(data) {
+			const background = data.type === 'custom' || data.type === 'default' ? data.type : data.value
+			this.backgroundImage = getBackgroundUrl(background, data.version)
 			const image = new Image()
 			image.onload = () => {
-				this.$emit('updateBackground', state)
+				this.$emit('updateBackground', data)
 				this.loading = false
 			}
 			image.src = this.backgroundImage
 		},
 		async setDefault() {
-			console.debug('SetDefault')
-			await axios.post(generateUrl('/apps/dashboard/background'))
-			this.update('default')
+			this.loading = 'default'
+			const result = await axios.post(generateUrl('/apps/dashboard/background/default'))
+			this.update(result.data)
 		},
 		async setShipped(shipped) {
 			this.loading = shipped
-			await axios.post(generateUrl('/apps/dashboard/background'), { shipped })
-			this.update(shipped)
-		},
-		async setUrl(url) {
-			this.loading = true
-			await axios.post(generateUrl('/apps/dashboard/background'), { url })
-			this.update('custom')
+			const result = await axios.post(generateUrl('/apps/dashboard/background/shipped'), { value: shipped })
+			this.update(result.data)
 		},
 		async setFile(path) {
-			this.loading = true
-			await axios.post(generateUrl('/apps/dashboard/background'), { path })
-			this.update('custom')
+			this.loading = 'custom'
+			const result = await axios.post(generateUrl('/apps/dashboard/background/custom'), { value: path })
+			this.update(result.data)
+		},
+		async pickColor() {
+			this.loading = 'color'
+			const color = OCA && OCA.Theming ? OCA.Theming.color : '#0082c9'
+			const result = await axios.post(generateUrl('/apps/dashboard/background/color'), { value: color })
+			this.update(result.data)
 		},
 		pickFile() {
 			window.OC.dialogs.filepicker(t('dashboard', 'Insert from {productName}', { productName: OC.theme.name }), (path, type) => {
@@ -161,11 +159,16 @@ export default {
 				background-position: center center;
 			}
 
-			&.filepicker, &.default {
+			&.filepicker, &.default, &.color {
 				border: 2px solid var(--color-border);
 				.background--preview {
 					line-height: 100px;
 				}
+			}
+
+			&.color .background--preview {
+				background-color: var(--color-primary);
+				color: var(--color-primary-text);
 			}
 
 			&:hover,
