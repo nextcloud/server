@@ -36,17 +36,50 @@ use OCP\IConfig;
 
 class BackgroundService {
 
+	const THEMING_MODE_LIGHT = 'light';
+	const THEMING_MODE_DARK = 'dark';
+
 	const SHIPPED_BACKGROUNDS = [
-		'anatoly-mikhaltsov-butterfly-wing-scale.jpg',
-		'bernie-cetonia-aurata-take-off-composition.jpg',
-		'dejan-krsmanovic-ribbed-red-metal.jpg',
-		'eduardo-neves-pedra-azul.jpg',
-		'european-space-agency-barents-bloom.jpg',
-		'european-space-agency-namib-desert.jpg',
-		'hannes-fritz-flippity-floppity.jpg',
-		'hannes-fritz-roulette.jpg',
-		'hannes-fritz-sea-spray.jpg',
-		'kamil-porembinski-clouds.jpg',
+		'anatoly-mikhaltsov-butterfly-wing-scale.jpg' => [
+			'attribution' => 'Butterfly',
+			'attribution_url' => 'https://',
+		],
+		'bernie-cetonia-aurata-take-off-composition.jpg' => [
+			'attribution' => '',
+			'attribution_url' => '',
+		],
+		'dejan-krsmanovic-ribbed-red-metal.jpg' => [
+			'attribution' => '',
+			'attribution_url' => '',
+		],
+		'eduardo-neves-pedra-azul.jpg' => [
+			'attribution' => '',
+			'attribution_url' => '',
+		],
+		'european-space-agency-barents-bloom.jpg' => [
+			'attribution' => '',
+			'attribution_url' => '',
+		],
+		'european-space-agency-namib-desert.jpg' => [
+			'attribution' => '',
+			'attribution_url' => '',
+		],
+		'hannes-fritz-flippity-floppity.jpg' => [
+			'attribution' => '',
+			'attribution_url' => '',
+		],
+		'hannes-fritz-roulette.jpg' => [
+			'attribution' => '',
+			'attribution_url' => '',
+		],
+		'hannes-fritz-sea-spray.jpg' => [
+			'attribution' => '',
+			'attribution_url' => '',
+		],
+		'kamil-porembinski-clouds.jpg' => [
+			'attribution' => '',
+			'attribution_url' => '',
+		]
 	];
 
 	public function __construct(IRootFolder $rootFolder, IAppData $appData, IConfig $config, $userId) {

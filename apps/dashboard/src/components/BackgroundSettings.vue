@@ -52,6 +52,7 @@
 		</a>
 		<a v-for="background in shippedBackgrounds"
 			:key="background.name"
+			v-tooltip="background.details.attribution"
 			tabindex="0"
 			class="background"
 			:class="{ 'icon-loading': loading === background.name }"
@@ -81,10 +82,11 @@ export default {
 	},
 	computed: {
 		shippedBackgrounds() {
-			return shippedBackgroundList.map((item) => {
+			return Object.keys(shippedBackgroundList).map((item) => {
 				return {
 					name: item,
 					url: prefixWithBaseUrl(item),
+					details: shippedBackgroundList[item],
 				}
 			})
 		},
