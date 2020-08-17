@@ -47,17 +47,24 @@ use OCA\Files\Listener\LoadSidebarListener;
 use OCA\Files\Notification\Notifier;
 use OCA\Files\Search\FilesSearchProvider;
 use OCA\Files\Service\TagService;
+use OCP\Activity\IManager as IActivityManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Resources\IProviderManager;
-use OCP\IContainer;
+use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IPreview;
 use OCP\ISearch;
+use OCP\IRequest;
 use OCP\IServerContainer;
+use OCP\ITagManager;
+use OCP\IUserSession;
 use OCP\Notification\IManager;
+use OCP\Share\IManager as IShareManager;
 use OCP\Util;
+use Psr\Container\ContainerInterface;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files';
@@ -70,18 +77,18 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Controllers
 		 */
-		$context->registerService('APIController', function (IContainer $c) {
+		$context->registerService('APIController', function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
-			$server = $c->query(IServerContainer::class);
+			$server = $c->get(IServerContainer::class);
 
 			return new ApiController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$server->getUserSession(),
-				$c->query('TagService'),
-				$server->getPreviewManager(),
-				$server->getShareManager(),
-				$server->getConfig(),
+				$c->get('AppName'),
+				$c->get(IRequest::class),
+				$c->get(IUserSession::class),
+				$c->get(TagService::class),
+				$c->get(IPreview::class),
+				$c->get(IShareManager::class),
+				$c->get(IConfig::class),
 				$server->getUserFolder()
 			);
 		});
@@ -89,14 +96,14 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Services
 		 */
-		$context->registerService('TagService', function (IContainer $c) {
+		$context->registerService(TagService::class, function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
-			$server = $c->query(IServerContainer::class);
+			$server = $c->get(IServerContainer::class);
 
 			return new TagService(
-				$server->getUserSession(),
-				$server->getActivityManager(),
-				$server->getTagManager()->load(self::APP_ID),
+				$c->get(IUserSession::class),
+				$c->get(IActivityManager::class),
+				$c->get(ITagManager::class)->load(self::APP_ID),
 				$server->getUserFolder(),
 				$server->getEventDispatcher()
 			);
