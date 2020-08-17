@@ -96,7 +96,7 @@ class Application extends App implements IBootstrap {
 		/**
 		 * Services
 		 */
-		$context->registerService('TagService', function (ContainerInterface $c) {
+		$context->registerService(TagService::class, function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
 
