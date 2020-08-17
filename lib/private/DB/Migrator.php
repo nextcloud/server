@@ -226,7 +226,6 @@ class Migrator {
 		$sourceSchema = $connection->getSchemaManager()->createSchema();
 
 		// remove tables we don't know about
-		/** @var $table \Doctrine\DBAL\Schema\Table */
 		foreach ($sourceSchema->getTables() as $table) {
 			if (!$targetSchema->hasTable($table->getName())) {
 				$sourceSchema->dropTable($table->getName());

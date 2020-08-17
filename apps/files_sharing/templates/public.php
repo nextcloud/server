@@ -1,5 +1,5 @@
 <?php
-/** @var \OCP\IL10N $_ */
+/** @var \OCP\IL10N $l */
 /** @var array $_ */
 ?>
 <div id="app-content">

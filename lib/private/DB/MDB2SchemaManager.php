@@ -145,7 +145,6 @@ class MDB2SchemaManager {
 		$toSchema = new Schema([], [], $this->conn->getSchemaManager()->createSchemaConfig());
 		$fromSchema = $schemaReader->loadSchemaFromFile($file, $toSchema);
 		$toSchema = clone $fromSchema;
-		/** @var $table \Doctrine\DBAL\Schema\Table */
 		foreach ($toSchema->getTables() as $table) {
 			$toSchema->dropTable($table->getName());
 		}

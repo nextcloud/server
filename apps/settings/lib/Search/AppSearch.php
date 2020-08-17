@@ -70,7 +70,6 @@ class AppSearch implements IProvider {
 	 * @inheritDoc
 	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
-		/** @var  $entries */
 		$entries = $this->navigationManager->getAll('all');
 
 		$result = [];

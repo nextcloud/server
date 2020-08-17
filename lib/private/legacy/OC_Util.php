@@ -555,16 +555,16 @@ class OC_Util {
 
 		$timestamp = filemtime(OC::$SERVERROOT . '/version.php');
 		require OC::$SERVERROOT . '/version.php';
-		/** @var $timestamp int */
+		/** @var int $timestamp */
 		self::$versionCache['OC_Version_Timestamp'] = $timestamp;
-		/** @var $OC_Version string */
+		/** @var string $OC_Version */
 		self::$versionCache['OC_Version'] = $OC_Version;
-		/** @var $OC_VersionString string */
+		/** @var string $OC_VersionString */
 		self::$versionCache['OC_VersionString'] = $OC_VersionString;
-		/** @var $OC_Build string */
+		/** @var string $OC_Build */
 		self::$versionCache['OC_Build'] = $OC_Build;
 
-		/** @var $OC_Channel string */
+		/** @var string $OC_Channel */
 		self::$versionCache['OC_Channel'] = $OC_Channel;
 	}
 

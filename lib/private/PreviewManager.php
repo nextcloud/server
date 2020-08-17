@@ -261,7 +261,6 @@ class PreviewManager implements IPreview {
 						continue;
 					}
 
-					/** @var $provider IProvider */
 					if ($provider->isAvailable($file)) {
 						return true;
 					}
