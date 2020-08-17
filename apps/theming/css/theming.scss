@@ -73,7 +73,7 @@ $invert: luma($color-primary) > 0.6;
 		background-color: transparent;
 		@include icon-color('search', 'actions', $color-black, 1, true);
 	}
-	#contactsmenu .icon-contacts {
+	.contacts-menu .icon-contacts {
 		@include icon-color('contacts', 'places', $color-black, 1, true);
 	}
 	#settings .icon-settings-white {

@@ -101,6 +101,8 @@ class TemplateLayout extends \OC_Template {
 			$this->initialState->provideInitialState('unified-search', 'limit-default', SearchQuery::LIMIT_DEFAULT);
 			Util::addScript('dist/unified-search', null, true);
 
+			Util::addScript('dist/contacts-menu');
+
 			// Add navigation entry
 			$this->assign('application', '');
 			$this->assign('appid', $appId);

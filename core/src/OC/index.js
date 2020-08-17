@@ -56,7 +56,6 @@ import {
 	PERMISSION_UPDATE,
 	TAG_FAVORITE,
 } from './constants'
-import ContactsMenu from './contactsmenu'
 import { currentUser, getCurrentUser } from './currentuser'
 import Dialogs from './dialogs'
 import EventSource from './eventsource'
@@ -144,7 +143,6 @@ export default {
 	appSettings,
 	appswebroots,
 	Backbone,
-	ContactsMenu,
 	config: Config,
 	/**
 	 * Currently logged in user or null if none

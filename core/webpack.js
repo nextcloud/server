@@ -13,6 +13,7 @@ module.exports = [
 			maintenance: path.join(__dirname, 'src/maintenance.js'),
 			recommendedapps: path.join(__dirname, 'src/recommendedapps.js'),
 			'unified-search': path.join(__dirname, 'src/unified-search.js'),
+			'contacts-menu': path.join(__dirname, 'src/contacts-menu.js'),
 		},
 		output: {
 			filename: '[name].js',

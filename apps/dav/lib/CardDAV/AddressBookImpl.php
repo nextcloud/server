@@ -102,15 +102,15 @@ class AddressBookImpl implements IAddressBook {
 	 * @param array $searchProperties defines the properties within the query pattern should match
 	 * @param array $options Options to define the output format and search behavior
 	 * 	- 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
-	 *    example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
+	 *    example: ['UID' => '1ab4b6d6-ea11-4ec1-837c-23282078fdb8', 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
 	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
 	 * 	- 'limit' - Set a numeric limit for the search results
 	 * 	- 'offset' - Set the offset for the limited search results
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 *  example result:
 	 *  [
-	 *		['id' => 0, 'FN' => 'Thomas Müller', 'EMAIL' => 'a@b.c', 'GEO' => '37.386013;-122.082932'],
-	 *		['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['d@e.f', 'g@h.i']]
+	 *		['UID' => '2ab4b6d6-ea11-4ec1-837c-23282078fdb8', 'FN' => 'Thomas Müller', 'EMAIL' => 'a@b.c', 'GEO' => '37.386013;-122.082932'],
+	 *		['UID' => '1ab4b6d6-ea11-4ec1-837c-23282078fdb8', 'FN' => 'Thomas Tanghus', 'EMAIL' => ['d@e.f', 'g@h.i']]
 	 *	]
 	 * @since 5.0.0
 	 */

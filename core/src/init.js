@@ -27,7 +27,6 @@ import cssVars from 'css-vars-ponyfill'
 
 import { initSessionHeartBeat } from './session-heartbeat'
 import OC from './OC/index'
-import { setUp as setUpContactsMenu } from './components/ContactsMenu'
 import { setUp as setUpMainMenu } from './components/MainMenu'
 import { setUp as setUpUserMenu } from './components/UserMenu'
 import PasswordConfirmation from './OC/password-confirmation'
@@ -176,7 +175,6 @@ export const initCore = () => {
 
 	setUpMainMenu()
 	setUpUserMenu()
-	setUpContactsMenu()
 
 	// move triangle of apps dropdown to align with app name triangle
 	// 2 is the additional offset between the triangles

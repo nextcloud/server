@@ -249,17 +249,21 @@ class ContactsStore implements IContactsStore {
 	private function contactArrayToEntry(array $contact) {
 		$entry = new Entry();
 
-		if (isset($contact['id'])) {
-			$entry->setId($contact['id']);
+		if (isset($contact['UID'])) {
+			$entry->setId($contact['UID']);
 		}
 
 		if (isset($contact['FN'])) {
 			$entry->setFullName($contact['FN']);
 		}
 
-		$avatarPrefix = "VALUE=uri:";
-		if (isset($contact['PHOTO']) && strpos($contact['PHOTO'], $avatarPrefix) === 0) {
-			$entry->setAvatar(substr($contact['PHOTO'], strlen($avatarPrefix)));
+		if (isset($contact['PHOTO'])) {
+			$avatarPrefix = "VALUE=uri:";
+			if (strpos($contact['PHOTO'], $avatarPrefix) === 0) {
+				$entry->setAvatar(substr($contact['PHOTO'], strlen($avatarPrefix)));
+			} else {
+				$entry->setAvatar($contact['PHOTO']);
+			}
 		}
 
 		if (isset($contact['EMAIL'])) {
