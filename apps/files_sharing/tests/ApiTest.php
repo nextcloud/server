@@ -46,6 +46,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\Share\IShare;
+use OCP\UserStatus\IManager as IUserStatusManager;
 
 /**
  * Class ApiTest
@@ -114,6 +115,7 @@ class ApiTest extends TestCase {
 		$config = $this->createMock(IConfig::class);
 		$appManager = $this->createMock(IAppManager::class);
 		$serverContainer = $this->createMock(IServerContainer::class);
+		$userStatusManager = $this->createMock(IUserStatusManager::class);
 
 		return new ShareAPIController(
 			self::APP_NAME,
@@ -127,7 +129,8 @@ class ApiTest extends TestCase {
 			$l,
 			$config,
 			$appManager,
-			$serverContainer
+			$serverContainer,
+			$userStatusManager
 		);
 	}
 

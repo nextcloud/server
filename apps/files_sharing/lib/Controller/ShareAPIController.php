@@ -70,6 +70,7 @@ use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use OCP\UserStatus\IManager as IUserStatusManager;
 
 /**
  * Class Share20OCS
@@ -100,6 +101,8 @@ class ShareAPIController extends OCSController {
 	private $appManager;
 	/** @var IServerContainer */
 	private $serverContainer;
+	/** @var IUserStatusManager */
+	private $userStatusManager;
 
 	/**
 	 * Share20OCS constructor.
@@ -116,6 +119,7 @@ class ShareAPIController extends OCSController {
 	 * @param IConfig $config
 	 * @param IAppManager $appManager
 	 * @param IServerContainer $serverContainer
+	 * @param IUserStatusManager $userStatusManager
 	 */
 	public function __construct(
 		string $appName,
@@ -129,7 +133,8 @@ class ShareAPIController extends OCSController {
 		IL10N $l10n,
 		IConfig $config,
 		IAppManager $appManager,
-		IServerContainer $serverContainer
+		IServerContainer $serverContainer,
+		IUserStatusManager $userStatusManager
 	) {
 		parent::__construct($appName, $request);
 
@@ -144,6 +149,7 @@ class ShareAPIController extends OCSController {
 		$this->config = $config;
 		$this->appManager = $appManager;
 		$this->serverContainer = $serverContainer;
+		$this->userStatusManager = $userStatusManager;
 	}
 
 	/**
@@ -220,6 +226,20 @@ class ShareAPIController extends OCSController {
 			$sharedWith = $this->userManager->get($share->getSharedWith());
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $sharedWith !== null ? $sharedWith->getDisplayName() : $share->getSharedWith();
+			$result['status'] = [];
+
+			$userStatuses = $this->userStatusManager->getUserStatuses([$share->getSharedWith()]);
+			$userStatus = array_shift($userStatuses);
+			if ($userStatus) {
+				$result['status'] = [
+					'status' => $userStatus->getStatus(),
+					'message' => $userStatus->getMessage(),
+					'icon' => $userStatus->getIcon(),
+					'clearAt' => $userStatus->getClearAt()
+						? (int)$userStatus->getClearAt()->format('U')
+						: null,
+				];
+			}
 		} elseif ($share->getShareType() === IShare::TYPE_GROUP) {
 			$group = $this->groupManager->get($share->getSharedWith());
 			$result['share_with'] = $share->getSharedWith();

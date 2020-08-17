@@ -23,6 +23,7 @@
 		class="custom-input__form"
 		@submit.prevent>
 		<input
+			maxlength="80"
 			:placeholder="$t('user_status', 'What\'s your status?')"
 			type="text"
 			:value="message"

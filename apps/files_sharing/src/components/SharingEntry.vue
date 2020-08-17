@@ -29,6 +29,10 @@
 			:url="share.shareWithAvatar" />
 		<div v-tooltip.auto="tooltip" class="sharing-entry__desc">
 			<h5>{{ title }}</h5>
+			<p v-if="hasStatus">
+				<span>{{ share.status.icon || '' }}</span>
+				<span>{{ share.status.message || '' }}</span>
+			</p>
 		</div>
 		<Actions
 			menu-align="right"
@@ -340,6 +344,17 @@ export default {
 		dateMaxEnforced() {
 			return this.config.isDefaultInternalExpireDateEnforced
 				&& moment().add(1 + this.config.defaultInternalExpireDate, 'days')
+		},
+
+		/**
+		 * @returns {bool}
+		 */
+		hasStatus() {
+			if (this.share.type !== this.SHARE_TYPES.SHARE_TYPE_USER) {
+				return false
+			}
+
+			return (typeof this.share.status === 'object' && !Array.isArray(this.share.status))
 		},
 
 	},
