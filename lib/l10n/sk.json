@@ -8,6 +8,7 @@
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Súbory aplikácie %1$s neboli správne nahradené. Uistite sa, že to je verzia kompatibilná so serverom.",
     "Sample configuration detected" : "Detekovaná bola vzorová konfigurácia",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Zistilo sa, že konfigurácia bola skopírovaná zo vzorových súborov. Takáto konfigurácia nie je podporovaná a môže poškodiť vašu inštaláciu. Prečítajte si dokumentáciu pred vykonaním zmien v config.php",
+    "Other activities" : "Iné aktivity",
     "%1$s and %2$s" : "%1$s a %2$s",
     "%1$s, %2$s and %3$s" : "%1$s, %2$s a %3$s",
     "%1$s, %2$s, %3$s and %4$s" : "%1$s, %2$s, %3$s a %4$s",
