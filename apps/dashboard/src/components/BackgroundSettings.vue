@@ -22,27 +22,35 @@
 
 <template>
 	<div class="background-selector">
-		<div class="background" tabindex="0" @click="pickFile">
+		<a class="background filepicker"
+			tabindex="0"
+			@click="pickFile"
+			@keyup.enter="pickFile"
+			@keyup.space="pickFile">
 			<div class="background--preview">
 				{{ t('dashboard', 'Pick from files') }}
 			</div>
-		</div>
-		<div class="background default"
-			:class="{ 'icon-loading': loading === 'default' }"
+		</a>
+		<a class="background default"
 			tabindex="0"
-			@click="setDefault()">
+			:class="{ 'icon-loading': loading === 'default' }"
+			@click="setDefault"
+			@keyup.enter="setDefault"
+			@keyup.space="setDefault">
 			<div class="background--preview">
-				Default
+				{{ t('dashboard', 'Default images') }}
 			</div>
-		</div>
-		<div v-for="background in shippedBackgrounds"
+		</a>
+		<a v-for="background in shippedBackgrounds"
 			:key="background.name"
+			tabindex="0"
 			class="background"
 			:class="{ 'icon-loading': loading === background.name }"
-			tabindex="0"
-			@click="setShipped(background.name)">
+			@click="setShipped(background.name)"
+			@keyup.enter="setShipped(background.name)"
+			@keyup.space="setShipped(background.name)">
 			<div class="background--preview" :style="{ 'background-image': 'url(' + background.url + ')' }" />
-		</div>
+		</a>
 	</div>
 </template>
 
@@ -138,22 +146,30 @@ export default {
             margin: 8px;
 			text-align: center;
             border-radius: var(--border-radius-large);
+			border-radius: var(--border-radius-large);
+			border: 2px solid var(--color-main-background);
+			overflow: hidden;
 
 			&.current {
 				background-image: var(--color-background-dark);
 			}
 
 			&--preview {
-				width: 172px;
+				width: 100%;
 				height: 96px;
 				background-size: cover;
 				background-position: center center;
-				border-radius: var(--border-radius-large);
-                border: 2px solid var(--color-main-background);
 			}
 
-			&:hover .background--preview,
-            &:focus .background--preview {
+			&.filepicker, &.default {
+				border: 2px solid var(--color-border);
+				.background--preview {
+					line-height: 100px;
+				}
+			}
+
+			&:hover,
+            &:focus {
                 border: 2px solid var(--color-primary);
 			}
 		}

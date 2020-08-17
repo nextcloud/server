@@ -29,7 +29,9 @@
 			<a v-tooltip="tooltip"
 				class="edit-panels icon-rename"
 				tabindex="0"
-				@click="showModal">{{ t('dashboard', 'Customize') }}</a>
+				@click="showModal"
+				@keyup.enter="showModal"
+				@keyup.space="showModal">{{ t('dashboard', 'Customize') }}</a>
 		</div>
 
 		<Modal v-if="modal" @close="closeModal">
@@ -427,6 +429,7 @@ export default {
 		opacity: 1;
 		text-align: center;
 
+		&:focus,
 		&:hover {
 			opacity: 1;
 			background-color: var(--color-background-hover);
