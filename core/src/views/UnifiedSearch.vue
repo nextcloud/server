@@ -65,7 +65,7 @@
 				<template v-if="isShortQuery" #desc>
 					{{ n('core',
 						'Please enter {minSearchLength} character or more to search',
-						'Please enter {minSearchLength} characters  or more to search',
+						'Please enter {minSearchLength} characters or more to search',
 						minSearchLength,
 						{minSearchLength}) }}
 				</template>
