@@ -131,6 +131,7 @@ export default {
 	data() {
 		return {
 			types: [],
+			originalTypes: [],
 
 			cursors: {},
 			limits: {},
@@ -253,6 +254,7 @@ export default {
 
 	async created() {
 		this.types = await getTypes()
+		this.originalTypes = this.types
 		console.debug('Unified Search initialized with the following providers', this.types)
 	},
 
@@ -285,6 +287,7 @@ export default {
 			this.focusInput()
 			// Update types list in the background
 			this.types = await getTypes()
+			this.originalTypes = this.types
 		},
 		onClose() {
 			this.resetState()
@@ -292,6 +295,7 @@ export default {
 		},
 
 		resetState() {
+			this.types = this.originalTypes
 			this.cursors = {}
 			this.limits = {}
 			this.loading = {}
@@ -357,7 +361,7 @@ export default {
 			// Reset search if the query changed
 			this.resetState()
 
-			types.forEach(async type => {
+			types.forEach(async(type, key) => {
 				this.$set(this.loading, type, true)
 				const request = await search(type, query)
 
@@ -367,6 +371,11 @@ export default {
 				} else {
 					this.$delete(this.results, type)
 				}
+
+				// Search providers can return a different name on the result,
+				// so we overwrite it and use it for the header of the result list.
+				// But when the search is reset, the original name is used again.
+				this.types[key].name = request.data.name
 
 				// Save cursor if any
 				if (request.data.cursor) {
