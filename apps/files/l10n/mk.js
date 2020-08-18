@@ -130,6 +130,8 @@ OC.L10N.register(
     "You moved {oldfile} to {newfile}" : "Го премести {oldfile} во {newfile}",
     "{user} moved {oldfile} to {newfile}" : "{user} го премести {oldfile} во {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Датотека беше додадена или избришана од  <strong>фаворити</strong>",
+    "A file or folder has been <strong>changed</strong>" : "Датотека или папка беше <strong>променета</strong>",
+    "A favorite file or folder has been <strong>changed</strong>" : "Датотека или папка која е означена како омилена беше <strong>променета</strong>",
     "All files" : "Сите датотеки",
     "Unlimited" : "Неограничено",
     "Upload (max. %s)" : "Префрлање (макс. %s)",

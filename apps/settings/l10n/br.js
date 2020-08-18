@@ -260,6 +260,7 @@ OC.L10N.register(
     "App bundles" : "Strolladoù meziant",
     "Featured apps" : "Kewesturioù meziant",
     "{license}-licensed" : "{license}-aotre",
+    "by {author}\n{license}" : "great gant {author}\n{license}",
     "New user" : "Implijer nevez",
     "Enter group name" : "Lakat un anv strollad",
     "Add group" : "Ouzhpenn strollad",
