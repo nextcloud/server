@@ -74,11 +74,11 @@
 
 		<!-- Grouped search results -->
 		<template v-else>
-			<ul v-for="({list, type}, typesIndex) in orderedResults"
+			<ul v-for="({list, name, type}, typesIndex) in orderedResults"
 				:key="type"
 				class="unified-search__results"
 				:class="`unified-search__results-${type}`"
-				:aria-label="typesMap[type]">
+				:aria-label="name">
 				<!-- Search results -->
 				<li v-for="(result, index) in limitIfAny(list, type)" :key="result.resourceUrl">
 					<SearchResult v-bind="result"
@@ -131,7 +131,6 @@ export default {
 	data() {
 		return {
 			types: [],
-			originalTypes: [],
 
 			cursors: {},
 			limits: {},
@@ -180,7 +179,8 @@ export default {
 				.filter(type => type in this.results)
 				.map(type => ({
 					type,
-					list: this.results[type],
+					name: this.results[type].name,
+					list: this.results[type].entries,
 				}))
 		},
 
@@ -254,7 +254,6 @@ export default {
 
 	async created() {
 		this.types = await getTypes()
-		this.originalTypes = this.types
 		console.debug('Unified Search initialized with the following providers', this.types)
 	},
 
@@ -287,7 +286,6 @@ export default {
 			this.focusInput()
 			// Update types list in the background
 			this.types = await getTypes()
-			this.originalTypes = this.types
 		},
 		onClose() {
 			this.resetState()
@@ -295,7 +293,6 @@ export default {
 		},
 
 		resetState() {
-			this.types = this.originalTypes
 			this.cursors = {}
 			this.limits = {}
 			this.loading = {}
@@ -361,21 +358,16 @@ export default {
 			// Reset search if the query changed
 			this.resetState()
 
-			types.forEach(async(type, key) => {
+			types.forEach(async type => {
 				this.$set(this.loading, type, true)
 				const request = await search(type, query)
 
 				// Process results
 				if (request.data.entries.length > 0) {
-					this.$set(this.results, type, request.data.entries)
+					this.$set(this.results, type, request.data)
 				} else {
 					this.$delete(this.results, type)
 				}
-
-				// Search providers can return a different name on the result,
-				// so we overwrite it and use it for the header of the result list.
-				// But when the search is reset, the original name is used again.
-				this.types[key].name = request.data.name
 
 				// Save cursor if any
 				if (request.data.cursor) {
@@ -423,7 +415,7 @@ export default {
 				}
 
 				if (request.data.entries.length > 0) {
-					this.results[type].push(...request.data.entries)
+					this.results[type].entries.push(...request.data.entries)
 				}
 
 				// Check if we reached end of pagination
@@ -438,7 +430,7 @@ export default {
 				this.limits[type] += this.defaultLimit
 
 				// Check if we reached end of pagination
-				if (this.limits[type] >= this.results[type].length) {
+				if (this.limits[type] >= this.results[type].entries.length) {
 					this.$set(this.reached, type, true)
 				}
 			}
