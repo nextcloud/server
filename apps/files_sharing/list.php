@@ -30,7 +30,9 @@ use OCP\EventDispatcher\GenericEvent;
 OCP\User::checkLoggedIn();
 $config = \OC::$server->getConfig();
 $userSession = \OC::$server->getUserSession();
-$eventDispatcher = \OC::$server->getEventDispatcher();
+$legacyEventDispatcher = \OC::$server->getEventDispatcher();
+/** @var \OCP\EventDispatcher\IEventDispatcher $eventDispatcher */
+$eventDispatcher = \OC::$server->get(OCP\EventDispatcher\IEventDispatcher::class);
 
 $showgridview = $config->getUserValue($userSession->getUser()->getUID(), 'files', 'show_grid', false);
 $isIE = \OCP\Util::isIE();
@@ -41,13 +43,13 @@ $tmpl = new OCP\Template('files_sharing', 'list', '');
 $tmpl->assign('showgridview', $showgridview && !$isIE);
 
 // fire script events
-$eventDispatcher->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts', new GenericEvent());
-$eventDispatcher->dispatch(LoadAdditionalScriptsEvent::class, new LoadAdditionalScriptsEvent());
-$eventDispatcher->dispatch(LoadSidebar::class, new LoadSidebar());
+$legacyEventDispatcher->dispatch('\OCP\Collaboration\Resources::loadAdditionalScripts', new GenericEvent());
+$eventDispatcher->dispatchTyped(new LoadAdditionalScriptsEvent());
+$eventDispatcher->dispatchTyped(new LoadSidebar());
 
 // Load Viewer scripts
 if (class_exists(LoadViewer::class)) {
-	$eventDispatcher->dispatch(LoadViewer::class, new LoadViewer());
+	$eventDispatcher->dispatchTyped(new LoadViewer());
 }
 
 $tmpl->printPage();
