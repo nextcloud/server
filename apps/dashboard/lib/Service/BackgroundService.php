@@ -26,8 +26,6 @@ declare(strict_types=1);
 
 namespace OCA\Dashboard\Service;
 
-
-use OCP\Files\File;
 use OCP\Files\IAppData;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
@@ -35,7 +33,6 @@ use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\IConfig;
 
 class BackgroundService {
-
 	public const THEMING_MODE_DARK = 'dark';
 
 	public const SHIPPED_BACKGROUNDS = [
@@ -81,6 +78,19 @@ class BackgroundService {
 			'attribution_url' => '',
 		]
 	];
+	/**
+	 * @var \OCP\Files\Folder
+	 */
+	private $userFolder;
+	/**
+	 * @var \OCP\Files\SimpleFS\ISimpleFolder
+	 */
+	private $dashboardUserFolder;
+	/**
+	 * @var IConfig
+	 */
+	private $config;
+	private $userId;
 
 	public function __construct(IRootFolder $rootFolder, IAppData $appData, IConfig $config, $userId) {
 		if ($userId === null) {
@@ -96,31 +106,37 @@ class BackgroundService {
 		$this->userId = $userId;
 	}
 
-	public function setDefaultBackground() {
+	public function setDefaultBackground(): void {
 		$this->config->deleteUserValue($this->userId, 'dashboard', 'background');
 	}
 
-	public function setFileBackground($path) {
+	/**
+	 * @param $path
+	 * @throws NotFoundException
+	 * @throws \OCP\Files\NotPermittedException
+	 * @throws \OCP\PreConditionNotMetException
+	 */
+	public function setFileBackground($path): void {
 		$this->config->setUserValue($this->userId, 'dashboard', 'background', 'custom');
 		$file = $this->userFolder->get($path);
-		$newFile = $this->dashboardUserFolder->newFile('background.jpg', $file->fopen('r'));
+		$this->dashboardUserFolder->newFile('background.jpg', $file->fopen('r'));
 	}
 
-	public function setShippedBackground($fileName) {
+	public function setShippedBackground($fileName): void {
 		if (!array_key_exists($fileName, self::SHIPPED_BACKGROUNDS)) {
 			throw new \InvalidArgumentException('The given file name is invalid');
 		}
 		$this->config->setUserValue($this->userId, 'dashboard', 'background', $fileName);
 	}
 
-	public function setColorBackground(string $color) {
+	public function setColorBackground(string $color): void {
 		if (!preg_match('/^\#([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
 			throw new \InvalidArgumentException('The given color is invalid');
 		}
 		$this->config->setUserValue($this->userId, 'dashboard', 'background', $color);
 	}
 
-	public function getBackground() {
+	public function getBackground(): ?ISimpleFile {
 		$background = $this->config->getUserValue($this->userId, 'dashboard', 'background', 'default');
 		if ($background === 'custom') {
 			try {
@@ -130,5 +146,4 @@ class BackgroundService {
 		}
 		return null;
 	}
-
 }

@@ -39,7 +39,6 @@ use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
 use OCP\Dashboard\RegisterWidgetEvent;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
@@ -128,8 +127,8 @@ class DashboardController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function setBackground(string $type = 'default', $value): JSONResponse {
-		$currentVersion = $this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', 0);
+	public function setBackground(string $type, string $value): JSONResponse {
+		$currentVersion = (int)$this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', 0);
 		try {
 			switch ($type) {
 				case 'shipped':
@@ -149,6 +148,8 @@ class DashboardController extends Controller {
 			}
 		} catch (\InvalidArgumentException $e) {
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		} catch (\Throwable $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 		$currentVersion++;
 		$this->config->setUserValue($this->userId, 'dashboard', 'backgroundVersion', $currentVersion);
