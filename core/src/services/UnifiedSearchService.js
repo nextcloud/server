@@ -59,5 +59,11 @@ export async function getTypes() {
  * @returns {Promise}
  */
 export function search(type, query) {
-	return axios.get(generateUrl(`/search/providers/${type}/search?term=${query}`))
+	return axios.get(generateUrl(`/search/providers/${type}/search`), {
+		params: {
+			term: query,
+			// Sending which location we're currently at
+			from: window.location.pathname.replace('/index.php', '') + window.location.search,
+		},
+	})
 }
