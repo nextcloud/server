@@ -1175,7 +1175,7 @@ if (!function_exists('imagebmp')) {
 		} elseif ($bit == 32) {
 			$bit = 24;
 		}
-		$bits = pow(2, $bit);
+		$bits = (int)pow(2, $bit);
 		imagetruecolortopalette($im, true, $bits);
 		$width = imagesx($im);
 		$height = imagesy($im);
@@ -1211,7 +1211,7 @@ if (!function_exists('imagebmp')) {
 			} // RLE8
 			elseif ($compression == 1 && $bit == 8) {
 				for ($j = $height - 1; $j >= 0; $j--) {
-					$lastIndex = "\0";
+					$lastIndex = 0;
 					$sameNum = 0;
 					for ($i = 0; $i <= $width; $i++) {
 						$index = imagecolorat($im, $i, $j);
