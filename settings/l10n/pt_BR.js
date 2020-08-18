@@ -260,6 +260,7 @@ OC.L10N.register(
     "App bundles" : "Pacotes de aplicativos",
     "Featured apps" : "Aplicativos em destaque",
     "{license}-licensed" : "{license}-licenciado",
+    "by {author}\n{license}" : "por {author}\n{license}",
     "New user" : "Novo usuário",
     "Enter group name" : "Insira o nome do grupo",
     "Add group" : "Adicionar grupo",
