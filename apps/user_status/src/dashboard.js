@@ -20,20 +20,29 @@
  *
  */
 
-.icon-user-status {
-	@include icon-color('app', 'user_status', $color-black, 1);
-}
+import Vue from 'vue'
+import { generateFilePath } from '@nextcloud/router'
+import { getRequestToken } from '@nextcloud/auth'
+import { translate, translatePlural } from '@nextcloud/l10n'
+import Dashboard from './views/Dashboard'
 
-.icon-user-status-away {
-	@include icon-color('user-status-away', 'user_status', '#F4A331', 2);
-}
+// eslint-disable-next-line
+__webpack_nonce__ = btoa(getRequestToken())
 
-.icon-user-status-dnd {
-	@include icon-color('user-status-dnd', 'user_status', '#ED484C', 2);
-}
+// eslint-disable-next-line
+__webpack_public_path__ = generateFilePath('user_status', '', 'js/')
 
-@include icon-black-white('user-status-invisible', 'user_status', 3);
+Vue.prototype.t = translate
+Vue.prototype.n = translatePlural
+Vue.prototype.OC = OC
+Vue.prototype.OCA = OCA
 
-.icon-user-status-online {
-	@include icon-color('user-status-online', 'user_status', '#49B382', 3);
-}
+document.addEventListener('DOMContentLoaded', function() {
+	OCA.Dashboard.register('user_status', (el) => {
+		const View = Vue.extend(Dashboard)
+		new View({
+			propsData: {},
+		}).$mount(el)
+	})
+
+})

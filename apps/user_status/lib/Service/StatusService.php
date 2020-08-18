@@ -96,6 +96,17 @@ class StatusService {
 	}
 
 	/**
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array
+	 */
+	public function findAllRecentStatusChanges(?int $limit = null, ?int $offset = null): array {
+		return array_map(function ($status) {
+			return $this->processStatus($status);
+		}, $this->mapper->findAllRecent($limit, $offset));
+	}
+
+	/**
 	 * @param string $userId
 	 * @return UserStatus
 	 * @throws DoesNotExistException
