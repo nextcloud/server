@@ -275,6 +275,7 @@ export default {
 			this.updateGlobalStyles()
 		},
 		updateGlobalStyles() {
+			document.body.setAttribute('data-dashboard-background', this.background)
 			if (window.OCA.Theming.inverted) {
 				document.body.classList.add('dashboard-inverted')
 			}

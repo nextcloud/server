@@ -40,7 +40,7 @@ body.dashboard-inverted:not(.dashboard-dark) {
 		filter: invert(0);
 	}
 	#appmenu .icon-more-white,
-	.header-right > div:not(#settings) > * {
+	.header-right > div:not(#settings) > *:first-child {
 		filter: invert(1) hue-rotate(180deg);
 	}
 }
@@ -62,10 +62,10 @@ body.dashboard-dark:not(.dashboard-inverted) {
 		color: #000;
 	}
 	#appmenu svg {
-		filter: invert(1) !important;
+		filter: invert(1) hue-rotate(180deg) !important;
 	}
 	#appmenu .icon-more-white,
-	.header-right > div:not(#settings) > * {
-		filter: invert(1) hue-rotate(180deg);
+	.header-right > div:not(#settings) > *:first-child {
+		filter: invert(1) hue-rotate(180deg) !important;
 	}
 }
