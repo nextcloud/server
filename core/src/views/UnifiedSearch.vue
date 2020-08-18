@@ -37,7 +37,7 @@
 				v-model="query"
 				class="unified-search__input"
 				type="search"
-				:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ').toLowerCase() })"
+				:placeholder="t('core', 'Search {types} …', { types: typesNames.filter(unique).join(', ').toLowerCase() })"
 				@input="onInputDebounced"
 				@keypress.enter.prevent.stop="onInputEnter">
 			<!-- Search filters -->
@@ -298,6 +298,10 @@ export default {
 			this.reached = {}
 			this.results = {}
 			this.focused = null
+		},
+
+		unique(value, index, self) {
+			return self.indexOf(value) === index
 		},
 
 		/**
