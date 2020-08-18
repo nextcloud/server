@@ -314,12 +314,6 @@
       <code>$paths</code>
     </MoreSpecificImplementedParamType>
   </file>
-  <file src="apps/dav/lib/CalDAV/Publishing/PublishPlugin.php">
-    <UndefinedMethod occurrences="2">
-      <code>checkPrivileges</code>
-      <code>checkPrivileges</code>
-    </UndefinedMethod>
-  </file>
   <file src="apps/dav/lib/CalDAV/Reminder/NotificationProvider/AbstractProvider.php">
     <UndefinedMethod occurrences="3">
       <code>isFloating</code>
