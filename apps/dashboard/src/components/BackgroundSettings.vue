@@ -177,6 +177,16 @@ export default {
             &:focus {
                 border: 2px solid var(--color-primary);
 			}
+
+			&.active:after {
+				background-image: var(--icon-checkmark-fff);
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: 44px;
+				content: '';
+				display: block;
+				height: 100%;
+			}
 		}
 	}
 
