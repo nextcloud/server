@@ -115,6 +115,7 @@ OC.L10N.register(
     "File drop (upload only)" : "File drop (upload only)",
     "Hide download" : "Hide download",
     "Password protect" : "Password protect",
+    "Add another link" : "Add another link",
     "Share link" : "Share link",
     "Resharing is not allowed" : "Resharing is not allowed",
     "Shared" : "Shared",
