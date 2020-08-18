@@ -23,6 +23,7 @@
 <template>
 	<div class="background-selector">
 		<a class="background filepicker"
+			:class="{ active: background === 'custom' }"
 			tabindex="0"
 			@click="pickFile"
 			@keyup.enter="pickFile"
@@ -31,29 +32,30 @@
 		</a>
 		<a class="background default"
 			tabindex="0"
-			:class="{ 'icon-loading': loading === 'default' }"
+			:class="{ 'icon-loading': loading === 'default', active: background === 'default' }"
 			@click="setDefault"
 			@keyup.enter="setDefault"
 			@keyup.space="setDefault">
 			{{ t('dashboard', 'Default images') }}
 		</a>
 		<a class="background color"
+			:class="{ active: background === 'custom' }"
 			tabindex="0"
 			@click="pickColor"
 			@keyup.enter="pickColor"
 			@keyup.space="pickColor">
 			{{ t('dashboard', 'Plain background') }}
 		</a>
-		<a v-for="background in shippedBackgrounds"
-			:key="background.name"
-			v-tooltip="background.details.attribution"
+		<a v-for="shippedBackground in shippedBackgrounds"
+			:key="shippedBackground.name"
+			v-tooltip="shippedBackground.details.attribution"
+			:class="{ 'icon-loading': loading === shippedBackground.name, active: background === shippedBackground.name }"
 			tabindex="0"
 			class="background"
-			:class="{ 'icon-loading': loading === background.name }"
-			:style="{ 'background-image': 'url(' + background.url + ')' }"
-			@click="setShipped(background.name)"
-			@keyup.enter="setShipped(background.name)"
-			@keyup.space="setShipped(background.name)" />
+			:style="{ 'background-image': 'url(' + shippedBackground.url + ')' }"
+			@click="setShipped(shippedBackground.name)"
+			@keyup.enter="setShipped(shippedBackground.name)"
+			@keyup.space="setShipped(shippedBackground.name)" />
 	</div>
 </template>
 
@@ -67,6 +69,12 @@ const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
 
 export default {
 	name: 'BackgroundSettings',
+	props: {
+		background: {
+			type: String,
+			default: 'default',
+		},
+	},
 	data() {
 		return {
 			backgroundImage: generateUrl('/apps/dashboard/background') + '?v=' + Date.now(),
@@ -147,7 +155,6 @@ export default {
             background-position: center center;
 			text-align: center;
             border-radius: var(--border-radius-large);
-			border-radius: var(--border-radius-large);
 			border: 2px solid var(--color-main-background);
 			overflow: hidden;
 
@@ -165,6 +172,7 @@ export default {
 				color: var(--color-primary-text);
 			}
 
+			&.active,
 			&:hover,
             &:focus {
                 border: 2px solid var(--color-primary);

@@ -58,7 +58,7 @@
 				<a :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
 
 				<h3>{{ t('dashboard', 'Change background image') }}</h3>
-				<BackgroundSettings @updateBackground="updateBackground" />
+				<BackgroundSettings :background="background" @updateBackground="updateBackground" />
 
 				<h3>{{ t('dashboard', 'Credits') }}</h3>
 				<p>{{ t('dashboard', 'Photos') }}: <a href="https://www.flickr.com/photos/paszczak000/8715851521/" target="_blank" rel="noopener">Clouds (Kamil Porembiński)</a>, <a href="https://www.flickr.com/photos/148302424@N05/36591009215/" target="_blank" rel="noopener">Un beau soir dété (Tanguy Domenge)</a>.</p>
