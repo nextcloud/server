@@ -128,6 +128,8 @@
     "You moved {oldfile} to {newfile}" : "Dilec'hiet ho peus {oldfile} e {newfile}",
     "{user} moved {oldfile} to {newfile}" : "{oldfile} a zo bet dilec'hiet gant {user} e {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Ur restr a zo bet ouzhpennet pe ziverket en ho <strong>pennrolloù</strong>",
+    "A file or folder has been <strong>changed</strong>" : "Ur restr pe un teuliad a zo bet <strong>cheñchet</strong>",
+    "A favorite file or folder has been <strong>changed</strong>" : "Unan eus ho restr pe teuliad karetañ a zo bet <strong>cheñchet</strong>",
     "All files" : "An holl restroù",
     "Unlimited" : "Didermenet",
     "Upload (max. %s)" : "Pellgas (max. %s)",
