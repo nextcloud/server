@@ -87,6 +87,7 @@ class DashboardController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index(): TemplateResponse {
+		\OCP\Util::addStyle('dashboard', 'dashboard');
 		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());

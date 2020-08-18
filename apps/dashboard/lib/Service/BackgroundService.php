@@ -47,6 +47,7 @@ class BackgroundService {
 		'bernie-cetonia-aurata-take-off-composition.jpg' => [
 			'attribution' => '',
 			'attribution_url' => '',
+			'theming' => self::THEMING_MODE_DARK,
 		],
 		'dejan-krsmanovic-ribbed-red-metal.jpg' => [
 			'attribution' => '',

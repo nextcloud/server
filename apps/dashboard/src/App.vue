@@ -4,8 +4,9 @@
 		<div class="statuses">
 			<div v-for="status in registeredStatus"
 				:id="'status-' + status"
-				:key="status"
-				:ref="'status-' + status" />
+				:key="status">
+				<div :ref="'status-' + status" />
+			</div>
 		</div>
 
 		<Draggable v-model="layout"
@@ -83,6 +84,7 @@ const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
 const background = loadState('dashboard', 'background')
 const version = loadState('dashboard', 'version')
+const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
 
 export default {
 	name: 'App',
@@ -192,6 +194,8 @@ export default {
 		},
 	},
 	mounted() {
+		this.updateGlobalStyles()
+
 		setInterval(() => {
 			this.timer = new Date()
 		}, 30000)
@@ -268,31 +272,26 @@ export default {
 		updateBackground(data) {
 			this.background = data.type === 'custom' || data.type === 'default' ? data.type : data.value
 			this.version = data.version
+			this.updateGlobalStyles()
+		},
+		updateGlobalStyles() {
+			if (window.OCA.Theming.inverted) {
+				document.body.classList.add('dashboard-inverted')
+			}
+
+			const shippedBackgroundTheme = shippedBackgroundList[this.background] ? shippedBackgroundList[this.background].theming : 'light'
+			if (shippedBackgroundTheme === 'dark') {
+				document.body.classList.add('dashboard-dark')
+			} else {
+				document.body.classList.remove('dashboard-dark')
+			}
 		},
 	},
 }
 </script>
 
 <style lang="scss">
-// Show Dashboard background image beneath header
-#body-user #header {
-	background-size: cover;
-	background-position: center 50%;
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-}
 
-#content {
-	padding-top: 0;
-}
-
-// Hide triangle indicators from navigation since they are out of place without the header bar
-#appmenu li a.active::before,
-#appmenu li:hover a::before,
-#appmenu li:hover a.active::before,
-#appmenu li a:focus::before {
-	display: none;
-}
 </style>
 
 <style lang="scss" scoped>
@@ -490,6 +489,8 @@ export default {
 
 		& > div {
 			max-width: 200px;
+			margin-left: 10px;
+			margin-right: 10px;
 		}
 	}
 
