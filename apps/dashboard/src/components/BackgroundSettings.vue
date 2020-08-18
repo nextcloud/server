@@ -27,9 +27,7 @@
 			@click="pickFile"
 			@keyup.enter="pickFile"
 			@keyup.space="pickFile">
-			<div class="background--preview">
-				{{ t('dashboard', 'Pick from files') }}
-			</div>
+			{{ t('dashboard', 'Pick from files') }}
 		</a>
 		<a class="background default"
 			tabindex="0"
@@ -37,18 +35,14 @@
 			@click="setDefault"
 			@keyup.enter="setDefault"
 			@keyup.space="setDefault">
-			<div class="background--preview">
-				{{ t('dashboard', 'Default images') }}
-			</div>
+			{{ t('dashboard', 'Default images') }}
 		</a>
 		<a class="background color"
 			tabindex="0"
 			@click="pickColor"
 			@keyup.enter="pickColor"
 			@keyup.space="pickColor">
-			<div class="background--preview">
-				{{ t('dashboard', 'Plain background') }}
-			</div>
+			{{ t('dashboard', 'Plain background') }}
 		</a>
 		<a v-for="background in shippedBackgrounds"
 			:key="background.name"
@@ -56,11 +50,10 @@
 			tabindex="0"
 			class="background"
 			:class="{ 'icon-loading': loading === background.name }"
+			:style="{ 'background-image': 'url(' + background.url + ')' }"
 			@click="setShipped(background.name)"
 			@keyup.enter="setShipped(background.name)"
-			@keyup.space="setShipped(background.name)">
-			<div class="background--preview" :style="{ 'background-image': 'url(' + background.url + ')' }" />
-		</a>
+			@keyup.space="setShipped(background.name)" />
 	</div>
 </template>
 
@@ -148,7 +141,10 @@ export default {
 
 		.background {
 			width: 176px;
+            height: 96px;
             margin: 8px;
+            background-size: cover;
+            background-position: center center;
 			text-align: center;
             border-radius: var(--border-radius-large);
 			border-radius: var(--border-radius-large);
@@ -159,21 +155,12 @@ export default {
 				background-image: var(--color-background-dark);
 			}
 
-			&--preview {
-				width: 100%;
-				height: 96px;
-				background-size: cover;
-				background-position: center center;
-			}
-
 			&.filepicker, &.default, &.color {
-				border: 2px solid var(--color-border);
-				.background--preview {
-					line-height: 100px;
-				}
+				border-color: var(--color-border);
+				line-height: 96px;
 			}
 
-			&.color .background--preview {
+			&.color {
 				background-color: var(--color-primary);
 				color: var(--color-primary-text);
 			}
