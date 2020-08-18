@@ -37,7 +37,7 @@
 				v-model="query"
 				class="unified-search__input"
 				type="search"
-				:placeholder="t('core', 'Search {types} …', { types: typesNames.filter(unique).join(', ').toLowerCase() })"
+				:placeholder="t('core', 'Search {types} …', { types: typesNames.filter(unique).join(', ') })"
 				@input="onInputDebounced"
 				@keypress.enter.prevent.stop="onInputEnter">
 			<!-- Search filters -->
