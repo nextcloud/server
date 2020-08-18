@@ -107,7 +107,7 @@ class BackgroundService {
 	}
 
 	public function setShippedBackground($fileName) {
-		if (!in_array($fileName, self::SHIPPED_BACKGROUNDS)) {
+		if (!array_key_exists($fileName, self::SHIPPED_BACKGROUNDS)) {
 			throw new \InvalidArgumentException('The given file name is invalid');
 		}
 		$this->config->setUserValue($this->userId, 'dashboard', 'background', $fileName);

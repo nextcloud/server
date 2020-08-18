@@ -95,6 +95,11 @@ export default {
 		async update(data) {
 			const background = data.type === 'custom' || data.type === 'default' ? data.type : data.value
 			this.backgroundImage = getBackgroundUrl(background, data.version)
+			if (data.type === 'color') {
+				this.$emit('updateBackground', data)
+				this.loading = false
+				return
+			}
 			const image = new Image()
 			image.onload = () => {
 				this.$emit('updateBackground', data)
