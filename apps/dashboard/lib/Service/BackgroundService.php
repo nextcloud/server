@@ -36,10 +36,9 @@ use OCP\IConfig;
 
 class BackgroundService {
 
-	const THEMING_MODE_LIGHT = 'light';
-	const THEMING_MODE_DARK = 'dark';
+	public const THEMING_MODE_DARK = 'dark';
 
-	const SHIPPED_BACKGROUNDS = [
+	public const SHIPPED_BACKGROUNDS = [
 		'anatoly-mikhaltsov-butterfly-wing-scale.jpg' => [
 			'attribution' => 'Butterfly',
 			'attribution_url' => 'https://',
