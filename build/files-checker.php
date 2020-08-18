@@ -70,6 +70,7 @@ $expectedFiles = [
 	'ocs',
 	'package-lock.json',
 	'package.json',
+	'psalm.xml',
 	'public.php',
 	'README.md',
 	'remote.php',
