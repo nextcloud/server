@@ -1941,13 +1941,10 @@
     </UndefinedMethod>
   </file>
   <file src="apps/files_sharing/list.php">
-    <InvalidArgument occurrences="4">
+    <InvalidArgument occurrences="1">
       <code>'\OCP\Collaboration\Resources::loadAdditionalScripts'</code>
-      <code>LoadAdditionalScriptsEvent::class</code>
-      <code>LoadSidebar::class</code>
-      <code>LoadViewer::class</code>
     </InvalidArgument>
-    <TooManyArguments occurrences="4">
+    <TooManyArguments occurrences="1">
       <code>dispatch</code>
       <code>dispatch</code>
       <code>dispatch</code>
