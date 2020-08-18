@@ -19,4 +19,7 @@ jobs:
             - name: Psalm
               uses: docker://jakzal/phpqa:php7.4-alpine
               with:
-                  args: psalm --monochrome --no-progress --output-format=text
+                args: psalm --monochrome --no-progress --output-format=text --update-baseline
+            - name: Check for changes in Psalm baseline
+              run: |
+                bash -c "[[ ! \"`git status --porcelain `\" ]] || ( echo 'Uncommited changes in Psalm baseline' && git status && git diff && exit 1 )"
