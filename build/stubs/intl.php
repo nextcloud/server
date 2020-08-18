@@ -4606,7 +4606,7 @@ function grapheme_extract($haystack, $size, $extract_type = null, $start = 0, &$
  * </p>
  * @return string|false The ACE encoded version of the domain name or <b>FALSE</b> on failure.
  */
-function idn_to_ascii($domain, $options = 0, $variant = INTL_IDNA_VARIANT_2003, array &$idna_info) { }
+function idn_to_ascii($domain, $options = 0, $variant = INTL_IDNA_VARIANT_2003, array &$idna_info = null) { }
 
 /**
  * (PHP 5 &gt;= 5.3.0, PHP 7, PECL intl &gt;= 1.0.2, PHP 7, PECL idn &gt;= 0.1)<br/>
@@ -6340,7 +6340,7 @@ class IntlBreakIterator implements IteratorAggregate
      * @param string $locale
      * @return IntlBreakIterator
      */
-    public static function  createCharacterInstance($locale) { }
+    public static function  createCharacterInstance($locale = null) { }
 
     /**
      * (PHP 5 &gt;=5.5.0)<br/>
@@ -6440,7 +6440,7 @@ class IntlBreakIterator implements IteratorAggregate
      * @link https://secure.php.net/manual/en/intlbreakiterator.getpartsiterator.php
      * @param string $key_type [optional]
      */
-    public function getPartsIterator($key_type) { }
+    public function getPartsIterator($key_type = IntlPartsIterator::KEY_SEQUENTIAL) { }
 
     /**
      * (PHP 5 &gt;=5.5.0)<br/>
@@ -6471,7 +6471,7 @@ class IntlBreakIterator implements IteratorAggregate
      * @param string $offset [optional]
      * @return int
      */
-    public function next($offset) { }
+    public function next($offset = null) { }
 
     /**
      * (PHP 5 &gt;=5.5.0)<br/>
