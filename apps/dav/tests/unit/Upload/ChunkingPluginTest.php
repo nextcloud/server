@@ -101,14 +101,18 @@ class ChunkingPluginTest extends TestCase {
 			->method('nodeExists')
 			->with('target')
 			->will($this->returnValue(false));
-		$this->response->expects($this->never())
-			->method('setStatus');
+		$this->response->expects($this->once())
+			->method('setHeader')
+			->with('Content-Length', '0');
+		$this->response->expects($this->once())
+			->method('setStatus')
+			->with(201);
 		$this->request->expects($this->once())
 			->method('getHeader')
 			->with('OC-Total-Length')
 			->willReturn(4);
 
-		$this->assertNull($this->plugin->beforeMove('source', 'target'));
+		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
 	}
 
 	public function testBeforeMoveFutureFileMoveIt() {
@@ -143,7 +147,7 @@ class ChunkingPluginTest extends TestCase {
 		$this->assertFalse($this->plugin->beforeMove('source', 'target'));
 	}
 
-	
+
 	public function testBeforeMoveSizeIsWrong() {
 		$this->expectException(\Sabre\DAV\Exception\BadRequest::class);
 		$this->expectExceptionMessage('Chunks on server do not sum up to 4 but to 3 bytes');
