@@ -188,7 +188,9 @@ class ChangePasswordController extends Controller {
 				\OC::$server->getUserSession(),
 				new \OCA\Encryption\Session(\OC::$server->getSession()),
 				\OC::$server->getLogger(),
-				$util);
+				$util,
+				\OC::$server->getLockingProvider()
+			);
 			$recovery = new \OCA\Encryption\Recovery(
 				\OC::$server->getUserSession(),
 				$crypt,
