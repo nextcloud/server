@@ -809,7 +809,8 @@ class Manager implements IManager {
 
 		$this->dispatcher->dispatchTyped(new Share\Events\ShareCreatedEvent($share));
 
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+		if ($this->config->getSystemValueBool('sharing.enable_share_mail', true)
+			&& $share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$mailSend = $share->getMailSend();
 			if($mailSend === true) {
 				$user = $this->userManager->get($share->getSharedWith());
