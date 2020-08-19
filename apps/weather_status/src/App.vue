@@ -70,71 +70,71 @@ const MODE_MANUAL_LOCATION = 2
 const weatherOptions = {
 	clearsky_day: {
 		icon: 'icon-clearsky-day',
-		text: t('weather_status', 'Clear sky'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Clear sky at {time}', { temperature, unit, time }),
 	},
 	clearsky_night: {
 		icon: 'icon-clearsky-night',
-		text: t('weather_status', 'Clear sky'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Clear sky at {time}', { temperature, unit, time }),
 	},
 	cloudy: {
 		icon: 'icon-cloudy',
-		text: t('weather_status', 'Cloudy'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Cloudy at {time}', { temperature, unit, time }),
 	},
 	fair_day: {
 		icon: 'icon-fair-day',
-		text: t('weather_status', 'Fair day'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Fair day at {time}', { temperature, unit, time }),
 	},
 	fair_night: {
 		icon: 'icon-fair-night',
-		text: t('weather_status', 'Fair night'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Fair night at {time}', { temperature, unit, time }),
 	},
 	partlycloudy_day: {
 		icon: 'icon-partlycloudy-day',
-		text: t('weather_status', 'Partly cloudy'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Partly cloudy at {time}', { temperature, unit, time }),
 	},
 	partlycloudy_night: {
 		icon: 'icon-partlycloudy-night',
-		text: t('weather_status', 'Partly cloudy'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Partly cloudy at {time}', { temperature, unit, time }),
 	},
 	fog: {
 		icon: 'icon-fog',
-		text: t('weather_status', 'Foggy'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Foggy at {time}', { temperature, unit, time }),
 	},
 	lightrain: {
 		icon: 'icon-lightrain',
-		text: t('weather_status', 'Light rain'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Light rain at {time}', { temperature, unit, time }),
 	},
 	rain: {
 		icon: 'icon-rain',
-		text: t('weather_status', 'Rain'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Rain at {time}', { temperature, unit, time }),
 	},
 	heavyrain: {
 		icon: 'icon-heavyrain',
-		text: t('weather_status', 'Heavy rain'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Heavy rain at {time}', { temperature, unit, time }),
 	},
 	rainshowers_day: {
 		icon: 'icon-rainshowers-day',
-		text: t('weather_status', 'Rain showers'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Rain showers at {time}', { temperature, unit, time }),
 	},
 	rainshowers_night: {
 		icon: 'icon-rainshowers-night',
-		text: t('weather_status', 'Rain showers'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Rain showers at {time}', { temperature, unit, time }),
 	},
 	lightrainshowers_day: {
 		icon: 'icon-light-rainshowers-day',
-		text: t('weather_status', 'Light rain showers'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Light rain showers at {time}', { temperature, unit, time }),
 	},
 	lightrainshowers_night: {
 		icon: 'icon-light-rainshowers-night',
-		text: t('weather_status', 'Light rain showers'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Light rain showers at {time}', { temperature, unit, time }),
 	},
 	heavyrainshowers_day: {
 		icon: 'icon-heavy-rainshowers-day',
-		text: t('weather_status', 'Heavy rain showers'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Heavy rain showers at {time}', { temperature, unit, time }),
 	},
 	heavyrainshowers_night: {
 		icon: 'icon-heavy-rainshowers-night',
-		text: t('weather_status', 'Heavy rain showers'),
+		text: (temperature, unit, time) => t('weather_status', '{temperature} {unit} Heavy rain showers at {time}', { temperature, unit, time }),
 	},
 }
 
@@ -166,7 +166,7 @@ export default {
 		useFahrenheitLocale() {
 			return ['en_US', 'en_MH', 'en_FM', 'en_PW', 'en_KY', 'en_LR'].includes(this.locale)
 		},
-		strUnit() {
+		temperatureUnit() {
 			return this.useFahrenheitLocale ? '°F' : '°C'
 		},
 		locationText() {
@@ -181,7 +181,7 @@ export default {
 		sixHoursFormattedTime() {
 			if (this.forecasts.length > 5) {
 				const date = moment(this.forecasts[5].time)
-				return t('weather_status', 'at {time}', { time: date.format('LT') })
+				return date.format('LT')
 			}
 			return ''
 		},
@@ -194,11 +194,6 @@ export default {
 					: 'icon-fair-day'
 			}
 		},
-		weatherText() {
-			return this.sixHoursWeatherForecast && this.sixHoursWeatherForecast in weatherOptions
-				? weatherOptions[this.sixHoursWeatherForecast].text + ' ' + this.sixHoursFormattedTime
-				: '???'
-		},
 		/**
 		 * The message displayed in the top right corner
 		 *
@@ -210,12 +205,12 @@ export default {
 			} else if (this.errorMessage) {
 				return this.errorMessage
 			} else {
-				return this.sixHoursWeatherForecast
-					? t('weather_status', '{temperature} {unit} {weatherDescription}', {
-						temperature: this.getLocalizedTemperature(this.sixHoursTempForecast),
-						unit: this.strUnit,
-						weatherDescription: this.weatherText,
-					})
+				return this.sixHoursWeatherForecast && this.sixHoursWeatherForecast in weatherOptions
+					? weatherOptions[this.sixHoursWeatherForecast].text(
+						this.getLocalizedTemperature(this.sixHoursTempForecast),
+						this.temperatureUnit,
+						this.sixHoursFormattedTime,
+					)
 					: t('weather_status', 'Set location for weather')
 			}
 		},
@@ -464,18 +459,11 @@ li:not(.inline) .weather-status-menu-item {
 	}
 }
 
-body .inline .weather-status-menu-item__subheader > button {
-	background-color: rgba(255, 255, 255, 0.8);
-}
-
-body.theme--dark .inline .weather-status-menu-item__subheader > button {
-	background-color: rgba(24, 24, 24, 0.8) !important;
-}
-
 .inline .weather-status-menu-item__subheader {
 	width: 100%;
 
 	> button {
+		background-color: var(--color-main-background) !important;
 		background-size: 16px;
 		border: 0;
 		border-radius: var(--border-radius-pill);
@@ -484,7 +472,7 @@ body.theme--dark .inline .weather-status-menu-item__subheader > button {
 
 		&:hover,
 		&:focus {
-			background-color: var(--color-background-hover);
+			background-color: var(--color-background-hover) !important;
 		}
 
 		&.icon-loading-small {
