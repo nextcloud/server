@@ -260,6 +260,7 @@ OC.L10N.register(
     "App bundles" : "Uygulama Paketleri",
     "Featured apps" : "Öne çıkarılmış uygulamalar",
     "{license}-licensed" : "{license}-lisanslı",
+    "by {author}\n{license}" : "{author} tarafından\n{license}",
     "New user" : "Yeni kullanıcı",
     "Enter group name" : "Grup adını yazın",
     "Add group" : "Grup ekle",

@@ -7,7 +7,7 @@
     "Use backup code" : "Gebruik backup code",
     "Two factor backup codes" : "Twee-factor backupcode",
     "A two-factor auth backup codes provider" : "Een two-factor auth backup codes provider",
-    "Backup codes have been generated. {used} of {total} codes have been used." : "Backup codes zijn gegenereerd. {used} van {{total}} codes zijn gebruikt.",
+    "Backup codes have been generated. {used} of {total} codes have been used." : "Backup codes zijn gegenereerd. {used} van {total} codes zijn gebruikt.",
     "These are your backup codes. Please save and/or print them as you will not be able to read the codes again later" : "Dit zijn je back-upcodes. Bewaar ze en/of druk ze alsjeblieft af, want je ze niet later nog een keer opvragen.",
     "Save backup codes" : "Bewaren backup code",
     "Print backup codes" : "Afdrukken backup code",
