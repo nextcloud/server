@@ -227,7 +227,7 @@ class KeyManager {
 			$this->log->error('A private master key is available but the public key could not be found. This should never happen.');
 			return;
 		} elseif (empty($privateMasterKey)) {
-			$this->log->error('A private master key is available but the public key could not be found. This should never happen.');
+			$this->log->error('A public master key is available but the private key could not be found. This should never happen.');
 			return;
 		}
 
