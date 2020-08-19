@@ -52,7 +52,7 @@
 			:class="{ 'icon-loading': loading === shippedBackground.name, active: background === shippedBackground.name }"
 			tabindex="0"
 			class="background"
-			:style="{ 'background-image': 'url(' + shippedBackground.url + ')' }"
+			:style="{ 'background-image': 'url(' + shippedBackground.preview + ')' }"
 			@click="setShipped(shippedBackground.name)"
 			@keyup.enter="setShipped(shippedBackground.name)"
 			@keyup.space="setShipped(shippedBackground.name)" />
@@ -87,6 +87,7 @@ export default {
 				return {
 					name: item,
 					url: prefixWithBaseUrl(item),
+					preview: prefixWithBaseUrl('previews/' + item),
 					details: shippedBackgroundList[item],
 				}
 			})
