@@ -40,7 +40,15 @@ namespace OCA\DAV\CardDAV;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
+use OCA\DAV\Events\AddressBookCreatedEvent;
+use OCA\DAV\Events\AddressBookDeletedEvent;
+use OCA\DAV\Events\AddressBookShareUpdatedEvent;
+use OCA\DAV\Events\AddressBookUpdatedEvent;
+use OCA\DAV\Events\CardCreatedEvent;
+use OCA\DAV\Events\CardDeletedEvent;
+use OCA\DAV\Events\CardUpdatedEvent;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\IUser;
@@ -87,8 +95,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/** @var IUserManager */
 	private $userManager;
 
-	/** @var EventDispatcherInterface */
+	/** @var IEventDispatcher */
 	private $dispatcher;
+
+	/** @var EventDispatcherInterface */
+	private $legacyDispatcher;
 
 	private $etagCache = [];
 
@@ -99,17 +110,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param Principal $principalBackend
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
-	 * @param EventDispatcherInterface $dispatcher
+	 * @param IEventDispatcher $dispatcher
+	 * @param EventDispatcherInterface $legacyDispatcher
 	 */
 	public function __construct(IDBConnection $db,
 								Principal $principalBackend,
 								IUserManager $userManager,
 								IGroupManager $groupManager,
-								EventDispatcherInterface $dispatcher) {
+								IEventDispatcher $dispatcher,
+								EventDispatcherInterface $legacyDispatcher) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->userManager = $userManager;
 		$this->dispatcher = $dispatcher;
+		$this->legacyDispatcher = $legacyDispatcher;
 		$this->sharingBackend = new Backend($this->db, $this->userManager, $groupManager, $principalBackend, 'addressbook');
 	}
 
@@ -388,6 +402,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			$this->addChange($addressBookId, "", 2);
 
+			$addressBookRow = $this->getAddressBookById((int)$addressBookId);
+			$shares = $this->getShares($addressBookId);
+			$this->dispatcher->dispatchTyped(new AddressBookUpdatedEvent((int)$addressBookId, $addressBookRow, $shares, $mutations));
+
 			return true;
 		});
 	}
@@ -441,7 +459,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->setParameters($values)
 			->execute();
 
-		return $query->getLastInsertId();
+		$addressBookId = $query->getLastInsertId();
+		$addressBookRow = $this->getAddressBookById($addressBookId);
+		$this->dispatcher->dispatchTyped(new AddressBookCreatedEvent((int)$addressBookId, $addressBookRow));
+
+		return $addressBookId;
 	}
 
 	/**
@@ -451,6 +473,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return void
 	 */
 	public function deleteAddressBook($addressBookId) {
+		$addressBookData = $this->getAddressBookById($addressBookId);
+		$shares = $this->getShares($addressBookId);
+
 		$query = $this->db->getQueryBuilder();
 		$query->delete($this->dbCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createParameter('addressbookid')))
@@ -472,6 +497,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$query->delete($this->dbCardsPropertiesTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->execute();
+
+		if ($addressBookData) {
+			$this->dispatcher->dispatchTyped(new AddressBookDeletedEvent((int) $addressBookId, $addressBookData, $shares));
+		}
 	}
 
 	/**
@@ -661,7 +690,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$this->addChange($addressBookId, $cardUri, 1);
 		$this->updateProperties($addressBookId, $cardUri, $cardData);
 
-		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::createCard',
+		$addressBookData = $this->getAddressBookById($addressBookId);
+		$shares = $this->getShares($addressBookId);
+		$objectRow = $this->getCard($addressBookId, $cardUri);
+		$this->dispatcher->dispatchTyped(new CardCreatedEvent((int)$addressBookId, $addressBookData, $shares, $objectRow));
+		$this->legacyDispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::createCard',
 			new GenericEvent(null, [
 				'addressBookId' => $addressBookId,
 				'cardUri' => $cardUri,
@@ -721,7 +754,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$this->addChange($addressBookId, $cardUri, 2);
 		$this->updateProperties($addressBookId, $cardUri, $cardData);
 
-		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::updateCard',
+		$addressBookData = $this->getAddressBookById($addressBookId);
+		$shares = $this->getShares($addressBookId);
+		$objectRow = $this->getCard($addressBookId, $cardUri);
+		$this->dispatcher->dispatchTyped(new CardUpdatedEvent((int)$addressBookId, $addressBookData, $shares, $objectRow));
+		$this->legacyDispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::updateCard',
 			new GenericEvent(null, [
 				'addressBookId' => $addressBookId,
 				'cardUri' => $cardUri,
@@ -738,6 +775,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return bool
 	 */
 	public function deleteCard($addressBookId, $cardUri) {
+		$addressBookData = $this->getAddressBookById($addressBookId);
+		$shares = $this->getShares($addressBookId);
+		$objectRow = $this->getCard($addressBookId, $cardUri);
+
 		try {
 			$cardId = $this->getCardId($addressBookId, $cardUri);
 		} catch (\InvalidArgumentException $e) {
@@ -751,13 +792,14 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$this->addChange($addressBookId, $cardUri, 3);
 
-		$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::deleteCard',
-			new GenericEvent(null, [
-				'addressBookId' => $addressBookId,
-				'cardUri' => $cardUri]));
-
 		if ($ret === 1) {
 			if ($cardId !== null) {
+				$this->dispatcher->dispatchTyped(new CardDeletedEvent((int)$addressBookId, $addressBookData, $shares, $objectRow));
+				$this->legacyDispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::deleteCard',
+					new GenericEvent(null, [
+						'addressBookId' => $addressBookId,
+						'cardUri' => $cardUri]));
+
 				$this->purgeProperties($addressBookId, $cardId);
 			}
 			return true;
@@ -947,7 +989,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string[] $remove
 	 */
 	public function updateShares(IShareable $shareable, $add, $remove) {
+		$addressBookId = $shareable->getResourceId();
+		$addressBookData = $this->getAddressBookById($addressBookId);
+		$oldShares = $this->getShares($addressBookId);
+
 		$this->sharingBackend->updateShares($shareable, $add, $remove);
+
+		$this->dispatcher->dispatchTyped(new AddressBookShareUpdatedEvent($addressBookId, $addressBookData, $oldShares, $add, $remove));
 	}
 
 	/**

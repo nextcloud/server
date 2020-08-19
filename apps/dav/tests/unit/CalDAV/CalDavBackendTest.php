@@ -57,7 +57,7 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 			'{DAV:}displayname' => 'Unit test',
 			'{urn:ietf:params:xml:ns:caldav}calendar-description' => 'Calendar used for unit testing'
 		]);
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::updateCalendar');
 		$this->backend->updateCalendar($calendarId, $patch);
@@ -70,7 +70,7 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 		$this->assertEquals('User\'s displayname', $calendars[0]['{http://nextcloud.com/ns}owner-displayname']);
 
 		// delete the address book
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar');
 		$this->backend->deleteCalendar($calendars[0]['id']);
@@ -148,7 +148,7 @@ class CalDavBackendTest extends AbstractCalDavBackend {
 		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertCount(1, $calendars);
 		$calendar = new Calendar($this->backend, $calendars[0], $l10n, $config);
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::updateShares');
 		$this->backend->updateShares($calendar, $add, []);
@@ -181,7 +181,7 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
 		$this->backend->createCalendarObject($calendarId, $uri, $calData);
@@ -195,7 +195,7 @@ EOD;
 		$this->assertAccess($userCanWrite, self::UNIT_TEST_USER1, '{DAV:}write', $acl);
 
 		// delete the address book
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendar');
 		$this->backend->deleteCalendar($calendars[0]['id']);
@@ -225,7 +225,7 @@ END:VEVENT
 END:VCALENDAR
 EOD;
 
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
 		$this->backend->createCalendarObject($calendarId, $uri, $calData);
@@ -263,7 +263,7 @@ DTEND;VALUE=DATE-TIME:20130912T140000Z
 END:VEVENT
 END:VCALENDAR
 EOD;
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::updateCalendarObject');
 		$this->backend->updateCalendarObject($calendarId, $uri, $calData);
@@ -271,7 +271,7 @@ EOD;
 		$this->assertEquals($calData, $calendarObject['calendardata']);
 
 		// delete the card
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
 		$this->backend->deleteCalendarObject($calendarId, $uri);
@@ -366,17 +366,17 @@ END:VCALENDAR
 EOD;
 
 		$uri0 = static::getUniqueID('card');
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
 		$this->backend->createCalendarObject($calendarId, $uri0, $calData[0]);
 		$uri1 = static::getUniqueID('card');
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
 		$this->backend->createCalendarObject($calendarId, $uri1, $calData[1]);
 		$uri2 = static::getUniqueID('card');
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendarObject');
 		$this->backend->createCalendarObject($calendarId, $uri2, $calData[2]);
@@ -405,15 +405,15 @@ EOD;
 		$this->assertEquals($calData[2], $calendarObjects[1]['calendardata']);
 
 		// delete the card
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
 		$this->backend->deleteCalendarObject($calendarId, $uri0);
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
 		$this->backend->deleteCalendarObject($calendarId, $uri1);
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::deleteCalendarObject');
 		$this->backend->deleteCalendarObject($calendarId, $uri2);
@@ -498,7 +498,7 @@ EOD;
 	}
 
 	public function testPublications() {
-		$this->dispatcher->expects($this->at(0))
+		$this->legacyDispatcher->expects($this->at(0))
 			->method('dispatch')
 			->with('\OCA\DAV\CalDAV\CalDavBackend::createCalendar');
 
