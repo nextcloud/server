@@ -1385,6 +1385,11 @@ $CONFIG = [
  */
 'sharing.force_share_accept' => false,
 
+/**
+ * Set to false to stop sending a mail when users receive a share
+ */
+'sharing.enable_share_mail' => true,
+
 
 /**
  * All other configuration options
