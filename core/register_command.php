@@ -159,7 +159,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\User\Disable(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\Enable(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\LastSeen(\OC::$server->getUserManager()));
-	$application->add(new OC\Core\Command\User\Report(\OC::$server->getUserManager()));
+	$application->add(\OC::$server->query(\OC\Core\Command\User\Report::class));
 	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\Setting(\OC::$server->getUserManager(), \OC::$server->getConfig(), \OC::$server->getDatabaseConnection()));
 	$application->add(new OC\Core\Command\User\ListCommand(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
