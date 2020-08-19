@@ -299,13 +299,18 @@ export default {
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-attachment: fixed;
+		background-color: var(--color-primary);
+		--color-background-translucent: rgba(255, 255, 255, 0.8);
+		--background-blur: blur(10px);
 
-		#body-user:not(.dark) & {
-			background-color: var(--color-primary);
+		#body-user.theme--dark & {
+			background-color: var(--color-main-background);
+			--color-background-translucent: rgba(24, 24, 24, 0.8);
 		}
 
-		#body-user.dark & {
+		#body-user.theme--highcontrast & {
 			background-color: var(--color-main-background);
+			--color-background-translucent: var(--color-main-background);
 		}
 	}
 
@@ -315,17 +320,6 @@ export default {
 		font-size: 32px;
 		line-height: 130%;
 		padding: 120px 16px 0px;
-	}
-
-	.statuses {
-		::v-deep #user-status-menu-item__subheader>button {
-			backdrop-filter: blur(10px);
-			background-color: rgba(255, 255, 255, 0.8);
-
-			#body-user.dark & {
-				background-color: rgba(24, 24, 24, 0.8);
-			}
-		}
 	}
 
 	.panels {
@@ -343,13 +337,9 @@ export default {
 		width: 320px;
 		max-width: 100%;
 		margin: 16px;
-		background-color: rgba(255, 255, 255, 0.8);
-		backdrop-filter: blur(10px);
+		background-color: var(--color-background-translucent);
+		backdrop-filter: var(--background-blur);
 		border-radius: var(--border-radius-large);
-
-		#body-user.dark & {
-			background-color: rgba(24, 24, 24, 0.8);
-		}
 
 		&.sortable-ghost {
 			 opacity: 0.1;
@@ -417,15 +407,19 @@ export default {
 		background-position: 16px center;
 		padding: 12px 16px;
 		padding-left: 36px;
-		background-color: var(--color-main-background);
 		border-radius: var(--border-radius-pill);
 		max-width: 200px;
 		opacity: 1;
 		text-align: center;
+	}
 
-		&:focus,
-		&:hover {
-			opacity: 1;
+	.edit-panels,
+	.statuses ::v-deep #user-status-menu-item__subheader>button {
+		background-color: var(--color-background-translucent);
+		backdrop-filter: var(--background-blur);
+
+		&:hover,
+		&:focus {
 			background-color: var(--color-background-hover);
 		}
 	}
