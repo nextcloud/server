@@ -1264,12 +1264,8 @@ class SessionTest extends \Test\TestCase {
 		$this->throttler
 			->expects($this->once())
 			->method('sleepDelay')
-			->with('192.168.0.1');
-		$this->throttler
-			->expects($this->any())
-			->method('getDelay')
 			->with('192.168.0.1')
-			->willReturn(0);
+			->willReturn(5);
 		$this->timeFactory
 			->expects($this->any())
 			->method('getTime')
@@ -1318,12 +1314,8 @@ class SessionTest extends \Test\TestCase {
 		$this->throttler
 			->expects($this->once())
 			->method('sleepDelay')
-			->with('192.168.0.1');
-		$this->throttler
-			->expects($this->any())
-			->method('getDelay')
 			->with('192.168.0.1')
-			->willReturn(0);
+			->willReturn(5);
 		$this->timeFactory
 			->expects($this->any())
 			->method('getTime')
