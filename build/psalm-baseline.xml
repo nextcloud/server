@@ -6036,9 +6036,7 @@
     <InvalidReturnType occurrences="1">
       <code>bool</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="19">
-      <code>$bits</code>
-      <code>$lastIndex</code>
+    <InvalidScalarArgument occurrences="17">
       <code>$this-&gt;bitDepth</code>
       <code>90</code>
       <code>$imagePath</code>
