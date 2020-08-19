@@ -6067,11 +6067,6 @@
       <code>OC_User::getUser()</code>
     </InvalidScalarArgument>
   </file>
-  <file src="lib/private/legacy/OC_Template.php">
-    <ImplementedReturnTypeMismatch occurrences="1">
-      <code>boolean|string</code>
-    </ImplementedReturnTypeMismatch>
-  </file>
   <file src="lib/private/legacy/OC_User.php">
     <UndefinedClass occurrences="1">
       <code>\Test\Util\User\Dummy</code>
@@ -6152,14 +6147,6 @@
   </file>
   <file src="lib/public/AppFramework/Http/Template/PublicTemplateResponse.php">
     <InvalidScalarArgument occurrences="1"/>
-  </file>
-  <file src="lib/public/AppFramework/Http/TemplateResponse.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$template-&gt;fetchPage($this-&gt;params)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>string</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/public/AppFramework/Http/ZipResponse.php">
     <InvalidArrayAccess occurrences="5">
