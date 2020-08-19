@@ -20,7 +20,7 @@
 
 $has-custom-logo: variable_exists('theming-logo-mime') and $theming-logo-mime != '';
 
-body.dashboard-inverted:not(.dashboard-dark) {
+body.dashboard--inverted:not(.dashboard--dark) {
 	// Do not invert the default logo
 	@if ($has-custom-logo == false) {
 		$image-logo: url(icon-color-path('logo', 'logo', #ffffff, 1, true));
@@ -45,7 +45,7 @@ body.dashboard-inverted:not(.dashboard-dark) {
 	}
 }
 
-body.dashboard-dark:not(.dashboard-inverted) {
+body.dashboard--dark:not(.dashboard--inverted) {
 	// invert the default logo
 	@if ($has-custom-logo == false) {
 		$image-logo: url(icon-color-path('logo', 'logo', #000000, 1, true));

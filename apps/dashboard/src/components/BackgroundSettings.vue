@@ -22,40 +22,32 @@
 
 <template>
 	<div class="background-selector">
-		<a class="background filepicker"
+		<button class="background filepicker"
 			:class="{ active: background === 'custom' }"
 			tabindex="0"
-			@click="pickFile"
-			@keyup.enter="pickFile"
-			@keyup.space="pickFile">
+			@click="pickFile">
 			{{ t('dashboard', 'Pick from files') }}
-		</a>
-		<a class="background default"
+		</button>
+		<button class="background default"
 			tabindex="0"
 			:class="{ 'icon-loading': loading === 'default', active: background === 'default' }"
-			@click="setDefault"
-			@keyup.enter="setDefault"
-			@keyup.space="setDefault">
+			@click="setDefault">
 			{{ t('dashboard', 'Default images') }}
-		</a>
-		<a class="background color"
+		</button>
+		<button class="background color"
 			:class="{ active: background === 'custom' }"
 			tabindex="0"
-			@click="pickColor"
-			@keyup.enter="pickColor"
-			@keyup.space="pickColor">
+			@click="pickColor">
 			{{ t('dashboard', 'Plain background') }}
-		</a>
-		<a v-for="shippedBackground in shippedBackgrounds"
+		</button>
+		<button v-for="shippedBackground in shippedBackgrounds"
 			:key="shippedBackground.name"
 			v-tooltip="shippedBackground.details.attribution"
 			:class="{ 'icon-loading': loading === shippedBackground.name, active: background === shippedBackground.name }"
 			tabindex="0"
 			class="background"
 			:style="{ 'background-image': 'url(' + shippedBackground.preview + ')' }"
-			@click="setShipped(shippedBackground.name)"
-			@keyup.enter="setShipped(shippedBackground.name)"
-			@keyup.space="setShipped(shippedBackground.name)" />
+			@click="setShipped(shippedBackground.name)" />
 	</div>
 </template>
 
@@ -98,13 +90,13 @@ export default {
 			const background = data.type === 'custom' || data.type === 'default' ? data.type : data.value
 			this.backgroundImage = getBackgroundUrl(background, data.version)
 			if (data.type === 'color') {
-				this.$emit('updateBackground', data)
+				this.$emit('update:background', data)
 				this.loading = false
 				return
 			}
 			const image = new Image()
 			image.onload = () => {
-				this.$emit('updateBackground', data)
+				this.$emit('update:background', data)
 				this.loading = false
 			}
 			image.src = this.backgroundImage
