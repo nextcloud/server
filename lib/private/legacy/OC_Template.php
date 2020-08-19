@@ -171,7 +171,7 @@ class OC_Template extends \OC\Template\Base {
 
 	/**
 	 * Process the template
-	 * @return boolean|string
+	 * @return string
 	 *
 	 * This function process the template. If $this->renderAs is set, it
 	 * will produce a full page.
