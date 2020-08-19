@@ -131,6 +131,7 @@ OC.L10N.register(
     "{user} moved {oldfile} to {newfile}" : "{user}, {oldfile} dosyasının {newfile} dosyasına taşıdı",
     "A file has been added to or removed from your <strong>favorites</strong>" : "<strong>Sık kullandıklarınıza</strong> bir dosya eklendi ya da silindi",
     "A file or folder has been <strong>changed</strong>" : "Bir dosya ya da klasör <strong>değiştirildi</strong>",
+    "A favorite file or folder has been <strong>changed</strong>" : "Sık kullanılan bir dosya ya da klasör <strong>değiştirildi</strong>",
     "All files" : "Tüm dosyalar",
     "Unlimited" : "Sınırsız",
     "Upload (max. %s)" : "Yükle (en büyük: %s)",
