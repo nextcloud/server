@@ -141,6 +141,7 @@ class BackgroundService {
 	 */
 	public function setFileBackground($path): void {
 		$this->config->setUserValue($this->userId, 'dashboard', 'background', 'custom');
+		/** @var \OCP\Files\File $file */
 		$file = $this->userFolder->get($path);
 		$this->dashboardUserFolder->newFile('background.jpg', $file->fopen('r'));
 	}

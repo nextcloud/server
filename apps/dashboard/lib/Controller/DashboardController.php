@@ -152,7 +152,7 @@ class DashboardController extends Controller {
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 		$currentVersion++;
-		$this->config->setUserValue($this->userId, 'dashboard', 'backgroundVersion', $currentVersion);
+		$this->config->setUserValue($this->userId, 'dashboard', 'backgroundVersion', (string)$currentVersion);
 		return new JSONResponse([
 			'type' => $type,
 			'value' => $value,
