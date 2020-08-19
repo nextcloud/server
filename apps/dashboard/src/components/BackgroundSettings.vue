@@ -179,7 +179,7 @@ export default {
                 border: 2px solid var(--color-primary);
 			}
 
-			&.active:after {
+			&.active:not(.icon-loading):after {
 				background-image: var(--icon-checkmark-fff);
 				background-repeat: no-repeat;
 				background-position: center;
