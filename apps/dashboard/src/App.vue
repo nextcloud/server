@@ -1,13 +1,13 @@
 <template>
 	<div id="app-dashboard" :style="backgroundStyle">
 		<h2>{{ greeting.text }}</h2>
-		<div class="statuses">
+		<ul class="statuses">
 			<div v-for="status in registeredStatus"
 				:id="'status-' + status"
 				:key="status">
 				<div :ref="'status-' + status" />
 			</div>
-		</div>
+		</ul>
 
 		<Draggable v-model="layout"
 			class="panels"
@@ -419,7 +419,7 @@ export default {
 	}
 
 	.edit-panels,
-	.statuses ::v-deep #user-status-menu-item__subheader>button {
+	.statuses ::v-deep .action-item > button {
 		background-color: var(--color-background-translucent);
 		backdrop-filter: var(--background-blur);
 
@@ -482,12 +482,11 @@ export default {
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-		margin-bottom: 40px;
+		flex-wrap: wrap;
+		margin-bottom: 36px;
 
 		& > div {
-			max-width: 200px;
-			margin-left: 10px;
-			margin-right: 10px;
+			margin: 8px;
 		}
 	}
 

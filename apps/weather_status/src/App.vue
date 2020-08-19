@@ -454,7 +454,6 @@ li:not(.inline) .weather-status-menu-item {
 			border: 0;
 			border-radius: 0;
 			font-weight: normal;
-			font-size: 0.875em;
 			padding-left: 40px;
 
 			&:hover,
@@ -481,7 +480,6 @@ body.theme--dark .inline .weather-status-menu-item__subheader > button {
 		border: 0;
 		border-radius: var(--border-radius-pill);
 		font-weight: normal;
-		font-size: 0.875em;
 		padding-left: 40px;
 
 		&:hover,

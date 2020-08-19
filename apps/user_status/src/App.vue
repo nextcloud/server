@@ -287,7 +287,6 @@ li:not(.inline) #user-status-menu-item {
 		border: 0;
 		border-radius: var(--border-radius-pill);
 		font-weight: normal;
-		font-size: 0.875em;
 		padding-left: 40px;
 
 		&:hover,
