@@ -341,6 +341,10 @@ export default {
 		backdrop-filter: var(--background-blur);
 		border-radius: var(--border-radius-large);
 
+		#body-user.theme--highcontrast & {
+			border: 2px solid var(--color-border);
+		}
+
 		&.sortable-ghost {
 			 opacity: 0.1;
 		}
