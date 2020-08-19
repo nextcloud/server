@@ -26,10 +26,14 @@ declare(strict_types=1);
 
 namespace OCA\Dashboard\Controller;
 
+use OCA\Dashboard\Service\BackgroundService;
 use OCA\Files\Event\LoadSidebar;
 use OCA\Viewer\Event\LoadViewer;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Dashboard\IManager;
 use OCP\Dashboard\IWidget;
@@ -51,6 +55,10 @@ class DashboardController extends Controller {
 	private $config;
 	/** @var string */
 	private $userId;
+	/**
+	 * @var BackgroundService
+	 */
+	private $backgroundService;
 
 	public function __construct(
 		string $appName,
@@ -59,6 +67,7 @@ class DashboardController extends Controller {
 		IEventDispatcher $eventDispatcher,
 		IManager $dashboardManager,
 		IConfig $config,
+		BackgroundService $backgroundService,
 		$userId
 	) {
 		parent::__construct($appName, $request);
@@ -67,6 +76,7 @@ class DashboardController extends Controller {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->dashboardManager = $dashboardManager;
 		$this->config = $config;
+		$this->backgroundService = $backgroundService;
 		$this->userId = $userId;
 	}
 
@@ -76,6 +86,7 @@ class DashboardController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index(): TemplateResponse {
+		\OCP\Util::addStyle('dashboard', 'dashboard');
 		$this->eventDispatcher->dispatchTyped(new LoadSidebar());
 		if (class_exists(LoadViewer::class)) {
 			$this->eventDispatcher->dispatchTyped(new LoadViewer());
@@ -95,6 +106,9 @@ class DashboardController extends Controller {
 		$this->inititalStateService->provideInitialState('dashboard', 'panels', $widgets);
 		$this->inititalStateService->provideInitialState('dashboard', 'layout', $userLayout);
 		$this->inititalStateService->provideInitialState('dashboard', 'firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
+		$this->inititalStateService->provideInitialState('dashboard', 'shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS);
+		$this->inititalStateService->provideInitialState('dashboard', 'background', $this->config->getUserValue($this->userId, 'dashboard', 'background', 'default'));
+		$this->inititalStateService->provideInitialState('dashboard', 'version', $this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', 0));
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');
 
 		return new TemplateResponse('dashboard', 'index');
@@ -108,5 +122,55 @@ class DashboardController extends Controller {
 	public function updateLayout(string $layout): JSONResponse {
 		$this->config->setUserValue($this->userId, 'dashboard', 'layout', $layout);
 		return new JSONResponse(['layout' => $layout]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 */
+	public function setBackground(string $type, string $value): JSONResponse {
+		$currentVersion = (int)$this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', 0);
+		try {
+			switch ($type) {
+				case 'shipped':
+					$this->backgroundService->setShippedBackground($value);
+					break;
+				case 'custom':
+					$this->backgroundService->setFileBackground($value);
+					break;
+				case 'color':
+					$this->backgroundService->setColorBackground($value);
+					break;
+				case 'default':
+					$this->backgroundService->setDefaultBackground();
+					break;
+				default:
+					return new JSONResponse(['error' => 'Invalid type provided'], Http::STATUS_BAD_REQUEST);
+			}
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		} catch (\Throwable $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+		$currentVersion++;
+		$this->config->setUserValue($this->userId, 'dashboard', 'backgroundVersion', (string)$currentVersion);
+		return new JSONResponse([
+			'type' => $type,
+			'value' => $value,
+			'version' => $this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', $currentVersion)
+		]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 */
+	public function getBackground() {
+		$file = $this->backgroundService->getBackground();
+		if ($file !== null) {
+			$response = new FileDisplayResponse($file, Http::STATUS_OK, ['Content-Type' => $file->getMimeType()]);
+			$response->cacheFor(24 * 60 * 60);
+			return $response;
+		}
+		return new NotFoundResponse();
 	}
 }

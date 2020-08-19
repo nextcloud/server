@@ -1,11 +1,12 @@
 <template>
-	<div id="app-dashboard" :style="{ backgroundImage: `url(${backgroundImage})` }">
+	<div id="app-dashboard" :style="backgroundStyle">
 		<h2>{{ greeting.text }}</h2>
 		<div class="statuses">
 			<div v-for="status in registeredStatus"
 				:id="'status-' + status"
-				:key="status"
-				:ref="'status-' + status" />
+				:key="status">
+				<div :ref="'status-' + status" />
+			</div>
 		</div>
 
 		<Draggable v-model="layout"
@@ -24,10 +25,15 @@
 			</div>
 		</Draggable>
 
-		<a v-tooltip="tooltip"
-			class="edit-panels icon-add"
-			:class="{ firstrun: firstRun }"
-			@click="showModal">{{ t('dashboard', 'Customize') }}</a>
+		<div class="footer"
+			:class="{ firstrun: firstRun }">
+			<a v-tooltip="tooltip"
+				class="edit-panels icon-rename"
+				tabindex="0"
+				@click="showModal"
+				@keyup.enter="showModal"
+				@keyup.space="showModal">{{ t('dashboard', 'Customize') }}</a>
+		</div>
 
 		<Modal v-if="modal" @close="closeModal">
 			<div class="modal__content">
@@ -49,10 +55,10 @@
 					</li>
 				</Draggable>
 
-				<a :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
+				<a v-if="isAdmin" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
 
-				<h3>{{ t('dashboard', 'Credits') }}</h3>
-				<p>{{ t('dashboard', 'Photos') }}: <a href="https://www.flickr.com/photos/paszczak000/8715851521/" target="_blank" rel="noopener">Clouds (Kamil Porembiński)</a>, <a href="https://www.flickr.com/photos/148302424@N05/36591009215/" target="_blank" rel="noopener">Un beau soir dété (Tanguy Domenge)</a>.</p>
+				<h3>{{ t('dashboard', 'Change background image') }}</h3>
+				<BackgroundSettings :background="background" @updateBackground="updateBackground" />
 			</div>
 		</Modal>
 	</div>
@@ -65,23 +71,31 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { Modal } from '@nextcloud/vue'
 import Draggable from 'vuedraggable'
 import axios from '@nextcloud/axios'
-import { generateUrl, generateFilePath } from '@nextcloud/router'
+import { generateUrl } from '@nextcloud/router'
 import isMobile from './mixins/isMobile'
+import BackgroundSettings from './components/BackgroundSettings'
+import getBackgroundUrl from './helpers/getBackgroundUrl'
+import prefixWithBaseUrl from './helpers/prefixWithBaseUrl'
 
 const panels = loadState('dashboard', 'panels')
 const firstRun = loadState('dashboard', 'firstRun')
+const background = loadState('dashboard', 'background')
+const version = loadState('dashboard', 'version')
+const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
 
 export default {
 	name: 'App',
 	components: {
 		Modal,
 		Draggable,
+		BackgroundSettings,
 	},
 	mixins: [
 		isMobile,
 	],
 	data() {
 		return {
+			isAdmin: getCurrentUser().isAdmin,
 			timer: new Date(),
 			registeredStatus: [],
 			callbacks: {},
@@ -94,15 +108,22 @@ export default {
 			modal: false,
 			appStoreUrl: generateUrl('/settings/apps/dashboard'),
 			statuses: {},
+			background,
+			version,
+			defaultBackground: window.OCA.Accessibility.theme === 'dark' ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1'),
 		}
 	},
 	computed: {
 		backgroundImage() {
-			const prefixWithBaseUrl = (url) => generateFilePath('dashboard', '', 'img/') + url
-			if (window.OCA.Accessibility.theme === 'dark') {
-				return !isMobile ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-148302424@N05-36591009215-mobile.jpg?v=1')
+			return getBackgroundUrl(this.background, this.version)
+		},
+		backgroundStyle() {
+			if (this.background.match(/#[0-9A-Fa-f]{6}/g)) {
+				return null
 			}
-			return !isMobile ? prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521-mobile.jpg?v=1')
+			return {
+				backgroundImage: `url(${this.backgroundImage})`,
+			}
 		},
 		tooltip() {
 			if (!this.firstRun) {
@@ -162,8 +183,17 @@ export default {
 				}
 			}
 		},
+		backgroundImage: {
+			immediate: true,
+			handler() {
+				const header = document.getElementById('header')
+				header.style.backgroundImage = `url(${this.backgroundImage})`
+			},
+		},
 	},
 	mounted() {
+		this.updateGlobalStyles()
+
 		setInterval(() => {
 			this.timer = new Date()
 		}, 30000)
@@ -198,7 +228,9 @@ export default {
 					continue
 				}
 				if (element) {
-					this.callbacks[app](element[0])
+					this.callbacks[app](element[0], {
+						widget: this.panels[app],
+					})
 					Vue.set(this.panels[app], 'mounted', true)
 				} else {
 					console.error('Failed to register panel in the frontend as no backend data was provided for ' + app)
@@ -235,45 +267,51 @@ export default {
 				this.firstRun = false
 			}, 1000)
 		},
+		updateBackground(data) {
+			this.background = data.type === 'custom' || data.type === 'default' ? data.type : data.value
+			this.version = data.version
+			this.updateGlobalStyles()
+		},
+		updateGlobalStyles() {
+			document.body.setAttribute('data-dashboard-background', this.background)
+			if (window.OCA.Theming.inverted) {
+				document.body.classList.add('dashboard-inverted')
+			}
+
+			const shippedBackgroundTheme = shippedBackgroundList[this.background] ? shippedBackgroundList[this.background].theming : 'light'
+			if (shippedBackgroundTheme === 'dark') {
+				document.body.classList.add('dashboard-dark')
+			} else {
+				document.body.classList.remove('dashboard-dark')
+			}
+		},
 	},
 }
 </script>
 
 <style lang="scss">
-// Show Dashboard background image beneath header
-#body-user #header {
-	background: none;
-}
 
-#content {
-	padding-top: 0;
-}
-
-// Hide triangle indicators from navigation since they are out of place without the header bar
-#appmenu li a.active::before,
-#appmenu li:hover a::before,
-#appmenu li:hover a.active::before,
-#appmenu li a:focus::before {
-	display: none;
-}
 </style>
 
 <style lang="scss" scoped>
 	#app-dashboard {
 		width: 100%;
-		padding-bottom: 100px;
-
 		background-size: cover;
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-attachment: fixed;
+		background-color: var(--color-primary);
+		--color-background-translucent: rgba(255, 255, 255, 0.8);
+		--background-blur: blur(10px);
 
-		#body-user:not(.dark) & {
-			background-color: var(--color-primary);
+		#body-user.theme--dark & {
+			background-color: var(--color-main-background);
+			--color-background-translucent: rgba(24, 24, 24, 0.8);
 		}
 
-		#body-user.dark & {
+		#body-user.theme--highcontrast & {
 			background-color: var(--color-main-background);
+			--color-background-translucent: var(--color-main-background);
 		}
 	}
 
@@ -283,17 +321,6 @@ export default {
 		font-size: 32px;
 		line-height: 130%;
 		padding: 120px 16px 0px;
-	}
-
-	.statuses {
-		::v-deep #user-status-menu-item__subheader>button {
-			backdrop-filter: blur(10px);
-			background-color: rgba(255, 255, 255, 0.8);
-
-			#body-user.dark & {
-				background-color: rgba(24, 24, 24, 0.8);
-			}
-		}
 	}
 
 	.panels {
@@ -311,12 +338,12 @@ export default {
 		width: 320px;
 		max-width: 100%;
 		margin: 16px;
-		background-color: rgba(255, 255, 255, 0.8);
-		backdrop-filter: blur(10px);
+		background-color: var(--color-background-translucent);
+		backdrop-filter: var(--background-blur);
 		border-radius: var(--border-radius-large);
 
-		#body-user.dark & {
-			background-color: rgba(24, 24, 24, 0.8);
+		#body-user.theme--highcontrast & {
+			border: 2px solid var(--color-border);
 		}
 
 		&.sortable-ghost {
@@ -367,55 +394,82 @@ export default {
 		}
 	}
 
-	.edit-panels {
-		z-index: 99;
-		position: fixed;
-		bottom: 20px;
-		right: 20px;
-		padding: 10px 15px 10px 35px;
-		background-position: 10px center;
-		opacity: .7;
-		background-color: var(--color-main-background);
-		border-radius: var(--border-radius-pill);
-		transition: right var(--animation-slow) ease-in-out;
-
-		&:hover {
-			opacity: 1;
-			background-color: var(--color-background-hover);
-		}
+	.footer {
+		text-align: center;
+		transition: bottom var(--animation-slow) ease-in-out;
+		bottom: 0;
+		padding: 44px 0;
 
 		&.firstrun {
-			right: 50%;
-			transform: translateX(50%);
-			max-width: 200px;
-			box-shadow: 0px 0px 3px var(--color-box-shadow);
-			opacity: 1;
-			text-align: center;
+			position: sticky;
+			bottom: 10px;
+		}
+	}
+
+	.edit-panels {
+		display: inline-block;
+		margin:auto;
+		background-position: 16px center;
+		padding: 12px 16px;
+		padding-left: 36px;
+		border-radius: var(--border-radius-pill);
+		max-width: 200px;
+		opacity: 1;
+		text-align: center;
+	}
+
+	.edit-panels,
+	.statuses ::v-deep #user-status-menu-item__subheader>button {
+		background-color: var(--color-background-translucent);
+		backdrop-filter: var(--background-blur);
+
+		&:hover,
+		&:focus {
+			background-color: var(--color-background-hover);
 		}
 	}
 
 	.modal__content {
-		width: 30vw;
-		margin: 20px;
+		padding: 32px 16px;
+		max-height: 70vh;
+		text-align: center;
+		overflow: auto;
+
 		ol {
 			display: flex;
-			flex-direction: column;
+			flex-direction: row;
+			justify-content: center;
 			list-style-type: none;
+			padding-bottom: 16px;
 		}
-		li label {
-			padding: 10px;
-			display: block;
-			list-style-type: none;
-			background-size: 16px;
-			background-position: left center;
-			padding-left: 26px;
+		li {
+			label {
+				display: block;
+				padding: 48px 8px 16px 8px;
+				margin: 8px;
+				width: 160px;
+				background-color: var(--color-background-hover);
+				border: 2px solid var(--color-main-background);
+				border-radius: var(--border-radius-large);
+				background-size: 24px;
+				background-position: center 16px;
+				text-align: center;
+
+				&:hover {
+					border-color: var(--color-primary);
+				}
+			}
+
+			input:focus + label {
+				border-color: var(--color-primary);
+			}
 		}
 
 		h3 {
 			font-weight: bold;
 
 			&:not(:first-of-type) {
-				margin-top: 32px;
+				margin-top: 64px;
 			}
 		}
 	}
@@ -432,6 +486,8 @@ export default {
 
 		& > div {
 			max-width: 200px;
+			margin-left: 10px;
+			margin-right: 10px;
 		}
 	}
 

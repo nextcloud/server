@@ -1,8 +1,4 @@
-<?php
-
-declare(strict_types=1);
-
-/**
+/*
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
@@ -24,11 +20,17 @@ declare(strict_types=1);
  *
  */
 
-return [
-	'routes' => [
-		['name' => 'dashboard#index', 'url' => '/', 'verb' => 'GET'],
-		['name' => 'dashboard#updateLayout', 'url' => '/layout', 'verb' => 'POST'],
-		['name' => 'dashboard#getBackground', 'url' => '/background', 'verb' => 'GET'],
-		['name' => 'dashboard#setBackground', 'url' => '/background/{type}', 'verb' => 'POST'],
-	]
-];
+import { generateUrl } from '@nextcloud/router'
+import prefixWithBaseUrl from './prefixWithBaseUrl'
+
+export default (background, time = 0) => {
+	if (background === 'default') {
+		if (window.OCA.Accessibility.theme === 'dark') {
+			return prefixWithBaseUrl('eduardo-neves-pedra-azul.jpg')
+		}
+		return prefixWithBaseUrl('kamil-porembinski-clouds.jpg')
+	} else if (background === 'custom') {
+		return generateUrl('/apps/dashboard/background') + '?v=' + time
+	}
+	return prefixWithBaseUrl(background)
+}
