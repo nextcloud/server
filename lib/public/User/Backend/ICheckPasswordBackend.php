@@ -33,7 +33,7 @@ interface ICheckPasswordBackend {
 	/**
 	 * @since 14.0.0
 	 *
-	 * @param string $uid The username
+	 * @param string $loginName The loginname
 	 * @param string $password The password
 	 * @return string|bool The uid on success false on failure
 	 */

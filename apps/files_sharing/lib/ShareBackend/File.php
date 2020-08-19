@@ -89,14 +89,15 @@ class File implements \OCP\Share_Backend_File_Dependent {
 
 	/**
 	 * create unique target
-	 * @param string $filePath
+	 *
+	 * @param string $itemSource
 	 * @param string $shareWith
 	 * @param array $exclude (optional)
 	 * @return string
 	 */
-	public function generateTarget($filePath, $shareWith, $exclude = null) {
+	public function generateTarget($itemSource, $shareWith, $exclude = null) {
 		$shareFolder = \OCA\Files_Sharing\Helper::getShareFolder();
-		$target = \OC\Files\Filesystem::normalizePath($shareFolder . '/' . basename($filePath));
+		$target = \OC\Files\Filesystem::normalizePath($shareFolder . '/' . basename($itemSource));
 
 		// for group shares we return the target right away
 		if ($shareWith === false) {

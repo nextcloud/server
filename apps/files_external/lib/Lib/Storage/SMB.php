@@ -530,7 +530,7 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
-	public function touch($path, $time = null) {
+	public function touch($path, $mtime = null) {
 		try {
 			if (!$this->file_exists($path)) {
 				$fh = $this->share->write($this->buildPath($path));

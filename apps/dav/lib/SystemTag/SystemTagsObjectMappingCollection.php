@@ -93,7 +93,8 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		$this->user = $user;
 	}
 
-	public function createFile($tagId, $data = null) {
+	public function createFile($name, $data = null) {
+		$tagId = $name;
 		try {
 			$tags = $this->tagManager->getTagsByIds([$tagId]);
 			$tag = current($tags);

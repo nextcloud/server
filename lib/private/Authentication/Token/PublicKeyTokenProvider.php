@@ -227,20 +227,20 @@ class PublicKeyTokenProvider implements IProvider {
 		return $this->mapper->getTokenByUser($uid);
 	}
 
-	public function getPassword(IToken $token, string $tokenId): string {
-		if (!($token instanceof PublicKeyToken)) {
+	public function getPassword(IToken $savedToken, string $tokenId): string {
+		if (!($savedToken instanceof PublicKeyToken)) {
 			throw new InvalidTokenException("Invalid token type");
 		}
 
-		if ($token->getPassword() === null) {
+		if ($savedToken->getPassword() === null) {
 			throw new PasswordlessTokenException();
 		}
 
 		// Decrypt private key with tokenId
-		$privateKey = $this->decrypt($token->getPrivateKey(), $tokenId);
+		$privateKey = $this->decrypt($savedToken->getPrivateKey(), $tokenId);
 
 		// Decrypt password with private key
-		return $this->decryptPassword($token->getPassword(), $privateKey);
+		return $this->decryptPassword($savedToken->getPassword(), $privateKey);
 	}
 
 	public function setPassword(IToken $token, string $tokenId, string $password) {
