@@ -129,6 +129,7 @@
     "{user} moved {oldfile} to {newfile}" : "{user} presunul {oldfile} do {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Súbor bol pridaný alebo odstránený z vašich <strong>obľúbených</strong>",
     "A file or folder has been <strong>changed</strong>" : "Súbor alebo priečinok bol <strong>zmenený</strong>",
+    "A favorite file or folder has been <strong>changed</strong>" : "Obľúbený súbor alebo priečinok bol <strong>zmenený</strong>",
     "All files" : "Všetky súbory",
     "Unlimited" : "Neobmedzené",
     "Upload (max. %s)" : "Nahrať (max. %s)",
