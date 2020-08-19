@@ -402,7 +402,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 			$this->addChange($addressBookId, "", 2);
 
-			$addressBookRow = $this->getAddressBookById($addressBookId);
+			$addressBookRow = $this->getAddressBookById((int)$addressBookId);
 			$shares = $this->getShares($addressBookId);
 			$this->dispatcher->dispatchTyped(new AddressBookUpdatedEvent((int)$addressBookId, $addressBookRow, $shares, $mutations));
 
