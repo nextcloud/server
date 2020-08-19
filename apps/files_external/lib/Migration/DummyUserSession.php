@@ -34,7 +34,7 @@ class DummyUserSession implements IUserSession {
 	 */
 	private $user;
 
-	public function login($user, $password) {
+	public function login($uid, $password) {
 	}
 
 	public function logout() {

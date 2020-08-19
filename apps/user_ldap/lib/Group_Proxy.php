@@ -53,12 +53,13 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	/**
 	 * Tries the backends one after the other until a positive result is returned from the specified method
 	 *
-	 * @param string $gid the gid connected to the request
+	 * @param string $id the gid connected to the request
 	 * @param string $method the method of the group backend that shall be called
 	 * @param array $parameters an array of parameters to be passed
-	 * @return mixed, the result of the method or false
+	 * @return mixed the result of the method or false
 	 */
-	protected function walkBackends($gid, $method, $parameters) {
+	protected function walkBackends($id, $method, $parameters) {
+		$gid = $id;
 		$cacheKey = $this->getGroupCacheKey($gid);
 		foreach ($this->backends as $configPrefix => $backend) {
 			if ($result = call_user_func_array([$backend, $method], $parameters)) {
@@ -74,13 +75,14 @@ class Group_Proxy extends Proxy implements \OCP\GroupInterface, IGroupLDAP, IGet
 	/**
 	 * Asks the backend connected to the server that supposely takes care of the gid from the request.
 	 *
-	 * @param string $gid the gid connected to the request
+	 * @param string $id the gid connected to the request
 	 * @param string $method the method of the group backend that shall be called
 	 * @param array $parameters an array of parameters to be passed
 	 * @param mixed $passOnWhen the result matches this variable
-	 * @return mixed, the result of the method or false
+	 * @return mixed the result of the method or false
 	 */
-	protected function callOnLastSeenOn($gid, $method, $parameters, $passOnWhen) {
+	protected function callOnLastSeenOn($id, $method, $parameters, $passOnWhen) {
+		$gid = $id;
 		$cacheKey = $this->getGroupCacheKey($gid);
 		$prefix = $this->getFromCache($cacheKey);
 		//in case the uid has been found in the past, try this stored connection first

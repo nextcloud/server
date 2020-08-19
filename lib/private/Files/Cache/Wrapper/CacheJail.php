@@ -254,9 +254,9 @@ class CacheJail extends CacheWrapper {
 	 * @param string|boolean $path
 	 * @param array $data (optional) meta data of the folder
 	 */
-	public function correctFolderSize($path, $data = null, $isBackgroundSize = false) {
+	public function correctFolderSize($path, $data = null, $isBackgroundScan = false) {
 		if ($this->getCache() instanceof Cache) {
-			$this->getCache()->correctFolderSize($this->getSourcePath($path), $data, $isBackgroundSize);
+			$this->getCache()->correctFolderSize($this->getSourcePath($path), $data, $isBackgroundScan);
 		}
 	}
 

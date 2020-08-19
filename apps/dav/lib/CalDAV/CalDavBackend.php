@@ -905,15 +905,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * used/fetched to determine these numbers. If both are specified the
 	 * amount of times this is needed is reduced by a great degree.
 	 *
-	 * @param mixed $id
+	 * @param mixed $calendarId
 	 * @param int $calendarType
 	 * @return array
 	 */
-	public function getCalendarObjects($id, $calendarType=self::CALENDAR_TYPE_CALENDAR):array {
+	public function getCalendarObjects($calendarId, $calendarType=self::CALENDAR_TYPE_CALENDAR):array {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'componenttype', 'classification'])
 			->from('calendarobjects')
-			->where($query->expr()->eq('calendarid', $query->createNamedParameter($id)))
+			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)));
 		$stmt = $query->execute();
 
@@ -946,16 +946,16 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *
 	 * This method must return null if the object did not exist.
 	 *
-	 * @param mixed $id
+	 * @param mixed $calendarId
 	 * @param string $objectUri
 	 * @param int $calendarType
 	 * @return array|null
 	 */
-	public function getCalendarObject($id, $objectUri, $calendarType=self::CALENDAR_TYPE_CALENDAR) {
+	public function getCalendarObject($calendarId, $objectUri, $calendarType=self::CALENDAR_TYPE_CALENDAR) {
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification'])
 			->from('calendarobjects')
-			->where($query->expr()->eq('calendarid', $query->createNamedParameter($id)))
+			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)))
 			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)));
 		$stmt = $query->execute();
@@ -991,7 +991,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param int $calendarType
 	 * @return array
 	 */
-	public function getMultipleCalendarObjects($id, array $uris, $calendarType=self::CALENDAR_TYPE_CALENDAR):array {
+	public function getMultipleCalendarObjects($calendarId, array $uris, $calendarType=self::CALENDAR_TYPE_CALENDAR):array {
 		if (empty($uris)) {
 			return [];
 		}
@@ -1002,7 +1002,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification'])
 			->from('calendarobjects')
-			->where($query->expr()->eq('calendarid', $query->createNamedParameter($id)))
+			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->in('uri', $query->createParameter('uri')))
 			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)));
 
@@ -1288,12 +1288,12 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * as possible, so it gives you a good idea on what type of stuff you need
 	 * to think of.
 	 *
-	 * @param mixed $id
+	 * @param mixed $calendarId
 	 * @param array $filters
 	 * @param int $calendarType
 	 * @return array
 	 */
-	public function calendarQuery($id, array $filters, $calendarType=self::CALENDAR_TYPE_CALENDAR):array {
+	public function calendarQuery($calendarId, array $filters, $calendarType=self::CALENDAR_TYPE_CALENDAR):array {
 		$componentType = null;
 		$requirePostFilter = true;
 		$timeRange = null;
@@ -1329,7 +1329,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$query = $this->db->getQueryBuilder();
 		$query->select($columns)
 			->from('calendarobjects')
-			->where($query->expr()->eq('calendarid', $query->createNamedParameter($id)))
+			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)));
 
 		if ($componentType) {
@@ -1355,13 +1355,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				} catch (ParseException $ex) {
 					$this->logger->logException($ex, [
 						'app' => 'dav',
-						'message' => 'Caught parsing exception for calendar data. This usually indicates invalid calendar data. calendar-id:'.$id.' uri:'.$row['uri']
+						'message' => 'Caught parsing exception for calendar data. This usually indicates invalid calendar data. calendar-id:'.$calendarId.' uri:'.$row['uri']
 					]);
 					continue;
 				} catch (InvalidDataException $ex) {
 					$this->logger->logException($ex, [
 						'app' => 'dav',
-						'message' => 'Caught invalid data exception for calendar data. This usually indicates invalid calendar data. calendar-id:'.$id.' uri:'.$row['uri']
+						'message' => 'Caught invalid data exception for calendar data. This usually indicates invalid calendar data. calendar-id:'.$calendarId.' uri:'.$row['uri']
 					]);
 					continue;
 				}

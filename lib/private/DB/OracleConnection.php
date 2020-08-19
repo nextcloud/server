@@ -47,24 +47,24 @@ class OracleConnection extends Connection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function insert($tableName, array $data, array $types = []) {
-		if ($tableName[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
-			$tableName = $this->quoteIdentifier($tableName);
+	public function insert($tableExpression, array $data, array $types = []) {
+		if ($tableExpression[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
+			$tableExpression = $this->quoteIdentifier($tableExpression);
 		}
 		$data = $this->quoteKeys($data);
-		return parent::insert($tableName, $data, $types);
+		return parent::insert($tableExpression, $data, $types);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function update($tableName, array $data, array $identifier, array $types = []) {
-		if ($tableName[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
-			$tableName = $this->quoteIdentifier($tableName);
+	public function update($tableExpression, array $data, array $identifier, array $types = []) {
+		if ($tableExpression[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
+			$tableExpression = $this->quoteIdentifier($tableExpression);
 		}
 		$data = $this->quoteKeys($data);
 		$identifier = $this->quoteKeys($identifier);
-		return parent::update($tableName, $data, $identifier, $types);
+		return parent::update($tableExpression, $data, $identifier, $types);
 	}
 
 	/**
