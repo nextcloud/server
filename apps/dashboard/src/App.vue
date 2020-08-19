@@ -55,7 +55,7 @@
 					</li>
 				</Draggable>
 
-				<a :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
+				<a v-if="isAdmin" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
 
 				<h3>{{ t('dashboard', 'Change background image') }}</h3>
 				<BackgroundSettings :background="background" @updateBackground="updateBackground" />
@@ -95,6 +95,7 @@ export default {
 	],
 	data() {
 		return {
+			isAdmin: getCurrentUser().isAdmin,
 			timer: new Date(),
 			registeredStatus: [],
 			callbacks: {},
