@@ -379,10 +379,15 @@ export default {
 				flex-grow: 1;
 				margin: 0;
 				font-size: 20px;
+				line-height: 24px;
 				font-weight: bold;
 				background-size: 32px;
 				background-position: 14px 12px;
 				padding: 16px 8px 16px 60px;
+				height: 56px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 				cursor: grab;
 			}
 		}
@@ -391,6 +396,13 @@ export default {
 			margin: 0 16px 16px 16px;
 			height: 420px;
 			overflow: auto;
+		}
+
+		// No need to extend height of widgets if only one column is shown
+		@media only screen and (max-width: 709px) {
+			& > .panel--content {
+				height: auto;
+			}
 		}
 	}
 
