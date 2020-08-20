@@ -475,7 +475,9 @@ MountOptionsDropdown.prototype = {
 		}));
 		this.$el = $el;
 
-		this.setOptions(mountOptions, visibleOptions);
+		var storage = $container[0].parentNode.className;
+
+		this.setOptions(mountOptions, visibleOptions, storage);
 
 		this.$el.appendTo($container);
 		MountOptionsDropdown._last = this;
@@ -523,7 +525,13 @@ MountOptionsDropdown.prototype = {
 	 * @param {Object} options mount options
 	 * @param {Array} visibleOptions enabled mount options
 	 */
-	setOptions: function(options, visibleOptions) {
+	setOptions: function(options, visibleOptions, storage) {
+		if (storage === 'owncloud') {
+			var ind = visibleOptions.indexOf('encrypt');
+			if (ind > 0) {
+				visibleOptions.splice(ind, 1);
+			}
+		}
 		var $el = this.$el;
 		_.each(options, function(value, key) {
 			var $optionEl = $el.find('input, select').filterAttr('name', key);
