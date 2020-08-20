@@ -41,6 +41,7 @@
  *
  */
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Files\View;
 use OC\Streamer;
 use OCP\Lock\ILockingProvider;
@@ -164,7 +165,7 @@ class OC_Files {
 			OC_Util::obEnd();
 
 			$streamer->sendHeaders($name);
-			$executionTime = (int)OC::$server->getIniWrapper()->getNumeric('max_execution_time');
+			$executionTime = (int)OC::$server->get(IniGetWrapper::class)->getNumeric('max_execution_time');
 			if (strpos(@ini_get('disable_functions'), 'set_time_limit') === false) {
 				@set_time_limit(0);
 			}

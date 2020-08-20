@@ -44,6 +44,7 @@
 
 namespace OC;
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use OC\Search\SearchQuery;
 use OC\Template\JSCombiner;
 use OC\Template\JSConfigHelper;
@@ -202,7 +203,7 @@ class TemplateLayout extends \OC_Template {
 					\OC::$server->getUserSession()->getUser(),
 					$this->config,
 					\OC::$server->getGroupManager(),
-					\OC::$server->getIniWrapper(),
+					\OC::$server->get(IniGetWrapper::class),
 					\OC::$server->getURLGenerator(),
 					\OC::$server->getCapabilitiesManager(),
 					\OC::$server->query(IInitialStateService::class)
@@ -259,7 +260,7 @@ class TemplateLayout extends \OC_Template {
 				}
 			}
 		}
-		
+
 		$this->assign('initialStates', $this->initialState->getInitialStates());
 	}
 

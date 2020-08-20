@@ -62,6 +62,7 @@
  *
  */
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\Files\Storage\LocalRootStorage;
 use OCP\IConfig;
@@ -738,7 +739,7 @@ class OC_Util {
 		$webServerRestart = false;
 		$setup = new \OC\Setup(
 			$config,
-			\OC::$server->getIniWrapper(),
+			\OC::$server->get(IniGetWrapper::class),
 			\OC::$server->getL10N('lib'),
 			\OC::$server->query(\OCP\Defaults::class),
 			\OC::$server->getLogger(),
@@ -863,7 +864,7 @@ class OC_Util {
 		$missingDependencies = [];
 		$invalidIniSettings = [];
 
-		$iniWrapper = \OC::$server->getIniWrapper();
+		$iniWrapper = \OC::$server->get(IniGetWrapper::class);
 		foreach ($dependencies['classes'] as $class => $module) {
 			if (!class_exists($class)) {
 				$missingDependencies[] = $module;

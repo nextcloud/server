@@ -503,7 +503,7 @@ class Setup {
 
 		$setupHelper = new \OC\Setup(
 			$config,
-			\OC::$server->getIniWrapper(),
+			\OC::$server->get(IniGetWrapper::class),
 			\OC::$server->getL10N('lib'),
 			\OC::$server->query(Defaults::class),
 			\OC::$server->getLogger(),

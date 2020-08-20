@@ -936,7 +936,7 @@ class OC {
 			\OC::$server->getSession()->clear();
 			$setupHelper = new OC\Setup(
 				$systemConfig,
-				\OC::$server->getIniWrapper(),
+				\OC::$server->get(\bantu\IniGetWrapper\IniGetWrapper::class),
 				\OC::$server->getL10N('lib'),
 				\OC::$server->query(\OCP\Defaults::class),
 				\OC::$server->getLogger(),

@@ -35,6 +35,7 @@
 
 namespace OCA\Settings\Tests\Controller;
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use OC;
 use OC\DB\Connection;
 use OC\IntegrityCheck\Checker;
@@ -93,6 +94,8 @@ class CheckSetupControllerTest extends TestCase {
 	private $memoryInfo;
 	/** @var SecureRandom|\PHPUnit\Framework\MockObject\MockObject */
 	private $secureRandom;
+	/** @var IniGetWrapper|\PHPUnit\Framework\MockObject\MockObject */
+	private $iniGetWrapper;
 
 	/**
 	 * Holds a list of directories created during tests.
@@ -132,6 +135,7 @@ class CheckSetupControllerTest extends TestCase {
 			->setMethods(['isMemoryLimitSufficient',])
 			->getMock();
 		$this->secureRandom = $this->getMockBuilder(SecureRandom::class)->getMock();
+		$this->iniGetWrapper = $this->getMockBuilder(IniGetWrapper::class)->getMock();
 		$this->checkSetupController = $this->getMockBuilder(CheckSetupController::class)
 			->setConstructorArgs([
 				'settings',
@@ -148,6 +152,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->dateTimeFormatter,
 				$this->memoryInfo,
 				$this->secureRandom,
+				$this->iniGetWrapper,
 			])
 			->setMethods([
 				'isReadOnlyConfig',
@@ -618,6 +623,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->dateTimeFormatter,
 				$this->memoryInfo,
 				$this->secureRandom,
+				$this->iniGetWrapper,
 			])
 			->setMethods(null)->getMock();
 
@@ -651,6 +657,7 @@ class CheckSetupControllerTest extends TestCase {
 				$this->dateTimeFormatter,
 				$this->memoryInfo,
 				$this->secureRandom,
+				$this->iniGetWrapper,
 			])
 			->setMethods(null)->getMock();
 
@@ -1418,7 +1425,8 @@ Array
 				$this->lockingProvider,
 				$this->dateTimeFormatter,
 				$this->memoryInfo,
-				$this->secureRandom
+				$this->secureRandom,
+				$this->iniGetWrapper
 			);
 
 		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isMysqlUsedWithoutUTF8MB4'));
@@ -1466,7 +1474,8 @@ Array
 			$this->lockingProvider,
 			$this->dateTimeFormatter,
 			$this->memoryInfo,
-			$this->secureRandom
+			$this->secureRandom,
+			$this->iniGetWrapper
 		);
 
 		$this->assertSame($expected, $this->invokePrivate($checkSetupController, 'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed'));
