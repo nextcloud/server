@@ -56,7 +56,7 @@ if(count($configPrefixes) > 0) {
 	OC_User::useBackend($userBackend);
 
 	// Hook to allow plugins to work on registered backends
-	OC::$server->getEventDispatcher()->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded');
+	OC::$server->getEventDispatcher()->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded', new \OCP\EventDispatcher\Event());
 
 	\OC::$server->getGroupManager()->addBackend($groupBackend);
 
