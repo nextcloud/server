@@ -328,7 +328,7 @@ class UserPluginTest extends TestCase {
 					['label' => 'Test One', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test1'], 'status' => []],
 					['label' => 'Test Two', 'value' => ['shareType' => IShare::TYPE_USER, 'shareWith' => 'test2'], 'status' => []],
 				],
-				false,
+				true,
 				false,
 				[
 					['test1', $this->getUserMock('test1', 'Test One')],
