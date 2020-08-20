@@ -111,7 +111,14 @@ class DashboardController extends Controller {
 		$this->inititalStateService->provideInitialState('dashboard', 'version', $this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', 0));
 		$this->config->setUserValue($this->userId, 'dashboard', 'firstRun', '0');
 
-		return new TemplateResponse('dashboard', 'index');
+		$response = new TemplateResponse('dashboard', 'index');
+
+		// For the weather widget we should allow the geolocation
+		$featurePolicy = new Http\FeaturePolicy();
+		$featurePolicy->addAllowedGeoLocationDomain('\'self\'');
+		$response->setFeaturePolicy($featurePolicy);
+
+		return $response;
 	}
 
 	/**
