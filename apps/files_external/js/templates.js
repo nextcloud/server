@@ -16,15 +16,23 @@ templates['credentialsDialog'] = template({"compiler":[8,">= 4.3.0"],"main":func
     + alias4(((helper = (helper = lookupProperty(helpers,"placeholder_password") || (depth0 != null ? lookupProperty(depth0,"placeholder_password") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"placeholder_password","hash":{},"data":data,"loc":{"start":{"line":5,"column":55},"end":{"line":5,"column":79}}}) : helper)))
     + "\"/>\n		</form>\n	</div>\n</div>\n";
 },"useData":true});
-templates['mountOptionsDropDown'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+templates['mountOptionsDropDown'] = template({"1":function(container,depth0,helpers,partials,data) {
+    return "checked=\"checked\" ";
+},"3":function(container,depth0,helpers,partials,data) {
+    return "disabled";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
         }
         return undefined
     };
 
-  return "<div class=\"popovermenu open\">\n	<ul>\n		<li class=\"optionRow\">\n			<span class=\"menuitem\">\n				<input id=\"mountOptionsEncrypt\" class=\"checkbox\" name=\"encrypt\" type=\"checkbox\" value=\"true\" checked=\"checked\"/>\n				<label for=\"mountOptionsEncrypt\">"
+  return "<div class=\"popovermenu open\">\n	<ul>\n		<li class=\"optionRow\">\n			<span class=\"menuitem\">\n	<input id=\"mountOptionsEncrypt\" class=\"checkbox\" name=\"encrypt\" type=\"checkbox\" value=\"true\" "
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"canEncrypt") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":94},"end":{"line":5,"column":137}}})) != null ? stack1 : "")
+    + " "
+    + ((stack1 = lookupProperty(helpers,"unless").call(alias1,(depth0 != null ? lookupProperty(depth0,"canEncrypt") : depth0),{"name":"unless","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":5,"column":138},"end":{"line":5,"column":179}}})) != null ? stack1 : "")
+    + "/>\n				<label for=\"mountOptionsEncrypt\">"
     + alias4(((helper = (helper = lookupProperty(helpers,"mountOptionsEncryptLabel") || (depth0 != null ? lookupProperty(depth0,"mountOptionsEncryptLabel") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"mountOptionsEncryptLabel","hash":{},"data":data,"loc":{"start":{"line":6,"column":37},"end":{"line":6,"column":65}}}) : helper)))
     + "</label>\n			</span>\n		</li>\n		<li class=\"optionRow\">\n			<span class=\"menuitem\">\n				<input id=\"mountOptionsPreviews\" class=\"checkbox\" name=\"previews\" type=\"checkbox\" value=\"true\" checked=\"checked\"/>\n				<label for=\"mountOptionsPreviews\">"
     + alias4(((helper = (helper = lookupProperty(helpers,"mountOptionsPreviewsLabel") || (depth0 != null ? lookupProperty(depth0,"mountOptionsPreviewsLabel") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"mountOptionsPreviewsLabel","hash":{},"data":data,"loc":{"start":{"line":12,"column":38},"end":{"line":12,"column":67}}}) : helper)))

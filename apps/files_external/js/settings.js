@@ -454,15 +454,17 @@ MountOptionsDropdown.prototype = {
 	 * Show dropdown
 	 *
 	 * @param {Object} $container container
+	 * @param {String} backend the name of the backend
 	 * @param {Object} mountOptions mount options
 	 * @param {Array} visibleOptions enabled mount options
 	 */
-	show: function($container, mountOptions, visibleOptions) {
+	show: function($container, backend, mountOptions, visibleOptions) {
 		if (MountOptionsDropdown._last) {
 			MountOptionsDropdown._last.hide();
 		}
 
 		var $el = $(OCA.Files_External.Templates.mountOptionsDropDown({
+			canEncrypt: backend !== 'owncloud',
 			mountOptionsEncodingLabel: t('files_external', 'Compatibility with Mac NFD encoding (slow)'),
 			mountOptionsEncryptLabel: t('files_external', 'Enable encryption'),
 			mountOptionsPreviewsLabel: t('files_external', 'Enable previews'),
@@ -1277,7 +1279,7 @@ MountConfigListView.prototype = _.extend({
 		if (this._encryptionEnabled) {
 			visibleOptions.push('encrypt');
 		}
-		dropDown.show($toggle, storage.mountOptions || [], visibleOptions);
+		dropDown.show($toggle, storage.backend, storage.mountOptions || [], visibleOptions);
 		$('body').on('mouseup.mountOptionsDropdown', function(event) {
 			var $target = $(event.target);
 			if ($target.closest('.popovermenu').length) {

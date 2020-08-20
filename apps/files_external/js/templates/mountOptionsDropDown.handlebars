@@ -2,7 +2,7 @@
 	<ul>
 		<li class="optionRow">
 			<span class="menuitem">
-				<input id="mountOptionsEncrypt" class="checkbox" name="encrypt" type="checkbox" value="true" checked="checked"/>
+	<input id="mountOptionsEncrypt" class="checkbox" name="encrypt" type="checkbox" value="true" {{#if canEncrypt}}checked="checked" {{/if}} {{#unless canEncrypt}}disabled{{/unless}}/>
 				<label for="mountOptionsEncrypt">{{mountOptionsEncryptLabel}}</label>
 			</span>
 		</li>
