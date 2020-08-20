@@ -15,9 +15,9 @@
 			@end="saveLayout">
 			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
 				<div class="panel--header">
-					<h3 :class="panels[panelId].iconClass">
+					<h2 :class="panels[panelId].iconClass">
 						{{ panels[panelId].title }}
-					</h3>
+					</h2>
 				</div>
 				<div class="panel--content">
 					<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
@@ -313,14 +313,14 @@ export default {
 			background-color: var(--color-main-background);
 			--color-background-translucent: var(--color-main-background);
 		}
-	}
 
-	h2 {
-		color: var(--color-primary-text);
-		text-align: center;
-		font-size: 32px;
-		line-height: 130%;
-		padding: 120px 16px 0px;
+		> h2 {
+			color: var(--color-primary-text);
+			text-align: center;
+			font-size: 32px;
+			line-height: 130%;
+			padding: 120px 16px 0px;
+		}
 	}
 
 	.panels {
@@ -374,7 +374,7 @@ export default {
 				flex-grow: 1;
 			}
 
-			h3 {
+			> h2 {
 				display: block;
 				flex-grow: 1;
 				margin: 0;
