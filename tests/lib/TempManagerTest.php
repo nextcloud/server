@@ -10,7 +10,6 @@
 namespace Test;
 
 use bantu\IniGetWrapper\IniGetWrapper;
-use OC\Log;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
