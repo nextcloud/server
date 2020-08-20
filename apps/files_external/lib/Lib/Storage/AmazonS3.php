@@ -550,9 +550,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	}
 
 	public function touch($path, $mtime = null) {
-		$path = $this->normalizePath($path);
-
-		$metadata = [];
 		if (is_null($mtime)) {
 			$mtime = time();
 		}
@@ -560,21 +557,8 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			'lastmodified' => gmdate(\DateTime::RFC1123, $mtime)
 		];
 
-		$fileType = $this->filetype($path);
 		try {
-			if ($fileType !== false) {
-				if ($fileType === 'dir' && !$this->isRoot($path)) {
-					$path .= '/';
-				}
-				$this->getConnection()->copyObject([
-					'Bucket' => $this->bucket,
-					'Key' => $this->cleanKey($path),
-					'Metadata' => $metadata,
-					'CopySource' => $this->bucket . '/' . $path,
-					'MetadataDirective' => 'REPLACE',
-				]);
-				$this->testTimeout();
-			} else {
+			if (!$this->file_exists($path)) {
 				$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
 				$this->getConnection()->putObject([
 					'Bucket' => $this->bucket,
