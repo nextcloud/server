@@ -49,11 +49,12 @@ class AppConfig implements IAppConfig {
 			'/^sites$/',
 		],
 		'spreed' => [
+			'/^bridge_bot_password/',
+			'/^signaling_servers$/',
 			'/^signaling_ticket_secret$/',
-			'/^turn_server_secret$/',
 			'/^stun_servers$/',
 			'/^turn_servers$/',
-			'/^signaling_servers$/',
+			'/^turn_server_secret$/',
 		],
 		'theming' => [
 			'/^imprintUrl$/',
