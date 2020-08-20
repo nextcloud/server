@@ -395,7 +395,8 @@ export default {
 		& > .panel--content {
 			margin: 0 16px 16px 16px;
 			height: 420px;
-			overflow: auto;
+			// We specifically do not want scrollbars inside widgets
+			overflow: hidden;
 		}
 
 		// No need to extend height of widgets if only one column is shown
