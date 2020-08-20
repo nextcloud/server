@@ -379,10 +379,15 @@ export default {
 				flex-grow: 1;
 				margin: 0;
 				font-size: 20px;
+				line-height: 24px;
 				font-weight: bold;
 				background-size: 32px;
 				background-position: 14px 12px;
 				padding: 16px 8px 16px 60px;
+				height: 56px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
 				cursor: grab;
 			}
 		}
