@@ -29,6 +29,8 @@
 
 namespace OC;
 
+use bantu\IniGetWrapper\IniGetWrapper;
+
 /**
  * Helper class for large files on 32-bit platforms.
  */
@@ -117,7 +119,7 @@ class LargeFileHelper {
 	 *                        null on failure.
 	 */
 	public function getFileSizeViaCurl($fileName) {
-		if (\OC::$server->getIniWrapper()->getString('open_basedir') === '') {
+		if (\OC::$server->get(IniGetWrapper::class)->getString('open_basedir') === '') {
 			$encodedFileName = rawurlencode($fileName);
 			$ch = curl_init("file:///$encodedFileName");
 			curl_setopt($ch, CURLOPT_NOBODY, true);

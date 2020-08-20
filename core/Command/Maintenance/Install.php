@@ -32,6 +32,7 @@
 
 namespace OC\Core\Command\Maintenance;
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use InvalidArgumentException;
 use OC\Installer;
 use OC\Setup;
@@ -46,14 +47,15 @@ use Symfony\Component\Console\Question\Question;
 
 class Install extends Command {
 
-	/**
-	 * @var SystemConfig
-	 */
+	/** @var SystemConfig */
 	private $config;
+	/** @var IniGetWrapper  */
+	private $iniGetWrapper;
 
-	public function __construct(SystemConfig $config) {
+	public function __construct(SystemConfig $config, IniGetWrapper $iniGetWrapper) {
 		parent::__construct();
 		$this->config = $config;
+		$this->iniGetWrapper = $iniGetWrapper;
 	}
 
 	protected function configure() {
@@ -79,7 +81,7 @@ class Install extends Command {
 		$server = \OC::$server;
 		$setupHelper = new Setup(
 			$this->config,
-			$server->getIniWrapper(),
+			$this->iniGetWrapper,
 			$server->getL10N('lib'),
 			$server->query(Defaults::class),
 			$server->getLogger(),

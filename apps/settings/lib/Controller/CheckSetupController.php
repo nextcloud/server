@@ -98,6 +98,8 @@ class CheckSetupController extends Controller {
 	private $memoryInfo;
 	/** @var ISecureRandom */
 	private $secureRandom;
+	/** @var IniGetWrapper */
+	private $iniGetWrapper;
 
 	public function __construct($AppName,
 								IRequest $request,
@@ -112,7 +114,8 @@ class CheckSetupController extends Controller {
 								ILockingProvider $lockingProvider,
 								IDateTimeFormatter $dateTimeFormatter,
 								MemoryInfo $memoryInfo,
-								ISecureRandom $secureRandom) {
+								ISecureRandom $secureRandom,
+								IniGetWrapper $iniGetWrapper) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -126,6 +129,7 @@ class CheckSetupController extends Controller {
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->memoryInfo = $memoryInfo;
 		$this->secureRandom = $secureRandom;
+		$this->iniGetWrapper = $iniGetWrapper;
 	}
 
 	/**
@@ -407,25 +411,23 @@ Raw output
 	 * @return bool
 	 */
 	protected function isOpcacheProperlySetup() {
-		$iniWrapper = new IniGetWrapper();
-
-		if (!$iniWrapper->getBool('opcache.enable')) {
+		if (!$this->iniGetWrapper->getBool('opcache.enable')) {
 			return false;
 		}
 
-		if (!$iniWrapper->getBool('opcache.save_comments')) {
+		if (!$this->iniGetWrapper->getBool('opcache.save_comments')) {
 			return false;
 		}
 
-		if ($iniWrapper->getNumeric('opcache.max_accelerated_files') < 10000) {
+		if ($this->iniGetWrapper->getNumeric('opcache.max_accelerated_files') < 10000) {
 			return false;
 		}
 
-		if ($iniWrapper->getNumeric('opcache.memory_consumption') < 128) {
+		if ($this->iniGetWrapper->getNumeric('opcache.memory_consumption') < 128) {
 			return false;
 		}
 
-		if ($iniWrapper->getNumeric('opcache.interned_strings_buffer') < 8) {
+		if ($this->iniGetWrapper->getNumeric('opcache.interned_strings_buffer') < 8) {
 			return false;
 		}
 
