@@ -463,17 +463,11 @@ li:not(.inline) .weather-status-menu-item {
 	width: 100%;
 
 	> button {
-		background-color: var(--color-main-background) !important;
 		background-size: 16px;
 		border: 0;
 		border-radius: var(--border-radius-pill);
 		font-weight: normal;
 		padding-left: 40px;
-
-		&:hover,
-		&:focus {
-			background-color: var(--color-background-hover) !important;
-		}
 
 		&.icon-loading-small {
 			&::after {

@@ -58,7 +58,7 @@
 				<a v-if="isAdmin" :href="appStoreUrl" class="button">{{ t('dashboard', 'Get more widgets from the app store') }}</a>
 
 				<h3>{{ t('dashboard', 'Change background image') }}</h3>
-				<BackgroundSettings :background="background" @updateBackground="updateBackground" />
+				<BackgroundSettings :background="background" @update:background="updateBackground" />
 			</div>
 		</Modal>
 	</div>
@@ -275,14 +275,14 @@ export default {
 		updateGlobalStyles() {
 			document.body.setAttribute('data-dashboard-background', this.background)
 			if (window.OCA.Theming.inverted) {
-				document.body.classList.add('dashboard-inverted')
+				document.body.classList.add('dashboard--inverted')
 			}
 
 			const shippedBackgroundTheme = shippedBackgroundList[this.background] ? shippedBackgroundList[this.background].theming : 'light'
 			if (shippedBackgroundTheme === 'dark') {
-				document.body.classList.add('dashboard-dark')
+				document.body.classList.add('dashboard--dark')
 			} else {
-				document.body.classList.remove('dashboard-dark')
+				document.body.classList.remove('dashboard--dark')
 			}
 		},
 	},

@@ -134,8 +134,8 @@ class DashboardController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function setBackground(string $type, string $value): JSONResponse {
-		$currentVersion = (int)$this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', 0);
+	public function setBackground(string $type = 'default', string $value = ''): JSONResponse {
+		$currentVersion = (int)$this->config->getUserValue($this->userId, 'dashboard', 'backgroundVersion', '0');
 		try {
 			switch ($type) {
 				case 'shipped':
