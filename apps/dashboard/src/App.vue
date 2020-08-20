@@ -15,9 +15,9 @@
 			@end="saveLayout">
 			<div v-for="panelId in layout" :key="panels[panelId].id" class="panel">
 				<div class="panel--header">
-					<h3 :class="panels[panelId].iconClass">
+					<h2 :class="panels[panelId].iconClass">
 						{{ panels[panelId].title }}
-					</h3>
+					</h2>
 				</div>
 				<div class="panel--content">
 					<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
@@ -313,14 +313,14 @@ export default {
 			background-color: var(--color-main-background);
 			--color-background-translucent: var(--color-main-background);
 		}
-	}
 
-	h2 {
-		color: var(--color-primary-text);
-		text-align: center;
-		font-size: 32px;
-		line-height: 130%;
-		padding: 120px 16px 0px;
+		> h2 {
+			color: var(--color-primary-text);
+			text-align: center;
+			font-size: 32px;
+			line-height: 130%;
+			padding: 120px 16px 0px;
+		}
 	}
 
 	.panels {
@@ -374,7 +374,7 @@ export default {
 				flex-grow: 1;
 			}
 
-			h3 {
+			> h2 {
 				display: block;
 				flex-grow: 1;
 				margin: 0;
@@ -395,7 +395,8 @@ export default {
 		& > .panel--content {
 			margin: 0 16px 16px 16px;
 			height: 420px;
-			overflow: auto;
+			// We specifically do not want scrollbars inside widgets
+			overflow: hidden;
 		}
 
 		// No need to extend height of widgets if only one column is shown
@@ -431,12 +432,14 @@ export default {
 	}
 
 	.edit-panels,
-	.statuses ::v-deep .action-item > button {
+	.statuses ::v-deep .action-item > button,
+	.statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
 		background-color: var(--color-background-translucent);
 		backdrop-filter: var(--background-blur);
 
 		&:hover,
-		&:focus {
+		&:focus,
+		&:active {
 			background-color: var(--color-background-hover);
 		}
 	}
@@ -483,6 +486,13 @@ export default {
 			&:not(:first-of-type) {
 				margin-top: 64px;
 			}
+		}
+
+		// Adjust design of 'Get more widgets' button
+		.button {
+			display: inline-block;
+			padding: 12px 24px;
+			margin: 0;
 		}
 	}
 
