@@ -4022,6 +4022,11 @@
       <code>$entry</code>
     </UndefinedInterfaceMethod>
   </file>
+  <file src="lib/private/Files/Cache/CacheQueryBuilder.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;createNamedParameter($parents, IQueryBuilder::PARAM_INT_ARRAY)</code>
+    </ImplicitToStringCast>
+  </file>
   <file src="lib/private/Files/Cache/FailedCache.php">
     <InvalidReturnStatement occurrences="1">
       <code>[]</code>
