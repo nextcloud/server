@@ -73,7 +73,7 @@ class Router implements IRouter {
 		$this->logger = $logger;
 		$baseUrl = \OC::$WEBROOT;
 		if (!(\OC::$server->getConfig()->getSystemValue('htaccess.IgnoreFrontController', false) === true || getenv('front_controller_active') === 'true')) {
-			$baseUrl = \OC::$server->getURLGenerator()->linkTo('', 'index.php');
+			$baseUrl .= '/index.php';
 		}
 		if (!\OC::$CLI && isset($_SERVER['REQUEST_METHOD'])) {
 			$method = $_SERVER['REQUEST_METHOD'];
@@ -346,13 +346,27 @@ class Router implements IRouter {
 	public function generate($name,
 							 $parameters = [],
 							 $absolute = false) {
+		$referenceType = UrlGenerator::ABSOLUTE_URL;
+		if ($absolute === false) {
+			$referenceType = UrlGenerator::ABSOLUTE_PATH;
+		}
+		$name = $this->fixLegacyRootName($name);
+		if (strpos($name, '.') !== false) {
+			list($appName, $other) = explode('.', $name, 3);
+			// OCS routes are prefixed with "ocs."
+			if ($appName === 'ocs') {
+				$appName = $other;
+			}
+			$this->loadRoutes($appName);
+			try {
+				return $this->getGenerator()->generate($name, $parameters, $referenceType);
+			} catch (RouteNotFoundException $e) {
+			}
+		}
+
+		// Fallback load all routes
 		$this->loadRoutes();
 		try {
-			$referenceType = UrlGenerator::ABSOLUTE_URL;
-			if ($absolute === false) {
-				$referenceType = UrlGenerator::ABSOLUTE_PATH;
-			}
-			$name = $this->fixLegacyRootName($name);
 			return $this->getGenerator()->generate($name, $parameters, $referenceType);
 		} catch (RouteNotFoundException $e) {
 			$this->logger->logException($e, ['level' => ILogger::INFO]);
