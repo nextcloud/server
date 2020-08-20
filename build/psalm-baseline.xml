@@ -4455,7 +4455,7 @@
     <InternalMethod occurrences="1">
       <code>ClientResolver::_default_signature_provider()</code>
     </InternalMethod>
-    <UndefinedFunction occurrences="1">
+    <UndefinedFunction occurrences="2">
       <code>\Aws\or_chain([self::class, 'legacySignatureProvider'], ClientResolver::_default_signature_provider())</code>
     </UndefinedFunction>
   </file>
