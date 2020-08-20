@@ -2,7 +2,7 @@ name: Update Psalm baseline
 
 on:
   schedule:
-    - cron: '5 6 * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   update-psalm-baseline:
