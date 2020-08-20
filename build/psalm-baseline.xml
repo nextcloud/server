@@ -1080,6 +1080,11 @@
       <code>\Sabre\Uri\split($this-&gt;principalInfo['uri'])</code>
     </UndefinedFunction>
   </file>
+  <file src="apps/encryption/lib/Command/ScanLegacyFormat.php">
+    <RedundantCondition occurrences="1">
+      <code>$result</code>
+    </RedundantCondition>
+  </file>
   <file src="apps/encryption/lib/Crypto/Crypt.php">
     <RedundantCondition occurrences="1">
       <code>$userSession &amp;&amp; $userSession-&gt;isLoggedIn()</code>
@@ -4849,6 +4854,9 @@
     </InvalidReturnType>
   </file>
   <file src="lib/private/Files/Stream/Encryption.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$position</code>
+    </InvalidScalarArgument>
     <UndefinedInterfaceMethod occurrences="1">
       <code>$cacheEntry</code>
     </UndefinedInterfaceMethod>
