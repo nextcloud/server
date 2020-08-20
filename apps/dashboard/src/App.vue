@@ -484,6 +484,13 @@ export default {
 				margin-top: 64px;
 			}
 		}
+
+		// Adjust design of 'Get more widgets' button
+		.button {
+			display: inline-block;
+			padding: 12px 24px;
+			margin: 0;
+		}
 	}
 
 	.flip-list-move {
