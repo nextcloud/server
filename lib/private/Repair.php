@@ -49,6 +49,7 @@ use OC\Repair\NC16\CleanupCardDAVPhotoCache;
 use OC\Repair\NC16\ClearCollectionsAccessCache;
 use OC\Repair\NC18\ResetGeneratedAvatarFlag;
 use OC\Repair\NC20\EncryptionLegacyCipher;
+use OC\Repair\NC20\EncryptionMigration;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
@@ -158,6 +159,7 @@ class Repair implements IOutput {
 			new ClearCollectionsAccessCache(\OC::$server->getConfig(), \OC::$server->query(IManager::class)),
 			\OC::$server->query(ResetGeneratedAvatarFlag::class),
 			\OC::$server->query(EncryptionLegacyCipher::class),
+			\OC::$server->query(EncryptionMigration::class),
 		];
 	}
 
