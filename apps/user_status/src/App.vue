@@ -31,7 +31,8 @@
 			<Actions
 				id="user-status-menu-item__subheader"
 				:default-icon="statusIcon"
-				:menu-title="visibleMessage">
+				:menu-title="visibleMessage"
+				:title="visibleMessage">
 				<ActionButton
 					v-for="status in statuses"
 					:key="status.type"
@@ -244,15 +245,18 @@ export default {
 </script>
 
 <style lang="scss">
+$max-width-user-status: 200px;
+
 li:not(.inline) #user-status-menu-item {
 	&__header {
 		display: block;
-		color: var(--color-main-text);
+		box-sizing: border-box;
+		color: var(--color-text-maxcontrast);
 		padding: 10px 12px 5px 38px;
 		opacity: 1;
 		white-space: nowrap;
 		text-align: left;
-		max-width: 150px;
+		max-width: $max-width-user-status;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
@@ -261,6 +265,8 @@ li:not(.inline) #user-status-menu-item {
 		width: 100%;
 
 		> button {
+			display: block;
+			box-sizing: border-box;
 			background-color: var(--color-main-background);
 			background-position: 12px center;
 			background-size: 16px;
@@ -269,6 +275,9 @@ li:not(.inline) #user-status-menu-item {
 			font-weight: normal;
 			padding-left: 38px;
 			opacity: 1;
+			max-width: $max-width-user-status;
+			overflow: hidden;
+			text-overflow: ellipsis;
 
 			&:hover,
 			&:focus {
