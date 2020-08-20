@@ -392,6 +392,13 @@ export default {
 			height: 420px;
 			overflow: auto;
 		}
+
+		// No need to extend height of widgets if only one column is shown
+		@media only screen and (max-width: 709px) {
+			& > .panel--content {
+				height: auto;
+			}
+		}
 	}
 
 	.footer {
