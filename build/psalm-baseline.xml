@@ -2809,7 +2809,8 @@
     </InvalidReturnType>
   </file>
   <file src="apps/user_status/lib/Db/UserStatusMapper.php">
-    <ImplicitToStringCast occurrences="1">
+    <ImplicitToStringCast occurrences="2">
+      <code>$qb-&gt;createNamedParameter(['online', 'away'], IQueryBuilder::PARAM_STR_ARRAY)</code>
       <code>$qb-&gt;createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)</code>
     </ImplicitToStringCast>
     <MoreSpecificImplementedParamType occurrences="1"/>
