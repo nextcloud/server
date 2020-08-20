@@ -432,12 +432,14 @@ export default {
 	}
 
 	.edit-panels,
-	.statuses ::v-deep .action-item > button {
+	.statuses ::v-deep .action-item > button,
+	.statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
 		background-color: var(--color-background-translucent);
 		backdrop-filter: var(--background-blur);
 
 		&:hover,
-		&:focus {
+		&:focus,
+		&:active {
 			background-color: var(--color-background-hover);
 		}
 	}
