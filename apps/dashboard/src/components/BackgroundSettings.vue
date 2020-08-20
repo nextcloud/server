@@ -157,7 +157,6 @@ export default {
 
 			&.filepicker, &.default, &.color {
 				border-color: var(--color-border);
-				line-height: 96px;
 			}
 
 			&.color {
