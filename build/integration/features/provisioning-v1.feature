@@ -349,6 +349,7 @@ Feature: provisioning
 			| user_status |
 			| viewer |
 			| workflowengine |
+			| weather_status |
 			| files_external |
 			| oauth2 |
 
