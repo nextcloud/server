@@ -8,6 +8,7 @@
     "The files of the app %1$s were not replaced correctly. Make sure it is a version compatible with the server." : "Filerna i appen %1$s ersattes inte korrekt. Kontrollera att det är en version som är kompatibel med servern.",
     "Sample configuration detected" : "Exempel-konfiguration detekterad",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Det har upptäckts att provkonfigurationen har kopierats. Detta kan bryta din installation och stöds inte. Vänligen läs dokumentationen innan du utför ändringar på config.php",
+    "Other activities" : "Andra aktiviteter",
     "%1$s and %2$s" : "%1$s och %2$s",
     "%1$s, %2$s and %3$s" : "%1$s, %2$s och %3$s",
     "%1$s, %2$s, %3$s and %4$s" : "%1$s, %2$s, %3$s och %4$s",

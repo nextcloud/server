@@ -131,6 +131,7 @@ OC.L10N.register(
     "{user} moved {oldfile} to {newfile}" : "{user} flyttade {oldfile} till {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "En fil har lagts till eller tagits bort från dina <strong>favoriter</strong>",
     "A file or folder has been <strong>changed</strong>" : "En ny fil eller mapp har blivit <strong>ändrad</strong>",
+    "A favorite file or folder has been <strong>changed</strong>" : "En favorit-fil eller mapp har blivit <strong>ändrad</strong>",
     "All files" : "Alla filer",
     "Unlimited" : "Obegränsad",
     "Upload (max. %s)" : "Ladda upp (högst %s)",

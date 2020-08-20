@@ -103,7 +103,7 @@ OC.L10N.register(
     "Install Client" : "Installera Klient",
     "Logged in user must be a subadmin" : "Inloggad användare måste vara en del-administratör",
     "Apps" : "Appar",
-    "Settings" : "Inställnigar",
+    "Settings" : "Inställningar",
     "Personal" : "Privat",
     "Administration" : "Administration",
     "Additional settings" : "Övriga inställningar",
