@@ -70,6 +70,33 @@ class UserStatusMapper extends QBMapper {
 	}
 
 	/**
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return array
+	 */
+	public function findAllRecent(?int $limit = null, ?int $offset = null): array {
+		$qb = $this->db->getQueryBuilder();
+
+		$qb
+			->select('*')
+			->from($this->tableName)
+			->orderBy('status_timestamp', 'DESC')
+			->where($qb->expr()->notIn('status', $qb->createNamedParameter(['online', 'away'], IQueryBuilder::PARAM_STR_ARRAY)))
+			->orWhere($qb->expr()->isNotNull('message_id'))
+			->orWhere($qb->expr()->isNotNull('custom_icon'))
+			->orWhere($qb->expr()->isNotNull('custom_message'));
+
+		if ($limit !== null) {
+			$qb->setMaxResults($limit);
+		}
+		if ($offset !== null) {
+			$qb->setFirstResult($offset);
+		}
+
+		return $this->findEntities($qb);
+	}
+
+	/**
 	 * @param string $userId
 	 * @return UserStatus
 	 * @throws \OCP\AppFramework\Db\DoesNotExistException

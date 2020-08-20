@@ -15,6 +15,7 @@ return array(
     'OCA\\UserStatus\\Controller\\PredefinedStatusController' => $baseDir . '/../lib/Controller/PredefinedStatusController.php',
     'OCA\\UserStatus\\Controller\\StatusesController' => $baseDir . '/../lib/Controller/StatusesController.php',
     'OCA\\UserStatus\\Controller\\UserStatusController' => $baseDir . '/../lib/Controller/UserStatusController.php',
+    'OCA\\UserStatus\\Dashboard\\UserStatusWidget' => $baseDir . '/../lib/Dashboard/UserStatusWidget.php',
     'OCA\\UserStatus\\Db\\UserStatus' => $baseDir . '/../lib/Db/UserStatus.php',
     'OCA\\UserStatus\\Db\\UserStatusMapper' => $baseDir . '/../lib/Db/UserStatusMapper.php',
     'OCA\\UserStatus\\Exception\\InvalidClearAtException' => $baseDir . '/../lib/Exception/InvalidClearAtException.php',

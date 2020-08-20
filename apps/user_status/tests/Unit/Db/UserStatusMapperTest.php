@@ -65,6 +65,15 @@ class UserStatusMapperTest extends TestCase {
 		$this->assertEquals('user2', $offsetResults[0]->getUserId());
 	}
 
+	public function testFindAllRecent(): void {
+		$this->insertSampleStatuses();
+
+		$allResults = $this->mapper->findAllRecent(2, 0);
+		$this->assertCount(2, $allResults);
+		$this->assertEquals('user1', $allResults[0]->getUserId());
+		$this->assertEquals('user2', $allResults[1]->getUserId());
+	}
+
 	public function testGetFind(): void {
 		$this->insertSampleStatuses();
 
