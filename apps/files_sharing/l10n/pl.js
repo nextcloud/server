@@ -89,7 +89,7 @@ OC.L10N.register(
     "{actor} removed themselves from {file}" : "{actor} usunął się z {file}",
     "{actor} shared {file} with {user}" : "{actor} współdzieli {file} z {user}",
     "{actor} removed {user} from {file}" : "{actor} usunął użytkownika {user} z {file}",
-    "{actor} shared {file} with you" : "{actor} udostępnił Ci {file}",
+    "{actor} shared {file} with you" : "{actor} udostępnił Tobie {file}",
     "{actor} removed you from the share named {file}" : "{actor} usunął Cię z współdzielenia o nazwie {file}",
     "Share for file {file} with {user} expired" : "Współdzielenie pliku {file} z {user} wygasło",
     "Share for file {file} expired" : "Udostępnianie pliku {file} wygasło",
