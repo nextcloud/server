@@ -96,6 +96,7 @@ class Application extends \OCP\AppFramework\App {
 								/** @var IOperation $operation */
 								$operation = $this->getContainer()->query($operationClass);
 
+								$ruleMatcher->setEventName($eventName);
 								$ruleMatcher->setEntity($entity);
 								$ruleMatcher->setOperation($operation);
 
