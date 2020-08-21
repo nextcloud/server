@@ -95,7 +95,15 @@ class UserPlugin implements ISearchPlugin {
 				$usersInGroup = $this->groupManager->displayNamesInGroup($userGroupId, $search, $limit, $offset);
 				foreach ($usersInGroup as $userId => $displayName) {
 					$userId = (string) $userId;
-					$users[$userId] = $this->userManager->get($userId);
+					$user = $this->userManager->get($userId);
+					if (!$user->isEnabled()) {
+						// Ignore disabled users
+						continue;
+					}
+					$users[$userId] = $user;
+				}
+				if (count($usersInGroup) >= $limit) {
+					$hasMoreResults = true;
 				}
 			}
 		} else {
