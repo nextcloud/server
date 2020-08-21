@@ -119,6 +119,7 @@ OC.L10N.register(
     "Reshare" : "Adrannañ",
     "Unlimited" : "Didermenet",
     "Verifying" : "O gwiriañ",
+    "The old server-side-encryption format is enabled. We recommend disabling this." : "Stumm ar sifrañ kostez ar servijour kozh a zo aotreet. Aliet eo hen disaotreañ.",
     "Nextcloud settings" : "Stummoù Nextcloud",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "An dilesa daou-elfenn a zo posupl rediañ evit tout an implijourieñ ha strolladoù 'zo. Ma n'ho deus get stummet ar goulenner deao-elfenn, ne vo ket posupl dezho mon-tre er sistem.",
     "Enforce two-factor authentication" : "Reddiañ an dilesa daou-elfenn",
