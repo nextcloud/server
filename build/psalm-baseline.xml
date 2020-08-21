@@ -1114,10 +1114,6 @@
     </InvalidNullableReturnType>
   </file>
   <file src="apps/encryption/lib/KeyManager.php">
-    <InvalidArrayOffset occurrences="2">
-      <code>$keyPair['publicKey']</code>
-      <code>$keyPair['privateKey']</code>
-    </InvalidArrayOffset>
     <InvalidScalarArgument occurrences="3">
       <code>time()</code>
       <code>time()</code>
@@ -1147,9 +1143,6 @@
     </TooManyArguments>
   </file>
   <file src="apps/encryption/lib/Users/Setup.php">
-    <InvalidArgument occurrences="1">
-      <code>$this-&gt;crypt-&gt;createKeyPair()</code>
-    </InvalidArgument>
     <RedundantCondition occurrences="1">
       <code>$userSession &amp;&amp; $userSession-&gt;isLoggedIn()</code>
     </RedundantCondition>
@@ -2118,9 +2111,6 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/oauth2/lib/Controller/OauthApiController.php">
-    <InvalidArgument occurrences="1">
-      <code>['user' =&gt; $appToken-&gt;getUID()]</code>
-    </InvalidArgument>
     <NoInterfaceProperties occurrences="1">
       <code>$this-&gt;request-&gt;server</code>
     </NoInterfaceProperties>
@@ -3194,8 +3184,7 @@
       <code>getIncompatibleApps</code>
       <code>getAppsNeedingUpgrade</code>
     </InternalMethod>
-    <InvalidArgument occurrences="2">
-      <code>['user' =&gt; $uid]</code>
+    <InvalidArgument occurrences="1">
       <code>$restrictions</code>
     </InvalidArgument>
     <InvalidScalarArgument occurrences="1">
