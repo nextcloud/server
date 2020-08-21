@@ -108,7 +108,7 @@ const statusInfo = {
 		icon: 'icon-weather-status',
 	},
 	status: {
-		text: t('dashboard', 'User status'),
+		text: t('dashboard', 'Status'),
 		icon: 'icon-user-status-online',
 	},
 }
