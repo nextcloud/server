@@ -2,8 +2,6 @@
 	<div id="app-dashboard" :style="backgroundStyle">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
-			<button @click="enableStatus('weather')">en</button>
-			<button @click="disableStatus('weather')">dis</button>
 			<div v-for="status in sortedRegisteredStatus"
 				:id="'status-' + status"
 				:key="status">
@@ -40,6 +38,18 @@
 		<Modal v-if="modal" @close="closeModal">
 			<div class="modal__content">
 				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
+				<ol class="panels">
+					<li v-for="(cb, status) in allCallbacksStatus" :key="status">
+						<input :id="'status-checkbox-' + status"
+							type="checkbox"
+							class="checkbox"
+							:checked="isStatusActive(status)"
+							@input="updateStatusCheckbox(status, $event.target.checked)">
+						<label :for="'status-checkbox-' + status" :class="statusInfo[status].icon">
+							{{ statusInfo[status].text }}
+						</label>
+					</li>
+				</ol>
 				<Draggable v-model="layout"
 					class="panels"
 					tag="ol"
@@ -92,6 +102,16 @@ const firstRun = loadState('dashboard', 'firstRun')
 const background = loadState('dashboard', 'background')
 const version = loadState('dashboard', 'version')
 const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
+const statusInfo = {
+	weather: {
+		text: t('dashboard', 'Weather'),
+		icon: 'icon-github',
+	},
+	status: {
+		text: t('dashboard', 'User status'),
+		icon: 'icon-discourse',
+	},
+}
 
 export default {
 	name: 'App',
@@ -111,6 +131,7 @@ export default {
 			callbacks: {},
 			callbacksStatus: {},
 			allCallbacksStatus: {},
+			statusInfo,
 			enabledStatuses: loadState('dashboard', 'statuses'),
 			panels,
 			firstRun,
@@ -165,6 +186,9 @@ export default {
 		},
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
+		},
+		isStatusActive() {
+			return (status) => !(status in this.enabledStatuses) || this.enabledStatuses[status]
 		},
 		sortedPanels() {
 			return Object.values(this.panels).sort((a, b) => {
@@ -231,7 +255,7 @@ export default {
 			// always save callbacks in case user enables the status later
 			Vue.set(this.allCallbacksStatus, app, callback)
 			// register only if status is enabled or missing from config
-			if (!(app in this.enabledStatuses) || this.enabledStatuses[app]) {
+			if (this.isStatusActive(app)) {
 				this.registeredStatus.push(app)
 				this.$nextTick(() => {
 					Vue.set(this.callbacksStatus, app, callback)
@@ -308,6 +332,13 @@ export default {
 				document.body.classList.add('dashboard--dark')
 			} else {
 				document.body.classList.remove('dashboard--dark')
+			}
+		},
+		updateStatusCheckbox(app, checked) {
+			if (checked) {
+				this.enableStatus(app)
+			} else {
+				this.disableStatus(app)
 			}
 		},
 		enableStatus(app) {
