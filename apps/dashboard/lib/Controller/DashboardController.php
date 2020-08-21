@@ -103,7 +103,10 @@ class DashboardController extends Controller {
 				'url' => $widget->getUrl()
 			];
 		}, $this->dashboardManager->getWidgets());
+		$configStatuses = $this->config->getUserValue($this->userId, 'dashboard', 'statuses', '{}');
+		$statuses = json_decode($configStatuses, true);
 		$this->inititalStateService->provideInitialState('dashboard', 'panels', $widgets);
+		$this->inititalStateService->provideInitialState('dashboard', 'statuses', $statuses);
 		$this->inititalStateService->provideInitialState('dashboard', 'layout', $userLayout);
 		$this->inititalStateService->provideInitialState('dashboard', 'firstRun', $this->config->getUserValue($this->userId, 'dashboard', 'firstRun', '1') === '1');
 		$this->inititalStateService->provideInitialState('dashboard', 'shippedBackgrounds', BackgroundService::SHIPPED_BACKGROUNDS);
@@ -129,6 +132,16 @@ class DashboardController extends Controller {
 	public function updateLayout(string $layout): JSONResponse {
 		$this->config->setUserValue($this->userId, 'dashboard', 'layout', $layout);
 		return new JSONResponse(['layout' => $layout]);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @param string $statuses
+	 * @return JSONResponse
+	 */
+	public function updateStatuses(string $statuses): JSONResponse {
+		$this->config->setUserValue($this->userId, 'dashboard', 'statuses', $statuses);
+		return new JSONResponse(['statuses' => $statuses]);
 	}
 
 	/**

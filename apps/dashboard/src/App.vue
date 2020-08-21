@@ -2,6 +2,8 @@
 	<div id="app-dashboard" :style="backgroundStyle">
 		<h2>{{ greeting.text }}</h2>
 		<ul class="statuses">
+			<button @click="enableStatus('weather')">en</button>
+			<button @click="disableStatus('weather')">dis</button>
 			<div v-for="status in sortedRegisteredStatus"
 				:id="'status-' + status"
 				:key="status">
@@ -108,6 +110,8 @@ export default {
 			registeredStatus: [],
 			callbacks: {},
 			callbacksStatus: {},
+			allCallbacksStatus: {},
+			enabledStatuses: loadState('dashboard', 'statuses'),
 			panels,
 			firstRun,
 			displayName: getCurrentUser()?.displayName,
@@ -224,10 +228,15 @@ export default {
 			Vue.set(this.callbacks, app, callback)
 		},
 		registerStatus(app, callback) {
-			this.registeredStatus.push(app)
-			this.$nextTick(() => {
-				Vue.set(this.callbacksStatus, app, callback)
-			})
+			// always save callbacks in case user enables the status later
+			Vue.set(this.allCallbacksStatus, app, callback)
+			// register only if status is enabled or missing from config
+			if (!(app in this.enabledStatuses) || this.enabledStatuses[app]) {
+				this.registeredStatus.push(app)
+				this.$nextTick(() => {
+					Vue.set(this.callbacksStatus, app, callback)
+				})
+			}
 		},
 		rerenderPanels() {
 			for (const app in this.callbacks) {
@@ -251,6 +260,11 @@ export default {
 		saveLayout() {
 			axios.post(generateUrl('/apps/dashboard/layout'), {
 				layout: this.layout.join(','),
+			})
+		},
+		saveStatuses() {
+			axios.post(generateUrl('/apps/dashboard/statuses'), {
+				statuses: JSON.stringify(this.enabledStatuses),
 			})
 		},
 		showModal() {
@@ -295,6 +309,23 @@ export default {
 			} else {
 				document.body.classList.remove('dashboard--dark')
 			}
+		},
+		enableStatus(app) {
+			this.enabledStatuses[app] = true
+			this.registerStatus(app, this.allCallbacksStatus[app])
+			this.saveStatuses()
+		},
+		disableStatus(app) {
+			this.enabledStatuses[app] = false
+			const i = this.registeredStatus.findIndex((s) => s === app)
+			if (i !== -1) {
+				this.registeredStatus.splice(i, 1)
+				Vue.set(this.statuses, app, { mounted: false })
+				this.$nextTick(() => {
+					Vue.delete(this.callbacksStatus, app)
+				})
+			}
+			this.saveStatuses()
 		},
 	},
 }
