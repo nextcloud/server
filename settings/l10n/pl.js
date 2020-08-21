@@ -119,6 +119,7 @@ OC.L10N.register(
     "Reshare" : "Udostępnianie innym",
     "Unlimited" : "Bez limitu",
     "Verifying" : "Sprawdzanie",
+    "The old server-side-encryption format is enabled. We recommend disabling this." : "Stary format szyfrowania po stronie serwera jest włączony. Zalecamy wyłączenie jego.",
     "Nextcloud settings" : "Ustawienia Nextcloud",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Uwierzytelnianie dwuskładnikowe może być wymuszane dla wszystkich użytkowników i określonych grup. Jeśli nie mają skonfigurowanego dostawcy logowania dwuskładnikowego, nie będą mogli zalogować się do systemu.",
     "Enforce two-factor authentication" : "Wymuś uwierzytelnianie dwuskładnikowe",

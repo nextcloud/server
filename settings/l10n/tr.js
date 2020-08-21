@@ -119,6 +119,7 @@ OC.L10N.register(
     "Reshare" : "Yeniden paylaş",
     "Unlimited" : "Sınırsız",
     "Verifying" : "Doğrulanıyor",
+    "The old server-side-encryption format is enabled. We recommend disabling this." : "Eski sunucu tarafı şifreleme biçimi etkinleştirilmiş. Bu seçeneği devre dışı bırakmanız önerilir.",
     "Nextcloud settings" : "Nextcloud ayarları",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Tüm kullanıcılar ve belirli gruplar için iki aşamalı kimlik doğrulama kullanılır. Yapılandırılmış bir iki aşamalı kimlik doğrulama hizmeti sağlayıcısı olmayan kullanıcılar oturum açamaz.",
     "Enforce two-factor authentication" : "İki aşamalı kimlik doğrulama dayatılsın",

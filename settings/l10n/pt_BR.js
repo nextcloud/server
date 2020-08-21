@@ -119,6 +119,7 @@ OC.L10N.register(
     "Reshare" : "Recompartilhar",
     "Unlimited" : "Ilimitado",
     "Verifying" : "Verificando",
+    "The old server-side-encryption format is enabled. We recommend disabling this." : "O antigo formato de criptografia do lado do servidor está ativado. Recomendamos desativar isso.",
     "Nextcloud settings" : "Configurações Nextcloud",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "A autenticação de dois fatores pode ser imposta a todos os usuários e grupos específicos. Se eles não tiverem um provedor de dois fatores configurado, não poderão fazer login no sistema.",
     "Enforce two-factor authentication" : "Aplicar autenticação de dois fatores",

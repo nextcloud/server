@@ -117,6 +117,7 @@
     "Reshare" : "Ri-condividi",
     "Unlimited" : "Illimitata",
     "Verifying" : "Verifica",
+    "The old server-side-encryption format is enabled. We recommend disabling this." : "Il vecchio formato di cifratura lato server è abilitato. Ti consigliamo di disabilitarlo.",
     "Nextcloud settings" : "Impostazioni di Nextcloud",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "L'autenticazione a due fattori può essere imposta per tutti gli utenti e gruppi specifici. Se non hanno un fornitore a due fattori configurato, non saranno in grado di accedere al sistema.",
     "Enforce two-factor authentication" : "Applica l'autenticazione a due fattori",

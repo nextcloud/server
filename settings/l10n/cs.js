@@ -119,6 +119,7 @@ OC.L10N.register(
     "Reshare" : "Sdílet dál dalším",
     "Unlimited" : "Neomezeně",
     "Verifying" : "Ověřuje se",
+    "The old server-side-encryption format is enabled. We recommend disabling this." : "Je zapnutý starý formát šifrování na straně serveru. Je doporučeno toto vypnout.",
     "Nextcloud settings" : "Nastavení Nextcloud",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Dvoufázové ověřování je možné vynutit pro všechny uživatele a konkrétní skupiny. Pokud nemají nastaveného poskytovatele dvoufázového ověřování, nebudou se moci přihlásit do systému.",
     "Enforce two-factor authentication" : "Vynutit dvoufázové ověřování",
