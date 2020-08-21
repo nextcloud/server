@@ -39,7 +39,7 @@
 			<div class="modal__content">
 				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
 				<ol class="panels">
-					<li v-for="(cb, status) in allCallbacksStatus" :key="status">
+					<li v-for="status in sortedAllStatuses" :key="status">
 						<input :id="'status-checkbox-' + status"
 							type="checkbox"
 							class="checkbox"
@@ -105,11 +105,11 @@ const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
 const statusInfo = {
 	weather: {
 		text: t('dashboard', 'Weather'),
-		icon: 'icon-github',
+		icon: 'icon-weather-status',
 	},
 	status: {
 		text: t('dashboard', 'User status'),
-		icon: 'icon-discourse',
+		icon: 'icon-user-status-online',
 	},
 }
 
@@ -189,6 +189,9 @@ export default {
 		},
 		isStatusActive() {
 			return (status) => !(status in this.enabledStatuses) || this.enabledStatuses[status]
+		},
+		sortedAllStatuses() {
+			return Object.keys(this.allCallbacksStatus).slice().sort((a, b) => a > b)
 		},
 		sortedPanels() {
 			return Object.values(this.panels).sort((a, b) => {
