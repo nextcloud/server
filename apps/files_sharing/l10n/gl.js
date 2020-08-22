@@ -128,7 +128,7 @@ OC.L10N.register(
     "Direct link" : "Ligazón directa",
     "Add to your Nextcloud" : "Engadir ao seu Nextcloud",
     "Share API is disabled" : "A API de compartición foi desactivada",
-    "File sharing" : "Compartición de ficheiros",
+    "File sharing" : "Compartir ficheiros",
     "Share will expire tomorrow" : "O recurso compartido caduca mañá",
     "One or more of your shares will expire tomorrow" : "Un ou mais dos seus recursos compartidos caducarán mañá",
     "Your share of {node} will expire tomorrow" : "A súa compartición de {node} caduca mañá",
