@@ -48,7 +48,7 @@
     "nextcloud-server": "^0.15.10",
     "path-parse": "^1.0.6",
     "regenerator-runtime": "^0.13.7",
-    "vue": "^2.6.11",
+    "vue": "^2.6.12",
     "vue-async-computed": "^3.9.0",
     "vue-plyr": "^6.0.4",
     "webdav": "^3.3.0"
@@ -97,7 +97,7 @@
     "stylelint-webpack-plugin": "^2.1.0",
     "url-loader": "^4.1.0",
     "vue-loader": "^15.9.3",
-    "vue-template-compiler": "^2.6.11",
+    "vue-template-compiler": "^2.6.12",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-merge": "^5.1.2"
