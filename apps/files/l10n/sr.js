@@ -131,6 +131,7 @@ OC.L10N.register(
     "{user} moved {oldfile} to {newfile}" : "{user} је померио {oldfile} на {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "Фајл је додат или избрисан из Ваших <strong>омиљених</strong>",
     "A file or folder has been <strong>changed</strong>" : "Фајл или фасцикла су <strong>измењени</strong>",
+    "A favorite file or folder has been <strong>changed</strong>" : "Омиљени фајл или фасцикла су <strong>измењени</strong>",
     "All files" : "Сви фајлови",
     "Unlimited" : "Неограничено",
     "Upload (max. %s)" : "Отпремање (макс. %s)",
