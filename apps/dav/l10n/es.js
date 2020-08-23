@@ -84,6 +84,7 @@ OC.L10N.register(
     "Tasks" : "Tareas",
     "Untitled task" : "Tarea sin título",
     "Completed on %s" : "Completado el %s",
+    "Due on %s by %s" : "Finaliza el %s por %s",
     "Due on %s" : "Finaliza el %s",
     "WebDAV" : "WebDAV",
     "WebDAV endpoint" : "Extremo de WebDAV",

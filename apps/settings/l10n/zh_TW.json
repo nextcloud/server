@@ -238,6 +238,7 @@
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "允許使用者名稱自動補齊在分享對話框，如果停用這個功能，必須輸入完整的使用者名稱或電子郵件地址",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "在公開的檔案連結和上傳頁面顯示免責聲明（只有在檔案清單隱藏的時候才會顯示）",
     "This text will be shown on the public link upload page when the file list is hidden." : "這段文字會在公開檔案上傳頁面檔案清單被隱藏的時候顯示",
+    "Default share permissions" : "預設分享權限",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "由 {communityopen}Nextcloud 社群{linkclose}開發，{githubopen}原始碼{linkclose}以 {licenseopen}AGPL 授權{linkclose}釋出",
     "Like our Facebook page" : "到我們的 Facebook 頁面按讚",
     "Follow us on Twitter" : "在 Twitter 上面追蹤我們",
