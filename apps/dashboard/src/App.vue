@@ -19,7 +19,7 @@
 						{{ panels[panelId].title }}
 					</h2>
 				</div>
-				<div class="panel--content">
+				<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
 					<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
 				</div>
 			</div>
