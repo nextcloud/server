@@ -5,6 +5,7 @@ Nextcloud is written by:
  - Achim Königs <garfonso@tratschtante.de>
  - Adam Williamson <awilliam@redhat.com>
  - Administrator "Administrator@WINDOWS-2012"
+ - Adrian Brzezinski <adrian.brzezinski@eo.pl>
  - Aldo "xoen" Giambelluca <xoen@xoen.org>
  - Alecks Gates <alecks.g@gmail.com>
  - Alejandro Varela <epma01@gmail.com>
@@ -78,6 +79,7 @@ Nextcloud is written by:
  - Derek <derek.kelly27@gmail.com>
  - Dominik Schmidt <dev@dominik-schmidt.de>
  - Donquixote <marjunebatac@gmail.com>
+ - Elijah Martin-Merrill <elijah@nyp-itsours.com>
  - Eric Masseran <rico.masseran@gmail.com>
  - Estelle Poulin <dev@inspiredby.es>
  - Evgeny Golyshev <eugulixes@gmail.com>
@@ -89,6 +91,7 @@ Nextcloud is written by:
  - Felix Nüsse <Felix.nuesse@t-online.de>
  - Felix Rupp <github@felixrupp.com>
  - Filis Futsarov <filisko@users.noreply.github.com>
+ - Florent <florent@coppint.com>
  - Florin Peter <github@florin-peter.de>
  - Flávio Gomes da Silva Lisboa <flavio.lisboa@serpro.gov.br>
  - Frank Isemann <frank@isemann.name>
@@ -100,12 +103,15 @@ Nextcloud is written by:
  - Georg Ehrke <oc.list@georgehrke.com>
  - GrayFix <grayfix@gmail.com>
  - Greta Doci <gretadoci@gmail.com>
+ - GretaD <gretadoci@gmail.com>
  - Guillaume COMPAGNON <gcompagnon@outlook.com>
  - Hemanth Kumar Veeranki <hems.india1997@gmail.com>
  - Hendrik Leppelsack <hendrik@leppelsack.de>
+ - Holger Hees <holger.hees@gmail.com>
  - Ilja Neumann <ineumann@owncloud.com>
  - Individual IT Services <info@individual-it.net>
  - J0WI <J0WI@users.noreply.github.com>
+ - Jaakko Salo <jaakkos@gmail.com>
  - Jakob Sack <mail@jakobsack.de>
  - Jakub Onderka <ahoj@jakubonderka.cz>
  - Jan-Christoph Borchardt <hey@jancborchardt.net>
@@ -122,6 +128,7 @@ Nextcloud is written by:
  - Joel S <joel.devbox@protonmail.com>
  - Johan Björk <johanimon@gmail.com>
  - Johannes Ernst <jernst@indiecomputing.com>
+ - Johannes Riedel <joeried@users.noreply.github.com>
  - Johannes Schlichenmaier <johannes@schlichenmaier.info>
  - Johannes Willnecker <johannes@willnecker.com>
  - John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
@@ -130,7 +137,6 @@ Nextcloud is written by:
  - Jos Poortvliet <jos@opensuse.org>
  - Jose Quinteiro <github@quinteiro.org>
  - Juan Pablo Villafañez <jvillafanez@solidgear.es>
- - Juan Pablo VillafÃ¡Ã±ez <jvillafanez@solidgear.es>
  - Juan Pablo Villafáñez <jvillafanez@solidgear.es>
  - Julien Lutran <julien.lutran@corp.ovh.com>
  - Julien Veyssier <eneiluj@posteo.net>
@@ -141,6 +147,7 @@ Nextcloud is written by:
  - Kamil Domanski <kdomanski@kdemail.net>
  - Kawohl <john@owncloud.com>
  - Kenneth Newwood <kenneth@newwood.name>
+ - Kevin Lanni <therealklanni@gmail.com>
  - Kevin Ndung'u <kevgathuku@gmail.com>
  - Kim Brose <kim.brose@rwth-aachen.de>
  - Klaas Freitag <freitag@owncloud.com>
@@ -173,7 +180,6 @@ Nextcloud is written by:
  - Mario Kolling <mario.kolling@serpro.gov.br>
  - Marius Blüm <marius@lineone.io>
  - Marius David Wieschollek <git.public@mdns.eu>
- - Mark Berezovsky <xpnf@yandex.ru>
  - Markus Goetz <markus@woboq.com>
  - Markus Staab <markus.staab@redaxo.de>
  - MartB <mart.b@outlook.de>
@@ -202,6 +208,7 @@ Nextcloud is written by:
  - Michael Zamot <michael@zamot.io>
  - Michał Węgrzynek <michal.wegrzynek@malloc.com.pl>
  - Miguel Prokop <miguel.prokop@vtu.com>
+ - Mikael Hammarin <mikael@try2.se>
  - Mitar <mitar.git@tnode.com>
  - Mohammed Abdellatif <m.latief@gmail.com>
  - Morris Jobke <hey@morrisjobke.de>
@@ -265,13 +272,13 @@ Nextcloud is written by:
  - Sam Bull <aa6bs0@sambull.org>
  - Sam Tuke <mail@samtuke.com>
  - Samuel CHEMLA <chemla.samuel@gmail.com>
- - Sander <brantje@gmail.com>
  - Sander Ruitenbeek <s.ruitenbeek@getgoing.nl>
  - Sander Ruitenbeek <sander@grids.be>
  - Sandro Lutz <sandro.lutz@temparus.ch>
  - Sascha Sambale <mastixmc@gmail.com>
  - Sascha Wiswedel <sascha.wiswedel@nextcloud.com>
  - Scott Dutton <exussum12@users.noreply.github.com>
+ - Scott Dutton <scott@exussum.co.uk>
  - Scott Shambarger <devel@shambarger.net>
  - Sean Comeau <sean@ftlnetworks.ca>
  - Sebastian Döll <sebastian.doell@libasys.de>
@@ -282,10 +289,12 @@ Nextcloud is written by:
  - Senorsen <senorsen.zhang@gmail.com>
  - Serge Martin <edb@sigluy.net>
  - Sergej Nikolaev <kinolaev@gmail.com>
+ - Sergej Pupykin <pupykin.s@gmail.com>
  - Sergey Shliakhov <husband.sergey@gmail.com>
  - Sergio Bertolin <sbertolin@solidgear.es>
  - Sergio Bertolín <sbertolin@solidgear.es>
  - Simon Könnecke <simonkoennecke@gmail.com>
+ - Simon Spannagel <simonspa@kth.se>
  - Simounet <contact@simounet.net>
  - Sjors van der Pluijm <sjors@desjors.nl>
  - Stefan Rado <owncloud@sradonia.net>
@@ -295,13 +304,13 @@ Nextcloud is written by:
  - Steffen Lindner <mail@steffen-lindner.de>
  - Stephan Müller <mail@stephanmueller.eu>
  - Stephan Peijnik <speijnik@anexia-it.com>
+ - Stephen Cuppett <steve@cuppett.com>
  - Steven Bühner <buehner@me.com>
  - Sujith H <sharidasan@owncloud.com>
  - Sven Strickroth <email@cs-ware.de>
  - Sylvia van Os <sylvia@hackerchick.me>
  - Tekhnee <info@tekhnee.org>
  - Temtaime <temtaime@gmail.com>
- - Thibault Coupin <thibault.coupin@gmail.com>
  - Thibaut GRIDEL <tgridel@free.fr>
  - Thomas Citharel <nextcloud@tcit.fr>
  - Thomas Ebert <thomas.ebert@usability.de>
@@ -318,10 +327,12 @@ Nextcloud is written by:
  - Tobia De Koninck <LEDfan@users.noreply.github.com>
  - Tobia De Koninck <tobia@ledfan.be>
  - Tobias Kaminsky <tobias@kaminsky.me>
+ - Tobias Perschon <tobias@perschon.at>
  - Tom Needham <tom@owncloud.com>
  - Tomasz Paluszkiewicz <tomasz.paluszkiewicz@gmail.com>
  - Tor Lillqvist <tml@collabora.com>
  - Unknown <anpz.asutp@gmail.com>
+ - Valdnet <47037905+Valdnet@users.noreply.github.com>
  - Victor Dubiniuk <dubiniuk@owncloud.com>
  - Viktor Szépe <viktor@szepe.net>
  - Vincent Chan <plus.vincchan@gmail.com>
@@ -337,6 +348,7 @@ Nextcloud is written by:
  - adrien <adrien.waksberg@believedigital.com>
  - alexweirig <alex.weirig@technolink.lu>
  - b108@volgograd "b108@volgograd"
+ - bladewing <lukas@ifflaender-family.de>
  - bline <scottbeck@gmail.com>
  - blizzz <blizzz@arthur-schiwon.de>
  - brad2014 <brad2014@users.noreply.github.com>
@@ -366,6 +378,7 @@ Nextcloud is written by:
  - josh4trunks <joshruehlig@gmail.com>
  - karakayasemi <karakayasemi@itu.edu.tr>
  - korelstar <korelstar@users.noreply.github.com>
+ - lui87kw <lukas.ifflaender@uni-wuerzburg.de>
  - macjohnny <estebanmarin@gmx.ch>
  - marco44 <cousinmarc@gmail.com>
  - martin-rueegg <martin.rueegg@metaworx.ch>
@@ -376,9 +389,11 @@ Nextcloud is written by:
  - mmccarn <mmccarn-github@mmsionline.us>
  - nhirokinet <nhirokinet@nhiroki.net>
  - nishiki <nishiki@yaegashi.fr>
+ - onehappycat <one.happy.cat@gmx.com>
  - oparoz <owncloud@interfasys.ch>
  - phisch <git@philippschaffrath.de>
  - rakekniven <mark.ziegler@rakekniven.de>
+ - rawtaz <rawtaz@users.noreply.github.com>
  - root "root@oc.(none)"
  - root <root@localhost.localdomain>
  - rubo77 <github@r.z11.de>

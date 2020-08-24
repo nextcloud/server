@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2018 Georg Ehrke
  *
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

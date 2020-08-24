@@ -6,7 +6,6 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2018 John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @copyright Copyright (c) 2019 Janis Köhr <janiskoehr@icloud.com>
  *
- * @author Alexey Pyltsyn <lex61rus@gmail.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Janis Köhr <janis.koehr@novatec-gmbh.de>
  * @author Joas Schilling <coding@schilljs.com>

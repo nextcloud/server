@@ -9,14 +9,15 @@ declare(strict_types=1);
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author brad2014 <brad2014@users.noreply.github.com>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Liam JACK <liamjack@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
- * @author Tomasz Paluszkiewicz <tomasz.paluszkiewicz@gmail.com>
  * @author Simon Spannagel <simonspa@kth.se>
+ * @author Tomasz Paluszkiewicz <tomasz.paluszkiewicz@gmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *

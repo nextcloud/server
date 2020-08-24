@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
  * @author Alecks Gates <alecks.g@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>

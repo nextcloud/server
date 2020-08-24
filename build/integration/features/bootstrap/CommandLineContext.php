@@ -4,6 +4,7 @@
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author Stefan Weil <sw@weilnetz.de>
  * @author Sujith H <sharidasan@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *

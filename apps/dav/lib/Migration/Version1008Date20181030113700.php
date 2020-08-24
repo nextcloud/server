@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2018, John Molakvoæ (skjnldsv@protonmail.com)
  *
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *

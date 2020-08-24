@@ -9,6 +9,7 @@
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Denis Mosolov <denismosolov@gmail.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Johannes Riedel <joeried@users.noreply.github.com>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Härtl <jus@bitgrid.net>

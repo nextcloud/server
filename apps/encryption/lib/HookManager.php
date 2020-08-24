@@ -4,6 +4,7 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  *
  * @license AGPL-3.0
  *

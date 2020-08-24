@@ -6,6 +6,7 @@
  * @author Blaok <i@blaok.me>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Daniel Kesselberg <mail@danielkesselberg.de>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Joel S <joel.devbox@protonmail.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author martin.mattel@diemattels.at <martin.mattel@diemattels.at>

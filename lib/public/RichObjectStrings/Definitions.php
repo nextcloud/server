@@ -6,6 +6,7 @@
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Maxence Lange <maxence@nextcloud.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *

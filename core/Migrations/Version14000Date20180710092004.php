@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2018, Daniel Calviño Sánchez (danxuliu@gmail.com)
  *
  * @author Daniel Calviño Sánchez <danxuliu@gmail.com>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version

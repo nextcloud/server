@@ -14,7 +14,6 @@
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sylvia van Os <sylvia@hackerchick.me>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Timo Förster <tfoerster@webfoersterei.de>
  *
  * @license AGPL-3.0
