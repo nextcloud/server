@@ -316,7 +316,7 @@ class ShareAPIController extends OCSController {
 		$result = \OC::$server->getContactsManager()->search($query, [$property]);
 		foreach ($result as $r) {
 			foreach ($r[$property] as $value) {
-				if ($value === $query) {
+				if ($value === $query && $r['FN']) {
 					return $r['FN'];
 				}
 			}
