@@ -134,56 +134,54 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.background-selector {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 
-	.background-selector {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
+	.background {
+		width: 176px;
+		height: 96px;
+		margin: 8px;
+		background-size: cover;
+		background-position: center center;
+		text-align: center;
+		border-radius: var(--border-radius-large);
+		border: 2px solid var(--color-main-background);
+		overflow: hidden;
 
-		.background {
-			width: 176px;
-			height: 96px;
-			margin: 8px;
-			background-size: cover;
-			background-position: center center;
-			text-align: center;
-			border-radius: var(--border-radius-large);
-			border: 2px solid var(--color-main-background);
-			overflow: hidden;
+		&.current {
+			background-image: var(--color-background-dark);
+		}
 
-			&.current {
-				background-image: var(--color-background-dark);
-			}
+		&.filepicker, &.default, &.color {
+			border-color: var(--color-border);
+		}
 
-			&.filepicker, &.default, &.color {
-				border-color: var(--color-border);
-			}
+		&.color {
+			background-color: var(--color-primary);
+			color: var(--color-primary-text);
+		}
 
-			&.color {
-				background-color: var(--color-primary);
-				color: var(--color-primary-text);
-			}
+		&.active,
+		&:hover,
+		&:focus {
+			border: 2px solid var(--color-primary);
+		}
 
-			&.active,
-			&:hover,
-			&:focus {
-				border: 2px solid var(--color-primary);
-			}
+		&.active:not(.icon-loading):after {
+			background-image: var(--icon-checkmark-fff);
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 44px;
+			content: '';
+			display: block;
+			height: 100%;
 
-			&.active:not(.icon-loading):after {
-				background-image: var(--icon-checkmark-fff);
-				background-repeat: no-repeat;
-				background-position: center;
-				background-size: 44px;
-				content: '';
-				display: block;
-				height: 100%;
-
-				body.theme--dark & {
-					background-image: var(--icon-checkmark-000);
-				}
+			body.theme--dark & {
+				background-image: var(--icon-checkmark-000);
 			}
 		}
 	}
-
+}
 </style>
