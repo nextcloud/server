@@ -22,7 +22,6 @@
 
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command'
 import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
 
 addMatchImageSnapshotCommand()
 
@@ -32,7 +31,7 @@ Cypress.env('baseUrl', url)
 Cypress.Commands.add('login', (user, password, route = '/apps/files') => {
 	cy.clearCookies()
 	Cypress.Cookies.defaults({
-		whitelist: /^(oc|nc)/
+		preserve: /^(oc|nc)/,
 	})
 	cy.visit(route)
 	cy.get('input[name=user]').type(user)
@@ -71,11 +70,13 @@ Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
 })
 
 Cypress.Commands.add('uploadFile', (fileName, mimeType, path = '') => {
-	cy.fixture(fileName, 'base64')
-		.then(Cypress.Blob.base64StringToBlob)
-		.then(async blob => {
+	// get fixture
+	return cy.fixture(fileName, 'base64').then(file => {
+		// convert the logo base64 string to a blob
+		const blob = Cypress.Blob.base64StringToBlob(file, mimeType)
+		try {
 			const file = new File([blob], fileName, { type: mimeType })
-			await cy.window().then(async window => {
+			return cy.window().then(async window => {
 				await axios.put(`${Cypress.env('baseUrl')}/remote.php/webdav${path}/${fileName}`, file, {
 					headers: {
 						requesttoken: window.OC.requestToken,
@@ -85,7 +86,12 @@ Cypress.Commands.add('uploadFile', (fileName, mimeType, path = '') => {
 					cy.log(`Uploaded ${fileName}`, response)
 				})
 			})
-		})
+		} catch (error) {
+			cy.log(error)
+			throw new Error(`Unable to process file ${fileName}`)
+		}
+	})
+
 })
 
 Cypress.Commands.add('createFolder', dirName => {

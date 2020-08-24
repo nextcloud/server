@@ -60,7 +60,7 @@ describe('Open images in viewer', function() {
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 4000 })
+		cy.get('#viewer-content', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -92,7 +92,7 @@ describe('Open images in viewer', function() {
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 4000 })
+		cy.get('#viewer-content', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -110,7 +110,7 @@ describe('Open images in viewer', function() {
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 4000 })
+		cy.get('#viewer-content', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -129,7 +129,7 @@ describe('Open images in viewer', function() {
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 4000 })
+		cy.get('#viewer-content', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -147,7 +147,7 @@ describe('Open images in viewer', function() {
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 4000 })
+		cy.get('#viewer-content', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
