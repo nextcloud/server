@@ -225,13 +225,6 @@ export default {
 				}
 			}
 		},
-		backgroundImage: {
-			immediate: true,
-			handler() {
-				const header = document.getElementById('header')
-				header.style.backgroundImage = `url(${this.backgroundImage})`
-			},
-		},
 	},
 	mounted() {
 		this.updateGlobalStyles()
@@ -366,7 +359,7 @@ export default {
 			this.saveStatuses()
 		},
 		handleScroll() {
-			if (window.scrollY > 50) {
+			if (window.scrollY > 70) {
 				document.body.classList.add('dashboard--scrolled')
 			} else {
 				document.body.classList.remove('dashboard--scrolled')
@@ -375,10 +368,6 @@ export default {
 	},
 }
 </script>
-
-<style lang="scss">
-
-</style>
 
 <style lang="scss" scoped>
 	#app-dashboard {
