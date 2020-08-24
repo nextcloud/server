@@ -142,12 +142,12 @@ export default {
 
 		.background {
 			width: 176px;
-            height: 96px;
-            margin: 8px;
-            background-size: cover;
-            background-position: center center;
+			height: 96px;
+			margin: 8px;
+			background-size: cover;
+			background-position: center center;
 			text-align: center;
-            border-radius: var(--border-radius-large);
+			border-radius: var(--border-radius-large);
 			border: 2px solid var(--color-main-background);
 			overflow: hidden;
 
@@ -166,8 +166,8 @@ export default {
 
 			&.active,
 			&:hover,
-            &:focus {
-                border: 2px solid var(--color-primary);
+			&:focus {
+				border: 2px solid var(--color-primary);
 			}
 
 			&.active:not(.icon-loading):after {
@@ -178,6 +178,10 @@ export default {
 				content: '';
 				display: block;
 				height: 100%;
+
+				body.theme--dark & {
+					background-image: var(--icon-checkmark-000);
+				}
 			}
 		}
 	}

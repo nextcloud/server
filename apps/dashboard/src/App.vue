@@ -38,6 +38,18 @@
 		<Modal v-if="modal" @close="closeModal">
 			<div class="modal__content">
 				<h3>{{ t('dashboard', 'Edit widgets') }}</h3>
+				<ol class="panels">
+					<li v-for="status in sortedAllStatuses" :key="status">
+						<input :id="'status-checkbox-' + status"
+							type="checkbox"
+							class="checkbox"
+							:checked="isStatusActive(status)"
+							@input="updateStatusCheckbox(status, $event.target.checked)">
+						<label :for="'status-checkbox-' + status" :class="statusInfo[status].icon">
+							{{ statusInfo[status].text }}
+						</label>
+					</li>
+				</ol>
 				<Draggable v-model="layout"
 					class="panels"
 					tag="ol"
@@ -90,6 +102,16 @@ const firstRun = loadState('dashboard', 'firstRun')
 const background = loadState('dashboard', 'background')
 const version = loadState('dashboard', 'version')
 const shippedBackgroundList = loadState('dashboard', 'shippedBackgrounds')
+const statusInfo = {
+	weather: {
+		text: t('dashboard', 'Weather'),
+		icon: 'icon-weather-status',
+	},
+	status: {
+		text: t('dashboard', 'Status'),
+		icon: 'icon-user-status-online',
+	},
+}
 
 export default {
 	name: 'App',
@@ -108,6 +130,9 @@ export default {
 			registeredStatus: [],
 			callbacks: {},
 			callbacksStatus: {},
+			allCallbacksStatus: {},
+			statusInfo,
+			enabledStatuses: loadState('dashboard', 'statuses'),
 			panels,
 			firstRun,
 			displayName: getCurrentUser()?.displayName,
@@ -161,6 +186,12 @@ export default {
 		},
 		isActive() {
 			return (panel) => this.layout.indexOf(panel.id) > -1
+		},
+		isStatusActive() {
+			return (status) => !(status in this.enabledStatuses) || this.enabledStatuses[status]
+		},
+		sortedAllStatuses() {
+			return Object.keys(this.allCallbacksStatus).slice().sort((a, b) => a > b)
 		},
 		sortedPanels() {
 			return Object.values(this.panels).sort((a, b) => {
@@ -224,10 +255,15 @@ export default {
 			Vue.set(this.callbacks, app, callback)
 		},
 		registerStatus(app, callback) {
-			this.registeredStatus.push(app)
-			this.$nextTick(() => {
-				Vue.set(this.callbacksStatus, app, callback)
-			})
+			// always save callbacks in case user enables the status later
+			Vue.set(this.allCallbacksStatus, app, callback)
+			// register only if status is enabled or missing from config
+			if (this.isStatusActive(app)) {
+				this.registeredStatus.push(app)
+				this.$nextTick(() => {
+					Vue.set(this.callbacksStatus, app, callback)
+				})
+			}
 		},
 		rerenderPanels() {
 			for (const app in this.callbacks) {
@@ -251,6 +287,11 @@ export default {
 		saveLayout() {
 			axios.post(generateUrl('/apps/dashboard/layout'), {
 				layout: this.layout.join(','),
+			})
+		},
+		saveStatuses() {
+			axios.post(generateUrl('/apps/dashboard/statuses'), {
+				statuses: JSON.stringify(this.enabledStatuses),
 			})
 		},
 		showModal() {
@@ -295,6 +336,30 @@ export default {
 			} else {
 				document.body.classList.remove('dashboard--dark')
 			}
+		},
+		updateStatusCheckbox(app, checked) {
+			if (checked) {
+				this.enableStatus(app)
+			} else {
+				this.disableStatus(app)
+			}
+		},
+		enableStatus(app) {
+			this.enabledStatuses[app] = true
+			this.registerStatus(app, this.allCallbacksStatus[app])
+			this.saveStatuses()
+		},
+		disableStatus(app) {
+			this.enabledStatuses[app] = false
+			const i = this.registeredStatus.findIndex((s) => s === app)
+			if (i !== -1) {
+				this.registeredStatus.splice(i, 1)
+				Vue.set(this.statuses, app, { mounted: false })
+				this.$nextTick(() => {
+					Vue.delete(this.callbacksStatus, app)
+				})
+			}
+			this.saveStatuses()
 		},
 	},
 }
