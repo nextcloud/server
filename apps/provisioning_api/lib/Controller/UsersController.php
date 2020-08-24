@@ -352,6 +352,15 @@ class UsersController extends AUserData {
 				}
 			}
 
+			if ($this->config->getSystemValue('users_private_by_default', false)) {
+				$targetUser = $this->userManager->get($userid);
+				$userAccount = $this->accountManager->getUser($targetUser);
+				$userAccount[AccountManager::PROPERTY_DISPLAYNAME]['scope'] = AccountManager::VISIBILITY_PRIVATE;
+				$userAccount[AccountManager::PROPERTY_EMAIL]['scope'] = AccountManager::VISIBILITY_PRIVATE;
+				$userAccount[AccountManager::PROPERTY_AVATAR]['scope'] = AccountManager::VISIBILITY_PRIVATE;
+				$this->accountManager->updateUser($targetUser, $userAccount);
+			}
+
 			return new DataResponse(['id' => $userid]);
 		} catch (HintException $e) {
 			$this->logger->logException($e, [

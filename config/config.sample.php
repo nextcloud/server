@@ -1835,4 +1835,14 @@ $CONFIG = [
  */
 
 'login_form_autocomplete' => true,
+
+/**
+ * By default users' profiles are set to public and can be seen by other contacts.
+ * If you require new users that you create to not be visible to other, you can
+ * set this property to "true"
+ *
+ */
+
+'users_private_by_default' => false,
+
 ];
