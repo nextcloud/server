@@ -415,6 +415,7 @@ export default {
 		max-width: 100%;
 		margin: 16px;
 		background-color: var(--color-background-translucent);
+		-webkit-backdrop-filter: var(--background-blur);
 		backdrop-filter: var(--background-blur);
 		border-radius: var(--border-radius-large);
 
@@ -511,6 +512,7 @@ export default {
 	.statuses ::v-deep .action-item > button,
 	.statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
 		background-color: var(--color-background-translucent);
+		-webkit-backdrop-filter: var(--background-blur);
 		backdrop-filter: var(--background-blur);
 
 		&:hover,
