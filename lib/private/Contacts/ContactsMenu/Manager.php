@@ -2,6 +2,7 @@
 /**
  * @copyright 2017 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Julius Härtl <jus@bitgrid.net>

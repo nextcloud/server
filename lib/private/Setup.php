@@ -17,6 +17,7 @@
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>
  * @author KB7777 <k.burkowski@gmail.com>
+ * @author Kevin Lanni <therealklanni@gmail.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author MichaIng <28480705+MichaIng@users.noreply.github.com>
  * @author MichaIng <micha@dietpi.com>

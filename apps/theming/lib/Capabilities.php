@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, Joas Schilling <coding@schilljs.com>
  *
+ * @author GretaD <gretadoci@gmail.com>
  * @author Guillaume COMPAGNON <gcompagnon@outlook.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Julius Härtl <jus@bitgrid.net>

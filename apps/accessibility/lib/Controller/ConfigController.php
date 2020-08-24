@@ -7,6 +7,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2019 Janis Köhr <janiskoehr@icloud.com>
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Janis Köhr <janis.koehr@novatec-gmbh.de>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
