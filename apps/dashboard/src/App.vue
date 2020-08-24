@@ -235,6 +235,7 @@ export default {
 	},
 	mounted() {
 		this.updateGlobalStyles()
+		window.addEventListener('scroll', this.handleScroll)
 
 		setInterval(() => {
 			this.timer = new Date()
@@ -243,6 +244,9 @@ export default {
 		if (this.firstRun) {
 			window.addEventListener('scroll', this.disableFirstrunHint)
 		}
+	},
+	destroyed() {
+		window.removeEventListener('scroll', this.handleScroll)
 	},
 	methods: {
 		/**
@@ -360,6 +364,13 @@ export default {
 				})
 			}
 			this.saveStatuses()
+		},
+		handleScroll() {
+			if (window.scrollY > 50) {
+				document.body.classList.add('dashboard--scrolled')
+			} else {
+				document.body.classList.remove('dashboard--scrolled')
+			}
 		},
 	},
 }
