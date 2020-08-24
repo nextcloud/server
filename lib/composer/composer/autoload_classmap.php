@@ -1250,6 +1250,7 @@ return array(
     'OC\\Repair\\NC18\\ResetGeneratedAvatarFlag' => $baseDir . '/lib/private/Repair/NC18/ResetGeneratedAvatarFlag.php',
     'OC\\Repair\\NC20\\EncryptionLegacyCipher' => $baseDir . '/lib/private/Repair/NC20/EncryptionLegacyCipher.php',
     'OC\\Repair\\NC20\\EncryptionMigration' => $baseDir . '/lib/private/Repair/NC20/EncryptionMigration.php',
+    'OC\\Repair\\NC20\\ShippedDashboardEnable' => $baseDir . '/lib/private/Repair/NC20/ShippedDashboardEnable.php',
     'OC\\Repair\\OldGroupMembershipShares' => $baseDir . '/lib/private/Repair/OldGroupMembershipShares.php',
     'OC\\Repair\\Owncloud\\DropAccountTermsTable' => $baseDir . '/lib/private/Repair/Owncloud/DropAccountTermsTable.php',
     'OC\\Repair\\Owncloud\\SaveAccountsTableData' => $baseDir . '/lib/private/Repair/Owncloud/SaveAccountsTableData.php',
