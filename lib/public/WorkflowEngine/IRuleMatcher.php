@@ -85,7 +85,7 @@ interface IRuleMatcher extends IFileCheck {
 	 * IComplexOperation might want to make use of it.
 	 *
 	 * @throws RuntimeException
-	 * @since 20.0.0
+	 * @since 19.0.3
 	 */
 	public function setEventName(string $eventName): void;
 }
