@@ -338,7 +338,7 @@ export default {
 			this.$set(this.loading, type, true)
 
 			if (this.cursors[type]) {
-				const request = await search(type, this.query)
+				const request = await search(type, this.query, this.cursors[type])
 
 				// Save cursor if any
 				if (request.data.cursor) {
