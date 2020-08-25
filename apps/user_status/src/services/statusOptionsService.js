@@ -38,6 +38,7 @@ const getAllStatusOptions = () => {
 	}, {
 		type: 'dnd',
 		label: t('user_status', 'Do not disturb'),
+		subline: t('user_status', 'Mute all notifications'),
 		icon: 'icon-user-status-dnd',
 
 	}, {
