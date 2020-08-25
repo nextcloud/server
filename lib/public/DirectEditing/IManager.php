@@ -84,4 +84,12 @@ interface IManager {
 	 * @return int number of deleted tokens
 	 */
 	public function cleanup(): int;
+
+	/**
+	 * Check if direct editing is enabled
+	 *
+	 * @since 20.0.0
+	 * @return bool
+	 */
+	public function isEnabled(): bool;
 }
