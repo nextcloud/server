@@ -2,7 +2,7 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Коментари",
-    "You commented" : "Вие коментиравте",
+    "You commented" : "Kоментиравте",
     "%1$s commented" : "%1$s коментиран",
     "{author} commented" : "{author} коментираше",
     "You commented on %1$s" : "Коментиравте на %1$s",

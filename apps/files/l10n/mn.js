@@ -27,7 +27,6 @@ OC.L10N.register(
     "Delete file" : "Файл устгах",
     "Delete folder" : "Хавтсыг устгах",
     "Disconnect storage" : "Хадгалах төхөөрөмж салгах",
-    "Unshare" : "Түгээлтийг зогсоох",
     "Files" : "Файлууд",
     "Details" : "Дэлгэрэнгүй",
     "Select" : "Сонгох",
@@ -117,6 +116,7 @@ OC.L10N.register(
     "Shared by link" : "Холбоосоор түгээсэн",
     "Text file" : "текст файл",
     "New text file.txt" : "шинэ текст file.txt",
+    "Unshare" : "Түгээлтийг зогсоох",
     "A file or folder has been <strong>deleted</strong>" : "Файл эсвэл хавтас амжилттай <strong>устгагдлаа</strong>",
     "A file or folder has been <strong>restored</strong>" : "Файл эсвэл хавтас амжилттай <strong>сэргээгдлээ</strong>"
 },
