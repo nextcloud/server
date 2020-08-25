@@ -62,6 +62,7 @@ class Helper {
 			'usedSpacePercent'  => (int)$storageInfo['relative'],
 			'owner' => $storageInfo['owner'],
 			'ownerDisplayName' => $storageInfo['ownerDisplayName'],
+			'mountType' => $storageInfo['mountType'],
 		];
 	}
 
