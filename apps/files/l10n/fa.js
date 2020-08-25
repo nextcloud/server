@@ -34,7 +34,6 @@ OC.L10N.register(
     "Delete file" : "حذف فایل",
     "Delete folder" : "حذف پوشه",
     "Disconnect storage" : "فضای ذخیره را جدا کنید",
-    "Unshare" : "لغو اشتراک",
     "Could not load info for file \"{file}\"" : "بارگیری اطلاعات برای پرونده امکان پذیر نیست \"{file}\"",
     "Files" : "پرونده‌ها",
     "Details" : "جزئیات",
@@ -129,6 +128,7 @@ OC.L10N.register(
     "Pending shares" : "اشتراک در حال انتظار ",
     "Text file" : "فایل متنی",
     "New text file.txt" : "فایل متنی جدید .txt",
+    "Unshare" : "لغو اشتراک",
     "A new file or folder has been <strong>created</strong>" : "فایل یا پوشه ای <strong>ایجاد</strong> شد",
     "A file or folder has been <strong>deleted</strong>" : "فایل یا پوشه ای به <strong>حذف</strong> شد",
     "A file or folder has been <strong>restored</strong>" : "یک فایل یا پوشه <strong>بازگردانی شد</strong>"
