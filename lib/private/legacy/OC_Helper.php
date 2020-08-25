@@ -495,7 +495,8 @@ class OC_Helper {
 			$used = 0;
 		}
 		$quota = \OCP\Files\FileInfo::SPACE_UNLIMITED;
-		$storage = $rootInfo->getStorage();
+		$mount = $rootInfo->getMountPoint();
+		$storage = $mount->getStorage();
 		$sourceStorage = $storage;
 		if ($storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
 			$includeExtStorage = false;
@@ -553,6 +554,7 @@ class OC_Helper {
 			'relative' => $relative,
 			'owner' => $ownerId,
 			'ownerDisplayName' => $ownerDisplayName,
+			'mountType' => $mount->getMountType()
 		];
 	}
 
