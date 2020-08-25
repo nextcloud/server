@@ -27,6 +27,7 @@ return array(
     'OCA\\DAV\\CalDAV\\Activity\\Provider\\Calendar' => $baseDir . '/../lib/CalDAV/Activity/Provider/Calendar.php',
     'OCA\\DAV\\CalDAV\\Activity\\Provider\\Event' => $baseDir . '/../lib/CalDAV/Activity/Provider/Event.php',
     'OCA\\DAV\\CalDAV\\Activity\\Provider\\Todo' => $baseDir . '/../lib/CalDAV/Activity/Provider/Todo.php',
+    'OCA\\DAV\\CalDAV\\Activity\\Setting\\CalDAVSetting' => $baseDir . '/../lib/CalDAV/Activity/Setting/CalDAVSetting.php',
     'OCA\\DAV\\CalDAV\\Activity\\Setting\\Calendar' => $baseDir . '/../lib/CalDAV/Activity/Setting/Calendar.php',
     'OCA\\DAV\\CalDAV\\Activity\\Setting\\Event' => $baseDir . '/../lib/CalDAV/Activity/Setting/Event.php',
     'OCA\\DAV\\CalDAV\\Activity\\Setting\\Todo' => $baseDir . '/../lib/CalDAV/Activity/Setting/Todo.php',

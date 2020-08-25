@@ -42,6 +42,7 @@ class ComposerStaticInitDAV
         'OCA\\DAV\\CalDAV\\Activity\\Provider\\Calendar' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Provider/Calendar.php',
         'OCA\\DAV\\CalDAV\\Activity\\Provider\\Event' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Provider/Event.php',
         'OCA\\DAV\\CalDAV\\Activity\\Provider\\Todo' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Provider/Todo.php',
+        'OCA\\DAV\\CalDAV\\Activity\\Setting\\CalDAVSetting' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Setting/CalDAVSetting.php',
         'OCA\\DAV\\CalDAV\\Activity\\Setting\\Calendar' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Setting/Calendar.php',
         'OCA\\DAV\\CalDAV\\Activity\\Setting\\Event' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Setting/Event.php',
         'OCA\\DAV\\CalDAV\\Activity\\Setting\\Todo' => __DIR__ . '/..' . '/../lib/CalDAV/Activity/Setting/Todo.php',
