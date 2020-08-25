@@ -24,10 +24,10 @@ OC.L10N.register(
     "Sharing %1$s failed, could not find %2$s, maybe the server is currently unreachable or uses a self-signed certificate." : "Споделувањето на %1$s е неуспешно, неможе да се пронајде %2$s, можеби серверот моментално не е достапен или користи недоверлив сертификат.",
     "Could not find share" : "Неможе да се пронајде споделувањето",
     "Federated sharing" : "Федерално споделување",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Вие добивте \"%3$s\" како далечинско споделување од %4$s (%1$s) (во име на %5$s (%2$s))",
-    "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Вие добивте {share} како далечинско споделување од {user} (во име на {behalf})",
-    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Вие добивте \"%3$s\" како далечинско споделување од %4$s (%1$s)",
-    "You received {share} as a remote share from {user}" : "Вие добивте {share} како далечинско споделување од {user}",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s) (on behalf of %5$s (%2$s))" : "Примивте \"%3$s\" како далечинско споделување од %4$s (%1$s) (во име на %5$s (%2$s))",
+    "You received {share} as a remote share from {user} (on behalf of {behalf})" : "Добивте {share} како далечинско споделување од {user} (во име на {behalf})",
+    "You received \"%3$s\" as a remote share from %4$s (%1$s)" : "Примивте \"%3$s\" како далечинско споделување од %4$s (%1$s)",
+    "You received {share} as a remote share from {user}" : "Добивте {share} како далечинско споделување од {user}",
     "Accept" : "Прифати",
     "Decline" : "Одбиј",
     "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Споделете со мене преку мојот #Nextcloud Federated Cloud ID, види %s",
@@ -51,7 +51,7 @@ OC.L10N.register(
     "Add to your website" : "Додади на твојот веб сајт",
     "Share with me via Nextcloud" : "Сподели со мене преку Nextcloud",
     "HTML Code:" : "HTML код:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Вие добивте \"%3$s\" како далечинско споделување од %1$s (во име на%2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Вие добивте \"%3$s\"како далечинско споделување од %1$s"
+    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Добивте \"%3$s\" како далечинско споделување од %1$s (во име на%2$s)",
+    "You received \"%3$s\" as a remote share from %1$s" : "Добивте \"%3$s\"како далечинско споделување од %1$s"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
