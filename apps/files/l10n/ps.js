@@ -30,7 +30,6 @@ OC.L10N.register(
     "Copy" : "کاپي کول",
     "Choose target folder" : "د ورانتقالېدو فولډر ټاکل",
     "Open" : "پرانيستل",
-    "Unshare" : "له شرېکوالي ويستل",
     "Could not load info for file \"{file}\"" : "د \"{file}\" فایل معلومات نشي پرانيستل کېدای",
     "Files" : "فایلونه",
     "Details" : "معلومات",
@@ -136,6 +135,7 @@ OC.L10N.register(
     "Shared by link" : "په لېنک شريک شوي",
     "Deleted shares" : "ړنګ شوي لېنکونه",
     "Text file" : "متن فایل",
-    "New text file.txt" : "New text file.txt"
+    "New text file.txt" : "New text file.txt",
+    "Unshare" : "له شرېکوالي ويستل"
 },
 "nplurals=2; plural=(n != 1);");

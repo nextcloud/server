@@ -166,7 +166,7 @@ OC.L10N.register(
     "Log in with a device" : "Hasi saioa gailu batekin",
     "Back" : "Atzera",
     "No results for {query}" : " {query}-(r)entzako emaitzarik ez",
-    "Start typing to search" : "Hasi bilaketa idazten",
+    "Start typing to search" : "Hasi idazten bilatzeko",
     "Loading more results …" : "Emaitza gehiago kargatzen ...",
     "Load more results" : "Kargatu emaitza gehiago ",
     "Search {types} …" : "Bilatu  {types} …",

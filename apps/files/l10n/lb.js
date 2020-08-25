@@ -21,7 +21,6 @@ OC.L10N.register(
     "Rename" : "Ëmbenennen",
     "Delete folder" : "Dossier läschen",
     "Disconnect storage" : "Net connectéierten Späicher",
-    "Unshare" : "Net méi deelen",
     "Could not load info for file \"{file}\"" : "Et konnten keng Informatiounen zu {file} gelueden ginn",
     "Files" : "Dateien",
     "Details" : "Detailer",
@@ -117,6 +116,7 @@ OC.L10N.register(
     "Shared by link" : "Mat engem Link gedeelt",
     "Text file" : "Text Fichier",
     "New text file.txt" : "Neien Text file.txt",
+    "Unshare" : "Net méi deelen",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Eng Datei gouf <strong> verännert</strong> oder <strong> embenannt</strong>",
     "A new file or folder has been <strong>created</strong>" : "Eng nei Datei oder e neien Dossier gouf <strong> erstallt </strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitéier Notifikatiounen op d'Erstellen an Veränneren vun dengen <strong> Favoriten</strong> (nëmmen Floss)"
