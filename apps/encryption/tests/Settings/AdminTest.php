@@ -74,20 +74,23 @@ class AdminTest extends TestCase {
 
 	public function testGetForm() {
 		$this->config
-			->expects($this->at(0))
 			->method('getAppValue')
-			->with('encryption', 'recoveryAdminEnabled', '0')
-			->willReturn(1);
-		$this->config
-			->expects($this->at(1))
-			->method('getAppValue')
-			->with('encryption', 'encryptHomeStorage', '1')
-			->willReturn(1);
+			->will($this->returnCallback(function ($app, $key, $default) {
+				if ($app === 'encryption') {
+					if ($key === 'recoveryAdminEnabled') {
+						return 1;
+					}
+					if ($key === 'encryptHomeStorage') {
+						return 1;
+					}
+				}
+				return $default;
+			}));
 		$params = [
 			'recoveryEnabled' => 1,
 			'initStatus' => '0',
 			'encryptHomeStorage' => false,
-			'masterKeyEnabled' => false
+			'masterKeyEnabled' => true
 		];
 		$expected = new TemplateResponse('encryption', 'settings-admin', $params, '');
 		$this->assertEquals($expected, $this->admin->getForm());
