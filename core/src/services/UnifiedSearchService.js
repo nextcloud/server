@@ -60,6 +60,8 @@ export function search(type, query, cursor) {
 	return axios.get(generateUrl(`/search/providers/${type}/search?term=${query}`), {
 		params: {
 			cursor,
+			// Sending which location we're currently at
+			from: window.location.pathname.replace('/index.php', '') + window.location.search,
 		}
 	})
 }
