@@ -28,16 +28,23 @@ body.theme--dark .icon-user-status {
 	@include icon-color('app', 'user_status', $color-white, 1);
 }
 
+.icon-user-status-online {
+	background-image: url('../img/user-status-online.svg');
+}
+
 .icon-user-status-away {
-	@include icon-color('user-status-away', 'user_status', '#F4A331', 2);
+	background-image: url('../img/user-status-away.svg');
 }
 
 .icon-user-status-dnd {
-	@include icon-color('user-status-dnd', 'user_status', '#ED484C', 2);
+	background-image: url('../img/user-status-dnd.svg');
 }
 
-@include icon-black-white('user-status-invisible', 'user_status', 3);
+// TODO: debug why icon-black-white does not work here
+.icon-user-status-invisible {
+	@include icon-color('user-status-invisible', 'user_status', $color-black, 1);
+}
 
-.icon-user-status-online {
-	@include icon-color('user-status-online', 'user_status', '#49B382', 3);
+body.theme--dark .icon-user-status-invisible {
+	@include icon-color('user-status-invisible', 'user_status', $color-white, 1);
 }
