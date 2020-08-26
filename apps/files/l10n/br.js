@@ -34,6 +34,7 @@ OC.L10N.register(
     "Delete file" : "Dilemel ar restr",
     "Delete folder" : "Dilemel an teuliad",
     "Disconnect storage" : "Digevreañ ar skor stokañ-mañ",
+    "Leave this share" : "Laoskel ar rannadenn",
     "Could not load info for file \"{file}\"" : "Dibosupl eo kargañ titouroù ar restr \"{file}\"",
     "Files" : "Restroù",
     "Details" : "Munudoù",

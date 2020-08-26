@@ -34,6 +34,7 @@ OC.L10N.register(
     "Delete file" : "Eliminar archivo",
     "Delete folder" : "Eliminar carpeta",
     "Disconnect storage" : "Desconectar almacenamiento",
+    "Leave this share" : "Dejar de compartir",
     "Could not load info for file \"{file}\"" : "No se ha podido cargar información para el archivo \"{file}\"",
     "Files" : "Archivos",
     "Details" : "Detalles",
