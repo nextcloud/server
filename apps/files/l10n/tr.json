@@ -32,6 +32,7 @@
     "Delete file" : "Dosyayı sil",
     "Delete folder" : "Klasörü sil",
     "Disconnect storage" : "Depolama bağlantısını kes",
+    "Leave this share" : "Bu paylaşımdan ayrıl",
     "Could not load info for file \"{file}\"" : "\"{file}\" dosyasının bilgileri alınamadı",
     "Files" : "Dosyalar",
     "Details" : "Ayrıntılar",
