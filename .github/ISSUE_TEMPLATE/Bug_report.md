@@ -65,7 +65,7 @@ Tell us what happens instead
 
 ### Server Configuration
 <!-- If the issue only occurs to specific users/client configurations please fill out the "Client Configuration"-Section below. -->
-**Server OS:** [replace with OS and version, please include the kernel-version/build-number]
+**Server OS:** [replace with OS and version]
 **Nextcloud version:** [replace with OS and version] (see Nextcloud admin page)
 **Lifetime of Nextcloud:** [replace with an approximate age of the nextcloud installation, e.g. 'fresh install', 'few weeks', 'several years']
 **PHP version:** [replace with PHP version]
