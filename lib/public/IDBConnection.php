@@ -45,7 +45,6 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 /**
  * Interface IDBConnection
  *
- * @package OCP
  * @since 6.0.0
  */
 interface IDBConnection {

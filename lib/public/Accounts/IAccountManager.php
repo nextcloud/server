@@ -34,7 +34,6 @@ use OCP\IUser;
  *
  * @since 15.0.0
  *
- * @package OCP\Accounts
  */
 interface IAccountManager {
 

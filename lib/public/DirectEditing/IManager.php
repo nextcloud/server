@@ -33,7 +33,6 @@ use RuntimeException;
 /**
  * Interface IManager
  *
- * @package OCP\DirectEditing
  * @since 18.0.0
  */
 interface IManager {

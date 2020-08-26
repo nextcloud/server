@@ -30,7 +30,6 @@ use OCP\IContainer;
 
 /**
  * Class IAppContainer
- * @package OCP\AppFramework
  *
  * This container interface provides short cuts for app developers to access predefined app service.
  * @since 6.0.0

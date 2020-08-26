@@ -29,7 +29,6 @@ use OCP\EventDispatcher\Event;
 /**
  * Class ConsoleEvent
  *
- * @package OCP\Console
  * @since 9.0.0
  */
 class ConsoleEvent extends Event {

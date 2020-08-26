@@ -28,7 +28,6 @@ use OCP\AppFramework\Http;
 /**
  * Class FileDisplayResponse
  *
- * @package OCP\AppFramework\Http
  * @since 11.0.0
  */
 class FileDisplayResponse extends Response implements ICallbackResponse {

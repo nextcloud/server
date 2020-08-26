@@ -31,7 +31,6 @@ namespace OCP\LDAP;
 /**
  * Interface ILDAPProvider
  *
- * @package OCP\LDAP
  * @since 11.0.0
  */
 interface ILDAPProvider {

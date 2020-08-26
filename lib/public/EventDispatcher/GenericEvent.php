@@ -39,7 +39,6 @@ use function array_key_exists;
  * convenience reimplementation of \Symfony\Component\GenericEvent against
  * \OCP\EventDispatcher\Event
  *
- * @package OCP\EventDispatcher
  * @since 18.0.0
  */
 class GenericEvent extends Event implements ArrayAccess, IteratorAggregate {

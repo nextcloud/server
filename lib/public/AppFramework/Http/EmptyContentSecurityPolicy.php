@@ -35,7 +35,6 @@ namespace OCP\AppFramework\Http;
  * As alternative with sane exemptions look at ContentSecurityPolicy
  *
  * @see \OCP\AppFramework\Http\ContentSecurityPolicy
- * @package OCP\AppFramework\Http
  * @since 9.0.0
  */
 class EmptyContentSecurityPolicy {

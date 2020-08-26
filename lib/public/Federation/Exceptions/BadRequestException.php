@@ -28,7 +28,6 @@ use OC\HintException;
 /**
  * Class BadRequestException
  *
- * @package OCP\Federation\Exceptions
  *
  * @since 14.0.0
  */

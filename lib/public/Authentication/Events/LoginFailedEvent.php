@@ -31,7 +31,6 @@ use OCP\EventDispatcher\Event;
 /**
  * Class LoginFailedEvent
  *
- * @package OCP\Authentication\Events
  *
  * @since 19.0.0
  */
