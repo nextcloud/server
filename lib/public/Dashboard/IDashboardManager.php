@@ -40,7 +40,6 @@ use OCP\Dashboard\Service\IWidgetsService;
  *
  * @since 15.0.0
  *
- * @package OCP\Dashboard
  */
 interface IDashboardManager {
 

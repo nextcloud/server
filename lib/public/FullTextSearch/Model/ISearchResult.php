@@ -46,7 +46,6 @@ use OCP\FullTextSearch\IFullTextSearchProvider;
  *
  * @since 15.0.0
  *
- * @package OCP\FullTextSearch\Model
  */
 interface ISearchResult {
 

@@ -52,7 +52,6 @@ use OCP\FullTextSearch\IFullTextSearchProvider;
  *
  * @since 16.0.0
  *
- * @package OCP\FullTextSearch\Model
  */
 interface ISearchTemplate {
 

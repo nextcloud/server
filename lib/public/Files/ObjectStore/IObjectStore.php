@@ -30,7 +30,6 @@ use OCP\Files\NotFoundException;
 /**
  * Interface IObjectStore
  *
- * @package OCP\Files\ObjectStore
  * @since 7.0.0
  */
 interface IObjectStore {

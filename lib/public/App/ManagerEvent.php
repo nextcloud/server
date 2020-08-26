@@ -28,7 +28,6 @@ use OCP\EventDispatcher\Event;
 /**
  * Class ManagerEvent
  *
- * @package OCP\APP
  * @since 9.0.0
  */
 class ManagerEvent extends Event {

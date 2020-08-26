@@ -38,7 +38,6 @@ use OCP\Share\Exceptions\IllegalIDChangeException;
 /**
  * Interface IShare
  *
- * @package OCP\Share
  * @since 9.0.0
  */
 interface IShare {

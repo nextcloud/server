@@ -38,7 +38,6 @@ namespace OCP\Activity;
 /**
  * Interface IEvent
  *
- * @package OCP\Activity
  * @since 8.2.0
  */
 interface IEvent {

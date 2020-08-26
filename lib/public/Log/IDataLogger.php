@@ -27,7 +27,6 @@ namespace OCP\Log;
 /**
  * Interface IDataLogger
  *
- * @package OCP\Log
  * @since 18.0.1
  */
 interface IDataLogger {

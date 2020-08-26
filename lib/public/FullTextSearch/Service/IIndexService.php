@@ -34,7 +34,6 @@ use OCP\FullTextSearch\Model\IIndex;
  *
  * @since 15.0.0
  *
- * @package OCP\FullTextSearch\Service
  */
 interface IIndexService {
 
