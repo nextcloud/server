@@ -45,7 +45,6 @@ use OCP\Route\IRouter;
 
 /**
  * Class App
- * @package OCP\AppFramework
  *
  * Any application must inherit this call - all controller instances to be used are
  * to be registered using IContainer::registerService
