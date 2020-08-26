@@ -29,7 +29,6 @@ use OCP\IServerContainer;
 /**
  * Interface IProviderFactory
  *
- * @package OC\Share20
  * @since 9.0.0
  */
 interface IProviderFactory {

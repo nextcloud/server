@@ -45,7 +45,6 @@ namespace OCP;
  * - preUnassignedUserId(string $uid)
  * - postUnassignedUserId(string $uid)
  *
- * @package OC\User
  * @since 8.0.0
  */
 interface IUserManager {
