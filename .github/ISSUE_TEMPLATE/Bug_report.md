@@ -224,7 +224,7 @@ Either in "[nextcloud]/data/nextcloud.log"
 or in "[yourDataPath]/nextcloud.log"
 The important one is usually the one with the more recent modification time.
 
-We do NOT NEED THE ENTIRE Log. Please go to the end of the logfile and look for the applicable line.
+We do not need the entire log. Please go to the end of the logfile and look for the applicable line.
 Then please add a few lines before and after that and remove any sensitive information (e.g. remoteAddr, user, parts of url, parts of message, if those contain sensitive information).
 To find out which line is the important first look for the correct username in the '"user":'-Field 
 then look for the appropriate '"message":'-Field.
