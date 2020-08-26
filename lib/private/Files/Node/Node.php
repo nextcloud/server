@@ -301,13 +301,12 @@ class Node implements \OCP\Files\Node {
 	 */
 	protected function normalizePath($path): string {
 		// temporary solution for #19010 and related. To be strictly typed!
-		if(is_string($path) === false)
-		{
+		if (is_string($path) === false) {
 			try {
 				$path = (string) $path;
 			} catch (Exception $e) {
 				\OC::$server->getLogger()->logException($e);
-				return null;
+				return '/';
 			}
 		}
 		
@@ -338,8 +337,7 @@ class Node implements \OCP\Files\Node {
 	 */
 	public function isValidPath($path): bool {
 		// temporary solution for #19010 and related. To be strictly typed!
-		if(is_string($path) === false)
-		{
+		if (is_string($path) === false) {
 			try {
 				$path = (string) $path;
 			} catch (Exception $e) {
