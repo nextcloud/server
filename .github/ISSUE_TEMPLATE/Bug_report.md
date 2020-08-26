@@ -262,7 +262,7 @@ here.
 ```
 As with the nextcloud.log there are multiple locations where the updater.log might be!
 Either in "[nextcloud]/data/updater.log"
-or in "[yourDataPath]/updater.log"
+or in "[datadirectory]/updater.log"
 
 In the case of the updater the full logfile would be helpful, as it can be quite hard to identify the issue in it.
 Make sure to remove sensitive paths in it. e.g. lines containing
