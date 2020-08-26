@@ -61,6 +61,7 @@ use OCP\ILogger;
  * @property string ldapQuotaAttribute
  * @property string ldapQuotaDefault
  * @property string ldapEmailAttribute
+ * @property string ldapPhoneAttribute
  * @property string ldapExtStorageHomeAttribute
  * @property string homeFolderNamingRule
  * @property bool|string ldapNestedGroups

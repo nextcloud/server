@@ -29,6 +29,8 @@
  *
  */
 
+use OC\Accounts\AccountManager;
+
 // Check user and app status
 \OC_JSON::checkAdminUser();
 \OC_JSON::checkAppEnabled('user_ldap');
@@ -63,7 +65,8 @@ $userManager = new \OCA\User_LDAP\User\Manager(
 	new \OCP\Image(),
 	\OC::$server->getDatabaseConnection(),
 	\OC::$server->getUserManager(),
-	\OC::$server->getNotificationManager());
+	\OC::$server->getNotificationManager(),
+	\OC::$server->query(AccountManager::class));
 
 $access = new \OCA\User_LDAP\Access(
 	$con,

@@ -40,6 +40,9 @@ use OCP\IConfig;
 use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
+use OCP\Accounts\IAccount;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperties;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
 
@@ -63,6 +66,8 @@ class UserTest extends \Test\TestCase {
 	protected $notificationManager;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
+	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
+	protected $accountManager;
 	/** @var Image|\PHPUnit\Framework\MockObject\MockObject */
 	protected $image;
 	/** @var IAvatarManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -93,6 +98,7 @@ class UserTest extends \Test\TestCase {
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
 		$this->image = $this->createMock(Image::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->notificationManager = $this->createMock(INotificationManager::class);
 
 		$this->user = new User(
@@ -105,7 +111,8 @@ class UserTest extends \Test\TestCase {
 			$this->log,
 			$this->avatarManager,
 			$this->userManager,
-			$this->notificationManager
+			$this->notificationManager,
+			$this->accountManager
 		);
 	}
 
@@ -171,6 +178,64 @@ class UserTest extends \Test\TestCase {
 			->method('setUserValue');
 
 		$this->user->updateEmail();
+	}
+
+	public function testUpdatePhoneProvided() {
+		$this->connection->expects($this->once())
+			->method('__get')
+			->with($this->equalTo('ldapPhoneAttribute'))
+			->willReturn('phone');
+
+		$this->access->expects($this->once())
+			->method('readAttribute')
+			->with($this->equalTo($this->dn),
+				$this->equalTo('phone'))
+			->willReturn(['123456789']);
+
+		$coreAccount = $this->getMockBuilder(IAccount::class)
+			->disableOriginalConstructor()
+			->getMock();
+		$coreAccount->expects($this->once())
+			->method('setProperty');
+
+		$this->accountManager->expects($this->any())
+			->method('getAccount')
+			->willReturn($coreAccount);
+
+		$this->user->updatePhone();
+	}
+
+	public function testUpdatePhoneNotProvided() {
+		$this->connection->expects($this->once())
+			->method('__get')
+			->with($this->equalTo('ldapPhoneAttribute'))
+			->willReturn('phone');
+
+		$this->access->expects($this->once())
+			->method('readAttribute')
+			->with($this->equalTo($this->dn),
+				$this->equalTo('phone'))
+			->willReturn(false);
+
+		$this->config->expects($this->never())
+			->method('setUserValue');
+
+		$this->user->updatePhone();
+	}
+
+	public function testUpdatePhoneNotConfigured() {
+		$this->connection->expects($this->once())
+			->method('__get')
+			->with($this->equalTo('ldapPhoneAttribute'))
+			->willReturn('');
+
+		$this->access->expects($this->never())
+			->method('readAttribute');
+
+		$this->config->expects($this->never())
+			->method('setUserValue');
+
+		$this->user->updatePhone();
 	}
 
 	public function testUpdateQuotaAllProvided() {
@@ -939,7 +1004,8 @@ class UserTest extends \Test\TestCase {
 				$this->log,
 				$this->avatarManager,
 				$this->userManager,
-				$this->notificationManager
+				$this->notificationManager,
+				$this->accountManager
 			])
 			->setMethods($requiredMethods)
 			->getMock();
@@ -962,6 +1028,7 @@ class UserTest extends \Test\TestCase {
 
 		$record = [
 			strtolower($this->connection->ldapQuotaAttribute) => ['4096'],
+			strtolower($this->connection->ldapPhoneAttribute) => ['123456789'],
 			strtolower($this->connection->ldapEmailAttribute) => ['alice@wonderland.org'],
 			strtolower($this->connection->ldapUserDisplayName) => ['Aaaaalice'],
 			strtolower($this->connection->ldapExtStorageHomeAttribute) => ['homeDirectory'],

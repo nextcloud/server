@@ -32,6 +32,7 @@
 
 namespace OCA\User_LDAP\User;
 
+use OC\Accounts\AccountManager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\Exceptions\AttributeNotSet;
@@ -44,6 +45,9 @@ use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Accounts\IAccount;
+use OCP\Accounts\IAccountManager;
+use OCP\Accounts\IAccountProperty;
 
 /**
  * User
@@ -83,6 +87,10 @@ class User {
 	 * @var IUserManager
 	 */
 	protected $userManager;
+	/**
+	 * @var AccountManager
+	 */
+	protected $accountManager;
 	/**
 	 * @var INotificationManager
 	 */
@@ -125,7 +133,7 @@ class User {
 	public function __construct($username, $dn, Access $access,
 		IConfig $config, FilesystemHelper $fs, Image $image,
 		LogWrapper $log, IAvatarManager $avatarManager, IUserManager $userManager,
-		INotificationManager $notificationManager) {
+		INotificationManager $notificationManager, AccountManager $accountManager) {
 		if ($username === null) {
 			$log->log("uid for '$dn' must not be null!", ILogger::ERROR);
 			throw new \InvalidArgumentException('uid must not be null!');
@@ -145,6 +153,7 @@ class User {
 		$this->avatarManager       = $avatarManager;
 		$this->userManager         = $userManager;
 		$this->notificationManager = $notificationManager;
+		$this->accountManager      = $accountManager;
 
 		\OCP\Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');
 	}
@@ -206,6 +215,15 @@ class User {
 		$attr = strtolower($this->connection->ldapEmailAttribute);
 		if (isset($ldapEntry[$attr])) {
 			$this->updateEmail($ldapEntry[$attr][0]);
+		}
+		unset($attr);
+		
+		//Phone
+		//phone must be stored after displayname, because it would cause a user
+		//change event that will trigger fetching the display name again
+		$attr = $this->connection->ldapPhoneAttribute;
+		if (isset($ldapEntry[$attr])) {
+			$this->updatePhone($ldapEntry[$attr][0]);
 		}
 		unset($attr);
 
@@ -457,6 +475,42 @@ class User {
 		}
 	}
 
+	/**
+	 * fetches the phone number from LDAP and stores it as Nextcloud user value
+	 * @param string $valueFromLDAP if known, to save an LDAP read request
+	 * @return null
+	 */
+	public function updatePhone($valueFromLDAP = null) {
+		if ($this->wasRefreshed('phone')) {
+			return;
+		}
+		$phone = (string)$valueFromLDAP;
+		if (is_null($valueFromLDAP)) {
+			$phoneAttribute = $this->connection->ldapPhoneAttribute;
+			if ($phoneAttribute !== '') {
+				$aPhone = $this->access->readAttribute($this->dn, $phoneAttribute);
+				if (is_array($aPhone) && (count($aPhone) > 0)) {
+					$phone = (string)$aPhone[0];
+				}
+			}
+		}
+		if ($phone !== '') {
+			$user = $this->userManager->get($this->uid);
+			if (!is_null($user)) {
+				$account = $this->accountManager->getAccount($user);
+				$currentPhoneProperty = $account->getProperty(IAccountManager::PROPERTY_PHONE);
+				$currentPhoneScope = $currentPhoneProperty->getScope();
+				$currentPhone = (string)$currentPhoneProperty->getValue();
+				if ($currentPhone !== $phone) {
+					$data = $this->accountManager->getUser($user);
+					$data[AccountManager::PROPERTY_PHONE] = ['value' => $phone, 'scope' => $currentPhoneScope];
+					$this->accountManager->updateUser($user, $data);
+				}
+			}
+		}
+	}
+
+	/**
 	/**
 	 * Overall process goes as follow:
 	 * 1. fetch the quota from LDAP and check if it's parseable with the "verifyQuotaValue" function

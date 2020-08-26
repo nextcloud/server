@@ -259,6 +259,7 @@ class ConfigAPIController extends OCSController {
 	 *     <ldapQuotaAttribute></ldapQuotaAttribute>
 	 *     <ldapQuotaDefault></ldapQuotaDefault>
 	 *     <ldapEmailAttribute>mail</ldapEmailAttribute>
+	 *     <ldapPhoneAttribute></ldapPhoneAttribute>
 	 *     <ldapCacheTTL>20</ldapCacheTTL>
 	 *     <ldapUuidUserAttribute>auto</ldapUuidUserAttribute>
 	 *     <ldapUuidGroupAttribute>auto</ldapUuidGroupAttribute>

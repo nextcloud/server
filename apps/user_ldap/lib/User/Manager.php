@@ -38,6 +38,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Image;
 use OCP\IUserManager;
+use OCP\Accounts\IAccountManager;
 use OCP\Notification\IManager as INotificationManager;
 
 /**
@@ -58,6 +59,9 @@ class Manager {
 
 	/** @var IUserManager */
 	protected $userManager;
+
+	/** @var IAccountManager */
+	protected $accountManager;
 
 	/** @var INotificationManager */
 	protected $notificationManager;
@@ -97,7 +101,8 @@ class Manager {
 								FilesystemHelper $ocFilesystem, LogWrapper $ocLog,
 								IAvatarManager $avatarManager, Image $image,
 								IDBConnection $db, IUserManager $userManager,
-								INotificationManager $notificationManager) {
+								INotificationManager $notificationManager,
+	                                                        IAccountManager $accountManager) {
 		$this->ocConfig            = $ocConfig;
 		$this->ocFilesystem        = $ocFilesystem;
 		$this->ocLog               = $ocLog;
@@ -106,6 +111,7 @@ class Manager {
 		$this->db                  = $db;
 		$this->userManager         = $userManager;
 		$this->notificationManager = $notificationManager;
+		$this->accountManager      = $accountManager;
 		$this->usersByDN           = new CappedMemoryCache();
 		$this->usersByUid          = new CappedMemoryCache();
 	}
@@ -131,7 +137,7 @@ class Manager {
 		$user = new User($uid, $dn, $this->access, $this->ocConfig,
 			$this->ocFilesystem, clone $this->image, $this->ocLog,
 			$this->avatarManager, $this->userManager,
-			$this->notificationManager);
+			$this->notificationManager, $this->accountManager);
 		$this->usersByDN[$dn]   = $user;
 		$this->usersByUid[$uid] = $user;
 		return $user;
@@ -175,6 +181,7 @@ class Manager {
 			$this->access->getConnection()->ldapExpertUUIDUserAttr,
 			$this->access->getConnection()->ldapQuotaAttribute,
 			$this->access->getConnection()->ldapEmailAttribute,
+			$this->access->getConnection()->ldapPhoneAttribute,
 			$this->access->getConnection()->ldapUserDisplayName,
 			$this->access->getConnection()->ldapUserDisplayName2,
 			$this->access->getConnection()->ldapExtStorageHomeAttribute,

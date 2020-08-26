@@ -295,6 +295,19 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	}
 
 	/**
+	 * Get the LDAP attribute name for the phone
+	 * @param string $uid user id
+	 * @return string the phone field
+	 * @throws \Exception if user id was not found in LDAP
+	 */
+	public function getLDAPPhoneField($uid) {
+		if (!$this->userBackend->userExists($uid)) {
+			throw new \Exception('User id not found in LDAP');
+		}
+		return $this->userBackend->getLDAPAccess($uid)->getConnection()->getConfiguration()['ldap_phone_attr'];
+	}
+
+	/**
 	 * Get the LDAP type of association between users and groups
 	 * @param string $gid group id
 	 * @return string the configuration, one of: 'memberUid', 'uniqueMember', 'member', 'gidNumber', ''

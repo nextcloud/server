@@ -41,6 +41,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Image;
 use OCP\IUserManager;
+use OCP\Accounts\IAccountManager;
 use OCP\Notification\IManager as INotificationManager;
 
 /**
@@ -75,6 +76,9 @@ class ManagerTest extends \Test\TestCase {
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $ncUserManager;
 
+	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
+	protected $accountManager;
+
 	/** @var INotificationManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $notificationManager;
 
@@ -98,6 +102,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->image = $this->createMock(Image::class);
 		$this->dbc = $this->createMock(IDBConnection::class);
 		$this->ncUserManager = $this->createMock(IUserManager::class);
+		$this->accountManager = $this->createMock(IAccountManager::class);
 		$this->notificationManager = $this->createMock(INotificationManager::class);
 
 		$this->ldapWrapper = $this->createMock(ILDAPWrapper::class);
@@ -116,7 +121,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->image,
 			$this->dbc,
 			$this->ncUserManager,
-			$this->notificationManager
+			$this->notificationManager,
+			$this->accountManager
 		);
 
 		$this->manager->setLdapAccess($this->access);
@@ -235,6 +241,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testGetAttributes($minimal) {
 		$this->connection->setConfiguration([
 			'ldapEmailAttribute' => 'MAIL',
+			'ldapPhoneAttribute' => '',
 			'ldapUserAvatarRule' => 'default',
 			'ldapQuotaAttribute' => '',
 			'ldapUserDisplayName2' => 'Mail',

@@ -51,6 +51,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\Image;
 use OCP\IUserManager;
+use OCP\Accounts\IAccountManager;
 use OCP\Notification\IManager as INotificationManager;
 use Test\TestCase;
 
@@ -76,6 +77,8 @@ class AccessTest extends TestCase {
 	private $config;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $ncUserManager;
+	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
+	private $accountManager;
 	/** @var Access */
 	private $access;
 
@@ -87,6 +90,7 @@ class AccessTest extends TestCase {
 		$this->config  = $this->createMock(IConfig::class);
 		$this->userMapper = $this->createMock(UserMapping::class);
 		$this->ncUserManager = $this->createMock(IUserManager::class);
+		$this->accountManager = $this->createMock(IAccountManager::class);
 
 		$this->access = new Access(
 			$this->connection,
@@ -113,7 +117,8 @@ class AccessTest extends TestCase {
 				$this->createMock(Image::class),
 				$this->createMock(IDBConnection::class),
 				$this->createMock(IUserManager::class),
-				$this->createMock(INotificationManager::class)])
+				$this->createMock(INotificationManager::class),
+				$this->createMock(IAccountManager::class)])
 			->getMock();
 		$helper = new Helper(\OC::$server->getConfig());
 

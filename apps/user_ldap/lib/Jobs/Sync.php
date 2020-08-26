@@ -24,6 +24,7 @@
 
 namespace OCA\User_LDAP\Jobs;
 
+use OC\Accounts\AccountManager;
 use OC\BackgroundJob\TimedJob;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\AccessFactory;
@@ -63,6 +64,8 @@ class Sync extends TimedJob {
 	protected $ncUserManager;
 	/** @var  IManager */
 	protected $notificationManager;
+	/** @var IAccountManager */
+	protected $ncAccountManager;
 	/** @var ConnectionFactory */
 	protected $connectionFactory;
 	/** @var AccessFactory */
@@ -337,6 +340,12 @@ class Sync extends TimedJob {
 			$this->ncUserManager = \OC::$server->getUserManager();
 		}
 
+		if (isset($argument['ncAccountManager'])) {
+			$this->ncAccountManager = $argument['ncAccountManager'];
+		} else {
+			$this->ncAccountManager = \OC::$server->query(AccountManager::class);
+		}
+
 		if (isset($argument['notificationManager'])) {
 			$this->notificationManager = $argument['notificationManager'];
 		} else {
@@ -354,7 +363,8 @@ class Sync extends TimedJob {
 				new Image(),
 				$this->dbc,
 				$this->ncUserManager,
-				$this->notificationManager
+				$this->notificationManager,
+				$this->ncAccountManager
 			);
 		}
 

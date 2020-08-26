@@ -117,6 +117,10 @@ OCA = OCA || {};
 					$element: $('#ldap_email_attr'),
 					setMethod: 'setEmailAttribute'
 				},
+				ldap_phone_attr: {
+					$element: $('#ldap_phone_attr'),
+					setMethod: 'setPhoneAttribute'
+				},
 				home_folder_naming_rule: {
 					$element: $('#home_folder_naming_rule'),
 					setMethod: 'setHomeFolderAttribute'
@@ -328,6 +332,15 @@ OCA = OCA || {};
 		 */
 		setEmailAttribute: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_email_attr.$element, attribute);
+		},
+
+		/**
+		 * sets the phone attribute
+		 *
+		 * @param {string} attribute
+		 */
+		setPhoneAttribute: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_phone_attr.$element, attribute);
 		},
 
 		/**
