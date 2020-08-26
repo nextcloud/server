@@ -38,6 +38,7 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Lock\LockedException;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use Exception;
 
 // FIXME: this class really should be abstract
 class Node implements \OCP\Files\Node {
