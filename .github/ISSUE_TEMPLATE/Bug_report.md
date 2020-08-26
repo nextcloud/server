@@ -72,7 +72,7 @@ Tell us what happens instead
 **Web server:**
 <!-- Please change the appropriate [ ] to [x] and (if applicable) add the version number behind it. -->
 - [ ] Apache
-- [ ] nginx
+- [ ] Nginx
 - [ ] IIS
 - [ ] _something else_ <!-- please specify -->
 
