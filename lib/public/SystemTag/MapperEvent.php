@@ -33,7 +33,6 @@ use OCP\EventDispatcher\Event;
 /**
  * Class MapperEvent
  *
- * @package OCP\SystemTag
  * @since 9.0.0
  */
 class MapperEvent extends Event {

@@ -29,7 +29,6 @@ namespace OCP\Dashboard;
 /**
  * Interface IWidget
  *
- * @package OCP\Dashboard
  * @since 20.0.0
  */
 interface IWidget {

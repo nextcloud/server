@@ -39,7 +39,6 @@ use OCP\Share\Exceptions\ShareNotFound;
 /**
  * Interface IManager
  *
- * @package OCP\Share
  * @since 9.0.0
  */
 interface IManager {

@@ -28,7 +28,6 @@ namespace OCP\Notification;
 /**
  * Interface IDeferrableApp
  *
- * @package OCP\Notification
  * @since 20.0.0
  */
 interface IDeferrableApp extends IApp {

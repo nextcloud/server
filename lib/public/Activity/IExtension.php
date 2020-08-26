@@ -28,7 +28,6 @@ namespace OCP\Activity;
 /**
  * Interface IExtension
  *
- * @package OCP\Activity
  * @since 8.0.0
  */
 interface IExtension {

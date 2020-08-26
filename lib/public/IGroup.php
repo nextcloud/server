@@ -31,7 +31,6 @@ namespace OCP;
 /**
  * Interface IGroup
  *
- * @package OCP
  * @since 8.0.0
  */
 interface IGroup {

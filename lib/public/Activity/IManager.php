@@ -31,7 +31,6 @@ namespace OCP\Activity;
 /**
  * Interface IManager
  *
- * @package OCP\Activity
  * @since 6.0.0
  */
 interface IManager {

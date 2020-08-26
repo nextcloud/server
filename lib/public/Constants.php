@@ -33,7 +33,6 @@ namespace OCP;
 /**
  * Class Constants
  *
- * @package OCP
  * @since 8.0.0
  */
 class Constants {

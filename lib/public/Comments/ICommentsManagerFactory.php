@@ -33,7 +33,6 @@ use OCP\IServerContainer;
  * This class is responsible for instantiating and returning an ICommentsManager
  * instance.
  *
- * @package OCP\Comments
  * @since 9.0.0
  */
 interface ICommentsManagerFactory {
