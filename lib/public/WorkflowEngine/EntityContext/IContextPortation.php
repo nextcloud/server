@@ -35,7 +35,6 @@ namespace OCP\WorkflowEngine\EntityContext;
  * be able to recreate the state at a later point. For example: handling
  * translations in a notification INotifier.
  *
- * @package OCP\WorkflowEngine\EntityContext
  *
  * @since 20.0.0
  */

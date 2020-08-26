@@ -33,7 +33,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Interface IEncryptionModule
  *
- * @package OCP\Encryption
  * @since 8.1.0
  */
 interface IEncryptionModule {

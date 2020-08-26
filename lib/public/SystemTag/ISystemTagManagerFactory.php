@@ -33,7 +33,6 @@ use OCP\IServerContainer;
  *
  * Factory interface for system tag managers
  *
- * @package OCP\SystemTag
  * @since 9.0.0
  */
 interface ISystemTagManagerFactory {

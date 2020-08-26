@@ -34,7 +34,6 @@ use OCP\EventDispatcher\Event;
 /**
  * Class ManagerEvent
  *
- * @package OCP\SystemTag
  * @since 9.0.0
  */
 class ManagerEvent extends Event {

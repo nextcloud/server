@@ -29,7 +29,6 @@ namespace OCP\WorkflowEngine;
 /**
  * Interface IManager
  *
- * @package OCP\WorkflowEngine
  * @since 9.1
  */
 interface IManager {

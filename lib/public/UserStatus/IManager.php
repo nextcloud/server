@@ -29,7 +29,6 @@ namespace OCP\UserStatus;
 /**
  * Interface IManager
  *
- * @package OCP\UserStatus
  * @since 20.0.0
  */
 interface IManager {

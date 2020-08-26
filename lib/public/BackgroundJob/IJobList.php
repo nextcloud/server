@@ -42,7 +42,6 @@ namespace OCP\BackgroundJob;
  * be specified in the constructor of the job by calling
  * $this->setInterval($interval) with $interval in seconds.
  *
- * @package OCP\BackgroundJob
  * @since 7.0.0
  */
 interface IJobList {

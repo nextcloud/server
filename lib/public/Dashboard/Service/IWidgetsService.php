@@ -39,7 +39,6 @@ use OCP\Dashboard\Model\IWidgetConfig;
  * @since 15.0.0
  * @deprecated 20.0.0
  *
- * @package OCP\Dashboard\Service
  */
 interface IWidgetsService {
 

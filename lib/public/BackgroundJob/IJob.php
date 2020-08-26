@@ -32,7 +32,6 @@ use OCP\ILogger;
 /**
  * Interface IJob
  *
- * @package OCP\BackgroundJob
  * @since 7.0.0
  */
 interface IJob {

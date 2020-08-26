@@ -48,7 +48,6 @@ use JsonSerializable;
  * @since 15.0.0
  * @deprecated 20.0.0
  *
- * @package OCP\Dashboard\Model
  */
 final class WidgetSetting implements JsonSerializable {
 	public const TYPE_INPUT = 'input';

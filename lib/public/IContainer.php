@@ -46,7 +46,6 @@ use Psr\Container\ContainerInterface;
  *
  * IContainer is the basic interface to be used for any internal dependency injection mechanism
  *
- * @package OCP
  * @since 6.0.0
  * @deprecated 20.0.0 use \Psr\Container\ContainerInterface
  */
