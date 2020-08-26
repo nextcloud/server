@@ -298,7 +298,7 @@ class Node implements \OCP\Files\Node {
 	 * @param string $path
 	 * @return string
 	 */
-	protected function normalizePath(string $path) {
+	protected function normalizePath(string $path): string {
 		if ($path === '' or $path === '/') {
 			return '/';
 		}
@@ -324,7 +324,7 @@ class Node implements \OCP\Files\Node {
 	 * @param string $path
 	 * @return bool
 	 */
-	public function isValidPath(string $path) {
+	public function isValidPath(string $path): bool {
 		if (!$path || $path[0] !== '/') {
 			$path = '/' . $path;
 		}
