@@ -38,7 +38,6 @@ namespace OCP\AppFramework\Http;
  *
  * This class allows unsafe-eval of javascript and unsafe-inline of CSS.
  *
- * @package OCP\AppFramework\Http
  * @since 8.1.0
  */
 class ContentSecurityPolicy extends EmptyContentSecurityPolicy {

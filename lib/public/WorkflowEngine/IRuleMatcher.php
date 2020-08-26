@@ -31,7 +31,6 @@ use RuntimeException;
 /**
  * Class IRuleMatcher
  *
- * @package OCP\WorkflowEngine
  *
  * @since 18.0.0
  */

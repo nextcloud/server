@@ -30,7 +30,6 @@ namespace OCP\RichObjectStrings;
 /**
  * Class Definitions
  *
- * @package OCP\RichObjectStrings
  * @since 11.0.0
  */
 class Definitions {

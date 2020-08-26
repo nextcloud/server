@@ -31,7 +31,6 @@ use DateTimeImmutable;
 /**
  * Interface IUserStatus
  *
- * @package OCP\UserStatus
  * @since 20.0.0
  */
 interface IUserStatus {

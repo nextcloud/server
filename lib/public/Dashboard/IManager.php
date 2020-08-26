@@ -29,7 +29,6 @@ namespace OCP\Dashboard;
 /**
  * Interface IManager
  *
- * @package OCP\Dashboard
  * @since 20.0.0
  */
 interface IManager {
