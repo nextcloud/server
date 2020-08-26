@@ -73,7 +73,6 @@ Tell us what happens instead
 <!-- Please change the appropriate [ ] to [x] and (if applicable) add the version number behind it. -->
 - [ ] Apache
 - [ ] Nginx
-- [ ] IIS
 - [ ] _something else_ <!-- please specify -->
 
 **Database:** <!-- Don't forget adding the version -->
