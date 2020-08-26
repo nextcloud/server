@@ -298,7 +298,18 @@ class Node implements \OCP\Files\Node {
 	 * @param string $path
 	 * @return string
 	 */
-	protected function normalizePath(string $path): string {
+	protected function normalizePath($path): string {
+		// temporary solution for #19010 and related. To be strictly typed!
+		if(is_string($path) === false)
+		{
+			try {
+				$path = (string) $path;
+			} catch (Exception $e) {
+				\OC::$server->getLogger()->logException($e);
+				return NULL;
+			}
+		}
+		
 		if ($path === '' or $path === '/') {
 			return '/';
 		}
@@ -324,7 +335,18 @@ class Node implements \OCP\Files\Node {
 	 * @param string $path
 	 * @return bool
 	 */
-	public function isValidPath(string $path): bool {
+	public function isValidPath($path): bool {
+		// temporary solution for #19010 and related. To be strictly typed!
+		if(is_string($path) === false)
+		{
+			try {
+				$path = (string) $path;
+			} catch (Exception $e) {
+				\OC::$server->getLogger()->logException($e);
+				return false;
+			}
+		}
+		
 		if (!$path || $path[0] !== '/') {
 			$path = '/' . $path;
 		}
