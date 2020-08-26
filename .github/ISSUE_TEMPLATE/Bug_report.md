@@ -47,7 +47,7 @@ Downloading a file containing the word `xmas` causes the server to do a barrel r
 <!-- Github is smart enough to count by itsself -->
 1. Open Homepage
 1. Navigate to Folder x y z
-1. Do stuff with it (please describe what you are actually doing :D)
+1. Describe what action leads to the bug
 1. ... 
 1. Profit?
 
