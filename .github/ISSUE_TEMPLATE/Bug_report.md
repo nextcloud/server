@@ -80,7 +80,7 @@ Tell us what happens instead
 - [ ] MariaDB
 - [ ] PostgreSQL
 - [ ] OracleDB
-- [ ] _something else_ <!-- please specify -->
+- [ ] SQLite
 
 **Fresh install or updated from an older Nextcloud/ownCloud?:**
 - [ ] fresh installation
