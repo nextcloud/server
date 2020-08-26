@@ -34,6 +34,7 @@ OC.L10N.register(
     "Delete file" : "Smazat soubor",
     "Delete folder" : "Smazat složku",
     "Disconnect storage" : "Odpojit úložiště",
+    "Leave this share" : "Opustit toto sdílení",
     "Could not load info for file \"{file}\"" : "Nepodařilo se načíst informace pro soubor „{file}“",
     "Files" : "Soubory",
     "Details" : "Podrobnosti",
