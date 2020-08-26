@@ -31,6 +31,7 @@ use OC\Files\FileInfo;
 use OC\Files\Storage\Wrapper\Quota;
 use OCA\DAV\Connector\Sabre\Directory;
 use OCP\Files\ForbiddenException;
+use OCP\Files\Mount\IMountPoint;
 
 class TestViewDirectory extends \OC\Files\View {
 
@@ -98,7 +99,7 @@ class DirectoryTest extends \Test\TestCase {
 		return new Directory($this->view, $this->info);
 	}
 
-	
+
 	public function testDeleteRootFolderFails() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -111,7 +112,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	
+
 	public function testDeleteForbidden() {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\Forbidden::class);
 
@@ -130,7 +131,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	
+
 	public function testDeleteFolderWhenAllowed() {
 		// deletion allowed
 		$this->info->expects($this->once())
@@ -147,7 +148,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	
+
 	public function testDeleteFolderFailsWhenNotAllowed() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -159,7 +160,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->delete();
 	}
 
-	
+
 	public function testDeleteFolderThrowsWhenDeletionFailed() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -217,7 +218,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChildren();
 	}
 
-	
+
 	public function testGetChildrenNoPermission() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 
@@ -230,7 +231,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChildren();
 	}
 
-	
+
 	public function testGetChildNoPermission() {
 		$this->expectException(\Sabre\DAV\Exception\NotFound::class);
 
@@ -242,7 +243,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChild('test');
 	}
 
-	
+
 	public function testGetChildThrowStorageNotAvailableException() {
 		$this->expectException(\Sabre\DAV\Exception\ServiceUnavailable::class);
 
@@ -254,7 +255,7 @@ class DirectoryTest extends \Test\TestCase {
 		$dir->getChild('.');
 	}
 
-	
+
 	public function testGetChildThrowInvalidPath() {
 		$this->expectException(\OCA\DAV\Connector\Sabre\Exception\InvalidPath::class);
 
@@ -269,9 +270,12 @@ class DirectoryTest extends \Test\TestCase {
 	}
 
 	public function testGetQuotaInfoUnlimited() {
+		$mountPoint = $this->createMock(IMountPoint::class);
 		$storage = $this->getMockBuilder(Quota::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$mountPoint->method('getStorage')
+			->willReturn($storage);
 
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
@@ -292,17 +296,20 @@ class DirectoryTest extends \Test\TestCase {
 			->will($this->returnValue(200));
 
 		$this->info->expects($this->once())
-			->method('getStorage')
-			->will($this->returnValue($storage));
+			->method('getMountPoint')
+			->willReturn($mountPoint);
 
 		$dir = new Directory($this->view, $this->info);
 		$this->assertEquals([200, -3], $dir->getQuotaInfo()); //200 used, unlimited
 	}
 
 	public function testGetQuotaInfoSpecific() {
+		$mountPoint = $this->createMock(IMountPoint::class);
 		$storage = $this->getMockBuilder(Quota::class)
 			->disableOriginalConstructor()
 			->getMock();
+		$mountPoint->method('getStorage')
+			->willReturn($storage);
 
 		$storage->expects($this->any())
 			->method('instanceOfStorage')
@@ -324,8 +331,8 @@ class DirectoryTest extends \Test\TestCase {
 			->will($this->returnValue(200));
 
 		$this->info->expects($this->once())
-			->method('getStorage')
-			->will($this->returnValue($storage));
+			->method('getMountPoint')
+			->willReturn($mountPoint);
 
 		$dir = new Directory($this->view, $this->info);
 		$this->assertEquals([200, 800], $dir->getQuotaInfo()); //200 used, 800 free
@@ -404,7 +411,7 @@ class DirectoryTest extends \Test\TestCase {
 		$this->assertTrue($targetNode->moveInto(basename($destination), $source, $sourceNode));
 	}
 
-	
+
 	public function testFailingMove() {
 		$this->expectException(\Sabre\DAV\Exception\Forbidden::class);
 		$this->expectExceptionMessage('Could not copy directory b, target exists');
