@@ -19,7 +19,7 @@
 						{{ panels[panelId].title }}
 					</h2>
 				</div>
-				<div class="panel--content">
+				<div class="panel--content" :class="{ loading: !panels[panelId].mounted }">
 					<div :ref="panels[panelId].id" :data-id="panels[panelId].id" />
 				</div>
 			</div>
@@ -225,16 +225,10 @@ export default {
 				}
 			}
 		},
-		backgroundImage: {
-			immediate: true,
-			handler() {
-				const header = document.getElementById('header')
-				header.style.backgroundImage = `url(${this.backgroundImage})`
-			},
-		},
 	},
 	mounted() {
 		this.updateGlobalStyles()
+		window.addEventListener('scroll', this.handleScroll)
 
 		setInterval(() => {
 			this.timer = new Date()
@@ -243,6 +237,9 @@ export default {
 		if (this.firstRun) {
 			window.addEventListener('scroll', this.disableFirstrunHint)
 		}
+	},
+	destroyed() {
+		window.removeEventListener('scroll', this.handleScroll)
 	},
 	methods: {
 		/**
@@ -361,250 +358,254 @@ export default {
 			}
 			this.saveStatuses()
 		},
+		handleScroll() {
+			if (window.scrollY > 70) {
+				document.body.classList.add('dashboard--scrolled')
+			} else {
+				document.body.classList.remove('dashboard--scrolled')
+			}
+		},
 	},
 }
 </script>
 
-<style lang="scss">
-
-</style>
-
 <style lang="scss" scoped>
-	#app-dashboard {
-		width: 100%;
-		background-size: cover;
-		background-position: center center;
-		background-repeat: no-repeat;
-		background-attachment: fixed;
-		background-color: var(--color-primary);
-		--color-background-translucent: rgba(255, 255, 255, 0.8);
-		--background-blur: blur(10px);
+#app-dashboard {
+	width: 100%;
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-color: var(--color-primary);
+	--color-background-translucent: rgba(255, 255, 255, 0.8);
+	--background-blur: blur(10px);
 
-		#body-user.theme--dark & {
-			background-color: var(--color-main-background);
-			--color-background-translucent: rgba(24, 24, 24, 0.8);
+	#body-user.theme--dark & {
+		background-color: var(--color-main-background);
+		--color-background-translucent: rgba(24, 24, 24, 0.8);
+	}
+
+	#body-user.theme--highcontrast & {
+		background-color: var(--color-main-background);
+		--color-background-translucent: var(--color-main-background);
+	}
+
+	> h2 {
+		color: var(--color-primary-text);
+		text-align: center;
+		font-size: 32px;
+		line-height: 130%;
+		padding: 120px 16px 0px;
+	}
+}
+
+.panels {
+	width: auto;
+	margin: auto;
+	max-width: 1500px;
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	align-items: flex-start;
+	flex-wrap: wrap;
+}
+
+.panel, .panels > div {
+	width: 320px;
+	max-width: 100%;
+	margin: 16px;
+	background-color: var(--color-background-translucent);
+	-webkit-backdrop-filter: var(--background-blur);
+	backdrop-filter: var(--background-blur);
+	border-radius: var(--border-radius-large);
+
+	#body-user.theme--highcontrast & {
+		border: 2px solid var(--color-border);
+	}
+
+	&.sortable-ghost {
+		 opacity: 0.1;
+	}
+
+	& > .panel--header {
+		display: flex;
+		z-index: 1;
+		top: 50px;
+		padding: 16px;
+		cursor: grab;
+
+		&, ::v-deep * {
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
 		}
 
-		#body-user.theme--highcontrast & {
-			background-color: var(--color-main-background);
-			--color-background-translucent: var(--color-main-background);
+		&:active {
+			cursor: grabbing;
+		}
+
+		a {
+			flex-grow: 1;
 		}
 
 		> h2 {
-			color: var(--color-primary-text);
-			text-align: center;
-			font-size: 32px;
-			line-height: 130%;
-			padding: 120px 16px 0px;
-		}
-	}
-
-	.panels {
-		width: auto;
-		margin: auto;
-		max-width: 1500px;
-		display: flex;
-		justify-content: center;
-		flex-direction: row;
-		align-items: flex-start;
-		flex-wrap: wrap;
-	}
-
-	.panel, .panels > div {
-		width: 320px;
-		max-width: 100%;
-		margin: 16px;
-		background-color: var(--color-background-translucent);
-		backdrop-filter: var(--background-blur);
-		border-radius: var(--border-radius-large);
-
-		#body-user.theme--highcontrast & {
-			border: 2px solid var(--color-border);
-		}
-
-		&.sortable-ghost {
-			 opacity: 0.1;
-		}
-
-		& > .panel--header {
-			display: flex;
-			z-index: 1;
-			top: 50px;
-			padding: 16px;
-			cursor: grab;
-
-			&, ::v-deep * {
-				-webkit-touch-callout: none;
-				-webkit-user-select: none;
-				-khtml-user-select: none;
-				-moz-user-select: none;
-				-ms-user-select: none;
-				user-select: none;
-			}
-
-			&:active {
-				cursor: grabbing;
-			}
-
-			a {
-				flex-grow: 1;
-			}
-
-			> h2 {
-				display: block;
-				flex-grow: 1;
-				margin: 0;
-				font-size: 20px;
-				line-height: 24px;
-				font-weight: bold;
-				background-size: 32px;
-				background-position: 14px 12px;
-				padding: 16px 8px 16px 60px;
-				height: 56px;
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-				cursor: grab;
-			}
-		}
-
-		& > .panel--content {
-			margin: 0 16px 16px 16px;
-			height: 420px;
-			// We specifically do not want scrollbars inside widgets
+			display: block;
+			flex-grow: 1;
+			margin: 0;
+			font-size: 20px;
+			line-height: 24px;
+			font-weight: bold;
+			background-size: 32px;
+			background-position: 14px 12px;
+			padding: 16px 8px 16px 60px;
+			height: 56px;
+			white-space: nowrap;
 			overflow: hidden;
-		}
-
-		// No need to extend height of widgets if only one column is shown
-		@media only screen and (max-width: 709px) {
-			& > .panel--content {
-				height: auto;
-			}
+			text-overflow: ellipsis;
+			cursor: grab;
 		}
 	}
 
-	.footer {
-		text-align: center;
-		transition: bottom var(--animation-slow) ease-in-out;
-		bottom: 0;
-		padding: 44px 0;
+	& > .panel--content {
+		margin: 0 16px 16px 16px;
+		height: 420px;
+		// We specifically do not want scrollbars inside widgets
+		overflow: hidden;
+	}
 
-		&.firstrun {
-			position: sticky;
-			bottom: 10px;
+	// No need to extend height of widgets if only one column is shown
+	@media only screen and (max-width: 709px) {
+		& > .panel--content {
+			height: auto;
 		}
 	}
+}
 
-	.edit-panels {
-		display: inline-block;
-		margin:auto;
-		background-position: 16px center;
-		padding: 12px 16px;
-		padding-left: 36px;
-		border-radius: var(--border-radius-pill);
-		max-width: 200px;
-		opacity: 1;
-		text-align: center;
+.footer {
+	text-align: center;
+	transition: bottom var(--animation-slow) ease-in-out;
+	bottom: 0;
+	padding: 44px 0;
+
+	&.firstrun {
+		position: sticky;
+		bottom: 10px;
 	}
+}
 
-	.edit-panels,
-	.statuses ::v-deep .action-item > button,
-	.statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
-		background-color: var(--color-background-translucent);
-		backdrop-filter: var(--background-blur);
+.edit-panels {
+	display: inline-block;
+	margin:auto;
+	background-position: 16px center;
+	padding: 12px 16px;
+	padding-left: 36px;
+	border-radius: var(--border-radius-pill);
+	max-width: 200px;
+	opacity: 1;
+	text-align: center;
+}
 
-		&:hover,
-		&:focus,
-		&:active {
+.edit-panels,
+.statuses ::v-deep .action-item > button,
+.statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
+	background-color: var(--color-background-translucent);
+	-webkit-backdrop-filter: var(--background-blur);
+	backdrop-filter: var(--background-blur);
+
+	&:hover,
+	&:focus,
+	&:active {
+		background-color: var(--color-background-hover);
+	}
+}
+
+.modal__content {
+	padding: 32px 16px;
+	max-height: 70vh;
+	text-align: center;
+	overflow: auto;
+
+	ol {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		list-style-type: none;
+		padding-bottom: 16px;
+	}
+	li {
+		label {
+			display: block;
+			padding: 48px 8px 16px 8px;
+			margin: 8px;
+			width: 160px;
 			background-color: var(--color-background-hover);
-		}
-	}
+			border: 2px solid var(--color-main-background);
+			border-radius: var(--border-radius-large);
+			background-size: 24px;
+			background-position: center 16px;
+			text-align: center;
 
-	.modal__content {
-		padding: 32px 16px;
-		max-height: 70vh;
-		text-align: center;
-		overflow: auto;
-
-		ol {
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			list-style-type: none;
-			padding-bottom: 16px;
-		}
-		li {
-			label {
-				display: block;
-				padding: 48px 8px 16px 8px;
-				margin: 8px;
-				width: 160px;
-				background-color: var(--color-background-hover);
-				border: 2px solid var(--color-main-background);
-				border-radius: var(--border-radius-large);
-				background-size: 24px;
-				background-position: center 16px;
-				text-align: center;
-
-				&:hover {
-					border-color: var(--color-primary);
-				}
-			}
-
-			input:focus + label {
+			&:hover {
 				border-color: var(--color-primary);
 			}
 		}
 
-		h3 {
-			font-weight: bold;
-
-			&:not(:first-of-type) {
-				margin-top: 64px;
-			}
+		input:focus + label {
+			border-color: var(--color-primary);
 		}
+	}
 
-		// Adjust design of 'Get more widgets' button
-		.button {
-			display: inline-block;
-			padding: 12px 24px;
-			margin: 0;
+	h3 {
+		font-weight: bold;
+
+		&:not(:first-of-type) {
+			margin-top: 64px;
 		}
+	}
 
-		p {
-			max-width: 650px;
-			margin: 0 auto;
+	// Adjust design of 'Get more widgets' button
+	.button {
+		display: inline-block;
+		padding: 12px 24px;
+		margin: 0;
+	}
 
-			a:hover,
-			a:focus {
-				border-bottom: 2px solid var(--color-border);
-			}
+	p {
+		max-width: 650px;
+		margin: 0 auto;
+
+		a:hover,
+		a:focus {
+			border-bottom: 2px solid var(--color-border);
 		}
+	}
 
-		.credits--end {
-			padding-bottom: 32px;
+	.credits--end {
+		padding-bottom: 32px;
+		color: var(--color-text-maxcontrast);
+
+		a {
 			color: var(--color-text-maxcontrast);
-
-			a {
-				color: var(--color-text-maxcontrast);
-			}
 		}
 	}
+}
 
-	.flip-list-move {
-		transition: transform var(--animation-slow);
+.flip-list-move {
+	transition: transform var(--animation-slow);
+}
+
+.statuses {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	flex-wrap: wrap;
+	margin-bottom: 36px;
+
+	& > div {
+		margin: 8px;
 	}
-
-	.statuses {
-		display: flex;
-		flex-direction: row;
-		justify-content: center;
-		flex-wrap: wrap;
-		margin-bottom: 36px;
-
-		& > div {
-			margin: 8px;
-		}
-	}
-
+}
 </style>
