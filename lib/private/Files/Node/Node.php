@@ -306,7 +306,7 @@ class Node implements \OCP\Files\Node {
 				$path = (string) $path;
 			} catch (Exception $e) {
 				\OC::$server->getLogger()->logException($e);
-				return NULL;
+				return null;
 			}
 		}
 		
