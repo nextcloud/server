@@ -54,7 +54,7 @@ Downloading a file containing the word `xmas` causes the server to do a barrel r
 
 
 ### Expected behaviour
-Tell us what should happen
+Tell us what should happen (possibly add screenshots to bring your point across)
 
 
 
@@ -72,6 +72,8 @@ Tell us what happens instead
 **Web server:**
 <!-- Please change the appropriate [ ] to [x] and (if applicable) add the version number behind it. -->
 - [ ] Apache
+  - [ ] mod_php
+  - [ ] php_fpm
 - [ ] Nginx
 - [ ] _something else_ <!-- please specify -->
 
@@ -152,13 +154,12 @@ If you don't please please remove this section.
 
 ### Client configuration
 <!-- When an issue is limited to a specific Browser configuration it helps greatly to know what that configuration is! -->
+Browser: [please include the Version]
+Operating system: [please include the kernel-version or windows build number]
 <details>
 <summary>Client Config</summary>
 
 ```
-Browser: [please include the Version]
-Operating system: [please include the kernel-version or windows build number]
-
 if there are errors or warnings in the Browser Console (CTRL+SHIFT+J), please paste them here!
 Make sure they don't contain sensitive information (like filenames/IP-Adresses/...)!
 
@@ -191,6 +192,7 @@ Make sure to remove all sensitive content such as passwords. (e.g. database pass
 
 ### LDAP configuration
 <!-- Important for when you are using LDAP as a user-backend! -->
+LDAP-Server: [Serversoftware and Version]
 <details>
 <summary>LDAP config</summary>
 
