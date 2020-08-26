@@ -162,7 +162,7 @@ Operating system: [please include the kernel-version or windows build number]
 if there are errors or warnings in the Browser Console (CTRL+SHIFT+J), please paste them here!
 Make sure they don't contain sensitive information (like filenames/IP-Adresses/...)!
 
-This section is in general for all kinds of Client Side Logs. Maybe the Browsers Network-Log might be relevant, then this would be the place to put it.
+This section is for all kinds of client-side logs. Maybe the Browsers Network-Log might be relevant, then this would be the place to put it.
 ```
 
 </details>
