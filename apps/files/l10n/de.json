@@ -32,6 +32,7 @@
     "Delete file" : "Datei löschen",
     "Delete folder" : "Ordner löschen",
     "Disconnect storage" : "Speicher trennen",
+    "Leave this share" : "Diese Freigabe verlassen",
     "Could not load info for file \"{file}\"" : "Die Informationen zur Datei \"{file}\" konnten nicht geladen werden",
     "Files" : "Dateien",
     "Details" : "Details",
