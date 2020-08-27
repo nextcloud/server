@@ -8,4 +8,4 @@ wget https://bitgrid.net/~jus/phpDocumentor.phar
 
 mkdir -p api/
 
-php7.4 phpDocumentor.phar -t "./api" -d "./lib/public" --title="Nextcloud PHP API (`git rev-parse --abbrev-ref HEAD`)"
+php7.4 phpDocumentor.phar -t "./api" -d "./lib/public" --title="Nextcloud PHP API ($BRANCH)"
