@@ -34,6 +34,7 @@ OC.L10N.register(
     "Delete file" : "Обриши фајл",
     "Delete folder" : "Обриши фасциклу",
     "Disconnect storage" : "Искључи складиште",
+    "Leave this share" : "Напусти ово дељење",
     "Could not load info for file \"{file}\"" : "Не могу да учитам информације фајла \"{file}\"",
     "Files" : "Фајлови",
     "Details" : "Детаљи",
