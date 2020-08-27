@@ -30,7 +30,6 @@ namespace OCP\Http\Client;
 /**
  * Interface IClient
  *
- * @package OCP\Http
  * @since 8.1.0
  */
 interface IClient {

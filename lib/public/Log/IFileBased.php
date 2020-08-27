@@ -26,7 +26,6 @@ namespace OCP\Log;
 /**
  * Interface IFileBased
  *
- * @package OCP\Log
  *
  * @since 14.0.0
  */

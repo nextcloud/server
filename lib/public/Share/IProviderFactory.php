@@ -28,7 +28,6 @@ use OC\Share20\Exception\ProviderException;
 /**
  * Interface IProviderFactory
  *
- * @package OC\Share20
  * @since 9.0.0
  */
 interface IProviderFactory {

@@ -46,7 +46,6 @@ use OCP\Dashboard\Model\WidgetTemplate;
  *
  * @since 15.0.0
  *
- * @package OCP\Dashboard
  */
 interface IDashboardWidget {
 

@@ -35,7 +35,6 @@ use OCP\IUser;
  *
  * This class manages the access to comments
  *
- * @package OCP\Comments
  * @since 9.0.0
  */
 interface ICommentsManager {

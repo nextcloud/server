@@ -37,7 +37,6 @@ use OCP\Dashboard\IDashboardWidget;
  *
  * @since 15.0.0
  *
- * @package OCP\Dashboard\Model
  */
 interface IWidgetConfig {
 

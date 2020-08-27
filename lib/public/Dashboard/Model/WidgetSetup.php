@@ -39,7 +39,6 @@ use JsonSerializable;
  *
  * @since 15.0.0
  *
- * @package OCP\Dashboard\Model
  */
 final class WidgetSetup implements JsonSerializable {
 	public const SIZE_TYPE_MIN = 'min';

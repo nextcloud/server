@@ -56,7 +56,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class IServerContainer
- * @package OCP
  *
  * This container holds all ownCloud services
  * @since 6.0.0

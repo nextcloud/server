@@ -39,7 +39,6 @@ namespace OCP {
 	/**
 	 * Interface IAddressBook
 	 *
-	 * @package OCP
 	 * @since 5.0.0
 	 */
 	interface IAddressBook {

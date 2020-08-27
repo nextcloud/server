@@ -34,7 +34,6 @@ namespace OCP;
 
 /**
  * Interface ILogger
- * @package OCP
  * @since 7.0.0
  *
  * This logger interface follows the design guidelines of PSR-3
