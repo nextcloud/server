@@ -181,7 +181,7 @@
 				}
 			} else if (usedSpacePercent > 90) {
 				if (owner !== OC.getCurrentUser().uid) {
-					OC.Notification.show(t('files', 'Storage of {owner} is almost full ({usedSpacePercent}%).)',
+					OC.Notification.show(t('files', 'Storage of {owner} is almost full ({usedSpacePercent}%).',
 						{
 							usedSpacePercent: usedSpacePercent,
 							owner: ownerDisplayName
@@ -192,18 +192,18 @@
 					);
 				} else if (mountType === 'group') {
 					OC.Notification.show(t('files',
-						'This group folder is almost full ({usedSpacePercent}%).)',
+						'This group folder is almost full ({usedSpacePercent}%).',
 						{usedSpacePercent: usedSpacePercent}),
 						{type : 'error'}
 					);
 				} else if (mountType === 'external') {
 					OC.Notification.show(t('files',
-						'This external storage is almost full ({usedSpacePercent}%).)',
+						'This external storage is almost full ({usedSpacePercent}%).',
 						{usedSpacePercent: usedSpacePercent}),
 						{type : 'error'}
 					);
 				} else {
-					OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%).)',
+					OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%).',
 						{usedSpacePercent: usedSpacePercent}),
 						{type : 'error'}
 					);
