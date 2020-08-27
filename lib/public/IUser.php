@@ -33,7 +33,6 @@ use OCP\UserInterface;
 /**
  * Interface IUser
  *
- * @package OCP
  * @since 8.0.0
  */
 interface IUser {

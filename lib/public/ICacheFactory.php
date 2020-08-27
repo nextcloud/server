@@ -30,7 +30,6 @@ namespace OCP;
 /**
  * Interface ICacheFactory
  *
- * @package OCP
  * @since 7.0.0
  */
 interface ICacheFactory{

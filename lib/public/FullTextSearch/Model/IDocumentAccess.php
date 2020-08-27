@@ -45,7 +45,6 @@ namespace OCP\FullTextSearch\Model;
  *
  * @since 16.0.0
  *
- * @package OCP\FullTextSearch\Model
  */
 interface IDocumentAccess {
 

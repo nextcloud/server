@@ -35,7 +35,6 @@ use OCP\FullTextSearch\Model\ISearchResult;
  *
  * @since 15.0.0
  *
- * @package OCP\FullTextSearch\Service
  */
 interface ISearchService {
 

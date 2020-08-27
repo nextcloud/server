@@ -32,7 +32,6 @@ use OCP\EventDispatcher\Event;
 /**
  * Class SystemTagsEntityEvent
  *
- * @package OCP\SystemTag
  * @since 9.1.0
  */
 class SystemTagsEntityEvent extends Event {

@@ -27,7 +27,6 @@ use OCP\Calendar\BackendTemporarilyUnavailableException;
 /**
  * Interface IBackend
  *
- * @package OCP\Calendar\Room
  * @since 14.0.0
  */
 interface IBackend {

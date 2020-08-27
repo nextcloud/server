@@ -30,7 +30,6 @@ namespace OCP\WorkflowEngine;
 /**
  * Class GenericEntityEvent
  *
- * @package OCP\WorkflowEngine
  *
  * @since 18.0.0
  */

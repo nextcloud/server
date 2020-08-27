@@ -28,7 +28,6 @@ namespace OCP\Accounts;
  *
  * @since 15.0.0
  *
- * @package OCP\Accounts
  */
 class PropertyDoesNotExistException extends \Exception {
 

@@ -30,7 +30,6 @@ namespace OCP\Route;
 /**
  * Interface IRouter
  *
- * @package OCP\Route
  * @since 7.0.0
  * @deprecated 9.0.0
  */

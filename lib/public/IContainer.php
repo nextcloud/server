@@ -43,7 +43,6 @@ use OCP\AppFramework\QueryException;
  *
  * IContainer is the basic interface to be used for any internal dependency injection mechanism
  *
- * @package OCP
  * @since 6.0.0
  */
 interface IContainer {

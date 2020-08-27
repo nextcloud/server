@@ -28,7 +28,6 @@ use OCP\EventDispatcher\Event;
 /**
  * Class CommentsEntityEvent
  *
- * @package OCP\Comments
  * @since 9.1.0
  */
 class CommentsEntityEvent extends Event {

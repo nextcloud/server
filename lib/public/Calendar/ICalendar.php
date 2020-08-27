@@ -26,7 +26,6 @@ namespace OCP\Calendar;
 /**
  * Interface ICalendar
  *
- * @package OCP
  * @since 13.0.0
  */
 interface ICalendar {
