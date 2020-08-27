@@ -236,8 +236,12 @@ export default {
 					this.startLoop()
 				}
 			} catch (err) {
+				if (err?.code === 'ECONNABORTED') {
+					console.info('The weather status request was cancelled because the user navigates.')
+					return
+				}
 				showError(t('weather_status', 'There was an error getting the weather status information.'))
-				console.debug(err)
+				console.error(err)
 			}
 		},
 		startLoop() {
