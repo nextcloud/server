@@ -432,7 +432,7 @@ OC.L10N.register(
     "{sharee} (remote group)" : "{sharee} (remote group)",
     "{sharee} ({type}, {owner})" : "{sharee} ({type}, {owner})",
     "Share" : "Compartir",
-    "Name or email address..." : "Nome ou enderezo de correo...",
+    "Name or email address..." : "Nome ou enderezo de correo…",
     "Name or federated cloud ID..." : "Nome ou ID da nube federada...",
     "Name, federated cloud ID or email address..." : "Nome, ID da nube federada ou enderezo de correo...",
     "Name..." : "Nome...",
