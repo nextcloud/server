@@ -553,14 +553,6 @@ class OC {
 	}
 
 	public static function init() {
-        // If a REDIRECT_URI is provided respect that.
-        // Apache and Nginx URL rewrites alter REQUEST_URI
-        // lighttpd rewrites leaves REQUEST_URI and add REDIRECT_URI
-		if (isset($_SERVER['REDIRECT_URI'])) {
-	        $_SERVER['REQUEST_URI'] = $_SERVER['REDIRECT_URI'];
-	        unset($_SERVER['REDIRECT_URI']);
-	    }
-
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
 
@@ -583,6 +575,13 @@ class OC {
 
 		try {
 			self::initPaths();
+
+			// Load an init file if configured
+			$init_file = self::$configDir . 'init.php';
+			if (file_exists($init_file) && is_readable($init_file)) {
+				require_once $init_file;
+			}
+
 			// setup 3rdparty autoloader
 			$vendorAutoLoad = OC::$SERVERROOT. '/3rdparty/autoload.php';
 			if (!file_exists($vendorAutoLoad)) {
