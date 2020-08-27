@@ -68,7 +68,7 @@ export default {
 					subText = this.t('user_status', '{status}, {timestamp}', {
 						status,
 						timestamp: moment(item.timestamp, 'X').fromNow(),
-					})
+					}, null, { escape: false, sanitize: false })
 				} else {
 					subText = status
 				}
