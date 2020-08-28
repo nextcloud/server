@@ -56,7 +56,7 @@ class Jail extends Wrapper {
 	}
 
 	public function getUnjailedPath($path) {
-		return Filesystem::normalizePath($this->rootPath . '/' . $path);
+		return trim(Filesystem::normalizePath($this->rootPath . '/' . $path), '/');
 	}
 
 	/**
