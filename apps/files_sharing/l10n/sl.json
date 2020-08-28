@@ -75,7 +75,7 @@
     "You shared {file} with {user}" : "Omogočite souporabo datoteke {file} z uporabnikom {user}",
     "You removed yourself from {file}" : "Sami sebe odstranite z datoteke {file}",
     "{actor} removed themselves from {file}" : "{actor} se odstrani z datoteke {file}",
-    "{actor} shared {file} with you" : "{actor} vam omogoča souporabo {file}",
+    "{actor} shared {file} with you" : "{actor} vam omogoči souporabo {file}",
     "{actor} removed you from the share named {file}" : "{actor} vas odstrani s souporabe datoteke {file}",
     "A file or folder shared by mail or by public link was <strong>downloaded</strong>" : "Datoteko oziroma mapo v souporabi prek elektronske pošte oziroma javne povezave je uporabnik <strong>prejel na svoj krajevni disk</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Datoteka ali mapa je bila dodana v souporabo prek <strong>drugega strežnika</strong>",
