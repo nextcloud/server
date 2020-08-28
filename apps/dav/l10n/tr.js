@@ -40,6 +40,7 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "{calendar} takvimi listesindeki {todo} yapılacak işini tamamladınız",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor}, {calendar} takvimi listesindeki {todo} yapılacak işini yeniden başlattı",
     "You reopened todo {todo} in list {calendar}" : "{calendar} takvimi listesindeki {todo} yapılacak işini yeniden başlattınız",
+    "Calendar and tasks" : "Takvim ve görevler",
     "A <strong>calendar</strong> was modified" : "Bir <strong>takvim</strong> düzenlendi",
     "A calendar <strong>event</strong> was modified" : "Bir takvim <strong>etkinliği</strong> düzenlendi",
     "A calendar <strong>todo</strong> was modified" : "Bir takvim <strong>yapılacak işi</strong> düzenlendi",

@@ -40,6 +40,7 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Vostede resolveu os asuntos pendentes {todo} na lista {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} volveu abrir os asuntos pendentes {todo} na lista {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Vostede volveu abrir os asuntos pendentes {todo} na lista {calendar}",
+    "Calendar and tasks" : "Calendario e tarefas",
     "A <strong>calendar</strong> was modified" : "Foi modificado un <strong>calendario</strong>",
     "A calendar <strong>event</strong> was modified" : "Foi modificado un <strong>evento</strong> do calendario",
     "A calendar <strong>todo</strong> was modified" : "Foi modificado un <strong>asunto pendente</strong> do calendario",
