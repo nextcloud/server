@@ -106,7 +106,7 @@ class Manager implements IManager {
 			return $this->sections[$type];
 		}
 
-		foreach ($this->sectionClasses[$type] as $index => $class) {
+		foreach (array_unique($this->sectionClasses[$type]) as $index => $class) {
 			try {
 				/** @var ISection $section */
 				$section = \OC::$server->query($class);
@@ -123,7 +123,7 @@ class Manager implements IManager {
 			$sectionID = $section->getID();
 
 			if (isset($this->sections[$type][$sectionID])) {
-				$this->log->logException(new \InvalidArgumentException('Section with the same ID already registered'), ['level' => ILogger::INFO]);
+				$this->log->logException(new \InvalidArgumentException('Section with the same ID already registered: ' . $sectionID . ', class: ' . $class), ['level' => ILogger::INFO]);
 				continue;
 			}
 
