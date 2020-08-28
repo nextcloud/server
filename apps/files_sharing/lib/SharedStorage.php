@@ -244,57 +244,55 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	}
 
 	public function fopen($path, $mode) {
-		if ($source = $this->getUnjailedPath($path)) {
-			switch ($mode) {
-				case 'r+':
-				case 'rb+':
-				case 'w+':
-				case 'wb+':
-				case 'x+':
-				case 'xb+':
-				case 'a+':
-				case 'ab+':
-				case 'w':
-				case 'wb':
-				case 'x':
-				case 'xb':
-				case 'a':
-				case 'ab':
-					$creatable = $this->isCreatable(dirname($path));
-					$updatable = $this->isUpdatable($path);
-					// if neither permissions given, no need to continue
-					if (!$creatable && !$updatable) {
-						if (pathinfo($path, PATHINFO_EXTENSION) === 'part') {
-							$updatable = $this->isUpdatable(dirname($path));
-						}
-
-						if (!$updatable) {
-							return false;
-						}
+		$source = $this->getUnjailedPath($path);
+		switch ($mode) {
+			case 'r+':
+			case 'rb+':
+			case 'w+':
+			case 'wb+':
+			case 'x+':
+			case 'xb+':
+			case 'a+':
+			case 'ab+':
+			case 'w':
+			case 'wb':
+			case 'x':
+			case 'xb':
+			case 'a':
+			case 'ab':
+				$creatable = $this->isCreatable(dirname($path));
+				$updatable = $this->isUpdatable($path);
+				// if neither permissions given, no need to continue
+				if (!$creatable && !$updatable) {
+					if (pathinfo($path, PATHINFO_EXTENSION) === 'part') {
+						$updatable = $this->isUpdatable(dirname($path));
 					}
 
-					$exists = $this->file_exists($path);
-					// if a file exists, updatable permissions are required
-					if ($exists && !$updatable) {
+					if (!$updatable) {
 						return false;
 					}
+				}
 
-					// part file is allowed if !$creatable but the final file is $updatable
-					if (pathinfo($path, PATHINFO_EXTENSION) !== 'part') {
-						if (!$exists && !$creatable) {
-							return false;
-						}
+				$exists = $this->file_exists($path);
+				// if a file exists, updatable permissions are required
+				if ($exists && !$updatable) {
+					return false;
+				}
+
+				// part file is allowed if !$creatable but the final file is $updatable
+				if (pathinfo($path, PATHINFO_EXTENSION) !== 'part') {
+					if (!$exists && !$creatable) {
+						return false;
 					}
-			}
-			$info = [
-				'target' => $this->getMountPoint() . $path,
-				'source' => $source,
-				'mode' => $mode,
-			];
-			\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'fopen', $info);
-			return $this->nonMaskedStorage->fopen($this->getUnjailedPath($path), $mode);
+				}
 		}
-		return false;
+		$info = [
+			'target' => $this->getMountPoint() . $path,
+			'source' => $source,
+			'mode' => $mode,
+		];
+		\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'fopen', $info);
+		return $this->nonMaskedStorage->fopen($this->getUnjailedPath($path), $mode);
 	}
 
 	/**
