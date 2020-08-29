@@ -20,10 +20,6 @@ const config = {
 					'webdav',
 				]),
 			},
-			{
-				test: /\.(png|jpg|gif|svg)$/,
-				loader: 'url-loader',
-			},
 		],
 	},
 	plugins: [
