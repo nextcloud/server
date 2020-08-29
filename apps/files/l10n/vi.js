@@ -68,8 +68,6 @@ OC.L10N.register(
     "\"{name}\" is not an allowed filetype" : "\"{name}\" không phải là loại tập tin được cho phép",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Dung lượng của {owner} đã hết, không thể tải hay đồng bộ dữ liệu mới!",
     "Your storage is full, files can not be updated or synced anymore!" : "Your storage is full, files can not be updated or synced anymore!",
-    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Dung lượng của {owner} gần hết ({usedSpacePercent}%)",
-    "Your storage is almost full ({usedSpacePercent}%)" : "Your storage is almost full ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["khớp '{filter}'"],
     "View in folder" : "Xem trong thư mục",
     "Copied!" : "Đã sao chép!",
@@ -136,6 +134,8 @@ OC.L10N.register(
     "Shared by link" : "Được chia sẻ bởi liên kết",
     "Text file" : "Tập tin văn bản",
     "Unshare" : "Bỏ chia sẻ",
+    "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Dung lượng của {owner} gần hết ({usedSpacePercent}%)",
+    "Your storage is almost full ({usedSpacePercent}%)" : "Your storage is almost full ({usedSpacePercent}%)",
     "A file or folder has been <strong>deleted</strong>" : "Tệp hoặc thư mục đã bị <strong>xóa</strong>",
     "A file or folder has been <strong>restored</strong>" : "Tệp hoặc thư mục đã được <strong>khôi phục</strong>"
 },
