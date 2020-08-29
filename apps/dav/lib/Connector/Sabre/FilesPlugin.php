@@ -50,6 +50,8 @@ use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use OC\Files\Stream\HashWrapper;
+use OCA\Files_External\Config\ExternalMountPoint;
 
 class FilesPlugin extends ServerPlugin {
 
@@ -398,7 +400,11 @@ class FilesPlugin extends ServerPlugin {
 			$propFind->handle(self::CHECKSUMS_PROPERTYNAME, function () use ($node) {
 				$checksum = $node->getChecksum();
 				if ($checksum === null || $checksum === '') {
-					return null;
+					if ($node->getFileInfo()->getMountPoint() instanceof ExternalMountPoint) {
+						return null;
+					} else {
+						$checksum = $this->generateLocalFileChecksum($node);
+					}
 				}
 
 				return new ChecksumList($checksum);
@@ -514,5 +520,24 @@ class FilesPlugin extends ServerPlugin {
 				$this->server->httpResponse->setHeader('OC-FileId', $fileId);
 			}
 		}
+	}
+
+	private function generateLocalFileChecksum(\OCA\DAV\Connector\Sabre\File $node): string {
+		$fileStorage = $node->getFileInfo()->getStorage();
+		$source = $fileStorage->fopen($node->getFileInfo()->getInternalPath(),'r');
+		fseek($source, 0);
+
+		$obtainedHash = "";
+		$callback = function ($hash) use (&$obtainedHash) {
+			$obtainedHash = $hash;
+		};
+
+		$stream = HashWrapper::wrap($source, "sha256", $callback);
+
+		while (feof($stream) === false) {
+			fread($stream, 200);
+		}
+		fclose($stream);
+		return $obtainedHash;
 	}
 }
