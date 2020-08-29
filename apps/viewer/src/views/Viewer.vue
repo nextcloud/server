@@ -102,22 +102,25 @@
 </template>
 
 <script>
-import { getRootPath } from '../utils/davUtils'
+import Vue from 'vue'
+
+import '@nextcloud/dialogs/styles/toast.scss'
+import { showError } from '@nextcloud/dialogs'
+
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import isFullscreen from '@nextcloud/vue/dist/Mixins/isFullscreen'
 import isMobile from '@nextcloud/vue/dist/Mixins/isMobile'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
-import Vue from 'vue'
 
 import { extractFilePaths, sortCompare } from '../utils/fileUtils'
+import { getRootPath } from '../utils/davUtils'
+import cancelableRequest from '../utils/CancelableRequest'
 import Error from '../components/Error'
 import File from '../models/file'
-import Mime from '../mixins/Mime'
-import getFileList from '../services/FileList'
-import getFileInfo from '../services/FileInfo'
 import filesActionHandler from '../services/FilesActionHandler'
-
-import cancelableRequest from '../utils/CancelableRequest'
+import getFileInfo from '../services/FileInfo'
+import getFileList from '../services/FileList'
+import Mime from '../mixins/Mime'
 
 export default {
 	name: 'Viewer',
@@ -341,6 +344,14 @@ export default {
 				// get original mime
 				let mime = fileInfo.mime
 
+				// if we don't have a handler for this mime, abort
+				if (!(mime in this.components)) {
+					console.error('The following file could not be displayed', fileName, fileInfo)
+					showError(t('viewer', 'There is no plugin available to display this file type'))
+					this.close()
+					return
+				}
+
 				// check if part of a group, if so retrieve full files list
 				const group = this.mimeGroups[mime]
 				if (this.files && this.files.length > 0) {
@@ -381,14 +392,9 @@ export default {
 					mime = mime.split('/')[0]
 				}
 
-				// if we have a valid mime, show it!
-				if (this.components[mime]) {
-					this.currentFile = new File(fileInfo, mime, this.components[mime])
-					this.updatePreviousNext()
-				} else {
-					console.error('The following file could not be displayed', fileName, fileInfo)
-					this.close()
-				}
+				// show file
+				this.currentFile = new File(fileInfo, mime, this.components[mime])
+				this.updatePreviousNext()
 
 				// if sidebar was opened before, let's update the file
 				this.changeSidebar()
