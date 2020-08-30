@@ -40,6 +40,7 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Du hast die Aufgabe {todo} in der Liste {calendar} erledigt",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} hat die Aufgabe {todo} in der Liste {calendar} wiedereröffnet",
     "You reopened todo {todo} in list {calendar}" : "Du hast die Aufgabe {todo} in der Liste {calendar} wiedereröffnet",
+    "Calendar and tasks" : "Kalender und Aufgaben",
     "A <strong>calendar</strong> was modified" : "Ein <strong>Kalender</strong> wurde bearbeitet",
     "A calendar <strong>event</strong> was modified" : "Ein Kalender-<strong>Termin</strong> wurde bearbeitet",
     "A calendar <strong>todo</strong> was modified" : "Eine Kalender-<strong>Aufgabe</strong> wurde bearbeitet",
