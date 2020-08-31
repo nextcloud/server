@@ -103,8 +103,12 @@ class DashboardController extends Controller {
 				'url' => $widget->getUrl()
 			];
 		}, $this->dashboardManager->getWidgets());
-		$configStatuses = $this->config->getUserValue($this->userId, 'dashboard', 'statuses', '{}');
+		$configStatuses = $this->config->getUserValue($this->userId, 'dashboard', 'statuses', '');
 		$statuses = json_decode($configStatuses, true);
+		// We avoid getting an empty array as it will not produce an object in UI's JS
+		// It does not matter if some statuses are missing from the array, missing ones are considered enabled
+		$statuses = ($statuses && count($statuses) > 0) ? $statuses : ['weather' => true];
+
 		$this->inititalStateService->provideInitialState('dashboard', 'panels', $widgets);
 		$this->inititalStateService->provideInitialState('dashboard', 'statuses', $statuses);
 		$this->inititalStateService->provideInitialState('dashboard', 'layout', $userLayout);
