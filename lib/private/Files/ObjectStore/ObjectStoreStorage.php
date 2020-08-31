@@ -463,11 +463,22 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				$this->objectStore->writeObject($urn, $stream);
 			}
 		} catch (\Exception $ex) {
-			$this->getCache()->remove($uploadPath);
-			$this->logger->logException($ex, [
-				'app' => 'objectstore',
-				'message' => 'Could not create object ' . $urn . ' for ' . $path,
-			]);
+			if (!$exists) {
+				/*
+				 * Only remove the entry if we are dealing with a new file.
+				 * Else people lose access to existing files
+				 */
+				$this->getCache()->remove($uploadPath);
+				$this->logger->logException($ex, [
+					'app' => 'objectstore',
+					'message' => 'Could not create object ' . $urn . ' for ' . $path,
+				]);
+			} else {
+				$this->logger->logException($ex, [
+					'app' => 'objectstore',
+					'message' => 'Could not update object ' . $urn . ' for ' . $path,
+				]);
+			}
 			throw $ex; // make this bubble up
 		}
 
