@@ -441,7 +441,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 		$exists = $this->getCache()->inCache($path);
 		$uploadPath = $exists ? $path : $path . '.part';
-		$fileId = $this->getCache()->put($uploadPath, $stat);
+
+		if ($exists) {
+			$fileId = $stat['fileid'];
+		} else {
+			$fileId = $this->getCache()->put($uploadPath, $stat);
+		}
+
 		$urn = $this->getURN($fileId);
 		try {
 			//upload to object storage
@@ -456,19 +462,33 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				if (is_resource($countStream)) {
 					fclose($countStream);
 				}
+				$stat['size'] = $size;
 			} else {
 				$this->objectStore->writeObject($urn, $stream);
 			}
 		} catch (\Exception $ex) {
-			$this->getCache()->remove($uploadPath);
-			$this->logger->logException($ex, [
-				'app' => 'objectstore',
-				'message' => 'Could not create object ' . $urn . ' for ' . $path,
-			]);
+			if (!$exists) {
+				/*
+				 * Only remove the entry if we are dealing with a new file.
+				 * Else people lose access to existing files
+				 */
+				$this->getCache()->remove($uploadPath);
+				$this->logger->logException($ex, [
+					'app' => 'objectstore',
+					'message' => 'Could not create object ' . $urn . ' for ' . $path,
+				]);
+			} else {
+				$this->logger->logException($ex, [
+					'app' => 'objectstore',
+					'message' => 'Could not update object ' . $urn . ' for ' . $path,
+				]);
+			}
 			throw $ex; // make this bubble up
 		}
 
-		if (!$exists) {
+		if ($exists) {
+			$this->getCache()->update($fileId, $stat);
+		} else {
 			if ($this->objectStore->objectExists($urn)) {
 				$this->getCache()->move($uploadPath, $path);
 			} else {
