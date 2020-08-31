@@ -32,14 +32,14 @@ use Test\TestCase;
 class PhpDefaultCharsetTest extends TestCase {
 	public function testPass(): void {
 		$check = new PhpDefaultCharset();
-		$this->assertTrue($check->run());
+		$this->assertTrue($check->passes());
 	}
 
 	public function testFail(): void {
 		ini_set('default_charset', 'ISO-8859-15');
 
 		$check = new PhpDefaultCharset();
-		$this->assertFalse($check->run());
+		$this->assertFalse($check->passes());
 
 		ini_restore('default_charset');
 	}

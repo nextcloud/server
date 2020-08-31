@@ -465,6 +465,7 @@ return array(
     'OCP\\Settings\\ISection' => $baseDir . '/lib/public/Settings/ISection.php',
     'OCP\\Settings\\ISettings' => $baseDir . '/lib/public/Settings/ISettings.php',
     'OCP\\Settings\\ISubAdminSettings' => $baseDir . '/lib/public/Settings/ISubAdminSettings.php',
+    'OCP\\Settings\\SetupChecks\\ISetupCheck' => $baseDir . '/lib/public/Settings/SetupChecks/ISetupCheck.php',
     'OCP\\Share' => $baseDir . '/lib/public/Share.php',
     'OCP\\Share\\Events\\ShareCreatedEvent' => $baseDir . '/lib/public/Share/Events/ShareCreatedEvent.php',
     'OCP\\Share\\Events\\VerifyMountPointEvent' => $baseDir . '/lib/public/Share/Events/VerifyMountPointEvent.php',

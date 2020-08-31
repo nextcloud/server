@@ -37,6 +37,6 @@ class PhpOutputBufferingTest extends TestCase {
 
 	public function testPass(): void {
 		$check = new PhpOutputBuffering();
-		$this->assertTrue($check->run());
+		$this->assertTrue($check->passes());
 	}
 }

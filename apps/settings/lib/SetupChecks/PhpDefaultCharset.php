@@ -26,16 +26,22 @@ declare(strict_types=1);
 
 namespace OCA\Settings\SetupChecks;
 
-class PhpDefaultCharset {
+use OCP\Settings\SetupChecks\ISetupCheck;
+
+class PhpDefaultCharset implements ISetupCheck {
 	public function description(): string {
 		return 'PHP configuration option default_charset should be UTF-8';
 	}
 
 	public function severity(): string {
-		return 'warning';
+		return ISetupCheck::SEVERITY_WARNING;
 	}
 
-	public function run(): bool {
+	public function passes(): bool {
 		return strtoupper(trim(ini_get('default_charset'))) === 'UTF-8';
+	}
+
+	public function linkToDocumentation(): ?string {
+		return null;
 	}
 }

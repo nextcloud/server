@@ -29,8 +29,9 @@ namespace OCA\Settings\SetupChecks;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\Settings\SetupChecks\ISetupCheck;
 
-class LegacySSEKeyFormat {
+class LegacySSEKeyFormat implements ISetupCheck {
 	/** @var IL10N */
 	private $l10n;
 	/** @var IConfig */
@@ -49,14 +50,14 @@ class LegacySSEKeyFormat {
 	}
 
 	public function severity(): string {
-		return 'warning';
+		return ISetupCheck::SEVERITY_WARNING;
 	}
 
-	public function run(): bool {
+	public function passes(): bool {
 		return $this->config->getSystemValueBool('encryption.legacy_format_support', false) === false;
 	}
 
-	public function linkToDocumentation(): string {
+	public function linkToDocumentation(): ?string {
 		return $this->urlGenerator->linkToDocs('admin-sse-legacy-format');
 	}
 }

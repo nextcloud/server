@@ -70,6 +70,8 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\Lock\ILockingProvider;
 use OCP\Security\ISecureRandom;
+use OCP\Settings\SetupChecks\ISetupCheck;
+use Psr\Container\ContainerExceptionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -688,9 +690,12 @@ Raw output
 	 * @return DataResponse
 	 */
 	public function check() {
-		$phpDefaultCharset = new PhpDefaultCharset();
-		$phpOutputBuffering = new PhpOutputBuffering();
-		$legacySSEKeyFormat = new LegacySSEKeyFormat($this->l10n, $this->config, $this->urlGenerator);
+		$newChecks = $this->runSetupChecks([
+			PhpDefaultCharset::class,
+			PhpOutputBuffering::class,
+			LegacySSEKeyFormat::class
+		]);
+
 		return new DataResponse(
 			[
 				'isGetenvServerWorking' => !empty(getenv('PATH')),
@@ -731,10 +736,30 @@ Raw output
 				'isMysqlUsedWithoutUTF8MB4' => $this->isMysqlUsedWithoutUTF8MB4(),
 				'isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed' => $this->isEnoughTempSpaceAvailableIfS3PrimaryStorageIsUsed(),
 				'reverseProxyGeneratedURL' => $this->urlGenerator->getAbsoluteURL('index.php'),
-				PhpDefaultCharset::class => ['pass' => $phpDefaultCharset->run(), 'description' => $phpDefaultCharset->description(), 'severity' => $phpDefaultCharset->severity()],
-				PhpOutputBuffering::class => ['pass' => $phpOutputBuffering->run(), 'description' => $phpOutputBuffering->description(), 'severity' => $phpOutputBuffering->severity()],
-				LegacySSEKeyFormat::class => ['pass' => $legacySSEKeyFormat->run(), 'description' => $legacySSEKeyFormat->description(), 'severity' => $legacySSEKeyFormat->severity(), 'linkToDocumentation' => $legacySSEKeyFormat->linkToDocumentation()],
-			]
+			] + $newChecks
 		);
+	}
+
+	protected function runSetupChecks(array $checks): array {
+		$result = [];
+
+		foreach ($checks as $check) {
+			try {
+				/** @var ISetupCheck $instance */
+				$instance = \OC::$server->get($check);
+			} catch (ContainerExceptionInterface $e) {
+				$this->logger->logException($e);
+				continue;
+			}
+
+			$result[$check] = [
+				'pass' => $instance->passes(),
+				'description' => $instance->description(),
+				'severity' => $instance->severity(),
+				'linkToDocumentation' => $instance->linkToDocumentation(),
+			];
+		}
+
+		return $result;
 	}
 }

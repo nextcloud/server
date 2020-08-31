@@ -26,17 +26,23 @@ declare(strict_types=1);
 
 namespace OCA\Settings\SetupChecks;
 
-class PhpOutputBuffering {
+use OCP\Settings\SetupChecks\ISetupCheck;
+
+class PhpOutputBuffering implements ISetupCheck {
 	public function description(): string {
 		return 'PHP configuration option output_buffering must be disabled';
 	}
 
 	public function severity(): string {
-		return 'error';
+		return ISetupCheck::SEVERITY_ERROR;
 	}
 
-	public function run(): bool {
+	public function passes(): bool {
 		$value = trim(ini_get('output_buffering'));
 		return $value === '' || $value === '0';
+	}
+
+	public function linkToDocumentation(): ?string {
+		return null;
 	}
 }
