@@ -38,15 +38,15 @@
 					:key="status.type"
 					:icon="status.icon"
 					:close-after-click="true"
+					:title="status.label"
 					@click.prevent.stop="changeStatus(status.type)">
-					{{ status.label }}
+					{{ status.subline }}
 				</ActionButton>
 				<ActionButton
 					icon="icon-rename"
 					:close-after-click="true"
-					@click.prevent.stop="openModal">
-					{{ $t('user_status', 'Set custom status') }}
-				</ActionButton>
+					:title="$t('user_status', 'Set custom status')"
+					@click.prevent.stop="openModal" />
 			</Actions>
 			<SetStatusModal
 				v-if="isModalOpen"
