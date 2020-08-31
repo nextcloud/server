@@ -444,7 +444,13 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 		$exists = $this->getCache()->inCache($path);
 		$uploadPath = $exists ? $path : $path . '.part';
-		$fileId = $this->getCache()->put($uploadPath, $stat);
+
+		if ($exists) {
+			$fileId = $stat['fileid'];
+		} else {
+			$fileId = $this->getCache()->put($uploadPath, $stat);
+		}
+
 		$urn = $this->getURN($fileId);
 		try {
 			//upload to object storage
@@ -459,6 +465,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				if (is_resource($countStream)) {
 					fclose($countStream);
 				}
+				$stat['size'] = $size;
 			} else {
 				$this->objectStore->writeObject($urn, $stream);
 			}
@@ -482,7 +489,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			throw $ex; // make this bubble up
 		}
 
-		if (!$exists) {
+		if ($exists) {
+			$this->getCache()->update($fileId, $stat);
+		} else {
 			if ($this->objectStore->objectExists($urn)) {
 				$this->getCache()->move($uploadPath, $path);
 			} else {
