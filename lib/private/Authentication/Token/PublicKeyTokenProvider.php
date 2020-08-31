@@ -419,6 +419,7 @@ class PublicKeyTokenProvider implements IProvider {
 		foreach ($tokens as $t) {
 			$publicKey = $t->getPublicKey();
 			$t->setPassword($this->encryptPassword($password, $publicKey));
+			$t->setPasswordInvalid(false);
 			$this->updateToken($t);
 		}
 	}

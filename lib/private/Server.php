@@ -62,6 +62,7 @@ use OC\App\AppStore\Fetcher\CategoryFetcher;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Authentication\Listeners\UserLoggedInListener;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
 use OC\Avatar\AvatarManager;
@@ -181,6 +182,7 @@ use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -1378,6 +1380,10 @@ class Server extends ServerContainer implements IServerContainer {
 				// no avatar to remove
 			}
 		});
+
+		/** @var IEventDispatcher $eventDispatched */
+		$eventDispatched = $this->query(IEventDispatcher::class);
+		$eventDispatched->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
 	}
 
 	/**
