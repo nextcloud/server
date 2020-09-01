@@ -139,24 +139,23 @@
 				target="_blank"
 				rel="noreferrer noopener">{{ t('settings', 'Developer documentation') }} ↗</a>
 		</p>
-
-		<div class="app-details__description" v-html="renderMarkdown" />
+		<Markdown class="app-details__description" :text="app.description" />
 	</div>
 </template>
 
 <script>
 import { Multiselect } from '@nextcloud/vue'
-import marked from 'marked'
-import dompurify from 'dompurify'
 
 import AppManagement from '../mixins/AppManagement'
 import PrefixMixin from './PrefixMixin'
+import Markdown from './Markdown'
 
 export default {
 	name: 'AppDetails',
 
 	components: {
 		Multiselect,
+		Markdown,
 	},
 	mixins: [AppManagement, PrefixMixin],
 
@@ -203,66 +202,6 @@ export default {
 			return this.$store.getters.getGroups
 				.filter(group => group.id !== 'disabled')
 				.sort((a, b) => a.name.localeCompare(b.name))
-		},
-		renderMarkdown() {
-			const renderer = new marked.Renderer()
-			renderer.link = function(href, title, text) {
-				let prot
-				try {
-					prot = decodeURIComponent(unescape(href))
-						.replace(/[^\w:]/g, '')
-						.toLowerCase()
-				} catch (e) {
-					return ''
-				}
-
-				if (prot.indexOf('http:') !== 0 && prot.indexOf('https:') !== 0) {
-					return ''
-				}
-
-				let out = '<a href="' + href + '" rel="noreferrer noopener"'
-				if (title) {
-					out += ' title="' + title + '"'
-				}
-				out += '>' + text + '</a>'
-				return out
-			}
-			renderer.image = function(href, title, text) {
-				if (text) {
-					return text
-				}
-				return title
-			}
-			renderer.blockquote = function(quote) {
-				return quote
-			}
-			return dompurify.sanitize(
-				marked(this.app.description.trim(), {
-					renderer,
-					gfm: false,
-					highlight: false,
-					tables: false,
-					breaks: false,
-					pedantic: false,
-					sanitize: true,
-					smartLists: true,
-					smartypants: false,
-				}),
-				{
-					SAFE_FOR_JQUERY: true,
-					ALLOWED_TAGS: [
-						'strong',
-						'p',
-						'a',
-						'ul',
-						'ol',
-						'li',
-						'em',
-						'del',
-						'blockquote',
-					],
-				}
-			)
 		},
 	},
 	mounted() {
