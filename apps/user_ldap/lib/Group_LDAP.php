@@ -170,7 +170,10 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 				if (count($filterParts) > 0) {
 					$filter = $this->access->combineFilterWithOr($filterParts);
 					$users = $this->access->fetchListOfUsers($filter, $requestAttributes, count($filterParts));
-					$dns = array_merge($dns, $users);
+					$user_dns = array_map(function ($user) {
+						return $user["dn"][0];
+					}, $users);
+					$dns = array_merge($dns, $user_dns);
 				}
 				$members = $dns;
 				break;
