@@ -33,6 +33,7 @@ use Aws\S3\ObjectUploader;
 use Aws\S3\S3Client;
 use Icewind\Streams\CallbackWrapper;
 use OC\Files\Stream\SeekableHttpStream;
+use OC\Files\Stream\HashWrapper;
 
 trait S3ObjectTrait {
 	/**
@@ -86,11 +87,22 @@ trait S3ObjectTrait {
 		$countStream = CallbackWrapper::wrap($stream, function ($read) use (&$count) {
 			$count += $read;
 		});
-
+		$tempFile = $this->copyFile($stream);
+		$exifData = $this->extractExifData($tempFile,$urn);
+		$this->checksum = $this->generateSha256($tempFile);
+		$checksumLocal = $this->checksum;
+		unlink($tempFile);
 		$uploader = new MultipartUploader($this->getConnection(), $countStream, [
 			'bucket' => $this->bucket,
 			'key' => $urn,
 			'part_size' => $this->uploadPartSize,
+			'before_initiate' => function (\Aws\Command $command) use ($checksumLocal, $exifData) {
+				if (empty($command['Metadata'])) {
+					$command['Metadata'] = [];
+				}
+				$command['Metadata']['nextcloud-sha256'] = $checksumLocal;
+				$command['Metadata']['nextcloud-exif'] = $exifData;
+			}
 		]);
 
 		try {
@@ -104,8 +116,53 @@ trait S3ObjectTrait {
 				throw $e;
 			}
 		}
-
+	
 		fclose($countStream);
+	}
+	
+	private function copyFile($stream): string {
+		$tempFile = tempnam('/tmp','nextcloud');
+		$tempStream = fopen($tempFile,'w+');
+		$count = stream_copy_to_stream($stream, $tempStream);
+		fclose($tempStream);
+		fseek($stream,0);
+		return $tempFile;
+	}
+
+	private function generateSha256($tempFile): string {
+		$tempStream = fopen($tempFile,'r');
+
+		$obtainedHash = "";
+		$callback = function ($hash) use (&$obtainedHash) {
+			$obtainedHash = $hash;
+		};
+
+		$tempStream = HashWrapper::wrap($tempStream, "sha256", $callback);
+
+		while (feof($tempStream) === false) {
+			fread($tempStream, 200);
+		}
+		fclose($tempStream);
+		return $obtainedHash;
+	}
+	
+	private function extractExifData($tempFile,$fileName): string {
+		$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($fileName);
+		if (in_array($mimeType, ['image/jpeg'])) {
+			$tempStream = fopen($tempFile,'r');
+			$metadata = exif_read_data($tempStream);
+			fclose($tempStream);
+			$metadata = [
+				'DateTimeOriginal' => $metadata['DateTimeOriginal'],
+				'GPSLatitude' => implode('-',$metadata['GPSLatitude']),
+				'GPSLongitude' => implode('-',$metadata['GPSLongitude']),
+				'GPSLatitudeRef' => $metadata['GPSLatitudeRef'],
+				'GPSLongitudeRef' => $metadata['GPSLongitudeRef']
+			];
+
+			$result = json_encode($metadata);
+			return $result;
+		}
 	}
 
 	/**

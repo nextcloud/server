@@ -339,8 +339,10 @@ class File extends Node implements IFile {
 				$this->fileView->putFileInfo($this->path, ['checksum' => $checksum]);
 				$this->refreshInfo();
 			} elseif ($this->getChecksum() !== null && $this->getChecksum() !== '') {
-				$this->fileView->putFileInfo($this->path, ['checksum' => '']);
-				$this->refreshInfo();
+				if (!$this->fileView->getMount($partFilePath)->getStorage()->instanceOfStorage('OCA\Files_External\Lib\Storage\AmazonS3')) {
+					$this->fileView->putFileInfo($this->path, ['checksum' => '']);
+					$this->refreshInfo();
+				}
 			}
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage(), 0, $e);

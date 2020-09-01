@@ -68,6 +68,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	/** @var CappedMemoryCache|array */
 	private $filesCache;
 
+	/** @var String */
+	private $checksum;
+
 	public function __construct($parameters) {
 		parent::__construct($parameters);
 		$this->parseParams($parameters);
@@ -673,6 +676,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$source = fopen($tmpFile, 'r');
 			$this->writeObject($path, $source);
 			$this->invalidateCache($path);
+	  
+			$cache = $this->getCache();
+			$this->getUpdater()->update($path);
+			$cache->put($path,["checksum" => $this->checksum]);
+
 
 			unlink($tmpFile);
 			return true;
