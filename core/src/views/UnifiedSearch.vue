@@ -416,15 +416,20 @@ export default {
 		 */
 		focusNext(event) {
 			if (this.focused === null) {
-				this.focusFirst()
+				this.focusFirst(event)
 				return
 			}
 
 			const results = this.getResultsList()
 			// If we're not focusing the last, focus the next one
-			if (results && results.length > 0 && this.focused + 1 < results.length) {
+			if (results && results.length > 0) {
 				event.preventDefault()
-				this.focused++
+				if (this.focused + 1 >= results.length) {
+					// When we are out of scope, reset the focus to the last item
+					this.focused = results.length - 1
+				} else {
+					this.focused++
+				}
 				this.focusIndex(this.focused)
 			}
 		},
@@ -443,7 +448,12 @@ export default {
 			// If we're not focusing the first, focus the previous one
 			if (results && results.length > 0 && this.focused > 0) {
 				event.preventDefault()
-				this.focused--
+				if (this.focused > results.length) {
+					// When we are out of scope, reset the focus to the last item
+					this.focused = results.length - 1
+				} else {
+					this.focused--
+				}
 				this.focusIndex(this.focused)
 			}
 
