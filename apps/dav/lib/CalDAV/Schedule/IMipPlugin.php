@@ -3,7 +3,6 @@
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2017, Georg Ehrke
  *
- * @author brad2014 <brad2014@users.noreply.github.com>
  * @author Brad Rubenstein <brad@wbr.tech>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Georg Ehrke <oc.list@georgehrke.com>
@@ -242,8 +241,7 @@ class IMipPlugin extends SabreIMipPlugin {
 
 		$summary = ((string) $summary !== '') ? (string) $summary : $l10n->t('Untitled event');
 
-		$this->addSubjectAndHeading($template, $l10n, $method, $summary,
-			$meetingAttendeeName, $meetingInviteeName);
+		$this->addSubjectAndHeading($template, $l10n, $method, $summary);
 		$this->addBulletList($template, $l10n, $vevent);
 
 
@@ -402,20 +400,19 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param VEvent $vevent
 	 */
 	private function generateWhenString(IL10N $l10n, VEvent $vevent) {
-
 		$dtstart = $vevent->DTSTART;
 		if (isset($vevent->DTEND)) {
 			$dtend = $vevent->DTEND;
 		} elseif (isset($vevent->DURATION)) {
 			$isFloating = $vevent->DTSTART->isFloating();
 			$dtend = clone $vevent->DTSTART;
-			$endDateTime = $end->getDateTime();
+			$endDateTime = $dtend->getDateTime();
 			$endDateTime = $endDateTime->add(DateTimeParser::parse($vevent->DURATION->getValue()));
 			$dtend->setDateTime($endDateTime, $isFloating);
 		} elseif (!$vevent->DTSTART->hasTime()) {
 			$isFloating = $vevent->DTSTART->isFloating();
 			$dtend = clone $vevent->DTSTART;
-			$endDateTime = $end->getDateTime();
+			$endDateTime = $dtend->getDateTime();
 			$endDateTime = $endDateTime->modify('+1 day');
 			$dtend->setDateTime($endDateTime, $isFloating);
 		} else {
@@ -526,7 +523,6 @@ class IMipPlugin extends SabreIMipPlugin {
 	 * @param VEVENT $vevent
 	 */
 	private function addBulletList(IEMailTemplate $template, IL10N $l10n, $vevent) {
-
 		if ($vevent->SUMMARY) {
 			$template->addBodyListItem($vevent->SUMMARY, $l10n->t('Title:'),
 				$this->getAbsoluteImagePath('caldav/title.svg'),'','',self::IMIP_INDENT);
@@ -541,19 +537,20 @@ class IMipPlugin extends SabreIMipPlugin {
 				$this->getAbsoluteImagePath('caldav/location.svg'),'','',self::IMIP_INDENT);
 		}
 		if ($vevent->URL) {
+			$url = $vevent->URL->getValue();
 			$template->addBodyListItem(sprintf('<a href="%s">%s</a>',
-					htmlspecialchars($vevent->URL),
-					htmlspecialchars($vevent->URL)),
+					htmlspecialchars($url),
+					htmlspecialchars($url)),
 				$l10n->t('Link:'),
 				$this->getAbsoluteImagePath('caldav/link.svg'),
-				$vevent->URL,'',self::IMIP_INDENT);
+				$url,'',self::IMIP_INDENT);
 		}
 
 		$this->addAttendees($template, $l10n, $vevent);
 
 		/* Put description last, like an email body, since it can be arbitrarily long */
 		if ($vevent->DESCRIPTION) {
-			$template->addBodyListItem($vevent->DESCRIPTION, $l10n->t('Description:'),
+			$template->addBodyListItem($vevent->DESCRIPTION->getValue(), $l10n->t('Description:'),
 				$this->getAbsoluteImagePath('caldav/description.svg'),'','',self::IMIP_INDENT);
 		}
 	}
@@ -581,18 +578,23 @@ class IMipPlugin extends SabreIMipPlugin {
 		}
 
 		if (isset($vevent->ORGANIZER)) {
+			/** @var Property\ICalendar\CalAddress $organizer */
 			$organizer = $vevent->ORGANIZER;
 			$organizerURI = $organizer->getNormalizedValue();
 			list($scheme,$organizerEmail) = explode(':',$organizerURI,2); # strip off scheme mailto:
+			/** @var string|null $organizerName */
 			$organizerName = isset($organizer['CN']) ? $organizer['CN'] : null;
 			$organizerHTML = sprintf('<a href="%s">%s</a>',
 				htmlspecialchars($organizerURI),
 				htmlspecialchars($organizerName ?: $organizerEmail));
 			$organizerText = sprintf('%s <%s>', $organizerName, $organizerEmail);
-			if (isset($organizer['PARTSTAT'])
-				&& strcasecmp($organizer['PARTSTAT'], 'ACCEPTED') === 0) {
-				$organizerHTML .= ' ✔︎';
-				$organizerText .= ' ✔︎';
+			if (isset($organizer['PARTSTAT'])) {
+				/** @var Parameter $partstat */
+				$partstat = $organizer['PARTSTAT'];
+				if (strcasecmp($partstat->getValue(), 'ACCEPTED') === 0) {
+					$organizerHTML .= ' ✔︎';
+					$organizerText .= ' ✔︎';
+				}
 			}
 			$template->addBodyListItem($organizerHTML, $l10n->t('Organizer:'),
 				$this->getAbsoluteImagePath('caldav/organizer.svg'),

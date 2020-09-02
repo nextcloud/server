@@ -447,21 +447,21 @@ EOF;
 	 * @param string $metaInfo Note: When $plainMetaInfo falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $icon Absolute path, must be 16*16 pixels
 	 * @param string|bool $plainText Text that is used in the plain text email
-	 *   if empty the $text is used, if false none will be used
+	 *   if empty or true the $text is used, if false none will be used
 	 * @param string|bool $plainMetaInfo Meta info that is used in the plain text email
-	 *   if empty the $metaInfo is used, if false none will be used
+	 *   if empty or true the $metaInfo is used, if false none will be used
 	 * @param integer plainIndent If > 0, Indent plainText by this amount.
 	 * @since 12.0.0
 	 */
 	public function addBodyListItem(string $text, string $metaInfo = '', string $icon = '', $plainText = '', $plainMetaInfo = '', $plainIndent = 0) {
 		$this->ensureBodyListOpened();
 
-		if ($plainText === '') {
+		if ($plainText === '' || $plainText === true) {
 			$plainText = $text;
 			$text = htmlspecialchars($text);
 			$text = str_replace("\n", "<br/>", $text); // convert newlines to HTML breaks
 		}
-		if ($plainMetaInfo === '') {
+		if ($plainMetaInfo === '' || $plainMetaInfo === true) {
 			$plainMetaInfo = $metaInfo;
 			$metaInfo = htmlspecialchars($metaInfo);
 		}
@@ -494,8 +494,10 @@ EOF;
 				 * "plainIndent". Multilines after the first are indented plainIndent+1
 				 * (to account for space after label).  Fixes: #12391
 				 */
+				/** @var string $label */
+				$label = ($plainMetaInfo !== false)? $plainMetaInfo : '';
 				$this->plainBody .= sprintf("%${plainIndent}s %s\n",
-					$plainMetaInfo,
+					$label,
 					str_replace("\n", "\n" . str_repeat(' ', $plainIndent+1), $plainText));
 			}
 		}

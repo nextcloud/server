@@ -106,9 +106,10 @@ interface IEMailTemplate {
 	 *   if empty the $text is used, if false none will be used
 	 * @param string|bool $plainMetaInfo Meta info that is used in the plain text email
 	 *   if empty the $metaInfo is used, if false none will be used
+	 * @param integer plainIndent If > 0, Indent plainText by this amount.
 	 * @since 12.0.0
 	 */
-	public function addBodyListItem(string $text, string $metaInfo = '', string $icon = '', $plainText = '', $plainMetaInfo = '');
+	public function addBodyListItem(string $text, string $metaInfo = '', string $icon = '', $plainText = '', $plainMetaInfo = '', $plainIndent = 0);
 
 	/**
 	 * Adds a button group of two buttons to the body of the email
