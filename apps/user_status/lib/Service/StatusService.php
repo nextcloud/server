@@ -341,6 +341,11 @@ class StatusService {
 	 */
 	private function processStatus(UserStatus $status): UserStatus {
 		$clearAt = $status->getClearAt();
+
+		if ($status->getStatusTimestamp() < $this->timeFactory->getTime() - self::INVALIDATE_STATUS_THRESHOLD
+			&& (!$status->getIsUserDefined() || $status->getStatus() === self::ONLINE)) {
+			$this->cleanStatus($status);
+		}
 		if ($clearAt !== null && $clearAt < $this->timeFactory->getTime()) {
 			$this->cleanStatusMessage($status);
 		}
@@ -349,6 +354,17 @@ class StatusService {
 		}
 
 		return $status;
+	}
+
+	/**
+	 * @param UserStatus $status
+	 */
+	private function cleanStatus(UserStatus $status): void {
+		$status->setStatus(self::OFFLINE);
+		$status->setStatusTimestamp($this->timeFactory->getTime());
+		$status->setIsUserDefined(false);
+
+		$this->mapper->update($status);
 	}
 
 	/**

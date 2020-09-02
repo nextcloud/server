@@ -147,11 +147,30 @@ class StatusServiceTest extends TestCase {
 
 	public function testFindAllClearStatus(): void {
 		$status = new UserStatus();
+		$status->setStatus('online');
+		$status->setStatusTimestamp(1000);
+		$status->setIsUserDefined(true);
+
+		$this->timeFactory->method('getTime')
+			->willReturn(1400);
+		$this->mapper->expects($this->once())
+			->method('findByUserId')
+			->with('john.doe')
+			->willReturn($status);
+
+		$this->assertEquals($status, $this->service->findByUserId('john.doe'));
+		$this->assertEquals('offline', $status->getStatus());
+		$this->assertEquals(1400, $status->getStatusTimestamp());
+		$this->assertFalse($status->getIsUserDefined());
+	}
+
+	public function testFindAllClearMessage(): void {
+		$status = new UserStatus();
 		$status->setClearAt(50);
 		$status->setMessageId('commuting');
+		$status->setStatusTimestamp(60);
 
-		$this->timeFactory->expects($this->once())
-			->method('getTime')
+		$this->timeFactory->method('getTime')
 			->willReturn(60);
 		$this->predefinedStatusService->expects($this->never())
 			->method('getDefaultStatusById');

@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\UserStatus\Db;
 
+use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -81,7 +82,7 @@ class UserStatusMapper extends QBMapper {
 			->select('*')
 			->from($this->tableName)
 			->orderBy('status_timestamp', 'DESC')
-			->where($qb->expr()->notIn('status', $qb->createNamedParameter(['online', 'away'], IQueryBuilder::PARAM_STR_ARRAY)))
+			->where($qb->expr()->notIn('status', $qb->createNamedParameter([StatusService::ONLINE, StatusService::AWAY], IQueryBuilder::PARAM_STR_ARRAY)))
 			->orWhere($qb->expr()->isNotNull('message_id'))
 			->orWhere($qb->expr()->isNotNull('custom_icon'))
 			->orWhere($qb->expr()->isNotNull('custom_message'));
@@ -123,6 +124,25 @@ class UserStatusMapper extends QBMapper {
 			->where($qb->expr()->in('user_id', $qb->createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)));
 
 		return $this->findEntities($qb);
+	}
+
+	/**
+	 * @param int $olderThan
+	 * @param int $now
+	 */
+	public function clearStatusesOlderThan(int $olderThan, int $now): void {
+		$qb = $this->db->getQueryBuilder();
+		$qb->update($this->tableName)
+			->set('status', $qb->createNamedParameter(StatusService::OFFLINE))
+			->set('is_user_defined', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL))
+			->set('status_timestamp', $qb->createNamedParameter($now, IQueryBuilder::PARAM_INT))
+			->where($qb->expr()->lte('status_timestamp', $qb->createNamedParameter($olderThan, IQueryBuilder::PARAM_INT)))
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('is_user_defined', $qb->createNamedParameter(false, IQueryBuilder::PARAM_BOOL), IQueryBuilder::PARAM_BOOL),
+				$qb->expr()->eq('status', $qb->createNamedParameter(StatusService::ONLINE))
+			));
+
+		$qb->execute();
 	}
 
 	/**

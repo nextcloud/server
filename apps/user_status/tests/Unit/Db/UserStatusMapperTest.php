@@ -152,7 +152,57 @@ class UserStatusMapperTest extends TestCase {
 		$this->mapper->insert($userStatus2);
 	}
 
-	public function testClearOlderThan(): void {
+	/**
+	 * @param string $status
+	 * @param bool $isUserDefined
+	 * @param int $timestamp
+	 * @param bool $expectsClean
+	 *
+	 * @dataProvider clearStatusesOlderThanDataProvider
+	 */
+	public function testClearStatusesOlderThan(string $status, bool $isUserDefined, int $timestamp, bool $expectsClean): void {
+		$oldStatus = UserStatus::fromParams([
+			'userId' => 'john.doe',
+			'status' => $status,
+			'isUserDefined' => $isUserDefined,
+			'statusTimestamp' => $timestamp,
+		]);
+
+		$this->mapper->insert($oldStatus);
+
+		$this->mapper->clearStatusesOlderThan(5000, 8000);
+
+		$updatedStatus = $this->mapper->findAll()[0];
+
+		if ($expectsClean) {
+			$this->assertEquals('offline', $updatedStatus->getStatus());
+			$this->assertFalse($updatedStatus->getIsUserDefined());
+			$this->assertEquals(8000, $updatedStatus->getStatusTimestamp());
+		} else {
+			$this->assertEquals($status, $updatedStatus->getStatus());
+			$this->assertEquals($isUserDefined, $updatedStatus->getIsUserDefined());
+			$this->assertEquals($timestamp, $updatedStatus->getStatusTimestamp());
+		}
+	}
+
+	public function clearStatusesOlderThanDataProvider(): array {
+		return [
+			['online', true, 6000, false],
+			['online', true, 4000, true],
+			['online', false, 6000, false],
+			['online', false, 4000, true],
+			['away', true, 6000, false],
+			['away', true, 4000, false],
+			['away', false, 6000, false],
+			['away', false, 4000, true],
+			['dnd', true, 6000, false],
+			['dnd', true, 4000, false],
+			['invisible', true, 6000, false],
+			['invisible', true, 4000, false],
+		];
+	}
+
+	public function testClearMessagesOlderThan(): void {
 		$this->insertSampleStatuses();
 
 		$this->mapper->clearMessagesOlderThan(55000);
