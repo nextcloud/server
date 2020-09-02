@@ -65,6 +65,6 @@ export function search(type, query, cursor) {
 			cursor,
 			// Sending which location we're currently at
 			from: window.location.pathname.replace('/index.php', '') + window.location.search,
-		}
+		},
 	})
 }

@@ -104,17 +104,15 @@
 </template>
 
 <script>
+import { emit } from '@nextcloud/event-bus'
 import { minSearchLength, getTypes, search, defaultLimit, regexFilterIn, regexFilterNot } from '../services/UnifiedSearchService'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import debounce from 'debounce'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import Magnify from 'vue-material-design-icons/Magnify'
-import debounce from 'debounce'
-import { emit } from '@nextcloud/event-bus'
 
 import HeaderMenu from '../components/HeaderMenu'
-import SearchFilter from '../components/UnifiedSearch/SearchFilter'
 import SearchResult from '../components/UnifiedSearch/SearchResult'
 import SearchResultPlaceholders from '../components/UnifiedSearch/SearchResultPlaceholders'
 
@@ -127,7 +125,6 @@ export default {
 		EmptyContent,
 		HeaderMenu,
 		Magnify,
-		SearchFilter,
 		SearchResult,
 		SearchResultPlaceholders,
 	},
