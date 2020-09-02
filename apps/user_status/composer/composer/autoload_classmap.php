@@ -27,6 +27,7 @@ return array(
     'OCA\\UserStatus\\Listener\\UserDeletedListener' => $baseDir . '/../lib/Listener/UserDeletedListener.php',
     'OCA\\UserStatus\\Listener\\UserLiveStatusListener' => $baseDir . '/../lib/Listener/UserLiveStatusListener.php',
     'OCA\\UserStatus\\Migration\\Version0001Date20200602134824' => $baseDir . '/../lib/Migration/Version0001Date20200602134824.php',
+    'OCA\\UserStatus\\Migration\\Version0002Date20200902144824' => $baseDir . '/../lib/Migration/Version0002Date20200902144824.php',
     'OCA\\UserStatus\\Service\\EmojiService' => $baseDir . '/../lib/Service/EmojiService.php',
     'OCA\\UserStatus\\Service\\JSDataService' => $baseDir . '/../lib/Service/JSDataService.php',
     'OCA\\UserStatus\\Service\\PredefinedStatusService' => $baseDir . '/../lib/Service/PredefinedStatusService.php',
