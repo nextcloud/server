@@ -34,6 +34,7 @@ OC.L10N.register(
     "Delete file" : "Excluir arquivo",
     "Delete folder" : "Excluir pasta",
     "Disconnect storage" : "Desconectar armazenamento",
+    "Leave this share" : "Sair deste compartilhamento",
     "Could not load info for file \"{file}\"" : "Não foi possível carregar informações para o arquivo \"{file}\" ",
     "Files" : "Arquivos",
     "Details" : "Detalhes",
