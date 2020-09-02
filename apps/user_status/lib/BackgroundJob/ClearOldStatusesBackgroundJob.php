@@ -58,6 +58,6 @@ class ClearOldStatusesBackgroundJob extends TimedJob {
 	 * @inheritDoc
 	 */
 	protected function run($argument) {
-		$this->mapper->clearOlderThan($this->time->getTime());
+		$this->mapper->clearMessagesOlderThan($this->time->getTime());
 	}
 }

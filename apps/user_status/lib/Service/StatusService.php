@@ -54,17 +54,38 @@ class StatusService {
 	/** @var EmojiService */
 	private $emojiService;
 
-	/** @var string[] */
-	private $allowedStatusTypes = [
-		'online',
-		'away',
-		'dnd',
-		'invisible',
-		'offline'
+	public const ONLINE = 'online';
+	public const AWAY = 'away';
+	public const DND = 'dnd';
+	public const INVISIBLE = 'invisible';
+	public const OFFLINE = 'offline';
+
+	/**
+	 * List of priorities ordered by their priority
+	 */
+	public const PRIORITY_ORDERED_STATUSES = [
+		self::ONLINE,
+		self::AWAY,
+		self::DND,
+		self::INVISIBLE,
+		self::OFFLINE
+	];
+
+	/**
+	 * List of statuses that persist the clear-up
+	 * or UserLiveStatusEvents
+	 */
+	public const PERSISTENT_STATUSES = [
+		self::AWAY,
+		self::DND,
+		self::INVISIBLE,
 	];
 
 	/** @var int */
-	private $maximumMessageLength = 80;
+	public const INVALIDATE_STATUS_THRESHOLD = 5 /* minutes */ * 60 /* seconds */;
+
+	/** @var int */
+	public const MAXIMUM_MESSAGE_LENGTH = 80;
 
 	/**
 	 * StatusService constructor.
@@ -145,7 +166,7 @@ class StatusService {
 		}
 
 		// Check if status-type is valid
-		if (!\in_array($status, $this->allowedStatusTypes, true)) {
+		if (!\in_array($status, self::PRIORITY_ORDERED_STATUSES, true)) {
 			throw new InvalidStatusTypeException('Status-type "' . $status . '" is not supported');
 		}
 		if ($statusTimestamp === null) {
@@ -179,7 +200,7 @@ class StatusService {
 		} catch (DoesNotExistException $ex) {
 			$userStatus = new UserStatus();
 			$userStatus->setUserId($userId);
-			$userStatus->setStatus('offline');
+			$userStatus->setStatus(self::OFFLINE);
 			$userStatus->setStatusTimestamp(0);
 			$userStatus->setIsUserDefined(false);
 		}
@@ -224,7 +245,7 @@ class StatusService {
 		} catch (DoesNotExistException $ex) {
 			$userStatus = new UserStatus();
 			$userStatus->setUserId($userId);
-			$userStatus->setStatus('offline');
+			$userStatus->setStatus(self::OFFLINE);
 			$userStatus->setStatusTimestamp(0);
 			$userStatus->setIsUserDefined(false);
 		}
@@ -234,8 +255,8 @@ class StatusService {
 			throw new InvalidStatusIconException('Status-Icon is longer than one character');
 		}
 		// Check for maximum length of custom message
-		if (\mb_strlen($message) > $this->maximumMessageLength) {
-			throw new StatusMessageTooLongException('Message is longer than supported length of ' . $this->maximumMessageLength . ' characters');
+		if (\mb_strlen($message) > self::MAXIMUM_MESSAGE_LENGTH) {
+			throw new StatusMessageTooLongException('Message is longer than supported length of ' . self::MAXIMUM_MESSAGE_LENGTH . ' characters');
 		}
 		// Check that clearAt is in the future
 		if ($clearAt !== null && $clearAt < $this->timeFactory->getTime()) {
@@ -266,7 +287,7 @@ class StatusService {
 			return false;
 		}
 
-		$userStatus->setStatus('offline');
+		$userStatus->setStatus(self::OFFLINE);
 		$userStatus->setStatusTimestamp(0);
 		$userStatus->setIsUserDefined(false);
 
@@ -321,7 +342,7 @@ class StatusService {
 	private function processStatus(UserStatus $status): UserStatus {
 		$clearAt = $status->getClearAt();
 		if ($clearAt !== null && $clearAt < $this->timeFactory->getTime()) {
-			$this->cleanStatus($status);
+			$this->cleanStatusMessage($status);
 		}
 		if ($status->getMessageId() !== null) {
 			$this->addDefaultMessage($status);
@@ -333,7 +354,7 @@ class StatusService {
 	/**
 	 * @param UserStatus $status
 	 */
-	private function cleanStatus(UserStatus $status): void {
+	private function cleanStatusMessage(UserStatus $status): void {
 		$status->setMessageId(null);
 		$status->setCustomIcon(null);
 		$status->setCustomMessage(null);

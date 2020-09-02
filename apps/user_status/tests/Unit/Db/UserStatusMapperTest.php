@@ -155,7 +155,7 @@ class UserStatusMapperTest extends TestCase {
 	public function testClearOlderThan(): void {
 		$this->insertSampleStatuses();
 
-		$this->mapper->clearOlderThan(55000);
+		$this->mapper->clearMessagesOlderThan(55000);
 
 		$allStatuses = $this->mapper->findAll();
 		$this->assertCount(3, $allStatuses);

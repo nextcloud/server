@@ -146,7 +146,9 @@ class UserStatusWidget implements IWidget {
 			return [
 				'userId' => $status->getUserId(),
 				'displayName' => $displayName,
-				'status' => $status->getStatus() === 'invisible' ? 'offline' : $status->getStatus(),
+				'status' => $status->getStatus() === StatusService::INVISIBLE
+					? StatusService::OFFLINE
+					: $status->getStatus(),
 				'icon' => $status->getCustomIcon(),
 				'message' => $status->getCustomMessage(),
 				'timestamp' => $status->getStatusTimestamp(),
