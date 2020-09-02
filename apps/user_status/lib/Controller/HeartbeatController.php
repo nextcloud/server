@@ -52,6 +52,8 @@ class HeartbeatController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IEventDispatcher $eventDispatcher
+	 * @param IUserSession $userSession
+	 * @param ITimeFactory $timeFactory
 	 */
 	public function __construct(string $appName,
 								IRequest $request,
