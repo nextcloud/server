@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost:8000/index.php/",
+  "baseUrl": "http://localhost:8082/index.php/",
   "projectId": "xysa6x",
   "viewportWidth": 1280,
   "viewportHeight": 720,
