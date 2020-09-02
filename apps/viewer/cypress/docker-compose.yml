@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+    nextcloud:
+        image: nextcloudci/server
+
+        ports:
+            - 8082:80
+
+        environment:
+            CYPRESS_baseUrl: "http://127.0.0.1:8082/index.php"
+            BRANCH: master
+
+        volumes:
+            - ../:/var/www/html/apps/viewer
+            - ./initserver.sh:/initserver.sh

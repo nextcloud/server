@@ -56,14 +56,14 @@ Cypress.Commands.add('nextcloudCreateUser', (user, password) => {
 		form: true,
 		body: {
 			userid: user,
-			password: password
+			password,
 		},
 		auth: { user: 'admin', pass: 'admin' },
 		headers: {
 			'OCS-ApiRequest': 'true',
 			'Content-Type': 'application/x-www-form-urlencoded',
-			Authorization: 'Basic YWRtaW46YWRtaW4='
-		}
+			Authorization: `Basic ${btoa('admin:admin')}`,
+		},
 	}).then(response => {
 		cy.log(`Created user ${user}`, response.status)
 	})
@@ -80,7 +80,7 @@ Cypress.Commands.add('uploadFile', (fileName, mimeType, path = '') => {
 				await axios.put(`${Cypress.env('baseUrl')}/remote.php/webdav${path}/${fileName}`, file, {
 					headers: {
 						requesttoken: window.OC.requestToken,
-						'Content-Type': mimeType
+						'Content-Type': mimeType,
 					}
 				}).then(response => {
 					cy.log(`Uploaded ${fileName}`, response)

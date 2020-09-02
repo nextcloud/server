@@ -9,7 +9,8 @@ on:
 
 env:
   APP_NAME: viewer
-  CYPRESS_baseUrl: http://127.0.0.1:8080/index.php
+  BRANCH: ${{ github.base_ref }}
+  CYPRESS_baseUrl: http://127.0.0.1:8082/index.php
 
 jobs:
   cypress:
@@ -24,24 +25,15 @@ jobs:
         php-versions: ['7.4']
 
     name: Runner ${{ matrix.containers }}
+
     steps:
-      - name: Checkout server
-        uses: actions/checkout@v2
-        with:
-          repository: nextcloud/server
-          ref: ${{ github.base_ref }}
-
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-          git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
-
       - name: Checkout app
         uses: actions/checkout@v2
-        with:
-          path: apps/${{ env.APP_NAME }}
+
+      - name: Setup server
+        run: |
+          cd cypress
+          docker-compose up -d
 
       - name: Set up node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -49,30 +41,19 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies & build app
-        working-directory: apps/${{ env.APP_NAME }}
         run: |
           npm ci
           TESTING=true npm run build --if-present
-
-      - name: Set up php ${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@v1
-        with:
-          php-version: ${{ matrix.php-versions }}
-          tools: phpunit
-          extensions: mbstring, iconv, fileinfo, intl, sqlite, pdo_sqlite
-          coverage: none
-
-      - name: Set up Nextcloud
-        run: |
-          mkdir data
-          ./occ maintenance:install --verbose --database sqlite --admin-user admin --admin-pass admin 
-          ./occ app:enable $APP_NAME
-          php -S 0.0.0.0:8080 &
 
       - name: Wait for server
         run: |
             npm install -g wait-on
             wait-on -i 500 -t 240000 $CYPRESS_baseUrl
+        
+      - name: Enable app & configure server
+        run: |
+          cd cypress
+          docker-compose exec --env APP_NAME=${{ env.APP_NAME }} -T nextcloud bash /initserver.sh
 
       - name: Cypress run
         uses: cypress-io/github-action@v1
@@ -80,7 +61,6 @@ jobs:
           record: true
           parallel: true
           # cypress env
-          working-directory: apps/${{ env.APP_NAME }}
           ci-build-id: ${{ github.sha }}-${{ github.run_number }}
           tag: ${{ github.event_name }}
         env:
