@@ -19,8 +19,8 @@ jobs:
       fail-fast: false
       matrix:
         # run 4 copies of the current job in parallel
-        containers: [1, 2, 3, 4]
-        node-versions: ['12.x']
+        containers: [1, 2, 3, 4, 5]
+        node-version: ['12']
         php-versions: ['7.4']
 
     name: Runner ${{ matrix.containers }}
@@ -43,10 +43,10 @@ jobs:
         with:
           path: apps/${{ env.APP_NAME }}
 
-      - name: Set up node ${{ matrix.node-versions }}
+      - name: Set up node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-versions: ${{ matrix.node-versions }}
+          node-version: ${{ matrix.node-version }}
 
       - name: Install dependencies & build app
         working-directory: apps/${{ env.APP_NAME }}
@@ -82,5 +82,8 @@ jobs:
           # cypress env
           working-directory: apps/${{ env.APP_NAME }}
           ci-build-id: ${{ github.sha }}-${{ github.run_number }}
+          tag: ${{ github.event_name }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # https://github.com/cypress-io/github-action/issues/124
+          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
