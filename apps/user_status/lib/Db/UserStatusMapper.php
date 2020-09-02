@@ -130,7 +130,7 @@ class UserStatusMapper extends QBMapper {
 	 *
 	 * @param int $timestamp
 	 */
-	public function clearOlderThan(int $timestamp): void {
+	public function clearMessagesOlderThan(int $timestamp): void {
 		$qb = $this->db->getQueryBuilder();
 		$qb->update($this->tableName)
 			->set('message_id', $qb->createNamedParameter(null))

@@ -92,8 +92,8 @@ class StatusesController extends OCSController {
 	 */
 	private function formatStatus(UserStatus $status): array {
 		$visibleStatus = $status->getStatus();
-		if ($visibleStatus === 'invisible') {
-			$visibleStatus = 'offline';
+		if ($visibleStatus === StatusService::INVISIBLE) {
+			$visibleStatus = StatusService::OFFLINE;
 		}
 
 		return [

@@ -65,7 +65,7 @@ class JSDataService implements \JsonSerializable {
 				'messageIsPredefined' => false,
 				'icon' => null,
 				'clearAt' => null,
-				'status' => 'offline',
+				'status' => StatusService::OFFLINE,
 				'statusIsUserDefined' => false,
 			];
 		}

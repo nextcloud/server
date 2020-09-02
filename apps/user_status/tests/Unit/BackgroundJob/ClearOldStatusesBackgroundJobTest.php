@@ -52,7 +52,7 @@ class ClearOldStatusesBackgroundJobTest extends TestCase {
 
 	public function testRun() {
 		$this->mapper->expects($this->once())
-			->method('clearOlderThan')
+			->method('clearMessagesOlderThan')
 			->with(1337);
 
 		$this->time->method('getTime')
