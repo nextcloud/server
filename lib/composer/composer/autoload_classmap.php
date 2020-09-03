@@ -665,6 +665,7 @@ return array(
     'OC\\Authentication\\Listeners\\RemoteWipeNotificationsListener' => $baseDir . '/lib/private/Authentication/Listeners/RemoteWipeNotificationsListener.php',
     'OC\\Authentication\\Listeners\\UserDeletedStoreCleanupListener' => $baseDir . '/lib/private/Authentication/Listeners/UserDeletedStoreCleanupListener.php',
     'OC\\Authentication\\Listeners\\UserDeletedTokenCleanupListener' => $baseDir . '/lib/private/Authentication/Listeners/UserDeletedTokenCleanupListener.php',
+    'OC\\Authentication\\Listeners\\UserLoggedInListener' => $baseDir . '/lib/private/Authentication/Listeners/UserLoggedInListener.php',
     'OC\\Authentication\\LoginCredentials\\Credentials' => $baseDir . '/lib/private/Authentication/LoginCredentials/Credentials.php',
     'OC\\Authentication\\LoginCredentials\\Store' => $baseDir . '/lib/private/Authentication/LoginCredentials/Store.php',
     'OC\\Authentication\\Login\\ALoginCommand' => $baseDir . '/lib/private/Authentication/Login/ALoginCommand.php',
