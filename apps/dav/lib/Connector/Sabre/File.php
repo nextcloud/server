@@ -288,6 +288,9 @@ class File extends Node implements IFile {
 						throw new Exception('Could not rename part file to final file');
 					}
 				} catch (ForbiddenException $ex) {
+					if (!$ex->getRetry()) {
+						$partStorage->unlink($internalPartPath);
+					}
 					throw new DAVForbiddenException($ex->getMessage(), $ex->getRetry());
 				} catch (\Exception $e) {
 					$partStorage->unlink($internalPartPath);
