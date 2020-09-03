@@ -123,7 +123,6 @@ class ConnectionFactory {
 	public function getConnection($type, $additionalConnectionParams) {
 		$normalizedType = $this->normalizeType($type);
 		$eventManager = new EventManager();
-		$eventManager->addEventSubscriber(new SetTransactionIsolationLevel());
 		switch ($normalizedType) {
 			case 'mysql':
 				$eventManager->addEventSubscriber(

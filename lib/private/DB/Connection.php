@@ -41,6 +41,7 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\TransactionIsolationLevel;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -149,6 +150,8 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
+
+		$this->setTransactionIsolation(TransactionIsolationLevel::READ_COMMITTED);
 	}
 
 	/**
