@@ -511,7 +511,7 @@ class Manager {
 			WHERE `id` = ?
 			');
 			$result = (bool)$query->execute([(int)$share['id']]);
-		} elseif ($result && (int)$share['share_type'] === IShare::TYPE_GROUP) {
+		} elseif ($result && $share !== false && (int)$share['share_type'] === IShare::TYPE_GROUP) {
 			$query = $this->connection->prepare('
 				UPDATE `*PREFIX*share_external`
 				SET `accepted` = ?
