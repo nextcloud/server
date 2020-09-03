@@ -74,7 +74,7 @@
     "exports-loader": "^0.7.0",
     "file-loader": "^4.2.0",
     "handlebars-loader": "^1.7.1",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "sass-loader": "^7.3.1",
     "style-loader": "^1.0.0",
     "url-loader": "^2.1.0",
