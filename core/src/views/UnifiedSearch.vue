@@ -22,6 +22,7 @@
 <template>
 	<HeaderMenu id="unified-search"
 		class="unified-search"
+		exclude-click-outside-classes="popover"
 		:open.sync="open"
 		@open="onOpen"
 		@close="onClose">
@@ -39,15 +40,21 @@
 				:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ').toLowerCase() })"
 				@input="onInputDebounced"
 				@keypress.enter.prevent.stop="onInputEnter">
+			<!-- Search filters -->
+			<Actions v-if="availableFilters.length > 1" class="unified-search__filters" placement="bottom">
+				<ActionButton v-for="type in availableFilters"
+					:key="type"
+					icon="icon-filter"
+					:title="t('core', 'Search for {name} only', { name: typesMap[type] })"
+					@click="onClickFilter(`in:${type}`)">
+					{{ `in:${type}` }}
+				</ActionButton>
+			</Actions>
 		</div>
 
 		<template v-if="!hasResults">
 			<!-- Loading placeholders -->
-			<ul v-if="isLoading">
-				<li v-for="placeholder in [1, 2, 3]" :key="placeholder">
-					<SearchResultPlaceholder />
-				</li>
-			</ul>
+			<SearchResultPlaceholders v-if="isLoading" />
 
 			<EmptyContent v-else-if="isValidQuery && isDoneSearching" icon="icon-search">
 				{{ t('core', 'No results for {query}', {query}) }}
@@ -97,25 +104,29 @@
 </template>
 
 <script>
-import { minSearchLength, getTypes, search, defaultLimit } from '../services/UnifiedSearchService'
+import { emit } from '@nextcloud/event-bus'
+import { minSearchLength, getTypes, search, defaultLimit, regexFilterIn, regexFilterNot } from '../services/UnifiedSearchService'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import debounce from 'debounce'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import Magnify from 'vue-material-design-icons/Magnify'
-import debounce from 'debounce'
-import { emit } from '@nextcloud/event-bus'
 
 import HeaderMenu from '../components/HeaderMenu'
 import SearchResult from '../components/UnifiedSearch/SearchResult'
-import SearchResultPlaceholder from '../components/UnifiedSearch/SearchResultPlaceholder'
+import SearchResultPlaceholders from '../components/UnifiedSearch/SearchResultPlaceholders'
 
 export default {
 	name: 'UnifiedSearch',
 
 	components: {
+		ActionButton,
+		Actions,
 		EmptyContent,
 		HeaderMenu,
 		Magnify,
 		SearchResult,
-		SearchResultPlaceholder,
+		SearchResultPlaceholders,
 	},
 
 	data() {
@@ -162,15 +173,50 @@ export default {
 
 		/**
 		 * Return ordered results
-		 * @returns {Object}
+		 * @returns {Array}
 		 */
 		orderedResults() {
-			return Object.values(this.typesIDs)
+			return this.typesIDs
 				.filter(type => type in this.results)
 				.map(type => ({
 					type,
 					list: this.results[type],
 				}))
+		},
+
+		/**
+		 * Available filters
+		 * We only show filters that are available on the results
+		 * @returns {string[]}
+		 */
+		availableFilters() {
+			return Object.keys(this.results)
+		},
+
+		/**
+		 * Applied filters
+		 * @returns {string[]}
+		 */
+		usedFiltersIn() {
+			let match
+			const filters = []
+			while ((match = regexFilterIn.exec(this.query)) !== null) {
+				filters.push(match[1])
+			}
+			return filters
+		},
+
+		/**
+		 * Applied anti filters
+		 * @returns {string[]}
+		 */
+		usedFiltersNot() {
+			let match
+			const filters = []
+			while ((match = regexFilterNot.exec(this.query)) !== null) {
+				filters.push(match[1])
+			}
+			return filters
 		},
 
 		/**
@@ -291,12 +337,30 @@ export default {
 				return
 			}
 
-			// reset search if the query changed
+			let types = this.typesIDs
+			let query = this.query
+
+			// Filter out types
+			if (this.usedFiltersNot.length > 0) {
+				types = this.typesIDs.filter(type => this.usedFiltersNot.indexOf(type) === -1)
+			}
+
+			// Only use those filters if any and check if they are valid
+			if (this.usedFiltersIn.length > 0) {
+				types = this.typesIDs.filter(type => this.usedFiltersIn.indexOf(type) > -1)
+			}
+
+			// Remove any filters from the query
+			query = query.replace(regexFilterIn, '').replace(regexFilterNot, '')
+
+			console.debug('Searching', query, 'in', types)
+
+			// Reset search if the query changed
 			this.resetState()
 
-			this.typesIDs.forEach(async type => {
+			types.forEach(async type => {
 				this.$set(this.loading, type, true)
-				const request = await search(type, this.query)
+				const request = await search(type, query)
 
 				// Process results
 				if (request.data.entries.length > 0) {
@@ -421,7 +485,7 @@ export default {
 		 */
 		focusNext(event) {
 			if (this.focused === null) {
-				this.focusFirst()
+				this.focusFirst(event)
 				return
 			}
 
@@ -478,6 +542,13 @@ export default {
 				this.focused = index
 			}
 		},
+
+		onClickFilter(filter) {
+			this.query = `${this.query} ${filter}`
+				.replace(/ {2}/g, ' ')
+				.trim()
+			this.onInput()
+		},
 	},
 }
 </script>
@@ -493,16 +564,26 @@ $input-padding: 6px;
 	}
 
 	&__input-wrapper {
+		width: 100%;
 		position: sticky;
 		// above search results
 		z-index: 2;
 		top: 0;
+		display: inline-flex;
+		align-items: center;
 		background-color: var(--color-main-background);
 	}
 
+	&__filters {
+		margin: $margin / 2 $margin;
+		ul {
+			display: inline-flex;
+			justify-content: space-between;
+		}
+	}
+
 	&__input {
-		// Minus margins
-		width: calc(100% - 2 * #{$margin});
+		width: 100%;
 		height: 34px;
 		margin: $margin;
 		padding: $input-padding;
@@ -510,10 +591,13 @@ $input-padding: 6px;
 		&[placeholder],
 		&::placeholder {
 			overflow: hidden;
-			text-overflow:ellipsis;
 			white-space: nowrap;
+			text-overflow: ellipsis;
 		}
+	}
 
+	&__filters {
+		margin-right: $margin / 2;
 	}
 
 	&__results {

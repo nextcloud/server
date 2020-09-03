@@ -25,6 +25,9 @@ import axios from '@nextcloud/axios'
 
 export const defaultLimit = loadState('unified-search', 'limit-default')
 export const minSearchLength = 2
+export const regexFilterIn = /[^-]in:([a-z_-]+)/ig
+export const regexFilterNot = /-in:([a-z_-]+)/ig
+
 /**
  * Get the list of available search providers
  *
@@ -62,6 +65,6 @@ export function search(type, query, cursor) {
 			cursor,
 			// Sending which location we're currently at
 			from: window.location.pathname.replace('/index.php', '') + window.location.search,
-		}
+		},
 	})
 }
