@@ -79,6 +79,8 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "\"/\" não é permitido no nome do arquivo.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" não é um tipo de arquivo permitido",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "O armazenamento do {owner} está cheio e os arquivos não podem ser mais atualizados ou sincronizados!",
+    "This group folder is full, files can not be updated or synced anymore!" : "Esta pasta do grupo está cheia, os arquivos não podem mais ser atualizados ou sincronizados!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Este armazenamento externo está cheio, os arquivos não podem mais ser atualizados ou sincronizados!",
     "Your storage is full, files can not be updated or synced anymore!" : "Seu armazenamento está cheio e arquivos não podem mais ser atualizados ou sincronizados!",
     "_matches '{filter}'_::_match '{filter}'_" : ["coincide com '{filter}'","coincide com '{filter}'"],
     "View in folder" : "Exibir na pasta",
