@@ -25,7 +25,6 @@ declare(strict_types=1);
 namespace OCA\UserStatus\Connector;
 
 use DateTimeImmutable;
-use OCA\UserStatus\Service\StatusService;
 use OCP\UserStatus\IUserStatus;
 use OCA\UserStatus\Db;
 
@@ -57,8 +56,8 @@ class UserStatus implements IUserStatus {
 		$this->message = $status->getCustomMessage();
 		$this->icon = $status->getCustomIcon();
 
-		if ($status->getStatus() === StatusService::INVISIBLE) {
-			$this->status = StatusService::OFFLINE;
+		if ($status->getStatus() === IUserStatus::INVISIBLE) {
+			$this->status = IUserStatus::OFFLINE;
 		}
 		if ($status->getClearAt() !== null) {
 			$this->clearAt = DateTimeImmutable::createFromFormat('U', (string)$status->getClearAt());

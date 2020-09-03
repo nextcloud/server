@@ -25,7 +25,6 @@ declare(strict_types=1);
 
 namespace OCA\UserStatus\Controller;
 
-use OCA\UserStatus\Service\StatusService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -34,6 +33,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\User\Events\UserLiveStatusEvent;
+use OCP\UserStatus\IUserStatus;
 
 class HeartbeatController extends Controller {
 
@@ -73,7 +73,7 @@ class HeartbeatController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function heartbeat(string $status): JSONResponse {
-		if (!\in_array($status, [StatusService::ONLINE, StatusService::AWAY], true)) {
+		if (!\in_array($status, [IUserStatus::ONLINE, IUserStatus::AWAY], true)) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 

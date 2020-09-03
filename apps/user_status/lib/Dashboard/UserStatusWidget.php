@@ -32,6 +32,7 @@ use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\UserStatus\IUserStatus;
 
 /**
  * Class UserStatusWidget
@@ -146,8 +147,8 @@ class UserStatusWidget implements IWidget {
 			return [
 				'userId' => $status->getUserId(),
 				'displayName' => $displayName,
-				'status' => $status->getStatus() === StatusService::INVISIBLE
-					? StatusService::OFFLINE
+				'status' => $status->getStatus() === IUserStatus::INVISIBLE
+					? IUserStatus::OFFLINE
 					: $status->getStatus(),
 				'icon' => $status->getCustomIcon(),
 				'message' => $status->getCustomMessage(),
