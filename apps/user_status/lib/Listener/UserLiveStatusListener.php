@@ -33,6 +33,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\IEventListener;
 use OCP\EventDispatcher\Event;
 use OCP\User\Events\UserLiveStatusEvent;
+use OCP\UserStatus\IUserStatus;
 
 /**
  * Class UserDeletedListener
@@ -74,7 +75,7 @@ class UserLiveStatusListener implements IEventListener {
 		} catch (DoesNotExistException $ex) {
 			$userStatus = new UserStatus();
 			$userStatus->setUserId($user->getUID());
-			$userStatus->setStatus(StatusService::OFFLINE);
+			$userStatus->setStatus(IUserStatus::OFFLINE);
 			$userStatus->setStatusTimestamp(0);
 			$userStatus->setIsUserDefined(false);
 		}

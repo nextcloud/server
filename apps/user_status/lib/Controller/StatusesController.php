@@ -32,6 +32,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\AppFramework\OCSController;
 use OCP\IRequest;
+use OCP\UserStatus\IUserStatus;
 
 class StatusesController extends OCSController {
 
@@ -92,8 +93,8 @@ class StatusesController extends OCSController {
 	 */
 	private function formatStatus(UserStatus $status): array {
 		$visibleStatus = $status->getStatus();
-		if ($visibleStatus === StatusService::INVISIBLE) {
-			$visibleStatus = StatusService::OFFLINE;
+		if ($visibleStatus === IUserStatus::INVISIBLE) {
+			$visibleStatus = IUserStatus::OFFLINE;
 		}
 
 		return [

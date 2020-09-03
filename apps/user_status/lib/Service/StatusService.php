@@ -34,6 +34,7 @@ use OCA\UserStatus\Exception\InvalidStatusTypeException;
 use OCA\UserStatus\Exception\StatusMessageTooLongException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\UserStatus\IUserStatus;
 
 /**
  * Class StatusService
@@ -54,21 +55,15 @@ class StatusService {
 	/** @var EmojiService */
 	private $emojiService;
 
-	public const ONLINE = 'online';
-	public const AWAY = 'away';
-	public const DND = 'dnd';
-	public const INVISIBLE = 'invisible';
-	public const OFFLINE = 'offline';
-
 	/**
 	 * List of priorities ordered by their priority
 	 */
 	public const PRIORITY_ORDERED_STATUSES = [
-		self::ONLINE,
-		self::AWAY,
-		self::DND,
-		self::INVISIBLE,
-		self::OFFLINE
+		IUserStatus::ONLINE,
+		IUserStatus::AWAY,
+		IUserStatus::DND,
+		IUserStatus::INVISIBLE,
+		IUserStatus::OFFLINE
 	];
 
 	/**
@@ -76,9 +71,9 @@ class StatusService {
 	 * or UserLiveStatusEvents
 	 */
 	public const PERSISTENT_STATUSES = [
-		self::AWAY,
-		self::DND,
-		self::INVISIBLE,
+		IUserStatus::AWAY,
+		IUserStatus::DND,
+		IUserStatus::INVISIBLE,
 	];
 
 	/** @var int */
@@ -200,7 +195,7 @@ class StatusService {
 		} catch (DoesNotExistException $ex) {
 			$userStatus = new UserStatus();
 			$userStatus->setUserId($userId);
-			$userStatus->setStatus(self::OFFLINE);
+			$userStatus->setStatus(IUserStatus::OFFLINE);
 			$userStatus->setStatusTimestamp(0);
 			$userStatus->setIsUserDefined(false);
 		}
@@ -245,7 +240,7 @@ class StatusService {
 		} catch (DoesNotExistException $ex) {
 			$userStatus = new UserStatus();
 			$userStatus->setUserId($userId);
-			$userStatus->setStatus(self::OFFLINE);
+			$userStatus->setStatus(IUserStatus::OFFLINE);
 			$userStatus->setStatusTimestamp(0);
 			$userStatus->setIsUserDefined(false);
 		}
@@ -287,7 +282,7 @@ class StatusService {
 			return false;
 		}
 
-		$userStatus->setStatus(self::OFFLINE);
+		$userStatus->setStatus(IUserStatus::OFFLINE);
 		$userStatus->setStatusTimestamp(0);
 		$userStatus->setIsUserDefined(false);
 
@@ -343,7 +338,7 @@ class StatusService {
 		$clearAt = $status->getClearAt();
 
 		if ($status->getStatusTimestamp() < $this->timeFactory->getTime() - self::INVALIDATE_STATUS_THRESHOLD
-			&& (!$status->getIsUserDefined() || $status->getStatus() === self::ONLINE)) {
+			&& (!$status->getIsUserDefined() || $status->getStatus() === IUserStatus::ONLINE)) {
 			$this->cleanStatus($status);
 		}
 		if ($clearAt !== null && $clearAt < $this->timeFactory->getTime()) {
@@ -360,7 +355,7 @@ class StatusService {
 	 * @param UserStatus $status
 	 */
 	private function cleanStatus(UserStatus $status): void {
-		$status->setStatus(self::OFFLINE);
+		$status->setStatus(IUserStatus::OFFLINE);
 		$status->setStatusTimestamp($this->timeFactory->getTime());
 		$status->setIsUserDefined(false);
 
