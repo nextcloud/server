@@ -126,21 +126,6 @@ class AvatarController extends Controller {
 			$size = 64;
 		}
 
-		$user = $this->userManager->get($userId);
-		if ($user === null) {
-			return new JSONResponse([], Http::STATUS_NOT_FOUND);
-		}
-
-		$account = $this->accountManager->getAccount($user);
-		$scope = $account->getProperty(IAccountManager::PROPERTY_AVATAR)->getScope();
-
-		if ($scope !== IAccountManager::VISIBILITY_PUBLIC && $this->userId === null) {
-			// Public avatar access is not allowed
-			$response = new JSONResponse([], Http::STATUS_NOT_FOUND);
-			$response->cacheFor(1800);
-			return $response;
-		}
-
 		try {
 			$avatar = $this->avatarManager->getAvatar($userId);
 			$avatarFile = $avatar->getFile($size);

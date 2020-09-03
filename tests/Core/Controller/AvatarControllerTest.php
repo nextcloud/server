@@ -145,39 +145,6 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
 	}
 
-	public function testAvatarNotPublic() {
-		$account = $this->createMock(IAccount::class);
-		$this->accountManager->method('getAccount')
-			->with($this->userMock)
-			->willReturn($account);
-
-		$property = $this->createMock(IAccountProperty::class);
-		$account->method('getProperty')
-			->with(IAccountManager::PROPERTY_AVATAR)
-			->willReturn($property);
-
-		$property->method('getScope')
-			->willReturn(IAccountManager::VISIBILITY_PRIVATE);
-
-		$controller = new AvatarController(
-			'core',
-			$this->request,
-			$this->avatarManager,
-			$this->cache,
-			$this->l,
-			$this->userManager,
-			$this->rootFolder,
-			$this->logger,
-			null,
-			$this->timeFactory,
-			$this->accountManager
-		);
-
-		$result = $controller->getAvatar('userId', 128);
-
-		$this->assertEquals(Http::STATUS_NOT_FOUND, $result->getStatus());
-	}
-
 	/**
 	 * Fetch the user's avatar
 	 */
