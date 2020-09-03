@@ -120,6 +120,9 @@ class File extends Node implements IFile {
 	 * @return string|null
 	 */
 	public function put($data) {
+		// make a copy of stream for futhre processing
+		$fileOfCopiedData = $this->copyStream($data);
+		
 		try {
 			$exists = $this->fileView->file_exists($this->path);
 			if ($this->info && $exists && !$this->info->isUpdateable()) {
@@ -342,12 +345,42 @@ class File extends Node implements IFile {
 				$this->fileView->putFileInfo($this->path, ['checksum' => '']);
 				$this->refreshInfo();
 			}
+
+			if ($this->fileView->getMount($partFilePath)->getStorage()->instanceOfStorage('OCA\Files_External\Lib\Storage\AmazonS3')) {
+				$this->generateExternalMaxPreview($fileOfCopiedData);
+			}
+			unlink($fileOfCopiedData);
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage(), 0, $e);
 		}
 
 		return '"' . $this->info->getEtag() . '"';
 	}
+	
+	private function generateExternalMaxPreview($fileOfCopiedData) {
+		$tmpStream = fopen($fileOfCopiedData,'r');
+
+		$uploadedFile = \OC::$server->getRootFolder()->get($this->fileView->getAbsolutePath($this->path));
+	
+		$ext = pathinfo($this->path, PATHINFO_EXTENSION);
+		$rootFolder = \OC::$server->getRootFolder()->get(Filesystem::getRoot());
+		$previewTmp  = $rootFolder->newFile(".prview_t". "." . $ext);
+		$previewTmp->putContent($tmpStream);
+		\OC::$server->getPreviewManager()->generateExternalMaxPreview($previewTmp, $uploadedFile->getId());
+		fclose($tmpStream);
+		$previewTmp->delete();
+	}
+	private function copyStream($data): string {
+		rewind($data);
+
+		$tempFile = tempnam('/tmp','nextcloud');
+		$tempStream = fopen($tempFile,'w+');
+		$count = \OC_Helper::streamCopy($data, $tempStream);
+		rewind($data);
+		fclose($tempStream);
+		return $tempFile;
+	}
+
 
 	private function getPartFileBasePath($path) {
 		$partFileInStorage = \OC::$server->getConfig()->getSystemValue('part_file_in_storage', true);

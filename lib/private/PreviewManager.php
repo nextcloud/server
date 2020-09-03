@@ -191,6 +191,19 @@ class PreviewManager implements IPreview {
 	}
 
 	/**
+	 * Returns the max  preview of a external file
+	 *
+	 * @param File $file
+	 * @param int fileId
+	 * @throws NotFoundException
+	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
+	 * @since 20.0.0
+	 */
+	public function generateExternalMaxPreview(File $file, $fileId) {
+		return $this->getGenerator()->generateExternalMaxPreview($file,$fileId);
+	}
+
+	/**
 	 * Generates previews of a file
 	 *
 	 * @param File $file

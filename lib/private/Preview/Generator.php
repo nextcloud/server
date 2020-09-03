@@ -440,6 +440,31 @@ class Generator {
 
 		return $file;
 	}
+  
+	/**
+	 * Returns the max  preview of a external file
+	 *
+	 * @param File $file
+	 * @param int fileId
+	 * @throws NotFoundException
+	 * @throws \InvalidArgumentException if the preview would be invalid (in case the original image is invalid)
+	 * @since 20.0.0
+	 */
+	public function generateExternalMaxPreview($file,$fileId) {
+		try {
+			$previewFolder = $this->appData->getFolder($fileId);
+		} catch (NotFoundException $e) {
+			$previewFolder = $this->appData->newFolder($fileId);
+		}
+		
+		if ($mimeType === null) {
+			$mimeType = $file->getMimeType();
+		}
+	
+		if (in_array($mimeType, ['image/jpeg', 'video/mp4', 'video/quicktime'])) {
+			$this->getMaxPreview($previewFolder, $file, $mimeType, "");
+		}
+	}
 
 	/**
 	 * @param ISimpleFolder $previewFolder
