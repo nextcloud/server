@@ -264,7 +264,7 @@ li:not(.inline) #user-status-menu-item {
 	&__subheader {
 		width: 100%;
 
-		> button {
+		button.action-item__menutoggle {
 			display: block;
 			box-sizing: border-box;
 			background-color: var(--color-main-background);
@@ -290,7 +290,7 @@ li:not(.inline) #user-status-menu-item {
 .inline #user-status-menu-item__subheader {
 	width: 100%;
 
-	> button {
+	button.action-item__menutoggle {
 		background-size: 16px;
 		border: 0;
 		border-radius: var(--border-radius-pill);
