@@ -29,7 +29,11 @@
 // between betas, final and RCs. This is _not_ the public version number. Reset minor/patchlevel
 // when updating major/minor version number.
 
+<<<<<<< HEAD
 $OC_Version = [20, 0, 0, 6];
+=======
+$OC_Version = [20, 0, 0, 5];
+>>>>>>> Update repair step apply new opendocument template mimes
 
 // The human readable string
 $OC_VersionString = '20.0.0 Beta 4';
