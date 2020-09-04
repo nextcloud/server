@@ -601,6 +601,7 @@ Welcome to your TestCloud account, you can add, protect, and share your data.
 
 Your username is: john
 
+
 Go to TestCloud: https://example.com/
 Install Client: https://nextcloud.com/install/#install-clients
 
@@ -818,6 +819,7 @@ EOF;
 Welcome aboard John Doe
 
 Welcome to your TestCloud account, you can add, protect, and share your data.
+
 
 Go to TestCloud: https://example.com/
 Install Client: https://nextcloud.com/install/#install-clients
