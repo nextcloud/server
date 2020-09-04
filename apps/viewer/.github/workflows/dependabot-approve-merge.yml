@@ -14,3 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: ahmadnassri/action-dependabot-auto-merge@v1
+        with:
+          target: patch
+          github-token: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN }}
