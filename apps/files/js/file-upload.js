@@ -1303,6 +1303,8 @@ OC.Uploader.prototype = _.extend({
 							self.cancelUploads();
 						} else if (status === 409) {
 							OC.Notification.show(message || t('files', 'Target folder does not exist any more'), {type: 'error'});
+						} else if (status === 403) {
+							OC.Notification.show(message || t('files', 'Operation is blocked by access control'), {type: 'error'});
 						} else {
 							OC.Notification.show(message || t('files', 'Error when assembling chunks, status code {status}', {status: status}), {type: 'error'});
 						}
