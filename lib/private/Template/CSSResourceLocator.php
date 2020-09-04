@@ -109,7 +109,7 @@ class CSSResourceLocator extends ResourceLocator {
 			if($this->scssCacher !== null) {
 				if($this->scssCacher->process($root, $file, $app)) {
 
-					$this->append($root, $this->scssCacher->getCachedSCSS($app, $file), \OC::$WEBROOT, true, true);
+					$this->append($this->serverroot, $this->scssCacher->getCachedSCSS($app, $file), \OC::$WEBROOT, true, true);
 					return true;
 				} else {
 					$this->logger->warning('Failed to compile and/or save '.$root.'/'.$file, ['app' => 'core']);
@@ -145,7 +145,7 @@ class CSSResourceLocator extends ResourceLocator {
 				}
 			}
 
-			$this->resources[] = array($webRoot? : \OC::$WEBROOT, $webRoot, $file);
+			$this->resources[] = array($webRoot ?: \OC::$WEBROOT, $webRoot, $file);
 		}
 	}
 }
