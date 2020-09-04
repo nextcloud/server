@@ -357,7 +357,8 @@ class Manager implements IManager {
 		];
 
 		$legacyForms = \OC_App::getForms('personal');
-		if (!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms)) {
+		if ((!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms))
+			|| count($this->getPersonalSettings('additional')) > 1) {
 			$sections[98] = [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))];
 		}
 
