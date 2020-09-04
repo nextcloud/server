@@ -191,6 +191,17 @@ class RepairMimeTypes implements IRepairStep {
 		return $this->updateMimetypes($updatedMimetypes);
 	}
 
+	private function introduceOpenDocumentTemplates() {
+		$updatedMimetypes = [
+			'ott' => 'application/vnd.oasis.opendocument.text-template',
+			'ots' => 'application/vnd.oasis.opendocument.spreadsheet-template',
+			'otp' => 'application/vnd.oasis.opendocument.presentation-template',
+			'otg' => 'application/vnd.oasis.opendocument.graphics-template',
+		];
+
+		return $this->updateMimetypes($updatedMimetypes);
+	}
+
 	/**
 	 * Fix mime types
 	 */
@@ -226,6 +237,10 @@ class RepairMimeTypes implements IRepairStep {
 
 		if (version_compare($ocVersionFromBeforeUpdate, '14.0.0.10', '<') && $this->introduceComicbookTypes()) {
 			$out->info('Fixed comicbook mime types');
+		}
+
+		if (version_compare($ocVersionFromBeforeUpdate, '20.0.0.5', '<') && $this->introduceOpenDocumentTemplates()) {
+			$out->info('Fixed OpenDocument template mime types');
 		}
 	}
 }
