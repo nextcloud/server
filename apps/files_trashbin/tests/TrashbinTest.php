@@ -120,15 +120,25 @@ class TrashbinTest extends \Test\TestCase {
 		\OC::$server->getAppManager()->enableApp('files_trashbin');
 		$config = \OC::$server->getConfig();
 		$mockConfig = $this->createMock(\OCP\IConfig::class);
-		$mockConfig->expects($this->any())
+		$mockConfig
 			->method('getSystemValue')
-			->will($this->returnCallback(function ($key, $default) use ($config) {
+			->will($this->returnCallback(static function ($key, $default) use ($config) {
 				if ($key === 'filesystem_check_changes') {
 					return \OC\Files\Cache\Watcher::CHECK_ONCE;
 				} else {
 					return $config->getSystemValue($key, $default);
 				}
 			}));
+		$mockConfig
+			->method('getUserValue')
+			->willReturnCallback(static function ($userId, $appName, $key, $default = '') use ($config) {
+				return $config->getUserValue($userId, $appName, $key, $default);
+			});
+		$mockConfig
+			->method('getAppValue')
+			->willReturnCallback(static function ($appName, $key, $default = '') use ($config) {
+				return $config->getAppValue($appName, $key, $default);
+			});
 		$this->overwriteService('AllConfig', $mockConfig);
 
 		$this->trashRoot1 = '/' . self::TEST_TRASHBIN_USER1 . '/files_trashbin';
