@@ -1226,15 +1226,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Collaboration\Resources\IProviderManager::class, \OC\Collaboration\Resources\ProviderManager::class);
 		$this->registerAlias(\OCP\Collaboration\Resources\IManager::class, \OC\Collaboration\Resources\Manager::class);
 
-		$this->registerService('SettingsManager', function (Server $c) {
-			$manager = new \OC\Settings\Manager(
-				$c->getLogger(),
-				$c->getL10NFactory(),
-				$c->getURLGenerator(),
-				$c
-			);
-			return $manager;
-		});
+		$this->registerDeprecatedAlias('SettingsManager', \OC\Settings\Manager::class);
+		$this->registerAlias(\OCP\Settings\IManager::class, \OC\Settings\Manager::class);
 		$this->registerService(\OC\Files\AppData\Factory::class, function (Server $c) {
 			return new \OC\Files\AppData\Factory(
 				$c->getRootFolder(),
@@ -2198,7 +2191,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated
 	 */
 	public function getSettingsManager() {
-		return $this->query('SettingsManager');
+		return $this->query(\OC\Settings\Manager::class);
 	}
 
 	/**
