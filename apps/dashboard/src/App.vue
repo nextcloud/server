@@ -25,10 +25,8 @@
 			</div>
 		</Draggable>
 
-		<div class="footer"
-			:class="{ firstrun: firstRun }">
-			<a v-tooltip="tooltip"
-				class="edit-panels icon-rename"
+		<div class="footer">
+			<a class="edit-panels icon-rename"
 				tabindex="0"
 				@click="showModal"
 				@keyup.enter="showModal"
@@ -156,17 +154,6 @@ export default {
 			}
 			return {
 				backgroundImage: `url(${this.backgroundImage})`,
-			}
-		},
-		tooltip() {
-			if (!this.firstRun) {
-				return null
-			}
-			return {
-				content: t('dashboard', 'Adjust the dashboard to your needs'),
-				placement: 'top',
-				show: true,
-				trigger: 'manual',
 			}
 		},
 		greeting() {
@@ -489,11 +476,6 @@ export default {
 	transition: bottom var(--animation-slow) ease-in-out;
 	bottom: 0;
 	padding: 44px 0;
-
-	&.firstrun {
-		position: sticky;
-		bottom: 10px;
-	}
 }
 
 .edit-panels {
