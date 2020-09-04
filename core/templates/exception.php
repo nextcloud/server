@@ -23,7 +23,7 @@ style('core', ['styles', 'header']);
 		<?php endif; ?>
 	</ul>
 
-	<?php if ($_['debugMode']): ?>
+	<?php if (isset($_['debugMode']) && $_['debugMode'] === true): ?>
 		<br />
 		<h3><?php p($l->t('Trace')) ?></h3>
 		<pre><?php p($_['trace']) ?></pre>
