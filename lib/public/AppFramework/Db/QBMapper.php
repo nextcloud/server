@@ -230,6 +230,8 @@ abstract class QBMapper {
 			case 'bool':
 			case 'boolean':
 				return IQueryBuilder::PARAM_BOOL;
+			case 'blob':
+				return IQueryBuilder::PARAM_LOB;
 		}
 
 		return IQueryBuilder::PARAM_STR;
