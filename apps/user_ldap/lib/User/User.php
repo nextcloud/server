@@ -195,7 +195,6 @@ class User {
 	 * @param array $ldapEntry the user entry as retrieved from LDAP
 	 */
 	public function processAttributes($ldapEntry) {
-		$this->markRefreshTime();
 		//Quota
 		$attr = strtolower($this->connection->ldapQuotaAttribute);
 		if(isset($ldapEntry[$attr])) {

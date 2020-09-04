@@ -1005,7 +1005,6 @@ class UserTest extends \Test\TestCase {
 
 	public function testProcessAttributes() {
 		$requiredMethods = [
-			'markRefreshTime',
 			'updateQuota',
 			'updateEmail',
 			'composeAndStoreDisplayName',
