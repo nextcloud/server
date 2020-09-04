@@ -213,8 +213,8 @@
 			<div class="userActions" />
 		</div>
 
-		<user-row v-for="(user, key) in filteredUsers"
-			:key="key"
+		<user-row v-for="user in filteredUsers"
+			:key="user.id"
 			:external-actions="externalActions"
 			:groups="groups"
 			:languages="languages"
