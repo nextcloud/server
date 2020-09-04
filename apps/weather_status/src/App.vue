@@ -487,7 +487,7 @@ li:not(.inline) .weather-status-menu-item {
 	}
 }
 
-	li {
-		list-style-type: none;
-	}
+li {
+	list-style-type: none;
+}
 </style>
