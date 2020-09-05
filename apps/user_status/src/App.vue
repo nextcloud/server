@@ -31,6 +31,7 @@
 			<Actions
 				id="user-status-menu-item__subheader"
 				:default-icon="statusIcon"
+				container="header"
 				:menu-title="visibleMessage"
 				:title="visibleMessage">
 				<ActionButton
