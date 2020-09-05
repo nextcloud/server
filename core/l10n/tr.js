@@ -166,6 +166,7 @@ OC.L10N.register(
     "Forgot password?" : "Parolamı unuttum",
     "Log in with a device" : "Bir aygıt ile oturum açın",
     "Back" : "Geri",
+    "Search for {name} only" : "Yalnız {name} için aransın",
     "No results for {query}" : "{query} sorgusundan bir sonuç alınamadı",
     "Start typing to search" : "Aramak için yazmaya başlayın",
     "Loading more results …" : "Diğer sonuçlar yükleniyor…",
