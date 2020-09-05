@@ -43,7 +43,7 @@ use Sabre\VObject\Reader;
 class PhotoCache {
 
 	/** @var array  */
-	protected const ALLOWED_CONTENT_TYPES = [
+	public const ALLOWED_CONTENT_TYPES = [
 		'image/png' => 'png',
 		'image/jpeg' => 'jpg',
 		'image/gif' => 'gif',
