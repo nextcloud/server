@@ -166,6 +166,7 @@ OC.L10N.register(
     "Forgot password?" : "Zapomněli jste heslo?",
     "Log in with a device" : "Přihlásit se pomocí zařízení",
     "Back" : "Zpět",
+    "Search for {name} only" : "Hledat pouze {name}",
     "No results for {query}" : "Pro {query} nic nenalezeno",
     "Start typing to search" : "Hledejte psaním",
     "Loading more results …" : "Načítání dalších výsledků…",
