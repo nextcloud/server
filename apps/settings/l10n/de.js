@@ -262,7 +262,7 @@ OC.L10N.register(
     "Featured apps" : "Ausgewählte Apps",
     "{license}-licensed" : "{license}-Lizenziert",
     "Details" : "Details",
-    "Changelog" : "Liste der Änderungen",
+    "Changelog" : "Liste der Veränderungen",
     "by {author}\n{license}" : "von {author}\n{license}",
     "New user" : "Neuer Benutzer",
     "Enter group name" : "Gruppenname eingeben",

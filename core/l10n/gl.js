@@ -166,6 +166,7 @@ OC.L10N.register(
     "Forgot password?" : "Esqueceu o contrasinal?",
     "Log in with a device" : "Acceder cun dispositivo",
     "Back" : "Atrás",
+    "Search for {name} only" : "Buscar só por {name}",
     "No results for {query}" : "Non hai resultados para {query}",
     "Start typing to search" : "Comece a escribir para buscar",
     "Loading more results …" : "Cargando máis resultados…",

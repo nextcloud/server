@@ -164,6 +164,7 @@
     "Forgot password?" : "Mot de passe oublié ?",
     "Log in with a device" : "Se connecter avec un appareil",
     "Back" : "Retour",
+    "Search for {name} only" : "Rechercher pour {name} uniquement",
     "No results for {query}" : "Aucun résultat pour {query}",
     "Start typing to search" : "Commencez à taper pout lancer la recherche",
     "Loading more results …" : "Chargement de plus de résultats …",
