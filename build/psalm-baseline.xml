@@ -404,11 +404,7 @@
     </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipPlugin.php">
-    <ImplicitToStringCast occurrences="3">
-      <code>$meetingLocation</code>
-      <code>$meetingDescription</code>
-      <code>$meetingUrl</code>
-    </ImplicitToStringCast>
+    <ImplicitToStringCast occurrences="2"/>
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
     </InvalidNullableReturnType>
