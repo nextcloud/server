@@ -25,6 +25,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} von {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Hochladen von Daten dieser Art wird nicht unterstützt.",
     "Target folder does not exist any more" : "Zielordner existiert nicht mehr",
+    "Operation is blocked by access control" : "Vorgang wird durch die Zugangskontrolle blockiert",
     "Error when assembling chunks, status code {status}" : "Fehler beim Zusammenführen der Teile (Chunks), Fehlermeldung {status}",
     "Actions" : "Aktionen",
     "Rename" : "Umbenennen",
@@ -199,6 +200,8 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Benachrichtigungen über Neues und Änderungen zu Ihren <strong>favorisierten Dateien</strong> beschränken <em>(nur im Stream)</em>",
     "A file or folder has been <strong>restored</strong>" : "Eine Datei oder ein Ordner wurde <strong>wiederhergestellt</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Benutzen Sie diese Adresse, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">via WebDAV auf Ihre Dateien zuzugreifen</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Sie nicht besitzen, kann nicht übertragen werden"
+    "Cannot transfter ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Sie nicht besitzen, kann nicht übertragen werden",
+    "This group folder is almost full ({usedSpacePercent}%)" : "Dieser Gruppenordner ist beinahe voll ({usedSpacePercent}%)",
+    "This external storage is almost full ({usedSpacePercent}%)" : "Dieser externe Speicher ist fast voll ({usedSpacePercent}%)"
 },
 "nplurals=2; plural=(n != 1);");

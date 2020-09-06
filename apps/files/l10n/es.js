@@ -25,6 +25,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Subir este archivo no es compatible",
     "Target folder does not exist any more" : "La carpeta destino ya no existe",
+    "Operation is blocked by access control" : "Esta operación está bloqueada por el control de accesos",
     "Error when assembling chunks, status code {status}" : "Error al reunir los trozos, código de estado {status}",
     "Actions" : "Acciones",
     "Rename" : "Renombrar",
