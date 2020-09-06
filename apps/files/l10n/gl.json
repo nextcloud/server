@@ -23,6 +23,7 @@
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Non se admite o envío deste elemento",
     "Target folder does not exist any more" : "O cartafol de destino xa non existe",
+    "Operation is blocked by access control" : "A operación está a se bloqueda polo control de acceso",
     "Error when assembling chunks, status code {status}" : "Produciuse un erro ao ensamblar os bloques, código de estado {status}",
     "Actions" : "Accións",
     "Rename" : "Renomear",
