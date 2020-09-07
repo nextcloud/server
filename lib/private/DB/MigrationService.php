@@ -513,6 +513,11 @@ class MigrationService {
 				if ((!$sourceTable instanceof Table || !$sourceTable->hasColumn($thing->getName())) && \strlen($thing->getName()) > 30) {
 					throw new \InvalidArgumentException('Column name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
 				}
+
+				if ($thing->getNotnull() && $thing->getDefault() === ''
+					&& $sourceTable instanceof Table && !$sourceTable->hasColumn($thing->getName())) {
+					throw new \InvalidArgumentException('Column name "'  . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
+				}
 			}
 
 			foreach ($table->getIndexes() as $thing) {
