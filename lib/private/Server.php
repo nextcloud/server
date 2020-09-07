@@ -20,6 +20,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Lionel Elie Mamane <lionel@mamane.lu>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Michael Weimann <mail@michael-weimann.eu>
