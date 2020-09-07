@@ -111,8 +111,13 @@ class Store implements IStore {
 		}
 
 		if ($trySession && $this->session->exists('login_credentials')) {
-			$creds = json_decode($this->session->get('login_credentials'));
-			return new Credentials($creds->uid, $creds->loginName, $creds->password);
+			/** @var array $creds */
+			$creds = json_decode($this->session->get('login_credentials'), true);
+			return new Credentials(
+				$creds['uid'],
+				$creds['loginName'] ?? $this->session->get('loginname') ?? $creds['uid'], // Pre 20 didn't have a loginName property, hence fall back to the session value and then to the UID
+				$creds['password']
+			);
 		}
 
 		// If we reach this line, an exception was thrown.
