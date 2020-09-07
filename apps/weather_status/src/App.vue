@@ -453,7 +453,7 @@ li:not(.inline) .weather-status-menu-item {
 	&__subheader {
 		width: 100%;
 
-		> button {
+		.trigger > .icon {
 			background-color: var(--color-main-background);
 			background-size: 16px;
 			border: 0;
@@ -472,7 +472,7 @@ li:not(.inline) .weather-status-menu-item {
 .inline .weather-status-menu-item__subheader {
 	width: 100%;
 
-	> button {
+	.trigger > .icon {
 		background-size: 16px;
 		border: 0;
 		border-radius: var(--border-radius-pill);
