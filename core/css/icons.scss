@@ -491,6 +491,10 @@ audio, canvas, embed, iframe, img, input, object, video {
 	@include icon-color('workflow', 'categories', $color-black, 1, true);
 }
 
+.icon-category-dashboard {
+	@include icon-color('dashboard', 'categories', $color-black, 1, true);
+}
+
 .icon-talk {
 	@include icon-color('app-dark', 'spreed', $color-black, 1);
 }
