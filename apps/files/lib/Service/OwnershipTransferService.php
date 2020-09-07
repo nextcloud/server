@@ -244,7 +244,7 @@ class OwnershipTransferService {
 	private function collectUsersShares(string $sourceUid,
 										OutputInterface $output,
 										View $view,
-										?string $path = null): array {
+										string $path): array {
 		$output->writeln("Collecting all share information for files and folders of $sourceUid ...");
 
 		$shares = [];
@@ -257,7 +257,7 @@ class OwnershipTransferService {
 				if (empty($sharePage)) {
 					break;
 				}
-				if ($path !== null) {
+				if ($path !== "$sourceUid/files") {
 					$sharePage = array_filter($sharePage, function (IShare $share) use ($view, $path) {
 						try {
 							$relativePath = $view->getPath($share->getNodeId());
