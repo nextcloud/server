@@ -19,7 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { generateUrl } from '@nextcloud/router'
+import { generateOcsUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import axios from '@nextcloud/axios'
 
@@ -35,15 +35,15 @@ export const regexFilterNot = /-in:([a-z_-]+)/ig
  */
 export async function getTypes() {
 	try {
-		const { data } = await axios.get(generateUrl('/search/providers'), {
+		const { data } = await axios.get(generateOcsUrl('search', 2) + 'providers', {
 			params: {
 				// Sending which location we're currently at
 				from: window.location.pathname.replace('/index.php', '') + window.location.search,
 			},
 		})
-		if (Array.isArray(data) && data.length > 0) {
+		if ('ocs' in data && 'data' in data.ocs && Array.isArray(data.ocs.data) && data.ocs.data.length > 0) {
 			// Providers are sorted by the api based on their order key
-			return data
+			return data.ocs.data
 		}
 	} catch (error) {
 		console.error(error)
@@ -60,8 +60,9 @@ export async function getTypes() {
  * @returns {Promise}
  */
 export function search(type, query, cursor) {
-	return axios.get(generateUrl(`/search/providers/${type}/search?term=${query}`), {
+	return axios.get(generateOcsUrl('search', 2) + `providers/${type}/search`, {
 		params: {
+			term: query,
 			cursor,
 			// Sending which location we're currently at
 			from: window.location.pathname.replace('/index.php', '') + window.location.search,

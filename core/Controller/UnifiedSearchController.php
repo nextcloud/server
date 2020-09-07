@@ -30,16 +30,16 @@ namespace OC\Core\Controller;
 
 use OC\Search\SearchComposer;
 use OC\Search\SearchQuery;
-use OCP\AppFramework\Controller;
+use OCP\AppFramework\OCSController;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 use OCP\IUserSession;
 use OCP\Route\IRouter;
 use OCP\Search\ISearchQuery;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
-class UnifiedSearchController extends Controller {
+class UnifiedSearchController extends OCSController {
 
 	/** @var SearchComposer */
 	private $composer;
@@ -67,12 +67,12 @@ class UnifiedSearchController extends Controller {
 	 *
 	 * @param string $from the url the user is currently at
 	 *
-	 * @return JSONResponse
+	 * @return DataResponse
 	 */
-	public function getProviders(string $from = ''): JSONResponse {
+	public function getProviders(string $from = ''): DataResponse {
 		[$route, $parameters] = $this->getRouteInformation($from);
 
-		return new JSONResponse(
+		return new DataResponse(
 			$this->composer->getProviders($route, $parameters)
 		);
 	}
@@ -88,20 +88,20 @@ class UnifiedSearchController extends Controller {
 	 * @param int|string|null $cursor
 	 * @param string $from
 	 *
-	 * @return JSONResponse
+	 * @return DataResponse
 	 */
 	public function search(string $providerId,
 						   string $term = '',
 						   ?int $sortOrder = null,
 						   ?int $limit = null,
 						   $cursor = null,
-						   string $from = ''): JSONResponse {
+						   string $from = ''): DataResponse {
 		if (empty(trim($term))) {
-			return new JSONResponse(null, Http::STATUS_BAD_REQUEST);
+			return new DataResponse(null, Http::STATUS_BAD_REQUEST);
 		}
 		[$route, $routeParameters] = $this->getRouteInformation($from);
 
-		return new JSONResponse(
+		return new DataResponse(
 			$this->composer->search(
 				$this->userSession->getUser(),
 				$providerId,
