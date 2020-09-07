@@ -5,6 +5,7 @@ declare(strict_types=1);
 /**
  * @copyright 2017, Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Brad Rubenstein <brad@wbr.tech>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
