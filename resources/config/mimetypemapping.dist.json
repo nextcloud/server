@@ -132,7 +132,7 @@
 	"pdf": ["application/pdf"],
 	"pfb": ["application/x-font"],
 	"pef": ["image/x-dcraw"],
-	"php": ["application/x-php"],
+	"php": ["application/x-php", "text/x-php"],
 	"pl": ["application/x-perl"],
 	"pls": ["audio/x-scpls"],
 	"png": ["image/png"],
