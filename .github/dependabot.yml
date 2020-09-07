@@ -1,0 +1,92 @@
+version: 2
+updates:
+# Linting and coding style
+- package-ecosystem: composer
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  labels:
+  - 3. to review
+  - "feature: dependencies"
+
+# Main master npm
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  labels:
+  - 3. to review
+  - "feature: dependencies"
+
+# Testing master npm
+- package-ecosystem: npm
+  directory: "/build"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  labels:
+  - 3. to review
+  - "feature: dependencies"
+
+# Testing master composer
+- package-ecosystem: composer
+  directory: "/build/integration"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  labels:
+  - 3. to review
+  - "feature: dependencies"
+
+
+# Main stableXX npm
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  # Only allow updates to the lockfile
+  versioning-strategy: lockfile-only
+  target-branch:
+  - stable19
+  - stable18
+  - stable17
+  labels:
+  - 3. to review
+  - "feature: dependencies"
+
+# Testing StableXX composer
+- package-ecosystem: composer
+  directory: "/build/integration"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  # Only allow updates to the lockfile
+  versioning-strategy: lockfile-only
+  target-branch:
+  - stable19
+  - stable18
+  - stable17
+  labels:
+  - 3. to review
+  - "feature: dependencies"
