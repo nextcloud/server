@@ -363,23 +363,23 @@ export default {
 				const request = await search(type, query)
 
 				// Process results
-				if (request.data.entries.length > 0) {
-					this.$set(this.results, type, request.data.entries)
+				if (request.data.ocs.data.entries.length > 0) {
+					this.$set(this.results, type, request.data.ocs.data.entries)
 				} else {
 					this.$delete(this.results, type)
 				}
 
 				// Save cursor if any
-				if (request.data.cursor) {
-					this.$set(this.cursors, type, request.data.cursor)
-				} else if (!request.data.isPaginated) {
+				if (request.data.ocs.data.cursor) {
+					this.$set(this.cursors, type, request.data.ocs.data.cursor)
+				} else if (!request.data.ocs.data.isPaginated) {
 					// If no cursor and no pagination, we save the default amount
 					// provided by server's initial state `defaultLimit`
 					this.$set(this.limits, type, this.defaultLimit)
 				}
 
 				// Check if we reached end of pagination
-				if (request.data.entries.length < this.defaultLimit) {
+				if (request.data.ocs.data.entries.length < this.defaultLimit) {
 					this.$set(this.reached, type, true)
 				}
 
@@ -410,16 +410,16 @@ export default {
 				const request = await search(type, this.query, this.cursors[type])
 
 				// Save cursor if any
-				if (request.data.cursor) {
-					this.$set(this.cursors, type, request.data.cursor)
+				if (request.data.ocs.data.cursor) {
+					this.$set(this.cursors, type, request.data.ocs.data.cursor)
 				}
 
-				if (request.data.entries.length > 0) {
-					this.results[type].push(...request.data.entries)
+				if (request.data.ocs.data.entries.length > 0) {
+					this.results[type].push(...request.data.ocs.data.entries)
 				}
 
 				// Check if we reached end of pagination
-				if (request.data.entries.length < this.defaultLimit) {
+				if (request.data.ocs.data.entries.length < this.defaultLimit) {
 					this.$set(this.reached, type, true)
 				}
 			} else
