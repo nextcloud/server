@@ -128,11 +128,11 @@ class Coordinator {
 		 * Now that all register methods have been called, we can delegate the registrations
 		 * to the actual services
 		 */
+		$this->registrationContext->delegateContainerRegistrations($apps);
 		$this->registrationContext->delegateCapabilityRegistrations($apps);
 		$this->registrationContext->delegateCrashReporterRegistrations($apps, $this->registry);
 		$this->registrationContext->delegateDashboardPanelRegistrations($apps, $this->dashboardManager);
 		$this->registrationContext->delegateEventListenerRegistrations($this->eventDispatcher);
-		$this->registrationContext->delegateContainerRegistrations($apps);
 		$this->registrationContext->delegateMiddlewareRegistrations($apps);
 	}
 
