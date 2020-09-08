@@ -66,7 +66,7 @@
     "nextcloud-vue-collections": "^0.8.1",
     "p-limit": "^3.0.2",
     "p-queue": "^6.6.1",
-    "query-string": "^5.1.1",
+    "query-string": "^6.13.1",
     "regenerator-runtime": "^0.13.7",
     "select2": "3.5.1",
     "snap.js": "^2.0.9",
