@@ -19,7 +19,7 @@
     "karma-coverage": "2.0.1",
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-sinon": "^1.0.4",
-    "karma-junit-reporter": "^1.2.0",
+    "karma-junit-reporter": "^2.0.1",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-viewport": "^1.0.6",
     "node-sass": "~4.14.1",
