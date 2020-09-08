@@ -12,7 +12,7 @@
   "dependencies": {},
   "devDependencies": {
     "handlebars": "^4.7.6",
-    "jasmine-core": "~2.5.2",
+    "jasmine-core": "~3.6.0",
     "jasmine-sinon": "^0.4.0",
     "jsdoc": "^3.6.5",
     "karma": "^3.1.4",
