@@ -227,6 +227,16 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		}
 	}
 
+	public function getPermissions($path) {
+		$stat = $this->stat($path);
+
+		if (is_array($stat) && isset($stat['permissions'])) {
+			return $stat['permissions'];
+		}
+
+		return parent::getPermissions($path);
+	}
+
 	/**
 	 * Override this method if you need a different unique resource identifier for your object storage implementation.
 	 * The default implementations just appends the fileId to 'urn:oid:'. Make sure the URN is unique over all users.
