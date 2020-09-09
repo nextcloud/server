@@ -1486,6 +1486,7 @@
 				permissions = this.getDirectoryPermissions();
 			}
 
+
 			//containing tr
 			var tr = $('<tr></tr>').attr({
 				"data-id" : fileData.id,
@@ -1497,7 +1498,8 @@
 				"data-etag": fileData.etag,
 				"data-permissions": permissions,
 				"data-has-preview": fileData.hasPreview !== false,
-				"data-e2eencrypted": fileData.isEncrypted === true
+				"data-e2eencrypted": fileData.isEncrypted === true,
+				"no-trashbin": fileData.noTrashbin
 			});
 
 			if (dataIcon) {
@@ -2063,21 +2065,18 @@
 			this._currentFileModel = null;
 			this.$el.find('.select-all').prop('checked', false);
 			this.showMask();
-			this._reloadCall = this.filesClient.getFolderContents(
-				this.getCurrentDirectory(), {
-					includeParent: true,
-					properties: this._getWebdavProperties()
-				}
-			);
+			this.storageStatusCall = this.getStorageStatistics();
 			if (this._detailsView) {
 				// close sidebar
 				this._updateDetailsView(null);
 			}
 			this._setCurrentDir(this.getCurrentDirectory(), false);
 			var callBack = this.reloadCallback.bind(this);
-			return this._reloadCall.then(callBack, callBack);
+			return this.storageStatusCall
+				.then(storageStatus => this.filesClient.getFolderContents(this.getCurrentDirectory(),{includeParent:true,properties:this._getWebdavProperties()},storageStatus))
+				.then(callBack, callBack);
 		},
-		reloadCallback: function(status, result) {
+		reloadCallback: function(status, result, storageStatus) {
 			delete this._reloadCall;
 			this.hideMask();
 
@@ -2126,7 +2125,7 @@
 			}
 
 			this.updateStorageStatistics(true);
-
+		
 			// first entry is the root
 			this.dirInfo = result.shift();
 			this.breadcrumb.setDirectoryInfo(this.dirInfo);
@@ -2135,6 +2134,11 @@
 				this._updateDirectoryPermissions();
 			}
 
+			result = result.map(function(el) {
+				var o = Object.assign({}, el); 
+				o.noTrashbin = storageStatus.data.noTrashbin; 
+				return o; 
+			})
 			result.sort(this._sortComparator);
 			this.setFiles(result);
 
@@ -2154,6 +2158,10 @@
 
 		updateStorageStatistics: function(force) {
 			OCA.Files.Files.updateStorageStatistics(this.getCurrentDirectory(), force);
+		},
+    
+		getStorageStatistics: function() {
+			return OCA.Files.Files.getStorageStatistics(this.getCurrentDirectory());
 		},
 
 		updateStorageQuotas: function() {

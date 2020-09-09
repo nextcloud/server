@@ -557,6 +557,7 @@ class OC_Helper {
 			'ownerDisplayName' => $ownerDisplayName,
 			'mountType' => $mount->getMountType(),
 			'mountPoint' => trim($mountPoint, '/'),
+			'noTrashbin' => $mount->getOptions()['no_trashbin'],
 		];
 	}
 
