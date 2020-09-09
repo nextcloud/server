@@ -405,12 +405,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 */
 	private function getContentLength($path) {
 		if (isset($this->filesCache[$path])) {
-			return $this->filesCache[$path]['ContentLength'];
+			return (int)$this->filesCache[$path]['ContentLength'];
 		}
 
 		$result = $this->headObject($path);
 		if (isset($result['ContentLength'])) {
-			return $result['ContentLength'];
+			return (int)$result['ContentLength'];
 		}
 
 		return 0;
@@ -507,6 +507,12 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
+				// Don't try to fetch empty files
+				$stat = $this->stat($path);
+				if (is_array($stat) && isset($stat['size']) && $stat['size'] === 0) {
+					return fopen('php://memory', $mode);
+				}
+
 				try {
 					return $this->readObject($path);
 				} catch (S3Exception $e) {
