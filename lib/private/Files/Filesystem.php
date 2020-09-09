@@ -814,7 +814,7 @@ class Filesystem {
 
 		$cacheKey = json_encode([$path, $stripTrailingSlash, $isAbsolutePath, $keepUnicode]);
 
-		if (isset(self::$normalizedPathCache[$cacheKey])) {
+		if ($cacheKey && isset(self::$normalizedPathCache[$cacheKey])) {
 			return self::$normalizedPathCache[$cacheKey];
 		}
 
