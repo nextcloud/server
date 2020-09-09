@@ -554,7 +554,8 @@ class OC_Helper {
 			'relative' => $relative,
 			'owner' => $ownerId,
 			'ownerDisplayName' => $ownerDisplayName,
-			'mountType' => $mount->getMountType()
+			'mountType' => $mount->getMountType(),
+			'noTrashbin' => $mount->getOptions()['no_trashbin'],
 		];
 	}
 

@@ -53,7 +53,7 @@ class Helper {
 		$maxUploadFileSize = \OCP\Util::maxUploadFilesize($dir, $storageInfo['free']);
 		$maxHumanFileSize = \OCP\Util::humanFileSize($maxUploadFileSize);
 		$maxHumanFileSize = $l->t('Upload (max. %s)', [$maxHumanFileSize]);
-
+	
 		return [
 			'uploadMaxFilesize' => $maxUploadFileSize,
 			'maxHumanFilesize'  => $maxHumanFileSize,
@@ -64,6 +64,7 @@ class Helper {
 			'owner' => $storageInfo['owner'],
 			'ownerDisplayName' => $storageInfo['ownerDisplayName'],
 			'mountType' => $storageInfo['mountType'],
+			'noTrashbin' => $storageInfo['noTrashbin'],
 		];
 	}
 

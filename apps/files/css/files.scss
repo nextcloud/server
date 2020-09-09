@@ -629,6 +629,7 @@ a.action > img {
 	.fileActionsMenu .action.permanent {
 		opacity: 1;
 	}
+  
 }
 
 // Ellipsize long sharer names
@@ -639,6 +640,10 @@ a.action > img {
 	text-overflow: ellipsis;
 	vertical-align: middle;
 	margin-left: 6px;
+}
+
+.fileActionsMenu .action-delete-container.permanent-delete span{
+	color:red;
 }
 
 #fileList .remoteAddress .userDomain {
