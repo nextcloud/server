@@ -146,16 +146,15 @@ class Cache extends CacheJail {
 		}
 
 		try {
-			$sharePermissions = $this->storage->getPermissions($entry['path']);
+			if (isset($entry['permissions'])) {
+				$entry['permissions'] &= $this->storage->getShare()->getPermissions();
+			} else {
+				$entry['permissions'] = $this->storage->getPermissions($entry['path']);
+			}
 		} catch (StorageNotAvailableException $e) {
 			// thrown by FailedStorage e.g. when the sharer does not exist anymore
 			// (IDE may say the exception is never thrown – false negative)
 			$sharePermissions = 0;
-		}
-		if (isset($entry['permissions'])) {
-			$entry['permissions'] &= $sharePermissions;
-		} else {
-			$entry['permissions'] = $sharePermissions;
 		}
 		$entry['uid_owner'] = $this->storage->getOwner('');
 		$entry['displayname_owner'] = $this->getOwnerDisplayName();
