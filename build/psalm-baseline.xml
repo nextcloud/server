@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.14.2@3538fe1955d47f6ee926c0769d71af6db08aa488">
+<files psalm-version="3.15@de6e7f324f44dde540ebe7ebd4eb481b97c86f30">
   <file src="3rdparty/doctrine/dbal/lib/Doctrine/DBAL/Connection.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|null</code>
@@ -2196,9 +2196,6 @@
     </InvalidArgument>
   </file>
   <file src="apps/settings/lib/Controller/UsersController.php">
-    <InvalidArgument occurrences="1">
-      <code>'OC\Settings\Users::loadAdditionalScripts'</code>
-    </InvalidArgument>
     <UndefinedInterfaceMethod occurrences="3">
       <code>countUsersOfGroups</code>
       <code>countDisabledUsersOfGroups</code>
@@ -2701,7 +2698,7 @@
       <code>null</code>
       <code>null</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="17">
+    <InvalidScalarArgument occurrences="15">
       <code>$this-&gt;connection-&gt;ldapQuotaAttribute</code>
       <code>$this-&gt;connection-&gt;ldapUserDisplayName</code>
       <code>$this-&gt;connection-&gt;ldapUserDisplayName2</code>
@@ -2714,8 +2711,6 @@
       <code>$this-&gt;access-&gt;connection-&gt;homeFolderNamingRule</code>
       <code>true</code>
       <code>1</code>
-      <code>time()</code>
-      <code>86400</code>
       <code>$emailAttribute</code>
       <code>$quotaAttribute</code>
       <code>$this-&gt;connection-&gt;ldapExtStorageHomeAttribute</code>
@@ -2793,7 +2788,6 @@
   </file>
   <file src="apps/user_status/lib/Db/UserStatusMapper.php">
     <ImplicitToStringCast occurrences="2">
-      <code>$qb-&gt;createNamedParameter(['online', 'away'], IQueryBuilder::PARAM_STR_ARRAY)</code>
       <code>$qb-&gt;createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)</code>
     </ImplicitToStringCast>
     <MoreSpecificImplementedParamType occurrences="1"/>
@@ -3970,11 +3964,6 @@
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
     </TooManyArguments>
-  </file>
-  <file src="lib/private/Federation/CloudIdManager.php">
-    <RedundantCondition occurrences="1">
-      <code>$pos !== false</code>
-    </RedundantCondition>
   </file>
   <file src="lib/private/Files/Cache/Cache.php">
     <ImplicitToStringCast occurrences="3">
