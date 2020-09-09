@@ -159,7 +159,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			try {
 				$result = $this->getConnection()->listObjects([
 					'Bucket' => $this->bucket,
-					'Prefix' => rtrim($path, '/') . '/',
+					'Prefix' => rtrim($path, '/'),
 					'MaxKeys' => 1,
 				]);
 				$this->directoryCache[$path] = $result['Contents'] || $result['CommonPrefixes'];
