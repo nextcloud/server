@@ -536,7 +536,7 @@ class Manager {
 			WHERE `id` = ?
 			');
 			$result = (bool)$query->execute(array((int)$share['id']));
-		} else if ($result && (int)$share['share_type'] === Share::SHARE_TYPE_GROUP) {
+		} elseif ($result && $share !== false && (int)$share['share_type'] === Share::SHARE_TYPE_GROUP) {
 			$query = $this->connection->prepare('
 				UPDATE `*PREFIX*share_external`
 				SET `accepted` = ?
