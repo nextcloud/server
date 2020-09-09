@@ -194,21 +194,22 @@ class TemplateLayout extends \OC_Template {
 		$jsFiles = self::findJavascriptFiles(\OC_Util::$scripts);
 		$this->assign('jsfiles', []);
 		if ($this->config->getSystemValue('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
+			$jsConfigHelper = new JSConfigHelper(
+				\OC::$server->getL10N('lib'),
+				\OC::$server->query(Defaults::class),
+				\OC::$server->getAppManager(),
+				\OC::$server->getSession(),
+				\OC::$server->getUserSession()->getUser(),
+				$this->config,
+				\OC::$server->getGroupManager(),
+				\OC::$server->get(IniGetWrapper::class),
+				\OC::$server->getURLGenerator(),
+				\OC::$server->getCapabilitiesManager(),
+				\OC::$server->query(IInitialStateService::class)
+			);
+			$config = $jsConfigHelper->getConfig();
 			if (\OC::$server->getContentSecurityPolicyNonceManager()->browserSupportsCspV3()) {
-				$jsConfigHelper = new JSConfigHelper(
-					\OC::$server->getL10N('lib'),
-					\OC::$server->query(Defaults::class),
-					\OC::$server->getAppManager(),
-					\OC::$server->getSession(),
-					\OC::$server->getUserSession()->getUser(),
-					$this->config,
-					\OC::$server->getGroupManager(),
-					\OC::$server->get(IniGetWrapper::class),
-					\OC::$server->getURLGenerator(),
-					\OC::$server->getCapabilitiesManager(),
-					\OC::$server->query(IInitialStateService::class)
-				);
-				$this->assign('inline_ocjs', $jsConfigHelper->getConfig());
+				$this->assign('inline_ocjs', $config);
 			} else {
 				$this->append('jsfiles', \OC::$server->getURLGenerator()->linkToRoute('core.OCJS.getConfig', ['v' => self::$versionHash]));
 			}
