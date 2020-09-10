@@ -43,6 +43,9 @@ use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\UserAddedEvent;
+use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;
 
 class UpdateGroups extends \OC\BackgroundJob\TimedJob {
@@ -93,6 +96,11 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	 * @param string[] $groups
 	 */
 	private static function handleKnownGroups($groups) {
+		/** @var IEventDispatcher $dispatcher */
+		$dispatcher = \OC::$server->query(IEventDispatcher::class);
+		$groupManager = \OC::$server->getGroupManager();
+		$userManager = \OC::$server->getUserManager();
+
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – Dealing with known Groups.', ILogger::DEBUG);
 		$query = \OC_DB::prepare('
 			UPDATE `*PREFIX*ldap_group_members`
@@ -104,15 +112,19 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 			$knownUsers = unserialize(self::$groupsFromDB[$group]['owncloudusers']);
 			$actualUsers = self::getGroupBE()->usersInGroup($group);
 			$hasChanged = false;
+
+			$groupObject = $groupManager->get($group);
 			foreach (array_diff($knownUsers, $actualUsers) as $removedUser) {
-				\OCP\Util::emitHook('OC_User', 'post_removeFromGroup', ['uid' => $removedUser, 'gid' => $group]);
+				$userObject = $userManager->get($removedUser);
+				$dispatcher->dispatchTyped(new UserRemovedEvent($groupObject, $userObject));
 				\OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – "'.$removedUser.'" removed from "'.$group.'".',
 					ILogger::INFO);
 				$hasChanged = true;
 			}
 			foreach (array_diff($actualUsers, $knownUsers) as $addedUser) {
-				\OCP\Util::emitHook('OC_User', 'post_addToGroup', ['uid' => $addedUser, 'gid' => $group]);
+				$userObject = $userManager->get($addedUser);
+				$dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
 				\OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – "'.$addedUser.'" added to "'.$group.'".',
 					ILogger::INFO);
