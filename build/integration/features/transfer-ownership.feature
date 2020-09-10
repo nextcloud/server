@@ -44,6 +44,13 @@ Feature: transfer-ownership
 		And as "user0" the file "/somefile.txt" does not exist
 		And using received transfer folder of "user1" as dav path
 		And as "user1" the file "/somefile.txt" exists
+		And As an "user1"
+		And Getting info of last share
+		And the OCS status code should be "100"
+		And Share fields of last share match with
+			| uid_owner | user1 |
+			| uid_file_owner | user1 |
+			| share_with | user2 |
 
 	Scenario: transfering ownership of folder shared with third user
 		Given user "user0" exists
@@ -61,6 +68,13 @@ Feature: transfer-ownership
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
 		And as "user1" the folder "/test" exists
+		And As an "user1"
+		And Getting info of last share
+		And the OCS status code should be "100"
+		And Share fields of last share match with
+			| uid_owner | user1 |
+			| uid_file_owner | user1 |
+			| share_with | user2 |
 
 	Scenario: transfering ownership of folder shared with transfer recipient
 		Given user "user0" exists
@@ -79,6 +93,8 @@ Feature: transfer-ownership
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
 		And as "user1" the folder "/test" exists
+		And Getting info of last share
+		And the OCS status code should be "404"
 
 	Scenario: transfering ownership of folder doubly shared with third user
 		Given group "group1" exists
@@ -100,6 +116,13 @@ Feature: transfer-ownership
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
 		And as "user1" the folder "/test" exists
+		And As an "user1"
+		And Getting info of last share
+		And the OCS status code should be "100"
+		And Share fields of last share match with
+			| uid_owner | user1 |
+			| uid_file_owner | user1 |
+			| share_with | user2 |
 
 	Scenario: transfering ownership of file shares to user with the same id as the group
 		Given user "user0" exists
@@ -118,6 +141,13 @@ Feature: transfer-ownership
 		And as "user0" the file "/somefile.txt" does not exist
 		And using received transfer folder of "user1" as dav path
 		And as "test" the file "/somefile.txt" exists
+		And As an "test"
+		And Getting info of last share
+		And the OCS status code should be "100"
+		And Share fields of last share match with
+			| uid_owner | test |
+			| uid_file_owner | test |
+			| share_with | test |
 
 	Scenario: transfering ownership does not transfer received shares
 		Given user "user0" exists
@@ -133,6 +163,13 @@ Feature: transfer-ownership
 		Then as "user1" the folder "/test" does not exist
 		And using old dav path
 		And as "user0" the folder "/test" exists
+		And As an "user2"
+		And Getting info of last share
+		And the OCS status code should be "100"
+		And Share fields of last share match with
+			| uid_owner | user2 |
+			| uid_file_owner | user2 |
+			| share_with | user0 |
 
 	@local_storage
 	Scenario: transfering ownership does not transfer external storage
@@ -199,6 +236,13 @@ Feature: transfer-ownership
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
 		And as "user1" the folder "/test" exists
+		And As an "user1"
+		And Getting info of last share
+		And the OCS status code should be "100"
+		And Share fields of last share match with
+			| uid_owner | user1 |
+			| uid_file_owner | user1 |
+			| share_with | user2 |
 
 	Scenario: transfering ownership of folder shared with third user
 		Given user "user0" exists
@@ -216,6 +260,13 @@ Feature: transfer-ownership
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
 		And as "user1" the folder "/test" exists
+		And As an "user1"
+		And Getting info of last share
+		And the OCS status code should be "100"
+		And Share fields of last share match with
+			| uid_owner | user1 |
+			| uid_file_owner | user1 |
+			| share_with | user2 |
 
 	Scenario: transfering ownership of folder shared with transfer recipient
 		Given user "user0" exists
@@ -234,6 +285,8 @@ Feature: transfer-ownership
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
 		And as "user1" the folder "/test" exists
+		And Getting info of last share
+		And the OCS status code should be "404"
 
 	Scenario: transfering ownership of folder doubly shared with third user
 		Given group "group1" exists
@@ -255,6 +308,13 @@ Feature: transfer-ownership
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
 		And as "user1" the folder "/test" exists
+		And As an "user1"
+		And Getting info of last share
+		And the OCS status code should be "100"
+		And Share fields of last share match with
+			| uid_owner | user1 |
+			| uid_file_owner | user1 |
+			| share_with | user2 |
 
 	Scenario: transfering ownership does not transfer received shares
 		Given user "user0" exists
@@ -273,6 +333,8 @@ Feature: transfer-ownership
 		And as "user1" the folder "/sub/test" does not exist
 		And using old dav path
 		And as "user0" the folder "/sub" does not exist
+		And Getting info of last share
+		And the OCS status code should be "404"
 
 	Scenario: transfering ownership does not transfer external storage
 		Given user "user0" exists
