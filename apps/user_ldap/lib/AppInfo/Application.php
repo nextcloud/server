@@ -109,11 +109,11 @@ class Application extends App implements IBootstrap {
 				$groupBackend = new Group_Proxy($configPrefixes, $ldapWrapper, $groupPluginManager);
 
 				\OC_User::useBackend($userBackend);
-				$userBackendRegisteredEvent = new UserBackendRegistered($userBackend, $userPluginManager);
-				$dispatcher->dispatchTyped($userBackendRegisteredEvent);
-				$legacyDispatcher->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded', $userBackendRegisteredEvent);
-
 				$groupManager->addBackend($groupBackend);
+
+				$userBackendRegisteredEvent = new UserBackendRegistered($userBackend, $userPluginManager);
+				$legacyDispatcher->dispatch('OCA\\User_LDAP\\User\\User::postLDAPBackendAdded', $userBackendRegisteredEvent);
+				$dispatcher->dispatchTyped($userBackendRegisteredEvent);
 				$groupBackendRegisteredEvent = new GroupBackendRegistered($groupBackend, $groupPluginManager);
 				$dispatcher->dispatchTyped($groupBackendRegisteredEvent);
 			}
