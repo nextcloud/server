@@ -227,6 +227,10 @@ class Throttler {
 	 * @return int
 	 */
 	public function getAttempts(string $ip, string $action = '', float $maxAgeHours = 12): int {
+		if ($ip === '') {
+			return 0;
+		}
+
 		$ipAddress = new IpAddress($ip);
 		if ($this->isIPWhitelisted((string)$ipAddress)) {
 			return 0;
