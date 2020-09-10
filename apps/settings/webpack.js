@@ -11,12 +11,13 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, './js'),
 		publicPath: '/js/',
-		filename: 'vue-[name].js?v=[chunkhash]',
-		jsonpFunction: 'webpackJsonpSettings'
+		filename: 'vue-[name].js?v=[contenthash]',
+		chunkFilename: 'vue-[name]-[chunkhash].js?v=[contenthash]',
+		jsonpFunction: 'webpackJsonpSettings',
 	},
 	optimization: {
 		splitChunks: {
 			automaticNameDelimiter: '-',
-		}
-	}
+		},
+	},
 }
