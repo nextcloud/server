@@ -48,11 +48,11 @@ class FileChanged extends FileActivitySettings {
 	 * @since 11.0.0
 	 */
 	public function getPriority() {
-		return 1;
+		return 2;
 	}
 
 	public function canChangeMail() {
-		return false;
+		return true;
 	}
 
 	public function isDefaultEnabledMail() {
@@ -60,7 +60,7 @@ class FileChanged extends FileActivitySettings {
 	}
 
 	public function canChangeNotification() {
-		return false;
+		return true;
 	}
 
 	public function isDefaultEnabledNotification() {
