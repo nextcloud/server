@@ -1967,7 +1967,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated
 	 */
 	public function getTrustedDomainHelper() {
-		return $this->query('TrustedDomainHelper');
+		return $this->query(TrustedDomainHelper::class);
 	}
 
 	/**
