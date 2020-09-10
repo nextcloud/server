@@ -26,8 +26,10 @@ import Videos from '../models/videos'
 export default class Viewer {
 
 	#state;
+	#mimetypes;
 
 	constructor() {
+		this.#mimetypes = []
 		this.#state = {}
 		this.#state.file = ''
 		this.#state.files = []
@@ -74,6 +76,7 @@ export default class Viewer {
 	 */
 	registerHandler(handler) {
 		this.#state.handlers.push(handler)
+		this.#mimetypes.push.apply(this.#mimetypes, handler.mimes)
 	}
 
 	/**
@@ -84,6 +87,16 @@ export default class Viewer {
 	 */
 	get file() {
 		return this.#state.file
+	}
+
+	/**
+	 * Get the supported mimetypes that can be opened with the viewer
+	 *
+	 * @memberof Viewer
+	 * @returns {array} list of mimetype strings that the viewer can open
+	 */
+	get mimetypes() {
+		return this.#mimetypes
 	}
 
 	/**
