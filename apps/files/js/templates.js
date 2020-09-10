@@ -224,6 +224,8 @@ templates['filemultiselectmenu'] = template({"1":function(container,depth0,helpe
 
   return "		<li class=\"item-"
     + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":3,"column":18},"end":{"line":3,"column":26}}}) : helper)))
+    + " "
+    + alias4(((helper = (helper = lookupProperty(helpers,"deleteAlert") || (depth0 != null ? lookupProperty(depth0,"deleteAlert") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"deleteAlert","hash":{},"data":data,"loc":{"start":{"line":3,"column":27},"end":{"line":3,"column":42}}}) : helper)))
     + "\">\n			<a href=\"#\" class=\"menuitem action "
     + alias4(((helper = (helper = lookupProperty(helpers,"name") || (depth0 != null ? lookupProperty(depth0,"name") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data,"loc":{"start":{"line":4,"column":38},"end":{"line":4,"column":46}}}) : helper)))
     + " permanent\" data-action=\""
