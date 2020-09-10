@@ -286,6 +286,11 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			case 'rb':
 				$stat = $this->stat($path);
 				if (is_array($stat)) {
+					// Reading 0 sized files is a waste of time
+					if (isset($stat['size']) && $stat['size'] === 0) {
+						return fopen('php://memory', $mode);
+					}
+
 					try {
 						return $this->objectStore->readObject($this->getURN($stat['fileid']));
 					} catch (NotFoundException $e) {
