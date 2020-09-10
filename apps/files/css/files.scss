@@ -643,7 +643,10 @@ a.action > img {
 }
 
 .fileActionsMenu .action-delete-container.permanent-delete span{
-	color:red;
+	color: red;
+}
+.filesSelectMenu .item-delete.permanent-delete span {
+	color: red;
 }
 
 #fileList .remoteAddress .userDomain {

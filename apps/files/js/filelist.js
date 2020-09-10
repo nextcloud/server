@@ -325,9 +325,6 @@
 						this.multiSelectMenuItems[i] = this.multiSelectMenuItems[i](this);
 					}
 				}
-				this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(this.multiSelectMenuItems);
-				this.fileMultiSelectMenu.render();
-				this.$el.find('.selectedActions').append(this.fileMultiSelectMenu.$el);
 			}
 
 			if (options.sorting) {
@@ -398,10 +395,6 @@
 			this.$el.on('show', _.bind(this._onShow, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
-			this.$el.find('.actions-selected').click(function () {
-				self.fileMultiSelectMenu.show(self);
-				return false;
-			});
 
 			this.$container.on('scroll', _.bind(this._onScroll, this));
 
@@ -1973,7 +1966,7 @@
 				targetDir = '/' + targetDir;
 			}
 			this._currentDirectory = targetDir;
-
+			
 			// legacy stuff
 			this.$el.find('#dir').val(targetDir);
 
@@ -2065,12 +2058,27 @@
 			this._currentFileModel = null;
 			this.$el.find('.select-all').prop('checked', false);
 			this.showMask();
-			this.storageStatusCall = this.getStorageStatistics();
+			
 			if (this._detailsView) {
 				// close sidebar
 				this._updateDetailsView(null);
 			}
 			this._setCurrentDir(this.getCurrentDirectory(), false);
+
+			var getStorageStatisticsCall = this.getStorageStatistics();
+			getStorageStatisticsCall
+				.then(storageStatus => {
+						this.fileMultiSelectMenu = new OCA.Files.FileMultiSelectMenu(this.multiSelectMenuItems,storageStatus);
+						this.fileMultiSelectMenu.render();
+						this.$el.find('.selectedActions').append(this.fileMultiSelectMenu.$el);
+
+						this.$el.find('.actions-selected').click(() =>{ 
+							this.fileMultiSelectMenu.show(this);
+							return false;
+						})
+				});
+		
+			this.storageStatusCall = this.getStorageStatistics();
 			var callBack = this.reloadCallback.bind(this);
 			return this.storageStatusCall
 				.then(storageStatus => this.filesClient.getFolderContents(this.getCurrentDirectory(),{includeParent:true,properties:this._getWebdavProperties()},storageStatus))
