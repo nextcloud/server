@@ -901,7 +901,6 @@ class OC {
 	public static function registerShareHooks() {
 		if (\OC::$server->getSystemConfig()->getValue('installed')) {
 			OC_Hook::connect('OC_User', 'post_deleteUser', Hooks::class, 'post_deleteUser');
-			OC_Hook::connect('OC_User', 'post_removeFromGroup', Hooks::class, 'post_removeFromGroupLDAP');
 			OC_Hook::connect('OC_User', 'post_deleteGroup', Hooks::class, 'post_deleteGroup');
 
 			/** @var \OCP\EventDispatcher\IEventDispatcher $dispatcher */
