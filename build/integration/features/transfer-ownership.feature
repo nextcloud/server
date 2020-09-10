@@ -9,6 +9,10 @@ Feature: transfer-ownership
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
 		Then Downloaded content when downloading file "/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the file "/somefile.txt" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the file "/somefile.txt" exists
 
 	Scenario: transfering ownership of a folder
 		Given user "user0" exists
@@ -20,6 +24,10 @@ Feature: transfer-ownership
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
 
 	Scenario: transfering ownership of file shares
 		Given user "user0" exists
@@ -32,6 +40,10 @@ Feature: transfer-ownership
 		And the command was successful
 		And As an "user2"
 		Then Downloaded content when downloading file "/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the file "/somefile.txt" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the file "/somefile.txt" exists
 
 	Scenario: transfering ownership of folder shared with third user
 		Given user "user0" exists
@@ -45,6 +57,10 @@ Feature: transfer-ownership
 		And the command was successful
 		And As an "user2"
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
 
 	Scenario: transfering ownership of folder shared with transfer recipient
 		Given user "user0" exists
@@ -59,6 +75,10 @@ Feature: transfer-ownership
 		Then as "user1" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
 		And Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
 
 	Scenario: transfering ownership of folder doubly shared with third user
 		Given group "group1" exists
@@ -76,6 +96,10 @@ Feature: transfer-ownership
 		And the command was successful
 		And As an "user2"
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
 
 	Scenario: transfering ownership of file shares to user with the same id as the group
 		Given user "user0" exists
@@ -90,6 +114,10 @@ Feature: transfer-ownership
 		And the command was successful
 		And As an "user2"
 		Then Downloaded content when downloading file "/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the file "/somefile.txt" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "test" the file "/somefile.txt" exists
 
 	Scenario: transfering ownership does not transfer received shares
 		Given user "user0" exists
@@ -103,6 +131,8 @@ Feature: transfer-ownership
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
 		Then as "user1" the folder "/test" does not exist
+		And using old dav path
+		And as "user0" the folder "/test" exists
 
 	@local_storage
 	Scenario: transfering ownership does not transfer external storage
@@ -148,6 +178,10 @@ Feature: transfer-ownership
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
 
 	Scenario: transfering ownership of file shares
 		Given user "user0" exists
@@ -161,6 +195,10 @@ Feature: transfer-ownership
 		And the command was successful
 		And As an "user2"
 		Then Downloaded content when downloading file "/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
 
 	Scenario: transfering ownership of folder shared with third user
 		Given user "user0" exists
@@ -174,6 +212,10 @@ Feature: transfer-ownership
 		And the command was successful
 		And As an "user2"
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
 
 	Scenario: transfering ownership of folder shared with transfer recipient
 		Given user "user0" exists
@@ -188,6 +230,10 @@ Feature: transfer-ownership
 		Then as "user1" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path
 		And Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
 
 	Scenario: transfering ownership of folder doubly shared with third user
 		Given group "group1" exists
@@ -205,6 +251,10 @@ Feature: transfer-ownership
 		And the command was successful
 		And As an "user2"
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
 
 	Scenario: transfering ownership does not transfer received shares
 		Given user "user0" exists
@@ -219,7 +269,10 @@ Feature: transfer-ownership
 		And the command was successful
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
-		Then as "user1" the folder "/sub/test" does not exist
+		Then as "user1" the folder "/sub" exists
+		And as "user1" the folder "/sub/test" does not exist
+		And using old dav path
+		And as "user0" the folder "/sub" does not exist
 
 	Scenario: transfering ownership does not transfer external storage
 		Given user "user0" exists
