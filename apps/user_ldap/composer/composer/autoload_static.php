@@ -63,6 +63,7 @@ class ComposerStaticInitUser_LDAP
         'OCA\\User_LDAP\\Mapping\\AbstractMapping' => __DIR__ . '/..' . '/../lib/Mapping/AbstractMapping.php',
         'OCA\\User_LDAP\\Mapping\\GroupMapping' => __DIR__ . '/..' . '/../lib/Mapping/GroupMapping.php',
         'OCA\\User_LDAP\\Mapping\\UserMapping' => __DIR__ . '/..' . '/../lib/Mapping/UserMapping.php',
+        'OCA\\User_LDAP\\Migration\\RemoveRefreshTime' => __DIR__ . '/..' . '/../lib/Migration/RemoveRefreshTime.php',
         'OCA\\User_LDAP\\Migration\\UUIDFix' => __DIR__ . '/..' . '/../lib/Migration/UUIDFix.php',
         'OCA\\User_LDAP\\Migration\\UUIDFixGroup' => __DIR__ . '/..' . '/../lib/Migration/UUIDFixGroup.php',
         'OCA\\User_LDAP\\Migration\\UUIDFixInsert' => __DIR__ . '/..' . '/../lib/Migration/UUIDFixInsert.php',
