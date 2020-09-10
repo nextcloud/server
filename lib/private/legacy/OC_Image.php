@@ -1211,7 +1211,7 @@ if (!function_exists('imagebmp')) {
 			} // RLE8
 			elseif ($compression == 1 && $bit == 8) {
 				for ($j = $height - 1; $j >= 0; $j--) {
-					$lastIndex = 0;
+					$lastIndex = null;
 					$sameNum = 0;
 					for ($i = 0; $i <= $width; $i++) {
 						$index = imagecolorat($im, $i, $j);
