@@ -240,10 +240,10 @@ class Upgrade extends Command {
 				$output->writeln("<error>$message</error>");
 			});
 			$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use ($output) {
-				$output->writeln("<info>Set log level to debug</info>");
+				$output->writeln("<info>Setting log level to debug</info>");
 			});
 			$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use ($output) {
-				$output->writeln("<info>Reset log level</info>");
+				$output->writeln("<info>Resetting log level</info>");
 			});
 			$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use ($output) {
 				$output->writeln("<info>Starting code integrity check...</info>");
