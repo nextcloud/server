@@ -272,7 +272,7 @@
 					}
 					if (data.phpSupported && data.phpSupported.version.substr(0, 3) === '7.2') {
 						messages.push({
-							msg: t('core', 'Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3.'),
+							msg: t('core', 'Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 will requires at least PHP 7.3.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
