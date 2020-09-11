@@ -141,6 +141,10 @@
 </template>
 
 <script>
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import Vue from 'vue'
+import VueLocalStorage from 'vue-localstorage'
+
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
 import AppNavigationCounter from '@nextcloud/vue/dist/Components/AppNavigationCounter'
@@ -149,8 +153,6 @@ import AppNavigationSpacer from '@nextcloud/vue/dist/Components/AppNavigationSpa
 import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
 import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
 import Content from '@nextcloud/vue/dist/Components/Content'
-import Vue from 'vue'
-import VueLocalStorage from 'vue-localstorage'
 
 import AppList from '../components/AppList'
 import AppDetails from '../components/AppDetails'
@@ -254,8 +256,8 @@ export default {
 	},
 
 	watch: {
-		category(val, old) {
-			this.setSearch('')
+		category() {
+			this.searchQuery = ''
 		},
 
 		app() {
@@ -276,20 +278,24 @@ export default {
 		this.$store.dispatch('getGroups', { offset: 0, limit: 5 })
 		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
 	},
+
 	mounted() {
-		/**
-		 * Register search
-		 */
-		this.appSearch = new OCA.Search(this.setSearch, this.resetSearch)
+		subscribe('nextcloud:unified-search:search', this.setSearch)
+		subscribe('nextcloud:unified-search:reset', this.resetSearch)
+	},
+	beforeDestroy() {
+		unsubscribe('nextcloud:unified-search:search', this.setSearch)
+		unsubscribe('nextcloud:unified-search:reset', this.resetSearch)
 	},
 
 	methods: {
-		setSearch(query) {
+		setSearch({ query }) {
 			this.searchQuery = query
 		},
 		resetSearch() {
-			this.setSearch('')
+			this.searchQuery = ''
 		},
+
 		hideAppDetails() {
 			this.$router.push({
 				name: 'apps-category',

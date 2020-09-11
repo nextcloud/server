@@ -43,7 +43,6 @@
 
 <script>
 import { directive as ClickOutside } from 'v-click-outside'
-import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import excludeClickOutsideClasses from '@nextcloud/vue/dist/Mixins/excludeClickOutsideClasses'
 
 export default {
@@ -94,15 +93,8 @@ export default {
 	mounted() {
 		document.addEventListener('keydown', this.onKeyDown)
 	},
-
-	beforeMount() {
-		subscribe(`header-menu-${this.id}-close`, this.closeMenu)
-		subscribe(`header-menu-${this.id}-open`, this.openMenu)
-	},
-
 	beforeDestroy() {
-		unsubscribe(`header-menu-${this.id}-close`, this.closeMenu)
-		unsubscribe(`header-menu-${this.id}-open`, this.openMenu)
+		document.removeEventListener('keydown', this.onKeyDown)
 	},
 
 	methods: {
@@ -129,7 +121,6 @@ export default {
 			this.opened = false
 			this.$emit('close')
 			this.$emit('update:open', false)
-			emit(`header-menu-${this.id}-close`)
 		},
 
 		/**
@@ -143,14 +134,19 @@ export default {
 			this.opened = true
 			this.$emit('open')
 			this.$emit('update:open', true)
-			emit(`header-menu-${this.id}-open`)
 		},
 
 		onKeyDown(event) {
 			// If opened and escape pressed, close
 			if (event.key === 'Escape' && this.opened) {
 				event.preventDefault()
-				this.closeMenu()
+
+				/** user cancelled the menu by pressing escape */
+				this.$emit('cancel')
+
+				/** we do NOT fire a close event to differentiate cancel and close */
+				this.opened = false
+				this.$emit('update:open', false)
 			}
 		},
 	},
