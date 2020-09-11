@@ -49,6 +49,7 @@ use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Files\EntityTooLargeException;
 use OCP\Files\FileInfo;
 use OCP\Files\ForbiddenException;
+use OCP\Files\GenericFileException;
 use OCP\Files\InvalidContentException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\LockNotAcquiredException;
@@ -189,8 +190,14 @@ class File extends Node implements IFile {
 					$isEOF = feof($stream);
 				});
 
-				$count = $partStorage->writeStream($internalPartPath, $wrappedData);
-				$result = $count > 0;
+				$result = true;
+				$count = -1;
+				try {
+					$count = $partStorage->writeStream($internalPartPath, $wrappedData);
+				} catch (GenericFileException $e) {
+					$result = false;
+				}
+
 
 				if ($result === false) {
 					$result = $isEOF;
