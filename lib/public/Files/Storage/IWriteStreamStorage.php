@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace OCP\Files\Storage;
 
+use OCP\Files\GenericFileException;
+
 /**
  * Interface that adds the ability to write a stream directly to file
  *
@@ -39,6 +41,7 @@ interface IWriteStreamStorage extends IStorage {
 	 * @param resource $stream
 	 * @param int|null $size the size of the stream if known in advance
 	 * @return int the number of bytes written
+	 * @throws GenericFileException
 	 * @since 15.0.0
 	 */
 	public function writeStream(string $path, $stream, int $size = null): int;
