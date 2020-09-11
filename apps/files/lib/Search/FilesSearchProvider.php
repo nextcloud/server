@@ -31,6 +31,7 @@ namespace OCA\Files\Search;
 use OC\Search\Provider\File;
 use OC\Search\Result\File as FileResult;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\IRootFolder;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -53,14 +54,19 @@ class FilesSearchProvider implements IProvider {
 	/** @var IMimeTypeDetector */
 	private $mimeTypeDetector;
 
+	/** @var IRootFolder */
+	private $rootFolder;
+
 	public function __construct(File $fileSearch,
 								IL10N $l10n,
 								IURLGenerator $urlGenerator,
-								IMimeTypeDetector $mimeTypeDetector) {
+								IMimeTypeDetector $mimeTypeDetector,
+								IRootFolder $rootFolder) {
 		$this->l10n = $l10n;
 		$this->fileSearch = $fileSearch;
 		$this->urlGenerator = $urlGenerator;
 		$this->mimeTypeDetector = $mimeTypeDetector;
+		$this->rootFolder = $rootFolder;
 	}
 
 	/**
@@ -92,6 +98,10 @@ class FilesSearchProvider implements IProvider {
 	 * @inheritDoc
 	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
+
+		// Make sure we setup the users filesystem
+		$this->rootFolder->getUserFolder($user->getUID());
+
 		return SearchResult::complete(
 			$this->l10n->t('Files'),
 			array_map(function (FileResult $result) {
