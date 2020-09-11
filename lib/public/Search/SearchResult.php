@@ -28,6 +28,7 @@ declare(strict_types=1);
 namespace OCP\Search;
 
 use JsonSerializable;
+use function array_values;
 
 /**
  * @since 20.0.0
@@ -107,7 +108,7 @@ final class SearchResult implements JsonSerializable {
 		return [
 			'name' => $this->name,
 			'isPaginated' => $this->isPaginated,
-			'entries' => $this->entries,
+			'entries' => array_values($this->entries),
 			'cursor' => $this->cursor,
 		];
 	}
