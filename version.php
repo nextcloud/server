@@ -30,13 +30,17 @@
 // when updating major/minor version number.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 $OC_Version = [20, 0, 0, 6];
 =======
 $OC_Version = [20, 0, 0, 5];
 >>>>>>> Update repair step apply new opendocument template mimes
+=======
+$OC_Version = [20, 0, 0, 7];
+>>>>>>> 20 RC1
 
 // The human readable string
-$OC_VersionString = '20.0.0 Beta 4';
+$OC_VersionString = '20.0.0 RC1';
 
 $OC_VersionCanBeUpgradedFrom = [
 	'nextcloud' => [
