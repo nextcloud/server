@@ -92,7 +92,7 @@
     "jest": "^24.9.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
-    "stylelint": "^13.7.0",
+    "stylelint": "^13.7.1",
     "stylelint-config-recommended-scss": "^4.2.0",
     "stylelint-scss": "^3.18.0",
     "stylelint-webpack-plugin": "^2.1.0",
