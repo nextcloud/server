@@ -15,5 +15,5 @@ jobs:
       - uses: ahmadnassri/action-dependabot-auto-merge@v1
         if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
         with:
-          target: patch
+          target: minor
           github-token: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN }}
