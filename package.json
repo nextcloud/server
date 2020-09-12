@@ -54,7 +54,7 @@
     "escape-html": "^1.0.3",
     "handlebars": "^4.7.6",
     "jcrop": "git+https://github.com/ChristophWurst/Jcrop.git#v0.9.12-npm3",
-    "jquery": "2.2.4",
+    "jquery": "3.5.0",
     "jquery-migrate": "^1.4.1",
     "jquery-ui": "^1.12.1",
     "jquery-ui-dist": "^1.12.1",
