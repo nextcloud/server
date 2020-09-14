@@ -33,13 +33,19 @@ class HubBundle extends Bundle {
 	}
 
 	public function getAppIdentifiers() {
-		return [
+		$hubApps = [
 			'spreed',
 			'contacts',
 			'calendar',
 			'mail',
-			'richdocumentscode',
-			'richdocuments',
 		];
+
+		$architecture = php_uname('m');
+		if (PHP_OS_FAMILY === 'Linux' && in_array($architecture, ['x86_64', 'aarch64'])) {
+			$hubApps[] = 'richdocuments';
+			$hubApps[] = 'richdocumentscode' . ($architecture === 'aarch64' ? '_arm64' : '');
+		}
+
+		return $hubApps;
 	}
 }
