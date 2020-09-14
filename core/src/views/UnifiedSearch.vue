@@ -39,7 +39,8 @@
 				type="search"
 				:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ').toLowerCase() })"
 				@input="onInputDebounced"
-				@keypress.enter.prevent.stop="onInputEnter">
+				@keypress.enter.prevent.stop="onInputEnter"
+				@search="onSearch">
 			<!-- Search filters -->
 			<Actions v-if="availableFilters.length > 1" class="unified-search__filters" placement="bottom">
 				<ActionButton v-for="type in availableFilters"
@@ -288,11 +289,17 @@ export default {
 			this.types = await getTypes()
 		},
 		onClose() {
-			this.resetState()
-			this.query = ''
 			emit('nextcloud:unified-search:close')
 		},
 
+		/**
+		 * Reset the search state
+		 */
+		resetSearch() {
+			emit('nextcloud:unified-search:reset')
+			this.query = ''
+			this.resetState()
+		},
 		resetState() {
 			this.cursors = {}
 			this.limits = {}
@@ -310,6 +317,18 @@ export default {
 				this.$refs.input.focus()
 				this.$refs.input.select()
 			})
+		},
+
+		/**
+		 * Watch the search event on the input
+		 * Used to detect the reset button press
+		 * @param {Event} event the search event
+		 */
+		onSearch(event) {
+			// If value is empty, the reset button has been pressed
+			if (event.target.value === '') {
+				this.resetSearch()
+			}
 		},
 
 		/**
