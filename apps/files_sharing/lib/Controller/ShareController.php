@@ -414,7 +414,10 @@ class ShareController extends AuthPublicShareController {
 		$shareTmpl['showgridview'] = false;
 
 		$shareTmpl['hideFileList'] = $hideFileList;
-		$shareTmpl['downloadURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', ['token' => $this->getToken()]);
+		$shareTmpl['downloadURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', [
+			'token' => $this->getToken(),
+			'filename' => $shareIsFolder ? null : $shareNode->getName()
+		]);
 		$shareTmpl['shareUrl'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $this->getToken()]);
 		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
 		$shareTmpl['previewEnabled'] = $this->config->getSystemValue('enable_previews', true);

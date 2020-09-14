@@ -50,9 +50,10 @@ return [
 		],
 		[
 			'name' => 'Share#downloadShare',
-			'url' => '/s/{token}/download',
+			'url' => '/s/{token}/download/{filename}',
 			'verb' => 'GET',
 			'root' => '',
+			'defaults' => ['filename' => '']
 		],
 		[
 			'name' => 'PublicPreview#directLink',
