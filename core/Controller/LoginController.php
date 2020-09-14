@@ -40,6 +40,7 @@ use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OC_App;
 use OC_Util;
+use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -83,6 +84,8 @@ class LoginController extends Controller {
 	private $initialStateService;
 	/** @var WebAuthnManager */
 	private $webAuthnManager;
+	/** @var ClientMapper */
+	private $clientMapper;
 
 	public function __construct(?string $appName,
 								IRequest $request,
@@ -96,7 +99,8 @@ class LoginController extends Controller {
 								Throttler $throttler,
 								Chain $loginChain,
 								IInitialStateService $initialStateService,
-								WebAuthnManager $webAuthnManager) {
+								WebAuthnManager $webAuthnManager,
+								ClientMapper $clientMapper) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -109,6 +113,7 @@ class LoginController extends Controller {
 		$this->loginChain = $loginChain;
 		$this->initialStateService = $initialStateService;
 		$this->webAuthnManager = $webAuthnManager;
+		$this->clientMapper = $clientMapper;
 	}
 
 	/**
@@ -176,6 +181,22 @@ class LoginController extends Controller {
 
 		if (!empty($redirect_url)) {
 			$this->initialStateService->provideInitialState('core', 'loginRedirectUrl', $redirect_url);
+
+			$grant_url = $this->urlGenerator->linkToRoute('core.ClientFlowLogin.grantPage');
+			if (strpos($redirect_url, $grant_url) === 0) {
+				parse_str(parse_url($redirect_url, PHP_URL_QUERY), $grant_query);
+				if (empty($grant_query['clientIdentifier'])) {
+					$userAgent = $this->request->getHeader('USER_AGENT');
+					$clientName = $userAgent !== '' ? $userAgent : 'unknown';
+				} else {
+					$client = $this->clientMapper->getByIdentifier($grant_query['clientIdentifier']);
+					$clientName = $client->getName();
+				}
+				$this->initialStateService->provideInitialState('core', 'loginGrantParams', [
+					'client' => Util::sanitizeHTML($clientName),
+					'instanceName' => Util::sanitizeHTML($this->defaults->getName())
+				]);
+			}
 		}
 
 		$this->initialStateService->provideInitialState(

@@ -28,6 +28,7 @@ use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
+use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
@@ -86,6 +87,9 @@ class LoginControllerTest extends TestCase {
 	/** @var \OC\Authentication\WebAuthn\Manager|MockObject */
 	private $webAuthnManager;
 
+	/** @var ClientMapper|MockObject */
+	private $clientMapper;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
@@ -101,6 +105,7 @@ class LoginControllerTest extends TestCase {
 		$this->chain = $this->createMock(LoginChain::class);
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->webAuthnManager = $this->createMock(\OC\Authentication\WebAuthn\Manager::class);
+		$this->clientMapper = $this->createMock(ClientMapper::class);
 
 
 		$this->request->method('getRemoteAddress')
@@ -124,7 +129,8 @@ class LoginControllerTest extends TestCase {
 			$this->throttler,
 			$this->chain,
 			$this->initialStateService,
-			$this->webAuthnManager
+			$this->webAuthnManager,
+			$this->clientMapper
 		);
 	}
 
@@ -281,6 +287,10 @@ class LoginControllerTest extends TestCase {
 				'loginRedirectUrl',
 				'login/flow'
 			);
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRoute')
+			->willReturn('login/flow/grant');
 
 		$expectedResponse = new TemplateResponse(
 			'core',

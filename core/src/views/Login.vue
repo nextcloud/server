@@ -21,6 +21,11 @@
 
 <template>
 	<div>
+		<div class="warning" v-if="grantParams">
+			<h2>{{ t('core', 'Connect to your account') }}</h2>
+			<p class="info" v-html="t('core', 'Please log in before granting %1$s access to your %2$s account.').replace('%1$s', '<strong>' + grantParams.client + '</strong>').replace('%2$s',  grantParams.instanceName)" />
+			<p class="info">{{ t('core', 'If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator.') }}</p>
+		</div>
 		<transition name="fade" mode="out-in">
 			<div v-if="!passwordlessLogin && !resetPassword && resetPasswordTarget === ''"
 				key="login">
@@ -107,6 +112,10 @@ export default {
 		},
 		redirectUrl: {
 			type: String,
+		},
+		grantParams: {
+			type: Object,
+			default: null
 		},
 		errors: {
 			type: Array,
