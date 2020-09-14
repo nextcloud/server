@@ -64,6 +64,7 @@ class DependencyAnalyzer {
 		}
 
 		return array_merge(
+			$this->analyzeArchitecture($dependencies),
 			$this->analyzePhpVersion($dependencies),
 			$this->analyzeDatabases($dependencies),
 			$this->analyzeCommands($dependencies),
@@ -170,6 +171,29 @@ class DependencyAnalyzer {
 			if ($intSize > $this->platform->getIntSize()*8) {
 				$missing[] = (string)$this->l->t('%sbit or higher PHP required.', [$intSize]);
 			}
+		}
+		return $missing;
+	}
+
+	private function analyzeArchitecture(array $dependencies) {
+		$missing = [];
+		if (!isset($dependencies['architecture'])) {
+			return $missing;
+		}
+
+		$supportedArchitectures = $dependencies['architecture'];
+		if (empty($supportedArchitectures)) {
+			return $missing;
+		}
+		if (!is_array($supportedArchitectures)) {
+			$supportedArchitectures = [$supportedArchitectures];
+		}
+		$supportedArchitectures = array_map(function ($architecture) {
+			return $this->getValue($architecture);
+		}, $supportedArchitectures);
+		$currentArchitecture = $this->platform->getArchitecture();
+		if (!in_array($currentArchitecture, $supportedArchitectures, true)) {
+			$missing[] = (string)$this->l->t('The following architectures are supported: %s', [implode(', ', $supportedArchitectures)]);
 		}
 		return $missing;
 	}
