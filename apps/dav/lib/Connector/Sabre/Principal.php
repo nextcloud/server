@@ -168,7 +168,11 @@ class Principal implements BackendInterface {
 		}
 
 		if ($prefix === $this->principalPrefix) {
-			$user = $this->userManager->get($name);
+			// Depending on where it is called, it may happen that this function
+			// is called either with a urlencoded version of the name or with a non-urlencoded one.
+			// The urldecode function replaces %## and +, both of which are forbidden in usernames.
+			// Hence there can be no ambiguity here and it is safe to call urldecode on all usernames
+			$user = $this->userManager->get(urldecode($name));
 
 			if ($user !== null) {
 				return $this->userToPrincipal($user);
