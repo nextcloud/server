@@ -27,7 +27,6 @@ class NullWatcher extends Watcher {
 	private $policy;
 
 	public function __construct() {
-
 	}
 
 	public function setPolicy($policy) {
@@ -43,7 +42,6 @@ class NullWatcher extends Watcher {
 	}
 
 	public function update($path, $cachedData) {
-
 	}
 
 	public function needsUpdate($path, $cachedData) {
@@ -51,6 +49,5 @@ class NullWatcher extends Watcher {
 	}
 
 	public function cleanFolder($path) {
-
 	}
 }
