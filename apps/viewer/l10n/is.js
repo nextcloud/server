@@ -8,6 +8,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Vafrinn þinn styður ekki myndskeið.",
     "Open sidebar" : "Opna hliðarspjald",
     "View" : "Skoða",
-    "Your browser does not support the video tag." : "Vafrinn þinn styður ekki myndskeiðamerkinguna."
+    "Your browser does not support the video tag." : "Vafrinn þinn styður ekki myndskeiðamerkinguna.",
+    "binary" : "binary"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

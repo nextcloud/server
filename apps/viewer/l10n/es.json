@@ -6,6 +6,7 @@
     "Your browser does not support videos." : "Tu navegador no soporta videos.",
     "Open sidebar" : "Abrir barra lateral",
     "View" : "Ver",
-    "Your browser does not support the video tag." : "Tu navegador no soporta la etiqueta video."
+    "Your browser does not support the video tag." : "Tu navegador no soporta la etiqueta video.",
+    "binary" : "binario"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Seu navegador não suporta vídeos.",
     "Open sidebar" : "Abrir barra lateral",
     "View" : "Visualizar",
-    "Your browser does not support the video tag." : "Seu navegador não suporta a etiqueta de vídeo."
+    "Your browser does not support the video tag." : "Seu navegador não suporta a etiqueta de vídeo.",
+    "binary" : "binário"
 },
 "nplurals=2; plural=(n > 1);");

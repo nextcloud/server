@@ -8,6 +8,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "A böngészője nem támogatja a videókat.",
     "Open sidebar" : "Oldalsáv megnyitása",
     "View" : "Megtekintés",
-    "Your browser does not support the video tag." : "A böngészője nem támogatja a video címkét."
+    "Your browser does not support the video tag." : "A böngészője nem támogatja a video címkét.",
+    "binary" : "bináris"
 },
 "nplurals=2; plural=(n != 1);");

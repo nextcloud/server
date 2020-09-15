@@ -8,6 +8,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Twoja przeglądarka nie obsługuje plików wideo.",
     "Open sidebar" : "Otwórz pasek boczny",
     "View" : "Podgląd",
-    "Your browser does not support the video tag." : "Twoja przeglądarka nie obsługuje etykiety wideo."
+    "Your browser does not support the video tag." : "Twoja przeglądarka nie obsługuje etykiety wideo.",
+    "binary" : "dwójkowy"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

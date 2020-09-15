@@ -8,6 +8,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Je browser ondersteunt geen videos.",
     "Open sidebar" : "Openen zijbalk",
     "View" : "Bekijken",
-    "Your browser does not support the video tag." : "Je browser ondersteunt de video tag niet."
+    "Your browser does not support the video tag." : "Je browser ondersteunt de video tag niet.",
+    "binary" : "binair"
 },
 "nplurals=2; plural=(n != 1);");

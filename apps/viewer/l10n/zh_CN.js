@@ -8,6 +8,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "您的浏览器不支持视频。",
     "Open sidebar" : "打开侧边栏",
     "View" : "查看",
-    "Your browser does not support the video tag." : "您的浏览器不支持视频标签。"
+    "Your browser does not support the video tag." : "您的浏览器不支持视频标签。",
+    "binary" : "二进制"
 },
 "nplurals=1; plural=0;");

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Vámi používaný webový prohlížeč nepodporuje videa.",
     "Open sidebar" : "Otevřít postranní panel",
     "View" : "Zobrazit",
-    "Your browser does not support the video tag." : "Vámi používaný webový prohlížeč nepodporuje html značku (tag) video."
+    "Your browser does not support the video tag." : "Vámi používaný webový prohlížeč nepodporuje html značku (tag) video.",
+    "binary" : "binární"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

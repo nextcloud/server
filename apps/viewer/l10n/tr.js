@@ -8,6 +8,7 @@ OC.L10N.register(
     "Your browser does not support videos." : "Web tarayıcınız görüntüleri desteklemiyor.",
     "Open sidebar" : "Yan çubuğu aç",
     "View" : "Görüntüle",
-    "Your browser does not support the video tag." : "Web tarayıcınız video kod imini desteklemiyor."
+    "Your browser does not support the video tag." : "Web tarayıcınız video kod imini desteklemiyor.",
+    "binary" : "ikili"
 },
 "nplurals=2; plural=(n > 1);");
