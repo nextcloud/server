@@ -551,7 +551,7 @@ export default {
 	// Adjust design of 'Get more widgets' button
 	.button {
 		display: inline-block;
-		padding: 12px 24px;
+		padding: 10px 16px;
 		margin: 0;
 	}
 
