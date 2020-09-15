@@ -97,14 +97,14 @@ class FilesSearchProvider implements IProvider {
 			array_map(function (FileResult $result) {
 				// Generate thumbnail url
 				$thumbnailUrl = $result->has_preview
-					? $this->urlGenerator->linkToRoute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id])
+					? $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id])
 					: '';
 
 				return new SearchResultEntry(
 					$thumbnailUrl,
 					$result->name,
 					$this->formatSubline($result),
-					$result->link,
+					$this->urlGenerator->getAbsoluteURL($result->link),
 					$result->type === 'folder' ? 'icon-folder' : $this->mimeTypeDetector->mimeTypeIcon($result->mime_type)
 				);
 			}, $this->fileSearch->search($query->getTerm()))
