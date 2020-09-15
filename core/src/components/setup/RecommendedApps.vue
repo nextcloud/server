@@ -32,7 +32,7 @@
 			{{ t('core', 'Installing apps …') }}
 		</p>
 		<div v-for="app in recommendedApps" :key="app.id" class="app">
-			<img :src="customIcon(app.id)" :alt="t('core', 'Nextcloud {app}', { app: app.name })">
+			<img :src="customIcon(app.id)" alt="">
 			<div class="info">
 				<h3>
 					{{ app.name }}
