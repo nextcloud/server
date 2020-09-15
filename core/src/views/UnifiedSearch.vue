@@ -31,16 +31,30 @@
 			<Magnify class="unified-search__trigger" :size="20" fill-color="var(--color-primary-text)" />
 		</template>
 
-		<!-- Search input -->
+		<!-- Search form & filters wrapper -->
 		<div class="unified-search__input-wrapper">
-			<input ref="input"
-				v-model="query"
-				class="unified-search__input"
-				type="search"
-				:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ').toLowerCase() })"
-				@input="onInputDebounced"
-				@keypress.enter.prevent.stop="onInputEnter"
-				@search="onSearch">
+			<form class="unified-search__form"
+				role="search"
+				@submit.prevent.stop="onInputEnter"
+				@reset.prevent.stop="onReset">
+				<!-- Search input -->
+				<input ref="input"
+					v-model="query"
+					class="unified-search__form-input"
+					type="search"
+					:class="{'unified-search__form-input--with-reset': !!query}"
+					:placeholder="t('core', 'Search {types} …', { types: typesNames.join(', ').toLowerCase() })"
+					@input="onInputDebounced"
+					@keypress.enter.prevent.stop="onInputEnter">
+
+				<!-- Reset search button -->
+				<input v-if="!!query"
+					type="reset"
+					class="unified-search__form-reset icon-close"
+					:aria-label="t('core','Reset search')"
+					value="">
+			</form>
+
 			<!-- Search filters -->
 			<Actions v-if="availableFilters.length > 1" class="unified-search__filters" placement="bottom">
 				<ActionButton v-for="type in availableFilters"
@@ -107,6 +121,7 @@
 <script>
 import { emit } from '@nextcloud/event-bus'
 import { minSearchLength, getTypes, search, defaultLimit, regexFilterIn, regexFilterNot } from '../services/UnifiedSearchService'
+import { showError } from '@nextcloud/dialogs'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import debounce from 'debounce'
@@ -116,7 +131,6 @@ import Magnify from 'vue-material-design-icons/Magnify'
 import HeaderMenu from '../components/HeaderMenu'
 import SearchResult from '../components/UnifiedSearch/SearchResult'
 import SearchResultPlaceholders from '../components/UnifiedSearch/SearchResultPlaceholders'
-import { showError } from '@nextcloud/dialogs'
 
 export default {
 	name: 'UnifiedSearch',
@@ -135,10 +149,17 @@ export default {
 		return {
 			types: [],
 
+			// Cursors per types
 			cursors: {},
+			// Various search limits per types
 			limits: {},
+			// Loading types
 			loading: {},
+			// Reached search types
 			reached: {},
+			// Pending cancellable requests
+			requests: [],
+			// List of all results
 			results: {},
 
 			query: '',
@@ -296,10 +317,12 @@ export default {
 		/**
 		 * Reset the search state
 		 */
-		resetSearch() {
+		onReset() {
 			emit('nextcloud:unified-search:reset')
+			this.logger.debug('Search reset')
 			this.query = ''
 			this.resetState()
+			this.focusInput()
 		},
 		resetState() {
 			this.cursors = {}
@@ -308,6 +331,15 @@ export default {
 			this.reached = {}
 			this.results = {}
 			this.focused = null
+			this.cancelPendingRequests()
+		},
+
+		/**
+		 * Cancel any ongoing searches
+		 */
+		cancelPendingRequests() {
+			// Cancel all pending requests
+			this.requests.forEach(cancel => cancel())
 		},
 
 		/**
@@ -318,18 +350,6 @@ export default {
 				this.$refs.input.focus()
 				this.$refs.input.select()
 			})
-		},
-
-		/**
-		 * Watch the search event on the input
-		 * Used to detect the reset button press
-		 * @param {Event} event the search event
-		 */
-		onSearch(event) {
-			// If value is empty, the reset button has been pressed
-			if (event.target.value === '') {
-				this.resetSearch()
-			}
 		},
 
 		/**
@@ -378,29 +398,34 @@ export default {
 			// Reset search if the query changed
 			this.resetState()
 
-			types.forEach(async type => {
+			Promise.all(types.map(async type => {
 				try {
+					// Init cancellable request
+					const { request, cancel } = search({ type, query })
+					this.requests.push(cancel)
+
+					// Mark this type as loading and fetch results
 					this.$set(this.loading, type, true)
-					const request = await search(type, query)
+					const { data } = await request()
 
 					// Process results
-					if (request.data.ocs.data.entries.length > 0) {
-						this.$set(this.results, type, request.data.ocs.data.entries)
+					if (data.ocs.data.entries.length > 0) {
+						this.$set(this.results, type, data.ocs.data.entries)
 					} else {
 						this.$delete(this.results, type)
 					}
 
 					// Save cursor if any
-					if (request.data.ocs.data.cursor) {
-						this.$set(this.cursors, type, request.data.ocs.data.cursor)
-					} else if (!request.data.ocs.data.isPaginated) {
-						// If no cursor and no pagination, we save the default amount
-						// provided by server's initial state `defaultLimit`
+					if (data.ocs.data.cursor) {
+						this.$set(this.cursors, type, data.ocs.data.cursor)
+					} else if (!data.ocs.data.isPaginated) {
+					// If no cursor and no pagination, we save the default amount
+					// provided by server's initial state `defaultLimit`
 						this.$set(this.limits, type, this.defaultLimit)
 					}
 
 					// Check if we reached end of pagination
-					if (request.data.ocs.data.entries.length < this.defaultLimit) {
+					if (data.ocs.data.entries.length < this.defaultLimit) {
 						this.$set(this.reached, type, true)
 					}
 
@@ -409,13 +434,19 @@ export default {
 						this.focused = 0
 					}
 				} catch (error) {
-					this.logger.error(`Error searching for ${this.typesMap[type]}`, error)
-					showError(this.t('core', 'An error occurred while looking for {type}', { type: this.typesMap[type] }))
+					// If this is not a cancelled throw
+					if (error.response && error.response.status) {
+						this.logger.error(`Error searching for ${this.typesMap[type]}`, error)
+						showError(this.t('core', 'An error occurred while searching for {type}', { type: this.typesMap[type] }))
+					}
 
 					this.$delete(this.results, type)
 				} finally {
 					this.$set(this.loading, type, false)
 				}
+			})).then(() => {
+				// We finished all searches
+				this.loading = {}
 			})
 		},
 		onInputDebounced: debounce(function(e) {
@@ -434,7 +465,7 @@ export default {
 			this.$set(this.loading, type, true)
 
 			if (this.cursors[type]) {
-				const request = await search(type, this.query, this.cursors[type])
+				const request = await search({ type, query: this.query, cursor: this.cursors[type] })
 
 				// Save cursor if any
 				if (request.data.ocs.data.cursor) {
@@ -582,6 +613,7 @@ export default {
 
 <style lang="scss" scoped>
 $margin: 10px;
+$input-height: 34px;
 $input-padding: 6px;
 
 .unified-search {
@@ -591,13 +623,13 @@ $input-padding: 6px;
 	}
 
 	&__input-wrapper {
-		width: 100%;
 		position: sticky;
 		// above search results
 		z-index: 2;
 		top: 0;
 		display: inline-flex;
 		align-items: center;
+		width: 100%;
 		background-color: var(--color-main-background);
 	}
 
@@ -609,17 +641,60 @@ $input-padding: 6px;
 		}
 	}
 
-	&__input {
+	&__form {
+		position: relative;
 		width: 100%;
-		height: 34px;
 		margin: $margin;
-		padding: $input-padding;
-		&,
-		&[placeholder],
-		&::placeholder {
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
+
+		&-input,
+		&-reset {
+			margin: $input-padding / 2;
+		}
+
+		&-input {
+			width: 100%;
+			height: $input-height;
+			padding: $input-padding;
+
+			&,
+			&[placeholder],
+			&::placeholder {
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+
+			// Hide webkit clear search
+			&::-webkit-search-decoration,
+			&::-webkit-search-cancel-button,
+			&::-webkit-search-results-button,
+			&::-webkit-search-results-decoration {
+				-webkit-appearance: none;
+			}
+
+			// Ellipsis earlier if reset button is here
+			&--with-reset {
+				padding-right: $input-height;
+			}
+		}
+
+		&-reset {
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: $input-height - $input-padding;
+			height: $input-height - $input-padding;
+			padding: 0;
+			opacity: .5;
+			border: none;
+			background-color: transparent;
+			margin-right: 0;
+
+			&:hover,
+			&:focus,
+			&:active {
+				opacity: 1;
+			}
 		}
 	}
 
