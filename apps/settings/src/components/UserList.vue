@@ -426,8 +426,8 @@ export default {
 		/**
 		 * Register search
 		 */
-		subscribe('nextcloud:unified-search:search', this.search)
-		subscribe('nextcloud:unified-search:reset', this.resetSearch)
+		subscribe('nextcloud:unified-search.search', this.search)
+		subscribe('nextcloud:unified-search.reset', this.resetSearch)
 
 		/**
 		 * If disabled group but empty, redirect
@@ -435,8 +435,8 @@ export default {
 		this.redirectIfDisabled()
 	},
 	beforeDestroy() {
-		unsubscribe('nextcloud:unified-search:search', this.search)
-		unsubscribe('nextcloud:unified-search:reset', this.resetSearch)
+		unsubscribe('nextcloud:unified-search.search', this.search)
+		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
 	},
 
 	methods: {
