@@ -116,6 +116,10 @@ class ManagerTest extends TestCase {
 
 		$this->manager->registerSection('personal', \OCA\WorkflowEngine\Settings\Section::class);
 
+		$this->container->method('query')
+			->with(\OCA\Settings\Personal\Additional::class)
+			->willReturn($this->createMock(\OCA\Settings\Personal\Additional::class));
+
 		$this->url->expects($this->exactly(3))
 			->method('imagePath')
 			->willReturnMap([
@@ -182,6 +186,10 @@ class ManagerTest extends TestCase {
 				['settings', 'password.svg', '2'],
 				['core', 'clients/phone.svg', '3'],
 			]);
+
+		$this->container->method('query')
+			->with(\OCA\Settings\Personal\Additional::class)
+			->willReturn($this->createMock(\OCA\Settings\Personal\Additional::class));
 
 		$this->assertArraySubset([
 			0 => [new Section('personal-info', 'Personal info', 0, '1')],
@@ -289,6 +297,10 @@ class ManagerTest extends TestCase {
 				['core', 'places/contacts.svg', '5'],
 				['settings', 'help.svg', '4'],
 			]);
+
+		$this->container->method('query')
+			->with(\OCA\Settings\Personal\Additional::class)
+			->willReturn($this->createMock(\OCA\Settings\Personal\Additional::class));
 
 		$this->assertEquals([
 			0 => [new Section('personal-info', 'Personal info', 0, '1')],
