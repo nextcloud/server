@@ -149,7 +149,7 @@ OC.L10N.register(
     "The ownership transfer of {path} from {user} failed." : "Die Übertragung von {path} ist fehlgeschlagen.",
     "Ownership transfer done" : "Besitzübertragung abgeschlossen",
     "Your ownership transfer of {path} to {user} has completed." : "Die Besitzübertragung von {path} an {user} wurde fertiggestellt.",
-    "The ownership transfer of {path} from {user} has completed." : "Die Besitzübertragung von {path} an {user} wurde fertiggestellt.",
+    "The ownership transfer of {path} from {user} has completed." : "Die Besitzübertragung von {path} durch {user} wurde fertiggestellt.",
     "in %s" : "in %s",
     "File Management" : "Dateiverwaltung",
     "Transfer ownership of a file or folder" : "Besitz einer Datei oder eines Ordners übertragen",

@@ -38,7 +38,6 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Sprístupnenie prostredníctvom Federated Cloud",
     "Open documentation" : "Otvoriť dokumentáciu",
     "Adjust how people can share between servers." : "Nastavte ako môžu ľudia medzi sebou zdieľať servery.",
-    "Allow users on this server to send shares to other servers" : "Povoliť používateľom z tohto servera sprístupňovať obsah na iných serveroch",
     "Allow users on this server to receive shares from other servers" : "Povoliť používateľom z tohto servera sprístupňovanie obsahu z iných serverov",
     "Allow users on this server to send shares to groups on other servers" : "Povoliť používateľom na tomto serveri odosielať zdieľania skupinám na iných serveroch",
     "Allow users on this server to receive group shares from other servers" : "Povoliť používateľom na tomto serveri prijímať zdieľania skupín z iných serverov",
@@ -52,6 +51,7 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Sprístupnené cez Nextcloud",
     "HTML Code:" : "HTML kód:",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Obdržali ste \"%3$s\" ako vzdialené zdieľanie od %1$s (v mene %2$s) ",
-    "You received \"%3$s\" as a remote share from %1$s" : "Obdržali ste \"%3$s\" ako vzdialené zdieľanie od %1$s"
+    "You received \"%3$s\" as a remote share from %1$s" : "Obdržali ste \"%3$s\" ako vzdialené zdieľanie od %1$s",
+    "Allow users on this server to send shares to other servers" : "Povoliť používateľom z tohto servera sprístupňovať obsah na iných serveroch"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
