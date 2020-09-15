@@ -57,7 +57,7 @@
 			<!-- Loading placeholders -->
 			<SearchResultPlaceholders v-if="isLoading" />
 
-			<EmptyContent v-else-if="isValidQuery && isDoneSearching" icon="icon-search">
+			<EmptyContent v-else-if="isValidQuery" icon="icon-search">
 				{{ t('core', 'No results for {query}', {query}) }}
 			</EmptyContent>
 
@@ -116,6 +116,7 @@ import Magnify from 'vue-material-design-icons/Magnify'
 import HeaderMenu from '../components/HeaderMenu'
 import SearchResult from '../components/UnifiedSearch/SearchResult'
 import SearchResultPlaceholders from '../components/UnifiedSearch/SearchResultPlaceholders'
+import { showError } from '@nextcloud/dialogs'
 
 export default {
 	name: 'UnifiedSearch',
@@ -255,7 +256,7 @@ export default {
 
 	async created() {
 		this.types = await getTypes()
-		console.debug('Unified Search initialized with the following providers', this.types)
+		this.logger.debug('Unified Search initialized with the following providers', this.types)
 	},
 
 	mounted() {
@@ -372,42 +373,49 @@ export default {
 			// Remove any filters from the query
 			query = query.replace(regexFilterIn, '').replace(regexFilterNot, '')
 
-			console.debug('Searching', query, 'in', types)
+			this.logger.debug(`Searching ${query} in`, types)
 
 			// Reset search if the query changed
 			this.resetState()
 
 			types.forEach(async type => {
-				this.$set(this.loading, type, true)
-				const request = await search(type, query)
+				try {
+					this.$set(this.loading, type, true)
+					const request = await search(type, query)
 
-				// Process results
-				if (request.data.ocs.data.entries.length > 0) {
-					this.$set(this.results, type, request.data.ocs.data.entries)
-				} else {
+					// Process results
+					if (request.data.ocs.data.entries.length > 0) {
+						this.$set(this.results, type, request.data.ocs.data.entries)
+					} else {
+						this.$delete(this.results, type)
+					}
+
+					// Save cursor if any
+					if (request.data.ocs.data.cursor) {
+						this.$set(this.cursors, type, request.data.ocs.data.cursor)
+					} else if (!request.data.ocs.data.isPaginated) {
+						// If no cursor and no pagination, we save the default amount
+						// provided by server's initial state `defaultLimit`
+						this.$set(this.limits, type, this.defaultLimit)
+					}
+
+					// Check if we reached end of pagination
+					if (request.data.ocs.data.entries.length < this.defaultLimit) {
+						this.$set(this.reached, type, true)
+					}
+
+					// If none already focused, focus the first rendered result
+					if (this.focused === null) {
+						this.focused = 0
+					}
+				} catch (error) {
+					this.logger.error(`Error searching for ${this.typesMap[type]}`, error)
+					showError(this.t('core', 'An error occurred while looking for {type}', { type: this.typesMap[type] }))
+
 					this.$delete(this.results, type)
+				} finally {
+					this.$set(this.loading, type, false)
 				}
-
-				// Save cursor if any
-				if (request.data.ocs.data.cursor) {
-					this.$set(this.cursors, type, request.data.ocs.data.cursor)
-				} else if (!request.data.ocs.data.isPaginated) {
-					// If no cursor and no pagination, we save the default amount
-					// provided by server's initial state `defaultLimit`
-					this.$set(this.limits, type, this.defaultLimit)
-				}
-
-				// Check if we reached end of pagination
-				if (request.data.ocs.data.entries.length < this.defaultLimit) {
-					this.$set(this.reached, type, true)
-				}
-
-				// If none already focused, focus the first rendered result
-				if (this.focused === null) {
-					this.focused = 0
-				}
-
-				this.$set(this.loading, type, false)
 			})
 		},
 		onInputDebounced: debounce(function(e) {
