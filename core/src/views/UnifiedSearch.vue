@@ -35,6 +35,7 @@
 		<div class="unified-search__input-wrapper">
 			<form class="unified-search__form"
 				role="search"
+				:class="{'icon-loading-small': isLoading}"
 				@submit.prevent.stop="onInputEnter"
 				@reset.prevent.stop="onReset">
 				<!-- Search input -->
@@ -48,7 +49,7 @@
 					@keypress.enter.prevent.stop="onInputEnter">
 
 				<!-- Reset search button -->
-				<input v-if="!!query"
+				<input v-if="!!query && !isLoading"
 					type="reset"
 					class="unified-search__form-reset icon-close"
 					:aria-label="t('core','Reset search')"
@@ -646,6 +647,12 @@ $input-padding: 6px;
 		width: 100%;
 		margin: $margin;
 
+		// Loading spinner
+		&::after {
+			right: $input-padding;
+			left: auto;
+		}
+
 		&-input,
 		&-reset {
 			margin: $input-padding / 2;
@@ -673,6 +680,7 @@ $input-padding: 6px;
 			}
 
 			// Ellipsis earlier if reset button is here
+			.icon-loading-small &,
 			&--with-reset {
 				padding-right: $input-height;
 			}
