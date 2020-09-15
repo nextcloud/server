@@ -36,7 +36,7 @@
 			<div class="info">
 				<h3>
 					{{ app.name }}
-					<span v-if="app.loading" class="icon icon-loading-small" />
+					<span v-if="app.loading" class="icon icon-loading-small-dark" />
 					<span v-else-if="app.active" class="icon icon-checkmark-white" />
 				</h3>
 				<p v-html="customDescription(app.id)" />
