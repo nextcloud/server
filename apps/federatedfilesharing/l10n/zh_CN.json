@@ -36,7 +36,6 @@
     "Federated Cloud Sharing" : "联合云共享",
     "Open documentation" : "打开文档",
     "Adjust how people can share between servers." : "调整人们如何在服务器之间共享。",
-    "Allow users on this server to send shares to other servers" : "允许用户共享文件给其他服务器上的用户",
     "Allow users on this server to receive shares from other servers" : "允许用户从其他服务器接收共享",
     "Allow users on this server to send shares to groups on other servers" : "允许此服务器上的用户向其他服务器上的分组发送共享",
     "Allow users on this server to receive group shares from other servers" : "允许此服务器上的用户接收其他服务器的分组共享",
@@ -50,6 +49,7 @@
     "Share with me via Nextcloud" : "通过联合云与我共享",
     "HTML Code:" : "HTML 代码：",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "您收到“%3$s\"做为远程共享从”%1$s（代表\"%2$s）",
-    "You received \"%3$s\" as a remote share from %1$s" : "您从“%1$s\"得到\"%3$s\"做为远程共享"
+    "You received \"%3$s\" as a remote share from %1$s" : "您从“%1$s\"得到\"%3$s\"做为远程共享",
+    "Allow users on this server to send shares to other servers" : "允许用户共享文件给其他服务器上的用户"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

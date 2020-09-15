@@ -28,7 +28,6 @@
     "Federated Cloud Sharing" : "Souporaba zveznega oblaka",
     "Open documentation" : "Odpri dokumentacijo",
     "Adjust how people can share between servers." : "Določila, kako lahko uporabniki omogočajo souporabo med različnimi strežniki.",
-    "Allow users on this server to send shares to other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo na druge strežnike",
     "Allow users on this server to receive shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje map v souporabo z drugih strežnikov",
     "Allow users on this server to send shares to groups on other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo v skupine na drugih strežnikih",
     "Allow users on this server to receive group shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje skupinskih mest souporabe z drugih strežnikov",
@@ -40,6 +39,7 @@
     "Share it so your friends can share files with you:" : "Objavite naslov in omogočite souporabo s prijatelji:",
     "Add to your website" : "Dodaj na spletišče",
     "Share with me via Nextcloud" : "Omogoči souporabo prek oblaka Nextcloud",
-    "HTML Code:" : "Koda HTML:"
+    "HTML Code:" : "Koda HTML:",
+    "Allow users on this server to send shares to other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo na druge strežnike"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
