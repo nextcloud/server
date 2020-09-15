@@ -312,14 +312,14 @@ export default {
 			this.types = await getTypes()
 		},
 		onClose() {
-			emit('nextcloud:unified-search:close')
+			emit('nextcloud:unified-search.close')
 		},
 
 		/**
 		 * Reset the search state
 		 */
 		onReset() {
-			emit('nextcloud:unified-search:reset')
+			emit('nextcloud:unified-search.reset')
 			this.logger.debug('Search reset')
 			this.query = ''
 			this.resetState()
@@ -371,7 +371,7 @@ export default {
 		 */
 		async onInput() {
 			// emit the search query
-			emit('nextcloud:unified-search:search', { query: this.query })
+			emit('nextcloud:unified-search.search', { query: this.query })
 
 			// Do not search if not long enough
 			if (this.query.trim() === '' || this.isShortQuery) {
