@@ -33,7 +33,6 @@
 namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\FailedCache;
-use OC\Files\Cache\LazyWatcher;
 use OC\Files\Cache\NullWatcher;
 use OC\Files\Filesystem;
 use OC\Files\Storage\FailedStorage;
@@ -127,11 +126,12 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		$this->initialized = true;
 		try {
 			Filesystem::initMountPoints($this->superShare->getShareOwner());
-			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
+			$storageId = $this->superShare->getNodeCacheEntry() ? $this->superShare->getNodeCacheEntry()->getStorageId() : null;
+			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId(), $storageId);
 			[$this->nonMaskedStorage, $this->rootPath] = $this->ownerView->resolvePath($sourcePath);
 			$this->storage = new PermissionsMask([
 				'storage' => $this->nonMaskedStorage,
-				'mask' => $this->superShare->getPermissions()
+				'mask' => $this->superShare->getPermissions(),
 			]);
 		} catch (NotFoundException $e) {
 			// original file not accessible or deleted, set FailedStorage
@@ -379,7 +379,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		if (!$storage) {
 			$storage = $this;
 		}
-		$sourceRoot  = $this->getSourceRootInfo();
+		$sourceRoot = $this->getSourceRootInfo();
 		if ($this->storage instanceof FailedStorage) {
 			return new FailedCache();
 		}
@@ -467,7 +467,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		// shares do not participate in availability logic
 		return [
 			'available' => true,
-			'last_checked' => 0
+			'last_checked' => 0,
 		];
 	}
 
