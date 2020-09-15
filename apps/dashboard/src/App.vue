@@ -382,7 +382,7 @@ export default {
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
-		padding: 120px 16px 0px;
+		padding: 10vh 16px 0px;
 	}
 }
 
