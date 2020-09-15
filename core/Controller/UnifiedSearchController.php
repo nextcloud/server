@@ -72,9 +72,10 @@ class UnifiedSearchController extends OCSController {
 	public function getProviders(string $from = ''): DataResponse {
 		[$route, $parameters] = $this->getRouteInformation($from);
 
-		return new DataResponse(
-			$this->composer->getProviders($route, $parameters)
-		);
+		$result = $this->composer->getProviders($route, $parameters);
+		$response = new DataResponse($result);
+		$response->setETag(md5(json_encode($result)));
+		return $response;
 	}
 
 	/**
