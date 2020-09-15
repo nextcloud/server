@@ -25,6 +25,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} sur {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "L'envoi de cet élément n'est pas supporté",
     "Target folder does not exist any more" : "Le dossier cible n'existe plus",
+    "Operation is blocked by access control" : "L'opération est bloquée par le contrôle d'accès",
     "Error when assembling chunks, status code {status}" : "Erreur lors de l'assemblage des blocs, code d'état {status}",
     "Actions" : "Actions",
     "Rename" : "Renommer",
@@ -79,9 +80,11 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "\"/\" n'est pas autorisé dans un nom de fichier.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" n'est pas un type de fichier autorisé",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "L'espace de stockage de {owner} est plein. Les fichiers ne peuvent plus être mis à jour ni synchronisés !",
+    "This group folder is full, files can not be updated or synced anymore!" : "Le dossier de groupe est plein, les fichiers ne peuvent plus être mis à jour ou synchronisés !",
     "This external storage is full, files can not be updated or synced anymore!" : "Cet espace de stockage externe est plein, les fichiers ne peuvent plus être mis à jour ni synchronisés !",
     "Your storage is full, files can not be updated or synced anymore!" : "Votre espace de stockage est plein. Les fichiers ne peuvent plus être mis à jour ni synchronisés !",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "L'espace de stockage de {owner} est presque plein ({usedSpacePercent}%).",
+    "This group folder is almost full ({usedSpacePercent}%)." : "Ce dossier de groupe est presque plein ({usedSpacePercent}%).",
     "This external storage is almost full ({usedSpacePercent}%)." : "Cet espace de stockage externe est presque plein ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Votre espace de stockage est presque plein ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : ["correspond à '{filter}'","correspondent à '{filter}'"],
@@ -198,6 +201,7 @@ OC.L10N.register(
     "A file or folder has been <strong>restored</strong>" : "Un fichier ou un dossier a été <strong>restauré</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilisez cette adresse pour <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accéder à vos fichiers par WebDAV</a>",
     "Cannot transfter ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier que vous ne possédez pas",
+    "This group folder is almost full ({usedSpacePercent}%)" : "Ce dossier de groupe est presque plein ({usedSpacePercent}%).",
     "This external storage is almost full ({usedSpacePercent}%)" : "Cet espace de stockage externe est presque plein ({usedSpacePercent}%)"
 },
 "nplurals=2; plural=(n > 1);");

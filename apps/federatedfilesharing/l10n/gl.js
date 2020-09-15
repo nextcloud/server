@@ -38,7 +38,6 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Nube federada compartida",
     "Open documentation" : "Abrir a documentación",
     "Adjust how people can share between servers." : "Axustar como as persoas poden compartir entre servidores. ",
-    "Allow users on this server to send shares to other servers" : "Permitirlle aos usuarios deste servidor enviar recursos compartidos a outros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitirlle aos usuarios deste servidor recibir recursos compartidos doutros servidores",
     "Allow users on this server to send shares to groups on other servers" : "Permitirlle aos usuarios deste servidor enviar comparticións a grupos noutros servidores",
     "Allow users on this server to receive group shares from other servers" : "Permitirlle aos usuarios deste servidor recibir comparticións de grupos dende outros servidores",
@@ -52,6 +51,7 @@ OC.L10N.register(
     "Share with me via Nextcloud" : "Comparte comigo a través do Nextcloud",
     "HTML Code:" : "Código HTML:",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vostede recibiu «%3$s» como un elemento compartido remoto de %1$s  (de parte de %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Vostede recibiu «%3$s» como un elemento compartido remoto de %1$s"
+    "You received \"%3$s\" as a remote share from %1$s" : "Vostede recibiu «%3$s» como un elemento compartido remoto de %1$s",
+    "Allow users on this server to send shares to other servers" : "Permitirlle aos usuarios deste servidor enviar recursos compartidos a outros servidores"
 },
 "nplurals=2; plural=(n != 1);");
