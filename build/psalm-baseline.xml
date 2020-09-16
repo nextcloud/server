@@ -50,13 +50,6 @@
       <code>$this-&gt;appRoot</code>
     </UndefinedThisPropertyFetch>
   </file>
-  <file src="apps/admin_audit/lib/AppInfo/Application.php">
-    <UndefinedInterfaceMethod occurrences="3">
-      <code>listen</code>
-      <code>listen</code>
-      <code>listen</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="apps/cloud_federation_api/lib/Controller/RequestHandlerController.php">
     <InvalidScalarArgument occurrences="1">
       <code>$e-&gt;getCode()</code>
@@ -2159,11 +2152,6 @@
       <code>ignoreNextcloudRequirementForApp</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/settings/lib/Controller/ChangePasswordController.php">
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getSubAdmin</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="apps/settings/lib/Controller/CheckSetupController.php">
     <InvalidArgument occurrences="2">
       <code>IDBConnection::CHECK_MISSING_INDEXES_EVENT</code>
@@ -2194,13 +2182,6 @@
       <code>$this-&gt;l10n-&gt;t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e-&gt;getMessage()])</code>
       <code>$this-&gt;l10n-&gt;t('You need to set your user email before being able to send test emails.')</code>
     </InvalidArgument>
-  </file>
-  <file src="apps/settings/lib/Controller/UsersController.php">
-    <UndefinedInterfaceMethod occurrences="3">
-      <code>countUsersOfGroups</code>
-      <code>countDisabledUsersOfGroups</code>
-      <code>getLanguages</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="apps/settings/lib/Hooks.php">
     <InvalidArgument occurrences="1">
@@ -5008,9 +4989,6 @@
       <code>$sortMode</code>
       <code>self::SORT_NONE</code>
     </InvalidPropertyAssignmentValue>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getSubAdmin</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Http/Client/Response.php">
     <InvalidNullableReturnType occurrences="1">
