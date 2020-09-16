@@ -382,7 +382,7 @@ export default {
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
-		padding: 120px 16px 0px;
+		padding: 10vh 16px 0px;
 	}
 }
 
@@ -491,7 +491,7 @@ export default {
 }
 
 .edit-panels,
-.statuses ::v-deep .action-item > button,
+.statuses ::v-deep .action-item .action-item__menutoggle,
 .statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
 	background-color: var(--color-background-translucent);
 	-webkit-backdrop-filter: var(--background-blur);
@@ -551,7 +551,7 @@ export default {
 	// Adjust design of 'Get more widgets' button
 	.button {
 		display: inline-block;
-		padding: 12px 24px;
+		padding: 10px 16px;
 		margin: 0;
 	}
 
