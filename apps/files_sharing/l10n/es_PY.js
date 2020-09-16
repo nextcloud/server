@@ -12,6 +12,7 @@ OC.L10N.register(
     "Files and folders you share by link will show up here" : "Los archivos y carpetas que compartas por ligas se mostrarán aquí",
     "Shares" : "Elementos compartidos",
     "Restore" : "Restaurar",
+    "This will stop your current uploads." : "Esto detendrá tus cargas actuales.",
     "Move or copy" : "Mover o copiar",
     "Download" : "Descargar",
     "Delete" : "Borrar",
