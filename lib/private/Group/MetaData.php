@@ -55,7 +55,6 @@ class MetaData {
 	 * @param string $user the uid of the current user
 	 * @param bool $isAdmin whether the current users is an admin
 	 * @param IGroupManager $groupManager
-	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
 	 */
 	public function __construct(
