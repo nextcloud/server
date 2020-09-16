@@ -9,6 +9,8 @@ OC.L10N.register(
     "Open sidebar" : "Ouvrir la barre latérale",
     "View" : "Afficher",
     "Your browser does not support the video tag." : "Votre navigateur Web ne prend pas en charge ce type de vidéo.",
-    "binary" : "binaire"
+    "_img_::_.svg_" : ["img",".svg"],
+    "binary" : "binaire",
+    "hex" : "hex"
 },
 "nplurals=2; plural=(n > 1);");
