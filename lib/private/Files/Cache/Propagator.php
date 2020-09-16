@@ -63,7 +63,6 @@ class Propagator implements IPropagator {
 	 * @param string $internalPath
 	 * @param int $time
 	 * @param int $sizeDifference number of bytes the file has grown
-	 * @suppress SqlInjectionChecker
 	 */
 	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
 		// Do not propogate changes in ignored paths
@@ -156,7 +155,6 @@ class Propagator implements IPropagator {
 
 	/**
 	 * Commit the active propagation batch
-	 * @suppress SqlInjectionChecker
 	 */
 	public function commitBatch() {
 		if (!$this->inBatch) {

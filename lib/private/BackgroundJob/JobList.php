@@ -180,7 +180,6 @@ class JobList implements IJobList {
 	 * get the next job in the list
 	 *
 	 * @return IJob|null
-	 * @suppress SqlInjectionChecker
 	 */
 	public function getNext() {
 		$query = $this->connection->getQueryBuilder();
@@ -300,7 +299,6 @@ class JobList implements IJobList {
 	 * Remove the reservation for a job
 	 *
 	 * @param IJob $job
-	 * @suppress SqlInjectionChecker
 	 */
 	public function unlockJob(IJob $job) {
 		$query = $this->connection->getQueryBuilder();

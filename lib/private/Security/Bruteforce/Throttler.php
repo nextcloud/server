@@ -115,7 +115,6 @@ class Throttler {
 	 * @param string $action
 	 * @param string $ip
 	 * @param array $metadata Optional metadata logged to the database
-	 * @suppress SqlInjectionChecker
 	 */
 	public function registerAttempt(string $action,
 									string $ip,

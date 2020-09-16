@@ -295,7 +295,6 @@ class ConvertType extends Command implements CompletionAwareInterface {
 	 * @param Table $table
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
-	 * @suppress SqlInjectionChecker
 	 */
 	protected function copyTable(Connection $fromDB, Connection $toDB, Table $table, InputInterface $input, OutputInterface $output) {
 		if ($table->getName() === $toDB->getPrefix() . 'migrations') {
