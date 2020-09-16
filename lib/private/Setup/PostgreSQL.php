@@ -39,7 +39,6 @@ class PostgreSQL extends AbstractDatabase {
 	/**
 	 * @param string $username
 	 * @throws \OC\DatabaseSetupException
-	 * @suppress SqlInjectionChecker
 	 */
 	public function setupDatabase($username) {
 		try {

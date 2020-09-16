@@ -43,31 +43,6 @@ trigger:
     - pull_request
     - push
 
-#---
-#kind: pipeline
-#name: syntax-and-phan
-#
-#steps:
-#- name: submodules
-#  image: docker:git
-#  commands:
-#    - git submodule update --init
-#- name: phan
-#  image: nextcloudci/php7.2:php7.2-13
-#  commands:
-#    - composer install
-#    - composer require --dev "phan/phan:0.11.1"
-#    - ./lib/composer/phan/phan/phan -k build/.phan/config.php
-#    - php ./build/.phan/plugin-checker.php
-#
-#trigger:
-#  branch:
-#    - master
-#    - stable*
-#  event:
-#    - pull_request
-#    - push
-
 ---
 kind: pipeline
 name: litmus

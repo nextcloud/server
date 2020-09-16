@@ -381,9 +381,7 @@ class EmailProvider extends AbstractProvider {
 
 		$diff = $dtstartDt->diff($dtendDt);
 
-		/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 		$dtstartDt = new \DateTime($dtstartDt->format(\DateTime::ATOM));
-		/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 		$dtendDt = new \DateTime($dtendDt->format(\DateTime::ATOM));
 
 		if ($isAllDay) {
@@ -400,9 +398,7 @@ class EmailProvider extends AbstractProvider {
 
 		$startTimezone = $endTimezone = null;
 		if (!$vevent->DTSTART->isFloating()) {
-			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			$startTimezone = $vevent->DTSTART->getDateTime()->getTimezone()->getName();
-			/** @phan-suppress-next-line PhanUndeclaredClassMethod */
 			$endTimezone = $this->getDTEndFromEvent($vevent)->getDateTime()->getTimezone()->getName();
 		}
 

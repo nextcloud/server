@@ -594,8 +594,6 @@ class Manager implements ICommentsManager {
 	 * @param int $folderId
 	 * @param IUser $user
 	 * @return array [$fileId => $unreadCount]
-	 *
-	 * @suppress SqlInjectionChecker
 	 */
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
 		$qb = $this->dbConn->getQueryBuilder();
@@ -935,7 +933,6 @@ class Manager implements ICommentsManager {
 	 * @param \DateTime $dateTime
 	 * @param IUser $user
 	 * @since 9.0.0
-	 * @suppress SqlInjectionChecker
 	 */
 	public function setReadMark($objectType, $objectId, \DateTime $dateTime, IUser $user) {
 		$this->checkRoleParameters('Object', $objectType, $objectId);

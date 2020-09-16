@@ -375,7 +375,6 @@ class UserMountCache implements IUserMountCache {
 	/**
 	 * @param array $users
 	 * @return array
-	 * @suppress SqlInjectionChecker
 	 */
 	public function getUsedSpaceForUsers(array $users) {
 		$builder = $this->connection->getQueryBuilder();
