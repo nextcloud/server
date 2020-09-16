@@ -64,7 +64,7 @@ class Sync extends TimedJob {
 	protected $ncUserManager;
 	/** @var  IManager */
 	protected $notificationManager;
-	/** @var IAccountManager */
+	/** @var AccountManager */
 	protected $ncAccountManager;
 	/** @var ConnectionFactory */
 	protected $connectionFactory;

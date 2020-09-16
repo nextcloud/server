@@ -33,6 +33,7 @@
 
 namespace OCA\User_LDAP\Jobs;
 
+use OC\Accounts\AccountManager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
@@ -203,7 +204,8 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 				new \OCP\Image(),
 				$dbc,
 				\OC::$server->getUserManager(),
-				\OC::$server->getNotificationManager());
+				\OC::$server->getNotificationManager(),
+				\OC::$server->query(AccountManager::class));
 			$connector = new Connection($ldapWrapper, $configPrefixes[0]);
 			$ldapAccess = new Access($connector, $ldapWrapper, $userManager, $helper, \OC::$server->getConfig(), \OC::$server->getUserManager());
 			$groupMapper = new GroupMapping($dbc);
