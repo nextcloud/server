@@ -27,6 +27,7 @@ export default {
 	group: 'media',
 	mimes: [
 		'image/png',
+		'image/heic',
 		'image/jpeg',
 		'image/gif',
 		'image/x-xbitmap',
