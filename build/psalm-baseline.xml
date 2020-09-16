@@ -2122,11 +2122,6 @@
   <file src="apps/oauth2/lib/Db/ClientMapper.php">
     <InvalidCatch occurrences="2"/>
   </file>
-  <file src="apps/provisioning_api/lib/AppInfo/Application.php">
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getSubAdmin</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="apps/provisioning_api/lib/Controller/UsersController.php">
     <InvalidScalarArgument occurrences="1">
       <code>$quota</code>
