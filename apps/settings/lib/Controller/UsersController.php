@@ -214,7 +214,7 @@ class UsersController extends Controller {
 						$groups[$key]['usercount']--;
 						$userCount -= 1; // we also lower from one the total count
 					}
-				};
+				}
 				$userCount += $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
 				$disabledUsers = $this->userManager->countDisabledUsersOfGroups($groupsNames);
 			}
