@@ -115,7 +115,7 @@ class Quota extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.file_put_contents.php
+	 * see https://www.php.net/manual/en/function.file_put_contents.php
 	 *
 	 * @param string $path
 	 * @param string $data
@@ -131,7 +131,7 @@ class Quota extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.copy.php
+	 * see https://www.php.net/manual/en/function.copy.php
 	 *
 	 * @param string $source
 	 * @param string $target
@@ -147,7 +147,7 @@ class Quota extends Wrapper {
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.fopen.php
+	 * see https://www.php.net/manual/en/function.fopen.php
 	 *
 	 * @param string $path
 	 * @param string $mode

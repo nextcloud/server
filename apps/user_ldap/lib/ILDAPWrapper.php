@@ -100,7 +100,7 @@ interface ILDAPWrapper {
 	 * @param string $dn
 	 * @param int @withAttrib
 	 * @return array|false
-	 * @link http://www.php.net/manual/en/function.ldap-explode-dn.php
+	 * @link https://www.php.net/manual/en/function.ldap-explode-dn.php
 	 */
 	public function explodeDN($dn, $withAttrib);
 

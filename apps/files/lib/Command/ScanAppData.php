@@ -183,7 +183,7 @@ class ScanAppData extends Base {
 	/**
 	 * Processes PHP errors as exceptions in order to be able to keep track of problems
 	 *
-	 * @see https://secure.php.net/manual/en/function.set-error-handler.php
+	 * @see https://www.php.net/manual/en/function.set-error-handler.php
 	 *
 	 * @param int $severity the level of the error raised
 	 * @param string $message

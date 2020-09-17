@@ -94,7 +94,7 @@ class OC_Helper {
 	 *
 	 * Makes 2kB to 2048.
 	 *
-	 * Inspired by: http://www.php.net/manual/en/function.filesize.php#92418
+	 * Inspired by: https://www.php.net/manual/en/function.filesize.php#92418
 	 */
 	public static function computerFileSize($str) {
 		$str = strtolower($str);
@@ -340,7 +340,7 @@ class OC_Helper {
 	 * @return array
 	 *
 	 * Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
-	 * based on http://www.php.net/manual/en/function.array-change-key-case.php#107715
+	 * based on https://www.php.net/manual/en/function.array-change-key-case.php#107715
 	 *
 	 */
 	public static function mb_array_change_key_case($input, $case = MB_CASE_LOWER, $encoding = 'UTF-8') {
@@ -361,7 +361,7 @@ class OC_Helper {
 	 *
 	 * performs a search in a nested array
 	 *
-	 * taken from http://www.php.net/manual/en/function.array-search.php#97645
+	 * taken from https://www.php.net/manual/en/function.array-search.php#97645
 	 */
 	public static function recursiveArraySearch($haystack, $needle, $index = null) {
 		$aIt = new RecursiveArrayIterator($haystack);

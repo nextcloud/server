@@ -103,7 +103,7 @@
 				} else {
 					print_unescaped(str_replace(
 							['{linkstart}', '{linkend}'],
-							['<a href="http://php.net/manual/en/book.posix.php">', ' ↗</a>'],
+							['<a href="https://www.php.net/manual/en/book.posix.php">', ' ↗</a>'],
 							$l->t('To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details.')
 						));
 				} ?></em>

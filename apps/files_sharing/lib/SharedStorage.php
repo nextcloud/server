@@ -297,7 +297,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 	}
 
 	/**
-	 * see http://php.net/manual/en/function.rename.php
+	 * see https://www.php.net/manual/en/function.rename.php
 	 *
 	 * @param string $path1
 	 * @param string $path2
