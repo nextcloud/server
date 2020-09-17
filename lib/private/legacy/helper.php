@@ -544,6 +544,7 @@ class OC_Helper {
 		if($owner) {
 			$ownerDisplayName = $owner->getDisplayName();
 		}
+		[,,,$mountPoint] = explode('/', $mount->getMountPoint(), 4);
 
 		return [
 			'free' => $free,
@@ -553,7 +554,8 @@ class OC_Helper {
 			'relative' => $relative,
 			'owner' => $ownerId,
 			'ownerDisplayName' => $ownerDisplayName,
-			'mountType' => $mount->getMountType()
+			'mountType' => $mount->getMountType(),
+			'mountPoint' => trim($mountPoint, '/'),
 		];
 	}
 
