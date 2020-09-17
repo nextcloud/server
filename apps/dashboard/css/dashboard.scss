@@ -1,3 +1,12 @@
+// Suppress "Skip to navigation of app" link since the app does not have a navigation
+.skip-navigation:not(.skip-content) {
+	display: none;
+}
+// Fix position of "Skip to main content" link since the other link is gone
+.skip-navigation.skip-content {
+	left: 3px;
+}
+
 #header {
 	background: transparent !important;
 	--color-header: rgba(24, 24, 24, 1);
