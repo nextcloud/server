@@ -1040,6 +1040,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Files\\Cache\\HomePropagator' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/HomePropagator.php',
         'OC\\Files\\Cache\\LocalRootScanner' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/LocalRootScanner.php',
         'OC\\Files\\Cache\\MoveFromCacheTrait' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/MoveFromCacheTrait.php',
+        'OC\\Files\\Cache\\NullWatcher' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/NullWatcher.php',
         'OC\\Files\\Cache\\Propagator' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Propagator.php',
         'OC\\Files\\Cache\\QuerySearchHelper' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/QuerySearchHelper.php',
         'OC\\Files\\Cache\\Scanner' => __DIR__ . '/../../..' . '/lib/private/Files/Cache/Scanner.php',
