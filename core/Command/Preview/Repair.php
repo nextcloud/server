@@ -33,6 +33,8 @@ use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\Lock\ILockingProvider;
+use OCP\Lock\LockedException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -54,11 +56,14 @@ class Repair extends Command {
 	private $memoryLimit;
 	/** @var int */
 	private $memoryTreshold;
+	/** @var ILockingProvider */
+	private $lockingProvider;
 
-	public function __construct(IConfig $config, IRootFolder $rootFolder, ILogger $logger, IniGetWrapper $phpIni) {
+	public function __construct(IConfig $config, IRootFolder $rootFolder, ILogger $logger, IniGetWrapper $phpIni, ILockingProvider $lockingProvider) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
 		$this->logger = $logger;
+		$this->lockingProvider = $lockingProvider;
 
 		$this->memoryLimit = $phpIni->getBytes('memory_limit');
 		$this->memoryTreshold = $this->memoryLimit - 25 * 1024 * 1024;
@@ -218,6 +223,15 @@ class Repair extends Command {
 				return 1;
 			}
 
+			$lockName = 'occ preview:repair lock ' . $oldPreviewFolder->getId();
+			try {
+				$section1->writeln("         Locking \"$lockName\" …");
+				$this->lockingProvider->acquireLock($lockName, ILockingProvider::LOCK_EXCLUSIVE);
+			} catch (LockedException $e) {
+				$section1->writeln("         Skipping because it is locked - another process seems to work on this …");
+				continue;
+			}
+
 			$previews = $oldPreviewFolder->getDirectoryListing();
 			if ($previews !== []) {
 				try {
@@ -264,6 +278,10 @@ class Repair extends Command {
 					}
 				}
 			}
+
+			$this->lockingProvider->releaseLock($lockName, ILockingProvider::LOCK_EXCLUSIVE);
+			$section1->writeln("         Unlocked");
+
 			$section1->writeln("         Finished migrating previews of file with fileId $name …");
 			$progressBar->advance();
 		}
