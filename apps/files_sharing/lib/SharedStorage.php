@@ -307,9 +307,9 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 		$this->init();
 		$isPartFile = pathinfo($path1, PATHINFO_EXTENSION) === 'part';
 		$targetExists = $this->file_exists($path2);
-		$sameFodler = dirname($path1) === dirname($path2);
+		$sameFolder = dirname($path1) === dirname($path2);
 
-		if ($targetExists || ($sameFodler && !$isPartFile)) {
+		if ($targetExists || ($sameFolder && !$isPartFile)) {
 			if (!$this->isUpdatable('')) {
 				return false;
 			}
