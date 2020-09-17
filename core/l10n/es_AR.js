@@ -87,7 +87,6 @@ OC.L10N.register(
     "Resetting password" : "Restableciendo contraseña",
     "Recommended apps" : "Apps recomendadas",
     "Loading apps …" : "Cargando apps ...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "App descargada o instalación fallida",
     "Can't install this app because it is not compatible" : "No se puede instalar esta app porque no es compatible",
     "Can't install this app" : "No se puede instalar esta app",
@@ -306,6 +305,7 @@ OC.L10N.register(
     "Search" : "Buscar",
     "Reset search" : "Restablecer búsqueda",
     "Cancel log in" : "Cancelar inicio de sesión",
-    "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
+    "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:",
+    "Nextcloud {app}" : "Nextcloud {app}"
 },
 "nplurals=2; plural=(n != 1);");

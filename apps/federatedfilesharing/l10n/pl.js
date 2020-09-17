@@ -38,6 +38,7 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Udostępnianie Chmury Federacyjnej",
     "Open documentation" : "Otwórz dokumentację",
     "Adjust how people can share between servers." : "Dostosuj w jaki sposób można udostępniać serwery.",
+    "Allow users on this server to send shares to other servers. This option also allows WebDAV access to public shares" : "Zezwalaj użytkownikom na tym serwerze na wysłanie udostępnień do innych serwerów. Ta opcja umożliwia również dostęp WebDAV do udostępnień publicznych",
     "Allow users on this server to receive shares from other servers" : "Zezwalaj użytkownikom na tym serwerze do otrzymania udostępnień z innych serwerów",
     "Allow users on this server to send shares to groups on other servers" : "Zezwalaj użytkownikom na tym serwerze na udostępnianie dla grup na innych serwerach",
     "Allow users on this server to receive group shares from other servers" : "Zezwalaj użytkownikom na tym serwerze na przyjmowanie udostępnienia od grupy z innych serwerów",
@@ -52,6 +53,6 @@ OC.L10N.register(
     "HTML Code:" : "Kod HTML:",
     "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Otrzymałeś \"%3$s\" zdalne udostępnienie od %1$s (w imieniu %2$s)",
     "You received \"%3$s\" as a remote share from %1$s" : "Otrzymałeś \"%3$s\" zdalne udostępnienie od %1$s",
-    "Allow users on this server to send shares to other servers" : "Zezwalaj użytkownikom na tym serwerze wysłać udostępnienia do innych serwerów"
+    "Allow users on this server to send shares to other servers" : "Zezwalaj użytkownikom na tym serwerze na wysłanie udostępnień do innych serwerów"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
