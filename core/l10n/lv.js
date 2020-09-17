@@ -111,7 +111,6 @@ OC.L10N.register(
     "Loading apps …" : "Notiek lietotņu ielāde ...",
     "Could not fetch list of apps from the app store." : "Nevarēja ielādēt lietotņu sarakstu no lietotņu veikala.",
     "Installing apps …" : "Notiek lietotņu instalēšana ...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Lietotnes lejupielāde vai instalēšana neizdevās",
     "Can't install this app because it is not compatible" : "Nevar instalēt šo lietotni, jo tā nav savietojama",
     "Can't install this app" : "Nevar instalēt šo lietotni",
@@ -330,6 +329,7 @@ OC.L10N.register(
     "Search" : "Meklēt",
     "Cancel log in" : "Atcelt pieteikšanos",
     "These apps will be updated:" : "Šīs lietotnes tiks atjauninātas:",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "Lokālo dokumentu rediģēšanas back-end, ko izmanto OnlyOffice lietojumprogramma."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

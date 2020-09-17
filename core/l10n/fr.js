@@ -152,7 +152,6 @@ OC.L10N.register(
     "Loading apps …" : "Chargement des applis …",
     "Could not fetch list of apps from the app store." : "Impossible de récupérer la liste des applications depuis l'app store.",
     "Installing apps …" : "Installation des applis en cours ...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Échec lors du téléchargement ou de l'installation de l'appli",
     "Can't install this app because it is not compatible" : "Impossible d'installer cette appli car elle n'est pas compatible",
     "Can't install this app" : "Impossible d'installer cette appli",
@@ -448,6 +447,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Votre client devrait maintenant être connecté ! Vous pouvez fermer cette fenêtre.",
     "Cancel log in" : "Annuler l'authentification",
     "These apps will be updated:" : "Les applications suivantes seront mises à jour :",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "Moteur d'édition de documents locaux utilisé par l'application OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Agenda, Contacts, Discussion, Mail & OnlyOffice"
 },
