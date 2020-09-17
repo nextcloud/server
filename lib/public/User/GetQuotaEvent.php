@@ -28,6 +28,8 @@ use OCP\IUser;
 
 /**
  * Event to allow apps to
+ *
+ * @since 20.0.0
  */
 class GetQuotaEvent extends Event {
 	/** @var IUser */
@@ -35,11 +37,17 @@ class GetQuotaEvent extends Event {
 	/** @var string|null */
 	private $quota = null;
 
+	/**
+	 * @since 20.0.0
+	 */
 	public function __construct(IUser $user) {
 		parent::__construct();
 		$this->user = $user;
 	}
 
+	/**
+	 * @since 20.0.0
+	 */
 	public function getUser(): IUser {
 		return $this->user;
 	}
@@ -47,7 +55,7 @@ class GetQuotaEvent extends Event {
 	/**
 	 * Get the set quota as human readable string, or null if no overwrite is set
 	 *
-	 * @return string|null
+	 * @since 20.0.0
 	 */
 	public function getQuota(): ?string {
 		return $this->quota;
@@ -56,7 +64,7 @@ class GetQuotaEvent extends Event {
 	/**
 	 * Set the quota overwrite as human readable string
 	 *
-	 * @param string $quota
+	 * @since 20.0.0
 	 */
 	public function setQuota(string $quota): void {
 		$this->quota = $quota;
