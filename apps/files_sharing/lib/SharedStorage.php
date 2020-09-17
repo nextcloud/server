@@ -286,7 +286,7 @@ class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedSto
 				}
 		}
 		$info = [
-			'target' => $this->getMountPoint() . $path,
+			'target' => $this->getMountPoint() . '/' . $path,
 			'source' => $source,
 			'mode' => $mode,
 		];
