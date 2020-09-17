@@ -29,6 +29,7 @@
 
 namespace OCA\User_LDAP\Tests\User;
 
+use OC\Accounts\AccountManager;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
@@ -41,7 +42,6 @@ use OCP\Image;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Accounts\IAccount;
-use OCP\Accounts\IAccountManager;
 use OCP\Accounts\IAccountProperties;
 use OCP\Notification\IManager as INotificationManager;
 use OCP\Notification\INotification;
@@ -66,7 +66,7 @@ class UserTest extends \Test\TestCase {
 	protected $notificationManager;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $userManager;
-	/** @var IAccountManager|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var AccountManager|\PHPUnit\Framework\MockObject\MockObject */
 	protected $accountManager;
 	/** @var Image|\PHPUnit\Framework\MockObject\MockObject */
 	protected $image;
@@ -98,7 +98,7 @@ class UserTest extends \Test\TestCase {
 		$this->avatarManager = $this->createMock(IAvatarManager::class);
 		$this->image = $this->createMock(Image::class);
 		$this->userManager = $this->createMock(IUserManager::class);
-		$this->accountManager = $this->createMock(IAccountManager::class);
+		$this->accountManager = $this->createMock(AccountManager::class);
 		$this->notificationManager = $this->createMock(INotificationManager::class);
 
 		$this->user = new User(
