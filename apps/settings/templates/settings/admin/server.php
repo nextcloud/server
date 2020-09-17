@@ -78,7 +78,7 @@
 			print_unescaped('checked="checked"');
 		} ?>>
 				<label for="backgroundjobs_ajax">AJAX</label><br/>
-				<em><?php p($l->t("Execute one task with each page loaded")); ?></em>
+				<em><?php p($l->t("Execute one task with each page loaded.")); ?></em>
 			</p>
 			<p>
 				<input type="radio" name="mode" value="webcron" class="radio"
