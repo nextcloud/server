@@ -63,6 +63,7 @@ class Helper {
 			'owner' => $storageInfo['owner'],
 			'ownerDisplayName' => $storageInfo['ownerDisplayName'],
 			'mountType' => $storageInfo['mountType'],
+			'mountPoint' => $storageInfo['mountPoint'],
 		];
 	}
 
