@@ -145,7 +145,6 @@ OC.L10N.register(
     "Loading apps …" : "Laster apper ... ",
     "Could not fetch list of apps from the app store." : "Kunne ikke hente liste med apper fra appbutikken. ",
     "Installing apps …" : "Installerer apper ... ",
-    "Nextcloud {app}" : "Nextcloud {app} ",
     "App download or installation failed" : "Nedlasting eller installasjon av app feilet ",
     "Can't install this app because it is not compatible" : "Kan ikke installere denne appen fordi den ikke er kompatibel",
     "Can't install this app" : "Kan ikke installere denne appen",
@@ -424,6 +423,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Klienten din skal nå være tilkoblet! Du kan lukke dette vinduet.",
     "Cancel log in" : "Avbryt innlogging",
     "These apps will be updated:" : "Disse appene vil bli oppdatert:",
+    "Nextcloud {app}" : "Nextcloud {app} ",
     "Local document editing back-end used by the OnlyOffice app." : "Lokal backend for dokumentredigering brukt av OnlyOffice-appen.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalender, Kontaker, Talk, E-post og OnlyOffice"
 },

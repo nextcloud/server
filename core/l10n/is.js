@@ -143,7 +143,6 @@ OC.L10N.register(
     "Loading apps …" : "Hleð inn forritum …",
     "Could not fetch list of apps from the app store." : "Gat ekki sótt lista yfir forrit úr forritasafninu.",
     "Installing apps …" : "Set upp forrit …",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Niðurhal eða uppsetning forrits mistókst",
     "Can't install this app because it is not compatible" : "Ekki er hægt að setja upp forritið því það er ekki samhæft",
     "Can't install this app" : "Get ekki sett þetta forrit upp",
@@ -431,6 +430,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Biðlaraforritið þitt ætti núna að vera tengt! Þú mátt loka þessum glugga.",
     "Cancel log in" : "Hætta við innskráningu",
     "These apps will be updated:" : "Eftirfarandi öpp verða uppfærð:",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Dagatal, tengiliðir, spjall, póstur & OnlyOffice"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

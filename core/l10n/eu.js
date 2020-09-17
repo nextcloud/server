@@ -151,7 +151,6 @@ OC.L10N.register(
     "Loading apps …" : "Aplikazioak kargatzen...",
     "Could not fetch list of apps from the app store." : "Ezin izan da aplikazioen zerrenda eskuratu aplikazioen biltegitik.",
     "Installing apps …" : "Aplikazioak instalatzen...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Huts egin du aplikazioaren deskarga edo instalazioak",
     "Can't install this app because it is not compatible" : "Ezin da aplikazio hau instalatu ez delako bateragarria",
     "Can't install this app" : "Ezin da aplikazio hau instalatu",
@@ -445,6 +444,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Zure bezeroak konektatuta dago! Leiho hau itxi dezakezu.",
     "Cancel log in" : "Ezeztatu saio-hasiera",
     "These apps will be updated:" : "Aplikazio hauek eguneratuko dira:",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "OnlyOffice aplikazioak dokumentu lokalak editatzeko erabiltzen duen atzealdekoa.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Egutegia, Kontaktuak, Elkarrizketa, Posta eta OnlyOffice"
 },

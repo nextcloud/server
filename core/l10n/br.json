@@ -149,7 +149,6 @@
     "Loading apps …" : "O kargañ ar meziant",
     "Could not fetch list of apps from the app store." : "N'eo ket posuple tizout listenn ar meziantoù eus stal ar meziantoù.",
     "Installing apps …" : "O stallia ar meziant ...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Pellgargan pe staliadur ar meziant c'hwited",
     "Can't install this app because it is not compatible" : "N'eo ket posuple staliañ ar meziant peogwir n'eo ket kenglot",
     "Can't install this app" : "N'eo ket posuple staliañ ar meziant",
@@ -444,6 +443,7 @@
     "Your client should now be connected! You can close this window." : "Ar c'hliant a defe bezhan kenstaged ! Posuple eo deoc'h seriñ ar prenestr.",
     "Cancel log in" : "Arrest ar mont-tre",
     "These apps will be updated:" : "Ar meziantoù mañ a vo adnevezet :",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "Embannadur pennañ evit an dielloù diabarzh implijet gant ar meziant OnlyOffice",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Deizadur, Darempredoù, Komz, Mailoù & OnlyOffice"
 },"pluralForm" :"nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);"

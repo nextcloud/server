@@ -151,7 +151,6 @@ OC.L10N.register(
     "Loading apps …" : "O kargañ ar meziant",
     "Could not fetch list of apps from the app store." : "N'eo ket posuple tizout listenn ar meziantoù eus stal ar meziantoù.",
     "Installing apps …" : "O stallia ar meziant ...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Pellgargan pe staliadur ar meziant c'hwited",
     "Can't install this app because it is not compatible" : "N'eo ket posuple staliañ ar meziant peogwir n'eo ket kenglot",
     "Can't install this app" : "N'eo ket posuple staliañ ar meziant",
@@ -446,6 +445,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Ar c'hliant a defe bezhan kenstaged ! Posuple eo deoc'h seriñ ar prenestr.",
     "Cancel log in" : "Arrest ar mont-tre",
     "These apps will be updated:" : "Ar meziantoù mañ a vo adnevezet :",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "Embannadur pennañ evit an dielloù diabarzh implijet gant ar meziant OnlyOffice",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Deizadur, Darempredoù, Komz, Mailoù & OnlyOffice"
 },
