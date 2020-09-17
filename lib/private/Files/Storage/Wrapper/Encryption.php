@@ -263,7 +263,7 @@ class Encryption extends Wrapper {
 
 		$encryptionModule = $this->getEncryptionModule($path);
 		if ($encryptionModule) {
-			$this->keyStorage->deleteAllFileKeys($this->getFullPath($path));
+			$this->keyStorage->deleteAllFileKeys($fullPath);
 		}
 
 		return $this->storage->unlink($path);
