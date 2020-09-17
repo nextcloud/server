@@ -50,6 +50,7 @@ use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserBackend;
+use OCP\User\GetQuotaEvent;
 use OCP\UserInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -406,7 +407,15 @@ class User implements IUser {
 	 * @since 9.0.0
 	 */
 	public function getQuota() {
-		$quota = $this->config->getUserValue($this->uid, 'files', 'quota', 'default');
+		// allow apps to modify the user quota by hooking into the event
+		$event = new GetQuotaEvent($this);
+		$this->dispatcher->dispatchTyped($event);
+		$overwriteQuota = $event->getQuota();
+		if ($overwriteQuota) {
+			$quota = $overwriteQuota;
+		} else {
+			$quota = $this->config->getUserValue($this->uid, 'files', 'quota', 'default');
+		}
 		if ($quota === 'default') {
 			$quota = $this->config->getAppValue('files', 'default_quota', 'none');
 		}
