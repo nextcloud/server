@@ -100,8 +100,6 @@ class Repair extends Command {
 			$output->writeln("");
 		}
 
-		$verbose = $output->isVerbose();
-
 		$instanceId = $this->config->getSystemValueString('instanceid');
 
 		$output->writeln("This will migrate all previews from the old preview location to the new one.");
@@ -237,9 +235,7 @@ class Repair extends Command {
 				try {
 					$this->rootFolder->get("appdata_$instanceId/preview/$newFoldername");
 				} catch (NotFoundException $e) {
-					if ($verbose) {
-						$section1->writeln("         Create folder preview/$newFoldername");
-					}
+					$section1->writeln("         Create folder preview/$newFoldername", OutputInterface::VERBOSITY_VERBOSE);
 					if (!$dryMode) {
 						$this->rootFolder->newFolder("appdata_$instanceId/preview/$newFoldername");
 					}
@@ -254,9 +250,7 @@ class Repair extends Command {
 						$progressBar->advance();
 						continue;
 					}
-					if ($verbose) {
-						$section1->writeln("         Move preview/$name/$previewName to preview/$newFoldername");
-					}
+					$section1->writeln("         Move preview/$name/$previewName to preview/$newFoldername", OutputInterface::VERBOSITY_VERBOSE);
 					if (!$dryMode) {
 						try {
 							$preview->move("appdata_$instanceId/preview/$newFoldername/$previewName");
@@ -267,9 +261,7 @@ class Repair extends Command {
 				}
 			}
 			if ($oldPreviewFolder->getDirectoryListing() === []) {
-				if ($verbose) {
-					$section1->writeln("         Delete empty folder preview/$name");
-				}
+				$section1->writeln("         Delete empty folder preview/$name", OutputInterface::VERBOSITY_VERBOSE);
 				if (!$dryMode) {
 					try {
 						$oldPreviewFolder->delete();
