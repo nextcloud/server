@@ -126,7 +126,6 @@ OC.L10N.register(
     "Loading apps …" : "Апликациите се вчитуваат ...",
     "Could not fetch list of apps from the app store." : "Неможе да се вчита листата на апликации од продавницата.",
     "Installing apps …" : "Инсталирање на апликации ...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Неуспешно преземање или инсталирање на апликација",
     "Can't install this app because it is not compatible" : "Неможе да се инсталираа оваа апликација бидејќи не е компатибилна",
     "Can't install this app" : "Неможе да се инсталираа оваа апликација ",
@@ -418,6 +417,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Вашиот клиент сега е поврзан! можете да го затворите прозорот.",
     "Cancel log in" : "Откажи го најавувањето",
     "These apps will be updated:" : "Следните апликации чќе бидат надградени:",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календар, контакти, разговор, Е-пошта & Документи"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

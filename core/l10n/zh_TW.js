@@ -142,7 +142,6 @@ OC.L10N.register(
     "Loading apps …" : "正在載入應用程式…",
     "Could not fetch list of apps from the app store." : "無法從應用程式商店抓取應用程式清單",
     "Installing apps …" : "正在安裝應用程式…",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "應用程式下載或是安裝失敗",
     "Can't install this app because it is not compatible" : "應用程式無法安裝，因為不相容",
     "Can't install this app" : "無法安裝這個應用程式",
@@ -421,6 +420,7 @@ OC.L10N.register(
     "Reset search" : "重置搜尋",
     "Your client should now be connected! You can close this window." : "您的客戶端應該已經完成連結，您可以關閉這個視窗",
     "Cancel log in" : "取消登入",
-    "These apps will be updated:" : "將會更新這些應用程式"
+    "These apps will be updated:" : "將會更新這些應用程式",
+    "Nextcloud {app}" : "Nextcloud {app}"
 },
 "nplurals=1; plural=0;");

@@ -150,7 +150,6 @@ OC.L10N.register(
     "Loading apps …" : "Alkalmazások betöltése…",
     "Could not fetch list of apps from the app store." : "Az alkalmazások listája nem kérhető le az alkalmazásbolttól.",
     "Installing apps …" : "Alkalmazások telepítése…",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Alkalmazás letöltése vagy telepítése sikertelen",
     "Can't install this app because it is not compatible" : "Az alkalmazás nem telepíthető, mert nem kompatibilis",
     "Can't install this app" : "Az alkalmazás nem telepíthető",
@@ -436,6 +435,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "A kliens már csatlakozott. Bezárhatja ezt az ablakot.",
     "Cancel log in" : "Bejelentkezés megszakítása",
     "These apps will be updated:" : "A következő alkalmazások lesznek frissítve:",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "Helyi dokumentumszerkesztési háttérszolgáltatás, melyet az OnlyOffice alkalmazás használ.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Naptár, Névjegyek, Beszélgetés, Levelezés és OnlyOffice"
 },

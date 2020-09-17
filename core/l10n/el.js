@@ -151,7 +151,6 @@ OC.L10N.register(
     "Loading apps …" : "Φόρτωση εφαρμογών …",
     "Could not fetch list of apps from the app store." : "Δεν μπορεί να ληφθεί η λίστα εφαρμογών από την αγορά εφαρμογών.",
     "Installing apps …" : "Εγκατάσταση εφαρμογών …",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Η εγκατάσταση ή λήψη εφαρμογής απέτυχε",
     "Can't install this app because it is not compatible" : "Η εφαρμογή δεν μπορεί να εγκατασταθεί, δεν είναι συμβατή",
     "Can't install this app" : "Η εφαρμογή δεν μπορεί να εγκατασταθεί",
@@ -446,6 +445,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Η εφαρμογή υπολογιστή έχει συνδεθεί! Μπορείτε να κλείσετε το παράθυρο.",
     "Cancel log in" : "Ακύρωση εισόδου",
     "These apps will be updated:" : "Αυτές οι εφαρμογές θα ενημερωθούν:",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "Επεξεργασία τοπικών εγγράφων με χρήση εφαρμογής OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Ημερολόγιο, Επαφές, Συνομιλία, Αλληλογραφία & OnlyOffice"
 },

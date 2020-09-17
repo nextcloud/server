@@ -120,7 +120,6 @@ OC.L10N.register(
     "Loading apps …" : "Ladataan sovelluksia…",
     "Could not fetch list of apps from the app store." : "Ei voitu hakea sovelluskaupan listaa.",
     "Installing apps …" : "Asennetaan sovelluksia…",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Sovelluksen lataus tai asennus epäonnistui",
     "Can't install this app because it is not compatible" : "Tätä sovellusta ei voi asentaa, koska se ei ole yhteensopiva",
     "Can't install this app" : "Tätä sovellusta ei voi asentaa",
@@ -383,6 +382,7 @@ OC.L10N.register(
     "Search" : "Etsi",
     "Reset search" : "Tyhjennä haku",
     "Cancel log in" : "Peru kirjautuminen",
-    "These apps will be updated:" : "Nämä sovellukset päivitetään:"
+    "These apps will be updated:" : "Nämä sovellukset päivitetään:",
+    "Nextcloud {app}" : "Nextcloud {app}"
 },
 "nplurals=2; plural=(n != 1);");

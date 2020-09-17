@@ -119,7 +119,6 @@ OC.L10N.register(
     "Loading apps …" : "Завантаження застосунків ...",
     "Could not fetch list of apps from the app store." : "Неможливо отримати перелік застосунків з крамниці застосунків",
     "Installing apps …" : "Встановлення застосунків ...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Помилка із звантаженням або встановленням застосунку",
     "Can't install this app because it is not compatible" : "Неможливо встановити цей застосунок через несумісність",
     "Can't install this app" : "Неможливо встановити цей застосунок",
@@ -399,6 +398,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Тепер ваш клієнт під’єднано. Ви можете закрити це вікно.",
     "Cancel log in" : "Скасувати вхід",
     "These apps will be updated:" : "Ці застосунки буде оновлено:",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "Локальний бекенд для редагування документів, який використовує застосунок OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календар, Контакти, Talk, Повідомлення та OnlyOffice"
 },

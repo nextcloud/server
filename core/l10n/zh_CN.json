@@ -148,7 +148,6 @@
     "Loading apps …" : "正在加载应用…",
     "Could not fetch list of apps from the app store." : "无法从应用商店中获取应用列表。",
     "Installing apps …" : "正在安装应用...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "应用下载或安装失败",
     "Can't install this app because it is not compatible" : "无法安装此应用，因为不兼容",
     "Can't install this app" : "无法安装此应用",
@@ -437,6 +436,7 @@
     "Your client should now be connected! You can close this window." : "您的客户端现在应该可以连接了！您可以关闭这个窗口。",
     "Cancel log in" : "取消登录",
     "These apps will be updated:" : "以下应用将被更新：",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "OnlyOffice 应用使用的本地文档编辑后端。",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "日历、联系人、通话、电子邮件和 OnlyOffice"
 },"pluralForm" :"nplurals=1; plural=0;"

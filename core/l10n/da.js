@@ -148,7 +148,6 @@ OC.L10N.register(
     "Loading apps …" : "Henter apps ...",
     "Could not fetch list of apps from the app store." : "Kunne ikke hente liste over apps fra app-storen.",
     "Installing apps …" : "Installerer apps ...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "App-download eller installation mislykkedes",
     "Can't install this app because it is not compatible" : "Denne app kan ikke installeres fordi den ikke er kompatibel",
     "Can't install this app" : "Kan ikke installere denne app",
@@ -431,6 +430,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Din klient er nu forbundet. Du kan lukke dette vindue",
     "Cancel log in" : "Annullér login",
     "These apps will be updated:" : "Følgende apps vil blive opdateret:",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalender, Kontakter, Snak, Mail & OnlyOffice"
 },
 "nplurals=2; plural=(n != 1);");
