@@ -8,6 +8,10 @@ OC.L10N.register(
     "Your browser does not support videos." : "Zure nabigatzailek ezin ditu bideoak erakutsi.",
     "Open sidebar" : "Ireki albo-barra",
     "View" : "Ikusi",
-    "Your browser does not support the video tag." : "Zure nabigatzaileak ez du euskarririk video etiketarentzat"
+    "Your browser does not support the video tag." : "Zure nabigatzaileak ez du euskarririk video etiketarentzat",
+    "binary" : "bitar",
+    "hex" : "hex",
+    "icon-error" : "ikono-errorea",
+    "emptycontent" : "edukihutsa"
 },
 "nplurals=2; plural=(n != 1);");

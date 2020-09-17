@@ -5,6 +5,7 @@
     "Error loading {name}" : "Błąd podczas ładowania {name}",
     "Your browser does not support videos." : "Twoja przeglądarka nie obsługuje plików wideo.",
     "Open sidebar" : "Otwórz pasek boczny",
+    "There is no plugin available to display this file type" : "Brak dostępnej wtyczki do wyświetlania tego typu plików",
     "View" : "Podgląd",
     "Your browser does not support the video tag." : "Twoja przeglądarka nie obsługuje etykiety wideo.",
     "binary" : "dwójkowy"
