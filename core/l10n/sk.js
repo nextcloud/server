@@ -150,7 +150,6 @@ OC.L10N.register(
     "Loading apps …" : "Načítavanie apiek...",
     "Could not fetch list of apps from the app store." : "Nepodarilo sa načítať zoznam apiek z katalógu.",
     "Installing apps …" : "Inštalácia apiek...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Nepodarilo sa prevziať alebo nainštalovať apku",
     "Can't install this app because it is not compatible" : "Táto apka sa nedá nainštalovať, nie je kompatibilná",
     "Can't install this app" : "Táto apka sa nedá nainštalovať",
@@ -437,6 +436,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Váš klient by mal byť pripojený. Toto okno už môžete zatvoriť.",
     "Cancel log in" : "Zrušiť prihlásenie",
     "These apps will be updated:" : "Tieto aplikácie budú aktualizované:",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "Miestna úprava dokumentov využíva aplikáciu OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalendár, Kontakty, Talk, E-mail a OnlyIffice"
 },

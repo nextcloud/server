@@ -131,7 +131,6 @@ OC.L10N.register(
     "Loading apps …" : "היישומונים נטענים…",
     "Could not fetch list of apps from the app store." : "לא ניתן לקבל את רשימת היישומונים מחנות היישומונים.",
     "Installing apps …" : "היישומונים מותקנים…",
-    "Nextcloud {app}" : "{app} מבית Nextcloud",
     "App download or installation failed" : "הורדת או התקנת היישומון נכשלה",
     "Can't install this app because it is not compatible" : "לא ניתן להתקין את היישומון הזה כיוון שאינו נתמך.",
     "Can't install this app" : " לא ניתן להתקין את היישומון הזה",
@@ -417,6 +416,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "הלקוח שלך אמור להיות מחובר עכשיו! ניתן לסגור את החלון הזה.",
     "Cancel log in" : "ביטול כניסה",
     "These apps will be updated:" : "יישומים אלו יעודכנו:",
+    "Nextcloud {app}" : "{app} מבית Nextcloud",
     "Local document editing back-end used by the OnlyOffice app." : "מנגנון עריכת מסמכים מקומי בו משתמש היישומון OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "יומן, אנשי קשר, שיחה, דוא״ל ו־OnlyOffice"
 },

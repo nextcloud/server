@@ -150,7 +150,6 @@ OC.L10N.register(
     "Loading apps …" : "Memuat aplikasi ...",
     "Could not fetch list of apps from the app store." : "Tidak dapat mengambil daftar aplikasi dari toko.",
     "Installing apps …" : "Instalasi aplikasi ...",
-    "Nextcloud {app}" : "{app} Nextcloud",
     "App download or installation failed" : "Unduh aplikasi atau gagal instalasi",
     "Can't install this app because it is not compatible" : "Instalasi aplikasi gagal karena tidak kompatibel",
     "Can't install this app" : "Instalasi aplikasi gagal",
@@ -436,6 +435,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Klien sudah terhubung! Anda dapat menutup jendela ini.",
     "Cancel log in" : "Batalkan masuk log",
     "These apps will be updated:" : "Aplikasi berikut akan diperbarui:",
+    "Nextcloud {app}" : "{app} Nextcloud",
     "Local document editing back-end used by the OnlyOffice app." : "Pengeditan dokumen lokal menggunakan aplikasi OnlyOffice sebagai back-end.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalender, Kontak, Talk, Surel, & OnlyOffice"
 },

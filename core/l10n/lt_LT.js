@@ -106,7 +106,6 @@ OC.L10N.register(
     "Loading apps …" : "Įkeliamos programėlės…",
     "Could not fetch list of apps from the app store." : "Nepavyko iš programėlių parduotuvės gauti programėlių sąrašo.",
     "Installing apps …" : "Įdiegiamos programėlės…",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Programėlės atsisiuntimas ar įdiegimas patyrė nesėkmę",
     "Can't install this app because it is not compatible" : "Nepavyksta įdiegti šios programėlės, nes ji yra nesuderinama",
     "Can't install this app" : "Nepavyksta įdiegti šios programėlės",
@@ -378,6 +377,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Klientas jau turi būti prijungtas! Langą galite užverti.",
     "Cancel log in" : "Atšaukti prisijungimą",
     "These apps will be updated:" : "Bus atnaujintos šios programėlės:",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Kalendorius, Adresatai, Pokalbiai ir OnlyOffice"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -134,7 +134,6 @@ OC.L10N.register(
     "Loading apps …" : "Poteka nalaganje programov ...",
     "Could not fetch list of apps from the app store." : "Ni mogoče pridobiti seznama programov iz trgovine.",
     "Installing apps …" : "Poteka nameščanje programov ...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Prejem oziroma namestitev programa je spodletela.",
     "Can't install this app because it is not compatible" : "Programa ni mogoče namestiti, ker ni skladen z različico okolja.",
     "Can't install this app" : "Programa ni mogoče namestiti.",
@@ -405,6 +404,7 @@ OC.L10N.register(
     "Your client should now be connected! You can close this window." : "Odjemalec naj bi bil sedaj povezan! To okno lahko zaprete.",
     "Cancel log in" : "Prekini prijavo",
     "These apps will be updated:" : "Posodobljeni bodo programi:",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "Ozadnji program za krajevno urejanje dokumentov, ki ga uporablja program OnlyOffice",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Koledar, Stiki, Talk, Pošta in OnlyOffice"
 },
