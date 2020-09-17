@@ -225,7 +225,7 @@ class Repair extends Command {
 
 			$lockName = 'occ preview:repair lock ' . $oldPreviewFolder->getId();
 			try {
-				$section1->writeln("         Locking \"$lockName\" …");
+				$section1->writeln("         Locking \"$lockName\" …", OutputInterface::VERBOSITY_VERBOSE);
 				$this->lockingProvider->acquireLock($lockName, ILockingProvider::LOCK_EXCLUSIVE);
 			} catch (LockedException $e) {
 				$section1->writeln("         Skipping because it is locked - another process seems to work on this …");
@@ -280,7 +280,7 @@ class Repair extends Command {
 			}
 
 			$this->lockingProvider->releaseLock($lockName, ILockingProvider::LOCK_EXCLUSIVE);
-			$section1->writeln("         Unlocked");
+			$section1->writeln("         Unlocked", OutputInterface::VERBOSITY_VERBOSE);
 
 			$section1->writeln("         Finished migrating previews of file with fileId $name …");
 			$progressBar->advance();
