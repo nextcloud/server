@@ -38,7 +38,10 @@ use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\ForbiddenException;
+use OC\Group\Manager as GroupManager;
+use OC\L10N\Factory;
 use OC\Security\IdentityProof\Manager;
+use OC\User\Manager as UserManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
 use OCA\Settings\Events\BeforeTemplateRenderedEvent;
@@ -63,9 +66,9 @@ use OCP\Mail\IMailer;
 use function in_array;
 
 class UsersController extends Controller {
-	/** @var IUserManager */
+	/** @var UserManager */
 	private $userManager;
-	/** @var IGroupManager */
+	/** @var GroupManager */
 	private $groupManager;
 	/** @var IUserSession */
 	private $userSession;
@@ -77,7 +80,7 @@ class UsersController extends Controller {
 	private $l10n;
 	/** @var IMailer */
 	private $mailer;
-	/** @var IFactory */
+	/** @var Factory */
 	private $l10nFactory;
 	/** @var IAppManager */
 	private $appManager;

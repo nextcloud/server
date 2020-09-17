@@ -30,6 +30,7 @@
 
 namespace OC\Group;
 
+use OC\Group\Manager as GroupManager;
 use OCP\IGroupManager;
 use OCP\IUserSession;
 
@@ -44,7 +45,7 @@ class MetaData {
 	protected $isAdmin;
 	/** @var array */
 	protected $metaData = [];
-	/** @var IGroupManager */
+	/** @var GroupManager */
 	protected $groupManager;
 	/** @var bool */
 	protected $sorting = false;
