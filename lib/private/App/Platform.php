@@ -97,4 +97,8 @@ class Platform {
 		$repo = new PlatformRepository();
 		return $repo->findLibrary($name);
 	}
+
+	public function getArchitecture(): string {
+		return php_uname('m');
+	}
 }
