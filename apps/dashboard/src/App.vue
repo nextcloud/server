@@ -215,6 +215,7 @@ export default {
 	},
 	mounted() {
 		this.updateGlobalStyles()
+		this.updateSkipLink()
 		window.addEventListener('scroll', this.handleScroll)
 
 		setInterval(() => {
@@ -320,6 +321,10 @@ export default {
 			} else {
 				document.body.classList.remove('dashboard--dark')
 			}
+		},
+		updateSkipLink() {
+			// Make sure "Skip to main content" link points to the app content
+			document.getElementsByClassName('skip-navigation')[0].setAttribute('href', '#app-dashboard')
 		},
 		updateStatusCheckbox(app, checked) {
 			if (checked) {
