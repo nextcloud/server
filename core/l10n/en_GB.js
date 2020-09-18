@@ -105,6 +105,7 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "Forgot password?" : "Forgot password?",
     "Back" : "Back",
+    "Reset search" : "Reset search",
     "Settings" : "Settings",
     "Could not load your contacts" : "Could not load your contacts",
     "Search contacts …" : "Search contacts …",
@@ -314,7 +315,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} search result in another folder","{count} search results in other folders"],
     "Saving..." : "Saving...",
     "Search" : "Search",
-    "Reset search" : "Reset search",
     "Cancel log in" : "Cancel log in",
     "These apps will be updated:" : "These apps will be updated:"
 },

@@ -21,6 +21,7 @@
     "PHP %s or higher is required." : "Je vyžadováno PHP %s nebo novější.",
     "PHP with a version lower than %s is required." : "Je vyžadováno PHP ve verzi nižší než %s.",
     "%sbit or higher PHP required." : "Je vyžadováno PHP %sbit nebo vyšší.",
+    "The following architectures are supported: %s" : "Jsou podporovány následující architektury: %s",
     "The following databases are supported: %s" : "Jsou podporovány následující databáze: %s",
     "The command line tool %s could not be found" : "Nástroj příkazového řádku %s nebyl nalezen",
     "The library %s is not available." : "Knihovna %s není dostupná.",

@@ -81,6 +81,7 @@ OC.L10N.register(
     "Cancel" : "Hủy",
     "Forgot password?" : "Quên mật khẩu sao?",
     "Back" : "Quay lại",
+    "Reset search" : "Đặt lại tìm kiếm",
     "Settings" : "Cài đặt",
     "Could not load your contacts" : "Không thể tải liên hệ của bạn",
     "Search contacts …" : "Tìm liên hệ ...",
@@ -282,7 +283,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} kết quả tìm kiếm trong các thư mục khác"],
     "Saving..." : "Đang lưu...",
     "Search" : "Tìm kiếm",
-    "Reset search" : "Đặt lại tìm kiếm",
     "Cancel log in" : "Hủy đăng nhập",
     "These apps will be updated:" : "Những ứng dụng sẽ được cập nhật:"
 },

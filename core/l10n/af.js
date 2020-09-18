@@ -70,6 +70,7 @@ OC.L10N.register(
     "Cancel" : "Kanselleer",
     "Forgot password?" : "Wagwoord vergeet?",
     "Back" : "Terug",
+    "Reset search" : "Herstel soek",
     "Settings" : "Instellings",
     "Could not load your contacts" : "Kon nie u kontakte laai nie",
     "Search contacts …" : "Soek kontakte …",
@@ -241,7 +242,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} soek resultaat in 'n ander gids","{count} soek resultate in ander gidse"],
     "Saving..." : "Stoor tans…",
     "Search" : "Soek",
-    "Reset search" : "Herstel soek",
     "Cancel log in" : "Kanselleer aanmelding",
     "These apps will be updated:" : "Die volgende toeps sal bygewerk word:"
 },
