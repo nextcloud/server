@@ -135,6 +135,7 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "Forgot password?" : "Senha esquecida?",
     "Back" : "Anterior",
+    "Reset search" : "Repor procura",
     "Settings" : "Definições",
     "Could not load your contacts" : "Não foi possível carregar os seus contactos",
     "Search contacts …" : "Pesquisar contactos ...",
@@ -387,7 +388,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de pesquisa noutra pasta","{count} resultados de pesquisa noutras pastas"],
     "Saving..." : "A guardar...",
     "Search" : "Procurar",
-    "Reset search" : "Repor procura",
     "Your client should now be connected! You can close this window." : "O seu cliente deverá estar agora conectado! Pode fechar esta janela.",
     "Cancel log in" : "Cancelar entrada",
     "These apps will be updated:" : "Estas aplicações irão ser atualizadas."

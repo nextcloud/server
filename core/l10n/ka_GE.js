@@ -101,6 +101,7 @@ OC.L10N.register(
     "Cancel" : "უარყოფა",
     "Forgot password?" : "დაგავიწყდათ პაროლი?",
     "Back" : "უკან",
+    "Reset search" : "ძიების შედეგები",
     "Settings" : "პარამეტრები",
     "Could not load your contacts" : "თქვენი კონტაქტების ჩატვირთვა ვერ მოხერხდა",
     "Search contacts …" : "მოძებნეთ კონტაქტები ...",
@@ -298,7 +299,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} ძიების შედეგები სხვა დირექტორიებში","{count} ძიების შედეგები სხვა დირექტორიებში"],
     "Saving..." : "შენახვა...",
     "Search" : "ძებნა",
-    "Reset search" : "ძიების შედეგები",
     "Cancel log in" : "ავტორიზაციის შეჩერება",
     "These apps will be updated:" : "ეს აპლიკაციები განახლდება:"
 },

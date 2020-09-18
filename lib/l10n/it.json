@@ -21,6 +21,7 @@
     "PHP %s or higher is required." : "Richiesto PHP %s o superiore",
     "PHP with a version lower than %s is required." : "Richiesta una versione di PHP minore di %s.",
     "%sbit or higher PHP required." : "Richiesto PHP %sbit o superiore.",
+    "The following architectures are supported: %s" : "Sono supportate le seguenti architetture: %s",
     "The following databases are supported: %s" : "I seguenti database sono supportati: %s",
     "The command line tool %s could not be found" : "Lo strumento da riga di comando %s non è stato trovato",
     "The library %s is not available." : "La libreria %s non è disponibile.",

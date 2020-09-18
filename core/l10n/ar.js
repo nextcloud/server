@@ -59,6 +59,7 @@ OC.L10N.register(
     "Cancel" : "الغاء",
     "Forgot password?" : "هل نسيت كلمة السر ؟",
     "Back" : "العودة",
+    "Reset search" : "إعادة تعيين البحث",
     "Settings" : "الضبط",
     "Could not load your contacts" : "تعذر تحميل جهات اتصالاتك",
     "Search contacts …" : "البحث عن مراسلين …",
@@ -229,7 +230,6 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "لا نتائج بحث في مجلدات اخرى ل {tag}{filter}{endtag}",
     "Saving..." : "جاري الحفظ...",
     "Search" : "البحث",
-    "Reset search" : "إعادة تعيين البحث",
     "Cancel log in" : "إلغاء تسجيل الدخول",
     "These apps will be updated:" : "سوف يتم تحديث هذه التطبيقات :"
 },
