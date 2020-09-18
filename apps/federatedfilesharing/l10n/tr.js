@@ -38,7 +38,6 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Birleşik Bulut Paylaşımı",
     "Open documentation" : "Belgeleri aç",
     "Adjust how people can share between servers." : "Kişilerin sunucular arasında nasıl paylaşım yapabileceğini ayarlayın.",
-    "Allow users on this server to send shares to other servers. This option also allows WebDAV access to public shares" : "Bu sunucudaki kullanıcılar diğer sunuculara paylaşım gönderebilsin. Bu seçenek ayrıca herkese açık paylaşımlara WebDAV erişimi de sağlar.",
     "Allow users on this server to receive shares from other servers" : "Bu sunucudaki kullanıcılar diğer sunuculardan paylaşım alabilsin",
     "Allow users on this server to send shares to groups on other servers" : "Bu sunucudaki kullanıcılar diğer sunuculardaki gruplara paylaşım gönderebilsin",
     "Allow users on this server to receive group shares from other servers" : "Bu sunucudaki kullanıcılar diğer sunuculardaki grup paylaşımlarını alabilsin",

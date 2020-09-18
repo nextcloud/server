@@ -241,7 +241,6 @@ OC.L10N.register(
     "Save" : "Lưu",
     "Security & setup warnings" : "Bảo mật và thiết lập cảnh báo",
     "Version" : "Phiên bản",
-    "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải",
     "Allow apps to use the Share API" : "Cho phép các ứng dụng sử dụng chia sẻ API",
     "days" : "ngày",
     "Allow resharing" : "Cho phép chia sẻ lại",
@@ -273,6 +272,7 @@ OC.L10N.register(
     "Issued By" : "Phát hành bởi",
     "Valid until %s" : "Có hiệu lực đến %s",
     "Import root certificate" : "Nhập root certificate",
+    "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải",
     "Unsaved changes" : "Thay đổi chưa được lưu"
 },
 "nplurals=1; plural=0;");
