@@ -206,7 +206,6 @@ OC.L10N.register(
     "Background jobs" : "Фонови процеси",
     "Last job execution ran %s. Something seems wrong." : "За последно cron задача е стартирала %s. Изглежда, че има проблем.",
     "Last job ran %s." : "За последно cron задача е стартирала %s.",
-    "Execute one task with each page loaded" : "Изпълнява една задача с всяка заредена страница.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Необходимо е cron.php да се стартира от системния потребител \"%s\".",
     "Allow apps to use the Share API" : "Разреши приложенията да използват Share API",
     "Set default expiration date for shares" : "Задай дата за изтичане по подразбиране за споделянията",
@@ -221,7 +220,6 @@ OC.L10N.register(
     "Restrict users to only share with users in their groups" : "Ограничи потребителите, така че да могат да споделят само с други потребители в своите групи.",
     "Exclude groups from sharing" : "Забрани групи да споделят",
     "These groups will still be able to receive shares, but not to initiate them." : "Тези групи ще могат да получават споделения, но няма да могат самите те да споделят.",
-    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Позволи автоматично довършване в диалога за споделяне. Ако това е забранено трябва да бъдe въведенo пълното потребителско име или email.",
     "Default share permissions" : "Права за споделяне по подразбиране",
     "Follow us on Twitter" : "Следвайте ни в Twitter",
     "Follow us on Mastodon" : "Следвайте ни в Mastodon",
@@ -351,7 +349,9 @@ OC.L10N.register(
     "Issued By" : "Издаден от",
     "Valid until %s" : "Валиден до %s",
     "Import root certificate" : "Внасяне на основен сертификат",
+    "Execute one task with each page loaded" : "Изпълнява една задача с всяка заредена страница.",
     "Set default expiration date" : "Задайте стандартен срок на валидност",
+    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Позволи автоматично довършване в диалога за споделяне. Ако това е забранено трябва да бъдe въведенo пълното потребителско име или email.",
     "Retry" : "Опитай отново"
 },
 "nplurals=2; plural=(n != 1);");
