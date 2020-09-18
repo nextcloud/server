@@ -351,6 +351,57 @@ Feature: transfer-ownership
 		And using received transfer folder of "user1" as dav path
 		And as "user1" the folder "/test" exists
 
+	Scenario: transferring ownership of path does not affect other files
+		Given user "user0" exists
+		And user "user1" exists
+		And User "user0" created a folder "/test"
+		And User "user0" uploads file "data/textfile.txt" to "/test/somefile.txt"
+		And User "user0" created a folder "/test2"
+		And User "user0" uploads file "data/textfile.txt" to "/test2/somefile.txt"
+		When transferring ownership of path "test" from "user0" to "user1"
+		And the command was successful
+		And As an "user1"
+		And using received transfer folder of "user1" as dav path
+		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And as "user0" the folder "/test2" exists
+		And as "user0" the file "/test2/somefile.txt" exists
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
+		And as "user1" the folder "/test2" does not exist
+
+	Scenario: transferring ownership of path does not affect other shares
+		Given user "user0" exists
+		And user "user1" exists
+		And User "user0" created a folder "/test"
+		And User "user0" uploads file "data/textfile.txt" to "/test/somefile.txt"
+		And User "user0" created a folder "/test2"
+		And User "user0" uploads file "data/textfile.txt" to "/test2/sharedfile.txt"
+		And file "/test2/sharedfile.txt" of user "user0" is shared with user "user1" with permissions 19
+		And user "user1" accepts last share
+		When transferring ownership of path "test" from "user0" to "user1"
+		And the command was successful
+		And As an "user1"
+		And using received transfer folder of "user1" as dav path
+		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And as "user0" the folder "/test2" exists
+		And as "user0" the file "/test2/sharedfile.txt" exists
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
+		And as "user1" the folder "/test2" does not exist
+		And using old dav path
+		And as "user1" the file "/sharedfile.txt" exists
+		And As an "user1"
+		And Getting info of last share
+		And the OCS status code should be "100"
+		And Share fields of last share match with
+			| uid_owner | user0 |
+			| uid_file_owner | user0 |
+			| share_with | user1 |
+
 	Scenario: transferring ownership of file shares
 		Given user "user0" exists
 		And user "user1" exists
