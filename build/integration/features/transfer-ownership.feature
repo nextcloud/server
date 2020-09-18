@@ -290,6 +290,20 @@ Feature: transfer-ownership
 		Then the command error output contains the text "Unknown target user"
 		And the command failed with exit code 1
 
+	Scenario: transfering ownership of a file
+		Given user "user0" exists
+		And user "user1" exists
+		And User "user0" uploads file "data/textfile.txt" to "/somefile.txt"
+		When transfering ownership of path "somefile.txt" from "user0" to "user1"
+		And the command was successful
+		And As an "user1"
+		And using received transfer folder of "user1" as dav path
+		Then Downloaded content when downloading file "/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the file "/somefile.txt" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the file "/somefile.txt" exists
+
 	Scenario: transfering ownership of a folder
 		Given user "user0" exists
 		And user "user1" exists
