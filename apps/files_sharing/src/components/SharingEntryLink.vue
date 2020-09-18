@@ -686,7 +686,7 @@ export default {
 				// Execute the copy link method
 				// freshly created share component
 				// ! somehow does not works on firefox !
-				if (update || !this.config.enforcePasswordForPublicLink) {
+				if (!this.config.enforcePasswordForPublicLink) {
 					// Only copy the link when the password was not forced,
 					// otherwise the user needs to copy/paste the password before finishing the share.
 					component.copyLink()
