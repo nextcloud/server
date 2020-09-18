@@ -29,6 +29,12 @@ export const regexFilterIn = /[^-]in:([a-z_-]+)/ig
 export const regexFilterNot = /-in:([a-z_-]+)/ig
 
 /**
+ * Create a cancel token
+ * @returns {CancelTokenSource}
+ */
+const createCancelToken = () => axios.CancelToken.source()
+
+/**
  * Get the list of available search providers
  *
  * @returns {Array}
@@ -54,13 +60,20 @@ export async function getTypes() {
 /**
  * Get the list of available search providers
  *
- * @param {string} type the type to search
- * @param {string} query the search
- * @param {int|string|undefined} cursor the offset for paginated searches
- * @returns {Promise}
+ * @param {Object} options destructuring object
+ * @param {string} options.type the type to search
+ * @param {string} options.query the search
+ * @param {int|string|undefined} options.cursor the offset for paginated searches
+ * @returns {Object} {request: Promise, cancel: Promise}
  */
-export function search(type, query, cursor) {
-	return axios.get(generateOcsUrl('search', 2) + `providers/${type}/search`, {
+export function search({ type, query, cursor }) {
+	/**
+	 * Generate an axios cancel token
+	 */
+	const cancelToken = createCancelToken()
+
+	const request = async() => axios.get(generateOcsUrl('search', 2) + `providers/${type}/search`, {
+		cancelToken: cancelToken.token,
 		params: {
 			term: query,
 			cursor,
@@ -68,4 +81,9 @@ export function search(type, query, cursor) {
 			from: window.location.pathname.replace('/index.php', '') + window.location.search,
 		},
 	})
+
+	return {
+		request,
+		cancel: cancelToken.cancel,
+	}
 }
