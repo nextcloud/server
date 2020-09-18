@@ -5,7 +5,13 @@
     "Error loading {name}" : "Σφάλμα φόρτωσης {name}",
     "Your browser does not support videos." : "Ο περιηγητής σας δεν υποστηρίζει βίντεο.",
     "Open sidebar" : "Άνοιγμα πλευρικής στήλης",
+    "There is no plugin available to display this file type" : "Δεν βρέθηκε σχετικό πρόσθετο για εμφάνιση τέτοιου τύπου αρχείο.",
     "View" : "Προβολή",
-    "Your browser does not support the video tag." : "Το πρόγραμμα περιήγησης που χρησιμοποιείτε δεν υποστηρίζει την ετικέτα βίντεο."
+    "Your browser does not support the video tag." : "Το πρόγραμμα περιήγησης που χρησιμοποιείτε δεν υποστηρίζει την ετικέτα βίντεο.",
+    "_img_::_.svg_" : ["img",".svg"],
+    "binary" : "binary",
+    "hex" : "hex",
+    "icon-error" : "σφάλμα-εικονιδίου",
+    "emptycontent" : "κενό"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

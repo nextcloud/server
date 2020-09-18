@@ -7,8 +7,13 @@ OC.L10N.register(
     "Error loading {name}" : "S'ha produït un error en carregar {name}",
     "Your browser does not support videos." : "El vostre navegador web no és compatible amb els vídeos.",
     "Open sidebar" : "Obre la barra lateral",
+    "There is no plugin available to display this file type" : "No hi ha cap connector disponible per a mostrar aquest tipus de fitxer",
     "View" : "Mostra",
     "Your browser does not support the video tag." : "El vostre navegador no és compatible amb l'etiqueta «video».",
-    "binary" : "binari"
+    "_img_::_.svg_" : ["img","SVG"],
+    "binary" : "binari",
+    "hex" : "hex",
+    "icon-error" : "icona-error",
+    "emptycontent" : "contingutbuit"
 },
 "nplurals=2; plural=(n != 1);");

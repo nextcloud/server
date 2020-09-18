@@ -7,8 +7,13 @@ OC.L10N.register(
     "Error loading {name}" : "Fehler beim Laden {name}",
     "Your browser does not support videos." : "Ihr Browser unterstützt keine Videos.",
     "Open sidebar" : "Seitenleiste öffnen",
+    "There is no plugin available to display this file type" : "Es ist kein Plugin zum Anzeigen dieses Dateityps verfügbar",
     "View" : "Ansicht",
     "Your browser does not support the video tag." : "Ihr Browser unterstützt das Video-Tag nicht.",
-    "binary" : "binär"
+    "_img_::_.svg_" : ["img",".svg"],
+    "binary" : "binär",
+    "hex" : "hexadezimal",
+    "icon-error" : "Icon-Fehler",
+    "emptycontent" : "leerer Inhalt"
 },
 "nplurals=2; plural=(n != 1);");
