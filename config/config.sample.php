@@ -270,6 +270,18 @@ $CONFIG = [
 'token_auth_enforced' => false,
 
 /**
+ * The interval at which token activity should be updated.
+ * Increasing this value means that the last activty on the security page gets
+ * more outdated.
+ *
+ * Tokens are still checked every 5 minutes for validity
+ * max value: 300
+ *
+ * Defaults to ``300``
+ */
+'token_auth_activity_update' => 60,
+
+/**
  * Whether the bruteforce protection shipped with Nextcloud should be enabled or not.
  *
  * Disabling this is discouraged for security reasons.
