@@ -31,6 +31,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 $OC_Version = [20, 0, 0, 6];
 =======
 $OC_Version = [20, 0, 0, 5];
@@ -38,14 +39,17 @@ $OC_Version = [20, 0, 0, 5];
 =======
 $OC_Version = [20, 0, 0, 7];
 >>>>>>> 20 RC1
+=======
+$OC_Version = [21, 0, 0, 0];
+>>>>>>> Bump versions
 
 // The human readable string
-$OC_VersionString = '20.0.0 RC1';
+$OC_VersionString = '21.0.0 alpha';
 
 $OC_VersionCanBeUpgradedFrom = [
 	'nextcloud' => [
-		'19.0' => true,
 		'20.0' => true,
+		'21.0' => true,
 	],
 	'owncloud' => [
 	],
