@@ -145,6 +145,7 @@ OC.L10N.register(
     "Chatting, video calls, screensharing, online meetings and web conferencing – in your browser and with mobile apps." : "당신의 브라우저와 모바일 앱 속의  채팅, 영상 통화, 화면 공유, 온라인 미팅 그리고 웹 회의",
     "Forgot password?" : "암호를 잊으셨습니까?",
     "Back" : "뒤로",
+    "Reset search" : "검색 초기화",
     "Settings" : "설정",
     "Could not load your contacts" : "연락처를 불러올 수 없음",
     "Search contacts …" : "연락처 검색…",
@@ -401,7 +402,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["다른 폴더의 검색 결과 {count}개"],
     "Saving..." : "저장 중...",
     "Search" : "검색",
-    "Reset search" : "검색 초기화",
     "Your client should now be connected! You can close this window." : "클라이언트가 연동되었습니다! 이제 창을 닫으셔도 됩니다.",
     "Cancel log in" : "로그인 취소",
     "These apps will be updated:" : "다음 앱을 업데이트합니다:"

@@ -128,6 +128,7 @@ OC.L10N.register(
     "Forgot password?" : "Unohditko salasanasi?",
     "Log in with a device" : "Kirjaudu laitteella",
     "Back" : "Takaisin",
+    "Reset search" : "Tyhjennä haku",
     "Search for {name} only" : "Etsi vain {name}",
     "No results for {query}" : "Ei tuloksia haulle {query}",
     "Start typing to search" : "Aloita kirjoittaminen hakeaksesi",
@@ -384,7 +385,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} hakutulos muussa kansiossa","{count} hakutulosta muissa kansioissa"],
     "Saving..." : "Tallennetaan...",
     "Search" : "Etsi",
-    "Reset search" : "Tyhjennä haku",
     "Cancel log in" : "Peru kirjautuminen",
     "These apps will be updated:" : "Nämä sovellukset päivitetään:",
     "Nextcloud {app}" : "Nextcloud {app}"
