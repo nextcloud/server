@@ -254,10 +254,10 @@ steps:
   image: nextcloudci/php7.4:latest
   commands:
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
-- name: nodb-php8.0
-  image: nextcloudci/php8.0:latest
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
+#- name: nodb-php8.0
+#  image: nextcloudci/php8.0:latest
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 
 services:
 - name: cache
@@ -288,10 +288,10 @@ steps:
   image: nextcloudci/php7.4:latest
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
-- name: sqlite-php8.0
-  image: nextcloudci/php8.0:latest
-  commands:
-    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
+#- name: sqlite-php8.0
+#  image: nextcloudci/php8.0:latest
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 
 services:
 - name: cache
@@ -410,17 +410,22 @@ trigger:
 
 ---
 kind: pipeline
-name: mariadb10.4-php8.0
+name: mariadb10.4-php7.4
+#name: mariadb10.4-php8.0
 
 steps:
 - name: submodules
   image: docker:git
   commands:
     - git submodule update --init
-- name: mariadb10.4-php8.0
-  image: nextcloudci/php8.0:latest
+- name: mariadb10.4-php7.4
+  image: nextcloudci/php7.4:latest
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
+#- name: mariadb10.4-php8.0
+#  image: nextcloudci/php8.0:latest
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
 
 services:
 - name: cache
@@ -683,17 +688,22 @@ trigger:
 
 ---
 kind: pipeline
-name: mysqlmb4-php8.0
+name: mysqlmb4-php7.4
+#name: mysqlmb4-php8.0
 
 steps:
 - name: submodules
   image: docker:git
   commands:
     - git submodule update --init
-- name: mysqlmb4-php8.0
-  image: nextcloudci/php8.0:latest
+- name: mysqlmb4-php7.4
+  image: nextcloudci/php7.4:latest
   commands:
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
+#- name: mysqlmb4-php8.0
+#  image: nextcloudci/php8.0:latest
+#  commands:
+#    - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
 
 services:
 - name: cache
