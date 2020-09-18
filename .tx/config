@@ -146,7 +146,7 @@ source_file = translationfiles/templates/lookup_server_connector.pot
 source_lang = en
 type = PO
 
-[nextcloud.dashboard]
+[nextcloud.dashboard-shipped-with-server]
 file_filter = translationfiles/<lang>/dashboard.po
 source_file = translationfiles/templates/dashboard.pot
 source_lang = en
