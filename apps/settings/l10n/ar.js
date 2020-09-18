@@ -166,7 +166,6 @@ OC.L10N.register(
     "Enable encryption" : "تنشيط التعمية",
     "Start migration" : "إبدأ الترحيل",
     "Background jobs" : "الأنشطة في الخلفية",
-    "Execute one task with each page loaded" : "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها",
     "Allow apps to use the Share API" : "السماح للتطبيقات بالمشاركة عن طريق الAPI",
     "Expire after " : "ينتهي بعد",
     "days" : "أيام",
@@ -266,6 +265,7 @@ OC.L10N.register(
     "Issued By" : "سُلّمت مِن طرف",
     "Valid until %s" : "صالحة إلى غاية %s",
     "Import root certificate" : "إستيراد شهادة جذرية",
+    "Execute one task with each page loaded" : "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها",
     "Set default expiration date" : "تعيين تاريخ إنتهاء الصلاحية الإفتراضية",
     "Add link" : "إضافة رابط",
     "Retry" : "أعد المحاولة"

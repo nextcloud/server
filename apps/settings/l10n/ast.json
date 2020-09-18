@@ -185,7 +185,6 @@
     "Start migration" : "Aniciar migración",
     "Background jobs" : "Trabayos de fondu",
     "Background job didn’t run yet!" : "¡Entá nun s'executó'l trabayu de fondu!",
-    "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php precisa executalu l'usuariu del sistema «%s».",
     "Allow apps to use the Share API" : "Permitir a les aplicaciones usar la API de Compartición",
     "Expire after " : "Caduca dempués de",
@@ -241,6 +240,7 @@
     "Issued By" : "Emitíu por",
     "Valid until %s" : "Válidu hasta'l %s",
     "Import root certificate" : "Importar certificáu raigañu",
+    "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada",
     "Set default expiration date" : "Afitar la data d'espiración predeterminada",
     "Retry" : "Retentar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
