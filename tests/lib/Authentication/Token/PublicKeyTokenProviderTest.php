@@ -112,6 +112,12 @@ class PublicKeyTokenProviderTest extends TestCase {
 
 	public function testUpdateTokenDebounce() {
 		$tk = new PublicKeyToken();
+
+		$this->config->method('getSystemValueInt')
+			->willReturnCallback(function ($value, $default) {
+				return $default;
+			});
+
 		$tk->setLastActivity($this->time - 30);
 		$this->mapper->expects($this->never())
 			->method('update')
