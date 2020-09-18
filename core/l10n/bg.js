@@ -85,6 +85,7 @@ OC.L10N.register(
     "Cancel" : "Отказ",
     "Forgot password?" : "Забравена парола?",
     "Back" : "Назад",
+    "Reset search" : "Рестартирай търсенето",
     "Settings" : "Настройки",
     "Could not load your contacts" : "Контактите не могат да бъдат заредени",
     "Search contacts …" : "Търсене в контактите ...",
@@ -298,7 +299,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} търсен резултат в друга папка","{count} търсени резултати в други папки"],
     "Saving..." : "Запазване...",
     "Search" : "Търсене",
-    "Reset search" : "Рестартирай търсенето",
     "Cancel log in" : "Откажи вписването",
     "These apps will be updated:" : "Следните добавки ще бъдат актуализирани:"
 },
