@@ -70,7 +70,7 @@ trait Provisioning {
 	}
 
 	/**
-	 * @Given /^user "([^"]*)" with displayname "([^"]*)" exists$/
+	 * @Given /^user "([^"]*)" with displayname "((?:[^"]|\\")*)" exists$/
 	 * @param string $user
 	 */
 	public function assureUserWithDisplaynameExists($user, $displayname) {

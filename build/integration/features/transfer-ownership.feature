@@ -29,6 +29,22 @@ Feature: transfer-ownership
 		And using received transfer folder of "user1" as dav path
 		And as "user1" the folder "/test" exists
 
+	Scenario: transferring ownership from user with risky display name
+		Given user "user0" with displayname "user0 \"risky\"? ヂspḷay 'na|\/|e':.#" exists
+		And user "user1" exists
+		And User "user0" created a folder "/test"
+		And User "user0" uploads file "data/textfile.txt" to "/test/somefile.txt"
+		When transferring ownership from "user0" to "user1"
+		And the command was successful
+		And As an "user1"
+		And using received transfer folder of "user1" as dav path
+		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And transfer folder name contains "transferred from user0 -risky- ヂspḷay -na|-|e- on"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
+
 	Scenario: transferring ownership of file shares
 		Given user "user0" exists
 		And user "user1" exists
@@ -314,6 +330,22 @@ Feature: transfer-ownership
 		And As an "user1"
 		And using received transfer folder of "user1" as dav path
 		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And using old dav path
+		And as "user0" the folder "/test" does not exist
+		And using received transfer folder of "user1" as dav path
+		And as "user1" the folder "/test" exists
+
+	Scenario: transferring ownership from user with risky display name
+		Given user "user0" with displayname "user0 \"risky\"? ヂspḷay 'na|\/|e':.#" exists
+		And user "user1" exists
+		And User "user0" created a folder "/test"
+		And User "user0" uploads file "data/textfile.txt" to "/test/somefile.txt"
+		When transferring ownership of path "test" from "user0" to "user1"
+		And the command was successful
+		And As an "user1"
+		And using received transfer folder of "user1" as dav path
+		Then Downloaded content when downloading file "/test/somefile.txt" with range "bytes=0-6" should be "This is"
+		And transfer folder name contains "transferred from user0 -risky- ヂspḷay -na|-|e- on"
 		And using old dav path
 		And as "user0" the folder "/test" does not exist
 		And using received transfer folder of "user1" as dav path

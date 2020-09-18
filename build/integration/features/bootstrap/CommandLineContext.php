@@ -27,6 +27,7 @@
 require __DIR__ . '/../../vendor/autoload.php';
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use PHPUnit\Framework\Assert;
 
 class CommandLineContext implements \Behat\Behat\Context\Context {
 	use CommandLine;
@@ -128,5 +129,12 @@ class CommandLineContext implements \Behat\Behat\Context\Context {
 		$davPath = $this->featureContext->getDavFilesPath($user);
 		$davPath = rtrim($davPath, '/') . $this->lastTransferPath;
 		$this->featureContext->usingDavPath($davPath);
+	}
+
+	/**
+	 * @Then /^transfer folder name contains "([^"]+)"$/
+	 */
+	public function transferFolderNameContains($text) {
+		Assert::assertContains($text, $this->lastTransferPath);
 	}
 }
