@@ -133,6 +133,10 @@ import HeaderMenu from '../components/HeaderMenu'
 import SearchResult from '../components/UnifiedSearch/SearchResult'
 import SearchResultPlaceholders from '../components/UnifiedSearch/SearchResultPlaceholders'
 
+const REQUEST_FAILED = 0
+const REQUEST_OK = 1
+const REQUEST_CANCELED = 2
+
 export default {
 	name: 'UnifiedSearch',
 
@@ -325,22 +329,25 @@ export default {
 			this.resetState()
 			this.focusInput()
 		},
-		resetState() {
+		async resetState() {
 			this.cursors = {}
 			this.limits = {}
-			this.loading = {}
 			this.reached = {}
 			this.results = {}
 			this.focused = null
-			this.cancelPendingRequests()
+			await this.cancelPendingRequests()
 		},
 
 		/**
 		 * Cancel any ongoing searches
 		 */
-		cancelPendingRequests() {
+		async cancelPendingRequests() {
+			// Cloning so we can keep processing other requests
+			const requests = this.requests.slice(0)
+			this.requests = []
+
 			// Cancel all pending requests
-			this.requests.forEach(cancel => cancel())
+			await Promise.all(requests.map(cancel => cancel()))
 		},
 
 		/**
@@ -394,10 +401,10 @@ export default {
 			// Remove any filters from the query
 			query = query.replace(regexFilterIn, '').replace(regexFilterNot, '')
 
-			this.logger.debug(`Searching ${query} in`, types)
-
 			// Reset search if the query changed
-			this.resetState()
+			await this.resetState()
+			this.$set(this.loading, 'all', true)
+			this.logger.debug(`Searching ${query} in`, types)
 
 			Promise.all(types.map(async type => {
 				try {
@@ -405,8 +412,7 @@ export default {
 					const { request, cancel } = search({ type, query })
 					this.requests.push(cancel)
 
-					// Mark this type as loading and fetch results
-					this.$set(this.loading, type, true)
+					// Fetch results
 					const { data } = await request()
 
 					// Process results
@@ -434,18 +440,24 @@ export default {
 					if (this.focused === null) {
 						this.focused = 0
 					}
+					return REQUEST_OK
 				} catch (error) {
+					this.$delete(this.results, type)
+
 					// If this is not a cancelled throw
 					if (error.response && error.response.status) {
 						this.logger.error(`Error searching for ${this.typesMap[type]}`, error)
 						showError(this.t('core', 'An error occurred while searching for {type}', { type: this.typesMap[type] }))
+						return REQUEST_FAILED
 					}
-
-					this.$delete(this.results, type)
-				} finally {
-					this.$set(this.loading, type, false)
+					return REQUEST_CANCELED
 				}
-			})).then(() => {
+			})).then(results => {
+				// Do not declare loading finished if the request have been cancelled
+				// This means another search was triggered and we're therefore still loading
+				if (results.some(result => result === REQUEST_CANCELED)) {
+					return
+				}
 				// We finished all searches
 				this.loading = {}
 			})
@@ -463,22 +475,27 @@ export default {
 			if (this.loading[type]) {
 				return
 			}
-			this.$set(this.loading, type, true)
 
 			if (this.cursors[type]) {
-				const request = await search({ type, query: this.query, cursor: this.cursors[type] })
+				// Init cancellable request
+				const { request, cancel } = search({ type, query: this.query, cursor: this.cursors[type] })
+				this.requests.push(cancel)
+
+				// Fetch results
+				const { data } = await request()
 
 				// Save cursor if any
-				if (request.data.ocs.data.cursor) {
-					this.$set(this.cursors, type, request.data.ocs.data.cursor)
+				if (data.ocs.data.cursor) {
+					this.$set(this.cursors, type, data.ocs.data.cursor)
 				}
 
-				if (request.data.ocs.data.entries.length > 0) {
-					this.results[type].push(...request.data.ocs.data.entries)
+				// Process results
+				if (data.ocs.data.entries.length > 0) {
+					this.results[type].push(...data.ocs.data.entries)
 				}
 
 				// Check if we reached end of pagination
-				if (request.data.ocs.data.entries.length < this.defaultLimit) {
+				if (data.ocs.data.entries.length < this.defaultLimit) {
 					this.$set(this.reached, type, true)
 				}
 			} else
@@ -500,8 +517,6 @@ export default {
 					this.focusIndex(this.focused)
 				})
 			}
-
-			this.$set(this.loading, type, false)
 		},
 
 		/**
