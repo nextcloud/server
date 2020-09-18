@@ -69,6 +69,23 @@ trait Provisioning {
 	}
 
 	/**
+	 * @Given /^user "([^"]*)" with displayname "((?:[^"]|\\")*)" exists$/
+	 * @param string $user
+	 */
+	public function assureUserWithDisplaynameExists($user, $displayname) {
+		try {
+			$this->userExists($user);
+		} catch (\GuzzleHttp\Exception\ClientException $ex) {
+			$previous_user = $this->currentUser;
+			$this->currentUser = "admin";
+			$this->creatingTheUser($user, $displayname);
+			$this->currentUser = $previous_user;
+		}
+		$this->userExists($user);
+		Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+	/**
 	 * @Given /^user "([^"]*)" does not exist$/
 	 * @param string $user
 	 */
@@ -92,7 +109,7 @@ trait Provisioning {
 		}
 	}
 
-	public function creatingTheUser($user) {
+	public function creatingTheUser($user, $displayname = '') {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users";
 		$client = new Client();
 		$options = [];
@@ -104,6 +121,9 @@ trait Provisioning {
 			'userid' => $user,
 			'password' => '123456'
 		];
+		if ($displayname !== '') {
+			$options['form_params']['displayName'] = $displayname;
+		}
 		$options['headers'] = [
 			'OCS-APIREQUEST' => 'true',
 		];
