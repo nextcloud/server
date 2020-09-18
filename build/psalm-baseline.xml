@@ -4887,7 +4887,6 @@
       <code>$result &amp;&amp; in_array('delete', $hooks) and $result</code>
     </RedundantCondition>
     <UndefinedDocblockClass occurrences="2">
-      <code>list($storage, $internalPath)</code>
       <code>$storage</code>
     </UndefinedDocblockClass>
     <UndefinedInterfaceMethod occurrences="20">
