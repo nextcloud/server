@@ -163,7 +163,7 @@
 			<?php if ($_['allowShareDialogUserEnumeration'] === 'yes') {
 	print_unescaped('checked="checked"');
 } ?> />
-		<label for="shareapi_allow_share_dialog_user_enumeration"><?php p($l->t('Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)'));?></label><br />
+		<label for="shareapi_allow_share_dialog_user_enumeration"><?php p($l->t('Allow username autocomplete in share dialog (if this is disabled the full username or email address needs to be entered)'));?></label><br />
 	</p>
 
 	<p id="shareapi_restrict_user_enumeration_to_group_setting" class="indent <?php if ($_['shareAPIEnabled'] === 'no' || $_['allowShareDialogUserEnumeration'] === 'no') {
