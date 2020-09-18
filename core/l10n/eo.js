@@ -141,6 +141,7 @@ OC.L10N.register(
     "Cancel" : "Nuligi",
     "Forgot password?" : "Ĉu vi forgesis vian pasvorton?",
     "Back" : "Antaŭen",
+    "Reset search" : "Restarigi serĉon",
     "Settings" : "Agordo",
     "Could not load your contacts" : "Ne eblis ŝargi viajn kontaktojn",
     "Search contacts …" : "Serĉi kontaktojn…",
@@ -404,7 +405,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} serĉ-rezulto en alia dosierujo","{count} serĉ-rezultoj en aliaj dosierujoj"],
     "Saving..." : "Konservado...",
     "Search" : "Serĉi",
-    "Reset search" : "Restarigi serĉon",
     "Your client should now be connected! You can close this window." : "Via kliento estas konektita! Vi povas fermi tiun fenestron.",
     "Cancel log in" : "Nuligi ensaluton",
     "These apps will be updated:" : "La jenajn aplikaĵoj ĝisdatiĝos:"

@@ -90,6 +90,7 @@ OC.L10N.register(
     "Cancel" : "Anulare",
     "Forgot password?" : "Ai uitat parola?",
     "Back" : "Înapoi",
+    "Reset search" : "Resetează căutarea",
     "Settings" : "Setări",
     "Could not load your contacts" : "Nu pot încarca contactele",
     "Search contacts …" : "Caută contacte ...",
@@ -329,7 +330,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} rezultat al căutării în alte directoare","{count} rezultate ale căutării în alte directoare","{count} rezultate ale căutării în alte directoare"],
     "Saving..." : "Se salvează...",
     "Search" : "Căutare",
-    "Reset search" : "Resetează căutarea",
     "Cancel log in" : "Anulează conectarea",
     "These apps will be updated:" : "Aceste aplicații vor fi actualizate:"
 },
