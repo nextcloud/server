@@ -41,7 +41,6 @@ use OCA\OAuth2\Db\AccessTokenMapper;
 use OCA\OAuth2\Db\ClientMapper;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
-use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\StandaloneTemplateResponse;
 use OCP\Defaults;
@@ -161,100 +160,20 @@ class ClientFlowLoginController extends Controller {
 	}
 
 	/**
-	 * @PublicPage
-	 * @NoCSRFRequired
-	 * @UseSession
-	 *
-	 * @param string $clientIdentifier
-	 *
-	 * @return StandaloneTemplateResponse|RedirectResponse
-	 */
-	public function showAuthPickerPage($clientIdentifier = '') {
-		$clientName = $this->getClientName();
-		$client = null;
-		if ($clientIdentifier !== '') {
-			$client = $this->clientMapper->getByIdentifier($clientIdentifier);
-			$clientName = $client->getName();
-		}
-
-		// No valid clientIdentifier given and no valid API Request (APIRequest header not set)
-		$clientRequest = $this->request->getHeader('OCS-APIREQUEST');
-		if ($clientRequest !== 'true' && $client === null) {
-			return new StandaloneTemplateResponse(
-				$this->appName,
-				'error',
-				[
-					'errors' =>
-					[
-						[
-							'error' => 'Access Forbidden',
-							'hint' => 'Invalid request',
-						],
-					],
-				],
-				'guest'
-			);
-		}
-
-		$stateToken = $this->random->generate(
-			64,
-			ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS
-		);
-		$this->session->set(self::STATE_NAME, $stateToken);
-
-		$oauthState = $this->session->get('oauth.state');
-		if (!empty($oauthState)) {
-			$targetUrl = $this->urlGenerator->linkToRoute(
-				'core.ClientFlowLogin.grantPage',
-				[
-					'stateToken' => $stateToken,
-					'clientIdentifier' => $clientIdentifier,
-					'oauthState' => $oauthState
-				]
-			);
-			return new RedirectResponse($targetUrl);
-		}
-
-		$csp = new Http\ContentSecurityPolicy();
-		if ($client) {
-			$csp->addAllowedFormActionDomain($client->getRedirectUri());
-		} else {
-			$csp->addAllowedFormActionDomain('nc://*');
-		}
-
-		$response = new StandaloneTemplateResponse(
-			$this->appName,
-			'loginflow/authpicker',
-			[
-				'client' => $clientName,
-				'clientIdentifier' => $clientIdentifier,
-				'instanceName' => $this->defaults->getName(),
-				'urlGenerator' => $this->urlGenerator,
-				'stateToken' => $stateToken,
-				'serverHost' => $this->getServerPath(),
-			],
-			'guest'
-		);
-
-		$response->setContentSecurityPolicy($csp);
-		return $response;
-	}
-
-	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
 	 * @UseSession
 	 *
-	 * @param string $stateToken
 	 * @param string $clientIdentifier
 	 * @return StandaloneTemplateResponse
 	 */
-	public function grantPage($stateToken = '',
-								 $clientIdentifier = '') {
-		if (!$this->isValidToken($stateToken)) {
-			return $this->stateTokenForbiddenResponse();
-		}
+	public function grantPage($clientIdentifier = '') {
+		$stateToken = $this->random->generate(
+			64,
+			ISecureRandom::CHAR_LOWER.ISecureRandom::CHAR_UPPER.ISecureRandom::CHAR_DIGITS
+		);
+		$this->session->set(self::STATE_NAME, $stateToken);
 
 		$clientName = $this->getClientName();
 		$client = null;
@@ -386,11 +305,7 @@ class ClientFlowLoginController extends Controller {
 	/**
 	 * @PublicPage
 	 */
-	public function apptokenRedirect(string $stateToken, string $user, string $password) {
-		if (!$this->isValidToken($stateToken)) {
-			return $this->stateTokenForbiddenResponse();
-		}
-
+	public function apptokenRedirect(string $user, string $password) {
 		try {
 			$token = $this->tokenProvider->getToken($password);
 			if ($token->getLoginName() !== $user) {

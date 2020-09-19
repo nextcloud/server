@@ -26,6 +26,7 @@ use OC\Authentication\Login\LoginData;
 use OC\Authentication\Login\LoginResult;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
+use OC\Core\Service\LoginFlowV2Service;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCA\OAuth2\Db\ClientMapper;
@@ -90,6 +91,9 @@ class LoginControllerTest extends TestCase {
 	/** @var ClientMapper|MockObject */
 	private $clientMapper;
 
+	/** @var LoginFlowV2Service|MockObject */
+	private $loginFlowV2Service;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->request = $this->createMock(IRequest::class);
@@ -106,6 +110,7 @@ class LoginControllerTest extends TestCase {
 		$this->initialStateService = $this->createMock(IInitialStateService::class);
 		$this->webAuthnManager = $this->createMock(\OC\Authentication\WebAuthn\Manager::class);
 		$this->clientMapper = $this->createMock(ClientMapper::class);
+		$this->loginFlowV2Service = $this->createMock(LoginFlowV2Service::class);
 
 
 		$this->request->method('getRemoteAddress')
@@ -130,7 +135,8 @@ class LoginControllerTest extends TestCase {
 			$this->chain,
 			$this->initialStateService,
 			$this->webAuthnManager,
-			$this->clientMapper
+			$this->clientMapper,
+			$this->loginFlowV2Service
 		);
 	}
 
@@ -290,7 +296,7 @@ class LoginControllerTest extends TestCase {
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRoute')
-			->willReturn('login/flow/grant');
+			->willReturn('login/flow');
 
 		$expectedResponse = new TemplateResponse(
 			'core',
@@ -300,6 +306,9 @@ class LoginControllerTest extends TestCase {
 			],
 			'guest'
 		);
+		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
+		$csp->addAllowedFormActionDomain('nc://*');
+		$expectedResponse->setContentSecurityPolicy($csp);
 		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('', 'login/flow', ''));
 	}
 

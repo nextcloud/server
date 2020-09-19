@@ -27,7 +27,7 @@
 			<p class="info">{{ t('core', 'If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator.') }}</p>
 		</div>
 		<transition name="fade" mode="out-in">
-			<div v-if="!passwordlessLogin && !resetPassword && resetPasswordTarget === ''"
+			<div v-if="!passwordlessLogin && !appTokenLogin && !resetPassword && resetPasswordTarget === ''"
 				key="login">
 				<LoginForm
 					:username.sync="user"
@@ -54,6 +54,10 @@
 				<a v-if="hasPasswordless" @click.prevent="passwordlessLogin = true">
 					{{ t('core', 'Log in with a device') }}
 				</a>
+				<br>
+				<a v-if="hasAppToken" @click.prevent="appTokenLogin = true">
+					{{ t('core', 'Alternative log in using app token') }}
+				</a>
 			</div>
 			<div v-else-if="!loading && passwordlessLogin"
 				key="reset"
@@ -67,6 +71,17 @@
 					:has-public-key-credential="hasPublicKeyCredential"
 					@submit="loading = true" />
 				<a @click.prevent="passwordlessLogin = false">
+					{{ t('core', 'Back') }}
+				</a>
+			</div>
+			<div v-else-if="!loading && appTokenLogin"
+				key="app-token"
+				class="login-additional">
+				<AppTokenLoginForm
+					:username.sync="user"
+					:inverted-colors="invertedColors"
+					:auto-complete-allowed="autoCompleteAllowed" />
+				<a @click.prevent="appTokenLogin = false">
 					{{ t('core', 'Back') }}
 				</a>
 			</div>
@@ -94,14 +109,17 @@
 <script>
 import LoginForm from '../components/login/LoginForm.vue'
 import PasswordLessLoginForm from '../components/login/PasswordLessLoginForm.vue'
+import AppTokenLoginForm from '../components/login/AppTokenLoginForm.vue'
 import ResetPassword from '../components/login/ResetPassword.vue'
 import UpdatePassword from '../components/login/UpdatePassword.vue'
+import { generateUrl } from '@nextcloud/router'
 
 export default {
 	name: 'Login',
 	components: {
 		LoginForm,
 		PasswordLessLoginForm,
+		AppTokenLoginForm,
 		ResetPassword,
 		UpdatePassword,
 	},
@@ -169,6 +187,14 @@ export default {
 			user: this.username,
 			passwordlessLogin: false,
 			resetPassword: false,
+			appTokenLogin: false,
+		}
+	},
+	computed: {
+		hasAppToken() {
+			return this.redirectUrl
+				&& this.redirectUrl.indexOf(generateUrl('login/flow')) === 0
+				&& new URL(this.redirectUrl, window.location.origin).searchParams.has('clientIdentifier') === false
 		}
 	},
 	methods: {
