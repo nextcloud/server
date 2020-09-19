@@ -48,6 +48,19 @@ const FileChecks = [
 	},
 
 	{
+		class: 'OCA\\WorkflowEngine\\Check\\FilePath',
+		name: t('workflowengine', 'File path'),
+		operators: stringOrRegexOperators,
+		placeholder: (check) => {
+			if (check.operator === 'matches' || check.operator === '!matches') {
+				return '#^/user/sdfs/dummy-.+$#i'
+			}
+			return '/user/files/path/dummy.jpg'
+		},
+		validate: stringValidator,
+	},
+
+	{
 		class: 'OCA\\WorkflowEngine\\Check\\FileMimeType',
 		name: t('workflowengine', 'File MIME type'),
 		operators: stringOrRegexOperators,
