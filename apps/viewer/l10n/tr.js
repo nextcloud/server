@@ -9,11 +9,6 @@ OC.L10N.register(
     "Open sidebar" : "Yan çubuğu aç",
     "There is no plugin available to display this file type" : "Bu dosya türünü görüntüleyebilecek bir uygulama eki yok",
     "View" : "Görüntüle",
-    "Your browser does not support the video tag." : "Web tarayıcınız video kod imini desteklemiyor.",
-    "_img_::_.svg_" : ["img",".svg"],
-    "binary" : "ikili",
-    "hex" : "hex",
-    "icon-error" : "simge-hata",
-    "emptycontent" : "bosicerik"
+    "Your browser does not support the video tag." : "Web tarayıcınız video kod imini desteklemiyor."
 },
 "nplurals=2; plural=(n > 1);");

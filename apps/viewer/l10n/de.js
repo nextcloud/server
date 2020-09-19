@@ -9,11 +9,6 @@ OC.L10N.register(
     "Open sidebar" : "Seitenleiste öffnen",
     "There is no plugin available to display this file type" : "Es ist kein Plugin zum Anzeigen dieses Dateityps verfügbar",
     "View" : "Ansicht",
-    "Your browser does not support the video tag." : "Dein Browser unterstützt den Video-Tag nicht. ",
-    "_img_::_.svg_" : ["img",".svg"],
-    "binary" : "binär",
-    "hex" : "hexadezimal",
-    "icon-error" : "Icon-Fehler",
-    "emptycontent" : "kein Inhalt"
+    "Your browser does not support the video tag." : "Dein Browser unterstützt das Video-Tag nicht. "
 },
 "nplurals=2; plural=(n != 1);");

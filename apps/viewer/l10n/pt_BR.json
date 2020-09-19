@@ -7,11 +7,6 @@
     "Open sidebar" : "Abrir barra lateral",
     "There is no plugin available to display this file type" : "Não há plug-in disponível para exibir este tipo de arquivo",
     "View" : "Visualizar",
-    "Your browser does not support the video tag." : "Seu navegador não suporta a etiqueta de vídeo.",
-    "_img_::_.svg_" : ["img",".svg"],
-    "binary" : "binário",
-    "hex" : "hex",
-    "icon-error" : "icon-error",
-    "emptycontent" : "emptycontent"
+    "Your browser does not support the video tag." : "Seu navegador não suporta a etiqueta de vídeo."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

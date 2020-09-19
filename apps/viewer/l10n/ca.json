@@ -7,11 +7,6 @@
     "Open sidebar" : "Obre la barra lateral",
     "There is no plugin available to display this file type" : "No hi ha cap connector disponible per a mostrar aquest tipus de fitxer",
     "View" : "Mostra",
-    "Your browser does not support the video tag." : "El vostre navegador no és compatible amb l'etiqueta «video».",
-    "_img_::_.svg_" : ["img","SVG"],
-    "binary" : "binari",
-    "hex" : "hex",
-    "icon-error" : "icona-error",
-    "emptycontent" : "contingutbuit"
+    "Your browser does not support the video tag." : "El vostre navegador no és compatible amb l'etiqueta «video»."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

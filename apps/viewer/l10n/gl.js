@@ -9,11 +9,6 @@ OC.L10N.register(
     "Open sidebar" : "Abrir a barra lateral",
     "There is no plugin available to display this file type" : "Non hai ningún complemento dispoñíbel para amosar este tipo de ficheiro",
     "View" : "Ver",
-    "Your browser does not support the video tag." : "O seu navegador non admite a etiqueta para vídeos",
-    "_img_::_.svg_" : ["img",".svg"],
-    "binary" : "binary",
-    "hex" : "hex",
-    "icon-error" : "icon-error",
-    "emptycontent" : "emptycontent"
+    "Your browser does not support the video tag." : "O seu navegador non admite a etiqueta para vídeos"
 },
 "nplurals=2; plural=(n != 1);");

@@ -7,10 +7,8 @@ OC.L10N.register(
     "Error loading {name}" : "Erreur au chargement de {name}",
     "Your browser does not support videos." : "Votre navigateur ne prend pas en charge les vidéos.",
     "Open sidebar" : "Ouvrir la barre latérale",
+    "There is no plugin available to display this file type" : "Il n'y a pas d'extension disponible pour afficher ce type de fichier.",
     "View" : "Afficher",
-    "Your browser does not support the video tag." : "Votre navigateur Web ne prend pas en charge ce type de vidéo.",
-    "_img_::_.svg_" : ["img",".svg"],
-    "binary" : "binaire",
-    "hex" : "hex"
+    "Your browser does not support the video tag." : "Votre navigateur Web ne prend pas en charge ce type de vidéo."
 },
 "nplurals=2; plural=(n > 1);");

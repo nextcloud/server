@@ -9,10 +9,6 @@ OC.L10N.register(
     "Open sidebar" : "Otevřít postranní panel",
     "There is no plugin available to display this file type" : "Pro zobrazení tohoto typu souboru není k dispozici žádný zásuvný modul",
     "View" : "Zobrazit",
-    "Your browser does not support the video tag." : "Vámi používaný webový prohlížeč nepodporuje html značku (tag) video.",
-    "binary" : "binární",
-    "hex" : "hex",
-    "icon-error" : "chyba-ikony",
-    "emptycontent" : "prázdný obsah"
+    "Your browser does not support the video tag." : "Vámi používaný webový prohlížeč nepodporuje html značku (tag) video."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -9,11 +9,6 @@ OC.L10N.register(
     "Open sidebar" : "Άνοιγμα πλευρικής στήλης",
     "There is no plugin available to display this file type" : "Δεν βρέθηκε σχετικό πρόσθετο για εμφάνιση τέτοιου τύπου αρχείο.",
     "View" : "Προβολή",
-    "Your browser does not support the video tag." : "Το πρόγραμμα περιήγησης που χρησιμοποιείτε δεν υποστηρίζει την ετικέτα βίντεο.",
-    "_img_::_.svg_" : ["img",".svg"],
-    "binary" : "binary",
-    "hex" : "hex",
-    "icon-error" : "σφάλμα-εικονιδίου",
-    "emptycontent" : "κενό"
+    "Your browser does not support the video tag." : "Το πρόγραμμα περιήγησης που χρησιμοποιείτε δεν υποστηρίζει την ετικέτα βίντεο."
 },
 "nplurals=2; plural=(n != 1);");

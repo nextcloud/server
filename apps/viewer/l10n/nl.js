@@ -7,8 +7,8 @@ OC.L10N.register(
     "Error loading {name}" : "Fout bij laden van {name}",
     "Your browser does not support videos." : "Je browser ondersteunt geen videos.",
     "Open sidebar" : "Openen zijbalk",
+    "There is no plugin available to display this file type" : "Er is geen plugin beschikbaar om dit bestandstype weer te geven",
     "View" : "Bekijken",
-    "Your browser does not support the video tag." : "Je browser ondersteunt de video tag niet.",
-    "binary" : "binair"
+    "Your browser does not support the video tag." : "Je browser ondersteunt de video tag niet."
 },
 "nplurals=2; plural=(n != 1);");
