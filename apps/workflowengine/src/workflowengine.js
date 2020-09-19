@@ -1,6 +1,7 @@
 import './admin'
 import './filemimetypeplugin'
 import './filenameplugin'
+import './filepathplugin'
 import './filesizeplugin'
 import './filesystemtagsplugin'
 import './requestremoteaddressplugin'
