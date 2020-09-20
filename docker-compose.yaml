@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:5.7
+    volumes:
+    - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: nextcloud
+      MYSQL_USER: nextcloud
+      MYSQL_PASSWORD: nextcloud
+      MYSQL_DATABASE: nextcloud
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+
+  nextcloud:
+    build: 
+      context: .devcontainer
+      args:
+        USER_UID: ${UID-1000}
+    volumes:
+    - .:/var/www/html
+    ports:
+    - 8080:80
+
+volumes:
+  mysql_data:
