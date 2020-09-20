@@ -171,6 +171,7 @@ OC.L10N.register(
     "Start typing to search" : "Hledejte psaním",
     "Loading more results …" : "Načítání dalších výsledků…",
     "Load more results" : "Načíst další výsledky",
+    "An error occurred while searching for {type}" : "Došlo k chybě při hledání pro {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znak","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaky","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaků","Aby bylo možné vyhledávat, zadejte alespoň {minSearchLength} znaky"],
     "Search {types} …" : "Hledat {types}…",
     "Settings" : "Nastavení",

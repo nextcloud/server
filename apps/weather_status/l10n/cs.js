@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "weather_status",
+    {
+    "Unknown address" : "Neznámá adresa",
+    "No result." : "Bez výsledku.",
+    "Malformed JSON data." : "Nesprávně formátovaná JSON data.",
+    "Error" : "Chyba",
+    "Weather status" : "Stav počasí",
+    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Jasné nebe v {time}",
+    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Polojasno v {time}",
+    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Mlhavo v {time}",
+    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Drobný déšť v {time}",
+    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Désť v {time}",
+    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Vydatné deště v {time}",
+    "More weather for {adr}" : "Více o počasí pro {adr}",
+    "Loading weather" : "Načítá se počasí",
+    "Set location for weather" : "Nastavit polohu pro předpovídání počasí",
+    "No weather information found" : "Nenalezeny žádné informace o počasí",
+    "Location not found" : "Umístění nenalezeno",
+    "There was an error setting the location address." : "Došlo k chybě při nastavování adresy umístění.",
+    "There was an error setting the location." : "Došlo k chybě při nastavování umístění.",
+    "There was an error saving the mode." : "Při ukládání režimu došlo k chybě.",
+    "There was an error using personal address." : "Došlo k chybě při použití osobní adresy."
+},
+"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
