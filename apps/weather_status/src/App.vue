@@ -288,7 +288,7 @@ export default {
 			try {
 				this.forecasts = await network.fetchForecast()
 			} catch (err) {
-				this.errorMessage = t('weather_status', 'No weather information found')
+				this.errorMessage = t('weather_status', 'No weather information found.')
 				console.debug(err)
 			}
 			this.loading = false
@@ -305,7 +305,7 @@ export default {
 					this.mode = MODE_MANUAL_LOCATION
 					this.startLoop()
 				} else {
-					this.errorMessage = t('weather_status', 'Location not found')
+					this.errorMessage = t('weather_status', 'Location not found.')
 					this.loading = false
 				}
 			} catch (err) {
