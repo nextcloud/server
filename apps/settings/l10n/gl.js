@@ -356,7 +356,7 @@ OC.L10N.register(
     "The cron.php needs to be executed by the system user \"%s\"." : "O cron.php debe ser executado polo usuario do sistema «%s»",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Para executar isto necesitase a extensión POSIX de PHP. Vexa a {linkstart}documentación de PHP{linkend} para obter máis detalles. ",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Como administrador pode facer axustes finos do comportamento al compartir. Lea a documentación para obter máis más información.",
-    "Allow apps to use the Share API" : "Permitir que as aplicacións empreguen o API para compartir",
+    "Allow apps to use the Share API" : "Permitir que as aplicacións empreguen a API para compartir",
     "Set default expiration date for shares" : "Estabeleza a data de caducidade predeterminada das comparticións",
     "Expire after " : "Caduca após",
     "days" : "días",

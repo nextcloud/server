@@ -171,6 +171,7 @@ OC.L10N.register(
     "Start typing to search" : "Inizia a digitare per cercare",
     "Loading more results …" : "Caricamento di più risultati...",
     "Load more results" : "Carica più risultati",
+    "An error occurred while searching for {type}" : "Si è verificato un errore durante la ricerca di {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Digita {minSearchLength} carattere o più per cercare","Digita {minSearchLength} caratteri o più per cercare"],
     "Search {types} …" : "Cerca {types}...",
     "Settings" : "Impostazioni",
