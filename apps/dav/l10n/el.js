@@ -64,6 +64,7 @@ OC.L10N.register(
     "%1$s via %2$s" : "%1$s μέσω %2$s",
     "Invitation canceled" : "Η πρόσκληση ακυρώθηκε.",
     "Invitation updated" : "Ενημερώθηκε η πρόσκληση.",
+    "Title:" : "Τίτλος:",
     "Location:" : "Τοποθεσία:",
     "Link:" : "Σύνδεσμος:",
     "Accept" : "Αποδοχή",
