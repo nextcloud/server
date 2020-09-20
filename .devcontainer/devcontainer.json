@@ -18,12 +18,23 @@
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
-		"terminal.integrated.shell.linux": "/bin/bash"
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"sqltools.connections": [{
+			"name": "mysql",
+			"driver": "MySQL",
+			"server": "mysql",
+			"port": 3306,
+			"username": "nextcloud",
+			"password": "nextcloud",
+			"database": "nextcloud"
+		}]
 	},
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"felixfbecker.php-intellisense",
+		"mtxr.sqltools",
+		"mtxr.sqltools-driver-mysql",
 		"octref.vetur"
 	],
 
