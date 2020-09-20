@@ -171,6 +171,7 @@ OC.L10N.register(
     "Start typing to search" : "Aramak için yazmaya başlayın",
     "Loading more results …" : "Diğer sonuçlar yükleniyor…",
     "Load more results" : "Diğer sonuçları yükle",
+    "An error occurred while searching for {type}" : "{type} aranırken bir sorun çıktı",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Lütfen aramak için en az {minSearchLength} karakter yazın","Lütfen aramak için en az {minSearchLength} karakter yazın"],
     "Search {types} …" : "{types} arama…",
     "Settings" : "Ayarlar",
