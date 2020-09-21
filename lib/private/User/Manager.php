@@ -231,6 +231,20 @@ class Manager extends PublicEmitter implements IUserManager {
 			}
 		}
 
+		// since http basic auth doesn't provide a standard way of handling non ascii password we allow password to be urlencoded
+		// we only do this decoding after using the plain password fails to maintain compatibility with any password that happens
+		// to contains urlencoded patterns by "accident".
+		$password = urldecode($password);
+
+		foreach ($this->backends as $backend) {
+			if ($backend->implementsActions(Backend::CHECK_PASSWORD)) {
+				$uid = $backend->checkPassword($loginName, $password);
+				if ($uid !== false) {
+					return $this->getUserObject($uid, $backend);
+				}
+			}
+		}
+
 		return false;
 	}
 
