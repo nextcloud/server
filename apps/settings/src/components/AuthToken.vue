@@ -45,6 +45,7 @@
 					content: t('settings', 'Device settings'),
 					container: 'body'
 				}"
+				:boundaries-element="container"
 				:open.sync="actionOpen">
 				<ActionCheckbox v-if="token.type === 1"
 					:checked="token.scope.filesystem"
@@ -170,6 +171,7 @@ export default {
 			renaming: false,
 			newName: '',
 			actionOpen: false,
+			container: document.getElementById('content'),
 		}
 	},
 	computed: {
