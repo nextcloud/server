@@ -195,8 +195,9 @@ class UserTest extends \Test\TestCase {
 		$coreAccount = $this->getMockBuilder(IAccount::class)
 			->disableOriginalConstructor()
 			->getMock();
-		$coreAccount->expects($this->once())
-			->method('setProperty');
+
+		$this->accountManager->expects($this->once())
+			->method('updateUser');
 
 		$this->accountManager->expects($this->any())
 			->method('getAccount')
