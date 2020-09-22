@@ -20,6 +20,7 @@ OC.L10N.register(
     "What's your status?" : "Jaký je váš stav?",
     "Set a custom status" : "Nastavit uživatelsky určený stav",
     "Clear custom status" : "Vyčistit uživatelsky určený stav",
+    "There was an error saving the status" : "Došlo k chybě při ukládání stavu",
     "There was an error clearing the status" : "Při čištění stavu došlo k chybě",
     "No recent status changes" : "Žádné nedávné změny stavu",
     "{status}, {timestamp}" : "{status}, {timestamp}",
