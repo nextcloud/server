@@ -103,6 +103,10 @@ class Application extends App {
 					if (!$table->hasIndex('fs_mtime')) {
 						$subject->addHintForMissingSubject($table->getName(), 'fs_mtime');
 					}
+
+					if (!$table->hasIndex('fs_size')) {
+						$subject->addHintForMissingSubject($table->getName(), 'fs_size');
+					}
 				}
 
 				if ($schema->hasTable('twofactor_providers')) {
