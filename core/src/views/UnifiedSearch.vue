@@ -741,6 +741,11 @@ $input-padding: 6px;
 
 	.empty-content {
 		margin: 10vh 0;
+
+		::v-deep .empty-content__title {
+			padding: 0 15px;
+			text-align: center;
+		}
 	}
 }
 
