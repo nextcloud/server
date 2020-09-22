@@ -239,7 +239,7 @@ OC.L10N.register(
     "Default quota" : "Cota predeterminada",
     "Common languages" : "Idiomas habituais",
     "All languages" : "Todos os idiomas",
-    "Password change is disabled because the master key is disabled" : "O cambio de contrasinal está desactivado porque a chave mestra está desactivada",
+    "Password change is disabled because the master key is disabled" : "O cambio de contrasinal está desactivado porque a chave principal está desactivada",
     "Passwordless authentication requires a secure connection." : "A autenticación sen contrasinal require dunha conexión segura.",
     "Add WebAuthn device" : "Engadir un dispositivo WebAuthn",
     "Please authorize your WebAuthn device." : "Autorice o seu dispositivo WebAuthn.",

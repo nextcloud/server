@@ -296,7 +296,7 @@ OC.L10N.register(
     "SQLite should only be used for minimal and development instances. For production we recommend a different database backend." : "SQLite yalnız küçük ve geliştirme ortamları için seçilmelidir. Üretim ortamları için farklı bir veritabanı kullanmanız önerilir.",
     "If you use clients for file syncing, the use of SQLite is highly discouraged." : "Dosya eşitlemesi için istemcileri kullanıyorsanız SQLite kullanımından kaçınmalısınız.",
     "Install recommended apps" : "Önerilen uygulamaları kur",
-    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Takvim, Kişiler, Sohbet, E-posta ve İş birlikli düzenleme",
+    "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Calendar, Contacts, Talk, Mail ve İş birlikli düzenleme",
     "Finish setup" : "Kurulumu tamamla",
     "Finishing …" : "Tamamlanıyor …",
     "Need help?" : "Yardım gerekiyor mu?",
@@ -398,7 +398,7 @@ OC.L10N.register(
     "Share link" : "Paylaşım bağlantısı",
     "New share link" : "Yeni paylaşım bağlantısı ",
     "Created on {time}" : "{time} zamanında oluşturulmuş",
-    "Password protect by Talk" : "Sohbet tarafından parola ile korunmuş",
+    "Password protect by Talk" : "Talk tarafından parola ile korunmuş",
     "Could not unshare" : "Paylaşım kaldırılamadı",
     "Shared with you and the group {group} by {owner}" : "{owner} tarafından sizinle ve {group} ile paylaşılmış",
     "Shared with you and {circle} by {owner}" : "{owner} tarafından sizinle ve {circle} ile paylaşılmış",
@@ -450,6 +450,6 @@ OC.L10N.register(
     "These apps will be updated:" : "Şu uygulamalar güncellenecek:",
     "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "OnlyOffice uygulaması ile yerel belge düzenleme altyapısı.",
-    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Takvim, Kişiler, Sohbet ve E-posta ve OnlyOffice"
+    "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Calendar, Contacts, Talk ve Mail ve OnlyOffice"
 },
 "nplurals=2; plural=(n > 1);");
