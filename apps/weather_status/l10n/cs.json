@@ -4,6 +4,7 @@
     "Malformed JSON data." : "Nesprávně formátovaná JSON data.",
     "Error" : "Chyba",
     "Weather status" : "Stav počasí",
+    "Set custom address" : "Nastavit uživatelsky určenou adresu",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Jasné nebe v {time}",
     "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Polojasno v {time}",
     "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Mlhavo v {time}",
