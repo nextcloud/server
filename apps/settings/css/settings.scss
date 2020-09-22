@@ -1443,6 +1443,8 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	$grid-row-height: 60px;
 	$grid-col-min-width: 160px;
 	overflow-x: scroll;
+	min-height: 100%;
+	height: auto;
 
 	#app-content.user-list-grid {
 		display: grid;
