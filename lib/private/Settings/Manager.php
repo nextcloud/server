@@ -122,7 +122,7 @@ class Manager implements IManager {
 
 			$sectionID = $section->getID();
 
-			if (isset($this->sections[$type][$sectionID])) {
+			if ($sectionID !== 'connected-accounts' && isset($this->sections[$type][$sectionID])) {
 				$this->log->logException(new \InvalidArgumentException('Section with the same ID already registered: ' . $sectionID . ', class: ' . $class), ['level' => ILogger::INFO]);
 				continue;
 			}
