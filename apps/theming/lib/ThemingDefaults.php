@@ -398,6 +398,7 @@ class ThemingDefaults extends \OC_Defaults {
 		$this->config->deleteAppValue('theming', $setting);
 		$this->increaseCacheBuster();
 
+		$returnValue = '';
 		switch ($setting) {
 			case 'name':
 				$returnValue = $this->getEntity();
@@ -411,8 +412,11 @@ class ThemingDefaults extends \OC_Defaults {
 			case 'color':
 				$returnValue = $this->getColorPrimary();
 				break;
-			default:
-				$returnValue = '';
+			case 'logo':
+			case 'logoheader':
+			case 'background':
+			case 'favicon':
+				$this->imageManager->delete($setting);
 				break;
 		}
 
