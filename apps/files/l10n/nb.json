@@ -23,6 +23,7 @@
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} av {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Opplastning av det elementet er ikke støttet",
     "Target folder does not exist any more" : "Målmappen finnes ikke lenger",
+    "Operation is blocked by access control" : "Operasjonen er blokkert på grunn av tilgangskontroll",
     "Error when assembling chunks, status code {status}" : "Feil under sammenkobling av biter, statuskode {status}",
     "Actions" : "Handlinger",
     "Rename" : "Gi nytt navn",
@@ -32,6 +33,7 @@
     "Delete file" : "Slett fil",
     "Delete folder" : "Slett mappe",
     "Disconnect storage" : "Koble fra lager",
+    "Leave this share" : "Forlat denne delingen",
     "Could not load info for file \"{file}\"" : "Klarte ikke å hente informasjon som filen \"{file}\"",
     "Files" : "Filer",
     "Details" : "Detaljer",
@@ -76,7 +78,13 @@
     "\"/\" is not allowed inside a file name." : "\"/\" tillates ikke i et filnavn.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" er ikke en tillatt filtype",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Lagringsplass for {owner} er full, filer kan ikke oppdateres eller synkroniseres lenger!",
+    "This group folder is full, files can not be updated or synced anymore!" : "Denne gruppemappen er full, filer kan ikke oppdateres eller synkroniseres lenger!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Denne eksterne lagringsplassen er full, filer kan ikke oppdateres eller synkroniseres lenger!",
     "Your storage is full, files can not be updated or synced anymore!" : "Lagringsplass er oppbrukt, filer kan ikke lenger oppdateres eller synkroniseres!",
+    "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Lagringsplass for {owner} er nesten full ({usedSpacePercent}%).",
+    "This group folder is almost full ({usedSpacePercent}%)." : "Denne gruppemappen er nesten full ({usedSpacePercent}%).",
+    "This external storage is almost full ({usedSpacePercent}%)." : "Denne eksterne lagringsplassen er nesten full ({usedSpacePercent}%).",
+    "Your storage is almost full ({usedSpacePercent}%)." : "Din lagringsplass er nesten full ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : [" stemmer med '{filter}'"," stemmer med '{filter}'"],
     "View in folder" : "Vis i mappe",
     "Copied!" : "Kopiert!",
@@ -126,6 +134,7 @@
     "{user} moved {oldfile} to {newfile}" : "{user} flyttet {oldfile} til {newfile}",
     "A file has been added to or removed from your <strong>favorites</strong>" : "En fil har blitt lagt til eller fjernet fra dine <strong>favoritter</strong>",
     "A file or folder has been <strong>changed</strong>" : "En fil eller mappe ble <strong>endret</strong>",
+    "A favorite file or folder has been <strong>changed</strong>" : "En favoritt-fil eller mappe har blitt <strong>endret</strong>",
     "All files" : "Alle filer",
     "Unlimited" : "Ubegrenset",
     "Upload (max. %s)" : "Opplasting (maks %s)",
@@ -189,6 +198,8 @@
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begrens varsling om oppretting og endringer til <strong>favorittfilene</strong> dine <em>(Kun strøm)</em>",
     "A file or folder has been <strong>restored</strong>" : "En fil eller mappe ble <strong>gjenopprettet</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Bruk adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">for å få tilgang til dine filer via WebDAV</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier"
+    "Cannot transfter ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
+    "This group folder is almost full ({usedSpacePercent}%)" : "Denne gruppemappen er nesten full ({usedSpacePercent}%)",
+    "This external storage is almost full ({usedSpacePercent}%)" : "Denne eksterne lagringsplassen er nesten full ({usedSpacePercent}%)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
