@@ -166,7 +166,7 @@ OC.L10N.register(
     "Log in with a device" : "Mit einem Gerät anmelden",
     "Back" : "Zurück",
     "Reset search" : "Suche zurücksetzen",
-    "Search for {name} only" : "Nur nach {Name} suchen",
+    "Search for {name} only" : "Nur nach {name} suchen",
     "No results for {query}" : "Keine Suchergebnisse zu {query}",
     "Start typing to search" : "Beginne mit der Eingabe, um zu suchen",
     "Loading more results …" : "Lade weitere Ergebnisse…",

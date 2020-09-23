@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error" : "Fehler",
     "Weather status" : "Wetterstatus",
     "Weather status in your dashboard" : "Wetterstatus für dein Dashboard",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Wetterstatus wird in die Dashboard-App integriert.\nDie Position des Benutzers kann automatisch bestimmt oder manuell definiert werden. Anschließend wird eine 6-Stunden-Vorhersage angezeigt.\nDieser Status kann auch an anderen Stellen wie in der Kalender-App integriert werden.",
     "Detect location" : "Standort feststellen",
     "Set custom address" : "Benutzerdefinierte Adresse festlegen",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Klarer Himmel um {time}",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "There was an error setting the location address." : "Beim Festlegen der Standortadresse ist ein Fehler aufgetreten.",
     "There was an error setting the location." : "Beim Festlegen des Standortes ist ein Fehler aufgetreten.",
     "There was an error saving the mode." : "Beim Festlegen des Modus ist ein Fehler aufgetreten.",
-    "There was an error using personal address." : "Bei der Verwendung der persönlichen Adresse ist ein Fehler aufgetreten."
+    "There was an error using personal address." : "Bei der Verwendung der persönlichen Adresse ist ein Fehler aufgetreten.",
+    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Wetterstatus wird in die Dashboard-App integriert.\nDie Position des Benutzers kann automatisch bestimmt oder manuell definiert werden. Anschließend wird eine 6-Stunden-Vorhersage angezeigt.\nDieser Status kann auch an anderen Stellen wie in der Kalender-App integriert werden."
 },
 "nplurals=2; plural=(n != 1);");
