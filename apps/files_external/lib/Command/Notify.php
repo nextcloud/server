@@ -40,6 +40,7 @@ use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IDBConnection;
 use OCP\ILogger;
+use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -52,12 +53,20 @@ class Notify extends Base {
 	private $connection;
 	/** @var ILogger */
 	private $logger;
+	/** @var IUserManager */
+	private $userManager;
 
-	public function __construct(GlobalStoragesService $globalService, IDBConnection $connection, ILogger $logger) {
+	public function __construct(
+		GlobalStoragesService $globalService,
+		IDBConnection $connection,
+		ILogger $logger,
+		IUserManager $userManager
+	) {
 		parent::__construct();
 		$this->globalService = $globalService;
 		$this->connection = $connection;
 		$this->logger = $logger;
+		$this->userManager = $userManager;
 	}
 
 	protected function configure() {
@@ -88,6 +97,30 @@ class Notify extends Base {
 		parent::configure();
 	}
 
+	private function getUserOption(InputInterface $input): ?string {
+		if ($input->getOption('user')) {
+			return (string)$input->getOption('user');
+		} elseif (isset($_ENV['NOTIFY_USER'])) {
+			return (string)$_ENV['NOTIFY_USER'];
+		} elseif (isset($_SERVER['NOTIFY_USER'])) {
+			return (string)$_SERVER['NOTIFY_USER'];
+		} else {
+			return null;
+		}
+	}
+
+	private function getPasswordOption(InputInterface $input): ?string {
+		if ($input->getOption('password')) {
+			return (string)$input->getOption('password');
+		} elseif (isset($_ENV['NOTIFY_PASSWORD'])) {
+			return (string)$_ENV['NOTIFY_PASSWORD'];
+		} elseif (isset($_SERVER['NOTIFY_PASSWORD'])) {
+			return (string)$_SERVER['NOTIFY_PASSWORD'];
+		} else {
+			return null;
+		}
+	}
+
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$mount = $this->globalService->getStorage($input->getArgument('mount_id'));
 		if (is_null($mount)) {
@@ -95,28 +128,28 @@ class Notify extends Base {
 			return 1;
 		}
 		$noAuth = false;
+
+		$userOption = $this->getUserOption($input);
+		$passwordOption = $this->getPasswordOption($input);
+
+		// if only the user is provided, we get the user object to pass along to the auth backend
+		// this allows using saved user credentials
+		$user = ($userOption && !$passwordOption) ? $this->userManager->get($userOption) : null;
+
 		try {
 			$authBackend = $mount->getAuthMechanism();
-			$authBackend->manipulateStorageConfig($mount);
+			$authBackend->manipulateStorageConfig($mount, $user);
 		} catch (InsufficientDataForMeaningfulAnswerException $e) {
 			$noAuth = true;
 		} catch (StorageNotAvailableException $e) {
 			$noAuth = true;
 		}
 
-		if ($input->getOption('user')) {
-			$mount->setBackendOption('user', $input->getOption('user'));
-		} elseif (isset($_ENV['NOTIFY_USER'])) {
-			$mount->setBackendOption('user', $_ENV['NOTIFY_USER']);
-		} elseif (isset($_SERVER['NOTIFY_USER'])) {
-			$mount->setBackendOption('user', $_SERVER['NOTIFY_USER']);
+		if ($userOption) {
+			$mount->setBackendOption('user', $userOption);
 		}
-		if ($input->getOption('password')) {
-			$mount->setBackendOption('password', $input->getOption('password'));
-		} elseif (isset($_ENV['NOTIFY_PASSWORD'])) {
-			$mount->setBackendOption('password', $_ENV['NOTIFY_PASSWORD']);
-		} elseif (isset($_SERVER['NOTIFY_PASSWORD'])) {
-			$mount->setBackendOption('password', $_SERVER['NOTIFY_PASSWORD']);
+		if ($passwordOption) {
+			$mount->setBackendOption('password', $passwordOption);
 		}
 
 		try {
