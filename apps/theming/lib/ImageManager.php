@@ -36,6 +36,7 @@ use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\ITempManager;
 use OCP\IURLGenerator;
 
 class ImageManager {
@@ -52,27 +53,22 @@ class ImageManager {
 	private $cacheFactory;
 	/** @var ILogger */
 	private $logger;
+	/** @var ITempManager */
+	private $tempManager;
 
-	/**
-	 * ImageManager constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IAppData $appData
-	 * @param IURLGenerator $urlGenerator
-	 * @param ICacheFactory $cacheFactory
-	 * @param ILogger $logger
-	 */
 	public function __construct(IConfig $config,
 								IAppData $appData,
 								IURLGenerator $urlGenerator,
 								ICacheFactory $cacheFactory,
-								ILogger $logger
+								ILogger $logger,
+								ITempManager $tempManager
 	) {
 		$this->config = $config;
 		$this->appData = $appData;
 		$this->urlGenerator = $urlGenerator;
 		$this->cacheFactory = $cacheFactory;
 		$this->logger = $logger;
+		$this->tempManager = $tempManager;
 	}
 
 	public function getImageUrl(string $key, bool $useSvg = true): string {
@@ -209,6 +205,62 @@ class ImageManager {
 		} catch (NotFoundException $e) {
 		} catch (NotPermittedException $e) {
 		}
+	}
+
+	public function updateImage(string $key, string $tmpFile) {
+		$this->delete($key);
+
+		try {
+			$folder = $this->appData->getFolder('images');
+		} catch (NotFoundException $e) {
+			$folder = $this->appData->newFolder('images');
+		}
+
+		$target = $folder->newFile($key);
+		$supportedFormats = $this->getSupportedUploadImageFormats($key);
+		$detectedMimeType = mime_content_type($tmpFile);
+		if (!in_array($detectedMimeType, $supportedFormats, true)) {
+			throw new \Exception('Unsupported image type');
+		}
+
+		if ($key === 'background' && strpos($detectedMimeType, 'image/svg') === false) {
+			// Optimize the image since some people may upload images that will be
+			// either to big or are not progressive rendering.
+			$newImage = @imagecreatefromstring(file_get_contents($tmpFile));
+
+			$tmpFile = $this->tempManager->getTemporaryFile();
+			$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
+			$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
+			$outputImage = imagescale($newImage, $newWidth, $newHeight);
+
+			imageinterlace($outputImage, 1);
+			imagejpeg($outputImage, $tmpFile, 75);
+			imagedestroy($outputImage);
+
+			$target->putContent(file_get_contents($tmpFile));
+		} else {
+			$target->putContent(file_get_contents($tmpFile));
+		}
+
+		return $detectedMimeType;
+	}
+
+	/**
+	 * Returns a list of supported mime types for image uploads.
+	 * "favicon" images are only allowed to be SVG when imagemagick with SVG support is available.
+	 *
+	 * @param string $key The image key, e.g. "favicon"
+	 * @return array
+	 */
+	private function getSupportedUploadImageFormats(string $key): array {
+		$supportedFormats = ['image/jpeg', 'image/png', 'image/gif'];
+
+		if ($key !== 'favicon' || $this->shouldReplaceIcons() === true) {
+			$supportedFormats[] = 'image/svg+xml';
+			$supportedFormats[] = 'image/svg';
+		}
+
+		return $supportedFormats;
 	}
 
 	/**
