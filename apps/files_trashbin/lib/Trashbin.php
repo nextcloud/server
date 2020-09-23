@@ -287,6 +287,14 @@ class Trashbin {
 			$trashStorage->unlink($trashInternalPath);
 		}
 
+		$config = \OC::$server->getConfig();
+		$systemTrashbinSize = (int)$config->getAppValue('files_trashbin', 'trashbin_size', '-1');
+		$userTrashbinSize = (int)$config->getUserValue($owner, 'files_trashbin', 'trashbin_size', '-1');
+		$configuredTrashbinSize = ($userTrashbinSize < 0) ? $systemTrashbinSize : $userTrashbinSize;
+		if ($configuredTrashbinSize >= 0 && $sourceStorage->filesize($sourceInternalPath) >= $configuredTrashbinSize) {
+			return false;
+		}
+
 		$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 
 		try {
