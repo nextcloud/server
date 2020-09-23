@@ -72,7 +72,17 @@ class InitialStateService implements IInitialStateService {
 	private function invokeLazyStateCallbacks(): void {
 		foreach ($this->lazyStates as $app => $lazyStates) {
 			foreach ($lazyStates as $key => $lazyState) {
+				$startTime = microtime(true);
 				$this->provideInitialState($app, $key, $lazyState());
+				$endTime = microtime(true);
+				$duration = $endTime - $startTime;
+				if ($duration > 1) {
+					$this->logger->warning('Lazy initial state provider for {key} took {duration} seconds.', [
+						'app' => $app,
+						'key' => $key,
+						'duration' => round($duration, 2),
+					]);
+				}
 			}
 		}
 		$this->lazyStates = [];
