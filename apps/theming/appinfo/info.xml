@@ -25,4 +25,7 @@
 		<admin>OCA\Theming\Settings\Admin</admin>
 		<admin-section>OCA\Theming\Settings\Section</admin-section>
 	</settings>
+	<commands>
+		<command>OCA\Theming\Command\UpdateConfig</command>
+	</commands>
 </info>
