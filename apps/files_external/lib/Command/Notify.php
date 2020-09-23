@@ -93,6 +93,11 @@ class Notify extends Base {
 				InputOption::VALUE_REQUIRED,
 				'The directory in the storage to listen for updates in',
 				'/'
+			)->addOption(
+				'no-self-check',
+				'',
+				InputOption::VALUE_NONE,
+				'Disable self check on startup'
 			);
 		parent::configure();
 	}
@@ -179,7 +184,11 @@ class Notify extends Base {
 
 		$path = trim($input->getOption('path'), '/');
 		$notifyHandler = $storage->notify($path);
-		$this->selfTest($storage, $notifyHandler, $verbose, $output);
+
+		if (!$input->getOption('no-self-check')) {
+			$this->selfTest($storage, $notifyHandler, $verbose, $output);
+		}
+
 		$notifyHandler->listen(function (IChange $change) use ($mount, $verbose, $output) {
 			if ($verbose) {
 				$this->logUpdate($change, $output);
