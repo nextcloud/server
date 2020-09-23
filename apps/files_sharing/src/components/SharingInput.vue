@@ -240,7 +240,27 @@ export default {
 			// if there is a condition specified, filter it
 			const externalResults = this.externalResults.filter(result => !result.condition || result.condition(this))
 
-			this.suggestions = exactSuggestions.concat(suggestions).concat(externalResults).concat(lookupEntry)
+			const allSuggestions = exactSuggestions.concat(suggestions).concat(externalResults).concat(lookupEntry)
+
+			// Count occurances of display names in order to provide a distinguishable description if needed
+			const nameCounts = allSuggestions.reduce((nameCounts, result) => {
+				if (!result.displayName) {
+					return nameCounts
+				}
+				if (!nameCounts[result.displayName]) {
+					nameCounts[result.displayName] = 0
+				}
+				nameCounts[result.displayName]++
+				return nameCounts
+			}, {})
+
+			this.suggestions = allSuggestions.map(item => {
+				// Make sure that items with duplicate displayName get the shareWith applied as a description
+				if (nameCounts[item.displayName] > 1 && !item.desc) {
+					return { ...item, desc: item.shareWith }
+				}
+				return item
+			})
 
 			this.loading = false
 			console.info('suggestions', this.suggestions)
