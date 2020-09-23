@@ -81,7 +81,7 @@ class DirectController extends OCSController {
 	/**
 	 * @NoAdminRequired
 	 */
-	public function getUrl(int $fileId): DataResponse {
+	public function getUrl(int $fileId, int $expirationTime = 60 * 60 * 8): DataResponse {
 		$userFolder = $this->rootFolder->getUserFolder($this->userId);
 
 		$files = $userFolder->getById($fileId);
@@ -102,7 +102,7 @@ class DirectController extends OCSController {
 
 		$token = $this->random->generate(60, ISecureRandom::CHAR_UPPER . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 		$direct->setToken($token);
-		$direct->setExpiration($this->timeFactory->getTime() + 60 * 60 * 8);
+		$direct->setExpiration($this->timeFactory->getTime() + $expirationTime);
 
 		$this->mapper->insert($direct);
 
