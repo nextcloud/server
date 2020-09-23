@@ -71,7 +71,7 @@ class AdditionalScriptsMiddleware extends Middleware {
 				$isLoggedIn = false;
 			}
 
-			$this->dispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($isLoggedIn));
+			$this->dispatcher->dispatchTyped(new BeforeTemplateRenderedEvent($isLoggedIn, $response));
 		}
 
 		return $response;
