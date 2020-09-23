@@ -64,7 +64,7 @@ OC.L10N.register(
     "Client ID" : "ID do cliente",
     "Client secret" : "Segredo do cliente",
     "OpenStack v2" : "OpenStack v2",
-    "Tenant name" : "Nome do ocupante",
+    "Tenant name" : "Nome do cesionario",
     "Identity endpoint URL" : "URL do punto final de identidade",
     "OpenStack v3" : "OpenStack v3",
     "Domain" : "Dominio",

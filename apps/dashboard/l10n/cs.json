@@ -7,6 +7,7 @@
     "Get more widgets from the app store" : "Získejte další ovládací prvky z katalogu aplikací",
     "Change background image" : "Změnit obrázek na pozadí",
     "Weather service" : "Služba předpovědi počasí",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Z důvodu ochrany vašeho soukromí, jsou údaje o počasí pro vás vyžádány vámi využívaným Nextcloud serverem, takže služba, poskytující tato data, neobdrží žádné osobní údaje.",
     "Weather data from Met.no" : "Data o počasí z Met.no",
     "Weather" : "Počasí",
     "Status" : "Stav",

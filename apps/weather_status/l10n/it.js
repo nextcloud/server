@@ -7,7 +7,6 @@ OC.L10N.register(
     "Error" : "Errore",
     "Weather status" : "Stato meteo",
     "Weather status in your dashboard" : "Stato meteo nel tuo cruscotto",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Meteo integrato nell'applicazione del cruscotto.\n    La posizione dell'utente può essere determinata automaticamente o definita a mano. Vengono poi mostrate previsioni per 6 ore.\n    Questo stato può anche essere integrato in altri posti come nell'applicazione Calendario.",
     "Detect location" : "Elimina località",
     "Set custom address" : "Imposta indirizzo personalizzato",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Cielo sereno alle {time}",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "There was an error setting the location address." : "Si è verificato un errore impostando l'indirizzo della località.",
     "There was an error setting the location." : "Si è verificato un errore durante l'impostazione della località.",
     "There was an error saving the mode." : "Si è verificato un errore durante il salvataggio della modalità.",
-    "There was an error using personal address." : "Si è verificato un errore usando l'indirizzo personale."
+    "There was an error using personal address." : "Si è verificato un errore usando l'indirizzo personale.",
+    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Meteo integrato nell'applicazione del cruscotto.\n    La posizione dell'utente può essere determinata automaticamente o definita a mano. Vengono poi mostrate previsioni per 6 ore.\n    Questo stato può anche essere integrato in altri posti come nell'applicazione Calendario."
 },
 "nplurals=2; plural=(n != 1);");
