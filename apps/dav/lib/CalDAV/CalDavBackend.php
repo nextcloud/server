@@ -1780,7 +1780,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		foreach ($searchParameters as $property => $parameter) {
 			$parameterAnd = $calendarObjectIdQuery->expr()->andX();
 			$parameterAnd->add($calendarObjectIdQuery->expr()->eq('cob.name', $calendarObjectIdQuery->createNamedParameter($property, IQueryBuilder::PARAM_STR)));
-			$parameterAnd->add($calendarObjectIdQuery->expr()->eq('cob.parameter', $calendarObjectIdQuery->createNamedParameter($parameter, IQueryBuilder::PARAM_STR)));
+			$parameterAnd->add($calendarObjectIdQuery->expr()->eq('cob.parameter', $calendarObjectIdQuery->createNamedParameter($parameter, IQueryBuilder::PARAM_STR_ARRAY)));
 
 			$searchOr->add($parameterAnd);
 		}
