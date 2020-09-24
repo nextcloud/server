@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error" : "Chyba",
     "Weather status" : "Stav počasí",
     "Weather status in your dashboard" : "Stav počasí ve vašem přehledu",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Napojení stavu počasí pro aplikaci Přehled.\n    Polohu uživatele je možné zjistit automaticky nebo zadat ručně. Poté je zobrazována předpověď na příštích 6 hodin.\n    Tento stav je také možné začlenit do ostatních míst, jako například Kalendář.",
     "Detect location" : "Zjistit polohu",
     "Set custom address" : "Nastavit uživatelsky určenou adresu",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Jasné nebe v {time}",

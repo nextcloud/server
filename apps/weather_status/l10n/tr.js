@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error" : "Hata",
     "Weather status" : "Hava durumu",
     "Weather status in your dashboard" : "Panonuz için hava durumu",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Pano uygulaması ile bütünleşik hava durumu.\n    Kullanıcının konumu el ile de ayarlanabileceği gibi otomatik olarak da algılanabilir. 6 saatlik tahmin görüntülenir.\n    Hava durumu Takvim gibi diğer uygulamalarla da kullanılabilir.",
     "Detect location" : "Konum algılansın",
     "Set custom address" : "Özel adres belirtin",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Açık {time}",

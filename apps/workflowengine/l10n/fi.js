@@ -46,6 +46,7 @@ OC.L10N.register(
     "iOS client" : "iOS-sovellus",
     "Desktop client" : "Työpöytäsovellus",
     "Thunderbird & Outlook addons" : "Thunderbird- & Outlook-lisäosat",
+    "and" : "ja",
     "Cancel" : "Peruuta",
     "Delete" : "Poista",
     "Active" : "Aktiivinen",

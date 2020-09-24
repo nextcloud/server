@@ -1,0 +1,23 @@
+{ "translations": {
+    "Unknown address" : "Adresse inconnue",
+    "No result." : "Aucun résultat",
+    "Error" : "Erreur",
+    "Weather status" : "Statut météo",
+    "Weather status in your dashboard" : "Statut météo sur votre tableau de bord",
+    "Detect location" : "Détecter la position",
+    "Set custom address" : "Définir une adresse personnalisée",
+    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Ciel dégagé à {time}",
+    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Nuageux à {time}",
+    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Partiellement nuageux à {time}",
+    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Brouillard à {time}",
+    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Faible pluie à {time}",
+    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} Pluie à {time}",
+    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} Fortes pluies à {time}",
+    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} Averses à {time}",
+    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} Faibles averses à {time}",
+    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} Fortes averses à {time}",
+    "Loading weather" : "Chargement de la météo",
+    "No weather information found" : "Aucune information météo",
+    "Location not found" : "Lieu non trouvé"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}
