@@ -95,7 +95,16 @@ class Manager implements IManager {
 			}
 
 			try {
+				$startTime = microtime(true);
 				$widget->load();
+				$endTime = microtime(true);
+				$duration = $endTime - $startTime;
+				if ($duration > 1) {
+					\OC::$server->getLogger()->error('Dashboard widget {widget} took {duration} seconds to load.', [
+						'widget' => $widget->getId(),
+						'duration' => round($duration, 2),
+					]);
+				}
 			} catch (Throwable $e) {
 				\OC::$server->getLogger()->logException($e, [
 					'message' => 'Error during dashboard widget loading: ' . $e->getMessage(),
