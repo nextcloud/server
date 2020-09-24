@@ -42,7 +42,6 @@ import Handlebars from 'handlebars'
 import 'jcrop/js/jquery.Jcrop'
 import 'jcrop/css/jquery.Jcrop.css'
 import jstimezonedetect from 'jstimezonedetect'
-import md5 from 'blueimp-md5'
 import moment from 'moment'
 import 'select2'
 import 'select2/select2.css'
@@ -108,7 +107,6 @@ window.dav = dav
 setDeprecatedProp('DOMPurify', () => DOMPurify, 'The global DOMPurify is deprecated, this will be removed in Nextcloud 21')
 setDeprecatedProp('Handlebars', () => Handlebars, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp(['jstz', 'jstimezonedetect'], () => jstimezonedetect, 'please ship your own, this will be removed in Nextcloud 20')
-setDeprecatedProp('md5', () => md5, 'please ship your own, this will be removed in Nextcloud 20')
 setDeprecatedProp('moment', () => moment, 'please ship your own, this will be removed in Nextcloud 20')
 
 window.OC = OC
