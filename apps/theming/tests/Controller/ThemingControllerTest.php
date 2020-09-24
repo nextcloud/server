@@ -49,12 +49,12 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
 use OCP\Files\SimpleFS\ISimpleFile;
-use OCP\Files\SimpleFS\ISimpleFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ITempManager;
 use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class ThemingControllerTest extends TestCase {
@@ -98,12 +98,12 @@ class ThemingControllerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 		$this->imageManager = $this->createMock(ImageManager::class);
 
-		$this->timeFactory = $this->createMock(ITimeFactory::class);
-		$this->timeFactory->expects($this->any())
+		$timeFactory = $this->createMock(ITimeFactory::class);
+		$timeFactory->expects($this->any())
 			->method('getTime')
 			->willReturn(123);
 
-		$this->overwriteService(ITimeFactory::class, $this->timeFactory);
+		$this->overwriteService(ITimeFactory::class, $timeFactory);
 
 		$this->themingController = new ThemingController(
 			'theming',
@@ -293,12 +293,9 @@ class ThemingControllerTest extends TestCase {
 				return $str;
 			});
 
-		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($folder);
+		$this->imageManager->expects($this->once())
+			->method('updateImage')
+			->willThrowException(new \Exception('Unsupported image type'));
 
 		$expected = new DataResponse(
 			[
@@ -337,12 +334,9 @@ class ThemingControllerTest extends TestCase {
 				return $str;
 			});
 
-		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($folder);
+		$this->imageManager->expects($this->once())
+			->method('updateImage')
+			->willThrowException(new \Exception('Unsupported image type'));
 
 		$expected = new DataResponse(
 			[
@@ -398,31 +392,6 @@ class ThemingControllerTest extends TestCase {
 				return $str;
 			});
 
-
-		$file = $this->createMock(ISimpleFile::class);
-		$folder = $this->createMock(ISimpleFolder::class);
-		if ($folderExists) {
-			$this->appData
-				->expects($this->once())
-				->method('getFolder')
-				->with('images')
-				->willReturn($folder);
-		} else {
-			$this->appData
-				->expects($this->at(0))
-				->method('getFolder')
-				->with('images')
-				->willThrowException(new NotFoundException());
-			$this->appData
-				->expects($this->at(1))
-				->method('newFolder')
-				->with('images')
-				->willReturn($folder);
-		}
-		$folder->expects($this->once())
-			->method('newFile')
-			->with('logo')
-			->willReturn($file);
 		$this->urlGenerator->expects($this->once())
 			->method('linkTo')
 			->willReturn('serverCss');
@@ -430,6 +399,10 @@ class ThemingControllerTest extends TestCase {
 			->method('getImageUrl')
 			->with('logo')
 			->willReturn('imageUrl');
+
+		$this->imageManager->expects($this->once())
+			->method('updateImage');
+
 		$expected = new DataResponse(
 			[
 				'data' =>
@@ -474,30 +447,8 @@ class ThemingControllerTest extends TestCase {
 				return $str;
 			});
 
-		$file = $this->createMock(ISimpleFile::class);
-		$folder = $this->createMock(ISimpleFolder::class);
-		if ($folderExists) {
-			$this->appData
-				->expects($this->once())
-				->method('getFolder')
-				->with('images')
-				->willReturn($folder);
-		} else {
-			$this->appData
-				->expects($this->at(0))
-				->method('getFolder')
-				->with('images')
-				->willThrowException(new NotFoundException());
-			$this->appData
-				->expects($this->at(1))
-				->method('newFolder')
-				->with('images')
-				->willReturn($folder);
-		}
-		$folder->expects($this->once())
-			->method('newFile')
-			->with('background')
-			->willReturn($file);
+		$this->imageManager->expects($this->once())
+			->method('updateImage');
 
 		$this->urlGenerator->expects($this->once())
 			->method('linkTo')
@@ -548,12 +499,9 @@ class ThemingControllerTest extends TestCase {
 				return $str;
 			});
 
-		$folder = $this->createMock(ISimpleFolder::class);
-		$this->appData
-			->expects($this->once())
-			->method('getFolder')
-			->with('images')
-			->willReturn($folder);
+		$this->imageManager->expects($this->once())
+			->method('updateImage')
+			->willThrowException(new \Exception('Unsupported image type'));
 
 		$expected = new DataResponse(
 			[
@@ -723,9 +671,6 @@ class ThemingControllerTest extends TestCase {
 			->method('linkTo')
 			->with('', '/core/css/someHash-css-variables.scss')
 			->willReturn('/nextcloudWebroot/core/css/someHash-css-variables.scss');
-		$this->imageManager->expects($this->once())
-			->method('delete')
-			->with($filename);
 
 		$expected = new DataResponse(
 			[
