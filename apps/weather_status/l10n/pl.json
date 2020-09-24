@@ -5,6 +5,7 @@
     "Error" : "Błąd",
     "Weather status" : "Stan pogody",
     "Weather status in your dashboard" : "Stan pogody na pulpicie",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Stan pogody zintegrowany z aplikacją Pulpit.\n    Pozycja użytkownika może być określana automatycznie lub ręcznie. Następnie wyświetlana jest prognoza na 6 godzin.\n    Stan pogody można również zintegrować w innych miejscach np. w aplikacji Kalendarz.",
     "Detect location" : "Wykryj lokalizację",
     "Set custom address" : "Ustaw adres własny",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Czyste niebo o {time}",
