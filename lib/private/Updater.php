@@ -192,7 +192,10 @@ class Updater extends BasicEmitter {
 		$currentVendor = $this->config->getAppValue('core', 'vendor', '');
 
 		// Vendor was not set correctly on install, so we have to white-list known versions
-		if ($currentVendor === '' && isset($allowedPreviousVersions['owncloud'][$oldVersion])) {
+		if ($currentVendor === '' && (
+			isset($allowedPreviousVersions['owncloud'][$oldVersion]) ||
+			isset($allowedPreviousVersions['owncloud'][$majorMinor])
+		)) {
 			$currentVendor = 'owncloud';
 		}
 
