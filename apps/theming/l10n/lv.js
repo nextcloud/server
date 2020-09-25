@@ -13,7 +13,6 @@ OC.L10N.register(
     "No file was uploaded" : "Neviena datne netika augšupielādēta",
     "Missing a temporary folder" : "Trūkst pagaidu mapes",
     "No file uploaded" : "Nav augšupielādēta datne",
-    "Unsupported image type" : "Neatbalstīts attēla tips",
     "Theming" : "Dizains",
     "Open documentation" : "Atvērt dokumentāciju",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Tēmošana padara iespējamu viegli pielāgot savas instances un atbalstošo klientaplikāciju izskatu un sajūtu. Tas būs redzams visiem lietotājiem.",
@@ -26,6 +25,7 @@ OC.L10N.register(
     "Login image" : "Pieteikšanās fona attēls",
     "Upload new login background" : "Augšupielādēt jaunu pieteikšanās fona attēlu",
     "Remove background image" : "Noņemt fona attēlu",
-    "Advanced options" : "Papildu opcijas"
+    "Advanced options" : "Papildu opcijas",
+    "Unsupported image type" : "Neatbalstīts attēla tips"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

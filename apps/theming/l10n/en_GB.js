@@ -21,7 +21,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Could not write file to disk",
     "A PHP extension stopped the file upload" : "A PHP extension stopped the file upload",
     "No file uploaded" : "No file uploaded",
-    "Unsupported image type" : "Unsupported image type",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "You are already using a custom theme. Theming app settings might be overwritten by that.",
     "Theming" : "Theming",
     "Legal notice" : "Legal notice",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "Upload new header logo" : "Upload new header logo",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Upload new favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color.",
+    "Unsupported image type" : "Unsupported image type"
 },
 "nplurals=2; plural=(n != 1);");
