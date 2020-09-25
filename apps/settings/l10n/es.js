@@ -282,7 +282,7 @@ OC.L10N.register(
     "Please confirm the group removal " : "Por favor, confirma la eliminación del grupo",
     "Download and enable" : "Descargar y activar",
     "Enable" : "Activar",
-    "Enable untested app" : "Activar app no testada",
+    "Enable untested app" : "Activar app no probada",
     "The app will be downloaded from the app store" : "La app va a ser descargada de una tienda de aplicaciones",
     "This app is not marked as compatible with your Nextcloud version. If you continue you will still be able to install the app. Note that the app might not work as expected." : "Esta app no está marcada como compatible con tu versión de Nextcloud. Si continúas podrás instalar la app, pero ten en cuenta que podría no funcionar según lo esperado.",
     "Never" : "Nunca",

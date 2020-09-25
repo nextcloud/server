@@ -13,7 +13,6 @@ OC.L10N.register(
     "No file was uploaded" : "No se subió ningún archivo ",
     "Missing a temporary folder" : "Falta un directorio temporal",
     "No file uploaded" : "No hay archivos cargados",
-    "Unsupported image type" : "Tipo de imagen no soportado",
     "Theming" : "Tematizar",
     "Privacy policy" : "Políticas de privacidad",
     "Open documentation" : "Abrir documentación",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Login image" : "Imágen de inicio de sesión",
     "Upload new login background" : "Cargar nueva imagen de fondo para inicio de sesión",
     "Remove background image" : "Eliminar imagen de fondo",
-    "Advanced options" : "Opciones avanzadas"
+    "Advanced options" : "Opciones avanzadas",
+    "Unsupported image type" : "Tipo de imagen no soportado"
 },
 "nplurals=2; plural=(n != 1);");

@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Không thể ghi tệp lên hệ thống",
     "A PHP extension stopped the file upload" : "Một chức năng mở rộng của PHP đã dừng tải tệp lên",
     "No file uploaded" : "Không có tệp nào được tải lên",
-    "Unsupported image type" : "Loại hình ảnh không được hỗ trợ",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Bạn đang sử dụng 1 chủ đề riêng. Các thiết lập của ứng dụng Chủ đề có thể bị ghi đè bởi nó.",
     "Theming" : "Điều chỉnh giao diện",
     "Legal notice" : "Thông cáo pháp lý",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Upload new header logo" : "Tải lên logo đầu trang mới",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Tải lên bộ Favicon mới",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Cài đặt phần mở rộng PHP Imagemagick với hỗ trợ cho hình ảnh SVG để tự động tạo bộ favicon dựa trên màu và logo được tải lên"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Cài đặt phần mở rộng PHP Imagemagick với hỗ trợ cho hình ảnh SVG để tự động tạo bộ favicon dựa trên màu và logo được tải lên",
+    "Unsupported image type" : "Loại hình ảnh không được hỗ trợ"
 },
 "nplurals=1; plural=0;");
