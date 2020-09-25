@@ -22,7 +22,6 @@
     "Could not write file to disk" : "A fájlt nem sikerült a lemezre írni",
     "A PHP extension stopped the file upload" : "Egy PHP kiterjesztés megállította a fájl feltöltését",
     "No file uploaded" : "Nincs fájl feltöltve",
-    "Unsupported image type" : "Nem támogatott képtípus",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Már egyéni témát használ. Lehet, hogy a témázó alkalmazás beállításai felülírták.",
     "Theming" : "Témázás",
     "Legal notice" : "Jogi nyilatkozat",
@@ -48,6 +47,7 @@
     "Upload new header logo" : "Fejléc logó feltöltése",
     "Favicon" : "Kedvencek ikon",
     "Upload new favicon" : "Kedvencek ikon feltöltése",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az Imagemagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Telepítse az Imagemagick PHP kiterjesztést SVG képtámogatással, hogy automatikusan előállítsa a kedvencek ikont a feltöltött logó és szín alapján.",
+    "Unsupported image type" : "Nem támogatott képtípus"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

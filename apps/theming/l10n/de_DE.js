@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Die Datei konnte nicht auf die Festplatte geschrieben werden",
     "A PHP extension stopped the file upload" : "Eine PHP-Erweiterung hat das Hochladen der Datei gestoppt",
     "No file uploaded" : "Keine Datei hochgeladen",
-    "Unsupported image type" : "Nicht unterstütztes Bild-Format",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Sie benutzen bereits ein benutzerdefiniertes Design. Die App \"Theming\" würde dies überschreiben.",
     "Theming" : "Design",
     "Legal notice" : "Impressum",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Upload new header logo" : "Neues Kopfbereichs-Logo hochladen",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Neues Favicon hochladen",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installieren Sie die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favicons auf Basis des hochgeladenen Logos und der Farbe zu erstellen."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installieren Sie die Imagemagick PHP-Erweiterung mit Unterstützung für SVG-Bilder, um automatisch Favicons auf Basis des hochgeladenen Logos und der Farbe zu erstellen.",
+    "Unsupported image type" : "Nicht unterstütztes Bild-Format"
 },
 "nplurals=2; plural=(n != 1);");

@@ -20,7 +20,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Ezin izan da fitxategia diskoan idatzi",
     "A PHP extension stopped the file upload" : "PHP hedapen batek fitxategiaren karga gelditu du",
     "No file uploaded" : "Ez da fitxategirik igo",
-    "Unsupported image type" : "Irudi mota ez da onartzen",
     "Theming" : "Itxura",
     "Legal notice" : "Ohar legala",
     "Privacy policy" : "Pribatutasun politika",
@@ -42,6 +41,7 @@ OC.L10N.register(
     "Header logo" : "Goiburuaren logoa",
     "Upload new header logo" : "Kargatu goiburuaren logo berria",
     "Favicon" : "Gogoko-ikonoa",
-    "Upload new favicon" : "Kargatu gogoko-ikono berria"
+    "Upload new favicon" : "Kargatu gogoko-ikono berria",
+    "Unsupported image type" : "Irudi mota ez da onartzen"
 },
 "nplurals=2; plural=(n != 1);");

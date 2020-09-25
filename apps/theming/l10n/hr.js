@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Nije moguće zapisati datoteku na disk",
     "A PHP extension stopped the file upload" : "Proširenje PHP-a zaustavilo je otpremanje datoteke",
     "No file uploaded" : "Nije otpremljena nijedna datoteka",
-    "Unsupported image type" : "Nepodržana vrsta slike",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Već koristite prilagođenu temu. Te postavke mogu biti zamijenjene postavkama aplikacije za upravljanje temama.",
     "Theming" : "Upravljanje temama",
     "Legal notice" : "Pravna obavijest",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Upload new header logo" : "Otpremi novi logotip zaglavlja",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Otpremi novi favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ugradite proširenje za PHP pod nazivom Imagemagick s podrškom za SVG slike kako biste automatski generirali favicone na temelju otpremljenog logotipa i boje."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ugradite proširenje za PHP pod nazivom Imagemagick s podrškom za SVG slike kako biste automatski generirali favicone na temelju otpremljenog logotipa i boje.",
+    "Unsupported image type" : "Nepodržana vrsta slike"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");
