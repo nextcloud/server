@@ -471,6 +471,14 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addIndex(['parent'], 'parent_index');
 			$table->addIndex(['uid_owner'], 'owner_index');
 			$table->addIndex(['uid_initiator'], 'initiator_index');
+		} else {
+			$table = $schema->getTable('share');
+			if (!$table->hasColumn('password')) {
+				$table->addColumn('password', 'string', [
+					'notnull' => false,
+					'length' => 255,
+				]);
+			}
 		}
 
 		if (!$schema->hasTable('jobs')) {
