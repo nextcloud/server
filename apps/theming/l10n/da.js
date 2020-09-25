@@ -14,7 +14,6 @@ OC.L10N.register(
     "No file was uploaded" : "Ingen fil uploadet",
     "Missing a temporary folder" : "Manglende midlertidig mappe.",
     "No file uploaded" : "Ingen fil uploadet",
-    "Unsupported image type" : "Ikke-understøttet billede format",
     "Theming" : "Temaer",
     "Legal notice" : "Juridisk notits",
     "Privacy policy" : "Fortrolighedspolitik",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "Upload new login background" : "Upload nyt login billede",
     "Remove background image" : "Fjern baggrundsbillede",
     "Advanced options" : "Avancerede indstillinger",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer Imagemagick PHP udvidelsen med SVG support for automatisk at genererer favikoner baseret på the uploadede logo og farver."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installer Imagemagick PHP udvidelsen med SVG support for automatisk at genererer favikoner baseret på the uploadede logo og farver.",
+    "Unsupported image type" : "Ikke-understøttet billede format"
 },
 "nplurals=2; plural=(n != 1);");

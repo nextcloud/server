@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Kunde inte skriva fil till disk",
     "A PHP extension stopped the file upload" : "Ett PHP-tillägg stoppade filuppladdning",
     "No file uploaded" : "Ingen fil uppladdad",
-    "Unsupported image type" : "Filtyp stöds inte",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Du använder redan ett anpassat tema. Dessa appinställningar kan skrivas över.",
     "Theming" : "Teman",
     "Legal notice" : "Rättsligt meddelande",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Upload new header logo" : "Ladda upp ny huvud-logga",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Ladda upp nya favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Installera Imagemagick PHP-tillägget med stöd för SVG-bilder för att automatiskt generera favicons baserat på den uppladdade logotypen och färgen.",
+    "Unsupported image type" : "Filtyp stöds inte"
 },
 "nplurals=2; plural=(n != 1);");

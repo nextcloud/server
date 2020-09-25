@@ -15,7 +15,6 @@ OC.L10N.register(
     "No file was uploaded" : "ფაილი არ აიტვირთა",
     "Missing a temporary folder" : "დროებითი დირექტორია არ არსებობს",
     "No file uploaded" : "ფაილი არ იქნა ატვირთული",
-    "Unsupported image type" : "ამ სურათის სახეობა არაა მხარდაჭერილი",
     "Theming" : "ვიზუალური თემები",
     "Open documentation" : "ღია დოკუმენტაცია",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "ვიზუალური თემები საშუალებას გაძლევთ თქვენს ინსტანციას და მხარდაჭერილ კლიენტებს მარტივად გაუწიოთ გამოსახულებას პერსონალიზაცია. ეს გამოჩნდება ყველა მომხმარებელთან.",
@@ -29,6 +28,7 @@ OC.L10N.register(
     "Upload new login background" : "ლოგინის ახალი ფონის ატვირთვა",
     "Remove background image" : "ფონური სურათის მოშორება",
     "Advanced options" : "დამატებითი ოპციონები",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "SVG სურთების მხარდაჭერის მქონე Imagemagick PHP გაფართოების დაყენება ფავიკონებს  ატვირთული ლოგოსა და ფერის მიხევით დააგენერირებს ავტომატურად."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "SVG სურთების მხარდაჭერის მქონე Imagemagick PHP გაფართოების დაყენება ფავიკონებს  ატვირთული ლოგოსა და ფერის მიხევით დააგენერირებს ავტომატურად.",
+    "Unsupported image type" : "ამ სურათის სახეობა არაა მხარდაჭერილი"
 },
 "nplurals=2; plural=(n!=1);");
