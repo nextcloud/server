@@ -61,6 +61,7 @@ use OCP\Files\Folder;
 use OCP\Files\IAppData;
 use OCP\Group\ISubAdmin;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -180,7 +181,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$c->get('Protocol'),
 				$c->get(MiddlewareDispatcher::class),
 				$c->get(IControllerMethodReflector::class),
-				$c->get(IRequest::class)
+				$c->get(IRequest::class),
+				$c->get(IConfig::class),
+				$c->get(IDBConnection::class),
+				$c->get(LoggerInterface::class)
 			);
 		});
 
