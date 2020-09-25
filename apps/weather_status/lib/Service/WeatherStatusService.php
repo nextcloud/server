@@ -105,7 +105,7 @@ class WeatherStatusService {
 								IUserManager $userManager,
 								IAppManager $appManager,
 								ICacheFactory $cacheFactory,
-								string $userId) {
+								?string $userId) {
 		$this->config = $config;
 		$this->userId = $userId;
 		$this->l10n = $l10n;
