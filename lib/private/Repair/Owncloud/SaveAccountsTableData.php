@@ -78,6 +78,15 @@ class SaveAccountsTableData implements IRepairStep {
 			$numUsers = $this->runStep($offset);
 		}
 
+		// oc_persistent_locks will be removed later on anyways so we can just drop and ignore any foreign key constraints here
+		$tableName = $this->config->getSystemValue('dbtableprefix', 'oc_') . 'persistent_locks';
+		$schema = $this->db->createSchema();
+		$table = $schema->getTable($tableName);
+		foreach ($table->getForeignKeys() as $foreignKey) {
+			$table->removeForeignKey($foreignKey->getName());
+		}
+		$this->db->migrateToSchema($schema);
+
 		// Remove the table
 		if ($this->hasForeignKeyOnPersistentLocks) {
 			$this->db->dropTable('persistent_locks');
