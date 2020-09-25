@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "无法写入文件到磁盘",
     "A PHP extension stopped the file upload" : "PHP 扩展停止了文件上传。",
     "No file uploaded" : "文件没有上传",
-    "Unsupported image type" : "不支持图片格式",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "你已经在使用一个自定义的主题。主题应用的设置可能会被其覆盖。",
     "Theming" : "主题",
     "Legal notice" : "法律声明",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Upload new header logo" : "上传新的顶栏图标",
     "Favicon" : "网站图标",
     "Upload new favicon" : "上传新图标",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，以根据上传的 logo 和颜色自动生成图标。"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "安装支持 SVG 图像的 PHP 扩展 Imagemagick，以根据上传的 logo 和颜色自动生成图标。",
+    "Unsupported image type" : "不支持图片格式"
 },
 "nplurals=1; plural=0;");

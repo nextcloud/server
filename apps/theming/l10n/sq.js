@@ -14,7 +14,6 @@ OC.L10N.register(
     "No file was uploaded" : "S’u ngarkua kartelë",
     "Missing a temporary folder" : "Mungon një dosje e përkohshme",
     "No file uploaded" : "Asnjë skedar i ngarkuar",
-    "Unsupported image type" : "Lloj imazhi i pa suportuar",
     "Theming" : "Duke vendosur theme-n",
     "Open documentation" : "Dokumentacion i hapur",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Theming bën të mundur për të përshtatur lehtësisht pamjen dhe ndjenjën e instancës suaj dhe klientëve të mbështetur. Kjo do të jetë e dukshme për të gjithë përdoruesit.",
@@ -27,6 +26,7 @@ OC.L10N.register(
     "Login image" : "Imazhi i hyrjes",
     "Upload new login background" : "Ngarko background të ri hyrjeje",
     "Remove background image" : "Hiqni imazhin në sfond",
-    "Advanced options" : "Opsione të avancuara"
+    "Advanced options" : "Opsione të avancuara",
+    "Unsupported image type" : "Lloj imazhi i pa suportuar"
 },
 "nplurals=2; plural=(n != 1);");

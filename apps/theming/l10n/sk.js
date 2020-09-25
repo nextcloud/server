@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Nepodarilo sa zapísať súbor na disk.",
     "A PHP extension stopped the file upload" : "rozšírenie PHP zastavilo nahrávanie súboru.",
     "No file uploaded" : "Žiadny súbor nebol nahraný",
-    "Unsupported image type" : "Typ obrázka nie je podporovaný",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Už používate vlastný motív vzhľadu. Predošlé nastavenia tým môžu byť prepísané.",
     "Theming" : "Zmena vzhľadu",
     "Legal notice" : "Právne upozornenie",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Upload new header logo" : "Nahrať nové logo do hlavičky",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Nahrať novú ikonu webu",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ak chcete automaticky generovať favikony na základe nahraného loga a farby, nainštalujte rozšírenie Imagemagick PHP s podporou pre SVG obrázky."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Ak chcete automaticky generovať favikony na základe nahraného loga a farby, nainštalujte rozšírenie Imagemagick PHP s podporou pre SVG obrázky.",
+    "Unsupported image type" : "Typ obrázka nie je podporovaný"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
