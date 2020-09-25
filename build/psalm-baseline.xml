@@ -2292,14 +2292,6 @@
       <code>$iconFile !== false</code>
     </RedundantCondition>
   </file>
-  <file src="apps/theming/lib/Controller/ThemingController.php">
-    <InvalidScalarArgument occurrences="4">
-      <code>'r'</code>
-      <code>$newHeight</code>
-      <code>'r'</code>
-      <code>'r'</code>
-    </InvalidScalarArgument>
-  </file>
   <file src="apps/theming/lib/IconBuilder.php">
     <InvalidScalarArgument occurrences="2">
       <code>$offset_w</code>
