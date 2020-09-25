@@ -240,7 +240,11 @@ export default {
 					console.info('The weather status request was cancelled because the user navigates.')
 					return
 				}
-				showError(t('weather_status', 'There was an error getting the weather status information.'))
+				if (err.response && err.response.status === 401) {
+					showError(t('weather_status', 'You are not logged in.'))
+				} else {
+					showError(t('weather_status', 'There was an error getting the weather status information.'))
+				}
 				console.error(err)
 			}
 		},
@@ -309,8 +313,11 @@ export default {
 					this.loading = false
 				}
 			} catch (err) {
-				showError(t('weather_status', 'There was an error setting the location address.'))
-				console.debug(err)
+				if (err.response && err.response.status === 401) {
+					showError(t('weather_status', 'You are not logged in.'))
+				} else {
+					showError(t('weather_status', 'There was an error setting the location address.'))
+				}
 				this.loading = false
 			}
 		},
@@ -320,7 +327,11 @@ export default {
 				this.address = loc.address
 				this.startLoop()
 			} catch (err) {
-				showError(t('weather_status', 'There was an error setting the location.'))
+				if (err.response && err.response.status === 401) {
+					showError(t('weather_status', 'You are not logged in.'))
+				} else {
+					showError(t('weather_status', 'There was an error setting the location.'))
+				}
 				console.debug(err)
 			}
 		},
@@ -328,7 +339,11 @@ export default {
 			try {
 				await network.setMode(mode)
 			} catch (err) {
-				showError(t('weather_status', 'There was an error saving the mode.'))
+				if (err.response && err.response.status === 401) {
+					showError(t('weather_status', 'You are not logged in.'))
+				} else {
+					showError(t('weather_status', 'There was an error saving the mode.'))
+				}
 				console.debug(err)
 			}
 		},
@@ -345,7 +360,11 @@ export default {
 				this.mode = MODE_MANUAL_LOCATION
 				this.startLoop()
 			} catch (err) {
-				showError(t('weather_status', 'There was an error using personal address.'))
+				if (err.response && err.response.status === 401) {
+					showError(t('weather_status', 'You are not logged in.'))
+				} else {
+					showError(t('weather_status', 'There was an error using personal address.'))
+				}
 				console.debug(err)
 				this.loading = false
 			}
