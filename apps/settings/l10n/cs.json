@@ -374,6 +374,7 @@
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Zobrazit text zřeknutí se odpovědnosti na stránce pro nahrání veřejného odkazu. (zobrazit pouze pokud je seznam souborů skrytý)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Tento text bude zobrazen on stránce pro nahrání veřejného odkazu, pokud bude seznam souborů skrytý.",
     "Default share permissions" : "Výchozí oprávnění sdílení",
+    "Reasons to use Nextcloud in your organization" : "Důvody proč používat Nextcloud ve vaší organizaci",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Vyvíjeno {communityopen}komunitou Nextcloud{linkclose}, {githubopen}zdrojové kódy{linkclose} jsou licencovány pod {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Hodnoťte naše stránky na Facebooku",
     "Follow us on Twitter" : "Následujte nás na Twitteru",
