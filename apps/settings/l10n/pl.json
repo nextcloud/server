@@ -374,6 +374,7 @@
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Pokaż tekst zastrzeżenia na stronie przesyłania linków publicznych (wyświetlane tylko wtedy, gdy lista plików jest ukryta)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Ten tekst zostanie wyświetlony na stronie przesyłania linków publicznych, gdy lista plików jest ukryta.",
     "Default share permissions" : "Domyślne uprawnienia dla udostępnień",
+    "Reasons to use Nextcloud in your organization" : "Dlaczego warto korzystać z Nextcloud w Twojej organizacji",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Opracowane przez {communityopen}społeczność Nextcloud{linkclose}, {githubopen}kod źródłowy{linkclose} jest objęty licencją {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Polub nas na Facebook'u",
     "Follow us on Twitter" : "Bądź z nami na Twitterze",
