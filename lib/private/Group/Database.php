@@ -456,11 +456,11 @@ class Database extends ABackend implements
 
 	public function getDisplayName(string $gid): string {
 		if (isset($this->groupCache[$gid])) {
-                        $displayName = $this->groupCache[$gid]['displayname'];
+			$displayName = $this->groupCache[$gid]['displayname'];
 
-                        if (isset($displayName) && trim($displayName) !== '') {
-                                return $displayName;
-                        }
+			if (isset($displayName) && trim($displayName) !== '') {
+				return $displayName;
+			}
 		}
 
 		$this->fixDI();
