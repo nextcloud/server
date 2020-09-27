@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error" : "Error",
     "Weather status" : "Estat del temps",
     "Weather status in your dashboard" : "Estat del temps al seu tauler",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "Estat del temps integrat a l'aplicació Tauler.\n    La posició de l'usuari es pot determinar o definir manualment automàticament. A continuació, es mostra una previsió de 6 hores.\n    Aquest estat també es pot integrar en altres llocs, com ara l'aplicació de Calendari.",
     "Detect location" : "Detecta la ubicació",
     "Set custom address" : "Definir l'adreça personalitzada",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Cel clar a les {time}",
