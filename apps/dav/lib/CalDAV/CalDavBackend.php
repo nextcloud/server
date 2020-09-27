@@ -2,6 +2,7 @@
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2018 Georg Ehrke
+ * @copyright Copyright (c) 2020, leith abdulla (<online-nextcloud@eleith.com>)
  *
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author dartcafe <github@dartcafe.de>
@@ -2382,26 +2383,40 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	public function getDenormalizedData($calendarData) {
 		$vObject = Reader::read($calendarData);
+		$vEvents = [];
 		$componentType = null;
 		$component = null;
 		$firstOccurrence = null;
 		$lastOccurrence = null;
 		$uid = null;
 		$classification = self::CLASSIFICATION_PUBLIC;
+		$hasDTSTART = false;
 		foreach ($vObject->getComponents() as $component) {
-			if ($component->name !== 'VTIMEZONE') {
-				$componentType = $component->name;
-				$uid = (string)$component->UID;
-				break;
+			if ($component->name!=='VTIMEZONE') {
+				// Finding all VEVENTs, and track them
+				if ($component->name === 'VEVENT') {
+					array_push($vEvents, $component);
+					if ($component->DTSTART) {
+						$hasDTSTART = true;
+					}
+				}
+				// Track first component type and uid
+				if ($uid === null) {
+					$componentType = $component->name;
+					$uid = (string)$component->UID;
+				}
 			}
 		}
 		if (!$componentType) {
 			throw new \Sabre\DAV\Exception\BadRequest('Calendar objects must have a VJOURNAL, VEVENT or VTODO component');
 		}
-		if ($componentType === 'VEVENT' && $component->DTSTART) {
-			$firstOccurrence = $component->DTSTART->getDateTime()->getTimeStamp();
+
+		if (count($vEvents) > 0 && $hasDTSTART) {
+			$component = $vEvents[0];
+
 			// Finding the last occurrence is a bit harder
-			if (!isset($component->RRULE)) {
+			if (!isset($component->RRULE) && count($vEvents) === 1) {
+				$firstOccurrence = $component->DTSTART->getDateTime()->getTimeStamp();
 				if (isset($component->DTEND)) {
 					$lastOccurrence = $component->DTEND->getDateTime()->getTimeStamp();
 				} elseif (isset($component->DURATION)) {
@@ -2416,8 +2431,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$lastOccurrence = $firstOccurrence;
 				}
 			} else {
-				$it = new EventIterator($vObject, (string)$component->UID);
+				$it = new EventIterator($vEvents);
 				$maxDate = new DateTime(self::MAX_DATE);
+				$firstOccurrence = $it->getDtStart()->getTimestamp();
 				if ($it->isInfinite()) {
 					$lastOccurrence = $maxDate->getTimestamp();
 				} else {
