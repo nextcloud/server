@@ -32,6 +32,7 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -58,12 +59,17 @@ class Repair extends Command {
 	private $memoryTreshold;
 	/** @var ILockingProvider */
 	private $lockingProvider;
+	/**
+	 * @var IDBConnection
+	 */
+	private $db;
 
-	public function __construct(IConfig $config, IRootFolder $rootFolder, ILogger $logger, IniGetWrapper $phpIni, ILockingProvider $lockingProvider) {
+	public function __construct(IConfig $config, IRootFolder $rootFolder, ILogger $logger, IniGetWrapper $phpIni, ILockingProvider $lockingProvider, IDBConnection $db) {
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
 		$this->logger = $logger;
 		$this->lockingProvider = $lockingProvider;
+		$this->db = $db;
 
 		$this->memoryLimit = $phpIni->getBytes('memory_limit');
 		$this->memoryTreshold = $this->memoryLimit - 25 * 1024 * 1024;
@@ -109,46 +115,6 @@ class Repair extends Command {
 		/** @var \OCP\Files\Folder $currentPreviewFolder */
 		$currentPreviewFolder = $this->rootFolder->get("appdata_$instanceId/preview");
 
-		$directoryListing = $currentPreviewFolder->getDirectoryListing();
-
-		$total = count($directoryListing);
-		/**
-		 * by default there could be 0-9 a-f and the old-multibucket folder which are all fine
-		 */
-		if ($total < 18) {
-			$directoryListing = array_filter($directoryListing, function ($dir) {
-				if ($dir->getName() === 'old-multibucket') {
-					return false;
-				}
-
-				// a-f can't be a file ID -> removing from migration
-				if (preg_match('!^[a-f]$!', $dir->getName())) {
-					return false;
-				}
-
-				if (preg_match('!^[0-9]$!', $dir->getName())) {
-					// ignore folders that only has folders in them
-					if ($dir instanceof Folder) {
-						foreach ($dir->getDirectoryListing() as $entry) {
-							if (!$entry instanceof Folder) {
-								return true;
-							}
-						}
-						return false;
-					}
-				}
-				return true;
-			});
-			$total = count($directoryListing);
-		}
-
-		if ($total === 0) {
-			$output->writeln("All previews are already migrated.");
-			return 0;
-		}
-
-		$output->writeln("A total of $total preview files need to be migrated.");
-		$output->writeln("");
 		$output->writeln("The migration will always migrate all previews of a single file in a batch. After each batch the process can be canceled by pressing CTRL-C. This fill finish the current batch and then stop the migration. This migration can then just be started and it will continue.");
 
 		if ($input->getOption('batch')) {
@@ -161,6 +127,15 @@ class Repair extends Command {
 				return 0;
 			}
 		}
+
+		$qb = $this->db->getQueryBuilder();
+		$cursor = $qb->select($qb->func()->count('*'))
+			->from('filecache')
+			->where($qb->expr()->eq('parent', $qb->createNamedParameter($currentPreviewFolder->getId())))
+			->orderBy('fileid', 'ASC')
+			->execute();
+		$total = (int)$cursor->fetchColumn(0);
+		$cursor->closeCursor();
 
 		// register the SIGINT listener late in here to be able to exit in the early process of this command
 		pcntl_signal(SIGINT, [$this, 'sigIntHandler']);
@@ -176,107 +151,142 @@ class Repair extends Command {
 		$progressBar->maxSecondsBetweenRedraws(0.2);
 		$progressBar->start();
 
-		foreach ($directoryListing as $oldPreviewFolder) {
-			pcntl_signal_dispatch();
-			$name = $oldPreviewFolder->getName();
-			$time = (new \DateTime())->format('H:i:s');
-			$section1->writeln("$time Migrating previews of file with fileId $name …");
-			$progressBar->display();
+		$limit = 1000;
 
-			if ($this->stopSignalReceived) {
-				$section1->writeln("$time Stopping migration …");
-				return 0;
-			}
-			if (!$oldPreviewFolder instanceof Folder) {
-				$section1->writeln("         Skipping non-folder $name …");
-				$progressBar->advance();
-				continue;
-			}
-			if ($name === 'old-multibucket') {
-				$section1->writeln("         Skipping fallback mount point $name …");
-				$progressBar->advance();
-				continue;
-			}
-			if (in_array($name, ['a', 'b', 'c', 'd', 'e', 'f'])) {
-				$section1->writeln("         Skipping hex-digit folder $name …");
-				$progressBar->advance();
-				continue;
-			}
-			if (!preg_match('!^\d+$!', $name)) {
-				$section1->writeln("         Skipping non-numeric folder $name …");
-				$progressBar->advance();
-				continue;
-			}
+		$hasEntries = true;
+		do {
+			$qb = $this->db->getQueryBuilder();
+			$cursor = $qb->select('name')->from('filecache')
+				->where($qb->expr()->eq('parent', $qb->createNamedParameter($currentPreviewFolder->getId())))
+				->orderBy('fileid', 'ASC')
+				->setMaxResults($limit)
+				->execute();
 
-			$newFoldername = Root::getInternalFolder($name);
+			$hasEntries = false;
+			while ($row = $cursor->fetch()) {
+				$oldPreviewFolder = $currentPreviewFolder->get($row['name']);
 
-			$memoryUsage = memory_get_usage();
-			if ($memoryCheckEnabled && $memoryUsage > $this->memoryTreshold) {
-				$section1->writeln("");
-				$section1->writeln("");
-				$section1->writeln("");
-				$section1->writeln("         Stopped process 25 MB before reaching the memory limit to avoid a hard crash.");
+				pcntl_signal_dispatch();
+				$name = $oldPreviewFolder->getName();
 				$time = (new \DateTime())->format('H:i:s');
-				$section1->writeln("$time Reached memory limit and stopped to avoid hard crash.");
-				return 1;
-			}
+				$section1->writeln("$time Migrating previews of file with fileId $name …");
+				$progressBar->display();
 
-			$lockName = 'occ preview:repair lock ' . $oldPreviewFolder->getId();
-			try {
-				$section1->writeln("         Locking \"$lockName\" …", OutputInterface::VERBOSITY_VERBOSE);
-				$this->lockingProvider->acquireLock($lockName, ILockingProvider::LOCK_EXCLUSIVE);
-			} catch (LockedException $e) {
-				$section1->writeln("         Skipping because it is locked - another process seems to work on this …");
-				continue;
-			}
-
-			$previews = $oldPreviewFolder->getDirectoryListing();
-			if ($previews !== []) {
-				try {
-					$this->rootFolder->get("appdata_$instanceId/preview/$newFoldername");
-				} catch (NotFoundException $e) {
-					$section1->writeln("         Create folder preview/$newFoldername", OutputInterface::VERBOSITY_VERBOSE);
-					if (!$dryMode) {
-						$this->rootFolder->newFolder("appdata_$instanceId/preview/$newFoldername");
-					}
+				if ($this->stopSignalReceived) {
+					$section1->writeln("$time Stopping migration …");
+					return 0;
+				}
+				if (!$oldPreviewFolder instanceof Folder) {
+					$section1->writeln("         Skipping non-folder $name …");
+					$progressBar->advance();
+					continue;
+				}
+				if ($name === 'old-multibucket') {
+					$section1->writeln("         Skipping fallback mount point $name …");
+					$progressBar->advance();
+					continue;
+				}
+				if (in_array($name, ['a', 'b', 'c', 'd', 'e', 'f'])) {
+					$section1->writeln("         Skipping hex-digit folder $name …");
+					$progressBar->advance();
+					continue;
+				}
+				if (!preg_match('!^\d+$!', $name)) {
+					$section1->writeln("         Skipping non-numeric folder $name …");
+					$progressBar->advance();
+					continue;
 				}
 
-				foreach ($previews as $preview) {
-					pcntl_signal_dispatch();
-					$previewName = $preview->getName();
+				if ($oldPreviewFolder instanceof Folder) {
+					$listing = $oldPreviewFolder->getDirectoryListing();
+					$hasFiles = false;
+					foreach ($listing as $node) {
+						if (!($node instanceof Folder)) {
+							$hasFiles = true;
+						}
+					}
 
-					if ($preview instanceof Folder) {
-						$section1->writeln("         Skipping folder $name/$previewName …");
+					if (!$hasFiles) {
+						$section1->writeln("         Skipping since folder contains folders: $name …");
 						$progressBar->advance();
 						continue;
 					}
-					$section1->writeln("         Move preview/$name/$previewName to preview/$newFoldername", OutputInterface::VERBOSITY_VERBOSE);
-					if (!$dryMode) {
-						try {
-							$preview->move("appdata_$instanceId/preview/$newFoldername/$previewName");
-						} catch (\Exception $e) {
-							$this->logger->logException($e, ['app' => 'core', 'message' => "Failed to move preview from preview/$name/$previewName to preview/$newFoldername"]);
+				}
+
+				$hasEntries = true;
+
+				$newFoldername = Root::getInternalFolder($name);
+
+				$memoryUsage = memory_get_usage();
+				if ($memoryCheckEnabled && $memoryUsage > $this->memoryTreshold) {
+					$section1->writeln("");
+					$section1->writeln("");
+					$section1->writeln("");
+					$section1->writeln("         Stopped process 25 MB before reaching the memory limit to avoid a hard crash.");
+					$time = (new \DateTime())->format('H:i:s');
+					$section1->writeln("$time Reached memory limit and stopped to avoid hard crash.");
+					return 1;
+				}
+
+				$lockName = 'occ preview:repair lock ' . $oldPreviewFolder->getId();
+				try {
+					$section1->writeln("         Locking \"$lockName\" …", OutputInterface::VERBOSITY_VERBOSE);
+					$this->lockingProvider->acquireLock($lockName, ILockingProvider::LOCK_EXCLUSIVE);
+				} catch (LockedException $e) {
+					$section1->writeln("         Skipping because it is locked - another process seems to work on this …");
+					continue;
+				}
+
+				$previews = $oldPreviewFolder->getDirectoryListing();
+				if ($previews !== []) {
+					try {
+						$this->rootFolder->get("appdata_$instanceId/preview/$newFoldername");
+					} catch (NotFoundException $e) {
+						$section1->writeln("         Create folder preview/$newFoldername", OutputInterface::VERBOSITY_VERBOSE);
+						if (!$dryMode) {
+							$this->rootFolder->newFolder("appdata_$instanceId/preview/$newFoldername");
+						}
+					}
+
+					foreach ($previews as $preview) {
+						pcntl_signal_dispatch();
+						$previewName = $preview->getName();
+
+						if ($preview instanceof Folder) {
+							$section1->writeln("         Skipping folder $name/$previewName …");
+							$progressBar->advance();
+							continue;
+						}
+						$section1->writeln("         Move preview/$name/$previewName to preview/$newFoldername", OutputInterface::VERBOSITY_VERBOSE);
+						if (!$dryMode) {
+							try {
+								$preview->move("appdata_$instanceId/preview/$newFoldername/$previewName");
+							} catch (\Exception $e) {
+								$this->logger->logException($e, ['app' => 'core', 'message' => "Failed to move preview from preview/$name/$previewName to preview/$newFoldername"]);
+							}
 						}
 					}
 				}
-			}
-			if ($oldPreviewFolder->getDirectoryListing() === []) {
-				$section1->writeln("         Delete empty folder preview/$name", OutputInterface::VERBOSITY_VERBOSE);
-				if (!$dryMode) {
-					try {
-						$oldPreviewFolder->delete();
-					} catch (\Exception $e) {
-						$this->logger->logException($e, ['app' => 'core', 'message' => "Failed to delete empty folder preview/$name"]);
+				if ($oldPreviewFolder->getDirectoryListing() === []) {
+					$section1->writeln("         Delete empty folder preview/$name", OutputInterface::VERBOSITY_VERBOSE);
+					if (!$dryMode) {
+						try {
+							$oldPreviewFolder->delete();
+						} catch (\Exception $e) {
+							$this->logger->logException($e, ['app' => 'core', 'message' => "Failed to delete empty folder preview/$name"]);
+						}
 					}
 				}
+
+				$this->lockingProvider->releaseLock($lockName, ILockingProvider::LOCK_EXCLUSIVE);
+				$section1->writeln("         Unlocked", OutputInterface::VERBOSITY_VERBOSE);
+
+				$section1->writeln("         Finished migrating previews of file with fileId $name …");
+				$progressBar->advance();
 			}
 
-			$this->lockingProvider->releaseLock($lockName, ILockingProvider::LOCK_EXCLUSIVE);
-			$section1->writeln("         Unlocked", OutputInterface::VERBOSITY_VERBOSE);
-
-			$section1->writeln("         Finished migrating previews of file with fileId $name …");
-			$progressBar->advance();
-		}
+			$cursor->closeCursor();
+		} while ($hasEntries === true);
 
 		$progressBar->finish();
 		$output->writeln("");
