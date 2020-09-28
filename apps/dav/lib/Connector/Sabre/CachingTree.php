@@ -38,4 +38,16 @@ class CachingTree extends Tree {
 		}
 		$this->cache[trim($path, '/')] = $node;
 	}
+
+	public function markDirty($path) {
+		// We don't care enough about sub-paths
+		// flushing the entire cache
+		$path = trim($path, '/');
+		foreach ($this->cache as $nodePath => $node) {
+			$nodePath = (string) $nodePath;
+			if ('' === $path || $nodePath == $path || 0 === strpos($nodePath, $path.'/')) {
+				unset($this->cache[$nodePath]);
+			}
+		}
+	}
 }
