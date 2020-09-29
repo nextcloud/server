@@ -101,9 +101,9 @@ class UserPlugin implements ISearchPlugin {
 			$userEmail = $user->getEMailAddress();
 			$uid = (string) $uid;
 			if (
-				strtolower($uid) === $lowerSearch ||
+				$lowerSearch !== '' && (strtolower($uid) === $lowerSearch ||
 				strtolower($userDisplayName) === $lowerSearch ||
-				strtolower($userEmail) === $lowerSearch
+				strtolower($userEmail) === $lowerSearch)
 			) {
 				if (strtolower($uid) === $lowerSearch) {
 					$foundUserById = true;
