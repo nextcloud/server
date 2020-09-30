@@ -73,6 +73,9 @@ class HeartbeatController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function heartbeat(string $status): JSONResponse {
+		// Heartbeat currently does nothing
+		return new JSONResponse([], Http::STATUS_NO_CONTENT);
+
 		if (!\in_array($status, [IUserStatus::ONLINE, IUserStatus::AWAY], true)) {
 			return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}

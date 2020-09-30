@@ -62,6 +62,6 @@ class ClearOldStatusesBackgroundJob extends TimedJob {
 		$now = $this->time->getTime();
 
 		$this->mapper->clearMessagesOlderThan($now);
-		$this->mapper->clearStatusesOlderThan($now - StatusService::INVALIDATE_STATUS_THRESHOLD, $now);
+		//$this->mapper->clearStatusesOlderThan($now - StatusService::INVALIDATE_STATUS_THRESHOLD, $now);
 	}
 }
