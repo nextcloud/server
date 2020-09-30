@@ -285,8 +285,6 @@ class Trashbin {
 			$trashStorage->unlink($trashInternalPath);
 		}
 
-		$connection = \OC::$server->getDatabaseConnection();
-		$connection->beginTransaction();
 		$trashStorage->getUpdater()->renameFromStorage($sourceStorage, $sourceInternalPath, $trashInternalPath);
 
 		try {
@@ -310,11 +308,15 @@ class Trashbin {
 			} else {
 				$sourceStorage->unlink($sourceInternalPath);
 			}
-			$connection->rollBack();
+
+			if ($sourceStorage->file_exists($sourceInternalPath)) {
+				// undo the cache move
+				$sourceStorage->getUpdater()->renameFromStorage($trashStorage, $trashInternalPath, $sourceInternalPath);
+			} else {
+				$trashStorage->getUpdater()->remove($trashInternalPath);
+			}
 			return false;
 		}
-
-		$connection->commit();
 
 		if ($moveSuccessful) {
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
