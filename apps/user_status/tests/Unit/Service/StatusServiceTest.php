@@ -152,7 +152,7 @@ class StatusServiceTest extends TestCase {
 		$status->setIsUserDefined(true);
 
 		$this->timeFactory->method('getTime')
-			->willReturn(1400);
+			->willReturn(2600);
 		$this->mapper->expects($this->once())
 			->method('findByUserId')
 			->with('john.doe')
@@ -160,7 +160,7 @@ class StatusServiceTest extends TestCase {
 
 		$this->assertEquals($status, $this->service->findByUserId('john.doe'));
 		$this->assertEquals('offline', $status->getStatus());
-		$this->assertEquals(1400, $status->getStatusTimestamp());
+		$this->assertEquals(2600, $status->getStatusTimestamp());
 		$this->assertFalse($status->getIsUserDefined());
 	}
 
