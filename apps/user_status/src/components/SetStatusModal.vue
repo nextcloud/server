@@ -22,11 +22,11 @@
 <template>
 	<Modal
 		size="normal"
-		:title="$t('user_status', 'Set a custom status')"
+		:title="$t('user_status', 'Set status message')"
 		@close="closeModal">
 		<div class="set-status-modal">
 			<div class="set-status-modal__header">
-				<h3>{{ $t('user_status', 'Set a custom status') }}</h3>
+				<h3>{{ $t('user_status', 'Set status message') }}</h3>
 			</div>
 			<div class="set-status-modal__custom-input">
 				<EmojiPicker @select="setIcon">
@@ -46,10 +46,10 @@
 				@selectClearAt="setClearAt" />
 			<div class="status-buttons">
 				<button class="status-buttons__select" @click="clearStatus">
-					{{ $t('user_status', 'Clear custom status') }}
+					{{ $t('user_status', 'Clear status message') }}
 				</button>
 				<button class="status-buttons__primary primary" @click="saveStatus">
-					{{ $t('user_status', 'Set status') }}
+					{{ $t('user_status', 'Set status message') }}
 				</button>
 			</div>
 		</div>
