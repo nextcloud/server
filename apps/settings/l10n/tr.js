@@ -376,6 +376,7 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Herkese açık bağlantı yükleme sayfasındaki sorumluluk reddi bildirim metni (yalnız dosya listesi gizli iken görüntülenir)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Dosya listesi gizli iken herkese açık bağlantı yükleme sayfasında görüntülenecek sorumluluk reddi bildirimi metni.",
     "Default share permissions" : "Varsayılan paylaşım izinleri",
+    "Reasons to use Nextcloud in your organization" : "Kuruluşunuzda Nextcloud kullanma nedenleriniz",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "{communityopen}Nextcloud topluluğu tarafından geliştirilmiştir{linkclose}.  {githubopen}Kaynak kodu{linkclose} {licenseopen}AGPL{linkclose} koşulları altında lisanslanmıştır.",
     "Like our Facebook page" : "Facebook sayfamızı beğenin",
     "Follow us on Twitter" : "Bizi Twitter üzerinde izleyin",
