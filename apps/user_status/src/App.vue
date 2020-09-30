@@ -46,7 +46,7 @@
 				<ActionButton
 					icon="icon-rename"
 					:close-after-click="true"
-					:title="$t('user_status', 'Set custom status')"
+					:title="$t('user_status', 'Set status message')"
 					@click.prevent.stop="openModal" />
 			</Actions>
 			<SetStatusModal
