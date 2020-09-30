@@ -64,6 +64,8 @@ class UserLiveStatusListener implements IEventListener {
 	 * @inheritDoc
 	 */
 	public function handle(Event $event): void {
+		// Don't do anything with this even now
+		return;
 		if (!($event instanceof UserLiveStatusEvent)) {
 			// Unrelated
 			return;
