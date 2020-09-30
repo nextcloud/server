@@ -339,7 +339,8 @@ class StatusService {
 
 		if ($status->getStatusTimestamp() < $this->timeFactory->getTime() - self::INVALIDATE_STATUS_THRESHOLD
 			&& (!$status->getIsUserDefined() || $status->getStatus() === IUserStatus::ONLINE)) {
-			$this->cleanStatus($status);
+			// Do not clear statuses
+			//$this->cleanStatus($status);
 		}
 		if ($clearAt !== null && $clearAt < $this->timeFactory->getTime()) {
 			$this->cleanStatusMessage($status);

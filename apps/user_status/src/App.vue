@@ -64,7 +64,7 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import { mapState } from 'vuex'
 import { showError } from '@nextcloud/dialogs'
 import { getAllStatusOptions } from './services/statusOptionsService'
-import { sendHeartbeat } from './services/heartbeatService'
+// import { sendHeartbeat } from './services/heartbeatService'
 import debounce from 'debounce'
 
 export default {
@@ -238,7 +238,7 @@ export default {
 		 * @private
 		 */
 		async _backgroundHeartbeat() {
-			await sendHeartbeat(this.isAway)
+			// await sendHeartbeat(this.isAway)
 			await this.$store.dispatch('reFetchStatusFromServer')
 		},
 	},
