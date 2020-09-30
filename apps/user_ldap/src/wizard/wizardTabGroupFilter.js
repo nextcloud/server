@@ -12,21 +12,21 @@ OCA = OCA || {};
 	 * @classdesc This class represents the view belonging to the server tab
 	 * in the LDAP wizard.
 	 */
-	var WizardTabGroupFilter = OCA.LDAP.Wizard.WizardTabAbstractFilter.subClass({
+	const WizardTabGroupFilter = OCA.LDAP.Wizard.WizardTabAbstractFilter.subClass({
 		/**
 		 * @inheritdoc
 		 */
-		init: function (fotf, tabIndex, tabID) {
-			tabID = '#ldapWizard4';
-			var items = {
+		init(fotf, tabIndex, tabID) {
+			tabID = '#ldapWizard4'
+			const items = {
 				ldap_groupfilter_objectclass: {
 					$element: $('#ldap_groupfilter_objectclass'),
 					setMethod: 'setObjectClass',
 					keyName: 'ldap_groupfilter_objectclass',
-					featureName: 'GroupObjectClasses'
+					featureName: 'GroupObjectClasses',
 				},
 				ldap_group_filter_mode: {
-					setMethod: 'setFilterModeOnce'
+					setMethod: 'setFilterModeOnce',
 				},
 				ldap_groupfilter_groups: {
 					$element: $('#ldap_groupfilter_groups'),
@@ -34,91 +34,91 @@ OCA = OCA || {};
 					keyName: 'ldap_groupfilter_groups',
 					featureName: 'GroupsForGroups',
 					$relatedElements: $(
-						tabID + ' .ldapGroupListAvailable,' +
-						tabID + ' .ldapGroupListSelected,' +
-						tabID + ' .ldapManyGroupsSearch'
-					)
+						tabID + ' .ldapGroupListAvailable,'
+						+ tabID + ' .ldapGroupListSelected,'
+						+ tabID + ' .ldapManyGroupsSearch'
+					),
 				},
 				ldap_group_filter: {
 					$element: $('#ldap_group_filter'),
 					setMethod: 'setFilter',
-					keyName: 'ldap_group_filter'
+					keyName: 'ldap_group_filter',
 				},
 				groupFilterRawToggle: {
-					$element: $('#toggleRawGroupFilter')
+					$element: $('#toggleRawGroupFilter'),
 				},
 				groupFilterRawContainer: {
-					$element: $('#rawGroupFilterContainer')
+					$element: $('#rawGroupFilterContainer'),
 				},
 				ldap_group_count: {
 					$element: $('#ldap_group_count'),
 					$relatedElements: $('.ldapGetGroupCount'),
 					setMethod: 'setCount',
-					keyName: 'ldap_group_count'
-				}
-			};
-			this.setManagedItems(items);
-			this.manyGroupsSupport = true;
-			this._super(fotf, tabIndex, tabID);
+					keyName: 'ldap_group_count',
+				},
+			}
+			this.setManagedItems(items)
+			this.manyGroupsSupport = true
+			this._super(fotf, tabIndex, tabID)
 		},
 
 		/**
 		 * @inheritdoc
 		 * @returns {Object}
 		 */
-		getObjectClassItem: function () {
-			return this.managedItems.ldap_groupfilter_objectclass;
+		getObjectClassItem() {
+			return this.managedItems.ldap_groupfilter_objectclass
 		},
 
 		/**
 		 * @inheritdoc
 		 * @returns {Object}
 		 */
-		getGroupsItem: function () {
-			return this.managedItems.ldap_groupfilter_groups;
+		getGroupsItem() {
+			return this.managedItems.ldap_groupfilter_groups
 		},
 
 		/**
 		 * @inheritdoc
 		 * @returns {Object}
 		 */
-		getFilterItem: function () {
-			return this.managedItems.ldap_group_filter;
+		getFilterItem() {
+			return this.managedItems.ldap_group_filter
 		},
 
 		/**
 		 * @inheritdoc
 		 * @returns {Object}
 		 */
-		getToggleItem: function () {
-			return this.managedItems.groupFilterRawToggle;
+		getToggleItem() {
+			return this.managedItems.groupFilterRawToggle
 		},
 
 		/**
 		 * @inheritdoc
 		 * @returns {Object}
 		 */
-		getRawFilterContainerItem: function () {
-			return this.managedItems.groupFilterRawContainer;
+		getRawFilterContainerItem() {
+			return this.managedItems.groupFilterRawContainer
 		},
 
 		/**
 		 * @inheritdoc
 		 * @returns {Object}
 		 */
-		getCountItem: function () {
-			return this.managedItems.ldap_group_count;
+		getCountItem() {
+			return this.managedItems.ldap_group_count
 		},
 
 		/**
 		 * @inheritdoc
 		 * @returns {string}
 		 */
-		getFilterModeKey: function () {
-			return 'ldap_group_filter_mode';
-		}
+		getFilterModeKey() {
+			return 'ldap_group_filter_mode'
+		},
 
-	});
+	})
 
-	OCA.LDAP.Wizard.WizardTabGroupFilter = WizardTabGroupFilter;
-})();
+	OCA.LDAP.Wizard.WizardTabGroupFilter = WizardTabGroupFilter
+})()

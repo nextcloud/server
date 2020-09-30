@@ -14,13 +14,13 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorUserCount = OCA.LDAP.Wizard.WizardDetectorFilterSimpleRequestAbstract.subClass({
-		init: function() {
-			this.setTargetKey('ldap_user_count');
-			this.wizardMethod = 'countUsers';
-			this.runsOnRequest = true;
-		}
-	});
+	const WizardDetectorUserCount = OCA.LDAP.Wizard.WizardDetectorFilterSimpleRequestAbstract.subClass({
+		init() {
+			this.setTargetKey('ldap_user_count')
+			this.wizardMethod = 'countUsers'
+			this.runsOnRequest = true
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorUserCount = WizardDetectorUserCount;
-})();
+	OCA.LDAP.Wizard.WizardDetectorUserCount = WizardDetectorUserCount
+})()

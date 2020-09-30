@@ -15,17 +15,17 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorTestConfiguration = OCA.LDAP.Wizard.WizardDetectorTestAbstract.subClass({
+	const WizardDetectorTestConfiguration = OCA.LDAP.Wizard.WizardDetectorTestAbstract.subClass({
 		/** @inheritdoc */
-		init: function() {
+		init() {
 			// given, it is not a configuration key
-			this.setTargetKey('ldap_action_test_connection');
-			this.testName = 'TestConfiguration';
-			this.isLegacy = true;
-			this.legacyDestination = 'testConfiguration.php';
-			this.runsOnRequest = true;
-		}
-	});
+			this.setTargetKey('ldap_action_test_connection')
+			this.testName = 'TestConfiguration'
+			this.isLegacy = true
+			this.legacyDestination = 'testConfiguration.php'
+			this.runsOnRequest = true
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorTestConfiguration = WizardDetectorTestConfiguration;
-})();
+	OCA.LDAP.Wizard.WizardDetectorTestConfiguration = WizardDetectorTestConfiguration
+})()

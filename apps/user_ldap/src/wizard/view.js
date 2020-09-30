@@ -15,7 +15,7 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardView = function() {};
+	const WizardView = function() {}
 
 	WizardView.prototype = {
 		/** @constant {number} */
@@ -30,31 +30,31 @@ OCA = OCA || {};
 		/**
 		 * initializes the instance. Always call it after creating the instance.
 		 */
-		init: function () {
-			this.tabs = {};
-			this.tabs.server = new OCA.LDAP.Wizard.WizardTabElementary();
-			this.$settings = $('#ldapSettings');
-			this.$saveSpinners = $('.ldap_saving');
-			this.saveProcesses = 0;
-			_.bindAll(this, 'onTabChange', 'onTestButtonClick');
+		init() {
+			this.tabs = {}
+			this.tabs.server = new OCA.LDAP.Wizard.WizardTabElementary()
+			this.$settings = $('#ldapSettings')
+			this.$saveSpinners = $('.ldap_saving')
+			this.saveProcesses = 0
+			_.bindAll(this, 'onTabChange', 'onTestButtonClick')
 		},
 
 		/**
 		 * applies click events to the forward and backword buttons
 		 */
-		initControls: function() {
-			var view = this;
+		initControls() {
+			const view = this
 			$('.ldap_action_continue').click(function(event) {
-				event.preventDefault();
-				view._controlContinue(view);
-			});
+				event.preventDefault()
+				view._controlContinue(view)
+			})
 
 			$('.ldap_action_back').click(function(event) {
-				event.preventDefault();
-				view._controlBack(view);
-			});
+				event.preventDefault()
+				view._controlBack(view)
+			})
 
-			$('.ldap_action_test_connection').click(this.onTestButtonClick);
+			$('.ldap_action_test_connection').click(this.onTestButtonClick)
 		},
 
 		/**
@@ -64,32 +64,32 @@ OCA = OCA || {};
 		 * @param {string} index
 		 * @returns {boolean}
 		 */
-		registerTab: function(tabView, index) {
-			if( _.isUndefined(this.tabs[index])
+		registerTab(tabView, index) {
+			if (_.isUndefined(this.tabs[index])
 				&& tabView instanceof OCA.LDAP.Wizard.WizardTabGeneric
 			) {
-				this.tabs[index] = tabView;
-				this.tabs[index].setModel(this.configModel);
-				return true;
+				this.tabs[index] = tabView
+				this.tabs[index].setModel(this.configModel)
+				return true
 			}
-			return false;
+			return false
 		},
 
 		/**
 		 * checks certain config values for completeness and depending on them
 		 * enables or disables non-elementary tabs.
 		 */
-		basicStatusCheck: function(view) {
-			var host  = view.configModel.configuration.ldap_host;
-			var port  = view.configModel.configuration.ldap_port;
-			var base  = view.configModel.configuration.ldap_base;
-			var agent = view.configModel.configuration.ldap_dn;
-			var pwd   = view.configModel.configuration.ldap_agent_password;
+		basicStatusCheck(view) {
+			const host = view.configModel.configuration.ldap_host
+			const port = view.configModel.configuration.ldap_port
+			const base = view.configModel.configuration.ldap_base
+			const agent = view.configModel.configuration.ldap_dn
+			const pwd = view.configModel.configuration.ldap_agent_password
 
-			if((host && port  && base) && ((!agent && !pwd) || (agent && pwd))) {
-				view.enableTabs();
+			if ((host && port && base) && ((!agent && !pwd) || (agent && pwd))) {
+				view.enableTabs()
 			} else {
-				view.disableTabs();
+				view.disableTabs()
 			}
 		},
 
@@ -98,19 +98,19 @@ OCA = OCA || {};
 		 * perform a configuration test. Otherwise, the status indicator is
 		 * being updated with the status "incomplete"
 		 */
-		functionalityCheck: function() {
+		functionalityCheck() {
 			// this method should be called only if necessary, because it may
 			// cause an LDAP request!
-			var host        = this.configModel.configuration.ldap_host;
-			var port        = this.configModel.configuration.ldap_port;
-			var base        = this.configModel.configuration.ldap_base;
-			var userFilter  = this.configModel.configuration.ldap_userlist_filter;
-			var loginFilter = this.configModel.configuration.ldap_login_filter;
+			const host = this.configModel.configuration.ldap_host
+			const port = this.configModel.configuration.ldap_port
+			const base = this.configModel.configuration.ldap_base
+			const userFilter = this.configModel.configuration.ldap_userlist_filter
+			const loginFilter = this.configModel.configuration.ldap_login_filter
 
-			if(host && port && base && userFilter && loginFilter) {
-				this.configModel.requestConfigurationTest();
+			if (host && port && base && userFilter && loginFilter) {
+				this.configModel.requestConfigurationTest()
 			} else {
-				this._updateStatusIndicator(this.STATUS_INCOMPLETE);
+				this._updateStatusIndicator(this.STATUS_INCOMPLETE)
 			}
 		},
 
@@ -120,15 +120,15 @@ OCA = OCA || {};
 		 *
 		 * @param {ConfigSetPayload|Object} [changeSet]
 		 */
-		considerFunctionalityCheck: function(changeSet) {
-			var testTriggers = [
+		considerFunctionalityCheck(changeSet) {
+			const testTriggers = [
 				'ldap_host', 'ldap_port', 'ldap_dn', 'ldap_agent_password',
-				'ldap_base', 'ldap_userlist_filter', 'ldap_login_filter'
-			];
-			for(var key in changeSet) {
-				if($.inArray(key, testTriggers) >= 0) {
-					this.functionalityCheck();
-					return;
+				'ldap_base', 'ldap_userlist_filter', 'ldap_login_filter',
+			]
+			for (const key in changeSet) {
+				if ($.inArray(key, testTriggers) >= 0) {
+					this.functionalityCheck()
+					return
 				}
 			}
 		},
@@ -140,10 +140,10 @@ OCA = OCA || {};
 		 * @param {WizardView} [view]
 		 * @listens ConfigModel#setRequested
 		 */
-		onSetRequested: function(view) {
-			view.saveProcesses += 1;
-			if(view.saveProcesses === 1) {
-				view.showSaveSpinner();
+		onSetRequested(view) {
+			view.saveProcesses += 1
+			if (view.saveProcesses === 1) {
+				view.showSaveSpinner()
 			}
 		},
 
@@ -155,18 +155,18 @@ OCA = OCA || {};
 		 * @param {ConfigSetPayload} [result]
 		 * @listens ConfigModel#setCompleted
 		 */
-		onSetRequestDone: function(view, result) {
-			if(view.saveProcesses > 0) {
-				view.saveProcesses -= 1;
-				if(view.saveProcesses === 0) {
-					view.hideSaveSpinner();
+		onSetRequestDone(view, result) {
+			if (view.saveProcesses > 0) {
+				view.saveProcesses -= 1
+				if (view.saveProcesses === 0) {
+					view.hideSaveSpinner()
 				}
 			}
 
-			view.basicStatusCheck(view);
-			var param = {};
-			param[result.key] = 1;
-			view.considerFunctionalityCheck(param);
+			view.basicStatusCheck(view)
+			const param = {}
+			param[result.key] = 1
+			view.considerFunctionalityCheck(param)
 		},
 
 		/**
@@ -175,17 +175,17 @@ OCA = OCA || {};
 		 * @param {WizardTabElementary} view
 		 * @param {FeaturePayload} payload
 		 */
-		onDetectionTestCompleted: function(view, payload) {
-			if(payload.feature === 'TestBaseDN') {
-				if(payload.data.status === 'success') {
-					var objectsFound = parseInt(payload.data.changes.ldap_test_base, 10);
-					if(objectsFound > 0) {
-						view._updateStatusIndicator(view.STATUS_SUCCESS);
-						return;
+		onDetectionTestCompleted(view, payload) {
+			if (payload.feature === 'TestBaseDN') {
+				if (payload.data.status === 'success') {
+					const objectsFound = parseInt(payload.data.changes.ldap_test_base, 10)
+					if (objectsFound > 0) {
+						view._updateStatusIndicator(view.STATUS_SUCCESS)
+						return
 					}
 				}
-				view._updateStatusIndicator(view.STATUS_ERROR);
-				OC.Notification.showTemporary(t('user_ldap', 'The Base DN appears to be wrong'));
+				view._updateStatusIndicator(view.STATUS_ERROR)
+				OC.Notification.showTemporary(t('user_ldap', 'The Base DN appears to be wrong'))
 			}
 		},
 
@@ -196,11 +196,11 @@ OCA = OCA || {};
 		 * @param {ConfigTestPayload} [result]
 		 * @listens ConfigModel#configurationTested
 		 */
-		onTestCompleted: function(view, result) {
-			if(result.isSuccess) {
-				view.configModel.requestWizard('ldap_test_base');
+		onTestCompleted(view, result) {
+			if (result.isSuccess) {
+				view.configModel.requestWizard('ldap_test_base')
 			} else {
-				view._updateStatusIndicator(view.STATUS_ERROR);
+				view._updateStatusIndicator(view.STATUS_ERROR)
 			}
 		},
 
@@ -211,10 +211,10 @@ OCA = OCA || {};
 		 * @param {WizardView} [view]
 		 * @listens ConfigModel#configLoaded
 		 */
-		onConfigLoaded: function(view) {
-			view._updateStatusIndicator(view.STATUS_UNTESTED);
-			view.basicStatusCheck(view);
-			view.functionalityCheck();
+		onConfigLoaded(view) {
+			view._updateStatusIndicator(view.STATUS_UNTESTED)
+			view.basicStatusCheck(view)
+			view.functionalityCheck()
 		},
 
 		/**
@@ -224,33 +224,33 @@ OCA = OCA || {};
 		 * @param {object} ui
 		 * @returns {boolean}
 		 */
-		onTabChange: function(event, ui) {
-			if(this.saveProcesses > 0) {
-				return false;
+		onTabChange(event, ui) {
+			if (this.saveProcesses > 0) {
+				return false
 			}
 
-			var newTabID = ui.newTab[0].id;
-			if(newTabID === '#ldapWizard1') {
-				newTabID = 'server';
+			let newTabID = ui.newTab[0].id
+			if (newTabID === '#ldapWizard1') {
+				newTabID = 'server'
 			}
-			var oldTabID = ui.oldTab[0].id;
-			if(oldTabID === '#ldapWizard1') {
-				oldTabID = 'server';
+			let oldTabID = ui.oldTab[0].id
+			if (oldTabID === '#ldapWizard1') {
+				oldTabID = 'server'
 			}
-			if(!_.isUndefined(this.tabs[newTabID])) {
-				this.tabs[newTabID].isActive = true;
-				this.tabs[newTabID].onActivate();
+			if (!_.isUndefined(this.tabs[newTabID])) {
+				this.tabs[newTabID].isActive = true
+				this.tabs[newTabID].onActivate()
 			} else {
-				console.warn('Unreferenced activated tab ' + newTabID);
+				console.warn('Unreferenced activated tab ' + newTabID)
 			}
-			if(!_.isUndefined(this.tabs[oldTabID])) {
-				this.tabs[oldTabID].isActive = false;
+			if (!_.isUndefined(this.tabs[oldTabID])) {
+				this.tabs[oldTabID].isActive = false
 			} else {
-				console.warn('Unreferenced left tab ' + oldTabID);
+				console.warn('Unreferenced left tab ' + oldTabID)
 			}
 
-			if(!_.isUndefined(this.tabs[newTabID])) {
-				this._controlUpdate(this.tabs[newTabID].tabIndex);
+			if (!_.isUndefined(this.tabs[newTabID])) {
+				this._controlUpdate(this.tabs[newTabID].tabIndex)
 			}
 		},
 
@@ -262,16 +262,16 @@ OCA = OCA || {};
 		 * @param {object} [changeSet]
 		 * @listens ConfigModel#configUpdated
 		 */
-		onConfigUpdated: function(view, changeSet) {
-			view.basicStatusCheck(view);
-			view.considerFunctionalityCheck(changeSet);
+		onConfigUpdated(view, changeSet) {
+			view.basicStatusCheck(view)
+			view.considerFunctionalityCheck(changeSet)
 		},
 
 		/**
 		 * requests a configuration test
 		 */
-		onTestButtonClick: function() {
-			this.configModel.requestWizard('ldap_action_test_connection', {ldap_serverconfig_chooser: this.configModel.configID});
+		onTestButtonClick() {
+			this.configModel.requestWizard('ldap_action_test_connection', { ldap_serverconfig_chooser: this.configModel.configID })
 		},
 
 		/**
@@ -279,60 +279,60 @@ OCA = OCA || {};
 		 *
 		 * @param {OCA.LDAP.Wizard.ConfigModel} [configModel]
 		 */
-		setModel: function(configModel) {
+		setModel(configModel) {
 			/** @type {OCA.LDAP.Wizard.ConfigModel} */
-			this.configModel = configModel;
-			for(var i in this.tabs) {
-				this.tabs[i].setModel(configModel);
+			this.configModel = configModel
+			for (const i in this.tabs) {
+				this.tabs[i].setModel(configModel)
 			}
 
 			// make sure this is definitely run after tabs did their work, order is important here
 			// for now this works, because tabs are supposed to register their listeners in their
 			// setModel() method.
 			// alternative: make Elementary Tab a Publisher as well.
-			this.configModel.on('configLoaded', this.onConfigLoaded, this);
-			this.configModel.on('configUpdated', this.onConfigUpdated, this);
-			this.configModel.on('setRequested', this.onSetRequested, this);
-			this.configModel.on('setCompleted', this.onSetRequestDone, this);
-			this.configModel.on('configurationTested', this.onTestCompleted, this);
-			this.configModel.on('receivedLdapFeature', this.onDetectionTestCompleted, this);
+			this.configModel.on('configLoaded', this.onConfigLoaded, this)
+			this.configModel.on('configUpdated', this.onConfigUpdated, this)
+			this.configModel.on('setRequested', this.onSetRequested, this)
+			this.configModel.on('setCompleted', this.onSetRequestDone, this)
+			this.configModel.on('configurationTested', this.onTestCompleted, this)
+			this.configModel.on('receivedLdapFeature', this.onDetectionTestCompleted, this)
 		},
 
 		/**
 		 * enables tab and navigation buttons
 		 */
-		enableTabs: function() {
-			//do not use this function directly, use basicStatusCheck instead.
-			if(this.saveProcesses === 0) {
-				$('.ldap_action_continue').removeAttr('disabled');
-				$('.ldap_action_back').removeAttr('disabled');
-				this.$settings.tabs('option', 'disabled', []);
+		enableTabs() {
+			// do not use this function directly, use basicStatusCheck instead.
+			if (this.saveProcesses === 0) {
+				$('.ldap_action_continue').removeAttr('disabled')
+				$('.ldap_action_back').removeAttr('disabled')
+				this.$settings.tabs('option', 'disabled', [])
 			}
 		},
 
 		/**
 		 * disables tab and navigation buttons
 		 */
-		disableTabs: function() {
-			$('.ldap_action_continue').attr('disabled', 'disabled');
-			$('.ldap_action_back').attr('disabled', 'disabled');
-			this.$settings.tabs('option', 'disabled', [1, 2, 3, 4, 5]);
+		disableTabs() {
+			$('.ldap_action_continue').attr('disabled', 'disabled')
+			$('.ldap_action_back').attr('disabled', 'disabled')
+			this.$settings.tabs('option', 'disabled', [1, 2, 3, 4, 5])
 		},
 
 		/**
 		 * shows a save spinner
 		 */
-		showSaveSpinner: function() {
-			this.$saveSpinners.removeClass('hidden');
-			$('#ldap *').addClass('save-cursor');
+		showSaveSpinner() {
+			this.$saveSpinners.removeClass('hidden')
+			$('#ldap *').addClass('save-cursor')
 		},
 
 		/**
 		 * hides the save spinner
 		 */
-		hideSaveSpinner: function() {
-			this.$saveSpinners.addClass('hidden');
-			$('#ldap *').removeClass('save-cursor');
+		hideSaveSpinner() {
+			this.$saveSpinners.addClass('hidden')
+			$('#ldap *').removeClass('save-cursor')
 		},
 
 		/**
@@ -341,25 +341,25 @@ OCA = OCA || {};
 		 * @param {string} [configID]
 		 * @private
 		 */
-		_requestConfig: function(configID) {
-			this.configModel.load(configID);
+		_requestConfig(configID) {
+			this.configModel.load(configID)
 		},
 
 		/**
 		 * bootstraps the visual appearance and event listeners, as well as the
 		 * first config
 		 */
-		render: function () {
-			$('#ldapAdvancedAccordion').accordion({ heightStyle: 'content', animate: 'easeInOutCirc'});
-			this.$settings.tabs({});
-			$('#ldapSettings button:not(.icon-default-style):not(.ui-multiselect)').button();
-			$('#ldapSettings').tabs({ beforeActivate: this.onTabChange });
-			$('#ldapSettings :input').tooltip({placement: "right", container: "body", trigger: "hover"});
+		render() {
+			$('#ldapAdvancedAccordion').accordion({ heightStyle: 'content', animate: 'easeInOutCirc' })
+			this.$settings.tabs({})
+			$('#ldapSettings button:not(.icon-default-style):not(.ui-multiselect)').button()
+			$('#ldapSettings').tabs({ beforeActivate: this.onTabChange })
+			$('#ldapSettings :input').tooltip({ placement: 'right', container: 'body', trigger: 'hover' })
 
-			this.initControls();
-			this.disableTabs();
+			this.initControls()
+			this.disableTabs()
 
-			this._requestConfig(this.tabs.server.getConfigID());
+			this._requestConfig(this.tabs.server.getConfigID())
 		},
 
 		/**
@@ -368,44 +368,44 @@ OCA = OCA || {};
 		 * @param {number} [state]
 		 * @private
 		 */
-		_updateStatusIndicator: function(state) {
-			var $indicator = $('.ldap_config_state_indicator');
-			var $indicatorLight = $('.ldap_config_state_indicator_sign');
+		_updateStatusIndicator(state) {
+			const $indicator = $('.ldap_config_state_indicator')
+			const $indicatorLight = $('.ldap_config_state_indicator_sign')
 
-			switch(state) {
-				case this.STATUS_UNTESTED:
-					$indicator.text(t('user_ldap',
-						'Testing configuration…'
-					));
-					$indicator.addClass('ldap_grey');
-					$indicatorLight.removeClass('error');
-					$indicatorLight.removeClass('success');
-					break;
-				case this.STATUS_ERROR:
-					$indicator.text(t('user_ldap',
-						'Configuration incorrect'
-					));
-					$indicator.removeClass('ldap_grey');
-					$indicatorLight.addClass('error');
-					$indicatorLight.removeClass('success');
-					break;
-				case this.STATUS_INCOMPLETE:
-					$indicator.text(t('user_ldap',
-						'Configuration incomplete'
-					));
-					$indicator.removeClass('ldap_grey');
-					$indicatorLight.removeClass('error');
-					$indicatorLight.removeClass('success');
-					break;
-				case this.STATUS_SUCCESS:
-					$indicator.text(t('user_ldap', 'Configuration OK'));
-					$indicator.addClass('ldap_grey');
-					$indicatorLight.removeClass('error');
-					$indicatorLight.addClass('success');
-					if(!this.tabs.server.isActive) {
-						this.configModel.set('ldap_configuration_active', 1);
-					}
-					break;
+			switch (state) {
+			case this.STATUS_UNTESTED:
+				$indicator.text(t('user_ldap',
+					'Testing configuration…'
+				))
+				$indicator.addClass('ldap_grey')
+				$indicatorLight.removeClass('error')
+				$indicatorLight.removeClass('success')
+				break
+			case this.STATUS_ERROR:
+				$indicator.text(t('user_ldap',
+					'Configuration incorrect'
+				))
+				$indicator.removeClass('ldap_grey')
+				$indicatorLight.addClass('error')
+				$indicatorLight.removeClass('success')
+				break
+			case this.STATUS_INCOMPLETE:
+				$indicator.text(t('user_ldap',
+					'Configuration incomplete'
+				))
+				$indicator.removeClass('ldap_grey')
+				$indicatorLight.removeClass('error')
+				$indicatorLight.removeClass('success')
+				break
+			case this.STATUS_SUCCESS:
+				$indicator.text(t('user_ldap', 'Configuration OK'))
+				$indicator.addClass('ldap_grey')
+				$indicatorLight.removeClass('error')
+				$indicatorLight.addClass('success')
+				if (!this.tabs.server.isActive) {
+					this.configModel.set('ldap_configuration_active', 1)
+				}
+				break
 			}
 		},
 
@@ -415,13 +415,13 @@ OCA = OCA || {};
 		 * @param {WizardView} [view]
 		 * @private
 		 */
-		_controlBack: function(view) {
-			var curTabIndex = view.$settings.tabs('option', 'active');
-			if(curTabIndex == 0) {
-				return;
+		_controlBack(view) {
+			const curTabIndex = view.$settings.tabs('option', 'active')
+			if (curTabIndex == 0) {
+				return
 			}
-			view.$settings.tabs('option', 'active', curTabIndex - 1);
-			view._controlUpdate(curTabIndex - 1);
+			view.$settings.tabs('option', 'active', curTabIndex - 1)
+			view._controlUpdate(curTabIndex - 1)
 		},
 
 		/**
@@ -430,13 +430,13 @@ OCA = OCA || {};
 		 * @param {WizardView} [view]
 		 * @private
 		 */
-		_controlContinue: function(view) {
-			var curTabIndex = view.$settings.tabs('option', 'active');
-			if(curTabIndex == 3) {
-				return;
+		_controlContinue(view) {
+			const curTabIndex = view.$settings.tabs('option', 'active')
+			if (curTabIndex == 3) {
+				return
 			}
-			view.$settings.tabs('option', 'active', 1 + curTabIndex);
-			view._controlUpdate(curTabIndex + 1);
+			view.$settings.tabs('option', 'active', 1 + curTabIndex)
+			view._controlUpdate(curTabIndex + 1)
 		},
 
 		/**
@@ -445,25 +445,25 @@ OCA = OCA || {};
 		 * @param {number} [nextTabIndex] - index of the tab being switched to
 		 * @private
 		 */
-		_controlUpdate: function(nextTabIndex) {
-			if(nextTabIndex == 0) {
-				$('.ldap_action_back').addClass('invisible');
-				$('.ldap_action_continue').removeClass('invisible');
+		_controlUpdate(nextTabIndex) {
+			if (nextTabIndex == 0) {
+				$('.ldap_action_back').addClass('invisible')
+				$('.ldap_action_continue').removeClass('invisible')
 			} else
-			if(nextTabIndex == 1) {
-				$('.ldap_action_back').removeClass('invisible');
-				$('.ldap_action_continue').removeClass('invisible');
+			if (nextTabIndex == 1) {
+				$('.ldap_action_back').removeClass('invisible')
+				$('.ldap_action_continue').removeClass('invisible')
 			} else
-			if(nextTabIndex == 2) {
-				$('.ldap_action_continue').removeClass('invisible');
-				$('.ldap_action_back').removeClass('invisible');
+			if (nextTabIndex == 2) {
+				$('.ldap_action_continue').removeClass('invisible')
+				$('.ldap_action_back').removeClass('invisible')
 			} else
-			if(nextTabIndex == 3) {
-				$('.ldap_action_back').removeClass('invisible');
-				$('.ldap_action_continue').addClass('invisible');
+			if (nextTabIndex == 3) {
+				$('.ldap_action_back').removeClass('invisible')
+				$('.ldap_action_continue').addClass('invisible')
 			}
-		}
-	};
+		},
+	}
 
-	OCA.LDAP.Wizard.WizardView = WizardView;
-})();
+	OCA.LDAP.Wizard.WizardView = WizardView
+})()

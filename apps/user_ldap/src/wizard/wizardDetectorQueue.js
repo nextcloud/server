@@ -15,25 +15,25 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorQueue = OCA.LDAP.Wizard.WizardObject.subClass({
+	const WizardDetectorQueue = OCA.LDAP.Wizard.WizardObject.subClass({
 		/**
 		 * initializes the instance. Always call it after creating the instance.
 		 */
-		init: function() {
-			this.queue = [];
-			this.isRunning = false;
+		init() {
+			this.queue = []
+			this.isRunning = false
 		},
 
 		/**
 		 * empties the queue and cancels a possibly running request
 		 */
-		reset: function() {
-			this.queue = [];
-			if(!_.isUndefined(this.runningRequest)) {
-				this.runningRequest.abort();
-				delete this.runningRequest;
+		reset() {
+			this.queue = []
+			if (!_.isUndefined(this.runningRequest)) {
+				this.runningRequest.abort()
+				delete this.runningRequest
 			}
-			this.isRunning = false;
+			this.isRunning = false
 		},
 
 		/**
@@ -50,40 +50,40 @@ OCA = OCA || {};
 		 *
 		 * @param {detectorCallBack} callback
 		 */
-		add: function(callback) {
-			this.queue.push(callback);
-			this.next();
+		add(callback) {
+			this.queue.push(callback)
+			this.next()
 		},
 
 		/**
 		 * Executes the next detector if none is running. This method is also
 		 * automatically invoked after a detector finished.
 		 */
-		next: function() {
-			if(this.isRunning === true || this.queue.length === 0) {
-				return;
+		next() {
+			if (this.isRunning === true || this.queue.length === 0) {
+				return
 			}
 
-			this.isRunning = true;
-			var callback = this.queue.shift();
-			var request = callback();
+			this.isRunning = true
+			const callback = this.queue.shift()
+			const request = callback()
 
 			// we receive either false or a jqXHR object
 			// false in case the detector decided against executing
-			if(request === false) {
-				this.isRunning = false;
-				this.next();
-				return;
+			if (request === false) {
+				this.isRunning = false
+				this.next()
+				return
 			}
-			this.runningRequest = request;
+			this.runningRequest = request
 
-			var detectorQueue = this;
+			const detectorQueue = this
 			$.when(request).then(function() {
-				detectorQueue.isRunning = false;
-				detectorQueue.next();
-			});
-		}
-	});
+				detectorQueue.isRunning = false
+				detectorQueue.next()
+			})
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorQueue = WizardDetectorQueue;
-})();
+	OCA.LDAP.Wizard.WizardDetectorQueue = WizardDetectorQueue
+})()

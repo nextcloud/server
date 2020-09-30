@@ -14,17 +14,17 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorClearGroupMappings = OCA.LDAP.Wizard.WizardDetectorTestAbstract.subClass({
+	const WizardDetectorClearGroupMappings = OCA.LDAP.Wizard.WizardDetectorTestAbstract.subClass({
 		/** @inheritdoc */
-		init: function() {
+		init() {
 			// given, it is not a configuration key
-			this.setTargetKey('ldap_action_clear_group_mappings');
-			this.testName = 'ClearMappings';
-			this.isLegacy = true;
-			this.legacyDestination = 'clearMappings.php';
-			this.runsOnRequest = true;
-		}
-	});
+			this.setTargetKey('ldap_action_clear_group_mappings')
+			this.testName = 'ClearMappings'
+			this.isLegacy = true
+			this.legacyDestination = 'clearMappings.php'
+			this.runsOnRequest = true
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorClearGroupMappings = WizardDetectorClearGroupMappings;
-})();
+	OCA.LDAP.Wizard.WizardDetectorClearGroupMappings = WizardDetectorClearGroupMappings
+})()

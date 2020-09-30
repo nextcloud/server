@@ -14,7 +14,7 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorFeatureAbstract = OCA.LDAP.Wizard.WizardDetectorGeneric.subClass({
+	const WizardDetectorFeatureAbstract = OCA.LDAP.Wizard.WizardDetectorGeneric.subClass({
 		/**
 		 * runs the detector, if port is not set.
 		 *
@@ -23,30 +23,30 @@ OCA = OCA || {};
 		 * @returns {boolean|jqXHR}
 		 * @abstract
 		 */
-		run: function(model, configID) {
-			model.notifyAboutDetectionStart(this.getTargetKey());
-			var params = OC.buildQueryString({
+		run(model, configID) {
+			model.notifyAboutDetectionStart(this.getTargetKey())
+			const params = OC.buildQueryString({
 				action: this.wizardMethod,
-				ldap_serverconfig_chooser: configID
-			});
-			return model.callWizard(params, this.processResult, this);
+				ldap_serverconfig_chooser: configID,
+			})
+			return model.callWizard(params, this.processResult, this)
 		},
 
 		/**
 		 * @inheritdoc
 		 */
-		processResult: function(model, detector, result) {
-			if(result.status === 'success') {
-				var payload = {
+		processResult(model, detector, result) {
+			if (result.status === 'success') {
+				const payload = {
 					feature: detector.featureName,
-					data: result.options[detector.getTargetKey()]
-				};
-				model.inform(payload);
+					data: result.options[detector.getTargetKey()],
+				}
+				model.inform(payload)
 			}
 
-			this._super(model, detector, result);
-		}
-	});
+			this._super(model, detector, result)
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorFeatureAbstract = WizardDetectorFeatureAbstract;
-})();
+	OCA.LDAP.Wizard.WizardDetectorFeatureAbstract = WizardDetectorFeatureAbstract
+})()

@@ -15,12 +15,12 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorAvailableAttributes = OCA.LDAP.Wizard.WizardDetectorGeneric.subClass({
+	const WizardDetectorAvailableAttributes = OCA.LDAP.Wizard.WizardDetectorGeneric.subClass({
 		/** @inheritdoc */
-		init: function() {
+		init() {
 			// given, it is not a configuration key
-			this.setTargetKey('ldap_loginfilter_attributes');
-			this.runsOnRequest = true;
+			this.setTargetKey('ldap_loginfilter_attributes')
+			this.runsOnRequest = true
 		},
 
 		/**
@@ -31,29 +31,29 @@ OCA = OCA || {};
 		 * @returns {boolean|jqXHR}
 		 * @abstract
 		 */
-		run: function(model, configID) {
-			model.notifyAboutDetectionStart(this.getTargetKey());
-			var params = OC.buildQueryString({
+		run(model, configID) {
+			model.notifyAboutDetectionStart(this.getTargetKey())
+			const params = OC.buildQueryString({
 				action: 'determineAttributes',
-				ldap_serverconfig_chooser: configID
-			});
-			return model.callWizard(params, this.processResult, this);
+				ldap_serverconfig_chooser: configID,
+			})
+			return model.callWizard(params, this.processResult, this)
 		},
 
 		/**
 		 * @inheritdoc
 		 */
-		processResult: function(model, detector, result) {
-			if(result.status === 'success') {
-				var payload = {
+		processResult(model, detector, result) {
+			if (result.status === 'success') {
+				const payload = {
 					feature: 'AvailableAttributes',
-					data: result.options[detector.getTargetKey()]
-				};
-				model.inform(payload);
+					data: result.options[detector.getTargetKey()],
+				}
+				model.inform(payload)
 			}
-			this._super(model, detector, result);
-		}
-	});
+			this._super(model, detector, result)
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorAvailableAttributes = WizardDetectorAvailableAttributes;
-})();
+	OCA.LDAP.Wizard.WizardDetectorAvailableAttributes = WizardDetectorAvailableAttributes
+})()

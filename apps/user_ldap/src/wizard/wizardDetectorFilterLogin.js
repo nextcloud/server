@@ -15,19 +15,19 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorFilterLogin = OCA.LDAP.Wizard.WizardDetectorFilterSimpleRequestAbstract.subClass({
-		init: function() {
+	const WizardDetectorFilterLogin = OCA.LDAP.Wizard.WizardDetectorFilterSimpleRequestAbstract.subClass({
+		init() {
 			this.setTrigger([
 				'ldap_loginfilter_username',
 				'ldap_loginfilter_email',
-				'ldap_loginfilter_attributes'
-			]);
-			this.setTargetKey('ldap_login_filter');
-			this.runsOnRequest = true;
+				'ldap_loginfilter_attributes',
+			])
+			this.setTargetKey('ldap_login_filter')
+			this.runsOnRequest = true
 
-			this.wizardMethod = 'getUserLoginFilter';
-		}
-	});
+			this.wizardMethod = 'getUserLoginFilter'
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorFilterLogin = WizardDetectorFilterLogin;
-})();
+	OCA.LDAP.Wizard.WizardDetectorFilterLogin = WizardDetectorFilterLogin
+})()

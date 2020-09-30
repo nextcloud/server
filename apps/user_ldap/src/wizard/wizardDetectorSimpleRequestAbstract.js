@@ -15,7 +15,7 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorFilterSimpleRequestAbstract = OCA.LDAP.Wizard.WizardDetectorGeneric.subClass({
+	const WizardDetectorFilterSimpleRequestAbstract = OCA.LDAP.Wizard.WizardDetectorGeneric.subClass({
 		runsOnRequest: true,
 
 		/**
@@ -26,19 +26,19 @@ OCA = OCA || {};
 		 * @returns {boolean|jqXHR}
 		 * @abstract
 		 */
-		run: function(model, configID) {
-			if(_.isUndefined(this.wizardMethod)) {
-				console.warn('wizardMethod not set! ' + this.constructor);
-				return false;
+		run(model, configID) {
+			if (_.isUndefined(this.wizardMethod)) {
+				console.warn('wizardMethod not set! ' + this.constructor)
+				return false
 			}
-			model.notifyAboutDetectionStart(this.targetKey);
-			var params = OC.buildQueryString({
+			model.notifyAboutDetectionStart(this.targetKey)
+			const params = OC.buildQueryString({
 				action: this.wizardMethod,
-				ldap_serverconfig_chooser: configID
-			});
-			return model.callWizard(params, this.processResult, this);
-		}
-	});
+				ldap_serverconfig_chooser: configID,
+			})
+			return model.callWizard(params, this.processResult, this)
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorFilterSimpleRequestAbstract = WizardDetectorFilterSimpleRequestAbstract;
-})();
+	OCA.LDAP.Wizard.WizardDetectorFilterSimpleRequestAbstract = WizardDetectorFilterSimpleRequestAbstract
+})()

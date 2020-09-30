@@ -14,16 +14,16 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorTestBaseDN = OCA.LDAP.Wizard.WizardDetectorTestAbstract.subClass({
+	const WizardDetectorTestBaseDN = OCA.LDAP.Wizard.WizardDetectorTestAbstract.subClass({
 		/** @inheritdoc */
-		init: function() {
+		init() {
 			// given, it is not a configuration key
-			this.setTargetKey('ldap_test_base');
-			this.testName = 'TestBaseDN';
-			this.wizardMethod = 'countInBaseDN';
-			this.runsOnRequest = true;
-		}
-	});
+			this.setTargetKey('ldap_test_base')
+			this.testName = 'TestBaseDN'
+			this.wizardMethod = 'countInBaseDN'
+			this.runsOnRequest = true
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorTestBaseDN = WizardDetectorTestBaseDN;
-})();
+	OCA.LDAP.Wizard.WizardDetectorTestBaseDN = WizardDetectorTestBaseDN
+})()

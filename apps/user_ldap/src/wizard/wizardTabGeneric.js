@@ -13,7 +13,7 @@ OCA = OCA || {};
 	 * @classdesc An abstract tab view
 	 * @abstract
 	 */
-	var WizardTabGeneric = OCA.LDAP.Wizard.WizardObject.subClass({
+	const WizardTabGeneric = OCA.LDAP.Wizard.WizardObject.subClass({
 		isActive: false,
 
 		/**
@@ -35,11 +35,11 @@ OCA = OCA || {};
 		isToggling: false,
 
 		/** @inheritdoc */
-		init: function(tabIndex, tabID) {
-			this.tabIndex = tabIndex;
-			this.tabID = tabID;
-			this.spinner = $('.ldapSpinner').first().clone().removeClass('hidden');
-			_.bindAll(this, '_toggleRawFilterMode', '_toggleRawFilterModeConfirmation');
+		init(tabIndex, tabID) {
+			this.tabIndex = tabIndex
+			this.tabID = tabID
+			this.spinner = $('.ldapSpinner').first().clone().removeClass('hidden')
+			_.bindAll(this, '_toggleRawFilterMode', '_toggleRawFilterModeConfirmation')
 		},
 
 		/**
@@ -50,10 +50,10 @@ OCA = OCA || {};
 		 *
 		 * @param {object} managedItems
 		 */
-		setManagedItems: function(managedItems) {
-			this.managedItems = managedItems;
-			this._enableAutoSave();
-			this._enableSaveButton();
+		setManagedItems(managedItems) {
+			this.managedItems = managedItems
+			this._enableAutoSave()
+			this._enableSaveButton()
 		},
 
 		/**
@@ -62,14 +62,14 @@ OCA = OCA || {};
 		 *
 		 * @param {OCA.LDAP.Wizard.ConfigModel} configModel
 		 */
-		setModel: function(configModel) {
-			this.configModel = configModel;
-			this.parsedFilterMode = this.configModel.FILTER_MODE_ASSISTED;
-			this.configModel.on('detectionStarted', this.onDetectionStarted, this);
-			this.configModel.on('detectionCompleted', this.onDetectionCompleted, this);
-			this.configModel.on('serverError', this.onServerError, this);
-			this.configModel.on('setCompleted', this.onItemSaved, this);
-			this.configModel.on('configUpdated', this.onConfigLoaded, this);
+		setModel(configModel) {
+			this.configModel = configModel
+			this.parsedFilterMode = this.configModel.FILTER_MODE_ASSISTED
+			this.configModel.on('detectionStarted', this.onDetectionStarted, this)
+			this.configModel.on('detectionCompleted', this.onDetectionCompleted, this)
+			this.configModel.on('serverError', this.onServerError, this)
+			this.configModel.on('setCompleted', this.onItemSaved, this)
+			this.configModel.on('configUpdated', this.onConfigLoaded, this)
 		},
 
 		/**
@@ -82,28 +82,26 @@ OCA = OCA || {};
 		 * @param {string} key
 		 * @returns {string}
 		 */
-		overrideErrorMessage: function(message, key) {
-			if(message === 'LDAP authentication method rejected'
-				&& !this.configModel.configuration.ldap_dn)
-			{
-				message = t('user_ldap', 'Anonymous bind is not allowed. Please provide a User DN and Password.');
+		overrideErrorMessage(message, key) {
+			if (message === 'LDAP authentication method rejected'
+				&& !this.configModel.configuration.ldap_dn) {
+				message = t('user_ldap', 'Anonymous bind is not allowed. Please provide a User DN and Password.')
 			} else if (message === 'LDAP Operations error'
 				&& !this.configModel.configuration.ldap_dn
-				&& !this.configModel.configuration.ldap_agent_password)
-			{
-				message = t('user_ldap', 'LDAP Operations error. Anonymous bind might not be allowed.');
+				&& !this.configModel.configuration.ldap_agent_password) {
+				message = t('user_ldap', 'LDAP Operations error. Anonymous bind might not be allowed.')
 			}
 
-			return message;
+			return message
 		},
 
 		/**
 		 * this is called by the main view, if the tab is being switched to.
 		 */
-		onActivate: function() {
-			if(!_.isUndefined(this.filterModeKey)
+		onActivate() {
+			if (!_.isUndefined(this.filterModeKey)
 				&& this.configModel.configuration.ldap_experienced_admin === '1') {
-				this.setFilterMode(this.configModel.FILTER_MODE_RAW);
+				this.setFilterMode(this.configModel.FILTER_MODE_RAW)
 			}
 		},
 
@@ -114,13 +112,13 @@ OCA = OCA || {};
 		 * @param {WizardTabGeneric} view - this instance
 		 * @param {Object} configuration
 		 */
-		onConfigLoaded: function(view, configuration) {
-			for(var key in view.managedItems){
-				if(!_.isUndefined(configuration[key])) {
-					var value = configuration[key];
-					var methodName = view.managedItems[key].setMethod;
-					if(!_.isUndefined(view[methodName])) {
-						view[methodName](value);
+		onConfigLoaded(view, configuration) {
+			for (const key in view.managedItems) {
+				if (!_.isUndefined(configuration[key])) {
+					const value = configuration[key]
+					const methodName = view.managedItems[key].setMethod
+					if (!_.isUndefined(view[methodName])) {
+						view[methodName](value)
 					}
 				}
 			}
@@ -133,13 +131,13 @@ OCA = OCA || {};
 		 * @param {WizardTabGeneric} view
 		 * @param {Object} result
 		 */
-		onItemSaved: function(view, result) {
-			if(!_.isUndefined(view.managedItems[result.key])) {
-				var methodName = view.managedItems[result.key].setMethod;
-				view[methodName](result.value);
-				if(!result.isSuccess) {
-					OC.Notification.showTemporary(t('user_ldap', 'Saving failed. Please make sure the database is in Operation. Reload before continuing.'));
-					console.warn(result.errorMessage);
+		onItemSaved(view, result) {
+			if (!_.isUndefined(view.managedItems[result.key])) {
+				const methodName = view.managedItems[result.key].setMethod
+				view[methodName](result.value)
+				if (!result.isSuccess) {
+					OC.Notification.showTemporary(t('user_ldap', 'Saving failed. Please make sure the database is in Operation. Reload before continuing.'))
+					console.warn(result.errorMessage)
 				}
 			}
 		},
@@ -150,11 +148,11 @@ OCA = OCA || {};
 		 * @param view
 		 * @param payload
 		 */
-		onServerError: function(view, payload) {
-			if (   !_.isUndefined(view.managedItems[payload.relatedKey])) {
-				var message = view.overrideErrorMessage(payload.message, payload.relatedKey);
-				if(message) {
-					OC.Notification.showTemporary(message);
+		onServerError(view, payload) {
+			if (!_.isUndefined(view.managedItems[payload.relatedKey])) {
+				const message = view.overrideErrorMessage(payload.message, payload.relatedKey)
+				if (message) {
+					OC.Notification.showTemporary(message)
 				}
 			}
 		},
@@ -165,13 +163,13 @@ OCA = OCA || {};
 		 * @param {WizardTabGeneric} view
 		 * @param {string} key
 		 */
-		onDetectionStarted: function(view, key) {
-			if(!_.isUndefined(view.managedItems[key])) {
-				view.disableElement(view.managedItems[key].$element);
-				if(!_.isUndefined(view.managedItems[key].$relatedElements)){
-					view.disableElement(view.managedItems[key].$relatedElements);
+		onDetectionStarted(view, key) {
+			if (!_.isUndefined(view.managedItems[key])) {
+				view.disableElement(view.managedItems[key].$element)
+				if (!_.isUndefined(view.managedItems[key].$relatedElements)) {
+					view.disableElement(view.managedItems[key].$relatedElements)
 				}
-				view.attachSpinner(view.managedItems[key].$element.attr('id'));
+				view.attachSpinner(view.managedItems[key].$element.attr('id'))
 			}
 		},
 
@@ -181,13 +179,13 @@ OCA = OCA || {};
 		 * @param {WizardTabGeneric} view
 		 * @param {string} key
 		 */
-		onDetectionCompleted: function(view, key) {
-			if(!_.isUndefined(view.managedItems[key])) {
-				view.enableElement(view.managedItems[key].$element);
-				if(!_.isUndefined(view.managedItems[key].$relatedElements)){
-					view.enableElement(view.managedItems[key].$relatedElements);
+		onDetectionCompleted(view, key) {
+			if (!_.isUndefined(view.managedItems[key])) {
+				view.enableElement(view.managedItems[key].$element)
+				if (!_.isUndefined(view.managedItems[key].$relatedElements)) {
+					view.enableElement(view.managedItems[key].$relatedElements)
 				}
-				view.removeSpinner(view.managedItems[key].$element.attr('id'));
+				view.removeSpinner(view.managedItems[key].$element.attr('id'))
 			}
 		},
 
@@ -198,26 +196,26 @@ OCA = OCA || {};
 		 * @param {jQuery} $element - the target element
 		 * @param {string|number|Array} value
 		 */
-		setElementValue: function($element, value) {
+		setElementValue($element, value) {
 			// deal with check box
 			if ($element.is('input[type=checkbox]')) {
-				this._setCheckBox($element, value);
-				return;
+				this._setCheckBox($element, value)
+				return
 			}
 
 			// special cases: deal with text area and multiselect
 			if ($element.is('textarea') && $.isArray(value)) {
-				value = value.join("\n");
-			} else if($element.hasClass(this.multiSelectPluginClass)) {
-				if(!_.isArray(value)) {
-					value = value.split("\n");
+				value = value.join('\n')
+			} else if ($element.hasClass(this.multiSelectPluginClass)) {
+				if (!_.isArray(value)) {
+					value = value.split('\n')
 				}
 			}
 
 			if ($element.is('span')) {
-				$element.text(value);
+				$element.text(value)
 			} else {
-				$element.val(value);
+				$element.val(value)
 			}
 		},
 
@@ -227,17 +225,17 @@ OCA = OCA || {};
 		 * @param {jQuery} $element - the multiselect element
 		 * @param {Array} options
 		 */
-		equipMultiSelect: function($element, options) {
-			if($element.find('option').length === 0) {
-				$element.empty();
-				for (var i in options) {
-					var name = options[i];
-					$element.append($('<option>').val(name).text(name).attr('title', name));
+		equipMultiSelect($element, options) {
+			if ($element.find('option').length === 0) {
+				$element.empty()
+				for (const i in options) {
+					const name = options[i]
+					$element.append($('<option>').val(name).text(name).attr('title', name))
 				}
 			}
-			if(!$element.hasClass('ldapGroupList')) {
-				$element.multiselect('refresh');
-				this.enableElement($element);
+			if (!$element.hasClass('ldapGroupList')) {
+				$element.multiselect('refresh')
+				this.enableElement($element)
 			}
 		},
 
@@ -246,17 +244,16 @@ OCA = OCA || {};
 		 *
 		 * @param {jQuery} $element
 		 */
-		enableElement: function($element) {
-			var isMS = $element.is('select[multiple]');
-			var hasOptions = isMS ? ($element.find('option').length > 0) : false;
+		enableElement($element) {
+			const isMS = $element.is('select[multiple]')
+			const hasOptions = isMS ? ($element.find('option').length > 0) : false
 
-			if($element.hasClass(this.multiSelectPluginClass) && hasOptions) {
-				$element.multiselect("enable");
+			if ($element.hasClass(this.multiSelectPluginClass) && hasOptions) {
+				$element.multiselect('enable')
 			} else if ($element.hasClass(this.bjQuiButtonClass)) {
-				$element.button("enable");
-			}
-			else if(!isMS || (isMS && hasOptions)) {
-				$element.prop('disabled', false);
+				$element.button('enable')
+			} else if (!isMS || (isMS && hasOptions)) {
+				$element.prop('disabled', false)
 			}
 		},
 
@@ -265,13 +262,13 @@ OCA = OCA || {};
 		 *
 		 * @param {jQuery} $element
 		 */
-		disableElement: function($element) {
-			if($element.hasClass(this.multiSelectPluginClass)) {
-				$element.multiselect("disable");
+		disableElement($element) {
+			if ($element.hasClass(this.multiSelectPluginClass)) {
+				$element.multiselect('disable')
 			} else if ($element.hasClass(this.bjQuiButtonClass)) {
-				$element.button("disable");
+				$element.button('disable')
 			} else {
-				$element.prop('disabled', 'disabled');
+				$element.prop('disabled', 'disabled')
 			}
 		},
 
@@ -280,14 +277,14 @@ OCA = OCA || {};
 		 *
 		 * @param {string} elementID
 		 */
-		attachSpinner: function(elementID) {
-			if($('#' + elementID + ' + .ldapSpinner').length == 0) {
-				var spinner = this.spinner.clone();
-				var $element = $('#' + elementID);
-				$(spinner).insertAfter($element);
+		attachSpinner(elementID) {
+			if ($('#' + elementID + ' + .ldapSpinner').length == 0) {
+				const spinner = this.spinner.clone()
+				const $element = $('#' + elementID)
+				$(spinner).insertAfter($element)
 				// and special treatment for multiselects:
 				if ($element.is('select[multiple]')) {
-					$('#' + elementID + " + img + button").css('display', 'none');
+					$('#' + elementID + ' + img + button').css('display', 'none')
 				}
 			}
 		},
@@ -297,10 +294,10 @@ OCA = OCA || {};
 		 *
 		 * @param {string} elementID
 		 */
-		removeSpinner: function(elementID) {
-			$('#' + elementID+' + .ldapSpinner').remove();
+		removeSpinner(elementID) {
+			$('#' + elementID + ' + .ldapSpinner').remove()
 			// and special treatment for multiselects:
-			$('#' + elementID + " + button").css('display', 'inline');
+			$('#' + elementID + ' + button').css('display', 'inline')
 		},
 
 		/**
@@ -308,8 +305,8 @@ OCA = OCA || {};
 		 *
 		 * @returns {boolean}
 		 */
-		isExperiencedMode: function() {
-			return parseInt(this.configModel.configuration.ldap_experienced_admin, 10) === 1;
+		isExperiencedMode() {
+			return parseInt(this.configModel.configuration.ldap_experienced_admin, 10) === 1
 		},
 
 		/**
@@ -317,22 +314,22 @@ OCA = OCA || {};
 		 *
 		 * @private
 		 */
-		_enableAutoSave: function() {
-			var view = this;
+		_enableAutoSave() {
+			const view = this
 
-			for(var id in this.managedItems) {
-				if(_.isUndefined(this.managedItems[id].$element)
+			for (const id in this.managedItems) {
+				if (_.isUndefined(this.managedItems[id].$element)
 					|| _.isUndefined(this.managedItems[id].setMethod)
 					|| (!_.isUndefined(this.managedItems[id].preventAutoSave)
 						&& this.managedItems[id].preventAutoSave === true)
 				) {
-					continue;
+					continue
 				}
-				var $element = this.managedItems[id].$element;
+				const $element = this.managedItems[id].$element
 				if (!$element.is('select[multiple]')) {
 					$element.change(function() {
-						view._requestSave($(this));
-					});
+						view._requestSave($(this))
+					})
 				}
 			}
 		},
@@ -342,8 +339,8 @@ OCA = OCA || {};
 		 *
 		 * @private
 		 */
-		_enableSaveButton: function() {
-			var view = this;
+		_enableSaveButton() {
+			const view = this
 
 			// TODO: this is not nice, because it fires one request per change
 			// in the scenario this happens twice, causes detectors to run
@@ -351,22 +348,22 @@ OCA = OCA || {};
 			// must accept setting multiple changes. Instead of messing around
 			// with old ajax/wizard.php use this opportunity and create a
 			// Controller
-			for(var id in this.managedItems) {
-				if(_.isUndefined(this.managedItems[id].$element)
+			for (const id in this.managedItems) {
+				if (_.isUndefined(this.managedItems[id].$element)
 					|| _.isUndefined(this.managedItems[id].$saveButton)
 				) {
-					continue;
+					continue
 				}
-				(function (item) {
+				(function(item) {
 					item.$saveButton.click(function(event) {
-						event.preventDefault();
-						view._requestSave(item.$element);
-						item.$saveButton.removeClass('primary');
-					});
-					item.$element.change(function () {
-						item.$saveButton.addClass('primary');
-					});
-				})(this.managedItems[id]);
+						event.preventDefault()
+						view._requestSave(item.$element)
+						item.$saveButton.removeClass('primary')
+					})
+					item.$element.change(function() {
+						item.$saveButton.addClass('primary')
+					})
+				})(this.managedItems[id])
 			}
 		},
 
@@ -377,17 +374,17 @@ OCA = OCA || {};
 		 * @param {string} caption
 		 * @private
 		 */
-		_initMultiSelect: function($element, caption) {
-			var view = this;
+		_initMultiSelect($element, caption) {
+			const view = this
 			$element.multiselect({
 				header: false,
 				selectedList: 9,
 				noneSelectedText: caption,
 				classes: this.multiSelectPluginClass,
-				close: function() {
-					view._requestSave($element);
-				}
-			});
+				close() {
+					view._requestSave($element)
+				},
+			})
 		},
 
 		/**
@@ -404,21 +401,21 @@ OCA = OCA || {};
 		 * @param {jQuery|viewSaveInfo} $element
 		 * @private
 		 */
-		_requestSave: function($element) {
-			var value = '';
-			if($element.is('input[type=checkbox]')
+		_requestSave($element) {
+			let value = ''
+			if ($element.is('input[type=checkbox]')
 				&& !$element.is(':checked')) {
-				value = 0;
+				value = 0
 			} else if ($element.is('select[multiple]')) {
-				var entries = $element.multiselect("getChecked");
-				for(var i = 0; i < entries.length; i++) {
-					value = value + "\n" + entries[i].value;
+				const entries = $element.multiselect('getChecked')
+				for (let i = 0; i < entries.length; i++) {
+					value = value + '\n' + entries[i].value
 				}
-				value = $.trim(value);
+				value = $.trim(value)
 			} else {
-				value = $element.val();
+				value = $element.val()
 			}
-			this.configModel.set($element.attr('id'), value);
+			this.configModel.set($element.attr('id'), value)
 		},
 
 		/**
@@ -428,11 +425,11 @@ OCA = OCA || {};
 		 * @param {string|number} value
 		 * @private
 		 */
-		_setCheckBox: function($element, value) {
-			if(parseInt(value, 10) === 1) {
-				$element.prop('checked', 'checked');
+		_setCheckBox($element, value) {
+			if (parseInt(value, 10) === 1) {
+				$element.prop('checked', 'checked')
 			} else {
-				$element.removeAttr('checked');
+				$element.removeAttr('checked')
 			}
 		},
 
@@ -441,15 +438,15 @@ OCA = OCA || {};
 		 * concrete tab view should implement this, to load LDAP features
 		 * (e.g. object classes, groups, attributes…), if necessary.
 		 */
-		considerFeatureRequests: function() {},
+		considerFeatureRequests() {},
 
 		/**
 		 * this is called when the filter mode is switched to Assisted. The
 		 * concrete tab view should request the compilation of the respective
 		 * filter.
 		 */
-		requestCompileFilter: function() {
-			this.configModel.requestWizard(this.filterName);
+		requestCompileFilter() {
+			this.configModel.requestWizard(this.filterName)
 		},
 
 		/**
@@ -458,11 +455,11 @@ OCA = OCA || {};
 		 *
 		 * @param mode
 		 */
-		setFilterModeOnce: function(mode) {
-			this.isToggling = false;
-			if(!this.filterModeInitialized) {
-				this.filterModeInitialized = true;
-				this.setFilterMode(mode);
+		setFilterModeOnce(mode) {
+			this.isToggling = false
+			if (!this.filterModeInitialized) {
+				this.filterModeInitialized = true
+				this.setFilterMode(mode)
 			}
 		},
 
@@ -471,19 +468,19 @@ OCA = OCA || {};
 		 *
 		 * @param {string} mode
 		 */
-		setFilterMode: function(mode) {
-			if(parseInt(mode, 10) === this.configModel.FILTER_MODE_ASSISTED) {
-				this.parsedFilterMode = this.configModel.FILTER_MODE_ASSISTED;
-				this.considerFeatureRequests();
-				this._setFilterModeAssisted();
-				if(this.isActive) {
+		setFilterMode(mode) {
+			if (parseInt(mode, 10) === this.configModel.FILTER_MODE_ASSISTED) {
+				this.parsedFilterMode = this.configModel.FILTER_MODE_ASSISTED
+				this.considerFeatureRequests()
+				this._setFilterModeAssisted()
+				if (this.isActive) {
 					// filter compilation should happen only, if the mode was
 					// switched manually, but not when initiating the view
-					this.requestCompileFilter();
+					this.requestCompileFilter()
 				}
 			} else {
-				this._setFilterModeRaw();
-				this.parsedFilterMode = this.configModel.FILTER_MODE_RAW;
+				this._setFilterModeRaw()
+				this.parsedFilterMode = this.configModel.FILTER_MODE_RAW
 			}
 		},
 
@@ -492,20 +489,20 @@ OCA = OCA || {};
 		 *
 		 * @private
 		 */
-		_setFilterModeAssisted: function() {
-			var view = this;
-			this.$filterModeRawContainer.addClass('invisible');
-			var filter = this.$filterModeRawContainer.find('.ldapFilterInputElement').val();
-			this.$filterModeRawContainer.siblings('.ldapReadOnlyFilterContainer').find('.ldapFilterReadOnlyElement').text(filter);
-			this.$filterModeRawContainer.siblings('.ldapReadOnlyFilterContainer').removeClass('hidden');
+		_setFilterModeAssisted() {
+			const view = this
+			this.$filterModeRawContainer.addClass('invisible')
+			const filter = this.$filterModeRawContainer.find('.ldapFilterInputElement').val()
+			this.$filterModeRawContainer.siblings('.ldapReadOnlyFilterContainer').find('.ldapFilterReadOnlyElement').text(filter)
+			this.$filterModeRawContainer.siblings('.ldapReadOnlyFilterContainer').removeClass('hidden')
 			$.each(this.filterModeDisableableElements, function(i, $element) {
-				view.enableElement($element);
-			});
-			if(!_.isUndefined(this.filterModeStateElement)) {
+				view.enableElement($element)
+			})
+			if (!_.isUndefined(this.filterModeStateElement)) {
 				if (this.filterModeStateElement.status === 'enabled') {
-					this.enableElement(this.filterModeStateElement.$element);
+					this.enableElement(this.filterModeStateElement.$element)
 				} else {
-					this.filterModeStateElement.status = 'disabled';
+					this.filterModeStateElement.status = 'disabled'
 				}
 			}
 		},
@@ -515,23 +512,23 @@ OCA = OCA || {};
 		 *
 		 * @private
 		 */
-		_setFilterModeRaw: function() {
-			var view = this;
-			this.$filterModeRawContainer.removeClass('invisible');
-			this.$filterModeRawContainer.siblings('.ldapReadOnlyFilterContainer').addClass('hidden');
-			$.each(this.filterModeDisableableElements, function (i, $element) {
-				view.disableElement($element);
-			});
+		_setFilterModeRaw() {
+			const view = this
+			this.$filterModeRawContainer.removeClass('invisible')
+			this.$filterModeRawContainer.siblings('.ldapReadOnlyFilterContainer').addClass('hidden')
+			$.each(this.filterModeDisableableElements, function(i, $element) {
+				view.disableElement($element)
+			})
 
-			if(!_.isUndefined(this.filterModeStateElement)) {
-				if(this.filterModeStateElement.$element.multiselect().attr('disabled') === 'disabled') {
-					this.filterModeStateElement.status = 'disabled';
+			if (!_.isUndefined(this.filterModeStateElement)) {
+				if (this.filterModeStateElement.$element.multiselect().attr('disabled') === 'disabled') {
+					this.filterModeStateElement.status = 'disabled'
 				} else {
-					this.filterModeStateElement.status = 'enabled';
+					this.filterModeStateElement.status = 'enabled'
 				}
 			}
-			if(!_.isUndefined(this.filterModeStateElement)) {
-				this.disableElement(this.filterModeStateElement.$element);
+			if (!_.isUndefined(this.filterModeStateElement)) {
+				this.disableElement(this.filterModeStateElement.$element)
 			}
 		},
 
@@ -547,17 +544,17 @@ OCA = OCA || {};
 		 * @param {toggleConfirmCallback} toggleFnc
 		 * @private
 		 */
-		_toggleRawFilterModeConfirmation: function(toggleFnc) {
-			if( !this.isExperiencedMode()
+		_toggleRawFilterModeConfirmation(toggleFnc) {
+			if (!this.isExperiencedMode()
 				|| this.parsedFilterMode === this.configModel.FILTER_MODE_ASSISTED
 			) {
-				toggleFnc(true);
+				toggleFnc(true)
 			} else {
 				OC.dialogs.confirm(
 					t('user_ldap', 'Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?'),
 					t('user_ldap', 'Mode switch'),
 					toggleFnc
-				);
+				)
 			}
 		},
 
@@ -566,34 +563,34 @@ OCA = OCA || {};
 		 * state of the multi-select controls. The model is requested to save
 		 * the state.
 		 */
-		_toggleRawFilterMode: function() {
-			var view = this;
+		_toggleRawFilterMode() {
+			const view = this
 			this._toggleRawFilterModeConfirmation(function(isConfirmed) {
-				if(!isConfirmed) {
-					return;
+				if (!isConfirmed) {
+					return
 				}
 				/** var {number} */
-				var mode;
+				let mode
 				if (view.parsedFilterMode === view.configModel.FILTER_MODE_ASSISTED) {
-					mode = view.configModel.FILTER_MODE_RAW;
+					mode = view.configModel.FILTER_MODE_RAW
 				} else {
-					mode = view.configModel.FILTER_MODE_ASSISTED;
+					mode = view.configModel.FILTER_MODE_ASSISTED
 				}
-				view.setFilterMode(mode);
+				view.setFilterMode(mode)
 				/** @var {viewSaveInfo} */
-				var saveInfo = {
-					val: function () {
-						return mode;
+				const saveInfo = {
+					val() {
+						return mode
 					},
-					attr: function () {
-						return view.filterModeKey;
+					attr() {
+						return view.filterModeKey
 					},
-					is: function () {
-						return false;
-					}
-				};
-				view._requestSave(saveInfo);
-			});
+					is() {
+						return false
+					},
+				}
+				view._requestSave(saveInfo)
+			})
 		},
 
 		/**
@@ -616,28 +613,28 @@ OCA = OCA || {};
 		 * which status (enabled or not) is tracked by a setting
 		 * @private
 		 */
-		_initFilterModeSwitcher: function(
+		_initFilterModeSwitcher(
 			$switcher,
 			$filterModeRawContainer,
 			filterModeDisableableElements,
 			filterModeKey,
 			filterModeStateElement
 		) {
-			this.$filterModeRawContainer = $filterModeRawContainer;
-			this.filterModeDisableableElements = filterModeDisableableElements;
-			this.filterModeStateElement = filterModeStateElement;
-			this.filterModeKey = filterModeKey;
-			var view = this;
+			this.$filterModeRawContainer = $filterModeRawContainer
+			this.filterModeDisableableElements = filterModeDisableableElements
+			this.filterModeStateElement = filterModeStateElement
+			this.filterModeKey = filterModeKey
+			const view = this
 			$switcher.click(function() {
-				if(view.isToggling) {
-					return;
+				if (view.isToggling) {
+					return
 				}
-				view.isToggling = true;
-				view._toggleRawFilterMode();
-			});
+				view.isToggling = true
+				view._toggleRawFilterMode()
+			})
 		},
 
-	});
+	})
 
-	OCA.LDAP.Wizard.WizardTabGeneric = WizardTabGeneric;
-})();
+	OCA.LDAP.Wizard.WizardTabGeneric = WizardTabGeneric
+})()

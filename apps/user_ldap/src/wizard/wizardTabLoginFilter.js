@@ -12,68 +12,68 @@ OCA = OCA || {};
 	 * @classdesc This class represents the view belonging to the login filter
 	 * tab in the LDAP wizard.
 	 */
-	var WizardTabLoginFilter = OCA.LDAP.Wizard.WizardTabGeneric.subClass({
+	const WizardTabLoginFilter = OCA.LDAP.Wizard.WizardTabGeneric.subClass({
 		/**
 		 * initializes the instance. Always call it after initialization.
 		 *
 		 * @param tabIndex
 		 * @param tabID
 		 */
-		init: function (tabIndex, tabID) {
-			this._super(tabIndex, tabID);
+		init(tabIndex, tabID) {
+			this._super(tabIndex, tabID)
 
-			var items = {
+			const items = {
 				ldap_loginfilter_username: {
 					$element: $('#ldap_loginfilter_username'),
-					setMethod: 'setLoginAttributeUsername'
+					setMethod: 'setLoginAttributeUsername',
 				},
 				ldap_loginfilter_email: {
 					$element: $('#ldap_loginfilter_email'),
-					setMethod: 'setLoginAttributeEmail'
+					setMethod: 'setLoginAttributeEmail',
 				},
 				ldap_login_filter_mode: {
-					setMethod: 'setFilterModeOnce'
+					setMethod: 'setFilterModeOnce',
 				},
 				ldap_loginfilter_attributes: {
 					$element: $('#ldap_loginfilter_attributes'),
-					setMethod: 'setLoginAttributesOther'
+					setMethod: 'setLoginAttributesOther',
 				},
 				ldap_login_filter: {
 					$element: $('#ldap_login_filter'),
-					setMethod: 'setLoginFilter'
+					setMethod: 'setLoginFilter',
 				},
 				loginFilterRawToggle: {
-					$element: $('#toggleRawLoginFilter')
+					$element: $('#toggleRawLoginFilter'),
 				},
 				loginFilterRawContainer: {
-					$element: $('#rawLoginFilterContainer')
+					$element: $('#rawLoginFilterContainer'),
 				},
 				ldap_test_loginname: {
 					$element: $('#ldap_test_loginname'),
-					$relatedElements: $('.ldapVerifyLoginName')
-				}
-			};
-			this.setManagedItems(items);
+					$relatedElements: $('.ldapVerifyLoginName'),
+				},
+			}
+			this.setManagedItems(items)
 
-			this.filterModeKey = 'ldapLoginFilterMode';
+			this.filterModeKey = 'ldapLoginFilterMode'
 			this._initMultiSelect(
 				this.managedItems.ldap_loginfilter_attributes.$element,
 				t('user_ldap', 'Select attributes')
-			);
-			this.filterName = 'ldap_login_filter';
+			)
+			this.filterName = 'ldap_login_filter'
 			this._initFilterModeSwitcher(
 				this.managedItems.loginFilterRawToggle.$element,
 				this.managedItems.loginFilterRawContainer.$element,
 				[
 					this.managedItems.ldap_loginfilter_username.$element,
 					this.managedItems.ldap_loginfilter_email.$element,
-					this.managedItems.ldap_loginfilter_attributes.$element
+					this.managedItems.ldap_loginfilter_attributes.$element,
 				],
 				'ldap_login_filter_mode'
-			);
-			_.bindAll(this, 'onVerifyClick', 'onTestLoginnameChange');
-			this.managedItems.ldap_test_loginname.$element.keyup(this.onTestLoginnameChange);
-			this.managedItems.ldap_test_loginname.$relatedElements.click(this.onVerifyClick);
+			)
+			_.bindAll(this, 'onVerifyClick', 'onTestLoginnameChange')
+			this.managedItems.ldap_test_loginname.$element.keyup(this.onTestLoginnameChange)
+			this.managedItems.ldap_test_loginname.$relatedElements.click(this.onVerifyClick)
 		},
 
 		/**
@@ -82,11 +82,11 @@ OCA = OCA || {};
 		 *
 		 * @param {OCA.LDAP.Wizard.ConfigModel} configModel
 		 */
-		setModel: function(configModel) {
-			this._super(configModel);
-			this.configModel.on('configLoaded', this.onConfigSwitch, this);
-			this.configModel.on('configUpdated', this.onConfigUpdated, this);
-			this.configModel.on('receivedLdapFeature', this.onFeatureReceived, this);
+		setModel(configModel) {
+			this._super(configModel)
+			this.configModel.on('configLoaded', this.onConfigSwitch, this)
+			this.configModel.on('configUpdated', this.onConfigUpdated, this)
+			this.configModel.on('receivedLdapFeature', this.onFeatureReceived, this)
 		},
 
 		/**
@@ -94,9 +94,9 @@ OCA = OCA || {};
 		 *
 		 * @param {Array} attributes
 		 */
-		setLoginAttributesOther: function(attributes) {
-			this.setElementValue(this.managedItems.ldap_loginfilter_attributes.$element, attributes);
-			this.managedItems.ldap_loginfilter_attributes.$element.multiselect('refresh');
+		setLoginAttributesOther(attributes) {
+			this.setElementValue(this.managedItems.ldap_loginfilter_attributes.$element, attributes)
+			this.managedItems.ldap_loginfilter_attributes.$element.multiselect('refresh')
 		},
 
 		/**
@@ -104,9 +104,9 @@ OCA = OCA || {};
 		 *
 		 * @param {string} filter
 		 */
-		setLoginFilter: function(filter) {
-			this.setElementValue(this.managedItems.ldap_login_filter.$element, filter);
-			this.$filterModeRawContainer.siblings('.ldapReadOnlyFilterContainer').find('.ldapFilterReadOnlyElement').text(filter);
+		setLoginFilter(filter) {
+			this.setElementValue(this.managedItems.ldap_login_filter.$element, filter)
+			this.$filterModeRawContainer.siblings('.ldapReadOnlyFilterContainer').find('.ldapFilterReadOnlyElement').text(filter)
 		},
 
 		/**
@@ -114,10 +114,10 @@ OCA = OCA || {};
 		 *
 		 * @param {string} useUsername contains an int
 		 */
-		setLoginAttributeUsername: function(useUsername) {
+		setLoginAttributeUsername(useUsername) {
 			this.setElementValue(
 				this.managedItems.ldap_loginfilter_username.$element, useUsername
-			);
+			)
 		},
 
 		/**
@@ -125,10 +125,10 @@ OCA = OCA || {};
 		 *
 		 * @param {string} useEmail contains an int
 		 */
-		setLoginAttributeEmail: function(useEmail) {
+		setLoginAttributeEmail(useEmail) {
 			this.setElementValue(
 				this.managedItems.ldap_loginfilter_email.$element, useEmail
-			);
+			)
 		},
 
 		/**
@@ -136,48 +136,48 @@ OCA = OCA || {};
 		 *
 		 * @param result
 		 */
-		handleLoginTestResult: function(result) {
-			var message;
-			var isHtml = false;
-			if(result.status === 'success') {
-				var usersFound = parseInt(result.changes.ldap_test_loginname, 10);
-				if(usersFound < 1) {
-					var filter = $('<p>').text(result.changes.ldap_test_effective_filter).html();
-					message = t('user_ldap', 'User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command-line validation): <br/>' + filter);
-					console.warn(filter);
-					isHtml = true;
-				} else if(usersFound === 1) {
-					message = t('user_ldap', 'User found and settings verified.');
-				} else if(usersFound > 1) {
-					message = t('user_ldap', 'Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in.');
+		handleLoginTestResult(result) {
+			let message
+			let isHtml = false
+			if (result.status === 'success') {
+				const usersFound = parseInt(result.changes.ldap_test_loginname, 10)
+				if (usersFound < 1) {
+					const filter = $('<p>').text(result.changes.ldap_test_effective_filter).html()
+					message = t('user_ldap', 'User not found. Please check your login attributes and username. Effective filter (to copy-and-paste for command-line validation): <br/>' + filter)
+					console.warn(filter)
+					isHtml = true
+				} else if (usersFound === 1) {
+					message = t('user_ldap', 'User found and settings verified.')
+				} else if (usersFound > 1) {
+					message = t('user_ldap', 'Consider narrowing your search, as it encompassed many users, only the first one of whom will be able to log in.')
 				}
 			} else {
-				message = t('user_ldap', 'An unspecified error occurred. Please check log and settings.');
-				if(!_.isUndefined(result.message) && result.message) {
-					message = result.message;
+				message = t('user_ldap', 'An unspecified error occurred. Please check log and settings.')
+				if (!_.isUndefined(result.message) && result.message) {
+					message = result.message
 				}
-				if(message === 'Bad search filter') {
-					message = t('user_ldap', 'The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise.');
-				} else if(message === 'connection error') {
-					message = t('user_ldap', 'A connection error to LDAP / AD occurred, please check host, port and credentials.');
-				} else if(message === 'missing placeholder') {
-					message = t('user_ldap', 'The "%uid" placeholder is missing. It will be replaced with the login name when querying LDAP / AD.');
+				if (message === 'Bad search filter') {
+					message = t('user_ldap', 'The search filter is invalid, probably due to syntax issues like uneven number of opened and closed brackets. Please revise.')
+				} else if (message === 'connection error') {
+					message = t('user_ldap', 'A connection error to LDAP / AD occurred, please check host, port and credentials.')
+				} else if (message === 'missing placeholder') {
+					message = t('user_ldap', 'The "%uid" placeholder is missing. It will be replaced with the login name when querying LDAP / AD.')
 				}
 			}
-			OC.Notification.showTemporary(message, {isHTML: isHtml});
+			OC.Notification.showTemporary(message, { isHTML: isHtml })
 		},
 
 		/**
 		 * @inheritdoc
 		 */
-		considerFeatureRequests: function() {
-			if(!this.isActive) {
-				return;
+		considerFeatureRequests() {
+			if (!this.isActive) {
+				return
 			}
-			if(this.managedItems.ldap_loginfilter_attributes.$element.find('option').length === 0) {
-				this.disableElement(this.managedItems.ldap_loginfilter_attributes.$element);
-				if(this.parsedFilterMode === this.configModel.FILTER_MODE_ASSISTED) {
-					this.configModel.requestWizard('ldap_loginfilter_attributes');
+			if (this.managedItems.ldap_loginfilter_attributes.$element.find('option').length === 0) {
+				this.disableElement(this.managedItems.ldap_loginfilter_attributes.$element)
+				if (this.parsedFilterMode === this.configModel.FILTER_MODE_ASSISTED) {
+					this.configModel.requestWizard('ldap_loginfilter_attributes')
 				}
 			}
 		},
@@ -185,11 +185,11 @@ OCA = OCA || {};
 		/**
 		 * @inheritdoc
 		 */
-		onActivate: function() {
-			this._super();
-			this.considerFeatureRequests();
-			if(!this.managedItems.ldap_login_filter.$element.val()) {
-				this.configModel.requestWizard('ldap_login_filter');
+		onActivate() {
+			this._super()
+			this.considerFeatureRequests()
+			if (!this.managedItems.ldap_login_filter.$element.val()) {
+				this.configModel.requestWizard('ldap_login_filter')
 			}
 		},
 
@@ -199,25 +199,25 @@ OCA = OCA || {};
 		 * @param {WizardTabLoginFilter} view
 		 * @param {Object} configuration
 		 */
-		onConfigSwitch: function(view, configuration) {
-			view.managedItems.ldap_loginfilter_attributes.$element.find('option').remove();
+		onConfigSwitch(view, configuration) {
+			view.managedItems.ldap_loginfilter_attributes.$element.find('option').remove()
 
-			view.onConfigLoaded(view, configuration);
+			view.onConfigLoaded(view, configuration)
 		},
 
 		/**
 		 * @param {WizardTabLoginFilter} view
 		 * @param {Object} configuration
 		 */
-		onConfigUpdated: function(view, configuration) {
+		onConfigUpdated(view, configuration) {
 			// When the user list filter is updated in assisted mode, also
 			// update the login filter automatically.
-			if(
+			if (
 				!_.isUndefined(configuration.ldap_userlist_filter)
 				&& view.parsedFilterMode === view.configModel.FILTER_MODE_ASSISTED
 				&& _.toArray(configuration).length === 1
 			) {
-				view.configModel.requestWizard('ldap_login_filter');
+				view.configModel.requestWizard('ldap_login_filter')
 			}
 		},
 
@@ -228,11 +228,11 @@ OCA = OCA || {};
 		 * @param {WizardTabLoginFilter} view
 		 * @param {FeaturePayload} payload
 		 */
-		onFeatureReceived: function(view, payload) {
-			if(payload.feature === 'AvailableAttributes') {
-				view.equipMultiSelect(view.managedItems.ldap_loginfilter_attributes.$element, payload.data);
-			} else if(payload.feature === 'TestLoginName') {
-				view.handleLoginTestResult(payload.data);
+		onFeatureReceived(view, payload) {
+			if (payload.feature === 'AvailableAttributes') {
+				view.equipMultiSelect(view.managedItems.ldap_loginfilter_attributes.$element, payload.data)
+			} else if (payload.feature === 'TestLoginName') {
+				view.handleLoginTestResult(payload.data)
 			}
 		},
 
@@ -241,13 +241,13 @@ OCA = OCA || {};
 		 *
 		 * @param {Event} event
 		 */
-		onVerifyClick: function(event) {
-			event.preventDefault();
-			var testLogin = this.managedItems.ldap_test_loginname.$element.val();
-			if(!testLogin) {
-				OC.Notification.showTemporary(t('user_ldap', 'Please provide a login name to test against'), 3);
+		onVerifyClick(event) {
+			event.preventDefault()
+			const testLogin = this.managedItems.ldap_test_loginname.$element.val()
+			if (!testLogin) {
+				OC.Notification.showTemporary(t('user_ldap', 'Please provide a login name to test against'), 3)
 			} else {
-				this.configModel.requestWizard('ldap_test_loginname', {ldap_test_loginname: testLogin});
+				this.configModel.requestWizard('ldap_test_loginname', { ldap_test_loginname: testLogin })
 			}
 		},
 
@@ -255,17 +255,17 @@ OCA = OCA || {};
 		 * enables/disables the "Verify Settings" button, depending whether
 		 * the corresponding text input has a value or not
 		 */
-		onTestLoginnameChange: function() {
-			var loginName = this.managedItems.ldap_test_loginname.$element.val();
-			var beDisabled = !_.isString(loginName) || !loginName.trim();
-			if(beDisabled) {
-				this.disableElement(this.managedItems.ldap_test_loginname.$relatedElements);
+		onTestLoginnameChange() {
+			const loginName = this.managedItems.ldap_test_loginname.$element.val()
+			const beDisabled = !_.isString(loginName) || !loginName.trim()
+			if (beDisabled) {
+				this.disableElement(this.managedItems.ldap_test_loginname.$relatedElements)
 			} else {
-				this.enableElement(this.managedItems.ldap_test_loginname.$relatedElements);
+				this.enableElement(this.managedItems.ldap_test_loginname.$relatedElements)
 			}
-		}
+		},
 
-	});
+	})
 
-	OCA.LDAP.Wizard.WizardTabLoginFilter = WizardTabLoginFilter;
-})();
+	OCA.LDAP.Wizard.WizardTabLoginFilter = WizardTabLoginFilter
+})()

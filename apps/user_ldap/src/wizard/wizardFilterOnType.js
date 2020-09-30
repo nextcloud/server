@@ -11,27 +11,27 @@ OCA = OCA || {};
 	/**
 	 * @classdesc filters a select box when a text element is typed in
 	 */
-	var FilterOnType = OCA.LDAP.Wizard.WizardObject.subClass({
+	const FilterOnType = OCA.LDAP.Wizard.WizardObject.subClass({
 		/**
 		 * initializes a type filter on a text input for a select element
 		 *
 		 * @param {jQuery} $select
 		 * @param {jQuery} $textInput
 		 */
-		init: function($select, $textInput) {
-			this.$select = $select;
-			this.$textInput = $textInput;
-			this.lastSearch = '';
+		init($select, $textInput) {
+			this.$select = $select
+			this.$textInput = $textInput
+			this.lastSearch = ''
 
-			var fity = this;
-			$textInput.bind('change keyup', function () {
-				if(fity.runID) {
-					window.clearTimeout(fity.runID);
+			const fity = this
+			$textInput.bind('change keyup', function() {
+				if (fity.runID) {
+					window.clearTimeout(fity.runID)
 				}
 				fity.runID = window.setTimeout(function() {
-					fity.filter(fity);
-				}, 250);
-			});
+					fity.filter(fity)
+				}, 250)
+			})
 		},
 
 		/**
@@ -39,23 +39,23 @@ OCA = OCA || {};
 		 *
 		 * @param {FilterOnType} fity
 		 */
-		filter: function(fity) {
-			var filterVal = fity.$textInput.val().toLowerCase();
-			if(filterVal === fity.lastSearch) {
-				return;
+		filter(fity) {
+			const filterVal = fity.$textInput.val().toLowerCase()
+			if (filterVal === fity.lastSearch) {
+				return
 			}
-			fity.lastSearch = filterVal;
+			fity.lastSearch = filterVal
 
 			fity.$select.find('option').each(function() {
-				if(!filterVal || $(this).val().toLowerCase().indexOf(filterVal) > -1) {
+				if (!filterVal || $(this).val().toLowerCase().indexOf(filterVal) > -1) {
 					$(this).removeAttr('hidden')
 				} else {
-					$(this).attr('hidden', 'hidden');
+					$(this).attr('hidden', 'hidden')
 				}
-			});
-			delete(fity.runID);
-		}
-	});
+			})
+			delete (fity.runID)
+		},
+	})
 
-	OCA.LDAP.Wizard.FilterOnType = FilterOnType;
-})();
+	OCA.LDAP.Wizard.FilterOnType = FilterOnType
+})()

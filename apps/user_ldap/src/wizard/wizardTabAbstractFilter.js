@@ -12,7 +12,7 @@ OCA = OCA || {};
 	 * @classdesc This class represents the view belonging to the server tab
 	 * in the LDAP wizard.
 	 */
-	var WizardTabAbstractFilter = OCA.LDAP.Wizard.WizardTabGeneric.subClass({
+	const WizardTabAbstractFilter = OCA.LDAP.Wizard.WizardTabGeneric.subClass({
 		/**
 		 * @property {number} number that needs to exceeded to use complex group
 		 * selection element
@@ -37,37 +37,37 @@ OCA = OCA || {};
 		 * @param {number} [tabIndex]
 		 * @param {string} [tabID]
 		 */
-		init: function (fotf, tabIndex, tabID) {
-			this._super(tabIndex, tabID);
+		init(fotf, tabIndex, tabID) {
+			this._super(tabIndex, tabID)
 
 			/** @type {OCA.LDAP.Wizard.FilterOnTypeFactory} */
-			this.foTFactory = fotf;
+			this.foTFactory = fotf
 			this._initMultiSelect(
 				this.getGroupsItem().$element,
 				t('user_ldap', 'Select groups')
-			);
+			)
 			this._initMultiSelect(
 				this.getObjectClassItem().$element,
 				t('user_ldap', 'Select object classes')
-			);
-			this.filterName = this.getFilterItem().keyName;
+			)
+			this.filterName = this.getFilterItem().keyName
 			this._initFilterModeSwitcher(
 				this.getToggleItem().$element,
 				this.getRawFilterContainerItem().$element,
-				[ this.getObjectClassItem().$element ],
+				[this.getObjectClassItem().$element],
 				this.getFilterModeKey(),
 				{
 					status: 'disabled',
-					$element: this.getGroupsItem().$element
+					$element: this.getGroupsItem().$element,
 				}
-			);
-			_.bindAll(this, 'onCountButtonClick',  'onSelectGroup', 'onDeselectGroup');
-			this.getCountItem().$relatedElements.click(this.onCountButtonClick);
-			if(this.manyGroupsSupport) {
-				var $selectBtn = $(this.tabID).find('.ldapGroupListSelect');
-				$selectBtn.click(this.onSelectGroup);
-				var $deselectBtn = $(this.tabID).find('.ldapGroupListDeselect');
-				$deselectBtn.click(this.onDeselectGroup);
+			)
+			_.bindAll(this, 'onCountButtonClick', 'onSelectGroup', 'onDeselectGroup')
+			this.getCountItem().$relatedElements.click(this.onCountButtonClick)
+			if (this.manyGroupsSupport) {
+				const $selectBtn = $(this.tabID).find('.ldapGroupListSelect')
+				$selectBtn.click(this.onSelectGroup)
+				const $deselectBtn = $(this.tabID).find('.ldapGroupListDeselect')
+				$deselectBtn.click(this.onDeselectGroup)
 			}
 		},
 
@@ -75,43 +75,43 @@ OCA = OCA || {};
 		 * returns managed item for the object class chooser. must be
 		 * implemented by concrete view
 		 */
-		getObjectClassItem: function () {},
+		getObjectClassItem() {},
 
 		/**
 		 * returns managed item for the group chooser. must be
 		 * implemented by concrete view
 		 */
-		getGroupsItem: function () {},
+		getGroupsItem() {},
 
 		/**
 		 * returns managed item for the effective filter. must be
 		 * implemented by concrete view
 		 */
-		getFilterItem: function () {},
+		getFilterItem() {},
 
 		/**
 		 * returns managed item for the toggle element. must be
 		 * implemented by concrete view
 		 */
-		getToggleItem: function () {},
+		getToggleItem() {},
 
 		/**
 		 * returns managed item for the raw filter container. must be
 		 * implemented by concrete view
 		 */
-		getRawFilterContainerItem: function () {},
+		getRawFilterContainerItem() {},
 
 		/**
 		 * returns managed item for the count control. must be
 		 * implemented by concrete view
 		 */
-		getCountItem: function () {},
+		getCountItem() {},
 
 		/**
 		 * returns name of the filter mode key. must be implemented by concrete
 		 * view
 		 */
-		getFilterModeKey: function () {},
+		getFilterModeKey() {},
 
 		/**
 		 * Sets the config model for this view and subscribes to some events.
@@ -119,29 +119,29 @@ OCA = OCA || {};
 		 *
 		 * @param {OCA.LDAP.Wizard.ConfigModel} configModel
 		 */
-		setModel: function(configModel) {
-			this._super(configModel);
-			this.configModel.on('configLoaded', this.onConfigSwitch, this);
-			this.configModel.on('receivedLdapFeature', this.onFeatureReceived, this);
+		setModel(configModel) {
+			this._super(configModel)
+			this.configModel.on('configLoaded', this.onConfigSwitch, this)
+			this.configModel.on('receivedLdapFeature', this.onFeatureReceived, this)
 		},
 
 		/**
 		 * @inheritdoc
 		 */
-		_setFilterModeAssisted: function () {
-			this._super();
-			if(this.isComplexGroupChooser) {
-				this.enableElement(this.getGroupsItem().$relatedElements);
+		_setFilterModeAssisted() {
+			this._super()
+			if (this.isComplexGroupChooser) {
+				this.enableElement(this.getGroupsItem().$relatedElements)
 			}
 		},
 
 		/**
 		 * @inheritdoc
 		 */
-		_setFilterModeRaw: function () {
-			this._super();
-			if(this.manyGroupsSupport) {
-				this.disableElement(this.getGroupsItem().$relatedElements);
+		_setFilterModeRaw() {
+			this._super()
+			if (this.manyGroupsSupport) {
+				this.disableElement(this.getGroupsItem().$relatedElements)
 			}
 		},
 
@@ -150,9 +150,9 @@ OCA = OCA || {};
 		 *
 		 * @param {Array} classes
 		 */
-		setObjectClass: function(classes) {
-			this.setElementValue(this.getObjectClassItem().$element, classes);
-			this.getObjectClassItem().$element.multiselect('refresh');
+		setObjectClass(classes) {
+			this.setElementValue(this.getObjectClassItem().$element, classes)
+			this.getObjectClassItem().$element.multiselect('refresh')
 		},
 
 		/**
@@ -160,17 +160,17 @@ OCA = OCA || {};
 		 *
 		 * @param {string} groups
 		 */
-		setGroups: function(groups) {
-			if(typeof groups === 'string') {
-				groups = groups.split("\n");
+		setGroups(groups) {
+			if (typeof groups === 'string') {
+				groups = groups.split('\n')
 			}
-			if(!this.isComplexGroupChooser) {
-				this.setElementValue(this.getGroupsItem().$element, groups);
-				this.getGroupsItem().$element.multiselect('refresh');
+			if (!this.isComplexGroupChooser) {
+				this.setElementValue(this.getGroupsItem().$element, groups)
+				this.getGroupsItem().$element.multiselect('refresh')
 			} else {
-				var $element = $(this.tabID).find('.ldapGroupListSelected');
-				this.equipMultiSelect($element, groups);
-				this.updateFilterOnType();
+				const $element = $(this.tabID).find('.ldapGroupListSelected')
+				this.equipMultiSelect($element, groups)
+				this.updateFilterOnType()
 			}
 		},
 
@@ -179,9 +179,9 @@ OCA = OCA || {};
 		 *
 		 * @param {string} filter
 		 */
-		setFilter: function(filter) {
-			this.setElementValue(this.getFilterItem().$element, filter);
-			this.$filterModeRawContainer.siblings('.ldapReadOnlyFilterContainer').find('.ldapFilterReadOnlyElement').text(filter);
+		setFilter(filter) {
+			this.setElementValue(this.getFilterItem().$element, filter)
+			this.$filterModeRawContainer.siblings('.ldapReadOnlyFilterContainer').find('.ldapFilterReadOnlyElement').text(filter)
 		},
 
 		/**
@@ -189,23 +189,23 @@ OCA = OCA || {};
 		 *
 		 * @param {string} countInfo
 		 */
-		setCount: function(countInfo) {
-			this.setElementValue(this.getCountItem().$element, countInfo);
+		setCount(countInfo) {
+			this.setElementValue(this.getCountItem().$element, countInfo)
 		},
 
 		/**
 		 * @inheritdoc
 		 */
-		considerFeatureRequests: function() {
-			if(!this.isActive) {
-				return;
+		considerFeatureRequests() {
+			if (!this.isActive) {
+				return
 			}
-			if(this.getObjectClassItem().$element.find('option').length === 0) {
-				this.disableElement(this.getObjectClassItem().$element);
-				this.disableElement(this.getGroupsItem().$element);
-				if(this.parsedFilterMode === this.configModel.FILTER_MODE_ASSISTED) {
-					this.configModel.requestWizard(this.getObjectClassItem().keyName);
-					this.configModel.requestWizard(this.getGroupsItem().keyName);
+			if (this.getObjectClassItem().$element.find('option').length === 0) {
+				this.disableElement(this.getObjectClassItem().$element)
+				this.disableElement(this.getGroupsItem().$element)
+				if (this.parsedFilterMode === this.configModel.FILTER_MODE_ASSISTED) {
+					this.configModel.requestWizard(this.getObjectClassItem().keyName)
+					this.configModel.requestWizard(this.getGroupsItem().keyName)
 				}
 			}
 		},
@@ -213,27 +213,27 @@ OCA = OCA || {};
 		/**
 		 * updates (creates, if necessary) filterOnType instances
 		 */
-		updateFilterOnType: function() {
-			if(_.isUndefined(this.filterOnType)) {
-				this.filterOnType = [];
+		updateFilterOnType() {
+			if (_.isUndefined(this.filterOnType)) {
+				this.filterOnType = []
 
-				var $availableGroups = $(this.tabID).find('.ldapGroupListAvailable');
+				const $availableGroups = $(this.tabID).find('.ldapGroupListAvailable')
 				this.filterOnType.push(this.foTFactory.get(
 					$availableGroups, $(this.tabID).find('.ldapManyGroupsSearch')
-				));
-				var $selectedGroups  = $(this.tabID).find('.ldapGroupListSelected');
+				))
+				const $selectedGroups = $(this.tabID).find('.ldapGroupListSelected')
 				this.filterOnType.push(this.foTFactory.get(
 					$selectedGroups, $(this.tabID).find('.ldapManyGroupsSearch')
-				));
+				))
 			}
 		},
 
 		/**
 		 * @inheritdoc
 		 */
-		onActivate: function() {
-			this._super();
-			this.considerFeatureRequests();
+		onActivate() {
+			this._super()
+			this.considerFeatureRequests()
 		},
 
 		/**
@@ -242,38 +242,38 @@ OCA = OCA || {};
 		 * @param {WizardTabAbstractFilter} view
 		 * @param {Object} configuration
 		 */
-		onConfigSwitch: function(view, configuration) {
-			view.getObjectClassItem().$element.find('option').remove();
-			view.getGroupsItem().$element.find('option').remove();
-			view.getCountItem().$element.text('');
-			$(view.tabID).find('.ldapGroupListAvailable').empty();
-			$(view.tabID).find('.ldapGroupListSelected').empty();
-			view.updateFilterOnType();
-			$(view.tabID).find('.ldapManyGroupsSearch').val('');
+		onConfigSwitch(view, configuration) {
+			view.getObjectClassItem().$element.find('option').remove()
+			view.getGroupsItem().$element.find('option').remove()
+			view.getCountItem().$element.text('')
+			$(view.tabID).find('.ldapGroupListAvailable').empty()
+			$(view.tabID).find('.ldapGroupListSelected').empty()
+			view.updateFilterOnType()
+			$(view.tabID).find('.ldapManyGroupsSearch').val('')
 
-			if(view.isComplexGroupChooser) {
-				view.isComplexGroupChooser = false;
-				view.getGroupsItem().$element.multiselect({classes: view.multiSelectPluginClass});
-				$(view.tabID).find(".ldapManyGroupsSupport").addClass('hidden');
+			if (view.isComplexGroupChooser) {
+				view.isComplexGroupChooser = false
+				view.getGroupsItem().$element.multiselect({ classes: view.multiSelectPluginClass })
+				$(view.tabID).find('.ldapManyGroupsSupport').addClass('hidden')
 			}
 
-			view.onConfigLoaded(view, configuration);
+			view.onConfigLoaded(view, configuration)
 		},
 
 		/**
 		 * @inheritdoc
 		 */
-		onConfigLoaded: function(view, configuration) {
-			for(var key in view.managedItems){
-				if(!_.isUndefined(configuration[key])) {
-					var value = configuration[key];
-					var methodName = view.managedItems[key].setMethod;
-					if(!_.isUndefined(view[methodName])) {
-						view[methodName](value);
+		onConfigLoaded(view, configuration) {
+			for (const key in view.managedItems) {
+				if (!_.isUndefined(configuration[key])) {
+					const value = configuration[key]
+					const methodName = view.managedItems[key].setMethod
+					if (!_.isUndefined(view[methodName])) {
+						view[methodName](value)
 						// we reimplement it here to update the filter index
 						// for groups. Maybe we can isolate it?
-						if(methodName === 'setGroups') {
-							view.updateFilterOnType();
+						if (methodName === 'setGroups') {
+							view.updateFilterOnType()
 						}
 					}
 				}
@@ -287,30 +287,30 @@ OCA = OCA || {};
 		 * @param {WizardTabAbstractFilter} view
 		 * @param {FeaturePayload} payload
 		 */
-		onFeatureReceived: function(view, payload) {
-			if(payload.feature === view.getObjectClassItem().featureName) {
-				view.equipMultiSelect(view.getObjectClassItem().$element, payload.data);
-				if(    !view.getFilterItem().$element.val()
+		onFeatureReceived(view, payload) {
+			if (payload.feature === view.getObjectClassItem().featureName) {
+				view.equipMultiSelect(view.getObjectClassItem().$element, payload.data)
+				if (!view.getFilterItem().$element.val()
 					&& view.parsedFilterMode === view.configModel.FILTER_MODE_ASSISTED
 				) {
-					view.configModel.requestWizard(view.getFilterItem().keyName);
+					view.configModel.requestWizard(view.getFilterItem().keyName)
 				}
 			} else if (payload.feature === view.getGroupsItem().featureName) {
-				if(view.manyGroupsSupport && payload.data.length > view._groupElementSwitchThreshold) {
+				if (view.manyGroupsSupport && payload.data.length > view._groupElementSwitchThreshold) {
 					// we need to fill the left list box, excluding the values
 					// that are already selected
-					var $element = $(view.tabID).find('.ldapGroupListAvailable');
-					var selected = view.configModel.configuration[view.getGroupsItem().keyName];
-					var available = $(payload.data).not(selected).get();
-					view.equipMultiSelect($element, available);
-					$(view.tabID).find(".ldapManyGroupsSupport").removeClass('hidden');
-					view.getGroupsItem().$element.multiselect({classes: view.multiSelectPluginClass + ' forceHidden'});
-					view.isComplexGroupChooser = true;
+					const $element = $(view.tabID).find('.ldapGroupListAvailable')
+					const selected = view.configModel.configuration[view.getGroupsItem().keyName]
+					const available = $(payload.data).not(selected).get()
+					view.equipMultiSelect($element, available)
+					$(view.tabID).find('.ldapManyGroupsSupport').removeClass('hidden')
+					view.getGroupsItem().$element.multiselect({ classes: view.multiSelectPluginClass + ' forceHidden' })
+					view.isComplexGroupChooser = true
 				} else {
-					view.isComplexGroupChooser = false;
-					view.equipMultiSelect(view.getGroupsItem().$element, payload.data);
-					view.getGroupsItem().$element.multiselect({classes: view.multiSelectPluginClass});
-					$(view.tabID).find(".ldapManyGroupsSupport").addClass('hidden');
+					view.isComplexGroupChooser = false
+					view.equipMultiSelect(view.getGroupsItem().$element, payload.data)
+					view.getGroupsItem().$element.multiselect({ classes: view.multiSelectPluginClass })
+					$(view.tabID).find('.ldapManyGroupsSupport').addClass('hidden')
 
 				}
 			}
@@ -321,11 +321,11 @@ OCA = OCA || {};
 		 *
 		 * @param {Event} event
 		 */
-		onCountButtonClick: function(event) {
-			event.preventDefault();
+		onCountButtonClick(event) {
+			event.preventDefault()
 			// let's clear the field
-			this.getCountItem().$element.text('');
-			this.configModel.requestWizard(this.getCountItem().keyName);
+			this.getCountItem().$element.text('')
+			this.configModel.requestWizard(this.getCountItem().keyName)
 		},
 
 		/**
@@ -335,50 +335,50 @@ OCA = OCA || {};
 		 * @returns {boolean}
 		 * @private
 		 */
-		_saveGroups: function(groups) {
-			var toSave = '';
-			$(groups).each(function() { toSave = toSave + "\n" + this; } );
-			this.configModel.set(this.getGroupsItem().keyName, $.trim(toSave));
+		_saveGroups(groups) {
+			let toSave = ''
+			$(groups).each(function() { toSave = toSave + '\n' + this })
+			this.configModel.set(this.getGroupsItem().keyName, $.trim(toSave))
 		},
 
 		/**
 		 * acts on adding groups to the filter
 		 */
-		onSelectGroup: function() {
-			var $available = $(this.tabID).find('.ldapGroupListAvailable');
-			if(!$available.val()) {
-				return; // no selection – nothing to do
+		onSelectGroup() {
+			const $available = $(this.tabID).find('.ldapGroupListAvailable')
+			if (!$available.val()) {
+				return // no selection – nothing to do
 			}
 
-			var $selected = $(this.tabID).find('.ldapGroupListSelected');
-			var selected = $.map($selected.find('option'), function(e) { return e.value; });
+			const $selected = $(this.tabID).find('.ldapGroupListSelected')
+			const selected = $.map($selected.find('option'), function(e) { return e.value })
 
-			let selectedGroups = [];
+			const selectedGroups = []
 			$available.find('option:selected:visible').each(function() {
-				selectedGroups.push($(this).val());
-			});
+				selectedGroups.push($(this).val())
+			})
 
-			this._saveGroups(selected.concat(selectedGroups));
-			$available.find('option:selected:visible').prependTo($selected);
-			this.updateFilterOnType();  // selected groups are not updated yet
-			$available.find('option:selected').prop("selected", false);
+			this._saveGroups(selected.concat(selectedGroups))
+			$available.find('option:selected:visible').prependTo($selected)
+			this.updateFilterOnType() // selected groups are not updated yet
+			$available.find('option:selected').prop('selected', false)
 		},
 
 		/**
 		 * acts on removing groups to the filter
 		 */
-		onDeselectGroup: function() {
-			var $available = $(this.tabID).find('.ldapGroupListAvailable');
-			var $selected = $(this.tabID).find('.ldapGroupListSelected');
-			var selected = $.map($selected.find('option:not(:selected:visible)'), function(e) { return e.value; });
+		onDeselectGroup() {
+			const $available = $(this.tabID).find('.ldapGroupListAvailable')
+			const $selected = $(this.tabID).find('.ldapGroupListSelected')
+			const selected = $.map($selected.find('option:not(:selected:visible)'), function(e) { return e.value })
 
-			this._saveGroups(selected);
-			$selected.find('option:selected:visible').appendTo($available);
-			this.updateFilterOnType();  // selected groups are not updated yet
-			$selected.find('option:selected').prop("selected", false);
-		}
+			this._saveGroups(selected)
+			$selected.find('option:selected:visible').appendTo($available)
+			this.updateFilterOnType() // selected groups are not updated yet
+			$selected.find('option:selected').prop('selected', false)
+		},
 
-	});
+	})
 
-	OCA.LDAP.Wizard.WizardTabAbstractFilter = WizardTabAbstractFilter;
-})();
+	OCA.LDAP.Wizard.WizardTabAbstractFilter = WizardTabAbstractFilter
+})()

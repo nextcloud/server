@@ -14,16 +14,16 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorGroupsForGroups = OCA.LDAP.Wizard.WizardDetectorFeatureAbstract.subClass({
+	const WizardDetectorGroupsForGroups = OCA.LDAP.Wizard.WizardDetectorFeatureAbstract.subClass({
 		/** @inheritdoc */
-		init: function() {
+		init() {
 			// given, it is not a configuration key
-			this.setTargetKey('ldap_groupfilter_groups');
-			this.wizardMethod = 'determineGroupsForGroups';
-			this.featureName = 'GroupsForGroups';
-			this.runsOnRequest = true;
-		}
-	});
+			this.setTargetKey('ldap_groupfilter_groups')
+			this.wizardMethod = 'determineGroupsForGroups'
+			this.featureName = 'GroupsForGroups'
+			this.runsOnRequest = true
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorGroupsForGroups = WizardDetectorGroupsForGroups;
-})();
+	OCA.LDAP.Wizard.WizardDetectorGroupsForGroups = WizardDetectorGroupsForGroups
+})()

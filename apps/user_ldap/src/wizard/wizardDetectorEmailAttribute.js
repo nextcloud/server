@@ -14,25 +14,25 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorEmailAttribute = OCA.LDAP.Wizard.WizardDetectorFilterSimpleRequestAbstract.subClass({
-		init: function() {
-			this.setTargetKey('ldap_user_count');
-			this.wizardMethod = 'detectEmailAttribute';
-			this.runsOnRequest = true;
+	const WizardDetectorEmailAttribute = OCA.LDAP.Wizard.WizardDetectorFilterSimpleRequestAbstract.subClass({
+		init() {
+			this.setTargetKey('ldap_user_count')
+			this.wizardMethod = 'detectEmailAttribute'
+			this.runsOnRequest = true
 		},
 
 		/**
 		 * @inheritdoc
 		 */
-		run: function(model, configID) {
-			if(model.configuration.ldap_email_attr) {
+		run(model, configID) {
+			if (model.configuration.ldap_email_attr) {
 				// a value is already set. Don't overwrite and don't ask LDAP
 				// without reason.
-				return false;
+				return false
 			}
-			this._super(model, configID);
-		}
-	});
+			this._super(model, configID)
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorEmailAttribute = WizardDetectorEmailAttribute;
-})();
+	OCA.LDAP.Wizard.WizardDetectorEmailAttribute = WizardDetectorEmailAttribute
+})()

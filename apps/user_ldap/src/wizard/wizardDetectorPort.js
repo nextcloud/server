@@ -15,11 +15,11 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorPort = OCA.LDAP.Wizard.WizardDetectorGeneric.subClass({
+	const WizardDetectorPort = OCA.LDAP.Wizard.WizardDetectorGeneric.subClass({
 		/** @inheritdoc */
-		init: function() {
-			this.setTargetKey('ldap_port');
-			this.runsOnRequest = true;
+		init() {
+			this.setTargetKey('ldap_port')
+			this.runsOnRequest = true
 		},
 
 		/**
@@ -30,15 +30,15 @@ OCA = OCA || {};
 		 * @returns {boolean|jqXHR}
 		 * @abstract
 		 */
-		run: function(model, configID) {
-			model.notifyAboutDetectionStart('ldap_port');
-			var params = OC.buildQueryString({
+		run(model, configID) {
+			model.notifyAboutDetectionStart('ldap_port')
+			const params = OC.buildQueryString({
 				action: 'guessPortAndTLS',
-				ldap_serverconfig_chooser: configID
-			});
-			return model.callWizard(params, this.processResult, this);
-		}
-	});
+				ldap_serverconfig_chooser: configID,
+			})
+			return model.callWizard(params, this.processResult, this)
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorPort = WizardDetectorPort;
-})();
+	OCA.LDAP.Wizard.WizardDetectorPort = WizardDetectorPort
+})()

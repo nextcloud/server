@@ -15,14 +15,14 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorGeneric = OCA.LDAP.Wizard.WizardObject.subClass({
+	const WizardDetectorGeneric = OCA.LDAP.Wizard.WizardObject.subClass({
 		/**
 		 * initializes the instance. Always call it after creating the instance.
 		 */
-		init: function() {
-			this.setTrigger([]);
-			this.targetKey = '';
-			this.runsOnRequest = false;
+		init() {
+			this.setTrigger([])
+			this.targetKey = ''
+			this.runsOnRequest = false
 		},
 
 		/**
@@ -30,8 +30,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string[]} triggers
 		 */
-		setTrigger: function(triggers) {
-			this.triggers = triggers;
+		setTrigger(triggers) {
+			this.triggers = triggers
 		},
 
 		/**
@@ -40,8 +40,8 @@ OCA = OCA || {};
 		 * @param {string} key
 		 * @returns {boolean}
 		 */
-		triggersOn: function(key) {
-			return ($.inArray(key, this.triggers) >= 0);
+		triggersOn(key) {
+			return ($.inArray(key, this.triggers) >= 0)
 		},
 
 		/**
@@ -50,8 +50,8 @@ OCA = OCA || {};
 		 * @param {string} key
 		 * @returns {boolean}
 		 */
-		runsOnFeatureRequest: function(key) {
-			return !!(this.runsOnRequest && this.targetKey === key);
+		runsOnFeatureRequest(key) {
+			return !!(this.runsOnRequest && this.targetKey === key)
 		},
 
 		/**
@@ -59,16 +59,16 @@ OCA = OCA || {};
 		 *
 		 * @param {string} key
 		 */
-		setTargetKey: function(key) {
-			this.targetKey = key;
+		setTargetKey(key) {
+			this.targetKey = key
 		},
 
 		/**
 		 * returns the configuration key the detector is attempting to
 		 * auto-detect
 		 */
-		getTargetKey: function() {
-			return this.targetKey;
+		getTargetKey() {
+			return this.targetKey
 		},
 
 		/**
@@ -84,9 +84,9 @@ OCA = OCA || {};
 		 * @returns {boolean|jqXHR}
 		 * @abstract
 		 */
-		run: function(model, configID) {
+		run(model, configID) {
 			// to be implemented by subClass
-			return false;
+			return false
 		},
 
 		/**
@@ -96,22 +96,22 @@ OCA = OCA || {};
 		 * @param {WizardDetectorGeneric} detector
 		 * @param {object} result
 		 */
-		processResult: function(model, detector, result) {
-			model['notifyAboutDetectionCompletion'](detector.getTargetKey());
-			if(result.status === 'success') {
-				for (var id in result.changes) {
+		processResult(model, detector, result) {
+			model.notifyAboutDetectionCompletion(detector.getTargetKey())
+			if (result.status === 'success') {
+				for (const id in result.changes) {
 					// update and not set method, as values are already stored
-					model['update'](id, result.changes[id]);
+					model.update(id, result.changes[id])
 				}
 			} else {
-				var payload = { relatedKey: detector.targetKey };
-				if(!_.isUndefined(result.message)) {
-					payload.message = result.message;
+				const payload = { relatedKey: detector.targetKey }
+				if (!_.isUndefined(result.message)) {
+					payload.message = result.message
 				}
-				model.gotServerError(payload);
+				model.gotServerError(payload)
 			}
-		}
-	});
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorGeneric = WizardDetectorGeneric;
-})();
+	OCA.LDAP.Wizard.WizardDetectorGeneric = WizardDetectorGeneric
+})()

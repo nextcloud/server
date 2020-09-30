@@ -14,26 +14,26 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorUserDisplayNameAttribute = OCA.LDAP.Wizard.WizardDetectorFilterSimpleRequestAbstract.subClass({
-		init: function() {
-			this.setTargetKey('ldap_user_count');
-			this.wizardMethod = 'detectUserDisplayNameAttribute';
-			this.runsOnRequest = true;
+	const WizardDetectorUserDisplayNameAttribute = OCA.LDAP.Wizard.WizardDetectorFilterSimpleRequestAbstract.subClass({
+		init() {
+			this.setTargetKey('ldap_user_count')
+			this.wizardMethod = 'detectUserDisplayNameAttribute'
+			this.runsOnRequest = true
 		},
 
 		/**
 		 * @inheritdoc
 		 */
-		run: function(model, configID) {
+		run(model, configID) {
 			// default value has capital N. Detected values are always lowercase
-			if(model.configuration.ldap_display_name && model.configuration.ldap_display_name !== 'displayName') {
+			if (model.configuration.ldap_display_name && model.configuration.ldap_display_name !== 'displayName') {
 				// a value is already set. Don't overwrite and don't ask LDAP
 				// without reason.
-				return false;
+				return false
 			}
-			this._super(model, configID);
-		}
-	});
+			this._super(model, configID)
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorUserDisplayNameAttribute = WizardDetectorUserDisplayNameAttribute;
-})();
+	OCA.LDAP.Wizard.WizardDetectorUserDisplayNameAttribute = WizardDetectorUserDisplayNameAttribute
+})()

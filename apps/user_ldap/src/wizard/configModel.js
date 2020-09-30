@@ -19,7 +19,7 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var ConfigModel = function() {};
+	const ConfigModel = function() {}
 
 	ConfigModel.prototype = {
 		/** @constant {number} */
@@ -32,19 +32,19 @@ OCA = OCA || {};
 		 *
 		 * @param {OCA.LDAP.Wizard.WizardDetectorQueue} detectorQueue
 		 */
-		init: function (detectorQueue) {
+		init(detectorQueue) {
 			/** @type {object} holds the configuration in key-value-pairs */
-			this.configuration     = {};
+			this.configuration = {}
 			/** @type {object} holds the subscribers that listen to the events */
-			this.subscribers       = {};
+			this.subscribers = {}
 			/** @type {Array} holds registered detectors */
-			this.detectors         = [];
+			this.detectors = []
 			/** @type {boolean} whether a configuration is currently loading */
-			this.loadingConfig = false;
+			this.loadingConfig = false
 
-			if(detectorQueue instanceof OCA.LDAP.Wizard.WizardDetectorQueue) {
+			if (detectorQueue instanceof OCA.LDAP.Wizard.WizardDetectorQueue) {
 				/** @type {OCA.LDAP.Wizard.WizardDetectorQueue} */
-				this.detectorQueue = detectorQueue;
+				this.detectorQueue = detectorQueue
 			}
 		},
 
@@ -53,18 +53,18 @@ OCA = OCA || {};
 		 *
 		 * @param {string} [configID] - the configuration id (or prefix)
 		 */
-		load: function (configID) {
-			if(this.loadingConfig) {
-				return;
+		load(configID) {
+			if (this.loadingConfig) {
+				return
 			}
-			this._resetDetectorQueue();
+			this._resetDetectorQueue()
 
-			this.configID = configID;
-			var url = OC.generateUrl('apps/user_ldap/ajax/getConfiguration.php');
-			var params = OC.buildQueryString({ldap_serverconfig_chooser: configID});
-			this.loadingConfig = true;
-			var model = this;
-			$.post(url, params, function (result) { model._processLoadConfig(model, result) });
+			this.configID = configID
+			const url = OC.generateUrl('apps/user_ldap/ajax/getConfiguration.php')
+			const params = OC.buildQueryString({ ldap_serverconfig_chooser: configID })
+			this.loadingConfig = true
+			const model = this
+			$.post(url, params, function(result) { model._processLoadConfig(model, result) })
 		},
 
 		/**
@@ -73,18 +73,18 @@ OCA = OCA || {};
 		 * @param {boolean} [copyCurrent] - if true, the current configuration
 		 * is copied, otherwise a blank one is created.
 		 */
-		newConfig: function(copyCurrent) {
-			this._resetDetectorQueue();
+		newConfig(copyCurrent) {
+			this._resetDetectorQueue()
 
-			var url = OC.generateUrl('apps/user_ldap/ajax/getNewServerConfigPrefix.php');
-			var params = {};
-			if(copyCurrent === true) {
-				params['copyConfig'] = this.configID;
+			const url = OC.generateUrl('apps/user_ldap/ajax/getNewServerConfigPrefix.php')
+			let params = {}
+			if (copyCurrent === true) {
+				params.copyConfig = this.configID
 			}
-			params = OC.buildQueryString(params);
-			var model = this;
-			copyCurrent = _.isUndefined(copyCurrent) ? false : copyCurrent;
-			$.post(url, params, function (result) { model._processNewConfigPrefix(model, result, copyCurrent) });
+			params = OC.buildQueryString(params)
+			const model = this
+			copyCurrent = _.isUndefined(copyCurrent) ? false : copyCurrent
+			$.post(url, params, function(result) { model._processNewConfigPrefix(model, result, copyCurrent) })
 		},
 
 		/**
@@ -93,11 +93,11 @@ OCA = OCA || {};
 		 *
 		 * @param {string} [configID] - the configuration id (or prefix)
 		 */
-		deleteConfig: function(configID) {
-			var url = OC.generateUrl('apps/user_ldap/ajax/deleteConfiguration.php');
-			var params = OC.buildQueryString({ldap_serverconfig_chooser: configID});
-			var model = this;
-			$.post(url, params, function (result) { model._processDeleteConfig(model, result, configID) });
+		deleteConfig(configID) {
+			const url = OC.generateUrl('apps/user_ldap/ajax/deleteConfiguration.php')
+			const params = OC.buildQueryString({ ldap_serverconfig_chooser: configID })
+			const model = this
+			$.post(url, params, function(result) { model._processDeleteConfig(model, result, configID) })
 		},
 
 		/**
@@ -116,8 +116,8 @@ OCA = OCA || {};
 		 * @param {OCA.LDAP.Wizard.WizardDetectorGeneric} [detector]
 		 * @returns {jqXHR}
 		 */
-		callWizard: function(params, callback, detector) {
-			return this.callAjax('wizard.php', params, callback, detector);
+		callWizard(params, callback, detector) {
+			return this.callAjax('wizard.php', params, callback, detector)
 		},
 
 		/**
@@ -130,12 +130,12 @@ OCA = OCA || {};
 		 * @param {OCA.LDAP.Wizard.WizardDetectorGeneric} [detector]
 		 * @returns {jqXHR}
 		 */
-		callAjax: function(destination, params, callback, detector) {
-			var url = OC.generateUrl('apps/user_ldap/ajax/' + destination);
-			var model = this;
-			return $.post(url, params, function (result) {
-				callback(model, detector,result);
-			});
+		callAjax(destination, params, callback, detector) {
+			const url = OC.generateUrl('apps/user_ldap/ajax/' + destination)
+			const model = this
+			return $.post(url, params, function(result) {
+				callback(model, detector, result)
+			})
 		},
 
 		/**
@@ -161,26 +161,26 @@ OCA = OCA || {};
 		 * @returns {boolean}
 		 * @fires {ConfigModel#setRequested}
 		 */
-		set: function(key, value) {
-			if(_.isUndefined(this.configuration[key])) {
-				console.warn('will not save undefined key: ' + key);
-				return false;
+		set(key, value) {
+			if (_.isUndefined(this.configuration[key])) {
+				console.warn('will not save undefined key: ' + key)
+				return false
 			}
-			if(this.configuration[key] === value) {
-				return false;
+			if (this.configuration[key] === value) {
+				return false
 			}
-			this._broadcast('setRequested', {});
-			var url = OC.generateUrl('apps/user_ldap/ajax/wizard.php');
-			var objParams = {
+			this._broadcast('setRequested', {})
+			const url = OC.generateUrl('apps/user_ldap/ajax/wizard.php')
+			const objParams = {
 				ldap_serverconfig_chooser: this.configID,
 				action: 'save',
 				cfgkey: key,
-				cfgval: value
-			};
-			var strParams = OC.buildQueryString(objParams);
-			var model = this;
-			$.post(url, strParams, function(result) { model._processSetResult(model, result, objParams) });
-			return true;
+				cfgval: value,
+			}
+			const strParams = OC.buildQueryString(objParams)
+			const model = this
+			$.post(url, strParams, function(result) { model._processSetResult(model, result, objParams) })
+			return true
 		},
 
 		/**
@@ -205,18 +205,18 @@ OCA = OCA || {};
 		 * @returns {boolean}
 		 * @fires ConfigModel#configUpdated
 		 */
-		update: function(key, value) {
-			if(this.configuration[key] === value) {
-				return false;
+		update(key, value) {
+			if (this.configuration[key] === value) {
+				return false
 			}
-			if(!_.isUndefined(this.configuration[key])) {
+			if (!_.isUndefined(this.configuration[key])) {
 				// don't write e.g. count values to the configuration
 				// they don't go as feature, yet
-				this.configuration[key] = value;
+				this.configuration[key] = value
 			}
-			var configPart = {};
-			configPart[key] = value;
-			this._broadcast('configUpdated', configPart);
+			const configPart = {}
+			configPart[key] = value
+			this._broadcast('configUpdated', configPart)
 		},
 
 		/**
@@ -231,8 +231,8 @@ OCA = OCA || {};
 		 *
 		 * @param {FeaturePayload} payload
 		 */
-		inform: function(payload) {
-			this._broadcast('receivedLdapFeature', payload);
+		inform(payload) {
+			this._broadcast('receivedLdapFeature', payload)
 		},
 
 		/**
@@ -247,8 +247,8 @@ OCA = OCA || {};
 		 *
 		 * @param {ErrorPayload} payload
 		 */
-		gotServerError: function(payload) {
-			this._broadcast('serverError', payload);
+		gotServerError(payload) {
+			this._broadcast('serverError', payload)
 		},
 
 		/**
@@ -267,8 +267,8 @@ OCA = OCA || {};
 		 * @param {string} [key]
 		 * @fires ConfigModel#detectionStarted
 		 */
-		notifyAboutDetectionStart: function(key) {
-			this._broadcast('detectionStarted', key);
+		notifyAboutDetectionStart(key) {
+			this._broadcast('detectionStarted', key)
 		},
 
 		/**
@@ -287,8 +287,8 @@ OCA = OCA || {};
 		 * @param {string} [key]
 		 * @fires ConfigModel#detectionCompleted
 		 */
-		notifyAboutDetectionCompletion: function(key) {
-			this._broadcast('detectionCompleted', key);
+		notifyAboutDetectionCompletion(key) {
+			this._broadcast('detectionCompleted', key)
 		},
 
 		/**
@@ -306,22 +306,22 @@ OCA = OCA || {};
 		 * @param {listenerCallback} [fn]
 		 * @param {OCA.LDAP.Wizard.WizardTabGeneric|OCA.LDAP.Wizard.WizardView} [context]
 		 */
-		on: function(name, fn, context) {
-			if(_.isUndefined(this.subscribers[name])) {
-				this.subscribers[name] = [];
+		on(name, fn, context) {
+			if (_.isUndefined(this.subscribers[name])) {
+				this.subscribers[name] = []
 			}
-			this.subscribers[name].push({fn: fn, context: context});
+			this.subscribers[name].push({ fn, context })
 		},
 
 		/**
 		 * starts a configuration test on the Nextcloud server
 		 */
-		requestConfigurationTest: function() {
-			var url = OC.generateUrl('apps/user_ldap/ajax/testConfiguration.php');
-			var params = OC.buildQueryString({ldap_serverconfig_chooser: this.configID});
-			var model = this;
-			$.post(url, params, function(result) { model._processTestResult(model, result) });
-			//TODO: make sure only one test is running at a time
+		requestConfigurationTest() {
+			const url = OC.generateUrl('apps/user_ldap/ajax/testConfiguration.php')
+			const params = OC.buildQueryString({ ldap_serverconfig_chooser: this.configID })
+			const model = this
+			$.post(url, params, function(result) { model._processTestResult(model, result) })
+			// TODO: make sure only one test is running at a time
 		},
 
 		/**
@@ -331,22 +331,22 @@ OCA = OCA || {};
 		 * @param {string} featureKey
 		 * @param {Object} [additionalParams]
 		 */
-		requestWizard: function(featureKey, additionalParams) {
-			var model = this;
-			var detectorCount = this.detectors.length;
-			var found = false;
-			for(var i = 0; i < detectorCount; i++) {
-				if(this.detectors[i].runsOnFeatureRequest(featureKey)) {
+		requestWizard(featureKey, additionalParams) {
+			const model = this
+			const detectorCount = this.detectors.length
+			let found = false
+			for (let i = 0; i < detectorCount; i++) {
+				if (this.detectors[i].runsOnFeatureRequest(featureKey)) {
 					found = true;
-					(function (detector) {
+					(function(detector) {
 						model.detectorQueue.add(function() {
-							return detector.run(model, model.configID, additionalParams);
-						});
-					})(model.detectors[i]);
+							return detector.run(model, model.configID, additionalParams)
+						})
+					})(model.detectors[i])
 				}
 			}
-			if(!found) {
-				console.warn('No detector found for feature ' + featureKey);
+			if (!found) {
+				console.warn('No detector found for feature ' + featureKey)
 			}
 		},
 
@@ -355,9 +355,9 @@ OCA = OCA || {};
 		 *
 		 * @private
 		 */
-		_resetDetectorQueue: function() {
-			if(!_.isUndefined(this.detectorQueue)) {
-				this.detectorQueue.reset();
+		_resetDetectorQueue() {
+			if (!_.isUndefined(this.detectorQueue)) {
+				this.detectorQueue.reset()
 			}
 		},
 
@@ -366,9 +366,9 @@ OCA = OCA || {};
 		 *
 		 * @param {OCA.LDAP.Wizard.WizardDetectorGeneric} [detector]
 		 */
-		registerDetector: function(detector) {
-			if(detector instanceof OCA.LDAP.Wizard.WizardDetectorGeneric) {
-				this.detectors.push(detector);
+		registerDetector(detector) {
+			if (detector instanceof OCA.LDAP.Wizard.WizardDetectorGeneric) {
+				this.detectors.push(detector)
 			}
 		},
 
@@ -379,18 +379,18 @@ OCA = OCA || {};
 		 * @param {*} [params]
 		 * @private
 		 */
-		_broadcast: function(name, params) {
-			if(_.isUndefined(this.subscribers[name])) {
-				return;
+		_broadcast(name, params) {
+			if (_.isUndefined(this.subscribers[name])) {
+				return
 			}
-			var subscribers = this.subscribers[name];
-			var subscriberCount = subscribers.length;
-			for(var i = 0; i < subscriberCount; i++) {
-				if(_.isUndefined(subscribers[i]['fn'])) {
-					console.warn('callback method is not defined. Event ' + name);
-					continue;
+			const subscribers = this.subscribers[name]
+			const subscriberCount = subscribers.length
+			for (let i = 0; i < subscriberCount; i++) {
+				if (_.isUndefined(subscribers[i].fn)) {
+					console.warn('callback method is not defined. Event ' + name)
+					continue
 				}
-				subscribers[i]['fn'](subscribers[i]['context'], params);
+				subscribers[i].fn(subscribers[i].context, params)
 			}
 		},
 
@@ -415,15 +415,15 @@ OCA = OCA || {};
 		 * @fires ConfigModel#configLoaded
 		 * @private
 		 */
-		_processLoadConfig: function(model, result) {
-			model.configuration = {};
-			if(result['status'] === 'success') {
-				$.each(result['configuration'], function(key, value) {
-					model.configuration[key] = value;
-				});
+		_processLoadConfig(model, result) {
+			model.configuration = {}
+			if (result.status === 'success') {
+				$.each(result.configuration, function(key, value) {
+					model.configuration[key] = value
+				})
 			}
-			model.loadingConfig = false;
-			model._broadcast('configLoaded', model.configuration);
+			model.loadingConfig = false
+			model._broadcast('configLoaded', model.configuration)
 		},
 
 		/**
@@ -456,34 +456,34 @@ OCA = OCA || {};
 		 * @fires ConfigModel#configLoaded
 		 * @private
 		 */
-		_processSetResult: function(model, result, params) {
-			var isSuccess = (result['status'] === 'success');
-			if(isSuccess) {
-				model.configuration[params.cfgkey] = params.cfgval;
+		_processSetResult(model, result, params) {
+			const isSuccess = (result.status === 'success')
+			if (isSuccess) {
+				model.configuration[params.cfgkey] = params.cfgval
 			}
-			var payload = {
-				isSuccess: isSuccess,
+			const payload = {
+				isSuccess,
 				key: params.cfgkey,
 				value: model.configuration[params.cfgkey],
-				errorMessage: _.isUndefined(result['message']) ? '' : result['message']
-			};
-			model._broadcast('setCompleted', payload);
+				errorMessage: _.isUndefined(result.message) ? '' : result.message,
+			}
+			model._broadcast('setCompleted', payload)
 
 			// let detectors run
 			// NOTE: detector's changes will not result in new _processSetResult
 			// calls, … in case they interfere it is because of this ;)
-			if(_.isUndefined(model.detectorQueue)) {
-				console.warn("DetectorQueue was not set, detectors will not be fired");
-				return;
+			if (_.isUndefined(model.detectorQueue)) {
+				console.warn('DetectorQueue was not set, detectors will not be fired')
+				return
 			}
-			var detectorCount = model.detectors.length;
-			for(var i = 0; i < detectorCount; i++) {
-				if(model.detectors[i].triggersOn(params.cfgkey)) {
-					(function (detector) {
+			const detectorCount = model.detectors.length
+			for (let i = 0; i < detectorCount; i++) {
+				if (model.detectors[i].triggersOn(params.cfgkey)) {
+					(function(detector) {
 						model.detectorQueue.add(function() {
-							return detector.run(model, model.configID);
-						});
-					})(model.detectors[i]);
+							return detector.run(model, model.configID)
+						})
+					})(model.detectors[i])
 				}
 			}
 		},
@@ -513,11 +513,11 @@ OCA = OCA || {};
 		 * @fires ConfigModel#configurationTested
 		 * @private
 		 */
-		_processTestResult: function(model, result) {
-			var payload = {
-				isSuccess: (result['status'] === 'success')
-			};
-			model._broadcast('configurationTested', payload);
+		_processTestResult(model, result) {
+			const payload = {
+				isSuccess: (result.status === 'success'),
+			}
+			model._broadcast('configurationTested', payload)
 		},
 
 		/**
@@ -553,24 +553,24 @@ OCA = OCA || {};
 		 * @fires ConfigModel#configLoaded
 		 * @private
 		 */
-		_processNewConfigPrefix: function(model, result, copyCurrent) {
-			var isSuccess = (result['status'] === 'success');
-			var payload = {
-				isSuccess: isSuccess,
-				configPrefix: result['configPrefix'],
-				errorMessage: _.isUndefined(result['message']) ? '' : result['message']
-			};
-			model._broadcast('newConfiguration', payload);
+		_processNewConfigPrefix(model, result, copyCurrent) {
+			const isSuccess = (result.status === 'success')
+			const payload = {
+				isSuccess,
+				configPrefix: result.configPrefix,
+				errorMessage: _.isUndefined(result.message) ? '' : result.message,
+			}
+			model._broadcast('newConfiguration', payload)
 
-			if(isSuccess) {
-				this.configID = result['configPrefix'];
-				if(!copyCurrent) {
-					model.configuration = {};
-					$.each(result['defaults'], function(key, value) {
-						model.configuration[key] = value;
-					});
+			if (isSuccess) {
+				this.configID = result.configPrefix
+				if (!copyCurrent) {
+					model.configuration = {}
+					$.each(result.defaults, function(key, value) {
+						model.configuration[key] = value
+					})
 					// view / tabs need to update with new blank config
-					model._broadcast('configLoaded', model.configuration);
+					model._broadcast('configLoaded', model.configuration)
 				}
 			}
 		},
@@ -591,16 +591,16 @@ OCA = OCA || {};
 		 * @fires ConfigModel#deleteConfiguration
 		 * @private
 		 */
-		_processDeleteConfig: function(model, result, configID) {
-			var isSuccess = (result['status'] === 'success');
-			var payload = {
-				isSuccess: isSuccess,
+		_processDeleteConfig(model, result, configID) {
+			const isSuccess = (result.status === 'success')
+			const payload = {
+				isSuccess,
 				configPrefix: configID,
-				errorMessage: _.isUndefined(result['message']) ? '' : result['message']
-			};
-			model._broadcast('deleteConfiguration', payload);
-		}
-	};
+				errorMessage: _.isUndefined(result.message) ? '' : result.message,
+			}
+			model._broadcast('deleteConfiguration', payload)
+		},
+	}
 
-	OCA.LDAP.Wizard.ConfigModel = ConfigModel;
-})();
+	OCA.LDAP.Wizard.ConfigModel = ConfigModel
+})()

@@ -15,11 +15,11 @@ OCA = OCA || {};
 	 *
 	 * @constructor
 	 */
-	var WizardDetectorBaseDN = OCA.LDAP.Wizard.WizardDetectorGeneric.subClass({
+	const WizardDetectorBaseDN = OCA.LDAP.Wizard.WizardDetectorGeneric.subClass({
 		/** @inheritdoc */
-		init: function() {
-			this.setTargetKey('ldap_base');
-			this.runsOnRequest = true;
+		init() {
+			this.setTargetKey('ldap_base')
+			this.runsOnRequest = true
 		},
 
 		/**
@@ -31,22 +31,21 @@ OCA = OCA || {};
 		 * @returns {boolean|jqXHR}
 		 * @abstract
 		 */
-		run: function(model, configID) {
-			if(    !model.configuration['ldap_host']
-				|| !model.configuration['ldap_port']
+		run(model, configID) {
+			if (!model.configuration.ldap_host
+				|| !model.configuration.ldap_port
 
-				)
-			{
-				return false;
+			) {
+				return false
 			}
-			model.notifyAboutDetectionStart(this.getTargetKey());
-			var params = OC.buildQueryString({
+			model.notifyAboutDetectionStart(this.getTargetKey())
+			const params = OC.buildQueryString({
 				action: 'guessBaseDN',
-				ldap_serverconfig_chooser: configID
-			});
-			return model.callWizard(params, this.processResult, this);
-		}
-	});
+				ldap_serverconfig_chooser: configID,
+			})
+			return model.callWizard(params, this.processResult, this)
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardDetectorBaseDN = WizardDetectorBaseDN;
-})();
+	OCA.LDAP.Wizard.WizardDetectorBaseDN = WizardDetectorBaseDN
+})()

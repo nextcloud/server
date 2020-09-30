@@ -18,34 +18,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+import $ from 'jquery'
+import _ from 'underscore'
+import { linkTo } from '@nextcloud/router'
 
-OCA = OCA || {};
-OCA.LDAP = _.extend(OC.LDAP || {}, {
-	onRenewPassword: function () {
+window.OCA = window.OCA || {}
+window.OCA.LDAP = _.extend(window.OC.LDAP || {}, {
+	onRenewPassword() {
 		$('#submit')
 			.removeClass('icon-confirm-white')
 			.addClass('icon-loading-small')
-			.attr('value', t('core', 'Renewing …'));
-		return true;
+			.attr('value', t('core', 'Renewing …'))
+		return true
 	},
-});
+})
 
 window.addEventListener('DOMContentLoaded', function() {
-	$('form[name=renewpassword]').submit(OCA.LDAP.onRenewPassword);
-	
-	if($('#newPassword').length) {
-		$('#newPassword').showPassword().keyup();
+	('form[name=renewpassword]').submit(OCA.LDAP.onRenewPassword)
+
+	const newPasswordField = $('#newPassword')
+	if (newPasswordField.length) {
+		newPasswordField.showPassword().keyup()
 	}
-	$('#newPassword').strengthify({
-		zxcvbn: OC.linkTo('core','vendor/zxcvbn/dist/zxcvbn.js'),
+	newPasswordField.strengthify({
+		zxcvbn: linkTo('core', 'vendor/zxcvbn/dist/zxcvbn.js'),
 		titles: [
 			t('core', 'Very weak password'),
 			t('core', 'Weak password'),
 			t('core', 'So-so password'),
 			t('core', 'Good password'),
-			t('core', 'Strong password')
+			t('core', 'Strong password'),
 		],
 		drawTitles: true,
 		$addAfter: $('input[name="newPassword-clone"]'),
-	});
-});
+	})
+})

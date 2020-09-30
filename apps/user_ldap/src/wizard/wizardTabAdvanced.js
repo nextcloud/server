@@ -13,120 +13,120 @@ OCA = OCA || {};
 	 * @classdesc This class represents the view belonging to the advanced tab
 	 * in the LDAP wizard.
 	 */
-	var WizardTabAdvanced = OCA.LDAP.Wizard.WizardTabGeneric.subClass({
+	const WizardTabAdvanced = OCA.LDAP.Wizard.WizardTabGeneric.subClass({
 		/**
 		 * initializes the instance. Always call it after initialization.
 		 *
 		 * @param tabIndex
 		 * @param tabID
 		 */
-		init: function (tabIndex, tabID) {
-			this._super(tabIndex, tabID);
+		init(tabIndex, tabID) {
+			this._super(tabIndex, tabID)
 
-			var items = {
+			const items = {
 				// Connection settings
 				ldap_configuration_active: {
 					$element: $('#ldap_configuration_active'),
-					setMethod: 'setConfigurationState'
+					setMethod: 'setConfigurationState',
 				},
 				ldap_backup_host: {
 					$element: $('#ldap_backup_host'),
-					setMethod: 'setBackupHost'
+					setMethod: 'setBackupHost',
 				},
 				ldap_backup_port: {
 					$element: $('#ldap_backup_port'),
-					setMethod: 'setBackupPort'
+					setMethod: 'setBackupPort',
 				},
 				ldap_override_main_server: {
 					$element: $('#ldap_override_main_server'),
-					setMethod: 'setOverrideMainServerState'
+					setMethod: 'setOverrideMainServerState',
 				},
 				ldap_turn_off_cert_check: {
 					$element: $('#ldap_turn_off_cert_check'),
-					setMethod: 'setCertCheckDisabled'
+					setMethod: 'setCertCheckDisabled',
 				},
 				ldap_cache_ttl: {
 					$element: $('#ldap_cache_ttl'),
-					setMethod: 'setCacheTTL'
+					setMethod: 'setCacheTTL',
 				},
 
-				//Directory Settings
+				// Directory Settings
 				ldap_display_name: {
 					$element: $('#ldap_display_name'),
-					setMethod: 'setUserDisplayName'
+					setMethod: 'setUserDisplayName',
 				},
 				ldap_user_display_name_2: {
 					$element: $('#ldap_user_display_name_2'),
-					setMethod: 'setUserDisplayName2'
+					setMethod: 'setUserDisplayName2',
 				},
 				ldap_base_users: {
 					$element: $('#ldap_base_users'),
-					setMethod: 'setBaseDNUsers'
+					setMethod: 'setBaseDNUsers',
 				},
 				ldap_attributes_for_user_search: {
 					$element: $('#ldap_attributes_for_user_search'),
-					setMethod: 'setSearchAttributesUsers'
+					setMethod: 'setSearchAttributesUsers',
 				},
 				ldap_group_display_name: {
 					$element: $('#ldap_group_display_name'),
-					setMethod: 'setGroupDisplayName'
+					setMethod: 'setGroupDisplayName',
 				},
 				ldap_base_groups: {
 					$element: $('#ldap_base_groups'),
-					setMethod: 'setBaseDNGroups'
+					setMethod: 'setBaseDNGroups',
 				},
 				ldap_attributes_for_group_search: {
 					$element: $('#ldap_attributes_for_group_search'),
-					setMethod: 'setSearchAttributesGroups'
+					setMethod: 'setSearchAttributesGroups',
 				},
 				ldap_group_member_assoc_attribute: {
 					$element: $('#ldap_group_member_assoc_attribute'),
-					setMethod: 'setGroupMemberAssociationAttribute'
+					setMethod: 'setGroupMemberAssociationAttribute',
 				},
 				ldap_dynamic_group_member_url: {
 					$element: $('#ldap_dynamic_group_member_url'),
-					setMethod: 'setDynamicGroupMemberURL'
+					setMethod: 'setDynamicGroupMemberURL',
 				},
 				ldap_nested_groups: {
 					$element: $('#ldap_nested_groups'),
-					setMethod: 'setUseNestedGroups'
+					setMethod: 'setUseNestedGroups',
 				},
 				ldap_paging_size: {
 					$element: $('#ldap_paging_size'),
-					setMethod: 'setPagingSize'
+					setMethod: 'setPagingSize',
 				},
 				ldap_turn_on_pwd_change: {
 					$element: $('#ldap_turn_on_pwd_change'),
-					setMethod: 'setPasswordChangeEnabled'
+					setMethod: 'setPasswordChangeEnabled',
 				},
 				ldap_default_ppolicy_dn: {
 					$element: $('#ldap_default_ppolicy_dn'),
-					setMethod: 'setDefaultPPolicyDN'
+					setMethod: 'setDefaultPPolicyDN',
 				},
 
-				//Special Attributes
+				// Special Attributes
 				ldap_quota_attr: {
 					$element: $('#ldap_quota_attr'),
-					setMethod: 'setQuotaAttribute'
+					setMethod: 'setQuotaAttribute',
 				},
 				ldap_quota_def: {
 					$element: $('#ldap_quota_def'),
-					setMethod: 'setQuotaDefault'
+					setMethod: 'setQuotaDefault',
 				},
 				ldap_email_attr: {
 					$element: $('#ldap_email_attr'),
-					setMethod: 'setEmailAttribute'
+					setMethod: 'setEmailAttribute',
 				},
 				home_folder_naming_rule: {
 					$element: $('#home_folder_naming_rule'),
-					setMethod: 'setHomeFolderAttribute'
+					setMethod: 'setHomeFolderAttribute',
 				},
 				ldap_ext_storage_home_attribute: {
 					$element: $('#ldap_ext_storage_home_attribute'),
-					setMethod: 'setExternalStorageHomeAttribute'
+					setMethod: 'setExternalStorageHomeAttribute',
 				},
-			};
-			this.setManagedItems(items);
+			}
+			this.setManagedItems(items)
 		},
 
 		/**
@@ -135,10 +135,10 @@ OCA = OCA || {};
 		 *
 		 * @param {OCA.LDAP.Wizard.ConfigModel} configModel
 		 */
-		setModel: function(configModel) {
-			this._super(configModel);
-			this.configModel.on('configLoaded', this.onConfigLoaded, this);
-			this.configModel.on('receivedLdapFeature', this.onResultReceived, this);
+		setModel(configModel) {
+			this._super(configModel)
+			this.configModel.on('configLoaded', this.onConfigLoaded, this)
+			this.configModel.on('receivedLdapFeature', this.onResultReceived, this)
 		},
 
 		/**
@@ -146,10 +146,10 @@ OCA = OCA || {};
 		 *
 		 * @param {string} isConfigActive contains an int
 		 */
-		setConfigurationState: function(isConfigActive) {
+		setConfigurationState(isConfigActive) {
 			this.setElementValue(
 				this.managedItems.ldap_configuration_active.$element, isConfigActive
-			);
+			)
 		},
 
 		/**
@@ -157,8 +157,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} host
 		 */
-		setBackupHost: function(host) {
-			this.setElementValue(this.managedItems.ldap_backup_host.$element, host);
+		setBackupHost(host) {
+			this.setElementValue(this.managedItems.ldap_backup_host.$element, host)
 		},
 
 		/**
@@ -166,8 +166,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} port
 		 */
-		setBackupPort: function(port) {
-			this.setElementValue(this.managedItems.ldap_backup_port.$element, port);
+		setBackupPort(port) {
+			this.setElementValue(this.managedItems.ldap_backup_port.$element, port)
 		},
 
 		/**
@@ -175,10 +175,10 @@ OCA = OCA || {};
 		 *
 		 * @param {string} doOverride contains an int
 		 */
-		setOverrideMainServerState: function(doOverride) {
+		setOverrideMainServerState(doOverride) {
 			this.setElementValue(
 				this.managedItems.ldap_override_main_server.$element, doOverride
-			);
+			)
 		},
 
 		/**
@@ -186,10 +186,10 @@ OCA = OCA || {};
 		 *
 		 * @param {string} doCertCheck contains an int
 		 */
-		setCertCheckDisabled: function(doCertCheck) {
+		setCertCheckDisabled(doCertCheck) {
 			this.setElementValue(
 				this.managedItems.ldap_turn_off_cert_check.$element, doCertCheck
-			);
+			)
 		},
 
 		/**
@@ -197,8 +197,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} cacheTTL contains an int
 		 */
-		setCacheTTL: function(cacheTTL) {
-			this.setElementValue(this.managedItems.ldap_cache_ttl.$element, cacheTTL);
+		setCacheTTL(cacheTTL) {
+			this.setElementValue(this.managedItems.ldap_cache_ttl.$element, cacheTTL)
 		},
 
 		/**
@@ -206,8 +206,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} attribute
 		 */
-		setUserDisplayName: function(attribute) {
-			this.setElementValue(this.managedItems.ldap_display_name.$element, attribute);
+		setUserDisplayName(attribute) {
+			this.setElementValue(this.managedItems.ldap_display_name.$element, attribute)
 		},
 
 		/**
@@ -215,8 +215,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} attribute
 		 */
-		setUserDisplayName2: function(attribute) {
-			this.setElementValue(this.managedItems.ldap_user_display_name_2.$element, attribute);
+		setUserDisplayName2(attribute) {
+			this.setElementValue(this.managedItems.ldap_user_display_name_2.$element, attribute)
 		},
 
 		/**
@@ -224,8 +224,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} base
 		 */
-		setBaseDNUsers: function(base) {
-			this.setElementValue(this.managedItems.ldap_base_users.$element, base);
+		setBaseDNUsers(base) {
+			this.setElementValue(this.managedItems.ldap_base_users.$element, base)
 		},
 
 		/**
@@ -233,8 +233,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} attributes
 		 */
-		setSearchAttributesUsers: function(attributes) {
-			this.setElementValue(this.managedItems.ldap_attributes_for_user_search.$element, attributes);
+		setSearchAttributesUsers(attributes) {
+			this.setElementValue(this.managedItems.ldap_attributes_for_user_search.$element, attributes)
 		},
 
 		/**
@@ -242,8 +242,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} attribute
 		 */
-		setGroupDisplayName: function(attribute) {
-			this.setElementValue(this.managedItems.ldap_group_display_name.$element, attribute);
+		setGroupDisplayName(attribute) {
+			this.setElementValue(this.managedItems.ldap_group_display_name.$element, attribute)
 		},
 
 		/**
@@ -251,8 +251,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} base
 		 */
-		setBaseDNGroups: function(base) {
-			this.setElementValue(this.managedItems.ldap_base_groups.$element, base);
+		setBaseDNGroups(base) {
+			this.setElementValue(this.managedItems.ldap_base_groups.$element, base)
 		},
 
 		/**
@@ -260,8 +260,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} attributes
 		 */
-		setSearchAttributesGroups: function(attributes) {
-			this.setElementValue(this.managedItems.ldap_attributes_for_group_search.$element, attributes);
+		setSearchAttributesGroups(attributes) {
+			this.setElementValue(this.managedItems.ldap_attributes_for_group_search.$element, attributes)
 		},
 
 		/**
@@ -269,8 +269,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} attribute
 		 */
-		setGroupMemberAssociationAttribute: function(attribute) {
-			this.setElementValue(this.managedItems.ldap_group_member_assoc_attribute.$element, attribute);
+		setGroupMemberAssociationAttribute(attribute) {
+			this.setElementValue(this.managedItems.ldap_group_member_assoc_attribute.$element, attribute)
 		},
 
 		/**
@@ -278,18 +278,18 @@ OCA = OCA || {};
 		  *
 		  * @param {string} attribute
 		  */
-		setDynamicGroupMemberURL: function(attribute) {
-			this.setElementValue(this.managedItems.ldap_dynamic_group_member_url.$element, attribute);
+		setDynamicGroupMemberURL(attribute) {
+			this.setElementValue(this.managedItems.ldap_dynamic_group_member_url.$element, attribute)
 		},
-                
+
 		/**
 		 * enabled or disables the use of nested groups (groups in groups in
 		 * groups…)
 		 *
 		 * @param {string} useNestedGroups contains an int
 		 */
-		setUseNestedGroups: function(useNestedGroups) {
-			this.setElementValue(this.managedItems.ldap_nested_groups.$element, useNestedGroups);
+		setUseNestedGroups(useNestedGroups) {
+			this.setElementValue(this.managedItems.ldap_nested_groups.$element, useNestedGroups)
 		},
 
 		/**
@@ -297,8 +297,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} size contains an int
 		 */
-		setPagingSize: function(size) {
-			this.setElementValue(this.managedItems.ldap_paging_size.$element, size);
+		setPagingSize(size) {
+			this.setElementValue(this.managedItems.ldap_paging_size.$element, size)
 		},
 
 		/**
@@ -306,10 +306,10 @@ OCA = OCA || {};
 		 *
 		 * @param {string} doPasswordChange contains an int
 		 */
-		setPasswordChangeEnabled: function(doPasswordChange) {
+		setPasswordChangeEnabled(doPasswordChange) {
 			this.setElementValue(
 				this.managedItems.ldap_turn_on_pwd_change.$element, doPasswordChange
-			);
+			)
 		},
 
 		/**
@@ -317,8 +317,8 @@ OCA = OCA || {};
 		  *
 		  * @param {string} attribute
 		  */
-		setDefaultPPolicyDN: function(attribute) {
-			this.setElementValue(this.managedItems.ldap_default_ppolicy_dn.$element, attribute);
+		setDefaultPPolicyDN(attribute) {
+			this.setElementValue(this.managedItems.ldap_default_ppolicy_dn.$element, attribute)
 		},
 
 		/**
@@ -326,8 +326,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} attribute
 		 */
-		setEmailAttribute: function(attribute) {
-			this.setElementValue(this.managedItems.ldap_email_attr.$element, attribute);
+		setEmailAttribute(attribute) {
+			this.setElementValue(this.managedItems.ldap_email_attr.$element, attribute)
 		},
 
 		/**
@@ -335,8 +335,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} attribute
 		 */
-		setExternalStorageHomeAttribute: function(attribute) {
-			this.setElementValue(this.managedItems.ldap_ext_storage_home_attribute.$element, attribute);
+		setExternalStorageHomeAttribute(attribute) {
+			this.setElementValue(this.managedItems.ldap_ext_storage_home_attribute.$element, attribute)
 		},
 
 		/**
@@ -344,8 +344,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} attribute
 		 */
-		setQuotaAttribute: function(attribute) {
-			this.setElementValue(this.managedItems.ldap_quota_attr.$element, attribute);
+		setQuotaAttribute(attribute) {
+			this.setElementValue(this.managedItems.ldap_quota_attr.$element, attribute)
 		},
 
 		/**
@@ -353,8 +353,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} quota contains an int
 		 */
-		setQuotaDefault: function(quota) {
-			this.setElementValue(this.managedItems.ldap_quota_def.$element, quota);
+		setQuotaDefault(quota) {
+			this.setElementValue(this.managedItems.ldap_quota_def.$element, quota)
 		},
 
 		/**
@@ -362,8 +362,8 @@ OCA = OCA || {};
 		 *
 		 * @param {string} attribute
 		 */
-		setHomeFolderAttribute: function(attribute) {
-			this.setElementValue(this.managedItems.home_folder_naming_rule.$element, attribute);
+		setHomeFolderAttribute(attribute) {
+			this.setElementValue(this.managedItems.home_folder_naming_rule.$element, attribute)
 		},
 
 		/**
@@ -372,12 +372,12 @@ OCA = OCA || {};
 		 * @param {WizardTabAdvanced} view
 		 * @param {FeaturePayload} payload
 		 */
-		onResultReceived: function(view, payload) {
-			if(payload.feature === 'TestConfiguration') {
-				OC.Notification.showTemporary(payload.data.message);
+		onResultReceived(view, payload) {
+			if (payload.feature === 'TestConfiguration') {
+				OC.Notification.showTemporary(payload.data.message)
 			}
-		}
-	});
+		},
+	})
 
-	OCA.LDAP.Wizard.WizardTabAdvanced = WizardTabAdvanced;
-})();
+	OCA.LDAP.Wizard.WizardTabAdvanced = WizardTabAdvanced
+})()
