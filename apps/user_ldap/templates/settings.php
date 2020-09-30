@@ -1,50 +1,7 @@
 <?php
 
-vendor_script('user_ldap', 'ui-multiselect/src/jquery.multiselect');
-
-vendor_style('user_ldap', 'ui-multiselect/jquery.multiselect');
-
 script('user_ldap', [
-	'wizard/controller',
-	'wizard/configModel',
-	'wizard/view',
-	'wizard/wizardObject',
-	'wizard/wizardTabGeneric',
-	'wizard/wizardTabElementary',
-	'wizard/wizardTabAbstractFilter',
-	'wizard/wizardTabUserFilter',
-	'wizard/wizardTabLoginFilter',
-	'wizard/wizardTabGroupFilter',
-	'wizard/wizardTabAdvanced',
-	'wizard/wizardTabExpert',
-	'wizard/wizardDetectorQueue',
-	'wizard/wizardDetectorGeneric',
-	'wizard/wizardDetectorPort',
-	'wizard/wizardDetectorBaseDN',
-	'wizard/wizardDetectorFeatureAbstract',
-	'wizard/wizardDetectorUserObjectClasses',
-	'wizard/wizardDetectorGroupObjectClasses',
-	'wizard/wizardDetectorGroupsForUsers',
-	'wizard/wizardDetectorGroupsForGroups',
-	'wizard/wizardDetectorSimpleRequestAbstract',
-	'wizard/wizardDetectorFilterUser',
-	'wizard/wizardDetectorFilterLogin',
-	'wizard/wizardDetectorFilterGroup',
-	'wizard/wizardDetectorUserCount',
-	'wizard/wizardDetectorGroupCount',
-	'wizard/wizardDetectorEmailAttribute',
-	'wizard/wizardDetectorUserDisplayNameAttribute',
-	'wizard/wizardDetectorUserGroupAssociation',
-	'wizard/wizardDetectorAvailableAttributes',
-	'wizard/wizardDetectorTestAbstract',
-	'wizard/wizardDetectorTestLoginName',
-	'wizard/wizardDetectorTestBaseDN',
-	'wizard/wizardDetectorTestConfiguration',
-	'wizard/wizardDetectorClearUserMappings',
-	'wizard/wizardDetectorClearGroupMappings',
-	'wizard/wizardFilterOnType',
-	'wizard/wizardFilterOnTypeFactory',
-	'wizard/wizard'
+	'dist/user_ldap',
 ]);
 
 style('user_ldap', 'settings');

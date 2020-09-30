@@ -19,6 +19,7 @@ const user_status = require('./apps/user_status/webpack')
 const weather_status = require('./apps/weather_status/webpack')
 const twofactor_backupscodes = require('./apps/twofactor_backupcodes/webpack')
 const updatenotification = require('./apps/updatenotification/webpack')
+const user_ldap= require('./apps/user_ldap/webpack')
 const workflowengine = require('./apps/workflowengine/webpack')
 
 const modules = {
@@ -37,6 +38,7 @@ const modules = {
 	weather_status,
 	twofactor_backupscodes,
 	updatenotification,
+	user_ldap,
 	workflowengine
 }
 
