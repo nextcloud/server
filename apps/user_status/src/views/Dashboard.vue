@@ -57,7 +57,7 @@ export default {
 			return this.statuses.map((item) => {
 				const icon = item.icon || ''
 				const message = item.message || ''
-				const status = `${icon} ${message}`
+				const status = item.status === 'dnd' ? `${icon} ${message}` : message
 
 				let subText
 				if (item.icon === null && item.message === null && item.timestamp === null) {
