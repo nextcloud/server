@@ -266,6 +266,8 @@ class OC_App {
 
 		if (file_exists($path . '/composer/autoload.php')) {
 			require_once $path . '/composer/autoload.php';
+		} elseif (file_exists($path . '/vendor/autoload.php')) {
+			require_once $path . '/vendor/autoload.php';
 		} else {
 			\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
 			// Register on legacy autoloader
