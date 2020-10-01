@@ -110,8 +110,8 @@ audio {
 		min-width: 80px;
 	}
 	// plyr buttons style
-	.plyr--video .plyr__progress__buffer,
-	.plyr--video .plyr__control {
+	.plyr--audio .plyr__progress__buffer,
+	.plyr--audio .plyr__control {
 		&.plyr__tab-focus,
 		&:hover,
 		&[aria-expanded=true] {
