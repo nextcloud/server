@@ -117,4 +117,11 @@ interface IUserMountCache {
 	 * @since 13.0.0
 	 */
 	public function getUsedSpaceForUsers(array $users);
+
+	/**
+	 * Clear all entries from the in-memory cache
+	 *
+	 * @since 20.0.0
+	 */
+	public function clear(): void;
 }
