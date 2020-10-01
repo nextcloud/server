@@ -38,6 +38,7 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Compartido en Cloud Federado",
     "Open documentation" : "Abrir documentación",
     "Adjust how people can share between servers." : "Ajusta cómo la gente puede compartir entre servidores.",
+    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Permitir a los usuarios de este servidor compartir con usuarios de otros servidores (esta opción también permite acceso de WebDAV a los elementos públicos compartidos)",
     "Allow users on this server to receive shares from other servers" : "Permitir a los usuarios de este servidor recibir de usuarios de otros servidores",
     "Allow users on this server to send shares to groups on other servers" : "Permitir a los usuarios de este servidor enviar a grupos de otros servidores",
     "Allow users on this server to receive group shares from other servers" : "Permitir a los usuarios de este servidor recibir de grupos de otros servidores",
