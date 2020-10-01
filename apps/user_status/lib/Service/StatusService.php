@@ -77,7 +77,7 @@ class StatusService {
 	];
 
 	/** @var int */
-	public const INVALIDATE_STATUS_THRESHOLD = 5 /* minutes */ * 60 /* seconds */;
+	public const INVALIDATE_STATUS_THRESHOLD = 15 /* minutes */ * 60 /* seconds */;
 
 	/** @var int */
 	public const MAXIMUM_MESSAGE_LENGTH = 80;
