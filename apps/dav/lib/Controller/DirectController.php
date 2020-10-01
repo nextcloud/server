@@ -90,6 +90,10 @@ class DirectController extends OCSController {
 			throw new OCSNotFoundException();
 		}
 
+		if ($expirationTime <= 0 || $expirationTime > (60 * 60 * 24)) {
+			throw new OCSBadRequestException('Expiration time should be greater than 0 and less than or equal to ' . (60 * 60 * 24));
+		}
+
 		$file = array_shift($files);
 		if (!($file instanceof File)) {
 			throw new OCSBadRequestException('Direct download only works for files');
