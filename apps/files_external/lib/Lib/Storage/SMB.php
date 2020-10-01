@@ -42,6 +42,7 @@ use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\InvalidArgumentException;
 use Icewind\SMB\Exception\NotFoundException;
+use Icewind\SMB\Exception\OutOfSpaceException;
 use Icewind\SMB\Exception\TimedOutException;
 use Icewind\SMB\IFileInfo;
 use Icewind\SMB\Native\NativeServer;
@@ -54,6 +55,8 @@ use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OC\Files\Storage\Common;
 use OCA\Files_External\Lib\Notify\SMBNotifyHandler;
+use OCP\Constants;
+use OCP\Files\EntityTooLargeException;
 use OCP\Files\Notify\IChange;
 use OCP\Files\Notify\IRenameChange;
 use OCP\Files\Storage\INotifyStorage;
@@ -460,6 +463,8 @@ class SMB extends Common implements INotifyStorage {
 			return false;
 		} catch (ForbiddenException $e) {
 			return false;
+		} catch (OutOfSpaceException $e) {
+			throw new EntityTooLargeException("not enough available space to create file", 0, $e);
 		} catch (ConnectException $e) {
 			$this->logger->logException($e, ['message' => 'Error while opening file']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
@@ -501,6 +506,8 @@ class SMB extends Common implements INotifyStorage {
 				return true;
 			}
 			return false;
+		} catch (OutOfSpaceException $e) {
+			throw new EntityTooLargeException("not enough available space to create file", 0, $e);
 		} catch (ConnectException $e) {
 			$this->logger->logException($e, ['message' => 'Error while creating file']);
 			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
