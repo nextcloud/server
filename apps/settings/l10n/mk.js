@@ -267,7 +267,7 @@ OC.L10N.register(
     "New user" : "Нов корисник",
     "Enter group name" : "Внеси име на групата",
     "Add group" : "Додади група",
-    "Everyone" : "Секој",
+    "Everyone" : "Сите",
     "Admins" : "Администратори",
     "Disabled users" : "Оневозможени корисници",
     "Remove group" : "Отстрани група",
