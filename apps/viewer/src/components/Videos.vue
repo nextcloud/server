@@ -149,6 +149,9 @@ video {
 			box-shadow: none !important;
 		}
 	}
+	.plyr__control--overlaid {
+		background-color: var(--color-primary-element);
+	}
 	// plyr volume control
 	.plyr--full-ui input[type=range] {
 		color: var(--color-primary-element);
