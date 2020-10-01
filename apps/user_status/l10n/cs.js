@@ -8,7 +8,6 @@ OC.L10N.register(
     "Vacationing" : "Dovolená",
     "Working remotely" : "Pracuje na dálku",
     "User status" : "Stav uživatele",
-    "Set custom status" : "Nastavit uživatelsky určený stav",
     "Online" : "Online",
     "Away" : "Pryč",
     "Do not disturb" : "Nerušit",
@@ -16,10 +15,7 @@ OC.L10N.register(
     "Offline" : "Offline",
     "Set status" : "Natavit stav",
     "There was an error saving the new status" : "Při ukládání nového stavu došlo k chybě",
-    "Clear status after" : "Vyčistit stav po uplynutí",
     "What's your status?" : "Jaký je váš stav?",
-    "Set a custom status" : "Nastavit uživatelsky určený stav",
-    "Clear custom status" : "Vyčistit uživatelsky určený stav",
     "There was an error saving the status" : "Došlo k chybě při ukládání stavu",
     "There was an error clearing the status" : "Při čištění stavu došlo k chybě",
     "No recent status changes" : "Žádné nedávné změny stavu",
@@ -30,6 +26,10 @@ OC.L10N.register(
     "30 minutes" : "30 minut",
     "1 hour" : "1 hodina",
     "4 hours" : "4 hodiny",
-    "Mute all notifications" : "Ztlumit veškerá upozornění"
+    "Mute all notifications" : "Ztlumit veškerá upozornění",
+    "Set custom status" : "Nastavit uživatelsky určený stav",
+    "Clear status after" : "Vyčistit stav po uplynutí",
+    "Set a custom status" : "Nastavit uživatelsky určený stav",
+    "Clear custom status" : "Vyčistit uživatelsky určený stav"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

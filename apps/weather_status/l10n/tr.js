@@ -25,6 +25,7 @@ OC.L10N.register(
     "More weather for {adr}" : "{adr} için geniş hava durumu",
     "Loading weather" : "Hava durumu yükleniyor",
     "Set location for weather" : "Hava durumu için konumu ayarlayın",
+    "You are not logged in." : "Oturum açmamışsınız.",
     "There was an error getting the weather status information." : "Hava durumu bilgileri alınırken bir sorun çıktı.",
     "No weather information found" : "Hava durumu bilgileri bulunamadı.",
     "Location not found" : "Konum bulunamadı",

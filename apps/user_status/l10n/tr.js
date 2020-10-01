@@ -8,7 +8,6 @@ OC.L10N.register(
     "Vacationing" : "Tatilde",
     "Working remotely" : "Uzaktan çalışıyor",
     "User status" : "Kullanıcı durumu",
-    "Set custom status" : "Özel durum ayarlar",
     "Online" : "Çevrimiçi",
     "Away" : "Uzakta",
     "Do not disturb" : "Rahatsız etmeyin",
@@ -16,10 +15,7 @@ OC.L10N.register(
     "Offline" : "Çevrimdışı",
     "Set status" : "Durumu ayarla",
     "There was an error saving the new status" : "Yeni durum kaydedilirken bir sorun çıktı",
-    "Clear status after" : "Durum şu kadar sonra kaldırılsın",
     "What's your status?" : "Durumunuz nedir?",
-    "Set a custom status" : "Özel bir durum ayarla",
-    "Clear custom status" : "Özel durumu kaldır",
     "There was an error saving the status" : "Durum kaydedilirken bir sorun çıktı",
     "There was an error clearing the status" : "Durum kaldırılırken bir sorun çıktı",
     "No recent status changes" : "Yakın zamanda değiştirilmiş bir durum yok",
@@ -30,6 +26,10 @@ OC.L10N.register(
     "30 minutes" : "30 dakika",
     "1 hour" : "1 saat",
     "4 hours" : "4 saat",
-    "Mute all notifications" : "Tüm bildirimleri kapat"
+    "Mute all notifications" : "Tüm bildirimleri kapat",
+    "Set custom status" : "Özel durum ayarlar",
+    "Clear status after" : "Durum şu kadar sonra kaldırılsın",
+    "Set a custom status" : "Özel bir durum ayarla",
+    "Clear custom status" : "Özel durumu kaldır"
 },
 "nplurals=2; plural=(n > 1);");

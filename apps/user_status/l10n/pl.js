@@ -8,7 +8,6 @@ OC.L10N.register(
     "Vacationing" : "Na wakacjach",
     "Working remotely" : "Praca zdalna",
     "User status" : "Status użytkownika",
-    "Set custom status" : "Ustaw własny status",
     "Online" : "Online",
     "Away" : "Bezczynny",
     "Do not disturb" : "Nie przeszkadzać",
@@ -16,10 +15,7 @@ OC.L10N.register(
     "Offline" : "Offline",
     "Set status" : "Ustaw status",
     "There was an error saving the new status" : "Wystąpił błąd podczas zapisywania nowego statusu",
-    "Clear status after" : "Wyczyść status po",
     "What's your status?" : "Jaki jest Twój status?",
-    "Set a custom status" : "Ustaw własny status",
-    "Clear custom status" : "Wyczyść własny status",
     "There was an error saving the status" : "Wystąpił błąd podczas zapisywania statusu",
     "There was an error clearing the status" : "Wystąpił błąd podczas usuwania statusu",
     "No recent status changes" : "Brak ostatnich zmian statusu",
@@ -30,6 +26,10 @@ OC.L10N.register(
     "30 minutes" : "30 minut",
     "1 hour" : "1 godzina",
     "4 hours" : "4 godziny",
-    "Mute all notifications" : "Wycisz wszystkie powiadomienia"
+    "Mute all notifications" : "Wycisz wszystkie powiadomienia",
+    "Set custom status" : "Ustaw własny status",
+    "Clear status after" : "Wyczyść status po",
+    "Set a custom status" : "Ustaw własny status",
+    "Clear custom status" : "Wyczyść własny status"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

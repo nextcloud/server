@@ -8,7 +8,6 @@ OC.L10N.register(
     "Vacationing" : "Одмор",
     "Working remotely" : "Работи далечински",
     "User status" : "Статус на корисникот",
-    "Set custom status" : "Постави сопствен статус",
     "Online" : "Приклучен",
     "Away" : "Далеку",
     "Do not disturb" : "Не вознемирувај",
@@ -16,10 +15,7 @@ OC.L10N.register(
     "Offline" : "Исклучен",
     "Set status" : "Постави статус",
     "There was an error saving the new status" : "Настана грешка при зачувување на нов статус",
-    "Clear status after" : "Тргни го статусот после",
     "What's your status?" : "Кој е вашиот статус?",
-    "Set a custom status" : "Постави сопствен статус",
-    "Clear custom status" : "Тргни го сопствениот статус",
     "There was an error saving the status" : "Грешка при зачувување на статус",
     "There was an error clearing the status" : "Грешка при отстранување на статус",
     "No recent status changes" : "Нема неодамнешна промена на статус",
@@ -30,6 +26,10 @@ OC.L10N.register(
     "30 minutes" : "30 минути",
     "1 hour" : "1 час",
     "4 hours" : "4 часа",
-    "Mute all notifications" : "Занеми (Mute) ги сите известувања"
+    "Mute all notifications" : "Занеми (Mute) ги сите известувања",
+    "Set custom status" : "Постави сопствен статус",
+    "Clear status after" : "Тргни го статусот после",
+    "Set a custom status" : "Постави сопствен статус",
+    "Clear custom status" : "Тргни го сопствениот статус"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
