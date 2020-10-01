@@ -914,4 +914,4 @@ function(t){if(Number(t.version.split(".")[0])>=2)t.mixin({beforeCreate:n});else
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 o.default.use(h.a);var v={setEnforced:function(t,e){o.default.set(t,"enforced",e)},setEnforcedGroups:function(t,e){o.default.set(t,"enforcedGroups",e)},setExcludedGroups:function(t,e){o.default.set(t,"excludedGroups",e)}},m=new h.a.Store({strict:!1,state:{enforced:!1,enforcedGroups:[],excludedGroups:[]},mutations:v});r.nc=btoa(OC.requestToken),o.default.prototype.t=t,window.OC=window.OC||{},window.OC.Settings=window.OC.Settings||{},m.replaceState(Object(i.loadState)("settings","mandatory2FAState")),new(o.default.extend(p))({store:m}).$mount("#two-factor-auth-settings")}]);
-//# sourceMappingURL=vue-settings-admin-security.js.map?v=48b42e10486ea31f56b7
+//# sourceMappingURL=vue-settings-admin-security.js.map?v=ebb2b45d0a38b4e4ca0a
