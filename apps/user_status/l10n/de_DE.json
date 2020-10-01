@@ -6,7 +6,6 @@
     "Vacationing" : "Im Urlaub",
     "Working remotely" : "Arbeitet aus der Ferne",
     "User status" : "Benutzerstatus",
-    "Set custom status" : "Benutzerdefinierten Status setzen",
     "Online" : "Online",
     "Away" : "Abwesend",
     "Do not disturb" : "Bitte nicht stören",
@@ -14,10 +13,7 @@
     "Offline" : "Offline",
     "Set status" : "Status setzen",
     "There was an error saving the new status" : "Es gab einen Fehler beim Speichern des neuen Status",
-    "Clear status after" : "Status löschen nach",
     "What's your status?" : "Wie ist Ihr Status?",
-    "Set a custom status" : "Einen benutzerdefinierten Status setzen",
-    "Clear custom status" : "Benutzerdefinierten Status löschen",
     "There was an error saving the status" : "Es gab einen Fehler beim Speichern des Status",
     "There was an error clearing the status" : "Es gab einen Fehler beim Löschen des Status",
     "No recent status changes" : "Keine kürzlichen Statusänderungen",
@@ -28,6 +24,10 @@
     "30 minutes" : "30 Minuten",
     "1 hour" : "1 Stunde",
     "4 hours" : "4 Stunden",
-    "Mute all notifications" : "Alle Benachrichtigungen stummschalten"
+    "Mute all notifications" : "Alle Benachrichtigungen stummschalten",
+    "Set custom status" : "Benutzerdefinierten Status setzen",
+    "Clear status after" : "Status löschen nach",
+    "Set a custom status" : "Einen benutzerdefinierten Status setzen",
+    "Clear custom status" : "Benutzerdefinierten Status löschen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

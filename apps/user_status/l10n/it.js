@@ -8,7 +8,6 @@ OC.L10N.register(
     "Vacationing" : "In vacanza",
     "Working remotely" : "Lavoro da remoto",
     "User status" : "Stato utente",
-    "Set custom status" : "Imposta stato personalizzato",
     "Online" : "In linea",
     "Away" : "Assente",
     "Do not disturb" : "Non disturbare",
@@ -16,10 +15,7 @@ OC.L10N.register(
     "Offline" : "Non in linea",
     "Set status" : "Imposta stato",
     "There was an error saving the new status" : "Si è verificato un errore durante il salvataggio del nuovo stato",
-    "Clear status after" : "Togli lo stato dopo",
     "What's your status?" : "Qual è il tuo stato?",
-    "Set a custom status" : "Imposta uno stato personalizzato",
-    "Clear custom status" : "Togli stato personalizzato",
     "There was an error saving the status" : "Si è verificato un errore durante il salvataggio dello stato",
     "There was an error clearing the status" : "Si è verificato un errore durante la rimozione dello stato",
     "No recent status changes" : "Nessun cambio di stato recente",
@@ -30,6 +26,10 @@ OC.L10N.register(
     "30 minutes" : "30 minuti",
     "1 hour" : "1 ora",
     "4 hours" : "4 ore",
-    "Mute all notifications" : "Silenzia tutte le notifiche"
+    "Mute all notifications" : "Silenzia tutte le notifiche",
+    "Set custom status" : "Imposta stato personalizzato",
+    "Clear status after" : "Togli lo stato dopo",
+    "Set a custom status" : "Imposta uno stato personalizzato",
+    "Clear custom status" : "Togli stato personalizzato"
 },
 "nplurals=2; plural=(n != 1);");

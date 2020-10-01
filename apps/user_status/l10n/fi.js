@@ -8,16 +8,12 @@ OC.L10N.register(
     "Vacationing" : "Lomailemassa",
     "Working remotely" : "Etätyössä",
     "User status" : "Käyttäjän tilatieto",
-    "Set custom status" : "Aseta mukautettu tilatieto",
     "Away" : "Poissa",
     "Do not disturb" : "Älä häiritse",
     "Invisible" : "Näkymätön",
     "Set status" : "Aseta tilatieto",
     "There was an error saving the new status" : "Uuden tilatiedon tallentamisessa tapahtui virhe",
-    "Clear status after" : "Tyhjennä tilatieto",
     "What's your status?" : "Mikä on tilatietosi?",
-    "Set a custom status" : "Aseta mukautettu tilatieto",
-    "Clear custom status" : "Tyhjennä mukautettu tilatieto",
     "There was an error saving the status" : "Tilatiedon tallentamisessa tapahtui virhe",
     "There was an error clearing the status" : "Tilatietoa tyhjentäessä tapahtui virhe",
     "No recent status changes" : "Ei viimeisimpiä tilatietomuutoksia",
@@ -28,6 +24,10 @@ OC.L10N.register(
     "30 minutes" : "30 minuuttia",
     "1 hour" : "1 tunti",
     "4 hours" : "4 tuntia",
-    "Mute all notifications" : "Mykistä kaikki ilmoitukset"
+    "Mute all notifications" : "Mykistä kaikki ilmoitukset",
+    "Set custom status" : "Aseta mukautettu tilatieto",
+    "Clear status after" : "Tyhjennä tilatieto",
+    "Set a custom status" : "Aseta mukautettu tilatieto",
+    "Clear custom status" : "Tyhjennä mukautettu tilatieto"
 },
 "nplurals=2; plural=(n != 1);");

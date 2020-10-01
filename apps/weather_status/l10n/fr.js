@@ -25,6 +25,7 @@ OC.L10N.register(
     "More weather for {adr}" : "Plus de météo pour {adr}",
     "Loading weather" : "Chargement de la météo",
     "Set location for weather" : "Définir l'emplacement pour la météo",
+    "You are not logged in." : "Vous n'êtes pas connecté.",
     "There was an error getting the weather status information." : "Une erreur s'est produite lors de l'obtention des informations sur l'état de la météo.",
     "No weather information found" : "Aucune information météo",
     "Location not found" : "Lieu non trouvé",
