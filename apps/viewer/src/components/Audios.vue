@@ -1,7 +1,7 @@
 <!--
- - @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
+ - @copyright Copyright (c) 2020 Daniel Kesselberg <mail@danielkesselberg.de>
  -
- - @author John Molakvoæ <skjnldsv@protonmail.com>
+ - @author Daniel Kesselberg <mail@danielkesselberg.de>
  -
  - @license GNU AGPL version 3 or any later version
  -
@@ -28,16 +28,13 @@
 			height: height + 'px',
 			width: width + 'px'
 		}">
-		<video
-			ref="video"
+		<audio
+			ref="audio"
 			:autoplay="active"
-			:playsinline="true"
-			:poster="livePhotoPath"
 			:src="davPath"
 			preload="metadata"
 			@ended="donePlaying"
-			@canplay="doneLoading"
-			@loadedmetadata="onLoadedMetadata">
+			@canplay="doneLoading">
 
 			<!-- Omitting `type` on purpose because most of the
 				browsers auto detect the appropriate codec.
@@ -45,8 +42,8 @@
 				the provided mime instead of detecting a potential
 				compatibility. -->
 
-			{{ t('viewer', 'Your browser does not support videos.') }}
-		</video>
+			{{ t('viewer', 'Your browser does not support audio.') }}
+		</audio>
 	</VuePlyr>
 </template>
 
@@ -55,32 +52,18 @@ import Vue from 'vue'
 import VuePlyr from 'vue-plyr'
 import { generateFilePath } from '@nextcloud/router'
 
-const liveExt = ['jpg', 'jpeg', 'png']
-const liveExtRegex = new RegExp(`\\.(${liveExt.join('|')})$`, 'i')
-
 Vue.use(VuePlyr)
 
 export default {
-	name: 'Videos',
+	name: 'Audios',
 
 	computed: {
-		livePhoto() {
-			return this.fileList.find(file => {
-				// if same filename and extension is allowed
-				return file.filename !== this.filename
-					&& file.basename.startsWith(this.name)
-					&& liveExtRegex.test(file.basename)
-			})
-		},
-		livePhotoPath() {
-			return this.livePhoto && this.getPreviewIfAny(this.livePhoto)
-		},
 		player() {
 			return this.$refs.plyr.player
 		},
 		options() {
 			return {
-				controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'fullscreen'],
+				controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings'],
 				iconUrl: generateFilePath('viewer', 'img', 'plyr.svg'),
 			}
 		},
@@ -100,28 +83,16 @@ export default {
 	},
 
 	methods: {
-		// Updates the dimensions of the modal
-		updateVideoSize() {
-			this.naturalHeight = this.$refs.video && this.$refs.video.videoHeight
-			this.naturalWidth = this.$refs.video && this.$refs.video.videoWidth
-			this.updateHeightWidth()
-		},
-
 		donePlaying() {
-			// reset and show poster after play
-			this.$refs.video.autoplay = false
-			this.$refs.video.load()
-		},
-
-		onLoadedMetadata() {
-			this.updateVideoSize()
+			this.$refs.audio.autoplay = false
+			this.$refs.audio.load()
 		},
 	},
 }
 </script>
 
 <style scoped lang="scss">
-video {
+audio {
 	background-color: black;
 	max-width: 100%;
 	max-height: 100%;
@@ -139,8 +110,8 @@ video {
 		min-width: 80px;
 	}
 	// plyr buttons style
-	.plyr--video .plyr__progress__buffer,
-	.plyr--video .plyr__control {
+	.plyr--audio .plyr__progress__buffer,
+	.plyr--audio .plyr__control {
 		&.plyr__tab-focus,
 		&:hover,
 		&[aria-expanded=true] {
@@ -148,9 +119,6 @@ video {
 			color: var(--color-primary-text);
 			box-shadow: none !important;
 		}
-	}
-	.plyr__control--overlaid {
-		background-color: var(--color-primary-element);
 	}
 	// plyr volume control
 	.plyr--full-ui input[type=range] {
