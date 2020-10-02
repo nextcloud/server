@@ -24,6 +24,20 @@
 		id="user-status_panel"
 		:items="items"
 		:loading="loading">
+		<template v-slot:default="{ item }">
+			<DashboardWidgetItem
+				:main-text="item.mainText"
+				:sub-text="item.subText">
+				<template v-slot:avatar>
+					<Avatar
+						class="item-avatar"
+						:size="44"
+						:user="item.avatarUsername"
+						:display-name="item.mainText"
+						:show-user-status-compact="false" />
+				</template>
+			</DashboardWidgetItem>
+		</template>
 		<template v-slot:empty-content>
 			<EmptyContent
 				id="user_status-widget-empty-content"
@@ -35,7 +49,8 @@
 </template>
 
 <script>
-import { DashboardWidget } from '@nextcloud/vue-dashboard'
+import { DashboardWidget, DashboardWidgetItem } from '@nextcloud/vue-dashboard'
+import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import { loadState } from '@nextcloud/initial-state'
 import moment from '@nextcloud/moment'
@@ -43,7 +58,9 @@ import moment from '@nextcloud/moment'
 export default {
 	name: 'Dashboard',
 	components: {
+		Avatar,
 		DashboardWidget,
+		DashboardWidgetItem,
 		EmptyContent,
 	},
 	data() {
@@ -56,13 +73,21 @@ export default {
 		items() {
 			return this.statuses.map((item) => {
 				const icon = item.icon || ''
-				const message = item.message || ''
-				const status = `${icon} ${message}`
+				let message = item.message || ''
+				if (message === '') {
+					if (item.status === 'away') {
+						message = t('user_status', 'Away')
+					}
+					if (item.status === 'dnd') {
+						message = t('user_status', 'Do not disturb')
+					}
+				}
+				const status = item.icon !== '' ? `${icon} ${message}` : message
 
 				let subText
-				if (item.icon === null && item.message === null && item.timestamp === null) {
+				if (item.icon === null && message === '' && item.timestamp === null) {
 					subText = ''
-				} else if (item.icon === null && item.message === null && item.timestamp !== null) {
+				} else if (item.icon === null && message === '' && item.timestamp !== null) {
 					subText = moment(item.timestamp, 'X').fromNow()
 				} else if (item.timestamp !== null) {
 					subText = this.t('user_status', '{status}, {timestamp}', {
