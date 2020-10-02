@@ -44,6 +44,7 @@ const getAllStatusOptions = () => {
 	}, {
 		type: 'invisible',
 		label: t('user_status', 'Invisible'),
+		subline: t('user_status', 'Appear offline'),
 		icon: 'icon-user-status-invisible',
 	}]
 }
