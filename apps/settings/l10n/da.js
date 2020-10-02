@@ -340,11 +340,6 @@ OC.L10N.register(
     "Valid until %s" : "Gyldig indtil %s",
     "Import root certificate" : "Importer rodcertifikat",
     "Execute one task with each page loaded" : "Udføre en opgave med hver side indlæsning",
-    "Set default expiration date" : "Vælg standard udløbsdato",
-    "Unsaved changes" : "Ikke gemte ændringer",
-    "Use current version" : "Brug aktuelle version",
-    "Use the saved version" : "Brug den gemte version",
-    "Retry" : "Prøv igen",
-    "Show file" : "Vis fil"
+    "Set default expiration date" : "Vælg standard udløbsdato"
 },
 "nplurals=2; plural=(n != 1);");

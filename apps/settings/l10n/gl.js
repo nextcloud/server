@@ -870,21 +870,6 @@ OC.L10N.register(
     "Set default expiration date" : "Definir a data predeterminada de caducidade",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Permitir autocompletar o nome de usuario na xanela de diálogo. Se esta opción está desactivada, debera escribirse o nome de usuario completo ou o enderezo de correo-e. ",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Amosar o texto de exención de responsabilidade na páxina de envío de ligazóns publicas. (Amosarase só cando a lista de ficheiros estea agochada.)",
-    "{counter} apps have an update available" : "{counter} aplicacións teñen unha actualización pendente.",
-    "_and %n other editor_::_and %n other editors_" : ["e outro editor","e outros %n editores"],
-    "Enter your name so other users can see who is editing" : "Introduza o seu nome para que outros usuarios poidan ver quen está a editar",
-    "Edit guest name" : "Editar o nome do convidado",
-    "Save guest name" : "Gardar o nome do convidado",
-    "Add link" : "Engadir a ligazón",
-    "Last saved {lastSaved}" : "Último gardado {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "O documento foi modificado fora do editor. Non é posíbel aplicar os cambios.",
-    "Unpushed changes" : "Cambios sen enviar",
-    "Unsaved changes" : "Cambios sen gardar",
-    "Use current version" : "Empregar a versión actual",
-    "Use the saved version" : "Empregar a versión gardada",
-    "File could not be loaded. Please check your internet connection." : "Non foi posíbel cargar o ficheiro. Comprobe a súa conexión a Internet.",
-    "Retry" : "Volver tentar",
-    "Show image" : "Amosar a imaxe",
-    "Show file" : "Amosar o ficheiro"
+    "{counter} apps have an update available" : "{counter} aplicacións teñen unha actualización pendente."
 },
 "nplurals=2; plural=(n != 1);");

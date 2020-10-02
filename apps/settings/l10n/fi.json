@@ -402,19 +402,6 @@
     "Set default expiration date" : "Aseta oletusvanhenemispäivä",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Salli käyttäjätunnusten automaattinen täydentäminen jakoikkunassa. Jos tämä asetus on pois käytöstä, tulee käyttäjän kirjoittaa käyttäjätunnus tai sähköpostiosoite kokonaan.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Näytä vastuuvapauslauseke julkisen linkin lähetyssivulla. (Näytetään vain, kun tiedostolista on piilotettu.)",
-    "{counter} apps have an update available" : "{counter} sovellukselle on päivitys saatavilla",
-    "_and %n other editor_::_and %n other editors_" : ["ja %n muu muokkaaja","ja %n muuta muokkaajaa"],
-    "Enter your name so other users can see who is editing" : "Kirjoita nimesi, jotta muut näkyvät kuka muokkaa asiakirjaa",
-    "Edit guest name" : "Muokkaa vieraan nimeä",
-    "Save guest name" : "Tallenna vieraan nimi",
-    "Add link" : "Lisää linkki",
-    "Last saved {lastSaved}" : "Viimeksi tallennettu {lastSaved}",
-    "Unsaved changes" : "Tallentamattomia muutoksia",
-    "Use current version" : "Käytä nykyistä versiota",
-    "Use the saved version" : "Käytä tallennettua versiota",
-    "File could not be loaded. Please check your internet connection." : "Tiedostoa ei voitu ladata. Tarkista internetyhteytesi tila.",
-    "Retry" : "Yritä uudelleen",
-    "Show image" : "Näytä kuva",
-    "Show file" : "Näytä tiedosto"
+    "{counter} apps have an update available" : "{counter} sovellukselle on päivitys saatavilla"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

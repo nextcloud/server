@@ -431,15 +431,6 @@ OC.L10N.register(
     "Import root certificate" : "Impor sertifikat root",
     "Execute one task with each page loaded" : "Jalankan tugas setiap kali halaman dimuat",
     "Set default expiration date" : "Atur tanggal kadaluarsa default",
-    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Perbolehkan nama pengguna otomatis terisi didialog bagikan. Jikan ini dinonaktifkan, nama pengguna atau alamat email harus dimasukkan.",
-    "Enter your name so other users can see who is editing" : "Tuliskan nama Anda, agar pengguna lain dapat melihat siapa yang sedang mengedit",
-    "Edit guest name" : "Edit nama tamu",
-    "Save guest name" : "Simpan nama tamu",
-    "Add link" : "Tambah tautan",
-    "Last saved {lastSaved}" : "Terakhir disimpan {lastSaved}",
-    "File could not be loaded. Please check your internet connection." : "Berkas tidak dapat dimuat. Periksa koneksi internet Anda.",
-    "Retry" : "Ulangi",
-    "Show image" : "Tampilkan gambar",
-    "Show file" : "Tampilkan berkas"
+    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Perbolehkan nama pengguna otomatis terisi didialog bagikan. Jikan ini dinonaktifkan, nama pengguna atau alamat email harus dimasukkan."
 },
 "nplurals=1; plural=0;");

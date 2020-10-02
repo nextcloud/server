@@ -368,20 +368,6 @@ OC.L10N.register(
     "Execute one task with each page loaded" : "Виконати одне завдання для кожної завантаженої сторінки ",
     "Set default expiration date" : "Встановити термін дії за замовчуванням",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Дозволити автоматичне доповнення користувача в діалозі обміну. Якщо вимкнено, потрібно ввести ім'я користувача чи електронну адресу повністю.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Показати текст відмови від відповідальності на сторінці завантаження загальнодоступного посилання. (Показується лише тоді, коли список файлів приховано.)",
-    "Enter your name so other users can see who is editing" : "Зазначте ваше ім'я, щоби користувачі знали, хто редагує",
-    "Edit guest name" : "Редагувати ім'я гостя",
-    "Save guest name" : "Зберегти ім'я гостя",
-    "Add link" : "Додати посиланя",
-    "Last saved {lastSaved}" : "Збережено {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Документ було змінено за межами редактора. Неможливо застосувати зміни.",
-    "Unpushed changes" : "Ненадіслані зміни",
-    "Unsaved changes" : "Незбережені зміни",
-    "Use current version" : "Використовувати поточну версію",
-    "Use the saved version" : "Використовувати збережену версію",
-    "File could not be loaded. Please check your internet connection." : "Неможливо завантажити файл. Перевірте з'єднання з інтернетом",
-    "Retry" : "Ще раз",
-    "Show image" : "Показати зображення",
-    "Show file" : "Показати файл"
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Показати текст відмови від відповідальності на сторінці завантаження загальнодоступного посилання. (Показується лише тоді, коли список файлів приховано.)"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

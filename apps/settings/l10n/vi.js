@@ -272,7 +272,6 @@ OC.L10N.register(
     "Issued By" : "Phát hành bởi",
     "Valid until %s" : "Có hiệu lực đến %s",
     "Import root certificate" : "Nhập root certificate",
-    "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải",
-    "Unsaved changes" : "Thay đổi chưa được lưu"
+    "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải"
 },
 "nplurals=1; plural=0;");

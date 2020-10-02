@@ -868,21 +868,6 @@
     "Set default expiration date" : "Indiquer une date d'expiration par défaut",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Activer l'autocomplétion des noms d'utilisateurs dans la fenêtre de partage. Si cette option est désactivée, les noms complets ou les adresses e-mail doivent être indiqués.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Afficher les conditions d'utilisation sur la page publique de téléversement (seulement lorsque la liste des fichiers est masquée).",
-    "{counter} apps have an update available" : "{counter} mises à jour d'applications disponibles.",
-    "_and %n other editor_::_and %n other editors_" : ["et %n  autre éditeur","et %n  autres éditeurs"],
-    "Enter your name so other users can see who is editing" : "Entrez votre nom pour que les autres utilisateurs puissent savoir qui effectue des modifications",
-    "Edit guest name" : "Modifier le nom de l'invité",
-    "Save guest name" : "Enregistrer le nom de l'invité",
-    "Add link" : "Ajouter un lien",
-    "Last saved {lastSaved}" : "Dernier enregistrement {lastSave}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Le document a été modifié par un autre programme que l'éditeur. Les changements ne peuvent être appliqués.",
-    "Unpushed changes" : "Modifications non poussées",
-    "Unsaved changes" : "Modifications non enregistrées",
-    "Use current version" : "Utiliser la version actuelle",
-    "Use the saved version" : "Utiliser la version enregistrée",
-    "File could not be loaded. Please check your internet connection." : "Le fichier n'a pu être chargé. Vérifiez votre connexion Internet.",
-    "Retry" : "Réessayer",
-    "Show image" : "Afficher l'image",
-    "Show file" : "Afficher le fichier"
+    "{counter} apps have an update available" : "{counter} mises à jour d'applications disponibles."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

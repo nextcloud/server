@@ -360,18 +360,6 @@ OC.L10N.register(
     "Execute one task with each page loaded" : "개별 페이지를 불러올 때마다 실행",
     "Set default expiration date" : "기본 만료 날짜 설정",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "공유 대화 상자에서 사용자 이름을 자동으로 완성합니다. 이 설정을 사용하지 않으면 전체 사용자 이름이나 이메일 주소를 입력해야 합니다.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "공개 링크 업로드 페이지에 고지 사항 텍스트를 표시합니다.(파일 목록이 숨겨져 있는 경우에만 표시합니다.)",
-    "Enter your name so other users can see who is editing" : "누가 편집하는지 알 수 있게 당신의 이름을 입력하시오.",
-    "Edit guest name" : "게스트 이름 편집하기",
-    "Save guest name" : "게스트 이름 저장하기",
-    "Add link" : "링크 추가",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "문서가 에디터 밖에서 변경되었습니다. 변경사항이 적용되지 않습니다.",
-    "Unsaved changes" : "저장하지 않은 변경 사항",
-    "Use current version" : "최근 버전을 사용하십시오.",
-    "Use the saved version" : "이전 버전 사용하기",
-    "File could not be loaded. Please check your internet connection." : "파일을 가져올 수 없습니다. 인터넷 연결을 확인해주십시오.",
-    "Retry" : "다시 시도",
-    "Show image" : "이미지 보여주기",
-    "Show file" : "파일 보여주기"
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "공개 링크 업로드 페이지에 고지 사항 텍스트를 표시합니다.(파일 목록이 숨겨져 있는 경우에만 표시합니다.)"
 },
 "nplurals=1; plural=0;");

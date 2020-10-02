@@ -868,21 +868,6 @@
     "Set default expiration date" : "Establecer fecha de caducidad predeterminada",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Permitir autocompletado del nombre de usuario en el diálogo de compartir. Si se desactiva, se necesitará introducir el nombre de usuario completo o la dirección de correo electrónico.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostrar texto de descargo de responsabilidad en la página de subida con el enlace público. (Sólo se muestra cuando la lista de archivos está oculta.)",
-    "{counter} apps have an update available" : "{counter} apps tienen una actualización disponible",
-    "_and %n other editor_::_and %n other editors_" : ["y %n otro editor","y %n otros editores"],
-    "Enter your name so other users can see who is editing" : "Introduce tu nombre para que otros usuarios puedan ver quién está editando",
-    "Edit guest name" : "Editar nombre del invitado",
-    "Save guest name" : "Guardar nombre del invitado",
-    "Add link" : "Añadir enlace",
-    "Last saved {lastSaved}" : "Guardado por última vez: {lastSave}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "El documento ha cambiado fuera del editor. Los cambios no se pueden aplicar.",
-    "Unpushed changes" : "Cambios sin subir",
-    "Unsaved changes" : "Cambios sin guardar",
-    "Use current version" : "Usar versión actual",
-    "Use the saved version" : "Usar la versión guardada",
-    "File could not be loaded. Please check your internet connection." : "El archivo no se pudo cargar. Por favor, compruebe su conexión a internet.",
-    "Retry" : "Reintentar",
-    "Show image" : "Mostrar imagen",
-    "Show file" : "Mostrar archivo"
+    "{counter} apps have an update available" : "{counter} apps tienen una actualización disponible"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

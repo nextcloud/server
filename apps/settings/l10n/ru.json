@@ -864,21 +864,6 @@
     "Set default expiration date" : "Установить дату истечения по умолчанию",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Включить автоматическое завершение имён пользователей в диалоге предоставления общего доступа. Если отключено, то необходимо вводить полное имя или адрес эл. почты.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Показывать текст об отказе от ответственности на странице доступа по открытой ссылке. Текст виден только при скрытом списке файлов.",
-    "{counter} apps have an update available" : "Возможно обновить {counter} приложение(ий).",
-    "_and %n other editor_::_and %n other editors_" : ["и ещё %n редакторов","и ещё %n редактора","и ещё %n редакторов","и ещё %n редактора"],
-    "Enter your name so other users can see who is editing" : "Введите своё имя, чтобы другие пользователи могли видеть, кто редактирует",
-    "Edit guest name" : "Изменить имя гостя",
-    "Save guest name" : "Сохранить имя гостя",
-    "Add link" : "Добавить ссылку",
-    "Last saved {lastSaved}" : "Последнее сохранение {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Документ был изменен вне редактора. Изменения не могут быть применены.",
-    "Unpushed changes" : "Нефиксированные изменения",
-    "Unsaved changes" : "Несохранённые изменения",
-    "Use current version" : "Использовать текущую версию",
-    "Use the saved version" : "Использовать сохранённую версию",
-    "File could not be loaded. Please check your internet connection." : "Не удалось загрузить файл, проверьте соединение с интернетом. ",
-    "Retry" : "Повторить",
-    "Show image" : "Показать изображение",
-    "Show file" : "Показать файл"
+    "{counter} apps have an update available" : "Возможно обновить {counter} приложение(ий)."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
