@@ -111,7 +111,7 @@ class ContactsStore implements IContactsStore {
 	 * current user is in an excluded group it will filter all local users.
 	 *  4. if the `shareapi_only_share_with_group_members` config option is
 	 * enabled it will filter all users which doens't have a common group
-	 * with the current user.
+	 * with the current user, considering exceptions (global scoped groups)
 	 *
 	 * @param IUser $self
 	 * @param Entry[] $entries
@@ -131,6 +131,13 @@ class ContactsStore implements IContactsStore {
 		$ownGroupsOnly = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes' || $restrictEnumeration;
 
 		$selfGroups = $this->groupManager->getUserGroupIds($self);
+
+		// check for existing global scoped groups to include them into selfGroups
+		$globalScopedGroupList = $this->config->getAppValue('core', 'shareapi_global_scoped_group_list', '');
+		$globalScopedGroups = json_decode($globalScopedGroupList);
+		if (!is_null($globalScopedGroups)) {
+			$selfGroups = array_merge($selfGroups, $globalScopedGroups);
+		}
 
 		if ($excludedGroups) {
 			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');

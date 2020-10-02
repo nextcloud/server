@@ -139,6 +139,13 @@
 } ?> />
 		<label for="onlyShareWithGroupMembers"><?php p($l->t('Restrict users to only share with users in their groups'));?></label><br/>
 	</p>
+	<p id="selectGlobalScopedGroups" class="indent <?php if (!$_['onlyShareWithGroupMembers'] || $_['shareAPIEnabled'] === 'no') {
+	p('hidden');
+}?>">
+		<input name="shareapi_global_scoped_group_list" type="hidden" id="globalScopedGroups" value="<?php p($_['shareGlobalScopedGroupList']) ?>" style="width: 400px" class="noJSAutoUpdate"/>
+		<br />
+		<em><?php p($l->t('Add exceptions: Groups that can always receive shares.')); ?></em>
+	</p>
 	<p class="<?php if ($_['shareAPIEnabled'] === 'no') {
 	p('hidden');
 }?>">

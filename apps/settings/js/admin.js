@@ -8,6 +8,14 @@ window.addEventListener('DOMContentLoaded', function(){
 		});
 	});
 
+	$('#globalScopedGroups').each(function (index, element) {
+		OC.Settings.setupGroupsSelect($(element));
+		$(element).change(function(ev) {
+			var groups = ev.val || [];
+			groups = JSON.stringify(groups);
+			OCP.AppConfig.setValue('core', $(this).attr('name'), groups);
+		});
+	});
 
 	$('#loglevel').change(function(){
 		$.post(OC.generateUrl('/settings/admin/log/level'), {level: $(this).val()},function(){
@@ -250,6 +258,10 @@ window.addEventListener('DOMContentLoaded', function(){
 
 	$('#shareapiExcludeGroups').change(function() {
 		$("#selectExcludedGroups").toggleClass('hidden', !this.checked);
+	});
+
+	$('#onlyShareWithGroupMembers').change(function() {
+		$("#selectGlobalScopedGroups").toggleClass('hidden', !this.checked);
 	});
 
 	var setupChecks = function () {

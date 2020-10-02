@@ -370,6 +370,7 @@ OC.L10N.register(
     "Allow sharing with groups" : "Teilen mit Gruppen erlauben",
     "Restrict users to only share with users in their groups" : "Benutzer auf das Teilen innerhalb ihrer Gruppen beschränken",
     "Exclude groups from sharing" : "Gruppen von Freigaben ausschließen",
+	"Add exceptions: Groups that can always receive shares." : "Ausnahmen hinzufügen: Gruppen die immer Freigaben empfangen können.",
     "These groups will still be able to receive shares, but not to initiate them." : "Diese Gruppen können weiterhin Freigaben empfangen, aber selbst keine mehr initiieren.",
     "Allow username autocompletion in share dialog (if this is disabled the full username or email address needs to be entered)" : "Die Auto-Vervollständigung von Benutzernamen im Teilen-Dialog zulassen (Wenn dies deaktiviert ist, müssen der vollständige Benutzername oder die E-Mail-Adresse eingegeben werden)",
     "Restrict username autocompletion to users within the same groups" : "Automatische Vervollständigung der Benutzernamen auf Benutzer innerhalb der gleichen Gruppen beschränken",
