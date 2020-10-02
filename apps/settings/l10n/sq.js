@@ -288,18 +288,6 @@ OC.L10N.register(
     "Import root certificate" : "Importoni dëshmi rrënjë",
     "Execute one task with each page loaded" : "Kryeni vetëm një veprim me secilën prej faqeve të ngarkuara",
     "Set default expiration date" : "Caktoni datë parazgjedhje skadimi",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Shfaqni tekstin e mospranimit në linkun publik të faqes së ngarkuar. (Shfaqet vetëm kur lista e skedarit është e fshehur.)",
-    "Enter your name so other users can see who is editing" : "Vendosni emrin tuaj që përdoruesit e tjerë mund të shikojnë kush është duke bërë ndryshime",
-    "Edit guest name" : "Ndryshoni emrin e të ftuarit",
-    "Save guest name" : "Ruaj emrin e të ftuarit",
-    "Add link" : "Shto link",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Dokumenti është ndryshuar jashtë redaktuesit. Ndryshimet nuk mund të aplikohen.",
-    "Unpushed changes" : "Ndryshime të pavendosura",
-    "Unsaved changes" : "Ndryshime të paruajtura",
-    "Use current version" : "Përdor versionin aktual",
-    "Use the saved version" : "Përdor versionin e ruajtur",
-    "Retry" : "Riprovoni",
-    "Show image" : "Shfaq imazhin",
-    "Show file" : "Shfaq skedarin"
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Shfaqni tekstin e mospranimit në linkun publik të faqes së ngarkuar. (Shfaqet vetëm kur lista e skedarit është e fshehur.)"
 },
 "nplurals=2; plural=(n != 1);");

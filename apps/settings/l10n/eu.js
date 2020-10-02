@@ -851,20 +851,6 @@ OC.L10N.register(
     "Set default expiration date" : "Ezarri iraungitze-data lehenetsia",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Baimendu erabiltzaile-izenak automatikoki betetzea partekatze-leihoan. Hau desaktibatzen baduzu, erabiltzaile izena edo eposta helbide zehatza idatzi beharko dituzu.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Ohar mezua kargatzeko orriaren esteka publikoan erakutsi (fitxategi zerrenda ezkutatuta dagoenen bakarrik ikusten da.)",
-    "{counter} apps have an update available" : "{counter} aplikaziok eguneraketaren bat dute prest",
-    "Enter your name so other users can see who is editing" : "Sartu zure izena beste erabiltzaileek nor ari den editatzen ikus dezaten",
-    "Edit guest name" : "Editatu gonbidatuaren izena",
-    "Save guest name" : "Gorde gonbidatuaren izena",
-    "Add link" : "Gehitu esteka",
-    "Last saved {lastSaved}" : "Azken gordetzea {lastSave}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Dokumentua editoretik kanpo aldatu da. Aldaketak ezin dira aplikatu.",
-    "Unpushed changes" : "Bidali gabeko aldaketak",
-    "Unsaved changes" : "Gorde gabeko aldaketak",
-    "Use current version" : "Erabili uneko bertsioa",
-    "Use the saved version" : "Erabili gordetako bertsioa",
-    "File could not be loaded. Please check your internet connection." : "Ezin izan da fitxategia kargatu. Egiaztatu zure internet konexioa.",
-    "Retry" : "Saiatu berriro",
-    "Show image" : "Bistaratu irudia",
-    "Show file" : "Bistaratu fitxategia"
+    "{counter} apps have an update available" : "{counter} aplikaziok eguneraketaren bat dute prest"
 },
 "nplurals=2; plural=(n != 1);");

@@ -114,6 +114,8 @@ OC.L10N.register(
     "Reject" : "Avvis",
     "Sharing" : "Deling",
     "Allow editing" : "Tillat redigering",
+    "Allow creating" : "Tillat oppretting",
+    "Allow deleting" : "Tillat sletting",
     "Allow resharing" : "TIllat videre deling",
     "Expiration date enforced" : "Utløpsdato er påkrevd",
     "Set expiration date" : "Sett utløpsdato",

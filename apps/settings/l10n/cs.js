@@ -870,21 +870,6 @@ OC.L10N.register(
     "Set default expiration date" : "Nastavit výchozí datum skončení platnosti",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Povolit automatické dokončení uživatelského jména v dialogovém okně sdílení. Pokud je tato volba zakázána, je třeba zadat úplné uživatelské jméno nebo e-mailovou adresu.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Zobrazit text zřeknutí se odpovědnosti na stránce pro nahrání veřejného odkazu. (Zobrazit pouze pokud je seznam souborů skrytý.)",
-    "{counter} apps have an update available" : "pro {counter} aplikací je k dispozici aktualizace",
-    "_and %n other editor_::_and %n other editors_" : ["a %n další editor","a %n další editoři","a %n dalších editorů","a %n další editoři"],
-    "Enter your name so other users can see who is editing" : "Zadejte své jméno aby ostatní viděli, kdo upravuje",
-    "Edit guest name" : "Upravit jméno hosta",
-    "Save guest name" : "Uložit jméno hosta",
-    "Add link" : "Přidat odkaz",
-    "Last saved {lastSaved}" : "Naposledy uloženo {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Dokument byl mezitím změněn mimo editor. Změny provedené v editoru proto nelze uplatnit.",
-    "Unpushed changes" : "Neodeslané změny",
-    "Unsaved changes" : "Neuložené změny",
-    "Use current version" : "Použít stávající verzi",
-    "Use the saved version" : "Použít uloženou verzi",
-    "File could not be loaded. Please check your internet connection." : "Soubor se nepodařilo načíst. Zkontrolujte své připojení k Internetu.",
-    "Retry" : "Zkusit znovu",
-    "Show image" : "Zobrazit obrázek",
-    "Show file" : "Zobrazit soubor"
+    "{counter} apps have an update available" : "pro {counter} aplikací je k dispozici aktualizace"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

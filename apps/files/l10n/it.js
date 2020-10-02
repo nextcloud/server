@@ -200,8 +200,8 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limita le notifiche relative alla creazione e alla modifica dei tuoi <strong>file preferiti</strong> <em>(Solo flusso)</em>",
     "A file or folder has been <strong>restored</strong>" : "Un file o una cartella è stato <strong>ripristinato</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilizza questo indirizzo per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accedere ai tuoi file con WebDAV</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : " Impossibile trasferire la proprietà di un file o di una cartella di altri",
     "This group folder is almost full ({usedSpacePercent}%)" : "Questa cartella di gruppo è quasi piena ({usedSpacePercent}%)",
-    "This external storage is almost full ({usedSpacePercent}%)" : "Questa archiviazione esterna è quasi piena ({usedSpacePercent}%)"
+    "This external storage is almost full ({usedSpacePercent}%)" : "Questa archiviazione esterna è quasi piena ({usedSpacePercent}%)",
+    "Cannot transfter ownership of a file or folder you don't own" : " Impossibile trasferire la proprietà di un file o di una cartella di altri"
 },
 "nplurals=2; plural=(n != 1);");
