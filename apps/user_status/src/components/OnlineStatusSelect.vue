@@ -28,7 +28,8 @@
 			name="user-status-online"
 			@change="onChange">
 		<label :for="id" :class="icon" class="user-status-online-select__label">
-			<slot />
+			{{ label }}
+			<em class="user-status-online-select__subline">{{ subline }}</em>
 		</label>
 	</div>
 </template>
@@ -49,6 +50,14 @@ export default {
 		type: {
 			type: String,
 			required: true,
+		},
+		label: {
+			type: String,
+			required: true,
+		},
+		subline: {
+			type: String,
+			default: null,
 		},
 	},
 
@@ -91,12 +100,22 @@ $label-padding: 8px;
 		background-color: var(--color-background-hover);
 		background-position: $label-padding center;
 		background-size: $icon-size;
+
+		span,
+		& {
+			cursor: pointer;
+		}
 	}
 
 	&__input:checked + &__label,
 	&__input:focus + &__label,
 	&__label:hover {
 		border-color: var(--color-primary);
+	}
+
+	&__subline {
+		display: block;
+		color: var(--color-text-lighter);
 	}
 }
 
