@@ -35,12 +35,10 @@ namespace OC\AppFramework\Http;
 use OC\AppFramework\Http;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Utility\ControllerMethodReflector;
-
 use OC\DB\Connection;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\Response;
-use OCP\Diagnostics\IQueryLogger;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IRequest;
