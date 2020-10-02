@@ -868,21 +868,6 @@
     "Set default expiration date" : "Ustaw domyślną datę wygaśnięcia",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Zezwalaj na automatyczne uzupełnianie nazwy użytkownika w oknie dialogowym udostępniania. Przy wyłączonej opcji wymagać będzie podania pełnej nazwy użytkownika lub adres e-mail.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Pokaż tekst zastrzeżenia na stronie przesyłania linków publicznych. (Wyświetlane tylko, gdy lista plików jest ukryta).",
-    "{counter} apps have an update available" : "{counter} aplikacje mają dostępną aktualizację",
-    "_and %n other editor_::_and %n other editors_" : ["i %n inny edytujący","i %n innych edytujących","i %n innych edytujących","i %n innych edytujących"],
-    "Enter your name so other users can see who is editing" : "Wprowadź swoje imię, aby inni użytkownicy mogli zobaczyć, kto edytuje",
-    "Edit guest name" : "Edytuj nazwę gościa",
-    "Save guest name" : "Zapisz nazwę gościa",
-    "Add link" : "Dodaj link",
-    "Last saved {lastSaved}" : "Ostatnio zapisane {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Dokument został zmieniony poza edytorem. Nie można zastosować zmian.",
-    "Unpushed changes" : "Niewysłane zmiany",
-    "Unsaved changes" : "Niezapisane zmiany",
-    "Use current version" : "Użyj bieżącej wersji",
-    "Use the saved version" : "Użyj zapisanej wersji",
-    "File could not be loaded. Please check your internet connection." : "Nie można załadować pliku. Sprawdź połączenie z internetem.",
-    "Retry" : "Powtórz",
-    "Show image" : "Pokaż obraz",
-    "Show file" : "Pokaż plik"
+    "{counter} apps have an update available" : "{counter} aplikacje mają dostępną aktualizację"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

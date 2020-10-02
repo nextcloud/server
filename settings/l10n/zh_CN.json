@@ -862,21 +862,6 @@
     "Set default expiration date" : "设置默认过期日期",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "在共享对话框中允许用户名自动完成。 如果被禁用，则需要输入完整的用户名或电子邮件地址。",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "在公开链接上传页中显示免责声明。（仅当文件列表隐藏时显示。）",
-    "{counter} apps have an update available" : "{counter} 个应用有可用的更新",
-    "_and %n other editor_::_and %n other editors_" : ["和其他编辑者"],
-    "Enter your name so other users can see who is editing" : "输入您的姓名以便他人看到谁在编辑",
-    "Edit guest name" : "编辑访客姓名",
-    "Save guest name" : "保存访客姓名",
-    "Add link" : "添加链接",
-    "Last saved {lastSaved}" : "最近保存 {lastSave}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "本文档在编辑器外被更改。无法应用更改。",
-    "Unpushed changes" : "未推送的更改",
-    "Unsaved changes" : "未保存的更改",
-    "Use current version" : "使用当前版本",
-    "Use the saved version" : "使用保存的版本",
-    "File could not be loaded. Please check your internet connection." : "无法加载文件。 请检查您的互联网连接。",
-    "Retry" : "重试",
-    "Show image" : "显示图片",
-    "Show file" : "显示文件"
+    "{counter} apps have an update available" : "{counter} 个应用有可用的更新"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

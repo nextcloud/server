@@ -199,8 +199,8 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Βάλτε όριο στις ειδοποιήσεις για τη δημιουργία και αλλαγές στα <strong>αγαπημένα σας αρχεία</strong> <em>(Μόνο Stream)</em>",
     "A file or folder has been <strong>restored</strong>" : "Έγινε <strong>επαναφορά</strong> ενός αρχείου ή φακέλου",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Χρησιμοποιήστε αυτή την διεύθυνση, προκειμένου να <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">έχετε πρόσβαση στα αρχεία σας μέσω WebDAV</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει",
     "This group folder is almost full ({usedSpacePercent}%)" : "Ο ομαδικός φάκελος είναι σχεδόν γεμάτος ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)" : "Ο εξωτερικός αποθηκευτικός σας χώρος είναι σχεδόν γεμάτος ({usedSpacePercent}%)."
+    "This external storage is almost full ({usedSpacePercent}%)" : "Ο εξωτερικός αποθηκευτικός σας χώρος είναι σχεδόν γεμάτος ({usedSpacePercent}%).",
+    "Cannot transfter ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει"
 },
 "nplurals=2; plural=(n != 1);");

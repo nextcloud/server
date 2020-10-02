@@ -270,14 +270,6 @@ OC.L10N.register(
     "Execute one task with each page loaded" : "Käivita toiming igal lehe laadimisel",
     "Set default expiration date" : "Määra vaikimisi aegumise kuupäev",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Luba kasutajanime automaatne lõpetamine jagamisdialoogis. Kui see on keelatud, tuleb sisestada täielik kasutajanimi või e-posti aadress.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Kuva avaliku lingiga üleslaadimise lehel lahtiütluste tekst. (Kuvatakse ainult siis, kui failide loend on peidetud.)",
-    "Add link" : "Lisa link",
-    "Last saved {lastSaved}" : "Viimati salvestatud {lastSaved}",
-    "Unsaved changes" : "Salvestamata muutused",
-    "Use current version" : "Kasuta praegust versiooni",
-    "Use the saved version" : "Kasuta salvestatud versiooni",
-    "Retry" : "Proovi uuesti",
-    "Show image" : "Näita pilti",
-    "Show file" : "Näita faili"
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Kuva avaliku lingiga üleslaadimise lehel lahtiütluste tekst. (Kuvatakse ainult siis, kui failide loend on peidetud.)"
 },
 "nplurals=2; plural=(n != 1);");

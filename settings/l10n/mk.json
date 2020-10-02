@@ -868,21 +868,6 @@
     "Set default expiration date" : "Постави основен датум на истекување",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Дозволи автоматско комплетирање во лентата за споделување. Доколку ова е оневозможено потребно е да се внесе целосно корисничко име или адреса на е-пошта.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Покажете го текстот за одрекување од одговорност на страницата за поставување јавен линк. (Се прикажува само кога листата со датотеки е скриена.)",
-    "{counter} apps have an update available" : "за {counter} аликации е достапно ажурирање",
-    "_and %n other editor_::_and %n other editors_" : ["и %n друг уредник","и %n други уредници"],
-    "Enter your name so other users can see who is editing" : "Напишете го вашето име за да можат другите корисници да знаат кој уредува",
-    "Edit guest name" : "Промени име на гостин",
-    "Save guest name" : "Зачувај име на гостин",
-    "Add link" : "Додади линк",
-    "Last saved {lastSaved}" : "Последно зачувано {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Документот не е изменет од уредникот. Промените не можат да се применат.",
-    "Unpushed changes" : "Необјавени промени",
-    "Unsaved changes" : "Незачувани промени",
-    "Use current version" : "Користи ја моменталната верзија",
-    "Use the saved version" : "Користи ја зачуваната верзија",
-    "File could not be loaded. Please check your internet connection." : "Датотеката неможе да се вчита. Проверете ја вашата интернет врска.",
-    "Retry" : "Обидете се повторно",
-    "Show image" : "Прикаши слика",
-    "Show file" : "Прикажи датотека"
+    "{counter} apps have an update available" : "за {counter} аликации е достапно ажурирање"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

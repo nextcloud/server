@@ -194,8 +194,8 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Rajoita luomis- ja muutosilmoitukset <strong>omiin suosikkitiedostoihin</strong> <em>(Vain listaus)</em>",
     "A file or folder has been <strong>restored</strong>" : "Tiedosto tai kansio on <strong>palautettu</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">käyttääksesi tiedostojasi WebDAV:in kautta</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
     "This group folder is almost full ({usedSpacePercent}%)" : "Tämä ryhmäkansio on melkein täynnä ({usedSpacePercent}%)",
-    "This external storage is almost full ({usedSpacePercent}%)" : "Tämä erillinen tallennustila on melkein täynnä ({usedSpacePercent}%)"
+    "This external storage is almost full ({usedSpacePercent}%)" : "Tämä erillinen tallennustila on melkein täynnä ({usedSpacePercent}%)",
+    "Cannot transfter ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista"
 },
 "nplurals=2; plural=(n != 1);");

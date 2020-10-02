@@ -710,18 +710,6 @@ OC.L10N.register(
     "Execute one task with each page loaded" : "Ruli unu taskon kun ĉiu ŝargo de paĝo",
     "Set default expiration date" : "Agordi defaŭltan limdaton",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Permesi aŭtomatan kompletigon de uzantnomo en kunhaviga dialogo. Se tio estas malŝatita, plenaj uzantnomo aŭ retpoŝtadreso bezonos esti entajpitaj.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Montri malgarantian tekston en la publika paĝo de alŝutado (nur montrita, kiam la dosierlisto estas kaŝita).",
-    "Enter your name so other users can see who is editing" : "Entajpu vian nomon, por ke aliuloj videblu, kiu modifas",
-    "Edit guest name" : "Modifi la gastonomon",
-    "Save guest name" : "Koservi la gastonomon",
-    "Add link" : "Aldoni ligilon",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "La dokumento ŝanĝiĝis ekster la redaktilo. La ŝanĝoj ne povas esti konservitaj.",
-    "Unpushed changes" : "Nesenditaj ŝanĝoj",
-    "Unsaved changes" : "Nekonservitaj ŝanĝoj",
-    "Use current version" : "Uzi nunan version",
-    "Use the saved version" : "Uzi la konservitan version",
-    "Retry" : "Reprovi",
-    "Show image" : "Montri bildon",
-    "Show file" : "Montri dosieron"
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Montri malgarantian tekston en la publika paĝo de alŝutado (nur montrita, kiam la dosierlisto estas kaŝita)."
 },
 "nplurals=2; plural=(n != 1);");

@@ -870,21 +870,6 @@ OC.L10N.register(
     "Set default expiration date" : "Imposta data di scadenza predefinita",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Consenti il completamento del nome utente nella finestra di condivisione. Se è disabilitata, è necessario digitare il nome utente completo o l'indirizzo di posta.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostra il testo di liberatoria sulla pagina di caricamento del collegamento pubblico. (Mostrato solo quando l'elenco dei file è nascosto)",
-    "{counter} apps have an update available" : "{counter} applicazioni hanno un aggiornamento disponibile",
-    "_and %n other editor_::_and %n other editors_" : ["e %n altro redattore","e %n altri redattori"],
-    "Enter your name so other users can see who is editing" : "Digita il tuo nome in modo che gli altri utenti possano vedere chi sta modificando",
-    "Edit guest name" : "Modifica nome ospite",
-    "Save guest name" : "Salva nome ospite",
-    "Add link" : "Aggiungi collegamento",
-    "Last saved {lastSaved}" : "Ultimo salvataggio {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Il documento è stato modificato al di fuori dell'editor. Le modifiche non saranno applicate.",
-    "Unpushed changes" : "Modifiche non depositate",
-    "Unsaved changes" : "Modifiche non salvate",
-    "Use current version" : "Utilizza la versione corrente",
-    "Use the saved version" : "Utilizza la versione salvata",
-    "File could not be loaded. Please check your internet connection." : "Il file non può essere caricato. Controlla la tua connessione a Internet.",
-    "Retry" : "Riprova",
-    "Show image" : "Mostra immagine",
-    "Show file" : "Mostra file"
+    "{counter} apps have an update available" : "{counter} applicazioni hanno un aggiornamento disponibile"
 },
 "nplurals=2; plural=(n != 1);");

@@ -862,21 +862,6 @@
     "Set default expiration date" : "Alapértelmezett lejárati idő beállítása",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Felhasználónevek automatikus kiegészítésének engedélyezése a megosztási ablakban. Ha ki van kapcsolva, teljes felhasználóneveket vagy e-mail címeket kell begépelni.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Nyilatkozat szövegének megjelenítése a nyilvános feltöltési oldalon. (Csak akkor jelenik meg, ha fájl lista rejtett.)",
-    "{counter} apps have an update available" : "{counter} alkalmazás frissítése érhető el",
-    "_and %n other editor_::_and %n other editors_" : ["és %n további szerkesztő","és %n további szerkesztő"],
-    "Enter your name so other users can see who is editing" : "Adja meg a nevét, hogy mások lássák ki szerkeszti",
-    "Edit guest name" : "Vendégnév szerkesztése",
-    "Save guest name" : "Vendégnév mentése",
-    "Add link" : "Hivatkozás hozzáadása",
-    "Last saved {lastSaved}" : "Legutóbb mentve: {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "A dokumentum a szerkesztőn kívül változott meg. A módosítások nem alkalmazhatók.",
-    "Unpushed changes" : "El nem küldött változtatások",
-    "Unsaved changes" : "Mentetlen változtatások",
-    "Use current version" : "Jelenlegi verzió használata",
-    "Use the saved version" : "A mentett verzió használata",
-    "File could not be loaded. Please check your internet connection." : "A fájl betöltése sikertelen. Ellenőrizze az internetkapcsolatot.",
-    "Retry" : "Újra",
-    "Show image" : "Kép megjelenítése",
-    "Show file" : "Fájl megjelenítése"
+    "{counter} apps have an update available" : "{counter} alkalmazás frissítése érhető el"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

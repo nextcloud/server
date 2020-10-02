@@ -243,7 +243,6 @@ OC.L10N.register(
     "Valid until %s" : "Válidu hasta'l %s",
     "Import root certificate" : "Importar certificáu raigañu",
     "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada",
-    "Set default expiration date" : "Afitar la data d'espiración predeterminada",
-    "Retry" : "Retentar"
+    "Set default expiration date" : "Afitar la data d'espiración predeterminada"
 },
 "nplurals=2; plural=(n != 1);");

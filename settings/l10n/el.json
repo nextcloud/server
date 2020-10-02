@@ -864,21 +864,6 @@
     "Set default expiration date" : "Ορισμός προεπιλεγμένης ημερομηνίας λήξης",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Να επιτρέπεται η χρήση αυτόματης συμπλήρωσης του ονόματος χρήστη στο πεδίο διαμοιρασμού. Αν η ρύθμιση αυτή είναι απενεργοποιημένη θα πρέπει να εισαχθεί το πλήρες όνομα χρήστη ή το email του. ",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Εμφάνιση κειμένου αποποίησης ευθυνών στη σελίδα δημοσίευσης συνδέσμων. (Εμφανίζεται μόνο όταν η λίστα αρχείων είναι κρυφή.)",
-    "{counter} apps have an update available" : "{counter} εφαρμογές έχουν διαθέσιμη ενημέρωση",
-    "_and %n other editor_::_and %n other editors_" : ["και %n άλλος επεξεργαστής","και %n άλλοι επεξεργαστές"],
-    "Enter your name so other users can see who is editing" : "Εισάγετε το όνομά σας ώστε οι άλλοι χρήστες να γνωρίζουν ποιος κάνει επεξεργασία",
-    "Edit guest name" : "Επεξεργασία ονόματος επισκέτη",
-    "Save guest name" : "Αποθήκευση ονόματος επισκέπτη",
-    "Add link" : "Προσθήκη συνδέσμου",
-    "Last saved {lastSaved}" : "Τελευταία αποθήκευση {lastSave}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Το έγγραφο έχει αλλάξει εκτός του επεξεργαστή. Οι αλλαγές δεν μπορούν να εφαρμοστούν.",
-    "Unpushed changes" : "Παλιές ανενεργές αλλαγές",
-    "Unsaved changes" : "Μη αποθηκευμένες αλλαγές",
-    "Use current version" : "Χρήση τρέχουσας έκδοσης",
-    "Use the saved version" : "Χρήση αποθηκευμένης έκδοσης",
-    "File could not be loaded. Please check your internet connection." : "Το αρχείο δεν μπορεί να φορτωθεί. Παρακαλώ ελέξτε την σύνδεσή σας.",
-    "Retry" : "Δοκιμή ξανά",
-    "Show image" : "Εμφάνιση εικόνας",
-    "Show file" : "Εμφάνιση αρχείου"
+    "{counter} apps have an update available" : "{counter} εφαρμογές έχουν διαθέσιμη ενημέρωση"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
