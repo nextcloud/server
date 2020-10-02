@@ -864,21 +864,6 @@
     "Set default expiration date" : "Estableix la data de caducitat per defecte",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Permet la compleció automàtica del nom d’usuari en el diàleg de compartició. Si es desactiva, cal que s'introdueixi el nom d’usuari complet o l’adreça de correu electrònic.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostra el text de renúncia a la pàgina de càrrega d’enllaços públics. (Només es mostra quan la llista de fitxers està oculta).",
-    "{counter} apps have an update available" : "{counter} aplicacions tenen una actualització disponible",
-    "_and %n other editor_::_and %n other editors_" : ["i %n altre editor","i %n altres editors"],
-    "Enter your name so other users can see who is editing" : "Poseu el vostre nom i així els altres usuaris podran veure qui està editant",
-    "Edit guest name" : "Edita el nom de convidat",
-    "Save guest name" : "Desa el nom de convidat",
-    "Add link" : "Afegeix un enllaç",
-    "Last saved {lastSaved}" : "Última actualització {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "El document ha estat canviat des de fora d'aquest editor. Els canvis no es poden aplicar.",
-    "Unpushed changes" : "Canvis sense aplicar",
-    "Unsaved changes" : "Canvis sense desar",
-    "Use current version" : "Fes servir la versió actual",
-    "Use the saved version" : "Fes servir la versió desada",
-    "File could not be loaded. Please check your internet connection." : "No s'ha pogut carregar el fitxer. Revisa la teva connexió a internet.",
-    "Retry" : "Torna a intentar",
-    "Show image" : "Mostra la imatge",
-    "Show file" : "Mostra el fitxer"
+    "{counter} apps have an update available" : "{counter} aplicacions tenen una actualització disponible"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

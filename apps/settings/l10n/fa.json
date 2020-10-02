@@ -833,12 +833,6 @@
     "Set default expiration date" : "اعمال تاریخ اتمام پیش فرض",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "تکمیل خودکار نام کاربری در گفتگوی اشتراک گذاری مجاز است. در صورت غیرفعال بودن ، باید نام کاربری یا آدرس ایمیل کامل وارد شود.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "نمایش متن سلب مسئولیت در صفحه بارگیری لینک عمومی. (فقط هنگامی که لیست پرونده مخفی است نشان داده می شود.)",
-    "{counter} apps have an update available" : "{counter} برنامه ها دارای یک به روزرسانی هستند",
-    "Edit guest name" : "ویرایش نام مهمان",
-    "Save guest name" : "ذخیره نام مهمان",
-    "Add link" : "افزودن لینک",
-    "Retry" : "تلاش دوباره",
-    "Show image" : "نمایش تصویر",
-    "Show file" : "نمایش فایل"
+    "{counter} apps have an update available" : "{counter} برنامه ها دارای یک به روزرسانی هستند"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

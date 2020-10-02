@@ -200,8 +200,8 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limita les notificacions sobre la creació i canvis dels vostres <strong>fitxers favorits</strong><em>(només Stream)</em>",
     "A file or folder has been <strong>restored</strong>" : "S'ha <strong>restaurat</strong> un fitxer o una carpeta",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilitzeu aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accedir als vostres fitxers mitjançant WebDAV</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
     "This group folder is almost full ({usedSpacePercent}%)" : "Aquesta carpeta de grup és gairebé plena ({usedSpacePercent}%)",
-    "This external storage is almost full ({usedSpacePercent}%)" : "Aquest emmagatzematge extern és gairebé ple ({usedSpacePercent}%)"
+    "This external storage is almost full ({usedSpacePercent}%)" : "Aquest emmagatzematge extern és gairebé ple ({usedSpacePercent}%)",
+    "Cannot transfter ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre"
 },
 "nplurals=2; plural=(n != 1);");

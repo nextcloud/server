@@ -396,13 +396,6 @@
     "Valid until %s" : "Valabil până la %s",
     "Import root certificate" : "Importă certificat rădăcină",
     "Execute one task with each page loaded" : "Execută o sarcină la fiecare pagină încărcată",
-    "Set default expiration date" : "Setează data implicită de expirare",
-    "Add link" : "Adaugă link",
-    "Unsaved changes" : "Modificări nesalvate",
-    "Use current version" : "Folosește versiunea curentă",
-    "Use the saved version" : "Folosește versiuna salvată",
-    "Retry" : "Reîncearcă",
-    "Show image" : "Arată imaginea",
-    "Show file" : "Arată fișierul"
+    "Set default expiration date" : "Setează data implicită de expirare"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

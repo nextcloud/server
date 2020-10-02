@@ -869,21 +869,6 @@ OC.L10N.register(
     "Set default expiration date" : "Stel standaard vervaldatum in",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Automatisch afmaken gebruikersnaam bij het delen. Als dit is uitgeschakeld moet een volledige gebruiksnaam of volledig emailadres worden opgegeven.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Toon disclaimer op de openbare link uploadpagina (alleen tonen als het bestandsoverzicht verborgen is).",
-    "{counter} apps have an update available" : "{counter} apps hebben een update beschikbaar",
-    "_and %n other editor_::_and %n other editors_" : ["en %n andere bewerker","en %n andere bewerkers"],
-    "Enter your name so other users can see who is editing" : "Vul je naam in zodat anderen kunnen zien wie aan het bewerken is",
-    "Edit guest name" : "Bewerk gast naam",
-    "Save guest name" : "Bewaar gast naam",
-    "Add link" : "Voeg link toe",
-    "Last saved {lastSaved}" : "Laatste opgeslagen {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Het document is gewijzigd buiten de editor. Veranderingen kunnen niet worden toegepast.",
-    "Unpushed changes" : "Niet verwerkte veranderingen",
-    "Unsaved changes" : "Niet opgeslagen veranderingen",
-    "Use current version" : "Gebruik huidige versie",
-    "Use the saved version" : "Gebruik opgeslagen versie",
-    "File could not be loaded. Please check your internet connection." : "Bestanden konden niet worden geladen. Controleer je internetverbinding.",
-    "Retry" : "Opnieuw proberen",
-    "Show image" : "Toon afbeelding",
-    "Show file" : "Toon bestand"
+    "{counter} apps have an update available" : "{counter} apps hebben een update beschikbaar"
 },
 "nplurals=2; plural=(n != 1);");

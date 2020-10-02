@@ -864,21 +864,6 @@ OC.L10N.register(
     "Set default expiration date" : "Postavi zadani datum isteka",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Dopusti automatsko dovršavanje korisničkog imena u dijaloškom okviru za dijeljenje. Ako je ova postavka onemogućena, potrebno je unijeti puno korisničko ime ili adresu e-pošte.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Prikaži tekst izjave o odricanju od odgovornosti na stranici za otpremanje javnih poveznica. (Prikazuje se samo kad je popis datoteka skriven.)",
-    "{counter} apps have an update available" : "Dostupno je ažuriranje za {counter} aplikacija",
-    "_and %n other editor_::_and %n other editors_" : ["i %n drugi uređivač","i %n drugih uređivača","i %n drugih uređivača"],
-    "Enter your name so other users can see who is editing" : "Unesite svoje ime kako bi ostali korisnici vidjeli tko trenutno uređuje",
-    "Edit guest name" : "Uredi ime gosta",
-    "Save guest name" : "Spremi ime gosta",
-    "Add link" : "Dodaj poveznicu",
-    "Last saved {lastSaved}" : "Posljednje spremljeno {lastSave}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Dokument je promijenjen izvan uređivača teksta. Nije moguće primijeniti izmjene.",
-    "Unpushed changes" : "Neprimijenjene promjene",
-    "Unsaved changes" : "Nespremljene promjene",
-    "Use current version" : "Koristi trenutnu verziju",
-    "Use the saved version" : "Koristi spremljenu verziju",
-    "File could not be loaded. Please check your internet connection." : "Datoteka nije učitana. Provjerite internetsku vezu.",
-    "Retry" : "Pokušaj ponovno",
-    "Show image" : "Prikaži sliku",
-    "Show file" : "Prikaži datoteku"
+    "{counter} apps have an update available" : "Dostupno je ažuriranje za {counter} aplikacija"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

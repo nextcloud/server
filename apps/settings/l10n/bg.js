@@ -351,7 +351,6 @@ OC.L10N.register(
     "Import root certificate" : "Внасяне на основен сертификат",
     "Execute one task with each page loaded" : "Изпълнява една задача с всяка заредена страница.",
     "Set default expiration date" : "Задайте стандартен срок на валидност",
-    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Позволи автоматично довършване в диалога за споделяне. Ако това е забранено трябва да бъдe въведенo пълното потребителско име или email.",
-    "Retry" : "Опитай отново"
+    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Позволи автоматично довършване в диалога за споделяне. Ако това е забранено трябва да бъдe въведенo пълното потребителско име или email."
 },
 "nplurals=2; plural=(n != 1);");

@@ -297,20 +297,6 @@ OC.L10N.register(
     "Execute one task with each page loaded" : "每個頁面載入時執行",
     "Set default expiration date" : "設定預設到期日",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "允許使用者名稱自動補齊在分享對話框，如果停用這個功能，必須輸入完整的使用者名稱或電子郵件地址",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "在公開的檔案連結和上傳頁面顯示免責聲明（只有在檔案清單隱藏的時候才會顯示）",
-    "Enter your name so other users can see who is editing" : "輸入您的名稱，這樣其他使用者才能查看是誰在編輯",
-    "Edit guest name" : "編輯訪客名稱",
-    "Save guest name" : "儲存訪客名稱",
-    "Add link" : "加入連結",
-    "Last saved {lastSaved}" : "上次儲存於 {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "文件已在編輯器外變更。變更無法套用。",
-    "Unpushed changes" : "未推送變更",
-    "Unsaved changes" : "未儲存變更",
-    "Use current version" : "使用目前版本",
-    "Use the saved version" : "使用儲存版本",
-    "File could not be loaded. Please check your internet connection." : "無法載入檔案。請檢查您的網路連線。",
-    "Retry" : "重試",
-    "Show image" : "顯示影像",
-    "Show file" : "顯示檔案"
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "在公開的檔案連結和上傳頁面顯示免責聲明（只有在檔案清單隱藏的時候才會顯示）"
 },
 "nplurals=1; plural=0;");
