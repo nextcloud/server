@@ -860,21 +860,6 @@ OC.L10N.register(
     "Set default expiration date" : "有効期限のデフォルト値を設定する",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "共有ダイアログ中でユーザー名の自動補完を許可する。この設定が無効の場合、完全なユーザー名またはメールアドレスを入力する必要があります。",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "公開リンクのアップロードページに免責事項のテキストを表示する。 (ファイルリストが非表示のときのみ表示します)",
-    "{counter} apps have an update available" : "{counter} 個のアプリに更新情報があります",
-    "_and %n other editor_::_and %n other editors_" : ["他に%n人の編集者"],
-    "Enter your name so other users can see who is editing" : "自分の名前を入力して、他のユーザーの誰が編集中かを確認する",
-    "Edit guest name" : "ゲスト名を編集",
-    "Save guest name" : "ゲスト名を保存",
-    "Add link" : "リンクを追加",
-    "Last saved {lastSaved}" : "最終保存日 {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "ドキュメントがエディタの外部から変更されました。変更点を適用できません。",
-    "Unpushed changes" : "プッシュされていない変更",
-    "Unsaved changes" : "保存していない変更点",
-    "Use current version" : "現在のバージョンを使用",
-    "Use the saved version" : "保存済みのバージョンを使用",
-    "File could not be loaded. Please check your internet connection." : "ファイルを読み込めませんでした。 インターネット接続を確認してください。",
-    "Retry" : "再試行",
-    "Show image" : "画像を表示する",
-    "Show file" : "ファイルを表示する"
+    "{counter} apps have an update available" : "{counter} 個のアプリに更新情報があります"
 },
 "nplurals=1; plural=0;");

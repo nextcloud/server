@@ -824,20 +824,6 @@
     "Execute one task with each page loaded" : "Framkvæma eitt verk með hverri innhlaðinni síðu",
     "Set default expiration date" : "Setja sjálfgefinn gildistíma",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Leyfa sjálfklárun notandanafns í deilingarglugga. Ef þetta er óvirkt þarf að setja inn fullt nafn eða tölvupóstfang notanda.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Birta fyrirvara á opinberu upphleðslusíðunni. (Birtist einungis þegar listi yfir skrár er falinn).",
-    "Enter your name so other users can see who is editing" : "Settu inn nafnið þitt svo aðrir notendur geti séð hver sé að breyta hverju",
-    "Edit guest name" : "Breyta nafni gests",
-    "Save guest name" : "Vista nafn gests",
-    "Add link" : "Bæta við tengli",
-    "Last saved {lastSaved}" : "Síðast vistað {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Skjalinu hefur verið breytt utan ritilsins. Ekki var hægt að framkvæma breytingarnar.",
-    "Unpushed changes" : "Breytingar sem ekki er búið að senda inn",
-    "Unsaved changes" : "Óvistaðar breytingar",
-    "Use current version" : "Nota fyrirliggjandi útgáfu",
-    "Use the saved version" : "Nota vistuðu útgáfuna",
-    "File could not be loaded. Please check your internet connection." : "Ekki var hægt að hlaða inn skránni. Athugaðu nettenginguna þína.",
-    "Retry" : "Reyna aftur",
-    "Show image" : "Birta mynd",
-    "Show file" : "Sýna skrá"
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Birta fyrirvara á opinberu upphleðslusíðunni. (Birtist einungis þegar listi yfir skrár er falinn)."
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

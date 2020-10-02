@@ -852,21 +852,6 @@
     "Set default expiration date" : "הגדרת תאריך תפוגה ברירת מחדל",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "לאפשר השלמת שם משתמש אוטומטית בתיבת השיתוף. אם האפשרות הזו מושבתת יש להקליד את שם המשתמש או את כתובת הדוא״ל במלואם.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "הצגת טקסט ויתור בעמוד העלאת קישור ציבורי. (מופיע רק כאשר רשימת הקבצים מוסתרת.)",
-    "{counter} apps have an update available" : "ל־{counter} יישומונים יש עדכון זמין",
-    "_and %n other editor_::_and %n other editors_" : ["ועורך נוסף","ו־%n עורכים נוספים","ו־%n עורכים נוספים","ו־%n עורכים נוספים"],
-    "Enter your name so other users can see who is editing" : "נא למלא את שמך כדי שמשתמשים אחרים יוכלו לראות מי עורך",
-    "Edit guest name" : "עריכת שם אורח",
-    "Save guest name" : "שמירת שם אורח",
-    "Add link" : "הוספת קישור",
-    "Last saved {lastSaved}" : "שמירה אחרונה: {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "המסמך נערך מחוץ לעורך. לא ניתן להחיל את השינויים.",
-    "Unpushed changes" : "שינויים שלא נדחפו",
-    "Unsaved changes" : "שינויים שלא נשמרו",
-    "Use current version" : "להשתמש בגרסה הנוכחית",
-    "Use the saved version" : "להשתמש בגרסה השמורה",
-    "File could not be loaded. Please check your internet connection." : "לא ניתן לטעון את הקובץ. נא לבדוק את מצב החיבור שלך לאינטרנט.",
-    "Retry" : "ניסיון חוזר",
-    "Show image" : "הצגת תמונה",
-    "Show file" : "הצגת קובץ"
+    "{counter} apps have an update available" : "ל־{counter} יישומונים יש עדכון זמין"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

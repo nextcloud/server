@@ -190,7 +190,6 @@ OC.L10N.register(
     "Valid until %s" : "Derīgs līdz %s",
     "Import root certificate" : "Importēt root sertifikātu",
     "Execute one task with each page loaded" : "Izpildīt vienu uzdevumu ar katru ielādēto lapu",
-    "Set default expiration date" : "Iestatīt noklusējuma beigu datumu",
-    "Retry" : "Mēģināt vēlreiz"
+    "Set default expiration date" : "Iestatīt noklusējuma beigu datumu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

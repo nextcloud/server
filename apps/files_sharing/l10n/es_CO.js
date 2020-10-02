@@ -101,6 +101,7 @@ OC.L10N.register(
     "Unshare" : "Dejar de compartir",
     "group" : "grupo",
     "remote" : "remoto",
+    "Link copied" : "Enlace copiado",
     "Copy to clipboard" : "Copiar al portapapeles",
     "Password protection" : "Protección con contraseña",
     "Enter a password" : "Ingresa una contraseña",

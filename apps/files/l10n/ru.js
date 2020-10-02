@@ -200,8 +200,8 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Ограничить уведомления о создании и изменении ваших <strong>избранных файлов</strong> <em>(отображать только в приложении события)</em>",
     "A file or folder has been <strong>restored</strong>" : "Файл или каталог <strong>восстановлен</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Используйте этот адрес для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">доступа к своим файлам по протоколу WebDAV</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Изменение владельца возможно только для своих файлов и папок",
     "This group folder is almost full ({usedSpacePercent}%)" : "Эта папка группы почти заполнена ({usedSpacePercent}%)",
-    "This external storage is almost full ({usedSpacePercent}%)" : "Это внешнее хранилище почти заполнено ({usedSpacePercent}%)"
+    "This external storage is almost full ({usedSpacePercent}%)" : "Это внешнее хранилище почти заполнено ({usedSpacePercent}%)",
+    "Cannot transfter ownership of a file or folder you don't own" : "Изменение владельца возможно только для своих файлов и папок"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

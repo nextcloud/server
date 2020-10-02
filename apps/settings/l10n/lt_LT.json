@@ -856,20 +856,6 @@
     "Execute one task with each page loaded" : "Įvykdyti vieną užduotį su kiekvieno puslapio įkėlimu",
     "Set default expiration date" : "Nustatyti numatytąją galiojimo pabaigos datą",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Leisti bendrinimo dialoge automatinį naudotojo vardų užbaigimą. Jeigu tai išjungta, reikės įvesti pilną naudotojo vardą ar el. pašto adresą.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Rodyti atsakomybės ribojimo tekstą įkėlimo per viešąją nuorodą puslapyje. (Rodomas tik tada, kai failų sąrašas yra paslėptas.)",
-    "Enter your name so other users can see who is editing" : "Įveskite savo vardą, kad kiti naudotojai matytų, kas redaguoja dokumentą",
-    "Edit guest name" : "Taisyti svečio vardą",
-    "Save guest name" : "Įrašyti svečio vardą",
-    "Add link" : "Pridėti nuorodą",
-    "Last saved {lastSaved}" : "Paskutinis įrašymas {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Dokumentas pakeistas už redaktoriaus ribų. Pakeitimai negali būti pritaikyti.",
-    "Unpushed changes" : "Nepatvirtinti pakeitimai",
-    "Unsaved changes" : "Neįrašyti pakeitimai",
-    "Use current version" : "Naudoti esamą versiją",
-    "Use the saved version" : "Naudoti įrašytą versiją",
-    "File could not be loaded. Please check your internet connection." : "Nepavyko įkelti failo. Patikrinkite savo interneto ryšį.",
-    "Retry" : "Bandyti dar kartą",
-    "Show image" : "Rodyti paveikslą",
-    "Show file" : "Rodyti failą"
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Rodyti atsakomybės ribojimo tekstą įkėlimo per viešąją nuorodą puslapyje. (Rodomas tik tada, kai failų sąrašas yra paslėptas.)"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

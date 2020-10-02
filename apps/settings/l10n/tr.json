@@ -868,21 +868,6 @@
     "Set default expiration date" : "Varsayılan son kullanma tarihini ayarla",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Bu seçenek etkinleştirildiğinde, paylaşma penceresindeki kullanıcı adı otomatik olarak tamamlanır. Devre dışı bırakıldığında tam kullanıcı adının ya da e-posta adresinin yazılması gerekir.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Herkese açık bağlantı yükleme sayfasındaki sorumluluk reddi bildirim metni (yalnız dosya listesi gizli iken görüntülenir).",
-    "{counter} apps have an update available" : "{counter} uygulama için güncelleme yayınlanmış",
-    "_and %n other editor_::_and %n other editors_" : ["ve %n diğer düzenleyici","ve %n diğer düzenleyici"],
-    "Enter your name so other users can see who is editing" : "Adınızı yazın. Böylece diğer kullanıcılar kimin düzenleme yaptığını görebilir",
-    "Edit guest name" : "Konuk adını düzenle",
-    "Save guest name" : "Konuk adını kaydet",
-    "Add link" : "Bağlantı ekle",
-    "Last saved {lastSaved}" : "Son kaydedilme {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Belge düzenleyici dışında başka bir uygulama ile değiştirilmiş. Değişiklikler uygulanamayacak.",
-    "Unpushed changes" : "Gönderilmemiş değişiklikler",
-    "Unsaved changes" : "Kaydedilmemiş değişiklikler",
-    "Use current version" : "Geçerli sürüm kullanılsın",
-    "Use the saved version" : "Kaydedilmiş sürüm kullanılsın",
-    "File could not be loaded. Please check your internet connection." : "Dosya yüklenemedi. lütfen İnternet bağlantınızı denetleyin.",
-    "Retry" : "Yeniden dene",
-    "Show image" : "Görseli görüntüle",
-    "Show file" : "Dosyayı görüntüle"
+    "{counter} apps have an update available" : "{counter} uygulama için güncelleme yayınlanmış"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

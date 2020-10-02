@@ -866,21 +866,6 @@ OC.L10N.register(
     "Set default expiration date" : "Постави подразумевано време истека",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Дозволи самодовршавање корисничких имена у дијалогу за дељење. Ако је ово искључено, корисник ће морати да унесе пуно корисничко име или адресу е-поште.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Прикажи текст о ограђивању на јавној страни за отпремање (приказан је само када је сакривена листа фајлова)",
-    "{counter} apps have an update available" : "{counter} апликација имају доступно ажурирање",
-    "_and %n other editor_::_and %n other editors_" : ["и још %n уређивач","и још %n уређивача","и још %n уређивача"],
-    "Enter your name so other users can see who is editing" : "Унесите ваше име да други могу да виде ко уређује",
-    "Edit guest name" : "Измени име госта",
-    "Save guest name" : "Сачувај име госта",
-    "Add link" : "Додај везу",
-    "Last saved {lastSaved}" : "Последње чување {lastSaved}",
-    "The document has been changed outside of the editor. The changes cannot be applied." : "Документ је измењен ван уређивача. Измене се не могу применити.",
-    "Unpushed changes" : "Негурнуте измене",
-    "Unsaved changes" : "Несачуване измене",
-    "Use current version" : "Користи тренутну верзију",
-    "Use the saved version" : "Користи сачувану верзију",
-    "File could not be loaded. Please check your internet connection." : "Фајл не може да се учита. Проверите интернет конекцију.",
-    "Retry" : "Покушај поново",
-    "Show image" : "Прикажи слику",
-    "Show file" : "Прикажи фајл"
+    "{counter} apps have an update available" : "{counter} апликација имају доступно ажурирање"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

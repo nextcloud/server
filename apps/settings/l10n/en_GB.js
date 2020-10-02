@@ -309,8 +309,6 @@ OC.L10N.register(
     "Execute one task with each page loaded" : "Execute one task with each page loaded",
     "Set default expiration date" : "Set default expiry date",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)",
-    "Unsaved changes" : "Unsaved changes",
-    "Retry" : "Retry"
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)"
 },
 "nplurals=2; plural=(n != 1);");
