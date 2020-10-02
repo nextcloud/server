@@ -36,6 +36,7 @@
 					:checked="status.type === statusType"
 					@select="changeStatus">
 					{{ status.label }}
+					<em class="subline">{{ status.subline }}</em>
 				</OnlineStatusSelect>
 			</div>
 
@@ -247,6 +248,10 @@ export default {
 		// Space between the two sections
 		margin-bottom: 40px;
 		grid-template-columns: 1fr 1fr;
+
+		.subline {
+			display: block;
+		}
 	}
 
 	&__custom-input {
