@@ -56,6 +56,7 @@ use OC\MemoryInfo;
 use OCA\Settings\SetupChecks\LegacySSEKeyFormat;
 use OCA\Settings\SetupChecks\PhpDefaultCharset;
 use OCA\Settings\SetupChecks\PhpOutputBuffering;
+use OCA\Settings\SetupChecks\SqliteDatabase;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -693,7 +694,8 @@ Raw output
 		$newChecks = $this->runSetupChecks([
 			PhpDefaultCharset::class,
 			PhpOutputBuffering::class,
-			LegacySSEKeyFormat::class
+			LegacySSEKeyFormat::class,
+			SqliteDatabase::class,
 		]);
 
 		return new DataResponse(
@@ -725,8 +727,6 @@ Raw output
 				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
 				'missingIndexes' => $this->hasMissingIndexes(),
 				'missingColumns' => $this->hasMissingColumns(),
-				'isSqliteUsed' => $this->isSqliteUsed(),
-				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
 				'isPHPMailerUsed' => $this->isPHPMailerUsed(),
 				'mailSettingsDocumentation' => $this->urlGenerator->getAbsoluteURL('index.php/settings/admin'),
 				'isMemoryLimitSufficient' => $this->memoryInfo->isMemoryLimitSufficient(),

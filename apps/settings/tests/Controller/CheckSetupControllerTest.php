@@ -165,7 +165,6 @@ class CheckSetupControllerTest extends TestCase {
 				'isOpcacheProperlySetup',
 				'hasFreeTypeSupport',
 				'hasMissingIndexes',
-				'isSqliteUsed',
 				'isPHPMailerUsed',
 				'hasOpcacheLoaded',
 				'getAppDirsWithDifferentOwner',
@@ -381,23 +380,27 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testCheck() {
-		$this->config->expects($this->at(0))
+		$this->config
+			->method('getSystemValueString')
+			->with('dbtype')
+			->willReturn('sqlite');
+		$this->config->expects($this->at(2))
 			->method('getAppValue')
 			->with('core', 'cronErrors')
 			->willReturn('');
-		$this->config->expects($this->at(2))
+		$this->config->expects($this->at(4))
 			->method('getSystemValue')
 			->with('connectivity_check_domains', ['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org'])
 			->willReturn(['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org']);
-		$this->config->expects($this->at(3))
+		$this->config->expects($this->at(5))
 			->method('getSystemValue')
 			->with('memcache.local', null)
 			->willReturn('SomeProvider');
-		$this->config->expects($this->at(4))
+		$this->config->expects($this->at(6))
 			->method('getSystemValue')
 			->with('has_internet_connection', true)
 			->willReturn(true);
-		$this->config->expects($this->at(5))
+		$this->config->expects($this->at(7))
 			->method('getSystemValue')
 			->with('appstoreenabled', true)
 			->willReturn(false);
@@ -444,9 +447,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->checkSetupController
 			->method('hasMissingIndexes')
 			->willReturn([]);
-		$this->checkSetupController
-			->method('isSqliteUsed')
-			->willReturn(false);
 		$this->checkSetupController
 			->expects($this->once())
 			->method('isReadOnlyConfig')
@@ -554,6 +554,7 @@ class CheckSetupControllerTest extends TestCase {
 			});
 
 		$this->overwriteService(IURLGenerator::class, $this->urlGenerator);
+		$this->overwriteService(IConfig::class, $this->config);
 //		OC::$server->registerService(IURLGenerator::class, function () {
 //			return $this->urlGenerator;
 //		});
@@ -592,8 +593,6 @@ class CheckSetupControllerTest extends TestCase {
 				'phpOpcacheDocumentation' => 'http://docs.example.org/server/go.php?to=admin-php-opcache',
 				'isSettimelimitAvailable' => true,
 				'hasFreeTypeSupport' => false,
-				'isSqliteUsed' => false,
-				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
 				'missingIndexes' => [],
 				'missingColumns' => [],
 				'isPHPMailerUsed' => false,
@@ -608,6 +607,7 @@ class CheckSetupControllerTest extends TestCase {
 				'OCA\Settings\SetupChecks\PhpDefaultCharset' => ['pass' => true, 'description' => 'PHP configuration option default_charset should be UTF-8', 'severity' => 'warning', 'linkToDocumentation' => null],
 				'OCA\Settings\SetupChecks\PhpOutputBuffering' => ['pass' => true, 'description' => 'PHP configuration option output_buffering must be disabled', 'severity' => 'error', 'linkToDocumentation' => null],
 				'OCA\Settings\SetupChecks\LegacySSEKeyFormat' => ['pass' => true, 'description' => 'The old server-side-encryption format is enabled. We recommend disabling this.', 'severity' => 'warning', 'linkToDocumentation' => 'http://docs.example.org/server/go.php?to=admin-sse-legacy-format'],
+				'OCA\Settings\SetupChecks\SqliteDatabase' => ['pass' => false, 'description' => 'SQLite is used as database. For larger installations we recommend to switch to a different database.', 'severity' => 'warning', 'linkToDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion'],
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
