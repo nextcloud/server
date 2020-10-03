@@ -21,10 +21,7 @@
   -->
 
 <template>
-	<Tab :id="id"
-		:icon="icon"
-		:name="name"
-		:class="{ 'icon-loading': loading }">
+	<div :class="{ 'icon-loading': loading }">
 		<!-- error message -->
 		<div v-if="error" class="emptycontent">
 			<div class="icon icon-error" />
@@ -84,7 +81,7 @@
 				<component :is="section($refs['section-'+index], fileInfo)" :file-info="fileInfo" />
 			</div>
 		</template>
-	</Tab>
+	</div>
 </template>
 
 <script>
@@ -92,7 +89,6 @@ import { CollectionList } from 'nextcloud-vue-collections'
 import { generateOcsUrl } from '@nextcloud/router'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import axios from '@nextcloud/axios'
-import Tab from '@nextcloud/vue/dist/Components/AppSidebarTab'
 
 import { shareWithTitle } from '../utils/SharedWithMe'
 import Share from '../models/Share'
@@ -117,7 +113,6 @@ export default {
 		SharingInput,
 		SharingLinkList,
 		SharingList,
-		Tab,
 	},
 
 	mixins: [ShareTypes],
@@ -134,9 +129,7 @@ export default {
 		return {
 			error: '',
 			expirationInterval: null,
-			icon: 'icon-share',
 			loading: true,
-			name: t('files_sharing', 'Sharing'),
 			// reshare Share object
 			reshare: null,
 			sharedWithMe: {},
@@ -147,26 +140,6 @@ export default {
 	},
 
 	computed: {
-		/**
-		 * Needed to differenciate the tabs
-		 * pulled from the AppSidebarTab component
-		 *
-		 * @returns {string}
-		 */
-		id() {
-			return 'sharing'
-		},
-
-		/**
-		 * Returns the current active tab
-		 * needed because AppSidebarTab also uses $parent.activeTab
-		 *
-		 * @returns {string}
-		 */
-		activeTab() {
-			return this.$parent.activeTab
-		},
-
 		/**
 		 * Is this share shared with me?
 		 *
@@ -341,7 +314,3 @@ export default {
 	},
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

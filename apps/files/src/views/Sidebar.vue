@@ -58,15 +58,14 @@
 		</div>
 
 		<!-- If fileInfo fetch is complete, display tabs -->
-		<template v-for="tab in tabs" v-else-if="fileInfo">
-			<component
-				:is="tabComponent(tab).is"
-				v-if="canDisplay(tab)"
+		<template v-else-if="fileInfo" v-for="tab in tabs">
+			<SidebarTab
+				v-if="tab.enabled(fileInfo)"
 				:id="tab.id"
 				:key="tab.id"
-				:component="tabComponent(tab).component"
 				:name="tab.name"
-				:dav-path="davPath"
+				:icon="tab.icon"
+				:render="tab.render"
 				:file-info="fileInfo" />
 		</template>
 	</AppSidebar>
@@ -77,7 +76,7 @@ import axios from '@nextcloud/axios'
 import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import FileInfo from '../services/FileInfo'
-import LegacyTab from '../components/LegacyTab'
+import SidebarTab from '../components/SidebarTab'
 import LegacyView from '../components/LegacyView'
 import { encodePath } from '@nextcloud/paths'
 
@@ -87,6 +86,7 @@ export default {
 	components: {
 		ActionButton,
 		AppSidebar,
+		SidebarTab,
 		LegacyView,
 	},
 
@@ -258,8 +258,8 @@ export default {
 					})
 
 					this.$nextTick(() => {
-						if (this.$refs.sidebar) {
-							this.$refs.sidebar.updateTabs()
+						if (this.$refs.tabs) {
+							this.$refs.tabs.updateTabs()
 						}
 					})
 				} catch (error) {
@@ -278,14 +278,14 @@ export default {
 		 * @returns {boolean}
 		 */
 		canDisplay(tab) {
-			return tab.isEnabled(this.fileInfo)
+			return tab.enabled(this.fileInfo)
 		},
 		resetData() {
 			this.error = null
 			this.fileInfo = null
 			this.$nextTick(() => {
-				if (this.$refs.sidebar) {
-					this.$refs.sidebar.updateTabs()
+				if (this.$refs.tabs) {
+					this.$refs.tabs.updateTabs()
 				}
 			})
 		},
@@ -325,18 +325,6 @@ export default {
 				return OC.MimeType.getIconUrl('dir')
 			}
 			return OC.MimeType.getIconUrl(mimeType)
-		},
-
-		tabComponent(tab) {
-			if (tab.isLegacyTab) {
-				return {
-					is: LegacyTab,
-					component: tab.component,
-				}
-			}
-			return {
-				is: tab.component,
-			}
 		},
 
 		/**
@@ -430,8 +418,8 @@ export default {
 					})
 
 					this.$nextTick(() => {
-						if (this.$refs.sidebar) {
-							this.$refs.sidebar.updateTabs()
+						if (this.$refs.tabs) {
+							this.$refs.tabs.updateTabs()
 						}
 					})
 				} catch (error) {
