@@ -70,7 +70,7 @@ try {
 		echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
 		echo "Current user id: " . $user . PHP_EOL;
 		echo "Owner id of config.php: " . $configUser . PHP_EOL;
-		echo "Try adding 'sudo -u " . $configUser . " ' to the beginning of the command (without the single quotes)" . PHP_EOL;
+		echo "Try adding 'sudo -u #" . $configUser . "' to the beginning of the command (without the single quotes)" . PHP_EOL;
 		echo "If running with 'docker exec' try adding the option '-u " . $configUser . "' to the docker command (without the single quotes)" . PHP_EOL;
 		exit(1);
 	}
