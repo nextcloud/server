@@ -1,9 +1,12 @@
+const fs = require('fs')
+const path = require('path')
 const { merge } = require('webpack-merge')
 const webpack = require('webpack')
 const webpackConfig = require('@nextcloud/webpack-vue-config')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 
 const isTesting = !!process.env.TESTING
+const plyrIcons = fs.readFileSync(path.join('node_modules', 'plyr', 'dist', 'plyr.svg'), { encoding: 'utf8' })
 
 const config = {
 	module: {
@@ -27,7 +30,10 @@ const config = {
 		],
 	},
 	plugins: [
-		new webpack.DefinePlugin({ isTesting }),
+		new webpack.DefinePlugin({
+			isTesting,
+			PLYR_ICONS: JSON.stringify(plyrIcons),
+		}),
 	],
 }
 
