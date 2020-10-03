@@ -69,6 +69,9 @@ class RegistrationContext {
 	/** @var array[] */
 	private $alternativeLogins = [];
 
+	/** @var array[] */
+	private $initialStates = [];
+
 	/** @var ILogger */
 	private $logger;
 
@@ -164,6 +167,13 @@ class RegistrationContext {
 					$class
 				);
 			}
+
+			public function registerInitialStateProvider(string $class): void {
+				$this->context->registerInitialState(
+					$this->appId,
+					$class
+				);
+			}
 		};
 	}
 
@@ -238,6 +248,13 @@ class RegistrationContext {
 
 	public function registerAlternativeLogin(string $appId, string $class): void {
 		$this->alternativeLogins[] = [
+			'appId' => $appId,
+			'class' => $class,
+		];
+	}
+
+	public function registerInitialState(string $appId, string $class): void {
+		$this->initialStates[] = [
 			'appId' => $appId,
 			'class' => $class,
 		];
@@ -412,5 +429,12 @@ class RegistrationContext {
 	 */
 	public function getAlternativeLogins(): array {
 		return $this->alternativeLogins;
+	}
+
+	/**
+	 * @erturn array[]
+	 */
+	public function getInitialStates(): array {
+		return $this->initialStates;
 	}
 }
