@@ -869,14 +869,14 @@ class QueryBuilder implements IQueryBuilder {
 	 * </code>
 	 *
 	 * @param string $column The column into which the value should be inserted.
-	 * @param string $value The value that should be inserted into the column.
+	 * @param IParameter|string $value The value that should be inserted into the column.
 	 *
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function setValue($column, $value) {
 		$this->queryBuilder->setValue(
 			$this->helper->quoteColumnName($column),
-			$value
+			(string) $value
 		);
 
 		return $this;
