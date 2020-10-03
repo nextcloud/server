@@ -417,18 +417,6 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						})
 					}
-					if (data.isPHPMailerUsed) {
-						messages.push({
-							msg: t(
-								'core',
-								'Use of the the built in php mailer is no longer supported. <a target="_blank" rel="noreferrer noopener" href="{docLink}">Please update your email server settings ↗<a/>.',
-								{
-									docLink: data.mailSettingsDocumentation,
-								}
-							),
-							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
 					if (!data.isMemoryLimitSufficient) {
 						messages.push({
 							msg: t(
