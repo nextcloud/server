@@ -60,7 +60,7 @@
     "jquery-ui-dist": "^1.12.1",
     "jstimezonedetect": "^1.0.7",
     "lodash": "^4.17.20",
-    "marked": "^1.1.1",
+    "marked": "^1.2.0",
     "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
     "nextcloud-vue-collections": "^0.8.1",
