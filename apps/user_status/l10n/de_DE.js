@@ -11,6 +11,7 @@ OC.L10N.register(
     "Clear status message after" : "Statusnachricht löschen nach",
     "What's your status?" : "Wie ist Ihr Status?",
     "Set status" : "Status setzen",
+    "Online status" : "Online-Status",
     "Status message" : "Statusnachricht",
     "Clear status message" : "Statusnachricht löschen",
     "Set status message" : "Statusnachricht setzen",
@@ -31,6 +32,7 @@ OC.L10N.register(
     "1 hour" : "1 Stunde",
     "4 hours" : "4 Stunden",
     "Mute all notifications" : "Alle Benachrichtigungen stummschalten",
+    "Appear offline" : "Offline erscheinen",
     "Clear status after" : "Status löschen nach"
 },
 "nplurals=2; plural=(n != 1);");
