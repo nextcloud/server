@@ -1,0 +1,48 @@
+name: Node build
+
+on:
+  schedule:
+    # At 3 in the morning
+    - cron:  '0 3 * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: ['lts/*']
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use node ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies & build
+      run: |
+        npm ci
+        npm run build --if-present
+
+    # Create pull request
+    - name: Create pull request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ secrets.DEPENDABOT_AUTOMERGE_TOKEN }}
+        branch: cron/node-build
+        committer: Nextcloud bot <bot@nextcloud.com>
+        author: Nextcloud bot <bot@nextcloud.com>
+        commit-message: Updates node build
+        title: Daily node build
+        body: Automated node build refresh
+        team-reviewers: javascript
+        labels: |
+          3. to review
+          javascript
+
+    # Default github action approve
+    - uses: hmarr/auto-approve-action@v2.0.0
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
