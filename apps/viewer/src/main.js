@@ -53,6 +53,12 @@ const ViewerRoot = document.createElement('div')
 ViewerRoot.id = 'viewer'
 document.body.appendChild(ViewerRoot)
 
+// Put controls for video viewer
+// Needed as Firefox CSP blocks the loading of the svg through the normal plyr system
+const VideoControls = document.createElement('div')
+VideoControls.innerHTML = PLYR_ICONS
+document.body.appendChild(VideoControls)
+
 // Init vue
 export default new Vue({
 	el: '#viewer',

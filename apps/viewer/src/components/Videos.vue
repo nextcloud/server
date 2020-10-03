@@ -53,7 +53,6 @@
 <script>
 import Vue from 'vue'
 import VuePlyr from 'vue-plyr'
-import { generateFilePath } from '@nextcloud/router'
 
 const liveExt = ['jpg', 'jpeg', 'png']
 const liveExtRegex = new RegExp(`\\.(${liveExt.join('|')})$`, 'i')
@@ -81,7 +80,7 @@ export default {
 		options() {
 			return {
 				controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'fullscreen'],
-				iconUrl: generateFilePath('viewer', 'img', 'plyr.svg'),
+				loadSprite: false,
 			}
 		},
 	},
