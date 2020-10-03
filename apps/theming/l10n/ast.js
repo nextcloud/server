@@ -18,7 +18,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Nun pudo escribise nel discu'l ficheru",
     "A PHP extension stopped the file upload" : "Una estensión de PHP paró la xuba de ficheros",
     "No file uploaded" : "Nun se xubieron ficheros",
-    "Unsupported image type" : "Triba non sofitada d'imaxe",
     "Theming" : "Aspeutu",
     "Open documentation" : "Abrir documentación",
     "Name" : "Nome",
@@ -29,6 +28,7 @@ OC.L10N.register(
     "Login image" : "Imaxe d'aniciu de sesión",
     "Upload new login background" : "Xubir fondu nuevu d'aniciu de sesión",
     "Remove background image" : "Desaniciar imaxe de fondu",
-    "Advanced options" : "Opciones avanzaes"
+    "Advanced options" : "Opciones avanzaes",
+    "Unsupported image type" : "Triba non sofitada d'imaxe"
 },
 "nplurals=2; plural=(n != 1);");

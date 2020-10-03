@@ -5,6 +5,9 @@ $color-main-background: #181818;
 $color-background-dark: lighten($color-main-background, 4%);
 $color-background-darker: lighten($color-main-background, 8%);
 
+$color-placeholder-light: lighten($color-main-background, 10%);
+$color-placeholder-dark: lighten($color-main-background, 20%);
+
 $color-text-maxcontrast: darken($color-main-text, 30%);
 $color-text-light: darken($color-main-text, 10%);
 $color-text-lighter: darken($color-main-text, 20%);

@@ -23,6 +23,7 @@
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Subir este archivo no es compatible",
     "Target folder does not exist any more" : "La carpeta destino ya no existe",
+    "Operation is blocked by access control" : "Esta operación está bloqueada por el control de accesos",
     "Error when assembling chunks, status code {status}" : "Error al reunir los trozos, código de estado {status}",
     "Actions" : "Acciones",
     "Rename" : "Renombrar",
@@ -197,6 +198,8 @@
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limitar las notificaciones sobre la creación y cambios en tus <strong>archivos favoritos</strong> <em>(solo transmisión)</em>",
     "A file or folder has been <strong>restored</strong>" : "Un archivo o carpeta ha sido <strong>restaurado</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Usa esta dirección para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">acceder a tus archivos vía WebDAV</a>",
+    "This group folder is almost full ({usedSpacePercent}%)" : "Esta carpeta de grupo está casi llena ({usedSpacePercent}%)",
+    "This external storage is almost full ({usedSpacePercent}%)" : "Este almacenamiento externo está casi lleno ({usedSpacePercent}%)",
     "Cannot transfter ownership of a file or folder you don't own" : "No se puede transferir la propiedad de un archivo o carpeta que no te pertenece"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

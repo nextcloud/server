@@ -31,6 +31,7 @@ namespace OCA\Files\Search;
 use OC\Search\Provider\File;
 use OC\Search\Result\File as FileResult;
 use OCP\Files\IMimeTypeDetector;
+use OCP\Files\IRootFolder;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -53,14 +54,19 @@ class FilesSearchProvider implements IProvider {
 	/** @var IMimeTypeDetector */
 	private $mimeTypeDetector;
 
+	/** @var IRootFolder */
+	private $rootFolder;
+
 	public function __construct(File $fileSearch,
 								IL10N $l10n,
 								IURLGenerator $urlGenerator,
-								IMimeTypeDetector $mimeTypeDetector) {
+								IMimeTypeDetector $mimeTypeDetector,
+								IRootFolder $rootFolder) {
 		$this->l10n = $l10n;
 		$this->fileSearch = $fileSearch;
 		$this->urlGenerator = $urlGenerator;
 		$this->mimeTypeDetector = $mimeTypeDetector;
+		$this->rootFolder = $rootFolder;
 	}
 
 	/**
@@ -92,19 +98,23 @@ class FilesSearchProvider implements IProvider {
 	 * @inheritDoc
 	 */
 	public function search(IUser $user, ISearchQuery $query): SearchResult {
+
+		// Make sure we setup the users filesystem
+		$this->rootFolder->getUserFolder($user->getUID());
+
 		return SearchResult::complete(
 			$this->l10n->t('Files'),
 			array_map(function (FileResult $result) {
 				// Generate thumbnail url
 				$thumbnailUrl = $result->has_preview
-					? $this->urlGenerator->linkToRoute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id])
+					? $this->urlGenerator->linkToRouteAbsolute('core.Preview.getPreviewByFileId', ['x' => 32, 'y' => 32, 'fileId' => $result->id])
 					: '';
 
 				return new SearchResultEntry(
 					$thumbnailUrl,
 					$result->name,
 					$this->formatSubline($result),
-					$result->link,
+					$this->urlGenerator->getAbsoluteURL($result->link),
 					$result->type === 'folder' ? 'icon-folder' : $this->mimeTypeDetector->mimeTypeIcon($result->mime_type)
 				);
 			}, $this->fileSearch->search($query->getTerm()))

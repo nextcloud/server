@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2017 Lukas Reschke <lukas@statuscode.ch>
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Brad Rubenstein <brad@wbr.tech>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
@@ -601,6 +602,7 @@ Welcome to your TestCloud account, you can add, protect, and share your data.
 
 Your username is: john
 
+
 Go to TestCloud: https://example.com/
 Install Client: https://nextcloud.com/install/#install-clients
 
@@ -818,6 +820,7 @@ EOF;
 Welcome aboard John Doe
 
 Welcome to your TestCloud account, you can add, protect, and share your data.
+
 
 Go to TestCloud: https://example.com/
 Install Client: https://nextcloud.com/install/#install-clients

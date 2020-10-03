@@ -8,6 +8,7 @@
  * @author Daniel Hansson <daniel@techandme.se>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -511,7 +512,7 @@ class Manager {
 			WHERE `id` = ?
 			');
 			$result = (bool)$query->execute([(int)$share['id']]);
-		} elseif ($result && (int)$share['share_type'] === IShare::TYPE_GROUP) {
+		} elseif ($result && $share !== false && (int)$share['share_type'] === IShare::TYPE_GROUP) {
 			$query = $this->connection->prepare('
 				UPDATE `*PREFIX*share_external`
 				SET `accepted` = ?

@@ -132,6 +132,8 @@ OC.L10N.register(
     "Disabled apps" : "Aplicaciones deshabilitaes",
     "Updates" : "Anovamientos",
     "App bundles" : "Llotes d'aplicaciones",
+    "Details" : "Detalles",
+    "Changelog" : "Rexistru de cambeos",
     "Add group" : "Amestar grupu",
     "Everyone" : "Toos",
     "Admins" : "Almins",
@@ -185,7 +187,6 @@ OC.L10N.register(
     "Start migration" : "Aniciar migración",
     "Background jobs" : "Trabayos de fondu",
     "Background job didn’t run yet!" : "¡Entá nun s'executó'l trabayu de fondu!",
-    "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php precisa executalu l'usuariu del sistema «%s».",
     "Allow apps to use the Share API" : "Permitir a les aplicaciones usar la API de Compartición",
     "Expire after " : "Caduca dempués de",
@@ -209,7 +210,6 @@ OC.L10N.register(
     "Remove image" : "Desaniciar imaxe",
     "png or jpg, max. 20 MB" : "png o jpg, máximu 20 MB",
     "Picture provided by original account" : "Semeya fornida pola cuenta orixinal",
-    "Details" : "Detalles",
     "Full name" : "Nome completu",
     "No display name set" : "Nun s'afitó'l nome p'amosar",
     "Your email address" : "Direición de corréu-e",
@@ -242,7 +242,7 @@ OC.L10N.register(
     "Issued By" : "Emitíu por",
     "Valid until %s" : "Válidu hasta'l %s",
     "Import root certificate" : "Importar certificáu raigañu",
-    "Set default expiration date" : "Afitar la data d'espiración predeterminada",
-    "Retry" : "Retentar"
+    "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada",
+    "Set default expiration date" : "Afitar la data d'espiración predeterminada"
 },
 "nplurals=2; plural=(n != 1);");

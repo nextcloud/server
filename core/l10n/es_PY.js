@@ -99,6 +99,7 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "Forgot password?" : "¿Olvidaste tu contraseña?",
     "Back" : "Atrás",
+    "Reset search" : "Reestablecer búsqueda",
     "Settings" : "Configuraciones ",
     "Search contacts …" : "Buscar contactos ...",
     "No contacts found" : "No se encontraron contactos",
@@ -114,6 +115,7 @@ OC.L10N.register(
     "Modified" : "Modificado",
     "\"{name}\" is an invalid file name." : "\"{name}\" es un nombre de archivo inválido.",
     "File name cannot be empty." : "El nombre de archivo no puede estar vacío.",
+    "\"/\" is not allowed inside a file name." : "\"/\" no es permitido dentro del nombre de un archivo.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" no es in tipo de archivo permitido",
     "{newName} already exists" : "{newName} ya existe",
     "Choose" : "Seleccionar",
@@ -294,7 +296,6 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} resultado de la búsqueda en otra carpeta","{count} resultados de la búsqueda en otras carpetas"],
     "Saving..." : "Guardando...",
     "Search" : "Buscar",
-    "Reset search" : "Reestablecer búsqueda",
     "Cancel log in" : "Cancelar inicio de sesión",
     "These apps will be updated:" : "Las siguientes apllicaciones se actualizarán:"
 },

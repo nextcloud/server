@@ -17,7 +17,6 @@ OC.L10N.register(
     "Could not write file to disk" : "لم يستطع كتابة ملف للقرص",
     "A PHP extension stopped the file upload" : "اضافة البي اچ بي PHP اوقفت رفع الملف",
     "No file uploaded" : "لم يتم رفع الملف",
-    "Unsupported image type" : "صيغة الصورة غير مقبولة",
     "Theming" : "تخصيص القالب",
     "Privacy policy" : "سياسة الخصوصية",
     "Open documentation" : "فتح الدليل",
@@ -38,6 +37,7 @@ OC.L10N.register(
     "Header logo" : "شعار الرأسية",
     "Upload new header logo" : "تحميل شعار رأسية جديد",
     "Favicon" : "الأيقونة المفضلة",
-    "Upload new favicon" : "تحميل أيقونة مفضلة جديدة"
+    "Upload new favicon" : "تحميل أيقونة مفضلة جديدة",
+    "Unsupported image type" : "صيغة الصورة غير مقبولة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

@@ -79,7 +79,13 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "Το \"/\" δεν είναι επιτρεπτό εντός του ονόματος αρχείου.",
     "\"{name}\" is not an allowed filetype" : "Το \"{name}\" δεν είναι ένας επιτρεπτός τύπος αρχείου",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Ο αποθηκευτικός χώρος του {owner} είναι γεμάτος, τα αρχεία δεν μπορούν να ενημερωθούν ή να συγχρονιστούν πια!",
+    "This group folder is full, files can not be updated or synced anymore!" : "Ο ομαδικός φάκελος είναι γεμάτος, τα αρχεία δεν μπορούν να ενημερωθούν ή να συγχρονιστούν!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Ο εξωτερικός αποθηκευτικός σας χώρος είναι γεμάτος, τα αρχεία δεν μπορούν να ενημερωθούν ή να συγχρονιστούν!",
     "Your storage is full, files can not be updated or synced anymore!" : "Ο αποθηκευτικός σας χώρος είναι γεμάτος, τα αρχεία δεν μπορούν να ενημερωθούν ή να συγχρονιστούν πια!",
+    "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Ο αποθηκευτικός χώρος του {owner} είναι σχεδόν γεμάτος ({usedSpacePercent}%)",
+    "This group folder is almost full ({usedSpacePercent}%)." : "Ο ομαδικός φάκελος είναι σχεδόν γεμάτος ({usedSpacePercent}%).",
+    "This external storage is almost full ({usedSpacePercent}%)." : "Ο εξωτερικός αποθηκευτικός σας χώρος είναι σχεδόν γεμάτος ({usedSpacePercent}%).",
+    "Your storage is almost full ({usedSpacePercent}%)." : "Ο αποθηκευτικός σας χώρος είναι σχεδόν γεμάτος ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : ["ταιριάζει '{filter}' ","ταιριάζουν '{filter}'"],
     "View in folder" : "Προβολή στον φάκελο",
     "Copied!" : "Αντιγράφηκε!",
@@ -193,6 +199,8 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Βάλτε όριο στις ειδοποιήσεις για τη δημιουργία και αλλαγές στα <strong>αγαπημένα σας αρχεία</strong> <em>(Μόνο Stream)</em>",
     "A file or folder has been <strong>restored</strong>" : "Έγινε <strong>επαναφορά</strong> ενός αρχείου ή φακέλου",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Χρησιμοποιήστε αυτή την διεύθυνση, προκειμένου να <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">έχετε πρόσβαση στα αρχεία σας μέσω WebDAV</a>",
+    "This group folder is almost full ({usedSpacePercent}%)" : "Ο ομαδικός φάκελος είναι σχεδόν γεμάτος ({usedSpacePercent}%).",
+    "This external storage is almost full ({usedSpacePercent}%)" : "Ο εξωτερικός αποθηκευτικός σας χώρος είναι σχεδόν γεμάτος ({usedSpacePercent}%).",
     "Cannot transfter ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει"
 },
 "nplurals=2; plural=(n != 1);");

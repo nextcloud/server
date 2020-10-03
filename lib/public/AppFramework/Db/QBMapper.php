@@ -106,7 +106,6 @@ abstract class QBMapper {
 	 * @param Entity $entity the entity that should be created
 	 * @return Entity the saved entity with the set id
 	 * @since 14.0.0
-	 * @suppress SqlInjectionChecker
 	 */
 	public function insert(Entity $entity): Entity {
 		// get updated fields to save, fields have to be set using a setter to
@@ -145,7 +144,6 @@ abstract class QBMapper {
 	 * @return Entity the saved entity with the (new) id
 	 * @throws \InvalidArgumentException if entity has no id
 	 * @since 15.0.0
-	 * @suppress SqlInjectionChecker
 	 */
 	public function insertOrUpdate(Entity $entity): Entity {
 		try {
@@ -161,7 +159,6 @@ abstract class QBMapper {
 	 * @param Entity $entity the entity that should be created
 	 * @return Entity the saved entity with the set id
 	 * @since 14.0.0
-	 * @suppress SqlInjectionChecker
 	 */
 	public function update(Entity $entity): Entity {
 		// if entity wasn't changed it makes no sense to run a db query

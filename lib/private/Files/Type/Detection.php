@@ -122,8 +122,14 @@ class Detection implements IMimeTypeDetector {
 		$this->mimetypes = array_merge($this->mimetypes, $types);
 
 		// Update the alternative mimetypes to avoid having to look them up each time.
-		foreach ($this->mimetypes as $mimeType) {
+		foreach ($this->mimetypes as $extension => $mimeType) {
+			if (strpos($extension, '_comment') === 0) {
+				continue;
+			}
 			$this->secureMimeTypes[$mimeType[0]] = $mimeType[1] ?? $mimeType[0];
+			if (isset($mimeType[1])) {
+				$this->secureMimeTypes[$mimeType[1]] = $mimeType[1];
+			}
 		}
 	}
 

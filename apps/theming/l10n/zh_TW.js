@@ -17,7 +17,6 @@ OC.L10N.register(
     "Could not write file to disk" : "寫入硬碟失敗",
     "A PHP extension stopped the file upload" : "一個 PHP 擴充功能終止檔案的上傳",
     "No file uploaded" : "未上傳檔案",
-    "Unsupported image type" : "不支援的圖片類型",
     "Theming" : "佈景主題",
     "Privacy policy" : "隱私權政策",
     "Open documentation" : "開啟說明文件",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Login image" : "登入圖片",
     "Upload new login background" : "上傳新的登入頁背景",
     "Remove background image" : "移除背景圖片",
-    "Advanced options" : "進階選項"
+    "Advanced options" : "進階選項",
+    "Unsupported image type" : "不支援的圖片類型"
 },
 "nplurals=1; plural=0;");

@@ -25,6 +25,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} z {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Nahrání této položky není podporováno",
     "Target folder does not exist any more" : "Cílová složka už neexistuje",
+    "Operation is blocked by access control" : "Operace je blokována řízením přístupu",
     "Error when assembling chunks, status code {status}" : "Chyba při kompletaci shluků, kód chyby {status}",
     "Actions" : "Akce",
     "Rename" : "Přejmenovat",
@@ -199,6 +200,8 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Upozorňovat na vytváření a změny pouze u vašich <strong>oblíbených souborů</strong> <em>(pouze v Proud)</em>",
     "A file or folder has been <strong>restored</strong>" : "Soubor nebo složka byla <strong>obnovena</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">přístup k vašim souborům přes WebDAV</a>",
+    "This group folder is almost full ({usedSpacePercent}%)" : "Tato skupinová složka je téměř plná ({usedSpacePercent}%)",
+    "This external storage is almost full ({usedSpacePercent}%)" : "Toto externí úložiště je téměř plné ({usedSpacePercent}%)",
     "Cannot transfter ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru nebo složky, která vám nenáleží"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

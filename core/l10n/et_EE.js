@@ -80,6 +80,7 @@ OC.L10N.register(
     "Cancel" : "Loobu",
     "Forgot password?" : "Unustasid parooli?",
     "Back" : "Tagasi",
+    "Reset search" : "Lähtesta otsing",
     "Settings" : "Seaded",
     "Could not load your contacts" : "Sinu kontaktide laadimine ebaõnnestus",
     "Search contacts …" : "Otsi kontakte",
@@ -276,7 +277,6 @@ OC.L10N.register(
     "No search results in other folders for {tag}{filter}{endtag}" : "Teistest kaustadest ei leitud {tag}{filter}{endtag}",
     "Saving..." : "Salvestamine...",
     "Search" : "Otsi",
-    "Reset search" : "Lähtesta otsing",
     "Cancel log in" : "Katkesta sisselogimine",
     "These apps will be updated:" : "Neid rakendusi uuendatakse:"
 },

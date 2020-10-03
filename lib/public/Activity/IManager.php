@@ -44,6 +44,7 @@ interface IManager {
 	 *  - setType()
 	 *  - setAffectedUser()
 	 *  - setSubject()
+	 *  - setObject()
 	 *
 	 * @return IEvent
 	 * @since 8.2.0
@@ -58,6 +59,7 @@ interface IManager {
 	 *  - setType()
 	 *  - setAffectedUser()
 	 *  - setSubject()
+	 *  - setObject()
 	 *
 	 * @param IEvent $event
 	 * @throws \BadMethodCallException if required values have not been set

@@ -23,7 +23,7 @@ OC.L10N.register(
     "A non-default update server is in use to be checked for updates:" : "Za posodobitev bo uporabljen neprivzet strežnik:",
     "Update channel:" : "Posodobi kanal:",
     "You can always update to a newer version. But you can never downgrade to a more stable version." : "Nadgradnja na višjo različico je vedno mogoča, ne pa tudi povrnitev na predhodno, bolj stabilno.",
-    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Po vsaki novi objavi je lahko tudi daljši časovni zamik, preden se posodobitev pojavi v sistemu. Nove različice objavljamo v časovnih razmikih in včasih kakšno tudi preskočimo, če prvi uporabniki zaznajo težave ali napake.",
+    "Note that after a new release it can take some time before it shows up here. We roll out new versions spread out over time to our users and sometimes skip a version when issues are found." : "Po vsaki novi objavi je lahko tudi daljši časovni zamik, preden se posodobitev pojavi v sistemu. Nove različice objavljamo v časovnih razmikih in včasih kakšno tudi preskočimo, če prvi uporabniki zaznajo težave, ali napake.",
     "Notify members of the following groups about available updates:" : "Člani navedenih skupin, ki so obveščeni o posodobitvah:",
     "Only notification for app updates are available." : "Na voljo so le obvestila za posodobitve programov.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Izbran kanal za posodobitve onemogoča obvestila s strežnika.",

@@ -74,7 +74,6 @@ OC.L10N.register(
     "No memory cache has been configured. To enhance performance, please configure a memcache, if available. Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "您沒有設定記憶體快取 (memcache)，如果可以，請完成設定來提升效能。更多資訊請查閱<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">說明文件</a>",
     "No suitable source for randomness found by PHP which is highly discouraged for security reasons. Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "PHP無法取得合適的亂數產生源。為了安全性考量，不建議如此做。更多資訊參考<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>",
     "You are currently running PHP {version}. Upgrade your PHP version to take advantage of <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{phpLink}\">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it." : "您目前正運行 PHP {version} ，我們建議您升級 PHP 到您的發行版所支援的最新版本，以獲得 <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{phpLink}\">PHP 開發團隊提供的效能與安全性更新</a>。",
-    "Nextcloud 19 is the last release supporting PHP 7.2. Nextcloud 20 requires at least PHP 7.3." : "Nextcloud 19 是最後一個支援 PHP 7.2 的版本，Nextcloud 20 將要求至少要使用 PHP 7.3。",
     "The reverse proxy header configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If not, this is a security issue and can allow an attacker to spoof their IP address as visible to the Nextcloud. Further information can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>." : "偵測到您的反向代理標頭設定不正確，但也有可能是因為您目前正透過信任的代理伺服器存取 Nextcloud。若您目前不是透過信任的代理伺服器存取 Nextcloud，這就是一個安全性問題，允許攻擊者對 Nextcloud 假冒 IP 位址。更多資訊請查閱<a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">說明文件</a>。",
     "Memcached is configured as distributed cache, but the wrong PHP module \"memcache\" is installed. \\OC\\Memcache\\Memcached only supports \"memcached\" and not \"memcache\". See the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{wikiLink}\">memcached wiki about both modules</a>." : "您已經設定 Memcached 為分散式快取，但是您安裝了錯誤的 PHP 模組 \"memcache\" ， Nextcloud 的 \\OC\\Memcache\\Memcached 元件不支援 \"memcache\" 模組，僅支援 \"memcached\" 模組。若想要更加瞭解這兩個模組，請閱讀 <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{wikiLink}\">memcached wiki</a>。",
     "Some files have not passed the integrity check. Further information on how to resolve this issue can be found in the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"{docLink}\">documentation</a>. (<a href=\"{codeIntegrityDownloadEndpoint}\">List of invalid files…</a> / <a href=\"{rescanEndpoint}\">Rescan…</a>)" : "有些檔案並未通過完整性檢查。可參閱詳細資訊，如我們的<a target=\"_blank\" rel=\"noreferrer\" href=\"{docLink}\">說明文件</a>（<a href=\"{codeIntegrityDownloadEndpoint}\">無效檔案列表</a>/<a href=\"{rescanEndpoint}\">重新檢查</a>）以解決這些問題。",
@@ -143,7 +142,6 @@ OC.L10N.register(
     "Loading apps …" : "正在載入應用程式…",
     "Could not fetch list of apps from the app store." : "無法從應用程式商店抓取應用程式清單",
     "Installing apps …" : "正在安裝應用程式…",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "應用程式下載或是安裝失敗",
     "Can't install this app because it is not compatible" : "應用程式無法安裝，因為不相容",
     "Can't install this app" : "無法安裝這個應用程式",
@@ -153,6 +151,7 @@ OC.L10N.register(
     "Simple email app nicely integrated with Files, Contacts and Calendar." : "簡潔的電子郵件應用程式，與檔案瀏覽器、通訊錄、行事曆完美整合",
     "Forgot password?" : "忘記密碼？",
     "Back" : "返回",
+    "Reset search" : "重置搜尋",
     "Settings" : "設定",
     "Could not load your contacts" : "無法載入您的聯絡人",
     "Search contacts …" : "搜尋聯絡人…",
@@ -419,9 +418,9 @@ OC.L10N.register(
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["在其他資料夾中有 {count} 比結果"],
     "Saving..." : "儲存中...",
     "Search" : "搜尋",
-    "Reset search" : "重置搜尋",
     "Your client should now be connected! You can close this window." : "您的客戶端應該已經完成連結，您可以關閉這個視窗",
     "Cancel log in" : "取消登入",
-    "These apps will be updated:" : "將會更新這些應用程式"
+    "These apps will be updated:" : "將會更新這些應用程式",
+    "Nextcloud {app}" : "Nextcloud {app}"
 },
 "nplurals=1; plural=0;");

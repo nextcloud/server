@@ -38,9 +38,13 @@ use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\Encryption\Exceptions\ModuleDoesNotExistsException;
 use OC\ForbiddenException;
+use OC\Group\Manager as GroupManager;
+use OC\L10N\Factory;
 use OC\Security\IdentityProof\Manager;
+use OC\User\Manager as UserManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Settings\BackgroundJobs\VerifyUserData;
+use OCA\Settings\Events\BeforeTemplateRenderedEvent;
 use OCA\User_LDAP\User_Proxy;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -49,6 +53,7 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\BackgroundJob\IJobList;
 use OCP\Encryption\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
@@ -61,9 +66,9 @@ use OCP\Mail\IMailer;
 use function in_array;
 
 class UsersController extends Controller {
-	/** @var IUserManager */
+	/** @var UserManager */
 	private $userManager;
-	/** @var IGroupManager */
+	/** @var GroupManager */
 	private $groupManager;
 	/** @var IUserSession */
 	private $userSession;
@@ -75,7 +80,7 @@ class UsersController extends Controller {
 	private $l10n;
 	/** @var IMailer */
 	private $mailer;
-	/** @var IFactory */
+	/** @var Factory */
 	private $l10nFactory;
 	/** @var IAppManager */
 	private $appManager;
@@ -87,23 +92,28 @@ class UsersController extends Controller {
 	private $jobList;
 	/** @var IManager */
 	private $encryptionManager;
+	/** @var IEventDispatcher */
+	private $dispatcher;
 
 
-	public function __construct(string $appName,
-								IRequest $request,
-								IUserManager $userManager,
-								IGroupManager $groupManager,
-								IUserSession $userSession,
-								IConfig $config,
-								bool $isAdmin,
-								IL10N $l10n,
-								IMailer $mailer,
-								IFactory $l10nFactory,
-								IAppManager $appManager,
-								AccountManager $accountManager,
-								Manager $keyManager,
-								IJobList $jobList,
-								IManager $encryptionManager) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		IUserSession $userSession,
+		IConfig $config,
+		bool $isAdmin,
+		IL10N $l10n,
+		IMailer $mailer,
+		IFactory $l10nFactory,
+		IAppManager $appManager,
+		AccountManager $accountManager,
+		Manager $keyManager,
+		IJobList $jobList,
+		IManager $encryptionManager,
+		IEventDispatcher $dispatcher
+	) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -118,6 +128,7 @@ class UsersController extends Controller {
 		$this->keyManager = $keyManager;
 		$this->jobList = $jobList;
 		$this->encryptionManager = $encryptionManager;
+		$this->dispatcher = $dispatcher;
 	}
 
 
@@ -206,7 +217,7 @@ class UsersController extends Controller {
 						$groups[$key]['usercount']--;
 						$userCount -= 1; // we also lower from one the total count
 					}
-				};
+				}
 				$userCount += $this->userManager->countUsersOfGroups($groupsInfo->getGroups());
 				$disabledUsers = $this->userManager->countDisabledUsersOfGroups($groupsNames);
 			}
@@ -224,7 +235,9 @@ class UsersController extends Controller {
 		$quotaPreset = $this->parseQuotaPreset($this->config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB'));
 		$defaultQuota = $this->config->getAppValue('files', 'default_quota', 'none');
 
-		\OC::$server->getEventDispatcher()->dispatch('OC\Settings\Users::loadAdditionalScripts');
+		$event = new BeforeTemplateRenderedEvent();
+		$this->dispatcher->dispatch('OC\Settings\Users::loadAdditionalScripts', $event);
+		$this->dispatcher->dispatchTyped($event);
 
 		/* LANGUAGES */
 		$languages = $this->l10nFactory->getLanguages();

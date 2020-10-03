@@ -21,7 +21,7 @@
  */
 import Vue from 'vue'
 import { getRequestToken } from '@nextcloud/auth'
-import App from './App'
+import UserStatus from './UserStatus'
 import store from './store'
 
 // eslint-disable-next-line camelcase
@@ -36,18 +36,23 @@ __webpack_public_path__ = OC.linkTo('user_status', 'js/')
 Vue.prototype.t = t
 Vue.prototype.$t = t
 
-const app = new Vue({
-	render: h => h(App),
+// Register settings menu entry
+export default new Vue({
+	el: 'li[data-id="user_status-menuitem"]',
+	// eslint-disable-next-line vue/match-component-file-name
+	name: 'UserStatusRoot',
+	render: h => h(UserStatus),
 	store,
-}).$mount('li[data-id="user_status-menuitem"]')
+})
 
+// Register dashboard status
 document.addEventListener('DOMContentLoaded', function() {
 	if (!OCA.Dashboard) {
 		return
 	}
 
 	OCA.Dashboard.registerStatus('status', (el) => {
-		const Dashboard = Vue.extend(App)
+		const Dashboard = Vue.extend(UserStatus)
 		return new Dashboard({
 			propsData: {
 				inline: true,
@@ -56,5 +61,3 @@ document.addEventListener('DOMContentLoaded', function() {
 		}).$mount(el)
 	})
 })
-
-export { app }

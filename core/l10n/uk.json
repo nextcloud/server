@@ -117,7 +117,6 @@
     "Loading apps …" : "Завантаження застосунків ...",
     "Could not fetch list of apps from the app store." : "Неможливо отримати перелік застосунків з крамниці застосунків",
     "Installing apps …" : "Встановлення застосунків ...",
-    "Nextcloud {app}" : "Nextcloud {app}",
     "App download or installation failed" : "Помилка із звантаженням або встановленням застосунку",
     "Can't install this app because it is not compatible" : "Неможливо встановити цей застосунок через несумісність",
     "Can't install this app" : "Неможливо встановити цей застосунок",
@@ -130,6 +129,7 @@
     "Forgot password?" : "Забули пароль?",
     "Log in with a device" : "Увійти за допомогою пристрою",
     "Back" : "Назад",
+    "Reset search" : "Повторити пошук",
     "Settings" : "Налаштування",
     "Could not load your contacts" : "Неможливо завантажити ваші контакти",
     "Search contacts …" : "Пошук контактів...",
@@ -393,10 +393,10 @@
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} результат пошуку в інших теках","{count} результатів пошуку в інших теках","{count} результатів пошуку в інших теках","{count} результатів пошуку в інших теках"],
     "Saving..." : "Збереження...",
     "Search" : "Пошук",
-    "Reset search" : "Повторити пошук",
     "Your client should now be connected! You can close this window." : "Тепер ваш клієнт під’єднано. Ви можете закрити це вікно.",
     "Cancel log in" : "Скасувати вхід",
     "These apps will be updated:" : "Ці застосунки буде оновлено:",
+    "Nextcloud {app}" : "Nextcloud {app}",
     "Local document editing back-end used by the OnlyOffice app." : "Локальний бекенд для редагування документів, який використовує застосунок OnlyOffice.",
     "Calendar, Contacts, Talk, Mail & OnlyOffice" : "Календар, Контакти, Talk, Повідомлення та OnlyOffice"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"

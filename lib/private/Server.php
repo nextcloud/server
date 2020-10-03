@@ -20,6 +20,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Julius Haertl <jus@bitgrid.net>
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Lionel Elie Mamane <lionel@mamane.lu>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Maxence Lange <maxence@artificial-owl.com>
  * @author Michael Weimann <mail@michael-weimann.eu>
@@ -64,6 +65,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\Events\LoginFailed;
 use OC\Authentication\Listeners\LoginFailedListener;
+use OC\Authentication\Listeners\UserLoggedInListener;
 use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
 use OC\Avatar\AvatarManager;
@@ -217,6 +219,7 @@ use OCP\User\Events\BeforeUserLoggedInEvent;
 use OCP\User\Events\BeforeUserLoggedInWithCookieEvent;
 use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
+use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserChangedEvent;
 use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
@@ -1118,7 +1121,7 @@ class Server extends ServerContainer implements IServerContainer {
 					$c->getURLGenerator(),
 					$c->getMemCacheFactory(),
 					new Util($c->getConfig(), $this->getAppManager(), $c->getAppDataDir('theming')),
-					new ImageManager($c->getConfig(), $c->getAppDataDir('theming'), $c->getURLGenerator(), $this->getMemCacheFactory(), $this->getLogger()),
+					new ImageManager($c->getConfig(), $c->getAppDataDir('theming'), $c->getURLGenerator(), $this->getMemCacheFactory(), $this->getLogger(), $this->getTempManager()),
 					$c->getAppManager(),
 					$c->getNavigationManager()
 				);
@@ -1224,15 +1227,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerAlias(\OCP\Collaboration\Resources\IProviderManager::class, \OC\Collaboration\Resources\ProviderManager::class);
 		$this->registerAlias(\OCP\Collaboration\Resources\IManager::class, \OC\Collaboration\Resources\Manager::class);
 
-		$this->registerService('SettingsManager', function (Server $c) {
-			$manager = new \OC\Settings\Manager(
-				$c->getLogger(),
-				$c->getL10NFactory(),
-				$c->getURLGenerator(),
-				$c
-			);
-			return $manager;
-		});
+		$this->registerDeprecatedAlias('SettingsManager', \OC\Settings\Manager::class);
+		$this->registerAlias(\OCP\Settings\IManager::class, \OC\Settings\Manager::class);
 		$this->registerService(\OC\Files\AppData\Factory::class, function (Server $c) {
 			return new \OC\Files\AppData\Factory(
 				$c->getRootFolder(),
@@ -1336,7 +1332,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Calendar\IManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCalendarManager() {
 		return $this->query(\OC\Calendar\Manager::class);
@@ -1344,7 +1340,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Calendar\Resource\IManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCalendarResourceBackendManager() {
 		return $this->query(\OC\Calendar\Resource\Manager::class);
@@ -1352,7 +1348,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Calendar\Room\IManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCalendarRoomBackendManager() {
 		return $this->query(\OC\Calendar\Room\Manager::class);
@@ -1403,11 +1399,12 @@ class Server extends ServerContainer implements IServerContainer {
 		/** @var IEventDispatcher $eventDispatched */
 		$eventDispatched = $this->query(IEventDispatcher::class);
 		$eventDispatched->addServiceListener(LoginFailed::class, LoginFailedListener::class);
+		$eventDispatched->addServiceListener(PostLoginEvent::class, UserLoggedInListener::class);
 	}
 
 	/**
 	 * @return \OCP\Contacts\IManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getContactsManager() {
 		return $this->query(\OCP\Contacts\IManager::class);
@@ -1415,7 +1412,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OC\Encryption\Manager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getEncryptionManager() {
 		return $this->query(\OCP\Encryption\IManager::class);
@@ -1423,7 +1420,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OC\Encryption\File
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getEncryptionFilesHelper() {
 		return $this->query('EncryptionFileHelper');
@@ -1431,7 +1428,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Encryption\Keys\IStorage
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getEncryptionKeyStorage() {
 		return $this->query('EncryptionKeyStorage');
@@ -1443,7 +1440,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * In case the current execution was not initiated by a web request null is returned
 	 *
 	 * @return \OCP\IRequest
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getRequest() {
 		return $this->query(IRequest::class);
@@ -1453,7 +1450,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns the preview manager which can create preview images for a given file
 	 *
 	 * @return IPreview
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getPreviewManager() {
 		return $this->query(IPreview::class);
@@ -1464,7 +1461,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 *
 	 * @see \OCP\ITagManager::load()
 	 * @return ITagManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getTagManager() {
 		return $this->query(ITagManager::class);
@@ -1476,7 +1473,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return ISystemTagManager
 	 *
 	 * @since 9.0.0
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getSystemTagManager() {
 		return $this->query(ISystemTagManager::class);
@@ -1488,7 +1485,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return ISystemTagObjectMapper
 	 *
 	 * @since 9.0.0
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getSystemTagObjectMapper() {
 		return $this->query(ISystemTagObjectMapper::class);
@@ -1498,7 +1495,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns the avatar manager, used for avatar functionality
 	 *
 	 * @return IAvatarManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getAvatarManager() {
 		return $this->query(IAvatarManager::class);
@@ -1508,7 +1505,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns the root folder of ownCloud's data directory
 	 *
 	 * @return IRootFolder
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getRootFolder() {
 		return $this->query(IRootFolder::class);
@@ -1520,6 +1517,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * is actually used.
 	 *
 	 * @return IRootFolder
+	 * @deprecated 20.0.0
 	 */
 	public function getLazyRootFolder() {
 		return $this->query(IRootFolder::class);
@@ -1530,7 +1528,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 *
 	 * @param string $userId user ID
 	 * @return \OCP\Files\Folder|null
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getUserFolder($userId = null) {
 		if ($userId === null) {
@@ -1546,7 +1544,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OC\User\Manager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getUserManager() {
 		return $this->query(IUserManager::class);
@@ -1554,7 +1552,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OC\Group\Manager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getGroupManager() {
 		return $this->query(IGroupManager::class);
@@ -1562,7 +1560,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OC\User\Session
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getUserSession() {
 		return $this->query(IUserSession::class);
@@ -1570,7 +1568,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\ISession
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getSession() {
 		return $this->getUserSession()->getSession();
@@ -1587,7 +1585,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OC\Authentication\TwoFactorAuth\Manager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getTwoFactorAuthManager() {
 		return $this->query(\OC\Authentication\TwoFactorAuth\Manager::class);
@@ -1595,7 +1593,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OC\NavigationManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getNavigationManager() {
 		return $this->query(INavigationManager::class);
@@ -1603,7 +1601,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\IConfig
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getConfig() {
 		return $this->query(AllConfig::class);
@@ -1611,7 +1609,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OC\SystemConfig
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getSystemConfig() {
 		return $this->query(SystemConfig::class);
@@ -1621,7 +1619,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns the app config manager
 	 *
 	 * @return IAppConfig
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getAppConfig() {
 		return $this->query(IAppConfig::class);
@@ -1629,7 +1627,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return IFactory
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getL10NFactory() {
 		return $this->query(IFactory::class);
@@ -1641,7 +1639,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @param string $app appid
 	 * @param string $lang
 	 * @return IL10N
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getL10N($app, $lang = null) {
 		return $this->getL10NFactory()->get($app, $lang);
@@ -1649,7 +1647,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return IURLGenerator
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getURLGenerator() {
 		return $this->query(IURLGenerator::class);
@@ -1657,7 +1655,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return AppFetcher
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getAppFetcher() {
 		return $this->query(AppFetcher::class);
@@ -1678,7 +1676,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns an \OCP\CacheFactory instance
 	 *
 	 * @return \OCP\ICacheFactory
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getMemCacheFactory() {
 		return $this->query(Factory::class);
@@ -1688,7 +1686,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns an \OC\RedisFactory instance
 	 *
 	 * @return \OC\RedisFactory
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getGetRedisFactory() {
 		return $this->query('RedisFactory');
@@ -1699,7 +1697,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns the current session
 	 *
 	 * @return \OCP\IDBConnection
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getDatabaseConnection() {
 		return $this->query(IDBConnection::class);
@@ -1709,7 +1707,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns the activity manager
 	 *
 	 * @return \OCP\Activity\IManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getActivityManager() {
 		return $this->query(\OCP\Activity\IManager::class);
@@ -1719,7 +1717,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns an job list for controlling background jobs
 	 *
 	 * @return IJobList
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getJobList() {
 		return $this->query(IJobList::class);
@@ -1729,7 +1727,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns a logger instance
 	 *
 	 * @return ILogger
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getLogger() {
 		return $this->query(ILogger::class);
@@ -1738,7 +1736,7 @@ class Server extends ServerContainer implements IServerContainer {
 	/**
 	 * @return ILogFactory
 	 * @throws \OCP\AppFramework\QueryException
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getLogFactory() {
 		return $this->query(ILogFactory::class);
@@ -1748,7 +1746,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns a router for generating and matching urls
 	 *
 	 * @return IRouter
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getRouter() {
 		return $this->query(IRouter::class);
@@ -1758,7 +1756,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns a search instance
 	 *
 	 * @return ISearch
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getSearch() {
 		return $this->query(ISearch::class);
@@ -1768,7 +1766,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns a SecureRandom instance
 	 *
 	 * @return \OCP\Security\ISecureRandom
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getSecureRandom() {
 		return $this->query(ISecureRandom::class);
@@ -1778,7 +1776,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns a Crypto instance
 	 *
 	 * @return ICrypto
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCrypto() {
 		return $this->query(ICrypto::class);
@@ -1788,7 +1786,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns a Hasher instance
 	 *
 	 * @return IHasher
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getHasher() {
 		return $this->query(IHasher::class);
@@ -1798,7 +1796,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns a CredentialsManager instance
 	 *
 	 * @return ICredentialsManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCredentialsManager() {
 		return $this->query(ICredentialsManager::class);
@@ -1809,7 +1807,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 *
 	 * @param string $userId (optional) if not specified the current loggedin user is used, use null to get the system certificate manager
 	 * @return \OCP\ICertificateManager | null if $uid is null and no user is logged in
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCertificateManager($userId = '') {
 		if ($userId === '') {
@@ -1833,7 +1831,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns an instance of the HTTP client service
 	 *
 	 * @return IClientService
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getHTTPClientService() {
 		return $this->query(IClientService::class);
@@ -1843,7 +1841,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Create a new event source
 	 *
 	 * @return \OCP\IEventSource
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function createEventSource() {
 		return new \OC_EventSource();
@@ -1855,7 +1853,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * The returned logger only logs data when debug mode is enabled
 	 *
 	 * @return IEventLogger
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getEventLogger() {
 		return $this->query(IEventLogger::class);
@@ -1867,7 +1865,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * The returned logger only logs data when debug mode is enabled
 	 *
 	 * @return IQueryLogger
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getQueryLogger() {
 		return $this->query(IQueryLogger::class);
@@ -1877,7 +1875,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Get the manager for temporary files and folders
 	 *
 	 * @return \OCP\ITempManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getTempManager() {
 		return $this->query(ITempManager::class);
@@ -1887,7 +1885,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Get the app manager
 	 *
 	 * @return \OCP\App\IAppManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getAppManager() {
 		return $this->query(IAppManager::class);
@@ -1897,7 +1895,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Creates a new mailer
 	 *
 	 * @return IMailer
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getMailer() {
 		return $this->query(IMailer::class);
@@ -1907,7 +1905,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Get the webroot
 	 *
 	 * @return string
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getWebRoot() {
 		return $this->webRoot;
@@ -1915,7 +1913,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OC\OCSClient
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getOcsClient() {
 		return $this->query('OcsClient');
@@ -1923,7 +1921,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return IDateTimeZone
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getDateTimeZone() {
 		return $this->query(IDateTimeZone::class);
@@ -1931,7 +1929,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return IDateTimeFormatter
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getDateTimeFormatter() {
 		return $this->query(IDateTimeFormatter::class);
@@ -1939,7 +1937,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return IMountProviderCollection
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getMountProviderCollection() {
 		return $this->query(IMountProviderCollection::class);
@@ -1949,7 +1947,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Get the IniWrapper
 	 *
 	 * @return IniGetWrapper
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getIniWrapper() {
 		return $this->query(IniGetWrapper::class);
@@ -1957,7 +1955,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Command\IBus
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCommandBus() {
 		return $this->query('AsyncCommandBus');
@@ -1967,10 +1965,10 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Get the trusted domain helper
 	 *
 	 * @return TrustedDomainHelper
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getTrustedDomainHelper() {
-		return $this->query('TrustedDomainHelper');
+		return $this->query(TrustedDomainHelper::class);
 	}
 
 	/**
@@ -1978,7 +1976,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 *
 	 * @return ILockingProvider
 	 * @since 8.1.0
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getLockingProvider() {
 		return $this->query(ILockingProvider::class);
@@ -1986,7 +1984,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return IMountManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 **/
 	public function getMountManager() {
 		return $this->query(IMountManager::class);
@@ -1994,7 +1992,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return IUserMountCache
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getUserMountCache() {
 		return $this->query(IUserMountCache::class);
@@ -2004,7 +2002,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Get the MimeTypeDetector
 	 *
 	 * @return IMimeTypeDetector
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getMimeTypeDetector() {
 		return $this->query(IMimeTypeDetector::class);
@@ -2014,7 +2012,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Get the MimeTypeLoader
 	 *
 	 * @return IMimeTypeLoader
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getMimeTypeLoader() {
 		return $this->query(IMimeTypeLoader::class);
@@ -2024,7 +2022,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Get the manager of all the capabilities
 	 *
 	 * @return CapabilitiesManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCapabilitiesManager() {
 		return $this->query(CapabilitiesManager::class);
@@ -2046,7 +2044,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 *
 	 * @return \OCP\Notification\IManager
 	 * @since 8.2.0
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getNotificationManager() {
 		return $this->query(\OCP\Notification\IManager::class);
@@ -2054,7 +2052,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return ICommentsManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCommentsManager() {
 		return $this->query(ICommentsManager::class);
@@ -2062,7 +2060,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCA\Theming\ThemingDefaults
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getThemingDefaults() {
 		return $this->query('ThemingDefaults');
@@ -2070,7 +2068,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OC\IntegrityCheck\Checker
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getIntegrityCodeChecker() {
 		return $this->query('IntegrityCodeChecker');
@@ -2078,7 +2076,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OC\Session\CryptoWrapper
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getSessionCryptoWrapper() {
 		return $this->query('CryptoWrapper');
@@ -2086,7 +2084,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return CsrfTokenManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCsrfTokenManager() {
 		return $this->query(CsrfTokenManager::class);
@@ -2094,7 +2092,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return Throttler
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getBruteForceThrottler() {
 		return $this->query(Throttler::class);
@@ -2102,7 +2100,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return IContentSecurityPolicyManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getContentSecurityPolicyManager() {
 		return $this->query(ContentSecurityPolicyManager::class);
@@ -2110,7 +2108,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return ContentSecurityPolicyNonceManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getContentSecurityPolicyNonceManager() {
 		return $this->query(ContentSecurityPolicyNonceManager::class);
@@ -2120,7 +2118,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Not a public API as of 8.2, wait for 9.0
 	 *
 	 * @return \OCA\Files_External\Service\BackendService
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getStoragesBackendService() {
 		return $this->query(BackendService::class);
@@ -2130,7 +2128,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Not a public API as of 8.2, wait for 9.0
 	 *
 	 * @return \OCA\Files_External\Service\GlobalStoragesService
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getGlobalStoragesService() {
 		return $this->query(GlobalStoragesService::class);
@@ -2140,7 +2138,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Not a public API as of 8.2, wait for 9.0
 	 *
 	 * @return \OCA\Files_External\Service\UserGlobalStoragesService
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getUserGlobalStoragesService() {
 		return $this->query(UserGlobalStoragesService::class);
@@ -2150,7 +2148,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Not a public API as of 8.2, wait for 9.0
 	 *
 	 * @return \OCA\Files_External\Service\UserStoragesService
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getUserStoragesService() {
 		return $this->query(UserStoragesService::class);
@@ -2158,7 +2156,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Share\IManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getShareManager() {
 		return $this->query(\OCP\Share\IManager::class);
@@ -2166,7 +2164,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Collaboration\Collaborators\ISearch
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCollaboratorSearch() {
 		return $this->query(\OCP\Collaboration\Collaborators\ISearch::class);
@@ -2174,7 +2172,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Collaboration\AutoComplete\IManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getAutoCompleteManager() {
 		return $this->query(IManager::class);
@@ -2184,7 +2182,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns the LDAP Provider
 	 *
 	 * @return \OCP\LDAP\ILDAPProvider
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getLDAPProvider() {
 		return $this->query('LDAPProvider');
@@ -2192,15 +2190,15 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Settings\IManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getSettingsManager() {
-		return $this->query('SettingsManager');
+		return $this->query(\OC\Settings\Manager::class);
 	}
 
 	/**
 	 * @return \OCP\Files\IAppData
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getAppDataDir($app) {
 		/** @var \OC\Files\AppData\Factory $factory */
@@ -2210,7 +2208,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Lockdown\ILockdownManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getLockdownManager() {
 		return $this->query('LockdownManager');
@@ -2218,7 +2216,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Federation\ICloudIdManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCloudIdManager() {
 		return $this->query(ICloudIdManager::class);
@@ -2226,7 +2224,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\GlobalScale\IConfig
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getGlobalScaleConfig() {
 		return $this->query(IConfig::class);
@@ -2234,7 +2232,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Federation\ICloudFederationProviderManager
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCloudFederationProviderManager() {
 		return $this->query(ICloudFederationProviderManager::class);
@@ -2242,7 +2240,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Remote\Api\IApiFactory
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getRemoteApiFactory() {
 		return $this->query(IApiFactory::class);
@@ -2250,7 +2248,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Federation\ICloudFederationFactory
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getCloudFederationFactory() {
 		return $this->query(ICloudFederationFactory::class);
@@ -2258,7 +2256,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return \OCP\Remote\IInstanceFactory
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getRemoteInstanceFactory() {
 		return $this->query(IInstanceFactory::class);
@@ -2266,7 +2264,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * @return IStorageFactory
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getStorageFactory() {
 		return $this->query(IStorageFactory::class);
@@ -2277,7 +2275,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 *
 	 * @return GeneratorHelper
 	 * @since 17.0.0
-	 * @deprecated
+	 * @deprecated 20.0.0
 	 */
 	public function getGeneratorHelper() {
 		return $this->query(\OC\Preview\GeneratorHelper::class);

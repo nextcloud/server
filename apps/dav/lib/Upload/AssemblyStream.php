@@ -73,7 +73,7 @@ class AssemblyStream implements \Icewind\Streams\File {
 		$this->loadContext('assembly');
 
 		$nodes = $this->nodes;
-		// http://stackoverflow.com/a/10985500
+		// https://stackoverflow.com/a/10985500
 		@usort($nodes, function (IFile $a, IFile $b) {
 			return strnatcmp($a->getName(), $b->getName());
 		});

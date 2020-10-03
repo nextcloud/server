@@ -4,12 +4,12 @@
     "OAuth 2.0" : "OAuth 2.0",
     "OAuth 2.0 clients" : "OAuth 2.0 клиенти",
     "OAuth 2.0 allows external services to request access to {instanceName}." : "OAuth 2.0 овозможува на надворешни сервиси да побараат пристап на {instanceName}.",
+    "Add client" : "Додади клиент",
     "Name" : "Име",
     "Redirection URI" : "Пренасочено URI",
+    "Add" : "Додади",
     "Client Identifier" : "Идентификатор на клиент",
     "Secret" : "Тајна",
-    "Add client" : "Додади клиент",
-    "Add" : "Додади",
     "Show client secret" : "Прикажи тајна на клиент",
     "Delete" : "Избриши"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"

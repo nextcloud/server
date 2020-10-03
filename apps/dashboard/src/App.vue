@@ -25,10 +25,8 @@
 			</div>
 		</Draggable>
 
-		<div class="footer"
-			:class="{ firstrun: firstRun }">
-			<a v-tooltip="tooltip"
-				class="edit-panels icon-rename"
+		<div class="footer">
+			<a class="edit-panels icon-rename"
 				tabindex="0"
 				@click="showModal"
 				@keyup.enter="showModal"
@@ -77,7 +75,9 @@
 					{{ t('dashboard', 'For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information.') }}
 				</p>
 				<p class="credits--end">
-					<a href="https://api.met.no/doc/TermsOfService" target="_blank" rel="noopener">{{ t('dashboard', 'Weather data from Met.no') }}</a>, <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener">{{ t('dashboard', 'geocoding with Nominatim') }}</a>, <a href="https://www.opentopodata.org/#public-api" target="_blank" rel="noopener">{{ t('dashboard', 'elevation data from OpenTopoData') }}</a>.
+					<a href="https://api.met.no/doc/TermsOfService" target="_blank" rel="noopener">{{ t('dashboard', 'Weather data from Met.no') }}</a>,
+					<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener">{{ t('dashboard', 'geocoding with Nominatim') }}</a>,
+					<a href="https://www.opentopodata.org/#public-api" target="_blank" rel="noopener">{{ t('dashboard', 'elevation data from OpenTopoData') }}</a>.
 				</p>
 			</div>
 		</Modal>
@@ -158,17 +158,6 @@ export default {
 				backgroundImage: `url(${this.backgroundImage})`,
 			}
 		},
-		tooltip() {
-			if (!this.firstRun) {
-				return null
-			}
-			return {
-				content: t('dashboard', 'Adjust the dashboard to your needs'),
-				placement: 'top',
-				show: true,
-				trigger: 'manual',
-			}
-		},
 		greeting() {
 			const time = this.timer.getHours()
 			const shouldShowName = this.displayName && this.uid !== this.displayName
@@ -228,6 +217,7 @@ export default {
 	},
 	mounted() {
 		this.updateGlobalStyles()
+		this.updateSkipLink()
 		window.addEventListener('scroll', this.handleScroll)
 
 		setInterval(() => {
@@ -334,6 +324,10 @@ export default {
 				document.body.classList.remove('dashboard--dark')
 			}
 		},
+		updateSkipLink() {
+			// Make sure "Skip to main content" link points to the app content
+			document.getElementsByClassName('skip-navigation')[0].setAttribute('href', '#app-dashboard')
+		},
 		updateStatusCheckbox(app, checked) {
 			if (checked) {
 				this.enableStatus(app)
@@ -395,7 +389,7 @@ export default {
 		text-align: center;
 		font-size: 32px;
 		line-height: 130%;
-		padding: 120px 16px 0px;
+		padding: 10vh 16px 0px;
 	}
 }
 
@@ -489,11 +483,6 @@ export default {
 	transition: bottom var(--animation-slow) ease-in-out;
 	bottom: 0;
 	padding: 44px 0;
-
-	&.firstrun {
-		position: sticky;
-		bottom: 10px;
-	}
 }
 
 .edit-panels {
@@ -509,7 +498,7 @@ export default {
 }
 
 .edit-panels,
-.statuses ::v-deep .action-item > button,
+.statuses ::v-deep .action-item .action-item__menutoggle,
 .statuses ::v-deep .action-item.action-item--open .action-item__menutoggle {
 	background-color: var(--color-background-translucent);
 	-webkit-backdrop-filter: var(--background-blur);
@@ -569,7 +558,7 @@ export default {
 	// Adjust design of 'Get more widgets' button
 	.button {
 		display: inline-block;
-		padding: 12px 24px;
+		padding: 10px 16px;
 		margin: 0;
 	}
 

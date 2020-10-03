@@ -30,6 +30,7 @@
 
 namespace OC\Group;
 
+use OC\Group\Manager as GroupManager;
 use OCP\IGroupManager;
 use OCP\IUserSession;
 
@@ -44,7 +45,7 @@ class MetaData {
 	protected $isAdmin;
 	/** @var array */
 	protected $metaData = [];
-	/** @var IGroupManager */
+	/** @var GroupManager */
 	protected $groupManager;
 	/** @var bool */
 	protected $sorting = false;
@@ -55,7 +56,6 @@ class MetaData {
 	 * @param string $user the uid of the current user
 	 * @param bool $isAdmin whether the current users is an admin
 	 * @param IGroupManager $groupManager
-	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
 	 */
 	public function __construct(

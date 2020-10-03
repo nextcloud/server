@@ -119,26 +119,46 @@
 			</template>
 
 			<!-- Tab content -->
-			<AppDetails :app="app" />
+
+			<AppSidebarTab id="desc"
+				icon="icon-category-office"
+				:name="t('settings', 'Details')"
+				:order="0">
+				<AppDetails :app="app" />
+			</AppSidebarTab>
+			<AppSidebarTab v-if="app.appstoreData && app.releases[0].translations.en.changelog"
+				id="desca"
+				icon="icon-category-organization"
+				:name="t('settings', 'Changelog')"
+				:order="1">
+				<div v-for="release in app.releases" :key="release.version" class="app-sidebar-tabs__release">
+					<h2>{{ release.version }}</h2>
+					<Markdown v-if="changelog(release)" :text="changelog(release)" />
+				</div>
+			</AppSidebarTab>
 		</AppSidebar>
 	</Content>
 </template>
 
 <script>
+import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import Vue from 'vue'
+import VueLocalStorage from 'vue-localstorage'
+
 import AppContent from '@nextcloud/vue/dist/Components/AppContent'
 import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
 import AppNavigationCounter from '@nextcloud/vue/dist/Components/AppNavigationCounter'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import AppNavigationSpacer from '@nextcloud/vue/dist/Components/AppNavigationSpacer'
 import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
+import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
 import Content from '@nextcloud/vue/dist/Components/Content'
-import Vue from 'vue'
-import VueLocalStorage from 'vue-localstorage'
 
 import AppList from '../components/AppList'
 import AppDetails from '../components/AppDetails'
 import AppManagement from '../mixins/AppManagement'
 import AppScore from '../components/AppList/AppScore'
+import Markdown from '../components/Markdown'
 
 Vue.use(VueLocalStorage)
 
@@ -155,7 +175,9 @@ export default {
 		AppNavigationSpacer,
 		AppScore,
 		AppSidebar,
+		AppSidebarTab,
 		Content,
+		Markdown,
 	},
 
 	mixins: [AppManagement],
@@ -228,11 +250,14 @@ export default {
 
 			}
 		},
+		changelog() {
+			return (release) => release.translations.en.changelog
+		},
 	},
 
 	watch: {
-		category(val, old) {
-			this.setSearch('')
+		category() {
+			this.searchQuery = ''
 		},
 
 		app() {
@@ -253,20 +278,24 @@ export default {
 		this.$store.dispatch('getGroups', { offset: 0, limit: 5 })
 		this.$store.commit('setUpdateCount', this.$store.getters.getServerData.updateCount)
 	},
+
 	mounted() {
-		/**
-		 * Register search
-		 */
-		this.appSearch = new OCA.Search(this.setSearch, this.resetSearch)
+		subscribe('nextcloud:unified-search.search', this.setSearch)
+		subscribe('nextcloud:unified-search.reset', this.resetSearch)
+	},
+	beforeDestroy() {
+		unsubscribe('nextcloud:unified-search.search', this.setSearch)
+		unsubscribe('nextcloud:unified-search.reset', this.resetSearch)
 	},
 
 	methods: {
-		setSearch(query) {
+		setSearch({ query }) {
 			this.searchQuery = query
 		},
 		resetSearch() {
-			this.setSearch('')
+			this.searchQuery = ''
 		},
+
 		hideAppDetails() {
 			this.$router.push({
 				name: 'apps-category',
@@ -326,4 +355,19 @@ export default {
 	}
 }
 
+	.app-sidebar-tabs__release {
+		h2 {
+			border-bottom: 1px solid var(--color-border);
+		}
+
+		// Overwrite changelog heading styles
+		::v-deep {
+			h3 {
+				font-size: 20px;
+			}
+			h4 {
+				font-size: 17px;
+			}
+		}
+	}
 </style>

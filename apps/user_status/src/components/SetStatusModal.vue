@@ -22,11 +22,24 @@
 <template>
 	<Modal
 		size="normal"
-		:title="$t('user_status', 'Set a custom status')"
+		:title="$t('user_status', 'Set status')"
 		@close="closeModal">
 		<div class="set-status-modal">
+			<!-- Status selector -->
 			<div class="set-status-modal__header">
-				<h3>{{ $t('user_status', 'Set a custom status') }}</h3>
+				<h3>{{ $t('user_status', 'Online status') }}</h3>
+			</div>
+			<div class="set-status-modal__online-status">
+				<OnlineStatusSelect v-for="status in statuses"
+					:key="status.type"
+					v-bind="status"
+					:checked="status.type === statusType"
+					@select="changeStatus" />
+			</div>
+
+			<!-- Status message -->
+			<div class="set-status-modal__header">
+				<h3>{{ $t('user_status', 'Status message') }}</h3>
 			</div>
 			<div class="set-status-modal__custom-input">
 				<EmojiPicker @select="setIcon">
@@ -46,10 +59,10 @@
 				@selectClearAt="setClearAt" />
 			<div class="status-buttons">
 				<button class="status-buttons__select" @click="clearStatus">
-					{{ $t('user_status', 'Clear custom status') }}
+					{{ $t('user_status', 'Clear status message') }}
 				</button>
 				<button class="status-buttons__primary primary" @click="saveStatus">
-					{{ $t('user_status', 'Set status') }}
+					{{ $t('user_status', 'Set status message') }}
 				</button>
 			</div>
 		</div>
@@ -57,27 +70,36 @@
 </template>
 
 <script>
+import { showError } from '@nextcloud/dialogs'
 import EmojiPicker from '@nextcloud/vue/dist/Components/EmojiPicker'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
+
+import { getAllStatusOptions } from '../services/statusOptionsService'
+import OnlineStatusMixin from '../mixins/OnlineStatusMixin'
 import PredefinedStatusesList from './PredefinedStatusesList'
 import CustomMessageInput from './CustomMessageInput'
 import ClearAtSelect from './ClearAtSelect'
-import { showError } from '@nextcloud/dialogs'
+import OnlineStatusSelect from './OnlineStatusSelect'
 
 export default {
 	name: 'SetStatusModal',
+
 	components: {
+		ClearAtSelect,
+		CustomMessageInput,
 		EmojiPicker,
 		Modal,
-		CustomMessageInput,
+		OnlineStatusSelect,
 		PredefinedStatusesList,
-		ClearAtSelect,
 	},
+	mixins: [OnlineStatusMixin],
+
 	data() {
 		return {
+			clearAt: null,
 			icon: null,
 			message: null,
-			clearAt: null,
+			statuses: getAllStatusOptions(),
 		}
 	},
 	computed: {
@@ -90,6 +112,7 @@ export default {
 			return this.icon || '😀'
 		},
 	},
+
 	/**
 	 * Loads the current status when a user opens dialog
 	 */
@@ -208,6 +231,21 @@ export default {
 	min-width: 500px;
 	min-height: 200px;
 	padding: 8px 20px 20px 20px;
+	// Enable scrollbar for too long content, same way as in Dashboard customize
+	max-height: 70vh;
+	overflow: auto;
+
+	&__header {
+		text-align: center;
+		font-weight: bold;
+	}
+
+	&__online-status {
+		display: grid;
+		// Space between the two sections
+		margin-bottom: 40px;
+		grid-template-columns: 1fr 1fr;
+	}
 
 	&__custom-input {
 		display: flex;
@@ -216,12 +254,12 @@ export default {
 
 		.custom-input__emoji-button {
 			flex-basis: 40px;
-			width: 40px;
 			flex-grow: 0;
-			border-radius: var(--border-radius) 0 0 var(--border-radius);
+			width: 40px;
 			height: 34px;
 			margin-right: 0;
 			border-right: none;
+			border-radius: var(--border-radius) 0 0 var(--border-radius);
 		}
 	}
 
@@ -233,4 +271,5 @@ export default {
 		}
 	}
 }
+
 </style>

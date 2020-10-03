@@ -161,7 +161,7 @@ class Quota extends Wrapper {
 			$free = $this->free_space($path);
 			if ($source && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
 				// only apply quota for files, not metadata, trash or others
-				if (strpos(ltrim($path, '/'), 'files/') === 0) {
+				if ($this->shouldApplyQuota($path)) {
 					return \OC\Files\Stream\Quota::wrap($source, $free);
 				}
 			}
@@ -180,6 +180,13 @@ class Quota extends Wrapper {
 		$extension = pathinfo($path, PATHINFO_EXTENSION);
 
 		return ($extension === 'part');
+	}
+
+	/**
+	 * Only apply quota for files, not metadata, trash or others
+	 */
+	private function shouldApplyQuota(string $path): bool {
+		return strpos(ltrim($path, '/'), 'files/') === 0;
 	}
 
 	/**
@@ -214,7 +221,7 @@ class Quota extends Wrapper {
 
 	public function mkdir($path) {
 		$free = $this->free_space($path);
-		if ($free === 0.0) {
+		if ($this->shouldApplyQuota($path) && $free === 0.0) {
 			return false;
 		}
 

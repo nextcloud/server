@@ -21,7 +21,6 @@ OC.L10N.register(
     "Could not write file to disk" : "디스크에 파일을 쓸 수 없음",
     "A PHP extension stopped the file upload" : "PHP 확장 기능에서 파일 업로드를 차단함",
     "No file uploaded" : "업로드한 파일 없음",
-    "Unsupported image type" : "지원하지 않는 사진 형식",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "사용자 정의 테마를 사용하고 있습니다. 테마 앱에서 해당 설정을 덮어쓸 수 있습니다.",
     "Theming" : "테마",
     "Legal notice" : "법적 고지",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "Upload new header logo" : "새 머리글 로고 업로드",
     "Favicon" : "파비콘",
     "Upload new favicon" : "새 파비콘 업로드",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "업로드한 로고와 색으로부터 자동으로 파비콘을 생성하려면 PHP Imagemagick 확장 기능 및 SVG 형식 그림 지원을 설치하십시오.",
+    "Unsupported image type" : "지원하지 않는 사진 형식"
 },
 "nplurals=1; plural=0;");

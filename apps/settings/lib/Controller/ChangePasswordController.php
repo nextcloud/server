@@ -35,6 +35,7 @@
 
 namespace OCA\Settings\Controller;
 
+use OC\Group\Manager as GroupManager;
 use OC\HintException;
 use OC\User\Session;
 use OCP\App\IAppManager;
@@ -58,7 +59,7 @@ class ChangePasswordController extends Controller {
 	/** @var IL10N */
 	private $l;
 
-	/** @var IGroupManager */
+	/** @var GroupManager */
 	private $groupManager;
 
 	/** @var Session */

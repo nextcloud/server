@@ -36,6 +36,7 @@ use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -55,7 +56,6 @@ use OCP\Security\ISecureRandom;
  * @package Tests\Settings\Controller
  */
 class UsersControllerTest extends \Test\TestCase {
-
 	/** @var IGroupManager|\PHPUnit\Framework\MockObject\MockObject */
 	private $groupManager;
 	/** @var IUserManager|\PHPUnit\Framework\MockObject\MockObject */
@@ -90,6 +90,8 @@ class UsersControllerTest extends \Test\TestCase {
 	private $encryptionManager;
 	/** @var  IEncryptionModule  | \PHPUnit\Framework\MockObject\MockObject */
 	private $encryptionModule;
+	/** @var IEventDispatcher|\PHPUnit\Framework\MockObject\MockObject */
+	private $dispatcher;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -106,6 +108,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->securityManager = $this->getMockBuilder(\OC\Security\IdentityProof\Manager::class)->disableOriginalConstructor()->getMock();
 		$this->jobList = $this->createMock(IJobList::class);
 		$this->encryptionManager = $this->createMock(IManager::class);
+		$this->dispatcher = $this->createMock(IEventDispatcher::class);
 
 		$this->l->method('t')
 			->willReturnCallback(function ($text, $parameters = []) {
@@ -140,7 +143,8 @@ class UsersControllerTest extends \Test\TestCase {
 				$this->accountManager,
 				$this->securityManager,
 				$this->jobList,
-				$this->encryptionManager
+				$this->encryptionManager,
+				$this->dispatcher
 			);
 		} else {
 			return $this->getMockBuilder(UsersController::class)
@@ -160,7 +164,8 @@ class UsersControllerTest extends \Test\TestCase {
 						$this->accountManager,
 						$this->securityManager,
 						$this->jobList,
-						$this->encryptionManager
+						$this->encryptionManager,
+						$this->dispatcher
 					]
 				)->setMethods($mockedMethods)->getMock();
 		}

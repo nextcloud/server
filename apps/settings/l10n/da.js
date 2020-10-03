@@ -187,6 +187,8 @@ OC.L10N.register(
     "Disabled apps" : "Deaktiverede apps",
     "Updates" : "Opdateringer",
     "App bundles" : "App bundles",
+    "Details" : "Detaljer",
+    "Changelog" : "Ændringslog",
     "New user" : "Ny bruger",
     "Add group" : "Tilføj gruppe",
     "Everyone" : "Alle",
@@ -250,7 +252,6 @@ OC.L10N.register(
     "Start migration" : "Påbegynd immigrering",
     "Background jobs" : "Baggrundsjobs",
     "Last job ran %s." : "Seneste job blev udført: %s.",
-    "Execute one task with each page loaded" : "Udføre en opgave med hver side indlæsning",
     "Allow apps to use the Share API" : "Tillad apps til at bruge Share API",
     "Expire after " : "Udløber efter",
     "days" : "dage",
@@ -277,7 +278,6 @@ OC.L10N.register(
     "png or jpg, max. 20 MB" : "png eller jpg, max. 20 MB",
     "Picture provided by original account" : "Billede leveret af den oprindelige konto",
     "Choose as profile picture" : "Vælg et profilbillede",
-    "Details" : "Detaljer",
     "You are a member of the following groups:" : "Du er medlem af følgende grupper:",
     "You are using <strong>%s</strong>" : "Du bruger <strong>%s</strong>",
     "You are using <strong>%1$s</strong> of <strong>%2$s</strong> (<strong>%3$s %%</strong>)" : "Du bruger <strong>%1$s</strong> af <strong>%2$s</strong> (<strong>%3$s %%</strong>)",
@@ -339,11 +339,7 @@ OC.L10N.register(
     "Issued By" : "Udstedt af",
     "Valid until %s" : "Gyldig indtil %s",
     "Import root certificate" : "Importer rodcertifikat",
-    "Set default expiration date" : "Vælg standard udløbsdato",
-    "Unsaved changes" : "Ikke gemte ændringer",
-    "Use current version" : "Brug aktuelle version",
-    "Use the saved version" : "Brug den gemte version",
-    "Retry" : "Prøv igen",
-    "Show file" : "Vis fil"
+    "Execute one task with each page loaded" : "Udføre en opgave med hver side indlæsning",
+    "Set default expiration date" : "Vælg standard udløbsdato"
 },
 "nplurals=2; plural=(n != 1);");

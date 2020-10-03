@@ -23,8 +23,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "Geçici klasör bulunamadı",
     "Could not write file to disk" : "Dosya diske yazılamadı",
     "A PHP extension stopped the file upload" : "Bir PHP eklentisi dosyanın yüklenmesini engelledi",
-    "No file uploaded" : "Herhangi bir dosya yüklenmemiş",
-    "Unsupported image type" : "Görsel türü desteklenmiyor",
+    "No file uploaded" : "Henüz bir dosya yüklenmemiş",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Zaten özel bir tema kullanıyorsunuz. Tema uygulaması ayarları bu değer ile değiştirilebilir.",
     "Theming" : "Tema",
     "Legal notice" : "Yasal bildirim",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Upload new header logo" : "Yeni üst bilgi logosu yükle",
     "Favicon" : "Favicon",
     "Upload new favicon" : "Yeni favicon yükle",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Yüklenen logo ve renge göre otomatik olarak favicon üretilmesi için Imagemagick PHP eklentisini SVG desteği ile kurun.",
+    "Unsupported image type" : "Görsel türü desteklenmiyor"
 },
 "nplurals=2; plural=(n > 1);");

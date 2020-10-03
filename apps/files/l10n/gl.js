@@ -25,6 +25,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Non se admite o envío deste elemento",
     "Target folder does not exist any more" : "O cartafol de destino xa non existe",
+    "Operation is blocked by access control" : "A operación está a se bloqueda polo control de acceso",
     "Error when assembling chunks, status code {status}" : "Produciuse un erro ao ensamblar os bloques, código de estado {status}",
     "Actions" : "Accións",
     "Rename" : "Renomear",
@@ -57,7 +58,7 @@ OC.L10N.register(
     "Could not create file \"{file}\"" : "Non foi posíbel crear o ficheiro «{file}»",
     "Could not create file \"{file}\" because it already exists" : "Non foi posíbel crear o ficheiro «{file}» por mor de que xa existe",
     "Could not create folder \"{dir}\" because it already exists" : "Non foi posíbel crear o cartafol «{dir}» por mor de que xa existe",
-    "Could not fetch file details \"{file}\"" : "Non foi posíbel recuperar os detalles do ficheiro «{file}»",
+    "Could not fetch file details \"{file}\"" : "Non foi posíbel obter os detalles do ficheiro «{file}»",
     "Error deleting file \"{fileName}\"." : "Produciuse un erro ao eliminar o ficheiro «{fileName}».",
     "No search results in other folders for {tag}{filter}{endtag}" : "Non foi posíbel atopar resultados de busca noutros cartafoles para {tag}{filter}{endtag}",
     "Enter more than two characters to search in other folders" : "Introduza máis de dous caracteres para buscar noutros cartafoles",
@@ -199,6 +200,8 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limita as notificacións sobre a creación e modificación dos seus <strong>ficheiros favoritos</strong> <em>(só os fluxos)</em>",
     "A file or folder has been <strong>restored</strong>" : "<strong>Restaurouse</strong> un ficheiro ou cartafol",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Empregue este enderezo <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">acceder á súa aplicación Ficheiros mediante WebDAV</a>",
+    "This group folder is almost full ({usedSpacePercent}%)" : "Este cartafol do grupo está case cheo ({usedSpacePercent}%)",
+    "This external storage is almost full ({usedSpacePercent}%)" : "Este almacenamento externo está case cheo ({usedSpacePercent}%)",
     "Cannot transfter ownership of a file or folder you don't own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol que non é de seu"
 },
 "nplurals=2; plural=(n != 1);");

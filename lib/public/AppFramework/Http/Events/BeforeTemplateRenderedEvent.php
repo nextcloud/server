@@ -27,6 +27,7 @@ declare(strict_types=1);
 
 namespace OCP\AppFramework\Http\Events;
 
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\EventDispatcher\Event;
 
 /**
@@ -38,14 +39,17 @@ use OCP\EventDispatcher\Event;
 class BeforeTemplateRenderedEvent extends Event {
 	/** @var bool */
 	private $loggedIn;
+	/** @var TemplateResponse */
+	private $response;
 
 	/**
 	 * @since 20.0.0
 	 */
-	public function __construct(bool $loggedIn) {
+	public function __construct(bool $loggedIn, TemplateResponse $response) {
 		parent::__construct();
 
 		$this->loggedIn = $loggedIn;
+		$this->response = $response;
 	}
 
 	/**
@@ -53,5 +57,12 @@ class BeforeTemplateRenderedEvent extends Event {
 	 */
 	public function isLoggedIn(): bool {
 		return $this->loggedIn;
+	}
+
+	/**
+	 * @since 20.0.0
+	 */
+	public function getResponse(): TemplateResponse {
+		return $this->response;
 	}
 }

@@ -9,6 +9,7 @@
  * @author Florin Peter <github@florin-peter.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author korelstar <korelstar@users.noreply.github.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -813,7 +814,7 @@ class Filesystem {
 
 		$cacheKey = json_encode([$path, $stripTrailingSlash, $isAbsolutePath, $keepUnicode]);
 
-		if (isset(self::$normalizedPathCache[$cacheKey])) {
+		if ($cacheKey && isset(self::$normalizedPathCache[$cacheKey])) {
 			return self::$normalizedPathCache[$cacheKey];
 		}
 

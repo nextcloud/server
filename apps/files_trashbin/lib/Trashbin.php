@@ -7,6 +7,7 @@
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Florin Peter <github@florin-peter.de>
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
@@ -282,6 +283,14 @@ class Trashbin {
 
 		if ($trashStorage->file_exists($trashInternalPath)) {
 			$trashStorage->unlink($trashInternalPath);
+		}
+
+		$config = \OC::$server->getConfig();
+		$systemTrashbinSize = (int)$config->getAppValue('files_trashbin', 'trashbin_size', '-1');
+		$userTrashbinSize = (int)$config->getUserValue($owner, 'files_trashbin', 'trashbin_size', '-1');
+		$configuredTrashbinSize = ($userTrashbinSize < 0) ? $systemTrashbinSize : $userTrashbinSize;
+		if ($configuredTrashbinSize >= 0 && $sourceStorage->filesize($sourceInternalPath) >= $configuredTrashbinSize) {
+			return false;
 		}
 
 		$connection = \OC::$server->getDatabaseConnection();
@@ -708,11 +717,13 @@ class Trashbin {
 	 */
 	private static function calculateFreeSpace($trashbinSize, $user) {
 		$config = \OC::$server->getConfig();
-		$systemTrashbinSize = (int)$config->getAppValue('files_trashbin', 'trashbin_size', '-1');
 		$userTrashbinSize = (int)$config->getUserValue($user, 'files_trashbin', 'trashbin_size', '-1');
-		$configuredTrashbinSize = ($userTrashbinSize < 0) ? $systemTrashbinSize : $userTrashbinSize;
-		if ($configuredTrashbinSize) {
-			return $configuredTrashbinSize - $trashbinSize;
+		if ($userTrashbinSize > -1) {
+			return $userTrashbinSize - $trashbinSize;
+		}
+		$systemTrashbinSize = (int)$config->getAppValue('files_trashbin', 'trashbin_size', '-1');
+		if ($systemTrashbinSize > -1) {
+			return $systemTrashbinSize - $trashbinSize;
 		}
 
 		$softQuota = true;

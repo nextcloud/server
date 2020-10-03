@@ -279,7 +279,6 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 * @return int number of new rows
 	 * @throws \Doctrine\DBAL\DBALException
 	 * @throws PreConditionNotMetException
-	 * @suppress SqlInjectionChecker
 	 */
 	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []) {
 		try {

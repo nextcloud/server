@@ -14,7 +14,6 @@ OC.L10N.register(
     "No file was uploaded" : "O ficheiro foi carregado",
     "Missing a temporary folder" : "Falta uma pasta temporária",
     "No file uploaded" : "Nenhum ficheiro carregado",
-    "Unsupported image type" : "Tipo de imagem não suportado",
     "Theming" : "Temática",
     "Open documentation" : "Abrir documentação",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "A tematização possibilita a fácil personalização da aparência da sua instância e clientes suportados. Isto será visível para todos os utilizadores",
@@ -29,6 +28,7 @@ OC.L10N.register(
     "Upload new login background" : "Carregar imagem de segundo plano de Login",
     "Remove background image" : "Remover imagem de segundo plano",
     "Advanced options" : "Opções avançadas",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte para imagens SVG para gerar automaticamente favicons com base na cor e no logotipo carregado."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instale a extensão PHP Imagemagick com suporte para imagens SVG para gerar automaticamente favicons com base na cor e no logotipo carregado.",
+    "Unsupported image type" : "Tipo de imagem não suportado"
 },
 "nplurals=2; plural=(n != 1);");

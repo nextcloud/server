@@ -8,6 +8,7 @@ declare(strict_types=1);
  *
  * @author Bjoern Schiessle <bjoern@schiessle.org>
  * @author brad2014 <brad2014@users.noreply.github.com>
+ * @author Brad Rubenstein <brad@wbr.tech>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <coding@schilljs.com>
@@ -448,19 +449,21 @@ EOF;
 	 * @param string $metaInfo Note: When $plainMetaInfo falls back to this, HTML is automatically escaped in the HTML email
 	 * @param string $icon Absolute path, must be 16*16 pixels
 	 * @param string|bool $plainText Text that is used in the plain text email
-	 *   if empty the $text is used, if false none will be used
+	 *   if empty or true the $text is used, if false none will be used
 	 * @param string|bool $plainMetaInfo Meta info that is used in the plain text email
-	 *   if empty the $metaInfo is used, if false none will be used
+	 *   if empty or true the $metaInfo is used, if false none will be used
+	 * @param integer plainIndent If > 0, Indent plainText by this amount.
 	 * @since 12.0.0
 	 */
-	public function addBodyListItem(string $text, string $metaInfo = '', string $icon = '', $plainText = '', $plainMetaInfo = '') {
+	public function addBodyListItem(string $text, string $metaInfo = '', string $icon = '', $plainText = '', $plainMetaInfo = '', $plainIndent = 0) {
 		$this->ensureBodyListOpened();
 
-		if ($plainText === '') {
+		if ($plainText === '' || $plainText === true) {
 			$plainText = $text;
 			$text = htmlspecialchars($text);
+			$text = str_replace("\n", "<br/>", $text); // convert newlines to HTML breaks
 		}
-		if ($plainMetaInfo === '') {
+		if ($plainMetaInfo === '' || $plainMetaInfo === true) {
 			$plainMetaInfo = $metaInfo;
 			$metaInfo = htmlspecialchars($metaInfo);
 		}
@@ -476,11 +479,29 @@ EOF;
 		}
 		$this->htmlBody .= vsprintf($this->listItem, [$icon, $htmlText]);
 		if ($plainText !== false) {
-			$this->plainBody .= '  * ' . $plainText;
-			if ($plainMetaInfo !== false) {
-				$this->plainBody .= ' (' . $plainMetaInfo . ')';
+			if ($plainIndent === 0) {
+				/*
+				 * If plainIndent is not set by caller, this is the old NC17 layout code.
+				 */
+				$this->plainBody .= '  * ' . $plainText;
+				if ($plainMetaInfo !== false) {
+					$this->plainBody .= ' (' . $plainMetaInfo . ')';
+				}
+				$this->plainBody .= PHP_EOL;
+			} else {
+				/*
+				 * Caller can set plainIndent > 0 to format plainText in tabular fashion.
+				 * with plainMetaInfo in column 1, and plainText in column 2.
+				 * The plainMetaInfo label is right justified in a field of width
+				 * "plainIndent". Multilines after the first are indented plainIndent+1
+				 * (to account for space after label).  Fixes: #12391
+				 */
+				/** @var string $label */
+				$label = ($plainMetaInfo !== false)? $plainMetaInfo : '';
+				$this->plainBody .= sprintf("%${plainIndent}s %s\n",
+					$label,
+					str_replace("\n", "\n" . str_repeat(' ', $plainIndent+1), $plainText));
 			}
-			$this->plainBody .= PHP_EOL;
 		}
 	}
 
@@ -539,7 +560,7 @@ EOF;
 		$textColor = $this->themingDefaults->getTextColorPrimary();
 
 		$this->htmlBody .= vsprintf($this->buttonGroup, [$color, $color, $urlLeft, $color, $textColor, $textColor, $textLeft, $urlRight, $textRight]);
-		$this->plainBody .= $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
+		$this->plainBody .= PHP_EOL . $plainTextLeft . ': ' . $urlLeft . PHP_EOL;
 		$this->plainBody .= $plainTextRight . ': ' . $urlRight . PHP_EOL . PHP_EOL;
 	}
 

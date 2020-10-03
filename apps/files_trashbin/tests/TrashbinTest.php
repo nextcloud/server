@@ -4,6 +4,7 @@
  *
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Daniel Kesselberg <mail@danielkesselberg.de>
  * @author Joas Schilling <coding@schilljs.com>
  * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -29,10 +30,10 @@
  *
  */
 
-use OCA\Files_Sharing\AppInfo\Application;
-use OCA\Files_Trashbin\AppInfo\Application as TrashbinApplication;
 use OC\AppFramework\Bootstrap\BootContext;
 use OC\AppFramework\DependencyInjection\DIContainer;
+use OCA\Files_Sharing\AppInfo\Application;
+use OCA\Files_Trashbin\AppInfo\Application as TrashbinApplication;
 use OCP\Share\IShare;
 
 /**
@@ -124,14 +125,24 @@ class TrashbinTest extends \Test\TestCase {
 		\OC::$server->getAppManager()->enableApp('files_trashbin');
 		$config = \OC::$server->getConfig();
 		$mockConfig = $this->createMock(\OCP\IConfig::class);
-		$mockConfig->expects($this->any())
+		$mockConfig
 			->method('getSystemValue')
-			->willReturnCallback(function ($key, $default) use ($config) {
+			->willReturnCallback(static function ($key, $default) use ($config) {
 				if ($key === 'filesystem_check_changes') {
 					return \OC\Files\Cache\Watcher::CHECK_ONCE;
 				} else {
 					return $config->getSystemValue($key, $default);
 				}
+			});
+		$mockConfig
+			->method('getUserValue')
+			->willReturnCallback(static function ($userId, $appName, $key, $default = '') use ($config) {
+				return $config->getUserValue($userId, $appName, $key, $default);
+			});
+		$mockConfig
+			->method('getAppValue')
+			->willReturnCallback(static function ($appName, $key, $default = '') use ($config) {
+				return $config->getAppValue($appName, $key, $default);
 			});
 		$this->overwriteService(\OC\AllConfig::class, $mockConfig);
 

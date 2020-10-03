@@ -4,6 +4,7 @@
  *
  * @author Dariusz Olszewski <starypatyk@users.noreply.github.com>
  * @author Joas Schilling <coding@schilljs.com>
+ * @author Julius Härtl <jus@bitgrid.net>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
@@ -374,7 +375,6 @@ class UserMountCache implements IUserMountCache {
 	/**
 	 * @param array $users
 	 * @return array
-	 * @suppress SqlInjectionChecker
 	 */
 	public function getUsedSpaceForUsers(array $users) {
 		$builder = $this->connection->getQueryBuilder();
@@ -408,5 +408,10 @@ class UserMountCache implements IUserMountCache {
 		}
 		$result->closeCursor();
 		return $results;
+	}
+
+	public function clear(): void {
+		$this->cacheInfoCache = new CappedMemoryCache();
+		$this->mountsForUsers = new CappedMemoryCache();
 	}
 }

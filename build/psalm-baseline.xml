@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.14.2@3538fe1955d47f6ee926c0769d71af6db08aa488">
+<files psalm-version="3.15@de6e7f324f44dde540ebe7ebd4eb481b97c86f30">
   <file src="3rdparty/doctrine/dbal/lib/Doctrine/DBAL/Connection.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|null</code>
@@ -49,13 +49,6 @@
       <code>$this-&gt;appRoot</code>
       <code>$this-&gt;appRoot</code>
     </UndefinedThisPropertyFetch>
-  </file>
-  <file src="apps/admin_audit/lib/AppInfo/Application.php">
-    <UndefinedInterfaceMethod occurrences="3">
-      <code>listen</code>
-      <code>listen</code>
-      <code>listen</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="apps/cloud_federation_api/lib/Controller/RequestHandlerController.php">
     <InvalidScalarArgument occurrences="1">
@@ -404,11 +397,7 @@
     </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipPlugin.php">
-    <ImplicitToStringCast occurrences="3">
-      <code>$meetingLocation</code>
-      <code>$meetingDescription</code>
-      <code>$meetingUrl</code>
-    </ImplicitToStringCast>
+    <ImplicitToStringCast occurrences="2"/>
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
     </InvalidNullableReturnType>
@@ -1355,11 +1344,8 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files/lib/Controller/DirectEditingController.php">
-    <InvalidArgument occurrences="4">
+    <InvalidArgument occurrences="1">
       <code>$templateId</code>
-      <code>'Failed to create file: ' . $e-&gt;getMessage()</code>
-      <code>'Failed to open file: ' . $e-&gt;getMessage()</code>
-      <code>'Failed to obtain template list: ' . $e-&gt;getMessage()</code>
     </InvalidArgument>
     <UndefinedInterfaceMethod occurrences="2">
       <code>open</code>
@@ -1910,7 +1896,7 @@
     </InvalidReturnType>
   </file>
   <file src="apps/files_sharing/lib/SharedStorage.php">
-    <FalsableReturnStatement occurrences="6">
+    <FalsableReturnStatement occurrences="5">
       <code>$this-&gt;sourceRootInfo</code>
       <code>false</code>
       <code>false</code>
@@ -2166,11 +2152,6 @@
       <code>ignoreNextcloudRequirementForApp</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/settings/lib/Controller/ChangePasswordController.php">
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getSubAdmin</code>
-    </UndefinedInterfaceMethod>
-  </file>
   <file src="apps/settings/lib/Controller/CheckSetupController.php">
     <InvalidArgument occurrences="2">
       <code>IDBConnection::CHECK_MISSING_INDEXES_EVENT</code>
@@ -2201,16 +2182,6 @@
       <code>$this-&gt;l10n-&gt;t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e-&gt;getMessage()])</code>
       <code>$this-&gt;l10n-&gt;t('You need to set your user email before being able to send test emails.')</code>
     </InvalidArgument>
-  </file>
-  <file src="apps/settings/lib/Controller/UsersController.php">
-    <InvalidArgument occurrences="1">
-      <code>'OC\Settings\Users::loadAdditionalScripts'</code>
-    </InvalidArgument>
-    <UndefinedInterfaceMethod occurrences="3">
-      <code>countUsersOfGroups</code>
-      <code>countDisabledUsersOfGroups</code>
-      <code>getLanguages</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="apps/settings/lib/Hooks.php">
     <InvalidArgument occurrences="1">
@@ -2325,14 +2296,6 @@
       <code>$iconFile !== false</code>
       <code>$iconFile !== false</code>
     </RedundantCondition>
-  </file>
-  <file src="apps/theming/lib/Controller/ThemingController.php">
-    <InvalidScalarArgument occurrences="4">
-      <code>'r'</code>
-      <code>$newHeight</code>
-      <code>'r'</code>
-      <code>'r'</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/theming/lib/IconBuilder.php">
     <InvalidScalarArgument occurrences="2">
@@ -2708,7 +2671,7 @@
       <code>null</code>
       <code>null</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="17">
+    <InvalidScalarArgument occurrences="15">
       <code>$this-&gt;connection-&gt;ldapQuotaAttribute</code>
       <code>$this-&gt;connection-&gt;ldapUserDisplayName</code>
       <code>$this-&gt;connection-&gt;ldapUserDisplayName2</code>
@@ -2721,8 +2684,6 @@
       <code>$this-&gt;access-&gt;connection-&gt;homeFolderNamingRule</code>
       <code>true</code>
       <code>1</code>
-      <code>time()</code>
-      <code>86400</code>
       <code>$emailAttribute</code>
       <code>$quotaAttribute</code>
       <code>$this-&gt;connection-&gt;ldapExtStorageHomeAttribute</code>
@@ -2800,7 +2761,6 @@
   </file>
   <file src="apps/user_status/lib/Db/UserStatusMapper.php">
     <ImplicitToStringCast occurrences="2">
-      <code>$qb-&gt;createNamedParameter(['online', 'away'], IQueryBuilder::PARAM_STR_ARRAY)</code>
       <code>$qb-&gt;createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)</code>
     </ImplicitToStringCast>
     <MoreSpecificImplementedParamType occurrences="1"/>
@@ -3978,11 +3938,6 @@
       <code>dispatch</code>
     </TooManyArguments>
   </file>
-  <file src="lib/private/Federation/CloudIdManager.php">
-    <RedundantCondition occurrences="1">
-      <code>$pos !== false</code>
-    </RedundantCondition>
-  </file>
   <file src="lib/private/Files/Cache/Cache.php">
     <ImplicitToStringCast occurrences="3">
       <code>$builder-&gt;createNamedParameter($value)</code>
@@ -4924,7 +4879,6 @@
       <code>$result &amp;&amp; in_array('delete', $hooks) and $result</code>
     </RedundantCondition>
     <UndefinedDocblockClass occurrences="2">
-      <code>list($storage, $internalPath)</code>
       <code>$storage</code>
     </UndefinedDocblockClass>
     <UndefinedInterfaceMethod occurrences="20">
@@ -5026,9 +4980,6 @@
       <code>$sortMode</code>
       <code>self::SORT_NONE</code>
     </InvalidPropertyAssignmentValue>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getSubAdmin</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Http/Client/Response.php">
     <InvalidNullableReturnType occurrences="1">

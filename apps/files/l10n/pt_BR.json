@@ -23,6 +23,7 @@
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} de {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "O envio deste item não é suportado",
     "Target folder does not exist any more" : "Pasta destino não existe mais",
+    "Operation is blocked by access control" : "A operação está bloqueada pelo controle de acesso",
     "Error when assembling chunks, status code {status}" : "Erro ao montar partes, código de status {status}",
     "Actions" : "Ações",
     "Rename" : "Renomear",
@@ -32,6 +33,7 @@
     "Delete file" : "Excluir arquivo",
     "Delete folder" : "Excluir pasta",
     "Disconnect storage" : "Desconectar armazenamento",
+    "Leave this share" : "Sair deste compartilhamento",
     "Could not load info for file \"{file}\"" : "Não foi possível carregar informações para o arquivo \"{file}\" ",
     "Files" : "Arquivos",
     "Details" : "Detalhes",
@@ -76,7 +78,13 @@
     "\"/\" is not allowed inside a file name." : "\"/\" não é permitido no nome do arquivo.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" não é um tipo de arquivo permitido",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "O armazenamento do {owner} está cheio e os arquivos não podem ser mais atualizados ou sincronizados!",
+    "This group folder is full, files can not be updated or synced anymore!" : "Esta pasta do grupo está cheia, os arquivos não podem mais ser atualizados ou sincronizados!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Este armazenamento externo está cheio, os arquivos não podem mais ser atualizados ou sincronizados!",
     "Your storage is full, files can not be updated or synced anymore!" : "Seu armazenamento está cheio e arquivos não podem mais ser atualizados ou sincronizados!",
+    "Storage of {owner} is almost full ({usedSpacePercent}%)." : "O armazenamento do {owner} está quase cheio ({usedSpacePercent}%).",
+    "This group folder is almost full ({usedSpacePercent}%)." : "Esta pasta de grupo está quase cheia ({usedSpacePercent}%).",
+    "This external storage is almost full ({usedSpacePercent}%)." : "Este armazenamento externo está quase cheio ({usedSpacePercent}%).",
+    "Your storage is almost full ({usedSpacePercent}%)." : "Seu armazenamento está quase cheio ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : ["coincide com '{filter}'","coincide com '{filter}'"],
     "View in folder" : "Exibir na pasta",
     "Copied!" : "Copiado!",
@@ -190,6 +198,8 @@
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Notificações de limite das criações e alterações em seus <strong>arquivos favoritos</strong> <em>(apenas Stream)</em>",
     "A file or folder has been <strong>restored</strong>" : "Um arquivo ou pasta foi <strong>restaurado</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Use este endereço para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">acessar seus arquivos via WebDAV</a>",
+    "This group folder is almost full ({usedSpacePercent}%)" : "Esta pasta de grupo está quase cheia ({usedSpacePercent}%)",
+    "This external storage is almost full ({usedSpacePercent}%)" : "Este armazenamento externo está quase cheio ({usedSpacePercent}%)",
     "Cannot transfter ownership of a file or folder you don't own" : "Não é possível transferir a propriedade de um arquivo ou pasta que você não é o dono"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

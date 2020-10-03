@@ -122,7 +122,7 @@ class Manager implements IManager {
 
 			$sectionID = $section->getID();
 
-			if (isset($this->sections[$type][$sectionID])) {
+			if ($sectionID !== 'connected-accounts' && isset($this->sections[$type][$sectionID])) {
 				$this->log->logException(new \InvalidArgumentException('Section with the same ID already registered: ' . $sectionID . ', class: ' . $class), ['level' => ILogger::INFO]);
 				continue;
 			}
@@ -261,7 +261,8 @@ class Manager implements IManager {
 		$sections = [];
 
 		$legacyForms = \OC_App::getForms('personal');
-		if (!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms)) {
+		if ((!empty($legacyForms) && $this->hasLegacyPersonalSettingsToRender($legacyForms))
+			|| count($this->getPersonalSettings('additional')) > 1) {
 			$sections[98] = [new Section('additional', $this->l->t('Additional settings'), 0, $this->url->imagePath('core', 'actions/settings-dark.svg'))];
 		}
 

@@ -202,6 +202,8 @@ OC.L10N.register(
     "Updates" : "Cập nhật",
     "App bundles" : "Gói ứng dụng",
     "Featured apps" : "Các ứng dụng đề xuất",
+    "Details" : "Thông tin",
+    "Changelog" : "Sổ cập nhập thay đổi",
     "New user" : "Người dùng mới",
     "Add group" : "Thêm nhóm",
     "Everyone" : "Tất cả mọi người",
@@ -239,13 +241,11 @@ OC.L10N.register(
     "Save" : "Lưu",
     "Security & setup warnings" : "Bảo mật và thiết lập cảnh báo",
     "Version" : "Phiên bản",
-    "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải",
     "Allow apps to use the Share API" : "Cho phép các ứng dụng sử dụng chia sẻ API",
     "days" : "ngày",
     "Allow resharing" : "Cho phép chia sẻ lại",
     "Upload new" : "Tải lên",
     "Remove image" : "Xóa ",
-    "Details" : "Thông tin",
     "Full name" : "Tên đầy đủ",
     "Your email address" : "Email của bạn",
     "Phone number" : "Số điện thoại",
@@ -272,6 +272,6 @@ OC.L10N.register(
     "Issued By" : "Phát hành bởi",
     "Valid until %s" : "Có hiệu lực đến %s",
     "Import root certificate" : "Nhập root certificate",
-    "Unsaved changes" : "Thay đổi chưa được lưu"
+    "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải"
 },
 "nplurals=1; plural=0;");
