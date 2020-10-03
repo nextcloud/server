@@ -57,6 +57,7 @@ document.body.appendChild(ViewerRoot)
 // Needed as Firefox CSP blocks the loading of the svg through the normal plyr system
 const VideoControls = document.createElement('div')
 VideoControls.innerHTML = PLYR_ICONS
+VideoControls.style.display = 'none'
 document.body.appendChild(VideoControls)
 
 // Init vue
