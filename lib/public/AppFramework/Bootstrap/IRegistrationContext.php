@@ -155,4 +155,17 @@ interface IRegistrationContext {
 	 * @since 20.0.0
 	 */
 	public function registerAlternativeLogin(string $class): void;
+
+	/**
+	 * Register an initialstate provider
+	 *
+	 * It is allowed to register more than one provider per app.
+	 *
+	 * @param string $class
+	 *
+	 * @return void
+	 *
+	 * @since 21.0.0
+	 */
+	public function registerInitialStateProvider(string $class): void;
 }
