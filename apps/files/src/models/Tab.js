@@ -22,32 +22,49 @@
 
 export default class Tab {
 
-	#component
-	#legacy
 	#id
+	#name
+	#icon
+	#render
 	#enabled
 
 	/**
 	 * Create a new tab instance
 	 *
-	 * @param {string} id the unique id of this tab
-	 * @param {Object} component the vue component
-	 * @param {Function} [enabled] function that returns if the tab should be shown or not
-	 * @param {boolean} [legacy] is this a legacy tab
+	 * @param {Object} options destructuring object
+	 * @param {string} options.id the unique id of this tab
+	 * @param {string} options.name the translated tab name
+	 * @param {string} options.icon the vue component
+	 * @param {Function} options.render function to render the tab
+	 * @param {Function} [options.enabled] define conditions whether this tab is active. Must returns a boolean
 	 */
-	constructor(id, component, enabled = () => true, legacy) {
+	constructor({ id, name, icon, render, enabled }) {
+		if (enabled === undefined) {
+			enabled = () => true
+		}
+
+		// Sanity checks
+		if (typeof id !== 'string' || id.trim() === '') {
+			throw new Error('The id argument is not a valid string')
+		}
+		if (typeof name !== 'string' || name.trim() === '') {
+			throw new Error('The name argument is not a valid string')
+		}
+		if (typeof icon !== 'string' || icon.trim() === '') {
+			throw new Error('The icon argument is not a valid string')
+		}
+		if (typeof render !== 'function') {
+			throw new Error('The render argument should be a function')
+		}
 		if (typeof enabled !== 'function') {
 			throw new Error('The enabled argument should be a function')
 		}
 
 		this.#id = id
-		this.#component = component
+		this.#name = name
+		this.#icon = icon
+		this.#render = render
 		this.#enabled = enabled
-		this.#legacy = legacy === true
-
-		if (this.#legacy) {
-			console.warn('Legacy tabs are deprecated! They will be removed in nextcloud 20.')
-		}
 
 	}
 
@@ -55,16 +72,20 @@ export default class Tab {
 		return this.#id
 	}
 
-	get component() {
-		return this.#component
+	get name() {
+		return this.#name
 	}
 
-	get isEnabled() {
+	get icon() {
+		return this.#icon
+	}
+
+	get render() {
+		return this.#render
+	}
+
+	get enabled() {
 		return this.#enabled
-	}
-
-	get isLegacyTab() {
-		return this.#legacy === true
 	}
 
 }

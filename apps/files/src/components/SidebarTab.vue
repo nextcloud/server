@@ -1,3 +1,4 @@
+
 <!--
   - @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
   -
@@ -19,74 +20,74 @@
   - along with this program. If not, see <http://www.gnu.org/licenses/>.
   -
   -->
-
 <template>
 	<AppSidebarTab
 		:id="id"
-		:icon="icon"
 		:name="name"
-		:active-tab="activeTab" />
+		:icon="icon">
+		<!-- Using a dummy div as Vue mount replace the element directly
+			It does NOT append to the content -->
+		<div ref="mount"></div>
+	</AppSidebarTab>
 </template>
+
 <script>
 import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
-
 export default {
-	name: 'LegacyTab',
+	name: 'SidebarTab',
+
 	components: {
 		AppSidebarTab,
 	},
+
 	props: {
-		component: {
+		fileInfo: {
 			type: Object,
+			default: () => {},
 			required: true,
 		},
 		id: {
 			type: String,
 			required: true,
 		},
-		fileInfo: {
-			type: Object,
-			default: () => {},
+		name: {
+			type: String,
+			required: true,
+		},
+		icon: {
+			type: String,
+			required: true,
+		},
+		render: {
+			type: Function,
 			required: true,
 		},
 	},
+
 	computed: {
-		icon() {
-			return this.component.getIcon()
-		},
-		name() {
-			return this.component.getLabel()
-		},
-		order() {
-			return this.component.order
-				? this.component.order
-				: 0
-		},
-		// needed because AppSidebarTab also uses $parent.activeTab
+		// TODO: implement a better way to force pass a prop fromm Sidebar
 		activeTab() {
 			return this.$parent.activeTab
 		},
 	},
+
 	watch: {
-		fileInfo(fileInfo) {
-			if (fileInfo) {
-				this.setFileInfo(fileInfo)
+		fileInfo(newFile, oldFile) {
+			if (newFile.id !== oldFile.id) {
+				this.mountTab()
 			}
 		},
 	},
+
 	mounted() {
-		// append the backbone element and set the FileInfo
-		this.component.$el.appendTo(this.$el)
+		this.mountTab()
 	},
-	beforeDestroy() {
-		this.component.remove()
-	},
+
 	methods: {
-		setFileInfo(fileInfo) {
-			this.component.setFileInfo(new OCA.Files.FileInfoModel(fileInfo))
+		mountTab() {
+			// Mount the tab into this component
+			this.render(this.$refs.mount, this.fileInfo)
 		},
 	},
 }
 </script>
-<style>
-</style>

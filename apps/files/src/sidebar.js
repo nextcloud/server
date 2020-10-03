@@ -24,9 +24,6 @@ import Vue from 'vue'
 import SidebarView from './views/Sidebar.vue'
 import Sidebar from './services/Sidebar'
 import Tab from './models/Tab'
-import VueClipboard from 'vue-clipboard2'
-
-Vue.use(VueClipboard)
 
 Vue.prototype.t = t
 

@@ -3700,7 +3700,16 @@
 			console.warn('registerTabView is deprecated! It will be removed in nextcloud 20.');
 			const enabled = tabView.canDisplay || undefined
 			if (tabView.id) {
-				OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab(tabView.id, tabView, enabled, true))
+				OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
+					id: tabView.id, 
+					name: tabView.getLabel(),
+					icon: tabView.getIcon(),
+					render: function(el, fileInfo) {
+						tabView.setFileInfo(fileInfo)
+						el.appendChild(tabView.el)
+					},
+					enabled,
+				}))
 			}
 		},
 
