@@ -242,6 +242,31 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 		$result->closeCursor();
 
+		// query for system addressbooks
+		$principalUri="principals/system/system";
+		$query = $this->db->getQueryBuilder();
+		$query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
+			->from('addressbooks')
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
+		$result = $query->execute();
+
+		while ($row = $result->fetch()) {
+			$addressBooks[$row['id']] = [
+				'id' => $row['id'],
+				'uri' => "system-address-book",
+				'principaluri' => $principalUriOriginal,
+				'{DAV:}displayname' => "System address book",
+				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
+				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken'] ?: '0',
+				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
+				$readOnlyPropertyName => true,
+			];
+
+			$this->addOwnerPrincipal($addressBooks[$row['id']]);
+		}
+		$result->closeCursor();
+
 		return array_values($addressBooks);
 	}
 
