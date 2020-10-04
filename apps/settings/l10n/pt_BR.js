@@ -376,6 +376,7 @@ OC.L10N.register(
     "Show disclaimer text on the public link upload page (only shown when the file list is hidden)" : "Exibir o texto de aviso na página de envio do link público (somente mostrado quando a lista de arquivos está oculta).",
     "This text will be shown on the public link upload page when the file list is hidden." : "Este texto será mostrado na página de envio do link público quando a lista de arquivos está oculta.",
     "Default share permissions" : "Permissões padrão de compartilhamento",
+    "Reasons to use Nextcloud in your organization" : "Motivos para usar o Nextcloud na sua empresa.",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desenvolvido pela {communityopen}comunidade Nextcloud{linkclose}. O {githubopen}código-fonte{linkclose} é licenciado sob a {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Curta nossa página no Facebook",
     "Follow us on Twitter" : "Siga-nos no Twitter",
