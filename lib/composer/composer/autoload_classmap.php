@@ -77,6 +77,7 @@ return array(
     'OCP\\AppFramework\\QueryException' => $baseDir . '/lib/public/AppFramework/QueryException.php',
     'OCP\\AppFramework\\Services\\IAppConfig' => $baseDir . '/lib/public/AppFramework/Services/IAppConfig.php',
     'OCP\\AppFramework\\Services\\IInitialState' => $baseDir . '/lib/public/AppFramework/Services/IInitialState.php',
+    'OCP\\AppFramework\\Services\\InitialStateProvider' => $baseDir . '/lib/public/AppFramework/Services/InitialStateProvider.php',
     'OCP\\AppFramework\\Utility\\IControllerMethodReflector' => $baseDir . '/lib/public/AppFramework/Utility/IControllerMethodReflector.php',
     'OCP\\AppFramework\\Utility\\ITimeFactory' => $baseDir . '/lib/public/AppFramework/Utility/ITimeFactory.php',
     'OCP\\App\\AppPathNotFoundException' => $baseDir . '/lib/public/App/AppPathNotFoundException.php',

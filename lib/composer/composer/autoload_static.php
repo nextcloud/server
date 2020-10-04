@@ -106,6 +106,7 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\AppFramework\\QueryException' => __DIR__ . '/../../..' . '/lib/public/AppFramework/QueryException.php',
         'OCP\\AppFramework\\Services\\IAppConfig' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Services/IAppConfig.php',
         'OCP\\AppFramework\\Services\\IInitialState' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Services/IInitialState.php',
+        'OCP\\AppFramework\\Services\\InitialStateProvider' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Services/InitialStateProvider.php',
         'OCP\\AppFramework\\Utility\\IControllerMethodReflector' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Utility/IControllerMethodReflector.php',
         'OCP\\AppFramework\\Utility\\ITimeFactory' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Utility/ITimeFactory.php',
         'OCP\\App\\AppPathNotFoundException' => __DIR__ . '/../../..' . '/lib/public/App/AppPathNotFoundException.php',
