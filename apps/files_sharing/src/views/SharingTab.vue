@@ -117,24 +117,20 @@ export default {
 
 	mixins: [ShareTypes],
 
-	props: {
-		fileInfo: {
-			type: Object,
-			default: () => {},
-			required: true,
-		},
-	},
-
 	data() {
 		return {
 			error: '',
 			expirationInterval: null,
 			loading: true,
+
+			fileInfo: null,
+
 			// reshare Share object
 			reshare: null,
 			sharedWithMe: {},
 			shares: [],
 			linkShares: [],
+
 			sections: OCA.Sharing.ShareTabSections.getSections(),
 		}
 	},
@@ -155,20 +151,17 @@ export default {
 		},
 	},
 
-	watch: {
-		fileInfo(newFile, oldFile) {
-			if (newFile.id !== oldFile.id) {
-				this.resetState()
-				this.getShares()
-			}
-		},
-	},
-
-	beforeMount() {
-		this.getShares()
-	},
-
 	methods: {
+		/**
+		 * Update current fileInfo and fetch new data
+		 * @param {Object} fileInfo the current file FileInfo
+		 */
+		async update(fileInfo) {
+			this.fileInfo = fileInfo
+			this.resetState()
+			this.getShares()
+		},
+
 		/**
 		 * Get the existing shares infos
 		 */
@@ -221,6 +214,7 @@ export default {
 			this.error = ''
 			this.sharedWithMe = {}
 			this.shares = []
+			this.linkShares = []
 		},
 
 		/**
