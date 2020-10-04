@@ -59,6 +59,12 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 
 	protected $lockedTable = null;
 
+	/** @var int */
+	protected $queriesBuilt = 0;
+
+	/** @var int */
+	protected $queriesExecuted = 0;
+
 	public function connect() {
 		try {
 			return parent::connect();
@@ -68,12 +74,20 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 		}
 	}
 
+	public function getStats(): array {
+		return [
+			'built' => $this->queriesBuilt,
+			'executed' => $this->queriesExecuted,
+		];
+	}
+
 	/**
 	 * Returns a QueryBuilder for the connection.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder
 	 */
 	public function getQueryBuilder() {
+		$this->queriesBuilt++;
 		return new QueryBuilder(
 			$this,
 			\OC::$server->getSystemConfig(),
@@ -90,6 +104,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	public function createQueryBuilder() {
 		$backtrace = $this->getCallerBacktrace();
 		\OC::$server->getLogger()->debug('Doctrine QueryBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
+		$this->queriesBuilt++;
 		return parent::createQueryBuilder();
 	}
 
@@ -102,6 +117,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	public function getExpressionBuilder() {
 		$backtrace = $this->getCallerBacktrace();
 		\OC::$server->getLogger()->debug('Doctrine ExpressionBuilder retrieved in {backtrace}', ['app' => 'core', 'backtrace' => $backtrace]);
+		$this->queriesBuilt++;
 		return parent::getExpressionBuilder();
 	}
 
@@ -191,6 +207,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	public function executeQuery($query, array $params = [], $types = [], QueryCacheProfile $qcp = null) {
 		$query = $this->replaceTablePrefix($query);
 		$query = $this->adapter->fixupStatement($query);
+		$this->queriesExecuted++;
 		return parent::executeQuery($query, $params, $types, $qcp);
 	}
 
@@ -211,6 +228,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	public function executeUpdate($query, array $params = [], array $types = []) {
 		$query = $this->replaceTablePrefix($query);
 		$query = $this->adapter->fixupStatement($query);
+		$this->queriesExecuted++;
 		return parent::executeUpdate($query, $params, $types);
 	}
 
