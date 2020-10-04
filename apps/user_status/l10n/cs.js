@@ -12,6 +12,7 @@ OC.L10N.register(
     "What's your status?" : "Jaký je váš stav?",
     "Set status" : "Natavit stav",
     "Status message" : "Stavová zpráva",
+    "Clear status message" : "Vyčistit stavovou zprávu",
     "Set status message" : "Nastavit stavovou zprávu",
     "There was an error saving the status" : "Došlo k chybě při ukládání stavu",
     "There was an error clearing the status" : "Při čištění stavu došlo k chybě",

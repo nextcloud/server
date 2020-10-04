@@ -12,6 +12,8 @@ OC.L10N.register(
     "Set custom address" : "Configurar una dirección personalizada",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} Cielo despejado a las {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} Nublado a las {time}",
+    "{temperature} {unit} Fair day at {time}" : "{temperature} {unit} Buen día a las {time}",
+    "{temperature} {unit} Fair night at {time}" : "{temperature} {unit} Buena noche a las {time}",
     "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} Parcialmente nublado a las {time}",
     "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} Con brumas a las {time}",
     "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} Lluvia ligera a las {time}",
