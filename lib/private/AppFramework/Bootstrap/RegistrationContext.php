@@ -107,6 +107,9 @@ class RegistrationContext {
 	/** @var LoggerInterface */
 	private $logger;
 
+	/** @var PreviewProviderRegistration[] */
+	private $previewProviders = [];
+
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
@@ -235,6 +238,14 @@ class RegistrationContext {
 				);
 			}
 
+			public function registerPreviewProvider(string $previewProviderClass, string $mimeTypeRegex): void {
+				$this->context->registerPreviewProvider(
+					$this->appId,
+					$previewProviderClass,
+					$mimeTypeRegex
+				);
+			}
+
 			public function registerCalendarProvider(string $class): void {
 				$this->context->registerCalendarProvider(
 					$this->appId,
@@ -321,6 +332,10 @@ class RegistrationContext {
 
 	public function registerTwoFactorProvider(string $appId, string $class): void {
 		$this->twoFactorProviders[] = new ServiceRegistration($appId, $class);
+	}
+
+	public function registerPreviewProvider(string $appId, string $class, string $mimeTypeRegex): void {
+		$this->previewProviders[] = new PreviewProviderRegistration($appId, $class, $mimeTypeRegex);
 	}
 
 	public function registerCalendarProvider(string $appId, string $class): void {
@@ -563,6 +578,13 @@ class RegistrationContext {
 	 */
 	public function getTwoFactorProviders(): array {
 		return $this->twoFactorProviders;
+	}
+
+	/**
+	 * @return PreviewProviderRegistration[]
+	 */
+	public function getPreviewProviders(): array {
+		return $this->previewProviders;
 	}
 
 	/**

@@ -611,6 +611,7 @@ return array(
     'OC\\AppFramework\\Bootstrap\\EventListenerRegistration' => $baseDir . '/lib/private/AppFramework/Bootstrap/EventListenerRegistration.php',
     'OC\\AppFramework\\Bootstrap\\FunctionInjector' => $baseDir . '/lib/private/AppFramework/Bootstrap/FunctionInjector.php',
     'OC\\AppFramework\\Bootstrap\\ParameterRegistration' => $baseDir . '/lib/private/AppFramework/Bootstrap/ParameterRegistration.php',
+    'OC\\AppFramework\\Bootstrap\\PreviewProviderRegistration' => $baseDir . '/lib/private/AppFramework/Bootstrap/PreviewProviderRegistration.php',
     'OC\\AppFramework\\Bootstrap\\RegistrationContext' => $baseDir . '/lib/private/AppFramework/Bootstrap/RegistrationContext.php',
     'OC\\AppFramework\\Bootstrap\\ServiceAliasRegistration' => $baseDir . '/lib/private/AppFramework/Bootstrap/ServiceAliasRegistration.php',
     'OC\\AppFramework\\Bootstrap\\ServiceFactoryRegistration' => $baseDir . '/lib/private/AppFramework/Bootstrap/ServiceFactoryRegistration.php',
