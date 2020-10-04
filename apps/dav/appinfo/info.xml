@@ -5,7 +5,7 @@
 	<name>WebDAV</name>
 	<summary>WebDAV endpoint</summary>
 	<description>WebDAV endpoint</description>
-	<version>1.17.0</version>
+	<version>1.18.0</version>
 	<licence>agpl</licence>
 	<author>owncloud.org</author>
 	<namespace>DAV</namespace>
@@ -55,6 +55,7 @@
 
 	<settings>
 		<admin>OCA\DAV\Settings\CalDAVSettings</admin>
+		<admin>OCA\DAV\Settings\CardDAVSettings</admin>
 	</settings>
 
 	<activity>
