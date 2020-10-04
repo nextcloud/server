@@ -25,7 +25,8 @@
 		:id="id"
 		ref="tab"
 		:name="name"
-		:icon="icon">
+		:icon="icon"
+		@bottomReached="onScrollBottomReached">
 		<!-- Fallback loading -->
 		<EmptyContent v-if="loading" icon="icon-loading" />
 
@@ -83,6 +84,10 @@ export default {
 			type: Function,
 			required: true,
 		},
+		onScrollBottomReached: {
+			type: Function,
+			default: () => {},
+		},
 	},
 
 	data() {
@@ -120,6 +125,5 @@ export default {
 		// unmount the tab
 		await this.onDestroy()
 	},
-
 }
 </script>

@@ -3,10 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019, Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2020, John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author John Molakvoæ (skjnldsv) <skjnldsv@protonmail.com>
+ * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -29,31 +28,28 @@ namespace OCA\Comments\Listener;
 
 use OCA\Comments\AppInfo\Application;
 use OCA\Comments\Event\LoadCommentsApp;
-use OCA\Files\Event\LoadSidebar;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\Comments\IComment;
 use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Util;
 
-class LoadSidebarScripts implements IEventListener {
+class LoadCommentsAppListener implements IEventListener {
 
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
+	/** @var IInitialState */
+	private $initialStateService;
 
-	public function __construct(IEventDispatcher $eventDispatcher) {
-		$this->eventDispatcher = $eventDispatcher;
+	public function __construct(IInitialState $initialStateService) {
+		$this->initialStateService = $initialStateService;
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof LoadSidebar)) {
+		if (!($event instanceof LoadCommentsApp)) {
 			return;
 		}
 
-		$this->eventDispatcher->dispatchTyped(new LoadCommentsApp());
+		$this->initialStateService->provideInitialState('max-message-length', IComment::MAX_MESSAGE_LENGTH);
 
-		// TODO: make sure to only include the sidebar script when
-		// we properly split it between files list and sidebar
-		Util::addScript(Application::APP_ID, 'comments');
-		Util::addScript(Application::APP_ID, 'comments-tab');
+		Util::addScript(Application::APP_ID, 'comments-app');
 	}
 }

@@ -30,6 +30,8 @@ namespace OCA\Comments\AppInfo;
 use Closure;
 use OCA\Comments\Capabilities;
 use OCA\Comments\Controller\Notifications;
+use OCA\Comments\Event\LoadCommentsApp;
+use OCA\Comments\Listener\LoadCommentsAppListener;
 use OCA\Comments\EventHandler;
 use OCA\Comments\JSSettingsHelper;
 use OCA\Comments\Listener\CommentsEntityEventListener;
@@ -69,6 +71,10 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(
 			LoadSidebar::class,
 			LoadSidebarScripts::class
+		);
+		$context->registerEventListener(
+			LoadCommentsApp::class,
+			LoadCommentsAppListener::class
 		);
 		$context->registerEventListener(
 			CommentsEntityEvent::EVENT_ENTITY,
