@@ -42,6 +42,7 @@ Vue.use(VueClipboard)
 
 // Init Sharing tab component
 const View = Vue.extend(SharingTab)
+let TabInstance = null
 
 window.addEventListener('DOMContentLoaded', function() {
 	if (OCA.Files && OCA.Files.Sidebar) {
@@ -50,13 +51,24 @@ window.addEventListener('DOMContentLoaded', function() {
 			name: t('files_sharing', 'Sharing'),
 			icon: 'icon-share',
 
-			render: (el, fileInfo) => {
-				new View({
-					propsData: {
-						fileInfo,
-					},
-				}).$mount(el)
-				console.info(el)
+			async mount(el, fileInfo, context) {
+				if (TabInstance) {
+					TabInstance.$destroy()
+				}
+				TabInstance = new View({
+					// Better integration with vue parent component
+					parent: context,
+				})
+				// Only mount after we have all the info we need
+				await TabInstance.update(fileInfo)
+				TabInstance.$mount(el)
+			},
+			update(fileInfo) {
+				TabInstance.update(fileInfo)
+			},
+			destroy() {
+				TabInstance.$destroy()
+				TabInstance = null
 			},
 		}))
 	}

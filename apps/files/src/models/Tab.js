@@ -25,7 +25,9 @@ export default class Tab {
 	#id
 	#name
 	#icon
-	#render
+	#mount
+	#update
+	#destroy
 	#enabled
 
 	/**
@@ -35,10 +37,12 @@ export default class Tab {
 	 * @param {string} options.id the unique id of this tab
 	 * @param {string} options.name the translated tab name
 	 * @param {string} options.icon the vue component
-	 * @param {Function} options.render function to render the tab
+	 * @param {Function} options.mount function to mount the tab
+	 * @param {Function} options.update function to update the tab
+	 * @param {Function} options.destroy function to destroy the tab
 	 * @param {Function} [options.enabled] define conditions whether this tab is active. Must returns a boolean
 	 */
-	constructor({ id, name, icon, render, enabled }) {
+	constructor({ id, name, icon, mount, update, destroy, enabled } = {}) {
 		if (enabled === undefined) {
 			enabled = () => true
 		}
@@ -53,8 +57,14 @@ export default class Tab {
 		if (typeof icon !== 'string' || icon.trim() === '') {
 			throw new Error('The icon argument is not a valid string')
 		}
-		if (typeof render !== 'function') {
-			throw new Error('The render argument should be a function')
+		if (typeof mount !== 'function') {
+			throw new Error('The mount argument should be a function')
+		}
+		if (typeof update !== 'function') {
+			throw new Error('The update argument should be a function')
+		}
+		if (typeof destroy !== 'function') {
+			throw new Error('The destroy argument should be a function')
 		}
 		if (typeof enabled !== 'function') {
 			throw new Error('The enabled argument should be a function')
@@ -63,7 +73,9 @@ export default class Tab {
 		this.#id = id
 		this.#name = name
 		this.#icon = icon
-		this.#render = render
+		this.#mount = mount
+		this.#update = update
+		this.#destroy = destroy
 		this.#enabled = enabled
 
 	}
@@ -80,8 +92,16 @@ export default class Tab {
 		return this.#icon
 	}
 
-	get render() {
-		return this.#render
+	get mount() {
+		return this.#mount
+	}
+
+	get update() {
+		return this.#update
+	}
+
+	get destroy() {
+		return this.#destroy
 	}
 
 	get enabled() {

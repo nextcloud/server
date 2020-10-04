@@ -23,21 +23,28 @@
 <template>
 	<AppSidebarTab
 		:id="id"
+		ref="tab"
 		:name="name"
 		:icon="icon">
+		<!-- Fallback loading -->
+		<EmptyContent v-if="loading" icon="icon-loading" />
+
 		<!-- Using a dummy div as Vue mount replace the element directly
 			It does NOT append to the content -->
-		<div ref="mount"></div>
+		<div ref="mount" />
 	</AppSidebarTab>
 </template>
 
 <script>
 import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+
 export default {
 	name: 'SidebarTab',
 
 	components: {
 		AppSidebarTab,
+		EmptyContent,
 	},
 
 	props: {
@@ -58,36 +65,61 @@ export default {
 			type: String,
 			required: true,
 		},
-		render: {
+
+		/**
+		 * Lifecycle methods.
+		 * They are prefixed with `on` to avoid conflict with Vue
+		 * methods like this.destroy
+		 */
+		onMount: {
+			type: Function,
+			required: true,
+		},
+		onUpdate: {
+			type: Function,
+			required: true,
+		},
+		onDestroy: {
 			type: Function,
 			required: true,
 		},
 	},
 
+	data() {
+		return {
+			loading: true,
+		}
+	},
+
 	computed: {
-		// TODO: implement a better way to force pass a prop fromm Sidebar
+		// TODO: implement a better way to force pass a prop from Sidebar
 		activeTab() {
 			return this.$parent.activeTab
 		},
 	},
 
 	watch: {
-		fileInfo(newFile, oldFile) {
+		async fileInfo(newFile, oldFile) {
+			// Update fileInfo on change
 			if (newFile.id !== oldFile.id) {
-				this.mountTab()
+				this.loading = true
+				await this.onUpdate(this.fileInfo)
+				this.loading = false
 			}
 		},
 	},
 
-	mounted() {
-		this.mountTab()
+	async mounted() {
+		this.loading = true
+		// Mount the tab:  mounting point,   fileInfo,      vue context
+		await this.onMount(this.$refs.mount, this.fileInfo, this.$refs.tab)
+		this.loading = false
 	},
 
-	methods: {
-		mountTab() {
-			// Mount the tab into this component
-			this.render(this.$refs.mount, this.fileInfo)
-		},
+	async beforeDestroy() {
+		// unmount the tab
+		await this.onDestroy()
 	},
+
 }
 </script>

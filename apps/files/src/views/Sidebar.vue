@@ -52,33 +52,38 @@
 		</template>
 
 		<!-- Error display -->
-		<div v-if="error" class="emptycontent">
-			<div class="icon-error" />
-			<h2>{{ error }}</h2>
-		</div>
+		<EmptyContent v-if="error" icon="icon-error">
+			{{ error }}
+		</EmptyContent>
 
-		<!-- If fileInfo fetch is complete, display tabs -->
-		<template v-else-if="fileInfo" v-for="tab in tabs">
+		<!-- If fileInfo fetch is complete, render tabs -->
+		<template v-for="tab in tabs" v-else-if="fileInfo">
+			<!-- Hide them if we're loading another file but keep them mounted -->
 			<SidebarTab
 				v-if="tab.enabled(fileInfo)"
+				v-show="!loading"
 				:id="tab.id"
 				:key="tab.id"
 				:name="tab.name"
 				:icon="tab.icon"
-				:render="tab.render"
+				:on-mount="tab.mount"
+				:on-update="tab.update"
+				:on-destroy="tab.destroy"
 				:file-info="fileInfo" />
 		</template>
 	</AppSidebar>
 </template>
 <script>
+import { encodePath } from '@nextcloud/paths'
 import $ from 'jquery'
 import axios from '@nextcloud/axios'
 import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+
 import FileInfo from '../services/FileInfo'
 import SidebarTab from '../components/SidebarTab'
 import LegacyView from '../components/LegacyView'
-import { encodePath } from '@nextcloud/paths'
 
 export default {
 	name: 'Sidebar',
@@ -86,8 +91,9 @@ export default {
 	components: {
 		ActionButton,
 		AppSidebar,
-		SidebarTab,
+		EmptyContent,
 		LegacyView,
+		SidebarTab,
 	},
 
 	data() {
@@ -95,6 +101,7 @@ export default {
 			// reactive state
 			Sidebar: OCA.Files.Sidebar.state,
 			error: null,
+			loading: true,
 			fileInfo: null,
 			starLoading: false,
 		}
@@ -185,15 +192,16 @@ export default {
 		appSidebar() {
 			if (this.fileInfo) {
 				return {
-					background: this.background,
+					'data-mimetype': this.fileInfo.mimetype,
+					'star-loading': this.starLoading,
 					active: this.activeTab,
+					background: this.background,
 					class: { 'has-preview': this.fileInfo.hasPreview },
 					compact: !this.fileInfo.hasPreview,
-					'star-loading': this.starLoading,
+					loading: this.loading,
 					starred: this.fileInfo.isFavourited,
 					subtitle: this.subtitle,
 					title: this.fileInfo.name,
-					'data-mimetype': this.fileInfo.mimetype,
 				}
 			} else if (this.error) {
 				return {
@@ -201,12 +209,12 @@ export default {
 					subtitle: '',
 					title: '',
 				}
-			} else {
-				return {
-					class: 'icon-loading',
-					subtitle: '',
-					title: '',
-				}
+			}
+			// no fileInfo yet, showing empty data
+			return {
+				loading: this.loading,
+				subtitle: '',
+				title: '',
 			}
 		},
 
@@ -238,35 +246,6 @@ export default {
 
 		isSystemTagsEnabled() {
 			return OCA && 'SystemTags' in OCA
-		},
-	},
-
-	watch: {
-		// update the sidebar data
-		async file(curr, prev) {
-			this.resetData()
-			if (curr && curr.trim() !== '') {
-				try {
-					this.fileInfo = await FileInfo(this.davPath)
-					// adding this as fallback because other apps expect it
-					this.fileInfo.dir = this.file.split('/').slice(0, -1).join('/')
-
-					// DEPRECATED legacy views
-					// TODO: remove
-					this.views.forEach(view => {
-						view.setFileInfo(this.fileInfo)
-					})
-
-					this.$nextTick(() => {
-						if (this.$refs.tabs) {
-							this.$refs.tabs.updateTabs()
-						}
-					})
-				} catch (error) {
-					this.error = t('files', 'Error while loading the file data')
-					console.error('Error while loading the file data', error)
-				}
-			}
 		},
 	},
 
@@ -403,9 +382,11 @@ export default {
 			// update current opened file
 			this.Sidebar.file = path
 
-			// reset previous data
-			this.resetData()
 			if (path && path.trim() !== '') {
+				// reset data, keep old fileInfo to not reload all tabs and just hide them
+				this.error = null
+				this.loading = true
+
 				try {
 					this.fileInfo = await FileInfo(this.davPath)
 					// adding this as fallback because other apps expect it
@@ -427,6 +408,8 @@ export default {
 					console.error('Error while loading the file data', error)
 
 					throw new Error(error)
+				} finally {
+					this.loading = false
 				}
 			}
 		},
