@@ -79,12 +79,8 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "\"/\" не е дозволено во името.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" не е дозволен вид на датотека",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Складиштето на {owner} е исполнето, повеќе нема да може да сикхронизира и да прикачува датотеки!",
-    "This group folder is full, files can not be updated or synced anymore!" : "Групната папка е исполнета, датотеките веќе не можат да се ажирираат или синхронизираат!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Надворешното складиште е исполнето, датотеките веќе не можат да се ажирираат или синхронизираат!",
     "Your storage is full, files can not be updated or synced anymore!" : "Вашето складиште е исполнето, датотеките веќе не можат да се ажирираат или синхронизираат!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Скалдиштето на {owner} е скоро исполнето ({usedSpacePercent}%).",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Групната папка е скоро исполнета ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Надворешното складиште е скоро исполнето ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Вашето складиште е скоро исполнето ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : ["содржи '{filter}'","содржи '{filter}'"],
     "View in folder" : "Погледни во папката",
@@ -199,8 +195,12 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Ограничете известувања за креирање и промени на вашите <strong>омилени датотеки</strong> <em>(само во стримот)</em>",
     "A file or folder has been <strong>restored</strong>" : "Датотека или папка е <strong>вратена</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Користи ја оваа адреса за <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">пристап преку WebDAV</a>",
+    "This group folder is full, files can not be updated or synced anymore!" : "Групната папка е исполнета, датотеките веќе не можат да се ажирираат или синхронизираат!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Надворешното складиште е исполнето, датотеките веќе не можат да се ажирираат или синхронизираат!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Групната папка е скоро исполнета ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Надворешното складиште е скоро исполнето ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на датотека која не е ваша"
+    "Cannot transfter ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на датотека која не е ваша",
+    "This group folder is almost full ({usedSpacePercent}%)." : "Групната папка е скоро исполнета ({usedSpacePercent}%).",
+    "This external storage is almost full ({usedSpacePercent}%)." : "Надворешното складиште е скоро исполнето ({usedSpacePercent}%)."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

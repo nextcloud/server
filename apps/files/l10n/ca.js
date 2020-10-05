@@ -80,12 +80,8 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "El caràcter \"/\" no es pot utilitzar en el nom del fitxer.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" no és un tipus de fitxer permès",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "L'emmagatzematge de {owner} està ple, els fitxers ja no es poden actualitzar ni sincronitzar!",
-    "This group folder is full, files can not be updated or synced anymore!" : "Aquesta carpeta de grup és plena, els arxius no es poden actualitzar o sincronitzar ja!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Aquest emmagatzematge extern és ple, els arxius no es poden actualitzar o sincronitzar ja!",
     "Your storage is full, files can not be updated or synced anymore!" : "El vostre espai d'emmagatzematge és ple, els fitxers ja no es poden actualitzar ni sincronitzar!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Emmagatzematge de {owner} està gairebé ple ({usedSpacePercent}%).",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Aquesta carpeta de grup és gairebé plena ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Aquest emmagatzematge extern és gairebé ple ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "El vostre espai d'emmagatzematge és gairebé ple ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : ["coincidències '{filter}'","coincidència '{filter}'"],
     "View in folder" : "Mostra-ho a la carpeta",
@@ -200,8 +196,12 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limita les notificacions sobre la creació i canvis dels vostres <strong>fitxers favorits</strong><em>(només Stream)</em>",
     "A file or folder has been <strong>restored</strong>" : "S'ha <strong>restaurat</strong> un fitxer o una carpeta",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Utilitzeu aquesta adreça per <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">accedir als vostres fitxers mitjançant WebDAV</a>",
+    "This group folder is full, files can not be updated or synced anymore!" : "Aquesta carpeta de grup és plena, els arxius no es poden actualitzar o sincronitzar ja!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Aquest emmagatzematge extern és ple, els arxius no es poden actualitzar o sincronitzar ja!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Aquesta carpeta de grup és gairebé plena ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Aquest emmagatzematge extern és gairebé ple ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre"
+    "Cannot transfter ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
+    "This group folder is almost full ({usedSpacePercent}%)." : "Aquesta carpeta de grup és gairebé plena ({usedSpacePercent}%).",
+    "This external storage is almost full ({usedSpacePercent}%)." : "Aquest emmagatzematge extern és gairebé ple ({usedSpacePercent}%)."
 },
 "nplurals=2; plural=(n != 1);");
