@@ -80,12 +80,8 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "\"/\" ist innerhalb eines Dateinamens nicht erlaubt.",
     "\"{name}\" is not an allowed filetype" : "„{name}“ ist kein erlaubter Dateityp",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Der Speicher von {owner} ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
-    "This group folder is full, files can not be updated or synced anymore!" : "Dieser Gruppenordner ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Dieser externe Speicher ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
     "Your storage is full, files can not be updated or synced anymore!" : "Ihr Speicher ist voll, daher können keine Dateien mehr aktualisiert oder synchronisiert werden!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Der Speicher von {owner} ist beinahe voll ({usedSpacePercent}%).",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Dieser Gruppenordner ist beinahe voll ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Dieser externe Speicher ist beinahe voll ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Ihr Speicher ist beinahe voll ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : ["stimmt mit '{filter}' überein","stimmen mit '{filter}' überein"],
     "View in folder" : "In Ordner anzeigen",
@@ -200,8 +196,12 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Benachrichtigungen über Neues und Änderungen zu Ihren <strong>favorisierten Dateien</strong> beschränken <em>(nur im Stream)</em>",
     "A file or folder has been <strong>restored</strong>" : "Eine Datei oder ein Ordner wurde <strong>wiederhergestellt</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Benutzen Sie diese Adresse, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">via WebDAV auf Ihre Dateien zuzugreifen</a>",
+    "This group folder is full, files can not be updated or synced anymore!" : "Dieser Gruppenordner ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Dieser externe Speicher ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Dieser Gruppenordner ist beinahe voll ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Dieser externe Speicher ist fast voll ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Sie nicht besitzen, kann nicht übertragen werden"
+    "Cannot transfter ownership of a file or folder you don't own" : "Der Besitz einer Datei oder eines Ordners, den Sie nicht besitzen, kann nicht übertragen werden",
+    "This group folder is almost full ({usedSpacePercent}%)." : "Dieser Gruppenordner ist beinahe voll ({usedSpacePercent}%).",
+    "This external storage is almost full ({usedSpacePercent}%)." : "Dieser externe Speicher ist beinahe voll ({usedSpacePercent}%)."
 },
 "nplurals=2; plural=(n != 1);");

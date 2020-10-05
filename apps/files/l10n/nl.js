@@ -80,12 +80,8 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "\"/\" is niet toegestaan binnen een bestandsnaam.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" bestandstype is een niet toegestaande",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Opslagruimte van {owner} zit vol, bestanden kunnen niet meer worden geüpload of gesynchroniseerd!",
-    "This group folder is full, files can not be updated or synced anymore!" : "Deze groepsmap is vol, bestanden kunnen niet meer bijgewerkt of gesynchroniseerd worden!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Deze externe opslag is vol, bestanden kunnen niet meer bijgewerkt of gesynchroniseerd worden!",
     "Your storage is full, files can not be updated or synced anymore!" : "Je opslagruimte zit vol. Bestanden kunnen niet meer worden gewijzigd of gesynchroniseerd!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Opslagruimte van {owner} zit bijna vol ({usedSpacePercent}%)",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Deze groepsfolder zit bijna vol ({usedSpacePercent}%)",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Deze externe opslagruimte zit bijna vol ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)." : "Je opslagruimte zit bijna vol ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["komt overeen met '{filter}'","komen overeen met '{filter}'"],
     "View in folder" : "Bekijken in map",
@@ -200,8 +196,12 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Beperk meldingen over aanmaken en wijzigen aan je <strong>favoriete bestanden</strong> <em>(Alleen stream)</em>",
     "A file or folder has been <strong>restored</strong>" : "Een bestand of een map is <strong>hersteld</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gebruik deze link <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">om je bestanden te benaderen via WebDAV</a>",
+    "This group folder is full, files can not be updated or synced anymore!" : "Deze groepsmap is vol, bestanden kunnen niet meer bijgewerkt of gesynchroniseerd worden!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Deze externe opslag is vol, bestanden kunnen niet meer bijgewerkt of gesynchroniseerd worden!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Deze groepsfolder zit bijna vol ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Deze externe opslagruimte zit bijna vol ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Kan het eigenaarschap van een bestand of map waarvan u niet de eigenaar bent, niet overdragen"
+    "Cannot transfter ownership of a file or folder you don't own" : "Kan het eigenaarschap van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
+    "This group folder is almost full ({usedSpacePercent}%)." : "Deze groepsfolder zit bijna vol ({usedSpacePercent}%)",
+    "This external storage is almost full ({usedSpacePercent}%)." : "Deze externe opslagruimte zit bijna vol ({usedSpacePercent}%)"
 },
 "nplurals=2; plural=(n != 1);");

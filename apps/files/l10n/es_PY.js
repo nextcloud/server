@@ -78,12 +78,8 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "\"/\" no es permitido dentro del nombre de un archivo.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" es un tipo de archivo no permitido",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "El espacio de {owner} está lleno. ¡Los archivos ya no se pueden actualizar o sincronizar!",
-    "This group folder is full, files can not be updated or synced anymore!" : "Esta carpeta grupal esta llena. ¡Los archivos ya no se pueden actualizar o sincronizar!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Este espacio externo esta lleno. ¡Los archivos ya no se pueden actualizar o sincronizar!",
     "Your storage is full, files can not be updated or synced anymore!" : "Tu espacio está lleno. ¡Los archivos ya no se pueden actualizar o sincronizar!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "El espacio de {owner} está casi lleno ({usedSpacePercent}%).",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Esta carpeta grupal está casi llena ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Este espacio externo está casi lleno ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Tu espacio está casi lleno ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : ["coincide '{filter}'","coincidencia '{filter}'"],
     "View in folder" : "Ver en la carpeta",
@@ -161,6 +157,10 @@ OC.L10N.register(
     "A file or folder has been <strong>deleted</strong>" : "Un archivo o carpeta ha sido <strong>borrado</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limita las notificaciones de la creación y cambios a tus <strong>archivos favoritos</strong> <em>(sólo flujo)</em>",
     "A file or folder has been <strong>restored</strong>" : "Un archivo o carpeta ha sido <strong>restaurado</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Usa esta dirección para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">acceder a tus Archivos vía WebDAV</a>"
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Usa esta dirección para <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">acceder a tus Archivos vía WebDAV</a>",
+    "This group folder is full, files can not be updated or synced anymore!" : "Esta carpeta grupal esta llena. ¡Los archivos ya no se pueden actualizar o sincronizar!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Este espacio externo esta lleno. ¡Los archivos ya no se pueden actualizar o sincronizar!",
+    "This group folder is almost full ({usedSpacePercent}%)." : "Esta carpeta grupal está casi llena ({usedSpacePercent}%).",
+    "This external storage is almost full ({usedSpacePercent}%)." : "Este espacio externo está casi lleno ({usedSpacePercent}%)."
 },
 "nplurals=2; plural=(n != 1);");

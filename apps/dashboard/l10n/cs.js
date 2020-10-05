@@ -11,6 +11,8 @@ OC.L10N.register(
     "Weather service" : "Služba předpovědi počasí",
     "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Z důvodu ochrany vašeho soukromí, jsou údaje o počasí pro vás vyžádány vámi využívaným Nextcloud serverem, takže služba, poskytující tato data, neobdrží žádné osobní údaje.",
     "Weather data from Met.no" : "Data o počasí z Met.no",
+    "geocoding with Nominatim" : "geokódování s Nominatim",
+    "elevation data from OpenTopoData" : "data o nadmořských výškách z OpenTopoData",
     "Weather" : "Počasí",
     "Status" : "Stav",
     "Good evening, {name}" : "Dobrý večer, {name}",
