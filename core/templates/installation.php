@@ -77,7 +77,7 @@ script('core', [
 		<?php if ($_['hasMySQL'] or $_['hasPostgreSQL'] or $_['hasOracle']) {
 			$hasOtherDB = true;
 		} else {
-			$hasOtherDB =false;
+			$hasOtherDB = false;
 		} //other than SQLite?>
 		<legend><?php p($l->t('Configure the database')); ?></legend>
 		<div id="selectDbType">

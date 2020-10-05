@@ -75,7 +75,7 @@ class CloudFederationProviderManager implements ICloudFederationProviderManager 
 								IClientService $httpClientService,
 								ICloudIdManager $cloudIdManager,
 								ILogger $logger) {
-		$this->cloudFederationProvider= [];
+		$this->cloudFederationProvider = [];
 		$this->appManager = $appManager;
 		$this->httpClientService = $httpClientService;
 		$this->cloudIdManager = $cloudIdManager;

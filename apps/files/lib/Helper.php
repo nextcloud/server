@@ -56,11 +56,11 @@ class Helper {
 
 		return [
 			'uploadMaxFilesize' => $maxUploadFileSize,
-			'maxHumanFilesize'  => $maxHumanFileSize,
+			'maxHumanFilesize' => $maxHumanFileSize,
 			'freeSpace' => $storageInfo['free'],
 			'quota' => $storageInfo['quota'],
 			'used' => $storageInfo['used'],
-			'usedSpacePercent'  => (int)$storageInfo['relative'],
+			'usedSpacePercent' => (int)$storageInfo['relative'],
 			'owner' => $storageInfo['owner'],
 			'ownerDisplayName' => $storageInfo['ownerDisplayName'],
 			'mountType' => $storageInfo['mountType'],

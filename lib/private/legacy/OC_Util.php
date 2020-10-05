@@ -912,7 +912,7 @@ class OC_Util {
 			}
 			$errors[] = [
 				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], var_export($setting[1], true)]),
-				'hint' =>  $l->t('Adjusting this setting in php.ini will make Nextcloud run again')
+				'hint' => $l->t('Adjusting this setting in php.ini will make Nextcloud run again')
 			];
 			$webServerRestart = true;
 		}
@@ -936,9 +936,9 @@ class OC_Util {
 		if (function_exists('xml_parser_create') &&
 			LIBXML_LOADED_VERSION < 20700) {
 			$version = LIBXML_LOADED_VERSION;
-			$major = floor($version/10000);
+			$major = floor($version / 10000);
 			$version -= ($major * 10000);
-			$minor = floor($version/100);
+			$minor = floor($version / 100);
 			$version -= ($minor * 100);
 			$patch = $version;
 			$errors[] = [

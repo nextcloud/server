@@ -66,7 +66,7 @@ class CSSResourceLocator extends ResourceLocator {
 		) {
 			return;
 		}
-		$style = substr($style, strpos($style, '/')+1);
+		$style = substr($style, strpos($style, '/') + 1);
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);
 

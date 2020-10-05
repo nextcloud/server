@@ -161,8 +161,8 @@ class OC_Template extends \OC\Template\Base {
 	 * @param string $text the text content for the element. If $text is null then the
 	 * element will be written as empty element. So use "" to get a closing tag.
 	 */
-	public function addHeader($tag, $attributes, $text=null) {
-		$this->headers[]= [
+	public function addHeader($tag, $attributes, $text = null) {
+		$this->headers[] = [
 			'tag' => $tag,
 			'attributes' => $attributes,
 			'text' => $text
@@ -195,7 +195,7 @@ class OC_Template extends \OC\Template\Base {
 				if (strcasecmp($header['tag'], 'script') === 0 && in_array('src', array_map('strtolower', array_keys($header['attributes'])))) {
 					$headers .= ' defer';
 				}
-				foreach ($header['attributes'] as $name=>$value) {
+				foreach ($header['attributes'] as $name => $value) {
 					$headers .= ' '.\OCP\Util::sanitizeHTML($name).'="'.\OCP\Util::sanitizeHTML($value).'"';
 				}
 				if ($header['text'] !== null) {

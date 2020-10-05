@@ -131,7 +131,7 @@ class EnablePluginTest extends TestCase {
 		$this->server->xml->expects($this->once())
 			->method('parse')
 			->willReturnCallback(function ($requestBody, $url, &$documentType) {
-				$documentType =  '{http://nextcloud.com/ns}disable-birthday-calendar';
+				$documentType = '{http://nextcloud.com/ns}disable-birthday-calendar';
 			});
 
 		$this->config->expects($this->never())

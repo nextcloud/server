@@ -100,7 +100,7 @@ class CleanUp extends TimedJob {
 		if (isset($arguments['userBackend'])) {
 			$this->userBackend = $arguments['userBackend'];
 		} else {
-			$this->userBackend =  new User_Proxy(
+			$this->userBackend = new User_Proxy(
 				$this->ldapHelper->getServerConfigurationPrefixes(true),
 				new LDAP(),
 				$this->ocConfig,

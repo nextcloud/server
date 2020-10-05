@@ -87,7 +87,7 @@ class Repair implements IOutput {
 	 */
 	public function __construct(array $repairSteps, EventDispatcherInterface $dispatcher) {
 		$this->repairSteps = $repairSteps;
-		$this->dispatcher  = $dispatcher;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -185,8 +185,8 @@ class Repair implements IOutput {
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
 		$connection = \OC::$server->getDatabaseConnection();
-		$config     = \OC::$server->getConfig();
-		$steps      = [
+		$config = \OC::$server->getConfig();
+		$steps = [
 			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), $connection, true),
 			new SqliteAutoincrement($connection),
 			new SaveAccountsTableData($connection, $config),

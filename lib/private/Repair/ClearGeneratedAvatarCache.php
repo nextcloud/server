@@ -38,7 +38,7 @@ class ClearGeneratedAvatarCache implements IRepairStep {
 	private $config;
 
 	public function __construct(IConfig $config, AvatarManager $avatarManager) {
-		$this->config        = $config;
+		$this->config = $config;
 		$this->avatarManager = $avatarManager;
 	}
 

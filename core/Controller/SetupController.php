@@ -70,7 +70,7 @@ class SetupController {
 			return;
 		}
 
-		if (isset($post['install']) and $post['install']=='true') {
+		if (isset($post['install']) and $post['install'] == 'true') {
 			// We have to launch the installation process :
 			$e = $this->setupHelper->install($post);
 			$errors = ['errors' => $e];

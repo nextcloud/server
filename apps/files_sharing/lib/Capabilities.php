@@ -108,7 +108,7 @@ class Capabilities implements ICapability {
 
 		//Federated sharing
 		$res['federation'] = [
-			'outgoing'  => $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes',
+			'outgoing' => $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes',
 			'incoming' => $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'yes',
 			'expire_date' => ['enabled' => true]
 		];

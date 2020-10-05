@@ -32,19 +32,19 @@ use OCP\Comments\MessageTooLongException;
 
 class Comment implements IComment {
 	protected $data = [
-		'id'              => '',
-		'parentId'        => '0',
+		'id' => '',
+		'parentId' => '0',
 		'topmostParentId' => '0',
-		'childrenCount'   => '0',
-		'message'         => '',
-		'verb'            => '',
-		'actorType'       => '',
-		'actorId'         => '',
-		'objectType'      => '',
-		'objectId'        => '',
-		'referenceId'     => null,
-		'creationDT'      => null,
-		'latestChildDT'   => null,
+		'childrenCount' => '0',
+		'message' => '',
+		'verb' => '',
+		'actorType' => '',
+		'actorId' => '',
+		'objectType' => '',
+		'objectId' => '',
+		'referenceId' => null,
+		'creationDT' => null,
+		'latestChildDT' => null,
 	];
 
 	/**
@@ -301,12 +301,12 @@ class Comment implements IComment {
 	public function setActor($actorType, $actorId) {
 		if (
 			   !is_string($actorType) || !trim($actorType)
-			|| !is_string($actorId)   || $actorId === ''
+			|| !is_string($actorId) || $actorId === ''
 		) {
 			throw new \InvalidArgumentException('String expected.');
 		}
 		$this->data['actorType'] = trim($actorType);
-		$this->data['actorId']   = $actorId;
+		$this->data['actorId'] = $actorId;
 		return $this;
 	}
 
@@ -387,12 +387,12 @@ class Comment implements IComment {
 	public function setObject($objectType, $objectId) {
 		if (
 			   !is_string($objectType) || !trim($objectType)
-			|| !is_string($objectId)   || trim($objectId) === ''
+			|| !is_string($objectId) || trim($objectId) === ''
 		) {
 			throw new \InvalidArgumentException('String expected.');
 		}
 		$this->data['objectType'] = trim($objectType);
-		$this->data['objectId']   = trim($objectId);
+		$this->data['objectId'] = trim($objectId);
 		return $this;
 	}
 

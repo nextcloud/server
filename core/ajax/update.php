@@ -190,7 +190,7 @@ if (\OCP\Util::needUpgrade()) {
 		$eventSource->send('success', (string)$l->t('Updated "%1$s" to %2$s', [$app, $version]));
 	});
 	$updater->listen('\OC\Updater', 'incompatibleAppDisabled', function ($app) use (&$incompatibleApps) {
-		$incompatibleApps[]= $app;
+		$incompatibleApps[] = $app;
 	});
 	$updater->listen('\OC\Updater', 'failure', function ($message) use ($eventSource, $config) {
 		$eventSource->send('failure', $message);

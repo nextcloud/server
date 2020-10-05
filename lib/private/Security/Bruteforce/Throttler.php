@@ -195,8 +195,8 @@ class Throttler {
 
 			$valid = true;
 			for ($i = 0; $i < $mask; $i++) {
-				$part = ord($addr[(int)($i/8)]);
-				$orig = ord($ip[(int)($i/8)]);
+				$part = ord($addr[(int)($i / 8)]);
+				$orig = ord($ip[(int)($i / 8)]);
 
 				$bitmask = 1 << (7 - ($i % 8));
 
@@ -273,7 +273,7 @@ class Throttler {
 			return self::MAX_DELAY_MS;
 		}
 
-		$delay = $firstDelay * 2**$attempts;
+		$delay = $firstDelay * 2 ** $attempts;
 		if ($delay > self::MAX_DELAY) {
 			return self::MAX_DELAY_MS;
 		}

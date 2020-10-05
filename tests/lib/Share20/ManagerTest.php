@@ -1086,7 +1086,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Path is already shared with this user');
 
-		$share  = $this->manager->newShare();
+		$share = $this->manager->newShare();
 		$share2 = $this->manager->newShare();
 
 		$sharedWith = $this->createMock(IUser::class);
@@ -1111,7 +1111,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Path is already shared with this user');
 
-		$share  = $this->manager->newShare();
+		$share = $this->manager->newShare();
 
 		$sharedWith = $this->createMock(IUser::class);
 		$sharedWith->method('getUID')->willReturn('sharedWith');
@@ -1149,7 +1149,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testUserCreateChecksIdenticalPathSharedViaDeletedGroup() {
-		$share  = $this->manager->newShare();
+		$share = $this->manager->newShare();
 
 		$sharedWith = $this->createMock(IUser::class);
 		$sharedWith->method('getUID')->willReturn('sharedWith');

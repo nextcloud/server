@@ -381,7 +381,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 	 * @param array $replyTo
 	 * @return IMessage
 	 */
-	private function getMessageMock(string $toMail, IEMailTemplate $templateMock, array $replyTo=null):IMessage {
+	private function getMessageMock(string $toMail, IEMailTemplate $templateMock, array $replyTo = null):IMessage {
 		$message = $this->createMock(IMessage::class);
 		$i = 0;
 
@@ -473,7 +473,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 		return $vcalendar;
 	}
 
-	private function setupURLGeneratorMock(int $times=1):void {
+	private function setupURLGeneratorMock(int $times = 1):void {
 		for ($i = 0; $i < $times; $i++) {
 			$this->urlGenerator
 				->expects($this->at(8 * $i))

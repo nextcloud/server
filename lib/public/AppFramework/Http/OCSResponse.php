@@ -56,8 +56,8 @@ class OCSResponse extends Response {
 	 * @deprecated 9.2.0 To implement an OCS endpoint extend the OCSController
 	 */
 	public function __construct($format, $statuscode, $message,
-								$data=[], $itemscount='',
-								$itemsperpage='') {
+								$data = [], $itemscount = '',
+								$itemsperpage = '') {
 		parent::__construct();
 
 		$this->format = $format;

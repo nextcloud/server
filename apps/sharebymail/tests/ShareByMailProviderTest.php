@@ -723,7 +723,7 @@ class ShareByMailProviderTest extends TestCase {
 
 		$id = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
 
-		$instance->getShareById($id+1);
+		$instance->getShareById($id + 1);
 	}
 
 	public function testGetShareByPath() {
@@ -921,10 +921,10 @@ class ShareByMailProviderTest extends TestCase {
 
 		$id = $this->createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
 
-		$this->invokePrivate($instance, 'getRawShare', [$id+1]);
+		$this->invokePrivate($instance, 'getRawShare', [$id + 1]);
 	}
 
-	private function createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $note='', $shareType = IShare::TYPE_EMAIL) {
+	private function createDummyShare($itemType, $itemSource, $shareWith, $sharedBy, $uidOwner, $permissions, $token, $note = '', $shareType = IShare::TYPE_EMAIL) {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('share')
 			->setValue('share_type', $qb->createNamedParameter($shareType))

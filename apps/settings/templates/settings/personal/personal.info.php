@@ -138,7 +138,7 @@ script('settings', [
 						</span>
 					</div>
 				</h3>
-				<div class="verify <?php if ($_['email'] === ''  || $_['emailScope'] !== 'public') {
+				<div class="verify <?php if ($_['email'] === '' || $_['emailScope'] !== 'public') {
 									p('hidden');
 								} ?>">
 					<img id="verify-email" title="<?php p($_['emailMessage']); ?>" data-status="<?php p($_['emailVerification']) ?>" src="
@@ -238,7 +238,7 @@ script('settings', [
 					</div>
 				</h3>
 				<?php if ($_['lookupServerUploadEnabled']) { ?>
-				<div class="verify <?php if ($_['website'] === ''  || $_['websiteScope'] !== 'public') {
+				<div class="verify <?php if ($_['website'] === '' || $_['websiteScope'] !== 'public') {
 						p('hidden');
 					} ?>">
 					<img id="verify-website" title="<?php p($_['websiteMessage']); ?>" data-status="<?php p($_['websiteVerification']) ?>" src="
@@ -293,7 +293,7 @@ script('settings', [
 					</div>
 				</h3>
 				<?php if ($_['lookupServerUploadEnabled']) { ?>
-				<div class="verify <?php if ($_['twitter'] === ''  || $_['twitterScope'] !== 'public') {
+				<div class="verify <?php if ($_['twitter'] === '' || $_['twitterScope'] !== 'public') {
 						p('hidden');
 					} ?>">
 					<img id="verify-twitter" title="<?php p($_['twitterMessage']); ?>" data-status="<?php p($_['twitterVerification']) ?>" src="

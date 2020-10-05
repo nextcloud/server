@@ -81,8 +81,8 @@ class Repair extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
 		if ($this->memoryLimit !== -1) {
-			$limitInMiB = round($this->memoryLimit / 1024 /1024, 1);
-			$thresholdInMiB = round($this->memoryTreshold / 1024 /1024, 1);
+			$limitInMiB = round($this->memoryLimit / 1024 / 1024, 1);
+			$thresholdInMiB = round($this->memoryTreshold / 1024 / 1024, 1);
 			$output->writeln("Memory limit is $limitInMiB MiB");
 			$output->writeln("Memory threshold is $thresholdInMiB MiB");
 			$output->writeln("");

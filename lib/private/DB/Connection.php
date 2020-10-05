@@ -175,7 +175,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 * @param int $offset
 	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
 	 */
-	public function prepare($statement, $limit=null, $offset=null) {
+	public function prepare($statement, $limit = null, $offset = null) {
 		if ($limit === -1) {
 			$limit = null;
 		}

@@ -53,7 +53,7 @@ class TestController extends Controller {
 	 * @param int $test2
 	 * @return array
 	 */
-	public function exec($int, $bool, $test=4, $test2=1) {
+	public function exec($int, $bool, $test = 4, $test2 = 1) {
 		$this->registerResponder('text', function ($in) {
 			return new JSONResponse(['text' => $in]);
 		});
@@ -68,7 +68,7 @@ class TestController extends Controller {
 	 * @param int $test2
 	 * @return DataResponse
 	 */
-	public function execDataResponse($int, $bool, $test=4, $test2=1) {
+	public function execDataResponse($int, $bool, $test = 4, $test2 = 1) {
 		return new DataResponse([
 			'text' => [$int, $bool, $test, $test2]
 		]);
@@ -157,9 +157,9 @@ class DispatcherTest extends \Test\TestCase {
 	 * @param string $out
 	 * @param string $httpHeaders
 	 */
-	private function setMiddlewareExpectations($out=null,
-		$httpHeaders=null, $responseHeaders=[],
-		$ex=false, $catchEx=true) {
+	private function setMiddlewareExpectations($out = null,
+		$httpHeaders = null, $responseHeaders = [],
+		$ex = false, $catchEx = true) {
 		if ($ex) {
 			$exception = new \Exception();
 			$this->middlewareDispatcher->expects($this->once())

@@ -128,15 +128,15 @@ class OC_Hook {
 	 * @param string $signalClass
 	 * @param string $signalName
 	 */
-	public static function clear($signalClass='', $signalName='') {
+	public static function clear($signalClass = '', $signalName = '') {
 		if ($signalClass) {
 			if ($signalName) {
-				self::$registered[$signalClass][$signalName]=[];
+				self::$registered[$signalClass][$signalName] = [];
 			} else {
-				self::$registered[$signalClass]=[];
+				self::$registered[$signalClass] = [];
 			}
 		} else {
-			self::$registered=[];
+			self::$registered = [];
 		}
 	}
 

@@ -66,7 +66,7 @@ class OC_DB_StatementWrapper {
 	 * @param array $input
 	 * @return \OC_DB_StatementWrapper|int|bool
 	 */
-	public function execute($input= []) {
+	public function execute($input = []) {
 		$this->lastArguments = $input;
 		if (count($input) > 0) {
 			$result = $this->statement->execute($input);

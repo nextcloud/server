@@ -312,7 +312,7 @@ class ImageManagerTest extends TestCase {
 			$this->createMock(ISimpleFolder::class),
 			$this->createMock(ISimpleFolder::class)
 		];
-		foreach ($folders as $index=>$folder) {
+		foreach ($folders as $index => $folder) {
 			$folder->expects($this->any())
 				->method('getName')
 				->willReturn($index);

@@ -110,14 +110,14 @@ class SCSSCacher {
 								ICacheFactory $cacheFactory,
 								IconsCacher $iconsCacher,
 								ITimeFactory $timeFactory) {
-		$this->logger       = $logger;
-		$this->appData      = $appDataFactory->get('css');
+		$this->logger = $logger;
+		$this->appData = $appDataFactory->get('css');
 		$this->urlGenerator = $urlGenerator;
-		$this->config       = $config;
-		$this->defaults     = $defaults;
-		$this->serverRoot   = $serverRoot;
+		$this->config = $config;
+		$this->defaults = $defaults;
+		$this->serverRoot = $serverRoot;
 		$this->cacheFactory = $cacheFactory;
-		$this->depsCache    = $cacheFactory->createDistributed('SCSS-deps-' . md5($this->urlGenerator->getBaseUrl()));
+		$this->depsCache = $cacheFactory->createDistributed('SCSS-deps-' . md5($this->urlGenerator->getBaseUrl()));
 		$this->isCachedCache = $cacheFactory->createDistributed('SCSS-cached-' . md5($this->urlGenerator->getBaseUrl()));
 		$lockingCache = $cacheFactory->createDistributed('SCSS-locks-' . md5($this->urlGenerator->getBaseUrl()));
 		if (!($lockingCache instanceof IMemcache)) {
@@ -141,9 +141,9 @@ class SCSSCacher {
 		$path = explode('/', $root . '/' . $file);
 
 		$fileNameSCSS = array_pop($path);
-		$fileNameCSS  = $this->prependVersionPrefix($this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileNameSCSS)), $app);
+		$fileNameCSS = $this->prependVersionPrefix($this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileNameSCSS)), $app);
 
-		$path   = implode('/', $path);
+		$path = implode('/', $path);
 		$webDir = $this->getWebDir($path, $app, $this->serverRoot, \OC::$WEBROOT);
 
 		if (!$this->variablesChanged() && $this->isCached($fileNameCSS, $app)) {
@@ -202,7 +202,7 @@ class SCSSCacher {
 	 * @return ISimpleFile
 	 */
 	public function getCachedCSS(string $appName, string $fileName): ISimpleFile {
-		$folder         = $this->appData->getFolder($appName);
+		$folder = $this->appData->getFolder($appName);
 		$cachedFileName = $this->prependVersionPrefix($this->prependBaseurlPrefix($fileName), $appName);
 
 		return $folder->getFile($cachedFileName);
@@ -238,10 +238,10 @@ class SCSSCacher {
 			$cachedFile = $folder->getFile($fileNameCSS);
 			if ($cachedFile->getSize() > 0) {
 				$depFileName = $fileNameCSS . '.deps';
-				$deps        = $this->depsCache->get($folder->getName() . '-' . $depFileName);
+				$deps = $this->depsCache->get($folder->getName() . '-' . $depFileName);
 				if ($deps === null) {
 					$depFile = $folder->getFile($depFileName);
-					$deps    = $depFile->getContent();
+					$deps = $depFile->getContent();
 					// Set to memcache for next run
 					$this->depsCache->set($folder->getName() . '-' . $depFileName, $deps);
 				}
@@ -419,7 +419,7 @@ class SCSSCacher {
 	 * @return string
 	 */
 	private function rebaseUrls(string $css, string $webDir): string {
-		$re    = '/url\([\'"]([^\/][\.\w?=\/-]*)[\'"]\)/x';
+		$re = '/url\([\'"]([^\/][\.\w?=\/-]*)[\'"]\)/x';
 		$subst = 'url(\'' . $webDir . '/$1\')';
 
 		return preg_replace($re, $subst, $css);
@@ -433,8 +433,8 @@ class SCSSCacher {
 	 */
 	public function getCachedSCSS(string $appName, string $fileName): string {
 		$tmpfileLoc = explode('/', $fileName);
-		$fileName   = array_pop($tmpfileLoc);
-		$fileName   = $this->prependVersionPrefix($this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileName)), $appName);
+		$fileName = array_pop($tmpfileLoc);
+		$fileName = $this->prependVersionPrefix($this->prependBaseurlPrefix(str_replace('.scss', '.css', $fileName)), $appName);
 
 		return substr($this->urlGenerator->linkToRoute('core.Css.getCss', [
 			'fileName' => $fileName,

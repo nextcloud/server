@@ -209,7 +209,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 			$connector = new Connection($ldapWrapper, $configPrefixes[0]);
 			$ldapAccess = new Access($connector, $ldapWrapper, $userManager, $helper, \OC::$server->getConfig(), \OC::$server->getUserManager());
 			$groupMapper = new GroupMapping($dbc);
-			$userMapper  = new UserMapping($dbc);
+			$userMapper = new UserMapping($dbc);
 			$ldapAccess->setGroupMapper($groupMapper);
 			$ldapAccess->setUserMapper($userMapper);
 			self::$groupBE = new \OCA\User_LDAP\Group_LDAP($ldapAccess, \OC::$server->query(GroupPluginManager::class));

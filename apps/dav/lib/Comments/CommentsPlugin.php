@@ -48,9 +48,9 @@ class CommentsPlugin extends ServerPlugin {
 	// namespace
 	public const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
-	public const REPORT_NAME            = '{http://owncloud.org/ns}filter-comments';
-	public const REPORT_PARAM_LIMIT     = '{http://owncloud.org/ns}limit';
-	public const REPORT_PARAM_OFFSET    = '{http://owncloud.org/ns}offset';
+	public const REPORT_NAME = '{http://owncloud.org/ns}filter-comments';
+	public const REPORT_PARAM_LIMIT = '{http://owncloud.org/ns}limit';
+	public const REPORT_PARAM_OFFSET = '{http://owncloud.org/ns}offset';
 	public const REPORT_PARAM_TIMESTAMP = '{http://owncloud.org/ns}datetime';
 
 	/** @var ICommentsManager  */

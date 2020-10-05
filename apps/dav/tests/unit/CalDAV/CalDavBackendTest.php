@@ -563,7 +563,7 @@ EOD;
 	}
 
 	public function providesSchedulingData() {
-		$data =<<<EOS
+		$data = <<<EOS
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Sabre//Sabre VObject 3.5.0//EN
@@ -888,7 +888,7 @@ END:VCALENDAR
 EOD;
 
 		$uriCount = count($uris);
-		for ($i=0; $i < $uriCount; $i++) {
+		for ($i = 0; $i < $uriCount; $i++) {
 			$this->backend->createCalendarObject($calendarId,
 				$uris[$i], $calData[$i]);
 		}

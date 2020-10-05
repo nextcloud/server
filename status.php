@@ -44,13 +44,13 @@ try {
 	# for description and defaults
 	$defaults = new \OCP\Defaults();
 	$values = [
-		'installed'=>$installed,
+		'installed' => $installed,
 		'maintenance' => $maintenance,
 		'needsDbUpgrade' => \OCP\Util::needUpgrade(),
-		'version'=>implode('.', \OCP\Util::getVersion()),
-		'versionstring'=>OC_Util::getVersionString(),
-		'edition'=> '',
-		'productname'=>$defaults->getName(),
+		'version' => implode('.', \OCP\Util::getVersion()),
+		'versionstring' => OC_Util::getVersionString(),
+		'edition' => '',
+		'productname' => $defaults->getName(),
 		'extendedSupport' => \OCP\Util::hasExtendedSupport()
 	];
 	if (OC::$CLI) {

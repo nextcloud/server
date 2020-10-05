@@ -83,7 +83,7 @@ class EmailProvider extends AbstractProvider {
 	 */
 	public function send(VEvent $vevent,
 						 string $calendarDisplayName,
-						 array $users=[]):void {
+						 array $users = []):void {
 		$fallbackLanguage = $this->getFallbackLanguage();
 
 		$emailAddressesOfSharees = $this->getEMailAddressesOfAllUsersWithWriteAccessToCalendar($users);

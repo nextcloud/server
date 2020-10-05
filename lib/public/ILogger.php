@@ -45,27 +45,27 @@ interface ILogger {
 	 * @since 14.0.0
 	 * @deprecated 20.0.0
 	 */
-	public const DEBUG=0;
+	public const DEBUG = 0;
 	/**
 	 * @since 14.0.0
 	 * @deprecated 20.0.0
 	 */
-	public const INFO=1;
+	public const INFO = 1;
 	/**
 	 * @since 14.0.0
 	 * @deprecated 20.0.0
 	 */
-	public const WARN=2;
+	public const WARN = 2;
 	/**
 	 * @since 14.0.0
 	 * @deprecated 20.0.0
 	 */
-	public const ERROR=3;
+	public const ERROR = 3;
 	/**
 	 * @since 14.0.0
 	 * @deprecated 20.0.0
 	 */
-	public const FATAL=4;
+	public const FATAL = 4;
 
 	/**
 	 * System is unusable.

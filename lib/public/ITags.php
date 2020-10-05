@@ -168,7 +168,7 @@ interface ITags {
 	 * @return bool Returns false on error.
 	 * @since 6.0.0
 	 */
-	public function addMultiple($names, $sync=false, $id = null);
+	public function addMultiple($names, $sync = false, $id = null);
 
 	/**
 	 * Delete tag/object relations from the db

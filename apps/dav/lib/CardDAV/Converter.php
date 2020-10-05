@@ -124,9 +124,9 @@ class Converter {
 		$elements = explode(' ', $fullName);
 		$result = ['', '', '', '', ''];
 		if (count($elements) > 2) {
-			$result[0] = implode(' ', array_slice($elements, count($elements)-1));
+			$result[0] = implode(' ', array_slice($elements, count($elements) - 1));
 			$result[1] = $elements[0];
-			$result[2] = implode(' ', array_slice($elements, 1, count($elements)-2));
+			$result[2] = implode(' ', array_slice($elements, 1, count($elements) - 2));
 		} elseif (count($elements) === 2) {
 			$result[0] = $elements[1];
 			$result[1] = $elements[0];

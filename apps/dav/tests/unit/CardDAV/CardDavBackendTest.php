@@ -358,7 +358,7 @@ class CardDavBackendTest extends TestCase {
 			$this->assertArrayHasKey('lastmodified', $card);
 			$this->assertArrayHasKey('etag', $card);
 			$this->assertArrayHasKey('size', $card);
-			$this->assertEquals($this->{ 'vcardTest'.($index+1) }, $card['carddata']);
+			$this->assertEquals($this->{ 'vcardTest'.($index + 1) }, $card['carddata']);
 		}
 
 		// delete the card
@@ -668,7 +668,7 @@ class CardDavBackendTest extends TestCase {
 
 		$vCardIds = [];
 		$query = $this->db->getQueryBuilder();
-		for ($i=0; $i < 3; $i++) {
+		for ($i = 0; $i < 3; $i++) {
 			$query->insert($this->dbCardsTable)
 					->values(
 							[
@@ -767,7 +767,7 @@ class CardDavBackendTest extends TestCase {
 			'limit' => ['john', ['FN'], ['limit' => 1], [['uri0', 'John Doe']]],
 			'limit and offset' => ['john', ['FN'], ['limit' => 1, 'offset' => 1], [['uri1', 'John M. Doe']]],
 			'find "_" escaped' => ['_', ['CLOUD'], [], [['uri2', 'find without options']]],
-			'find not empty CLOUD' => ['%_%', ['CLOUD'], ['escape_like_param'=>false], [['uri0', 'John Doe'], ['uri2', 'find without options']]],
+			'find not empty CLOUD' => ['%_%', ['CLOUD'], ['escape_like_param' => false], [['uri0', 'John Doe'], ['uri2', 'find without options']]],
 		];
 	}
 
@@ -800,7 +800,7 @@ class CardDavBackendTest extends TestCase {
 
 	public function testGetContact() {
 		$query = $this->db->getQueryBuilder();
-		for ($i=0; $i<2; $i++) {
+		for ($i = 0; $i < 2; $i++) {
 			$query->insert($this->dbCardsTable)
 					->values(
 							[

@@ -32,8 +32,8 @@ use Sabre\DAV\PropFind;
 use Sabre\DAV\ServerPlugin;
 
 class CommentPropertiesPlugin extends ServerPlugin {
-	public const PROPERTY_NAME_HREF   = '{http://owncloud.org/ns}comments-href';
-	public const PROPERTY_NAME_COUNT  = '{http://owncloud.org/ns}comments-count';
+	public const PROPERTY_NAME_HREF = '{http://owncloud.org/ns}comments-href';
+	public const PROPERTY_NAME_COUNT = '{http://owncloud.org/ns}comments-count';
 	public const PROPERTY_NAME_UNREAD = '{http://owncloud.org/ns}comments-unread';
 
 	/** @var  \Sabre\DAV\Server */
@@ -131,7 +131,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 	 * @return mixed|string
 	 */
 	public function getCommentsLink(Node $node) {
-		$href =  $this->server->getBaseUri();
+		$href = $this->server->getBaseUri();
 		$entryPoint = strpos($href, '/remote.php/');
 		if ($entryPoint === false) {
 			// in case we end up somewhere else, unexpectedly.

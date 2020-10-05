@@ -417,7 +417,7 @@ class Tags implements ITags {
 	 * @param int|null $id int Optional object id to add to this|these tag(s)
 	 * @return bool Returns false on error.
 	 */
-	public function addMultiple($names, $sync=false, $id = null) {
+	public function addMultiple($names, $sync = false, $id = null) {
 		if (!is_array($names)) {
 			$names = [$names];
 		}
@@ -576,7 +576,7 @@ class Tags implements ITags {
 		$updates = $ids;
 		try {
 			$query = 'DELETE FROM `' . self::RELATION_TABLE . '` ';
-			$query .= 'WHERE `objid` IN (' . str_repeat('?,', count($ids)-1) . '?) ';
+			$query .= 'WHERE `objid` IN (' . str_repeat('?,', count($ids) - 1) . '?) ';
 			$query .= 'AND `type`= ?';
 			$updates[] = $this->type;
 			$stmt = \OC_DB::prepare($query);
@@ -675,7 +675,7 @@ class Tags implements ITags {
 			if (!$this->hasTag($tag)) {
 				$this->add($tag);
 			}
-			$tagId =  $this->getTagId($tag);
+			$tagId = $this->getTagId($tag);
 		} else {
 			$tagId = $tag;
 		}
@@ -711,7 +711,7 @@ class Tags implements ITags {
 				\OCP\Util::writeLog('core', __METHOD__.', Tag name is empty', ILogger::DEBUG);
 				return false;
 			}
-			$tagId =  $this->getTagId($tag);
+			$tagId = $this->getTagId($tag);
 		} else {
 			$tagId = $tag;
 		}
@@ -791,7 +791,7 @@ class Tags implements ITags {
 	}
 
 	// case-insensitive array_search
-	protected function array_searchi($needle, $haystack, $mem='getName') {
+	protected function array_searchi($needle, $haystack, $mem = 'getName') {
 		if (!is_array($haystack)) {
 			return false;
 		}
@@ -847,10 +847,10 @@ class Tags implements ITags {
 	 */
 	private function tagMap(Tag $tag) {
 		return [
-			'id'    => $tag->getId(),
-			'name'  => $tag->getName(),
+			'id' => $tag->getId(),
+			'name' => $tag->getName(),
 			'owner' => $tag->getOwner(),
-			'type'  => $tag->getType()
+			'type' => $tag->getType()
 		];
 	}
 }

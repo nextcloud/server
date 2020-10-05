@@ -1044,7 +1044,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$query2 = $this->db->getQueryBuilder();
 
-		$addressBookOr =  $query2->expr()->orX();
+		$addressBookOr = $query2->expr()->orX();
 		foreach ($addressBookIds as $addressBookId) {
 			$addressBookOr->add($query2->expr()->eq('cp.addressbookid', $query2->createNamedParameter($addressBookId)));
 		}

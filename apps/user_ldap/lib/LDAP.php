@@ -369,7 +369,7 @@ class LDAP implements ILDAPWrapper {
 		if ($errorCode === 0) {
 			return;
 		}
-		$errorMsg  = ldap_error($resource);
+		$errorMsg = ldap_error($resource);
 
 		if ($this->curFunc === 'ldap_get_entries'
 			&& $errorCode === -4) {

@@ -269,7 +269,7 @@ class Storage implements IStorage {
 
 		if ($this->view->file_exists($path)) {
 			if (isset($this->keyCache[$path])) {
-				$key =  $this->keyCache[$path];
+				$key = $this->keyCache[$path];
 			} else {
 				$data = $this->view->file_get_contents($path);
 

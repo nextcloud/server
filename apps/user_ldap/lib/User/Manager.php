@@ -103,17 +103,17 @@ class Manager {
 								IDBConnection $db, IUserManager $userManager,
 								INotificationManager $notificationManager,
 	                                                        IAccountManager $accountManager) {
-		$this->ocConfig            = $ocConfig;
-		$this->ocFilesystem        = $ocFilesystem;
-		$this->ocLog               = $ocLog;
-		$this->avatarManager       = $avatarManager;
-		$this->image               = $image;
-		$this->db                  = $db;
-		$this->userManager         = $userManager;
+		$this->ocConfig = $ocConfig;
+		$this->ocFilesystem = $ocFilesystem;
+		$this->ocLog = $ocLog;
+		$this->avatarManager = $avatarManager;
+		$this->image = $image;
+		$this->db = $db;
+		$this->userManager = $userManager;
+		$this->accountManager = $accountManager;
 		$this->notificationManager = $notificationManager;
-		$this->accountManager      = $accountManager;
-		$this->usersByDN           = new CappedMemoryCache();
-		$this->usersByUid          = new CappedMemoryCache();
+		$this->usersByDN = new CappedMemoryCache();
+		$this->usersByUid = new CappedMemoryCache();
 	}
 
 	/**
@@ -138,7 +138,7 @@ class Manager {
 			$this->ocFilesystem, clone $this->image, $this->ocLog,
 			$this->avatarManager, $this->userManager,
 			$this->notificationManager, $this->accountManager);
-		$this->usersByDN[$dn]   = $user;
+		$this->usersByDN[$dn] = $user;
 		$this->usersByUid[$uid] = $user;
 		return $user;
 	}

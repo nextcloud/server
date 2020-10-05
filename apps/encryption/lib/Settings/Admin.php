@@ -99,10 +99,10 @@ class Admin implements ISettings {
 		$encryptHomeStorage = $util->shouldEncryptHomeStorage();
 
 		$parameters = [
-			'recoveryEnabled'    => $recoveryAdminEnabled,
-			'initStatus'         => $session->getStatus(),
+			'recoveryEnabled' => $recoveryAdminEnabled,
+			'initStatus' => $session->getStatus(),
 			'encryptHomeStorage' => $encryptHomeStorage,
-			'masterKeyEnabled'   => $util->isMasterKeyEnabled(),
+			'masterKeyEnabled' => $util->isMasterKeyEnabled(),
 		];
 
 		return new TemplateResponse('encryption', 'settings-admin', $parameters, '');

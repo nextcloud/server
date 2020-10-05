@@ -62,7 +62,7 @@ class UserStatusWidgetTest extends TestCase {
 		$this->initialState = $this->createMock(IInitialStateService::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->userSession = $this->createMock(IUserSession::class);
-		$this->service  = $this->createMock(StatusService::class);
+		$this->service = $this->createMock(StatusService::class);
 
 		$this->widget = new UserStatusWidget($this->l10n, $this->initialState, $this->userManager, $this->userSession, $this->service);
 	}

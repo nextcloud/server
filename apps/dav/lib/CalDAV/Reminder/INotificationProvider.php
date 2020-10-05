@@ -47,5 +47,5 @@ interface INotificationProvider {
 	 */
 	public function send(VEvent $vevent,
 						 string $calendarDisplayName,
-						 array $users=[]): void;
+						 array $users = []): void;
 }

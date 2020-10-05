@@ -200,7 +200,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			$group = $this->groupManager->get($row['gid']);
 			if (!is_null($user) && !is_null($group)) {
 				$subadmins[] = [
-					'user'  => $user,
+					'user' => $user,
 					'group' => $group
 				];
 			}
@@ -228,7 +228,7 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->execute();
 
-		$fetch =  $result->fetch();
+		$fetch = $result->fetch();
 		$result->closeCursor();
 		$result = !empty($fetch) ? true : false;
 

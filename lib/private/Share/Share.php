@@ -355,13 +355,13 @@ class Share extends Constants {
 
 		// Pass all the vars we have for now, they may be useful
 		$hookParams = [
-			'id'            => $item['id'],
-			'itemType'      => $item['item_type'],
-			'itemSource'    => $item['item_source'],
-			'shareType'     => $shareType,
-			'shareWith'     => $shareWith,
-			'itemParent'    => $item['parent'],
-			'uidOwner'      => $item['uid_owner'],
+			'id' => $item['id'],
+			'itemType' => $item['item_type'],
+			'itemSource' => $item['item_source'],
+			'shareType' => $shareType,
+			'shareWith' => $shareWith,
+			'itemParent' => $item['parent'],
+			'uidOwner' => $item['uid_owner'],
 		];
 		if ($item['item_type'] === 'file' || $item['item_type'] === 'folder') {
 			$hookParams['fileSource'] = $item['file_source'];
@@ -474,7 +474,7 @@ class Share extends Constants {
 	 */
 	public static function getItems($itemType, $item = null, $shareType = null, $shareWith = null,
 									$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
-									$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate  = true) {
+									$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate = true) {
 		if (\OC::$server->getConfig()->getAppValue('core', 'shareapi_enabled', 'yes') != 'yes') {
 			return [];
 		}

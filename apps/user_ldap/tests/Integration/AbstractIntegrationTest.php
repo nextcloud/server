@@ -65,8 +65,8 @@ abstract class AbstractIntegrationTest {
 		$this->server = [
 			'host' => $host,
 			'port' => $port,
-			'dn'   => $bind,
-			'pwd'  => $pwd
+			'dn' => $bind,
+			'pwd' => $pwd
 		];
 	}
 

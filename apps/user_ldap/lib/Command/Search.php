@@ -96,7 +96,7 @@ class Search extends Command {
 		if ($limit < 0) {
 			throw new \InvalidArgumentException('limit must be  0 or greater');
 		}
-		if ($offset  < 0) {
+		if ($offset < 0) {
 			throw new \InvalidArgumentException('offset must be 0 or greater');
 		}
 		if ($limit === 0 && $offset !== 0) {
