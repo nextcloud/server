@@ -335,19 +335,21 @@ class UsersController extends AUserData {
 			}
 
 			// Send new user mail only if a mail is set
-			if ($email !== '' && $this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
+			if ($email !== '') {
 				$newUser->setEMailAddress($email);
-				try {
-					$emailTemplate = $this->newUserMailHelper->generateTemplate($newUser, $generatePasswordResetToken);
-					$this->newUserMailHelper->sendMail($newUser, $emailTemplate);
-				} catch (\Exception $e) {
-					// Mail could be failing hard or just be plain not configured
-					// Logging error as it is the hardest of the two
-					$this->logger->logException($e, [
-						'message' => "Unable to send the invitation mail to $email",
-						'level' => ILogger::ERROR,
-						'app' => 'ocs_api',
-					]);
+				if ($this->config->getAppValue('core', 'newUser.sendEmail', 'yes') === 'yes') {
+					try {
+						$emailTemplate = $this->newUserMailHelper->generateTemplate($newUser, $generatePasswordResetToken);
+						$this->newUserMailHelper->sendMail($newUser, $emailTemplate);
+					} catch (\Exception $e) {
+						// Mail could be failing hard or just be plain not configured
+						// Logging error as it is the hardest of the two
+						$this->logger->logException($e, [
+							'message' => "Unable to send the invitation mail to $email",
+							'level' => ILogger::ERROR,
+							'app' => 'ocs_api',
+						]);
+					}
 				}
 			}
 
