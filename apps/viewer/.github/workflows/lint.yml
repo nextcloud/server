@@ -57,7 +57,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: ['12.x']
 
     name: eslint node${{ matrix.node-version }}
     steps:
@@ -79,7 +79,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: ['12.x']
 
     name: stylelint node${{ matrix.node-version }}
     steps:

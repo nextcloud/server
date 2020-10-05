@@ -19,12 +19,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # run 4 copies of the current job in parallel
+        # run multiple copies of the current job in parallel
         containers: [1, 2, 3, 4, 5]
-        node-version: ['12']
+        node-version: ['12.x']
         php-versions: ['7.4']
 
-    name: Runner ${{ matrix.containers }}
+    name: runner ${{ matrix.containers }}
 
     steps:
       - name: Checkout app
