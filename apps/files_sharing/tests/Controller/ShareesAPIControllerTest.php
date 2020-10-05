@@ -276,7 +276,7 @@ class ShareesAPIControllerTest extends TestCase {
 
 		$this->collaboratorSearch->expects($this->once())
 			->method('search')
-			->with($search, $expectedShareTypes, $this->anything(), $perPage, $perPage * ($page -1))
+			->with($search, $expectedShareTypes, $this->anything(), $perPage, $perPage * ($page - 1))
 			->willReturn([[], false]);
 
 		$sharees->expects($this->any())

@@ -44,7 +44,7 @@ class OC_API {
 	 * @param \OC\OCS\Result $result
 	 * @param string $format the format xml|json
 	 */
-	public static function respond($result, $format='xml') {
+	public static function respond($result, $format = 'xml') {
 		$request = \OC::$server->getRequest();
 
 		// Send 401 headers if unauthorised

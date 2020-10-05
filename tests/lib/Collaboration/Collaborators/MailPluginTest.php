@@ -614,7 +614,7 @@ class MailPluginTest extends TestCase {
 						'UID' => 'User'
 					]
 				],
-				['emails'=> [], 'exact' => ['emails' => []]],
+				['emails' => [], 'exact' => ['emails' => []]],
 				false,
 				false,
 				[

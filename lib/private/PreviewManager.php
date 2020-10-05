@@ -369,14 +369,14 @@ class PreviewManager implements IPreview {
 			$checkImagick = new \Imagick();
 
 			$imagickProviders = [
-				'SVG'	=> ['mimetype' => '/image\/svg\+xml/', 'class' => Preview\SVG::class],
-				'TIFF'	=> ['mimetype' => '/image\/tiff/', 'class' => Preview\TIFF::class],
-				'PDF'	=> ['mimetype' => '/application\/pdf/', 'class' => Preview\PDF::class],
-				'AI'	=> ['mimetype' => '/application\/illustrator/', 'class' => Preview\Illustrator::class],
-				'PSD'	=> ['mimetype' => '/application\/x-photoshop/', 'class' => Preview\Photoshop::class],
-				'EPS'	=> ['mimetype' => '/application\/postscript/', 'class' => Preview\Postscript::class],
-				'TTF'	=> ['mimetype' => '/application\/(?:font-sfnt|x-font$)/', 'class' => Preview\Font::class],
-				'HEIC'  => ['mimetype' => '/image\/hei(f|c)/', 'class' => Preview\HEIC::class],
+				'SVG' => ['mimetype' => '/image\/svg\+xml/', 'class' => Preview\SVG::class],
+				'TIFF' => ['mimetype' => '/image\/tiff/', 'class' => Preview\TIFF::class],
+				'PDF' => ['mimetype' => '/application\/pdf/', 'class' => Preview\PDF::class],
+				'AI' => ['mimetype' => '/application\/illustrator/', 'class' => Preview\Illustrator::class],
+				'PSD' => ['mimetype' => '/application\/x-photoshop/', 'class' => Preview\Photoshop::class],
+				'EPS' => ['mimetype' => '/application\/postscript/', 'class' => Preview\Postscript::class],
+				'TTF' => ['mimetype' => '/application\/(?:font-sfnt|x-font$)/', 'class' => Preview\Font::class],
+				'HEIC' => ['mimetype' => '/image\/hei(f|c)/', 'class' => Preview\HEIC::class],
 			];
 
 			foreach ($imagickProviders as $queryFormat => $provider) {

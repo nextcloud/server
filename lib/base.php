@@ -530,7 +530,7 @@ class OC {
 		if (count($_COOKIE) > 0) {
 			$requestUri = $request->getScriptName();
 			$processingScript = explode('/', $requestUri);
-			$processingScript = $processingScript[count($processingScript)-1];
+			$processingScript = $processingScript[count($processingScript) - 1];
 
 			// index.php routes are handled in the middleware
 			if ($processingScript === 'index.php') {

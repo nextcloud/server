@@ -47,7 +47,7 @@ abstract class Archive {
 	 * @param string $source either a local file or string data
 	 * @return bool
 	 */
-	abstract public function addFile($path, $source='');
+	abstract public function addFile($path, $source = '');
 	/**
 	 * rename a file or folder in the archive
 	 * @param string $source

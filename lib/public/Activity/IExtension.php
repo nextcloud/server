@@ -36,9 +36,9 @@ interface IExtension {
 	public const METHOD_MAIL = 'email';
 	public const METHOD_NOTIFICATION = 'notification';
 
-	public const PRIORITY_VERYLOW 	= 10;
-	public const PRIORITY_LOW	= 20;
-	public const PRIORITY_MEDIUM	= 30;
-	public const PRIORITY_HIGH	= 40;
-	public const PRIORITY_VERYHIGH	= 50;
+	public const PRIORITY_VERYLOW = 10;
+	public const PRIORITY_LOW = 20;
+	public const PRIORITY_MEDIUM = 30;
+	public const PRIORITY_HIGH = 40;
+	public const PRIORITY_VERYHIGH = 50;
 }

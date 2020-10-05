@@ -60,7 +60,7 @@ class BadRequestException extends HintException {
 	public function getReturnMessage() {
 		$result = [
 			'message' => 'RESOURCE_NOT_FOUND',
-			'validationErrors' =>[
+			'validationErrors' => [
 			]
 		];
 

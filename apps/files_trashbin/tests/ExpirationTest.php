@@ -34,14 +34,14 @@ class ExpirationTest extends \Test\TestCase {
 	public const FAKE_TIME_NOW = 1000000;
 
 	public function expirationData() {
-		$today = 100*self::SECONDS_PER_DAY;
-		$back10Days = (100-10)*self::SECONDS_PER_DAY;
-		$back20Days = (100-20)*self::SECONDS_PER_DAY;
-		$back30Days = (100-30)*self::SECONDS_PER_DAY;
-		$back35Days = (100-35)*self::SECONDS_PER_DAY;
+		$today = 100 * self::SECONDS_PER_DAY;
+		$back10Days = (100 - 10) * self::SECONDS_PER_DAY;
+		$back20Days = (100 - 20) * self::SECONDS_PER_DAY;
+		$back30Days = (100 - 30) * self::SECONDS_PER_DAY;
+		$back35Days = (100 - 35) * self::SECONDS_PER_DAY;
 
 		// it should never happen, but who knows :/
-		$ahead100Days = (100+100)*self::SECONDS_PER_DAY;
+		$ahead100Days = (100 + 100) * self::SECONDS_PER_DAY;
 
 		return [
 			// Expiration is disabled - always should return false
@@ -158,10 +158,10 @@ class ExpirationTest extends \Test\TestCase {
 			[ 'auto', false ],
 			[ 'auto,auto', false ],
 			[ 'auto, auto', false ],
-			[ 'auto, 3',  self::FAKE_TIME_NOW - (3*self::SECONDS_PER_DAY) ],
+			[ 'auto, 3',  self::FAKE_TIME_NOW - (3 * self::SECONDS_PER_DAY) ],
 			[ '5, auto', false ],
-			[ '3, 5', self::FAKE_TIME_NOW - (5*self::SECONDS_PER_DAY) ],
-			[ '10, 3', self::FAKE_TIME_NOW - (10*self::SECONDS_PER_DAY) ],
+			[ '3, 5', self::FAKE_TIME_NOW - (5 * self::SECONDS_PER_DAY) ],
+			[ '10, 3', self::FAKE_TIME_NOW - (10 * self::SECONDS_PER_DAY) ],
 		];
 	}
 

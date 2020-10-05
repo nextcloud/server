@@ -196,12 +196,12 @@ class OfflineUser {
 	 */
 	protected function fetchDetails() {
 		$properties = [
-			'displayName'  => 'user_ldap',
-			'uid'          => 'user_ldap',
-			'homePath'     => 'user_ldap',
+			'displayName' => 'user_ldap',
+			'uid' => 'user_ldap',
+			'homePath' => 'user_ldap',
 			'foundDeleted' => 'user_ldap',
-			'email'        => 'settings',
-			'lastLogin'    => 'login',
+			'email' => 'settings',
+			'lastLogin' => 'login',
 		];
 		foreach ($properties as $property => $app) {
 			$this->$property = $this->config->getUserValue($this->ocName, $app, $property, '');

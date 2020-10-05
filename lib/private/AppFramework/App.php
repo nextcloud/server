@@ -60,7 +60,7 @@ class App {
 	 * the transformed app id, defaults to OCA\
 	 * @return string the starting namespace for the app
 	 */
-	public static function buildAppNamespace(string $appId, string $topNamespace='OCA\\'): string {
+	public static function buildAppNamespace(string $appId, string $topNamespace = 'OCA\\'): string {
 		// Hit the cache!
 		if (isset(self::$nameSpaceCache[$appId])) {
 			return $topNamespace . self::$nameSpaceCache[$appId];
@@ -88,7 +88,7 @@ class App {
 		return $topNamespace . self::$nameSpaceCache[$appId];
 	}
 
-	public static function getAppIdForClass(string $className, string $topNamespace='OCA\\'): ?string {
+	public static function getAppIdForClass(string $className, string $topNamespace = 'OCA\\'): ?string {
 		if (strpos($className, $topNamespace) !== 0) {
 			return null;
 		}
@@ -223,7 +223,7 @@ class App {
 
 		$dispatcher = $container['Dispatcher'];
 
-		list(, , $output) =  $dispatcher->dispatch($controller, $methodName);
+		list(, , $output) = $dispatcher->dispatch($controller, $methodName);
 		return $output;
 	}
 }

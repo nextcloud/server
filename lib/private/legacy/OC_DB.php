@@ -68,7 +68,7 @@ class OC_DB {
 
 		// return the result
 		try {
-			$result =$connection->prepare($query, $limit, $offset);
+			$result = $connection->prepare($query, $limit, $offset);
 		} catch (\Doctrine\DBAL\DBALException $e) {
 			throw new \OC\DatabaseException($e->getMessage());
 		}

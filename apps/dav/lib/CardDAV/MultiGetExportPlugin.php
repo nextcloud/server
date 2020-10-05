@@ -70,7 +70,7 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 
 		// Get the xml response
 		$responseBody = $response->getBodyAsString();
-		$responseXml  = $this->server->xml->parse($responseBody);
+		$responseXml = $this->server->xml->parse($responseBody);
 
 		// Reduce the vcards into one string
 		$output = array_reduce($responseXml->getResponses(), function ($vcf, $card) {
@@ -114,7 +114,7 @@ class MultiGetExportPlugin extends DAV\ServerPlugin {
 	 */
 	public function getPluginInfo() {
 		return [
-			'name'        => $this->getPluginName(),
+			'name' => $this->getPluginName(),
 			'description' => 'Intercept a multi-get request and return a single vcf file instead.'
 		];
 	}

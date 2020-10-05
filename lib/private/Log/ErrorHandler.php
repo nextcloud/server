@@ -41,7 +41,7 @@ class ErrorHandler {
 		return preg_replace('/\/\/(.*):(.*)@/', '//xxx:xxx@', $msg);
 	}
 
-	public static function register($debug=false) {
+	public static function register($debug = false) {
 		$handler = new ErrorHandler();
 
 		if ($debug) {

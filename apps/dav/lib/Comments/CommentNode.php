@@ -256,7 +256,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 		$result[self::PROPERTY_NAME_MENTIONS] = $this->composeMentionsPropertyValue();
 
 		$unread = null;
-		$user =  $this->userSession->getUser();
+		$user = $this->userSession->getUser();
 		if (!is_null($user)) {
 			$readUntil = $this->commentsManager->getReadMark(
 				$this->comment->getObjectType(),
@@ -295,8 +295,8 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 
 			return [
 				self::PROPERTY_NAME_MENTION => [
-					self::PROPERTY_NAME_MENTION_TYPE        => $mention['type'],
-					self::PROPERTY_NAME_MENTION_ID          => $mention['id'],
+					self::PROPERTY_NAME_MENTION_TYPE => $mention['type'],
+					self::PROPERTY_NAME_MENTION_ID => $mention['id'],
 					self::PROPERTY_NAME_MENTION_DISPLAYNAME => $displayName,
 				]
 			];

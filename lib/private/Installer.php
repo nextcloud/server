@@ -173,10 +173,10 @@ class Installer {
 		\OC::$server->getConfig()->setAppValue($info['id'], 'enabled', 'no');
 
 		//set remote/public handlers
-		foreach ($info['remote'] as $name=>$path) {
+		foreach ($info['remote'] as $name => $path) {
 			\OC::$server->getConfig()->setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
 		}
-		foreach ($info['public'] as $name=>$path) {
+		foreach ($info['public'] as $name => $path) {
 			\OC::$server->getConfig()->setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
 		}
 
@@ -455,7 +455,7 @@ class Installer {
 	 */
 	public function isDownloaded($name) {
 		foreach (\OC::$APPSROOTS as $dir) {
-			$dirToTest  = $dir['path'];
+			$dirToTest = $dir['path'];
 			$dirToTest .= '/';
 			$dirToTest .= $name;
 			$dirToTest .= '/';
@@ -535,7 +535,7 @@ class Installer {
 					if ($filename[0] !== '.' and is_dir($app_dir['path']."/$filename")) {
 						if (file_exists($app_dir['path']."/$filename/appinfo/info.xml")) {
 							if ($config->getAppValue($filename, "installed_version", null) === null) {
-								$info=OC_App::getAppInfo($filename);
+								$info = OC_App::getAppInfo($filename);
 								$enabled = isset($info['default_enable']);
 								if (($enabled || in_array($filename, $appManager->getAlwaysEnabledApps()))
 									  && $config->getAppValue($filename, 'enabled') !== 'no') {
@@ -609,10 +609,10 @@ class Installer {
 		}
 
 		//set remote/public handlers
-		foreach ($info['remote'] as $name=>$path) {
+		foreach ($info['remote'] as $name => $path) {
 			$config->setAppValue('core', 'remote_'.$name, $app.'/'.$path);
 		}
-		foreach ($info['public'] as $name=>$path) {
+		foreach ($info['public'] as $name => $path) {
 			$config->setAppValue('core', 'public_'.$name, $app.'/'.$path);
 		}
 

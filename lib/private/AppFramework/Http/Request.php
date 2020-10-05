@@ -136,7 +136,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $stream
 	 * @see http://www.php.net/manual/en/reserved.variables.php
 	 */
-	public function __construct(array $vars= [],
+	public function __construct(array $vars = [],
 								ISecureRandom $secureRandom = null,
 								IConfig $config,
 								CsrfTokenManager $csrfTokenManager = null,
@@ -827,7 +827,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 */
 	public function getScriptName(): string {
 		$name = $this->server['SCRIPT_NAME'];
-		$overwriteWebRoot =  $this->config->getSystemValue('overwritewebroot');
+		$overwriteWebRoot = $this->config->getSystemValue('overwritewebroot');
 		if ($overwriteWebRoot !== '' && $this->isOverwriteCondition()) {
 			// FIXME: This code is untestable due to __DIR__, also that hardcoded path is really dangerous
 			$serverRoot = str_replace('\\', '/', substr(__DIR__, 0, -\strlen('lib/private/appframework/http/')));

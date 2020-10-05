@@ -66,7 +66,7 @@ class Util {
 	 */
 	public function invertTextColor($color) {
 		$l = $this->calculateLuma($color);
-		if ($l>0.6) {
+		if ($l > 0.6) {
 			return true;
 		} else {
 			return false;
@@ -104,7 +104,7 @@ class Util {
 		list($red, $green, $blue) = $this->hexToRGB($color);
 		$compiler = new Compiler();
 		$hsl = $compiler->toHSL($red, $green, $blue);
-		return $hsl[3]/100;
+		return $hsl[3] / 100;
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Util {
 	 */
 	public function calculateLuma($color) {
 		list($red, $green, $blue) = $this->hexToRGB($color);
-		return (0.2126 * $red  + 0.7152 * $green + 0.0722 * $blue) / 255;
+		return (0.2126 * $red + 0.7152 * $green + 0.0722 * $blue) / 255;
 	}
 
 	/**

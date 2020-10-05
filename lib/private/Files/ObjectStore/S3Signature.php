@@ -129,7 +129,7 @@ class S3Signature implements SignatureInterface {
 	) {
 		$modify = [
 			'remove_headers' => ['X-Amz-Date'],
-			'set_headers'    => ['Date' => gmdate(\DateTime::RFC2822)]
+			'set_headers' => ['Date' => gmdate(\DateTime::RFC2822)]
 		];
 
 		// Add the security token header if one is being used by the credentials

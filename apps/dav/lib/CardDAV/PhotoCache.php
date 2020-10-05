@@ -240,7 +240,7 @@ class PhotoCache {
 
 			return [
 				'Content-Type' => $type,
-				'body'         => $val
+				'body' => $val
 			];
 		} catch (\Exception $e) {
 			$this->logger->logException($e, [

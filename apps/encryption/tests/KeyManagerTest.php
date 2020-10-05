@@ -237,7 +237,7 @@ class KeyManagerTest extends TestCase {
 		$this->keyStorageMock->expects($this->exactly(2))
 			->method('getUserKey')
 			->willReturnCallback(function ($uid, $keyID, $encryptionModuleId) {
-				if ($keyID=== 'privateKey') {
+				if ($keyID === 'privateKey') {
 					return '';
 				}
 				return 'key';

@@ -516,7 +516,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	public function testFileTooBig() {
 		$fileName = \OC::$SERVERROOT.'/tests/data/testimage.jpg';
 		//Create request return
-		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => [21*1024*1024]];
+		$reqRet = ['error' => [0], 'tmp_name' => [$fileName], 'size' => [21 * 1024 * 1024]];
 		$this->request->method('getUploadedFile')->willReturn($reqRet);
 
 		$response = $this->avatarController->postAvatar(null);

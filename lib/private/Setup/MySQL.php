@@ -57,7 +57,7 @@ class MySQL extends AbstractDatabase {
 		$this->createDatabase($connection);
 
 		//fill the database if needed
-		$query='select count(*) from information_schema.tables where table_schema=? AND table_name = ?';
+		$query = 'select count(*) from information_schema.tables where table_schema=? AND table_name = ?';
 		$connection->executeQuery($query, [$this->dbName, $this->tablePrefix.'users']);
 
 		$connection->close();
@@ -93,7 +93,7 @@ class MySQL extends AbstractDatabase {
 
 		try {
 			//this query will fail if there aren't the right permissions, ignore the error
-			$query="GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `$name` . * TO '$user'";
+			$query = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, ALTER, CREATE TEMPORARY TABLES, LOCK TABLES, EXECUTE, CREATE VIEW, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EVENT, TRIGGER ON `$name` . * TO '$user'";
 			$connection->executeUpdate($query);
 		} catch (\Exception $ex) {
 			$this->logger->logException($ex, [
@@ -165,7 +165,7 @@ class MySQL extends AbstractDatabase {
 							$this->dbUser = $adminUser;
 
 							//create a random password so we don't need to store the admin password in the config file
-							$this->dbPassword =  $this->random->generate(30);
+							$this->dbPassword = $this->random->generate(30);
 
 							$this->createDBUser($connection);
 

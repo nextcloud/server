@@ -312,14 +312,14 @@ class UsersController extends Controller {
 	protected function canAdminChangeUserPasswords() {
 		$isEncryptionEnabled = $this->encryptionManager->isEnabled();
 		try {
-			$noUserSpecificEncryptionKeys =!$this->encryptionManager->getEncryptionModule()->needDetailedAccessList();
+			$noUserSpecificEncryptionKeys = !$this->encryptionManager->getEncryptionModule()->needDetailedAccessList();
 			$isEncryptionModuleLoaded = true;
 		} catch (ModuleDoesNotExistsException $e) {
 			$noUserSpecificEncryptionKeys = true;
 			$isEncryptionModuleLoaded = false;
 		}
 
-		$canChangePassword = ($isEncryptionEnabled && $isEncryptionModuleLoaded  && $noUserSpecificEncryptionKeys)
+		$canChangePassword = ($isEncryptionEnabled && $isEncryptionModuleLoaded && $noUserSpecificEncryptionKeys)
 			|| (!$isEncryptionEnabled && !$isEncryptionModuleLoaded)
 			|| (!$isEncryptionEnabled && $isEncryptionModuleLoaded && $noUserSpecificEncryptionKeys);
 

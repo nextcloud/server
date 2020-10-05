@@ -55,8 +55,8 @@ class Wizard extends LDAPUtility {
 	public const LRESULT_PROCESSED_INVALID = 3;
 	public const LRESULT_PROCESSED_SKIP = 4;
 
-	public const LFILTER_LOGIN      = 2;
-	public const LFILTER_USER_LIST  = 3;
+	public const LFILTER_LOGIN = 2;
+	public const LFILTER_USER_LIST = 3;
 	public const LFILTER_GROUP_LIST = 4;
 
 	public const LFILTER_MODE_ASSISTED = 2;
@@ -106,7 +106,7 @@ class Wizard extends LDAPUtility {
 		$attr = ['dn']; // default
 		$limit = 1001;
 		if ($type === 'groups') {
-			$result =  $this->access->countGroups($filter, $attr, $limit);
+			$result = $this->access->countGroups($filter, $attr, $limit);
 		} elseif ($type === 'users') {
 			$result = $this->access->countUsers($filter, $attr, $limit);
 		} elseif ($type === 'objects') {
@@ -847,7 +847,7 @@ class Wizard extends LDAPUtility {
 		//get a result set > 0 on a proper base
 		$rr = $this->ldap->search($cr, $base, 'objectClass=*', ['dn'], 0, 1);
 		if (!$this->ldap->isResource($rr)) {
-			$errorNo  = $this->ldap->errno($cr);
+			$errorNo = $this->ldap->errno($cr);
 			$errorMsg = $this->ldap->error($cr);
 			\OCP\Util::writeLog('user_ldap', 'Wiz: Could not search base '.$base.
 							' Error '.$errorNo.': '.$errorMsg, ILogger::INFO);
@@ -872,7 +872,7 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Could not connect to LDAP');
 		}
 		$result = $this->access->countUsers('memberOf=*', ['memberOf'], 1);
-		if (is_int($result) &&  $result > 0) {
+		if (is_int($result) && $result > 0) {
 			return true;
 		}
 		return false;
@@ -1102,7 +1102,7 @@ class Wizard extends LDAPUtility {
 
 		return
 			($agent !== '' && $pwd !== '')
-			||  ($agent === '' && $pwd === '')
+			|| ($agent === '' && $pwd === '')
 		;
 	}
 
@@ -1146,8 +1146,8 @@ class Wizard extends LDAPUtility {
 			return false;
 		}
 		$lastFilter = null;
-		if (isset($filters[count($filters)-1])) {
-			$lastFilter = $filters[count($filters)-1];
+		if (isset($filters[count($filters) - 1])) {
+			$lastFilter = $filters[count($filters) - 1];
 		}
 		foreach ($filters as $filter) {
 			if ($lastFilter === $filter && count($foundItems) > 0) {
@@ -1320,11 +1320,11 @@ class Wizard extends LDAPUtility {
 	private function getDefaultLdapPortSettings() {
 		static $settings = [
 			['port' => 7636, 'tls' => false],
-			['port' =>  636, 'tls' => false],
+			['port' => 636, 'tls' => false],
 			['port' => 7389, 'tls' => true],
-			['port' =>  389, 'tls' => true],
+			['port' => 389, 'tls' => true],
 			['port' => 7389, 'tls' => false],
-			['port' =>  389, 'tls' => false],
+			['port' => 389, 'tls' => false],
 		];
 		return $settings;
 	}
@@ -1348,7 +1348,7 @@ class Wizard extends LDAPUtility {
 				&& stripos($hostInfo['scheme'], 'ldaps') !== false)) {
 				$portSettings[] = ['port' => $port, 'tls' => true];
 			}
-			$portSettings[] =['port' => $port, 'tls' => false];
+			$portSettings[] = ['port' => $port, 'tls' => false];
 		}
 
 		//default ports

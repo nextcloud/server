@@ -103,7 +103,7 @@ class Adapter {
 		}
 		$query = 'INSERT INTO `' .$table . '` (`'
 			. implode('`,`', array_keys($input)) . '`) SELECT '
-			. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
+			. str_repeat('?,', count($input) - 1).'? ' // Is there a prettier alternative?
 			. 'FROM `' . $table . '` WHERE ';
 
 		$inserts = array_values($input);

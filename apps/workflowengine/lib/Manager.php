@@ -158,7 +158,7 @@ class Manager implements IManager {
 			$eventNames = \json_decode($row['events']);
 
 			$operation = $row['class'];
-			$entity =  $row['entity'];
+			$entity = $row['entity'];
 
 			$operations[$operation] = $operations[$row['class']] ?? [];
 			$operations[$operation][$entity] = $operations[$operation][$entity] ?? [];

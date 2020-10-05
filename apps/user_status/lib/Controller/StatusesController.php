@@ -60,7 +60,7 @@ class StatusesController extends OCSController {
 	 * @param int|null $offset
 	 * @return DataResponse
 	 */
-	public function findAll(?int $limit=null, ?int $offset=null): DataResponse {
+	public function findAll(?int $limit = null, ?int $offset = null): DataResponse {
 		$allStatuses = $this->service->findAll($limit, $offset);
 
 		return new DataResponse(array_map(function ($userStatus) {

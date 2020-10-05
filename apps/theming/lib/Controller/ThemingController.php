@@ -382,8 +382,8 @@ class ThemingController extends Controller {
 					[
 						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getTouchIcon',
 								['app' => $app]) . '?v=' . $cacheBusterValue,
-						'type'=> 'image/png',
-						'sizes'=> '128x128'
+						'type' => 'image/png',
+						'sizes' => '128x128'
 					],
 					[
 						'src' => $this->urlGenerator->linkToRoute('theming.Icon.getFavicon',

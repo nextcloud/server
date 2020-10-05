@@ -107,7 +107,7 @@ class User {
 	/**
 	 * DB config keys for user preferences
 	 */
-	public const USER_PREFKEY_FIRSTLOGIN  = 'firstLoginAccomplished';
+	public const USER_PREFKEY_FIRSTLOGIN = 'firstLoginAccomplished';
 
 	/**
 	 * @brief constructor, make sure the subclasses call this one!
@@ -134,16 +134,16 @@ class User {
 			throw new \InvalidArgumentException('uid must not be an empty string!');
 		}
 
-		$this->access              = $access;
-		$this->connection          = $access->getConnection();
-		$this->config              = $config;
-		$this->fs                  = $fs;
-		$this->dn                  = $dn;
-		$this->uid                 = $username;
-		$this->image               = $image;
-		$this->log                 = $log;
-		$this->avatarManager       = $avatarManager;
-		$this->userManager         = $userManager;
+		$this->access = $access;
+		$this->connection = $access->getConnection();
+		$this->config = $config;
+		$this->fs = $fs;
+		$this->dn = $dn;
+		$this->uid = $username;
+		$this->image = $image;
+		$this->log = $log;
+		$this->avatarManager = $avatarManager;
+		$this->userManager = $userManager;
 		$this->notificationManager = $notificationManager;
 
 		\OCP\Util::connectHook('OC_User', 'post_login', $this, 'handlePasswordExpiry');

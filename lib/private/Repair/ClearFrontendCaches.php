@@ -46,8 +46,8 @@ class ClearFrontendCaches implements IRepairStep {
 								SCSSCacher $SCSSCacher,
 								JSCombiner $JSCombiner) {
 		$this->cacheFactory = $cacheFactory;
-		$this->scssCacher   = $SCSSCacher;
-		$this->jsCombiner   = $JSCombiner;
+		$this->scssCacher = $SCSSCacher;
+		$this->jsCombiner = $JSCombiner;
 	}
 
 	public function getName() {

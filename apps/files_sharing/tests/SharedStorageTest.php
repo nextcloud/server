@@ -107,7 +107,7 @@ class SharedStorageTest extends TestCase {
 
 		// delete the local folder
 		/** @var \OC\Files\Storage\Storage $storage */
-		list($storage, $internalPath)  = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/localfolder');
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/localfolder');
 		$storage->rmdir($internalPath);
 
 		//enforce reload of the mount points

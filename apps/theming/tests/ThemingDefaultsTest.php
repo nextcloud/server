@@ -644,8 +644,8 @@ class ThemingDefaultsTest extends TestCase {
 			->method('createDistributed')
 			->with('theming-')
 			->willReturn($this->cache);
-		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(['foo'=>'bar']);
-		$this->assertEquals(['foo'=>'bar'], $this->template->getScssVariables());
+		$this->cache->expects($this->once())->method('get')->with('getScssVariables')->willReturn(['foo' => 'bar']);
+		$this->assertEquals(['foo' => 'bar'], $this->template->getScssVariables());
 	}
 
 	public function testGetScssVariables() {

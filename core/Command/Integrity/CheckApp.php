@@ -72,7 +72,7 @@ class CheckApp extends Base {
 		$path = (string)$input->getOption('path');
 		$result = $this->checker->verifyAppSignature($appid, $path);
 		$this->writeArrayInOutputFormat($input, $output, $result);
-		if (count($result)>0) {
+		if (count($result) > 0) {
 			return 1;
 		}
 		return 0;

@@ -36,7 +36,7 @@ interface IExpressionBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	public const EQ  = ExpressionBuilder::EQ;
+	public const EQ = ExpressionBuilder::EQ;
 	/**
 	 * @since 9.0.0
 	 */
@@ -44,7 +44,7 @@ interface IExpressionBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	public const LT  = ExpressionBuilder::LT;
+	public const LT = ExpressionBuilder::LT;
 	/**
 	 * @since 9.0.0
 	 */
@@ -52,7 +52,7 @@ interface IExpressionBuilder {
 	/**
 	 * @since 9.0.0
 	 */
-	public const GT  = ExpressionBuilder::GT;
+	public const GT = ExpressionBuilder::GT;
 	/**
 	 * @since 9.0.0
 	 */

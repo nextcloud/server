@@ -58,7 +58,7 @@ class SchemaDiffTest extends TestCase {
 		$this->config = \OC::$server->getConfig();
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->manager = new MDB2SchemaManager($this->connection);
-		$this->testPrefix= strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix', 'oc_'), 3));
+		$this->testPrefix = strtolower($this->getUniqueID($this->config->getSystemValue('dbtableprefix', 'oc_'), 3));
 	}
 
 	protected function tearDown(): void {

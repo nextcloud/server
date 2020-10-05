@@ -85,8 +85,8 @@ class CSSResourceLocatorTest extends \Test\TestCase {
 		return new CSSResourceLocator(
 			$this->logger,
 			'theme',
-			['core'=>'map'],
-			['3rd'=>'party'],
+			['core' => 'map'],
+			['3rd' => 'party'],
 			$scssCacher
 		);
 	}

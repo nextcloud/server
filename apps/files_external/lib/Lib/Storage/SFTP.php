@@ -86,7 +86,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		// Register sftp://
 		Stream::register();
 
-		$parsedHost =  $this->splitHost($params['host']);
+		$parsedHost = $this->splitHost($params['host']);
 
 		$this->host = $parsedHost[0];
 		$this->port = $parsedHost[1];
@@ -404,7 +404,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function touch($path, $mtime=null) {
+	public function touch($path, $mtime = null) {
 		try {
 			if (!is_null($mtime)) {
 				return false;

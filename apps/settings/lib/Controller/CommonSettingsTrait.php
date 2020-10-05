@@ -105,10 +105,10 @@ trait CommonSettingsTrait {
 					&& $type === $currentType;
 
 				$templateParameters[] = [
-					'anchor'       => $section->getID(),
+					'anchor' => $section->getID(),
 					'section-name' => $section->getName(),
-					'active'       => $active,
-					'icon'         => $icon,
+					'active' => $active,
+					'icon' => $icon,
 				];
 			}
 		}

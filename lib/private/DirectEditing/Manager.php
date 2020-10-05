@@ -121,7 +121,7 @@ class Manager implements IManager {
 			}
 		}
 		$return = [];
-		$return['templates'] =  $templates;
+		$return['templates'] = $templates;
 		return $return;
 	}
 

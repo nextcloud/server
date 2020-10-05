@@ -1177,8 +1177,8 @@ class FileTest extends TestCase {
 		$storage = new Temporary([]);
 		$storage->file_put_contents('file.txt', 'old content');
 		$noCreateStorage = new PermissionsMask([
-			'storage'=> $storage,
-			'mask' => Constants::PERMISSION_ALL -  Constants::PERMISSION_CREATE
+			'storage' => $storage,
+			'mask' => Constants::PERMISSION_ALL - Constants::PERMISSION_CREATE
 		]);
 
 		$this->registerMount($this->user, $noCreateStorage, '/' . $this->user . '/files/root');

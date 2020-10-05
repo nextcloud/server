@@ -113,19 +113,19 @@ class AccessibilityController extends Controller {
 								IconsCacher $iconsCacher,
 								\OC_Defaults $defaults) {
 		parent::__construct($appName, $request);
-		$this->appName      = $appName;
-		$this->config       = $config;
-		$this->userManager  = $userManager;
-		$this->logger       = $logger;
+		$this->appName = $appName;
+		$this->config = $config;
+		$this->userManager = $userManager;
+		$this->logger = $logger;
 		$this->urlGenerator = $urlGenerator;
-		$this->timeFactory  = $timeFactory;
-		$this->userSession  = $userSession;
-		$this->appManager   = $appManager;
-		$this->iconsCacher  = $iconsCacher;
-		$this->defaults     = $defaults;
+		$this->timeFactory = $timeFactory;
+		$this->userSession = $userSession;
+		$this->appManager = $appManager;
+		$this->iconsCacher = $iconsCacher;
+		$this->defaults = $defaults;
 
 		$this->serverRoot = \OC::$SERVERROOT;
-		$this->appRoot    = $this->appManager->getAppPath($this->appName);
+		$this->appRoot = $this->appManager->getAppPath($this->appName);
 	}
 
 	/**
@@ -136,8 +136,8 @@ class AccessibilityController extends Controller {
 	 * @return DataDisplayResponse
 	 */
 	public function getCss(): DataDisplayResponse {
-		$css        = '';
-		$imports    = '';
+		$css = '';
+		$imports = '';
 		if ($this->userSession->isLoggedIn()) {
 			$userValues = $this->getUserValues();
 		} else {
@@ -182,7 +182,7 @@ class AccessibilityController extends Controller {
 
 		// Rebase all urls
 		$appWebRoot = substr($this->appRoot, strlen($this->serverRoot) - strlen(\OC::$WEBROOT));
-		$css        = $this->rebaseUrls($css, $appWebRoot . '/css');
+		$css = $this->rebaseUrls($css, $appWebRoot . '/css');
 
 		if (in_array('dark', $userValues) && $this->iconsCacher->getCachedList() && $this->iconsCacher->getCachedList()->getSize() > 0) {
 			$iconsCss = $this->invertSvgIconsColor($this->iconsCacher->getCachedList()->getContent());
@@ -215,7 +215,7 @@ class AccessibilityController extends Controller {
 	 */
 	private function getUserValues(): array {
 		$userTheme = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'theme', false);
-		$userFont  = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'font', false);
+		$userFont = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'font', false);
 		$userHighContrast = $this->config->getUserValue($this->userSession->getUser()->getUID(), $this->appName, 'highcontrast', false);
 
 		return [$userTheme, $userHighContrast, $userFont];
@@ -240,7 +240,7 @@ class AccessibilityController extends Controller {
 	 * @return string
 	 */
 	private function rebaseUrls(string $css, string $webDir): string {
-		$re    = '/url\([\'"]([^\/][\.\w?=\/-]*)[\'"]\)/x';
+		$re = '/url\([\'"]([^\/][\.\w?=\/-]*)[\'"]\)/x';
 		$subst = 'url(\'' . $webDir . '/$1\')';
 
 		return preg_replace($re, $subst, $css);

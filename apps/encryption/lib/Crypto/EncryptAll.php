@@ -264,7 +264,7 @@ class EncryptAll {
 	protected function encryptUsersFiles($uid, ProgressBar $progress, $userCount) {
 		$this->setupUserFS($uid);
 		$directories = [];
-		$directories[] =  '/' . $uid . '/files';
+		$directories[] = '/' . $uid . '/files';
 
 		while ($root = array_pop($directories)) {
 			$content = $this->rootView->getDirectoryContent($root);

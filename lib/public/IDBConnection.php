@@ -69,7 +69,7 @@ interface IDBConnection {
 	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
 	 * @since 6.0.0
 	 */
-	public function prepare($sql, $limit=null, $offset=null);
+	public function prepare($sql, $limit = null, $offset = null);
 
 	/**
 	 * Executes an, optionally parameterized, SQL query.

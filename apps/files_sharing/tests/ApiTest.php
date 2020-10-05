@@ -74,7 +74,7 @@ class ApiTest extends TestCase {
 		\OC::$server->getConfig()->setAppValue('core', 'shareapi_expire_after_n_days', '7');
 
 		$this->folder = self::TEST_FOLDER_NAME;
-		$this->subfolder  = '/subfolder_share_api_test';
+		$this->subfolder = '/subfolder_share_api_test';
 		$this->subsubfolder = '/subsubfolder_share_api_test';
 
 		$this->filename = '/share-api-test.txt';
@@ -650,7 +650,7 @@ class ApiTest extends TestCase {
 		$share3->setStatus(IShare::STATUS_ACCEPTED);
 		$this->shareManager->updateShare($share3);
 
-		$testValues=[
+		$testValues = [
 			['query' => $this->folder,
 				'expectedResult' => $this->folder . $this->filename],
 			['query' => $this->folder . $this->subfolder,
