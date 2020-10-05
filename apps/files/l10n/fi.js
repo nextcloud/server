@@ -78,11 +78,7 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "\"/\" ei ole sallittu merkki tiedostonimessä.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" ei ole sallittu tiedostomuoto",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Käyttäjän {owner} tallennustila on täynnä, tiedostoja ei voi enää päivittää tai synkronoida!",
-    "This group folder is full, files can not be updated or synced anymore!" : "Tämä ryhmäkansio on täynnä, tiedostoja ei voi enää päivittää tai synkronoida!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Tämä erillinen tallennustila on täynnä, tiedostoja ei voi enää päivittää tai synkronoida!",
     "Your storage is full, files can not be updated or synced anymore!" : "Tallennustila on loppu, tiedostoja ei voi enää päivittää tai synkronoida!",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Tämä ryhmäkansio on melkein täynnä ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Tämä erillinen tallennustila on melkein täynnä ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Tallennustila on melkein täynnä ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : ["vastaa '{filter}'","vastaa '{filter}'"],
     "View in folder" : "Näe kansiossa",
@@ -194,8 +190,12 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Rajoita luomis- ja muutosilmoitukset <strong>omiin suosikkitiedostoihin</strong> <em>(Vain listaus)</em>",
     "A file or folder has been <strong>restored</strong>" : "Tiedosto tai kansio on <strong>palautettu</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">käyttääksesi tiedostojasi WebDAV:in kautta</a>",
+    "This group folder is full, files can not be updated or synced anymore!" : "Tämä ryhmäkansio on täynnä, tiedostoja ei voi enää päivittää tai synkronoida!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Tämä erillinen tallennustila on täynnä, tiedostoja ei voi enää päivittää tai synkronoida!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Tämä ryhmäkansio on melkein täynnä ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Tämä erillinen tallennustila on melkein täynnä ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista"
+    "Cannot transfter ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
+    "This group folder is almost full ({usedSpacePercent}%)." : "Tämä ryhmäkansio on melkein täynnä ({usedSpacePercent}%).",
+    "This external storage is almost full ({usedSpacePercent}%)." : "Tämä erillinen tallennustila on melkein täynnä ({usedSpacePercent}%)."
 },
 "nplurals=2; plural=(n != 1);");
