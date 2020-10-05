@@ -143,7 +143,7 @@ export default {
 			statuses: {},
 			background,
 			version,
-			defaultBackground: window.OCA.Accessibility.theme === 'dark' ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1'),
+			defaultBackground: window.OCA.Accessibility?.theme === 'dark' ? prefixWithBaseUrl('flickr-148302424@N05-36591009215.jpg?v=1') : prefixWithBaseUrl('flickr-paszczak000-8715851521.jpg?v=1'),
 		}
 	},
 	computed: {
