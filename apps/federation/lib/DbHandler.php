@@ -77,7 +77,7 @@ class DbHandler {
 		$query->insert($this->dbTable)
 			->values(
 				[
-					'url' =>  $query->createParameter('url'),
+					'url' => $query->createParameter('url'),
 					'url_hash' => $query->createParameter('url_hash'),
 				]
 			)

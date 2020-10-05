@@ -232,7 +232,7 @@ class OC_Files {
 	 * @return array $rangeArray ('from'=>int,'to'=>int), ...
 	 */
 	private static function parseHttpRangeHeader($rangeHeaderPos, $fileSize) {
-		$rArray=explode(',', $rangeHeaderPos);
+		$rArray = explode(',', $rangeHeaderPos);
 		$minOffset = 0;
 		$ind = 0;
 
@@ -244,7 +244,7 @@ class OC_Files {
 				if ($ranges[0] < $minOffset) { // case: bytes=500-700,601-999
 					$ranges[0] = $minOffset;
 				}
-				if ($ind > 0 && $rangeArray[$ind-1]['to']+1 == $ranges[0]) { // case: bytes=500-600,601-999
+				if ($ind > 0 && $rangeArray[$ind - 1]['to'] + 1 == $ranges[0]) { // case: bytes=500-600,601-999
 					$ind--;
 					$ranges[0] = $rangeArray[$ind]['from'];
 				}
@@ -253,7 +253,7 @@ class OC_Files {
 			if (is_numeric($ranges[0]) && is_numeric($ranges[1]) && $ranges[0] < $fileSize && $ranges[0] <= $ranges[1]) {
 				// case: x-x
 				if ($ranges[1] >= $fileSize) {
-					$ranges[1] = $fileSize-1;
+					$ranges[1] = $fileSize - 1;
 				}
 				$rangeArray[$ind++] = [ 'from' => $ranges[0], 'to' => $ranges[1], 'size' => $fileSize ];
 				$minOffset = $ranges[1] + 1;
@@ -262,14 +262,14 @@ class OC_Files {
 				}
 			} elseif (is_numeric($ranges[0]) && $ranges[0] < $fileSize) {
 				// case: x-
-				$rangeArray[$ind++] = [ 'from' => $ranges[0], 'to' => $fileSize-1, 'size' => $fileSize ];
+				$rangeArray[$ind++] = [ 'from' => $ranges[0], 'to' => $fileSize - 1, 'size' => $fileSize ];
 				break;
 			} elseif (is_numeric($ranges[1])) {
 				// case: -x
 				if ($ranges[1] > $fileSize) {
 					$ranges[1] = $fileSize;
 				}
-				$rangeArray[$ind++] = [ 'from' => $fileSize-$ranges[1], 'to' => $fileSize-1, 'size' => $fileSize ];
+				$rangeArray[$ind++] = [ 'from' => $fileSize - $ranges[1], 'to' => $fileSize - 1, 'size' => $fileSize ];
 				break;
 			}
 		}

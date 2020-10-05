@@ -41,7 +41,7 @@
 				<span class="crondate" title="<?php p($absolute_time);?>">
 					<?php p($l->t("Last job execution ran %s. Something seems wrong.", [$relative_time]));?>
 				</span>
-			<?php } elseif (time() - $_['cronMaxAge'] > 12*3600) {
+			<?php } elseif (time() - $_['cronMaxAge'] > 12 * 3600) {
 		if ($_['backgroundjobs_mode'] === 'cron') { ?>
 						<span class="status warning"></span>
 						<span class="crondate" title="<?php p($maxAgeAbsoluteTime);?>">

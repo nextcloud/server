@@ -80,7 +80,7 @@ class AjaxControllerTest extends TestCase {
 				'publickey' => 'MyPublicKey',
 			]);
 
-		$expected =  new JSONResponse(
+		$expected = new JSONResponse(
 			[
 				'data' => [
 					'private_key' => 'MyPrivateKey',

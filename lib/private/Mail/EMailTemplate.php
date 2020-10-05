@@ -500,7 +500,7 @@ EOF;
 				$label = ($plainMetaInfo !== false)? $plainMetaInfo : '';
 				$this->plainBody .= sprintf("%${plainIndent}s %s\n",
 					$label,
-					str_replace("\n", "\n" . str_repeat(' ', $plainIndent+1), $plainText));
+					str_replace("\n", "\n" . str_repeat(' ', $plainIndent + 1), $plainText));
 			}
 		}
 	}
@@ -595,7 +595,7 @@ EOF;
 			$this->plainBody .= $plainText . ': ';
 		}
 
-		$this->plainBody .=  $url . PHP_EOL;
+		$this->plainBody .= $url . PHP_EOL;
 	}
 
 	/**

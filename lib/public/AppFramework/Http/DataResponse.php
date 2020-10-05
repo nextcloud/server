@@ -52,8 +52,8 @@ class DataResponse extends Response {
 	 * @param array $headers additional key value based headers
 	 * @since 8.0.0
 	 */
-	public function __construct($data=[], $statusCode=Http::STATUS_OK,
-								array $headers=[]) {
+	public function __construct($data = [], $statusCode = Http::STATUS_OK,
+								array $headers = []) {
 		parent::__construct();
 
 		$this->data = $data;

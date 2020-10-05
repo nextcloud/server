@@ -112,7 +112,7 @@ class CheckCode extends Command implements CompletionAwareInterface {
 				$output->writeln(" {$count} errors");
 			}
 			usort($errors, function ($a, $b) {
-				return $a['line'] >$b['line'];
+				return $a['line'] > $b['line'];
 			});
 
 			foreach ($errors as $p) {

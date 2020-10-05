@@ -508,7 +508,7 @@ class KeyManager {
 	 * @param View $view
 	 */
 	public function setVersion($path, $version, View $view) {
-		$fileInfo= $view->getFileInfo($path);
+		$fileInfo = $view->getFileInfo($path);
 
 		if ($fileInfo !== false) {
 			$cache = $fileInfo->getStorage()->getCache();

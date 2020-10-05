@@ -107,19 +107,19 @@ class StatusCommand extends Command implements CompletionAwareInterface {
 		$pending = $ms->describeMigrationStep('lastest');
 
 		$infos = [
-			'App'								=> $ms->getApp(),
-			'Version Table Name'				=> $ms->getMigrationsTableName(),
-			'Migrations Namespace'				=> $ms->getMigrationsNamespace(),
-			'Migrations Directory'				=> $ms->getMigrationsDirectory(),
-			'Previous Version'					=> $this->getFormattedVersionAlias($ms, 'prev'),
-			'Current Version'					=> $this->getFormattedVersionAlias($ms, 'current'),
-			'Next Version'						=> $this->getFormattedVersionAlias($ms, 'next'),
-			'Latest Version'					=> $this->getFormattedVersionAlias($ms, 'latest'),
-			'Executed Migrations'				=> count($executedMigrations),
-			'Executed Unavailable Migrations'	=> $numExecutedUnavailableMigrations,
-			'Available Migrations'				=> count($availableMigrations),
-			'New Migrations'					=> $numNewMigrations,
-			'Pending Migrations'				=> count($pending) ? $pending : 'None'
+			'App' => $ms->getApp(),
+			'Version Table Name' => $ms->getMigrationsTableName(),
+			'Migrations Namespace' => $ms->getMigrationsNamespace(),
+			'Migrations Directory' => $ms->getMigrationsDirectory(),
+			'Previous Version' => $this->getFormattedVersionAlias($ms, 'prev'),
+			'Current Version' => $this->getFormattedVersionAlias($ms, 'current'),
+			'Next Version' => $this->getFormattedVersionAlias($ms, 'next'),
+			'Latest Version' => $this->getFormattedVersionAlias($ms, 'latest'),
+			'Executed Migrations' => count($executedMigrations),
+			'Executed Unavailable Migrations' => $numExecutedUnavailableMigrations,
+			'Available Migrations' => count($availableMigrations),
+			'New Migrations' => $numNewMigrations,
+			'Pending Migrations' => count($pending) ? $pending : 'None'
 		];
 
 		return $infos;

@@ -63,7 +63,7 @@ class FtpTest extends \Test\Files\Storage\Storage {
 	}
 
 	public function testConstructUrl() {
-		$config =  [ 'host' => 'localhost',
+		$config = [ 'host' => 'localhost',
 			'user' => 'ftp',
 			'password' => 'ftp',
 			'root' => '/',

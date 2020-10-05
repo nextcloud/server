@@ -184,7 +184,7 @@ class StorageConfig implements \JsonSerializable {
 	 * @param Backend $backend
 	 */
 	public function setBackend(Backend $backend) {
-		$this->backend= $backend;
+		$this->backend = $backend;
 	}
 
 	/**

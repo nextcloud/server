@@ -71,7 +71,7 @@ class AdapterSqlite extends Adapter {
 		}
 		$fieldList = '`' . implode('`,`', array_keys($input)) . '`';
 		$query = "INSERT INTO `$table` ($fieldList) SELECT "
-			. str_repeat('?,', count($input)-1).'? '
+			. str_repeat('?,', count($input) - 1).'? '
 			. " WHERE NOT EXISTS (SELECT 1 FROM `$table` WHERE ";
 
 		$inserts = array_values($input);

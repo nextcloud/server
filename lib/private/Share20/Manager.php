@@ -1395,7 +1395,7 @@ class Manager implements IManager {
 	 *
 	 * @return Share[]
 	 */
-	public function getSharesByPath(\OCP\Files\Node $path, $page=0, $perPage=50) {
+	public function getSharesByPath(\OCP\Files\Node $path, $page = 0, $perPage = 50) {
 		return [];
 	}
 

@@ -41,9 +41,9 @@ class CleanUpTest extends \Test\TestCase {
 			$this->getMockBuilder('\OCA\User_LDAP\User\DeletedUsersIndex')
 				->disableOriginalConstructor()
 				->getMock();
-		$mocks['ocConfig']    = $this->createMock(IConfig::class);
-		$mocks['db']          = $this->createMock(IDBConnection::class);
-		$mocks['helper']      = $this->createMock(Helper::class);
+		$mocks['ocConfig'] = $this->createMock(IConfig::class);
+		$mocks['db'] = $this->createMock(IDBConnection::class);
+		$mocks['helper'] = $this->createMock(Helper::class);
 
 		return $mocks;
 	}

@@ -76,7 +76,7 @@ class TXT extends ProviderV2 {
 		imagecolorallocate($image, 255, 255, 255);
 		$textColor = imagecolorallocate($image, 0, 0, 0);
 
-		$fontFile  = __DIR__;
+		$fontFile = __DIR__;
 		$fontFile .= '/../../../core';
 		$fontFile .= '/fonts/NotoSans-Regular.ttf';
 

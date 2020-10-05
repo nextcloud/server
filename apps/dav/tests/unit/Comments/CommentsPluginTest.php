@@ -668,11 +668,11 @@ class CommentsPluginTest extends \Test\TestCase {
 
 		$parameters = [
 			[
-				'name'  => '{http://owncloud.org/ns}limit',
+				'name' => '{http://owncloud.org/ns}limit',
 				'value' => 5,
 			],
 			[
-				'name'  => '{http://owncloud.org/ns}offset',
+				'name' => '{http://owncloud.org/ns}offset',
 				'value' => 10,
 			],
 			[
@@ -723,11 +723,11 @@ class CommentsPluginTest extends \Test\TestCase {
 
 		$parameters = [
 			[
-				'name'  => '{http://owncloud.org/ns}limit',
+				'name' => '{http://owncloud.org/ns}limit',
 				'value' => 5,
 			],
 			[
-				'name'  => '{http://owncloud.org/ns}offset',
+				'name' => '{http://owncloud.org/ns}offset',
 				'value' => 10,
 			],
 			[

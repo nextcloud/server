@@ -198,7 +198,7 @@ class Backend {
 		$shares = [];
 		while ($row = $result->fetch()) {
 			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
-			$shares[]= [
+			$shares[] = [
 				'href' => "principal:${row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
 				'status' => 1,

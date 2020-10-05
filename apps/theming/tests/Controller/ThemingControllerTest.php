@@ -356,7 +356,7 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	/** @dataProvider dataUpdateImages */
-	public function testUpdateLogoNormalLogoUpload($mimeType, $folderExists=true) {
+	public function testUpdateLogoNormalLogoUpload($mimeType, $folderExists = true) {
 		$tmpLogo = \OC::$server->getTempManager()->getTemporaryFolder() . '/logo.svg';
 		$destination = \OC::$server->getTempManager()->getTemporaryFolder();
 
@@ -816,8 +816,8 @@ class ThemingControllerTest extends TestCase {
 				[
 					[
 						'src' => 'touchicon?v=0',
-						'type'=> 'image/png',
-						'sizes'=> '128x128'
+						'type' => 'image/png',
+						'sizes' => '128x128'
 					],
 					[
 						'src' => 'favicon?v=0',

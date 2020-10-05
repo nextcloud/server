@@ -86,8 +86,8 @@ class PushProvider extends AbstractProvider {
 	 * @throws \Exception
 	 */
 	public function send(VEvent $vevent,
-						 string $calendarDisplayName=null,
-						 array $users=[]):void {
+						 string $calendarDisplayName = null,
+						 array $users = []):void {
 		if ($this->config->getAppValue('dav', 'sendEventRemindersPush', 'no') !== 'yes') {
 			return;
 		}

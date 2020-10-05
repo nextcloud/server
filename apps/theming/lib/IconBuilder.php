@@ -164,7 +164,7 @@ class IconBuilder {
 			$res = $tmp->getImageResolution();
 			$tmp->destroy();
 
-			if ($x>$y) {
+			if ($x > $y) {
 				$max = $x;
 			} else {
 				$max = $y;

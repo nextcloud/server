@@ -193,7 +193,7 @@ class LargeFileHelper {
 		try {
 			$result = filemtime($fullPath);
 		} catch (\Exception $e) {
-			$result =- 1;
+			$result = - 1;
 		}
 		if ($result < 0) {
 			if (\OC_Helper::is_function_enabled('exec')) {

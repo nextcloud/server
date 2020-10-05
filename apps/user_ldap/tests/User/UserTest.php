@@ -72,7 +72,7 @@ class UserTest extends \Test\TestCase {
 	/** @var string */
 	protected $uid = 'alice';
 	/** @var string */
-	protected $dn  = 'uid=alice,dc=foo,dc=bar';
+	protected $dn = 'uid=alice,dc=foo,dc=bar';
 	/** @var User */
 	protected $user;
 

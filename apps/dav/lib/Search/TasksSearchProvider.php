@@ -162,7 +162,7 @@ class TasksSearchProvider extends ACalendarSearchProvider {
 			$formattedDate = $this->l10n->l('date', $dueDateTime, ['width' => 'medium']);
 
 			if ($taskComponent->DUE->hasTime()) {
-				$formattedTime =  $this->l10n->l('time', $dueDateTime, ['width' => 'short']);
+				$formattedTime = $this->l10n->l('time', $dueDateTime, ['width' => 'short']);
 				return $this->l10n->t('Due on %s by %s', [$formattedDate, $formattedTime]);
 			}
 

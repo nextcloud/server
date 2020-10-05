@@ -411,7 +411,7 @@ class UsersController extends AUserData {
 	public function getCurrentUser(): DataResponse {
 		$user = $this->userSession->getUser();
 		if ($user) {
-			$data =  $this->getUserData($user->getUID());
+			$data = $this->getUserData($user->getUID());
 			// rename "displayname" to "display-name" only for this call to keep
 			// the API stable.
 			$data['display-name'] = $data['displayname'];

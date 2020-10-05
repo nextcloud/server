@@ -465,7 +465,7 @@ class FederatedShareProvider implements IShareProvider {
 		$query->insert('federated_reshares')
 			->values(
 				[
-					'share_id' =>  $query->createNamedParameter($shareId),
+					'share_id' => $query->createNamedParameter($shareId),
 					'remote_id' => $query->createNamedParameter($remoteId),
 				]
 			);

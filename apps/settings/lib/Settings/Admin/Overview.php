@@ -42,7 +42,7 @@ class Overview implements ISettings {
 	 */
 	public function getForm() {
 		$parameters = [
-			'checkForWorkingWellKnownSetup'    => $this->config->getSystemValue('check_for_working_wellknown_setup', true),
+			'checkForWorkingWellKnownSetup' => $this->config->getSystemValue('check_for_working_wellknown_setup', true),
 		];
 
 		return new TemplateResponse('settings', 'settings/admin/overview', $parameters, '');

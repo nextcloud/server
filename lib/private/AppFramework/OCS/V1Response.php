@@ -35,7 +35,7 @@ class V1Response extends BaseResponse {
 	 * @return int
 	 */
 	public function getStatus() {
-		$status  = parent::getStatus();
+		$status = parent::getStatus();
 		if ($status === Http::STATUS_FORBIDDEN || $status === API::RESPOND_UNAUTHORISED) {
 			return Http::STATUS_UNAUTHORIZED;
 		}

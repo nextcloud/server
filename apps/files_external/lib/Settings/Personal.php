@@ -70,14 +70,14 @@ class Personal implements ISettings {
 		$uid = $this->userSession->getUser()->getUID();
 
 		$parameters = [
-			'encryptionEnabled'    => $this->encryptionManager->isEnabled(),
-			'visibilityType'       => BackendService::VISIBILITY_PERSONAL,
-			'storages'             => $this->userGlobalStoragesService->getStorages(),
-			'backends'             => $this->backendService->getAvailableBackends(),
-			'authMechanisms'       => $this->backendService->getAuthMechanisms(),
-			'dependencies'         => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
-			'allowUserMounting'    => $this->backendService->isUserMountingAllowed(),
-			'globalCredentials'    => $this->globalAuth->getAuth($uid),
+			'encryptionEnabled' => $this->encryptionManager->isEnabled(),
+			'visibilityType' => BackendService::VISIBILITY_PERSONAL,
+			'storages' => $this->userGlobalStoragesService->getStorages(),
+			'backends' => $this->backendService->getAvailableBackends(),
+			'authMechanisms' => $this->backendService->getAuthMechanisms(),
+			'dependencies' => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
+			'allowUserMounting' => $this->backendService->isUserMountingAllowed(),
+			'globalCredentials' => $this->globalAuth->getAuth($uid),
 			'globalCredentialsUid' => $uid,
 		];
 

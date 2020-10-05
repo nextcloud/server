@@ -168,7 +168,7 @@ class DependencyAnalyzer {
 		}
 		if (isset($dependencies['php']['@attributes']['min-int-size'])) {
 			$intSize = $dependencies['php']['@attributes']['min-int-size'];
-			if ($intSize > $this->platform->getIntSize()*8) {
+			if ($intSize > $this->platform->getIntSize() * 8) {
 				$missing[] = (string)$this->l->t('%sbit or higher PHP required.', [$intSize]);
 			}
 		}

@@ -62,7 +62,7 @@ class SvgController extends Controller {
 								IconsCacher $iconsCacher) {
 		parent::__construct($appName, $request);
 
-		$this->serverRoot  = \OC::$SERVERROOT;
+		$this->serverRoot = \OC::$SERVERROOT;
 		$this->timeFactory = $timeFactory;
 		$this->appManager = $appManager;
 		$this->iconsCacher = $iconsCacher;

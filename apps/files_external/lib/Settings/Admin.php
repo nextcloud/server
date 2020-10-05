@@ -62,14 +62,14 @@ class Admin implements ISettings {
 	 */
 	public function getForm() {
 		$parameters = [
-			'encryptionEnabled'    => $this->encryptionManager->isEnabled(),
-			'visibilityType'       => BackendService::VISIBILITY_ADMIN,
-			'storages'             => $this->globalStoragesService->getStorages(),
-			'backends'             => $this->backendService->getAvailableBackends(),
-			'authMechanisms'       => $this->backendService->getAuthMechanisms(),
-			'dependencies'         => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
-			'allowUserMounting'    => $this->backendService->isUserMountingAllowed(),
-			'globalCredentials'    => $this->globalAuth->getAuth(''),
+			'encryptionEnabled' => $this->encryptionManager->isEnabled(),
+			'visibilityType' => BackendService::VISIBILITY_ADMIN,
+			'storages' => $this->globalStoragesService->getStorages(),
+			'backends' => $this->backendService->getAvailableBackends(),
+			'authMechanisms' => $this->backendService->getAuthMechanisms(),
+			'dependencies' => \OCA\Files_External\MountConfig::dependencyMessage($this->backendService->getBackends()),
+			'allowUserMounting' => $this->backendService->isUserMountingAllowed(),
+			'globalCredentials' => $this->globalAuth->getAuth(''),
 			'globalCredentialsUid' => '',
 		];
 

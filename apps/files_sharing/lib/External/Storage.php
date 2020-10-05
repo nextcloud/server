@@ -287,7 +287,7 @@ class Storage extends DAV implements ISharedStorage, IDisableEncryptionStorage {
 			$returnValue = false;
 		}
 
-		$cache->set($url, $returnValue, 60*60*24);
+		$cache->set($url, $returnValue, 60 * 60 * 24);
 		return $returnValue;
 	}
 

@@ -86,7 +86,7 @@ class CleanUpTest extends TestCase {
 					'id' => $query->expr()->literal('file'.$i),
 					'timestamp' => $query->expr()->literal($i),
 					'location' => $query->expr()->literal('.'),
-					'user' => $query->expr()->literal('user'.$i%2)
+					'user' => $query->expr()->literal('user'.$i % 2)
 				])->execute();
 		}
 		$getAllQuery = $this->dbConnection->getQueryBuilder();

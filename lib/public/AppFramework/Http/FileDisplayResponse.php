@@ -43,8 +43,8 @@ class FileDisplayResponse extends Response implements ICallbackResponse {
 	 * @param array $headers
 	 * @since 11.0.0
 	 */
-	public function __construct($file, $statusCode=Http::STATUS_OK,
-								$headers=[]) {
+	public function __construct($file, $statusCode = Http::STATUS_OK,
+								$headers = []) {
 		parent::__construct();
 
 		$this->file = $file;

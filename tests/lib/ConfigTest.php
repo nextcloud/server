@@ -98,8 +98,8 @@ class ConfigTest extends TestCase {
 		// Changing configs to existing values and deleting non-existing once
 		// should not rewrite the config.php
 		$this->config->setValues([
-			'foo'			=> 'bar',
-			'not_exists'	=> null,
+			'foo' => 'bar',
+			'not_exists' => null,
 		]);
 
 		$this->assertSame('bar', $this->config->getValue('foo'));
@@ -108,8 +108,8 @@ class ConfigTest extends TestCase {
 		$this->assertEquals(self::TESTCONTENT, $content);
 
 		$this->config->setValues([
-			'foo'			=> 'moo',
-			'alcohol_free'	=> null,
+			'foo' => 'moo',
+			'alcohol_free' => null,
 		]);
 		$this->assertSame('moo', $this->config->getValue('foo'));
 		$this->assertSame(null, $this->config->getValue('not_exists'));

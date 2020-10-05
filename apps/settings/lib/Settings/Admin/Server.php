@@ -55,9 +55,9 @@ class Server implements ISettings {
 		$parameters = [
 			// Background jobs
 			'backgroundjobs_mode' => $this->config->getAppValue('core', 'backgroundjobs_mode', 'ajax'),
-			'lastcron'            => $this->config->getAppValue('core', 'lastcron', false),
-			'cronMaxAge'          => $this->cronMaxAge(),
-			'cronErrors'          => $this->config->getAppValue('core', 'cronErrors'),
+			'lastcron' => $this->config->getAppValue('core', 'lastcron', false),
+			'cronMaxAge' => $this->cronMaxAge(),
+			'cronErrors' => $this->config->getAppValue('core', 'cronErrors'),
 			'cli_based_cron_possible' => function_exists('posix_getpwuid'),
 			'cli_based_cron_user' => function_exists('posix_getpwuid') ? posix_getpwuid(fileowner(\OC::$configDir . 'config.php'))['name'] : '',
 		];

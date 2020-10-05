@@ -80,7 +80,7 @@ class AssemblyStreamTest extends \Test\TestCase {
 		$tonofnodes = [];
 		$tonofdata = "";
 		for ($i = 0; $i < 101; $i++) {
-			$thisdata =  rand(0,100); // variable length and content
+			$thisdata = rand(0,100); // variable length and content
 			$tonofdata .= $thisdata;
 			array_push($tonofnodes, $this->buildNode($i,$thisdata));
 		}

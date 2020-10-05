@@ -1039,8 +1039,8 @@ class User_LDAPTest extends TestCase {
 
 	public function testLoginName2UserNameSuccess() {
 		$loginName = 'Alice';
-		$username  = 'alice';
-		$dn        = 'uid=alice,dc=what,dc=ever';
+		$username = 'alice';
+		$dn = 'uid=alice,dc=what,dc=ever';
 
 		$this->access->expects($this->once())
 			->method('fetchUsersByLoginName')
@@ -1118,7 +1118,7 @@ class User_LDAPTest extends TestCase {
 
 	public function testLoginName2UserNameOfflineUser() {
 		$loginName = 'Alice';
-		$dn        = 'uid=alice,dc=what,dc=ever';
+		$dn = 'uid=alice,dc=what,dc=ever';
 
 		$offlineUser = $this->getMockBuilder(OfflineUser::class)
 			->disableOriginalConstructor()
@@ -1311,7 +1311,7 @@ class User_LDAPTest extends TestCase {
 
 	/** @dataProvider avatarDataProvider */
 	public function testCanChangeAvatar($imageData, $expected) {
-		$isValidImage  = strpos((string)$imageData, 'valid') === 0;
+		$isValidImage = strpos((string)$imageData, 'valid') === 0;
 
 		$user = $this->createMock(User::class);
 		$user->expects($this->once())

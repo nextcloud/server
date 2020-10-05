@@ -84,7 +84,7 @@ class AccessTest extends TestCase {
 		$this->ldap = $this->createMock(LDAP::class);
 		$this->userManager = $this->createMock(Manager::class);
 		$this->helper = $this->createMock(Helper::class);
-		$this->config  = $this->createMock(IConfig::class);
+		$this->config = $this->createMock(IConfig::class);
 		$this->userMapper = $this->createMock(UserMapping::class);
 		$this->ncUserManager = $this->createMock(IUserManager::class);
 
@@ -100,7 +100,7 @@ class AccessTest extends TestCase {
 	}
 
 	private function getConnectorAndLdapMock() {
-		$lw  = $this->createMock(ILDAPWrapper::class);
+		$lw = $this->createMock(ILDAPWrapper::class);
 		$connector = $this->getMockBuilder(Connection::class)
 			->setConstructorArgs([$lw, null, null])
 			->getMock();

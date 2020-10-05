@@ -91,7 +91,7 @@ class InstallerTest extends TestCase {
 		\OC_App::getAppVersion('testapp');
 
 		// Extract app
-		$pathOfTestApp  = __DIR__ . '/../data/testapp.zip';
+		$pathOfTestApp = __DIR__ . '/../data/testapp.zip';
 		$tar = new ZIP($pathOfTestApp);
 		$tar->extract(\OC_App::getInstallPath());
 

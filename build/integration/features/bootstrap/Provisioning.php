@@ -422,7 +422,7 @@ trait Provisioning {
 			'groupid' => $group,
 		];
 
-		$this->response =$client->post($fullUrl, $options);
+		$this->response = $client->post($fullUrl, $options);
 	}
 
 

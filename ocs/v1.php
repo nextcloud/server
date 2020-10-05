@@ -90,7 +90,7 @@ try {
 	OC_API::setContentType();
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
-	$txt='Invalid query, please check the syntax. API specifications are here:'
+	$txt = 'Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 } catch (MethodNotAllowedException $e) {
@@ -105,7 +105,7 @@ try {
 	OC_API::setContentType();
 
 	$format = \OC::$server->getRequest()->getParam('format', 'xml');
-	$txt='Invalid query, please check the syntax. API specifications are here:'
+	$txt = 'Invalid query, please check the syntax. API specifications are here:'
 		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services.'."\n";
 	OC_API::respond(new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, $txt), $format);
 }

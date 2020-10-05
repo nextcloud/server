@@ -306,7 +306,7 @@ class CryptTest extends TestCase {
 	 * test parseHeader()
 	 */
 	public function testParseHeader() {
-		$header= 'HBEGIN:foo:bar:cipher:AES-256-CFB:HEND';
+		$header = 'HBEGIN:foo:bar:cipher:AES-256-CFB:HEND';
 		$result = self::invokePrivate($this->crypt, 'parseHeader', [$header]);
 
 		$this->assertTrue(is_array($result));

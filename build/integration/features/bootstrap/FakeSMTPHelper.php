@@ -113,7 +113,7 @@ class fakeSMTP {
 					$this->mail['emailBody'] = $splitmail[1];
 					$headers = preg_replace("/ \s+/", ' ', preg_replace("/\n\s/", ' ', $this->mail['emailHeaders']));
 					$headerlines = explode("\n", $headers);
-					for ($i=0; $i<count($headerlines); $i++) {
+					for ($i = 0; $i < count($headerlines); $i++) {
 						if (preg_match('/^Subject: (.*)/i', $headerlines[$i], $matches)) {
 							$this->mail['emailSubject'] = trim($matches[1]);
 						}
@@ -152,13 +152,13 @@ class fakeSMTP {
 		return preg_match('/^[_a-z0-9-+]+(\.[_a-z0-9-+]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/', strtolower($email));
 	}
 
-	private function generateRandom($length=8) {
+	private function generateRandom($length = 8) {
 		$password = '';
 		$possible = '2346789BCDFGHJKLMNPQRTVWXYZ';
 		$maxlength = strlen($possible);
 		$i = 0;
-		for ($i=0; $i < $length; $i++) {
-			$char = substr($possible, mt_rand(0, $maxlength-1), 1);
+		for ($i = 0; $i < $length; $i++) {
+			$char = substr($possible, mt_rand(0, $maxlength - 1), 1);
 			if (!strstr($password, $char)) {
 				$password .= $char;
 			}

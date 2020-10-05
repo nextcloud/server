@@ -57,11 +57,11 @@ class UpdateCheckerTest extends TestCase {
 			->willReturn([
 				'version' => '1.2.3',
 				'versionstring' => 'Nextcloud 1.2.3',
-				'web'=> 'javascript:alert(1)',
-				'url'=> 'javascript:alert(2)',
+				'web' => 'javascript:alert(1)',
+				'url' => 'javascript:alert(2)',
 				'changes' => 'javascript:alert(3)',
-				'autoupdater'=> '0',
-				'eol'=> '1',
+				'autoupdater' => '0',
+				'eol' => '1',
 			]);
 
 		$expected = [
@@ -98,11 +98,11 @@ class UpdateCheckerTest extends TestCase {
 			->willReturn([
 				'version' => '1.2.3',
 				'versionstring' => 'Nextcloud 1.2.3',
-				'web'=> 'https://docs.nextcloud.com/myUrl',
-				'url'=> 'https://downloads.nextcloud.org/server',
+				'web' => 'https://docs.nextcloud.com/myUrl',
+				'url' => 'https://downloads.nextcloud.org/server',
 				'changes' => 'https://updates.nextcloud.com/changelog_server/?version=123.0.0',
-				'autoupdater'=> '1',
-				'eol'=> '0',
+				'autoupdater' => '1',
+				'eol' => '0',
 			]);
 
 		$this->changesChecker->expects($this->once())

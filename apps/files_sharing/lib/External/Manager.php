@@ -131,7 +131,7 @@ class Manager {
 	 * @return Mount|null
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function addShare($remote, $token, $password, $name, $owner, $shareType, $accepted=false, $user = null, $remoteId = -1, $parent = -1) {
+	public function addShare($remote, $token, $password, $name, $owner, $shareType, $accepted = false, $user = null, $remoteId = -1, $parent = -1) {
 		$user = $user ? $user : $this->uid;
 		$accepted = $accepted ? IShare::STATUS_ACCEPTED : IShare::STATUS_PENDING;
 		$name = Filesystem::normalizePath('/' . $name);
@@ -145,17 +145,17 @@ class Manager {
 			$mountPoint = $tmpMountPointName;
 			$hash = md5($tmpMountPointName);
 			$data = [
-				'remote'		=> $remote,
-				'share_token'	=> $token,
-				'password'		=> $password,
-				'name'			=> $name,
-				'owner'			=> $owner,
-				'user'			=> $user,
-				'mountpoint'	=> $mountPoint,
-				'mountpoint_hash'	=> $hash,
-				'accepted'		=> $accepted,
-				'remote_id'		=> $remoteId,
-				'share_type'    => $shareType,
+				'remote' => $remote,
+				'share_token' => $token,
+				'password' => $password,
+				'name' => $name,
+				'owner' => $owner,
+				'user' => $user,
+				'mountpoint' => $mountPoint,
+				'mountpoint_hash' => $hash,
+				'accepted' => $accepted,
+				'remote_id' => $remoteId,
+				'share_type' => $shareType,
 			];
 
 			$i = 1;
@@ -175,11 +175,11 @@ class Manager {
 		$this->writeShareToDb($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId, $parent, $shareType);
 
 		$options = [
-			'remote'	=> $remote,
-			'token'		=> $token,
-			'password'	=> $password,
-			'mountpoint'	=> $mountPoint,
-			'owner'		=> $owner
+			'remote' => $remote,
+			'token' => $token,
+			'password' => $password,
+			'mountpoint' => $mountPoint,
+			'owner' => $owner
 		];
 		return $this->mountShare($options);
 	}
