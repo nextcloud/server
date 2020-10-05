@@ -500,9 +500,13 @@ class UsersControllerTest extends TestCase {
 			->method('userExists')
 			->with('NewUser')
 			->willReturn(false);
+		$newUser = $this->createMock(IUser::class);
+		$newUser->expects($this->once())
+			->method('setEMailAddress');
 		$this->userManager
 			->expects($this->once())
-			->method('createUser');
+			->method('createUser')
+			->willReturn($newUser);
 		$this->logger
 			->expects($this->once())
 			->method('info')
