@@ -78,8 +78,6 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "Failo pavadinime simbolis „/“ draudžiamas.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" nėra leidžiamas failo tipas",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} saugykla yra pilna, failai daugiau nebegali būti atnaujinti arba sinchronizuojami!",
-    "This group folder is full, files can not be updated or synced anymore!" : "Šis grupės aplankas yra pilnas, failai daugiau nebegali būti atnaujinti ar sinchronizuoti!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Ši išorinė saugykla yra pilna, failai daugiau nebegali būti atnaujinti ar sinchronizuoti!",
     "Your storage is full, files can not be updated or synced anymore!" : "Jūsų saugykla pilna, failai daugiau nebegali būti atnaujinti arba sinchronizuojami!",
     "_matches '{filter}'_::_match '{filter}'_" : ["atitinka \"{filter}\"","atitinka \"{filter}\"","atitinka \"{filter}\"","atitinka \"{filter}\""],
     "View in folder" : "Rodyti aplanke",
@@ -194,6 +192,8 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Riboti pranešimus apie jūsų <strong>mėgstamų failų</strong> sukūrimą ar pakeitimus <em>(Tik srautas)</em>",
     "A file or folder has been <strong>restored</strong>" : "Failas ar aplankas <strong>atkurtas</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Naudokite šį adresą norėdami <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">gauti prieigą prie failų per WebDAV</a>",
+    "This group folder is full, files can not be updated or synced anymore!" : "Šis grupės aplankas yra pilnas, failai daugiau nebegali būti atnaujinti ar sinchronizuoti!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Ši išorinė saugykla yra pilna, failai daugiau nebegali būti atnaujinti ar sinchronizuoti!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Šis grupės aplankas yra beveik pilnas ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Ši išorinė saugykla yra beveik pilna ({usedSpacePercent}%)",
     "Cannot transfter ownership of a file or folder you don't own" : "Negalima perduoti, failo aplanko, kuris jums nepriklauso, nuosavybės"

@@ -78,12 +78,8 @@
     "\"/\" is not allowed inside a file name." : "אסור להשתמש ב־„/” בתוך שם קובץ.",
     "\"{name}\" is not an allowed filetype" : "סוד הקובץ „{name}” אינו מורשה",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "האחסון של {owner} מלא, כבר לא ניתן לעדכן ולסנכרן קבצים!",
-    "This group folder is full, files can not be updated or synced anymore!" : "התיקייה הקבוצתית הזו מלאה, לא ניתן לעדכן או לסנכרן קבצים מולה עוד!",
-    "This external storage is full, files can not be updated or synced anymore!" : "האחסון החיצוני מלא, לא ניתן לעדכן או לסנכרן קבצים מולו עוד!",
     "Your storage is full, files can not be updated or synced anymore!" : "האחסון שלך מלא, כבר לא ניתן לעדכן ולסנכרן קבצים!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "האחסון של {owner} כמעט מלא ({usedSpacePercent}%).",
-    "This group folder is almost full ({usedSpacePercent}%)." : "התיקייה הקבוצתית הזאת כמעט מלאה ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "האחסון החיצוני הזה כמעט מלא ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "האחסון שלך כמעט מלא ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : ["מתאים ל- '{filter}'","מתאים ל- '{filter}'","מתאים ל- '{filter}'","מתאים ל- '{filter}'"],
     "View in folder" : "הצג בתיקייה",
@@ -198,8 +194,12 @@
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "הגבלת הודעות על יצירת או שינוי <strong>הקבצים המועדפים</strong> שלך <em>(Stream only)</em>",
     "A file or folder has been <strong>restored</strong>" : "קובץ או תיקייה <strong>שוחזרו</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "יש להשתמש בכתובת זו כדי <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">לגשת לקבצים שלך באמצעות WebDAV</a>",
+    "This group folder is full, files can not be updated or synced anymore!" : "התיקייה הקבוצתית הזו מלאה, לא ניתן לעדכן או לסנכרן קבצים מולה עוד!",
+    "This external storage is full, files can not be updated or synced anymore!" : "האחסון החיצוני מלא, לא ניתן לעדכן או לסנכרן קבצים מולו עוד!",
     "This group folder is almost full ({usedSpacePercent}%)" : "התיקייה הקבוצתית הזאת כמעט מלאה ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "האחסון החיצוני הזה כמעט מלא ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם"
+    "Cannot transfter ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם",
+    "This group folder is almost full ({usedSpacePercent}%)." : "התיקייה הקבוצתית הזאת כמעט מלאה ({usedSpacePercent}%).",
+    "This external storage is almost full ({usedSpacePercent}%)." : "האחסון החיצוני הזה כמעט מלא ({usedSpacePercent}%)."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }
