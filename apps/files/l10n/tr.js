@@ -80,12 +80,8 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "Dosya adında \"/\" kullanılamaz.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" dosya türüne izin verilmiyor",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "{owner} için boş depolama alanı kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
-    "This group folder is full, files can not be updated or synced anymore!" : "Bu grup klasöründe boş alan kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Bu dış depolamada boş alan kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
     "Your storage is full, files can not be updated or synced anymore!" : "Boş depolama alanınız kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "{owner} boş depolama alanı bitmek üzere ({usedSpacePercent}%).",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Bu grup klasöründeki boş alan bitmek üzere ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Bu dış depolamadaki boş alan bitmek üzere ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Boş depolama alanınız bitmek üzere ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : ["'{filter}' ile eşleşen","'{filter}' ile eşleşen"],
     "View in folder" : "Klasörde görüntüle",
@@ -200,8 +196,12 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "<strong>Sık kullanılan dosyalarınız</strong> ile ilgili ekleme ve değişiklik bildirimleri sınırlansın <em>(Yalnız akış)</em>",
     "A file or folder has been <strong>restored</strong>" : "Bir dosya ya da klasör <strong>geri yüklendi</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV üzerinden erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">bu adresi kullanın</a>",
+    "This group folder is full, files can not be updated or synced anymore!" : "Bu grup klasöründe boş alan kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Bu dış depolamada boş alan kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Bu grup klasöründeki boş alan bitmek üzere ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Bu dış depolamadaki boş alan bitmek üzere ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız"
+    "Cannot transfter ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız",
+    "This group folder is almost full ({usedSpacePercent}%)." : "Bu grup klasöründeki boş alan bitmek üzere ({usedSpacePercent}%).",
+    "This external storage is almost full ({usedSpacePercent}%)." : "Bu dış depolamadaki boş alan bitmek üzere ({usedSpacePercent}%)."
 },
 "nplurals=2; plural=(n > 1);");

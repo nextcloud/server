@@ -80,12 +80,8 @@ OC.L10N.register(
     "\"/\" is not allowed inside a file name." : "\"/\" tillates ikke i et filnavn.",
     "\"{name}\" is not an allowed filetype" : "\"{name}\" er ikke en tillatt filtype",
     "Storage of {owner} is full, files can not be updated or synced anymore!" : "Lagringsplass for {owner} er full, filer kan ikke oppdateres eller synkroniseres lenger!",
-    "This group folder is full, files can not be updated or synced anymore!" : "Denne gruppemappen er full, filer kan ikke oppdateres eller synkroniseres lenger!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Denne eksterne lagringsplassen er full, filer kan ikke oppdateres eller synkroniseres lenger!",
     "Your storage is full, files can not be updated or synced anymore!" : "Lagringsplass er oppbrukt, filer kan ikke lenger oppdateres eller synkroniseres!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)." : "Lagringsplass for {owner} er nesten full ({usedSpacePercent}%).",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Denne gruppemappen er nesten full ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Denne eksterne lagringsplassen er nesten full ({usedSpacePercent}%).",
     "Your storage is almost full ({usedSpacePercent}%)." : "Din lagringsplass er nesten full ({usedSpacePercent}%).",
     "_matches '{filter}'_::_match '{filter}'_" : [" stemmer med '{filter}'"," stemmer med '{filter}'"],
     "View in folder" : "Vis i mappe",
@@ -200,8 +196,12 @@ OC.L10N.register(
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begrens varsling om oppretting og endringer til <strong>favorittfilene</strong> dine <em>(Kun strøm)</em>",
     "A file or folder has been <strong>restored</strong>" : "En fil eller mappe ble <strong>gjenopprettet</strong>",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Bruk adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">for å få tilgang til dine filer via WebDAV</a>",
+    "This group folder is full, files can not be updated or synced anymore!" : "Denne gruppemappen er full, filer kan ikke oppdateres eller synkroniseres lenger!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Denne eksterne lagringsplassen er full, filer kan ikke oppdateres eller synkroniseres lenger!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Denne gruppemappen er nesten full ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Denne eksterne lagringsplassen er nesten full ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier"
+    "Cannot transfter ownership of a file or folder you don't own" : "Kan ikke overføre eierskap til en fil eller mappe du ikke eier",
+    "This group folder is almost full ({usedSpacePercent}%)." : "Denne gruppemappen er nesten full ({usedSpacePercent}%).",
+    "This external storage is almost full ({usedSpacePercent}%)." : "Denne eksterne lagringsplassen er nesten full ({usedSpacePercent}%)."
 },
 "nplurals=2; plural=(n != 1);");
