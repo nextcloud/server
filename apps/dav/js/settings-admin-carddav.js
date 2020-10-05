@@ -21,8 +21,6 @@
  */
 "use strict";
 
-$('#carddavExposeSystemAddressBook').change(function() {
-	var val = $(this)[0].checked;
-
-	OCP.AppConfig.setValue('dav', 'exposeSystemAddressBook', val ? 'yes' : 'no');
-});
+document.getElementById('carddavExposeSystemAddressBook').onclick = function() {
+	OCP.AppConfig.setValue('dav', 'exposeSystemAddressBook', this.checked ? 'yes' : 'no');
+};
