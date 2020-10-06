@@ -455,7 +455,7 @@ export default {
 		},
 
 		updateTitle(fileName) {
-			document.title = `${fileName} - ${OCA.Theming.name}`
+			document.title = `${fileName} - ${OCA.Theming?.name || oc_defaults.name}`
 		},
 
 		/**
