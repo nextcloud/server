@@ -77,17 +77,17 @@ interface ICalendarV2 {
 	 * 	['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
 	 * @param integer|null $limit - limit number of search results
 	 * @param integer|null $offset - offset for paging of search results
-	 * @return ICalendarObjectV2[]
-	 * @since 20.0.0
+	 * @return array an array of events/journals/todos which are arrays of key-value-pairs
+	 * @since 19.0.0
 	 */
-	public function search(string $pattern, array $searchProperties=[], array $options=[], int $limit=null, int $offset=null): ?array;
+	public function search(string $pattern, array $searchProperties=[], array $options=[], int $limit=null, int $offset=null): array;
 
 	/**
 	 * Create a new calendar object into a calendar. Accepts a VCalendar object for calendar data.
 	 *
 	 * @param VCalendar $vObject
-	 * @return ICalendarObjectV2
+	 * @return ICalendarObjectV2|null
 	 * @since 20.0.0
 	 */
-	public function create(VCalendar $vObject): ICalendarObjectV2;
+	public function create(VCalendar $vObject): ?ICalendarObjectV2;
 }

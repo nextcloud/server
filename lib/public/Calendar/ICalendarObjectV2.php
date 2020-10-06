@@ -29,25 +29,25 @@ use Sabre\VObject\Component\VCalendar;
  * Interface ICalendarObjectV2
  *
  * @package OCP
- * @since 20.0.0
+ * @since 21.0.0
  */
 interface ICalendarObjectV2 {
 
 	/**
 	 * @return string defining the technical unique key
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
 	public function getCalendarKey(): string;
 
 	/**
 	 * @return string calendar object unique URI
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
 	public function getUri(): string;
 
 	/**
 	 * @return VCalendar the calendar object data
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
 	public function getVObject(): VCalendar;
 
@@ -55,13 +55,13 @@ interface ICalendarObjectV2 {
 	 * Update calendar object data
 	 *
 	 * @param VCalendar $data
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
 	public function update(VCalendar $data): void;
 
 	/**
 	 * Delete calendar object
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
 	public function delete(): void;
 }

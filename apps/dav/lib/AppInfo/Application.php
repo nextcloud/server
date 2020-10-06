@@ -212,7 +212,10 @@ class Application extends App implements IBootstrap {
 		$context->injectFn([$this, 'registerCalendarReminders']);
 	}
 
-	public function registerHooks() {
+	public function registerHooks(HookManager $hm,
+								   EventDispatcherInterface $dispatcher,
+								   IAppContainer $container,
+								   IServerContainer $serverContainer) {
 		/** @var HookManager $hm */
 		$hm = $this->getContainer()->query(HookManager::class);
 		$hm->setup();
@@ -306,7 +309,7 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function registerCalendarManagerV2(ICalendarManagerV2 $calendarManager,
-                                              IAppContainer $container): void {
+											  IAppContainer $container): void {
 		$calendarManager->register(function () use ($container, $calendarManager) {
 			$user = \OC::$server->getUserSession()->getUser();
 			if ($user !== null) {
@@ -319,9 +322,11 @@ class Application extends App implements IBootstrap {
 	 * @param ICalendarManagerV2 $calendarManager
 	 * @param string $userId
 	 */
-	public function setupCalendarProviderV2(ICalendarManagerV2 $calendarManager, $userId) {
+	public function setupCalendarProviderV2(ICalendarManagerV2 $calendarManager,
+											IAppContainer $container,
+											$userId) {
 		/** @var CalendarManager $cm */
-		$cm = $this->getContainer()->query(CalendarManager::class);
+		$cm = $container->query(CalendarManager::class);
 		$cm->setupCalendarProviderV2($calendarManager, $userId);
 	}
 

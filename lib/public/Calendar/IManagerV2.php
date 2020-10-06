@@ -31,7 +31,7 @@ use Closure;
  *
  * Events/Journals/Todos are expressed as instances of ICalendarObjectV2
  *
- * @since 20.0.0
+ * @since 21.0.0
  */
 interface IManagerV2 {
 
@@ -39,7 +39,7 @@ interface IManagerV2 {
 	 * Check if calendars are available
 	 *
 	 * @return bool true if enabled, false if not
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
 	public function isEnabled(): bool;
 
@@ -47,7 +47,7 @@ interface IManagerV2 {
 	 * Get all registered calendars
 	 *
 	 * @return ICalendarV2[]
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
 	public function getCalendars(): array;
 
@@ -56,7 +56,7 @@ interface IManagerV2 {
 	 *
 	 * @param string $key
 	 * @return ICalendarV2|null
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
 	public function getCalendar(string $key): ?ICalendarV2;
 
@@ -71,16 +71,16 @@ interface IManagerV2 {
 	 * @param integer|null $limit - limit number of search results
 	 * @param integer|null $offset - offset for paging of search results
 	 * @return ICalendarObjectV2[]
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
-	public function search(string $pattern, array $searchProperties=[], array $options=[], int $limit=null, int $offset=null): ?array;
+	public function search(string $pattern, array $searchProperties=[], array $options=[], int $limit=null, int $offset=null): array;
 
 	/**
 	 * Registers a calendar
 	 *
 	 * @param ICalendarV2 $calendar
 	 * @return void
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
 	public function registerCalendar(ICalendarV2 $calendar): void;
 
@@ -89,7 +89,7 @@ interface IManagerV2 {
 	 *
 	 * @param ICalendarV2 $calendar
 	 * @return void
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
 	public function unregisterCalendar(ICalendarV2 $calendar): void;
 
@@ -99,14 +99,14 @@ interface IManagerV2 {
 	 *
 	 * @param Closure $callable
 	 * @return void
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
 	public function register(Closure $callable): void;
 
 	/**
 	 * removes all registered calendar instances
 	 * @return void
-	 * @since 20.0.0
+	 * @since 21.0.0
 	 */
 	public function clear(): void;
 }

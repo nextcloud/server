@@ -35,7 +35,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Document;
 use Sabre\VObject\Reader;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /*

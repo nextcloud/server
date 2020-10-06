@@ -58,27 +58,27 @@ class CalendarImplV2 implements ICalendarV2 {
 
 	/**
 	 * @return string defining the technical unique key
-	 * @since 19.0.0
+	 * @since 21.0.0
 	 */
 	public function getKey(): string {
-		return (string) $this->calendarInfo['id'];
+		return $this->calendarInfo['id'];
 	}
 
 	/**
 	 * In comparison to getKey() this function returns a human readable (maybe translated) name
 	 * @return null|string
-	 * @since 19.0.0
+	 * @since 21.0.0
 	 */
-	public function getDisplayName(): string {
+	public function getDisplayName(): ?string {
 		return $this->calendarInfo['{DAV:}displayname'];
 	}
 
 	/**
 	 * Calendar color
 	 * @return null|string
-	 * @since 19.0.0
+	 * @since 21.0.0
 	 */
-	public function getDisplayColor(): string {
+	public function getDisplayColor(): ?string {
 		return $this->calendarInfo['{http://apple.com/ns/ical/}calendar-color'];
 	}
 
@@ -90,7 +90,7 @@ class CalendarImplV2 implements ICalendarV2 {
 	 * @param integer|null $limit - limit number of search results
 	 * @param integer|null $offset - offset for paging of search results
 	 * @return array an array of events/journals/todos which are arrays of key-value-pairs
-	 * @since 19.0.0
+	 * @since 21.0.0
 	 */
 	public function search($pattern, array $searchProperties=[], array $options=[], int $limit = null, int $offset = null): array {
 		return $this->backend->search($this->calendarInfo, $pattern,
@@ -99,7 +99,7 @@ class CalendarImplV2 implements ICalendarV2 {
 
 	/**
 	 * @return bool
-	 * @since 19.0.0
+	 * @since 21.0.0
 	 */
 	public function isWriteable(): bool {
 		$permissions = $this->calendar->getACL();
@@ -125,7 +125,7 @@ class CalendarImplV2 implements ICalendarV2 {
 	/**
 	 * @param string $uri
 	 * @return ICalendarObjectV2|null
-	 * @since 19.0.0
+	 * @since 21.0.0
 	 */
 	public function getByUri(string $uri): ?ICalendarObjectV2 {
 		if ($calendarObjectData = $this->backend->getCalendarObject($this->getKey(), $uri)) {
@@ -141,11 +141,11 @@ class CalendarImplV2 implements ICalendarV2 {
 
 	/**
 	 * @param VCalendar $vObject
-	 * @return ICalendarObjectV2
+	 * @return ICalendarObjectV2|null
 	 * @throws BadRequest
-	 * @since 19.0.0
+	 * @since 21.0.0
 	 */
-	public function create(VCalendar $vObject): ICalendarObjectV2 {
+	public function create(VCalendar $vObject): ?ICalendarObjectV2 {
 		CalendarObjectImplV2::validateCalendarData($vObject);
 		$uuid = UUIDUtil::getUUID() . '.ics';
 		$this->backend->createCalendarObject($this->getKey(), $uuid, $vObject->serialize());

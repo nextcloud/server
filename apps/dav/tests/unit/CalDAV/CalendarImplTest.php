@@ -38,7 +38,6 @@ use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\ITip\Message;
 use Sabre\VObject\Reader;
-use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 /**

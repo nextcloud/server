@@ -25,6 +25,7 @@ namespace OC\Calendar;
 
 use OCP\Calendar\ICalendarV2;
 use OCP\Calendar\IManagerV2;
+use OCP\Calendar\ICalendarObjectV2;
 
 class ManagerV2 implements IManagerV2 {
 
@@ -48,15 +49,15 @@ class ManagerV2 implements IManagerV2 {
 	 * 	['timerange' => ['start' => new DateTime(...), 'end' => new DateTime(...)]]
 	 * @param integer|null $limit - limit number of search results
 	 * @param integer|null $offset - offset for paging of search results
-	 * @return array an array of events/journals/todos which are arrays of arrays of key-value-pairs
+	 * @return ICalendarObjectV2[] an array of events/journals/todos which are arrays of arrays of key-value-pairs
 	 * @since 13.0.0
 	 */
 	public function search($pattern, array $searchProperties=[], array $options=[], int $limit = null, int $offset=null): array {
 		$this->loadCalendars();
 		$result = [];
-		foreach($this->calendars as $calendar) {
+		foreach ($this->calendars as $calendar) {
 			$r = $calendar->search($pattern, $searchProperties, $options, $limit, $offset);
-			foreach($r as $o) {
+			foreach ($r as $o) {
 				$o['calendar-key'] = $calendar->getKey();
 				$result[] = $o;
 			}
@@ -133,7 +134,7 @@ class ManagerV2 implements IManagerV2 {
 	 * loads all calendars
 	 */
 	private function loadCalendars() {
-		foreach($this->calendarLoaders as $callable) {
+		foreach ($this->calendarLoaders as $callable) {
 			$callable($this);
 		}
 		$this->calendarLoaders = [];
@@ -144,6 +145,7 @@ class ManagerV2 implements IManagerV2 {
 	 *
 	 * @param string $key
 	 * @return ICalendarV2|null
+	 * @since 21.0.0
 	 */
 	public function getCalendar(string $key): ?ICalendarV2 {
 		return isset($this->calendars[$key]) ? $this->calendars[$key] : null;
