@@ -134,19 +134,21 @@ class AccountManager implements IAccountManager {
 	public function getUser(IUser $user) {
 		$uid = $user->getUID();
 		$query = $this->connection->getQueryBuilder();
-		$query->select('data')->from($this->table)
+		$query->select('data')
+			->from($this->table)
 			->where($query->expr()->eq('uid', $query->createParameter('uid')))
 			->setParameter('uid', $uid);
-		$query->execute();
-		$result = $query->execute()->fetchAll();
+		$result = $query->execute();
+		$accountData = $result->fetchAll();
+		$result->closeCursor();
 
-		if (empty($result)) {
+		if (empty($accountData)) {
 			$userData = $this->buildDefaultUserRecord($user);
 			$this->insertNewUser($user, $userData);
 			return $userData;
 		}
 
-		$userDataArray = json_decode($result[0]['data'], true);
+		$userDataArray = json_decode($accountData[0]['data'], true);
 		$jsonError = json_last_error();
 		if ($userDataArray === null || $jsonError !== JSON_ERROR_NONE) {
 			$this->logger->critical("User data of $uid contained invalid JSON (error $jsonError), hence falling back to a default user record");
