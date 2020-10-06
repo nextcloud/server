@@ -322,7 +322,7 @@ class SyncService {
 
 	public function syncInstance(\Closure $progressCallback = null) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
-		$this->userManager->callForSeenUsers(function($user) use ($systemAddressBook, $progressCallback) {
+		$this->userManager->callForAllUsers(function($user) use ($progressCallback) {
 			$this->updateUser($user);
 			if (!is_null($progressCallback)) {
 				$progressCallback();
