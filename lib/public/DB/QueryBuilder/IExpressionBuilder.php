@@ -244,7 +244,7 @@ interface IExpressionBuilder {
 	/**
 	 * Creates a LIKE() comparison expression with the given arguments.
 	 *
-	 * @param string $x Field in string format to be inspected by LIKE() comparison.
+	 * @param ILiteral|IParameter|IQueryFunction|string $x Field in string format to be inspected by LIKE() comparison.
 	 * @param mixed $y Argument to be used in LIKE() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
@@ -257,7 +257,7 @@ interface IExpressionBuilder {
 	/**
 	 * Creates a NOT LIKE() comparison expression with the given arguments.
 	 *
-	 * @param string $x Field in string format to be inspected by NOT LIKE() comparison.
+	 * @param ILiteral|IParameter|IQueryFunction|string $x Field in string format to be inspected by NOT LIKE() comparison.
 	 * @param mixed $y Argument to be used in NOT LIKE() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
@@ -283,8 +283,8 @@ interface IExpressionBuilder {
 	/**
 	 * Creates a IN () comparison expression with the given arguments.
 	 *
-	 * @param string $x The field in string format to be inspected by IN() comparison.
-	 * @param string|array $y The placeholder or the array of values to be used by IN() comparison.
+	 * @param ILiteral|IParameter|IQueryFunction|string $x The field in string format to be inspected by IN() comparison.
+	 * @param ILiteral|IParameter|IQueryFunction|string|array $y The placeholder or the array of values to be used by IN() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
@@ -296,8 +296,8 @@ interface IExpressionBuilder {
 	/**
 	 * Creates a NOT IN () comparison expression with the given arguments.
 	 *
-	 * @param string $x The field in string format to be inspected by NOT IN() comparison.
-	 * @param string|array $y The placeholder or the array of values to be used by NOT IN() comparison.
+	 * @param ILiteral|IParameter|IQueryFunction|string $x The field in string format to be inspected by NOT IN() comparison.
+	 * @param ILiteral|IParameter|IQueryFunction|string|array $y The placeholder or the array of values to be used by NOT IN() comparison.
 	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility
 	 *
