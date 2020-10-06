@@ -2310,9 +2310,7 @@
     <InvalidReturnType occurrences="1">
       <code>getSlogan</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="1">
-      <code>(int)$cacheBusterKey+1</code>
-    </InvalidScalarArgument>
+    <InvalidScalarArgument occurrences="1"/>
     <NullArgument occurrences="2">
       <code>null</code>
       <code>null</code>
@@ -2388,9 +2386,7 @@
     </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/ajax/getNewServerConfigPrefix.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$ln+1</code>
-    </InvalidScalarArgument>
+    <InvalidScalarArgument occurrences="1"/>
   </file>
   <file src="apps/user_ldap/appinfo/routes.php">
     <InvalidScope occurrences="1">
@@ -5089,9 +5085,7 @@
     </RedundantCondition>
   </file>
   <file src="lib/private/Log/File.php">
-    <RedundantCondition occurrences="1">
-      <code>$limit === null ||$entriesCount &lt; $limit</code>
-    </RedundantCondition>
+    <RedundantCondition occurrences="1"/>
   </file>
   <file src="lib/private/Log/LogDetails.php">
     <RedundantCondition occurrences="1">
