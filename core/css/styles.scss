@@ -351,9 +351,9 @@ body {
 	}
 }
 
-.error {
+.error:not(.toastify) {
 	a {
-		color: var(--color-primary-text) !important;
+		color: white !important;
 		font-weight: bold !important;
 		&.button {
 			color: var(--color-text-lighter) !important;
