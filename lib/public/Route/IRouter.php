@@ -28,6 +28,8 @@
 
 namespace OCP\Route;
 
+use Symfony\Component\Routing\RouteCollection;
+
 /**
  * Interface IRouter
  *
@@ -79,6 +81,14 @@ interface IRouter {
 	 * @deprecated 9.0.0
 	 */
 	public function getCurrentCollection();
+
+	/**
+	 * Returns all collections
+	 *
+	 * @return RouteCollection[] collections
+	 * @since 21.0.0
+	 */
+	public function getCollections() : array;
 
 	/**
 	 * Create a \OCP\Route\IRoute.
