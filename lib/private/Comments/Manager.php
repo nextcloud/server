@@ -38,15 +38,15 @@ use OCP\Comments\NotFoundException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 
 class Manager implements ICommentsManager {
 
 	/** @var  IDBConnection */
 	protected $dbConn;
 
-	/** @var  ILogger */
+	/** @var  LoggerInterface */
 	protected $logger;
 
 	/** @var IConfig */
@@ -64,16 +64,9 @@ class Manager implements ICommentsManager {
 	/** @var \Closure[] */
 	protected $displayNameResolvers = [];
 
-	/**
-	 * Manager constructor.
-	 *
-	 * @param IDBConnection $dbConn
-	 * @param ILogger $logger
-	 * @param IConfig $config
-	 */
 	public function __construct(
 		IDBConnection $dbConn,
-		ILogger $logger,
+		LoggerInterface $logger,
 		IConfig $config
 	) {
 		$this->dbConn = $dbConn;
@@ -693,7 +686,10 @@ class Manager implements ICommentsManager {
 			$affectedRows = $query->execute();
 			$this->uncache($id);
 		} catch (DriverException $e) {
-			$this->logger->logException($e, ['app' => 'core_comments']);
+			$this->logger->error($e->getMessage(), [
+				'exception' => $e,
+				'app' => 'core_comments',
+			]);
 			return false;
 		}
 
@@ -918,7 +914,10 @@ class Manager implements ICommentsManager {
 		try {
 			$affectedRows = $query->execute();
 		} catch (DriverException $e) {
-			$this->logger->logException($e, ['app' => 'core_comments']);
+			$this->logger->error($e->getMessage(), [
+				'exception' => $e,
+				'app' => 'core_comments',
+			]);
 			return false;
 		}
 		return ($affectedRows > 0);
@@ -1022,7 +1021,10 @@ class Manager implements ICommentsManager {
 		try {
 			$affectedRows = $query->execute();
 		} catch (DriverException $e) {
-			$this->logger->logException($e, ['app' => 'core_comments']);
+			$this->logger->error($e->getMessage(), [
+				'exception' => $e,
+				'app' => 'core_comments',
+			]);
 			return false;
 		}
 		return ($affectedRows > 0);
