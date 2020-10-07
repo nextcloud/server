@@ -642,23 +642,6 @@ class Tags implements ITags {
 	}
 
 	/**
-	 * Get all users who favorited an object
-	 */
-	public function getUsersFavoritingObject($objId) {
-		$entries = [];
-
-		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$query->select('uid')
-			->from('vcategory_to_object', 'o')
-			->innerJoin('o', 'vcategory', 'c', $query->expr()->eq('o.categoryid', 'c.id'))
-			->where($query->expr()->eq('objid', $query->createNamedParameter($objId, IQueryBuilder::PARAM_INT)))
-			->andWhere($query->expr()->eq('c.type', $query->createNamedParameter($this->type)))
-			->andWhere($query->expr()->eq('c.category', $query->createNamedParameter(ITags::TAG_FAVORITE)));
-
-		return $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
-	}
-
-	/**
 	 * Creates a tag/object relation.
 	 *
 	 * @param int $objid The id of the object
