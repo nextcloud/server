@@ -695,7 +695,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService(\OCP\Activity\IManager::class, function (Server $c) {
-			$l10n = $this->get(IFactory::class)->get('activity');
+			$l10n = $this->get(IFactory::class)->get('lib');
 			return new \OC\Activity\Manager(
 				$c->getRequest(),
 				$c->getUserSession(),
