@@ -90,6 +90,9 @@ class ListRoutes extends Base {
 					if (isset($rows[$path])) {
 						$rows[$path]['methods'] = \array_unique(\array_merge($rows[$path]['methods'], $route->getMethods()));
 					} else {
+						if (substr($path, 0, 8) === '/ocsapp/') {
+							$path = '/ocs/v{version}.php/' . substr($path, 8);
+						}
 						$rows[$path] = [
 							'path' => $path,
 							'methods' => $route->getMethods()
