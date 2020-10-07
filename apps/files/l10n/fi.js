@@ -194,8 +194,6 @@ OC.L10N.register(
     "This external storage is full, files can not be updated or synced anymore!" : "Tämä erillinen tallennustila on täynnä, tiedostoja ei voi enää päivittää tai synkronoida!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Tämä ryhmäkansio on melkein täynnä ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Tämä erillinen tallennustila on melkein täynnä ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Tämä ryhmäkansio on melkein täynnä ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Tämä erillinen tallennustila on melkein täynnä ({usedSpacePercent}%)."
+    "Cannot transfter ownership of a file or folder you don't own" : "Et voi siirtää sellaisen tiedoston tai kansion omistajuutta, jota et itse omista"
 },
 "nplurals=2; plural=(n != 1);");

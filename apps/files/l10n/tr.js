@@ -200,8 +200,6 @@ OC.L10N.register(
     "This external storage is full, files can not be updated or synced anymore!" : "Bu dış depolamada boş alan kalmadı. Artık dosyalar güncellenmeyecek ya da eşitlenmeyecek!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Bu grup klasöründeki boş alan bitmek üzere ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Bu dış depolamadaki boş alan bitmek üzere ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Bu grup klasöründeki boş alan bitmek üzere ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Bu dış depolamadaki boş alan bitmek üzere ({usedSpacePercent}%)."
+    "Cannot transfter ownership of a file or folder you don't own" : "Sahibi olmadığınız bir dosya ya da klasörün sahipliğini aktaramazsınız"
 },
 "nplurals=2; plural=(n > 1);");

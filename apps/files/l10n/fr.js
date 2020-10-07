@@ -200,8 +200,6 @@ OC.L10N.register(
     "This external storage is full, files can not be updated or synced anymore!" : "Cet espace de stockage externe est plein, les fichiers ne peuvent plus être mis à jour ni synchronisés !",
     "This group folder is almost full ({usedSpacePercent}%)" : "Ce dossier de groupe est presque plein ({usedSpacePercent}%).",
     "This external storage is almost full ({usedSpacePercent}%)" : "Cet espace de stockage externe est presque plein ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier que vous ne possédez pas",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Ce dossier de groupe est presque plein ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Cet espace de stockage externe est presque plein ({usedSpacePercent}%)."
+    "Cannot transfter ownership of a file or folder you don't own" : "Impossible de transférer la propriété d’un fichier ou d’un dossier que vous ne possédez pas"
 },
 "nplurals=2; plural=(n > 1);");
