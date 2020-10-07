@@ -216,10 +216,6 @@ class Application extends App implements IBootstrap {
 								   EventDispatcherInterface $dispatcher,
 								   IAppContainer $container,
 								   IServerContainer $serverContainer) {
-		/** @var HookManager $hm */
-		$hm = $this->getContainer()->query(HookManager::class);
-		$hm->setup();
-
 		// first time login event setup
 		$dispatcher->addListener(IUser::class . '::firstLogin', function ($event) use ($hm) {
 			if ($event instanceof GenericEvent) {
