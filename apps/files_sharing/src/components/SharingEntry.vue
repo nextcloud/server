@@ -30,7 +30,7 @@
 			:menu-position="'left'"
 			:url="share.shareWithAvatar" />
 		<div v-tooltip.auto="tooltip" class="sharing-entry__desc">
-			<h5>{{ title }}</h5>
+			<h5>{{ title }}<span v-if="!isUnique" class="sharing-entry__desc-unique"> ({{ share.shareWithDisplayNameUnique }})</span></h5>
 		</div>
 		<Actions
 			menu-align="right"
@@ -382,6 +382,9 @@ export default {
 		padding: 8px;
 		line-height: 1.2em;
 		p {
+			color: var(--color-text-maxcontrast);
+		}
+		&-unique {
 			color: var(--color-text-maxcontrast);
 		}
 	}
