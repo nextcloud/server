@@ -197,8 +197,6 @@
     "This external storage is full, files can not be updated or synced anymore!" : "Надворешното складиште е исполнето, датотеките веќе не можат да се ажирираат или синхронизираат!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Групната папка е скоро исполнета ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Надворешното складиште е скоро исполнето ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на датотека која не е ваша",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Групната папка е скоро исполнета ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Надворешното складиште е скоро исполнето ({usedSpacePercent}%)."
+    "Cannot transfter ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на датотека која не е ваша"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

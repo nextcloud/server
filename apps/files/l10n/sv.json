@@ -198,8 +198,6 @@
     "This external storage is full, files can not be updated or synced anymore!" : "Denna externa lagring är full, filer kan inte uppdateras eller synkroniseras längre!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Denna gruppmapp är nästan full ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Denna externa lagring är nästan full ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap till en fil eller mapp som du inte äger",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Denna gruppmapp är nästan full ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Denna externa lagring är nästan full ({usedSpacePercent}%)."
+    "Cannot transfter ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap till en fil eller mapp som du inte äger"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

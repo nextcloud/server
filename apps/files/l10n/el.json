@@ -197,8 +197,6 @@
     "This external storage is full, files can not be updated or synced anymore!" : "Ο εξωτερικός αποθηκευτικός σας χώρος είναι γεμάτος, τα αρχεία δεν μπορούν να ενημερωθούν ή να συγχρονιστούν!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Ο ομαδικός φάκελος είναι σχεδόν γεμάτος ({usedSpacePercent}%).",
     "This external storage is almost full ({usedSpacePercent}%)" : "Ο εξωτερικός αποθηκευτικός σας χώρος είναι σχεδόν γεμάτος ({usedSpacePercent}%).",
-    "Cannot transfter ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Ο ομαδικός φάκελος είναι σχεδόν γεμάτος ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Ο εξωτερικός αποθηκευτικός σας χώρος είναι σχεδόν γεμάτος ({usedSpacePercent}%)."
+    "Cannot transfter ownership of a file or folder you don't own" : "Δεν μπορεί να μεταβαστεί η κυριότητα αρχείου ή φακέλου που δεν σας ανήκει"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
