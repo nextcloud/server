@@ -200,8 +200,6 @@ OC.L10N.register(
     "This external storage is full, files can not be updated or synced anymore!" : "Aquest emmagatzematge extern és ple, els arxius no es poden actualitzar o sincronitzar ja!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Aquesta carpeta de grup és gairebé plena ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Aquest emmagatzematge extern és gairebé ple ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Aquesta carpeta de grup és gairebé plena ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Aquest emmagatzematge extern és gairebé ple ({usedSpacePercent}%)."
+    "Cannot transfter ownership of a file or folder you don't own" : "No es pot transferir la propietat d'un fitxer o carpeta que no és vostre"
 },
 "nplurals=2; plural=(n != 1);");

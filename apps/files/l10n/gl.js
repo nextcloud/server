@@ -204,8 +204,6 @@ OC.L10N.register(
     "This external storage is full, files can not be updated or synced anymore!" : "Este almacenamento externo está cheo, xa non se poden actualizar nin sincronizar os ficheiros.",
     "This group folder is almost full ({usedSpacePercent}%)" : "Este cartafol do grupo está case cheo ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Este almacenamento externo está case cheo ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol que non é de seu",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Este cartafol do grupo está case cheo ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Este almacenamento externo está case cheo ({usedSpacePercent}%)."
+    "Cannot transfter ownership of a file or folder you don't own" : "Non é posíbel transferir a propiedade dun ficheiro ou cartafol que non é de seu"
 },
 "nplurals=2; plural=(n != 1);");
