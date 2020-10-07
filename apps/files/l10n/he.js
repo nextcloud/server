@@ -200,8 +200,6 @@ OC.L10N.register(
     "This external storage is full, files can not be updated or synced anymore!" : "האחסון החיצוני מלא, לא ניתן לעדכן או לסנכרן קבצים מולו עוד!",
     "This group folder is almost full ({usedSpacePercent}%)" : "התיקייה הקבוצתית הזאת כמעט מלאה ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "האחסון החיצוני הזה כמעט מלא ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם",
-    "This group folder is almost full ({usedSpacePercent}%)." : "התיקייה הקבוצתית הזאת כמעט מלאה ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "האחסון החיצוני הזה כמעט מלא ({usedSpacePercent}%)."
+    "Cannot transfter ownership of a file or folder you don't own" : "אין לך אפשרות להעביר בעלות על קובץ או תיקייה שאין לך בעלות עליהם"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

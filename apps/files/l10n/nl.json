@@ -198,8 +198,6 @@
     "This external storage is full, files can not be updated or synced anymore!" : "Deze externe opslag is vol, bestanden kunnen niet meer bijgewerkt of gesynchroniseerd worden!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Deze groepsfolder zit bijna vol ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Deze externe opslagruimte zit bijna vol ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Kan het eigenaarschap van een bestand of map waarvan u niet de eigenaar bent, niet overdragen",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Deze groepsfolder zit bijna vol ({usedSpacePercent}%)",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Deze externe opslagruimte zit bijna vol ({usedSpacePercent}%)"
+    "Cannot transfter ownership of a file or folder you don't own" : "Kan het eigenaarschap van een bestand of map waarvan u niet de eigenaar bent, niet overdragen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -202,8 +202,6 @@
     "This external storage is full, files can not be updated or synced anymore!" : "Toto externí úložiště je plné, soubory už nadále už není aktualizovat nebo synchronizovat!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Tato skupinová složka je téměř plná ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Toto externí úložiště je téměř plné ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru nebo složky, která vám nenáleží",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Tato skupinová složka je téměř plná ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Toto externí úložiště je téměř plné ({usedSpacePercent}%)."
+    "Cannot transfter ownership of a file or folder you don't own" : "Není možné převést vlastnictví souboru nebo složky, která vám nenáleží"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }
