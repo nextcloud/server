@@ -126,6 +126,7 @@ class UserPlugin implements ISearchPlugin {
 						'shareType' => Share::SHARE_TYPE_USER,
 						'shareWith' => $uid,
 					],
+					'shareWithDisplayNameUnique' => !empty($userEmail) ? $userEmail : $uid,
 				];
 			} else {
 				$addToWideResults = false;
@@ -147,6 +148,7 @@ class UserPlugin implements ISearchPlugin {
 							'shareType' => IShare::TYPE_USER,
 							'shareWith' => $uid,
 						],
+						'shareWithDisplayNameUnique' => !empty($userEmail) ? $userEmail : $uid,
 					];
 				}
 			}
@@ -166,12 +168,15 @@ class UserPlugin implements ISearchPlugin {
 				}
 
 				if ($addUser) {
+					$uid = $user->getUID();
+					$userEmail = $user->getEMailAddress();
 					$result['exact'][] = [
 						'label' => $user->getDisplayName(),
 						'value' => [
 							'shareType' => Share::SHARE_TYPE_USER,
 							'shareWith' => $user->getUID(),
 						],
+						'shareWithDisplayNameUnique' => $userEmail !== null && $userEmail !== '' ? $userEmail : $uid,
 					];
 				}
 			}
