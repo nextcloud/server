@@ -150,6 +150,10 @@ export default class Share {
 			|| this.#share.share_with
 	}
 
+	get shareWithDisplayNameUnique() {
+		return this.#share.share_with_displayname_unique || this.#share.share_with
+	}
+
 	/**
 	 * Get the share with avatar if any
 	 *
