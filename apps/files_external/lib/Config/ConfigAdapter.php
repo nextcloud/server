@@ -161,6 +161,7 @@ class ConfigAdapter implements IMountProvider {
 			if ($storageConfig->getType() === StorageConfig::MOUNT_TYPE_PERSONAl) {
 				return new PersonalMount(
 					$this->userStoragesService,
+					$storageConfig,
 					$storageConfig->getId(),
 					$storage,
 					'/' . $user->getUID() . '/files' . $storageConfig->getMountPoint(),
@@ -171,6 +172,7 @@ class ConfigAdapter implements IMountProvider {
 				);
 			} else {
 				return new ExternalMountPoint(
+					$storageConfig,
 					$storage,
 					'/' . $user->getUID() . '/files' . $storageConfig->getMountPoint(),
 					null,
