@@ -30,5 +30,7 @@ return [
 		['name' => 'WeatherStatus#getLocation', 'url' => '/api/v1/location', 'verb' => 'GET'],
 		['name' => 'WeatherStatus#setLocation', 'url' => '/api/v1/location', 'verb' => 'PUT'],
 		['name' => 'WeatherStatus#getForecast', 'url' => '/api/v1/forecast', 'verb' => 'GET'],
+		['name' => 'WeatherStatus#getFavorites', 'url' => '/api/v1/favorites', 'verb' => 'GET'],
+		['name' => 'WeatherStatus#setFavorites', 'url' => '/api/v1/favorites', 'verb' => 'PUT'],
 	],
 ];

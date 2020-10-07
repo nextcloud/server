@@ -134,6 +134,26 @@ class WeatherStatusService {
 	}
 
 	/**
+	 * Get favorites list
+	 * @param array $favorites
+	 * @return array success state
+	 */
+	public function getFavorites(): array {
+		$favoritesJson = $this->config->getUserValue($this->userId, Application::APP_ID, 'favorites', '');
+		return json_decode($favoritesJson, true) ?: [];
+	}
+
+	/**
+	 * Set favorites list
+	 * @param array $favorites
+	 * @return array success state
+	 */
+	public function setFavorites(array $favorites): array {
+		$this->config->setUserValue($this->userId, Application::APP_ID, 'favorites', json_encode($favorites));
+		return ['success' => true];
+	}
+
+	/**
 	 * Try to use the address set in user personal settings as weather location
 	 *
 	 * @return array with success state and address information

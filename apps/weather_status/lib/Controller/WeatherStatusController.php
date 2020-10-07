@@ -121,4 +121,27 @@ class WeatherStatusController extends OCSController {
 			return new DataResponse($forecast);
 		}
 	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * Get favorites list
+	 *
+	 * @return DataResponse which contains the favorite list
+	 */
+	public function getFavorites(): DataResponse {
+		return new DataResponse($this->service->getFavorites());
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * Set favorites list
+	 *
+	 * @param array $favorites
+	 * @return DataResponse success state
+	 */
+	public function setFavorites(array $favorites): DataResponse {
+		return new DataResponse($this->service->setFavorites($favorites));
+	}
 }

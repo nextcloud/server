@@ -26,13 +26,18 @@
 				class="weather-status-menu-item__subheader"
 				:default-icon="weatherIcon"
 				:menu-title="visibleMessage">
-				<ActionLink v-if="address && !errorMessage"
+				<ActionLink v-if="gotWeather"
 					icon="icon-address"
 					target="_blank"
 					:href="weatherLinkTarget"
 					:close-after-click="true">
 					{{ locationText }}
 				</ActionLink>
+				<ActionButton v-if="gotWeather"
+					:icon="addRemoveFavoriteIcon"
+					@click="onAddRemoveFavoriteClick">
+					{{ addRemoveFavoriteText }}
+				</ActionButton>
 				<ActionSeparator v-if="address && !errorMessage" />
 				<ActionButton
 					icon="icon-crosshair"
@@ -49,6 +54,18 @@
 					@submit="onAddressSubmit">
 					{{ t('weather_status', 'Set custom address') }}
 				</ActionInput>
+				<ActionButton
+					v-show="favorites.length > 0"
+					:icon="toggleFavoritesIcon"
+					@click="showFavorites = !showFavorites">
+					{{ t('weather_status', 'Favorites') }}
+				</ActionButton>
+				<ActionButton v-for="f in displayedFavorites"
+					:key="f"
+					icon="icon-starred"
+					@click="onFavoriteClick(f)">
+					{{ f }}
+				</ActionButton>
 			</Actions>
 		</div>
 	</li>
@@ -160,6 +177,8 @@ export default {
 			lon: null,
 			forecasts: [],
 			loop: null,
+			favorites: [],
+			showFavorites: false,
 		}
 	},
 	computed: {
@@ -217,6 +236,34 @@ export default {
 		weatherLinkTarget() {
 			return 'https://www.windy.com/-Rain-thunder-rain?rain,' + this.lat + ',' + this.lon + ',11'
 		},
+		gotWeather() {
+			return this.address && !this.errorMessage
+		},
+		addRemoveFavoriteIcon() {
+			return this.currentAddressIsFavorite
+				? 'icon-starred'
+				: 'icon-star'
+		},
+		addRemoveFavoriteText() {
+			return this.currentAddressIsFavorite
+				? t('weather_status', 'Remove from favorites')
+				: t('weather_status', 'Add as favorite')
+		},
+		currentAddressIsFavorite() {
+			return this.favorites.find((f) => {
+				return f === this.address
+			})
+		},
+		toggleFavoritesIcon() {
+			return this.showFavorites
+				? 'icon-triangle-s'
+				: 'icon-triangle-e'
+		},
+		displayedFavorites() {
+			return this.showFavorites
+				? this.favorites
+				: []
+		},
 	},
 	mounted() {
 		this.initWeatherStatus()
@@ -235,6 +282,8 @@ export default {
 				} else if (this.mode === MODE_MANUAL_LOCATION) {
 					this.startLoop()
 				}
+				const favs = await network.getFavorites()
+				this.favorites = favs
 			} catch (err) {
 				if (err?.code === 'ECONNABORTED') {
 					console.info('The weather status request was cancelled because the user navigates.')
@@ -377,6 +426,23 @@ export default {
 			return this.useFahrenheitLocale
 				? ((celcius * (9 / 5)) + 32).toFixed(1)
 				: celcius
+		},
+		onAddRemoveFavoriteClick() {
+			const currentIsFavorite = this.currentAddressIsFavorite
+			if (currentIsFavorite) {
+				const i = this.favorites.indexOf(currentIsFavorite)
+				if (i !== -1) {
+					this.favorites.splice(i, 1)
+				}
+			} else {
+				this.favorites.push(this.address)
+			}
+			network.saveFavorites(this.favorites)
+		},
+		onFavoriteClick(favAddress) {
+			if (favAddress !== this.address) {
+				this.setAddress(favAddress)
+			}
 		},
 	},
 }
