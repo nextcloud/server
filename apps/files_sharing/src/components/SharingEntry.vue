@@ -33,7 +33,7 @@
 			:href="share.shareWithLink"
 			v-tooltip.auto="tooltip"
 			class="sharing-entry__desc">
-			<h5>{{ title }}</h5>
+			<h5>{{ title }}<span v-if="!isUnique" class="sharing-entry__desc-unique"> ({{ share.shareWithDisplayNameUnique }})</span></h5>
 			<p v-if="hasStatus">
 				<span>{{ share.status.icon || '' }}</span>
 				<span>{{ share.status.message || '' }}</span>
@@ -400,6 +400,9 @@ export default {
 		padding: 8px;
 		line-height: 1.2em;
 		p {
+			color: var(--color-text-maxcontrast);
+		}
+		&-unique {
 			color: var(--color-text-maxcontrast);
 		}
 	}
