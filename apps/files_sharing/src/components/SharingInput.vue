@@ -258,7 +258,7 @@ export default {
 			this.suggestions = allSuggestions.map(item => {
 				// Make sure that items with duplicate displayName get the shareWith applied as a description
 				if (nameCounts[item.displayName] > 1 && !item.desc) {
-					return { ...item, desc: item.shareWith }
+					return { ...item, desc: item.shareWithDisplayNameUnique }
 				}
 				return item
 			})
@@ -418,6 +418,7 @@ export default {
 				isNoUser: result.value.shareType !== this.SHARE_TYPES.SHARE_TYPE_USER,
 				displayName: result.name || result.label,
 				desc,
+				shareWithDisplayNameUnique: result.shareWithDisplayNameUnique || '',
 				icon: this.shareTypeToIcon(result.value.shareType),
 			}
 		},
