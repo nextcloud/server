@@ -146,8 +146,8 @@ class Local extends \OC\Files\Storage\Common {
 	public function stat($path) {
 		$fullPath = $this->getSourcePath($path);
 		clearstatcache(true, $fullPath);
-		$statResult = stat($fullPath);
-		if (PHP_INT_SIZE === 4 && !$this->is_dir($path)) {
+		$statResult = @stat($fullPath);
+		if (PHP_INT_SIZE === 4 && $statResult && !$this->is_dir($path)) {
 			$filesize = $this->filesize($path);
 			$statResult['size'] = $filesize;
 			$statResult[7] = $filesize;
@@ -159,9 +159,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @inheritdoc
 	 */
 	public function getMetaData($path) {
-		$fullPath = $this->getSourcePath($path);
-		clearstatcache(true, $fullPath);
-		$stat = @stat($fullPath);
+		$stat = $this->stat($path);
 		if (!$stat) {
 			return null;
 		}
@@ -180,6 +178,7 @@ class Local extends \OC\Files\Storage\Common {
 		}
 
 		if (!($path === '' || $path === '/')) { // deletable depends on the parents unix permissions
+			$fullPath = $this->getSourcePath($path);
 			$parent = dirname($fullPath);
 			if (is_writable($parent)) {
 				$permissions += Constants::PERMISSION_DELETE;
