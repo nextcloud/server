@@ -153,6 +153,15 @@ class Notify extends Base {
 		}
 
 		try {
+			$backend = $mount->getBackend();
+			$backend->manipulateStorageConfig($mount, $user);
+		} catch (InsufficientDataForMeaningfulAnswerException $e) {
+			$noAuth = true;
+		} catch (StorageNotAvailableException $e) {
+			$noAuth = true;
+		}
+
+		try {
 			$storage = $this->createStorage($mount);
 		} catch (\Exception $e) {
 			$output->writeln('<error>Error while trying to create storage</error>');
