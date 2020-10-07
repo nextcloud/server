@@ -202,8 +202,6 @@
     "This external storage is full, files can not be updated or synced anymore!" : "Magazyn zewnętrzny jest pełny. Nie można już aktualizować ani synchronizować plików!",
     "This group folder is almost full ({usedSpacePercent}%)" : "Ten katalog grupowy jest prawie pełny ({usedSpacePercent}%).",
     "This external storage is almost full ({usedSpacePercent}%)" : "Magazyn zewnętrzny jest prawie pełny ({usedSpacePercent}%).",
-    "Cannot transfter ownership of a file or folder you don't own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Ten katalog grupowy jest prawie pełny ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Magazyn zewnętrzny jest prawie pełny ({usedSpacePercent}%)."
+    "Cannot transfter ownership of a file or folder you don't own" : "Nie można przenieść prawa własności do pliku lub katalogu, którego nie jesteś właścicielem"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

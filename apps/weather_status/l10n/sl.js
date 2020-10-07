@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "weather_status",
+    {
+    "Unknown address" : "Neznan naslov",
+    "No result." : "Ni zadetkov",
+    "Malformed JSON data." : "Nepravilno oblikovani podatki JSON.",
+    "Error" : "Napaka",
+    "Weather status" : "Stanje vremena",
+    "Weather status in your dashboard" : "Stanje vremena na nadzorni plošči",
+    "Detect location" : "Zaznaj trenutno mesto",
+    "Set custom address" : "Nastavi naslov po meri",
+    "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} : jasno nebo ob {time}",
+    "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} : oblačno ob {time}",
+    "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} : delno oblačno ob {time}",
+    "{temperature} {unit} Foggy at {time}" : "{temperature} {unit} : megleno ob {time}",
+    "{temperature} {unit} Light rain at {time}" : "{temperature} {unit} : rahel dež ob {time}",
+    "{temperature} {unit} Rain at {time}" : "{temperature} {unit} : dežuje ob {time}",
+    "{temperature} {unit} Heavy rain at {time}" : "{temperature} {unit} : močno dežuje ob {time}",
+    "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} : plohe ob {time}",
+    "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} : zmerne plohe ob {time}",
+    "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} : močne plohe ob {time}",
+    "More weather for {adr}" : "Več o vremenu za mesto {adr}",
+    "Loading weather" : "Poteka nalaganje podatkov o vremenu",
+    "Set location for weather" : "Nastavitev mesta za prikaz vremena",
+    "You are not logged in." : "Niste prijavljeni v oblak.",
+    "There was an error getting the weather status information." : "Prišlo je do napake med pridobivanjem podrobnosti o vremenu."
+},
+"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -199,8 +199,6 @@ OC.L10N.register(
     "This external storage is full, files can not be updated or synced anymore!" : "Al lec'h renkañ diavaezh mañ a zo leun, n'eo ket posupl adnevesaat pe kempredañ ar restroù ken !",
     "This group folder is almost full ({usedSpacePercent}%)" : "Kaji leun eo an teuliad strollad-mañ ({usedSpacePercent}%)",
     "This external storage is almost full ({usedSpacePercent}%)" : "Al lec'h renkañ diavaezh-mañ a zo kaji leun ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "N'hallit ket treuzkas perc'henniezh ur restr pe un teuliad n'eo ket deoc'h",
-    "This group folder is almost full ({usedSpacePercent}%)." : "Teuliad ar strollad-mañ a zo kaji leun ({usedSpacePercent}%).",
-    "This external storage is almost full ({usedSpacePercent}%)." : "Al lec'h renkañ diavaez a zo kaji leun ({usedSpacePercent}%)."
+    "Cannot transfter ownership of a file or folder you don't own" : "N'hallit ket treuzkas perc'henniezh ur restr pe un teuliad n'eo ket deoc'h"
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");
