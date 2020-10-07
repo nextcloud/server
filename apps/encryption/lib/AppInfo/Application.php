@@ -44,9 +44,10 @@ use OCA\Encryption\Recovery;
 use OCA\Encryption\Session;
 use OCA\Encryption\Users\Setup;
 use OCA\Encryption\Util;
-use OCP\AppFramework\IAppContainer;
 use OCP\Encryption\IManager;
 use OCP\IConfig;
+use OCP\IServerContainer;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 
 class Application extends \OCP\AppFramework\App {
@@ -127,137 +128,139 @@ class Application extends \OCP\AppFramework\App {
 	public function registerServices() {
 		$container = $this->getContainer();
 
-		$container->registerService('Crypt',
-			function (IAppContainer $c) {
-				$server = $c->getServer();
-				return new Crypt($server->getLogger(),
+		$container->registerService('Crypt',	function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
+			return new Crypt($server->getLogger(),
 					$server->getUserSession(),
 					$server->getConfig(),
-					$server->getL10N($c->getAppName()));
-			});
+					$server->getL10N($c->get('AppName')));
+		});
 
-		$container->registerService('Session',
-			function (IAppContainer $c) {
-				$server = $c->getServer();
-				return new Session($server->getSession());
-			}
+		$container->registerService('Session',	function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
+			return new Session($server->getSession());
+		}
 		);
 
-		$container->registerService('KeyManager',
-			function (IAppContainer $c) {
-				$server = $c->getServer();
+		$container->registerService('KeyManager',	function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
 
-				return new KeyManager($server->getEncryptionKeyStorage(),
-					$c->query('Crypt'),
+			return new KeyManager($server->getEncryptionKeyStorage(),
+					$c->get('Crypt'),
 					$server->getConfig(),
 					$server->getUserSession(),
 					new Session($server->getSession()),
 					$server->getLogger(),
-					$c->query('Util'),
+					$c->get('Util'),
 					$server->getLockingProvider()
 				);
-			});
+		});
 
-		$container->registerService('Recovery',
-			function (IAppContainer $c) {
-				$server = $c->getServer();
+		$container->registerService('Recovery',		function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
 
-				return new Recovery(
+			return new Recovery(
 					$server->getUserSession(),
-					$c->query('Crypt'),
-					$c->query('KeyManager'),
+					$c->get('Crypt'),
+					$c->get('KeyManager'),
 					$server->getConfig(),
 					$server->getEncryptionFilesHelper(),
 					new View());
-			});
-
-		$container->registerService('RecoveryController', function (IAppContainer $c) {
-			$server = $c->getServer();
-			return new RecoveryController(
-				$c->getAppName(),
-				$server->getRequest(),
-				$server->getConfig(),
-				$server->getL10N($c->getAppName()),
-				$c->query('Recovery'));
 		});
 
-		$container->registerService('StatusController', function (IAppContainer $c) {
-			$server = $c->getServer();
-			return new StatusController(
-				$c->getAppName(),
+		$container->registerService('RecoveryController', function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
+			return new RecoveryController(
+				$c->get('AppName'),
 				$server->getRequest(),
-				$server->getL10N($c->getAppName()),
-				$c->query('Session'),
+				$server->getConfig(),
+				$server->getL10N($c->get('AppName')),
+				$c->get('Recovery'));
+		});
+
+		$container->registerService('StatusController', function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
+			return new StatusController(
+				$c->get('AppName'),
+				$server->getRequest(),
+				$server->getL10N($c->get('AppName')),
+				$c->get('Session'),
 				$server->getEncryptionManager()
 			);
 		});
 
-		$container->registerService('SettingsController', function (IAppContainer $c) {
-			$server = $c->getServer();
+		$container->registerService('SettingsController', function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
 			return new SettingsController(
-				$c->getAppName(),
+				$c->get('AppName'),
 				$server->getRequest(),
-				$server->getL10N($c->getAppName()),
+				$server->getL10N($c->get('AppName')),
 				$server->getUserManager(),
 				$server->getUserSession(),
-				$c->query('KeyManager'),
-				$c->query('Crypt'),
-				$c->query('Session'),
+				$c->get('KeyManager'),
+				$c->get('Crypt'),
+				$c->get('Session'),
 				$server->getSession(),
-				$c->query('Util')
+				$c->get('Util')
 			);
 		});
 
-		$container->registerService('UserSetup',
-			function (IAppContainer $c) {
-				$server = $c->getServer();
-				return new Setup($server->getLogger(),
+		$container->registerService('UserSetup',	function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
+			return new Setup($server->getLogger(),
 					$server->getUserSession(),
-					$c->query('Crypt'),
-					$c->query('KeyManager'));
-			});
+					$c->get('Crypt'),
+					$c->get('KeyManager'));
+		});
 
-		$container->registerService('Util',
-			function (IAppContainer $c) {
-				$server = $c->getServer();
+		$container->registerService('Util', function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
 
-				return new Util(
+			return new Util(
 					new View(),
-					$c->query('Crypt'),
+					$c->get('Crypt'),
 					$server->getLogger(),
 					$server->getUserSession(),
 					$server->getConfig(),
 					$server->getUserManager());
-			});
+		});
 
-		$container->registerService('EncryptAll',
-			function (IAppContainer $c) {
-				$server = $c->getServer();
-				return new EncryptAll(
-					$c->query('UserSetup'),
-					$c->getServer()->getUserManager(),
+		$container->registerService('EncryptAll',	function (ContainerInterface $c) {
+			/** @var IServerContainer $server */
+			$server = $c->get(IServerContainer::class);
+			return new EncryptAll(
+					$c->get('UserSetup'),
+					$server->getUserManager(),
 					new View(),
-					$c->query('KeyManager'),
-					$c->query('Util'),
+					$c->get('KeyManager'),
+					$c->get('Util'),
 					$server->getConfig(),
 					$server->getMailer(),
 					$server->getL10N('encryption'),
 					new QuestionHelper(),
 					$server->getSecureRandom()
 				);
-			}
+		}
 		);
 
-		$container->registerService('DecryptAll',
-			function (IAppContainer $c) {
-				return new DecryptAll(
-					$c->query('Util'),
-					$c->query('KeyManager'),
-					$c->query('Crypt'),
-					$c->query('Session'),
+		$container->registerService('DecryptAll',function (ContainerInterface $c) {
+			return new DecryptAll(
+					$c->get('Util'),
+					$c->get('KeyManager'),
+					$c->get('Crypt'),
+					$c->get('Session'),
 					new QuestionHelper()
 				);
-			}
+		}
 		);
 	}
 }
