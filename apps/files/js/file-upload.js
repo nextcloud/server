@@ -989,56 +989,92 @@ OC.Uploader.prototype = _.extend({
 					}
 
 					// check free space
-					freeSpace = $('#free_space').val();
-					if (freeSpace >= 0 && selection.totalBytes > freeSpace) {
-						data.textStatus = 'notenoughspace';
-						data.errorThrown = t('files',
-							'Not enough free space, you are uploading {size1} but only {size2} is left', {
-							'size1': OC.Util.humanFileSize(selection.totalBytes),
-							'size2': OC.Util.humanFileSize($('#free_space').val())
-						});
-					}
-
-					// end upload for whole selection on error
-					if (data.errorThrown) {
-						// trigger fileupload fail handler
-						var fu = that.data('blueimp-fileupload') || that.data('fileupload');
-						fu._trigger('fail', e, data);
-						return false; //don't upload anything
-					}
-
-					// check existing files when all is collected
-					if ( selection.uploads.length >= selection.filesToUpload ) {
-
-						//remove our selection hack:
-						delete data.originalFiles.selection;
-
-						var callbacks = {
-
-							onNoConflicts: function (selection) {
-								self.submitUploads(selection.uploads);
-							},
-							onSkipConflicts: function (selection) {
-								//TODO mark conflicting files as toskip
-							},
-							onReplaceConflicts: function (selection) {
-								//TODO mark conflicting files as toreplace
-							},
-							onChooseConflicts: function (selection) {
-								//TODO mark conflicting files as chosen
-							},
-							onCancel: function (selection) {
-								$.each(selection.uploads, function(i, upload) {
-									upload.abort();
-								});
+					davClient = OC.Files.getClient();
+					targetFolder = upload._targetFolder;
+					console.debug('checking free space of upload target')
+					davClient._client.propFind(davClient._buildUrl(targetFolder)).then(function(f) {
+						if(f.status < 200 || f.status >= 300){
+							console.debug('checking free space was not successful')
+							throw {
+								textStatus: 'quotaqueryfailed',
+								message: t('files', 'HTTP Status {s} while querying free space on {t}', {
+									s: f.status,
+									t:targetFolder
+								})
+							};
+						}
+						s = f.xhr.responseXML.getElementsByTagName("d:quota-available-bytes")[0].textContent
+						freeSpace = parseInt(s);
+						console.debug('free space checked', freeSpace)
+						return freeSpace
+					}).then(function(freeSpace) {
+						if (freeSpace >= 0 && selection.totalBytes > freeSpace) {
+							throw {
+								textStatus: 'notenoughspace',
+								message: t(
+									'files',
+									'Not enough free space, you are uploading {size1} but only {size2} is left', {
+										'size1': humanFileSize(selection.totalBytes),
+										'size2': humanFileSize(freeSpace)
+									}
+								)
 							}
-						};
+						}
 
-						self.checkExistingFiles(selection, callbacks);
+						if (freeSpace >= 0 && selection.totalBytes > freeSpace) {
+							data.textStatus = 'notenoughspace';
+							data.errorThrown = t('files',
+								'Not enough free space, you are uploading {size1} but only {size2} is left', {
+									'size1': OC.Util.humanFileSize(selection.totalBytes),
+									'size2': OC.Util.humanFileSize($('#free_space').val())
+								});
+						}
 
-					}
+						// end upload for whole selection on error
+						if (data.errorThrown) {
+							// trigger fileupload fail handler
+							var fu = that.data('blueimp-fileupload') || that.data('fileupload');
+							fu._trigger('fail', e, data);
+							return false; //don't upload anything
+						}
 
-					return true; // continue adding files
+						// check existing files when all is collected
+						if ( selection.uploads.length >= selection.filesToUpload ) {
+
+							//remove our selection hack:
+							delete data.originalFiles.selection;
+
+							var callbacks = {
+
+								onNoConflicts: function (selection) {
+									self.submitUploads(selection.uploads);
+								},
+								onSkipConflicts: function (selection) {
+									//TODO mark conflicting files as toskip
+								},
+								onReplaceConflicts: function (selection) {
+									//TODO mark conflicting files as toreplace
+								},
+								onChooseConflicts: function (selection) {
+									//TODO mark conflicting files as chosen
+								},
+								onCancel: function (selection) {
+									$.each(selection.uploads, function(i, upload) {
+										upload.abort();
+									});
+								}
+							};
+
+							self.checkExistingFiles(selection, callbacks);
+
+						}
+
+						return true; // continue adding files
+					}).catch(function(e) {
+						console.error('could not check free space', e)
+
+						return false
+					});
 				},
 				/**
 				 * called after the first add, does NOT have the data param
