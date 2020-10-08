@@ -522,10 +522,6 @@ Raw output
 		return [];
 	}
 
-	protected function isPHPMailerUsed(): bool {
-		return $this->config->getSystemValue('mail_smtpmode', 'smtp') === 'php';
-	}
-
 	protected function hasOpcacheLoaded(): bool {
 		return extension_loaded('Zend OPcache');
 	}
@@ -722,8 +718,6 @@ Raw output
 				'missingColumns' => $this->hasMissingColumns(),
 				'isSqliteUsed' => $this->isSqliteUsed(),
 				'databaseConversionDocumentation' => $this->urlGenerator->linkToDocs('admin-db-conversion'),
-				'isPHPMailerUsed' => $this->isPHPMailerUsed(),
-				'mailSettingsDocumentation' => $this->urlGenerator->getAbsoluteURL('index.php/settings/admin'),
 				'isMemoryLimitSufficient' => $this->memoryInfo->isMemoryLimitSufficient(),
 				'appDirsWithDifferentOwner' => $this->getAppDirsWithDifferentOwner(),
 				'recommendedPHPModules' => $this->hasRecommendedPHPModules(),

@@ -479,10 +479,6 @@ class CheckSetupControllerTest extends TestCase {
 				'relativeTime' => '2 hours ago',
 				'backgroundJobsUrl' => 'https://example.org',
 			]);
-		$this->checkSetupController
-			->expects($this->once())
-			->method('isPHPMailerUsed')
-			->willReturn(false);
 		$this->checker
 			->expects($this->once())
 			->method('hasPassedCheck')
@@ -588,8 +584,6 @@ class CheckSetupControllerTest extends TestCase {
 				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
 				'missingIndexes' => [],
 				'missingColumns' => [],
-				'isPHPMailerUsed' => false,
-				'mailSettingsDocumentation' => 'https://server/index.php/settings/admin',
 				'isMemoryLimitSufficient' => true,
 				'appDirsWithDifferentOwner' => [],
 				'recommendedPHPModules' => [],
@@ -603,40 +597,6 @@ class CheckSetupControllerTest extends TestCase {
 			]
 		);
 		$this->assertEquals($expected, $this->checkSetupController->check());
-	}
-
-	public function testIsPHPMailerUsed() {
-		$checkSetupController = $this->getMockBuilder(CheckSetupController::class)
-			->setConstructorArgs([
-				'settings',
-				$this->request,
-				$this->config,
-				$this->clientService,
-				$this->urlGenerator,
-				$this->l10n,
-				$this->checker,
-				$this->logger,
-				$this->dispatcher,
-				$this->db,
-				$this->lockingProvider,
-				$this->dateTimeFormatter,
-				$this->memoryInfo,
-				$this->secureRandom,
-				$this->iniGetWrapper,
-			])
-			->setMethods(null)->getMock();
-
-		$this->config->expects($this->at(0))
-			->method('getSystemValue')
-			->with('mail_smtpmode', 'smtp')
-			->willReturn('php');
-		$this->config->expects($this->at(1))
-			->method('getSystemValue')
-			->with('mail_smtpmode', 'smtp')
-			->willReturn('not-php');
-
-		$this->assertTrue($this->invokePrivate($checkSetupController, 'isPHPMailerUsed'));
-		$this->assertFalse($this->invokePrivate($checkSetupController, 'isPHPMailerUsed'));
 	}
 
 	public function testGetCurlVersion() {
