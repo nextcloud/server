@@ -258,8 +258,8 @@ export default {
 					})
 
 					this.$nextTick(() => {
-						if (this.$refs.sidebar) {
-							this.$refs.sidebar.updateTabs()
+						if (this.$refs.tabs) {
+							this.$refs.tabs.updateTabs()
 						}
 					})
 				} catch (error) {
@@ -284,8 +284,8 @@ export default {
 			this.error = null
 			this.fileInfo = null
 			this.$nextTick(() => {
-				if (this.$refs.sidebar) {
-					this.$refs.sidebar.updateTabs()
+				if (this.$refs.tabs) {
+					this.$refs.tabs.updateTabs()
 				}
 			})
 		},
@@ -430,8 +430,8 @@ export default {
 					})
 
 					this.$nextTick(() => {
-						if (this.$refs.sidebar) {
-							this.$refs.sidebar.updateTabs()
+						if (this.$refs.tabs) {
+							this.$refs.tabs.updateTabs()
 						}
 					})
 				} catch (error) {
