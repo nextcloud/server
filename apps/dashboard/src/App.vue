@@ -178,7 +178,7 @@ export default {
 			return (status) => !(status in this.enabledStatuses) || this.enabledStatuses[status]
 		},
 		sortedAllStatuses() {
-			return Object.keys(this.allCallbacksStatus).slice().sort((a, b) => a > b)
+			return Object.keys(this.allCallbacksStatus).slice().sort(this.sortStatuses)
 		},
 		sortedPanels() {
 			return Object.values(this.panels).sort((a, b) => {
@@ -191,7 +191,7 @@ export default {
 			})
 		},
 		sortedRegisteredStatus() {
-			return this.registeredStatus.slice().sort((a, b) => a > b)
+			return this.registeredStatus.slice().sort(this.sortStatuses)
 		},
 	},
 	watch: {
@@ -349,6 +349,15 @@ export default {
 				})
 			}
 			this.saveStatuses()
+		},
+		sortStatuses(a, b) {
+			const al = a.toLowerCase()
+			const bl = b.toLowerCase()
+			return al > bl
+				? 1
+				: al < bl
+					? -1
+					: 0
 		},
 		handleScroll() {
 			if (window.scrollY > 70) {
