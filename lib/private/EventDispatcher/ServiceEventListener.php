@@ -30,7 +30,7 @@ use OCP\AppFramework\QueryException;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IContainer;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 /**
  * Lazy service event listener
@@ -46,7 +46,7 @@ final class ServiceEventListener {
 	/** @var string */
 	private $class;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var null|IEventListener */
@@ -54,7 +54,7 @@ final class ServiceEventListener {
 
 	public function __construct(IContainer $container,
 								string $class,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->container = $container;
 		$this->class = $class;
 		$this->logger = $logger;
@@ -65,9 +65,8 @@ final class ServiceEventListener {
 			try {
 				$this->service = $this->container->query($this->class);
 			} catch (QueryException $e) {
-				$this->logger->logException($e, [
-					'level' => ILogger::ERROR,
-					'message' => "Could not load event listener service " . $this->class,
+				$this->logger->error("Could not load event listener service " . $this->class, [
+					'exception' => $e,
 				]);
 				return;
 			}
