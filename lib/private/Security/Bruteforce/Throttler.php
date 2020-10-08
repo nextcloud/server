@@ -226,6 +226,11 @@ class Throttler {
 	 * @return int
 	 */
 	public function getAttempts(string $ip, string $action = '', float $maxAgeHours = 12): int {
+		if ($maxAgeHours > 48) {
+			$this->logger->error('Bruteforce has to use less than 48 hours');
+			$maxAgeHours = 48;
+		}
+
 		if ($ip === '') {
 			return 0;
 		}
