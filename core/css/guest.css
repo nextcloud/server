@@ -394,7 +394,6 @@ input[type='checkbox'].checkbox--white:checked + label:before {
 .strengthify-wrapper {
 	display: inline-block;
 	position: relative;
-	left: 5px;
 	top: -20px;
 	width: 269px;
 	border-radius: 0 0 3px 3px;
