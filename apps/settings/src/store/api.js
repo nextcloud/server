@@ -76,6 +76,6 @@ export default {
 		return axios.put(sanitize(url), data)
 	},
 	delete(url, data) {
-		return axios.delete(sanitize(url), { data })
+		return axios.delete(sanitize(url), { params: data })
 	},
 }
