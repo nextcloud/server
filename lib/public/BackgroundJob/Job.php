@@ -138,7 +138,6 @@ abstract class Job implements IJob {
 	 * The actual function that is called to run the job
 	 *
 	 * @param $argument
-	 * @return mixed
 	 *
 	 * @since 15.0.0
 	 */
