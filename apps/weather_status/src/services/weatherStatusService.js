@@ -106,6 +106,33 @@ const fetchForecast = async() => {
 	return response.data.ocs.data
 }
 
+/**
+ * Fetches the location favorites
+ *
+ * @param {String} address The location
+ * @returns {Promise<Object>}
+ */
+const getFavorites = async() => {
+	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'favorites'
+	const response = await HttpClient.get(url)
+
+	return response.data.ocs.data
+}
+
+/**
+ *
+ * @param {Array} favorites List of favorite addresses
+ * @returns {Promise<Object>}
+ */
+const saveFavorites = async(favorites) => {
+	const url = generateOcsUrl('apps/weather_status/api/v1', 2) + 'favorites'
+	const response = await HttpClient.put(url, {
+		favorites,
+	})
+
+	return response.data.ocs.data
+}
+
 export {
 	usePersonalAddress,
 	setMode,
@@ -113,4 +140,6 @@ export {
 	setLocation,
 	setAddress,
 	fetchForecast,
+	getFavorites,
+	saveFavorites,
 }
