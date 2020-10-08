@@ -94,6 +94,19 @@ class FileMimeType extends AbstractStringCheck implements IFileCheck {
 	}
 
 	/**
+	 * Make sure that even though the content based check returns an application/octet-stream can still be checked based on mimetypemappings of their extension
+	 *
+	 * @param string $operator
+	 * @param string $value
+	 * @return bool
+	 */
+	public function executeCheck($operator, $value) {
+		$actualValue = $this->getActualValue();
+		return $this->executeStringCheck($operator, $value, $actualValue) ||
+			$this->executeStringCheck($operator, $value, $this->mimeTypeDetector->detectPath($this->path));
+	}
+
+	/**
 	 * @return string
 	 */
 	protected function getActualValue() {
