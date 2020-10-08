@@ -35,6 +35,7 @@
 namespace OC;
 
 use OC\Avatar\AvatarManager;
+use OC\Repair\AddBruteForceCleanupJob;
 use OC\Repair\AddCleanupUpdaterBackupsJob;
 use OC\Repair\CleanTags;
 use OC\Repair\ClearFrontendCaches;
@@ -162,6 +163,7 @@ class Repair implements IOutput {
 			\OC::$server->query(EncryptionLegacyCipher::class),
 			\OC::$server->query(EncryptionMigration::class),
 			\OC::$server->get(ShippedDashboardEnable::class),
+			\OC::$server->get(AddBruteForceCleanupJob::class),
 		];
 	}
 
