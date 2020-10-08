@@ -34,6 +34,7 @@
 
 namespace OC\User;
 
+use OC\HintException;
 use OC\Hooks\PublicEmitter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -42,6 +43,7 @@ use OCP\IGroup;
 use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
+use OCP\Support\Subscription\IRegistry;
 use OCP\User\Backend\IGetRealUIDBackend;
 use OCP\User\Events\BeforeUserCreatedEvent;
 use OCP\User\Events\UserCreatedEvent;
@@ -297,6 +299,12 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return bool|IUser the created user or false
 	 */
 	public function createUser($uid, $password) {
+		// DI injection is not used here as IRegistry needs the user manager itself for user count and thus it would create a cyclic dependency
+		if (\OC::$server->get(IRegistry::class)->delegateIsHardUserLimitReached()) {
+			$l = \OC::$server->getL10N('lib');
+			throw new HintException($l->t('The user limit has been reached and the user was not created.'));
+		}
+
 		$localBackends = [];
 		foreach ($this->backends as $backend) {
 			if ($backend instanceof Database) {
