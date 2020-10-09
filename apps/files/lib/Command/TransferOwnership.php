@@ -87,6 +87,16 @@ class TransferOwnership extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
+
+		/**
+		 * Check if source and destination users are same. If they are same then just ignore the transfer.
+		 */
+
+		if ($input->getArgument(('source-user')) === $input->getArgument('destination-user')) {
+			$output->writeln("<error>Ownership can't be transferred when Source and Destination users are the same user. Please check your input.</error>");
+			return 1;
+		}
+
 		$sourceUserObject = $this->userManager->get($input->getArgument('source-user'));
 		$destinationUserObject = $this->userManager->get($input->getArgument('destination-user'));
 
