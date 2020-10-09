@@ -73,11 +73,6 @@
       <code>\Sabre\Uri\split($this-&gt;principalUri)</code>
     </UndefinedFunction>
   </file>
-  <file src="apps/contactsinteraction/lib/BackgroundJob/CleanupJob.php">
-    <InvalidReturnType occurrences="1">
-      <code>run</code>
-    </InvalidReturnType>
-  </file>
   <file src="apps/dav/appinfo/v1/caldav.php">
     <TooManyArguments occurrences="1">
       <code>new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud')</code>
@@ -144,16 +139,6 @@
     <UndefinedFunction occurrences="1">
       <code>Uri\split($this-&gt;principalInfo['uri'])</code>
     </UndefinedFunction>
-  </file>
-  <file src="apps/dav/lib/BackgroundJob/BuildReminderIndexBackgroundJob.php">
-    <InvalidReturnType occurrences="1">
-      <code>run</code>
-    </InvalidReturnType>
-  </file>
-  <file src="apps/dav/lib/BackgroundJob/RegisterRegenerateBirthdayCalendars.php">
-    <InvalidReturnType occurrences="1">
-      <code>run</code>
-    </InvalidReturnType>
   </file>
   <file src="apps/dav/lib/BackgroundJob/UploadCleanup.php">
     <InvalidArgument occurrences="1">
@@ -1363,11 +1348,6 @@
       <code>$this</code>
     </InvalidScope>
   </file>
-  <file src="apps/files_external/lib/BackgroundJob/CredentialsCleanup.php">
-    <InvalidReturnType occurrences="1">
-      <code>run</code>
-    </InvalidReturnType>
-  </file>
   <file src="apps/files_external/lib/Command/Applicable.php">
     <InvalidArgument occurrences="1">
       <code>$mountId</code>
@@ -2240,9 +2220,6 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$registry</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidReturnType occurrences="1">
-      <code>run</code>
-    </InvalidReturnType>
     <UndefinedMethod occurrences="1">
       <code>getProviderStates</code>
     </UndefinedMethod>
@@ -2649,11 +2626,6 @@
       <code>registerProvider</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="apps/user_status/lib/BackgroundJob/ClearOldStatusesBackgroundJob.php">
-    <InvalidReturnType occurrences="1">
-      <code>run</code>
-    </InvalidReturnType>
-  </file>
   <file src="apps/user_status/lib/Db/UserStatusMapper.php">
     <MoreSpecificImplementedParamType occurrences="1"/>
   </file>
@@ -2763,11 +2735,6 @@
     <NullableReturnStatement occurrences="1">
       <code>$this-&gt;manager-&gt;isUserScopeEnabled() ? 'workflow' : null</code>
     </NullableReturnStatement>
-  </file>
-  <file src="core/BackgroundJobs/CleanupLoginFlowV2.php">
-    <InvalidReturnType occurrences="1">
-      <code>run</code>
-    </InvalidReturnType>
   </file>
   <file src="core/Command/App/CheckCode.php">
     <InvalidScalarArgument occurrences="1"/>
