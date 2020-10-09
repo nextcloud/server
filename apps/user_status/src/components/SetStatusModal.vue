@@ -49,8 +49,10 @@
 					</button>
 				</EmojiPicker>
 				<CustomMessageInput
+					ref="customMessageInput"
 					:message="message"
-					@change="setMessage" />
+					@change="setMessage"
+					@submit="saveStatus" />
 			</div>
 			<PredefinedStatusesList
 				@selectStatus="selectPredefinedMessage" />
@@ -58,10 +60,10 @@
 				:clear-at="clearAt"
 				@selectClearAt="setClearAt" />
 			<div class="status-buttons">
-				<button class="status-buttons__select" @click="clearStatus">
+				<button class="status-buttons__select" :disabled="isSavingStatus" @click="clearStatus">
 					{{ $t('user_status', 'Clear status message') }}
 				</button>
-				<button class="status-buttons__primary primary" @click="saveStatus">
+				<button class="status-buttons__primary primary" :disabled="isSavingStatus" @click="saveStatus">
 					{{ $t('user_status', 'Set status message') }}
 				</button>
 			</div>
@@ -99,6 +101,7 @@ export default {
 			clearAt: null,
 			icon: null,
 			message: '',
+			isSavingStatus: false,
 			statuses: getAllStatusOptions(),
 		}
 	},
@@ -143,6 +146,9 @@ export default {
 		setIcon(icon) {
 			this.messageId = null
 			this.icon = icon
+			this.$nextTick(() => {
+				this.$refs.customMessageInput.focus()
+			})
 		},
 		/**
 		 * Sets a new message
@@ -178,6 +184,10 @@ export default {
 		 * @returns {Promise<void>}
 		 */
 		async saveStatus() {
+			if (this.isSavingStatus) {
+				return
+			}
+
 			try {
 				this.isSavingStatus = true
 
