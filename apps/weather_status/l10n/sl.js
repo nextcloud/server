@@ -9,6 +9,7 @@ OC.L10N.register(
     "Weather status in your dashboard" : "Stanje vremena na nadzorni plošči",
     "Detect location" : "Zaznaj trenutno mesto",
     "Set custom address" : "Nastavi naslov po meri",
+    "Favorites" : "Priljubljene",
     "{temperature} {unit} Clear sky at {time}" : "{temperature} {unit} : jasno nebo ob {time}",
     "{temperature} {unit} Cloudy at {time}" : "{temperature} {unit} : oblačno ob {time}",
     "{temperature} {unit} Partly cloudy at {time}" : "{temperature} {unit} : delno oblačno ob {time}",
@@ -22,6 +23,7 @@ OC.L10N.register(
     "More weather for {adr}" : "Več o vremenu za mesto {adr}",
     "Loading weather" : "Poteka nalaganje podatkov o vremenu",
     "Set location for weather" : "Nastavitev mesta za prikaz vremena",
+    "Remove from favorites" : "Odstrani iz priljubljenih",
     "You are not logged in." : "Niste prijavljeni v oblak.",
     "There was an error getting the weather status information." : "Prišlo je do napake med pridobivanjem podrobnosti o vremenu."
 },

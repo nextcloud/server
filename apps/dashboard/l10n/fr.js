@@ -2,7 +2,7 @@ OC.L10N.register(
     "dashboard",
     {
     "Dashboard" : "Tableau de bord",
-    "Dashboard app" : "Dashboard app",
+    "Dashboard app" : "Application Tableau de bord",
     "Show something" : "Montre quelque chose",
     "Customize" : "Personnaliser",
     "Edit widgets" : "Modifier les widgets",
