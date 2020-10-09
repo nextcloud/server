@@ -29,7 +29,7 @@
 // between betas, final and RCs. This is _not_ the public version number. Reset minor/patchlevel
 // when updating major/minor version number.
 
-$OC_Version = [21, 0, 0, 0];
+$OC_Version = [21, 0, 0, 1];
 
 // The human readable string
 $OC_VersionString = '21.0.0 alpha';
