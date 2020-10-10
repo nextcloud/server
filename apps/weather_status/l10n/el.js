@@ -27,6 +27,7 @@ OC.L10N.register(
     "Loading weather" : "Φόρτωση καιρού",
     "Set location for weather" : "Ορισμός τοποθεσίας καιρού",
     "Remove from favorites" : "Αφαίρεση από τα αγαπημένα",
+    "Add as favorite" : "Προσθήκη ως αγαπημένο",
     "You are not logged in." : "Δεν έχετε συνδεθεί.",
     "There was an error getting the weather status information." : "Παρουσιάστηκε σφάλμα κατά τη λήψη των πληροφοριών σχετικά με την κατάσταση καιρού.",
     "No weather information found" : "Δεν βρέθηκαν πληροφορίες για τον καιρό",

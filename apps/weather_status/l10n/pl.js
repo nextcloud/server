@@ -27,6 +27,7 @@ OC.L10N.register(
     "Loading weather" : "Ładowanie pogody",
     "Set location for weather" : "Ustaw lokalizację dla pogody",
     "Remove from favorites" : "Usuń z ulubionych",
+    "Add as favorite" : "Dodaj jako ulubione",
     "You are not logged in." : "Nie jesteś zalogowany.",
     "There was an error getting the weather status information." : "Wystąpił błąd podczas pobierania informacji o stanie pogody.",
     "No weather information found" : "Nie znaleziono informacji o pogodzie",

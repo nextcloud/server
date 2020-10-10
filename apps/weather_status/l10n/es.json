@@ -25,6 +25,7 @@
     "Loading weather" : "Cargando previsión del tiempo",
     "Set location for weather" : "Seleccione la localización para el tiempo",
     "Remove from favorites" : "Quitar de favoritos",
+    "Add as favorite" : "Añadir como favorito",
     "You are not logged in." : "No ha iniciado sesión.",
     "There was an error getting the weather status information." : "Ha habido un error al obtener la información sobre la previsión del tiempo.",
     "No weather information found" : "No se ha encontrado información del tiempo",

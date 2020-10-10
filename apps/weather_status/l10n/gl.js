@@ -27,6 +27,7 @@ OC.L10N.register(
     "Loading weather" : "Cargando as previsións",
     "Set location for weather" : "Estabelecer a localización para as previsións meteorolóxicas",
     "Remove from favorites" : "Retirar de favoritos",
+    "Add as favorite" : "Engadir como favorito",
     "You are not logged in." : "Aínda non accedeu.",
     "There was an error getting the weather status information." : "Produciuse un erro ao obter a información do estado do tempo.",
     "No weather information found" : "Non se atopou información meteorolóxica",
