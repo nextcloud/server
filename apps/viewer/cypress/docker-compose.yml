@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 
 services:
     nextcloud:
@@ -9,8 +9,10 @@ services:
 
         environment:
             CYPRESS_baseUrl: "http://127.0.0.1:8082/index.php"
-            BRANCH: master
+            BRANCH: "${BRANCH:-master}"
 
         volumes:
-            - ../:/var/www/html/apps/viewer
+            # Using fallback to make sure this script doesn't mess
+            # with the mounting if APP_NAME is not provided.
+            - ../:/var/www/html/apps/${APP_NAME:-fallback}
             - ./initserver.sh:/initserver.sh
