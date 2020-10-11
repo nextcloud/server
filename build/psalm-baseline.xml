@@ -5208,9 +5208,6 @@
     <InternalMethod occurrences="1">
       <code>setSQLLogger</code>
     </InternalMethod>
-    <InvalidArgument occurrences="1">
-      <code>'OCP\IUser::preDelete'</code>
-    </InvalidArgument>
     <InvalidCatch occurrences="1"/>
     <InvalidScalarArgument occurrences="1">
       <code>$uid</code>
@@ -5218,9 +5215,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$userId</code>
     </MoreSpecificImplementedParamType>
-    <TooManyArguments occurrences="1">
-      <code>dispatch</code>
-    </TooManyArguments>
     <UndefinedDocblockClass occurrences="1">
       <code>\OC\OCSClient</code>
     </UndefinedDocblockClass>
