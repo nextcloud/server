@@ -464,7 +464,7 @@ OC.L10N.register(
     "Bambara" : "Bambara",
     "Basque (Spain)" : "Baskisch (Spanien)",
     "Basque" : "Baskisch",
-    "Belarusian (Belarus)" : "Weissrussisch (Belarus)",
+    "Belarusian (Belarus)" : "Weissrussisch (Weissrussland)",
     "Belarusian" : "Weissrussisch",
     "Bemba (Zambia)" : "Bemba (Sambia)",
     "Bemba" : "Bemba",
