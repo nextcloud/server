@@ -43,17 +43,15 @@ jobs:
       - name: Install dependencies & build app
         run: |
           npm ci
-          TESTING=true npm run build --if-present
+          npm run build --if-present
 
       - name: Wait for server
-        run: |
-            npm install -g wait-on
-            wait-on -i 500 -t 240000 $CYPRESS_baseUrl
+        run: npm run wait-on $CYPRESS_baseUrl
         
       - name: Enable app & configure server
         run: |
           cd cypress
-          docker-compose exec --env APP_NAME=${{ env.APP_NAME }} -T nextcloud bash /initserver.sh
+          docker-compose exec --env APP_NAME=${{ env.APP_NAME }} --env BRANCH=${{ env.BRANCH }} -T nextcloud bash /initserver.sh
 
       - name: Cypress run
         uses: cypress-io/github-action@v1
