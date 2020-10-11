@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Dashboard" : "Dashboard",
     "Dashboard app" : "Dashboard-App",
-    "Show something" : "Zeigen Sie etwas an",
+    "Show something" : "Etwas anzeigen",
     "Customize" : "Anpassen",
     "Edit widgets" : "Widgets bearbeiten",
     "Get more widgets from the app store" : "Holen Sie sich weitere Widgets aus dem App Store",
