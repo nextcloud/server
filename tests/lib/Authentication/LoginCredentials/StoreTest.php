@@ -31,9 +31,9 @@ use OC\Authentication\LoginCredentials\Store;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OCP\Authentication\Exceptions\CredentialsUnavailableException;
-use OCP\ILogger;
 use OCP\ISession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 use function json_encode;
 
@@ -45,7 +45,7 @@ class StoreTest extends TestCase {
 	/** @var IProvider|\PHPUnit\Framework\MockObject\MockObject */
 	private $tokenProvider;
 
-	/** @var ILogger|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
 	private $logger;
 
 	/** @var Store */
@@ -56,7 +56,7 @@ class StoreTest extends TestCase {
 
 		$this->session = $this->createMock(ISession::class);
 		$this->tokenProvider = $this->createMock(IProvider::class);
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->store = new Store($this->session, $this->logger, $this->tokenProvider);
 	}
