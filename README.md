@@ -89,6 +89,18 @@ Then inside the root folder of your local Nextcloud development installation, ru
 ./build/compile-handlebars-templates.sh
 ```
 
+Before checking in JS changes, make sure to also build for production:
+```
+make build-js-production
+```
+Then add the compiled files for committing.
+
+To save some time, to only rebuild for a specific app, use the following and replace the module with the app name:
+```
+MODULE=user_status make build-js-production
+```
+
+Please note that if you used `make build-js` or `make watch-js` before, you'll notice that a lot of files were marked as changed, so might need to clear the workspace first.
 
 ### Tools we use 🛠
 
