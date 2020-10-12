@@ -932,7 +932,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 		/** @deprecated 20.0.0 */
 		$this->registerDeprecatedAlias('IniWrapper', IniGetWrapper::class);
-		$this->registerService(IBus::class, function (ContainerInterface $c) {
+		$this->registerService('AsyncCommandBus', function (ContainerInterface $c) {
 			$busClass = $c->get(\OCP\IConfig::class)->getSystemValue('commandbus');
 			if ($busClass) {
 				[$app, $class] = explode('::', $busClass, 2);
@@ -947,7 +947,7 @@ class Server extends ServerContainer implements IServerContainer {
 				return new CronBus($jobList);
 			}
 		});
-		$this->registerDeprecatedAlias('AsyncCommandBus', IBus::class);
+		$this->registerAlias(IBus::class, 'AsyncCommandBus');
 		/** @deprecated 20.0.0 */
 		$this->registerDeprecatedAlias('TrustedDomainHelper', TrustedDomainHelper::class);
 		/** @deprecated 19.0.0 */
@@ -1995,7 +1995,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @deprecated 20.0.0
 	 */
 	public function getCommandBus() {
-		return $this->get(IBus::class);
+		return $this->query('AsyncCommandBus');
 	}
 
 	/**
