@@ -30,6 +30,9 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\IDBConnection;
 
+/**
+ * @template-extends QBMapper<PublicKeyCredentialEntity>
+ */
 class PublicKeyCredentialMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
 		parent::__construct($db, 'webauthn', PublicKeyCredentialEntity::class);
