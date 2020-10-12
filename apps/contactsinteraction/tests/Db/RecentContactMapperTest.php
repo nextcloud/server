@@ -110,7 +110,6 @@ class RecentContactMapperTest extends TestCase {
 			'URI' => UUIDUtil::getUUID(),
 			'FN' => 'Foo Bar',
 			'CATEGORIES' => 'Recently contacted',
-			'X-NEXTCLOUD-UID' => 'foobar',
 		];
 
 		$time = $this->time->getDateTime();
