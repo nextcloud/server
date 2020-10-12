@@ -72,6 +72,7 @@ class ShareInteractionListener implements IEventListener {
 			return;
 		}
 		$actor = $this->userManager->get($share->getSharedBy());
+		$sharedWith = $this->userManager->get($share->getSharedWith());
 		if ($actor === null) {
 			$this->logger->warning('Share was not created by a user, can\'t emit interaction event');
 			return;
@@ -80,6 +81,9 @@ class ShareInteractionListener implements IEventListener {
 		switch ($share->getShareType()) {
 			case IShare::TYPE_USER:
 				$interactionEvent->setUid($share->getSharedWith());
+				if ($sharedWith !== null) {
+					$interactionEvent->setFederatedCloudId($sharedWith->getCloudId());
+				}
 				break;
 			case IShare::TYPE_EMAIL:
 				$interactionEvent->setEmail($share->getSharedWith());
