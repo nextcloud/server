@@ -203,7 +203,7 @@ class RegistrationContext {
 			"appId" => $appId,
 			"name" => $name,
 			"factory" => $factory,
-			"sharred" => $shared,
+			"shared" => $shared,
 		];
 	}
 
