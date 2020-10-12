@@ -1,9 +1,9 @@
 OC.L10N.register(
     "accessibility",
     {
-    "Dark theme" : "暗黑模式",
-    "Enable dark theme" : "启用暗黑模式 ",
-    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "一款通过降低整体亮度来使您的眼睛放松的深色主题。目前还在开发中，如发现问题请及时反馈。",
+    "Dark theme" : "深色主题",
+    "Enable dark theme" : "启用深色主题",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "一款通过降低整体亮度来使您的眼睛放松的深色主题。该主题目前还在开发中，如发现问题请您及时向我们反馈。",
     "High contrast mode" : "高对比度模式",
     "Enable high contrast mode" : "启用高对比度模式",
     "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "使用高对比度模式。图像质量会下降，但清晰度会提升。",
@@ -21,7 +21,7 @@ OC.L10N.register(
     "our issue tracker" : "我们的问题跟踪",
     "our design team" : "我们的设计团队",
     "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "通用访问对于我们来说很重要。我们遵循万维网标准，通过检查确保所有功能即使没有鼠标或像屏幕阅读器这样的辅助软件也能使用。我们的目标是符合{guidelines} 2.1的AA级别，使用高对比度主题甚至能达到AAA级别。",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "如果您发现任何问题，请积极在{issuetracker}上报告他们。如果您想参与进来，请加入{designteam}！",
+    "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "如果您发现问题，请积极在{issuetracker}上向我们报告。如果您想参与进来，请加入{designteam}！",
     "Enable" : "启用"
 },
 "nplurals=1; plural=0;");
