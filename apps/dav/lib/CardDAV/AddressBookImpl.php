@@ -146,7 +146,22 @@ class AddressBookImpl implements IAddressBook {
 		}
 
 		foreach ($properties as $key => $value) {
-			$vCard->$key = $vCard->createProperty($key, $value);
+			if (is_array($value)) {
+				$vCard->remove($key);
+				foreach ($value as $entry) {
+					if (($key === "ADR" || $key === "PHOTO") && is_string($entry["value"])) {
+						$entry["value"] = stripslashes($entry["value"]);
+						$entry["value"] = explode(';', $entry["value"]);
+					}
+					$property = $vCard->createProperty($key, $entry["value"]);
+					if (isset($entry["type"])) {
+						$property->add('TYPE', $entry["type"]);
+					}
+					$vCard->add($property);
+				}
+			} elseif ($key !== 'URI') {
+				$vCard->$key = $vCard->createProperty($key, $value);
+			}
 		}
 
 		if ($update) {
