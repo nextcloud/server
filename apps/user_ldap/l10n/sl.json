@@ -49,6 +49,7 @@
     "The group box was disabled, because the LDAP / AD server does not support memberOf." : "Skupina je onemogočena, ker na strežniku LDAP / AD ni omogočena podpora atributu memberOf.",
     "Password change rejected. Hint: " : "Spreminjanje gesla je zavrnjeno. Namig: ",
     "Please login with the new password" : "Prijavite se z novim geslom",
+    "LDAP User backend" : "Uporabniški program LDAP",
     "Your password will expire tomorrow." : "Vaše geslo bo jutri poteklo.",
     "Your password will expire today." : "Geslo vam poteče danes!",
     "_Your password will expire within %n day._::_Your password will expire within %n days._" : ["Geslo bo poteklo čez %n dan.","Geslo bo poteklo čez %n dneva","Geslo bo poteklo čez %n dni.","Geslo bo poteklo čez %n dni."],

@@ -27,6 +27,7 @@ OC.L10N.register(
     "Loading weather" : "Načítá se počasí",
     "Set location for weather" : "Nastavit polohu pro předpovídání počasí",
     "Remove from favorites" : "Odebrat z oblíbených",
+    "Add as favorite" : "Přidat jako oblíbené",
     "You are not logged in." : "Nejste přihlášení.",
     "There was an error getting the weather status information." : "Při získávání informací o stavu počasí došlo k chybě.",
     "No weather information found" : "Nenalezeny žádné informace o počasí",
