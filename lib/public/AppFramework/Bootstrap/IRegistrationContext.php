@@ -168,4 +168,16 @@ interface IRegistrationContext {
 	 * @since 21.0.0
 	 */
 	public function registerInitialStateProvider(string $class): void;
+
+	/**
+	 * Register a user backend
+	 *
+	 * @param string $class the class name of an \OCP\IUserBackend implementation
+	 * @psalm-param class-string<\OCP\IUserBackend> $class the class name of an \OCP\IUserBackend implementation
+	 *
+	 * @return void
+	 *
+	 * @since 21.0.0
+	 */
+	public function registerUserBackend(string $class): void;
 }

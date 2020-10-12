@@ -72,6 +72,9 @@ class RegistrationContext {
 	/** @var array[] */
 	private $initialStates = [];
 
+	/** @var array[] */
+	private $userBackEnds = [];
+
 	/** @var ILogger */
 	private $logger;
 
@@ -174,6 +177,13 @@ class RegistrationContext {
 					$class
 				);
 			}
+
+			public function registerUserBackend(string $class): void {
+				$this->context->registerUserBackend(
+					$this->appId,
+					$class
+				);
+			}
 		};
 	}
 
@@ -255,6 +265,13 @@ class RegistrationContext {
 
 	public function registerInitialState(string $appId, string $class): void {
 		$this->initialStates[] = [
+			'appId' => $appId,
+			'class' => $class,
+		];
+	}
+
+	public function registerUserBackEnd(string $appId, string $class): void {
+		$this->userBackEnds[] = [
 			'appId' => $appId,
 			'class' => $class,
 		];
