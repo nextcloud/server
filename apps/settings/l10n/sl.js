@@ -207,7 +207,7 @@ OC.L10N.register(
     "Disable user" : "Onemogoči uporabnika",
     "Enable user" : "Omogoči uporabnika",
     "Resend welcome email" : "Ponovno pošlji potrditveno sporočilo",
-    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Možnost omogoča v primeru izgubljene naprave ali prekinjenega sodelovanja varnostno brisanje podatkov Nextcloud z vseh naprav, povezanih z uporabniškim računom {userid}. Možnost deluje le, če so naprave povezane v spletno omrežje.",
+    "In case of lost device or exiting the organization, this can remotely wipe the Nextcloud data from all devices associated with {userid}. Only works if the devices are connected to the internet." : "Možnost omogoča varnostno brisanje podatkov Nextcloud z vseh naprav, povezanih z uporabniškim računom {userid}. Možnost deluje le, če so naprave povezane v spletno omrežje. Brisanje z oddaljenih naprav je uporabno v primeru izgubljene naprave, ali na primer prekinitve sodelovanja v neki skupini.",
     "Remote wipe of devices" : "Oddaljeno varnostno brisanje naprav",
     "Wipe {userid}'s devices" : "Varnostno izbriši naprave uporabniškega računa {userid}",
     "Cancel" : "Prekliči",
