@@ -27,6 +27,7 @@ use DOMNode;
 use OC\Command\QueueBus;
 use OC\Files\Filesystem;
 use OC\Template\Base;
+use OCP\Command\IBus;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Defaults;
 use OCP\IDBConnection;
@@ -119,6 +120,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase {
 		// overwrite the command bus with one we can run ourselves
 		$this->commandBus = new QueueBus();
 		$this->overwriteService('AsyncCommandBus', $this->commandBus);
+		$this->overwriteService(IBus::class, $this->commandBus);
 
 		// detect database access
 		self::$wasDatabaseAllowed = true;
