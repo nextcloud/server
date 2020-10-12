@@ -53,16 +53,18 @@ interface IRegistrationContext {
 	 * will receive unhandled exceptions and throwables
 	 *
 	 * @param string $reporterClass
+	 * @psalm-param class-string<\OCP\Support\CrashReport\IReporter> $reporterClass
 	 * @return void
 	 * @since 20.0.0
 	 */
 	public function registerCrashReporter(string $reporterClass): void;
 
 	/**
-	 * Register an implementation of \OCP\Dashboard\IPanel that
-	 * will handle the implementation of a dashboard panel
+	 * Register an implementation of \OCP\Dashboard\IWidget that
+	 * will handle the implementation of a dashboard widget
 	 *
 	 * @param string $widgetClass
+	 * @psalm-param class-string<\OCP\Dashboard\IWidget> $widgetClass
 	 * @return void
 	 * @since 20.0.0
 	 */
@@ -72,6 +74,7 @@ interface IRegistrationContext {
 	 *
 	 * @param string $name
 	 * @param callable $factory
+	 * @psalm-param callable(\Psr\Container\ContainerInterface): mixed $factory
 	 * @param bool $shared
 	 *
 	 * @return void
@@ -83,7 +86,9 @@ interface IRegistrationContext {
 
 	/**
 	 * @param string $alias
+	 * @psalm-param string|class-string $alias
 	 * @param string $target
+	 * @psalm-param string|class-string $target
 	 *
 	 * @return void
 	 * @see IContainer::registerAlias()
@@ -109,7 +114,9 @@ interface IRegistrationContext {
 	 * This is equivalent to calling IEventDispatcher::addServiceListener
 	 *
 	 * @param string $event preferably the fully-qualified class name of the Event sub class to listen for
+	 * @psalm-param string|class-string<\OCP\EventDispatcher\Event> $event preferably the fully-qualified class name of the Event sub class to listen for
 	 * @param string $listener fully qualified class name (or ::class notation) of a \OCP\EventDispatcher\IEventListener that can be built by the DI container
+	 * @psalm-param class-string<\OCP\EventDispatcher\IEventListener> $listener fully qualified class name that can be built by the DI container
 	 * @param int $priority
 	 *
 	 * @see IEventDispatcher::addServiceListener()
@@ -120,6 +127,7 @@ interface IRegistrationContext {
 
 	/**
 	 * @param string $class
+	 * @psalm-param class-string<\OCP\AppFramework\Middleware> $class
 	 *
 	 * @return void
 	 * @see IAppContainer::registerMiddleWare()
@@ -136,6 +144,7 @@ interface IRegistrationContext {
 	 * with you" in the Files app.
 	 *
 	 * @param string $class
+	 * @psalm-param class-string<\OCP\Search\IProvider> $class
 	 *
 	 * @return void
 	 *
@@ -149,6 +158,7 @@ interface IRegistrationContext {
 	 * It is allowed to register more than one option per app.
 	 *
 	 * @param string $class
+	 * @psalm-param class-string<\OCP\Authentication\IAlternativeLogin> $class
 	 *
 	 * @return void
 	 *
@@ -162,6 +172,7 @@ interface IRegistrationContext {
 	 * It is allowed to register more than one provider per app.
 	 *
 	 * @param string $class
+	 * @psalm-param class-string<\OCP\AppFramework\Services\InitialStateProvider> $class
 	 *
 	 * @return void
 	 *
