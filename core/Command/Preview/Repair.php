@@ -164,7 +164,12 @@ class Repair extends Command {
 
 			$hasEntries = false;
 			while ($row = $cursor->fetch()) {
-				$oldPreviewFolder = $currentPreviewFolder->get($row['name']);
+				try {
+					$oldPreviewFolder = $currentPreviewFolder->get($row['name']);
+				} catch (NotFoundException $e) {
+					// seems that the folder is gone in the meantime - maybe by another parallel script
+					continue;
+				}
 
 				pcntl_signal_dispatch();
 				$name = $oldPreviewFolder->getName();
