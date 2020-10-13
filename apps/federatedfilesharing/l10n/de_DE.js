@@ -51,8 +51,6 @@ OC.L10N.register(
     "Add to your website" : "Zu Ihrer Web-Seite hinzufügen",
     "Share with me via Nextcloud" : "Teilen Sie mit mir über Nextcloud",
     "HTML Code:" : "HTML-Code:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Sie haben \"%3$s\" als externe Freigabe von \"%1$s\" (im Auftrag von %2$s) empfangen",
-    "You received \"%3$s\" as a remote share from %1$s" : "Sie haben \"%3$s\" als externe Freigabe von \"%1$s\" empfangen",
     "Allow users on this server to send shares to other servers" : "Benutzern auf diesem Server das Senden von Freigaben an andere Server erlauben"
 },
 "nplurals=2; plural=(n != 1);");

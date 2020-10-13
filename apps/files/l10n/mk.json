@@ -185,18 +185,18 @@
     "Text file" : "Текстуална датотека",
     "New text file.txt" : "Нова текстуална датотека file.txt",
     "Unshare" : "Не споделувај",
+    "This group folder is full, files can not be updated or synced anymore!" : "Групната папка е исполнета, датотеките веќе не можат да се ажирираат или синхронизираат!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Надворешното складиште е исполнето, датотеките веќе не можат да се ажирираат или синхронизираат!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Скалдиштето на {owner} е скоро исполнето ({usedSpacePercent}%)",
+    "This group folder is almost full ({usedSpacePercent}%)" : "Групната папка е скоро исполнета ({usedSpacePercent}%)",
+    "This external storage is almost full ({usedSpacePercent}%)" : "Надворешното складиште е скоро исполнето ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Вашиот сториџ е скоро полн ({usedSpacePercent}%)",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "Датотека или папка е <strong>променета</strong> или <strong>преименувана</strong>",
     "A new file or folder has been <strong>created</strong>" : "Датотека или папка е <strong>креирана</strong>",
     "A file or folder has been <strong>deleted</strong>" : "Датотека или папка е <strong>избришана</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Ограничете известувања за креирање и промени на вашите <strong>омилени датотеки</strong> <em>(само во стримот)</em>",
     "A file or folder has been <strong>restored</strong>" : "Датотека или папка е <strong>вратена</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Користи ја оваа адреса за <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">пристап преку WebDAV</a>",
-    "This group folder is full, files can not be updated or synced anymore!" : "Групната папка е исполнета, датотеките веќе не можат да се ажирираат или синхронизираат!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Надворешното складиште е исполнето, датотеките веќе не можат да се ажирираат или синхронизираат!",
-    "This group folder is almost full ({usedSpacePercent}%)" : "Групната папка е скоро исполнета ({usedSpacePercent}%)",
-    "This external storage is almost full ({usedSpacePercent}%)" : "Надворешното складиште е скоро исполнето ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на датотека која не е ваша"
+    "Cannot transfter ownership of a file or folder you don't own" : "Неможете да направите трансвер на сопственот на датотека која не е ваша",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Користи ја оваа адреса за <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">пристап преку WebDAV</a>"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

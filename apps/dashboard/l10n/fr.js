@@ -15,7 +15,7 @@ OC.L10N.register(
     "Status" : "Statut",
     "Good evening, {name}" : "Bonsoir {name}",
     "Good evening" : "Bonsoir",
-    "Good afternoon, {name}" : "Bonjour, {name}",
+    "Good afternoon, {name}" : "Bon après-midi, {name}",
     "Good afternoon" : "Bon après-midi",
     "Good morning, {name}" : "Bonjour {name}",
     "Good morning" : "Bonjour",

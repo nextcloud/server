@@ -226,7 +226,6 @@ OC.L10N.register(
     "Select or drop files" : "پرونده ها را انتخاب یا رها کنید",
     "Uploaded files:" : "پرونده های بارگذاری شده:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
-    "could not delete share" : "نتوانست اشتراک را حذف کند",
     "Uploading files…" : "بارگذاری پرونده ها ..."
 },
 "nplurals=2; plural=(n > 1);");

@@ -104,10 +104,6 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "Stretnutie »%1$s« s %2$s bolo zrušené.",
     "The meeting »%1$s« with %2$s was updated." : "Stretnutie »%1$s« s %2$s bolo aktualizované.",
     "%1$s invited you to »%2$s«" : "%1$s vám poslal pozvánku na »%2$s«",
-    "When:" : "Kedy:",
-    "Technical details" : "Technické podrobnosti",
-    "Remote Address: %s" : "Vzdialená adresa: %s",
-    "Request ID: %s" : "ID požiadavky: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Oznámenia sa budú odosielať prostredníctvom úloh na pozadí - preto je potrebné, aby tieto prebiehali dostatočne často."
+    "When:" : "Kedy:"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

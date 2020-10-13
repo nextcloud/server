@@ -99,10 +99,6 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "Mötet »%1$s« med %2$s avbröts.",
     "The meeting »%1$s« with %2$s was updated." : "Mötet »%1$s« med %2$s uppdaterades.",
     "%1$s invited you to »%2$s«" : "%1$s bjöd in dig till »%2$s«",
-    "When:" : "När",
-    "Technical details" : "Tekniska detaljer",
-    "Remote Address: %s" : "Extern adress: %s",
-    "Request ID: %s" : "Begär ID: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Aviseringar skickas genom bakgrundsjobb, så dessa måste ske tillräckligt ofta."
+    "When:" : "När"
 },
 "nplurals=2; plural=(n != 1);");

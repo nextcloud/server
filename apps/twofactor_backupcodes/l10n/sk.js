@@ -19,7 +19,6 @@ OC.L10N.register(
     "{name} backup codes" : "{name} záložné kódy",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Pri nastavovaní dvojfaktorového overovania totožnosti použite jeden zo záložných kódov, ktoré ste uložili.",
     "Submit" : "Odoslať",
-    "function" : "funkcia",
     "_" : "_",
     "_icon-loading-small_::_generate-backup-codes_" : ["načítanie-malej-ikony","vytvoriť-záložné-kódy","vytvoriť-záložné-kódy","vytvoriť-záložné-kódy"]
 },

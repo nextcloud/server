@@ -17,7 +17,6 @@
     "{name} backup codes" : "{name} Backup-Codes",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Verwenden Sie einen der Backup-Codes, den Sie bei der Einrichtung der Zwei-Faktor-Authentifizierung gespeichert haben.",
     "Submit" : "Übermitteln",
-    "function" : "Funktion",
     "_" : "_",
     "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

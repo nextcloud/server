@@ -50,8 +50,6 @@ OC.L10N.register(
     "Add to your website" : "Додај на свој веб сајт",
     "Share with me via Nextcloud" : "Дели са мном преко Некстклауда",
     "HTML Code:" : "ХТМЛ кôд:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Примили сте „%3$s“ као удаљено дељење од %1$s (у име %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Примили сте „%3$s“ као удаљено дељење од %1$s",
     "Allow users on this server to send shares to other servers" : "Дозволи корисницима овог сервера да шаљу дељења на друге сервере"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

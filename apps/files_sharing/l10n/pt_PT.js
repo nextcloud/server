@@ -145,7 +145,6 @@ OC.L10N.register(
     "Note" : "Nota",
     "Select or drop files" : "Seleccione ou solte ficheiros",
     "Uploaded files:" : "Ficheiros enviados:",
-    "could not delete share" : "Não foi possível eliminar a partilha",
     "Uploading files…" : "A enviar ficheiros..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -286,7 +286,6 @@
     "Current password" : "Current password",
     "New password" : "New password",
     "Change password" : "Change password",
-    "Share" : "Share",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "An error occurred. Please upload an ASCII-encoded PEM certificate.",
     "Valid until {date}" : "Valid until {date}",
     "Local" : "Local",
@@ -295,8 +294,6 @@
     "Contacts" : "Contacts",
     "Visible to local users and to trusted servers" : "Visible to local users and to trusted servers",
     "Will be synced to a global and public address book" : "Will be synced to a global and public address book",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Official apps are developed by the community. They offer additional functionality and are ready for production use.",
-    "Official" : "Official",
     "by" : "by",
     "SSL Root Certificates" : "SSL Root Certificates",
     "Common Name" : "Common Name",
@@ -305,7 +302,6 @@
     "Valid until %s" : "Valid until %s",
     "Import root certificate" : "Import root certificate",
     "Execute one task with each page loaded" : "Execute one task with each page loaded",
-    "Set default expiration date" : "Set default expiry date",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

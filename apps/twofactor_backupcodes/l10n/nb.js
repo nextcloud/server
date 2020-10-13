@@ -19,7 +19,6 @@ OC.L10N.register(
     "{name} backup codes" : "{name} sikkerhetskopi-koder",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Bruk en av backup kodene du lagret når du opprettet to-faktor autentisering.",
     "Submit" : "Send",
-    "function" : "funksjon",
     "_" : "_",
     "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"]
 },

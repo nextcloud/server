@@ -51,8 +51,6 @@ OC.L10N.register(
     "Add to your website" : "Aggiungi al tuo sito web",
     "Share with me via Nextcloud" : "Condividi con me tramite Nextcloud",
     "HTML Code:" : "Codice HTML:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Hai ricevuto \"%3$s\" come condivisione remota da %1$s (per conto di %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Hai ricevuto \"%3$s\" come condivisione remota da %1$s",
     "Allow users on this server to send shares to other servers" : "Consenti agli utenti su questo server di inviare condivisioni ad altri server"
 },
 "nplurals=2; plural=(n != 1);");

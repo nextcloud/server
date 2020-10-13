@@ -167,7 +167,6 @@ OC.L10N.register(
     "Select or drop files" : "Válassz ki vagy dobj ide fájlokat",
     "Uploaded files:" : "Feltöltött fájlok:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fájlok feltöltésével elfogadja a %1$sszolgáltatási feltételek %2$s.",
-    "could not delete share" : "a megosztás nem törölhető",
     "Uploading files…" : "Fájlok feltöltése..."
 },
 "nplurals=2; plural=(n != 1);");

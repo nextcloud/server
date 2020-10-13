@@ -51,8 +51,6 @@ OC.L10N.register(
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via Nextcloud" : "Sdíleno se mnou přes Nextcloud",
     "HTML Code:" : "HTML kód:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Obdrželi jste %3$s jako vzdálené sdílení od %1$s (jménem %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Obdrželi jste %3$s jako vzdálené sdílení od %1$s",
     "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

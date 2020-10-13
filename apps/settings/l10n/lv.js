@@ -174,7 +174,6 @@ OC.L10N.register(
     "Current password" : "Pašreizējā parole",
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",
-    "Share" : "Koplietot",
     "Valid until {date}" : "Valīds līdz {date}",
     "Local" : "Lokāls",
     "Only visible to local users" : "Redzami tikai lokālajiem lietotājiem",
@@ -189,7 +188,6 @@ OC.L10N.register(
     "Issued By" : "Izsniedza",
     "Valid until %s" : "Derīgs līdz %s",
     "Import root certificate" : "Importēt root sertifikātu",
-    "Execute one task with each page loaded" : "Izpildīt vienu uzdevumu ar katru ielādēto lapu",
-    "Set default expiration date" : "Iestatīt noklusējuma beigu datumu"
+    "Execute one task with each page loaded" : "Izpildīt vienu uzdevumu ar katru ielādēto lapu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

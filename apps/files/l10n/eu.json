@@ -187,7 +187,7 @@
     "A file or folder has been <strong>deleted</strong>" : "Fitxategi edo karpeta bat <strong>ezabatu</strong> da",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Mugatu <strong>gogoko fitxategien</strong> sorrera eta aldaketen jakinarazpenak <em>(Jarioa soilik)</em>",
     "A file or folder has been <strong>restored</strong>" : "Fitxategia edo karpeta bat <strong>leheneratu</strong> da",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Erabili helbide hau <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">zure fitxategiak WebDAV bidez atzitzeko</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu"
+    "Cannot transfter ownership of a file or folder you don't own" : "Ezin da zurea ez den fitxategi edo karpeta baten jabetza transferitu",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Erabili helbide hau <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">zure fitxategiak WebDAV bidez atzitzeko</a>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
