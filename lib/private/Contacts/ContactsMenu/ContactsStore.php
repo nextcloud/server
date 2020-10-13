@@ -71,11 +71,23 @@ class ContactsStore implements IContactsStore {
 	 * @param string|null $filter
 	 * @return IEntry[]
 	 */
-	public function getContacts(IUser $user, $filter) {
-		$allContacts = $this->contactsManager->search($filter ?: '', [
-			'FN',
-			'EMAIL'
-		]);
+	public function getContacts(IUser $user, $filter, ?int $limit = null, ?int $offset = null) {
+		$options = [];
+		if ($limit !== null) {
+			$options['limit'] = $limit;
+		}
+		if ($offset !== null) {
+			$options['offset'] = $offset;
+		}
+
+		$allContacts = $this->contactsManager->search(
+			$filter ?: '',
+			[
+				'FN',
+				'EMAIL'
+			],
+			$options
+		);
 
 		$entries = array_map(function(array $contact) {
 			return $this->contactArrayToEntry($contact);
@@ -119,7 +131,7 @@ class ContactsStore implements IContactsStore {
 		if ($excludedGroups) {
 			$excludedGroups = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$decodedExcludeGroups = json_decode($excludedGroups, true);
-			$excludeGroupsList = ($decodedExcludeGroups !== null) ? $decodedExcludeGroups :  [];
+			$excludeGroupsList = ($decodedExcludeGroups !== null) ? $decodedExcludeGroups : [];
 
 			if (count(array_intersect($excludeGroupsList, $selfGroups)) !== 0) {
 				// a group of the current user is excluded -> filter all local users
