@@ -110,10 +110,6 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "A xuntanza «%1$s» con %2$s foi cancelada.",
     "The meeting »%1$s« with %2$s was updated." : "A xuntanza «%1$s» con %2$s foi actualizada.",
     "%1$s invited you to »%2$s«" : "%1$s convidouno a «%2$s»",
-    "When:" : "Cando:",
-    "Technical details" : "Detalles técnicos",
-    "Remote Address: %s" : "Enderezo remoto: %s",
-    "Request ID: %s" : "ID da solicitude: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "As notificacións enviaranse a través procesos en segundo plano, polo que estes teñen que suceder bastante a miúdo."
+    "When:" : "Cando:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -179,7 +179,7 @@
     "A file or folder has been <strong>deleted</strong>" : "Skjali eða möppu hefur verið  <strong>eytt</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Takmarka tilkynningar um gerð og breytingar á <strong>eftirlætisskrám</strong> <em>(einungis streymi)</em>",
     "A file or folder has been <strong>restored</strong>" : "Skjal eða mappa hefur verið <strong>endurheimt</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">nálgast skrárnar þínar með WebDAV</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki"
+    "Cannot transfter ownership of a file or folder you don't own" : "Ekki er hægt að millifæra eignarhald á skrá eða möppu sem þú átt ekki",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">nálgast skrárnar þínar með WebDAV</a>"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

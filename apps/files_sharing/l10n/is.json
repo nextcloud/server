@@ -180,7 +180,6 @@
     "Select or drop files" : "Veldu eða slepptu skrám",
     "Uploaded files:" : "Innsendar skrár:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
-    "could not delete share" : "tókst ekki að eyða sameign",
     "Uploading files…" : "Sendi inn skrár…"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

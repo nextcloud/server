@@ -110,25 +110,6 @@
     "Request user agent" : "Ønsket brukeragent",
     "User group membership" : "Brukerens gruppemedlemsskap",
     "is member of" : "er medlem av",
-    "is not member of" : "er ikke medlem av",
-    "Example: {placeholder}" : "Eksempel: {placeholder}",
-    "Select tag…" : "Velg merkelapp…",
-    "Start" : "Start",
-    "End" : "Slutt",
-    "Select timezone…" : "Velg tidssone…",
-    "Sync clients" : "Synkroniseringsklienter",
-    "Short rule description" : "Kort beskrivelse av regel",
-    "Add rule" : "Legg til regel",
-    "Reset" : "Tilbakestill",
-    "Saving…" : "Lagrer…",
-    "Group list is empty" : "Gruppeliste er tom",
-    "Unable to retrieve the group list" : "Kunne ikke hente gruppelisten",
-    "Saved" : "Lagret",
-    "Saving failed:" : "Lagring mislyktes:",
-    "Add rule group" : "Legg til regelgruppe",
-    "Tag management" : "Merkelapphåndtering",
-    "Files workflow engine" : "Arbeidsflytmotor for filer",
-    "Open documentation" : "Åpne dokumentasjonen",
-    "Loading…" : "Laster…"
+    "is not member of" : "er ikke medlem av"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

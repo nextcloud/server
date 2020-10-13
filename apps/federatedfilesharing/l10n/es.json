@@ -49,8 +49,6 @@
     "Add to your website" : "Añadir a su sitio web",
     "Share with me via Nextcloud" : "Compartirlo conmigo vía Nextcloud",
     "HTML Code:" : "Código HTML:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Has recibido \"%3$s\" como un recurso compartido remoto desde %1$s (en nombre de %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Has recibido \"%3$s\" como un compartido remoto de %1$s",
     "Allow users on this server to send shares to other servers" : "Permitir a los usuarios de este servidor compartir con usuarios de otros servidores"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

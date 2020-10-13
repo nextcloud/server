@@ -56,9 +56,6 @@ OC.L10N.register(
     "Save" : "Salvesta",
     "Send invitations to attendees" : "Saada osalejatele kutsed",
     "Hello %s," : "Tere %s,",
-    "When:" : "Millal:",
-    "Technical details" : "Tehnilised detailid",
-    "Remote Address: %s" : "Kaugaadress: %s",
-    "Request ID: %s" : "Päringu ID: %s"
+    "When:" : "Millal:"
 },
 "nplurals=2; plural=(n != 1);");

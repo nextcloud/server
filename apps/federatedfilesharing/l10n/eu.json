@@ -48,8 +48,6 @@
     "Add to your website" : "Zure webgunera gehitu",
     "Share with me via Nextcloud" : "Partekatu nirekin Nextcloud-en bidez",
     "HTML Code:" : "HTML kodea:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "2%1$s-ren \"1%3$s\" urruneko partekatze bezala jaso duzu ( 3%2$s-en ordez)",
-    "You received \"%3$s\" as a remote share from %1$s" : "2%1$s-ren \"1%3$s\" urruneko partekatze bezala jaso duzu",
     "Allow users on this server to send shares to other servers" : "Baimendu zerbitzari honetako erabiltzaileak beste zerbitzariekin partekatzera"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

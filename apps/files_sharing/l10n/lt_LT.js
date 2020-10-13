@@ -232,7 +232,6 @@ OC.L10N.register(
     "Uploading files" : "Įkeliami failai",
     "Uploaded files:" : "Įkelti failai:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Įkeldami failus, sutinkate su %1$snaudojimosi sąlygomis%2$s.",
-    "could not delete share" : "nepavyko nustoti dalintis duomenimis",
     "Uploading files…" : "Įkeliami failai…"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

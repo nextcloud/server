@@ -232,7 +232,6 @@ OC.L10N.register(
     "Uploading files" : "Envoi des fichiers en cours ...",
     "Uploaded files:" : "Fichiers envoyés :",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "En envoyant des fichiers, vous acceptez les %1$sconditions d'utilisation%2$s.",
-    "could not delete share" : "impossible de supprimer le partage",
     "Uploading files…" : "Envoi des fichiers..."
 },
 "nplurals=2; plural=(n > 1);");

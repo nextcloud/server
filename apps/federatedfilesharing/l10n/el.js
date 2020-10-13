@@ -50,8 +50,6 @@ OC.L10N.register(
     "Add to your website" : "Προσθήκη στην ιστοσελίδα σας",
     "Share with me via Nextcloud" : "Διαμοιραστείτε με εμένα μέσω του Nextcloud",
     "HTML Code:" : "Κώδικας HTML:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Λάβατε \"%3$s\" ως απομακρυσμένο κοινόχρηστο %1$s (εκ μέρους του %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Λάβατε \"%3$s\" ως απομακρυσμένο κοινόχρηστο από %1$s",
     "Allow users on this server to send shares to other servers" : "Να επιτρέπεται σε χρήστες αυτού του διακομιστή να στέλνουν διαμοιρασμένους φακέλους σε άλλους διακομιστές"
 },
 "nplurals=2; plural=(n != 1);");

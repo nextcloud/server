@@ -251,7 +251,6 @@ OC.L10N.register(
     "Current password" : "Praegune parool",
     "New password" : "Uus parool",
     "Change password" : "Muuda parooli",
-    "Share" : "Jaga",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Tekkis viga. Palun lae üles ASCII kodeeringud PEM sertifikaat.",
     "Valid until {date}" : "Kehtib kuni {date}",
     "Local" : "Kohalik",
@@ -260,7 +259,6 @@ OC.L10N.register(
     "Contacts" : "Kontaktid",
     "Visible to local users and to trusted servers" : "Nähtav kohelikele kasutajatele ja usaldatud serveritele",
     "Will be synced to a global and public address book" : "Sünkroniseeritakse globaalsesse ja avalikku aadressiraamatusse",
-    "Official" : "Ametlik",
     "by" : "lisas",
     "SSL Root Certificates" : "SSL juursertifikaadid",
     "Common Name" : "Üldnimetus",
@@ -269,7 +267,6 @@ OC.L10N.register(
     "Valid until %s" : "Kehtib kuni %s",
     "Import root certificate" : "Impordi root sertifikaat",
     "Execute one task with each page loaded" : "Käivita toiming igal lehe laadimisel",
-    "Set default expiration date" : "Määra vaikimisi aegumise kuupäev",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Luba kasutajanime automaatne lõpetamine jagamisdialoogis. Kui see on keelatud, tuleb sisestada täielik kasutajanimi või e-posti aadress.",
     "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Kuva avaliku lingiga üleslaadimise lehel lahtiütluste tekst. (Kuvatakse ainult siis, kui failide loend on peidetud.)"
 },

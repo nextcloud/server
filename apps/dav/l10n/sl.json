@@ -103,10 +103,6 @@
     "Hello %s," : "Pozdravljeni, %s,",
     "The meeting »%1$s« with %2$s was canceled." : "Sestanek »%1$s« z uporabnikom %2$s je preklican.",
     "The meeting »%1$s« with %2$s was updated." : "Sestanek »%1$s« z uporabnikom %2$s je spremenjen.",
-    "When:" : "Kdaj:",
-    "Technical details" : "Tehnične podrobnosti",
-    "Remote Address: %s" : "Oddaljeni naslov: %s",
-    "Request ID: %s" : "ID Zahteve: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Obvestila bodo poslana samodejno z opravili v ozadju, ker pomeni, da se morajo ta izvajati dovolj pogosto."
+    "When:" : "Kdaj:"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

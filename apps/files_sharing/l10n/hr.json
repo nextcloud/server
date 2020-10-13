@@ -230,7 +230,6 @@
     "Uploading files" : "Otpremanje datoteka",
     "Uploaded files:" : "Otpremljene datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s.",
-    "could not delete share" : "dijeljenje nije moguće izbrisati",
     "Uploading files…" : "Otpremanje datoteka..."
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

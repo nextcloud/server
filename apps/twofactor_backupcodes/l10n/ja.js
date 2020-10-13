@@ -19,7 +19,6 @@ OC.L10N.register(
     "{name} backup codes" : "{name} バックアップコード",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "二要素認証を設定するときに保存したバックアップコードのいずれかを使用します。",
     "Submit" : "了解",
-    "function" : "機能",
     "_" : "_",
     "_icon-loading-small_::_generate-backup-codes_" : ["生成バックアップコード"]
 },

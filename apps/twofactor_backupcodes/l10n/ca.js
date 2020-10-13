@@ -19,7 +19,6 @@ OC.L10N.register(
     "{name} backup codes" : "Codis de seguretat {name}",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Feu servir un dels codis de seguretat que heu desat quan he configurat l’autenticació de dos factors.",
     "Submit" : "Envia",
-    "function" : "funció",
     "_" : "_",
     "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes"]
 },

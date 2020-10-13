@@ -110,25 +110,6 @@
     "Request user agent" : "Sol·licita agent d'usuari",
     "User group membership" : "Pertinença a grup d'usuaris",
     "is member of" : "és membre de",
-    "is not member of" : "no és membre de",
-    "Example: {placeholder}" : "Exemple: {placeholder}",
-    "Select tag…" : "Selecciona etiqueta…",
-    "Start" : "Comença",
-    "End" : "Finalitza",
-    "Select timezone…" : "Selecciona fus horari",
-    "Sync clients" : "Sincronitza les aplicacions clients",
-    "Short rule description" : "Descripció breu de la regla",
-    "Add rule" : "Afegeix regla",
-    "Reset" : "Neteja",
-    "Saving…" : "S'està desant…",
-    "Group list is empty" : "La llista del grup és buida",
-    "Unable to retrieve the group list" : "No es pot obtenir la llista del grup",
-    "Saved" : "S'ha desat",
-    "Saving failed:" : "S'ha produït un error en desar:",
-    "Add rule group" : "Afegeix una regla de grup",
-    "Tag management" : "Gestió d'etiquetes",
-    "Files workflow engine" : "Fitxers del motor de flux de treball",
-    "Open documentation" : "Obre la documentació",
-    "Loading…" : "S'està carregant…"
+    "is not member of" : "no és membre de"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

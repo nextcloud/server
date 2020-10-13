@@ -84,23 +84,6 @@
     "between" : "помеѓу",
     "not between" : "не помеѓу",
     "is member of" : "е член на",
-    "is not member of" : "не е член на",
-    "Example: {placeholder}" : "Пример: {placeholder}",
-    "Select tag…" : "Избери ознака...",
-    "Start" : "Почеток",
-    "End" : "Крај",
-    "Select timezone…" : "Изберете временска зона...",
-    "Sync clients" : "Клиенти за синхронизација",
-    "Short rule description" : "Краток опис на правилото",
-    "Add rule" : "Додади правило",
-    "Reset" : "Поништи",
-    "Saving…" : "Зачувува ...",
-    "Group list is empty" : "Листата во групата е празна",
-    "Unable to retrieve the group list" : "Неможе да се вчита листата со групи",
-    "Saved" : "Зачувано",
-    "Saving failed:" : "Неуспешно зачувување:",
-    "Tag management" : "Управување со ознаки",
-    "Open documentation" : "Отвори ја документацијата",
-    "Loading…" : "Се вчитува…"
+    "is not member of" : "не е член на"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

@@ -13,7 +13,6 @@ OC.L10N.register(
     "Accessibility" : "Accessibility",
     "Accessibility options for nextcloud" : "Accessibility options for nextcloud",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "Provides multiple accessibilities options to ease your use of Nextcloud",
-    "High contrast theme" : "High contrast theme",
     "Enable" : "Enable"
 },
 "nplurals=2; plural=(n != 1);");

@@ -103,10 +103,6 @@
     "The meeting »%1$s« with %2$s was canceled." : "»%1$s« bilera %2$s(r)ekin bertan behera utzi da.",
     "The meeting »%1$s« with %2$s was updated." : "»%1$s« bilera %2$s(r)ekin eguneratu egin da.",
     "%1$s invited you to »%2$s«" : "%1$s(e)k »%2$s(e)ra« gonbidatu zaitu",
-    "When:" : "Noiz:",
-    "Technical details" : "Xehetasun teknikoak",
-    "Remote Address: %s" : "Urruneko helbidea: 1%s",
-    "Request ID: %s" : "Eskatutako ID: 1%s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Jakinarazpenak atzealdeko lanen bidez bidaliko dira, beraz sarri gertatu behar dira."
+    "When:" : "Noiz:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

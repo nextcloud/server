@@ -45,8 +45,6 @@ OC.L10N.register(
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via Nextcloud" : "Jaa kanssani Nextcloudin kautta",
     "HTML Code:" : "HTML-koodi:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vastaanotit \"%3$s\":n etäjakona käyttäjältä %1$s (%2$s:n puolesta)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Vastaanotit \"%3$s\":n etäjakona käyttäjältä %1$s",
     "Allow users on this server to send shares to other servers" : "Salli tämän palvelimen käyttäjien lähettää jakoja muille palvelimille"
 },
 "nplurals=2; plural=(n != 1);");
