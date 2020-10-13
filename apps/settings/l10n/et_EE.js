@@ -83,6 +83,7 @@ OC.L10N.register(
     "Personal info" : "Isiklik info",
     "Mobile & desktop" : "Mobiil ja töölaud",
     "Create" : "Loo",
+    "Change" : "Muuda",
     "Delete" : "Kustuta",
     "Unlimited" : "Piiramatult",
     "Verifying" : "Kontrollin",
