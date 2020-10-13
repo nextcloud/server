@@ -23,8 +23,9 @@ namespace Test\Accounts;
 
 use OC\Accounts\AccountManager;
 use OC\Accounts\Hooks;
-use OCP\ILogger;
 use OCP\IUser;
+use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Test\TestCase;
 
 /**
@@ -35,19 +36,19 @@ use Test\TestCase;
  */
 class HooksTest extends TestCase {
 
-	/** @var  ILogger | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var LoggerInterface|MockObject */
 	private $logger;
 
-	/** @var  AccountManager | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var AccountManager|MockObject */
 	private $accountManager;
 
-	/** @var  Hooks | \PHPUnit\Framework\MockObject\MockObject */
+	/** @var Hooks|MockObject */
 	private $hooks;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->logger = $this->createMock(ILogger::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->accountManager = $this->getMockBuilder(AccountManager::class)
 			->disableOriginalConstructor()->getMock();
 

@@ -24,23 +24,18 @@
 
 namespace OC\Accounts;
 
-use OCP\ILogger;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 
 class Hooks {
 
-	/** @var  AccountManager */
-	private $accountManager = null;
+	/** @var AccountManager|null */
+	private $accountManager;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	/**
-	 * Hooks constructor.
-	 *
-	 * @param ILogger $logger
-	 */
-	public function __construct(ILogger $logger) {
+	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
 	}
 
@@ -85,7 +80,7 @@ class Hooks {
 	 *
 	 * @return AccountManager
 	 */
-	protected function getAccountManager() {
+	protected function getAccountManager(): AccountManager {
 		if ($this->accountManager === null) {
 			$this->accountManager = \OC::$server->query(AccountManager::class);
 		}

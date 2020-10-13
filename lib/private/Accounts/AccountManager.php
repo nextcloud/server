@@ -35,8 +35,8 @@ use OCP\Accounts\IAccount;
 use OCP\Accounts\IAccountManager;
 use OCP\BackgroundJob\IJobList;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use function json_decode;
@@ -64,20 +64,13 @@ class AccountManager implements IAccountManager {
 	/** @var IJobList */
 	private $jobList;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	/**
-	 * AccountManager constructor.
-	 *
-	 * @param IDBConnection $connection
-	 * @param EventDispatcherInterface $eventDispatcher
-	 * @param IJobList $jobList
-	 */
 	public function __construct(IDBConnection $connection,
 								EventDispatcherInterface $eventDispatcher,
 								IJobList $jobList,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->connection = $connection;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->jobList = $jobList;

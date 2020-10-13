@@ -854,7 +854,7 @@ class OC {
 	}
 
 	private static function registerAccountHooks() {
-		$hookHandler = new \OC\Accounts\Hooks(\OC::$server->getLogger());
+		$hookHandler = new \OC\Accounts\Hooks(\OC::$server->get(\Psr\Log\LoggerInterface::class));
 		\OCP\Util::connectHook('OC_User', 'changeUser', $hookHandler, 'changeUserHook');
 	}
 
