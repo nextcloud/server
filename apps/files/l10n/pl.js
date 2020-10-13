@@ -35,7 +35,7 @@ OC.L10N.register(
     "Delete file" : "Usuń plik",
     "Delete folder" : "Usuń katalog",
     "Disconnect storage" : "Odłącz magazyn",
-    "Leave this share" : "Opuść te udostępnienie",
+    "Leave this share" : "Opuść udostępnienie",
     "Could not load info for file \"{file}\"" : "Nie można załadować informacji o pliku \"{file}\"",
     "Files" : "Pliki",
     "Details" : "Szczegóły",
