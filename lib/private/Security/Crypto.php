@@ -70,9 +70,6 @@ class Crypto implements ICrypto {
 			$password = $this->config->getSystemValue('secret');
 		}
 
-		// Append an "a" behind the password and hash it to prevent reusing the same password as for encryption
-		$password = hash('sha512', $password . 'a');
-
 		$hash = new Hash('sha512');
 		$hash->setKey($password);
 		return $hash->hash($message);
