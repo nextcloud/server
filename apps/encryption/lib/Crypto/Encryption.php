@@ -360,7 +360,7 @@ class Encryption implements IEncryptionModule {
 	 * decrypt data
 	 *
 	 * @param string $data you want to decrypt
-	 * @param int $position
+	 * @param int|string $position
 	 * @return string decrypted data
 	 * @throws DecryptionFailedException
 	 */
