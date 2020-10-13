@@ -918,8 +918,12 @@ class VersioningTest extends \Test\TestCase {
 	 */
 	private function createAndCheckVersions(\OC\Files\View $view, $path) {
 		$view->file_put_contents($path, 'test file');
+		// Always sleep a second to make sure versions have different timestamps and are properly sorted
+		sleep(1);
 		$view->file_put_contents($path, 'version 1');
+		sleep(1);
 		$view->file_put_contents($path, 'version 2');
+		sleep(1);
 
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
