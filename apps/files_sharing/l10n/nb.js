@@ -167,7 +167,6 @@ OC.L10N.register(
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files" : "Laster opp filer",
     "Uploaded files:" : "Opplastede filer:",
-    "could not delete share" : "kunne ikke slette ressursen",
     "Uploading files…" : "Laster opp filer…"
 },
 "nplurals=2; plural=(n != 1);");

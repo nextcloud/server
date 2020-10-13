@@ -40,8 +40,6 @@ OC.L10N.register(
     "Add to your website" : "საიტზე დამატება",
     "Share with me via Nextcloud" : "გამიზიარე Nextcloud-ის მეშვეობით",
     "HTML Code:" : "HTML კოდი:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "თქვენ მიიღეთ \"%3$s\" როგორც დისტანციური გაზიარება მომხმარებლისგან %1$s (სახელით %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "თქვენ მიიღეთ \"%3$s\" როგორც დისტანციური გაზიარება მომხმარებლისგან %1$s",
     "Allow users on this server to send shares to other servers" : "დართეთ ნება მომხმარებლებს ამ სერვერზე გააგზავნონ გაზიარებები სხვა სერვერებთან"
 },
 "nplurals=2; plural=(n!=1);");

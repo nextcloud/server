@@ -84,10 +84,6 @@
     "Hello %s," : "Sveiki, %s,",
     "The meeting »%1$s« with %2$s was canceled." : "Susikimas „%1$s“ su  %2$s atšauktas.",
     "%1$s invited you to »%2$s«" : "%1$s jus pakvietė į »%2$s«",
-    "When:" : "Kada:",
-    "Technical details" : "Techninė informacija",
-    "Remote Address: %s" : "Nuotolinis adresas: %s",
-    "Request ID: %s" : "Užklausos ID: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Pranešimai bus siunčiami per fonines užduotis, taigi jos turi būti įvykdomos gana dažnai."
+    "When:" : "Kada:"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }

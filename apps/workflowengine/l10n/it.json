@@ -110,25 +110,6 @@
     "Request user agent" : "User agent della richiesta",
     "User group membership" : "Appartenenza ai gruppi degli utenti",
     "is member of" : "è membro di",
-    "is not member of" : "non è membro di",
-    "Example: {placeholder}" : "Esempio: {placeholder}",
-    "Select tag…" : "Seleziona etichetta...",
-    "Start" : "Inizio",
-    "End" : "Fine",
-    "Select timezone…" : "Seleziona fuso orario...",
-    "Sync clients" : "Client di sincronizzazione",
-    "Short rule description" : "Descrizione breve della regola",
-    "Add rule" : "Aggiungi regola",
-    "Reset" : "Ripristina",
-    "Saving…" : "Salvataggio in corso...",
-    "Group list is empty" : "L'elenco dei gruppi è vuoto",
-    "Unable to retrieve the group list" : "Impossibile recuperare l'elenco dei gruppi",
-    "Saved" : "Salvato",
-    "Saving failed:" : "Salvataggio non riuscito:",
-    "Add rule group" : "Aggiungi gruppo di regole",
-    "Tag management" : "Gestione etichette",
-    "Files workflow engine" : "Motore delle procedure dei file",
-    "Open documentation" : "Apri documentazione",
-    "Loading…" : "Caricamento in corso..."
+    "is not member of" : "non è membro di"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -186,18 +186,18 @@
     "Text file" : "Textfil",
     "New text file.txt" : "Ny textfil.txt",
     "Unshare" : "Sluta dela",
+    "This group folder is full, files can not be updated or synced anymore!" : "Denna gruppmapp är full, filer kan inte uppdateras eller synkroniseras längre!",
+    "This external storage is full, files can not be updated or synced anymore!" : "Denna externa lagring är full, filer kan inte uppdateras eller synkroniseras längre!",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Lagring av  {owner}  är nästan full  ({usedSpacePercent}%)",
+    "This group folder is almost full ({usedSpacePercent}%)" : "Denna gruppmapp är nästan full ({usedSpacePercent}%)",
+    "This external storage is almost full ({usedSpacePercent}%)" : "Denna externa lagring är nästan full ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Ditt lagringsutrymme är nästan fullt ({usedSpacePercent}%)",
     "A file or folder has been <strong>changed</strong> or <strong>renamed</strong>" : "En fil har blivit <strong>ändrad</strong> eller <strong>bytt namn</strong>",
     "A new file or folder has been <strong>created</strong>" : "En ny fil eller mapp har blivit <strong>skapad</strong>",
     "A file or folder has been <strong>deleted</strong>" : "En fil eller mapp har <strong>tagits bort</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begränsa aviseringar om skapande och ändringar till dina <strong>favoritfiler</strong> <em>(Endast i flödet)</em>",
     "A file or folder has been <strong>restored</strong>" : "En fil eller mapp har <strong>återställts</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Använd denna adress för att <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">komma åt dina filer med WebDAV</a>",
-    "This group folder is full, files can not be updated or synced anymore!" : "Denna gruppmapp är full, filer kan inte uppdateras eller synkroniseras längre!",
-    "This external storage is full, files can not be updated or synced anymore!" : "Denna externa lagring är full, filer kan inte uppdateras eller synkroniseras längre!",
-    "This group folder is almost full ({usedSpacePercent}%)" : "Denna gruppmapp är nästan full ({usedSpacePercent}%)",
-    "This external storage is almost full ({usedSpacePercent}%)" : "Denna externa lagring är nästan full ({usedSpacePercent}%)",
-    "Cannot transfter ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap till en fil eller mapp som du inte äger"
+    "Cannot transfter ownership of a file or folder you don't own" : "Det går inte att överföra ägarskap till en fil eller mapp som du inte äger",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Använd denna adress för att <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">komma åt dina filer med WebDAV</a>"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -138,7 +138,6 @@ OC.L10N.register(
     "Note" : "Shënim",
     "Select or drop files" : "Përzgjidh ose hiq skedarët",
     "Uploaded files:" : "Skedarët e ngarkuar:",
-    "could not delete share" : "ndarja s’u fshi dot",
     "Uploading files…" : "Skedarët po ngarkohen..."
 },
 "nplurals=2; plural=(n != 1);");

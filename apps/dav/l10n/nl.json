@@ -108,10 +108,6 @@
     "The meeting »%1$s« with %2$s was canceled." : "De vergadering »%1$s« met %2$s is geannuleerd.",
     "The meeting »%1$s« with %2$s was updated." : "De vergadering »%1$s« met %2$s is bijgewerkt.",
     "%1$s invited you to »%2$s«" : "%1$s heeft je uitgenodigd voor »%2$s«",
-    "When:" : "Wanneer:",
-    "Technical details" : "Technische details",
-    "Remote Address: %s" : "Extern adres: %s",
-    "Request ID: %s" : "Aanvraag-ID: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Meldingen worden via achtergrondtaken verstuurd, dus die moeten vaak genoeg plaatsvinden."
+    "When:" : "Wanneer:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

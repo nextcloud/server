@@ -98,10 +98,6 @@
     "The meeting »%1$s« with %2$s was canceled." : "הפגישה »%1$s« עם %2$s בוטלה.",
     "The meeting »%1$s« with %2$s was updated." : "הפגישה »%1$s« עם %2$s עודכנה.",
     "%1$s invited you to »%2$s«" : "הוזמנת על ידי %1$s אל „%2$s”",
-    "When:" : "מתי:",
-    "Technical details" : "פרטים טכניים",
-    "Remote Address: %s" : "כתובת מרוחקת: %s",
-    "Request ID: %s" : "מזהה בקשה: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "התראות נשלחות באמצעות משימות רקע, לכן הבדיקה תתבצע יחסית באופן סדיר מספיק."
+    "When:" : "מתי:"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;"
 }

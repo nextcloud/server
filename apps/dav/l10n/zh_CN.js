@@ -100,10 +100,6 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "与%2$s的会议 »%1$s« 已取消。",
     "The meeting »%1$s« with %2$s was updated." : "与%2$s的会议 »%1$s« 已更新。",
     "%1$s invited you to »%2$s«" : "%1$s 邀请您加入 »%2$s«",
-    "When:" : "时间：",
-    "Technical details" : "技术细节",
-    "Remote Address: %s" : "远程地址：%s",
-    "Request ID: %s" : "请求 ID：%s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "通知将通过后台任务发送，所以任务的频率有足够高。"
+    "When:" : "时间："
 },
 "nplurals=1; plural=0;");

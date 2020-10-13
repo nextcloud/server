@@ -232,7 +232,6 @@ OC.L10N.register(
     "Uploading files" : "Fitxategiak kargatzen",
     "Uploaded files:" : "Igotako fitxategiak:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
-    "could not delete share" : "ezin izan da partekatzea ezabatu",
     "Uploading files…" : "Fitxategiak igotzen…"
 },
 "nplurals=2; plural=(n != 1);");

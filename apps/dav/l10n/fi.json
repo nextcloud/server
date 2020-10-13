@@ -98,9 +98,6 @@
     "Hence they will not be available immediately after enabling but will show up after some time." : "Sen vuoksi ne eivät ole välittömästi saatavilla käyttöönoton jälkeen, vaan ne tulevat näkyviin pienellä viiveellä.",
     "Send notifications for events" : "Lähetä ilmoitukset tapahtumista",
     "Hello %s," : "Hei %s",
-    "When:" : "Milloin:",
-    "Technical details" : "Tekniset yksityiskohdat",
-    "Remote Address: %s" : "Etäosoite: %s",
-    "Request ID: %s" : "Pyynnön tunniste: %s"
+    "When:" : "Milloin:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

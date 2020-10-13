@@ -232,7 +232,6 @@ OC.L10N.register(
     "Uploading files" : "Subiendo archivos",
     "Uploaded files:" : "Archivos subidos:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Al subir archivos, aceptas los %1$stérminos del servicio%2$s.",
-    "could not delete share" : "No se ha podido eliminar el recurso compartido",
     "Uploading files…" : "Subiendo archivos…"
 },
 "nplurals=2; plural=(n != 1);");

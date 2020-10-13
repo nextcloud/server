@@ -94,10 +94,6 @@
     "The meeting »%1$s« with %2$s was canceled." : "La kunsido „%1$s“ kun %2$s estis nuligita.",
     "The meeting »%1$s« with %2$s was updated." : "La kunsido „%1$s“ kun %2$s estis ĝisdatigita.",
     "%1$s invited you to »%2$s«" : "%1$s invitis vin al „%2$s“",
-    "When:" : "Kiam:",
-    "Technical details" : "Teĥnikaj detaloj",
-    "Remote Address: %s" : "Fora adreso: %s",
-    "Request ID: %s" : "Pet-identigilo: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Sciigoj sendiĝos pere de fonaj taskoj, tiu do bezonas okazi sufiĉe ofte."
+    "When:" : "Kiam:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

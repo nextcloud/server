@@ -140,7 +140,6 @@ OC.L10N.register(
     "Note" : "Nota",
     "Select or drop files" : "Seleccione o suelte los archivos",
     "Uploaded files:" : "Archivos cargados:",
-    "could not delete share" : "no fue posible borrar el elemento compartido",
     "Uploading files…" : "Cargando archivos..."
 },
 "nplurals=2; plural=(n != 1);");

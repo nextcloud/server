@@ -94,9 +94,6 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "Hætt var við fundinn »%1$s« með %2$s.",
     "The meeting »%1$s« with %2$s was updated." : "Fundurinn »%1$s« með %2$s var uppfærður.",
     "%1$s invited you to »%2$s«" : "%1$s bauð þér að taka þátt í »%2$s«",
-    "When:" : "Hvenær:",
-    "Technical details" : "Tæknilegar upplýsingar",
-    "Remote Address: %s" : "Fjartengt vistfang: %s",
-    "Request ID: %s" : "Beiðni um auðkenni: %s"
+    "When:" : "Hvenær:"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

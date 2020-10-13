@@ -110,25 +110,6 @@
     "Request user agent" : "Useragent aanvraag",
     "User group membership" : "Gebruikersgroep lidmaatschap",
     "is member of" : "is lid van",
-    "is not member of" : "is geen lid van",
-    "Example: {placeholder}" : "Bijvoorbeeld: {placeholder}",
-    "Select tag…" : "Selecteer markering...",
-    "Start" : "Begin",
-    "End" : "Einde",
-    "Select timezone…" : "Selecteer tijdzone...",
-    "Sync clients" : "Synchroniseer clients",
-    "Short rule description" : "Korte rolbeschrijving",
-    "Add rule" : "Voeg rol toe",
-    "Reset" : "Reset",
-    "Saving…" : "Opslaan...",
-    "Group list is empty" : "Groepenlijst is leeg",
-    "Unable to retrieve the group list" : "Kan groepenoverzicht niet ophalen",
-    "Saved" : "Bewaard",
-    "Saving failed:" : "Opslaan mislukt:",
-    "Add rule group" : "Groepsrol toevoegen",
-    "Tag management" : "Tagbeheer",
-    "Files workflow engine" : "Betanden workflow engine",
-    "Open documentation" : "Open documentatie",
-    "Loading…" : "Laden..."
+    "is not member of" : "is geen lid van"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
