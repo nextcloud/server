@@ -151,8 +151,8 @@ body {
 /* SCROLLING */
 
 ::-webkit-scrollbar {
-	width: 6px;
-	height: 5px;
+	width: 12px;
+	height: 12px
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -161,7 +161,9 @@ body {
 
 ::-webkit-scrollbar-thumb {
 	background: var(--color-border-dark);
-	border-radius: var(--border-radius);
+	border-radius: var(--border-radius-large);
+	border: 2px solid transparent;
+	background-clip: content-box;
 }
 
 
