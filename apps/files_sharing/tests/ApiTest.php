@@ -44,6 +44,7 @@ use OCP\AppFramework\OCS\OCSForbiddenException;
 use OCP\AppFramework\OCS\OCSNotFoundException;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\Share\IShare;
@@ -117,6 +118,7 @@ class ApiTest extends TestCase {
 		$appManager = $this->createMock(IAppManager::class);
 		$serverContainer = $this->createMock(IServerContainer::class);
 		$userStatusManager = $this->createMock(IUserStatusManager::class);
+		$previewManager = $this->createMock(IPreview::class);
 
 		return new ShareAPIController(
 			self::APP_NAME,
@@ -131,7 +133,8 @@ class ApiTest extends TestCase {
 			$config,
 			$appManager,
 			$serverContainer,
-			$userStatusManager
+			$userStatusManager,
+			$previewManager
 		);
 	}
 
