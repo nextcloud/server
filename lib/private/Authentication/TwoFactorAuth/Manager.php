@@ -27,8 +27,6 @@ declare(strict_types=1);
 
 namespace OC\Authentication\TwoFactorAuth;
 
-use function array_diff;
-use function array_filter;
 use BadMethodCallException;
 use Exception;
 use OC\Authentication\Exceptions\InvalidTokenException;
@@ -39,11 +37,13 @@ use OCP\Authentication\TwoFactorAuth\IActivatableAtLogin;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\Authentication\TwoFactorAuth\IRegistry;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\ISession;
 use OCP\IUser;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use function array_diff;
+use function array_filter;
 
 class Manager {
 	public const SESSION_UID_KEY = 'two_factor_auth_uid';
@@ -69,7 +69,7 @@ class Manager {
 	/** @var IManager */
 	private $activityManager;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	/** @var TokenProvider */
@@ -84,9 +84,13 @@ class Manager {
 	public function __construct(ProviderLoader $providerLoader,
 								IRegistry $providerRegistry,
 								MandatoryTwoFactor $mandatoryTwoFactor,
-								ISession $session, IConfig $config,
-								IManager $activityManager, ILogger $logger, TokenProvider $tokenProvider,
-								ITimeFactory $timeFactory, EventDispatcherInterface $eventDispatcher) {
+								ISession $session,
+								IConfig $config,
+								IManager $activityManager,
+								LoggerInterface $logger,
+								TokenProvider $tokenProvider,
+								ITimeFactory $timeFactory,
+								EventDispatcherInterface $eventDispatcher) {
 		$this->providerLoader = $providerLoader;
 		$this->providerRegistry = $providerRegistry;
 		$this->mandatoryTwoFactor = $mandatoryTwoFactor;
@@ -295,8 +299,7 @@ class Manager {
 		try {
 			$this->activityManager->publish($activity);
 		} catch (BadMethodCallException $e) {
-			$this->logger->warning('could not publish activity', ['app' => 'core']);
-			$this->logger->logException($e, ['app' => 'core']);
+			$this->logger->warning('could not publish activity', ['app' => 'core', 'exception' => $e]);
 		}
 	}
 

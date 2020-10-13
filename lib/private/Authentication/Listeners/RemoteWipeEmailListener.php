@@ -32,12 +32,12 @@ use OC\Authentication\Events\RemoteWipeStarted;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory as IL10nFactory;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use Psr\Log\LoggerInterface;
 use function substr;
 
 class RemoteWipeEmailListener implements IEventListener {
@@ -51,13 +51,13 @@ class RemoteWipeEmailListener implements IEventListener {
 	/** @var IL10N */
 	private $l10n;
 
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 
 	public function __construct(IMailer $mailer,
 								IUserManager $userManager,
 								IL10nFactory $l10nFactory,
-								ILogger $logger) {
+								LoggerInterface $logger) {
 		$this->mailer = $mailer;
 		$this->userManager = $userManager;
 		$this->l10n = $l10nFactory->get('core');
@@ -85,9 +85,8 @@ class RemoteWipeEmailListener implements IEventListener {
 					$this->getWipingStartedMessage($event, $user)
 				);
 			} catch (Exception $e) {
-				$this->logger->logException($e, [
-					'message' => "Could not send remote wipe started email to <$uid>",
-					'level' => ILogger::ERROR,
+				$this->logger->error("Could not send remote wipe started email to <$uid>", [
+					'exception' => $e,
 				]);
 			}
 		} elseif ($event instanceof RemoteWipeFinished) {
@@ -107,9 +106,8 @@ class RemoteWipeEmailListener implements IEventListener {
 					$this->getWipingFinishedMessage($event, $user)
 				);
 			} catch (Exception $e) {
-				$this->logger->logException($e, [
-					'message' => "Could not send remote wipe finished email to <$uid>",
-					'level' => ILogger::ERROR,
+				$this->logger->error("Could not send remote wipe finished email to <$uid>", [
+					'exception' => $e,
 				]);
 			}
 		}

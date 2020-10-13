@@ -39,8 +39,8 @@ use OC\Cache\CappedMemoryCache;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
-use OCP\ILogger;
 use OCP\Security\ICrypto;
+use Psr\Log\LoggerInterface;
 
 class PublicKeyTokenProvider implements IProvider {
 	/** @var PublicKeyTokenMapper */
@@ -52,10 +52,10 @@ class PublicKeyTokenProvider implements IProvider {
 	/** @var IConfig */
 	private $config;
 
-	/** @var ILogger $logger */
+	/** @var LoggerInterface */
 	private $logger;
 
-	/** @var ITimeFactory $time */
+	/** @var ITimeFactory */
 	private $time;
 
 	/** @var CappedMemoryCache */
@@ -64,7 +64,7 @@ class PublicKeyTokenProvider implements IProvider {
 	public function __construct(PublicKeyTokenMapper $mapper,
 								ICrypto $crypto,
 								IConfig $config,
-								ILogger $logger,
+								LoggerInterface $logger,
 								ITimeFactory $time) {
 		$this->mapper = $mapper;
 		$this->crypto = $crypto;

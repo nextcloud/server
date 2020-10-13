@@ -498,7 +498,7 @@ class Server extends ServerContainer implements IServerContainer {
 			} else {
 				$tokenProvider = null;
 			}
-			$logger = $c->get(ILogger::class);
+			$logger = $c->get(LoggerInterface::class);
 			return new Store($session, $logger, $tokenProvider);
 		});
 		$this->registerAlias(IStore::class, Store::class);
