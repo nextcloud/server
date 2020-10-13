@@ -688,6 +688,7 @@ class VersioningTest extends \Test\TestCase {
 	}
 
 	public function testRestoreMovedShare() {
+		$this->markTestSkipped('Unreliable test');
 		$this->loginAsUser(self::TEST_VERSIONS_USER);
 
 		$userHome = \OC::$server->getUserFolder(self::TEST_VERSIONS_USER);
