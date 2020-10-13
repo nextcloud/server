@@ -3300,11 +3300,6 @@
       <code>parent::getExpires()</code>
     </UndefinedMethod>
   </file>
-  <file src="lib/private/Authentication/Token/DefaultTokenProvider.php">
-    <InvalidArgument occurrences="1">
-      <code>$token</code>
-    </InvalidArgument>
-  </file>
   <file src="lib/private/Authentication/Token/PublicKeyToken.php">
     <UndefinedMethod occurrences="16">
       <code>parent::getLoginName()</code>
