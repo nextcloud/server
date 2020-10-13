@@ -50,8 +50,6 @@ OC.L10N.register(
     "Add to your website" : "Lägg till på din hemsida",
     "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Du tog emot \"%3$s\" som en extern delning från %1$s (på uppdrag av %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Du tog emot \"%3$s\" som en extern delning från %1$s",
     "Allow users on this server to send shares to other servers" : "Tillåt användare på denna server att skicka utdelningar till andra servrar"
 },
 "nplurals=2; plural=(n != 1);");

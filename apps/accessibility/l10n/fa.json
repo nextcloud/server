@@ -10,13 +10,6 @@
     "Accessibility" : "در دسترس بودن",
     "Accessibility options for nextcloud" : "امکان در دسترس بودن برای نکس کلود",
     "Provides multiple accessibilities options to ease your use of Nextcloud" : "امکان دسترسی امکانات از چند مسیر برای کار کردن راحت تر شما با نکست کلود قرارداده شده است.",
-    "High contrast theme" : "تم با وضوح بالا",
-    "A high contrast theme to ease your navigation. Visual quality will be reduced but clarity will be increased." : "یک تم با وضوح بالا برای آسان نمودن راهبری شما\nکیفیت بصری کاهش خاهد یافت تا وضوح افزایش یابد.",
-    "Web Content Accessibility Guidelines" : "راهنمای در دسترس بودن محتوا وب",
-    "our issue tracker" : "دنبال کننده مساله ها",
-    "our design team" : "تیم طراحی ما",
-    "Universal access is very important to us. We follow web standards and check to make everything usable also without mouse, and assistive software such as screenreaders. We aim to be compliant with the {guidelines} 2.1 on AA level, with the high contrast theme even on AAA level." : "دسترسی جهانی برای ما بسیار مهم است. ما از استانداردهای وب پیروی می کنیم و بررسی می کنیم تا همه چیز را بدون ماوس و نرم افزارهای کمکی مانند صفحه نمایشگر نیز قابل استفاده کنیم. هدف ما این است که مطابق با دستورالعمل {2.1} در سطح AA ، با تم کنتراست بالا حتی در سطح AAA باشد.",
-    "If you find any issues, don’t hesitate to report them on {issuetracker}. And if you want to get involved, come join {designteam}!" : "اگر مشکلی پیدا کردید ، از گزارش آنها در مورد {issuetracker} دریغ نکنید. و اگر می خواهید درگیر شوید ، به ما بپیوندید {designteam}!",
     "Enable" : "فعال"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

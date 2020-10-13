@@ -110,25 +110,6 @@
     "Request user agent" : "Solicitar axente de usuario",
     "User group membership" : "Pertencia a un grupo de usuarios",
     "is member of" : "é membro de",
-    "is not member of" : "non é membro de",
-    "Example: {placeholder}" : "Exemplo: {placeholder}",
-    "Select tag…" : "Seleccionar a etiqueta…",
-    "Start" : "Inicio",
-    "End" : "Final",
-    "Select timezone…" : "Seleccionar o fuso horario…",
-    "Sync clients" : "Sincronizar clientes",
-    "Short rule description" : "Breve descrición da regra",
-    "Add rule" : "Engadir unha regra",
-    "Reset" : "Restabelecer",
-    "Saving…" : "Gardando…",
-    "Group list is empty" : "A lista de grupos está baleira",
-    "Unable to retrieve the group list" : "Non é posíbel recuperar a lista de grupos",
-    "Saved" : "Gardado",
-    "Saving failed:" : "Produciuse un fallo ao gardar:",
-    "Add rule group" : "Engadir unha regra de grupo",
-    "Tag management" : "Xestión de etiquetas",
-    "Files workflow engine" : "Motor de fluxo de traballo de ficheiros",
-    "Open documentation" : "Abrir a documentación",
-    "Loading…" : "Cargando…"
+    "is not member of" : "non é membro de"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

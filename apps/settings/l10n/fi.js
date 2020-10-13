@@ -381,7 +381,6 @@ OC.L10N.register(
     "New password" : "Uusi salasana",
     "Change password" : "Vaihda salasana",
     "Use a second factor besides your password to increase security for your account." : "Käytä toista vaihetta salasanasi lisäksi parantaaksesi tilisi tietoturvaa.",
-    "Share" : "Jaa",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Tapahtu virhe. Lähetä ASCII-koodattu PEM-varmenne.",
     "Valid until {date}" : "Kelvollinen {date} asti",
     "Local" : "Paikallinen",
@@ -390,10 +389,8 @@ OC.L10N.register(
     "Contacts" : "Yhteystiedot",
     "Visible to local users and to trusted servers" : "Näkyvillä vain paikallisille käyttäjille ja luotetuille palvelimille",
     "Will be synced to a global and public address book" : "Synkronoidaan maailmanlaajuiseen ja julkiseen osoitekirjaan",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Viralliset sovellukset ovat yhteisössä kehitettyjä. Ne tarjoavat keskeistä toiminnallisuutta ja ovat valmiita tuotantokäyttöön.",
-    "Official" : "Virallinen",
     "by" : " Kirjoittaja:",
-    "The backend does not support changing the display name" : "Taustaosa ei tue näyttönimen vaihtamista",
+    "{counter} apps have an update available" : "{counter} sovellukselle on päivitys saatavilla",
     "SSL Root Certificates" : "SSL-juurivarmenteet",
     "Common Name" : "Yleinen nimi",
     "Valid until" : "Kelvollinen",
@@ -401,9 +398,7 @@ OC.L10N.register(
     "Valid until %s" : "Kelvollinen %s asti",
     "Import root certificate" : "Tuo juurivarmenne",
     "Execute one task with each page loaded" : "Suorita yksi tehtävä jokaista ladattua sivua kohden",
-    "Set default expiration date" : "Aseta oletusvanhenemispäivä",
     "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Salli käyttäjätunnusten automaattinen täydentäminen jakoikkunassa. Jos tämä asetus on pois käytöstä, tulee käyttäjän kirjoittaa käyttäjätunnus tai sähköpostiosoite kokonaan.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Näytä vastuuvapauslauseke julkisen linkin lähetyssivulla. (Näytetään vain, kun tiedostolista on piilotettu.)",
-    "{counter} apps have an update available" : "{counter} sovellukselle on päivitys saatavilla"
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Näytä vastuuvapauslauseke julkisen linkin lähetyssivulla. (Näytetään vain, kun tiedostolista on piilotettu.)"
 },
 "nplurals=2; plural=(n != 1);");

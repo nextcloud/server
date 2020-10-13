@@ -139,7 +139,6 @@ OC.L10N.register(
     "Note" : "Note",
     "Select or drop files" : "Select or drop files",
     "Uploaded files:" : "Uploaded files:",
-    "could not delete share" : "could not delete share",
     "Uploading files…" : "Uploading files…"
 },
 "nplurals=2; plural=(n != 1);");

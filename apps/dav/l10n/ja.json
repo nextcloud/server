@@ -108,10 +108,6 @@
     "The meeting »%1$s« with %2$s was canceled." : "会議%1$s « %2$s がキャンセルされました。",
     "The meeting »%1$s« with %2$s was updated." : "会議 %1$s« %2$s が更新されました。",
     "%1$s invited you to »%2$s«" : "%1$s があなたを »%2$s« に招待しました",
-    "When:" : "いつ:",
-    "Technical details" : "技術的な詳細",
-    "Remote Address: %s" : "リモートアドレス: %s",
-    "Request ID: %s" : "リクエスト ID: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "通知はバックグラウンドジョブを介して送信されるため、十分な頻度で発生します。"
+    "When:" : "いつ:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

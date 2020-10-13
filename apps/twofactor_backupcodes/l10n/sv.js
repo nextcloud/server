@@ -19,7 +19,6 @@ OC.L10N.register(
     "{name} backup codes" : "{name} återställningsnycklar",
     "Use one of the backup codes you saved when setting up two-factor authentication." : "Använd en av återställningsnycklarna du sparade när du konfigurerar tvåfaktorsautentisering.",
     "Submit" : "Skicka",
-    "function" : "funktion",
     "_" : "_",
     "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","Generera återställningsnycklar"]
 },

@@ -110,25 +110,6 @@
     "Request user agent" : "Uporabniški odjemalec",
     "User group membership" : "Članstvo v uporabniških skupinah",
     "is member of" : "je v skupini",
-    "is not member of" : "ni v skupini",
-    "Example: {placeholder}" : "Primer: {placeholder}",
-    "Select tag…" : "Izbor oznake ...",
-    "Start" : "Začetek",
-    "End" : "Konec",
-    "Select timezone…" : "Časovni pas ...",
-    "Sync clients" : "Odjemalci za usklajevanje",
-    "Short rule description" : "Kratek opis pravila",
-    "Add rule" : "Dodaj pravilo",
-    "Reset" : "Razveljavi",
-    "Saving…" : "Poteka shranjevanje ...",
-    "Group list is empty" : "Skupinski seznam je prazen",
-    "Unable to retrieve the group list" : "Skupinskega seznama ni mogoče pridobiti.",
-    "Saved" : "Shranjeno",
-    "Saving failed:" : "Shranjevanje je spodletelo:",
-    "Add rule group" : "Dodaj skupino pravil",
-    "Tag management" : "Upravljanje oznak",
-    "Files workflow engine" : "Program za koračno upravljanje z datotekami",
-    "Open documentation" : "Odpri dokumentacijo",
-    "Loading…" : "Poteka nalaganje ..."
+    "is not member of" : "ni v skupini"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

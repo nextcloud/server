@@ -104,10 +104,6 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "Otkazan je sastanak »%1$s« s %2$s.",
     "The meeting »%1$s« with %2$s was updated." : "Ažuriran je sastanak »%1$s« s %2$s.",
     "%1$s invited you to »%2$s«" : "%1$s vas je pozvao na »%2$s«",
-    "When:" : "Kada:",
-    "Technical details" : "Tehničke informacije",
-    "Remote Address: %s" : "Udaljena adresa: %s",
-    "Request ID: %s" : "ID zahtjeva: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Obavijesti se šalju putem pozadinskih zadataka koji se stoga moraju dovoljno često izvršavati."
+    "When:" : "Kada:"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

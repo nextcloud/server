@@ -1,0 +1,13 @@
+OC.L10N.register(
+    "accessibility",
+    {
+    "Dark theme" : "黑暗主題",
+    "Enable dark theme" : "使用黑暗主題",
+    "A dark theme to ease your eyes by reducing the overall luminosity and brightness. It is still under development, so please report any issues you may find." : "黑暗主題將降低整體光度與亮度，以舒緩眼睛疲勞。此功能仍在發展當中，請報告任何您遇上的問題。",
+    "High contrast mode" : "高對比模式",
+    "Enable high contrast mode" : "使用高對比模式",
+    "A high contrast mode to ease your navigation. Visual quality will be reduced but clarity will be increased." : "高對比模式能使您的瀏覽更容易。視覺品質將被降低，但清晰度將被提高。",
+    "Dyslexia font" : "閱讀困難症字體",
+    "Enable" : "啟用"
+},
+"nplurals=1; plural=0;");

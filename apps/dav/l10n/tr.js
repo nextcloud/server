@@ -110,10 +110,6 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "%2$s ile yapılacak »%1$s« görüşmesi iptal edildi.",
     "The meeting »%1$s« with %2$s was updated." : "%2$s ile yapılacak »%1$s« görüşmesi güncellendi.",
     "%1$s invited you to »%2$s«" : "%1$s sizi »%2$s« görüşmesine çağırdı",
-    "When:" : "Zaman:",
-    "Technical details" : "Teknik ayrıntılar",
-    "Remote Address: %s" : "Uzak Adres: %s",
-    "Request ID: %s" : "İstek Kodu: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Bildirimler arka plan işlemleri tarafından gönderilir. Bu nedenle sıklık değeri uygun şekilde ayarlanmalıdır."
+    "When:" : "Zaman:"
 },
 "nplurals=2; plural=(n > 1);");

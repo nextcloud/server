@@ -17,7 +17,6 @@ OC.L10N.register(
     "An error occurred while generating your backup codes" : "Generuojant jūsų atsarginius kodus, įvyko klaida",
     "{name} backup codes" : "{name} atsarginiai kodai",
     "Submit" : "Pateikti",
-    "function" : "funkcija",
     "_" : "_",
     "_icon-loading-small_::_generate-backup-codes_" : ["icon-loading-small","generate-backup-codes","generate-backup-codes","generate-backup-codes"]
 },

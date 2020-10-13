@@ -156,7 +156,6 @@ OC.L10N.register(
     "Note" : "筆記",
     "Select or drop files" : "選擇或拖曳檔案至此",
     "Uploaded files:" : "已上傳的檔案：",
-    "could not delete share" : "無法刪除分享",
     "Uploading files…" : "上傳檔案中…"
 },
 "nplurals=1; plural=0;");

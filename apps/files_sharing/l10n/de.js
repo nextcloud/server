@@ -232,7 +232,6 @@ OC.L10N.register(
     "Uploading files" : "Dateien werden hochgeladen",
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmst Du den %1$sNutzungsbedingungen%2$s zu.",
-    "could not delete share" : "Freigabe konnte nicht gelöscht werden",
     "Uploading files…" : "Dateien werden hochgeladen…"
 },
 "nplurals=2; plural=(n != 1);");
