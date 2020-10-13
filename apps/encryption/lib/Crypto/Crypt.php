@@ -459,7 +459,7 @@ class Crypt {
 	 * @param string $passPhrase
 	 * @param string $cipher
 	 * @param int $version
-	 * @param int $position
+	 * @param int|string $position
 	 * @return string
 	 * @throws DecryptionFailedException
 	 */
