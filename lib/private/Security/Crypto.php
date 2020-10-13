@@ -102,7 +102,7 @@ class Crypto implements ICrypto {
 		$iv = bin2hex($iv);
 		$hmac = bin2hex($this->calculateHMAC($ciphertext.$iv, substr($keyMaterial, 32)));
 
-		return $ciphertext.'|'.$iv.'|'.$hmac.'|2';
+		return $ciphertext.'|'.$iv.'|'.$hmac.'|3';
 	}
 
 	/**
@@ -131,7 +131,7 @@ class Crypto implements ICrypto {
 
 		if ($partCount === 4) {
 			$version = $parts[3];
-			if ($version === '2') {
+			if ($version >= '2') {
 				$iv = hex2bin($iv);
 			}
 		}
