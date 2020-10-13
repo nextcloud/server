@@ -98,7 +98,7 @@ export default {
 		return {
 			clearAt: null,
 			icon: null,
-			message: null,
+			message: '',
 			statuses: getAllStatusOptions(),
 		}
 	},
@@ -119,7 +119,7 @@ export default {
 	mounted() {
 		this.messageId = this.$store.state.userStatus.messageId
 		this.icon = this.$store.state.userStatus.icon
-		this.message = this.$store.state.userStatus.message
+		this.message = this.$store.state.userStatus.message || ''
 
 		if (this.$store.state.userStatus.clearAt !== null) {
 			this.clearAt = {
