@@ -27,6 +27,7 @@
     "next year" : "järgmine aasta",
     "last year" : "viimasel aastal",
     "_%n year ago_::_%n years ago_" : ["%n aasta tagasi","%n aastat tagasi"],
+    "_%n hour ago_::_%n hours ago_" : ["%n tund tagasi","%n tundi tagasi"],
     "in a few seconds" : "mõne sekundi jooksul",
     "seconds ago" : "sekundit tagasi",
     "File name is a reserved word" : "Failinimi sisaldab keelatud sõna",

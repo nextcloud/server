@@ -118,6 +118,7 @@ OC.L10N.register(
     "Accept" : "Nõustu",
     "Reject" : "Keeldu",
     "in %s" : "kaustas %s",
+    "Change" : "Muuda",
     "Tags" : "Sildid",
     "%s used" : "Kasutatud %s",
     "%1$s of %2$s used" : "Kasutatud %1$s/%2$s",
