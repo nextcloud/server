@@ -90,14 +90,17 @@ class Crypto implements ICrypto {
 		if ($password === '') {
 			$password = $this->config->getSystemValue('secret');
 		}
-		$this->cipher->setPassword($password);
+		
+		$keyMaterial = hash_hkdf('sha512', $password);
+		
+		$this->cipher->setPassword(substr($keyMaterial, 0, 32));
 
 		$iv = \random_bytes($this->ivLength);
 		$this->cipher->setIV($iv);
 
 		$ciphertext = bin2hex($this->cipher->encrypt($plaintext));
 		$iv = bin2hex($iv);
-		$hmac = bin2hex($this->calculateHMAC($ciphertext.$iv, $password));
+		$hmac = bin2hex($this->calculateHMAC($ciphertext.$iv, substr($keyMaterial, 32)));
 
 		return $ciphertext.'|'.$iv.'|'.$hmac.'|2';
 	}
