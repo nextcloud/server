@@ -265,7 +265,7 @@ class Database extends ABackend implements
 
 		$query = $this->dbConn->getQueryBuilder();
 
-		$displayNameParameter = '%' . str_replace(' ', '% ', $this->dbConn->escapeLikeParameter($search)) . '%';
+		$displayNameParameter = '%' . implode('% %', array_map([$this->dbConn, 'escapeLikeParameter'], explode(' ', $search))) . '%';
 		$query->select('uid', 'displayname')
 			->from($this->table, 'u')
 			->leftJoin('u', 'preferences', 'p', $query->expr()->andX(
