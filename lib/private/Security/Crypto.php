@@ -31,7 +31,6 @@ namespace OC\Security;
 
 use OCP\IConfig;
 use OCP\Security\ICrypto;
-use OCP\Security\ISecureRandom;
 use phpseclib\Crypt\AES;
 use phpseclib\Crypt\Hash;
 
@@ -55,7 +54,6 @@ class Crypto implements ICrypto {
 
 	/**
 	 * @param IConfig $config
-	 * @param ISecureRandom $random
 	 */
 	public function __construct(IConfig $config) {
 		$this->cipher = new AES();
