@@ -38,12 +38,13 @@ Object.assign(window.OCA.Files, { Sidebar: new Sidebar() })
 Object.assign(window.OCA.Files.Sidebar, { Tab })
 
 window.addEventListener('DOMContentLoaded', function() {
-	// Make sure we have a proper layout
-	if (document.getElementById('content')) {
+	const contentElement = document.querySelector('body > .content')
+		|| document.querySelector('body > #content')
 
+	// Make sure we have a proper layout
+	if (contentElement) {
 		// Make sure we have a mountpoint
 		if (!document.getElementById('app-sidebar')) {
-			const contentElement = document.getElementById('content')
 			const sidebarElement = document.createElement('div')
 			sidebarElement.id = 'app-sidebar'
 			contentElement.appendChild(sidebarElement)
