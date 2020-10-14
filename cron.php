@@ -94,14 +94,15 @@ try {
 			exit(1);
 		}
 
-		$user = posix_getpwuid(posix_getuid());
-		$configUser = posix_getpwuid(fileowner(OC::$configDir . 'config.php'));
-		if ($user['name'] !== $configUser['name']) {
+		$user = posix_getuid();
+		$configUser = fileowner(OC::$configDir . 'config.php');
+		if ($user !== $configUser) {
 			echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
-			echo "Current user: " . $user['name'] . PHP_EOL;
-			echo "Owner of config.php: " . $configUser['name'] . PHP_EOL;
+			echo "Current user id: " . $user . PHP_EOL;
+			echo "Owner id of config.php: " . $configUser . PHP_EOL;
 			exit(1);
 		}
+
 
 		// We call Nextcloud from the CLI (aka cron)
 		if ($appMode !== 'cron') {
