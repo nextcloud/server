@@ -105,6 +105,8 @@ class AddressBookImpl implements IAddressBook {
 	 * 	- 'types' boolean (since 15.0.0) If set to true, fields that come with a TYPE property will be an array
 	 *    example: ['id' => 5, 'FN' => 'Thomas Tanghus', 'EMAIL' => ['type => 'HOME', 'value' => 'g@h.i']]
 	 * 	- 'escape_like_param' - If set to false wildcards _ and % are not escaped
+	 * 	- 'limit' - Set a numeric limit for the search results
+	 * 	- 'offset' - Set the offset for the limited search results
 	 * @return array an array of contacts which are arrays of key-value-pairs
 	 *  example result:
 	 *  [
