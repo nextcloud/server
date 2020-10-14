@@ -114,6 +114,8 @@ OC.L10N.register(
     "Reject" : "Avvis",
     "Sharing" : "Deling",
     "Allow editing" : "Tillat redigering",
+    "Allow creating" : "Tillat oppretting",
+    "Allow deleting" : "Tillat sletting",
     "Allow resharing" : "TIllat videre deling",
     "Expiration date enforced" : "Utløpsdato er påkrevd",
     "Set expiration date" : "Sett utløpsdato",
@@ -165,7 +167,6 @@ OC.L10N.register(
     "Select or drop files" : "Velg eller slipp filer",
     "Uploading files" : "Laster opp filer",
     "Uploaded files:" : "Opplastede filer:",
-    "could not delete share" : "kunne ikke slette ressursen",
     "Uploading files…" : "Laster opp filer…"
 },
 "nplurals=2; plural=(n != 1);");

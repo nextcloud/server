@@ -170,6 +170,7 @@ OC.L10N.register(
     "Enter a password" : "Unesite zaporku",
     "Expiration date (enforced)" : "Datum isteka (provedeno)",
     "Cancel" : "Odustani",
+    "Share label" : "oznaka za dijeljenje",
     "Read only" : "Samo za čitanje",
     "Allow upload and editing" : "Omogući otpremanje i uređivanje",
     "File drop (upload only)" : "Povlačenje datoteke (samo za otpremanje)",
@@ -180,6 +181,7 @@ OC.L10N.register(
     "Add another link" : "Dodaj drugu poveznicu",
     "Create a new share link" : "Stvori novu poveznicu dijeljenja",
     "Shared via link by {initiator}" : "Dijeli {initiator} putem poveznice",
+    "Share link ({label})" : "Poveznica dijeljenja ({label})",
     "Share link" : "Dijeli poveznicu",
     "Error, please enter proper password and/or expiration date" : "Pogreška, unesite točnu zaporku i/ili datum isteka",
     "No recommendations. Start typing." : "Nema preporuka. Započnite unos.",
@@ -230,7 +232,6 @@ OC.L10N.register(
     "Uploading files" : "Otpremanje datoteka",
     "Uploaded files:" : "Otpremljene datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Otpremanjem datoteka prihvaćate %1$ uvjete korištenja usluge%2$s.",
-    "could not delete share" : "dijeljenje nije moguće izbrisati",
     "Uploading files…" : "Otpremanje datoteka..."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

@@ -21,12 +21,12 @@
     "{actor} shared calendar {calendar} with group {group}" : "{actor} {group} taldearekin {calendar} egutegia partekatu du",
     "You unshared calendar {calendar} from group {group}" : "{group} taldearekin {calendar} egutegia partekatzeari utzi dio.",
     "{actor} unshared calendar {calendar} from group {group}" : "{actor}-rk  {group} taldearekin {calendar} egutegia partekatzeari utzi dio.",
-    "{actor} created event {event} in calendar {calendar}" : "{actor} erabiltzaileak {event} gertaera {calendar} egutegian sortu du.",
-    "You created event {event} in calendar {calendar}" : "{calendar} egutegia {event} gertaera sortu duzu",
-    "{actor} deleted event {event} from calendar {calendar}" : "{actor} erabiltzaileak {event} gertaera {calendar} egutegitik ezabatu du",
-    "You deleted event {event} from calendar {calendar}" : "{event} gertaera {calendar} egutegitik ezabatu duzu",
-    "{actor} updated event {event} in calendar {calendar}" : "{actor}-rek {event} gertaera {calendar} eguneratu du egutegian",
-    "You updated event {event} in calendar {calendar}" : "{event} gertaera {calendar} egutegian eguneratu duzu ",
+    "{actor} created event {event} in calendar {calendar}" : "{actor} erabiltzaileak {event} gertaera sortu du {calendar} egutegian.",
+    "You created event {event} in calendar {calendar}" : "{calendar} egutegian {event} gertaera sortu duzu",
+    "{actor} deleted event {event} from calendar {calendar}" : "{actor} erabiltzaileak {event} gertaera ezabatu du {calendar} egutegitik",
+    "You deleted event {event} from calendar {calendar}" : "{event} gertaera ezabatu duzu {calendar} egutegitik ",
+    "{actor} updated event {event} in calendar {calendar}" : "{actor}-(r)ek {event} gertaera eguneratu du {calendar} egutegian",
+    "You updated event {event} in calendar {calendar}" : "{event} gertaera eguneratu duzu {calendar} egutegian ",
     "Busy" : "Lanpetua",
     "{actor} created todo {todo} in list {calendar}" : "{actor}-ek {calendar} zerrendan {todo} zeregina sortu du.",
     "You created todo {todo} in list {calendar}" : "{calendar} zerrendan {todo} ekintza sortu duzu.",
@@ -103,10 +103,6 @@
     "The meeting »%1$s« with %2$s was canceled." : "»%1$s« bilera %2$s(r)ekin bertan behera utzi da.",
     "The meeting »%1$s« with %2$s was updated." : "»%1$s« bilera %2$s(r)ekin eguneratu egin da.",
     "%1$s invited you to »%2$s«" : "%1$s(e)k »%2$s(e)ra« gonbidatu zaitu",
-    "When:" : "Noiz:",
-    "Technical details" : "Xehetasun teknikoak",
-    "Remote Address: %s" : "Urruneko helbidea: 1%s",
-    "Request ID: %s" : "Eskatutako ID: 1%s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Jakinarazpenak atzealdeko lanen bidez bidaliko dira, beraz sarri gertatu behar dira."
+    "When:" : "Noiz:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

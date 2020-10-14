@@ -241,7 +241,6 @@ OC.L10N.register(
     "Save" : "Lưu",
     "Security & setup warnings" : "Bảo mật và thiết lập cảnh báo",
     "Version" : "Phiên bản",
-    "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải",
     "Allow apps to use the Share API" : "Cho phép các ứng dụng sử dụng chia sẻ API",
     "days" : "ngày",
     "Allow resharing" : "Cho phép chia sẻ lại",
@@ -256,7 +255,6 @@ OC.L10N.register(
     "Current password" : "Mật khẩu cũ",
     "New password" : "Mật khẩu mới",
     "Change password" : "Đổi mật khẩu",
-    "Share" : "Chia sẻ",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Xảy ra lỗi Vui lòng tải lên chứng chỉ PEM được mã hóa ASCII.",
     "Valid until {date}" : "Có hiệu lực cho đến {date}",
     "Only visible to local users" : "Chỉ hiển thị cho người dùng local",
@@ -264,15 +262,12 @@ OC.L10N.register(
     "Contacts" : "Liên hệ",
     "Visible to local users and to trusted servers" : "Hiển thị với local users và trusted servers",
     "Will be synced to a global and public address book" : "Sẽ được đồng bộ hóa với công cộng và một sổ địa chỉ công khai",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Các ứng dụng chính thức được phát triển bởi và trong cộng đồng. Họ cung cấp chức năng trung tâm và sẵn sàng để sử dụng sản xuất.",
-    "Official" : "Chính thức",
     "by" : "bởi",
-    "The backend does not support changing the display name" : "Trang cài đặt không hỗ trợ thay đổi tên hiển thị",
     "Common Name" : "Tên thông dụng",
     "Valid until" : "Có hiệu lực đến",
     "Issued By" : "Phát hành bởi",
     "Valid until %s" : "Có hiệu lực đến %s",
     "Import root certificate" : "Nhập root certificate",
-    "Unsaved changes" : "Thay đổi chưa được lưu"
+    "Execute one task with each page loaded" : "Thực thi tác vụ mỗi khi trang được tải"
 },
 "nplurals=1; plural=0;");

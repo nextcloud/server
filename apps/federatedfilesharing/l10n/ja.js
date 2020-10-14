@@ -50,8 +50,6 @@ OC.L10N.register(
     "Add to your website" : "ウェブサイトに追加",
     "Share with me via Nextcloud" : "Nextcloud 経由で共有",
     "HTML Code:" : "HTMLコード:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s からリモート共有として \"%3$s\" を受け取りました。(%2$s の代理として)",
-    "You received \"%3$s\" as a remote share from %1$s" : "%1$s からリモート共有として \"%3$s\" を受け取りました。",
     "Allow users on this server to send shares to other servers" : "ユーザーがこのサーバーから他のサーバーに共有することを許可する"
 },
 "nplurals=1; plural=0;");

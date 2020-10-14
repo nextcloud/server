@@ -40,6 +40,7 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Je hebt taak {todo} in lijst {calendar} afgewerkt",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} heropende taak {todo} in lijst {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Je heropende taak {todo} in lijst {calendar}",
+    "Calendar and tasks" : "Agenda en taken",
     "A <strong>calendar</strong> was modified" : "Een <strong>agenda</strong> is aangepast",
     "A calendar <strong>event</strong> was modified" : "Een agenda <strong>gebeurtenis</strong> is aangepast",
     "A calendar <strong>todo</strong> was modified" : "Een agenda <strong>Te doen</strong> was aangepast",
@@ -64,8 +65,13 @@ OC.L10N.register(
     "%1$s via %2$s" : "%1$s via %2$s",
     "Invitation canceled" : "Uitnodiging geannuleerd",
     "Invitation updated" : "Uitnodiging bijgewerkt",
+    "Invitation" : "Uitnodiging",
+    "Title:" : "Titel:",
+    "Time:" : "Tijd:",
     "Location:" : "Locatie:",
     "Link:" : "Link:",
+    "Organizer:" : "Organisator:",
+    "Attendees:" : "Deelnemers:",
     "Accept" : "Accepteren",
     "Decline" : "Afwijzen",
     "More options …" : "Meer opties …",
@@ -104,10 +110,6 @@ OC.L10N.register(
     "The meeting »%1$s« with %2$s was canceled." : "De vergadering »%1$s« met %2$s is geannuleerd.",
     "The meeting »%1$s« with %2$s was updated." : "De vergadering »%1$s« met %2$s is bijgewerkt.",
     "%1$s invited you to »%2$s«" : "%1$s heeft je uitgenodigd voor »%2$s«",
-    "When:" : "Wanneer:",
-    "Technical details" : "Technische details",
-    "Remote Address: %s" : "Extern adres: %s",
-    "Request ID: %s" : "Aanvraag-ID: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Meldingen worden via achtergrondtaken verstuurd, dus die moeten vaak genoeg plaatsvinden."
+    "When:" : "Wanneer:"
 },
 "nplurals=2; plural=(n != 1);");

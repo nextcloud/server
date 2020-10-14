@@ -21,6 +21,7 @@
     "PHP %s or higher is required." : "PHP %s ya da daha sonraki bir sürümü gerekli.",
     "PHP with a version lower than %s is required." : "PHP %s ya da daha önceki bir sürümü gerekli.",
     "%sbit or higher PHP required." : "%sbit ya da daha sonraki bir PHP sürümü gerekli.",
+    "The following architectures are supported: %s" : "Şu mimariler destekleniyor: %s",
     "The following databases are supported: %s" : "Şu veritabanları destekleniyor: %s",
     "The command line tool %s could not be found" : "%s komut satırı aracı bulunamadı",
     "The library %s is not available." : "%s kitaplığı bulunamadı.",

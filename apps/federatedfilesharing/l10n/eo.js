@@ -50,8 +50,6 @@ OC.L10N.register(
     "Add to your website" : "Aldoni al via TTT-ejo",
     "Share with me via Nextcloud" : "Kunhavigi kun mi per Nextcloud",
     "HTML Code:" : "HTML-kodo:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Vi ricevis „%3$s“ kiel foran kunhavon el %1$s (nome de %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Vi ricevis „%3$s“ kiel foran kunhavon el %1$s",
     "Allow users on this server to send shares to other servers" : "Permesi al uzantoj en tiu ĉi servilo sendi kunhavojn al aliaj serviloj"
 },
 "nplurals=2; plural=(n != 1);");

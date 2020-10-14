@@ -152,8 +152,8 @@
     "Ownership transfer request sent" : "Permintaan transfer kepemilikan terkirim",
     "Cannot transfer ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
     "Tags" : "Tag",
-    "Error while loading the file data" : "Galat pemuatan data berkas",
     "Unable to change the favourite state of the file" : "Gagal mengubah status favorit berkas",
+    "Error while loading the file data" : "Galat pemuatan data berkas",
     "%s used" : "%s digunakan",
     "%s%% of %s used" : "%s%% dari %s terpakai",
     "%1$s of %2$s used" : "%1$s dari %2$s sudah digunakan",
@@ -187,7 +187,7 @@
     "A file or folder has been <strong>deleted</strong>" : "Sebuah berkas atau folder telah <strong>dihapus</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Batas notifikasi tentang pembuatan dan perubahan <strong>berkas favorit</strong> Anda <em>(Hanya stream)</em>",
     "A file or folder has been <strong>restored</strong>" : "Sebuah berkas atau folder telah <strong>dipulihkan</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gunakan alamat ini untuk <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">mengakses berkas Anda via WebDAV</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki"
+    "Cannot transfter ownership of a file or folder you don't own" : "Tidak dapat melakukan transfer kepemilikan dari berkas dan folder yang tidak Anda miliki",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Gunakan alamat ini untuk <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">mengakses berkas Anda via WebDAV</a>"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

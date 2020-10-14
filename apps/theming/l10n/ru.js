@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "Невозможно записать файл на диск",
     "A PHP extension stopped the file upload" : "Расширение PHP прервало загрузку файла",
     "No file uploaded" : "Нет отправленных файлов",
-    "Unsupported image type" : "Неподдерживаемый тип изображения",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Вы уже используете настраиваемое оформление, которое может быть перезаписано этим приложением.",
     "Theming" : "Внешний вид",
     "Legal notice" : "Официальное уведомление",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Upload new header logo" : "Загрузить логотип заголовка",
     "Favicon" : "Favicon (значок сайта)",
     "Upload new favicon" : "Загрузить значок сайта",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Для автоматической генерации favicon на основе загруженного логотипа и цвета нужно установить PHP расширение Imagemagick  с поддержкой изображений SVG "
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Для автоматической генерации favicon на основе загруженного логотипа и цвета нужно установить PHP расширение Imagemagick  с поддержкой изображений SVG ",
+    "Unsupported image type" : "Неподдерживаемый тип изображения"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

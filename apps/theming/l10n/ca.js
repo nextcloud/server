@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "No s’ha pogut escriure el fitxer al disc",
     "A PHP extension stopped the file upload" : "Una extensió de PHP ha aturat la càrrega del fitxer",
     "No file uploaded" : "No s'ha carregat cap fitxer",
-    "Unsupported image type" : "Tipus d'imatge no compatible",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "Ja esteu fent servir un tema propi. La configuració de l'aplicació s'hauria d'haver modificat.",
     "Theming" : "Aparença",
     "Legal notice" : "Avís legal",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Upload new header logo" : "Carrega un nou logotip de capçalera",
     "Favicon" : "Icona de web",
     "Upload new favicon" : "Carrega un nou favicon",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·leu l'extensió PHP de l'ImageMagick compatible amb imatges SVG per generar automàticament una icona de web a partir del logotip pujat i del color."
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "Instal·leu l'extensió PHP de l'ImageMagick compatible amb imatges SVG per generar automàticament una icona de web a partir del logotip pujat i del color.",
+    "Unsupported image type" : "Tipus d'imatge no compatible"
 },
 "nplurals=2; plural=(n != 1);");

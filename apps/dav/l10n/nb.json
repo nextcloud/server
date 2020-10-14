@@ -108,10 +108,6 @@
     "The meeting »%1$s« with %2$s was canceled." : "Møtet »%1$s« med %2$s ble kansellert.",
     "The meeting »%1$s« with %2$s was updated." : "Møtet »%1$s« med %2$s ble oppdatert.",
     "%1$s invited you to »%2$s«" : "%1$sinviterte deg til »%2$s«",
-    "When:" : "Når:",
-    "Technical details" : "Tekniske detaljer",
-    "Remote Address: %s" : "Ekstern adresse: %s",
-    "Request ID: %s" : "Forespørsel ID: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Varsler sendes via bakgrunnsjobber, så disse må forekomme ofte nok."
+    "When:" : "Når:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

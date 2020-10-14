@@ -40,6 +40,7 @@ OC.L10N.register(
     "You solved todo {todo} in list {calendar}" : "Suoritit tehtävän {todo} listasta {calendar}",
     "{actor} reopened todo {todo} in list {calendar}" : "{actor} avasi uudelleen tehtävän {todo} listassa {calendar}",
     "You reopened todo {todo} in list {calendar}" : "Avasit uudelleen tehtävän {todo} listassa {calendar}",
+    "Calendar and tasks" : "Kalenteri ja tehtävät",
     "A <strong>calendar</strong> was modified" : "<strong>Kalenteria</strong> on muokattu",
     "A calendar <strong>event</strong> was modified" : "Kalenterin <strong>tapahtumaa</strong> on muokattu",
     "A calendar <strong>todo</strong> was modified" : "Kalenterin <strong>tehtävää</strong> on muokattu",
@@ -62,8 +63,13 @@ OC.L10N.register(
     "Where: %s" : "Missä: %s",
     "Invitation canceled" : "Kutsu peruttu",
     "Invitation updated" : "Kutsu päivitetty",
+    "Invitation" : "Kutsu",
+    "Title:" : "Otsikko:",
+    "Time:" : "Aika:",
     "Location:" : "Sijainti:",
     "Link:" : "Linkki:",
+    "Organizer:" : "Järjestäjä:",
+    "Attendees:" : "Osallistujat:",
     "Accept" : "Hyväksy",
     "Decline" : "Kieltäydy",
     "More options …" : "Lisää valintoja…",
@@ -94,9 +100,6 @@ OC.L10N.register(
     "Hence they will not be available immediately after enabling but will show up after some time." : "Sen vuoksi ne eivät ole välittömästi saatavilla käyttöönoton jälkeen, vaan ne tulevat näkyviin pienellä viiveellä.",
     "Send notifications for events" : "Lähetä ilmoitukset tapahtumista",
     "Hello %s," : "Hei %s",
-    "When:" : "Milloin:",
-    "Technical details" : "Tekniset yksityiskohdat",
-    "Remote Address: %s" : "Etäosoite: %s",
-    "Request ID: %s" : "Pyynnön tunniste: %s"
+    "When:" : "Milloin:"
 },
 "nplurals=2; plural=(n != 1);");

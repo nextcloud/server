@@ -232,7 +232,6 @@ OC.L10N.register(
     "Uploading files" : "Càrregant fitxers",
     "Uploaded files:" : "Fitxers carregats:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
-    "could not delete share" : "no s'ha pogut suprimir la compartició",
     "Uploading files…" : "S'està carregant fitxers…"
 },
 "nplurals=2; plural=(n != 1);");

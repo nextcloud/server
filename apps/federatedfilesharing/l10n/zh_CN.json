@@ -48,8 +48,6 @@
     "Add to your website" : "添加到您的网站",
     "Share with me via Nextcloud" : "通过联合云与我共享",
     "HTML Code:" : "HTML 代码：",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "您收到“%3$s\"做为远程共享从”%1$s（代表\"%2$s）",
-    "You received \"%3$s\" as a remote share from %1$s" : "您从“%1$s\"得到\"%3$s\"做为远程共享",
     "Allow users on this server to send shares to other servers" : "允许用户共享文件给其他服务器上的用户"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

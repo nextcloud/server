@@ -38,7 +38,7 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Sdílení v rámci federovaného cloudu",
     "Open documentation" : "Otevřít dokumentaci",
     "Adjust how people can share between servers." : "Upravte, jak mohou lidé mezi servery sdílet.",
-    "Allow users on this server to send shares to other servers. This option also allows WebDAV access to public shares" : "Umožnit uživatelům na tomto serveru posílat sdílení na ostatní servery. Tato volba také umožňuje WebDAV přístup k veřejným sdílením",
+    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Umožnit uživatelům na tomto serveru posílat sdílení na ostatní servery (tato volba také umožňuje WebDAV přístup k veřejným sdílením)",
     "Allow users on this server to receive shares from other servers" : "Povolit uživatelům na tomto serveru přijímat sdílení z jiných serverů",
     "Allow users on this server to send shares to groups on other servers" : "Povolit uživatelům na tomto serveru zasílat sdílení skupinám na ostatních serverech",
     "Allow users on this server to receive group shares from other servers" : "Povolit uživatelům na tomto serveru přijímat skupinová sdílení z jiných serverů",
@@ -51,8 +51,6 @@ OC.L10N.register(
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via Nextcloud" : "Sdíleno se mnou přes Nextcloud",
     "HTML Code:" : "HTML kód:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Obdrželi jste %3$s jako vzdálené sdílení od %1$s (jménem %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Obdrželi jste %3$s jako vzdálené sdílení od %1$s",
     "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

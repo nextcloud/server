@@ -110,7 +110,7 @@ OC.L10N.register(
     "Public link sharing is disabled by the administrator" : "Herkese açık bağlantı paylaşımı BT yöneticisi tarafından devre dışı bırakılmış",
     "Public upload disabled by the administrator" : "Herkese açık yükleme BT yöneticisi tarafından devre dışı bırakılmış",
     "Public upload is only possible for publicly shared folders" : "Herkese açık yükleme ancak herkese açık paylaşılmış klasörlere yapılabilir",
-    "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Sohbet etkinleştirilmemiş olduğundan, Nextcloud Sohbet ile parola gönderilerek %s paylaşılamadı",
+    "Sharing %s sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile parola gönderilerek %s paylaşılamadı",
     "Invalid date, date format must be YYYY-MM-DD" : "Tarih geçersiz. Tarih biçimi YYYY-AA-GG olmalıdır",
     "Sharing %1$s failed because the back end does not allow shares from type %2$s" : "Yönetim bölümünden %2$s türündeki paylaşımlar yapılamadığından %1$s paylaşılamadı",
     "You cannot share to a Circle if the app is not enabled" : "Uygulama etkinleştirilmemiş ise bir Çevre ile paylaşamazsınız",
@@ -122,7 +122,7 @@ OC.L10N.register(
     "Could not lock path" : "Yol kilitlenemedi",
     "Wrong or no update parameter given" : "Parametre yanlış ya da herhangi bir parametre belirtilmemiş",
     "Can't change permissions for public share links" : "Herkese açık paylaşılan bağlantıların erişim hakları değiştirilemez",
-    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Sohbet etkinleştirilmemiş olduğundan, Nextcloud Sohbet ile parola gönderilerek paylaşılamadı",
+    "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Nextcloud Talk etkinleştirilmemiş olduğundan, Nextcloud Talk ile parola gönderilerek paylaşılamadı",
     "shared by %s" : "%s tarafından paylaşıldı",
     "Download all files" : "Tüm dosyaları indir",
     "Direct link" : "Doğrudan bağlantı",
@@ -232,7 +232,6 @@ OC.L10N.register(
     "Uploading files" : "Dosyalar yükleniyor",
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
-    "could not delete share" : "paylaşım kaldırılamadı",
     "Uploading files…" : "Dosyalar yükleniyor …"
 },
 "nplurals=2; plural=(n > 1);");

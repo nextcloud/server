@@ -204,7 +204,6 @@
     "Last job ran %s." : "El último trabajo corrió %s.",
     "Background job didn’t run yet!" : "¡El trabajo de segundo plano aún no ha corrido!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "Para un desempeño ideal, es importante configurar los trabajos de fondo correctametne. Para instancias más grandes 'Cron' es el ajuste recomendado. Favor de consultar la documentación para más información. ",
-    "Execute one task with each page loaded" : "Ejecutar una tarea con cada página cargada",
     "The cron.php needs to be executed by the system user \"%s\"." : "El cron.php necesita ser ejecutado por el usuario del sistema \"%s\".",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Como administrador, usted puede hacer ajustes finos al comportamiento de compartir. Favor de consultar la documentación para más información. ",
     "Allow apps to use the Share API" : "Permitir que las aplicaciones usen el API para Compartir",
@@ -220,7 +219,6 @@
     "Restrict users to only share with users in their groups" : "Limitar a los usuarios a sólo compartir con otros usuarios en sus grupos",
     "Exclude groups from sharing" : "Evitar que los grupos compartan",
     "These groups will still be able to receive shares, but not to initiate them." : "Estos grupos áun podrán recibir elementos compartidos, pero no los podrán iniciar.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostrar el texto de exención de responsabilidad legal en la página de carga de links públicos. (Sólo se muestra cuando la lista de archivos está oculta.)",
     "This text will be shown on the public link upload page when the file list is hidden." : "Este texto se mostrará en la página de carga de el link público cuando la lista de archivos esté oculta. ",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Desarrollado por la  {communityopen}comunidad Nextcloud {linkclose}, el {githubopen}código fuente {linkclose} está licenciado bajo  {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Me gusta en nuestra página de Facebook",
@@ -252,7 +250,6 @@
     "Current password" : "Contraseña actual",
     "New password" : "Nueva contraseña",
     "Change password" : "Cambiar contraseña",
-    "Share" : "Compartir",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Se presentó un error. Favor de cargar un certificado PEM con codificación ASCII",
     "Valid until {date}" : "Válido hasta {date}",
     "Local" : "Local",
@@ -261,8 +258,6 @@
     "Contacts" : "Contactos",
     "Visible to local users and to trusted servers" : "Visible para usuarios locales y para servidores de confianza",
     "Will be synced to a global and public address book" : "Será sincronizado a una libreta de direcciones global y pública",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Las aplicaciones oficiales son desarrolladas por y dentro de la comunidad. Ofrecen una funcionalidad centralizada y se encuentran listas para ser usadas en producción. ",
-    "Official" : "Oficial",
     "by" : "por",
     "SSL Root Certificates" : "Certificado SSL Raíz",
     "Common Name" : "Nombre común",
@@ -270,7 +265,7 @@
     "Issued By" : "Levantado Por",
     "Valid until %s" : "Válido hasta %s",
     "Import root certificate" : "Importar certificado raíz",
-    "Set default expiration date" : "Establecer la fecha de expiración predeterminada",
-    "Retry" : "Reintentar"
+    "Execute one task with each page loaded" : "Ejecutar una tarea con cada página cargada",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Mostrar el texto de exención de responsabilidad legal en la página de carga de links públicos. (Sólo se muestra cuando la lista de archivos está oculta.)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

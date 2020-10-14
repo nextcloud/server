@@ -181,6 +181,7 @@ OC.L10N.register(
     "Add another link" : "別のリンクを追加",
     "Create a new share link" : "新しい共有リンクを作成する",
     "Shared via link by {initiator}" : "{initiator}がリンクで共有",
+    "Share link ({label})" : "リンク共有 ({label})",
     "Share link" : "URLで共有",
     "Error, please enter proper password and/or expiration date" : "エラー、正しいパスワードおよび/または有効期限を入力してください",
     "No recommendations. Start typing." : "推奨事項はありません。 入力を開始します。",
@@ -231,7 +232,6 @@ OC.L10N.register(
     "Uploading files" : "ファイルをアップロード中",
     "Uploaded files:" : "アップロード済ファイル:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "ファイルをアップロードすると、%1$s のサービス条件 %2$s に同意したことになります。",
-    "could not delete share" : "共有を削除できませんでした",
     "Uploading files…" : "ファイルをアップロード中..."
 },
 "nplurals=1; plural=0;");

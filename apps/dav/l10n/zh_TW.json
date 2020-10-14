@@ -59,9 +59,6 @@
     "The meeting »%1$s« with %2$s was canceled." : "與 %2$s 的會議 %1$s 取消了",
     "The meeting »%1$s« with %2$s was updated." : "與 %2$s 的會議 %1$s 有變動",
     "%1$s invited you to »%2$s«" : "%1$s邀請您到%2$s",
-    "When:" : "時間",
-    "Technical details" : "技術細節",
-    "Remote Address: %s" : "遠端位置：%s",
-    "Request ID: %s" : "請求編號：%s"
+    "When:" : "時間"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

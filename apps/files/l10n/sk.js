@@ -156,8 +156,8 @@ OC.L10N.register(
     "Ownership transfer request sent" : "Žiadosť o prevod vlastníctva bola odoslaná",
     "Cannot transfer ownership of a file or folder you don't own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte",
     "Tags" : "Štítky",
-    "Error while loading the file data" : "Chyba pri načítaní údajov súboru",
     "Unable to change the favourite state of the file" : "Nie je možné zmeniť stav „obľúbené“ daného súboru",
+    "Error while loading the file data" : "Chyba pri načítaní údajov súboru",
     "%s used" : "%s použitých",
     "%s%% of %s used" : "Využité %s%% z %s",
     "%1$s of %2$s used" : "Využité: %1$s z %2$s",
@@ -191,7 +191,7 @@ OC.L10N.register(
     "A file or folder has been <strong>deleted</strong>" : "Súbor alebo priečinok bol <strong>odstránený</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Obmedzte upozornenia na vytvorenie a zmeny na vaše <strong>obľúbené súbory</strong> <em>(Len streamy)</em>",
     "A file or folder has been <strong>restored</strong>" : "Súbor alebo priečinok bol <strong>obnovený</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Použiť túto adresu pre <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">prístup ku svojím súborom cez WebDAV</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte"
+    "Cannot transfter ownership of a file or folder you don't own" : "Nie je možné preniesť vlastníctvo súboru alebo priečinka, ktorý nevlastníte",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Použiť túto adresu pre <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">prístup ku svojím súborom cez WebDAV</a>"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

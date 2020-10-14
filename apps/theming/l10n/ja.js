@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not write file to disk" : "ディスクにファイルを書き込めませんでした",
     "A PHP extension stopped the file upload" : "PHP拡張でファイルのアップロードが停止されています",
     "No file uploaded" : "ファイルがアップロードされていません",
-    "Unsupported image type" : "サポートされていない画像形式です",
     "You are already using a custom theme. Theming app settings might be overwritten by that." : "あなたはすでにカスタムテーマを使用しています。 テーマ設定の設定が上書きされる可能性があります。",
     "Theming" : "テーマ",
     "Legal notice" : "法的通知",
@@ -50,6 +49,7 @@ OC.L10N.register(
     "Upload new header logo" : "新しいヘッダーロゴをアップロード",
     "Favicon" : "Favicon",
     "Upload new favicon" : "新しいfaviconをアップロード",
-    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "アップロードしたロゴと色に基づいてfaviconを自動的に生成するには、SVG画像をサポートしているimagemagick PHP拡張をインストールしてください。"
+    "Install the Imagemagick PHP extension with support for SVG images to automatically generate favicons based on the uploaded logo and color." : "アップロードしたロゴと色に基づいてfaviconを自動的に生成するには、SVG画像をサポートしているimagemagick PHP拡張をインストールしてください。",
+    "Unsupported image type" : "サポートされていない画像形式です"
 },
 "nplurals=1; plural=0;");

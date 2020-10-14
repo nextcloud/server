@@ -154,8 +154,8 @@ OC.L10N.register(
     "Ownership transfer request sent" : "所有権転送のリクエストを送信しました",
     "Cannot transfer ownership of a file or folder you don't own" : "所有していないファイルまたはフォルダの所有権を譲渡することはできません",
     "Tags" : "タグ",
-    "Error while loading the file data" : "ファイルデータの読み込み中にエラーが発生しました",
     "Unable to change the favourite state of the file" : "ファイルのお気に入りの状態を変更できません",
+    "Error while loading the file data" : "ファイルデータの読み込み中にエラーが発生しました",
     "%s used" : "%s 使用中",
     "%s%% of %s used" : "%s中%s%%が使われています。",
     "%1$s of %2$s used" : "%2$s 中%1$s が使われています。",
@@ -189,7 +189,7 @@ OC.L10N.register(
     "A file or folder has been <strong>deleted</strong>" : "ファイルまたはフォルダーが<strong>削除</strong>されたとき",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "<strong>お気に入りファイル</strong>の作成と変更の通知を制限する<em>（ストリームのみ）</em>",
     "A file or folder has been <strong>restored</strong>" : "ファイルまたはフォルダーが<strong>復元</strong>されたとき",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">WebDAV 経由でファイルにアクセス</a>するにはこのアドレスを利用してください",
-    "Cannot transfter ownership of a file or folder you don't own" : "所有していないファイルまたはフォルダの所有権を譲渡することはできません"
+    "Cannot transfter ownership of a file or folder you don't own" : "所有していないファイルまたはフォルダの所有権を譲渡することはできません",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">WebDAV 経由でファイルにアクセス</a>するにはこのアドレスを利用してください"
 },
 "nplurals=1; plural=0;");

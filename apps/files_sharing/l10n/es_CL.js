@@ -131,7 +131,6 @@ OC.L10N.register(
     "Upload files to %s" : "Cargar archivos a %s",
     "Select or drop files" : "Selecciona o suelta los archivos",
     "Uploaded files:" : "Archivos cargados:",
-    "could not delete share" : "no fue posible borrar el elemento compartido",
     "Uploading files…" : "Cargando archivos..."
 },
 "nplurals=2; plural=(n != 1);");

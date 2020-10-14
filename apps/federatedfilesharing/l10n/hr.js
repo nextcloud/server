@@ -50,8 +50,6 @@ OC.L10N.register(
     "Add to your website" : "Dodajte na svoje web-mjesto",
     "Share with me via Nextcloud" : "Dijelite sa mnom putem Nextclouda",
     "HTML Code:" : "HTML kod:",
-    "You received \"%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Primili ste „%3$s” kao udaljeno dijeljenje od %1$s (u ime %2$s)",
-    "You received \"%3$s\" as a remote share from %1$s" : "Primili ste „%3$s” kao udaljeno dijeljenje od %1$s",
     "Allow users on this server to send shares to other servers" : "Dopustite korisnicima na ovom poslužitelju da šalju dijeljenja na druge poslužitelje"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

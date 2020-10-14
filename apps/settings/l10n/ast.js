@@ -187,7 +187,6 @@ OC.L10N.register(
     "Start migration" : "Aniciar migración",
     "Background jobs" : "Trabayos de fondu",
     "Background job didn’t run yet!" : "¡Entá nun s'executó'l trabayu de fondu!",
-    "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php precisa executalu l'usuariu del sistema «%s».",
     "Allow apps to use the Share API" : "Permitir a les aplicaciones usar la API de Compartición",
     "Expire after " : "Caduca dempués de",
@@ -227,7 +226,6 @@ OC.L10N.register(
     "Current password" : "Contraseña actual",
     "New password" : "Contraseña nueva",
     "Change password" : "Camudar contraseña",
-    "Share" : "Share",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Asocedió un fallu. Xubi un certificáu PEM con codificación ASCII, por favor.",
     "Valid until {date}" : "Válidu fasta {date}",
     "Local" : "Llocal",
@@ -235,15 +233,12 @@ OC.L10N.register(
     "Only visible to you" : "Namái visible pa ti",
     "Contacts" : "Contautos",
     "Visible to local users and to trusted servers" : "Visible pa usuarios llocales y sirvidores d'enfotu",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Les aplicaciones oficiales desendólquense dientro la comunidá. Ufren funcionalidá central y tán preparaes pal usu en producción.",
-    "Official" : "Oficial",
     "by" : "por",
     "Common Name" : "Nome común",
     "Valid until" : "Válidu hasta",
     "Issued By" : "Emitíu por",
     "Valid until %s" : "Válidu hasta'l %s",
     "Import root certificate" : "Importar certificáu raigañu",
-    "Set default expiration date" : "Afitar la data d'espiración predeterminada",
-    "Retry" : "Retentar"
+    "Execute one task with each page loaded" : "Executar una xera con cada páxina cargada"
 },
 "nplurals=2; plural=(n != 1);");

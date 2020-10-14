@@ -101,6 +101,7 @@ OC.L10N.register(
     "Unshare" : "Dejar de compartir",
     "group" : "grupo",
     "remote" : "remoto",
+    "Link copied" : "Enlace copiado",
     "Copy to clipboard" : "Copiar al portapapeles",
     "Password protection" : "Protección con contraseña",
     "Enter a password" : "Ingresa una contraseña",
@@ -131,7 +132,6 @@ OC.L10N.register(
     "Upload files to %s" : "Cargar archivos a %s",
     "Select or drop files" : "Selecciona o suelta los archivos",
     "Uploaded files:" : "Archivos cargados:",
-    "could not delete share" : "no fue posible borrar el elemento compartido",
     "Uploading files…" : "Cargando archivos..."
 },
 "nplurals=2; plural=(n != 1);");

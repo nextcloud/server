@@ -60,25 +60,6 @@
     "Request user agent" : "Biðja um notandaforrit",
     "User group membership" : "Notandi er meðlimur í hópum",
     "is member of" : "er meðlimur í ",
-    "is not member of" : "er ekki meðlimur í",
-    "Example: {placeholder}" : "Dæmi: {placeholder}",
-    "Select tag…" : "Veldu merki...",
-    "Start" : "Byrjun",
-    "End" : "Endar",
-    "Select timezone…" : "Veldu tímabelti…",
-    "Sync clients" : "Samstilla biðlara",
-    "Short rule description" : "Stutt lýsing á reglu",
-    "Add rule" : "Bæta við reglu",
-    "Reset" : "Endurstilla",
-    "Saving…" : "Vista…",
-    "Group list is empty" : "Listi yfir hópa er tómur",
-    "Unable to retrieve the group list" : "Tókst ekki að ná í lista yfir hópinn",
-    "Saved" : "Vistað",
-    "Saving failed:" : "Vistun mistókst:",
-    "Add rule group" : "Bæta við regluhópi",
-    "Tag management" : "Sýsl með merki",
-    "Files workflow engine" : "Verkferlavél skráa",
-    "Open documentation" : "Opna hjálparskjöl",
-    "Loading…" : "Hleð inn..."
+    "is not member of" : "er ekki meðlimur í"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

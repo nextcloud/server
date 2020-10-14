@@ -153,8 +153,8 @@
     "Ownership transfer request sent" : "Запит на передачу прав власності надіслано",
     "Cannot transfer ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або теку, що вам не належить",
     "Tags" : "Позначки",
-    "Error while loading the file data" : "Помилка під час завантаження даних про файл",
     "Unable to change the favourite state of the file" : "Неможливо змінити стан \"улюблене\" для цього файлу",
+    "Error while loading the file data" : "Помилка під час завантаження даних про файл",
     "%s used" : "%s використано",
     "%s%% of %s used" : "%s%% з %s використано",
     "%1$s of %2$s used" : "Використано %1$s з %2$s",
@@ -188,7 +188,7 @@
     "A file or folder has been <strong>deleted</strong>" : "Файл або теку було <strong>вилучено</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Обмежити повідомлення про створення та зміни в ваших <strong>улюблених файлах</strong>\n<em>(Тількі потік)</em>",
     "A file or folder has been <strong>restored</strong>" : "Файл або теку було <strong> відновлено </strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Адреса для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">доступу до файлів через WebDAV</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або теку, що вам не належить"
+    "Cannot transfter ownership of a file or folder you don't own" : "Неможливо передати права власності на файл або теку, що вам не належить",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "Адреса для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">доступу до файлів через WebDAV</a>"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

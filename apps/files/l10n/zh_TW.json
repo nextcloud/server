@@ -152,8 +152,8 @@
     "Ownership transfer request sent" : "已送出所有權轉移的請求",
     "Cannot transfer ownership of a file or folder you don't own" : "無法轉移您未擁有的檔案或是資料夾所有權。",
     "Tags" : "標籤",
-    "Error while loading the file data" : "載入檔案資料失敗",
     "Unable to change the favourite state of the file" : "無法更改檔案的最愛狀態",
+    "Error while loading the file data" : "載入檔案資料失敗",
     "%s used" : "%s已使用",
     "%s%% of %s used" : "%s 在 %s 中使用了 %%",
     "%1$s of %2$s used" : "在  %2$s中使用了%1$s ",
@@ -187,7 +187,7 @@
     "A file or folder has been <strong>deleted</strong>" : "檔案或目錄已被 <strong>刪除</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "僅顯示<strong>已加星號的檔案</strong>的動態通知<em>（僅限訊息串）</em>",
     "A file or folder has been <strong>restored</strong>" : "檔案或目錄已被 <strong>恢復</strong>",
-    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "使用這個位址來<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">使用 WebDAV 存取檔案</a>",
-    "Cannot transfter ownership of a file or folder you don't own" : "無法轉換非您擁有檔案或資料夾的所有權"
+    "Cannot transfter ownership of a file or folder you don't own" : "無法轉換非您擁有檔案或資料夾的所有權",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer noopener\">access your Files via WebDAV</a>" : "使用這個位址來<a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">使用 WebDAV 存取檔案</a>"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

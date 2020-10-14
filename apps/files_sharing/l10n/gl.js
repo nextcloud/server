@@ -198,7 +198,7 @@ OC.L10N.register(
     "No other users with access found" : "Non se atoparon outros usuarios con acceso",
     "Toggle list of others with access to this directory" : "Alternar a lista doutros con acceso a este directorio",
     "Toggle list of others with access to this file" : "Alternar a lista doutros con acceso a este ficheiro",
-    "Unable to fetch inherited shares" : "Non foi posíbel recuperar recursos compartidos herdados",
+    "Unable to fetch inherited shares" : "Non foi posíbel obter os recursos compartidos herdados",
     "Unable to load the shares list" : "Non é posíbel cargar a lista de recursos compartidos",
     "Expires {relativetime}" : "Caducidades {relativetime}",
     "this share just expired." : "acaba de caducar este recurso compartido.",
@@ -232,7 +232,6 @@ OC.L10N.register(
     "Uploading files" : "Enviando ficheiros",
     "Uploaded files:" : "Ficheiros enviados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar ficheiros acepta os %1$s termos do servizo %2$s.",
-    "could not delete share" : "non foi posíbel eliminar o recurso compartido",
     "Uploading files…" : "Enviando ficheiros…"
 },
 "nplurals=2; plural=(n != 1);");

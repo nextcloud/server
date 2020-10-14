@@ -1,0 +1,20 @@
+{ "translations": {
+    "Dashboard" : "Skydelis",
+    "Dashboard app" : "Skydelio programėlė",
+    "Show something" : "Ką nors rodyti",
+    "Customize" : "Tinkinti",
+    "Edit widgets" : "Taisyti valdiklius",
+    "Weather service" : "Orų tarnyba",
+    "Weather" : "Orai",
+    "Status" : "Būsena",
+    "Good evening, {name}" : "Labas vakaras, {name}",
+    "Good evening" : "Labas vakaras",
+    "Good afternoon, {name}" : "Laba diena, {name}",
+    "Good afternoon" : "Laba diena",
+    "Good morning, {name}" : "Labas rytas, {name}",
+    "Good morning" : "Labas rytas",
+    "Pick from files" : "Pasirinkti iš failų",
+    "Default images" : "Numatytieji paveikslai",
+    "Insert from {productName}" : "Įterpti iš {productName}"
+},"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
+}

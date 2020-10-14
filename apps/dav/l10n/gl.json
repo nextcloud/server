@@ -103,15 +103,11 @@
     "Hence they will not be available immediately after enabling but will show up after some time." : "Por isto, non estarán dispoñíbeis inmediatamente tras activalos, senón que aparecerán após certo tempo",
     "Send notifications for events" : "Enviar notificacións para eventos",
     "Notifications are sent via background jobs, so these must occur often enough." : "As notificacións enviaranse mediante procesos en segundo plano, polo que estes teñen que suceder con frecuencia.",
-    "Enable notifications for events via push" : "Enviar notificacións para eventos mediante «push»",
+    "Enable notifications for events via push" : "Activar o envío de notificacións do servidor para eventos",
     "Hello %s," : "Ola %s,",
     "The meeting »%1$s« with %2$s was canceled." : "A xuntanza «%1$s» con %2$s foi cancelada.",
     "The meeting »%1$s« with %2$s was updated." : "A xuntanza «%1$s» con %2$s foi actualizada.",
     "%1$s invited you to »%2$s«" : "%1$s convidouno a «%2$s»",
-    "When:" : "Cando:",
-    "Technical details" : "Detalles técnicos",
-    "Remote Address: %s" : "Enderezo remoto: %s",
-    "Request ID: %s" : "ID da solicitude: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "As notificacións enviaranse a través procesos en segundo plano, polo que estes teñen que suceder bastante a miúdo."
+    "When:" : "Cando:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

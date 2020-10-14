@@ -108,10 +108,6 @@
     "The meeting »%1$s« with %2$s was canceled." : "Der Termin »%1$s« mit %2$s wurde abgesagt.",
     "The meeting »%1$s« with %2$s was updated." : "Der Termin  »%1$s« mit  %2$s wurde aktualisiert.",
     "%1$s invited you to »%2$s«" : "%1$s hat Dich zu »%2$s« eingeladen",
-    "When:" : "Wann:",
-    "Technical details" : "Technische Details",
-    "Remote Address: %s" : "Entfernte Adresse: %s",
-    "Request ID: %s" : "Anfragekennung: %s",
-    "Notifications will be send through background jobs, so these need to happen often enough." : "Benachrichtigungen werden von Hintergrundjobs versendet, sodass diese häufig genug ausgeführt werden müssen."
+    "When:" : "Wann:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

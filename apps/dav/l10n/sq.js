@@ -58,9 +58,6 @@ OC.L10N.register(
     "Your attendance was updated successfully." : "Pjesëmarrja juaj u përditësua me sukses.",
     "Send invitations to attendees" : "Dërgo ftesa tek pjesëmarrësit",
     "Hello %s," : "Përshëndetje %s,",
-    "When:" : "Kur:",
-    "Technical details" : "Detaje teknike",
-    "Remote Address: %s" : "Adresa remote: %s",
-    "Request ID: %s" : "ID e kërkesës: %s"
+    "When:" : "Kur:"
 },
 "nplurals=2; plural=(n != 1);");

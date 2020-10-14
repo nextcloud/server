@@ -237,7 +237,6 @@
     "Last job ran %s." : "Last job ran %s.",
     "Background job didn’t run yet!" : "Background job didn’t run yet!",
     "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information." : "For optimal performance it's important to configure background jobs correctly. For bigger instances 'Cron' is the recommended setting. Please see the documentation for more information.",
-    "Execute one task with each page loaded" : "Execute one task with each page loaded",
     "The cron.php needs to be executed by the system user \"%s\"." : "The cron.php needs to be executed by the system user \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "As admin you can fine-tune the sharing behavior. Please see the documentation for more information.",
@@ -254,8 +253,6 @@
     "Restrict users to only share with users in their groups" : "Restrict users to only share with users in their groups",
     "Exclude groups from sharing" : "Exclude groups from sharing",
     "These groups will still be able to receive shares, but not to initiate them." : "These groups will still be able to receive shares, but not to initiate them.",
-    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered.",
-    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)",
     "This text will be shown on the public link upload page when the file list is hidden." : "This text will be shown on the public link upload page when the file list is hidden.",
     "Default share permissions" : "Default share permissions",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}.",
@@ -289,7 +286,6 @@
     "Current password" : "Current password",
     "New password" : "New password",
     "Change password" : "Change password",
-    "Share" : "Share",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "An error occurred. Please upload an ASCII-encoded PEM certificate.",
     "Valid until {date}" : "Valid until {date}",
     "Local" : "Local",
@@ -298,8 +294,6 @@
     "Contacts" : "Contacts",
     "Visible to local users and to trusted servers" : "Visible to local users and to trusted servers",
     "Will be synced to a global and public address book" : "Will be synced to a global and public address book",
-    "Official apps are developed by and within the community. They offer central functionality and are ready for production use." : "Official apps are developed by the community. They offer additional functionality and are ready for production use.",
-    "Official" : "Official",
     "by" : "by",
     "SSL Root Certificates" : "SSL Root Certificates",
     "Common Name" : "Common Name",
@@ -307,8 +301,8 @@
     "Issued By" : "Issued By",
     "Valid until %s" : "Valid until %s",
     "Import root certificate" : "Import root certificate",
-    "Set default expiration date" : "Set default expiry date",
-    "Unsaved changes" : "Unsaved changes",
-    "Retry" : "Retry"
+    "Execute one task with each page loaded" : "Execute one task with each page loaded",
+    "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered." : "Allow username autocompletion in share dialog. If this is disabled the full username or email address needs to be entered.",
+    "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)" : "Show disclaimer text on the public link upload page. (Only shown when the file list is hidden.)"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

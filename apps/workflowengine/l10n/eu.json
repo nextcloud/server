@@ -109,24 +109,6 @@
     "Request user agent" : "Eskatu erabiltzaile-agentea",
     "User group membership" : "Erabiltzailearen talde-kidetza",
     "is member of" : "hemengo kide da:",
-    "is not member of" : "ez da hemengo kide:",
-    "Example: {placeholder}" : "Adibidea: {placeholder}",
-    "Select tag…" : "Hautatu etiketa…",
-    "Start" : "Hasiera",
-    "End" : "Amaiera",
-    "Select timezone…" : "Hautatu ordu-zona...",
-    "Sync clients" : "Sinkronizatu bezeroak",
-    "Short rule description" : "Erregela-deskribapen laburra",
-    "Add rule" : "Gehitu araua",
-    "Reset" : "Berrezarri",
-    "Saving…" : "Gordetzen…",
-    "Group list is empty" : "Talde zerrenda hutsik dago",
-    "Unable to retrieve the group list" : "Ezin izan da talde zerrenda eskuratu",
-    "Saved" : "Gordeta",
-    "Saving failed:" : "Gordetzeak huts egin du:",
-    "Add rule group" : "Gehitu talde-araua",
-    "Tag management" : "Etiketen kudeaketa",
-    "Open documentation" : "Ireki dokumentazioa",
-    "Loading…" : "Kargatzen…"
+    "is not member of" : "ez da hemengo kide:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
