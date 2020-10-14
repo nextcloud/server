@@ -696,7 +696,7 @@ export default {
 			// Open the sidebar sharing tab
 			// TODO: also hide figure, needs a proper method for it in server Sidebar
 			await OCA.Files.Sidebar.open(this.currentFile.filename)
-			this.showAppsSidebar()
+			setTimeout(this.showAppsSidebar, 50) // we have to wait the animation of the sidebar
 		},
 
 		showAppsSidebar() {
