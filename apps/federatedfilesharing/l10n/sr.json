@@ -36,6 +36,7 @@
     "Federated Cloud Sharing" : "Здружено дељење у облаку",
     "Open documentation" : "Отвори документацију",
     "Adjust how people can share between servers." : "Подеси како људи деле фајлове између сервера.",
+    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Дозволи корисницима овог сервера да шаљу дељења на друге сервере (ова опција такође дозвољава WebDAV приступ јавним дељењима)",
     "Allow users on this server to receive shares from other servers" : "Дозволи корисницима овог сервера да примају дељења са других сервера",
     "Allow users on this server to send shares to groups on other servers" : "Дозволи корисницима са овог сервера да деле са групама на другим серверима",
     "Allow users on this server to receive group shares from other servers" : "Дозволи корисницима на овом серверу да примају групна дељења са других сервера",
