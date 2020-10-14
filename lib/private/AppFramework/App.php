@@ -34,6 +34,7 @@ namespace OC\AppFramework;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\Http\Dispatcher;
+use OC\AppFramework\Http\Request;
 use OC\HintException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ICallbackResponse;
@@ -114,9 +115,13 @@ class App {
 	 */
 	public static function main(string $controllerName, string $methodName, DIContainer $container, array $urlParams = null) {
 		if (!is_null($urlParams)) {
-			$container->query(IRequest::class)->setUrlParameters($urlParams);
+			/** @var Request $request */
+			$request = $container->query(IRequest::class);
+			$request->setUrlParameters($urlParams);
 		} elseif (isset($container['urlParams']) && !is_null($container['urlParams'])) {
-			$container->query(IRequest::class)->setUrlParameters($container['urlParams']);
+			/** @var Request $request */
+			$request = $container->query(IRequest::class);
+			$request->setUrlParameters($container['urlParams']);
 		}
 		$appName = $container['AppName'];
 

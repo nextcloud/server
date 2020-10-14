@@ -859,6 +859,7 @@ class OC {
 	}
 
 	private static function registerAppRestrictionsHooks() {
+		/** @var \OC\Group\Manager $groupManager */
 		$groupManager = self::$server->query(\OCP\IGroupManager::class);
 		$groupManager->listen('\OC\Group', 'postDelete', function (\OCP\IGroup $group) {
 			$appManager = self::$server->getAppManager();
