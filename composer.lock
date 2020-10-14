@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc98418ae1268281266b19e737c30fc5",
+    "content-hash": "4526d0f09bab5c2ef66902593cbc4456",
     "packages": [],
     "packages-dev": [
         {
@@ -2765,16 +2765,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "3.15",
+            "version": "3.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "de6e7f324f44dde540ebe7ebd4eb481b97c86f30"
+                "reference": "8f211792d813e4dc89f04ed372785ce93b902fd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/de6e7f324f44dde540ebe7ebd4eb481b97c86f30",
-                "reference": "de6e7f324f44dde540ebe7ebd4eb481b97c86f30",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/8f211792d813e4dc89f04ed372785ce93b902fd1",
+                "reference": "8f211792d813e4dc89f04ed372785ce93b902fd1",
                 "shasum": ""
             },
             "require": {
@@ -2787,6 +2787,7 @@
                 "ext-dom": "*",
                 "ext-json": "*",
                 "ext-libxml": "*",
+                "ext-mbstring": "*",
                 "ext-simplexml": "*",
                 "ext-tokenizer": "*",
                 "felixfbecker/advanced-json-rpc": "^3.0.3",
@@ -2860,7 +2861,7 @@
                 "inspection",
                 "php"
             ],
-            "time": "2020-09-01T22:09:30+00:00"
+            "time": "2020-10-13T00:25:46+00:00"
         },
         {
             "name": "webmozart/assert",
