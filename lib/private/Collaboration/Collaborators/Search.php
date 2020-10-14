@@ -68,14 +68,14 @@ class Search implements ISearch {
 			foreach ($this->pluginList[$type] as $plugin) {
 				/** @var ISearchPlugin $searchPlugin */
 				$searchPlugin = $this->c->resolve($plugin);
-				$hasMoreResults |= $searchPlugin->search($search, $limit, $offset, $searchResult);
+				$hasMoreResults = $searchPlugin->search($search, $limit, $offset, $searchResult) || $hasMoreResults;
 			}
 		}
 
 		// Get from lookup server, not a separate share type
 		if ($lookup) {
 			$searchPlugin = $this->c->resolve(LookupPlugin::class);
-			$hasMoreResults |= $searchPlugin->search($search, $limit, $offset, $searchResult);
+			$hasMoreResults = $searchPlugin->search($search, $limit, $offset, $searchResult) || $hasMoreResults;
 		}
 
 		// sanitizing, could go into the plugins as well

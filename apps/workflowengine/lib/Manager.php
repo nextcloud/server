@@ -695,7 +695,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * @return IEntity[]
+	 * @return ICheck[]
 	 */
 	protected function getBuildInChecks(): array {
 		try {
