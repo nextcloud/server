@@ -33,6 +33,8 @@ use OCP\UserInterface;
 
 /**
  * @since 14.0.0
+ *
+ * @deprecated 21.0.0
  */
 abstract class ABackend implements IUserBackend, UserInterface {
 

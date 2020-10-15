@@ -28,6 +28,8 @@ namespace OCP\User\Backend;
 
 /**
  * @since 14.0.0
+ *
+ * @deprecated 21.0.0 use \OCP\User\Backend\Actions\IGetDisplayName
  */
 interface IGetDisplayNameBackend {
 
@@ -36,6 +38,8 @@ interface IGetDisplayNameBackend {
 	 *
 	 * @param string $uid user ID of the user
 	 * @return string display name
+	 *
+	 * @deprecated 21.0.0 use \OCP\User\Backend\Actions\IGetDisplayName::getDisplayName
 	 */
 	public function getDisplayName($uid): string;
 }

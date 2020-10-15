@@ -28,6 +28,8 @@ namespace OCP\User\Backend;
 
 /**
  * @since 17.0.0
+ *
+ * @deprecated 21.0.0 use \OCP\User\Backend\INormalizeUid
  */
 interface IGetRealUIDBackend {
 

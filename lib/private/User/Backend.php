@@ -29,6 +29,8 @@ use OCP\UserInterface;
 /**
  * Abstract base class for user management. Provides methods for querying backend
  * capabilities.
+ *
+ * @deprecated 21.0.0
  */
 abstract class Backend implements UserInterface {
 	/**
@@ -39,13 +41,21 @@ abstract class Backend implements UserInterface {
 	/**
 	 * actions that user backends can define
 	 */
+	/** @deprecated 21.0.0 */
 	public const CREATE_USER = 1;			// 1 << 0
+	/** @deprecated 21.0.0 */
 	public const SET_PASSWORD = 16;			// 1 << 4
+	/** @deprecated 21.0.0 */
 	public const CHECK_PASSWORD = 256;			// 1 << 8
+	/** @deprecated 21.0.0 */
 	public const GET_HOME = 4096;			// 1 << 12
+	/** @deprecated 21.0.0 */
 	public const GET_DISPLAYNAME = 65536;		// 1 << 16
+	/** @deprecated 21.0.0 */
 	public const SET_DISPLAYNAME = 1048576;		// 1 << 20
+	/** @deprecated 21.0.0 */
 	public const PROVIDE_AVATAR = 16777216;		// 1 << 24
+	/** @deprecated 21.0.0 */
 	public const COUNT_USERS = 268435456;	// 1 << 28
 
 	protected $possibleActions = [

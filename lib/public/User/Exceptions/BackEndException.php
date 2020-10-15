@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-/**
- * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
+/*
+ * @copyright 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author 2020 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -20,25 +20,16 @@ declare(strict_types=1);
  * GNU Affero General Public License for more details.
  *
  * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace OCP\User\Backend;
+namespace OCP\User\Exceptions;
+
+use Exception;
 
 /**
- * @since 14.0.0
- * @deprecated 21.0.0
+ * An error encountered in a Nextcloud user back-end
+ *
+ * @since 21.0.0
  */
-interface IProvideAvatarBackend {
-
-	/**
-	 * @since 14.0.0
-	 *
-	 * @param string $uid
-	 * @return bool
-	 *
-	 * @deprecated 21.0.0
-	 */
-	public function canChangeAvatar(string $uid): bool;
-}
+class BackEndException extends Exception {}
