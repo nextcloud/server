@@ -44,9 +44,17 @@
 		<template #actions>
 			<ActionButton
 				v-if="Sidebar && !isSidebarShown"
-				icon="icon-menu-sidebar-white-forced"
+				:close-after-click="true"
+				icon="icon-menu-sidebar"
 				@click="showSidebar">
 				{{ t('viewer', 'Open sidebar') }}
+			</ActionButton>
+			<ActionButton
+				v-if="canDelete"
+				:close-after-click="true"
+				icon="icon-delete"
+				@click="onDelete">
+				{{ t('viewer', 'Delete') }}
 			</ActionButton>
 		</template>
 
@@ -104,6 +112,7 @@
 <script>
 import Vue from 'vue'
 
+import axios from '@nextcloud/axios'
 import '@nextcloud/dialogs/styles/toast.scss'
 import { showError } from '@nextcloud/dialogs'
 
@@ -205,6 +214,9 @@ export default {
 		 */
 		sidebarFile() {
 			return this.Sidebar && this.Sidebar.file
+		},
+		canDelete() {
+			return this.currentFile.permissions.includes('D')
 		},
 	},
 
@@ -719,6 +731,23 @@ export default {
 		onClose() {
 			this.Viewer.onClose()
 		},
+
+		async onDelete() {
+			try {
+				const url = this.root + this.currentFile.filename
+				await axios.delete(url)
+				if (this.hasPrevious) {
+					this.previous()
+					const currentIndex = this.fileList.findIndex(file => file.basename === this.currentFile.basename)
+					this.fileList.splice(currentIndex, 1)
+				} else {
+					this.close()
+				}
+			} catch (error) {
+				console.error(error)
+				showError(error)
+			}
+		},
 	},
 }
 </script>
@@ -747,8 +776,8 @@ export default {
 	opacity: 0;
 }
 
-// force white icon
-.icon-menu-sidebar-white-forced {
+// force white icon on single buttons
+.action-item--single.icon-menu-sidebar {
 	background-image: url('../assets/menu-sidebar-white.svg');
 }
 

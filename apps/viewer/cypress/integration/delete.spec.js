@@ -2,7 +2,6 @@
  * @copyright Copyright (c) 2019 John Molakvoæ <skjnldsv@protonmail.com>
  *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -21,17 +20,17 @@
  *
  */
 
-import { randHash } from '../utils/'
+import { randHash } from '../utils'
 const randUser = randHash()
 
-describe('Open image.heic in viewer', function() {
+describe('Open image.png in viewer', function() {
 	before(function() {
 		// Init user
 		cy.nextcloudCreateUser(randUser, 'password')
 		cy.login(randUser, 'password')
 
 		// Upload test files
-		cy.uploadFile('image.heic', 'image/heic')
+		cy.uploadFile('image.png', 'image/png')
 		cy.visit('/apps/files')
 
 		// wait a bit for things to be settled
@@ -41,36 +40,39 @@ describe('Open image.heic in viewer', function() {
 		cy.logout()
 	})
 
-	it('See image.heic in the list', function() {
-		cy.get('#fileList tr[data-file="image.heic"]', { timeout: 10000 })
-			.should('contain', 'image.heic')
+	it('See image.png in the list', function() {
+		cy.get('#fileList tr[data-file="image.png"]', { timeout: 10000 })
+			.should('contain', 'image.png')
 	})
 
 	it('Open the viewer on file click', function() {
-		cy.openFile('image.heic')
+		cy.openFile('image.png')
 		cy.get('#viewer-content').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 4000 })
+		cy.get('#viewer-content', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
 	})
 
-	it('Is not in mobile fullscreen mode', function() {
-		cy.get('#viewer-content .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
+	it('Delete the image and close viewer', function() {
+		// open the menu
+		cy.get('#viewer-content .modal-header button.action-item__menutoggle').click()
+		// delete the file
+		cy.get('.action-button__icon.icon-delete').click()
 	})
 
-	it('See the menu icon and title on the viewer header', function() {
-		cy.get('#viewer-content .modal-title').should('contain', 'image.heic')
-		cy.get('#viewer-content .modal-header button.action-item__menutoggle').should('be.visible')
-		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
+	it('Does not see the viewer anymore', function() {
+		cy.get('#viewer-content', { timeout: 10000 })
+			.should('not.be.visible')
 	})
 
-	it('Does not see navigation arrows', function() {
-		cy.get('#viewer-content a.prev').should('not.be.visible')
-		cy.get('#viewer-content a.next').should('not.be.visible')
+	it('Does not see image.png in the list anymore', function() {
+		cy.visit('/apps/files')
+		cy.get('#fileList tr[data-file="image.png"]', { timeout: 10000 })
+			.should('not.contain', 'image.png')
 	})
 
 	it('Does not have any visual regression', function() {
