@@ -31,6 +31,9 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\PostLoginEvent;
 
+/**
+ * @template-implements IEventListener<\OCP\User\Events\PostLoginEvent>
+ */
 class UserLoggedInListener implements IEventListener {
 
 	/** @var Manager */
