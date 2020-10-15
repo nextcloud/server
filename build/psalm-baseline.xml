@@ -397,7 +397,10 @@
     </UndefinedFunction>
   </file>
   <file src="apps/dav/lib/CalDAV/Schedule/IMipPlugin.php">
-    <ImplicitToStringCast occurrences="2"/>
+    <ImplicitToStringCast occurrences="2">
+      <code>$vevent-&gt;SUMMARY</code>
+      <code>$vevent-&gt;LOCATION</code>
+    </ImplicitToStringCast>
     <InvalidNullableReturnType occurrences="1">
       <code>string</code>
     </InvalidNullableReturnType>
@@ -409,6 +412,11 @@
       <code>$lang-&gt;getValue()</code>
     </NullableReturnStatement>
     <UndefinedMethod occurrences="15">
+      <code>getDateTime</code>
+      <code>getDateTime</code>
+      <code>getDateTime</code>
+      <code>hasTime</code>
+      <code>getDateTime</code>
       <code>isFloating</code>
       <code>getDateTime</code>
       <code>setDateTime</code>
@@ -416,11 +424,6 @@
       <code>isFloating</code>
       <code>getDateTime</code>
       <code>setDateTime</code>
-      <code>getDateTime</code>
-      <code>getDateTime</code>
-      <code>getDateTime</code>
-      <code>hasTime</code>
-      <code>getDateTime</code>
       <code>getDateTime</code>
       <code>getDateTime</code>
       <code>isFloating</code>
@@ -1069,6 +1072,43 @@
       <code>\Sabre\Uri\split($this-&gt;principalInfo['uri'])</code>
     </UndefinedFunction>
   </file>
+  <file src="apps/encryption/lib/AppInfo/Application.php">
+    <UndefinedClass occurrences="33">
+      <code>'UserSetup'</code>
+      <code>'KeyManager'</code>
+      <code>'UserSetup'</code>
+      <code>'Util'</code>
+      <code>'Session'</code>
+      <code>'Crypt'</code>
+      <code>'Recovery'</code>
+      <code>'Crypt'</code>
+      <code>'KeyManager'</code>
+      <code>'Util'</code>
+      <code>'Session'</code>
+      <code>'EncryptAll'</code>
+      <code>'DecryptAll'</code>
+      <code>'Crypt'</code>
+      <code>'Util'</code>
+      <code>'Crypt'</code>
+      <code>'KeyManager'</code>
+      <code>'Recovery'</code>
+      <code>'Session'</code>
+      <code>'KeyManager'</code>
+      <code>'Crypt'</code>
+      <code>'Session'</code>
+      <code>'Util'</code>
+      <code>'Crypt'</code>
+      <code>'KeyManager'</code>
+      <code>'Crypt'</code>
+      <code>'UserSetup'</code>
+      <code>'KeyManager'</code>
+      <code>'Util'</code>
+      <code>'Util'</code>
+      <code>'KeyManager'</code>
+      <code>'Crypt'</code>
+      <code>'Session'</code>
+    </UndefinedClass>
+  </file>
   <file src="apps/encryption/lib/Command/ScanLegacyFormat.php">
     <RedundantCondition occurrences="1">
       <code>$result</code>
@@ -1714,6 +1754,11 @@
       <code>$_</code>
     </UndefinedVariable>
   </file>
+  <file src="apps/files_sharing/lib/AppInfo/Application.php">
+    <UndefinedClass occurrences="1">
+      <code>'ExternalMountProvider'</code>
+    </UndefinedClass>
+  </file>
   <file src="apps/files_sharing/lib/Cache.php">
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
@@ -1744,6 +1789,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files_sharing/lib/Controller/DeletedShareAPIController.php">
+    <UndefinedClass occurrences="1">
+      <code>'\OCA\Talk\Share\Helper\DeletedShareAPIController'</code>
+    </UndefinedClass>
     <UndefinedDocblockClass occurrences="2">
       <code>$this-&gt;getRoomShareHelper()</code>
       <code>\OCA\Talk\Share\Helper\DeletedShareAPIController</code>
@@ -1767,8 +1815,9 @@
     <TypeDoesNotContainType occurrences="1">
       <code>$date === false</code>
     </TypeDoesNotContainType>
-    <UndefinedClass occurrences="2">
+    <UndefinedClass occurrences="3">
       <code>\OCA\Circles\Api\v1\Circles</code>
+      <code>'\OCA\Talk\Share\Helper\ShareAPIController'</code>
       <code>\OCA\Circles\Api\v1\Circles</code>
     </UndefinedClass>
     <UndefinedDocblockClass occurrences="4">
@@ -1902,7 +1951,6 @@
       <code>false</code>
       <code>false</code>
       <code>$this-&gt;nonMaskedStorage-&gt;fopen($this-&gt;getUnjailedPath($path), $mode)</code>
-      <code>false</code>
     </FalsableReturnStatement>
     <InvalidNullableReturnType occurrences="1">
       <code>ICacheEntry</code>
@@ -1941,10 +1989,12 @@
     </InvalidArgument>
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
-      <code>dispatch</code>
     </TooManyArguments>
+  </file>
+  <file src="apps/files_trashbin/lib/BackgroundJob/ExpireTrash.php">
+    <UndefinedClass occurrences="1">
+      <code>'Expiration'</code>
+    </UndefinedClass>
   </file>
   <file src="apps/files_trashbin/lib/Sabre/AbstractTrash.php">
     <InvalidNullableReturnType occurrences="1">
@@ -2034,6 +2084,10 @@
       <code>$timestamp</code>
       <code>$timestamp</code>
     </InvalidScalarArgument>
+    <UndefinedClass occurrences="2">
+      <code>'Expiration'</code>
+      <code>'Expiration'</code>
+    </UndefinedClass>
   </file>
   <file src="apps/files_versions/appinfo/routes.php">
     <InvalidScope occurrences="2">
@@ -2138,6 +2192,9 @@
     <InvalidScalarArgument occurrences="1">
       <code>\OC_User::getUser()</code>
     </InvalidScalarArgument>
+    <UndefinedClass occurrences="1">
+      <code>'ServerContainer'</code>
+    </UndefinedClass>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getSettingsManager</code>
     </UndefinedInterfaceMethod>
@@ -2296,14 +2353,6 @@
       <code>$iconFile !== false</code>
       <code>$iconFile !== false</code>
     </RedundantCondition>
-  </file>
-  <file src="apps/theming/lib/Controller/ThemingController.php">
-    <InvalidScalarArgument occurrences="4">
-      <code>'r'</code>
-      <code>$newHeight</code>
-      <code>'r'</code>
-      <code>'r'</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/theming/lib/IconBuilder.php">
     <InvalidScalarArgument occurrences="2">
@@ -2769,6 +2818,7 @@
   </file>
   <file src="apps/user_status/lib/Db/UserStatusMapper.php">
     <ImplicitToStringCast occurrences="2">
+      <code>$qb-&gt;createNamedParameter([IUserStatus::ONLINE, IUserStatus::AWAY, IUserStatus::OFFLINE], IQueryBuilder::PARAM_STR_ARRAY)</code>
       <code>$qb-&gt;createNamedParameter($userIds, IQueryBuilder::PARAM_STR_ARRAY)</code>
     </ImplicitToStringCast>
     <MoreSpecificImplementedParamType occurrences="1"/>
@@ -2843,11 +2893,12 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>[]</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidReturnStatement occurrences="1">
+    <InvalidReturnStatement occurrences="2">
       <code>array_merge($this-&gt;getBuildInChecks(), $this-&gt;registeredChecks)</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
+    <InvalidReturnType occurrences="2">
       <code>ICheck[]</code>
+      <code>IEntity[]</code>
     </InvalidReturnType>
     <InvalidScalarArgument occurrences="1">
       <code>$missingCheck</code>
@@ -3140,6 +3191,7 @@
     <InvalidScope occurrences="2">
       <code>$this</code>
       <code>$this</code>
+      <code>$this</code>
     </InvalidScope>
   </file>
   <file src="core/templates/layout.public.php">
@@ -3161,6 +3213,9 @@
     <RedundantCondition occurrences="1">
       <code>((array)$request-&gt;getParam('appid')) !== ''</code>
     </RedundantCondition>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>listen</code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Accounts/AccountManager.php">
     <InvalidArgument occurrences="1">
@@ -3269,6 +3324,12 @@
       <code>$default</code>
     </NullableReturnStatement>
   </file>
+  <file src="lib/private/AppFramework/App.php">
+    <UndefinedInterfaceMethod occurrences="2">
+      <code>setUrlParameters</code>
+      <code>setUrlParameters</code>
+    </UndefinedInterfaceMethod>
+  </file>
   <file src="lib/private/AppFramework/Bootstrap/Coordinator.php">
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;bootedApps</code>
@@ -3285,6 +3346,9 @@
       <code>\OCP\IServerContainer</code>
       <code>mixed</code>
     </InvalidReturnType>
+    <UndefinedClass occurrences="1">
+      <code>'AppName'</code>
+    </UndefinedClass>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getAppDataDir</code>
     </UndefinedInterfaceMethod>
@@ -3605,11 +3669,6 @@
     <UndefinedThisPropertyFetch occurrences="1">
       <code>$this-&gt;shareeEnumerationInGroupOnly</code>
     </UndefinedThisPropertyFetch>
-  </file>
-  <file src="lib/private/Collaboration/Collaborators/Search.php">
-    <UndefinedMethod occurrences="1">
-      <code>search</code>
-    </UndefinedMethod>
   </file>
   <file src="lib/private/Collaboration/Resources/Manager.php">
     <InvalidArgument occurrences="4"/>
@@ -4879,7 +4938,7 @@
       <code>$result &amp;&amp; in_array('delete', $hooks) and $result</code>
     </RedundantCondition>
     <UndefinedDocblockClass occurrences="2">
-      <code>list($storage, $internalPath)</code>
+      <code>[$storage, $internalPath]</code>
       <code>$storage</code>
     </UndefinedDocblockClass>
     <UndefinedInterfaceMethod occurrences="20">
@@ -5103,15 +5162,6 @@
     <RedundantCondition occurrences="1">
       <code>is_string($request-&gt;getMethod())</code>
     </RedundantCondition>
-  </file>
-  <file src="lib/private/Log/LogFactory.php">
-    <InvalidReturnStatement occurrences="2">
-      <code>$this-&gt;c-&gt;resolve(Syslog::class)</code>
-      <code>$this-&gt;c-&gt;resolve(Systemdlog::class)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>IWriter</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/Log/Systemdlog.php">
     <UndefinedFunction occurrences="1"/>
@@ -5442,9 +5492,27 @@
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
     </TooManyArguments>
+    <UndefinedClass occurrences="13">
+      <code>'SystemTagManagerFactory'</code>
+      <code>'SystemTagManagerFactory'</code>
+      <code>'RootFolder'</code>
+      <code>'EncryptionFileHelper'</code>
+      <code>'EncryptionKeyStorage'</code>
+      <code>'RedisFactory'</code>
+      <code>'OcsClient'</code>
+      <code>'AsyncCommandBus'</code>
+      <code>'ThemingDefaults'</code>
+      <code>'IntegrityCodeChecker'</code>
+      <code>'CryptoWrapper'</code>
+      <code>'LDAPProvider'</code>
+      <code>'LockdownManager'</code>
+    </UndefinedClass>
     <UndefinedDocblockClass occurrences="1">
       <code>\OC\OCSClient</code>
     </UndefinedDocblockClass>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>getSession</code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/ServerContainer.php">
     <InvalidPropertyAssignmentValue occurrences="1">
@@ -5604,8 +5672,9 @@
       <code>null</code>
       <code>null</code>
     </NullableReturnStatement>
-    <UndefinedClass occurrences="1">
+    <UndefinedClass occurrences="2">
       <code>\OCA\Circles\ShareByCircleProvider</code>
+      <code>'\OCA\Talk\Share\RoomShareProvider'</code>
     </UndefinedClass>
     <UndefinedDocblockClass occurrences="5">
       <code>\OCA\Circles\ShareByCircleProvider</code>
@@ -6077,6 +6146,11 @@
     <UndefinedInterfaceMethod occurrences="1">
       <code>clearCache</code>
     </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/private/legacy/template/functions.php">
+    <UndefinedClass occurrences="1">
+      <code>'DateTimeFormatter'</code>
+    </UndefinedClass>
   </file>
   <file src="lib/public/AppFramework/ApiController.php">
     <NoInterfaceProperties occurrences="1">
