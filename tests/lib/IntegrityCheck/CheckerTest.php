@@ -883,8 +883,8 @@ class CheckerTest extends TestCase {
 				 	'web' => 'text/code',
 				 	'application/internet-shortcut' => 'link',
 				 	'application/km' => 'mindmap',
-					'application/x-freemind' => 'mindmap',
-					'application/vnd.xmind.workbook' => 'mindmap'
+				 	'application/x-freemind' => 'mindmap',
+				 	'application/vnd.xmind.workbook' => 'mindmap'
 				 ]);
 
 		$this->environmentHelper
