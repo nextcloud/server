@@ -30,6 +30,7 @@
 
 namespace OC\Template;
 
+use OC\AppConfig;
 use OC\Files\AppData\Factory;
 use OC\Memcache\NullCache;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -89,6 +90,8 @@ class SCSSCacher {
 
 	/** @var IMemcache */
 	private $lockingCache;
+	/** @var AppConfig */
+	private $appConfig;
 
 	/**
 	 * @param ILogger $logger
@@ -109,7 +112,8 @@ class SCSSCacher {
 								$serverRoot,
 								ICacheFactory $cacheFactory,
 								IconsCacher $iconsCacher,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								AppConfig $appConfig) {
 		$this->logger = $logger;
 		$this->appData = $appDataFactory->get('css');
 		$this->urlGenerator = $urlGenerator;
@@ -126,6 +130,7 @@ class SCSSCacher {
 		$this->lockingCache = $lockingCache;
 		$this->iconsCacher = $iconsCacher;
 		$this->timeFactory = $timeFactory;
+		$this->appConfig = $appConfig;
 	}
 
 	/**
@@ -166,6 +171,7 @@ class SCSSCacher {
 			$retry = 0;
 			sleep(1);
 			while ($retry < 10) {
+				$this->appConfig->clearCachedConfig();
 				$this->logger->debug('SCSSCacher::process check in while loop follows', ['app' => 'scss_cacher']);
 				if (!$this->variablesChanged() && $this->isCached($fileNameCSS, $app)) {
 					// Inject icons vars css if any
