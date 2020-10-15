@@ -30,8 +30,8 @@
 		:dark="true"
 		:enable-slideshow="hasPrevious || hasNext"
 		:enable-swipe="canSwipe"
-		:has-next="hasNext"
-		:has-previous="hasPrevious"
+		:has-next="hasNext && (canLoop ? true : !isEndOfList)"
+		:has-previous="hasPrevious && (canLoop ? true : !isStartOfList)"
 		:size="isMobile ? 'full' : 'large'"
 		:spread-navigation="true"
 		:style="{width: isSidebarShown ? `calc(100% - ${sidebarWidth}px)` : null}"
@@ -184,6 +184,12 @@ export default {
 		},
 		loadMore() {
 			return this.Viewer.loadMore
+		},
+		canLoop() {
+			return this.Viewer.canLoop
+		},
+		isStartOfList() {
+			return this.currentIndex === 0
 		},
 		isEndOfList() {
 			return this.currentIndex === this.fileList.length - 1
