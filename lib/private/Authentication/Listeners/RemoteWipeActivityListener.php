@@ -35,6 +35,9 @@ use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\ILogger;
 
+/**
+ * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
+ */
 class RemoteWipeActivityListener implements IEventListener {
 
 	/** @var IActvityManager */

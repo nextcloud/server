@@ -40,6 +40,9 @@ use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
 use function substr;
 
+/**
+ * @template-implements IEventListener<\OC\Authentication\Events\ARemoteWipeEvent>
+ */
 class RemoteWipeEmailListener implements IEventListener {
 
 	/** @var IMailer */
