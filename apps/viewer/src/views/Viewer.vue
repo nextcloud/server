@@ -44,12 +44,14 @@
 		<template #actions>
 			<ActionButton
 				v-if="Sidebar && !isSidebarShown"
-				icon="icon-menu-sidebar-white-forced"
+				:close-after-click="true"
+				icon="icon-menu-sidebar"
 				@click="showSidebar">
 				{{ t('viewer', 'Open sidebar') }}
 			</ActionButton>
 			<ActionButton
 				v-if="canDelete"
+				:close-after-click="true"
 				icon="icon-delete"
 				@click="onDelete">
 				{{ t('viewer', 'Delete') }}
@@ -774,8 +776,8 @@ export default {
 	opacity: 0;
 }
 
-// force white icon
-.icon-menu-sidebar-white-forced {
+// force white icon on single buttons
+.action-item--single.icon-menu-sidebar {
 	background-image: url('../assets/menu-sidebar-white.svg');
 }
 
