@@ -64,14 +64,14 @@ try {
 		echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
 		exit(1);
 	}
-	$user = posix_getpwuid(posix_getuid());
-	$configUser = posix_getpwuid(fileowner(OC::$configDir . 'config.php'));
-	if ($user['name'] !== $configUser['name']) {
+	$user = posix_getuid();
+	$configUser = fileowner(OC::$configDir . 'config.php');
+	if ($user !== $configUser) {
 		echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
-		echo "Current user: " . $user['name'] . PHP_EOL;
-		echo "Owner of config.php: " . $configUser['name'] . PHP_EOL;
-		echo "Try adding 'sudo -u " . $configUser['name'] . " ' to the beginning of the command (without the single quotes)" . PHP_EOL;
-		echo "If running with 'docker exec' try adding the option '-u " . $configUser['name'] . "' to the docker command (without the single quotes)" . PHP_EOL;
+		echo "Current user id: " . $user . PHP_EOL;
+		echo "Owner id of config.php: " . $configUser . PHP_EOL;
+		echo "Try adding 'sudo -u #" . $configUser . "' to the beginning of the command (without the single quotes)" . PHP_EOL;
+		echo "If running with 'docker exec' try adding the option '-u " . $configUser . "' to the docker command (without the single quotes)" . PHP_EOL;
 		exit(1);
 	}
 
