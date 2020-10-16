@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Recent statuses" : "Status recentes",
     "In a meeting" : "Em reunião",
+    "Commuting" : "Comutando",
     "Out sick" : "Doente",
     "Vacationing" : "Férias",
     "Working remotely" : "Em trabalho remoto",
