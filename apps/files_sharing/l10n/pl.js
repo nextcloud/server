@@ -119,7 +119,7 @@ OC.L10N.register(
     "Unknown share type" : "Nieznany typ udostępnienia",
     "Not a directory" : "Nie jest katalogiem",
     "Could not lock node" : "Nie można zablokować powiązania",
-    "Could not lock path" : "Nie udało się zablokować ścieżki",
+    "Could not lock path" : "Nie można zablokować ścieżki",
     "Wrong or no update parameter given" : "Brakujący lub błędny parametr aktualizacji",
     "Can't change permissions for public share links" : "Nie można zmienić uprawnień dla publicznych udostępnień",
     "Sharing sending the password by Nextcloud Talk failed because Nextcloud Talk is not enabled" : "Udostępnianie hasła przez Nextcloud Talk nie powiodło się, ponieważ usługa Nextcloud Talk jest wyłączona",
