@@ -1755,8 +1755,10 @@
     </UndefinedVariable>
   </file>
   <file src="apps/files_sharing/lib/AppInfo/Application.php">
-    <UndefinedClass occurrences="1">
+    <UndefinedClass occurrences="3">
       <code>'ExternalMountProvider'</code>
+      <code>'OCP\Collaboration\Resources::loadAdditionalScripts'</code>
+      <code>'OCP\Share::postShare'</code>
     </UndefinedClass>
   </file>
   <file src="apps/files_sharing/lib/Cache.php">
@@ -2133,6 +2135,11 @@
       <code>getURLGenerator</code>
     </TooManyArguments>
   </file>
+  <file src="apps/lookup_server_connector/lib/AppInfo/Application.php">
+    <UndefinedClass occurrences="1">
+      <code>'OC\AccountManager::userUpdated'</code>
+    </UndefinedClass>
+  </file>
   <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
     <InvalidArrayOffset occurrences="10">
       <code>$publicData[IAccountManager::PROPERTY_DISPLAYNAME]['value']</code>
@@ -2239,6 +2246,11 @@
       <code>$this-&gt;l10n-&gt;t('A problem occurred while sending the email. Please revise your settings. (Error: %s)', [$e-&gt;getMessage()])</code>
       <code>$this-&gt;l10n-&gt;t('You need to set your user email before being able to send test emails.')</code>
     </InvalidArgument>
+  </file>
+  <file src="apps/settings/lib/Controller/UsersController.php">
+    <UndefinedClass occurrences="1">
+      <code>'OC\Settings\Users::loadAdditionalScripts'</code>
+    </UndefinedClass>
   </file>
   <file src="apps/settings/lib/Hooks.php">
     <InvalidArgument occurrences="1">
@@ -2926,6 +2938,11 @@
       <code>getChecks</code>
     </UndefinedInterfaceMethod>
   </file>
+  <file src="apps/workflowengine/lib/Settings/ASettings.php">
+    <UndefinedClass occurrences="1">
+      <code>'OCP\WorkflowEngine::loadAdditionalSettingScripts'</code>
+    </UndefinedClass>
+  </file>
   <file src="apps/workflowengine/lib/Settings/Personal.php">
     <InvalidNullableReturnType occurrences="1">
       <code>getSection</code>
@@ -2959,6 +2976,11 @@
     <LessSpecificImplementedReturnType occurrences="1">
       <code>array</code>
     </LessSpecificImplementedReturnType>
+  </file>
+  <file src="core/Command/Broadcast/Test.php">
+    <UndefinedClass occurrences="1">
+      <code>broadcasttest</code>
+    </UndefinedClass>
   </file>
   <file src="core/Command/Config/App/GetConfig.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -4869,6 +4891,12 @@
       <code>bool</code>
       <code>true</code>
     </InvalidReturnType>
+  </file>
+  <file src="lib/private/Files/Stream/Encryption.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$position</code>
+    </InvalidScalarArgument>
+    <UndefinedInterfaceMethod occurrences="1"/>
   </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
     <FalsableReturnStatement occurrences="3">
