@@ -23,6 +23,7 @@
 
 namespace Test\Template;
 
+use OC\AppConfig;
 use OC\Files\AppData\AppData;
 use OC\Files\AppData\Factory;
 use OC\Template\IconsCacher;
@@ -60,6 +61,8 @@ class SCSSCacherTest extends \Test\TestCase {
 	protected $iconsCacher;
 	/** @var ITimeFactory|\PHPUnit\Framework\MockObject\MockObject */
 	protected $timeFactory;
+	/** @var AppConfig|\PHPUnit\Framework\MockObject\MockObject */
+	protected $appConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -92,6 +95,8 @@ class SCSSCacherTest extends \Test\TestCase {
 			->method('getCachedCSS')
 			->willReturn($iconsFile);
 
+		$this->appConfig = $this->createMock(AppConfig::class);
+
 		$this->scssCacher = new SCSSCacher(
 			$this->logger,
 			$factory,
@@ -101,7 +106,8 @@ class SCSSCacherTest extends \Test\TestCase {
 			\OC::$SERVERROOT,
 			$this->cacheFactory,
 			$this->iconsCacher,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->appConfig
 		);
 	}
 
