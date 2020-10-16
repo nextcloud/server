@@ -881,7 +881,7 @@ class DefaultShareProvider implements IShareProvider {
 			$cursor->closeCursor();
 		} elseif ($shareType === IShare::TYPE_GROUP) {
 			$user = $this->userManager->get($userId);
-			$allGroups = $this->groupManager->getUserGroupIds($user);
+			$allGroups = ($user instanceof IUser) ? $this->groupManager->getUserGroupIds($user) : [];
 
 			/** @var Share[] $shares2 */
 			$shares2 = [];
