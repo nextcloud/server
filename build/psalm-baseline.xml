@@ -1924,9 +1924,6 @@
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
     </FalsableReturnStatement>
-    <InvalidArgument occurrences="1">
-      <code>$ma</code>
-    </InvalidArgument>
     <InvalidReturnStatement occurrences="1">
       <code>$query-&gt;execute([$uid])</code>
     </InvalidReturnStatement>
@@ -2705,12 +2702,6 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>[]</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidReturnStatement occurrences="1">
-      <code>array_merge($this-&gt;getBuildInChecks(), $this-&gt;registeredChecks)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>ICheck[]</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="1">
       <code>$missingCheck</code>
     </InvalidScalarArgument>
@@ -2988,7 +2979,6 @@
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
       <code>$this</code>
-      <code>$this-&gt;create('core_ajax_update', '/core/ajax/update.php')</code>
     </InvalidScope>
   </file>
   <file src="core/templates/layout.public.php">
@@ -3449,14 +3439,6 @@
     <UndefinedThisPropertyFetch occurrences="1">
       <code>$this-&gt;shareeEnumerationInGroupOnly</code>
     </UndefinedThisPropertyFetch>
-  </file>
-  <file src="lib/private/Collaboration/Collaborators/Search.php">
-    <FalseOperand occurrences="1">
-      <code>$hasMoreResults</code>
-    </FalseOperand>
-    <UndefinedMethod occurrences="1">
-      <code>search</code>
-    </UndefinedMethod>
   </file>
   <file src="lib/private/Collaboration/Resources/Manager.php">
     <InvalidArgument occurrences="4"/>
@@ -4824,15 +4806,6 @@
     <RedundantCondition occurrences="1">
       <code>is_string($request-&gt;getMethod())</code>
     </RedundantCondition>
-  </file>
-  <file src="lib/private/Log/LogFactory.php">
-    <InvalidReturnStatement occurrences="2">
-      <code>$this-&gt;c-&gt;resolve(Syslog::class)</code>
-      <code>$this-&gt;c-&gt;resolve(Systemdlog::class)</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>IWriter</code>
-    </InvalidReturnType>
   </file>
   <file src="lib/private/Log/Systemdlog.php">
     <UndefinedFunction occurrences="1"/>
