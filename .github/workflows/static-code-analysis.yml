@@ -13,13 +13,17 @@ jobs:
                 auth_header="$(git config --local --get http.https://github.com/.extraheader)"
                 git submodule sync --recursive
                 git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
-            - name: Remove composer.json
-              shell: bash
-              run: rm composer.json composer.lock
-            - name: Psalm
-              uses: docker://jakzal/phpqa:php7.4-alpine
+            - name: Set up php7.4
+              uses: shivammathur/setup-php@master
               with:
-                args: psalm --monochrome --no-progress --output-format=text --update-baseline || ( git diff && exit 1 )
+                php-version: 7.4
+                coverage: none
+            - name: Composer install
+              run: composer i
+            - name: Psalm
+              run: composer run psalm -- --monochrome --no-progress --output-format=text --update-baseline || ( git diff -- . ':!lib/composer' && exit 1 )
+            - name: Check diff
+              run: git diff -- . ':!lib/composer'
             - name: Show potential changes in Psalm baseline
               run: |
                 bash -c "[[ ! \"`git status --porcelain build/psalm-baseline.xml`\" ]] || ( echo 'Uncommited changes in Psalm baseline' && git status && git diff build/psalm-baseline.xml)"
