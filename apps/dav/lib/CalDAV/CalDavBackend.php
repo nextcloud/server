@@ -16,6 +16,7 @@
  * @author Thomas Citharel <nextcloud@tcit.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vinicius Cubas Brand <vinicius@eita.org.br>
+ * @author Simon Spannagel <simonspa@kth.se>
  *
  * @license AGPL-3.0
  *
@@ -1364,7 +1365,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$requirePostFilter = false;
 			}
 			// There was a time-range filter
-			if ($componentType === 'VEVENT' && isset($filters['comp-filters'][0]['time-range'])) {
+			if ($componentType === 'VEVENT' && isset($filters['comp-filters'][0]['time-range']) && is_array($filters['comp-filters'][0]['time-range'])) {
 				$timeRange = $filters['comp-filters'][0]['time-range'];
 
 				// If start time OR the end time is not specified, we can do a
