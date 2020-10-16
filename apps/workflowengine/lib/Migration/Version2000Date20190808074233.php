@@ -114,7 +114,7 @@ class Version2000Date20190808074233 extends SimpleMigrationStep {
 	protected function ensureEntityColumns(Table $table) {
 		if(!$table->hasColumn('entity')) {
 			$table->addColumn('entity', Type::STRING, [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 256,
 				'default' => '',
 			]);
