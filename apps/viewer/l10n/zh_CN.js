@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error loading {name}" : "加载 {name} 出错",
     "Your browser does not support videos." : "您的浏览器不支持视频。",
     "Open sidebar" : "打开侧边栏",
+    "Delete" : "删除",
     "View" : "查看",
     "Your browser does not support the video tag." : "您的浏览器不支持视频标签。"
 },

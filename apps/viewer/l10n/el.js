@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error loading {name}" : "Σφάλμα φόρτωσης {name}",
     "Your browser does not support videos." : "Ο περιηγητής σας δεν υποστηρίζει βίντεο.",
     "Open sidebar" : "Άνοιγμα πλευρικής στήλης",
+    "Delete" : "Διαγραφή",
     "There is no plugin available to display this file type" : "Δεν βρέθηκε σχετικό πρόσθετο για εμφάνιση τέτοιου τύπου αρχείο.",
     "View" : "Προβολή",
     "Your browser does not support the video tag." : "Το πρόγραμμα περιήγησης που χρησιμοποιείτε δεν υποστηρίζει την ετικέτα βίντεο."

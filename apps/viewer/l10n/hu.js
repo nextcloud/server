@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error loading {name}" : "Hiba a(z) {name} betöltésekor",
     "Your browser does not support videos." : "A böngészője nem támogatja a videókat.",
     "Open sidebar" : "Oldalsáv megnyitása",
+    "Delete" : "Törlés",
     "View" : "Megtekintés",
     "Your browser does not support the video tag." : "A böngészője nem támogatja a video címkét."
 },

@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error loading {name}" : "Villa við að hlaða inn {name}",
     "Your browser does not support videos." : "Vafrinn þinn styður ekki myndskeið.",
     "Open sidebar" : "Opna hliðarspjald",
+    "Delete" : "Eyða",
     "View" : "Skoða",
     "Your browser does not support the video tag." : "Vafrinn þinn styður ekki myndskeiðamerkinguna."
 },

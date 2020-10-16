@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error loading {name}" : "Fejl ved indlæsning af {name}",
     "Your browser does not support videos." : "Din browser understøtter ikke videoer.",
     "Open sidebar" : "Åbn sidebar",
+    "Delete" : "Slet",
     "View" : "Vis",
     "Your browser does not support the video tag." : "Din browser understøtter ikke visning af video-filer"
 },

@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "Erro ao carregar {name}",
     "Your browser does not support videos." : "Seu navegador não suporta vídeos.",
     "Open sidebar" : "Abrir barra lateral",
+    "Delete" : "Excluir",
     "There is no plugin available to display this file type" : "Não há plug-in disponível para exibir este tipo de arquivo",
     "View" : "Visualizar",
     "Your browser does not support the video tag." : "Seu navegador não suporta a etiqueta de vídeo."

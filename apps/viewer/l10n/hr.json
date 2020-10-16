@@ -5,6 +5,7 @@
     "Error loading {name}" : "Pogreška pri učitavanju {name}",
     "Your browser does not support videos." : "Vaš preglednik ne podržava videozapise.",
     "Open sidebar" : "Otvori bočnu traku",
+    "Delete" : "Izbriši",
     "View" : "Pregledaj",
     "Your browser does not support the video tag." : "Vaš preglednik ne podržava oznaku videozapisa."
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"

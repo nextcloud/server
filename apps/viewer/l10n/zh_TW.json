@@ -1,5 +1,6 @@
 { "translations": {
     "Viewer" : "檢視器",
-    "Open sidebar" : "開啟側邊攔"
+    "Open sidebar" : "開啟側邊攔",
+    "Delete" : "刪除"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

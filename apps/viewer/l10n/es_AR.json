@@ -1,4 +1,5 @@
 { "translations": {
-    "Open sidebar" : "Abrir barra lateral"
+    "Open sidebar" : "Abrir barra lateral",
+    "Delete" : "Eliminar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

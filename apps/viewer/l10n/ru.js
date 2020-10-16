@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error loading {name}" : "Ошибка при загрузке {name}",
     "Your browser does not support videos." : "Используемый браузер не поддерживает воспроизведение видео.",
     "Open sidebar" : "Открыть боковую панель",
+    "Delete" : "Удалить",
     "View" : "Просмотр",
     "Your browser does not support the video tag." : "Ваш браузер не поддерживает метку видео."
 },

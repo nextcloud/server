@@ -6,6 +6,7 @@ OC.L10N.register(
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Afișează cele mai recente fotografii și videoclipuri din vacanță ca în filme, arată un fragment al ultimului tău roman direct din cloud, alege cel mai bun GIF al colecției tale datorită previzualizării directe a fișierelor tale favorite și multe altele!",
     "Error loading {name}" : "Eroare la încărcare {name}",
     "Open sidebar" : "Deschide bara laterală",
+    "Delete" : "Șterge",
     "View" : "Vizualizare",
     "Your browser does not support the video tag." : "Browserul tău nu suportă etichete video."
 },

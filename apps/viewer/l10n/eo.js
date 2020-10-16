@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error loading {name}" : "Eraro dum ŝargo de {name}",
     "Your browser does not support videos." : "Via retumilo ne subtenas la vidaĵojn",
     "Open sidebar" : "Malfermi flankopanelon",
+    "Delete" : "Forigi",
     "View" : "Vidi",
     "Your browser does not support the video tag." : "Via retumilo ne subtenas la HTML-kodon „video“."
 },

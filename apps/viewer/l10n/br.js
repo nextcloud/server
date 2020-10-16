@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error loading {name}" : "Ur fazi zo bet en ur kargañ {name}",
     "Your browser does not support videos." : "Ne doug ket ho furcher ar videoioù.",
     "Open sidebar" : "Digori ar varenn gostez",
+    "Delete" : "Lemel",
     "View" : "Gwell",
     "Your browser does not support the video tag." : "Ne doug ket ho furcher ar klav video."
 },
