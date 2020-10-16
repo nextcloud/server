@@ -169,7 +169,6 @@ class SCSSCacher {
 				$this->logger->debug('SCSSCacher::process check in while loop follows', ['app' => 'scss_cacher']);
 				if (!$this->variablesChanged() && $this->isCached($fileNameCSS, $app)) {
 					// Inject icons vars css if any
-					$this->lockingCache->remove($lockKey);
 					$this->logger->debug("SCSSCacher::process cached file for app '$app' and file '$fileNameCSS' is now available after $retry s. Moving on...", ['app' => 'scss_cacher']);
 					return $this->injectCssVariablesIfAny();
 				}
