@@ -117,6 +117,7 @@
 		 * File sizes
 		 */
 		[Client.NS_DAV, 'getcontentlength'],
+		[Client.NS_DAV, 'quota-available-bytes'],
 		/**
 		 * Preview availability
 		 */
@@ -392,6 +393,11 @@
 			var mounTypeProp = props['{' + Client.NS_NEXTCLOUD + '}mount-type'];
 			if (!_.isUndefined(mounTypeProp)) {
 				data.mountType = mounTypeProp;
+			}
+
+			const quotaAvailableBytes = props['{' + Client.NS_DAV + '}quota-available-bytes']
+			if (!_.isUndefined(quotaAvailableBytes)) {
+				data.quotaAvailableBytes = quotaAvailableBytes
 			}
 
 			// extend the parsed data using the custom parsers
