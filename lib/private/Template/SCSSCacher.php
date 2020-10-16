@@ -146,6 +146,7 @@ class SCSSCacher {
 		$path = implode('/', $path);
 		$webDir = $this->getWebDir($path, $app, $this->serverRoot, \OC::$WEBROOT);
 
+		$this->logger->debug('SCSSCacher::process ordinary check follows', ['app' => 'scss_cacher']);
 		if (!$this->variablesChanged() && $this->isCached($fileNameCSS, $app)) {
 			// Inject icons vars css if any
 			return $this->injectCssVariablesIfAny();
@@ -161,23 +162,25 @@ class SCSSCacher {
 		$lockKey = $webDir . '/' . $fileNameSCSS;
 
 		if (!$this->lockingCache->add($lockKey, 'locked!', 120)) {
+			$this->logger->debug('SCSSCacher::process could not get lock for ' . $lockKey . ' and will wait 10 seconds for cached file to be available', ['app' => 'scss_cacher']);
 			$retry = 0;
 			sleep(1);
 			while ($retry < 10) {
+				$this->logger->debug('SCSSCacher::process check in while loop follows', ['app' => 'scss_cacher']);
 				if (!$this->variablesChanged() && $this->isCached($fileNameCSS, $app)) {
 					// Inject icons vars css if any
 					$this->lockingCache->remove($lockKey);
-					$this->logger->debug('SCSSCacher: ' .$lockKey.' is now available after '.$retry.'s. Moving on...', ['app' => 'core']);
+					$this->logger->debug("SCSSCacher::process cached file for app '$app' and file '$fileNameCSS' is now available after $retry s. Moving on...", ['app' => 'scss_cacher']);
 					return $this->injectCssVariablesIfAny();
 				}
-				$this->logger->debug('SCSSCacher: scss cache file locked for '.$lockKey, ['app' => 'core']);
 				sleep(1);
 				$retry++;
 			}
-			$this->logger->debug('SCSSCacher: Giving up scss caching for '.$lockKey, ['app' => 'core']);
+			$this->logger->debug('SCSSCacher::process Giving up scss caching for ' . $lockKey, ['app' => 'scss_cacher']);
 			return false;
 		}
 
+		$this->logger->debug('SCSSCacher::process Lock acquired for ' . $lockKey, ['app' => 'scss_cacher']);
 		try {
 			$cached = $this->cache($path, $fileNameCSS, $fileNameSCSS, $folder, $webDir);
 		} catch (\Exception $e) {
@@ -187,6 +190,7 @@ class SCSSCacher {
 
 		// Cleaning lock
 		$this->lockingCache->remove($lockKey);
+		$this->logger->debug('SCSSCacher::process Lock removed for ' . $lockKey, ['app' => 'scss_cacher']);
 
 		// Inject icons vars css if any
 		if ($this->iconsCacher->getCachedCSS() && $this->iconsCacher->getCachedCSS()->getSize() > 0) {
@@ -224,11 +228,13 @@ class SCSSCacher {
 				return true;
 			}
 		}
+		$this->logger->debug("SCSSCacher::isCached $fileNameCSS isCachedCache is expired or unset", ['app' => 'scss_cacher']);
 
 		// Creating file cache if none for further checks
 		try {
 			$folder = $this->appData->getFolder($app);
 		} catch (NotFoundException $e) {
+			$this->logger->debug("SCSSCacher::isCached app data folder for $app could not be fetched", ['app' => 'scss_cacher']);
 			return false;
 		}
 
@@ -249,16 +255,20 @@ class SCSSCacher {
 
 				foreach ((array) $deps as $file => $mtime) {
 					if (!file_exists($file) || filemtime($file) > $mtime) {
+						$this->logger->debug("SCSSCacher::isCached $fileNameCSS is not considered as cached due to deps file $file", ['app' => 'scss_cacher']);
 						return false;
 					}
 				}
 
+				$this->logger->debug("SCSSCacher::isCached $fileNameCSS dependencies successfully cached for 5 minutes", ['app' => 'scss_cacher']);
+				// It would probably make sense to adjust this timeout to something higher and see if that has some effect then
 				$this->isCachedCache->set($key, $this->timeFactory->getTime() + 5 * 60);
 				return true;
 			}
-
+			$this->logger->debug("SCSSCacher::isCached $fileNameCSS is not considered as cached cacheValue: $cacheValue", ['app' => 'scss_cacher']);
 			return false;
 		} catch (NotFoundException $e) {
+			$this->logger->debug("SCSSCacher::isCached NotFoundException " . $e->getMessage(), ['app' => 'scss_cacher']);
 			return false;
 		}
 	}
@@ -270,6 +280,7 @@ class SCSSCacher {
 	private function variablesChanged(): bool {
 		$injectedVariables = $this->getInjectedVariables();
 		if ($this->config->getAppValue('core', 'theming.variables') !== md5($injectedVariables)) {
+			$this->logger->debug('SCSSCacher::variablesChanged storedVariables: ' . json_encode($this->config->getAppValue('core', 'theming.variables')) . ' currentInjectedVariables: ' . json_encode($injectedVariables), ['app' => 'scss_cacher']);
 			$this->config->setAppValue('core', 'theming.variables', md5($injectedVariables));
 			$this->resetCache();
 			return true;
@@ -328,7 +339,7 @@ class SCSSCacher {
 				'@import "functions.scss";' .
 				'@import "' . $fileNameSCSS . '";');
 		} catch (ParserException $e) {
-			$this->logger->logException($e, ['app' => 'core']);
+			$this->logger->logException($e, ['app' => 'scss_cacher']);
 
 			return false;
 		}
@@ -350,11 +361,11 @@ class SCSSCacher {
 			$depFile->putContent($deps);
 			$this->depsCache->set($folder->getName() . '-' . $depFileName, $deps);
 			$gzipFile->putContent(gzencode($data, 9));
-			$this->logger->debug('SCSSCacher: ' . $webDir . '/' . $fileNameSCSS . ' compiled and successfully cached', ['app' => 'core']);
+			$this->logger->debug('SCSSCacher::cache ' . $webDir . '/' . $fileNameSCSS . ' compiled and successfully cached', ['app' => 'scss_cacher']);
 
 			return true;
 		} catch (NotPermittedException $e) {
-			$this->logger->error('SCSSCacher: unable to cache: ' . $fileNameSCSS);
+			$this->logger->error('SCSSCacher::cache unable to cache: ' . $fileNameSCSS, ['app' => 'scss_cacher']);
 
 			return false;
 		}
@@ -365,9 +376,12 @@ class SCSSCacher {
 	 * We need to regenerate all files when variables change
 	 */
 	public function resetCache() {
+		$this->logger->debug('SCSSCacher::resetCache', ['app' => 'scss_cacher']);
 		if (!$this->lockingCache->add('resetCache', 'locked!', 120)) {
+			$this->logger->debug('SCSSCacher::resetCache Locked', ['app' => 'scss_cacher']);
 			return;
 		}
+		$this->logger->debug('SCSSCacher::resetCache Lock acquired', ['app' => 'scss_cacher']);
 		$this->injectedVariables = null;
 
 		// do not clear locks
@@ -380,12 +394,13 @@ class SCSSCacher {
 				try {
 					$file->delete();
 				} catch (NotPermittedException $e) {
-					$this->logger->logException($e, ['message' => 'SCSSCacher: unable to delete file: ' . $file->getName()]);
+					$this->logger->logException($e, ['message' => 'SCSSCacher::resetCache unable to delete file: ' . $file->getName(), 'app' => 'scss_cacher']);
 				}
 			}
 		}
-		$this->logger->debug('SCSSCacher: css cache cleared!');
+		$this->logger->debug('SCSSCacher::resetCache css cache cleared!', ['app' => 'scss_cacher']);
 		$this->lockingCache->remove('resetCache');
+		$this->logger->debug('SCSSCacher::resetCache Locking removed', ['app' => 'scss_cacher']);
 	}
 
 	/**
@@ -406,7 +421,7 @@ class SCSSCacher {
 			$scss->compile($variables);
 			$this->injectedVariables = $variables;
 		} catch (ParserException $e) {
-			$this->logger->logException($e, ['app' => 'core']);
+			$this->logger->logException($e, ['app' => 'scss_cacher']);
 		}
 
 		return $variables;
