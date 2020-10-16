@@ -35,7 +35,9 @@ namespace OCP\EventDispatcher;
 interface IEventDispatcher {
 
 	/**
+	 * @template T of \OCP\EventDispatcher\Event
 	 * @param string $eventName preferably the fully-qualified class name of the Event sub class
+	 * @psalm-param string|class-string<T> $eventName preferably the fully-qualified class name of the Event sub class
 	 * @param callable $listener the object that is invoked when a matching event is dispatched
 	 * @param int $priority
 	 *
@@ -44,7 +46,9 @@ interface IEventDispatcher {
 	public function addListener(string $eventName, callable $listener, int $priority = 0): void;
 
 	/**
+	 * @template T of \OCP\EventDispatcher\Event
 	 * @param string $eventName preferably the fully-qualified class name of the Event sub class
+	 * @psalm-param string|class-string<T> $eventName preferably the fully-qualified class name of the Event sub class
 	 * @param callable $listener the object that is invoked when a matching event is dispatched
 	 *
 	 * @since 19.0.0
@@ -52,8 +56,11 @@ interface IEventDispatcher {
 	public function removeListener(string $eventName, callable $listener): void;
 
 	/**
+	 * @template T of \OCP\EventDispatcher\Event
 	 * @param string $eventName preferably the fully-qualified class name of the Event sub class to listen for
+	 * @psalm-param string|class-string<T> $eventName preferably the fully-qualified class name of the Event sub class to listen for
 	 * @param string $className fully qualified class name (or ::class notation) of a \OCP\EventDispatcher\IEventListener that can be built by the DI container
+	 * @psalm-param class-string<\OCP\EventDispatcher\IEventListener<T>> $className fully qualified class name that can be built by the DI container
 	 * @param int $priority
 	 *
 	 * @since 17.0.0
@@ -61,8 +68,11 @@ interface IEventDispatcher {
 	public function addServiceListener(string $eventName, string $className, int $priority = 0): void;
 
 	/**
+	 * @template T of \OCP\EventDispatcher\Event
 	 * @param string $eventName
+	 * @psalm-param string|class-string<T> $eventName
 	 * @param Event $event
+	 * @psalm-param T $event
 	 *
 	 * @since 17.0.0
 	 */
