@@ -25,7 +25,7 @@ import { processResponsePayload } from 'webdav/dist/node/response'
 import client from './DavClient'
 import { genFileInfo } from '../utils/fileUtils'
 
-export const DEFAULT_LIMIT = 5
+export const DEFAULT_LIMIT = 20
 /**
  * Retrieve the comments list
  *
