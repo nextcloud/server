@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * @copyright Copyright (c) 2017 Joas Schilling <coding@schilljs.com>
  *
@@ -25,8 +28,6 @@
 
 namespace OCP\Migration;
 
-use OCP\DB\ISchemaWrapper;
-
 /**
  * @since 13.0.0
  */
@@ -52,19 +53,16 @@ abstract class SimpleMigrationStep implements IMigrationStep {
 	}
 
 	/**
-	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
+	 * {@inheritDoc}
+	 *
 	 * @since 13.0.0
 	 */
 	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
 	}
 
 	/**
-	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
-	 * @return null|ISchemaWrapper
+	 * {@inheritDoc}
+	 *
 	 * @since 13.0.0
 	 */
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options) {
@@ -72,9 +70,8 @@ abstract class SimpleMigrationStep implements IMigrationStep {
 	}
 
 	/**
-	 * @param IOutput $output
-	 * @param \Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
+	 * {@inheritDoc}
+	 *
 	 * @since 13.0.0
 	 */
 	public function postSchemaChange(IOutput $output, \Closure $schemaClosure, array $options) {
