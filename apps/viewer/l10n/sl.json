@@ -5,6 +5,7 @@
     "Error loading {name}" : "Prišlo je do napake med nalaganjem {name}",
     "Your browser does not support videos." : "Spletni brskalnik ne podpira predvajanja video posnetkov.",
     "Open sidebar" : "Odpri bočno okno",
+    "Delete" : "Odstrani",
     "View" : "Poglej",
     "Your browser does not support the video tag." : "Spletni brskalnik ne podpira oznak videa."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"

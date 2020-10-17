@@ -8,6 +8,7 @@ OC.L10N.register(
     "Error loading {name}" : "[名前]の読み込みエラー",
     "Your browser does not support videos." : "あなたのブラウザーはビデオをサポートしていません。",
     "Open sidebar" : "サイドバーを開く",
+    "Delete" : "削除",
     "There is no plugin available to display this file type" : "このファイルを表示するために必要なプラグインがありません。",
     "View" : "表示",
     "Your browser does not support the video tag." : "あなたのブラウザーはvideoタグをサポートしていません。"

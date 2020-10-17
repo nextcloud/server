@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error loading {name}" : "Errorea {name} kargatzean",
     "Your browser does not support videos." : "Zure nabigatzailek ezin ditu bideoak erakutsi.",
     "Open sidebar" : "Ireki albo-barra",
+    "Delete" : "Ezabatu",
     "View" : "Ikusi",
     "Your browser does not support the video tag." : "Zure nabigatzaileak ez du euskarririk video etiketarentzat"
 },

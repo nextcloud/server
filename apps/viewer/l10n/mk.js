@@ -7,6 +7,7 @@ OC.L10N.register(
     "Error loading {name}" : "Грешка при вчитување на  {name}",
     "Your browser does not support videos." : "Вашиот прелистувач не поддржува видео.",
     "Open sidebar" : "Отвори странична лента",
+    "Delete" : "Избриши",
     "View" : "Погледни",
     "Your browser does not support the video tag." : "Вашиот прелистувач не поддржува ознаки на видео."
 },
