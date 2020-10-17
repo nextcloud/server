@@ -216,7 +216,7 @@ export default {
 			return this.Sidebar && this.Sidebar.file
 		},
 		canDelete() {
-			return this.currentFile.permissions.includes('D')
+			return this.currentFile?.permissions?.includes('D')
 		},
 	},
 

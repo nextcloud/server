@@ -75,6 +75,7 @@ describe('Open custom list of images in viewer with pagination', function() {
 										hasPreview: true,
 										fileid: parseInt(fileID1),
 										mime: 'image/jpeg',
+										permissions: 'RWD',
 										etag: 'etag123',
 									},
 									{
@@ -83,11 +84,12 @@ describe('Open custom list of images in viewer with pagination', function() {
 										hasPreview: true,
 										fileid: parseInt(fileID2),
 										mime: 'image/jpeg',
+										permissions: 'RWD',
 										etag: 'etag456',
 									},
 								],
 								// This will be triggered when we get to the end of the list
-								loadMore: function() {
+								loadMore() {
 									// make sure we only loadMore once
 									if (loaded) {
 										return []
@@ -101,6 +103,7 @@ describe('Open custom list of images in viewer with pagination', function() {
 											hasPreview: true,
 											fileid: parseInt(fileID3),
 											mime: 'image/jpeg',
+											permissions: 'RWD',
 											etag: 'etag123',
 										},
 										{
@@ -109,6 +112,7 @@ describe('Open custom list of images in viewer with pagination', function() {
 											hasPreview: true,
 											fileid: parseInt(fileID4),
 											mime: 'image/jpeg',
+											permissions: 'RWD',
 											etag: 'etag456',
 										},
 									]
