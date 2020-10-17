@@ -69,6 +69,7 @@ describe('Open custom images list in viewer', function() {
 								filename: '/image1.jpg',
 								hasPreview: true,
 								fileid: parseInt(fileID1),
+								permissions: 'RWD',
 								mime: 'image/jpeg',
 								etag: '123456789',
 							},
@@ -77,6 +78,7 @@ describe('Open custom images list in viewer', function() {
 								filename: '/image3.jpg',
 								hasPreview: true,
 								fileid: parseInt(fileID3),
+								permissions: 'R',
 								mime: 'image/jpeg',
 								etag: '987654321',
 							},
@@ -129,7 +131,7 @@ describe('Open custom images list in viewer', function() {
 
 	it('See the menu icon and title on the viewer header', function() {
 		cy.get('#viewer-content .modal-title').should('contain', 'image3.jpg')
-		cy.get('#viewer-content .modal-header button.action-item__menutoggle').should('be.visible')
+		cy.get('#viewer-content .modal-header button.icon-menu-sidebar').should('be.visible')
 		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
 	})
 
