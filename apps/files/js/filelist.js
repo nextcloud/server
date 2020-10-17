@@ -3705,11 +3705,11 @@
 					name: tabView.getLabel(),
 					icon: tabView.getIcon(),
 					mount: function(el, fileInfo) {
-						tabView.setFileInfo(fileInfo)
+						tabView.setFileInfo(new OCA.Files.FileInfoModel(fileInfo))
 						el.appendChild(tabView.el)
 					},
 					update: function(fileInfo) {
-						tabView.setFileInfo(fileInfo)
+						tabView.setFileInfo(new OCA.Files.FileInfoModel(fileInfo))
 					},
 					destroy: function() {
 						tabView.el.remove()
