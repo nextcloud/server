@@ -411,6 +411,7 @@
     "New password" : "Yeni parola",
     "Change password" : "Parola değiştir",
     "Use a second factor besides your password to increase security for your account." : "Parolanızın yanında ikinci bir doğrulama kullanarak hesabınızın güvenliğini arttırabilirsiniz.",
+    "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Nextcloud bağlantısı kurmak için üçüncü taraf uygulamaları kullanıyorsanız, lütfen iki aşamalı kimlik doğrulamasını etkinleştirmeden önce her biri için bir uygulama parolası oluşturduğunuzdan ve yapılandırdığınızdan emin olun.",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Bir sorun çıktı. Lütfen ASCII olarak kodlanmış PEM sertifikasını yükleyin.",
     "Valid until {date}" : "{date} tarihine kadar geçerli",
     "Local" : "Yerel",
