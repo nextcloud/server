@@ -411,6 +411,7 @@
     "New password" : "Neues Passwort",
     "Change password" : "Passwort ändern",
     "Use a second factor besides your password to increase security for your account." : "Verwende neben Deinem Passwort einen zweiten Faktor, um die Sicherheit für Dein Konto zu erhöhen.",
+    "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Wenn Du Anwendungen von Drittanbietern verwendest, um sich mit Nextcloud zu verbinden, stelle bitte sicher, dass Du für jede Anwendung ein Anwendungspasswort erstellest und einrichtest, bevor Du die zweite Faktor-Authentifizierung aktivierest.",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Es ist ein Fehler aufgetreten. Bitte lade ein ASCII-kodiertes PEM-Zertifikat hoch.",
     "Valid until {date}" : "Gültig bis {date}",
     "Local" : "Lokal",
