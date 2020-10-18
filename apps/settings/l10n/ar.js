@@ -200,7 +200,7 @@ OC.L10N.register(
     "Link https://…" : "الرابط https://…",
     "Twitter" : "تويتر",
     "Twitter handle @…" : "حساب تويتر @…",
-    "Help translate" : "ساعد في الترجمه",
+    "Help translate" : "ساعد في الترجمة",
     "Current password" : "كلمات السر الحالية",
     "New password" : "كلمات سر جديدة",
     "Change password" : "عدل كلمة السر",
