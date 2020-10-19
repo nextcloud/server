@@ -145,11 +145,7 @@ class Connection extends LDAPUtility {
 		$this->dontDestruct = true;
 	}
 
-	/**
-	 * @param string $name
-	 * @return bool|mixed
-	 */
-	public function __get($name) {
+	public function __get(string $name) {
 		if (!$this->configured) {
 			$this->readConfiguration();
 		}
