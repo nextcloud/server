@@ -1,5 +1,5 @@
 { "translations": {
     "Lookup Server Connector" : "Lookup-Server Connector",
-    "Sync public user information with the lookup server" : "Synchronisiert öffentliche Benutzer-Informationen mit dem Lookup-Server "
+    "Sync public user information with the lookup server" : "Synchronisiere öffentliche Benutzer-Informationen mit dem Lookup-Server "
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
