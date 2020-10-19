@@ -344,7 +344,7 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		}
 
 		$seen = [];
-		while ($record = array_pop($list)) {
+		while ($record = array_shift($list)) {
 			$recordDN = $recordMode ? $record['dn'][0] : $record;
 			if ($recordDN === $dn || array_key_exists($recordDN, $seen)) {
 				// Prevent loops
@@ -820,6 +820,11 @@ class Group_LDAP extends BackendUtility implements GroupInterface, IGroupLDAP, I
 		if ($this->ldapGroupMemberAssocAttr === 'zimbramailforwardingaddress') {
 			//in this case the member entries are email addresses
 			$filter .= '@*';
+		}
+
+		$nesting = (int)$this->access->connection->ldapNestedGroups;
+		if ($nesting === 0) {
+			$filter = $this->access->combineFilterWithAnd([$filter, $this->access->connection->ldapGroupFilter]);
 		}
 
 		$groups = $this->access->fetchListOfGroups($filter,
