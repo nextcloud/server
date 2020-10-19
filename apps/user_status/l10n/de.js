@@ -4,7 +4,7 @@ OC.L10N.register(
     "Recent statuses" : "Letzte Status",
     "In a meeting" : "In einer Besprechung",
     "Commuting" : "Pendelt",
-    "Out sick" : "Krank geschrieben",
+    "Out sick" : "Krankgeschrieben",
     "Vacationing" : "Im Urlaub",
     "Working remotely" : "Arbeitet aus der Ferne",
     "User status" : "Benutzerstatus",
