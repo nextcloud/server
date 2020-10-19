@@ -137,13 +137,14 @@
 						}"
 						:class="{ error: errors.label }"
 						:disabled="saving"
-						:placeholder="t('files_sharing', 'Share label')"
 						:aria-label="t('files_sharing', 'Share label')"
 						:value="share.newLabel || share.label"
 						icon="icon-edit"
 						maxlength="255"
 						@update:value="onLabelChange"
-						@submit="onLabelSubmit" />
+						@submit="onLabelSubmit">
+						{{ t('files_sharing', 'Share label') }}
+					</ActionInput>
 					<!-- folder -->
 					<template v-if="isFolder && fileHasCreatePermission && config.isPublicUploadEnabled">
 						<ActionRadio :checked="sharePermissions === publicUploadRValue"
