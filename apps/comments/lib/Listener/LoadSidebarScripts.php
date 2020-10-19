@@ -28,20 +28,19 @@ declare(strict_types=1);
 namespace OCA\Comments\Listener;
 
 use OCA\Comments\AppInfo\Application;
-use OCA\Comments\Event\LoadCommentsApp;
 use OCA\Files\Event\LoadSidebar;
+use OCP\Comments\ICommentsManager;
 use OCP\EventDispatcher\Event;
-use OCP\EventDispatcher\IEventDispatcher;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Util;
 
 class LoadSidebarScripts implements IEventListener {
 
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
+	/** @var ICommentsManager */
+	private $commentsManager;
 
-	public function __construct(IEventDispatcher $eventDispatcher) {
-		$this->eventDispatcher = $eventDispatcher;
+	public function __construct(ICommentsManager $commentsManager) {
+		$this->commentsManager = $commentsManager;
 	}
 
 	public function handle(Event $event): void {
@@ -49,7 +48,7 @@ class LoadSidebarScripts implements IEventListener {
 			return;
 		}
 
-		$this->eventDispatcher->dispatchTyped(new LoadCommentsApp());
+		$this->commentsManager->load();
 
 		// TODO: make sure to only include the sidebar script when
 		// we properly split it between files list and sidebar

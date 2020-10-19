@@ -30,6 +30,7 @@ namespace OC\Comments;
 
 use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
+use OCA\Comments\AppInfo\Application;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsEventHandler;
@@ -39,6 +40,8 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IUser;
+use OCP\IInitialStateService;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 
 class Manager implements ICommentsManager {
@@ -52,6 +55,9 @@ class Manager implements ICommentsManager {
 	/** @var IConfig */
 	protected $config;
 
+	/** @var IInitialStateService */
+	protected $initialStateService;
+
 	/** @var IComment[] */
 	protected $commentsCache = [];
 
@@ -64,14 +70,14 @@ class Manager implements ICommentsManager {
 	/** @var \Closure[] */
 	protected $displayNameResolvers = [];
 
-	public function __construct(
-		IDBConnection $dbConn,
-		LoggerInterface $logger,
-		IConfig $config
-	) {
+	public function __construct(IDBConnection $dbConn,
+								LoggerInterface $logger,
+								IConfig $config,
+								IInitialStateService $initialStateService) {
 		$this->dbConn = $dbConn;
 		$this->logger = $logger;
 		$this->config = $config;
+		$this->initialStateService = $initialStateService;
 	}
 
 	/**
@@ -1119,5 +1125,15 @@ class Manager implements ICommentsManager {
 		foreach ($entities as $entity) {
 			$entity->handle($event);
 		}
+	}
+
+	/**
+	 * Load the Comments app into the page
+	 *
+	 * @since 21.0.0
+	 */
+	public function load(): void {
+		$this->initialStateService->provideInitialState(Application::APP_ID, 'max-message-length', IComment::MAX_MESSAGE_LENGTH);
+		Util::addScript(Application::APP_ID, 'comments-app');
 	}
 }
