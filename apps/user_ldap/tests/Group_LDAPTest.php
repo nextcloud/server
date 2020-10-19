@@ -719,23 +719,36 @@ class Group_LDAPTest extends TestCase {
 		$groupBackend->getUserGroups('userX');
 	}
 
-	public function testGetGroupsByMember() {
+	public function nestedGroupsProvider(): array {
+		return [
+			[ true ],
+			[ false ],
+		];
+	}
+
+	/**
+	 * @dataProvider nestedGroupsProvider
+	 */
+	public function testGetGroupsByMember(bool $nestedGroups) {
 		$access = $this->getAccessMock();
 		$pluginManager = $this->getPluginManagerMock();
 
+		$groupFilter = '(&(objectclass=nextcloudGroup)(nextcloudEnabled=TRUE))';
 		$access->connection = $this->createMock(Connection::class);
 		$access->connection->expects($this->any())
 			->method('__get')
-			->willReturnCallback(function ($name) {
+			->willReturnCallback(function ($name) use ($nestedGroups, $groupFilter) {
 				switch ($name) {
 					case 'useMemberOfToDetectMembership':
 						return 0;
 					case 'ldapDynamicGroupMemberURL':
 						return '';
 					case 'ldapNestedGroups':
-						return false;
+						return $nestedGroups;
 					case 'ldapGroupMemberAssocAttr':
 						return 'member';
+					case 'ldapGroupFilter':
+						return $groupFilter;
 				}
 				return 1;
 			});
@@ -748,10 +761,15 @@ class Group_LDAPTest extends TestCase {
 		$access->expects($this->exactly(2))
 			->method('username2dn')
 			->willReturn($dn);
-
 		$access->expects($this->any())
 			->method('readAttribute')
 			->willReturn([]);
+		$access->expects($this->any())
+			->method('combineFilterWithAnd')
+			->willReturnCallback(function (array $filterParts) {
+				// ⚠ returns a pseudo-filter only, not real LDAP Filter syntax
+				return implode('&', $filterParts);
+			});
 
 		$group1 = [
 			'cn' => 'group1',
@@ -766,9 +784,21 @@ class Group_LDAPTest extends TestCase {
 			->method('nextcloudGroupNames')
 			->with([$group1, $group2])
 			->willReturn(['group1', 'group2']);
-		$access->expects($this->once())
+		$access->expects($nestedGroups ? $this->atLeastOnce() : $this->once())
 			->method('fetchListOfGroups')
-			->willReturn([$group1, $group2]);
+			->willReturnCallback(function ($filter, $attr, $limit, $offset) use ($nestedGroups, $groupFilter, $group1, $group2) {
+				static $firstRun = true;
+				if (!$nestedGroups) {
+					// When nested groups are enabled, groups cannot be filtered early as it would
+					// exclude intermediate groups. But we can, and should, when working with flat groups.
+					$this->assertTrue(strpos($filter, $groupFilter) !== false);
+				}
+				if ($firstRun) {
+					$firstRun = false;
+					return [$group1, $group2];
+				}
+				return [];
+			});
 		$access->expects($this->any())
 			->method('dn2groupname')
 			->willReturnCallback(function (string $dn) {
