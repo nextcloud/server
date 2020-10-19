@@ -36,6 +36,7 @@ namespace OCP;
  * Interface IUserBackend
  *
  * @since 8.0.0
+ * @deprecated 21.0.0 use \OCP\Public\User\Backend\AbstractUserBackEnd instead
  */
 interface IUserBackend {
 
@@ -43,6 +44,7 @@ interface IUserBackend {
 	 * Backend name to be shown in user management
 	 * @return string the name of the backend to be shown
 	 * @since 8.0.0
+	 * @deprecated 21.0.0 use \OCP\Public\User\Backend\IUserBackEnd instead
 	 */
 	public function getBackendName();
 }

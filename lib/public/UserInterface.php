@@ -38,6 +38,7 @@ namespace OCP;
  * TODO actually this is a IUserBackend
  *
  * @since 4.5.0
+ * @deprecated 21.0.0 use \OCP\User\Backend\AbstractUserBackEnd instead
  */
 interface UserInterface {
 
@@ -49,7 +50,7 @@ interface UserInterface {
 	 * Returns the supported actions as int to be
 	 * compared with \OC\User\Backend::CREATE_USER etc.
 	 * @since 4.5.0
-	 * @deprecated 14.0.0 Switch to the interfaces from OCP\User\Backend
+	 * @deprecated 21.0.0 implement interfaces from \OCP\User\Backend\Action instead
 	 */
 	public function implementsActions($actions);
 
@@ -58,6 +59,7 @@ interface UserInterface {
 	 * @param string $uid The username of the user to delete
 	 * @return bool
 	 * @since 4.5.0
+	 * @deprecated 21.0.0 implement interfaces from \OCP\User\Backend\Action instead
 	 */
 	public function deleteUser($uid);
 
@@ -69,6 +71,7 @@ interface UserInterface {
 	 * @param null|int $offset
 	 * @return string[] an array of all uids
 	 * @since 4.5.0
+	 * @deprecated 21.0.0 implement interfaces from \OCP\User\Backend\Action instead
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null);
 
@@ -77,6 +80,7 @@ interface UserInterface {
 	 * @param string $uid the username
 	 * @return boolean
 	 * @since 4.5.0
+	 * @deprecated 21.0.0 implement interfaces from \OCP\User\Backend\Action instead
 	 */
 	public function userExists($uid);
 
@@ -85,6 +89,7 @@ interface UserInterface {
 	 * @param string $uid user ID of the user
 	 * @return string display name
 	 * @since 4.5.0
+	 * @deprecated 21.0.0 implement interfaces from \OCP\User\Backend\Action instead
 	 */
 	public function getDisplayName($uid);
 
@@ -96,6 +101,7 @@ interface UserInterface {
 	 * @param string|null $offset
 	 * @return array an array of all displayNames (value) and the corresponding uids (key)
 	 * @since 4.5.0
+	 * @deprecated 21.0.0 implement interfaces from \OCP\User\Backend\Action instead
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null);
 
@@ -103,6 +109,7 @@ interface UserInterface {
 	 * Check if a user list is available or not
 	 * @return boolean if users can be listed or not
 	 * @since 4.5.0
+	 * @deprecated 21.0.0 implement interfaces from \OCP\User\Backend\Action instead
 	 */
 	public function hasUserListings();
 }

@@ -28,11 +28,13 @@ namespace OCP\User\Backend;
 
 /**
  * @since 14.0.0
+ * @deprecated 21.0.0
  */
 interface ICreateUserBackend {
 
 	/**
 	 * @since 14.0.0
+	 * @deprecated 21.0.0
 	 *
 	 * @param string $uid The username of the user to create
 	 * @param string $password The password of the new user
