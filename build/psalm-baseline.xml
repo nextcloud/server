@@ -2291,18 +2291,10 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="13">
+    <InvalidScalarArgument occurrences="4">
       <code>$e-&gt;getCode()</code>
-      <code>$filter</code>
-      <code>$filter</code>
       <code>$key</code>
       <code>$key</code>
-      <code>$nameAttribute</code>
-      <code>$this-&gt;connection-&gt;ldapGroupDisplayName</code>
-      <code>$this-&gt;connection-&gt;ldapLoginFilter</code>
-      <code>$this-&gt;connection-&gt;ldapLoginFilter</code>
-      <code>$this-&gt;connection-&gt;ldapUserDisplayName</code>
-      <code>$this-&gt;connection-&gt;ldapUserDisplayName</code>
       <code>[$attr =&gt; $result['values']]</code>
     </InvalidScalarArgument>
     <NullArgument occurrences="1">
@@ -2374,27 +2366,9 @@
     <InvalidReturnType occurrences="1">
       <code>bool</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="26">
-      <code>$gAssoc</code>
+    <InvalidScalarArgument occurrences="2">
       <code>$groupID</code>
       <code>$groupID</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapDynamicGroupMemberURL</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapDynamicGroupMemberURL</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGidNumber</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGroupDisplayName</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGroupFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGroupFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGroupFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGroupMemberAssocAttr</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGroupMemberAssocAttr</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapLoginFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapLoginFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapLoginFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapUserDisplayName</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapUserDisplayName</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapUserDisplayName</code>
-      <code>[$this-&gt;access-&gt;connection-&gt;ldapGroupDisplayName, 'dn']</code>
-      <code>[strtolower($this-&gt;access-&gt;connection-&gt;ldapGroupMemberAssocAttr), $this-&gt;access-&gt;connection-&gt;ldapGroupDisplayName, 'dn']</code>
     </InvalidScalarArgument>
     <RedundantCondition occurrences="3">
       <code>is_array($groupDNs)</code>
@@ -2530,10 +2504,6 @@
     <InvalidDocblock occurrences="1">
       <code>public function setLdapAccess(Access $access) {</code>
     </InvalidDocblock>
-    <InvalidScalarArgument occurrences="2">
-      <code>$homeRule</code>
-      <code>$homeRule</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/lib/User/User.php">
     <FalsableReturnStatement occurrences="1">
@@ -2546,19 +2516,7 @@
       <code>null</code>
       <code>null</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="15">
-      <code>$emailAttribute</code>
-      <code>$quotaAttribute</code>
-      <code>$this-&gt;access-&gt;connection-&gt;homeFolderNamingRule</code>
-      <code>$this-&gt;access-&gt;connection-&gt;homeFolderNamingRule</code>
-      <code>$this-&gt;connection-&gt;homeFolderNamingRule</code>
-      <code>$this-&gt;connection-&gt;homeFolderNamingRule</code>
-      <code>$this-&gt;connection-&gt;ldapEmailAttribute</code>
-      <code>$this-&gt;connection-&gt;ldapExtStorageHomeAttribute</code>
-      <code>$this-&gt;connection-&gt;ldapExtStorageHomeAttribute</code>
-      <code>$this-&gt;connection-&gt;ldapQuotaAttribute</code>
-      <code>$this-&gt;connection-&gt;ldapUserDisplayName</code>
-      <code>$this-&gt;connection-&gt;ldapUserDisplayName2</code>
+    <InvalidScalarArgument occurrences="3">
       <code>$this-&gt;getHomePath($ldapEntry[$attr][0])</code>
       <code>1</code>
       <code>true</code>
@@ -2568,14 +2526,10 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidScalarArgument occurrences="8">
-      <code>$additionalAttribute</code>
+    <InvalidScalarArgument occurrences="3">
       <code>$limit</code>
       <code>$offset</code>
       <code>$path</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapUserDisplayName</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapUserFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapUserFilter</code>
     </InvalidScalarArgument>
     <MoreSpecificImplementedParamType occurrences="2">
       <code>$limit</code>
