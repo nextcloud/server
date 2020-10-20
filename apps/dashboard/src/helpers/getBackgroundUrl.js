@@ -23,8 +23,11 @@
 import { generateUrl } from '@nextcloud/router'
 import prefixWithBaseUrl from './prefixWithBaseUrl'
 
-export default (background, time = 0) => {
+export default (background, time = 0, themingDefaultBackground = '') => {
 	if (background === 'default') {
+		if (themingDefaultBackground && themingDefaultBackground !== 'backgroundColor') {
+			return generateUrl('/apps/theming/image/background') + '?v=' + window.OCA.Theming.cacheBuster
+		}
 		if (window.OCA.Accessibility.theme === 'dark') {
 			return prefixWithBaseUrl('eduardo-neves-pedra-azul.jpg')
 		}
