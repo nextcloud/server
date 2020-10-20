@@ -83,4 +83,7 @@ class FakeManager implements ICommentsManager {
 
 	public function getActorsInTree($id) {
 	}
+
+	public function load(): void {
+	}
 }

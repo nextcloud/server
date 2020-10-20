@@ -29,6 +29,7 @@ export default class Tab {
 	#update
 	#destroy
 	#enabled
+	#scrollBottomReached
 
 	/**
 	 * Create a new tab instance
@@ -41,10 +42,14 @@ export default class Tab {
 	 * @param {Function} options.update function to update the tab
 	 * @param {Function} options.destroy function to destroy the tab
 	 * @param {Function} [options.enabled] define conditions whether this tab is active. Must returns a boolean
+	 * @param {Function} [options.scrollBottomReached] executed when the tab is scrolled to the bottom
 	 */
-	constructor({ id, name, icon, mount, update, destroy, enabled } = {}) {
+	constructor({ id, name, icon, mount, update, destroy, enabled, scrollBottomReached } = {}) {
 		if (enabled === undefined) {
 			enabled = () => true
+		}
+		if (scrollBottomReached === undefined) {
+			scrollBottomReached = () => {}
 		}
 
 		// Sanity checks
@@ -69,6 +74,9 @@ export default class Tab {
 		if (typeof enabled !== 'function') {
 			throw new Error('The enabled argument should be a function')
 		}
+		if (typeof scrollBottomReached !== 'function') {
+			throw new Error('The scrollBottomReached argument should be a function')
+		}
 
 		this.#id = id
 		this.#name = name
@@ -77,6 +85,7 @@ export default class Tab {
 		this.#update = update
 		this.#destroy = destroy
 		this.#enabled = enabled
+		this.#scrollBottomReached = scrollBottomReached
 
 	}
 
@@ -106,6 +115,10 @@ export default class Tab {
 
 	get enabled() {
 		return this.#enabled
+	}
+
+	get scrollBottomReached() {
+		return this.#scrollBottomReached
 	}
 
 }

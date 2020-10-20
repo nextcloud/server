@@ -41,18 +41,18 @@ use OCP\Share\IShare;
 class AutoCompleteController extends Controller {
 	/** @var ISearch */
 	private $collaboratorSearch;
+
 	/** @var IManager */
 	private $autoCompleteManager;
+
 	/** @var IEventDispatcher */
 	private $dispatcher;
 
-	public function __construct(
-		string $appName,
-		IRequest $request,
-		ISearch $collaboratorSearch,
-		IManager $autoCompleteManager,
-		IEventDispatcher $dispatcher
-	) {
+	public function __construct(string $appName,
+								IRequest $request,
+								ISearch $collaboratorSearch,
+								IManager $autoCompleteManager,
+								IEventDispatcher $dispatcher) {
 		parent::__construct($appName, $request);
 
 		$this->collaboratorSearch = $collaboratorSearch;
@@ -114,7 +114,10 @@ class AutoCompleteController extends Controller {
 				$output[] = [
 					'id' => (string) $result['value']['shareWith'],
 					'label' => $result['label'],
+					'icon' => $result['icon'],
 					'source' => $type,
+					'status' => $result['status'],
+					'subline' => $result['subline']
 				];
 			}
 		}

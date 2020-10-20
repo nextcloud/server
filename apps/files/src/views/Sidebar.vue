@@ -69,6 +69,7 @@
 				:on-mount="tab.mount"
 				:on-update="tab.update"
 				:on-destroy="tab.destroy"
+				:on-scroll-bottom-reached="tab.scrollBottomReached"
 				:file-info="fileInfo" />
 		</template>
 	</AppSidebar>

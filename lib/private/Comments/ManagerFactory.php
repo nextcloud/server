@@ -27,6 +27,7 @@ namespace OC\Comments;
 
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\ICommentsManagerFactory;
+use OCP\IInitialStateService;
 use OCP\IServerContainer;
 use Psr\Log\LoggerInterface;
 
@@ -58,7 +59,8 @@ class ManagerFactory implements ICommentsManagerFactory {
 		return new Manager(
 			$this->serverContainer->getDatabaseConnection(),
 			$this->serverContainer->get(LoggerInterface::class),
-			$this->serverContainer->getConfig()
+			$this->serverContainer->getConfig(),
+			$this->serverContainer->get(IInitialStateService::class)
 		);
 	}
 }

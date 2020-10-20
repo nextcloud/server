@@ -322,4 +322,11 @@ interface ICommentsManager {
 	 * provided ID is unknown. It must be ensured that a string is returned.
 	 */
 	public function resolveDisplayName($type, $id);
+
+	/**
+	 * Load the Comments app into the page
+	 *
+	 * @since 21.0.0
+	 */
+	public function load(): void;
 }
