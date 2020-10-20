@@ -61,6 +61,7 @@ use OCP\Security\IHasher;
 use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\GenericShareException;
 use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IManager as IShareManager;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 
@@ -110,6 +111,9 @@ class ShareByMailProvider implements IShareProvider {
 	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
+	/** @var IShareManager */
+	private $shareManager;
+
 	/**
 	 * Return the identifier of this provider.
 	 *
@@ -119,21 +123,20 @@ class ShareByMailProvider implements IShareProvider {
 		return 'ocMailShare';
 	}
 
-	public function __construct(
-		IDBConnection $connection,
-		ISecureRandom $secureRandom,
-		IUserManager $userManager,
-		IRootFolder $rootFolder,
-		IL10N $l,
-		ILogger $logger,
-		IMailer $mailer,
-		IURLGenerator $urlGenerator,
-		IManager $activityManager,
-		SettingsManager $settingsManager,
-		Defaults $defaults,
-		IHasher $hasher,
-		IEventDispatcher $eventDispatcher
-	) {
+	public function __construct(IDBConnection $connection,
+								ISecureRandom $secureRandom,
+								IUserManager $userManager,
+								IRootFolder $rootFolder,
+								IL10N $l,
+								ILogger $logger,
+								IMailer $mailer,
+								IURLGenerator $urlGenerator,
+								IManager $activityManager,
+								SettingsManager $settingsManager,
+								Defaults $defaults,
+								IHasher $hasher,
+								IEventDispatcher $eventDispatcher,
+								IShareManager $shareManager) {
 		$this->dbConnection = $connection;
 		$this->secureRandom = $secureRandom;
 		$this->userManager = $userManager;
@@ -147,6 +150,7 @@ class ShareByMailProvider implements IShareProvider {
 		$this->defaults = $defaults;
 		$this->hasher = $hasher;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -173,7 +177,7 @@ class ShareByMailProvider implements IShareProvider {
 		// if the admin enforces a password for all mail shares we create a
 		// random password and send it to the recipient
 		$password = $share->getPassword() ?: '';
-		$passwordEnforced = $this->settingsManager->enforcePasswordProtection();
+		$passwordEnforced = $this->shareManager->shareApiLinkEnforcePassword();
 		if ($passwordEnforced && empty($password)) {
 			$password = $this->autoGeneratePassword($share);
 		}

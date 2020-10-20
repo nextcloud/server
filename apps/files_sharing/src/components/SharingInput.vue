@@ -461,7 +461,7 @@ export default {
 			try {
 				let password = null
 
-				if (this.config.isPasswordForMailSharesRequired
+				if (this.config.enforcePasswordForPublicLink
 					&& value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
 					password = await GeneratePassword()
 				}
