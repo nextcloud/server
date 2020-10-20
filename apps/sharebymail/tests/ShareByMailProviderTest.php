@@ -524,6 +524,7 @@ class ShareByMailProviderTest extends TestCase {
 		$password = 'password';
 		$sendPasswordByTalk = true;
 		$hideDownload = true;
+		$label = 'label';
 		$expiration = new \DateTime();
 
 
@@ -542,6 +543,7 @@ class ShareByMailProviderTest extends TestCase {
 				$password,
 				$sendPasswordByTalk,
 				$hideDownload,
+				$label,
 				$expiration
 			]
 		);
@@ -567,6 +569,7 @@ class ShareByMailProviderTest extends TestCase {
 		$this->assertSame($password, $result[0]['password']);
 		$this->assertSame($sendPasswordByTalk, (bool)$result[0]['password_by_talk']);
 		$this->assertSame($hideDownload, (bool)$result[0]['hide_download']);
+		$this->assertSame($label, $result[0]['label']);
 		$this->assertSame($expiration->getTimestamp(), \DateTime::createFromFormat('Y-m-d H:i:s', $result[0]['expiration'])->getTimestamp());
 	}
 
