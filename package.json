@@ -39,7 +39,7 @@
     "@nextcloud/password-confirmation": "^1.0.1",
     "@nextcloud/paths": "^1.1.2",
     "@nextcloud/router": "^1.1.0",
-    "@nextcloud/vue": "^2.8.0",
+    "@nextcloud/vue": "^3.0.0",
     "@nextcloud/vue-dashboard": "^1.0.1",
     "autosize": "^4.0.2",
     "backbone": "^1.4.0",
@@ -87,7 +87,7 @@
     "vuedraggable": "^2.24.2",
     "vuex": "^3.5.1",
     "vuex-router-sync": "^5.0.0",
-    "webdav": "^3.3.0"
+    "webdav": "^3.6.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",

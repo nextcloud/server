@@ -186,7 +186,6 @@ export default {
 				if (error.message === 'cancel') {
 					return
 				}
-				// Reverting offset
 				this.error = t('comments', 'Unable to load the comments list')
 				console.error('Error loading the comments list', error)
 			} finally {

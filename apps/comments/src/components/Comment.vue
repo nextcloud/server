@@ -67,7 +67,10 @@
 
 		<!-- Message editor -->
 		<div class="comment__message" v-if="editor || editing">
-			<RichContenteditable v-model="localMessage" :auto-complete="autoComplete" :contenteditable="!loading" />
+			<RichContenteditable v-model="localMessage"
+				:auto-complete="autoComplete"
+				:contenteditable="!loading"
+				@submit="onSubmit" />
 			<input v-tooltip="t('comments', 'Post comment')"
 				:class="loading ? 'icon-loading-small' :'icon-confirm'"
 				class="comment__submit"

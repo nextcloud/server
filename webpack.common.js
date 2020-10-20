@@ -104,6 +104,7 @@ module.exports = []
 						'p-timeout',
 						'p-try',
 						'semver',
+						'striptags',
 						'toastify-js',
 						'v-tooltip',
 					]),
