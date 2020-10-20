@@ -56,6 +56,7 @@ import debounce from 'debounce'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 
 import Config from '../services/ConfigService'
+import GeneratePassword from '../utils/GeneratePassword'
 import Share from '../models/Share'
 import ShareRequests from '../mixins/ShareRequests'
 import ShareTypes from '../mixins/ShareTypes'
@@ -459,25 +460,49 @@ export default {
 			}
 
 			this.loading = true
+			console.debug('Adding a new share from the input for', value)
 			try {
+				let password = null
+
+				if (this.config.isPasswordForMailSharesRequired
+					&& value.shareType === this.SHARE_TYPES.SHARE_TYPE_EMAIL) {
+					password = await GeneratePassword()
+				}
+
 				const path = (this.fileInfo.path + '/' + this.fileInfo.name).replace('//', '/')
 				const share = await this.createShare({
 					path,
 					shareType: value.shareType,
 					shareWith: value.shareWith,
+					password,
 					permissions: this.fileInfo.sharePermissions & OC.getCapabilities().files_sharing.default_permissions,
 				})
-				this.$emit('add:share', share)
 
-				this.getRecommendations()
+				// If we had a password, we need to show it to the user as it was generated
+				if (password) {
+					share.newPassword = password
+					// Wait for the newly added share
+					const component = await new Promise(resolve => {
+						this.$emit('add:share', share, resolve)
+					})
 
-			} catch (response) {
+					// open the menu on the
+					// freshly created share component
+					component.open = true
+				} else {
+					// Else we just add it normally
+					this.$emit('add:share', share)
+				}
+
+				await this.getRecommendations()
+			} catch (error) {
 				// focus back if any error
 				const input = this.$refs.multiselect.$el.querySelector('input')
 				if (input) {
 					input.focus()
 				}
 				this.query = value.shareWith
+				console.error('Error while adding new share', error)
 			} finally {
 				this.loading = false
 			}
