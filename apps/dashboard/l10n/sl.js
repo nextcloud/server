@@ -1,0 +1,26 @@
+OC.L10N.register(
+    "dashboard",
+    {
+    "Dashboard" : "Nadzorna plošča",
+    "Dashboard app" : "Program Nadzorna plošča",
+    "Customize" : "Prilagodi",
+    "Edit widgets" : "Uredi gradnike",
+    "Change background image" : "Spremeni sliko ozadja",
+    "Weather service" : "Vremenske storitve",
+    "For your privacy, the weather data is requested by your Nextcloud server on your behalf so the weather service receives no personal information." : "Za večjo zasebnost so podatki vremena pridobljeni prek strežnika Nextcloud, zato tretje osebe ne pridobijo nobenega vašega osebnega podatka.",
+    "Weather data from Met.no" : "Podatki vremena prek Met.no",
+    "Weather" : "Vreme",
+    "Status" : "Stanje",
+    "Good evening, {name}" : "Dober večer, {name}",
+    "Good evening" : "Dober večer",
+    "Good afternoon" : "Dober dan",
+    "Good morning, {name}" : "Dobro jutro, {name}",
+    "Good morning" : "Dobro jutro",
+    "Good night, {name}" : "Lahko noč, {name}",
+    "Good night" : "Lahko noč",
+    "Pick from files" : "Izbor iz datotek",
+    "Default images" : "Privzete slike",
+    "Plain background" : "Enostavno ozadje",
+    "Insert from {productName}" : "Vstavi iz {productName}"
+},
+"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

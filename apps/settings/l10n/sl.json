@@ -363,6 +363,7 @@
     "Restrict username autocompletion to users within the same groups" : "Omeji samodejno dokončanje uporabniškega imena na uporabnike znotraj iste skupine",
     "This text will be shown on the public link upload page when the file list is hidden." : "Besedilo izjave o omejitvi odgovornosti, ki bo izpisano v oknu za pošiljanje, ko je možnost prikaza seznama datotek onemogočena.",
     "Default share permissions" : "Privzeta dovoljenja souporabe",
+    "Reasons to use Nextcloud in your organization" : "Razlogi za uporabo oblaka Nextcloud v vaši organizaciji",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Okolje razvija {communityopen}skupnost Nextcloud{linkclose}, {githubopen}izvorna koda{linkclose} pa je objavljena pod pogoji dovoljenja {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Spremljajte naš Facebook",
     "Follow us on Twitter" : "Sledite nam na Twitter!",
