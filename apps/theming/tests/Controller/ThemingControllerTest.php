@@ -817,7 +817,7 @@ class ThemingControllerTest extends TestCase {
 					[
 						'src' => 'touchicon?v=0',
 						'type' => 'image/png',
-						'sizes' => '128x128'
+						'sizes' => '512x512'
 					],
 					[
 						'src' => 'favicon?v=0',
