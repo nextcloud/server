@@ -449,9 +449,6 @@ export default {
 				return true
 			}
 
-			// TODO: reset the search string when done
-			// https://github.com/shentao/vue-multiselect/issues/633
-
 			// handle externalResults from OCA.Sharing.ShareSearch
 			if (value.handler) {
 				const share = await value.handler(this)
@@ -492,6 +489,12 @@ export default {
 				} else {
 					// Else we just add it normally
 					this.$emit('add:share', share)
+				}
+
+				// reset the search string when done
+				// FIXME: https://github.com/shentao/vue-multiselect/issues/633
+				if (this.$refs.multiselect?.$refs?.VueMultiselect?.search) {
+					this.$refs.multiselect.$refs.VueMultiselect.search = ''
 				}
 
 				await this.getRecommendations()
