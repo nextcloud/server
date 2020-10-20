@@ -324,7 +324,6 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
-import axios from '@nextcloud/axios'
 import Vue from 'vue'
 
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
@@ -338,10 +337,9 @@ import Actions from '@nextcloud/vue/dist/Components/Actions'
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Tooltip from '@nextcloud/vue/dist/Directives/Tooltip'
 
+import GeneratePassword from '../utils/GeneratePassword'
 import Share from '../models/Share'
 import SharesMixin from '../mixins/SharesMixin'
-
-const passwordSet = 'abcdefgijkmnopqrstwxyzABCDEFGHJKLMNPQRSTWXYZ23456789'
 
 export default {
 	name: 'SharingEntryLink',
@@ -491,7 +489,7 @@ export default {
 			},
 			async set(enabled) {
 				// TODO: directly save after generation to make sure the share is always protected
-				Vue.set(this.share, 'password', enabled ? await this.generatePassword() : '')
+				Vue.set(this.share, 'password', enabled ? await GeneratePassword() : '')
 				Vue.set(this.share, 'newPassword', this.share.password)
 			},
 		},
@@ -654,7 +652,7 @@ export default {
 				shareDefaults.expiration = this.config.defaultExpirationDateString
 			}
 			if (this.config.enableLinkPasswordByDefault) {
-				shareDefaults.password = await this.generatePassword()
+				shareDefaults.password = await GeneratePassword()
 			}
 
 			// do not push yet if we need a password or an expiration date: show pending menu
@@ -677,7 +675,7 @@ export default {
 				// ELSE, show the pending popovermenu
 				// if password enforced, pre-fill with random one
 				if (this.config.enforcePasswordForPublicLink) {
-					shareDefaults.password = await this.generatePassword()
+					shareDefaults.password = await GeneratePassword()
 				}
 
 				// create share & close menu
@@ -800,35 +798,6 @@ export default {
 				this.queueUpdate('label')
 			}
 		},
-
-		/**
-		 * Generate a valid policy password or
-		 * request a valid password if password_policy
-		 * is enabled
-		 *
-		 * @returns {string} a valid password
-		 */
-		async generatePassword() {
-			// password policy is enabled, let's request a pass
-			if (this.config.passwordPolicy.api && this.config.passwordPolicy.api.generate) {
-				try {
-					const request = await axios.get(this.config.passwordPolicy.api.generate)
-					if (request.data.ocs.data.password) {
-						return request.data.ocs.data.password
-					}
-				} catch (error) {
-					console.info('Error generating password from password_policy', error)
-				}
-			}
-
-			// generate password of 10 length based on passwordSet
-			return Array(10).fill(0)
-				.reduce((prev, curr) => {
-					prev += passwordSet.charAt(Math.floor(Math.random() * passwordSet.length))
-					return prev
-				}, '')
-		},
-
 		async copyLink() {
 			try {
 				await this.$copyText(this.shareLink)
