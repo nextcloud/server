@@ -60,7 +60,10 @@ class ExpireSharesJob extends TimedJob {
 			->from('share')
 			->where(
 				$qb->expr()->andX(
-					$qb->expr()->eq('share_type', $qb->expr()->literal(IShare::TYPE_LINK)),
+					$qb->expr()->orX(
+						$qb->expr()->eq('share_type', $qb->expr()->literal(IShare::TYPE_LINK)),
+						$qb->expr()->eq('share_type', $qb->expr()->literal(IShare::TYPE_EMAIL))
+					),
 					$qb->expr()->lte('expiration', $qb->expr()->literal($now)),
 					$qb->expr()->orX(
 						$qb->expr()->eq('item_type', $qb->expr()->literal('file')),
