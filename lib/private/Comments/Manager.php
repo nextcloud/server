@@ -395,6 +395,7 @@ class Manager implements ICommentsManager {
 	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 * set to 0, all comments are returned.
+	 * @param bool $includeLastKnown
 	 * @return IComment[]
 	 * @return array
 	 */
@@ -403,7 +404,8 @@ class Manager implements ICommentsManager {
 		string $objectId,
 		int $lastKnownCommentId,
 		string $sortDirection = 'asc',
-		int $limit = 30
+		int $limit = 30,
+		bool $includeLastKnown = false
 	): array {
 		$comments = [];
 
@@ -427,6 +429,7 @@ class Manager implements ICommentsManager {
 		if ($lastKnownComment instanceof IComment) {
 			$lastKnownCommentDateTime = $lastKnownComment->getCreationDateTime();
 			if ($sortDirection === 'desc') {
+				$idComparison = $includeLastKnown ? 'lte' : 'lt';
 				$query->andWhere(
 					$query->expr()->orX(
 						$query->expr()->lt(
@@ -440,11 +443,12 @@ class Manager implements ICommentsManager {
 								$query->createNamedParameter($lastKnownCommentDateTime, IQueryBuilder::PARAM_DATE),
 								IQueryBuilder::PARAM_DATE
 							),
-							$query->expr()->lt('id', $query->createNamedParameter($lastKnownCommentId))
+							$query->expr()->$idComparison('id', $query->createNamedParameter($lastKnownCommentId))
 						)
 					)
 				);
 			} else {
+				$idComparison = $includeLastKnown ? 'gte' : 'gt';
 				$query->andWhere(
 					$query->expr()->orX(
 						$query->expr()->gt(
@@ -458,7 +462,7 @@ class Manager implements ICommentsManager {
 								$query->createNamedParameter($lastKnownCommentDateTime, IQueryBuilder::PARAM_DATE),
 								IQueryBuilder::PARAM_DATE
 							),
-							$query->expr()->gt('id', $query->createNamedParameter($lastKnownCommentId))
+							$query->expr()->$idComparison('id', $query->createNamedParameter($lastKnownCommentId))
 						)
 					)
 				);

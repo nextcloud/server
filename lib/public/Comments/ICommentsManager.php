@@ -128,6 +128,7 @@ interface ICommentsManager {
 	 * @param string $sortDirection direction of the comments (`asc` or `desc`)
 	 * @param int $limit optional, number of maximum comments to be returned. if
 	 * set to 0, all comments are returned.
+	 * @param bool $includeLastKnown
 	 * @return IComment[]
 	 * @since 14.0.0
 	 */
@@ -136,7 +137,8 @@ interface ICommentsManager {
 		string $objectId,
 		int $lastKnownCommentId,
 		string $sortDirection = 'asc',
-		int $limit = 30
+		int $limit = 30,
+		bool $includeLastKnown = false
 	): array;
 
 	/**
