@@ -200,12 +200,9 @@ class AppConfig implements IAppConfig {
 
 		$sql = $this->conn->getQueryBuilder();
 		$sql->update('appconfig')
-			->set('configvalue', $sql->createParameter('configvalue'))
-			->where($sql->expr()->eq('appid', $sql->createParameter('app')))
-			->andWhere($sql->expr()->eq('configkey', $sql->createParameter('configkey')))
-			->setParameter('configvalue', $value)
-			->setParameter('app', $app)
-			->setParameter('configkey', $key);
+			->set('configvalue', $sql->createNamedParameter($value))
+			->where($sql->expr()->eq('appid', $sql->createNamedParameter($app)))
+			->andWhere($sql->expr()->eq('configkey', $sql->createNamedParameter($key)));
 
 		/*
 		 * Only limit to the existing value for non-Oracle DBs:
@@ -213,9 +210,25 @@ class AppConfig implements IAppConfig {
 		 * > Large objects (LOBs) are not supported in comparison conditions.
 		 */
 		if (!($this->conn instanceof OracleConnection)) {
-			// Only update the value when it is not the same
-			$sql->andWhere($sql->expr()->neq('configvalue', $sql->createParameter('configvalue')))
-				->setParameter('configvalue', $value);
+
+			/*
+			 * Only update the value when it is not the same
+			 * Note that NULL requires some special handling. Since comparing
+			 * against null can have special results.
+			 */
+
+			if ($value === null) {
+				$sql->andWhere(
+					$sql->expr()->isNotNull('configvalue')
+				);
+			} else {
+				$sql->andWhere(
+					$sql->expr()->orX(
+						$sql->expr()->isNull('configvalue'),
+						$sql->expr()->neq('configvalue', $sql->createNamedParameter($value))
+					)
+				);
+			}
 		}
 
 		$changedRow = (bool) $sql->execute();
