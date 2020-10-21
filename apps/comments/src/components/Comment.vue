@@ -66,7 +66,7 @@
 		</div>
 
 		<!-- Message editor -->
-		<div class="comment__message" v-if="editor || editing">
+		<div class="comment__editor " v-if="editor || editing">
 			<RichContenteditable v-model="localMessage"
 				:auto-complete="autoComplete"
 				:contenteditable="!loading"
@@ -263,6 +263,7 @@ $comment-padding: 10px;
 		color: var(--color-text-maxcontrast);
 	}
 
+	&__editor,
 	&__message {
 		position: relative;
 		// Avatar size, align with author name
@@ -292,12 +293,17 @@ $comment-padding: 10px;
 			opacity: 1;
 		}
 	}
+
+	&__message {
+		white-space: pre-wrap;
+		word-break: break-word;
+	}
 }
 
 .rich-contenteditable__input {
+	min-height: 44px;
 	margin: 0;
 	padding: $comment-padding;
-	min-height: 44px;
 }
 
 </style>
