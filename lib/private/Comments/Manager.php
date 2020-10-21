@@ -31,6 +31,7 @@ namespace OC\Comments;
 use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\DBAL\Exception\InvalidFieldNameException;
 use OCA\Comments\AppInfo\Application;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsEventHandler;
@@ -55,6 +56,9 @@ class Manager implements ICommentsManager {
 	/** @var IConfig */
 	protected $config;
 
+	/** @var ITimeFactory */
+	protected $timeFactory;
+
 	/** @var IInitialStateService */
 	protected $initialStateService;
 
@@ -73,10 +77,12 @@ class Manager implements ICommentsManager {
 	public function __construct(IDBConnection $dbConn,
 								LoggerInterface $logger,
 								IConfig $config,
+								ITimeFactory $timeFactory,
 								IInitialStateService $initialStateService) {
 		$this->dbConn = $dbConn;
 		$this->logger = $logger;
 		$this->config = $config;
+		$this->timeFactory = $timeFactory;
 		$this->initialStateService = $initialStateService;
 	}
 
@@ -663,6 +669,44 @@ class Manager implements ICommentsManager {
 		$result->closeCursor();
 
 		return (int) ($data['id'] ?? 0);
+	}
+
+	/**
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param string $verb
+	 * @param string $actorType
+	 * @param string[] $actors
+	 * @return array
+	 * @since 21.0.0
+	 */
+	public function getLastCommentDateByActor(
+		string $objectType,
+		string $objectId,
+		string $verb,
+		string $actorType,
+		array $actors
+	): array {
+		$lastComments = [];
+
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('actor_id')
+			->selectAlias($query->createFunction('MAX(' . $query->getColumnName('creation_timestamp') . ')'), 'last_comment')
+			->from('comments')
+			->where($query->expr()->eq('object_type', $query->createNamedParameter($objectType)))
+			->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
+			->andWhere($query->expr()->eq('verb', $query->createNamedParameter($verb)))
+			->andWhere($query->expr()->eq('actor_type', $query->createNamedParameter($actorType)))
+			->andWhere($query->expr()->in('actor_id', $query->createNamedParameter($actors, IQueryBuilder::PARAM_STR_ARRAY)))
+			->groupBy('actor_id');
+
+		$result = $query->execute();
+		while ($row = $result->fetch()) {
+			$lastComments[$row['actor_id']] = $this->timeFactory->getDateTime($row['last_comment']);
+		}
+		$result->closeCursor();
+
+		return $lastComments;
 	}
 
 	/**

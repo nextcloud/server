@@ -200,6 +200,23 @@ interface ICommentsManager {
 	public function getLastCommentBeforeDate(string $objectType, string $objectId, \DateTime $beforeDate, string $verb = ''): int;
 
 	/**
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param string $verb
+	 * @param string $actorType
+	 * @param string[] $actors
+	 * @return array
+	 * @since 21.0.0
+	 */
+	public function getLastCommentDateByActor(
+		string $objectType,
+		string $objectId,
+		string $verb,
+		string $actorType,
+		array $actors
+	): array;
+
+	/**
 	 * Get the number of unread comments for all files in a folder
 	 *
 	 * @param int $folderId
