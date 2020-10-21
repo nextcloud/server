@@ -205,7 +205,8 @@ interface ICommentsManager {
 	 * @param string $verb
 	 * @param string $actorType
 	 * @param string[] $actors
-	 * @return array Map of "string actor" => "\DateTime most recent comment date"
+	 * @return \DateTime[] Map of "string actor" => "\DateTime most recent comment date"
+	 * @psalm-return array<string, \DateTime>
 	 * @since 21.0.0
 	 */
 	public function getLastCommentDateByActor(
