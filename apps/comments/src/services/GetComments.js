@@ -23,7 +23,6 @@
 import { parseXML, prepareFileFromProps } from 'webdav/dist/node/interface/dav'
 import { processResponsePayload } from 'webdav/dist/node/response'
 import client from './DavClient'
-import { genFileInfo } from '../utils/fileUtils'
 
 export const DEFAULT_LIMIT = 20
 /**
@@ -61,7 +60,7 @@ export default async function({ commentsType, ressourceId }, options = {}) {
 		.then(parseXML)
 		.then(xml => processMultistatus(xml, true))
 		.then(comments => processResponsePayload(response, comments, true))
-		.then(response => response.data.map(genFileInfo))
+		.then(response => response.data)
 }
 
 // https://github.com/perry-mitchell/webdav-client/blob/9de2da4a2599e06bd86c2778145b7ade39fe0b3c/source/interface/directoryContents.js#L32

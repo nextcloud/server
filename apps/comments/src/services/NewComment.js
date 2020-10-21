@@ -20,7 +20,6 @@
  *
  */
 
-import { genFileInfo } from '../utils/fileUtils'
 import { getCurrentUser } from '@nextcloud/auth'
 import { getRootPath } from '../utils/davUtils'
 import axios from '@nextcloud/axios'
@@ -56,5 +55,5 @@ export default async function(commentsType, ressourceId, message) {
 		details: true,
 	})
 
-	return genFileInfo(comment)
+	return comment.data
 }

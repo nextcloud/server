@@ -67,7 +67,8 @@
 
 		<!-- Message editor -->
 		<div class="comment__editor " v-if="editor || editing">
-			<RichContenteditable v-model="localMessage"
+			<RichContenteditable ref="editor"
+				v-model="localMessage"
 				:auto-complete="autoComplete"
 				:contenteditable="!loading"
 				@submit="onSubmit" />
@@ -121,10 +122,6 @@ export default {
 	inheritAttrs: false,
 
 	props: {
-		source: {
-			type: Object,
-			default: () => ({}),
-		},
 		actorDisplayName: {
 			type: String,
 			required: true,
@@ -227,6 +224,10 @@ export default {
 
 			if (this.editor) {
 				this.onNewComment(this.localMessage.trim())
+				this.$nextTick(() => {
+					// Focus the editor again
+					this.$refs.editor.$el.focus()
+				})
 				return
 			}
 			this.onEditComment(this.localMessage.trim())
