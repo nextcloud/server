@@ -592,6 +592,61 @@ class Manager implements ICommentsManager {
 	}
 
 	/**
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param int $lastRead
+	 * @param string $verb
+	 * @return int
+	 * @since 21.0.0
+	 */
+	public function getNumberOfCommentsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, string $verb = ''): int {
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select($query->func()->count('id', 'num_messages'))
+			->from('comments')
+			->where($query->expr()->eq('object_type', $query->createNamedParameter($objectType)))
+			->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
+			->andWhere($query->expr()->gt('id', $query->createNamedParameter($lastRead)));
+
+		if ($verb !== '') {
+			$query->andWhere($query->expr()->eq('verb', $query->createNamedParameter($verb)));
+		}
+
+		$result = $query->execute();
+		$data = $result->fetch();
+		$result->closeCursor();
+
+		return (int) ($data['num_messages'] ?? 0);
+	}
+
+	/**
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param \DateTime $beforeDate
+	 * @param string $verb
+	 * @return int
+	 * @since 21.0.0
+	 */
+	public function getLastCommentBeforeDate(string $objectType, string $objectId, \DateTime $beforeDate, string $verb = ''): int {
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('id')
+			->from('comments')
+			->where($query->expr()->eq('object_type', $query->createNamedParameter($objectType)))
+			->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)))
+			->andWhere($query->expr()->lt('creation_timestamp', $query->createNamedParameter($beforeDate, IQueryBuilder::PARAM_DATE)))
+			->orderBy('creation_timestamp', 'desc');
+
+		if ($verb !== '') {
+			$query->andWhere($query->expr()->eq('verb', $query->createNamedParameter($verb)));
+		}
+
+		$result = $query->execute();
+		$data = $result->fetch();
+		$result->closeCursor();
+
+		return (int) ($data['id'] ?? 0);
+	}
+
+	/**
 	 * Get the number of unread comments for all files in a folder
 	 *
 	 * @param int $folderId

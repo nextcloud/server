@@ -167,6 +167,26 @@ interface ICommentsManager {
 	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null, $verb = '');
 
 	/**
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param int $lastRead
+	 * @param string $verb
+	 * @return int
+	 * @since 21.0.0
+	 */
+	public function getNumberOfCommentsForObjectSinceComment(string $objectType, string $objectId, int $lastRead, string $verb = ''): int;
+
+	/**
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param \DateTime $beforeDate
+	 * @param string $verb
+	 * @return int
+	 * @since 21.0.0
+	 */
+	public function getLastCommentBeforeDate(string $objectType, string $objectId, \DateTime $beforeDate, string $verb = ''): int;
+
+	/**
 	 * Get the number of unread comments for all files in a folder
 	 *
 	 * @param int $folderId
