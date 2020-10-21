@@ -13,6 +13,7 @@ OC.L10N.register(
     "Status" : "Stanje",
     "Good evening, {name}" : "Dober večer, {name}",
     "Good evening" : "Dober večer",
+    "Good afternoon, {name}" : "Dober večer, {name}",
     "Good afternoon" : "Dober dan",
     "Good morning, {name}" : "Dobro jutro, {name}",
     "Good morning" : "Dobro jutro",

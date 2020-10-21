@@ -13,19 +13,21 @@
     "Files app plugin to add comments to files" : "Επέκταση της εφαρμογής αρχείων που επιτρέπει την προσθήκη σχολίων σε αρχεία",
     "Edit comment" : "Επεξεργασία σχολίου",
     "Delete comment" : "Διαγραφή σχολίου",
+    "No comments yet, start the conversation!" : "Δεν υπάρχουν σχόλια, ξεκινήστε την συζήτηση!",
+    "Retry" : "Δοκιμή ξανά",
+    "_%n unread comment_::_%n unread comments_" : ["%n αδιάβαστο σχόλιο","%n αδιάβαστα σχόλια"],
+    "_1 new comment_::_{unread} new comments_" : ["1 νέο σχόλιο","{unread} νέα σχόλια"],
+    "Comment" : "Σχόλιο",
+    "Comment deleted" : "Το σχόλιο διαγράφηκε",
     "New comment …" : "Νέο σχόλιο …",
     "Post" : "Δημοσίευση",
     "Cancel" : "Ακύρωση",
     "[Deleted user]" : "[Διαγραμμένος χρήστης]",
-    "No comments yet, start the conversation!" : "Δεν υπάρχουν σχόλια, ξεκινήστε την συζήτηση!",
     "More comments …" : "Περισσότερα σχόλια …",
     "Save" : "Αποθήκευση",
     "Allowed characters {count} of {max}" : "Επιτρεπόμενοι χαρακτήρες {count} από {max}",
     "Error occurred while retrieving comment with ID {id}" : "Παρουσιάστηκε σφάλμα κατά την ανάκτηση σχολίου με ID {id}",
     "Error occurred while updating comment with id {id}" : "Ένα σφάλμα προέκυψε κατά την ενημέρωση του σχολίου με το id {id}",
-    "Error occurred while posting comment" : "Ένα σφάλμα προέκυψε κατά την δημοσίευση σχολίου",
-    "_%n unread comment_::_%n unread comments_" : ["%n αδιάβαστο σχόλιο","%n αδιάβαστα σχόλια"],
-    "_1 new comment_::_{unread} new comments_" : ["1 νέο σχόλιο","{unread} νέα σχόλια"],
-    "Comment" : "Σχόλιο"
+    "Error occurred while posting comment" : "Ένα σφάλμα προέκυψε κατά την δημοσίευση σχολίου"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
