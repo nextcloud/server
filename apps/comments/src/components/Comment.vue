@@ -83,7 +83,11 @@
 		<!-- Message content -->
 		<!-- The html is escaped and sanitized before rendering -->
 		<!-- eslint-disable-next-line vue/no-v-html-->
-		<div v-else class="comment__message" v-html="renderedContent" />
+		<div v-else
+			:class="{'comment__message--expanded': expanded}"
+			class="comment__message"
+			@click="onExpand"
+			v-html="renderedContent" />
 	</div>
 </template>
 
@@ -153,6 +157,7 @@ export default {
 
 	data() {
 		return {
+			expanded: false,
 			// Only change data locally and update the original
 			// parent data when the request is sent and resolved
 			localMessage: '',
@@ -226,6 +231,10 @@ export default {
 			}
 			this.onEditComment(this.localMessage.trim())
 		},
+
+		onExpand() {
+			this.expanded = true
+		},
 	},
 
 }
@@ -297,6 +306,12 @@ $comment-padding: 10px;
 	&__message {
 		white-space: pre-wrap;
 		word-break: break-word;
+		max-height: 70px;
+		overflow: hidden;
+		&--expanded {
+			max-height: none;
+			overflow: visible;
+		}
 	}
 }
 
