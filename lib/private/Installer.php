@@ -294,12 +294,14 @@ class Installer {
 
 					if ($archive) {
 						if (!$archive->extract($extractDir)) {
-							throw new \Exception(
-								sprintf(
-									'Could not extract app %s',
-									$appId
-								)
-							);
+							$errorMessage = 'Could not extract app ' . $appId;
+
+							$archiveError = $archive->getError();
+							if ($archiveError instanceof \PEAR_Error) {
+								$errorMessage .= ': ' . $archiveError->getMessage();
+							}
+
+							throw new \Exception($errorMessage);
 						}
 						$allFiles = scandir($extractDir);
 						$folders = array_diff($allFiles, ['.', '..']);
