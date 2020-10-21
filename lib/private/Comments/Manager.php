@@ -435,7 +435,11 @@ class Manager implements ICommentsManager {
 		if ($lastKnownComment instanceof IComment) {
 			$lastKnownCommentDateTime = $lastKnownComment->getCreationDateTime();
 			if ($sortDirection === 'desc') {
-				$idComparison = $includeLastKnown ? 'lte' : 'lt';
+				if ($includeLastKnown) {
+					$idComparison = $query->expr()->lte('id', $query->createNamedParameter($lastKnownCommentId));
+				} else {
+					$idComparison = $query->expr()->lt('id', $query->createNamedParameter($lastKnownCommentId));
+				}
 				$query->andWhere(
 					$query->expr()->orX(
 						$query->expr()->lt(
@@ -449,12 +453,16 @@ class Manager implements ICommentsManager {
 								$query->createNamedParameter($lastKnownCommentDateTime, IQueryBuilder::PARAM_DATE),
 								IQueryBuilder::PARAM_DATE
 							),
-							$query->expr()->$idComparison('id', $query->createNamedParameter($lastKnownCommentId))
+							$idComparison
 						)
 					)
 				);
 			} else {
-				$idComparison = $includeLastKnown ? 'gte' : 'gt';
+				if ($includeLastKnown) {
+					$idComparison = $query->expr()->gte('id', $query->createNamedParameter($lastKnownCommentId));
+				} else {
+					$idComparison = $query->expr()->gt('id', $query->createNamedParameter($lastKnownCommentId));
+				}
 				$query->andWhere(
 					$query->expr()->orX(
 						$query->expr()->gt(
@@ -468,7 +476,7 @@ class Manager implements ICommentsManager {
 								$query->createNamedParameter($lastKnownCommentDateTime, IQueryBuilder::PARAM_DATE),
 								IQueryBuilder::PARAM_DATE
 							),
-							$query->expr()->$idComparison('id', $query->createNamedParameter($lastKnownCommentId))
+							$idComparison
 						)
 					)
 				);
