@@ -297,7 +297,7 @@ OC.L10N.register(
     "Install recommended apps" : "Zainstaluj zalecane aplikacje",
     "Calendar, Contacts, Talk, Mail & Collaborative editing" : "Kalendarz, Kontakty, Rozmowa, Poczta i wspólna edycja",
     "Finish setup" : "Zakończ konfigurację",
-    "Finishing …" : "Kończę…",
+    "Finishing …" : "Kończenie…",
     "Need help?" : "Potrzebujesz pomocy?",
     "See the documentation" : "Zapoznaj się z dokumentacją",
     "It looks like you are trying to reinstall your Nextcloud. However the file CAN_INSTALL is missing from your config directory. Please create the file CAN_INSTALL in your config folder to continue." : "Wygląda na to, że próbujesz ponownie zainstalować Nextcloud. Brakuje jednak pliku CAN_INSTALL w katalogu konfiguracyjnym. Aby kontynuować, utwórz plik CAN_INSTALL w katalogu konfiguracyjnym.",
