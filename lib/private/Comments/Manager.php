@@ -521,6 +521,25 @@ class Manager implements ICommentsManager {
 	 * @return IComment[]
 	 */
 	public function search(string $search, string $objectType, string $objectId, string $verb, int $offset, int $limit = 50): array {
+		$objectIds = [];
+		if ($objectId) {
+			$objectIds[] = $objectIds;
+		}
+		return $this->searchForObjects($search, $objectType, $objectIds, $verb, $offset, $limit);
+	}
+
+	/**
+	 * Search for comments on one or more objects with a given content
+	 *
+	 * @param string $search content to search for
+	 * @param string $objectType Limit the search by object type
+	 * @param array $objectIds Limit the search by object ids
+	 * @param string $verb Limit the verb of the comment
+	 * @param int $offset
+	 * @param int $limit
+	 * @return IComment[]
+	 */
+	public function searchForObjects(string $search, string $objectType, array $objectIds, string $verb, int $offset, int $limit = 50): array {
 		$query = $this->dbConn->getQueryBuilder();
 
 		$query->select('*')
@@ -535,8 +554,8 @@ class Manager implements ICommentsManager {
 		if ($objectType !== '') {
 			$query->andWhere($query->expr()->eq('object_type', $query->createNamedParameter($objectType)));
 		}
-		if ($objectId !== '') {
-			$query->andWhere($query->expr()->eq('object_id', $query->createNamedParameter($objectId)));
+		if (!empty($objectIds)) {
+			$query->andWhere($query->expr()->in('object_id', $query->createNamedParameter($objectIds, IQueryBuilder::PARAM_STR_ARRAY)));
 		}
 		if ($verb !== '') {
 			$query->andWhere($query->expr()->eq('verb', $query->createNamedParameter($verb)));
