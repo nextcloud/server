@@ -215,11 +215,16 @@ export default {
 		 * Dispatch message between edit and create
 		 */
 		onSubmit() {
-			if (this.editor) {
-				this.onNewComment(this.localMessage)
+			// Do not submit if message is empty
+			if (this.localMessage.trim() === '') {
 				return
 			}
-			this.onEditComment(this.localMessage)
+
+			if (this.editor) {
+				this.onNewComment(this.localMessage.trim())
+				return
+			}
+			this.onEditComment(this.localMessage.trim())
 		},
 	},
 
