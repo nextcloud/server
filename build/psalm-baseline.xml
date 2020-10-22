@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.17.2@9e526d9cb569fe4631e6a737bbb7948d05596e3f">
+<files psalm-version="4.0.1@b1e2e30026936ef8d5bf6a354d1c3959b6231f44">
   <file src="3rdparty/doctrine/dbal/lib/Doctrine/DBAL/Connection.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|null</code>
@@ -132,6 +132,9 @@
     <InvalidOperand occurrences="1">
       <code>$argv[5]</code>
     </InvalidOperand>
+    <InvalidScalarArgument occurrences="1">
+      <code>$chunkSize</code>
+    </InvalidScalarArgument>
     <MissingFile occurrences="1">
       <code>require '../../../../3rdparty/autoload.php'</code>
     </MissingFile>
@@ -905,6 +908,9 @@
     <InvalidReturnType occurrences="1">
       <code>?string</code>
     </InvalidReturnType>
+    <UndefinedDocblockClass occurrences="1">
+      <code>$operator-&gt;arguments[0]-&gt;name</code>
+    </UndefinedDocblockClass>
     <UndefinedPropertyFetch occurrences="1">
       <code>$operator-&gt;arguments[0]-&gt;name</code>
     </UndefinedPropertyFetch>
@@ -1142,11 +1148,10 @@
       <code>$id</code>
       <code>$remoteId</code>
     </InvalidScalarArgument>
-    <TypeDoesNotContainNull occurrences="2">
+    <TypeDoesNotContainNull occurrences="3">
       <code>$permission === null</code>
       <code>$remoteId === null</code>
     </TypeDoesNotContainNull>
-    <TypeDoesNotContainType occurrences="1"/>
   </file>
   <file src="apps/federatedfilesharing/lib/FederatedShareProvider.php">
     <InvalidArrayAccess occurrences="2">
@@ -2019,12 +2024,10 @@
     <InvalidScalarArgument occurrences="1">
       <code>$quota</code>
     </InvalidScalarArgument>
-    <TypeDoesNotContainNull occurrences="1">
+    <TypeDoesNotContainNull occurrences="2">
+      <code>$groupid === null</code>
       <code>$groupid === null</code>
     </TypeDoesNotContainNull>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$groupid === null</code>
-    </TypeDoesNotContainType>
     <UndefinedInterfaceMethod occurrences="1">
       <code>getSubAdmin</code>
     </UndefinedInterfaceMethod>
@@ -2540,9 +2543,9 @@
     </NullableReturnStatement>
   </file>
   <file src="apps/user_ldap/lib/User_Proxy.php">
-    <FalseOperand occurrences="1">
+    <InvalidReturnStatement occurrences="1">
       <code>$users</code>
-    </FalseOperand>
+    </InvalidReturnStatement>
   </file>
   <file src="apps/user_ldap/lib/Wizard.php">
     <FalsableReturnStatement occurrences="2">
@@ -2933,12 +2936,18 @@
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
       <code>$this</code>
+      <code>$this</code>
     </InvalidScope>
   </file>
   <file src="core/templates/layout.public.php">
     <UndefinedInterfaceMethod occurrences="1">
       <code>getIcon</code>
     </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/autoloader.php">
+    <RedundantCondition occurrences="1">
+      <code>$this-&gt;memoryCache</code>
+    </RedundantCondition>
   </file>
   <file src="lib/base.php">
     <InternalMethod occurrences="2">
@@ -3151,8 +3160,7 @@
     <InvalidScalarArgument occurrences="1">
       <code>$exception-&gt;getCode()</code>
     </InvalidScalarArgument>
-    <NoInterfaceProperties occurrences="3">
-      <code>$this-&gt;request-&gt;server</code>
+    <NoInterfaceProperties occurrences="2">
       <code>$this-&gt;request-&gt;server</code>
       <code>$this-&gt;request-&gt;server</code>
     </NoInterfaceProperties>
@@ -3334,12 +3342,21 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>Color</code>
     </ImplementedReturnTypeMismatch>
+    <ImplicitToStringCast occurrences="1">
+      <code>$avatar</code>
+    </ImplicitToStringCast>
+    <InvalidNullableReturnType occurrences="1">
+      <code>string|boolean</code>
+    </InvalidNullableReturnType>
     <InvalidReturnStatement occurrences="1">
       <code>$finalPalette[$this-&gt;hashToInt($hash, $steps * 3)]</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
       <code>Color</code>
     </InvalidReturnType>
+    <NullableReturnStatement occurrences="1">
+      <code>$image-&gt;data()</code>
+    </NullableReturnStatement>
   </file>
   <file src="lib/private/Avatar/GuestAvatar.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -3432,6 +3449,10 @@
     <TypeDoesNotContainType occurrences="1">
       <code>$needsUpdate</code>
     </TypeDoesNotContainType>
+    <UndefinedVariable occurrences="2">
+      <code>$CONFIG</code>
+      <code>$CONFIG</code>
+    </UndefinedVariable>
   </file>
   <file src="lib/private/Console/Application.php">
     <InvalidArgument occurrences="1">
@@ -4597,20 +4618,32 @@
     </InvalidPropertyAssignmentValue>
   </file>
   <file src="lib/private/Group/Group.php">
-    <InvalidArgument occurrences="6">
+    <InvalidArgument occurrences="7">
       <code>IGroup::class . '::postAddUser'</code>
       <code>IGroup::class . '::postDelete'</code>
       <code>IGroup::class . '::postRemoveUser'</code>
       <code>IGroup::class . '::preAddUser'</code>
       <code>IGroup::class . '::preDelete'</code>
       <code>IGroup::class . '::preRemoveUser'</code>
+      <code>bool</code>
     </InvalidArgument>
     <InvalidOperand occurrences="1">
       <code>$hide</code>
     </InvalidOperand>
+    <InvalidReturnStatement occurrences="1">
+      <code>$users</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>int|bool</code>
+    </InvalidReturnType>
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$user</code>
     </MoreSpecificImplementedParamType>
+    <RedundantCondition occurrences="3">
+      <code>$this-&gt;emitter</code>
+      <code>$this-&gt;emitter</code>
+      <code>$this-&gt;emitter</code>
+    </RedundantCondition>
     <TooManyArguments occurrences="6">
       <code>dispatch</code>
       <code>dispatch</code>
@@ -4755,6 +4788,11 @@
     <RedundantCondition occurrences="1">
       <code>$request</code>
     </RedundantCondition>
+  </file>
+  <file src="lib/private/Log/File.php">
+    <TypeDoesNotContainNull occurrences="1">
+      <code>$limit === null</code>
+    </TypeDoesNotContainNull>
   </file>
   <file src="lib/private/Log/LogDetails.php">
     <RedundantCondition occurrences="1">
@@ -5313,9 +5351,6 @@
       <code>$this-&gt;appendIfExist($this-&gt;serverroot, 'apps/'.$script.'.js')</code>
       <code>$this-&gt;appendIfExist($this-&gt;serverroot, 'core/'.$script.'.js')</code>
     </InvalidOperand>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$found</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Template/SCSSCacher.php">
     <InvalidScalarArgument occurrences="1">
@@ -5508,12 +5543,10 @@
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
     </TooManyArguments>
-    <TypeDoesNotContainNull occurrences="1">
+    <TypeDoesNotContainNull occurrences="2">
+      <code>$appId === null</code>
       <code>$appId === null</code>
     </TypeDoesNotContainNull>
-    <TypeDoesNotContainType occurrences="1">
-      <code>$appId === null</code>
-    </TypeDoesNotContainType>
   </file>
   <file src="lib/private/legacy/OC_DB.php">
     <InvalidReturnStatement occurrences="1">

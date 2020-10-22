@@ -17,7 +17,7 @@
     },
     "require-dev": {
         "nextcloud/coding-standard": "^0.3.0",
-        "vimeo/psalm": "^3.17"
+        "vimeo/psalm": "^4.0"
     },
     "scripts": {
         "cs:fix": "php-cs-fixer fix",
