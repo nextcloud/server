@@ -27,9 +27,7 @@ namespace OC\Comments;
 
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\ICommentsManagerFactory;
-use OCP\IInitialStateService;
 use OCP\IServerContainer;
-use Psr\Log\LoggerInterface;
 
 class ManagerFactory implements ICommentsManagerFactory {
 
