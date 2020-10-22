@@ -165,6 +165,7 @@ interface ICommentsManager {
 	 * @param int $offset
 	 * @param int $limit
 	 * @return IComment[]
+	 * @since 21.0.0
 	 */
 	public function searchForObjects(string $search, string $objectType, array $objectIds, string $verb, int $offset, int $limit = 50): array;
 
