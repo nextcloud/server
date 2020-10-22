@@ -13,19 +13,21 @@
     "Files app plugin to add comments to files" : "Viðbót við skráaforrit til að bæta athugasemdum við skrár",
     "Edit comment" : "Breyta athugasemd",
     "Delete comment" : "Eyða athugasemd",
+    "No comments yet, start the conversation!" : "Engar athugasemdir ennþá, byrjaðu umræðuna!",
+    "Retry" : "Reyna aftur",
+    "_%n unread comment_::_%n unread comments_" : ["%n ólesin athugasemd","%n ólesnar athugasemdir"],
+    "_1 new comment_::_{unread} new comments_" : ["1 ný athugasemd","{unread} nýjar athugasemdir"],
+    "Comment" : "Athugasemd",
+    "Comment deleted" : "Athugasemd var eytt",
     "New comment …" : "Ný athugasemd ...",
     "Post" : "Senda",
     "Cancel" : "Hætta við",
     "[Deleted user]" : "[Eyddur notandi]",
-    "No comments yet, start the conversation!" : "Engar athugasemdir ennþá, byrjaðu umræðuna!",
     "More comments …" : "Fleiri athugasemdir ...",
     "Save" : "Vista",
     "Allowed characters {count} of {max}" : "Leyfður stafafjöldi {count} af {max}",
     "Error occurred while retrieving comment with ID {id}" : "Villa kom upp við að reyna að ná í ummæli með auðkenninu {id}",
     "Error occurred while updating comment with id {id}" : "Villa kom upp við að reyna að uppfæra athugasemd með auðkenninu {id}",
-    "Error occurred while posting comment" : "Villa kom upp við að senda inn athugasemd",
-    "_%n unread comment_::_%n unread comments_" : ["%n ólesin athugasemd","%n ólesnar athugasemdir"],
-    "_1 new comment_::_{unread} new comments_" : ["1 ný athugasemd","{unread} nýjar athugasemdir"],
-    "Comment" : "Athugasemd"
+    "Error occurred while posting comment" : "Villa kom upp við að senda inn athugasemd"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

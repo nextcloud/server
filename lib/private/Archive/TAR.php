@@ -381,4 +381,14 @@ class TAR extends Archive {
 		$types = [null, 'gz', 'bz'];
 		$this->tar = new \Archive_Tar($this->path, $types[self::getTarType($this->path)]);
 	}
+
+	/**
+	 * Get error object from archive_tar.
+	 */
+	public function getError(): ?\PEAR_Error {
+		if ($this->tar instanceof \Archive_Tar && $this->tar->error_object instanceof \PEAR_Error) {
+			return $this->tar->error_object;
+		}
+		return null;
+	}
 }
