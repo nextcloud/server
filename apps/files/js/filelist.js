@@ -1539,9 +1539,7 @@
 				"href": linkUrl
 			});
 			if (this._defaultFileActionsDisabled) {
-				linkElem = $('<p></p>').attr({
-					"class": "name"
-				})
+				linkElem.addClass('disabled');
 			}
 
 			linkElem.append('<div class="thumbnail-wrapper"><div class="thumbnail" style="background-image:url(' + icon + ');"></div></div>');
