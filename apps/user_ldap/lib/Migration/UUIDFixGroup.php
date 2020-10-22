@@ -26,18 +26,12 @@
 
 namespace OCA\User_LDAP\Migration;
 
-use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\Group_Proxy;
 use OCA\User_LDAP\Mapping\GroupMapping;
-use OCA\User_LDAP\User_Proxy;
-use OCA\User_LDAP\UserPluginManager;
-use OCP\IConfig;
 
 class UUIDFixGroup extends UUIDFix {
-	public function __construct(GroupMapping $mapper, LDAP $ldap, IConfig $config, Helper $helper) {
+	public function __construct(GroupMapping $mapper, Group_Proxy $proxy) {
 		$this->mapper = $mapper;
-		$this->proxy = new User_Proxy($helper->getServerConfigurationPrefixes(true), $ldap, $config,
-			\OC::$server->getNotificationManager(), \OC::$server->getUserSession(),
-			\OC::$server->query(UserPluginManager::class));
+		$this->proxy = $proxy;
 	}
 }

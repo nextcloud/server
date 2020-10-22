@@ -76,7 +76,7 @@ class Helper {
 	 * except the default (first) server shall be connected to.
 	 *
 	 */
-	public function getServerConfigurationPrefixes($activeConfigurations = false) {
+	public function getServerConfigurationPrefixes($activeConfigurations = false): array {
 		$referenceConfigkey = 'ldap_configuration_active';
 
 		$keys = $this->getServersConfig($referenceConfigkey);
@@ -188,17 +188,10 @@ class Helper {
 
 	/**
 	 * checks whether there is one or more disabled LDAP configurations
-	 *
-	 * @return bool
-	 * @throws \Exception
 	 */
-	public function haveDisabledConfigurations() {
+	public function haveDisabledConfigurations(): bool {
 		$all = $this->getServerConfigurationPrefixes(false);
 		$active = $this->getServerConfigurationPrefixes(true);
-
-		if (!is_array($all) || !is_array($active)) {
-			throw new \Exception('Unexpected Return Value');
-		}
 
 		return count($all) !== count($active) || count($all) === 0;
 	}
@@ -312,20 +305,7 @@ class Helper {
 			throw new \Exception('key uid is expected to be set in $param');
 		}
 
-		//ain't it ironic?
-		$helper = new Helper(\OC::$server->getConfig());
-
-		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
-		$ldapWrapper = new LDAP();
-		$ocConfig = \OC::$server->getConfig();
-		$notificationManager = \OC::$server->getNotificationManager();
-
-		$userSession = \OC::$server->getUserSession();
-		$userPluginManager = \OC::$server->query(UserPluginManager::class);
-
-		$userBackend = new User_Proxy(
-			$configPrefixes, $ldapWrapper, $ocConfig, $notificationManager, $userSession, $userPluginManager
-		);
+		$userBackend = \OC::$server->get(User_Proxy::class);
 		$uid = $userBackend->loginName2UserName($param['uid']);
 		if ($uid !== false) {
 			$param['uid'] = $uid;

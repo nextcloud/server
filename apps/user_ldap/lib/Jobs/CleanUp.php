@@ -35,7 +35,6 @@ use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_LDAP;
 use OCA\User_LDAP\User_Proxy;
-use OCA\User_LDAP\UserPluginManager;
 
 /**
  * Class CleanUp
@@ -69,10 +68,11 @@ class CleanUp extends TimedJob {
 	/** @var DeletedUsersIndex */
 	protected $dui;
 
-	public function __construct() {
+	public function __construct(User_Proxy $userBackend) {
 		$minutes = \OC::$server->getConfig()->getSystemValue(
 			'ldapUserCleanupInterval', (string)$this->defaultIntervalMin);
 		$this->setInterval((int)$minutes * 60);
+		$this->userBackend = $userBackend;
 	}
 
 	/**
@@ -99,15 +99,6 @@ class CleanUp extends TimedJob {
 
 		if (isset($arguments['userBackend'])) {
 			$this->userBackend = $arguments['userBackend'];
-		} else {
-			$this->userBackend = new User_Proxy(
-				$this->ldapHelper->getServerConfigurationPrefixes(true),
-				new LDAP(),
-				$this->ocConfig,
-				\OC::$server->getNotificationManager(),
-				\OC::$server->getUserSession(),
-				\OC::$server->query(UserPluginManager::class)
-			);
 		}
 
 		if (isset($arguments['db'])) {
