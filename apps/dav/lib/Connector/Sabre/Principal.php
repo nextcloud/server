@@ -178,7 +178,9 @@ class Principal implements BackendInterface {
 				return $this->userToPrincipal($user);
 			}
 		} elseif ($prefix === 'principals/circles') {
-			return $this->circleToPrincipal($name);
+			if ($this->userSession->getUser() !== null) {
+				return $this->circleToPrincipal($name);
+			}
 		}
 		return null;
 	}
