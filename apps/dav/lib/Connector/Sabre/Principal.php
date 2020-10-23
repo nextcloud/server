@@ -178,11 +178,7 @@ class Principal implements BackendInterface {
 				return $this->userToPrincipal($user);
 			}
 		} elseif ($prefix === 'principals/circles') {
-			try {
-				return $this->circleToPrincipal($name);
-			} catch (QueryException $e) {
-				return null;
-			}
+			return $this->circleToPrincipal($name);
 		}
 		return null;
 	}
@@ -471,9 +467,6 @@ class Principal implements BackendInterface {
 	/**
 	 * @param string $circleUniqueId
 	 * @return array|null
-	 * @throws \OCP\AppFramework\QueryException
-	 * @suppress PhanUndeclaredClassMethod
-	 * @suppress PhanUndeclaredClassCatch
 	 */
 	protected function circleToPrincipal($circleUniqueId) {
 		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
