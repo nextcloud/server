@@ -164,7 +164,13 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 					'MaxKeys' => 1,
 					'Delimiter' => '/',
 				]);
-				$this->directoryCache[$path] = ($result['Contents'][0]['Key'] === rtrim($path, '/') . '/') || $result['CommonPrefixes'];
+
+				if ((isset($result['Contents'][0]['Key']) && $result['Contents'][0]['Key'] === rtrim($path, '/') . '/')
+					 || isset($result['CommonPrefixes'])) {
+					$this->directoryCache[$path] = true;
+				} else {
+					$this->directoryCache[$path] = false;
+				}
 			} catch (S3Exception $e) {
 				if ($e->getStatusCode() === 403) {
 					$this->directoryCache[$path] = false;
