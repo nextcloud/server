@@ -91,7 +91,7 @@ OC.L10N.register(
     "There was an error updating your attendance status." : "Настана грешка при ажурирање на вашето присуство.",
     "Please contact the organizer directly." : "Контактирајте го организаторот директно.",
     "Are you accepting the invitation?" : "Дали ја прифаќате поканата?",
-    "Tentative" : "Прелиминарен",
+    "Tentative" : "Прелиминарно",
     "Save" : "Зачувај",
     "Your attendance was updated successfully." : "Вашето присуство е успешно ажурирано.",
     "Calendar server" : "Календар сервер",
