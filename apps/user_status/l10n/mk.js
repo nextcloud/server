@@ -8,6 +8,7 @@ OC.L10N.register(
     "Vacationing" : "Одмор",
     "Working remotely" : "Работи далечински",
     "User status" : "Статус на корисникот",
+    "Clear status message after" : "Тргни го статусот после",
     "What's your status?" : "Кој е вашиот статус?",
     "Set status" : "Постави статус",
     "There was an error saving the status" : "Грешка при зачувување на статус",
