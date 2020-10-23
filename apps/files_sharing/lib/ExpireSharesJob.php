@@ -24,6 +24,7 @@
 
 namespace OCA\Files_Sharing;
 
+use OCP\Share\IShare;
 use OC\BackgroundJob\TimedJob;
 
 /**
@@ -51,7 +52,7 @@ class ExpireSharesJob extends TimedJob {
 		$now = new \DateTime();
 		$now = $now->format('Y-m-d H:i:s');
 
-		/*
+		/**
 		 * Expire file link shares only (for now)
 		 */
 		$qb = $connection->getQueryBuilder();
@@ -59,7 +60,10 @@ class ExpireSharesJob extends TimedJob {
 			->from('share')
 			->where(
 				$qb->expr()->andX(
-					$qb->expr()->eq('share_type', $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK)),
+					$qb->expr()->orX(
+						$qb->expr()->eq('share_type', $qb->expr()->literal(IShare::TYPE_LINK)),
+						$qb->expr()->eq('share_type', $qb->expr()->literal(IShare::TYPE_EMAIL))
+					),
 					$qb->expr()->lte('expiration', $qb->expr()->literal($now)),
 					$qb->expr()->orX(
 						$qb->expr()->eq('item_type', $qb->expr()->literal('file')),
