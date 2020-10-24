@@ -164,10 +164,6 @@
     "Error, please enter proper password and/or expiration date" : "Napaka. Vpisati je treba pravo geslo ali datum preteka",
     "No recommendations. Start typing." : "Ni priporočil; začnite vpisovati",
     "Resharing is not allowed" : "Nadaljnja souporaba ni dovoljena",
-    "Name or email address …" : "Ime ali elektronski naslov ...",
-    "Name or federated cloud ID …" : "Ime ali ID zveznega oblaka ...",
-    "Name, federated cloud ID or email address …" : "Ime, ID zveznega oblaka ali elektronski naslov ...",
-    "Name …" : "Ime ...",
     "Searching …" : "Poteka iskanje ...",
     "No elements found." : "Ni najdenih predmetov",
     "Search globally" : "Splošno iskanje",
@@ -206,6 +202,10 @@
     "Uploading files" : "Pošiljanje datotek",
     "Uploaded files:" : "Poslane datoteke:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "S pošiljanjem datotek v oblak sprejemate tudi %1$spogoje uporabe storitve%2$s.",
+    "Name or email address …" : "Ime ali elektronski naslov ...",
+    "Name or federated cloud ID …" : "Ime ali ID zveznega oblaka ...",
+    "Name, federated cloud ID or email address …" : "Ime, ID zveznega oblaka ali elektronski naslov ...",
+    "Name …" : "Ime ...",
     "Uploading files…" : "Poteka pošiljanje datotek ..."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

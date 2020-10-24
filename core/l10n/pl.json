@@ -204,7 +204,7 @@
     "New Files" : "Nowe pliki",
     "Already existing files" : "Już istniejące pliki",
     "Which files do you want to keep?" : "Które pliki chcesz zachować?",
-    "If you select both versions, the copied file will have a number added to its name." : "Jeśli wybierzesz obie wersje, skopiowany plik będzie miał dodany numer w nazwie",
+    "If you select both versions, the copied file will have a number added to its name." : "Jeśli wybierzesz obie wersje, to do nazwy skopiowanego pliku zostanie dodany numer.",
     "Continue" : "Kontynuuj",
     "(all selected)" : "(wybrano wszystkie)",
     "({count} selected)" : "(wybrano {count})",

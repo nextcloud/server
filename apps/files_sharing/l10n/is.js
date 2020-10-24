@@ -147,10 +147,6 @@ OC.L10N.register(
     "Add another link" : "Bæta við öðrum tengli",
     "Share link" : "Deila tengli",
     "Resharing is not allowed" : "Endurdeiling er ekki leyfð",
-    "Name or email address …" : "Nafn eða tölvupóstfang …",
-    "Name or federated cloud ID …" : "Nafn eða skýjasambandsauðkenni (Federated Cloud ID) …",
-    "Name, federated cloud ID or email address …" : "Nafn, skýjasambandsauðkenni eða tölvupóstfang …",
-    "Name …" : "Nafn …",
     "Searching …" : "Leita …",
     "Search globally" : "Leita allstaðar",
     "on {server}" : "á {server}",
@@ -182,6 +178,10 @@ OC.L10N.register(
     "Select or drop files" : "Veldu eða slepptu skrám",
     "Uploaded files:" : "Innsendar skrár:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Með því að senda inn skrár, samþykkir þú %1$sþjónustuskilmálana%2$s.",
+    "Name or email address …" : "Nafn eða tölvupóstfang …",
+    "Name or federated cloud ID …" : "Nafn eða skýjasambandsauðkenni (Federated Cloud ID) …",
+    "Name, federated cloud ID or email address …" : "Nafn, skýjasambandsauðkenni eða tölvupóstfang …",
+    "Name …" : "Nafn …",
     "Uploading files…" : "Sendi inn skrár…"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

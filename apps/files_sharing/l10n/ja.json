@@ -184,10 +184,6 @@
     "Error, please enter proper password and/or expiration date" : "エラー、正しいパスワードおよび/または有効期限を入力してください",
     "No recommendations. Start typing." : "推奨事項はありません。 入力を開始します。",
     "Resharing is not allowed" : "再共有は許可されていません",
-    "Name or email address …" : "名前またはメールアドレス",
-    "Name or federated cloud ID …" : "ユーザ名または連携クラウドID",
-    "Name, federated cloud ID or email address …" : "ユーザ名、連携クラウドIDまたはメールアドレス",
-    "Name …" : "名前",
     "Searching …" : "検索しています…",
     "No elements found." : "要素が見つかりませんでした。",
     "Search globally" : "グローバルに検索",
@@ -230,6 +226,10 @@
     "Uploading files" : "ファイルをアップロード中",
     "Uploaded files:" : "アップロード済ファイル:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "ファイルをアップロードすると、%1$s のサービス条件 %2$s に同意したことになります。",
+    "Name or email address …" : "名前またはメールアドレス",
+    "Name or federated cloud ID …" : "ユーザ名または連携クラウドID",
+    "Name, federated cloud ID or email address …" : "ユーザ名、連携クラウドIDまたはメールアドレス",
+    "Name …" : "名前",
     "Uploading files…" : "ファイルをアップロード中..."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -184,10 +184,6 @@
     "Error, please enter proper password and/or expiration date" : "Erro, introduza un contrasinal ou unha data de caducidade correctos",
     "No recommendations. Start typing." : "Non hai recomendacións. Comece a escribir.",
     "Resharing is not allowed" : "Non se permite volver compartir",
-    "Name or email address …" : "Nome ou enderezo de correo…",
-    "Name or federated cloud ID …" : "Nome ou ID da nube federada...",
-    "Name, federated cloud ID or email address …" : "Nome, ID da nube federada ou enderezo de correo…",
-    "Name …" : "Nome...",
     "Searching …" : "Buscando…",
     "No elements found." : "Non se atoparon elementos.",
     "Search globally" : "Busca global",
@@ -230,6 +226,10 @@
     "Uploading files" : "Enviando ficheiros",
     "Uploaded files:" : "Ficheiros enviados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar ficheiros acepta os %1$s termos do servizo %2$s.",
+    "Name or email address …" : "Nome ou enderezo de correo…",
+    "Name or federated cloud ID …" : "Nome ou ID da nube federada...",
+    "Name, federated cloud ID or email address …" : "Nome, ID da nube federada ou enderezo de correo…",
+    "Name …" : "Nome...",
     "Uploading files…" : "Enviando ficheiros…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

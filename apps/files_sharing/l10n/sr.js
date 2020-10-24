@@ -186,10 +186,6 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Грешка, унесите исправну лозинку и/или датум истицања",
     "No recommendations. Start typing." : "Нема препорука. Започните куцање.",
     "Resharing is not allowed" : "Дељење даље није дозвољено",
-    "Name or email address …" : "Име или адреса е-поште…",
-    "Name or federated cloud ID …" : "Име или ID здруженог облака…",
-    "Name, federated cloud ID or email address …" : "Име, ID здруженог облака или адреса е-поште…",
-    "Name …" : "Име…",
     "Searching …" : "Тражим…",
     "No elements found." : "Нема нађених елемената.",
     "Search globally" : "Претражите глобално",
@@ -232,6 +228,10 @@ OC.L10N.register(
     "Uploading files" : "Отпремам фајлове",
     "Uploaded files:" : "Отпремљени фајлови:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Отпремањем фајлова, слажете се са %1$sусловима коришћења%2$s.",
+    "Name or email address …" : "Име или адреса е-поште…",
+    "Name or federated cloud ID …" : "Име или ID здруженог облака…",
+    "Name, federated cloud ID or email address …" : "Име, ID здруженог облака или адреса е-поште…",
+    "Name …" : "Име…",
     "Uploading files…" : "Отпремам фајлове…"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
