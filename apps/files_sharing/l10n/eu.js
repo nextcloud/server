@@ -186,10 +186,6 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Errorea, sartu dagokion pasahitza edo/eta iraungitze-data",
     "No recommendations. Start typing." : "Gomendiorik ez. Hasi idazten.",
     "Resharing is not allowed" : "Birpartekatzea ez da onartzen",
-    "Name or email address …" : "Izena edo helbide elektronikoa...",
-    "Name or federated cloud ID …" : "Izena edo federatutako hodeiaren IDa",
-    "Name, federated cloud ID or email address …" : "Izena, federatutako hodeiaren IDa edo helbide elektronikoa...",
-    "Name …" : "Izena...",
     "Searching …" : "Bilatzen…",
     "No elements found." : "Ez da elementurik aurkitu.",
     "Search globally" : "Bilatu globalki",
@@ -232,6 +228,10 @@ OC.L10N.register(
     "Uploading files" : "Fitxategiak kargatzen",
     "Uploaded files:" : "Igotako fitxategiak:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Fitxategiak kargatzean, %1$szerbitzu-baldintzak%2$s onartzen dituzu.",
+    "Name or email address …" : "Izena edo helbide elektronikoa...",
+    "Name or federated cloud ID …" : "Izena edo federatutako hodeiaren IDa",
+    "Name, federated cloud ID or email address …" : "Izena, federatutako hodeiaren IDa edo helbide elektronikoa...",
+    "Name …" : "Izena...",
     "Uploading files…" : "Fitxategiak igotzen…"
 },
 "nplurals=2; plural=(n != 1);");

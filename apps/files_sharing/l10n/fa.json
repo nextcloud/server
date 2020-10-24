@@ -179,10 +179,6 @@
     "Error, please enter proper password and/or expiration date" : "خطا ، لطفاً رمز عبور مناسب و یا تاریخ انقضا را وارد کنید",
     "No recommendations. Start typing." : "هیچ توصیه ای نیست شروع به تایپ کنید.",
     "Resharing is not allowed" : "اشتراک گذاری مجدد مجاز نمی باشد",
-    "Name or email address …" : "نام یا آدرس ایمیل…",
-    "Name or federated cloud ID …" : "نام یا شناسه ابر فدرال شده ...",
-    "Name, federated cloud ID or email address …" : "نام ، شناسه ابر فدرال شده یا آدرس ایمیل…",
-    "Name …" : "نام …",
     "Searching …" : "جستجوکردن …",
     "No elements found." : "عنصری یافت نشد",
     "Search globally" : "در سطح جهان جستجو کنید",
@@ -224,6 +220,10 @@
     "Select or drop files" : "پرونده ها را انتخاب یا رها کنید",
     "Uploaded files:" : "پرونده های بارگذاری شده:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "%2$sبا بارگذاری پرونده ها ، شما با %1$sشرایط خدمات موافقت می کنید",
+    "Name or email address …" : "نام یا آدرس ایمیل…",
+    "Name or federated cloud ID …" : "نام یا شناسه ابر فدرال شده ...",
+    "Name, federated cloud ID or email address …" : "نام ، شناسه ابر فدرال شده یا آدرس ایمیل…",
+    "Name …" : "نام …",
     "Uploading files…" : "بارگذاری پرونده ها ..."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

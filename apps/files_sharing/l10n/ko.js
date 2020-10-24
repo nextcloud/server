@@ -152,8 +152,6 @@ OC.L10N.register(
     "Create a new share link" : "새로운 공유 링크 생성",
     "Share link" : "링크 공유",
     "Resharing is not allowed" : "다시 공유할 수 없음",
-    "Name or email address …" : "이름 또는 이메일 주소",
-    "Name …" : "이름 ...",
     "Searching …" : "검색 ...",
     "Search globally" : "전역 검색",
     "Link to a file" : "파일로 향한 링크",
@@ -184,6 +182,8 @@ OC.L10N.register(
     "Uploading files" : "파일 업로드",
     "Uploaded files:" : "업로드한 파일:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "파일을 업로드하면 %1$s이용 약관%2$s에 동의하는 것을 의미합니다.",
+    "Name or email address …" : "이름 또는 이메일 주소",
+    "Name …" : "이름 ...",
     "Uploading files…" : "파일 업로드 중…"
 },
 "nplurals=1; plural=0;");
