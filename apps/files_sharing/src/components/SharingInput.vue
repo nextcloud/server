@@ -117,22 +117,16 @@ export default {
 		},
 		inputPlaceholder() {
 			const allowRemoteSharing = this.config.isRemoteShareAllowed
-			const allowMailSharing = this.config.isMailShareAllowed
 
 			if (!this.canReshare) {
 				return t('files_sharing', 'Resharing is not allowed')
 			}
-			if (!allowRemoteSharing && allowMailSharing) {
-				return t('files_sharing', 'Name or email address …')
-			}
-			if (allowRemoteSharing && !allowMailSharing) {
-				return t('files_sharing', 'Name or federated cloud ID …')
-			}
-			if (allowRemoteSharing && allowMailSharing) {
-				return t('files_sharing', 'Name, federated cloud ID or email address …')
+			// We can always search with email addresses for users too
+			if (!allowRemoteSharing) {
+				return t('files_sharing', 'Name or email …')
 			}
 
-			return t('files_sharing', 'Name …')
+			return t('files_sharing', 'Name, email, or federated cloud ID …')
 		},
 
 		isValidQuery() {
