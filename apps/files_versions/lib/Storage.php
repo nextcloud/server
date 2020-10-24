@@ -496,7 +496,7 @@ class Storage {
 		$expiration = self::getExpiration();
 		$threshold = $expiration->getMaxAgeAsTimestamp();
 		$versions = self::getAllVersions($uid);
-		if (!$threshold || !array_key_exists('all', $versions)) {
+		if (!$threshold || empty($versions['all'])) {
 			return;
 		}
 
@@ -578,7 +578,10 @@ class Storage {
 		// newest version first
 		krsort($versions);
 
-		$result = [];
+		$result = [
+			'all' => [],
+			'by_file' => [],
+		];
 
 		foreach ($versions as $key => $value) {
 			$size = $view->filesize(self::VERSIONS_ROOT.'/'.$value['path'].'.v'.$value['timestamp']);
@@ -775,7 +778,7 @@ class Storage {
 
 			// if still not enough free space we rearrange the versions from all files
 			if ($availableSpace <= 0) {
-				$result = Storage::getAllVersions($uid);
+				$result = self::getAllVersions($uid);
 				$allVersions = $result['all'];
 
 				foreach ($result['by_file'] as $versions) {
