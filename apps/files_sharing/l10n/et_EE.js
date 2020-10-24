@@ -148,7 +148,6 @@ OC.L10N.register(
     "Password protect" : "Parooliga kaitsmine",
     "Share link" : "Jaga link",
     "Resharing is not allowed" : "Edasijagamine pole lubatud",
-    "Name …" : "Nimi ...",
     "Searching …" : "Otsin ...",
     "Expires {relativetime}" : "Aegub {relativetime}",
     "this share just expired." : "see jagamine aegus äsja",
@@ -173,6 +172,7 @@ OC.L10N.register(
     "Note" : "Märge",
     "Select or drop files" : "Vali või lohista failid",
     "Uploaded files:" : "Üleslaetud failid:",
+    "Name …" : "Nimi ...",
     "Uploading files…" : "Failide üleslaadimine…"
 },
 "nplurals=2; plural=(n != 1);");

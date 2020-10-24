@@ -174,10 +174,6 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "שגיאה, נא למלא ססמה ו/או תאריך תפוגה כראוי",
     "No recommendations. Start typing." : "אין המלצות. נא להתחיל להקליד.",
     "Resharing is not allowed" : "שיתוף מחדש אסור",
-    "Name or email address …" : "שם או כתובת דוא״ל…",
-    "Name or federated cloud ID …" : "שם או מזהה ענן מאוגד…",
-    "Name, federated cloud ID or email address …" : "שם, מזהה ענן מאוגד או כתובת דוא״ל…",
-    "Name …" : "שם…",
     "Searching …" : "מתבצע חיפוש…",
     "No elements found." : "לא נמצאו רכיבים.",
     "Search globally" : "חיפוש גלובלי",
@@ -219,6 +215,10 @@ OC.L10N.register(
     "Uploading files" : "מועלים קבצים",
     "Uploaded files:" : "קבצים שהועלו:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "עצם העלאתם של קבצים מביעה את הסכמתך ל%1$sתנאי השירות%2$s.",
+    "Name or email address …" : "שם או כתובת דוא״ל…",
+    "Name or federated cloud ID …" : "שם או מזהה ענן מאוגד…",
+    "Name, federated cloud ID or email address …" : "שם, מזהה ענן מאוגד או כתובת דוא״ל…",
+    "Name …" : "שם…",
     "Uploading files…" : "קבצים מועלים…"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;");

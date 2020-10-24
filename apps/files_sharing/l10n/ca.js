@@ -186,10 +186,6 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Error, introduïu la contrasenya i/o data de caducitat adequades",
     "No recommendations. Start typing." : "No hi ha recomanacions. Comenceu a escriure.",
     "Resharing is not allowed" : "No està permesa la re-compartició",
-    "Name or email address …" : "Nom o adreça de correu ...",
-    "Name or federated cloud ID …" : "Nom o ID de Núvol Federat …",
-    "Name, federated cloud ID or email address …" : "Nom, ID de núvol federat o adreça de correu …",
-    "Name …" : "Nom …",
     "Searching …" : "Cercant …",
     "No elements found." : "No s’han trobat elements.",
     "Search globally" : "Cerca globalment",
@@ -232,6 +228,10 @@ OC.L10N.register(
     "Uploading files" : "Càrregant fitxers",
     "Uploaded files:" : "Fitxers carregats:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Si carregueu els fitxers accepteu les %1$scondicions del servei%2$s.",
+    "Name or email address …" : "Nom o adreça de correu ...",
+    "Name or federated cloud ID …" : "Nom o ID de Núvol Federat …",
+    "Name, federated cloud ID or email address …" : "Nom, ID de núvol federat o adreça de correu …",
+    "Name …" : "Nom …",
     "Uploading files…" : "S'està carregant fitxers…"
 },
 "nplurals=2; plural=(n != 1);");

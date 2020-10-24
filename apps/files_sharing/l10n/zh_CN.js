@@ -186,10 +186,6 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "错误，请输入正确的密码和/或过期日期",
     "No recommendations. Start typing." : "没有推荐。开始输入。",
     "Resharing is not allowed" : "不允许二次共享",
-    "Name or email address …" : "名称或电子邮箱地址...",
-    "Name or federated cloud ID …" : "名称或联合云 ID…",
-    "Name, federated cloud ID or email address …" : "名称，联合云 ID 或电子邮件地址…",
-    "Name …" : "名称 …",
     "Searching …" : "正在搜索 ...",
     "No elements found." : "未发现元素。",
     "Search globally" : "全局搜索",
@@ -232,6 +228,10 @@ OC.L10N.register(
     "Uploading files" : "正在上传文件",
     "Uploaded files:" : "上传的文件： ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "通过上传文件，您同意了 %1$s 服务条款 %2$s。",
+    "Name or email address …" : "名称或电子邮箱地址...",
+    "Name or federated cloud ID …" : "名称或联合云 ID…",
+    "Name, federated cloud ID or email address …" : "名称，联合云 ID 或电子邮件地址…",
+    "Name …" : "名称 …",
     "Uploading files…" : "正在上传文件... "
 },
 "nplurals=1; plural=0;");

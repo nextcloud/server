@@ -186,10 +186,6 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Fout. geef een geldig wachtwoord op en/of een vervaldatum",
     "No recommendations. Start typing." : "Geen aanbevelingen. Begin te typen.",
     "Resharing is not allowed" : "Verder delen niet toegestaan",
-    "Name or email address …" : "Naam of e-mailadres …",
-    "Name or federated cloud ID …" : "Naam of gefedereerd Cloud ID ...",
-    "Name, federated cloud ID or email address …" : "Naam, gefedereerde Cloud ID of een e-mailadres …",
-    "Name …" : "Naam …",
     "Searching …" : "Zoeken ...",
     "No elements found." : "Geen elementen gevonden.",
     "Search globally" : "Zoek door alles",
@@ -232,6 +228,10 @@ OC.L10N.register(
     "Uploading files" : "Uploaden bestanden",
     "Uploaded files:" : "Geüploade bestanden",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Door het uploaden van bestanden stem je in met de %1$sgebruiksvoorwaarden%2$s.",
+    "Name or email address …" : "Naam of e-mailadres …",
+    "Name or federated cloud ID …" : "Naam of gefedereerd Cloud ID ...",
+    "Name, federated cloud ID or email address …" : "Naam, gefedereerde Cloud ID of een e-mailadres …",
+    "Name …" : "Naam …",
     "Uploading files…" : "Uploaden bestanden..."
 },
 "nplurals=2; plural=(n != 1);");

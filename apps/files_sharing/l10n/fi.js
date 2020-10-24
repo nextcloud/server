@@ -157,8 +157,6 @@ OC.L10N.register(
     "Share link" : "Jaa linkki",
     "No recommendations. Start typing." : "Ei suosituksia. Aloita kirjoittaminen.",
     "Resharing is not allowed" : "Uudellenjako ei ole salluttu",
-    "Name or email address …" : "Nimi tai sähköpostiosoite…",
-    "Name …" : "Nimi…",
     "Searching …" : "Haetaan…",
     "No elements found." : "Elementtejä ei löytynyt.",
     "Search globally" : "Hae globaalisti",
@@ -192,6 +190,8 @@ OC.L10N.register(
     "Uploading files" : "Lähetetään tiedostoja",
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
+    "Name or email address …" : "Nimi tai sähköpostiosoite…",
+    "Name …" : "Nimi…",
     "Uploading files…" : "Lähetetään tiedostoja…"
 },
 "nplurals=2; plural=(n != 1);");
