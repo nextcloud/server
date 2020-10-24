@@ -186,10 +186,6 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Fehler. Bitte gebe das richtige Passwort und/oder Ablaufdatum ein",
     "No recommendations. Start typing." : "Keine Empfehlungen. Beginnen Sie mit der Eingabe.",
     "Resharing is not allowed" : "Das Weiterverteilen ist nicht erlaubt ",
-    "Name or email address …" : "Name oder E-Mailadresse",
-    "Name or federated cloud ID …" : "Name oder Federated-Cloud-ID…",
-    "Name, federated cloud ID or email address …" : "Name, Federated-Cloud-ID oder E-Mail-Adresse …",
-    "Name …" : "Name …",
     "Searching …" : "Suche …",
     "No elements found." : "Keine Elemente gefunden.",
     "Search globally" : "Global suchen",
@@ -232,6 +228,10 @@ OC.L10N.register(
     "Uploading files" : "Dateien werden hochgeladen",
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmen Sie den %1$sNutzungsbedingungen%2$s zu.",
+    "Name or email address …" : "Name oder E-Mailadresse",
+    "Name or federated cloud ID …" : "Name oder Federated-Cloud-ID…",
+    "Name, federated cloud ID or email address …" : "Name, Federated-Cloud-ID oder E-Mail-Adresse …",
+    "Name …" : "Name …",
     "Uploading files…" : "Dateien werden hochgeladen…"
 },
 "nplurals=2; plural=(n != 1);");

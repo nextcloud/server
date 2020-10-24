@@ -96,7 +96,6 @@ OC.L10N.register(
     "Add another link" : "Добави още една връзка",
     "Share link" : "Връзка за споделяне",
     "Resharing is not allowed" : "Повторното споделяне е забранено",
-    "Name …" : "Име ...",
     "Searching …" : "Търсене ...",
     "on {server}" : "на {server}",
     "Link to a file" : "Линк към файл",
@@ -123,6 +122,7 @@ OC.L10N.register(
     "Note" : "Бележка",
     "Select or drop files" : "Изберете файл или преместете с мишката",
     "Uploaded files:" : "Качени файлове:",
+    "Name …" : "Име ...",
     "Uploading files…" : "Качване на файлове…"
 },
 "nplurals=2; plural=(n != 1);");
