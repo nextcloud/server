@@ -385,6 +385,15 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
+					if (data.imageMagickLacksSVGSupport) {
+						messages.push({
+							msg: t(
+								'core',
+								'Module php-imagick in instance is missing SVG support. For better compatibility it is recommended to install it.'
+							),
+							type: OC.SetupChecks.MESSAGE_TYPE_INFO
+						})
+					}
 					if (data.pendingBigIntConversionColumns.length > 0) {
 						var listOfPendingBigIntConversionColumns = "";
 						data.pendingBigIntConversionColumns.forEach(function(element){
