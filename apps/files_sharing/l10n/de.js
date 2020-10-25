@@ -186,6 +186,8 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Fehler. Bitte gebe das richtige Passwort und/oder Ablaufdatum ein",
     "No recommendations. Start typing." : "Keine Empfehlungen. Beginne mit der Eingabe.",
     "Resharing is not allowed" : "Weiterteilen ist nicht erlaubt",
+    "Name or email …" : "Name oder E-Mail-Adresse …",
+    "Name, email, or federated cloud ID …" : "Name, E-Mail-Adresse oder Federated-Cloud-ID …",
     "Searching …" : "Suche …",
     "No elements found." : "Keine Elemente gefunden.",
     "Search globally" : "Global suchen",
