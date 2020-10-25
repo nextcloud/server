@@ -186,6 +186,8 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Грешка, унесите исправну лозинку и/или датум истицања",
     "No recommendations. Start typing." : "Нема препорука. Започните куцање.",
     "Resharing is not allowed" : "Дељење даље није дозвољено",
+    "Name or email …" : "Име или адреса е-поште…",
+    "Name, email, or federated cloud ID …" : "Име, адреса е-поште или ID здруженог облака…",
     "Searching …" : "Тражим…",
     "No elements found." : "Нема нађених елемената.",
     "Search globally" : "Претражите глобално",
