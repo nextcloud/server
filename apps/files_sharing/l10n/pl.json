@@ -184,6 +184,8 @@
     "Error, please enter proper password and/or expiration date" : "Błąd, wprowadź prawidłowe hasło i/lub datę ważności",
     "No recommendations. Start typing." : "Brak rekomendacji. Możesz napisać.",
     "Resharing is not allowed" : "Udostępnianie jest niedozwolone",
+    "Name or email …" : "Nazwa lub adres e-mail…",
+    "Name, email, or federated cloud ID …" : "Nazwa, adres e-mail lub ID Chmury Federacyjnej…",
     "Searching …" : "Wyszukiwanie...",
     "No elements found." : "Nie znaleziono elementów.",
     "Search globally" : "Szukaj globalnie",
