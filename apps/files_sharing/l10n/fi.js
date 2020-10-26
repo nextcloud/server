@@ -190,8 +190,6 @@ OC.L10N.register(
     "Uploading files" : "Lähetetään tiedostoja",
     "Uploaded files:" : "Lähetetyt tiedostot:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Tiedostoja lähettämällä hyväksyt %1$skäyttöehdot%2$s.",
-    "Name or email address …" : "Nimi tai sähköpostiosoite…",
-    "Name …" : "Nimi…",
     "Uploading files…" : "Lähetetään tiedostoja…"
 },
 "nplurals=2; plural=(n != 1);");

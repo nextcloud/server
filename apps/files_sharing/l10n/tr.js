@@ -228,10 +228,6 @@ OC.L10N.register(
     "Uploading files" : "Dosyalar yükleniyor",
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
-    "Name or email address …" : "Ad ya da e-posta adresi …",
-    "Name or federated cloud ID …" : "Ad ya da birleşik bulut kodu …",
-    "Name, federated cloud ID or email address …" : "Ad, birleşik bulut kodu ya da e-posta adresi …",
-    "Name …" : "Ad …",
     "Uploading files…" : "Dosyalar yükleniyor …"
 },
 "nplurals=2; plural=(n > 1);");

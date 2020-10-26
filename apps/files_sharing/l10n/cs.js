@@ -230,10 +230,6 @@ OC.L10N.register(
     "Uploading files" : "Nahrávání souborů",
     "Uploaded files:" : "Nahrané soubory:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s %1$svšeobecnými podmínkami%2$s.",
-    "Name or email address …" : "Jméno nebo e-mailová adresa…",
-    "Name or federated cloud ID …" : "Jméno nebo identifikátor v rámci sdruženého cloudu…",
-    "Name, federated cloud ID or email address …" : "Jméno, identifikátor v rámci sdruženého cloudu, nebo e-mailová adresa…",
-    "Name …" : "Jméno…",
     "Uploading files…" : "Nahrávání souborů…"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
