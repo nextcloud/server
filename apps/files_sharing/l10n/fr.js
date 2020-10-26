@@ -228,10 +228,6 @@ OC.L10N.register(
     "Uploading files" : "Envoi des fichiers en cours ...",
     "Uploaded files:" : "Fichiers envoyés :",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "En envoyant des fichiers, vous acceptez les %1$sconditions d'utilisation%2$s.",
-    "Name or email address …" : "Nom ou adresse courriel ...",
-    "Name or federated cloud ID …" : "Nom ou ID du cloud fédéré...",
-    "Name, federated cloud ID or email address …" : "Nom, ID du cloud fédéré ou adresse mail…",
-    "Name …" : "Nom …",
     "Uploading files…" : "Envoi des fichiers..."
 },
 "nplurals=2; plural=(n > 1);");
