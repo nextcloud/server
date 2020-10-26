@@ -40,6 +40,17 @@ A user logs into Nextcloud with their LDAP or AD credentials, and is granted acc
 		</post-migration>
 	</repair-steps>
 
+	<commands>
+		<command>OCA\User_LDAP\Command\CheckUser</command>
+		<command>OCA\User_LDAP\Command\CreateEmptyConfig</command>
+		<command>OCA\User_LDAP\Command\DeleteConfig</command>
+		<command>OCA\User_LDAP\Command\Search</command>
+		<command>OCA\User_LDAP\Command\SetConfig</command>
+		<command>OCA\User_LDAP\Command\ShowConfig</command>
+		<command>OCA\User_LDAP\Command\ShowRemnants</command>
+		<command>OCA\User_LDAP\Command\TestConfig</command>
+	</commands>
+
 	<settings>
 		<admin>OCA\User_LDAP\Settings\Admin</admin>
 		<admin-section>OCA\User_LDAP\Settings\Section</admin-section>

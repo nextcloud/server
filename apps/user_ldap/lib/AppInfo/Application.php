@@ -46,11 +46,9 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\AppFramework\IAppContainer;
 use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IServerContainer;
-use OCP\IUserSession;
 use OCP\Notification\IManager as INotificationManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -86,27 +84,22 @@ class Application extends App implements IBootstrap {
 	}
 
 	public function boot(IBootContext $context): void {
-		$context->injectFn(function (IConfig $config,
-									 INotificationManager $notificationManager,
-									 IUserSession $userSession,
-									 IAppContainer $appContainer,
-									 EventDispatcherInterface $legacyDispatcher,
-									 IEventDispatcher $dispatcher,
-									 IGroupManager $groupManager) {
-			$helper = new Helper($config);
+		$context->injectFn(function (
+			INotificationManager $notificationManager,
+			IAppContainer $appContainer,
+			EventDispatcherInterface $legacyDispatcher,
+			IEventDispatcher $dispatcher,
+			IGroupManager $groupManager,
+			User_Proxy $userBackend,
+			Group_Proxy $groupBackend,
+			Helper $helper
+		) {
 			$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 			if (count($configPrefixes) > 0) {
-				$ldapWrapper = new LDAP();
-
 				$notificationManager->registerNotifierService(Notifier::class);
 
 				$userPluginManager = $appContainer->get(UserPluginManager::class);
 				$groupPluginManager = $appContainer->get(GroupPluginManager::class);
-
-				$userBackend = new User_Proxy(
-					$configPrefixes, $ldapWrapper, $config, $notificationManager, $userSession, $userPluginManager
-				);
-				$groupBackend = new Group_Proxy($configPrefixes, $ldapWrapper, $groupPluginManager);
 
 				\OC_User::useBackend($userBackend);
 				$groupManager->addBackend($groupBackend);
