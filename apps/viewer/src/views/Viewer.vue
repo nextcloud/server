@@ -24,7 +24,7 @@
 <template>
 	<Modal
 		v-if="initiated || currentFile.modal"
-		id="viewer-content"
+		id="viewer"
 		:class="{'icon-loading': !currentFile.loaded && !currentFile.failed}"
 		:clear-view-delay="isTesting ? -1 : 5000 /* prevent cypress timeouts */"
 		:dark="true"
@@ -37,6 +37,7 @@
 		:style="{width: isSidebarShown ? `calc(100% - ${sidebarWidth}px)` : null}"
 		:title="currentFile.basename"
 		:view="currentFile.modal"
+		class="viewer"
 		@close="close"
 		@previous="previous"
 		@next="next">
@@ -58,54 +59,56 @@
 			</ActionButton>
 		</template>
 
-		<!-- PREVIOUS -->
-		<component
-			:is="previousFile.modal"
-			v-if="previousFile && !previousFile.failed"
-			:key="previousFile.fileid"
-			ref="previous-content"
-			v-bind="previousFile"
-			:file-list="fileList"
-			class="hidden-visually file-view"
-			@error="previousFailed" />
-		<Error
-			v-else-if="previousFile"
-			class="hidden-visually"
-			:name="previousFile.basename" />
+		<div class="viewer__content" @click.self.exact="close">
+			<!-- PREVIOUS -->
+			<component
+				:is="previousFile.modal"
+				v-if="previousFile && !previousFile.failed"
+				:key="previousFile.fileid"
+				ref="previous-content"
+				v-bind="previousFile"
+				:file-list="fileList"
+				class="viewer__file--hidden viewer__file"
+				@error="previousFailed" />
+			<Error
+				v-else-if="previousFile"
+				class="hidden-visually"
+				:name="previousFile.basename" />
 
-		<!-- CURRENT -->
-		<component
-			:is="currentFile.modal"
-			v-if="!currentFile.failed"
-			:key="currentFile.fileid"
-			ref="content"
-			:active="true"
-			:can-swipe.sync="canSwipe"
-			v-bind="currentFile"
-			:file-list="fileList"
-			:is-full-screen="isFullscreen"
-			:loaded.sync="currentFile.loaded"
-			:is-sidebar-shown="isSidebarShown"
-			class="file-view active"
-			@error="currentFailed" />
-		<Error
-			v-else
-			:name="currentFile.basename" />
+			<!-- CURRENT -->
+			<component
+				:is="currentFile.modal"
+				v-if="!currentFile.failed"
+				:key="currentFile.fileid"
+				ref="content"
+				:active="true"
+				:can-swipe.sync="canSwipe"
+				v-bind="currentFile"
+				:file-list="fileList"
+				:is-full-screen="isFullscreen"
+				:loaded.sync="currentFile.loaded"
+				:is-sidebar-shown="isSidebarShown"
+				class="viewer__file viewer__file--active"
+				@error="currentFailed" />
+			<Error
+				v-else
+				:name="currentFile.basename" />
 
-		<!-- NEXT -->
-		<component
-			:is="nextFile.modal"
-			v-if="nextFile && !nextFile.failed"
-			:key="nextFile.fileid"
-			ref="next-content"
-			v-bind="nextFile"
-			:file-list="fileList"
-			class="hidden-visually file-view"
-			@error="nextFailed" />
-		<Error
-			v-else-if="nextFile"
-			class="hidden-visually"
-			:name="nextFile.basename" />
+			<!-- NEXT -->
+			<component
+				:is="nextFile.modal"
+				v-if="nextFile && !nextFile.failed"
+				:key="nextFile.fileid"
+				ref="next-content"
+				v-bind="nextFile"
+				:file-list="fileList"
+				class="viewer__file--hidden viewer__file"
+				@error="nextFailed" />
+			<Error
+				v-else-if="nextFile"
+				class="hidden-visually"
+				:name="nextFile.basename" />
+		</div>
 	</Modal>
 </template>
 
@@ -691,6 +694,7 @@ export default {
 
 		async showSidebar() {
 			// Open the sidebar sharing tab
+			// TODO: also hide figure, needs a proper method for it in server Sidebar
 			await OCA.Files.Sidebar.open(this.currentFile.filename)
 			this.showAppsSidebar()
 		},
@@ -752,23 +756,50 @@ export default {
 }
 </script>
 
-<style lang="scss">
-#viewer-content.modal-mask {
-	transition: width ease 100ms;
-	.modal-container {
-		display: flex !important;
-		border-radius: 0 !important;
+<style lang="scss" scoped>
+.viewer {
+	&.modal-mask {
+		transition: width ease 100ms;
+	}
+
+	::v-deep .modal-container,
+	&__content {
+		// center views
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	::v-deep .modal-container {
+		border-radius: 0;
 		// let the mime components manage their own background-color
 		background-color: transparent;
-		justify-content: center;
-		align-items: center;
-		// Override max-height & max-width
-		width: 85% !important;
-		height: 90% !important;
+	}
+
+	&__content {
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+	}
+
+	&__file {
+		transition: height 100ms ease,
+			width 100ms ease;
+
+		// display on page but make it invisible
+		&--hidden {
+			position: absolute;
+			z-index: -1;
+			left: -10000px;
+		}
 	}
 }
 
-.component-fade-enter-active, .component-fade-leave-active {
+</style>
+
+<style lang="scss">
+.component-fade-enter-active,
+.component-fade-leave-active {
 	transition: opacity .3s ease;
 }
 
@@ -781,20 +812,12 @@ export default {
 	background-image: url('../assets/menu-sidebar-white.svg');
 }
 
-.file-view {
-	transition: height 100ms ease,
-		width 100ms ease;
-}
-
-// Override vue componets scss
+// Override vue components scss
 .app-sidebar.app-sidebar--full {
 	position: fixed !important;
+	z-index: 2025 !important;
 	top: 0 !important;
 	height: 100% !important;
-	z-index: 2025 !important;
-	.thumbnailContainer {
-		display: none !important;
-	}
 }
 
 // put autocomplete over full sidebar
@@ -803,4 +826,5 @@ export default {
 .ui-autocomplete {
 	z-index: 2050 !important;
 }
+
 </style>

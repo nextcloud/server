@@ -86,27 +86,27 @@ describe('See shared folder with link share', function() {
 
 	it('Open the viewer on file click', function() {
 		cy.openFile('image1.jpg')
-		cy.get('#viewer-content').should('be.visible')
+		cy.get('body > .viewer').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('#viewer-content .modal-title').should('contain', 'image1.jpg')
-		cy.get('#viewer-content .modal-header button.action-item__menutoggle').should('not.be.visible')
-		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
+		cy.get('body > .viewer .modal-title').should('contain', 'image1.jpg')
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('not.be.visible')
+		cy.get('body > .viewer .modal-header button.icon-close').should('be.visible')
 	})
 
 	it('Does see next navigation arrows', function() {
-		cy.get('#viewer-content .modal-container img').should('have.length', 2)
-		cy.get('#viewer-content .modal-container img').should('have.attr', 'src')
-		cy.get('#viewer-content a.next').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('body > .viewer .modal-container img').should('have.length', 2)
+		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
+		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
 	it('Does not have any visual regression 4', function() {
@@ -114,14 +114,14 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('Show image2 on next', function() {
-		cy.get('#viewer-content a.next').click()
-		cy.get('#viewer-content .modal-container img').should('have.length', 3)
-		cy.get('#viewer-content a.prev').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer .modal-container img').should('have.length', 3)
+		cy.get('body > .viewer a.prev').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -132,14 +132,14 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('Show image3 on next', function() {
-		cy.get('#viewer-content a.next').click()
-		cy.get('#viewer-content .modal-container img').should('have.length', 3)
-		cy.get('#viewer-content a.prev').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer .modal-container img').should('have.length', 3)
+		cy.get('body > .viewer a.prev').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -150,14 +150,14 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('Show image4 on next', function() {
-		cy.get('#viewer-content a.next').click()
-		cy.get('#viewer-content .modal-container img').should('have.length', 2)
-		cy.get('#viewer-content a.prev').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer .modal-container img').should('have.length', 2)
+		cy.get('body > .viewer a.prev').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -168,17 +168,17 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('Show video1 on next', function() {
-		cy.get('#viewer-content a.next').click()
+		cy.get('body > .viewer a.next').click()
 		// only 2 because we don't know if we're at the end of the slideshow, current vid and prev img
-		cy.get('#viewer-content .modal-container img').should('have.length', 1)
-		cy.get('#viewer-content .modal-container video').should('have.length', 1)
-		cy.get('#viewer-content a.prev').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
-		cy.get('#viewer-content .modal-title').should('contain', 'video1.mp4')
+		cy.get('body > .viewer .modal-container img').should('have.length', 1)
+		cy.get('body > .viewer .modal-container video').should('have.length', 1)
+		cy.get('body > .viewer a.prev').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer .modal-title').should('contain', 'video1.mp4')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -189,14 +189,14 @@ describe('See shared folder with link share', function() {
 	})
 
 	it('Show image1 again on next', function() {
-		cy.get('#viewer-content a.next').click()
-		cy.get('#viewer-content .modal-container img').should('have.length', 2)
-		cy.get('#viewer-content a.prev').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer .modal-container img').should('have.length', 2)
+		cy.get('body > .viewer a.prev').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')

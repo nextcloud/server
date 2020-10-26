@@ -48,29 +48,29 @@ describe('Open image.heic in viewer', function() {
 
 	it('Open the viewer on file click', function() {
 		cy.openFile('image.heic')
-		cy.get('#viewer-content').should('be.visible')
+		cy.get('body > .viewer').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 4000 })
+		cy.get('body > .viewer', { timeout: 4000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
 	})
 
 	it('Is not in mobile fullscreen mode', function() {
-		cy.get('#viewer-content .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
+		cy.get('body > .viewer .modal-wrapper').should('not.have.class', 'modal-wrapper--full')
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('#viewer-content .modal-title').should('contain', 'image.heic')
-		cy.get('#viewer-content .modal-header button.action-item__menutoggle').should('be.visible')
-		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
+		cy.get('body > .viewer .modal-title').should('contain', 'image.heic')
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
+		cy.get('body > .viewer .modal-header button.icon-close').should('be.visible')
 	})
 
 	it('Does not see navigation arrows', function() {
-		cy.get('#viewer-content a.prev').should('not.be.visible')
-		cy.get('#viewer-content a.next').should('not.be.visible')
+		cy.get('body > .viewer a.prev').should('not.be.visible')
+		cy.get('body > .viewer a.next').should('not.be.visible')
 	})
 
 	it('Does not have any visual regression', function() {

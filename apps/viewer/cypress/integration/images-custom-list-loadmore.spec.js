@@ -123,27 +123,27 @@ describe('Open custom list of images in viewer with pagination', function() {
 				})
 			})
 		})
-		cy.get('#viewer-content').should('be.visible')
+		cy.get('body > .viewer').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('#viewer-content .modal-title').should('contain', 'image1.jpg')
-		cy.get('#viewer-content .modal-header button.action-item__menutoggle').should('be.visible')
-		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
+		cy.get('body > .viewer .modal-title').should('contain', 'image1.jpg')
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
+		cy.get('body > .viewer .modal-header button.icon-close').should('be.visible')
 	})
 
 	it('Does see next navigation arrows', function() {
-		cy.get('#viewer-content .modal-container img').should('have.length', 2)
-		cy.get('#viewer-content .modal-container img').should('have.attr', 'src')
-		cy.get('#viewer-content a.next').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('body > .viewer .modal-container img').should('have.length', 2)
+		cy.get('body > .viewer .modal-container img').should('have.attr', 'src')
+		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
 	it('Does not have any visual regression 1', function() {
@@ -151,14 +151,14 @@ describe('Open custom list of images in viewer with pagination', function() {
 	})
 
 	it('Show image2 on next', function() {
-		cy.get('#viewer-content a.next').click()
-		cy.get('#viewer-content .modal-container img').should('have.length', 2)
-		cy.get('#viewer-content a.prev').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer .modal-container img').should('have.length', 2)
+		cy.get('body > .viewer a.prev').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -169,14 +169,14 @@ describe('Open custom list of images in viewer with pagination', function() {
 	})
 
 	it('Show image3 on next', function() {
-		cy.get('#viewer-content a.next').click()
-		cy.get('#viewer-content .modal-container img').should('have.length', 3)
-		cy.get('#viewer-content a.prev').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer .modal-container img').should('have.length', 3)
+		cy.get('body > .viewer a.prev').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -187,14 +187,14 @@ describe('Open custom list of images in viewer with pagination', function() {
 	})
 
 	it('Show image4 on next', function() {
-		cy.get('#viewer-content a.next').click()
-		cy.get('#viewer-content .modal-container img').should('have.length', 2)
-		cy.get('#viewer-content a.prev').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer .modal-container img').should('have.length', 2)
+		cy.get('body > .viewer a.prev').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -205,14 +205,14 @@ describe('Open custom list of images in viewer with pagination', function() {
 	})
 
 	it('Show image1 again on next', function() {
-		cy.get('#viewer-content a.next').click()
-		cy.get('#viewer-content .modal-container img').should('have.length', 2)
-		cy.get('#viewer-content a.prev').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer .modal-container img').should('have.length', 2)
+		cy.get('body > .viewer a.prev').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')

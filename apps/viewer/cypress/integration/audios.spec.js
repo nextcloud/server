@@ -50,26 +50,26 @@ describe('Open mp3 and ogg audio in viewer', function() {
 
 	it('Open the viewer on file click', function() {
 		cy.openFile('audio.mp3')
-		cy.get('#viewer-content').should('be.visible')
+		cy.get('body > .viewer').should('be.visible')
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('#viewer-content .modal-title').should('contain', 'audio.mp3')
-		cy.get('#viewer-content .modal-header button.action-item__menutoggle').should('be.visible')
-		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
+		cy.get('body > .viewer .modal-title').should('contain', 'audio.mp3')
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
+		cy.get('body > .viewer .modal-header button.icon-close').should('be.visible')
 	})
 
 	it('Does see next navigation arrows', function() {
-		cy.get('#viewer-content .modal-container audio').should('have.length', 2)
-		cy.get('#viewer-content .modal-container .file-view.active audio')
+		cy.get('body > .viewer .modal-container audio').should('have.length', 2)
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active audio')
 			.should('have.attr', 'src')
 			.and('contain', `/remote.php/dav/files/${randUser}/audio.mp3`)
-		cy.get('#viewer-content a.next').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -80,17 +80,17 @@ describe('Open mp3 and ogg audio in viewer', function() {
 	})
 
 	it('Show audio.ogg on next', function() {
-		cy.get('#viewer-content a.next').click()
-		cy.get('#viewer-content .modal-container audio').should('have.length', 2)
-		cy.get('#viewer-content .modal-container .file-view.active audio')
+		cy.get('body > .viewer a.next').click()
+		cy.get('body > .viewer .modal-container audio').should('have.length', 2)
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active audio')
 			.should('have.attr', 'src')
 			.and('contain', `/remote.php/dav/files/${randUser}/audio.ogg`)
-		cy.get('#viewer-content a.prev').should('be.visible')
-		cy.get('#viewer-content a.next').should('be.visible')
+		cy.get('body > .viewer a.prev').should('be.visible')
+		cy.get('body > .viewer a.next').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')

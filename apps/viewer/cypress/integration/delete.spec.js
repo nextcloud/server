@@ -47,11 +47,11 @@ describe('Open image.png in viewer', function() {
 
 	it('Open the viewer on file click', function() {
 		cy.openFile('image.png')
-		cy.get('#viewer-content').should('be.visible')
+		cy.get('body > .viewer').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
@@ -59,13 +59,13 @@ describe('Open image.png in viewer', function() {
 
 	it('Delete the image and close viewer', function() {
 		// open the menu
-		cy.get('#viewer-content .modal-header button.action-item__menutoggle').click()
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').click()
 		// delete the file
 		cy.get('.action-button__icon.icon-delete').click()
 	})
 
 	it('Does not see the viewer anymore', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('not.be.visible')
 	})
 
