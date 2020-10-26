@@ -78,10 +78,12 @@ class OfflineUserTest extends TestCase {
 	public function testHasActiveShares(int $internalOwnerships, int $externalOwnerships, bool $expected) {
 		$queryMock = $this->createMock(Statement::class);
 		$queryMock->expects($this->atLeastOnce())
-			->method('fetchColumn')
+			->method('execute');
+		$queryMock->expects($this->atLeastOnce())
+			->method('rowCount')
 			->willReturnOnConsecutiveCalls(
-				(string)$internalOwnerships,
-				(string)$externalOwnerships
+				$internalOwnerships > 0 ? 1 : 0,
+				$externalOwnerships > 0 ? 1 : 0
 			);
 
 		$this->dbc->expects($this->atLeastOnce())
