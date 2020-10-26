@@ -30,7 +30,6 @@ namespace OCA\User_LDAP\Jobs;
 
 use OC\BackgroundJob\TimedJob;
 use OCA\User_LDAP\Helper;
-use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\User_LDAP;
@@ -68,11 +67,12 @@ class CleanUp extends TimedJob {
 	/** @var DeletedUsersIndex */
 	protected $dui;
 
-	public function __construct(User_Proxy $userBackend) {
+	public function __construct(User_Proxy $userBackend, DeletedUsersIndex $dui) {
 		$minutes = \OC::$server->getConfig()->getSystemValue(
 			'ldapUserCleanupInterval', (string)$this->defaultIntervalMin);
 		$this->setInterval((int)$minutes * 60);
 		$this->userBackend = $userBackend;
+		$this->dui = $dui;
 	}
 
 	/**
@@ -115,9 +115,6 @@ class CleanUp extends TimedJob {
 
 		if (isset($arguments['deletedUsersIndex'])) {
 			$this->dui = $arguments['deletedUsersIndex'];
-		} else {
-			$this->dui = new DeletedUsersIndex(
-				$this->ocConfig, $this->db, $this->mapping);
 		}
 	}
 

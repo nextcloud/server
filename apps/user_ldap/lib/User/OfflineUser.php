@@ -28,6 +28,8 @@ namespace OCA\User_LDAP\User;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\Share\IManager;
+use OCP\Share\IShare;
 
 class OfflineUser {
 	/**
@@ -78,18 +80,19 @@ class OfflineUser {
 	 * @var \OCA\User_LDAP\Mapping\UserMapping
 	 */
 	protected $mapping;
+	/** @var IManager */
+	private $shareManager;
 
-	/**
-	 * @param string $ocName
-	 * @param IConfig $config
-	 * @param IDBConnection $db
-	 * @param \OCA\User_LDAP\Mapping\UserMapping $mapping
-	 */
-	public function __construct($ocName, IConfig $config, IDBConnection $db, UserMapping $mapping) {
+	public function __construct(
+		$ocName,
+		IConfig $config,
+		UserMapping $mapping,
+		IManager $shareManager
+	) {
 		$this->ocName = $ocName;
 		$this->config = $config;
-		$this->db = $db;
 		$this->mapping = $mapping;
+		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -236,29 +239,33 @@ class OfflineUser {
 		$this->determineShares();
 	}
 
-
 	/**
 	 * finds out whether the user has active shares. The result is stored in
 	 * $this->hasActiveShares
 	 */
 	protected function determineShares() {
-		$query = $this->db->prepare('
-			SELECT `uid_owner`
-			FROM `*PREFIX*share`
-			WHERE `uid_owner` = ?
-		', 1);
-		$query->execute([$this->ocName]);
-		if ($query->rowCount() > 0) {
-			$this->hasActiveShares = true;
-			return;
+		$shareInterface = new \ReflectionClass(IShare::class);
+		$shareConstants = $shareInterface->getConstants();
+
+		foreach ($shareConstants as $constantName => $constantValue) {
+			if (strpos($constantName, 'TYPE_') !== 0
+				|| $constantValue === IShare::TYPE_USERGROUP
+			) {
+				continue;
+			}
+			$shares = $this->shareManager->getSharesBy(
+				$this->ocName,
+				$constantValue,
+				null,
+				false,
+				1
+			);
+			if (!empty($shares)) {
+				$this->hasActiveShares = true;
+				return;
+			}
 		}
 
-		$query = $this->db->prepare('
-			SELECT `owner`
-			FROM `*PREFIX*share_external`
-			WHERE `owner` = ?
-		', 1);
-		$query->execute([$this->ocName]);
-		$this->hasActiveShares = $query->rowCount() > 0;
+		$this->hasActiveShares = false;
 	}
 }

@@ -25,11 +25,11 @@ declare(strict_types=1);
 
 namespace OCA\User_LDAP\Tests\User;
 
-use Doctrine\DBAL\Driver\Statement;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\OfflineUser;
 use OCP\IConfig;
-use OCP\IDBConnection;
+use OCP\Share\IManager;
+use OCP\Share\IShare;
 use Test\TestCase;
 
 class OfflineUserTest extends TestCase {
@@ -42,53 +42,47 @@ class OfflineUserTest extends TestCase {
 	protected $uid;
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
 	protected $config;
-	/** @var IDBConnection|\PHPUnit\Framework\MockObject\MockObject */
-	protected $dbc;
+	/** @var IManager|\PHPUnit\Framework\MockObject\MockObject */
+	protected $shareManager;
 
 	public function setUp(): void {
 		$this->uid = 'deborah';
 		$this->config = $this->createMock(IConfig::class);
-		$this->dbc = $this->createMock(IDBConnection::class);
 		$this->mapping = $this->createMock(UserMapping::class);
+		$this->shareManager = $this->createMock(IManager::class);
 
 		$this->offlineUser = new OfflineUser(
 			$this->uid,
 			$this->config,
-			$this->dbc,
-			$this->mapping
+			$this->mapping,
+			$this->shareManager
 		);
 	}
 
 	public function shareOwnerProvider(): array {
-		// tests for none, one, many
 		return [
-			[ 0, 0, false],
-			[ 1, 0, true],
-			[ 0, 1, true],
-			[ 1, 1, true],
-			[ 2, 0, true],
-			[ 0, 2, true],
-			[ 2, 2, true],
+			[[], false],
+			[[IShare::TYPE_USER], true],
+			[[IShare::TYPE_GROUP, IShare::TYPE_LINK], true],
+			[[IShare::TYPE_EMAIL, IShare::TYPE_REMOTE, IShare::TYPE_CIRCLE], true],
+			[[IShare::TYPE_GUEST, IShare::TYPE_REMOTE_GROUP, IShare::TYPE_ROOM], true],
 		];
 	}
 
 	/**
 	 * @dataProvider shareOwnerProvider
 	 */
-	public function testHasActiveShares(int $internalOwnerships, int $externalOwnerships, bool $expected) {
-		$queryMock = $this->createMock(Statement::class);
-		$queryMock->expects($this->atLeastOnce())
-			->method('execute');
-		$queryMock->expects($this->atLeastOnce())
-			->method('rowCount')
-			->willReturnOnConsecutiveCalls(
-				$internalOwnerships > 0 ? 1 : 0,
-				$externalOwnerships > 0 ? 1 : 0
-			);
+	public function testHasActiveShares(array $existingShareTypes, bool $expected) {
+		$shareMock = $this->createMock(IShare::class);
 
-		$this->dbc->expects($this->atLeastOnce())
-			->method('prepare')
-			->willReturn($queryMock);
+		$this->shareManager->expects($this->atLeastOnce())
+			->method('getSharesBy')
+			->willReturnCallback(function (string $uid, int $shareType) use ($existingShareTypes, $shareMock) {
+				if (in_array($shareType, $existingShareTypes)) {
+					return [$shareMock];
+				}
+				return [];
+			});
 
 		$this->assertSame($expected, $this->offlineUser->getHasActiveShares());
 	}

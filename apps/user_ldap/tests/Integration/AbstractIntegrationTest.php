@@ -37,6 +37,7 @@ use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\UserPluginManager;
+use OCP\Share\IManager;
 
 abstract class AbstractIntegrationTest {
 	/** @var  LDAP */
@@ -126,9 +127,9 @@ abstract class AbstractIntegrationTest {
 			new LogWrapper(),
 			\OC::$server->getAvatarManager(),
 			new \OCP\Image(),
-			\OC::$server->getDatabaseConnection(),
 			\OC::$server->getUserManager(),
-			\OC::$server->getNotificationManager()
+			\OC::$server->getNotificationManager(),
+			\OC::$server->get(IManager::class)
 		);
 	}
 
