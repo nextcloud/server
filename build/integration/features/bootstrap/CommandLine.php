@@ -160,7 +160,7 @@ trait CommandLine {
 	public function theCommandOutputContainsTheText($text) {
 		$lines = $this->findLines($this->lastStdOut, $text);
 		if (empty($lines)) {
-			throw new \Exception('The command did not output the expected text on stdout "' . $exceptionText . '"');
+			throw new \Exception('The command did not output the expected text on stdout "' . $text . '"');
 		}
 	}
 
@@ -170,7 +170,7 @@ trait CommandLine {
 	public function theCommandErrorOutputContainsTheText($text) {
 		$lines = $this->findLines($this->lastStdErr, $text);
 		if (empty($lines)) {
-			throw new \Exception('The command did not output the expected text on stderr "' . $exceptionText . '"');
+			throw new \Exception('The command did not output the expected text on stderr "' . $text . '"');
 		}
 	}
 }
