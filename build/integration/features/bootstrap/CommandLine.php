@@ -106,7 +106,7 @@ trait CommandLine {
 		$results = [];
 		// the exception text usually appears after an "[Exception"] row
 		foreach (explode("\n", $input) as $line) {
-			if (strpos($line, $text) >= 0) {
+			if (strpos($line, $text) !== false) {
 				$results[] = $line;
 			}
 		}
