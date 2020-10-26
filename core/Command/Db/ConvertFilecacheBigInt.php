@@ -63,6 +63,7 @@ class ConvertFilecacheBigInt extends Command {
 			'authtoken' => ['id'],
 			'bruteforce_attempts' => ['id'],
 			'filecache' => ['fileid', 'storage', 'parent', 'mimetype', 'mimepart', 'mtime', 'storage_mtime'],
+			'filecache_extended' => ['fileid'],
 			'file_locks' => ['id'],
 			'jobs' => ['id'],
 			'mimetypes' => ['id'],
