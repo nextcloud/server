@@ -556,7 +556,7 @@ class ShareController extends AuthPublicShareController {
 		$share = $this->shareManager->getShareByToken($token);
 
 		if (!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
-			return new \OCP\AppFramework\Http\DataResponse('Share is read-only');
+			return new \OCP\AppFramework\Http\DataResponse('Share has no read permission');
 		}
 
 		$files_list = null;

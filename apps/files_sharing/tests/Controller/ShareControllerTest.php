@@ -840,7 +840,7 @@ class ShareControllerTest extends \Test\TestCase {
 
 		// Test with a password protected share and no authentication
 		$response = $this->shareController->downloadShare('validtoken');
-		$expectedResponse = new DataResponse('Share is read-only');
+		$expectedResponse = new DataResponse('Share has no read permission');
 		$this->assertEquals($expectedResponse, $response);
 	}
 
