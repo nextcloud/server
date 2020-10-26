@@ -242,29 +242,22 @@ class OfflineUser {
 	 */
 	protected function determineShares() {
 		$query = $this->db->prepare('
-			SELECT COUNT(`uid_owner`)
+			SELECT `uid_owner`
 			FROM `*PREFIX*share`
 			WHERE `uid_owner` = ?
 		', 1);
 		$query->execute(array($this->ocName));
-		$sResult = $query->fetchColumn(0);
-		if((int)$sResult === 1) {
+		if ($query->rowCount() > 0) {
 			$this->hasActiveShares = true;
 			return;
 		}
 
 		$query = $this->db->prepare('
-			SELECT COUNT(`owner`)
+			SELECT `owner`
 			FROM `*PREFIX*share_external`
 			WHERE `owner` = ?
 		', 1);
 		$query->execute(array($this->ocName));
-		$sResult = $query->fetchColumn(0);
-		if((int)$sResult === 1) {
-			$this->hasActiveShares = true;
-			return;
-		}
-
-		$this->hasActiveShares = false;
+		$this->hasActiveShares = $query->rowCount() > 0;
 	}
 }
