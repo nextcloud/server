@@ -228,13 +228,17 @@ class ImageManager {
 			// either to big or are not progressive rendering.
 			$newImage = @imagecreatefromstring(file_get_contents($tmpFile));
 
+			// Preserve transparency
+			imagesavealpha($newImage, true);
+			imagealphablending($newImage, true);
+
 			$tmpFile = $this->tempManager->getTemporaryFile();
 			$newWidth = (int)(imagesx($newImage) < 4096 ? imagesx($newImage) : 4096);
 			$newHeight = (int)(imagesy($newImage) / (imagesx($newImage) / $newWidth));
 			$outputImage = imagescale($newImage, $newWidth, $newHeight);
 
 			imageinterlace($outputImage, 1);
-			imagejpeg($outputImage, $tmpFile, 75);
+			imagepng($outputImage, $tmpFile, 8);
 			imagedestroy($outputImage);
 
 			$target->putContent(file_get_contents($tmpFile));
