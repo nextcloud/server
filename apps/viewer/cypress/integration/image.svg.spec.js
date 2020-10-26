@@ -48,29 +48,29 @@ describe('Open image.svg in viewer', function() {
 
 	it('Open the viewer on file click', function() {
 		cy.openFile('image.svg')
-		cy.get('#viewer-content').should('be.visible')
+		cy.get('body > .viewer').should('be.visible')
 	})
 
 	it('Does not see a loading animation', function() {
-		cy.get('#viewer-content', { timeout: 10000 })
+		cy.get('body > .viewer', { timeout: 10000 })
 			.should('be.visible')
 			.and('have.class', 'modal-mask')
 			.and('not.have.class', 'icon-loading')
 	})
 
 	it('See the menu icon and title on the viewer header', function() {
-		cy.get('#viewer-content .modal-title').should('contain', 'image.svg')
-		cy.get('#viewer-content .modal-header button.action-item__menutoggle').should('be.visible')
-		cy.get('#viewer-content .modal-header button.icon-close').should('be.visible')
+		cy.get('body > .viewer .modal-title').should('contain', 'image.svg')
+		cy.get('body > .viewer .modal-header button.action-item__menutoggle').should('be.visible')
+		cy.get('body > .viewer .modal-header button.icon-close').should('be.visible')
 	})
 
 	it('Does not see navigation arrows', function() {
-		cy.get('#viewer-content a.prev').should('not.be.visible')
-		cy.get('#viewer-content a.next').should('not.be.visible')
+		cy.get('body > .viewer a.prev').should('not.be.visible')
+		cy.get('body > .viewer a.next').should('not.be.visible')
 	})
 
 	it('Have the base64 encoded value of the svg', function() {
-		cy.get('#viewer-content .modal-container img.active')
+		cy.get('body > .viewer .modal-container .viewer__file.viewer__file--active')
 			.should('have.attr', 'src')
 			.should('contain', 'data:image/svg+xml;base64')
 	})
