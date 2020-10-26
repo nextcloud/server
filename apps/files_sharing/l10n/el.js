@@ -228,10 +228,6 @@ OC.L10N.register(
     "Uploading files" : "Μεταφόρτωση αρχείων",
     "Uploaded files:" : "Αποστολή αρχείων:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Με την μεταφόρτωση αρχείων, συμφωνείτε με %1$sόρους χρήσεως %2$s.",
-    "Name or email address …" : "Όνομα ή διεύθυνση ηλεκτρονικού ταχυδρομείου...",
-    "Name or federated cloud ID …" : "Όνομα ταυτότητας ή ομοσπονδιακού σύννεφου ...",
-    "Name, federated cloud ID or email address …" : "Όνομα ταυτότητας, ομοσπονδιακού σύννεφου ή διεύθυνση ηλεκτρονικού ταχυδρομείου…",
-    "Name …" : "Όνομα ...",
     "Uploading files…" : "Αποστολή αρχείων ..."
 },
 "nplurals=2; plural=(n != 1);");

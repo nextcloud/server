@@ -228,10 +228,6 @@ OC.L10N.register(
     "Uploading files" : "ファイルをアップロード中",
     "Uploaded files:" : "アップロード済ファイル:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "ファイルをアップロードすると、%1$s のサービス条件 %2$s に同意したことになります。",
-    "Name or email address …" : "名前またはメールアドレス",
-    "Name or federated cloud ID …" : "ユーザ名または連携クラウドID",
-    "Name, federated cloud ID or email address …" : "ユーザ名、連携クラウドIDまたはメールアドレス",
-    "Name …" : "名前",
     "Uploading files…" : "ファイルをアップロード中..."
 },
 "nplurals=1; plural=0;");
