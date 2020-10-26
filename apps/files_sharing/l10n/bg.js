@@ -122,7 +122,6 @@ OC.L10N.register(
     "Note" : "Бележка",
     "Select or drop files" : "Изберете файл или преместете с мишката",
     "Uploaded files:" : "Качени файлове:",
-    "Name …" : "Име ...",
     "Uploading files…" : "Качване на файлове…"
 },
 "nplurals=2; plural=(n != 1);");

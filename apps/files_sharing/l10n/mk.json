@@ -226,10 +226,6 @@
     "Uploading files" : "Прикачување на датотеки",
     "Uploaded files:" : "Прикачени датотеки:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Со прикачување на датотеките, се согласувате со  %1$sусловите за користење%2$s.",
-    "Name or email address …" : "Име или е-пошта адреса ...",
-    "Name or federated cloud ID …" : "Име или федерален ИД ...",
-    "Name, federated cloud ID or email address …" : "Име, федерален ID или адреса на е-пошта …",
-    "Name …" : "Име ...",
     "Uploading files…" : "Прикачување датотеки…"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }
