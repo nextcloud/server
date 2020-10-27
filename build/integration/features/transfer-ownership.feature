@@ -297,13 +297,13 @@ Feature: transfer-ownership
 	Scenario: transferring ownership fails with invalid source user
 		Given user "user0" exists
 		When transferring ownership from "invalid_user" to "user0"
-		Then the command error output contains the text "Unknown source user"
+		Then the command output contains the text "Unknown source user"
 		And the command failed with exit code 1
 
 	Scenario: transferring ownership fails with invalid target user
 		Given user "user0" exists
 		When transferring ownership from "user0" to "invalid_user"
-		Then the command error output contains the text "Unknown target user"
+		Then the command output contains the text "Unknown destination user invalid_user"
 		And the command failed with exit code 1
 
 	Scenario: transferring ownership of a file
@@ -511,7 +511,7 @@ Feature: transfer-ownership
 		And user "user2" accepts last share
 		When transferring ownership of path "test" from "user0" to "user1"
 		Then the command failed with exit code 1
-		And the command error output contains the text "Could not transfer files."
+		And the command output contains the text "Could not transfer files."
 
 	Scenario: transferring ownership does not transfer received shares
 		Given user "user0" exists
@@ -547,19 +547,19 @@ Feature: transfer-ownership
 		Given user "user0" exists
 		And User "user0" created a folder "/sub"
 		When transferring ownership of path "sub" from "invalid_user" to "user0"
-		Then the command error output contains the text "Unknown source user"
+		Then the command output contains the text "Unknown source user"
 		And the command failed with exit code 1
 
 	Scenario: transferring ownership fails with invalid target user
 		Given user "user0" exists
 		And User "user0" created a folder "/sub"
 		When transferring ownership of path "sub" from "user0" to "invalid_user"
-		Then the command error output contains the text "Unknown target user"
+		Then the command output contains the text "Unknown destination user invalid_user"
 		And the command failed with exit code 1
 
 	Scenario: transferring ownership fails with invalid path
 		Given user "user0" exists
 		And user "user1" exists
 		When transferring ownership of path "test" from "user0" to "user1"
-		Then the command error output contains the text "Unknown target user"
+		Then the command output contains the text "Unknown path provided: test"
 		And the command failed with exit code 1
