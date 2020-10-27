@@ -245,7 +245,7 @@ OC.L10N.register(
     "Please authorize your WebAuthn device." : "Autoryzuj swoje urządzenie WebAuthn.",
     "Name your device" : "Nazwa twojego urządzenia",
     "Add" : "Dodaj",
-    "Adding your device …" : "Dodawanie urządzenia ...",
+    "Adding your device …" : "Dodawanie urządzenia…",
     "Server error while trying to add WebAuthn device" : "Błąd serwera podczas próby dodania urządzenia WebAuthn",
     "Server error while trying to complete WebAuthn device registration" : "Błąd serwera podczas próby ukończenia rejestracji urządzenia WebAuthn",
     "Unnamed device" : "Nienazwane urządzenie",

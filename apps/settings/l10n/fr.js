@@ -413,6 +413,7 @@ OC.L10N.register(
     "New password" : "Nouveau mot de passe",
     "Change password" : "Changer de mot de passe",
     "Use a second factor besides your password to increase security for your account." : "Utiliser un second facteur d'authentification en plus de votre mot de passe pour augmenter la sécurité de votre compte.",
+    "If you use third party applications to connect to Nextcloud, please make sure to create and configure an app password for each before enabling second factor authentication." : "Si vous utilisez des applications tierces pour vous connecter à Nextcloud, assurez-vous de créer et de configurer un mot de passe d'application pour chacune avant d'activer l'authentification à deux facteurs.",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Une erreur est survenue. Veuillez fournir un certificat PEM encodé au format ASCII.",
     "Valid until {date}" : "Valide jusqu'au {date}",
     "Local" : "Local",
