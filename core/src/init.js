@@ -211,6 +211,7 @@ export const initCore = () => {
 		const snapper = new Snap({
 			element: document.getElementById('app-content'),
 			disable: 'right',
+			hyperextensible: false,
 			maxPosition: 300, // $navigation-width
 			minDragDistance: 100,
 		})
