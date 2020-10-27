@@ -1410,7 +1410,7 @@ class User_LDAPTest extends TestCase {
 			->with($this->isInstanceOf(AbstractMapping::class), $this->anything(), $uid, $uuid, true);
 		$this->access->expects($this->any())
 			->method('getUserMapper')
-			->willReturn($this->createMock(AbstractMapping::class));
+			->willReturn($this->createMock(UserMapping::class));
 
 		$this->assertEquals($this->backend->createUser($uid, $pwd),true);
 	}

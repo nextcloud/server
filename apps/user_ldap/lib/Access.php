@@ -52,6 +52,7 @@ use OC\Hooks\PublicEmitter;
 use OC\ServerNotAvailableException;
 use OCA\User_LDAP\Exceptions\ConstraintViolationException;
 use OCA\User_LDAP\Mapping\AbstractMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCP\IConfig;
@@ -74,9 +75,7 @@ class Access extends LDAPUtility {
 	protected $pagedSearchedSuccessful;
 
 	/**
-	 * protected $cookies = [];
-	 *
-	 * @var AbstractMapping $userMapper
+	 * @var UserMapping $userMapper
 	 */
 	protected $userMapper;
 
@@ -123,12 +122,9 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * returns the User Mapper
-	 *
-	 * @return AbstractMapping
 	 * @throws \Exception
 	 */
-	public function getUserMapper() {
+	public function getUserMapper(): UserMapping {
 		if (is_null($this->userMapper)) {
 			throw new \Exception('UserMapper was not assigned to this Access instance.');
 		}

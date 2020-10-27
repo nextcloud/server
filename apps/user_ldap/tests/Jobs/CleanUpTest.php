@@ -44,7 +44,7 @@ class CleanUpTest extends TestCase {
 
 	public function setUp(): void {
 		$this->createMocks();
-		$this->bgJob = new CleanUp($this->mocks['userBackend']);
+		$this->bgJob = new CleanUp($this->mocks['userBackend'], $this->mocks['deletedUsersIndex']);
 		$this->bgJob->setArguments($this->mocks);
 	}
 

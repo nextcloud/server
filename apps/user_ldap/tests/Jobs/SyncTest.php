@@ -89,7 +89,6 @@ class SyncTest extends TestCase {
 		$this->arguments = [
 			'helper' => $this->helper,
 			'ldapWrapper' => $this->ldapWrapper,
-			'userManager' => $this->userManager,
 			'mapper' => $this->mapper,
 			'config' => $this->config,
 			'avatarManager' => $this->avatarManager,
@@ -100,7 +99,7 @@ class SyncTest extends TestCase {
 			'accessFactory' => $this->accessFactory,
 		];
 
-		$this->sync = new Sync();
+		$this->sync = new Sync($this->userManager);
 	}
 
 	public function intervalDataProvider() {
