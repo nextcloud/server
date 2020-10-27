@@ -360,6 +360,7 @@ class UsersController extends Controller {
 									$twitter,
 									$twitterScope
 	) {
+		$email = strtolower($email);
 		if (!empty($email) && !$this->mailer->validateMailAddress($email)) {
 			return new DataResponse(
 				[
@@ -438,7 +439,7 @@ class UsersController extends Controller {
 			}
 		}
 		$oldEmailAddress = $user->getEMailAddress();
-		$oldEmailAddress = is_null($oldEmailAddress) ? '' : $oldEmailAddress;
+		$oldEmailAddress = is_null($oldEmailAddress) ? '' : strtolower($oldEmailAddress);
 		if (isset($data[AccountManager::PROPERTY_EMAIL]['value'])
 			&& $oldEmailAddress !== $data[AccountManager::PROPERTY_EMAIL]['value']
 		) {
