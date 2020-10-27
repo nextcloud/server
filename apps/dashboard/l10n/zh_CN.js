@@ -1,8 +1,8 @@
 OC.L10N.register(
     "dashboard",
     {
-    "Dashboard" : "控制台",
-    "Dashboard app" : "控制台应用",
+    "Dashboard" : "仪表盘",
+    "Dashboard app" : "仪表盘应用",
     "Show something" : "显示信息",
     "Customize" : "自定义",
     "Edit widgets" : "编辑小部件",
