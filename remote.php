@@ -116,8 +116,9 @@ try {
 
 	// All resources served via the DAV endpoint should have the strictest possible
 	// policy. Exempted from this is the SabreDAV browser plugin which overwrites
-	// this policy with a softer one if debug mode is enabled.
-	header("Content-Security-Policy: default-src 'none';");
+	// this policy with a softer one if debug mode is enabled. Media-src is set to
+	// 'self' to allow to play video and audio files directly in the browser.
+	header("Content-Security-Policy: default-src 'none'; media-src 'self'");
 
 	if (\OCP\Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
