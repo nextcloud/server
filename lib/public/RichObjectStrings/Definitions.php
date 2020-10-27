@@ -254,6 +254,12 @@ class Definitions {
 					'description' => 'The file name which should be used in the visual representation',
 					'example' => 'file.txt',
 				],
+				'size' => [
+					'since' => '21.0.0',
+					'required' => false,
+					'description' => 'The file size in bytes',
+					'example' => '3145728',
+				],
 				'path' => [
 					'since' => '11.0.0',
 					'required' => true,
