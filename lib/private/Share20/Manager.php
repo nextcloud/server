@@ -563,9 +563,10 @@ class Manager implements IManager {
 				//Shares are not identical
 			}
 
-			// Identical share already existst
+			// Identical share already exists
 			if ($existingShare->getSharedWith() === $share->getSharedWith() && $existingShare->getShareType() === $share->getShareType()) {
-				throw new AlreadySharedException('Path is already shared with this user', $existingShare);
+				$message = $this->l->t('Sharing %s failed, because this item is already shared with user %s', [$share->getNode()->getName(), $share->getSharedWithDisplayName()]);
+				throw new AlreadySharedException($message, $existingShare);
 			}
 
 			// The share is already shared with this user via a group share
@@ -575,7 +576,8 @@ class Manager implements IManager {
 					$user = $this->userManager->get($share->getSharedWith());
 
 					if ($group->inGroup($user) && $existingShare->getShareOwner() !== $share->getShareOwner()) {
-						throw new AlreadySharedException('Path is already shared with this user', $existingShare);
+						$message = $this->l->t('Sharing %s failed, because this item is already shared with user %s', [$share->getNode()->getName(), $share->getSharedWithDisplayName()]);
+						throw new AlreadySharedException($message, $existingShare);
 					}
 				}
 			}
