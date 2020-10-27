@@ -14,7 +14,7 @@ OC.L10N.register(
     "Could not create folder \"{dir}\"" : "Nie można utworzyć katalogu \"{dir}\"",
     "This will stop your current uploads." : "Spowoduje to zatrzymanie wysyłania plików.",
     "Upload cancelled." : "Wysyłanie anulowane.",
-    "Processing files …" : "Przetwarzam pliki...",
+    "Processing files …" : "Przetwarzam pliki…",
     "…" : "…",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Nie można przesłać {filename} być może jest katalogiem lub posiada 0 bajtów",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Brak wolnej przestrzeni, przesyłasz {size1} a pozostało tylko {size2}",

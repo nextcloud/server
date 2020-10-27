@@ -36,6 +36,7 @@
     "Federated Cloud Sharing" : "Межсерверный обмен",
     "Open documentation" : "Открыть документацию",
     "Adjust how people can share between servers." : "Настройте общий доступ между серверами.",
+    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Разрешить пользователям на этом сервере отправлять общие ресурсы на другие серверы (этот параметр также разрешает доступ WebDAV к общим папкам)",
     "Allow users on this server to receive shares from other servers" : "Разрешить пользователям получать общие ресурсы с других серверов",
     "Allow users on this server to send shares to groups on other servers" : "Разрешить предоставлять общий доступ для групп пользователей других серверов",
     "Allow users on this server to receive group shares from other servers" : "Разрешить принимать общий доступ, предоставляемый с другого сервера группе пользователей",
