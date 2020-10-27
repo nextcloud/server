@@ -90,7 +90,6 @@ class OfflineUser {
 		$this->config = $config;
 		$this->db = $db;
 		$this->mapping = $mapping;
-		$this->fetchDetails();
 	}
 
 	/**
@@ -132,6 +131,9 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getUID() {
+		if (!isset($this->uid)) {
+			$this->fetchDetails();
+		}
 		return $this->uid;
 	}
 
@@ -140,6 +142,9 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getDN() {
+		if (!isset($this->dn)) {
+			$this->fetchDetails();
+		}
 		return $this->dn;
 	}
 
@@ -148,6 +153,9 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getDisplayName() {
+		if (!isset($this->displayName)) {
+			$this->fetchDetails();
+		}
 		return $this->displayName;
 	}
 
@@ -156,6 +164,9 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getEmail() {
+		if (!isset($this->email)) {
+			$this->fetchDetails();
+		}
 		return $this->email;
 	}
 
@@ -164,6 +175,9 @@ class OfflineUser {
 	 * @return string
 	 */
 	public function getHomePath() {
+		if (!isset($this->homePath)) {
+			$this->fetchDetails();
+		}
 		return $this->homePath;
 	}
 
@@ -172,6 +186,9 @@ class OfflineUser {
 	 * @return int
 	 */
 	public function getLastLogin() {
+		if (!isset($this->lastLogin)) {
+			$this->fetchDetails();
+		}
 		return (int)$this->lastLogin;
 	}
 
@@ -180,6 +197,9 @@ class OfflineUser {
 	 * @return int
 	 */
 	public function getDetectedOn() {
+		if (!isset($this->foundDeleted)) {
+			$this->fetchDetails();
+		}
 		return (int)$this->foundDeleted;
 	}
 
@@ -188,6 +208,9 @@ class OfflineUser {
 	 * @return bool
 	 */
 	public function getHasActiveShares() {
+		if (!isset($this->hasActiveShares)) {
+			$this->fetchDetails();
+		}
 		return $this->hasActiveShares;
 	}
 
@@ -220,29 +243,22 @@ class OfflineUser {
 	 */
 	protected function determineShares() {
 		$query = $this->db->prepare('
-			SELECT COUNT(`uid_owner`)
+			SELECT `uid_owner`
 			FROM `*PREFIX*share`
 			WHERE `uid_owner` = ?
 		', 1);
 		$query->execute([$this->ocName]);
-		$sResult = $query->fetchColumn(0);
-		if ((int)$sResult === 1) {
+		if ($query->rowCount() > 0) {
 			$this->hasActiveShares = true;
 			return;
 		}
 
 		$query = $this->db->prepare('
-			SELECT COUNT(`owner`)
+			SELECT `owner`
 			FROM `*PREFIX*share_external`
 			WHERE `owner` = ?
 		', 1);
 		$query->execute([$this->ocName]);
-		$sResult = $query->fetchColumn(0);
-		if ((int)$sResult === 1) {
-			$this->hasActiveShares = true;
-			return;
-		}
-
-		$this->hasActiveShares = false;
+		$this->hasActiveShares = $query->rowCount() > 0;
 	}
 }
