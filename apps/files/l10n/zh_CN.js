@@ -34,6 +34,7 @@ OC.L10N.register(
     "Delete file" : "删除文件",
     "Delete folder" : "删除文件夹",
     "Disconnect storage" : "断开与存储空间的连接",
+    "Leave this share" : "离开这个共享",
     "Could not load info for file \"{file}\"" : "无法加载文件 \"{file}\" 的信息",
     "Files" : "文件",
     "Details" : "详细信息",

@@ -74,7 +74,7 @@ OC.L10N.register(
     "Attendees:" : "Uczestnicy:",
     "Accept" : "Akceptuj",
     "Decline" : "Odrzuć",
-    "More options …" : "Więcej opcji...",
+    "More options …" : "Więcej opcji…",
     "More options at %s" : "Więcej opcji na %s",
     "Contacts" : "Kontakty",
     "System in maintenance mode." : "System w trybie konserwacji.",
