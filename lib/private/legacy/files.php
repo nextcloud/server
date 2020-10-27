@@ -212,18 +212,18 @@ class OC_Files {
 		} catch (\OCP\Lock\LockedException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
-			$l = \OC::$server->getL10N('core');
+			$l = \OC::$server->getL10N('lib');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('File is currently busy, please try again later'), $hint, 200);
 		} catch (\OCP\Files\ForbiddenException $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
-			$l = \OC::$server->getL10N('core');
+			$l = \OC::$server->getL10N('lib');
 			\OC_Template::printErrorPage($l->t('Can\'t read file'), $ex->getMessage(), 200);
 		} catch (\Exception $ex) {
 			self::unlockAllTheFiles($dir, $files, $getType, $view, $filename);
 			OC::$server->getLogger()->logException($ex);
-			$l = \OC::$server->getL10N('core');
+			$l = \OC::$server->getL10N('lib');
 			$hint = method_exists($ex, 'getHint') ? $ex->getHint() : '';
 			\OC_Template::printErrorPage($l->t('Can\'t read file'), $hint, 200);
 		}
