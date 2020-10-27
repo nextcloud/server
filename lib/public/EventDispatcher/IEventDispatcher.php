@@ -75,6 +75,7 @@ interface IEventDispatcher {
 	 * @psalm-param T $event
 	 *
 	 * @since 17.0.0
+	 * @deprecated 21.0.0 use \OCP\EventDispatcher\IEventDispatcher::dispatchTyped
 	 */
 	public function dispatch(string $eventName, Event $event): void;
 
