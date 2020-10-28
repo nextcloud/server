@@ -287,8 +287,7 @@ class Manager implements IManager {
 
 		// Check if we actually have share permissions
 		if (!$share->getNode()->isShareable()) {
-			$path = $userFolder->getRelativePath($share->getNode()->getPath());
-			$message_t = $this->l->t('You are not allowed to share %s', [$path]);
+			$message_t = $this->l->t('You are not allowed to share %s', [$share->getNode()->getName()]);
 			throw new GenericShareException($message_t, $message_t, 404);
 		}
 
