@@ -39,6 +39,7 @@ interface IEventDispatcher {
 	 * @param string $eventName preferably the fully-qualified class name of the Event sub class
 	 * @psalm-param string|class-string<T> $eventName preferably the fully-qualified class name of the Event sub class
 	 * @param callable $listener the object that is invoked when a matching event is dispatched
+	 * @psalm-param callable(T):void $listener
 	 * @param int $priority
 	 *
 	 * @since 17.0.0
@@ -50,6 +51,7 @@ interface IEventDispatcher {
 	 * @param string $eventName preferably the fully-qualified class name of the Event sub class
 	 * @psalm-param string|class-string<T> $eventName preferably the fully-qualified class name of the Event sub class
 	 * @param callable $listener the object that is invoked when a matching event is dispatched
+	 * @psalm-param callable(T):void $listener
 	 *
 	 * @since 19.0.0
 	 */
