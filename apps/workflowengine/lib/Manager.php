@@ -488,6 +488,11 @@ class Manager implements IManager {
 		if (count($checks) === 0) {
 			throw new \UnexpectedValueException($this->l->t('At least one check needs to be provided'));
 		}
+
+		if (strlen((string)$operation) > IManager::MAX_OPERATION_VALUE_BYTES) {
+			throw new \UnexpectedValueException($this->l->t('The provided operation data is too long'));
+		}
+
 		$instance->validateOperation($name, $checks, $operation);
 
 		foreach ($checks as $check) {
@@ -510,6 +515,10 @@ class Manager implements IManager {
 				&& !in_array($entity, $instance->supportedEntities())
 			) {
 				throw new \UnexpectedValueException($this->l->t('Check %s is not allowed with this entity', [$class]));
+			}
+
+			if (strlen((string)$check['value']) > IManager::MAX_CHECK_VALUE_BYTES) {
+				throw new \UnexpectedValueException($this->l->t('The provided check value is too long'));
 			}
 
 			$instance->validateCheck($check['operator'], $check['value']);
