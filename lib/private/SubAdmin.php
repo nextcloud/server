@@ -32,6 +32,9 @@
 namespace OC;
 
 use OC\Hooks\PublicEmitter;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\SubAdminAddedEvent;
+use OCP\Group\Events\SubAdminRemovedEvent;
 use OCP\Group\ISubAdmin;
 use OCP\IDBConnection;
 use OCP\IGroup;
@@ -50,6 +53,9 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	/** @var IDBConnection */
 	private $dbConn;
 
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
+
 	/**
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
@@ -57,10 +63,12 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 	 */
 	public function __construct(IUserManager $userManager,
 								IGroupManager $groupManager,
-								IDBConnection $dbConn) {
+								IDBConnection $dbConn,
+								IEventDispatcher $eventDispatcher) {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->dbConn = $dbConn;
+		$this->eventDispatcher = $eventDispatcher;
 
 		$this->userManager->listen('\OC\User', 'postDelete', function ($user) {
 			$this->post_deleteUser($user);
@@ -85,8 +93,10 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			])
 			->execute();
 
+		/** @depreacted 21.0.0 - use type SubAdminAddedEvent instead  */
 		$this->emit('\OC\SubAdmin', 'postCreateSubAdmin', [$user, $group]);
-		\OC_Hook::emit("OC_SubAdmin", "post_createSubAdmin", ["gid" => $group->getGID()]);
+		$event = new SubAdminAddedEvent($group, $user);
+		$this->eventDispatcher->dispatchTyped($event);
 	}
 
 	/**
@@ -102,8 +112,10 @@ class SubAdmin extends PublicEmitter implements ISubAdmin {
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->execute();
 
+		/** @depreacted 21.0.0 - use type SubAdminRemovedEvent instead  */
 		$this->emit('\OC\SubAdmin', 'postDeleteSubAdmin', [$user, $group]);
-		\OC_Hook::emit("OC_SubAdmin", "post_deleteSubAdmin", ["gid" => $group->getGID()]);
+		$event = new SubAdminRemovedEvent($group, $user);
+		$this->eventDispatcher->dispatchTyped($event);
 	}
 
 	/**

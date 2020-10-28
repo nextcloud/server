@@ -376,6 +376,8 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\Group\\Events\\BeforeUserRemovedEvent' => __DIR__ . '/../../..' . '/lib/public/Group/Events/BeforeUserRemovedEvent.php',
         'OCP\\Group\\Events\\GroupCreatedEvent' => __DIR__ . '/../../..' . '/lib/public/Group/Events/GroupCreatedEvent.php',
         'OCP\\Group\\Events\\GroupDeletedEvent' => __DIR__ . '/../../..' . '/lib/public/Group/Events/GroupDeletedEvent.php',
+        'OCP\\Group\\Events\\SubAdminAddedEvent' => __DIR__ . '/../../..' . '/lib/public/Group/Events/SubAdminAddedEvent.php',
+        'OCP\\Group\\Events\\SubAdminRemovedEvent' => __DIR__ . '/../../..' . '/lib/public/Group/Events/SubAdminRemovedEvent.php',
         'OCP\\Group\\Events\\UserAddedEvent' => __DIR__ . '/../../..' . '/lib/public/Group/Events/UserAddedEvent.php',
         'OCP\\Group\\Events\\UserRemovedEvent' => __DIR__ . '/../../..' . '/lib/public/Group/Events/UserRemovedEvent.php',
         'OCP\\Group\\ISubAdmin' => __DIR__ . '/../../..' . '/lib/public/Group/ISubAdmin.php',

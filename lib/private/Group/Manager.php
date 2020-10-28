@@ -41,6 +41,7 @@
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\GroupInterface;
 use OCP\IGroup;
 use OCP\IGroupManager;
@@ -416,7 +417,8 @@ class Manager extends PublicEmitter implements IGroupManager {
 			$this->subAdmin = new \OC\SubAdmin(
 				$this->userManager,
 				$this,
-				\OC::$server->getDatabaseConnection()
+				\OC::$server->getDatabaseConnection(),
+				\OC::$server->get(IEventDispatcher::class)
 			);
 		}
 

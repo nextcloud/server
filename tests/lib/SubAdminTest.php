@@ -21,6 +21,8 @@
 
 namespace Test;
 
+use OCP\EventDispatcher\IEventDispatcher;
+
 /**
  * @group DB
  */
@@ -35,12 +37,15 @@ class SubAdminTest extends \Test\TestCase {
 	/** @var \OCP\IDBConnection */
 	private $dbConn;
 
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
+
 	/** @var \OCP\IUser[] */
 	private $users;
 
 	/** @var \OCP\IGroup[] */
 	private $groups;
-	
+
 	protected function setUp(): void {
 		$this->users = [];
 		$this->groups = [];
@@ -48,6 +53,7 @@ class SubAdminTest extends \Test\TestCase {
 		$this->userManager = \OC::$server->getUserManager();
 		$this->groupManager = \OC::$server->getGroupManager();
 		$this->dbConn = \OC::$server->getDatabaseConnection();
+		$this->eventDispatcher = \OC::$server->get(IEventDispatcher::class);
 
 		// Create 3 users and 3 groups
 		for ($i = 0; $i < 3; $i++) {
@@ -100,7 +106,7 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	public function testCreateSubAdmin() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 		$subAdmin->createSubAdmin($this->users[0], $this->groups[0]);
 
 		// Look for subadmin in the database
@@ -125,7 +131,7 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	public function testDeleteSubAdmin() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 		$subAdmin->createSubAdmin($this->users[0], $this->groups[0]);
 		$subAdmin->deleteSubAdmin($this->users[0], $this->groups[0]);
 
@@ -141,12 +147,12 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	public function testGetSubAdminsGroups() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 		$subAdmin->createSubAdmin($this->users[0], $this->groups[0]);
 		$subAdmin->createSubAdmin($this->users[0], $this->groups[1]);
 
 		$result = $subAdmin->getSubAdminsGroups($this->users[0]);
-		
+
 		$this->assertContains($this->groups[0], $result);
 		$this->assertContains($this->groups[1], $result);
 		$this->assertNotContains($this->groups[2], $result);
@@ -157,12 +163,12 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	public function testGetGroupsSubAdmins() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 		$subAdmin->createSubAdmin($this->users[0], $this->groups[0]);
 		$subAdmin->createSubAdmin($this->users[1], $this->groups[0]);
 
 		$result = $subAdmin->getGroupsSubAdmins($this->groups[0]);
-		
+
 		$this->assertContains($this->users[0], $result);
 		$this->assertContains($this->users[1], $result);
 		$this->assertNotContains($this->users[2], $result);
@@ -173,7 +179,7 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	public function testGetAllSubAdmin() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 
 		$subAdmin->createSubAdmin($this->users[0], $this->groups[0]);
 		$subAdmin->createSubAdmin($this->users[1], $this->groups[1]);
@@ -188,7 +194,7 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	public function testIsSubAdminofGroup() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 		$subAdmin->createSubAdmin($this->users[0], $this->groups[0]);
 
 		$this->assertTrue($subAdmin->isSubAdminOfGroup($this->users[0], $this->groups[0]));
@@ -199,7 +205,7 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	public function testIsSubAdmin() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 		$subAdmin->createSubAdmin($this->users[0], $this->groups[0]);
 
 		$this->assertTrue($subAdmin->isSubAdmin($this->users[0]));
@@ -209,14 +215,14 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	public function testIsSubAdminAsAdmin() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 		$this->groupManager->get('admin')->addUser($this->users[0]);
 
 		$this->assertTrue($subAdmin->isSubAdmin($this->users[0]));
 	}
 
 	public function testIsUserAccessible() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 		$this->groups[0]->addUser($this->users[1]);
 		$this->groups[1]->addUser($this->users[1]);
 		$this->groups[1]->addUser($this->users[2]);
@@ -232,12 +238,12 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	public function testIsUserAccessibleAsUser() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 		$this->assertFalse($subAdmin->isUserAccessible($this->users[0], $this->users[1]));
 	}
 
 	public function testIsUserAccessibleAdmin() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 		$subAdmin->createSubAdmin($this->users[0], $this->groups[0]);
 		$this->groupManager->get('admin')->addUser($this->users[1]);
 
@@ -245,7 +251,7 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	public function testPostDeleteUser() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 
 		$user = array_shift($this->users);
 		foreach ($this->groups as $group) {
@@ -257,7 +263,7 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	public function testPostDeleteGroup() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 
 		$group = array_shift($this->groups);
 		foreach ($this->users as $user) {
@@ -269,7 +275,7 @@ class SubAdminTest extends \Test\TestCase {
 	}
 
 	public function testHooks() {
-		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn);
+		$subAdmin = new \OC\SubAdmin($this->userManager, $this->groupManager, $this->dbConn, $this->eventDispatcher);
 
 		$test = $this;
 		$u = $this->users[0];

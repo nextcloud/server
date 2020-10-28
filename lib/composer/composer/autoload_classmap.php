@@ -347,6 +347,8 @@ return array(
     'OCP\\Group\\Events\\BeforeUserRemovedEvent' => $baseDir . '/lib/public/Group/Events/BeforeUserRemovedEvent.php',
     'OCP\\Group\\Events\\GroupCreatedEvent' => $baseDir . '/lib/public/Group/Events/GroupCreatedEvent.php',
     'OCP\\Group\\Events\\GroupDeletedEvent' => $baseDir . '/lib/public/Group/Events/GroupDeletedEvent.php',
+    'OCP\\Group\\Events\\SubAdminAddedEvent' => $baseDir . '/lib/public/Group/Events/SubAdminAddedEvent.php',
+    'OCP\\Group\\Events\\SubAdminRemovedEvent' => $baseDir . '/lib/public/Group/Events/SubAdminRemovedEvent.php',
     'OCP\\Group\\Events\\UserAddedEvent' => $baseDir . '/lib/public/Group/Events/UserAddedEvent.php',
     'OCP\\Group\\Events\\UserRemovedEvent' => $baseDir . '/lib/public/Group/Events/UserRemovedEvent.php',
     'OCP\\Group\\ISubAdmin' => $baseDir . '/lib/public/Group/ISubAdmin.php',
