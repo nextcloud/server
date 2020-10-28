@@ -155,6 +155,7 @@ interface IUserManager {
 
 	/**
 	 * @param \Closure $callback
+	 * @psalm-param \Closure(\OCP\IUser):void $callback
 	 * @param string $search
 	 * @since 9.0.0
 	 */
