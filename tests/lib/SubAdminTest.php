@@ -22,6 +22,8 @@
 namespace Test;
 
 use OCP\EventDispatcher\IEventDispatcher;
+use OCP\Group\Events\SubAdminAddedEvent;
+use OCP\Group\Events\SubAdminRemovedEvent;
 
 /**
  * @group DB
@@ -282,15 +284,15 @@ class SubAdminTest extends \Test\TestCase {
 		$g = $this->groups[0];
 		$count = 0;
 
-		$subAdmin->listen('\OC\SubAdmin', 'postCreateSubAdmin', function ($user, $group) use ($test, $u, $g, &$count) {
-			$test->assertEquals($u->getUID(), $user->getUID());
-			$test->assertEquals($g->getGID(), $group->getGID());
+		$this->eventDispatcher->addListener(SubAdminAddedEvent::class, function (SubAdminAddedEvent $event) use ($test, $u, $g, &$count) {
+			$test->assertEquals($u->getUID(), $event->getUser()->getUID());
+			$test->assertEquals($g->getGID(), $event->getGroup()->getGID());
 			$count++;
 		});
 
-		$subAdmin->listen('\OC\SubAdmin', 'postDeleteSubAdmin', function ($user, $group) use ($test, $u, $g, &$count) {
-			$test->assertEquals($u->getUID(), $user->getUID());
-			$test->assertEquals($g->getGID(), $group->getGID());
+		$this->eventDispatcher->addListener(SubAdminRemovedEvent::class, function ($event) use ($test, $u, $g, &$count) {
+			$test->assertEquals($u->getUID(), $event->getUser()->getUID());
+			$test->assertEquals($g->getGID(), $event->getGroup()->getGID());
 			$count++;
 		});
 
