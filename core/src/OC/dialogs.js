@@ -930,7 +930,11 @@ const Dialogs = {
 					closeButton: null,
 					close: function() {
 						self._fileexistsshown = false
-						$(this).ocdialog('destroy').remove()
+						try {
+							$(this).ocdialog('destroy').remove()
+						} catch (e) {
+							// ignore
+						}
 					}
 				})
 
