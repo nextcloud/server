@@ -59,6 +59,7 @@ OC.L10N.register(
     "Active" : "Активно",
     "Save" : "Зачувај",
     "Available flows" : "Достапни протоци",
+    "For details on how to write your own flow, check out the development documentation." : "За детали како да пишувате ваши сопствени протоци, посетете ја документацијата за развивачи.",
     "More flows" : "Повеќе протоци",
     "Browse the app store" : "Прелистајте во продавницата со апликации",
     "Show less" : "Помалку",

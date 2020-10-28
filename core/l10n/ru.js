@@ -170,6 +170,7 @@ OC.L10N.register(
     "Start typing to search" : "Начините вводить символы для поиска",
     "Loading more results …" : "Загрузка дополнительных результатов…",
     "Load more results" : "Загрузить дополнительные результаты",
+    "An error occurred while searching for {type}" : "Произошла ошибка при поиске {type}",
     "_Please enter {minSearchLength} character or more to search_::_Please enter {minSearchLength} characters or more to search_" : ["Чтобы начать поиск необходимо ввести как минимум  {minSearchLength} символ","Чтобы начать поиск необходимо ввести как минимум {minSearchLength} символа","Чтобы начать поиск необходимо ввести как минимум {minSearchLength} символов","Чтобы начать поиск необходимо ввести как минимум {minSearchLength} символа"],
     "Search {types} …" : "Поиск {types}…",
     "Settings" : "Параметры",
