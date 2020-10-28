@@ -34,6 +34,7 @@ OC.L10N.register(
     "Delete file" : "Ezabatu fitxategia",
     "Delete folder" : "Ezabatu karpeta",
     "Disconnect storage" : "Deskonektatu biltegia",
+    "Leave this share" : "Utzi partekatze hau",
     "Could not load info for file \"{file}\"" : "Ezin izan da \"{file}\" fitxategiaren informazioa kargatu",
     "Files" : "Fitxategiak",
     "Details" : "Xehetasunak",

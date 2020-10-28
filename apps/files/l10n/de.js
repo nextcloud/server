@@ -175,7 +175,7 @@ OC.L10N.register(
     "Use this address to access your Files via WebDAV" : "Diese Adresse benutzen, um über WebDAV auf Deine Dateien zuzugreifen",
     "Toggle grid view" : "Rasteransicht umschalten",
     "No files in here" : "Keine Dateien vorhanden",
-    "Upload some content or sync with your devices!" : "Lade Inhalte hoch oder synchronisiere mit Deinen Geräten!",
+    "Upload some content or sync with your devices!" : "Inhalte hochladen oder mit Deinen Geräten synchronisieren!",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Select all" : "Alle auswählen",
     "Upload too large" : "Der Upload ist zu groß",
