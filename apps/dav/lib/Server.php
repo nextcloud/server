@@ -122,8 +122,8 @@ class Server {
 		$event = new SabrePluginEvent($this->server);
 		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::authInit', $event);
 
-		$event = new SabrePluginAuthInitEvent($this->server);
-		$newDispatcher->dispatchTyped($event);
+		$newAuthEvent = new SabrePluginAuthInitEvent($this->server);
+		$newDispatcher->dispatchTyped($newAuthEvent);
 
 		$bearerAuthBackend = new BearerAuth(
 			\OC::$server->getUserSession(),
