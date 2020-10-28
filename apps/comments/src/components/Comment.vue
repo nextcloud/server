@@ -66,8 +66,9 @@
 		</div>
 
 		<!-- Message editor -->
-		<div class="comment__message" v-if="editor || editing">
-			<RichContenteditable v-model="localMessage"
+		<div class="comment__editor " v-if="editor || editing">
+			<RichContenteditable ref="editor"
+				v-model="localMessage"
 				:auto-complete="autoComplete"
 				:contenteditable="!loading"
 				@submit="onSubmit" />
@@ -83,7 +84,11 @@
 		<!-- Message content -->
 		<!-- The html is escaped and sanitized before rendering -->
 		<!-- eslint-disable-next-line vue/no-v-html-->
-		<div v-else class="comment__message" v-html="renderedContent" />
+		<div v-else
+			:class="{'comment__message--expanded': expanded}"
+			class="comment__message"
+			@click="onExpand"
+			v-html="renderedContent" />
 	</div>
 </template>
 
@@ -117,10 +122,6 @@ export default {
 	inheritAttrs: false,
 
 	props: {
-		source: {
-			type: Object,
-			default: () => ({}),
-		},
 		actorDisplayName: {
 			type: String,
 			required: true,
@@ -153,6 +154,7 @@ export default {
 
 	data() {
 		return {
+			expanded: false,
 			// Only change data locally and update the original
 			// parent data when the request is sent and resolved
 			localMessage: '',
@@ -215,11 +217,24 @@ export default {
 		 * Dispatch message between edit and create
 		 */
 		onSubmit() {
-			if (this.editor) {
-				this.onNewComment(this.localMessage)
+			// Do not submit if message is empty
+			if (this.localMessage.trim() === '') {
 				return
 			}
-			this.onEditComment(this.localMessage)
+
+			if (this.editor) {
+				this.onNewComment(this.localMessage.trim())
+				this.$nextTick(() => {
+					// Focus the editor again
+					this.$refs.editor.$el.focus()
+				})
+				return
+			}
+			this.onEditComment(this.localMessage.trim())
+		},
+
+		onExpand() {
+			this.expanded = true
 		},
 	},
 
@@ -258,6 +273,7 @@ $comment-padding: 10px;
 		color: var(--color-text-maxcontrast);
 	}
 
+	&__editor,
 	&__message {
 		position: relative;
 		// Avatar size, align with author name
@@ -287,12 +303,23 @@ $comment-padding: 10px;
 			opacity: 1;
 		}
 	}
+
+	&__message {
+		white-space: pre-wrap;
+		word-break: break-word;
+		max-height: 70px;
+		overflow: hidden;
+		&--expanded {
+			max-height: none;
+			overflow: visible;
+		}
+	}
 }
 
 .rich-contenteditable__input {
+	min-height: 44px;
 	margin: 0;
 	padding: $comment-padding;
-	min-height: 44px;
 }
 
 </style>

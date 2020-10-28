@@ -38,11 +38,12 @@
 			<!-- Comments -->
 			<Comment v-for="comment in comments"
 				v-else
-				:key="comment.id"
-				v-bind="comment"
+				:key="comment.props.id"
+				v-bind="comment.props"
 				:auto-complete="autoComplete"
+				:message.sync="comment.props.message"
 				:ressource-id="ressourceId"
-				:message.sync="comment.message"
+				:user-data="genMentionsData(comment.props.mentions)"
 				class="comments__list"
 				@delete="onDelete" />
 
@@ -149,6 +150,26 @@ export default {
 		},
 
 		/**
+		 * Make sure we have all mentions as Array of objects
+		 * @param {Array} mentions the mentions list
+		 * @returns {Object[]}
+		 */
+		genMentionsData(mentions) {
+			const list = Object.values(mentions).flat()
+			return list.reduce((mentions, mention) => {
+				mentions[mention.mentionId] = {
+					// TODO: support groups
+					icon: 'icon-user',
+					id: mention.mentionId,
+					label: mention.mentionDisplayName,
+					source: 'users',
+					primary: getCurrentUser().uid === mention.mentionId,
+				}
+				return mentions
+			}, {})
+		},
+
+		/**
 		 * Get the existing shares infos
 		 */
 		async getComments() {
@@ -224,7 +245,7 @@ export default {
 		 * @param {number} id the deleted comment
 		 */
 		onDelete(id) {
-			const index = this.comments.findIndex(comment => comment.id === id)
+			const index = this.comments.findIndex(comment => comment.props.id === id)
 			if (index > -1) {
 				this.comments.splice(index, 1)
 			} else {

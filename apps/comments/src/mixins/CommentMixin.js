@@ -32,8 +32,7 @@ export default {
 			default: null,
 		},
 		message: {
-			// GenFileInfo can convert message as numbers if they doesn't contains text
-			type: [String, Number],
+			type: String,
 			default: '',
 		},
 		ressourceId: {
@@ -103,6 +102,7 @@ export default {
 				const newComment = await NewComment(this.commentsType, this.ressourceId, message)
 				this.logger.debug('New comment posted', { commentsType: this.commentsType, ressourceId: this.ressourceId, newComment })
 				this.$emit('new', newComment)
+
 				// Clear old content
 				this.$emit('update:message', '')
 				this.localMessage = ''
