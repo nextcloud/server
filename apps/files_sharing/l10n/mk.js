@@ -187,6 +187,7 @@ OC.L10N.register(
     "No recommendations. Start typing." : "Нема препораки. Започнете со пишување.",
     "Resharing is not allowed" : "Повторно споделување не е дозволено",
     "Name or email …" : "Име или е-пошта ...",
+    "Name, email, or federated cloud ID …" : "Име, е-пошта или федерален ИД ...",
     "Searching …" : "Пребарување ...",
     "No elements found." : "Нема пронајдено елементи.",
     "Search globally" : "Пребарај глобално",

@@ -214,7 +214,7 @@ OC.L10N.register(
     "Pending" : "Ausstehend",
     "Copy to {folder}" : "Kopieren nach {folder}",
     "Move to {folder}" : "Verschieben nach {folder}",
-    "Saving …" : "Speichern ...",
+    "Saving …" : "Speichern …",
     "Authentication required" : "Legitimierung benötigt",
     "This action requires you to confirm your password" : "Dieser Vorgang benötigt eine Passwortbestätigung von Dir",
     "Confirm" : "Bestätigen",
