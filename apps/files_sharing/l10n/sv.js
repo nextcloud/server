@@ -186,6 +186,8 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Fel, ange korrekt lösenord och/eller utgångsdatum",
     "No recommendations. Start typing." : "Inga rekommendationer. Börja skriva.",
     "Resharing is not allowed" : "Dela vidare är inte tillåtet",
+    "Name or email …" : "Namn eller e-post ...",
+    "Name, email, or federated cloud ID …" : "Namn, e-post eller federerat moln-ID ...",
     "Searching …" : "Söker ...",
     "No elements found." : "Inga element hittades.",
     "Search globally" : "Sök globalt",
