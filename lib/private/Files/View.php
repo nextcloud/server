@@ -663,7 +663,13 @@ class View {
 					return false;
 				}
 
-				$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
+				try {
+					$this->changeLock($path, ILockingProvider::LOCK_EXCLUSIVE);
+				} catch (\Exception $e) {
+					// Release the shared lock before throwing.
+					$this->unlockFile($path, ILockingProvider::LOCK_SHARED);
+					throw $e;
+				}
 
 				/** @var \OC\Files\Storage\Storage $storage */
 				list($storage, $internalPath) = $this->resolvePath($path);
