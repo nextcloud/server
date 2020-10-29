@@ -44,6 +44,35 @@ trait S3ObjectTrait {
 	abstract protected function getConnection();
 
 	/**
+   * Returns the Uploader
+   *
+   * @return S3Uploader, by default it returns a multipart uploader
+   */
+  protected function getUploader($urn, $stream) {
+		$count = 0;
+		$countStream = CallbackWrapper::wrap($stream, function ($read) use (&$count) {
+			$count += $read;
+		});
+
+		$uploader = new MultipartUploader($this->getConnection(), $countStream, [
+			'bucket' => $this->bucket,
+			'key' => $urn,
+			'part_size' => $this->uploadPartSize,
+		]);
+
+    if ($this->uploaderType === "no-multipart") {
+			$uploader = new ObjectUploader($this->getConnection(), $this->bucket, $urn, $stream);
+    }
+
+    // This is an empty file so just touch it then
+		if ($count === 0 && feof($countStream)) {
+			$uploader = new ObjectUploader($this->getConnection(), $this->bucket, $urn, '');
+    }
+
+    return uploader;
+  }
+
+	/**
 	 * @param string $urn the unified resource name used to identify the object
 	 * @return resource stream with the read data
 	 * @throws \Exception when something goes wrong, message will be logged
@@ -82,27 +111,12 @@ trait S3ObjectTrait {
 	 * @since 7.0.0
 	 */
 	public function writeObject($urn, $stream) {
-		$count = 0;
-		$countStream = CallbackWrapper::wrap($stream, function ($read) use (&$count) {
-			$count += $read;
-		});
-
-		$uploader = new MultipartUploader($this->getConnection(), $countStream, [
-			'bucket' => $this->bucket,
-			'key' => $urn,
-			'part_size' => $this->uploadPartSize,
-		]);
+		$uploader = $this->getUploader($urn, $stream);
 
 		try {
 			$uploader->upload();
-		} catch (S3MultipartUploadException $e) {
-			// This is an empty file so just touch it then
-			if ($count === 0 && feof($countStream)) {
-				$uploader = new ObjectUploader($this->getConnection(), $this->bucket, $urn, '');
-				$uploader->upload();
-			} else {
-				throw $e;
-			}
+		} catch (Exception $e) {
+			throw $e;
 		}
 
 		fclose($countStream);
