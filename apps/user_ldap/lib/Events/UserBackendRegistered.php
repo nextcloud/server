@@ -30,6 +30,11 @@ use OCA\User_LDAP\IUserLDAP;
 use OCA\User_LDAP\UserPluginManager;
 use OCP\EventDispatcher\Event;
 
+/**
+ * This event is triggered right after the LDAP user backend is registered.
+ *
+ * @since 20.0.0
+ */
 class UserBackendRegistered extends Event {
 
 	/** @var IUserLDAP */
