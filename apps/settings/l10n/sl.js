@@ -316,7 +316,7 @@ OC.L10N.register(
     "Test email settings" : "Preizkus nastavitev elektronske pošte",
     "Send email" : "Pošlji elektronsko sporočilo",
     "Security & setup warnings" : "Varnost in namestitvena opozorila",
-    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Zaradi varnosti in optimizacije delovanja je pomembno, da je sistem pravilno nastavljen. Za pomoč pri preverjanju se samodejno izvajajo nekateri preizkusi. Več podrobnosti o tem je zabeleženih v dokumentaciji. ",
+    "It's important for the security and performance of your instance that everything is configured correctly. To help you with that we are doing some automatic checks. Please see the linked documentation for more information." : "Zaradi varnosti in optimizacije delovanja je pomembno, da je sistem pravilno nastavljen. Za preverjanj se nekateri preizkusi izvajajo samodejno. Več podrobnosti je zabeleženih v dokumentaciji. ",
     "All checks passed." : "Vsa preverjanja so uspešno zaključena.",
     "There are some errors regarding your setup." : "Med preverjanjem je bilo zaznanih je nekaj napak namestitve.",
     "There are some warnings regarding your setup." : "Med preverjanjem je bilo zbranih nekaj opozoril.",
