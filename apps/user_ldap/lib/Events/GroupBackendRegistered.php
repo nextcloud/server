@@ -30,6 +30,11 @@ use OCA\User_LDAP\GroupPluginManager;
 use OCA\User_LDAP\IGroupLDAP;
 use OCP\EventDispatcher\Event;
 
+/**
+ * This event is triggered right after the LDAP group backend is registered.
+ *
+ * @since 20.0.0
+ */
 class GroupBackendRegistered extends Event {
 
 	/** @var GroupPluginManager */
