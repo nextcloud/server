@@ -232,11 +232,11 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 *
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function executeUpdate($query, array $params = [], array $types = []) {
+	public function executeStatement($query, array $params = [], array $types = []) {
 		$query = $this->replaceTablePrefix($query);
 		$query = $this->adapter->fixupStatement($query);
 		$this->queriesExecuted++;
-		return parent::executeUpdate($query, $params, $types);
+		return parent::executeStatement($query, $params, $types);
 	}
 
 	/**
