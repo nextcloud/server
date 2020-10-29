@@ -251,6 +251,12 @@ class Version1004Date20170825134824 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['principaluri', 'uri'], 'calendars_index');
+		} else {
+			$table = $schema->getTable('calendars');
+			$table->changeColumn('components', [
+				'notnull' => false,
+				'length' => 64,
+			]);
 		}
 
 		if (!$schema->hasTable('calendarchanges')) {
