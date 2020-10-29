@@ -202,7 +202,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 * If the query is parametrized, a prepared statement is used.
 	 * If an SQLLogger is configured, the execution is logged.
 	 *
-	 * @param string                                      $query  The SQL query to execute.
+	 * @param string                                      $sql  The SQL query to execute.
 	 * @param array                                       $params The parameters to bind to the query, if any.
 	 * @param array                                       $types  The types the previous parameters are in.
 	 * @param \Doctrine\DBAL\Cache\QueryCacheProfile|null $qcp    The query cache profile, optional.
@@ -211,11 +211,15 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 *
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function executeQuery($query, array $params = [], $types = [], QueryCacheProfile $qcp = null) {
-		$query = $this->replaceTablePrefix($query);
-		$query = $this->adapter->fixupStatement($query);
+	public function executeQuery($sql, array $params = [], $types = [], QueryCacheProfile $qcp = null) {
+		$sql = $this->replaceTablePrefix($sql);
+		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
-		return parent::executeQuery($query, $params, $types, $qcp);
+		return parent::executeQuery($sql, $params, $types, $qcp);
+	}
+
+	public function executeUpdate($sql, array $params = [], array $types = []) {
+		return parent::executeUpdate($sql, $params, $types);
 	}
 
 	/**
@@ -224,7 +228,7 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 *
 	 * This method supports PDO binding types as well as DBAL mapping types.
 	 *
-	 * @param string $query  The SQL query.
+	 * @param string $sql  The SQL query.
 	 * @param array  $params The query parameters.
 	 * @param array  $types  The parameter types.
 	 *
@@ -232,11 +236,11 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	 *
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	public function executeStatement($query, array $params = [], array $types = []) {
-		$query = $this->replaceTablePrefix($query);
-		$query = $this->adapter->fixupStatement($query);
+	public function executeStatement($sql, array $params = [], array $types = []) {
+		$sql = $this->replaceTablePrefix($sql);
+		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
-		return parent::executeStatement($query, $params, $types);
+		return parent::executeStatement($sql, $params, $types);
 	}
 
 	/**

@@ -47,35 +47,35 @@ class OracleConnection extends Connection {
 	/**
 	 * {@inheritDoc}
 	 */
-	public function insert($tableExpression, array $data, array $types = []) {
-		if ($tableExpression[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
-			$tableExpression = $this->quoteIdentifier($tableExpression);
+	public function insert($table, array $data, array $types = []) {
+		if ($table[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
+			$table = $this->quoteIdentifier($table);
 		}
 		$data = $this->quoteKeys($data);
-		return parent::insert($tableExpression, $data, $types);
+		return parent::insert($table, $data, $types);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function update($tableExpression, array $data, array $identifier, array $types = []) {
-		if ($tableExpression[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
-			$tableExpression = $this->quoteIdentifier($tableExpression);
+	public function update($table, array $data, array $criteria, array $types = []) {
+		if ($table[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
+			$table = $this->quoteIdentifier($table);
 		}
 		$data = $this->quoteKeys($data);
-		$identifier = $this->quoteKeys($identifier);
-		return parent::update($tableExpression, $data, $identifier, $types);
+		$criteria = $this->quoteKeys($criteria);
+		return parent::update($table, $data, $criteria, $types);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public function delete($tableExpression, array $identifier, array $types = []) {
-		if ($tableExpression[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
-			$tableExpression = $this->quoteIdentifier($tableExpression);
+	public function delete($table, array $criteria, array $types = []) {
+		if ($table[0] !== $this->getDatabasePlatform()->getIdentifierQuoteCharacter()) {
+			$table = $this->quoteIdentifier($table);
 		}
-		$identifier = $this->quoteKeys($identifier);
-		return parent::delete($tableExpression, $identifier);
+		$criteria = $this->quoteKeys($criteria);
+		return parent::delete($table, $criteria);
 	}
 
 	/**
