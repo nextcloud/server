@@ -36,6 +36,16 @@ interface IManager {
 	public const SCOPE_USER = 1;
 
 	/**
+	 * @since 21.0.0
+	 */
+	public const MAX_CHECK_VALUE_BYTES = 2048;
+
+	/**
+	 * @since 21.0.0
+	 */
+	public const MAX_OPERATION_VALUE_BYTES = 4096;
+
+	/**
 	 * @depreacted Will be removed in NC19. Use the dedicated events in OCP\WorkflowEngine\Events
 	 */
 	public const EVENT_NAME_REG_OPERATION = 'OCP\WorkflowEngine::registerOperations';
