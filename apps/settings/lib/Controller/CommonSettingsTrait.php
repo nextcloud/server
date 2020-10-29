@@ -34,7 +34,6 @@ use OCP\IGroupManager;
 use OCP\INavigationManager;
 use OCP\IUser;
 use OCP\IUserSession;
-use OCP\Settings\IIconSection;
 use OCP\Settings\IManager as ISettingsManager;
 use OCP\Settings\ISettings;
 
@@ -84,7 +83,7 @@ trait CommonSettingsTrait {
 
 	protected function formatSections($sections, $currentSection, $type, $currentType, bool $subAdminOnly = false) {
 		$templateParameters = [];
-		/** @var \OCP\Settings\ISection[] $prioritizedSections */
+		/** @var \OCP\Settings\IIconSection[] $prioritizedSections */
 		foreach ($sections as $prioritizedSections) {
 			foreach ($prioritizedSections as $section) {
 				if ($type === 'admin') {
@@ -96,10 +95,7 @@ trait CommonSettingsTrait {
 					continue;
 				}
 
-				$icon = '';
-				if ($section instanceof IIconSection) {
-					$icon = $section->getIcon();
-				}
+				$icon = $section->getIcon();
 
 				$active = $section->getID() === $currentSection
 					&& $type === $currentType;

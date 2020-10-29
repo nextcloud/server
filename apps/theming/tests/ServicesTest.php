@@ -34,7 +34,7 @@ use OCA\Theming\Util;
 use OCP\AppFramework\App;
 use OCP\Capabilities\ICapability;
 use OCP\IL10N;
-use OCP\Settings\ISection;
+use OCP\Settings\IIconSection;
 use OCP\Settings\ISettings;
 use Test\TestCase;
 
@@ -75,7 +75,7 @@ class ServicesTest extends TestCase {
 			[Admin::class],
 			[Admin::class, ISettings::class],
 			[Section::class],
-			[Section::class, ISection::class],
+			[Section::class, IIconSection::class],
 		];
 	}
 

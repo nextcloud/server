@@ -463,7 +463,6 @@ return array(
     'OCP\\Session\\Exceptions\\SessionNotAvailableException' => $baseDir . '/lib/public/Session/Exceptions/SessionNotAvailableException.php',
     'OCP\\Settings\\IIconSection' => $baseDir . '/lib/public/Settings/IIconSection.php',
     'OCP\\Settings\\IManager' => $baseDir . '/lib/public/Settings/IManager.php',
-    'OCP\\Settings\\ISection' => $baseDir . '/lib/public/Settings/ISection.php',
     'OCP\\Settings\\ISettings' => $baseDir . '/lib/public/Settings/ISettings.php',
     'OCP\\Settings\\ISubAdminSettings' => $baseDir . '/lib/public/Settings/ISubAdminSettings.php',
     'OCP\\Share' => $baseDir . '/lib/public/Share.php',
