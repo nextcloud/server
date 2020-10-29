@@ -1146,8 +1146,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OC\\Hooks\\BasicEmitter' => __DIR__ . '/../../..' . '/lib/private/Hooks/BasicEmitter.php',
         'OC\\Hooks\\Emitter' => __DIR__ . '/../../..' . '/lib/private/Hooks/Emitter.php',
         'OC\\Hooks\\EmitterTrait' => __DIR__ . '/../../..' . '/lib/private/Hooks/EmitterTrait.php',
-        'OC\\Hooks\\ForwardingEmitter' => __DIR__ . '/../../..' . '/lib/private/Hooks/ForwardingEmitter.php',
-        'OC\\Hooks\\LegacyEmitter' => __DIR__ . '/../../..' . '/lib/private/Hooks/LegacyEmitter.php',
         'OC\\Hooks\\PublicEmitter' => __DIR__ . '/../../..' . '/lib/private/Hooks/PublicEmitter.php',
         'OC\\Http\\Client\\Client' => __DIR__ . '/../../..' . '/lib/private/Http/Client/Client.php',
         'OC\\Http\\Client\\ClientService' => __DIR__ . '/../../..' . '/lib/private/Http/Client/ClientService.php',

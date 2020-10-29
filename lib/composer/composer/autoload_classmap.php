@@ -1117,8 +1117,6 @@ return array(
     'OC\\Hooks\\BasicEmitter' => $baseDir . '/lib/private/Hooks/BasicEmitter.php',
     'OC\\Hooks\\Emitter' => $baseDir . '/lib/private/Hooks/Emitter.php',
     'OC\\Hooks\\EmitterTrait' => $baseDir . '/lib/private/Hooks/EmitterTrait.php',
-    'OC\\Hooks\\ForwardingEmitter' => $baseDir . '/lib/private/Hooks/ForwardingEmitter.php',
-    'OC\\Hooks\\LegacyEmitter' => $baseDir . '/lib/private/Hooks/LegacyEmitter.php',
     'OC\\Hooks\\PublicEmitter' => $baseDir . '/lib/private/Hooks/PublicEmitter.php',
     'OC\\Http\\Client\\Client' => $baseDir . '/lib/private/Http/Client/Client.php',
     'OC\\Http\\Client\\ClientService' => $baseDir . '/lib/private/Http/Client/ClientService.php',
