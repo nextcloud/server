@@ -15,13 +15,15 @@ jobs:
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
-      - name: Remove composer.json
-        shell: bash
-        run: rm composer.json composer.lock
-      - name: Psalm
-        uses: docker://jakzal/phpqa:php7.4-alpine
+      - name: Set up php7.4
+        uses: shivammathur/setup-php@master
         with:
-          args: psalm --monochrome --no-progress --output-format=text --update-baseline
+          php-version: 7.4
+          coverage: none
+      - name: Composer install
+        run: composer i
+      - name: Psalm
+        run: composer run psalm -- --monochrome --no-progress --output-format=text --update-baseline
       - name: Reset composer.json and composer.lock
         run: |
           git checkout -- composer.json composer.lock
