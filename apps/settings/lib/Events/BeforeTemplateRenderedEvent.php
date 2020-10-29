@@ -27,5 +27,10 @@ namespace OCA\Settings\Events;
 
 use OCP\EventDispatcher\Event;
 
+/**
+ * This event is triggered right before the user management template is rendered.
+ *
+ * @since 20.0.0
+ */
 class BeforeTemplateRenderedEvent extends Event {
 }
