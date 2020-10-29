@@ -2392,7 +2392,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$classification = self::CLASSIFICATION_PUBLIC;
 		$hasDTSTART = false;
 		foreach ($vObject->getComponents() as $component) {
-			if ($component->name!=='VTIMEZONE') {
+			if ($component->name !== 'VTIMEZONE') {
 				// Finding all VEVENTs, and track them
 				if ($component->name === 'VEVENT') {
 					array_push($vEvents, $component);
@@ -2411,7 +2411,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			throw new \Sabre\DAV\Exception\BadRequest('Calendar objects must have a VJOURNAL, VEVENT or VTODO component');
 		}
 
-		if (count($vEvents) > 0 && $hasDTSTART) {
+		if ($hasDTSTART) {
 			$component = $vEvents[0];
 
 			// Finding the last occurrence is a bit harder
