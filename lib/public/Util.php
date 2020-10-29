@@ -54,6 +54,7 @@ namespace OCP;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
+ *
  * @since 4.0.0
  */
 class Util {
@@ -335,6 +336,7 @@ class Util {
 	 *
 	 * TODO: write example
 	 * @since 4.0.0
+	 * @deprecated 21.0.0 use \OCP\EventDispatcher\IEventDispatcher::addListener
 	 */
 	public static function connectHook($signalClass, $signalName, $slotClass, $slotName) {
 		return \OC_Hook::connect($signalClass, $signalName, $slotClass, $slotName);
@@ -349,6 +351,7 @@ class Util {
 	 *
 	 * TODO: write example
 	 * @since 4.0.0
+	 * @deprecated 21.0.0 use \OCP\EventDispatcher\IEventDispatcher::dispatchTypedEvent
 	 */
 	public static function emitHook($signalclass, $signalname, $params = []) {
 		return \OC_Hook::emit($signalclass, $signalname, $params);
