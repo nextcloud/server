@@ -126,7 +126,7 @@ export default {
 				return t('files_sharing', 'Name or email …')
 			}
 
-			return t('files_sharing', 'Name, email, or federated cloud ID …')
+			return t('files_sharing', 'Name, email, or Federated Cloud ID …')
 		},
 
 		isValidQuery() {
