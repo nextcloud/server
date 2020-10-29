@@ -341,6 +341,12 @@ class Version1004Date20170825134824 extends SimpleMigrationStep {
 			]);
 			$table->setPrimaryKey(['id']);
 			$table->addUniqueIndex(['principaluri', 'uri'], 'calsub_index');
+		} else {
+			$table = $schema->getTable('calendarsubscriptions');
+			$table->changeColumn('lastmodified', [
+				'notnull' => false,
+				'unsigned' => true,
+			]);
 		}
 
 		if (!$schema->hasTable('schedulingobjects')) {
