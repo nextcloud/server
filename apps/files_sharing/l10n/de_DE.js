@@ -181,13 +181,12 @@ OC.L10N.register(
     "Add another link" : "Weiteren Link hinzufügen",
     "Create a new share link" : "Neuen Freigabe-Link erstellen",
     "Shared via link by {initiator}" : "Geteilt mittels Link von {initiator}",
-    "Share link ({label})" : "Link teilen  ({label})",
+    "Share link ({label})" : "Link teilen ({label})",
     "Share link" : "Link teilen",
     "Error, please enter proper password and/or expiration date" : "Fehler. Bitte gebe das richtige Passwort und/oder Ablaufdatum ein",
     "No recommendations. Start typing." : "Keine Empfehlungen. Beginnen Sie mit der Eingabe.",
     "Resharing is not allowed" : "Das Weiterverteilen ist nicht erlaubt ",
     "Name or email …" : "Name oder E-Mail-Adresse …",
-    "Name, email, or federated cloud ID …" : "Name, E-Mail oder Federated-Cloud-ID …",
     "Searching …" : "Suche …",
     "No elements found." : "Keine Elemente gefunden.",
     "Search globally" : "Global suchen",
@@ -230,6 +229,7 @@ OC.L10N.register(
     "Uploading files" : "Dateien werden hochgeladen",
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmen Sie den %1$sNutzungsbedingungen%2$s zu.",
+    "Name, email, or federated cloud ID …" : "Name, E-Mail oder Federated-Cloud-ID …",
     "Uploading files…" : "Dateien werden hochgeladen…"
 },
 "nplurals=2; plural=(n != 1);");

@@ -324,7 +324,7 @@ OC.L10N.register(
     "There are some warnings regarding your setup." : "Es gibt einige Warnungen bei Deiner Systemkonfiguration.",
     "Checking for system and security issues." : "Prüfung auf System- und Sicherheitsprobleme.",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"%2$s\">log</a>." : "Bitte überprüfe noch einmal die <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%1$s\">Installationsanleitungen ↗</a> und kontrolliere das <a href=\"%2$s\">Protokoll</a> auf mögliche Fehler oder Warnungen.",
-    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Überprüfe die Sicherheit Deiner Nextcloud über  <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">unseren Sicherheitsscanner ↗</a>.",
+    "Check the security of your Nextcloud over <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">our security scan ↗</a>." : "Überprüfe die Sicherheit Deiner Nextcloud über <a target=\"_blank\" rel=\"noreferrer noopener\" href=\"%s\">unseren Sicherheitsscanner ↗</a>.",
     "Version" : "Version",
     "Two-Factor Authentication" : "Zwei-Faktor-Authentifizierung",
     "Server-side encryption" : "Serverseitige Verschlüsselung",

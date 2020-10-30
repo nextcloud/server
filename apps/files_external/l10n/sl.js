@@ -78,6 +78,7 @@ OC.L10N.register(
     "Public key" : "Javni ključ",
     "RSA private key" : "Zasebni ključ RSA",
     "Private key" : "Zasebni ključ",
+    "Kerberos ticket" : "Kartica Kerberos",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Pomnilniško vedro",
     "Hostname" : "Ime gostitelja",
