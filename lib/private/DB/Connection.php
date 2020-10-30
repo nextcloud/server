@@ -42,20 +42,24 @@ use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\QueryBuilder\QueryBuilder;
+use OC\SystemConfig;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\ILogger;
 use OCP\PreConditionNotMetException;
 
 class Connection extends ReconnectWrapper implements IDBConnection {
-	/**
-	 * @var string $tablePrefix
-	 */
+	/** @var string */
 	protected $tablePrefix;
 
-	/**
-	 * @var \OC\DB\Adapter $adapter
-	 */
+	/** @var \OC\DB\Adapter $adapter */
 	protected $adapter;
+
+	/** @var SystemConfig */
+	private $systemConfig;
+
+	/** @var ILogger */
+	private $logger;
 
 	protected $lockedTable = null;
 
@@ -76,8 +80,8 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	public function getQueryBuilder() {
 		return new QueryBuilder(
 			$this,
-			\OC::$server->getSystemConfig(),
-			\OC::$server->getLogger()
+			$this->systemConfig,
+			$this->logger
 		);
 	}
 
@@ -149,6 +153,9 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
 		$this->tablePrefix = $params['tablePrefix'];
+
+		$this->systemConfig = \OC::$server->getSystemConfig();
+		$this->logger = \OC::$server->getLogger();
 	}
 
 	/**
