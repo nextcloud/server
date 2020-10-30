@@ -625,6 +625,46 @@ class Manager implements ICommentsManager {
 	}
 
 	/**
+	 * @param string $objectType the object type, e.g. 'files'
+	 * @param string[] $objectIds the id of the object
+	 * @param IUser $user
+	 * @param string $verb Limit the verb of the comment - Added in 14.0.0
+	 * @return array Map with object id => # of unread comments
+	 * @psalm-return array<string, int>
+	 * @since 21.0.0
+	 */
+	public function getNumberOfUnreadCommentsForObjects(string $objectType, array $objectIds, IUser $user, $verb = ''): array {
+		$query = $this->dbConn->getQueryBuilder();
+		$query->select('c.object_id', $query->func()->count('c.id', 'num_comments'))
+			->from('comments', 'c')
+			->leftJoin('c', 'comments_read_markers', 'm', $query->expr()->andX(
+				$query->expr()->eq('m.user_id', $query->createNamedParameter($user->getUID())),
+				$query->expr()->eq('c.object_type', 'm.object_type'),
+				$query->expr()->eq('c.object_id', 'm.object_id')
+			))
+			->where($query->expr()->eq('c.object_type', $query->createNamedParameter($objectType)))
+			->andWhere($query->expr()->in('c.object_id', $query->createNamedParameter($objectIds, IQueryBuilder::PARAM_STR_ARRAY)))
+			->andWhere($query->expr()->orX(
+				$query->expr()->gt('c.creation_timestamp', 'm.marker_datetime'),
+				$query->expr()->isNull('m.marker_datetime')
+			))
+			->groupBy('c.object_id');
+
+		if ($verb !== '') {
+			$query->andWhere($query->expr()->eq('c.verb', $query->createNamedParameter($verb)));
+		}
+
+		$result = $query->execute();
+		$unreadComments = array_fill_keys($objectIds, 0);
+		while ($row = $result->fetch()) {
+			$unreadComments[$row['object_id']] = (int) $row['num_comments'];
+		}
+		$result->closeCursor();
+
+		return $unreadComments;
+	}
+
+	/**
 	 * @param string $objectType
 	 * @param string $objectId
 	 * @param int $lastRead
