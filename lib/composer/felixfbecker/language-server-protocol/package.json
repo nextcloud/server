@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/felixfbecker/php-language-server-protocol"
+  },
+  "release": {
+    "verifyConditions": "@semantic-release/github",
+    "prepare": [],
+    "publish": "@semantic-release/github"
+  },
+  "devDependencies": {
+    "semantic-release": "^15.9.16"
+  }
+}

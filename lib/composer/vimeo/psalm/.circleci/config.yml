@@ -1,0 +1,126 @@
+# Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
+version: 2.1
+executors:
+  php-73:
+    docker:
+      - image: thecodingmachine/php:7.3-v2-cli
+  php-74:
+    docker:
+      - image: thecodingmachine/php:7.4-v3-cli
+jobs:
+  install-and-self-analyse:
+    executor: php-73
+    steps:
+      - checkout
+      - run: date "+%F" > /tmp/cachekey; cat composer.json >> /tmp/cachekey
+      - restore_cache:
+          keys:
+            - composer-v3
+      - restore_cache:
+          keys:
+            - psalm-cache-{{ checksum "/tmp/cachekey" }} # speeds up diff run
+      - run: composer update
+
+      - save_cache:
+          key: composer-v3
+          paths:
+            - /home/docker/.composer/cache/files
+            - /home/docker/.composer/cache/vcs
+
+      - run:
+          name: Static analysis
+          command: php -dextension=pcntl.so ./psalm --threads=10
+
+      - save_cache:
+          key: psalm-cache-{{ checksum "/tmp/cachekey" }}
+          paths:
+            - /tmp/psalm
+
+      - persist_to_workspace:
+          root: /home/docker/project/
+          paths:
+            - .
+  "Code Style Analysis":
+    executor: php-73
+    steps:
+      - attach_workspace:
+          at: /home/docker/project/
+      - run:
+          name: Code Style Analysis with PHPCS
+          command: vendor/bin/phpcs
+  test:
+    executor: php-73
+    steps:
+      - attach_workspace:
+            at: /home/docker/project/
+      - run:
+          name: PHPUnit test
+          command: php vendor/bin/paratest --runner=WrapperRunner --log-junit build/phpunit/phpunit.xml
+      - store_test_results:
+          path: build/
+      - store_artifacts:
+          path: build/phpunit
+      - persist_to_workspace:
+          root: /home/docker/project/
+          paths:
+            - .
+  phar-build:
+    executor: php-73
+    steps:
+      - attach_workspace:
+          at: /home/docker/project/
+      - run:
+          name: Build Phar file
+          command: bin/build-phar.sh
+      - run:
+          name: Smoke test Phar file
+          command: build/psalm.phar --version
+      - store_artifacts:
+          path: build/psalm.phar
+      - run:
+          name: Display link to phar file
+          command: |
+            echo "Phar build available at:"
+            echo https://circleci.com/api/v1.1/project/github/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/${CIRCLE_BUILD_NUM}/artifacts/0/home/docker/project/build/psalm.phar
+
+      - persist_to_workspace:
+          root: /home/docker/project/
+          paths:
+            - build/psalm.phar
+  test-with-real-projects:
+    executor: php-74
+    steps:
+      - checkout # used here just for the side effect of loading the github public ssh key so we can clone other stuff
+      - attach_workspace:
+          at: /home/docker/project/
+      - run:
+          name: Analyse PHPUnit
+          command: bin/test-with-real-projects.sh phpunit
+      - run:
+          name: Analyse Collections
+          command: bin/test-with-real-projects.sh collections
+      - run:
+          name: Analyse ProxyManager
+          command: bin/test-with-real-projects.sh proxymanager
+      - run:
+          name: Analyse Psl
+          command: bin/test-with-real-projects.sh psl
+
+# Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
+workflows:
+  Welcome:
+    jobs:
+      - install-and-self-analyse
+      - test:
+          requires:
+            - install-and-self-analyse
+      - "Code Style Analysis":
+          requires:
+            - install-and-self-analyse
+      - phar-build:
+          requires:
+            - test
+            - "Code Style Analysis"
+      - test-with-real-projects:
+          requires:
+            - phar-build

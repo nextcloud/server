@@ -1,0 +1,74 @@
+{
+    "name": "amphp/amp",
+    "homepage": "http://amphp.org/amp",
+    "description": "A non-blocking concurrency framework for PHP applications.",
+    "keywords": [
+        "async",
+        "asynchronous",
+        "concurrency",
+        "promise",
+        "awaitable",
+        "future",
+        "non-blocking",
+        "event",
+        "event-loop"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Lowrey",
+            "email": "rdlowrey@php.net"
+        },
+        {
+            "name": "Aaron Piotrowski",
+            "email": "aaron@trowski.com"
+        },
+        {
+            "name": "Bob Weinand",
+            "email": "bobwei9@hotmail.com"
+        },
+        {
+            "name": "Niklas Keller",
+            "email": "me@kelunik.com"
+        }
+    ],
+    "require": {
+        "php": ">=7"
+    },
+    "require-dev": {
+        "ext-json": "*",
+        "amphp/phpunit-util": "^1",
+        "amphp/php-cs-fixer-config": "dev-master",
+        "react/promise": "^2",
+        "phpunit/phpunit": "^6.0.9 | ^7",
+        "psalm/phar": "^3.11@dev",
+        "jetbrains/phpstorm-stubs": "^2019.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Amp\\": "lib"
+        },
+        "files": [
+            "lib/functions.php",
+            "lib/Internal/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Amp\\Test\\": "test"
+        }
+    },
+    "support": {
+        "issues": "https://github.com/amphp/amp/issues",
+        "irc": "irc://irc.freenode.org/amphp"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
+    },
+    "scripts": {
+        "test": "@php -dzend.assertions=1 -dassert.exception=1 ./vendor/bin/phpunit",
+        "code-style": "@php ./vendor/bin/php-cs-fixer fix"
+    }
+}

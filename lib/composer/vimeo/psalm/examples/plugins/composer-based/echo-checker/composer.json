@@ -1,0 +1,21 @@
+{
+    "name": "psalm/echo-checker-plugin",
+    "description": "Checks echo statements",
+    "type": "psalm-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matthew Brown"
+        }
+    ],
+    "extra": {
+        "psalm": {
+            "pluginClass": "Vimeo\\CodeAnalysis\\EchoChecker\\PluginEntryPoint"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Vimeo\\CodeAnalysis\\EchoChecker\\": ["."]
+        }
+    }
+}

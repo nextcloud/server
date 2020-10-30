@@ -1,0 +1,12 @@
+{
+	"name": "psalm/phar",
+	"description": "Composer-based Psalm Phar",
+	"license": ["MIT"],
+	"require": {
+		"php": "^7.1"
+	},
+	"conflict": {
+		"vimeo/psalm" : "*"
+	},
+	"bin": ["psalm.phar"]
+}

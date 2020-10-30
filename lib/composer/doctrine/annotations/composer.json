@@ -1,0 +1,44 @@
+{
+    "name": "doctrine/annotations",
+    "type": "library",
+    "description": "Docblock Annotations Parser",
+    "keywords": ["annotations", "docblock", "parser"],
+    "homepage": "http://www.doctrine-project.org",
+    "license": "MIT",
+    "authors": [
+        {"name": "Guilherme Blanco", "email": "guilhermeblanco@gmail.com"},
+        {"name": "Roman Borschel", "email": "roman@code-factory.org"},
+        {"name": "Benjamin Eberlei", "email": "kontakt@beberlei.de"},
+        {"name": "Jonathan Wage", "email": "jonwage@gmail.com"},
+        {"name": "Johannes Schmitt", "email": "schmittjoh@gmail.com"}
+    ],
+    "require": {
+        "php": "^7.1 || ^8.0",
+        "ext-tokenizer": "*",
+        "doctrine/lexer": "1.*"
+    },
+    "require-dev": {
+        "doctrine/cache": "1.*",
+        "phpunit/phpunit": "^7.5"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": { "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations" }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Doctrine\\Performance\\Common\\Annotations\\": "tests/Doctrine/Performance/Common/Annotations",
+            "Doctrine\\Tests\\Common\\Annotations\\": "tests/Doctrine/Tests/Common/Annotations"
+        },
+        "files": [
+            "tests/Doctrine/Tests/Common/Annotations/Fixtures/SingleClassLOC1000.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.9.x-dev"
+        }
+    }
+}

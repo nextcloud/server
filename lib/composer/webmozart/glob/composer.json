@@ -1,0 +1,35 @@
+{
+    "name": "webmozart/glob",
+    "description": "A PHP implementation of Ant's glob.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bernhard Schussek",
+            "email": "bschussek@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.3.3|^7.0",
+        "webmozart/path-util": "^2.2"
+    },
+    "require-dev": {
+        "symfony/filesystem": "^2.5",
+        "phpunit/phpunit": "^4.6",
+        "sebastian/version": "^1.0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Webmozart\\Glob\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Webmozart\\Glob\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.1-dev"
+        }
+    }
+}

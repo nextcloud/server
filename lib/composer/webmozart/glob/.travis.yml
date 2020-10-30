@@ -1,0 +1,30 @@
+language: php
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+matrix:
+  include:
+    - php: 5.3
+    - php: 5.4
+    - php: 5.5
+    - php: 5.6
+    - php: 5.6
+      env: COMPOSER_FLAGS='--prefer-lowest --prefer-stable'
+    - php: hhvm
+    - php: nightly
+    - php: 7.0
+  allow_failures:
+    - php: hhvm
+    - php: nightly
+  fast_finish: true
+
+install: composer update $COMPOSER_FLAGS -n
+
+script: vendor/bin/phpunit --verbose --coverage-clover=coverage.clover
+
+after_script:
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi;'
