@@ -5,7 +5,7 @@ OC.L10N.register(
     "Dashboard app" : "Kонтролна табла",
     "Show something" : "Прикажи нешто",
     "Customize" : "Прилагоди",
-    "Edit widgets" : "Уреди ги графички контроли",
+    "Edit widgets" : "Уреди графички контроли",
     "Get more widgets from the app store" : "Преземи повеќе графички контроли од продавницата со апликации",
     "Change background image" : "Промени ја позадинската слика",
     "Weather service" : "Сервис за временска прогноза",
