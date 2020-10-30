@@ -146,7 +146,7 @@ export default {
 	}
 
 	h6 {
-		font-size: 14px;
+		font-size: var(--default-font-size);
 	}
 
 	pre {
