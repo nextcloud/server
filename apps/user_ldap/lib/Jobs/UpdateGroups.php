@@ -49,6 +49,7 @@ use OCP\Group\Events\UserRemovedEvent;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\ILogger;
+use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
@@ -120,7 +121,9 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 			$groupObject = $this->groupManager->get($group);
 			foreach (array_diff($knownUsers, $actualUsers) as $removedUser) {
 				$userObject = $this->userManager->get($removedUser);
-				$this->dispatcher->dispatchTyped(new UserRemovedEvent($groupObject, $userObject));
+				if ($userObject instanceof IUser) {
+					$this->dispatcher->dispatchTyped(new UserRemovedEvent($groupObject, $userObject));
+				}
 				$this->logger->info(
 					'bgJ "updateGroups" – {user} removed from {group}',
 					[
@@ -133,7 +136,9 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 			}
 			foreach (array_diff($actualUsers, $knownUsers) as $addedUser) {
 				$userObject = $this->userManager->get($addedUser);
-				$this->dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
+				if ($userObject instanceof IUser) {
+					$this->dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
+				}
 				$this->logger->info(
 					'bgJ "updateGroups" – {user} added to {group}',
 					[
