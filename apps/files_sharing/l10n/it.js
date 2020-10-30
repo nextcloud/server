@@ -187,7 +187,6 @@ OC.L10N.register(
     "No recommendations. Start typing." : "Nessun consiglio. Inizia a digitare.",
     "Resharing is not allowed" : "La ri-condivisione non è consentita",
     "Name or email …" : "Nome o email...",
-    "Name, email, or federated cloud ID …" : "Nome, email o ID di cloud federata...",
     "Searching …" : "Ricerca in corso...",
     "No elements found." : "Nessun elemento trovato.",
     "Search globally" : "Cerca globalmente",
@@ -230,6 +229,7 @@ OC.L10N.register(
     "Uploading files" : "Caricamento file",
     "Uploaded files:" : "File caricati:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Caricando i file, accetti i %1$stermini del servizio%2$s.",
+    "Name, email, or federated cloud ID …" : "Nome, email o ID di cloud federata...",
     "Uploading files…" : "Caricamento file in corso..."
 },
 "nplurals=2; plural=(n != 1);");

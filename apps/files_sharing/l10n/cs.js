@@ -187,7 +187,6 @@ OC.L10N.register(
     "No recommendations. Start typing." : "Žádná doporučení. Pište",
     "Resharing is not allowed" : "Příjemcům tohoto sdílení není dovoleno ho nasdílet dál dalším",
     "Name or email …" : "Jméno nebo e-mail…",
-    "Name, email, or federated cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu …",
     "Searching …" : "Hledání...",
     "No elements found." : "Nenalezeny žádné prvky.",
     "Search globally" : "Hledat všude",
@@ -230,6 +229,7 @@ OC.L10N.register(
     "Uploading files" : "Nahrávání souborů",
     "Uploaded files:" : "Nahrané soubory:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahráním souborů vyjadřujete souhlas s %1$svšeobecnými podmínkami%2$s.",
+    "Name, email, or federated cloud ID …" : "Jméno, e-mail nebo identifikátor ve federovaném cloudu …",
     "Uploading files…" : "Nahrávání souborů…"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
