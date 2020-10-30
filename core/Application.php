@@ -73,7 +73,9 @@ class Application extends App {
 		$notificationManager->registerNotifierService(RemoveLinkSharesNotifier::class);
 		$notificationManager->registerNotifierService(AuthenticationNotifier::class);
 
-		$eventDispatcher->addListener(IDBConnection::CHECK_MISSING_INDEXES_EVENT,
+		$oldEventDispatcher = $server->getEventDispatcher();
+
+		$oldEventDispatcher->addListener(IDBConnection::CHECK_MISSING_INDEXES_EVENT,
 			function (GenericEvent $event) use ($container) {
 				/** @var MissingIndexInformation $subject */
 				$subject = $event->getSubject();
@@ -179,7 +181,7 @@ class Application extends App {
 			}
 		);
 
-		$eventDispatcher->addListener(IDBConnection::CHECK_MISSING_COLUMNS_EVENT,
+		$oldEventDispatcher->addListener(IDBConnection::CHECK_MISSING_COLUMNS_EVENT,
 			function (GenericEvent $event) use ($container) {
 				/** @var MissingColumnInformation $subject */
 				$subject = $event->getSubject();
