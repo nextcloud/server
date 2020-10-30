@@ -185,7 +185,6 @@
     "No recommendations. Start typing." : "Keine Empfehlungen. Beginne mit der Eingabe.",
     "Resharing is not allowed" : "Weiterteilen ist nicht erlaubt",
     "Name or email …" : "Name oder E-Mail-Adresse …",
-    "Name, email, or federated cloud ID …" : "Name, E-Mail-Adresse oder Federated-Cloud-ID …",
     "Searching …" : "Suche …",
     "No elements found." : "Keine Elemente gefunden.",
     "Search globally" : "Global suchen",
@@ -228,6 +227,7 @@
     "Uploading files" : "Dateien werden hochgeladen",
     "Uploaded files:" : "Hochgeladene Dateien: ",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Durch das Hochladen von Dateien stimmst Du den %1$sNutzungsbedingungen%2$s zu.",
+    "Name, email, or federated cloud ID …" : "Name, E-Mail-Adresse oder Federated-Cloud-ID …",
     "Uploading files…" : "Dateien werden hochgeladen…"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
