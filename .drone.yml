@@ -330,6 +330,7 @@ steps:
 - name: nodb-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 - name: nodb-php7.3
   image: nextcloudci/php7.3:php7.3-4
@@ -366,6 +367,7 @@ steps:
 - name: sqlite-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 - name: sqlite-php7.3
   image: nextcloudci/php7.3:php7.3-4
