@@ -6,6 +6,4 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
-    'LSS' => array($vendorDir . '/openlss/lib-array2xml'),
-    'JsonMapper' => array($vendorDir . '/netresearch/jsonmapper/src'),
 );

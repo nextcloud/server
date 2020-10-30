@@ -1713,6 +1713,7 @@
   <file src="apps/files_sharing/lib/Controller/ShareController.php">
     <InvalidArgument occurrences="2">
       <code>$files_list</code>
+      <code>'Share is read-only'</code>
     </InvalidArgument>
     <InvalidScalarArgument occurrences="3">
       <code>$freeSpace</code>
@@ -2475,6 +2476,18 @@
       <code>Resource</code>
     </UndefinedDocblockClass>
   </file>
+  <file src="apps/user_ldap/lib/LDAPProviderFactory.php">
+    <ImplementedReturnTypeMismatch occurrences="1">
+      <code>OCP\LDAP\ILDAPProvider</code>
+    </ImplementedReturnTypeMismatch>
+    <InvalidReturnStatement occurrences="1"/>
+    <InvalidReturnType occurrences="1">
+      <code>OCP\LDAP\ILDAPProvider</code>
+    </InvalidReturnType>
+    <UndefinedDocblockClass occurrences="1">
+      <code>OCP\LDAP\ILDAPProvider</code>
+    </UndefinedDocblockClass>
+  </file>
   <file src="apps/user_ldap/lib/LogWrapper.php">
     <InvalidReturnType occurrences="1">
       <code>bool</code>
@@ -3200,6 +3213,11 @@
       <code>$default</code>
     </MoreSpecificImplementedParamType>
   </file>
+  <file src="lib/private/AppFramework/Services/InitialState.php">
+    <ImplementedParamTypeMismatch occurrences="1">
+      <code>$closure</code>
+    </ImplementedParamTypeMismatch>
+  </file>
   <file src="lib/private/Archive/TAR.php">
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
@@ -3324,12 +3342,21 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>Color</code>
     </ImplementedReturnTypeMismatch>
+    <ImplicitToStringCast occurrences="1">
+      <code>$avatar</code>
+    </ImplicitToStringCast>
+    <InvalidNullableReturnType occurrences="1">
+      <code>string|boolean</code>
+    </InvalidNullableReturnType>
     <InvalidReturnStatement occurrences="1">
       <code>$finalPalette[$this-&gt;hashToInt($hash, $steps * 3)]</code>
     </InvalidReturnStatement>
     <InvalidReturnType occurrences="1">
       <code>Color</code>
     </InvalidReturnType>
+    <NullableReturnStatement occurrences="1">
+      <code>$image-&gt;data()</code>
+    </NullableReturnStatement>
   </file>
   <file src="lib/private/Avatar/GuestAvatar.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -5719,6 +5746,14 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;resources</code>
     </InvalidPropertyAssignmentValue>
+  </file>
+  <file src="lib/public/AppFramework/Services/IInitialState.php">
+    <MismatchingDocblockParamType occurrences="1">
+      <code>Closure</code>
+    </MismatchingDocblockParamType>
+    <UndefinedDocblockClass occurrences="1">
+      <code>Closure</code>
+    </UndefinedDocblockClass>
   </file>
   <file src="lib/public/BackgroundJob/TimedJob.php">
     <MoreSpecificImplementedParamType occurrences="1">
