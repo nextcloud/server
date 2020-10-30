@@ -37,8 +37,8 @@ namespace Composer\Autoload;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Jordi Boggiano <j.boggiano@seld.be>
- * @see    https://www.php-fig.org/psr/psr-0/
- * @see    https://www.php-fig.org/psr/psr-4/
+ * @see    http://www.php-fig.org/psr/psr-0/
+ * @see    http://www.php-fig.org/psr/psr-4/
  */
 class ClassLoader
 {
