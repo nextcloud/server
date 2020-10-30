@@ -46,7 +46,11 @@ use OCA\User_LDAP\User\Manager;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
+use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\ILogger;
+use OCP\IUserManager;
+use Psr\Log\LoggerInterface;
 
 class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	private static $groupsFromDB;
@@ -85,7 +89,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	}
 
 	/**
-	 * @return int
+	 * @return array
 	 */
 	private static function getRefreshInterval() {
 		//defaults to every hour
@@ -113,30 +117,45 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 			$actualUsers = self::getGroupBE()->usersInGroup($group);
 			$hasChanged = false;
 
-			$groupObject = $groupManager->get($group);
+			$groupObject = $this->groupManager->get($group);
 			foreach (array_diff($knownUsers, $actualUsers) as $removedUser) {
-				$userObject = $userManager->get($removedUser);
-				$dispatcher->dispatchTyped(new UserRemovedEvent($groupObject, $userObject));
-				\OCP\Util::writeLog('user_ldap',
-				'bgJ "updateGroups" – "'.$removedUser.'" removed from "'.$group.'".',
-					ILogger::INFO);
+				$userObject = $this->userManager->get($removedUser);
+				$this->dispatcher->dispatchTyped(new UserRemovedEvent($groupObject, $userObject));
+				$this->logger->info(
+					'bgJ "updateGroups" – {user} removed from {group}',
+					[
+						'app' => 'user_ldap',
+						'user' => $removedUser,
+						'group' => $group
+					]
+				);
 				$hasChanged = true;
 			}
 			foreach (array_diff($actualUsers, $knownUsers) as $addedUser) {
-				$userObject = $userManager->get($addedUser);
-				$dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
-				\OCP\Util::writeLog('user_ldap',
-				'bgJ "updateGroups" – "'.$addedUser.'" added to "'.$group.'".',
-					ILogger::INFO);
+				$userObject = $this->userManager->get($addedUser);
+				$this->dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
+				$this->logger->info(
+					'bgJ "updateGroups" – {user} added to {group}',
+					[
+						'app' => 'user_ldap',
+						'user' => $addedUser,
+						'group' => $group
+					]
+				);
 				$hasChanged = true;
 			}
 			if ($hasChanged) {
-				$query->execute([serialize($actualUsers), $group]);
+				$qb->setParameters([
+					'members' => serialize($actualUsers),
+					'groupId' => $group
+				]);
+				$qb->execute();
 			}
 		}
-		\OCP\Util::writeLog('user_ldap',
+		$this->logger->debug(
 			'bgJ "updateGroups" – FINISHED dealing with known Groups.',
-			ILogger::DEBUG);
+			['app' => 'user_ldap']
+		);
 	}
 
 	/**
@@ -151,7 +170,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 		');
 		foreach ($createdGroups as $createdGroup) {
 			\OCP\Util::writeLog('user_ldap',
-				'bgJ "updateGroups" – new group "'.$createdGroup.'" found.',
+				'bgJ "updateGroups" – new group "' . $createdGroup . '" found.',
 				ILogger::INFO);
 			$users = serialize(self::getGroupBE()->usersInGroup($createdGroup));
 			$query->execute([$createdGroup, $users]);
@@ -173,7 +192,7 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 		');
 		foreach ($removedGroups as $removedGroup) {
 			\OCP\Util::writeLog('user_ldap',
-				'bgJ "updateGroups" – group "'.$removedGroup.'" was removed.',
+				'bgJ "updateGroups" – group "' . $removedGroup . '" was removed.',
 				ILogger::INFO);
 			$query->execute([$removedGroup]);
 		}
