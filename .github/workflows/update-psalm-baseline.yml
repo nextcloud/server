@@ -26,7 +26,8 @@ jobs:
         run: composer run psalm -- --monochrome --no-progress --output-format=text --update-baseline
       - name: Reset composer.json and composer.lock
         run: |
-          git checkout -- composer.json composer.lock
+          rm -rf lib/composer
+          git checkout -- composer.json composer.lock lib/composer
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
