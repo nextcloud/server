@@ -48,6 +48,7 @@ use OCP\Group\Events\UserRemovedEvent;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\ILogger;
+use OCP\IUser;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
 
