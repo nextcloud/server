@@ -1,0 +1,24 @@
+{
+  "symbol-whitelist" : [
+    "null", "true", "false",
+    "static", "self", "parent",
+    "array", "string", "int", "float", "bool", "iterable", "callable", "void", "object",
+    "igbinary_serialize", "igbinary_unserialize", "PHP_PARSER_VERSION", "PSALM_VERSION", "runkit_object_id",
+    "sapi_windows_cp_is_utf8"
+  ],
+  "php-core-extensions" : [
+    "Core",
+    "date",
+    "pcre",
+    "Phar",
+    "Reflection",
+    "SPL",
+    "standard",
+    "pcntl",
+    "posix",
+    "filter",
+    "curl",
+    "PDO"
+  ],
+  "scan-files" : []
+}

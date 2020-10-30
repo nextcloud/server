@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<psalm
+    name="Psalm for Psalm"
+    useDocblockTypes="true"
+    totallyTyped="true"
+    strictBinaryOperands="false"
+    rememberPropertyAssignmentsAfterCall="true"
+    throwExceptionOnError="0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="../../config.xsd"
+>
+    <projectFiles>
+        <directory name="src" />
+        <ignoreFiles>
+            <file name="src/Psalm/CallMap.php" />
+            <directory name="src/Psalm/Stubs" />
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <PossiblyNullOperand errorLevel="suppress" />
+        <MissingConstructor errorLevel="suppress" />
+        <DeprecatedProperty errorLevel="suppress" />
+
+        <UnusedProperty>
+            <errorLevel type="info">
+                <file name="src/Psalm/FileManipulation/FunctionDocblockManipulator.php" />
+            </errorLevel>
+        </UnusedProperty>
+
+        <PossiblyUnusedProperty>
+            <errorLevel type="info">
+                <file name="src/Psalm/Storage/FunctionLikeStorage.php" />
+            </errorLevel>
+        </PossiblyUnusedProperty>
+
+        <PossiblyUnusedMethod>
+            <errorLevel type="suppress">
+                <file name="src/Psalm/Type/Atomic/GenericTrait.php" />
+            </errorLevel>
+            <errorLevel type="info">
+                <file name="src/Psalm/Codebase.php" />
+            </errorLevel>
+        </PossiblyUnusedMethod>
+
+        <PropertyNotSetInConstructor>
+            <errorLevel type="suppress">
+                <file name="src/Psalm/Config.php" />
+            </errorLevel>
+        </PropertyNotSetInConstructor>
+    </issueHandlers>
+</psalm>

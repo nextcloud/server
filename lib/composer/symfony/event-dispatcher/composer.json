@@ -1,0 +1,56 @@
+{
+    "name": "symfony/event-dispatcher",
+    "type": "library",
+    "description": "Symfony EventDispatcher Component",
+    "keywords": [],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.5",
+        "symfony/deprecation-contracts": "^2.1",
+        "symfony/event-dispatcher-contracts": "^2",
+        "symfony/polyfill-php80": "^1.15"
+    },
+    "require-dev": {
+        "symfony/dependency-injection": "^4.4|^5.0",
+        "symfony/expression-language": "^4.4|^5.0",
+        "symfony/config": "^4.4|^5.0",
+        "symfony/http-foundation": "^4.4|^5.0",
+        "symfony/service-contracts": "^1.1|^2",
+        "symfony/stopwatch": "^4.4|^5.0",
+        "psr/log": "~1.0"
+    },
+    "conflict": {
+        "symfony/dependency-injection": "<4.4"
+    },
+    "provide": {
+        "psr/event-dispatcher-implementation": "1.0",
+        "symfony/event-dispatcher-implementation": "2.0"
+    },
+    "suggest": {
+        "symfony/dependency-injection": "",
+        "symfony/http-kernel": ""
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Component\\EventDispatcher\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.1-dev"
+        }
+    }
+}

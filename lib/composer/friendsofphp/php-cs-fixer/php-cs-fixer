@@ -1,0 +1,99 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ * This file is part of PHP CS Fixer.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
+if (getenv('PHP_CS_FIXER_FUTURE_MODE')) {
+    error_reporting(-1);
+}
+
+if (defined('HHVM_VERSION_ID')) {
+    fwrite(STDERR, "HHVM is not supported.\n");
+
+    if (getenv('PHP_CS_FIXER_IGNORE_ENV')) {
+        fwrite(STDERR, "Ignoring environment requirements because `PHP_CS_FIXER_IGNORE_ENV` is set. Execution may be unstable.\n");
+    } else {
+        exit(1);
+    }
+} elseif (!defined('PHP_VERSION_ID') || \PHP_VERSION_ID < 50600 || \PHP_VERSION_ID >= 70500) {
+    fwrite(STDERR, "PHP needs to be a minimum version of PHP 5.6.0 and maximum version of PHP 7.4.*.\n");
+
+    if (getenv('PHP_CS_FIXER_IGNORE_ENV')) {
+        fwrite(STDERR, "Ignoring environment requirements because `PHP_CS_FIXER_IGNORE_ENV` is set. Execution may be unstable.\n");
+    } else {
+        exit(1);
+    }
+}
+
+foreach (['json', 'tokenizer'] as $extension) {
+    if (!extension_loaded($extension)) {
+        fwrite(STDERR, sprintf("PHP extension ext-%s is missing from your system. Install or enable it.\n", $extension));
+
+        if (getenv('PHP_CS_FIXER_IGNORE_ENV')) {
+            fwrite(STDERR, "Ignoring environment requirements because `PHP_CS_FIXER_IGNORE_ENV` is set. Execution may be unstable.\n");
+        } else {
+            exit(1);
+        }
+    }
+}
+unset($extension);
+
+set_error_handler(static function ($severity, $message, $file, $line) {
+    if ($severity & error_reporting()) {
+        throw new ErrorException($message, 0, $severity, $file, $line);
+    }
+});
+
+$require = true;
+if (class_exists('Phar')) {
+    // Maybe this file is used as phar-stub? Let's try!
+    try {
+        Phar::mapPhar('php-cs-fixer.phar');
+        require_once 'phar://php-cs-fixer.phar/vendor/autoload.php';
+        $require = false;
+    } catch (PharException $e) {
+    }
+}
+
+if ($require) {
+    // OK, it's not, let give Composer autoloader a try!
+    $possibleFiles = [__DIR__.'/../../autoload.php', __DIR__.'/../autoload.php', __DIR__.'/vendor/autoload.php'];
+    $file = null;
+    foreach ($possibleFiles as $possibleFile) {
+        if (file_exists($possibleFile)) {
+            $file = $possibleFile;
+
+            break;
+        }
+    }
+
+    if (null === $file) {
+        throw new RuntimeException('Unable to locate autoload.php file.');
+    }
+
+    require_once $file;
+
+    unset($possibleFiles, $possibleFile, $file);
+}
+unset($require);
+
+use Composer\XdebugHandler\XdebugHandler;
+use PhpCsFixer\Console\Application;
+
+// Restart if xdebug is loaded, unless the environment variable PHP_CS_FIXER_ALLOW_XDEBUG is set.
+$xdebug = new XdebugHandler('PHP_CS_FIXER', '--ansi');
+$xdebug->check();
+unset($xdebug);
+
+$application = new Application();
+$application->run();
+
+__HALT_COMPILER();

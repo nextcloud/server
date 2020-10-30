@@ -1,0 +1,14 @@
+parameters:
+    autoload_files:
+        - %currentWorkingDirectory%/tests/Doctrine/Tests/Common/Annotations/DocParserTest.php
+    excludes_analyse:
+        - %currentWorkingDirectory%/tests/*/Fixtures/*
+        - %currentWorkingDirectory%/tests/Doctrine/Tests/Common/Annotations/ReservedKeywordsClasses.php
+        - %currentWorkingDirectory%/tests/Doctrine/Tests/Common/Annotations/Ticket/DCOM58Entity.php
+        - %currentWorkingDirectory%/tests/Doctrine/Tests/DoctrineTestCase.php
+    polluteScopeWithLoopInitialAssignments: true
+    ignoreErrors:
+        - '#Class Doctrine_Tests_Common_Annotations_Fixtures_ClassNoNamespaceNoComment not found#'
+        - '#Instantiated class Doctrine_Tests_Common_Annotations_Fixtures_ClassNoNamespaceNoComment not found#'
+        - '#Property Doctrine\\Tests\\Common\\Annotations\\DummyClassNonAnnotationProblem::\$foo has unknown class#'
+        - '#Call to an undefined method ReflectionClass::getUseStatements\(\)#'

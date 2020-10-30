@@ -1,0 +1,40 @@
+{
+    "active": true,
+    "name": "Annotations",
+    "slug": "annotations",
+    "docsSlug": "doctrine-annotations",
+    "versions": [
+        {
+            "name": "1.9",
+            "branchName": "1.9",
+            "slug": "1.9",
+            "aliases": [
+                "latest"
+            ],
+            "upcoming": true
+        },
+        {
+            "name": "1.8",
+            "branchName": "1.8",
+            "slug": "1.8",
+            "current": true,
+            "aliases": [
+                "current",
+                "stable"
+            ],
+            "maintained": true
+        },
+        {
+            "name": "1.7",
+            "branchName": "1.7",
+            "slug": "1.7",
+            "maintained": false
+        },
+        {
+            "name": "1.6",
+            "branchName": "1.6",
+            "slug": "1.6",
+            "maintained": false
+        }
+    ]
+}

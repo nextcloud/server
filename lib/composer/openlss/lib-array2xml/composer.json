@@ -1,0 +1,33 @@
+{
+	 "name":				"openlss/lib-array2xml"
+	,"homepage":			"https://www.nullivex.com"
+	,"description":			"Array2XML conversion library credit to lalit.org"
+	,"license":				"Apache-2.0"
+	,"type":				"library"
+	,"keywords": [
+		 "array"
+		,"xml"
+		,"xml conversion"
+		,"array conversion"
+	]
+	,"authors": [
+		 {
+			 "name":		"Bryan Tong"
+			,"email":		"bryan@nullivex.com"
+			,"homepage":	"https://www.nullivex.com"
+		}
+		,{
+			 "name":		"Tony Butler"
+			,"email":		"spudz76@gmail.com"
+			,"homepage":	"https://www.nullivex.com"
+		}
+	]
+	,"require": {
+		"php":	">=5.3.2"
+	}
+	,"autoload": {
+		"psr-0": {
+			"LSS": ""
+		}
+	}
+}

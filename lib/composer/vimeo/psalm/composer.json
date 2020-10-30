@@ -1,0 +1,116 @@
+{
+    "name": "vimeo/psalm",
+    "type": "library",
+    "description": "A static analysis tool for finding errors in PHP applications",
+    "keywords": [
+        "php",
+        "code",
+        "inspection"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matthew Brown"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8",
+        "ext-SimpleXML": "*",
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-tokenizer": "*",
+        "ext-mbstring": "*",
+        "amphp/amp": "^2.1",
+        "amphp/byte-stream": "^1.5",
+        "composer/package-versions-deprecated": "^1.8.0",
+        "composer/semver": "^1.4 || ^2.0 || ^3.0",
+        "composer/xdebug-handler": "^1.1",
+        "dnoegel/php-xdg-base-dir": "^0.1.1",
+        "felixfbecker/advanced-json-rpc": "^3.0.3",
+        "felixfbecker/language-server-protocol": "^1.4",
+        "netresearch/jsonmapper": "^1.0 || ^2.0 || ^3.0",
+        "nikic/php-parser": "^4.10.1",
+        "openlss/lib-array2xml": "^1.0",
+        "sebastian/diff": "^3.0 || ^4.0",
+        "symfony/console": "^3.4.17 || ^4.1.6 || ^5.0",
+        "webmozart/glob": "^4.1",
+        "webmozart/path-util": "^2.3"
+    },
+    "provide": {
+        "psalm/psalm": "self.version"
+    },
+    "require-dev": {
+        "ext-curl": "*",
+        "amphp/amp": "^2.4.2",
+        "bamarni/composer-bin-plugin": "^1.2",
+        "brianium/paratest": "^4.0.0",
+        "phpdocumentor/reflection-docblock": "^5",
+        "phpmyadmin/sql-parser": "5.1.0",
+        "phpspec/prophecy": ">=1.9.0",
+        "phpunit/phpunit": "^9.0",
+        "psalm/plugin-phpunit": "^0.13",
+        "weirdan/prophecy-shim": "^1.0 || ^2.0",
+        "slevomat/coding-standard": "^5.0",
+        "squizlabs/php_codesniffer": "^3.5",
+        "symfony/process": "^4.3"
+    },
+    "suggest": {
+        "ext-igbinary": "^2.0.5"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.x-dev",
+            "dev-3.x": "3.x-dev",
+            "dev-2.x": "2.x-dev",
+            "dev-1.x": "1.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Psalm\\": "src/Psalm/"
+        },
+        "files": [
+            "src/functions.php",
+            "src/spl_object_id.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Psalm\\Tests\\": "tests/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "examples/plugins/composer-based/echo-checker"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "bin": [
+        "psalm",
+        "psalm-language-server",
+        "psalm-plugin",
+        "psalm-refactor",
+        "psalter"
+    ],
+    "scripts": {
+        "all-tests": [
+            "phpcs",
+            "./psalm --find-dead-code",
+            "phpunit"
+        ],
+        "psalm": "./psalm --find-dead-code",
+        "cs": "phpcs -p",
+        "cs-fix": "phpcbf -p",
+        "tests": [
+            "phpcs",
+            "phpunit"
+        ]
+    }
+}

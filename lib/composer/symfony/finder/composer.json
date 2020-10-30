@@ -1,0 +1,33 @@
+{
+    "name": "symfony/finder",
+    "type": "library",
+    "description": "Symfony Finder Component",
+    "keywords": [],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.5"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Component\\Finder\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.1-dev"
+        }
+    }
+}

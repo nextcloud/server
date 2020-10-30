@@ -1,0 +1,8 @@
+preset: symfony
+
+enabled:
+    - ordered_use
+    - strict
+
+disabled:
+    - empty_return

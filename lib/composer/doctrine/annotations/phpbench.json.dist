@@ -1,0 +1,4 @@
+{
+    "bootstrap": "tests/Doctrine/Performance/Common/bootstrap.php",
+    "path": "tests/Doctrine/Performance/Common/Annotations"
+}

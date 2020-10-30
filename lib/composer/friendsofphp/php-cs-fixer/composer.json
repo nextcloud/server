@@ -1,0 +1,83 @@
+{
+    "name": "friendsofphp/php-cs-fixer",
+    "type": "application",
+    "description": "A tool to automatically fix PHP code style",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Dariusz Rumiński",
+            "email": "dariusz.ruminski@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "ext-json": "*",
+        "ext-tokenizer": "*",
+        "composer/semver": "^1.4",
+        "composer/xdebug-handler": "^1.2",
+        "doctrine/annotations": "^1.2",
+        "php-cs-fixer/diff": "^1.3",
+        "symfony/console": "^3.4.17 || ^4.1.6 || ^5.0",
+        "symfony/event-dispatcher": "^3.0 || ^4.0 || ^5.0",
+        "symfony/filesystem": "^3.0 || ^4.0 || ^5.0",
+        "symfony/finder": "^3.0 || ^4.0 || ^5.0",
+        "symfony/options-resolver": "^3.0 || ^4.0 || ^5.0",
+        "symfony/polyfill-php70": "^1.0",
+        "symfony/polyfill-php72": "^1.4",
+        "symfony/process": "^3.0 || ^4.0 || ^5.0",
+        "symfony/stopwatch": "^3.0 || ^4.0 || ^5.0"
+    },
+    "require-dev": {
+        "johnkary/phpunit-speedtrap": "^1.1 || ^2.0 || ^3.0",
+        "justinrainbow/json-schema": "^5.0",
+        "keradus/cli-executor": "^1.2",
+        "mikey179/vfsstream": "^1.6",
+        "php-coveralls/php-coveralls": "^2.1",
+        "php-cs-fixer/accessible-object": "^1.0",
+        "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.1",
+        "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.1",
+        "phpunit/phpunit": "^5.7.27 || ^6.5.14 || ^7.1",
+        "phpunitgoodpractices/traits": "^1.8",
+        "symfony/phpunit-bridge": "^4.3 || ^5.0",
+        "symfony/yaml": "^3.0 || ^4.0 || ^5.0"
+    },
+    "suggest": {
+        "ext-dom": "For handling output formats in XML",
+        "ext-mbstring": "For handling non-UTF8 characters in cache signature.",
+        "php-cs-fixer/phpunit-constraint-isidenticalstring": "For IsIdenticalString constraint.",
+        "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "For XmlMatchesXsd constraint.",
+        "symfony/polyfill-mbstring": "When enabling `ext-mbstring` is not possible."
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpCsFixer\\": "src/"
+        },
+        "classmap": [
+            "tests/Test/AbstractFixerTestCase.php",
+            "tests/Test/AbstractIntegrationCaseFactory.php",
+            "tests/Test/AbstractIntegrationTestCase.php",
+            "tests/Test/Assert/AssertTokensTrait.php",
+            "tests/Test/IntegrationCase.php",
+            "tests/Test/IntegrationCaseFactory.php",
+            "tests/Test/IntegrationCaseFactoryInterface.php",
+            "tests/Test/InternalIntegrationCaseFactory.php",
+            "tests/Test/IsIdenticalConstraint.php",
+            "tests/TestCase.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PhpCsFixer\\Tests\\": "tests/"
+        }
+    },
+    "bin": [
+        "php-cs-fixer"
+    ]
+}

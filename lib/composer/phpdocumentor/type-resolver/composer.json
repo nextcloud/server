@@ -1,0 +1,34 @@
+{
+    "name": "phpdocumentor/type-resolver",
+    "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+          "name": "Mike van Riel",
+          "email": "me@mikevanriel.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || ^8.0",
+        "phpdocumentor/reflection-common": "^2.0"
+    },
+    "require-dev": {
+        "ext-tokenizer": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "phpDocumentor\\Reflection\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "phpDocumentor\\Reflection\\": ["tests/unit", "tests/benchmark"]
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-1.x": "1.x-dev"
+        }
+    }
+}

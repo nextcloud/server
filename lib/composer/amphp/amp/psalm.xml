@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<psalm
+        totallyTyped="false"
+        errorLevel="2"
+        phpVersion="7.0"
+        resolveFromConfigFile="true"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="https://getpsalm.org/schema/config"
+        xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="examples"/>
+        <ignoreFiles>
+            <directory name="examples/psalm"/>
+        </ignoreFiles>
+        <directory name="lib"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <DuplicateClass>
+            <errorLevel type="suppress">
+                <file name="lib/CallableMaker.php"/>
+            </errorLevel>
+        </DuplicateClass>
+
+        <StringIncrement>
+            <errorLevel type="suppress">
+                <directory name="examples"/>
+                <directory name="lib"/>
+            </errorLevel>
+        </StringIncrement>
+
+        <RedundantConditionGivenDocblockType>
+            <errorLevel type="suppress">
+                <directory name="lib"/>
+            </errorLevel>
+        </RedundantConditionGivenDocblockType>
+
+        <DocblockTypeContradiction>
+            <errorLevel type="suppress">
+                <directory name="lib"/>
+            </errorLevel>
+        </DocblockTypeContradiction>
+
+        <MissingClosureParamType>
+            <errorLevel type="suppress">
+                <directory name="examples"/>
+                <directory name="lib"/>
+            </errorLevel>
+        </MissingClosureParamType>
+
+        <MissingClosureReturnType>
+            <errorLevel type="suppress">
+                <directory name="examples"/>
+                <directory name="lib"/>
+            </errorLevel>
+        </MissingClosureReturnType>
+    </issueHandlers>
+
+    <stubs>
+        <file name="vendor/jetbrains/phpstorm-stubs/Ev/Ev.php"/>
+        <file name="vendor/jetbrains/phpstorm-stubs/event/event.php"/>
+        <file name="vendor/jetbrains/phpstorm-stubs/uv/UV.php"/>
+        <file name="vendor/jetbrains/phpstorm-stubs/uv/uv_functions.php"/>
+    </stubs>
+</psalm>

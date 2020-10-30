@@ -1,0 +1,43 @@
+language: php
+
+php:
+  - '7.0'
+  - '7.2'
+
+env:
+  global:
+    - FORCE_COLOR=1
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/.npm
+
+install:
+  - composer install --prefer-dist
+
+script:
+  - vendor/bin/phpunit --coverage-clover=coverage.xml --whitelist lib --bootstrap vendor/autoload.php tests
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+jobs:
+  include:
+    - stage: release
+      language: node_js
+      node_js: '8'
+      install:
+        - npm ci
+      script:
+        - npm run semantic-release
+      after_success: false
+
+stages:
+  - test
+  - name: release
+    if: branch = master AND type = push AND fork = false
+
+branches:
+  except:
+   - /^v\d+\.\d+\.\d+$/
