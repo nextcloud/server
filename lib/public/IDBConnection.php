@@ -77,13 +77,13 @@ interface IDBConnection {
 	 * If the query is parameterized, a prepared statement is used.
 	 * If an SQLLogger is configured, the execution is logged.
 	 *
-	 * @param string $query The SQL query to execute.
+	 * @param string $sql The SQL query to execute.
 	 * @param string[] $params The parameters to bind to the query, if any.
 	 * @param array $types The types the previous parameters are in.
 	 * @return \Doctrine\DBAL\Driver\Statement The executed statement.
 	 * @since 8.0.0
 	 */
-	public function executeQuery($query, array $params = [], $types = []);
+	public function executeQuery($sql, array $params = [], $types = []);
 
 	/**
 	 * Executes an SQL INSERT/UPDATE/DELETE query with the given parameters
@@ -91,13 +91,29 @@ interface IDBConnection {
 	 *
 	 * This method supports PDO binding types as well as DBAL mapping types.
 	 *
-	 * @param string $query The SQL query.
+	 * @param string $sql The SQL query.
 	 * @param array $params The query parameters.
 	 * @param array $types The parameter types.
 	 * @return integer The number of affected rows.
 	 * @since 8.0.0
+	 *
+	 * @deprecated 21.0.0 use executeStatement
 	 */
-	public function executeUpdate($query, array $params = [], array $types = []);
+	public function executeUpdate($sql, array $params = [], array $types = []);
+
+	/**
+	 * Executes an SQL INSERT/UPDATE/DELETE query with the given parameters
+	 * and returns the number of affected rows.
+	 *
+	 * This method supports PDO binding types as well as DBAL mapping types.
+	 *
+	 * @param string $sql The SQL query.
+	 * @param array $params The query parameters.
+	 * @param array $types The parameter types.
+	 * @return integer The number of affected rows.
+	 * @since 21.0.0
+	 */
+	public function executeStatement($sql, array $params = [], array $types = []);
 
 	/**
 	 * Used to get the id of the just inserted element
