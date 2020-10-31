@@ -263,6 +263,7 @@ OC.L10N.register(
     "{license}-licensed" : "{license}-许可协议",
     "Details" : "详情",
     "Changelog" : "更改日志",
+    "by {author}\n{license}" : "按照 {author}\n{license}",
     "New user" : "新建用户",
     "Enter group name" : "输入群组名称",
     "Add group" : "添加分组",
