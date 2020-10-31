@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.0.1@b1e2e30026936ef8d5bf6a354d1c3959b6231f44">
+<files psalm-version="4.1.0@8929bde5354595dc61947b7e27cfe59db45e3bb0">
   <file src="3rdparty/doctrine/dbal/lib/Doctrine/DBAL/Connection.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|null</code>
