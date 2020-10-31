@@ -272,14 +272,17 @@ steps:
 - name: nodb-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 - name: nodb-php7.3
   image: nextcloudci/php7.3:php7.3-4
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 - name: nodb-php7.4
   image: nextcloudci/php7.4:2
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=NODB ./autotest.sh sqlite
 
 services:
@@ -306,14 +309,17 @@ steps:
 - name: sqlite-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 - name: sqlite-php7.3
   image: nextcloudci/php7.3:php7.3-4
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 - name: sqlite-php7.4
   image: nextcloudci/php7.4:2
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh sqlite
 
 services:
@@ -340,6 +346,7 @@ steps:
 - name: mariadb10.1-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
 
 services:
@@ -375,6 +382,7 @@ steps:
 - name: mariadb10.2-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
 
 services:
@@ -409,6 +417,7 @@ steps:
 - name: mariadb10.3-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
 
 services:
@@ -443,6 +452,7 @@ steps:
 - name: mariadb10.4-php7.3
   image: nextcloudci/php7.3:php7.3-4
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mariadb
 
 services:
@@ -478,6 +488,7 @@ steps:
 - name: mysql-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
 
 services:
@@ -514,6 +525,7 @@ steps:
 - name: mysql-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
 
 services:
@@ -546,6 +558,7 @@ steps:
 - name: mysql-php7.3
   image: nextcloudci/php7.3:php7.3-4
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
 
 services:
@@ -578,6 +591,7 @@ steps:
 - name: mysql5.6-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysql
 
 services:
@@ -612,6 +626,7 @@ steps:
 - name: postgres-php7.3
   image: nextcloudci/php7.3:php7.3-4
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
     - POSTGRES=9 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
 
@@ -647,6 +662,7 @@ steps:
 - name: postgres-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
     - POSTGRES=10 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
 
@@ -681,6 +697,7 @@ steps:
 - name: postgres-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - sleep 10 # gives the database enough time to initialize
     - POSTGRES=11 NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh pgsql
 
@@ -716,6 +733,7 @@ steps:
 - name: mysqlmb4-php7.2
   image: nextcloudci/php7.2:php7.2-13
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
 
 services:
@@ -751,6 +769,7 @@ steps:
 - name: mysqlmb4-php7.3
   image: nextcloudci/php7.3:php7.3-4
   commands:
+    - bash tests/drone-run-php-tests.sh || exit 0
     - NOCOVERAGE=true TEST_SELECTION=DB ./autotest.sh mysqlmb4
 
 services:
