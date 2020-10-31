@@ -11,6 +11,7 @@ OC.L10N.register(
     "Clear status message after" : "Fjern statusmelding etter",
     "What's your status?" : "Hva er din status?",
     "Set status" : "Velg status",
+    "Online status" : "Online status",
     "Status message" : "Statusmelding",
     "Clear status message" : "Fjern statusmelding",
     "Set status message" : "Velg statusmelding",

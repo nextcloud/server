@@ -2,7 +2,7 @@ OC.L10N.register(
     "comments",
     {
     "Comments" : "Kommentare",
-    "You commented" : "Von Dir kommentiert",
+    "You commented" : "Du hast kommentiert",
     "%1$s commented" : "%1$s kommentierte",
     "{author} commented" : "{author} kommentierte",
     "You commented on %1$s" : "Du hast %1$s kommentiert",
@@ -32,9 +32,9 @@ OC.L10N.register(
     "Post" : "Speichern",
     "Cancel" : "Abbrechen",
     "[Deleted user]" : "[Gelöschter Benutzer]",
-    "More comments …" : "Weitere Kommentare…",
+    "More comments …" : "Weitere Kommentare …",
     "Save" : "Speichern",
-    "Allowed characters {count} of {max}" : "Erlaubte Zeichen {count} von {max}",
+    "Allowed characters {count} of {max}" : "{count} von {max} Zeichen benutzt",
     "Error occurred while retrieving comment with ID {id}" : "Es ist ein Fehler beim Empfangen des Kommentars mit der ID {id} aufgetreten",
     "Error occurred while updating comment with id {id}" : "Es ist ein Fehler beim Aktualisieren des Kommentars mit der ID {id} aufgetreten",
     "Error occurred while posting comment" : "Es ist ein Fehler beim Veröffentlichen des Kommentars aufgetreten"

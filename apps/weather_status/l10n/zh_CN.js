@@ -2,12 +2,12 @@ OC.L10N.register(
     "weather_status",
     {
     "Unknown address" : "未知地址",
-    "No result." : "无结果",
+    "No result." : "无结果。",
     "Malformed JSON data." : "JSON 数据格式错误。",
     "Error" : "错误",
     "Weather status" : "天气状况",
-    "Weather status in your dashboard" : "仪表盘中的天气状态",
-    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "仪表盘仪表盘应用程序中集成了天气状态。\n用户的位置可以自动确定或手动定义。然后将会显示 6 小时的预报。\n此状态也可以集成到其他地方，例如“日历”应用程序。",
+    "Weather status in your dashboard" : "仪表盘中的天气状况",
+    "Weather status integrated in the Dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "仪表盘仪表盘应用程序中集成了天气状况。\n用户的位置可以自动确定或手动定义。然后将会显示 6 小时的预报。\n此状况也可以集成到其他地方，例如日历应用。",
     "Detect location" : "检测地点",
     "Set custom address" : "自定义地址",
     "Favorites" : "收藏",
@@ -23,6 +23,7 @@ OC.L10N.register(
     "{temperature} {unit} Rain showers at {time}" : "{temperature} {unit} 阵雨于 {time}",
     "{temperature} {unit} Light rain showers at {time}" : "{temperature} {unit} 阵小雨于 {time}",
     "{temperature} {unit} Heavy rain showers at {time}" : "{temperature} {unit} 阵大雨于 {time}",
+    "More weather for {adr}" : "{adr} 的更多天气信息",
     "Loading weather" : "正在加载天气",
     "Set location for weather" : "设置天气位置",
     "Remove from favorites" : "从收藏夹移除",
@@ -35,6 +36,6 @@ OC.L10N.register(
     "There was an error setting the location." : "设置位置时出错。",
     "There was an error saving the mode." : "保存模式时出错。",
     "There was an error using personal address." : "使用个人地址出错。",
-    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "仪表盘仪表盘应用程序中集成了天气状态。\n用户的位置可以自动确定或手动定义。然后将会显示 6 小时的预报。\n此状态也可以集成到其他地方，例如“日历”应用程序。"
+    "Weather status integrated in the dashboard app.\n    User's position can be automatically determined or manually defined. A 6 hours forecast is then displayed.\n    This status can also be integrated in other places like the Calendar app." : "仪表盘仪表盘应用程序中集成了天气状况。\n用户的位置可以自动确定或手动定义。然后将会显示 6 小时的预报。\n此状况也可以集成到其他地方，例如“日历”应用程序。"
 },
 "nplurals=1; plural=0;");

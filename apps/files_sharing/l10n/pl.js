@@ -187,6 +187,7 @@ OC.L10N.register(
     "No recommendations. Start typing." : "Brak rekomendacji. Możesz napisać.",
     "Resharing is not allowed" : "Udostępnianie jest niedozwolone",
     "Name or email …" : "Nazwa lub adres e-mail…",
+    "Name, email, or Federated Cloud ID …" : "Nazwa, adres e-mail lub ID Chmury Federacyjnej…",
     "Searching …" : "Wyszukiwanie…",
     "No elements found." : "Nie znaleziono elementów.",
     "Search globally" : "Szukaj globalnie",
