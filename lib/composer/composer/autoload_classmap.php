@@ -607,6 +607,7 @@ return array(
     'OC\\AppFramework\\OCS\\V2Response' => $baseDir . '/lib/private/AppFramework/OCS/V2Response.php',
     'OC\\AppFramework\\Routing\\RouteActionHandler' => $baseDir . '/lib/private/AppFramework/Routing/RouteActionHandler.php',
     'OC\\AppFramework\\Routing\\RouteConfig' => $baseDir . '/lib/private/AppFramework/Routing/RouteConfig.php',
+    'OC\\AppFramework\\Routing\\RouteParser' => $baseDir . '/lib/private/AppFramework/Routing/RouteParser.php',
     'OC\\AppFramework\\ScopedPsrLogger' => $baseDir . '/lib/private/AppFramework/ScopedPsrLogger.php',
     'OC\\AppFramework\\Services\\AppConfig' => $baseDir . '/lib/private/AppFramework/Services/AppConfig.php',
     'OC\\AppFramework\\Services\\InitialState' => $baseDir . '/lib/private/AppFramework/Services/InitialState.php',
