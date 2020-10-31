@@ -46,45 +46,18 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 /*
- * Try old routes first
- * We first try the old routes since the appframework triggers more login stuff.
+ * Try the appframework routes
  */
 try {
 	OC_App::loadApps(['session']);
 	OC_App::loadApps(['authentication']);
-	// load all apps to get all api routes properly setup
-	OC_App::loadApps();
-
-	OC::$server->getRouter()->match('/ocs'.\OC::$server->getRequest()->getRawPathInfo());
-
-	sleep(1);
-	OC::$server->getLogger()->info('This uses an old OCP\API::register construct. This will be removed in a future version of Nextcloud. Please migrate to the OCSController');
-
-	return;
-} catch (ResourceNotFoundException $e) {
-	// Fall through the not found
-} catch (MethodNotAllowedException $e) {
-	OC_API::setContentType();
-	http_response_code(405);
-	exit();
-} catch (\OC\OCS\Exception $ex) {
-	OC_API::respond($ex->getResult(), OC_API::requestedFormat());
-	exit();
-} catch (Throwable $ex) {
-	OC::$server->getLogger()->logException($ex);
-
-	OC_API::setContentType();
-	http_response_code(500);
-	exit();
-}
-
-/*
- * Try the appframework routes
- */
-try {
 	if (!\OC::$server->getUserSession()->isLoggedIn()) {
 		OC::handleLogin(\OC::$server->getRequest());
 	}
+
+	// load all apps to get all api routes properly setup
+	OC_App::loadApps();
+
 	OC::$server->getRouter()->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
 } catch (ResourceNotFoundException $e) {
 	OC_API::setContentType();
