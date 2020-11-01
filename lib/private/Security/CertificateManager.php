@@ -104,6 +104,29 @@ class CertificateManager implements ICertificateManager {
 		return $result;
 	}
 
+	private function hasCertificates(): bool {
+		if (!$this->config->getSystemValue('installed', false)) {
+			return false;
+		}
+
+		$path = $this->getPathToCertificates() . 'uploads/';
+		if (!$this->view->is_dir($path)) {
+			return false;
+		}
+		$result = [];
+		$handle = $this->view->opendir($path);
+		if (!is_resource($handle)) {
+			return false;
+		}
+		while (false !== ($file = readdir($handle))) {
+			if ($file !== '.' && $file !== '..') {
+				return true;
+			}
+		}
+		closedir($handle);
+		return false;
+	}
+
 	/**
 	 * create the certificate bundle of all trusted certificated
 	 */
@@ -213,9 +236,14 @@ class CertificateManager implements ICertificateManager {
 	 * @return string
 	 */
 	public function getAbsoluteBundlePath() {
+		if (!$this->hasCertificates()) {
+			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
+		}
+
 		if ($this->needsRebundling()) {
 			$this->createCertificateBundle();
 		}
+
 		return $this->view->getLocalFile($this->getCertificateBundle());
 	}
 

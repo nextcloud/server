@@ -105,10 +105,6 @@ class Client implements IClient {
 			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
 		}
 
-		if ($this->certificateManager->listCertificates() === []) {
-			return \OC::$SERVERROOT . '/resources/config/ca-bundle.crt';
-		}
-
 		return $this->certificateManager->getAbsoluteBundlePath();
 	}
 
