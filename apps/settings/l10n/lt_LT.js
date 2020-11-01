@@ -146,7 +146,6 @@ OC.L10N.register(
     "Developer documentation" : "Plėtotojo dokumentacija",
     "This app is supported via your current Nextcloud subscription." : "Ši programėlė yra palaikoma per jūsų esamą Nextcloud prenumeratą.",
     "Supported" : "Palaikoma",
-    "Featured apps are developed by and within the community. They offer central functionality and are ready for production use." : "Panašias programas kuria ir vysto bendruomenė, Tokios programos suteikia pagrindinius funkcionalumus ir yra tinkamos naudoti. ",
     "Update to {update}" : "Atnaujinti į {update}",
     "Update all" : "Atnaujinti visas",
     "Results from other categories" : "Rezultatai iš kitų kategorijų",
