@@ -68,6 +68,7 @@ OC.L10N.register(
     "Your %s needs to be configured to use HTTPS in order to use CalDAV and CardDAV with iOS/macOS." : "Norint naudoti CalDAV ir CardDAV su iOS/macOS, jūsų %s turi būti sukonfigūruota taip, kad naudotų HTTPS.",
     "Configures a CalDAV account" : "Konfigūruoja CalDAV paskyrą",
     "Configures a CardDAV account" : "Konfigūruoja CardDAV paskyrą",
+    "Events" : "Įvykiai",
     "Tasks" : "Užduotys",
     "Untitled task" : "Užduotis be pavadinimo",
     "WebDAV" : "WebDAV",
