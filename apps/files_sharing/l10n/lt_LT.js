@@ -186,6 +186,8 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Įvyko klaida, įveskite teisingą slaptažodį ir/ar galiojimo datą",
     "No recommendations. Start typing." : "Rekomendacijų nėra. Pradėkite rašyti.",
     "Resharing is not allowed" : "Bendrinimas iš naujo yra neleidžiamas",
+    "Name or email …" : "Vardas ar el. paštas…",
+    "Name, email, or Federated Cloud ID …" : "Vardas, el. paštas ar federacinės debesijos ID…",
     "Searching …" : "Ieškoma…",
     "No elements found." : "Nerasta jokių elementų.",
     "Search globally" : "Ieškoti visur",
@@ -228,6 +230,7 @@ OC.L10N.register(
     "Uploading files" : "Įkeliami failai",
     "Uploaded files:" : "Įkelti failai:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Įkeldami failus, sutinkate su %1$snaudojimosi sąlygomis%2$s.",
+    "Name, email, or federated cloud ID …" : "Vardas, el. paštas ar federacinės debesijos ID…",
     "Uploading files…" : "Įkeliami failai…"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
