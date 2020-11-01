@@ -36,7 +36,7 @@ OC.L10N.register(
     "Search global and public address book for users" : "Preišči javne in splošne imenike za uporabnike",
     "Allow users to publish their data to a global and public address book" : "Dovoli uporabnikom objavljanje podatkov v splošnem in javnem imeniku",
     "Federated Cloud" : "Zvezni oblak",
-    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Mesto souporabe je mogoče deliti s komerkoli, ki uporablja strežnik Nextcloud ali pa katerikoli strežnik, skladen s storitvami Open Cloud Mesh (OCM). Vpisati je treba zgolj njihov naslov zveznega ID v polje souporabe, ki je zapisano v obliki oseba@domena-oblaka.si ali oseba@domena.si/oblak",
+    "You can share with anyone who uses a Nextcloud server or other Open Cloud Mesh (OCM) compatible servers and services! Just put their Federated Cloud ID in the share dialog. It looks like person@cloud.example.com" : "Souporaba različnih predmetov je mogoča s komerkoli, ki uporablja strežnik Nextcloud oziroma katerikoli strežnik, skladen s storitvami Open Cloud Mesh (OCM). Vpisati je treba zgolj njihov zvezni naslov ID v polje souporabe, ki je zapisano v obliki oseba@domena-oblaka.si oziroma oseba@domena.si/oblak.",
     "Your Federated Cloud ID:" : "ID zveznega oblaka:",
     "Share it so your friends can share files with you:" : "Objavite naslov in omogočite souporabo s prijatelji:",
     "Add to your website" : "Dodaj na spletišče",
