@@ -95,7 +95,7 @@ OC.L10N.register(
     "Are you accepting the invitation?" : "Die Einladung annehmen?",
     "Tentative" : "Vorläufig",
     "Save" : "Speichern",
-    "Your attendance was updated successfully." : "Dein Anwesenheits-Status wurde aktualisiert.",
+    "Your attendance was updated successfully." : "Dein Teilnehmerstatus wurde aktualisiert.",
     "Calendar server" : "Kalender-Server",
     "Also install the {calendarappstoreopen}Calendar app{linkclose}, or {calendardocopen}connect your desktop & mobile for syncing ↗{linkclose}." : "Installiere außerdem die {calendarappstoreopen}Kalender-App{linkclose} oder {calendardocopen}verbinde Deinen Desktop & Mobilgerät zur Synchronisierung ↗{linkclose}.",
     "Send invitations to attendees" : "Einladungen an die Teilnehmer versenden",
