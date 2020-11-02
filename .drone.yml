@@ -73,7 +73,7 @@ steps:
 - name: handlebars
   image: node
   commands:
-    - npm i
+    - npm ci
     - ./build/compile-handlebars-templates.sh
 
 trigger:
