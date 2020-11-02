@@ -49,7 +49,6 @@ return array(
     'OCP\\AppFramework\\Http\\IOutput' => $baseDir . '/lib/public/AppFramework/Http/IOutput.php',
     'OCP\\AppFramework\\Http\\JSONResponse' => $baseDir . '/lib/public/AppFramework/Http/JSONResponse.php',
     'OCP\\AppFramework\\Http\\NotFoundResponse' => $baseDir . '/lib/public/AppFramework/Http/NotFoundResponse.php',
-    'OCP\\AppFramework\\Http\\OCSResponse' => $baseDir . '/lib/public/AppFramework/Http/OCSResponse.php',
     'OCP\\AppFramework\\Http\\RedirectResponse' => $baseDir . '/lib/public/AppFramework/Http/RedirectResponse.php',
     'OCP\\AppFramework\\Http\\RedirectToDefaultAppResponse' => $baseDir . '/lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php',
     'OCP\\AppFramework\\Http\\Response' => $baseDir . '/lib/public/AppFramework/Http/Response.php',

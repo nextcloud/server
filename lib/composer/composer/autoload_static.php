@@ -78,7 +78,6 @@ class ComposerStaticInit53792487c5a8370acc0b06b1a864ff4c
         'OCP\\AppFramework\\Http\\IOutput' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/IOutput.php',
         'OCP\\AppFramework\\Http\\JSONResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/JSONResponse.php',
         'OCP\\AppFramework\\Http\\NotFoundResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/NotFoundResponse.php',
-        'OCP\\AppFramework\\Http\\OCSResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/OCSResponse.php',
         'OCP\\AppFramework\\Http\\RedirectResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/RedirectResponse.php',
         'OCP\\AppFramework\\Http\\RedirectToDefaultAppResponse' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/RedirectToDefaultAppResponse.php',
         'OCP\\AppFramework\\Http\\Response' => __DIR__ . '/../../..' . '/lib/public/AppFramework/Http/Response.php',
