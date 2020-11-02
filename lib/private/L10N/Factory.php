@@ -37,7 +37,6 @@
 
 namespace OC\L10N;
 
-use Ds\Set;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IUser;
@@ -65,9 +64,9 @@ class Factory implements IFactory {
 	protected $availableLanguages = [];
 
 	/**
-	 * @var Set
+	 * @var array
 	 */
-	protected $localeCache;
+	protected $localeCache = [];
 
 	/**
 	 * @var array
@@ -110,7 +109,6 @@ class Factory implements IFactory {
 		$this->request = $request;
 		$this->userSession = $userSession;
 		$this->serverRoot = $serverRoot;
-		$this->localeCache = new Set();
 	}
 
 	/**
@@ -398,14 +396,14 @@ class Factory implements IFactory {
 			return true;
 		}
 
-		if ($this->localeCache->isEmpty()) {
+		if ($this->localeCache === []) {
 			$locales = $this->findAvailableLocales();
 			foreach ($locales as $l) {
-				$this->localeCache->add($l['code']);
+				$this->localeCache[$l['code']] = true;
 			}
 		}
 
-		return $this->localeCache->contains($locale);
+		return isset($this->localeCache[$locale]);
 	}
 
 	/**
