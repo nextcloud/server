@@ -109,7 +109,7 @@ class TemplateLayout extends \OC_Template {
 			if (\OC_User::getUser() === false) {
 				$this->assign('userAvatarSet', false);
 			} else {
-				$this->assign('userAvatarSet', \OC::$server->getAvatarManager()->getAvatar(\OC_User::getUser())->exists());
+				$this->assign('userAvatarSet', true);
 				$this->assign('userAvatarVersion', $this->config->getUserValue(\OC_User::getUser(), 'avatar', 'version', 0));
 			}
 
