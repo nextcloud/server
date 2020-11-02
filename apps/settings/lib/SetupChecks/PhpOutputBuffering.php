@@ -37,6 +37,6 @@ class PhpOutputBuffering {
 
 	public function run(): bool {
 		$value = strtolower(trim(ini_get('output_buffering')));
-		return in_array($value, array('', '0', 'off', 'false', 'no', 'none'));
+		return in_array($value, ['', '0', 'off', 'false', 'no', 'none']);
 	}
 }
