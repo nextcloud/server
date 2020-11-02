@@ -1164,6 +1164,8 @@ const Dialogs = {
 				self.$fileListHeader.show()
 			}
 
+			self.$filelist.empty();
+
 			$.each(files, function(idx, entry) {
 				entry.icon = OC.MimeType.getIconUrl(entry.mimetype)
 				var simpleSize, sizeColor
