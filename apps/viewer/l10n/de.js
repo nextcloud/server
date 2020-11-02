@@ -4,7 +4,7 @@ OC.L10N.register(
     "Viewer" : "Betrachter",
     "Simple file viewer with slideshow for media" : "Einfacher Datei-Betrachter mit Diashow für Medien ",
     "Show your latest holiday photos and videos like in the movies, show a glimpse of your latest novel directly from your nextcloud, choose the best GIF of your collection thanks to the direct preview of your favorites files and many more!" : "Zeige Deine letzten Urlaubsfotos und -videos wie im Film, gib einen Einblick in Deinen neuesten Roman direkt aus Deiner Nextcloud, wähle die besten GIF-Dateien aus Deiner Sammlung dank der direkten Voransicht Deiner favorisierten Dateien und viel mehr!",
-    "Your browser does not support audio." : "Ihr Browser unterstützt kein Audio.",
+    "Your browser does not support audio." : "Dein Browser unterstützt kein Audio.",
     "Error loading {name}" : "Fehler beim Laden von {name}",
     "Your browser does not support videos." : "Dein Browser unterstützt keine Videos.",
     "Open sidebar" : "Seitenleiste öffnen",
