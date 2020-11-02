@@ -186,6 +186,8 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Hata. Lütfen uygun bir parola ya da son kullanma tarihi yazın",
     "No recommendations. Start typing." : "Herhangi bir öneri yok. Yazmaya başlayın.",
     "Resharing is not allowed" : "Yeniden paylaşıma izin verilmiyor",
+    "Name or email …" : "Ad ya da e-posta adresi …",
+    "Name, email, or Federated Cloud ID …" : "Ad, e-posta ya da Birleşik Bulut Kodu …",
     "Searching …" : "Aranıyor …",
     "No elements found." : "Herhangi bir bileşen bulunamadı.",
     "Search globally" : "Genel arama",
@@ -228,6 +230,7 @@ OC.L10N.register(
     "Uploading files" : "Dosyalar yükleniyor",
     "Uploaded files:" : "Yüklenmiş dosyalar:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Dosya yükleyerek %1$shizmet koşullarını%2$s kabul etmiş olursunuz.",
+    "Name, email, or federated cloud ID …" : "Ad, e-posta ya da Birleşik Bulut Kodu …",
     "Uploading files…" : "Dosyalar yükleniyor …"
 },
 "nplurals=2; plural=(n > 1);");

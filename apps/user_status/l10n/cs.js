@@ -10,7 +10,7 @@ OC.L10N.register(
     "User status" : "Stav uživatele",
     "Clear status message after" : "Vyčistit stavovou zprávu po uplynutí",
     "What's your status?" : "Jaký je váš stav?",
-    "Set status" : "Natavit stav",
+    "Set status" : "Nastavit stav",
     "Online status" : "Stav online",
     "Status message" : "Stavová zpráva",
     "Clear status message" : "Vyčistit stavovou zprávu",
