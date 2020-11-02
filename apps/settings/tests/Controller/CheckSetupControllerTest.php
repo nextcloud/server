@@ -383,21 +383,25 @@ class CheckSetupControllerTest extends TestCase {
 	public function testCheck() {
 		$this->config->expects($this->at(0))
 			->method('getAppValue')
+			->with('files_external', 'user_certificate_scan', false)
+			->willReturn('["a", "b"]');
+		$this->config->expects($this->at(1))
+			->method('getAppValue')
 			->with('core', 'cronErrors')
 			->willReturn('');
-		$this->config->expects($this->at(2))
+		$this->config->expects($this->at(3))
 			->method('getSystemValue')
 			->with('connectivity_check_domains', ['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org'])
 			->willReturn(['www.nextcloud.com', 'www.startpage.com', 'www.eff.org', 'www.edri.org']);
-		$this->config->expects($this->at(3))
+		$this->config->expects($this->at(4))
 			->method('getSystemValue')
 			->with('memcache.local', null)
 			->willReturn('SomeProvider');
-		$this->config->expects($this->at(4))
+		$this->config->expects($this->at(5))
 			->method('getSystemValue')
 			->with('has_internet_connection', true)
 			->willReturn(true);
-		$this->config->expects($this->at(5))
+		$this->config->expects($this->at(6))
 			->method('getSystemValue')
 			->with('appstoreenabled', true)
 			->willReturn(false);
@@ -594,6 +598,7 @@ class CheckSetupControllerTest extends TestCase {
 				'OCA\Settings\SetupChecks\PhpDefaultCharset' => ['pass' => true, 'description' => 'PHP configuration option default_charset should be UTF-8', 'severity' => 'warning'],
 				'OCA\Settings\SetupChecks\PhpOutputBuffering' => ['pass' => true, 'description' => 'PHP configuration option output_buffering must be disabled', 'severity' => 'error'],
 				'OCA\Settings\SetupChecks\LegacySSEKeyFormat' => ['pass' => true, 'description' => 'The old server-side-encryption format is enabled. We recommend disabling this.', 'severity' => 'warning', 'linkToDocumentation' => ''],
+				'OCA\Settings\SetupChecks\CheckUserCertificates' => ['pass' => false, 'description' => 'There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via "occ security:certificates:import" command. Their paths inside the data directory are shown below.', 'severity' => 'warning', 'elements' => ['a', 'b']],
 				'imageMagickLacksSVGSupport' => false,
 			]
 		);

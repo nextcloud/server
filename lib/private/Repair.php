@@ -52,6 +52,7 @@ use OC\Repair\NC18\ResetGeneratedAvatarFlag;
 use OC\Repair\NC20\EncryptionLegacyCipher;
 use OC\Repair\NC20\EncryptionMigration;
 use OC\Repair\NC20\ShippedDashboardEnable;
+use OC\Repair\NC21\AddCheckForUserCertificatesJob;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\Owncloud\DropAccountTermsTable;
 use OC\Repair\Owncloud\SaveAccountsTableData;
@@ -164,6 +165,7 @@ class Repair implements IOutput {
 			\OC::$server->query(EncryptionMigration::class),
 			\OC::$server->get(ShippedDashboardEnable::class),
 			\OC::$server->get(AddBruteForceCleanupJob::class),
+			\OC::$server->get(AddCheckForUserCertificatesJob::class),
 		];
 	}
 
