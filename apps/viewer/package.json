@@ -51,7 +51,7 @@
     "regenerator-runtime": "^0.13.7",
     "vue": "^2.6.12",
     "vue-async-computed": "^3.9.0",
-    "vue-plyr": "^6.0.4",
+    "vue-plyr": "^7.0.0",
     "webdav": "^3.6.1"
   },
   "browserslist": [
