@@ -2748,9 +2748,6 @@
     </TooManyArguments>
   </file>
   <file src="core/Command/Db/ConvertType.php">
-    <InternalMethod occurrences="1">
-      <code>setFilterSchemaAssetsExpression</code>
-    </InternalMethod>
     <InvalidArgument occurrences="2">
       <code>$chunk * $chunkSize</code>
       <code>$chunkSize</code>
@@ -3535,17 +3532,10 @@
     <InvalidScalarArgument occurrences="1">
       <code>$e-&gt;getCode()</code>
     </InvalidScalarArgument>
-    <LessSpecificImplementedReturnType occurrences="2">
-      <code>Doctrine\DBAL\Driver\Statement</code>
-    </LessSpecificImplementedReturnType>
+    <LessSpecificImplementedReturnType occurrences="1"/>
     <ParamNameMismatch occurrences="1">
       <code>$statement</code>
     </ParamNameMismatch>
-  </file>
-  <file src="lib/private/DB/ConnectionFactory.php">
-    <InternalClass occurrences="1">
-      <code>new Configuration()</code>
-    </InternalClass>
   </file>
   <file src="lib/private/DB/MDB2SchemaReader.php">
     <InvalidScalarArgument occurrences="1">
@@ -3553,9 +3543,6 @@
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/DB/MDB2SchemaWriter.php">
-    <InternalMethod occurrences="1">
-      <code>setFilterSchemaAssetsExpression</code>
-    </InternalMethod>
     <InvalidScalarArgument occurrences="1">
       <code>$column-&gt;getLength()</code>
     </InvalidScalarArgument>
@@ -3579,11 +3566,6 @@
     </UndefinedThisPropertyFetch>
   </file>
   <file src="lib/private/DB/Migrator.php">
-    <InternalMethod occurrences="3">
-      <code>setFilterSchemaAssetsExpression</code>
-      <code>setFilterSchemaAssetsExpression</code>
-      <code>setFilterSchemaAssetsExpression</code>
-    </InternalMethod>
     <InvalidArgument occurrences="2">
       <code>'\OC\DB\Migrator::checkTable'</code>
       <code>'\OC\DB\Migrator::executeSql'</code>
@@ -3597,11 +3579,6 @@
     <InvalidArrayAccess occurrences="1">
       <code>$key[0]</code>
     </InvalidArrayAccess>
-  </file>
-  <file src="lib/private/DB/PgSqlTools.php">
-    <InternalMethod occurrences="1">
-      <code>setFilterSchemaAssetsExpression</code>
-    </InternalMethod>
   </file>
   <file src="lib/private/DB/QueryBuilder/ExpressionBuilder/ExpressionBuilder.php">
     <ImplicitToStringCast occurrences="1">
@@ -3648,9 +3625,7 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/DB/ReconnectWrapper.php">
-    <InternalMethod occurrences="1">
-      <code>__construct</code>
-    </InternalMethod>
+    <InternalMethod occurrences="1"/>
   </file>
   <file src="lib/private/DateTimeFormatter.php">
     <FalsableReturnStatement occurrences="1"/>
@@ -5091,9 +5066,6 @@
       <code>\OCP\Calendar\Room\IManager</code>
       <code>\OCP\Files\Folder|null</code>
     </ImplementedReturnTypeMismatch>
-    <InternalMethod occurrences="1">
-      <code>setSQLLogger</code>
-    </InternalMethod>
     <InvalidCatch occurrences="1"/>
     <InvalidScalarArgument occurrences="1">
       <code>$uid</code>
@@ -5356,7 +5328,7 @@
       <code>string</code>
       <code>string</code>
     </InvalidParamDefault>
-    <InvalidScalarArgument occurrences="4">
+    <InvalidScalarArgument occurrences="3">
       <code>$appName</code>
       <code>$appName</code>
       <code>\OC_User::getUser()</code>
