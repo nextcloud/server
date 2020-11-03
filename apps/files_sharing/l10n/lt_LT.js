@@ -203,7 +203,7 @@ OC.L10N.register(
     "Link to a file" : "Nuoroda į failą",
     "Error creating the share" : "Klaida kuriant viešinį",
     "Error updating the share" : "Klaida atnaujinant viešinį",
-    "Shared" : "Pasidalinta",
+    "Shared" : "Bendrinama",
     "Share" : "Dalintis",
     "Shared with" : "Bendrinama su",
     "Shared with you and the group {group} by {owner}" : "{owner} pasidalino su jumis ir grupe {group}",

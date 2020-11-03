@@ -54,7 +54,7 @@
     "_%n day_::_%n days_" : ["%n jour","%n jours"],
     "_%n hour_::_%n hours_" : ["%n heure","%n heures"],
     "_%n minute_::_%n minutes_" : ["%n minute","%n minutes"],
-    "%s (in %s)" : "%s(parmi %s)",
+    "%s (in %s)" : "%s (dans %s)",
     "%s (%s ago)" : "%s (il y a %s)",
     "Calendar: %s" : "Agenda: %s",
     "Date: %s" : "Date: %s",
