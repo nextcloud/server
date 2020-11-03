@@ -903,11 +903,15 @@ describe('Core base tests', function() {
 
 		beforeEach(function() {
 			snapConstructorStub = sinon.stub(window, 'Snap');
-
 			snapperStub = {};
+
 			snapperStub.enable = sinon.stub();
 			snapperStub.disable = sinon.stub();
 			snapperStub.close = sinon.stub();
+			snapperStub.on = sinon.stub();
+			snapperStub.state = sinon.stub().returns({
+				state: sinon.stub()
+			});
 
 			snapConstructorStub.returns(snapperStub);
 
