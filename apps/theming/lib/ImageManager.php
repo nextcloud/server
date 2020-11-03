@@ -223,7 +223,7 @@ class ImageManager {
 			throw new \Exception('Unsupported image type');
 		}
 
-		if ($key === 'background' && strpos($detectedMimeType, 'image/svg') === false) {
+		if ($key === 'background' && strpos($detectedMimeType, 'image/svg') === false && strpos($detectedMimeType, 'image/gif') === false) {
 			// Optimize the image since some people may upload images that will be
 			// either to big or are not progressive rendering.
 			$newImage = @imagecreatefromstring(file_get_contents($tmpFile));
