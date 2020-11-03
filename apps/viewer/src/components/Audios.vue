@@ -21,36 +21,36 @@
  -->
 
 <template>
-	<VuePlyr v-if="davPath"
-		ref="plyr"
-		:options="options"
-		:style="{
-			height: height + 'px',
-			width: width + 'px'
-		}">
-		<audio
-			ref="audio"
-			:autoplay="active"
-			:src="davPath"
-			preload="metadata"
-			@ended="donePlaying"
-			@canplay="doneLoading">
+	<!-- Plyr currently replaces the parent. Wrapping to prevent this
+	https://github.com/redxtech/vue-plyr/issues/259 -->
+	<div v-if="davPath">
+		<VuePlyr
+			ref="plyr"
+			:options="options">
+			<audio
+				ref="audio"
+				:autoplay="active"
+				:src="davPath"
+				preload="metadata"
+				@ended="donePlaying"
+				@canplay="doneLoading">
 
-			<!-- Omitting `type` on purpose because most of the
-				browsers auto detect the appropriate codec.
-				Having it set force the browser to comply to
-				the provided mime instead of detecting a potential
-				compatibility. -->
+				<!-- Omitting `type` on purpose because most of the
+					browsers auto detect the appropriate codec.
+					Having it set force the browser to comply to
+					the provided mime instead of detecting a potential
+					compatibility. -->
 
-			{{ t('viewer', 'Your browser does not support audio.') }}
-		</audio>
-	</VuePlyr>
+				{{ t('viewer', 'Your browser does not support audio.') }}
+			</audio>
+		</VuePlyr>
+	</div>
 </template>
 
 <script>
 import Vue from 'vue'
 import VuePlyr from 'vue-plyr'
-import { generateFilePath } from '@nextcloud/router'
+import 'vue-plyr/dist/vue-plyr.css'
 
 Vue.use(VuePlyr)
 
@@ -63,8 +63,9 @@ export default {
 		},
 		options() {
 			return {
+				autoplay: this.active === true,
 				controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'settings'],
-				iconUrl: generateFilePath('viewer', 'img', 'plyr.svg'),
+				loadSprite: false,
 			}
 		},
 	},

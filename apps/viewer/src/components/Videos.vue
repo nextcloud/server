@@ -21,38 +21,43 @@
  -->
 
 <template>
-	<VuePlyr v-if="davPath"
-		ref="plyr"
-		:options="options"
-		:style="{
-			height: height + 'px',
-			width: width + 'px'
-		}">
-		<video
-			ref="video"
-			:autoplay="active"
-			:playsinline="true"
-			:poster="livePhotoPath"
-			:src="davPath"
-			preload="metadata"
-			@ended="donePlaying"
-			@canplay="doneLoading"
-			@loadedmetadata="onLoadedMetadata">
+	<!-- Plyr currently replaces the parent. Wrapping to prevent this
+	https://github.com/redxtech/vue-plyr/issues/259 -->
+	<div v-if="davPath">
+		<VuePlyr
+			ref="plyr"
+			:options="options"
+			:style="{
+				height: height + 'px',
+				width: width + 'px'
+			}">
+			<video
+				ref="video"
+				:autoplay="active"
+				:playsinline="true"
+				:poster="livePhotoPath"
+				:src="davPath"
+				preload="metadata"
+				@ended="donePlaying"
+				@canplay="doneLoading"
+				@loadedmetadata="onLoadedMetadata">
 
-			<!-- Omitting `type` on purpose because most of the
-				browsers auto detect the appropriate codec.
-				Having it set force the browser to comply to
-				the provided mime instead of detecting a potential
-				compatibility. -->
+				<!-- Omitting `type` on purpose because most of the
+					browsers auto detect the appropriate codec.
+					Having it set force the browser to comply to
+					the provided mime instead of detecting a potential
+					compatibility. -->
 
-			{{ t('viewer', 'Your browser does not support videos.') }}
-		</video>
-	</VuePlyr>
+				{{ t('viewer', 'Your browser does not support videos.') }}
+			</video>
+		</VuePlyr>
+	</div>
 </template>
 
 <script>
 import Vue from 'vue'
 import VuePlyr from 'vue-plyr'
+import 'vue-plyr/dist/vue-plyr.css'
 
 const liveExt = ['jpg', 'jpeg', 'png']
 const liveExtRegex = new RegExp(`\\.(${liveExt.join('|')})$`, 'i')
@@ -79,6 +84,7 @@ export default {
 		},
 		options() {
 			return {
+				autoplay: this.active === true,
 				controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'fullscreen'],
 				loadSprite: false,
 			}
