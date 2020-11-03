@@ -256,6 +256,7 @@
     "Confirm your password" : "Patvirtinkite savo slaptažodį",
     "Connect to your account" : "Prisijunkite prie paskyros",
     "Please log in before granting %1$s access to your %2$s account." : "Prieš suteikdami %1$s prieigą prie savo %2$s paskyros, prisijunkite.",
+    "If you are not trying to set up a new device or app, someone is trying to trick you into granting them access to your data. In this case do not proceed and instead contact your system administrator." : "Jeigu nebandote nusistatyti naujo įrenginio ar programėlės, tuomet kažkas bando jus apgauti, kad suteiktumėte jam prieigą prie savo duomenų. Tokiu atveju netęskite ir, vietoj to, susisiekite su savo sistemos administratoriumi.",
     "App token" : "Išorinės sistemos įskiepio kodas",
     "Grant access" : "Suteikti prieigą",
     "Alternative log in using app token" : "Alternatyvus prisijungimas naudojant programėlės atpažinimo raktą",
