@@ -1400,12 +1400,9 @@ class View {
 			if ($data and isset($data['fileid'])) {
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mount points to the folder
-					$extOnly = ($includeMountPoints === 'ext');
+					$info->setIncludeShareSubMounts($includeMountPoints !== 'ext');
 					$mounts = Filesystem::getMountManager()->findIn($path);
-					$info->setSubMounts(array_filter($mounts, function (IMountPoint $mount) use ($extOnly) {
-						$subStorage = $mount->getStorage();
-						return !($extOnly && $subStorage instanceof \OCA\Files_Sharing\SharedStorage);
-					}));
+					$info->setSubMounts($mounts);
 				}
 			}
 

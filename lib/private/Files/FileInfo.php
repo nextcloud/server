@@ -33,6 +33,7 @@
 
 namespace OC\Files;
 
+use OCA\Files_Sharing\SharedStorage;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
@@ -72,6 +73,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @var string[]
 	 */
 	private $childEtags = [];
+
+	private $includeShareSubMounts = true;
 
 	/**
 	 * @var IMountPoint[]
@@ -162,7 +165,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int|null
 	 */
 	public function getId() {
-		return isset($this->data['fileid']) ? (int)  $this->data['fileid'] : null;
+		return isset($this->data['fileid']) ? (int)$this->data['fileid'] : null;
 	}
 
 	/**
@@ -216,7 +219,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 */
 	public function getMTime() {
 		$this->updateEntryfromSubMounts();
-		return (int) $this->data['mtime'];
+		return (int)$this->data['mtime'];
 	}
 
 	/**
@@ -232,18 +235,18 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int
 	 */
 	public function getEncryptedVersion() {
-		return isset($this->data['encryptedVersion']) ? (int) $this->data['encryptedVersion'] : 1;
+		return isset($this->data['encryptedVersion']) ? (int)$this->data['encryptedVersion'] : 1;
 	}
 
 	/**
 	 * @return int
 	 */
 	public function getPermissions() {
-		$perms = (int) $this->data['permissions'];
+		$perms = (int)$this->data['permissions'];
 		if (\OCP\Util::isSharingDisabledForUser() || ($this->isShared() && !\OC\Share\Share::isResharingAllowed())) {
 			$perms = $perms & ~\OCP\Constants::PERMISSION_SHARE;
 		}
-		return (int) $perms;
+		return (int)$perms;
 	}
 
 	/**
@@ -352,6 +355,10 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		return $this->owner;
 	}
 
+	public function setIncludeShareSubMounts(bool $include) {
+		$this->includeShareSubMounts = $include;
+	}
+
 	/**
 	 * @param IMountPoint[] $mounts
 	 */
@@ -366,7 +373,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		$this->subMountsUsed = true;
 		foreach ($this->subMounts as $mount) {
 			$subStorage = $mount->getStorage();
-			if ($subStorage) {
+			if ($subStorage && ($this->includeShareSubMounts || !($subStorage instanceof SharedStorage))) {
 				$subCache = $subStorage->getCache('');
 				$rootEntry = $subCache->get('');
 				$this->addSubEntry($rootEntry, $mount->getMountPoint());
@@ -408,10 +415,10 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	public function getCreationTime(): int {
-		return (int) $this->data['creation_time'];
+		return (int)$this->data['creation_time'];
 	}
 
 	public function getUploadTime(): int {
-		return (int) $this->data['upload_time'];
+		return (int)$this->data['upload_time'];
 	}
 }
