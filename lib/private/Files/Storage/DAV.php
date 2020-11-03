@@ -122,9 +122,6 @@ class DAV extends Common {
 			if ($this->secure === true) {
 				// inject mock for testing
 				$this->certManager = \OC::$server->getCertificateManager();
-				if (is_null($this->certManager)) { //no user
-					$this->certManager = \OC::$server->getCertificateManager(null);
-				}
 			}
 			$this->root = $params['root'] ?? '/';
 			$this->root = '/' . ltrim($this->root, '/');

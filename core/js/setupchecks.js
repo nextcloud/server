@@ -488,6 +488,7 @@
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpDefaultCharset', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\PhpOutputBuffering', messages)
 					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\LegacySSEKeyFormat', messages)
+					OC.SetupChecks.addGenericSetupCheck(data, 'OCA\\Settings\\SetupChecks\\CheckUserCertificates', messages)
 
 				} else {
 					messages.push({
@@ -519,6 +520,15 @@
 			var message = setupCheck.description;
 			if (setupCheck.linkToDocumentation) {
 				message += ' ' + t('core', 'For more details see the <a target="_blank" rel="noreferrer noopener" href="{docLink}">documentation</a>.', {docLink: setupCheck.linkToDocumentation});
+			}
+			if (setupCheck.elements) {
+				message += '<br><ul>'
+				setupCheck.elements.forEach(function(element){
+					message += '<li>';
+					message += element
+					message += '</li>';
+				});
+				message += '</ul>'
 			}
 
 			if (!setupCheck.pass) {

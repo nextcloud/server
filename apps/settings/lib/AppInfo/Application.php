@@ -98,16 +98,6 @@ class Application extends App implements IBootstrap {
 			}
 			return $isSubAdmin;
 		});
-		$context->registerService('userCertificateManager', function (IAppContainer $appContainer) {
-			/** @var IServerContainer $serverContainer */
-			$serverContainer = $appContainer->get(IServerContainer::class);
-			return $serverContainer->getCertificateManager();
-		}, false);
-		$context->registerService('systemCertificateManager', function (IAppContainer $appContainer) {
-			/** @var IServerContainer $serverContainer */
-			$serverContainer = $appContainer->query('ServerContainer');
-			return $serverContainer->getCertificateManager(null);
-		}, false);
 		$context->registerService(IProvider::class, function (IAppContainer $appContainer) {
 			/** @var IServerContainer $serverContainer */
 			$serverContainer = $appContainer->query(IServerContainer::class);
