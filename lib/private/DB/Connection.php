@@ -219,6 +219,9 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 	}
 
 	public function executeUpdate($sql, array $params = [], array $types = []) {
+		$sql = $this->replaceTablePrefix($sql);
+		$sql = $this->adapter->fixupStatement($sql);
+		$this->queriesExecuted++;
 		return parent::executeUpdate($sql, $params, $types);
 	}
 
