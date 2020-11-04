@@ -194,6 +194,8 @@ class TemplateLayout extends \OC_Template {
 		$jsFiles = self::findJavascriptFiles(\OC_Util::$scripts);
 		$this->assign('jsfiles', []);
 		if ($this->config->getSystemValue('installed', false) && $renderAs != TemplateResponse::RENDER_AS_ERROR) {
+			// this is on purpose outside of the if statement below so that the initial state is prefilled (done in the getConfig() call)
+			// see https://github.com/nextcloud/server/pull/22636 for details
 			$jsConfigHelper = new JSConfigHelper(
 				\OC::$server->getL10N('lib'),
 				\OC::$server->query(Defaults::class),
