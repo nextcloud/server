@@ -46,6 +46,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Group\Events\UserAddedEvent;
 use OCP\Group\Events\UserRemovedEvent;
 use OCP\ILogger;
+use OCP\IUser;
 
 class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	static private $groupsFromDB;
@@ -115,7 +116,9 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 			$groupObject = $groupManager->get($group);
 			foreach(array_diff($knownUsers, $actualUsers) as $removedUser) {
 				$userObject = $userManager->get($removedUser);
-				$dispatcher->dispatchTyped(new UserRemovedEvent($groupObject, $userObject));
+				if ($userObject instanceof IUser) {
+					$dispatcher->dispatchTyped(new UserRemovedEvent($groupObject, $userObject));
+				}
 				\OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – "'.$removedUser.'" removed from "'.$group.'".',
 					ILogger::INFO);
@@ -123,7 +126,9 @@ class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 			}
 			foreach(array_diff($actualUsers, $knownUsers) as $addedUser) {
 				$userObject = $userManager->get($addedUser);
-				$dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
+				if ($userObject instanceof IUser) {
+					$dispatcher->dispatchTyped(new UserAddedEvent($groupObject, $userObject));
+				}
 				\OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – "'.$addedUser.'" added to "'.$group.'".',
 					ILogger::INFO);
