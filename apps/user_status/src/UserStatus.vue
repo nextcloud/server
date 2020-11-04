@@ -162,7 +162,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 $max-width-user-status: 200px;
 
 .user-status-menu-item {
