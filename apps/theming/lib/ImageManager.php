@@ -101,7 +101,6 @@ class ImageManager {
 	 * @throws NotPermittedException
 	 */
 	public function getImage(string $key, bool $useSvg = true): ISimpleFile {
-		$pngFile = null;
 		$logo = $this->config->getAppValue('theming', $key . 'Mime', false);
 		$folder = $this->appData->getFolder('images');
 		if ($logo === false || !$folder->fileExists($key)) {
@@ -116,16 +115,13 @@ class ImageManager {
 					$finalIconFile->setImageFormat('png32');
 					$pngFile = $folder->newFile($key . '.png');
 					$pngFile->putContent($finalIconFile->getImageBlob());
+					return $pngFile;
 				} catch (\ImagickException $e) {
 					$this->logger->info('The image was requested to be no SVG file, but converting it to PNG failed: ' . $e->getMessage());
-					$pngFile = null;
 				}
 			} else {
-				$pngFile = $folder->getFile($key . '.png');
+				return $folder->getFile($key . '.png');
 			}
-		}
-		if ($pngFile !== null) {
-			return $pngFile;
 		}
 		return $folder->getFile($key);
 	}
