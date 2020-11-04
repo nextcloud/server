@@ -97,14 +97,17 @@ class ConnectionTest extends \Test\TestCase {
 		$this->assertTableNotExist('table');
 	}
 
-	private function getTextValueByIntergerField($integerField) {
+	private function getTextValueByIntegerField($integerField) {
 		$builder = $this->connection->getQueryBuilder();
-		$query = $builder->select('textfield')
+		$query = $builder->select('*')
 			->from('table')
 			->where($builder->expr()->eq('integerfield', $builder->createNamedParameter($integerField, IQueryBuilder::PARAM_INT)));
 
 		$result = $query->execute();
-		return $result->fetchColumn();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		return $row['textfield'] ?? null;
 	}
 
 	public function testSetValues() {
@@ -116,7 +119,7 @@ class ConnectionTest extends \Test\TestCase {
 			'clobfield' => 'not_null'
 		]);
 
-		$this->assertEquals('foo', $this->getTextValueByIntergerField(1));
+		$this->assertEquals('foo', $this->getTextValueByIntegerField(1));
 	}
 
 	public function testSetValuesOverWrite() {
@@ -133,7 +136,7 @@ class ConnectionTest extends \Test\TestCase {
 			'textfield' => 'bar'
 		]);
 
-		$this->assertEquals('bar', $this->getTextValueByIntergerField(1));
+		$this->assertEquals('bar', $this->getTextValueByIntegerField(1));
 	}
 
 	public function testSetValuesOverWritePrecondition() {
@@ -154,7 +157,7 @@ class ConnectionTest extends \Test\TestCase {
 			'booleanfield' => true
 		]);
 
-		$this->assertEquals('bar', $this->getTextValueByIntergerField(1));
+		$this->assertEquals('bar', $this->getTextValueByIntegerField(1));
 	}
 
 
