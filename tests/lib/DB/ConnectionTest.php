@@ -203,6 +203,10 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	public function testInsertIfNotExist() {
+		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			self::markTestSkipped('Insert if not exist does not work with clob on oracle');
+		}
+
 		$this->makeTestTable();
 		$categoryEntries = [
 			['user' => 'test', 'category' => 'Family',    'expectedResult' => 1],
@@ -232,6 +236,10 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	public function testInsertIfNotExistNull() {
+		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			self::markTestSkipped('Insert if not exist does not work with clob on oracle');
+		}
+
 		$this->makeTestTable();
 		$categoryEntries = [
 			['addressbookid' => 123, 'fullname' => null, 'expectedResult' => 1],
@@ -255,6 +263,10 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	public function testInsertIfNotExistDonTOverwrite() {
+		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			self::markTestSkipped('Insert if not exist does not work with clob on oracle');
+		}
+
 		$this->makeTestTable();
 		$fullName = 'fullname test';
 		$uri = 'uri_1';
@@ -291,6 +303,10 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	public function testInsertIfNotExistsViolating() {
+		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			self::markTestSkipped('Insert if not exist does not work with clob on oracle');
+		}
+
 		$this->makeTestTable();
 		$result = $this->connection->insertIfNotExist('*PREFIX*table',
 			[
@@ -321,6 +337,10 @@ class ConnectionTest extends \Test\TestCase {
 	 * @param array $compareKeys
 	 */
 	public function testInsertIfNotExistsViolatingUnique($compareKeys) {
+		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			self::markTestSkipped('Insert if not exist does not work with clob on oracle');
+		}
+
 		$this->makeTestTable();
 		$result = $this->connection->insertIfNotExist('*PREFIX*table',
 			[
