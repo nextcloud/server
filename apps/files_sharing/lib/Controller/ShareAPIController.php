@@ -62,6 +62,7 @@ use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IPreview;
 use OCP\IRequest;
 use OCP\IServerContainer;
 use OCP\IURLGenerator;
@@ -106,6 +107,8 @@ class ShareAPIController extends OCSController {
 	private $serverContainer;
 	/** @var IUserStatusManager */
 	private $userStatusManager;
+	/** @var IPreview */
+	private $previewManager;
 
 	/**
 	 * Share20OCS constructor.
@@ -137,7 +140,8 @@ class ShareAPIController extends OCSController {
 		IConfig $config,
 		IAppManager $appManager,
 		IServerContainer $serverContainer,
-		IUserStatusManager $userStatusManager
+		IUserStatusManager $userStatusManager,
+		IPreview $previewManager
 	) {
 		parent::__construct($appName, $request);
 
@@ -153,6 +157,7 @@ class ShareAPIController extends OCSController {
 		$this->appManager = $appManager;
 		$this->serverContainer = $serverContainer;
 		$this->userStatusManager = $userStatusManager;
+		$this->previewManager = $previewManager;
 	}
 
 	/**
@@ -213,6 +218,7 @@ class ShareAPIController extends OCSController {
 		}
 
 		$result['mimetype'] = $node->getMimetype();
+		$result['has_preview'] = $this->previewManager->isAvailable($node);
 		$result['storage_id'] = $node->getStorage()->getId();
 		$result['storage'] = $node->getStorage()->getCache()->getNumericStorageId();
 		$result['item_source'] = $node->getId();
