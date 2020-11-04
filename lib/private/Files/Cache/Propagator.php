@@ -104,9 +104,9 @@ class Propagator implements IPropagator {
 			$builder = $this->connection->getQueryBuilder();
 			$builder->update('filecache')
 				->set('size', $builder->func()->greatest(
-					$builder->createNamedParameter(-1, IQueryBuilder::PARAM_INT),
-					$builder->func()->add('size', $builder->createNamedParameter($sizeDifference)))
-				)
+					$builder->func()->add('size', $builder->createNamedParameter($sizeDifference)),
+					$builder->createNamedParameter(-1, IQueryBuilder::PARAM_INT)
+				))
 				->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 				->andWhere($builder->expr()->in('path_hash', $hashParams))
 				->andWhere($builder->expr()->gt('size', $builder->expr()->literal(-1, IQueryBuilder::PARAM_INT)));
