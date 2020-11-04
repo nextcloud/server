@@ -523,10 +523,6 @@ class Server extends ServerContainer implements IServerContainer {
 			$userSession->listen('\OC\User', 'postCreateUser', function ($user, $password) {
 				/** @var \OC\User\User $user */
 				\OC_Hook::emit('OC_User', 'post_createUser', ['uid' => $user->getUID(), 'password' => $password]);
-
-				/** @var IEventDispatcher $dispatcher */
-				$dispatcher = $this->query(IEventDispatcher::class);
-				$dispatcher->dispatchTyped(new UserCreatedEvent($user, $password));
 			});
 			$userSession->listen('\OC\User', 'preDelete', function ($user) use ($legacyDispatcher) {
 				/** @var \OC\User\User $user */
