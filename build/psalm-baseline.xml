@@ -539,9 +539,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$targetBookId</code>
     </InvalidScalarArgument>
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
   </file>
   <file src="apps/dav/lib/CardDAV/SystemAddressbook.php">
     <RedundantCondition occurrences="1">
@@ -2910,13 +2907,6 @@
       <code>1</code>
     </InvalidScalarArgument>
   </file>
-  <file src="core/register_command.php">
-    <NullArgument occurrences="3">
-      <code>null</code>
-      <code>null</code>
-      <code>null</code>
-    </NullArgument>
-  </file>
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
       <code>$this</code>
@@ -4194,9 +4184,6 @@
       <code>fopen</code>
       <code>int</code>
     </InvalidReturnType>
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
     <NullableReturnStatement occurrences="1">
       <code>null</code>
     </NullableReturnStatement>
@@ -5035,11 +5022,6 @@
       <code>string|null</code>
     </ImplementedReturnTypeMismatch>
   </file>
-  <file src="lib/private/Security/CertificateManager.php">
-    <NullArgument occurrences="1">
-      <code>null</code>
-    </NullArgument>
-  </file>
   <file src="lib/private/Security/CredentialsManager.php">
     <InvalidReturnStatement occurrences="2">
       <code>$qb-&gt;execute()</code>
@@ -5067,12 +5049,6 @@
       <code>\OCP\Files\Folder|null</code>
     </ImplementedReturnTypeMismatch>
     <InvalidCatch occurrences="1"/>
-    <InvalidScalarArgument occurrences="1">
-      <code>$uid</code>
-    </InvalidScalarArgument>
-    <MoreSpecificImplementedParamType occurrences="1">
-      <code>$userId</code>
-    </MoreSpecificImplementedParamType>
     <UndefinedDocblockClass occurrences="1">
       <code>\OC\OCSClient</code>
     </UndefinedDocblockClass>
