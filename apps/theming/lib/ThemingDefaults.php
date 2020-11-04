@@ -225,11 +225,20 @@ class ThemingDefaults extends \OC_Defaults {
 	public function getLogo($useSvg = true): string {
 		$logo = $this->config->getAppValue('theming', 'logoMime', false);
 
-		$logoExists = true;
-		try {
-			$this->imageManager->getImage('logo', $useSvg);
-		} catch (\Exception $e) {
-			$logoExists = false;
+		// short cut to avoid setting up the filesystem just to check if the logo is there
+		//
+		// explanation: if an SVG is requested and the app config value for logoMime is set then the logo is there.
+		// otherwise we need to check it and maybe also generate a PNG from the SVG (that's done in getImage() which
+		// needs to be called then)
+		if ($useSvg === true && $logo !== false) {
+			$logoExists = true;
+		} else {
+			try {
+				$this->imageManager->getImage('logo', $useSvg);
+				$logoExists = true;
+			} catch (\Exception $e) {
+				$logoExists = false;
+			}
 		}
 
 		$cacheBusterCounter = $this->config->getAppValue('theming', 'cachebuster', '0');

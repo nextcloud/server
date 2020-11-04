@@ -40,7 +40,6 @@ use OCA\Theming\Util;
 use OCP\App\IAppManager;
 use OCP\Files\IAppData;
 use OCP\Files\NotFoundException;
-use OCP\Files\SimpleFS\ISimpleFile;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
@@ -617,11 +616,6 @@ class ThemingDefaultsTest extends TestCase {
 	}
 
 	public function testGetLogoCustom() {
-		$file = $this->createMock(ISimpleFile::class);
-		$this->imageManager->expects($this->once())
-			->method('getImage')
-			->with('logo')
-			->willReturn($file);
 		$this->config
 			->expects($this->at(0))
 			->method('getAppValue')
