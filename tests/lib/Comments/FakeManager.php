@@ -82,6 +82,11 @@ class FakeManager implements ICommentsManager {
 	public function getNumberOfUnreadCommentsForFolder($folderId, IUser $user) {
 	}
 
+	public function getNumberOfUnreadCommentsForObjects(string $objectType, array $objectIds, IUser $user, $verb = ''): array {
+		return [];
+	}
+
+
 	public function getActorsInTree($id) {
 	}
 

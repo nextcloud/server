@@ -181,6 +181,17 @@ interface ICommentsManager {
 	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null, $verb = '');
 
 	/**
+	 * @param string $objectType the object type, e.g. 'files'
+	 * @param string[] $objectIds the id of the object
+	 * @param IUser $user
+	 * @param string $verb Limit the verb of the comment - Added in 14.0.0
+	 * @return array Map with object id => # of unread comments
+	 * @psalm-return array<string, int>
+	 * @since 21.0.0
+	 */
+	public function getNumberOfUnreadCommentsForObjects(string $objectType, array $objectIds, IUser $user, $verb = ''): array;
+
+	/**
 	 * @param string $objectType
 	 * @param string $objectId
 	 * @param int $lastRead
