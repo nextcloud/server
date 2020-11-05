@@ -23,7 +23,7 @@
 <template>
 	<li :class="{'sharing-entry--share': share}" class="sharing-entry sharing-entry__link">
 		<Avatar :is-no-user="true"
-			:class="isEmailShareType ? 'icon-mail-white' : 'icon-public-white'"
+			:icon-class="isEmailShareType ? 'avatar-link-share icon-mail-white' : 'avatar-link-share icon-public-white'"
 			class="sharing-entry__avatar" />
 		<div class="sharing-entry__desc">
 			<h5 :title="title">
@@ -914,6 +914,10 @@ export default {
 		.new-share-link {
 			border-top: 1px solid var(--color-border);
 		}
+	}
+
+	::v-deep .avatar-link-share {
+		background-color: var(--color-primary);
 	}
 
 	.sharing-entry__action--public-upload {
