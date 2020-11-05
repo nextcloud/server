@@ -170,6 +170,10 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 			$column = $this->helper->quoteColumnName($column);
 			return new QueryFunction('to_char(' . $column . ')');
 		}
+		if ($type === IQueryBuilder::PARAM_INT) {
+			$column = $this->helper->quoteColumnName($column);
+			return new QueryFunction('to_number(to_char(' . $column . '))');
+		}
 
 		return parent::castColumn($column, $type);
 	}
