@@ -23,7 +23,7 @@
 <template>
 	<li :class="{'sharing-entry--share': share}" class="sharing-entry sharing-entry__link">
 		<Avatar :is-no-user="true"
-			:class="isEmailShareType ? 'icon-mail-white' : 'icon-public-white'"
+			:icon-class="isEmailShareType ? 'icon-mail-white' : 'icon-public-white'"
 			class="sharing-entry__avatar" />
 		<div class="sharing-entry__desc">
 			<h5 :title="title">
