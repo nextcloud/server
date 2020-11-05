@@ -3393,7 +3393,7 @@
     </TypeDoesNotContainType>
   </file>
   <file src="lib/private/Comments/Manager.php">
-    <InvalidArgument occurrences="2"/>
+    <InvalidArgument occurrences="3"/>
     <InvalidDocblock occurrences="1">
       <code>public function getForObjectSince(</code>
     </InvalidDocblock>
