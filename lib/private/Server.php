@@ -223,7 +223,6 @@ use OCP\User\Events\BeforeUserLoggedOutEvent;
 use OCP\User\Events\PasswordUpdatedEvent;
 use OCP\User\Events\PostLoginEvent;
 use OCP\User\Events\UserChangedEvent;
-use OCP\User\Events\UserCreatedEvent;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\User\Events\UserLoggedInEvent;
 use OCP\User\Events\UserLoggedInWithCookieEvent;
