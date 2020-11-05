@@ -73,8 +73,7 @@ class OC_DB {
 			throw new \OC\DatabaseException($e->getMessage());
 		}
 		// differentiate between query and manipulation
-		$result = new OC_DB_StatementWrapper($result, $isManipulation);
-		return $result;
+		return new OC_DB_StatementWrapper($result, $isManipulation);
 	}
 
 	/**
@@ -85,22 +84,26 @@ class OC_DB {
 	 * @return bool
 	 */
 	public static function isManipulation($sql) {
+		$sql = trim($sql);
 		$selectOccurrence = stripos($sql, 'SELECT');
-		if ($selectOccurrence !== false && $selectOccurrence < 10) {
+		if ($selectOccurrence === 0) {
 			return false;
 		}
 		$insertOccurrence = stripos($sql, 'INSERT');
-		if ($insertOccurrence !== false && $insertOccurrence < 10) {
+		if ($insertOccurrence === 0) {
 			return true;
 		}
 		$updateOccurrence = stripos($sql, 'UPDATE');
-		if ($updateOccurrence !== false && $updateOccurrence < 10) {
+		if ($updateOccurrence === 0) {
 			return true;
 		}
 		$deleteOccurrence = stripos($sql, 'DELETE');
-		if ($deleteOccurrence !== false && $deleteOccurrence < 10) {
+		if ($deleteOccurrence === 0) {
 			return true;
 		}
+
+		\OC::$server->getLogger()->logException(new \Exception('Can not detect if query is manipulating: ' . $sql));
+
 		return false;
 	}
 
