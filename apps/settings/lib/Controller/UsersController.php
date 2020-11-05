@@ -318,10 +318,8 @@ class UsersController extends Controller {
 			$noUserSpecificEncryptionKeys = true;
 			$isEncryptionModuleLoaded = false;
 		}
-
-		$canChangePassword = ($isEncryptionEnabled && $isEncryptionModuleLoaded && $noUserSpecificEncryptionKeys)
-			|| (!$isEncryptionEnabled && !$isEncryptionModuleLoaded)
-			|| (!$isEncryptionEnabled && $isEncryptionModuleLoaded && $noUserSpecificEncryptionKeys);
+		$canChangePassword = ($isEncryptionModuleLoaded && $noUserSpecificEncryptionKeys)
+			|| (!$isEncryptionModuleLoaded && !$isEncryptionEnabled);
 
 		return $canChangePassword;
 	}
