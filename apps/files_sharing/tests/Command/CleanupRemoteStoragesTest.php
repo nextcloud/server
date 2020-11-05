@@ -142,7 +142,10 @@ class CleanupRemoteStoragesTest extends TestCase {
 		$qb->select('*')
 			->from('storages')
 			->where($qb->expr()->eq('numeric_id', $qb->createNamedParameter($numericId)));
-		$result = $qb->execute()->fetchAll();
+
+		$qResult = $qb->execute();
+		$result = $qResult->fetchAll();
+		$qResult->closeCursor();
 		if (!empty($result)) {
 			return true;
 		}
@@ -151,7 +154,10 @@ class CleanupRemoteStoragesTest extends TestCase {
 		$qb->select('*')
 			->from('filecache')
 			->where($qb->expr()->eq('storage', $qb->createNamedParameter($numericId)));
-		$result = $qb->execute()->fetchAll();
+
+		$qResult = $qb->execute();
+		$result = $qResult->fetchAll();
+		$qResult->closeCursor();
 		if (!empty($result)) {
 			return true;
 		}

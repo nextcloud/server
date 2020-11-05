@@ -102,7 +102,12 @@ class DBLockingProviderTest extends LockingProvider {
 		$query->select('lock')
 			->from('file_locks')
 			->where($query->expr()->eq('key', $query->createNamedParameter($key)));
-		return $query->execute()->fetchColumn();
+
+		$result = $query->execute();
+		$rows = $result->fetchColumn();
+		$result->closeCursor();
+
+		return $rows;
 	}
 
 	public function testDoubleShared() {

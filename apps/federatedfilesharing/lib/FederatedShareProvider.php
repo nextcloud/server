@@ -347,7 +347,9 @@ class FederatedShareProvider implements IShareProvider {
 		$query->select('*')->from($this->externalShareTable)
 			->where($query->expr()->eq('user', $query->createNamedParameter($share->getShareOwner())))
 			->andWhere($query->expr()->eq('mountpoint', $query->createNamedParameter($share->getTarget())));
-		$result = $query->execute()->fetchAll();
+		$qResult = $query->execute();
+		$result = $qResult->fetchAll();
+		$qResult->closeCursor();
 
 		if (isset($result[0]) && (int)$result[0]['remote_id'] > 0) {
 			return $result[0];
@@ -483,7 +485,9 @@ class FederatedShareProvider implements IShareProvider {
 		$query = $this->dbConnection->getQueryBuilder();
 		$query->select('remote_id')->from('federated_reshares')
 			->where($query->expr()->eq('share_id', $query->createNamedParameter((int)$share->getId())));
-		$data = $query->execute()->fetch();
+		$result = $query->execute();
+		$data = $result->fetch();
+		$result->closeCursor();
 
 		if (!is_array($data) || !isset($data['remote_id'])) {
 			throw new ShareNotFound();

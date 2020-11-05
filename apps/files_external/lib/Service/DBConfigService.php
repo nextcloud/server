@@ -452,7 +452,10 @@ class DBConfigService {
 		$query = $builder->select($fields)
 			->from($table)
 			->where($builder->expr()->in('mount_id', $placeHolders));
-		$rows = $query->execute()->fetchAll();
+
+		$result = $query->execute();
+		$rows = $result->fetchAll();
+		$result->closeCursor();
 
 		$result = [];
 		foreach ($mountIds as $mountId) {

@@ -107,7 +107,9 @@ class SetPasswordColumnTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('share');
-		$allShares = $query->execute()->fetchAll();
+		$result = $query->execute();
+		$allShares = $result->fetchAll();
+		$result->closeCursor();
 
 		foreach ($allShares as $share) {
 			if ((int)$share['share_type'] === IShare::TYPE_LINK) {
