@@ -8,7 +8,7 @@
     "test": "tests"
   },
   "scripts": {
-    "build": "NODE_ENV=production webpack --progress --hide-modules --config webpack.prod.js",
+    "build": "NODE_ENV=production webpack --progress --config webpack.prod.js",
     "dev": "NODE_ENV=development webpack --progress --config webpack.dev.js",
     "watch": "NODE_ENV=development webpack --progress --watch --config webpack.dev.js",
     "lint:fix": "ESLINT_FIX=true webpack --progress --config webpack.dev.js",
