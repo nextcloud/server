@@ -119,6 +119,8 @@ OC.L10N.register(
     "Reshare" : "Yeniden paylaş",
     "Unlimited" : "Sınırsız",
     "Verifying" : "Doğrulanıyor",
+    "A background job is pending that checks for user imported SSL certificates. Please check back later." : "Kullanıcı tarafından içe aktarılmış SSL sertifikalarını denetleyen bir arka plan görevi bekliyor. Lütfen daha sonra yeniden denetleyin.",
+    "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "Kullanıcı tarafından içe aktarılmış ancak artık Nextcloud 21 ile kullanılmayan bazı SSL sertifikaları var. Bunlar, komut satırından \"occ security:certificates:import\" komutu ile içe aktarılabilir. Veri klasörü içindeki yollarını aşağıda görebilirsiniz.",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "Eski sunucu tarafı şifreleme biçimi etkinleştirilmiş. Bu seçeneği devre dışı bırakmanız önerilir.",
     "Nextcloud settings" : "Nextcloud ayarları",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "Tüm kullanıcılar ve belirli gruplar için iki aşamalı kimlik doğrulama kullanılır. Yapılandırılmış bir iki aşamalı kimlik doğrulama hizmeti sağlayıcısı olmayan kullanıcılar oturum açamaz.",

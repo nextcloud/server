@@ -365,6 +365,7 @@
     "Restrict username autocompletion to users within the same groups" : "Apriboti naudotojo vardo automatinį užbaigimą kitiems tų pačių grupių naudotojams",
     "This text will be shown on the public link upload page when the file list is hidden." : "Šis tekstas bus rodomas viešų nuorodų įkėlimo puslapyje, kai failų sąrašas bus paslėptas.",
     "Default share permissions" : "Numatytieji viešinių leidimai",
+    "Reasons to use Nextcloud in your organization" : "Priežastys, kodėl turėtumėte naudoti Nextcloud savo organizacijoje",
     "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}AGPL{linkclose}." : "Sukurta {communityopen}Nextcloud bendruomenės{linkclose}, {githubopen}pirminis kodas{linkclose} yra licencijuotas pagal {licenseopen}AGPL{linkclose}.",
     "Like our Facebook page" : "Spauskite \"Patinka\" mūsų Facebook puslapyje",
     "Follow us on Twitter" : "Sekite mus Twitter",

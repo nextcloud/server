@@ -119,6 +119,8 @@ OC.L10N.register(
     "Reshare" : "Volver a compartir",
     "Unlimited" : "Ilimitado",
     "Verifying" : "Verificar",
+    "A background job is pending that checks for user imported SSL certificates. Please check back later." : "Está pendiente una tarea en segundo plano que comprueba por el usuario los certificados SSL importados. Por favor, revisalo más tarde.",
+    "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "Hay algunos certificados SSL importados por el usuario que ya no se utilizan con Nextcloud 21. Pueden ser importados con la línea de comandos a través del comando \"occ security:certificates:import\". Sus rutas dentro del directorio de datos se muestran a continuación.",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "El antiguo formato de cifrado en el lado del servidor está activado. Recomendamos deshabilitar esto.",
     "Nextcloud settings" : "Ajustes de Nextcloud",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "La verificación en dos pasos se puede aplicar para todos los usuarios y grupos específicos. Si no tienen configurado un proveedor de dos pasos, no podrán iniciar sesión en el sistema.",
