@@ -1002,10 +1002,14 @@ class Trashbin {
 			->andWhere($query->expr()->eq('parent', $query->createNamedParameter($parentId)))
 			->andWhere($query->expr()->iLike('name', $query->createNamedParameter($pattern)));
 
+		$result = $query->execute();
+		$entries = $result->fetchAll();
+		$result->closeCursor();
+
 		/** @var CacheEntry[] $matches */
 		$matches = array_map(function (array $data) {
 			return Cache::cacheEntryFromData($data, \OC::$server->getMimeTypeLoader());
-		}, $query->execute()->fetchAll());
+		}, $entries);
 
 		foreach ($matches as $ma) {
 			if ($timestamp) {

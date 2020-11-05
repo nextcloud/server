@@ -75,7 +75,9 @@ class BuildCalendarSearchIndex implements IRepairStep {
 		$query = $this->db->getQueryBuilder();
 		$query->select($query->createFunction('MAX(' . $query->getColumnName('id') . ')'))
 			->from('calendarobjects');
-		$maxId = (int)$query->execute()->fetchColumn();
+		$result = $query->execute();
+		$maxId = (int) $result->fetchColumn();
+		$result->closeCursor();
 
 		$output->info('Add background job');
 		$this->jobList->add(BuildCalendarSearchIndexBackgroundJob::class, [

@@ -105,6 +105,15 @@ class OC_DB_StatementWrapper {
 	}
 
 	/**
+	 * Closes the cursor, enabling the statement to be executed again.
+	 *
+	 * @deprecated Use Result::free() instead.
+	 */
+	public function closeCursor(): void {
+		$this->statement->closeCursor();
+	}
+
+	/**
 	 * Binds a PHP variable to a corresponding named or question mark placeholder in the
 	 * SQL statement that was use to prepare the statement.
 	 *

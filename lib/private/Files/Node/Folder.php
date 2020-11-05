@@ -528,7 +528,11 @@ class Folder extends Node implements \OCP\Files\Folder {
 			->setMaxResults($limit)
 			->setFirstResult($offset);
 
-		return $query->execute()->fetchAll();
+		$result = $query->execute();
+		$rows = $result->fetchAll();
+		$result->closeCursor();
+
+		return $rows;
 	}
 
 	private function recentParse($result, $mountMap, $mimetypeLoader) {

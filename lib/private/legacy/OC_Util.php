@@ -983,6 +983,7 @@ class OC_Util {
 			try {
 				$result = \OC_DB::executeAudited('SHOW SERVER_VERSION');
 				$data = $result->fetchRow();
+				$result->closeCursor();
 				if (isset($data['server_version'])) {
 					$version = $data['server_version'];
 					if (version_compare($version, '9.0.0', '<')) {

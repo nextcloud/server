@@ -248,7 +248,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			$query->andWhere($query->expr()->neq('uri', $query->createNamedParameter(BirthdayService::BIRTHDAY_CALENDAR_URI)));
 		}
 
-		return (int)$query->execute()->fetchColumn();
+		$result = $query->execute();
+		$column = (int)$result->fetchColumn();
+		$result->closeCursor();
+		return $column;
 	}
 
 	/**
@@ -2346,7 +2349,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$query->select('synctoken')
 			->from($table)
 			->where($query->expr()->eq('id', $query->createNamedParameter($calendarId)));
-		$syncToken = (int)$query->execute()->fetchColumn();
+		$result = $query->execute();
+		$syncToken = (int)$result->fetchColumn();
+		$result->closeCursor();
 
 		$query = $this->db->getQueryBuilder();
 		$query->insert('calendarchanges')
