@@ -52,12 +52,19 @@ class HomeCache extends Cache {
 		}
 		if ($entry && $entry['mimetype'] === 'httpd/unix-directory') {
 			$id = $entry['fileid'];
-			$sql = 'SELECT SUM(`size`) AS f1 ' .
-			   'FROM `*PREFIX*filecache` ' .
-				'WHERE `parent` = ? AND `storage` = ? AND `size` >= 0';
-			$result = \OC_DB::executeAudited($sql, [$id, $this->getNumericStorageId()]);
-			if ($row = $result->fetchRow()) {
-				$result->closeCursor();
+
+			$query = $this->connection->getQueryBuilder();
+			$query->selectAlias($query->func()->sum('size'), 'f1')
+				->from('filecache')
+				->where($query->expr()->eq('parent', $query->createNamedParameter($id)))
+				->andWhere($query->expr()->eq('storage', $query->createNamedParameter($this->getNumericStorageId())))
+				->andWhere($query->expr()->gte('size', $query->createNamedParameter(0)));
+
+			$result = $query->execute();
+			$row = $result->fetch();
+			$result->closeCursor();
+
+			if ($row) {
 				list($sum) = array_values($row);
 				$totalSize = 0 + $sum;
 				$entry['size'] += 0;
