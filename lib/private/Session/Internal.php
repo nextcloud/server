@@ -214,10 +214,6 @@ class Internal extends Session {
 	}
 
 	private function startSession(bool $silence = false) {
-		if (PHP_VERSION_ID < 70300) {
-			$this->invoke('session_start', [], $silence);
-		} else {
-			$this->invoke('session_start', [['cookie_samesite' => 'Lax']], $silence);
-		}
+		$this->invoke('session_start', [['cookie_samesite' => 'Lax']], $silence);
 	}
 }
