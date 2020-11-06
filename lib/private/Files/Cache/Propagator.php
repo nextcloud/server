@@ -168,7 +168,7 @@ class Propagator implements IPropagator {
 		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
 
 		$query->update('filecache')
-			->set('mtime', $query->createFunction('GREATEST(' . $query->getColumnName('mtime') . ', ' . $query->createParameter('time') . ')'))
+			->set('mtime', $query->func()->greatest('mtime', $query->createParameter('time')))
 			->set('etag', $query->expr()->literal(uniqid()))
 			->where($query->expr()->eq('storage', $query->expr()->literal($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('path_hash', $query->createParameter('hash')));
