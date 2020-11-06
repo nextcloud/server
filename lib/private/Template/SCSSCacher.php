@@ -283,8 +283,9 @@ class SCSSCacher {
 	 * @return bool
 	 */
 	private function variablesChanged(): bool {
-		$injectedVariables = $this->getInjectedVariables();
-		if ($this->config->getAppValue('core', 'theming.variables') !== md5($injectedVariables)) {
+		$cachedVariables = $this->config->getAppValue('core', 'theming.variables', '');
+		$injectedVariables = $this->getInjectedVariables($cachedVariables);
+		if ($cachedVariables !== md5($injectedVariables)) {
 			$this->logger->debug('SCSSCacher::variablesChanged storedVariables: ' . json_encode($this->config->getAppValue('core', 'theming.variables')) . ' currentInjectedVariables: ' . json_encode($injectedVariables), ['app' => 'scss_cacher']);
 			$this->config->setAppValue('core', 'theming.variables', md5($injectedVariables));
 			$this->resetCache();
@@ -411,13 +412,22 @@ class SCSSCacher {
 	/**
 	 * @return string SCSS code for variables from OC_Defaults
 	 */
-	private function getInjectedVariables(): string {
+	private function getInjectedVariables(string $cache = ''): string {
 		if ($this->injectedVariables !== null) {
 			return $this->injectedVariables;
 		}
 		$variables = '';
 		foreach ($this->defaults->getScssVariables() as $key => $value) {
 			$variables .= '$' . $key . ': ' . $value . ' !default;';
+		}
+
+		/*
+		 * If we are trying to return the same variables as that are cached
+		 * Then there is no need to do the compile step
+		 */
+		if ($cache === md5($variables)) {
+			$this->injectedVariables = $variables;
+			return $variables;
 		}
 
 		// check for valid variables / otherwise fall back to defaults
