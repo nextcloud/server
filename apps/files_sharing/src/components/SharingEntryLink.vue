@@ -113,6 +113,9 @@
 				{{ t('files_sharing', 'Enter a date') }}
 			</ActionInput>
 
+			<ActionButton icon="icon-checkmark" @click.prevent.stop="onNewLinkShare">
+				{{ t('files_sharing', 'Create share') }}
+			</ActionButton>
 			<ActionButton icon="icon-close" @click.prevent.stop="onCancel">
 				{{ t('files_sharing', 'Cancel') }}
 			</ActionButton>
