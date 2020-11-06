@@ -33,84 +33,74 @@
 
 namespace OC\Repair;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
 class RepairMimeTypes implements IRepairStep {
-	/**
-	 * @var \OCP\IConfig
-	 */
+	/** @var IConfig */
 	protected $config;
+	/** @var IDBConnection */
+	protected $connection;
 
-	/**
-	 * @var int
-	 */
+	/** @var int */
 	protected $folderMimeTypeId;
 
-	/**
-	 * @param \OCP\IConfig $config
-	 */
-	public function __construct($config) {
+	public function __construct(IConfig $config,
+								IDBConnection $connection) {
 		$this->config = $config;
+		$this->connection = $connection;
 	}
 
 	public function getName() {
 		return 'Repair mime types';
 	}
 
-	private static function existsStmt() {
-		return \OC_DB::prepare('
-			SELECT count(`mimetype`)
-			FROM   `*PREFIX*mimetypes`
-			WHERE  `mimetype` = ?
-		');
-	}
-
-	private static function getIdStmt() {
-		return \OC_DB::prepare('
-			SELECT `id`
-			FROM   `*PREFIX*mimetypes`
-			WHERE  `mimetype` = ?
-		');
-	}
-
-	private static function insertStmt() {
-		return \OC_DB::prepare('
-			INSERT INTO `*PREFIX*mimetypes` ( `mimetype` )
-			VALUES ( ? )
-		');
-	}
-
-	private static function updateByNameStmt() {
-		return \OC_DB::prepare('
-			UPDATE `*PREFIX*filecache`
-			SET `mimetype` = ?
-			WHERE `mimetype` <> ? AND `mimetype` <> ? AND `name` ILIKE ?
-		');
-	}
-
 	private function updateMimetypes($updatedMimetypes) {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('id')
+			->from('mimetypes')
+			->where($query->expr()->eq('mimetype', $query->createParameter('mimetype'), IQueryBuilder::PARAM_INT));
+		$insert = $this->connection->getQueryBuilder();
+		$insert->insert('mimetypes')
+			->setValue('mimetype', $insert->createParameter('mimetype'));
+
 		if (empty($this->folderMimeTypeId)) {
-			$result = \OC_DB::executeAudited(self::getIdStmt(), ['httpd/unix-directory']);
-			$this->folderMimeTypeId = (int)$result->fetchOne();
+			$query->setParameter('mimetype', 'httpd/unix-directory');
+			$result = $query->execute();
+			$this->folderMimeTypeId = (int)$result->fetchColumn();
+			$result->closeCursor();
 		}
+
+		$update = $this->connection->getQueryBuilder();
+		$update->update('filecache')
+			->set('mimetype', $update->createParameter('mimetype'))
+			->where($update->expr()->neq('mimetype', $update->createParameter('mimetype'), IQueryBuilder::PARAM_INT))
+			->andWhere($update->expr()->neq('mimetype', $update->createParameter('folder'), IQueryBuilder::PARAM_INT))
+			->andWhere($update->expr()->iLike('name', $update->createParameter('name')))
+			->setParameter('folder', $this->folderMimeTypeId);
 
 		$count = 0;
 		foreach ($updatedMimetypes as $extension => $mimetype) {
-			$result = \OC_DB::executeAudited(self::existsStmt(), [$mimetype]);
-			$exists = $result->fetchOne();
+			// get target mimetype id
+			$query->setParameter('mimetype', $mimetype);
+			$result = $query->execute();
+			$mimetypeId = (int)$result->fetchColumn();
+			$result->closeCursor();
 
-			if (!$exists) {
+			if (!$mimetypeId) {
 				// insert mimetype
-				\OC_DB::executeAudited(self::insertStmt(), [$mimetype]);
+				$insert->setParameter('mimetype', $mimetype);
+				$insert->execute();
+				$mimetypeId = $insert->getLastInsertId();
 			}
 
-			// get target mimetype id
-			$result = \OC_DB::executeAudited(self::getIdStmt(), [$mimetype]);
-			$mimetypeId = $result->fetchOne();
-
 			// change mimetype for files with x extension
-			$count += \OC_DB::executeAudited(self::updateByNameStmt(), [$mimetypeId, $this->folderMimeTypeId, $mimetypeId, '%.' . $extension]);
+			$update->setParameter('mimetype', $mimetypeId)
+				->setParameter('name', '%' . $this->connection->escapeLikeParameter('.' . $extension));
+			$count += $update->execute();
 		}
 
 		return $count;
