@@ -110,10 +110,13 @@ class CustomPropertiesBackendTest extends TestCase {
 			->where($query->expr()->eq('userid', $query->createNamedParameter($user)))
 			->where($query->expr()->eq('propertypath', $query->createNamedParameter($this->formatPath($path))));
 
-
 		$result = $query->execute();
-		$data = $result->fetchAll(\PDO::FETCH_KEY_PAIR);
+		$data = [];
+		while ($row = $result->fetch()) {
+			$data[$row['propertyname']] = $row['propertyvalue'];
+		}
 		$result->closeCursor();
+
 		return $data;
 	}
 
