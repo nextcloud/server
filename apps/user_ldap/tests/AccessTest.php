@@ -118,7 +118,7 @@ class AccessTest extends TestCase {
 				$this->createMock(INotificationManager::class),
 				$this->shareManager])
 			->getMock();
-		$helper = new Helper(\OC::$server->getConfig());
+		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
 
 		return [$lw, $connector, $um, $helper];
 	}

@@ -40,7 +40,7 @@ class HelperTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->config = $this->createMock(IConfig::class);
-		$this->helper = new Helper($this->config);
+		$this->helper = new Helper($this->config, \OC::$server->getDatabaseConnection());
 	}
 
 	public function testGetServerConfigurationPrefixes() {

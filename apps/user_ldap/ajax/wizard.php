@@ -70,7 +70,7 @@ $access = new \OCA\User_LDAP\Access(
 	$con,
 	$ldapWrapper,
 	$userManager,
-	new \OCA\User_LDAP\Helper(\OC::$server->getConfig()),
+	new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 	\OC::$server->getConfig(),
 	\OC::$server->getUserManager()
 );

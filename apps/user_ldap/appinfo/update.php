@@ -23,5 +23,5 @@
  *
  */
 
-$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
+$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
 $helper->setLDAPProvider();

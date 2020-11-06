@@ -48,7 +48,7 @@ class Admin implements ISettings {
 	 * @return TemplateResponse
 	 */
 	public function getForm() {
-		$helper = new Helper(\OC::$server->getConfig());
+		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
 		$prefixes = $helper->getServerConfigurationPrefixes();
 		if (count($prefixes) === 0) {
 			$newPrefix = $helper->getNextServerConfigurationPrefix();

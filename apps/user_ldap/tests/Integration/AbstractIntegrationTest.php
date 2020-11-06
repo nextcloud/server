@@ -137,7 +137,7 @@ abstract class AbstractIntegrationTest {
 	 * initializes the test Helper
 	 */
 	protected function initHelper() {
-		$this->helper = new Helper(\OC::$server->getConfig());
+		$this->helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
 	}
 
 	/**

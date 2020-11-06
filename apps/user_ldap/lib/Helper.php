@@ -35,23 +35,25 @@
 namespace OCA\User_LDAP;
 
 use OC\Cache\CappedMemoryCache;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IConfig;
+use OCP\IDBConnection;
 
 class Helper {
 
 	/** @var IConfig */
 	private $config;
 
+	/** @var IDBConnection */
+	private $connection;
+
 	/** @var CappedMemoryCache */
 	protected $sanitizeDnCache;
 
-	/**
-	 * Helper constructor.
-	 *
-	 * @param IConfig $config
-	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config,
+								IDBConnection $connection) {
 		$this->config = $config;
+		$this->connection = $connection;
 		$this->sanitizeDnCache = new CappedMemoryCache(10000);
 	}
 
@@ -160,30 +162,22 @@ class Helper {
 			return false;
 		}
 
-		$saveOtherConfigurations = '';
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter('user_ldap')))
+			->andWhere($query->expr()->notIn('configkey', $query->createNamedParameter([
+				'enabled',
+				'installed_version',
+				'types',
+				'bgjUpdateGroupsLastRun',
+			]), IQueryBuilder::PARAM_STR_ARRAY));
+
 		if (empty($prefix)) {
-			$saveOtherConfigurations = 'AND `configkey` NOT LIKE \'s%\'';
+			$query->andWhere($query->expr()->notLike('configkey', $query->createNamedParameter('s%')));
 		}
 
-		$query = \OC_DB::prepare('
-			DELETE
-			FROM `*PREFIX*appconfig`
-			WHERE `configkey` LIKE ?
-				' . $saveOtherConfigurations . '
-				AND `appid` = \'user_ldap\'
-				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
-		');
-		$delRows = $query->execute([$prefix . '%']);
-
-		if ($delRows === null) {
-			return false;
-		}
-
-		if ($delRows === 0) {
-			return false;
-		}
-
-		return true;
+		$deletedRows = $query->execute();
+		return $deletedRows !== 0;
 	}
 
 	/**

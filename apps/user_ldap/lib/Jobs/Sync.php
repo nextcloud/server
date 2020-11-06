@@ -308,7 +308,7 @@ class Sync extends TimedJob {
 		if (isset($argument['helper'])) {
 			$this->ldapHelper = $argument['helper'];
 		} else {
-			$this->ldapHelper = new Helper($this->config);
+			$this->ldapHelper = new Helper($this->config, \OC::$server->getDatabaseConnection());
 		}
 
 		if (isset($argument['ldapWrapper'])) {
