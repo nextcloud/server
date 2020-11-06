@@ -170,7 +170,7 @@ class Helper {
 				'installed_version',
 				'types',
 				'bgjUpdateGroupsLastRun',
-			]), IQueryBuilder::PARAM_STR_ARRAY));
+			], IQueryBuilder::PARAM_STR_ARRAY)));
 
 		if (empty($prefix)) {
 			$query->andWhere($query->expr()->notLike('configkey', $query->createNamedParameter('s%')));
