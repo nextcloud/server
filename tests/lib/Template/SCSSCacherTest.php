@@ -81,6 +81,11 @@ class SCSSCacherTest extends \Test\TestCase {
 			->willReturn('http://localhost/nextcloud');
 
 		$this->config = $this->createMock(IConfig::class);
+		$this->config->expects($this->any())
+			->method('getAppValue')
+			->will($this->returnCallback(function ($appId, $configKey, $defaultValue) {
+				return $defaultValue;
+			}));
 		$this->cacheFactory = $this->createMock(ICacheFactory::class);
 		$this->depsCache = $this->createMock(ICache::class);
 		$this->cacheFactory->expects($this->at(0))
