@@ -76,6 +76,7 @@ trait S3ConnectionTrait {
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = (isset($params['use_ssl']) && $params['use_ssl'] === false) ? 80 : 443;
 		}
+		$params['verify_bucket_exists'] = empty($params['verify_bucket_exists']) ? true : $params['verify_bucket_exists'];
 		$this->params = $params;
 	}
 
@@ -130,7 +131,7 @@ trait S3ConnectionTrait {
 					 ['app' => 'objectstore']);
 		}
 
-		if (!$this->connection->doesBucketExist($this->bucket)) {
+		if ($this->params['verify_bucket_exists'] && !$this->connection->doesBucketExist($this->bucket)) {
 			$logger = \OC::$server->getLogger();
 			try {
 				$logger->info('Bucket "' . $this->bucket . '" does not exist - creating it.', ['app' => 'objectstore']);
