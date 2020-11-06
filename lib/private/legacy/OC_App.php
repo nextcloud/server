@@ -94,7 +94,7 @@ class OC_App {
 	 * @return bool
 	 */
 	public static function isAppLoaded(string $app): bool {
-		return in_array($app, self::$loadedApps, true);
+		return isset(self::$loadedApps[$app]);
 	}
 
 	/**
@@ -127,7 +127,7 @@ class OC_App {
 		// prevent app.php from printing output
 		ob_start();
 		foreach ($apps as $app) {
-			if (($types === [] or self::isType($app, $types)) && !in_array($app, self::$loadedApps)) {
+			if (!isset(self::$loadedApps[$app]) && ($types === [] || self::isType($app, $types))) {
 				self::loadApp($app);
 			}
 		}
@@ -143,7 +143,7 @@ class OC_App {
 	 * @throws Exception
 	 */
 	public static function loadApp(string $app) {
-		self::$loadedApps[] = $app;
+		self::$loadedApps[$app] = true;
 		$appPath = self::getAppPath($app);
 		if ($appPath === false) {
 			return;
