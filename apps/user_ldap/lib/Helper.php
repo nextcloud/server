@@ -165,6 +165,7 @@ class Helper {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('appconfig')
 			->where($query->expr()->eq('appid', $query->createNamedParameter('user_ldap')))
+			->andWhere($query->expr()->like('configkey', $query->createNamedParameter((string)$prefix . '%')))
 			->andWhere($query->expr()->notIn('configkey', $query->createNamedParameter([
 				'enabled',
 				'installed_version',
