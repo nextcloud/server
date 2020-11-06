@@ -204,8 +204,8 @@ class UpdateGroups extends TimedJob {
 
 		$query = $this->dbc->getQueryBuilder();
 		$query->insert('ldap_group_members')
-			->set('owncloudname', $query->createParameter('owncloudname'))
-			->set('owncloudusers', $query->createParameter('owncloudusers'));
+			->setValue('owncloudname', $query->createParameter('owncloudname'))
+			->setValue('owncloudusers', $query->createParameter('owncloudusers'));
 		foreach ($createdGroups as $createdGroup) {
 			\OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – new group "' . $createdGroup . '" found.',
