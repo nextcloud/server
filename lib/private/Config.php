@@ -47,6 +47,8 @@ class Config {
 
 	/** @var array Associative array ($key => $value) */
 	protected $cache = [];
+	/** @var array */
+	protected $envCache = [];
 	/** @var string */
 	protected $configDir;
 	/** @var string */
@@ -88,9 +90,9 @@ class Config {
 	 * @return mixed the value or $default
 	 */
 	public function getValue($key, $default = null) {
-		$envValue = getenv(self::ENV_PREFIX . $key);
-		if ($envValue !== false) {
-			return $envValue;
+		$envKey = self::ENV_PREFIX . $key;
+		if (isset($this->envCache[$envKey])) {
+			return $this->envCache[$envKey];
 		}
 
 		if (isset($this->cache[$key])) {
@@ -222,6 +224,8 @@ class Config {
 			flock($filePointer, LOCK_UN);
 			fclose($filePointer);
 		}
+
+		$this->envCache = getenv();
 	}
 
 	/**
