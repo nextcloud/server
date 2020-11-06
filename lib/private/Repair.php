@@ -146,7 +146,7 @@ class Repair implements IOutput {
 	public static function getRepairSteps() {
 		return [
 			new Collation(\OC::$server->getConfig(), \OC::$server->getLogger(), \OC::$server->getDatabaseConnection(), false),
-			new RepairMimeTypes(\OC::$server->getConfig()),
+			new RepairMimeTypes(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new MoveUpdaterStepFile(\OC::$server->getConfig()),
