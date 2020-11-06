@@ -55,6 +55,7 @@ class OC_DB {
 	 * @param bool|null $isManipulation
 	 * @throws \OC\DatabaseException
 	 * @return OC_DB_StatementWrapper prepared SQL query
+	 * @depreacted 21.0.0 Please use \OCP\IDBConnection::getQueryBuilder() instead
 	 *
 	 * SQL query via Doctrine prepare(), needs to be execute()'d!
 	 */
@@ -112,6 +113,7 @@ class OC_DB {
 	 * @param array $parameters
 	 * @return OC_DB_StatementWrapper
 	 * @throws \OC\DatabaseException
+	 * @depreacted 21.0.0 Please use \OCP\IDBConnection::getQueryBuilder() instead
 	 */
 	public static function executeAudited($stmt, array $parameters = []) {
 		if (is_string($stmt)) {
