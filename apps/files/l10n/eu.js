@@ -25,6 +25,7 @@ OC.L10N.register(
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} / {totalSize} ({bitrate})",
     "Uploading that item is not supported" : "Ez da onartzen elementu hori kargatzea",
     "Target folder does not exist any more" : "Helburuko karpeta ez da existitzen jadanik",
+    "Operation is blocked by access control" : "Sarbide kontrolak eragiketa blokeatu du",
     "Error when assembling chunks, status code {status}" : "Errorea zatiak elkartzean, egoera kodea {status}",
     "Actions" : "Ekintzak",
     "Rename" : "Berrizendatu",

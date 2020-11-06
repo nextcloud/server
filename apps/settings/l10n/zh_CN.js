@@ -119,6 +119,8 @@ OC.L10N.register(
     "Reshare" : "重新共享",
     "Unlimited" : "无限",
     "Verifying" : "正在验证",
+    "A background job is pending that checks for user imported SSL certificates. Please check back later." : "一个检查用户导入的 SSL 证书的后台工作正在进行中。请稍后再来检查。",
+    "There are some user imported SSL certificates present, that are not used anymore with Nextcloud 21. They can be imported on the command line via \"occ security:certificates:import\" command. Their paths inside the data directory are shown below." : "目前存在一些用户导入的 SSL 证书，这在 Nextcloud 21 中已经不使用了。它们可以通过 \"occ security:certificates:import\" 命令在命令行导入。它们在数据目录下的路径如下所示。",
     "The old server-side-encryption format is enabled. We recommend disabling this." : "旧的服务器端加密格式已启用。我们建议禁用此功能。",
     "Nextcloud settings" : "Nextcloud 设置",
     "Two-factor authentication can be enforced for all users and specific groups. If they do not have a two-factor provider configured, they will be unable to log into the system." : "两步验证可以对于所有用户和特定分组启用。如果没有设置两步验证提供者，他们则不能登录到系统。",
