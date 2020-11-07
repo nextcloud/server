@@ -27,6 +27,9 @@ namespace OC\DB\QueryBuilder\FunctionBuilder;
 use OC\DB\QueryBuilder\QueryFunction;
 use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\IFunctionBuilder;
+use OCP\DB\QueryBuilder\ILiteral;
+use OCP\DB\QueryBuilder\IParameter;
+use OCP\DB\QueryBuilder\IQueryFunction;
 
 class FunctionBuilder implements IFunctionBuilder {
 	/** @var QuoteHelper */
@@ -87,10 +90,20 @@ class FunctionBuilder implements IFunctionBuilder {
 		return new QueryFunction('MIN(' . $this->helper->quoteColumnName($field) . ')');
 	}
 
+	/**
+	 * @param string|ILiteral|IParameter|IQueryFunction $x
+	 * @param string|ILiteral|IParameter|IQueryFunction $y
+	 * @return IQueryFunction
+	 */
 	public function greatest($x, $y) {
 		return new QueryFunction('GREATEST(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
+	/**
+	 * @param string|ILiteral|IParameter|IQueryFunction $x
+	 * @param string|ILiteral|IParameter|IQueryFunction $y
+	 * @return IQueryFunction
+	 */
 	public function least($x, $y) {
 		return new QueryFunction('LEAST(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}

@@ -104,9 +104,9 @@ class Propagator implements IPropagator {
 			$builder = $this->connection->getQueryBuilder();
 			$builder->update('filecache')
 				->set('size', $builder->func()->greatest(
-					$builder->createNamedParameter(-1, IQueryBuilder::PARAM_INT),
-					$builder->func()->add('size', $builder->createNamedParameter($sizeDifference)))
-				)
+					$builder->func()->add('size', $builder->createNamedParameter($sizeDifference)),
+					$builder->createNamedParameter(-1, IQueryBuilder::PARAM_INT)
+				))
 				->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 				->andWhere($builder->expr()->in('path_hash', $hashParams))
 				->andWhere($builder->expr()->gt('size', $builder->expr()->literal(-1, IQueryBuilder::PARAM_INT)));
@@ -168,7 +168,7 @@ class Propagator implements IPropagator {
 		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
 
 		$query->update('filecache')
-			->set('mtime', $query->createFunction('GREATEST(' . $query->getColumnName('mtime') . ', ' . $query->createParameter('time') . ')'))
+			->set('mtime', $query->func()->greatest('mtime', $query->createParameter('time')))
 			->set('etag', $query->expr()->literal(uniqid()))
 			->where($query->expr()->eq('storage', $query->expr()->literal($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($query->expr()->eq('path_hash', $query->createParameter('hash')));

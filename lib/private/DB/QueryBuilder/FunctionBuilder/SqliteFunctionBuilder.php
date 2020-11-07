@@ -25,16 +25,29 @@
 namespace OC\DB\QueryBuilder\FunctionBuilder;
 
 use OC\DB\QueryBuilder\QueryFunction;
+use OCP\DB\QueryBuilder\ILiteral;
+use OCP\DB\QueryBuilder\IParameter;
+use OCP\DB\QueryBuilder\IQueryFunction;
 
 class SqliteFunctionBuilder extends FunctionBuilder {
 	public function concat($x, $y) {
 		return new QueryFunction('(' . $this->helper->quoteColumnName($x) . ' || ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
+	/**
+	 * @param string|ILiteral|IParameter|IQueryFunction $x
+	 * @param string|ILiteral|IParameter|IQueryFunction $y
+	 * @return IQueryFunction
+	 */
 	public function greatest($x, $y) {
 		return new QueryFunction('MAX(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
 
+	/**
+	 * @param string|ILiteral|IParameter|IQueryFunction $x
+	 * @param string|ILiteral|IParameter|IQueryFunction $y
+	 * @return IQueryFunction
+	 */
 	public function least($x, $y) {
 		return new QueryFunction('MIN(' . $this->helper->quoteColumnName($x) . ', ' . $this->helper->quoteColumnName($y) . ')');
 	}
