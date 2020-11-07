@@ -4963,11 +4963,6 @@
       <code>\Doctrine\DBAL\Driver\Statement</code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/Repair/RepairMimeTypes.php">
-    <InvalidOperand occurrences="1">
-      <code>\OC_DB::executeAudited(self::updateByNameStmt(), [$mimetypeId, $this-&gt;folderMimeTypeId, $mimetypeId, '%.' . $extension])</code>
-    </InvalidOperand>
-  </file>
   <file src="lib/private/Route/Router.php">
     <InvalidClass occurrences="1">
       <code>\OC_APP</code>
