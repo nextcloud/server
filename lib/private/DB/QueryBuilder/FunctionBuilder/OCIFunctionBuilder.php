@@ -43,7 +43,7 @@ class OCIFunctionBuilder extends FunctionBuilder {
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $x
 	 * @param string|ILiteral|IParameter|IQueryFunction $y
-	 * @return QueryFunction
+	 * @return IQueryFunction
 	 */
 	public function greatest($x, $y) {
 		if (is_string($y) || $y instanceof IQueryFunction) {
@@ -63,7 +63,7 @@ class OCIFunctionBuilder extends FunctionBuilder {
 	 *
 	 * @param string|ILiteral|IParameter|IQueryFunction $x
 	 * @param string|ILiteral|IParameter|IQueryFunction $y
-	 * @return QueryFunction
+	 * @return IQueryFunction
 	 */
 	public function least($x, $y) {
 		if (is_string($y) || $y instanceof IQueryFunction) {
