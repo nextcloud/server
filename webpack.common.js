@@ -1,8 +1,19 @@
 /* eslint-disable camelcase */
-const { merge } = require('webpack-merge')
-const { VueLoaderPlugin } = require('vue-loader')
-const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 const path = require('path')
+const { merge } = require('webpack-merge')
+
+const ESLintPlugin = require('eslint-webpack-plugin')
+const StyleLintPlugin = require('stylelint-webpack-plugin')
+const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
+
+const webpackConfig = require('@nextcloud/webpack-vue-config')
+const {
+	RULE_ASSETS,
+	RULE_CSS,
+	RULE_JS,
+	RULE_SCSS,
+	RULE_VUE,
+} = require('@nextcloud/webpack-vue-config/rules')
 
 const accessibility = require('./apps/accessibility/webpack')
 const comments = require('./apps/comments/webpack')
@@ -51,77 +62,69 @@ const modulesToBuild = () => {
 	return Object.values(modules)
 }
 
+// Exclude node modules that doesn't require transpiling
+RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
+	'@nextcloud/dialogs',
+	'@nextcloud/event-bus',
+	'davclient.js',
+	'nextcloud-vue-collections',
+	'p-finally',
+	'p-limit',
+	'p-locate',
+	'p-queue',
+	'p-timeout',
+	'p-try',
+	'semver',
+	'striptags',
+	'toastify-js',
+	'v-tooltip',
+])
+RULE_VUE.exclude = BabelLoaderExcludeNodeModulesExcept([
+	'vue-material-design-icons',
+])
+
+// Override default rules with our modified ones
+webpackConfig.entry = {}
+webpackConfig.module.rules = [
+	RULE_CSS,
+	RULE_SCSS,
+	RULE_VUE,
+	RULE_JS,
+	RULE_ASSETS,
+]
+
+// Change path of default linting plugins lookups
+const indexES = webpackConfig.plugins.findIndex(plugin => plugin.constructor === ESLintPlugin)
+const indexSL = webpackConfig.plugins.findIndex(plugin => plugin.constructor === StyleLintPlugin)
+webpackConfig.plugins[indexES] = new ESLintPlugin({
+	files: [
+		'apps/*/src',
+		'core/src',
+	],
+	extensions: ['js', 'vue'],
+})
+webpackConfig.plugins[indexSL] = new StyleLintPlugin({
+	files: [
+		'apps/*/src/**/*.{css,scss,vue}',
+		'core/src/**/*.{css,scss,vue}',
+	],
+})
+
+// Extend default config
 module.exports = []
 	.concat(
 		...modulesToBuild()
 	)
-	.map(config => merge({
+	.map(config => merge(webpackConfig, {
 		module: {
 			rules: [
 				{
-					test: /\.css$/,
-					use: ['style-loader', 'css-loader'],
-				},
-				{
-					test: /\.scss$/,
-					use: ['style-loader', 'css-loader', 'sass-loader'],
-				},
-				{
-					test: /\.(js|vue)$/,
-					loader: 'eslint-loader',
-					// no checks against vendors, modules or handlebar compiled files
-					exclude: /node_modules|vendor|templates\.js/,
-					enforce: 'pre',
-				},
-				{
-					test: /\.vue$/,
-					loader: 'vue-loader',
-					exclude: BabelLoaderExcludeNodeModulesExcept([
-						'vue-material-design-icons',
-					]),
-				},
-				{
-					test: /\.js$/,
-					loader: 'babel-loader',
-					// automatically detect necessary packages to
-					// transpile in the node_modules folder
-					exclude: BabelLoaderExcludeNodeModulesExcept([
-						'@nextcloud/dialogs',
-						'@nextcloud/event-bus',
-						'@nextcloud/vue-dashboard',
-						'davclient.js',
-						'nextcloud-vue-collections',
-						'p-finally',
-						'p-limit',
-						'p-locate',
-						'p-queue',
-						'p-timeout',
-						'p-try',
-						'semver',
-						'striptags',
-						'toastify-js',
-						'v-tooltip',
-					]),
-				},
-				{
-					test: /\.(png|jpg|gif)$/,
-					loader: 'url-loader',
-					options: {
-						name: '[name].[ext]?[hash]',
-						limit: 8192,
-					},
-				},
-				{
 					test: /\.handlebars/,
 					loader: 'handlebars-loader',
-					query: {
-						extensions: '.handlebars',
-					},
 				},
 
 			],
 		},
-		plugins: [new VueLoaderPlugin()],
 		resolve: {
 			alias: {
 				OC: path.resolve(__dirname, './core/src/OC'),
@@ -129,7 +132,13 @@ module.exports = []
 				// make sure to use the handlebar runtime when importing
 				handlebars: 'handlebars/runtime',
 			},
-			extensions: ['*', '.js', '.vue'],
-			symlinks: false,
+			// polyfill node modules
+			fallback: {
+				buffer: require.resolve('buffer/'),
+				crypto: require.resolve('crypto-browserify'),
+				path: require.resolve('path-browserify'),
+				stream: require.resolve('stream-browserify'),
+				util: require.resolve('util/'),
+			},
 		},
 	}, config))
