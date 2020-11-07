@@ -117,7 +117,7 @@
     "jsdom-global": "^3.0.2",
     "mocha": "^8.2.1",
     "mochapack": "^2.0.6",
-    "node-sass": "^4.14.1",
+    "node-sass": "^5.0.0",
     "sass-loader": "^10.0.5",
     "sinon": "^9.2.1",
     "sinon-chai": "^3.5.0",
