@@ -15,6 +15,6 @@ OC.L10N.register(
     "Client Identifier" : "Klientidentifierare",
     "Secret" : "Hemlighet",
     "Show client secret" : "Visa klienthemlighet",
-    "Delete" : "Radera"
+    "Delete" : "Ta bort"
 },
 "nplurals=2; plural=(n != 1);");

@@ -169,6 +169,7 @@ OC.L10N.register(
     "Password protection" : "密码保护",
     "Enter a password" : "输入密码",
     "Expiration date (enforced)" : "过期日期（强制）",
+    "Create share" : "创建共享",
     "Cancel" : "取消",
     "Share label" : "分享标签",
     "Read only" : "只读",

@@ -169,6 +169,7 @@ OC.L10N.register(
     "Password protection" : "Proteger com senha",
     "Enter a password" : "Digite uma senha",
     "Expiration date (enforced)" : "Data de vencimento (imposta)",
+    "Create share" : "Criar compartilhamento",
     "Cancel" : "Cancelar",
     "Share label" : "Compartilhar etiqueta",
     "Read only" : "Somente leitura",
@@ -187,7 +188,7 @@ OC.L10N.register(
     "No recommendations. Start typing." : "Sem recomendações. Inicie a digitação.",
     "Resharing is not allowed" : "Recompartilhamento não é permitido",
     "Name or email …" : "Nome ou e-mail...",
-    "Name, email, or Federated Cloud ID …" : "Nome, email ou ID da nuvem federada...",
+    "Name, email, or Federated Cloud ID …" : "Nome, e-mail ou ID da nuvem federada...",
     "Searching …" : "Pesquisando...",
     "No elements found." : "Nenhum elemento encontrado.",
     "Search globally" : "Pesquisar globalmente",
@@ -230,7 +231,7 @@ OC.L10N.register(
     "Uploading files" : "Enviando arquivos...",
     "Uploaded files:" : "Arquivos enviados:",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Ao enviar arquivos, você concorda com os %1$stermos de serviço%2$s.",
-    "Name, email, or federated cloud ID …" : "Nome, email, ou ID da nuvem federada...",
+    "Name, email, or federated cloud ID …" : "Nome, e-mail, ou ID da nuvem federada...",
     "Uploading files…" : "Enviando arquivos..."
 },
 "nplurals=2; plural=(n > 1);");
