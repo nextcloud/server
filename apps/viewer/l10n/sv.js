@@ -7,7 +7,7 @@ OC.L10N.register(
     "Error loading {name}" : "Fel vid inläsning av {name}",
     "Your browser does not support videos." : "Din webbläsare har inte stöd för video.",
     "Open sidebar" : "Öppna sidofältet",
-    "Delete" : "Radera",
+    "Delete" : "Ta bort",
     "View" : "Visa",
     "Your browser does not support the video tag." : "Din webbläsare stöder inte videotaggen."
 },
