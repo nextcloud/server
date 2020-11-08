@@ -1915,12 +1915,6 @@
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
     </FalsableReturnStatement>
-    <InvalidReturnStatement occurrences="1">
-      <code>$query-&gt;execute([$uid])</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="2">
       <code>$timestamp</code>
       <code>$timestamp</code>
