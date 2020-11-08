@@ -169,6 +169,7 @@ OC.L10N.register(
     "Password protection" : "Protezione con password",
     "Enter a password" : "Digita una password",
     "Expiration date (enforced)" : "Data di scadenza (applicata)",
+    "Create share" : "Crea condivisione",
     "Cancel" : "Annulla",
     "Share label" : "Condividi etichetta",
     "Read only" : "Sola lettura",

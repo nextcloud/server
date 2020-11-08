@@ -169,6 +169,7 @@ OC.L10N.register(
     "Password protection" : "Passwortschutz",
     "Enter a password" : "Passwort eingeben",
     "Expiration date (enforced)" : "Ablaufdatum (erzwungen)",
+    "Create share" : "Freigabe erstellen",
     "Cancel" : "Abbrechen",
     "Share label" : "Freigabe-Label",
     "Read only" : "Schreibgeschützt",
