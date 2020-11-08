@@ -5,7 +5,7 @@ OC.L10N.register(
     "Dashboard app" : "Dashboard app",
     "Show something" : "Visa någonting",
     "Customize" : "Anpassa",
-    "Edit widgets" : "Redigera widgets",
+    "Edit widgets" : "Redigera gränssnittskomponenter",
     "Get more widgets from the app store" : "Hämta fler widgets från app store",
     "Change background image" : "Byt bakgrundsbild",
     "Weather service" : "Vädertjänst",

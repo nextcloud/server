@@ -28,6 +28,9 @@ OC.L10N.register(
     "Remove from favorites" : "Ta bort från favoriter",
     "Add as favorite" : "Lägg till som favorit",
     "You are not logged in." : "Du är inte inloggad.",
-    "Location not found" : "Platsen hittades inte"
+    "No weather information found" : "Ingen väderinformation hittades",
+    "Location not found" : "Platsen hittades inte",
+    "There was an error saving the mode." : "Det uppstod ett fel vid sparandet av läget.",
+    "There was an error using personal address." : "Det uppstod ett fel vid användning av personlig adress."
 },
 "nplurals=2; plural=(n != 1);");

@@ -13,6 +13,6 @@
     "Client Identifier" : "Klientidentifierare",
     "Secret" : "Hemlighet",
     "Show client secret" : "Visa klienthemlighet",
-    "Delete" : "Radera"
+    "Delete" : "Ta bort"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

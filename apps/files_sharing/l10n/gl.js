@@ -169,6 +169,7 @@ OC.L10N.register(
     "Password protection" : "Protección por contrasinal",
     "Enter a password" : "Introduza un contrasinal",
     "Expiration date (enforced)" : "Data de caducidade (obrigada)",
+    "Create share" : "Crear elemento compartido",
     "Cancel" : "Cancelar",
     "Share label" : "Compartir a etiqueta",
     "Read only" : "Só lectura",

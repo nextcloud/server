@@ -154,6 +154,7 @@ OC.L10N.register(
     "Password protection" : "Zaščita z geslom",
     "Enter a password" : "Vpis gesla",
     "Expiration date (enforced)" : "Datum preteka (vsiljeno)",
+    "Create share" : "Ustvari predmet souporabe",
     "Cancel" : "Prekliči",
     "Share label" : "Naziv mesta souporabe",
     "Read only" : "Le za branje",
