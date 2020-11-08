@@ -73,7 +73,7 @@ OC.L10N.register(
     "When" : "När",
     "and" : "och",
     "Cancel" : "Avbryt",
-    "Delete" : "Radera",
+    "Delete" : "Ta bort",
     "The configuration is invalid" : "Konfigurationen är felaktig",
     "Active" : "Aktiv",
     "Save" : "Spara",
