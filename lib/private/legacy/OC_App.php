@@ -118,9 +118,12 @@ class OC_App {
 
 		// Add each apps' folder as allowed class path
 		foreach ($apps as $app) {
-			$path = self::getAppPath($app);
-			if ($path !== false) {
-				self::registerAutoloading($app, $path);
+			// If the app is already loaded then autoloading it makes no sense
+			if (!isset(self::$loadedApps[$app])) {
+				$path = self::getAppPath($app);
+				if ($path !== false) {
+					self::registerAutoloading($app, $path);
+				}
 			}
 		}
 
