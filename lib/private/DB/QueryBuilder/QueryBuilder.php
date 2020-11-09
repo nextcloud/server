@@ -436,8 +436,14 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return $this This QueryBuilder instance.
 	 */
 	public function selectDistinct($select) {
+		if (!is_array($select)) {
+			$select = [$select];
+		}
+
+		$quotedSelect = $this->helper->quoteColumnNames($select);
+
 		$this->queryBuilder->addSelect(
-			'DISTINCT ' . $this->helper->quoteColumnName($select)
+			'DISTINCT ' . implode(', ', $quotedSelect)
 		);
 
 		return $this;
