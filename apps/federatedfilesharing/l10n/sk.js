@@ -38,6 +38,7 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Sprístupnenie prostredníctvom Federated Cloud",
     "Open documentation" : "Otvoriť dokumentáciu",
     "Adjust how people can share between servers." : "Nastavte ako môžu ľudia medzi sebou zdieľať servery.",
+    "Allow users on this server to send shares to other servers (this option also allows WebDAV access to public shares)" : "Povoliť používateľom z tohto servera sprístupňovať obsah na iných serveroch (to umožňuje WebDAV prístup k verejným zdieľaniam)",
     "Allow users on this server to receive shares from other servers" : "Povoliť používateľom z tohto servera sprístupňovanie obsahu z iných serverov",
     "Allow users on this server to send shares to groups on other servers" : "Povoliť používateľom na tomto serveri odosielať zdieľania skupinám na iných serveroch",
     "Allow users on this server to receive group shares from other servers" : "Povoliť používateľom na tomto serveri prijímať zdieľania skupín z iných serverov",
