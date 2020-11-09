@@ -49,7 +49,7 @@ class Version16000Date20190428150708 extends SimpleMigrationStep {
 		if ($schema->hasTable('collres_accesscache')) {
 			$table = $schema->getTable('collres_accesscache');
 			$table->addColumn('access', Types::BOOLEAN, [
-				'notnull' => true,
+				'notnull' => false,
 				'default' => false
 			]);
 		}

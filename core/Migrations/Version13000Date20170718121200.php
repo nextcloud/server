@@ -814,7 +814,7 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 		if (!$schema->hasTable('credentials')) {
 			$table = $schema->createTable('credentials');
 			$table->addColumn('user', 'string', [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 64,
 			]);
 			$table->addColumn('identifier', 'string', [

@@ -922,6 +922,7 @@ return array(
     'OC\\Core\\Migrations\\Version18000Date20191014105105' => $baseDir . '/core/Migrations/Version18000Date20191014105105.php',
     'OC\\Core\\Migrations\\Version18000Date20191204114856' => $baseDir . '/core/Migrations/Version18000Date20191204114856.php',
     'OC\\Core\\Migrations\\Version19000Date20200211083441' => $baseDir . '/core/Migrations/Version19000Date20200211083441.php',
+    'OC\\Core\\Migrations\\Version20000Date20201109081915' => $baseDir . '/core/Migrations/Version20000Date20201109081915.php',
     'OC\\Core\\Notification\\RemoveLinkSharesNotifier' => $baseDir . '/core/Notification/RemoveLinkSharesNotifier.php',
     'OC\\Core\\Service\\LoginFlowV2Service' => $baseDir . '/core/Service/LoginFlowV2Service.php',
     'OC\\DB\\Adapter' => $baseDir . '/lib/private/DB/Adapter.php',

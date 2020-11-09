@@ -1,11 +1,10 @@
 <?php
-
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
  *
- * @author Roeland Jago Douma <roeland@famdouma.nl>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,32 +23,38 @@ declare(strict_types=1);
  *
  */
 
-namespace OC\Core\Migrations;
+namespace OCA\DAV\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version15000Date20181015062942 extends SimpleMigrationStep {
-
+class Version1016Date20201109085907 extends SimpleMigrationStep {
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @return null|ISchemaWrapper
 	 */
-	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
+	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->getTable('share');
-		$table->addColumn('hide_download', 'smallint', [
-			'notnull' => false,
-			'length' => 1,
-			'default' => 0,
-		]);
+		$result = $this->ensureColumnIsNullable($schema, 'calendar_reminders', 'is_recurring');
 
-		return $schema;
+		return $result ? $schema : null;
+	}
+
+	protected function ensureColumnIsNullable(ISchemaWrapper $schema, string $tableName, string $columnName): bool {
+		$table = $schema->getTable($tableName);
+		$column = $table->getColumn($columnName);
+
+		if ($column->getNotnull()) {
+			$column->setNotnull(false);
+			return true;
+		}
+
+		return false;
 	}
 }
