@@ -71,7 +71,10 @@ class Quota extends Wrapper {
 	protected function getSize($path, $storage = null) {
 		if ($this->config->getValue('quota_include_external_storage', false)) {
 			$rootInfo = Filesystem::getFileInfo('', 'ext');
-			return $rootInfo->getSize(true);
+			if ($rootInfo) {
+				return $rootInfo->getSize(true);
+			}
+			return \OCP\Files\FileInfo::SPACE_NOT_COMPUTED;
 		} else {
 			if (is_null($storage)) {
 				$cache = $this->getCache();
