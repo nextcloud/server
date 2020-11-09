@@ -37,6 +37,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_Sharing\Controller;
 
+use Exception;
 use OCA\Files_Sharing\Exceptions\SharingRightsException;
 use OCA\Files_Sharing\External\Storage;
 use OCA\Files\Helper;
@@ -1619,7 +1620,8 @@ class ShareAPIController extends OCSController {
 					return true;
 				}
 				return false;
-			} catch (QueryException $e) {
+			} catch (Exception $e) {
+				\OC::$server->getLogger()->logException($e, ['app' => 'circles']);
 				return false;
 			}
 		}
