@@ -81,9 +81,13 @@ class CredentialsManager implements ICredentialsManager {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->select('credentials')
 			->from(self::DB_TABLE)
-			->where($qb->expr()->eq('user', $qb->createNamedParameter((string)$userId)))
-			->andWhere($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)))
-		;
+			->where($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)));
+
+		if ($userId === '') {
+			$qb->andWhere($qb->expr()->emptyString('user'));
+		} else {
+			$qb->andWhere($qb->expr()->eq('user', $qb->createNamedParameter((string)$userId)));
+		}
 
 		$qResult = $qb->execute();
 		$result = $qResult->fetch();
@@ -107,9 +111,14 @@ class CredentialsManager implements ICredentialsManager {
 	public function delete($userId, $identifier) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::DB_TABLE)
-			->where($qb->expr()->eq('user', $qb->createNamedParameter((string)$userId)))
-			->andWhere($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)))
-		;
+			->where($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)));
+
+		if ($userId === '') {
+			$qb->andWhere($qb->expr()->emptyString('user'));
+		} else {
+			$qb->andWhere($qb->expr()->eq('user', $qb->createNamedParameter((string)$userId)));
+		}
+
 		return $qb->execute();
 	}
 
