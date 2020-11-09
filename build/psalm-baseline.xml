@@ -3904,6 +3904,9 @@
     </InvalidScalarArgument>
   </file>
   <file src="lib/private/DB/QueryBuilder/ExpressionBuilder/OCIExpressionBuilder.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$this-&gt;functionBuilder-&gt;lower($x)</code>
+    </ImplicitToStringCast>
     <InvalidReturnStatement occurrences="1">
       <code>parent::castColumn($column, $type)</code>
     </InvalidReturnStatement>
@@ -3917,6 +3920,9 @@
     </ImplicitToStringCast>
   </file>
   <file src="lib/private/DB/QueryBuilder/QueryBuilder.php">
+    <ImplicitToStringCast occurrences="1">
+      <code>$value</code>
+    </ImplicitToStringCast>
     <InvalidArgument occurrences="1">
       <code>$this-&gt;connection</code>
     </InvalidArgument>
