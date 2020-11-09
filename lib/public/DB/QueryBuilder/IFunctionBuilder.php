@@ -137,9 +137,8 @@ interface IFunctionBuilder {
 	 *
 	 * If you want to get the maximum value of all rows in a column, use `max` instead
 	 *
-	 * @param mixed $x the first input field or number
-	 * @param mixed $y the first input field or number
-	 *
+	 * @param string|ILiteral|IParameter|IQueryFunction $x
+	 * @param string|ILiteral|IParameter|IQueryFunction $y
 	 * @return IQueryFunction
 	 * @since 18.0.0
 	 */
@@ -150,9 +149,8 @@ interface IFunctionBuilder {
 	 *
 	 * If you want to get the minimum value of all rows in a column, use `min` instead
 	 *
-	 * @param mixed $x the first input field or number
-	 * @param mixed $y the first input field or number
-	 *
+	 * @param string|ILiteral|IParameter|IQueryFunction $x
+	 * @param string|ILiteral|IParameter|IQueryFunction $y
 	 * @return IQueryFunction
 	 * @since 18.0.0
 	 */
