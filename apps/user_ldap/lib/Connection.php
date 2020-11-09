@@ -120,7 +120,7 @@ class Connection extends LDAPUtility {
 		if ($memcache->isAvailable()) {
 			$this->cache = $memcache->createDistributed();
 		}
-		$helper = new Helper(\OC::$server->getConfig());
+		$helper = new Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
 		$this->doNotValidate = !in_array($this->configPrefix,
 			$helper->getServerConfigurationPrefixes());
 	}

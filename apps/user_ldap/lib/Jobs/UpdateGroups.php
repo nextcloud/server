@@ -201,17 +201,20 @@ class UpdateGroups extends TimedJob {
 	 */
 	private function handleCreatedGroups($createdGroups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with created Groups.', ILogger::DEBUG);
-		$query = \OC_DB::prepare('
-			INSERT
-			INTO `*PREFIX*ldap_group_members` (`owncloudname`, `owncloudusers`)
-			VALUES (?, ?)
-		');
+
+		$query = $this->dbc->getQueryBuilder();
+		$query->insert('ldap_group_members')
+			->setValue('owncloudname', $query->createParameter('owncloudname'))
+			->setValue('owncloudusers', $query->createParameter('owncloudusers'));
 		foreach ($createdGroups as $createdGroup) {
 			\OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – new group "' . $createdGroup . '" found.',
 				ILogger::INFO);
 			$users = serialize($this->groupBackend->usersInGroup($createdGroup));
-			$query->execute([$createdGroup, $users]);
+
+			$query->setParameter('owncloudname', $createdGroup)
+				->setParameter('owncloudusers', $users);
+			$query->execute();
 		}
 		\OCP\Util::writeLog('user_ldap',
 			'bgJ "updateGroups" – FINISHED dealing with created Groups.',
@@ -223,16 +226,17 @@ class UpdateGroups extends TimedJob {
 	 */
 	private function handleRemovedGroups($removedGroups) {
 		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – dealing with removed groups.', ILogger::DEBUG);
-		$query = \OC_DB::prepare('
-			DELETE
-			FROM `*PREFIX*ldap_group_members`
-			WHERE `owncloudname` = ?
-		');
+
+		$query = $this->dbc->getQueryBuilder();
+		$query->delete('ldap_group_members')
+			->where($query->expr()->eq('owncloudname', $query->createParameter('owncloudname')));
+
 		foreach ($removedGroups as $removedGroup) {
 			\OCP\Util::writeLog('user_ldap',
 				'bgJ "updateGroups" – group "' . $removedGroup . '" was removed.',
 				ILogger::INFO);
-			$query->execute([$removedGroup]);
+			$query->setParameter('owncloudname', $removedGroup);
+			$query->execute();
 		}
 		\OCP\Util::writeLog('user_ldap',
 			'bgJ "updateGroups" – FINISHED dealing with removed groups.',

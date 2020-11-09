@@ -29,5 +29,5 @@ if ($state === 'doSet') {
 	\OC::$server->getConfig()->setSystemValue('ldapIgnoreNamingRules', false);
 }
 
-$helper = new \OCA\User_LDAP\Helper($config);
+$helper = new \OCA\User_LDAP\Helper($config, \OC::$server->getDatabaseConnection());
 $helper->setLDAPProvider();

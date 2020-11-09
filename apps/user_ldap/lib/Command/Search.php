@@ -109,7 +109,7 @@ class Search extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output): int {
-		$helper = new Helper($this->ocConfig);
+		$helper = new Helper($this->ocConfig, \OC::$server->getDatabaseConnection());
 		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
 

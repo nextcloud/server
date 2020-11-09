@@ -32,7 +32,7 @@
 \OC_JSON::callCheck();
 
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
-$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
+$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
 if ($helper->deleteServerConfiguration($prefix)) {
 	\OC_JSON::success();
 } else {

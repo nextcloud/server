@@ -29,7 +29,7 @@
 \OC_JSON::checkAppEnabled('user_ldap');
 \OC_JSON::callCheck();
 
-$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig());
+$helper = new \OCA\User_LDAP\Helper(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection());
 $serverConnections = $helper->getServerConfigurationPrefixes();
 sort($serverConnections);
 $lk = array_pop($serverConnections);
