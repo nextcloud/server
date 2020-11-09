@@ -770,10 +770,25 @@ export default {
 		justify-content: center;
 	}
 
-	::v-deep .modal-container {
-		border-radius: 0;
-		// let the mime components manage their own background-color
-		background-color: transparent;
+	::v-deep .modal-wrapper {
+		.modal-container {
+			border-radius: 0;
+			// let the mime components manage their own background-color
+			background-color: transparent;
+			width: 900px; // same as max-width
+			height: 80%; // same as max-height
+		}
+
+		// Always set max and height/width simultaneously here
+		// to allow children to contain themselves properly
+		&--full .modal-container {
+			width: 100%; // same as max-width
+			height: 100%; // same as max-height
+		}
+		&--large .modal-container {
+			width: 85%; // same as max-width
+			height: 90%; // same as max-height
+		}
 	}
 
 	&__content {
