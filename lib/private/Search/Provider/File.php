@@ -44,6 +44,7 @@ class File extends \OCP\Search\Provider {
 	 * @deprecated 20.0.0
 	 */
 	public function search($query) {
+		\OC_Util::setupFS();
 		$files = Filesystem::search($query);
 		$results = [];
 		// edit results
