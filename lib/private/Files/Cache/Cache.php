@@ -998,7 +998,11 @@ class Cache implements ICache {
 		$path = $result->fetchColumn();
 		$result->closeCursor();
 
-		return $path === false ? null : $path;
+		if ($path === false) {
+			return null;
+		}
+
+		return (string) $path;
 	}
 
 	/**
