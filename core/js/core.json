@@ -13,7 +13,6 @@
 		"sharedialogshareelistview.js",
 		"public/publicpage.js",
 		"setupchecks.js",
-		"../search/js/search.js",
 		"mimetype.js",
 		"mimetypelist.js"
 	]
