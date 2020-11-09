@@ -332,11 +332,17 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 			$where = $updateQb->expr()->andX();
 			$whereValues = array_merge($keys, $updatePreconditionValues);
 			foreach ($whereValues as $name => $value) {
-				$where->add($updateQb->expr()->eq(
-					$name,
-					$updateQb->createNamedParameter($value, $this->getType($value)),
-					$this->getType($value)
-				));
+				if ($value === '') {
+					$where->add($updateQb->expr()->emptyString(
+						$name
+					));
+				} else {
+					$where->add($updateQb->expr()->eq(
+						$name,
+						$updateQb->createNamedParameter($value, $this->getType($value)),
+						$this->getType($value)
+					));
+				}
 			}
 			$updateQb->where($where);
 			$affected = $updateQb->execute();
