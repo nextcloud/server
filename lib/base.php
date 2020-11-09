@@ -371,7 +371,6 @@ class OC {
 
 		$oldTheme = $systemConfig->getValue('theme');
 		$systemConfig->setValue('theme', '');
-		OC_Util::addScript('config'); // needed for web root
 		OC_Util::addScript('update');
 
 		/** @var \OC\App\AppManager $appManager */
