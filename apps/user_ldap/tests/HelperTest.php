@@ -28,6 +28,9 @@ namespace OCA\User_LDAP\Tests;
 use OCA\User_LDAP\Helper;
 use OCP\IConfig;
 
+/**
+ * @group DB
+ */
 class HelperTest extends \Test\TestCase {
 
 	/** @var IConfig|\PHPUnit\Framework\MockObject\MockObject */
