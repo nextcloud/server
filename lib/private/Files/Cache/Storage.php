@@ -126,9 +126,14 @@ class Storage {
 	 * @return string|null either the storage id string or null if the numeric id is not known
 	 */
 	public static function getStorageId($numericId) {
-		$sql = 'SELECT `id` FROM `*PREFIX*storages` WHERE `numeric_id` = ?';
-		$result = \OC_DB::executeAudited($sql, [$numericId]);
-		if ($row = $result->fetchRow()) {
+		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query->select('id')
+			->from('storages')
+			->where($query->expr()->eq('numeric_id', $query->createNamedParameter($numericId)));
+		$result = $query->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+		if ($row) {
 			return $row['id'];
 		} else {
 			return null;
@@ -170,9 +175,14 @@ class Storage {
 	 * @param int $delay amount of seconds to delay reconsidering that storage further
 	 */
 	public function setAvailability($isAvailable, int $delay = 0) {
-		$sql = 'UPDATE `*PREFIX*storages` SET `available` = ?, `last_checked` = ? WHERE `id` = ?';
 		$available = $isAvailable ? 1 : 0;
-		\OC_DB::executeAudited($sql, [$available, time() + $delay, $this->storageId]);
+
+		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query->update('storages')
+			->set('available', $query->createNamedParameter($available))
+			->set('last_checked', $query->createNamedParameter(time() + $delay))
+			->where($query->expr()->eq('id', $query->createNamedParameter($this->storageId)));
+		$query->execute();
 	}
 
 	/**
@@ -193,12 +203,17 @@ class Storage {
 	public static function remove($storageId) {
 		$storageId = self::adjustStorageId($storageId);
 		$numericId = self::getNumericStorageId($storageId);
-		$sql = 'DELETE FROM `*PREFIX*storages` WHERE `id` = ?';
-		\OC_DB::executeAudited($sql, [$storageId]);
+
+		$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query->delete('storages')
+			->where($query->expr()->eq('id', $query->createNamedParameter($storageId)));
+		$query->execute();
 
 		if (!is_null($numericId)) {
-			$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `storage` = ?';
-			\OC_DB::executeAudited($sql, [$numericId]);
+			$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+			$query->delete('filecache')
+				->where($query->expr()->eq('storage', $query->createNamedParameter($numericId)));
+			$query->execute();
 		}
 	}
 }
