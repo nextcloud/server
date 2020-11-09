@@ -169,6 +169,7 @@ OC.L10N.register(
     "Password protection" : "Parola koruması",
     "Enter a password" : "Bir parola yazın",
     "Expiration date (enforced)" : "Son kullanma tarihi (dayatılmış)",
+    "Create share" : "Paylaşım ekle",
     "Cancel" : "İptal",
     "Share label" : "Etiketi paylaş",
     "Read only" : "Salt okunur",
