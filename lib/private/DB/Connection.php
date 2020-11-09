@@ -39,6 +39,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
+use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\QueryBuilder\QueryBuilder;
@@ -322,6 +323,8 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 					}, array_merge($keys, $values))
 				);
 			return $insertQb->execute();
+		} catch (NotNullConstraintViolationException $e) {
+			throw $e;
 		} catch (ConstraintViolationException $e) {
 			// value already exists, try update
 			$updateQb = $this->getQueryBuilder();
