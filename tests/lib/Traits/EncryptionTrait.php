@@ -12,6 +12,7 @@ use OC\Encryption\EncryptionWrapper;
 use OC\Files\Filesystem;
 use OC\Memcache\ArrayCache;
 use OCA\Encryption\AppInfo\Application;
+use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
 use OCP\Encryption\IManager;
@@ -104,5 +105,6 @@ trait EncryptionTrait {
 			$this->config->setAppValue('core', 'default_encryption_module', $this->originalEncryptionModule);
 			$this->config->deleteAppValue('encryption', 'useMasterKey');
 		}
+		\OC::$server->getEncryptionManager()->unregisterEncryptionModule(Encryption::ID);
 	}
 }
