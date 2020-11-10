@@ -66,6 +66,7 @@
 
 				<!-- reshare permission -->
 				<ActionCheckbox
+					v-if="config.isResharingAllowed"
 					ref="canReshare"
 					:checked.sync="canReshare"
 					:value="permissionsShare"
