@@ -5585,6 +5585,13 @@
       <code>array</code>
     </InvalidReturnType>
   </file>
+  <file src="lib/private/Share/Helper.php">
+    <ImplicitToStringCast occurrences="3">
+      <code>$query->createNamedParameter($parents, IQueryBuilder::PARAM_INT_ARRAY)</code>
+      <code>$query->createNamedParameter($changeParent, IQueryBuilder::PARAM_INT_ARRAY)</code>
+      <code>$query->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)</code>
+    </ImplicitToStringCast>
+  </file>
   <file src="lib/private/Share/Share.php">
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
