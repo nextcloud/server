@@ -325,7 +325,7 @@ class OC_Template extends \OC\Template\Base {
 			$content->assign('errorCode', $exception->getCode());
 			$content->assign('file', $exception->getFile());
 			$content->assign('line', $exception->getLine());
-			$content->assign('trace', $exception->getTraceAsString());
+			$content->assign('exception', $exception);
 			$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
 			$content->assign('remoteAddr', $request->getRemoteAddress());
 			$content->assign('requestID', $request->getId());

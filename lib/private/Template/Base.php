@@ -31,6 +31,7 @@
 namespace OC\Template;
 
 use OCP\Defaults;
+use Throwable;
 
 class Base {
 	private $template; // The template
@@ -92,7 +93,7 @@ class Base {
 	/**
 	 * Assign variables
 	 * @param string $key key
-	 * @param array|bool|integer|string $value value
+	 * @param array|bool|integer|string|Throwable $value value
 	 * @return bool
 	 *
 	 * This function assigns a variable. It can be accessed via $_[$key] in
