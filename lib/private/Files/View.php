@@ -1644,6 +1644,7 @@ class View {
 		$storage = $mount->getStorage();
 		if ($storage) {
 			$cache = $storage->getCache('');
+			$storagesDone = [$mount->getNumericStorageId()];
 
 			$results = call_user_func_array([$cache, $method], $args);
 			foreach ($results as $result) {
@@ -1658,6 +1659,11 @@ class View {
 
 			$mounts = Filesystem::getMountManager()->findIn($this->fakeRoot);
 			foreach ($mounts as $mount) {
+			    if (in_array($mount->getNumericStorageId(), $storagesDone)) {
+			        continue;
+			    }
+			    $storagesDone[] = $mount->getNumericStorageId();
+			    
 				$mountPoint = $mount->getMountPoint();
 				$storage = $mount->getStorage();
 				if ($storage) {
