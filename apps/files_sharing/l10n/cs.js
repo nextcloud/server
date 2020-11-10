@@ -169,6 +169,7 @@ OC.L10N.register(
     "Password protection" : "Ochrana heslem",
     "Enter a password" : "Zadejte heslo",
     "Expiration date (enforced)" : "Datum skončení platnosti (vynuceno)",
+    "Create share" : "Vytvořit sdílení",
     "Cancel" : "Storno",
     "Share label" : "Štítek sdílení",
     "Read only" : "Pouze pro čtení",
