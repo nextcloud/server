@@ -1700,6 +1700,7 @@
   <file src="apps/files_sharing/lib/Controller/ShareController.php">
     <InvalidArgument occurrences="2">
       <code>$files_list</code>
+      <code>'Share has no read permission'</code>
     </InvalidArgument>
     <InvalidScalarArgument occurrences="3">
       <code>$freeSpace</code>
@@ -2031,9 +2032,10 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/settings/lib/Controller/CheckSetupController.php">
-    <InvalidArgument occurrences="2">
+    <InvalidArgument occurrences="3">
       <code>IDBConnection::CHECK_MISSING_COLUMNS_EVENT</code>
       <code>IDBConnection::CHECK_MISSING_INDEXES_EVENT</code>
+      <code>IDBConnection::CHECK_MISSING_PRIMARY_KEYS_EVENT</code>
     </InvalidArgument>
     <InvalidOperand occurrences="1">
       <code>$lastCronRun</code>
@@ -2049,7 +2051,8 @@
       <code>$lastCronRun</code>
       <code>0</code>
     </InvalidScalarArgument>
-    <TooManyArguments occurrences="2">
+    <TooManyArguments occurrences="3">
+      <code>dispatch</code>
       <code>dispatch</code>
       <code>dispatch</code>
     </TooManyArguments>
@@ -2723,6 +2726,14 @@
   <file src="core/Command/Db/AddMissingIndices.php">
     <InvalidArgument occurrences="1">
       <code>IDBConnection::ADD_MISSING_INDEXES_EVENT</code>
+    </InvalidArgument>
+    <TooManyArguments occurrences="1">
+      <code>dispatch</code>
+    </TooManyArguments>
+  </file>
+  <file src="core/Command/Db/AddMissingPrimaryKeys.php">
+    <InvalidArgument occurrences="1">
+      <code>IDBConnection::ADD_MISSING_PRIMARY_KEYS_EVENT</code>
     </InvalidArgument>
     <TooManyArguments occurrences="1">
       <code>dispatch</code>
@@ -3506,7 +3517,9 @@
     <InvalidScalarArgument occurrences="1">
       <code>$e-&gt;getCode()</code>
     </InvalidScalarArgument>
-    <LessSpecificImplementedReturnType occurrences="1"/>
+    <LessSpecificImplementedReturnType occurrences="1">
+      <code>\Doctrine\DBAL\Driver\Statement</code>
+    </LessSpecificImplementedReturnType>
     <ParamNameMismatch occurrences="1">
       <code>$statement</code>
     </ParamNameMismatch>
@@ -3599,7 +3612,9 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/DB/ReconnectWrapper.php">
-    <InternalMethod occurrences="1"/>
+    <InternalMethod occurrences="1">
+      <code>parent::__construct($params, $driver, $config, $eventManager)</code>
+    </InternalMethod>
   </file>
   <file src="lib/private/DateTimeFormatter.php">
     <FalsableReturnStatement occurrences="1"/>
@@ -5283,7 +5298,6 @@
     <InvalidScalarArgument occurrences="3">
       <code>$appName</code>
       <code>$appName</code>
-      <code>\OC_User::getUser()</code>
       <code>\OC_User::getUser()</code>
     </InvalidScalarArgument>
     <TooManyArguments occurrences="1">
