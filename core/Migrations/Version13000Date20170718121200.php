@@ -810,22 +810,22 @@ class Version13000Date20170718121200 extends SimpleMigrationStep {
 			$table->addUniqueIndex(['user_id', 'object_type', 'object_id'], 'comments_marker_index');
 		}
 
-		if (!$schema->hasTable('credentials')) {
-			$table = $schema->createTable('credentials');
-			$table->addColumn('user', 'string', [
-				'notnull' => false,
-				'length' => 64,
-			]);
-			$table->addColumn('identifier', 'string', [
-				'notnull' => true,
-				'length' => 64,
-			]);
-			$table->addColumn('credentials', 'text', [
-				'notnull' => false,
-			]);
-			$table->setPrimaryKey(['user', 'identifier']);
-			$table->addIndex(['user'], 'credentials_user');
-		}
+//		if (!$schema->hasTable('credentials')) {
+//			$table = $schema->createTable('credentials');
+//			$table->addColumn('user', 'string', [
+//				'notnull' => false,
+//				'length' => 64,
+//			]);
+//			$table->addColumn('identifier', 'string', [
+//				'notnull' => true,
+//				'length' => 64,
+//			]);
+//			$table->addColumn('credentials', 'text', [
+//				'notnull' => false,
+//			]);
+//			$table->setPrimaryKey(['user', 'identifier']);
+//			$table->addIndex(['user'], 'credentials_user');
+//		}
 
 		if (!$schema->hasTable('admin_sections')) {
 			$table = $schema->createTable('admin_sections');
