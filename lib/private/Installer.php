@@ -154,7 +154,7 @@ class Installer {
 			}
 		} else {
 			$ms = new \OC\DB\MigrationService($info['id'], \OC::$server->getDatabaseConnection());
-			$ms->migrate();
+			$ms->migrate('latest', true);
 		}
 		if ($previousVersion) {
 			OC_App::executeRepairSteps($appId, $info['repair-steps']['post-migration']);
@@ -589,7 +589,7 @@ class Installer {
 			}
 		} else {
 			$ms = new \OC\DB\MigrationService($app, \OC::$server->getDatabaseConnection());
-			$ms->migrate();
+			$ms->migrate('latest', true);
 		}
 
 		//run appinfo/install.php
