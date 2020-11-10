@@ -220,13 +220,15 @@ class ConnectionTest extends \Test\TestCase {
 			['user' => 'test2', 'category' => 'Coworkers', 'expectedResult' => 1],
 		];
 
+		$row = 0;
 		foreach ($categoryEntries as $entry) {
 			$result = $this->connection->insertIfNotExist('*PREFIX*table',
 				[
 					'textfield' => $entry['user'],
 					'clobfield' => $entry['category'],
-				]);
-			$this->assertEquals($entry['expectedResult'], $result);
+					'integerfield' => $row++,
+				], ['textfield', 'clobfield']);
+			$this->assertEquals($entry['expectedResult'], $result, json_encode($entry));
 		}
 
 		$query = $this->connection->prepare('SELECT * FROM `*PREFIX*table`');
@@ -247,13 +249,15 @@ class ConnectionTest extends \Test\TestCase {
 			['addressbookid' => 123, 'fullname' => 'test', 'expectedResult' => 1],
 		];
 
+		$row = 0;
 		foreach ($categoryEntries as $entry) {
 			$result = $this->connection->insertIfNotExist('*PREFIX*table',
 				[
 					'integerfield_default' => $entry['addressbookid'],
 					'clobfield' => $entry['fullname'],
-				]);
-			$this->assertEquals($entry['expectedResult'], $result);
+					'integerfield' => $row++,
+				], ['integerfield_default', 'clobfield']);
+			$this->assertEquals($entry['expectedResult'], $result, json_encode($entry));
 		}
 
 		$query = $this->connection->prepare('SELECT * FROM `*PREFIX*table`');
