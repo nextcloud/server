@@ -124,6 +124,11 @@ class MigrationService {
 			return false;
 		}
 
+		if ($this->connection->tableExists('migrations')) {
+			$this->migrationTableCreated = true;
+			return false;
+		}
+
 		$schema = new SchemaWrapper($this->connection);
 
 		/**
