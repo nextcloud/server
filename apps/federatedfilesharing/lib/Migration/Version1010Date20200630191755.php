@@ -52,7 +52,8 @@ class Version1010Date20200630191755 extends SimpleMigrationStep {
 				'notnull' => true,
 				'length' => 4,
 			]);
-			$table->addUniqueIndex(['share_id'], 'share_id_index');
+			$table->setPrimaryKey(['share_id'], 'federated_res_pk');
+//			$table->addUniqueIndex(['share_id'], 'share_id_index');
 		}
 		return $schema;
 	}
