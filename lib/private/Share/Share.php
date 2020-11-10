@@ -687,14 +687,20 @@ class Share extends Constants {
 			// Remove root from file source paths if retrieving own shared items
 			if (isset($uidOwner) && isset($row['path'])) {
 				if (isset($row['parent'])) {
-					$query = \OC_DB::prepare('SELECT `file_target` FROM `*PREFIX*share` WHERE `id` = ?');
-					$parentResult = $query->execute([$row['parent']]);
-					if ($result === false) {
+					$query = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+					$query->select('file_target')
+						->from('share')
+						->where($query->expr()->eq('id', $query->createNamedParameter($row['parent'])));
+
+					$result = $query->execute();
+					$parentRow = $result->fetch();
+					$result->closeCursor();
+
+					if ($parentRow === false) {
 						\OCP\Util::writeLog('OCP\Share', 'Can\'t select parent: ' .
 							\OC_DB::getErrorMessage() . ', select=' . $select . ' where=' . $where,
 							ILogger::ERROR);
 					} else {
-						$parentRow = $parentResult->fetchRow();
 						$tmpPath = $parentRow['file_target'];
 						// find the right position where the row path continues from the target path
 						$pos = strrpos($row['path'], $parentRow['file_target']);
