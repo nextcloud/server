@@ -194,6 +194,7 @@ class Share extends Constants {
 			}
 			$shares[] = $row;
 		}
+		$result->closeCursor();
 
 		//if didn't found a result than let's look for a group share.
 		if (empty($shares) && $user !== null) {
@@ -692,9 +693,9 @@ class Share extends Constants {
 						->from('share')
 						->where($query->expr()->eq('id', $query->createNamedParameter($row['parent'])));
 
-					$result = $query->execute();
-					$parentRow = $result->fetch();
-					$result->closeCursor();
+					$parentResult = $query->execute();
+					$parentRow = $parentResult->fetch();
+					$parentResult->closeCursor();
 
 					if ($parentRow === false) {
 						\OCP\Util::writeLog('OCP\Share', 'Can\'t select parent: ' .

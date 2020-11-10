@@ -102,6 +102,10 @@ class TagManager implements ITagManager {
 			->andWhere($query->expr()->eq('c.type', $query->createNamedParameter($objectType)))
 			->andWhere($query->expr()->eq('c.category', $query->createNamedParameter(ITags::TAG_FAVORITE)));
 
-		return $query->execute()->fetchAll(\PDO::FETCH_COLUMN);
+		$result = $query->execute();
+		$users = $result->fetchAll(\PDO::FETCH_COLUMN);
+		$result->closeCursor();
+
+		return $users;
 	}
 }

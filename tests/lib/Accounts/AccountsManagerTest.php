@@ -248,7 +248,10 @@ class AccountsManagerTest extends TestCase {
 			->where($query->expr()->eq('uid', $query->createParameter('uid')))
 			->setParameter('uid', $uid);
 		$query->execute();
-		$result = $query->execute()->fetchAll();
+
+		$qResult = $query->execute();
+		$result = $qResult->fetchAll();
+		$qResult->closeCursor();
 
 		if (!empty($result)) {
 			return json_decode($result[0]['data'], true);

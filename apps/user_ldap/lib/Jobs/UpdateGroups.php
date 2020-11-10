@@ -123,7 +123,10 @@ class UpdateGroups extends TimedJob {
 		$qb = $this->dbc->getQueryBuilder();
 		$qb->select(['owncloudname', 'owncloudusers'])
 			->from('ldap_group_members');
-		$result = $qb->execute()->fetchAll();
+
+		$qResult = $qb->execute();
+		$result = $qResult->fetchAll();
+		$qResult->closeCursor();
 
 		$this->groupsFromDB = [];
 		foreach ($result as $dataset) {

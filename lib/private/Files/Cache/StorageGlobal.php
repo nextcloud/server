@@ -61,6 +61,7 @@ class StorageGlobal {
 		while ($row = $result->fetch()) {
 			$this->cache[$row['id']] = $row;
 		}
+		$result->closeCursor();
 	}
 
 	/**
@@ -74,7 +75,10 @@ class StorageGlobal {
 				->from('storages')
 				->where($builder->expr()->eq('id', $builder->createNamedParameter($storageId)));
 
-			$row = $query->execute()->fetch();
+			$result = $query->execute();
+			$row = $result->fetch();
+			$result->closeCursor();
+
 			if ($row) {
 				$this->cache[$storageId] = $row;
 			}

@@ -124,9 +124,13 @@ class CleanUpTest extends TestCase {
 			// if the delete operation was execute only files from user1
 			// should be left.
 			$query = $this->dbConnection->getQueryBuilder();
-			$result = $query->select('user')
-				->from($this->trashTable)
-				->execute()->fetchAll();
+			$query->select('user')
+				->from($this->trashTable);
+
+			$qResult = $query->execute();
+			$result = $qResult->fetchAll();
+			$qResult->closeCursor();
+
 			$this->assertSame(5, count($result));
 			foreach ($result as $r) {
 				$this->assertSame('user1', $r['user']);

@@ -334,7 +334,10 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$storageCheckQuery = $qb->select('*')
 			->from('storages')
 			->where($qb->expr()->eq('numeric_id', $qb->expr()->literal($numericId)));
-		$storages = $storageCheckQuery->execute()->fetchAll();
+
+		$result = $storageCheckQuery->execute();
+		$storages = $result->fetchAll();
+		$result->closeCursor();
 		$this->assertCount($expectedCountAfterDeletion, $storages, "expected $expectedCountAfterDeletion storages, got " . json_encode($storages));
 	}
 
