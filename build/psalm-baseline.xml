@@ -3727,9 +3727,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$path</code>
     </MoreSpecificImplementedParamType>
-    <UndefinedMagicMethod occurrences="1">
-      <code>closeCursor</code>
-    </UndefinedMagicMethod>
   </file>
   <file src="lib/private/Files/Cache/LocalRootScanner.php">
     <InvalidNullableReturnType occurrences="2">
