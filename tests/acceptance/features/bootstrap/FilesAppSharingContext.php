@@ -167,6 +167,15 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function unshareButton($sharedWithName) {
+		return Locator::forThe()->xpath("//li//button[normalize-space() = 'Unshare']")->
+				descendantOf(self::shareWithMenu($sharedWithName))->
+				describedAs("Unshare button in the share with $sharedWithName menu in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function shareLinkRow() {
 		return Locator::forThe()->css(".sharing-link-list .sharing-entry__link:first-child")->
 				descendantOf(FilesAppContext::detailsView())->
@@ -435,6 +444,15 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I unshare the share with :shareWithName
+	 */
+	public function iUnshareTheFileWith($shareWithName) {
+		$this->showShareWithMenuIfNeeded($shareWithName);
+
+		$this->actor->find(self::unshareButton($shareWithName), 2)->click();
+	}
+
+	/**
 	 * @Then I see that the file is shared with me by :sharedByName
 	 */
 	public function iSeeThatTheFileIsSharedWithMeBy($sharedByName) {
@@ -448,6 +466,18 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	public function iSeeThatTheFileIsSharedWith($sharedWithName) {
 		PHPUnit_Framework_Assert::assertTrue(
 				$this->actor->find(self::sharedWithRow($sharedWithName), 10)->isVisible());
+	}
+
+	/**
+	 * @Then I see that the file is not shared with :sharedWithName
+	 */
+	public function iSeeThatTheFileIsNotSharedWith($sharedWithName) {
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::sharedWithRow($sharedWithName),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The shared with $sharedWithName row is still shown after $timeout seconds");
+		}
 	}
 
 	/**
@@ -518,6 +548,20 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 
 		PHPUnit_Framework_Assert::assertFalse(
 				$this->actor->find(self::canCreateCheckboxInput($sharedWithName), 10)->isChecked());
+	}
+
+	/**
+	 * @Then I see that resharing for :sharedWithName is not available
+	 */
+	public function iSeeThatResharingForIsNotAvailable($sharedWithName) {
+		$this->showShareWithMenuIfNeeded($sharedWithName);
+
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::canReshareCheckbox($sharedWithName),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The resharing checkbox for $sharedWithName is still shown after $timeout seconds");
+		}
 	}
 
 	/**
