@@ -3699,7 +3699,7 @@
 			const enabled = tabView.canDisplay || undefined
 			if (tabView.id) {
 				OCA.Files.Sidebar.registerTab(new OCA.Files.Sidebar.Tab({
-					id: tabView.id, 
+					id: tabView.id,
 					name: tabView.getLabel(),
 					icon: tabView.getIcon(),
 					mount: function(el, fileInfo) {
