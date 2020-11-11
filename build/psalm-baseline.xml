@@ -202,11 +202,10 @@
     </NullableReturnStatement>
   </file>
   <file src="apps/dav/lib/CalDAV/CalDavBackend.php">
-    <ImplicitToStringCast occurrences="8">
+    <ImplicitToStringCast occurrences="7">
       <code>$query-&gt;createParameter('principaluri')</code>
       <code>$query-&gt;createNamedParameter(self::ACCESS_PUBLIC)</code>
       <code>$query-&gt;createNamedParameter(self::ACCESS_PUBLIC)</code>
-      <code>$query-&gt;createNamedParameter($value)</code>
       <code>$query-&gt;createParameter('uri')</code>
       <code>$outerQuery-&gt;createFunction($innerQuery-&gt;getSQL())</code>
       <code>$calendarObjectIdQuery-&gt;createNamedParameter($componentTypes, IQueryBuilder::PARAM_STR_ARRAY)</code>
@@ -1204,18 +1203,7 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="apps/federatedfilesharing/lib/FederatedShareProvider.php">
-    <ImplicitToStringCast occurrences="17">
-      <code>$qb-&gt;createNamedParameter($shareType)</code>
-      <code>$qb-&gt;createNamedParameter($itemType)</code>
-      <code>$qb-&gt;createNamedParameter($itemSource)</code>
-      <code>$qb-&gt;createNamedParameter($itemSource)</code>
-      <code>$qb-&gt;createNamedParameter($shareWith)</code>
-      <code>$qb-&gt;createNamedParameter($uidOwner)</code>
-      <code>$qb-&gt;createNamedParameter($sharedBy)</code>
-      <code>$qb-&gt;createNamedParameter($permissions)</code>
-      <code>$qb-&gt;createNamedParameter($token)</code>
-      <code>$qb-&gt;createNamedParameter(time())</code>
-      <code>$qb-&gt;createNamedParameter('')</code>
+    <ImplicitToStringCast occurrences="6">
       <code>$qb-&gt;createNamedParameter($this-&gt;supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)</code>
       <code>$qb-&gt;createNamedParameter($this-&gt;supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)</code>
       <code>$qb-&gt;createNamedParameter($this-&gt;supportedShareType, IQueryBuilder::PARAM_INT_ARRAY)</code>
@@ -1703,17 +1691,8 @@
     </TooManyArguments>
   </file>
   <file src="apps/files_external/lib/Service/DBConfigService.php">
-    <ImplicitToStringCast occurrences="10">
+    <ImplicitToStringCast occurrences="1">
       <code>$builder-&gt;createNamedParameter($groupIds, IQueryBuilder::PARAM_STR_ARRAY)</code>
-      <code>$builder-&gt;createNamedParameter($mountId, IQueryBuilder::PARAM_INT)</code>
-      <code>$builder-&gt;createNamedParameter($key, IQueryBuilder::PARAM_STR)</code>
-      <code>$builder-&gt;createNamedParameter($value, IQueryBuilder::PARAM_STR)</code>
-      <code>$builder-&gt;createNamedParameter($mountId, IQueryBuilder::PARAM_INT)</code>
-      <code>$builder-&gt;createNamedParameter($key, IQueryBuilder::PARAM_STR)</code>
-      <code>$builder-&gt;createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR)</code>
-      <code>$builder-&gt;createNamedParameter($mountId)</code>
-      <code>$builder-&gt;createNamedParameter($type)</code>
-      <code>$builder-&gt;createNamedParameter($value)</code>
     </ImplicitToStringCast>
     <NullableReturnStatement occurrences="1">
       <code>null</code>
@@ -1755,10 +1734,9 @@
     </UndefinedVariable>
   </file>
   <file src="apps/files_sharing/lib/AppInfo/Application.php">
-    <UndefinedClass occurrences="3">
+    <UndefinedClass occurrences="2">
       <code>'ExternalMountProvider'</code>
-      <code>'OCP\Collaboration\Resources::loadAdditionalScripts'</code>
-      <code>'OCP\Share::postShare'</code>
+      <code>'\OCP\Collaboration\Resources::loadAdditionalScripts'</code>
     </UndefinedClass>
   </file>
   <file src="apps/files_sharing/lib/Cache.php">
@@ -2073,15 +2051,6 @@
     <FalsableReturnStatement occurrences="1">
       <code>false</code>
     </FalsableReturnStatement>
-    <InvalidArgument occurrences="1">
-      <code>$ma</code>
-    </InvalidArgument>
-    <InvalidReturnStatement occurrences="1">
-      <code>$query-&gt;execute([$uid])</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="2">
       <code>$timestamp</code>
       <code>$timestamp</code>
@@ -2134,11 +2103,6 @@
       <code>dispatch</code>
       <code>getURLGenerator</code>
     </TooManyArguments>
-  </file>
-  <file src="apps/lookup_server_connector/lib/AppInfo/Application.php">
-    <UndefinedClass occurrences="1">
-      <code>'OC\AccountManager::userUpdated'</code>
-    </UndefinedClass>
   </file>
   <file src="apps/lookup_server_connector/lib/BackgroundJobs/RetryJob.php">
     <InvalidArrayOffset occurrences="10">
@@ -2217,8 +2181,9 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/settings/lib/Controller/CheckSetupController.php">
-    <InvalidArgument occurrences="2">
+    <InvalidArgument occurrences="3">
       <code>IDBConnection::CHECK_MISSING_INDEXES_EVENT</code>
+      <code>IDBConnection::CHECK_MISSING_PRIMARY_KEYS_EVENT</code>
       <code>IDBConnection::CHECK_MISSING_COLUMNS_EVENT</code>
     </InvalidArgument>
     <InvalidOperand occurrences="1">
@@ -2235,7 +2200,8 @@
       <code>0</code>
       <code>$lastCronRun</code>
     </InvalidScalarArgument>
-    <TooManyArguments occurrences="2">
+    <TooManyArguments occurrences="3">
+      <code>dispatch</code>
       <code>dispatch</code>
       <code>dispatch</code>
     </TooManyArguments>
@@ -2308,21 +2274,7 @@
     </NullableReturnStatement>
   </file>
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
-    <ImplicitToStringCast occurrences="15">
-      <code>$qb-&gt;createNamedParameter(IShare::TYPE_EMAIL)</code>
-      <code>$qb-&gt;createNamedParameter($itemType)</code>
-      <code>$qb-&gt;createNamedParameter($itemSource)</code>
-      <code>$qb-&gt;createNamedParameter($itemSource)</code>
-      <code>$qb-&gt;createNamedParameter($shareWith)</code>
-      <code>$qb-&gt;createNamedParameter($uidOwner)</code>
-      <code>$qb-&gt;createNamedParameter($sharedBy)</code>
-      <code>$qb-&gt;createNamedParameter($permissions)</code>
-      <code>$qb-&gt;createNamedParameter($token)</code>
-      <code>$qb-&gt;createNamedParameter($password)</code>
-      <code>$qb-&gt;createNamedParameter($sendPasswordByTalk, IQueryBuilder::PARAM_BOOL)</code>
-      <code>$qb-&gt;createNamedParameter(time())</code>
-      <code>$qb-&gt;createNamedParameter((int)$hideDownload, IQueryBuilder::PARAM_INT)</code>
-      <code>$qb-&gt;createNamedParameter('')</code>
+    <ImplicitToStringCast occurrences="1">
       <code>$qb-&gt;createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)</code>
     </ImplicitToStringCast>
     <InvalidReturnStatement occurrences="1">
@@ -2485,19 +2437,11 @@
     <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="13">
+    <InvalidScalarArgument occurrences="4">
       <code>[$attr =&gt; $result['values']]</code>
       <code>$key</code>
       <code>$key</code>
       <code>$e-&gt;getCode()</code>
-      <code>$nameAttribute</code>
-      <code>$filter</code>
-      <code>$this-&gt;connection-&gt;ldapLoginFilter</code>
-      <code>$this-&gt;connection-&gt;ldapLoginFilter</code>
-      <code>$this-&gt;connection-&gt;ldapUserDisplayName</code>
-      <code>$this-&gt;connection-&gt;ldapUserDisplayName</code>
-      <code>$this-&gt;connection-&gt;ldapGroupDisplayName</code>
-      <code>$filter</code>
     </InvalidScalarArgument>
     <NullArgument occurrences="1">
       <code>$cookie</code>
@@ -2568,27 +2512,9 @@
     <InvalidReturnType occurrences="1">
       <code>bool</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="26">
-      <code>$gAssoc</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapLoginFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapDynamicGroupMemberURL</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGroupFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGroupMemberAssocAttr</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGidNumber</code>
+    <InvalidScalarArgument occurrences="2">
       <code>$groupID</code>
       <code>$groupID</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapDynamicGroupMemberURL</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGroupFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapUserDisplayName</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGroupMemberAssocAttr</code>
-      <code>[strtolower($this-&gt;access-&gt;connection-&gt;ldapGroupMemberAssocAttr), $this-&gt;access-&gt;connection-&gt;ldapGroupDisplayName, 'dn']</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapLoginFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapUserDisplayName</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapLoginFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapUserDisplayName</code>
-      <code>[$this-&gt;access-&gt;connection-&gt;ldapGroupDisplayName, 'dn']</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGroupFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapGroupDisplayName</code>
     </InvalidScalarArgument>
     <RedundantCondition occurrences="4">
       <code>!is_array($members) || count($members) === 0</code>
@@ -2724,10 +2650,6 @@
     <InvalidDocblock occurrences="1">
       <code>public function setLdapAccess(Access $access) {</code>
     </InvalidDocblock>
-    <InvalidScalarArgument occurrences="2">
-      <code>$homeRule</code>
-      <code>$homeRule</code>
-    </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/lib/User/User.php">
     <FalsableReturnStatement occurrences="1">
@@ -2740,34 +2662,18 @@
       <code>null</code>
       <code>null</code>
     </InvalidReturnType>
-    <InvalidScalarArgument occurrences="15">
-      <code>$this-&gt;connection-&gt;ldapQuotaAttribute</code>
-      <code>$this-&gt;connection-&gt;ldapUserDisplayName</code>
-      <code>$this-&gt;connection-&gt;ldapUserDisplayName2</code>
-      <code>$this-&gt;connection-&gt;ldapEmailAttribute</code>
-      <code>$this-&gt;connection-&gt;homeFolderNamingRule</code>
-      <code>$this-&gt;connection-&gt;homeFolderNamingRule</code>
+    <InvalidScalarArgument occurrences="3">
       <code>$this-&gt;getHomePath($ldapEntry[$attr][0])</code>
-      <code>$this-&gt;connection-&gt;ldapExtStorageHomeAttribute</code>
-      <code>$this-&gt;access-&gt;connection-&gt;homeFolderNamingRule</code>
-      <code>$this-&gt;access-&gt;connection-&gt;homeFolderNamingRule</code>
       <code>true</code>
       <code>1</code>
-      <code>$emailAttribute</code>
-      <code>$quotaAttribute</code>
-      <code>$this-&gt;connection-&gt;ldapExtStorageHomeAttribute</code>
     </InvalidScalarArgument>
   </file>
   <file src="apps/user_ldap/lib/User_LDAP.php">
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>string|false</code>
     </ImplementedReturnTypeMismatch>
-    <InvalidScalarArgument occurrences="8">
-      <code>$this-&gt;access-&gt;connection-&gt;ldapUserFilter</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapUserFilter</code>
+    <InvalidScalarArgument occurrences="3">
       <code>$path</code>
-      <code>$additionalAttribute</code>
-      <code>$this-&gt;access-&gt;connection-&gt;ldapUserDisplayName</code>
       <code>$limit</code>
       <code>$offset</code>
     </InvalidScalarArgument>
@@ -2979,7 +2885,7 @@
   </file>
   <file src="core/Command/Broadcast/Test.php">
     <UndefinedClass occurrences="1">
-      <code>broadcasttest</code>
+      <code>'broadcasttest'</code>
     </UndefinedClass>
   </file>
   <file src="core/Command/Config/App/GetConfig.php">
@@ -3028,10 +2934,15 @@
       <code>dispatch</code>
     </TooManyArguments>
   </file>
+  <file src="core/Command/Db/AddMissingPrimaryKeys.php">
+    <InvalidArgument occurrences="1">
+      <code>IDBConnection::ADD_MISSING_PRIMARY_KEYS_EVENT</code>
+    </InvalidArgument>
+    <TooManyArguments occurrences="1">
+      <code>dispatch</code>
+    </TooManyArguments>
+  </file>
   <file src="core/Command/Db/ConvertType.php">
-    <ImplicitToStringCast occurrences="1">
-      <code>$insertQuery-&gt;createParameter($key)</code>
-    </ImplicitToStringCast>
     <InternalMethod occurrences="1">
       <code>setFilterSchemaAssetsExpression</code>
     </InternalMethod>
@@ -3211,7 +3122,6 @@
   </file>
   <file src="core/routes.php">
     <InvalidScope occurrences="2">
-      <code>$this</code>
       <code>$this</code>
       <code>$this</code>
     </InvalidScope>
@@ -3497,11 +3407,6 @@
     <MoreSpecificImplementedParamType occurrences="1">
       <code>$default</code>
     </MoreSpecificImplementedParamType>
-  </file>
-  <file src="lib/private/AppFramework/Services/InitialState.php">
-    <ImplementedParamTypeMismatch occurrences="1">
-      <code>$closure</code>
-    </ImplementedParamTypeMismatch>
   </file>
   <file src="lib/private/Archive/TAR.php">
     <FalsableReturnStatement occurrences="1">
@@ -3793,9 +3698,6 @@
     </NullableReturnStatement>
   </file>
   <file src="lib/private/DB/Adapter.php">
-    <ImplicitToStringCast occurrences="1">
-      <code>$builder-&gt;createNamedParameter($value)</code>
-    </ImplicitToStringCast>
     <InvalidReturnStatement occurrences="1">
       <code>$builder-&gt;execute()</code>
     </InvalidReturnStatement>
@@ -3807,9 +3709,6 @@
     <FalsableReturnStatement occurrences="1">
       <code>$this-&gt;conn-&gt;fetchColumn('SELECT lastval()')</code>
     </FalsableReturnStatement>
-    <ImplicitToStringCast occurrences="1">
-      <code>$builder-&gt;createNamedParameter($value)</code>
-    </ImplicitToStringCast>
   </file>
   <file src="lib/private/DB/Connection.php">
     <ImplementedReturnTypeMismatch occurrences="1">
@@ -4034,8 +3933,7 @@
     </TooManyArguments>
   </file>
   <file src="lib/private/Files/Cache/Cache.php">
-    <ImplicitToStringCast occurrences="3">
-      <code>$builder-&gt;createNamedParameter($value)</code>
+    <ImplicitToStringCast occurrences="2">
       <code>$fun-&gt;md5($newPathFunction)</code>
       <code>$newPathFunction</code>
     </ImplicitToStringCast>
@@ -4091,9 +3989,6 @@
       <code>$filesData</code>
       <code>$data</code>
     </UndefinedInterfaceMethod>
-    <UndefinedMagicMethod occurrences="1">
-      <code>closeCursor</code>
-    </UndefinedMagicMethod>
   </file>
   <file src="lib/private/Files/Cache/LocalRootScanner.php">
     <InvalidNullableReturnType occurrences="2">
@@ -4108,7 +4003,7 @@
   <file src="lib/private/Files/Cache/Propagator.php">
     <ImplicitToStringCast occurrences="4">
       <code>$builder-&gt;func()-&gt;greatest('mtime', $builder-&gt;createNamedParameter((int)$time, IQueryBuilder::PARAM_INT))</code>
-      <code>$query-&gt;createFunction('GREATEST(' . $query-&gt;getColumnName('mtime') . ', ' . $query-&gt;createParameter('time') . ')')</code>
+      <code>$query-&gt;func()-&gt;greatest('mtime', $query-&gt;createParameter('time'))</code>
       <code>$sizeQuery-&gt;func()-&gt;add('size', $sizeQuery-&gt;createParameter('size'))</code>
     </ImplicitToStringCast>
   </file>
@@ -4898,12 +4793,6 @@
       <code>true</code>
     </InvalidReturnType>
   </file>
-  <file src="lib/private/Files/Stream/Encryption.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$position</code>
-    </InvalidScalarArgument>
-    <UndefinedInterfaceMethod occurrences="1"/>
-  </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
     <FalsableReturnStatement occurrences="3">
       <code>false</code>
@@ -5004,12 +4893,6 @@
     </TypeDoesNotContainNull>
   </file>
   <file src="lib/private/Group/Database.php">
-    <ImplicitToStringCast occurrences="4">
-      <code>$builder-&gt;createNamedParameter($gid)</code>
-      <code>$builder-&gt;createNamedParameter($gid)</code>
-      <code>$qb-&gt;createNamedParameter($uid)</code>
-      <code>$qb-&gt;createNamedParameter($gid)</code>
-    </ImplicitToStringCast>
     <InvalidArgument occurrences="1"/>
     <InvalidArrayOffset occurrences="1">
       <code>$this-&gt;groupCache[$gid]['displayname']</code>
@@ -5427,11 +5310,6 @@
       <code>$permsFunc</code>
     </ImplicitToStringCast>
   </file>
-  <file src="lib/private/Repair/RepairMimeTypes.php">
-    <InvalidOperand occurrences="1">
-      <code>\OC_DB::executeAudited(self::updateByNameStmt(), [$mimetypeId, $this-&gt;folderMimeTypeId, $mimetypeId, '%.' . $extension])</code>
-    </InvalidOperand>
-  </file>
   <file src="lib/private/Route/Router.php">
     <InvalidClass occurrences="1">
       <code>\OC_APP</code>
@@ -5460,9 +5338,6 @@
     </InvalidPropertyAssignmentValue>
   </file>
   <file src="lib/private/Security/Bruteforce/Throttler.php">
-    <ImplicitToStringCast occurrences="1">
-      <code>$qb-&gt;createNamedParameter($value)</code>
-    </ImplicitToStringCast>
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
@@ -5587,9 +5462,8 @@
   </file>
   <file src="lib/private/Share/Helper.php">
     <ImplicitToStringCast occurrences="3">
-      <code>$query->createNamedParameter($parents, IQueryBuilder::PARAM_INT_ARRAY)</code>
-      <code>$query->createNamedParameter($changeParent, IQueryBuilder::PARAM_INT_ARRAY)</code>
-      <code>$query->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)</code>
+      <code>$query-&gt;createNamedParameter($changeParent, IQueryBuilder::PARAM_INT_ARRAY)</code>
+      <code>$query-&gt;createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)</code>
     </ImplicitToStringCast>
   </file>
   <file src="lib/private/Share/Share.php">
@@ -5613,27 +5487,7 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="lib/private/Share20/DefaultShareProvider.php">
-    <ImplicitToStringCast occurrences="27">
-      <code>$qb-&gt;createNamedParameter($share-&gt;getShareType())</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getSharedWith())</code>
-      <code>$qb-&gt;createNamedParameter(IShare::STATUS_PENDING)</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getExpirationDate(), 'datetime')</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getSharedWith())</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getExpirationDate(), 'datetime')</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getLabel())</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getToken())</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getPassword())</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getSendPasswordByTalk(), IQueryBuilder::PARAM_BOOL)</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getExpirationDate(), 'datetime')</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getParent())</code>
-      <code>$qb-&gt;createParameter('itemType')</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getNode()-&gt;getId())</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getNode()-&gt;getId())</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getPermissions())</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getSharedBy())</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getShareOwner())</code>
-      <code>$qb-&gt;createNamedParameter($share-&gt;getTarget())</code>
-      <code>$qb-&gt;createNamedParameter(time())</code>
+    <ImplicitToStringCast occurrences="7">
       <code>$qb-&gt;createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)</code>
       <code>$qb-&gt;createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)</code>
       <code>$qb-&gt;createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)</code>
@@ -5847,8 +5701,7 @@
       <code>string</code>
       <code>string</code>
     </InvalidParamDefault>
-    <InvalidScalarArgument occurrences="4">
-      <code>\OC_User::getUser()</code>
+    <InvalidScalarArgument occurrences="3">
       <code>\OC_User::getUser()</code>
       <code>$appName</code>
       <code>$appName</code>
@@ -6211,11 +6064,6 @@
       <code>$column</code>
     </NullableReturnStatement>
   </file>
-  <file src="lib/public/AppFramework/Db/QBMapper.php">
-    <ImplicitToStringCast occurrences="1">
-      <code>$qb-&gt;createNamedParameter($value, $type)</code>
-    </ImplicitToStringCast>
-  </file>
   <file src="lib/public/AppFramework/Http/DataResponse.php">
     <InvalidReturnStatement occurrences="1">
       <code>$this-&gt;data</code>
@@ -6246,14 +6094,6 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$this-&gt;resources</code>
     </InvalidPropertyAssignmentValue>
-  </file>
-  <file src="lib/public/AppFramework/Services/IInitialState.php">
-    <MismatchingDocblockParamType occurrences="1">
-      <code>Closure</code>
-    </MismatchingDocblockParamType>
-    <UndefinedDocblockClass occurrences="1">
-      <code>Closure</code>
-    </UndefinedDocblockClass>
   </file>
   <file src="lib/public/BackgroundJob/TimedJob.php">
     <MoreSpecificImplementedParamType occurrences="1">
