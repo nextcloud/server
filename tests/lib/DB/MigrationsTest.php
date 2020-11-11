@@ -18,6 +18,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\DB\SchemaWrapper;
@@ -621,6 +622,46 @@ class MigrationsTest extends \Test\TestCase {
 		$schema->expects($this->once())
 			->method('getSequences')
 			->willReturn([$sequence]);
+
+		$sourceSchema = $this->createMock(Schema::class);
+		$sourceSchema->expects($this->any())
+			->method('getTable')
+			->willThrowException(new SchemaException());
+		$sourceSchema->expects($this->any())
+			->method('hasSequence')
+			->willReturn(false);
+
+		self::invokePrivate($this->migrationService, 'ensureOracleIdentifierLengthLimit', [$sourceSchema, $schema, 3]);
+	}
+
+
+	public function testEnsureOracleIdentifierLengthLimitBooleanNotNull() {
+		$this->expectException(\InvalidArgumentException::class);
+
+		$column = $this->createMock(Column::class);
+		$column->expects($this->any())
+			->method('getName')
+			->willReturn('aaaa');
+		$column->expects($this->any())
+			->method('getType')
+			->willReturn(Type::getType('boolean'));
+		$column->expects($this->any())
+			->method('getNotnull')
+			->willReturn(true);
+
+		$table = $this->createMock(Table::class);
+		$table->expects($this->any())
+			->method('getName')
+			->willReturn(\str_repeat('a', 30));
+
+		$table->expects($this->once())
+			->method('getColumns')
+			->willReturn([$column]);
+
+		$schema = $this->createMock(Schema::class);
+		$schema->expects($this->once())
+			->method('getTables')
+			->willReturn([$table]);
 
 		$sourceSchema = $this->createMock(Schema::class);
 		$sourceSchema->expects($this->any())

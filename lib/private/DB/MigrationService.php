@@ -562,6 +562,7 @@ class MigrationService {
 	 * Data constraints:
 	 * - Columns with "NotNull" can not have empty string as default value
 	 * - Columns with "NotNull" can not have number 0 as default value
+	 * - Columns with type "bool" (which is in fact integer of length 1) can not be "NotNull" as it can not store 0/false
 	 *
 	 * @param Schema $sourceSchema
 	 * @param Schema $targetSchema
@@ -589,6 +590,10 @@ class MigrationService {
 				if ($thing->getNotnull() && $thing->getDefault() === ''
 					&& $sourceTable instanceof Table && !$sourceTable->hasColumn($thing->getName())) {
 					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
+				}
+
+				if ($thing->getNotnull() && $thing->getType()->getName() === Types::BOOLEAN) {
+					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is type Bool and also NotNull, so it can not store "false".');
 				}
 			}
 
