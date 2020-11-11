@@ -433,45 +433,31 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService(\OCP\IGroupManager::class, function (ContainerInterface $c) {
 			$groupManager = new \OC\Group\Manager($this->get(IUserManager::class), $c->get(SymfonyAdapter::class), $this->get(ILogger::class));
 			$groupManager->listen('\OC\Group', 'preCreate', function ($gid) {
-				\OC_Hook::emit('OC_Group', 'pre_createGroup', ['run' => true, 'gid' => $gid]);
-
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = $this->get(IEventDispatcher::class);
 				$dispatcher->dispatchTyped(new BeforeGroupCreatedEvent($gid));
 			});
 			$groupManager->listen('\OC\Group', 'postCreate', function (\OC\Group\Group $group) {
-				\OC_Hook::emit('OC_User', 'post_createGroup', ['gid' => $group->getGID()]);
-
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = $this->get(IEventDispatcher::class);
 				$dispatcher->dispatchTyped(new GroupCreatedEvent($group));
 			});
 			$groupManager->listen('\OC\Group', 'preDelete', function (\OC\Group\Group $group) {
-				\OC_Hook::emit('OC_Group', 'pre_deleteGroup', ['run' => true, 'gid' => $group->getGID()]);
-
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = $this->get(IEventDispatcher::class);
 				$dispatcher->dispatchTyped(new BeforeGroupDeletedEvent($group));
 			});
 			$groupManager->listen('\OC\Group', 'postDelete', function (\OC\Group\Group $group) {
-				\OC_Hook::emit('OC_User', 'post_deleteGroup', ['gid' => $group->getGID()]);
-
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = $this->get(IEventDispatcher::class);
 				$dispatcher->dispatchTyped(new GroupDeletedEvent($group));
 			});
 			$groupManager->listen('\OC\Group', 'preAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
-				\OC_Hook::emit('OC_Group', 'pre_addToGroup', ['run' => true, 'uid' => $user->getUID(), 'gid' => $group->getGID()]);
-
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = $this->get(IEventDispatcher::class);
 				$dispatcher->dispatchTyped(new BeforeUserAddedEvent($group, $user));
 			});
 			$groupManager->listen('\OC\Group', 'postAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
-				\OC_Hook::emit('OC_Group', 'post_addToGroup', ['uid' => $user->getUID(), 'gid' => $group->getGID()]);
-				//Minimal fix to keep it backward compatible TODO: clean up all the GroupManager hooks
-				\OC_Hook::emit('OC_User', 'post_addToGroup', ['uid' => $user->getUID(), 'gid' => $group->getGID()]);
-
 				/** @var IEventDispatcher $dispatcher */
 				$dispatcher = $this->get(IEventDispatcher::class);
 				$dispatcher->dispatchTyped(new UserAddedEvent($group, $user));
