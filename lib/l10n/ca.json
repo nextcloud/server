@@ -21,6 +21,7 @@
     "PHP %s or higher is required." : "Es requereix PHP %s o superior.",
     "PHP with a version lower than %s is required." : "Es requereix PHP amb versió inferior a %s.",
     "%sbit or higher PHP required." : "Es requereix PHP de %s bits o superior.",
+    "The following architectures are supported: %s" : "S'admeten les següents arquitectures: %s",
     "The following databases are supported: %s" : "S'admeten les bases de dades següents: %s",
     "The command line tool %s could not be found" : "No s’ha trobat l’eina de línia d’ordres %s",
     "The library %s is not available." : "La llibreria %s no està disponible.",
