@@ -150,6 +150,6 @@ abstract class AbstractDatabase {
 			return;
 		}
 		$ms = new MigrationService('core', \OC::$server->getDatabaseConnection());
-		$ms->migrate('latest', true);
+		$ms->migrate();
 	}
 }
