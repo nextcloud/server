@@ -500,7 +500,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			$this->urlGenerator
 				->expects($this->at(8 * $i))
 				->method('imagePath')
-				->with('core', 'actions/info.svg')
+				->with('core', 'actions/info.png')
 				->willReturn('imagePath1');
 
 			$this->urlGenerator
@@ -512,7 +512,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			$this->urlGenerator
 				->expects($this->at(8 * $i + 2))
 				->method('imagePath')
-				->with('core', 'places/calendar.svg')
+				->with('core', 'places/calendar.png')
 				->willReturn('imagePath2');
 
 			$this->urlGenerator
@@ -524,7 +524,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			$this->urlGenerator
 				->expects($this->at(8 * $i + 4))
 				->method('imagePath')
-				->with('core', 'actions/address.svg')
+				->with('core', 'actions/address.png')
 				->willReturn('imagePath3');
 
 			$this->urlGenerator
@@ -536,7 +536,7 @@ class EmailProviderTest extends AbstractNotificationProviderTest {
 			$this->urlGenerator
 				->expects($this->at(8 * $i + 6))
 				->method('imagePath')
-				->with('core', 'actions/more.svg')
+				->with('core', 'actions/more.png')
 				->willReturn('imagePath4');
 
 			$this->urlGenerator
