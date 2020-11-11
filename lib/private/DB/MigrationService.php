@@ -124,6 +124,11 @@ class MigrationService {
 			return false;
 		}
 
+		if ($this->connection->tableExists('migrations')) {
+			$this->migrationTableCreated = true;
+			return false;
+		}
+
 		$schema = new SchemaWrapper($this->connection);
 
 		/**
@@ -408,10 +413,51 @@ class MigrationService {
 	 * @throws \InvalidArgumentException
 	 */
 	public function migrate($to = 'latest', $schemaOnly = false) {
+		if ($schemaOnly) {
+			$this->migrateSchemaOnly($to);
+			return;
+		}
+
 		// read known migrations
 		$toBeExecuted = $this->getMigrationsToExecute($to);
 		foreach ($toBeExecuted as $version) {
 			$this->executeStep($version, $schemaOnly);
+		}
+	}
+
+	/**
+	 * Applies all not yet applied versions up to $to
+	 *
+	 * @param string $to
+	 * @throws \InvalidArgumentException
+	 */
+	public function migrateSchemaOnly($to = 'latest') {
+		// read known migrations
+		$toBeExecuted = $this->getMigrationsToExecute($to);
+
+		if (empty($toBeExecuted)) {
+			return;
+		}
+
+		$toSchema = null;
+		foreach ($toBeExecuted as $version) {
+			$instance = $this->createInstance($version);
+
+			$toSchema = $instance->changeSchema($this->output, function () use ($toSchema) {
+				return $toSchema ?: new SchemaWrapper($this->connection);
+			}, ['tablePrefix' => $this->connection->getPrefix()]) ?: $toSchema;
+
+			$this->markAsExecuted($version);
+		}
+
+		if ($toSchema instanceof SchemaWrapper) {
+			$targetSchema = $toSchema->getWrappedSchema();
+			if ($this->checkOracle) {
+				$beforeSchema = $this->connection->createSchema();
+				$this->ensureOracleIdentifierLengthLimit($beforeSchema, $targetSchema, strlen($this->connection->getPrefix()));
+			}
+			$this->connection->migrateToSchema($targetSchema);
+			$toSchema->performDropTableCalls();
 		}
 	}
 
