@@ -82,7 +82,7 @@ class Version18000Date20191014105105 extends SimpleMigrationStep {
 			'unsigned' => true,
 		]);
 		$table->addColumn('accessed', Types::BOOLEAN, [
-			'notnull' => true,
+			'notnull' => false,
 			'default' => false
 		]);
 
