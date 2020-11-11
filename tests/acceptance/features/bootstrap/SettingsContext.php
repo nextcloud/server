@@ -49,6 +49,25 @@ class SettingsContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function allowResharingCheckbox() {
+		// forThe()->checkbox("Allow resharing") can not be used here; that
+		// would return the checkbox itself, but the element that the user
+		// interacts with is the label.
+		return Locator::forThe()->xpath("//label[normalize-space() = 'Allow resharing']")->
+				describedAs("Allow resharing checkbox in Sharing section in Administration Sharing Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function allowResharingCheckboxInput() {
+		return Locator::forThe()->checkbox("Allow resharing")->
+				describedAs("Allow resharing checkbox input in Sharing section in Administration Sharing Settings");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function systemTagsSelectTagButton() {
 		return Locator::forThe()->id("s2id_systemtag")->
 				describedAs("Select tag button in system tags section in Administration Settings");
@@ -113,6 +132,15 @@ class SettingsContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I disable resharing
+	 */
+	public function iDisableResharing() {
+		$this->iSeeThatResharingIsEnabled();
+
+		$this->actor->find(self::allowResharingCheckbox(), 2)->click();
+	}
+
+	/**
 	 * @When I create the tag :tag in the settings
 	 */
 	public function iCreateTheTagInTheSettings($tag) {
@@ -127,6 +155,22 @@ class SettingsContext implements Context, ActorAwareInterface {
 	public function iSeeThatSharesAreAcceptedByDefault() {
 		PHPUnit_Framework_Assert::assertTrue(
 				$this->actor->find(self::acceptSharesByDefaultCheckboxInput(), 10)->isChecked());
+	}
+
+	/**
+	 * @Then I see that resharing is enabled
+	 */
+	public function iSeeThatResharingIsEnabled() {
+		PHPUnit_Framework_Assert::assertTrue(
+				$this->actor->find(self::allowResharingCheckboxInput(), 10)->isChecked());
+	}
+
+	/**
+	 * @Then I see that resharing is disabled
+	 */
+	public function iSeeThatResharingIsDisabled() {
+		PHPUnit_Framework_Assert::assertFalse(
+				$this->actor->find(self::allowResharingCheckboxInput(), 10)->isChecked());
 	}
 
 	/**
