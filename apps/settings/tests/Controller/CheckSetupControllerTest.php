@@ -165,6 +165,7 @@ class CheckSetupControllerTest extends TestCase {
 				'isOpcacheProperlySetup',
 				'hasFreeTypeSupport',
 				'hasMissingIndexes',
+				'hasMissingPrimaryKeys',
 				'isSqliteUsed',
 				'isPHPMailerUsed',
 				'hasOpcacheLoaded',
@@ -449,6 +450,9 @@ class CheckSetupControllerTest extends TestCase {
 			->method('hasMissingIndexes')
 			->willReturn([]);
 		$this->checkSetupController
+			->method('hasMissingPrimaryKeys')
+			->willReturn([]);
+		$this->checkSetupController
 			->method('isSqliteUsed')
 			->willReturn(false);
 		$this->checkSetupController
@@ -587,6 +591,7 @@ class CheckSetupControllerTest extends TestCase {
 				'isSqliteUsed' => false,
 				'databaseConversionDocumentation' => 'http://docs.example.org/server/go.php?to=admin-db-conversion',
 				'missingIndexes' => [],
+				'missingPrimaryKeys' => [],
 				'missingColumns' => [],
 				'isMemoryLimitSufficient' => true,
 				'appDirsWithDifferentOwner' => [],

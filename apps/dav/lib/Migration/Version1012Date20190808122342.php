@@ -69,7 +69,7 @@ class Version1012Date20190808122342 extends SimpleMigrationStep {
 				'length' => 11,
 			]);
 			$table->addColumn('is_recurring', Types::SMALLINT, [
-				'notnull' => true,
+				'notnull' => false,
 				'length' => 1,
 			]);
 			$table->addColumn('uid', Types::STRING, [

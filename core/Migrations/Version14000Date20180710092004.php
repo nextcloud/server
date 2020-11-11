@@ -43,6 +43,7 @@ class Version14000Date20180710092004 extends SimpleMigrationStep {
 		if (!$table->hasColumn('password_by_talk')) {
 			$table->addColumn('password_by_talk', Types::BOOLEAN, [
 				'default' => 0,
+				'notnull' => false,
 			]);
 		}
 

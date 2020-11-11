@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
  *
- * @author Julius Härtl <jus@bitgrid.net>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -24,40 +24,38 @@ declare(strict_types=1);
  *
  */
 
-namespace OC\Core\Migrations;
+namespace OCA\DAV\Migration;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\IDBConnection;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
-class Version18000Date20191204114856 extends SimpleMigrationStep {
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
-	}
-
+class Version1016Date20201109085907 extends SimpleMigrationStep {
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @return null|ISchemaWrapper
-	 * @throws \Doctrine\DBAL\Schema\SchemaException
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		$table = $schema->getTable('direct_edit');
 
-		$table->addColumn('file_path', 'string', [
-			'notnull' => false,
-			'length' => 4000,
-		]);
+		$result = $this->ensureColumnIsNullable($schema, 'calendar_reminders', 'is_recurring');
 
-		return $schema;
+		return $result ? $schema : null;
+	}
+
+	protected function ensureColumnIsNullable(ISchemaWrapper $schema, string $tableName, string $columnName): bool {
+		$table = $schema->getTable($tableName);
+		$column = $table->getColumn($columnName);
+
+		if ($column->getNotnull()) {
+			$column->setNotnull(false);
+			return true;
+		}
+
+		return false;
 	}
 }

@@ -9,6 +9,7 @@
 
 namespace Test;
 
+use OC\AppConfig;
 use OCP\IConfig;
 
 /**
@@ -42,7 +43,7 @@ class AppConfigTest extends TestCase {
 		$sql->delete('appconfig');
 		$sql->execute();
 
-		$this->overwriteService('AppConfig', new \OC\AppConfig($this->connection));
+		$this->overwriteService(AppConfig::class, new \OC\AppConfig($this->connection));
 
 		$sql = $this->connection->getQueryBuilder();
 		$sql->insert('appconfig')
@@ -132,7 +133,7 @@ class AppConfigTest extends TestCase {
 			$sql->execute();
 		}
 
-		$this->restoreService('AppConfig');
+		$this->restoreService(AppConfig::class);
 		parent::tearDown();
 	}
 

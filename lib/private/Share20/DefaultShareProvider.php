@@ -874,6 +874,11 @@ class DefaultShareProvider implements IShareProvider {
 			$cursor = $qb->execute();
 
 			while ($data = $cursor->fetch()) {
+				if ($data['fileid'] && $data['path'] === null) {
+					$data['path'] = (string) $data['path'];
+					$data['name'] = (string) $data['name'];
+					$data['checksum'] = (string) $data['checksum'];
+				}
 				if ($this->isAccessibleResult($data)) {
 					$shares[] = $this->createShare($data);
 				}
@@ -1004,7 +1009,7 @@ class DefaultShareProvider implements IShareProvider {
 			->setShareType((int)$data['share_type'])
 			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])
-			->setNote($data['note'])
+			->setNote((string)$data['note'])
 			->setMailSend((bool)$data['mail_send'])
 			->setStatus((int)$data['accepted'])
 			->setLabel($data['label']);

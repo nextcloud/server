@@ -3,8 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2018 Roeland Jago Douma <roeland@famdouma.nl>
+ * @copyright Copyright (c) 2018 Morris Jobke <hey@morrisjobke.de>
  *
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
  * @license GNU AGPL version 3 or any later version
@@ -24,32 +25,18 @@ declare(strict_types=1);
  *
  */
 
-namespace OC\Core\Migrations;
+namespace OC\DB;
 
-use Closure;
-use OCP\DB\ISchemaWrapper;
-use OCP\Migration\IOutput;
-use OCP\Migration\SimpleMigrationStep;
+class MissingPrimaryKeyInformation {
+	private $listOfMissingPrimaryKeys = [];
 
-class Version15000Date20181015062942 extends SimpleMigrationStep {
+	public function addHintForMissingSubject(string $tableName) {
+		$this->listOfMissingPrimaryKeys[] = [
+			'tableName' => $tableName,
+		];
+	}
 
-	/**
-	 * @param IOutput $output
-	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
-	 * @param array $options
-	 * @return null|ISchemaWrapper
-	 */
-	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options) {
-		/** @var ISchemaWrapper $schema */
-		$schema = $schemaClosure();
-
-		$table = $schema->getTable('share');
-		$table->addColumn('hide_download', 'smallint', [
-			'notnull' => false,
-			'length' => 1,
-			'default' => 0,
-		]);
-
-		return $schema;
+	public function getListOfMissingPrimaryKeys(): array {
+		return $this->listOfMissingPrimaryKeys;
 	}
 }
