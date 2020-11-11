@@ -833,6 +833,27 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
+	public function testValidateExpirationDateEnforceRelaxedDefaultButNotSetNewShare() {
+		$share = $this->manager->newShare();
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
+				['core', 'shareapi_expire_after_n_days', '7', '3'],
+				['core', 'shareapi_default_expire_date', 'no', 'yes'],
+				['core', 'link_defaultExpDays', 3, '1'],
+			]);
+
+		$expected = new \DateTime();
+		$expected->setTime(0,0,0);
+		$expected->add(new \DateInterval('P1D'));
+
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+
+		$this->assertNotNull($share->getExpirationDate());
+		$this->assertEquals($expected, $share->getExpirationDate());
+	}
+
 	public function testValidateExpirationDateEnforceTooFarIntoFuture() {
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P7D'));
