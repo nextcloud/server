@@ -852,6 +852,9 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testValidateExpirationDateEnforceTooFarIntoFuture() {
+		$this->expectException(\OCP\Share\Exceptions\GenericShareException::class);
+		$this->expectExceptionMessage('Can’t set expiration date more than 3 days in the future');
+
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P7D'));
 
@@ -862,16 +865,10 @@ class ManagerTest extends \Test\TestCase {
 			->willReturnMap([
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
+				['core', 'shareapi_default_expire_date', 'no', 'yes'],
 			]);
 
-		try {
-			self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
-			$this->addToAssertionCount(1);
-		} catch (\OCP\Share\Exceptions\GenericShareException $e) {
-			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getMessage());
-			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getHint());
-			$this->assertEquals(404, $e->getCode());
-		}
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
 	public function testValidateExpirationDateEnforceValid() {
