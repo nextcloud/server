@@ -94,6 +94,7 @@ import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import axios from '@nextcloud/axios'
 import Tab from '@nextcloud/vue/dist/Components/AppSidebarTab'
 
+import Config from '../services/ConfigService'
 import { shareWithTitle } from '../utils/SharedWithMe'
 import Share from '../models/Share'
 import ShareTypes from '../mixins/ShareTypes'
@@ -132,6 +133,8 @@ export default {
 
 	data() {
 		return {
+			config: new Config(),
+
 			error: '',
 			expirationInterval: null,
 			icon: 'icon-share',
@@ -178,7 +181,7 @@ export default {
 
 		canReshare() {
 			return !!(this.fileInfo.permissions & OC.PERMISSION_SHARE)
-				|| !!(this.reshare && this.reshare.hasSharePermission)
+				|| !!(this.reshare && this.reshare.hasSharePermission && this.config.isResharingAllowed)
 		},
 	},
 
