@@ -768,7 +768,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 
-	public function testvalidateExpirationDateInPast() {
+	public function testValidateExpirationDateInPast() {
 		$this->expectException(\OCP\Share\Exceptions\GenericShareException::class);
 		$this->expectExceptionMessage('Expiration date is in the past');
 
@@ -784,7 +784,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 
-	public function testvalidateExpirationDateEnforceButNotSet() {
+	public function testValidateExpirationDateEnforceButNotSet() {
 		$this->expectException(\InvalidArgumentException::class);
 		$this->expectExceptionMessage('Expiration date is enforced');
 
@@ -800,7 +800,7 @@ class ManagerTest extends \Test\TestCase {
 		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
-	public function testvalidateExpirationDateEnforceButNotEnabledAndNotSet() {
+	public function testValidateExpirationDateEnforceButNotEnabledAndNotSet() {
 		$share = $this->manager->newShare();
 		$share->setProviderId('foo')->setId('bar');
 
@@ -814,7 +814,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertNull($share->getExpirationDate());
 	}
 
-	public function testvalidateExpirationDateEnforceButNotSetNewShare() {
+	public function testValidateExpirationDateEnforceButNotSetNewShare() {
 		$share = $this->manager->newShare();
 
 		$this->config->method('getAppValue')
@@ -835,7 +835,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
-	public function testvalidateExpirationDateEnforceToFarIntoFuture() {
+	public function testValidateExpirationDateEnforceTooFarIntoFuture() {
 		// Expire date in the past
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P7D'));
@@ -859,7 +859,7 @@ class ManagerTest extends \Test\TestCase {
 		}
 	}
 
-	public function testvalidateExpirationDateEnforceValid() {
+	public function testValidateExpirationDateEnforceValid() {
 		// Expire date in the past
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P2D'));
@@ -888,7 +888,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
-	public function testvalidateExpirationDateNoDateNoDefaultNull() {
+	public function testValidateExpirationDateNoDateNoDefaultNull() {
 		$date = new \DateTime();
 		$date->add(new \DateInterval('P5D'));
 
@@ -909,7 +909,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
-	public function testvalidateExpirationDateNoDateNoDefault() {
+	public function testValidateExpirationDateNoDateNoDefault() {
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
 		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
 		$hookListner->expects($this->once())->method('listener')->with($this->callback(function ($data) {
@@ -924,7 +924,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertNull($share->getExpirationDate());
 	}
 
-	public function testvalidateExpirationDateNoDateDefault() {
+	public function testValidateExpirationDateNoDateDefault() {
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P3D'));
 		$future->setTime(0,0,0);
