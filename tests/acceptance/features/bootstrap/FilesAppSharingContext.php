@@ -174,6 +174,15 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	/**
 	 * @return Locator
 	 */
+	public static function unshareButton($sharedWithName, $shareWithMenuTriggerElement) {
+		return Locator::forThe()->xpath("//li[contains(concat(' ', normalize-space(@class), ' '), ' action ')]//button[normalize-space() = 'Unshare']")->
+				descendantOf(self::shareWithMenu($sharedWithName, $shareWithMenuTriggerElement))->
+				describedAs("Unshare button in the share with $sharedWithName menu in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
 	public static function shareLinkRow() {
 		return Locator::forThe()->css(".sharing-link-list .sharing-entry__link:first-child")->
 				descendantOf(FilesAppContext::detailsView())->
@@ -315,6 +324,15 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		return Locator::forThe()->checkbox("Password protect by Talk")->
 				descendantOf(self::shareLinkMenu($shareLinkMenuTriggerElement))->
 				describedAs("Password protect by Talk checkbox input in the details view in Files app");
+	}
+
+	/**
+	 * @return Locator
+	 */
+	public static function unshareLinkButton($shareLinkMenuTriggerElement) {
+		return Locator::forThe()->xpath("//li[contains(concat(' ', normalize-space(@class), ' '), ' action ')]//button[normalize-space() = 'Unshare']")->
+				descendantOf(self::shareLinkMenu($shareLinkMenuTriggerElement))->
+				describedAs("Unshare link button in the details view in Files app");
 	}
 
 	/**
@@ -472,6 +490,26 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @When I unshare the share with :shareWithName
+	 */
+	public function iUnshareTheFileWith($shareWithName) {
+		$this->showShareWithMenuIfNeeded($shareWithName);
+
+		$shareWithMenuTriggerElement = $this->actor->find(self::shareWithMenuTrigger($shareWithName), 2);
+		$this->actor->find(self::unshareButton($shareWithName, $shareWithMenuTriggerElement), 2)->click();
+	}
+
+	/**
+	 * @When I unshare the link share
+	 */
+	public function iUnshareTheLink() {
+		$this->showShareLinkMenuIfNeeded();
+
+		$shareLinkMenuTriggerElement = $this->actor->find(self::shareLinkMenuTrigger(), 2);
+		$this->actor->find(self::unshareLinkButton($shareLinkMenuTriggerElement), 2)->click();
+	}
+
+	/**
 	 * @Then I see that the file is shared with me by :sharedByName
 	 */
 	public function iSeeThatTheFileIsSharedWithMeBy($sharedByName) {
@@ -488,6 +526,18 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 	}
 
 	/**
+	 * @Then I see that the file is not shared with :sharedWithName
+	 */
+	public function iSeeThatTheFileIsNotSharedWith($sharedWithName) {
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::sharedWithRow($sharedWithName),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The shared with $sharedWithName row is still shown after $timeout seconds");
+		}
+	}
+
+	/**
 	 * @Then I see that resharing the file is not allowed
 	 */
 	public function iSeeThatResharingTheFileIsNotAllowed() {
@@ -495,6 +545,18 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 				$this->actor->find(self::shareWithInput(), 10)->getWrappedElement()->getAttribute("disabled"), "disabled");
 		PHPUnit_Framework_Assert::assertEquals(
 				$this->actor->find(self::shareWithInput(), 10)->getWrappedElement()->getAttribute("placeholder"), "Resharing is not allowed");
+	}
+
+	/**
+	 * @Then I see that resharing the file by link is not available
+	 */
+	public function iSeeThatResharingTheFileByLinkIsNotAvailable() {
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::shareLinkAddNewButton(),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The add new share link button is still shown after $timeout seconds");
+		}
 	}
 
 	/**
@@ -561,6 +623,21 @@ class FilesAppSharingContext implements Context, ActorAwareInterface {
 		$shareWithMenuTriggerElement = $this->actor->find(self::shareWithMenuTrigger($sharedWithName), 10);
 		PHPUnit_Framework_Assert::assertFalse(
 				$this->actor->find(self::canCreateCheckboxInput($sharedWithName, $shareWithMenuTriggerElement), 10)->isChecked());
+	}
+
+	/**
+	 * @Then I see that resharing for :sharedWithName is not available
+	 */
+	public function iSeeThatResharingForIsNotAvailable($sharedWithName) {
+		$this->showShareWithMenuIfNeeded($sharedWithName);
+
+		$shareWithMenuTriggerElement = $this->actor->find(self::shareWithMenuTrigger($sharedWithName), 10);
+		if (!WaitFor::elementToBeEventuallyNotShown(
+				$this->actor,
+				self::canReshareCheckbox($sharedWithName, $shareWithMenuTriggerElement),
+				$timeout = 10 * $this->actor->getFindTimeoutMultiplier())) {
+			PHPUnit_Framework_Assert::fail("The resharing checkbox for $sharedWithName is still shown after $timeout seconds");
+		}
 	}
 
 	/**
