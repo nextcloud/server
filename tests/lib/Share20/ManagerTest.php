@@ -831,7 +831,6 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testValidateExpirationDateEnforceTooFarIntoFuture() {
-		// Expire date in the past
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P7D'));
 
@@ -855,7 +854,6 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testValidateExpirationDateEnforceValid() {
-		// Expire date in the past
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P2D'));
 		$future->setTime(0,0,0);
