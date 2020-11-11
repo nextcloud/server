@@ -571,7 +571,7 @@ class MigrationService {
 
 				if ($thing->getNotnull() && $thing->getDefault() === ''
 					&& $sourceTable instanceof Table && !$sourceTable->hasColumn($thing->getName())) {
-					throw new \InvalidArgumentException('Column name "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
+					throw new \InvalidArgumentException('Column "' . $table->getName() . '"."' . $thing->getName() . '" is NotNull, but has empty string or null as default.');
 				}
 			}
 
@@ -583,7 +583,7 @@ class MigrationService {
 
 			foreach ($table->getForeignKeys() as $thing) {
 				if ((!$sourceTable instanceof Table || !$sourceTable->hasForeignKey($thing->getName())) && \strlen($thing->getName()) > 30) {
-					throw new \InvalidArgumentException('Foreign key name "'  . $table->getName() . '"."' . $thing->getName() . '" is too long.');
+					throw new \InvalidArgumentException('Foreign key name "' . $table->getName() . '"."' . $thing->getName() . '" is too long.');
 				}
 			}
 
