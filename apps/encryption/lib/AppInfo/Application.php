@@ -70,7 +70,7 @@ class Application extends \OCP\AppFramework\App {
 	public function setUp() {
 		if ($this->encryptionManager->isEnabled()) {
 			/** @var Setup $setup */
-			$setup = $this->getContainer()->query('UserSetup');
+			$setup = $this->getContainer()->query(Setup::class);
 			$setup->setupSystem();
 		}
 	}
@@ -86,15 +86,15 @@ class Application extends \OCP\AppFramework\App {
 			$hookManager = new HookManager();
 
 			$hookManager->registerHook([
-				new UserHooks($container->query('KeyManager'),
+				new UserHooks($container->query(KeyManager::class),
 					$server->getUserManager(),
 					$server->getLogger(),
-					$container->query('UserSetup'),
+					$container->query(Setup::class),
 					$server->getUserSession(),
-					$container->query('Util'),
-					$container->query('Session'),
-					$container->query('Crypt'),
-					$container->query('Recovery'))
+					$container->query(Util::class),
+					$container->query(Session::class),
+					$container->query(Crypt::class),
+					$container->query(Recovery::class))
 			]);
 
 			$hookManager->fireHooks();
@@ -113,12 +113,12 @@ class Application extends \OCP\AppFramework\App {
 			Encryption::DISPLAY_NAME,
 			function () use ($container) {
 				return new Encryption(
-				$container->query('Crypt'),
-				$container->query('KeyManager'),
-				$container->query('Util'),
-				$container->query('Session'),
-				$container->query('EncryptAll'),
-				$container->query('DecryptAll'),
+				$container->query(Crypt::class),
+				$container->query(KeyManager::class),
+				$container->query(Util::class),
+				$container->query(Session::class),
+				$container->query(EncryptAll::class),
+				$container->query(DecryptAll::class),
 				$container->getServer()->getLogger(),
 				$container->getServer()->getL10N($container->getAppName())
 			);
@@ -128,7 +128,7 @@ class Application extends \OCP\AppFramework\App {
 	public function registerServices() {
 		$container = $this->getContainer();
 
-		$container->registerService('Crypt',	function (ContainerInterface $c) {
+		$container->registerService(Crypt::class,	function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
 			return new Crypt($server->getLogger(),
@@ -137,42 +137,42 @@ class Application extends \OCP\AppFramework\App {
 					$server->getL10N($c->get('AppName')));
 		});
 
-		$container->registerService('Session',	function (ContainerInterface $c) {
+		$container->registerService(Session::class,	function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
 			return new Session($server->getSession());
 		}
 		);
 
-		$container->registerService('KeyManager',	function (ContainerInterface $c) {
+		$container->registerService(KeyManager::class,	function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
 
 			return new KeyManager($server->getEncryptionKeyStorage(),
-					$c->get('Crypt'),
+					$c->get(Crypt::class),
 					$server->getConfig(),
 					$server->getUserSession(),
 					new Session($server->getSession()),
 					$server->getLogger(),
-					$c->get('Util'),
+					$c->get(Util::class),
 					$server->getLockingProvider()
 				);
 		});
 
-		$container->registerService('Recovery',		function (ContainerInterface $c) {
+		$container->registerService(Recovery::class,		function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
 
 			return new Recovery(
 					$server->getUserSession(),
-					$c->get('Crypt'),
-					$c->get('KeyManager'),
+					$c->get(Crypt::class),
+					$c->get(KeyManager::class),
 					$server->getConfig(),
 					$server->getEncryptionFilesHelper(),
 					new View());
 		});
 
-		$container->registerService('RecoveryController', function (ContainerInterface $c) {
+		$container->registerService(RecoveryController::class, function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
 			return new RecoveryController(
@@ -180,22 +180,22 @@ class Application extends \OCP\AppFramework\App {
 				$server->getRequest(),
 				$server->getConfig(),
 				$server->getL10N($c->get('AppName')),
-				$c->get('Recovery'));
+				$c->get(Recovery::class));
 		});
 
-		$container->registerService('StatusController', function (ContainerInterface $c) {
+		$container->registerService(StatusController::class, function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
 			return new StatusController(
 				$c->get('AppName'),
 				$server->getRequest(),
 				$server->getL10N($c->get('AppName')),
-				$c->get('Session'),
+				$c->get(Session::class),
 				$server->getEncryptionManager()
 			);
 		});
 
-		$container->registerService('SettingsController', function (ContainerInterface $c) {
+		$container->registerService(SettingsController::class, function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
 			return new SettingsController(
@@ -204,45 +204,45 @@ class Application extends \OCP\AppFramework\App {
 				$server->getL10N($c->get('AppName')),
 				$server->getUserManager(),
 				$server->getUserSession(),
-				$c->get('KeyManager'),
-				$c->get('Crypt'),
-				$c->get('Session'),
+				$c->get(KeyManager::class),
+				$c->get(Crypt::class),
+				$c->get(Session::class),
 				$server->getSession(),
-				$c->get('Util')
+				$c->get(Util::class)
 			);
 		});
 
-		$container->registerService('UserSetup',	function (ContainerInterface $c) {
+		$container->registerService(Setup::class,	function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
 			return new Setup($server->getLogger(),
 					$server->getUserSession(),
-					$c->get('Crypt'),
-					$c->get('KeyManager'));
+					$c->get(Crypt::class),
+					$c->get(KeyManager::class));
 		});
 
-		$container->registerService('Util', function (ContainerInterface $c) {
+		$container->registerService(Util::class, function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
 
 			return new Util(
 					new View(),
-					$c->get('Crypt'),
+					$c->get(Crypt::class),
 					$server->getLogger(),
 					$server->getUserSession(),
 					$server->getConfig(),
 					$server->getUserManager());
 		});
 
-		$container->registerService('EncryptAll',	function (ContainerInterface $c) {
+		$container->registerService(EncryptAll::class,	function (ContainerInterface $c) {
 			/** @var IServerContainer $server */
 			$server = $c->get(IServerContainer::class);
 			return new EncryptAll(
-					$c->get('UserSetup'),
+					$c->get(Setup::class),
 					$server->getUserManager(),
 					new View(),
-					$c->get('KeyManager'),
-					$c->get('Util'),
+					$c->get(KeyManager::class),
+					$c->get(Util::class),
 					$server->getConfig(),
 					$server->getMailer(),
 					$server->getL10N('encryption'),
@@ -252,12 +252,12 @@ class Application extends \OCP\AppFramework\App {
 		}
 		);
 
-		$container->registerService('DecryptAll',function (ContainerInterface $c) {
+		$container->registerService(DecryptAll::class,function (ContainerInterface $c) {
 			return new DecryptAll(
-					$c->get('Util'),
-					$c->get('KeyManager'),
-					$c->get('Crypt'),
-					$c->get('Session'),
+					$c->get(Util::class),
+					$c->get(KeyManager::class),
+					$c->get(Crypt::class),
+					$c->get(Session::class),
 					new QuestionHelper()
 				);
 		}

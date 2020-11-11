@@ -60,9 +60,9 @@ trait EncryptionTrait {
 		\OC_Util::setupFS($name);
 		$container = $this->encryptionApp->getContainer();
 		/** @var KeyManager $keyManager */
-		$keyManager = $container->query('KeyManager');
+		$keyManager = $container->query(KeyManager::class);
 		/** @var Setup $userSetup */
-		$userSetup = $container->query('UserSetup');
+		$userSetup = $container->query(Setup::class);
 		$userSetup->setupUser($name, $password);
 		$this->encryptionApp->setUp();
 		$keyManager->init($name, $password);
