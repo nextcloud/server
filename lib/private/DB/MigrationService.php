@@ -551,6 +551,23 @@ class MigrationService {
 		$this->markAsExecuted($version);
 	}
 
+	/**
+	 * Naming constraints:
+	 * - Tables names must be 30 chars or shorter (27 + oc_ prefix)
+	 * - Column names must be 30 chars or shorter
+	 * - Index names must be 30 chars or shorter
+	 * - Sequence names must be 30 chars or shorter
+	 * - Primary key names must be set or the table name 23 chars or shorter
+	 *
+	 * Data constraints:
+	 * - Columns with "NotNull" can not have empty string as default value
+	 * - Columns with "NotNull" can not have number 0 as default value
+	 *
+	 * @param Schema $sourceSchema
+	 * @param Schema $targetSchema
+	 * @param int $prefixLength
+	 * @throws \Doctrine\DBAL\Exception
+	 */
 	public function ensureOracleIdentifierLengthLimit(Schema $sourceSchema, Schema $targetSchema, int $prefixLength) {
 		$sequences = $targetSchema->getSequences();
 
