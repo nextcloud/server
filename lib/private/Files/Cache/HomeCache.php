@@ -72,6 +72,7 @@ class HomeCache extends Cache {
 					$this->update($id, ['size' => $totalSize]);
 				}
 			}
+			$result->closeCursor();
 		}
 		return $totalSize;
 	}

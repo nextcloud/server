@@ -549,7 +549,12 @@ class CardDavBackendTest extends TestCase {
 		$this->invokePrivate($backend, 'updateProperties', [$bookId, $cardUri, $vCard->serialize()]);
 
 		$query = $this->db->getQueryBuilder();
-		$result = $query->select('*')->from('cards_properties')->execute()->fetchAll();
+		$query->select('*')
+			->from('cards_properties');
+
+		$qResult = $query->execute();
+		$result = $qResult->fetchAll();
+		$qResult->closeCursor();
 
 		$this->assertSame(2, count($result));
 
@@ -569,7 +574,12 @@ class CardDavBackendTest extends TestCase {
 		$this->invokePrivate($backend, 'updateProperties', [$bookId, $cardUri, $vCard->serialize()]);
 
 		$query = $this->db->getQueryBuilder();
-		$result = $query->select('*')->from('cards_properties')->execute()->fetchAll();
+		$query->select('*')
+			->from('cards_properties');
+
+		$qResult = $query->execute();
+		$result = $qResult->fetchAll();
+		$qResult->closeCursor();
 
 		$this->assertSame(1, count($result));
 
@@ -609,7 +619,13 @@ class CardDavBackendTest extends TestCase {
 		$this->invokePrivate($this->backend, 'purgeProperties', [1, 1]);
 
 		$query = $this->db->getQueryBuilder();
-		$result = $query->select('*')->from('cards_properties')->execute()->fetchAll();
+		$query->select('*')
+			->from('cards_properties');
+
+		$qResult = $query->execute();
+		$result = $qResult->fetchAll();
+		$qResult->closeCursor();
+
 		$this->assertSame(1, count($result));
 		$this->assertSame(1 ,(int)$result[0]['addressbookid']);
 		$this->assertSame(2 ,(int)$result[0]['cardid']);

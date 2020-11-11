@@ -285,6 +285,7 @@ class Tags implements ITags {
 			$stmt = \OC_DB::prepare($sql);
 			$result = $stmt->execute([$tagId]);
 			if ($result === null) {
+				$stmt->closeCursor();
 				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OC::$server->getDatabaseConnection()->getError(), ILogger::ERROR);
 				return false;
 			}
@@ -301,6 +302,7 @@ class Tags implements ITags {
 			while ($row = $result->fetchRow()) {
 				$ids[] = (int)$row['objid'];
 			}
+			$result->closeCursor();
 		}
 
 		return $ids;
@@ -538,6 +540,7 @@ class Tags implements ITags {
 						]);
 					}
 				}
+				$result->closeCursor();
 			} catch (\Exception $e) {
 				\OC::$server->getLogger()->logException($e, [
 					'message' => __METHOD__,
