@@ -875,9 +875,9 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
 			]);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
-		$hookListner->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($future) {
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListener, 'listener');
+		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($future) {
 			return $data['expirationDate'] == $future;
 		}));
 
@@ -896,9 +896,9 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($date);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
-		$hookListner->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListener, 'listener');
+		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
 			return $data['expirationDate'] == $expected && $data['passwordSet'] === false;
 		}));
 
@@ -908,9 +908,9 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testValidateExpirationDateNoDateNoDefault() {
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
-		$hookListner->expects($this->once())->method('listener')->with($this->callback(function ($data) {
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListener, 'listener');
+		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) {
 			return $data['expirationDate'] === null && $data['passwordSet'] === true;
 		}));
 
@@ -938,9 +938,9 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
 			]);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
-		$hookListner->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListener, 'listener');
+		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
 			return $data['expirationDate'] == $expected;
 		}));
 
@@ -956,9 +956,9 @@ class ManagerTest extends \Test\TestCase {
 
 		$save = clone $nextWeek;
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
-		$hookListner->expects($this->once())->method('listener')->willReturnCallback(function ($data) {
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListener, 'listener');
+		$hookListener->expects($this->once())->method('listener')->willReturnCallback(function ($data) {
 			$data['expirationDate']->sub(new \DateInterval('P2D'));
 		});
 
@@ -983,9 +983,9 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($nextWeek);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
-		$hookListner->expects($this->once())->method('listener')->willReturnCallback(function ($data) {
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListener, 'listener');
+		$hookListener->expects($this->once())->method('listener')->willReturnCallback(function ($data) {
 			$data['accepted'] = false;
 			$data['message'] = 'Invalid date!';
 		});
@@ -2597,16 +2597,16 @@ class ManagerTest extends \Test\TestCase {
 			->with($share)
 			->willReturn($share);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->never())->method('post');
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->never())->method('post');
 
 		$this->rootFolder->method('getUserFolder')->with('newUser')->willReturnSelf();
 		$this->rootFolder->method('getRelativePath')->with('/newUser/files/myPath')->willReturn('/myPath');
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner2, 'post');
-		$hookListner2->expects($this->once())->method('post')->with([
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener2, 'post');
+		$hookListener2->expects($this->once())->method('post')->with([
 			'itemType' => 'file',
 			'itemSource' => 100,
 			'shareType' => \OCP\Share::SHARE_TYPE_USER,
@@ -2654,13 +2654,13 @@ class ManagerTest extends \Test\TestCase {
 			->with($share)
 			->willReturn($share);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->never())->method('post');
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->never())->method('post');
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner2, 'post');
-		$hookListner2->expects($this->never())->method('post');
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener2, 'post');
+		$hookListener2->expects($this->never())->method('post');
 
 		$manager->updateShare($share);
 	}
@@ -2716,18 +2716,18 @@ class ManagerTest extends \Test\TestCase {
 			->with($share)
 			->willReturn($share);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->once())->method('post')->with([
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->once())->method('post')->with([
 			'itemType' => 'file',
 			'itemSource' => 100,
 			'date' => $tomorrow,
 			'uidOwner' => 'owner',
 		]);
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
-		$hookListner2->expects($this->once())->method('post')->with([
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
+		$hookListener2->expects($this->once())->method('post')->with([
 			'itemType' => 'file',
 			'itemSource' => 100,
 			'uidOwner' => 'owner',
@@ -2735,9 +2735,9 @@ class ManagerTest extends \Test\TestCase {
 			'disabled' => false,
 		]);
 
-		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
-		$hookListner3->expects($this->never())->method('post');
+		$hookListener3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener3, 'post');
+		$hookListener3->expects($this->never())->method('post');
 
 
 		$manager->updateShare($share);
@@ -2797,17 +2797,17 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->expects($this->never())
 			->method('update');
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->never())->method('post');
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->never())->method('post');
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
-		$hookListner2->expects($this->never())->method('post');
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
+		$hookListener2->expects($this->never())->method('post');
 
-		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
-		$hookListner3->expects($this->never())->method('post');
+		$hookListener3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener3, 'post');
+		$hookListener3->expects($this->never())->method('post');
 
 		$manager->updateShare($share);
 	}
@@ -2866,13 +2866,13 @@ class ManagerTest extends \Test\TestCase {
 			->with($share, 'password')
 			->willReturn($share);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->never())->method('post');
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->never())->method('post');
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
-		$hookListner2->expects($this->once())->method('post')->with([
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
+		$hookListener2->expects($this->once())->method('post')->with([
 			'itemType' => 'file',
 			'itemSource' => 100,
 			'uidOwner' => 'owner',
@@ -2880,9 +2880,9 @@ class ManagerTest extends \Test\TestCase {
 			'disabled' => false,
 		]);
 
-		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
-		$hookListner3->expects($this->never())->method('post');
+		$hookListener3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener3, 'post');
+		$hookListener3->expects($this->never())->method('post');
 
 		$manager->updateShare($share);
 	}
@@ -2944,13 +2944,13 @@ class ManagerTest extends \Test\TestCase {
 			->with($share, 'password')
 			->willReturn($share);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->never())->method('post');
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->never())->method('post');
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
-		$hookListner2->expects($this->once())->method('post')->with([
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
+		$hookListener2->expects($this->once())->method('post')->with([
 			'itemType' => 'file',
 			'itemSource' => 100,
 			'uidOwner' => 'owner',
@@ -2958,9 +2958,9 @@ class ManagerTest extends \Test\TestCase {
 			'disabled' => false,
 		]);
 
-		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
-		$hookListner3->expects($this->never())->method('post');
+		$hookListener3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener3, 'post');
+		$hookListener3->expects($this->never())->method('post');
 
 		$manager->updateShare($share);
 	}
@@ -3027,13 +3027,13 @@ class ManagerTest extends \Test\TestCase {
 			->with($share, 'password')
 			->willReturn($share);
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->never())->method('post');
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->never())->method('post');
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
-		$hookListner2->expects($this->once())->method('post')->with([
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
+		$hookListener2->expects($this->once())->method('post')->with([
 			'itemType' => 'file',
 			'itemSource' => 100,
 			'uidOwner' => 'owner',
@@ -3041,9 +3041,9 @@ class ManagerTest extends \Test\TestCase {
 			'disabled' => false,
 		]);
 
-		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
-		$hookListner3->expects($this->never())->method('post');
+		$hookListener3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener3, 'post');
+		$hookListener3->expects($this->never())->method('post');
 
 		$manager->updateShare($share);
 	}
@@ -3104,17 +3104,17 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->expects($this->never())
 			->method('update');
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->never())->method('post');
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->never())->method('post');
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
-		$hookListner2->expects($this->never())->method('post');
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
+		$hookListener2->expects($this->never())->method('post');
 
-		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
-		$hookListner3->expects($this->never())->method('post');
+		$hookListener3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener3, 'post');
+		$hookListener3->expects($this->never())->method('post');
 
 		$manager->updateShare($share);
 	}
@@ -3176,17 +3176,17 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->expects($this->never())
 			->method('update');
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->never())->method('post');
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->never())->method('post');
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
-		$hookListner2->expects($this->never())->method('post');
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
+		$hookListener2->expects($this->never())->method('post');
 
-		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
-		$hookListner3->expects($this->never())->method('post');
+		$hookListener3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener3, 'post');
+		$hookListener3->expects($this->never())->method('post');
 
 		$manager->updateShare($share);
 	}
@@ -3248,17 +3248,17 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->expects($this->never())
 			->method('update');
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->never())->method('post');
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->never())->method('post');
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
-		$hookListner2->expects($this->never())->method('post');
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
+		$hookListener2->expects($this->never())->method('post');
 
-		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
-		$hookListner3->expects($this->never())->method('post');
+		$hookListener3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener3, 'post');
+		$hookListener3->expects($this->never())->method('post');
 
 		$manager->updateShare($share);
 	}
@@ -3325,17 +3325,17 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->expects($this->never())
 			->method('update');
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->never())->method('post');
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->never())->method('post');
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
-		$hookListner2->expects($this->never())->method('post');
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
+		$hookListener2->expects($this->never())->method('post');
 
-		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
-		$hookListner3->expects($this->never())->method('post');
+		$hookListener3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener3, 'post');
+		$hookListener3->expects($this->never())->method('post');
 
 		$manager->updateShare($share);
 	}
@@ -3401,17 +3401,17 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->expects($this->never())
 			->method('update');
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->never())->method('post');
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->never())->method('post');
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
-		$hookListner2->expects($this->never())->method('post');
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
+		$hookListener2->expects($this->never())->method('post');
 
-		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
-		$hookListner3->expects($this->never())->method('post');
+		$hookListener3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener3, 'post');
+		$hookListener3->expects($this->never())->method('post');
 
 		$manager->updateShare($share);
 	}
@@ -3475,17 +3475,17 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->expects($this->never())
 			->method('update');
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
-		$hookListner->expects($this->never())->method('post');
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListener, 'post');
+		$hookListener->expects($this->never())->method('post');
 
-		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListner2, 'post');
-		$hookListner2->expects($this->never())->method('post');
+		$hookListener2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_password', $hookListener2, 'post');
+		$hookListener2->expects($this->never())->method('post');
 
-		$hookListner3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
-		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner3, 'post');
-		$hookListner3->expects($this->never())->method('post');
+		$hookListener3 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListener3, 'post');
+		$hookListener3->expects($this->never())->method('post');
 
 		$manager->updateShare($share);
 	}
