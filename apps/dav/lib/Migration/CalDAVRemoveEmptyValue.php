@@ -23,6 +23,7 @@
 
 namespace OCA\DAV\Migration;
 
+use Doctrine\DBAL\Platforms\OraclePlatform;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -98,6 +99,37 @@ class CalDAVRemoveEmptyValue implements IRepairStep {
 	}
 
 	protected function getInvalidObjects($pattern) {
+		if ($this->db->getDatabasePlatform() instanceof OraclePlatform) {
+			$rows = [];
+			$chunkSize = 500;
+			$query = $this->db->getQueryBuilder();
+			$query->select($query->func()->count('*', 'num_entries'))
+				->from('calendarobjects');
+			$result = $query->execute();
+			$count = $result->fetchColumn();
+			$result->closeCursor();
+
+			$numChunks = ceil($count / $chunkSize);
+
+			$query = $this->db->getQueryBuilder();
+			$query->select(['calendarid', 'uri', 'calendardata'])
+				->from('calendarobjects')
+				->setMaxResults($chunkSize);
+			for ($chunk = 0; $chunk < $numChunks; $chunk++) {
+				$query->setFirstResult($chunk * $chunkSize);
+				$result = $query->execute();
+
+				while ($row = $result->fetch()) {
+					if (mb_strpos($row['calendardata'], $pattern) !== false) {
+						unset($row['calendardata']);
+						$rows[] = $row;
+					}
+				}
+				$result->closeCursor();
+			}
+			return $rows;
+		}
+
 		$query = $this->db->getQueryBuilder();
 		$query->select(['calendarid', 'uri'])
 			->from('calendarobjects')
