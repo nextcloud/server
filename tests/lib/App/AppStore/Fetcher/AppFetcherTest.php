@@ -115,39 +115,39 @@ uWtzoaLi71/1BWTFAN+Y9VyfZ8/Z3Pg3vKedRJ565mztIj0geL3riEsC5YnPS0+C
 			 		 		 		 	'translations' =>
 			 		 		 		 		 [
 			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://bitgrid.net/~jus/direct_menu_nc.png',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Direct Menu',
-			 		 		 		 	'summary' => 'Provide easy access to all apps in the header.',
-			 		 		 		 	'description' => 'Provide easy access to all apps in the header.',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => false,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Julius Härtl',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.5,
-			 		 	'ratingOverall' => 0.5,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'url' => 'https://bitgrid.net/~jus/direct_menu_nc.png',
+							 		 ],
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'Direct Menu',
+							 		 	'summary' => 'Provide easy access to all apps in the header.',
+							 		 	'description' => 'Provide easy access to all apps in the header.',
+							 		 ],
+							 ],
+						'isFeatured' => false,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'Julius Härtl',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.5,
+						'ratingOverall' => 0.5,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIIEBjCCAu4CAhADMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -171,68 +171,68 @@ e/zxnB1EmeI2X5D2xceJDLB7Fy5W0EGrLixRIdFaSUommWFUm9E2hSIaNlziSBdc
 G2dF9Gtu4GiQ5fuaJknaxlgXHovfqeZwZJX9o4M+Ug81AqiY7XjdiaCPdh0Tthcx
 2OmWZo7UBREWenjKyFZZ/iKoqH5sdenBtpo=
 -----END CERTIFICATE-----',
-			 		 ],
-			 	1 =>
-			 		 [
-			 		 	'id' => 'apporder',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'customization',
-			 		 		 ],
-			 		 	'userDocs' => '',
-			 		 	'adminDocs' => '',
-			 		 	'developerDocs' => '',
-			 		 	'issueTracker' => 'https://github.com/juliushaertl/apporder/issues',
-			 		 	'website' => '',
-			 		 	'created' => '2016-10-01T09:16:47.111889Z',
-			 		 	'lastModified' => '2016-10-12T19:50:16.038821Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '0.3.3',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '*',
-			 		 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://github.com/juliushaertl/apporder/releases/download/0.3.3/apporder.tar.gz',
-			 		 		 		 	'created' => '2016-10-12T19:14:10.802359Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-10-12T19:50:16.104357Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '*',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
-			 		 		 		 	'signature' => 'nhlT9lhrmBxIsqh/e3RLm2NDw/U8ZvvoMyYQTLMM3H19DQmVcPYPYC9QWVTsowUzXblVaOXVGylbpKma9yOlOAqJtF3qyXecLl4+tA/Awb6BBhKPgHFdcLDAL5yy1K7/uei3SgEojMlJoI9vEK5I1C5YTh43yNH+//Im6MAuNYFUTlMXK426zdOe6ogpCI5GlYdXopqYANxcpT+WXWET6DDSM5Ev+MYwMcSAY4r8+tvARRU4ZAenRgjkBT6R5z6cD76emRax14tbV6vkjjwRcO+dQtM0tFPbd+5fsNInbauv50VzIMgjA6RnKTOI17gRsSdGlsV4vZn2aIxEPWauu6T/UohMvAE9HMn13vtbpPBSFwJAktj6yHASYGzupNQLprA0+OdyALoLZPpQAKNEXA42a4EVISBKu0EmduHJlUPeqhnIGkkGgVNWS8AWqzP2nFoPdXBgUWateiMcBTHxgEKDac5YmNc9lsXpzf1OxBaXHBhGYKuXPwIfyH3jTWb1OdwixJEuRe9dl63T9qOTRre8QWns/bMqKLibGfMtFhVB21ARJayBuX70eVvabG/2N7Y5t1zUlFygIKu51tvo3AVCRDdRrFWDvkAjxzIz5FIdALVZ+DReFYu/r4WF/w3V9rInFuEDSwb/OH4r8sQycs07tSlMyA74Y3FpjKTBxso=',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://bitgrid.net/~jus/apporder-nc.gif',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'AppOrder',
-			 		 		 		 	'summary' => 'Sort apps in the menu with drag and drop',
-			 		 		 		 	'description' => '
+					 ],
+				1 =>
+					 [
+					 	'id' => 'apporder',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'customization',
+					 		 ],
+					 	'userDocs' => '',
+					 	'adminDocs' => '',
+					 	'developerDocs' => '',
+					 	'issueTracker' => 'https://github.com/juliushaertl/apporder/issues',
+					 	'website' => '',
+					 	'created' => '2016-10-01T09:16:47.111889Z',
+					 	'lastModified' => '2016-10-12T19:50:16.038821Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '0.3.3',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'shellCommands' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'phpVersionSpec' => '*',
+					 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
+					 		 		 	'minIntSize' => 32,
+					 		 		 	'download' => 'https://github.com/juliushaertl/apporder/releases/download/0.3.3/apporder.tar.gz',
+					 		 		 	'created' => '2016-10-12T19:14:10.802359Z',
+					 		 		 	'licenses' =>
+					 		 		 		 [
+					 		 		 		 	0 => 'agpl',
+					 		 		 		 ],
+					 		 		 	'lastModified' => '2016-10-12T19:50:16.104357Z',
+					 		 		 	'isNightly' => false,
+					 		 		 	'rawPhpVersionSpec' => '*',
+					 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
+					 		 		 	'signature' => 'nhlT9lhrmBxIsqh/e3RLm2NDw/U8ZvvoMyYQTLMM3H19DQmVcPYPYC9QWVTsowUzXblVaOXVGylbpKma9yOlOAqJtF3qyXecLl4+tA/Awb6BBhKPgHFdcLDAL5yy1K7/uei3SgEojMlJoI9vEK5I1C5YTh43yNH+//Im6MAuNYFUTlMXK426zdOe6ogpCI5GlYdXopqYANxcpT+WXWET6DDSM5Ev+MYwMcSAY4r8+tvARRU4ZAenRgjkBT6R5z6cD76emRax14tbV6vkjjwRcO+dQtM0tFPbd+5fsNInbauv50VzIMgjA6RnKTOI17gRsSdGlsV4vZn2aIxEPWauu6T/UohMvAE9HMn13vtbpPBSFwJAktj6yHASYGzupNQLprA0+OdyALoLZPpQAKNEXA42a4EVISBKu0EmduHJlUPeqhnIGkkGgVNWS8AWqzP2nFoPdXBgUWateiMcBTHxgEKDac5YmNc9lsXpzf1OxBaXHBhGYKuXPwIfyH3jTWb1OdwixJEuRe9dl63T9qOTRre8QWns/bMqKLibGfMtFhVB21ARJayBuX70eVvabG/2N7Y5t1zUlFygIKu51tvo3AVCRDdRrFWDvkAjxzIz5FIdALVZ+DReFYu/r4WF/w3V9rInFuEDSwb/OH4r8sQycs07tSlMyA74Y3FpjKTBxso=',
+					 		 		 	'translations' =>
+					 		 		 		 [
+					 		 		 		 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'url' => 'https://bitgrid.net/~jus/apporder-nc.gif',
+							 		 ],
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'AppOrder',
+							 		 	'summary' => 'Sort apps in the menu with drag and drop',
+							 		 	'description' => '
 Enable sorting for icons inside the app menu. The order will be saved for each
 user individually. Administrators can define a custom default order.
 AppOrder works with the default owncloud menu as well as with the direct_menu
@@ -252,23 +252,23 @@ personal order by changing the following parameter in your config/config.php:
 Users will now get redirected to the first app of the default order or to the
 first app of the user order.
     ',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => false,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Julius Härtl',
-			 		 		 		 	'mail' => 'jus@bitgrid.net',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.5,
-			 		 	'ratingOverall' => 0.5,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+							 		 ],
+							 ],
+						'isFeatured' => false,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'Julius Härtl',
+							 		 	'mail' => 'jus@bitgrid.net',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.5,
+						'ratingOverall' => 0.5,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIIEAzCCAusCAhAEMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -292,49 +292,49 @@ CSKtBro2jcnxzI3BvHdQcx4RAGo8sUzaqKBmsy+JmAqpCSk8f1zHR94x4Akp7n44
 Tu+WGOL2Ee5U4k4XFdzeSLODWby08iU+Gx3bXTR6WIvXCYeIVsCPKK/luvfGkiSR
 CpW1GUIA1cyulT4uyHf9g6BMdYVOsFQ=
 -----END CERTIFICATE-----',
-			 		 ],
-			 	2 =>
-			 		 [
-			 		 	'id' => 'twofactor_totp',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'tools',
-			 		 		 ],
-			 		 	'userDocs' => '',
-			 		 	'adminDocs' => '',
-			 		 	'developerDocs' => '',
-			 		 	'issueTracker' => '',
-			 		 	'website' => '',
-			 		 	'created' => '2016-10-08T14:13:54.356716Z',
-			 		 	'lastModified' => '2016-10-12T14:38:56.186269Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '0.4.1',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '>=5.4.0 <7.1.0',
-			 		 		 		 	'platformVersionSpec' => '>=10.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://github.com/ChristophWurst/twofactor_totp/releases/download/0.4.1/twofactor_totp.tar.gz',
-			 		 		 		 	'created' => '2016-10-12T14:38:56.174612Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-10-12T14:38:56.248223Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '>=5.4 <=7.0',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=10 <=11',
-			 		 		 		 	'signature' => 'bnwWxmHEn8xkoWbtwhC1kIrJ0dQfAI3PUtU62k+Tru/BHt1G2aVxqO8bCdghojZ7
+					 ],
+				2 =>
+					 [
+					 	'id' => 'twofactor_totp',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'tools',
+					 		 ],
+					 	'userDocs' => '',
+					 	'adminDocs' => '',
+					 	'developerDocs' => '',
+					 	'issueTracker' => '',
+					 	'website' => '',
+					 	'created' => '2016-10-08T14:13:54.356716Z',
+					 	'lastModified' => '2016-10-12T14:38:56.186269Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '0.4.1',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'shellCommands' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'phpVersionSpec' => '>=5.4.0 <7.1.0',
+					 		 		 	'platformVersionSpec' => '>=10.0.0 <12.0.0',
+					 		 		 	'minIntSize' => 32,
+					 		 		 	'download' => 'https://github.com/ChristophWurst/twofactor_totp/releases/download/0.4.1/twofactor_totp.tar.gz',
+					 		 		 	'created' => '2016-10-12T14:38:56.174612Z',
+					 		 		 	'licenses' =>
+					 		 		 		 [
+					 		 		 		 	0 => 'agpl',
+					 		 		 		 ],
+					 		 		 	'lastModified' => '2016-10-12T14:38:56.248223Z',
+					 		 		 	'isNightly' => false,
+					 		 		 	'rawPhpVersionSpec' => '>=5.4 <=7.0',
+					 		 		 	'rawPlatformVersionSpec' => '>=10 <=11',
+					 		 		 	'signature' => 'bnwWxmHEn8xkoWbtwhC1kIrJ0dQfAI3PUtU62k+Tru/BHt1G2aVxqO8bCdghojZ7
 zdFMlIJw4kekYFsVfLk8jzjUTZKVbNVKCdkHrVTQ0bUUryMAMLqGQ3PSRI5NX6D5
 FpkvwO1coYwU0XVWF8KAS0meX0ztSkT3Mv96LLrxr8F8SrB/MGmKIE4WTjt1fAIa
 ZLAVEUo/3sNFTGLYBtL3wjctrkZvJltP8abeRfls9FkRHu+rN7R3uLFzk42uZn3X
@@ -345,38 +345,38 @@ h7ro5ls+d3OQ8i3i4vdZm821Ytxdu/DQBHiVoOBarvFWwWAv2zd2VAvpTmk6J5yv
 3y+csRqpEJYd9fcVMPsTu7WBRRrpBsAqdAHJcZEwak2kz1kdOgSf8FIzP1z6Q71d
 Ml2RKcPeutMHHSLiGIN/h7fM5aSs49wGgGZmfz28fHVd7/U0HFSMYmkT/GMq5tMP
 Iyc+QZAN4qbX8G0k/QSTkK/L4lOT2hQiQqiSqmWItMk=',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Two Factor TOTP Provider',
-			 		 		 		 	'summary' => 'A Two-Factor-Auth Provider for TOTP (e.g. Google Authenticator)',
-			 		 		 		 	'description' => 'A Two-Factor-Auth Provider for TOTP (e.g. Google Authenticator)',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => true,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Christoph Wurst',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.5,
-			 		 	'ratingOverall' => 0.5,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+					 		 		 	'translations' =>
+					 		 		 		 [
+					 		 		 		 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'Two Factor TOTP Provider',
+							 		 	'summary' => 'A Two-Factor-Auth Provider for TOTP (e.g. Google Authenticator)',
+							 		 	'description' => 'A Two-Factor-Auth Provider for TOTP (e.g. Google Authenticator)',
+							 		 ],
+							 ],
+						'isFeatured' => true,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'Christoph Wurst',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.5,
+						'ratingOverall' => 0.5,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIIECTCCAvECAhASMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -400,51 +400,51 @@ dIu2MkhxAZk9FZfnFkjTaAXcBHafJce7H/IEjHDEoIkFp5KnAQLHsJb4n8JeXmi9
 VMgQ6yUWNuzOQMZpMIV7RMOUZHvxiX/ZWUFzXNYX0GYub6p4O2uh3LJE+xXyDf77
 RBO7PLY3m4TXCeKesxZlkoGke+lnq7B8tkADdPI=
 -----END CERTIFICATE-----',
-			 		 ],
-			 	3 =>
-			 		 [
-			 		 	'id' => 'contacts',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'office',
-			 		 		 	1 => 'organization',
-			 		 		 	2 => 'social',
-			 		 		 ],
-			 		 	'userDocs' => 'https://docs.nextcloud.com/server/11/user_manual/pim/contacts.html',
-			 		 	'adminDocs' => 'https://docs.nextcloud.com/server/11/admin_manual/configuration_server/occ_command.html?highlight=occ%20commands#dav-label',
-			 		 	'developerDocs' => 'https://github.com/nextcloud/contacts#building-the-app',
-			 		 	'issueTracker' => 'https://github.com/nextcloud/contacts/issues',
-			 		 	'website' => 'https://github.com/nextcloud/contacts#readme',
-			 		 	'created' => '2016-10-30T14:00:58.922766Z',
-			 		 	'lastModified' => '2016-11-22T22:08:01.904319Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '1.5.0',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '*',
-			 		 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://github.com/nextcloud/contacts/releases/download/v1.5.0/contacts.tar.gz',
-			 		 		 		 	'created' => '2016-11-22T22:08:01.861942Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-11-22T22:08:02.306939Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '*',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
-			 		 		 		 	'signature' => 'ZqqhqtbHcNB+rzGCQ7FDIjjvHjit+dhAE1UhFgiXApkx3tmPP4nJOBAGNjHe+2Ao
+					 ],
+				3 =>
+					 [
+					 	'id' => 'contacts',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'office',
+					 		 	1 => 'organization',
+					 		 	2 => 'social',
+					 		 ],
+					 	'userDocs' => 'https://docs.nextcloud.com/server/11/user_manual/pim/contacts.html',
+					 	'adminDocs' => 'https://docs.nextcloud.com/server/11/admin_manual/configuration_server/occ_command.html?highlight=occ%20commands#dav-label',
+					 	'developerDocs' => 'https://github.com/nextcloud/contacts#building-the-app',
+					 	'issueTracker' => 'https://github.com/nextcloud/contacts/issues',
+					 	'website' => 'https://github.com/nextcloud/contacts#readme',
+					 	'created' => '2016-10-30T14:00:58.922766Z',
+					 	'lastModified' => '2016-11-22T22:08:01.904319Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '1.5.0',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'shellCommands' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'phpVersionSpec' => '*',
+					 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
+					 		 		 	'minIntSize' => 32,
+					 		 		 	'download' => 'https://github.com/nextcloud/contacts/releases/download/v1.5.0/contacts.tar.gz',
+					 		 		 	'created' => '2016-11-22T22:08:01.861942Z',
+					 		 		 	'licenses' =>
+					 		 		 		 [
+					 		 		 		 	0 => 'agpl',
+					 		 		 		 ],
+					 		 		 	'lastModified' => '2016-11-22T22:08:02.306939Z',
+					 		 		 	'isNightly' => false,
+					 		 		 	'rawPhpVersionSpec' => '*',
+					 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
+					 		 		 	'signature' => 'ZqqhqtbHcNB+rzGCQ7FDIjjvHjit+dhAE1UhFgiXApkx3tmPP4nJOBAGNjHe+2Ao
 VcTIX2SrWEfieRrA4Gp+0k7pUPWag1Z0T1OVOwO4cmS1AVFyGIOE1bRvDhMfsWTU
 4CI4oXaKBFAY6mtnf7VJ7EeIdNqhImkohyWDQ88NiPRLM1XNkJJk6AvZBcT0fvCv
 o145X4dLpbixSXsN99QFNJ/oXvK+9tBGwTd5i/WnNFY90vcNRLia8aRo7SA0YJRx
@@ -455,54 +455,54 @@ Me1EZcde8SLEpTbCWYIfIw/O9Fkp5cWD/dAqoiO6g+gNxSZ/gGp57qoGfFxn7d/x
 H3aH8GljatAFjrwItw1JzR0THt0ukkOK+bw/pfCslk10sjHMitmz/GXa4qMS91DZ
 BKLUd0dSfQUQzkfwcojImbzJRvca4/DYe3mfG7+RCH0tDL6t72dKL9joB++u5R1u
 VZPgkToexlXcKWpiDB8H2/SEShKr4udAOjR5de9CYWM=',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/screenshots/master/apps/Contacts/contacts.png',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Contacts',
-			 		 		 		 	'summary' => 'The new and improved app for your Contacts.',
-			 		 		 		 	'description' => 'The new and improved app for your Contacts.',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => true,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Alexander Weidinger',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 	1 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Jan-Christoph Borchardt',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 	2 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Hendrik Leppelsack',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.5,
-			 		 	'ratingOverall' => 0.5,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+					 		 		 	'translations' =>
+					 		 		 		 [
+					 		 		 		 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/screenshots/master/apps/Contacts/contacts.png',
+							 		 ],
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'Contacts',
+							 		 	'summary' => 'The new and improved app for your Contacts.',
+							 		 	'description' => 'The new and improved app for your Contacts.',
+							 		 ],
+							 ],
+						'isFeatured' => true,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'Alexander Weidinger',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 	1 =>
+							 		 [
+							 		 	'name' => 'Jan-Christoph Borchardt',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 	2 =>
+							 		 [
+							 		 	'name' => 'Hendrik Leppelsack',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.5,
+						'ratingOverall' => 0.5,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIIEAzCCAusCAhATMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -526,49 +526,49 @@ iuPit2pjkw3nWz0JRHneRXz/BNoAWBnJiV7JMF2xwBAHN4ghTM8NSJzrGTurmpMI
 Gld7yCP47xNPaAZEC66odcClvNtJ2Clgp8739jD6uJJCqcKDejeef0VU1PG7AXId
 52bVrGMxJwOuL1393vKxGH0PHDzcB1M=
 -----END CERTIFICATE-----',
-			 		 ],
-			 	4 =>
-			 		 [
-			 		 	'id' => 'mail',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'tools',
-			 		 		 ],
-			 		 	'userDocs' => '',
-			 		 	'adminDocs' => 'https://github.com/nextcloud/mail#readme',
-			 		 	'developerDocs' => '',
-			 		 	'issueTracker' => '',
-			 		 	'website' => '',
-			 		 	'created' => '2016-10-19T19:41:41.710285Z',
-			 		 	'lastModified' => '2016-10-19T19:57:33.689238Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '0.6.0',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '>=5.4.0 <7.1.0',
-			 		 		 		 	'platformVersionSpec' => '>=10.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://github.com/nextcloud/mail/releases/download/v0.6.0/mail.tar.gz',
-			 		 		 		 	'created' => '2016-10-19T19:57:33.676730Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-10-19T19:57:33.834580Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '>=5.4 <=7.0',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=10 <=11',
-			 		 		 		 	'signature' => 'VbMsvDpt+gSPeFM8LrZXEK10rk8kkLlgCcblgqNdCSeGZeVpwDAYv3CccVSLa0+l
+					 ],
+				4 =>
+					 [
+					 	'id' => 'mail',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'tools',
+					 		 ],
+					 	'userDocs' => '',
+					 	'adminDocs' => 'https://github.com/nextcloud/mail#readme',
+					 	'developerDocs' => '',
+					 	'issueTracker' => '',
+					 	'website' => '',
+					 	'created' => '2016-10-19T19:41:41.710285Z',
+					 	'lastModified' => '2016-10-19T19:57:33.689238Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '0.6.0',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'shellCommands' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'phpVersionSpec' => '>=5.4.0 <7.1.0',
+					 		 		 	'platformVersionSpec' => '>=10.0.0 <12.0.0',
+					 		 		 	'minIntSize' => 32,
+					 		 		 	'download' => 'https://github.com/nextcloud/mail/releases/download/v0.6.0/mail.tar.gz',
+					 		 		 	'created' => '2016-10-19T19:57:33.676730Z',
+					 		 		 	'licenses' =>
+					 		 		 		 [
+					 		 		 		 	0 => 'agpl',
+					 		 		 		 ],
+					 		 		 	'lastModified' => '2016-10-19T19:57:33.834580Z',
+					 		 		 	'isNightly' => false,
+					 		 		 	'rawPhpVersionSpec' => '>=5.4 <=7.0',
+					 		 		 	'rawPlatformVersionSpec' => '>=10 <=11',
+					 		 		 	'signature' => 'VbMsvDpt+gSPeFM8LrZXEK10rk8kkLlgCcblgqNdCSeGZeVpwDAYv3CccVSLa0+l
 lTSqQ0VIoH+OIU6vIQNBKHmSCzTplk7OrY0+L5FajXx8LnBaOh892GfGSlEt1neN
 KyM0i0uOjO/xpCP/NoUlgkz6hnmYY5XEdN6DTsJtJ/XZhDQ45IYuIkMkHE/eFehS
 0JnOagIz+PSipeBY2Ry+tV8YbRa7bC1JAvZzlod0dyI015AHZESeitRUY+MwMWkt
@@ -579,11 +579,11 @@ sP8OrkQFooL4E7S4BWfdSiN/a8jUITJQkuXp/OVrVGeCupLWJh7qegUw6DvoqyGy
 D4c6b+qYn68kx3CLaPPiz+tFAZQZQdj7+Kx/lohso8yTnVSiGYrMj4IvvCbpsQjg
 WF3WSqF/K/tTnPYTWb9NUPSihTbVNv6AXOfTsPEp/ba2YSS5DjvjVjkr5vhR9eg1
 ikQ3Cw6lW3vaA4LVCC+hFkMRnI4N0bo5qQavP3PnZPc=',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 	'en' =>
-			 		 		 		 		 		 [
-			 		 		 		 		 		 	'changelog' => '### Added
+					 		 		 	'translations' =>
+					 		 		 		 [
+					 		 		 		 	'en' =>
+					 		 		 		 		 [
+					 		 		 		 		 	'changelog' => '### Added
 - Alias support
   [#1523](https://github.com/owncloud/mail/pull/1523) @tahaalibra
 - New incoming messages are prefetched
@@ -616,37 +616,37 @@ ikQ3Cw6lW3vaA4LVCC+hFkMRnI4N0bo5qQavP3PnZPc=',
   [#1603](https://github.com/owncloud/mail/pull/1603) @ChristophWurst
 - Update folder counters when reading/deleting messages
   [#1585](https://github.com/owncloud/mail/pull/1585)',
-			 		 		 		 		 		 ],
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Mail',
-			 		 		 		 	'summary' => 'Easy to use email client which connects to your mail server via IMAP and SMTP.',
-			 		 		 		 	'description' => 'Easy to use email client which connects to your mail server via IMAP and SMTP.',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => false,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Christoph Wurst, Thomas Müller, Jan-Christoph Borchardt, Steffen Lindner & many more …',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.5,
-			 		 	'ratingOverall' => 0.5,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+					 		 		 		 		 ],
+											 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'Mail',
+							 		 	'summary' => 'Easy to use email client which connects to your mail server via IMAP and SMTP.',
+							 		 	'description' => 'Easy to use email client which connects to your mail server via IMAP and SMTP.',
+							 		 ],
+							 ],
+						'isFeatured' => false,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'Christoph Wurst, Thomas Müller, Jan-Christoph Borchardt, Steffen Lindner & many more …',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.5,
+						'ratingOverall' => 0.5,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIID/zCCAucCAhAVMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -670,99 +670,99 @@ ZETmzhx0BXDt5enJYs8R2KMYJNIme1easQRYmWKliXogNY09W7ifT9FHtVW1HX+K
 xRS4JXbapjolkxyGSpP+iYSgItVnYzl6o9KZResR4yDsBv7G/8fpV4GQU9IS3zLD
 PiZOosVHWJdpUKCw9V4P1prGTQ==
 -----END CERTIFICATE-----',
-			 		 ],
-			 	5 =>
-			 		 [
-			 		 	'id' => 'audioplayer',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'multimedia',
-			 		 		 ],
-			 		 	'userDocs' => 'https://github.com/rello/audioplayer/wiki#user-documentation',
-			 		 	'adminDocs' => 'https://github.com/rello/audioplayer/wiki#admin-documentation',
-			 		 	'developerDocs' => '',
-			 		 	'issueTracker' => 'https://github.com/rello/audioplayer/issues',
-			 		 	'website' => 'https://github.com/rello/audioplayer',
-			 		 	'created' => '2016-09-16T05:44:24.857567Z',
-			 		 	'lastModified' => '2016-11-17T22:34:34.637028Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '1.3.1',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '>=5.4.0',
-			 		 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://github.com/Rello/audioplayer/releases/download/1.3.1/audioplayer-1.3.1.tar.gz',
-			 		 		 		 	'created' => '2016-11-17T22:34:34.215350Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-11-17T22:34:34.867778Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '>=5.4',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
-			 		 		 		 	'signature' => 'p6Zz0IEFrxvw6y/3jHgGWWCxR6qpMzvU2HKfxcIVsK6sJnoRUhWLeAXwZ432fH2a S2llj+IGS9OvW+5VQElrXgPtEjDK1BT00DRJnp5RFCRlUv0LNoedJMzx6B6AHqPP JBufk3cG1O/CO0M0L1ITGSmSOzfKvWTRo3lxVGF792NyBaP/SyZCkH1N1TzBQzUi Ywl3+HiglPcXbHjtJm/arnKorbJWVKoaN93xFuaBapd2ozQSpi0fE0uGRsici+U7 HNa1M5WFE1rzUJoufE0E9246At07rFY1e+TdNEq8IlLgCXg5vGCKkEyuWpWno6aX LfRaIiT9x39UTAwNvuDKS0c+n4uWDYPsGfKhDx9N7CXpUrthfXVEWRzZEXG7as10 6ANvrRPJemSZH8FUSrdJhD7k12qa9R825y7mIG68Li8P71V92EOxFfo9tNXqXwBt VuDGxBqByFVPqSCj5I8hrzJzQl2Xt40g8+8ZcSF96RMg/pM+bwRMTv+mz0V+vQQ4 DWjqnWVPalaJ1PPD5/QFFErtXuNRbyxKZ6BMWxfJlLM9Kz66P75K+8fYaSwz+2KG NxY7I3svzS2K9LGH3fBLUy1t3Hl+c3zGFq/ll1MJrf9NswV4yxt2WmISfM/KDww8 yELkGs2cRzbw2tCvnmYlJJhIqRLkyFAbDzWRH/XdVx4=',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 	'en' =>
-			 		 		 		 		 		 [
-			 		 		 		 		 		 	'changelog' => '2016-11-17
+					 ],
+				5 =>
+					 [
+					 	'id' => 'audioplayer',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'multimedia',
+					 		 ],
+					 	'userDocs' => 'https://github.com/rello/audioplayer/wiki#user-documentation',
+					 	'adminDocs' => 'https://github.com/rello/audioplayer/wiki#admin-documentation',
+					 	'developerDocs' => '',
+					 	'issueTracker' => 'https://github.com/rello/audioplayer/issues',
+					 	'website' => 'https://github.com/rello/audioplayer',
+					 	'created' => '2016-09-16T05:44:24.857567Z',
+					 	'lastModified' => '2016-11-17T22:34:34.637028Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '1.3.1',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'shellCommands' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'phpVersionSpec' => '>=5.4.0',
+					 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
+					 		 		 	'minIntSize' => 32,
+					 		 		 	'download' => 'https://github.com/Rello/audioplayer/releases/download/1.3.1/audioplayer-1.3.1.tar.gz',
+					 		 		 	'created' => '2016-11-17T22:34:34.215350Z',
+					 		 		 	'licenses' =>
+					 		 		 		 [
+					 		 		 		 	0 => 'agpl',
+					 		 		 		 ],
+					 		 		 	'lastModified' => '2016-11-17T22:34:34.867778Z',
+					 		 		 	'isNightly' => false,
+					 		 		 	'rawPhpVersionSpec' => '>=5.4',
+					 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
+					 		 		 	'signature' => 'p6Zz0IEFrxvw6y/3jHgGWWCxR6qpMzvU2HKfxcIVsK6sJnoRUhWLeAXwZ432fH2a S2llj+IGS9OvW+5VQElrXgPtEjDK1BT00DRJnp5RFCRlUv0LNoedJMzx6B6AHqPP JBufk3cG1O/CO0M0L1ITGSmSOzfKvWTRo3lxVGF792NyBaP/SyZCkH1N1TzBQzUi Ywl3+HiglPcXbHjtJm/arnKorbJWVKoaN93xFuaBapd2ozQSpi0fE0uGRsici+U7 HNa1M5WFE1rzUJoufE0E9246At07rFY1e+TdNEq8IlLgCXg5vGCKkEyuWpWno6aX LfRaIiT9x39UTAwNvuDKS0c+n4uWDYPsGfKhDx9N7CXpUrthfXVEWRzZEXG7as10 6ANvrRPJemSZH8FUSrdJhD7k12qa9R825y7mIG68Li8P71V92EOxFfo9tNXqXwBt VuDGxBqByFVPqSCj5I8hrzJzQl2Xt40g8+8ZcSF96RMg/pM+bwRMTv+mz0V+vQQ4 DWjqnWVPalaJ1PPD5/QFFErtXuNRbyxKZ6BMWxfJlLM9Kz66P75K+8fYaSwz+2KG NxY7I3svzS2K9LGH3fBLUy1t3Hl+c3zGFq/ll1MJrf9NswV4yxt2WmISfM/KDww8 yELkGs2cRzbw2tCvnmYlJJhIqRLkyFAbDzWRH/XdVx4=',
+					 		 		 	'translations' =>
+					 		 		 		 [
+					 		 		 		 	'en' =>
+					 		 		 		 		 [
+					 		 		 		 		 	'changelog' => '2016-11-17
 - fix: one-click-play for wav not working
 - fix: wrong sql statement for PostgreSQL [#90](https://github.com/rello/audioplayer/issues/90)',
-			 		 		 		 		 		 ],
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://github.com/rello/screenshots/raw/master/audioplayer_main.png',
-			 		 		 		 ],
-			 		 		 	1 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://github.com/rello/screenshots/raw/master/audioplayer_lists.png',
-			 		 		 		 ],
-			 		 		 	2 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://github.com/rello/screenshots/raw/master/audioplayer_share.png',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Audio Player',
-			 		 		 		 	'summary' => 'Audio Player for ownCloud and Nextcloud',
-			 		 		 		 	'description' => 'Audio Player for MP3, MP4, Ogg, and Wave with a lot of flexibility for all your needs.',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => false,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Marcel Scherello',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.5,
-			 		 	'ratingOverall' => 0.5,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+					 		 		 		 		 ],
+											 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'url' => 'https://github.com/rello/screenshots/raw/master/audioplayer_main.png',
+							 		 ],
+							 	1 =>
+							 		 [
+							 		 	'url' => 'https://github.com/rello/screenshots/raw/master/audioplayer_lists.png',
+							 		 ],
+							 	2 =>
+							 		 [
+							 		 	'url' => 'https://github.com/rello/screenshots/raw/master/audioplayer_share.png',
+							 		 ],
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'Audio Player',
+							 		 	'summary' => 'Audio Player for ownCloud and Nextcloud',
+							 		 	'description' => 'Audio Player for MP3, MP4, Ogg, and Wave with a lot of flexibility for all your needs.',
+							 		 ],
+							 ],
+						'isFeatured' => false,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'Marcel Scherello',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.5,
+						'ratingOverall' => 0.5,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIIEBjCCAu4CAhAIMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -786,49 +786,49 @@ zi7mQDFxmAE6FWSMBgKKUb4tqLc5oBap8e12tPEZl/UR6d9iUB2ltvrm3T3vrjjl
 FNvGFVBn4r5qCiChEoq+rCXHRjPi/eCfbW21XeLFDiLxapcZyc85JIcA7znUYoFe
 P7Y/ekMscwWhLbF91OaQlcWpRtEMyde/DaI=
 -----END CERTIFICATE-----',
-			 		 ],
-			 	6 =>
-			 		 [
-			 		 	'id' => 'calendar',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'organization',
-			 		 		 ],
-			 		 	'userDocs' => 'https://docs.nextcloud.com/server/10/user_manual/pim/calendar.html',
-			 		 	'adminDocs' => '',
-			 		 	'developerDocs' => '',
-			 		 	'issueTracker' => 'https://github.com/nextcloud/calendar/issues',
-			 		 	'website' => 'https://github.com/nextcloud/calendar/',
-			 		 	'created' => '2016-10-01T12:40:39.060903Z',
-			 		 	'lastModified' => '2016-11-22T20:31:13.029921Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '1.4.1',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '*',
-			 		 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://github.com/nextcloud/calendar/releases/download/v1.4.1/calendar.tar.gz',
-			 		 		 		 	'created' => '2016-11-22T20:31:13.020268Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-11-22T20:31:13.087340Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '*',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
-			 		 		 		 	'signature' => 'nThwe9CJBCan9nuDLdhfBiQyPhmum6Aa0UcYsIDdhGMw+C2acf81KhEmBJuTTWxo
+					 ],
+				6 =>
+					 [
+					 	'id' => 'calendar',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'organization',
+					 		 ],
+					 	'userDocs' => 'https://docs.nextcloud.com/server/10/user_manual/pim/calendar.html',
+					 	'adminDocs' => '',
+					 	'developerDocs' => '',
+					 	'issueTracker' => 'https://github.com/nextcloud/calendar/issues',
+					 	'website' => 'https://github.com/nextcloud/calendar/',
+					 	'created' => '2016-10-01T12:40:39.060903Z',
+					 	'lastModified' => '2016-11-22T20:31:13.029921Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '1.4.1',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'shellCommands' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'phpVersionSpec' => '*',
+					 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
+					 		 		 	'minIntSize' => 32,
+					 		 		 	'download' => 'https://github.com/nextcloud/calendar/releases/download/v1.4.1/calendar.tar.gz',
+					 		 		 	'created' => '2016-11-22T20:31:13.020268Z',
+					 		 		 	'licenses' =>
+					 		 		 		 [
+					 		 		 		 	0 => 'agpl',
+					 		 		 		 ],
+					 		 		 	'lastModified' => '2016-11-22T20:31:13.087340Z',
+					 		 		 	'isNightly' => false,
+					 		 		 	'rawPhpVersionSpec' => '*',
+					 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
+					 		 		 	'signature' => 'nThwe9CJBCan9nuDLdhfBiQyPhmum6Aa0UcYsIDdhGMw+C2acf81KhEmBJuTTWxo
 WGby6WcrcJJmeuCW+ePU91ju7Pd76RirprhVXIEceIDzSCxin+K0oZCZ1IGVIJjP
 IkVehTsLuCeTBbjvz1b3k5QFyhUhvd32Xt7k5d7VARyI4OqnqYYNBtH9vvgeRrFw
 AxsQr4o4axof6i3iykLg6WfWarYArY4dIuu5DkPuGPWf2bbgjwWEra4sQejhOs7G
@@ -839,68 +839,68 @@ hh1FBfA5pvCJbkJ6nr5bU4bKaffwDX1nr5h77FS5zzn0Pyd7ZIExmVmNtaeJfnfV
 eFLKrUg3EvnTjvknbBxMB55h9jNJr0SAlkrmyEVm6+CE3BwRWpKB+cJMBuGiwPwv
 r/ASRiJrkDThbNWAUtX70rUmCqDV6/MujLXViqOc/Q2OHvcXd1oGDccJSQT92/1z
 7nonnedyYQIDqUt7u68WL8JRxp7pFsEqKLVuWSgxW3c=',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/1.png',
-			 		 		 		 ],
-			 		 		 	1 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/2.png',
-			 		 		 		 ],
-			 		 		 	2 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/3.png',
-			 		 		 		 ],
-			 		 		 	3 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/4.png',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Calendar',
-			 		 		 		 	'summary' => 'Calendar GUI for Nextcloud\'s CalDAV server',
-			 		 		 		 	'description' => 'The Nextcloud calendar app is a user interface for Nextcloud\'s CalDAV server.
+					 		 		 	'translations' =>
+					 		 		 		 [
+					 		 		 		 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/1.png',
+							 		 ],
+							 	1 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/2.png',
+							 		 ],
+							 	2 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/3.png',
+							 		 ],
+							 	3 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/4.png',
+							 		 ],
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'Calendar',
+							 		 	'summary' => 'Calendar GUI for Nextcloud\'s CalDAV server',
+							 		 	'description' => 'The Nextcloud calendar app is a user interface for Nextcloud\'s CalDAV server.
 
 It integrates with other apps, allows you to manage calendars and events, display external calendars and invite attendees to your events',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => true,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Georg Ehrke',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => 'https://georg.coffee',
-			 		 		 		 ],
-			 		 		 	1 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Raghu Nayyar',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => 'http://raghunayyar.com',
-			 		 		 		 ],
-			 		 		 	2 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Thomas Citharel',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => 'https://tcit.fr',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.94444444444444398,
-			 		 	'ratingOverall' => 0.94444444444444398,
-			 		 	'ratingNumRecent' => 9,
-			 		 	'ratingNumOverall' => 9,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+							 		 ],
+							 ],
+						'isFeatured' => true,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'Georg Ehrke',
+							 		 	'mail' => '',
+							 		 	'homepage' => 'https://georg.coffee',
+							 		 ],
+							 	1 =>
+							 		 [
+							 		 	'name' => 'Raghu Nayyar',
+							 		 	'mail' => '',
+							 		 	'homepage' => 'http://raghunayyar.com',
+							 		 ],
+							 	2 =>
+							 		 [
+							 		 	'name' => 'Thomas Citharel',
+							 		 	'mail' => '',
+							 		 	'homepage' => 'https://tcit.fr',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.94444444444444398,
+						'ratingOverall' => 0.94444444444444398,
+						'ratingNumRecent' => 9,
+						'ratingNumOverall' => 9,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIIEAzCCAusCAhARMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -924,49 +924,49 @@ D3xxtc17ll3B5IqrMnMHRqmOQ39Sbe56Y7T4agaIz/sUWpseo85D5kt7UAIOR+Mr
 Q0Bl/QinETk72afGR46Qvc7tC1t9JjQQD3AUbEGuJdGvXjJJ9GREYu01XoODmPdT
 jXXOI8XIOK6kxXhPHUc3iWu9b4KqGm0=
 -----END CERTIFICATE-----',
-			 		 ],
-			 	8 =>
-			 		 [
-			 		 	'id' => 'ownpad',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'tools',
-			 		 		 ],
-			 		 	'userDocs' => 'https://github.com/otetard/ownpad/blob/master/README.md#mimetype-detection',
-			 		 	'adminDocs' => '',
-			 		 	'developerDocs' => '',
-			 		 	'issueTracker' => 'https://github.com/otetard/ownpad/issues',
-			 		 	'website' => '',
-			 		 	'created' => '2016-09-29T15:58:52.814912Z',
-			 		 	'lastModified' => '2016-11-19T17:37:52.278497Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '0.5.6',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '*',
-			 		 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://github.com/otetard/ownpad/releases/download/v0.5.6/ownpad.tar.gz',
-			 		 		 		 	'created' => '2016-11-19T17:37:52.234684Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-11-19T17:37:52.423930Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '*',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
-			 		 		 		 	'signature' => 'dh+Txg1iVfqXr8+cxplNQuBZGErSnXUo0ewGwnybNMJqp8/EjEo72+zPpW3dVnhY
+					 ],
+				8 =>
+					 [
+					 	'id' => 'ownpad',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'tools',
+					 		 ],
+					 	'userDocs' => 'https://github.com/otetard/ownpad/blob/master/README.md#mimetype-detection',
+					 	'adminDocs' => '',
+					 	'developerDocs' => '',
+					 	'issueTracker' => 'https://github.com/otetard/ownpad/issues',
+					 	'website' => '',
+					 	'created' => '2016-09-29T15:58:52.814912Z',
+					 	'lastModified' => '2016-11-19T17:37:52.278497Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '0.5.6',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'shellCommands' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'phpVersionSpec' => '*',
+					 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
+					 		 		 	'minIntSize' => 32,
+					 		 		 	'download' => 'https://github.com/otetard/ownpad/releases/download/v0.5.6/ownpad.tar.gz',
+					 		 		 	'created' => '2016-11-19T17:37:52.234684Z',
+					 		 		 	'licenses' =>
+					 		 		 		 [
+					 		 		 		 	0 => 'agpl',
+					 		 		 		 ],
+					 		 		 	'lastModified' => '2016-11-19T17:37:52.423930Z',
+					 		 		 	'isNightly' => false,
+					 		 		 	'rawPhpVersionSpec' => '*',
+					 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
+					 		 		 	'signature' => 'dh+Txg1iVfqXr8+cxplNQuBZGErSnXUo0ewGwnybNMJqp8/EjEo72+zPpW3dVnhY
 67YCvhrm2bo+VRdFFymEfymzSJu9nWVFkGJhEwvTxPyIdAtuD5YAVrzmnR6L+H7m
 7Q1nXE63ICPCAQpHkxIfIXLh25OhWeyofBB8AVsjDUNn58FEYJ8fFkr6dCgPriZS
 sM2J+xtZMDYufy+xFMsVf/Q3WopjFuBjMC3qOecW76ZTwtREaswOC2RtpzUku2r1
@@ -977,46 +977,46 @@ qEC5WBgJucsFxSvkHh52v43M8jgPYBfHWEL/M/+377z3+mbuIh+BcQ+vcDdiqxTF
 o3n0+gw3QYIhLEe75sUhxG6ynVUdW25AKKju1kVj3KJnZTBH1R8t8/zy4DnJG8d4
 uRGqyU4BXpZjEC3nVlsC7vCncWWhxl0WZQ/MWKqsfjVAU4I88E518D6NioqMnPEJ
 iCZ2x+69UCDEQyfCSKajgAYT17r3OhZei8F9KSCH8Vw=',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Ownpad',
-			 		 		 		 	'summary' => '
+					 		 		 	'translations' =>
+					 		 		 		 [
+					 		 		 		 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'Ownpad',
+							 		 	'summary' => '
     Create and open Etherpad and Ethercalc documents.
   ',
-			 		 		 		 	'description' => '
+							 		 	'description' => '
     Ownpad is an ownCloud application that allows to create and open
     Etherpad and Ethercalc documents.
 
     This application requires to have access to an instance of
     Etherpad and/or Ethercalc to work properly.
   ',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => false,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Olivier Tétard',
-			 		 		 		 	'mail' => 'olivier.tetard@miskin.fr',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.5,
-			 		 	'ratingOverall' => 0.5,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+							 		 ],
+							 ],
+						'isFeatured' => false,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'Olivier Tétard',
+							 		 	'mail' => 'olivier.tetard@miskin.fr',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.5,
+						'ratingOverall' => 0.5,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIIEATCCAukCAhAPMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -1040,90 +1040,90 @@ ifneTw/Ba1d0AXBOq0c0HFyGxMPIlWe4qn5LtxH5t0wyVGeSj4jyv4nvd3ZGuAgY
 EUa2uYht/z475k4+vf0YhV98iQH07GnmlfD2TDZgmOCQGKlNfJh1v88OZyLLa3dz
 gRHzGwKbAiJ8T8bbpZ3e2ozXxADr
 -----END CERTIFICATE-----',
-			 		 ],
-			 	9 =>
-			 		 [
-			 		 	'id' => 'announcementcenter',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'organization',
-			 		 		 ],
-			 		 	'userDocs' => '',
-			 		 	'adminDocs' => '',
-			 		 	'developerDocs' => '',
-			 		 	'issueTracker' => 'https://github.com/nextcloud/announcementcenter/issues',
-			 		 	'website' => 'https://github.com/nextcloud/announcementcenter',
-			 		 	'created' => '2016-09-14T10:38:53.939634Z',
-			 		 	'lastModified' => '2016-11-24T11:21:50.324839Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '2.0.0',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '*',
-			 		 		 		 	'platformVersionSpec' => '>=10.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://github.com/nextcloud/announcementcenter/releases/download/v2.0.0/announcementcenter-2.0.0.tar.gz',
-			 		 		 		 	'created' => '2016-10-06T12:41:56.195206Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-10-06T12:41:56.263124Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '*',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=10 <=11',
-			 		 		 		 	'signature' => 'NVWYz73KtuoZ7ti2sluztJO5aFUc7PzhlDcg0VWyAQd1H7sk5wjw7i0bhrjw8O7M
+					 ],
+				9 =>
+					 [
+					 	'id' => 'announcementcenter',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'organization',
+					 		 ],
+					 	'userDocs' => '',
+					 	'adminDocs' => '',
+					 	'developerDocs' => '',
+					 	'issueTracker' => 'https://github.com/nextcloud/announcementcenter/issues',
+					 	'website' => 'https://github.com/nextcloud/announcementcenter',
+					 	'created' => '2016-09-14T10:38:53.939634Z',
+					 	'lastModified' => '2016-11-24T11:21:50.324839Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '2.0.0',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'shellCommands' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'phpVersionSpec' => '*',
+					 		 		 	'platformVersionSpec' => '>=10.0.0 <12.0.0',
+					 		 		 	'minIntSize' => 32,
+					 		 		 	'download' => 'https://github.com/nextcloud/announcementcenter/releases/download/v2.0.0/announcementcenter-2.0.0.tar.gz',
+					 		 		 	'created' => '2016-10-06T12:41:56.195206Z',
+					 		 		 	'licenses' =>
+					 		 		 		 [
+					 		 		 		 	0 => 'agpl',
+					 		 		 		 ],
+					 		 		 	'lastModified' => '2016-10-06T12:41:56.263124Z',
+					 		 		 	'isNightly' => false,
+					 		 		 	'rawPhpVersionSpec' => '*',
+					 		 		 	'rawPlatformVersionSpec' => '>=10 <=11',
+					 		 		 	'signature' => 'NVWYz73KtuoZ7ti2sluztJO5aFUc7PzhlDcg0VWyAQd1H7sk5wjw7i0bhrjw8O7M
 Lsrb+PegnsL9eMlYM2WrRom+RF1PDP482xymZf1T8vh8qcTCm3TK89xSuiSm8yoA
 iWUb/Uv/ODj74wVDWqWxAFKaAG/FestCB3InOOZQqQZLzlAV0U9ziYDGNzBjFqof
 9rLNxJ2IOqZOA7hhMIKhSrpA0KkSfNhBsVf8CWClYnVkZQiq0LoYkHkHIlXmXUr3
 OfQFKEjtsx+bNLa6CkAaocHGHJXAofX3GQZ9cjBsjZqiTfbXfcVk0kRfz7pwL92L
 I1McfJYvgMxDQG5bjRpNJw==',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://github.com/nextcloud/announcementcenter/raw/stable10/docs/AnnouncementCenterFrontpage.png',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Announcement Center',
-			 		 		 		 	'summary' => 'An announcement center for Nextcloud',
-			 		 		 		 	'description' => 'An announcement center for Nextcloud',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => true,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Joas Schilling',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.75,
-			 		 	'ratingOverall' => 0.75,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+					 		 		 	'translations' =>
+					 		 		 		 [
+					 		 		 		 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'url' => 'https://github.com/nextcloud/announcementcenter/raw/stable10/docs/AnnouncementCenterFrontpage.png',
+							 		 ],
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'Announcement Center',
+							 		 	'summary' => 'An announcement center for Nextcloud',
+							 		 	'description' => 'An announcement center for Nextcloud',
+							 		 ],
+							 ],
+						'isFeatured' => true,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'Joas Schilling',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.75,
+						'ratingOverall' => 0.75,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIIDDTCCAfUCAhABMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -1142,50 +1142,50 @@ sli/yAYQRTVDsXD8A3ACYT7BG31jGxyXtIHzqCci0MhZFdKKayMYkwfjZchIUtGN
 JJoU8LQoHwGRtp3wutk0GlFzpEQEvSsn/Lsvvot5IfIe46tnzA6MVj5s64s5G8+Q
 phhXFlzXqO/VxquPdbfYjvU=
 -----END CERTIFICATE-----',
-			 		 ],
-			 	11 =>
-			 		 [
-			 		 	'id' => 'rainloop',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'social',
-			 		 		 	1 => 'tools',
-			 		 		 ],
-			 		 	'userDocs' => '',
-			 		 	'adminDocs' => '',
-			 		 	'developerDocs' => '',
-			 		 	'issueTracker' => 'https://github.com/RainLoop/rainloop-webmail/issues',
-			 		 	'website' => 'http://www.rainloop.net/',
-			 		 	'created' => '2016-10-20T04:17:37.217555Z',
-			 		 	'lastModified' => '2016-11-18T11:36:04.309739Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '4.26.0',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '>=5.4.0',
-			 		 		 		 	'platformVersionSpec' => '>=10.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://github.com/pierre-alain-b/rainloop-nextcloud/releases/download/v4.26.0/rainloop-4.26.0.tar.gz',
-			 		 		 		 	'created' => '2016-10-20T04:28:21.491747Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-11-18T11:36:04.619927Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '>=5.4',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=10 <=11',
-			 		 		 		 	'signature' => 'nTYIVSB6mIwKtXIrKoVGsOGFflpLjed8jFem1VLQNtXQj4bztnNrdc4YaPIn0yzM
+					 ],
+				11 =>
+					 [
+					 	'id' => 'rainloop',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'social',
+					 		 	1 => 'tools',
+					 		 ],
+					 	'userDocs' => '',
+					 	'adminDocs' => '',
+					 	'developerDocs' => '',
+					 	'issueTracker' => 'https://github.com/RainLoop/rainloop-webmail/issues',
+					 	'website' => 'http://www.rainloop.net/',
+					 	'created' => '2016-10-20T04:17:37.217555Z',
+					 	'lastModified' => '2016-11-18T11:36:04.309739Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '4.26.0',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'shellCommands' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'phpVersionSpec' => '>=5.4.0',
+					 		 		 	'platformVersionSpec' => '>=10.0.0 <12.0.0',
+					 		 		 	'minIntSize' => 32,
+					 		 		 	'download' => 'https://github.com/pierre-alain-b/rainloop-nextcloud/releases/download/v4.26.0/rainloop-4.26.0.tar.gz',
+					 		 		 	'created' => '2016-10-20T04:28:21.491747Z',
+					 		 		 	'licenses' =>
+					 		 		 		 [
+					 		 		 		 	0 => 'agpl',
+					 		 		 		 ],
+					 		 		 	'lastModified' => '2016-11-18T11:36:04.619927Z',
+					 		 		 	'isNightly' => false,
+					 		 		 	'rawPhpVersionSpec' => '>=5.4',
+					 		 		 	'rawPlatformVersionSpec' => '>=10 <=11',
+					 		 		 	'signature' => 'nTYIVSB6mIwKtXIrKoVGsOGFflpLjed8jFem1VLQNtXQj4bztnNrdc4YaPIn0yzM
 yLpMSqRDNzdYNFuOeDiyKLPJPTA++MotLCNjEe7kxUekek+m+qzgnGBdcT7RQT6R
 p9xWGecnVx94d6aA55uiRhgQRyHpdDMMLCOz1be+HvpwHy69DRFZ1+SPmGUt6eW0
 u5yS0vHCu1K22cbrVNXFKjxAOlGcIDm61oQuz7ycl3uAujZO4rZbWt55jilgKGak
@@ -1196,42 +1196,42 @@ hgFhPrg+7rf7g6UmJFOCp0dC9sBdyQ3KtJkv7bGqPr854r2cdA7xW0QHWQ2in9qQ
 LhIczc32ECi3ZVVgyF8zyT4Y/3MRS05oX3FHvHyt88mjni6bVaO78F7ZRSha8gHh
 NOAkku7AMXPvUCHaZP2iVCCoAViEso8GeR3O8xh2G42Ai61RLYwx8LB1+23EoJTr
 mfFuRYNSg+qAKCokXNnh+lDlwu4AkaQo3vtKGPXvU7A=',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/pierre-alain-b/rainloop-nextcloud/master/screenshots/2016.10.20-screenshot.jpg',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'RainLoop',
-			 		 		 		 	'summary' => 'RainLoop Webmail',
-			 		 		 		 	'description' => 'Simple, modern and fast web-based email client.',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => false,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'RainLoop Team',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.5,
-			 		 	'ratingOverall' => 0.5,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+					 		 		 	'translations' =>
+					 		 		 		 [
+					 		 		 		 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/pierre-alain-b/rainloop-nextcloud/master/screenshots/2016.10.20-screenshot.jpg',
+							 		 ],
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'RainLoop',
+							 		 	'summary' => 'RainLoop Webmail',
+							 		 	'description' => 'Simple, modern and fast web-based email client.',
+							 		 ],
+							 ],
+						'isFeatured' => false,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'RainLoop Team',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.5,
+						'ratingOverall' => 0.5,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIIEAzCCAusCAhAXMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -1255,103 +1255,103 @@ pzAeVGiABI/e5URpxzz2UayRX7EE+vtpe3B84hzkLqsq0N39ZN6KLfaTyEBGLzqE
 iLYeXQTV0XSRs8xVt+iyGlj7nPkv2DR0oCqRpWUFWeSBI//niDG5WxS3qg8kacSW
 fDSYhSN+IjrnIkwNtc8V9t7/GeQB5FE=
 -----END CERTIFICATE-----',
-			 		 ],
-			 	12 =>
-			 		 [
-			 		 	'id' => 'richdocuments',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'integration',
-			 		 		 	1 => 'office',
-			 		 		 ],
-			 		 	'userDocs' => 'https://nextcloud.com/collaboraonline/',
-			 		 	'adminDocs' => 'https://nextcloud.com/collaboraonline/',
-			 		 	'developerDocs' => '',
-			 		 	'issueTracker' => 'https://github.com/owncloud/richdocuments/issues',
-			 		 	'website' => '',
-			 		 	'created' => '2016-10-31T08:55:45.631429Z',
-			 		 	'lastModified' => '2016-11-24T12:13:53.905352Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '1.1.14',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '*',
-			 		 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://github.com/owncloud/richdocuments/releases/download/1.1.14/richdocuments.tar.gz',
-			 		 		 		 	'created' => '2016-11-24T12:10:13.337165Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-11-24T12:13:53.963638Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '*',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
-			 		 		 		 	'signature' => 'prDGlfRPxqT6LP0BsAFPwGww7P4Bngha2N4u5B6+F02N+RVOjGtTcXKqvM1KjZb1
+					 ],
+				12 =>
+					 [
+					 	'id' => 'richdocuments',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'integration',
+					 		 	1 => 'office',
+					 		 ],
+					 	'userDocs' => 'https://nextcloud.com/collaboraonline/',
+					 	'adminDocs' => 'https://nextcloud.com/collaboraonline/',
+					 	'developerDocs' => '',
+					 	'issueTracker' => 'https://github.com/owncloud/richdocuments/issues',
+					 	'website' => '',
+					 	'created' => '2016-10-31T08:55:45.631429Z',
+					 	'lastModified' => '2016-11-24T12:13:53.905352Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '1.1.14',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'shellCommands' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'phpVersionSpec' => '*',
+					 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
+					 		 		 	'minIntSize' => 32,
+					 		 		 	'download' => 'https://github.com/owncloud/richdocuments/releases/download/1.1.14/richdocuments.tar.gz',
+					 		 		 	'created' => '2016-11-24T12:10:13.337165Z',
+					 		 		 	'licenses' =>
+					 		 		 		 [
+					 		 		 		 	0 => 'agpl',
+					 		 		 		 ],
+					 		 		 	'lastModified' => '2016-11-24T12:13:53.963638Z',
+					 		 		 	'isNightly' => false,
+					 		 		 	'rawPhpVersionSpec' => '*',
+					 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
+					 		 		 	'signature' => 'prDGlfRPxqT6LP0BsAFPwGww7P4Bngha2N4u5B6+F02N+RVOjGtTcXKqvM1KjZb1
 Co7qJvgJmjpvIvDmB+rup02i8ObfwP2ct6UdsD7ouzOWJG2sJANXK31bHyvOmQ2h
 vKu5eNcOkf+WFyFKYi51TbsfWn2+1Wge3WWujKAVcEvqtcOOz+uMWNtqzBptEupk
 E1aaRnQfTx488YB8Ubul06LIY0PNCHgGCWPgy817tOVT7JA+V0P0FFonl/PXE0dr
 WgtxRJmvGaNiFzYq+kQmdKMfayZTm3kdVgP0W52t5wp878K0i4s2KPg5lANvjTz7
 DCT+VV2IGIE52o4RpMUGyQ==',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-document.png',
-			 		 		 		 ],
-			 		 		 	1 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-app.png',
-			 		 		 		 ],
-			 		 		 	2 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-presentation.png',
-			 		 		 		 ],
-			 		 		 	3 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-spreadsheet.png',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Collabora Online',
-			 		 		 		 	'summary' => 'Edit office documents directly in your browser.',
-			 		 		 		 	'description' => 'Collabora Online allows you to to work with all kinds of office documents directly in your browser. This application requires Collabora Cloudsuite to be installed on one of your servers, please read the documentation to learn more about that.',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => false,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.5,
-			 		 	'ratingOverall' => 0.5,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+					 		 		 	'translations' =>
+					 		 		 		 [
+					 		 		 		 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'url' => 'https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-document.png',
+							 		 ],
+							 	1 =>
+							 		 [
+							 		 	'url' => 'https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-app.png',
+							 		 ],
+							 	2 =>
+							 		 [
+							 		 	'url' => 'https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-presentation.png',
+							 		 ],
+							 	3 =>
+							 		 [
+							 		 	'url' => 'https://nextcloud.com/wp-content/themes/next/assets/img/features/collabora-spreadsheet.png',
+							 		 ],
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'Collabora Online',
+							 		 	'summary' => 'Edit office documents directly in your browser.',
+							 		 	'description' => 'Collabora Online allows you to to work with all kinds of office documents directly in your browser. This application requires Collabora Cloudsuite to be installed on one of your servers, please read the documentation to learn more about that.',
+							 		 ],
+							 ],
+						'isFeatured' => false,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'Collabora Productivity based on work of Frank Karlitschek, Victor Dubiniuk',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.5,
+						'ratingOverall' => 0.5,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIIDCDCCAfACAhAZMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -1370,70 +1370,70 @@ Ru1DXn+LW7TJ4NZ8VtLWvmW/6Kfmi7dQ1V++Kmn0lO5ntRt5altePbStCHC8bhGp
 myBOrjhrJgLIwvgH26MYZhdiSkFzoE38nMPZdrUmUDxcPCwucWJqgzDPudguFthj
 WCVZ3TTG/2z3+tWM
 -----END CERTIFICATE-----',
-			 		 ],
-			 	13 =>
-			 		 [
-			 		 	'id' => 'ocr',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'files',
-			 		 		 	1 => 'tools',
-			 		 		 ],
-			 		 	'userDocs' => 'https://janis91.github.io/ocr/',
-			 		 	'adminDocs' => 'https://github.com/janis91/ocr/wiki',
-			 		 	'developerDocs' => 'https://github.com/janis91/ocr/wiki',
-			 		 	'issueTracker' => 'https://github.com/janis91/ocr/issues',
-			 		 	'website' => 'https://janis91.github.io/ocr/',
-			 		 	'created' => '2016-09-19T12:07:49.220376Z',
-			 		 	'lastModified' => '2016-11-21T11:22:21.024501Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '1.0.0',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 =>
-			 		 		 		 		 		 [
-			 		 		 		 		 		 	'id' => 'pgsql',
-			 		 		 		 		 		 	'versionSpec' => '*',
-			 		 		 		 		 		 	'rawVersionSpec' => '*',
-			 		 		 		 		 		 ],
-			 		 		 		 		 	1 =>
-			 		 		 		 		 		 [
-			 		 		 		 		 		 	'id' => 'mysql',
-			 		 		 		 		 		 	'versionSpec' => '*',
-			 		 		 		 		 		 	'rawVersionSpec' => '*',
-			 		 		 		 		 		 ],
-			 		 		 		 		 	2 =>
-			 		 		 		 		 		 [
-			 		 		 		 		 		 	'id' => 'sqlite',
-			 		 		 		 		 		 	'versionSpec' => '*',
-			 		 		 		 		 		 	'rawVersionSpec' => '*',
-			 		 		 		 		 		 ],
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'ocrmypdf',
-			 		 		 		 		 	1 => 'tesseract',
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '>=5.6.0 <8.0.0',
-			 		 		 		 	'platformVersionSpec' => '>=10.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://github.com/janis91/ocr/releases/download/v1.0.0/ocr.tar.gz',
-			 		 		 		 	'created' => '2016-10-24T06:50:43.283900Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-11-21T11:22:21.269108Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '>=5.6 <=7',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=10 <=11',
-			 		 		 		 	'signature' => 'CBJkCIiUKyf2NuWfz2zJ3grhf8p7wJes7DPV/OxUzhlxIH0Fh7K54+U5A9JOOi6f
+					 ],
+				13 =>
+					 [
+					 	'id' => 'ocr',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'files',
+					 		 	1 => 'tools',
+					 		 ],
+					 	'userDocs' => 'https://janis91.github.io/ocr/',
+					 	'adminDocs' => 'https://github.com/janis91/ocr/wiki',
+					 	'developerDocs' => 'https://github.com/janis91/ocr/wiki',
+					 	'issueTracker' => 'https://github.com/janis91/ocr/issues',
+					 	'website' => 'https://janis91.github.io/ocr/',
+					 	'created' => '2016-09-19T12:07:49.220376Z',
+					 	'lastModified' => '2016-11-21T11:22:21.024501Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '1.0.0',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 	0 =>
+					 		 		 		 		 [
+					 		 		 		 		 	'id' => 'pgsql',
+					 		 		 		 		 	'versionSpec' => '*',
+					 		 		 		 		 	'rawVersionSpec' => '*',
+					 		 		 		 		 ],
+					 		 		 		 	1 =>
+					 		 		 		 		 [
+					 		 		 		 		 	'id' => 'mysql',
+					 		 		 		 		 	'versionSpec' => '*',
+					 		 		 		 		 	'rawVersionSpec' => '*',
+					 		 		 		 		 ],
+					 		 		 		 	2 =>
+					 		 		 		 		 [
+					 		 		 		 		 	'id' => 'sqlite',
+					 		 		 		 		 	'versionSpec' => '*',
+					 		 		 		 		 	'rawVersionSpec' => '*',
+					 		 		 		 		 ],
+											 ],
+										'shellCommands' =>
+											 [
+											 	0 => 'ocrmypdf',
+											 	1 => 'tesseract',
+											 ],
+										'phpVersionSpec' => '>=5.6.0 <8.0.0',
+										'platformVersionSpec' => '>=10.0.0 <12.0.0',
+										'minIntSize' => 32,
+										'download' => 'https://github.com/janis91/ocr/releases/download/v1.0.0/ocr.tar.gz',
+										'created' => '2016-10-24T06:50:43.283900Z',
+										'licenses' =>
+											 [
+											 	0 => 'agpl',
+											 ],
+										'lastModified' => '2016-11-21T11:22:21.269108Z',
+										'isNightly' => false,
+										'rawPhpVersionSpec' => '>=5.6 <=7',
+										'rawPlatformVersionSpec' => '>=10 <=11',
+										'signature' => 'CBJkCIiUKyf2NuWfz2zJ3grhf8p7wJes7DPV/OxUzhlxIH0Fh7K54+U5A9JOOi6f
 WPhjXG1ylkyIVY1glr/B8svWNsD4jAclpnUi1/9ZW5UPT8LnRBfTbtF9Uoj0OgNs
 tsGQYbpuREoHnjbJWTRe0kq1OsOfX44xuf8PuX43B+lpQPW4iRSSz3ZIhdPcDGq1
 7pyqQM7gdKhBQ6/tOiwd7Enyt5Hi4V6jhwhUOCYeTNiLD2V3yKL+qA9DzpXUfNNw
@@ -1444,33 +1444,33 @@ GsrecNftUEhP/ngxA6lMBVkLmmdpiexVisvsavPi64i34OUA6qOuxjgNVBDwg56i
 D3tJOF7spnK6I3BhVLviou/zs30AIRVBDTU0Orzx78cbInwy6/vyJib2a1olAaHz
 v05SzlQRnBWM4jYBe0mA/2ds9AO6VrXGrT/iLlHemj6JYoGBM185TGewA7OJyX3a
 HSlSDqaremmi+aS3onx3AKhXykDxTRkMVarePwTzzFs=',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/janis91/ocr/master/screenshots/sc1.png',
-			 		 		 		 ],
-			 		 		 	1 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/janis91/ocr/master/screenshots/sc2.png',
-			 		 		 		 ],
-			 		 		 	2 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/janis91/ocr/master/screenshots/sc3.png',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'OCR',
-			 		 		 		 	'summary' => 'Character recoginition for your images and pdf files.',
-			 		 		 		 	'description' => '# Description
+										'translations' =>
+											 [
+											 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/janis91/ocr/master/screenshots/sc1.png',
+							 		 ],
+							 	1 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/janis91/ocr/master/screenshots/sc2.png',
+							 		 ],
+							 	2 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/janis91/ocr/master/screenshots/sc3.png',
+							 		 ],
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'OCR',
+							 		 	'summary' => 'Character recoginition for your images and pdf files.',
+							 		 	'description' => '# Description
 
 Nextcloud OCR (optical character recoginition) processing for images and PDF with tesseract-ocr and OCRmyPDF brings OCR capability to your Nextcloud 10.
 The app uses tesseract-ocr, OCRmyPDF and a php internal message queueing service in order to process images (png, jpeg, tiff) and PDF (currently not all PDF-types are supported, for more information see [here](https://github.com/jbarlow83/OCRmyPDF)) asynchronously and save the output file to the same folder in nextcloud, so you are able to search in it.
@@ -1488,12 +1488,12 @@ The OCR app has some prerequisites:
  - **[tesseract-ocr](https://github.com/tesseract-ocr/tesseract)** &gt;v3.02.02 with corresponding language files (e.g. tesseract-ocr-eng)
 
 For further information see the homepage or the appropriate documentation.',
-			 		 		 		 ],
-			 		 		 	'de' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'OCR',
-			 		 		 		 	'summary' => 'Schrifterkennung für Bilder (mit Text) und PDF Dateien.',
-			 		 		 		 	'description' => '# Beschreibung
+							 		 ],
+							 	'de' =>
+							 		 [
+							 		 	'name' => 'OCR',
+							 		 	'summary' => 'Schrifterkennung für Bilder (mit Text) und PDF Dateien.',
+							 		 	'description' => '# Beschreibung
 
 OCR (Automatische Texterkennung) für Bilder (mit Text) und PDF Dateien mithilfe von tesseract-ocr und OCRmyPDF ermöglicht Ihnen automatische Schrifterkennung direkt in Ihrer Nextcloud 10.
 Die App nutzt Tesseract-ocr, OCRmyPDF und den internen Message Queueing Service von PHP, um so asynchron (im Hintegrund) Bilder (PNG, JPEG, TIFF) und PDFs (aktuell werden nicht alle Typen unterstützt, näheres [hier](https://github.com/jbarlow83/OCRmyPDF)) zu verarbeiten. Das Ergebnis, welches jetzt durchsuchbar, kopierbar und ähnliches ist, wird anschließend im selben Ordner gespeichert, wie die Ursprungsdatei.
@@ -1511,23 +1511,23 @@ Für die OCR App müssen folgende Anforderungen erfüllt sein:
  - **[tesseract-ocr](https://github.com/tesseract-ocr/tesseract)** &gt;v3.02.02 mit den dazugehörigen Übersetzungs- und Sprachdateien (z. B. tesseract-ocr-deu)
 
 Für weiter Informationen besuchen Sie die Homepage oder lesen Sie die zutreffende Dokumentation.',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => false,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Janis Koehr',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.5,
-			 		 	'ratingOverall' => 0.5,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+							 		 ],
+							 ],
+						'isFeatured' => false,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'Janis Koehr',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.5,
+						'ratingOverall' => 0.5,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIID/jCCAuYCAhAKMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -1551,49 +1551,49 @@ HR7qPCNz4uG2Va7mlUHE3UYUYnlv8JFOV3YdbVL0nxhWwIdzSri5sxFIhdlabpzY
 yA1z/MCBEyTRo80jxFmL+MpwbsdbUJi7Qxlnd56zb6HHDGrLHXZTh9LXgyVbnhWL
 kxomWjIXQh4aMHQL4QF7U4EK
 -----END CERTIFICATE-----',
-			 		 ],
-			 	14 =>
-			 		 [
-			 		 	'id' => 'spreedme',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'tools',
-			 		 		 ],
-			 		 	'userDocs' => 'https://github.com/strukturag/nextcloud-spreedme/blob/master/README.md',
-			 		 	'adminDocs' => 'https://github.com/strukturag/nextcloud-spreedme/blob/master/README.md',
-			 		 	'developerDocs' => '',
-			 		 	'issueTracker' => 'https://github.com/strukturag/nextcloud-spreedme/issues',
-			 		 	'website' => '',
-			 		 	'created' => '2016-09-27T08:43:07.835196Z',
-			 		 	'lastModified' => '2016-11-21T16:51:23.703819Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '0.3.4',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '*',
-			 		 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://apps.owncloud.com/CONTENT/content-files/174436-spreedme.tar.gz',
-			 		 		 		 	'created' => '2016-11-21T16:51:23.689599Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-11-21T16:51:23.826509Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '*',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
-			 		 		 		 	'signature' => 'Mhy3hXeGWlIujx1Op39MMRdqHYOo360BCwr4FPWoTNNggH3aS0gWlh48DAfGYK9W
+					 ],
+				14 =>
+					 [
+					 	'id' => 'spreedme',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'tools',
+					 		 ],
+					 	'userDocs' => 'https://github.com/strukturag/nextcloud-spreedme/blob/master/README.md',
+					 	'adminDocs' => 'https://github.com/strukturag/nextcloud-spreedme/blob/master/README.md',
+					 	'developerDocs' => '',
+					 	'issueTracker' => 'https://github.com/strukturag/nextcloud-spreedme/issues',
+					 	'website' => '',
+					 	'created' => '2016-09-27T08:43:07.835196Z',
+					 	'lastModified' => '2016-11-21T16:51:23.703819Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '0.3.4',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'shellCommands' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'phpVersionSpec' => '*',
+					 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
+					 		 		 	'minIntSize' => 32,
+					 		 		 	'download' => 'https://apps.owncloud.com/CONTENT/content-files/174436-spreedme.tar.gz',
+					 		 		 	'created' => '2016-11-21T16:51:23.689599Z',
+					 		 		 	'licenses' =>
+					 		 		 		 [
+					 		 		 		 	0 => 'agpl',
+					 		 		 		 ],
+					 		 		 	'lastModified' => '2016-11-21T16:51:23.826509Z',
+					 		 		 	'isNightly' => false,
+					 		 		 	'rawPhpVersionSpec' => '*',
+					 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
+					 		 		 	'signature' => 'Mhy3hXeGWlIujx1Op39MMRdqHYOo360BCwr4FPWoTNNggH3aS0gWlh48DAfGYK9W
 etNiOqIuRyA0NrVlsqR2vDILgFtODJSbKPyHd3PQn3hcGsjogjQ+dkKciLNLinw7
 Ohbv6aDdRFLBeRHpX/7wOnWL5W3ko/gyn0Awvi88M9+nC5aARtqncQqPy2SxDGzH
 KlOZHSNDnEQCGMhA8hNWWKdVwNUJHod/wmBWpW5QVNSJq5DqrKZcNwpGM2UUJoql
@@ -1604,54 +1604,54 @@ bOks45K5gE1da4QpkYOUQa3GVMNPqPiT3CqjmJ8tjxq7bGpb6v+YoCLACjjPpPZL
 2Y28qLxwHVaINDFUUxD75WWdrlulRbqHwiSw8jolP9qrpXhDuLAqYam9tRwV5K5R
 8uNawnFwWkicBEYkN/WtBTouWzehOPn38tHXov6SyEyD6lkuxUBZrsGQ2ru+t33U
 k0kKCbV0GFw43I+3Ji5DiB4TUVNZYVoPG1B7Qve+UfA=',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/strukturag/nextcloud-spreedme/master/screenshots/appstore/conference.gif',
-			 		 		 		 ],
-			 		 		 	1 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/strukturag/nextcloud-spreedme/master/screenshots/appstore/presentation.png',
-			 		 		 		 ],
-			 		 		 	2 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/strukturag/nextcloud-spreedme/master/screenshots/appstore/import.png',
-			 		 		 		 ],
-			 		 		 	3 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/strukturag/nextcloud-spreedme/master/screenshots/appstore/users.png',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Spreed.ME',
-			 		 		 		 	'summary' => 'Audio-, video- and text chat for your Nextcloud',
-			 		 		 		 	'description' => 'Securely communicate with your friends and family using rich audio-, video- and text chat, and much more right from your Nextcloud – in your browser',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => false,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'struktur AG',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.5,
-			 		 	'ratingOverall' => 0.5,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+					 		 		 	'translations' =>
+					 		 		 		 [
+					 		 		 		 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/strukturag/nextcloud-spreedme/master/screenshots/appstore/conference.gif',
+							 		 ],
+							 	1 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/strukturag/nextcloud-spreedme/master/screenshots/appstore/presentation.png',
+							 		 ],
+							 	2 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/strukturag/nextcloud-spreedme/master/screenshots/appstore/import.png',
+							 		 ],
+							 	3 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/strukturag/nextcloud-spreedme/master/screenshots/appstore/users.png',
+							 		 ],
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'Spreed.ME',
+							 		 	'summary' => 'Audio-, video- and text chat for your Nextcloud',
+							 		 	'description' => 'Securely communicate with your friends and family using rich audio-, video- and text chat, and much more right from your Nextcloud – in your browser',
+							 		 ],
+							 ],
+						'isFeatured' => false,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'struktur AG',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.5,
+						'ratingOverall' => 0.5,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIIEAzCCAusCAhANMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -1675,50 +1675,50 @@ axCNzc7veb2M98hS73w5ZE6vO+C/wz0GTsxuK0AoLitApT5naQnjvxSvSsjFPEGD
 sUNUEU2Decyp0jxLVnrrpz6Y5UupfBR0V8yAv1t5Od/mCKLc5DxHsDWiKOpsob9U
 JN+bdzJil2NNftihD4Dm7Ha7OS3O8W0=
 -----END CERTIFICATE-----',
-			 		 ],
-			 	15 =>
-			 		 [
-			 		 	'id' => 'nextant',
-			 		 	'categories' =>
-			 		 		 [
-			 		 		 	0 => 'files',
-			 		 		 	1 => 'tools',
-			 		 		 ],
-			 		 	'userDocs' => '',
-			 		 	'adminDocs' => 'https://github.com/nextcloud/nextant/wiki',
-			 		 	'developerDocs' => '',
-			 		 	'issueTracker' => 'https://github.com/nextcloud/nextant/issues',
-			 		 	'website' => 'https://github.com/nextcloud/nextant/wiki',
-			 		 	'created' => '2016-09-14T14:34:35.977699Z',
-			 		 	'lastModified' => '2016-11-22T16:02:57.758477Z',
-			 		 	'releases' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'version' => '0.6.6',
-			 		 		 		 	'phpExtensions' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'databases' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'shellCommands' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 	'phpVersionSpec' => '*',
-			 		 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
-			 		 		 		 	'minIntSize' => 32,
-			 		 		 		 	'download' => 'https://github.com/nextcloud/nextant/releases/download/v0.6.6/nextant-0.6.6.tar.gz',
-			 		 		 		 	'created' => '2016-11-16T15:11:14.344704Z',
-			 		 		 		 	'licenses' =>
-			 		 		 		 		 [
-			 		 		 		 		 	0 => 'agpl',
-			 		 		 		 		 ],
-			 		 		 		 	'lastModified' => '2016-11-16T20:39:59.030384Z',
-			 		 		 		 	'isNightly' => false,
-			 		 		 		 	'rawPhpVersionSpec' => '*',
-			 		 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
-			 		 		 		 	'signature' => 'aOZeEeThyZ0V/vXBcn6c+Z0vyCsZcN6nfSJ8oWEea4zXh4g705Si+MFZESqix3M2
+					 ],
+				15 =>
+					 [
+					 	'id' => 'nextant',
+					 	'categories' =>
+					 		 [
+					 		 	0 => 'files',
+					 		 	1 => 'tools',
+					 		 ],
+					 	'userDocs' => '',
+					 	'adminDocs' => 'https://github.com/nextcloud/nextant/wiki',
+					 	'developerDocs' => '',
+					 	'issueTracker' => 'https://github.com/nextcloud/nextant/issues',
+					 	'website' => 'https://github.com/nextcloud/nextant/wiki',
+					 	'created' => '2016-09-14T14:34:35.977699Z',
+					 	'lastModified' => '2016-11-22T16:02:57.758477Z',
+					 	'releases' =>
+					 		 [
+					 		 	0 =>
+					 		 		 [
+					 		 		 	'version' => '0.6.6',
+					 		 		 	'phpExtensions' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'databases' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'shellCommands' =>
+					 		 		 		 [
+					 		 		 		 ],
+					 		 		 	'phpVersionSpec' => '*',
+					 		 		 	'platformVersionSpec' => '>=9.0.0 <12.0.0',
+					 		 		 	'minIntSize' => 32,
+					 		 		 	'download' => 'https://github.com/nextcloud/nextant/releases/download/v0.6.6/nextant-0.6.6.tar.gz',
+					 		 		 	'created' => '2016-11-16T15:11:14.344704Z',
+					 		 		 	'licenses' =>
+					 		 		 		 [
+					 		 		 		 	0 => 'agpl',
+					 		 		 		 ],
+					 		 		 	'lastModified' => '2016-11-16T20:39:59.030384Z',
+					 		 		 	'isNightly' => false,
+					 		 		 	'rawPhpVersionSpec' => '*',
+					 		 		 	'rawPlatformVersionSpec' => '>=9 <=11',
+					 		 		 	'signature' => 'aOZeEeThyZ0V/vXBcn6c+Z0vyCsZcN6nfSJ8oWEea4zXh4g705Si+MFZESqix3M2
 OPCnA/U8eASwdRTAEwQJrW5ECmu1THXSIsrzQzc9kFycvyOGzCgAWtuu0ayzZD2/
 U5aDWlzpLHC1Czg9QJ5UnfZR0AfChWQ402N1YzGqMShdJv6AHXFrVE+uYnIyxuYI
 oPJQBUYbQwthVUjpYwFwSxw50YU17gmx5RZ0Y0OPz3i/EiuEUrxopXtfDVYAuCML
@@ -1729,29 +1729,29 @@ oAKv2GkvWPQ0aiiBtA1i4oXuzvHW/M2wOrK7v7DCpNfILrD/sjxpljxcX082nRCd
 9P3iPd2hQ6yOM9fG21LVN74b6wggI81BzFf/xJPd4ZqYLjfeG/yqd0zaiMOzMm1W
 se+kc/a4iB3BoCNX3E942pBBzew4ya8LkCXdCHUUsuelDf1va1ikTh/G7D84ll9/
 2avNqQnUh3hgOnxFCLI/5VrbqxfSTVdO6O/LTuAmwgw=',
-			 		 		 		 	'translations' =>
-			 		 		 		 		 [
-			 		 		 		 		 ],
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'screenshots' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/nextant/master/screenshots/displayResult.jpg',
-			 		 		 		 ],
-			 		 		 	1 =>
-			 		 		 		 [
-			 		 		 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/nextant/master/screenshots/admin.jpg',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'translations' =>
-			 		 		 [
-			 		 		 	'en' =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Nextant',
-			 		 		 		 	'summary' => 'Navigate through your cloud using Solr',
-			 		 		 		 	'description' => '
+					 		 		 	'translations' =>
+					 		 		 		 [
+					 		 		 		 ],
+									 ],
+							 ],
+						'screenshots' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/nextant/master/screenshots/displayResult.jpg',
+							 		 ],
+							 	1 =>
+							 		 [
+							 		 	'url' => 'https://raw.githubusercontent.com/nextcloud/nextant/master/screenshots/admin.jpg',
+							 		 ],
+							 ],
+						'translations' =>
+							 [
+							 	'en' =>
+							 		 [
+							 		 	'name' => 'Nextant',
+							 		 	'summary' => 'Navigate through your cloud using Solr',
+							 		 	'description' => '
 	     Navigate through your cloud using Solr
 
 
@@ -1787,23 +1787,23 @@ se+kc/a4iB3BoCNX3E942pBBzew4ya8LkCXdCHUUsuelDf1va1ikTh/G7D84ll9/
 
 
 	',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'isFeatured' => false,
-			 		 	'authors' =>
-			 		 		 [
-			 		 		 	0 =>
-			 		 		 		 [
-			 		 		 		 	'name' => 'Maxence Lange',
-			 		 		 		 	'mail' => '',
-			 		 		 		 	'homepage' => '',
-			 		 		 		 ],
-			 		 		 ],
-			 		 	'ratingRecent' => 0.5,
-			 		 	'ratingOverall' => 0.5,
-			 		 	'ratingNumRecent' => 0,
-			 		 	'ratingNumOverall' => 0,
-			 		 	'certificate' => '-----BEGIN CERTIFICATE-----
+							 		 ],
+							 ],
+						'isFeatured' => false,
+						'authors' =>
+							 [
+							 	0 =>
+							 		 [
+							 		 	'name' => 'Maxence Lange',
+							 		 	'mail' => '',
+							 		 	'homepage' => '',
+							 		 ],
+							 ],
+						'ratingRecent' => 0.5,
+						'ratingOverall' => 0.5,
+						'ratingNumRecent' => 0,
+						'ratingNumOverall' => 0,
+						'certificate' => '-----BEGIN CERTIFICATE-----
 MIIEAjCCAuoCAhAFMA0GCSqGSIb3DQEBCwUAMHsxCzAJBgNVBAYTAkRFMRswGQYD
 VQQIDBJCYWRlbi1XdWVydHRlbWJlcmcxFzAVBgNVBAoMDk5leHRjbG91ZCBHbWJI
 MTYwNAYDVQQDDC1OZXh0Y2xvdWQgQ29kZSBTaWduaW5nIEludGVybWVkaWF0ZSBB
@@ -1827,7 +1827,7 @@ my7Z1C7jG9/h57vx0+QBMDCYnTmqLsvMKqo27uHskzAiB7VXLEdSZ2FtMGHkLUQO
 0bfhnvTZ2VhMmK83t7ovo71An4ycmsolGD/MA0vNI78VrVISrdI8rRh2WntUnCBU
 EJL3BaQAQaASSsvFrcozYxrQG4VzEg==
 -----END CERTIFICATE-----',
-			 		 ],
+					 ],
 			 ],
 		'timestamp' => 1234,
 		'ncversion' => '11.0.0.2',

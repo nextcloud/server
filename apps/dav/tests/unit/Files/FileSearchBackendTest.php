@@ -44,7 +44,6 @@ use OCP\Share\IManager;
 use SearchDAV\Backend\SearchPropertyDefinition;
 use SearchDAV\Query\Limit;
 use SearchDAV\Query\Query;
-use SearchDAV\XML\Operator;
 use Test\TestCase;
 
 class FileSearchBackendTest extends TestCase {
