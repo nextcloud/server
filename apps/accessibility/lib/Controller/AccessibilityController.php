@@ -42,8 +42,6 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IRequest;
-use OCP\IURLGenerator;
-use OCP\IUserManager;
 use OCP\IUserSession;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\Exception\ParserException;
@@ -60,23 +58,14 @@ class AccessibilityController extends Controller {
 	/** @var IConfig */
 	private $config;
 
-	/** @var IUserManager */
-	private $userManager;
-
 	/** @var ILogger */
 	private $logger;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
 
 	/** @var ITimeFactory */
 	protected $timeFactory;
 
 	/** @var IUserSession */
 	private $userSession;
-
-	/** @var IAppManager */
-	private $appManager;
 
 	/** @var IconsCacher */
 	protected $iconsCacher;
@@ -87,26 +76,13 @@ class AccessibilityController extends Controller {
 	/** @var null|string */
 	private $injectedVariables;
 
-	/**
-	 * Account constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param IUserManager $userManager
-	 * @param ILogger $logger
-	 * @param IURLGenerator $urlGenerator
-	 * @param ITimeFactory $timeFactory
-	 * @param IUserSession $userSession
-	 * @param IAppManager $appManager
-	 * @param \OC_Defaults $defaults
-	 */
+	/** @var string */
+	private $appRoot;
+
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
-								IUserManager $userManager,
 								ILogger $logger,
-								IURLGenerator $urlGenerator,
 								ITimeFactory $timeFactory,
 								IUserSession $userSession,
 								IAppManager $appManager,
@@ -115,17 +91,14 @@ class AccessibilityController extends Controller {
 		parent::__construct($appName, $request);
 		$this->appName = $appName;
 		$this->config = $config;
-		$this->userManager = $userManager;
 		$this->logger = $logger;
-		$this->urlGenerator = $urlGenerator;
 		$this->timeFactory = $timeFactory;
 		$this->userSession = $userSession;
-		$this->appManager = $appManager;
 		$this->iconsCacher = $iconsCacher;
 		$this->defaults = $defaults;
 
 		$this->serverRoot = \OC::$SERVERROOT;
-		$this->appRoot = $this->appManager->getAppPath($this->appName);
+		$this->appRoot = $appManager->getAppPath($this->appName);
 	}
 
 	/**
