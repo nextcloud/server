@@ -903,7 +903,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
-	public function testValidateExpirationDateNoDateNoDefaultNull() {
+	public function testValidateExpirationDateNoDefault() {
 		$date = new \DateTime();
 		$date->add(new \DateInterval('P5D'));
 
