@@ -962,6 +962,34 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
+	public function testValidateExpirationDateDefault() {
+		$future = new \DateTime();
+		$future->add(new \DateInterval('P5D'));
+		$future->setTime(0,0,0);
+
+		$expected = clone $future;
+
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($future);
+
+		$this->config->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_default_expire_date', 'no', 'yes'],
+				['core', 'shareapi_expire_after_n_days', '7', '3'],
+				['core', 'link_defaultExpDays', 3, '1'],
+			]);
+
+		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
+		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
+			return $data['expirationDate'] == $expected;
+		}));
+
+		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+
+		$this->assertEquals($expected, $share->getExpirationDate());
+	}
+
 	public function testValidateExpirationDateHookModification() {
 		$nextWeek = new \DateTime();
 		$nextWeek->add(new \DateInterval('P7D'));
