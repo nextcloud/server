@@ -889,6 +889,7 @@ class ManagerTest extends \Test\TestCase {
 			->willReturnMap([
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
+				['core', 'shareapi_default_expire_date', 'no', 'yes'],
 			]);
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
