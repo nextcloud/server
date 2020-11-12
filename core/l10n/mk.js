@@ -248,6 +248,7 @@ OC.L10N.register(
     "Back to %s" : "Врати се на %s",
     "Too many requests" : "Премногу барања",
     "Error" : "Грешка",
+    "Previous" : "Претходно",
     "Internal Server Error" : "Внатрешна серверска грешка",
     "The server was unable to complete your request." : "Серверот не е во можност да го комплетира вашето брање.",
     "If this happens again, please send the technical details below to the server administrator." : "Доколку ова се случи повторно, ве молиме испрате технички детали на администраторот на серверот.",
