@@ -940,19 +940,17 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testValidateExpirationDateNoDateDefault() {
-		$future = new \DateTime();
-		$future->add(new \DateInterval('P3D'));
-		$future->setTime(0,0,0);
-
-		$expected = clone $future;
-
 		$share = $this->manager->newShare();
-		$share->setExpirationDate($future);
+
+		$expected = new \DateTime();
+		$expected->add(new \DateInterval('P3D'));
+		$expected->setTime(0,0,0);
 
 		$this->config->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_default_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
+				['core', 'link_defaultExpDays', 3, '3'],
 			]);
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
