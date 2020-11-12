@@ -770,7 +770,6 @@ class ManagerTest extends \Test\TestCase {
 		$this->expectException(\OCP\Share\Exceptions\GenericShareException::class);
 		$this->expectExceptionMessage('Expiration date is in the past');
 
-
 		// Expire date in the past
 		$past = new \DateTime();
 		$past->sub(new \DateInterval('P1D'));
@@ -780,7 +779,6 @@ class ManagerTest extends \Test\TestCase {
 
 		self::invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
-
 
 	public function testValidateExpirationDateEnforceButNotSet() {
 		$this->expectException(\InvalidArgumentException::class);
@@ -876,7 +874,7 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListener, 'listener');
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
 		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($future) {
 			return $data['expirationDate'] == $future;
 		}));
@@ -897,7 +895,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->setExpirationDate($date);
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListener, 'listener');
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
 		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
 			return $data['expirationDate'] == $expected && $data['passwordSet'] === false;
 		}));
@@ -909,7 +907,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testValidateExpirationDateNoDateNoDefault() {
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListener, 'listener');
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
 		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) {
 			return $data['expirationDate'] === null && $data['passwordSet'] === true;
 		}));
@@ -939,7 +937,7 @@ class ManagerTest extends \Test\TestCase {
 			]);
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListener, 'listener');
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
 		$hookListener->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
 			return $data['expirationDate'] == $expected;
 		}));
@@ -957,7 +955,7 @@ class ManagerTest extends \Test\TestCase {
 		$save = clone $nextWeek;
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListener, 'listener');
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
 		$hookListener->expects($this->once())->method('listener')->willReturnCallback(function ($data) {
 			$data['expirationDate']->sub(new \DateInterval('P2D'));
 		});
@@ -971,7 +969,6 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertEquals($save, $share->getExpirationDate());
 	}
 
-
 	public function testValidateExpirationDateHookException() {
 		$this->expectException(\Exception::class);
 		$this->expectExceptionMessage('Invalid date!');
@@ -984,7 +981,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->setExpirationDate($nextWeek);
 
 		$hookListener = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListener, 'listener');
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate', $hookListener, 'listener');
 		$hookListener->expects($this->once())->method('listener')->willReturnCallback(function ($data) {
 			$data['accepted'] = false;
 			$data['message'] = 'Invalid date!';
@@ -1008,7 +1005,6 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->assertEquals(null, $share->getExpirationDate());
 	}
-
 
 	public function testUserCreateChecksShareWithGroupMembersOnlyDifferentGroups() {
 		$this->expectException(\Exception::class);
