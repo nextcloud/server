@@ -69,7 +69,7 @@ class Version0001Date20200602134824 extends SimpleMigrationStep {
 			'unsigned' => true,
 		]);
 		$statusTable->addColumn('is_user_defined', Types::BOOLEAN, [
-			'notnull' => true,
+			'notnull' => false,
 		]);
 		$statusTable->addColumn('message_id', Types::STRING, [
 			'notnull' => false,
