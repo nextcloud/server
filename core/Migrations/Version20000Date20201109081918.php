@@ -52,26 +52,28 @@ class Version20000Date20201109081918 extends SimpleMigrationStep {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
 
-		$table = $schema->createTable('storages_credentials');
-		$table->addColumn('id', Type::BIGINT, [
-			'autoincrement' => true,
-			'notnull' => true,
-			'length' => 64,
-		]);
-		$table->addColumn('user', Type::STRING, [
-			'notnull' => false,
-			'length' => 64,
-		]);
-		$table->addColumn('identifier', Type::STRING, [
-			'notnull' => true,
-			'length' => 64,
-		]);
-		$table->addColumn('credentials', Type::TEXT, [
-			'notnull' => false,
-		]);
-		$table->setPrimaryKey(['id']);
-		$table->addUniqueIndex(['user', 'identifier'], 'stocred_ui');
-		$table->addIndex(['user'], 'stocred_user');
+		if (!$schema->hasTable('storages_credentials')) {
+			$table = $schema->createTable('storages_credentials');
+			$table->addColumn('id', Type::BIGINT, [
+				'autoincrement' => true,
+				'notnull' => true,
+				'length' => 64,
+			]);
+			$table->addColumn('user', Type::STRING, [
+				'notnull' => false,
+				'length' => 64,
+			]);
+			$table->addColumn('identifier', Type::STRING, [
+				'notnull' => true,
+				'length' => 64,
+			]);
+			$table->addColumn('credentials', Type::TEXT, [
+				'notnull' => false,
+			]);
+			$table->setPrimaryKey(['id']);
+			$table->addUniqueIndex(['user', 'identifier'], 'stocred_ui');
+			$table->addIndex(['user'], 'stocred_user');
+		}
 
 		return $schema;
 	}
@@ -92,9 +94,9 @@ class Version20000Date20201109081918 extends SimpleMigrationStep {
 
 		$insert = $this->connection->getQueryBuilder();
 		$insert->insert('storages_credentials')
-			->setValue('user', $insert->createNamedParameter('user'))
-			->setValue('identifier', $insert->createNamedParameter('identifier'))
-			->setValue('credentials', $insert->createNamedParameter('credentials'));
+			->setValue('user', $insert->createParameter('user'))
+			->setValue('identifier', $insert->createParameter('identifier'))
+			->setValue('credentials', $insert->createParameter('credentials'));
 
 		$result = $query->execute();
 		while ($row = $result->fetch()) {
