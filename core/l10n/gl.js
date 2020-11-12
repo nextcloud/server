@@ -260,6 +260,7 @@ OC.L10N.register(
     "Too many requests" : "Demasiadas solicitudes",
     "There were too many requests from your network. Retry later or contact your administrator if this is an error." : "Houbo demasiadas solicitudes da súa rede. Volva tentalo máis adiante ou póñase en contacto co seu administrador se se trata dun erro.",
     "Error" : "Erro",
+    "Previous" : "Anterior",
     "Internal Server Error" : "Produciuse un erro interno do servidor",
     "The server was unable to complete your request." : "O servidor non foi quen de completar a súa solicitude. ",
     "If this happens again, please send the technical details below to the server administrator." : "Se volve suceder, a seguir envíe os detalles técnicos ao administrador do servidor.",

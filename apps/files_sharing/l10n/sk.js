@@ -169,6 +169,7 @@ OC.L10N.register(
     "Password protection" : "Ochrana heslom",
     "Enter a password" : "Zadajte heslo",
     "Expiration date (enforced)" : "Dátum ukončenia platnosti (vynútené)",
+    "Create share" : "Vytvoriť sprístupnenie",
     "Cancel" : "Zrušiť",
     "Share label" : "Štitok zdieľania",
     "Read only" : "Iba na čítanie",
@@ -186,6 +187,8 @@ OC.L10N.register(
     "Error, please enter proper password and/or expiration date" : "Chyba, zadajte správne heslo a/alebo dátum ukončenia platnosti",
     "No recommendations. Start typing." : "Žiadne odporúčania. Píšte.",
     "Resharing is not allowed" : "Opätovné sprístupňovanie nie je povolené",
+    "Name or email …" : "Meno alebo e-mail …",
+    "Name, email, or Federated Cloud ID …" : "Meno, e-mail alebo ID združeného cloudu …",
     "Searching …" : "Hľadá sa …",
     "No elements found." : "Nenájdené žiadne prvky.",
     "Search globally" : "Hľadať globálne",
@@ -228,6 +231,7 @@ OC.L10N.register(
     "Uploading files" : "Nahrávanie súborov",
     "Uploaded files:" : "Nahrané súbory...",
     "By uploading files, you agree to the %1$sterms of service%2$s." : "Nahraním súborov vyjadrujete súhlas so všeobecnými podmienkami %1$s %2$s.",
+    "Name, email, or federated cloud ID …" : "Meno, e-mail alebo ID združeného cloudu …",
     "Uploading files…" : "Nahrávanie súborov..."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
