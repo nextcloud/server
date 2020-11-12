@@ -4793,6 +4793,14 @@
       <code>true</code>
     </InvalidReturnType>
   </file>
+  <file src="lib/private/Files/Stream/Encryption.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$position</code>
+    </InvalidScalarArgument>
+    <UndefinedInterfaceMethod occurrences="1">
+      <code>$cacheEntry</code>
+    </UndefinedInterfaceMethod>
+  </file>
   <file src="lib/private/Files/Stream/SeekableHttpStream.php">
     <FalsableReturnStatement occurrences="3">
       <code>false</code>
