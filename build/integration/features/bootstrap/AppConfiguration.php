@@ -72,6 +72,19 @@ trait AppConfiguration {
 		}
 	}
 
+	/**
+	 * @param string $app
+	 * @param string $parameter
+	 * @param string $value
+	 */
+	protected function deleteServerConfig($app, $parameter) {
+		$this->sendingTo('DELETE', "/apps/testing/api/v1/app/{$app}/{$parameter}");
+		$this->theHTTPStatusCodeShouldBe('200');
+		if ($this->apiVersion === 1) {
+			$this->theOCSStatusCodeShouldBe('100');
+		}
+	}
+
 	protected function setStatusTestingApp($enabled) {
 		$this->sendingTo(($enabled ? 'post' : 'delete'), '/cloud/apps/testing');
 		$this->theHTTPStatusCodeShouldBe('200');
