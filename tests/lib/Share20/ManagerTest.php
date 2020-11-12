@@ -874,10 +874,10 @@ class ManagerTest extends \Test\TestCase {
 	public function testValidateExpirationDateEnforceValid() {
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P2D'));
-		$future->setTime(0,0,0);
+		$future->setTime(1,2,3);
 
 		$expected = clone $future;
-		$future->setTime(1,2,3);
+		$expected->setTime(0,0,0);
 
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($future);
@@ -903,6 +903,7 @@ class ManagerTest extends \Test\TestCase {
 	public function testValidateExpirationDateNoDefault() {
 		$date = new \DateTime();
 		$date->add(new \DateInterval('P5D'));
+		$date->setTime(1,2,3);
 
 		$expected = clone $date;
 		$expected->setTime(0,0,0);
@@ -964,9 +965,10 @@ class ManagerTest extends \Test\TestCase {
 	public function testValidateExpirationDateDefault() {
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P5D'));
-		$future->setTime(0,0,0);
+		$future->setTime(1,2,3);
 
 		$expected = clone $future;
+		$expected->setTime(0,0,0);
 
 		$share = $this->manager->newShare();
 		$share->setExpirationDate($future);
