@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * @copyright Copyright (c) 2019 Julius Härtl <jus@bitgrid.net>
+ * @copyright Copyright (c) 2020 Joas Schilling <coding@schilljs.com>
  *
- * @author Julius Härtl <jus@bitgrid.net>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -28,36 +28,26 @@ namespace OC\Core\Migrations;
 
 use Closure;
 use OCP\DB\ISchemaWrapper;
-use OCP\IDBConnection;
-use OCP\Migration\SimpleMigrationStep;
 use OCP\Migration\IOutput;
+use OCP\Migration\SimpleMigrationStep;
 
-class Version18000Date20191204114856 extends SimpleMigrationStep {
-
-	/** @var IDBConnection */
-	protected $connection;
-
-	public function __construct(IDBConnection $connection) {
-		$this->connection = $connection;
-	}
+class Version20000Date20201109081919 extends SimpleMigrationStep {
 
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
 	 * @param array $options
 	 * @return null|ISchemaWrapper
-	 * @throws \Doctrine\DBAL\Schema\SchemaException
 	 */
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		/** @var ISchemaWrapper $schema */
 		$schema = $schemaClosure();
-		$table = $schema->getTable('direct_edit');
 
-		$table->addColumn('file_path', 'string', [
-			'notnull' => false,
-			'length' => 4000,
-		]);
+		if ($schema->hasTable('credentials')) {
+			$schema->dropTable('credentials');
+			return $schema;
+		}
 
-		return $schema;
+		return null;
 	}
 }

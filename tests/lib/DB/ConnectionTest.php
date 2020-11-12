@@ -97,14 +97,17 @@ class ConnectionTest extends \Test\TestCase {
 		$this->assertTableNotExist('table');
 	}
 
-	private function getTextValueByIntergerField($integerField) {
+	private function getTextValueByIntegerField($integerField) {
 		$builder = $this->connection->getQueryBuilder();
-		$query = $builder->select('textfield')
+		$query = $builder->select('*')
 			->from('table')
 			->where($builder->expr()->eq('integerfield', $builder->createNamedParameter($integerField, IQueryBuilder::PARAM_INT)));
 
 		$result = $query->execute();
-		return $result->fetchColumn();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		return $row['textfield'] ?? null;
 	}
 
 	public function testSetValues() {
@@ -116,7 +119,7 @@ class ConnectionTest extends \Test\TestCase {
 			'clobfield' => 'not_null'
 		]);
 
-		$this->assertEquals('foo', $this->getTextValueByIntergerField(1));
+		$this->assertEquals('foo', $this->getTextValueByIntegerField(1));
 	}
 
 	public function testSetValuesOverWrite() {
@@ -133,7 +136,7 @@ class ConnectionTest extends \Test\TestCase {
 			'textfield' => 'bar'
 		]);
 
-		$this->assertEquals('bar', $this->getTextValueByIntergerField(1));
+		$this->assertEquals('bar', $this->getTextValueByIntegerField(1));
 	}
 
 	public function testSetValuesOverWritePrecondition() {
@@ -154,7 +157,7 @@ class ConnectionTest extends \Test\TestCase {
 			'booleanfield' => true
 		]);
 
-		$this->assertEquals('bar', $this->getTextValueByIntergerField(1));
+		$this->assertEquals('bar', $this->getTextValueByIntegerField(1));
 	}
 
 
@@ -200,6 +203,10 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	public function testInsertIfNotExist() {
+		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			self::markTestSkipped('Insert if not exist does not work with clob on oracle');
+		}
+
 		$this->makeTestTable();
 		$categoryEntries = [
 			['user' => 'test', 'category' => 'Family',    'expectedResult' => 1],
@@ -213,13 +220,15 @@ class ConnectionTest extends \Test\TestCase {
 			['user' => 'test2', 'category' => 'Coworkers', 'expectedResult' => 1],
 		];
 
+		$row = 0;
 		foreach ($categoryEntries as $entry) {
 			$result = $this->connection->insertIfNotExist('*PREFIX*table',
 				[
 					'textfield' => $entry['user'],
 					'clobfield' => $entry['category'],
-				]);
-			$this->assertEquals($entry['expectedResult'], $result);
+					'integerfield' => $row++,
+				], ['textfield', 'clobfield']);
+			$this->assertEquals($entry['expectedResult'], $result, json_encode($entry));
 		}
 
 		$query = $this->connection->prepare('SELECT * FROM `*PREFIX*table`');
@@ -229,6 +238,10 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	public function testInsertIfNotExistNull() {
+		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			self::markTestSkipped('Insert if not exist does not work with clob on oracle');
+		}
+
 		$this->makeTestTable();
 		$categoryEntries = [
 			['addressbookid' => 123, 'fullname' => null, 'expectedResult' => 1],
@@ -236,13 +249,15 @@ class ConnectionTest extends \Test\TestCase {
 			['addressbookid' => 123, 'fullname' => 'test', 'expectedResult' => 1],
 		];
 
+		$row = 0;
 		foreach ($categoryEntries as $entry) {
 			$result = $this->connection->insertIfNotExist('*PREFIX*table',
 				[
 					'integerfield_default' => $entry['addressbookid'],
 					'clobfield' => $entry['fullname'],
-				]);
-			$this->assertEquals($entry['expectedResult'], $result);
+					'integerfield' => $row++,
+				], ['integerfield_default', 'clobfield']);
+			$this->assertEquals($entry['expectedResult'], $result, json_encode($entry));
 		}
 
 		$query = $this->connection->prepare('SELECT * FROM `*PREFIX*table`');
@@ -252,6 +267,10 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	public function testInsertIfNotExistDonTOverwrite() {
+		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			self::markTestSkipped('Insert if not exist does not work with clob on oracle');
+		}
+
 		$this->makeTestTable();
 		$fullName = 'fullname test';
 		$uri = 'uri_1';
@@ -288,6 +307,10 @@ class ConnectionTest extends \Test\TestCase {
 	}
 
 	public function testInsertIfNotExistsViolating() {
+		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			self::markTestSkipped('Insert if not exist does not work with clob on oracle');
+		}
+
 		$this->makeTestTable();
 		$result = $this->connection->insertIfNotExist('*PREFIX*table',
 			[
@@ -318,6 +341,10 @@ class ConnectionTest extends \Test\TestCase {
 	 * @param array $compareKeys
 	 */
 	public function testInsertIfNotExistsViolatingUnique($compareKeys) {
+		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			self::markTestSkipped('Insert if not exist does not work with clob on oracle');
+		}
+
 		$this->makeTestTable();
 		$result = $this->connection->insertIfNotExist('*PREFIX*table',
 			[

@@ -39,6 +39,7 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Exception\ConstraintViolationException;
+use Doctrine\DBAL\Exception\NotNullConstraintViolationException;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use OC\DB\QueryBuilder\QueryBuilder;
@@ -297,6 +298,8 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 					}, array_merge($keys, $values))
 				);
 			return $insertQb->execute();
+		} catch (NotNullConstraintViolationException $e) {
+			throw $e;
 		} catch (ConstraintViolationException $e) {
 			// value already exists, try update
 			$updateQb = $this->getQueryBuilder();
@@ -307,11 +310,17 @@ class Connection extends ReconnectWrapper implements IDBConnection {
 			$where = $updateQb->expr()->andX();
 			$whereValues = array_merge($keys, $updatePreconditionValues);
 			foreach ($whereValues as $name => $value) {
-				$where->add($updateQb->expr()->eq(
-					$name,
-					$updateQb->createNamedParameter($value, $this->getType($value)),
-					$this->getType($value)
-				));
+				if ($value === '') {
+					$where->add($updateQb->expr()->emptyString(
+						$name
+					));
+				} else {
+					$where->add($updateQb->expr()->eq(
+						$name,
+						$updateQb->createNamedParameter($value, $this->getType($value)),
+						$this->getType($value)
+					));
+				}
 			}
 			$updateQb->where($where);
 			$affected = $updateQb->execute();

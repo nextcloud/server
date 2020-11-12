@@ -241,8 +241,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
 		$query->select($query->func()->count('*'))
-			->from('calendars')
-			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
+			->from('calendars');
+
+		if ($principalUri === '') {
+			$query->where($query->expr()->emptyString('principaluri'));
+		} else {
+			$query->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
+		}
 
 		if ($excludeBirthday) {
 			$query->andWhere($query->expr()->neq('uri', $query->createNamedParameter(BirthdayService::BIRTHDAY_CALENDAR_URI)));
@@ -292,13 +297,21 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		// Making fields a comma-delimited list
 		$query = $this->db->getQueryBuilder();
-		$query->select($fields)->from('calendars')
-				->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)))
-				->orderBy('calendarorder', 'ASC');
-		$stmt = $query->execute();
+		$query->select($fields)
+			->from('calendars')
+			->orderBy('calendarorder', 'ASC');
+
+		if ($principalUri === '') {
+			$query->where($query->expr()->emptyString('principaluri'));
+		} else {
+			$query->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
+		}
+
+		$result = $query->execute();
 
 		$calendars = [];
-		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+		while ($row = $result->fetch()) {
+			$row['principaluri'] = (string) $row['principaluri'];
 			$components = [];
 			if ($row['components']) {
 				$components = explode(',',$row['components']);
@@ -325,8 +338,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendars[$calendar['id']] = $calendar;
 			}
 		}
-
-		$stmt->closeCursor();
+		$result->closeCursor();
 
 		// query for shared calendars
 		$principals = $this->principalBackend->getGroupMembership($principalUriOriginal, true);
@@ -346,17 +358,19 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$fields[] = 'a.transparent';
 		$fields[] = 's.access';
 		$query = $this->db->getQueryBuilder();
-		$result = $query->select($fields)
+		$query->select($fields)
 			->from('dav_shares', 's')
 			->join('s', 'calendars', 'a', $query->expr()->eq('s.resourceid', 'a.id'))
 			->where($query->expr()->in('s.principaluri', $query->createParameter('principaluri')))
 			->andWhere($query->expr()->eq('s.type', $query->createParameter('type')))
 			->setParameter('type', 'calendar')
-			->setParameter('principaluri', $principals, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
-			->execute();
+			->setParameter('principaluri', $principals, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+
+		$result	= $query->execute();
 
 		$readOnlyPropertyName = '{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only';
 		while ($row = $result->fetch()) {
+			$row['principaluri'] = (string) $row['principaluri'];
 			if ($row['principaluri'] === $principalUri) {
 				continue;
 			}
@@ -427,6 +441,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt = $query->execute();
 		$calendars = [];
 		while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+			$row['principaluri'] = (string) $row['principaluri'];
 			$components = [];
 			if ($row['components']) {
 				$components = explode(',',$row['components']);
@@ -496,6 +511,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->execute();
 
 		while ($row = $result->fetch()) {
+			$row['principaluri'] = (string) $row['principaluri'];
 			list(, $name) = Uri\split($row['principaluri']);
 			$row['displayname'] = $row['displayname'] . "($name)";
 			$components = [];
@@ -562,6 +578,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			throw new NotFound('Node with name \'' . $uri . '\' could not be found');
 		}
 
+		$row['principaluri'] = (string) $row['principaluri'];
 		list(, $name) = Uri\split($row['principaluri']);
 		$row['displayname'] = $row['displayname'] . ' ' . "($name)";
 		$components = [];
@@ -618,6 +635,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return null;
 		}
 
+		$row['principaluri'] = (string) $row['principaluri'];
 		$components = [];
 		if ($row['components']) {
 			$components = explode(',',$row['components']);
@@ -668,6 +686,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return null;
 		}
 
+		$row['principaluri'] = (string) $row['principaluri'];
 		$components = [];
 		if ($row['components']) {
 			$components = explode(',',$row['components']);
@@ -717,6 +736,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			return null;
 		}
 
+		$row['principaluri'] = (string) $row['principaluri'];
 		$subscription = [
 			'id'           => $row['id'],
 			'uri'          => $row['uri'],
@@ -964,6 +984,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'classification'=> (int)$row['classification']
 			];
 		}
+		$stmt->closeCursor();
 
 		return $result;
 	}
@@ -994,6 +1015,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->andWhere($query->expr()->eq('calendartype', $query->createNamedParameter($calendarType)));
 		$stmt = $query->execute();
 		$row = $stmt->fetch(\PDO::FETCH_ASSOC);
+		$stmt->closeCursor();
 
 		if (!$row) {
 			return null;

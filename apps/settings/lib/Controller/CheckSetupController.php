@@ -49,6 +49,7 @@ use OC\AppFramework\Http;
 use OC\DB\Connection;
 use OC\DB\MissingColumnInformation;
 use OC\DB\MissingIndexInformation;
+use OC\DB\MissingPrimaryKeyInformation;
 use OC\DB\SchemaWrapper;
 use OC\IntegrityCheck\Checker;
 use OC\Lock\NoopLockingProvider;
@@ -451,6 +452,15 @@ Raw output
 		return $indexInfo->getListOfMissingIndexes();
 	}
 
+	protected function hasMissingPrimaryKeys(): array {
+		$info = new MissingPrimaryKeyInformation();
+		// Dispatch event so apps can also hint for pending index updates if needed
+		$event = new GenericEvent($info);
+		$this->dispatcher->dispatch(IDBConnection::CHECK_MISSING_PRIMARY_KEYS_EVENT, $event);
+
+		return $info->getListOfMissingPrimaryKeys();
+	}
+
 	protected function hasMissingColumns(): array {
 		$indexInfo = new MissingColumnInformation();
 		// Dispatch event so apps can also hint for pending index updates if needed
@@ -719,6 +729,7 @@ Raw output
 				'phpOpcacheDocumentation' => $this->urlGenerator->linkToDocs('admin-php-opcache'),
 				'isSettimelimitAvailable' => $this->isSettimelimitAvailable(),
 				'hasFreeTypeSupport' => $this->hasFreeTypeSupport(),
+				'missingPrimaryKeys' => $this->hasMissingPrimaryKeys(),
 				'missingIndexes' => $this->hasMissingIndexes(),
 				'missingColumns' => $this->hasMissingColumns(),
 				'isSqliteUsed' => $this->isSqliteUsed(),
